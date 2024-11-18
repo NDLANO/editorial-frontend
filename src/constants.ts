@@ -29,6 +29,7 @@ export const REMEMBER_FAVORITE_NODES = "rememberFavoriteNodes";
 export const REMEMBER_LMA_SUBJECTS = "rememberLMASubjects";
 export const REMEMBER_DA_SUBJECTS = "rememberDASubjects";
 export const REMEMBER_SA_SUBJECTS = "rememberSASubjects";
+export const REMEMBER_QUALITY = "rememberQuality";
 export const FAVOURITES_SUBJECT_ID = "urn:favourites";
 export const LMA_SUBJECT_ID = "urn:lmaSubjects";
 export const SA_SUBJECT_ID = "urn:saSubjects";
@@ -143,7 +144,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "H5P", url: ["h5p"] },
   { name: "YouTube", url: ["youtube.com", "youtu.be", "www.youtube.com"], height: "486px" },
   { name: "NRK", url: ["static.nrk.no"], height: "398px" },
-  { name: "Vimeo", url: ["vimeo.com", "vimeopro.com"], height: "486px" },
+  { name: "Vimeo", url: ["player.vimeo.com", "vimeo.com", "vimeopro.com"], height: "486px" },
   { name: "Norgesfilm", url: ["ndla.filmiundervisning.no"] },
   { name: "TED", url: ["ted.com", "embed.ted.com"] },
   {
@@ -195,7 +196,11 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "JeopardyLabs", url: ["jeopardylabs.com"] },
   { name: "Brightcove", url: ["players.brightcove.net"] },
   { name: "UIO", url: ["vrtx.uio.no", "www.mn.uio.no"] },
-  { name: "Geodata", url: ["geodata.maps.arcgis.com", "arcg.is"] },
+  { name: "Geodata", url: ["geodata.maps.arcgis.com", "ndla.maps.arcgis.com", "arcg.is"] },
+  { name: "Norgeskart", url: ["norgeskart.no"] },
+  { name: "Kart i skolen", url: ["kartiskolen.no"] },
+  { name: "Norge i bilder", url: ["norgeibilder.no"] },
+  { name: "Qbrick", url: ["video.qbrick.com"] },
 ];
 
 export const SearchTypeValues = [

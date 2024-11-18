@@ -6,23 +6,33 @@
  *
  */
 
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
-import { CheckboxItem, FieldErrorMessage, InputV3, Label } from "@ndla/forms";
+import { CheckLine } from "@ndla/icons/editor";
+import {
+  Button,
+  CheckboxControl,
+  CheckboxHiddenInput,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxRoot,
+  FieldErrorMessage,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { KeyFigureEmbedData } from "@ndla/types-embed";
-import { Text } from "@ndla/typography";
 import { TYPE_KEY_FIGURE } from "./types";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../../util/formHelper";
-import { CheckboxWrapper } from "../../../Form/styles";
-import { FormControl, FormField } from "../../../FormField";
+import { FormField } from "../../../FormField";
+import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import { RichTextIndicator } from "../../RichTextIndicator";
 
@@ -34,16 +44,22 @@ interface Props {
 
 interface KeyFigureFormValue {
   resource: "key-figure";
-  metaImageId: string;
+  metaImageId: string | undefined;
   title: Descendant[];
   subtitle: Descendant[];
   metaImageAlt?: string;
   isDecorative?: boolean;
 }
 
+const StyledCheckboxRoot = styled(CheckboxRoot, {
+  base: {
+    width: "fit-content",
+  },
+});
+
 const toInitialValues = (initialData: KeyFigureEmbedData): KeyFigureFormValue => ({
   resource: TYPE_KEY_FIGURE,
-  metaImageId: initialData?.imageId ?? "",
+  metaImageId: initialData?.imageId,
   title: inlineContentToEditorValue(initialData?.title ?? "", true),
   subtitle: inlineContentToEditorValue(initialData?.subtitle, true),
   metaImageAlt: initialData?.alt ?? "",
@@ -58,27 +74,13 @@ const rules: RulesType<KeyFigureFormValue> = {
     required: true,
   },
   metaImageId: {
-    required: true,
+    required: false,
   },
   metaImageAlt: {
     required: true,
     onlyValidateIf: (value) => !!value.metaImageId && !value.isDecorative,
   },
 };
-
-const ButtonContainer = styled.div`
-  margin-top: ${spacing.small};
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-`;
-
-const StyledForm = styled(Form)`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  margin-top: ${spacing.small};
-`;
 
 const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
   const { t } = useTranslation();
@@ -107,86 +109,82 @@ const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
       validate={(values) => validateFormik(values, rules, t)}
     >
       {({ dirty, isValid, values, isSubmitting }) => (
-        <StyledForm>
-          <div>
-            <Text textStyle="label-small" margin="none">
-              {t("form.name.title")}
-              <RichTextIndicator />
-            </Text>
-            <FormField name="title">
-              {({ field, helpers, meta }) => (
-                <FormControl isInvalid={!!meta.error}>
-                  <InlineField
-                    {...field}
-                    placeholder={t("form.name.title")}
-                    submitted={isSubmitting}
-                    onChange={helpers.setValue}
-                  />
-                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                </FormControl>
-              )}
-            </FormField>
-          </div>
-          <div>
-            <Text textStyle="label-small" margin="none">
-              {t("form.name.subtitle")}
-              <RichTextIndicator />
-            </Text>
-            <FormField name="subtitle">
-              {({ field, helpers, meta }) => (
-                <FormControl isInvalid={!!meta.error}>
-                  <InlineField
-                    {...field}
-                    placeholder={t("form.name.subtitle")}
-                    submitted={isSubmitting}
-                    onChange={helpers.setValue}
-                  />
-                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                </FormControl>
-              )}
-            </FormField>
-          </div>
+        <FormikForm>
+          <FormField name="title">
+            {({ field, helpers, meta }) => (
+              <FieldRoot invalid={!!meta.error}>
+                <Text textStyle="label.medium" fontWeight="bold">
+                  {t("form.name.title")}
+                  <RichTextIndicator />
+                </Text>
+                <InlineField
+                  {...field}
+                  placeholder={t("form.name.title")}
+                  submitted={isSubmitting}
+                  onChange={helpers.setValue}
+                />
+                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              </FieldRoot>
+            )}
+          </FormField>
+          <FormField name="subtitle">
+            {({ field, helpers, meta }) => (
+              <FieldRoot invalid={!!meta.error}>
+                <Text textStyle="label.medium" fontWeight="bold">
+                  {t("form.name.subtitle")}
+                  <RichTextIndicator />
+                </Text>
+                <InlineField
+                  {...field}
+                  placeholder={t("form.name.subtitle")}
+                  submitted={isSubmitting}
+                  onChange={helpers.setValue}
+                />
+                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              </FieldRoot>
+            )}
+          </FormField>
           <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
           {!values.isDecorative && !!values.metaImageId && (
             <FormField name="metaImageAlt">
               {({ field, meta }) => (
-                <FormControl isInvalid={!!meta.error}>
-                  <Label margin="none" textStyle="label-small">
-                    {t("form.name.metaImageAlt")}
-                  </Label>
-                  <InputV3 {...field} />
+                <FieldRoot invalid={!!meta.error}>
+                  <FieldLabel>{t("form.name.metaImageAlt")}</FieldLabel>
+                  <FieldInput {...field} />
                   <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                </FormControl>
+                </FieldRoot>
               )}
             </FormField>
           )}
           {!!values.metaImageId && (
             <FormField name="isDecorative">
               {({ field, helpers, meta }) => (
-                <FormControl isInvalid={!!meta.error}>
-                  <CheckboxWrapper>
-                    <CheckboxItem checked={field.value} onCheckedChange={helpers.setValue} />
-                    <Label margin="none" textStyle="label-small">
-                      {t("form.image.isDecorative")}
-                    </Label>
-                  </CheckboxWrapper>
-                </FormControl>
+                <FieldRoot invalid={!!meta.error}>
+                  <StyledCheckboxRoot
+                    checked={field.value}
+                    onCheckedChange={(details) => helpers.setValue(details.checked)}
+                  >
+                    <CheckboxControl>
+                      <CheckboxIndicator asChild>
+                        <CheckLine />
+                      </CheckboxIndicator>
+                    </CheckboxControl>
+                    <CheckboxLabel>{t("form.image.isDecorative")}</CheckboxLabel>
+                    <CheckboxHiddenInput />
+                  </StyledCheckboxRoot>
+                </FieldRoot>
               )}
             </FormField>
           )}
-          <ButtonContainer>
-            <ButtonV2 variant="outline" onClick={onCancel}>
+          <FormActionsContainer>
+            <Button variant="secondary" onClick={onCancel}>
               {t("cancel")}
-            </ButtonV2>
-            <ButtonV2
-              variant="solid"
-              disabled={!isFormikFormDirty({ values, initialValues, dirty }) || !isValid}
-              type="submit"
-            >
+            </Button>
+            <Button disabled={!isFormikFormDirty({ values, initialValues, dirty }) || !isValid} type="submit">
               {t("save")}
-            </ButtonV2>
-          </ButtonContainer>
-        </StyledForm>
+            </Button>
+          </FormActionsContainer>
+        </FormikForm>
       )}
     </Formik>
   );

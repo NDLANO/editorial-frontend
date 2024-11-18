@@ -5,8 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
+import { Table } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 
 interface AllowListEntry {
   name: string;
@@ -17,11 +19,11 @@ interface Props {
   allowList: AllowListEntry[];
 }
 
-const StyledTable = styled.table`
-  display: table;
-  margin-right: auto !important;
-  margin-left: auto !important;
-`;
+const StyledTable = styled(Table, {
+  base: {
+    overflowX: "unset",
+  },
+});
 
 const sortEntries = (a: AllowListEntry, b: AllowListEntry) => a.name.localeCompare(b.name);
 

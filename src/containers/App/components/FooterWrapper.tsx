@@ -6,28 +6,47 @@
  *
  */
 
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
+import { createListCollection } from "@ark-ui/react";
+import emotionStyled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { Text } from "@ndla/typography";
-import { FooterBlock, LanguageSelector } from "@ndla/ui";
+import { SelectContent, SelectLabel, SelectPositioner, SelectRoot, SelectValueText, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { supportedLanguages } from "../../../i18n2";
+import { LocaleType } from "../../../interfaces";
+
+export const FooterBlock = styled("footer", {
+  base: {
+    position: "relative",
+    background: "primary",
+    paddingBlock: "medium",
+    paddingInline: "4xlarge",
+  },
+});
+
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
+  base: {
+    width: "unset",
+  },
+});
 
 interface Props {
   showLocaleSelector?: boolean;
 }
 
-const FooterContainer = styled.div`
+const FooterContainer = emotionStyled.div`
   margin-top: ${spacing.medium};
 `;
 
-const LanguageSelectorWrapper = styled.div`
+const LanguageSelectorWrapper = emotionStyled.div`
   display: flex;
   justify-content: center;
   width: 100%;
 `;
 
-const FooterTextWrapper = styled.div`
+const FooterTextWrapper = emotionStyled.div`
   align-self: flex-end;
   display: flex;
   flex-direction: column;
@@ -37,19 +56,44 @@ const FooterTextWrapper = styled.div`
 const FooterWrapper = ({ showLocaleSelector }: Props) => {
   const { t, i18n } = useTranslation();
 
+  const supportedLanguagesCollection = useMemo(
+    () =>
+      createListCollection({
+        items: supportedLanguages,
+        itemToString: (item) => t(`languages.${item}`),
+      }),
+    [t],
+  );
+
   return (
     <FooterContainer>
       <FooterBlock lang={i18n.language}>
         {showLocaleSelector && (
           <LanguageSelectorWrapper>
-            <LanguageSelector locales={supportedLanguages} onSelect={i18n.changeLanguage} inverted />
+            <SelectRoot
+              collection={supportedLanguagesCollection}
+              onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
+              value={[i18n.language]}
+            >
+              <SelectLabel srOnly>{t("languages.prefixChangeLanguage")}</SelectLabel>
+              <StyledGenericSelectTrigger>
+                <SelectValueText>{t("languages.prefixChangeLanguage")}</SelectValueText>
+              </StyledGenericSelectTrigger>
+              <SelectPositioner>
+                <SelectContent>
+                  {supportedLanguages.map((lang) => (
+                    <GenericSelectItem key={lang} item={lang}>
+                      {t(`languages.${lang}`)}
+                    </GenericSelectItem>
+                  ))}
+                </SelectContent>
+              </SelectPositioner>
+            </SelectRoot>
           </LanguageSelectorWrapper>
         )}
         <FooterTextWrapper>
-          <Text textStyle="meta-text-medium" margin="none">
-            {t("footer.info")}
-          </Text>
-          <Text textStyle="meta-text-medium" margin="none">
+          <Text color="text.onAction">{t("footer.info")}</Text>
+          <Text color="text.onAction">
             <strong>{t("footer.editorInChief")}</strong> Sigurd Trageton
           </Text>
         </FooterTextWrapper>

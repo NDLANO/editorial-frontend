@@ -6,38 +6,37 @@
  *
  */
 
-import { useEffect, useRef, useState, MouseEvent, ReactNode, useCallback } from "react";
+import { toUnicode } from "punycode";
+import { useEffect, useRef, useState, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import styled from "@emotion/styled";
-import { Root, Anchor, Portal } from "@radix-ui/react-popover";
-import { IconButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
-import { Pencil } from "@ndla/icons/action";
-import { DeleteForever } from "@ndla/icons/editor";
+import { Portal } from "@ark-ui/react";
+import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
+import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { RelatedContentEmbedData, RelatedContentMetaData } from "@ndla/types-embed";
-import { RelatedArticleList, RelatedContentEmbed } from "@ndla/ui";
+import { EmbedWrapper, RelatedArticleList, RelatedContentEmbed } from "@ndla/ui";
 import { RelatedElement } from ".";
 import EditRelated from "./EditRelated";
 import { useTaxonomyVersion } from "../../../../containers/StructureVersion/TaxonomyVersionProvider";
 import { fetchDraft } from "../../../../modules/draft/draftApi";
 import { fetchNodes } from "../../../../modules/nodes/nodeApi";
 import { toEditFrontPageArticle, toEditLearningResource, toEditTopicArticle } from "../../../../util/routeHelpers";
-import Overlay from "../../../Overlay";
 
 interface Props {
   attributes: RenderElementProps["attributes"];
   editor: Editor;
   element: RelatedElement;
-  onRemoveClick: (e: MouseEvent<HTMLButtonElement>) => void;
   children: ReactNode;
 }
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.xsmall};
-`;
+const ButtonWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+  },
+});
 
 const externalEmbedToMeta = async (embedData: RelatedContentEmbedData): Promise<RelatedContentMetaData> => {
   return {
@@ -102,12 +101,7 @@ const embedsToMeta = async (embeds: RelatedContentEmbedData[], language: string,
   return await Promise.all(promises);
 };
 
-const StyledIconButton = styled(IconButtonV2)`
-  width: 40px;
-  height: 40px;
-`;
-
-const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, children }: Props) => {
+const RelatedArticleBox = ({ attributes, editor, element, children }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [editMode, setEditMode] = useState(false);
@@ -131,6 +125,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
       resource: "related-content",
       title,
       url,
+      urlDomain: toUnicode(new URL(url).hostname),
     };
     const nodeData = (element.data ?? []).concat(newEmbed);
     setNodeData(nodeData);
@@ -170,57 +165,48 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
     setNodeData(newEmbeds.map((embed) => embed.embedData));
   };
 
-  const onOpenChange = useCallback(() => {
-    setEditMode(false);
-  }, []);
-
   return (
-    <div contentEditable={false} {...attributes}>
-      {editMode && <Overlay />}
-      <Root open={editMode} onOpenChange={onOpenChange}>
-        <Anchor />
+    <DialogRoot open={editMode} onOpenChange={(details) => setEditMode(details.open)}>
+      <EmbedWrapper contentEditable={false} {...attributes}>
         <Portal>
-          <EditRelated
-            data-testid="editRelated"
-            onRemoveClick={onRemoveClick}
-            embeds={embeds}
-            insertExternal={insertExternal}
-            onInsertBlock={insertInternal}
-            updateArticles={updateArticles}
-          />
+          <DialogContent data-testid="editRelated">
+            <EditRelated
+              embeds={embeds}
+              insertExternal={insertExternal}
+              onInsertBlock={insertInternal}
+              updateArticles={updateArticles}
+            />
+          </DialogContent>
         </Portal>
-      </Root>
-      <RelatedArticleList
-        data-testid="relatedWrapper"
-        headingButtons={
-          <ButtonWrapper>
-            <StyledIconButton
-              onClick={() => setEditMode(true)}
-              aria-label={t("form.edit")}
-              variant="ghost"
-              title={t("form.edit")}
-            >
-              <Pencil />
-            </StyledIconButton>
+        <RelatedArticleList
+          data-testid="relatedWrapper"
+          headingButtons={
+            <ButtonWrapper>
+              <DialogTrigger asChild>
+                <IconButton aria-label={t("form.edit")} variant="tertiary" size="small" title={t("form.edit")}>
+                  <PencilFill />
+                </IconButton>
+              </DialogTrigger>
 
-            <StyledIconButton
-              onClick={deleteElement}
-              aria-label={t("delete")}
-              variant="ghost"
-              colorTheme="danger"
-              title={t("delete")}
-            >
-              <DeleteForever />
-            </StyledIconButton>
-          </ButtonWrapper>
-        }
-      >
-        {embeds.map((embed, index) => (
-          <RelatedContentEmbed key={`related-${index}`} embed={embed} />
-        ))}
-      </RelatedArticleList>
-      {children}
-    </div>
+              <IconButton
+                onClick={deleteElement}
+                aria-label={t("delete")}
+                variant="danger"
+                title={t("delete")}
+                size="small"
+              >
+                <DeleteBinLine />
+              </IconButton>
+            </ButtonWrapper>
+          }
+        >
+          {embeds.map((embed, index) => (
+            <RelatedContentEmbed key={`related-${index}`} embed={embed} />
+          ))}
+        </RelatedArticleList>
+        {children}
+      </EmbedWrapper>
+    </DialogRoot>
   );
 };
 

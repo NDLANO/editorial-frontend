@@ -30,8 +30,9 @@ interface Props {
   onNodeSelected: (node?: Node) => void;
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   renderBeforeTitle?: RenderBeforeFunction;
-  addChildTooltip: string;
   childNodeTypes: NodeType[];
+  addChildTooltip?: string;
+  showQuality: boolean;
 }
 
 const RootNode = ({
@@ -42,8 +43,9 @@ const RootNode = ({
   onNodeSelected,
   resourceSectionRef,
   renderBeforeTitle,
-  addChildTooltip,
   childNodeTypes,
+  addChildTooltip,
+  showQuality,
 }: Props) => {
   const { i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -112,6 +114,7 @@ const RootNode = ({
     <NodeItem
       renderBeforeTitle={renderBeforeTitle}
       id={node.id}
+      key={node.id}
       item={node}
       nodes={childNodesQuery.data}
       openedPaths={openedPaths}
@@ -127,6 +130,7 @@ const RootNode = ({
       isFavorite={isFavorite}
       isLoading={childNodesQuery.isLoading}
       addChildTooltip={addChildTooltip}
+      showQuality={showQuality}
     />
   );
 };
@@ -134,12 +138,16 @@ const RootNode = ({
 const propsAreEqual = (prevProps: Props, props: Props) => {
   const isInPath = props.openedPaths[0] === props.node.id;
   const noLongerInPath = prevProps.openedPaths[0] === prevProps.node.id && !isInPath;
+
   if (isInPath) {
     return false;
   } else if (noLongerInPath) {
     return false;
   }
 
+  if (prevProps.showQuality !== props.showQuality) {
+    return false;
+  }
   if (prevProps.isFavorite !== props.isFavorite) {
     return false;
   }

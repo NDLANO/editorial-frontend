@@ -8,44 +8,46 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Pencil } from "@ndla/icons/action";
-import { Pager } from "@ndla/pager";
-import { SingleValue } from "@ndla/select";
+import { PencilFill } from "@ndla/icons/action";
+import { SafeLink } from "@ndla/safelink";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import { SortOptionLastUsed } from "./LastUsedItems";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
-import PageSizeDropdown from "./worklist/PageSizeDropdown";
+import PageSizeSelect from "./worklist/PageSizeSelect";
+import StatusCell from "./worklist/StatusCell";
+import Pagination from "../../../components/abstractions/Pagination";
 import formatDate from "../../../util/formatDate";
-import { toEditConcept, toEditGloss } from "../../../util/routeHelpers";
-import { StyledLink, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
+import { routes } from "../../../util/routeHelpers";
+import { StyledTopRowDashboardInfo } from "../styles";
+import { SelectItem } from "../types";
 
 interface Props {
   data: IConceptSummary[];
-  isLoading: boolean;
+  isPending: boolean;
   page: number;
   setPage: (page: number) => void;
   sortOption: string;
   setSortOption: (o: Prefix<"-", SortOptionLastUsed>) => void;
   error: string | undefined;
-  lastPage: number;
   titles: TitleElement<SortOptionLastUsed>[];
-  pageSize: SingleValue;
-  setPageSize: (p: SingleValue) => void;
+  pageSize: SelectItem;
+  setPageSize: (p: SelectItem) => void;
+  totalCount: number | undefined;
 }
 
 const LastUsedConcepts = ({
   data,
-  isLoading,
+  isPending,
   page,
   setPage,
   sortOption,
   setSortOption,
   error,
-  lastPage,
   titles,
   pageSize,
   setPageSize,
+  totalCount,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -55,14 +57,15 @@ const LastUsedConcepts = ({
         {
           id: `title_${a.id}`,
           data: (
-            <StyledLink
-              to={a.conceptType === "concept" ? toEditConcept(a.id) : toEditGloss(a.id)}
+            <SafeLink
+              to={a.conceptType === "concept" ? routes.concept.edit(a.id) : routes.gloss.edit(a.id)}
               title={a.title?.title}
             >
               {a.title.title}
-            </StyledLink>
+            </SafeLink>
           ),
         },
+        { id: `status_${a.id}`, data: <StatusCell status={a.status} /> },
         { id: `lastUpdated_${a.id}`, data: formatDate(a.lastUpdated) },
       ]) ?? [[]],
     [data],
@@ -71,29 +74,30 @@ const LastUsedConcepts = ({
   return (
     <>
       <StyledTopRowDashboardInfo>
-        <TableTitle title={t("welcomePage.lastUsed")} description={t("welcomePage.lastUsedConcepts")} Icon={Pencil} />
-        <TopRowControls>
-          <PageSizeDropdown pageSize={pageSize} setPageSize={setPageSize} />
-        </TopRowControls>
+        <TableTitle
+          title={t("welcomePage.lastUsed")}
+          description={t("welcomePage.lastUsedConcepts")}
+          Icon={PencilFill}
+        />
+        <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
       </StyledTopRowDashboardInfo>
       <TableComponent
-        isLoading={isLoading}
+        isPending={isPending}
         tableTitleList={titles}
         tableData={tableData}
         setSortOption={setSortOption}
         sortOption={sortOption}
         error={error}
         noResultsText={t("welcomePage.emptyLastUsed")}
-        minWidth="250px"
+        minWidth="500px"
       />
-      <Pager
+      <Pagination
         page={page}
-        lastPage={lastPage}
-        query={{}}
-        onClick={(el) => setPage(el.page)}
-        small
-        colorTheme="lighter"
-        pageItemComponentClass="button"
+        onPageChange={(details) => setPage(details.page)}
+        count={totalCount ?? 0}
+        pageSize={Number(pageSize!.value)}
+        aria-label={t("welcomePage.pagination.lastUsed", { resourceType: t("welcomePage.pagination.concepts") })}
+        buttonSize="small"
       />
     </>
   );

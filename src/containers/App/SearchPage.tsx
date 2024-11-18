@@ -12,13 +12,12 @@ import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router-dom";
 import { UseQueryResult } from "@tanstack/react-query";
 import { List } from "@ndla/icons/action";
-import { SearchMedia, SearchContent, Concept, SquareAudio } from "@ndla/icons/editor";
+import { SearchMedia, SearchContent, SquareAudio } from "@ndla/icons/editor";
 import Footer from "./components/FooterWrapper";
 import { SearchType } from "../../interfaces";
 import { useSearchAudio, useSearchSeries } from "../../modules/audio/audioQueries";
-import { useSearchConcepts } from "../../modules/concept/conceptQueries";
 import { useSearchImages } from "../../modules/image/imageQueries";
-import { useSearch } from "../../modules/search/searchQueries";
+import { useSearchWithCustomSubjectsFiltering } from "../../modules/search/searchQueries";
 import { toSearch } from "../../util/routeHelpers";
 import SubNavigation from "../Masthead/components/SubNavigation";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
@@ -47,9 +46,9 @@ const SearchPage = () => {
         },
         "content",
       ),
-      icon: <SearchContent size="large" />,
+      icon: <SearchContent />,
       path: "content",
-      searchHook: useSearch,
+      searchHook: useSearchWithCustomSubjectsFiltering,
     },
     {
       title: t("subNavigation.searchAudio"),
@@ -62,7 +61,7 @@ const SearchPage = () => {
         },
         "audio",
       ),
-      icon: <SquareAudio size="large" />,
+      icon: <SquareAudio />,
       path: "audio",
       searchHook: useSearchAudio,
     },
@@ -77,23 +76,15 @@ const SearchPage = () => {
         },
         "image",
       ),
-      icon: <SearchMedia size="large" />,
+      icon: <SearchMedia />,
       path: "image",
       searchHook: useSearchImages,
-    },
-    {
-      title: t("subNavigation.searchConcepts"),
-      type: "concept",
-      url: toSearch({ page: "1", sort: "-lastUpdated", "page-size": 10 }, "concept"),
-      icon: <Concept size="large" />,
-      path: "concept",
-      searchHook: useSearchConcepts,
     },
     {
       title: t("subNavigation.searchPodcastSeries"),
       type: "podcast-series",
       url: toSearch({ page: "1", sort: "-relevance", "page-size": 10 }, "podcast-series"),
-      icon: <List size="large" />,
+      icon: <List />,
       path: "podcast-series",
       searchHook: useSearchSeries,
     },

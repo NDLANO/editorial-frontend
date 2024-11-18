@@ -7,17 +7,18 @@
  */
 
 import { useField } from "formik";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
+import { styled } from "@ndla/styled-system/jsx";
 import { TranscriptionField } from "./TranscriptionField";
 
-const StyledFieldWrapper = styled.div`
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  gap: ${spacing.small};
-  width: 100%;
-`;
+const StyledFieldWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "xsmall",
+    width: "100%",
+  },
+});
 
 interface Props {
   name: string;

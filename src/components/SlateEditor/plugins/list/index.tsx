@@ -17,6 +17,7 @@ import { SlateSerializer } from "../../interfaces";
 import { KEY_BACKSPACE, KEY_ENTER, KEY_TAB } from "../../utils/keys";
 import { firstTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_BREAK } from "../break/types";
+import { TYPE_COMMENT_INLINE } from "../comment/inline/types";
 import { TYPE_CONCEPT_INLINE } from "../concept/inline/types";
 import { TYPE_FOOTNOTE } from "../footnote/types";
 import { TYPE_LINK, TYPE_CONTENT_LINK } from "../link/types";
@@ -38,7 +39,7 @@ export interface ListItemElement {
   moveDown?: boolean;
 }
 
-const inlines = [TYPE_CONCEPT_INLINE, TYPE_FOOTNOTE, TYPE_LINK, TYPE_CONTENT_LINK, TYPE_MATHML];
+const inlines = [TYPE_CONCEPT_INLINE, TYPE_FOOTNOTE, TYPE_LINK, TYPE_CONTENT_LINK, TYPE_MATHML, TYPE_COMMENT_INLINE];
 
 export const listSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: (Descendant | null)[]) {

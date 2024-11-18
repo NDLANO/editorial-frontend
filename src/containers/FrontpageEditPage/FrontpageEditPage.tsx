@@ -10,19 +10,18 @@ import { FieldArray, Formik, useField, useFormikContext } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { colors, misc, spacing } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
-import { Pencil, Plus } from "@ndla/icons/action";
+import { AddLine, PencilFill } from "@ndla/icons/action";
+import { Heading, IconButton, Spinner } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
-import { Heading } from "@ndla/typography";
 import { OneColumn } from "@ndla/ui";
 import FrontpageArticleSearch from "./FrontpageArticleSearch";
 import { addArticlesToAboutMenu, extractArticleIds, menuWithArticleToIMenu } from "./frontpageHelpers";
 import FrontpageNodeList from "./FrontpageNodeList";
 import { MenuWithArticle } from "./types";
+import { FormActionsContainer } from "../../components/FormikForm";
 import validateFormik, { RulesType } from "../../components/formikValidationSchema";
 import SaveButton from "../../components/SaveButton";
 import { FRONTPAGE_ADMIN_SCOPE } from "../../constants";
@@ -30,7 +29,7 @@ import { useArticleSearch } from "../../modules/article/articleQueries";
 import { useUpdateFrontpageMutation } from "../../modules/frontpage/frontpageMutations";
 import { useFrontpage } from "../../modules/frontpage/frontpageQueries";
 import { toEditFrontPageArticle } from "../../util/routeHelpers";
-import { AlertModalWrapper } from "../FormikForm";
+import { AlertDialogWrapper } from "../FormikForm";
 import NotFound from "../NotFoundPage/NotFoundPage";
 import { useSession } from "../Session/SessionProvider";
 
@@ -40,7 +39,6 @@ const FrontpageArticleWrapper = styled.div`
   border-radius: ${misc.borderRadius};
   padding: ${spacing.small};
   background-color: ${colors.brand.lighter};
-  color: ${colors.brand.primary};
 `;
 
 const Wrapper = styled.div`
@@ -69,11 +67,6 @@ const StyledSafeLink = styled(SafeLink)`
   &:focus-visible {
     text-decoration: none;
   }
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.xsmall};
 `;
 
 const frontpageRules: RulesType<MenuWithArticle> = {
@@ -175,9 +168,7 @@ const RootFields = () => {
   );
   return (
     <FrontpageArticleWrapper>
-      <Heading element="h1" headingStyle="h3" margin="none">
-        {t("htmlTitles.editFrontpage")}
-      </Heading>
+      <Heading textStyle="title.large">{t("htmlTitles.editFrontpage")}</Heading>
       <Wrapper>
         <ArticleTitle>
           <span>
@@ -193,33 +184,33 @@ const RootFields = () => {
             )}
           </span>
           <FrontpageArticleSearch articleId={idField.value} onChange={onChange}>
-            <IconButtonV2
-              colorTheme="primary"
-              variant="outline"
+            <IconButton
+              variant="tertiary"
+              size="small"
               aria-label={t("frontpageForm.changeFrontpageArticle")}
               title={t("frontpageForm.changeFrontpageArticle")}
             >
-              <Pencil />
-            </IconButtonV2>
+              <PencilFill />
+            </IconButton>
           </FrontpageArticleSearch>
         </ArticleTitle>
-        <ButtonWrapper>
+        <FormActionsContainer>
           <FrontpageArticleSearch onChange={onAddNew}>
-            <IconButtonV2
-              colorTheme="primary"
-              variant="outline"
+            <IconButton
+              variant="secondary"
+              size="small"
               aria-label={t("frontpageForm.addArticleToMenu")}
               title={t("frontpageForm.addArticleToMenu")}
             >
-              <Plus />
-            </IconButtonV2>
+              <AddLine />
+            </IconButton>
           </FrontpageArticleSearch>
-          <SaveButton type="submit" disabled={!dirty} isSaving={isSubmitting}>
+          <SaveButton size="small" type="submit" disabled={!dirty} loading={isSubmitting}>
             {t("save")}
           </SaveButton>
-        </ButtonWrapper>
+        </FormActionsContainer>
       </Wrapper>
-      <AlertModalWrapper
+      <AlertDialogWrapper
         isSubmitting={isSubmitting}
         formIsDirty={dirty}
         severity="danger"

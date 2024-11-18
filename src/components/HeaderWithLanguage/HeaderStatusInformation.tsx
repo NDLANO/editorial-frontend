@@ -8,11 +8,12 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
+import oldstyled from "@emotion/styled";
 import { colors, fonts, spacing } from "@ndla/core";
-import { RssFeed, Time } from "@ndla/icons/common";
-import { Check, AlertCircle } from "@ndla/icons/editor";
+import { ErrorWarningFill, RssFeed } from "@ndla/icons/common";
+import { CheckboxCircleFill } from "@ndla/icons/editor";
 import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
@@ -21,15 +22,16 @@ import HeaderFavoriteStatus from "./HeaderFavoriteStatus";
 import LearningpathConnection from "./LearningpathConnection";
 import config from "../../config";
 import formatDate from "../../util/formatDate";
+import { StatusTimeFill } from "../StatusTimeFill";
 
-export const StyledSplitter = styled.div`
+export const StyledSplitter = oldstyled.div`
   width: 1px;
   background: ${colors.brand.lighter};
   height: ${spacing.normal};
   margin: 0 ${spacing.xsmall};
 `;
 
-const StyledStatusWrapper = styled.div`
+const StyledStatusWrapper = oldstyled.div`
   display: flex;
   align-items: center;
   white-space: nowrap;
@@ -47,17 +49,6 @@ export const getWarnStatus = (date?: string): "warn" | "expired" | undefined => 
   if (errorDate > parsedDate) return "expired";
   if (warnDate > parsedDate) return "warn";
 };
-
-export const StyledTimeIcon = styled(Time)`
-  &[data-status="warn"] {
-    fill: ${colors.tasksAndActivities.dark};
-  }
-  &[data-status="expired"] {
-    fill: ${colors.support.red};
-  }
-  width: 24px;
-  height: 24px;
-`;
 
 interface Props {
   compact?: boolean;
@@ -77,7 +68,7 @@ interface Props {
   favoriteCount?: number;
 }
 
-const StyledStatus = styled.p`
+const StyledStatus = oldstyled.p`
   ${fonts.sizes("16", "1.1")};
   font-weight: ${fonts.weight.semibold};
   margin: 0 ${spacing.small} 0;
@@ -91,7 +82,7 @@ const StyledStatus = styled.p`
   }
 `;
 
-const StyledSmallText = styled.small`
+const StyledSmallText = oldstyled.small`
   color: ${colors.text.light};
   ${fonts.sizes("16", "1.1")};
   padding-right: ${spacing.xsmall};
@@ -103,27 +94,27 @@ const StyledSmallText = styled.small`
   }
 `;
 
-const StyledCheckIcon = styled(Check)`
+const StyledCheckIcon = oldstyled(CheckboxCircleFill)`
   height: ${spacing.normal};
   width: ${spacing.normal};
   fill: ${colors.support.green};
 `;
 
-const StyledWarnIcon = styled(AlertCircle)`
-  height: ${spacing.normal};
-  width: ${spacing.normal};
-  fill: ${colors.support.yellow};
-`;
-
-const StyledRssIcon = styled(RssFeed)`
+const StyledRssIcon = oldstyled(RssFeed)`
   height: ${spacing.normal};
   width: ${spacing.normal};
   fill: ${colors.support.green};
 `;
 
-const StyledLink = styled(SafeLink)`
+const StyledLink = oldstyled(SafeLink)`
   box-shadow: inset 0 0;
 `;
+
+const StyledErrorWarningFill = styled(ErrorWarningFill, {
+  base: {
+    fill: "icon.subtle",
+  },
+});
 
 const HeaderStatusInformation = ({
   noStatus,
@@ -152,7 +143,7 @@ const HeaderStatusInformation = ({
   }, [learningpaths, articles, concepts, setHasConnections]);
 
   const expirationColor = useMemo(() => getWarnStatus(expirationDate), [expirationDate]);
-  const hideFavoritedIcon = type === "frontpage-article" || type === "image" || type === "audio" || type === "concept";
+  const hideFavoritedIcon = type === "frontpage-article" || type === "image" || type === "audio";
   if (!noStatus || isNewLanguage) {
     return (
       <StyledStatusWrapper>
@@ -161,8 +152,8 @@ const HeaderStatusInformation = ({
             <EmbedConnection id={id} type="article" articles={articles} setArticles={setArticles} />
             <LearningpathConnection id={id} learningpaths={learningpaths} setLearningpaths={setLearningpaths} />
             {!!expirationColor && !!expirationDate && (
-              <StyledTimeIcon
-                data-status={expirationColor}
+              <StatusTimeFill
+                variant={expirationColor}
                 title={t(`form.workflow.expiration.${expirationColor}`, {
                   date: formatDate(expirationDate),
                 })}
@@ -189,7 +180,7 @@ const HeaderStatusInformation = ({
           </StyledLink>
         )}
         {multipleTaxonomy && (
-          <StyledWarnIcon
+          <StyledErrorWarningFill
             aria-label={t("form.workflow.multipleTaxonomy")}
             title={t("form.workflow.multipleTaxonomy")}
             aria-hidden={false}

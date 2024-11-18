@@ -10,7 +10,7 @@ import { FieldProps } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { Spinner } from "@ndla/icons";
+import { Spinner } from "@ndla/primitives";
 import FormikField from "../../../components/FormikField";
 import PlainTextEditor from "../../../components/SlateEditor/PlainTextEditor";
 import { TitleField } from "../../FormikForm";

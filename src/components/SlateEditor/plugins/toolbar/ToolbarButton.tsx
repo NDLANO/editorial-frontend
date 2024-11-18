@@ -6,12 +6,13 @@
  *
  */
 
+import { TFunction } from "i18next";
 import { ElementType, ReactNode, forwardRef, useMemo } from "react";
-import { useTranslation } from "react-i18next";
+import { CustomI18n, useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonProps, ButtonV2 } from "@ndla/button";
 import { colors, fonts, spacing } from "@ndla/core";
-import { Language } from "@ndla/icons/common";
+import { Language, Comment } from "@ndla/icons/common";
 import {
   Bold,
   Code,
@@ -79,6 +80,7 @@ const icon: Record<string, ElementType> = {
   "heading-4": HeadingFour,
   "normal-text": Paragraph,
   "definition-list": FormatList,
+  "comment-inline": Comment,
   mathml: Math,
   "concept-inline": Concept,
   "gloss-inline": Globe,
@@ -93,6 +95,7 @@ const icon: Record<string, ElementType> = {
 interface Props {
   type?: string;
   noTitle?: boolean;
+  disabled?: boolean;
 }
 
 const StyledButton = styled(ButtonV2)`
@@ -107,10 +110,31 @@ const StyledButton = styled(ButtonV2)`
   }
 `;
 
+const getTitle = (
+  i18n: CustomI18n,
+  t: TFunction,
+  type?: string,
+  noTitle?: boolean,
+  disabled?: boolean,
+): string | undefined => {
+  if (noTitle) return;
+
+  if (disabled) {
+    const disabledTranslation = `editorToolbar.disabled.${type}`;
+    const translationExists = i18n.exists(disabledTranslation);
+
+    if (translationExists) return t(disabledTranslation);
+  }
+
+  return t(`editorToolbar.${type}`, options);
+};
+
 const ToolbarButton = forwardRef<HTMLButtonElement, Omit<ButtonProps, "type"> & Props>(
-  ({ type, children, noTitle, ...rest }, ref) => {
+  ({ type, children, noTitle, disabled, ...rest }, ref) => {
     const Icon = useMemo(() => (type ? icon[type] : undefined), [type]);
-    const { t } = useTranslation();
+    const { i18n, t } = useTranslation();
+
+    const title = useMemo(() => getTitle(i18n, t, type, noTitle, disabled), [i18n, t, type, noTitle, disabled]);
 
     return (
       <StyledButton
@@ -118,7 +142,8 @@ const ToolbarButton = forwardRef<HTMLButtonElement, Omit<ButtonProps, "type"> & 
         ref={ref}
         variant="ghost"
         data-testid={`toolbar-button-${type}`}
-        title={noTitle ? undefined : t(`editorToolbar.${type}`, options)}
+        title={title}
+        disabled={disabled}
         {...rest}
       >
         {Icon && <Icon />}

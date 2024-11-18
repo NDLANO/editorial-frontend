@@ -10,13 +10,13 @@ import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import { asideRenderer } from "../../../../components/SlateEditor/plugins/aside/render";
 import { audioRenderer } from "../../../../components/SlateEditor/plugins/audio/render";
 import { blockQuoteRenderer } from "../../../../components/SlateEditor/plugins/blockquote/render";
-import { blogPostRenderer } from "../../../../components/SlateEditor/plugins/blogPost/render";
 import { breakRenderer } from "../../../../components/SlateEditor/plugins/break/render";
 import { campaignBlockRenderer } from "../../../../components/SlateEditor/plugins/campaignBlock/render";
 import { codeblockRenderer } from "../../../../components/SlateEditor/plugins/codeBlock/render";
+import { commentBlockRenderer } from "../../../../components/SlateEditor/plugins/comment/block/render";
+import { commentInlineRenderer } from "../../../../components/SlateEditor/plugins/comment/inline/render";
 import { blockConceptRenderer } from "../../../../components/SlateEditor/plugins/concept/block/render";
 import { inlineConceptRenderer } from "../../../../components/SlateEditor/plugins/concept/inline/render";
-import { conceptListRenderer } from "../../../../components/SlateEditor/plugins/conceptList/render";
 import { contactBlockRenderer } from "../../../../components/SlateEditor/plugins/contactBlock/render";
 import { copyrightRenderer } from "../../../../components/SlateEditor/plugins/copyright/render";
 import { definitionListRenderer } from "../../../../components/SlateEditor/plugins/definitionList/render";
@@ -38,6 +38,7 @@ import { listRenderer } from "../../../../components/SlateEditor/plugins/list/re
 import { markRenderer } from "../../../../components/SlateEditor/plugins/mark/render";
 import { mathRenderer } from "../../../../components/SlateEditor/plugins/mathml/mathRenderer";
 import { paragraphRenderer } from "../../../../components/SlateEditor/plugins/paragraph/render";
+import { pitchRenderer } from "../../../../components/SlateEditor/plugins/pitch/render";
 import { relatedRenderer } from "../../../../components/SlateEditor/plugins/related/relatedRenderer";
 import { sectionRenderer } from "../../../../components/SlateEditor/plugins/section/render";
 import { spanRenderer } from "../../../../components/SlateEditor/plugins/span/render";
@@ -63,9 +64,10 @@ export const frontpageRenderers: SlatePlugin[] = [
   detailsRenderer,
   blockQuoteRenderer,
   linkRenderer,
-  conceptListRenderer,
   inlineConceptRenderer,
   blockConceptRenderer,
+  commentInlineRenderer,
+  commentBlockRenderer,
   headingRenderer,
   // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
   // // Blockquote and editList actions need to be triggered before paragraph action, else
@@ -82,7 +84,7 @@ export const frontpageRenderers: SlatePlugin[] = [
   definitionListRenderer,
   listRenderer,
   gridRenderer,
-  blogPostRenderer,
+  pitchRenderer,
   campaignBlockRenderer,
   linkBlockListRenderer,
   disclaimerRenderer,

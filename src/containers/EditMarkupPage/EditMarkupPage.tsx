@@ -10,15 +10,28 @@ import { lazy, Suspense, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing, colors } from "@ndla/core";
-import { FieldHeader } from "@ndla/forms";
-import { Spinner } from "@ndla/icons";
+import { InformationLine } from "@ndla/icons/common";
+import {
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  IconButton,
+  Text,
+  Button,
+  Spinner,
+} from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { Row } from "../../components";
+import { DialogCloseButton } from "../../components/DialogCloseButton";
+import FieldHeader from "../../components/Field/FieldHeader";
+import { FormActionsContainer } from "../../components/FormikForm";
 import HeaderSupportedLanguages from "../../components/HeaderWithLanguage/HeaderSupportedLanguages";
-import HelpMessage from "../../components/HelpMessage";
-import PreviewDraftLightboxV2 from "../../components/PreviewDraft/PreviewDraftLightboxV2";
+import { PreviewResourceDialog } from "../../components/PreviewDraft/PreviewResourceDialog";
 import SaveButton from "../../components/SaveButton";
 import { DRAFT_HTML_SCOPE } from "../../constants";
 import { fetchDraft, updateDraft } from "../../modules/draft/draftApi";
@@ -26,7 +39,7 @@ import { blockContentToEditorValue, blockContentToHTML } from "../../util/articl
 import handleError from "../../util/handleError";
 import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import { toEditMarkup } from "../../util/routeHelpers";
-import { AlertModalWrapper } from "../FormikForm";
+import { AlertDialogWrapper } from "../FormikForm";
 import { useMessages } from "../Messages/MessagesProvider";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import { getSessionStateFromLocalStorage } from "../Session/SessionProvider";
@@ -177,10 +190,28 @@ const EditMarkupPage = () => {
   return (
     <Container>
       <FieldHeader title={t("editMarkup.title")} subTitle={t("editMarkup.subTitle")}>
-        <HelpMessage>
-          <p>{t("editMarkup.helpMessage.paragraph1")}</p>
-          <p>{t("editMarkup.helpMessage.paragraph2")}</p>
-        </HelpMessage>
+        <DialogRoot>
+          <DialogTrigger asChild>
+            <IconButton
+              variant="tertiary"
+              size="small"
+              title={t("editMarkup.helpMessage.tooltip")}
+              aria-label={t("editMarkup.helpMessage.tooltip")}
+            >
+              <InformationLine />
+            </IconButton>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{t("editMarkup.helpMessage.tooltip")}</DialogTitle>
+              <DialogCloseButton />
+            </DialogHeader>
+            <DialogBody>
+              <Text>{t("editMarkup.helpMessage.paragraph1")}</Text>
+              <Text>{t("editMarkup.helpMessage.paragraph2")}</Text>
+            </DialogBody>
+          </DialogContent>
+        </DialogRoot>
       </FieldHeader>
       <LanguageWrapper>
         <HeaderSupportedLanguages
@@ -202,27 +233,30 @@ const EditMarkupPage = () => {
         />
         <StyledRow>
           {!!draft && (
-            <PreviewDraftLightboxV2
+            <PreviewResourceDialog
               type="markup"
               language={language}
               article={draft}
-              activateButton={<ButtonV2 variant="link">{t("form.preview.button")}</ButtonV2>}
+              activateButton={<Button variant="link">{t("form.preview.button")}</Button>}
             />
           )}
-          <Row justifyContent="end" alignItems="baseline">
-            <Link to={locationState?.backUrl || `/subject-matter/learning-resource/${draftId}/edit/${language}`}>
+          <FormActionsContainer>
+            <SafeLinkButton
+              variant="secondary"
+              to={locationState?.backUrl || `/subject-matter/learning-resource/${draftId}/edit/${language}`}
+            >
               {t("editMarkup.back")}
-            </Link>
+            </SafeLinkButton>
             <SaveButton
-              isSaving={status === "saving"}
+              loading={status === "saving"}
               formIsDirty={status === "edit"}
               showSaved={status === "saved"}
               onClick={() => saveChanges(draft?.content?.content ?? "")}
             />
-          </Row>
+          </FormActionsContainer>
         </StyledRow>
       </Suspense>
-      <AlertModalWrapper
+      <AlertDialogWrapper
         isSubmitting={isSubmitting}
         formIsDirty={isDirty}
         severity="danger"

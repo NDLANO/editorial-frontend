@@ -11,10 +11,10 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Range } from "slate";
 import { ReactEditor } from "slate-react";
 import styled from "@emotion/styled";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
 import { colors, fonts, stackOrder } from "@ndla/core";
-import { Minus, Plus } from "@ndla/icons/action";
+import { Minus, AddLine } from "@ndla/icons/action";
 import { AlignCenter, AlignLeft, AlignRight } from "@ndla/icons/editor";
+import { Button, IconButton } from "@ndla/primitives";
 import EditColgroupsModal from "./EditColgroupsModal";
 import { TableElement } from "./interfaces";
 import { alignColumn } from "./slateActions";
@@ -71,7 +71,7 @@ interface TableIconButtonProps {
 
 const rowActions = [
   {
-    icon: <Plus />,
+    icon: <AddLine />,
     name: "row-add",
   },
   {
@@ -82,7 +82,7 @@ const rowActions = [
 
 const columnActions = [
   {
-    icon: <Plus />,
+    icon: <AddLine />,
     name: "column-add",
   },
   {
@@ -106,16 +106,16 @@ const columnActions = [
 const TableIconButton = ({ operation, onClick, children }: TableIconButtonProps) => {
   const { t } = useTranslation();
   return (
-    <IconButtonV2
-      variant="ghost"
-      colorTheme="light"
+    <IconButton
+      variant="tertiary"
+      size="small"
       type="button"
       data-testid={operation}
       aria-label={t(`form.content.table.${operation}`)}
       onMouseDown={(e: MouseEvent<HTMLButtonElement>) => onClick(e, operation)}
     >
       {children}
-    </IconButtonV2>
+    </IconButton>
   );
 };
 
@@ -203,14 +203,13 @@ const TableActions = ({ editor, element }: Props) => {
           </ActionGroup>
           <StyledRightAlign>
             {showAddHeader && (
-              <ButtonV2
+              <Button
                 data-testid="head-add"
-                variant="stripped"
                 title={t(`form.content.table.addHeader`)}
                 onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, "head-add")}
               >
                 {t(`form.content.table.addHeader`)}
-              </ButtonV2>
+              </Button>
             )}
           </StyledRightAlign>
           {/* Row 2  - Column actions*/}
@@ -222,16 +221,15 @@ const TableActions = ({ editor, element }: Props) => {
               </TableIconButton>
             ))}
           </ActionGroup>
-          <ButtonV2
+          <Button
             data-testid="toggle-row-headers"
-            variant="stripped"
             onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, "toggle-row-headers")}
             aria-label={t(
               `form.content.table.${isTable(table) && table.rowHeaders ? "disable-header" : "enable-header"}`,
             )}
           >
             {t(`form.content.table.${isTable(table) && table.rowHeaders ? "disable-header" : "enable-header"}`)}
-          </ButtonV2>
+          </Button>
         </ActionGrid>
       </StyledTableActions>
     </StyledWrapper>

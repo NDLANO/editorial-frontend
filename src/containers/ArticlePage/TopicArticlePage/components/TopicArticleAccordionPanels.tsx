@@ -9,6 +9,7 @@
 import { useFormikContext } from "formik";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { PageContent } from "@ndla/primitives";
 import { IUpdatedArticle, IArticle } from "@ndla/types-backend/draft-api";
 import TopicArticleContent from "./TopicArticleContent";
 import TopicArticleTaxonomy from "./TopicArticleTaxonomy";
@@ -24,6 +25,7 @@ import { useSession } from "../../../Session/SessionProvider";
 import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChangeIndicator";
 import RelatedContentFieldGroup from "../../components/RelatedContentFieldGroup";
 import RevisionNotes from "../../components/RevisionNotes";
+import { FlatArticleKeys } from "../../components/types";
 
 interface Props {
   article?: IArticle;
@@ -43,19 +45,15 @@ const TopicArticleAccordionPanels = ({
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const formikContext = useFormikContext<TopicArticleFormType>();
-  const contentTitleFields = useMemo<(keyof IArticle)[]>(
-    () => ["title", "introduction", "content", "visualElement"],
+  const contentTitleFields = useMemo<FlatArticleKeys[]>(
+    () => ["title.title", "introduction.introduction", "content.content", "visualElement.visualElement"],
     [],
   );
-  const copyrightFields = useMemo<(keyof IArticle)[]>(() => ["copyright"], []);
+  const copyrightFields = useMemo<FlatArticleKeys[]>(() => ["copyright"], []);
 
   const { values, errors } = formikContext;
   return (
-    <FormAccordionsWithComments
-      defaultOpen={["topic-article-content"]}
-      articleType="topic-article"
-      articleStatus={article?.status}
-    >
+    <FormAccordionsWithComments defaultOpen={["topic-article-content"]} article={article}>
       <FormAccordion
         id={"topic-article-content"}
         title={
@@ -66,10 +64,11 @@ const TopicArticleAccordionPanels = ({
             fieldsToIndicatedChangesFor={contentTitleFields}
           />
         }
-        variant="center"
         hasError={!!(errors.title || errors.introduction || errors.content || errors.visualElement)}
       >
-        <TopicArticleContent values={values} />
+        <PageContent variant="content">
+          <TopicArticleContent values={values} />
+        </PageContent>
       </FormAccordion>
       {article && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
         <FormAccordion id={"topic-article-taxonomy"} title={t("form.taxonomySection")} hasError={!hasTaxonomyEntries}>

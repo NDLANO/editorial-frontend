@@ -7,12 +7,10 @@
  */
 
 import { ReactElement, memo, useState } from "react";
-import styled from "@emotion/styled";
-import { AccordionRoot } from "@ndla/accordion";
-import { spacing } from "@ndla/core";
+import { AccordionRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { FormAccordionProps } from "./FormAccordion";
 import OpenAllButton from "./OpenAllButton";
-import { MainContent } from "../../containers/ArticlePage/styles";
 
 type ChildType = ReactElement<FormAccordionProps> | undefined | false;
 
@@ -23,17 +21,27 @@ interface Props {
   articleType?: string;
 }
 
-const AccordionsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const AccordionsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
-const FlexWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-`;
+const FlexWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
+});
+
+const StyledAccordionRoot = styled(AccordionRoot, {
+  base: {
+    width: "100%",
+  },
+});
 
 const FormAccordions = ({ defaultOpen, children }: Props) => {
   const [openAccordions, setOpenAccordions] = useState<string[]>(defaultOpen);
@@ -47,11 +55,15 @@ const FormAccordions = ({ defaultOpen, children }: Props) => {
           formAccordionChildren={children}
         />
       </FlexWrapper>
-      <MainContent>
-        <AccordionRoot type="multiple" value={openAccordions} onValueChange={setOpenAccordions}>
-          {children}
-        </AccordionRoot>
-      </MainContent>
+      <StyledAccordionRoot
+        multiple
+        value={openAccordions}
+        onValueChange={(details) => setOpenAccordions(details.value)}
+        lazyMount
+        unmountOnExit
+      >
+        {children}
+      </StyledAccordionRoot>
     </AccordionsWrapper>
   );
 };

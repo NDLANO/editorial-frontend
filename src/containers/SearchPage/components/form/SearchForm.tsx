@@ -9,11 +9,11 @@
 import queryString from "query-string";
 import { ISearchParams as IAudioSearchParams, ISeriesSearchParams } from "@ndla/types-backend/audio-api";
 import { IDraftConceptSearchParams } from "@ndla/types-backend/concept-api";
+import { IUserData } from "@ndla/types-backend/draft-api";
 import { ISearchParams as IImageSearchParams } from "@ndla/types-backend/image-api";
 import { IDraftSearchParams } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
 import SearchAudioForm from "./SearchAudioForm";
-import SearchConceptForm from "./SearchConceptForm";
 import SearchContentForm from "./SearchContentForm";
 import SearchImageForm from "./SearchImageForm";
 import SearchPodcastSeriesForm from "./SearchPodcastSeriesForm";
@@ -122,19 +122,17 @@ interface Props {
   search: (o: SearchParams) => void;
   subjects: Node[];
   locale: string;
-  userId?: string | undefined;
+  userData: IUserData | undefined;
 }
 
-const SearchForm = ({ type, searchObject, userId, ...rest }: Props) => {
+const SearchForm = ({ type, searchObject, ...rest }: Props) => {
   switch (type) {
     case "content":
-      return <SearchContentForm searchObject={searchObject} userId={userId} {...rest} />;
+      return <SearchContentForm searchObject={searchObject} {...rest} />;
     case "audio":
       return <SearchAudioForm searchObject={searchObject} {...rest} />;
     case "image":
       return <SearchImageForm searchObject={searchObject} {...rest} />;
-    case "concept":
-      return <SearchConceptForm searchObject={searchObject} {...rest} />;
     case "podcast-series":
       return <SearchPodcastSeriesForm searchObject={searchObject} {...rest} />;
     default:

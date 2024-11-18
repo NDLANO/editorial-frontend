@@ -9,94 +9,60 @@
 import isEmpty from "lodash/isEmpty";
 import { CSSProperties, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing, colors, fonts } from "@ndla/core";
 import { ExpandLess, ExpandMore } from "@ndla/icons/action";
-import Spinner from "../../../components/Spinner";
+import { Spinner, Table, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 
-const TableWrapper = styled.div`
-  overflow-x: auto;
-`;
+const TableWrapper = styled("div", {
+  base: {
+    width: "100%",
+    overflowX: "auto",
+  },
+});
 
-const StyledTable = styled.table`
-  font-family: arial, sans-serif;
-  border-collapse: separate;
-  width: 100%;
-  min-width: var(--table-min-width);
-  border-spacing: 0;
-  font-family: ${fonts.sans};
-  margin-bottom: 0px;
-  display: inline-table;
-  table-layout: fixed;
+const StyledTable = styled(Table, {
+  base: {
+    width: "100%",
+    tableLayout: "fixed",
+    minWidth: "var(--table-min-width)",
+    display: "inline-table",
 
-  td {
-    ${fonts.sizes(16, 1.1)};
-    padding: ${spacing.xsmall};
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  tr:nth-of-type(even) {
-    background: ${colors.brand.lightest};
-  }
-  thead tr th {
-    position: sticky;
-    top: 0;
-  }
-`;
+    "& td": {
+      overflow: "hidden",
+      whiteSpace: "nowrap",
+      textOverflow: "ellipsis",
+    },
+  },
+});
 
-const StyledTableHeader = styled.th`
-  font-weight: ${fonts.weight.bold};
-  padding: 0px ${spacing.xsmall};
-  border-bottom: 1px solid ${colors.text.primary};
-  background-color: ${colors.brand.lighter};
-  width: var(--header-width);
+const TableTitleComponent = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "xxsmall",
+  },
+});
+const StyledTableHeader = styled("th", {
+  base: { width: "var(--header-width)" },
+});
 
-  :not(:first-of-type) {
-    border-left: 1px solid ${colors.text.primary};
-  }
-`;
+const ContentWrapper = styled("div", {
+  base: {
+    height: "small",
+    display: "flex",
+    cursor: "pointer",
+  },
+});
 
-const SortArrowWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: auto;
-`;
-
-const TableTitleComponent = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const StyledError = styled.p`
-  color: ${colors.support.red};
-`;
-
-const SpinnerWrapper = styled.div`
-  padding: ${spacing.small};
-`;
-
-const NoResultsText = styled.div`
-  display: flex;
-  justify-content: center;
-  ${fonts.sizes("16px", "20px")};
-  color: ${colors.text.light};
-  margin-bottom: ${spacing.nsmall};
-`;
-
-const ContentWrapper = styled.div`
-  height: ${spacing.nsmall};
-  display: flex;
-  svg {
-    cursor: pointer;
-    color: ${colors.text.primary};
-    visibility: visible;
-  }
-  svg[data-hidden="true"] {
-    visibility: hidden;
-  }
-`;
+const LoadingNoContentWrapper = styled("div", {
+  base: {
+    padding: "small",
+    display: "flex",
+    justifyContent: "center",
+  },
+});
 
 export interface FieldElement {
   id: string;
@@ -114,7 +80,7 @@ export interface TitleElement<T extends string> {
 interface Props<T extends string> {
   tableTitleList: TitleElement<T>[];
   tableData: FieldElement[][];
-  isLoading: boolean;
+  isPending: boolean;
   setSortOption?: (o: Prefix<"-", T>) => void;
   noResultsText?: string;
   sortOption?: string;
@@ -125,7 +91,7 @@ interface Props<T extends string> {
 const TableComponent = <T extends string>({
   tableTitleList,
   tableData = [[]],
-  isLoading,
+  isPending,
   setSortOption,
   noResultsText,
   sortOption,
@@ -133,7 +99,7 @@ const TableComponent = <T extends string>({
   minWidth,
 }: Props<T>) => {
   const { t } = useTranslation();
-  if (error) return <StyledError>{error}</StyledError>;
+  if (error) return <Text color="text.error">{error}</Text>;
 
   return (
     <TableWrapper>
@@ -147,9 +113,8 @@ const TableComponent = <T extends string>({
               >
                 <TableTitleComponent>
                   {tableTitle.title}
-
                   {setSortOption && tableTitle.sortableField && (
-                    <SortArrowWrapper>
+                    <div>
                       <ContentWrapper>
                         <ExpandLess
                           aria-label={t("welcomePage.workList.sortAsc")}
@@ -157,6 +122,7 @@ const TableComponent = <T extends string>({
                           onClick={() => setSortOption(tableTitle.sortableField!)}
                           data-hidden={!tableTitle.sortableField || sortOption === tableTitle.sortableField}
                           title={t("welcomePage.workList.sortAsc")}
+                          size="small"
                         />
                       </ContentWrapper>
                       <ContentWrapper>
@@ -166,16 +132,17 @@ const TableComponent = <T extends string>({
                           onClick={() => setSortOption(`-${tableTitle.sortableField!}`!)}
                           data-hidden={!tableTitle.sortableField || sortOption === `-${tableTitle.sortableField}`}
                           title={t("welcomePage.workList.sortDesc")}
+                          size="small"
                         />
                       </ContentWrapper>
-                    </SortArrowWrapper>
+                    </div>
                   )}
                 </TableTitleComponent>
               </StyledTableHeader>
             ))}
           </tr>
         </thead>
-        {!isLoading ? (
+        {!isPending ? (
           <tbody>
             {tableData.map((contentRow, index) => (
               <tr key={`tablerow_${contentRow?.[0]?.id}_${index}`}>
@@ -189,12 +156,14 @@ const TableComponent = <T extends string>({
           </tbody>
         ) : null}
       </StyledTable>
-      {isLoading ? (
-        <SpinnerWrapper>
-          <Spinner appearance="small" />
-        </SpinnerWrapper>
+      {isPending ? (
+        <LoadingNoContentWrapper>
+          <Spinner />
+        </LoadingNoContentWrapper>
       ) : noResultsText && isEmpty(tableData.flat()) ? (
-        <NoResultsText>{noResultsText}</NoResultsText>
+        <LoadingNoContentWrapper>
+          <Text>{noResultsText}</Text>
+        </LoadingNoContentWrapper>
       ) : null}
     </TableWrapper>
   );

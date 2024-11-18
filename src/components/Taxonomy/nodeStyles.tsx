@@ -77,6 +77,7 @@ export const StyledItemBar = styled.div<StyledItemBarProps>`
   display: flex;
   align-items: center;
   min-height: 40px;
+  gap: ${spacing.xsmall};
   border-bottom: 1px solid ${colors.brand.greyLighter};
   background: ${(props) => props.highlight && colors.brand.lighter};
 

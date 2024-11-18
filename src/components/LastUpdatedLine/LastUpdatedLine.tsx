@@ -8,15 +8,9 @@
 
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
+import { Text } from "@ndla/primitives";
 import DateEdit from "./DateEdit";
 import formatDate from "../../util/formatDate";
-
-const StyledLastUpdatedLine = styled.div`
-  color: ${colors.text.light};
-  line-height: 1.4rem;
-`;
 
 interface Creator {
   name: string;
@@ -37,11 +31,11 @@ const LastUpdatedLine = ({ creators, published, onChange, allowEdit = false, con
   const { t } = useTranslation();
   const dateLabel = t(`${contentType}Form.info.lastUpdated`);
   return (
-    <StyledLastUpdatedLine>
+    <Text color="text.subtle">
       {creators.map((creator) => creator.name).join(", ")}
       {published ? ` - ${dateLabel}: ` : ""}
       {published && (allowEdit ? <DateEdit onChange={onChange} published={published} /> : formatDate(published))}
-    </StyledLastUpdatedLine>
+    </Text>
   );
 };
 

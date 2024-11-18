@@ -10,23 +10,28 @@ import { lazy, Suspense, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Transforms } from "slate";
 import { useSlateStatic } from "slate-react";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { fonts } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
-import { Pencil } from "@ndla/icons/action";
-import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
+import { Portal } from "@ark-ui/react";
+import { PencilLine } from "@ndla/icons/action";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  Spinner,
+  Text,
+} from "@ndla/primitives";
 import { TableElement } from "./interfaces";
+import { DialogCloseButton } from "../../../DialogCloseButton";
+import { FormActionsContainer } from "../../../FormikForm";
 
 const MonacoEditor = lazy(() => import("../../../MonacoEditor"));
 
 interface Props {
   element: TableElement;
 }
-
-const StyledCode = styled.code`
-  ${fonts.sizes(16)}
-`;
 
 const EditColgroupsModal = ({ element }: Props) => {
   const [open, setOpen] = useState(false);
@@ -47,30 +52,36 @@ const EditColgroupsModal = ({ element }: Props) => {
   };
 
   return (
-    <Modal open={open} onOpenChange={setOpen}>
-      <ModalTrigger>
-        <ButtonV2 data-testid="edit-colgroups" variant="stripped" title={t("form.content.table.edit-colgroups")}>
+    <DialogRoot open={open} size="large" onOpenChange={(details) => setOpen(details.open)}>
+      <DialogTrigger asChild>
+        <Button data-testid="edit-colgroups" title={t("form.content.table.edit-colgroups")}>
           {t("form.content.table.colgroups")}
-          <Pencil />
-        </ButtonV2>
-      </ModalTrigger>
-      <ModalContent size="large">
-        <ModalHeader>
-          <ModalTitle>{t("form.content.table.colgroupTitle")}</ModalTitle>
-          <ModalCloseButton />
-        </ModalHeader>
-        <ModalBody>
-          <p>
-            {t("form.content.table.colgroupInfo")}
-            <StyledCode>{'<colgroup><col><col><col style="width:200px;"></colgroup>'}</StyledCode>
-          </p>
-          <Suspense fallback={<Spinner />}>
-            <MonacoEditor onChange={setColgroups} onSave={onSave} value={colgroups} size="small" />
-          </Suspense>
-          <ButtonV2 onClick={() => onSave(colgroups)}>{t("form.save")}</ButtonV2>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+          <PencilLine />
+        </Button>
+      </DialogTrigger>
+      <Portal>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("form.content.table.colgroupTitle")}</DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <DialogBody>
+            <Text>
+              {t("form.content.table.colgroupInfo")}
+              <Text asChild consumeCss>
+                <code>{'<colgroup><col><col><col style="width:200px;"></colgroup>'}</code>
+              </Text>
+            </Text>
+            <Suspense fallback={<Spinner />}>
+              <MonacoEditor onChange={setColgroups} onSave={onSave} value={colgroups} size="small" />
+            </Suspense>
+            <FormActionsContainer>
+              <Button onClick={() => onSave(colgroups)}>{t("form.save")}</Button>
+            </FormActionsContainer>
+          </DialogBody>
+        </DialogContent>
+      </Portal>
+    </DialogRoot>
   );
 };
 

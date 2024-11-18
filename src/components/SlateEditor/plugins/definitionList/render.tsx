@@ -7,18 +7,18 @@
  */
 
 import { Editor } from "slate";
-import { DefinitionDescription, DefinitionTerm } from "@ndla/ui";
+import { DefinitionList } from "@ndla/primitives";
 import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from "./types";
 
 export const definitionListRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
     if (element.type === TYPE_DEFINITION_LIST) {
-      return <dl {...attributes}>{children}</dl>;
+      return <DefinitionList {...attributes}>{children}</DefinitionList>;
     } else if (element.type === TYPE_DEFINITION_DESCRIPTION) {
-      return <DefinitionDescription {...attributes}>{children}</DefinitionDescription>;
+      return <dd {...attributes}>{children}</dd>;
     } else if (element.type === TYPE_DEFINITION_TERM) {
-      return <DefinitionTerm {...attributes}>{children}</DefinitionTerm>;
+      return <dt {...attributes}>{children}</dt>;
     } else return renderElement?.({ attributes, children, element });
   };
 

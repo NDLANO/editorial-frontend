@@ -18,12 +18,7 @@ export default defineConfig(() => {
       setupFiles: "./src/__tests__/vitest.setup.ts",
     },
     plugins: [
-      react({
-        jsxImportSource: "@emotion/react",
-        babel: {
-          configFile: "./babel.config.cjs",
-        },
-      }),
+      react(),
       splitVendorChunkPlugin(),
     ],
     resolve: {

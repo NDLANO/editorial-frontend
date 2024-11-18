@@ -11,19 +11,22 @@ import { useState, useMemo, useCallback, memo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import styled from "@emotion/styled";
-import { FieldHeader } from "@ndla/forms";
+import { Button } from "@ndla/primitives";
 import { IAuthor } from "@ndla/types-backend/draft-api";
 import LearningResourceFootnotes, { FootnoteType } from "./LearningResourceFootnotes";
 import { learningResourcePlugins } from "./learningResourcePlugins";
 import { learningResourceRenderers } from "./learningResourceRenderers";
-import AlertModal from "../../../../components/AlertModal";
+import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
+import FieldHeader from "../../../../components/Field/FieldHeader";
 import { FormField } from "../../../../components/FormField";
 import FormikField from "../../../../components/FormikField";
+import { FormActionsContainer } from "../../../../components/FormikForm";
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
 import { TYPE_AUDIO } from "../../../../components/SlateEditor/plugins/audio/types";
 import { learningResourceActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
 import { TYPE_CODEBLOCK } from "../../../../components/SlateEditor/plugins/codeBlock/types";
+import { TYPE_COMMENT_BLOCK } from "../../../../components/SlateEditor/plugins/comment/block/types";
 import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
 import { TYPE_FILE } from "../../../../components/SlateEditor/plugins/file/types";
 import { FootnoteElement } from "../../../../components/SlateEditor/plugins/footnote";
@@ -58,7 +61,7 @@ const findFootnotes = (content: Descendant[]): FootnoteType[] =>
 
 const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, TYPE_AUDIO, TYPE_EXTERNAL, TYPE_IMAGE];
 
-const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE, TYPE_GRID].concat(visualElements);
+const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE, TYPE_GRID, TYPE_COMMENT_BLOCK].concat(visualElements);
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,
@@ -124,20 +127,20 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
         )}
       </FormField>
       <IngressField />
-      <AlertModal
+      <AlertDialog
         title={t("editorFooter.changeHeader")}
         label={t("editorFooter.changeHeader")}
         show={isNormalizedOnLoad && !isCreatePage}
         text={t("form.content.normalizedOnLoad")}
-        actions={[
-          {
-            text: t("alertModal.continue"),
-            onClick: () => setIsNormalizedOnLoad(false),
-          },
-        ]}
         onCancel={() => setIsNormalizedOnLoad(false)}
         severity="warning"
-      />
+      >
+        <FormActionsContainer>
+          <Button variant="danger" onClick={() => setIsNormalizedOnLoad(false)}>
+            {t("alertModal.continue")}
+          </Button>
+        </FormActionsContainer>
+      </AlertDialog>
       <StyledContentDiv name="content" label={t("form.content.label")} noBorder key={values.revision}>
         {(fieldProps) => <ContentField articleLanguage={articleLanguage} articleId={articleId} {...fieldProps} />}
       </StyledContentDiv>

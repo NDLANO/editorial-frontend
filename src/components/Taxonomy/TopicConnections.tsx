@@ -8,21 +8,29 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { FieldHeader } from "@ndla/forms";
-import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalTitle, ModalTrigger, ModalContent } from "@ndla/modal";
-import { Switch } from "@ndla/switch";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  SwitchControl,
+  SwitchHiddenInput,
+  SwitchLabel,
+  SwitchRoot,
+  SwitchThumb,
+} from "@ndla/primitives";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
 import ActiveTopicConnections from "./ActiveTopicConnections";
 import TaxonomyBlockNode, { NodeWithChildren } from "./TaxonomyBlockNode";
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
 import { MinimalNodeChild } from "../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy";
 import { fetchUserData } from "../../modules/draft/draftApi";
+import { DialogCloseButton } from "../DialogCloseButton";
+import FieldHeader from "../Field/FieldHeader";
 import HowToHelper from "../HowTo/HowToHelper";
-
-const StyledModalHeader = styled(ModalHeader)`
-  padding-bottom: 0;
-`;
 
 interface Props {
   structure: NodeWithChildren[];
@@ -49,9 +57,13 @@ const TopicConnections = ({
   const [showFavorites, setShowFavorites] = useState(true);
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
 
+  const filtered = structure.filter(
+    (node) => node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== "true",
+  );
+
   const nodes = useMemo(
-    () => (showFavorites ? structure.filter((node) => favoriteSubjectIds.includes(node.id)) : structure),
-    [favoriteSubjectIds, showFavorites, structure],
+    () => (showFavorites ? filtered.filter((node) => favoriteSubjectIds.includes(node.id)) : filtered),
+    [favoriteSubjectIds, showFavorites, filtered],
   );
 
   useEffect(() => {
@@ -101,27 +113,23 @@ const TopicConnections = ({
         setPrimaryConnection={setPrimaryConnection}
         type="topicarticle"
       />
-      <Modal open={open} onOpenChange={setOpen}>
-        <ModalTrigger>
-          <ButtonV2>{t("taxonomy.topics.filestructureButton")}</ButtonV2>
-        </ModalTrigger>
-        <ModalContent
-          aria-label={t("taxonomy.topics.filestructureHeading")}
-          animation="subtle"
-          size={{ width: "large", height: "large" }}
-        >
-          <StyledModalHeader>
-            <ModalTitle>{t("taxonomy.topics.filestructureHeading")}</ModalTitle>
-            <Switch
-              onChange={() => setShowFavorites(!showFavorites)}
-              checked={showFavorites}
-              label={t("taxonomy.favorites")}
-              id={"favorites"}
-            />
-            <ModalCloseButton title={t("taxonomy.topics.filestructureClose")} />
-          </StyledModalHeader>
-          <ModalBody>
-            <hr />
+      <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)} size="large">
+        <DialogTrigger asChild>
+          <Button>{t("taxonomy.topics.filestructureButton")}</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("taxonomy.topics.filestructureHeading")}</DialogTitle>
+            <DialogCloseButton title={t("taxonomy.topics.filestructureClose")} />
+          </DialogHeader>
+          <DialogBody>
+            <SwitchRoot checked={showFavorites} onCheckedChange={(details) => setShowFavorites(details.checked)}>
+              <SwitchLabel>{t("taxonomy.favorites")}</SwitchLabel>
+              <SwitchControl>
+                <SwitchThumb />
+              </SwitchControl>
+              <SwitchHiddenInput />
+            </SwitchRoot>
             {nodes.map((node) => (
               <TaxonomyBlockNode
                 key={node.id}
@@ -132,9 +140,9 @@ const TopicConnections = ({
                 onSelect={addNode}
               />
             ))}
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+          </DialogBody>
+        </DialogContent>
+      </DialogRoot>
     </>
   );
 };

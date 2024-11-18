@@ -8,11 +8,9 @@
 
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import { breakpoints, colors, fonts, mq, spacing, stackOrder } from "@ndla/core";
+import { Heading, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
-import { Text } from "@ndla/typography";
+import { styled } from "@ndla/styled-system/jsx";
 import { getArticle } from "../../../modules/article/articleApi";
 import { fetchAudio } from "../../../modules/audio/audioApi";
 import { fetchConcept } from "../../../modules/concept/conceptApi";
@@ -29,68 +27,28 @@ import {
 } from "../../../util/routeHelpers";
 import { useSession } from "../../Session/SessionProvider";
 
-const StyledHeader = styled.div`
-  width: 100%;
-  min-height: 60px;
-  display: flex;
-  align-items: center;
-  background-color: ${colors.brand.lighter};
-  justify-content: space-evenly;
-  padding: ${spacing.xsmall};
-  border-radius: 10px;
+const StyledHeader = styled("div", {
+  base: {
+    border: "1px solid",
+    borderColor: "stroke.default",
+    borderRadius: "xsmall",
+    display: "flex",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    padding: "xsmall",
+    gap: "xsmall",
 
-  ${mq.range({ until: breakpoints.mobileWide, from: "0px" })} {
-    flex-direction: column;
-    justify-content: center;
-    gap: ${spacing.xsmall};
-  }
+    tabletDown: {
+      flexDirection: "column",
+    },
+  },
+});
 
-  position: relative;
-`;
-
-const ButtonWrapper = styled.div`
-  z-index: ${stackOrder.offsetSingle};
-`;
-
-const StyledTitle = styled.h1`
-  ${fonts.sizes(24, 1.2)};
-  color: ${colors.brand.primary};
-  margin: 0;
-  font-family: ${fonts.sans};
-`;
-
-const StyledSafeLinkButton = styled(SafeLinkButton)`
-  font-weight: ${fonts.weight.normal};
-  ${fonts.sizes(16, 1.1)};
-`;
-
-const shapeStyles = css`
-  position: absolute;
-  background-color: ${colors.brand.light};
-`;
-
-const LeftShape = styled.div`
-  ${shapeStyles}
-  left: 0;
-  top: 0;
-  width: 130px;
-  height: 50px;
-  border-radius: 10px 0 100px 0;
-`;
-
-const RightShape = styled.div`
-  ${shapeStyles}
-  right: 0;
-  bottom: 0;
-  width: 110px;
-  height: 50px;
-  border-radius: 100px 0 10px 0;
-`;
-
-const ContentWrapper = styled.div`
-  z-index: ${stackOrder.offsetSingle};
-  text-align: center;
-`;
+const ContentWrapper = styled("div", {
+  base: {
+    textAlign: "center",
+  },
+});
 
 interface FavoriteResource {
   title: string;
@@ -146,13 +104,12 @@ export const WelcomeHeader = () => {
 
   return (
     <StyledHeader>
-      <LeftShape />
       <ContentWrapper>
-        <StyledTitle>
+        <Heading textStyle="heading.small">
           {`${t("welcomePage.welcomeBack")} ${userName ? `${userName}!` : t("welcomePage.welcomeText")}`}
-        </StyledTitle>
+        </Heading>
         {favoriteResource && (
-          <Text margin="none" textStyle="label-small">
+          <Text>
             {t("welcomePage.lastFavorited")}
             <SafeLink to={favoriteResource.path} title={favoriteResource.title}>
               {favoriteResource.title}
@@ -160,10 +117,7 @@ export const WelcomeHeader = () => {
           </Text>
         )}
       </ContentWrapper>
-      <ButtonWrapper>
-        <StyledSafeLinkButton to="/structure">{t("subNavigation.structure")}</StyledSafeLinkButton>
-      </ButtonWrapper>
-      <RightShape />
+      <SafeLinkButton to="/structure">{t("subNavigation.structure")}</SafeLinkButton>
     </StyledHeader>
   );
 };

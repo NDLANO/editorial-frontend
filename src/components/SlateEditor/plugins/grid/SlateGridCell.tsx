@@ -10,10 +10,9 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { spacing, colors, stackOrder } from "@ndla/core";
 import { Pin } from "@ndla/icons/common";
+import { IconButton } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { GridCellElement } from ".";
 
 interface Props extends RenderElementProps {
@@ -21,12 +20,17 @@ interface Props extends RenderElementProps {
   element: GridCellElement;
 }
 
-const StyledButton = styled(IconButtonV2)`
-  position: absolute;
-  z-index: ${stackOrder.offsetDouble};
-  top: ${spacing.xxsmall};
-  right: ${spacing.xxsmall};
-`;
+const StyledIconButton = styled(IconButton, {
+  base: {
+    position: "absolute",
+    zIndex: "docked",
+    top: "4xsmall",
+    right: "4xsmall",
+  },
+});
+
+// TODO: Having the sticky button messes with the actual styling of the cell (I think)
+// TODO: We seem to render empty paragraphs in the grid cells, which messes with margin.
 
 const GridCell = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
@@ -43,41 +47,31 @@ const GridCell = ({ element, editor, attributes, children }: Props) => {
 
   return (
     <StyledGridCell {...attributes} data-testid="slate-grid-cell">
-      <StyledButton
+      <StyledIconButton
         contentEditable={false}
         onClick={onClickSticky}
-        variant={element.data?.parallaxCell === "true" ? "solid" : "ghost"}
+        variant={element.data?.parallaxCell === "true" ? "primary" : "tertiary"}
         aria-label={label}
         title={label}
+        size="small"
         data-testid="grid-cell-parallax"
       >
         <Pin />
-      </StyledButton>
+      </StyledIconButton>
       {children}
     </StyledGridCell>
   );
 };
 
-const StyledGridCell = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid ${colors.brand.light};
-  min-width: 50px;
-
-  overflow-wrap: break-word;
-
-  > p {
-    padding: 0 ${spacing.xxsmall};
-    word-break: break-word;
-  }
-
-  > div,
-  > figure,
-  > iframe {
-    width: 100% !important;
-    inset: 0;
-  }
-`;
+const StyledGridCell = styled("div", {
+  base: {
+    position: "relative",
+    display: "flex",
+    flexDirection: "column",
+    border: "1px solid",
+    borderColor: "stroke.default",
+    minWidth: "xxlarge",
+  },
+});
 
 export default GridCell;

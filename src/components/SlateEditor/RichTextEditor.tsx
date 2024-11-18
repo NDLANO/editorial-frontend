@@ -12,8 +12,8 @@ import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from "
 import { withHistory } from "slate-history";
 import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
-import styled from "@emotion/styled";
-import { fonts } from "@ndla/core";
+import { Spinner } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
 import { SlatePlugin } from "./interfaces";
 import { Action, commonActions } from "./plugins/blockPicker/actions";
@@ -24,6 +24,7 @@ import { onDragOver, onDragStart, onDrop } from "./plugins/DND";
 import { TYPE_HEADING } from "./plugins/heading/types";
 import { TYPE_LIST } from "./plugins/list/types";
 import { TYPE_PARAGRAPH } from "./plugins/paragraph/types";
+import { TYPE_TABLE } from "./plugins/table/types";
 import { SlateToolbar } from "./plugins/toolbar";
 import { AreaFilters, CategoryFilters } from "./plugins/toolbar/toolbarState";
 import { SlateProvider } from "./SlateContext";
@@ -33,16 +34,22 @@ import withPlugins from "./utils/withPlugins";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { FormikStatus } from "../../interfaces";
-import Spinner from "../Spinner";
 
-const StyledSlateWrapper = styled.div`
-  position: relative;
-`;
+const StyledSlateWrapper = styled("div", {
+  base: {
+    position: "relative",
+  },
+});
 
-const StyledEditable = styled(Editable)`
-  font-family: ${fonts.serif};
-  outline: none;
-`;
+const StyledEditable = styled(
+  Editable,
+  {
+    base: {
+      outline: "none",
+    },
+  },
+  { baseComponent: true },
+);
 
 export interface RichTextEditorProps extends Omit<EditableProps, "value" | "onChange" | "onKeyDown"> {
   value: Descendant[];
@@ -61,6 +68,7 @@ export interface RichTextEditorProps extends Omit<EditableProps, "value" | "onCh
   hideToolbar?: boolean;
   receiveInitialFocus?: boolean;
   hideSpinner?: boolean;
+  noArticleStyling?: boolean;
 }
 
 const RichTextEditor = ({
@@ -81,6 +89,7 @@ const RichTextEditor = ({
   receiveInitialFocus,
   hideSpinner,
   onBlur: onBlurProp,
+  noArticleStyling,
   ...rest
 }: RichTextEditorProps) => {
   const [editor] = useState(() => withPlugins(withReact(withHistory(createEditor())), plugins));
@@ -217,10 +226,9 @@ const RichTextEditor = ({
     (e: FocusEvent<HTMLDivElement>) => {
       if (e.relatedTarget?.id === BLOCK_PICKER_TRIGGER_ID) return;
       if (e.relatedTarget?.closest("[data-toolbar]")) return;
-      Transforms.deselect(editor);
       if (onBlurProp) onBlurProp(e);
     },
-    [editor, onBlurProp],
+    [onBlurProp],
   );
 
   const handleKeyDown = useCallback(
@@ -245,8 +253,9 @@ const RichTextEditor = ({
 
       const selectedElement = getCurrentBlock(editor, TYPE_PARAGRAPH) || getCurrentBlock(editor, TYPE_HEADING) || [];
       const [listBlock] = getCurrentBlock(editor, TYPE_DEFINITION_LIST) || getCurrentBlock(editor, TYPE_LIST) || [];
+      const [tableBlock] = getCurrentBlock(editor, TYPE_TABLE) || [];
 
-      if (e.key === KEY_TAB && selectedElement && selectedElement.length > 0 && !listBlock) {
+      if (e.key === KEY_TAB && selectedElement && selectedElement.length > 0 && !listBlock && !tableBlock) {
         const path = ReactEditor.findPath(editor, selectedElement[0]!);
         if (!e.shiftKey && !Editor.after(editor, path)) return; // If there is no block after the current block, and shift is not pressed, move out from the editor
         if (e.shiftKey && !Editor.before(editor, path)) return; // If there is no block before the current block and shift is pressed, move out from the editor
@@ -296,7 +305,7 @@ const RichTextEditor = ({
   );
 
   return (
-    <article>
+    <article className={noArticleStyling ? undefined : "ndla-article"}>
       <ArticleLanguageProvider language={language}>
         <SlateProvider isSubmitted={submitted}>
           <StyledSlateWrapper data-testid={testId}>

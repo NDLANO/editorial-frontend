@@ -17,8 +17,7 @@ test.beforeEach(async ({ page }) => {
 test("Can add a movie to the slideshow", async ({ page }) => {
   const movie = "Brukerstøtte";
   await page.getByTestId("dropdown-input").first().fill(movie);
-  await page.getByTestId("dropdown-items").getByText(movie).first().click();
-  await page.getByTestId("dropdown-items").blur();
+  await page.getByTestId("dropdown-item").first().click();
   await expect(page.getByTestId("elementListItem").filter({ hasText: movie }).first()).toBeVisible();
 });
 
@@ -31,18 +30,18 @@ test("Can remove movie from list", async ({ page }) => {
 
 test("Can add and remove theme", async ({ page }) => {
   await page.getByTestId("add-theme-modal").click();
-  await page.keyboard.type("Ny testgruppe");
+  await page.getByLabel("Bokmål").fill("Ny testgruppe");
   await page.getByRole("button", { name: "Opprett gruppe" }).click();
   await expect(page.getByRole("heading", { name: "Ny testgruppe" })).toBeVisible();
 });
 
 test("Can save changes with new data", async ({ page, harCheckpoint }) => {
   await page.getByTestId("add-theme-modal").click();
-  await page.keyboard.type("Testgruppee");
+  await page.getByLabel("Bokmål").fill("Testgruppee");
   await page.getByRole("button", { name: "Opprett gruppe" }).click();
-  await page.getByRole("combobox").getByPlaceholder('Legg til film i "Testgruppee"').fill("Brukerstøtte");
-  await page.getByTestId("dropdown-items").getByText("Brukerstøtte").first().click();
-  await page.getByTestId("dropdown-items").blur();
+  await page.getByPlaceholder('Legg til film i "Testgruppee"').fill("Brukerstøtte");
+  await page.getByTestId("dropdown-item").getByText("Brukerstøtte").first().click();
+  await page.click("body");
 
   await harCheckpoint();
   await page.getByRole("button").getByText("Lagre").click();

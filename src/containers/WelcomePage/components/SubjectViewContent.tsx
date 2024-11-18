@@ -8,25 +8,28 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { BookOpen, InformationOutline } from "@ndla/icons/common";
-import { Pager } from "@ndla/pager";
+import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { getCurrentPageData } from "./LastUsedItems";
 import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
-import PageSizeDropdown from "./worklist/PageSizeDropdown";
+import PageSizeSelect from "./worklist/PageSizeSelect";
+import Pagination from "../../../components/abstractions/Pagination";
 import { SUBJECT_NODE } from "../../../modules/nodes/nodeApiTypes";
 import { useSearchNodes } from "../../../modules/nodes/nodeQueries";
 import { useSearchSubjectStats } from "../../../modules/search/searchQueries";
 import { toSearch } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { useLocalStoragePageSizeState } from "../hooks/storedFilterHooks";
-import { ControlWrapperDashboard, StyledLink, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
+import { ControlWrapperDashboard, StyledTopRowDashboardInfo } from "../styles";
 import { SubjectData } from "../utils";
 
-const StyledTableHeader = styled.span`
-  white-space: nowrap;
-`;
+const StyledTableHeader = styled("span", {
+  base: {
+    whiteSpace: "nowrap",
+  },
+});
 
 interface CellHeaderProps {
   title: string;
@@ -35,12 +38,13 @@ interface CellHeaderProps {
 
 const CellHeader = ({ title, description }: CellHeaderProps) => (
   <StyledTableHeader>
-    {title} <InformationOutline aria-label={description} title={description} />
+    {title} <InformationOutline aria-label={description} title={description} size="small" />
   </StyledTableHeader>
 );
 
 interface BaseProps {
   title: string;
+  tabTitle: string;
   description: string;
   localStoragePageSizeKey: string;
 }
@@ -60,6 +64,7 @@ const SubjectViewContent = ({
   subjects,
   isFavoriteTab,
   title,
+  tabTitle,
   description,
   localStoragePageSizeKey,
 }: FavoriteProps | SubjectProps) => {
@@ -92,7 +97,7 @@ const SubjectViewContent = ({
     return getCurrentPageData(page, subjectIds, Number(pageSize!.value));
   }, [page, pageSize, subjectIds]);
 
-  const { data, isLoading, isError } = useSearchSubjectStats(
+  const { data, isPending, isError } = useSearchSubjectStats(
     { subjects: currentPageSubjectIds },
     { enabled: !!currentPageSubjectIds.length },
   );
@@ -163,7 +168,7 @@ const SubjectViewContent = ({
         {
           id: `title_${stats.subjectId}`,
           data: (
-            <StyledLink
+            <SafeLink
               to={toSearch(
                 {
                   page: "1",
@@ -175,7 +180,7 @@ const SubjectViewContent = ({
               )}
             >
               {subjectName}
-            </StyledLink>
+            </SafeLink>
           ),
         },
         { id: `favorites_${stats.subjectId}`, data: stats.favoritedCount },
@@ -187,33 +192,28 @@ const SubjectViewContent = ({
     });
   }, [data, favoriteSubjects?.results, isFavoriteTab, subjects]);
 
-  const lastPage = subjectIds.length ? Math.ceil(subjectIds.length / Number(pageSize!.value)) : 1;
-
   return (
     <>
       <StyledTopRowDashboardInfo>
         <TableTitle title={title} description={description} Icon={BookOpen} />
         <ControlWrapperDashboard>
-          <TopRowControls>
-            <PageSizeDropdown pageSize={pageSize} setPageSize={setPageSize} />
-          </TopRowControls>
+          <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
       <TableComponent
-        isLoading={isLoading}
+        isPending={isPending}
         tableTitleList={tableTitles}
         tableData={tableData.filter((el) => el.length > 0)}
         error={error}
         minWidth="650px"
       />
-      <Pager
-        page={page ?? 1}
-        lastPage={lastPage}
-        query={{}}
-        onClick={(el) => setPage(el.page)}
-        small
-        colorTheme="lighter"
-        pageItemComponentClass="button"
+      <Pagination
+        page={page}
+        onPageChange={(details) => setPage(details.page)}
+        count={subjectIds.length}
+        pageSize={Number(pageSize!.value)}
+        aria-label={t("welcomePage.pagination.subjectView", { group: tabTitle.toLocaleLowerCase() })}
+        buttonSize="small"
       />
     </>
   );

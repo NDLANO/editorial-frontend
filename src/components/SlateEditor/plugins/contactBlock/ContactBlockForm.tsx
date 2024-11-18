@@ -6,26 +6,35 @@
  *
  */
 
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
+import { CheckLine } from "@ndla/icons/editor";
 import {
-  CheckboxItem,
-  Label,
-  RadioButtonItem,
-  RadioButtonGroup,
+  Button,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  FieldTextArea,
   FieldErrorMessage,
-  InputV3,
-  TextAreaV3,
-} from "@ndla/forms";
+  RadioGroupRoot,
+  RadioGroupLabel,
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemText,
+  RadioGroupItemHiddenInput,
+  CheckboxRoot,
+  CheckboxControl,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxHiddenInput,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { ContactBlockEmbedData } from "@ndla/types-embed";
 import { TYPE_CONTACT_BLOCK } from "./types";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
-import { CheckboxWrapper, RadioButtonWrapper, FieldsetRow, StyledFormControl, LeftLegend } from "../../../Form/styles";
-import { FormControl, FormField } from "../../../FormField";
+import { FormField } from "../../../FormField";
+import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
 interface ContactBlockFormValues {
@@ -34,12 +43,17 @@ interface ContactBlockFormValues {
   jobTitle: string;
   name: string;
   email: string;
-  blobColor: ContactBlockEmbedData["blobColor"];
-  blob: ContactBlockEmbedData["blob"];
+  background: ContactBlockEmbedData["background"];
   metaImageId?: string;
   metaImageAlt: string;
   isDecorative: boolean;
 }
+
+const StyledCheckboxRoot = styled(CheckboxRoot, {
+  base: {
+    width: "fit-content",
+  },
+});
 
 const rules: RulesType<ContactBlockFormValues> = {
   jobTitle: {
@@ -58,10 +72,7 @@ const rules: RulesType<ContactBlockFormValues> = {
   metaImageId: {
     required: true,
   },
-  blobColor: {
-    required: true,
-  },
-  blob: {
+  background: {
     required: true,
   },
   metaImageAlt: {
@@ -70,29 +81,18 @@ const rules: RulesType<ContactBlockFormValues> = {
   },
 };
 
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-`;
-
 interface Props {
   initialData?: ContactBlockEmbedData;
   onSave: (data: ContactBlockEmbedData) => void;
   onCancel: () => void;
 }
 
-const StyledTextArea = styled(TextAreaV3)`
-  min-height: ${spacing.xlarge};
-`;
-
 const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormValues => {
   return {
     resource: TYPE_CONTACT_BLOCK,
     jobTitle: initialData?.jobTitle ?? "",
-    blobColor: initialData?.blobColor ?? "green",
+    background: initialData?.background ?? "subtle",
     description: initialData?.description ?? "",
-    blob: initialData?.blob ?? "pointy",
     metaImageId: initialData?.imageId,
     name: initialData?.name ?? "",
     email: initialData?.email ?? "",
@@ -100,8 +100,7 @@ const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormV
     isDecorative: initialData?.alt === "",
   };
 };
-const types: ContactBlockEmbedData["blob"][] = ["pointy", "round"];
-const colors: ContactBlockEmbedData["blobColor"][] = ["green", "pink"];
+const colors: ContactBlockEmbedData["background"][] = ["subtle", "moderate", "strong"];
 
 const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();
@@ -119,8 +118,7 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
         jobTitle: values.jobTitle,
         description: values.description,
         name: values.name,
-        blob: values.blob,
-        blobColor: values.blobColor,
+        background: values.background,
         email: values.email,
         alt: values.isDecorative ? "" : values.metaImageAlt,
       };
@@ -129,19 +127,10 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
     [onSave],
   );
 
-  const blobTypes = useMemo(
-    () =>
-      types.map((value) => ({
-        title: t(`contactBlockForm.blob.${value}`),
-        value: value!,
-      })),
-    [t],
-  );
-
-  const blobColors = useMemo(
+  const backgrounds = useMemo(
     () =>
       colors.map((value) => ({
-        title: t(`contactBlockForm.blobColor.${value}`),
+        title: t(`contactBlockForm.background.${value}`),
         value: value!,
       })),
     [t],
@@ -156,140 +145,102 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
       validate={(values) => validateFormik(values, rules, t)}
     >
       {({ dirty, isValid, values }) => (
-        <Form>
+        <FormikForm>
           <FormField name="name">
             {({ field, meta }) => (
-              <FormControl isInvalid={!!meta.error}>
-                <Label margin="none" textStyle="label-small">
-                  {t("form.name.name")}
-                </Label>
-                <InputV3 {...field} />
+              <FieldRoot invalid={!!meta.error}>
+                <FieldLabel>{t("form.name.name")}</FieldLabel>
+                <FieldInput {...field} />
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              </FormControl>
+              </FieldRoot>
             )}
           </FormField>
           <FormField name="jobTitle">
             {({ field, meta }) => (
-              <FormControl isInvalid={!!meta.error}>
-                <Label margin="none" textStyle="label-small">
-                  {t("form.name.jobTitle")}
-                </Label>
-                <InputV3 {...field} />
+              <FieldRoot invalid={!!meta.error}>
+                <FieldLabel>{t("form.name.jobTitle")}</FieldLabel>
+                <FieldInput {...field} />
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              </FormControl>
+              </FieldRoot>
             )}
           </FormField>
           <FormField name="email">
             {({ field, meta }) => (
-              <FormControl isInvalid={!!meta.error}>
-                <Label margin="none" textStyle="label-small">
-                  {t("form.name.email")}
-                </Label>
-                <InputV3 {...field} type="email" />
+              <FieldRoot invalid={!!meta.error}>
+                <FieldLabel>{t("form.name.email")}</FieldLabel>
+                <FieldInput {...field} type="email" />
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              </FormControl>
+              </FieldRoot>
             )}
           </FormField>
           <FormField name="description">
             {({ field, meta }) => (
-              <FormControl isInvalid={!!meta.error}>
-                <Label margin="none" textStyle="label-small">
-                  {t("form.name.description")}
-                </Label>
-                <StyledTextArea {...field} />
+              <FieldRoot invalid={!!meta.error}>
+                <FieldLabel>{t("form.name.description")}</FieldLabel>
+                <FieldTextArea {...field} />
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              </FormControl>
+              </FieldRoot>
             )}
           </FormField>
-          <FormField name="blob">
+          <FormField name="background">
             {({ field, helpers }) => (
-              <StyledFormControl>
-                <RadioButtonGroup
-                  onValueChange={helpers.setValue}
-                  orientation="horizontal"
-                  defaultValue={field.value}
-                  asChild
-                >
-                  <FieldsetRow>
-                    <LeftLegend margin="none" textStyle="label-small">
-                      {t("form.name.blob")}
-                    </LeftLegend>
-                    {blobTypes.map((value) => (
-                      <RadioButtonWrapper key={value.value}>
-                        <RadioButtonItem id={`blob-type-${value.value}`} value={value.value} />
-                        <Label htmlFor={`blob-type-${value.value}`} margin="none" textStyle="label-small">
-                          {value.title}
-                        </Label>
-                      </RadioButtonWrapper>
-                    ))}
-                  </FieldsetRow>
-                </RadioButtonGroup>
-              </StyledFormControl>
-            )}
-          </FormField>
-          <FormField name="blobColor">
-            {({ field, helpers }) => (
-              <StyledFormControl>
-                <RadioButtonGroup
-                  onValueChange={helpers.setValue}
-                  orientation="horizontal"
-                  defaultValue={field.value}
-                  asChild
-                >
-                  <FieldsetRow>
-                    <LeftLegend margin="none" textStyle="label-small">
-                      {t("form.name.blobColor")}
-                    </LeftLegend>
-                    {blobColors.map((value) => (
-                      <RadioButtonWrapper key={value.value}>
-                        <RadioButtonItem id={`blob-color-${value.value}`} value={value.value} />
-                        <Label htmlFor={`blob-color-${value.value}`} margin="none" textStyle="label-small">
-                          {value.title}
-                        </Label>
-                      </RadioButtonWrapper>
-                    ))}
-                  </FieldsetRow>
-                </RadioButtonGroup>
-              </StyledFormControl>
+              <RadioGroupRoot
+                value={field.value}
+                onValueChange={(details) => helpers.setValue(details.value)}
+                orientation="horizontal"
+              >
+                <RadioGroupLabel textStyle="label.medium">{t("form.name.background")}</RadioGroupLabel>
+                {backgrounds.map((value) => (
+                  <RadioGroupItem key={value.value} value={value.value}>
+                    <RadioGroupItemControl />
+                    <RadioGroupItemText>{value.title}</RadioGroupItemText>
+                    <RadioGroupItemHiddenInput />
+                  </RadioGroupItem>
+                ))}
+              </RadioGroupRoot>
             )}
           </FormField>
           <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
           {!values.isDecorative && !!values.metaImageId && (
             <FormField name="metaImageAlt">
               {({ field, meta }) => (
-                <FormControl isInvalid={!!meta.error}>
-                  <Label margin="none" textStyle="label-small">
-                    {t("form.name.metaImageAlt")}
-                  </Label>
-                  <InputV3 {...field} />
+                <FieldRoot invalid={!!meta.error}>
+                  <FieldLabel>{t("form.name.metaImageAlt")}</FieldLabel>
+                  <FieldInput {...field} />
                   <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                </FormControl>
+                </FieldRoot>
               )}
             </FormField>
           )}
           {!!values.metaImageId && (
             <FormField name="isDecorative">
               {({ field, meta, helpers }) => (
-                <FormControl isInvalid={!!meta.error}>
-                  <CheckboxWrapper>
-                    <Label margin="none" textStyle="label-small">
-                      {t("form.image.isDecorative")}
-                    </Label>
-                    <CheckboxItem checked={field.value} onCheckedChange={helpers.setValue} />
-                  </CheckboxWrapper>
-                </FormControl>
+                <FieldRoot invalid={!!meta.error}>
+                  <StyledCheckboxRoot
+                    checked={field.value}
+                    onCheckedChange={(details) => helpers.setValue(details.checked)}
+                  >
+                    <CheckboxLabel>{t("form.image.isDecorative")}</CheckboxLabel>
+                    <CheckboxControl>
+                      <CheckboxIndicator asChild>
+                        <CheckLine />
+                      </CheckboxIndicator>
+                    </CheckboxControl>
+                    <CheckboxHiddenInput />
+                  </StyledCheckboxRoot>
+                </FieldRoot>
               )}
             </FormField>
           )}
-          <ButtonContainer>
-            <ButtonV2 variant="outline" onClick={onCancel}>
+          <FormActionsContainer>
+            <Button variant="secondary" onClick={onCancel}>
               {t("cancel")}
-            </ButtonV2>
-            <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit">
+            </Button>
+            <Button disabled={!dirty || !isValid} type="submit">
               {t("save")}
-            </ButtonV2>
-          </ButtonContainer>
-        </Form>
+            </Button>
+          </FormActionsContainer>
+        </FormikForm>
       )}
     </Formik>
   );

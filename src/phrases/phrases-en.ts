@@ -107,6 +107,10 @@ const phrases = {
     ti: "Tigrinya",
     und: "Undetermined",
     ukr: "Ukranian",
+    prs: "Dari",
+    san: "Sanskrit",
+    heb: "Hebrew",
+    pli: "Pali",
     empty: "No languages left",
     change: "Change to {{language}} version",
   },
@@ -114,6 +118,7 @@ const phrases = {
     lastFavorited: "Last favorited resource: ",
     addSearch: "Add new search",
     deleteSavedSearch: "Delete saved search",
+    noHitsSavedSearch: "No hits in your saved searches",
     deleteSearch: "Delete search",
     noArticles: "Empty resource list ...",
     emptyLastUsed: "Empty last edited list ...",
@@ -157,6 +162,14 @@ const phrases = {
     noResultsLMASubjects: "The following statuses will not be shown",
     count: "Count",
     countResponsible: "Responsible count",
+    pagination: {
+      resources: "resources",
+      concepts: "concepts",
+      workList: "Pages containing {{ resourceType }} where you are responsible",
+      lastUsed: "Pages containing your last edited {{ resourceType }}",
+      revision: "Pages containing expiring resources in your favorite subjects",
+      subjectView: "Pages containing statistics for your {{ group }}",
+    },
     workList: {
       heading: "My tasks",
       description: "Resources where you are responsible",
@@ -197,6 +210,12 @@ const phrases = {
       publishedDescription: "Number of published resources",
     },
     welcomeBack: "Welcome",
+    listLabels: {
+      worklist: "Resource types",
+      lastUsed: "Resource types",
+      subjectView: "Subject types",
+      articleStatuses: "Subject types",
+    },
   },
   searchPage: {
     header: {
@@ -216,6 +235,7 @@ const phrases = {
     audioNoHits: "Your search - {{query}} - did not match any audio files.",
     imageNoHits: "Your search - {{query}} - did not match any images.",
     pageSize: "{{pageSize}} hits per page",
+    hitsSelectLabel: "Number of hits per page",
     totalCount: "Total results",
     highlights: {
       title: "Search hits",
@@ -237,16 +257,22 @@ const phrases = {
     standard: "Subject matter",
   },
   subNavigation: {
+    listTitle: {
+      create: "Create",
+      edit: "Edit",
+      admin: "Admin",
+      external: "External systems",
+    },
     media: "Media",
     learningPath: "Learningpath",
-    learningPathLink: "Go to learningpath",
-    brightcoveLink: "Go to Brightcove",
+    learningPathLink: "Learningpaths",
+    brightcoveLink: "Brightcove",
     detailSearch: "Detail search",
     learningResource: "Learning resource",
-    image: "New image",
-    audio: "New Audiofile",
-    podcast: "New Podcast episode",
-    podcastSeries: "New Podcast series",
+    image: "Image",
+    audio: "Audio file",
+    podcast: "Podcast episode",
+    podcastSeries: "Podcast series",
     agreement: "New Agreement",
     structure: "Structure",
     programme: "Programmes",
@@ -256,13 +282,13 @@ const phrases = {
     searchPodcastSeries: "Search series",
     searchImage: "Search image",
     searchConcepts: "Search concepts",
-    film: "Edit NDLA film",
-    h5p: "Edit H5P",
-    newConcept: "Create new concept",
-    newGloss: "Create new gloss",
+    film: "NDLA film",
+    h5p: "Edlib H5P",
+    newConcept: "Concept",
+    newGloss: "Gloss",
     newSubject: "Create new subject",
-    newFrontpageArticle: "Create new About-NDLA article",
-    frontpage: "Edit front page",
+    newFrontpageArticle: "About-NDLA article",
+    frontpage: "NDLA frontpage",
   },
   logo: {
     altText: "The Norwegian Digital Learning Arena",
@@ -293,7 +319,7 @@ const phrases = {
       glossQuery: "Search for gloss",
       contentQuery: "Search for content",
       audioQuery: "Search for audio files",
-      podcastSeriesQuery: "Search for podcast series",
+      "podcast-seriesQuery": "Search for podcast series",
       imageQuery: "Search for images",
       language: "Select language",
       users: "Select editor",
@@ -367,6 +393,8 @@ const phrases = {
     DASubjects: "My DA-subjects",
     archivedIncluded: "Archived subjects included",
     error: "Something went wrong with the search",
+    conceptSubject: "Concept subject: {{name}}",
+    multiTaxonomy: "{{count}} placements in taxonomy",
   },
   subjectsPage: {
     subjects: "Subjects",
@@ -377,6 +405,7 @@ const phrases = {
   editMarkup: {
     linkTitle: "Go to HTML editor",
     title: "HTML editor",
+    previewDialogTitle: "Preview article",
     subTitle: "Edit article with HTML",
     back: "Back",
     fetchError: "An error occurred while loding an article into the HTML editor. Go back or try to reload the page.",
@@ -445,6 +474,7 @@ const phrases = {
     noResults: "No concepts found",
     noTitle: "No title",
     noContent: "No content",
+    listLabel: "Options",
   },
   searchTypes: {
     content: "Content",
@@ -589,13 +619,10 @@ const phrases = {
     title: "Contact block",
     edit: "Edit contact block",
     delete: "Remove contact block",
-    blobColor: {
-      green: "Green",
-      pink: "Pink",
-    },
-    blob: {
-      pointy: "Pointy",
-      round: "Round",
+    background: {
+      subtle: "Subtle",
+      moderate: "Moderate",
+      strong: "Strong",
     },
   },
   frontpageArticleForm: {
@@ -612,12 +639,13 @@ const phrases = {
     background: {
       white: "White",
       transparent: "Transparent",
+      gray: "Gray",
     },
     setSticky: "Lock content to adjacent grid cell",
     unsetSticky: "Unlock content from adjacent grid cell",
   },
-  blogPostForm: {
-    title: "Edit blog post",
+  pitchForm: {
+    title: "Edit pitch",
     languageExplanation: "Choose language for screen readers",
     sizes: {
       normal: "Normal",
@@ -657,6 +685,10 @@ const phrases = {
     article: "article",
     topicArticle: "full topic article",
     needsRevision: "Quality evaluated to grade 5",
+    error: "An error occured while updating taxonomy",
+    disabled: "Resources without taxonomy cannot be evaluated",
+    warning:
+      "The revision note is set automatically when the quality rating is set to 5. The article will have unsaved changes.",
   },
   editorToolbar: {
     bold: "Bold\n({{ctrl}}+b)",
@@ -665,6 +697,7 @@ const phrases = {
     "code-block": "Code",
     "concept-inline": "Concept\n({{ctrl}}+alt+c)",
     "gloss-inline": "Gloss\n({{ctrl}}+alt+g)",
+    "comment-inline": "Comment\n({{ctrl}}+alt+e)",
     footnote: "Footnote\n({{ctrl}}+alt+f)",
     language: `Language`,
     noneLanguage: "None",
@@ -693,6 +726,9 @@ const phrases = {
     left: "Left aligned",
     center: "Center aligned",
     right: "Right aligned",
+    disabled: {
+      "comment-inline": "Comment can only overlap text",
+    },
   },
   editorBlockpicker: {
     open: "Open menu ({{ctrl}}+Enter)",
@@ -717,12 +753,13 @@ const phrases = {
       concept: "Concept",
       keyFigure: "Key figure",
       contactBlock: "Contact block",
-      blogPost: "Blog post",
+      pitch: "Pitch",
       grid: "Grid",
       campaignBlock: "Kampanjeblokk",
       linkBlockList: "Link block",
       gloss: "Gloss",
       disclaimer: "Accessability disclaimer",
+      comment: "Comment",
     },
   },
   form: {
@@ -754,6 +791,8 @@ const phrases = {
     hideAll: "Hide all",
     unpublishedChanges: "(Changed since last publish)",
     moveContent: "Move content into the text",
+    open: "Open",
+    close: "Close",
     comment: {
       comment: "Comment",
       hide: "Hide comment",
@@ -811,8 +850,6 @@ const phrases = {
       name: "Name",
       subtitle: "Subtitle",
       email: "Email",
-      blob: "Blob type",
-      blobColor: "Blob color",
       jobTitle: "Job title",
       author: "Author",
       language: "Language",
@@ -830,8 +867,11 @@ const phrases = {
       sides: "Image side",
       transcription: "Transcription",
       type: "Type",
+      text: "Comment",
       grade: "Grade",
       note: "Note",
+      files: "File upload",
+      code: "Code",
     },
     previewProductionArticle: {
       button: "Compare current version with last published version",
@@ -871,6 +911,7 @@ const phrases = {
       warning: "A note must contain text",
       areHere: "You are here",
       published: "Published",
+      placeholder: "Write a note",
       history: {
         user: "User",
         time: "When",
@@ -1038,7 +1079,10 @@ const phrases = {
         createdBy: "Created by",
         warn: "Remember to add a comment",
         description: "You have changed responsible without adding a comment!",
+        add: "Add new comment",
+        label: "Write down comment",
       },
+      updateComment: "Update comment",
     },
     status: {
       new: "New - unsaved",
@@ -1135,6 +1179,7 @@ const phrases = {
         removeExternal: "Delete external article",
         changeExternal: "Edit external article",
         searchExternal: "Write the title and url of the external article",
+        listLabel: "Options",
       },
       conceptList: {
         subjectMissing: "Subject missing: {{subjectId}}",
@@ -1325,11 +1370,14 @@ const phrases = {
       caption: {
         label: "Image caption",
         placeholder: "Image caption",
+        hide: "Hide caption",
       },
-      dragdrop: {
-        main: "Drag and drop",
-        sub: "or click to upload image",
-        ariaLabel: "Drag and drop or click to upload image",
+      fileUpload: {
+        description: "Drag and drop or click to upload image",
+        button: "Add",
+        genericError: "Image upload failed",
+        tooLargeError: "Image is too large",
+        fileTypeInvalidError: "The file type is not supported",
       },
       byline: {
         show: "Show byline",
@@ -1382,10 +1430,11 @@ const phrases = {
       chooseAudioType: "Choose audio type",
       sound: "Audio",
       speech: "Speech",
-      dragdrop: {
-        main: "Drag and drop",
-        sub: "or click to upload image",
-        ariaLabel: "Drag and drop or click to upload image",
+      fileUpload: {
+        description: "Drag and drop or click to upload audio",
+        button: "Add",
+        genericError: "Audio upload failed",
+        fileTypeInvalidError: "The file type is not supported",
       },
       copiedFrom:
         "Audio file will be copied from {{language}}. Click the delete icon to remove it and upload a new file.",
@@ -1437,11 +1486,12 @@ const phrases = {
       missingFileTooltip:
         "This file does not seem to exist on the server. It might have been deleted from another article.",
       missingFilename: "File type is not supported",
-      dragdrop: {
-        main: "Drag and drop",
-        sub: "or click to upload file(s)",
-        ariaLabel: "Drag and drop or click to upload file(s)",
-        noFilesAdded: "No files are added",
+      fileUpload: {
+        description: "Drag and drop or click to upload file(s)",
+        button: "Add",
+        genericError: "File upload failed",
+        fileTypeInvalidError: "The file type is not supported",
+        tooManyError: "Maximum 5 files can be uploaded at once",
       },
       showPdf: "Show expanded",
       showPdfTooltip: "Show expanded PDF in article",
@@ -1507,6 +1557,7 @@ const phrases = {
     revisions: {
       add: "New revision",
       remove: "Remove revision",
+      revisionNumber: "Revision {{number}}",
       description:
         "Revisions requires a description and an expiration date for the article. The switch marks whether a revision is performed or not. Remember that a revised article must be republished.",
       datePickerTooltip: "The date the article expires if the revision is not marked as revised.",
@@ -1600,6 +1651,7 @@ const phrases = {
     confirm: "Confirm",
     disconnect: "Disconnect",
     loginAgain: "Login again",
+    watchOut: "Watch out!",
   },
   environment: { production: "", staging: "Staging", test: "Test" },
   taxonomy: {
@@ -1608,10 +1660,13 @@ const phrases = {
       SUBJECT: "subject",
       TOPIC: "topic",
     },
+    publishedVersion: "See published version",
+    noValue: "No value",
     previewProgrammes: "Preview programmes in frontend",
     addNode: "Add {{nodeType}}",
     newNode: "New {{nodeType}}",
     newNodeName: "Name of new element",
+    newResource: "New resource",
     editStructure: "Edit structure",
     editSubjectpage: "Edit subjectpage",
     deleteSubject: "Delete subject",
@@ -1620,12 +1675,15 @@ const phrases = {
     addExistingNode: "Move existing {{nodeType}} here",
     addExistingLoading: "Moving ...",
     addExistingSuccess: "Node successfully moved",
-    existingNode: "Existing node",
+    existingNode: "Search for existing {{nodeType}} to be moved",
     workflow: "in workflow",
-    topicArticle: "Totality:",
     fullTopic: "Average:",
-    qualityDescriptionTopic: "Quality evaluation of the topic article",
-    qualityDescription: "Average quality evaluation of all resources within the topic",
+    TOPIC: "topic",
+    SUBJECT: "subject",
+    qualityDescription:
+      "Average quality evaluation of all evaluated resources within the {{nodeType}} ({{count}} evaluated resources)",
+    average: "Average",
+    qualityEvaluation: "Evaluation of the {{nodeType}}",
     connectExistingNode: "Connect {{nodeType}} to this node",
     connectExistingLoading: "Connection ...",
     connectExistingSuccess: "Node successfully connected!",
@@ -1656,6 +1714,8 @@ const phrases = {
     getExisting: "Or get existing resource",
     inProgress: "This article is in progress",
     addPriority: "Priority",
+    supplementary: "Supplementary",
+    displayOptions: "Display options",
     changeName: {
       loadError: "Could not fetch translations",
       updateError: "Could not update translations",
@@ -1704,16 +1764,19 @@ const phrases = {
     copyResources: {
       error: "Something went wrong during copying",
       info: "Reuse resources from topic",
+      placeholder: "Search for existing {{nodeType}} for reuse of resources",
       done: "Resources copied",
       waiting: "Copying resources",
     },
     cloneResources: {
       error: "Something went wrong during cloning",
       info: "Copy and clone resources from topic",
+      placeholder: "Search for existing {{nodeType}} for copying of resources",
       done: "Resources cloned",
       waiting: "Cloning resources",
     },
     favorites: "Show favorites",
+    quality: "Show quality",
     publish: {
       button: "Publish all resources",
       waiting: "Publishing resourses",
@@ -1794,7 +1857,7 @@ const phrases = {
         oldSubjectId: "Old ID for redirecting",
         subjectCategory: "Subject category",
         subjectType: "Subject type",
-        resourceGroupPlaceholder: "Grouping of resources",
+        resourceGroupPlaceholder: "Grouping",
         RGTooltip: "Show resources Grouped or Ungrouped",
         subjectLMA: "Responsible for the subject",
         subjectSA: "Language responsible for the subject",
@@ -1817,15 +1880,17 @@ const phrases = {
   contextTypes: {
     topic: "Topic",
     frontpage: "About-NDLA article",
+    concept: "Concept",
+    gloss: "Gloss",
   },
   ndlaFilm: {
     editor: {
       slideshowHeader: "Slideshow",
-      slideshowTitle: "Movies on slideshow",
-      slideshowSubTitle: "on frontpage",
+      slideshowTitle: "Movies on slideshow on frontpage",
       movieGroupHeader: "Movies themes",
       addMovieToSlideshow: "Add movie to slideshow",
       addMovieToGroup: 'Add a movie to "{{name}}"',
+      comboboxGroupLabel: 'Movies in the group "{{name}}"',
       editMovieGroupName: "Change the names on this movie group",
       deleteMovieGroup: 'Delete "{{name}}"',
       moveMovieGroupUp: "Move up",
@@ -1836,14 +1901,14 @@ const phrases = {
       createThemeGroup: "Create new movie group",
       saveNameChanges: "Save changes",
       cancel: "Cancel",
-      editGroupTitle: "Change the name(s) in this movie group:",
+      editGroupTitle: "Change the name(s) in this movie group",
       newGroupTitle: "What shall we call the new movie group?",
       notFound: "We can not find metadata for this movie...",
       moreInfoHeader: "More information",
-      moreInfoTitle: "Article",
-      moreInfoSubTitle: "for Read more-link",
+      moreInfoTitle: "Article for Read more-link",
       addArticleToMoreInformation: "Add an article",
       removeArticleFromMoreInformation: "Remove article",
+      createGroup: "Create new group",
     },
   },
   modal: {
@@ -2042,7 +2107,7 @@ const phrases = {
     },
   },
   metadata: {
-    visible: "is visible",
+    visible: "Visible",
     notVisible: "is not visible",
     changeVisibility: "Change visibility",
   },
@@ -2103,7 +2168,31 @@ const phrases = {
     title: "Add code example",
     titleLabel: "Title",
     programmingLanguage: "Programming language",
+    edit: "Edit code example",
+    delete: "Remove code example",
   },
+  framedContentForm: {
+    changeVariant: {
+      colored: "Use colored variant",
+      neutral: "Use neutral variant",
+    },
+  },
+  blockquoteForm: {
+    changeVariant: {
+      colored: "Use colored variant",
+      neutral: "Use neutral variant",
+    },
+  },
+  fileUpload: {
+    title: "Upload files",
+  },
+  conceptCompare: {
+    title: "Compare language versions",
+  },
+  conceptPreview: {
+    title: "Preview concept",
+  },
+  math: "Math problem",
 };
 
 export default phrases;

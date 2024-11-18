@@ -6,7 +6,6 @@
  *
  */
 
-import styled from "@emotion/styled";
 import { COMMENT_WIDTH, SPACING_COMMENT } from "./components/CommentSection";
 import { MAX_FRONTPAGE_ARTICLE_WIDTH, MAX_PAGE_WIDTH } from "../../constants";
 
@@ -14,12 +13,3 @@ import { MAX_FRONTPAGE_ARTICLE_WIDTH, MAX_PAGE_WIDTH } from "../../constants";
 export const MAX_WIDTH_WITH_COMMENTS = MAX_PAGE_WIDTH + COMMENT_WIDTH + SPACING_COMMENT;
 
 export const MAX_WIDTH_FRONTPAGE_WITH_COMMENTS = MAX_FRONTPAGE_ARTICLE_WIDTH + COMMENT_WIDTH + SPACING_COMMENT;
-
-export const MainContent = styled.div`
-  flex: 1;
-  max-width: ${MAX_PAGE_WIDTH}px;
-
-  &[data-wide="true"] {
-    max-width: ${MAX_FRONTPAGE_ARTICLE_WIDTH}px;
-  }
-`;

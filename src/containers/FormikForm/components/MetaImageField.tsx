@@ -9,9 +9,9 @@
 import { SyntheticEvent } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
+import { DeleteBinLine } from "@ndla/icons/action";
 import { Link } from "@ndla/icons/common";
-import { DeleteForever } from "@ndla/icons/editor";
+import { IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import FormikField from "../../../components/FormikField";
@@ -43,33 +43,28 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, 
   const alt = image.alttext.alttext ?? "";
   const imageAction = (
     <>
-      <IconButtonV2
+      <IconButton
         aria-label={t("form.image.removeImage")}
-        colorTheme="danger"
-        variant="ghost"
+        variant="danger"
         onClick={onImageRemove}
-        tabIndex={-1}
         data-testid="remove-element"
         title={t("form.image.removeImage")}
+        size="small"
       >
-        <DeleteForever />
-      </IconButtonV2>
+        <DeleteBinLine />
+      </IconButton>
       <SafeLinkIconButton
-        variant="ghost"
-        colorTheme="light"
+        variant="tertiary"
         to={`/media/image-upload/${image.id}/edit/${image.title.language}`}
         target="_blank"
         title={t("form.image.editImage")}
+        size="small"
       >
         <Link />
       </SafeLinkIconButton>
     </>
   );
-  const metaInformationTranslations = {
-    title: t("form.metaImage.imageTitle"),
-    copyright: t("form.metaImage.copyright"),
-    alt: t("form.name.alttext"),
-  };
+
   const imageUrl = `${image.image.imageUrl}?width=400`;
   const { width, height } = image.image?.dimensions || { width: 0, height: 0 };
   const onLoad = (_: SyntheticEvent<HTMLImageElement, Event>) => {
@@ -85,7 +80,6 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, 
           copyright={copyright}
           action={imageAction}
           alt={hideAltText ? undefined : disableAltEditing ? alt : undefined}
-          translations={metaInformationTranslations}
         />
       </MetaImageContainer>
       {!disableAltEditing && (

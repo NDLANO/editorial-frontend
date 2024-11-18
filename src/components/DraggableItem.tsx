@@ -10,26 +10,27 @@ import { ComponentProps, ReactElement, ReactNode, cloneElement, forwardRef } fro
 import { UniqueIdentifier } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
+import { IconButton, IconButtonProps } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 
 interface Props {
   children: ReactNode;
-  dragHandle?: ReactElement<ComponentProps<typeof IconButtonV2>>;
+  dragHandle?: ReactElement<ComponentProps<typeof IconButton>>;
   id: UniqueIdentifier;
   disabled?: boolean;
   index: number;
 }
 
-const StyledListElement = styled.li`
-  list-style: none;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  &[data-has-handle="false"] {
-    cursor: grab;
-  }
-`;
+const StyledListElement = styled("li", {
+  base: {
+    listStyle: "none",
+    display: "flex",
+    alignItems: "center",
+    "&[data-has-handle='false']": {
+      cursor: "grab",
+    },
+  },
+});
 
 const DraggableItem = ({ id, index, children, dragHandle, disabled }: Props) => {
   const { attributes, setNodeRef, transform, transition, listeners, setActivatorNodeRef } = useSortable({
@@ -68,19 +69,21 @@ const DraggableItem = ({ id, index, children, dragHandle, disabled }: Props) => 
   );
 };
 
-const DragHandleButton = styled(IconButtonV2)`
-  touch-action: none;
-  :disabled {
-    visibility: hidden;
-  }
-`;
+const StyledDragHandle = styled(IconButton, {
+  base: {
+    touchAction: "none",
+    _disabled: {
+      display: "none",
+    },
+  },
+});
 
-export const DragHandle = forwardRef<HTMLButtonElement, ComponentProps<typeof IconButtonV2>>(
-  ({ children, id, tabIndex = 0, variant = "ghost", colorTheme = "light", size = "small", ...rest }, ref) => {
+export const DragHandle = forwardRef<HTMLButtonElement, IconButtonProps>(
+  ({ children, id, tabIndex = 0, variant = "clear", ...rest }, ref) => {
     return (
-      <DragHandleButton {...rest} tabIndex={tabIndex} variant={variant} colorTheme={colorTheme} size={size} ref={ref}>
+      <StyledDragHandle {...rest} tabIndex={tabIndex} variant={variant} ref={ref}>
         {children}
-      </DragHandleButton>
+      </StyledDragHandle>
     );
   },
 );

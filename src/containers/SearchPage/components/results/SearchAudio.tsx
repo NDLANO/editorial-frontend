@@ -7,21 +7,15 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 import { Audio, Podcast } from "@ndla/icons/common";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
+import { ListItemContent, ListItemHeading, ListItemImage, ListItemRoot } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { IAudioSummary } from "@ndla/types-backend/audio-api";
 import { LicenseLink } from "@ndla/ui";
+import { SearchContentWrapper } from "./SearchContentWrapper";
 import { useLicenses } from "../../../../modules/draft/draftQueries";
-import { toEditAudio, toEditPodcast } from "../../../../util/routeHelpers";
-import {
-  StyledSearchContent,
-  StyledSearchDescription,
-  StyledSearchImageContainer,
-  StyledSearchOtherLink,
-  StyledSearchResult,
-  StyledSearchTitle,
-} from "../form/StyledSearchComponents";
+import { routes } from "../../../../util/routeHelpers";
 
 interface Props {
   audio: IAudioSummary;
@@ -32,28 +26,28 @@ const SearchAudio = ({ audio, locale }: Props) => {
   const { t } = useTranslation();
   const { data: licenses } = useLicenses();
   const license = licenses && licenses.find((l) => audio.license === l.license);
+
   return (
-    <StyledSearchResult data-testid="audio-search-result">
-      <StyledSearchImageContainer>{audio.audioType === "podcast" ? <Podcast /> : <Audio />}</StyledSearchImageContainer>
-      <StyledSearchContent>
-        <Link
-          to={
-            audio.audioType === "podcast"
-              ? toEditPodcast(audio.id, audio.title.language)
-              : toEditAudio(audio.id, audio.title.language)
-          }
-        >
-          <StyledSearchTitle>{audio.title.title || t("audioSearch.noTitle")}</StyledSearchTitle>
-        </Link>
-        <StyledSearchDescription>
-          {`${t("searchPage.language")}: `}
-          {audio.supportedLanguages?.map((lang) => (
-            <StyledSearchOtherLink key={lang}>{t(`languages.${lang}`)}</StyledSearchOtherLink>
-          ))}
-        </StyledSearchDescription>
-        {license && <LicenseLink license={getLicenseByAbbreviation(license.license, locale)} />}
-      </StyledSearchContent>
-    </StyledSearchResult>
+    <ListItemRoot context="list" variant="subtle" data-testid="audio-search-result">
+      <ListItemImage fallbackElement={audio.audioType === "podcast" ? <Podcast /> : <Audio />} src="" alt="" />
+      <ListItemContent>
+        <SearchContentWrapper>
+          <ListItemHeading asChild consumeCss>
+            <SafeLink
+              to={
+                audio.audioType === "podcast"
+                  ? routes.podcast.edit(audio.id, audio.title.language)
+                  : routes.audio.edit(audio.id, audio.title.language)
+              }
+              unstyled
+            >
+              {audio.title.title || t("audioSearch.noTitle")}
+            </SafeLink>
+          </ListItemHeading>
+        </SearchContentWrapper>
+        {!!license && <LicenseLink license={getLicenseByAbbreviation(license?.license, locale)} />}
+      </ListItemContent>
+    </ListItemRoot>
   );
 };
 

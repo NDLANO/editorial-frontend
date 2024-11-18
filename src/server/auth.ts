@@ -7,9 +7,7 @@
  */
 
 import fetch from "cross-fetch";
-import jwt from "jsonwebtoken";
-import { v4 as uuidv4 } from "uuid";
-import { getEnvironmentVariabel, getUniversalConfig, getZendeskWidgetSecret } from "../config";
+import { getEnvironmentVariabel, getUniversalConfig } from "../config";
 
 const url = `https://${getUniversalConfig().auth0Domain}/oauth/token`;
 const editorialFrontendClientId = getEnvironmentVariabel("NDLA_EDITORIAL_CLIENT_ID");
@@ -97,14 +95,4 @@ export const getResponsibles = async (managementToken: ManagementToken, permissi
   }
   const results = await Promise.all(requests);
   return results.reduce((acc, res) => [...acc, ...res.users], []);
-};
-
-export const getZendeskToken = (name: string, email: string): string => {
-  const payload = {
-    name: name,
-    email: email,
-    iat: Math.floor(Date.now() / 1000),
-    jti: uuidv4(),
-  };
-  return jwt.sign(payload, getZendeskWidgetSecret());
 };

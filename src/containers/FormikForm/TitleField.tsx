@@ -9,10 +9,9 @@
 import { useFormikContext } from "formik";
 import { KeyboardEvent, memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { fonts } from "@ndla/core";
-import { FieldErrorMessage, Label } from "@ndla/forms";
-import { FieldWarning, FormControl, FormField } from "../../components/FormField";
+import { FieldErrorMessage, FieldHelper, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { FormField } from "../../components/FormField";
 
 import { SlatePlugin } from "../../components/SlateEditor/interfaces";
 import { markPlugin } from "../../components/SlateEditor/plugins/mark";
@@ -40,13 +39,19 @@ interface Props {
   hideToolbar?: boolean;
 }
 
-const StyledFormControl = styled(FormControl)`
-  margin-top: 2rem;
-  [data-title] {
-    font-size: 2.11111rem;
-    font-family: ${fonts.sans};
-  }
-`;
+const StyledRichTextEditor = styled(RichTextEditor, {
+  base: {
+    marginBlockStart: "medium",
+    textStyle: "heading.medium",
+  },
+});
+
+const StyledFieldHelper = styled(FieldHelper, {
+  base: {
+    // TODO: Replace this
+    color: "#8c8c00",
+  },
+});
 
 const titlePlugins: SlatePlugin[] = [
   spanPlugin,
@@ -66,14 +71,15 @@ const toolbarOptions = createToolbarDefaultValues({
     hidden: true,
   },
   mark: {
+    bold: {
+      hidden: true,
+    },
     code: {
       hidden: true,
     },
   },
   block: { hidden: true },
-  inline: {
-    hidden: true,
-  },
+  inline: { hidden: true },
 });
 
 const toolbarAreaFilters = createToolbarAreaOptions();
@@ -96,9 +102,9 @@ const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => 
   return (
     <FormField name={name}>
       {({ field, meta }) => (
-        <StyledFormControl isRequired isInvalid={!!meta.error}>
-          <Label visuallyHidden>{t("form.title.label")}</Label>
-          <RichTextEditor
+        <FieldRoot required invalid={!!meta.error}>
+          <FieldLabel srOnly>{t("form.title.label")}</FieldLabel>
+          <StyledRichTextEditor
             {...field}
             id="title-editor"
             testId="title-editor"
@@ -115,9 +121,9 @@ const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => 
             maxLength={maxLength}
             hideToolbar={hideToolbar}
           />
-          {status?.warnings?.[name] && <FieldWarning>{status.warnings[name]}</FieldWarning>}
+          {status?.warnings?.[name] && <StyledFieldHelper>{status.warnings[name]}</StyledFieldHelper>}
           <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-        </StyledFormControl>
+        </FieldRoot>
       )}
     </FormField>
   );

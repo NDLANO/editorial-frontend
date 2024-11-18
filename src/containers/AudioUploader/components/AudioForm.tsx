@@ -11,7 +11,8 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Descendant } from "slate";
-import { ButtonV2 } from "@ndla/button";
+import { Button, PageContent } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import {
   IAudio,
   IAuthor,
@@ -25,7 +26,7 @@ import AudioManuscript from "./AudioManuscript";
 import AudioMetaData from "./AudioMetaData";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
-import Field from "../../../components/Field";
+import { FormActionsContainer } from "../../../components/FormikForm";
 import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
 import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
@@ -35,7 +36,7 @@ import { useLicenses } from "../../../modules/draft/draftQueries";
 import { editorValueToPlainText, inlineContentToHTML } from "../../../util/articleContentConverter";
 import { audioApiTypeToFormType } from "../../../util/audioHelpers";
 import { DEFAULT_LICENSE, isFormikFormDirty } from "../../../util/formHelper";
-import { AlertModalWrapper } from "../../FormikForm";
+import { AlertDialogWrapper } from "../../FormikForm";
 import { MessageError, useMessages } from "../../Messages/MessagesProvider";
 
 export interface AudioFormikType {
@@ -60,6 +61,12 @@ export interface AudioFormikType {
   origin: string;
   license: string;
 }
+
+const StyledFormActionsContainer = styled(FormActionsContainer, {
+  base: {
+    marginBlockStart: "xsmall",
+  },
+});
 
 const rules: RulesType<AudioFormikType, IAudioMetaInformation> = {
   title: {
@@ -211,11 +218,12 @@ const AudioForm = ({
             <FormAccordions defaultOpen={["audio-upload-content"]}>
               <FormAccordion
                 id="audio-upload-content"
-                variant="center"
                 title={t("form.contentSection")}
                 hasError={hasError(["title", "audioFile"])}
               >
-                <AudioContent handleSubmit={handleSubmit} />
+                <PageContent variant="content">
+                  <AudioContent handleSubmit={handleSubmit} />
+                </PageContent>
               </FormAccordion>
               <FormAccordion
                 id="podcast-upload-podcastmanus"
@@ -239,13 +247,13 @@ const AudioForm = ({
                 <AudioMetaData />
               </FormAccordion>
             </FormAccordions>
-            <Field right>
-              <ButtonV2 variant="outline" disabled={isSubmitting} onClick={() => navigate(-1)}>
+            <StyledFormActionsContainer>
+              <Button variant="secondary" disabled={isSubmitting} onClick={() => navigate(-1)}>
                 {t("form.abort")}
-              </ButtonV2>
+              </Button>
               <SaveButton
                 id={SAVE_BUTTON_ID}
-                isSaving={isSubmitting}
+                loading={isSubmitting}
                 formIsDirty={formIsDirty}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 onClick={(evt) => {
@@ -253,8 +261,8 @@ const AudioForm = ({
                   submitForm();
                 }}
               />
-            </Field>
-            <AlertModalWrapper
+            </StyledFormActionsContainer>
+            <AlertDialogWrapper
               {...formikProps}
               formIsDirty={formIsDirty}
               severity="danger"

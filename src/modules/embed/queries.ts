@@ -12,7 +12,6 @@ import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import {
   AudioMeta,
   BrightcoveData,
-  ConceptListData,
   ConceptVisualElementMeta,
   H5pData,
   IframeData,
@@ -23,7 +22,6 @@ import {
 import {
   fetchAudioMeta,
   fetchBrightcoveMeta,
-  fetchConceptListMeta,
   fetchConceptVisualElement,
   fetchExternal,
   fetchH5pMeta,
@@ -82,21 +80,6 @@ export const useConceptVisualElement = (
     retry: false,
     queryKey: ["conceptVisualElement", conceptId, language],
     queryFn: () => fetchConceptVisualElement(visualElement, language),
-    ...options,
-  });
-};
-
-export const useConceptListMeta = (
-  tag: string,
-  subject: string | undefined,
-  language: string,
-  concepts: IConceptSummary[],
-  options?: Partial<UseQueryOptions<ConceptListData>>,
-) => {
-  return useQuery<ConceptListData>({
-    retry: false,
-    queryKey: ["conceptListMeta", tag, subject],
-    queryFn: () => fetchConceptListMeta(concepts, language),
     ...options,
   });
 };

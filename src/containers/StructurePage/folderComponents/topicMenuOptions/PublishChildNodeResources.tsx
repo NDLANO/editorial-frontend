@@ -12,12 +12,13 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { colors } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { Done } from "@ndla/icons/editor";
+import { Button, Spinner } from "@ndla/primitives";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { Node } from "@ndla/types-taxonomy";
-import AlertModal from "../../../../components/AlertModal";
+import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../../../../components/FormikForm";
 import RoundIcon from "../../../../components/RoundIcon";
 import { PUBLISHED } from "../../../../constants";
 import { fetchDrafts, updateStatusDraft } from "../../../../modules/draft/draftApi";
@@ -151,17 +152,18 @@ const PublishChildNodeResources = ({ node }: Props) => {
       </MenuItemButton>
       {showDisplay && (
         <StyledDiv>
-          {done ? <StyledDone /> : <StyledSpinner size="normal" />}
+          {done ? <StyledDone /> : <StyledSpinner size="small" />}
           {`${publishText} (${publishedCount}/${publishableCount})`}
         </StyledDiv>
       )}
-      <AlertModal
+      <AlertDialog
         title={t("errorMessage.description")}
         label={t("errorMessage.description")}
         show={showAlert}
         onCancel={() => setShowAlert(false)}
         text={t("taxonomy.publish.error")}
-        component={failedResources.map((res, index) => (
+      >
+        {failedResources.map((res, index) => (
           <LinkWrapper key={index}>
             <ResourceItemLink
               contentType={res.contentUri?.split(":")[1] === "article" ? "article" : "learning-resource"}
@@ -170,27 +172,29 @@ const PublishChildNodeResources = ({ node }: Props) => {
             />
           </LinkWrapper>
         ))}
-      />
-      <AlertModal
+      </AlertDialog>
+      <AlertDialog
         title={t("taxonomy.publish.button")}
         label={t("taxonomy.publish.button")}
         show={showConfirmation}
-        actions={[
-          {
-            text: t("form.abort"),
-            onClick: () => setShowConfirmation(false),
-          },
-          {
-            text: t("taxonomy.publish.button"),
-            onClick: () => {
+        text={t("taxonomy.publish.info")}
+        onCancel={() => setShowConfirmation(false)}
+      >
+        <FormActionsContainer>
+          <Button onClick={() => setShowConfirmation(false)} variant="danger">
+            {t("form.abort")}
+          </Button>
+          <Button
+            onClick={() => {
               setShowConfirmation(false);
               publishResources();
-            },
-          },
-        ]}
-        onCancel={() => setShowConfirmation(false)}
-        text={t("taxonomy.publish.info")}
-      />
+            }}
+            variant="secondary"
+          >
+            {t("taxonomy.publish.button")}
+          </Button>
+        </FormActionsContainer>
+      </AlertDialog>
     </>
   );
 };

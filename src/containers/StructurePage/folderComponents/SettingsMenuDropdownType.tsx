@@ -152,9 +152,19 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
             onCurrentNodeChanged={onCurrentNodeChanged}
           />
         )}
-        <CopyNodeResources currentNode={node} editModeHandler={editModeHandler} type="copyResources" />
+        <CopyNodeResources
+          currentNode={node}
+          nodeType={TOPIC_NODE}
+          editModeHandler={editModeHandler}
+          type="copyResources"
+        />
         {isTaxonomyAdmin && (
-          <CopyNodeResources currentNode={node} editModeHandler={editModeHandler} type="cloneResources" />
+          <CopyNodeResources
+            currentNode={node}
+            nodeType={TOPIC_NODE}
+            editModeHandler={editModeHandler}
+            type="cloneResources"
+          />
         )}
         {isTaxonomyAdmin && <SetResourcesPrimary node={node} editModeHandler={editModeHandler} recursive />}
       </>

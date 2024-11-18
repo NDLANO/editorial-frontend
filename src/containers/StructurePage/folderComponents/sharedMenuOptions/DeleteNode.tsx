@@ -8,10 +8,12 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
-import { DeleteForever } from "@ndla/icons/editor";
+import { DeleteBinLine } from "@ndla/icons/action";
+import { Button } from "@ndla/primitives";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
 import MenuItemButton from "./components/MenuItemButton";
-import AlertModal from "../../../../components/AlertModal";
+import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../../../../components/FormikForm";
 import Overlay from "../../../../components/Overlay";
 import RoundIcon from "../../../../components/RoundIcon";
 import Spinner from "../../../../components/Spinner";
@@ -95,26 +97,25 @@ const DeleteNode = ({
   return (
     <>
       <MenuItemButton data-testid="deleteNode" disabled={disabled} onClick={toggleDelete}>
-        <RoundIcon small icon={<DeleteForever />} />
+        <RoundIcon small icon={<DeleteBinLine />} />
         {t("taxonomy.deleteNode")}
       </MenuItemButton>
-      <AlertModal
+      <AlertDialog
         label={t("taxonomy.deleteNode")}
         title={t("taxonomy.deleteNode")}
         show={editMode === "deleteNode"}
-        actions={[
-          {
-            text: t("form.abort"),
-            onClick: toggleDelete,
-          },
-          {
-            text: t("alertModal.delete"),
-            onClick: onDelete,
-          },
-        ]}
         onCancel={toggleDelete}
         text={t("taxonomy.confirmDelete")}
-      />
+      >
+        <FormActionsContainer>
+          <Button variant="secondary" onClick={toggleDelete}>
+            {t("form.abort")}
+          </Button>
+          <Button variant="danger" onClick={onDelete}>
+            {t("alertModal.delete")}
+          </Button>
+        </FormActionsContainer>
+      </AlertDialog>
       {loading && <Spinner appearance="absolute" />}
       {loading && <Overlay modifiers={["absolute", "white-opacity", "zIndex"]} />}
       {error && <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>}

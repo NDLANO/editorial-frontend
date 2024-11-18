@@ -11,11 +11,12 @@ import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { Subject } from "@ndla/icons/contentType";
 import { DragVertical, Star, SubjectMatter, Taxonomy } from "@ndla/icons/editor";
+import { Spinner } from "@ndla/primitives";
 import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
 import FolderItem from "./folderComponents/FolderItem";
+import QualityEvaluationGrade from "./resourceComponents/QualityEvaluationGrade";
 import DndList from "../../components/DndList";
 import { DragHandle } from "../../components/DraggableItem";
 import Fade from "../../components/Taxonomy/Fade";
@@ -57,10 +58,6 @@ const RoundIcon = ({ smallIcon, ...rest }: RoundIconProps & Omit<HTMLProps<HTMLB
   <StyledIcon {...rest}>{smallIcon}</StyledIcon>
 );
 
-const StyledSpinner = styled(Spinner)`
-  margin: 4px ${spacing.normal};
-`;
-
 const IconWrapper = styled.div`
   padding: 0 ${spacing.xxsmall};
   display: flex;
@@ -75,6 +72,11 @@ const IconWrapper = styled.div`
       fill: ${colors.support.green};
     }
   }
+`;
+
+const EvaluationWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.xxsmall};
 `;
 
 const isChildNode = createGuard<NodeChild & { articleType?: string; isPublished?: boolean }>("connectionId");
@@ -115,7 +117,8 @@ interface Props {
   nodes?: NodeChildWithChildren[];
   isLoading?: boolean;
   renderBeforeTitle?: RenderBeforeFunction;
-  addChildTooltip: string;
+  addChildTooltip?: string;
+  showQuality: boolean;
 }
 
 const NodeItem = ({
@@ -134,11 +137,12 @@ const NodeItem = ({
   nodes,
   renderBeforeTitle,
   addChildTooltip,
+  showQuality,
 }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) || false;
-  const path = nodePathToUrnPath(item.path);
+  const path = nodePathToUrnPath(item.path) ?? "";
   const isOpen = openedPaths.includes(path);
   const isActive = openedPaths[openedPaths.length - 1] === path;
   const hasChildNodes = isRoot ? true : nodes && nodes.length > 0;
@@ -186,6 +190,24 @@ const NodeItem = ({
           </IconWrapper>
           {item.name}
         </ItemTitleButton>
+        {showQuality && (item.nodeType === "TOPIC" || item.nodeType === "SUBJECT") && (
+          <EvaluationWrapper>
+            <QualityEvaluationGrade
+              grade={item.gradeAverage?.averageValue}
+              averageGrade={item.gradeAverage?.averageValue.toFixed(1)}
+              tooltip={t("taxonomy.qualityDescription", {
+                nodeType: t(`taxonomy.${item.nodeType}`),
+                count: item.gradeAverage?.count,
+              })}
+            />
+            <QualityEvaluationGrade
+              grade={item.qualityEvaluation?.grade}
+              tooltip={`${t("taxonomy.qualityEvaluation", { nodeType: t(`taxonomy.${item.nodeType}`) })}${
+                item?.qualityEvaluation?.note ? `: ${item.qualityEvaluation.note}` : ""
+              }`}
+            />
+          </EvaluationWrapper>
+        )}
         {isActive && (
           <FolderItem
             node={item}
@@ -200,7 +222,7 @@ const NodeItem = ({
         )}
         {isLoading && (
           <span>
-            <StyledSpinner size="normal" />
+            <Spinner size="small" />
           </span>
         )}
       </StyledItemBar>
@@ -228,6 +250,7 @@ const NodeItem = ({
                   toggleOpen={toggleOpen}
                   onDragEnd={onDragEnd}
                   addChildTooltip={addChildTooltip}
+                  showQuality={showQuality}
                 />
               )}
               dragHandle={

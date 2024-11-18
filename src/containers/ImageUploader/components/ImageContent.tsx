@@ -8,37 +8,48 @@
 
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { animations, spacing, colors } from "@ndla/core";
-import { UploadDropZone, TextAreaV3, Label, FieldErrorMessage } from "@ndla/forms";
-import { DeleteForever } from "@ndla/icons/editor";
+import { DeleteBinLine } from "@ndla/icons/action";
+import { UploadCloudLine } from "@ndla/icons/editor";
 import { ImageMeta } from "@ndla/image-search";
+import {
+  Button,
+  FieldLabel,
+  FieldRoot,
+  FileUploadDropzone,
+  FileUploadHiddenInput,
+  FileUploadLabel,
+  FileUploadRoot,
+  FileUploadTrigger,
+  IconButton,
+  FieldErrorMessage,
+  FieldTextArea,
+} from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { FormControl, FormField } from "../../../components/FormField";
-import FormikField from "../../../components/FormikField";
+import { styled } from "@ndla/styled-system/jsx";
+import { FormField } from "../../../components/FormField";
+import { FormContent } from "../../../components/FormikForm";
+import { MAX_IMAGE_UPLOAD_SIZE } from "../../../constants";
 import { TitleField } from "../../FormikForm";
 import { ImageFormikType } from "../imageTransformers";
 
-const StyledImage = styled.img`
-  margin: ${spacing.normal} 0;
-  border: 1px solid ${colors.brand.greyLight};
-  ${animations.fadeInBottom()}
-`;
+const StyledImg = styled("img", {
+  base: {
+    borderRadius: "xsmall",
+  },
+});
 
-const StyledDeleteButtonContainer = styled.div`
-  position: absolute;
-  right: -${spacing.large};
-  transform: translateY(${spacing.normal});
-  display: flex;
-  flex-direction: row;
-`;
+const StyledIconButton = styled(IconButton, {
+  base: {
+    position: "absolute",
+    right: "-large",
+  },
+});
 
-const TextFieldWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const ImageContentWrapper = styled("div", {
+  base: {
+    position: "relative",
+  },
+});
 
 const ImageContent = () => {
   const { t } = useTranslation();
@@ -48,84 +59,122 @@ const ImageContent = () => {
   // We use the timestamp to avoid caching of the `imageFile` url in the browser
   const timestamp = new Date().getTime();
   const imgSrc = values.filepath || `${values.imageFile}?width=800&ts=${timestamp}`;
+
   return (
-    <>
+    <FormContent>
       <TitleField hideToolbar />
-      {!values.imageFile && (
-        <UploadDropZone
-          name="imageFile"
-          allowedFiles={["image/gif", "image/png", "image/jpeg", "image/jpg", "image/svg+xml"]}
-          onAddedFiles={(_, evt) => {
-            const target = evt.target;
-            setFieldValue("filepath", target.files?.[0] ? URL.createObjectURL(target.files[0]) : undefined);
-            Promise.resolve(
-              createImageBitmap(target.files?.[0] as Blob).then((image) => {
-                setFieldValue("imageDimensions", image);
-              }),
-            );
-            setFieldValue("imageFile", target.files?.[0]);
-            setFieldValue("contentType", target.files?.[0]?.type);
-            setFieldValue("fileSize", target.files?.[0]?.size);
-          }}
-          ariaLabel={t("form.image.dragdrop.ariaLabel")}
-        >
-          <strong>{t("form.image.dragdrop.main")}</strong>
-          {t("form.image.dragdrop.sub")}
-        </UploadDropZone>
-      )}
-      {values.imageFile && (
-        <StyledDeleteButtonContainer>
-          <IconButtonV2
+      <ImageContentWrapper>
+        {!values.imageFile && (
+          <FormField name="imageFile">
+            {({ helpers, meta }) => (
+              <FieldRoot required invalid={!!meta.error}>
+                <FileUploadRoot
+                  accept={["image/gif", "image/png", "image/jpeg", "image/jpg", "image/svg+xml"]}
+                  onFileAccept={(details) => {
+                    const file = details.files?.[0];
+                    if (!file) return;
+                    setFieldValue("filepath", URL.createObjectURL(file));
+                    Promise.resolve(
+                      createImageBitmap(file as Blob).then((image) => {
+                        setFieldValue("imageDimensions", image);
+                      }),
+                    );
+                    setFieldValue("imageFile", file);
+                    setFieldValue("contentType", file.type);
+                    setFieldValue("fileSize", file.size);
+                  }}
+                  maxFileSize={MAX_IMAGE_UPLOAD_SIZE}
+                  onFileReject={(details) => {
+                    // Bug in formik's setError function requiring setTimeout to make it work,
+                    // as discussed here: https://github.com/jaredpalmer/formik/discussions/3870
+                    const fileErrors = details.files?.[0]?.errors;
+                    if (!fileErrors) return;
+                    if (fileErrors.includes("FILE_TOO_LARGE")) {
+                      const errorMessage = `${t("form.image.fileUpload.genericError")}: ${t(
+                        "form.image.fileUpload.tooLargeError",
+                      )}`;
+                      setTimeout(() => {
+                        helpers.setError(errorMessage);
+                      }, 0);
+                      return;
+                    }
+                    if (fileErrors.includes("FILE_INVALID_TYPE")) {
+                      const errorMessage = `${t("form.image.fileUpload.genericError")}: ${t(
+                        "form.image.fileUpload.fileTypeInvalidError",
+                      )}`;
+                      setTimeout(() => {
+                        helpers.setError(errorMessage);
+                      }, 0);
+                      return;
+                    }
+                    setTimeout(() => {
+                      helpers.setError(t("form.image.fileUpload.genericError"));
+                    }, 0);
+                  }}
+                >
+                  <FileUploadDropzone>
+                    <FileUploadLabel>{t("form.image.fileUpload.description")}</FileUploadLabel>
+                    <FileUploadTrigger asChild>
+                      <Button>
+                        <UploadCloudLine />
+                        {t("form.image.fileUpload.button")}
+                      </Button>
+                    </FileUploadTrigger>
+                  </FileUploadDropzone>
+                  <FileUploadHiddenInput />
+                </FileUploadRoot>
+                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              </FieldRoot>
+            )}
+          </FormField>
+        )}
+        {values.imageFile && (
+          <StyledIconButton
             aria-label={t("form.image.removeImage")}
-            variant="ghost"
-            colorTheme="danger"
-            onClick={() => setFieldValue("imageFile", undefined)}
             title={t("form.image.removeImage")}
+            variant="danger"
+            onClick={() => setFieldValue("imageFile", undefined)}
+            size="small"
           >
-            <DeleteForever />
-          </IconButtonV2>
-        </StyledDeleteButtonContainer>
-      )}
-      {values.imageFile && (
-        <>
-          <SafeLink target="_blank" to={values.imageFile.toString()}>
-            <StyledImage src={imgSrc} alt="" />
-          </SafeLink>
-          <ImageMeta
-            contentType={values.contentType ?? ""}
-            fileSize={values.fileSize ?? 0}
-            imageDimensions={values.imageDimensions}
-          />
-        </>
-      )}
-      <FormikField name="imageFile.size" showError={true}>
-        {(_) => <></>}
-      </FormikField>
-      <TextFieldWrapper>
-        <FormField name="caption">
-          {({ field, meta }) => (
-            <FormControl isInvalid={!!meta.error}>
-              <Label margin="none" textStyle="label-small">
-                {t("form.image.caption.label")}
-              </Label>
-              <TextAreaV3 placeholder={t("form.image.caption.placeholder")} {...field} />
-              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-            </FormControl>
-          )}
-        </FormField>
-        <FormField name="alttext">
-          {({ field, meta }) => (
-            <FormControl isInvalid={!!meta.error}>
-              <Label textStyle="label-small" margin="none">
-                {t("form.image.alt.label")}
-              </Label>
-              <TextAreaV3 placeholder={t("form.image.alt.placeholder")} {...field} />
-              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-            </FormControl>
-          )}
-        </FormField>
-      </TextFieldWrapper>
-    </>
+            <DeleteBinLine />
+          </StyledIconButton>
+        )}
+        {values.imageFile && (
+          <>
+            {typeof values.imageFile === "string" ? (
+              <SafeLink target="_blank" to={values.imageFile}>
+                <StyledImg src={imgSrc} alt="" srcSet="" />
+              </SafeLink>
+            ) : (
+              <StyledImg src={imgSrc} alt="" srcSet="" />
+            )}
+            <ImageMeta
+              contentType={values.contentType ?? ""}
+              fileSize={values.fileSize ?? 0}
+              imageDimensions={values.imageDimensions}
+            />
+          </>
+        )}
+      </ImageContentWrapper>
+      <FormField name="caption">
+        {({ field, meta }) => (
+          <FieldRoot invalid={!!meta.error}>
+            <FieldLabel>{t("form.image.caption.label")}</FieldLabel>
+            <FieldTextArea placeholder={t("form.image.caption.placeholder")} {...field} />
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          </FieldRoot>
+        )}
+      </FormField>
+      <FormField name="alttext">
+        {({ field, meta }) => (
+          <FieldRoot invalid={!!meta.error}>
+            <FieldLabel>{t("form.image.alt.label")}</FieldLabel>
+            <FieldTextArea placeholder={t("form.image.alt.placeholder")} {...field} />
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          </FieldRoot>
+        )}
+      </FormField>
+    </FormContent>
   );
 };
 

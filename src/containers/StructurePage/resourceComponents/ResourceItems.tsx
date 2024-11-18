@@ -14,12 +14,14 @@ import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { spacing } from "@ndla/core";
 import { DragVertical } from "@ndla/icons/editor";
+import { Button } from "@ndla/primitives";
 import { NodeChild } from "@ndla/types-taxonomy";
 import Resource from "./Resource";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
-import AlertModal from "../../../components/AlertModal";
+import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
+import { FormActionsContainer } from "../../../components/FormikForm";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
 import { useDeleteResourceForNodeMutation, usePutResourceForNodeMutation } from "../../../modules/nodes/nodeMutations";
 import { NodeResourceMeta, nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
@@ -47,11 +49,12 @@ interface Props {
   contentMeta: Dictionary<NodeResourceMeta>;
   contentMetaLoading: boolean;
   users?: Dictionary<Auth0UserData>;
+  showQuality: boolean;
 }
 
 const isError = (error: unknown): error is Error => (error as Error).message !== undefined;
 
-const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoading, users }: Props) => {
+const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoading, users, showQuality }: Props) => {
   const { t, i18n } = useTranslation();
   const [deleteId, setDeleteId] = useState<string>("");
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -132,15 +135,15 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoadi
         }
         renderItem={(resource) => (
           <Resource
-            responsible={users?.[contentMeta[resource.contentUri ?? ""]?.responsible?.responsibleId ?? ""]?.name}
             currentNodeId={currentNodeId}
+            responsible={users?.[contentMeta[resource.contentUri ?? ""]?.responsible?.responsibleId ?? ""]?.name}
             resource={{
               ...resource,
               contentMeta: resource.contentUri ? contentMeta[resource.contentUri] : undefined,
             }}
             key={resource.id}
-            onDelete={toggleDelete}
             contentMetaLoading={contentMetaLoading}
+            showQuality={showQuality}
           />
         )}
       />
@@ -149,23 +152,22 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoadi
           {`${t("taxonomy.errorMessage")}: ${deleteNodeResource.error.message}`}
         </StyledErrorMessage>
       ) : null}
-      <AlertModal
+      <AlertDialog
         title={t("taxonomy.deleteResource")}
         label={t("taxonomy.deleteResource")}
         show={!!deleteId}
         text={t("taxonomy.resource.confirmDelete")}
-        actions={[
-          {
-            text: t("form.abort"),
-            onClick: () => toggleDelete(""),
-          },
-          {
-            text: t("alertModal.delete"),
-            onClick: () => onDelete(deleteId!),
-          },
-        ]}
         onCancel={() => toggleDelete("")}
-      />
+      >
+        <FormActionsContainer>
+          <Button onClick={() => toggleDelete("")} variant="secondary">
+            {t("form.abort")}
+          </Button>
+          <Button onClick={() => onDelete(deleteId)} variant="danger">
+            {t("alertModal.delete")}
+          </Button>
+        </FormActionsContainer>
+      </AlertDialog>
     </StyledResourceItems>
   );
 };

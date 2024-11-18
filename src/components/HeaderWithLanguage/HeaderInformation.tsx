@@ -11,12 +11,11 @@ import { ReactNode, memo, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { colors, fonts, spacing } from "@ndla/core";
+import { colors, spacing } from "@ndla/core";
 import { List } from "@ndla/icons/action";
 import { Podcast } from "@ndla/icons/common";
 import { Camera, Concept, Taxonomy, SquareAudio, Globe } from "@ndla/icons/editor";
-import { Heading } from "@ndla/typography";
+import { Button, Heading } from "@ndla/primitives";
 import { ContentTypeBadge, constants } from "@ndla/ui";
 import HeaderStatusInformation from "./HeaderStatusInformation";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
@@ -47,12 +46,6 @@ const StyledTitleHeaderWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: ${spacing.small};
-  h1 {
-    ${fonts.sizes(26, 1.1)};
-    font-weight: ${fonts.weight.semibold};
-    margin: ${spacing.small} ${spacing.normal} ${spacing.small} ${spacing.small};
-    color: ${colors.text.primary};
-  }
 `;
 
 const { contentTypes } = constants;
@@ -178,15 +171,13 @@ const HeaderInformation = ({
         {type === "gloss" && title ? (
           <GlossTitle />
         ) : (
-          <Heading element="h1" headingStyle="h3" margin="none">
-            {`${t(`${types[type].form}.title`)}${title ? `: ${title}` : ""}`}
-          </Heading>
+          <Heading textStyle="title.medium">{`${t(`${types[type].form}.title`)}${title ? `: ${title}` : ""}`}</Heading>
         )}
         {(type === "standard" || type === "topic-article") && (
-          <ButtonV2 variant="stripped" onClick={onSaveAsNew} data-testid="saveAsNew">
+          <Button size="small" variant="tertiary" onClick={onSaveAsNew} data-testid="saveAsNew">
             {t("form.workflow.saveAsNew")}
             {loading && <Spinner appearance="absolute" />}
-          </ButtonV2>
+          </Button>
         )}
       </StyledTitleHeaderWrapper>
       <HeaderStatusInformation
@@ -213,7 +204,7 @@ const GlossTitle = () => {
   const [, targetLanguageField] = useField("gloss.gloss");
 
   return (
-    <Heading element="h1" headingStyle="h3" margin="none">
+    <Heading textStyle="title.medium">
       {`${t(`${types["gloss"].form}.title`)}: ${Plain.serialize(titleField.value)}${
         targetLanguageField.value ? `/${targetLanguageField.value}` : ""
       }`}

@@ -8,11 +8,9 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { mq, breakpoints } from "@ndla/core";
-import { Tabs } from "@ndla/tabs";
+import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import SubjectViewContent from "./SubjectViewContent";
-import { GRID_GAP } from "../../../components/Layout/Layout";
+import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
 import {
   STORED_PAGE_SIZE_SUBJECT_VIEW_DA,
   STORED_PAGE_SIZE_SUBJECT_VIEW_FAVORITES,
@@ -21,24 +19,18 @@ import {
 } from "../../../constants";
 import { SubjectIdObject } from "../utils";
 
-const StyledWrapper = styled.div`
-  ${mq.range({ from: breakpoints.tabletWide })} {
-    margin-top: ${GRID_GAP};
-  }
-`;
-
 interface Props {
   favoriteSubjects: string[] | undefined;
-  userDataLoading: boolean;
+  userDataPending: boolean;
   subjectIdObject: SubjectIdObject;
-  isLoading: boolean;
+  isPending: boolean;
 }
 
-const SubjectView = ({ favoriteSubjects, userDataLoading, subjectIdObject, isLoading }: Props) => {
+const SubjectView = ({ favoriteSubjects, userDataPending, subjectIdObject, isPending }: Props) => {
   const { t } = useTranslation();
 
   const tabs = useMemo(() => {
-    if (isLoading) return [];
+    if (isPending) return [];
 
     const tabsList = [];
 
@@ -51,6 +43,7 @@ const SubjectView = ({ favoriteSubjects, userDataLoading, subjectIdObject, isLoa
             subjects={subjectIdObject.subjectLMA}
             isFavoriteTab={false}
             title={t("welcomePage.subjectView.lma")}
+            tabTitle={t("welcomePage.lmaSubjects")}
             description={t("welcomePage.subjectView.description")}
             localStoragePageSizeKey={STORED_PAGE_SIZE_SUBJECT_VIEW_LMA}
           />
@@ -67,6 +60,7 @@ const SubjectView = ({ favoriteSubjects, userDataLoading, subjectIdObject, isLoa
             subjects={subjectIdObject.subjectDA}
             isFavoriteTab={false}
             title={t("welcomePage.subjectView.da")}
+            tabTitle={t("welcomePage.daSubjects")}
             description={t("welcomePage.subjectView.description")}
             localStoragePageSizeKey={STORED_PAGE_SIZE_SUBJECT_VIEW_DA}
           />
@@ -83,6 +77,7 @@ const SubjectView = ({ favoriteSubjects, userDataLoading, subjectIdObject, isLoa
             subjects={subjectIdObject.subjectSA}
             isFavoriteTab={false}
             title={t("welcomePage.subjectView.sa")}
+            tabTitle={t("welcomePage.saSubjects")}
             description={t("welcomePage.subjectView.description")}
             localStoragePageSizeKey={STORED_PAGE_SIZE_SUBJECT_VIEW_SA}
           />
@@ -99,6 +94,7 @@ const SubjectView = ({ favoriteSubjects, userDataLoading, subjectIdObject, isLoa
             subjects={favoriteSubjects}
             isFavoriteTab={true}
             title={t("welcomePage.subjectView.favorites")}
+            tabTitle={t("welcomePage.favoriteSubjects")}
             description={t("welcomePage.subjectView.description")}
             localStoragePageSizeKey={STORED_PAGE_SIZE_SUBJECT_VIEW_FAVORITES}
           />
@@ -108,19 +104,37 @@ const SubjectView = ({ favoriteSubjects, userDataLoading, subjectIdObject, isLoa
     return tabsList;
   }, [
     favoriteSubjects,
-    isLoading,
+    isPending,
     subjectIdObject.subjectDA,
     subjectIdObject.subjectLMA,
     subjectIdObject.subjectSA,
     t,
   ]);
 
-  if (!tabs.length || userDataLoading) return null;
+  if (!tabs.length || userDataPending) return null;
 
   return (
-    <StyledWrapper>
-      <Tabs variant="rounded" tabs={tabs} />
-    </StyledWrapper>
+    <TabsRoot
+      translations={{
+        listLabel: t("welcomePage.listLabels.subjectView"),
+      }}
+      variant="outline"
+      defaultValue={tabs[0].id}
+    >
+      <TabsList>
+        {tabs.map((tab) => (
+          <TabsTrigger key={tab.id} value={tab.id}>
+            {tab.title}
+          </TabsTrigger>
+        ))}
+        <TabsIndicator />
+      </TabsList>
+      {tabs.map((tab) => (
+        <WelcomePageTabsContent key={tab.id} value={tab.id}>
+          {tab.content}
+        </WelcomePageTabsContent>
+      ))}
+    </TabsRoot>
   );
 };
 export default SubjectView;

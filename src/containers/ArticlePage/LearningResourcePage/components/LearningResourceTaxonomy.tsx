@@ -9,7 +9,7 @@
 import sortBy from "lodash/sortBy";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { Spinner } from "@ndla/icons";
+import { Spinner } from "@ndla/primitives";
 import { IUpdatedArticle, IArticle } from "@ndla/types-backend/draft-api";
 import { Metadata, NodeChild } from "@ndla/types-taxonomy";
 import TaxonomyBlock from "./taxonomy/TaxonomyBlock";
@@ -26,7 +26,10 @@ interface Props {
 }
 
 export interface MinimalNodeChild
-  extends Pick<NodeChild, "id" | "relevanceId" | "isPrimary" | "path" | "name" | "connectionId" | "breadcrumbs"> {
+  extends Pick<
+    NodeChild,
+    "id" | "relevanceId" | "isPrimary" | "path" | "name" | "connectionId" | "breadcrumbs" | "context" | "nodeType"
+  > {
   metadata: Pick<Metadata, "visible">;
 }
 

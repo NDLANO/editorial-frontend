@@ -9,7 +9,7 @@
 import { ErrorMessage, useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { FieldHeader } from "@ndla/forms";
+import FieldHeader from "../../../components/Field/FieldHeader";
 import FormikField, { FormikFieldHelp } from "../../../components/FormikField";
 import HowToHelper from "../../../components/HowTo/HowToHelper";
 import VisualElement from "../../VisualElement/VisualElement";

@@ -7,52 +7,56 @@
  */
 
 import { CSSProperties } from "react";
-import styled from "@emotion/styled";
-import { spacing, misc } from "@ndla/core";
-import { Text } from "@ndla/typography";
-import { qualityEvaluationOptions } from "../../../components/QualityEvaluation/QualityEvaluationForm";
+import { HTMLArkProps } from "@ark-ui/react";
+import { Text, TextProps } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { QualityEvaluationValue } from "../../../components/QualityEvaluation/QualityEvaluationForm";
+import { qualityEvaluationOptionColors } from "../../../components/QualityEvaluation/qualityEvaluationOptions";
 
-const GradeItem = styled(Text)`
-  border: 2px solid var(--item-color);
-  border-radius: ${misc.borderRadius};
-  padding: 0px ${spacing.xxsmall};
-  line-height: 18px;
-`;
+const GradeItem = styled(Text, {
+  base: {
+    border: "2px solid",
+    borderRadius: "xsmall",
+    paddingInline: "xxsmall",
+    borderColor: "var(--border-color)",
+  },
+});
 
-const StyledQualityText = styled(Text)`
-  white-space: nowrap;
-`;
-
-interface Props {
+interface Props extends HTMLArkProps<"p"> {
   grade: number | undefined;
-  ariaLabel: string;
-  titleText?: string;
+  averageGrade?: string;
+  tooltip: string | undefined;
 }
 
-const QualityEvaluationGrade = ({ grade, ariaLabel, titleText }: Props) => {
-  if (!grade) return;
+const QualityEvaluationGrade = ({
+  grade,
+  textStyle = "body.small",
+  fontWeight = "bold",
+  color = "text.default",
+  averageGrade,
+  tooltip,
+  ...rest
+}: Props & TextProps) => {
+  if (!grade && !averageGrade) return;
+
+  const roundedGrade = Math.round(grade ?? Math.round(Number(averageGrade!)));
 
   return (
-    <>
-      {titleText && (
-        <StyledQualityText margin="none" textStyle="meta-text-small">
-          {titleText}
-        </StyledQualityText>
-      )}
-      <GradeItem
-        title={ariaLabel}
-        aria-label={ariaLabel}
-        style={
-          {
-            "--item-color": qualityEvaluationOptions[Number(grade.toFixed())],
-          } as CSSProperties
-        }
-        margin="none"
-        textStyle="button"
-      >
-        {grade}
-      </GradeItem>
-    </>
+    <GradeItem
+      style={
+        {
+          "--border-color": qualityEvaluationOptionColors[roundedGrade.toString() as QualityEvaluationValue],
+        } as CSSProperties
+      }
+      title={tooltip}
+      aria-label={tooltip}
+      textStyle={textStyle}
+      fontWeight={fontWeight}
+      color={color}
+      {...rest}
+    >
+      {averageGrade ?? grade}
+    </GradeItem>
   );
 };
 

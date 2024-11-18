@@ -10,33 +10,32 @@ import addYears from "date-fns/addYears";
 import isBefore from "date-fns/isBefore";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
+import { Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IRevisionMeta } from "@ndla/types-backend/draft-api";
+import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
+import { Dictionary } from "../../../interfaces";
+import { NodeResourceMeta } from "../../../modules/nodes/nodeQueries";
 import { getExpirationDate } from "../../ArticlePage/articleTransformers";
 
-const Wrapper = styled.div`
-  width: 24px;
-  height: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const StyledIcon = styled.div`
-  // TODO: Update when color is added to colors
-  background-color: transparent;
-  border: 1px solid #c77623;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #c77623;
-`;
+const StyledIcon = styled("div", {
+  base: {
+    borderRadius: "full",
+    border: "2px solid",
+    borderColor: "stroke.default",
+    width: "medium",
+    height: "medium",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexShrink: "0",
+  },
+});
 
 interface Props {
-  revisions: (IRevisionMeta[] | undefined)[];
+  resources: ResourceWithNodeConnectionAndMeta[];
+  contentMeta: Dictionary<NodeResourceMeta>;
+  currentNode: ResourceWithNodeConnectionAndMeta;
 }
 
 export const isApproachingRevision = (revisions?: IRevisionMeta[]) => {
@@ -47,20 +46,27 @@ export const isApproachingRevision = (revisions?: IRevisionMeta[]) => {
   return isBefore(new Date(expirationDate), currentDateAddYear);
 };
 
-const ApproachingRevisionDate = ({ revisions }: Props) => {
+const ApproachingRevisionDate = ({ resources, currentNode, contentMeta }: Props) => {
   const { t } = useTranslation();
 
+  const allRevisions = useMemo(() => {
+    const resourceRevisions = resources.map((r) => r.contentMeta?.revisions).filter((r) => !!r);
+    const currentNodeRevision = currentNode.contentUri ? contentMeta[currentNode.contentUri]?.revisions : undefined;
+    if (!currentNodeRevision) return resourceRevisions;
+    return resourceRevisions.concat([currentNodeRevision]);
+  }, [contentMeta, currentNode.contentUri, resources]);
+
   const approachingRevision = useMemo(
-    () => revisions.map((r) => isApproachingRevision(r)).filter((a) => !!a).length,
-    [revisions],
+    () => allRevisions.map((r) => isApproachingRevision(r)).filter((a) => !!a).length,
+    [allRevisions],
   );
 
   return (
-    <Wrapper>
-      <StyledIcon aria-label={t("form.responsible.revisionDate")} title={t("form.responsible.revisionDate")}>
+    <StyledIcon aria-label={t("form.responsible.revisionDate")} title={t("form.responsible.revisionDate")}>
+      <Text textStyle="label.small" fontWeight="bold">
         {approachingRevision}
-      </StyledIcon>
-    </Wrapper>
+      </Text>
+    </StyledIcon>
   );
 };
 

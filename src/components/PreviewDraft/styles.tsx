@@ -6,35 +6,10 @@
  *
  */
 import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 
-export const StyledPreviewWrapper = styled.div`
+export const TwoArticleWrapper = styled.div`
   width: 100%;
   max-width: 100%;
-  display: inline-flex;
-  justify-content: center;
-  & [data-ndla-article] {
-    padding: 0;
-    margin-top: 20px;
-    line-height: unset;
-    font-family: unset;
-    > section {
-      width: unset !important;
-      left: unset !important;
-    }
-  }
-`;
-
-export const TwoArticleWrapper = styled(StyledPreviewWrapper)`
-  > div {
-    margin: 0 2.5%;
-    width: 40%;
-    > h2 {
-      margin: 0;
-      margin-left: ${spacing.large};
-    }
-    > article {
-      max-width: unset;
-    }
-  }
+  display: flex;
+  align-items: flex-start;
 `;

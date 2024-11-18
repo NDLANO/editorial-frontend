@@ -9,6 +9,7 @@
 import { useFormikContext } from "formik";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { PageContent } from "@ndla/primitives";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import FrontpageArticleFormContent from "./FrontpageArticleFormContent";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
@@ -18,6 +19,7 @@ import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../
 import { FrontpageArticleFormType } from "../../../FormikForm/articleFormHooks";
 import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChangeIndicator";
 import RevisionNotes from "../../components/RevisionNotes";
+import { FlatArticleKeys } from "../../components/types";
 
 interface Props {
   article?: IArticle;
@@ -30,15 +32,14 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
   const { errors } = useFormikContext<FrontpageArticleFormType>();
   const { isWideArticle } = useWideArticle();
 
-  const contentTitleFields = useMemo<(keyof IArticle)[]>(() => ["title", "introduction", "content"], []);
-  const copyrightFields = useMemo<(keyof IArticle)[]>(() => ["copyright"], []);
+  const contentTitleFields = useMemo<FlatArticleKeys[]>(
+    () => ["title.title", "introduction.introduction", "content.content"],
+    [],
+  );
+  const copyrightFields = useMemo<FlatArticleKeys[]>(() => ["copyright"], []);
 
   return (
-    <FormAccordionsWithComments
-      defaultOpen={["frontpage-article-content"]}
-      articleId={article?.id}
-      articleType="frontpage-article"
-    >
+    <FormAccordionsWithComments defaultOpen={["frontpage-article-content"]} article={article}>
       <FormAccordion
         id={"frontpage-article-content"}
         title={
@@ -50,10 +51,10 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
           />
         }
         hasError={!!(errors.title || errors.introduction || errors.content)}
-        wide={isWideArticle}
-        isFrontpageArticle={article?.articleType === "frontpage-article"}
       >
-        <FrontpageArticleFormContent articleLanguage={articleLanguage} />
+        <PageContent variant={isWideArticle ? "wide" : "content"}>
+          <FrontpageArticleFormContent articleLanguage={articleLanguage} />
+        </PageContent>
       </FormAccordion>
       <FormAccordion
         id={"frontpage-article-copyright"}

@@ -6,14 +6,22 @@
  *
  */
 import { Element } from "slate";
-import { List } from "@ndla/icons/action";
-import { Announcement, Download, Insights, Link, Person, Podcast, VolumeUp, WarningOutline } from "@ndla/icons/common";
+import {
+  Announcement,
+  Download,
+  Insights,
+  Link,
+  Person,
+  Podcast,
+  VolumeUp,
+  WarningOutline,
+  Comment,
+} from "@ndla/icons/common";
 import {
   ArrowExpand,
   BlogPost,
   Camera,
   Code,
-  Concept,
   FactBoxMaterial,
   Framed,
   Globe,
@@ -29,11 +37,10 @@ import HowToHelper from "../../../HowTo/HowToHelper";
 import { StoryType } from "../../../HowTo/stories";
 import { TYPE_ASIDE } from "../aside/types";
 import { TYPE_AUDIO } from "../audio/types";
-import { TYPE_BLOGPOST } from "../blogPost/types";
 import { TYPE_CAMPAIGN_BLOCK } from "../campaignBlock/types";
 import { TYPE_CODEBLOCK } from "../codeBlock/types";
-import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from "../concept/block/types";
-import { TYPE_CONCEPT_LIST } from "../conceptList/types";
+import { TYPE_COMMENT_BLOCK } from "../comment/block/types";
+import { TYPE_GLOSS_BLOCK } from "../concept/block/types";
 import { TYPE_CONTACT_BLOCK } from "../contactBlock/types";
 import { TYPE_DETAILS } from "../details/types";
 import { TYPE_EXTERNAL } from "../external/types";
@@ -44,6 +51,7 @@ import { TYPE_H5P } from "../h5p/types";
 import { TYPE_IMAGE } from "../image/types";
 import { TYPE_KEY_FIGURE } from "../keyFigure/types";
 import { TYPE_LINK_BLOCK_LIST } from "../linkBlockList/types";
+import { TYPE_PITCH } from "../pitch/types";
 import { TYPE_RELATED } from "../related/types";
 import { TYPE_TABLE } from "../table/types";
 import { TYPE_DISCLAIMER } from "../uuDisclaimer/types";
@@ -130,17 +138,6 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInModal("CodeBlock"),
   },
   {
-    data: { type: TYPE_CONCEPT_BLOCK, object: "concept" },
-    icon: <Concept />,
-    helpIcon: renderArticleInModal("Concept"),
-  },
-  {
-    data: { type: TYPE_CONCEPT_LIST, object: "conceptList" },
-    icon: <List />,
-    helpIcon: renderArticleInModal("ConceptList"),
-    requiredScope: DRAFT_ADMIN_SCOPE,
-  },
-  {
     data: { type: TYPE_GLOSS_BLOCK, object: "gloss" },
     icon: <Globe />,
     helpIcon: renderArticleInModal("Gloss"),
@@ -151,6 +148,11 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInModal("Disclaimer"),
     requiredScope: DRAFT_ADMIN_SCOPE,
   },
+  {
+    data: { type: TYPE_COMMENT_BLOCK, object: "comment" },
+    icon: <Comment />,
+    helpIcon: renderArticleInModal("Comment"),
+  },
 ];
 
 export const frontpageActions = commonActions.concat(
@@ -160,9 +162,9 @@ export const frontpageActions = commonActions.concat(
     helpIcon: renderArticleInModal("Grid"),
   },
   {
-    data: { type: TYPE_BLOGPOST, object: "blogPost" },
+    data: { type: TYPE_PITCH, object: "pitch" },
     icon: <BlogPost />,
-    helpIcon: renderArticleInModal("BlogPost"),
+    helpIcon: renderArticleInModal("Pitch"),
   },
   {
     data: { type: TYPE_KEY_FIGURE, object: "keyFigure" },
@@ -190,5 +192,4 @@ export const learningResourceActions = commonActions.concat({
   data: { type: TYPE_GRID, object: "grid" },
   icon: <Grid />,
   helpIcon: renderArticleInModal("Grid"),
-  requiredScope: DRAFT_ADMIN_SCOPE,
 });

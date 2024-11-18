@@ -9,15 +9,14 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
+import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { Plus, Pencil } from "@ndla/icons/action";
-import { DeleteForever } from "@ndla/icons/editor";
+import { AddLine, PencilFill, DeleteBinLine } from "@ndla/icons/action";
+import { IconButton, Spinner } from "@ndla/primitives";
 import { Node } from "@ndla/types-taxonomy";
 import MenuItemButton from "./components/MenuItemButton";
 import MenuItemEditField from "./components/MenuItemEditField";
 import RoundIcon from "../../../../components/RoundIcon";
-import Spinner from "../../../../components/Spinner";
 import { useGrepCodes } from "../../../../modules/grep/grepQueries";
 import { useUpdateNodeMetadataMutation } from "../../../../modules/nodes/nodeMutations";
 import { getRootIdForNode, isRootNode } from "../../../../modules/nodes/nodeUtil";
@@ -28,11 +27,6 @@ interface Props {
   editModeHandler: EditModeHandler;
   node: Node;
 }
-
-const StyledIconButton = styled(IconButtonV2)`
-  width: 40px;
-  height: 40px;
-`;
 
 export const DropDownWrapper = styled("div")`
   font-size: 0.9rem;
@@ -86,17 +80,20 @@ const EditGrepCodes = ({ node, editModeHandler: { editMode, toggleEditMode } }: 
           return (
             <StyledGrepItem key={index}>
               {grepCode.data.title}
-              <StyledIconButton
-                colorTheme="danger"
-                variant="ghost"
+              <IconButton
+                variant="danger"
+                size="small"
                 aria-label={t("taxonomy.grepCodes.delete", {
+                  grepCode: grepCode.data.title,
+                })}
+                title={t("taxonomy.grepCodes.delete", {
                   grepCode: grepCode.data.title,
                 })}
                 data-testid="deleteGrepCode"
                 onClick={() => deleteGrepCode(grepCode.data.code)}
               >
-                <DeleteForever />
-              </StyledIconButton>
+                <DeleteBinLine />
+              </IconButton>
             </StyledGrepItem>
           );
         })
@@ -111,12 +108,12 @@ const EditGrepCodes = ({ node, editModeHandler: { editMode, toggleEditMode } }: 
           dataTestid="addGrepCopde"
           onClose={() => setAddingNewGrepCode(!addingNewGrepCode)}
           onSubmit={addGrepCode}
-          icon={<Pencil />}
+          icon={<PencilFill />}
           placeholder={t("form.grepCodes.placeholder")}
         />
       ) : (
         <ButtonV2 variant="link" data-testid="addFilterButton" onClick={() => setAddingNewGrepCode(!addingNewGrepCode)}>
-          <Plus />
+          <AddLine />
           {t("taxonomy.grepCodes.addNew")}
         </ButtonV2>
       )}
@@ -126,7 +123,7 @@ const EditGrepCodes = ({ node, editModeHandler: { editMode, toggleEditMode } }: 
   return (
     <>
       <MenuItemButton data-testid="editGrepCodes" onClick={() => toggleEditModes()}>
-        <RoundIcon small icon={<Pencil />} />
+        <RoundIcon small icon={<PencilFill />} />
         {t("taxonomy.grepCodes.edit")}
       </MenuItemButton>
       {editMode === "editGrepCodes" && grepCodesList}

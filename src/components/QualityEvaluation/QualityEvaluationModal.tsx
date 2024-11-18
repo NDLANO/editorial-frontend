@@ -6,60 +6,83 @@
  *
  */
 
+import { FieldHelperProps, FieldInputProps } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
-import { Pencil } from "@ndla/icons/action";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { Text } from "@ndla/typography";
+import { Portal } from "@ark-ui/react";
+import { PencilLine } from "@ndla/icons/action";
+import {
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  IconButton,
+  Text,
+} from "@ndla/primitives";
+import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
+import { Node } from "@ndla/types-taxonomy";
 import QualityEvaluationForm from "./QualityEvaluationForm";
-
-const StyledModalBody = styled(ModalBody)`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.nsmall};
-  padding-top: 0px;
-`;
+import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
+import { DialogCloseButton } from "../DialogCloseButton";
 
 interface Props {
   articleType?: string;
+  article?: IArticle;
+  taxonomy?: Node[];
+  iconButtonColor?: "light" | "primary";
+  revisionMetaField?: FieldInputProps<ArticleFormType["revisionMeta"]>;
+  revisionMetaHelpers?: FieldHelperProps<ArticleFormType["revisionMeta"]>;
+  updateNotes?: (art: IUpdatedArticle) => Promise<IArticle>;
 }
 
-const QualityEvaluationModal = ({ articleType }: Props) => {
+const QualityEvaluationModal = ({
+  articleType,
+  article,
+  taxonomy,
+  revisionMetaField,
+  revisionMetaHelpers,
+  updateNotes,
+}: Props) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
   const resourceTranslation =
     articleType === "topic-article" ? t("qualityEvaluationForm.topicArticle") : t("qualityEvaluationForm.article");
+  const title = taxonomy?.length ? t("qualityEvaluationForm.edit") : t("qualityEvaluationForm.disabled");
 
   return (
-    <Modal open={open} onOpenChange={setOpen}>
-      <ModalTrigger>
-        <IconButtonV2
-          title={t("qualityEvaluationForm.edit")}
-          aria-label={t("qualityEvaluationForm.edit")}
-          variant="solid"
-          colorTheme="primary"
-          size="xsmall"
-        >
-          <Pencil />
-        </IconButtonV2>
-      </ModalTrigger>
-      <ModalContent>
-        <ModalHeader>
-          <ModalTitle>{t("qualityEvaluationForm.modalTitle")}</ModalTitle>
-          <ModalCloseButton />
-        </ModalHeader>
-        <StyledModalBody>
-          <Text margin="none" textStyle="meta-text-small">
-            {t("qualityEvaluationForm.description", { resource: resourceTranslation })}
-          </Text>
-          <QualityEvaluationForm setOpen={setOpen} />
-        </StyledModalBody>
-      </ModalContent>
-    </Modal>
+    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
+      <DialogTrigger asChild>
+        <IconButton title={title} aria-label={title} size="small" disabled={!taxonomy?.length} variant="secondary">
+          <PencilLine />
+        </IconButton>
+      </DialogTrigger>
+      <Portal>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("qualityEvaluationForm.modalTitle")}</DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <DialogBody>
+            <Text textStyle="label.small">
+              {t("qualityEvaluationForm.description", { resource: resourceTranslation })}
+            </Text>
+            {taxonomy && (
+              <QualityEvaluationForm
+                setOpen={setOpen}
+                taxonomy={taxonomy}
+                revisionMetaField={revisionMetaField}
+                revisionMetaHelpers={revisionMetaHelpers}
+                updateNotes={updateNotes}
+                article={article}
+              />
+            )}
+          </DialogBody>
+        </DialogContent>
+      </Portal>
+    </DialogRoot>
   );
 };
 

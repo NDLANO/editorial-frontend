@@ -8,7 +8,7 @@
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { RenderLeafProps } from "slate-react";
-import { colors } from "@ndla/core";
+import { styled } from "@ndla/styled-system/jsx";
 
 interface Props {
   attributes: RenderLeafProps["attributes"];
@@ -16,27 +16,30 @@ interface Props {
   placeholder: string;
 }
 
+const StyledSpan = styled("span", {
+  base: {
+    position: "relative",
+    color: "text.subtle",
+  },
+});
+
+const PlaceholderSpan = styled("span", {
+  base: {
+    position: "absolute",
+    left: "0",
+    userSelect: "none",
+    pointerEvents: "none",
+  },
+});
+
 const WithPlaceHolder = ({ attributes, children, placeholder }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <span style={{ position: "relative" }}>
-      <span {...attributes}>{children}</span>
-      <span
-        style={{
-          position: "absolute",
-          top: 0,
-          opacity: 0.3,
-          color: `${colors.black}`,
-          pointerEvents: "none",
-          userSelect: "none",
-          display: "inline-block",
-        }}
-        contentEditable={false}
-      >
-        {t(placeholder)}
-      </span>
-    </span>
+    <StyledSpan {...attributes}>
+      <PlaceholderSpan contentEditable={false}>{t(placeholder)}</PlaceholderSpan>
+      {children}
+    </StyledSpan>
   );
 };
 

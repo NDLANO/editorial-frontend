@@ -8,51 +8,63 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing, mq, breakpoints } from "@ndla/core";
-import { Plus } from "@ndla/icons/action";
-import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
-import { Switch } from "@ndla/switch";
+import { AddLine } from "@ndla/icons/action";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTrigger,
+  SwitchControl,
+  SwitchHiddenInput,
+  SwitchLabel,
+  SwitchRoot,
+  SwitchThumb,
+  Heading,
+  DialogTitle,
+  PopoverRoot,
+  PopoverTrigger,
+  PopoverContent,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { NodeType } from "@ndla/types-taxonomy";
 import AddNodeModalContent from "./AddNodeModalContent";
-import { ResourceGroupBanner, StyledShareIcon } from "./styles";
-import TaxonomyLightbox from "../../components/Taxonomy/TaxonomyLightbox";
+import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { useSession } from "../Session/SessionProvider";
 
-const FlexWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.xsmall};
-`;
+const SwitchWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "small",
+    flexDirection: "column",
+    alignItems: "flex-end",
+  },
+});
 
-const AddSubjectButton = styled(ButtonV2)`
-  margin: 0 0 0 ${spacing.small};
-`;
+export const ResourceGroupBanner = styled("div", {
+  base: {
+    backgroundColor: "surface.brand.2.subtle",
+    borderRadius: "xsmall",
+    padding: "small",
+    border: "1px solid",
+    borderColor: "stroke.subtle",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    gap: "3xsmall",
+    marginBlockEnd: "xsmall",
+  },
+});
 
-const StyledPlusIcon = styled(Plus)`
-  ${mq.range({ until: breakpoints.tablet })} {
-    display: none;
-  }
-`;
-
-const SwitchWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-`;
-
-const CustomFilterSwitchWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-`;
-
-const StyledSwitch = styled(Switch)`
-  & button {
-    flex-shrink: 0;
-  }
-`;
+const ButtonsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    alignItems: "center",
+  },
+});
 
 interface Props {
   setShowFavorites: (checked: boolean) => void;
@@ -67,6 +79,8 @@ interface Props {
   hasLmaSubjects: boolean;
   hasDaSubjects: boolean;
   hasSaSubjects: boolean;
+  showQuality: boolean;
+  setShowQuality: (checked: boolean) => void;
 }
 
 const StructureBanner = ({
@@ -82,6 +96,8 @@ const StructureBanner = ({
   hasLmaSubjects,
   hasDaSubjects,
   hasSaSubjects,
+  showQuality,
+  setShowQuality,
 }: Props) => {
   const [addSubjectModalOpen, setAddSubjectModalOpen] = useState(false);
 
@@ -92,71 +108,100 @@ const StructureBanner = ({
 
   return (
     <ResourceGroupBanner>
-      <FlexWrapper>
-        <StyledShareIcon />
-        {t("taxonomy.editStructure")}
-      </FlexWrapper>
-      <FlexWrapper>
-        <SwitchWrapper>
-          <CustomFilterSwitchWrapper>
-            {hasLmaSubjects && (
-              <StyledSwitch
-                onChange={setShowLmaSubjects}
-                checked={showLmaSubjects}
-                label={t("taxonomy.showLMASubject")}
-                id="lma-subject-switch"
-              />
-            )}
-            {hasDaSubjects && (
-              <StyledSwitch
-                onChange={setShowDaSubjects}
-                checked={showDaSubjects}
-                label={t("taxonomy.showDASubject")}
-                id="desk-subject-switch"
-              />
-            )}
-            {hasSaSubjects && (
-              <StyledSwitch
-                onChange={setShowSaSubjects}
-                checked={showSaSubjects}
-                label={t("taxonomy.showSASubject")}
-                id="language-subject-switch"
-              />
-            )}
-          </CustomFilterSwitchWrapper>
-          <StyledSwitch
-            onChange={setShowFavorites}
-            checked={showFavorites}
-            label={t("taxonomy.favorites")}
-            id="favorites"
-            data-testid="switch-favorites"
-          />
-        </SwitchWrapper>
+      <Heading textStyle="title.small">{t("taxonomy.editStructure")}</Heading>
+      <ButtonsWrapper>
+        {nodeType !== "PROGRAMME" && (
+          <PopoverRoot>
+            <PopoverTrigger asChild>
+              <Button variant="secondary" size="small" data-testid="display-options">
+                {t("taxonomy.displayOptions")}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <SwitchWrapper>
+                {hasLmaSubjects && (
+                  <SwitchRoot
+                    checked={showLmaSubjects}
+                    onCheckedChange={(details) => setShowLmaSubjects(details.checked)}
+                  >
+                    <SwitchLabel>{t("taxonomy.showLMASubject")}</SwitchLabel>
+                    <SwitchControl>
+                      <SwitchThumb />
+                    </SwitchControl>
+                    <SwitchHiddenInput />
+                  </SwitchRoot>
+                )}
+                {hasDaSubjects && (
+                  <SwitchRoot
+                    checked={showDaSubjects}
+                    onCheckedChange={(details) => setShowDaSubjects(details.checked)}
+                  >
+                    <SwitchLabel>{t("taxonomy.showDASubject")}</SwitchLabel>
+                    <SwitchControl>
+                      <SwitchThumb />
+                    </SwitchControl>
+                    <SwitchHiddenInput />
+                  </SwitchRoot>
+                )}
+                {hasSaSubjects && (
+                  <SwitchRoot
+                    checked={showSaSubjects}
+                    onCheckedChange={(details) => setShowSaSubjects(details.checked)}
+                  >
+                    <SwitchLabel>{t("taxonomy.showSASubject")}</SwitchLabel>
+                    <SwitchControl>
+                      <SwitchThumb />
+                    </SwitchControl>
+                    <SwitchHiddenInput />
+                  </SwitchRoot>
+                )}
+                <SwitchRoot
+                  checked={showFavorites}
+                  data-testid="switch-favorites"
+                  onCheckedChange={(details) => setShowFavorites(details.checked)}
+                >
+                  <SwitchLabel>{t("taxonomy.favorites")}</SwitchLabel>
+                  <SwitchControl>
+                    <SwitchThumb />
+                  </SwitchControl>
+                  <SwitchHiddenInput />
+                </SwitchRoot>
+                <SwitchRoot checked={showQuality} onCheckedChange={(details) => setShowQuality(details.checked)}>
+                  <SwitchLabel>{t("taxonomy.quality")}</SwitchLabel>
+                  <SwitchControl>
+                    <SwitchThumb />
+                  </SwitchControl>
+                  <SwitchHiddenInput />
+                </SwitchRoot>
+              </SwitchWrapper>
+            </PopoverContent>
+          </PopoverRoot>
+        )}
 
         {isTaxonomyAdmin && (
-          <Modal open={addSubjectModalOpen} onOpenChange={setAddSubjectModalOpen}>
-            <ModalTrigger>
-              <AddSubjectButton
-                size="small"
-                onClick={() => setAddSubjectModalOpen(true)}
-                data-testid="AddSubjectButton"
-              >
-                <StyledPlusIcon />
-                {t("taxonomy.addNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
-              </AddSubjectButton>
-            </ModalTrigger>
-            <ModalContent position="top">
-              <TaxonomyLightbox
-                title={t("taxonomy.addNode", {
-                  nodeType: t(`taxonomy.nodeType.${nodeType}`),
-                })}
-              >
+          <DialogRoot open={addSubjectModalOpen} onOpenChange={({ open }) => setAddSubjectModalOpen(open)}>
+            <DialogTrigger asChild>
+              <Button size="small" onClick={() => setAddSubjectModalOpen(true)} data-testid="AddSubjectButton">
+                <AddLine />
+                {t("taxonomy.newNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>
+                  {t("taxonomy.addNode", {
+                    nodeType: t(`taxonomy.nodeType.${nodeType}`),
+                  })}
+                </DialogTitle>
+                <DialogCloseButton />
+              </DialogHeader>
+              <DialogBody>
                 <AddNodeModalContent onClose={() => setAddSubjectModalOpen(false)} nodeType={nodeType} />
-              </TaxonomyLightbox>
-            </ModalContent>
-          </Modal>
+              </DialogBody>
+            </DialogContent>
+          </DialogRoot>
         )}
-      </FlexWrapper>
+      </ButtonsWrapper>
     </ResourceGroupBanner>
   );
 };

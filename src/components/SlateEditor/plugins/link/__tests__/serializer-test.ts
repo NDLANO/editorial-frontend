@@ -22,10 +22,12 @@ const editor: Descendant[] = [
           { text: "" },
           {
             type: TYPE_LINK,
-            href: "http://test.url/",
-            rel: undefined,
-            target: undefined,
-            title: undefined,
+            data: {
+              href: "http://test.url/",
+              rel: undefined,
+              target: undefined,
+              title: undefined,
+            },
             children: [
               {
                 text: "link",

@@ -6,64 +6,63 @@
  *
  */
 
-import { useField } from "formik";
-import { CSSProperties } from "react";
+import { FieldHelperProps, FieldInputProps } from "formik";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
-import { Text } from "@ndla/typography";
-import { QualityEvaluationFormValues, gradeItemStyles, qualityEvaluationOptions } from "./QualityEvaluationForm";
+import { Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
+import { Node } from "@ndla/types-taxonomy";
 import QualityEvaluationModal from "./QualityEvaluationModal";
+import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
+import SmallQualityEvaluationGrade from "../../containers/StructurePage/resourceComponents/QualityEvaluationGrade";
 
-const FlexWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.xsmall};
-`;
-
-const GradeItem = styled.div`
-  ${gradeItemStyles}
-  cursor: default;
-`;
-
-const StyledNoEvaluation = styled(Text)`
-  color: ${colors.brand.greyMedium};
-  font-style: italic;
-`;
+const FlexWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "3xsmall",
+  },
+});
 
 interface Props {
   articleType?: string;
+  article?: IArticle;
+  taxonomy?: Node[];
+  revisionMetaField?: FieldInputProps<ArticleFormType["revisionMeta"]>;
+  revisionMetaHelpers?: FieldHelperProps<ArticleFormType["revisionMeta"]>;
+  updateNotes?: (art: IUpdatedArticle) => Promise<IArticle>;
 }
 
-const QualityEvaluation = ({ articleType }: Props) => {
+const QualityEvaluation = ({
+  articleType,
+  article,
+  taxonomy,
+  revisionMetaField,
+  revisionMetaHelpers,
+  updateNotes,
+}: Props) => {
   const { t } = useTranslation();
-
-  const [{ value }] = useField<QualityEvaluationFormValues>("qualityEvaluation");
+  // Since quality evaluation is the same every place the resource is used in taxonomy, we can use the first node
+  const qualityEvaluation = taxonomy?.[0]?.qualityEvaluation;
 
   return (
     <FlexWrapper>
-      <Text margin="none" textStyle="button">
-        {`${t("qualityEvaluationForm.title")}:`}
-      </Text>
-      {value?.grade ? (
-        <GradeItem
-          title={value?.note}
-          aria-label={value?.note}
-          style={
-            {
-              "--item-color": qualityEvaluationOptions[value?.grade],
-            } as CSSProperties
-          }
-          data-border={value?.grade === 1 || value?.grade === 5}
-        >
-          {value?.grade}
-        </GradeItem>
+      <Text textStyle="label.small" fontWeight="semibold">{`${t("qualityEvaluationForm.title")}:`}</Text>
+      {qualityEvaluation?.grade ? (
+        <SmallQualityEvaluationGrade grade={qualityEvaluation.grade} tooltip={qualityEvaluation?.note} />
       ) : (
-        <StyledNoEvaluation margin="none" textStyle="button">
+        <Text textStyle="label.small" color="text.subtle">
           {t("qualityEvaluationForm.unavailable")}
-        </StyledNoEvaluation>
+        </Text>
       )}
-      <QualityEvaluationModal articleType={articleType} />
+      <QualityEvaluationModal
+        articleType={articleType}
+        article={article}
+        taxonomy={taxonomy}
+        revisionMetaField={revisionMetaField}
+        revisionMetaHelpers={revisionMetaHelpers}
+        updateNotes={updateNotes}
+      />
     </FlexWrapper>
   );
 };

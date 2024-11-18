@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing, colors } from "@ndla/core";
-import { Plus } from "@ndla/icons/action";
+import { AddLine } from "@ndla/icons/action";
 import { Node, Metadata } from "@ndla/types-taxonomy";
 import ConstantMetaField from "./ConstantMetaField";
 import CustomFieldComponent from "./CustomFieldComponent";
@@ -161,7 +161,7 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
             data-testid="addCustomFieldButton"
             onClick={() => setOpen(true)}
           >
-            <Plus />
+            <AddLine />
             {t("taxonomy.metadata.customFields.addField")}
           </StyledButton>
         </StyledFilterWrapper>

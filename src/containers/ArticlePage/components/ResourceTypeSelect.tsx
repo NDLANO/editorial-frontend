@@ -8,7 +8,9 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Option, Select, SingleValue } from "@ndla/select";
+import { SelectValueText, createListCollection } from "@ark-ui/react";
+import { SelectContent, SelectLabel, SelectPositioner, SelectRoot } from "@ndla/primitives";
+import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { selectedResourceTypeValue } from "../../../util/taxonomyHelpers";
 
 interface ResourceType {
@@ -22,20 +24,14 @@ interface ResourceTypeWithSubtypes extends ResourceType {
 }
 
 interface Props {
-  onChangeSelectedResource: (value: SingleValue) => void;
-  resourceTypes?: ResourceType[];
+  onChangeSelectedResource: (value?: string) => void;
   availableResourceTypes: ResourceTypeWithSubtypes[];
-  isClearable?: boolean;
+  selectedResourceTypes?: ResourceType[];
 }
-const ResourceTypeSelect = ({
-  availableResourceTypes,
-  resourceTypes,
-  onChangeSelectedResource,
-  isClearable = false,
-}: Props) => {
+const ResourceTypeSelect = ({ availableResourceTypes, selectedResourceTypes, onChangeSelectedResource }: Props) => {
   const { t } = useTranslation();
 
-  const options: Option[] = useMemo(
+  const options = useMemo(
     () =>
       availableResourceTypes.flatMap((resourceType) =>
         resourceType.subtypes
@@ -50,22 +46,40 @@ const ResourceTypeSelect = ({
 
   const value = useMemo(
     () =>
-      resourceTypes?.length ? options.find((o) => o.value === selectedResourceTypeValue(resourceTypes)) : undefined,
-    [options, resourceTypes],
+      selectedResourceTypes?.length
+        ? options.find((o) => o.value === selectedResourceTypeValue(selectedResourceTypes))
+        : undefined,
+    [options, selectedResourceTypes],
   );
 
+  const collection = useMemo(() => {
+    return createListCollection({
+      items: options,
+      itemToValue: (item) => item.value,
+      itemToString: (item) => item.label,
+    });
+  }, [options]);
+
   return (
-    <Select
-      placeholder={t("taxonomy.resourceTypes.placeholder")}
-      options={options}
-      onChange={onChangeSelectedResource}
-      isMulti={false}
-      value={value}
-      noOptionsMessage={() => t("form.responsible.noResults")}
-      isSearchable
-      isClearable={isClearable}
-      id="select-resource-type"
-    />
+    <SelectRoot
+      collection={collection}
+      value={value ? [value.value] : undefined}
+      onValueChange={(details) => onChangeSelectedResource(details.items[0]?.value)}
+    >
+      <SelectLabel>{t("taxonomy.contentType")}</SelectLabel>
+      <GenericSelectTrigger>
+        <SelectValueText placeholder={t("taxonomy.resourceTypes.placeholder")} />
+      </GenericSelectTrigger>
+      <SelectPositioner>
+        <SelectContent>
+          {options.map((item) => (
+            <GenericSelectItem item={item} key={item.value}>
+              {item.label}
+            </GenericSelectItem>
+          ))}
+        </SelectContent>
+      </SelectPositioner>
+    </SelectRoot>
   );
 };
 

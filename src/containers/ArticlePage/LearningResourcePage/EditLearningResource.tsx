@@ -11,12 +11,13 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import { HelmetWithTracker } from "@ndla/tracker";
 import LearningResourceForm from "./components/LearningResourceForm";
+import { ContentTypeProvider } from "../../../components/ContentTypeProvider";
 import { TranslateType, useTranslateToNN } from "../../../components/NynorskTranslateProvider";
 import { isNewArticleLanguage } from "../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import Spinner from "../../../components/Spinner";
 import { LocaleType } from "../../../interfaces";
-import { useDraftHistory } from "../../../modules/draft/draftQueries";
 import { useNodes } from "../../../modules/nodes/nodeQueries";
+import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 import NotFound from "../../NotFoundPage/NotFoundPage";
@@ -103,7 +104,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
   }
   const newLanguage = isNewArticleLanguage(selectedLanguage, article);
   return (
-    <>
+    <ContentTypeProvider value={getContentTypeFromResourceTypes(taxonomyQuery.data?.[0]?.resourceTypes ?? [])}>
       <HelmetWithTracker title={`${article.title?.title} ${t("htmlTitles.titleTemplate")}`} />
       <LearningResourceForm
         articleLanguage={selectedLanguage}
@@ -116,7 +117,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
         updateArticle={updateArticle}
         supportedLanguages={article.supportedLanguages}
       />
-    </>
+    </ContentTypeProvider>
   );
 };
 

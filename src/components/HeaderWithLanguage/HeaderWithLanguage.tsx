@@ -10,13 +10,12 @@ import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { Check } from "@ndla/icons/editor";
 import { IConcept } from "@ndla/types-backend/concept-api";
 import { IArticle, IStatus } from "@ndla/types-backend/draft-api";
 import { TaxonomyContext } from "@ndla/types-taxonomy";
 import HeaderActions from "./HeaderActions";
+import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
 import HeaderInformation from "./HeaderInformation";
-import HeaderLanguagePill from "./HeaderLanguagePill";
 
 export const StyledLanguageWrapper = styled.div`
   padding-left: ${spacing.small};
@@ -111,10 +110,7 @@ const HeaderWithLanguage = ({
             type={type}
           />
         ) : (
-          <HeaderLanguagePill current>
-            <Check />
-            {t(`languages.${language}`)}
-          </HeaderLanguagePill>
+          <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
         )}
       </StyledLanguageWrapper>
     </header>

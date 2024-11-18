@@ -102,16 +102,14 @@ const getTranslateServiceUrl = (ndlaEnvironment: string) => {
     case "local":
     case "dev":
       return "https://preprod.norskrobot.no:4443";
+    case "staging":
+      return "https://ndla.norskrobot.no:6443";
     default:
       return "https://ndla.norskrobot.no:4443";
   }
 };
 
 export const taxonomyApi = `/taxonomy/v1`;
-
-export const getZendeskWidgetSecret = () => {
-  return getEnvironmentVariabel("NDLA_ED_ZENDESK_SECRET_KEY", "something");
-};
 
 const getDefaultLanguage = () => getEnvironmentVariabel("NDLA_DEFAULT_LANGUAGE", "nb") as LocaleType;
 
@@ -128,7 +126,6 @@ const usernamePasswordEnabled = (ndlaEnvironment: string) => {
 
 export type ConfigType = {
   brightcoveAccountId: string | undefined;
-  checkArticleScript: boolean;
   logEnvironment: string | undefined;
   ndlaApiUrl: string | undefined;
   ndlaBaseUrl: string;
@@ -150,7 +147,6 @@ export type ConfigType = {
   h5pApiUrl: string | undefined;
   port: string | undefined;
   ndlaPersonalClientId: string | undefined;
-  zendeskWidgetKey: string | undefined;
   brightcoveEdPlayerId: string | undefined;
   brightcovePlayerId: string | undefined;
   brightcove360PlayerId: string | undefined;
@@ -196,15 +192,13 @@ const getServerSideConfig = (): ConfigType => {
     brightcoveUrl: "https://studio.brightcove.com/products/videocloud/home",
     h5pApiUrl: getEnvironmentVariabel("H5P_API_URL", h5pApiUrl(ndlaEnvironment)),
     localConverter: getEnvironmentVariabel("LOCAL_CONVERTER", "false") === "true",
-    checkArticleScript: getEnvironmentVariabel("CHECK_ARTICLE_SCRIPT", "false") === "true",
     googleTagManagerId: getEnvironmentVariabel("NDLA_GOOGLE_TAG_MANAGER_ID"),
-    zendeskWidgetKey: getEnvironmentVariabel("NDLA_ED_ZENDESK_WIDGET_KEY"),
     disableCSP: getEnvironmentVariabel("DISABLE_CSP", "false"),
     usernamePasswordEnabled: getEnvironmentVariabel(
       "USERNAME_PASSWORD_ENABLED",
       usernamePasswordEnabled(ndlaEnvironment),
     ),
-    h5pMetaEnabled: getEnvironmentVariabel("H5PMETA_ENABLED", false),
+    h5pMetaEnabled: getEnvironmentVariabel("H5PMETA_ENABLED", "false") === "true",
     translateServiceUrl: getEnvironmentVariabel("NDKM_URL", getTranslateServiceUrl(ndlaEnvironment)),
     isVercel: getEnvironmentVariabel("IS_VERCEL", "false") === "true",
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as "test" | "development" | "production",

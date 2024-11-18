@@ -8,61 +8,61 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ExclamationMark } from "@ndla/icons/common";
+import { ExclamationMark, Comment } from "@ndla/icons/common";
 import { Calendar } from "@ndla/icons/editor";
-import { Pager } from "@ndla/pager";
-import { SingleValue } from "@ndla/select";
+import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { IMultiSearchResult } from "@ndla/types-backend/search-api";
-import CommentIndicator from "./CommentIndicator";
-import PageSizeDropdown from "./PageSizeDropdown";
+import PageSizeSelect from "./PageSizeSelect";
 import StatusCell from "./StatusCell";
-import SubjectDropdown from "./SubjectDropdown";
+import SubjectCombobox from "./SubjectCombobox";
 import { SortOptionWorkList } from "./WorkList";
+import Pagination from "../../../../components/abstractions/Pagination";
 import { useSearch } from "../../../../modules/search/searchQueries";
 import formatDate from "../../../../util/formatDate";
+import { stripInlineContentHtmlTags } from "../../../../util/formHelper";
 import { toEditArticle } from "../../../../util/routeHelpers";
-import {
-  ControlWrapperDashboard,
-  StyledLink,
-  StyledSwitch,
-  StyledTopRowDashboardInfo,
-  SwitchWrapper,
-  TopRowControls,
-} from "../../styles";
+import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../../styles";
+import { SelectItem } from "../../types";
 import GoToSearch from "../GoToSearch";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "../TableComponent";
 import TableTitle from "../TableTitle";
 
-export const CellWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
+const CellWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "xxsmall",
+  },
+});
 
-const StyledTitleWrapper = styled.div`
-  display: flex;
-  overflow: hidden;
-  align-items: center;
-`;
+const TextWrapper = styled("div", {
+  base: {
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+  },
+});
 
-const StyledExclamationMark = styled(ExclamationMark)`
-  &[aria-hidden="false"] {
-    visibility: hidden;
-  }
-`;
+const CommentIndicatorWrapper = styled("div", {
+  base: {
+    marginInlineStart: "auto",
+  },
+});
+
 interface Props {
   data: IMultiSearchResult | undefined;
-  isLoading: boolean;
+  isPending: boolean;
   setSortOption: (o: Prefix<"-", SortOptionWorkList>) => void;
   sortOption: string;
   error: string | undefined;
   ndlaId: string;
   setPage: (page: number) => void;
-  pageSize: SingleValue;
-  setPageSize: (p: SingleValue) => void;
-  filterSubject?: SingleValue;
-  setFilterSubject?: (fs: SingleValue) => void;
+  pageSize: SelectItem;
+  setPageSize: (p: SelectItem) => void;
+  filterSubject?: SelectItem;
+  setFilterSubject?: (fs: SelectItem) => void;
   setPrioritized?: (prioritized: boolean) => void;
   prioritized?: boolean;
   headerText?: string;
@@ -72,7 +72,7 @@ const WorkListTabContent = ({
   data,
   filterSubject,
   setSortOption,
-  isLoading,
+  isPending,
   sortOption,
   error,
   setFilterSubject,
@@ -107,17 +107,27 @@ const WorkListTabContent = ({
               id: `title_${res.id}`,
               data: (
                 <CellWrapper>
-                  <StyledTitleWrapper>
-                    <StyledExclamationMark
-                      aria-hidden={!!res?.prioritized}
-                      aria-label={t("editorFooter.prioritized")}
-                      title={t("editorFooter.prioritized")}
-                    />
-                    <StyledLink to={toEditArticle(res.id, res.learningResourceType)} title={res.title?.title}>
+                  <ExclamationMark
+                    aria-hidden={!res?.prioritized}
+                    visibility={!res?.prioritized ? "hidden" : "visible"}
+                    aria-label={t("editorFooter.prioritized")}
+                    title={t("editorFooter.prioritized")}
+                    size="small"
+                  />
+                  <TextWrapper>
+                    <SafeLink to={toEditArticle(res.id, res.learningResourceType)} title={res.title?.title}>
                       {res.title?.title}
-                    </StyledLink>
-                  </StyledTitleWrapper>
-                  {res.comments?.length ? <CommentIndicator comment={res.comments[0].content} /> : null}
+                    </SafeLink>
+                  </TextWrapper>
+                  {res.comments?.length ? (
+                    <CommentIndicatorWrapper>
+                      <Comment
+                        size="small"
+                        title={stripInlineContentHtmlTags(res.comments[0].content)}
+                        aria-label={stripInlineContentHtmlTags(res.comments[0].content)}
+                      />
+                    </CommentIndicatorWrapper>
+                  ) : null}
                 </CellWrapper>
               ),
             },
@@ -168,7 +178,6 @@ const WorkListTabContent = ({
     },
   ];
 
-  const lastPage = data?.totalCount ? Math.ceil(data?.totalCount / (data.pageSize ?? 1)) : 1;
   const subjectIds = searchQuery.data?.aggregations.flatMap((a) => a.values.map((v) => v.value));
 
   return (
@@ -177,10 +186,10 @@ const WorkListTabContent = ({
         <TableTitle title={t(headerText)} description={t(descriptionText)} Icon={Calendar} />
         <ControlWrapperDashboard>
           <TopRowControls>
-            <PageSizeDropdown pageSize={pageSize} setPageSize={setPageSize} />
+            <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
             {setFilterSubject && (
               <>
-                <SubjectDropdown
+                <SubjectCombobox
                   subjectIds={subjectIds ?? []}
                   filterSubject={filterSubject}
                   setFilterSubject={setFilterSubject}
@@ -188,24 +197,26 @@ const WorkListTabContent = ({
                 <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject?.value} searchEnv="content" />
               </>
             )}
-          </TopRowControls>
-          {setPrioritized && (
-            <SwitchWrapper>
-              <StyledSwitch
-                checked={prioritized ?? false}
-                onChange={() => {
-                  setPrioritized(!prioritized);
+            {setPrioritized && (
+              <SwitchRoot
+                checked={prioritized}
+                onCheckedChange={(details) => {
+                  setPrioritized(details.checked);
                   setPage(1);
                 }}
-                label={t("welcomePage.prioritizedLabel")}
-                id="filter-prioritized-switch"
-              />
-            </SwitchWrapper>
-          )}
+              >
+                <SwitchLabel>{t("welcomePage.prioritizedLabel")}</SwitchLabel>
+                <SwitchControl>
+                  <SwitchThumb />
+                </SwitchControl>
+                <SwitchHiddenInput />
+              </SwitchRoot>
+            )}
+          </TopRowControls>
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
       <TableComponent
-        isLoading={isLoading}
+        isPending={isPending}
         tableTitleList={tableTitles}
         tableData={tableData}
         setSortOption={setSortOption}
@@ -214,14 +225,13 @@ const WorkListTabContent = ({
         noResultsText={t("welcomePage.noArticles")}
         minWidth="850px"
       />
-      <Pager
-        page={data?.page ?? 1}
-        lastPage={lastPage}
-        query={{}}
-        onClick={(el) => setPage(el.page)}
-        small
-        colorTheme="lighter"
-        pageItemComponentClass="button"
+      <Pagination
+        page={data?.page}
+        onPageChange={(details) => setPage(details.page)}
+        count={data?.totalCount ?? 0}
+        pageSize={data?.pageSize}
+        aria-label={t("welcomePage.pagination.workList", { resourceType: t("welcomePage.pagination.resources") })}
+        buttonSize="small"
       />
     </>
   );

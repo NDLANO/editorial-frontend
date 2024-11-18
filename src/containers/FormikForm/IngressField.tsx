@@ -7,12 +7,15 @@
  */
 
 import { useTranslation } from "react-i18next";
+import { styled } from "@ndla/styled-system/jsx";
 
 import FormikField from "../../components/FormikField";
 import { SlatePlugin } from "../../components/SlateEditor/interfaces";
 
 import { breakPlugin } from "../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../components/SlateEditor/plugins/break/render";
+import { commentInlinePlugin } from "../../components/SlateEditor/plugins/comment/inline";
+import { commentInlineRenderer } from "../../components/SlateEditor/plugins/comment/inline/render";
 import { markPlugin } from "../../components/SlateEditor/plugins/mark";
 import { markRenderer } from "../../components/SlateEditor/plugins/mark/render";
 import { noopPlugin } from "../../components/SlateEditor/plugins/noop";
@@ -49,6 +52,14 @@ const toolbarOptions = createToolbarDefaultValues({
   block: { hidden: true },
   inline: {
     hidden: true,
+    "comment-inline": { hidden: false },
+  },
+});
+
+// Forces panda to generate css to be used in preview
+const StyledRichTextEditor = styled(RichTextEditor, {
+  base: {
+    textStyle: "body.xlarge",
   },
 });
 
@@ -63,9 +74,17 @@ const ingressPlugins: SlatePlugin[] = [
   saveHotkeyPlugin,
   markPlugin,
   noopPlugin,
+  commentInlinePlugin,
 ];
 
-const ingressRenderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, markRenderer, breakRenderer, spanRenderer];
+const ingressRenderers: SlatePlugin[] = [
+  noopRenderer,
+  paragraphRenderer,
+  markRenderer,
+  breakRenderer,
+  spanRenderer,
+  commentInlineRenderer,
+];
 
 const plugins = ingressPlugins.concat(ingressRenderers);
 
@@ -74,7 +93,7 @@ const IngressField = ({ name = "introduction", maxLength = 300, placeholder }: P
   return (
     <FormikField noBorder label={t("form.introduction.label")} name={name} showMaxLength maxLength={maxLength}>
       {({ field, form: { isSubmitting } }) => (
-        <RichTextEditor
+        <StyledRichTextEditor
           {...field}
           id="ingress-editor"
           testId="ingress-editor"

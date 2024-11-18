@@ -11,6 +11,7 @@ import { Editor, Transforms, Element, Range, Path, Node, BaseRange } from "slate
 import { jsx as slatejsx } from "slate-hyperscript";
 import { BlockType, InlineType, TextType, getEditorAncestors } from "./toolbarState";
 import toggleBlock from "../../utils/toggleBlock";
+import { insertComment } from "../comment/inline/utils";
 import { insertInlineConcept } from "../concept/inline/utils";
 import { toggleDefinitionList } from "../definitionList/utils/toggleDefinitionList";
 import { HeadingElement } from "../heading";
@@ -109,6 +110,9 @@ export function handleClickInline(event: Event, editor: Editor, type: InlineType
     }
     if (type === "gloss-inline") {
       insertInlineConcept(editor, "gloss");
+    }
+    if (type === "comment-inline") {
+      insertComment(editor);
     }
   }
 }

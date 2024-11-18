@@ -25,8 +25,7 @@ const editor: Descendant[] = [
             "Sigurd har variert ledererfaring fra utdanningssektoren, både fra videregående skole, nasjonalt senter og fra universitets/høgskolesektoren. Ansvarsområdene dekker bl.a. utdanning/opplæring/studiekvalitet, økonomi, HR, stratgi og IT-utvikling/-drift.",
           name: "Sigurd Trageton",
           email: "sigurd@ndla.no",
-          blobColor: "green",
-          blob: "pointy",
+          background: "subtle",
         },
         children: [{ text: "" }],
       },
@@ -35,7 +34,7 @@ const editor: Descendant[] = [
 ];
 
 const html =
-  '<section><ndlaembed data-resource="contact-block" data-image-id="65750" data-job-title="Daglig leder og ansvarlig redaktør, Vestland fylkeskommune" data-description="Sigurd har variert ledererfaring fra utdanningssektoren, både fra videregående skole, nasjonalt senter og fra universitets/høgskolesektoren. Ansvarsområdene dekker bl.a. utdanning/opplæring/studiekvalitet, økonomi, HR, stratgi og IT-utvikling/-drift." data-name="Sigurd Trageton" data-email="sigurd@ndla.no" data-blob-color="green" data-blob="pointy"></ndlaembed></section>';
+  '<section><ndlaembed data-resource="contact-block" data-image-id="65750" data-job-title="Daglig leder og ansvarlig redaktør, Vestland fylkeskommune" data-description="Sigurd har variert ledererfaring fra utdanningssektoren, både fra videregående skole, nasjonalt senter og fra universitets/høgskolesektoren. Ansvarsområdene dekker bl.a. utdanning/opplæring/studiekvalitet, økonomi, HR, stratgi og IT-utvikling/-drift." data-name="Sigurd Trageton" data-email="sigurd@ndla.no" data-background="subtle"></ndlaembed></section>';
 
 describe("codeblock serializing tests", () => {
   test("serializing", () => {

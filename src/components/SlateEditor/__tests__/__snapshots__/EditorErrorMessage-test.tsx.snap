@@ -15,106 +15,9 @@ exports[`EditorErrorMessage renders 1`] = `
   padding: 1rem;
 }
 
-.emotion-2 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  gap: 6px;
-  color: #fff;
-  background: #d1372e;
-  border: 2px solid #d1372e;
-  border-radius: 4px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 600;
-  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  box-shadow: none;
-  text-align: center;
-  padding: 4px 6px;
-  font-size: 14px;
-  font-size: 0.7777777777777778rem;
-  line-height: 18px;
-  min-height: 32px;
-  border-width: 1px;
-  outline-width: 2px;
-  color: #d1372e;
-  background: transparent;
-  border-color: transparent;
-  border-radius: 100%;
-  padding: 6px;
-  line-height: 1;
-  border-color: transparent;
-  min-height: unset;
-}
-
-.emotion-2:hover,
-.emotion-2:focus-visible {
-  color: #fff;
-  background-color: #d1372e;
-  border-color: #d1372e;
-}
-
-.emotion-2[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-2:where([lang='zh'], .emotion-2[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(14px * 1.11);
-  font-size: calc(0.7777777777777778rem * 1.11);
-}
-
-.emotion-2:hover,
-.emotion-2:active,
-.emotion-2:focus-visible {
-  color: #fff;
-  background: #d1372e;
-  border-color: #d1372e;
-}
-
-.emotion-2[disabled] {
-  color: #777777;
-  background-color: transparent;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-2 svg {
-  width: 24px;
-  height: 24px;
-  margin: 0;
-}
-
-.emotion-3 {
-  display: inline-block;
-  fill: currentColor;
-  vertical-align: middle;
-  line-height: 1em;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  width: 16px;
-  height: 16px;
-}
-
 <div>
   <div
-    class="emotion-0 emotion-1"
+    class="emotion-0"
     contenteditable="false"
   >
     <div>
@@ -124,7 +27,7 @@ exports[`EditorErrorMessage renders 1`] = `
     </div>
     <button
       aria-label="Fjern"
-      class="emotion-2"
+      class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color),_inset_0px_0px_0px_calc(var(--shadow-width,_3px)_*_2)_currentcolor focusVisible:bx-sh-c_surface.danger motionReduce:trs_none motionReduce:trs-dur_0s bg_surface.danger c_text.onAction hover:bg_surface.danger.hover active:bg_surface.danger.active lh_1 min-h_unset --shadow-width_2px h_large w_large [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_small [&_svg]:h_small px_xxsmall py_xxsmall"
       contenteditable="false"
       data-testid="close-related-button"
       tabindex="-1"
@@ -133,24 +36,16 @@ exports[`EditorErrorMessage renders 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="emotion-3 emotion-4"
+        class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
         data-icon=""
         data-license="Apache License 2.0"
-        data-source="Material Design"
+        data-source="RemixIcon"
         fill="currentColor"
         preserveAspectRatio="xMidYMid meet"
         viewBox="0 0 24 24"
       >
         <path
-          d="M0 0h24v24H0z"
-          fill="none"
-        />
-        <path
-          d="M6 19c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V7H6zm2.5-7.1 1.4-1.4 2.1 2 2.1-2 1.4 1.4-2 2.1 2 2.1-1.4 1.4-2.1-2-2.1 2-1.4-1.4 2-2.1zm7-7.9-1-1h-5l-1 1H5v2h14V4z"
-        />
-        <path
-          d="M0 0h24v24H0z"
-          fill="none"
+          d="M7 4V2h10v2h5v2h-2v15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6H2V4zM6 6v14h12V6zm3 3h2v8H9zm4 0h2v8h-2z"
         />
       </svg>
     </button>

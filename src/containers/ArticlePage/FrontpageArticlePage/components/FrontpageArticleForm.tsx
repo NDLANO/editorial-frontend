@@ -19,7 +19,7 @@ import StyledForm from "../../../../components/StyledFormComponents";
 import { validateDraft } from "../../../../modules/draft/draftApi";
 import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { frontPageArticleRules, isFormikFormDirty } from "../../../../util/formHelper";
-import { AlertModalWrapper } from "../../../FormikForm";
+import { AlertDialogWrapper } from "../../../FormikForm";
 import { FrontpageArticleFormType, HandleSubmitFunc, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
 import { useSession } from "../../../Session/SessionProvider";
@@ -170,7 +170,7 @@ const _FormFooter = ({ articleChanged, article, isNewlyCreated, savedToServer, h
         selectedLanguage={article?.content?.language}
         supportedLanguages={article?.supportedLanguages}
       />
-      <AlertModalWrapper
+      <AlertDialogWrapper
         isSubmitting={isSubmitting}
         formIsDirty={formIsDirty}
         severity="danger"

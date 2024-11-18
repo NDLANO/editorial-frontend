@@ -8,10 +8,9 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { Tabs } from "@ndla/tabs";
+import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import ArticleStatusContent from "./ArticleStatusContent";
-import { GRID_GAP } from "../../../components/Layout/Layout";
+import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
 import {
   DA_SUBJECT_ID,
   FAVOURITES_SUBJECT_ID,
@@ -30,25 +29,21 @@ import { usePostSearchNodes } from "../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { SubjectIdObject, customFieldsBody } from "../utils";
 
-const StyledWrapper = styled.div`
-  margin-top: ${GRID_GAP};
-`;
-
 interface Props {
   ndlaId: string;
   favoriteSubjects: string[] | undefined;
-  userDataLoading: boolean;
+  userDataPending: boolean;
   subjectIdObject: SubjectIdObject;
 }
 
-const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading, subjectIdObject }: Props) => {
+const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataPending, subjectIdObject }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const searchQuery = usePostSearchNodes({ ...customFieldsBody(ndlaId), taxonomyVersion });
 
   const tabs = useMemo(() => {
-    if (searchQuery.isLoading) return [];
+    if (searchQuery.isPending) return [];
 
     const tabsList = [];
 
@@ -126,7 +121,7 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading, subjectIdO
 
     return tabsList;
   }, [
-    searchQuery.isLoading,
+    searchQuery.isPending,
     subjectIdObject.subjectLMA,
     subjectIdObject.subjectDA,
     subjectIdObject.subjectSA,
@@ -135,12 +130,30 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading, subjectIdO
     favoriteSubjects,
   ]);
 
-  if (!tabs.length || userDataLoading) return null;
+  if (!tabs.length || userDataPending) return null;
 
   return (
-    <StyledWrapper>
-      <Tabs variant="rounded" tabs={tabs} />
-    </StyledWrapper>
+    <TabsRoot
+      variant="outline"
+      defaultValue={tabs[0].id}
+      translations={{
+        listLabel: t("welcomePage.listLabels.articleStatuses"),
+      }}
+    >
+      <TabsList>
+        {tabs.map((tab) => (
+          <TabsTrigger key={`trigger-${tab.id}`} value={tab.id}>
+            {tab.title}
+          </TabsTrigger>
+        ))}
+        <TabsIndicator />
+      </TabsList>
+      {tabs.map((tab) => (
+        <WelcomePageTabsContent value={tab.id} key={tab.id}>
+          {tab.content}
+        </WelcomePageTabsContent>
+      ))}
+    </TabsRoot>
   );
 };
 

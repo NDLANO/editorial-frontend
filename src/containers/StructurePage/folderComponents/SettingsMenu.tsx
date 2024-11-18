@@ -9,10 +9,10 @@
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { Root, Trigger, Close, Content, Portal } from "@radix-ui/react-popover";
-import { IconButtonV2 } from "@ndla/button";
 import { animations, colors, spacing, stackOrder } from "@ndla/core";
-import { Cross } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons/action";
 import { Settings } from "@ndla/icons/editor";
+import { IconButton } from "@ndla/primitives";
 import { Node } from "@ndla/types-taxonomy";
 import SettingsMenuDropdownType from "./SettingsMenuDropdownType";
 import Overlay from "../../../components/Overlay";
@@ -27,25 +27,6 @@ const TitleWrapper = styled.div`
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
-`;
-
-const StyledIconButton = styled(IconButtonV2)`
-  margin-left: ${spacing.xsmall};
-  border: 1px solid ${colors.brand.greyDark};
-  background-color: ${colors.white};
-  width: 32px;
-  padding: 0;
-  height: 32px;
-
-  &:focus,
-  &:hover,
-  &:focus-within {
-    border: 1px solid ${colors.brand.greyDark};
-    background-color: ${colors.brand.greyDark};
-    svg {
-      color: ${colors.white};
-    }
-  }
 `;
 
 const StyledContent = styled(Content)`
@@ -66,14 +47,14 @@ const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: 
   return (
     <Root>
       <Trigger asChild>
-        <StyledIconButton
-          variant="stripped"
+        <IconButton
+          variant="secondary"
+          size="small"
           data-testid="settings-button"
           aria-label={t(`taxonomy.${nodeType.toLowerCase()}Settings`)}
-          colorTheme="primary"
         >
           <Settings />
-        </StyledIconButton>
+        </IconButton>
       </Trigger>
       <Portal>
         <>
@@ -85,9 +66,9 @@ const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: 
                   <span>{t(`taxonomy.${nodeType.toLowerCase()}Settings`)}</span>
                 </TitleWrapper>
                 <Close asChild>
-                  <IconButtonV2 aria-label={t("close")} variant="ghost" title={t("close")}>
-                    <Cross />
-                  </IconButtonV2>
+                  <IconButton aria-label={t("close")} variant="clear" title={t("close")}>
+                    <CloseLine />
+                  </IconButton>
                 </Close>
               </Header>
               <SettingsMenuDropdownType

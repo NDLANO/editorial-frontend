@@ -10,9 +10,17 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
-import { IconButtonV2 } from "@ndla/button";
-import { Pencil } from "@ndla/icons/action";
-import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { Portal } from "@ark-ui/react";
+import { PencilFill } from "@ndla/icons/action";
+import {
+  DialogBackdrop,
+  DialogPositioner,
+  DialogRoot,
+  DialogStandaloneContent,
+  DialogTrigger,
+  IconButton,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
 import { ConceptMetaData } from "@ndla/types-embed";
 import { ConceptBlockElement } from "./block/interfaces";
@@ -28,6 +36,20 @@ interface Props {
   element: ConceptBlockElement | ConceptInlineElement;
   embed: ConceptMetaData;
 }
+
+// We need to portal both the dialog and the surrounding popover in order to not render invalid HTML in the editor.
+// This is a workaround to avoid the popover being rendered above the dialog.
+const StyledDialogBackdrop = styled(DialogBackdrop, {
+  base: {
+    zIndex: "popover",
+  },
+});
+
+const StyledDialogPositioner = styled(DialogPositioner, {
+  base: {
+    zIndex: "popover",
+  },
+});
 
 const EditGlossExamplesModal = ({ concept, editor, element, embed }: Props) => {
   const { t } = useTranslation();
@@ -58,30 +80,35 @@ const EditGlossExamplesModal = ({ concept, editor, element, embed }: Props) => {
   }, [concept.glossData, editor, element, embed.embedData, isNewArticleLanguage, locale]);
 
   return (
-    <Modal open={modalOpen} onOpenChange={setModalOpen}>
+    <DialogRoot open={modalOpen} onOpenChange={(details) => setModalOpen(details.open)}>
       {concept.conceptType === "gloss" && concept.glossData?.examples.length ? (
-        <ModalTrigger>
-          <IconButtonV2
+        <DialogTrigger asChild>
+          <IconButton
             title={t("form.gloss.editExamples")}
             aria-label={t("form.gloss.editExamples")}
-            variant="ghost"
-            colorTheme="light"
+            variant="tertiary"
+            size="small"
           >
-            <Pencil />
-          </IconButtonV2>
-        </ModalTrigger>
+            <PencilFill />
+          </IconButton>
+        </DialogTrigger>
       ) : null}
-      <ModalContent>
-        <EditGlossExamplesModalContent
-          originalLanguage={concept.glossData?.originalLanguage}
-          examples={concept.glossData?.examples ?? []}
-          editor={editor}
-          element={element}
-          embed={embed}
-          close={() => setModalOpen(false)}
-        />
-      </ModalContent>
-    </Modal>
+      <Portal>
+        <StyledDialogBackdrop />
+        <StyledDialogPositioner>
+          <DialogStandaloneContent>
+            <EditGlossExamplesModalContent
+              originalLanguage={concept.glossData?.originalLanguage}
+              examples={concept.glossData?.examples ?? []}
+              editor={editor}
+              element={element}
+              embed={embed}
+              close={() => setModalOpen(false)}
+            />
+          </DialogStandaloneContent>
+        </StyledDialogPositioner>
+      </Portal>
+    </DialogRoot>
   );
 };
 

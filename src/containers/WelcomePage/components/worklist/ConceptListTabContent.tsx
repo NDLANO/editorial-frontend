@@ -9,38 +9,39 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Calendar } from "@ndla/icons/editor";
-import { Pager } from "@ndla/pager";
-import { SingleValue } from "@ndla/select";
+import { SafeLink } from "@ndla/safelink";
 import { IConceptSearchResult } from "@ndla/types-backend/concept-api";
-import PageSizeDropdown from "./PageSizeDropdown";
+import PageSizeSelect from "./PageSizeSelect";
 import StatusCell from "./StatusCell";
-import SubjectDropdown from "./SubjectDropdown";
+import SubjectCombobox from "./SubjectCombobox";
 import { SortOptionConceptList } from "./WorkList";
+import Pagination from "../../../../components/abstractions/Pagination";
 import { useSearchConcepts } from "../../../../modules/concept/conceptQueries";
 import { toEditConcept, toEditGloss } from "../../../../util/routeHelpers";
-import { ControlWrapperDashboard, StyledLink, StyledTopRowDashboardInfo, TopRowControls } from "../../styles";
+import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../../styles";
+import { SelectItem } from "../../types";
 import GoToSearch from "../GoToSearch";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "../TableComponent";
 import TableTitle from "../TableTitle";
 
 interface Props {
   data: IConceptSearchResult | undefined;
-  filterSubject: SingleValue | undefined;
-  isLoading: boolean;
+  filterSubject: SelectItem | undefined;
+  isPending: boolean;
   setSortOption: (o: Prefix<"-", SortOptionConceptList>) => void;
   sortOption: string;
   error: string | undefined;
-  setFilterSubject: (fs: SingleValue) => void;
+  setFilterSubject: (fs: SelectItem) => void;
   ndlaId: string;
   setPageConcept: (page: number) => void;
-  pageSizeConcept: SingleValue;
-  setPageSizeConcept: (p: SingleValue) => void;
+  pageSizeConcept: SelectItem;
+  setPageSizeConcept: (p: SelectItem) => void;
 }
 
 const ConceptListTabContent = ({
   data,
   filterSubject,
-  isLoading,
+  isPending,
   setSortOption,
   sortOption,
   error,
@@ -71,12 +72,12 @@ const ConceptListTabContent = ({
             {
               id: `title_${res.id}`,
               data: (
-                <StyledLink
+                <SafeLink
                   to={res.conceptType === "concept" ? toEditConcept(res.id) : toEditGloss(res.id)}
                   title={res.title?.title}
                 >
                   {res.title?.title}
-                </StyledLink>
+                </SafeLink>
               ),
               title: res.title?.title,
             },
@@ -122,7 +123,6 @@ const ConceptListTabContent = ({
     },
   ];
 
-  const lastPage = data?.totalCount ? Math.ceil(data?.totalCount / (data.pageSize ?? 1)) : 1;
   const subjectIds = searchQuery.data?.aggregations.flatMap((a) => a.values.map((v) => v.value));
 
   return (
@@ -135,10 +135,10 @@ const ConceptListTabContent = ({
         />
         <ControlWrapperDashboard>
           <TopRowControls>
-            <PageSizeDropdown pageSize={pageSizeConcept} setPageSize={setPageSizeConcept} />
+            <PageSizeSelect pageSize={pageSizeConcept} setPageSize={setPageSizeConcept} />
             {setFilterSubject && (
               <>
-                <SubjectDropdown
+                <SubjectCombobox
                   subjectIds={subjectIds ?? []}
                   filterSubject={filterSubject}
                   setFilterSubject={setFilterSubject}
@@ -150,7 +150,7 @@ const ConceptListTabContent = ({
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
       <TableComponent
-        isLoading={isLoading}
+        isPending={isPending}
         tableTitleList={tableTitles}
         tableData={tableData}
         setSortOption={setSortOption}
@@ -159,14 +159,13 @@ const ConceptListTabContent = ({
         noResultsText={t("welcomePage.emptyConcepts")}
         minWidth="630px"
       />
-      <Pager
-        page={data?.page ?? 1}
-        lastPage={lastPage}
-        query={{}}
-        onClick={(el) => setPageConcept(el.page)}
-        small
-        colorTheme="lighter"
-        pageItemComponentClass="button"
+      <Pagination
+        page={data?.page}
+        onPageChange={(details) => setPageConcept(details.page)}
+        count={data?.totalCount ?? 0}
+        pageSize={data?.pageSize}
+        aria-label={t("welcomePage.pagination.workList", { resourceType: t("welcomePage.pagination.concepts") })}
+        buttonSize="small"
       />
     </>
   );

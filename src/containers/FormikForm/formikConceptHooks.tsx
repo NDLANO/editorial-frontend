@@ -13,7 +13,6 @@ import { IArticle, IUserData } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import { LAST_UPDATED_SIZE, TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
 import * as conceptApi from "../../modules/concept/conceptApi";
-import { fetchSearchTags } from "../../modules/concept/conceptApi";
 import { fetchDraft } from "../../modules/draft/draftApi";
 import { useUpdateUserDataMutation, useUserData } from "../../modules/draft/draftQueries";
 import { fetchNodes } from "../../modules/nodes/nodeApi";
@@ -100,7 +99,6 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
   return {
     concept,
     createConcept,
-    fetchSearchTags,
     loading,
     setConcept: (concept: IConcept) => {
       setConcept(concept);

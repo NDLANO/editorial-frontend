@@ -9,25 +9,25 @@
 import { useFormikContext } from "formik";
 import { memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { FileCompare } from "@ndla/icons/action";
 import { Launch } from "@ndla/icons/common";
-import { Check, Eye } from "@ndla/icons/editor";
+import { Eye } from "@ndla/icons/editor";
+import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { IConcept } from "@ndla/types-backend/concept-api";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import DeleteLanguageVersion from "./DeleteLanguageVersion";
+import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
 import { StyledSplitter } from "./HeaderInformation";
 import HeaderLanguagePicker from "./HeaderLanguagePicker";
-import HeaderLanguagePill from "./HeaderLanguagePill";
 import HeaderSupportedLanguages from "./HeaderSupportedLanguages";
 import TranslateNbToNn from "./TranslateNbToNn";
-import { createEditUrl, toMapping, translatableTypes } from "./util";
+import { createEditUrl, hasArticleFieldsChanged, toMapping, translatableTypes } from "./util";
 import { PUBLISHED } from "../../constants";
 import { toCompareLanguage } from "../../util/routeHelpers";
 import { useIsTranslatableToNN } from "../NynorskTranslateProvider";
-import PreviewDraftLightboxV2 from "../PreviewDraft/PreviewDraftLightboxV2";
+import { PreviewResourceDialog } from "../PreviewDraft/PreviewResourceDialog";
 
 interface PreviewLightBoxProps {
   article?: IArticle;
@@ -36,35 +36,49 @@ interface PreviewLightBoxProps {
   currentLanguage: string;
 }
 
-const StyledWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-`;
+const StyledWrapper = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    width: "100%",
+    flexWrap: "wrap",
+    alignItems: "center",
+    gap: "3xsmall",
+  },
+});
 
-const StyledGroup = styled.div`
-  display: flex;
-  align-items: center;
-`;
+const StyledGroup = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    flexWrap: "wrap",
+    gap: "3xsmall",
+  },
+});
 
 const PreviewLightBox = memo(({ type, currentLanguage, article, concept }: PreviewLightBoxProps) => {
   const { t } = useTranslation();
   if ((type === "concept" || type === "gloss") && concept) {
     return (
-      <PreviewDraftLightboxV2
+      <PreviewResourceDialog
         type="conceptCompare"
         concept={concept}
         language={currentLanguage}
         activateButton={
-          <ButtonV2 size="small" colorTheme="light">
+          <Button size="small" variant="secondary">
             <FileCompare /> {t("form.previewLanguageArticle.button")}
-          </ButtonV2>
+          </Button>
         }
       />
     );
   } else if ((type === "standard" || type === "topic-article" || type === "frontpage-article") && article) {
     return (
-      <SafeLinkButton size="small" variant="ghost" to={toCompareLanguage(article.id, currentLanguage)} target="_blank">
+      <SafeLinkButton
+        size="small"
+        variant="tertiary"
+        to={toCompareLanguage(article.id, currentLanguage)}
+        target="_blank"
+      >
         {t("form.previewLanguageArticle.button")}
         <Launch />
       </SafeLinkButton>
@@ -112,15 +126,13 @@ const HeaderActions = ({
     () => articleHistory?.find((v) => v.status.current === PUBLISHED),
     [articleHistory],
   );
-  const isIdenticalToPublished = useMemo(() => {
-    if (lastPublishedVersion) {
-      return (
-        lastPublishedVersion.content?.content === article?.content?.content &&
-        lastPublishedVersion.title?.htmlTitle === article?.title?.htmlTitle &&
-        lastPublishedVersion.introduction?.htmlIntroduction === article?.introduction?.htmlIntroduction
-      );
-    }
-    return false;
+
+  const hasChanges = useMemo(() => {
+    return hasArticleFieldsChanged(article, lastPublishedVersion, [
+      "title.title",
+      "content.content",
+      "introduction.introduction",
+    ]);
   }, [article, lastPublishedVersion]);
 
   const languages = useMemo(
@@ -145,8 +157,8 @@ const HeaderActions = ({
   );
 
   return (
-    <>
-      <StyledWrapper>
+    <StyledWrapper>
+      <StyledGroup>
         <HeaderSupportedLanguages
           id={id}
           editUrl={editUrl}
@@ -155,10 +167,7 @@ const HeaderActions = ({
           isSubmitting={isSubmitting}
         />
         {isNewLanguage && (
-          <HeaderLanguagePill current key={`types_${language}`}>
-            <Check />
-            {t(`languages.${language}`)}
-          </HeaderLanguagePill>
+          <HeaderCurrentLanguagePill key={`types_${language}`}>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
         )}
         <StyledSplitter />
         <HeaderLanguagePicker id={id} emptyLanguages={emptyLanguages} editUrl={editUrl} />
@@ -181,45 +190,43 @@ const HeaderActions = ({
           {lastPublishedVersion && (
             <>
               <StyledSplitter />
-              <PreviewDraftLightboxV2
+              <PreviewResourceDialog
                 type="version"
                 article={lastPublishedVersion}
                 language={language}
                 customTitle={t("form.previewProductionArticle.published")}
                 activateButton={
-                  <ButtonV2
-                    variant="ghost"
+                  <Button
+                    variant="tertiary"
                     size="small"
                     aria-label={
-                      isIdenticalToPublished
-                        ? t("form.previewProductionArticle.buttonDisabled")
-                        : t("form.previewProductionArticle.button")
+                      hasChanges
+                        ? t("form.previewProductionArticle.button")
+                        : t("form.previewProductionArticle.buttonDisabled")
                     }
-                    disabled={isIdenticalToPublished}
+                    disabled={!hasChanges}
                     title={
-                      isIdenticalToPublished
-                        ? t("form.previewProductionArticle.buttonDisabled")
-                        : t("form.previewProductionArticle.button")
+                      hasChanges
+                        ? t("form.previewProductionArticle.button")
+                        : t("form.previewProductionArticle.buttonDisabled")
                     }
                   >
                     <Eye /> {t("form.previewVersion")}
-                  </ButtonV2>
+                  </Button>
                 }
               />
             </>
           )}
         </StyledGroup>
-      </StyledWrapper>
-      {
-        <DeleteLanguageVersion
-          id={id}
-          language={language}
-          supportedLanguages={supportedLanguages}
-          type={type}
-          disabled={disableDelete}
-        />
-      }
-    </>
+      </StyledGroup>
+      <DeleteLanguageVersion
+        id={id}
+        language={language}
+        supportedLanguages={supportedLanguages}
+        type={type}
+        disabled={disableDelete}
+      />
+    </StyledWrapper>
   );
 };
 

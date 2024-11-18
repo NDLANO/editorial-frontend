@@ -11,10 +11,13 @@ export const SEARCH_CONCEPTS = "searchConcepts";
 export const SEARCH_SERIES = "searchSeries";
 export const SEARCH_IMAGES = "searchImages";
 export const SEARCH = "search";
+export const SEARCH_RESOURCES = "searchResources";
+export const SEARCH_WITH_CUSTOM_SUBJECTS_FILTERING = "searchWithCustomSubjectsFiltering";
 export const SEARCH_SUBJECT_STATS = "searchSubjectStats";
 export const MYNDLA_RESOURCE_STATS = "myNdlaResourceStats";
 
 export const CONCEPT_STATE_MACHINE = "conceptStateMachine";
+export const CONCEPT_SEARCH_TAGS = "conceptSearchTags";
 
 export const AUTH0_USERS = "auth0Users";
 export const AUTH0_EDITORS = "auth0Editors";
@@ -23,8 +26,10 @@ export const AUTH0_RESPONSIBLES = "auth0Responsibles";
 export const CONCEPT = "concept";
 
 export const IMAGE = "image";
+export const IMAGE_SEARCH_TAGS = "imageSearchTags";
 
 export const AUDIO = "audio";
+export const AUDIO_SEARCH_TAGS = "audioSearchTags";
 
 export const AUDIO_EMBED = "audioEmbed";
 export const BRIGHTCOVE_EMBED = "brightcoveEmbed";
@@ -38,6 +43,8 @@ export const SEARCH_DRAFTS = "searchDrafts";
 export const LICENSES = "licenses";
 export const USER_DATA = "userData";
 export const DRAFT_STATUS_STATE_MACHINE = "draftStatusStateMachine";
+export const DRAFT_SEARCH_TAGS = "draftSearchTags";
+export const GREP_CODES_SEARCH = "grepCodesSearch";
 
 export const RESOURCE_TYPE = "resourceType";
 export const RESOURCE_TYPES = "resourceTypes";
@@ -47,6 +54,7 @@ export const SUBJECT = "subject";
 
 export const FILM_FRONTPAGE_QUERY = "filmFrontpage";
 export const FILM_SLIDESHOW = "filmSlideshow";
+export const FILM_SEARCH = "filmSearch";
 
 export const FRONTPAGE = "frontpage";
 

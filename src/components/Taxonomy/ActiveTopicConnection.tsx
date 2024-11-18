@@ -9,10 +9,11 @@
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { misc, spacing, fonts, colors } from "@ndla/core";
+import { DeleteBinLine } from "@ndla/icons/action";
+import { IconButton } from "@ndla/primitives";
 import { Node } from "@ndla/types-taxonomy";
 import Breadcrumb from "./Breadcrumb";
-import RelevanceOption from "./RelevanceOption";
-import RemoveButton from "./RemoveButton";
+import RelevanceOptionSwitch from "./RelevanceOptionSwitch";
 import { MinimalNodeChild } from "../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy";
 
 interface Props {
@@ -26,6 +27,7 @@ interface Props {
 const StyledFlexWrapper = styled.div`
   display: flex;
   align-items: center;
+  gap: ${spacing.small};
 `;
 
 const StyledPrimaryConnectionButton = styled.button`
@@ -53,6 +55,7 @@ const StyledConnections = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: ${spacing.xsmall};
   background: ${colors.brand.greyLightest};
   padding: ${spacing.xsmall};
   margin-bottom: 2px;
@@ -86,11 +89,19 @@ const ActiveTopicConnection = ({ removeConnection, setPrimaryConnection, setRele
         <Breadcrumb node={node} />
       </StyledFlexWrapper>
       <StyledFlexWrapper>
-        <RelevanceOption
+        <RelevanceOptionSwitch
           relevanceId={node.relevanceId}
           onChange={(relevanceId) => setRelevance?.(node.id, relevanceId)}
         />
-        <RemoveButton onClick={() => removeConnection?.(node.id)} />
+        <IconButton
+          aria-label={t("taxonomy.removeResource")}
+          title={t("taxonomy.removeResource")}
+          variant="danger"
+          size="small"
+          onClick={() => removeConnection?.(node.id)}
+        >
+          <DeleteBinLine />
+        </IconButton>
       </StyledFlexWrapper>
     </StyledConnections>
   );

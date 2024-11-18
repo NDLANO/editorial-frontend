@@ -8,44 +8,46 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Pencil } from "@ndla/icons/action";
-import { Pager } from "@ndla/pager";
-import { SingleValue } from "@ndla/select";
+import { PencilFill } from "@ndla/icons/action";
+import { SafeLink } from "@ndla/safelink";
 import { IArticleSummary } from "@ndla/types-backend/draft-api";
 import { SortOptionLastUsed } from "./LastUsedItems";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
-import PageSizeDropdown from "./worklist/PageSizeDropdown";
+import PageSizeSelect from "./worklist/PageSizeSelect";
+import StatusCell from "./worklist/StatusCell";
+import Pagination from "../../../components/abstractions/Pagination";
 import formatDate from "../../../util/formatDate";
-import { toEditArticle } from "../../../util/routeHelpers";
-import { StyledLink, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
+import { routes } from "../../../util/routeHelpers";
+import { StyledTopRowDashboardInfo } from "../styles";
+import { SelectItem } from "../types";
 
 interface Props {
   data: IArticleSummary[];
-  isLoading: boolean;
+  isPending: boolean;
   page: number;
   setPage: (page: number) => void;
   sortOption: string;
   setSortOption: (o: Prefix<"-", SortOptionLastUsed>) => void;
   error: string | undefined;
-  lastPage: number;
   titles: TitleElement<SortOptionLastUsed>[];
-  pageSize: SingleValue;
-  setPageSize: (p: SingleValue) => void;
+  pageSize: SelectItem;
+  setPageSize: (p: SelectItem) => void;
+  totalCount: number | undefined;
 }
 
 const LastUsedResources = ({
   data = [],
-  isLoading,
+  isPending,
   page,
   setPage,
   sortOption,
   setSortOption,
   error,
-  lastPage,
   titles,
   pageSize,
   setPageSize,
+  totalCount,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -55,11 +57,12 @@ const LastUsedResources = ({
         {
           id: `title_${a.id}`,
           data: (
-            <StyledLink to={toEditArticle(a.id, a.articleType)} title={a.title?.title}>
+            <SafeLink to={routes.editArticle(a.id, a.articleType)} title={a.title?.title}>
               {a.title?.title}
-            </StyledLink>
+            </SafeLink>
           ),
         },
+        { id: `status_${a.id}`, data: <StatusCell status={a.status} /> },
         { id: `lastUpdated_${a.id}`, data: formatDate(a.updated) },
       ]) ?? [[]],
     [data],
@@ -71,30 +74,27 @@ const LastUsedResources = ({
         <TableTitle
           title={t("welcomePage.lastUsed")}
           description={t("welcomePage.lastUsedDescription")}
-          Icon={Pencil}
+          Icon={PencilFill}
         />
-        <TopRowControls>
-          <PageSizeDropdown pageSize={pageSize} setPageSize={setPageSize} />
-        </TopRowControls>
+        <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
       </StyledTopRowDashboardInfo>
       <TableComponent
-        isLoading={isLoading}
+        isPending={isPending}
         tableTitleList={titles}
         tableData={tableData}
         setSortOption={setSortOption}
         sortOption={sortOption}
         error={error}
         noResultsText={t("welcomePage.emptyLastUsed")}
-        minWidth="250px"
+        minWidth="500px"
       />
-      <Pager
+      <Pagination
         page={page}
-        lastPage={lastPage}
-        query={{}}
-        onClick={(el) => setPage(el.page)}
-        small
-        colorTheme="lighter"
-        pageItemComponentClass="button"
+        onPageChange={(details) => setPage(details.page)}
+        count={totalCount ?? 0}
+        pageSize={Number(pageSize!.value)}
+        aria-label={t("welcomePage.pagination.lastUsed", { resourceType: t("welcomePage.pagination.resources") })}
+        buttonSize="small"
       />
     </>
   );

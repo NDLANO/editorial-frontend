@@ -7,19 +7,37 @@
  */
 
 import { useFormikContext } from "formik";
-import { FormEvent } from "react";
-
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
-import { UploadDropZone, FieldHeader } from "@ndla/forms";
-import { DeleteForever } from "@ndla/icons/editor";
+import { Portal } from "@ark-ui/react";
+import { DeleteBinLine } from "@ndla/icons/action";
+import { InformationLine } from "@ndla/icons/common";
+import { UploadCloudLine } from "@ndla/icons/editor";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  FieldErrorMessage,
+  FieldRoot,
+  FileUploadDropzone,
+  FileUploadHiddenInput,
+  FileUploadLabel,
+  FileUploadRoot,
+  FileUploadTrigger,
+  IconButton,
+  UnOrderedList,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import AudioCopyInfo from "./AudioCopyInfo";
-import AudioFileInfoModal from "./AudioFileInfoModal";
 import { AudioFormikType } from "./AudioForm";
 import AudioPlayer from "./AudioPlayer";
-import FormikField from "../../../components/FormikField";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
+import FieldHeader from "../../../components/Field/FieldHeader";
+import { FormField } from "../../../components/FormField";
+import { FormContent } from "../../../components/FormikForm";
 import { PodcastFormValues } from "../../../modules/audio/audioApiInterfaces";
 import { TitleField } from "../../FormikForm";
 import { HandleSubmitFunc } from "../../FormikForm/articleFormHooks";
@@ -28,13 +46,13 @@ interface Props<T extends AudioFormikType | PodcastFormValues> {
   handleSubmit: HandleSubmitFunc<T>;
 }
 
-const PlayerWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: ${spacing.small};
-  margin-top: ${spacing.large};
-`;
+const PlayerWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "small",
+  },
+});
 
 const getPlayerObject = (values: AudioFormikType): { src: string; mimeType: string } | undefined => {
   const { newFile, storedFile } = values.audioFile;
@@ -60,49 +78,103 @@ const AudioContent = <T extends AudioFormikType | PodcastFormValues>({ handleSub
   const playerObject = getPlayerObject(values);
 
   return (
-    <>
+    <FormContent>
       <TitleField hideToolbar />
-      <FormikField noBorder name="audioFile" label={t("form.audio.file")}>
-        {() => (
+      <FormField name="audioFile">
+        {({ helpers, meta }) => (
           <>
             <FieldHeader title={t("form.audio.sound")}>
-              <AudioFileInfoModal />
+              <DialogRoot>
+                <DialogTrigger asChild>
+                  <IconButton
+                    variant="tertiary"
+                    size="small"
+                    aria-label={t("form.audio.modal.label")}
+                    title={t("form.audio.modal.label")}
+                  >
+                    <InformationLine />
+                  </IconButton>
+                </DialogTrigger>
+                <Portal>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>{t("form.audio.modal.header")}</DialogTitle>
+                      <DialogCloseButton />
+                    </DialogHeader>
+                    <DialogBody>
+                      <UnOrderedList>
+                        <li>{t("form.audio.info.multipleFiles")}</li>
+                        <li>{t("form.audio.info.changeFile")}</li>
+                        <li>{t("form.audio.info.newLanguage")}</li>
+                        <li>{t("form.audio.info.deleteFiles")}</li>
+                      </UnOrderedList>
+                    </DialogBody>
+                  </DialogContent>
+                </Portal>
+              </DialogRoot>
             </FieldHeader>
             {playerObject ? (
               <PlayerWrapper>
                 <AudioPlayer audio={playerObject} />
-                <IconButtonV2
-                  variant="ghost"
-                  colorTheme="danger"
+                <IconButton
+                  variant="danger"
                   aria-label={t("form.audio.remove")}
-                  onClick={() => setFieldValue("audioFile", {})}
-                  tabIndex={-1}
                   title={t("form.audio.remove")}
+                  onClick={() => setFieldValue("audioFile", {})}
+                  size="small"
                 >
-                  <DeleteForever />
-                </IconButtonV2>
+                  <DeleteBinLine />
+                </IconButton>
               </PlayerWrapper>
             ) : (
-              <UploadDropZone
-                name="audioFile"
-                allowedFiles={["audio/mp3", "audio/mpeg"]}
-                onAddedFiles={(_, evt: FormEvent<HTMLInputElement>) => {
-                  const file = evt.currentTarget.files?.[0];
-                  const filepath = file ? URL.createObjectURL(file) : undefined;
-                  const newFile = file && filepath ? { file, filepath } : undefined;
-                  setFieldValue("audioFile", { newFile });
-                }}
-                ariaLabel={t("form.audio.dragdrop.ariaLabel")}
-              >
-                <strong>{t("form.audio.dragdrop.main")}</strong>
-                {t("form.audio.dragdrop.sub")}
-              </UploadDropZone>
+              <FieldRoot required invalid={!!meta.error}>
+                <FileUploadRoot
+                  accept={["audio/mp3", "audio/mpeg"]}
+                  onFileAccept={(details) => {
+                    const file = details.files?.[0];
+                    if (!file) return;
+                    const filepath = URL.createObjectURL(file);
+                    const newFile = { file, filepath };
+                    setFieldValue("audioFile", { newFile });
+                  }}
+                  onFileReject={(details) => {
+                    const fileErrors = details.files?.[0]?.errors;
+                    if (!fileErrors) return;
+                    if (fileErrors.includes("FILE_INVALID_TYPE")) {
+                      const errorMessage = `${t("form.audio.fileUpload.genericError")}: ${t(
+                        "form.audio.fileUpload.fileTypeInvalidError",
+                      )}`;
+                      // Bug in formik's setError function requiring setTimeout to make it work,
+                      // as discussed here: https://github.com/jaredpalmer/formik/discussions/3870
+                      setTimeout(() => {
+                        helpers.setError(errorMessage);
+                      }, 0);
+                      return;
+                    }
+                    setTimeout(() => {
+                      helpers.setError(t("form.audio.fileUpload.genericError"));
+                    }, 0);
+                  }}
+                >
+                  <FileUploadDropzone>
+                    <FileUploadLabel>{t("form.audio.fileUpload.description")}</FileUploadLabel>
+                    <FileUploadTrigger asChild>
+                      <Button>
+                        <UploadCloudLine />
+                        {t("form.audio.fileUpload.button")}
+                      </Button>
+                    </FileUploadTrigger>
+                  </FileUploadDropzone>
+                  <FileUploadHiddenInput />
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                </FileUploadRoot>
+              </FieldRoot>
             )}
           </>
         )}
-      </FormikField>
+      </FormField>
       <AudioCopyInfo values={values} />
-    </>
+    </FormContent>
   );
 };
 

@@ -17,13 +17,14 @@ import {
   AlignCenter,
   AlignLeft,
   AlignRight,
+  Copyright,
   Crop,
   FocalPoint,
   ImageSmall,
   ImageXsmall,
   ImageXxSmall,
+  PublicDomain,
 } from "@ndla/icons/editor";
-import { Copyright, Publicdomain } from "@ndla/icons/licenses";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import ImageTransformEditor from "./ImageTransformEditor";
 import { FormField } from "../../components/FormField";
@@ -75,7 +76,7 @@ const sizes = [
 ] as const;
 
 const bylineOptions = [
-  { value: "hide", children: <Publicdomain /> },
+  { value: "hide", children: <PublicDomain /> },
   { value: "show", children: <Copyright /> },
 ] as const;
 
@@ -222,9 +223,6 @@ const ImageEditor = ({ language, image }: Props) => {
                 value={field.value}
                 onValueChange={(val) => {
                   helpers.setValue(val);
-                  if (val !== "medium") {
-                    setFieldValue("hideByline", false);
-                  }
                 }}
               >
                 {sizes.map(({ value, children }) => (
@@ -233,30 +231,6 @@ const ImageEditor = ({ language, image }: Props) => {
                     value={value}
                     aria-label={t(`form.image.sizes.${value}`)}
                     title={t(`form.image.sizes.${value}`)}
-                  >
-                    {children}
-                  </StyledToggleGroupItem>
-                ))}
-              </StyledToggleGroup>
-            )}
-          </FormField>
-        </StyledImageEditorMenu>
-      ) : null}
-      {values.size?.startsWith("full") || values.size?.startsWith("medium") ? (
-        <StyledImageEditorMenu>
-          <FormField name="hideByline">
-            {({ field, helpers }) => (
-              <StyledToggleGroup
-                type="single"
-                value={field.value ? "hide" : "show"}
-                onValueChange={(val) => helpers.setValue(val === "hide")}
-              >
-                {bylineOptions.map(({ value, children }) => (
-                  <StyledToggleGroupItem
-                    key={value}
-                    value={value}
-                    aria-label={t(`form.image.byline.${value}`)}
-                    title={t(`form.image.byline.${value}`)}
                   >
                     {children}
                   </StyledToggleGroupItem>

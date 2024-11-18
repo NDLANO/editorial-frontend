@@ -8,64 +8,51 @@
 
 import { KeyboardEvent, MouseEvent, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { breakpoints, colors, fonts, mq, spacing } from "@ndla/core";
-import { CheckboxItem, InputContainer, InputV3, Label } from "@ndla/forms";
-import { Cross, Pencil } from "@ndla/icons/action";
-import { Check, DeleteForever } from "@ndla/icons/editor";
-import { Format } from "@ndla/ui";
+import { CloseLine, PencilFill, DeleteBinLine } from "@ndla/icons/action";
+import { CheckboxCircleFill, CheckLine } from "@ndla/icons/editor";
+import {
+  CheckboxControl,
+  CheckboxHiddenInput,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxRoot,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  IconButton,
+  InputContainer,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { File as FileComponent, FileListItem } from "@ndla/ui";
 import { File as FileType } from "../../../../interfaces";
-import { FormControl } from "../../../FormField";
 
-const FormatWrapper = styled.div`
-  width: 100%;
-  min-height: ${spacing.large};
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  min-width: 80px;
-`;
+const ButtonWrapper = styled("div", {
+  base: {
+    whiteSpace: "nowrap",
+    display: "flex",
+    gap: "3xsmall",
+    alignItems: "center",
+  },
+});
 
-const StyledButtonWrapper = styled.div`
-  white-space: nowrap;
-  display: flex;
-  gap: ${spacing.xxsmall};
-  align-items: center;
-`;
+const StyledFieldRoot = styled(FieldRoot, {
+  base: {
+    width: "100%",
+  },
+});
 
-const CheckboxFormControl = styled(FormControl)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: ${spacing.xsmall};
-  margin-right: ${spacing.normal};
-  & label {
-    font-size: ${fonts.size.text.button};
-    font-weight: ${fonts.weight.semibold};
-  }
-`;
+const StyledCheckboxRoot = styled(CheckboxRoot, {
+  base: {
+    width: "fit-content",
+  },
+});
 
-const StyledInputContainer = styled(InputContainer)`
-  background-color: ${colors.white};
-  width: 100%;
-`;
-
-const File = styled.div`
-  background: ${colors.brand.greyLighter};
-  display: flex;
-  gap: ${spacing.xsmall};
-  width: 100%;
-  margin-bottom: ${spacing.xsmall};
-  padding: ${spacing.xsmall};
-  ${mq.range({ from: breakpoints.tablet })} {
-    padding: ${spacing.xsmall} ${spacing.normal};
-  }
-`;
-
-const StyledFormControl = styled(FormControl)`
-  width: 100%;
-`;
+const StyledFileListItem = styled(FileListItem, {
+  base: {
+    width: "100%",
+    gap: "xsmall",
+  },
+});
 
 interface Props {
   index: number;
@@ -123,91 +110,87 @@ export const SlateFile = ({
   );
 
   return (
-    <File>
-      {isEditMode ? (
-        <StyledFormControl id={"update-file-name"}>
-          <Label visuallyHidden>{t("form.file.changeName")}</Label>
-          <StyledInputContainer>
-            <InputV3
-              name="file-name"
-              value={fileName}
-              onKeyDown={onKeyDown}
-              onChange={(e) => setFileName(e.currentTarget.value)}
-              // eslint-disable-next-line jsx-a11y/no-autofocus
-              autoFocus
-            />
-            <IconButtonV2
-              variant="ghost"
-              type="button"
-              onMouseDown={(e) => e.preventDefault()}
-              onClick={onCommitFileName}
-              size="xsmall"
-              aria-label={t("save")}
-              title={t("save")}
-            >
-              <Check />
-            </IconButtonV2>
-          </StyledInputContainer>
-        </StyledFormControl>
-      ) : (
-        <FormatWrapper>
-          <Format
-            format={{
-              url: file.url,
-              fileType: file.type,
-              tooltip: `${t("download")} ${file.url.split("/").pop()}`,
-            }}
-            isPrimary
-            title={file.title}
-            isDeadLink={!!missingFilePaths.find((mp) => mp === file.path)}
-          />
-        </FormatWrapper>
-      )}
-
-      <StyledButtonWrapper>
+    <StyledFileListItem asChild consumeCss>
+      <div>
         {isEditMode ? (
-          <IconButtonV2
-            title={t("cancel")}
-            aria-label={t("form.file.changeName")}
-            onClick={() => setEditIndex(undefined)}
-            variant="ghost"
-            colorTheme="danger"
-            size="xsmall"
-          >
-            <Cross />
-          </IconButtonV2>
+          <StyledFieldRoot>
+            <FieldLabel srOnly>{t("form.file.changeName")}</FieldLabel>
+            <InputContainer>
+              <FieldInput
+                value={fileName}
+                onKeyDown={onKeyDown}
+                onChange={(e) => setFileName(e.currentTarget.value)}
+                // eslint-disable-next-line jsx-a11y/no-autofocus
+                autoFocus
+              />
+              <IconButton
+                variant="tertiary"
+                type="button"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={onCommitFileName}
+                size="small"
+                aria-label={t("save")}
+                title={t("save")}
+              >
+                <CheckboxCircleFill />
+              </IconButton>
+            </InputContainer>
+          </StyledFieldRoot>
         ) : (
-          <>
-            {file.type === "pdf" && (
-              <CheckboxFormControl>
-                <CheckboxItem checked={file.display === "block"} onCheckedChange={onToggleRenderInline} />
-                <Label margin="none" textStyle="label-small">
-                  {t("form.file.showPdf")}
-                </Label>
-              </CheckboxFormControl>
-            )}
-            <IconButtonV2
-              title={t("form.file.changeName")}
-              aria-label={t("form.file.changeName")}
-              onClick={() => setEditIndex(index)}
-              variant="ghost"
-              size="xsmall"
-            >
-              <Pencil />
-            </IconButtonV2>
-          </>
+          <FileComponent
+            title={file.title}
+            url={file.url}
+            fileExists={!missingFilePaths.find((mp) => mp === file.path)}
+            fileType={file.type}
+          />
         )}
-        <IconButtonV2
-          title={t("form.file.removeFile")}
-          aria-label={t("form.file.removeFile")}
-          onClick={() => onDeleteFile(index)}
-          colorTheme="danger"
-          variant="ghost"
-          size="xsmall"
-        >
-          <DeleteForever />
-        </IconButtonV2>
-      </StyledButtonWrapper>
-    </File>
+
+        <ButtonWrapper>
+          {isEditMode ? (
+            <IconButton
+              title={t("cancel")}
+              aria-label={t("form.file.changeName")}
+              onClick={() => setEditIndex(undefined)}
+              variant="secondary"
+              size="small"
+            >
+              <CloseLine />
+            </IconButton>
+          ) : (
+            <>
+              {file.type === "pdf" && (
+                <StyledCheckboxRoot checked={file.display === "block"} onCheckedChange={onToggleRenderInline}>
+                  <CheckboxControl>
+                    <CheckboxIndicator asChild>
+                      <CheckLine />
+                    </CheckboxIndicator>
+                  </CheckboxControl>
+                  <CheckboxLabel>{t("form.file.showPdf")}</CheckboxLabel>
+                  <CheckboxHiddenInput />
+                </StyledCheckboxRoot>
+              )}
+              <IconButton
+                title={t("form.file.changeName")}
+                aria-label={t("form.file.changeName")}
+                onClick={() => setEditIndex(index)}
+                variant="tertiary"
+                size="small"
+              >
+                <PencilFill />
+              </IconButton>
+            </>
+          )}
+          <IconButton
+            title={t("form.file.removeFile")}
+            aria-label={t("form.file.removeFile")}
+            onClick={() => onDeleteFile(index)}
+            variant="danger"
+            size="small"
+          >
+            <DeleteBinLine />
+          </IconButton>
+        </ButtonWrapper>
+      </div>
+    </StyledFileListItem>
   );
 };

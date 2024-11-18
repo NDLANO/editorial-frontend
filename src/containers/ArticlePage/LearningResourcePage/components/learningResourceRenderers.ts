@@ -12,9 +12,10 @@ import { audioRenderer } from "../../../../components/SlateEditor/plugins/audio/
 import { blockQuoteRenderer } from "../../../../components/SlateEditor/plugins/blockquote/render";
 import { breakRenderer } from "../../../../components/SlateEditor/plugins/break/render";
 import { codeblockRenderer } from "../../../../components/SlateEditor/plugins/codeBlock/render";
+import { commentBlockRenderer } from "../../../../components/SlateEditor/plugins/comment/block/render";
+import { commentInlineRenderer } from "../../../../components/SlateEditor/plugins/comment/inline/render";
 import { blockConceptRenderer } from "../../../../components/SlateEditor/plugins/concept/block/render";
 import { inlineConceptRenderer } from "../../../../components/SlateEditor/plugins/concept/inline/render";
-import { conceptListRenderer } from "../../../../components/SlateEditor/plugins/conceptList/render";
 import { copyrightRenderer } from "../../../../components/SlateEditor/plugins/copyright/render";
 import { definitionListRenderer } from "../../../../components/SlateEditor/plugins/definitionList/render";
 import { detailsRenderer } from "../../../../components/SlateEditor/plugins/details/render";
@@ -58,9 +59,10 @@ export const learningResourceRenderers: SlatePlugin[] = [
   detailsRenderer,
   blockQuoteRenderer,
   linkRenderer,
-  conceptListRenderer,
   inlineConceptRenderer,
   blockConceptRenderer,
+  commentInlineRenderer,
+  commentBlockRenderer,
   headingRenderer,
   // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
   // // Blockquote and editList actions need to be triggered before paragraph action, else

@@ -6,19 +6,21 @@
  *
  */
 
-import { Editor } from "slate";
+import { Editor, Path, Element, Node } from "slate";
+import { ReactEditor, RenderLeafProps } from "slate-react";
+import { ExpandableBoxSummary } from "@ndla/primitives";
 import Details from "./Details";
-import Summary from "./Summary";
 import { TYPE_DETAILS, TYPE_SUMMARY } from "./types";
+import WithPlaceHolder from "../../common/WithPlaceHolder";
 
 export const detailsRenderer = (editor: Editor) => {
-  const { renderElement } = editor;
+  const { renderElement, renderLeaf } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
     if (element.type === TYPE_SUMMARY) {
       return (
-        <Summary attributes={attributes} element={element}>
-          {children}
-        </Summary>
+        <ExpandableBoxSummary {...attributes} onClick={(e) => e.preventDefault()} asChild consumeCss>
+          <div>{children}</div>
+        </ExpandableBoxSummary>
       );
     } else if (element.type === TYPE_DETAILS) {
       return (
@@ -27,6 +29,21 @@ export const detailsRenderer = (editor: Editor) => {
         </Details>
       );
     } else return renderElement?.({ attributes, children, element });
+  };
+
+  editor.renderLeaf = (props: RenderLeafProps) => {
+    const { attributes, children, text } = props;
+    const path = ReactEditor.findPath(editor, text);
+
+    const [parent] = Editor.node(editor, Path.parent(Path.parent(path)));
+    if (Element.isElement(parent) && parent.type === TYPE_SUMMARY && Node.string(parent) === "") {
+      return (
+        <WithPlaceHolder attributes={attributes} placeholder="form.name.title">
+          {children}
+        </WithPlaceHolder>
+      );
+    }
+    return renderLeaf?.(props);
   };
 
   return editor;

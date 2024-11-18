@@ -9,6 +9,7 @@
 import { useFormikContext } from "formik";
 import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { PageContent } from "@ndla/primitives";
 import { IUpdatedArticle, IArticle } from "@ndla/types-backend/draft-api";
 import { Node, TaxonomyContext } from "@ndla/types-taxonomy";
 import LearningResourceContent from "./LearningResourceContent";
@@ -25,6 +26,7 @@ import { useSession } from "../../../Session/SessionProvider";
 import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChangeIndicator";
 import RelatedContentFieldGroup from "../../components/RelatedContentFieldGroup";
 import RevisionNotes from "../../components/RevisionNotes";
+import { FlatArticleKeys } from "../../components/types";
 
 interface Props {
   article?: IArticle;
@@ -50,11 +52,19 @@ const LearningResourcePanels = ({
   const { errors } = useFormikContext<LearningResourceFormType>();
   const defaultOpen = useMemo(() => ["learning-resource-content"], []);
 
-  const contentTitleFields = useMemo<(keyof IArticle)[]>(() => ["title", "introduction", "content"], []);
-  const copyrightFields = useMemo<(keyof IArticle)[]>(() => ["copyright"], []);
+  const contentTitleFields = useMemo<FlatArticleKeys[]>(
+    () => ["title.title", "introduction.introduction", "content.content"],
+    [],
+  );
+  const copyrightFields = useMemo<FlatArticleKeys[]>(() => ["copyright"], []);
 
   return (
-    <FormAccordionsWithComments defaultOpen={defaultOpen} articleType="standard" articleStatus={article?.status}>
+    <FormAccordionsWithComments
+      defaultOpen={defaultOpen}
+      article={article}
+      taxonomy={taxonomy}
+      updateNotes={updateNotes}
+    >
       <FormAccordion
         id={"learning-resource-content"}
         title={
@@ -65,15 +75,16 @@ const LearningResourcePanels = ({
             fieldsToIndicatedChangesFor={contentTitleFields}
           />
         }
-        variant="center"
         hasError={!!(errors.title || errors.introduction || errors.content)}
       >
         <IsNewArticleLanguageProvider locale={articleLanguage} article={article}>
-          <LearningResourceContent
-            articleLanguage={articleLanguage}
-            articleId={article?.id}
-            handleSubmit={handleSubmit}
-          />
+          <PageContent variant="content">
+            <LearningResourceContent
+              articleLanguage={articleLanguage}
+              articleId={article?.id}
+              handleSubmit={handleSubmit}
+            />
+          </PageContent>
         </IsNewArticleLanguageProvider>
       </FormAccordion>
       {!!article && !!taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (

@@ -9,7 +9,8 @@
 import { useState, KeyboardEvent } from "react";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { DeleteForever, Done } from "@ndla/icons/editor";
+import { DeleteBinLine } from "@ndla/icons/action";
+import { Done } from "@ndla/icons/editor";
 import { Metadata } from "@ndla/types-taxonomy";
 import CustomFieldButton from "./CustomFieldButton";
 import RoundIcon from "../../../../../components/RoundIcon";
@@ -99,7 +100,7 @@ const CustomFieldComponent = ({
           <Done size="small" />
         </CustomFieldButton>
         <StyledCustomFieldButton onClick={handleDelete}>
-          <DeleteForever />
+          <DeleteBinLine />
         </StyledCustomFieldButton>
       </StyledMenuItemEditField>
     </>

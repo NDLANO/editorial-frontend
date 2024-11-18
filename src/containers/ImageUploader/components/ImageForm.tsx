@@ -10,9 +10,8 @@ import { Formik, FormikHelpers } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
+import { Button, PageContent } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import {
   IImageMetaInformationV3,
   INewImageMetaInformationV2,
@@ -24,23 +23,29 @@ import ImageCopyright from "./ImageCopyright";
 import ImageMetaData from "./ImageMetaData";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
+import { FormActionsContainer } from "../../../components/FormikForm";
 import validateFormik, { RulesType, getWarnings } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
 import HeaderWithLanguage from "../../../components/HeaderWithLanguage/HeaderWithLanguage";
 import SaveButton from "../../../components/SaveButton";
-import { MAX_IMAGE_UPLOAD_SIZE, SAVE_BUTTON_ID } from "../../../constants";
+import { SAVE_BUTTON_ID } from "../../../constants";
 import { editorValueToPlainText } from "../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../util/formHelper";
-import { AlertModalWrapper } from "../../FormikForm";
+import { AlertDialogWrapper } from "../../FormikForm";
 import SimpleVersionPanel from "../../FormikForm/SimpleVersionPanel";
 import { imageApiTypeToFormType, ImageFormikType } from "../imageTransformers";
 
-const ButtonContainer = styled.div`
-  margin-top: ${spacing.small};
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.xsmall};
-`;
+const StyledFormActionsContainer = styled(FormActionsContainer, {
+  base: {
+    marginBlockStart: "xsmall",
+  },
+});
+
+const StyledPageContent = styled(PageContent, {
+  base: {
+    position: "relative",
+  },
+});
 
 const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
   title: {
@@ -77,9 +82,6 @@ const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
   },
   imageFile: {
     required: true,
-  },
-  "imageFile.size": {
-    maxSize: MAX_IMAGE_UPLOAD_SIZE,
   },
   license: {
     required: true,
@@ -211,10 +213,11 @@ const ImageForm = ({
               <FormAccordion
                 id="content"
                 title={t("form.contentSection")}
-                variant="center"
                 hasError={hasError(["title", "imageFile", "caption", "alttext"])}
               >
-                <ImageContent />
+                <StyledPageContent variant="content">
+                  <ImageContent />
+                </StyledPageContent>
               </FormAccordion>
               <FormAccordion
                 id="copyright"
@@ -224,26 +227,26 @@ const ImageForm = ({
                 <ImageCopyright />
               </FormAccordion>
               <FormAccordion id="metadata" title={t("form.metadataSection")} hasError={hasError(["tags"])}>
-                <ImageMetaData imageLanguage={language} imageTags={values.tags} />
+                <ImageMetaData imageLanguage={language} />
               </FormAccordion>
               <FormAccordion id="image-upload-version-history" title={t("form.workflowSection")} hasError={false}>
                 <SimpleVersionPanel editorNotes={image?.editorNotes} />
               </FormAccordion>
             </FormAccordions>
-            <ButtonContainer>
+            <StyledFormActionsContainer>
               {inModal ? (
-                <ButtonV2 variant="outline" onClick={closeModal}>
+                <Button variant="secondary" onClick={closeModal}>
                   {t("form.abort")}
-                </ButtonV2>
+                </Button>
               ) : (
-                <ButtonV2 variant="outline" disabled={isSubmitting || isSaving} onClick={() => navigate(-1)}>
+                <Button variant="secondary" disabled={isSubmitting || isSaving} onClick={() => navigate(-1)}>
                   {t("form.abort")}
-                </ButtonV2>
+                </Button>
               )}
               <SaveButton
                 id={SAVE_BUTTON_ID}
                 type={!inModal ? "submit" : "button"}
-                isSaving={isSubmitting || isSaving}
+                loading={isSubmitting || isSaving}
                 disabled={!isValid}
                 showSaved={!dirty && (isNewlyCreated || savedToServer)}
                 formIsDirty={formIsDirty}
@@ -254,8 +257,8 @@ const ImageForm = ({
                   }
                 }}
               />
-            </ButtonContainer>
-            <AlertModalWrapper
+            </StyledFormActionsContainer>
+            <AlertDialogWrapper
               isSubmitting={isSubmitting}
               severity="danger"
               formIsDirty={formIsDirty}

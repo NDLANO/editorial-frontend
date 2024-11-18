@@ -8,57 +8,71 @@
 
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing, colors } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
-import { ModalBody, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent, ModalCloseButton } from "@ndla/modal";
+import { Portal } from "@ark-ui/react";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  Spinner,
+  Text,
+} from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { cva } from "@ndla/styled-system/css";
+import { styled } from "@ndla/styled-system/jsx";
 import { IEditorNote } from "@ndla/types-backend/draft-api";
-import { ContentTypeBadge } from "@ndla/ui";
+import { constants, ContentTypeBadgeNew } from "@ndla/ui";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
-import ResourceItemLink from "../../../components/Taxonomy/ResourceItemLink";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import NotesVersionHistory from "../../../components/VersionHistory/VersionHistory";
 import { Auth0UserData } from "../../../interfaces";
 import { fetchAuth0Users } from "../../../modules/auth0/auth0Api";
 import { fetchDraftHistory } from "../../../modules/draft/draftApi";
 import formatDate from "../../../util/formatDate";
+import { routes, toLearningpathFull } from "../../../util/routeHelpers";
 import { getIdFromUrn } from "../../../util/taxonomyHelpers";
+
+const { contentTypes } = constants;
 
 interface Props {
   resource: ResourceWithNodeConnectionAndMeta;
   contentType: string;
 }
 
-const StyledModalBody = styled(ModalBody)`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const LinkWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+    alignItems: "flex-start",
+  },
+});
 
-const shouldForwardProp = (p: string) => p !== "isPublished";
+const linkRecipe = cva({
+  base: {
+    color: "text.link",
+    textDecoration: "underline",
+    _hover: {
+      textDecoration: "none",
+    },
+    _visited: {
+      color: "text.linkVisited",
+    },
+  },
+  variants: {
+    invisible: {
+      true: {
+        color: "text.subtle",
+        fontStyle: "italic",
+      },
+    },
+  },
+});
 
-interface StyledButtonProps {
-  isPublished?: boolean;
-}
-
-const StyledButton = styled(ButtonV2, { shouldForwardProp })<StyledButtonProps>`
-  border: none;
-  flex: 2;
-
-  background-color: ${(props) => (props.isPublished ? colors.subjectMaterial.light : colors.learningPath.light)};
-  &:hover {
-    background-color: ${(props) => (props.isPublished ? colors.subjectMaterial.dark : colors.learningPath.dark)};
-  }
-`;
-
-const StyledModalHeader = styled(ModalHeader)`
-  padding-bottom: 0;
-`;
-
-const LinkWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-`;
+const StyledButton = styled(Button, { base: { whiteSpace: "nowrap" } });
 
 const VersionHistory = ({ resource, contentType }: Props) => {
   const { t } = useTranslation();
@@ -66,21 +80,18 @@ const VersionHistory = ({ resource, contentType }: Props) => {
     return null;
   }
   return (
-    <Modal>
-      <ModalTrigger>
-        <StyledButton
-          colorTheme="light"
-          size="xsmall"
-          disabled={contentType === "learning-path"}
-          isPublished={resource.contentMeta.status.current.toLowerCase() === "published"}
-        >
+    <DialogRoot position="top">
+      <DialogTrigger asChild>
+        <StyledButton variant="secondary" size="small" disabled={contentType === contentTypes.LEARNING_PATH}>
           {t(`form.status.${resource.contentMeta.status.current.toLowerCase()}`)}
         </StyledButton>
-      </ModalTrigger>
-      <ModalContent position="top">
-        <VersionHistoryContent contentType={contentType} resource={resource} />
-      </ModalContent>
-    </Modal>
+      </DialogTrigger>
+      <Portal>
+        <DialogContent>
+          <VersionHistoryContent contentType={contentType} resource={resource} />
+        </DialogContent>
+      </Portal>
+    </DialogRoot>
   );
 };
 
@@ -100,6 +111,7 @@ interface VersionHistoryNotes {
 const VersionHistoryContent = ({ contentType, resource }: ModalContentProps) => {
   const { t, i18n } = useTranslation();
   const [notes, setNotes] = useState<VersionHistoryNotes[] | undefined>(undefined);
+  const numericId = parseInt(resource.contentUri?.split(":").pop() ?? "");
 
   useEffect(() => {
     const cleanupNotes = (notes: IEditorNote[], users: Auth0UserData[]) =>
@@ -131,23 +143,34 @@ const VersionHistoryContent = ({ contentType, resource }: ModalContentProps) => 
 
   return (
     <>
-      <StyledModalHeader>
-        <ModalTitle>{t("form.workflowSection")}</ModalTitle>
-        <ModalCloseButton />
-      </StyledModalHeader>
-      <StyledModalBody>
+      <DialogHeader>
+        <DialogTitle>{t("form.workflowSection")}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <DialogBody>
         <LinkWrapper>
-          <ContentTypeBadge background type={contentType === "topic-article" ? "topic" : contentType} />
-          <ResourceItemLink
-            contentType={contentType}
-            contentUri={resource.contentUri}
-            locale={i18n.language}
-            name={resource.name}
-            isVisible={resource.metadata?.visible}
-          />
+          <ContentTypeBadgeNew contentType={contentType === "topic-article" ? "topic" : contentType} />
+          {numericId ? (
+            <SafeLink
+              to={
+                contentType === "learning-path"
+                  ? toLearningpathFull(numericId, i18n.language)
+                  : routes.editArticle(numericId, contentType)
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+              css={linkRecipe.raw({ invisible: !resource.metadata.visible })}
+            >
+              {resource.name}
+            </SafeLink>
+          ) : (
+            <Text textStyle="body.link" css={linkRecipe.raw({ invisible: !resource.metadata.visible })}>
+              {resource.name}
+            </Text>
+          )}
         </LinkWrapper>
         {notes?.length ? <NotesVersionHistory notes={notes} /> : notes ? t("form.notes.history.empty") : <Spinner />}
-      </StyledModalBody>
+      </DialogBody>
     </>
   );
 };

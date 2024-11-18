@@ -8,17 +8,26 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
 import { ImageSearch } from "@ndla/image-search";
-import { Tabs } from "@ndla/tabs";
+import { Button, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3, ISearchParams, ISearchResultV3 } from "@ndla/types-backend/image-api";
+import { useImageSearchTranslations } from "@ndla/ui";
 import CreateImage from "../containers/ImageUploader/CreateImage";
 
-const StyledTitleDiv = styled.div`
-  margin-bottom: ${spacing.small};
-`;
+const StyledText = styled(Text, {
+  base: {
+    marginBlockEnd: "xsmall",
+  },
+});
+
+const StyledTabsContent = styled(TabsContent, {
+  base: {
+    "& > *": {
+      width: "100%",
+    },
+  },
+});
 
 interface Props {
   onImageSelect: (image: IImageMetaInformationV3) => void;
@@ -47,6 +56,7 @@ const ImageSearchAndUploader = ({
 }: Props) => {
   const [selectedTab, setSelectedTab] = useState<string | undefined>(undefined);
   const { t } = useTranslation();
+  const imageSearchTranslations = useImageSearchTranslations();
 
   const searchImagesWithParameters = (query?: string, page?: number) => {
     return searchImages({
@@ -59,46 +69,41 @@ const ImageSearchAndUploader = ({
   };
 
   return (
-    <Tabs
+    <TabsRoot
+      defaultValue="image"
       value={selectedTab}
-      onValueChange={setSelectedTab}
-      tabs={[
-        {
-          title: t(`form.visualElement.image`),
-          id: "image",
-          content: (
-            <ImageSearch
-              fetchImage={fetchImage}
-              searchImages={searchImagesWithParameters}
-              locale={locale}
-              searchPlaceholder={t("imageSearch.placeholder")}
-              searchButtonTitle={t("imageSearch.buttonTitle")}
-              useImageTitle={t("imageSearch.useImage")}
-              checkboxLabel={t("imageSearch.metaImageCheckboxLabel")}
-              onImageSelect={onImageSelect}
-              noResults={
-                <>
-                  <StyledTitleDiv>{t("imageSearch.noResultsText")}</StyledTitleDiv>
-                  <ButtonV2 type="submit" variant="outline" onClick={() => setSelectedTab("upload")}>
-                    {t("imageSearch.noResultsButtonText")}
-                  </ButtonV2>
-                </>
-              }
-              onError={onError}
-              showCheckbox={showCheckbox}
-              checkboxAction={checkboxAction}
-            />
-          ),
-        },
-        {
-          title: t("form.visualElement.imageUpload"),
-          id: "upload",
-          content: (
-            <CreateImage inModal={inModal} editingArticle closeModal={closeModal} onImageCreated={onImageSelect} />
-          ),
-        },
-      ]}
-    />
+      onValueChange={(details) => setSelectedTab(details.value)}
+      translations={{ listLabel: t("form.visualElement.image") }}
+    >
+      <TabsList>
+        <TabsTrigger value="image">{t("form.visualElement.image")}</TabsTrigger>
+        <TabsTrigger value="upload">{t("form.visualElement.imageUpload")}</TabsTrigger>
+        <TabsIndicator />
+      </TabsList>
+      <StyledTabsContent value="image">
+        <ImageSearch
+          fetchImage={fetchImage}
+          searchImages={searchImagesWithParameters}
+          locale={locale}
+          translations={imageSearchTranslations}
+          onImageSelect={onImageSelect}
+          noResults={
+            <>
+              <StyledText>{t("imageSearch.noResultsText")}</StyledText>
+              <Button type="submit" variant="secondary" onClick={() => setSelectedTab("upload")}>
+                {t("imageSearch.noResultsButtonText")}
+              </Button>
+            </>
+          }
+          onError={onError}
+          showCheckbox={showCheckbox}
+          checkboxAction={checkboxAction}
+        />
+      </StyledTabsContent>
+      <StyledTabsContent value="upload">
+        <CreateImage inModal={inModal} editingArticle closeModal={closeModal} onImageCreated={onImageSelect} />
+      </StyledTabsContent>
+    </TabsRoot>
   );
 };
 

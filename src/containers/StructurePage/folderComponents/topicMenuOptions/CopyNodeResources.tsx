@@ -11,11 +11,11 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { spacing, colors } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { Copy } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
-import { Node, NodeChild } from "@ndla/types-taxonomy";
-import AlertModal from "../../../../components/AlertModal";
+import { Spinner } from "@ndla/primitives";
+import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
+import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import RoundIcon from "../../../../components/RoundIcon";
 import { EditMode } from "../../../../interfaces";
 import { cloneDraft } from "../../../../modules/draft/draftApi";
@@ -31,6 +31,7 @@ import NodeSearchDropdown from "../sharedMenuOptions/components/NodeSearchDropdo
 type ActionType = Extract<EditMode, "copyResources" | "cloneResources">;
 interface Props {
   currentNode: Node;
+  nodeType: NodeType;
   editModeHandler: EditModeHandler;
   type: ActionType;
 }
@@ -71,7 +72,7 @@ const StyledDone = styled(Done)`
   color: green;
 `;
 
-const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, currentNode, type }: Props) => {
+const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, currentNode, nodeType, type }: Props) => {
   const {
     t,
     i18n: { language },
@@ -181,7 +182,8 @@ const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, curr
       <Wrapper>
         <RoundIcon open small smallIcon icon={<Copy />} />
         <NodeSearchDropdown
-          placeholder={t("taxonomy.existingNode")}
+          label={t(`taxonomy.${type}.info`)}
+          placeholder={t(`taxonomy.${type}.placeholder`, { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
           onChange={(node) => cloneOrCopyResources(node, type)}
           searchNodeType={"TOPIC"}
           filter={(node) => {
@@ -208,17 +210,18 @@ const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, curr
       </MenuItemButton>
       {showDisplay && (
         <StyledDiv>
-          {done ? <StyledDone /> : <StyledSpinner size="normal" />}
+          {done ? <StyledDone /> : <StyledSpinner size="small" />}
           {`${prefixText} (${count}/${totalAmount})`}
         </StyledDiv>
       )}
-      <AlertModal
+      <AlertDialog
         title={t("errorMessage.description")}
         label={t("errorMessage.description")}
         show={showAlert}
         onCancel={() => setShowAlert(false)}
         text={t(`taxonomy.${type}.error`)}
-        component={failedResources.map((res, index) => (
+      >
+        {failedResources.map((res, index) => (
           <LinkWrapper key={index}>
             <ResourceItemLink
               contentType={res.contentUri?.split(":")[1] === "article" ? "article" : "learning-resource"}
@@ -227,7 +230,7 @@ const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, curr
             />
           </LinkWrapper>
         ))}
-      />
+      </AlertDialog>
     </>
   );
 };

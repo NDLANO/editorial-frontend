@@ -9,30 +9,39 @@
 import { useField } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-
-import { FieldHeader } from "@ndla/forms";
 import { Node } from "@ndla/types-taxonomy";
-
-import { NodeList, NodeSearchDropdown } from "./nodes";
+import { NodeList } from "./nodes";
+import { NodeSearchDropdown } from "./nodes/NodeSearchDropdown";
+import { searchNodes } from "../../../modules/nodes/nodeApi";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
-  subjects: Node[];
+  subjectIds: string[];
   fieldName: string;
 }
 
-const SubjectpageSubjectlinks = ({ subjects, fieldName }: Props) => {
+const SubjectpageSubjectlinks = ({ subjectIds, fieldName }: Props) => {
   const { t } = useTranslation();
   const [subjectList, setSubjectList] = useState<Node[]>([]);
-  const [field, _meta, helpers] = useField<string[]>(fieldName);
+  const [_field, __, helpers] = useField<string[]>(fieldName);
+  const { taxonomyVersion } = useTaxonomyVersion();
 
   useEffect(() => {
-    setSubjectList(subjects);
-  }, [subjects]);
+    (async () => {
+      if (!subjectList.length && subjectIds.length) {
+        const nodes = await searchNodes({ ids: subjectIds, taxonomyVersion });
+        setSubjectList(nodes.results);
+      }
+    })();
+  }, [subjectIds, subjectList.length, taxonomyVersion]);
 
-  const handleAddToList = (node: Node) => {
-    const updatedList = [...subjectList, node];
-    setSubjectList(updatedList);
-    updateFormik(updatedList.map((subject) => subject.id));
+  const onValueChange = (node: Node) => {
+    if (subjectList.includes(node)) {
+      const filtered = subjectList.filter((item) => item.id !== node.id);
+      onUpdateNodes(filtered);
+    } else {
+      onUpdateNodes(subjectList.concat(node));
+    }
   };
 
   const onUpdateNodes = (updatedList: Node[]) => {
@@ -42,19 +51,17 @@ const SubjectpageSubjectlinks = ({ subjects, fieldName }: Props) => {
 
   const updateFormik = (list: string[]) => {
     helpers.setTouched(true, false);
-    field.onChange({
-      target: {
-        name: fieldName,
-        value: list || null,
-      },
-    });
+    helpers.setValue(list || null, true);
   };
 
   return (
     <>
-      <FieldHeader title={t(`subjectpageForm.${fieldName}`)} />
-      <NodeList nodes={subjectList} nodeSet={fieldName} onUpdate={onUpdateNodes} />
-      <NodeSearchDropdown selectedItems={subjectList} onChange={handleAddToList} wide={false} />
+      <NodeSearchDropdown
+        selectedItems={subjectList}
+        onChange={onValueChange}
+        label={t(`subjectpageForm.${fieldName}`)}
+      />
+      <NodeList nodes={subjectList} onUpdate={onUpdateNodes} />
     </>
   );
 };

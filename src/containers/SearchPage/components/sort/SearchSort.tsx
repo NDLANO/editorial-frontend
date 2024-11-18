@@ -7,34 +7,32 @@
  */
 
 import queryString from "query-string";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
+import { createListCollection } from "@ark-ui/react";
+import { SelectContent, SelectLabel, SelectPositioner, SelectRoot, SelectValueText } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { GenericSelectItem, GenericSelectTrigger } from "../../../../components/abstractions/Select";
 
 const customSortOptions: Record<string, string[]> = {
   content: ["revisionDate", "favorited", "published"],
 };
 
-const StyledSortContainer = styled.div`
-  width: 100%;
-  margin-top: ${spacing.small};
-  padding: ${spacing.small};
-  background-color: #eaeaea;
-  border: 1px solid #ddd;
-`;
+const StyledSortContainer = styled("div", {
+  base: {
+    display: "flex",
+    gap: "small",
+    paddingBlock: "small",
+    flexWrap: "wrap",
+  },
+});
 
-const StyledLabel = styled.span`
-  color: black;
-  text-transform: uppercase;
-  margin-left: ${spacing.small};
-  margin-right: ${spacing.small};
-`;
-
-const StyledSelect = styled.select`
-  margin-left: 0.5em;
-`;
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
+  base: {
+    maxWidth: "surface.xsmall",
+  },
+});
 
 interface Props {
   sort?: string;
@@ -48,7 +46,6 @@ const SearchSort = ({ sort: sortProp = "relevance", order: orderProp = "desc", o
   const [order, setOrder] = useState(orderProp);
   const location = useLocation();
   const { t } = useTranslation();
-  const sortOptions = ["id", "relevance", "title", "lastUpdated", ...(customSortOptions[type] ?? [])];
 
   useEffect(() => {
     const { sort: sortOrder } = queryString.parse(location.search);
@@ -59,39 +56,74 @@ const SearchSort = ({ sort: sortProp = "relevance", order: orderProp = "desc", o
     setOrder(order);
   }, [location]);
 
-  const handleSortChange = (evt: ChangeEvent<HTMLSelectElement>) => {
+  const handleSortChange = (value: string) => {
     const _order = order === "desc" ? "-" : "";
-    const sort = evt.target.value;
-    setSort(sort);
-    onSortOrderChange(`${_order + sort}`);
+    setSort(value);
+    onSortOrderChange(`${_order + value}`);
   };
 
-  const handleOrderChange = (evt: ChangeEvent<HTMLSelectElement>) => {
-    const newOrder = evt.target.value === "desc" ? "-" : "";
-    setOrder(evt.target.value);
+  const handleOrderChange = (value: string) => {
+    const newOrder = value === "desc" ? "-" : "";
+    setOrder(value);
     onSortOrderChange(`${newOrder + sort}`);
   };
 
-  const orderOptions = ["desc", "asc"];
+  const sortCollection = useMemo(() => {
+    return createListCollection({
+      items: ["id", "relevance", "title", "lastUpdated", ...(customSortOptions[type] ?? [])],
+      itemToString: (item) => t(`searchForm.sort.${item}`),
+    });
+  }, [t, type]);
+
+  const orderCollection = useMemo(() => {
+    return createListCollection({
+      items: ["desc", "asc"],
+      itemToString: (item) => t(`searchForm.${item}`),
+    });
+  }, [t]);
 
   return (
     <StyledSortContainer>
-      <StyledLabel>{t("searchForm.sorting")}</StyledLabel>
-      <StyledSelect onChange={handleSortChange} value={sort}>
-        {sortOptions.map((option) => (
-          <option key={`sortoptions_${option}`} value={option}>
-            {t(`searchForm.sort.${option}`)}
-          </option>
-        ))}
-      </StyledSelect>
-      <StyledLabel>{t("searchForm.order")}</StyledLabel>
-      <StyledSelect onChange={handleOrderChange} value={order}>
-        {orderOptions.map((option) => (
-          <option key={`orderoptions_${option}`} value={option}>
-            {t(`searchForm.${option}`)}
-          </option>
-        ))}
-      </StyledSelect>
+      <SelectRoot
+        collection={sortCollection}
+        positioning={{ sameWidth: true }}
+        value={[sort]}
+        onValueChange={(details) => handleSortChange(details.value[0])}
+      >
+        <SelectLabel>{t("searchForm.sorting")}</SelectLabel>
+        <StyledGenericSelectTrigger>
+          <SelectValueText />
+        </StyledGenericSelectTrigger>
+        <SelectPositioner>
+          <SelectContent>
+            {sortCollection.items.map((option) => (
+              <GenericSelectItem item={option} key={option}>
+                {t(`searchForm.sort.${option}`)}
+              </GenericSelectItem>
+            ))}
+          </SelectContent>
+        </SelectPositioner>
+      </SelectRoot>
+      <SelectRoot
+        collection={orderCollection}
+        positioning={{ sameWidth: true }}
+        value={[order]}
+        onValueChange={(details) => handleOrderChange(details.value[0])}
+      >
+        <SelectLabel>{t("searchForm.order")}</SelectLabel>
+        <StyledGenericSelectTrigger>
+          <SelectValueText />
+        </StyledGenericSelectTrigger>
+        <SelectPositioner>
+          <SelectContent>
+            {orderCollection.items.map((option) => (
+              <GenericSelectItem item={option} key={option}>
+                {t(`searchForm.${option}`)}
+              </GenericSelectItem>
+            ))}
+          </SelectContent>
+        </SelectPositioner>
+      </SelectRoot>
     </StyledSortContainer>
   );
 };

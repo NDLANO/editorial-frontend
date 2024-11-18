@@ -5,71 +5,81 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Select, SingleValue, Option } from "@ndla/select";
+import { createListCollection } from "@ark-ui/react";
+import { SelectContent, SelectLabel, SelectPositioner, SelectRoot, SelectValueText } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IStatus as DraftStatus } from "@ndla/types-backend/draft-api";
+import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { PUBLISHED } from "../../../constants";
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../../interfaces";
 
 interface Props {
-  status: SingleValue;
-  setStatus: (s: SingleValue) => void;
-  onSave: (s: SingleValue) => void;
+  status: string | undefined;
+  setStatus: (s: string | undefined) => void;
+  onSave: (s: string | undefined) => void;
   statusStateMachine?: ConceptStatusStateMachineType | DraftStatusStateMachineType;
   entityStatus?: DraftStatus;
 }
 
+const StyledSelectValueText = styled(SelectValueText, {
+  base: {
+    lineClamp: "1",
+  },
+});
+
 const StatusSelect = ({ status, setStatus, onSave, statusStateMachine, entityStatus }: Props) => {
   const { t } = useTranslation();
 
-  const transformStatus = (status: string) => ({
-    label: t(`form.status.actions.${status}`),
-    value: status,
-  });
-
-  const [options, setOptions] = useState<Option[]>([]);
-  const optionsWithGroupTitle = useMemo(
-    () => [{ label: t("editorFooter.statusLabel"), options: options }],
-    [options, t],
-  );
-
   useEffect(() => {
     if (entityStatus && statusStateMachine) {
-      const statuses = statusStateMachine[entityStatus.current]?.map((s) => transformStatus(s)) ?? [];
-      setOptions(statuses);
-      if (entityStatus.current === PUBLISHED) {
-        setStatus({ label: t(`form.status.published`), value: PUBLISHED });
-      } else {
-        const initialStatus =
-          statuses.find((s) => s.value.toLowerCase() === entityStatus.current.toLowerCase()) ?? null;
-
-        setStatus(initialStatus);
-      }
+      setStatus(entityStatus.current);
+      const initialStatus = statusStateMachine[entityStatus.current].find(
+        (s) => s.toLowerCase() === entityStatus.current.toLowerCase(),
+      );
+      setStatus(initialStatus);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityStatus, statusStateMachine]);
 
-  const updateStatus = useCallback(
-    async (status: SingleValue) => {
-      if (status) {
-        onSave(status);
-      }
-    },
-    [onSave],
-  );
+  const collection = useMemo(() => {
+    const items =
+      statusStateMachine && entityStatus
+        ? statusStateMachine[entityStatus.current].map((status) => ({
+            label: t(`form.status.actions.${status}`),
+            status,
+          }))
+        : [];
+
+    return createListCollection({ items, itemToValue: (item) => item.status, itemToString: (item) => item.label });
+  }, [entityStatus, statusStateMachine, t]);
 
   return (
-    <div data-testid="status-select">
-      <Select<false>
-        options={optionsWithGroupTitle}
-        menuPlacement="top"
-        placeholder={t("searchForm.types.status")}
-        value={status}
-        onChange={updateStatus}
-        closeMenuOnSelect
-      />
-    </div>
+    <SelectRoot
+      key={status === undefined ? entityStatus?.current : undefined}
+      collection={collection}
+      positioning={{ sameWidth: true }}
+      data-testid="status-select"
+      value={status ? [status] : undefined}
+      onValueChange={(details) => onSave(details.value[0])}
+    >
+      <SelectLabel srOnly>{t("searchForm.types.status")}</SelectLabel>
+      <GenericSelectTrigger>
+        <StyledSelectValueText
+          placeholder={entityStatus?.current === PUBLISHED ? t("form.status.published") : t("searchForm.types.status")}
+        />
+      </GenericSelectTrigger>
+      <SelectPositioner>
+        <SelectContent>
+          {collection.items.map((item) => (
+            <GenericSelectItem item={item} key={item.status}>
+              {item.label}
+            </GenericSelectItem>
+          ))}
+        </SelectContent>
+      </SelectPositioner>
+    </SelectRoot>
   );
 };
 

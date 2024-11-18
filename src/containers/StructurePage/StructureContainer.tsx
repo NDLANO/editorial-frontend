@@ -5,18 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import keyBy from "lodash/keyBy";
 import { useEffect, useRef, useState, ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
-import { breakpoints } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
+import { breakpoints, spacing } from "@ndla/core";
+import { Spinner } from "@ndla/primitives";
 import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
 import StructureErrorIcon from "./folderComponents/StructureErrorIcon";
 import StructureResources from "./resourceComponents/StructureResources";
+import SubjectBanner from "./resourceComponents/SubjectBanner";
 import RootNode from "./RootNode";
-import StickyVersionSelector from "./StickyVersionSelector";
 import StructureBanner from "./StructureBanner";
+import VersionSelector from "./VersionSelector";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import { GridContainer, Column } from "../../components/Layout/Layout";
 import {
@@ -25,7 +28,11 @@ import {
   REMEMBER_SA_SUBJECTS,
   REMEMBER_LMA_SUBJECTS,
   TAXONOMY_ADMIN_SCOPE,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
+  REMEMBER_QUALITY,
+  DRAFT_RESPONSIBLE,
 } from "../../constants";
+import { useAuth0Responsibles } from "../../modules/auth0/auth0Queries";
 import { useUserData } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
 import { createGuard } from "../../util/guards";
@@ -41,6 +48,11 @@ const StructureWrapper = styled.ul`
   padding: 0;
 `;
 
+const StickyContainer = styled.div`
+  position: sticky;
+  top: ${spacing.small};
+`;
+
 const isChildNode = createGuard<NodeChild>("connectionId");
 
 const StyledStructureContainer = styled.div`
@@ -52,6 +64,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   flex: 1;
+  padding-block-start: ${spacing.nsmall};
 `;
 
 const getNodes = (
@@ -104,6 +117,7 @@ const StructureContainer = ({
   const [showLmaSubjects, setShowLmaSubjects] = useLocalStorageBooleanState(REMEMBER_LMA_SUBJECTS);
   const [showDaSubjects, setShowDaSubjects] = useLocalStorageBooleanState(REMEMBER_DA_SUBJECTS);
   const [showSaSubjects, setShowSaSubjects] = useLocalStorageBooleanState(REMEMBER_SA_SUBJECTS);
+  const [showQuality, setShowQuality] = useLocalStorageBooleanState(REMEMBER_QUALITY);
 
   const resourceSection = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
@@ -128,6 +142,11 @@ const StructureContainer = ({
       select: (nodes) => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
       placeholderData: [],
     },
+  );
+
+  const { data: users } = useAuth0Responsibles(
+    { permission: DRAFT_RESPONSIBLE },
+    { select: (users) => keyBy(users, (u) => u.app_metadata.ndla_id) },
   );
 
   useEffect(() => {
@@ -160,7 +179,7 @@ const StructureContainer = ({
     [ndlaId, nodesQuery.data],
   );
 
-  const nodes = getNodes(
+  const rootNodes = getNodes(
     nodesQuery.data,
     showLmaSubjects ? resultSubjectIdObject.subjectLMA.map((s) => s.id) : [],
     showDaSubjects ? resultSubjectIdObject.subjectDA.map((s) => s.id) : [],
@@ -170,10 +189,13 @@ const StructureContainer = ({
   );
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
+  const nodes = isTaxonomyAdmin
+    ? rootNodes
+    : rootNodes.filter((node) => node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== "true");
 
-  const addChildTooltip = childNodeTypes.includes("TOPIC")
-    ? t("taxonomy.addTopicHeader")
-    : t("taxonomy.addNode", { nodeType: t("taxonomy.nodeType.PROGRAMME") });
+  const addChildTooltip = childNodeTypes.includes("PROGRAMME")
+    ? t("taxonomy.addNode", { nodeType: t("taxonomy.nodeType.PROGRAMME") })
+    : t("taxonomy.addTopic");
 
   return (
     <ErrorBoundary>
@@ -194,6 +216,8 @@ const StructureContainer = ({
               hasLmaSubjects={!!resultSubjectIdObject.subjectLMA.length}
               hasDaSubjects={!!resultSubjectIdObject.subjectDA.length}
               hasSaSubjects={!!resultSubjectIdObject.subjectSA.length}
+              showQuality={showQuality}
+              setShowQuality={setShowQuality}
             />
             <StyledStructureContainer>
               {userDataQuery.isLoading || nodesQuery.isLoading ? (
@@ -210,8 +234,9 @@ const StructureContainer = ({
                       key={node.id}
                       node={node}
                       toggleOpen={handleStructureToggle}
-                      addChildTooltip={addChildTooltip}
                       childNodeTypes={childNodeTypes}
+                      addChildTooltip={addChildTooltip}
+                      showQuality={showQuality}
                     />
                   ))}
                 </StructureWrapper>
@@ -220,17 +245,25 @@ const StructureContainer = ({
           </Column>
           {showResourceColumn && (
             <Column colStart={7}>
-              {currentNode && isChildNode(currentNode) && (
-                <StructureResources
-                  currentChildNode={currentNode}
-                  setCurrentNode={setCurrentNode}
-                  resourceRef={resourceSection}
-                />
+              {currentNode && (
+                <StickyContainer ref={resourceSection}>
+                  {currentNode.nodeType === "SUBJECT" && (
+                    <SubjectBanner subjectNode={currentNode} showQuality={showQuality} users={users} />
+                  )}
+                  {isChildNode(currentNode) && (
+                    <StructureResources
+                      currentChildNode={currentNode}
+                      setCurrentNode={setCurrentNode}
+                      showQuality={showQuality}
+                      users={users}
+                    />
+                  )}
+                </StickyContainer>
               )}
             </Column>
           )}
         </GridContainer>
-        {isTaxonomyAdmin && <StickyVersionSelector />}
+        {isTaxonomyAdmin && <VersionSelector />}
         <Footer showLocaleSelector />
       </Wrapper>
     </ErrorBoundary>

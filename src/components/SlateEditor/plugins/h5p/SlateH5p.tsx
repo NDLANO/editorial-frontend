@@ -10,45 +10,39 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
-import styled from "@emotion/styled";
-import { spacing, colors, stackOrder } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
-import { DeleteForever } from "@ndla/icons/editor";
+import { DeleteBinLine } from "@ndla/icons/action";
+import { IconButton, Spinner } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { H5pMetaData } from "@ndla/types-embed";
-import { H5pEmbed } from "@ndla/ui";
+import { EmbedWrapper, H5pEmbed } from "@ndla/ui";
 import EditH5PModal from "./EditH5PModal";
 import EditMetadataModal from "./EditMetadataModal";
 import { H5pElement } from "./types";
 import config from "../../../../config";
 import { useH5pMeta } from "../../../../modules/embed/queries";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
-import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
+import { StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
   element: H5pElement;
   editor: Editor;
 }
 
-const H5pWrapper = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  > div {
-    width: 100%;
-  }
-  &[data-selected="true"] {
-    figure {
-      outline: 2px solid ${colors.brand.primary};
-    }
-  }
-`;
+const StyledEmbedWrapper = styled(EmbedWrapper, {
+  base: {
+    _selected: {
+      outline: "2px solid",
+      outlineColor: "stroke.default",
+    },
+  },
+});
 
-const FigureButtons = styled(StyledFigureButtons)`
-  right: ${spacing.small};
-  top: ${spacing.medium};
-  z-index: ${stackOrder.offsetSingle};
-`;
+const FigureButtons = styled(StyledFigureButtons, {
+  base: {
+    right: "xsmall",
+    top: "medium",
+  },
+});
 
 const SlateH5p = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
@@ -79,25 +73,24 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
   };
 
   return (
-    <H5pWrapper {...attributes} data-selected={isSelected}>
-      <div contentEditable={false}>
-        <FigureButtons>
-          {config.h5pMetaEnabled === true && <EditMetadataModal embed={embed} editor={editor} element={element} />}
-          <EditH5PModal embed={embed} language={language} editor={editor} element={element} />
-          <StyledDeleteEmbedButton
-            title={t("form.h5p.remove")}
-            aria-label={t("form.h5p.remove")}
-            colorTheme="danger"
-            onClick={handleRemove}
-            data-testid="remove-h5p-element"
-          >
-            <DeleteForever />
-          </StyledDeleteEmbedButton>
-        </FigureButtons>
-        {h5pMetaQuery.isLoading || !embed ? <Spinner /> : <H5pEmbed embed={embed} />}
-      </div>
+    <StyledEmbedWrapper {...attributes} aria-selected={isSelected} contentEditable={false}>
+      <FigureButtons>
+        {config.h5pMetaEnabled === true && <EditMetadataModal embed={embed} editor={editor} element={element} />}
+        <EditH5PModal embed={embed} language={language} editor={editor} element={element} />
+        <IconButton
+          title={t("form.h5p.remove")}
+          aria-label={t("form.h5p.remove")}
+          variant="danger"
+          size="small"
+          onClick={handleRemove}
+          data-testid="remove-h5p-element"
+        >
+          <DeleteBinLine />
+        </IconButton>
+      </FigureButtons>
+      {h5pMetaQuery.isLoading || !embed ? <Spinner /> : <H5pEmbed embed={embed} />}
       {children}
-    </H5pWrapper>
+    </StyledEmbedWrapper>
   );
 };
 

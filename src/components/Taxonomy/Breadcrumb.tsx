@@ -8,7 +8,7 @@
 import { Fragment, useMemo } from "react";
 import styled from "@emotion/styled";
 import { colors, fonts } from "@ndla/core";
-import { ChevronRight } from "@ndla/icons/common";
+import { ArrowRightShortLine } from "@ndla/icons/common";
 import { SafeLink } from "@ndla/safelink";
 import { Node } from "@ndla/types-taxonomy";
 import { MinimalNodeChild } from "../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy";
@@ -41,15 +41,17 @@ const Breadcrumb = ({ node, error }: Props) => {
   let url = "/structure";
 
   const crumbs = useMemo(() => {
-    const paths = node.path
-      .split("/")
-      .filter((id) => id && !id.includes("resource:"))
-      .map((id) => `urn:${id}`);
-    return paths.map((path, index) => ({
-      id: path,
-      name: node.breadcrumbs[index],
-    }));
-  }, [node.breadcrumbs, node.path]);
+    const ids = node.context?.parentIds ?? [];
+    if (node.nodeType === "TOPIC") {
+      ids.push(node.id);
+    }
+    return (
+      ids.map((path, index) => ({
+        id: path,
+        name: node.breadcrumbs[index],
+      })) ?? []
+    );
+  }, [node.breadcrumbs, node.context, node.id, node.nodeType]);
 
   return (
     <StyledBreadCrumb>
@@ -62,7 +64,7 @@ const Breadcrumb = ({ node, error }: Props) => {
                 {crumb.name}
               </StyledLink>
             </StyledSpan>
-            {index + 1 !== crumbs.length && <ChevronRight />}
+            {index + 1 !== crumbs.length && <ArrowRightShortLine />}
           </Fragment>
         );
       })}

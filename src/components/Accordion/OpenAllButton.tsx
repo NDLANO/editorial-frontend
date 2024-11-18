@@ -8,8 +8,8 @@
 
 import { Children, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
+import { Button } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { ChildType } from "./FormAccordionsWithComments";
 
 interface Props {
@@ -18,9 +18,11 @@ interface Props {
   formAccordionChildren: ChildType | ChildType[];
 }
 
-const StyledButton = styled(ButtonV2)`
-  align-self: flex-end;
-`;
+const StyledButton = styled(Button, {
+  base: {
+    alignSelf: "flex-end",
+  },
+});
 
 const OpenAllButton = ({ openAccordions, setOpenAccordions, formAccordionChildren }: Props) => {
   const { t } = useTranslation();
@@ -44,7 +46,7 @@ const OpenAllButton = ({ openAccordions, setOpenAccordions, formAccordionChildre
   }, [allOpen, setOpenAccordions, accordionChildren]);
 
   return (
-    <StyledButton onClick={onChangeAll} variant="ghost">
+    <StyledButton onClick={onChangeAll} variant="tertiary" size="small">
       {allOpen ? t("accordion.closeAll") : t("accordion.openAll")}
     </StyledButton>
   );

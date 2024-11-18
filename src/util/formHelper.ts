@@ -68,17 +68,21 @@ export const isFormikFormDirty = <T extends FormikFields>({
   // Skipping fields that only changes on the server
   const skipFields = ["revision", "updated", "updatePublished", "id"];
   const dirtyFields = [];
-  Object.entries(values)
-    .filter(([key]) => !skipFields.includes(key))
-    .forEach(([key, value]) => {
-      if (Array.isArray(value) && value.length > 0 && Node.isNodeList(value)) {
-        if (checkIfContentHasChanged(values[key]!, initialValues[key]!)) {
-          dirtyFields.push(value);
-        }
-      } else if (!isEqual(value, initialValues[key as keyof T])) {
+
+  const allKeys = new Set([...Object.keys(values), ...Object.keys(initialValues)]);
+  allKeys.forEach((key) => {
+    if (skipFields.includes(key)) return;
+    const initialValue = initialValues[key];
+    const value = values[key];
+
+    if (Array.isArray(value) && value.length > 0 && Node.isNodeList(value)) {
+      if (checkIfContentHasChanged(values[key]!, initialValues[key]!)) {
         dirtyFields.push(value);
       }
-    });
+    } else if (!isEqual(value, initialValue)) {
+      dirtyFields.push(value);
+    }
+  });
 
   return dirtyFields.length > 0 || changed;
 };
@@ -200,9 +204,6 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
     required: false,
   },
   prioritized: {
-    required: false,
-  },
-  qualityEvaluation: {
     required: false,
   },
 };

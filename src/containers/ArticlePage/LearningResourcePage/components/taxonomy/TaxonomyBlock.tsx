@@ -11,15 +11,13 @@ import partition from "lodash/partition";
 import sortBy from "lodash/sortBy";
 import { useCallback, useMemo, useState, MouseEvent, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
-import { SingleValue } from "@ndla/select";
+import { Button, SelectLabel } from "@ndla/primitives";
 import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import {
   Node,
   NodeChild,
+  NodeType,
   ResourceType,
   ResourceTypeWithConnection,
   TaxonomyContext,
@@ -27,7 +25,9 @@ import {
 } from "@ndla/types-taxonomy";
 import TaxonomyInfo from "./TaxonomyInfo";
 import { FormikFieldHelp } from "../../../../../components/FormikField";
+import { FormActionsContainer } from "../../../../../components/FormikForm";
 import SaveButton from "../../../../../components/SaveButton";
+import OptGroupVersionSelector from "../../../../../components/Taxonomy/OptGroupVersionSelector";
 import { NodeWithChildren } from "../../../../../components/Taxonomy/TaxonomyBlockNode";
 import TopicConnections from "../../../../../components/Taxonomy/TopicConnections";
 import { RESOURCE_TYPE_LEARNING_PATH, TAXONOMY_ADMIN_SCOPE } from "../../../../../constants";
@@ -40,15 +40,7 @@ import { useSession } from "../../../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../../../StructureVersion/TaxonomyVersionProvider";
 import ResourceTypeSelect from "../../../components/ResourceTypeSelect";
 import TaxonomyConnectionErrors from "../../../components/TaxonomyConnectionErrors";
-import VersionSelect from "../../../components/VersionSelect";
 import { MinimalNodeChild } from "../LearningResourceTaxonomy";
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.xsmall};
-  margin-bottom: ${spacing.small};
-`;
 
 interface Props {
   nodes: Node[];
@@ -61,11 +53,15 @@ interface Props {
   articleLanguage: string;
 }
 
-export interface TaxNode extends Pick<Node, "resourceTypes" | "metadata" | "id"> {
+export interface TaxNode extends Pick<Node, "resourceTypes" | "metadata" | "id" | "context"> {
   placements: MinimalNodeChild[];
 }
 
-export const contextToMinimalNodeChild = (context: TaxonomyContext, articleLanguage: string): MinimalNodeChild => {
+export const contextToMinimalNodeChild = (
+  nodeType: NodeType,
+  context: TaxonomyContext,
+  articleLanguage: string,
+): MinimalNodeChild => {
   const crumb = context.breadcrumbs[articleLanguage] ?? Object.values(context.breadcrumbs)[0] ?? [];
   return {
     id: context.parentIds[context.parentIds.length - 1],
@@ -78,6 +74,8 @@ export const contextToMinimalNodeChild = (context: TaxonomyContext, articleLangu
     metadata: {
       visible: context.isVisible,
     },
+    nodeType,
+    context,
   };
 };
 
@@ -90,8 +88,11 @@ export const toInitialResource = (resource: Node | undefined, language: string):
       visible: true,
       customFields: {},
     },
+    context: resource?.context,
     placements: sortBy(
-      resource?.contexts.filter((c) => c.rootId.includes("subject")).map((c) => contextToMinimalNodeChild(c, language)),
+      resource?.contexts
+        .filter((c) => c.rootId.includes("subject"))
+        .map((c) => contextToMinimalNodeChild(resource.nodeType, c, language)),
       (c) => c.connectionId,
     ),
   };
@@ -148,9 +149,9 @@ const TaxonomyBlock = ({
   );
 
   const onVersionChanged = useCallback(
-    (newVersion: SingleValue) => {
-      if (!newVersion || newVersion.value === taxonomyVersion) return;
-      changeVersion(newVersion.value);
+    (versionHash: string) => {
+      if (versionHash === taxonomyVersion) return;
+      changeVersion(versionHash);
       setShowWarning(false);
       updateTaxMutation.reset();
     },
@@ -236,6 +237,7 @@ const TaxonomyBlock = ({
         },
         connectionId: "",
         name: node.name,
+        nodeType: node.nodeType,
       };
       return { ...res, placements: res.placements.concat(newPlacement) };
     });
@@ -295,8 +297,8 @@ const TaxonomyBlock = ({
   );
 
   const onChangeSelectedResource = useCallback(
-    (value: SingleValue) => {
-      const options = value?.value?.split(",") ?? [];
+    (value?: string) => {
+      const options = value?.split(",") ?? [];
       const selectedResource = resourceTypes.find((rt) => rt.id === options[0]);
 
       if (selectedResource) {
@@ -339,13 +341,19 @@ const TaxonomyBlock = ({
       )}
       {isTaxonomyAdmin && (
         <>
-          <VersionSelect versions={versions ?? []} onVersionChanged={onVersionChanged} />
+          <OptGroupVersionSelector
+            currentVersion={taxonomyVersion}
+            onVersionChanged={(version) => onVersionChanged(version.hash)}
+            versions={versions}
+          >
+            <SelectLabel>{t("taxonomy.version")}</SelectLabel>
+          </OptGroupVersionSelector>
           <TaxonomyInfo taxonomyElement={workingResource} updateMetadata={updateMetadata} />
         </>
       )}
       <ResourceTypeSelect
+        selectedResourceTypes={workingResource.resourceTypes}
         availableResourceTypes={filteredResourceTypes}
-        resourceTypes={workingResource?.resourceTypes}
         onChangeSelectedResource={onChangeSelectedResource}
       />
       <TopicConnections
@@ -359,19 +367,20 @@ const TaxonomyBlock = ({
       />
       {updateTaxMutation.isError && <FormikFieldHelp error>{t("errorMessage.taxonomy")}</FormikFieldHelp>}
       {showWarning && <FormikFieldHelp error>{t("errorMessage.unsavedTaxonomy")}</FormikFieldHelp>}
-      <ButtonContainer>
-        <ButtonV2 variant="outline" disabled={!isDirty} onClick={onReset}>
+
+      <FormActionsContainer>
+        <Button variant="secondary" disabled={!isDirty} onClick={onReset}>
           {t("reset")}
-        </ButtonV2>
+        </Button>
         <SaveButton
           showSaved={updateTaxMutation.isSuccess && !isDirty}
-          isSaving={isSaving}
+          loading={isSaving}
           disabled={!isDirty || isSaving}
           onClick={handleSubmit}
           defaultText="saveTax"
           formIsDirty={isDirty}
         />
-      </ButtonContainer>
+      </FormActionsContainer>
     </>
   );
 };

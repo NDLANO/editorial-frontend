@@ -6,6 +6,7 @@
  *
  */
 
+import { toUnicode } from "punycode";
 import { Descendant, Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { RelatedContentEmbedData } from "@ndla/types-embed";
@@ -45,7 +46,16 @@ export const relatedSerializer: SlateSerializer = {
       "element",
       {
         type: TYPE_RELATED,
-        data: Array.from(el.children ?? []).map((el) => reduceElementDataAttributesV2(Array.from(el.attributes))),
+        data: Array.from(el.children ?? []).map((el) => {
+          const attributes = reduceElementDataAttributesV2(Array.from(el.attributes));
+          if (attributes["url"]) {
+            return {
+              ...attributes,
+              urlDomain: toUnicode(new URL(attributes["url"]).hostname),
+            };
+          }
+          return attributes;
+        }),
       },
       [{ text: "" }],
     );

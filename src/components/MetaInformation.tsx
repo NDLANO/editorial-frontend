@@ -7,47 +7,59 @@
  */
 
 import { ReactNode } from "react";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
+import { useTranslation } from "react-i18next";
+import { Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 
-const StyleMetaInformation = styled.div`
-  display: flex;
-  gap: 2rem;
-  margin-left: ${spacing.normal};
-`;
+const StyledMetaInformation = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+  },
+});
 
-const StyledStrong = styled.strong`
-  display: block;
-`;
+const StyledTextWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+  },
+});
 
 interface Props {
   title?: string;
   copyright?: string;
   alt?: string;
-  translations: {
-    title: string;
-    copyright: string;
-    alt: string;
-  };
   action: ReactNode;
 }
 
-const MetaInformation = ({ title, copyright, translations, action, alt }: Props) => (
-  <StyleMetaInformation>
-    <div>{action || null}</div>
-    <div>
-      <StyledStrong>{title ? translations.title : ""}</StyledStrong>
-      <span>{title}</span>
-      <StyledStrong>{copyright ? translations.copyright : ""}</StyledStrong>
-      <span>{copyright}</span>
-      {!!alt && (
-        <>
-          <StyledStrong>{translations.alt}</StyledStrong>
-          <span>{alt}</span>
-        </>
-      )}
-    </div>
-  </StyleMetaInformation>
-);
+const MetaInformation = ({ title, copyright, action, alt }: Props) => {
+  const { t } = useTranslation();
+  return (
+    <StyledMetaInformation>
+      {action && <div>{action}</div>}
+      <StyledTextWrapper>
+        {!!title && (
+          <div>
+            <Text fontWeight="bold">{t("form.metaImage.imageTitle")}</Text>
+            <Text>{title}</Text>
+          </div>
+        )}
+        {!!copyright && (
+          <div>
+            <Text fontWeight="bold">{t("form.metaImage.copyright")}</Text>
+            <Text>{copyright}</Text>
+          </div>
+        )}
+        {!!alt && (
+          <div>
+            <Text fontWeight="bold">{t("form.name.alttext")}</Text>
+            <Text>{alt}</Text>
+          </div>
+        )}
+      </StyledTextWrapper>
+    </StyledMetaInformation>
+  );
+};
 
 export default MetaInformation;

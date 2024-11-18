@@ -9,7 +9,7 @@
 import sortBy from "lodash/sortBy";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Spinner } from "@ndla/icons";
+import { Spinner } from "@ndla/primitives";
 import { IUpdatedArticle, IArticle } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import { ErrorMessage } from "@ndla/ui";

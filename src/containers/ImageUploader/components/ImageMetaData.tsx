@@ -6,74 +6,131 @@
  *
  */
 
-import { FieldInputProps, FieldProps } from "formik";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Label, Legend, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
-import AsyncSearchTags from "../../../components/Dropdown/asyncDropdown/AsyncSearchTags";
-import { RadioButtonWrapper, FieldsetRow, StyledFormControl } from "../../../components/Form/styles";
+import { createListCollection } from "@ark-ui/react";
+import { CheckLine } from "@ndla/icons/editor";
+import {
+  ComboboxItem,
+  ComboboxItemIndicator,
+  ComboboxItemText,
+  FieldErrorMessage,
+  FieldHelper,
+  FieldRoot,
+  Input,
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemHiddenInput,
+  RadioGroupItemText,
+  RadioGroupLabel,
+  RadioGroupRoot,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
+import { SearchTagsContent } from "../../../components/Form/SearchTagsContent";
+import { SearchTagsTagSelectorInput } from "../../../components/Form/SearchTagsTagSelectorInput";
 import { FormField } from "../../../components/FormField";
-import FormikField from "../../../components/FormikField";
-import { fetchSearchTags } from "../../../modules/image/imageApi";
+import { FormContent } from "../../../components/FormikForm";
+import { useImageSearchTags } from "../../../modules/image/imageQueries";
+import useDebounce from "../../../util/useDebounce";
 
 interface Props {
-  imageTags: string[];
   imageLanguage?: string;
 }
 
-const ImageMetaData = ({ imageTags, imageLanguage }: Props) => {
+const RadioGroupItemWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+    flexWrap: "wrap",
+  },
+});
+
+const options = ["yes", "not-applicable", "no", "not-set"];
+const defaultValue = "not-set";
+
+const ImageMetaData = ({ imageLanguage }: Props) => {
   const { t } = useTranslation();
+  const tagSelectorTranslations = useTagSelectorTranslations();
+  const [inputQuery, setInputQuery] = useState<string>("");
+  const debouncedQuery = useDebounce(inputQuery, 300);
+
+  const searchTagsQuery = useImageSearchTags(
+    {
+      input: debouncedQuery,
+      language: imageLanguage || "all",
+    },
+    {
+      enabled: !!debouncedQuery.length,
+      placeholderData: (prev) => prev,
+    },
+  );
+
+  const collection = useMemo(() => {
+    return createListCollection({
+      items: searchTagsQuery.data?.results ?? [],
+      itemToValue: (item) => item,
+      itemToString: (item) => item,
+    });
+  }, [searchTagsQuery.data?.results]);
+
   return (
-    <>
-      <FormikField name="tags" label={t("form.tags.label")} obligatory description={t("form.tags.description")}>
-        {({ field, form }: FieldProps<string[], string[]>) => (
-          <AsyncSearchTags
-            multiSelect
-            language={imageLanguage || "all"}
-            initialTags={imageTags}
-            field={field}
-            form={form}
-            fetchTags={fetchSearchTags}
-          />
+    <FormContent>
+      <FormField name="tags">
+        {({ field, meta, helpers }) => (
+          <FieldRoot invalid={!!meta.error}>
+            <TagSelectorRoot
+              collection={collection}
+              value={field.value}
+              onValueChange={(details) => helpers.setValue(details.value)}
+              translations={tagSelectorTranslations}
+              inputValue={inputQuery}
+              onInputValueChange={(details) => setInputQuery(details.inputValue)}
+            >
+              <TagSelectorLabel>{t("form.tags.label")}</TagSelectorLabel>
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              <FieldHelper>{t("form.tags.description")}</FieldHelper>
+              <SearchTagsTagSelectorInput asChild>
+                <Input placeholder={t("form.tags.searchPlaceholder")} />
+              </SearchTagsTagSelectorInput>
+              <SearchTagsContent isFetching={searchTagsQuery.isFetching} hits={collection.items.length}>
+                {collection.items.map((item) => (
+                  <ComboboxItem key={item} item={item}>
+                    <ComboboxItemText>{item}</ComboboxItemText>
+                    <ComboboxItemIndicator asChild>
+                      <CheckLine />
+                    </ComboboxItemIndicator>
+                  </ComboboxItem>
+                ))}
+              </SearchTagsContent>
+            </TagSelectorRoot>
+          </FieldRoot>
         )}
-      </FormikField>
+      </FormField>
       <FormField name="modelReleased">
-        {({ field }: { field: FieldInputProps<string> }) => {
-          const options = ["yes", "not-applicable", "no", "not-set"];
-          const defaultValue = "not-set";
+        {({ field, helpers }) => {
           return (
-            <StyledFormControl>
-              <RadioButtonGroup
-                onValueChange={(value: string) =>
-                  field.onChange({
-                    target: {
-                      name: field.name,
-                      value: value,
-                    },
-                  })
-                }
-                orientation="horizontal"
-                defaultValue={field.value ?? defaultValue}
-                asChild
+            <FieldRoot>
+              <RadioGroupRoot
+                value={field.value ?? defaultValue}
+                onValueChange={(details) => helpers.setValue(details.value)}
               >
-                <FieldsetRow>
-                  <Legend margin="none" textStyle="label-small">
-                    {t("form.modelReleased.description")}
-                  </Legend>
+                <RadioGroupLabel>{t("form.modelReleased.description")}</RadioGroupLabel>
+                <RadioGroupItemWrapper>
                   {options.map((option) => (
-                    <RadioButtonWrapper key={option}>
-                      <RadioButtonItem id={`model-released-${option}`} value={option} />
-                      <Label htmlFor={`model-released-${option}`} margin="none" textStyle="label-small">
-                        {t(`form.modelReleased.${option}`)}
-                      </Label>
-                    </RadioButtonWrapper>
+                    <RadioGroupItem key={option} value={option}>
+                      <RadioGroupItemControl />
+                      <RadioGroupItemText>{t(`form.modelReleased.${option}`)}</RadioGroupItemText>
+                      <RadioGroupItemHiddenInput />
+                    </RadioGroupItem>
                   ))}
-                </FieldsetRow>
-              </RadioButtonGroup>
-            </StyledFormControl>
+                </RadioGroupItemWrapper>
+              </RadioGroupRoot>
+            </FieldRoot>
           );
         }}
       </FormField>
-    </>
+    </FormContent>
   );
 };
 

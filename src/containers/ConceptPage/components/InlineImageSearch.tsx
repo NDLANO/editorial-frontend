@@ -10,12 +10,11 @@ import { useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { FieldHeader } from "@ndla/forms";
 import { ImageSearch } from "@ndla/image-search";
+import { Button, FieldsetLegend, FieldsetRoot } from "@ndla/primitives";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
-import HowToHelper from "../../../components/HowTo/HowToHelper";
+import { useImageSearchTranslations } from "@ndla/ui";
 import { LocaleType } from "../../../interfaces";
 import { fetchImage, postSearchImages, onError } from "../../../modules/image/imageApi";
 import MetaImageField from "../../FormikForm/components/MetaImageField";
@@ -35,6 +34,7 @@ const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
   const { t, i18n } = useTranslation();
   const { setFieldValue, values, setFieldTouched } = useFormikContext<ConceptFormValues>();
   const [image, setImage] = useState<IImageMetaInformationV3 | undefined>();
+  const imageSearchTranslations = useImageSearchTranslations();
   const locale: LocaleType = i18n.language;
   const fetchImageWithLocale = (id: number) => fetchImage(id, locale);
   const searchImagesWithParameters = (query?: string, page?: number) => {
@@ -67,18 +67,13 @@ const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
     );
   }
   return (
-    <>
-      <FieldHeader title={t("form.metaImage.title")}>
-        <HowToHelper pageId="MetaImage" tooltip={t("form.metaImage.helpLabel")} />
-      </FieldHeader>
-
+    <FieldsetRoot>
+      <FieldsetLegend textStyle="label.medium">{t("form.metaImage.title")}</FieldsetLegend>
       <ImageSearch
         fetchImage={fetchImageWithLocale}
         searchImages={searchImagesWithParameters}
         locale={locale}
-        searchPlaceholder={t("imageSearch.placeholder")}
-        searchButtonTitle={t("imageSearch.buttonTitle")}
-        useImageTitle={t("imageSearch.useImage")}
+        translations={imageSearchTranslations}
         onImageSelect={(image: IImageMetaInformationV3) => {
           setFieldValue(name, image.id);
           setFieldValue("metaImageAlt", image.alttext.alttext.trim(), true);
@@ -91,14 +86,12 @@ const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
         noResults={
           <>
             <StyledTitleDiv>{t("imageSearch.noResultsText")}</StyledTitleDiv>
-            <ButtonV2 type="submit" variant="outline">
-              {t("imageSearch.noResultsButtonText")}
-            </ButtonV2>
+            <Button type="submit">{t("imageSearch.noResultsButtonText")}</Button>
           </>
         }
         onError={onError}
       />
-    </>
+    </FieldsetRoot>
   );
 };
 

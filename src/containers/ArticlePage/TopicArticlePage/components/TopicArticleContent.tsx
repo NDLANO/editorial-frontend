@@ -7,12 +7,13 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { FieldHeader } from "@ndla/forms";
 import LastUpdatedLine from "./../../../../components/LastUpdatedLine/LastUpdatedLine";
 
 import { topicArticlePlugins } from "./topicArticlePlugins";
 import { topicArticleRenderers } from "./topicArticleRenderers";
+import { ContentTypeProvider } from "../../../../components/ContentTypeProvider";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
+import FieldHeader from "../../../../components/Field/FieldHeader";
 import { FormField } from "../../../../components/FormField";
 import FormikField from "../../../../components/FormikField";
 import {
@@ -44,7 +45,7 @@ const TopicArticleContent = (props: Props) => {
   const { userPermissions } = useSession();
 
   return (
-    <>
+    <ContentTypeProvider value="topic">
       <TitleField />
       <FormField name="published">
         {({ field, helpers }) => (
@@ -52,7 +53,7 @@ const TopicArticleContent = (props: Props) => {
         )}
       </FormField>
       <IngressField />
-      <VisualElementField />
+      <VisualElementField types={["image"]} />
       <FormikField name="content" label={t("form.content.label")} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <>
@@ -82,7 +83,7 @@ const TopicArticleContent = (props: Props) => {
           </>
         )}
       </FormikField>
-    </>
+    </ContentTypeProvider>
   );
 };
 

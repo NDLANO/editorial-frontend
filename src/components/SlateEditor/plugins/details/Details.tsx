@@ -10,92 +10,72 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms, Element } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import styled from "@emotion/styled";
-import { spacing, colors, fonts } from "@ndla/core";
+import { ArrowDownShortLine } from "@ndla/icons/common";
+import { ExpandableBox, IconButton } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { EmbedWrapper } from "@ndla/ui";
 import { TYPE_DETAILS } from "./types";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
 
-const StyledDetailsDiv = styled.div`
-  padding: ${spacing.small};
-  margin: ${spacing.large} 0;
-  border: 1px solid ${colors.brand.greyLight};
-  overflow: visible;
-  > *:last-child {
-    margin-bottom: 0;
-  }
-  position: relative;
-`;
-
-const StyledContent = styled.div<{ isOpen: boolean }>`
-  display: ${(p) => (p.isOpen ? "" : "none")};
-  margin-top: calc(${spacing.small} * 1.5);
-  padding-left: ${spacing.normal};
-`;
-
-const StyledChevron = styled.div<{ isOpen: boolean }>`
-  color: ${colors.brand.primary};
-  font-size: 20px;
-  cursor: pointer;
-  display: flex;
-  user-select: none;
-  justify-content: flex-end;
-  align-items: center;
-  height: 100%;
-  &::before {
-    user-select: none;
-    content: "";
-    margin-left: ${spacing.normal};
-    border-color: transparent ${colors.brand.primary};
-    border-style: solid;
-    border-width: 0.35em 0 0.35em 0.45em;
-    display: block;
-    transform: ${(p) => p.isOpen && "rotate(90deg)"};
-  }
-`;
-
-const StyledSummary = styled.summary`
-  flex-grow: 1;
-  color: ${colors.brand.primary};
-  font-size: 20px;
-  padding: 0;
-  cursor: inherit;
-  display: block;
-  span {
-    & > * {
-      display: inline;
-      font-size: ${fonts.size.text.metaText.medium};
-      font-weight: ${fonts.weight.normal};
-    }
-  }
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
-
-const StyledRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: ${spacing.small};
-  &:focus button,
-  :hover button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-`;
+const ButtonContainer = styled("div", {
+  base: {
+    position: "absolute",
+    right: "0",
+    top: "-xlarge",
+    display: "flex",
+    gap: "3xsmall",
+    justifyContent: "flex-end",
+  },
+});
 
 interface Props {
   editor: Editor;
 }
 
+const StyledIconButton = styled(IconButton, {
+  base: {
+    _open: {
+      "& svg": {
+        transform: "rotate(180deg)",
+      },
+    },
+  },
+});
+
+const StyledExpandableBox = styled(ExpandableBox, {
+  base: {
+    "& [data-embed-type='expandable-box-summary']": {
+      cursor: "text",
+      position: "relative",
+      _before: {
+        position: "absolute",
+        content: "'▶'",
+        fontSize: "0.7em",
+        display: "block",
+      },
+      "& >:first-child": {
+        marginInlineStart: "small",
+      },
+    },
+    "&:not([open]) >:not([data-embed-type='expandable-box-summary'])": {
+      display: "none",
+    },
+    _open: {
+      "& [data-embed-type='expandable-box-summary']": {
+        _before: {
+          content: "'▼'",
+        },
+      },
+    },
+  },
+});
+
 const Details = ({ children, editor, element, attributes }: Props & RenderElementProps) => {
   const [isOpen, setIsOpen] = useState(true);
   const { t } = useTranslation();
   const toggleOpen = () => {
-    setIsOpen(!isOpen);
+    setIsOpen((open) => !open);
   };
 
   const onRemoveClick = () => {
@@ -125,27 +105,29 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
     }, 0);
   };
 
-  const [summaryNode, ...contentNodes] = children;
+  const openAttribute = isOpen ? { "data-open": "" } : {};
+  const toggleOpenTitle = isOpen ? t("form.close") : t("form.open");
 
   return (
-    <StyledDetailsDiv {...attributes} draggable>
-      <ButtonContainer>
+    <EmbedWrapper {...attributes} draggable>
+      <ButtonContainer contentEditable={false}>
+        <StyledIconButton
+          {...openAttribute}
+          size="small"
+          variant="secondary"
+          onClick={toggleOpen}
+          aria-label={toggleOpenTitle}
+          title={toggleOpenTitle}
+        >
+          <ArrowDownShortLine />
+        </StyledIconButton>
         <MoveContentButton onMouseDown={onMoveContent} aria-label={t("form.moveContent")} />
-        <DeleteButton
-          data-testid="remove-details"
-          aria-label={t("form.remove")}
-          variant="stripped"
-          onMouseDown={onRemoveClick}
-        />
+        <DeleteButton data-testid="remove-details" aria-label={t("form.remove")} onMouseDown={onRemoveClick} />
       </ButtonContainer>
-      <StyledRow>
-        <div contentEditable={false}>
-          <StyledChevron isOpen={isOpen} onClick={toggleOpen} />
-        </div>
-        <StyledSummary>{summaryNode}</StyledSummary>
-      </StyledRow>
-      <StyledContent isOpen={isOpen}>{contentNodes}</StyledContent>
-    </StyledDetailsDiv>
+      <StyledExpandableBox open={isOpen} asChild consumeCss>
+        <div>{children}</div>
+      </StyledExpandableBox>
+    </EmbedWrapper>
   );
 };
 

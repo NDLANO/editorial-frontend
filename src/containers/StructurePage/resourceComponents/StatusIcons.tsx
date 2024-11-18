@@ -6,63 +6,38 @@
  *
  */
 
-import React, { ReactElement, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
-import { AlertCircle, Check, InProgress } from "@ndla/icons/editor";
-import { SafeLink } from "@ndla/safelink";
+import { ErrorWarningFill, FileEditLine } from "@ndla/icons/common";
+import { styled } from "@ndla/styled-system/jsx";
 import { isApproachingRevision } from "./ApproachingRevisionDate";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import WrongTypeError from "./WrongTypeError";
-import { getWarnStatus, StyledTimeIcon } from "../../../components/HeaderWithLanguage/HeaderStatusInformation";
-import config from "../../../config";
-import { PUBLISHED } from "../../../constants";
+import { getWarnStatus } from "../../../components/HeaderWithLanguage/HeaderStatusInformation";
+import { StatusTimeFill } from "../../../components/StatusTimeFill";
 import formatDate from "../../../util/formatDate";
 import { getExpirationDate } from "../../ArticlePage/articleTransformers";
-import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
-const StyledCheckIcon = styled(Check)`
-  height: 24px;
-  width: 24px;
-  fill: ${colors.support.green};
-`;
+const IconWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+  },
+});
 
-const StyledWarnIcon = styled(AlertCircle)`
-  height: 24px;
-  width: 24px;
-  fill: ${colors.support.yellow};
-`;
-
-const StyledInProgressIcon = styled(InProgress)`
-  width: 24px;
-  height: 24px;
-`;
-
-const StyledLink = styled(SafeLink)`
-  box-shadow: inset 0 0;
-`;
-
-const CheckedWrapper = styled.div`
-  display: flex;
-`;
-const TimeIconWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const IconWrapper = styled.div`
-  display: flex;
-`;
+const StyledErrorWarningFill = styled(ErrorWarningFill, {
+  base: {
+    fill: "icon.subtle",
+  },
+});
 
 interface Props {
   contentMetaLoading: boolean;
   resource: ResourceWithNodeConnectionAndMeta;
-  path?: string;
+  multipleTaxonomy: boolean;
 }
 
-const StatusIcons = ({ contentMetaLoading, resource, path }: Props) => {
+const StatusIcons = ({ contentMetaLoading, resource, multipleTaxonomy }: Props) => {
   const { t } = useTranslation();
   const approachingRevision = useMemo(
     () => isApproachingRevision(resource.contentMeta?.revisions),
@@ -71,63 +46,33 @@ const StatusIcons = ({ contentMetaLoading, resource, path }: Props) => {
   const expirationDate = getExpirationDate({
     revisions: resource.contentMeta?.revisions?.filter((r) => !!r)!,
   });
-  const expirationColor = getWarnStatus(expirationDate);
+  const warnStatus = getWarnStatus(expirationDate);
 
   const expirationText = useMemo(() => {
-    if (expirationColor && expirationDate) {
-      return t(`form.workflow.expiration.${expirationColor}`, {
+    if (expirationDate && warnStatus) {
+      return t(`form.workflow.expiration.${warnStatus}`, {
         date: formatDate(expirationDate),
       });
     }
     return undefined;
-  }, [expirationColor, expirationDate, t]);
+  }, [expirationDate, t, warnStatus]);
 
   return (
     <IconWrapper>
       {resource.contentMeta?.started && (
-        <IconWrapper>
-          <StyledInProgressIcon aria-label={t("taxonomy.inProgress")} title={t("taxonomy.inProgress")} />
-        </IconWrapper>
+        <FileEditLine aria-label={t("taxonomy.inProgress")} title={t("taxonomy.inProgress")} />
       )}
-      {approachingRevision ? (
-        <>
-          {expirationColor && expirationDate && (
-            <TimeIconWrapper>
-              <StyledTimeIcon data-status={expirationColor} aria-label={expirationText} title={expirationText} />
-            </TimeIconWrapper>
-          )}
-        </>
-      ) : null}
+      {approachingRevision && warnStatus && expirationDate && (
+        <StatusTimeFill variant={warnStatus} aria-label={expirationText} title={expirationText} />
+      )}
       {!contentMetaLoading && <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />}
-      {resource.contexts?.length > 1 && (
-        <IconWrapper>
-          <StyledWarnIcon
-            aria-label={t("form.workflow.multipleTaxonomy")}
-            title={t("form.workflow.multipleTaxonomy")}
-          />
-        </IconWrapper>
-      )}
-      {(resource.contentMeta?.status?.current === PUBLISHED ||
-        resource.contentMeta?.status?.other?.includes(PUBLISHED)) && (
-        <PublishedWrapper path={path}>
-          <CheckedWrapper>
-            <StyledCheckIcon aria-label={t("form.workflow.published")} title={t("form.workflow.published")} />
-          </CheckedWrapper>
-        </PublishedWrapper>
+      {multipleTaxonomy && (
+        <StyledErrorWarningFill
+          aria-label={t("form.workflow.multipleTaxonomy")}
+          title={t("form.workflow.multipleTaxonomy")}
+        />
       )}
     </IconWrapper>
-  );
-};
-
-const PublishedWrapper = ({ path, children }: { path?: string; children: ReactElement }) => {
-  const { taxonomyVersion } = useTaxonomyVersion();
-  if (!path) {
-    return children;
-  }
-  return (
-    <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}${path}?versionHash=${taxonomyVersion}`}>
-      {children}
-    </StyledLink>
   );
 };
 

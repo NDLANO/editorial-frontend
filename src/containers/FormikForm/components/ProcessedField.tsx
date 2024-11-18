@@ -8,47 +8,38 @@
 
 import { useField } from "formik";
 import { useTranslation } from "react-i18next";
-import { CheckboxItem, FieldHelper, Label } from "@ndla/forms";
-import { Text } from "@ndla/typography";
-import { CheckboxWrapper } from "../../../components/Form/styles";
-import { FormControl, FormField } from "../../../components/FormField";
+import { CheckLine } from "@ndla/icons/editor";
+import {
+  CheckboxControl,
+  CheckboxHiddenInput,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxRoot,
+  FieldHelper,
+  FieldRoot,
+} from "@ndla/primitives";
+import { FormField } from "../../../components/FormField";
 
 const ProcessedField = () => {
   const { t } = useTranslation();
   const [originField] = useField<string>("origin");
   return (
-    <>
-      <Text textStyle="label-large" margin="small">
-        {t("form.processed.label")}
-      </Text>
-      <FormField name="processed">
-        {({ field }) => (
-          <FormControl isDisabled={!originField.value?.length && !field.value}>
-            {!originField.value?.length && (
-              <FieldHelper>
-                <span>{t("form.processed.disabledCause")}</span>
-              </FieldHelper>
-            )}
-            <CheckboxWrapper>
-              <CheckboxItem
-                checked={field.value}
-                onCheckedChange={() =>
-                  field.onChange({
-                    target: {
-                      name: field.name,
-                      value: !field.value,
-                    },
-                  })
-                }
-              />
-              <Label margin="none" textStyle="label-small">
-                {t("form.processed.description")}
-              </Label>
-            </CheckboxWrapper>
-          </FormControl>
-        )}
-      </FormField>
-    </>
+    <FormField name="processed">
+      {({ field, helpers }) => (
+        <FieldRoot disabled={!originField.value?.length && !field.value}>
+          {!originField.value?.length && <FieldHelper>{t("form.processed.disabledCause")}</FieldHelper>}
+          <CheckboxRoot checked={field.value} onCheckedChange={(details) => helpers.setValue(details.checked)}>
+            <CheckboxControl>
+              <CheckboxIndicator asChild>
+                <CheckLine />
+              </CheckboxIndicator>
+            </CheckboxControl>
+            <CheckboxLabel>{t("form.processed.description")}</CheckboxLabel>
+            <CheckboxHiddenInput />
+          </CheckboxRoot>
+        </FieldRoot>
+      )}
+    </FormField>
   );
 };
 

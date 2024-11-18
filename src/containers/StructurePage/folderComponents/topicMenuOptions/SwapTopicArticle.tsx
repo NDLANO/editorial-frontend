@@ -11,21 +11,23 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { spacing, colors } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { SubjectMaterial } from "@ndla/icons/contentType";
 import { Done } from "@ndla/icons/editor";
+import { ComboboxLabel, Spinner } from "@ndla/primitives";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
+import { GenericComboboxInput, GenericComboboxItemContent } from "../../../../components/abstractions/Combobox";
+import { GenericSearchCombobox } from "../../../../components/Form/GenericSearchCombobox";
 import RoundIcon from "../../../../components/RoundIcon";
 import { fetchDraft, updateDraft } from "../../../../modules/draft/draftApi";
 import { TOPIC_NODE } from "../../../../modules/nodes/nodeApiTypes";
 import { usePutNodeMutation } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { useSearch } from "../../../../modules/search/searchQueries";
+import { usePaginatedQuery } from "../../../../util/usePaginatedQuery";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { EditModeHandler } from "../SettingsMenuDropdownType";
 import MenuItemButton from "../sharedMenuOptions/components/MenuItemButton";
-import SearchDropdown from "../sharedMenuOptions/components/SearchDropdown";
 import { StyledErrorMessage } from "../styles";
 
 interface Props {
@@ -33,10 +35,6 @@ interface Props {
   rootNodeId: string;
   editModeHandler: EditModeHandler;
 }
-
-const StyledSpinner = styled(Spinner)`
-  margin: 0px 4px;
-`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -74,6 +72,12 @@ const SwapTopicArticle = ({ node, rootNodeId, editModeHandler: { editMode, toggl
   const [error, setError] = useState<string | undefined>(undefined);
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
+  const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
+
+  const searchQuery = useSearch(
+    { query: delayedQuery, language: i18n.language, page },
+    { placeholderData: (prev) => prev, enabled: editMode === "swapTopicArticle" },
+  );
 
   useEffect(() => {
     setError(undefined);
@@ -84,7 +88,7 @@ const SwapTopicArticle = ({ node, rootNodeId, editModeHandler: { editMode, toggl
     toggleEditModeFunc();
     try {
       await putNodeMutation.mutateAsync({
-        ...node,
+        id: node.id,
         nodeType: TOPIC_NODE,
         contentUri: `urn:article:${topic.id}`,
         taxonomyVersion,
@@ -116,24 +120,32 @@ const SwapTopicArticle = ({ node, rootNodeId, editModeHandler: { editMode, toggl
     return (
       <Wrapper>
         <RoundIcon open small smallIcon icon={<SubjectMaterial />} />
-        <SearchDropdown
-          useQuery={useSearch}
-          onChange={handleSubmit}
-          placeholder={t("taxonomy.swapTopicArticle.placeholder")}
-          params={{ contextTypes: ["topic-article"], language: i18n.language }}
-          transform={(res) => {
-            return {
-              ...res,
-              results: res.results.map((r) => ({
-                originalItem: r,
-                name: r.title.title,
-                id: r.id,
-                image: r.metaImage?.url,
-                description: r.metaDescription.metaDescription,
-              })),
-            };
-          }}
-        />
+        <GenericSearchCombobox
+          items={searchQuery.data?.results ?? []}
+          itemToString={(item) => item.title.title}
+          itemToValue={(item) => item.id.toString()}
+          inputValue={query}
+          onInputValueChange={(details) => setQuery(details.inputValue)}
+          isSuccess={searchQuery.isSuccess}
+          paginationData={searchQuery.data}
+          onPageChange={(details) => setPage(details.page)}
+          onValueChange={(details) => handleSubmit(details.items[0])}
+          css={{ width: "100%" }}
+          renderItem={(item) => (
+            <GenericComboboxItemContent
+              title={item.title.title}
+              description={item.metaDescription.metaDescription}
+              image={{ url: item.metaImage?.url, alt: "" }}
+              useFallbackImage
+            />
+          )}
+        >
+          <ComboboxLabel>{t("taxonomy.swapTopicArticle.info")}</ComboboxLabel>
+          <GenericComboboxInput
+            placeholder={t("taxonomy.swapTopicArticle.placeholder")}
+            isFetching={searchQuery.isFetching}
+          />
+        </GenericSearchCombobox>
       </Wrapper>
     );
   }
@@ -147,7 +159,7 @@ const SwapTopicArticle = ({ node, rootNodeId, editModeHandler: { editMode, toggl
       <StyledActionContent>
         {putNodeMutation.isPending && (
           <MenuContent>
-            <StyledSpinner />
+            <Spinner size="small" />
           </MenuContent>
         )}
         {putNodeMutation.isSuccess && (

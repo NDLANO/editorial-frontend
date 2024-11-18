@@ -10,11 +10,11 @@ import { ArrayHelpers, FieldArray, useField } from "formik";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
 import { spacing, colors, fonts } from "@ndla/core";
-import { Plus } from "@ndla/icons/action";
-import { ChevronRight } from "@ndla/icons/common";
-import { DeleteForever, Eye } from "@ndla/icons/editor";
+import { AddLine, DeleteBinLine } from "@ndla/icons/action";
+import { ArrowRightShortLine } from "@ndla/icons/common";
+import { EyeFill } from "@ndla/icons/editor";
+import { IconButton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
 import FrontpageArticleSearch from "./FrontpageArticleSearch";
@@ -60,7 +60,8 @@ const TitleWrapper = styled.div`
   align-items: center;
 `;
 
-const OpenButton = styled(ButtonV2)`
+const OpenButton = styled("button")`
+  cursor: pointer;
   min-width: ${spacing.normal};
   svg {
     transform: rotate(0deg);
@@ -81,12 +82,7 @@ const OpenButton = styled(ButtonV2)`
 const EditButtonWrapper = styled.div`
   display: flex;
   align-self: flex-end;
-`;
-
-const HideButton = styled(IconButtonV2)`
-  &[data-hidden="true"] {
-    color: ${colors.brand.greyLight};
-  }
+  gap: ${spacing.xsmall};
 `;
 
 const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
@@ -137,13 +133,13 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
           {level < FRONTPAGE_DEPTH_LIMIT && (
             <OpenButton
               data-open={isOpen}
-              variant="stripped"
+              type="button"
               onClick={() => setIsOpen((p) => !p)}
               aria-label={openLabel}
               hidden={!field.value.menu.length}
               title={openLabel}
             >
-              {!!field.value.menu.length && <ChevronRight />}
+              {!!field.value.menu.length && <ArrowRightShortLine />}
             </OpenButton>
           )}
           <TitleLink to={toEditFrontPageArticle(field.value.articleId, i18n.language)} target="_blank">
@@ -152,37 +148,38 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
         </TitleWrapper>
         <EditButtonWrapper>
           {level > 0 && (
-            <HideButton
-              data-hidden={field.value.hideLevel}
+            <IconButton
               aria-label={field.value.hideLevel ? t("frontpageForm.show") : t("frontpageForm.hide")}
               title={field.value.hideLevel ? t("frontpageForm.show") : t("frontpageForm.hide")}
-              variant="ghost"
+              variant={field.value.hideLevel ? "primary" : "tertiary"}
+              size="small"
               onClick={onHide}
             >
-              <Eye />
-            </HideButton>
+              <EyeFill />
+            </IconButton>
           )}
           {!field.value.menu.length && (
-            <IconButtonV2
+            <IconButton
               aria-label={t("remove")}
+              size="small"
               title={t("remove")}
               hidden={!!field.value.menu.length}
-              variant="ghost"
-              colorTheme="danger"
+              variant="danger"
               onClick={onRemove}
             >
-              <DeleteForever />
-            </IconButtonV2>
+              <DeleteBinLine />
+            </IconButton>
           )}
           <FrontpageArticleSearch onChange={onAdd}>
-            <IconButtonV2
-              variant="ghost"
+            <IconButton
+              variant="tertiary"
+              size="small"
               aria-label={t("frontpageForm.addArticle")}
               title={t("frontpageForm.addArticle")}
               disabled={level > FRONTPAGE_DEPTH_LIMIT - 1}
             >
-              <Plus />
-            </IconButtonV2>
+              <AddLine />
+            </IconButton>
           </FrontpageArticleSearch>
         </EditButtonWrapper>
       </NodeContentWrapper>

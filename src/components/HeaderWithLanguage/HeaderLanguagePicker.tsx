@@ -6,55 +6,30 @@
  *
  */
 
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { DropdownMenuArrow } from "@radix-ui/react-dropdown-menu";
-import { ButtonV2 } from "@ndla/button";
-import { spacing, colors } from "@ndla/core";
-import { DropdownItem, DropdownContent, DropdownMenu, DropdownTrigger } from "@ndla/dropdown-menu";
-import { Plus } from "@ndla/icons/action";
-import { SafeLinkButton } from "@ndla/safelink";
-import Overlay from "../Overlay";
-
-const StyledDropdownContent = styled(DropdownContent)`
-  padding: ${spacing.normal};
-`;
-
-const StyledArrow = styled(DropdownMenuArrow)`
-  fill: ${colors.white};
-`;
-
-const StyledSafeLinkButton = styled(SafeLinkButton)`
-  justify-content: flex-start;
-`;
+import { AddLine } from "@ndla/icons/action";
+import { Button, MenuContent, MenuItem, MenuPositioner, MenuRoot, MenuTrigger } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 
 const LanguagePicker = ({ id, emptyLanguages, editUrl }: Props) => {
   const { t } = useTranslation();
-  const [isOpen, setIsOpen] = useState(false);
   return (
-    <div>
-      <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
-        {!!emptyLanguages.length && (
-          <DropdownTrigger asChild>
-            <ButtonV2 size="small" variant="ghost">
-              <Plus /> {t("form.variant.create")}
-            </ButtonV2>
-          </DropdownTrigger>
-        )}
-        <StyledDropdownContent>
-          <StyledArrow width={20} height={10} />
+    <MenuRoot>
+      <MenuTrigger asChild>
+        <Button size="small" variant="tertiary">
+          <AddLine /> {t("form.variant.create")}
+        </Button>
+      </MenuTrigger>
+      <MenuPositioner>
+        <MenuContent>
           {emptyLanguages.map((language) => (
-            <DropdownItem key={language.key} asChild>
-              <StyledSafeLinkButton shape="sharp" colorTheme="light" variant="ghost" to={editUrl(id, language.key)}>
-                {language.title}
-              </StyledSafeLinkButton>
-            </DropdownItem>
+            <MenuItem key={language.key} value={language.key} asChild consumeCss>
+              <SafeLink to={editUrl(id, language.key)}>{language.title}</SafeLink>
+            </MenuItem>
           ))}
-        </StyledDropdownContent>
-      </DropdownMenu>
-      {isOpen && <Overlay modifiers={["zIndex", "absolute"]} />}
-    </div>
+        </MenuContent>
+      </MenuPositioner>
+    </MenuRoot>
   );
 };
 

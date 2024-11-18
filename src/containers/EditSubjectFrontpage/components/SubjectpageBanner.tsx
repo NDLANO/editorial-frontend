@@ -8,15 +8,34 @@
 import { useField, useFormikContext } from "formik";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ButtonV2 } from "@ndla/button";
-import { FieldHeader } from "@ndla/forms";
-import { ModalBody, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  Heading,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { ImageEmbedData } from "@ndla/types-embed";
-import SubjectpageBannerImage from "./SubjectpageBannerImage";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import ImageSearchAndUploader from "../../../components/ImageSearchAndUploader";
+import MetaInformation from "../../../components/MetaInformation";
+import config from "../../../config";
 import { fetchImage, onError, postSearchImages } from "../../../modules/image/imageApi";
 import { SubjectPageFormikType } from "../../../util/subjectHelpers";
+
+const ImageWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "xsmall",
+  },
+});
 
 interface Props {
   title: string;
@@ -56,34 +75,50 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
     setShowImageSelect(false);
   }, []);
 
-  const onImageSelectOpen = useCallback(() => {
-    setShowImageSelect(true);
-  }, []);
-
   return (
-    <Modal open={showImageSelect} onOpenChange={setShowImageSelect}>
-      <FieldHeader title={title} />
-      {image && <SubjectpageBannerImage image={image} onImageSelectOpen={onImageSelectOpen} />}
-      {!image && (
-        <ModalTrigger>
-          <ButtonV2>{t("subjectpageForm.addBanner")}</ButtonV2>
-        </ModalTrigger>
-      )}
-      <ModalContent size="large">
-        <ModalBody>
-          <ImageSearchAndUploader
-            inModal
-            locale={i18n.language}
-            language={values.language}
-            closeModal={onImageSelectClose}
-            fetchImage={(id) => fetchImage(id, values.language)}
-            searchImages={postSearchImages}
-            onError={onError}
-            onImageSelect={onImageChange}
-          />
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+    <>
+      <Heading asChild consumeCss textStyle="title.small">
+        <h3>{title}</h3>
+      </Heading>
+      <DialogRoot open={showImageSelect} onOpenChange={(details) => setShowImageSelect(details.open)} size="large">
+        {image && (
+          <ImageWrapper>
+            <img src={`${config.ndlaApiUrl}/image-api/raw/id/${image.id}`} alt={image.alttext.alttext} />
+            <MetaInformation
+              title={image.caption.caption}
+              action={
+                <DialogTrigger asChild>
+                  <Button>{t("subjectpageForm.changeBanner")}</Button>
+                </DialogTrigger>
+              }
+            />
+          </ImageWrapper>
+        )}
+        {!image && (
+          <DialogTrigger asChild>
+            <Button>{t("subjectpageForm.addBanner")}</Button>
+          </DialogTrigger>
+        )}
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("subjectpageForm.addBanner")}</DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <DialogBody>
+            <ImageSearchAndUploader
+              inModal
+              locale={i18n.language}
+              language={values.language}
+              closeModal={onImageSelectClose}
+              fetchImage={(id) => fetchImage(id, values.language)}
+              searchImages={postSearchImages}
+              onError={onError}
+              onImageSelect={onImageChange}
+            />
+          </DialogBody>
+        </DialogContent>
+      </DialogRoot>
+    </>
   );
 };
 

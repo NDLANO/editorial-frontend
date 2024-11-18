@@ -11,9 +11,9 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { spacing, colors } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
-import { Plus } from "@ndla/icons/action";
+import { AddLine } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
+import { Spinner } from "@ndla/primitives";
 import { Node, NodeType } from "@ndla/types-taxonomy";
 import MenuItemButton from "./components/MenuItemButton";
 import NodeSearchDropdown from "./components/NodeSearchDropdown";
@@ -32,10 +32,6 @@ interface Props {
   currentNode: Node;
   nodeType?: NodeType;
 }
-
-const StyledSpinner = styled(Spinner)`
-  margin: 0px 4px;
-`;
 
 const StyledSuccessIcon = styled(Done)`
   border-radius: 90px;
@@ -132,9 +128,12 @@ const MoveExistingNode = ({
   if (editMode === "moveExistingNode") {
     return (
       <Wrapper>
-        <RoundIcon open small smallIcon icon={<Plus />} />
+        <RoundIcon open small smallIcon icon={<AddLine />} />
         <NodeSearchDropdown
-          placeholder={t("taxonomy.existingNode")}
+          label={t("taxonomy.addExistingNode", {
+            nodeType: t(`taxonomy.nodeType.${nodeType}`),
+          })}
+          placeholder={t("taxonomy.existingNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
           onChange={handleSubmit}
           searchNodeType={nodeType}
           filter={(node) => {
@@ -151,7 +150,7 @@ const MoveExistingNode = ({
   return (
     <StyledMenuWrapper>
       <MenuItemButton onClick={toggleEditModeFunc}>
-        <RoundIcon small icon={<Plus />} />
+        <RoundIcon small icon={<AddLine />} />
         {t("taxonomy.addExistingNode", {
           nodeType: t(`taxonomy.nodeType.${nodeType}`),
         })}
@@ -159,7 +158,7 @@ const MoveExistingNode = ({
       <StyledActionContent>
         {loading && (
           <MenuContent>
-            <StyledSpinner size="normal" />
+            <Spinner size="small" />
             {t("taxonomy.addExistingLoading")}
           </MenuContent>
         )}

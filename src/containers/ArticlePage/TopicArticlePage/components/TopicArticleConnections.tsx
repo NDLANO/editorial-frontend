@@ -8,21 +8,29 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { FieldHeader } from "@ndla/forms";
-import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalTitle, ModalTrigger, ModalContent } from "@ndla/modal";
-import { Switch } from "@ndla/switch";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  SwitchControl,
+  SwitchHiddenInput,
+  SwitchLabel,
+  SwitchRoot,
+  SwitchThumb,
+} from "@ndla/primitives";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
+import { DialogCloseButton } from "../../../../components/DialogCloseButton";
+import FieldHeader from "../../../../components/Field/FieldHeader";
 import { HowToHelper } from "../../../../components/HowTo";
 import ActiveTopicConnections from "../../../../components/Taxonomy/ActiveTopicConnections";
 import TaxonomyBlockNode, { NodeWithChildren } from "../../../../components/Taxonomy/TaxonomyBlockNode";
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../../../constants";
 import { fetchUserData } from "../../../../modules/draft/draftApi";
 import { MinimalNodeChild } from "../../LearningResourcePage/components/LearningResourceTaxonomy";
-
-const StyledModalHeader = styled(ModalHeader)`
-  padding-bottom: 0;
-`;
 
 interface Props {
   structure: NodeWithChildren[];
@@ -38,9 +46,13 @@ const TopicArticleConnections = ({ structure, selectedNodes, addConnection, getS
   const [showFavorites, setShowFavorites] = useState(true);
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
 
+  const filtered = structure.filter(
+    (node) => node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== "true",
+  );
+
   const nodes = useMemo(
-    () => (showFavorites ? structure.filter((node) => favoriteSubjectIds.includes(node.id)) : structure),
-    [favoriteSubjectIds, showFavorites, structure],
+    () => (showFavorites ? filtered.filter((node) => favoriteSubjectIds.includes(node.id)) : filtered),
+    [favoriteSubjectIds, showFavorites, filtered],
   );
 
   const fetchFavoriteSubjects = async () => {
@@ -53,8 +65,6 @@ const TopicArticleConnections = ({ structure, selectedNodes, addConnection, getS
   useEffect(() => {
     fetchFavoriteSubjects();
   }, []);
-
-  const closeModal = useCallback(() => setOpen(false), []);
 
   const handleOpenToggle = ({ id }: Node) => {
     let paths = [...openedPaths];
@@ -75,37 +85,34 @@ const TopicArticleConnections = ({ structure, selectedNodes, addConnection, getS
   const onAdd = useCallback(
     (node: NodeWithChildren | NodeChild) => {
       addConnection(node);
-      closeModal();
+      setOpen(false);
     },
-    [addConnection, closeModal],
+    [addConnection],
   );
 
-  const toggleShowFavorites = () => {
-    setShowFavorites(!showFavorites);
-  };
   return (
     <>
       <FieldHeader title={t("taxonomy.topics.topicPlacement")} subTitle={t("taxonomy.topics.subTitleTopic")}>
         <HowToHelper pageId="TaxonomyTopicConnections" tooltip={t("taxonomy.topics.helpLabel")} />
       </FieldHeader>
       <ActiveTopicConnections activeTopics={selectedNodes} type="topic-article" />
-      <Modal open={open} onOpenChange={setOpen}>
-        <ModalTrigger>
-          <ButtonV2>{t(`taxonomy.topics.${"chooseTaxonomyPlacement"}`)}</ButtonV2>
-        </ModalTrigger>
-        <ModalContent animation="subtle" size={{ width: "large", height: "large" }}>
-          <StyledModalHeader>
-            <ModalTitle>{t("taxonomy.topics.filestructureHeading")}</ModalTitle>
-            <Switch
-              onChange={toggleShowFavorites}
-              checked={showFavorites}
-              label={t("taxonomy.favorites")}
-              id={"favorites"}
-            />
-            <ModalCloseButton title={t("taxonomy.topics.filestructureClose")} />
-          </StyledModalHeader>
-          <ModalBody>
-            <hr />
+      <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)} size="large">
+        <DialogTrigger asChild>
+          <Button>{t(`taxonomy.topics.${"chooseTaxonomyPlacement"}`)}</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("taxonomy.topics.filestructureHeading")}</DialogTitle>
+            <DialogCloseButton title={t("taxonomy.topics.filestructureClose")} />
+          </DialogHeader>
+          <DialogBody>
+            <SwitchRoot checked={showFavorites} onCheckedChange={(details) => setShowFavorites(details.checked)}>
+              <SwitchLabel>{t("taxonomy.favorites")}</SwitchLabel>
+              <SwitchControl>
+                <SwitchThumb />
+              </SwitchControl>
+              <SwitchHiddenInput />
+            </SwitchRoot>
             {nodes.map((node) => (
               <TaxonomyBlockNode
                 key={node.id}
@@ -117,9 +124,9 @@ const TopicArticleConnections = ({ structure, selectedNodes, addConnection, getS
                 onSelect={onAdd}
               />
             ))}
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+          </DialogBody>
+        </DialogContent>
+      </DialogRoot>
     </>
   );
 };

@@ -6,8 +6,7 @@
  *
  */
 
-import { Text } from "@ndla/typography";
-import { Table } from "@ndla/ui";
+import { Table, Text } from "@ndla/primitives";
 
 const markdownSyntax = [
   { md: "**Bold**", html: <b>Bold</b> },

@@ -29,7 +29,7 @@ import { ToolbarInlineOptions } from "./ToolbarInlineOptions";
 import { ToolbarLanguageOptions } from "./ToolbarLanguageOptions";
 import { ToolbarMarkOptions } from "./ToolbarMarkOptions";
 import {
-  getEditorAncestors,
+  getSelectionElements,
   toolbarState,
   CategoryFilters,
   AreaFilters,
@@ -90,14 +90,14 @@ const showToolbar = (toolbar: HTMLElement, modalRef: HTMLElement | null) => {
   toolbar.style.left = `${left}px`;
 };
 
+export interface ToolbarCategoryProps<T extends ToolbarValues> {
+  options: ToolbarValue<T>[];
+}
+
 interface Props {
   options: CategoryFilters;
   areaOptions: AreaFilters;
   hideToolbar?: boolean;
-}
-
-export interface ToolbarCategoryProps<T extends ToolbarValues> {
-  options: ToolbarValue<T>[];
 }
 
 const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideToolbarProp }: Props) => {
@@ -154,11 +154,11 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
   const options = useMemo(() => {
     if (hideToolbar) return;
     return toolbarState({
-      editorAncestors: getEditorAncestors(editor),
+      editorAncestors: getSelectionElements(editor, selection),
       options: toolbarOptions,
       areaOptions,
     });
-  }, [areaOptions, editor, hideToolbar, toolbarOptions]);
+  }, [areaOptions, editor, hideToolbar, toolbarOptions, selection]);
 
   if (hideToolbar) {
     return null;

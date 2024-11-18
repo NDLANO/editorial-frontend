@@ -6,25 +6,22 @@
  *
  */
 
-import { ComponentProps } from "react";
-import { IconButtonV2 } from "@ndla/button";
-import { DeleteForever } from "@ndla/icons/editor";
+import { DeleteBinLine } from "@ndla/icons/action";
+import { IconButton, type IconButtonProps } from "@ndla/primitives";
 
-interface Props extends ComponentProps<typeof IconButtonV2> {}
-
-export const DeleteButton = ({ children, ...rest }: Props) => (
-  <IconButtonV2
-    colorTheme="danger"
+export const DeleteButton = ({ children, ...rest }: IconButtonProps) => (
+  <IconButton
+    variant="danger"
+    size="small"
     tabIndex={-1}
-    variant="ghost"
     contentEditable={false}
     data-testid="close-related-button"
-    title={rest["aria-label" ?? ""]}
+    title={rest["aria-label"]}
     {...rest}
-    aria-label={rest["aria-label" ?? ""]}
+    aria-label={rest["aria-label"]}
   >
-    <DeleteForever />
-  </IconButtonV2>
+    <DeleteBinLine />
+  </IconButton>
 );
 
 export default DeleteButton;

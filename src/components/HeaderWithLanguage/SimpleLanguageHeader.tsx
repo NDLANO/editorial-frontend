@@ -7,10 +7,9 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Check } from "@ndla/icons/editor";
+import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
 import HeaderInformation, { StyledSplitter } from "./HeaderInformation";
 import HeaderLanguagePicker from "./HeaderLanguagePicker";
-import HeaderLanguagePill from "./HeaderLanguagePill";
 import HeaderSupportedLanguages from "./HeaderSupportedLanguages";
 import { StyledLanguageWrapper } from "./HeaderWithLanguage";
 
@@ -72,20 +71,16 @@ const SimpleLanguageHeader = ({
               isSubmitting={isSubmitting}
             />
             {isNewLanguage && (
-              <HeaderLanguagePill current key={`types_${language}`}>
-                <Check />
+              <HeaderCurrentLanguagePill key={`types_${language}`}>
                 {t(`languages.${language}`)}
-              </HeaderLanguagePill>
+              </HeaderCurrentLanguagePill>
             )}
             <StyledSplitter />
             <HeaderLanguagePicker id={id} emptyLanguages={emptyLanguages} editUrl={editUrl} />
           </>
         ) : (
           <>
-            <HeaderLanguagePill current>
-              <Check />
-              {t(`languages.${language}`)}
-            </HeaderLanguagePill>
+            <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
           </>
         )}
       </StyledLanguageWrapper>

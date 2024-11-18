@@ -6,21 +6,30 @@
  *
  */
 
-import { ReactNode, useCallback, useMemo, useState } from "react";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { colors, spacing } from "@ndla/core";
-import { Pencil } from "@ndla/icons/action";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { Portal } from "@ark-ui/react";
+import { PencilFill } from "@ndla/icons/action";
+import {
+  DialogContent,
+  DialogRoot,
+  DialogTitle,
+  DialogBody,
+  DialogHeader,
+  IconButton,
+  DialogTrigger,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { CopyrightEmbedData, CopyrightMetaData } from "@ndla/types-embed";
-import { CopyrightEmbed } from "@ndla/ui";
+import { CopyrightEmbed, EmbedWrapper } from "@ndla/ui";
 import { EmbedCopyrightForm } from "./EmbedCopyrightForm";
 import { CopyrightElement, TYPE_COPYRIGHT } from "./types";
 import DeleteButton from "../../../DeleteButton";
+import { DialogCloseButton } from "../../../DialogCloseButton";
 import MoveContentButton from "../../../MoveContentButton";
+import { StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props {
   attributes: RenderElementProps["attributes"];
@@ -29,31 +38,30 @@ interface Props {
   element: CopyrightElement;
 }
 
-const CopyrightBlockContent = styled.div`
-  border: 1px solid ${colors.brand.primary};
-  margin-top: ${spacing.xsmall};
-  padding: ${spacing.xsmall};
-  position: relative;
-`;
+const StyledEmbedWrapper = styled(EmbedWrapper, {
+  base: {
+    "& [data-copyright-content]": {
+      border: "1px solid",
+      borderColor: "stroke.default",
+      padding: "xsmall",
+    },
+  },
+});
 
-const ButtonContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  right: -${spacing.large};
-`;
-
-const CopyrightWrapper = styled.div`
-  position: relative;
-`;
-
-const StyledModalHeader = styled(ModalHeader)`
-  padding-bottom: 0px;
-`;
+const ButtonContainer = styled(StyledFigureButtons, {
+  base: {
+    top: "-xlarge",
+    right: 0,
+  },
+});
 
 const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
-  const [modalOpen, setModalOpen] = useState<boolean>(!!element.isFirstEdit);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    setModalOpen(!!element.isFirstEdit);
+  }, [element.isFirstEdit]);
 
   const embed: CopyrightMetaData | undefined = useMemo(
     () =>
@@ -131,42 +139,41 @@ const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
   );
 
   return (
-    <CopyrightWrapper data-testid="slate-copyright-block" {...attributes}>
-      <ButtonContainer>
+    <StyledEmbedWrapper data-testid="slate-copyright-block" {...attributes}>
+      <ButtonContainer contentEditable={false}>
         <DeleteButton aria-label={t("delete")} data-testid="delete-copyright" onClick={handleDelete} />
-        <Modal open={modalOpen} onOpenChange={setModalOpen}>
-          <ModalTrigger>
-            <IconButtonV2
-              variant="ghost"
+        <DialogRoot open={modalOpen} onOpenChange={(details) => setModalOpen(details.open)}>
+          <DialogTrigger asChild>
+            <IconButton
+              variant="tertiary"
+              size="small"
               aria-label={t("form.copyright.edit")}
               data-testid="edit-copyright"
               title={t("form.copyright.edit")}
             >
-              <Pencil />
-            </IconButtonV2>
-          </ModalTrigger>
-          <ModalContent size="normal">
-            <StyledModalHeader>
-              <ModalTitle>{t("form.copyright.title")}</ModalTitle>
-              <ModalCloseButton />
-            </StyledModalHeader>
-            <ModalBody>
-              <EmbedCopyrightForm embedData={element.data} onCancel={onClose} onSave={onSave} />
-            </ModalBody>
-          </ModalContent>
-        </Modal>
+              <PencilFill />
+            </IconButton>
+          </DialogTrigger>
+          <Portal>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>{t("form.copyright.title")}</DialogTitle>
+                <DialogCloseButton />
+              </DialogHeader>
+              <DialogBody>
+                <EmbedCopyrightForm embedData={element.data} onCancel={onClose} onSave={onSave} />
+              </DialogBody>
+            </DialogContent>
+          </Portal>
+        </DialogRoot>
         <MoveContentButton
           aria-label={t("form.moveContent")}
           data-testid="move-copyright"
           onMouseDown={handleRemoveCopyright}
         />
       </ButtonContainer>
-      {!!embed && (
-        <CopyrightEmbed embed={embed}>
-          <CopyrightBlockContent data-testid="slate-copyright-content">{children}</CopyrightBlockContent>
-        </CopyrightEmbed>
-      )}
-    </CopyrightWrapper>
+      {!!embed && <CopyrightEmbed embed={embed}>{children}</CopyrightEmbed>}
+    </StyledEmbedWrapper>
   );
 };
 

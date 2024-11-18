@@ -11,16 +11,16 @@ import { memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { FileCompare } from "@ndla/icons/action";
 import { Launch } from "@ndla/icons/common";
-import { CheckboxCircleFill, Eye } from "@ndla/icons/editor";
+import { Eye } from "@ndla/icons/editor";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IConcept } from "@ndla/types-backend/concept-api";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import DeleteLanguageVersion from "./DeleteLanguageVersion";
+import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
 import { StyledSplitter } from "./HeaderInformation";
 import HeaderLanguagePicker from "./HeaderLanguagePicker";
-import HeaderLanguagePill from "./HeaderLanguagePill";
 import HeaderSupportedLanguages from "./HeaderSupportedLanguages";
 import TranslateNbToNn from "./TranslateNbToNn";
 import { createEditUrl, hasArticleFieldsChanged, toMapping, translatableTypes } from "./util";
@@ -167,10 +167,7 @@ const HeaderActions = ({
           isSubmitting={isSubmitting}
         />
         {isNewLanguage && (
-          <HeaderLanguagePill current key={`types_${language}`}>
-            <CheckboxCircleFill />
-            {t(`languages.${language}`)}
-          </HeaderLanguagePill>
+          <HeaderCurrentLanguagePill key={`types_${language}`}>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
         )}
         <StyledSplitter />
         <HeaderLanguagePicker id={id} emptyLanguages={emptyLanguages} editUrl={editUrl} />

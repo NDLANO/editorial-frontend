@@ -164,7 +164,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
           <ErrorWarningLine />
           <StyledErrorTextWrapper>
             <Text>{t("taxonomy.publish.error")}</Text>
-            <div>
+            <>
               {failedResources.map((res, index) => (
                 <div key={index}>
                   <ResourceItemLink
@@ -175,7 +175,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
                   />
                 </div>
               ))}
-            </div>
+            </>
           </StyledErrorTextWrapper>
         </MessageBox>
       )}

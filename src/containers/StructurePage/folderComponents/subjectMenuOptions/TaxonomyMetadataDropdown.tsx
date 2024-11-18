@@ -20,7 +20,10 @@ import { styled } from "@ndla/styled-system/jsx";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../../components/abstractions/Select";
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
-  base: { flexGrow: "1" },
+  base: {
+    flexGrow: "1",
+    width: "xxlarge",
+  },
 });
 interface Option {
   key: string;

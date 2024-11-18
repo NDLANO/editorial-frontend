@@ -12,8 +12,8 @@ import { AddLine } from "@ndla/icons/action";
 import { Button, Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, Metadata } from "@ndla/types-taxonomy";
-import ConstantMetaField from "./ConstantMetaField";
 import CustomFieldComponent from "./CustomFieldComponent";
+import SubjectForwardField from "./SubjectForwardField";
 import {
   TAXONOMY_CUSTOM_FIELD_LANGUAGE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
@@ -130,7 +130,7 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
       <SubjectCategorySelector customFields={customFields} updateCustomFields={setCustomFields} />
       <SubjectTypeSelector customFields={customFields} updateCustomFields={setCustomFields} />
       <ToggleExplanationSubject customFields={customFields} updateFields={setCustomFields} />
-      <ConstantMetaField
+      <SubjectForwardField
         onSubmit={setCustomFields}
         initialVal={metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID]}
       />

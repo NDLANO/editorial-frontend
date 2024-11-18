@@ -41,7 +41,7 @@ const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: 
   const nodeType = getNodeTypeFromNodeId(node.id);
 
   return (
-    <DialogRoot>
+    <DialogRoot position="top">
       <DialogTrigger asChild>
         <IconButton
           variant="secondary"

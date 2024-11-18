@@ -180,13 +180,12 @@ const CopyNodeResources = ({ currentNode, nodeType, type }: Props) => {
           <Text>{`${prefixText} (${count}/${totalAmount})`}</Text>
         </StatusIndicatorContent>
       )}
-
       {failedResources.length > 0 && (
         <MessageBox variant="error">
           <ErrorWarningLine />
           <StyledErrorTextWrapper>
             <Text>{t(`taxonomy.${type}.error`)}</Text>
-            <div>
+            <>
               {failedResources.map((res, index) => (
                 <div key={index}>
                   <ResourceItemLink
@@ -196,7 +195,7 @@ const CopyNodeResources = ({ currentNode, nodeType, type }: Props) => {
                   />
                 </div>
               ))}
-            </div>
+            </>
           </StyledErrorTextWrapper>
         </MessageBox>
       )}

@@ -23,7 +23,7 @@ const StyledForm = styled(Form, {
 
 const FormWrapper = ({ inModal, children, ...rest }: Props) => {
   if (inModal) {
-    return <StyledForm>{children}</StyledForm>;
+    return <StyledForm {...rest}>{children}</StyledForm>;
   }
   return <Form {...rest}>{children}</Form>;
 };

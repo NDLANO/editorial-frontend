@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { FieldLabel } from "@ark-ui/react";
 import { DeleteBinLine } from "@ndla/icons/action";
 import { CheckLine } from "@ndla/icons/editor";
-import { FieldInput, FieldRoot, IconButton, Input } from "@ndla/primitives";
+import { FieldInput, FieldRoot, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Metadata } from "@ndla/types-taxonomy";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID } from "../../../../../constants";
@@ -43,17 +43,15 @@ interface Props {
   initialVal?: string;
 }
 
-const ConstantMetaField = ({ onSubmit, initialVal = "" }: Props) => {
+const SubjectForwardField = ({ onSubmit, initialVal = "" }: Props) => {
   const { t } = useTranslation();
   const [currentVal, setCurrentVal] = useState<string | undefined>();
 
   const handleSubmit = () => {
-    const newPair: Record<string, string> = {};
     if (initialVal !== currentVal && !!currentVal) {
-      newPair[TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID] = currentVal;
       onSubmit((prevState: Metadata["customFields"]) => ({
         ...prevState,
-        ...newPair,
+        [TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID]: currentVal,
       }));
     }
   };
@@ -97,4 +95,4 @@ const ConstantMetaField = ({ onSubmit, initialVal = "" }: Props) => {
   );
 };
 
-export default ConstantMetaField;
+export default SubjectForwardField;

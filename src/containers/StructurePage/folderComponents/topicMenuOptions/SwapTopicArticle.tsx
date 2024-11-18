@@ -117,7 +117,7 @@ const SwapTopicArticle = ({ node, rootNodeId }: Props) => {
           isFetching={searchQuery.isFetching}
         />
       </GenericSearchCombobox>
-      <div>
+      <>
         {putNodeMutation.isPending && <Spinner size="small" />}
         {putNodeMutation.isSuccess && (
           <Text>
@@ -130,7 +130,7 @@ const SwapTopicArticle = ({ node, rootNodeId }: Props) => {
             {error}
           </Text>
         )}
-      </div>
+      </>
     </Wrapper>
   );
 };

@@ -58,7 +58,7 @@ import { TYPE_RELATED } from "../related/types";
 import { defaultTableBlock } from "../table/defaultBlocks";
 import { isInTableCellHeader, isTableCell } from "../table/slateHelpers";
 import { TYPE_TABLE } from "../table/types";
-import { IS_MAC } from "../toolbar/ToolbarButton";
+import { IS_MAC } from "../toolbar/ToolbarToggle";
 import { TYPE_DISCLAIMER } from "../uuDisclaimer/types";
 import { defaultDisclaimerBlock } from "../uuDisclaimer/utils";
 import { TYPE_EMBED_BRIGHTCOVE } from "../video/types";

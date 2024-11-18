@@ -8,12 +8,11 @@
 
 import isEqual from "lodash/isEqual";
 import { useCallback } from "react";
-import { Editor, Element } from "slate";
-import { useSlate, useSlateSelector } from "slate-react";
-import { ToggleItem } from "@radix-ui/react-toolbar";
-import { StyledToggleGroup, ToolbarCategoryProps } from "./SlateToolbar";
-import ToolbarButton from "./ToolbarButton";
+import { Editor, Element, Transforms } from "slate";
+import { ReactEditor, useSlate, useSlateSelector } from "slate-react";
+import { ToolbarCategoryProps } from "./SlateToolbar";
 import { BlockType } from "./toolbarState";
+import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
 import toggleBlock from "../../utils/toggleBlock";
 import { toggleDefinitionList } from "../definitionList/utils/toggleDefinitionList";
 import { toggleList } from "../list/utils/toggleList";
@@ -53,6 +52,9 @@ export const ToolbarBlockOptions = ({ options }: ToolbarCategoryProps<BlockType>
 
   const onClick = useCallback(
     (type: BlockType) => {
+      if (!editor.selection) return;
+      Transforms.select(editor, editor.selection);
+      ReactEditor.focus(editor);
       if (type === "definition-list") {
         toggleDefinitionList(editor);
       } else if (type === "quote") {
@@ -66,12 +68,21 @@ export const ToolbarBlockOptions = ({ options }: ToolbarCategoryProps<BlockType>
   if (!visibleOptions.length) return null;
 
   return (
-    <StyledToggleGroup type="multiple" value={value}>
+    <ToolbarToggleGroupRoot multiple value={value}>
       {visibleOptions.map((type) => (
-        <ToggleItem key={type.value} value={type.value} disabled={type.disabled} asChild>
-          <ToolbarButton type={type.value} onClick={() => onClick(type.value)} />
-        </ToggleItem>
+        <ToolbarToggleButton
+          key={type.value}
+          onClick={(e) => {
+            e.preventDefault();
+            onClick(type.value);
+          }}
+          onMouseDown={(e) => e.preventDefault()}
+          onMouseUp={(e) => e.preventDefault()}
+          value={type.value}
+          disabled={type.disabled}
+          type={type.value}
+        />
       ))}
-    </StyledToggleGroup>
+    </ToolbarToggleGroupRoot>
   );
 };

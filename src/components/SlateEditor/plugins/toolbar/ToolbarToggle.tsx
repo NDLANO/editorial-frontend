@@ -9,9 +9,7 @@
 import { TFunction } from "i18next";
 import { ElementType, ReactNode, forwardRef, useMemo } from "react";
 import { CustomI18n, useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonProps, ButtonV2 } from "@ndla/button";
-import { colors, fonts, spacing } from "@ndla/core";
+import { ToggleGroupItemProps } from "@ark-ui/react";
 import { Language, Comment } from "@ndla/icons/common";
 import {
   Bold,
@@ -33,37 +31,45 @@ import {
   FormatList,
   Globe,
 } from "@ndla/icons/editor";
-
-const StyledHeadingSpan = styled.span`
-  text-align: center;
-  width: ${spacing.normal};
-  ${fonts.sizes("14px", "14px")};
-`;
-
-interface HeadingSpanProps {
-  title: string;
-  children: ReactNode;
-}
-
-const HeadingSpan = ({ title, children }: HeadingSpanProps) => {
-  return <StyledHeadingSpan title={title}>{children}</StyledHeadingSpan>;
-};
+import { Text, ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { FontWeightToken } from "@ndla/styled-system/tokens";
 
 interface HeadingProps {
   title: string;
+  fontWeight?: FontWeightToken;
 }
 
-const Paragraph = ({ title }: HeadingProps) => <HeadingSpan title={title}>P</HeadingSpan>;
-const HeadingOne = ({ title }: HeadingProps) => <HeadingSpan title={title}>H1</HeadingSpan>;
-const HeadingTwo = ({ title }: HeadingProps) => <HeadingSpan title={title}>H2</HeadingSpan>;
-const HeadingThree = ({ title }: HeadingProps) => <HeadingSpan title={title}>H3</HeadingSpan>;
-const HeadingFour = ({ title }: HeadingProps) => <HeadingSpan title={title}>H4</HeadingSpan>;
+interface HeadingSpanProps extends HeadingProps {
+  children: ReactNode;
+}
+
+const StyledText = styled(Text, {
+  base: {
+    width: "medium",
+    height: "medium",
+  },
+});
+
+const HeadingSpan = ({ children, ...rest }: HeadingSpanProps) => {
+  return (
+    <StyledText {...rest} consumeCss asChild>
+      <span>{children}</span>
+    </StyledText>
+  );
+};
+
+const Paragraph = (props: HeadingProps) => <HeadingSpan {...props}>P</HeadingSpan>;
+const HeadingOne = (props: HeadingProps) => <HeadingSpan {...props}>H1</HeadingSpan>;
+const HeadingTwo = (props: HeadingProps) => <HeadingSpan {...props}>H2</HeadingSpan>;
+const HeadingThree = (props: HeadingProps) => <HeadingSpan {...props}>H3</HeadingSpan>;
+const HeadingFour = (props: HeadingProps) => <HeadingSpan {...props}>H4</HeadingSpan>;
 
 // Fetched from https://github.com/ianstormtaylor/is-hotkey/blob/master/src/index.js
 export const IS_MAC = typeof window != "undefined" && /Mac|iPod|iPhone|iPad/.test(window.navigator.platform);
 const options = { ctrl: IS_MAC ? "cmd" : "ctrl" };
 
-const icon: Record<string, ElementType> = {
+export const iconMapping: Record<string, ElementType> = {
   bold: Bold,
   italic: Italic,
   underlined: Underline,
@@ -98,19 +104,7 @@ interface Props {
   disabled?: boolean;
 }
 
-const StyledButton = styled(ButtonV2)`
-  color: ${colors.brand.greyDark};
-  display: inline-flex;
-  align-items: center;
-  &[data-state="on"] {
-    background-color: ${colors.brand.light};
-    &:hover {
-      color: ${colors.brand.greyDark};
-    }
-  }
-`;
-
-const getTitle = (
+export const getTitle = (
   i18n: CustomI18n,
   t: TFunction,
   type?: string,
@@ -129,28 +123,33 @@ const getTitle = (
   return t(`editorToolbar.${type}`, options);
 };
 
-const ToolbarButton = forwardRef<HTMLButtonElement, Omit<ButtonProps, "type"> & Props>(
-  ({ type, children, noTitle, disabled, ...rest }, ref) => {
-    const Icon = useMemo(() => (type ? icon[type] : undefined), [type]);
+export const ToolbarToggleButton = forwardRef<HTMLButtonElement, Omit<ToggleGroupItemProps, "type"> & Props>(
+  ({ type, children, noTitle, disabled, value, ...rest }, ref) => {
+    const Icon = useMemo(() => (type ? iconMapping[type] : undefined), [type]);
     const { i18n, t } = useTranslation();
 
     const title = useMemo(() => getTitle(i18n, t, type, noTitle, disabled), [i18n, t, type, noTitle, disabled]);
 
     return (
-      <StyledButton
-        size="xsmall"
-        ref={ref}
-        variant="ghost"
+      <ToggleGroupItem
+        size="small"
+        variant="tertiary"
         data-testid={`toolbar-button-${type}`}
         title={title}
         disabled={disabled}
+        ref={ref}
+        value={value}
         {...rest}
       >
         {Icon && <Icon />}
         {children}
-      </StyledButton>
+      </ToggleGroupItem>
     );
   },
 );
 
-export default ToolbarButton;
+export const ToolbarToggleGroupRoot = styled(ToggleGroupRoot, {
+  base: {
+    gap: "3xsmall",
+  },
+});

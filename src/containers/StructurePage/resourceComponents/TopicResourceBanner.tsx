@@ -192,7 +192,12 @@ const TopicResourceBanner = ({
           <TextWrapper>
             {numericId ? (
               <SafeLink
-                to={routes.topic.edit(numericId, i18n.language)}
+                to={routes.topic.edit(
+                  numericId,
+                  currentNode.supportedLanguages.includes(i18n.language)
+                    ? i18n.language
+                    : currentNode.supportedLanguages[0],
+                )}
                 target="_blank"
                 rel="noopener noreferrer"
                 css={linkRecipe.raw()}

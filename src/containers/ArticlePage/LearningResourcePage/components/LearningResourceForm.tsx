@@ -15,11 +15,10 @@ import { IArticle, IUpdatedArticle, IStatus } from "@ndla/types-backend/draft-ap
 import { Node } from "@ndla/types-taxonomy";
 import LearningResourcePanels from "./LearningResourcePanels";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
-import { FormActionsContainer } from "../../../../components/FormikForm";
+import { Form, FormActionsContainer } from "../../../../components/FormikForm";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
-import StyledForm from "../../../../components/StyledFormComponents";
 import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
 import { validateDraft } from "../../../../modules/draft/draftApi";
 import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
@@ -123,7 +122,7 @@ const LearningResourceForm = ({
       validate={validate}
       initialStatus={initialWarnings}
     >
-      <StyledForm>
+      <Form>
         <HeaderWithLanguage
           id={article?.id}
           language={articleLanguage}
@@ -169,7 +168,7 @@ const LearningResourceForm = ({
             </Button>
           </FormActionsContainer>
         </AlertDialog>
-      </StyledForm>
+      </Form>
     </Formik>
   );
 };

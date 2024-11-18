@@ -8,15 +8,12 @@
 
 import { FastField, FieldArray, FieldProps, useField, useFormikContext } from "formik";
 import { memo } from "react";
-import { spacing } from "@ndla/core";
 import { styled } from "@ndla/styled-system/jsx";
 import Comment, { CommentType } from "./Comment";
 import InputComment from "./InputComment";
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../constants";
 
 export const RESET_COMMENTS_STATUSES = [PUBLISHED, ARCHIVED, UNPUBLISHED];
-export const COMMENT_WIDTH = 220;
-export const SPACING_COMMENT = Number(spacing.small.replace("px", ""));
 
 const StyledList = styled("ul", {
   base: {
@@ -29,6 +26,9 @@ const StyledCommentWrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "large",
+    // TODO: Consider using value from semantic tokens or adding this as a semantic token
+    width: "220px",
+    marginInlineStart: "small",
   },
 });
 

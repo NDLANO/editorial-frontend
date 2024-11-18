@@ -12,10 +12,10 @@ import { useTranslation } from "react-i18next";
 import { UseQueryResult } from "@tanstack/react-query";
 import { IArticle, IUpdatedArticle, IStatus } from "@ndla/types-backend/draft-api";
 import FrontpageArticlePanels from "./FrontpageArticlePanels";
+import { Form } from "../../../../components/FormikForm";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
-import StyledForm from "../../../../components/StyledFormComponents";
 import { validateDraft } from "../../../../modules/draft/draftApi";
 import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { frontPageArticleRules, isFormikFormDirty } from "../../../../util/formHelper";
@@ -79,7 +79,7 @@ const FrontpageArticleForm = ({
       validate={(values) => validateFormik(values, frontPageArticleRules, t)}
       initialStatus={{ warnings: initialWarnings }}
     >
-      <StyledForm>
+      <Form>
         <HeaderWithLanguage
           id={article?.id}
           title={article?.title?.title}
@@ -103,7 +103,7 @@ const FrontpageArticleForm = ({
           handleSubmit={handleSubmit}
           article={article}
         />
-      </StyledForm>
+      </Form>
     </Formik>
   );
 };

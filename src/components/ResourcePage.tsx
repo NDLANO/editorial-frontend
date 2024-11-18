@@ -16,9 +16,8 @@ import { Spinner } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { NynorskTranslateProvider } from "./NynorskTranslateProvider";
 import { useWideArticle } from "./WideArticleEditorProvider";
-import { MAX_PAGE_WIDTH } from "../constants";
+import { MAX_PAGE_WIDTH, MAX_PAGE_WIDTH_WITH_COMMENTS } from "../constants";
 import Footer from "../containers/App/components/FooterWrapper";
-import { MAX_WIDTH_FRONTPAGE_WITH_COMMENTS, MAX_WIDTH_WITH_COMMENTS } from "../containers/ArticlePage/styles";
 import NotFoundPage from "../containers/NotFoundPage/NotFoundPage";
 import { usePreviousLocation } from "../util/routeHelpers";
 
@@ -36,12 +35,8 @@ const PageContent = styled.div`
     padding-right: 24px;
   }
   max-width: ${MAX_PAGE_WIDTH}px;
-
-  &[data-wide="true"] {
-    max-width: ${MAX_WIDTH_FRONTPAGE_WITH_COMMENTS}px;
-  }
   &[data-article="true"] {
-    max-width: ${MAX_WIDTH_WITH_COMMENTS}px;
+    max-width: ${MAX_PAGE_WIDTH_WITH_COMMENTS}px;
   }
 `;
 

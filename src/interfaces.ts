@@ -36,27 +36,6 @@ export type PartialRecord<K extends keyof any, T> = {
   [P in K]?: T;
 };
 
-export type EditMode =
-  | "changeSubjectName"
-  | "deleteTopic"
-  | "addExistingSubjectTopic"
-  | "openCustomFields"
-  | "toggleMetadataVisibility"
-  | "editGrepCodes"
-  | "moveExistingNode"
-  | "addTopic"
-  | "deleteSubject"
-  | "requestPublish"
-  | "deleteNode"
-  | "disconnectFromParent"
-  | "copyResources"
-  | "cloneResources"
-  | "copyRevisionDate"
-  | "swapTopicArticle"
-  | "setResourcesPrimary"
-  | "connectExistingNode"
-  | "";
-
 export interface SearchResultBase<T> {
   totalCount: number;
   page?: number;

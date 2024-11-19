@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { useFormikContext } from "formik";
 import isEqual from "lodash/isEqual";
 import { FocusEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
@@ -14,6 +15,7 @@ import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactE
 import { EditableProps } from "slate-react/dist/components/editable";
 import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import "../DisplayEmbed/helpers/h5pResizer";
 import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
 import { SlatePlugin } from "./interfaces";
 import { Action, commonActions } from "./plugins/blockPicker/actions";

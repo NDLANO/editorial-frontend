@@ -6,20 +6,22 @@
  *
  */
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import { ErrorWarningLine } from "@ndla/icons/common";
 import { CheckLine } from "@ndla/icons/editor";
 import { Text, Spinner, MessageBox } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
 import { cloneDraft } from "../../../../modules/draft/draftApi";
 import { learningpathCopy } from "../../../../modules/learningpath/learningpathApi";
 import { cloneNode, fetchNodeResources, postResourceForNode } from "../../../../modules/nodes/nodeApi";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
+import { routes, toLearningpathFull } from "../../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
-import ResourceItemLink from "../../resourceComponents/ResourceItemLink";
+import { linkRecipe } from "../../resourceComponents/Resource";
 import NodeSearchDropdown from "../sharedMenuOptions/components/NodeSearchDropdown";
 
 type ActionType = "copyResources" | "cloneResources";
@@ -186,15 +188,29 @@ const CopyNodeResources = ({ currentNode, nodeType, type }: Props) => {
           <StyledErrorTextWrapper>
             <Text>{t(`taxonomy.${type}.error`)}</Text>
             <>
-              {failedResources.map((res, index) => (
-                <div key={index}>
-                  <ResourceItemLink
-                    contentType={res.contentUri?.split(":")[1] === "article" ? "article" : "learning-resource"}
-                    contentUri={res.contentUri}
-                    name={res.name}
-                  />
-                </div>
-              ))}
+              {failedResources.map((res, index) => {
+                const numericId = parseInt(res.contentUri?.split(":").pop() ?? "");
+                return (
+                  <Fragment key={index}>
+                    {numericId ? (
+                      <SafeLink
+                        to={
+                          res.contentUri?.includes("learningpath")
+                            ? toLearningpathFull(numericId, language)
+                            : routes.editArticle(numericId, "standard")
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        css={linkRecipe.raw()}
+                      >
+                        {res.name}
+                      </SafeLink>
+                    ) : (
+                      <Text textStyle="body.link">{res.name}</Text>
+                    )}
+                  </Fragment>
+                );
+              })}
             </>
           </StyledErrorTextWrapper>
         </MessageBox>

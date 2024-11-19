@@ -7,12 +7,13 @@
  */
 
 import partition from "lodash/partition";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import { ErrorWarningLine } from "@ndla/icons/common";
 import { CheckLine } from "@ndla/icons/editor";
 import { Button, Heading, MessageBox, Spinner, Text } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
@@ -22,8 +23,9 @@ import { fetchDrafts, updateStatusDraft } from "../../../../modules/draft/draftA
 import { fetchLearningpaths, updateStatusLearningpath } from "../../../../modules/learningpath/learningpathApi";
 import { fetchNodeResources } from "../../../../modules/nodes/nodeApi";
 import { RESOURCE_META } from "../../../../queryKeys";
+import { routes, toLearningpathFull } from "../../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
-import ResourceItemLink from "../../resourceComponents/ResourceItemLink";
+import { linkRecipe } from "../../resourceComponents/Resource";
 
 interface Props {
   node: Node;
@@ -165,16 +167,29 @@ const PublishChildNodeResources = ({ node }: Props) => {
           <StyledErrorTextWrapper>
             <Text>{t("taxonomy.publish.error")}</Text>
             <>
-              {failedResources.map((res, index) => (
-                <div key={index}>
-                  <ResourceItemLink
-                    contentType={res.contentUri?.split(":")[1] === "article" ? "article" : "learning-resource"}
-                    contentUri={res.contentUri}
-                    name={res.name}
-                    key={index}
-                  />
-                </div>
-              ))}
+              {failedResources.map((res, index) => {
+                const numericId = parseInt(res.contentUri?.split(":").pop() ?? "");
+                return (
+                  <Fragment key={index}>
+                    {numericId ? (
+                      <SafeLink
+                        to={
+                          res.contentUri?.includes("learningpath")
+                            ? toLearningpathFull(numericId, language)
+                            : routes.editArticle(numericId, "standard")
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        css={linkRecipe.raw()}
+                      >
+                        {res.name}
+                      </SafeLink>
+                    ) : (
+                      <Text textStyle="body.link">{res.name}</Text>
+                    )}
+                  </Fragment>
+                );
+              })}
             </>
           </StyledErrorTextWrapper>
         </MessageBox>

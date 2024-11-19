@@ -135,7 +135,11 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
           <Button onClick={toggleShowDeleteWarning} variant="danger">
             {t("form.abort")}
           </Button>
-          <Button onClick={deleteLanguageVersion}>{t("form.workflow.deleteLanguageVersion.button")}</Button>
+          <Button onClick={deleteLanguageVersion}>
+            {t("form.workflow.deleteLanguageVersion.button", {
+              languageVersion: t(`languages.${language}`).toLowerCase(),
+            })}
+          </Button>
         </FormActionsContainer>
       </AlertDialog>
     </>

@@ -1680,6 +1680,7 @@ const phrases = {
     fullTopic: "Gjennomsnitt:",
     TOPIC: "emnet",
     SUBJECT: "faget",
+    PROGRAMME: "utdanningsprogrammet",
     qualityDescription:
       "Snitt av kvalitetsvurdering av alle vurderte ressursar i {{nodeType}} ({{count}} vurderte ressurser)",
     average: "Gj.snitt",
@@ -1697,10 +1698,16 @@ const phrases = {
     subjectSettings: "Faginnstillinger",
     topicSettings: "Emneinnstillinger",
     currentVersion: "Noverande versjon",
-    deleteNode: "Slett node",
-    deleteResource: "Slett ressurs",
-    deleteDisabled: "Noder med barn kan ikkje slettast",
-    confirmDelete: "Er du sikker på at du vil slette denne noden?",
+    delete: {
+      deleteNode: "Slett {{ nodeType }}",
+      deleteDisabled: "{{ nodeType }} med {{ childNode }} kan ikkje slettast",
+      deleteResource: "Slett ressurs",
+      child: "barn",
+      subTopic: "underemner",
+      topic: "emner",
+      confirmDelete: "Er du sikker på at du vil slette dette {{ nodeType }}?",
+    },
+
     version: "Versjon",
     createResource: "Opprett ny ressurs",
     addNewPlannedResource: "Opprett ny planlagd ressurs",

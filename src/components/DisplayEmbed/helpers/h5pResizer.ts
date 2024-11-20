@@ -108,17 +108,12 @@
       return; // not a resize event
     }
 
-    const iframe = [...document.getElementsByTagName("iframe")]
-      .find((frame) => frame.contentWindow === event.source);
+    const iframe = [...document.getElementsByTagName("iframe")].find((frame) => frame.contentWindow === event.source);
 
     if (!iframe) {
       return;
     }
 
-    iframe.height = String(
-      event.data.scrollHeight +
-      iframe.getBoundingClientRect().height -
-      iframe.scrollHeight,
-    );
+    iframe.height = String(event.data.scrollHeight + iframe.getBoundingClientRect().height - iframe.scrollHeight);
   });
 })();

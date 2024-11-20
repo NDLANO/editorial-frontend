@@ -2033,6 +2033,7 @@ const phrases = {
     nodeTypeTooltips: {
       SUBJECT: "This is a subject",
       TOPIC: "This is a topic",
+      PROGRAMME: "This is a programme",
     },
     fields: {
       id: {

@@ -151,8 +151,8 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoadi
         <StyledErrorMessage>{`${t("taxonomy.errorMessage")}: ${deleteNodeResource.error.message}`}</StyledErrorMessage>
       ) : null}
       <AlertDialog
-        title={t("taxonomy.deleteResource")}
-        label={t("taxonomy.deleteResource")}
+        title={t("taxonomy.delete.deleteResource")}
+        label={t("taxonomy.delete.deleteResource")}
         show={!!deleteId}
         text={t("taxonomy.resource.confirmDelete")}
         onCancel={() => toggleDelete("")}

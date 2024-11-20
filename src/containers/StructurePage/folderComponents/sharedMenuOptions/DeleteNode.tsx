@@ -16,8 +16,10 @@ import { FormActionsContainer } from "../../../../components/FormikForm";
 import { ARCHIVED } from "../../../../constants";
 import { updateStatusDraft } from "../../../../modules/draft/draftApi";
 import { fetchNodes } from "../../../../modules/nodes/nodeApi";
+import { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../../modules/nodes/nodeApiTypes";
 import { useDeleteNodeConnectionMutation, useDeleteNodeMutation } from "../../../../modules/nodes/nodeMutations";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
+import { capitalizeFirstLetter } from "../../utils";
 
 const Wrapper = styled("div", {
   base: {
@@ -28,14 +30,23 @@ const Wrapper = styled("div", {
   },
 });
 
+const nodeTypes = [TOPIC_NODE, SUBJECT_NODE, PROGRAMME] as const;
+type NodeType = (typeof nodeTypes)[number];
+
+const childTranslation: Record<NodeType, string> = {
+  SUBJECT: "taxonomy.delete.topic",
+  TOPIC: "taxonomy.delete.subTopic",
+  PROGRAMME: "taxonomy.delete.child",
+};
 interface Props {
   node: Node | NodeChild;
+  nodeType: NodeType;
   nodeChildren: Node[];
   onCurrentNodeChanged: (node?: Node) => void;
   rootNodeId?: string;
 }
 
-const DeleteNode = ({ node, nodeChildren, onCurrentNodeChanged, rootNodeId }: Props) => {
+const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNodeId }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [loading, setLoading] = useState(false);
@@ -90,11 +101,24 @@ const DeleteNode = ({ node, nodeChildren, onCurrentNodeChanged, rootNodeId }: Pr
   return (
     <Wrapper>
       <Heading consumeCss asChild textStyle="label.medium" fontWeight="bold">
-        <h2>{t("taxonomy.deleteNode")}</h2>
+        <h2>
+          {t("taxonomy.delete.deleteNode", {
+            nodeType: t(`taxonomy.nodeType.${nodeType}`),
+          })}
+        </h2>
       </Heading>
       <MessageBox variant={disabled ? "info" : "warning"}>
         <ErrorWarningLine />
-        <Text>{disabled ? t("taxonomy.deleteDisabled") : t("taxonomy.confirmDelete")}</Text>
+        <Text>
+          {disabled
+            ? capitalizeFirstLetter(
+                t("taxonomy.delete.deleteDisabled", {
+                  nodeType: t(`taxonomy.nodeType.${nodeType}`),
+                  childNode: t(childTranslation[nodeType]),
+                }),
+              )
+            : t("taxonomy.delete.confirmDelete", { nodeType: t(`taxonomy.${node.nodeType}`) })}
+        </Text>
       </MessageBox>
       <FormActionsContainer>
         <Button variant="danger" onClick={onDelete} loading={loading} disabled={disabled}>

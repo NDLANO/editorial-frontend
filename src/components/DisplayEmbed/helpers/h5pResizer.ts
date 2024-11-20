@@ -97,4 +97,28 @@
       iframes[i].contentWindow.postMessage(ready, "*");
     }
   }
+
+  // Handle resizing in Edlib 3
+  window.addEventListener("message", (event) => {
+    if (event?.data?.context) {
+      return; // not Edlib 3
+    }
+
+    if (event?.data?.action !== "resize" || !event?.data?.scrollHeight) {
+      return; // not a resize event
+    }
+
+    const iframe = [...document.getElementsByTagName("iframe")]
+      .find((frame) => frame.contentWindow === event.source);
+
+    if (!iframe) {
+      return;
+    }
+
+    iframe.height = String(
+      event.data.scrollHeight +
+      iframe.getBoundingClientRect().height -
+      iframe.scrollHeight,
+    );
+  });
 })();

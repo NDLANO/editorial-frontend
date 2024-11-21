@@ -6,8 +6,7 @@
  *
  */
 
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import ActiveTopicConnection from "./ActiveTopicConnection";
 import { MinimalNodeChild } from "../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy";
@@ -20,16 +19,19 @@ interface Props {
   setRelevance?: (topicId: string, relevanceId: string) => void;
 }
 
-const StyledConnectionsWrapper = styled.div`
-  padding-bottom: ${spacing.small};
-`;
+const StyledConnectionsList = styled("ul", {
+  base: {
+    listStyle: "none",
+    marginBottom: "small",
+  },
+});
 
 const ActiveTopicConnections = ({ activeTopics, ...rest }: Props) => (
-  <StyledConnectionsWrapper>
+  <StyledConnectionsList>
     {activeTopics.map((node) => (
       <ActiveTopicConnection key={node.id} node={node} {...rest} />
     ))}
-  </StyledConnectionsWrapper>
+  </StyledConnectionsList>
 );
 
 export default ActiveTopicConnections;

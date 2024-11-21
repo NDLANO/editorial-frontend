@@ -64,13 +64,7 @@ export const useTranslateToNN = () => {
         const content = get(element, field);
         if (content) {
           const isArray = Array.isArray(content);
-          // Our backend uses Jsoup to encode html. However, > is not encoded, and nynodata expects it to be. As such, we have to parse
-          // the entire html string and reencode it using an xmlSerializer.
-          const parsed =
-            type === "html" && !isArray
-              ? xmlSerializer.serializeToString(domParser.parseFromString(content, "text/html").body!)
-              : content;
-          acc[field] = { content: parsed, type, isArray };
+          acc[field] = { content, type, isArray };
         }
         return acc;
       }, {});

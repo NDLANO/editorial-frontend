@@ -119,14 +119,18 @@ const FileUploader = ({ onFileSave, close }: Props) => {
                     // Bug in formik's setError function requiring setTimeout to make it work,
                     // as discussed here: https://github.com/jaredpalmer/formik/discussions/3870
                     if (fileErrors.includes("FILE_INVALID_TYPE")) {
-                      const errorMessage = `${t("form.file.fileUpload.genericError")}: ${t("form.file.fileUpload.fileTypeInvalidError")}`;
+                      const errorMessage = `${t("form.file.fileUpload.genericError")}: ${t(
+                        "form.file.fileUpload.fileTypeInvalidError",
+                      )}`;
                       setTimeout(() => {
                         helpers.setError(errorMessage);
                       }, 0);
                       return;
                     }
                     if (fileErrors.includes("TOO_MANY_FILES")) {
-                      const errorMessage = `${t("form.file.fileUpload.genericError")}: ${t("form.file.fileUpload.tooManyError")}`;
+                      const errorMessage = `${t("form.file.fileUpload.genericError")}: ${t(
+                        "form.file.fileUpload.tooManyError",
+                      )}`;
                       setTimeout(() => {
                         helpers.setError(errorMessage);
                       }, 0);

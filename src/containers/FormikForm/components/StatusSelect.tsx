@@ -8,7 +8,7 @@
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
-import { SelectContent, SelectLabel, SelectPositioner, SelectRoot, SelectValueText } from "@ndla/primitives";
+import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IStatus as DraftStatus } from "@ndla/types-backend/draft-api";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
@@ -70,15 +70,13 @@ const StatusSelect = ({ status, setStatus, onSave, statusStateMachine, entitySta
           placeholder={entityStatus?.current === PUBLISHED ? t("form.status.published") : t("searchForm.types.status")}
         />
       </GenericSelectTrigger>
-      <SelectPositioner>
-        <SelectContent>
-          {collection.items.map((item) => (
-            <GenericSelectItem item={item} key={item.status}>
-              {item.label}
-            </GenericSelectItem>
-          ))}
-        </SelectContent>
-      </SelectPositioner>
+      <SelectContent>
+        {collection.items.map((item) => (
+          <GenericSelectItem item={item} key={item.status}>
+            {item.label}
+          </GenericSelectItem>
+        ))}
+      </SelectContent>
     </SelectRoot>
   );
 };

@@ -15,7 +15,6 @@ import {
   SelectContent,
   SelectHiddenSelect,
   SelectLabel,
-  SelectPositioner,
   SelectRoot,
   SelectValueText,
 } from "@ndla/primitives";
@@ -65,15 +64,13 @@ const LicenseField = ({ name = "license", enableLicenseNA }: Props) => {
             <StyledGenericSelectTrigger>
               <SelectValueText placeholder={t("form.license.choose")} />
             </StyledGenericSelectTrigger>
-            <SelectPositioner>
-              <SelectContent>
-                {collection.items.map((item) => (
-                  <GenericSelectItem key={item.license} item={item}>
-                    {item.title}
-                  </GenericSelectItem>
-                ))}
-              </SelectContent>
-            </SelectPositioner>
+            <SelectContent>
+              {collection.items.map((item) => (
+                <GenericSelectItem key={item.license} item={item}>
+                  {item.title}
+                </GenericSelectItem>
+              ))}
+            </SelectContent>
             <SelectHiddenSelect />
           </SelectRoot>
         </FieldRoot>

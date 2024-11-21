@@ -19,7 +19,6 @@ import {
   FieldRoot,
   SelectContent,
   SelectLabel,
-  SelectPositioner,
   SelectRoot,
   SelectValueText,
 } from "@ndla/primitives";
@@ -127,15 +126,13 @@ const EmbedForm = ({ onCancel, audio }: EmbedFormProps) => {
               <GenericSelectTrigger>
                 <SelectValueText />
               </GenericSelectTrigger>
-              <SelectPositioner>
-                <SelectContent>
-                  {collection.items.map((item) => (
-                    <GenericSelectItem item={item} key={item.value}>
-                      {item.label}
-                    </GenericSelectItem>
-                  ))}
-                </SelectContent>
-              </SelectPositioner>
+              <SelectContent>
+                {collection.items.map((item) => (
+                  <GenericSelectItem item={item} key={item.value}>
+                    {item.label}
+                  </GenericSelectItem>
+                ))}
+              </SelectContent>
             </SelectRoot>
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
           </FieldRoot>

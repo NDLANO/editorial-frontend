@@ -15,7 +15,6 @@ import {
   ComboboxContent,
   ComboboxItem,
   ComboboxList,
-  ComboboxPositioner,
   ComboboxRoot,
   FieldHelper,
   FieldLabel,
@@ -155,20 +154,18 @@ const GrepCodesField = () => {
               }}
               triggerable
             />
-            <ComboboxPositioner>
-              <ComboboxContent ref={contentRef}>
-                <StyledComboboxList>
-                  {collection.items.map((item) => (
-                    <ComboboxItem key={item.code} item={item} asChild>
-                      <GenericComboboxItemContent title={item.title} />
-                    </ComboboxItem>
-                  ))}
-                </StyledComboboxList>
-                {searchQuery.isSuccess && (
-                  <Text>{t("dropdown.numberHits", { hits: searchQuery.data?.totalCount ?? 0 })}</Text>
-                )}
-              </ComboboxContent>
-            </ComboboxPositioner>
+            <ComboboxContent ref={contentRef}>
+              <StyledComboboxList>
+                {collection.items.map((item) => (
+                  <ComboboxItem key={item.code} item={item} asChild>
+                    <GenericComboboxItemContent title={item.title} />
+                  </ComboboxItem>
+                ))}
+              </StyledComboboxList>
+              {searchQuery.isSuccess && (
+                <Text>{t("dropdown.numberHits", { hits: searchQuery.data?.totalCount ?? 0 })}</Text>
+              )}
+            </ComboboxContent>
           </ComboboxRoot>
           <StyledList>
             {Object.entries(grepCodes).map(([code, title]) => (

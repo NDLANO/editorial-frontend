@@ -10,7 +10,7 @@ import { useState, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { ArrowDownShortLine } from "@ndla/icons/common";
 import { CheckLine } from "@ndla/icons/editor";
-import { Button, IconButton, MenuContent, MenuItem, MenuPositioner, MenuRoot, MenuTrigger } from "@ndla/primitives";
+import { Button, IconButton, MenuContent, MenuItem, MenuRoot, MenuTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { SAVE_BUTTON_ID } from "../constants";
 
@@ -125,17 +125,15 @@ const SaveMultiButton = ({ isSaving, showSaved, formIsDirty, hasErrors, onClick,
             <ArrowDownShortLine />
           </StyledIconButton>
         </MenuTrigger>
-        <MenuPositioner>
-          <MenuContent>
-            {secondaryButtons.map((button) => (
-              <MenuItem key={button.value} value={button.value} disabled={button.disable} asChild consumeCss>
-                <button type="button" onClick={() => onClick(button.value === "saveAsNew")} disabled={button.disable}>
-                  {button.label}
-                </button>
-              </MenuItem>
-            ))}
-          </MenuContent>
-        </MenuPositioner>
+        <MenuContent>
+          {secondaryButtons.map((button) => (
+            <MenuItem key={button.value} value={button.value} disabled={button.disable} asChild consumeCss>
+              <button type="button" onClick={() => onClick(button.value === "saveAsNew")} disabled={button.disable}>
+                {button.label}
+              </button>
+            </MenuItem>
+          ))}
+        </MenuContent>
       </MenuRoot>
     </StyledMultiButton>
   );

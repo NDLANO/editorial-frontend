@@ -6,11 +6,11 @@
  *
  */
 
-import { FormEvent, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import { createListCollection } from "@ark-ui/react";
-import { SelectContent, SelectLabel, SelectPositioner, SelectRoot, SelectValueText } from "@ndla/primitives";
+import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentLoader } from "@ndla/ui";
 import { GenericSelectItem, GenericSelectTrigger } from "../../components/abstractions/Select";
@@ -72,15 +72,13 @@ const DiffOption = ({ label, options, name, placeholder, value, onChange }: Diff
       <StyledGenericSelectTrigger>
         <SelectValueText placeholder={placeholder} />
       </StyledGenericSelectTrigger>
-      <SelectPositioner>
-        <SelectContent>
-          {collection.items.map((item) => (
-            <GenericSelectItem item={item} key={item.id}>
-              {item.label}
-            </GenericSelectItem>
-          ))}
-        </SelectContent>
-      </SelectPositioner>
+      <SelectContent>
+        {collection.items.map((item) => (
+          <GenericSelectItem item={item} key={item.id}>
+            {item.label}
+          </GenericSelectItem>
+        ))}
+      </SelectContent>
     </SelectRoot>
   );
 };

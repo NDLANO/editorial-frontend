@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import emotionStyled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { SelectContent, SelectLabel, SelectPositioner, SelectRoot, SelectValueText, Text } from "@ndla/primitives";
+import { SelectContent, SelectLabel, SelectRoot, SelectValueText, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { supportedLanguages } from "../../../i18n2";
@@ -79,15 +79,13 @@ const FooterWrapper = ({ showLocaleSelector }: Props) => {
               <StyledGenericSelectTrigger>
                 <SelectValueText>{t("languages.prefixChangeLanguage")}</SelectValueText>
               </StyledGenericSelectTrigger>
-              <SelectPositioner>
-                <SelectContent>
-                  {supportedLanguages.map((lang) => (
-                    <GenericSelectItem key={lang} item={lang}>
-                      {t(`languages.${lang}`)}
-                    </GenericSelectItem>
-                  ))}
-                </SelectContent>
-              </SelectPositioner>
+              <SelectContent>
+                {supportedLanguages.map((lang) => (
+                  <GenericSelectItem key={lang} item={lang}>
+                    {t(`languages.${lang}`)}
+                  </GenericSelectItem>
+                ))}
+              </SelectContent>
             </SelectRoot>
           </LanguageSelectorWrapper>
         )}

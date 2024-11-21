@@ -31,7 +31,7 @@ import {
   FormatList,
   Globe,
 } from "@ndla/icons/editor";
-import { Text, ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
+import { IconButton, Text, ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { FontWeightToken } from "@ndla/styled-system/tokens";
 
@@ -132,17 +132,18 @@ export const ToolbarToggleButton = forwardRef<HTMLButtonElement, Omit<ToggleGrou
 
     return (
       <ToggleGroupItem
-        size="small"
-        variant="tertiary"
         data-testid={`toolbar-button-${type}`}
         title={title}
         disabled={disabled}
         ref={ref}
         value={value}
         {...rest}
+        asChild
       >
-        {Icon && <Icon />}
-        {children}
+        <IconButton size="small" variant="tertiary">
+          {Icon && <Icon />}
+          {children}
+        </IconButton>
       </ToggleGroupItem>
     );
   },

@@ -9,14 +9,7 @@ import { TFunction } from "i18next";
 import { ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
-import {
-  SelectContent,
-  SelectItemGroup,
-  SelectItemGroupLabel,
-  SelectPositioner,
-  SelectRoot,
-  SelectValueText,
-} from "@ndla/primitives";
+import { SelectContent, SelectItemGroup, SelectItemGroupLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { Version, VersionType } from "@ndla/types-taxonomy";
 import { GenericSelectItem, GenericSelectTrigger } from "../abstractions/Select";
 
@@ -99,21 +92,19 @@ export const OptGroupVersionSelector = ({
       <GenericSelectTrigger>
         <SelectValueText />
       </GenericSelectTrigger>
-      <SelectPositioner>
-        <SelectContent>
-          <GenericSelectItem item={fakeDefault}>{fakeDefault.name}</GenericSelectItem>
-          {optGroups.map((optGroup) => (
-            <SelectItemGroup key={optGroup.label}>
-              <SelectItemGroupLabel>{optGroup.label}</SelectItemGroupLabel>
-              {optGroup.options.map((option) => (
-                <GenericSelectItem key={option.id} item={option}>
-                  {option.name}
-                </GenericSelectItem>
-              ))}
-            </SelectItemGroup>
-          ))}
-        </SelectContent>
-      </SelectPositioner>
+      <SelectContent>
+        <GenericSelectItem item={fakeDefault}>{fakeDefault.name}</GenericSelectItem>
+        {optGroups.map((optGroup) => (
+          <SelectItemGroup key={optGroup.label}>
+            <SelectItemGroupLabel>{optGroup.label}</SelectItemGroupLabel>
+            {optGroup.options.map((option) => (
+              <GenericSelectItem key={option.id} item={option}>
+                {option.name}
+              </GenericSelectItem>
+            ))}
+          </SelectItemGroup>
+        ))}
+      </SelectContent>
     </SelectRoot>
   );
 };

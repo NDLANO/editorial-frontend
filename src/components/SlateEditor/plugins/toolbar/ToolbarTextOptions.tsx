@@ -11,15 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Element, Editor, Transforms } from "slate";
 import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
 import { createListCollection } from "@ark-ui/react";
-import {
-  SelectContent,
-  SelectItem,
-  SelectItemText,
-  SelectLabel,
-  SelectPositioner,
-  SelectRoot,
-  SelectValueText,
-} from "@ndla/primitives";
+import { SelectContent, SelectItem, SelectItemText, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { handleTextChange } from "./handleMenuClicks";
 import { ToolbarCategoryProps } from "./SlateToolbar";
@@ -100,22 +92,20 @@ export const ToolbarTextOptions = ({ options }: ToolbarCategoryProps<TextType>) 
         {TriggerIcon && <TriggerIcon title={title} fontWeight="semibold" />}
         <SelectValueText />
       </StyledGenericSelectTrigger>
-      <SelectPositioner>
-        <SelectContent>
-          {collection.items.map((item) => {
-            const Icon = item.value ? iconMapping[item.value] : undefined;
-            return (
-              <SelectItem item={item} data-testid={`text-option-${item.value}`} key={item.value}>
-                <TextWrapper>
-                  {Icon && <Icon />}
-                  <SelectItemText>{t(`editorToolbar.${item.value}-value`)}</SelectItemText>
-                </TextWrapper>
-                <GenericSelectItemIndicator />
-              </SelectItem>
-            );
-          })}
-        </SelectContent>
-      </SelectPositioner>
+      <SelectContent>
+        {collection.items.map((item) => {
+          const Icon = item.value ? iconMapping[item.value] : undefined;
+          return (
+            <SelectItem item={item} data-testid={`text-option-${item.value}`} key={item.value}>
+              <TextWrapper>
+                {Icon && <Icon />}
+                <SelectItemText>{t(`editorToolbar.${item.value}-value`)}</SelectItemText>
+              </TextWrapper>
+              <GenericSelectItemIndicator />
+            </SelectItem>
+          );
+        })}
+      </SelectContent>
     </SelectRoot>
   );
 };

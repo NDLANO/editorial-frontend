@@ -12,7 +12,7 @@ import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
 import { createListCollection } from "@ark-ui/react";
 import { Language } from "@ndla/icons/common";
-import { SelectContent, SelectRoot, SelectPositioner, SelectValueText, SelectLabel } from "@ndla/primitives";
+import { SelectContent, SelectRoot, SelectValueText, SelectLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ToolbarCategoryProps } from "./SlateToolbar";
 import { LanguageType } from "./toolbarState";
@@ -98,19 +98,17 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
         <Language />
         <SelectValueText />
       </StyledGenericSelectTrigger>
-      <SelectPositioner>
-        <SelectContent>
-          {collection.items.map((option) => (
-            <GenericSelectItem
-              key={option.value}
-              data-testid={`language-button-${option.value}`}
-              item={{ label: option.value, value: option.value }}
-            >
-              {t(`languages.${option.value}`)}
-            </GenericSelectItem>
-          ))}
-        </SelectContent>
-      </SelectPositioner>
+      <SelectContent>
+        {collection.items.map((option) => (
+          <GenericSelectItem
+            key={option.value}
+            data-testid={`language-button-${option.value}`}
+            item={{ label: option.value, value: option.value }}
+          >
+            {t(`languages.${option.value}`)}
+          </GenericSelectItem>
+        ))}
+      </SelectContent>
     </SelectRoot>
   );
 };

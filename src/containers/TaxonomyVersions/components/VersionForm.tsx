@@ -191,7 +191,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
                     }}
                     variant="secondary"
                   >
-                    {t("alertModal.delete")}
+                    {t("alertModal.continue")}
                   </Button>
                 </FormActionsContainer>
               </AlertDialog>

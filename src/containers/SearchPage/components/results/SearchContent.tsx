@@ -15,7 +15,7 @@ import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
-import { ContentTypeBadgeNew, constants } from "@ndla/ui";
+import { ContentTypeBadge, constants } from "@ndla/ui";
 import SearchHighlight from "./SearchHighlight";
 import { SearchListItemImage } from "./SearchListItemImage";
 import HeaderFavoriteStatus from "../../../../components/HeaderWithLanguage/HeaderFavoriteStatus";
@@ -199,7 +199,7 @@ const SearchContent = ({ content, locale, subjects, responsibleName }: Props) =>
             {content.contexts.length > 1 && (
               <StyledErrorWarningFill title={t("searchForm.multiTaxonomy", { count: content.contexts.length })} />
             )}
-            {!!contentType && <ContentTypeBadgeNew contentType={contentType} />}
+            {!!contentType && <ContentTypeBadge contentType={contentType} />}
             {content.learningResourceType !== "frontpage-article" && (
               <HeaderFavoriteStatus
                 id={content.id}

@@ -764,6 +764,7 @@ const phrases = {
     },
   },
   form: {
+    createNew: "Ulagret {{type}}",
     metadataSection: "Metadata",
     contentSection: "Innhold",
     workflowSection: "Versjonslogg og merknader",

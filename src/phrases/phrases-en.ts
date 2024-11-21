@@ -764,6 +764,7 @@ const phrases = {
     },
   },
   form: {
+    createNew: "Unsaved {{type}}",
     metadataSection: "Metadata",
     contentSection: "Content",
     workflowSection: "Version log and notes",

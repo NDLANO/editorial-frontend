@@ -764,6 +764,7 @@ const phrases = {
     },
   },
   form: {
+    createNew: "Ulagra {{type}}",
     articleSection: "Artiklar",
     metadataSection: "Metadata",
     contentSection: "Innhald",

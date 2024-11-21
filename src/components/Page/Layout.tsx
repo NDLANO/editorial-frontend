@@ -10,6 +10,7 @@ import { CSSProperties, useMemo } from "react";
 import { Outlet } from "react-router-dom";
 import { useComponentSize } from "@ndla/hooks";
 import { styled } from "@ndla/styled-system/jsx";
+import { Footer } from "../Footer";
 
 const PageLayout = styled("div", {
   base: {
@@ -24,8 +25,11 @@ export const Layout = () => {
   const { height } = useComponentSize("masthead");
   const mastheadHeightVar = useMemo(() => ({ "--masthead-height": `${height}px` }) as CSSProperties, [height]);
   return (
-    <PageLayout style={mastheadHeightVar}>
-      <Outlet />
-    </PageLayout>
+    <>
+      <PageLayout style={mastheadHeightVar}>
+        <Outlet />
+      </PageLayout>
+      <Footer />
+    </>
   );
 };

@@ -13,7 +13,6 @@ import { OneColumn } from "@ndla/ui";
 import LogoutFederated from "./LogoutFederated";
 import LogoutProviders from "./LogoutProviders";
 import LogoutSession from "./LogoutSession";
-import Footer from "../App/components/FooterWrapper";
 
 const Logout = () => {
   const { t } = useTranslation();
@@ -29,7 +28,6 @@ const Logout = () => {
           </Routes>
         </div>
       </OneColumn>
-      <Footer showLocaleSelector />
     </>
   );
 };

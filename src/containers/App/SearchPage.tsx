@@ -13,7 +13,6 @@ import { Route, Routes } from "react-router-dom";
 import { UseQueryResult } from "@tanstack/react-query";
 import { List } from "@ndla/icons/action";
 import { SearchMedia, SearchContent, SquareAudio } from "@ndla/icons/editor";
-import Footer from "./components/FooterWrapper";
 import { SearchType } from "../../interfaces";
 import { useSearchAudio, useSearchSeries } from "../../modules/audio/audioQueries";
 import { useSearchImages } from "../../modules/image/imageQueries";
@@ -118,7 +117,6 @@ const SearchPage = () => {
         })}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-      <Footer showLocaleSelector={false} />
     </>
   );
 };

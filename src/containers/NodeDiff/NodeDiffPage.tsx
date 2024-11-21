@@ -14,7 +14,6 @@ import { HelmetWithTracker } from "@ndla/tracker";
 import { OneColumn } from "@ndla/ui";
 import DiffOptions from "./DiffOptions";
 import NodeDiffcontainer from "./NodeDiffContainer";
-import FooterWrapper from "../App/components/FooterWrapper";
 
 const StyledNodeContainer = styled.div`
   display: flex;
@@ -48,7 +47,6 @@ const NodeDiffPage = () => {
           <NodeDiffcontainer originalHash={originalHash} otherHash={otherHash} nodeId={nodeId} />
         </StyledNodeContainer>
       </OneColumn>
-      <FooterWrapper />
     </>
   );
 };

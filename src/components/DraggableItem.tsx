@@ -23,6 +23,7 @@ interface Props {
 
 const StyledListElement = styled("li", {
   base: {
+    position: "relative",
     listStyle: "none",
     display: "flex",
     alignItems: "center",
@@ -30,10 +31,17 @@ const StyledListElement = styled("li", {
       cursor: "grab",
     },
   },
+  variants: {
+    isDragging: {
+      true: {
+        zIndex: "docked",
+      },
+    },
+  },
 });
 
 const DraggableItem = ({ id, index, children, dragHandle, disabled }: Props) => {
-  const { attributes, setNodeRef, transform, transition, listeners, setActivatorNodeRef } = useSortable({
+  const { attributes, setNodeRef, transform, transition, listeners, setActivatorNodeRef, isDragging } = useSortable({
     id: id,
     disabled,
     data: {
@@ -60,6 +68,7 @@ const DraggableItem = ({ id, index, children, dragHandle, disabled }: Props) => 
       ref={setNodeRef}
       data-has-handle={!!dragHandle}
       style={style}
+      isDragging={isDragging}
       {...attributes}
       {...(dragHandle ? {} : listeners)}
     >

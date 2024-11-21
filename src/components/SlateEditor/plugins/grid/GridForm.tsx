@@ -176,7 +176,12 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
             <Button variant="secondary" onClick={onCancel}>
               {t("cancel")}
             </Button>
-            <Button disabled={!dirty || !isValid} type="submit" onClick={() => handleSubmit()}>
+            <Button
+              disabled={!dirty || !isValid}
+              type="submit"
+              onClick={() => handleSubmit()}
+              data-testid="grid-form-save-button"
+            >
               {t("save")}
             </Button>
           </FormActionsContainer>

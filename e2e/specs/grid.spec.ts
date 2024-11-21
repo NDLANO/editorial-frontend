@@ -21,29 +21,30 @@ test("can select multiple different sizes", async ({ page }) => {
   expect(await page.getByTestId("slate-grid-cell").count()).toEqual(2);
   await page.getByTestId("edit-grid-button").click();
   await page.getByRole("radiogroup").getByText("4").click();
-  await page.getByRole("button", { name: "Lagre", exact: true }).click();
+  await page.getByTestId("grid-form-save-button").click();
   expect(await page.getByTestId("slate-grid-cell").count()).toEqual(4);
   await page.getByTestId("edit-grid-button").click();
   await page.getByRole("radiogroup").getByText("2x2").click();
-  await page.getByRole("button", { name: "Lagre", exact: true }).click();
+  await page.getByTestId("grid-form-save-button").click();
   expect(await page.getByTestId("slate-grid-cell").count()).toEqual(4);
   await page.getByTestId("edit-grid-button").click();
   await page.getByRole("radiogroup").getByText("2", { exact: true }).click();
-  await page.getByRole("button", { name: "Lagre", exact: true }).click();
+  await page.getByTestId("grid-form-save-button").click();
   expect(await page.getByTestId("slate-grid-cell").count()).toEqual(2);
 });
 
 test("can change background color", async ({ page }) => {
   await page.getByTestId("edit-grid-button").click();
   await page.getByText("Hvit").click();
-  await page.getByRole("button", { name: "Lagre", exact: true }).click();
+  await page.getByTestId("grid-form-save-button").click();
 });
 
 test("can set border", async ({ page }) => {
   await page.getByTestId("edit-grid-button").click();
   let checkbox = page.locator('[data-scope="checkbox"][data-part="root"]');
   await checkbox.click();
-  await page.getByRole("button", { name: "Lagre", exact: true }).click();
+  await page.getByTestId("grid-form-save-button").click();
+
   await page.getByTestId("edit-grid-button").click();
   checkbox = page.locator('[data-scope="checkbox"][data-part="root"][data-state="checked"]');
   await expect(checkbox).toBeVisible();

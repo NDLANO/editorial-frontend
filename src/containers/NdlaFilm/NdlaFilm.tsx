@@ -7,19 +7,14 @@
  */
 
 import { Route, Routes } from "react-router-dom";
-import { OneColumn } from "@ndla/ui";
 import NdlaFilmEditor from "./NdlaFilmEditor";
 
 const NdlaFilm = () => {
   return (
-    <>
-      <OneColumn>
-        <Routes>
-          <Route path=":selectedLanguage" element={<NdlaFilmEditor />} />
-          <Route path="" element={<NdlaFilmEditor />} />
-        </Routes>
-      </OneColumn>
-    </>
+    <Routes>
+      <Route path=":selectedLanguage" element={<NdlaFilmEditor />} />
+      <Route path="" element={<NdlaFilmEditor />} />
+    </Routes>
   );
 };
 

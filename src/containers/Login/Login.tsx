@@ -9,17 +9,11 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Route, useNavigate, useLocation, Routes } from "react-router-dom";
-import styled from "@emotion/styled";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { OneColumn } from "@ndla/ui";
 import LoginFailure from "./LoginFailure";
 import LoginProviders from "./LoginProviders";
 import LoginSuccess from "./LoginSuccess";
 import { useSession } from "../Session/SessionProvider";
-
-const StyledOneColumn = styled(OneColumn)`
-  flex: 1;
-`;
 
 export const Login = () => {
   const { t } = useTranslation();
@@ -35,13 +29,11 @@ export const Login = () => {
   return (
     <>
       <HelmetWithTracker title={t("htmlTitles.loginPage")} />
-      <StyledOneColumn>
-        <Routes>
-          <Route path="success/*" element={<LoginSuccess />} />
-          <Route path="failure" element={<LoginFailure />} />
-          <Route path="/" element={<LoginProviders />} />
-        </Routes>
-      </StyledOneColumn>
+      <Routes>
+        <Route path="success/*" element={<LoginSuccess />} />
+        <Route path="failure" element={<LoginFailure />} />
+        <Route path="/" element={<LoginProviders />} />
+      </Routes>
     </>
   );
 };

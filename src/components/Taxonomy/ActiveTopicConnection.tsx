@@ -7,14 +7,34 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { misc, spacing, fonts, colors } from "@ndla/core";
 import { DeleteBinLine } from "@ndla/icons/action";
-import { IconButton } from "@ndla/primitives";
+import { Button, IconButton, ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import Breadcrumb from "./Breadcrumb";
 import RelevanceOptionSwitch from "./RelevanceOptionSwitch";
 import { MinimalNodeChild } from "../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy";
+
+const StyledWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "3xsmall",
+  },
+});
+
+const StyledPrimaryConnectionButton = styled(Button, {
+  base: {
+    opacity: "0.3",
+    _hover: { opacity: "1" },
+    _focusVisible: { opacity: "1" },
+  },
+  variants: {
+    primary: {
+      true: { opacity: "1" },
+    },
+  },
+});
 
 interface Props {
   removeConnection?: (id: string) => void;
@@ -24,86 +44,47 @@ interface Props {
   setRelevance?: (topicId: string, relevanceId: string) => void;
 }
 
-const StyledFlexWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.small};
-`;
-
-const StyledPrimaryConnectionButton = styled.button`
-  border: 0;
-  border-radius: ${misc.borderRadius};
-  padding: ${spacing.xsmall} ${spacing.small};
-  margin-right: ${spacing.xsmall};
-  text-transform: uppercase;
-  ${fonts.sizes(14, 1.1)};
-  font-weight: ${fonts.weight.semibold};
-  background: ${colors.support.green};
-  opacity: 0.3;
-  transition: opacity 100ms ease;
-  cursor: pointer;
-  &:hover,
-  &:focus {
-    opacity: 1;
-  }
-  &[data-primary="true"] {
-    opacity: 1;
-  }
-`;
-
-const StyledConnections = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: ${spacing.xsmall};
-  background: ${colors.brand.greyLightest};
-  padding: ${spacing.xsmall};
-  margin-bottom: 2px;
-  border-radius: ${misc.borderRadius};
-  div > span {
-    padding: ${spacing.xsmall};
-    ${fonts.sizes(16, 1.1)};
-  }
-`;
-
 const ActiveTopicConnection = ({ removeConnection, setPrimaryConnection, setRelevance, type, node }: Props) => {
   const { t } = useTranslation();
 
   if (type === "topic-article") {
     return (
-      <StyledConnections>
+      <ListItemRoot context="list" variant="subtle">
         <Breadcrumb node={node} />
-      </StyledConnections>
+      </ListItemRoot>
     );
   }
   return (
-    <StyledConnections>
-      <StyledFlexWrapper>
-        <StyledPrimaryConnectionButton
-          data-primary={"isPrimary" in node ? node.isPrimary : false}
-          type="button"
-          onClick={() => setPrimaryConnection?.(node.id)}
-        >
-          {t("form.topics.primaryTopic")}
-        </StyledPrimaryConnectionButton>
-        <Breadcrumb node={node} />
-      </StyledFlexWrapper>
-      <StyledFlexWrapper>
-        <RelevanceOptionSwitch
-          relevanceId={node.relevanceId}
-          onChange={(relevanceId) => setRelevance?.(node.id, relevanceId)}
-        />
-        <IconButton
-          aria-label={t("taxonomy.removeResource")}
-          title={t("taxonomy.removeResource")}
-          variant="danger"
-          size="small"
-          onClick={() => removeConnection?.(node.id)}
-        >
-          <DeleteBinLine />
-        </IconButton>
-      </StyledFlexWrapper>
-    </StyledConnections>
+    <ListItemRoot context="list" variant="subtle">
+      <StyledPrimaryConnectionButton
+        size="small"
+        primary={"isPrimary" in node ? node.isPrimary : false}
+        variant="success"
+        onClick={() => setPrimaryConnection?.(node.id)}
+      >
+        {t("form.topics.primaryTopic")}
+      </StyledPrimaryConnectionButton>
+      <ListItemContent>
+        <ListItemHeading>
+          <Breadcrumb node={node} />
+        </ListItemHeading>
+        <StyledWrapper>
+          <RelevanceOptionSwitch
+            relevanceId={node.relevanceId}
+            onChange={(relevanceId) => setRelevance?.(node.id, relevanceId)}
+          />
+          <IconButton
+            aria-label={t("taxonomy.removeResource")}
+            title={t("taxonomy.removeResource")}
+            variant="danger"
+            size="small"
+            onClick={() => removeConnection?.(node.id)}
+          >
+            <DeleteBinLine />
+          </IconButton>
+        </StyledWrapper>
+      </ListItemContent>
+    </ListItemRoot>
   );
 };
 

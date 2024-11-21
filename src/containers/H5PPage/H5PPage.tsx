@@ -7,32 +7,37 @@
  */
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import styled from "@emotion/styled";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import H5PElement from "../../components/H5PElement/H5PElement";
+import { PageLayout } from "../../components/Layout/PageLayout";
 
-const H5PWrapper = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-`;
+const H5PWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flex: "1",
+    flexDirection: "column",
+  },
+});
 
 const H5PPage = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const locale = i18n.language;
   return (
-    <H5PWrapper>
-      <HelmetWithTracker title={t("htmlTitles.h5pPage")} />
-      <H5PElement
-        canReturnResources={false}
-        onSelect={() => {}}
-        onClose={() => {
-          navigate("/");
-        }}
-        locale={locale}
-      />
-    </H5PWrapper>
+    <PageLayout>
+      <H5PWrapper>
+        <HelmetWithTracker title={t("htmlTitles.h5pPage")} />
+        <H5PElement
+          canReturnResources={false}
+          onSelect={() => {}}
+          onClose={() => {
+            navigate("/");
+          }}
+          locale={locale}
+        />
+      </H5PWrapper>
+    </PageLayout>
   );
 };
 

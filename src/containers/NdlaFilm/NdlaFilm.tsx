@@ -9,7 +9,6 @@
 import { Route, Routes } from "react-router-dom";
 import { OneColumn } from "@ndla/ui";
 import NdlaFilmEditor from "./NdlaFilmEditor";
-import Footer from "../App/components/FooterWrapper";
 
 const NdlaFilm = () => {
   return (
@@ -20,7 +19,6 @@ const NdlaFilm = () => {
           <Route path="" element={<NdlaFilmEditor />} />
         </Routes>
       </OneColumn>
-      <Footer showLocaleSelector={false} />
     </>
   );
 };

@@ -21,7 +21,6 @@ import VersionForm from "./components/VersionForm";
 import VersionList from "./components/VersionList";
 import { Row } from "../../components";
 import { useVersions } from "../../modules/taxonomy/versions/versionQueries";
-import Footer from "../App/components/FooterWrapper";
 
 const NewFormWrapper = styled.div`
   padding: ${spacing.normal};
@@ -69,7 +68,6 @@ const TaxonomyVersionsPage = () => {
         <h3>{t("taxonomyVersions.otherVersions")}</h3>
         <VersionList versions={other} />
       </OneColumn>
-      <Footer />
     </>
   );
 };

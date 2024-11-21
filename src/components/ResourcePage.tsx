@@ -17,7 +17,6 @@ import { HelmetWithTracker } from "@ndla/tracker";
 import { NynorskTranslateProvider } from "./NynorskTranslateProvider";
 import { useWideArticle } from "./WideArticleEditorProvider";
 import { MAX_PAGE_WIDTH, MAX_PAGE_WIDTH_WITH_COMMENTS } from "../constants";
-import Footer from "../containers/App/components/FooterWrapper";
 import NotFoundPage from "../containers/NotFoundPage/NotFoundPage";
 import { usePreviousLocation } from "../util/routeHelpers";
 
@@ -89,7 +88,6 @@ const ResourcePage = <T extends BaseResource>({
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </PageContent>
-      <Footer showLocaleSelector={false} />
     </Wrapper>
   );
 };

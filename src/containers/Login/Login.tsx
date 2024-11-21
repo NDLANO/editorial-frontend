@@ -15,7 +15,6 @@ import { OneColumn } from "@ndla/ui";
 import LoginFailure from "./LoginFailure";
 import LoginProviders from "./LoginProviders";
 import LoginSuccess from "./LoginSuccess";
-import Footer from "../App/components/FooterWrapper";
 import { useSession } from "../Session/SessionProvider";
 
 const StyledOneColumn = styled(OneColumn)`
@@ -43,7 +42,6 @@ export const Login = () => {
           <Route path="/" element={<LoginProviders />} />
         </Routes>
       </StyledOneColumn>
-      <Footer showLocaleSelector />
     </>
   );
 };

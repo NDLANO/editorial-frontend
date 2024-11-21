@@ -10,39 +10,47 @@ import { useFormikContext } from "formik";
 import { MouseEvent, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PercentCrop } from "react-image-crop";
-import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
 import {
   AlignCenter,
   AlignLeft,
   AlignRight,
-  Copyright,
   Crop,
   FocalPoint,
   ImageSmall,
   ImageXsmall,
   ImageXxSmall,
-  PublicDomain,
 } from "@ndla/icons/editor";
 import { Button, IconButton, ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import ImageTransformEditor from "./ImageTransformEditor";
 import { FormField } from "../../components/FormField";
 import { ImageEmbedFormValues } from "../../components/SlateEditor/plugins/image/ImageEmbedForm";
 
-const StyledImageEditorMenu = styled.div`
-  color: white;
-  background-color: black;
-  padding: ${spacing.small};
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-`;
+const StyledImageEditorMenu = styled("div", {
+  base: {
+    padding: "xsmall",
+    display: "flex",
+    justifyContent: "space-between",
+    // TODO: should update this color once design is ready
+    backgroundColor: "text.default",
+  },
+});
 
-const StyledImageEditorEditMode = styled.div`
-  position: relative;
-  background-color: ${colors.brand.grey};
-`;
+const StyledImageEditorEditMode = styled("div", {
+  base: {
+    // TODO: should update this color once design is ready
+    backgroundColor: "text.default",
+  },
+});
+
+const StyledToggleGroupRoot = styled(ToggleGroupRoot, {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+});
 
 const alignments = [
   { value: "left", children: <AlignLeft /> },
@@ -54,11 +62,6 @@ const sizes = [
   { value: "xsmall", children: <ImageXxSmall /> },
   { value: "small", children: <ImageXsmall /> },
   { value: "medium", children: <ImageSmall /> },
-] as const;
-
-const bylineOptions = [
-  { value: "hide", children: <PublicDomain /> },
-  { value: "show", children: <Copyright /> },
 ] as const;
 
 const defaultData: Record<string, Partial<ImageEmbedFormValues>> = {
@@ -80,12 +83,6 @@ interface Props {
   language: string;
   image: IImageMetaInformationV3;
 }
-
-const StyledToggleGroupRoot = styled(ToggleGroupRoot)`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-`;
 
 type StateProp = "crop" | "focalPoint" | "none";
 
@@ -123,6 +120,7 @@ const ImageEditor = ({ language, image }: Props) => {
       e.stopPropagation();
       setValues({ ...values, ...defaultData[editType] });
       setEditType("none");
+      setAspect("none");
     },
     [editType, setValues, values],
   );
@@ -252,11 +250,9 @@ const ImageEditor = ({ language, image }: Props) => {
             </ToggleGroupItem>
           )}
           {imageCancelButtonNeeded && (
-            <ToggleGroupItem value="none" onClick={onCancelMode} asChild>
-              <Button variant="secondary" size="small">
-                {t(`imageEditor.remove.${editType}`)}
-              </Button>
-            </ToggleGroupItem>
+            <Button variant="danger" size="small" onClick={onCancelMode}>
+              {t(`imageEditor.remove.${editType}`)}
+            </Button>
           )}
           {isModifiable && (
             <ToggleGroupItem value="crop" aria-label={t("form.image.crop")} title={t("form.image.crop")} asChild>

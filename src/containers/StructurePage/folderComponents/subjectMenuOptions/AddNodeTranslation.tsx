@@ -14,7 +14,6 @@ import {
   SelectContent,
   SelectHiddenSelect,
   SelectLabel,
-  SelectPositioner,
   SelectRoot,
   SelectValueText,
   Heading,
@@ -93,15 +92,13 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
           <StyledGenericSelectTrigger size="small">
             <SelectValueText />
           </StyledGenericSelectTrigger>
-          <SelectPositioner>
-            <SelectContent>
-              {availableLanguages.map((lang) => (
-                <GenericSelectItem key={lang} item={lang}>
-                  {t(`languages.${lang}`)}
-                </GenericSelectItem>
-              ))}
-            </SelectContent>
-          </SelectPositioner>
+          <SelectContent>
+            {availableLanguages.map((lang) => (
+              <GenericSelectItem key={lang} item={lang}>
+                {t(`languages.${lang}`)}
+              </GenericSelectItem>
+            ))}
+          </SelectContent>
           <SelectHiddenSelect />
         </StyledSelectRoot>
         <Button onClick={handleAddTranslation} disabled={!selectedLanguage} size="small">

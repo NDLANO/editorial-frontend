@@ -23,7 +23,6 @@ import {
   FieldRoot,
   SelectContent,
   SelectLabel,
-  SelectPositioner,
   SelectRoot,
   SelectValueText,
   SwitchControl,
@@ -356,15 +355,13 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
                   <StyledGenericSelectTrigger clearable>
                     <SelectValueText placeholder={t("editorFooter.placeholderPrioritized")} />
                   </StyledGenericSelectTrigger>
-                  <SelectPositioner>
-                    <SelectContent>
-                      {priorityCollection.items.map((item) => (
-                        <GenericSelectItem key={item.value} item={item}>
-                          {item.label}
-                        </GenericSelectItem>
-                      ))}
-                    </SelectContent>
-                  </SelectPositioner>
+                  <SelectContent>
+                    {priorityCollection.items.map((item) => (
+                      <GenericSelectItem key={item.value} item={item}>
+                        {item.label}
+                      </GenericSelectItem>
+                    ))}
+                  </SelectContent>
                 </SelectRoot>
               </FieldRoot>
             )}

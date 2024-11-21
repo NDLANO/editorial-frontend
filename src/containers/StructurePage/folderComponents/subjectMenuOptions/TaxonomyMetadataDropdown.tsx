@@ -8,14 +8,7 @@
 
 import { useMemo } from "react";
 import { createListCollection } from "@ark-ui/react";
-import {
-  SelectContent,
-  SelectHiddenSelect,
-  SelectLabel,
-  SelectPositioner,
-  SelectRoot,
-  SelectValueText,
-} from "@ndla/primitives";
+import { SelectContent, SelectHiddenSelect, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../../components/abstractions/Select";
 
@@ -62,15 +55,15 @@ const TaxonomyMetadataDropdown = ({ options, field, customFields, updateCustomFi
       <StyledGenericSelectTrigger size="small" clearable>
         <SelectValueText placeholder={messages["selected"]} />
       </StyledGenericSelectTrigger>
-      <SelectPositioner>
-        <SelectContent>
-          {collection.items.map((item) => (
-            <GenericSelectItem key={`sortoptions_${item.key}`} item={item}>
-              {item.value}
-            </GenericSelectItem>
-          ))}
-        </SelectContent>
-      </SelectPositioner>
+
+      <SelectContent>
+        {collection.items.map((item) => (
+          <GenericSelectItem key={`sortoptions_${item.key}`} item={item}>
+            {item.value}
+          </GenericSelectItem>
+        ))}
+      </SelectContent>
+
       <SelectHiddenSelect />
     </SelectRoot>
   );

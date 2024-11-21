@@ -19,7 +19,6 @@ import {
   ComboboxItem,
   ComboboxItemText,
   ComboboxLabel,
-  ComboboxPositioner,
   ComboboxRoot,
   IconButton,
   Input,
@@ -245,22 +244,20 @@ export const MastheadSearch = () => {
             <SearchLine />
           </IconButton>
         </ComboboxControl>
-        <ComboboxPositioner>
-          <ComboboxContent>
-            {collection.items.length ? (
-              collection.items.map((item) => (
-                <ComboboxItem key={item.searchUrl} item={item} asChild>
-                  <SafeLink unstyled to={item.searchUrl}>
-                    <ComboboxItemText>{item.searchPhrase}</ComboboxItemText>
-                    <GenericComboboxItemIndicator />
-                  </SafeLink>
-                </ComboboxItem>
-              ))
-            ) : (
-              <Text>{t("welcomePage.noHitsSavedSearch")}</Text>
-            )}
-          </ComboboxContent>
-        </ComboboxPositioner>
+        <ComboboxContent>
+          {collection.items.length ? (
+            collection.items.map((item) => (
+              <ComboboxItem key={item.searchUrl} item={item} asChild>
+                <SafeLink unstyled to={item.searchUrl}>
+                  <ComboboxItemText>{item.searchPhrase}</ComboboxItemText>
+                  <GenericComboboxItemIndicator />
+                </SafeLink>
+              </ComboboxItem>
+            ))
+          ) : (
+            <Text>{t("welcomePage.noHitsSavedSearch")}</Text>
+          )}
+        </ComboboxContent>
       </ComboboxRoot>
     </MastheadForm>
   );

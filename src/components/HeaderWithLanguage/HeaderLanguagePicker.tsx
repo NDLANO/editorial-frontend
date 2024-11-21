@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { AddLine } from "@ndla/icons/action";
-import { Button, MenuContent, MenuItem, MenuPositioner, MenuRoot, MenuTrigger } from "@ndla/primitives";
+import { Button, MenuContent, MenuItem, MenuRoot, MenuTrigger } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 
 const LanguagePicker = ({ id, emptyLanguages, editUrl }: Props) => {
@@ -20,15 +20,13 @@ const LanguagePicker = ({ id, emptyLanguages, editUrl }: Props) => {
           <AddLine /> {t("form.variant.create")}
         </Button>
       </MenuTrigger>
-      <MenuPositioner>
-        <MenuContent>
-          {emptyLanguages.map((language) => (
-            <MenuItem key={language.key} value={language.key} asChild consumeCss>
-              <SafeLink to={editUrl(id, language.key)}>{language.title}</SafeLink>
-            </MenuItem>
-          ))}
-        </MenuContent>
-      </MenuPositioner>
+      <MenuContent>
+        {emptyLanguages.map((language) => (
+          <MenuItem key={language.key} value={language.key} asChild consumeCss>
+            <SafeLink to={editUrl(id, language.key)}>{language.title}</SafeLink>
+          </MenuItem>
+        ))}
+      </MenuContent>
     </MenuRoot>
   );
 };

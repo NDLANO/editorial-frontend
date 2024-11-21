@@ -14,7 +14,6 @@ import {
   ComboboxContent,
   ComboboxItem,
   ComboboxList,
-  ComboboxPositioner,
   ComboboxRoot,
   ComboboxRootProps,
   PaginationRootProps,
@@ -98,27 +97,25 @@ export const GenericSearchCombobox = <T extends CollectionItem>({
       {...props}
     >
       {children}
-      <ComboboxPositioner>
-        <StyledComboboxContent ref={contentRef}>
-          <StyledComboboxList>
-            {collection.items.map((item) => (
-              <ComboboxItem key={collection.getItemValue(item)} item={item} asChild>
-                {renderItem(item)}
-              </ComboboxItem>
-            ))}
-          </StyledComboboxList>
-          {isSuccess && <Text>{t("dropdown.numberHits", { hits: paginationData?.totalCount ?? 0 })}</Text>}
-          {!!paginationData && paginationData.totalCount > paginationData.pageSize && (
-            <Pagination
-              count={paginationData.totalCount}
-              pageSize={paginationData.pageSize}
-              page={paginationData.page ?? 1}
-              onPageChange={onPageChange}
-              buttonSize="small"
-            />
-          )}
-        </StyledComboboxContent>
-      </ComboboxPositioner>
+      <StyledComboboxContent ref={contentRef}>
+        <StyledComboboxList>
+          {collection.items.map((item) => (
+            <ComboboxItem key={collection.getItemValue(item)} item={item} asChild>
+              {renderItem(item)}
+            </ComboboxItem>
+          ))}
+        </StyledComboboxList>
+        {isSuccess && <Text>{t("dropdown.numberHits", { hits: paginationData?.totalCount ?? 0 })}</Text>}
+        {!!paginationData && paginationData.totalCount > paginationData.pageSize && (
+          <Pagination
+            count={paginationData.totalCount}
+            pageSize={paginationData.pageSize}
+            page={paginationData.page ?? 1}
+            onPageChange={onPageChange}
+            buttonSize="small"
+          />
+        )}
+      </StyledComboboxContent>
     </ComboboxRoot>
   );
 };

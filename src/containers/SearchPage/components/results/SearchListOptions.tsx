@@ -9,7 +9,7 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
-import { SelectContent, SelectLabel, SelectPositioner, SelectRoot, SelectValueText, Text } from "@ndla/primitives";
+import { SelectContent, SelectLabel, SelectRoot, SelectValueText, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../../components/abstractions/Select";
 import { SearchParams } from "../form/SearchForm";
@@ -68,15 +68,13 @@ const SearchListOptions = ({ searchObject = { "page-size": 10 }, search, type, t
         <StyledGenericSelectTrigger>
           <SelectValueText />
         </StyledGenericSelectTrigger>
-        <SelectPositioner>
-          <SelectContent>
-            {collection.items.map((option) => (
-              <GenericSelectItem item={option} key={`pageSize_${option}`}>
-                {t("searchPage.pageSize", { pageSize: option })}
-              </GenericSelectItem>
-            ))}
-          </SelectContent>
-        </SelectPositioner>
+        <SelectContent>
+          {collection.items.map((option) => (
+            <GenericSelectItem item={option} key={`pageSize_${option}`}>
+              {t("searchPage.pageSize", { pageSize: option })}
+            </GenericSelectItem>
+          ))}
+        </SelectContent>
       </SelectRoot>
     </SearchListOptionsWrapper>
   );

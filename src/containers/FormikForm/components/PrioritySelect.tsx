@@ -9,7 +9,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
-import { SelectContent, SelectLabel, SelectPositioner, SelectRoot, SelectValueText } from "@ndla/primitives";
+import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 
 const priorityMapping = {
@@ -45,15 +45,13 @@ const PrioritySelect = ({ priority, updatePriority }: Props) => {
       <GenericSelectTrigger variant="secondary" clearable>
         <SelectValueText placeholder={t("editorFooter.placeholderPrioritized")} />
       </GenericSelectTrigger>
-      <SelectPositioner>
-        <SelectContent>
-          {collection.items.map((item) => (
-            <GenericSelectItem item={item} key={item.value}>
-              {item.label}
-            </GenericSelectItem>
-          ))}
-        </SelectContent>
-      </SelectPositioner>
+      <SelectContent>
+        {collection.items.map((item) => (
+          <GenericSelectItem item={item} key={item.value}>
+            {item.label}
+          </GenericSelectItem>
+        ))}
+      </SelectContent>
     </SelectRoot>
   );
 };

@@ -9,7 +9,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { SelectValueText, createListCollection } from "@ark-ui/react";
-import { SelectContent, SelectLabel, SelectPositioner, SelectRoot } from "@ndla/primitives";
+import { SelectContent, SelectLabel, SelectRoot } from "@ndla/primitives";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { selectedResourceTypeValue } from "../../../util/taxonomyHelpers";
 
@@ -70,15 +70,13 @@ const ResourceTypeSelect = ({ availableResourceTypes, selectedResourceTypes, onC
       <GenericSelectTrigger>
         <SelectValueText placeholder={t("taxonomy.resourceTypes.placeholder")} />
       </GenericSelectTrigger>
-      <SelectPositioner>
-        <SelectContent>
-          {options.map((item) => (
-            <GenericSelectItem item={item} key={item.value}>
-              {item.label}
-            </GenericSelectItem>
-          ))}
-        </SelectContent>
-      </SelectPositioner>
+      <SelectContent>
+        {options.map((item) => (
+          <GenericSelectItem item={item} key={item.value}>
+            {item.label}
+          </GenericSelectItem>
+        ))}
+      </SelectContent>
     </SelectRoot>
   );
 };

@@ -9,7 +9,7 @@ import sortBy from "lodash/sortBy";
 import { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
-import { SelectContent, SelectLabel, SelectPositioner, SelectRoot, SelectValueText, Text } from "@ndla/primitives";
+import { SelectContent, SelectLabel, SelectRoot, SelectValueText, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { DRAFT_RESPONSIBLE } from "../../../constants";
@@ -88,19 +88,17 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
       <GenericSelectTrigger clearable>
         <StyledSelectValueText placeholder={t("form.responsible.choose")} css={{ lineClamp: "1" }} />
       </GenericSelectTrigger>
-      <SelectPositioner>
-        <SelectContent>
-          {!collection.items.length ? (
-            <Text>{t("form.responsible.noResults")}</Text>
-          ) : (
-            collection.items.map((item) => (
-              <StyledGenericSelectItem item={item} key={item.app_metadata.ndla_id}>
-                {item.name}
-              </StyledGenericSelectItem>
-            ))
-          )}
-        </SelectContent>
-      </SelectPositioner>
+      <SelectContent>
+        {!collection.items.length ? (
+          <Text>{t("form.responsible.noResults")}</Text>
+        ) : (
+          collection.items.map((item) => (
+            <StyledGenericSelectItem item={item} key={item.app_metadata.ndla_id}>
+              {item.name}
+            </StyledGenericSelectItem>
+          ))
+        )}
+      </SelectContent>
     </SelectRoot>
   );
 };

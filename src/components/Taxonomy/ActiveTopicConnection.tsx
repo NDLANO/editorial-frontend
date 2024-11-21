@@ -49,41 +49,45 @@ const ActiveTopicConnection = ({ removeConnection, setPrimaryConnection, setRele
 
   if (type === "topic-article") {
     return (
-      <ListItemRoot context="list" variant="subtle">
-        <Breadcrumb node={node} />
+      <ListItemRoot context="list" variant="subtle" asChild consumeCss>
+        <li>
+          <Breadcrumb node={node} />
+        </li>
       </ListItemRoot>
     );
   }
   return (
-    <ListItemRoot context="list" variant="subtle">
-      <StyledPrimaryConnectionButton
-        size="small"
-        primary={"isPrimary" in node ? node.isPrimary : false}
-        variant="success"
-        onClick={() => setPrimaryConnection?.(node.id)}
-      >
-        {t("form.topics.primaryTopic")}
-      </StyledPrimaryConnectionButton>
-      <ListItemContent>
-        <ListItemHeading>
-          <Breadcrumb node={node} />
-        </ListItemHeading>
-        <StyledWrapper>
-          <RelevanceOptionSwitch
-            relevanceId={node.relevanceId}
-            onChange={(relevanceId) => setRelevance?.(node.id, relevanceId)}
-          />
-          <IconButton
-            aria-label={t("taxonomy.removeResource")}
-            title={t("taxonomy.removeResource")}
-            variant="danger"
-            size="small"
-            onClick={() => removeConnection?.(node.id)}
-          >
-            <DeleteBinLine />
-          </IconButton>
-        </StyledWrapper>
-      </ListItemContent>
+    <ListItemRoot context="list" variant="subtle" asChild consumeCss>
+      <li>
+        <StyledPrimaryConnectionButton
+          size="small"
+          primary={"isPrimary" in node ? node.isPrimary : false}
+          variant="success"
+          onClick={() => setPrimaryConnection?.(node.id)}
+        >
+          {t("form.topics.primaryTopic")}
+        </StyledPrimaryConnectionButton>
+        <ListItemContent>
+          <ListItemHeading>
+            <Breadcrumb node={node} />
+          </ListItemHeading>
+          <StyledWrapper>
+            <RelevanceOptionSwitch
+              relevanceId={node.relevanceId}
+              onChange={(relevanceId) => setRelevance?.(node.id, relevanceId)}
+            />
+            <IconButton
+              aria-label={t("taxonomy.removeResource")}
+              title={t("taxonomy.removeResource")}
+              variant="danger"
+              size="small"
+              onClick={() => removeConnection?.(node.id)}
+            >
+              <DeleteBinLine />
+            </IconButton>
+          </StyledWrapper>
+        </ListItemContent>
+      </li>
     </ListItemRoot>
   );
 };

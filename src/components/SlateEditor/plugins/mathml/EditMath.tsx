@@ -93,11 +93,11 @@ const EditMath = ({ model: { innerHTML }, onRemove, onSave, mathEditor, setMathE
         >
           {t("form.preview.button")}
         </Button>
-        <Button variant="danger" onClick={onRemove}>
-          {t("form.remove")}
-        </Button>
         <Button data-testid="save-math" onClick={() => onSave(mathEditor?.getMathML() ?? emptyMathTag)}>
           {t("form.save")}
+        </Button>
+        <Button variant="danger" onClick={onRemove}>
+          {t("form.remove")}
         </Button>
       </FormActionsContainer>
       <Heading textStyle="title.small" asChild consumeCss>

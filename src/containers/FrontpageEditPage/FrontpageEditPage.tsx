@@ -12,11 +12,10 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, misc, spacing } from "@ndla/core";
 import { AddLine, PencilFill } from "@ndla/icons/action";
-import { Heading, IconButton, Spinner } from "@ndla/primitives";
+import { Heading, IconButton, PageContainer, Spinner } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
-import { OneColumn } from "@ndla/ui";
 import FrontpageArticleSearch from "./FrontpageArticleSearch";
 import { addArticlesToAboutMenu, extractArticleIds, menuWithArticleToIMenu } from "./frontpageHelpers";
 import FrontpageNodeList from "./FrontpageNodeList";
@@ -114,7 +113,7 @@ const FrontpageEditPage = () => {
   }
 
   return (
-    <OneColumn>
+    <PageContainer>
       <HelmetWithTracker title={t("htmlTitles.editFrontpage")} />
       {frontpageQuery.isLoading || articlesQuery.isLoading ? (
         <Spinner />
@@ -136,7 +135,7 @@ const FrontpageEditPage = () => {
       ) : (
         <p>{t("frontpageMenu.error")}</p>
       )}
-    </OneColumn>
+    </PageContainer>
   );
 };
 

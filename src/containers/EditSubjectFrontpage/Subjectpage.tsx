@@ -7,7 +7,6 @@
  */
 
 import { Route, Routes } from "react-router-dom";
-import { OneColumn } from "@ndla/ui";
 
 import CreateSubjectpage from "./CreateSubjectpage";
 import EditSubjectpage from "./EditSubjectpage";
@@ -18,18 +17,14 @@ const Subjectpage = () => {
   const previousLocation = usePreviousLocation();
 
   return (
-    <>
-      <OneColumn>
-        <Routes>
-          <Route
-            path=":elementId/:subjectpageId/edit/:selectedLanguage"
-            element={<EditSubjectpage isNewlyCreated={/\/subjectpage\/(.*)\/new/.test(previousLocation ?? "")} />}
-          />
-          <Route path=":elementId/new/:selectedLanguage" element={<CreateSubjectpage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </OneColumn>
-    </>
+    <Routes>
+      <Route
+        path=":elementId/:subjectpageId/edit/:selectedLanguage"
+        element={<EditSubjectpage isNewlyCreated={/\/subjectpage\/(.*)\/new/.test(previousLocation ?? "")} />}
+      />
+      <Route path=":elementId/new/:selectedLanguage" element={<CreateSubjectpage />} />
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
   );
 };
 

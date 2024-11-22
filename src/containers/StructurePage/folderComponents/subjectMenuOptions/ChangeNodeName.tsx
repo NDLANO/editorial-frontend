@@ -24,7 +24,6 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { Translation, Node } from "@ndla/types-taxonomy";
 import AddNodeTranslation from "./AddNodeTranslation";
-import { Row } from "../../../../components";
 import { FormField } from "../../../../components/FormField";
 import { FormActionsContainer } from "../../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../../components/formikValidationSchema";
@@ -229,33 +228,31 @@ const ChangeNodeName = ({ node }: Props) => {
                 {({ push, remove }) => (
                   <>
                     {values.translations.map((trans, i) => (
-                      <Row key={i}>
-                        <FormField name={`translations.${i}.name`}>
-                          {({ field, meta }) => (
-                            <FieldRoot required invalid={!!meta.error}>
-                              <FieldLabel>{t(`languages.${trans.language}`)}</FieldLabel>
-                              <InputWrapper>
-                                <FieldInput
-                                  {...field}
-                                  componentSize="small"
-                                  data-testid={`subjectName_${trans.language}`}
-                                />
-                                <IconButton
-                                  variant="danger"
-                                  aria-label={t("form.remove")}
-                                  title={t("form.remove")}
-                                  onClick={() => remove(i)}
-                                  size="small"
-                                  data-testid={`subjectName_${trans.language}_delete`}
-                                >
-                                  <DeleteBinLine />
-                                </IconButton>
-                              </InputWrapper>
-                              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                            </FieldRoot>
-                          )}
-                        </FormField>
-                      </Row>
+                      <FormField name={`translations.${i}.name`} key={i}>
+                        {({ field, meta }) => (
+                          <FieldRoot required invalid={!!meta.error}>
+                            <FieldLabel>{t(`languages.${trans.language}`)}</FieldLabel>
+                            <InputWrapper>
+                              <FieldInput
+                                {...field}
+                                componentSize="small"
+                                data-testid={`subjectName_${trans.language}`}
+                              />
+                              <IconButton
+                                variant="danger"
+                                aria-label={t("form.remove")}
+                                title={t("form.remove")}
+                                onClick={() => remove(i)}
+                                size="small"
+                                data-testid={`subjectName_${trans.language}_delete`}
+                              >
+                                <DeleteBinLine />
+                              </IconButton>
+                            </InputWrapper>
+                            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                          </FieldRoot>
+                        )}
+                      </FormField>
                     ))}
                     <AddNodeTranslation
                       defaultName={baseName}

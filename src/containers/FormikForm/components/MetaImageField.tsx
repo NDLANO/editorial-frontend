@@ -6,7 +6,6 @@
  *
  */
 
-import { SyntheticEvent } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { DeleteBinLine } from "@ndla/icons/action";
@@ -67,7 +66,7 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, 
 
   const imageUrl = `${image.image.imageUrl}?width=400`;
   const { width, height } = image.image?.dimensions || { width: 0, height: 0 };
-  const onLoad = (_: SyntheticEvent<HTMLImageElement, Event>) => {
+  const onLoad = () => {
     onImageLoad?.(width, height);
   };
 

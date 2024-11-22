@@ -60,7 +60,7 @@ export const convertGrepCodesToObject = async (grepCodes: string[]): Promise<Rec
 const GrepCodesField = () => {
   const { t } = useTranslation();
   const translations = useComboboxTranslations();
-  const [field, _, helpers] = useField<string[]>("grepCodes");
+  const [field, , helpers] = useField<string[]>("grepCodes");
   const [grepCodes, setGrepCodes] = useState<Record<string, string>>({});
 
   const { query, setQuery } = usePaginatedQuery();

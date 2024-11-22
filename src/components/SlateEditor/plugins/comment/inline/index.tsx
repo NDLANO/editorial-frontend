@@ -6,12 +6,11 @@
  *
  */
 
-import { Descendant, Editor, Element, Node, Transforms, Range } from "slate";
+import { Descendant, Editor, Element, Node, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_COMMENT_INLINE } from "./types";
 import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../../interfaces";
-import hasNodeOfType from "../../../utils/hasNodeOfType";
 import { TYPE_NDLA_EMBED } from "../../embed/types";
 
 export const commentInlineSerializer: SlateSerializer = {

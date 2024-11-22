@@ -99,7 +99,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     language: i18n.language,
   });
   const { mutateAsync: createNodeResource } = usePostResourceForNodeMutation({
-    onSuccess: (_) => qc.invalidateQueries({ queryKey: compKey }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: compKey }),
   });
   const { data: articleSearchData } = useNodes({
     contentURI: `urn:article:${articleInputId}`,
@@ -256,7 +256,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
       body: { resourceId: id, nodeId },
       taxonomyVersion,
     })
-      .then((_) => onClose())
+      .then(() => onClose())
       .catch(() => resetPastedUrlStatesWithError("taxonomy.resource.creationFailed"));
     setLoading(false);
   };

@@ -33,7 +33,7 @@ const StyledCommentWrapper = styled("div", {
 });
 
 const CommentSection = () => {
-  const [_, { value }] = useField<CommentType[]>("comments");
+  const [, { value }] = useField<CommentType[]>("comments");
   const { isSubmitting } = useFormikContext();
 
   return (

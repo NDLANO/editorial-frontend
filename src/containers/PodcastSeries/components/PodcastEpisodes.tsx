@@ -34,7 +34,7 @@ interface Props {
 const PodcastEpisodes = ({ language, seriesId, initialEpisodes = [] }: Props) => {
   const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
   const { t } = useTranslation();
-  const [field, _meta, helpers] = useField<number[]>("episodes");
+  const [field, , helpers] = useField<number[]>("episodes");
   const [apiEpisodes, setApiEpisodes] = useState<IAudioMetaInformation[]>(initialEpisodes);
 
   const searchQuery = useSearchAudio(

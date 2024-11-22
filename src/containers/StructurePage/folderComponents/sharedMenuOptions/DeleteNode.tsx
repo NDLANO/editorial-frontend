@@ -30,8 +30,7 @@ const Wrapper = styled("div", {
   },
 });
 
-const nodeTypes = [TOPIC_NODE, SUBJECT_NODE, PROGRAMME] as const;
-type NodeType = (typeof nodeTypes)[number];
+type NodeType = typeof TOPIC_NODE | typeof SUBJECT_NODE | typeof PROGRAMME;
 
 const childTranslation: Record<NodeType, string> = {
   SUBJECT: "taxonomy.delete.topic",

@@ -91,7 +91,7 @@ export const insertCellInMatrix = (
 
 const normalizeRow = (row: TableCellElement[]) => {
   const cells: TableCellElement[] = [];
-  row.forEach((cell) => [...Array(cell?.data?.colspan)].forEach((_) => cells.push(cell)));
+  row.forEach((cell) => [...Array(cell?.data?.colspan)].forEach(() => cells.push(cell)));
   return cells;
 };
 

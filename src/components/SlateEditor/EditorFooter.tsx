@@ -36,7 +36,6 @@ interface Props {
   showSimpleFooter: boolean;
   onSaveClick: (saveAsNewVersion?: boolean) => void;
   statusStateMachine?: ConceptStatusStateMachineType | DraftStatusStateMachineType;
-  validateEntity?: () => Promise<{ id: number } | undefined>;
   isArticle?: boolean;
   isConcept: boolean;
   hideSecondaryButton: boolean;
@@ -98,7 +97,6 @@ function EditorFooter<T extends FormValues>({
   showSimpleFooter,
   onSaveClick,
   statusStateMachine,
-  validateEntity,
   isArticle,
   isConcept,
   hideSecondaryButton,

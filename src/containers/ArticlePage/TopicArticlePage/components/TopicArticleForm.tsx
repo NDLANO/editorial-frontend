@@ -11,7 +11,7 @@ import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult } from "@tanstack/react-query";
 import { Button } from "@ndla/primitives";
-import { IUpdatedArticle, IArticle, IStatus, ILicense } from "@ndla/types-backend/draft-api";
+import { IUpdatedArticle, IArticle, IStatus } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import TopicArticleAccordionPanels from "./TopicArticleAccordionPanels";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
@@ -20,7 +20,6 @@ import validateFormik, { getWarnings } from "../../../../components/formikValida
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
 import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
-import { validateDraft } from "../../../../modules/draft/draftApi";
 import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { isFormikFormDirty, topicArticleRules } from "../../../../util/formHelper";
 import { AlertDialogWrapper } from "../../../FormikForm";
@@ -140,7 +139,6 @@ const TopicArticleForm = ({
           />
         </TaxonomyVersionProvider>
         <FormFooter
-          licenses={licenses ?? []}
           articleChanged={!!articleChanged}
           isNewlyCreated={isNewlyCreated}
           savedToServer={savedToServer}
@@ -171,7 +169,6 @@ interface FormFooterProps {
   article?: IArticle;
   isNewlyCreated: boolean;
   savedToServer: boolean;
-  licenses: ILicense[];
   handleSubmit: (
     values: TopicArticleFormType,
     formikHelpers: FormikHelpers<TopicArticleFormType>,
@@ -184,7 +181,6 @@ const InternalFormFooter = ({
   article,
   isNewlyCreated,
   savedToServer,
-  licenses,
   handleSubmit,
 }: FormFooterProps) => {
   const { t } = useTranslation();
@@ -210,13 +206,6 @@ const InternalFormFooter = ({
     [handleSubmit, values, formik],
   );
 
-  const validateOnServer = useCallback(async () => {
-    if (!values.id) return;
-    const article = topicArticleFormTypeToDraftApiType(values, initialValues, licenses!, false);
-    const data = await validateDraft(values.id, article);
-    return data;
-  }, [initialValues, licenses, values]);
-
   usePreventWindowUnload(formIsDirty);
 
   return (
@@ -228,7 +217,6 @@ const InternalFormFooter = ({
         onSaveClick={onSave}
         entityStatus={article?.status}
         statusStateMachine={statusStateMachine.data}
-        validateEntity={validateOnServer}
         isArticle
         isNewlyCreated={isNewlyCreated}
         isConcept={false}

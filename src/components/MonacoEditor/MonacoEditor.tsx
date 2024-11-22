@@ -31,7 +31,6 @@ import { createFormatAction, createSaveAction } from "./editorActions";
 
 const StyledDiv = styled("div", {
   base: {
-    margin: "medium",
     border: "1px solid",
     borderColor: "stroke.subtle",
   },

@@ -9,8 +9,6 @@
 import { lazy, Suspense, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useParams } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing, colors } from "@ndla/core";
 import { InformationLine } from "@ndla/icons/common";
 import {
   DialogBody,
@@ -23,12 +21,13 @@ import {
   Text,
   Button,
   Spinner,
+  PageContainer,
+  Heading,
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { IArticle } from "@ndla/types-backend/draft-api";
-import { Row } from "../../components";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
-import FieldHeader from "../../components/Field/FieldHeader";
 import { FormActionsContainer } from "../../components/FormikForm";
 import HeaderSupportedLanguages from "../../components/HeaderWithLanguage/HeaderSupportedLanguages";
 import { PreviewResourceDialog } from "../../components/PreviewDraft/PreviewResourceDialog";
@@ -72,26 +71,40 @@ function updateContentInDraft(draft: IArticle | undefined, content: string): IAr
   };
 }
 
-const StyledErrorMessage = styled.p`
-  color: ${colors.support.red};
-  text-align: center;
-`;
+const LanguageWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "4xsmall",
+  },
+});
 
-const Container = styled.div`
-  margin: 0 auto;
-  max-width: 1000px;
-  width: 100%;
-`;
+const StyledRow = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+});
 
-const LanguageWrapper = styled.div`
-  display: flex;
-`;
+const HeaderWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "flex-end",
+    justifyContent: "space-between",
+  },
+});
 
-const StyledRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: ${spacing.small};
-`;
+const StyledPageContainer = styled(PageContainer, {
+  base: {
+    gap: "xsmall",
+  },
+});
+
+const StyledPageContainerError = styled(PageContainer, {
+  base: {
+    textAlign: "center",
+    gap: "xsmall",
+  },
+});
 
 interface ErrorMessageProps {
   draftId: number;
@@ -102,12 +115,10 @@ interface ErrorMessageProps {
 const ErrorMessage = ({ draftId, language, messageId }: ErrorMessageProps) => {
   const { t } = useTranslation();
   return (
-    <Container>
-      <StyledErrorMessage>{t(messageId)}</StyledErrorMessage>
-      <Row justifyContent="center" alignItems="baseline">
-        <Link to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>{t("editMarkup.back")}</Link>
-      </Row>
-    </Container>
+    <StyledPageContainerError variant="page" padding="small">
+      <Text color="text.error">{t(messageId)}</Text>
+      <Link to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>{t("editMarkup.back")}</Link>
+    </StyledPageContainerError>
   );
 };
 
@@ -188,12 +199,16 @@ const EditMarkupPage = () => {
   const isDirty = status === "edit";
   const isSubmitting = status === "saving";
   return (
-    <Container>
-      <FieldHeader title={t("editMarkup.title")} subTitle={t("editMarkup.subTitle")}>
+    <StyledPageContainer variant="page" padding="small">
+      <HeaderWrapper>
+        <hgroup>
+          <Heading textStyle="title.medium">{t("editMarkup.title")}</Heading>
+          <Text color="text.subtle">{t("editMarkup.subTitle")}</Text>
+        </hgroup>
         <DialogRoot>
           <DialogTrigger asChild>
             <IconButton
-              variant="tertiary"
+              variant="secondary"
               size="small"
               title={t("editMarkup.helpMessage.tooltip")}
               aria-label={t("editMarkup.helpMessage.tooltip")}
@@ -212,7 +227,7 @@ const EditMarkupPage = () => {
             </DialogBody>
           </DialogContent>
         </DialogRoot>
-      </FieldHeader>
+      </HeaderWrapper>
       <LanguageWrapper>
         <HeaderSupportedLanguages
           supportedLanguages={draft?.supportedLanguages}
@@ -262,7 +277,7 @@ const EditMarkupPage = () => {
         severity="danger"
         text={t("alertModal.notSaved")}
       />
-    </Container>
+    </StyledPageContainer>
   );
 };
 

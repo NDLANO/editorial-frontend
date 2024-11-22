@@ -179,7 +179,7 @@ interface FormFooterProps {
   ) => Promise<void>;
 }
 
-const _FormFooter = ({
+const InternalFormFooter = ({
   articleChanged,
   article,
   isNewlyCreated,
@@ -249,6 +249,6 @@ const _FormFooter = ({
   );
 };
 
-const FormFooter = memo(_FormFooter);
+const FormFooter = memo(InternalFormFooter);
 
 export default TopicArticleForm;

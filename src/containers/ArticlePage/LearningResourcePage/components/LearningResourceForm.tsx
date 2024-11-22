@@ -181,7 +181,13 @@ interface FormFooterProps {
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
 }
 
-const _FormFooter = ({ articleChanged, article, isNewlyCreated, savedToServer, handleSubmit }: FormFooterProps) => {
+const InternalFormFooter = ({
+  articleChanged,
+  article,
+  isNewlyCreated,
+  savedToServer,
+  handleSubmit,
+}: FormFooterProps) => {
   const { t } = useTranslation();
   const { data: licenses } = useLicenses();
   const statusStateMachine = useDraftStatusStateMachine({
@@ -245,6 +251,6 @@ const _FormFooter = ({ articleChanged, article, isNewlyCreated, savedToServer, h
   );
 };
 
-const FormFooter = memo(_FormFooter);
+const FormFooter = memo(InternalFormFooter);
 
 export default LearningResourceForm;

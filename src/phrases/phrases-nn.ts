@@ -990,6 +990,8 @@ const phrases = {
       image: "Biletesøk",
       imageUpload: "Last opp bilete",
       h5p: "H5P",
+      description:
+        "Visuelt element kan setjast ulikt for kvart språk. Dersom visuelt element ikkje finst, vil det hentast automatisk frå eit anna språk.",
     },
     visualElementPicker: {
       h5p: "H5P",

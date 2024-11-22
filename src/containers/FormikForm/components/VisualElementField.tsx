@@ -8,16 +8,36 @@
 
 import { ErrorMessage, useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import FieldHeader from "../../../components/Field/FieldHeader";
+import { InformationOutline } from "@ndla/icons/common";
+import {
+  DialogTrigger,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  IconButton,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import FormikField, { FormikFieldHelp } from "../../../components/FormikField";
-import HowToHelper from "../../../components/HowTo/HowToHelper";
 import VisualElement from "../../VisualElement/VisualElement";
 import { VisualElementType } from "../../VisualElement/VisualElementMenu";
 
-const StyledErrorPreLine = styled.span`
-  white-space: pre-line;
-`;
+const StyledErrorPreLine = styled("span", {
+  base: {
+    whiteSpace: "pre-line",
+  },
+});
+
+const UploadVisualElementText = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    alignItems: "center",
+  },
+});
 
 const extraErrorFields = ["visualElementCaption", "visualElementAlt"];
 
@@ -32,19 +52,38 @@ const VisualElementField = ({ types }: Props) => {
     <>
       <FormikField name="visualElement">
         {({ field }) => (
-          <div>
-            <FieldHeader title={t("form.visualElement.title")}>
-              <HowToHelper pageId="VisualElement" tooltip={t("form.visualElement.helpLabel")} />
-            </FieldHeader>
-            <>
-              <VisualElement
-                label={t("form.visualElement.label")}
-                language={formik.values.language}
-                types={types}
-                {...field}
-              />
-            </>
-          </div>
+          <>
+            <UploadVisualElementText>
+              <Text textStyle="title.medium">{t("form.visualElement.title")}</Text>
+              <DialogRoot>
+                <DialogTrigger asChild>
+                  <IconButton
+                    size="small"
+                    variant="tertiary"
+                    aria-label={t("form.visualElement.helpLabel")}
+                    title={t("form.visualElement.helpLabel")}
+                  >
+                    <InformationOutline />
+                  </IconButton>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>{t("form.visualElement.title")}</DialogTitle>
+                    <DialogCloseButton />
+                  </DialogHeader>
+                  <DialogBody>
+                    <Text>{t("form.visualElement.description")}</Text>
+                  </DialogBody>
+                </DialogContent>
+              </DialogRoot>
+            </UploadVisualElementText>
+            <VisualElement
+              label={t("form.visualElement.label")}
+              language={formik.values.language}
+              types={types}
+              {...field}
+            />
+          </>
         )}
       </FormikField>
       {extraErrorFields.map((extraErrorField) => (

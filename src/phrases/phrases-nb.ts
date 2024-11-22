@@ -1051,6 +1051,8 @@ const phrases = {
       image: "Bildesøk",
       imageUpload: "Last opp bilde",
       h5p: "H5P",
+      description:
+        "Visuelt element kan settes forskjellig for hvert språk. Dersom visuelt element ikke finnes vil det hentes automatisk fra et annet språk.",
     },
     workflow: {
       title: "Status",

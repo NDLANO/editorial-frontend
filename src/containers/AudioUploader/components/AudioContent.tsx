@@ -29,13 +29,13 @@ import {
   FileUploadTrigger,
   IconButton,
   UnOrderedList,
+  Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import AudioCopyInfo from "./AudioCopyInfo";
 import { AudioFormikType } from "./AudioForm";
 import AudioPlayer from "./AudioPlayer";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
-import FieldHeader from "../../../components/Field/FieldHeader";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import { PodcastFormValues } from "../../../modules/audio/audioApiInterfaces";
@@ -51,6 +51,14 @@ const PlayerWrapper = styled("div", {
     display: "flex",
     alignItems: "center",
     gap: "small",
+  },
+});
+
+const UploadAudioText = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    alignItems: "center",
   },
 });
 
@@ -83,7 +91,8 @@ const AudioContent = <T extends AudioFormikType | PodcastFormValues>({ handleSub
       <FormField name="audioFile">
         {({ helpers, meta }) => (
           <>
-            <FieldHeader title={t("form.audio.sound")}>
+            <UploadAudioText>
+              <Text textStyle="title.medium">{t("form.audio.sound")}</Text>
               <DialogRoot>
                 <DialogTrigger asChild>
                   <IconButton
@@ -112,7 +121,7 @@ const AudioContent = <T extends AudioFormikType | PodcastFormValues>({ handleSub
                   </DialogContent>
                 </Portal>
               </DialogRoot>
-            </FieldHeader>
+            </UploadAudioText>
             {playerObject ? (
               <PlayerWrapper>
                 <AudioPlayer audio={playerObject} />

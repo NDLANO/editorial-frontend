@@ -1833,6 +1833,8 @@ const phrases = {
       filestructureClose: "Lukk",
       addedTopic: "Lagt til",
       disconnectedTaxonomyWarning: "Ugyldig tilknytning",
+      taxonomySubjectConnections:
+        "For at ein ressurs skal bli tilgjengeleg i strukturen, må han knytast til eitt eller fleire emne.",
     },
     grepCodes: {
       edit: "Endre læreplankobling",

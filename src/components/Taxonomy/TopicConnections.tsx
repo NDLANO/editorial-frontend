@@ -16,12 +16,14 @@ import {
   DialogRoot,
   DialogTitle,
   DialogTrigger,
+  Text,
   SwitchControl,
   SwitchHiddenInput,
   SwitchLabel,
   SwitchRoot,
   SwitchThumb,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
 import ActiveTopicConnections from "./ActiveTopicConnections";
 import TaxonomyBlockNode, { NodeWithChildren } from "./TaxonomyBlockNode";
@@ -29,9 +31,20 @@ import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
 import { MinimalNodeChild } from "../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy";
 import { fetchUserData } from "../../modules/draft/draftApi";
 import { DialogCloseButton } from "../DialogCloseButton";
-import FieldHeader from "../Field/FieldHeader";
-import HowToHelper from "../HowTo/HowToHelper";
 
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    flexDirection: "column",
+  },
+});
+
+const StyledButton = styled(Button, {
+  base: {
+    alignSelf: "flex-start",
+  },
+});
 interface Props {
   structure: NodeWithChildren[];
   selectedNodes: MinimalNodeChild[];
@@ -102,10 +115,9 @@ const TopicConnections = ({
   );
 
   return (
-    <>
-      <FieldHeader title={t("taxonomy.topics.title")} subTitle={t("taxonomy.topics.subTitle")}>
-        <HowToHelper pageId="TaxonomySubjectConnections" tooltip={t("taxonomy.topics.helpLabel")} />
-      </FieldHeader>
+    <Wrapper>
+      <Text textStyle="title.small">{t("taxonomy.topics.title")}</Text>
+      <Text>{t("taxonomy.topics.taxonomySubjectConnections")}</Text>
       <ActiveTopicConnections
         activeTopics={selectedNodes}
         setRelevance={setRelevance}
@@ -115,7 +127,7 @@ const TopicConnections = ({
       />
       <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)} size="large">
         <DialogTrigger asChild>
-          <Button>{t("taxonomy.topics.filestructureButton")}</Button>
+          <StyledButton>{t("taxonomy.topics.filestructureButton")}</StyledButton>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
@@ -143,7 +155,7 @@ const TopicConnections = ({
           </DialogBody>
         </DialogContent>
       </DialogRoot>
-    </>
+    </Wrapper>
   );
 };
 

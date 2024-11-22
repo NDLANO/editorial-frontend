@@ -1834,6 +1834,8 @@ const phrases = {
       addNewSubTopic: "Add new sub topic",
       addedTopic: "Added to taxonomy",
       disconnectedTaxonomyWarning: "Invalid topic connection",
+      taxonomySubjectConnections:
+        "In order for a resource to be available in the structure, it must be linked to one or more topics.",
     },
     grepCodes: {
       edit: "Edit grep codes",

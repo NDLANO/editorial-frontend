@@ -1831,6 +1831,8 @@ const phrases = {
       addNewSubTopic: "Legg til nytt underemne",
       addedTopic: "Lagt til",
       disconnectedTaxonomyWarning: "Ugyldig tilknytning",
+      taxonomySubjectConnections:
+        "For at en ressurs skal bli tilgjengelig i strukturen må den tilknyttes et eller flere emner.",
     },
     grepCodes: {
       edit: "Endre læreplankobling",

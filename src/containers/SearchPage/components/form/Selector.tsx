@@ -115,10 +115,7 @@ const Selector = ({ formType, selector, onFieldChange, searchObject }: SelectorP
           name={selector.parameterName}
           value={dropdownValue ?? ""}
           options={selector.options}
-          idKey="id"
-          labelKey="name"
-          emptyField
-          onChange={(e) => onFieldChange(selector.parameterName, e.currentTarget.value, e)}
+          onChange={(value) => onFieldChange(selector.parameterName, value)}
           placeholder={t(`searchForm.types.${selector.parameterName}`)}
         />
       );

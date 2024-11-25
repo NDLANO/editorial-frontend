@@ -139,7 +139,9 @@ const HeaderInformation = ({
     (async () => {
       if (!responsibleId) return;
       const userData = await fetchAuth0Users(responsibleId);
-      userData.length && setResponsibleName(userData[0].name);
+      if (userData.length) {
+        setResponsibleName(userData[0].name);
+      }
     })();
   }, [responsibleId]);
 

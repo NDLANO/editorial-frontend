@@ -66,10 +66,11 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
       postSearch(searchObjects(id, type)).then((result) => {
         if (shouldUpdateState) setArticles(result.results);
       });
-      (type === "image" || type === "audio") &&
+      if (type === "image" || type === "audio") {
         postSearchConcepts(searchObjects(id, type)).then((result) => {
           if (shouldUpdateState) setConcepts?.(result.results);
         });
+      }
     }
 
     return () => {

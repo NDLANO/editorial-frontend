@@ -109,8 +109,8 @@ interface Props {
   inModal?: boolean;
   isNewlyCreated?: boolean;
   language: string;
-  onCreatePodcast?: (newPodcast: INewAudioMetaInformation, file?: string | Blob) => void;
-  onUpdatePodcast?: (updatedPodcast: IUpdatedAudioMetaInformation, file?: string | Blob) => void;
+  onCreatePodcast?: (newPodcast: INewAudioMetaInformation, file?: string | Blob) => Promise<void>;
+  onUpdatePodcast?: (updatedPodcast: IUpdatedAudioMetaInformation, file?: string | Blob) => Promise<void>;
   translating?: boolean;
   supportedLanguages: string[];
 }
@@ -177,9 +177,11 @@ const PodcastForm = ({
       seriesId: values.series?.id,
     };
     try {
-      audio?.revision
-        ? await onUpdatePodcast?.({ ...podcastMetaData, revision: audio.revision }, values.audioFile.newFile?.file)
-        : await onCreatePodcast?.(podcastMetaData, values.audioFile.newFile?.file);
+      if (audio?.revision) {
+        await onUpdatePodcast?.({ ...podcastMetaData, revision: audio.revision }, values.audioFile.newFile?.file);
+      } else {
+        await onCreatePodcast?.(podcastMetaData, values.audioFile.newFile?.file);
+      }
     } catch (e) {
       handleError(e);
     }

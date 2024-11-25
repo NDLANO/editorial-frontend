@@ -118,7 +118,9 @@ const createSearchPhrase = (selectors: SearchFormSelector[], searchContentType: 
 
 const createSearchString = (location: Location) => {
   const searchObject = parse(location.search);
-  searchObject.page && delete searchObject.page;
+  if (searchObject.page) {
+    delete searchObject.page;
+  }
   return location.pathname + "?" + stringify(searchObject);
 };
 

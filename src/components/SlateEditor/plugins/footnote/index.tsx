@@ -95,7 +95,7 @@ export const footnotePlugin = (editor: Editor) => {
         }
       }
     }
-    nextOnKeyDown && nextOnKeyDown(e);
+    nextOnKeyDown?.(e);
   };
 
   return editor;

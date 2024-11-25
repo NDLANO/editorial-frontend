@@ -23,7 +23,7 @@ interface Props {
 const SubjectpageSubjectlinks = ({ subjectIds, fieldName }: Props) => {
   const { t } = useTranslation();
   const [subjectList, setSubjectList] = useState<Node[]>([]);
-  const [_field, __, helpers] = useField<string[]>(fieldName);
+  const [, , helpers] = useField<string[]>(fieldName);
   const { taxonomyVersion } = useTaxonomyVersion();
 
   useEffect(() => {

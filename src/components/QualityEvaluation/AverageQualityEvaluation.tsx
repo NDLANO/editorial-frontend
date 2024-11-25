@@ -8,7 +8,6 @@
 
 import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import { GradeAverage } from "@ndla/types-taxonomy";
 import QualityEvaluationGrade from "../../containers/StructurePage/resourceComponents/QualityEvaluationGrade";
 

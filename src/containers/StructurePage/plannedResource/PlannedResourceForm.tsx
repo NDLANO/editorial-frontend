@@ -162,14 +162,14 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
     language: i18n.language,
   });
   const { mutateAsync: createNodeResource, isPending: postResourceLoading } = usePostResourceForNodeMutation({
-    onSuccess: (_) => {
+    onSuccess: () => {
       qc.invalidateQueries({ queryKey: compKey });
       qc.invalidateQueries({ queryKey: compKeyChildNodes });
     },
   });
   const { mutateAsync: createResourceResourceType, isPending: createResourceTypeLoading } =
     useCreateResourceResourceTypeMutation({
-      onSuccess: (_) => qc.invalidateQueries({ queryKey: compKey }),
+      onSuccess: () => qc.invalidateQueries({ queryKey: compKey }),
     });
   const initialValues = useMemo(() => toInitialValues(ndlaId, articleType), [ndlaId, articleType]);
   const isTopicArticle = articleType === "topic-article";

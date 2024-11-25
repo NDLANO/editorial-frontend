@@ -41,7 +41,7 @@ export type ThemeNames = Partial<Record<LocaleType, string>>;
 
 const ThemeEditor = ({ selectedLanguage }: Props) => {
   const { t } = useTranslation();
-  const [field, _, helpers] = useField<IMovieTheme[]>("themes");
+  const [field, , helpers] = useField<IMovieTheme[]>("themes");
 
   const onAddMovieToTheme = (movies: string[], index: number) => {
     const newThemes = field.value.map((theme, i) => (i === index ? { ...theme, movies } : theme));

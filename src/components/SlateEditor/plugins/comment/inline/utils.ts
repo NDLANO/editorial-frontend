@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor, Transforms, Element, Range, Path } from "slate";
+import { Editor, Transforms, Element, Range } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_COMMENT_INLINE } from "./types";
 import hasNodeOfType from "../../../utils/hasNodeOfType";

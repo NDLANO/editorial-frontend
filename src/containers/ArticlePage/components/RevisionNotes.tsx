@@ -54,7 +54,7 @@ const StyledFieldRoot = styled(FieldRoot, {
 
 const RevisionNotes = () => {
   const { t } = useTranslation();
-  const [_, { value }] = useField<RevisionMetaFormType>("revisionMeta");
+  const [, { value }] = useField<RevisionMetaFormType>("revisionMeta");
 
   const { createMessage } = useMessages();
 

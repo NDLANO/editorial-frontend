@@ -7,11 +7,10 @@
  */
 
 import { Descendant, Editor, Element } from "slate";
-import { uuid } from "@ndla/util";
 import { TYPE_FILE } from "./types";
 import { defaultFileBlock } from "./utils";
 import { File } from "../../../../interfaces";
-import { createEmbedTag, createEmbedTagV2 } from "../../../../util/embedTagHelpers";
+import { createEmbedTag } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";

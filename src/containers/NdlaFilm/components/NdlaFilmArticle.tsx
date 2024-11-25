@@ -26,7 +26,7 @@ interface Props {
 
 const NdlaFilmArticle = ({ fieldName }: Props) => {
   const { t } = useTranslation();
-  const [field, _, helpers] = useField<string | undefined>(fieldName);
+  const [field, , helpers] = useField<string | undefined>(fieldName);
   const [selectedArticle, setSelectedArticle] = useState<undefined | IArticleV2>(undefined);
   const { query, page, setPage, delayedQuery, setQuery } = usePaginatedQuery();
 

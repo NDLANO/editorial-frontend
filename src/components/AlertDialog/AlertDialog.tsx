@@ -20,7 +20,6 @@ import {
   DialogHeader,
   DialogFooter,
 } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import { MessageSeverity } from "../../interfaces";
 import { DialogCloseButton } from "../DialogCloseButton";
 

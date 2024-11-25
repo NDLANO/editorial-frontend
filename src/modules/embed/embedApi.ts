@@ -7,7 +7,6 @@
  */
 
 import parse from "html-react-parser";
-import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import {
   AudioEmbedData,
@@ -96,7 +95,7 @@ const fetchVisualAudioMeta = async (embed: AudioEmbedData, language: string): Pr
 
 export const fetchIframeMeta = async (embed: IframeEmbedData, language: string): Promise<IframeData> => {
   const image = embed.imageid
-    ? await fetchImage(embed.imageid, language).catch((_) => undefined)
+    ? await fetchImage(embed.imageid, language).catch(() => undefined)
     : await Promise.resolve(undefined);
   return { iframeImage: image };
 };

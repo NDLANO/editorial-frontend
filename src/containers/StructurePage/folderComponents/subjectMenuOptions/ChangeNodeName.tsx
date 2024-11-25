@@ -177,7 +177,7 @@ const ChangeNodeName = ({ node }: Props) => {
       </Heading>
       <Formik
         initialValues={initialValues}
-        onSubmit={(_, __) => {}}
+        onSubmit={() => {}}
         validate={(values) => {
           const errors = values.translations.map((translation) => validateFormik(translation, rules, t));
 

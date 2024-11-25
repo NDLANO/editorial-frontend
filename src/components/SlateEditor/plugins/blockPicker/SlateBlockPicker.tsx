@@ -404,7 +404,7 @@ const SlateBlockPicker = ({
               aria-label={blockPickerLabel}
               title={blockPickerLabel}
               data-state={blockPickerOpen ? "open" : "closed"}
-              onFocus={(_e) => {
+              onFocus={() => {
                 if (!blockPickerOpen) {
                   ReactEditor.focus(editor);
                 }

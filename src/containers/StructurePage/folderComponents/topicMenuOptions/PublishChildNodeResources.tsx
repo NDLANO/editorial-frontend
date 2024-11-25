@@ -116,8 +116,8 @@ const PublishChildNodeResources = ({ node }: Props) => {
 
     const draftPromises = unpublishedDrafts.map((draft) =>
       updateStatusDraft(draft.id, PUBLISHED)
-        .then((_) => setPublishedCount((c) => c + 1))
-        .catch((_) =>
+        .then(() => setPublishedCount((c) => c + 1))
+        .catch(() =>
           setFailedResources((prev) =>
             prev.concat({
               name: draft.title?.title ?? "",
@@ -128,8 +128,8 @@ const PublishChildNodeResources = ({ node }: Props) => {
     );
     const learningpathPromises = unpublishedLearningpaths.map((lp) =>
       updateStatusLearningpath(lp.id, PUBLISHED)
-        .then((_) => setPublishedCount((c) => c + 1))
-        .catch((_) =>
+        .then(() => setPublishedCount((c) => c + 1))
+        .catch(() =>
           setFailedResources((prev) =>
             prev.concat({
               name: lp.title.title,

@@ -21,7 +21,7 @@ import {
   DialogBody,
   Text,
 } from "@ndla/primitives";
-import { HStack, styled } from "@ndla/styled-system/jsx";
+import { styled } from "@ndla/styled-system/jsx";
 import { BrightcoveEmbedData } from "@ndla/types-embed";
 import { VideoWrapper } from "./SlateVideo";
 import config from "../../../../config";

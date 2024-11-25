@@ -25,7 +25,7 @@ import {
 } from "@ndla/types-taxonomy";
 import TaxonomyInfo from "./TaxonomyInfo";
 import { FormikFieldHelp } from "../../../../../components/FormikField";
-import { FormActionsContainer } from "../../../../../components/FormikForm";
+import { FormActionsContainer, FormContent } from "../../../../../components/FormikForm";
 import SaveButton from "../../../../../components/SaveButton";
 import OptGroupVersionSelector from "../../../../../components/Taxonomy/OptGroupVersionSelector";
 import { NodeWithChildren } from "../../../../../components/Taxonomy/TaxonomyBlockNode";
@@ -330,7 +330,7 @@ const TaxonomyBlock = ({
   );
 
   return (
-    <>
+    <FormContent>
       {!hasTaxEntries && <FormikFieldHelp error>{t("errorMessage.missingTax")}</FormikFieldHelp>}
       {isTaxonomyAdmin && (
         <TaxonomyConnectionErrors
@@ -367,7 +367,6 @@ const TaxonomyBlock = ({
       />
       {updateTaxMutation.isError && <FormikFieldHelp error>{t("errorMessage.taxonomy")}</FormikFieldHelp>}
       {showWarning && <FormikFieldHelp error>{t("errorMessage.unsavedTaxonomy")}</FormikFieldHelp>}
-
       <FormActionsContainer>
         <Button variant="secondary" disabled={!isDirty} onClick={onReset}>
           {t("reset")}
@@ -381,7 +380,7 @@ const TaxonomyBlock = ({
           formIsDirty={isDirty}
         />
       </FormActionsContainer>
-    </>
+    </FormContent>
   );
 };
 

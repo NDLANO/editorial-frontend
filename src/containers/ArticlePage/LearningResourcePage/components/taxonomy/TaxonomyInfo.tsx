@@ -10,21 +10,15 @@ import { useTranslation } from "react-i18next";
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { TaxNode } from "./TaxonomyBlock";
-import FieldHeader from "../../../../../components/Field/FieldHeader";
-
-const InfoWrapper = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-});
 
 const StyledText = styled(Text, {
   variants: {
     visible: {
       false: {
-        fontStyle: "italic",
-        color: "text.subtle",
+        "& span": {
+          fontStyle: "italic",
+          color: "text.subtle",
+        },
       },
     },
   },
@@ -39,11 +33,11 @@ const TaxonomyInfo = ({ taxonomyElement, updateMetadata }: Props) => {
   const { t } = useTranslation();
   return (
     <>
-      <FieldHeader title={t("taxonomy.info.title")} subTitle={t("taxonomy.info.subTitle")} />
       {taxonomyElement && (
-        <InfoWrapper>
-          <StyledText asChild consumeCss visible={taxonomyElement.metadata.visible}>
-            <div>{taxonomyElement.id}</div>
+        <>
+          <StyledText visible={taxonomyElement.metadata.visible}>
+            <b>ID: </b>
+            <span>{taxonomyElement.id}</span>
           </StyledText>
           <SwitchRoot
             checked={taxonomyElement.metadata?.visible ?? true}
@@ -55,7 +49,7 @@ const TaxonomyInfo = ({ taxonomyElement, updateMetadata }: Props) => {
             </SwitchControl>
             <SwitchHiddenInput />
           </SwitchRoot>
-        </InfoWrapper>
+        </>
       )}
     </>
   );

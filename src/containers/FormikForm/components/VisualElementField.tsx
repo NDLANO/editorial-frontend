@@ -6,7 +6,7 @@
  *
  */
 
-import { ErrorMessage, useFormikContext } from "formik";
+import { ErrorMessage, useField } from "formik";
 import { useTranslation } from "react-i18next";
 import { InformationOutline } from "@ndla/icons/common";
 import {
@@ -18,10 +18,13 @@ import {
   DialogTitle,
   IconButton,
   Text,
+  FieldRoot,
+  FieldErrorMessage,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
-import FormikField, { FormikFieldHelp } from "../../../components/FormikField";
+import { FormField } from "../../../components/FormField";
+import { FormikFieldHelp } from "../../../components/FormikField";
 import VisualElement from "../../VisualElement/VisualElement";
 import { VisualElementType } from "../../VisualElement/VisualElementMenu";
 
@@ -42,50 +45,52 @@ const UploadVisualElementText = styled("div", {
 const extraErrorFields = ["visualElementCaption", "visualElementAlt"];
 
 interface Props {
-  types?: VisualElementType[];
+  types: VisualElementType[];
 }
 const VisualElementField = ({ types }: Props) => {
   const { t } = useTranslation();
-  const formik = useFormikContext<{ language: string }>();
+  const [languageField] = useField<string>("language");
 
   return (
     <>
-      <FormikField name="visualElement">
-        {({ field }) => (
-          <>
-            <UploadVisualElementText>
-              <Text textStyle="title.medium">{t("form.visualElement.title")}</Text>
-              <DialogRoot>
-                <DialogTrigger asChild>
-                  <IconButton
-                    size="small"
-                    variant="tertiary"
-                    aria-label={t("form.visualElement.helpLabel")}
-                    title={t("form.visualElement.helpLabel")}
-                  >
-                    <InformationOutline />
-                  </IconButton>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>{t("form.visualElement.title")}</DialogTitle>
-                    <DialogCloseButton />
-                  </DialogHeader>
-                  <DialogBody>
-                    <Text>{t("form.visualElement.description")}</Text>
-                  </DialogBody>
-                </DialogContent>
-              </DialogRoot>
-            </UploadVisualElementText>
+      <UploadVisualElementText>
+        <Text textStyle="title.medium">{t("form.visualElement.title")}</Text>
+        <DialogRoot>
+          <DialogTrigger asChild>
+            <IconButton
+              size="small"
+              variant="tertiary"
+              aria-label={t("form.visualElement.helpLabel")}
+              title={t("form.visualElement.helpLabel")}
+            >
+              <InformationOutline />
+            </IconButton>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{t("form.visualElement.title")}</DialogTitle>
+              <DialogCloseButton />
+            </DialogHeader>
+            <DialogBody>
+              <Text>{t("form.visualElement.description")}</Text>
+            </DialogBody>
+          </DialogContent>
+        </DialogRoot>
+      </UploadVisualElementText>
+      <FormField name="visualElement">
+        {({ field, meta, helpers }) => (
+          <FieldRoot invalid={!!meta.error}>
             <VisualElement
-              label={t("form.visualElement.label")}
-              language={formik.values.language}
+              language={languageField.value}
               types={types}
+              selectedResource={field.value}
+              resetSelectedResource={() => helpers.setValue([])}
               {...field}
             />
-          </>
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          </FieldRoot>
         )}
-      </FormikField>
+      </FormField>
       {extraErrorFields.map((extraErrorField) => (
         <ErrorMessage key={`topic_article_visualelement_${extraErrorField}`} name={extraErrorField}>
           {(error) => (

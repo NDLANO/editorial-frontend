@@ -31,7 +31,7 @@ interface Props {
   value: EmbedElements[];
   selectedResource: string;
   resetSelectedResource: () => void;
-  allowDecorative: boolean;
+  allowDecorative?: boolean;
 }
 
 const VisualElement = ({

@@ -51,7 +51,7 @@ const ObjectSelector = ({ options, onChange, value, placeholder, name }: Props) 
 
   return (
     <SelectRoot
-      name={name}
+      data-testid={`${name}-select`}
       collection={collection}
       positioning={{ sameWidth: true }}
       value={value ? [value] : []}

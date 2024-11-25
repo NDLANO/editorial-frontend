@@ -65,7 +65,9 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   useEffect(() => {
     const initDisclaimerLink = async () => {
       let response: IArticleV2 | undefined = undefined;
-      element.data.articleId && (response = await getArticle(Number(element.data.articleId)));
+      if (element.data.articleId) {
+        response = await getArticle(Number(element.data.articleId));
+      }
 
       setEmbed((prevState) => ({
         ...prevState,

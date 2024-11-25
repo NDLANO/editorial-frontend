@@ -37,7 +37,11 @@ export const useLocalStorageSubjectFilterState = (
   const setFilterSubject = useCallback(
     (fs: SelectItem | undefined) => {
       _setFilterSubject(fs);
-      fs ? localStorage.setItem(localStorageKey, fs.value) : localStorage.removeItem(localStorageKey);
+      if (fs) {
+        localStorage.setItem(localStorageKey, fs.value);
+      } else {
+        localStorage.removeItem(localStorageKey);
+      }
     },
     [localStorageKey],
   );

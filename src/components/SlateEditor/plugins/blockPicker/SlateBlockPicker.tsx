@@ -205,7 +205,9 @@ const SlateBlockPicker = ({
     if (Location.isLocation(editor.selection)) {
       setLastActiveSelection(editor.selection);
     }
-    !editor.selection && lastActiveSelection && (editor.selection = lastActiveSelection);
+    if (!editor.selection && lastActiveSelection) {
+      editor.selection = lastActiveSelection;
+    }
   }, [editor, editor.selection, lastActiveSelection]);
 
   const onOpenChange = useCallback(

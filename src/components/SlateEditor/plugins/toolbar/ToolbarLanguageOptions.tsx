@@ -57,16 +57,13 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
       } else if (language === "none") {
         return;
       } else if (!wrappedInSpan) {
-        Transforms.wrapNodes(editor, defaultSpanBlock({ lang: language }), {
+        Transforms.wrapNodes(editor, defaultSpanBlock({ lang: language, dir: language === "ar" ? "rtl" : undefined }), {
           at: Editor.unhangRange(editor, selection),
           split: true,
         });
       } else {
-        Transforms.setNodes(
-          editor,
-          { data: { lang: language } },
-          { match: (n) => Element.isElement(n) && n.type === "span" },
-        );
+        const data = { dir: language === "ar" ? "rtl" : undefined, lang: language };
+        Transforms.setNodes(editor, { data }, { match: (n) => Element.isElement(n) && n.type === "span" });
       }
     },
     [editor, selection],

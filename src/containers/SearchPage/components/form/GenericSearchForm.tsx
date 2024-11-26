@@ -153,10 +153,10 @@ const GenericSearchForm = ({
             {t("searchForm.btn")}
           </StyledButton>
         </ButtonContainer>
-        <StyledTagline>
-          <SearchTagGroup onRemoveItem={removeTag} tagTypes={tags} />
-        </StyledTagline>
       </StyledForm>
+      <StyledTagline>
+        <SearchTagGroup onRemoveItem={removeTag} tagTypes={tags} />
+      </StyledTagline>
     </>
   );
 };

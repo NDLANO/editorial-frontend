@@ -112,7 +112,7 @@ export const MastheadSearch = () => {
     if (
       !urlId.includes("urn:topic") &&
       Number.isNaN(parseFloat(urlId)) &&
-      !splittedNdlaUrl.find((e) => e.match(/subject:*/)) === undefined
+      !splittedNdlaUrl.find((e) => e.match(/subject:*/))
     ) {
       return;
     }

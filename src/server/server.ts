@@ -117,13 +117,11 @@ app.get("*splat", async (req, res) => {
       })
       .end(html);
   } catch (e) {
-    //@ts-ignore
-    vite?.ssrFixStacktrace(e);
-    //@ts-ignore
+    const error = e as Error;
+    vite?.ssrFixStacktrace(error);
     // eslint-disable-next-line no-console
-    console.log(e.stack);
-    //@ts-ignore
-    res.status(500).end(e.stack);
+    console.log(error.stack);
+    res.status(500).end(error.stack);
   }
 });
 

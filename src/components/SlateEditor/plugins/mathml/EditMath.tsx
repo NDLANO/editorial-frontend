@@ -13,6 +13,18 @@ import { styled } from "@ndla/styled-system/jsx";
 import { uuid } from "@ndla/util";
 import { FormActionsContainer } from "../../../FormikForm";
 
+declare global {
+  interface Window {
+    com?: {
+      wiris?: {
+        jsEditor?: {
+          JsEditor?: any;
+        };
+      };
+    };
+  }
+}
+
 export const emptyMathTag = '<math xmlns="http://www.w3.org/1998/Math/MathML"/>';
 
 const StyledMathEditorWrapper = styled("div", {
@@ -56,8 +68,7 @@ const EditMath = ({ model: { innerHTML }, onRemove, onSave, mathEditor, setMathE
       return;
     }
     const onScriptLoad = () => {
-      //@ts-ignore
-      const mathEditor = window.com.wiris.jsEditor.JsEditor.newInstance({
+      const mathEditor = window.com?.wiris?.jsEditor?.JsEditor?.newInstance({
         language: ["nb", "nn"].includes(i18n.language) ? "no" : i18n.language,
       });
       setMathEditor(mathEditor);
@@ -66,8 +77,7 @@ const EditMath = ({ model: { innerHTML }, onRemove, onSave, mathEditor, setMathE
       mathEditor?.focus();
       setInitialized(true);
     };
-    //@ts-ignore
-    if (window?.com?.wiris?.jsEditor.JsEditor) {
+    if (window?.com?.wiris?.jsEditor?.JsEditor) {
       onScriptLoad();
       return;
     }

@@ -79,7 +79,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     },
     {
       enabled: !!nodeId,
-      //@ts-ignore
+      //@ts-expect-error - this is a network error
       retry: (_, err) => err.status !== 404,
     },
   );
@@ -91,7 +91,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     },
     {
       enabled: !!nodeId && !!otherHash,
-      //@ts-ignore
+      //@ts-expect-error - this is a network error
       retry: (_, err) => err.status !== 404,
     },
   );

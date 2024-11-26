@@ -299,7 +299,7 @@ const RichTextEditor = ({
         allowEditorKeyDown = additionalOnKeyDown(e);
       }
       if (allowEditorKeyDown) {
-        // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
+        // @ts-expect-error is-hotkey and editor.onKeyDown does not have matching types
         editor.onKeyDown(e);
       }
     },

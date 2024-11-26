@@ -39,7 +39,7 @@ export const mathmlSerializer: SlateSerializer = {
     const { innerHTML, ...mathAttributes } = node.data;
 
     return (
-      // @ts-ignore math does not exist in JSX, but this hack works by setting innerHTML manually.
+      // @ts-expect-error math does not exist in JSX, but this hack works by setting innerHTML manually.
       <math
         {...mathAttributes}
         dangerouslySetInnerHTML={{

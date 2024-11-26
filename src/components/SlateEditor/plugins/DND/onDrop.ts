@@ -44,7 +44,7 @@ const onDrop =
       // Handle case where root section is detected as the target.
       if (Element.isElement(topLevelTargetNode) && topLevelTargetNode.type === "section") {
         // We need to manually calculate the correct posistion to move the node
-        // @ts-ignore EventTarget interface does not include children attribute, but the property does exist on target in this case.
+        // @ts-expect-error EventTarget interface does not include children attribute, but the property does exist on target in this case.
         const children = event.target.children as HTMLCollection;
         let prevElementTop = 0;
         let insertAtNode;

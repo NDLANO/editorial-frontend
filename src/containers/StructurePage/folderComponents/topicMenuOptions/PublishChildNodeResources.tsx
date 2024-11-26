@@ -7,54 +7,62 @@
  */
 
 import partition from "lodash/partition";
-import { useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
-import { colors } from "@ndla/core";
-import { Done } from "@ndla/icons/editor";
+import { ErrorWarningLine } from "@ndla/icons/common";
+import { CheckLine } from "@ndla/icons/editor";
+import { Button, Heading, MessageBox, Spinner, Text } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { Node } from "@ndla/types-taxonomy";
-import AlertModal from "../../../../components/AlertModal";
-import { OldSpinner } from "../../../../components/OldSpinner";
-import RoundIcon from "../../../../components/RoundIcon";
 import { PUBLISHED } from "../../../../constants";
 import { fetchDrafts, updateStatusDraft } from "../../../../modules/draft/draftApi";
 import { fetchLearningpaths, updateStatusLearningpath } from "../../../../modules/learningpath/learningpathApi";
 import { fetchNodeResources } from "../../../../modules/nodes/nodeApi";
 import { RESOURCE_META } from "../../../../queryKeys";
+import { routes, toLearningpathFull } from "../../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
-import ResourceItemLink from "../../resourceComponents/ResourceItemLink";
-import MenuItemButton from "../sharedMenuOptions/components/MenuItemButton";
+import { linkRecipe } from "../../resourceComponents/Resource";
 
 interface Props {
   node: Node;
 }
-const StyledDiv = styled.div`
-  display: flex;
-  align-items: center;
-  padding-left: 1.2em;
-`;
 
-const LinkWrapper = styled.div`
-  a {
-    color: ${colors.white};
-    &:hover {
-      color: ${colors.white};
-    }
-  }
-  margin-top: 0.5em;
-`;
+const StatusIndicatorContent = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    alignItems: "center",
+  },
+});
 
-const StyledSpinner = styled(OldSpinner)`
-  margin: 0px 4px;
-`;
+const StyledErrorTextWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+  },
+});
 
-const StyledDone = styled(Done)`
-  margin: 0px 4px;
-  color: green;
-`;
+const StyledCheckLine = styled(CheckLine, {
+  base: { fill: "stroke.success" },
+});
+
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+  },
+});
+
+const StyledButton = styled(Button, {
+  base: {
+    alignSelf: "flex-end",
+  },
+});
 
 interface BaseResource {
   name: string;
@@ -72,13 +80,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
   const [publishedCount, setPublishedCount] = useState(0);
   const [publishableCount, setPublishableCount] = useState(0);
   const [done, setDone] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
   const qc = useQueryClient();
-
-  useEffect(() => {
-    setShowAlert(failedResources.length !== 0 && done);
-  }, [failedResources, done]);
 
   const publishResources = async () => {
     setFailedResources([]);
@@ -114,8 +116,8 @@ const PublishChildNodeResources = ({ node }: Props) => {
 
     const draftPromises = unpublishedDrafts.map((draft) =>
       updateStatusDraft(draft.id, PUBLISHED)
-        .then((_) => setPublishedCount((c) => c + 1))
-        .catch((_) =>
+        .then(() => setPublishedCount((c) => c + 1))
+        .catch(() =>
           setFailedResources((prev) =>
             prev.concat({
               name: draft.title?.title ?? "",
@@ -126,8 +128,8 @@ const PublishChildNodeResources = ({ node }: Props) => {
     );
     const learningpathPromises = unpublishedLearningpaths.map((lp) =>
       updateStatusLearningpath(lp.id, PUBLISHED)
-        .then((_) => setPublishedCount((c) => c + 1))
-        .catch((_) =>
+        .then(() => setPublishedCount((c) => c + 1))
+        .catch(() =>
           setFailedResources((prev) =>
             prev.concat({
               name: lp.title.title,
@@ -144,54 +146,55 @@ const PublishChildNodeResources = ({ node }: Props) => {
   const publishText = t(`taxonomy.publish.${done ? "done" : "waiting"}`);
 
   return (
-    <>
-      <MenuItemButton onClick={() => setShowConfirmation(true)}>
-        <RoundIcon small icon={<Done />} />
-        {t("taxonomy.publish.button")}
-      </MenuItemButton>
+    <Wrapper>
+      <Heading consumeCss asChild textStyle="label.medium" fontWeight="bold">
+        <h2>{t("taxonomy.publish.button")}</h2>
+      </Heading>
+      <MessageBox variant="warning">
+        <ErrorWarningLine />
+        <Text>{t("taxonomy.publish.info")}</Text>
+      </MessageBox>
+      <StyledButton onClick={() => publishResources()}>{t("taxonomy.publish.button")}</StyledButton>
       {showDisplay && (
-        <StyledDiv>
-          {done ? <StyledDone /> : <StyledSpinner size="normal" />}
-          {`${publishText} (${publishedCount}/${publishableCount})`}
-        </StyledDiv>
+        <StatusIndicatorContent aria-live="polite">
+          <StatusIndicatorContent>{done ? <StyledCheckLine /> : <Spinner size="small" />}</StatusIndicatorContent>
+          <Text>{`${publishText} (${publishedCount}/${publishableCount})`}</Text>
+        </StatusIndicatorContent>
       )}
-      <AlertModal
-        title={t("errorMessage.description")}
-        label={t("errorMessage.description")}
-        show={showAlert}
-        onCancel={() => setShowAlert(false)}
-        text={t("taxonomy.publish.error")}
-        component={failedResources.map((res, index) => (
-          <LinkWrapper key={index}>
-            <ResourceItemLink
-              contentType={res.contentUri?.split(":")[1] === "article" ? "article" : "learning-resource"}
-              contentUri={res.contentUri}
-              name={res.name}
-            />
-          </LinkWrapper>
-        ))}
-      />
-      <AlertModal
-        title={t("taxonomy.publish.button")}
-        label={t("taxonomy.publish.button")}
-        show={showConfirmation}
-        actions={[
-          {
-            text: t("form.abort"),
-            onClick: () => setShowConfirmation(false),
-          },
-          {
-            text: t("taxonomy.publish.button"),
-            onClick: () => {
-              setShowConfirmation(false);
-              publishResources();
-            },
-          },
-        ]}
-        onCancel={() => setShowConfirmation(false)}
-        text={t("taxonomy.publish.info")}
-      />
-    </>
+      {failedResources.length > 0 && (
+        <MessageBox variant="error">
+          <ErrorWarningLine />
+          <StyledErrorTextWrapper>
+            <Text>{t("taxonomy.publish.error")}</Text>
+            <>
+              {failedResources.map((res, index) => {
+                const numericId = parseInt(res.contentUri?.split(":").pop() ?? "");
+                return (
+                  <Fragment key={index}>
+                    {numericId ? (
+                      <SafeLink
+                        to={
+                          res.contentUri?.includes("learningpath")
+                            ? toLearningpathFull(numericId, language)
+                            : routes.editArticle(numericId, "standard")
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        css={linkRecipe.raw()}
+                      >
+                        {res.name}
+                      </SafeLink>
+                    ) : (
+                      <Text textStyle="body.link">{res.name}</Text>
+                    )}
+                  </Fragment>
+                );
+              })}
+            </>
+          </StyledErrorTextWrapper>
+        </MessageBox>
+      )}
+    </Wrapper>
   );
 };
 

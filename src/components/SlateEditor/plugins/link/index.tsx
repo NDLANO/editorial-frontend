@@ -9,24 +9,23 @@
 import { Descendant, Editor, Element, Text, Node, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { ContentLinkEmbedData } from "@ndla/types-embed";
-import { TYPE_CONTENT_LINK, TYPE_LINK } from "./types";
+import { LinkEmbedData, TYPE_CONTENT_LINK, TYPE_LINK } from "./types";
 import { reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 
 export interface LinkElement {
   type: "link";
-  href: string;
-  target?: string;
-  title?: string;
-  rel?: string;
+  data: LinkEmbedData;
   children: Descendant[];
+  isFirstEdit?: boolean;
 }
 
 export interface ContentLinkElement {
   type: "content-link";
   data: ContentLinkEmbedData;
   children: Descendant[];
+  isFirstEdit?: boolean;
 }
 
 export const linkSerializer: SlateSerializer = {
@@ -38,10 +37,12 @@ export const linkSerializer: SlateSerializer = {
         "element",
         {
           type: TYPE_LINK,
-          href: a.href ?? "#",
-          target: a.target !== "" ? a.target : undefined,
-          title: a.title !== "" ? a.title : undefined,
-          rel: a.rel !== "" ? a.rel : undefined,
+          data: {
+            href: a.href ?? "#",
+            target: a.target !== "" ? a.target : undefined,
+            title: a.title !== "" ? a.title : undefined,
+            rel: a.rel !== "" ? a.rel : undefined,
+          },
         },
         children,
       );
@@ -65,7 +66,7 @@ export const linkSerializer: SlateSerializer = {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_LINK) {
       return (
-        <a href={node.href} target={node.target} title={node.title} rel={node.rel}>
+        <a href={node.data?.href} target={node.data?.target} title={node.data?.title} rel={node.data?.rel}>
           {children}
         </a>
       );

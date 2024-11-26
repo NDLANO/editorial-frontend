@@ -9,10 +9,10 @@
 import sortBy from "lodash/sortBy";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
+import { Spinner } from "@ndla/primitives";
 import { IUpdatedArticle, IArticle } from "@ndla/types-backend/draft-api";
 import { Metadata, NodeChild } from "@ndla/types-taxonomy";
 import TaxonomyBlock from "./taxonomy/TaxonomyBlock";
-import { OldSpinner } from "../../../../components/OldSpinner";
 import { useNodes } from "../../../../modules/nodes/nodeQueries";
 import { useAllResourceTypes } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import { useVersions } from "../../../../modules/taxonomy/versions/versionQueries";
@@ -63,7 +63,7 @@ const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage, hasTa
   const versionsQuery = useVersions();
 
   if (nodesQuery.isLoading || subjectsQuery.isLoading || allResourceTypesQuery.isLoading || versionsQuery.isLoading) {
-    return <OldSpinner />;
+    return <Spinner />;
   }
 
   return (

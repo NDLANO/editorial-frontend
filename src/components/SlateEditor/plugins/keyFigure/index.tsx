@@ -48,7 +48,7 @@ export const keyFigureSerializer: SlateSerializer = {
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node) || node.type !== TYPE_KEY_FIGURE || !node.data) return;
-    return createEmbedTagV2(node.data);
+    return createEmbedTagV2(node.data, undefined, undefined);
   },
 };
 

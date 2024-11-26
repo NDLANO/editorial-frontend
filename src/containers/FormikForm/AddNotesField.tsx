@@ -8,7 +8,7 @@
 
 import { FormEvent, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { TrashCanOutline } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons/action";
 import {
   Button,
   FieldErrorMessage,
@@ -97,7 +97,7 @@ const AddNotesField = ({ name, labelWarningNote, onChange, value, showError }: P
               aria-label={t("form.notes.remove")}
               title={t("form.notes.remove")}
             >
-              <TrashCanOutline />
+              <DeleteBinLine />
             </IconButton>
           </NoteWrapper>
           <FieldErrorMessage>{labelWarningNote}</FieldErrorMessage>

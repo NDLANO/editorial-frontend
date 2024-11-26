@@ -8,14 +8,13 @@
 
 import styled from "@emotion/styled";
 import { colors, fonts, spacing, breakpoints, misc, mq } from "@ndla/core";
-import { Plus } from "@ndla/icons/action";
+import { AddLine } from "@ndla/icons/action";
 import { Share } from "@ndla/icons/common";
 
 export const ResourceGroupBanner = styled.div`
   background-color: ${colors.brand.lighter};
   border-radius: 10px;
   ${fonts.sizes(16)};
-  color: ${colors.brand.primary};
   padding: ${spacing.small};
   margin-top: ${spacing.small};
   margin-bottom: ${spacing.small};
@@ -36,6 +35,11 @@ export const StyledShareIcon = styled(Share)`
 export const CardWrapper = styled.div`
   flex: 1;
   margin-bottom: ${spacing.xsmall};
+  border: 1px solid ${colors.brand.light};
+  border-radius: ${misc.borderRadius};
+  width: 100%;
+  padding: 5px;
+  display: flex;
 `;
 
 export const StyledResponsibleBadge = styled.div`
@@ -62,14 +66,6 @@ export const StyledResourceIcon = styled.div`
   }
 `;
 
-export const StyledResourceCard = styled.div`
-  border: 1px solid ${colors.brand.light};
-  border-radius: ${misc.borderRadius};
-  width: 100%;
-  padding: 5px;
-  display: flex;
-`;
-
 export const BoldFont = styled.span`
   font-weight: ${fonts.weight.semibold};
 `;
@@ -87,7 +83,7 @@ export const ButtonRow = styled.div`
   gap: ${spacing.xsmall};
 `;
 
-export const StyledPlusIcon = styled(Plus)`
+export const StyledPlusIcon = styled(AddLine)`
   ${mq.range({ until: breakpoints.tablet })} {
     display: none;
   }

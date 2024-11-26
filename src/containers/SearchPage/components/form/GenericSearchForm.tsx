@@ -9,9 +9,9 @@
 import { FormEvent, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { Search } from "@ndla/icons/common";
+import { Button } from "@ndla/primitives";
 import { IUserData } from "@ndla/types-backend/draft-api";
 import { SearchParams } from "./SearchForm";
 import SearchTagGroup from "./SearchTagGroup";
@@ -42,7 +42,7 @@ interface Props {
   disableSavedSearch?: boolean;
 }
 
-const StyledButton = styled(ButtonV2)`
+const StyledButton = styled(Button)`
   flex: 1;
   height: ${spacing.normal};
   min-height: ${spacing.mediumlarge};
@@ -146,10 +146,10 @@ const GenericSearchForm = ({
           );
         })}
         <ButtonContainer>
-          <StyledButton onClick={emptySearch} variant="outline">
+          <StyledButton onClick={emptySearch} variant="secondary" size="small">
             {t("searchForm.empty")}
           </StyledButton>
-          <StyledButton type="submit" onClick={onSubmit}>
+          <StyledButton type="submit" onClick={onSubmit} size="small">
             {t("searchForm.btn")}
           </StyledButton>
         </ButtonContainer>

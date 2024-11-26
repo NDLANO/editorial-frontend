@@ -27,28 +27,31 @@ test("Can use text input", async ({ page }) => {
 });
 
 test("Can use model released dropdown", async ({ page }) => {
-  await page.locator('select[name="model-released"]').selectOption({ index: 1 });
+  await page.getByTestId("model-released-select").click();
+  await page.getByRole("option", { name: "Modellklarert", exact: true }).click();
   await page.getByTestId("image-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("2248");
-  await page.locator('select[name="model-released"]').selectOption({ index: 0 });
+  await page.getByTestId("remove-tag-button").click();
   await page.getByTestId("image-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(totalSearchCount);
 });
 
 test("Can use language dropdown", async ({ page }) => {
-  await page.locator('select[name="language"]').selectOption({ index: 1 });
+  await page.getByTestId("language-select").click();
+  await page.getByRole("option", { name: "Bokmål", exact: true }).click();
   await page.getByTestId("image-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("26966");
-  await page.locator('select[name="language"]').selectOption({ index: 0 });
+  await page.getByTestId("remove-tag-button").click();
   await page.getByTestId("image-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(totalSearchCount);
 });
 
 test("Can use license dropdown", async ({ page }) => {
-  await page.locator('select[name="license"]').selectOption({ index: 1 });
+  await page.getByTestId("license-select").click();
+  await page.getByRole("option", { name: "CC0 Public domain dedication: Gitt til fellesskapet", exact: true }).click();
   await page.getByTestId("image-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("906");
-  await page.locator('select[name="license"]').selectOption({ index: 0 });
+  await page.getByTestId("remove-tag-button").click();
   await page.getByTestId("image-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(totalSearchCount);
 });

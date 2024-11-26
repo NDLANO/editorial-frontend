@@ -19,7 +19,6 @@ import {
   SelectContent,
   SelectHiddenSelect,
   SelectLabel,
-  SelectPositioner,
   SelectRoot,
   SelectValueText,
   Text,
@@ -93,15 +92,13 @@ const GlossDataSection = ({ glossLanguage }: Props) => {
                 <GenericSelectTrigger>
                   <SelectValueText placeholder={t("form.gloss.choose", { label: t("form.gloss.originalLanguage") })} />
                 </GenericSelectTrigger>
-                <SelectPositioner>
-                  <SelectContent>
-                    {languageCollection.items.map((language) => (
-                      <GenericSelectItem key={language} item={language}>
-                        {t(`languages.${language}`)}
-                      </GenericSelectItem>
-                    ))}
-                  </SelectContent>
-                </SelectPositioner>
+                <SelectContent>
+                  {languageCollection.items.map((language) => (
+                    <GenericSelectItem key={language} item={language}>
+                      {t(`languages.${language}`)}
+                    </GenericSelectItem>
+                  ))}
+                </SelectContent>
                 <SelectHiddenSelect />
               </SelectRoot>
               <FieldErrorMessage>{meta.error}</FieldErrorMessage>
@@ -121,16 +118,14 @@ const GlossDataSection = ({ glossLanguage }: Props) => {
                 <GenericSelectTrigger>
                   <SelectValueText placeholder={t("form.gloss.choose", { label: t("form.gloss.wordClass") })} />
                 </GenericSelectTrigger>
-                <SelectPositioner>
-                  <SelectContent>
-                    {wordClassCollection.items.map((wordClass) => (
-                      <GenericSelectItem key={wordClass} item={wordClass}>
-                        {t(`wordClass.${wordClass}`)}
-                      </GenericSelectItem>
-                    ))}
-                  </SelectContent>
-                  <SelectHiddenSelect />
-                </SelectPositioner>
+                <SelectContent>
+                  {wordClassCollection.items.map((wordClass) => (
+                    <GenericSelectItem key={wordClass} item={wordClass}>
+                      {t(`wordClass.${wordClass}`)}
+                    </GenericSelectItem>
+                  ))}
+                </SelectContent>
+                <SelectHiddenSelect />
               </SelectRoot>
             </FieldRoot>
           )}

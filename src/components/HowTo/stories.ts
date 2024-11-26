@@ -43,7 +43,6 @@ export type StoryType =
   | "userLicense"
   | "MetaKeyword"
   | "MetaDescription"
-  | "MetaImage"
   | "VisualElement"
   | "TaxonomyContentTypes"
   | "TaxonomySubjectConnections"
@@ -210,21 +209,6 @@ export const stories: Record<StoryType, Story> = {
         type: "text",
         content:
           "Den formuleres derfor slik at den er til hjelp både for de som søker på Internett, og for elevene våre når de orienterer seg på sidene våre og skaffer seg oversikt. Metabeskrivelsen bør beskrive essensen av innholdet og være en selvstendig tekst og er begrenset til 155 tegn.",
-      },
-    ],
-  },
-  MetaImage: {
-    title: "Metabilde",
-    body: [
-      {
-        type: "text",
-        content:
-          "Dette bildet skal kunne benyttes som bilde på emnekortene (både som bannerbilde og lite bannerbilde), ved visning i sosiale medier og ved opplisting i søkemotorer. Bildet må ha god pikselbredde, som f.eks. Scanpix-bilder.",
-      },
-      {
-        type: "text",
-        content:
-          "Metabilde kan settes forskjellig for hvert språk. Dersom metabilde ikke finnes vil det hentes automatisk fra et annet språk.",
       },
     ],
   },

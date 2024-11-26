@@ -22,7 +22,6 @@ import {
   SelectContent,
   SelectHiddenSelect,
   SelectLabel,
-  SelectPositioner,
   SelectRoot,
   SelectValueText,
 } from "@ndla/primitives";
@@ -53,7 +52,7 @@ const StyledFieldsetRoot = styled(FieldsetRoot, {
 const StyledInnerFieldsetRoot = styled(FieldsetRoot, {
   base: {
     display: "grid",
-    gridTemplateColumns: "1fr 1fr auto",
+    gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr) auto",
     gap: "xsmall",
     alignItems: "flex-end",
   },
@@ -133,15 +132,13 @@ const Contributor = ({ type, onAddNew, onRemove }: ContributorProps) => {
                   <GenericSelectTrigger>
                     <SelectValueText placeholder={t("form.name.type")} />
                   </GenericSelectTrigger>
-                  <SelectPositioner>
-                    <SelectContent>
-                      {collection.items.map((item) => (
-                        <GenericSelectItem key={item.type} item={item}>
-                          {item.translation}
-                        </GenericSelectItem>
-                      ))}
-                    </SelectContent>
-                  </SelectPositioner>
+                  <SelectContent>
+                    {collection.items.map((item) => (
+                      <GenericSelectItem key={item.type} item={item}>
+                        {item.translation}
+                      </GenericSelectItem>
+                    ))}
+                  </SelectContent>
                   <SelectHiddenSelect data-testid="contributor-selector" />
                 </SelectRoot>
               </FieldRoot>

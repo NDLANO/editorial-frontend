@@ -7,21 +7,17 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { Heart } from "@ndla/icons/action";
-import { Text } from "@ndla/typography";
+import { HeartFill } from "@ndla/icons/action";
+import { Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { useResourceStats } from "../../modules/myndla/myndlaQueries";
 
-const StyledHeartOutline = styled(Heart)`
-  width: ${spacing.normal};
-  height: ${spacing.normal};
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+  },
+});
 
 interface Props {
   id: number | string | undefined;
@@ -63,8 +59,8 @@ const HeaderFavoriteStatus = ({ id, type, favoriteCount }: Props) => {
 
   return (
     <Wrapper title={tooltipText} aria-label={tooltipText}>
-      <StyledHeartOutline />
-      <Text margin="none" textStyle="label-small">
+      <HeartFill />
+      <Text textStyle="label.small" fontWeight="bold">
         {resourceFavorites}
       </Text>
     </Wrapper>

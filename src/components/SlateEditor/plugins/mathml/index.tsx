@@ -18,6 +18,7 @@ export interface MathmlElement {
   type: "mathml";
   data: { [key: string]: string };
   children: Descendant[];
+  isFirstEdit?: boolean;
 }
 
 export const mathmlSerializer: SlateSerializer = {

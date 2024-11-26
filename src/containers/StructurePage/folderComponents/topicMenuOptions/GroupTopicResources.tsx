@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { Node, Metadata } from "@ndla/types-taxonomy";
-import RoundIcon from "../../../../components/RoundIcon";
 import {
   TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
@@ -20,15 +19,13 @@ import { useUpdateNodeMetadataMutation } from "../../../../modules/nodes/nodeMut
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { getRootIdForNode, isRootNode } from "../../../../modules/nodes/nodeUtil";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
-import { StyledMenuItemEditField } from "../styles";
 
 interface Props {
   node: Node;
-  hideIcon?: boolean;
   onChanged?: (newMeta: Partial<Metadata>) => void;
 }
 
-const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
+const GroupTopicResources = ({ node, onChanged }: Props) => {
   const { t, i18n } = useTranslation();
   const updateNodeMetadata = useUpdateNodeMetadataMutation();
   const qc = useQueryClient();
@@ -63,22 +60,20 @@ const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
   const nodeResources = node.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES];
   const isGrouped =
     (nodeResources ?? TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE) === TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE;
+
   return (
-    <StyledMenuItemEditField>
-      {hideIcon || <RoundIcon open small />}
-      <SwitchRoot
-        checked={isGrouped}
-        onCheckedChange={updateMetadata}
-        title={t("taxonomy.metadata.customFields.RGTooltip")}
-        aria-label={t("taxonomy.metadata.customFields.RGTooltip")}
-      >
-        <SwitchLabel>{t("taxonomy.metadata.customFields.resourceGroupPlaceholder")}</SwitchLabel>
-        <SwitchControl>
-          <SwitchThumb>{isGrouped ? "G" : "U"}</SwitchThumb>
-        </SwitchControl>
-        <SwitchHiddenInput />
-      </SwitchRoot>
-    </StyledMenuItemEditField>
+    <SwitchRoot
+      checked={isGrouped}
+      onCheckedChange={updateMetadata}
+      title={t("taxonomy.metadata.customFields.RGTooltip")}
+      aria-label={t("taxonomy.metadata.customFields.RGTooltip")}
+    >
+      <SwitchLabel>{t("taxonomy.metadata.customFields.resourceGroupPlaceholder")}</SwitchLabel>
+      <SwitchControl>
+        <SwitchThumb>{isGrouped ? "G" : "U"}</SwitchThumb>
+      </SwitchControl>
+      <SwitchHiddenInput />
+    </SwitchRoot>
   );
 };
 

@@ -37,7 +37,7 @@ import { MetaImageSearch } from ".";
 import { ArticleFormType } from "./articleFormHooks";
 import { SearchTagsContent } from "../../components/Form/SearchTagsContent";
 import { SearchTagsTagSelectorInput } from "../../components/Form/SearchTagsTagSelectorInput";
-import { FormField, FormRemainingCharacters } from "../../components/FormField";
+import { FormField } from "../../components/FormField";
 import FormikField from "../../components/FormikField";
 import { FormContent } from "../../components/FormikForm";
 import { claudeHaikuDefaults, invokeModel } from "../../components/LLM/helpers";
@@ -186,7 +186,7 @@ const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkbox
                 {...field}
                 plugins={plugins}
               />
-              <FormRemainingCharacters value={field.value[0].children[0].text.length} maxLength={155} />
+              {/* <FormRemainingCharacters value={field.value[0].children[0].text.length} maxLength={155} /> */}
               <StyledButton size="small" onClick={() => generateMetaDescription(helpers)}>
                 {t("textGeneration.metaDescription.button")} {isLoading ? <Spinner size="small" /> : <BlogPost />}
               </StyledButton>

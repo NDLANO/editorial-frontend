@@ -6,18 +6,26 @@
  *
  */
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
-import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
-import { Pencil } from "@ndla/icons/action";
-import { DeleteForever, Expandable } from "@ndla/icons/editor";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { IconButton } from "@ndla/primitives";
+import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
+import { Portal } from "@ark-ui/react";
+import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
+import { Expandable } from "@ndla/icons/editor";
+import {
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  IconButton,
+  Spinner,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IframeEmbedData, IframeMetaData, OembedEmbedData, OembedMetaData } from "@ndla/types-embed";
-import { Text } from "@ndla/typography";
 import { EmbedWrapper, ExternalEmbed, IframeEmbed } from "@ndla/ui";
 import { ExternalEmbedForm } from "./ExternalEmbedForm";
 import { ExternalElement, IframeElement } from "./types";
@@ -25,7 +33,7 @@ import { EXTERNAL_WHITELIST_PROVIDERS } from "../../../../constants";
 import { WhitelistProvider } from "../../../../interfaces";
 import { useExternalEmbed } from "../../../../modules/embed/queries";
 import { urlDomain } from "../../../../util/htmlHelpers";
-import { OldSpinner } from "../../../OldSpinner";
+import { DialogCloseButton } from "../../../DialogCloseButton";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import EditorErrorMessage from "../../EditorErrorMessage";
 import { StyledFigureButtons } from "../embed/FigureButtons";
@@ -37,37 +45,32 @@ interface Props extends RenderElementProps {
 
 const MIN_EMBED_HEIGHT = 100;
 
-const StyledEmbedWrapper = styled(EmbedWrapper)`
-  &:active,
-  &:focus-within {
-    outline: 2px solid ${colors.brand.primary};
-    outline-offset: ${spacing.xxsmall};
-  }
-`;
+const StyledEmbedWrapper = styled(EmbedWrapper, {
+  base: {
+    "&[data-selected='true']": {
+      outline: "2px solid",
+      outlineColor: "stroke.default",
+      outlineOffset: "3xsmall",
+    },
+  },
+});
 
-const ExpandableButton = styled(IconButton)`
-  position: absolute;
-  right: ${spacing.nsmall};
-  bottom: ${spacing.normal};
-`;
+const ExpandableButton = styled(IconButton, {
+  base: {
+    position: "absolute",
+    right: "small",
+    bottom: "medium",
+  },
+});
 
-const TitleWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  align-self: flex-start;
-  gap: ${spacing.small};
-  h1 {
-    text-transform: uppercase;
-  }
-`;
-
-const StyledModalHeader = styled(ModalHeader)`
-  justify-content: space-between;
-  padding-inline: 0px;
-  padding-bottom: ${spacing.xsmall};
-  margin-inline: ${spacing.normal};
-  border-bottom: 2px solid ${colors.brand.tertiary};
-`;
+const TitleWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    alignSelf: "flex-start",
+    gap: "xsmall",
+  },
+});
 
 const getAllowedProvider = (embed: OembedMetaData | IframeMetaData | undefined): WhitelistProvider | undefined => {
   const maybeProviderName =
@@ -85,10 +88,16 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
   const { t } = useTranslation();
   const language = useArticleLanguage();
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const [isEditing, setIsEditing] = useState(element.isFirstEdit);
+  const [isEditing, setIsEditing] = useState(false);
   const metaQuery = useExternalEmbed(element.data!, language, {
     enabled: !!Object.keys(element.data ?? {}).length,
   });
+
+  useEffect(() => {
+    setIsEditing(!!element.isFirstEdit);
+  }, [element.isFirstEdit]);
+
+  const selected = useSelected();
 
   const embed: OembedMetaData | IframeMetaData | undefined = useMemo(() => {
     if (!element.data) return;
@@ -162,15 +171,15 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
   const deleteLabel = t("form.external.remove", { type: allowedProvider?.name || t("form.external.title") });
 
   return (
-    <Modal open={isEditing} onOpenChange={setIsEditing}>
+    <DialogRoot open={isEditing} size="large" onOpenChange={(details) => setIsEditing(details.open)}>
       {!!embed && (
-        <StyledEmbedWrapper {...attributes} ref={wrapperRef} contentEditable={false}>
-          <StyledFigureButtons>
-            <ModalTrigger>
+        <StyledEmbedWrapper {...attributes} data-selected={selected} ref={wrapperRef}>
+          <StyledFigureButtons contentEditable={false}>
+            <DialogTrigger asChild>
               <IconButton aria-label={editLabel} title={editLabel} variant="secondary" size="small">
-                <Pencil />
+                <PencilFill />
               </IconButton>
-            </ModalTrigger>
+            </DialogTrigger>
             <IconButton
               aria-label={deleteLabel}
               title={deleteLabel}
@@ -179,11 +188,11 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
               onClick={handleRemove}
               data-testid="remove-element"
             >
-              <DeleteForever />
+              <DeleteBinLine />
             </IconButton>
           </StyledFigureButtons>
           {metaQuery.isLoading ? (
-            <OldSpinner />
+            <Spinner />
           ) : !allowedProvider ? (
             <EditorErrorMessage msg={t("displayOembed.notSupported", { type, provider: provider })} />
           ) : embed?.resource === "external" ? (
@@ -202,29 +211,27 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
               <Expandable />
             </ExpandableButton>
           )}
+          {children}
         </StyledEmbedWrapper>
       )}
-      <ModalContent size="large">
-        <StyledModalHeader>
-          <TitleWrapper>
-            <ModalTitle>
-              {element.data
-                ? t("form.content.link.changeUrlResource", { type: type })
-                : t("form.content.link.newUrlResource")}
-            </ModalTitle>
-            {provider && (
-              <Text margin="none" textStyle="meta-text-small">
-                {provider}
-              </Text>
-            )}
-          </TitleWrapper>
-          <ModalCloseButton />
-        </StyledModalHeader>
-        <ModalBody>
-          <ExternalEmbedForm initialData={element.data} onSave={onSave} />
-        </ModalBody>
-      </ModalContent>
-      {children}
-    </Modal>
+      <Portal>
+        <DialogContent>
+          <DialogHeader>
+            <TitleWrapper>
+              <DialogTitle>
+                {element.data
+                  ? t("form.content.link.changeUrlResource", { type: type })
+                  : t("form.content.link.newUrlResource")}
+              </DialogTitle>
+              {provider && <Text textStyle="label.small">{provider}</Text>}
+            </TitleWrapper>
+            <DialogCloseButton />
+          </DialogHeader>
+          <DialogBody>
+            <ExternalEmbedForm initialData={element.data} onSave={onSave} />
+          </DialogBody>
+        </DialogContent>
+      </Portal>
+    </DialogRoot>
   );
 };

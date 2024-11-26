@@ -11,7 +11,7 @@ import { Eye, Restore } from "@ndla/icons/editor";
 import { IconButton } from "@ndla/primitives";
 import { IArticle } from "@ndla/types-backend/draft-api";
 
-import PreviewDraftLightboxV2 from "../../components/PreviewDraft/PreviewDraftLightboxV2";
+import { PreviewResourceDialog } from "../../components/PreviewDraft/PreviewResourceDialog";
 
 interface Props {
   showFromArticleApi: boolean;
@@ -36,7 +36,7 @@ const VersionActionButtons = ({
   if (current && !showFromArticleApi) return null;
   return (
     <>
-      <PreviewDraftLightboxV2
+      <PreviewResourceDialog
         type="version"
         article={version}
         language={currentLanguage}

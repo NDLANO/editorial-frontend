@@ -7,18 +7,16 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
-import { AlertCircle } from "@ndla/icons/editor";
+import { ErrorWarningFill } from "@ndla/icons/common";
+import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild } from "@ndla/types-taxonomy";
-import { IconWrapper } from "./StatusIcons";
 import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 
-const StyledWarnIcon = styled(AlertCircle)`
-  height: 24px;
-  width: 24px;
-  fill: ${colors.support.red};
-`;
+const StyledErrorWarningFill = styled(ErrorWarningFill, {
+  base: {
+    fill: "surface.danger",
+  },
+});
 
 const getArticleTypeFromId = (id?: string) => {
   if (id?.startsWith("urn:topic:")) return "topic-article";
@@ -50,11 +48,7 @@ const WrongTypeError = ({ resource, articleType }: Props) => {
 
   const errorText = articleType ? wrongArticleTypeError : missingArticleTypeError;
 
-  return (
-    <IconWrapper>
-      <StyledWarnIcon title={errorText} aria-label={errorText} />
-    </IconWrapper>
-  );
+  return <StyledErrorWarningFill title={errorText} aria-label={errorText} />;
 };
 
 export default WrongTypeError;

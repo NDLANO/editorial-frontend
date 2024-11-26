@@ -8,7 +8,7 @@
 
 import { FieldArray } from "formik";
 import { useTranslation } from "react-i18next";
-import { TrashCanOutline } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons/action";
 import { Button, FieldsetLegend, FieldsetRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IGlossExample } from "@ndla/types-backend/concept-api";
@@ -57,7 +57,7 @@ const LanguageVariantFieldArray = ({ examples, name, index, removeFromParentArra
               })}
             </Button>
             <Button variant="danger" size="small" onClick={removeFromParentArray}>
-              <TrashCanOutline size="small" />
+              <DeleteBinLine size="small" />
               {t("form.gloss.examples.remove", { index: index + 1 })}
             </Button>
           </>

@@ -72,6 +72,8 @@ const linkRecipe = cva({
   },
 });
 
+const StyledButton = styled(Button, { base: { whiteSpace: "nowrap" } });
+
 const VersionHistory = ({ resource, contentType }: Props) => {
   const { t } = useTranslation();
   if (!resource.contentMeta?.status) {
@@ -80,13 +82,9 @@ const VersionHistory = ({ resource, contentType }: Props) => {
   return (
     <DialogRoot position="top">
       <DialogTrigger asChild>
-        <Button
-          variant={resource.contentMeta.status.current.toLowerCase() === "published" ? "success" : "secondary"}
-          size="small"
-          disabled={contentType === contentTypes.LEARNING_PATH}
-        >
+        <StyledButton variant="secondary" size="small" disabled={contentType === contentTypes.LEARNING_PATH}>
           {t(`form.status.${resource.contentMeta.status.current.toLowerCase()}`)}
-        </Button>
+        </StyledButton>
       </DialogTrigger>
       <Portal>
         <DialogContent>

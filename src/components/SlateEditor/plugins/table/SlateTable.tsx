@@ -10,7 +10,7 @@ import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor } from "slate";
 import { RenderElementProps } from "slate-react";
-import { DeleteForever } from "@ndla/icons/editor";
+import { DeleteBinLine } from "@ndla/icons/action";
 import { IconButton, Table } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { EmbedWrapper } from "@ndla/ui";
@@ -44,7 +44,7 @@ const SlateTable = ({ attributes, children, element, editor }: Props) => {
         aria-label={t("form.content.table.table-remove")}
         title={t("form.content.table.table-remove")}
       >
-        <DeleteForever />
+        <DeleteBinLine />
       </StyledIconButton>
       <Table {...attributes}>{children}</Table>
     </EmbedWrapper>

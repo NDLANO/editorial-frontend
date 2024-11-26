@@ -7,7 +7,7 @@
  */
 
 import { Navigate, Route, Routes, useParams } from "react-router-dom";
-import Spinner from "../../components/Spinner";
+import { Spinner } from "@ndla/primitives";
 import { useDraft } from "../../modules/draft/draftQueries";
 import { toEditArticle } from "../../util/routeHelpers";
 import FrontPageArticlePage from "../ArticlePage/FrontpageArticlePage/FrontpageArticlePage";

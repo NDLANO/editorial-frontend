@@ -7,14 +7,15 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors, fonts, spacing } from "@ndla/core";
+import { styled } from "@ndla/styled-system/jsx";
 import { uuid } from "@ndla/util";
 
-const FootnoteId = styled.sup`
-  text-decoration: underline;
-  color: ${colors.brand.primary};
-`;
+const FootnoteId = styled("sup", {
+  base: {
+    textDecoration: "underline",
+    color: "text.action",
+  },
+});
 
 export interface FootnoteType {
   title: string;
@@ -48,15 +49,18 @@ interface LearningResourceFootnotesProps {
   footnotes: FootnoteType[];
 }
 
-const FootnotesList = styled.ol`
-  border-top: 2px solid ${colors.brand.greyLight};
-  padding-top: ${spacing.large};
-  color: ${colors.brand.grey};
-  ${fonts.size.text.metaText.small};
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const FootnotesList = styled("ol", {
+  base: {
+    borderTop: "2px solid",
+    borderColor: "stroke.subtle",
+    color: "text.subtle",
+    paddingBlockStart: "large",
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+    textStyle: "label.small",
+  },
+});
 
 const LearningResourceFootnotes = ({ footnotes }: LearningResourceFootnotesProps) => {
   if (footnotes.length > 0) {

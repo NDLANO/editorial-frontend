@@ -44,7 +44,7 @@ export const blockConceptSerializer: SlateSerializer = {
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node) || node.type !== TYPE_CONCEPT_BLOCK) return;
-    return createEmbedTagV2(node.data);
+    return createEmbedTagV2(node.data, undefined, undefined);
   },
 };
 

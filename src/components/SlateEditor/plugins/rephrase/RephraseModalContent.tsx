@@ -10,7 +10,7 @@ import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BaseRange, Editor, Path, Range } from "slate";
 import { useSlate } from "slate-react";
-import { Cross } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons/action";
 import { BlogPost } from "@ndla/icons/editor";
 import { Button, DialogBody, DialogHeader, DialogTitle, Heading, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -100,7 +100,7 @@ const RephraseModalContent = ({ selection, setSelection }: Props) => {
           aria-label={t("dialog.close")}
           onClick={() => setSelection(null)}
         >
-          <Cross />
+          <CloseLine />
         </IconButton>
       </DialogHeader>
       <DialogBody>

@@ -11,16 +11,14 @@ import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Descendant } from "slate";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { colors } from "@ndla/core";
-import { PageContent } from "@ndla/primitives";
-import { IAudioMetaInformation, INewSeries, ISeries } from "@ndla/types-backend/audio-api";
+import { Button, PageContent, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { INewSeries, ISeries } from "@ndla/types-backend/audio-api";
 import PodcastEpisodes from "./PodcastEpisodes";
 import PodcastSeriesMetaData from "./PodcastSeriesMetaData";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
-import Field from "../../../components/Field";
+import { FormActionsContainer } from "../../../components/FormikForm";
 import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
 import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
@@ -34,8 +32,20 @@ import {
 import { editorValueToPlainText } from "../../../util/articleContentConverter";
 import { podcastSeriesTypeToFormType } from "../../../util/audioHelpers";
 import { isFormikFormDirty } from "../../../util/formHelper";
-import { AlertModalWrapper } from "../../FormikForm";
+import { AlertDialogWrapper } from "../../FormikForm";
 import { useSession } from "../../Session/SessionProvider";
+
+const StyledFormActionsContainer = styled(FormActionsContainer, {
+  base: {
+    marginBlockStart: "xsmall",
+  },
+});
+
+const StyledText = styled(Text, {
+  base: {
+    textAlign: "end",
+  },
+});
 
 const podcastRules: RulesType<PodcastSeriesFormikType, ISeries> = {
   title: {
@@ -55,14 +65,6 @@ const podcastRules: RulesType<PodcastSeriesFormikType, ISeries> = {
   },
 };
 
-const AdminWarningTextWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  p {
-    color: ${colors.support.red};
-  }
-`;
-
 export interface PodcastSeriesFormikType {
   id?: number;
   revision?: number;
@@ -71,7 +73,7 @@ export interface PodcastSeriesFormikType {
   language: string;
   coverPhotoId?: string;
   metaImageAlt?: string;
-  episodes: IAudioMetaInformation[];
+  episodes: number[];
   supportedLanguages: string[];
   hasRSS?: boolean;
 }
@@ -128,7 +130,7 @@ const PodcastSeriesForm = ({
       coverPhotoId: values.coverPhotoId,
       coverPhotoAltText: values.metaImageAlt,
       language: values.language,
-      episodes: values.episodes.map((ep) => ep.id),
+      episodes: values.episodes,
       hasRSS: values.hasRSS,
     };
 
@@ -202,17 +204,17 @@ const PodcastSeriesForm = ({
                 title={t("form.podcastEpisodesSection")}
                 hasError={["title", "coverPhotoId", "metaImageAlt"].some((field) => field in errors)}
               >
-                <PodcastEpisodes />
+                <PodcastEpisodes language={language} seriesId={values.id} initialEpisodes={podcastSeries?.episodes} />
               </FormAccordion>
             </FormAccordions>
-            <Field right>
-              <ButtonV2 variant="outline" disabled={isSubmitting} onClick={() => navigate(-1)}>
+            <StyledFormActionsContainer>
+              <Button variant="secondary" disabled={isSubmitting} onClick={() => navigate(-1)}>
                 {t("form.abort")}
-              </ButtonV2>
+              </Button>
               <SaveButton
                 id={SAVE_BUTTON_ID}
                 disabled={!isAudioAdmin}
-                isSaving={isSubmitting}
+                loading={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}
                 type={!inModal ? "submit" : "button"}
@@ -221,13 +223,9 @@ const PodcastSeriesForm = ({
                   submitForm();
                 }}
               />
-            </Field>
-            {!isAudioAdmin ? (
-              <AdminWarningTextWrapper>
-                <p>{t("podcastSeriesForm.adminError")}</p>
-              </AdminWarningTextWrapper>
-            ) : null}
-            <AlertModalWrapper
+            </StyledFormActionsContainer>
+            {!isAudioAdmin ? <StyledText color="text.error">{t("podcastSeriesForm.adminError")}</StyledText> : null}
+            <AlertDialogWrapper
               {...formikProps}
               formIsDirty={formIsDirty}
               severity="danger"

@@ -19,7 +19,6 @@ import {
   FieldRoot,
   SelectContent,
   SelectLabel,
-  SelectPositioner,
   SelectRoot,
   SelectValueText,
 } from "@ndla/primitives";
@@ -164,15 +163,13 @@ const CodeBlockEditor = ({ onSave, onAbort, highlight, content, setShowWarning }
                     <GenericSelectTrigger>
                       <SelectValueText />
                     </GenericSelectTrigger>
-                    <SelectPositioner>
-                      <SelectContent>
-                        {languageOptions.map((item) => (
-                          <GenericSelectItem key={item.format} item={item}>
-                            {item.title}
-                          </GenericSelectItem>
-                        ))}
-                      </SelectContent>
-                    </SelectPositioner>
+                    <SelectContent>
+                      {languageOptions.map((item) => (
+                        <GenericSelectItem key={item.format} item={item}>
+                          {item.title}
+                        </GenericSelectItem>
+                      ))}
+                    </SelectContent>
                     <SelectHiddenSelect data-testid="code-language" />
                   </SelectRoot>
                 </FieldRoot>

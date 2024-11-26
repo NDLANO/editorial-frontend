@@ -8,11 +8,9 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
 import { ImageSearch } from "@ndla/image-search";
-import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
+import { Button, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import {
   IImageMetaInformationV3,
   IUpdateImageMetaInformation,
@@ -26,15 +24,19 @@ import ImageForm from "../containers/ImageUploader/components/ImageForm";
 import { draftLicensesToImageLicenses } from "../modules/draft/draftApiUtils";
 import { useLicenses } from "../modules/draft/draftQueries";
 
-const StyledTitleDiv = styled.div`
-  margin-bottom: ${spacing.small};
-`;
+const StyledText = styled(Text, {
+  base: {
+    marginBlockEnd: "xsmall",
+  },
+});
 
-const StyledTabsContent = styled(TabsContent)`
-  & > * {
-    width: 100%;
-  }
-`;
+const StyledTabsContent = styled(TabsContent, {
+  base: {
+    "& > *": {
+      width: "100%",
+    },
+  },
+});
 
 interface Props {
   onImageSelect: (image: IImageMetaInformationV3) => void;
@@ -110,10 +112,10 @@ const ImageSearchAndUploader = ({
           onImageSelect={onImageSelect}
           noResults={
             <>
-              <StyledTitleDiv>{t("imageSearch.noResultsText")}</StyledTitleDiv>
-              <ButtonV2 type="submit" variant="outline" onClick={() => setSelectedTab("imageUpload")}>
+              <StyledText>{t("imageSearch.noResultsText")}</StyledText>
+              <Button type="submit" variant="secondary" onClick={() => setSelectedTab("imageUpload")}>
                 {t("imageSearch.noResultsButtonText")}
-              </ButtonV2>
+              </Button>
             </>
           }
           onError={onError}

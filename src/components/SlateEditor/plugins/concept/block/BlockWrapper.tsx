@@ -10,9 +10,9 @@ import { useState, ReactNode, useCallback, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms, Path } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
-import { AlertFill, Link as LinkIcon } from "@ndla/icons/common";
-import { DeleteForever, CheckLine } from "@ndla/icons/editor";
-import { Modal, ModalContent } from "@ndla/modal";
+import { DeleteBinLine } from "@ndla/icons/action";
+import { ErrorWarningFill, Link as LinkIcon } from "@ndla/icons/common";
+import { CheckLine } from "@ndla/icons/editor";
 import { DialogContent, DialogRoot, IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -197,9 +197,9 @@ const StyledCheckLine = styled(CheckLine, {
   },
 });
 
-const StyledAlertFill = styled(AlertFill, {
+const StyledErrorWarningFill = styled(ErrorWarningFill, {
   base: {
-    fill: "surface.error",
+    fill: "icon.subtle",
   },
 });
 
@@ -216,7 +216,7 @@ const ConceptButtonContainer = ({ concept, handleRemove, language, editor, eleme
         size="small"
         onClick={handleRemove}
       >
-        <DeleteForever />
+        <DeleteBinLine />
       </IconButton>
       <EditGlossExamplesModal concept={concept} editor={editor} element={element} embed={embed} />
       <SafeLinkIconButton
@@ -233,7 +233,7 @@ const ConceptButtonContainer = ({ concept, handleRemove, language, editor, eleme
         <StyledCheckLine aria-label={t("form.workflow.published")} title={t("form.workflow.published")} />
       )}
       {concept?.status.current !== PUBLISHED && (
-        <StyledAlertFill
+        <StyledErrorWarningFill
           aria-label={t("form.workflow.currentStatus", {
             status: translatedCurrent,
           })}

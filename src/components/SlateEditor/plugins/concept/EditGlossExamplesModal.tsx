@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { Pencil } from "@ndla/icons/action";
+import { PencilFill } from "@ndla/icons/action";
 import {
   DialogBackdrop,
   DialogPositioner,
@@ -89,7 +89,7 @@ const EditGlossExamplesModal = ({ concept, editor, element, embed }: Props) => {
             variant="tertiary"
             size="small"
           >
-            <Pencil />
+            <PencilFill />
           </IconButton>
         </DialogTrigger>
       ) : null}

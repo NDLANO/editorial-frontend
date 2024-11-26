@@ -7,61 +7,59 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing, colors } from "@ndla/core";
-import { Concept, Check, Globe } from "@ndla/icons/editor";
-import { Button } from "@ndla/primitives";
+import { Concept, Globe, CheckboxCircleLine } from "@ndla/icons/editor";
+import { Button, ListItemContent, ListItemHeading, ListItemImage, ListItemRoot, Spinner, Text } from "@ndla/primitives";
+import { SafeLinkIconButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
+import config from "../../../../config";
+import { PUBLISHED } from "../../../../constants";
 import { SearchParams } from "../../../../containers/SearchPage/components/form/SearchForm";
-import Spinner from "../../../Spinner";
+import { FormActionsContainer } from "../../../FormikForm";
 
-const StyledConceptResult = styled.div`
-  display: grid;
-  grid-template-columns: 10% 70% 20%;
-  grid-template-rows: auto auto;
-  padding: ${spacing.normal} 0;
-  border-bottom: 1px solid ${colors.brand.greyLight};
-  &:last-child {
-    border: none;
-  }
-`;
+const StyledListItemImage = styled(ListItemImage, {
+  base: {
+    minWidth: "102px",
+    maxWidth: "102px",
+    minHeight: "77px",
+    maxHeight: "77px",
+    tabletDown: {
+      display: "none",
+    },
+  },
+});
 
-const StyledConcept = styled(Concept)`
-  grid-column: 1 / 2;
-  grid-row: 1 / 2;
-`;
-const StyledGlobe = styled(Globe)`
-  grid-column: 1 / 2;
-  grid-row: 1 / 2;
-`;
+const StyledListItemContent = styled(ListItemContent, {
+  base: {
+    flexDirection: "column",
+    gap: "4xsmall",
+    alignItems: "flex-start",
+  },
+});
 
-const StyledConceptResultHeader = styled.h1`
-  align-items: center;
-  display: flex;
-  grid-column: 2 / 2;
-  grid-row: 1 / 1;
-  margin: 0;
-`;
+const StyledText = styled(Text, {
+  base: {
+    lineClamp: "2",
+  },
+});
 
-const StyledConceptContent = styled.p`
-  grid-row: 2 / 2;
-  grid-column: 2 / 2;
-  margin: 0;
-`;
+const StyledList = styled("ul", {
+  base: {
+    listStyle: "none",
+  },
+});
 
-const StyledButton = styled(Button)`
-  grid-row-start: 1 / 3;
-  grid-column: 3 / 3;
-  align-self: center;
-`;
+const StyledListItemMainContent = styled(ListItemContent, {
+  base: {
+    alignItems: "flex-end",
+  },
+});
 
-const StyledCheckIcon = styled(Check)`
-  margin-left: 10px;
-  margin-top: 2px;
-  height: 25px;
-  width: 25px;
-  fill: ${colors.support.green};
-`;
+const StyledFormActionsContainer = styled(FormActionsContainer, {
+  base: {
+    marginInlineStart: "auto",
+  },
+});
 
 interface Props {
   searchObject: SearchParams;
@@ -72,35 +70,60 @@ interface Props {
 
 const SearchConceptResults = ({ results, searchObject, addConcept, searching = true }: Props) => {
   const { t } = useTranslation();
+
+  if (searching) {
+    return <Spinner />;
+  }
+  if (!results.length) {
+    return <Text>{t(`searchPage.conceptNoHits`, { query: searchObject.query })}</Text>;
+  }
   return (
-    <div>
-      {searching && <Spinner appearance="absolute" />}
-      {results.length === 0 ? <p>{t(`searchPage.conceptNoHits`, { query: searchObject.query })}</p> : null}
+    <StyledList>
       {results.map((result) => (
-        <StyledConceptResult key={result.id}>
-          {result.glossData ? <StyledGlobe /> : <StyledConcept />}
-          <StyledConceptResultHeader>
-            {(result.glossData
-              ? `${t(`languages.${result.glossData.originalLanguage}`)}: ${result.glossData.gloss}`
-              : result.title.title) ?? t("conceptSearch.noTitle")}
-            {(result.status.current === "PUBLISHED" || result.status.other.includes("PUBLISHED")) && (
-              <StyledCheckIcon aria-label={t("form.workflow.published")} title={t("form.workflow.published")} />
-            )}
-          </StyledConceptResultHeader>
-          <StyledConceptContent>
-            {result.glossData ? result.title.title : result.content.content ?? t("conceptSearch.noContent")}
-          </StyledConceptContent>
-          <StyledButton
-            onClick={(evt) => {
-              evt.stopPropagation();
-              addConcept(result);
-            }}
-          >
-            {t(`form.content.${result.conceptType}.choose`)}
-          </StyledButton>
-        </StyledConceptResult>
+        <ListItemRoot key={result.id} context="list" nonInteractive asChild consumeCss>
+          <li>
+            <StyledListItemImage src="" alt="" fallbackElement={result.glossData ? <Globe /> : <Concept />} />
+            <StyledListItemContent>
+              <ListItemContent>
+                <ListItemHeading>
+                  {(result.glossData
+                    ? `${t(`languages.${result.glossData.originalLanguage}`)}: ${result.glossData.gloss}`
+                    : result.title.title) ?? t("conceptSearch.noTitle")}
+                </ListItemHeading>
+              </ListItemContent>
+              <StyledListItemMainContent>
+                {!!result.content.content.length && (
+                  <StyledText textStyle="body.small">{result.content.content}</StyledText>
+                )}
+                <StyledFormActionsContainer>
+                  {(result.status?.current === PUBLISHED || result.status?.other.includes(PUBLISHED)) && (
+                    <SafeLinkIconButton
+                      size="small"
+                      variant="success"
+                      target="_blank"
+                      aria-label={t("form.workflow.published")}
+                      title={t("form.workflow.published")}
+                      to={`${config.ndlaFrontendDomain}/concept/${result.id}`}
+                    >
+                      <CheckboxCircleLine />
+                    </SafeLinkIconButton>
+                  )}
+                  <Button
+                    size="small"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      addConcept(result);
+                    }}
+                  >
+                    {t("form.choose")}
+                  </Button>
+                </StyledFormActionsContainer>
+              </StyledListItemMainContent>
+            </StyledListItemContent>
+          </li>
+        </ListItemRoot>
       ))}
-    </div>
+    </StyledList>
   );
 };
 

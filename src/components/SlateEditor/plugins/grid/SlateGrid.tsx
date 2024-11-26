@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { Pencil } from "@ndla/icons/action";
+import { PencilFill } from "@ndla/icons/action";
 import {
   DialogBody,
   DialogContent,
@@ -87,7 +87,7 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
           <DeleteButton aria-label={t("delete")} data-testid="remove-grid" onClick={handleRemove} />
           <DialogTrigger asChild>
             <IconButton variant="tertiary" aria-label={t("gridForm.title")} data-testid="edit-grid-button" size="small">
-              <Pencil />
+              <PencilFill />
             </IconButton>
           </DialogTrigger>
           <Portal>

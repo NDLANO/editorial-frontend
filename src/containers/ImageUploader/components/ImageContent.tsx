@@ -8,11 +8,11 @@
 
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import { DeleteForever, UploadCloudLine } from "@ndla/icons/editor";
+import { DeleteBinLine } from "@ndla/icons/action";
+import { UploadCloudLine } from "@ndla/icons/editor";
 import { ImageMeta } from "@ndla/image-search";
 import {
   Button,
-  FieldInput,
   FieldLabel,
   FieldRoot,
   FileUploadDropzone,
@@ -22,6 +22,7 @@ import {
   FileUploadTrigger,
   IconButton,
   FieldErrorMessage,
+  FieldTextArea,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -131,7 +132,7 @@ const ImageContent = () => {
             onClick={() => setFieldValue("imageFile", undefined)}
             size="small"
           >
-            <DeleteForever />
+            <DeleteBinLine />
           </StyledIconButton>
         )}
         {values.imageFile && (
@@ -155,7 +156,7 @@ const ImageContent = () => {
         {({ field, meta }) => (
           <FieldRoot invalid={!!meta.error}>
             <FieldLabel>{t("form.image.caption.label")}</FieldLabel>
-            <FieldInput placeholder={t("form.image.caption.placeholder")} {...field} />
+            <FieldTextArea placeholder={t("form.image.caption.placeholder")} {...field} />
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
           </FieldRoot>
         )}
@@ -164,7 +165,7 @@ const ImageContent = () => {
         {({ field, meta }) => (
           <FieldRoot invalid={!!meta.error}>
             <FieldLabel>{t("form.image.alt.label")}</FieldLabel>
-            <FieldInput placeholder={t("form.image.alt.placeholder")} {...field} />
+            <FieldTextArea placeholder={t("form.image.alt.placeholder")} {...field} />
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
           </FieldRoot>
         )}

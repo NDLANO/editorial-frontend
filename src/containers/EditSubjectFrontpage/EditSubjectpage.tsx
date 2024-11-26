@@ -8,6 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { PageContainer } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
 import SubjectpageForm from "./components/SubjectpageForm";
 import Spinner from "../../components/Spinner";
@@ -39,17 +40,19 @@ const EditSubjectpage = ({ isNewlyCreated }: Props) => {
   }
 
   return (
-    <>
-      <HelmetWithTracker title={`${subjectpage?.about?.title} ${t("htmlTitles.titleTemplate")}`} />
-      <SubjectpageForm
-        editorsChoices={editorsChoices}
-        elementId={elementId!}
-        subjectpage={subjectpage}
-        selectedLanguage={selectedLanguage!}
-        updateSubjectpage={updateSubjectpage}
-        isNewlyCreated={isNewlyCreated}
-      />
-    </>
+    <PageContainer asChild consumeCss>
+      <main>
+        <HelmetWithTracker title={`${subjectpage?.about?.title} ${t("htmlTitles.titleTemplate")}`} />
+        <SubjectpageForm
+          editorsChoices={editorsChoices}
+          elementId={elementId!}
+          subjectpage={subjectpage}
+          selectedLanguage={selectedLanguage!}
+          updateSubjectpage={updateSubjectpage}
+          isNewlyCreated={isNewlyCreated}
+        />
+      </main>
+    </PageContainer>
   );
 };
 

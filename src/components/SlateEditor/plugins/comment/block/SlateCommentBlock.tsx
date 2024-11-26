@@ -6,47 +6,53 @@
  *
  */
 
-import { ReactNode, useCallback, useMemo, useState } from "react";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import styled from "@emotion/styled";
-import { Root, Trigger } from "@radix-ui/react-popover";
-import { ButtonV2 } from "@ndla/button";
-import { colors, spacing } from "@ndla/core";
+import { Portal } from "@ark-ui/react";
 import { Comment } from "@ndla/icons/common";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle } from "@ndla/modal";
+import {
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  PopoverRoot,
+  PopoverTrigger,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
-import { Text } from "@ndla/typography";
 import { TYPE_COMMENT_BLOCK } from "./types";
+import { DialogCloseButton } from "../../../../DialogCloseButton";
 import CommentForm from "../CommentForm";
 import CommentPopoverPortal from "../CommentPopoverPortal";
 import { CommentBlockElement } from "../interfaces";
 
-const BlockCommentButton = styled(ButtonV2)`
-  all: unset;
-  background: ${colors.support.yellowLight};
-  cursor: pointer;
-  color: ${colors.brand.greyDark};
-  font-style: italic;
-  display: flex;
-  align-items: center;
-  gap: ${spacing.xsmall};
-  padding: ${spacing.xxsmall} 0px ${spacing.xxsmall} ${spacing.xxsmall};
-  margin: ${spacing.xxsmall} 0px;
-  width: 100%;
-  &:hover,
-  &:focus {
-    background: ${colors.support.yellow};
-    color: ${colors.brand.greyDark};
-  }
-`;
-const CommentText = styled(Text)`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-right: ${spacing.xxsmall};
-`;
+const BlockCommentButton = styled("button", {
+  base: {
+    all: "unset",
+    background: "surface.brand.4.subtle",
+    cursor: "pointer",
+    fontStyle: "italic",
+    display: "flex",
+    gap: "3xsmall",
+    alignItems: "center",
+    padding: "3xsmall",
+    width: "100%",
+    _hover: {
+      background: "surface.brand.4",
+    },
+  },
+});
+
+const CommentText = styled(Text, {
+  base: {
+    width: "100%",
+    lineClamp: "1",
+  },
+});
 
 interface Props {
   attributes: RenderElementProps["attributes"];
@@ -58,7 +64,11 @@ interface Props {
 const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => {
   const { t } = useTranslation();
   const [popoverOpen, setPopoverOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState(element.isFirstEdit);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  useEffect(() => {
+    setModalOpen(!!element.isFirstEdit);
+  }, [element.isFirstEdit]);
 
   const embed: CommentMetaData | undefined = useMemo(() => {
     if (!element.data) return undefined;
@@ -112,32 +122,32 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
   );
 
   return (
-    <Modal open={modalOpen} onOpenChange={onOpenChange}>
-      <ModalContent size="small">
-        <ModalHeader>
-          <ModalTitle>{t("form.workflow.addComment.add")}</ModalTitle>
-          <ModalCloseButton />
-        </ModalHeader>
-        <ModalBody>
-          <CommentForm
-            initialData={embed?.embedData}
-            onSave={onUpdateComment}
-            onOpenChange={onOpenChange}
-            labelText={t("form.workflow.addComment.label")}
-            commentType="block"
-          />
-        </ModalBody>
-      </ModalContent>
+    <DialogRoot open={modalOpen} size="small" onOpenChange={(details) => onOpenChange(details.open)}>
+      <Portal>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("form.workflow.addComment.add")}</DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <DialogBody>
+            <CommentForm
+              initialData={embed?.embedData}
+              onSave={onUpdateComment}
+              onOpenChange={onOpenChange}
+              labelText={t("form.workflow.addComment.label")}
+              commentType="block"
+            />
+          </DialogBody>
+        </DialogContent>
+      </Portal>
       {embed && (
-        <Root open={popoverOpen} onOpenChange={setPopoverOpen}>
-          <Trigger asChild type={undefined}>
-            <BlockCommentButton variant="stripped" contentEditable={false} {...attributes}>
+        <PopoverRoot open={popoverOpen} onOpenChange={(details) => setPopoverOpen(details.open)}>
+          <PopoverTrigger asChild consumeCss type={undefined}>
+            <BlockCommentButton type="button" contentEditable={false} {...attributes}>
               <Comment />
-              <CommentText textStyle="button" margin="none">
-                {embed?.embedData?.text ?? ""}
-              </CommentText>
+              <CommentText>{embed?.embedData?.text ?? ""}</CommentText>
             </BlockCommentButton>
-          </Trigger>
+          </PopoverTrigger>
           <CommentPopoverPortal
             onSave={(data) => {
               setPopoverOpen(false);
@@ -149,9 +159,10 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
             onOpenChange={setPopoverOpen}
             variant="block"
           />
-        </Root>
+        </PopoverRoot>
       )}
-    </Modal>
+      {children}
+    </DialogRoot>
   );
 };
 

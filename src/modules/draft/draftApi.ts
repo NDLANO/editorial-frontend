@@ -6,6 +6,7 @@
  *
  */
 import queryString from "query-string";
+import { IArticleSearchParams } from "@ndla/types-backend/article-api";
 import {
   ILicense,
   INewArticle,
@@ -19,7 +20,6 @@ import {
   IUpdatedUserData,
   IUploadedFile,
 } from "@ndla/types-backend/draft-api";
-import { DraftSearchQuery } from "./draftApiInterfaces";
 import { DraftStatusType, DraftStatusStateMachineType } from "../../interfaces";
 import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from "../../util/apiHelpers";
 import { resolveVoidOrRejectWithError } from "../../util/resolveJsonOrRejectWithError";
@@ -60,26 +60,11 @@ export const createDraft = async (draft: INewArticle): Promise<IArticle> =>
     body: JSON.stringify(draft),
   }).then((r) => resolveJsonOrRejectWithError<IArticle>(r));
 
-export const searchDrafts = async (query: DraftSearchQuery): Promise<ISearchResult> =>
+export const searchDrafts = async (query: IArticleSearchParams): Promise<ISearchResult> =>
   fetchAuthorized(`${baseUrl}/search/`, {
     method: "POST",
     body: JSON.stringify(query),
   }).then((r) => resolveJsonOrRejectWithError<ISearchResult>(r));
-
-export const searchAllDrafts = async (ids: number[], language?: string, sort?: string): Promise<ISearchResult> => {
-  const query = queryString.stringify({
-    ids: ids.join(","),
-    language,
-    page: 1,
-    "page-size": ids.length,
-    sort,
-    fallback: true,
-  });
-
-  return fetchAuthorized(`${baseUrl}/?${query}`, {
-    method: "GET",
-  }).then((r) => resolveJsonOrRejectWithError<ISearchResult>(r));
-};
 
 export const cloneDraft = async (
   id: number,

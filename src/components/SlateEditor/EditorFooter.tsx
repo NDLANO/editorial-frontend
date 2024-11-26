@@ -14,10 +14,9 @@ import { colors, spacing } from "@ndla/core";
 import { Launch } from "@ndla/icons/common";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import { SingleValue } from "@ndla/select";
 import { IStatus as ConceptStatus } from "@ndla/types-backend/concept-api";
 import { IStatus as DraftStatus } from "@ndla/types-backend/draft-api";
-import { ARCHIVED, PUBLISHED, SAVE_BUTTON_ID, UNPUBLISHED } from "../../constants";
+import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../constants";
 import PrioritySelect from "../../containers/FormikForm/components/PrioritySelect";
 import ResponsibleSelect from "../../containers/FormikForm/components/ResponsibleSelect";
 import StatusSelect from "../../containers/FormikForm/components/StatusSelect";
@@ -27,7 +26,7 @@ import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../.
 import { toPreviewDraft } from "../../util/routeHelpers";
 import Footer from "../Footer/Footer";
 import { createEditUrl, TranslatableType, translatableTypes } from "../HeaderWithLanguage/util";
-import PreviewDraftLightboxV2 from "../PreviewDraft/PreviewDraftLightboxV2";
+import { PreviewResourceDialog } from "../PreviewDraft/PreviewResourceDialog";
 import SaveMultiButton from "../SaveMultiButton";
 
 interface Props {
@@ -72,6 +71,10 @@ const Wrapper = styled.div`
   width: 200px;
 `;
 
+const ResponsibleWrapper = styled.div`
+  width: 250px;
+`;
+
 const StyledFooterControls = styled.div`
   display: flex;
   gap: ${spacing.normal};
@@ -107,8 +110,8 @@ function EditorFooter<T extends FormValues>({
   selectedLanguage,
   supportedLanguages,
 }: Props) {
-  const [status, setStatus] = useState<SingleValue>(null);
-  const [responsible, setResponsible] = useState<SingleValue>(null);
+  const [status, setStatus] = useState<string | undefined>(undefined);
+  const [responsible, setResponsible] = useState<string | undefined>(undefined);
 
   const { ndlaId } = useSession();
   const { t } = useTranslation();
@@ -116,7 +119,7 @@ function EditorFooter<T extends FormValues>({
   const { createMessage, formatErrorMessage } = useMessages();
 
   // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
-  const [newStatus, setNewStatus] = useState<SingleValue>(null);
+  const [newStatus, setNewStatus] = useState<string | undefined>(undefined);
 
   const articleOrConcept = isArticle || isConcept;
 
@@ -145,9 +148,9 @@ function EditorFooter<T extends FormValues>({
   }, [articleId, articleType, selectedLanguage, supportedLanguages, t]);
 
   useEffect(() => {
-    if (newStatus?.value === PUBLISHED) {
+    if (newStatus === PUBLISHED) {
       onSaveClick();
-      setNewStatus(null);
+      setNewStatus(undefined);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newStatus]);
@@ -164,10 +167,10 @@ function EditorFooter<T extends FormValues>({
   );
 
   const updateResponsible = useCallback(
-    async (responsible: SingleValue) => {
+    async (responsible: string | undefined) => {
       try {
         setResponsible(responsible);
-        setFieldValue("responsibleId", responsible ? responsible.value : null);
+        setFieldValue("responsibleId", responsible ? responsible : null);
       } catch (error) {
         catchError(error, createMessage);
       }
@@ -177,23 +180,23 @@ function EditorFooter<T extends FormValues>({
 
   const onSave = useCallback(
     (saveAsNewVersion?: boolean | undefined) => {
-      if (STATUSES_RESET_RESPONSIBLE.find((s) => s === status?.value)) {
-        updateResponsible(null);
+      if (STATUSES_RESET_RESPONSIBLE.find((s) => s === status)) {
+        updateResponsible(undefined);
       }
       onSaveClick(saveAsNewVersion);
     },
-    [onSaveClick, status?.value, updateResponsible],
+    [onSaveClick, status, updateResponsible],
   );
 
   const updateStatus = useCallback(
-    async (status: SingleValue) => {
+    async (status: string | undefined) => {
       try {
         // Set new status field and update form (which we listen for changes to in the useEffect above)
         setNewStatus(status);
-        if (status?.value !== PUBLISHED) {
+        if (status !== PUBLISHED) {
           setStatus(status);
         }
-        setFieldValue("status", { current: status?.value });
+        setFieldValue("status", { current: status });
       } catch (error) {
         catchError(error, createMessage);
       }
@@ -202,7 +205,7 @@ function EditorFooter<T extends FormValues>({
   );
 
   const updatePriority = useCallback(
-    (p: SingleValue) => setFieldValue("priority", p ? p.value : "unspecified"),
+    (value: string | undefined) => setFieldValue("priority", value ?? "unspecified"),
     [setFieldValue],
   );
 
@@ -211,9 +214,7 @@ function EditorFooter<T extends FormValues>({
       <Footer isArticle={isArticle}>
         <StyledFooter>
           <StyledFooterControls>
-            {isArticle && (
-              <PrioritySelect id="priority-select" priority={values.priority} updatePriority={updatePriority} />
-            )}
+            {isArticle && <PrioritySelect priority={values.priority} updatePriority={updatePriority} />}
             {articleOrConcept && (
               <Wrapper>
                 <ResponsibleSelect
@@ -225,14 +226,12 @@ function EditorFooter<T extends FormValues>({
               </Wrapper>
             )}
             <SaveMultiButton
-              large
-              saveId={SAVE_BUTTON_ID}
               isSaving={isSubmitting}
               formIsDirty={formIsDirty}
               showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
               onClick={onSave}
               hideSecondaryButton={hideSecondaryButton}
-              disabled={!!hasErrors}
+              hasErrors={!!hasErrors}
             />
           </StyledFooterControls>
         </StyledFooter>
@@ -245,7 +244,7 @@ function EditorFooter<T extends FormValues>({
       <>
         <div data-testid="footerPreviewAndValidate">
           {values.id && isConcept && (
-            <PreviewDraftLightboxV2
+            <PreviewResourceDialog
               type="concept"
               language={values.language}
               activateButton={<Button variant="link">{t("form.preview.button")}</Button>}
@@ -267,18 +266,16 @@ function EditorFooter<T extends FormValues>({
 
         <StyledFooterControls>
           <Wrapper>
-            {isArticle && (
-              <PrioritySelect id="priority-select" priority={values.priority} updatePriority={updatePriority} />
-            )}
+            {isArticle && <PrioritySelect priority={values.priority} updatePriority={updatePriority} />}
           </Wrapper>
-          <Wrapper>
+          <ResponsibleWrapper>
             <ResponsibleSelect
               responsible={responsible}
               setResponsible={setResponsible}
               onSave={updateResponsible}
               responsibleId={responsibleId}
             />
-          </Wrapper>
+          </ResponsibleWrapper>
           <Wrapper>
             <StatusSelect
               status={status}
@@ -289,14 +286,12 @@ function EditorFooter<T extends FormValues>({
             />
           </Wrapper>
           <SaveMultiButton
-            large
-            saveId={SAVE_BUTTON_ID}
             isSaving={isSubmitting}
             formIsDirty={formIsDirty}
             showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
             onClick={onSave}
             hideSecondaryButton={hideSecondaryButton}
-            disabled={!!hasErrors}
+            hasErrors={!!hasErrors}
           />
         </StyledFooterControls>
       </>

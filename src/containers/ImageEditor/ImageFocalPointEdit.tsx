@@ -9,13 +9,12 @@
 import { useFormikContext } from "formik";
 import { MouseEvent, ReactEventHandler, useRef, useState } from "react";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { colors } from "@ndla/core";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { ImageEmbedFormValues } from "../../components/SlateEditor/plugins/image/ImageEmbedForm";
 import { getElementOffset, getClientPos, getImageDimensions, getSrcSets } from "../../util/imageEditorUtil";
 
-const StyledFocalPointButton = styled(ButtonV2)`
+const StyledFocalPointButton = styled("button")`
   display: block;
   cursor: crosshair;
   min-width: -webkit-fill-available;
@@ -98,7 +97,7 @@ const ImageFocalPointEdit = ({ language, onFocalPointChange, image }: Props) => 
   return (
     <div>
       <StyledFocalPointContainer>
-        <StyledFocalPointButton variant="stripped" onClick={onImageClick}>
+        <StyledFocalPointButton type="button" onClick={onImageClick}>
           <img
             style={{ minWidth: "inherit" }}
             alt={values.alt}

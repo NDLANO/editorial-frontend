@@ -9,6 +9,7 @@
 import { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import { AudioSearch } from "@ndla/audio-search";
+import { Heading } from "@ndla/primitives";
 import { IAudioSummary, ISearchParams } from "@ndla/types-backend/audio-api";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { BrightcoveApiType } from "@ndla/types-embed";
@@ -95,7 +96,7 @@ const VisualElementSearch = ({
     case "video": {
       return (
         <>
-          <h2>{titles(t, selectedResource)[selectedResource]}</h2>
+          <Heading textStyle="title.medium">{titles(t, selectedResource)[selectedResource]}</Heading>
           <VideoSearch
             searchVideos={(query: VideoSearchQuery) => searchVideos(query)}
             locale={locale}
@@ -166,7 +167,7 @@ const VisualElementSearch = ({
         />
       );
     default:
-      return <h3>{`Embedtag ${selectedResource} is not supported.`}</h3>;
+      return <Heading textStyle="title.medium">{`Embedtag ${selectedResource} is not supported.`}</Heading>;
   }
 };
 

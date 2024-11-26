@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing, fonts } from "@ndla/core";
-import { ChevronRight } from "@ndla/icons/common";
+import { ArrowRightShortLine } from "@ndla/icons/common";
 import { MessageBox } from "@ndla/primitives";
 import { NodeChild } from "@ndla/types-taxonomy";
 import { ContentLoader } from "@ndla/ui";
@@ -147,7 +147,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
           return (
             <Fragment key={`${path}_${index}`}>
               {path}
-              {index + 1 !== arr.length && <ChevronRight />}
+              {index + 1 !== arr.length && <ArrowRightShortLine />}
             </Fragment>
           );
         })}

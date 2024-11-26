@@ -8,7 +8,8 @@
 
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { DeleteForever, ImageLine } from "@ndla/icons/editor";
+import { DeleteBinLine } from "@ndla/icons/action";
+import { ImageLine } from "@ndla/icons/editor";
 import { IconButton, ListItemContent, ListItemHeading, ListItemImage, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -76,7 +77,7 @@ const ListResource = ({
             title={removeElementTranslation ?? t("form.relatedContent.removeArticle")}
             data-testid="elementListItemDeleteButton"
           >
-            <DeleteForever />
+            <DeleteBinLine />
           </IconButton>
         )}
       </ListItemContent>

@@ -9,10 +9,9 @@
 import { Dispatch, SetStateAction, useCallback } from "react";
 import { BaseRange } from "slate";
 import { useSlate } from "slate-react";
-import { ToggleItem } from "@radix-ui/react-toolbar";
-import { StyledToggleGroup, ToolbarCategoryProps } from "./SlateToolbar";
-import ToolbarButton from "./ToolbarButton";
+import { ToolbarCategoryProps } from "./SlateToolbar";
 import { LLMType } from "./toolbarState";
+import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
 
 interface LLMProps {
   selectors: { [key: string]: Dispatch<SetStateAction<BaseRange | null>> };
@@ -32,12 +31,20 @@ export const ToolbarLLMOptions = ({ options, selectors }: ToolbarCategoryProps<L
   if (!visibleOptions.length) return null;
 
   return (
-    <StyledToggleGroup type="single" value={""}>
+    <ToolbarToggleGroupRoot multiple value={[]}>
       {visibleOptions.map((type) => (
-        <ToggleItem key={type.value} value={type.value} asChild disabled={type.disabled}>
-          <ToolbarButton type={type.value} onClick={() => onClick(type.value)} disabled={type.disabled} />
-        </ToggleItem>
+        <ToolbarToggleButton
+          onClick={(e) => {
+            e.preventDefault();
+            onClick(type.value);
+          }}
+          onMouseDown={(e) => e.preventDefault()}
+          type={type.value}
+          key={type.value}
+          value={type.value}
+          disabled={type.disabled}
+        />
       ))}
-    </StyledToggleGroup>
+    </ToolbarToggleGroupRoot>
   );
 };

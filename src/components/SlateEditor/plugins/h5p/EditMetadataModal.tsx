@@ -10,7 +10,7 @@ import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
-import { Pencil } from "@ndla/icons/action";
+import { PencilFill } from "@ndla/icons/action";
 import {
   Button,
   DialogBody,
@@ -75,7 +75,7 @@ const EditMetadataModal = ({ embed, editor, element }: Props) => {
           title={t("form.h5p.metadata.edit")}
           aria-label={t("form.h5p.metadata.edit")}
         >
-          <Pencil />
+          <PencilFill />
         </IconButton>
       </DialogTrigger>
       <DialogContent>

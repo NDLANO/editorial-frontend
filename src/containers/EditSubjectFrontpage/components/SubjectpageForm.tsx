@@ -9,7 +9,6 @@
 import { Formik, FormikProps } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-
 import { IArticle } from "@ndla/types-backend/draft-api";
 import {
   ISubjectPageData,
@@ -17,14 +16,12 @@ import {
   IUpdatedSubjectFrontPageData,
 } from "@ndla/types-backend/frontpage-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
-
 import SubjectpageAccordionPanels from "./SubjectpageAccordionPanels";
-import Field from "../../../components/Field";
+import { FormActionsContainer, Form } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
 import SimpleLanguageHeader from "../../../components/HeaderWithLanguage/SimpleLanguageHeader";
 import SaveButton from "../../../components/SaveButton";
 import { isSlateEmbed } from "../../../components/SlateEditor/plugins/embed/utils";
-import StyledForm from "../../../components/StyledFormComponents";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { fetchNodes } from "../../../modules/nodes/nodeApi";
 import { isFormikFormDirty } from "../../../util/formHelper";
@@ -36,7 +33,7 @@ import {
   subjectpageFormikTypeToPatchType,
   subjectpageFormikTypeToPostType,
 } from "../../../util/subjectHelpers";
-import { AlertModalWrapper } from "../../FormikForm";
+import { AlertDialogWrapper } from "../../FormikForm";
 import usePreventWindowUnload from "../../FormikForm/preventWindowUnloadHook";
 import { useMessages } from "../../Messages/MessagesProvider";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -182,7 +179,7 @@ const SubjectpageForm = ({
         });
         setUnsaved(formIsDirty);
         return (
-          <StyledForm>
+          <Form>
             <SimpleLanguageHeader
               articleType={values.articleType!}
               editUrl={(_, lang: string) => toEditSubjectpage(values.elementId!, lang, values.id)}
@@ -200,24 +197,23 @@ const SubjectpageForm = ({
               errors={errors}
               leadsTo={values.leadsTo}
             />
-            <Field right>
+            <FormActionsContainer>
               <SaveButton
                 id={SAVE_BUTTON_ID}
-                size="large"
-                isSaving={isSubmitting}
+                loading={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}
                 onClick={() => handleSubmit(formik)}
                 disabled={!isValid}
               />
-            </Field>
-            <AlertModalWrapper
+            </FormActionsContainer>
+            <AlertDialogWrapper
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
               severity="danger"
               text={t("alertModal.notSaved")}
             />
-          </StyledForm>
+          </Form>
         );
       }}
     </Formik>

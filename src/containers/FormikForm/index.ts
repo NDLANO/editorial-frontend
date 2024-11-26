@@ -6,7 +6,7 @@
  *
  */
 import AddNotesField from "./AddNotesField";
-import AlertModalWrapper from "./AlertModalWrapper";
+import { AlertDialogWrapper } from "./AlertDialogWrapper";
 import ContributorsField from "./components/ContributorsField";
 import LicenseField from "./components/LicenseField";
 import CopyrightFieldGroup from "./CopyrightFieldGroup";
@@ -20,7 +20,7 @@ import LearningpathConnection from "../../components/HeaderWithLanguage/Learning
 
 export {
   CopyrightFieldGroup,
-  AlertModalWrapper,
+  AlertDialogWrapper,
   IngressField,
   TitleField,
   VersionAndNotesPanel,

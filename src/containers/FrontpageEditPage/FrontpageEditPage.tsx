@@ -12,25 +12,23 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, misc, spacing } from "@ndla/core";
 import { AddLine, PencilFill } from "@ndla/icons/action";
-import { IconButton } from "@ndla/primitives";
+import { Heading, IconButton, PageContainer, Spinner } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
-import { Heading } from "@ndla/typography";
-import { OneColumn } from "@ndla/ui";
 import FrontpageArticleSearch from "./FrontpageArticleSearch";
 import { addArticlesToAboutMenu, extractArticleIds, menuWithArticleToIMenu } from "./frontpageHelpers";
 import FrontpageNodeList from "./FrontpageNodeList";
 import { MenuWithArticle } from "./types";
+import { FormActionsContainer } from "../../components/FormikForm";
 import validateFormik, { RulesType } from "../../components/formikValidationSchema";
-import { OldSpinner } from "../../components/OldSpinner";
 import SaveButton from "../../components/SaveButton";
 import { FRONTPAGE_ADMIN_SCOPE } from "../../constants";
 import { useArticleSearch } from "../../modules/article/articleQueries";
 import { useUpdateFrontpageMutation } from "../../modules/frontpage/frontpageMutations";
 import { useFrontpage } from "../../modules/frontpage/frontpageQueries";
 import { toEditFrontPageArticle } from "../../util/routeHelpers";
-import { AlertModalWrapper } from "../FormikForm";
+import { AlertDialogWrapper } from "../FormikForm";
 import NotFound from "../NotFoundPage/NotFoundPage";
 import { useSession } from "../Session/SessionProvider";
 
@@ -68,11 +66,6 @@ const StyledSafeLink = styled(SafeLink)`
   &:focus-visible {
     text-decoration: none;
   }
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.xsmall};
 `;
 
 const frontpageRules: RulesType<MenuWithArticle> = {
@@ -120,10 +113,10 @@ const FrontpageEditPage = () => {
   }
 
   return (
-    <OneColumn>
+    <PageContainer>
       <HelmetWithTracker title={t("htmlTitles.editFrontpage")} />
       {frontpageQuery.isLoading || articlesQuery.isLoading ? (
-        <OldSpinner />
+        <Spinner />
       ) : transformedMenu ? (
         <Formik
           initialValues={{ ...transformedMenu, article: initialFrontpageArticle }}
@@ -142,7 +135,7 @@ const FrontpageEditPage = () => {
       ) : (
         <p>{t("frontpageMenu.error")}</p>
       )}
-    </OneColumn>
+    </PageContainer>
   );
 };
 
@@ -174,9 +167,7 @@ const RootFields = () => {
   );
   return (
     <FrontpageArticleWrapper>
-      <Heading element="h1" headingStyle="h3" margin="none">
-        {t("htmlTitles.editFrontpage")}
-      </Heading>
+      <Heading textStyle="title.large">{t("htmlTitles.editFrontpage")}</Heading>
       <Wrapper>
         <ArticleTitle>
           <span>
@@ -202,7 +193,7 @@ const RootFields = () => {
             </IconButton>
           </FrontpageArticleSearch>
         </ArticleTitle>
-        <ButtonWrapper>
+        <FormActionsContainer>
           <FrontpageArticleSearch onChange={onAddNew}>
             <IconButton
               variant="secondary"
@@ -213,12 +204,12 @@ const RootFields = () => {
               <AddLine />
             </IconButton>
           </FrontpageArticleSearch>
-          <SaveButton type="submit" disabled={!dirty} isSaving={isSubmitting}>
+          <SaveButton size="small" type="submit" disabled={!dirty} loading={isSubmitting}>
             {t("save")}
           </SaveButton>
-        </ButtonWrapper>
+        </FormActionsContainer>
       </Wrapper>
-      <AlertModalWrapper
+      <AlertDialogWrapper
         isSubmitting={isSubmitting}
         formIsDirty={dirty}
         severity="danger"

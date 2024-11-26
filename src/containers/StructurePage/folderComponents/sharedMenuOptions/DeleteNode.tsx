@@ -8,36 +8,44 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
-import { DeleteForever } from "@ndla/icons/editor";
+import { ErrorWarningLine } from "@ndla/icons/common";
+import { Text, Button, Heading, MessageBox } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
-import MenuItemButton from "./components/MenuItemButton";
-import AlertModal from "../../../../components/AlertModal";
-import Overlay from "../../../../components/Overlay";
-import RoundIcon from "../../../../components/RoundIcon";
-import Spinner from "../../../../components/Spinner";
+import { FormActionsContainer } from "../../../../components/FormikForm";
 import { ARCHIVED } from "../../../../constants";
 import { updateStatusDraft } from "../../../../modules/draft/draftApi";
 import { fetchNodes } from "../../../../modules/nodes/nodeApi";
+import { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../../modules/nodes/nodeApiTypes";
 import { useDeleteNodeConnectionMutation, useDeleteNodeMutation } from "../../../../modules/nodes/nodeMutations";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
-import { EditModeHandler } from "../SettingsMenuDropdownType";
-import { StyledErrorMessage } from "../styles";
+import { capitalizeFirstLetter } from "../../utils";
 
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+    width: "100%",
+  },
+});
+
+type NodeType = typeof TOPIC_NODE | typeof SUBJECT_NODE | typeof PROGRAMME;
+
+const childTranslation: Record<NodeType, string> = {
+  SUBJECT: "taxonomy.delete.topic",
+  TOPIC: "taxonomy.delete.subTopic",
+  PROGRAMME: "taxonomy.delete.child",
+};
 interface Props {
   node: Node | NodeChild;
+  nodeType: NodeType;
   nodeChildren: Node[];
-  editModeHandler: EditModeHandler;
   onCurrentNodeChanged: (node?: Node) => void;
   rootNodeId?: string;
 }
 
-const DeleteNode = ({
-  node,
-  nodeChildren,
-  editModeHandler: { editMode, toggleEditMode },
-  onCurrentNodeChanged,
-  rootNodeId,
-}: Props) => {
+const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNodeId }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [loading, setLoading] = useState(false);
@@ -45,17 +53,14 @@ const DeleteNode = ({
   const navigate = useNavigate();
   const location = useLocation();
 
-  const disabled = nodeChildren && nodeChildren.length !== 0;
+  const disabled = nodeChildren.length !== 0;
 
   const deleteNodeConnectionMutation = useDeleteNodeConnectionMutation();
   const deleteNodeMutation = useDeleteNodeMutation();
 
-  const toggleDelete = () => toggleEditMode("deleteNode");
-
   const onDelete = async (): Promise<void> => {
     setLoading(true);
     setError(undefined);
-    toggleDelete();
     try {
       if ("parentId" in node) {
         await deleteNodeConnectionMutation.mutateAsync({
@@ -93,32 +98,34 @@ const DeleteNode = ({
     }
   };
   return (
-    <>
-      <MenuItemButton data-testid="deleteNode" disabled={disabled} onClick={toggleDelete}>
-        <RoundIcon small icon={<DeleteForever />} />
-        {t("taxonomy.deleteNode")}
-      </MenuItemButton>
-      <AlertModal
-        label={t("taxonomy.deleteNode")}
-        title={t("taxonomy.deleteNode")}
-        show={editMode === "deleteNode"}
-        actions={[
-          {
-            text: t("form.abort"),
-            onClick: toggleDelete,
-          },
-          {
-            text: t("alertModal.delete"),
-            onClick: onDelete,
-          },
-        ]}
-        onCancel={toggleDelete}
-        text={t("taxonomy.confirmDelete")}
-      />
-      {loading && <Spinner appearance="absolute" />}
-      {loading && <Overlay modifiers={["absolute", "white-opacity", "zIndex"]} />}
-      {error && <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>}
-    </>
+    <Wrapper>
+      <Heading consumeCss asChild textStyle="label.medium" fontWeight="bold">
+        <h2>
+          {t("taxonomy.delete.deleteNode", {
+            nodeType: t(`taxonomy.nodeType.${nodeType}`),
+          })}
+        </h2>
+      </Heading>
+      <MessageBox variant={disabled ? "info" : "warning"}>
+        <ErrorWarningLine />
+        <Text>
+          {disabled
+            ? capitalizeFirstLetter(
+                t("taxonomy.delete.deleteDisabled", {
+                  nodeType: t(`taxonomy.nodeType.${nodeType}`),
+                  childNode: t(childTranslation[nodeType]),
+                }),
+              )
+            : t("taxonomy.delete.confirmDelete", { nodeType: t(`taxonomy.${node.nodeType}`) })}
+        </Text>
+      </MessageBox>
+      <FormActionsContainer>
+        <Button variant="danger" onClick={onDelete} loading={loading} disabled={disabled}>
+          {t("alertModal.delete")}
+        </Button>
+      </FormActionsContainer>
+      {error && <Text color="text.error">{error}</Text>}
+    </Wrapper>
   );
 };
 

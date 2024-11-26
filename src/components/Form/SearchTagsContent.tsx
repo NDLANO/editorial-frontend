@@ -8,7 +8,7 @@
 
 import { forwardRef } from "react";
 import { useTranslation } from "react-i18next";
-import { ComboboxContent, ComboboxContentProps, ComboboxPositioner, Spinner, Text } from "@ndla/primitives";
+import { ComboboxContent, ComboboxContentProps, Spinner, Text } from "@ndla/primitives";
 
 interface Props extends ComboboxContentProps {
   isFetching: boolean;
@@ -18,10 +18,8 @@ interface Props extends ComboboxContentProps {
 export const SearchTagsContent = forwardRef<HTMLDivElement, Props>(({ isFetching, hits, children, ...props }, ref) => {
   const { t } = useTranslation();
   return (
-    <ComboboxPositioner>
-      <ComboboxContent {...props} ref={ref}>
-        {isFetching ? <Spinner /> : hits ? children : <Text>{t("dropdown.numberHits", { hits: 0 })}</Text>}
-      </ComboboxContent>
-    </ComboboxPositioner>
+    <ComboboxContent {...props} ref={ref}>
+      {isFetching ? <Spinner /> : hits ? children : <Text>{t("dropdown.numberHits", { hits: 0 })}</Text>}
+    </ComboboxContent>
   );
 });

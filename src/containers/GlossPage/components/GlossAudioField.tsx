@@ -20,13 +20,13 @@ import {
   DialogTitle,
   DialogTrigger,
   IconButton,
+  Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ISearchParams } from "@ndla/types-backend/audio-api";
 import { AudioEmbedData } from "@ndla/types-embed";
 import { AudioPlayer, useAudioSearchTranslations } from "@ndla/ui";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
-import { OldSpinner } from "../../../components/OldSpinner";
 import { fetchAudio, postSearchAudio } from "../../../modules/audio/audioApi";
 import { useAudio } from "../../../modules/audio/audioQueries";
 import { onError } from "../../../util/resolveJsonOrRejectWithError";
@@ -88,7 +88,7 @@ export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Pro
       </AudioWrapper>
     );
   } else if (element) {
-    return <OldSpinner />;
+    return <Spinner />;
   }
 
   return (

@@ -279,7 +279,7 @@ export const tablePlugin = (editor: Editor) => {
             // If the previous cell in column and row direction is not equal we can normalize the proper cell.
             // Table matrix isn't a direct repsentation of the HTML table so read comments for `getTableAsMatrix`
             if (maybeNode?.[1] && !previousMatrixCellIsEqualCurrent(matrix, rowIndex, cellIndex)) {
-              const [_, cellPath] = maybeNode;
+              const [, cellPath] = maybeNode;
               const [parent] = Editor.node(editor, Path.parent(Path.parent(cellPath)));
               const shouldHaveHeaders = !((node.rowHeaders && cellIndex === 0) || rowIndex === 0);
               const headers = shouldHaveHeaders ? getHeader(matrix, rowIndex, cellIndex, node.rowHeaders) : undefined;

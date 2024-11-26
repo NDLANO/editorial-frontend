@@ -6,13 +6,12 @@
  *
  */
 
-import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
+import { styled } from "@ndla/styled-system/jsx";
 
-const Span = styled.span`
-  position: relative;
-  text-decoration: underline;
-  text-decoration-color: ${colors.brand.tertiary};
-`;
-
-export default Span;
+export const Span = styled("span", {
+  base: {
+    position: "relative",
+    textDecoration: "underline",
+    textDecorationColor: "stroke.subtle",
+  },
+});

@@ -18,6 +18,7 @@ export const sortMoviesByIdList = (
     id: -1,
     title: {
       title: i18n.t("ndlaFilm.editor.notFound"),
+      htmlTitle: i18n.t("ndlaFilm.editor.notFound"),
       language: i18n.language,
     },
     supportedLanguages: [],

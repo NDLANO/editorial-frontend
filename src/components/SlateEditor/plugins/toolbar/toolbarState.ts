@@ -14,22 +14,22 @@ import { TYPE_PARAGRAPH } from "../paragraph/types";
 import { TYPE_SECTION } from "../section/types";
 
 export const languages = [
-  "ar",
+  "no",
   "de",
-  "en",
   "es",
+  "se",
+  "sma",
+  "zh",
+  "en",
+  "ar",
+  "prs",
   "fr",
   "heb",
   "la",
-  "no",
   "pli",
-  "prs",
   "san",
-  "se",
-  "sma",
   "so",
   "ti",
-  "zh",
 ] as const;
 
 export type TextType = "normal-text" | "heading-2" | "heading-3" | "heading-4";
@@ -168,9 +168,18 @@ export const defaultAreaOptions: AreaFilters = {
   },
   "comment-inline": { inline: { disabled: true, "comment-inline": { disabled: false } } },
   list: { inline: { disabled: true } },
-  "definition-term": { block: { quote: { disabled: true } }, inline: { disabled: true } },
-  "definition-description": { block: { quote: { disabled: true } }, inline: { disabled: true } },
-  "definition-list": { block: { quote: { disabled: true } }, inline: { disabled: true } },
+  "definition-term": {
+    block: { quote: { disabled: true } },
+    inline: { disabled: true, "comment-inline": { disabled: false } },
+  },
+  "definition-description": {
+    block: { quote: { disabled: true } },
+    inline: { disabled: true, "comment-inline": { disabled: false } },
+  },
+  "definition-list": {
+    block: { quote: { disabled: true } },
+    inline: { disabled: true },
+  },
   quote: { inline: { disabled: true } },
 };
 

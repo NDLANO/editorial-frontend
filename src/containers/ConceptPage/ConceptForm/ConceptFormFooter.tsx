@@ -8,16 +8,16 @@
 
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
+import { Button } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IStatus } from "@ndla/types-backend/concept-api";
+import { FormActionsContainer } from "../../../components/FormikForm";
 import SaveButton from "../../../components/SaveButton";
 import EditorFooter from "../../../components/SlateEditor/EditorFooter";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { useConceptStateMachine } from "../../../modules/concept/conceptQueries";
 import { isFormikFormDirty } from "../../../util/formHelper";
-import { AlertModalWrapper } from "../../FormikForm";
+import { AlertDialogWrapper } from "../../FormikForm";
 import { ConceptFormValues } from "../conceptInterfaces";
 
 interface Props {
@@ -31,12 +31,11 @@ interface Props {
   responsibleId?: string;
 }
 
-const ButtonContainer = styled.div`
-  margin-top: ${spacing.small};
-  display: flex;
-  gap: ${spacing.xsmall};
-  justify-content: flex-end;
-`;
+const StyledFormActionsContainer = styled(FormActionsContainer, {
+  base: {
+    marginBlockStart: "xsmall",
+  },
+});
 
 const ConceptFormFooter = ({
   entityStatus,
@@ -63,14 +62,14 @@ const ConceptFormFooter = ({
 
   if (inModal) {
     return (
-      <ButtonContainer>
-        <ButtonV2 variant="outline" onClick={onClose}>
+      <StyledFormActionsContainer>
+        <Button variant="secondary" onClick={onClose}>
           {t("form.abort")}
-        </ButtonV2>
+        </Button>
         <SaveButton
           id={SAVE_BUTTON_ID}
           type={!inModal ? "submit" : "button"}
-          isSaving={isSubmitting}
+          loading={isSubmitting}
           formIsDirty={formIsDirty}
           showSaved={savedToServer && !formIsDirty}
           disabled={disableSave}
@@ -79,7 +78,7 @@ const ConceptFormFooter = ({
             submitForm();
           }}
         />
-      </ButtonContainer>
+      </StyledFormActionsContainer>
     );
   }
 
@@ -98,7 +97,7 @@ const ConceptFormFooter = ({
         hasErrors={isSubmitting || !formIsDirty || disableSave}
         responsibleId={responsibleId}
       />
-      <AlertModalWrapper
+      <AlertDialogWrapper
         formIsDirty={formIsDirty}
         isSubmitting={isSubmitting}
         severity="danger"

@@ -9,12 +9,43 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import JumpToStructureButton from "./JumpToStructureButton";
 import AverageQualityEvaluation from "../../../components/QualityEvaluation/AverageQualityEvaluation";
 import QualityEvaluation from "../../../components/QualityEvaluation/QualityEvaluation";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
-import { BannerWrapper, FlexContentWrapper, TopInfoRow } from "../styles";
+
+const ResourceGroupBanner = styled("div", {
+  base: {
+    backgroundColor: "surface.brand.2.subtle",
+    borderRadius: "xsmall",
+    padding: "small",
+    border: "1px solid",
+    borderColor: "stroke.subtle",
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+  },
+});
+
+const ContentWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    alignItems: "center",
+    flexWrap: "wrap",
+  },
+});
+
+const TopRow = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: "3xsmall",
+  },
+});
 
 interface Props {
   subjectNode: Node;
@@ -50,25 +81,16 @@ const SubjectBanner = ({ subjectNode, showQuality, users }: Props) => {
   );
 
   return (
-    <BannerWrapper>
-      <TopInfoRow>
-        <FlexContentWrapper>
-          <JumpToStructureButton nodeId={subjectNode.id} />
-        </FlexContentWrapper>
-        <FlexContentWrapper>
-          {showQuality && (
-            <>
-              <AverageQualityEvaluation gradeAverage={subjectNode.gradeAverage} nodeType="SUBJECT" />
-              <QualityEvaluation
-                articleType="subject"
-                taxonomy={[subjectNode]}
-                iconButtonColor="primary"
-                gradeVariant="small"
-              />
-            </>
-          )}
-        </FlexContentWrapper>
-      </TopInfoRow>
+    <ResourceGroupBanner>
+      <TopRow>
+        {showQuality && (
+          <ContentWrapper>
+            <AverageQualityEvaluation gradeAverage={subjectNode.gradeAverage} nodeType="SUBJECT" />
+            <QualityEvaluation articleType="subject" taxonomy={[subjectNode]} />
+          </ContentWrapper>
+        )}
+        <JumpToStructureButton nodeId={subjectNode.id} />
+      </TopRow>
       <div>
         <Text fontWeight="bold">{subjectNode.name}</Text>
         {Object.entries(subjectResponsibles).map(([key, value]) => (
@@ -77,7 +99,7 @@ const SubjectBanner = ({ subjectNode, showQuality, users }: Props) => {
           </Text>
         ))}
       </div>
-    </BannerWrapper>
+    </ResourceGroupBanner>
   );
 };
 

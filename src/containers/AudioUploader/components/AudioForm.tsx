@@ -11,8 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Descendant } from "slate";
-import { ButtonV2 } from "@ndla/button";
-import { PageContent } from "@ndla/primitives";
+import { Button, PageContent } from "@ndla/primitives";
 import {
   IAudio,
   IAuthor,
@@ -26,9 +25,8 @@ import AudioManuscript from "./AudioManuscript";
 import AudioMetaData from "./AudioMetaData";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
-import Field from "../../../components/Field";
+import { FormActionsContainer, Form } from "../../../components/FormikForm";
 import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
-import FormWrapper from "../../../components/FormWrapper";
 import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
 import SaveButton from "../../../components/SaveButton";
 import { SAVE_BUTTON_ID } from "../../../constants";
@@ -36,7 +34,7 @@ import { useLicenses } from "../../../modules/draft/draftQueries";
 import { editorValueToPlainText, inlineContentToHTML } from "../../../util/articleContentConverter";
 import { audioApiTypeToFormType } from "../../../util/audioHelpers";
 import { DEFAULT_LICENSE, isFormikFormDirty } from "../../../util/formHelper";
-import { AlertModalWrapper } from "../../FormikForm";
+import { AlertDialogWrapper } from "../../FormikForm";
 import { MessageError, useMessages } from "../../Messages/MessagesProvider";
 
 export interface AudioFormikType {
@@ -200,7 +198,7 @@ const AudioForm = ({
           return errFields.some((field) => !!errors[field]);
         };
         return (
-          <FormWrapper>
+          <Form>
             <HeaderWithLanguage
               id={audio?.id}
               language={audioLanguage}
@@ -241,13 +239,13 @@ const AudioForm = ({
                 <AudioMetaData />
               </FormAccordion>
             </FormAccordions>
-            <Field right>
-              <ButtonV2 variant="outline" disabled={isSubmitting} onClick={() => navigate(-1)}>
+            <FormActionsContainer>
+              <Button variant="secondary" disabled={isSubmitting} onClick={() => navigate(-1)}>
                 {t("form.abort")}
-              </ButtonV2>
+              </Button>
               <SaveButton
                 id={SAVE_BUTTON_ID}
-                isSaving={isSubmitting}
+                loading={isSubmitting}
                 formIsDirty={formIsDirty}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 onClick={(evt) => {
@@ -255,14 +253,14 @@ const AudioForm = ({
                   submitForm();
                 }}
               />
-            </Field>
-            <AlertModalWrapper
+            </FormActionsContainer>
+            <AlertDialogWrapper
               {...formikProps}
               formIsDirty={formIsDirty}
               severity="danger"
               text={t("alertModal.notSaved")}
             />
-          </FormWrapper>
+          </Form>
         );
       }}
     </Formik>

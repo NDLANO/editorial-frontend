@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Check } from "@ndla/icons/editor";
+import { CheckboxCircleFill } from "@ndla/icons/editor";
 import { styled } from "@ndla/styled-system/jsx";
 import { IStatus } from "@ndla/types-backend/search-api";
 
@@ -19,7 +19,7 @@ const TextWrapper = styled("div", {
   },
 });
 
-const StyledCheckIcon = styled(Check, {
+const StyledCheckIcon = styled(CheckboxCircleFill, {
   base: {
     fill: "surface.success",
   },

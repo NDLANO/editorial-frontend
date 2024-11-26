@@ -11,10 +11,9 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { Pencil } from "@ndla/icons/action";
+import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
 import { Link } from "@ndla/icons/common";
-import { DeleteForever } from "@ndla/icons/editor";
-import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
+import { DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { AudioEmbedData, AudioMetaData } from "@ndla/types-embed";
@@ -22,7 +21,6 @@ import { AudioEmbed, EmbedWrapper } from "@ndla/ui";
 import AudioEmbedForm from "./AudioEmbedForm";
 import { AudioElement } from "./types";
 import { useAudioMeta } from "../../../../modules/embed/queries";
-import { OldSpinner } from "../../../OldSpinner";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 
@@ -35,10 +33,8 @@ const StyledEmbedWrapper = styled(EmbedWrapper, {
   base: {
     position: "relative",
     _selected: {
-      "& > figure": {
-        outline: "2px solid",
-        outlineColor: "brand.primary",
-      },
+      outline: "2px solid",
+      outlineColor: "stroke.default",
     },
   },
 });
@@ -114,11 +110,11 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
       <StyledEmbedWrapper
         {...attributes}
         contentEditable={false}
-        data-selected={isSelected}
+        aria-selected={isSelected}
         data-type={embed?.embedData.type}
       >
         {audioMetaQuery.isLoading ? (
-          <OldSpinner />
+          <Spinner />
         ) : embed ? (
           <>
             <StyledFigureButtons>
@@ -130,7 +126,7 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
                     variant="tertiary"
                     size="small"
                   >
-                    <Pencil />
+                    <PencilFill />
                   </IconButton>
                 </DialogTrigger>
               )}
@@ -156,7 +152,7 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
                     onClick={handleRemove}
                     data-testid="remove-element"
                   >
-                    <DeleteForever />
+                    <DeleteBinLine />
                   </IconButton>
                 </>
               )}

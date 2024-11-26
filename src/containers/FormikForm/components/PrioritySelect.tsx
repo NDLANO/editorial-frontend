@@ -5,8 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Select, SingleValue } from "@ndla/select";
+import { createListCollection } from "@ark-ui/react";
+import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
+import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 
 const priorityMapping = {
   prioritized: "editorFooter.prioritized",
@@ -14,36 +18,41 @@ const priorityMapping = {
 };
 
 interface Props {
-  id: string;
   priority: string | undefined;
-  updatePriority: (p: SingleValue) => void;
-  menuPlacement?: "top" | "bottom" | "auto";
-  inModal?: boolean;
+  updatePriority: (value: string | undefined) => void;
 }
 
-const PrioritySelect = ({ id, priority, updatePriority, menuPlacement = "top", inModal = false }: Props) => {
+const PrioritySelect = ({ priority, updatePriority }: Props) => {
   const { t } = useTranslation();
 
-  return (
-    <Select<false>
-      id={id}
-      options={[
+  const collection = useMemo(() => {
+    return createListCollection({
+      items: [
         { label: t(priorityMapping["prioritized"]), value: "prioritized" },
         { label: t(priorityMapping["on-hold"]), value: "on-hold" },
-      ]}
-      menuPlacement={menuPlacement}
-      placeholder={t("editorFooter.placeholderPrioritized")}
-      aria-label={t("editorFooter.placeholderPrioritized")}
-      inModal={inModal}
-      value={
-        priority === "prioritized" || priority === "on-hold"
-          ? { value: priority, label: t(priorityMapping[priority!]) }
-          : null
-      }
-      onChange={updatePriority}
-      isClearable
-      closeMenuOnSelect
-    />
+      ],
+    });
+  }, [t]);
+
+  return (
+    <SelectRoot
+      collection={collection}
+      positioning={{ sameWidth: true }}
+      value={priority && Object.keys(priorityMapping).includes(priority) ? [priority] : undefined}
+      onValueChange={(details) => updatePriority(details.value[0])}
+    >
+      <SelectLabel srOnly>{t("taxonomy.addPriority")}</SelectLabel>
+      <GenericSelectTrigger variant="secondary" clearable>
+        <SelectValueText placeholder={t("editorFooter.placeholderPrioritized")} />
+      </GenericSelectTrigger>
+      <SelectContent>
+        {collection.items.map((item) => (
+          <GenericSelectItem item={item} key={item.value}>
+            {item.label}
+          </GenericSelectItem>
+        ))}
+      </SelectContent>
+    </SelectRoot>
   );
 };
 

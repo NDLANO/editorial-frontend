@@ -10,16 +10,17 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
-import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
-import { Pencil } from "@ndla/icons/action";
-import { Launch } from "@ndla/icons/common";
-import { DeleteForever, Keyhole } from "@ndla/icons/editor";
-import { SafeLink } from "@ndla/safelink";
+import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
+import { ExternalLinkLine } from "@ndla/icons/common";
+import { Keyhole } from "@ndla/icons/editor";
+import { Button, IconButton } from "@ndla/primitives";
+import { SafeLinkIconButton } from "@ndla/safelink";
 import { Version as TaxVersion, VersionType } from "@ndla/types-taxonomy";
 import { StyledErrorMessage } from "./StyledErrorMessage";
 import VersionForm from "./VersionForm";
-import AlertModal from "../../../components/AlertModal";
+import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../../../components/FormikForm";
 import config from "../../../config";
 import { useDeleteVersionMutation } from "../../../modules/taxonomy/versions/versionMutations";
 import { versionQueryKeys } from "../../../modules/taxonomy/versions/versionQueries";
@@ -80,20 +81,6 @@ const ContentBlock = styled.div`
   gap: ${spacing.xsmall};
 `;
 
-const StyledLink = styled(SafeLink)`
-  box-shadow: inset 0 0;
-`;
-
-const StyledLaunch = styled(Launch)`
-  height: 24px;
-  width: 100%;
-  color: ${colors.brand.tertiary};
-  margin-right: ${spacing.xsmall};
-  &:hover {
-    color: ${colors.brand.primary};
-  }
-`;
-
 const StyledKeyhole = styled(Keyhole)`
   margin-left: ${spacing.xxsmall};
   height: 30px;
@@ -148,53 +135,59 @@ const Version = ({ version }: Props) => {
             <StatusWrapper color={statusColorMap[version.versionType]}>
               <StyledText>{t(`taxonomyVersions.status.${version.versionType}`)}</StyledText>
             </StatusWrapper>
-            <StyledLink target={"_blank"} to={ndlaUrl}>
-              <StyledLaunch
-                aria-label={t("taxonomyVersions.previewVersion")}
-                title={t("taxonomyVersions.previewVersion")}
-              />
-            </StyledLink>
-            <IconButtonV2
-              variant="ghost"
-              colorTheme="lighter"
+            <SafeLinkIconButton
+              size="small"
+              variant="tertiary"
+              target={"_blank"}
+              to={ndlaUrl}
+              aria-label={t("taxonomyVersions.previewVersion")}
+              title={t("taxonomyVersions.previewVersion")}
+            >
+              <ExternalLinkLine />
+            </SafeLinkIconButton>
+            <IconButton
+              variant="tertiary"
+              size="small"
               aria-label={t("taxonomyVersions.editVersionTooltip")}
               onClick={() => setIsEditing((prev) => !prev)}
               title={t("taxonomyVersions.editVersionTooltip")}
             >
-              <Pencil />
-            </IconButtonV2>
-            <IconButtonV2
-              variant="ghost"
-              colorTheme="danger"
+              <PencilFill />
+            </IconButton>
+            <IconButton
+              variant="danger"
+              size="small"
               aria-label={deleteTooltip}
               disabled={deleteDisabled}
               onClick={() => (deleteDisabled ? undefined : setShowAlertModal(true))}
               color={deleteDisabled ? undefined : "red"}
               title={deleteTooltip}
             >
-              <DeleteForever />
-            </IconButtonV2>
+              <DeleteBinLine />
+            </IconButton>
           </ContentBlock>
-          <AlertModal
+          <AlertDialog
             title={t("taxonomyVersions.delete")}
             label={t("taxonomyVersions.delete")}
             show={showAlertModal}
             text={t(`taxonomyVersions.deleteWarning${version.versionType === "PUBLISHED" ? "Published" : ""}`)}
-            actions={[
-              {
-                text: t("form.abort"),
-                onClick: () => setShowAlertModal(false),
-              },
-              {
-                text: t("alertModal.continue"),
-                onClick: () => {
+            onCancel={() => setShowAlertModal(false)}
+          >
+            <FormActionsContainer>
+              <Button onClick={() => setShowAlertModal(false)} variant="secondary">
+                {t("form.abort")}
+              </Button>
+              <Button
+                onClick={() => {
                   setShowAlertModal(false);
                   onDelete();
-                },
-              },
-            ]}
-            onCancel={() => setShowAlertModal(false)}
-          />
+                }}
+                variant="danger"
+              >
+                {t("alertModal.delete")}
+              </Button>
+            </FormActionsContainer>
+          </AlertDialog>
         </VersionContentWrapper>
       )}
       {error && <StyledErrorMessage>{error}</StyledErrorMessage>}

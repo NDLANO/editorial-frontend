@@ -29,7 +29,9 @@ describe("link normalizer tests", () => {
               { text: "" },
               {
                 type: TYPE_LINK,
-                href: "test-url",
+                data: {
+                  href: "test-url",
+                },
                 children: [
                   {
                     type: TYPE_PARAGRAPH,
@@ -54,7 +56,9 @@ describe("link normalizer tests", () => {
               { text: "" },
               {
                 type: TYPE_LINK,
-                href: "test-url",
+                data: {
+                  href: "test-url",
+                },
                 children: [{ text: "illegal block" }],
               },
               { text: "" },
@@ -134,7 +138,9 @@ describe("link normalizer tests", () => {
               { text: "" },
               {
                 type: TYPE_LINK,
-                href: "test-url",
+                data: {
+                  href: "test-url",
+                },
                 children: [
                   {
                     text: "",

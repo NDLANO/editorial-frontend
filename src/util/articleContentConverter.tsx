@@ -271,8 +271,8 @@ export function editorValueToEmbedTag(editorValue?: Descendant[]) {
   if (embed) {
     const embedTag =
       embed?.resource === "audio" || embed?.resource === "image"
-        ? createEmbedTagV2<ImageEmbedData | AudioEmbedData>(embed)
-        : createEmbedTag(embed);
+        ? createEmbedTagV2<ImageEmbedData | AudioEmbedData>(embed, undefined, undefined)
+        : createEmbedTag(embed, undefined);
     return embedTag ? renderToStaticMarkup(embedTag) : "";
   }
   return "";

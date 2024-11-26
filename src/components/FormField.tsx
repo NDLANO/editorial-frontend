@@ -7,12 +7,7 @@
  */
 
 import { FieldHelperProps, FieldInputProps, FieldMetaProps, useField } from "formik";
-import { ComponentProps, ReactNode, useId, useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { utils } from "@ndla/core";
-import { FieldHelper, FormControlProps, FormControl as InternalFormControl } from "@ndla/forms";
-import useDebounce from "../util/useDebounce";
+import { ReactNode } from "react";
 
 interface FormFieldProps<T = any> {
   name: string;
@@ -23,37 +18,3 @@ export const FormField = <T = any,>({ name, children }: FormFieldProps<T>) => {
   const [field, meta, helpers] = useField(name);
   return children({ field, meta, helpers });
 };
-
-export const FormControl = (props: Omit<FormControlProps, "id"> & ComponentProps<"div">) => {
-  const id = useId();
-  return <InternalFormControl id={id} {...props} />;
-};
-
-const HiddenSpan = styled(FieldHelper)`
-  ${utils.visuallyHidden};
-`;
-
-interface Props extends ComponentProps<"div"> {
-  value: number;
-  maxLength: number;
-  children?: ReactNode;
-}
-
-export const FormRemainingCharacters = ({ value, maxLength, children, ...rest }: Props) => {
-  const { t } = useTranslation();
-  const debouncedValue = useDebounce(value, 300);
-  const debouncedTranslation = useMemo(() => {
-    return t("form.remainingCharacters", { maxLength, remaining: maxLength - debouncedValue });
-  }, [debouncedValue, maxLength, t]);
-
-  return (
-    <div {...rest}>
-      <span aria-hidden="true">{t("form.remainingCharacters", { maxLength, remaining: maxLength - value })}</span>
-      <HiddenSpan aria-live="polite">{debouncedTranslation}</HiddenSpan>
-    </div>
-  );
-};
-
-export const FieldWarning = styled(FieldHelper)`
-  color: #8c8c00;
-`;

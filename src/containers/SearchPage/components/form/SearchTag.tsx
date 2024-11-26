@@ -103,7 +103,14 @@ const SearchTag = ({ tag, onRemoveItem }: Props) => {
   return (
     <StyledDl>
       <SearchTagContent tag={tag} tagValue={tagValue} />
-      <IconButton aria-label={t("remove")} variant="clear" title={t("remove")} onClick={onRemove} size="small">
+      <IconButton
+        aria-label={t("remove")}
+        variant="clear"
+        title={t("remove")}
+        onClick={onRemove}
+        size="small"
+        data-testid="remove-tag-button"
+      >
         <CloseLine />
       </IconButton>
     </StyledDl>

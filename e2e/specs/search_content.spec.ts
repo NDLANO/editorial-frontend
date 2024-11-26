@@ -27,55 +27,61 @@ test("Can use text input", async ({ page }) => {
 });
 
 test("Can use status dropdown", async ({ page }) => {
-  await page.locator('select[name="draft-status"]').selectOption({ label: "Publisert" });
+  await page.getByTestId("draft-status-select").click();
+  await page.getByRole("option", { name: "Publisert", exact: true }).click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("17854");
-  await page.locator('select[name="draft-status"]').selectOption({ index: 0 });
+  await page.getByTestId("remove-tag-button").click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(searchTotalCount);
 });
 
 test("Can use language dropdown", async ({ page }) => {
-  await page.locator('select[name="language"]').selectOption({ index: 1 });
+  await page.getByTestId("language-select").click();
+  await page.getByRole("option", { name: "Bokmål", exact: true }).click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("24326");
-  await page.locator('select[name="language"]').selectOption({ index: 0 });
+  await page.getByTestId("remove-tag-button").click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(searchTotalCount);
 });
 
 test("Can use subject dropdown", async ({ page }) => {
-  await page.locator('select[name="subjects"]').selectOption({ label: "Biologi 1" });
+  await page.getByTestId("subjects-select").click();
+  await page.getByRole("option", { name: "Biologi 1", exact: true }).click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("620");
-  await page.locator('select[name="subjects"]').selectOption({ index: 0 });
+  await page.getByTestId("remove-tag-button").click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(searchTotalCount);
 });
 
 test("Can use responsible dropdown", async ({ page }) => {
-  await page.locator('select[name="responsible-ids"]').selectOption({ label: "Ed Test" });
+  await page.getByTestId("responsible-ids-select").click();
+  await page.getByRole("option", { name: "Ed Test", exact: true }).click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("33");
-  await page.locator('select[name="responsible-ids"]').selectOption({ index: 0 });
+  await page.getByTestId("remove-tag-button").click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(searchTotalCount);
 });
 
 test("Can use user dropdown", async ({ page }) => {
-  await page.locator('select[name="users"]').selectOption({ label: "Ed Test" });
+  await page.getByTestId("users-select").click();
+  await page.getByRole("option", { name: "Ed Test", exact: true }).click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("108");
-  await page.locator('select[name="users"]').selectOption({ index: 0 });
+  await page.getByTestId("remove-tag-button").click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(searchTotalCount);
 });
 
 test("Can use content type dropdown", async ({ page }) => {
-  await page.locator('select[name="resource-types"]').selectOption({ label: "Arbeidsoppdrag" });
+  await page.getByTestId("resource-types-select").click();
+  await page.getByRole("option", { name: "Arbeidsoppdrag", exact: true }).click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("551");
-  await page.locator('select[name="resource-types"]').selectOption({ index: 0 });
+  await page.getByTestId("remove-tag-button").click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(searchTotalCount);
 });

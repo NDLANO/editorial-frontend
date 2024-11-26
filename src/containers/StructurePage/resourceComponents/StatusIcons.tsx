@@ -44,7 +44,7 @@ const StatusIcons = ({ contentMetaLoading, resource, multipleTaxonomy }: Props) 
     [resource.contentMeta?.revisions],
   );
   const expirationDate = getExpirationDate({
-    revisions: resource.contentMeta?.revisions?.filter((r) => !!r)!,
+    revisions: resource.contentMeta?.revisions?.filter((r) => !!r) ?? [],
   });
   const warnStatus = getWarnStatus(expirationDate);
 

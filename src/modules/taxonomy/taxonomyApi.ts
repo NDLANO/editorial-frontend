@@ -66,7 +66,7 @@ export const updateTax = async ({ node, originalNode }: UpdateTaxParams, taxonom
             parentId: diff.id.other!,
             childId: node.id,
             primary: diff.isPrimary.other!,
-            relevanceId: diff.relevanceId?.other!,
+            relevanceId: diff.relevanceId?.other,
           },
           taxonomyVersion,
         });

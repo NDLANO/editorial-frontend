@@ -102,9 +102,14 @@ const InlineWrapper = (props: Props) => {
     locale,
   );
 
-  const visualElementQuery = useConceptVisualElement(concept?.id!, concept?.visualElement?.visualElement!, locale, {
-    enabled: !!concept?.id && !!concept?.visualElement?.visualElement.length,
-  });
+  const visualElementQuery = useConceptVisualElement(
+    concept?.id ?? -1,
+    concept?.visualElement?.visualElement ?? "",
+    locale,
+    {
+      enabled: !!concept?.id && !!concept?.visualElement?.visualElement.length,
+    },
+  );
 
   const embed: ConceptMetaData | undefined = useMemo(() => {
     // This will be in an error state until the data is either fetched or fails, allowing

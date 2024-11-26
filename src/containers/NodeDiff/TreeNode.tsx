@@ -111,7 +111,7 @@ const isChildNode = createGuard<DiffTypeWithChildren>("children");
 
 export const TreeNode = ({ node, onNodeSelected, selectedNode, parentActive, nodes }: Props) => {
   const { t } = useTranslation();
-  const path = nodePathToUrnPath(node.path?.other ?? node.path?.original!);
+  const path = nodePathToUrnPath(node.path?.other ?? node.path?.original);
   const isActive = (selectedNode?.id.other ?? selectedNode?.id.original) === (node.id.other ?? node.id.original);
   const hasChildNodes = nodes && nodes.length > 0;
   const connectionId = isChildNode(node) ? node.connectionId.other ?? node.connectionId.original : undefined;

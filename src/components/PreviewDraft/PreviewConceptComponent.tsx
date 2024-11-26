@@ -30,7 +30,7 @@ interface Props {
 }
 const PreviewConceptComponent = ({ concept, language }: Props) => {
   const { data } = usePreviewArticle(
-    concept.visualElement?.visualElement!,
+    concept.visualElement?.visualElement ?? "",
     concept.visualElement?.language ?? language,
     undefined,
     false,

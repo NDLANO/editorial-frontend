@@ -68,9 +68,14 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
     setIsEditing(!!element.isFirstEdit);
   }, [element.isFirstEdit]);
 
-  const visualElementQuery = useConceptVisualElement(concept?.id!, concept?.visualElement?.visualElement!, locale, {
-    enabled: !!concept?.id && !!concept?.visualElement?.visualElement.length,
-  });
+  const visualElementQuery = useConceptVisualElement(
+    concept?.id ?? -1,
+    concept?.visualElement?.visualElement ?? "",
+    locale,
+    {
+      enabled: !!concept?.id && !!concept?.visualElement?.visualElement.length,
+    },
+  );
 
   const embed: ConceptMetaData | undefined = useMemo(() => {
     if (!element.data || !concept) return undefined;

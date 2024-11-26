@@ -49,7 +49,7 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
   const isSelected = useSelected();
   const language = useArticleLanguage();
 
-  const h5pMetaQuery = useH5pMeta(element.data?.path!, element.data?.url!, {
+  const h5pMetaQuery = useH5pMeta(element.data?.path ?? "", element.data?.url ?? "", {
     enabled: !!element.data?.path,
   });
   const embed: H5pMetaData | undefined = useMemo(

@@ -86,15 +86,15 @@ const EditMath = ({ model: { innerHTML }, onRemove, onSave, mathEditor, setMathE
     <>
       <StyledMathEditorWrapper id={`mathEditorContainer-${id}`} />
       <FormActionsContainer>
+        <Button data-testid="save-math" onClick={() => onSave(mathEditor?.getMathML() ?? emptyMathTag)}>
+          {t("form.save")}
+        </Button>
         <Button
           data-testid="preview-math"
           variant="secondary"
           onClick={() => setRenderedMathML(mathEditor?.getMathML() ?? emptyMathTag)}
         >
           {t("form.preview.button")}
-        </Button>
-        <Button data-testid="save-math" onClick={() => onSave(mathEditor?.getMathML() ?? emptyMathTag)}>
-          {t("form.save")}
         </Button>
         <Button variant="danger" onClick={onRemove}>
           {t("form.remove")}

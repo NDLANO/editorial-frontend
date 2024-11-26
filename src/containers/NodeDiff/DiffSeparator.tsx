@@ -20,7 +20,7 @@ const typeToSeparatorMap: Record<DiffResultType, string> = {
 };
 
 const DiffSeparator = ({ type }: Props) => {
-  return <>{typeToSeparatorMap[type]}</>;
+  return typeToSeparatorMap[type];
 };
 
 export default DiffSeparator;

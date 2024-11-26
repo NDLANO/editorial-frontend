@@ -136,10 +136,10 @@ const Resource = ({ currentNodeId, resource, contentMetaLoading, responsible, sh
                 </Text>
               )}
             </ListItemHeading>
-            {isSupplementary && <SupplementaryIndicator />}
+            {!!isSupplementary && <SupplementaryIndicator />}
           </TextWrapper>
           <InfoItems>
-            {showQuality && (
+            {!!showQuality && (
               <QualityEvaluationGrade
                 grade={resource.qualityEvaluation?.grade}
                 tooltip={
@@ -169,8 +169,10 @@ const Resource = ({ currentNodeId, resource, contentMetaLoading, responsible, sh
             </Text>
           </TextWrapper>
           <ControlButtonGroup>
-            {(resource.contentMeta?.status?.current === PUBLISHED ||
-              resource.contentMeta?.status?.other?.includes(PUBLISHED)) && (
+            {!!(
+              resource.contentMeta?.status?.current === PUBLISHED ||
+              resource.contentMeta?.status?.other?.includes(PUBLISHED)
+            ) && (
               <SafeLinkIconButton
                 target="_blank"
                 to={`${config.ndlaFrontendDomain}${path}?versionHash=${taxonomyVersion}`}

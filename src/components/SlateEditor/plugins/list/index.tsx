@@ -135,7 +135,7 @@ export const listSerializer: SlateSerializer = {
       const illegalFirstElement = !firstElement || ["ol", "ul"].includes(firstElement.type);
       return (
         <li>
-          {illegalFirstElement && <p></p>}
+          {!!illegalFirstElement && <p></p>}
           {children}
         </li>
       );

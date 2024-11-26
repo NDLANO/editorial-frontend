@@ -332,14 +332,14 @@ const TaxonomyBlock = ({
   return (
     <FormContent>
       {!hasTaxEntries && <FormikFieldHelp error>{t("errorMessage.missingTax")}</FormikFieldHelp>}
-      {isTaxonomyAdmin && (
+      {!!isTaxonomyAdmin && (
         <TaxonomyConnectionErrors
           articleType={article.articleType ?? "standard"}
           topics={topics}
           resources={resources}
         />
       )}
-      {isTaxonomyAdmin && (
+      {!!isTaxonomyAdmin && (
         <>
           <OptGroupVersionSelector
             currentVersion={taxonomyVersion}
@@ -365,14 +365,14 @@ const TaxonomyBlock = ({
         setRelevance={setRelevance}
         getSubjectTopics={getSubjectTopics}
       />
-      {updateTaxMutation.isError && <FormikFieldHelp error>{t("errorMessage.taxonomy")}</FormikFieldHelp>}
-      {showWarning && <FormikFieldHelp error>{t("errorMessage.unsavedTaxonomy")}</FormikFieldHelp>}
+      {!!updateTaxMutation.isError && <FormikFieldHelp error>{t("errorMessage.taxonomy")}</FormikFieldHelp>}
+      {!!showWarning && <FormikFieldHelp error>{t("errorMessage.unsavedTaxonomy")}</FormikFieldHelp>}
       <FormActionsContainer>
         <Button variant="secondary" disabled={!isDirty} onClick={onReset}>
           {t("reset")}
         </Button>
         <SaveButton
-          showSaved={updateTaxMutation.isSuccess && !isDirty}
+          showSaved={!!updateTaxMutation.isSuccess && !isDirty}
           loading={isSaving}
           disabled={!isDirty || isSaving}
           onClick={handleSubmit}

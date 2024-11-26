@@ -83,7 +83,7 @@ const SubjectBanner = ({ subjectNode, showQuality, users }: Props) => {
   return (
     <ResourceGroupBanner>
       <TopRow>
-        {showQuality && (
+        {!!showQuality && (
           <ContentWrapper>
             <AverageQualityEvaluation gradeAverage={subjectNode.gradeAverage} nodeType="SUBJECT" />
             <QualityEvaluation articleType="subject" taxonomy={[subjectNode]} />

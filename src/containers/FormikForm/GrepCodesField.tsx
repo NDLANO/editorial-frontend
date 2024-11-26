@@ -162,7 +162,7 @@ const GrepCodesField = () => {
                   </ComboboxItem>
                 ))}
               </StyledComboboxList>
-              {searchQuery.isSuccess && (
+              {!!searchQuery.isSuccess && (
                 <Text>{t("dropdown.numberHits", { hits: searchQuery.data?.totalCount ?? 0 })}</Text>
               )}
             </ComboboxContent>

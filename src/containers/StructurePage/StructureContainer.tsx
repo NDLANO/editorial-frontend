@@ -203,7 +203,7 @@ const StructureContainer = ({
     <ErrorBoundary>
       <PageContent variant="wide">
         <GridWrapper>
-          {messageBox && <MessageBoxWrapper>{messageBox}</MessageBoxWrapper>}
+          {!!messageBox && <MessageBoxWrapper>{messageBox}</MessageBoxWrapper>}
           <div>
             <StructureBanner
               setShowFavorites={setShowFavorites}
@@ -221,33 +221,31 @@ const StructureContainer = ({
               showQuality={showQuality}
               setShowQuality={setShowQuality}
             />
-            <>
-              {userDataQuery.isLoading || nodesQuery.isLoading ? (
-                <Spinner />
-              ) : (
-                <div data-testid="structure">
-                  {nodes!.map((node) => (
-                    <RootNode
-                      renderBeforeTitle={StructureErrorIcon}
-                      openedPaths={getPathsFromUrl(location.pathname)}
-                      resourceSectionRef={resourceSection}
-                      onNodeSelected={setCurrentNode}
-                      isFavorite={!!favoriteNodes[node.id]}
-                      key={node.id}
-                      node={node}
-                      toggleOpen={handleStructureToggle}
-                      childNodeTypes={childNodeTypes}
-                      addChildTooltip={addChildTooltip}
-                      showQuality={showQuality}
-                    />
-                  ))}
-                </div>
-              )}
-            </>
+            {userDataQuery.isLoading || nodesQuery.isLoading ? (
+              <Spinner />
+            ) : (
+              <div data-testid="structure">
+                {nodes!.map((node) => (
+                  <RootNode
+                    renderBeforeTitle={StructureErrorIcon}
+                    openedPaths={getPathsFromUrl(location.pathname)}
+                    resourceSectionRef={resourceSection}
+                    onNodeSelected={setCurrentNode}
+                    isFavorite={!!favoriteNodes[node.id]}
+                    key={node.id}
+                    node={node}
+                    toggleOpen={handleStructureToggle}
+                    childNodeTypes={childNodeTypes}
+                    addChildTooltip={addChildTooltip}
+                    showQuality={showQuality}
+                  />
+                ))}
+              </div>
+            )}
           </div>
-          {showResourceColumn && (
+          {!!showResourceColumn && (
             <div>
-              {currentNode && (
+              {!!currentNode && (
                 <StickyContainer ref={resourceSection}>
                   {currentNode.nodeType === "SUBJECT" && (
                     <SubjectBanner subjectNode={currentNode} showQuality={showQuality} users={users} />
@@ -266,7 +264,7 @@ const StructureContainer = ({
           )}
         </GridWrapper>
       </PageContent>
-      {isTaxonomyAdmin && <VersionSelector />}
+      {!!isTaxonomyAdmin && <VersionSelector />}
     </ErrorBoundary>
   );
 };

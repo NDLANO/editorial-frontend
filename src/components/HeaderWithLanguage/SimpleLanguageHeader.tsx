@@ -70,7 +70,7 @@ const SimpleLanguageHeader = ({
               supportedLanguages={supportedLanguages}
               isSubmitting={isSubmitting}
             />
-            {isNewLanguage && (
+            {!!isNewLanguage && (
               <HeaderCurrentLanguagePill key={`types_${language}`}>
                 {t(`languages.${language}`)}
               </HeaderCurrentLanguagePill>
@@ -79,9 +79,7 @@ const SimpleLanguageHeader = ({
             <HeaderLanguagePicker id={id} emptyLanguages={emptyLanguages} editUrl={editUrl} />
           </>
         ) : (
-          <>
-            <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
-          </>
+          <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
         )}
       </StyledLanguageWrapper>
     </div>

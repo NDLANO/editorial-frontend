@@ -158,7 +158,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
       <DialogRoot open={editMode} onOpenChange={(details) => onOpenChange(details.open)} size="large">
         <Figure aria-label={t("codeEditor.subtitle")} contentEditable={false} {...attributes}>
           <HStack justify="space-between">
-            {embedData.title && <h3>{embedData.title}</h3>}
+            {!!embedData.title && <h3>{embedData.title}</h3>}
             <HStack gap="4xsmall">
               <DialogTrigger asChild>
                 <IconButton

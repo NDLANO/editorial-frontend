@@ -124,7 +124,7 @@ const ImageContent = () => {
             )}
           </FormField>
         )}
-        {values.imageFile && (
+        {!!values.imageFile && (
           <StyledIconButton
             aria-label={t("form.image.removeImage")}
             title={t("form.image.removeImage")}
@@ -135,7 +135,7 @@ const ImageContent = () => {
             <DeleteBinLine />
           </StyledIconButton>
         )}
-        {values.imageFile && (
+        {!!values.imageFile && (
           <>
             {typeof values.imageFile === "string" ? (
               <SafeLink target="_blank" to={values.imageFile}>

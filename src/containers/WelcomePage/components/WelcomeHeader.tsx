@@ -108,7 +108,7 @@ export const WelcomeHeader = () => {
         <Heading textStyle="heading.small">
           {`${t("welcomePage.welcomeBack")} ${userName ? `${userName}!` : t("welcomePage.welcomeText")}`}
         </Heading>
-        {favoriteResource && (
+        {!!favoriteResource && (
           <Text>
             {t("welcomePage.lastFavorited")}
             <SafeLink to={favoriteResource.path} title={favoriteResource.title}>

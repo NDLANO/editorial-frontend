@@ -46,7 +46,7 @@ const StatusCell = ({ status }: Props) => {
   return (
     <CellWrapper>
       <TextWrapper title={statusTitle}>{statusTitle}</TextWrapper>
-      {published && (
+      {!!published && (
         <StyledCheckIcon title={t("form.workflow.published")} aria-label={t("form.workflow.published")} size="small" />
       )}
     </CellWrapper>

@@ -186,7 +186,7 @@ const LearningResourcePanels = ({
           >
             <RevisionNotes />
           </FormAccordion>
-          {article && (
+          {!!article && (
             <FormAccordion
               id={"learning-resource-workflow"}
               title={t("form.workflowSection")}

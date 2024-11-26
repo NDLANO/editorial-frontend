@@ -107,7 +107,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
           </FieldRoot>
         )}
       </FormField>
-      {userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
+      {!!userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
         <FormField name="availability">
           {({ field, helpers }) => (
             <FieldRoot>

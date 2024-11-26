@@ -79,7 +79,7 @@ const AddNotesField = ({ name, labelWarningNote, onChange, value, showError }: P
     <StyledFieldsetRoot>
       <FieldsetLegend>{t("form.name.notes")}</FieldsetLegend>
       {value.map((note, index) => (
-        <StyledFieldRoot key={`note-${index}`} invalid={showError && note === ""}>
+        <StyledFieldRoot key={`note-${index}`} invalid={!!showError && note === ""}>
           <FieldLabel srOnly>{`${t("form.notes.history.note")} ${index + 1}`}</FieldLabel>
           <NoteWrapper>
             <FieldInput

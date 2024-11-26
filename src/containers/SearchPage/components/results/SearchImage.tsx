@@ -51,7 +51,7 @@ const SearchImage = ({ image, locale }: Props) => {
             imageDimensions={image.image.dimensions}
           />
         </SearchContentWrapper>
-        {license && <LicenseLink license={getLicenseByAbbreviation(license.license, locale)} />}
+        {!!license && <LicenseLink license={getLicenseByAbbreviation(license.license, locale)} />}
       </ListItemContent>
     </ListItemRoot>
   );

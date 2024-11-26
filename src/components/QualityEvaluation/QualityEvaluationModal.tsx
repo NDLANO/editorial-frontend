@@ -69,7 +69,7 @@ const QualityEvaluationModal = ({
             <Text textStyle="label.small">
               {t("qualityEvaluationForm.description", { resource: resourceTranslation })}
             </Text>
-            {taxonomy && (
+            {!!taxonomy && (
               <QualityEvaluationForm
                 setOpen={setOpen}
                 taxonomy={taxonomy}

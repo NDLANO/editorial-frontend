@@ -132,7 +132,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
             <LastUpdatedLine creators={creators} published={field.value} allowEdit={true} onChange={helpers.setValue} />
           )}
         </FormField>
-        {slug && (
+        {!!slug && (
           <IconButton
             aria-label={t("form.slug.edit")}
             title={t("form.slug.edit")}
@@ -147,7 +147,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
       <AlertDialog
         title={t("editorFooter.changeHeader")}
         label={t("editorFooter.changeHeader")}
-        show={isNormalizedOnLoad && !isCreatePage}
+        show={!!isNormalizedOnLoad && !isCreatePage}
         text={t("form.content.normalizedOnLoad")}
         onCancel={() => setIsNormalizedOnLoad(false)}
         severity="warning"
@@ -162,7 +162,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <ContentTypeProvider value="subject-material">
             <FieldHeader title={t("form.content.label")}>
-              {id && userPermissions?.includes(DRAFT_HTML_SCOPE) && (
+              {!!id && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (
                 <EditMarkupLink to={toEditMarkup(id, language ?? "")} title={t("editMarkup.linkTitle")} />
               )}
             </FieldHeader>

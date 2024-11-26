@@ -71,7 +71,7 @@ const ConceptFormFooter = ({
           type={!inModal ? "submit" : "button"}
           loading={isSubmitting}
           formIsDirty={formIsDirty}
-          showSaved={savedToServer && !formIsDirty}
+          showSaved={!!savedToServer && !formIsDirty}
           disabled={disableSave}
           onClick={(evt: { preventDefault: () => void }) => {
             evt.preventDefault();

@@ -100,7 +100,7 @@ const TopicArticleAccordionPanels = ({
               <TopicArticleContent values={values} />
             </PageContent>
           </FormAccordion>
-          {article && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
+          {!!article && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
             <FormAccordion
               id={"topic-article-taxonomy"}
               title={t("form.taxonomySection")}
@@ -158,7 +158,7 @@ const TopicArticleAccordionPanels = ({
           >
             <RevisionNotes />
           </FormAccordion>
-          {article && (
+          {!!article && (
             <FormAccordion id={"topic-article-workflow"} title={t("form.workflowSection")} hasError={!!errors.notes}>
               <VersionAndNotesPanel
                 article={article}

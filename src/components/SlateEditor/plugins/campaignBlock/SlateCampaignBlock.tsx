@@ -101,7 +101,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
   return (
     <DialogRoot size="large" open={isEditing} onOpenChange={(details) => setIsEditing(details.open)}>
       <EmbedWrapper {...attributes} data-testid="slate-campaign-block" contentEditable={false}>
-        {campaignBlock && (
+        {!!campaignBlock && (
           <>
             <StyledFigureButtons data-white={true}>
               <DialogTrigger asChild>
@@ -132,10 +132,12 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
               headingLevel={campaignBlock.headingLevel}
               url={{ url: campaignBlock.url, text: campaignBlock.urlText }}
               image={
-                image && {
-                  src: image.image.imageUrl,
-                  alt: image.alttext.alttext,
-                }
+                image
+                  ? {
+                      src: image.image.imageUrl,
+                      alt: image.alttext.alttext,
+                    }
+                  : undefined
               }
               imageSide={campaignBlock.imageSide}
             />

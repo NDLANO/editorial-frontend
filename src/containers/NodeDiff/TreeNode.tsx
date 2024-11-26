@@ -141,7 +141,7 @@ export const TreeNode = ({ node, onNodeSelected, selectedNode, parentActive, nod
           {node.name.other ?? node.name.original}
         </ItemTitleButton>
         <DiffPills>
-          {node.resourcesChanged &&
+          {!!node.resourcesChanged &&
             node.resourcesChanged?.diffType !== "NONE" &&
             node.changed.diffType !== "DELETED" &&
             node.changed.diffType !== "ADDED" && (
@@ -149,7 +149,7 @@ export const TreeNode = ({ node, onNodeSelected, selectedNode, parentActive, nod
                 {t("diff.resourcesChanged")}
               </StyledChangedPill>
             )}
-          {node.childrenChanged && node.childrenChanged?.diffType !== "NONE" && (
+          {!!node.childrenChanged && node.childrenChanged?.diffType !== "NONE" && (
             <StyledChangedPill color={colors.brand.primary} textColor={"white"}>
               {t("diff.childrenChanged")}
             </StyledChangedPill>
@@ -157,9 +157,8 @@ export const TreeNode = ({ node, onNodeSelected, selectedNode, parentActive, nod
           {node.changed.diffType !== "NONE" && <DiffTypePill diffType={node.changed.diffType} />}
         </DiffPills>
       </StyledItem>
-      {hasChildNodes &&
-        nodes &&
-        nodes.map((node) => (
+      {!!hasChildNodes &&
+        nodes?.map((node) => (
           <StructureWrapper key={`${path}/${node.id.other ?? node.id.original}`}>
             <Fade show={true}>
               <TreeNode

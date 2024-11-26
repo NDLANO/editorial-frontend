@@ -141,7 +141,7 @@ export const ToolbarToggleButton = forwardRef<HTMLButtonElement, Omit<ToggleGrou
         asChild
       >
         <IconButton size="small" variant="tertiary">
-          {Icon && <Icon />}
+          {!!Icon && <Icon />}
           {children}
         </IconButton>
       </ToggleGroupItem>

@@ -315,7 +315,7 @@ const InnerForm = () => {
           <iframe src={values.iframeUrl ?? values.validUrl} title={values.title} height="350px" frameBorder="0" />
         </IframeWrapper>
       )}
-      {values.validUrl?.includes("youtube.com") && (
+      {!!values.validUrl?.includes("youtube.com") && (
         <TimeWrapper>
           <FormField name="startTime">
             {({ field }) => (
@@ -335,7 +335,7 @@ const InnerForm = () => {
           </FormField>
         </TimeWrapper>
       )}
-      {userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
+      {!!userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
         <FormField name="isFullscreen">
           {({ field, helpers }) => (
             <FieldRoot>
@@ -363,7 +363,7 @@ const InnerForm = () => {
           </FieldRoot>
         )}
       </FormField>
-      {values.isFullscreen && (
+      {!!values.isFullscreen && (
         <>
           <FormField name="caption">
             {({ field }) => (
@@ -374,7 +374,7 @@ const InnerForm = () => {
             )}
           </FormField>
           <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
-          {values.metaImageId && (
+          {!!values.metaImageId && (
             <>
               <FormField name="isDecorative">
                 {({ field, helpers }) => (

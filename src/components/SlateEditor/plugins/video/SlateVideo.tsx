@@ -144,7 +144,7 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
         )}
         <Portal>
           <DialogContent>
-            {element.data && (
+            {!!element.data && (
               <EditVideo onClose={onClose} onSave={onSave} embed={element.data} setHasError={setHasError} />
             )}
           </DialogContent>

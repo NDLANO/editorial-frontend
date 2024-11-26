@@ -216,23 +216,23 @@ const SearchContent = ({ content, locale, subjects, responsibleName }: Props) =>
           </ContentWrapper>
           <InfoWrapper>
             {!conceptTypes.includes(contentType ?? "") &&
-              content.id &&
-              content.resultType === "draft" &&
-              userPermissions?.includes(DRAFT_HTML_SCOPE) && (
-                <SafeLinkIconButton
-                  size="small"
-                  variant="secondary"
-                  title={t("editMarkup.linkTitle")}
-                  aria-label={t("editMarkup.linkTitle")}
-                  to={routes.editMarkup(
-                    content.id,
-                    content.supportedLanguages.includes(locale) ? locale : content.supportedLanguages[0],
-                  )}
-                >
-                  <Code />
-                </SafeLinkIconButton>
-              )}
-            {(content.status?.current === PUBLISHED || content.status?.other.includes(PUBLISHED)) && (
+            content.id &&
+            content.resultType === "draft" &&
+            userPermissions?.includes(DRAFT_HTML_SCOPE) ? (
+              <SafeLinkIconButton
+                size="small"
+                variant="secondary"
+                title={t("editMarkup.linkTitle")}
+                aria-label={t("editMarkup.linkTitle")}
+                to={routes.editMarkup(
+                  content.id,
+                  content.supportedLanguages.includes(locale) ? locale : content.supportedLanguages[0],
+                )}
+              >
+                <Code />
+              </SafeLinkIconButton>
+            ) : null}
+            {!!(content.status?.current === PUBLISHED || content.status?.other.includes(PUBLISHED)) && (
               <SafeLinkIconButton
                 size="small"
                 variant="success"

@@ -96,31 +96,27 @@ const ResourcesContainer = ({
       <ResourceWrapper>
         {contentMetaLoading ? (
           <Spinner />
+        ) : grouped ? (
+          mapping?.map((resource) => (
+            <ResourceItems
+              key={resource.id}
+              resources={resource.resources}
+              currentNodeId={currentNodeId}
+              contentMeta={contentMeta}
+              contentMetaLoading={contentMetaLoading}
+              users={users}
+              showQuality={showQuality}
+            />
+          ))
         ) : (
-          <>
-            {grouped ? (
-              mapping?.map((resource) => (
-                <ResourceItems
-                  key={resource.id}
-                  resources={resource.resources}
-                  currentNodeId={currentNodeId}
-                  contentMeta={contentMeta}
-                  contentMetaLoading={contentMetaLoading}
-                  users={users}
-                  showQuality={showQuality}
-                />
-              ))
-            ) : (
-              <ResourceItems
-                resources={nodeResources}
-                currentNodeId={currentNodeId}
-                contentMeta={contentMeta}
-                contentMetaLoading={contentMetaLoading}
-                users={users}
-                showQuality={showQuality}
-              />
-            )}
-          </>
+          <ResourceItems
+            resources={nodeResources}
+            currentNodeId={currentNodeId}
+            contentMeta={contentMeta}
+            contentMetaLoading={contentMetaLoading}
+            users={users}
+            showQuality={showQuality}
+          />
         )}
       </ResourceWrapper>
     </>

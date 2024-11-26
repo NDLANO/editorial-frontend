@@ -120,7 +120,7 @@ const ConceptModalContent = ({
         <DialogCloseButton onClick={onClose} />
       </DialogHeader>
       <DialogBody>
-        {concept?.id && <Button onClick={handleRemove}>{t(`form.content.${concept.conceptType}.remove`)}</Button>}
+        {!!concept?.id && <Button onClick={handleRemove}>{t(`form.content.${concept.conceptType}.remove`)}</Button>}
         <TabsRoot
           defaultValue="concepts"
           translations={{

@@ -65,7 +65,7 @@ const FieldHeader = ({ title, subTitle, width = 1, children }: props) => (
   <StyledWrapper wrapperWidth={width * 100}>
     <StyledTitle>
       {title}
-      {subTitle && <span>{subTitle}</span>}
+      {!!subTitle && <span>{subTitle}</span>}
     </StyledTitle>
     <div>{children}</div>
   </StyledWrapper>

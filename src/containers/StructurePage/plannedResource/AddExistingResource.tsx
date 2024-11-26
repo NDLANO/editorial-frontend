@@ -263,7 +263,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
 
   return (
     <StyledFormContent>
-      {selectedType && (
+      {!!selectedType && (
         <>
           <FieldRoot>
             <FieldLabel>{t("taxonomy.urlPlaceholder")}</FieldLabel>
@@ -280,7 +280,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
           }}
         />
       )}
-      {!pastedUrl && selectedType && (
+      {!pastedUrl && !!selectedType && (
         <GenericSearchCombobox
           value={preview ? [preview.id.toString()] : undefined}
           onValueChange={(details) => setPreview(toPreview(details.items[0]))}
@@ -321,7 +321,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
           </ListItemRoot>
         )
       )}
-      {error && <Text color="text.error">{t(error)}</Text>}
+      {!!error && <Text color="text.error">{t(error)}</Text>}
       <FormActionsContainer>
         <Button disabled={preview === undefined} onClick={onAddResource} loading={loading} type="submit">
           {t("taxonomy.add")}

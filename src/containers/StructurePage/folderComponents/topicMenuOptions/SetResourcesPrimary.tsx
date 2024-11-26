@@ -66,13 +66,13 @@ const SetResourcesPrimary = ({ node, recursive = false }: Props) => {
       <StyledButton onClick={setConnectedResourcesPrimary} loading={isPending}>
         {t("alertModal.continue")}
       </StyledButton>
-      {isSuccess && (
+      {!!isSuccess && (
         <StatusIndicatorContent>
           <StyledCheckLine />
           <Text>{t("taxonomy.resourcesPrimary.success")}</Text>
         </StatusIndicatorContent>
       )}
-      {isError && <Text color="text.error">{t("taxonomy.resourcesPrimary.error")}</Text>}
+      {!!isError && <Text color="text.error">{t("taxonomy.resourcesPrimary.error")}</Text>}
     </Wrapper>
   );
 };

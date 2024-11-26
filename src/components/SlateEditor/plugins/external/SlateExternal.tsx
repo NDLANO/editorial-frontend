@@ -223,7 +223,7 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
                   ? t("form.content.link.changeUrlResource", { type: type })
                   : t("form.content.link.newUrlResource")}
               </DialogTitle>
-              {provider && <Text textStyle="label.small">{provider}</Text>}
+              {!!provider && <Text textStyle="label.small">{provider}</Text>}
             </TitleWrapper>
             <DialogCloseButton />
           </DialogHeader>

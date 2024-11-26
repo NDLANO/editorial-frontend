@@ -183,7 +183,7 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
           </FrontpageArticleSearch>
         </EditButtonWrapper>
       </NodeContentWrapper>
-      {!!field.value.menu.length && isOpen && (
+      {!!field.value.menu.length && !!isOpen && (
         <FieldArray name={`${name}.menu`} render={(props) => <FrontpageNodeList {...props} level={level + 1} />} />
       )}
     </NodeWrapper>

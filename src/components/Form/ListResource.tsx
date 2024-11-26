@@ -68,7 +68,7 @@ const ListResource = ({
             {title}
           </SafeLink>
         </ListItemHeading>
-        {onDelete && (
+        {!!onDelete && (
           <IconButton
             size="small"
             variant="danger"

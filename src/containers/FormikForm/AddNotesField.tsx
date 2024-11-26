@@ -24,7 +24,7 @@ import { styled } from "@ndla/styled-system/jsx";
 interface Props {
   name: string;
   labelWarningNote?: string;
-  onChange: Function;
+  onChange: (contributors: string[]) => void;
   value: string[];
   showError?: boolean;
 }
@@ -49,15 +49,10 @@ const StyledFieldRoot = styled(FieldRoot, {
   },
 });
 
-const AddNotesField = ({ name, labelWarningNote, onChange, value, showError }: Props) => {
+const AddNotesField = ({ labelWarningNote, onChange, value, showError }: Props) => {
   const { t } = useTranslation();
   const onNotesChange = (newContributors: string[]) => {
-    onChange({
-      target: {
-        value: newContributors,
-        name,
-      },
-    });
+    onChange(newContributors);
   };
 
   const addNote = () => {

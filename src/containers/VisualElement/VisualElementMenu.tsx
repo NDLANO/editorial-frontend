@@ -24,7 +24,7 @@ const ButtonWrapper = styled("div", {
 
 interface Props {
   types?: VisualElementType[];
-  onSelect: Function;
+  onSelect: (type: string) => void;
 }
 
 export type VisualElementType = "image" | "video" | "h5p" | "url" | "audio";

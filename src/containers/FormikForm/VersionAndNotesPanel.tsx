@@ -185,7 +185,14 @@ const VersionAndNotesPanel = ({ article, articleHistory, type, currentLanguage }
   return (
     <Wrapper>
       <FormField name="notes">
-        {({ field, meta }) => <AddNotesField showError={!!meta.error} labelWarningNote={meta.error} {...field} />}
+        {({ field, meta, helpers }) => (
+          <AddNotesField
+            showError={!!meta.error}
+            labelWarningNote={meta.error}
+            {...field}
+            onChange={helpers.setValue}
+          />
+        )}
       </FormField>
       <StyledAccordionRoot multiple defaultValue={["0"]} variant="clean" lazyMount unmountOnExit>
         {articleHistory.map((version, index) => {

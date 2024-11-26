@@ -10,14 +10,14 @@ import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { INewConcept } from "@ndla/types-backend/concept-api";
+import { IConcept, INewConcept } from "@ndla/types-backend/concept-api";
 import ConceptForm from "./ConceptForm/ConceptForm";
 import { toEditConcept } from "../../util/routeHelpers";
 import { useFetchConceptData } from "../FormikForm/formikConceptHooks";
 
 interface Props {
   inModal?: boolean;
-  addConceptInModal?: Function;
+  addConceptInModal?: (concept: IConcept) => void;
 }
 
 const CreateConcept = ({ inModal = false, addConceptInModal }: Props) => {

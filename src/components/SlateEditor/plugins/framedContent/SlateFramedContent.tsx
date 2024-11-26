@@ -95,7 +95,10 @@ const SlateFramedContent = (props: Props) => {
     setIsLoading(true);
     try {
       const generatedText = await invokeModel({
-        prompt: t("textGeneration.reflectionQuestions.prompt", { language: t(`languages.${language}`) }) + articleText,
+        prompt: t("textGeneration.reflectionQuestions.prompt", {
+          article: articleText,
+          language: t(`languages.${language}`),
+        }),
         ...claudeHaikuDefaults,
       });
       generatedText ? editor.insertText(generatedText) : console.error("No generated text");

@@ -9,15 +9,17 @@
 import {
   Children,
   ComponentPropsWithRef,
+  Dispatch,
   forwardRef,
   isValidElement,
   ReactNode,
+  SetStateAction,
   useEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
-import { Editor, Range } from "slate";
+import { BaseRange, Editor, Range } from "slate";
 import { useFocused, useSlate, useSlateSelection } from "slate-react";
 import { usePopoverContext } from "@ark-ui/react";
 import { PopoverContent, PopoverRoot } from "@ndla/primitives";
@@ -25,6 +27,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ToolbarBlockOptions } from "./ToolbarBlockOptions";
 import { ToolbarInlineOptions } from "./ToolbarInlineOptions";
 import { ToolbarLanguageOptions } from "./ToolbarLanguageOptions";
+import { ToolbarLLMOptions } from "./ToolbarLLMOptions";
 import { ToolbarMarkOptions } from "./ToolbarMarkOptions";
 import {
   getSelectionElements,
@@ -80,6 +83,7 @@ interface Props {
   options: CategoryFilters;
   areaOptions: AreaFilters;
   hideToolbar?: boolean;
+  selectors?: { [key: string]: Dispatch<SetStateAction<BaseRange | null>> };
 }
 const checkHasSelectionWithin = (el?: Element | null) => {
   if (!el) return false;
@@ -91,7 +95,7 @@ const checkHasSelectionWithin = (el?: Element | null) => {
   return !range.collapsed && el.contains(range.commonAncestorContainer);
 };
 
-const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideToolbarProp }: Props) => {
+const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideToolbarProp, selectors }: Props) => {
   const selection = useSlateSelection();
   const editor = useSlate();
   const toolbarRef = useRef<HTMLDivElement>(null);
@@ -193,6 +197,7 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
           <ToolbarBlockOptions options={options?.block ?? []} />
           <ToolbarInlineOptions options={options?.inline ?? []} />
           <ToolbarTableOptions options={options?.table ?? []} />
+          {selectors && <ToolbarLLMOptions options={options?.llm ?? []} selectors={selectors} />}
         </ToolbarRow>
       </ToolbarContainer>
     </PopoverRoot>

@@ -80,7 +80,7 @@ const FolderItem = ({
 
   return (
     <StyledFolderWrapper data-testid="folderWrapper">
-      {isMainActive && (
+      {!!isMainActive && (
         <ControlButtonsWrapper>
           <SettingsMenu
             node={node}
@@ -88,7 +88,7 @@ const FolderItem = ({
             onCurrentNodeChanged={onCurrentNodeChanged}
             nodeChildren={nodeChildren}
           />
-          {addChildTooltip && (
+          {!!addChildTooltip && (
             <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)} position="top">
               <DialogTrigger asChild>
                 <IconButton size="small" variant="tertiary" title={addChildTooltip} aria-label={addChildTooltip}>
@@ -131,7 +131,7 @@ const FolderItem = ({
           )}
         </ControlButtonsWrapper>
       )}
-      {showJumpToResources && (
+      {!!showJumpToResources && (
         <StyledButton variant="secondary" size="small" disabled={resourcesLoading} onClick={() => jumpToResources?.()}>
           {t("taxonomy.jumpToResources")}
           {!!resourcesLoading && <Spinner size="small" />}

@@ -91,7 +91,7 @@ export const TaxonomyBlockNode = ({
           </StyledButton>
         ) : null}
       </ItemBar>
-      {isOpen && node.childNodes && (
+      {!!isOpen && !!node.childNodes && (
         <Fade show>
           <StyledStructureWrapper>
             {node.childNodes?.map((childNode) => (
@@ -173,7 +173,7 @@ const ChildNode = ({ node, onSelect, toggleOpen, openedPaths, parentActive, sele
           </StyledButton>
         )}
       </ItemBar>
-      {isOpen && node.childNodes && (
+      {!!isOpen && !!node.childNodes && (
         <Fade show>
           <StyledStructureWrapper>
             {node.childNodes?.map((childNode) => (

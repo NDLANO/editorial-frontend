@@ -89,7 +89,7 @@ export const ToolbarTextOptions = ({ options }: ToolbarCategoryProps<TextType>) 
     >
       <SelectLabel srOnly>{title}</SelectLabel>
       <StyledGenericSelectTrigger variant="tertiary" size="small" title={title} data-testid="toolbar-button-text">
-        {TriggerIcon && <TriggerIcon title={title} fontWeight="semibold" />}
+        {!!TriggerIcon && <TriggerIcon title={title} fontWeight="semibold" />}
         <SelectValueText />
       </StyledGenericSelectTrigger>
       <SelectContent>
@@ -98,7 +98,7 @@ export const ToolbarTextOptions = ({ options }: ToolbarCategoryProps<TextType>) 
           return (
             <SelectItem item={item} data-testid={`text-option-${item.value}`} key={item.value}>
               <TextWrapper>
-                {Icon && <Icon />}
+                {!!Icon && <Icon />}
                 <SelectItemText>{t(`editorToolbar.${item.value}-value`)}</SelectItemText>
               </TextWrapper>
               <GenericSelectItemIndicator />

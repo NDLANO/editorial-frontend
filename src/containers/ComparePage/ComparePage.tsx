@@ -97,7 +97,7 @@ const ComparePage = () => {
                 ))}
               </select>
             </PreviewTitleWrapper>
-            {draft.data && <PreviewDraft type="article" draft={draft.data} language={previewLanguage} previewAlt />}
+            {!!draft.data && <PreviewDraft type="article" draft={draft.data} language={previewLanguage} previewAlt />}
           </ArticleWrapper>
         </PageContent>
       </TwoArticleWrapper>

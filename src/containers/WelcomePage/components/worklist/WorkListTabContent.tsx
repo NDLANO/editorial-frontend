@@ -187,7 +187,7 @@ const WorkListTabContent = ({
         <ControlWrapperDashboard>
           <TopRowControls>
             <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
-            {setFilterSubject && (
+            {!!setFilterSubject && (
               <>
                 <SubjectCombobox
                   subjectIds={subjectIds ?? []}
@@ -197,7 +197,7 @@ const WorkListTabContent = ({
                 <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject?.value} searchEnv="content" />
               </>
             )}
-            {setPrioritized && (
+            {!!setPrioritized && (
               <SwitchRoot
                 checked={prioritized}
                 onCheckedChange={(details) => {

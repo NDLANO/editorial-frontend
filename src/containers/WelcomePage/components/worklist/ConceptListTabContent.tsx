@@ -136,7 +136,7 @@ const ConceptListTabContent = ({
         <ControlWrapperDashboard>
           <TopRowControls>
             <PageSizeSelect pageSize={pageSizeConcept} setPageSize={setPageSizeConcept} />
-            {setFilterSubject && (
+            {!!setFilterSubject && (
               <>
                 <SubjectCombobox
                   subjectIds={subjectIds ?? []}

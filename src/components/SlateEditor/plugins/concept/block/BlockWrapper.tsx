@@ -140,7 +140,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
   return (
     <DialogRoot size="large" open={isEditing} onOpenChange={({ open }) => setIsEditing(open)}>
       <StyledEmbedWrapper {...attributes} data-solid-border={isSelected} draggable={true} contentEditable={false}>
-        {concept && embed && (
+        {!!concept && !!embed && (
           <>
             <ConceptButtonContainer
               concept={concept}
@@ -229,7 +229,7 @@ const ConceptButtonContainer = ({ concept, handleRemove, language, editor, eleme
       >
         <LinkIcon />
       </SafeLinkIconButton>
-      {(concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED)) && (
+      {!!(concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED)) && (
         <StyledCheckLine aria-label={t("form.workflow.published")} title={t("form.workflow.published")} />
       )}
       {concept?.status.current !== PUBLISHED && (

@@ -190,7 +190,7 @@ const TopicTaxonomyBlock = ({
   return (
     <>
       {!hasTaxEntries && <FormikFieldHelp error>{t("errorMessage.missingTax")}</FormikFieldHelp>}
-      {isTaxonomyAdmin && (
+      {!!isTaxonomyAdmin && (
         <>
           <TaxonomyConnectionErrors
             articleType={article.articleType ?? "topic-article"}
@@ -213,7 +213,7 @@ const TopicTaxonomyBlock = ({
         selectedNodes={placements}
         getSubjectTopics={getSubjectTopics}
       />
-      {!!invalidPlacements.length && isTaxonomyAdmin && (
+      {!!invalidPlacements.length && !!isTaxonomyAdmin && (
         <details>
           <summary>{t("errorMessage.invalidTopicPlacements")}</summary>
           <InvalidPlacementsWrapper>
@@ -223,7 +223,7 @@ const TopicTaxonomyBlock = ({
           </InvalidPlacementsWrapper>
         </details>
       )}
-      {showWarning && <FormikFieldHelp error>{t("errorMessage.unsavedTaxonomy")}</FormikFieldHelp>}
+      {!!showWarning && <FormikFieldHelp error>{t("errorMessage.unsavedTaxonomy")}</FormikFieldHelp>}
       <FormActionsContainer>
         <Button
           variant="secondary"
@@ -234,7 +234,7 @@ const TopicTaxonomyBlock = ({
         </Button>
         <SaveButton
           loading={isSaving}
-          showSaved={createTopicNodeConnectionsMutation.isSuccess && !isDirty}
+          showSaved={!!createTopicNodeConnectionsMutation.isSuccess && !isDirty}
           disabled={!isDirty || isSaving}
           onClick={handleSubmit}
           defaultText="saveTax"

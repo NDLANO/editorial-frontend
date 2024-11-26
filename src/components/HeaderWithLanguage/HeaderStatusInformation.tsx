@@ -167,7 +167,7 @@ const HeaderStatusInformation = ({
         ) : (type === "concept" || type === "gloss") && !inSearch ? (
           <EmbedConnection id={id} type={type} articles={articles} setArticles={setArticles} />
         ) : null}
-        {published && (
+        {!!published && (
           <StyledLink
             target="_blank"
             aria-label={t("form.workflow.published")}
@@ -179,7 +179,7 @@ const HeaderStatusInformation = ({
             <StyledCheckIcon />
           </StyledLink>
         )}
-        {multipleTaxonomy && (
+        {!!multipleTaxonomy && (
           <StyledErrorWarningFill
             aria-label={t("form.workflow.multipleTaxonomy")}
             title={t("form.workflow.multipleTaxonomy")}

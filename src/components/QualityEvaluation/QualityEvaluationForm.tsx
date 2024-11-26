@@ -272,7 +272,7 @@ const QualityEvaluationForm = ({
             )}
           </FormField>
           <FormActionsContainer>
-            {node.qualityEvaluation?.grade && (
+            {!!node.qualityEvaluation?.grade && (
               <Button variant="danger" type="reset" loading={loading.delete}>
                 {t("qualityEvaluationForm.delete")}
               </Button>
@@ -284,7 +284,7 @@ const QualityEvaluationForm = ({
               {t("form.save")}
             </Button>
           </FormActionsContainer>
-          {updateTaxMutation.isError && <Text color="text.error">{t("qualityEvaluationForm.error")}</Text>}
+          {!!updateTaxMutation.isError && <Text color="text.error">{t("qualityEvaluationForm.error")}</Text>}
         </FormikForm>
       )}
     </Formik>

@@ -198,7 +198,7 @@ const SearchSaveButton = ({ userData, selectors, searchContentType }: Props) => 
 
   return (
     <ButtonWrapper>
-      {isSaved && (
+      {!!isSaved && (
         <Button
           size="small"
           variant="danger"
@@ -215,7 +215,7 @@ const SearchSaveButton = ({ userData, selectors, searchContentType }: Props) => 
           onClick={saveSearch}
           disabled={isSaved || success}
         />
-        {error && <Text>{t("searchPage.save." + error)}</Text>}
+        {!!error && <Text>{t("searchPage.save." + error)}</Text>}
       </StyledWrapper>
     </ButtonWrapper>
   );

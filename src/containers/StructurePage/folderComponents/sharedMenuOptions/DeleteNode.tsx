@@ -124,7 +124,7 @@ const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNo
           {t("alertModal.delete")}
         </Button>
       </FormActionsContainer>
-      {error && <Text color="text.error">{error}</Text>}
+      {!!error && <Text color="text.error">{error}</Text>}
     </Wrapper>
   );
 };

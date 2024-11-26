@@ -82,7 +82,7 @@ export const PreviewConceptCompare = ({ concept, language }: CompareConceptPrevi
             ))}
           </select>
         </PreviewTitleWrapper>
-        {apiConcept.data && <PreviewConceptComponent concept={apiConcept.data} language={previewLanguage} />}
+        {!!apiConcept.data && <PreviewConceptComponent concept={apiConcept.data} language={previewLanguage} />}
       </ConceptWrapper>
     </TwoArticleWrapper>
   );

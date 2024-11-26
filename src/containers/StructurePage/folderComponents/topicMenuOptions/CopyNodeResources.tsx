@@ -176,7 +176,7 @@ const CopyNodeResources = ({ currentNode, nodeType, type }: Props) => {
           );
         }}
       />
-      {showDisplay && (
+      {!!showDisplay && (
         <StatusIndicatorContent aria-live="polite">
           {done ? <StyledCheckLine /> : <Spinner size="small" />}
           <Text>{`${prefixText} (${count}/${totalAmount})`}</Text>

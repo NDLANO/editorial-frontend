@@ -155,7 +155,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
         <Text>{t("taxonomy.publish.info")}</Text>
       </MessageBox>
       <StyledButton onClick={() => publishResources()}>{t("taxonomy.publish.button")}</StyledButton>
-      {showDisplay && (
+      {!!showDisplay && (
         <StatusIndicatorContent aria-live="polite">
           <StatusIndicatorContent>{done ? <StyledCheckLine /> : <Spinner size="small" />}</StatusIndicatorContent>
           <Text>{`${publishText} (${publishedCount}/${publishableCount})`}</Text>

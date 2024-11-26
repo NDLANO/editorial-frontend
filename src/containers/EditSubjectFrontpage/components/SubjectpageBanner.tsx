@@ -81,7 +81,7 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
         <h3>{title}</h3>
       </Heading>
       <DialogRoot open={showImageSelect} onOpenChange={(details) => setShowImageSelect(details.open)} size="large">
-        {image && (
+        {!!image && (
           <ImageWrapper>
             <img src={`${config.ndlaApiUrl}/image-api/raw/id/${image.id}`} alt={image.alttext.alttext} />
             <MetaInformation

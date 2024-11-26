@@ -82,7 +82,7 @@ const NdlaFilmArticle = ({ fieldName }: Props) => {
         <ComboboxLabel>{t("ndlaFilm.editor.moreInfoTitle")}</ComboboxLabel>
         <GenericComboboxInput placeholder={t("frontpageForm.search")} isFetching={searchQuery.isFetching} />
       </GenericSearchCombobox>
-      {!!selectedArticle && field.value && (
+      {!!selectedArticle && !!field.value && (
         <ListResource
           title={selectedArticle.title.title}
           metaImage={selectedArticle.metaImage}

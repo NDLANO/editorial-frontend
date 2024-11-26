@@ -140,7 +140,7 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
           </DialogBody>
         </DialogContent>
       </Portal>
-      {embed && (
+      {!!embed && (
         <PopoverRoot open={popoverOpen} onOpenChange={(details) => setPopoverOpen(details.open)}>
           <PopoverTrigger asChild consumeCss type={undefined}>
             <BlockCommentButton type="button" contentEditable={false} {...attributes}>

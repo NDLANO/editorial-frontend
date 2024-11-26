@@ -95,84 +95,84 @@ const NodeDiff = ({ node, isRoot }: Props) => {
   return (
     <DiffContainer>
       <NodeInfoContainer>
-        {isRoot && <RootNodePill>{t("diff.isRoot")}</RootNodePill>}
+        {!!isRoot && <RootNodePill>{t("diff.isRoot")}</RootNodePill>}
         <NodeIconType node={node} />
       </NodeInfoContainer>
       <FieldDiff fieldName="name" result={node.name} toDisplayValue={(v) => v} />
-      {filteredNode.id && <FieldDiff fieldName="id" result={filteredNode.id} toDisplayValue={(v) => v} />}
-      {filteredNode.contentUri && (
+      {!!filteredNode.id && <FieldDiff fieldName="id" result={filteredNode.id} toDisplayValue={(v) => v} />}
+      {!!filteredNode.contentUri && (
         <FieldDiff fieldName="contentUri" result={filteredNode.contentUri} toDisplayValue={(v) => v} />
       )}
-      {filteredNode.translations && <TranslationsDiff translations={filteredNode.translations} />}
-      {filteredNode.supportedLanguages && (
+      {!!filteredNode.translations && <TranslationsDiff translations={filteredNode.translations} />}
+      {!!filteredNode.supportedLanguages && (
         <ArrayDiffField
           fieldName="supportedLanguages"
           result={filteredNode.supportedLanguages}
           toDisplayValue={(value) => value}
         />
       )}
-      {filteredNode.relevanceId && (
+      {!!filteredNode.relevanceId && (
         <FieldDiff fieldName="relevance" result={filteredNode.relevanceId} toDisplayValue={(v) => v} />
       )}
-      {"connectionId" in filteredNode && filteredNode.connectionId && (
+      {"connectionId" in filteredNode && !!filteredNode.connectionId && (
         <FieldDiff fieldName="connectionId" result={filteredNode.connectionId} toDisplayValue={(v) => v} />
       )}
-      {"isPrimary" in filteredNode && filteredNode.isPrimary && (
+      {"isPrimary" in filteredNode && !!filteredNode.isPrimary && (
         <FieldDiff
           fieldName="isPrimary"
           result={filteredNode.isPrimary}
           toDisplayValue={(v) => t(`diff.fields.isPrimary.${v ? "isOn" : "isOff"}`)}
         />
       )}
-      {"rank" in filteredNode && filteredNode.rank && (
+      {"rank" in filteredNode && !!filteredNode.rank && (
         <FieldDiff fieldName="rank" result={filteredNode.rank} toDisplayValue={(v) => v.toString()} />
       )}
-      {"parentId" in filteredNode && filteredNode.parentId && (
+      {"parentId" in filteredNode && !!filteredNode.parentId && (
         <FieldDiff fieldName="parentId" result={filteredNode.parentId} toDisplayValue={(v) => v} />
       )}
-      {metadata && (
+      {!!metadata && (
         <>
-          {metadata.visible && (
+          {!!metadata.visible && (
             <FieldDiff
               fieldName="visible"
               result={metadata.visible}
               toDisplayValue={(v) => t(`diff.fields.visible.${v ? "isOn" : "isOff"}`)}
             />
           )}
-          {metadata.grepCodes && (
+          {!!metadata.grepCodes && (
             <ArrayDiffField fieldName="grepCodes" result={metadata.grepCodes} toDisplayValue={(val) => val} />
           )}
-          {customFields && (
+          {!!customFields && (
             <>
-              {customFields["topic-resources"] && (
+              {!!customFields["topic-resources"] && (
                 <FieldDiff
                   fieldName="topic-resources"
                   result={customFields["topic-resources"]}
                   toDisplayValue={(v) => v}
                 />
               )}
-              {customFields[TAXONOMY_CUSTOM_FIELD_LANGUAGE] && (
+              {!!customFields[TAXONOMY_CUSTOM_FIELD_LANGUAGE] && (
                 <FieldDiff
                   fieldName="language"
                   result={customFields[TAXONOMY_CUSTOM_FIELD_LANGUAGE]}
                   toDisplayValue={(v) => v}
                 />
               )}
-              {customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] && (
+              {!!customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] && (
                 <FieldDiff
                   fieldName="subjectCategory"
                   result={customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY]}
                   toDisplayValue={(v) => v}
                 />
               )}
-              {customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] && (
+              {!!customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] && (
                 <FieldDiff
                   fieldName="explanationSubject"
                   result={customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT]}
                   toDisplayValue={(v) => v}
                 />
               )}
-              {customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID] && (
+              {!!customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID] && (
                 <FieldDiff
                   fieldName="oldSubjectId"
                   result={customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID]}
@@ -233,31 +233,33 @@ const ResourceDiff = ({ resource, fieldView }: ResourceDiffProps) => {
         </SummaryContent>
       </summary>
       <DetailsContent>
-        {res.connectionId && <FieldDiff fieldName="connectionId" result={res.connectionId} toDisplayValue={(v) => v} />}
-        {res.contentUri && <FieldDiff fieldName="contentUri" result={res.contentUri} toDisplayValue={(v) => v} />}
-        {res.id && <FieldDiff fieldName="id" result={res.id} toDisplayValue={(v) => v} />}
-        {res.name && <FieldDiff fieldName="name" result={res.name} toDisplayValue={(v) => v} />}
-        {res.parentId && <FieldDiff fieldName="parentId" result={res.parentId} toDisplayValue={(v) => v} />}
-        {res.isPrimary && (
+        {!!res.connectionId && (
+          <FieldDiff fieldName="connectionId" result={res.connectionId} toDisplayValue={(v) => v} />
+        )}
+        {!!res.contentUri && <FieldDiff fieldName="contentUri" result={res.contentUri} toDisplayValue={(v) => v} />}
+        {!!res.id && <FieldDiff fieldName="id" result={res.id} toDisplayValue={(v) => v} />}
+        {!!res.name && <FieldDiff fieldName="name" result={res.name} toDisplayValue={(v) => v} />}
+        {!!res.parentId && <FieldDiff fieldName="parentId" result={res.parentId} toDisplayValue={(v) => v} />}
+        {!!res.isPrimary && (
           <FieldDiff
             fieldName="isPrimary"
             result={res.isPrimary}
             toDisplayValue={(v) => t(`diff.fields.isPrimary.${v ? "isOn" : "isOff"}`)}
           />
         )}
-        {res.rank && <FieldDiff fieldName="rank" result={res.rank} toDisplayValue={(v) => v.toString()} />}
-        {res.relevanceId && <FieldDiff fieldName="relevance" result={res.relevanceId} toDisplayValue={(v) => v} />}
-        {res.translations && <TranslationsDiff translations={res.translations} />}
-        {res.supportedLanguages && (
+        {!!res.rank && <FieldDiff fieldName="rank" result={res.rank} toDisplayValue={(v) => v.toString()} />}
+        {!!res.relevanceId && <FieldDiff fieldName="relevance" result={res.relevanceId} toDisplayValue={(v) => v} />}
+        {!!res.translations && <TranslationsDiff translations={res.translations} />}
+        {!!res.supportedLanguages && (
           <ArrayDiffField fieldName="supportedLanguages" result={res.supportedLanguages} toDisplayValue={(v) => v} />
         )}
-        {resourceTypeDiff && (
+        {!!resourceTypeDiff && (
           <ArrayDiffField fieldName="resourceTypes" result={resourceTypeDiff} toDisplayValue={(v) => v} />
         )}
-        {res.metadata?.grepCodes && (
+        {!!res.metadata?.grepCodes && (
           <ArrayDiffField fieldName="grepCodes" result={res.metadata.grepCodes} toDisplayValue={(v) => v} />
         )}
-        {res.metadata?.visible && (
+        {!!res.metadata?.visible && (
           <FieldDiff
             fieldName="visible"
             result={res.metadata.visible}

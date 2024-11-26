@@ -166,20 +166,20 @@ const HeaderActions = ({
           supportedLanguages={supportedLanguages}
           isSubmitting={isSubmitting}
         />
-        {isNewLanguage && (
+        {!!isNewLanguage && (
           <HeaderCurrentLanguagePill key={`types_${language}`}>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
         )}
         <StyledSplitter />
         <HeaderLanguagePicker id={id} emptyLanguages={emptyLanguages} editUrl={editUrl} />
         {translatableTypes.includes(type) &&
-          language === "nb" &&
-          showTranslate &&
-          !supportedLanguages.includes("nn") && (
-            <>
-              <StyledSplitter />
-              <TranslateNbToNn id={id} editUrl={editUrl} />
-            </>
-          )}
+        language === "nb" &&
+        showTranslate &&
+        !supportedLanguages.includes("nn") ? (
+          <>
+            <StyledSplitter />
+            <TranslateNbToNn id={id} editUrl={editUrl} />
+          </>
+        ) : null}
         {!noStatus && (
           <>
             <StyledSplitter />
@@ -187,7 +187,7 @@ const HeaderActions = ({
           </>
         )}
         <StyledGroup>
-          {lastPublishedVersion && (
+          {!!lastPublishedVersion && (
             <>
               <StyledSplitter />
               <PreviewResourceDialog

@@ -130,7 +130,7 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
       <AlertDialog
         title={t("editorFooter.changeHeader")}
         label={t("editorFooter.changeHeader")}
-        show={isNormalizedOnLoad && !isCreatePage}
+        show={!!isNormalizedOnLoad && !isCreatePage}
         text={t("form.content.normalizedOnLoad")}
         onCancel={() => setIsNormalizedOnLoad(false)}
         severity="warning"
@@ -177,7 +177,7 @@ const ContentField = ({ articleId, field: { name, onChange, value }, articleLang
   return (
     <>
       <FieldHeader title={t("form.content.label")}>
-        {articleId && userPermissions?.includes(DRAFT_HTML_SCOPE) && (
+        {!!articleId && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (
           <EditMarkupLink to={toEditMarkup(articleId, articleLanguage ?? "")} title={t("editMarkup.linkTitle")} />
         )}
       </FieldHeader>

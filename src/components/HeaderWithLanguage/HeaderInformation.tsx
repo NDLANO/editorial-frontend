@@ -178,7 +178,7 @@ const HeaderInformation = ({
         {(type === "standard" || type === "topic-article") && (
           <Button size="small" variant="tertiary" onClick={onSaveAsNew} data-testid="saveAsNew">
             {t("form.workflow.saveAsNew")}
-            {loading && <Spinner appearance="absolute" />}
+            {!!loading && <Spinner appearance="absolute" />}
           </Button>
         )}
       </StyledTitleHeaderWrapper>

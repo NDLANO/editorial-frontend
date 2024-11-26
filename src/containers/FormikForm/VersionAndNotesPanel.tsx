@@ -218,8 +218,8 @@ const VersionAndNotesPanel = ({ article, articleHistory, type, currentLanguage }
                     article={article}
                     currentLanguage={currentLanguage}
                   />
-                  {isLatestVersion && <Badge colorTheme="brand2">{t("form.notes.areHere")}</Badge>}
-                  {published && (!isLatestVersion || articleHistory.length === 1) && (
+                  {!!isLatestVersion && <Badge colorTheme="brand2">{t("form.notes.areHere")}</Badge>}
+                  {!!published && (!isLatestVersion || articleHistory.length === 1) && (
                     <Badge colorTheme="brand3">{t("form.notes.published")}</Badge>
                   )}
                 </InfoGrouping>

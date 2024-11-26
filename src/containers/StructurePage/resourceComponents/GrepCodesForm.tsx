@@ -61,7 +61,7 @@ const GrepCodesForm = ({ codes, onUpdate, close }: Props) => {
             <FormContent>
               <GrepCodesField />
               <FormActionsContainer>
-                {close && (
+                {!!close && (
                   <Button variant="secondary" onClick={close}>
                     {t("cancel")}
                   </Button>
@@ -71,7 +71,7 @@ const GrepCodesForm = ({ codes, onUpdate, close }: Props) => {
                 </Button>
               </FormActionsContainer>
             </FormContent>
-            {error && (
+            {!!error && (
               <StyledText color="text.error" aria-live="polite">
                 {t("errorMessage.genericError")}
               </StyledText>

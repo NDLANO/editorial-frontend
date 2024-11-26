@@ -127,7 +127,7 @@ const Version = ({ version }: Props) => {
         <VersionContentWrapper>
           <ContentBlock>
             <VersionTitle>{version.name}</VersionTitle>
-            {version.locked && (
+            {!!version.locked && (
               <StyledKeyhole aria-label={t("taxonomyVersions.locked")} title={t("taxonomyVersions.locked")} />
             )}
           </ContentBlock>
@@ -190,8 +190,8 @@ const Version = ({ version }: Props) => {
           </AlertDialog>
         </VersionContentWrapper>
       )}
-      {error && <StyledErrorMessage>{error}</StyledErrorMessage>}
-      {isEditing && <VersionForm version={version} existingVersions={[]} onClose={() => setIsEditing(false)} />}
+      {!!error && <StyledErrorMessage>{error}</StyledErrorMessage>}
+      {!!isEditing && <VersionForm version={version} existingVersions={[]} onClose={() => setIsEditing(false)} />}
     </VersionWrapper>
   );
 };

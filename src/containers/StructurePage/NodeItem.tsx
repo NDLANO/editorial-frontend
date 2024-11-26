@@ -167,7 +167,7 @@ const NodeItem = ({
   return (
     <StyledStructureItem connectionId={connectionId} id={item.id} key={path} greyedOut={!parentActive && !isActive}>
       <StyledItemBar highlight={isActive}>
-        {isRoot && (
+        {!!isRoot && (
           <RoundIcon
             onClick={toggleFavorite}
             smallIcon={<StyledStar data-favorite={isFavorite} data-testid="star-icon" />}
@@ -190,7 +190,7 @@ const NodeItem = ({
           </IconWrapper>
           {item.name}
         </ItemTitleButton>
-        {showQuality && (item.nodeType === "TOPIC" || item.nodeType === "SUBJECT") && (
+        {!!showQuality && (item.nodeType === "TOPIC" || item.nodeType === "SUBJECT") && (
           <EvaluationWrapper>
             <QualityEvaluationGrade
               grade={item.gradeAverage?.averageValue}
@@ -208,7 +208,7 @@ const NodeItem = ({
             />
           </EvaluationWrapper>
         )}
-        {isActive && (
+        {!!isActive && (
           <FolderItem
             node={item}
             rootNodeId={rootNodeId}
@@ -220,13 +220,13 @@ const NodeItem = ({
             addChildTooltip={addChildTooltip}
           />
         )}
-        {isLoading && (
+        {!!isLoading && (
           <span>
             <Spinner size="small" />
           </span>
         )}
       </StyledItemBar>
-      {hasChildNodes && isOpen && nodes && (
+      {!!hasChildNodes && !!isOpen && !!nodes && (
         <Fade show={true}>
           <StructureWrapper>
             <DndList

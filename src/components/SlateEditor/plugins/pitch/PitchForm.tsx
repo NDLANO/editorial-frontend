@@ -145,7 +145,7 @@ const PitchForm = ({ initialData, onSave, onCancel }: Props) => {
             )}
           </FormField>
           <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
-          {values.metaImageId && (
+          {!!values.metaImageId && (
             <FormField name="metaImageAlt">
               {({ field, meta }) => (
                 <FieldRoot required invalid={!!meta.error}>

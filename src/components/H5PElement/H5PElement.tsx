@@ -102,7 +102,7 @@ const H5PElement = ({ h5pUrl, onSelect, onClose, locale, canReturnResources }: P
 
   return (
     <FlexWrapper data-testid="h5p-editor">
-      {fetchFailed && (
+      {!!fetchFailed && (
         <ErrorMessage
           illustration={{
             url: "/Oops.gif",
@@ -116,7 +116,7 @@ const H5PElement = ({ h5pUrl, onSelect, onClose, locale, canReturnResources }: P
           }}
         />
       )}
-      {url && <StyledIFrame src={url} title="H5P" frameBorder="0" />}
+      {!!url && <StyledIFrame src={url} title="H5P" frameBorder="0" />}
     </FlexWrapper>
   );
 };

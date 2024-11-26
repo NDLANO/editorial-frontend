@@ -154,9 +154,9 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
               <VersionNameField />
               {!version && <VersionSourceField existingVersions={existingVersions} />}
               {version?.versionType !== "PUBLISHED" && <VersionLockedField />}
-              {error && <StyledErrorMessage>{error}</StyledErrorMessage>}
+              {!!error && <StyledErrorMessage>{error}</StyledErrorMessage>}
               <Row>
-                {version && version.versionType === "BETA" && (
+                {version?.versionType === "BETA" && (
                   <StyledButton disabled={dirty} onClick={() => setShowAlertModal(true)}>
                     {t("taxonomyVersions.publishButton")}
                   </StyledButton>

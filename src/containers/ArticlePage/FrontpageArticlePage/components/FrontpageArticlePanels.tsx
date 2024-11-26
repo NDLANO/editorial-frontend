@@ -131,7 +131,7 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
           >
             <RevisionNotes />
           </FormAccordion>
-          {article && (
+          {!!article && (
             <FormAccordion
               id={"frontpage-article-workflow"}
               title={t("form.workflowSection")}

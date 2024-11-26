@@ -163,7 +163,7 @@ const FootnoteForm = ({ isEdit, footnote, onRemove, onClose, onSave }: Props) =>
           )}
         </FormField>
         <FormActionsContainer>
-          {isEdit && (
+          {!!isEdit && (
             <Button variant="danger" onClick={onRemove}>
               {t("form.content.footnote.removeFootnote")}
             </Button>

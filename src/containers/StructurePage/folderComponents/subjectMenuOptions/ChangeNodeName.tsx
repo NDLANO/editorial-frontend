@@ -273,7 +273,7 @@ const ChangeNodeName = ({ node }: Props) => {
                   size="small"
                 />
               </FormActionsContainer>
-              {updateError && <Text color="text.error">{updateError}</Text>}
+              {!!updateError && <Text color="text.error">{updateError}</Text>}
             </FormWrapper>
           );
         }}

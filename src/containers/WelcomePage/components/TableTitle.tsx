@@ -70,7 +70,7 @@ const TableTitle = ({ title, description, Icon, infoText }: Props) => {
           <Heading textStyle="title.medium" asChild consumeCss>
             <h2>{title}</h2>
           </Heading>
-          {infoText && <InformationOutline aria-label={infoText} title={infoText} size="small" />}
+          {!!infoText && <InformationOutline aria-label={infoText} title={infoText} size="small" />}
         </TitleWrapper>
         <Text textStyle="body.small">{description}</Text>
       </TextWrapper>

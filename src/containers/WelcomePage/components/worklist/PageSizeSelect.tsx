@@ -19,7 +19,6 @@ import {
   SelectItemIndicator,
   SelectItemText,
   SelectLabel,
-  SelectPositioner,
   SelectRoot,
   SelectTrigger,
   SelectValueText,
@@ -76,18 +75,16 @@ const PageSizeSelect = ({ pageSize, setPageSize }: Props) => {
           </Button>
         </StyledSelectTrigger>
       </SelectControl>
-      <SelectPositioner>
-        <SelectContent>
-          {collection.items.map((item) => (
-            <SelectItem item={item} key={item.value}>
-              <SelectItemText>{item.label}</SelectItemText>
-              <SelectItemIndicator asChild>
-                <CheckLine />
-              </SelectItemIndicator>
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </SelectPositioner>
+      <SelectContent>
+        {collection.items.map((item) => (
+          <SelectItem item={item} key={item.value}>
+            <SelectItemText>{item.label}</SelectItemText>
+            <SelectItemIndicator asChild>
+              <CheckLine />
+            </SelectItemIndicator>
+          </SelectItem>
+        ))}
+      </SelectContent>
       <SelectHiddenSelect />
     </SelectRoot>
   );

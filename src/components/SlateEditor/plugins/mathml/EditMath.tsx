@@ -8,29 +8,25 @@
 
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { ModalBody, ModalHeader, ModalTitle } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import { Button, Heading } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { uuid } from "@ndla/util";
+import { FormActionsContainer } from "../../../FormikForm";
 
 export const emptyMathTag = '<math xmlns="http://www.w3.org/1998/Math/MathML"/>';
 
-const StyledMathEditorWrapper = styled.div`
-  padding: ${spacing.small} 0;
-  height: 40vh;
-`;
+const StyledMathEditorWrapper = styled("div", {
+  base: {
+    height: "40vh",
+  },
+});
 
-const StyledMathPreviewWrapper = styled.div`
-  padding: ${spacing.small} 0;
-  display: flex;
-  overflow: auto;
-`;
-
-const StyledButtonWrapper = styled.div`
-  gap: ${spacing.small};
-  display: flex;
-`;
+const StyledMathPreviewWrapper = styled("div", {
+  base: {
+    display: "flex",
+    overflow: "auto",
+  },
+});
 
 export interface MathMLType {
   getMathML: () => string;
@@ -43,14 +39,13 @@ interface Props {
   model: {
     innerHTML?: string;
   };
-  onExit: () => void;
   onSave: (val: string) => void;
   onRemove: () => void;
   mathEditor: MathMLType | undefined;
   setMathEditor: Dispatch<SetStateAction<MathMLType | undefined>>;
 }
 
-const EditMath = ({ model: { innerHTML }, onExit, onRemove, onSave, mathEditor, setMathEditor }: Props) => {
+const EditMath = ({ model: { innerHTML }, onRemove, onSave, mathEditor, setMathEditor }: Props) => {
   const [initialized, setInitialized] = useState(false);
   const [renderedMathML, setRenderedMathML] = useState(innerHTML ?? emptyMathTag);
   const id = useMemo(() => uuid(), []);
@@ -89,44 +84,32 @@ const EditMath = ({ model: { innerHTML }, onExit, onRemove, onSave, mathEditor, 
 
   return (
     <>
-      <ModalHeader>
-        <ModalTitle>{t("mathEditor.editMath")}</ModalTitle>
-      </ModalHeader>
-      <ModalBody>
-        <hr />
-        <StyledMathEditorWrapper id={`mathEditorContainer-${id}`} />
-        <StyledButtonWrapper>
-          <Button
-            data-testid="preview-math"
-            variant="secondary"
-            onClick={() => setRenderedMathML(mathEditor?.getMathML() ?? emptyMathTag)}
-          >
-            {t("form.preview.button")}
-          </Button>
-          <Button
-            variant="secondary"
-            data-testid="save-math"
-            onClick={() => onSave(mathEditor?.getMathML() ?? emptyMathTag)}
-          >
-            {t("form.save")}
-          </Button>
-          <Button data-testid="abort-math" variant="secondary" onClick={onExit}>
-            {t("form.abort")}
-          </Button>
-          <Button variant="secondary" onClick={onRemove}>
-            {t("form.remove")}
-          </Button>
-        </StyledButtonWrapper>
-        <h3>{t("mathEditor.preview")}</h3>
-        <hr />
-        <StyledMathPreviewWrapper
-          id={id}
-          dangerouslySetInnerHTML={{
-            __html: renderedMathML,
-          }}
-          data-testid="preview-math-text"
-        />
-      </ModalBody>
+      <StyledMathEditorWrapper id={`mathEditorContainer-${id}`} />
+      <FormActionsContainer>
+        <Button
+          data-testid="preview-math"
+          variant="secondary"
+          onClick={() => setRenderedMathML(mathEditor?.getMathML() ?? emptyMathTag)}
+        >
+          {t("form.preview.button")}
+        </Button>
+        <Button data-testid="save-math" onClick={() => onSave(mathEditor?.getMathML() ?? emptyMathTag)}>
+          {t("form.save")}
+        </Button>
+        <Button variant="danger" onClick={onRemove}>
+          {t("form.remove")}
+        </Button>
+      </FormActionsContainer>
+      <Heading textStyle="title.small" asChild consumeCss>
+        <h2>{t("mathEditor.preview")}</h2>
+      </Heading>
+      <StyledMathPreviewWrapper
+        id={id}
+        dangerouslySetInnerHTML={{
+          __html: renderedMathML,
+        }}
+        data-testid="preview-math-text"
+      />
     </>
   );
 };

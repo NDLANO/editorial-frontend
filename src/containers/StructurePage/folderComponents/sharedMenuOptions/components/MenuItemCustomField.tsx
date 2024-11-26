@@ -8,13 +8,12 @@
 
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing, colors } from "@ndla/core";
-import { Plus } from "@ndla/icons/action";
+import { AddLine } from "@ndla/icons/action";
+import { Button, Heading } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node, Metadata } from "@ndla/types-taxonomy";
-import ConstantMetaField from "./ConstantMetaField";
 import CustomFieldComponent from "./CustomFieldComponent";
+import SubjectForwardField from "./SubjectForwardField";
 import {
   TAXONOMY_CUSTOM_FIELD_LANGUAGE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
@@ -41,20 +40,26 @@ import ToggleExplanationSubject from "../../subjectMenuOptions/ToggleExplanation
 import ToggleProgrammeSubject from "../../subjectMenuOptions/ToggleProgrammeSubject";
 import GroupTopicResources from "../../topicMenuOptions/GroupTopicResources";
 
+const ContentWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+  },
+});
+
+const Wrapper = styled("div", {
+  base: {
+    width: "100%",
+  },
+});
+
+const StyledButton = styled(Button, { base: { alignSelf: "flex-end" } });
+
 interface Props {
   node: Node;
   onCurrentNodeChanged: (node: Node) => void;
 }
-
-const StyledFilterWrapper = styled.div`
-  background-color: white;
-  padding: calc(${spacing.small} / 2);
-  position: relative;
-`;
-
-const StyledButton = styled(ButtonV2)`
-  color: ${colors.brand.greyDark};
-`;
 
 const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
   const { t } = useTranslation();
@@ -102,24 +107,18 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
     });
   };
 
-  const programmeSettings = (
-    <>
-      <ToggleProgrammeSubject customFields={customFields} updateFields={setCustomFields} />
-    </>
-  );
+  const programmeSettings = <ToggleProgrammeSubject customFields={customFields} updateFields={setCustomFields} />;
 
   const topicSettings = (
-    <>
-      <GroupTopicResources
-        node={node}
-        onChanged={(partialMeta) =>
-          onCurrentNodeChanged({
-            ...node,
-            metadata: { ...node.metadata, ...partialMeta },
-          })
-        }
-      />
-    </>
+    <GroupTopicResources
+      node={node}
+      onChanged={(partialMeta) =>
+        onCurrentNodeChanged({
+          ...node,
+          metadata: { ...node.metadata, ...partialMeta },
+        })
+      }
+    />
   );
 
   const subjectSettings = (
@@ -131,10 +130,7 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
       <SubjectCategorySelector customFields={customFields} updateCustomFields={setCustomFields} />
       <SubjectTypeSelector customFields={customFields} updateCustomFields={setCustomFields} />
       <ToggleExplanationSubject customFields={customFields} updateFields={setCustomFields} />
-      <ConstantMetaField
-        keyPlaceholder={t("taxonomy.metadata.customFields.oldSubjectId")}
-        valuePlaceholder={"urn:subject:***"}
-        fieldKey={TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID}
+      <SubjectForwardField
         onSubmit={setCustomFields}
         initialVal={metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID]}
       />
@@ -142,31 +138,34 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
   );
 
   return (
-    <>
-      {nodeType === PROGRAMME && programmeSettings}
-      {nodeType === SUBJECT_NODE && subjectSettings}
-      {nodeType === TOPIC_NODE && topicSettings}
-      {filterHardcodedMetadataValues()
-        .sort((a, b) => a[0].localeCompare(b[0]))
-        .map(([key, value]) => (
-          <CustomFieldComponent key={`unique-${key}`} onSubmit={setCustomFields} initialKey={key} initialVal={value} />
-        ))}
-      {isOpen ? (
-        <CustomFieldComponent onSubmit={setCustomFields} onClose={() => setOpen(false)} />
-      ) : (
-        <StyledFilterWrapper>
-          <StyledButton
-            variant="link"
-            colorTheme="greyLighter"
-            data-testid="addCustomFieldButton"
-            onClick={() => setOpen(true)}
-          >
-            <Plus />
+    <Wrapper>
+      <Heading consumeCss asChild textStyle="label.medium" fontWeight="bold">
+        <h2>{t("taxonomy.metadata.customFields.alterFields")}</h2>
+      </Heading>
+      <ContentWrapper>
+        {nodeType === PROGRAMME && programmeSettings}
+        {nodeType === SUBJECT_NODE && subjectSettings}
+        {nodeType === TOPIC_NODE && topicSettings}
+        {filterHardcodedMetadataValues()
+          .sort((a, b) => a[0].localeCompare(b[0]))
+          .map(([key, value]) => (
+            <CustomFieldComponent
+              key={`unique-${key}`}
+              onSubmit={setCustomFields}
+              initialKey={key}
+              initialVal={value}
+            />
+          ))}
+        {isOpen ? (
+          <CustomFieldComponent onSubmit={setCustomFields} onClose={() => setOpen(false)} />
+        ) : (
+          <StyledButton variant="secondary" size="small" onClick={() => setOpen(true)}>
+            <AddLine />
             {t("taxonomy.metadata.customFields.addField")}
           </StyledButton>
-        </StyledFilterWrapper>
-      )}
-    </>
+        )}
+      </ContentWrapper>
+    </Wrapper>
   );
 };
 

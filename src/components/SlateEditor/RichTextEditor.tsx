@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { useFormikContext } from "formik";
 import isEqual from "lodash/isEqual";
 import { FocusEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
@@ -12,7 +13,9 @@ import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from "
 import { withHistory } from "slate-history";
 import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
+import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import "../DisplayEmbed/helpers/h5pResizer";
 import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
 import { SlatePlugin } from "./interfaces";
 import { Action, commonActions } from "./plugins/blockPicker/actions";
@@ -33,7 +36,6 @@ import withPlugins from "./utils/withPlugins";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { FormikStatus } from "../../interfaces";
-import Spinner from "../Spinner";
 
 const StyledSlateWrapper = styled("div", {
   base: {
@@ -68,6 +70,7 @@ export interface RichTextEditorProps extends Omit<EditableProps, "value" | "onCh
   hideToolbar?: boolean;
   receiveInitialFocus?: boolean;
   hideSpinner?: boolean;
+  noArticleStyling?: boolean;
 }
 
 const RichTextEditor = ({
@@ -88,6 +91,7 @@ const RichTextEditor = ({
   receiveInitialFocus,
   hideSpinner,
   onBlur: onBlurProp,
+  noArticleStyling,
   ...rest
 }: RichTextEditorProps) => {
   const [editor] = useState(() => withPlugins(withReact(withHistory(createEditor())), plugins));
@@ -303,10 +307,10 @@ const RichTextEditor = ({
   );
 
   return (
-    <article className="ndla-article">
+    <article className={noArticleStyling ? undefined : "ndla-article"}>
       <ArticleLanguageProvider language={language}>
         <SlateProvider isSubmitted={submitted}>
-          <StyledSlateWrapper data-testid={testId}>
+          <StyledSlateWrapper data-testid={testId} data-slate-wrapper="">
             <Slate editor={editor} initialValue={value} onChange={onChange}>
               {isFirstNormalize && !hideSpinner ? (
                 <Spinner />

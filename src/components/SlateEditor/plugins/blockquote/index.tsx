@@ -37,7 +37,7 @@ export const blockQuoteSerializer: SlateSerializer = {
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_QUOTE) {
-      return createTag("blockquote", node.data, children, { bailOnEmptyData: false });
+      return createTag("blockquote", node.data, children, { bailOnEmptyData: false }, undefined);
     }
   },
 };

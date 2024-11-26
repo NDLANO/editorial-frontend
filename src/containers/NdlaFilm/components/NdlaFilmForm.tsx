@@ -17,12 +17,11 @@ import SlideshowEditor from "./SlideshowEditor";
 import ThemeEditor from "./ThemeEditor";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
-import Field from "../../../components/Field";
+import { FormActionsContainer, Form } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
 import SimpleLanguageHeader from "../../../components/HeaderWithLanguage/SimpleLanguageHeader";
 import SaveButton from "../../../components/SaveButton";
 import { isSlateEmbed } from "../../../components/SlateEditor/plugins/embed/utils";
-import StyledForm from "../../../components/StyledFormComponents";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { useUpdateFilmFrontpageMutation } from "../../../modules/frontpage/filmMutations";
 import { isFormikFormDirty } from "../../../util/formHelper";
@@ -30,7 +29,7 @@ import { getInitialValues, getNdlaFilmFromSlate } from "../../../util/ndlaFilmHe
 import { NdlaErrorPayload } from "../../../util/resolveJsonOrRejectWithError";
 import { toEditNdlaFilm } from "../../../util/routeHelpers";
 import SubjectpageAbout from "../../EditSubjectFrontpage/components/SubjectpageAbout";
-import { AlertModalWrapper } from "../../FormikForm/index";
+import { AlertDialogWrapper } from "../../FormikForm";
 import usePreventWindowUnload from "../../FormikForm/preventWindowUnloadHook";
 import { useMessages } from "../../Messages/MessagesProvider";
 
@@ -121,7 +120,7 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
         });
         setUnsaved(formIsDirty);
         return (
-          <StyledForm>
+          <Form>
             <SimpleLanguageHeader
               articleType="subjectpage"
               editUrl={(_, lang) => toEditNdlaFilm(lang)}
@@ -152,24 +151,23 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
                 <ThemeEditor selectedLanguage={selectedLanguage} />
               </FormAccordion>
             </FormAccordions>
-            <Field right>
+            <FormActionsContainer>
               <SaveButton
                 id={SAVE_BUTTON_ID}
-                size="large"
-                isSaving={isSubmitting}
+                loading={isSubmitting}
                 showSaved={!formIsDirty && savedToServer}
                 formIsDirty={formIsDirty}
                 onClick={submitForm}
                 disabled={!isValid}
               />
-            </Field>
-            <AlertModalWrapper
+            </FormActionsContainer>
+            <AlertDialogWrapper
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
               severity="danger"
               text={t("alertModal.notSaved")}
             />
-          </StyledForm>
+          </Form>
         );
       }}
     </Formik>

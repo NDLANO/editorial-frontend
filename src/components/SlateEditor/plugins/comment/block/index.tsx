@@ -38,7 +38,7 @@ export const commentBlockSerializer: SlateSerializer = {
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node) || node.type !== TYPE_COMMENT_BLOCK || !node.data) return;
-    return createEmbedTagV2(node.data);
+    return createEmbedTagV2(node.data, undefined, undefined);
   },
 };
 

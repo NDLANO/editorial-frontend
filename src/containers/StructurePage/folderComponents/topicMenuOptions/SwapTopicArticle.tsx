@@ -6,82 +6,59 @@
  *
  */
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
-import { spacing, colors } from "@ndla/core";
-import { SubjectMaterial } from "@ndla/icons/contentType";
-import { Done } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons/editor";
+import { Text, ComboboxLabel, Spinner } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
-import { OldSpinner } from "../../../../components/OldSpinner";
-import RoundIcon from "../../../../components/RoundIcon";
+import { GenericComboboxInput, GenericComboboxItemContent } from "../../../../components/abstractions/Combobox";
+import { GenericSearchCombobox } from "../../../../components/Form/GenericSearchCombobox";
 import { fetchDraft, updateDraft } from "../../../../modules/draft/draftApi";
 import { TOPIC_NODE } from "../../../../modules/nodes/nodeApiTypes";
 import { usePutNodeMutation } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { useSearch } from "../../../../modules/search/searchQueries";
+import { usePaginatedQuery } from "../../../../util/usePaginatedQuery";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
-import { EditModeHandler } from "../SettingsMenuDropdownType";
-import MenuItemButton from "../sharedMenuOptions/components/MenuItemButton";
-import SearchDropdown from "../sharedMenuOptions/components/SearchDropdown";
-import { StyledErrorMessage } from "../styles";
 
 interface Props {
   node: Node;
   rootNodeId: string;
-  editModeHandler: EditModeHandler;
 }
 
-const StyledSpinner = styled(OldSpinner)`
-  margin: 0px 4px;
-`;
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+    width: "100%",
+  },
+});
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin: ${spacing.small};
-`;
+const StyledCheckLine = styled(CheckLine, {
+  base: {
+    fill: "stroke.success",
+  },
+});
 
-const StyledMenuWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: baseline;
-`;
-
-const MenuContent = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-
-const StyledActionContent = styled.div`
-  padding-left: ${spacing.normal};
-`;
-
-const StyledSuccessIcon = styled(Done)`
-  border-radius: 90px;
-  margin: 5px;
-  background-color: ${colors.support.green};
-  color: ${colors.white};
-`;
-
-const SwapTopicArticle = ({ node, rootNodeId, editModeHandler: { editMode, toggleEditMode } }: Props) => {
+const SwapTopicArticle = ({ node, rootNodeId }: Props) => {
   const { t, i18n } = useTranslation();
   const putNodeMutation = usePutNodeMutation();
-  const toggleEditModeFunc = () => toggleEditMode("swapTopicArticle");
   const [error, setError] = useState<string | undefined>(undefined);
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
+  const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
 
-  useEffect(() => {
-    setError(undefined);
-  }, [editMode]);
+  const searchQuery = useSearch(
+    { query: delayedQuery, language: i18n.language, page },
+    { placeholderData: (prev) => prev },
+  );
 
   const handleSubmit = async (topic: IMultiSearchSummary) => {
     setError(undefined);
-    toggleEditModeFunc();
     try {
       await putNodeMutation.mutateAsync({
         id: node.id,
@@ -112,53 +89,49 @@ const SwapTopicArticle = ({ node, rootNodeId, editModeHandler: { editMode, toggl
     }
   };
 
-  if (editMode === "swapTopicArticle") {
-    return (
-      <Wrapper>
-        <RoundIcon open small smallIcon icon={<SubjectMaterial />} />
-        <SearchDropdown
-          useQuery={useSearch}
-          onChange={handleSubmit}
-          placeholder={t("taxonomy.swapTopicArticle.placeholder")}
-          params={{ contextTypes: ["topic-article"], language: i18n.language }}
-          transform={(res) => {
-            return {
-              ...res,
-              results: res.results.map((r) => ({
-                originalItem: r,
-                name: r.title.title,
-                id: r.id,
-                image: r.metaImage?.url,
-                description: r.metaDescription.metaDescription,
-              })),
-            };
-          }}
-        />
-      </Wrapper>
-    );
-  }
-
   return (
-    <StyledMenuWrapper>
-      <MenuItemButton onClick={toggleEditModeFunc}>
-        <RoundIcon small icon={<SubjectMaterial />} />
-        {t("taxonomy.swapTopicArticle.info")}
-      </MenuItemButton>
-      <StyledActionContent>
-        {putNodeMutation.isPending && (
-          <MenuContent>
-            <StyledSpinner />
-          </MenuContent>
+    <Wrapper>
+      <GenericSearchCombobox
+        items={searchQuery.data?.results ?? []}
+        itemToString={(item) => item.title.title}
+        itemToValue={(item) => item.id.toString()}
+        inputValue={query}
+        onInputValueChange={(details) => setQuery(details.inputValue)}
+        isSuccess={searchQuery.isSuccess}
+        paginationData={searchQuery.data}
+        onPageChange={(details) => setPage(details.page)}
+        onValueChange={(details) => handleSubmit(details.items[0])}
+        css={{ width: "100%" }}
+        renderItem={(item) => (
+          <GenericComboboxItemContent
+            title={item.title.title}
+            description={item.metaDescription.metaDescription}
+            image={{ url: item.metaImage?.url, alt: "" }}
+            useFallbackImage
+          />
         )}
+      >
+        <ComboboxLabel>{t("taxonomy.swapTopicArticle.info")}</ComboboxLabel>
+        <GenericComboboxInput
+          placeholder={t("taxonomy.swapTopicArticle.placeholder")}
+          isFetching={searchQuery.isFetching}
+        />
+      </GenericSearchCombobox>
+      <>
+        {putNodeMutation.isPending && <Spinner size="small" />}
         {putNodeMutation.isSuccess && (
-          <MenuContent>
-            <StyledSuccessIcon />
+          <Text>
+            <StyledCheckLine />
             {t("taxonomy.swapTopicArticle.success")}
-          </MenuContent>
+          </Text>
         )}
-        {error && <StyledErrorMessage data-testid="failedToSwapTopicArticle">{t(error)}</StyledErrorMessage>}
-      </StyledActionContent>
-    </StyledMenuWrapper>
+        {error && (
+          <Text color="text.error" data-testid="failedToSwapTopicArticle">
+            {error}
+          </Text>
+        )}
+      </>
+    </Wrapper>
   );
 };
 

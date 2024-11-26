@@ -7,12 +7,16 @@
  */
 
 import { MouseEvent } from "react";
-import { Editor } from "slate";
+import { Editor, Transforms } from "slate";
+import { ReactEditor } from "slate-react";
 import { isMarkActive } from "./index";
 import { MarkType } from "../toolbar/toolbarState";
 
 export const toggleMark = (event: KeyboardEvent | MouseEvent<HTMLButtonElement>, editor: Editor, format: MarkType) => {
   event.preventDefault();
+  if (!editor.selection) return;
+  Transforms.select(editor, editor.selection);
+  ReactEditor.focus(editor);
   const isActive = isMarkActive(editor, format);
 
   if (isActive) {

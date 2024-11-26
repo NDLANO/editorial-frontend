@@ -9,42 +9,39 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
-import { Button, FieldInput, FieldLabel, FieldRoot, Text } from "@ndla/primitives";
+import {
+  Button,
+  ComboboxLabel,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  ListItemContent,
+  ListItemHeading,
+  ListItemImage,
+  ListItemRoot,
+  Text,
+  Spinner,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IArticleV2 } from "@ndla/types-backend/article-api";
 import { ILearningPathSummaryV2, ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
-import { IGroupSearchResult, IMultiSearchSummary } from "@ndla/types-backend/search-api";
-import ArticlePreview from "../../../components/ArticlePreview";
-import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
+import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
+import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
-import Spinner from "../../../components/Spinner";
 import { RESOURCE_TYPE_LEARNING_PATH, RESOURCE_TYPE_SUBJECT_MATERIAL } from "../../../constants";
 import { getArticle } from "../../../modules/article/articleApi";
-import {
-  fetchLearningpaths,
-  learningpathSearch,
-  updateLearningPathTaxonomy,
-} from "../../../modules/learningpath/learningpathApi";
+import { fetchLearningpaths, updateLearningPathTaxonomy } from "../../../modules/learningpath/learningpathApi";
 import { fetchNodes } from "../../../modules/nodes/nodeApi";
 import { usePostResourceForNodeMutation } from "../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys, useNodes } from "../../../modules/nodes/nodeQueries";
-import { postSearch } from "../../../modules/search/searchApi";
+import { useSearch } from "../../../modules/search/searchQueries";
 import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
 import handleError from "../../../util/handleError";
 import { getResourceIdFromPath } from "../../../util/routeHelpers";
+import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 import ResourceTypeSelect from "../../ArticlePage/components/ResourceTypeSelect";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-
-const emptySearchResults: IGroupSearchResult = {
-  totalCount: 0,
-  page: 0,
-  pageSize: 0,
-  language: "",
-  results: [],
-  suggestions: [],
-  aggregations: [],
-  resourceType: "",
-};
 
 const StyledText = styled(Text, {
   base: {
@@ -55,6 +52,14 @@ const StyledText = styled(Text, {
 const StyledFormContent = styled(FormContent, {
   base: {
     width: "100%",
+  },
+});
+
+const StyledListItemContent = styled(ListItemContent, {
+  base: {
+    flexDirection: "column",
+    gap: "4xsmall",
+    alignItems: "flex-start",
   },
 });
 
@@ -77,6 +82,7 @@ type PossibleResources = IMultiSearchSummary | ILearningPathSummaryV2 | ILearnin
 
 const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, nodeId }: Props) => {
   const { t, i18n } = useTranslation();
+  const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedType, setSelectedType] = useState(RESOURCE_TYPE_SUBJECT_MATERIAL);
@@ -93,7 +99,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     language: i18n.language,
   });
   const { mutateAsync: createNodeResource } = usePostResourceForNodeMutation({
-    onSuccess: (_) => qc.invalidateQueries({ queryKey: compKey }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: compKey }),
   });
   const { data: articleSearchData } = useNodes({
     contentURI: `urn:article:${articleInputId}`,
@@ -143,6 +149,10 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
             : undefined;
       return {
         ...resource,
+        title: {
+          ...resource.title,
+          htmlTitle: resource.title.title,
+        },
         metaUrl: url,
         metaDescription: { metaDescription: description, language },
       };
@@ -151,26 +161,13 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     }
   };
 
-  const onSearch = async (query: string, page?: number) => {
-    const baseQuery = {
-      query,
-      page,
-      language: i18n.language,
-      fallback: true,
-    };
-    if (selectedType === RESOURCE_TYPE_LEARNING_PATH) {
-      return await learningpathSearch({
-        ...baseQuery,
-        verificationStatus: "CREATED_BY_NDLA",
-      });
-    } else {
-      const res = await postSearch({
-        ...baseQuery,
-        resourceTypes: [selectedType],
-      });
-      return res ?? emptySearchResults;
-    }
-  };
+  const searchQuery = useSearch({
+    query: delayedQuery,
+    page,
+    language: i18n.language,
+    fallback: true,
+    resourceTypes: [selectedType],
+  });
 
   const resetPastedUrlStatesWithError = (error?: string) => {
     setError(error ?? "");
@@ -259,7 +256,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
       body: { resourceId: id, nodeId },
       taxonomyVersion,
     })
-      .then((_) => onClose())
+      .then(() => onClose())
       .catch(() => resetPastedUrlStatesWithError("taxonomy.resource.creationFailed"));
     setLoading(false);
   };
@@ -281,23 +278,49 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
           onChangeSelectedResource={(value) => {
             if (value) setSelectedType(value);
           }}
-          isClearable
         />
       )}
       {!pastedUrl && selectedType && (
-        <AsyncDropdown<ILearningPathSummaryV2 | IMultiSearchSummary>
-          idField="id"
-          labelField="title"
-          placeholder={t("form.content.relatedArticle.placeholder")}
-          apiAction={(query, page) => onSearch(query, page)}
-          onChange={(res) => setPreview(toPreview(res))}
-          startOpen={false}
-          showPagination
-          initialSearch={false}
-          label={t("form.content.relatedArticle.placeholder")}
-        />
+        <GenericSearchCombobox
+          value={preview ? [preview.id.toString()] : undefined}
+          onValueChange={(details) => setPreview(toPreview(details.items[0]))}
+          items={searchQuery.data?.results ?? []}
+          itemToString={(item) => item.title.title}
+          itemToValue={(item) => item.id.toString()}
+          inputValue={query}
+          onInputValueChange={(details) => setQuery(details.inputValue)}
+          isSuccess={searchQuery.isSuccess}
+          paginationData={searchQuery.data}
+          onPageChange={(details) => setPage(details.page)}
+          renderItem={(item) => (
+            <GenericComboboxItemContent
+              title={item.title.title}
+              description={item.metaDescription.metaDescription}
+              image={item.metaImage}
+              useFallbackImage
+            />
+          )}
+        >
+          <ComboboxLabel>{t("form.content.relatedArticle.placeholder")}</ComboboxLabel>
+          <GenericComboboxInput
+            placeholder={t("form.content.relatedArticle.placeholder")}
+            isFetching={searchQuery.isFetching}
+          />
+        </GenericSearchCombobox>
       )}
-      {previewLoading ? <Spinner /> : preview && <ArticlePreview article={preview} />}
+      {previewLoading ? (
+        <Spinner />
+      ) : (
+        preview && (
+          <ListItemRoot data-testid="articlePreview" nonInteractive>
+            <ListItemImage src={preview.metaUrl ?? "/placeholder.png"} alt="" width={200} />
+            <StyledListItemContent>
+              <ListItemHeading>{preview.title.title}</ListItemHeading>
+              <Text textStyle="body.small">{preview.metaDescription?.metaDescription}</Text>
+            </StyledListItemContent>
+          </ListItemRoot>
+        )
+      )}
       {error && <Text color="text.error">{t(error)}</Text>}
       <FormActionsContainer>
         <Button disabled={preview === undefined} onClick={onAddResource} loading={loading} type="submit">

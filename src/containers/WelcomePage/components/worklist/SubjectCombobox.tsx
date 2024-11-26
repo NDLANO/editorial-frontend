@@ -23,7 +23,6 @@ import {
   ComboboxItemIndicator,
   ComboboxItemText,
   ComboboxLabel,
-  ComboboxPositioner,
   ComboboxRoot,
   ComboboxTrigger,
   IconButton,
@@ -138,6 +137,7 @@ const SubjectCombobox = ({
         setValue(details.value);
         setFilterSubject(details.items[0]);
       }}
+      selectionBehavior="preserve"
     >
       <ComboboxLabel srOnly>{placeholder ?? t("welcomePage.chooseSubject")}</ComboboxLabel>
       <ComboboxControl>
@@ -157,27 +157,25 @@ const SubjectCombobox = ({
           </IconButton>
         </ComboboxTrigger>
       </ComboboxControl>
-      <ComboboxPositioner>
-        <ComboboxContent>
-          {/*TODO: Evaluate if this needs to be made accessible (?) */}
-          {isLoading ? (
-            <SpinnerWrapper>
-              <Spinner />
-            </SpinnerWrapper>
-          ) : !collection.items.length ? (
-            <Text>{t("form.responsible.noResults")}</Text>
-          ) : (
-            collection.items.map((item) => (
-              <ComboboxItem key={item.value} item={item}>
-                <ComboboxItemText>{item.label}</ComboboxItemText>
-                <ComboboxItemIndicator>
-                  <CheckLine />
-                </ComboboxItemIndicator>
-              </ComboboxItem>
-            ))
-          )}
-        </ComboboxContent>
-      </ComboboxPositioner>
+      <ComboboxContent>
+        {/*TODO: Evaluate if this needs to be made accessible (?) */}
+        {isLoading ? (
+          <SpinnerWrapper>
+            <Spinner />
+          </SpinnerWrapper>
+        ) : !collection.items.length ? (
+          <Text>{t("form.responsible.noResults")}</Text>
+        ) : (
+          collection.items.map((item) => (
+            <ComboboxItem key={item.value} item={item}>
+              <ComboboxItemText>{item.label}</ComboboxItemText>
+              <ComboboxItemIndicator>
+                <CheckLine />
+              </ComboboxItemIndicator>
+            </ComboboxItem>
+          ))
+        )}
+      </ComboboxContent>
     </ComboboxRoot>
   );
 };

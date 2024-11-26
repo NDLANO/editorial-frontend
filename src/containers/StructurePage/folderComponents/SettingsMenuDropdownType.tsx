@@ -6,13 +6,14 @@
  *
  */
 
-import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
+import MenuItemCustomField from "./sharedMenuOptions/components/MenuItemCustomField";
 import ConnectExistingNode from "./sharedMenuOptions/ConnectExistingNode";
-import CopyRevisionDate from "./sharedMenuOptions/CopyRevisionDate";
 import DeleteNode from "./sharedMenuOptions/DeleteNode";
 import DisconnectFromParent from "./sharedMenuOptions/DisconnectFromParent";
-import EditCustomFields from "./sharedMenuOptions/EditCustomFields";
 import EditGrepCodes from "./sharedMenuOptions/EditGrepCodes";
 import MoveExistingNode from "./sharedMenuOptions/MoveExistingNode";
 import ToggleVisibility from "./sharedMenuOptions/ToggleVisibility";
@@ -24,10 +25,25 @@ import PublishChildNodeResources from "./topicMenuOptions/PublishChildNodeResour
 import SetResourcesPrimary from "./topicMenuOptions/SetResourcesPrimary";
 import SwapTopicArticle from "./topicMenuOptions/SwapTopicArticle";
 import { TAXONOMY_ADMIN_SCOPE } from "../../../constants";
-import { EditMode } from "../../../interfaces";
 import { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../modules/nodes/nodeApiTypes";
 import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
 import { useSession } from "../../Session/SessionProvider";
+
+const StyledTabsContent = styled(TabsContent, {
+  base: {
+    width: "100%",
+  },
+});
+
+const StyledTabsList = styled(TabsList, {
+  base: {
+    maxWidth: "surface.xxsmall",
+    "& > button": {
+      whiteSpace: "unset",
+      textAlign: "start",
+    },
+  },
+});
 
 interface Props {
   rootNodeId: string;
@@ -36,127 +52,245 @@ interface Props {
   onCurrentNodeChanged: (node?: Node) => void;
 }
 
-export interface EditModeHandler {
-  editMode: EditMode;
-  toggleEditMode: (editMode: EditMode) => void;
-}
-
 const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, nodeChildren }: Props) => {
+  const { t } = useTranslation();
   const { userPermissions } = useSession();
-  const [editMode, setEditMode] = useState<EditMode>("");
   const nodeType = getNodeTypeFromNodeId(node.id);
-  const toggleEditMode = (mode: EditMode) => setEditMode((prev) => (mode === prev ? "" : mode));
-  const editModeHandler = { editMode, toggleEditMode };
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
   if (nodeType === PROGRAMME) {
     return (
       <>
-        {isTaxonomyAdmin && <ChangeNodeName editModeHandler={editModeHandler} node={node} />}
-        {isTaxonomyAdmin && (
-          <EditCustomFields
-            toggleEditMode={toggleEditMode}
-            editMode={editMode}
-            node={node}
-            onCurrentNodeChanged={onCurrentNodeChanged}
-          />
-        )}
-        <MoveExistingNode editModeHandler={editModeHandler} currentNode={node} nodeType="PROGRAMME" />
-        <ConnectExistingNode editModeHandler={editModeHandler} currentNode={node} nodeType="SUBJECT" />
-        <ToggleVisibility
-          node={node}
-          editModeHandler={editModeHandler}
-          rootNodeId={rootNodeId}
-          rootNodeType="PROGRAMME"
-        />
+        <TabsRoot orientation="vertical" variant="line" translations={{ listLabel: t("taxonomy.nodeSettings") }}>
+          <StyledTabsList>
+            {isTaxonomyAdmin && (
+              <TabsTrigger value="changeSubjectName">{t("taxonomy.changeName.buttonTitle")}</TabsTrigger>
+            )}
+            {isTaxonomyAdmin && (
+              <TabsTrigger value="editCustomFields">{t("taxonomy.metadata.customFields.alterFields")}</TabsTrigger>
+            )}
+            <TabsTrigger value="moveExistingNode">
+              {t("taxonomy.addExistingNode", {
+                nodeType: t(`taxonomy.nodeType.${nodeType}`),
+              })}
+            </TabsTrigger>
+            <TabsTrigger value="connectExistingNode">
+              {t("taxonomy.connectExistingNode", {
+                nodeType: t("taxonomy.nodeType.SUBJECT"),
+              })}
+            </TabsTrigger>
+            <TabsTrigger value="toggleMetadataVisibility">{t("metadata.changeVisibility")}</TabsTrigger>
+            {isTaxonomyAdmin && (
+              <TabsTrigger value="deleteProgramme">
+                {t("taxonomy.delete.deleteNode", {
+                  nodeType: t(`taxonomy.nodeType.${nodeType}`),
+                })}
+              </TabsTrigger>
+            )}
+            <TabsIndicator />
+          </StyledTabsList>
+          {isTaxonomyAdmin && (
+            <StyledTabsContent value="changeSubjectName">
+              <ChangeNodeName node={node} />
+            </StyledTabsContent>
+          )}
+          {isTaxonomyAdmin && (
+            <StyledTabsContent value="editCustomFields">
+              <MenuItemCustomField node={node} onCurrentNodeChanged={onCurrentNodeChanged} />
+            </StyledTabsContent>
+          )}
+          <StyledTabsContent value="moveExistingNode">
+            <MoveExistingNode currentNode={node} nodeType={nodeType} />
+          </StyledTabsContent>
+          <StyledTabsContent value="connectExistingNode">
+            <ConnectExistingNode currentNode={node} nodeType="SUBJECT" />
+          </StyledTabsContent>
+          <StyledTabsContent value="toggleMetadataVisibility">
+            <ToggleVisibility node={node} rootNodeId={rootNodeId} rootNodeType="PROGRAMME" />
+          </StyledTabsContent>
+          {isTaxonomyAdmin && (
+            <StyledTabsContent value="deleteProgramme">
+              <DeleteNode
+                node={node}
+                nodeType={nodeType}
+                nodeChildren={nodeChildren}
+                rootNodeId={rootNodeId}
+                onCurrentNodeChanged={onCurrentNodeChanged}
+              />
+            </StyledTabsContent>
+          )}
+        </TabsRoot>
         {isTaxonomyAdmin && <EditSubjectpageOption node={node} />}
         <ToNodeDiff node={node} />
-        {isTaxonomyAdmin && (
-          <DeleteNode
-            node={node}
-            nodeChildren={nodeChildren}
-            editModeHandler={editModeHandler}
-            rootNodeId={rootNodeId}
-            onCurrentNodeChanged={onCurrentNodeChanged}
-          />
-        )}
       </>
     );
   }
   if (nodeType === SUBJECT_NODE) {
     if (rootNodeId !== node.id) {
       return (
-        <>
+        <TabsRoot orientation="vertical" variant="line" translations={{ listLabel: t("taxonomy.nodeSettings") }}>
+          <StyledTabsList>
+            {isTaxonomyAdmin && <TabsTrigger value="disconnectFromParent">{t("taxonomy.disconnectNode")}</TabsTrigger>}
+            <TabsIndicator />
+          </StyledTabsList>
           {isTaxonomyAdmin && (
-            <DisconnectFromParent
-              node={node}
-              editModeHandler={editModeHandler}
-              onCurrentNodeChanged={onCurrentNodeChanged}
-            />
+            <StyledTabsContent value="disconnectFromParent">
+              <DisconnectFromParent node={node} onCurrentNodeChanged={onCurrentNodeChanged} />
+            </StyledTabsContent>
           )}
-        </>
+        </TabsRoot>
       );
     }
     return (
       <>
-        {isTaxonomyAdmin && <ChangeNodeName editModeHandler={editModeHandler} node={node} />}
-        {isTaxonomyAdmin && (
-          <EditCustomFields
-            toggleEditMode={toggleEditMode}
-            editMode={editMode}
-            node={node}
-            onCurrentNodeChanged={onCurrentNodeChanged}
-          />
-        )}
-        <MoveExistingNode editModeHandler={editModeHandler} currentNode={node} />
-        <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
-        {isTaxonomyAdmin && <EditGrepCodes node={node} editModeHandler={editModeHandler} />}
+        <TabsRoot orientation="vertical" variant="line" translations={{ listLabel: t("taxonomy.nodeSettings") }}>
+          <StyledTabsList>
+            {isTaxonomyAdmin && (
+              <TabsTrigger value="changeSubjectName" data-testid="changeNodeNameButton">
+                {t("taxonomy.changeName.buttonTitle")}
+              </TabsTrigger>
+            )}
+            {isTaxonomyAdmin && (
+              <TabsTrigger value="editCustomFields">{t("taxonomy.metadata.customFields.alterFields")}</TabsTrigger>
+            )}
+            <TabsTrigger value="moveExistingNode">
+              {t("taxonomy.addExistingNode", {
+                nodeType: t(`taxonomy.nodeType.TOPIC`),
+              })}
+            </TabsTrigger>
+            <TabsTrigger value="toggleMetadataVisibility" data-testid="toggleVisibilityButton">
+              {t("metadata.changeVisibility")}
+            </TabsTrigger>
+            {isTaxonomyAdmin && <TabsTrigger value="editGrepCodes">{t("taxonomy.grepCodes.edit")}</TabsTrigger>}
+            {isTaxonomyAdmin && (
+              <TabsTrigger value="deleteSubject">
+                {t("taxonomy.delete.deleteNode", {
+                  nodeType: t(`taxonomy.nodeType.${nodeType}`),
+                })}
+              </TabsTrigger>
+            )}
+            <TabsIndicator />
+          </StyledTabsList>
+          {isTaxonomyAdmin && (
+            <StyledTabsContent value="changeSubjectName">
+              <ChangeNodeName node={node} />
+            </StyledTabsContent>
+          )}
+          {isTaxonomyAdmin && (
+            <StyledTabsContent value="editCustomFields">
+              <MenuItemCustomField node={node} onCurrentNodeChanged={onCurrentNodeChanged} />
+            </StyledTabsContent>
+          )}
+          <StyledTabsContent value="moveExistingNode">
+            <MoveExistingNode currentNode={node} />
+          </StyledTabsContent>
+          <StyledTabsContent value="toggleMetadataVisibility">
+            <ToggleVisibility node={node} rootNodeId={rootNodeId} />
+          </StyledTabsContent>
+          {isTaxonomyAdmin && (
+            <StyledTabsContent value="editGrepCodes">
+              <EditGrepCodes node={node} />
+            </StyledTabsContent>
+          )}
+          {isTaxonomyAdmin && (
+            <StyledTabsContent value="deleteSubject">
+              <DeleteNode
+                node={node}
+                nodeType={nodeType}
+                nodeChildren={nodeChildren}
+                rootNodeId={rootNodeId}
+                onCurrentNodeChanged={onCurrentNodeChanged}
+              />
+            </StyledTabsContent>
+          )}
+        </TabsRoot>
         {isTaxonomyAdmin && <EditSubjectpageOption node={node} />}
         <ToNodeDiff node={node} />
-        {isTaxonomyAdmin && (
-          <DeleteNode
-            node={node}
-            nodeChildren={nodeChildren}
-            editModeHandler={editModeHandler}
-            rootNodeId={rootNodeId}
-            onCurrentNodeChanged={onCurrentNodeChanged}
-          />
-        )}
       </>
     );
   }
   if (nodeType === TOPIC_NODE) {
     return (
       <>
-        {isTaxonomyAdmin && <PublishChildNodeResources node={node} />}
-        {isTaxonomyAdmin && <SwapTopicArticle node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />}
-        {isTaxonomyAdmin && (
-          <EditCustomFields
-            toggleEditMode={toggleEditMode}
-            editMode={editMode}
-            node={node}
-            onCurrentNodeChanged={onCurrentNodeChanged}
-          />
-        )}
-        <MoveExistingNode editModeHandler={editModeHandler} currentNode={node} />
-        <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
+        <TabsRoot orientation="vertical" variant="line" translations={{ listLabel: t("taxonomy.nodeSettings") }}>
+          <StyledTabsList>
+            {isTaxonomyAdmin && <TabsTrigger value="requestPublish">{t("taxonomy.publish.button")}</TabsTrigger>}
+            {isTaxonomyAdmin && (
+              <TabsTrigger value="swapTopicArticle">{t("taxonomy.swapTopicArticle.info")}</TabsTrigger>
+            )}
+            {isTaxonomyAdmin && (
+              <TabsTrigger value="editCustomFields">{t("taxonomy.metadata.customFields.alterFields")}</TabsTrigger>
+            )}
+            <TabsTrigger value="moveExistingNode">
+              {t("taxonomy.addExistingNode", {
+                nodeType: t(`taxonomy.nodeType.${nodeType}`),
+              })}
+            </TabsTrigger>
+            <TabsTrigger value="toggleMetadataVisibility">{t("metadata.changeVisibility")}</TabsTrigger>
+            <TabsTrigger value="copyResources">{t("taxonomy.copyResources.info")}</TabsTrigger>
+            {isTaxonomyAdmin && <TabsTrigger value="cloneResources">{t("taxonomy.cloneResources.info")}</TabsTrigger>}
+            {isTaxonomyAdmin && (
+              <TabsTrigger value="setResourcesPrimary">
+                {t("taxonomy.resourcesPrimary.recursiveButtonText")}
+              </TabsTrigger>
+            )}
+            {isTaxonomyAdmin && (
+              <TabsTrigger value="deleteTopic">
+                {t("taxonomy.delete.deleteNode", {
+                  nodeType: t(`taxonomy.nodeType.${nodeType}`),
+                })}
+              </TabsTrigger>
+            )}
+            <TabsIndicator />
+          </StyledTabsList>
+          {isTaxonomyAdmin && (
+            <StyledTabsContent value="requestPublish">
+              <PublishChildNodeResources node={node} />
+            </StyledTabsContent>
+          )}
+          {isTaxonomyAdmin && (
+            <StyledTabsContent value="swapTopicArticle">
+              <SwapTopicArticle node={node} rootNodeId={rootNodeId} />
+            </StyledTabsContent>
+          )}
+          {isTaxonomyAdmin && (
+            <StyledTabsContent value="editCustomFields">
+              <MenuItemCustomField node={node} onCurrentNodeChanged={onCurrentNodeChanged} />
+            </StyledTabsContent>
+          )}
+          <StyledTabsContent value="moveExistingNode">
+            <MoveExistingNode currentNode={node} />
+          </StyledTabsContent>
+          <StyledTabsContent value="toggleMetadataVisibility">
+            <ToggleVisibility node={node} rootNodeId={rootNodeId} />
+          </StyledTabsContent>
+          <StyledTabsContent value="copyResources">
+            <CopyNodeResources currentNode={node} nodeType={TOPIC_NODE} type="copyResources" />
+          </StyledTabsContent>
+          {isTaxonomyAdmin && (
+            <StyledTabsContent value="cloneResources">
+              <CopyNodeResources currentNode={node} nodeType={TOPIC_NODE} type="cloneResources" />
+            </StyledTabsContent>
+          )}
+          {isTaxonomyAdmin && (
+            <StyledTabsContent value="setResourcesPrimary">
+              <SetResourcesPrimary node={node} recursive />
+            </StyledTabsContent>
+          )}
+          {isTaxonomyAdmin && (
+            <StyledTabsContent value="deleteTopic">
+              <DeleteNode
+                node={node}
+                nodeType={nodeType}
+                nodeChildren={nodeChildren}
+                rootNodeId={rootNodeId}
+                onCurrentNodeChanged={onCurrentNodeChanged}
+              />
+            </StyledTabsContent>
+          )}
+        </TabsRoot>
         <ToNodeDiff node={node} />
-        {false && <CopyRevisionDate node={node} editModeHandler={editModeHandler} />}
-        {isTaxonomyAdmin && (
-          <DeleteNode
-            node={node}
-            nodeChildren={nodeChildren}
-            editModeHandler={editModeHandler}
-            rootNodeId={rootNodeId}
-            onCurrentNodeChanged={onCurrentNodeChanged}
-          />
-        )}
-        <CopyNodeResources currentNode={node} editModeHandler={editModeHandler} type="copyResources" />
-        {isTaxonomyAdmin && (
-          <CopyNodeResources currentNode={node} editModeHandler={editModeHandler} type="cloneResources" />
-        )}
-        {isTaxonomyAdmin && <SetResourcesPrimary node={node} editModeHandler={editModeHandler} recursive />}
       </>
     );
   }

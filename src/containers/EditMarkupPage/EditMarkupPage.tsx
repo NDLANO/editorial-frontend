@@ -9,16 +9,28 @@
 import { lazy, Suspense, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useParams } from "react-router-dom";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing, colors } from "@ndla/core";
+import { InformationLine } from "@ndla/icons/common";
+import {
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  IconButton,
+  Text,
+  Button,
+  Spinner,
+  PageContainer,
+  Heading,
+} from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { IArticle } from "@ndla/types-backend/draft-api";
-import { Row } from "../../components";
-import FieldHeader from "../../components/Field/FieldHeader";
+import { DialogCloseButton } from "../../components/DialogCloseButton";
+import { FormActionsContainer } from "../../components/FormikForm";
 import HeaderSupportedLanguages from "../../components/HeaderWithLanguage/HeaderSupportedLanguages";
-import HelpMessage from "../../components/HelpMessage";
-import { OldSpinner } from "../../components/OldSpinner";
-import PreviewDraftLightboxV2 from "../../components/PreviewDraft/PreviewDraftLightboxV2";
+import { PreviewResourceDialog } from "../../components/PreviewDraft/PreviewResourceDialog";
 import SaveButton from "../../components/SaveButton";
 import { DRAFT_HTML_SCOPE } from "../../constants";
 import { fetchDraft, updateDraft } from "../../modules/draft/draftApi";
@@ -26,7 +38,7 @@ import { blockContentToEditorValue, blockContentToHTML } from "../../util/articl
 import handleError from "../../util/handleError";
 import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import { toEditMarkup } from "../../util/routeHelpers";
-import { AlertModalWrapper } from "../FormikForm";
+import { AlertDialogWrapper } from "../FormikForm";
 import { useMessages } from "../Messages/MessagesProvider";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import { getSessionStateFromLocalStorage } from "../Session/SessionProvider";
@@ -59,26 +71,40 @@ function updateContentInDraft(draft: IArticle | undefined, content: string): IAr
   };
 }
 
-const StyledErrorMessage = styled.p`
-  color: ${colors.support.red};
-  text-align: center;
-`;
+const LanguageWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "4xsmall",
+  },
+});
 
-const Container = styled.div`
-  margin: 0 auto;
-  max-width: 1000px;
-  width: 100%;
-`;
+const StyledRow = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+});
 
-const LanguageWrapper = styled.div`
-  display: flex;
-`;
+const HeaderWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "flex-end",
+    justifyContent: "space-between",
+  },
+});
 
-const StyledRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: ${spacing.small};
-`;
+const StyledPageContainer = styled(PageContainer, {
+  base: {
+    gap: "xsmall",
+  },
+});
+
+const StyledPageContainerError = styled(PageContainer, {
+  base: {
+    textAlign: "center",
+    gap: "xsmall",
+  },
+});
 
 interface ErrorMessageProps {
   draftId: number;
@@ -89,12 +115,10 @@ interface ErrorMessageProps {
 const ErrorMessage = ({ draftId, language, messageId }: ErrorMessageProps) => {
   const { t } = useTranslation();
   return (
-    <Container>
-      <StyledErrorMessage>{t(messageId)}</StyledErrorMessage>
-      <Row justifyContent="center" alignItems="baseline">
-        <Link to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>{t("editMarkup.back")}</Link>
-      </Row>
-    </Container>
+    <StyledPageContainerError variant="page" padding="small">
+      <Text color="text.error">{t(messageId)}</Text>
+      <Link to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>{t("editMarkup.back")}</Link>
+    </StyledPageContainerError>
   );
 };
 
@@ -175,13 +199,35 @@ const EditMarkupPage = () => {
   const isDirty = status === "edit";
   const isSubmitting = status === "saving";
   return (
-    <Container>
-      <FieldHeader title={t("editMarkup.title")} subTitle={t("editMarkup.subTitle")}>
-        <HelpMessage>
-          <p>{t("editMarkup.helpMessage.paragraph1")}</p>
-          <p>{t("editMarkup.helpMessage.paragraph2")}</p>
-        </HelpMessage>
-      </FieldHeader>
+    <StyledPageContainer variant="page" padding="small">
+      <HeaderWrapper>
+        <hgroup>
+          <Heading textStyle="title.medium">{t("editMarkup.title")}</Heading>
+          <Text color="text.subtle">{t("editMarkup.subTitle")}</Text>
+        </hgroup>
+        <DialogRoot>
+          <DialogTrigger asChild>
+            <IconButton
+              variant="secondary"
+              size="small"
+              title={t("editMarkup.helpMessage.tooltip")}
+              aria-label={t("editMarkup.helpMessage.tooltip")}
+            >
+              <InformationLine />
+            </IconButton>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{t("editMarkup.helpMessage.tooltip")}</DialogTitle>
+              <DialogCloseButton />
+            </DialogHeader>
+            <DialogBody>
+              <Text>{t("editMarkup.helpMessage.paragraph1")}</Text>
+              <Text>{t("editMarkup.helpMessage.paragraph2")}</Text>
+            </DialogBody>
+          </DialogContent>
+        </DialogRoot>
+      </HeaderWrapper>
       <LanguageWrapper>
         <HeaderSupportedLanguages
           supportedLanguages={draft?.supportedLanguages}
@@ -192,7 +238,7 @@ const EditMarkupPage = () => {
           replace={true}
         />
       </LanguageWrapper>
-      <Suspense fallback={<OldSpinner />}>
+      <Suspense fallback={<Spinner />}>
         <MonacoEditor
           key={draft && draft.content ? draft.id + draft.revision + "-" + draft.content.language : "draft"}
           value={draft?.content?.content ?? ""}
@@ -202,33 +248,36 @@ const EditMarkupPage = () => {
         />
         <StyledRow>
           {!!draft && (
-            <PreviewDraftLightboxV2
+            <PreviewResourceDialog
               type="markup"
               language={language}
               article={draft}
-              activateButton={<ButtonV2 variant="link">{t("form.preview.button")}</ButtonV2>}
+              activateButton={<Button variant="link">{t("form.preview.button")}</Button>}
             />
           )}
-          <Row justifyContent="end" alignItems="baseline">
-            <Link to={locationState?.backUrl || `/subject-matter/learning-resource/${draftId}/edit/${language}`}>
+          <FormActionsContainer>
+            <SafeLinkButton
+              variant="secondary"
+              to={locationState?.backUrl || `/subject-matter/learning-resource/${draftId}/edit/${language}`}
+            >
               {t("editMarkup.back")}
-            </Link>
+            </SafeLinkButton>
             <SaveButton
-              isSaving={status === "saving"}
+              loading={status === "saving"}
               formIsDirty={status === "edit"}
               showSaved={status === "saved"}
               onClick={() => saveChanges(draft?.content?.content ?? "")}
             />
-          </Row>
+          </FormActionsContainer>
         </StyledRow>
       </Suspense>
-      <AlertModalWrapper
+      <AlertDialogWrapper
         isSubmitting={isSubmitting}
         formIsDirty={isDirty}
         severity="danger"
         text={t("alertModal.notSaved")}
       />
-    </Container>
+    </StyledPageContainer>
   );
 };
 

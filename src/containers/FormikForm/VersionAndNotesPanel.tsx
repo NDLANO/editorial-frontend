@@ -20,13 +20,13 @@ import {
   Badge,
   Button,
   Text,
+  Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IArticle, IEditorNote } from "@ndla/types-backend/draft-api";
 import AddNotesField from "./AddNotesField";
 import VersionActionbuttons from "./VersionActionButtons";
 import { FormField } from "../../components/FormField";
-import Spinner from "../../components/Spinner";
 import VersionHistory from "../../components/VersionHistory/VersionHistory";
 import { useSession } from "../../containers/Session/SessionProvider";
 import * as articleApi from "../../modules/article/articleApi";

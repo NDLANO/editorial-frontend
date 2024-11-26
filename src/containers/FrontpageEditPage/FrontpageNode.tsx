@@ -10,11 +10,10 @@ import { ArrayHelpers, FieldArray, useField } from "formik";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing, colors, fonts } from "@ndla/core";
-import { AddLine } from "@ndla/icons/action";
-import { ChevronRight } from "@ndla/icons/common";
-import { DeleteForever, EyeFill } from "@ndla/icons/editor";
+import { AddLine, DeleteBinLine } from "@ndla/icons/action";
+import { ArrowRightShortLine } from "@ndla/icons/common";
+import { EyeFill } from "@ndla/icons/editor";
 import { IconButton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
@@ -61,7 +60,8 @@ const TitleWrapper = styled.div`
   align-items: center;
 `;
 
-const OpenButton = styled(ButtonV2)`
+const OpenButton = styled("button")`
+  cursor: pointer;
   min-width: ${spacing.normal};
   svg {
     transform: rotate(0deg);
@@ -133,13 +133,13 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
           {level < FRONTPAGE_DEPTH_LIMIT && (
             <OpenButton
               data-open={isOpen}
-              variant="stripped"
+              type="button"
               onClick={() => setIsOpen((p) => !p)}
               aria-label={openLabel}
               hidden={!field.value.menu.length}
               title={openLabel}
             >
-              {!!field.value.menu.length && <ChevronRight />}
+              {!!field.value.menu.length && <ArrowRightShortLine />}
             </OpenButton>
           )}
           <TitleLink to={toEditFrontPageArticle(field.value.articleId, i18n.language)} target="_blank">
@@ -167,7 +167,7 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
               variant="danger"
               onClick={onRemove}
             >
-              <DeleteForever />
+              <DeleteBinLine />
             </IconButton>
           )}
           <FrontpageArticleSearch onChange={onAdd}>

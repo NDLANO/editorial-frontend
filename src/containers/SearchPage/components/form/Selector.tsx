@@ -6,6 +6,7 @@
  *
  */
 import { useTranslation } from "react-i18next";
+import { Input } from "@ndla/primitives";
 import CheckboxSelector from "./CheckboxSelector";
 import { OnFieldChangeFunction } from "./GenericSearchForm";
 import { SearchParams } from "./SearchForm";
@@ -70,7 +71,7 @@ const Selector = ({ formType, selector, onFieldChange, searchObject }: SelectorP
   switch (selector.formElementType) {
     case "text-input":
       return (
-        <input
+        <Input
           name={selector.parameterName}
           placeholder={t(`searchForm.types.${formType}Query`)}
           value={selector.value}
@@ -115,10 +116,7 @@ const Selector = ({ formType, selector, onFieldChange, searchObject }: SelectorP
           name={selector.parameterName}
           value={dropdownValue ?? ""}
           options={selector.options}
-          idKey="id"
-          labelKey="name"
-          emptyField
-          onChange={(e) => onFieldChange(selector.parameterName, e.currentTarget.value, e)}
+          onChange={(value) => onFieldChange(selector.parameterName, value)}
           placeholder={t(`searchForm.types.${selector.parameterName}`)}
         />
       );

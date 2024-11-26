@@ -11,8 +11,8 @@ import { parse, stringify } from "query-string";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import styled from "@emotion/styled";
-import { colors, fonts, spacing } from "@ndla/core";
+import { Button, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IUserData } from "@ndla/types-backend/draft-api";
 import { SearchParams } from "./components/form/SearchForm";
 import { SearchFormSelector } from "./components/form/Selector";
@@ -23,18 +23,21 @@ import { unreachable } from "../../util/guards";
 
 type Error = "alreadyExist" | "other" | "fetchFailed" | "";
 
-const StyledWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-`;
+const ButtonWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+  },
+});
 
-const WarningText = styled.div`
-  font-family: ${fonts.sans};
-  color: ${colors.support.red};
-  ${fonts.sizes(14, 1.1)};
-  margin: ${spacing.xsmall} 0;
-`;
+const StyledWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+    alignItems: "flex-end",
+  },
+});
 
 const getSavedSearchRelativeUrl = (inputValue: string) => {
   const relativeUrl = inputValue.split("search")[1];
@@ -115,7 +118,9 @@ const createSearchPhrase = (selectors: SearchFormSelector[], searchContentType: 
 
 const createSearchString = (location: Location) => {
   const searchObject = parse(location.search);
-  searchObject.page && delete searchObject.page;
+  if (searchObject.page) {
+    delete searchObject.page;
+  }
   return location.pathname + "?" + stringify(searchObject);
 };
 
@@ -145,6 +150,11 @@ const SearchSaveButton = ({ userData, selectors, searchContentType }: Props) => 
     setSuccess(true);
     setLoading(false);
     setTimeout(() => setSuccess(false), 2500);
+  };
+
+  const deleteSearch = (index: number) => {
+    const reduced_array = userData?.savedSearches?.filter((_, idx) => idx !== index);
+    mutateAsync({ savedSearches: reduced_array });
   };
 
   const handleFailure = (type: Error) => {
@@ -187,20 +197,27 @@ const SearchSaveButton = ({ userData, selectors, searchContentType }: Props) => 
   const isSaved = savedSearches.some((s) => s.searchUrl === getSavedSearchRelativeUrl(currentSearch));
 
   return (
-    <StyledWrapper>
-      <SaveButton
-        isSaving={loading}
-        showSaved={success}
-        defaultText={isSaved ? "alreadySaved" : "saveSearch"}
-        onClick={saveSearch}
-        disabled={isSaved || success}
-      />
-      {error && (
-        <WarningText>
-          <span>{t("searchPage.save." + error)}</span>
-        </WarningText>
+    <ButtonWrapper>
+      {isSaved && (
+        <Button
+          size="small"
+          variant="danger"
+          onClick={() => deleteSearch(savedSearches.findIndex((s) => s.searchUrl === currentSearch))}
+        >
+          {t("welcomePage.deleteSavedSearch")}
+        </Button>
       )}
-    </StyledWrapper>
+      <StyledWrapper>
+        <SaveButton
+          loading={loading}
+          showSaved={success}
+          defaultText={isSaved ? "alreadySaved" : "saveSearch"}
+          onClick={saveSearch}
+          disabled={isSaved || success}
+        />
+        {error && <Text>{t("searchPage.save." + error)}</Text>}
+      </StyledWrapper>
+    </ButtonWrapper>
   );
 };
 

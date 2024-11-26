@@ -10,14 +10,11 @@ import debounce from "lodash/debounce";
 import queryString from "query-string";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Cross } from "@ndla/icons/action";
 import { Search } from "@ndla/icons/common";
-import { ModalHeader, ModalBody } from "@ndla/modal";
 import {
   Button,
   DialogBody,
   DialogHeader,
-  IconButton,
   TabsContent,
   TabsIndicator,
   TabsList,
@@ -33,7 +30,6 @@ import {
 } from "@ndla/types-backend/concept-api";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
-import { usePaginationTranslations } from "@ndla/ui";
 import SearchConceptForm from "./SearchConceptForm";
 import SearchConceptResults from "./SearchConceptResults";
 import ConceptForm from "../../../../containers/ConceptPage/ConceptForm/ConceptForm";

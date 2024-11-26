@@ -11,11 +11,10 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { colors } from "@ndla/core";
-import { PageContent } from "@ndla/primitives";
+import { PageContent, Spinner } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { ArticleWrapper } from "@ndla/ui";
 import PreviewDraft from "../../components/PreviewDraft/PreviewDraft";
-import Spinner from "../../components/Spinner";
 import { useDraft } from "../../modules/draft/draftQueries";
 
 const TwoArticleWrapper = styled.div`

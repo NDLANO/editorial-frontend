@@ -22,22 +22,32 @@ import "monaco-editor/esm/vs/editor/contrib/multicursor/browser/multicursor";
 
 import htmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
 import { useEffect, useRef, useState } from "react";
-import styled from "@emotion/styled";
-import { spacing, colors } from "@ndla/core";
 
 // Uncomment the following line to test all monaco-editor features
 // import * as monaco from "monaco-editor";
 
+import { styled } from "@ndla/styled-system/jsx";
 import { createFormatAction, createSaveAction } from "./editorActions";
 
-const StyledDiv = styled.div`
-  margin: ${spacing.normal};
-  border: 1px solid ${colors.brand.greyLight};
-  height: 50vh;
-  &[data-size="large"] {
-    height: 75vh;
-  }
-`;
+const StyledDiv = styled("div", {
+  base: {
+    border: "1px solid",
+    borderColor: "stroke.subtle",
+  },
+  defaultVariants: {
+    size: "small",
+  },
+  variants: {
+    size: {
+      small: {
+        height: "50vh",
+      },
+      large: {
+        height: "75vh",
+      },
+    },
+  },
+});
 
 monaco.editor.defineTheme("myCustomTheme", {
   base: "vs",
@@ -104,7 +114,7 @@ export const MonacoEditor = ({ value, onChange, onSave, size }: Props) => {
     editor.addAction(createSaveAction(onSave));
   }, [editor, onChange, onSave]);
 
-  return <StyledDiv data-size={size} ref={divRef} />;
+  return <StyledDiv size={size} ref={divRef} />;
 };
 
 export default MonacoEditor;

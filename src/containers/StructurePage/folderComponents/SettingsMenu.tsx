@@ -7,50 +7,27 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { Root, Trigger, Close, Content, Portal } from "@radix-ui/react-popover";
-import { IconButtonV2 } from "@ndla/button";
-import { animations, colors, spacing, stackOrder } from "@ndla/core";
-import { Cross } from "@ndla/icons/action";
 import { Settings } from "@ndla/icons/editor";
+import {
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  IconButton,
+  DialogBody,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import SettingsMenuDropdownType from "./SettingsMenuDropdownType";
-import Overlay from "../../../components/Overlay";
-import RoundIcon from "../../../components/RoundIcon";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
 
-const TitleWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.xsmall};
-`;
-
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const StyledIconButton = styled(IconButtonV2)`
-  margin-left: ${spacing.xsmall};
-  border: 1px solid ${colors.brand.greyDark};
-  background-color: ${colors.white};
-  width: 32px;
-  padding: 0;
-  height: 32px;
-
-  &:focus,
-  &:hover,
-  &:focus-within {
-    border: 1px solid ${colors.brand.greyDark};
-    background-color: ${colors.brand.greyDark};
-    svg {
-      color: ${colors.white};
-    }
-  }
-`;
-
-const StyledContent = styled(Content)`
-  z-index: ${stackOrder.dropdown};
-`;
+const StyledDialogBody = styled(DialogBody, {
+  base: {
+    alignItems: "flex-start",
+  },
+});
 
 interface Props {
   node: Node;
@@ -64,54 +41,33 @@ const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: 
   const nodeType = getNodeTypeFromNodeId(node.id);
 
   return (
-    <Root>
-      <Trigger asChild>
-        <StyledIconButton
-          variant="stripped"
+    <DialogRoot position="top">
+      <DialogTrigger asChild>
+        <IconButton
+          variant="secondary"
+          size="small"
           data-testid="settings-button"
           aria-label={t(`taxonomy.${nodeType.toLowerCase()}Settings`)}
-          colorTheme="primary"
         >
           <Settings />
-        </StyledIconButton>
-      </Trigger>
-      <Portal>
-        <>
-          <StyledContent side="right" sideOffset={10} asChild>
-            <StyledDivWrapper data-testid="settings-menu-modal">
-              <Header>
-                <TitleWrapper>
-                  <RoundIcon icon={<Settings />} open />
-                  <span>{t(`taxonomy.${nodeType.toLowerCase()}Settings`)}</span>
-                </TitleWrapper>
-                <Close asChild>
-                  <IconButtonV2 aria-label={t("close")} variant="ghost" title={t("close")}>
-                    <Cross />
-                  </IconButtonV2>
-                </Close>
-              </Header>
-              <SettingsMenuDropdownType
-                node={node}
-                rootNodeId={rootNodeId}
-                onCurrentNodeChanged={onCurrentNodeChanged}
-                nodeChildren={nodeChildren}
-              />
-            </StyledDivWrapper>
-          </StyledContent>
-          <Overlay modifiers={["zIndex"]} />
-        </>
-      </Portal>
-    </Root>
+        </IconButton>
+      </DialogTrigger>
+      <DialogContent data-testid="settings-menu-dialog">
+        <DialogHeader>
+          <DialogTitle>{t(`taxonomy.${nodeType.toLowerCase()}Settings`)}</DialogTitle>
+          <DialogCloseButton />
+        </DialogHeader>
+        <StyledDialogBody>
+          <SettingsMenuDropdownType
+            node={node}
+            rootNodeId={rootNodeId}
+            onCurrentNodeChanged={onCurrentNodeChanged}
+            nodeChildren={nodeChildren}
+          />
+        </StyledDialogBody>
+      </DialogContent>
+    </DialogRoot>
   );
 };
-
-export const StyledDivWrapper = styled.div`
-  position: absolute;
-  ${animations.fadeIn()}
-  padding: ${spacing.xsmall};
-  width: 550px;
-  background-color: ${colors.brand.greyLightest};
-  box-shadow: 0 0 4px 0 rgba(78, 78, 78, 0.5);
-`;
 
 export default SettingsMenu;

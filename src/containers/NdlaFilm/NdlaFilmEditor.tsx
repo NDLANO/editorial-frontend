@@ -8,8 +8,8 @@
 
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { PageContainer } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { OneColumn } from "@ndla/ui";
 import NdlaFilmForm from "./components/NdlaFilmForm";
 import Spinner from "../../components/Spinner";
 import config from "../../config";
@@ -32,10 +32,12 @@ const NdlaFilmEditor = () => {
   }
 
   return (
-    <OneColumn>
-      <HelmetWithTracker title={t("htmlTitles.ndlaFilmPage")} />
-      <NdlaFilmForm filmFrontpage={filmFrontpageQuery.data} selectedLanguage={selectedLangOrDefault} />
-    </OneColumn>
+    <PageContainer asChild consumeCss>
+      <main>
+        <HelmetWithTracker title={t("htmlTitles.ndlaFilmPage")} />
+        <NdlaFilmForm filmFrontpage={filmFrontpageQuery.data} selectedLanguage={selectedLangOrDefault} />
+      </main>
+    </PageContainer>
   );
 };
 

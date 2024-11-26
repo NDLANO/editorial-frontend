@@ -6,7 +6,7 @@
  *
  */
 
-import { DeleteForever } from "@ndla/icons/editor";
+import { DeleteBinLine } from "@ndla/icons/action";
 import { IconButton, type IconButtonProps } from "@ndla/primitives";
 
 export const DeleteButton = ({ children, ...rest }: IconButtonProps) => (
@@ -16,11 +16,11 @@ export const DeleteButton = ({ children, ...rest }: IconButtonProps) => (
     tabIndex={-1}
     contentEditable={false}
     data-testid="close-related-button"
-    title={rest["aria-label" ?? ""]}
+    title={rest["aria-label"]}
     {...rest}
-    aria-label={rest["aria-label" ?? ""]}
+    aria-label={rest["aria-label"]}
   >
-    <DeleteForever />
+    <DeleteBinLine />
   </IconButton>
 );
 

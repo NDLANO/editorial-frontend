@@ -1,526 +1,61 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`Messages > A message is removed if the modal is closed 1`] = `
-.emotion-0 {
-  position: fixed;
-  width: 80%;
-  max-width: 800px;
-  top: 50px;
-  left: 0;
-  right: 0;
-  z-index: 500;
-  margin: 0 auto;
-}
-
-.emotion-1 {
-  position: fixed;
-  inset: 0;
-  background: rgba(1, 1, 1, 0.3);
-  z-index: 499;
-  -webkit-animation-duration: var(--duration);
-  animation-duration: var(--duration);
-  -webkit-animation-timing-function: ease-in-out;
-  animation-timing-function: ease-in-out;
-}
-
-.emotion-1[data-state="open"] {
-  -webkit-animation-name: overlayFadeIn;
-  animation-name: overlayFadeIn;
-}
-
-.emotion-1[data-state="closed"] {
-  -webkit-animation-name: overlayFadeOut;
-  animation-name: overlayFadeOut;
-}
-
-.emotion-3 {
-  --margin: 0px;
-  position: fixed;
-  inset: 0;
-  margin: auto;
-  z-index: 500;
-  height: -webkit-min-content;
-  height: -moz-min-content;
-  height: min-content;
-  max-height: 85%;
-  max-width: 95%;
-  overflow-y: auto;
-  background-color: #fff;
-  padding-bottom: env(safe-area-inset-bottom);
-  padding-top: env(safe-area-inset-top);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
-  -webkit-animation-duration: var(--duration);
-  animation-duration: var(--duration);
-  -webkit-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-  -webkit-animation-timing-function: ease-in-out;
-  animation-timing-function: ease-in-out;
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-3[data-margin="small"] {
-    --margin: 24px;
-  }
-}
-
-.emotion-3[data-position="top"] {
-  top: var(--margin);
-  bottom: unset;
-}
-
-.emotion-3[data-position="bottom"] {
-  bottom: var(--margin);
-  top: unset;
-}
-
-.emotion-3[data-position="left"] {
-  left: var(--margin);
-  right: unset;
-}
-
-.emotion-3[data-position="right"] {
-  right: var(--margin);
-  left: unset;
-}
-
-.emotion-3[data-size="full"] {
-  min-height: 100%;
-  min-width: 100%;
-  inset: 0;
-}
-
-.emotion-3[data-width="xsmall"],
-.emotion-3[data-size="xsmall"] {
-  width: 300px;
-}
-
-.emotion-3[data-width="small"],
-.emotion-3[data-size="small"] {
-  width: 500px;
-}
-
-.emotion-3[data-width="normal"],
-.emotion-3[data-size="normal"] {
-  width: 700px;
-}
-
-.emotion-3[data-width="large"],
-.emotion-3[data-size="large"] {
-  width: 1100px;
-}
-
-.emotion-3[data-width="full"] {
-  width: 100%;
-  min-width: 100%;
-  left: 0;
-  right: 0;
-}
-
-.emotion-3[data-height="xsmall"] {
-  height: 300px;
-}
-
-.emotion-3[data-height="small"] {
-  height: 500px;
-}
-
-.emotion-3[data-height="normal"] {
-  height: 700px;
-}
-
-.emotion-3[data-height="large"] {
-  height: 1100px;
-}
-
-.emotion-3[data-height="full"] {
-  height: 100%;
-  min-height: 100%;
-  top: 0;
-  bottom: 0;
-}
-
-.emotion-3[data-expands="true"] {
-  width: -webkit-min-content;
-  width: -moz-min-content;
-  width: min-content;
-  height: -webkit-min-content;
-  height: -moz-min-content;
-  height: min-content;
-  max-width: 100%;
-  max-height: 100%;
-}
-
-.emotion-3[data-animation-name="fade"][data-state="open"] {
-  -webkit-animation-name: modalFadeIn;
-  animation-name: modalFadeIn;
-}
-
-.emotion-3[data-animation-name="fade"][data-state="closed"] {
-  -webkit-animation-name: modalFadeOut;
-  animation-name: modalFadeOut;
-}
-
-.emotion-3[data-animation-name="zoom"][data-state="open"] {
-  -webkit-animation-name: modalZoomIn;
-  animation-name: modalZoomIn;
-}
-
-.emotion-3[data-animation-name="zoom"][data-state="closed"] {
-  -webkit-animation-name: modalZoomOut;
-  animation-name: modalZoomOut;
-}
-
-.emotion-3[data-animation-name="subtle"][data-state="open"] {
-  -webkit-animation-name: modalSubtleIn;
-  animation-name: modalSubtleIn;
-}
-
-.emotion-3[data-animation-name="subtle"][data-state="closed"] {
-  -webkit-animation-name: modalSubtleOut;
-  animation-name: modalSubtleOut;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="top"][data-state="open"] {
-  -webkit-animation-name: modalSlideTopIn;
-  animation-name: modalSlideTopIn;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="top"][data-state="closed"] {
-  -webkit-animation-name: modalSlideTopOut;
-  animation-name: modalSlideTopOut;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="right"][data-state="open"] {
-  -webkit-animation-name: modalSlideRightIn;
-  animation-name: modalSlideRightIn;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="right"][data-state="closed"] {
-  -webkit-animation-name: modalSlideRightOut;
-  animation-name: modalSlideRightOut;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="bottom"][data-state="open"] {
-  -webkit-animation-name: modalSlideBottomIn;
-  animation-name: modalSlideBottomIn;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="bottom"][data-state="closed"] {
-  -webkit-animation-name: modalSlideBottomOut;
-  animation-name: modalSlideBottomOut;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="left"][data-state="open"] {
-  -webkit-animation-name: modalSlideLeftIn;
-  animation-name: modalSlideLeftIn;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="left"][data-state="closed"] {
-  -webkit-animation-name: modalSlideLeftOut;
-  animation-name: modalSlideLeftOut;
-}
-
-@media (max-width: 37.5625em) {
-  .emotion-3 {
-    min-width: 100%;
-    min-height: 100%;
-  }
-}
-
-.emotion-5 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  gap: 24px;
-  padding: 24px;
-}
-
-.emotion-5[data-severity="success"] {
-  background-color: #5cbc80;
-  color: #fff;
-}
-
-.emotion-5[data-severity="info"] {
-  background-color: #fff;
-  color: #444;
-}
-
-.emotion-5[data-severity="warning"] {
-  background-color: #ead854;
-  color: #444;
-}
-
-.emotion-5[data-severity="danger"] {
-  background-color: #d1372e;
-  color: #fff;
-}
-
-.emotion-6 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  padding: 0;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-}
-
-.emotion-6 h1 {
-  color: #fff;
-}
-
-.emotion-7 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-box-pack: end;
-  -ms-flex-pack: end;
-  -webkit-justify-content: flex-end;
-  justify-content: flex-end;
-  padding: 24px;
-}
-
-.emotion-7 h1 {
-  margin: 0;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  font-weight: 700;
-  font-size: 22px;
-  font-size: 1.2222222222222223rem;
-  line-height: 1.2;
-  color: #444;
-}
-
-.emotion-7 h1:where([lang='zh'], .emotion-7 h1[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(22px * 1.11);
-  font-size: calc(1.2222222222222223rem * 1.11);
-}
-
-.emotion-9 {
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  margin: 0;
-  color: #fff;
-}
-
-.emotion-9[data-severity="info"] {
-  color: #444;
-}
-
-.emotion-9[data-severity="warning"] {
-  color: #444;
-}
-
-.emotion-10 svg {
-  color: #fff;
-}
-
-.emotion-10 svg[data-severity="info"] {
-  color: #444;
-}
-
-.emotion-10 svg[data-severity="warning"] {
-  color: #444;
-}
-
-.emotion-10:hover,
-.emotion-10:focus,
-.emotion-10:focus-within,
-.emotion-10:focus-visible {
-  background-color: #fff;
-}
-
-.emotion-10:hover svg,
-.emotion-10:focus svg,
-.emotion-10:focus-within svg,
-.emotion-10:focus-visible svg {
-  color: #20588f;
-}
-
-.emotion-11 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  gap: 6px;
-  color: #20588f;
-  background: #deebf6;
-  border: 2px solid #deebf6;
-  border-radius: 4px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 600;
-  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  box-shadow: none;
-  text-align: center;
-  padding: 4px 6px;
-  font-size: 14px;
-  font-size: 0.7777777777777778rem;
-  line-height: 18px;
-  min-height: 32px;
-  border-width: 1px;
-  outline-width: 2px;
-  color: #20588f;
-  background: transparent;
-  border-color: transparent;
-  border-radius: 100%;
-  padding: 6px;
-  line-height: 1;
-  border-color: transparent;
-  min-height: unset;
-}
-
-.emotion-11:hover,
-.emotion-11:focus-visible {
-  color: #fff;
-  background-color: #20588f;
-  border-color: #20588f;
-}
-
-.emotion-11[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-11:where([lang='zh'], .emotion-11[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(14px * 1.11);
-  font-size: calc(0.7777777777777778rem * 1.11);
-}
-
-.emotion-11:hover,
-.emotion-11:active,
-.emotion-11:focus-visible {
-  color: #20588f;
-  background: #deebf6;
-  border-color: #deebf6;
-}
-
-.emotion-11[disabled] {
-  color: #777777;
-  background-color: transparent;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-11 svg {
-  width: 24px;
-  height: 24px;
-  margin: 0;
-}
-
-.emotion-12 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  gap: 12px;
-}
-
-.emotion-13 {
-  width: 27px;
-  height: 27px;
-}
-
-.emotion-14 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-  -webkit-align-items: flex-end;
-  -webkit-box-align: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-  margin-top: 12px;
-}
-
 <body
-  style="pointer-events: none;"
+  data-scroll-lock=""
+  style="overflow: hidden; padding-right: 1024px;"
 >
-  <span
-    aria-hidden="true"
-    data-aria-hidden="true"
-    data-radix-focus-guard=""
-    style="outline: none; opacity: 0; position: fixed; pointer-events: none;"
-    tabindex="0"
+  <div />
+  <div
+    class="pos_fixed h_100vh w_100vw left_0 top_0 bg_rgba(1,_1,_1,_0.3) open:anim_backdrop-in open:motionReduce:anim_none closed:anim_backdrop-out closed:motionReduce:anim_none z_alertModalOverlay"
+    data-part="backdrop"
+    data-scope="dialog"
+    data-state="open"
+    dir="ltr"
+    id="dialog::r3::backdrop"
   />
   <div
-    aria-hidden="true"
-    data-aria-hidden="true"
+    class="pos_fixed d_flex ai_center jc_center ov_hidden left_0 top_0 w_100vw h_100dvh z_alertModal"
+    data-part="positioner"
+    data-scope="dialog"
+    dir="ltr"
+    id="dialog::r3::positioner"
   >
     <div
-      class="emotion-0"
-    />
-  </div>
-  <div
-    aria-hidden="true"
-    class="emotion-1 emotion-2"
-    data-aria-hidden="true"
-    data-state="open"
-    style="pointer-events: auto; --duration: 400ms;"
-  />
-  <div
-    aria-describedby="radix-:rb:"
-    aria-labelledby="radix-:ra:"
-    class="emotion-3 emotion-4"
-    data-animation-name="zoom"
-    data-margin="small"
-    data-position="center"
-    data-size="normal"
-    data-state="open"
-    id="radix-:r9:"
-    role="dialog"
-    style="--duration: 400ms; pointer-events: auto;"
-    tabindex="-1"
-  >
-    <div
-      class="emotion-5"
-      data-severity="danger"
-      data-testid="alert-modal"
+      aria-describedby="dialog::r3::description"
+      aria-label="Pass på!"
+      aria-modal="true"
+      class="emotion-0 pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% emotion-1 w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
+      data-part="content"
+      data-scope="dialog"
+      data-state="open"
+      data-testid="alert-dialog"
+      dir="ltr"
+      id="dialog::r3::content"
+      role="dialog"
+      tabindex="-1"
     >
       <div
-        class="emotion-6 emotion-7 emotion-8"
-        data-testid="modal-header"
+        class="d_flex px_medium pbs_medium jc_space-between ai_center gap_xsmall"
       >
         <h1
-          class="emotion-9"
-          data-severity="danger"
+          class="textStyle_title.medium"
+          data-part="title"
+          data-scope="dialog"
+          dir="ltr"
+          id="dialog::r3::title"
         >
           Pass på!
         </h1>
         <button
           aria-label="Lukk"
-          class="emotion-10 emotion-11"
+          class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset emotion-2 h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+          data-part="close-trigger"
+          data-scope="dialog"
           data-testid="closeAlert"
+          dir="ltr"
+          id="dialog::r3::close"
+          title="Lukk"
           type="button"
         >
           <svg
@@ -528,603 +63,110 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
             class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
             data-icon=""
             data-license="Apache License 2.0"
-            data-severity="danger"
-            data-source="Material Design"
+            data-source="RemixIcon"
+            fill="currentColor"
             preserveAspectRatio="xMidYMid meet"
             viewBox="0 0 24 24"
           >
             <path
-              d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
+              d="m12 10.59 4.95-4.95 1.41 1.41L13.41 12l4.95 4.95-1.41 1.41L12 13.41l-4.95 4.95-1.41-1.41L10.59 12 5.64 7.05l1.41-1.41z"
             />
           </svg>
         </button>
       </div>
       <div
-        class="emotion-12"
+        class="d_flex flex-d_column gap_xsmall px_medium pbs_small pbe_medium"
       >
-        <svg
-          aria-hidden="true"
-          class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium emotion-13"
-          data-icon=""
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          preserveAspectRatio="xMidYMid meet"
-          viewBox="0 0 24 24"
+        <div
+          class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error"
         >
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
-          <path
-            d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16"
-          />
-        </svg>
-        Testmessage
+          <svg
+            aria-hidden="true"
+            class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+            data-icon=""
+            data-license="Apache License 2.0"
+            data-source="RemixIcon"
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20m0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16m-1-5h2v2h-2zm0-8h2v6h-2z"
+            />
+          </svg>
+          <p
+            class="textStyle_body.medium"
+          >
+            Testmessage
+          </p>
+        </div>
       </div>
       <div
-        class="emotion-14"
+        class="d_flex gap_3xsmall ai_center jc_flex-end px_medium pbs_small pbe_medium"
       />
     </div>
   </div>
-  <span
-    aria-hidden="true"
-    data-aria-hidden="true"
-    data-radix-focus-guard=""
-    style="outline: none; opacity: 0; position: fixed; pointer-events: none;"
-    tabindex="0"
-  />
 </body>
 `;
 
-exports[`Messages > A message is removed if the modal is closed 2`] = `
-.emotion-0 {
-  position: fixed;
-  width: 80%;
-  max-width: 800px;
-  top: 50px;
-  left: 0;
-  right: 0;
-  z-index: 500;
-  margin: 0 auto;
-  display: none;
-}
-
-<body
-  style=""
->
-  <div>
-    <div
-      class="emotion-0"
-    />
-  </div>
-</body>
-`;
+exports[`Messages > A message is removed if the modal is closed 2`] = `"<div></div>"`;
 
 exports[`Messages > A single message renders correctly 1`] = `
-.emotion-0 {
-  position: fixed;
-  width: 80%;
-  max-width: 800px;
-  top: 50px;
-  left: 0;
-  right: 0;
-  z-index: 500;
-  margin: 0 auto;
-}
-
-.emotion-1 {
-  position: fixed;
-  inset: 0;
-  background: rgba(1, 1, 1, 0.3);
-  z-index: 499;
-  -webkit-animation-duration: var(--duration);
-  animation-duration: var(--duration);
-  -webkit-animation-timing-function: ease-in-out;
-  animation-timing-function: ease-in-out;
-}
-
-.emotion-1[data-state="open"] {
-  -webkit-animation-name: overlayFadeIn;
-  animation-name: overlayFadeIn;
-}
-
-.emotion-1[data-state="closed"] {
-  -webkit-animation-name: overlayFadeOut;
-  animation-name: overlayFadeOut;
-}
-
-.emotion-3 {
-  --margin: 0px;
-  position: fixed;
-  inset: 0;
-  margin: auto;
-  z-index: 500;
-  height: -webkit-min-content;
-  height: -moz-min-content;
-  height: min-content;
-  max-height: 85%;
-  max-width: 95%;
-  overflow-y: auto;
-  background-color: #fff;
-  padding-bottom: env(safe-area-inset-bottom);
-  padding-top: env(safe-area-inset-top);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
-  -webkit-animation-duration: var(--duration);
-  animation-duration: var(--duration);
-  -webkit-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-  -webkit-animation-timing-function: ease-in-out;
-  animation-timing-function: ease-in-out;
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-3[data-margin="small"] {
-    --margin: 24px;
-  }
-}
-
-.emotion-3[data-position="top"] {
-  top: var(--margin);
-  bottom: unset;
-}
-
-.emotion-3[data-position="bottom"] {
-  bottom: var(--margin);
-  top: unset;
-}
-
-.emotion-3[data-position="left"] {
-  left: var(--margin);
-  right: unset;
-}
-
-.emotion-3[data-position="right"] {
-  right: var(--margin);
-  left: unset;
-}
-
-.emotion-3[data-size="full"] {
-  min-height: 100%;
-  min-width: 100%;
-  inset: 0;
-}
-
-.emotion-3[data-width="xsmall"],
-.emotion-3[data-size="xsmall"] {
-  width: 300px;
-}
-
-.emotion-3[data-width="small"],
-.emotion-3[data-size="small"] {
-  width: 500px;
-}
-
-.emotion-3[data-width="normal"],
-.emotion-3[data-size="normal"] {
-  width: 700px;
-}
-
-.emotion-3[data-width="large"],
-.emotion-3[data-size="large"] {
-  width: 1100px;
-}
-
-.emotion-3[data-width="full"] {
-  width: 100%;
-  min-width: 100%;
-  left: 0;
-  right: 0;
-}
-
-.emotion-3[data-height="xsmall"] {
-  height: 300px;
-}
-
-.emotion-3[data-height="small"] {
-  height: 500px;
-}
-
-.emotion-3[data-height="normal"] {
-  height: 700px;
-}
-
-.emotion-3[data-height="large"] {
-  height: 1100px;
-}
-
-.emotion-3[data-height="full"] {
-  height: 100%;
-  min-height: 100%;
-  top: 0;
-  bottom: 0;
-}
-
-.emotion-3[data-expands="true"] {
-  width: -webkit-min-content;
-  width: -moz-min-content;
-  width: min-content;
-  height: -webkit-min-content;
-  height: -moz-min-content;
-  height: min-content;
-  max-width: 100%;
-  max-height: 100%;
-}
-
-.emotion-3[data-animation-name="fade"][data-state="open"] {
-  -webkit-animation-name: modalFadeIn;
-  animation-name: modalFadeIn;
-}
-
-.emotion-3[data-animation-name="fade"][data-state="closed"] {
-  -webkit-animation-name: modalFadeOut;
-  animation-name: modalFadeOut;
-}
-
-.emotion-3[data-animation-name="zoom"][data-state="open"] {
-  -webkit-animation-name: modalZoomIn;
-  animation-name: modalZoomIn;
-}
-
-.emotion-3[data-animation-name="zoom"][data-state="closed"] {
-  -webkit-animation-name: modalZoomOut;
-  animation-name: modalZoomOut;
-}
-
-.emotion-3[data-animation-name="subtle"][data-state="open"] {
-  -webkit-animation-name: modalSubtleIn;
-  animation-name: modalSubtleIn;
-}
-
-.emotion-3[data-animation-name="subtle"][data-state="closed"] {
-  -webkit-animation-name: modalSubtleOut;
-  animation-name: modalSubtleOut;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="top"][data-state="open"] {
-  -webkit-animation-name: modalSlideTopIn;
-  animation-name: modalSlideTopIn;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="top"][data-state="closed"] {
-  -webkit-animation-name: modalSlideTopOut;
-  animation-name: modalSlideTopOut;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="right"][data-state="open"] {
-  -webkit-animation-name: modalSlideRightIn;
-  animation-name: modalSlideRightIn;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="right"][data-state="closed"] {
-  -webkit-animation-name: modalSlideRightOut;
-  animation-name: modalSlideRightOut;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="bottom"][data-state="open"] {
-  -webkit-animation-name: modalSlideBottomIn;
-  animation-name: modalSlideBottomIn;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="bottom"][data-state="closed"] {
-  -webkit-animation-name: modalSlideBottomOut;
-  animation-name: modalSlideBottomOut;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="left"][data-state="open"] {
-  -webkit-animation-name: modalSlideLeftIn;
-  animation-name: modalSlideLeftIn;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="left"][data-state="closed"] {
-  -webkit-animation-name: modalSlideLeftOut;
-  animation-name: modalSlideLeftOut;
-}
-
-@media (max-width: 37.5625em) {
-  .emotion-3 {
-    min-width: 100%;
-    min-height: 100%;
-  }
-}
-
-.emotion-5 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  gap: 24px;
-  padding: 24px;
-}
-
-.emotion-5[data-severity="success"] {
-  background-color: #5cbc80;
-  color: #fff;
-}
-
-.emotion-5[data-severity="info"] {
-  background-color: #fff;
-  color: #444;
-}
-
-.emotion-5[data-severity="warning"] {
-  background-color: #ead854;
-  color: #444;
-}
-
-.emotion-5[data-severity="danger"] {
-  background-color: #d1372e;
-  color: #fff;
-}
-
-.emotion-6 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  padding: 0;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-}
-
-.emotion-6 h1 {
-  color: #fff;
-}
-
-.emotion-7 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-box-pack: end;
-  -ms-flex-pack: end;
-  -webkit-justify-content: flex-end;
-  justify-content: flex-end;
-  padding: 24px;
-}
-
-.emotion-7 h1 {
-  margin: 0;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  font-weight: 700;
-  font-size: 22px;
-  font-size: 1.2222222222222223rem;
-  line-height: 1.2;
-  color: #444;
-}
-
-.emotion-7 h1:where([lang='zh'], .emotion-7 h1[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(22px * 1.11);
-  font-size: calc(1.2222222222222223rem * 1.11);
-}
-
-.emotion-9 {
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  margin: 0;
-  color: #fff;
-}
-
-.emotion-9[data-severity="info"] {
-  color: #444;
-}
-
-.emotion-9[data-severity="warning"] {
-  color: #444;
-}
-
-.emotion-10 svg {
-  color: #fff;
-}
-
-.emotion-10 svg[data-severity="info"] {
-  color: #444;
-}
-
-.emotion-10 svg[data-severity="warning"] {
-  color: #444;
-}
-
-.emotion-10:hover,
-.emotion-10:focus,
-.emotion-10:focus-within,
-.emotion-10:focus-visible {
-  background-color: #fff;
-}
-
-.emotion-10:hover svg,
-.emotion-10:focus svg,
-.emotion-10:focus-within svg,
-.emotion-10:focus-visible svg {
-  color: #20588f;
-}
-
-.emotion-11 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  gap: 6px;
-  color: #20588f;
-  background: #deebf6;
-  border: 2px solid #deebf6;
-  border-radius: 4px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 600;
-  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  box-shadow: none;
-  text-align: center;
-  padding: 4px 6px;
-  font-size: 14px;
-  font-size: 0.7777777777777778rem;
-  line-height: 18px;
-  min-height: 32px;
-  border-width: 1px;
-  outline-width: 2px;
-  color: #20588f;
-  background: transparent;
-  border-color: transparent;
-  border-radius: 100%;
-  padding: 6px;
-  line-height: 1;
-  border-color: transparent;
-  min-height: unset;
-}
-
-.emotion-11:hover,
-.emotion-11:focus-visible {
-  color: #fff;
-  background-color: #20588f;
-  border-color: #20588f;
-}
-
-.emotion-11[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-11:where([lang='zh'], .emotion-11[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(14px * 1.11);
-  font-size: calc(0.7777777777777778rem * 1.11);
-}
-
-.emotion-11:hover,
-.emotion-11:active,
-.emotion-11:focus-visible {
-  color: #20588f;
-  background: #deebf6;
-  border-color: #deebf6;
-}
-
-.emotion-11[disabled] {
-  color: #777777;
-  background-color: transparent;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-11 svg {
-  width: 24px;
-  height: 24px;
-  margin: 0;
-}
-
-.emotion-12 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  gap: 12px;
-}
-
-.emotion-13 {
-  width: 27px;
-  height: 27px;
-}
-
-.emotion-14 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-  -webkit-align-items: flex-end;
-  -webkit-box-align: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-  margin-top: 12px;
-}
-
 <body
-  style="pointer-events: none;"
+  data-scroll-lock=""
+  style="overflow: hidden; padding-right: 1024px;"
 >
-  <span
-    aria-hidden="true"
-    data-aria-hidden="true"
-    data-radix-focus-guard=""
-    style="outline: none; opacity: 0; position: fixed; pointer-events: none;"
-    tabindex="0"
+  <div />
+  <div
+    class="pos_fixed h_100vh w_100vw left_0 top_0 bg_rgba(1,_1,_1,_0.3) open:anim_backdrop-in open:motionReduce:anim_none closed:anim_backdrop-out closed:motionReduce:anim_none z_alertModalOverlay"
+    data-part="backdrop"
+    data-scope="dialog"
+    data-state="open"
+    dir="ltr"
+    id="dialog::r0::backdrop"
   />
   <div
-    aria-hidden="true"
-    data-aria-hidden="true"
+    class="pos_fixed d_flex ai_center jc_center ov_hidden left_0 top_0 w_100vw h_100dvh z_alertModal"
+    data-part="positioner"
+    data-scope="dialog"
+    dir="ltr"
+    id="dialog::r0::positioner"
   >
     <div
-      class="emotion-0"
-    />
-  </div>
-  <div
-    aria-hidden="true"
-    class="emotion-1 emotion-2"
-    data-aria-hidden="true"
-    data-state="open"
-    style="pointer-events: auto; --duration: 400ms;"
-  />
-  <div
-    aria-describedby="radix-:r2:"
-    aria-labelledby="radix-:r1:"
-    class="emotion-3 emotion-4"
-    data-animation-name="zoom"
-    data-margin="small"
-    data-position="center"
-    data-size="normal"
-    data-state="open"
-    id="radix-:r0:"
-    role="dialog"
-    style="--duration: 400ms; pointer-events: auto;"
-    tabindex="-1"
-  >
-    <div
-      class="emotion-5"
-      data-severity="danger"
-      data-testid="alert-modal"
+      aria-describedby="dialog::r0::description"
+      aria-label="Pass på!"
+      aria-modal="true"
+      class="emotion-0 pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% emotion-1 w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
+      data-part="content"
+      data-scope="dialog"
+      data-state="open"
+      data-testid="alert-dialog"
+      dir="ltr"
+      id="dialog::r0::content"
+      role="dialog"
+      tabindex="-1"
     >
       <div
-        class="emotion-6 emotion-7 emotion-8"
-        data-testid="modal-header"
+        class="d_flex px_medium pbs_medium jc_space-between ai_center gap_xsmall"
       >
         <h1
-          class="emotion-9"
-          data-severity="danger"
+          class="textStyle_title.medium"
+          data-part="title"
+          data-scope="dialog"
+          dir="ltr"
+          id="dialog::r0::title"
         >
           Pass på!
         </h1>
         <button
           aria-label="Lukk"
-          class="emotion-10 emotion-11"
+          class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset emotion-2 h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+          data-part="close-trigger"
+          data-scope="dialog"
           data-testid="closeAlert"
+          dir="ltr"
+          id="dialog::r0::close"
+          title="Lukk"
           type="button"
         >
           <svg
@@ -1132,581 +174,108 @@ exports[`Messages > A single message renders correctly 1`] = `
             class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
             data-icon=""
             data-license="Apache License 2.0"
-            data-severity="danger"
-            data-source="Material Design"
+            data-source="RemixIcon"
+            fill="currentColor"
             preserveAspectRatio="xMidYMid meet"
             viewBox="0 0 24 24"
           >
             <path
-              d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
+              d="m12 10.59 4.95-4.95 1.41 1.41L13.41 12l4.95 4.95-1.41 1.41L12 13.41l-4.95 4.95-1.41-1.41L10.59 12 5.64 7.05l1.41-1.41z"
             />
           </svg>
         </button>
       </div>
       <div
-        class="emotion-12"
+        class="d_flex flex-d_column gap_xsmall px_medium pbs_small pbe_medium"
       >
-        <svg
-          aria-hidden="true"
-          class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium emotion-13"
-          data-icon=""
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          preserveAspectRatio="xMidYMid meet"
-          viewBox="0 0 24 24"
+        <div
+          class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error"
         >
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
-          <path
-            d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16"
-          />
-        </svg>
-        Testmessage
+          <svg
+            aria-hidden="true"
+            class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+            data-icon=""
+            data-license="Apache License 2.0"
+            data-source="RemixIcon"
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20m0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16m-1-5h2v2h-2zm0-8h2v6h-2z"
+            />
+          </svg>
+          <p
+            class="textStyle_body.medium"
+          >
+            Testmessage
+          </p>
+        </div>
       </div>
       <div
-        class="emotion-14"
+        class="d_flex gap_3xsmall ai_center jc_flex-end px_medium pbs_small pbe_medium"
       />
     </div>
   </div>
-  <span
-    aria-hidden="true"
-    data-aria-hidden="true"
-    data-radix-focus-guard=""
-    style="outline: none; opacity: 0; position: fixed; pointer-events: none;"
-    tabindex="0"
-  />
 </body>
 `;
 
 exports[`Messages > Several messages renders correctly 1`] = `
-.emotion-0 {
-  position: fixed;
-  width: 80%;
-  max-width: 800px;
-  top: 50px;
-  left: 0;
-  right: 0;
-  z-index: 500;
-  margin: 0 auto;
-}
-
-.emotion-1 {
-  position: fixed;
-  inset: 0;
-  background: rgba(1, 1, 1, 0.3);
-  z-index: 499;
-  -webkit-animation-duration: var(--duration);
-  animation-duration: var(--duration);
-  -webkit-animation-timing-function: ease-in-out;
-  animation-timing-function: ease-in-out;
-}
-
-.emotion-1[data-state="open"] {
-  -webkit-animation-name: overlayFadeIn;
-  animation-name: overlayFadeIn;
-}
-
-.emotion-1[data-state="closed"] {
-  -webkit-animation-name: overlayFadeOut;
-  animation-name: overlayFadeOut;
-}
-
-.emotion-3 {
-  --margin: 0px;
-  position: fixed;
-  inset: 0;
-  margin: auto;
-  z-index: 500;
-  height: -webkit-min-content;
-  height: -moz-min-content;
-  height: min-content;
-  max-height: 85%;
-  max-width: 95%;
-  overflow-y: auto;
-  background-color: #fff;
-  padding-bottom: env(safe-area-inset-bottom);
-  padding-top: env(safe-area-inset-top);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
-  -webkit-animation-duration: var(--duration);
-  animation-duration: var(--duration);
-  -webkit-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-  -webkit-animation-timing-function: ease-in-out;
-  animation-timing-function: ease-in-out;
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-3[data-margin="small"] {
-    --margin: 24px;
-  }
-}
-
-.emotion-3[data-position="top"] {
-  top: var(--margin);
-  bottom: unset;
-}
-
-.emotion-3[data-position="bottom"] {
-  bottom: var(--margin);
-  top: unset;
-}
-
-.emotion-3[data-position="left"] {
-  left: var(--margin);
-  right: unset;
-}
-
-.emotion-3[data-position="right"] {
-  right: var(--margin);
-  left: unset;
-}
-
-.emotion-3[data-size="full"] {
-  min-height: 100%;
-  min-width: 100%;
-  inset: 0;
-}
-
-.emotion-3[data-width="xsmall"],
-.emotion-3[data-size="xsmall"] {
-  width: 300px;
-}
-
-.emotion-3[data-width="small"],
-.emotion-3[data-size="small"] {
-  width: 500px;
-}
-
-.emotion-3[data-width="normal"],
-.emotion-3[data-size="normal"] {
-  width: 700px;
-}
-
-.emotion-3[data-width="large"],
-.emotion-3[data-size="large"] {
-  width: 1100px;
-}
-
-.emotion-3[data-width="full"] {
-  width: 100%;
-  min-width: 100%;
-  left: 0;
-  right: 0;
-}
-
-.emotion-3[data-height="xsmall"] {
-  height: 300px;
-}
-
-.emotion-3[data-height="small"] {
-  height: 500px;
-}
-
-.emotion-3[data-height="normal"] {
-  height: 700px;
-}
-
-.emotion-3[data-height="large"] {
-  height: 1100px;
-}
-
-.emotion-3[data-height="full"] {
-  height: 100%;
-  min-height: 100%;
-  top: 0;
-  bottom: 0;
-}
-
-.emotion-3[data-expands="true"] {
-  width: -webkit-min-content;
-  width: -moz-min-content;
-  width: min-content;
-  height: -webkit-min-content;
-  height: -moz-min-content;
-  height: min-content;
-  max-width: 100%;
-  max-height: 100%;
-}
-
-.emotion-3[data-animation-name="fade"][data-state="open"] {
-  -webkit-animation-name: modalFadeIn;
-  animation-name: modalFadeIn;
-}
-
-.emotion-3[data-animation-name="fade"][data-state="closed"] {
-  -webkit-animation-name: modalFadeOut;
-  animation-name: modalFadeOut;
-}
-
-.emotion-3[data-animation-name="zoom"][data-state="open"] {
-  -webkit-animation-name: modalZoomIn;
-  animation-name: modalZoomIn;
-}
-
-.emotion-3[data-animation-name="zoom"][data-state="closed"] {
-  -webkit-animation-name: modalZoomOut;
-  animation-name: modalZoomOut;
-}
-
-.emotion-3[data-animation-name="subtle"][data-state="open"] {
-  -webkit-animation-name: modalSubtleIn;
-  animation-name: modalSubtleIn;
-}
-
-.emotion-3[data-animation-name="subtle"][data-state="closed"] {
-  -webkit-animation-name: modalSubtleOut;
-  animation-name: modalSubtleOut;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="top"][data-state="open"] {
-  -webkit-animation-name: modalSlideTopIn;
-  animation-name: modalSlideTopIn;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="top"][data-state="closed"] {
-  -webkit-animation-name: modalSlideTopOut;
-  animation-name: modalSlideTopOut;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="right"][data-state="open"] {
-  -webkit-animation-name: modalSlideRightIn;
-  animation-name: modalSlideRightIn;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="right"][data-state="closed"] {
-  -webkit-animation-name: modalSlideRightOut;
-  animation-name: modalSlideRightOut;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="bottom"][data-state="open"] {
-  -webkit-animation-name: modalSlideBottomIn;
-  animation-name: modalSlideBottomIn;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="bottom"][data-state="closed"] {
-  -webkit-animation-name: modalSlideBottomOut;
-  animation-name: modalSlideBottomOut;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="left"][data-state="open"] {
-  -webkit-animation-name: modalSlideLeftIn;
-  animation-name: modalSlideLeftIn;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="left"][data-state="closed"] {
-  -webkit-animation-name: modalSlideLeftOut;
-  animation-name: modalSlideLeftOut;
-}
-
-@media (max-width: 37.5625em) {
-  .emotion-3 {
-    min-width: 100%;
-    min-height: 100%;
-  }
-}
-
-.emotion-5 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  gap: 24px;
-  padding: 24px;
-}
-
-.emotion-5[data-severity="success"] {
-  background-color: #5cbc80;
-  color: #fff;
-}
-
-.emotion-5[data-severity="info"] {
-  background-color: #fff;
-  color: #444;
-}
-
-.emotion-5[data-severity="warning"] {
-  background-color: #ead854;
-  color: #444;
-}
-
-.emotion-5[data-severity="danger"] {
-  background-color: #d1372e;
-  color: #fff;
-}
-
-.emotion-6 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  padding: 0;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-}
-
-.emotion-6 h1 {
-  color: #fff;
-}
-
-.emotion-7 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-box-pack: end;
-  -ms-flex-pack: end;
-  -webkit-justify-content: flex-end;
-  justify-content: flex-end;
-  padding: 24px;
-}
-
-.emotion-7 h1 {
-  margin: 0;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  font-weight: 700;
-  font-size: 22px;
-  font-size: 1.2222222222222223rem;
-  line-height: 1.2;
-  color: #444;
-}
-
-.emotion-7 h1:where([lang='zh'], .emotion-7 h1[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(22px * 1.11);
-  font-size: calc(1.2222222222222223rem * 1.11);
-}
-
-.emotion-9 {
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  margin: 0;
-  color: #fff;
-}
-
-.emotion-9[data-severity="info"] {
-  color: #444;
-}
-
-.emotion-9[data-severity="warning"] {
-  color: #444;
-}
-
-.emotion-10 svg {
-  color: #fff;
-}
-
-.emotion-10 svg[data-severity="info"] {
-  color: #444;
-}
-
-.emotion-10 svg[data-severity="warning"] {
-  color: #444;
-}
-
-.emotion-10:hover,
-.emotion-10:focus,
-.emotion-10:focus-within,
-.emotion-10:focus-visible {
-  background-color: #fff;
-}
-
-.emotion-10:hover svg,
-.emotion-10:focus svg,
-.emotion-10:focus-within svg,
-.emotion-10:focus-visible svg {
-  color: #20588f;
-}
-
-.emotion-11 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  gap: 6px;
-  color: #20588f;
-  background: #deebf6;
-  border: 2px solid #deebf6;
-  border-radius: 4px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 600;
-  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  box-shadow: none;
-  text-align: center;
-  padding: 4px 6px;
-  font-size: 14px;
-  font-size: 0.7777777777777778rem;
-  line-height: 18px;
-  min-height: 32px;
-  border-width: 1px;
-  outline-width: 2px;
-  color: #20588f;
-  background: transparent;
-  border-color: transparent;
-  border-radius: 100%;
-  padding: 6px;
-  line-height: 1;
-  border-color: transparent;
-  min-height: unset;
-}
-
-.emotion-11:hover,
-.emotion-11:focus-visible {
-  color: #fff;
-  background-color: #20588f;
-  border-color: #20588f;
-}
-
-.emotion-11[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-11:where([lang='zh'], .emotion-11[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(14px * 1.11);
-  font-size: calc(0.7777777777777778rem * 1.11);
-}
-
-.emotion-11:hover,
-.emotion-11:active,
-.emotion-11:focus-visible {
-  color: #20588f;
-  background: #deebf6;
-  border-color: #deebf6;
-}
-
-.emotion-11[disabled] {
-  color: #777777;
-  background-color: transparent;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-11 svg {
-  width: 24px;
-  height: 24px;
-  margin: 0;
-}
-
-.emotion-12 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  gap: 12px;
-}
-
-.emotion-13 {
-  width: 27px;
-  height: 27px;
-}
-
-.emotion-14 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-  -webkit-align-items: flex-end;
-  -webkit-box-align: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-  margin-top: 12px;
-}
-
 <body
-  style="pointer-events: none;"
+  data-scroll-lock=""
+  style="overflow: hidden; padding-right: 1024px;"
 >
-  <span
-    aria-hidden="true"
-    data-aria-hidden="true"
-    data-radix-focus-guard=""
-    style="outline: none; opacity: 0; position: fixed; pointer-events: none;"
-    tabindex="0"
+  <div />
+  <div
+    class="pos_fixed h_100vh w_100vw left_0 top_0 bg_rgba(1,_1,_1,_0.3) open:anim_backdrop-in open:motionReduce:anim_none closed:anim_backdrop-out closed:motionReduce:anim_none z_alertModalOverlay"
+    data-part="backdrop"
+    data-scope="dialog"
+    data-state="open"
+    dir="ltr"
+    id="dialog::r1::backdrop"
   />
   <div
-    aria-hidden="true"
-    data-aria-hidden="true"
+    class="pos_fixed d_flex ai_center jc_center ov_hidden left_0 top_0 w_100vw h_100dvh z_alertModal"
+    data-part="positioner"
+    data-scope="dialog"
+    dir="ltr"
+    id="dialog::r1::positioner"
   >
     <div
-      class="emotion-0"
-    />
-  </div>
-  <div
-    aria-hidden="true"
-    class="emotion-1 emotion-2"
-    data-aria-hidden="true"
-    data-state="open"
-    style="pointer-events: auto; --duration: 400ms;"
-  />
-  <div
-    aria-describedby="radix-:r5:"
-    aria-hidden="true"
-    aria-labelledby="radix-:r4:"
-    class="emotion-3 emotion-4"
-    data-animation-name="zoom"
-    data-aria-hidden="true"
-    data-margin="small"
-    data-position="center"
-    data-size="normal"
-    data-state="open"
-    id="radix-:r3:"
-    role="dialog"
-    style="--duration: 400ms; pointer-events: none;"
-    tabindex="-1"
-  >
-    <div
-      class="emotion-5"
-      data-severity="danger"
-      data-testid="alert-modal"
+      aria-describedby="dialog::r1::description"
+      aria-label="Pass på!"
+      aria-modal="true"
+      class="emotion-0 pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% emotion-1 w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
+      data-part="content"
+      data-scope="dialog"
+      data-state="open"
+      data-testid="alert-dialog"
+      dir="ltr"
+      id="dialog::r1::content"
+      role="dialog"
+      tabindex="-1"
     >
       <div
-        class="emotion-6 emotion-7 emotion-8"
-        data-testid="modal-header"
+        class="d_flex px_medium pbs_medium jc_space-between ai_center gap_xsmall"
       >
         <h1
-          class="emotion-9"
-          data-severity="danger"
+          class="textStyle_title.medium"
+          data-part="title"
+          data-scope="dialog"
+          dir="ltr"
+          id="dialog::r1::title"
         >
           Pass på!
         </h1>
         <button
           aria-label="Lukk"
-          class="emotion-10 emotion-11"
+          class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset emotion-2 h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+          data-part="close-trigger"
+          data-scope="dialog"
           data-testid="closeAlert"
+          dir="ltr"
+          id="dialog::r1::close"
+          title="Lukk"
           type="button"
         >
           <svg
@@ -1714,90 +283,99 @@ exports[`Messages > Several messages renders correctly 1`] = `
             class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
             data-icon=""
             data-license="Apache License 2.0"
-            data-severity="danger"
-            data-source="Material Design"
+            data-source="RemixIcon"
+            fill="currentColor"
             preserveAspectRatio="xMidYMid meet"
             viewBox="0 0 24 24"
           >
             <path
-              d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
+              d="m12 10.59 4.95-4.95 1.41 1.41L13.41 12l4.95 4.95-1.41 1.41L12 13.41l-4.95 4.95-1.41-1.41L10.59 12 5.64 7.05l1.41-1.41z"
             />
           </svg>
         </button>
       </div>
       <div
-        class="emotion-12"
+        class="d_flex flex-d_column gap_xsmall px_medium pbs_small pbe_medium"
       >
-        <svg
-          aria-hidden="true"
-          class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium emotion-13"
-          data-icon=""
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          preserveAspectRatio="xMidYMid meet"
-          viewBox="0 0 24 24"
+        <div
+          class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error"
         >
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
-          <path
-            d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16"
-          />
-        </svg>
-        Testmessage
+          <svg
+            aria-hidden="true"
+            class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+            data-icon=""
+            data-license="Apache License 2.0"
+            data-source="RemixIcon"
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20m0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16m-1-5h2v2h-2zm0-8h2v6h-2z"
+            />
+          </svg>
+          <p
+            class="textStyle_body.medium"
+          >
+            Testmessage
+          </p>
+        </div>
       </div>
       <div
-        class="emotion-14"
+        class="d_flex gap_3xsmall ai_center jc_flex-end px_medium pbs_small pbe_medium"
       />
     </div>
   </div>
   <div
-    aria-hidden="true"
-    class="emotion-1 emotion-2"
-    data-aria-hidden="true"
+    class="pos_fixed h_100vh w_100vw left_0 top_0 bg_rgba(1,_1,_1,_0.3) open:anim_backdrop-in open:motionReduce:anim_none closed:anim_backdrop-out closed:motionReduce:anim_none z_alertModalOverlay"
+    data-part="backdrop"
+    data-scope="dialog"
     data-state="open"
-    style="pointer-events: auto; --duration: 400ms;"
+    dir="ltr"
+    id="dialog::r2::backdrop"
   />
   <div
-    aria-describedby="radix-:r8:"
-    aria-hidden="true"
-    aria-labelledby="radix-:r7:"
-    class="emotion-3 emotion-4"
-    data-animation-name="zoom"
-    data-aria-hidden="true"
-    data-margin="small"
-    data-position="center"
-    data-size="normal"
-    data-state="open"
-    id="radix-:r6:"
-    role="dialog"
-    style="--duration: 400ms; pointer-events: auto;"
-    tabindex="-1"
+    class="pos_fixed d_flex ai_center jc_center ov_hidden left_0 top_0 w_100vw h_100dvh z_alertModal"
+    data-part="positioner"
+    data-scope="dialog"
+    dir="ltr"
+    id="dialog::r2::positioner"
   >
     <div
-      class="emotion-5"
-      data-severity="danger"
-      data-testid="alert-modal"
+      aria-describedby="dialog::r2::description"
+      aria-label="Pass på!"
+      aria-modal="true"
+      class="emotion-0 pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% emotion-1 w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
+      data-part="content"
+      data-scope="dialog"
+      data-state="open"
+      data-testid="alert-dialog"
+      dir="ltr"
+      id="dialog::r2::content"
+      role="dialog"
+      tabindex="-1"
     >
       <div
-        class="emotion-6 emotion-7 emotion-8"
-        data-testid="modal-header"
+        class="d_flex px_medium pbs_medium jc_space-between ai_center gap_xsmall"
       >
         <h1
-          class="emotion-9"
-          data-severity="danger"
+          class="textStyle_title.medium"
+          data-part="title"
+          data-scope="dialog"
+          dir="ltr"
+          id="dialog::r2::title"
         >
           Pass på!
         </h1>
         <button
           aria-label="Lukk"
-          class="emotion-10 emotion-11"
+          class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset emotion-2 h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+          data-part="close-trigger"
+          data-scope="dialog"
           data-testid="closeAlert"
+          dir="ltr"
+          id="dialog::r2::close"
+          title="Lukk"
           type="button"
         >
           <svg
@@ -1805,658 +383,108 @@ exports[`Messages > Several messages renders correctly 1`] = `
             class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
             data-icon=""
             data-license="Apache License 2.0"
-            data-severity="danger"
-            data-source="Material Design"
+            data-source="RemixIcon"
+            fill="currentColor"
             preserveAspectRatio="xMidYMid meet"
             viewBox="0 0 24 24"
           >
             <path
-              d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
+              d="m12 10.59 4.95-4.95 1.41 1.41L13.41 12l4.95 4.95-1.41 1.41L12 13.41l-4.95 4.95-1.41-1.41L10.59 12 5.64 7.05l1.41-1.41z"
             />
           </svg>
         </button>
       </div>
       <div
-        class="emotion-12"
+        class="d_flex flex-d_column gap_xsmall px_medium pbs_small pbe_medium"
       >
-        <svg
-          aria-hidden="true"
-          class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium emotion-13"
-          data-icon=""
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          preserveAspectRatio="xMidYMid meet"
-          viewBox="0 0 24 24"
+        <div
+          class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error"
         >
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
-          <path
-            d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16"
-          />
-        </svg>
-        Testmessage2
+          <svg
+            aria-hidden="true"
+            class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+            data-icon=""
+            data-license="Apache License 2.0"
+            data-source="RemixIcon"
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20m0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16m-1-5h2v2h-2zm0-8h2v6h-2z"
+            />
+          </svg>
+          <p
+            class="textStyle_body.medium"
+          >
+            Testmessage2
+          </p>
+        </div>
       </div>
       <div
-        class="emotion-14"
+        class="d_flex gap_3xsmall ai_center jc_flex-end px_medium pbs_small pbe_medium"
       />
     </div>
   </div>
-  <span
-    aria-hidden="true"
-    data-aria-hidden="true"
-    data-radix-focus-guard=""
-    style="outline: none; opacity: 0; position: fixed; pointer-events: none;"
-    tabindex="0"
-  />
 </body>
 `;
 
 exports[`Messages > auth0 messages provides a cancel button 1`] = `
-.emotion-0 {
-  position: fixed;
-  width: 80%;
-  max-width: 800px;
-  top: 50px;
-  left: 0;
-  right: 0;
-  z-index: 500;
-  margin: 0 auto;
-}
-
-.emotion-1 {
-  position: fixed;
-  inset: 0;
-  background: rgba(1, 1, 1, 0.3);
-  z-index: 499;
-  -webkit-animation-duration: var(--duration);
-  animation-duration: var(--duration);
-  -webkit-animation-timing-function: ease-in-out;
-  animation-timing-function: ease-in-out;
-}
-
-.emotion-1[data-state="open"] {
-  -webkit-animation-name: overlayFadeIn;
-  animation-name: overlayFadeIn;
-}
-
-.emotion-1[data-state="closed"] {
-  -webkit-animation-name: overlayFadeOut;
-  animation-name: overlayFadeOut;
-}
-
-.emotion-3 {
-  --margin: 0px;
-  position: fixed;
-  inset: 0;
-  margin: auto;
-  z-index: 500;
-  height: -webkit-min-content;
-  height: -moz-min-content;
-  height: min-content;
-  max-height: 85%;
-  max-width: 95%;
-  overflow-y: auto;
-  background-color: #fff;
-  padding-bottom: env(safe-area-inset-bottom);
-  padding-top: env(safe-area-inset-top);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
-  -webkit-animation-duration: var(--duration);
-  animation-duration: var(--duration);
-  -webkit-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-  -webkit-animation-timing-function: ease-in-out;
-  animation-timing-function: ease-in-out;
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-3[data-margin="small"] {
-    --margin: 24px;
-  }
-}
-
-.emotion-3[data-position="top"] {
-  top: var(--margin);
-  bottom: unset;
-}
-
-.emotion-3[data-position="bottom"] {
-  bottom: var(--margin);
-  top: unset;
-}
-
-.emotion-3[data-position="left"] {
-  left: var(--margin);
-  right: unset;
-}
-
-.emotion-3[data-position="right"] {
-  right: var(--margin);
-  left: unset;
-}
-
-.emotion-3[data-size="full"] {
-  min-height: 100%;
-  min-width: 100%;
-  inset: 0;
-}
-
-.emotion-3[data-width="xsmall"],
-.emotion-3[data-size="xsmall"] {
-  width: 300px;
-}
-
-.emotion-3[data-width="small"],
-.emotion-3[data-size="small"] {
-  width: 500px;
-}
-
-.emotion-3[data-width="normal"],
-.emotion-3[data-size="normal"] {
-  width: 700px;
-}
-
-.emotion-3[data-width="large"],
-.emotion-3[data-size="large"] {
-  width: 1100px;
-}
-
-.emotion-3[data-width="full"] {
-  width: 100%;
-  min-width: 100%;
-  left: 0;
-  right: 0;
-}
-
-.emotion-3[data-height="xsmall"] {
-  height: 300px;
-}
-
-.emotion-3[data-height="small"] {
-  height: 500px;
-}
-
-.emotion-3[data-height="normal"] {
-  height: 700px;
-}
-
-.emotion-3[data-height="large"] {
-  height: 1100px;
-}
-
-.emotion-3[data-height="full"] {
-  height: 100%;
-  min-height: 100%;
-  top: 0;
-  bottom: 0;
-}
-
-.emotion-3[data-expands="true"] {
-  width: -webkit-min-content;
-  width: -moz-min-content;
-  width: min-content;
-  height: -webkit-min-content;
-  height: -moz-min-content;
-  height: min-content;
-  max-width: 100%;
-  max-height: 100%;
-}
-
-.emotion-3[data-animation-name="fade"][data-state="open"] {
-  -webkit-animation-name: modalFadeIn;
-  animation-name: modalFadeIn;
-}
-
-.emotion-3[data-animation-name="fade"][data-state="closed"] {
-  -webkit-animation-name: modalFadeOut;
-  animation-name: modalFadeOut;
-}
-
-.emotion-3[data-animation-name="zoom"][data-state="open"] {
-  -webkit-animation-name: modalZoomIn;
-  animation-name: modalZoomIn;
-}
-
-.emotion-3[data-animation-name="zoom"][data-state="closed"] {
-  -webkit-animation-name: modalZoomOut;
-  animation-name: modalZoomOut;
-}
-
-.emotion-3[data-animation-name="subtle"][data-state="open"] {
-  -webkit-animation-name: modalSubtleIn;
-  animation-name: modalSubtleIn;
-}
-
-.emotion-3[data-animation-name="subtle"][data-state="closed"] {
-  -webkit-animation-name: modalSubtleOut;
-  animation-name: modalSubtleOut;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="top"][data-state="open"] {
-  -webkit-animation-name: modalSlideTopIn;
-  animation-name: modalSlideTopIn;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="top"][data-state="closed"] {
-  -webkit-animation-name: modalSlideTopOut;
-  animation-name: modalSlideTopOut;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="right"][data-state="open"] {
-  -webkit-animation-name: modalSlideRightIn;
-  animation-name: modalSlideRightIn;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="right"][data-state="closed"] {
-  -webkit-animation-name: modalSlideRightOut;
-  animation-name: modalSlideRightOut;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="bottom"][data-state="open"] {
-  -webkit-animation-name: modalSlideBottomIn;
-  animation-name: modalSlideBottomIn;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="bottom"][data-state="closed"] {
-  -webkit-animation-name: modalSlideBottomOut;
-  animation-name: modalSlideBottomOut;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="left"][data-state="open"] {
-  -webkit-animation-name: modalSlideLeftIn;
-  animation-name: modalSlideLeftIn;
-}
-
-.emotion-3[data-animation-name="slideIn"][data-position="left"][data-state="closed"] {
-  -webkit-animation-name: modalSlideLeftOut;
-  animation-name: modalSlideLeftOut;
-}
-
-@media (max-width: 37.5625em) {
-  .emotion-3 {
-    min-width: 100%;
-    min-height: 100%;
-  }
-}
-
-.emotion-5 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  gap: 24px;
-  padding: 24px;
-}
-
-.emotion-5[data-severity="success"] {
-  background-color: #5cbc80;
-  color: #fff;
-}
-
-.emotion-5[data-severity="info"] {
-  background-color: #fff;
-  color: #444;
-}
-
-.emotion-5[data-severity="warning"] {
-  background-color: #ead854;
-  color: #444;
-}
-
-.emotion-5[data-severity="danger"] {
-  background-color: #d1372e;
-  color: #fff;
-}
-
-.emotion-6 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  padding: 0;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-}
-
-.emotion-6 h1 {
-  color: #fff;
-}
-
-.emotion-7 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-box-pack: end;
-  -ms-flex-pack: end;
-  -webkit-justify-content: flex-end;
-  justify-content: flex-end;
-  padding: 24px;
-}
-
-.emotion-7 h1 {
-  margin: 0;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  font-weight: 700;
-  font-size: 22px;
-  font-size: 1.2222222222222223rem;
-  line-height: 1.2;
-  color: #444;
-}
-
-.emotion-7 h1:where([lang='zh'], .emotion-7 h1[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(22px * 1.11);
-  font-size: calc(1.2222222222222223rem * 1.11);
-}
-
-.emotion-9 {
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  margin: 0;
-  color: #fff;
-}
-
-.emotion-9[data-severity="info"] {
-  color: #444;
-}
-
-.emotion-9[data-severity="warning"] {
-  color: #444;
-}
-
-.emotion-10 svg {
-  color: #fff;
-}
-
-.emotion-10 svg[data-severity="info"] {
-  color: #444;
-}
-
-.emotion-10 svg[data-severity="warning"] {
-  color: #444;
-}
-
-.emotion-10:hover,
-.emotion-10:focus,
-.emotion-10:focus-within,
-.emotion-10:focus-visible {
-  background-color: #fff;
-}
-
-.emotion-10:hover svg,
-.emotion-10:focus svg,
-.emotion-10:focus-within svg,
-.emotion-10:focus-visible svg {
-  color: #20588f;
-}
-
-.emotion-11 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  gap: 6px;
-  color: #20588f;
-  background: #deebf6;
-  border: 2px solid #deebf6;
-  border-radius: 4px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 600;
-  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  box-shadow: none;
-  text-align: center;
-  padding: 4px 6px;
-  font-size: 14px;
-  font-size: 0.7777777777777778rem;
-  line-height: 18px;
-  min-height: 32px;
-  border-width: 1px;
-  outline-width: 2px;
-  color: #20588f;
-  background: transparent;
-  border-color: transparent;
-  border-radius: 100%;
-  padding: 6px;
-  line-height: 1;
-  border-color: transparent;
-  min-height: unset;
-}
-
-.emotion-11:hover,
-.emotion-11:focus-visible {
-  color: #fff;
-  background-color: #20588f;
-  border-color: #20588f;
-}
-
-.emotion-11[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-11:where([lang='zh'], .emotion-11[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(14px * 1.11);
-  font-size: calc(0.7777777777777778rem * 1.11);
-}
-
-.emotion-11:hover,
-.emotion-11:active,
-.emotion-11:focus-visible {
-  color: #20588f;
-  background: #deebf6;
-  border-color: #deebf6;
-}
-
-.emotion-11[disabled] {
-  color: #777777;
-  background-color: transparent;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-11 svg {
-  width: 24px;
-  height: 24px;
-  margin: 0;
-}
-
-.emotion-12 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  gap: 12px;
-}
-
-.emotion-13 {
-  width: 27px;
-  height: 27px;
-}
-
-.emotion-14 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-  -webkit-align-items: flex-end;
-  -webkit-box-align: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-  margin-top: 12px;
-}
-
-.emotion-15 {
-  background-color: white;
-  margin-left: 0;
-}
-
-.emotion-15:only-child {
-  margin-left: auto;
-}
-
-.emotion-16 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  gap: 6px;
-  color: #fff;
-  background: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 600;
-  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  box-shadow: none;
-  text-align: center;
-  padding: 4px 12px;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.5;
-  min-height: 40px;
-  color: #20588f;
-  background: transparent;
-  border-color: #20588f;
-}
-
-.emotion-16:hover,
-.emotion-16:focus-visible {
-  color: #20588f;
-  background-color: #ceddea;
-  border-color: #ceddea;
-}
-
-.emotion-16[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-16:where([lang='zh'], .emotion-16[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(16px * 1.11);
-  font-size: calc(0.8888888888888888rem * 1.11);
-}
-
-.emotion-16:hover {
-  color: #fff;
-  background: #20588f;
-  border-color: #20588f;
-}
-
-.emotion-16[disabled] {
-  color: #777777;
-  background-color: transparent;
-  border-color: #777777;
-  cursor: not-allowed;
-}
-
 <body
-  style="pointer-events: none;"
+  data-scroll-lock=""
+  style="overflow: hidden; padding-right: 1024px;"
 >
-  <span
-    aria-hidden="true"
-    data-aria-hidden="true"
-    data-radix-focus-guard=""
-    style="outline: none; opacity: 0; position: fixed; pointer-events: none;"
-    tabindex="0"
+  <div />
+  <div
+    class="pos_fixed h_100vh w_100vw left_0 top_0 bg_rgba(1,_1,_1,_0.3) open:anim_backdrop-in open:motionReduce:anim_none closed:anim_backdrop-out closed:motionReduce:anim_none z_alertModalOverlay"
+    data-part="backdrop"
+    data-scope="dialog"
+    data-state="open"
+    dir="ltr"
+    id="dialog::r4::backdrop"
   />
   <div
-    aria-hidden="true"
-    data-aria-hidden="true"
+    class="pos_fixed d_flex ai_center jc_center ov_hidden left_0 top_0 w_100vw h_100dvh z_alertModal"
+    data-part="positioner"
+    data-scope="dialog"
+    dir="ltr"
+    id="dialog::r4::positioner"
   >
     <div
-      class="emotion-0"
-    />
-  </div>
-  <div
-    aria-hidden="true"
-    class="emotion-1 emotion-2"
-    data-aria-hidden="true"
-    data-state="open"
-    style="pointer-events: auto; --duration: 400ms;"
-  />
-  <div
-    aria-describedby="radix-:re:"
-    aria-labelledby="radix-:rd:"
-    class="emotion-3 emotion-4"
-    data-animation-name="zoom"
-    data-margin="small"
-    data-position="center"
-    data-size="normal"
-    data-state="open"
-    id="radix-:rc:"
-    role="dialog"
-    style="--duration: 400ms; pointer-events: auto;"
-    tabindex="-1"
-  >
-    <div
-      class="emotion-5"
-      data-severity="danger"
-      data-testid="alert-modal"
+      aria-describedby="dialog::r4::description"
+      aria-label="Pass på!"
+      aria-modal="true"
+      class="emotion-0 pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% emotion-1 w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
+      data-part="content"
+      data-scope="dialog"
+      data-state="open"
+      data-testid="alert-dialog"
+      dir="ltr"
+      id="dialog::r4::content"
+      role="dialog"
+      tabindex="-1"
     >
       <div
-        class="emotion-6 emotion-7 emotion-8"
-        data-testid="modal-header"
+        class="d_flex px_medium pbs_medium jc_space-between ai_center gap_xsmall"
       >
         <h1
-          class="emotion-9"
-          data-severity="danger"
+          class="textStyle_title.medium"
+          data-part="title"
+          data-scope="dialog"
+          dir="ltr"
+          id="dialog::r4::title"
         >
           Pass på!
         </h1>
         <button
           aria-label="Lukk"
-          class="emotion-10 emotion-11"
+          class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset emotion-2 h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+          data-part="close-trigger"
+          data-scope="dialog"
           data-testid="closeAlert"
+          dir="ltr"
+          id="dialog::r4::close"
+          title="Lukk"
           type="button"
         >
           <svg
@@ -2464,91 +492,67 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
             class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
             data-icon=""
             data-license="Apache License 2.0"
-            data-severity="danger"
-            data-source="Material Design"
+            data-source="RemixIcon"
+            fill="currentColor"
             preserveAspectRatio="xMidYMid meet"
             viewBox="0 0 24 24"
           >
             <path
-              d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
+              d="m12 10.59 4.95-4.95 1.41 1.41L13.41 12l4.95 4.95-1.41 1.41L12 13.41l-4.95 4.95-1.41-1.41L10.59 12 5.64 7.05l1.41-1.41z"
             />
           </svg>
         </button>
       </div>
       <div
-        class="emotion-12"
+        class="d_flex flex-d_column gap_xsmall px_medium pbs_small pbe_medium"
       >
-        <svg
-          aria-hidden="true"
-          class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium emotion-13"
-          data-icon=""
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          preserveAspectRatio="xMidYMid meet"
-          viewBox="0 0 24 24"
+        <div
+          class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error"
         >
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
-          <path
-            d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16"
-          />
-        </svg>
-        Testmessage
+          <svg
+            aria-hidden="true"
+            class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+            data-icon=""
+            data-license="Apache License 2.0"
+            data-source="RemixIcon"
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20m0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16m-1-5h2v2h-2zm0-8h2v6h-2z"
+            />
+          </svg>
+          <p
+            class="textStyle_body.medium"
+          >
+            Testmessage
+          </p>
+        </div>
       </div>
       <div
-        class="emotion-14"
+        class="d_flex gap_3xsmall ai_center jc_flex-end px_medium pbs_small pbe_medium"
       >
-        <button
-          class="emotion-15 emotion-16"
-          type="button"
+        <div
+          class="d_flex jc_flex-end ai_center gap_3xsmall"
         >
-          Avbryt
-        </button>
-        <button
-          class="emotion-15 emotion-16"
-          type="button"
-        >
-          Logg inn på nytt
-        </button>
+          <button
+            class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color),_inset_0px_0px_0px_calc(var(--shadow-width,_3px)_*_2)_currentcolor focusVisible:bx-sh-c_surface.danger motionReduce:trs_none motionReduce:trs-dur_0s bg_surface.danger c_text.onAction hover:bg_surface.danger.hover active:bg_surface.danger.active textStyle_label.medium px_small py_xxsmall min-h_24 [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium"
+            type="button"
+          >
+            Avbryt
+          </button>
+          <button
+            class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.hover.strong on:bg_surface.actionSubtle.active textStyle_label.medium px_small py_xxsmall min-h_24 [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium"
+            type="button"
+          >
+            Logg inn på nytt
+          </button>
+        </div>
       </div>
     </div>
   </div>
-  <span
-    aria-hidden="true"
-    data-aria-hidden="true"
-    data-radix-focus-guard=""
-    style="outline: none; opacity: 0; position: fixed; pointer-events: none;"
-    tabindex="0"
-  />
 </body>
 `;
 
-exports[`Messages > auth0 messages provides a cancel button 2`] = `
-.emotion-0 {
-  position: fixed;
-  width: 80%;
-  max-width: 800px;
-  top: 50px;
-  left: 0;
-  right: 0;
-  z-index: 500;
-  margin: 0 auto;
-  display: none;
-}
-
-<body
-  style=""
->
-  <div>
-    <div
-      class="emotion-0"
-    />
-  </div>
-</body>
-`;
+exports[`Messages > auth0 messages provides a cancel button 2`] = `"<div></div>"`;

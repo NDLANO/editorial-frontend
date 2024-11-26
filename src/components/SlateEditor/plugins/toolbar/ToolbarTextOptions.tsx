@@ -6,18 +6,33 @@
  *
  */
 
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Element, Editor, Transforms } from "slate";
-import { ReactEditor, useSlate, useSlateSelector } from "slate-react";
-import { ToolbarButton } from "@radix-ui/react-toolbar";
-import { DropdownItem, DropdownMenu, DropdownTrigger } from "@ndla/dropdown-menu";
-import { ArrowDropDown } from "@ndla/icons/common";
+import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
+import { createListCollection } from "@ark-ui/react";
+import { SelectContent, SelectItem, SelectItemText, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { handleTextChange } from "./handleMenuClicks";
 import { ToolbarCategoryProps } from "./SlateToolbar";
-import UIToolbarButton from "./ToolbarButton";
-import { ToolbarDropdownButton, ToolbarDropdownContent } from "./toolbarDropdownComponents";
 import { TextType } from "./toolbarState";
+import { getTitle, iconMapping } from "./ToolbarToggle";
+import { GenericSelectItemIndicator, GenericSelectTrigger } from "../../../abstractions/Select";
+
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
+  base: {
+    width: "surface.xxsmall",
+    justifyContent: "space-between",
+  },
+});
+
+const TextWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "baseline",
+    gap: "3xsmall",
+  },
+});
 
 const getTextValue = (editor: Editor): TextType => {
   const [match] = editor.selection
@@ -35,58 +50,62 @@ const getTextValue = (editor: Editor): TextType => {
 };
 
 export const ToolbarTextOptions = ({ options }: ToolbarCategoryProps<TextType>) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const editor = useSlate();
+  const selection = useSlateSelection();
   const type = useSlateSelector(getTextValue);
 
   const onTextOptionClick = useCallback(
     (value: string) => {
+      if (!selection) return;
+      Transforms.select(editor, selection);
+      ReactEditor.focus(editor);
       handleTextChange(editor, value);
     },
-    [editor],
+    [editor, selection],
   );
 
-  const onCloseFocus = useCallback(
-    (e: Event) => {
-      e.preventDefault();
-      const sel = editor.selection;
-      if (!sel) return;
-      // Not having this timeout will cause the toolbar to close.
-      setTimeout(() => {
-        Transforms.select(editor, sel);
-        ReactEditor.focus(editor);
-      }, 10);
-    },
-    [editor],
-  );
+  const collection = useMemo(() => {
+    const visibleOptions = options.filter((option) => !option.hidden);
+    if (!visibleOptions.length) return undefined;
+    return createListCollection({
+      items: visibleOptions,
+      itemToValue: (item) => item.value,
+      itemToString: (item) => t(`editorToolbar.${item.value}-value`),
+    });
+  }, [options, t]);
 
-  const visibleOptions = options.filter((option) => !option.hidden);
-  if (!visibleOptions.length) return null;
+  const title = useMemo(() => getTitle(i18n, t, type, false, false), [i18n, t, type]);
+  const TriggerIcon = useMemo(() => (type ? iconMapping[type] : undefined), [type]);
+
+  if (!collection) return null;
 
   return (
-    <DropdownMenu modal={false}>
-      <ToolbarButton asChild>
-        <DropdownTrigger asChild>
-          <UIToolbarButton type={type} data-testid="toolbar-button-text">
-            {t(`editorToolbar.${type}-value`)}
-            <ArrowDropDown />
-          </UIToolbarButton>
-        </DropdownTrigger>
-      </ToolbarButton>
-      <ToolbarDropdownContent side="bottom" onCloseAutoFocus={onCloseFocus} sideOffset={2} portal={false}>
-        {visibleOptions.map((option) => (
-          <DropdownItem
-            key={option.value}
-            disabled={option.disabled}
-            data-testid={`text-option-${option.value}`}
-            onSelect={() => onTextOptionClick(option.value)}
-          >
-            <ToolbarDropdownButton disabled={option.disabled} size="small" type={option.value}>
-              {t(`editorToolbar.${option.value}-value`)}
-            </ToolbarDropdownButton>
-          </DropdownItem>
-        ))}
-      </ToolbarDropdownContent>
-    </DropdownMenu>
+    <SelectRoot
+      collection={collection}
+      positioning={{ sameWidth: true }}
+      value={[type]}
+      onValueChange={(details) => onTextOptionClick(details.value[0])}
+    >
+      <SelectLabel srOnly>{title}</SelectLabel>
+      <StyledGenericSelectTrigger variant="tertiary" size="small" title={title} data-testid="toolbar-button-text">
+        {TriggerIcon && <TriggerIcon title={title} fontWeight="semibold" />}
+        <SelectValueText />
+      </StyledGenericSelectTrigger>
+      <SelectContent>
+        {collection.items.map((item) => {
+          const Icon = item.value ? iconMapping[item.value] : undefined;
+          return (
+            <SelectItem item={item} data-testid={`text-option-${item.value}`} key={item.value}>
+              <TextWrapper>
+                {Icon && <Icon />}
+                <SelectItemText>{t(`editorToolbar.${item.value}-value`)}</SelectItemText>
+              </TextWrapper>
+              <GenericSelectItemIndicator />
+            </SelectItem>
+          );
+        })}
+      </SelectContent>
+    </SelectRoot>
   );
 };

@@ -31,6 +31,7 @@ export const routes = {
   notFound: "/404",
   home: "/",
   login: "/login",
+  programme: "/programme",
   logout: {
     logout: "/logout",
     logoutSession: "/logout/session",

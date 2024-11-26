@@ -13,13 +13,15 @@ import { useCallback, useMemo, useState, MouseEvent, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
-import { ButtonV2 } from "@ndla/button";
 import { spacing, colors } from "@ndla/core";
+import { Button, SelectLabel } from "@ndla/primitives";
 import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import { Node, Version } from "@ndla/types-taxonomy";
 import TopicArticleConnections from "./TopicArticleConnections";
 import { FormikFieldHelp } from "../../../../components/FormikField";
+import { FormActionsContainer } from "../../../../components/FormikForm";
 import SaveButton from "../../../../components/SaveButton";
+import OptGroupVersionSelector from "../../../../components/Taxonomy/OptGroupVersionSelector";
 import { NodeWithChildren } from "../../../../components/Taxonomy/TaxonomyBlockNode";
 import { TAXONOMY_ADMIN_SCOPE } from "../../../../constants";
 import { fetchChildNodes } from "../../../../modules/nodes/nodeApi";
@@ -30,7 +32,6 @@ import { groupChildNodes } from "../../../../util/taxonomyHelpers";
 import { useSession } from "../../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import TaxonomyConnectionErrors from "../../components/TaxonomyConnectionErrors";
-import VersionSelect from "../../components/VersionSelect";
 
 interface Props {
   hasTaxEntries: boolean;
@@ -43,13 +44,6 @@ interface Props {
   articleLanguage: string;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
 }
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.xsmall};
-  margin-bottom: ${spacing.small};
-`;
 
 const InvalidPlacementsWrapper = styled.ul`
   display: flex;
@@ -203,7 +197,14 @@ const TopicTaxonomyBlock = ({
             resources={resources}
             topics={topics}
           />
-          <VersionSelect versions={versions ?? []} onVersionChanged={onVersionChanged} />
+
+          <OptGroupVersionSelector
+            currentVersion={taxonomyVersion}
+            onVersionChanged={(version) => onVersionChanged(version.hash)}
+            versions={versions}
+          >
+            <SelectLabel>{t("taxonomy.version")}</SelectLabel>
+          </OptGroupVersionSelector>
         </>
       )}
       <TopicArticleConnections
@@ -223,23 +224,23 @@ const TopicTaxonomyBlock = ({
         </details>
       )}
       {showWarning && <FormikFieldHelp error>{t("errorMessage.unsavedTaxonomy")}</FormikFieldHelp>}
-      <ButtonContainer>
-        <ButtonV2
-          variant="outline"
+      <FormActionsContainer>
+        <Button
+          variant="secondary"
           onClick={onReset}
           disabled={!isDirty || createTopicNodeConnectionsMutation.isPending}
         >
           {t("reset")}
-        </ButtonV2>
+        </Button>
         <SaveButton
-          isSaving={isSaving}
+          loading={isSaving}
           showSaved={createTopicNodeConnectionsMutation.isSuccess && !isDirty}
           disabled={!isDirty || isSaving}
           onClick={handleSubmit}
           defaultText="saveTax"
           formIsDirty={isDirty}
         />
-      </ButtonContainer>
+      </FormActionsContainer>
     </>
   );
 };

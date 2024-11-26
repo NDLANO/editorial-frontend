@@ -12,13 +12,11 @@ import { Navigate, Route, Routes, useLocation, useParams } from "react-router-do
 import styled from "@emotion/styled";
 import { UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
 import { mq, breakpoints } from "@ndla/core";
+import { Spinner } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { NynorskTranslateProvider } from "./NynorskTranslateProvider";
-import Spinner from "./Spinner";
 import { useWideArticle } from "./WideArticleEditorProvider";
-import { MAX_PAGE_WIDTH } from "../constants";
-import Footer from "../containers/App/components/FooterWrapper";
-import { MAX_WIDTH_FRONTPAGE_WITH_COMMENTS, MAX_WIDTH_WITH_COMMENTS } from "../containers/ArticlePage/styles";
+import { MAX_PAGE_WIDTH, MAX_PAGE_WIDTH_WITH_COMMENTS } from "../constants";
 import NotFoundPage from "../containers/NotFoundPage/NotFoundPage";
 import { usePreviousLocation } from "../util/routeHelpers";
 
@@ -36,12 +34,8 @@ const PageContent = styled.div`
     padding-right: 24px;
   }
   max-width: ${MAX_PAGE_WIDTH}px;
-
-  &[data-wide="true"] {
-    max-width: ${MAX_WIDTH_FRONTPAGE_WITH_COMMENTS}px;
-  }
   &[data-article="true"] {
-    max-width: ${MAX_WIDTH_WITH_COMMENTS}px;
+    max-width: ${MAX_PAGE_WIDTH_WITH_COMMENTS}px;
   }
 `;
 
@@ -94,7 +88,6 @@ const ResourcePage = <T extends BaseResource>({
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </PageContent>
-      <Footer showLocaleSelector={false} />
     </Wrapper>
   );
 };

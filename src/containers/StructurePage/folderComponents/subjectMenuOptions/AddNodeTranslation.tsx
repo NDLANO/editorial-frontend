@@ -14,7 +14,6 @@ import {
   SelectContent,
   SelectHiddenSelect,
   SelectLabel,
-  SelectPositioner,
   SelectRoot,
   SelectValueText,
   Heading,
@@ -79,7 +78,7 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
 
   return (
     <FormContent>
-      <Heading asChild consumeCss textStyle="title.medium">
+      <Heading consumeCss asChild textStyle="label.medium" fontWeight="bold">
         <h2>{t("taxonomy.changeName.addNewTranslation")}</h2>
       </Heading>
       <FieldWrapper>
@@ -90,22 +89,19 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
           positioning={{ sameWidth: true }}
         >
           <SelectLabel>{t("taxonomy.changeName.language")}</SelectLabel>
-          <StyledGenericSelectTrigger>
+          <StyledGenericSelectTrigger size="small">
             <SelectValueText />
           </StyledGenericSelectTrigger>
-          <SelectPositioner>
-            <SelectContent>
-              {availableLanguages.map((lang) => (
-                <GenericSelectItem key={lang} item={lang}>
-                  {t(`languages.${lang}`)}
-                </GenericSelectItem>
-              ))}
-            </SelectContent>
-          </SelectPositioner>
+          <SelectContent>
+            {availableLanguages.map((lang) => (
+              <GenericSelectItem key={lang} item={lang}>
+                {t(`languages.${lang}`)}
+              </GenericSelectItem>
+            ))}
+          </SelectContent>
           <SelectHiddenSelect />
         </StyledSelectRoot>
-
-        <Button data-testid="addNodeNameTranslationButton" onClick={handleAddTranslation} disabled={!selectedLanguage}>
+        <Button onClick={handleAddTranslation} disabled={!selectedLanguage} size="small">
           {t("taxonomy.changeName.add")}
         </Button>
       </FieldWrapper>

@@ -13,49 +13,61 @@ import uniqueId from "lodash/uniqueId";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import styled from "@emotion/styled";
-import { colors, spacing, misc } from "@ndla/core";
 import { Button, FieldLabel, FieldRoot, FieldTextArea } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUtils";
-import { COMMENT_COLOR, formControlStyles, textAreaStyles } from "./styles";
 import { TYPE_DIV } from "../../../components/SlateEditor/plugins/div/types";
 import { TYPE_PARAGRAPH } from "../../../components/SlateEditor/plugins/paragraph/types";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import formatDate, { formatDateForBackend } from "../../../util/formatDate";
 import { useSession } from "../../Session/SessionProvider";
 
-const CommentCard = styled.div`
-  max-width: inherit;
-  width: 100%;
-  border: 1px solid ${colors.brand.greyMedium};
-  border-radius: ${misc.borderRadius};
-  padding: ${spacing.small};
-  background-color: ${COMMENT_COLOR};
-`;
+const CommentCard = styled("div", {
+  base: {
+    border: "1px solid",
+    padding: "xsmall",
+    borderColor: "stroke.warning",
+    borderRadius: "xsmall",
+    backgroundColor: "surface.brand.4.subtle",
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
-const StyledFieldTextArea = styled(FieldTextArea)`
-  ${textAreaStyles}
-  border: 1px solid ${colors.brand.neutral7};
-`;
+const ButtonWrapper = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+});
 
-const WrapperColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-`;
+const StyledFieldTextArea = styled(FieldTextArea, {
+  base: {
+    paddingInline: "xsmall",
+    paddingBlock: "3xsmall",
+    backgroundColor: "surface.brand.4.subtle",
+    minHeight: "small",
+  },
+});
 
-const StyledFieldRoot = styled(FieldRoot)`
-  ${formControlStyles}
-  [data-comment] {
-    border: 1px solid ${colors.brand.neutral7};
-  }
-`;
+const StyledFieldRoot = styled(FieldRoot, {
+  base: {
+    "& [data-comment]": {
+      borderRadius: "xsmall",
+      border: "1px solid",
+      borderColor: "stroke.default",
+      paddingInline: "xsmall",
+      paddingBlock: "3xsmall",
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: ${spacing.xsmall};
-`;
+      "& li": {
+        listStyle: "circle",
+        margin: "0",
+        padding: "0",
+      },
+    },
+  },
+});
 
 export const getCommentInfoText = (userName: string | undefined, t: TFunction): string => {
   const currentDate = new Date();
@@ -66,7 +78,10 @@ export const getCommentInfoText = (userName: string | undefined, t: TFunction): 
   return `${t("form.workflow.addComment.createdBy")} ${userName?.split(" ")[0]} (${formattedDate} - ${formattedTime})`;
 };
 
-const emptyParagraph: Descendant = { type: TYPE_PARAGRAPH, children: [{ text: "" }] };
+const emptyParagraph: Descendant = {
+  type: TYPE_PARAGRAPH,
+  children: [{ text: "" }],
+};
 
 interface Props {
   isSubmitting: boolean;
@@ -113,39 +128,38 @@ const InputComment = ({ isSubmitting, arrayHelpers }: Props) => {
 
   return (
     <CommentCard>
-      <WrapperColumn>
-        <StyledFieldRoot id="input-comment">
-          <FieldLabel srOnly>{t("form.comment.commentField")}</FieldLabel>
-          {isFocused ? (
-            <RichTextEditor
-              value={inputValue ?? []}
-              hideBlockPicker
-              submitted={isSubmitting}
-              plugins={plugins}
-              onChange={setInputValue}
-              toolbarOptions={toolbarOptions}
-              toolbarAreaFilters={toolbarAreaFilters}
-              data-comment=""
-              hideSpinner
-              receiveInitialFocus
-            />
-          ) : (
-            <StyledFieldTextArea
-              name={t("form.comment.commentField")}
-              placeholder={`${t("form.comment.comment")}...`}
-              onFocus={handleFocus}
-            />
-          )}
-        </StyledFieldRoot>
-        <ButtonWrapper>
-          <Button variant="tertiary" size="small" onClick={onCancel}>
-            {t("form.abort")}
-          </Button>
-          <Button variant="tertiary" size="small" onClick={onSubmit}>
-            {t("form.comment.comment")}
-          </Button>
-        </ButtonWrapper>
-      </WrapperColumn>
+      <StyledFieldRoot>
+        <FieldLabel srOnly>{t("form.comment.commentField")}</FieldLabel>
+        {isFocused ? (
+          <RichTextEditor
+            value={inputValue ?? []}
+            hideBlockPicker
+            submitted={isSubmitting}
+            plugins={plugins}
+            onChange={setInputValue}
+            toolbarOptions={toolbarOptions}
+            toolbarAreaFilters={toolbarAreaFilters}
+            data-comment=""
+            hideSpinner
+            receiveInitialFocus
+            noArticleStyling
+          />
+        ) : (
+          <StyledFieldTextArea
+            name={t("form.comment.commentField")}
+            placeholder={`${t("form.comment.comment")}...`}
+            onFocus={handleFocus}
+          />
+        )}
+      </StyledFieldRoot>
+      <ButtonWrapper>
+        <Button variant="tertiary" size="small" onClick={onCancel}>
+          {t("form.abort")}
+        </Button>
+        <Button variant="tertiary" size="small" onClick={onSubmit}>
+          {t("form.comment.comment")}
+        </Button>
+      </ButtonWrapper>
     </CommentCard>
   );
 };

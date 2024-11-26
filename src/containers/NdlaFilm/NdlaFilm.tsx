@@ -7,21 +7,14 @@
  */
 
 import { Route, Routes } from "react-router-dom";
-import { OneColumn } from "@ndla/ui";
 import NdlaFilmEditor from "./NdlaFilmEditor";
-import Footer from "../App/components/FooterWrapper";
 
 const NdlaFilm = () => {
   return (
-    <>
-      <OneColumn>
-        <Routes>
-          <Route path=":selectedLanguage" element={<NdlaFilmEditor />} />
-          <Route path="" element={<NdlaFilmEditor />} />
-        </Routes>
-      </OneColumn>
-      <Footer showLocaleSelector={false} />
-    </>
+    <Routes>
+      <Route path=":selectedLanguage" element={<NdlaFilmEditor />} />
+      <Route path="" element={<NdlaFilmEditor />} />
+    </Routes>
   );
 };
 

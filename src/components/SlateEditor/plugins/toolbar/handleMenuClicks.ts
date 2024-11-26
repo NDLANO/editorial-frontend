@@ -7,7 +7,7 @@
  */
 
 import { SyntheticEvent } from "react";
-import { Editor, Transforms, Element, Range, Path, Node, BaseRange } from "slate";
+import { Editor, Transforms, Element, Range, Node, BaseRange } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { BlockType, InlineType, TextType, getEditorAncestors } from "./toolbarState";
 import toggleBlock from "../../utils/toggleBlock";

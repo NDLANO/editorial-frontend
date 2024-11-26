@@ -7,11 +7,9 @@
  */
 
 import { ReactElement, memo, useState } from "react";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { AccordionRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { FormAccordionProps } from "./FormAccordion";
-import OpenAllButton from "./OpenAllButton";
 
 type ChildType = ReactElement<FormAccordionProps> | undefined | false;
 
@@ -22,34 +20,25 @@ interface Props {
   articleType?: string;
 }
 
-const AccordionsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const AccordionsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
-const FlexWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-`;
-
-const StyledAccordionRoot = styled(AccordionRoot)`
-  width: 100%;
-`;
+const StyledAccordionRoot = styled(AccordionRoot, {
+  base: {
+    width: "100%",
+  },
+});
 
 const FormAccordions = ({ defaultOpen, children }: Props) => {
   const [openAccordions, setOpenAccordions] = useState<string[]>(defaultOpen);
 
   return (
     <AccordionsWrapper>
-      <FlexWrapper>
-        <OpenAllButton
-          openAccordions={openAccordions}
-          setOpenAccordions={setOpenAccordions}
-          formAccordionChildren={children}
-        />
-      </FlexWrapper>
       <StyledAccordionRoot
         multiple
         value={openAccordions}

@@ -13,11 +13,10 @@ import { Route, Routes } from "react-router-dom";
 import { UseQueryResult } from "@tanstack/react-query";
 import { List } from "@ndla/icons/action";
 import { SearchMedia, SearchContent, SquareAudio } from "@ndla/icons/editor";
-import Footer from "./components/FooterWrapper";
 import { SearchType } from "../../interfaces";
 import { useSearchAudio, useSearchSeries } from "../../modules/audio/audioQueries";
 import { useSearchImages } from "../../modules/image/imageQueries";
-import { useSearch } from "../../modules/search/searchQueries";
+import { useSearchWithCustomSubjectsFiltering } from "../../modules/search/searchQueries";
 import { toSearch } from "../../util/routeHelpers";
 import SubNavigation from "../Masthead/components/SubNavigation";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
@@ -48,7 +47,7 @@ const SearchPage = () => {
       ),
       icon: <SearchContent />,
       path: "content",
-      searchHook: useSearch,
+      searchHook: useSearchWithCustomSubjectsFiltering,
     },
     {
       title: t("subNavigation.searchAudio"),
@@ -118,7 +117,6 @@ const SearchPage = () => {
         })}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-      <Footer showLocaleSelector={false} />
     </>
   );
 };

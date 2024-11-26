@@ -39,20 +39,13 @@ exports[`EditorErrorMessage renders 1`] = `
         class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
         data-icon=""
         data-license="Apache License 2.0"
-        data-source="Material Design"
+        data-source="RemixIcon"
+        fill="currentColor"
         preserveAspectRatio="xMidYMid meet"
         viewBox="0 0 24 24"
       >
         <path
-          d="M0 0h24v24H0z"
-          fill="none"
-        />
-        <path
-          d="M6 19c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V7H6zm2.5-7.1 1.4-1.4 2.1 2 2.1-2 1.4 1.4-2 2.1 2 2.1-1.4 1.4-2.1-2-2.1 2-1.4-1.4 2-2.1zm7-7.9-1-1h-5l-1 1H5v2h14V4z"
-        />
-        <path
-          d="M0 0h24v24H0z"
-          fill="none"
+          d="M7 4V2h10v2h5v2h-2v15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6H2V4zM6 6v14h12V6zm3 3h2v8H9zm4 0h2v8h-2z"
         />
       </svg>
     </button>

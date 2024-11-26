@@ -9,27 +9,20 @@
 import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router-dom";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { OneColumn } from "@ndla/ui";
 import LogoutFederated from "./LogoutFederated";
 import LogoutProviders from "./LogoutProviders";
 import LogoutSession from "./LogoutSession";
-import Footer from "../App/components/FooterWrapper";
 
 const Logout = () => {
   const { t } = useTranslation();
   return (
     <>
       <HelmetWithTracker title={t("htmlTitles.logoutPage")} />
-      <OneColumn>
-        <div>
-          <Routes>
-            <Route path="federated" element={<LogoutFederated />} />
-            <Route path="session" element={<LogoutSession />} />
-            <Route path="" element={<LogoutProviders />} />
-          </Routes>
-        </div>
-      </OneColumn>
-      <Footer showLocaleSelector />
+      <Routes>
+        <Route path="federated" element={<LogoutFederated />} />
+        <Route path="session" element={<LogoutSession />} />
+        <Route path="" element={<LogoutProviders />} />
+      </Routes>
     </>
   );
 };

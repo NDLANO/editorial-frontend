@@ -37,55 +37,35 @@ import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import { Code, DeleteForever } from "@ndla/icons/editor";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { Figure, IconButton } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { Portal } from "@ark-ui/react";
+import { DeleteBinLine, PencilFill } from "@ndla/icons/action";
+import { Code } from "@ndla/icons/editor";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  Figure,
+  IconButton,
+} from "@ndla/primitives";
+import { HStack } from "@ndla/styled-system/jsx";
 import { CodeEmbedData } from "@ndla/types-embed";
-
 import { CodeBlock as UICodeBlock } from "@ndla/ui";
 import { CodeblockElement } from ".";
 import CodeBlockEditor from "./CodeBlockEditor";
 import { CodeBlockType } from "../../../../interfaces";
-import AlertModal from "../../../AlertModal";
-
-const StyledFigure = styled(Figure, {
-  base: {
-    cursor: "pointer",
-  },
-});
-
-const TitleWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    justifyContent: "space-between",
-  },
-});
+import { AlertDialog } from "../../../AlertDialog/AlertDialog";
+import { DialogCloseButton } from "../../../DialogCloseButton";
+import { FormActionsContainer } from "../../../FormikForm";
 
 interface Props extends RenderElementProps {
   element: CodeblockElement;
   editor: Editor;
 }
 
-interface RemoveCodeBlockProps {
-  handleRemove: () => void;
-}
-
-const RemoveCodeBlock = ({ handleRemove }: RemoveCodeBlockProps) => {
-  const { t } = useTranslation();
-  return (
-    <IconButton
-      variant="danger"
-      size="small"
-      aria-label={t("form.remove")}
-      data-testid="remove-code"
-      onClick={handleRemove}
-    >
-      <DeleteForever />
-    </IconButton>
-  );
-};
 const highlightCode = (code: string, language: string): string => {
   const highlighted = highlight(code, languages[language], language);
   return highlighted;
@@ -143,6 +123,23 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
     });
   };
 
+  const handleClose = useCallback(() => {
+    ReactEditor.focus(editor);
+    setEditMode(false);
+    if (element.isFirstEdit) {
+      Transforms.unwrapNodes(editor, {
+        at: ReactEditor.findPath(editor, element),
+        voids: true,
+      });
+    }
+    const path = ReactEditor.findPath(editor, element);
+    if (Editor.hasPath(editor, Path.next(path))) {
+      setTimeout(() => {
+        Transforms.select(editor, Path.next(path));
+      }, 0);
+    }
+  }, [editor, element]);
+
   const onOpenChange = useCallback(
     (open: boolean) => {
       if (open) {
@@ -150,86 +147,90 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
       } else if (shouldShowWarning) {
         setShowWarning(true);
       } else {
-        ReactEditor.focus(editor);
-        setEditMode(false);
-        if (element.isFirstEdit) {
-          Transforms.unwrapNodes(editor, {
-            at: ReactEditor.findPath(editor, element),
-            voids: true,
-          });
-        }
-        const path = ReactEditor.findPath(editor, element);
-        if (Editor.hasPath(editor, Path.next(path))) {
-          setTimeout(() => {
-            Transforms.select(editor, Path.next(path));
-          }, 0);
-        }
+        handleClose();
       }
     },
-    [editor, element, shouldShowWarning],
+    [handleClose, shouldShowWarning],
   );
 
   return (
-    <Modal open={editMode} onOpenChange={onOpenChange}>
-      <ModalTrigger>
-        <StyledFigure
-          aria-label={t("codeEditor.subtitle")}
-          contentEditable={false}
-          draggable={!editMode}
-          role="button"
-          {...attributes}
-        >
-          <TitleWrapper>
+    <>
+      <DialogRoot open={editMode} onOpenChange={(details) => onOpenChange(details.open)} size="large">
+        <Figure aria-label={t("codeEditor.subtitle")} contentEditable={false} {...attributes}>
+          <HStack justify="space-between">
             {embedData.title && <h3>{embedData.title}</h3>}
-            <RemoveCodeBlock handleRemove={handleRemove} />
-          </TitleWrapper>
+            <HStack gap="4xsmall">
+              <DialogTrigger asChild>
+                <IconButton
+                  size="small"
+                  variant="secondary"
+                  title={t("codeEditor.edit")}
+                  aria-label={t("codeEditor.edit")}
+                >
+                  <PencilFill />
+                </IconButton>
+              </DialogTrigger>
+              <IconButton
+                variant="danger"
+                size="small"
+                aria-label={t("codeEditor.remove")}
+                data-testid="remove-code"
+                onClick={handleRemove}
+              >
+                <DeleteBinLine />
+              </IconButton>
+            </HStack>
+          </HStack>
           <UICodeBlock format={embedData.codeFormat} highlightedCode={highlightedCode} />
           {children}
-        </StyledFigure>
-      </ModalTrigger>
-      <ModalContent size={{ width: "large", height: "large" }} onCloseAutoFocus={(e) => e.preventDefault()}>
-        <ModalHeader>
-          <ModalTitle>
-            {t("codeEditor.title")} <Code />
-          </ModalTitle>
-          <ModalCloseButton />
-        </ModalHeader>
-        <ModalBody>
-          <CodeBlockEditor
-            content={{
-              code: embedData.codeContent,
-              format: embedData.codeFormat,
-              title: embedData.title || "",
-            }}
-            onSave={handleSave}
-            highlight={highlightCode}
-            onAbort={() => onOpenChange(false)}
-            setShowWarning={setShouldShowWarning}
-          />
-        </ModalBody>
-      </ModalContent>
-
-      <AlertModal
+        </Figure>
+        <Portal>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>
+                {t("codeEditor.title")} <Code />
+              </DialogTitle>
+              <DialogCloseButton />
+            </DialogHeader>
+            <DialogBody>
+              <CodeBlockEditor
+                content={{
+                  code: embedData.codeContent,
+                  format: embedData.codeFormat,
+                  title: embedData.title || "",
+                }}
+                onSave={handleSave}
+                highlight={highlightCode}
+                onAbort={() => onOpenChange(false)}
+                setShowWarning={setShouldShowWarning}
+              />
+            </DialogBody>
+          </DialogContent>
+        </Portal>
+      </DialogRoot>
+      <AlertDialog
         title={t("unsavedChanges")}
         label={t("unsavedChanges")}
         show={showWarning}
         text={t("code.continue")}
-        actions={[
-          {
-            text: t("form.abort"),
-            onClick: () => setShowWarning(false),
-          },
-          {
-            text: t("alertModal.continue"),
-            onClick: () => {
-              setShowWarning(false);
-              setEditMode(false);
-            },
-          },
-        ]}
         onCancel={() => setShowWarning(false)}
-      />
-    </Modal>
+      >
+        <FormActionsContainer>
+          <Button variant="secondary" onClick={() => setShowWarning(false)}>
+            {t("form.abort")}
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => {
+              setShowWarning(false);
+              handleClose();
+            }}
+          >
+            {t("alertModal.continue")}
+          </Button>
+        </FormActionsContainer>
+      </AlertDialog>
+    </>
   );
 };
 

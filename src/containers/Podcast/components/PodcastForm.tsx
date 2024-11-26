@@ -10,8 +10,8 @@ import { Formik, FormikHelpers, FormikErrors } from "formik";
 import { useState, useRef, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { ButtonV2 } from "@ndla/button";
-import { PageContent } from "@ndla/primitives";
+import { Button, PageContent } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import {
   IAudioMetaInformation,
   IUpdatedAudioMetaInformation,
@@ -21,7 +21,7 @@ import PodcastMetaData from "./PodcastMetaData";
 import PodcastSeries from "./PodcastSeries";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
-import Field from "../../../components/Field";
+import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
 import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
 import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
@@ -38,7 +38,13 @@ import AudioContent from "../../AudioUploader/components/AudioContent";
 import AudioCopyright from "../../AudioUploader/components/AudioCopyright";
 import AudioManuscript from "../../AudioUploader/components/AudioManuscript";
 import AudioMetaData from "../../AudioUploader/components/AudioMetaData";
-import { AlertModalWrapper } from "../../FormikForm";
+import { AlertDialogWrapper } from "../../FormikForm";
+
+const StyledFormActionsContainer = styled(FormActionsContainer, {
+  base: {
+    marginBlockStart: "xsmall",
+  },
+});
 
 const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformation> = {
   title: {
@@ -103,8 +109,8 @@ interface Props {
   inModal?: boolean;
   isNewlyCreated?: boolean;
   language: string;
-  onCreatePodcast?: (newPodcast: INewAudioMetaInformation, file?: string | Blob) => void;
-  onUpdatePodcast?: (updatedPodcast: IUpdatedAudioMetaInformation, file?: string | Blob) => void;
+  onCreatePodcast?: (newPodcast: INewAudioMetaInformation, file?: string | Blob) => Promise<void>;
+  onUpdatePodcast?: (updatedPodcast: IUpdatedAudioMetaInformation, file?: string | Blob) => Promise<void>;
   translating?: boolean;
   supportedLanguages: string[];
 }
@@ -171,9 +177,11 @@ const PodcastForm = ({
       seriesId: values.series?.id,
     };
     try {
-      audio?.revision
-        ? await onUpdatePodcast?.({ ...podcastMetaData, revision: audio.revision }, values.audioFile.newFile?.file)
-        : await onCreatePodcast?.(podcastMetaData, values.audioFile.newFile?.file);
+      if (audio?.revision) {
+        await onUpdatePodcast?.({ ...podcastMetaData, revision: audio.revision }, values.audioFile.newFile?.file);
+      } else {
+        await onCreatePodcast?.(podcastMetaData, values.audioFile.newFile?.file);
+      }
     } catch (e) {
       handleError(e);
     }
@@ -261,14 +269,16 @@ const PodcastForm = ({
                   title={t("form.podcastSection")}
                   hasError={["introduction", "coverPhotoId", "metaImageAlt"].some((field) => field in errors)}
                 >
-                  <PodcastMetaData
-                    language={language}
-                    onImageLoad={(width, height) => {
-                      size.current = [width, height];
-                      validateForm();
-                    }}
-                  />
-                  <PodcastSeries />
+                  <FormContent>
+                    <PodcastMetaData
+                      language={language}
+                      onImageLoad={(width, height) => {
+                        size.current = [width, height];
+                        validateForm();
+                      }}
+                    />
+                    <PodcastSeries />
+                  </FormContent>
                 </FormAccordion>
                 <FormAccordion
                   id="audio-upload-copyright"
@@ -287,14 +297,14 @@ const PodcastForm = ({
               </FormAccordions>
             )}
 
-            <Field right>
-              <ButtonV2 variant="outline" disabled={isSubmitting} onClick={() => navigate(-1)}>
+            <StyledFormActionsContainer>
+              <Button variant="secondary" disabled={isSubmitting} onClick={() => navigate(-1)}>
                 {t("form.abort")}
-              </ButtonV2>
+              </Button>
               <SaveButton
                 id={SAVE_BUTTON_ID}
                 type={!inModal ? "submit" : "button"}
-                isSaving={isSubmitting}
+                loading={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}
                 onClick={(evt) => {
@@ -302,8 +312,8 @@ const PodcastForm = ({
                   submitForm();
                 }}
               />
-            </Field>
-            <AlertModalWrapper
+            </StyledFormActionsContainer>
+            <AlertDialogWrapper
               {...formikProps}
               formIsDirty={formIsDirty}
               severity="danger"

@@ -10,10 +10,10 @@ import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
-import { Pencil } from "@ndla/icons/action";
-import { DeleteForever, Link } from "@ndla/icons/editor";
-import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
-import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
+import { Portal } from "@ark-ui/react";
+import { DeleteBinLine, PencilFill } from "@ndla/icons/action";
+import { Link } from "@ndla/icons/editor";
+import { DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { BrightcoveMetaData } from "@ndla/types-embed";
@@ -23,14 +23,13 @@ import { BrightcoveEmbedElement, TYPE_EMBED_BRIGHTCOVE } from "./types";
 import { useBrightcoveMeta } from "../../../../modules/embed/queries";
 import { inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { addBrightCoveTimeStampVideoid } from "../../../../util/videoUtil";
-import Spinner from "../../../Spinner";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 
 export const VideoWrapper = styled(EmbedWrapper, {
   base: {
     display: "block",
-    outline: "2px solid transparent",
     _selected: {
+      outline: "2px solid",
       outlineColor: "stroke.default",
     },
     "&[data-error='true']": {
@@ -86,6 +85,7 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
   };
 
   const onSave = (values: FormValues) => {
+    if (!embed?.embedData) return;
     Transforms.setNodes(
       editor,
       {
@@ -106,7 +106,7 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
 
   return (
     <DialogRoot open={open} onOpenChange={({ open }) => setOpen(open)}>
-      <VideoWrapper {...attributes} data-selected={isSelected} data-error={hasError} contentEditable={false}>
+      <VideoWrapper {...attributes} aria-selected={isSelected} data-error={hasError} contentEditable={false}>
         {!embed ? (
           <Spinner />
         ) : (
@@ -118,7 +118,7 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
                 variant="secondary"
                 size="small"
               >
-                <Pencil />
+                <PencilFill />
               </IconButton>
             </DialogTrigger>
             <SafeLinkIconButton
@@ -138,15 +138,17 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
               data-testid="remove-video-element"
               size="small"
             >
-              <DeleteForever />
+              <DeleteBinLine />
             </IconButton>
           </StyledFigureButtons>
         )}
-        <DialogContent>
-          {element.data && (
-            <EditVideo onClose={onClose} onSave={onSave} embed={element.data} setHasError={setHasError} />
-          )}
-        </DialogContent>
+        <Portal>
+          <DialogContent>
+            {element.data && (
+              <EditVideo onClose={onClose} onSave={onSave} embed={element.data} setHasError={setHasError} />
+            )}
+          </DialogContent>
+        </Portal>
         {!embed || brightcoveQuery.isLoading ? <Spinner /> : <BrightcoveEmbed embed={embed} />}
         {children}
       </VideoWrapper>

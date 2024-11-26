@@ -5,39 +5,53 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Fragment, useMemo } from "react";
-import styled from "@emotion/styled";
-import { colors, fonts } from "@ndla/core";
-import { ChevronRight } from "@ndla/icons/common";
+import { useMemo } from "react";
+import { ArrowRightShortLine } from "@ndla/icons/common";
 import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import { MinimalNodeChild } from "../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy";
 
+const StyledSafeLink = styled(SafeLink, {
+  base: {
+    color: "text.default",
+    textDecoration: "underline",
+    _hover: {
+      textDecoration: "none",
+    },
+  },
+  variants: {
+    visible: {
+      false: {
+        fontStyle: "italic",
+        color: "text.subtle",
+      },
+    },
+  },
+});
+
+const StyledList = styled("ol", {
+  base: {
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "center",
+    listStyle: "none",
+  },
+});
+
+const StyledListItem = styled("li", {
+  base: {
+    _lastOfType: {
+      fontWeight: "semibold",
+    },
+  },
+});
+
 interface Props {
-  error?: boolean;
   node: Node | MinimalNodeChild;
 }
 
-const StyledBreadCrumb = styled.div`
-  flex-grow: 1;
-  span:last-of-type {
-    font-weight: ${fonts.weight.semibold};
-  }
-`;
-
-const StyledLink = styled(SafeLink)`
-  color: ${colors.brand.primary};
-  &[data-visible="false"] {
-    font-style: italic;
-    color: ${colors.brand.grey};
-  }
-`;
-
-const StyledSpan = styled.span`
-  white-space: "nowrap";
-`;
-
-const Breadcrumb = ({ node, error }: Props) => {
+const Breadcrumb = ({ node }: Props) => {
   let url = "/structure";
 
   const crumbs = useMemo(() => {
@@ -54,21 +68,19 @@ const Breadcrumb = ({ node, error }: Props) => {
   }, [node.breadcrumbs, node.context, node.id, node.nodeType]);
 
   return (
-    <StyledBreadCrumb>
+    <StyledList>
       {crumbs.map((crumb, index) => {
         url = `${url}/${crumb.id}`;
         return (
-          <Fragment key={`${crumb.id}_${index}`}>
-            <StyledSpan>
-              <StyledLink data-visible={error ? true : node.metadata.visible} to={url}>
-                {crumb.name}
-              </StyledLink>
-            </StyledSpan>
-            {index + 1 !== crumbs.length && <ChevronRight />}
-          </Fragment>
+          <StyledListItem key={`${crumb.id}_${index}`}>
+            <StyledSafeLink visible={!!node.metadata.visible} to={url}>
+              {crumb.name}
+            </StyledSafeLink>
+            {index + 1 !== crumbs.length && <ArrowRightShortLine />}
+          </StyledListItem>
         );
       })}
-    </StyledBreadCrumb>
+    </StyledList>
   );
 };
 

@@ -57,12 +57,13 @@ test("adds and removes grid", async ({ page }) => {
 
 test("adds and removes code-block", async ({ page }) => {
   await page.getByTestId("create-code").click();
-  await expect(page.getByTestId("modal-header")).toBeVisible();
-  const modalBody = page.getByTestId("modal-body");
-  await modalBody.locator("input").first().fill("Tittel");
-  await modalBody.getByTestId("code-language").selectOption("markup");
-  await modalBody.locator("textarea").first().fill("Some <strong>markup</strong>{enter}Newline");
-  await page.getByRole("button").getByText("Lagre").click();
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toBeVisible();
+  await dialog.getByLabel("Tittel").fill("Tittel");
+  await dialog.getByRole("combobox", { name: "Velg kodespråk:" }).click();
+  await dialog.getByRole("option", { name: "Markdown" }).click();
+  await dialog.locator("textarea").first().fill("Some <strong>markup</strong>{enter}Newline");
+  await dialog.getByRole("button", { name: "Lagre" }).click();
   await expect(page.getByTestId("remove-code")).toBeVisible();
   await page.getByTestId("remove-code").click();
   await expect(page.getByTestId("remove-code")).toHaveCount(0);
@@ -94,9 +95,7 @@ test("opens and closes video", async ({ page }) => {
 
 test("opens and closes audio", async ({ page }) => {
   await page.getByTestId("create-audio").click();
-  await expect(page.getByTestId("modal-header")).toBeVisible();
   await page.getByRole("button").getByText("Velg lyd").first().click();
-  await expect(page.getByTestId("modal-header")).toHaveCount(0);
   await expect(page.getByTestId("remove-element")).toBeVisible();
   await page.getByTestId("remove-element").click();
   await expect(page.getByTestId("remove-element")).toHaveCount(0);
@@ -104,21 +103,22 @@ test("opens and closes audio", async ({ page }) => {
 
 test("opens and closes file", async ({ page }) => {
   await page.getByTestId("create-file").click();
-  await expect(page.getByTestId("modal-header")).toBeVisible();
-  await page.getByTestId("close-modal-button").click();
-  await expect(page.getByTestId("modal-header")).toHaveCount(0);
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await page.getByRole("dialog").getByRole("button", { name: "Avbryt" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
 });
 
 test("opens and closes url", async ({ page }) => {
   await page.getByTestId("create-url").click();
-  await expect(page.getByTestId("modal-header")).toBeVisible();
-  await page.getByTestId("close-modal-button").click();
-  await expect(page.getByTestId("modal-header")).toHaveCount(0);
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toBeVisible();
+  await dialog.getByRole("button").getByText("Avbryt").click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
 });
 
 test("opens and closes related content", async ({ page }) => {
   await page.getByTestId("create-related").click();
   await expect(page.getByTestId("editRelated")).toBeVisible();
-  await page.getByTestId("close-related-button").click();
-  await expect(page.getByTestId("styled-article-modal")).toHaveCount(0);
+  await page.getByRole("button", { name: "Lukk" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
 });

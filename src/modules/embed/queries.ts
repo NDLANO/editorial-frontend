@@ -7,7 +7,6 @@
  */
 
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
-import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import {
   AudioMeta,

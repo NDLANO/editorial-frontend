@@ -6,71 +6,69 @@
  *
  */
 
-import { FormEvent, MouseEvent } from "react";
-import { uuid } from "@ndla/util";
+import { useMemo } from "react";
+import { createListCollection } from "@ark-ui/react";
+import { SelectRoot, SelectLabel, SelectValueText, SelectContent } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { GenericSelectItem, GenericSelectTrigger } from "./abstractions/Select";
+
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
+  base: {
+    width: "100%",
+  },
+});
+
+const StyledSelectValueText = styled(SelectValueText, {
+  base: {
+    lineClamp: "1",
+    overflowWrap: "anywhere",
+  },
+});
+
+const StyledGenericSelectItem = styled(GenericSelectItem, {
+  base: {
+    overflowWrap: "anywhere",
+  },
+});
 
 interface Props {
-  options?: Record<string, any>[];
+  options: { id: string; name: string }[];
   value: string;
-  optGroups?: { label: string; options: Record<string, any>[] }[];
-  onChange: (event: FormEvent<HTMLSelectElement>) => void;
-  onBlur?: (event: FormEvent<HTMLSelectElement>) => void;
-  labelKey: string;
-  idKey: string;
-  disabled?: boolean;
-  className?: string;
-  emptyField?: boolean;
-  placeholder?: string;
+  onChange: (value: string) => void;
+  placeholder: string;
   name: string;
-  onClick?: (event: MouseEvent<HTMLSelectElement>) => void;
 }
-const ObjectSelector = ({
-  options,
-  labelKey,
-  idKey,
-  disabled = false,
-  onChange,
-  onBlur,
-  value,
-  emptyField = false,
-  placeholder = "",
-  className = "",
-  name,
-  onClick,
-  optGroups,
-}: Props) => {
+const ObjectSelector = ({ options, onChange, value, placeholder, name }: Props) => {
+  const collection = useMemo(
+    () =>
+      createListCollection({
+        items: options,
+        itemToValue: (item) => item.id,
+        itemToString: (item) => item.name,
+      }),
+    [options],
+  );
+
   return (
-    <select
-      onBlur={onBlur}
-      onChange={onChange}
-      value={value}
-      disabled={disabled}
-      name={name}
-      className={className}
-      onClick={onClick}
+    <SelectRoot
+      data-testid={`${name}-select`}
+      collection={collection}
+      positioning={{ sameWidth: true }}
+      value={value ? [value] : []}
+      onValueChange={(details) => onChange(details.value[0])}
     >
-      {emptyField ? (
-        <option key="emptyField" value="">
-          {placeholder}
-        </option>
-      ) : (
-        ""
-      )}
-      {options?.map((option) => (
-        <option key={option[idKey] ? option[idKey] : uuid()} value={option[idKey]}>
-          {option[labelKey]}
-        </option>
-      ))}
-      {optGroups?.map((group) => (
-        <optgroup label={group.label} key={group.label}>
-          {group.options.map((option) => (
-            <option key={option[idKey] ?? uuid()} value={option[idKey]}>
-              {option[labelKey]}
-            </option>
-          ))}
-        </optgroup>
-      ))}
-    </select>
+      <SelectLabel srOnly>{placeholder}</SelectLabel>
+      <StyledGenericSelectTrigger>
+        <StyledSelectValueText placeholder={placeholder} />
+      </StyledGenericSelectTrigger>
+      <SelectContent>
+        {collection.items.map((option) => (
+          <StyledGenericSelectItem item={option} key={option.id}>
+            {option.name}
+          </StyledGenericSelectItem>
+        ))}
+      </SelectContent>
+    </SelectRoot>
   );
 };
 

@@ -6,9 +6,7 @@
  *
  */
 
-import { MouseEvent } from "react";
-import { Editor, Transforms } from "slate";
-import { ReactEditor } from "slate-react";
+import { Editor } from "slate";
 import RelatedArticleBox from "./RelatedArticleBox";
 
 export const relatedRenderer = (editor: Editor) => {
@@ -16,19 +14,7 @@ export const relatedRenderer = (editor: Editor) => {
   editor.renderElement = ({ attributes, children, element }) => {
     if (element.type === "related") {
       return (
-        <RelatedArticleBox
-          attributes={attributes}
-          element={element}
-          editor={editor}
-          onRemoveClick={(e: MouseEvent<HTMLButtonElement>) => {
-            e.stopPropagation();
-            e.preventDefault();
-            const path = ReactEditor.findPath(editor, element);
-            ReactEditor.focus(editor);
-            Transforms.select(editor, path);
-            Transforms.removeNodes(editor, { at: path });
-          }}
-        >
+        <RelatedArticleBox attributes={attributes} element={element} editor={editor}>
           {children}
         </RelatedArticleBox>
       );

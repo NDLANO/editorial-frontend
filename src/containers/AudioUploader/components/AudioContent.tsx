@@ -31,7 +31,7 @@ import {
   UnOrderedList,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import AudioCopyInfo from "./AudioCopyInfo";
+import { AudioCopyInfo } from "./AudioCopyInfo";
 import { AudioFormikType } from "./AudioForm";
 import AudioPlayer from "./AudioPlayer";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";

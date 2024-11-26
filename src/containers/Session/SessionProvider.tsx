@@ -16,6 +16,7 @@ import {
   personalAuthLogout,
   setAccessTokenInLocalStorage,
 } from "../../util/authHelpers";
+import handleError from "../../util/handleError";
 import { decodeToken, isValid } from "../../util/jwtHelper";
 import { toLogin } from "../../util/routeHelpers";
 
@@ -111,7 +112,7 @@ export const useSession = (): SessionProps => {
         navigate(`${toLogin()}/failure`, { replace: true });
       }
     } catch (e) {
-      console.error(e);
+      handleError(e);
     }
   };
 
@@ -122,7 +123,7 @@ export const useSession = (): SessionProps => {
       personalAuthLogout(federated, returnToLogin);
       clearAccessTokenFromLocalStorage();
     } catch (e) {
-      console.error(e);
+      handleError(e);
     }
   };
 

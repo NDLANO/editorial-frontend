@@ -2257,6 +2257,11 @@ const phrases = {
     },
     altText: {
       button: "Generate",
+      prompt: `<Instructions>
+        You have an extensive experience from the educational sector. You are specialized in writing alternative texts for images to make them accessible for all students.
+        Your task is to write an alternative text for the image in {{ language }}. The description must be at most 125 characters.
+        The response must be given with reflections as to why you have chosen to include the selected points first, then the allternative text written in an <answer> tag.
+      </Instructions>`,
       title: "Generate alt text",
     },
     reflectionQuestions: {

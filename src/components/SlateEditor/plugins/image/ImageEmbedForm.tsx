@@ -28,6 +28,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { ImageEmbedData } from "@ndla/types-embed";
+import { claudeHaikuDefaults, invokeModel } from "../../../../components/LLM/helpers";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import ImageEditor from "../../../../containers/ImageEditor/ImageEditor";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
@@ -165,12 +166,19 @@ const EmbedForm = ({
     useFormikContext<ImageEmbedFormValues>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const generateAltText = () => {
+  const generateAltText = async () => {
     setIsLoading(true);
-    // Do something
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    if (!image?.image.imageUrl) {
+      return null;
+    }
+    const result = await invokeModel({
+      prompt: t("textGeneration.altText.prompt", { language: t(`languages.${language}`) }),
+      image: image?.image.imageUrl,
+      max_tokens: 2000,
+      ...claudeHaikuDefaults,
+    });
+    setIsLoading(false);
+    return result;
   };
 
   const formIsDirty = isFormikFormDirty({
@@ -198,11 +206,18 @@ const EmbedForm = ({
         </FormField>
         {!values.isDecorative && (
           <FormField name="alt">
-            {({ field, meta }) => (
+            {({ field, meta, helpers }) => (
               <FieldRoot invalid={!!meta.error}>
                 <FieldLabel>{t("form.image.alt.label")}</FieldLabel>
                 <FieldTextArea {...field} placeholder={t("form.image.alt.placeholder")} />
-                <StyledButton onClick={generateAltText} size="small" title={t("textGeneration.altText.title")}>
+                <StyledButton
+                  onClick={async () => {
+                    const text = await generateAltText();
+                    text && text.length > 0 && helpers.setValue(text);
+                  }}
+                  size="small"
+                  title={t("textGeneration.altText.title")}
+                >
                   {t("textGeneration.altText.button")}
                   {isLoading ? <Spinner size="small" /> : <BlogPost />}
                 </StyledButton>

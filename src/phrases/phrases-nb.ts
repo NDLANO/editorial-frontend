@@ -2262,6 +2262,14 @@ const phrases = {
         Svaret skal leveres med refleksjoner på hvorfor du har valgt å inkludere de punktene du har valgt først. Deretter skal refleksjonsspørsmålene gis som punktliste i en <answer> tag.
         </Instructions>`,
     },
+    generateAltText: {
+      button: "Generer",
+      prompt: `<Instructions>
+        Du har lang erfaring fra utdanningssektoren. Du er spesialist i å skrive alternative tekster for bilder for å gjøre dem tilgjengelige for alle elever.
+        Du har fått som oppdrag å skrive en alternativ tekst for bildet vedlagt på {{ language }}. Beskrivelsen skal være på maks 125 tegn.
+        Svaret skal leveres med refleksjoner på hvorfor du har valgt å inkludere de punktene du har valgt først, så selve alternativteksten skrevet i en <answer> tag. 
+      </Instructions>`,
+    },
   },
 };
 

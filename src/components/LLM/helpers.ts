@@ -10,24 +10,26 @@ export const claudeHaikuDefaults = { top_p: 0.7, top_k: 100, temperature: 0.9 };
 
 interface modelProps {
   prompt: string;
+  image?: string;
   max_tokens?: number;
 }
 
-export const invokeModel = async ({ prompt, max_tokens = 2000, ...rest }: modelProps) => {
+export const invokeModel = async ({ prompt, image, max_tokens = 2000, ...rest }: modelProps) => {
   if (!prompt) {
     console.error("No prompt provided to invokeModel");
     return null;
+  }
+
+  const payload: any = { prompt, max_tokens, ...rest };
+  if (image) {
+    payload.image = image;
   }
   const response = await fetch("/invoke-model", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      prompt: prompt,
-      max_tokens: max_tokens,
-      ...rest,
-    }),
+    body: JSON.stringify(payload),
   });
 
   if (!response.ok) {

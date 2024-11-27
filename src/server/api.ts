@@ -18,6 +18,7 @@ import { translateDocument } from "./translate";
 import config, { getEnvironmentVariabel } from "../config";
 import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
 import { NdlaError } from "../interfaces";
+import { imageToBase64 } from "../util/imageToBase64";
 
 const router = express.Router();
 
@@ -169,15 +170,37 @@ router.post("/invoke-model", async (req, res) => {
     credentials: { accessKeyId: secretId, secretAccessKey: secretKey },
   });
 
+  //const imageurl = "https://images.freeimages.com/images/large-previews/2c7/ho-ho-hooo-1578467.jpg";
+  const { base64, filetype } = await imageToBase64(req.body.image);
+
+  const content = [];
+  if (req.body.image) {
+    content.push({
+      type: "image",
+      source: {
+        type: "base64",
+        media_type: filetype,
+        data: base64,
+      },
+    });
+  }
+
+  content.push({
+    type: "text",
+    text: req.body.prompt,
+  });
+
+  const messages = [
+    {
+      role: "user",
+      content,
+    },
+  ];
+
   const payload = {
     anthropic_version: "bedrock-2023-05-31",
     max_tokens: req.body.max_tokens || 500,
-    messages: [
-      {
-        role: ConversationRole.USER,
-        content: [{ type: "text", text: req.body.prompt }],
-      },
-    ],
+    messages,
   };
   const command = new InvokeModelCommand({
     contentType: "application/json",

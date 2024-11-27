@@ -105,6 +105,8 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
             await deleteLanguageVersionDraft(id, language);
             navigate(toEditFrontPageArticle(id, otherSupportedLanguage!));
             break;
+          default:
+            createMessage({ message: t("embed.unsupported", { type }) });
         }
       } catch (error) {
         createMessage(formatErrorMessage(error as NdlaErrorPayload));

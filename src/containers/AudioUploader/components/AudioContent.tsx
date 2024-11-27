@@ -29,7 +29,6 @@ import {
   FileUploadTrigger,
   IconButton,
   UnOrderedList,
-  Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import AudioCopyInfo from "./AudioCopyInfo";
@@ -40,7 +39,6 @@ import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import { PodcastFormValues } from "../../../modules/audio/audioApiInterfaces";
 import { TitleField } from "../../FormikForm";
-import { HandleSubmitFunc } from "../../FormikForm/articleFormHooks";
 
 const ContentWrapper = styled("div", {
   base: {
@@ -52,8 +50,8 @@ const ContentWrapper = styled("div", {
 
 const StyledIconButton = styled(IconButton, {
   variants: {
-    playerObject: {
-      false: {
+    hasSelectedAudio: {
+      true: {
         alignSelf: "flex-start",
       },
     },
@@ -83,13 +81,11 @@ const getPlayerObject = (values: AudioFormikType): { src: string; mimeType: stri
   return undefined;
 };
 
-interface Props<T extends AudioFormikType | PodcastFormValues> {
-  handleSubmit: HandleSubmitFunc<T>;
-}
+type AudioType = AudioFormikType | PodcastFormValues;
 
-const AudioContent = <T extends AudioFormikType | PodcastFormValues>({ handleSubmit: _handleSubmit }: Props<T>) => {
+const AudioContent = () => {
   const { t } = useTranslation();
-  const formikContext = useFormikContext<T>();
+  const formikContext = useFormikContext<AudioType>();
   const { values, setFieldValue } = formikContext;
   const playerObject = getPlayerObject(values);
 
@@ -161,7 +157,7 @@ const AudioContent = <T extends AudioFormikType | PodcastFormValues>({ handleSub
                   size="small"
                   aria-label={t("form.audio.modal.label")}
                   title={t("form.audio.modal.label")}
-                  playerObject={!!playerObject}
+                  hasSelectedAudio={!playerObject}
                 >
                   <InformationLine />
                 </StyledIconButton>

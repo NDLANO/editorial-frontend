@@ -252,7 +252,7 @@ const PodcastForm = ({
                   hasError={["title", "audioFile"].some((field) => field in errors)}
                 >
                   <PageContent variant="content">
-                    <AudioContent handleSubmit={handleSubmit} />
+                    <AudioContent />
                   </PageContent>
                 </FormAccordion>
                 <FormAccordion

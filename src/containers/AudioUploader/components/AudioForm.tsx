@@ -214,7 +214,7 @@ const AudioForm = ({
                 hasError={hasError(["title", "audioFile"])}
               >
                 <PageContent variant="content">
-                  <AudioContent handleSubmit={handleSubmit} />
+                  <AudioContent />
                 </PageContent>
               </FormAccordion>
               <FormAccordion

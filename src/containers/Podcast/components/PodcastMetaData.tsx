@@ -7,7 +7,8 @@
  */
 
 import { useTranslation } from "react-i18next";
-
+import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
+import { FormField } from "../../../components/FormField";
 import FormikField from "../../../components/FormikField";
 import PlainTextEditor from "../../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../../components/SlateEditor/plugins/textTransform";
@@ -35,22 +36,23 @@ const PodcastMetaData = ({ language, onImageLoad }: Props) => {
           />
         )}
       </FormikField>
-      <FormikField name="coverPhotoId">
-        {({ field, form }) => {
-          return (
+      <FormField name="coverPhotoId">
+        {({ field, meta }) => (
+          <FieldRoot invalid={!!meta.error}>
             <MetaImageSearch
               metaImageId={field.value}
-              setFieldTouched={form.setFieldTouched}
               showRemoveButton
               onImageLoad={onImageLoad}
               language={language}
               podcastFriendly={true}
               disableAltEditing={true}
+              showCheckbox={false}
               {...field}
             />
-          );
-        }}
-      </FormikField>
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          </FieldRoot>
+        )}
+      </FormField>
     </>
   );
 };

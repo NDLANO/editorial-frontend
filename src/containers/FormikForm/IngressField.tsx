@@ -38,6 +38,7 @@ interface Props {
   maxLength?: number;
   type?: string;
   placeholder?: string;
+  showMaxLength?: boolean;
 }
 
 const toolbarOptions = createToolbarDefaultValues({
@@ -88,10 +89,16 @@ const ingressRenderers: SlatePlugin[] = [
 
 const plugins = ingressPlugins.concat(ingressRenderers);
 
-const IngressField = ({ name = "introduction", maxLength = 300, placeholder }: Props) => {
+const IngressField = ({ name = "introduction", maxLength = 300, placeholder, showMaxLength = true }: Props) => {
   const { t } = useTranslation();
   return (
-    <FormikField noBorder label={t("form.introduction.label")} name={name} showMaxLength maxLength={maxLength}>
+    <FormikField
+      noBorder
+      label={t("form.introduction.label")}
+      name={name}
+      showMaxLength={showMaxLength}
+      maxLength={maxLength}
+    >
       {({ field, form: { isSubmitting } }) => (
         <StyledRichTextEditor
           {...field}

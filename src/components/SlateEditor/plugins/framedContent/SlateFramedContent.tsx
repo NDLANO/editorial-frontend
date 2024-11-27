@@ -6,19 +6,22 @@
  *
  */
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Element, NodeEntry, Transforms } from "slate";
+import { Editor, Element, NodeEntry, Text, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import { BrushLine, Copyright } from "@ndla/icons/editor";
+import { BlogPost, BrushLine, Copyright } from "@ndla/icons/editor";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentTypeFramedContent, EmbedWrapper } from "@ndla/ui";
 import { FramedContentElement } from ".";
 import { TYPE_FRAMED_CONTENT } from "./types";
+import { editorValueToPlainText } from "../../../../util/articleContentConverter";
 import { useArticleContentType } from "../../../ContentTypeProvider";
 import DeleteButton from "../../../DeleteButton";
+import { claudeHaikuDefaults, invokeModel } from "../../../LLM/helpers";
 import MoveContentButton from "../../../MoveContentButton";
+import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { TYPE_COPYRIGHT } from "../copyright/types";
 import { defaultCopyrightBlock } from "../copyright/utils";
 import { StyledFigureButtons } from "../embed/FigureButtons";
@@ -38,6 +41,8 @@ interface Props extends RenderElementProps {
 const SlateFramedContent = (props: Props) => {
   const { element, editor, attributes, children } = props;
   const { t } = useTranslation();
+  const language = useArticleLanguage();
+  const [isLoading, setIsLoading] = useState(false);
   const variant = element.data?.variant ?? "neutral";
   const contentType = useArticleContentType();
   const hasSlateCopyright = useMemo(() => {
@@ -81,9 +86,42 @@ const SlateFramedContent = (props: Props) => {
     Transforms.insertNodes(editor, defaultCopyrightBlock(), { at: path.concat(node.children.length) });
   };
 
+  const generateQuestions = async () => {
+    const articleText = editorValueToPlainText(editor.children);
+    if (!articleText) {
+      console.error("No article content provided to generate meta description");
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const generatedText = await invokeModel({
+        prompt: t("textGeneration.reflectionQuestions.prompt", {
+          article: articleText,
+          language: t(`languages.${language}`),
+        }),
+        ...claudeHaikuDefaults,
+      });
+      generatedText ? editor.insertText(generatedText) : console.error("No generated text");
+    } catch (error) {
+      console.error("Error generating reflection questions", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <EmbedWrapper draggable {...attributes}>
       <FigureButtons contentEditable={false}>
+        <IconButton
+          variant={variant === "colored" ? "primary" : "secondary"}
+          size="small"
+          title={t("textGeneration.reflectionQuestions.button")}
+          aria-label={t("textGeneration.reflectionQuestions.button")}
+          onClick={generateQuestions}
+          loading={isLoading}
+        >
+          <BlogPost />
+        </IconButton>
         {!hasSlateCopyright && (
           <IconButton
             variant="tertiary"

@@ -2255,6 +2255,10 @@ const phrases = {
       textSuggested: "Suggested phrasing",
       title: "Alternative phrasing",
     },
+    altText: {
+      button: "Generate",
+      title: "Generate alt text",
+    },
     reflectionQuestions: {
       button: "Generate reflection questions",
       prompt: `<draft>{{ article }}</draft>

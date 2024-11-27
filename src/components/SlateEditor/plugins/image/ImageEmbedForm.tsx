@@ -7,10 +7,10 @@
  */
 
 import { Formik, useFormikContext } from "formik";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { CheckLine } from "@ndla/icons/editor";
+import { BlogPost, CheckLine } from "@ndla/icons/editor";
 import {
   Button,
   CheckboxControl,
@@ -23,6 +23,7 @@ import {
   Text,
   FieldErrorMessage,
   FieldTextArea,
+  Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
@@ -146,6 +147,12 @@ const InputWrapper = styled("div", {
   },
 });
 
+const StyledButton = styled(Button, {
+  base: {
+    alignSelf: "flex-start",
+  },
+});
+
 const EmbedForm = ({
   onClose,
   language,
@@ -156,6 +163,15 @@ const EmbedForm = ({
   const inGrid = useInGrid();
   const { values, initialValues, isValid, setFieldValue, dirty, isSubmitting } =
     useFormikContext<ImageEmbedFormValues>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const generateAltText = () => {
+    setIsLoading(true);
+    // Do something
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  };
 
   const formIsDirty = isFormikFormDirty({
     values,
@@ -180,13 +196,16 @@ const EmbedForm = ({
             />
           )}
         </FormField>
-
         {!values.isDecorative && (
           <FormField name="alt">
             {({ field, meta }) => (
               <FieldRoot invalid={!!meta.error}>
                 <FieldLabel>{t("form.image.alt.label")}</FieldLabel>
                 <FieldTextArea {...field} placeholder={t("form.image.alt.placeholder")} />
+                <StyledButton onClick={generateAltText} size="small" title={t("textGeneration.altText.title")}>
+                  {t("textGeneration.altText.button")}
+                  {isLoading ? <Spinner size="small" /> : <BlogPost />}
+                </StyledButton>
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>
               </FieldRoot>
             )}

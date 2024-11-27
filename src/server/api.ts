@@ -170,11 +170,9 @@ router.post("/invoke-model", async (req, res) => {
     credentials: { accessKeyId: secretId, secretAccessKey: secretKey },
   });
 
-  //const imageurl = "https://images.freeimages.com/images/large-previews/2c7/ho-ho-hooo-1578467.jpg";
-  const { base64, filetype } = await imageToBase64(req.body.image);
-
   const content = [];
   if (req.body.image) {
+    const { base64, filetype } = await imageToBase64(req.body.image);
     content.push({
       type: "image",
       source: {

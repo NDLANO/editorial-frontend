@@ -26,8 +26,9 @@ const StyledNode = styled("div", {
     display: "flex",
     justifyContent: "space-between",
     padding: "xsmall",
-    borderRadius: "xsmall",
     background: "surface.default",
+    borderBlockEnd: "1px solid",
+    borderColor: "stroke.subtle",
     _hover: {
       background: "surface.hover",
     },

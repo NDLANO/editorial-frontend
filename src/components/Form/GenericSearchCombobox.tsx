@@ -32,14 +32,12 @@ interface PaginationData {
 
 const StyledComboboxContent = styled(ComboboxContent, {
   base: {
-    maxHeight: "unset",
     overflowY: "unset",
   },
 });
 
 const StyledComboboxList = styled(ComboboxList, {
   base: {
-    maxHeight: "surface.xsmall",
     overflowY: "auto",
   },
 });

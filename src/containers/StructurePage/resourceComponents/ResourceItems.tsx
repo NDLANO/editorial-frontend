@@ -144,6 +144,7 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoadi
             key={resource.id}
             contentMetaLoading={contentMetaLoading}
             showQuality={showQuality}
+            onDelete={toggleDelete}
           />
         )}
       />

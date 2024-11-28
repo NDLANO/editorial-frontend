@@ -32,7 +32,7 @@ import { GenericComboboxItemIndicator } from "../../../components/abstractions/C
 import { isValidLocale } from "../../../i18n";
 import { fetchNewArticleId } from "../../../modules/draft/draftApi";
 import { useUserData } from "../../../modules/draft/draftQueries";
-import { fetchNode } from "../../../modules/nodes/nodeApi";
+import { fetchNode, fetchNodes } from "../../../modules/nodes/nodeApi";
 import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
 import { getAccessToken, getAccessTokenPersonal } from "../../../util/authHelpers";
 import { isNDLAFrontendUrl } from "../../../util/htmlHelpers";
@@ -99,8 +99,9 @@ export const MastheadSearch = () => {
   };
 
   const handleUrlPaste = (frontendUrl: string) => {
+    const url = new URL(frontendUrl);
     // Removes search queries before split
-    const ndlaUrl = frontendUrl.split(/\?/)[0];
+    const ndlaUrl = url.pathname;
     // Strip / from end if topic
     const cleanUrl = ndlaUrl.endsWith("/")
       ? ndlaUrl.replace("/subjects", "").slice(0, -1)
@@ -109,19 +110,23 @@ export const MastheadSearch = () => {
 
     const urlId = splittedNdlaUrl[splittedNdlaUrl.length - 1];
 
-    if (
-      !urlId.includes("urn:topic") &&
-      Number.isNaN(parseFloat(urlId)) &&
-      !splittedNdlaUrl.find((e) => e.match(/subject:*/))
-    ) {
+    const isTopicUrn = urlId.includes("urn:topic");
+    const isNaN = Number.isNaN(parseFloat(urlId));
+    const isNode = splittedNdlaUrl.includes("node");
+    const isLongTaxUrl = splittedNdlaUrl.find((e) => e.match(/subject:*/));
+    const isContextId = /[a-f0-9]{10}/g.test(urlId);
+
+    if (!isTopicUrn && isNaN && !isLongTaxUrl && !isContextId) {
       return;
     }
-    if (urlId.includes("urn:topic")) {
+    if (isTopicUrn) {
       handleTopicUrl(urlId);
-    } else if (splittedNdlaUrl.includes("node")) {
+    } else if (isNode) {
       handleNodeId(parseInt(urlId));
-    } else if (splittedNdlaUrl.find((e) => e.match(/subject:*/))) {
+    } else if (isLongTaxUrl) {
       handleFrontendUrl(cleanUrl);
+    } else if (isContextId) {
+      handleContextId(urlId);
     } else {
       navigate(routes.editArticle(parseInt(urlId), "standard"));
     }
@@ -137,6 +142,22 @@ export const MastheadSearch = () => {
       const arr = topicArticle.contentUri?.split(":") ?? [];
       const id = arr[arr.length - 1];
       navigate(routes.editArticle(parseInt(id), "topic-article"));
+    } catch {
+      navigate(routes.notFound);
+    }
+  };
+
+  const handleContextId = async (urlId: string) => {
+    try {
+      const nodes = await fetchNodes({
+        contextId: urlId,
+        language: i18n.language,
+        taxonomyVersion,
+      });
+      const arr = nodes[0]?.contentUri?.split(":") ?? [];
+      const id = arr[arr.length - 1];
+      const articleType = nodes[0].nodeType === "TOPIC" ? "topic-article" : "standard";
+      navigate(routes.editArticle(parseInt(id), articleType));
     } catch {
       navigate(routes.notFound);
     }

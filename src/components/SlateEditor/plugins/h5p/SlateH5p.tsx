@@ -10,7 +10,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
-import { DeleteBinLine } from "@ndla/icons/action";
+import { DeleteBinLine, FileCopyLine } from "@ndla/icons/action";
 import { IconButton, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { H5pMetaData } from "@ndla/types-embed";
@@ -19,7 +19,9 @@ import EditH5PModal from "./EditH5PModal";
 import EditMetadataModal from "./EditMetadataModal";
 import { H5pElement } from "./types";
 import config from "../../../../config";
+import { useMessages } from "../../../../containers/Messages/MessagesProvider";
 import { useH5pMeta } from "../../../../modules/embed/queries";
+import { useCopyH5pMutation } from "../../../../modules/h5p/h5pMutations";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 
@@ -48,10 +50,20 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
   const isSelected = useSelected();
   const language = useArticleLanguage();
+  const { createMessage } = useMessages();
 
   const h5pMetaQuery = useH5pMeta(element.data?.path ?? "", element.data?.url ?? "", {
     enabled: !!element.data?.path,
   });
+  const h5pCopyMutation = useCopyH5pMutation({
+    onError: () => {
+      createMessage({
+        message: t("form.h5p.copyError"),
+        timeToLive: 0,
+      });
+    },
+  });
+
   const embed: H5pMetaData | undefined = useMemo(
     () =>
       element.data
@@ -72,11 +84,32 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
     });
   };
 
+  const handleCopy = async () => {
+    if (!element.data?.url) return;
+    const newCopy = await h5pCopyMutation.mutateAsync(element.data.url);
+    Transforms.setNodes<H5pElement>(
+      editor,
+      { data: { ...element.data, url: newCopy.url, path: newCopy.url.replace(config.h5pApiUrl ?? "", "") } },
+      { at: ReactEditor.findPath(editor, element) },
+    );
+  };
+
   return (
     <StyledEmbedWrapper {...attributes} aria-selected={isSelected} contentEditable={false}>
       <FigureButtons>
         {config.h5pMetaEnabled === true && <EditMetadataModal embed={embed} editor={editor} element={element} />}
         <EditH5PModal embed={embed} language={language} editor={editor} element={element} />
+        {!!config.enableH5pCopy && (
+          <IconButton
+            variant="secondary"
+            size="small"
+            onClick={handleCopy}
+            title={t("form.h5p.copy")}
+            aria-label={t("form.h5p.copy")}
+          >
+            <FileCopyLine />
+          </IconButton>
+        )}
         <IconButton
           title={t("form.h5p.remove")}
           aria-label={t("form.h5p.remove")}
@@ -88,7 +121,7 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
           <DeleteBinLine />
         </IconButton>
       </FigureButtons>
-      {h5pMetaQuery.isLoading || !embed ? <Spinner /> : <H5pEmbed embed={embed} />}
+      {h5pMetaQuery.isLoading || h5pCopyMutation.isPending || !embed ? <Spinner /> : <H5pEmbed embed={embed} />}
       {children}
     </StyledEmbedWrapper>
   );

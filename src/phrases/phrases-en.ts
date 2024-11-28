@@ -1409,6 +1409,8 @@ const phrases = {
     },
     h5p: {
       remove: "Remove H5P",
+      copy: "Copy H5P",
+      copyError: "Failed to copy H5P",
       metadata: {
         alttext: "Alt-text",
         save: "Save",

@@ -144,7 +144,7 @@ const adminItems: MenuItem[] = [
     text: "subNavigation.taxonomyVersions",
     permission: TAXONOMY_ADMIN_SCOPE,
   },
-  { to: routes.programme, text: "subNavigation.programme", permission: TAXONOMY_ADMIN_SCOPE },
+  { to: routes.programme(), text: "subNavigation.programme", permission: TAXONOMY_ADMIN_SCOPE },
   { to: routes.film.edit(), text: "subNavigation.film", permission: FRONTPAGE_ADMIN_SCOPE },
   {
     to: routes.frontpage.structure,

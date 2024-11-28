@@ -29,6 +29,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";
 import { GenericComboboxItemIndicator } from "../../../components/abstractions/Combobox";
+import { NDLA_FILM_SUBJECT } from "../../../constants";
 import { isValidLocale } from "../../../i18n";
 import { fetchNewArticleId } from "../../../modules/draft/draftApi";
 import { useUserData } from "../../../modules/draft/draftQueries";
@@ -114,7 +115,7 @@ export const MastheadSearch = () => {
     const isNaN = Number.isNaN(parseFloat(urlId));
     const isNode = splittedNdlaUrl.includes("node");
     const isLongTaxUrl = splittedNdlaUrl.find((e) => e.match(/subject:*/));
-    const isContextId = /[a-f0-9]{10}/g.test(urlId);
+    const isContextId = /[a-f0-9]{10}/g.test(urlId) || /[a-f0-9]{12}/g.test(urlId);
 
     if (!isTopicUrn && isNaN && !isLongTaxUrl && !isContextId) {
       return;
@@ -154,10 +155,21 @@ export const MastheadSearch = () => {
         language: i18n.language,
         taxonomyVersion,
       });
-      const arr = nodes[0]?.contentUri?.split(":") ?? [];
-      const id = arr[arr.length - 1];
-      const articleType = nodes[0].nodeType === "TOPIC" ? "topic-article" : "standard";
-      navigate(routes.editArticle(parseInt(id), articleType));
+      const node = nodes[0];
+      if (node.nodeType === "SUBJECT") {
+        if (node.id === NDLA_FILM_SUBJECT) {
+          navigate(routes.film.edit());
+        } else {
+          navigate(routes.structure(node.path));
+        }
+      } else if (node.nodeType === "PROGRAMME") {
+        navigate(routes.programme(node.id));
+      } else {
+        const arr = node?.contentUri?.split(":") ?? [];
+        const id = arr[arr.length - 1];
+        const articleType = nodes[0].nodeType === "TOPIC" ? "topic-article" : "standard";
+        navigate(routes.editArticle(parseInt(id), articleType));
+      }
     } catch {
       navigate(routes.notFound);
     }

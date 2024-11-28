@@ -45,7 +45,7 @@ const VisualElementField = ({ types }: Props) => {
   const [, visualElementAltMeta] = useField("visualElementAlt");
 
   return (
-    <>
+    <div>
       <UploadVisualElementText>
         <Text textStyle="title.medium">{t("form.visualElement.title")}</Text>
         <DialogRoot>
@@ -90,7 +90,7 @@ const VisualElementField = ({ types }: Props) => {
           </FieldRoot>
         )}
       </FormField>
-    </>
+    </div>
   );
 };
 

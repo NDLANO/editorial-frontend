@@ -7,10 +7,9 @@
  */
 
 import { useTranslation } from "react-i18next";
-import oldstyled from "@emotion/styled";
 import { DeleteBinLine } from "@ndla/icons/action";
 import { Link } from "@ndla/icons/common";
-import { FieldErrorMessage, FieldInput, FieldRoot, IconButton, FieldLabel } from "@ndla/primitives";
+import { FieldErrorMessage, FieldInput, FieldRoot, IconButton, FieldLabel, Image } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
@@ -19,15 +18,13 @@ import { FormRemainingCharacters } from "../../../components/Form/FormRemainingC
 import { FormField } from "../../../components/FormField";
 import MetaInformation from "../../../components/MetaInformation";
 
-const MetaImageContainer = oldstyled.div`
-  display: flex;
-`;
-
-const StyledImage = oldstyled.img`
-  align-self: flex-start;
-  max-width: 60%;
-  margin-top: 10px;
-`;
+const MetaImageContainer = styled("div", {
+  base: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+    gap: "small",
+  },
+});
 
 const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
   base: {
@@ -73,7 +70,6 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, 
     </>
   );
 
-  const imageUrl = `${image.image.imageUrl}?width=400`;
   const { width, height } = image.image?.dimensions || { width: 0, height: 0 };
   const onLoad = () => {
     onImageLoad?.(width, height);
@@ -82,7 +78,7 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, 
   return (
     <>
       <MetaImageContainer>
-        <StyledImage src={imageUrl} alt={alt} onLoad={onLoad} />
+        <Image src={image.image.imageUrl} alt={alt} onLoad={onLoad} />
         <MetaInformation
           title={title}
           copyright={copyright}

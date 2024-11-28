@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { FieldErrorMessage, FieldHelper, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import SubjectpageBanner from "./SubjectpageBanner";
+import { FieldWarning } from "../../../components/Form/FieldWarning";
 import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
@@ -53,6 +54,7 @@ const SubjectpageMetadata = ({ isSubmitting }: Props) => {
             />
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
             <StyledFormRemainingCharacters maxLength={300} value={field.value} />
+            <FieldWarning name={field.name} />
           </FieldRoot>
         )}
       </FormField>

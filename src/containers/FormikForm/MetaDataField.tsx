@@ -150,7 +150,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
               plugins={plugins}
             />
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-            <StyledFormRemainingCharacters maxLength={300} value={field.value} />
+            <StyledFormRemainingCharacters maxLength={155} value={field.value} />
             <FieldWarning name={field.name} />
           </FieldRoot>
         )}

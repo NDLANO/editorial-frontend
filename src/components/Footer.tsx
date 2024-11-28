@@ -11,9 +11,9 @@ import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import { PageContent, SelectContent, SelectLabel, SelectRoot, SelectValueText, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { GenericSelectItem, GenericSelectTrigger } from "./abstractions/Select";
 import { supportedLanguages } from "../i18n2";
 import { LocaleType } from "../interfaces";
+import { GenericSelectItem, GenericSelectTrigger } from "./abstractions/Select";
 
 export const FooterBlock = styled("footer", {
   base: {

@@ -38,11 +38,10 @@ interface Props {
   metaImageId: string;
   onChange: FormikHandlers["handleChange"];
   name: string;
-  setFieldTouched: (field: string, isTouched?: boolean, shouldValidate?: boolean) => void;
   onImageLoad?: (width: number, height: number) => void;
   showRemoveButton: boolean;
   showCheckbox: boolean;
-  checkboxAction: (image: IImageMetaInformationV3) => void;
+  checkboxAction?: (image: IImageMetaInformationV3) => void;
   language?: string;
   podcastFriendly?: boolean;
   disableAltEditing?: boolean;
@@ -52,7 +51,6 @@ const MetaImageSearch = ({
   name,
   metaImageId,
   showRemoveButton,
-  setFieldTouched,
   onChange,
   onImageLoad,
   showCheckbox,
@@ -90,10 +88,6 @@ const MetaImageSearch = ({
     setImage(image);
     setFieldValue(name, image.id);
     setFieldValue("metaImageAlt", disableAltEditing ? "" : image.alttext.alttext.trim(), true);
-    setTimeout(() => {
-      setFieldTouched("metaImageAlt", true, true);
-      setFieldTouched(name, true, true);
-    }, 0);
   };
 
   const onImageRemove = () => {

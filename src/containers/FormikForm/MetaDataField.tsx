@@ -140,19 +140,21 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
           <PlainTextEditor id={field.name} placeholder={t("form.metaDescription.label")} {...field} plugins={plugins} />
         )}
       </FormikField>
-      <FormikField name="metaImageId">
-        {({ field, form }) => (
-          <MetaImageSearch
-            metaImageId={field.value}
-            setFieldTouched={form.setFieldTouched}
-            showRemoveButton={false}
-            showCheckbox={showCheckbox}
-            checkboxAction={checkboxAction}
-            language={articleLanguage}
-            {...field}
-          />
+      <FormField name="metaImageId">
+        {({ field, meta }) => (
+          <FieldRoot invalid={!!meta.error}>
+            <MetaImageSearch
+              metaImageId={field.value}
+              showRemoveButton={false}
+              showCheckbox={!!showCheckbox}
+              checkboxAction={checkboxAction}
+              language={articleLanguage}
+              {...field}
+            />
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          </FieldRoot>
         )}
-      </FormikField>
+      </FormField>
     </FormContent>
   );
 };

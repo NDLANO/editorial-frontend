@@ -139,7 +139,7 @@ const AudioContent = () => {
                 </FileUploadRoot>
               </StyledFieldRoot>
             )}
-            {playerObject && (
+            {!!playerObject && (
               <IconButton
                 variant="danger"
                 aria-label={t("form.audio.remove")}

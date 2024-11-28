@@ -117,11 +117,12 @@ export const useUpdateUserDataMutation = () => {
       const key = draftQueryKeys.userData;
       await queryClient.cancelQueries({ queryKey: key });
       const previousUserData = queryClient.getQueryData<IUserData>(key);
-      queryClient.setQueryData<IUserData>(key, {
-        ...previousUserData,
-        userId: previousUserData?.userId!,
-        ...newUserData,
-      });
+      if (previousUserData) {
+        queryClient.setQueryData<IUserData>(key, {
+          ...previousUserData,
+          ...newUserData,
+        });
+      }
       return previousUserData;
     },
     onError: (_, __, previousUserData) => {

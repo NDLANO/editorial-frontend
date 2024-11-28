@@ -126,7 +126,7 @@ export const MastheadSearch = () => {
     } else if (isLongTaxUrl) {
       handleFrontendUrl(cleanUrl);
     } else if (isContextId) {
-      handleContextId(urlId, splittedNdlaUrl[1]);
+      handleContextId(urlId);
     } else {
       navigate(routes.editArticle(parseInt(urlId), "standard"));
     }
@@ -147,7 +147,7 @@ export const MastheadSearch = () => {
     }
   };
 
-  const handleContextId = async (urlId: string, typeIdent: string) => {
+  const handleContextId = async (urlId: string) => {
     try {
       const nodes = await fetchNodes({
         contextId: urlId,
@@ -156,7 +156,7 @@ export const MastheadSearch = () => {
       });
       const arr = nodes[0]?.contentUri?.split(":") ?? [];
       const id = arr[arr.length - 1];
-      const articleType = typeIdent === "e" ? "topic-article" : "standard";
+      const articleType = nodes[0].nodeType === "TOPIC" ? "topic-article" : "standard";
       navigate(routes.editArticle(parseInt(id), articleType));
     } catch {
       navigate(routes.notFound);

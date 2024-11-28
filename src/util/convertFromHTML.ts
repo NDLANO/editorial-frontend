@@ -14,8 +14,6 @@
  *
  */
 
-/* eslint-disable no-continue, no-param-reassign, no-restricted-syntax  */
-
 import { Descendant, Element, Text, Node } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { blocks, inlines } from "../components/SlateEditor/helpers";

@@ -47,7 +47,9 @@ const VisualElementField = ({ types }: Props) => {
   return (
     <div>
       <UploadVisualElementText>
-        <Text textStyle="title.medium">{t("form.visualElement.title")}</Text>
+        <Text textStyle="label.medium" fontWeight="bold">
+          {t("form.visualElement.title")}
+        </Text>
         <DialogRoot>
           <DialogTrigger asChild>
             <IconButton

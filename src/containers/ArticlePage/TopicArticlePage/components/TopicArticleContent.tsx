@@ -13,8 +13,8 @@ import { topicArticlePlugins } from "./topicArticlePlugins";
 import { topicArticleRenderers } from "./topicArticleRenderers";
 import { ContentTypeProvider } from "../../../../components/ContentTypeProvider";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
-import FieldHeader from "../../../../components/Field/FieldHeader";
 import { FieldWarning } from "../../../../components/Form/FieldWarning";
+import { SegmentHeader } from "../../../../components/Form/SegmentHeader";
 import { FormField } from "../../../../components/FormField";
 import { FormContent } from "../../../../components/FormikForm";
 import {
@@ -64,12 +64,12 @@ const TopicArticleContent = ({ values, isSubmitting }: Props) => {
         <FormField name="content">
           {({ field, meta, helpers }) => (
             <FieldRoot invalid={!!meta.error}>
-              <FieldLabel srOnly>{t("form.content.label")}</FieldLabel>
-              <FieldHeader title={t("form.content.label")}>
+              <SegmentHeader>
+                <FieldLabel>{t("form.content.label")}</FieldLabel>
                 {!!values.id && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && !!values.language && (
                   <EditMarkupLink to={toEditMarkup(values.id, values.language)} title={t("editMarkup.linkTitle")} />
                 )}
-              </FieldHeader>
+              </SegmentHeader>
               <RichTextEditor
                 language={values.language}
                 placeholder={t("form.content.placeholder")}

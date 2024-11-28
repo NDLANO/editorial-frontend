@@ -10,15 +10,15 @@ import { useField, useFormikContext } from "formik";
 import { useState, useMemo, memo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { Button, FieldErrorMessage, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { Button, FieldErrorMessage, FieldRoot, FieldLabel } from "@ndla/primitives";
 import { IAuthor } from "@ndla/types-backend/draft-api";
 import LearningResourceFootnotes, { FootnoteType } from "./LearningResourceFootnotes";
 import { learningResourcePlugins } from "./learningResourcePlugins";
 import { learningResourceRenderers } from "./learningResourceRenderers";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
-import FieldHeader from "../../../../components/Field/FieldHeader";
 import { FieldWarning } from "../../../../components/Form/FieldWarning";
+import { SegmentHeader } from "../../../../components/Form/SegmentHeader";
 import { FormField } from "../../../../components/FormField";
 import { FormActionsContainer, FormContent } from "../../../../components/FormikForm";
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
@@ -161,12 +161,12 @@ const ContentField = ({ articleId, articleLanguage }: ContentFieldProps) => {
     <FormField name="content">
       {({ field, meta, helpers }) => (
         <FieldRoot invalid={!!meta.error}>
-          <FieldLabel srOnly>{t("form.content.label")}</FieldLabel>
-          <FieldHeader title={t("form.content.label")}>
+          <SegmentHeader>
+            <FieldLabel>{t("form.content.label")}</FieldLabel>
             {!!articleId && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (
               <EditMarkupLink to={toEditMarkup(articleId, articleLanguage ?? "")} title={t("editMarkup.linkTitle")} />
             )}
-          </FieldHeader>
+          </SegmentHeader>
           <RichTextEditor
             actions={learningResourceActions}
             language={articleLanguage}

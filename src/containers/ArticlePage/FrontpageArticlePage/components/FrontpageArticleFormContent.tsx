@@ -17,8 +17,8 @@ import { frontpageRenderers } from "./frontpageRenderers";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { ContentTypeProvider } from "../../../../components/ContentTypeProvider";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
-import FieldHeader from "../../../../components/Field/FieldHeader";
 import { FieldWarning } from "../../../../components/Form/FieldWarning";
+import { SegmentHeader } from "../../../../components/Form/SegmentHeader";
 import { FormField } from "../../../../components/FormField";
 import { FormActionsContainer, FormContent } from "../../../../components/FormikForm";
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
@@ -166,13 +166,13 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
       <FormField name="content">
         {({ field, meta, helpers }) => (
           <FieldRoot invalid={!!meta.error}>
-            <FieldLabel srOnly>{t("form.content.label")}</FieldLabel>
             <ContentTypeProvider value="subject-material">
-              <FieldHeader title={t("form.content.label")}>
+              <SegmentHeader>
+                <FieldLabel>{t("form.content.label")}</FieldLabel>
                 {!!id && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (
                   <EditMarkupLink to={toEditMarkup(id, language ?? "")} title={t("editMarkup.linkTitle")} />
                 )}
-              </FieldHeader>
+              </SegmentHeader>
               <RichTextEditor
                 language={articleLanguage}
                 actions={frontpageActions}

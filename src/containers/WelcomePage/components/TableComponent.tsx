@@ -113,7 +113,7 @@ const TableComponent = <T extends string>({
               >
                 <TableTitleComponent>
                   {tableTitle.title}
-                  {setSortOption && tableTitle.sortableField && (
+                  {!!setSortOption && !!tableTitle.sortableField && (
                     <div>
                       <ContentWrapper>
                         <ExpandLess

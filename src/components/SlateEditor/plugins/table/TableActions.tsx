@@ -190,7 +190,7 @@ const TableActions = ({ editor, element }: Props) => {
   return (
     <StyledWrapper contentEditable={false} show={show}>
       <StyledTableActions>
-        {showEditColgroups && <EditColgroupsModal element={element} />}
+        {!!showEditColgroups && <EditColgroupsModal element={element} />}
         <ActionGrid>
           {/* Row 1 - Row actions */}
           <StyledRowTitle>{`${t("form.content.table.row")}:`}</StyledRowTitle>
@@ -202,7 +202,7 @@ const TableActions = ({ editor, element }: Props) => {
             ))}
           </ActionGroup>
           <StyledRightAlign>
-            {showAddHeader && (
+            {!!showAddHeader && (
               <Button
                 data-testid="head-add"
                 title={t(`form.content.table.addHeader`)}

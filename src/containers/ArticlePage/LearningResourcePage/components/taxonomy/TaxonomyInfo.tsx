@@ -31,26 +31,23 @@ interface Props {
 
 const TaxonomyInfo = ({ taxonomyElement, updateMetadata }: Props) => {
   const { t } = useTranslation();
+  if (!taxonomyElement) return null;
   return (
     <>
-      {taxonomyElement && (
-        <>
-          <StyledText visible={taxonomyElement.metadata.visible}>
-            <b>ID: </b>
-            <span>{taxonomyElement.id}</span>
-          </StyledText>
-          <SwitchRoot
-            checked={taxonomyElement.metadata?.visible ?? true}
-            onCheckedChange={(details) => updateMetadata(details.checked)}
-          >
-            <SwitchLabel>{t("metadata.changeVisibility")}</SwitchLabel>
-            <SwitchControl>
-              <SwitchThumb />
-            </SwitchControl>
-            <SwitchHiddenInput />
-          </SwitchRoot>
-        </>
-      )}
+      <StyledText visible={taxonomyElement.metadata.visible}>
+        <b>ID: </b>
+        <span>{taxonomyElement.id}</span>
+      </StyledText>
+      <SwitchRoot
+        checked={taxonomyElement.metadata?.visible ?? true}
+        onCheckedChange={(details) => updateMetadata(details.checked)}
+      >
+        <SwitchLabel>{t("metadata.changeVisibility")}</SwitchLabel>
+        <SwitchControl>
+          <SwitchThumb />
+        </SwitchControl>
+        <SwitchHiddenInput />
+      </SwitchRoot>
     </>
   );
 };

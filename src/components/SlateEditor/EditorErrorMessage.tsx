@@ -37,7 +37,7 @@ const EditorErrorMessage = ({ msg, attributes, onRemoveClick, children }: Props)
         <span>{msg}</span>
         {children}
       </div>
-      {onRemoveClick && <DeleteButton aria-label={t("form.remove")} onClick={onRemoveClick} />}
+      {!!onRemoveClick && <DeleteButton aria-label={t("form.remove")} onClick={onRemoveClick} />}
     </StyledEditorErrorMessage>
   );
 };

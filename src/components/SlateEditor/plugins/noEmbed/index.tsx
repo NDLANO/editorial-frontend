@@ -20,7 +20,7 @@ export const noEmbedSerializer: SlateSerializer = {
   },
   serialize(node: Descendant) {
     if (isSlateEmbed(node)) {
-      // @ts-ignore delemete does not exist in JSX.
+      // @ts-expect-error delemete does not exist in JSX.
       return <deleteme></deleteme>;
     }
   },

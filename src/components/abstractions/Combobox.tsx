@@ -54,8 +54,8 @@ export const GenericComboboxInput = forwardRef<HTMLInputElement, GenericCombobox
           <ComboboxInput asChild ref={ref} {...props}>
             <Input componentSize={componentSize} />
           </ComboboxInput>
-          {isFetching && <Spinner size="small" />}
-          {clearable && (
+          {!!isFetching && <Spinner size="small" />}
+          {!!clearable && (
             <ComboboxClearTrigger asChild>
               <IconButton variant="clear" size={componentSize}>
                 <CloseLine />
@@ -64,7 +64,7 @@ export const GenericComboboxInput = forwardRef<HTMLInputElement, GenericCombobox
           )}
         </InputContainer>
 
-        {triggerable && (
+        {!!triggerable && (
           <ComboboxTrigger asChild>
             <IconButton variant="secondary" size={componentSize}>
               <ArrowDownShortLine />
@@ -102,7 +102,7 @@ const StyledListItemRoot = styled(ListItemRoot, {
 export const GenericComboboxItemContent = forwardRef<HTMLDivElement, GenericComboboxItemProps & ListItemProps>(
   ({ title, image, description, fallbackImageElement, useFallbackImage, ...props }, ref) => (
     <StyledListItemRoot context="list" ref={ref} {...props}>
-      {(!!image || useFallbackImage) && (
+      {!!(!!image || useFallbackImage) && (
         <ListItemImage
           src={image?.url ?? ""}
           alt={image?.alt ?? ""}

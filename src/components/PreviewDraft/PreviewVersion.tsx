@@ -174,7 +174,7 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
         <PageContent variant="content">
           <h2>{t("form.previewProductionArticle.current")}</h2>
           <ArticleWrapper>
-            {transformedWithDiff.article && (
+            {!!transformedWithDiff.article && (
               <TransformedPreviewDraft
                 {...transformedWithDiff}
                 article={transformedWithDiff.article}

@@ -70,7 +70,7 @@ const ToggleVisibility = ({ node, rootNodeId, rootNodeType = "SUBJECT" }: Props)
         <Heading consumeCss asChild textStyle="label.medium" fontWeight="bold">
           <h2>{t("metadata.changeVisibility")}</h2>
         </Heading>
-        {isPending && <Spinner size="small" />}
+        {!!isPending && <Spinner size="small" />}
       </TitleWrapper>
       <SwitchRoot checked={visible} onCheckedChange={toggleVisibility}>
         <SwitchLabel>{t("metadata.visible")}</SwitchLabel>

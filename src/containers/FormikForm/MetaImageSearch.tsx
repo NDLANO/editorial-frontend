@@ -146,7 +146,7 @@ const MetaImageSearch = ({
           </DialogBody>
         </DialogContent>
       </DialogRoot>
-      {!showImageSelect && image && (
+      {!showImageSelect && !!image && (
         <MetaImageField
           image={image}
           onImageRemove={onImageRemove}

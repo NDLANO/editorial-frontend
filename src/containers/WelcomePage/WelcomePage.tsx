@@ -90,7 +90,7 @@ export const WelcomePage = () => {
     <StyledPageContent variant="wide">
       <HelmetWithTracker title={t("htmlTitles.welcomePage")} />
       <WelcomeHeader />
-      {ndlaId && (
+      {!!ndlaId && (
         <GridWrapper>
           <WorkList ndlaId={ndlaId} />
           <GridColumn>

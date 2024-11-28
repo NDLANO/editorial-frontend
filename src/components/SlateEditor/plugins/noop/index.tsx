@@ -27,6 +27,7 @@ export const noopSerializer: SlateSerializer = {
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node) || node.type !== TYPE_NOOP) return;
+    // eslint-disable-next-line react/jsx-no-useless-fragment
     return <>{children}</>;
   },
 };

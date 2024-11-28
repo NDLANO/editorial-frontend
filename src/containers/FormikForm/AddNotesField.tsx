@@ -24,7 +24,7 @@ import { styled } from "@ndla/styled-system/jsx";
 interface Props {
   name: string;
   labelWarningNote?: string;
-  onChange: Function;
+  onChange: (contributors: string[]) => void;
   value: string[];
   showError?: boolean;
 }
@@ -49,15 +49,10 @@ const StyledFieldRoot = styled(FieldRoot, {
   },
 });
 
-const AddNotesField = ({ name, labelWarningNote, onChange, value, showError }: Props) => {
+const AddNotesField = ({ labelWarningNote, onChange, value, showError }: Props) => {
   const { t } = useTranslation();
   const onNotesChange = (newContributors: string[]) => {
-    onChange({
-      target: {
-        value: newContributors,
-        name,
-      },
-    });
+    onChange(newContributors);
   };
 
   const addNote = () => {
@@ -79,7 +74,7 @@ const AddNotesField = ({ name, labelWarningNote, onChange, value, showError }: P
     <StyledFieldsetRoot>
       <FieldsetLegend>{t("form.name.notes")}</FieldsetLegend>
       {value.map((note, index) => (
-        <StyledFieldRoot key={`note-${index}`} invalid={showError && note === ""}>
+        <StyledFieldRoot key={`note-${index}`} invalid={!!showError && note === ""}>
           <FieldLabel srOnly>{`${t("form.notes.history.note")} ${index + 1}`}</FieldLabel>
           <NoteWrapper>
             <FieldInput

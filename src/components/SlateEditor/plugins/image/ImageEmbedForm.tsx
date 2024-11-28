@@ -192,7 +192,7 @@ const EmbedForm = ({
             )}
           </FormField>
         )}
-        {allowDecorative && (
+        {!!allowDecorative && (
           <FormField name="isDecorative">
             {({ field, helpers }) => (
               <FieldRoot>
@@ -217,7 +217,7 @@ const EmbedForm = ({
             )}
           </FormField>
         )}
-        {inGrid && (
+        {!!inGrid && (
           <FormField name="border">
             {({ field, helpers }) => (
               <FieldRoot>

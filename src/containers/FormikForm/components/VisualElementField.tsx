@@ -6,57 +6,91 @@
  *
  */
 
-import { ErrorMessage, useFormikContext } from "formik";
+import { useField } from "formik";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import FieldHeader from "../../../components/Field/FieldHeader";
-import FormikField, { FormikFieldHelp } from "../../../components/FormikField";
-import HowToHelper from "../../../components/HowTo/HowToHelper";
+import { InformationOutline } from "@ndla/icons/common";
+import {
+  DialogTrigger,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  IconButton,
+  Text,
+  FieldRoot,
+  FieldErrorMessage,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
+import { FormField } from "../../../components/FormField";
 import VisualElement from "../../VisualElement/VisualElement";
 import { VisualElementType } from "../../VisualElement/VisualElementMenu";
 
-const StyledErrorPreLine = styled.span`
-  white-space: pre-line;
-`;
-
-const extraErrorFields = ["visualElementCaption", "visualElementAlt"];
+const UploadVisualElementText = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    alignItems: "center",
+  },
+});
 
 interface Props {
-  types?: VisualElementType[];
+  types: VisualElementType[];
 }
 const VisualElementField = ({ types }: Props) => {
   const { t } = useTranslation();
-  const formik = useFormikContext<{ language: string }>();
+  const [languageField] = useField<string>("language");
+  const [, visualElementCaptionMeta] = useField("visualElementCaption");
+  const [, visualElementAltMeta] = useField("visualElementAlt");
 
   return (
-    <>
-      <FormikField name="visualElement">
-        {({ field }) => (
-          <div>
-            <FieldHeader title={t("form.visualElement.title")}>
-              <HowToHelper pageId="VisualElement" tooltip={t("form.visualElement.helpLabel")} />
-            </FieldHeader>
-            <>
-              <VisualElement
-                label={t("form.visualElement.label")}
-                language={formik.values.language}
-                types={types}
-                {...field}
-              />
-            </>
-          </div>
+    <div>
+      <UploadVisualElementText>
+        <Text textStyle="title.medium">{t("form.visualElement.title")}</Text>
+        <DialogRoot>
+          <DialogTrigger asChild>
+            <IconButton
+              size="small"
+              variant="tertiary"
+              aria-label={t("form.visualElement.helpLabel")}
+              title={t("form.visualElement.helpLabel")}
+            >
+              <InformationOutline />
+            </IconButton>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{t("form.visualElement.title")}</DialogTitle>
+              <DialogCloseButton />
+            </DialogHeader>
+            <DialogBody>
+              <Text>{t("form.visualElement.description")}</Text>
+            </DialogBody>
+          </DialogContent>
+        </DialogRoot>
+      </UploadVisualElementText>
+      <FormField name="visualElement">
+        {({ field, meta, helpers }) => (
+          <FieldRoot invalid={!!meta.error || !!visualElementCaptionMeta.error || !!visualElementAltMeta.error}>
+            <VisualElement
+              language={languageField.value}
+              types={types}
+              selectedResource={field.value}
+              resetSelectedResource={() => helpers.setValue([])}
+              {...field}
+            />
+            <FieldErrorMessage asChild consumeCss>
+              <div>
+                <p>{meta.error}</p>
+                <p>{visualElementCaptionMeta.error}</p>
+                <p>{visualElementAltMeta.error}</p>
+              </div>
+            </FieldErrorMessage>
+          </FieldRoot>
         )}
-      </FormikField>
-      {extraErrorFields.map((extraErrorField) => (
-        <ErrorMessage key={`topic_article_visualelement_${extraErrorField}`} name={extraErrorField}>
-          {(error) => (
-            <FormikFieldHelp error>
-              <StyledErrorPreLine>{error}</StyledErrorPreLine>
-            </FormikFieldHelp>
-          )}
-        </ErrorMessage>
-      ))}
-    </>
+      </FormField>
+    </div>
   );
 };
 

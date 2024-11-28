@@ -72,7 +72,7 @@ const ResourcePage = <T extends BaseResource>({
   return (
     <Wrapper>
       <PageContent className={className} data-wide={isWideArticle} data-article={isArticle}>
-        {titleTranslationKey && <HelmetWithTracker title={t(titleTranslationKey)} />}
+        {!!titleTranslationKey && <HelmetWithTracker title={t(titleTranslationKey)} />}
         <Routes>
           <Route path="new" element={<CreateComponent />} />
           <Route

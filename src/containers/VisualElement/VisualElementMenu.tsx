@@ -24,7 +24,7 @@ const ButtonWrapper = styled("div", {
 
 interface Props {
   types?: VisualElementType[];
-  onSelect: Function;
+  onSelect: (type: string) => void;
 }
 
 export type VisualElementType = "image" | "video" | "h5p" | "url" | "audio";
@@ -68,7 +68,7 @@ const VisualElementMenu = ({ onSelect, types = ["image", "video", "h5p", "url"] 
       <Button variant="secondary" onClick={toggleIsOpen}>
         {isOpen ? <CloseLine /> : <AddLine />}
       </Button>
-      {isOpen &&
+      {!!isOpen &&
         visualElementButtons
           .filter((button) => types.find((type) => type === button.type))
           .map((button) => {

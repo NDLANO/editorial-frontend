@@ -249,7 +249,7 @@ export const MastheadDrawer = () => {
                         to={item.to}
                       >
                         {t(item.text)}
-                        {item.external && <ExternalLinkLine />}
+                        {!!item.external && <ExternalLinkLine />}
                       </StyledSafeLinkButton>
                     </StyledListItem>
                   ))}

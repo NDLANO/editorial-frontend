@@ -31,8 +31,8 @@ import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import { KEY_TAB } from "../../utils/keys";
 
 type Props = {
-  onSave: Function;
-  onAbort: Function;
+  onSave: (values: CodeBlockFormValues) => void;
+  onAbort: VoidFunction;
   highlight: (code: string, language: string) => string;
   content: CodeBlockFormValues | undefined;
   setShowWarning: (show: boolean) => void;

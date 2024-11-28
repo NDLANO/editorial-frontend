@@ -96,7 +96,7 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching = t
                   <StyledText textStyle="body.small">{result.content.content}</StyledText>
                 )}
                 <StyledFormActionsContainer>
-                  {(result.status?.current === PUBLISHED || result.status?.other.includes(PUBLISHED)) && (
+                  {!!(result.status?.current === PUBLISHED || result.status?.other.includes(PUBLISHED)) && (
                     <SafeLinkIconButton
                       size="small"
                       variant="success"

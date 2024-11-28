@@ -237,7 +237,7 @@ const ImageEditor = ({ language, image }: Props) => {
           value={[editType]}
           onValueChange={(details) => setEditType(details.value[0] as StateProp)}
         >
-          {isModifiable && (
+          {!!isModifiable && (
             <ToggleGroupItem
               value="focalPoint"
               aria-label={t("form.image.focalPoint")}
@@ -249,12 +249,12 @@ const ImageEditor = ({ language, image }: Props) => {
               </IconButton>
             </ToggleGroupItem>
           )}
-          {imageCancelButtonNeeded && (
+          {!!imageCancelButtonNeeded && (
             <Button variant="danger" size="small" onClick={onCancelMode}>
               {t(`imageEditor.remove.${editType}`)}
             </Button>
           )}
-          {isModifiable && (
+          {!!isModifiable && (
             <ToggleGroupItem value="crop" aria-label={t("form.image.crop")} title={t("form.image.crop")} asChild>
               <IconButton variant="secondary" size="small">
                 <Crop />

@@ -17,15 +17,13 @@ import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const SubjectMatterPage = () => (
-  <>
-    <Routes>
-      <Route path="topic-article/*" element={<PrivateRoute component={<TopicArticlePage />} />} />
-      <Route path="learning-resource/*" element={<PrivateRoute component={<LearningResourcePage />} />} />
-      <Route path="frontpage-article/*" element={<PrivateRoute component={<FrontPageArticlePage />} />} />
-      <Route path="article/:id" element={<PrivateRoute component={<GenericArticleRedirect />} />} />
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
-  </>
+  <Routes>
+    <Route path="topic-article/*" element={<PrivateRoute component={<TopicArticlePage />} />} />
+    <Route path="learning-resource/*" element={<PrivateRoute component={<LearningResourcePage />} />} />
+    <Route path="frontpage-article/*" element={<PrivateRoute component={<FrontPageArticlePage />} />} />
+    <Route path="article/:id" element={<PrivateRoute component={<GenericArticleRedirect />} />} />
+    <Route path="*" element={<NotFoundPage />} />
+  </Routes>
 );
 
 const GenericArticleRedirect = () => {

@@ -118,14 +118,14 @@ const SwapTopicArticle = ({ node, rootNodeId }: Props) => {
         />
       </GenericSearchCombobox>
       <>
-        {putNodeMutation.isPending && <Spinner size="small" />}
-        {putNodeMutation.isSuccess && (
+        {!!putNodeMutation.isPending && <Spinner size="small" />}
+        {!!putNodeMutation.isSuccess && (
           <Text>
             <StyledCheckLine />
             {t("taxonomy.swapTopicArticle.success")}
           </Text>
         )}
-        {error && (
+        {!!error && (
           <Text color="text.error" data-testid="failedToSwapTopicArticle">
             {error}
           </Text>

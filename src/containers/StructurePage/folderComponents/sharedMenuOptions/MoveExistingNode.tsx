@@ -116,19 +116,19 @@ const MoveExistingNode = ({ currentNode, nodeType = "TOPIC" }: Props) => {
         }}
       />
       <StyledMenuWrapper>
-        {loading && (
+        {!!loading && (
           <MenuContent>
             <Spinner size="small" />
             <Text>{t("taxonomy.addExistingLoading")}</Text>
           </MenuContent>
         )}
-        {success && (
+        {!!success && (
           <Text>
             <StyledCheckLine />
             {t("taxonomy.addExistingSuccess")}
           </Text>
         )}
-        {error && <Text color="text.error">{error}</Text>}
+        {!!error && <Text color="text.error">{error}</Text>}
       </StyledMenuWrapper>
     </Wrapper>
   );

@@ -58,7 +58,7 @@ const TaxonomyVersionsPage = () => {
         <p>{t("taxonomyVersions.about")}</p>
         <Button onClick={() => setShowNewForm((prev) => !prev)}>{t("taxonomyVersions.newVersionButton")}</Button>
       </Row>
-      {showNewForm && (
+      {!!showNewForm && (
         <NewFormWrapper>
           <VersionForm existingVersions={data ?? []} onClose={() => setShowNewForm(false)} />
         </NewFormWrapper>

@@ -76,7 +76,7 @@ const DisconnectFromParent = ({ node, onCurrentNodeChanged }: Props) => {
           {t("alertModal.disconnect")}
         </Button>
       </FormActionsContainer>
-      {isError && <Text color="text.error">{t("taxonomy.errorMessage")}</Text>}
+      {!!isError && <Text color="text.error">{t("taxonomy.errorMessage")}</Text>}
     </Wrapper>
   );
 };

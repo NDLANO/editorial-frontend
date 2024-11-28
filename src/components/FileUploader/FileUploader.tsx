@@ -181,7 +181,7 @@ const FileUploader = ({ onFileSave, close }: Props) => {
               {t("form.save")}
             </Button>
           </FormActionsContainer>
-          {errorMessage && <StyledErrorText>{errorMessage}</StyledErrorText>}
+          {!!errorMessage && <StyledErrorText>{errorMessage}</StyledErrorText>}
         </FormikForm>
       )}
     </Formik>

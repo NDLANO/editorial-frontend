@@ -37,7 +37,7 @@ const MetaInformation = ({ title, copyright, action, alt }: Props) => {
   const { t } = useTranslation();
   return (
     <StyledMetaInformation>
-      {action && <div>{action}</div>}
+      {!!action && <div>{action}</div>}
       <StyledTextWrapper>
         {!!title && (
           <div>

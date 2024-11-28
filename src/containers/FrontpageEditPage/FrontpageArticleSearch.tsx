@@ -101,7 +101,7 @@ const FrontpageArticleSearch = ({ articleId, children, onChange }: Props) => {
               ))}
             </ComboboxContent>
           )}
-          {articleQuery.isSuccess && <Text>{t("dropdown.numberHits", { hits: articleQuery.data.totalCount })}</Text>}
+          {!!articleQuery.isSuccess && <Text>{t("dropdown.numberHits", { hits: articleQuery.data.totalCount })}</Text>}
           {!!articleQuery.data && articleQuery.data.totalCount > articleQuery.data.pageSize && (
             <Pagination
               count={articleQuery.data.totalCount}

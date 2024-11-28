@@ -394,7 +394,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
               {t("taxonomy.create")}
             </Button>
           </FormActionsContainer>
-          {error && <Text color="text.error">{t(error)}</Text>}
+          {!!error && <Text color="text.error">{t(error)}</Text>}
         </StyledFormikForm>
       )}
     </Formik>

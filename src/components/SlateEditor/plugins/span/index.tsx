@@ -61,6 +61,7 @@ export const spanSerializer: SlateSerializer = {
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node) || node.type !== TYPE_SPAN) return;
     if (!Object.keys(node.data ?? {}).length) {
+      // eslint-disable-next-line react/jsx-no-useless-fragment
       return <>{children}</>;
     }
 

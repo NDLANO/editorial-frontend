@@ -36,7 +36,6 @@ interface Props {
   showSimpleFooter: boolean;
   onSaveClick: (saveAsNewVersion?: boolean) => void;
   statusStateMachine?: ConceptStatusStateMachineType | DraftStatusStateMachineType;
-  validateEntity?: () => Promise<{ id: number } | undefined>;
   isArticle?: boolean;
   isConcept: boolean;
   hideSecondaryButton: boolean;
@@ -98,7 +97,6 @@ function EditorFooter<T extends FormValues>({
   showSimpleFooter,
   onSaveClick,
   statusStateMachine,
-  validateEntity,
   isArticle,
   isConcept,
   hideSecondaryButton,
@@ -214,8 +212,8 @@ function EditorFooter<T extends FormValues>({
       <Footer isArticle={isArticle}>
         <StyledFooter>
           <StyledFooterControls>
-            {isArticle && <PrioritySelect priority={values.priority} updatePriority={updatePriority} />}
-            {articleOrConcept && (
+            {!!isArticle && <PrioritySelect priority={values.priority} updatePriority={updatePriority} />}
+            {!!articleOrConcept && (
               <Wrapper>
                 <ResponsibleSelect
                   responsible={responsible}
@@ -243,20 +241,20 @@ function EditorFooter<T extends FormValues>({
     <Footer isArticle={isArticle}>
       <>
         <div data-testid="footerPreviewAndValidate">
-          {values.id && isConcept && (
+          {!!values.id && !!isConcept && (
             <PreviewResourceDialog
               type="concept"
               language={values.language}
               activateButton={<Button variant="link">{t("form.preview.button")}</Button>}
             />
           )}
-          {values.id && isArticle && (
+          {!!values.id && !!isArticle && (
             <SafeLinkButton variant="link" to={toPreviewDraft(values.id, values.language)} target="_blank">
               {t("form.preview.button")}
               <Launch />
             </SafeLinkButton>
           )}
-          {languageButton && (
+          {!!languageButton && (
             <>
               <StyledLine />
               {languageButton}
@@ -266,7 +264,7 @@ function EditorFooter<T extends FormValues>({
 
         <StyledFooterControls>
           <Wrapper>
-            {isArticle && <PrioritySelect priority={values.priority} updatePriority={updatePriority} />}
+            {!!isArticle && <PrioritySelect priority={values.priority} updatePriority={updatePriority} />}
           </Wrapper>
           <ResponsibleWrapper>
             <ResponsibleSelect

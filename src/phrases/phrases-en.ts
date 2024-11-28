@@ -990,6 +990,8 @@ const phrases = {
       image: "Image search",
       imageUpload: "Upload image",
       h5p: "H5P",
+      description:
+        "A visual element can be set differently for each language. If a visual element does not exist, it will be automatically retrieved from another language.",
     },
     visualElementPicker: {
       h5p: "H5P",

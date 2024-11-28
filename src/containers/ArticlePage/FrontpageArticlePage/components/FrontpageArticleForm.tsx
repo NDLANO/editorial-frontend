@@ -16,8 +16,7 @@ import { Form } from "../../../../components/FormikForm";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
-import { validateDraft } from "../../../../modules/draft/draftApi";
-import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
+import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { frontPageArticleRules, isFormikFormDirty } from "../../../../util/formHelper";
 import { AlertDialogWrapper } from "../../../FormikForm";
 import { FrontpageArticleFormType, HandleSubmitFunc, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
@@ -124,7 +123,6 @@ const InternalFormFooter = ({
   handleSubmit,
 }: FormFooterProps) => {
   const { t } = useTranslation();
-  const { data: licenses } = useLicenses();
   const statusStateMachine = useDraftStatusStateMachine({
     articleId: article?.id,
   });
@@ -147,13 +145,6 @@ const InternalFormFooter = ({
     [handleSubmit, values, formik],
   );
 
-  const validateOnServer = useCallback(async () => {
-    if (!values.id) return;
-    const article = frontpageArticleFormTypeToDraftApiType(values, initialValues, licenses!, false);
-    const data = await validateDraft(values.id, article);
-    return data;
-  }, [initialValues, licenses, values]);
-
   usePreventWindowUnload(formIsDirty);
 
   return (
@@ -165,7 +156,6 @@ const InternalFormFooter = ({
         onSaveClick={onSave}
         entityStatus={article?.status}
         statusStateMachine={statusStateMachine.data}
-        validateEntity={validateOnServer}
         isArticle
         isNewlyCreated={isNewlyCreated}
         isConcept={false}

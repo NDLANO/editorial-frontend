@@ -85,19 +85,19 @@ const ConnectExistingNode = ({ currentNode, nodeType }: Props) => {
         }}
       />
       <>
-        {isPending && (
+        {!!isPending && (
           <StatusIndicatorContent>
             <Spinner size="small" />
             <Text>{t("taxonomy.connectExistingLoading")}</Text>
           </StatusIndicatorContent>
         )}
-        {isSuccess && (
+        {!!isSuccess && (
           <StatusIndicatorContent>
             <StyledCheckLine />
             <Text>{t("taxonomy.connectExistingSuccess")}</Text>
           </StatusIndicatorContent>
         )}
-        {isError && <Text color="text.error">{t("taxonomy.errorMessage")}</Text>}
+        {!!isError && <Text color="text.error">{t("taxonomy.errorMessage")}</Text>}
       </>
     </Wrapper>
   );

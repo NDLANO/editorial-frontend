@@ -75,12 +75,12 @@ const SaveMultiButton = ({ isSaving, showSaved, formIsDirty, hasErrors, onClick,
       <Button
         id={SAVE_BUTTON_ID}
         variant={showSaved ? "success" : "primary"}
-        disabled={disabledButton && !showSaved}
+        disabled={!!disabledButton && !showSaved}
         loading={isSaving}
         onClick={onSaveMainButton}
         aria-live="polite"
       >
-        {showSaved && <CheckLine />}
+        {!!showSaved && <CheckLine />}
         {buttonSaveText}
       </Button>
     );
@@ -105,12 +105,12 @@ const SaveMultiButton = ({ isSaving, showSaved, formIsDirty, hasErrors, onClick,
       <StyledButton
         id={SAVE_BUTTON_ID}
         variant={showSaved ? "success" : "primary"}
-        disabled={disabledButton && !showSaved}
+        disabled={!!disabledButton && !showSaved}
         loading={isSaving}
         onClick={onSaveMainButton}
         aria-live="polite"
       >
-        {showSaved && <CheckLine />}
+        {!!showSaved && <CheckLine />}
         {buttonSaveText}
       </StyledButton>
       <MenuRoot

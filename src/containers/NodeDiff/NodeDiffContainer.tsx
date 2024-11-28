@@ -79,7 +79,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     },
     {
       enabled: !!nodeId,
-      //@ts-ignore
+      //@ts-expect-error - this is a network error
       retry: (_, err) => err.status !== 404,
     },
   );
@@ -91,7 +91,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     },
     {
       enabled: !!nodeId && !!otherHash,
-      //@ts-ignore
+      //@ts-expect-error - this is a network error
       retry: (_, err) => err.status !== 404,
     },
   );
@@ -152,10 +152,10 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
           );
         })}
       </StyledBreadCrumb>
-      {equal && <MessageBox>{t("diff.equalNodes")}</MessageBox>}
-      {error && <MessageBox variant="error">{t(error)}</MessageBox>}
+      {!!equal && <MessageBox>{t("diff.equalNodes")}</MessageBox>}
+      {!!error && <MessageBox variant="error">{t(error)}</MessageBox>}
       {view === "tree" && <RootNode tree={diff} onNodeSelected={setSelectedNode} selectedNode={selectedNode} />}
-      {view === "tree" && selectedNode && (
+      {view === "tree" && !!selectedNode && (
         <NodeDiff node={selectedNode} isRoot={isEqual(selectedNode.id, diff.root.id)} />
       )}
       {view === "flat" && (

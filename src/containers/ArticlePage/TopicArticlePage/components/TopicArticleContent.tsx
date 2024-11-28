@@ -58,7 +58,7 @@ const TopicArticleContent = (props: Props) => {
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <>
             <FieldHeader title={t("form.content.label")}>
-              {id && userPermissions?.includes(DRAFT_HTML_SCOPE) && language && (
+              {!!id && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && !!language && (
                 <EditMarkupLink to={toEditMarkup(id, language)} title={t("editMarkup.linkTitle")} />
               )}
             </FieldHeader>

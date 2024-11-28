@@ -127,7 +127,7 @@ const FormikField = ({
             }
           : null}
       </Field>
-      {showMaxLength && maxLength && (
+      {!!showMaxLength && !!maxLength && (
         <FormikRemainingCharacters
           maxLength={maxLength}
           getRemainingLabel={getRemainingLabel}
@@ -140,12 +140,12 @@ const FormikField = ({
           }
         />
       )}
-      {showError && get(errors, name) && (
+      {!!showError && !!get(errors, name) && (
         <FormikFieldHelp error={!!get(errors, name)}>
           <StyledErrorPreLine>{get(errors, name) as string}</StyledErrorPreLine>
         </FormikFieldHelp>
       )}
-      {status && status["warnings"] && (
+      {!!status?.["warnings"] && (
         <FormikFieldHelp warning={!!get(status.warnings, name)}>
           <StyledErrorPreLine>{get(status.warnings, name)}</StyledErrorPreLine>
         </FormikFieldHelp>

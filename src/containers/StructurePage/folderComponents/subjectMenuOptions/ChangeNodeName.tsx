@@ -130,7 +130,6 @@ const ChangeNodeName = ({ node }: Props) => {
         await promise();
       }
     } catch (e) {
-      console.error(e);
       handleError(e);
       setUpdateError(t("taxonomy.changeName.updateError"));
       await qc.invalidateQueries({
@@ -273,7 +272,7 @@ const ChangeNodeName = ({ node }: Props) => {
                   size="small"
                 />
               </FormActionsContainer>
-              {updateError && <Text color="text.error">{updateError}</Text>}
+              {!!updateError && <Text color="text.error">{updateError}</Text>}
             </FormWrapper>
           );
         }}

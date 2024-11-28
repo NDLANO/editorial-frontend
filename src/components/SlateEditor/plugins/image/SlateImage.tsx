@@ -91,7 +91,7 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
   const language = useArticleLanguage();
   const isSelected = useSelected();
 
-  const imageEmbedQuery = useImageMeta(element.data?.resourceId!, language, {
+  const imageEmbedQuery = useImageMeta(element.data?.resourceId ?? "", language, {
     enabled: !!parseInt(element.data?.resourceId ?? ""),
   });
 

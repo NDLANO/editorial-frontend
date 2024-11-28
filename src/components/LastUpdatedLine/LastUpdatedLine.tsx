@@ -34,7 +34,7 @@ const LastUpdatedLine = ({ creators, published, onChange, allowEdit = false, con
     <Text color="text.subtle">
       {creators.map((creator) => creator.name).join(", ")}
       {published ? ` - ${dateLabel}: ` : ""}
-      {published && (allowEdit ? <DateEdit onChange={onChange} published={published} /> : formatDate(published))}
+      {!!published && (allowEdit ? <DateEdit onChange={onChange} published={published} /> : formatDate(published))}
     </Text>
   );
 };

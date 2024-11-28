@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactElement } from "react";
+import { Fragment } from "react";
 import { Descendant, Editor, Text, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { SlateSerializer } from "../../interfaces";
@@ -51,11 +51,16 @@ export const markSerializer: SlateSerializer = {
   serialize(node: Descendant) {
     if (!Text.isText(node)) return;
     let ret;
-    const children = node.text.split("\n").reduce((array: (ReactElement | string)[], text, i) => {
-      if (i !== 0) array.push(<br key={i} />);
-      array.push(text);
-      return array;
-    }, []);
+    const children = (
+      <>
+        {node.text.split("\n").map((text, i) => (
+          <Fragment key={i}>
+            {i !== 0 && <br />}
+            {text}
+          </Fragment>
+        ))}
+      </>
+    );
     if (node.bold) {
       ret = <strong>{ret || children}</strong>;
     }
@@ -77,7 +82,7 @@ export const markSerializer: SlateSerializer = {
     if (ret) {
       return ret;
     }
-    return <>{children}</>;
+    return children;
   },
 };
 

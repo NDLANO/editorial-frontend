@@ -81,7 +81,7 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
       onValueChange={(details) => onSave(details.value[0])}
       value={responsible ? [responsible] : []}
       required={enableRequired}
-      invalid={enableRequired && !responsible}
+      invalid={!!enableRequired && !responsible}
       positioning={{ sameWidth: true }}
     >
       <SelectLabel srOnly>{t("form.responsible.choose")}</SelectLabel>

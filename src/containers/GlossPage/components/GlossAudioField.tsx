@@ -63,7 +63,10 @@ const searchAudios = (query: LocalAudioSearchParams) => {
 export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Props) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const audioQuery = useAudio({ id: parseInt(element?.resourceId!), language: glossLanguage }, { enabled: !!element });
+  const audioQuery = useAudio(
+    { id: parseInt(element?.resourceId ?? ""), language: glossLanguage },
+    { enabled: !!parseInt(element?.resourceId ?? "") },
+  );
   const audioSearchTranslations = useAudioSearchTranslations();
 
   const defaultQueryObject = {

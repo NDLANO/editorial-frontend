@@ -118,6 +118,7 @@ export const paragraphSerializer: SlateSerializer = {
     if (Node.string(node) === "" && node.children.length === 1 && Text.isText(node.children[0])) return null;
 
     if (node.serializeAsText) {
+      // eslint-disable-next-line react/jsx-no-useless-fragment
       return <>{children}</>;
     }
 

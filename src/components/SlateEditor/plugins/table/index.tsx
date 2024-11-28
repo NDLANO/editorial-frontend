@@ -154,7 +154,7 @@ export const tableSerializer: SlateSerializer = {
 
     if (node.type === TYPE_TABLE_CAPTION) {
       if (Node.string(node) === "") {
-        return <></>;
+        return null;
       }
       return <caption>{children}</caption>;
     }

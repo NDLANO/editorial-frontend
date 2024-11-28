@@ -45,25 +45,27 @@ const ComparePage = () => {
   const draftId = Number(params.draftId!);
   const language = params.language!;
   const { data: article, isLoading } = useDraft({ id: draftId, language: language });
-  const [previewLanguage, setPreviewLanguage] = useState<string>(article?.supportedLanguages[0]!);
-  const draft = useDraft({ id: article?.id!, language: previewLanguage });
+  const [previewLanguage, setPreviewLanguage] = useState<string>(article?.supportedLanguages[0] ?? "");
+  const draft = useDraft({ id: article?.id ?? -1, language: previewLanguage }, { enabled: !!article?.id });
   const formArticle = useMemo(() => {
+    if (!article) return undefined;
     return {
-      id: article?.id!,
-      title: article?.title?.htmlTitle ?? "",
-      content: article?.content?.content ?? "",
-      introduction: article?.introduction?.htmlIntroduction ?? "",
-      visualElement: article?.visualElement?.visualElement ?? "",
-      published: article?.published,
-      copyright: article?.copyright,
+      id: article.id,
+      title: article.title?.htmlTitle ?? "",
+      content: article.content?.content ?? "",
+      introduction: article.introduction?.htmlIntroduction ?? "",
+      visualElement: article.visualElement?.visualElement ?? "",
+      published: article.published,
+      copyright: article.copyright,
     };
   }, [article]);
 
   useEffect(() => {
-    setPreviewLanguage(article?.supportedLanguages.find((l) => l !== language) ?? article?.supportedLanguages[0]!);
+    if (!article) return;
+    setPreviewLanguage(article.supportedLanguages.find((l) => l !== language) ?? article.supportedLanguages[0]);
   }, [article, language]);
 
-  if (!article || isLoading) return <Spinner />;
+  if (!article || isLoading || !formArticle) return <Spinner />;
 
   return (
     <>
@@ -97,7 +99,7 @@ const ComparePage = () => {
                 ))}
               </select>
             </PreviewTitleWrapper>
-            {draft.data && <PreviewDraft type="article" draft={draft.data} language={previewLanguage} previewAlt />}
+            {!!draft.data && <PreviewDraft type="article" draft={draft.data} language={previewLanguage} previewAlt />}
           </ArticleWrapper>
         </PageContent>
       </TwoArticleWrapper>

@@ -176,6 +176,7 @@ const articleContentToHTML = (value: Descendant[], rules: SlateSerializer[]) => 
         return cloneElement(ret, { key: nodeIdx });
       }
     }
+    // eslint-disable-next-line react/jsx-no-useless-fragment
     return <>{children}</>;
   };
 

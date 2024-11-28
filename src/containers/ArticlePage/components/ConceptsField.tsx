@@ -31,10 +31,9 @@ const StyledList = styled("ul", {
 
 interface Props {
   field: FieldInputProps<ArticleFormType["conceptIds"]>;
-  form: FormikHelpers<ArticleFormType>;
 }
 
-const ConceptsField = ({ field, form }: Props) => {
+const ConceptsField = ({ field }: Props) => {
   const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
   const { t, i18n } = useTranslation();
   const [concepts, setConcepts] = useState<IConceptSummary[]>([]);
@@ -64,7 +63,6 @@ const ConceptsField = ({ field, form }: Props) => {
   };
 
   const updateFormik = (formikField: Props["field"], newData: IConceptSummary[]) => {
-    form.setFieldTouched("conceptIds", true, false);
     formikField.onChange({
       target: {
         name: formikField.name,

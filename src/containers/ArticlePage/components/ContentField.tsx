@@ -52,13 +52,12 @@ const StyledButtonWrapper = styled("div", {
 
 interface Props {
   field: FieldInputProps<ArticleFormType["relatedContent"]>;
-  form: FormikHelpers<ArticleFormType>;
 }
 
 const isDraftApiType = (relatedContent: ConvertedRelatedContent): relatedContent is IArticle =>
   (relatedContent as IArticle).id !== undefined;
 
-const ContentField = ({ field, form }: Props) => {
+const ContentField = ({ field }: Props) => {
   const { t, i18n } = useTranslation();
   const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
   const [relatedContent, setRelatedContent] = useState<ConvertedRelatedContent[]>([]);
@@ -112,7 +111,6 @@ const ContentField = ({ field, form }: Props) => {
   };
 
   const updateFormik = (formikField: Props["field"], newData: ConvertedRelatedContent[]) => {
-    form.setFieldTouched("relatedContent", true, false);
     const newRc: RelatedContent[] = newData.map((rc) => (isDraftApiType(rc) ? rc.id : rc));
     formikField.onChange({
       target: {

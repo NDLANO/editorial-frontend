@@ -113,7 +113,7 @@ export const MastheadSearch = () => {
     const isNaN = Number.isNaN(parseFloat(urlId));
     const isNode = splittedNdlaUrl.includes("node");
     const isLongTaxUrl = splittedNdlaUrl.find((e) => e.match(/subject:*/));
-    const isContextId = /[a-f1-9]{10}/g.test(urlId);
+    const isContextId = /[a-f0-9]{10}/g.test(urlId);
 
     if (!isTopicUrn && isNaN && !isLongTaxUrl && !isContextId) {
       return;
@@ -155,7 +155,7 @@ export const MastheadSearch = () => {
       });
       const arr = nodes[0]?.contentUri?.split(":") ?? [];
       const id = arr[arr.length - 1];
-      navigate(routes.editArticle(parseInt(id), "topic-article"));
+      navigate(routes.editArticle(parseInt(id), "standard"));
     } catch {
       navigate(routes.notFound);
     }

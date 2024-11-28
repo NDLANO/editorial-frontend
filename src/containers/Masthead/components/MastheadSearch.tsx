@@ -99,8 +99,9 @@ export const MastheadSearch = () => {
   };
 
   const handleUrlPaste = (frontendUrl: string) => {
+    const url = new URL(frontendUrl);
     // Removes search queries before split
-    const ndlaUrl = frontendUrl.split(/\?/)[0];
+    const ndlaUrl = url.pathname;
     // Strip / from end if topic
     const cleanUrl = ndlaUrl.endsWith("/")
       ? ndlaUrl.replace("/subjects", "").slice(0, -1)
@@ -125,7 +126,7 @@ export const MastheadSearch = () => {
     } else if (isLongTaxUrl) {
       handleFrontendUrl(cleanUrl);
     } else if (isContextId) {
-      handleContextId(urlId);
+      handleContextId(urlId, splittedNdlaUrl[1]);
     } else {
       navigate(routes.editArticle(parseInt(urlId), "standard"));
     }
@@ -146,7 +147,7 @@ export const MastheadSearch = () => {
     }
   };
 
-  const handleContextId = async (urlId: string) => {
+  const handleContextId = async (urlId: string, typeIdent: string) => {
     try {
       const nodes = await fetchNodes({
         contextId: urlId,
@@ -155,7 +156,8 @@ export const MastheadSearch = () => {
       });
       const arr = nodes[0]?.contentUri?.split(":") ?? [];
       const id = arr[arr.length - 1];
-      navigate(routes.editArticle(parseInt(id), "standard"));
+      const articleType = typeIdent === "e" ? "topic-article" : "standard";
+      navigate(routes.editArticle(parseInt(id), articleType));
     } catch {
       navigate(routes.notFound);
     }

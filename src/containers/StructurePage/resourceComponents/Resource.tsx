@@ -8,8 +8,9 @@
 
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
+import { DeleteBinLine } from "@ndla/icons/action";
 import { CheckboxCircleLine } from "@ndla/icons/editor";
-import { Text, ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
+import { Text, ListItemContent, ListItemHeading, ListItemRoot, IconButton } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
@@ -90,9 +91,10 @@ interface Props {
   resource: ResourceWithNodeConnectionAndMeta;
   contentMetaLoading: boolean;
   showQuality: boolean;
+  onDelete: (connectionId: string) => void;
 }
 
-const Resource = ({ currentNodeId, resource, contentMetaLoading, responsible, showQuality }: Props) => {
+const Resource = ({ currentNodeId, resource, contentMetaLoading, responsible, showQuality, onDelete }: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -192,6 +194,15 @@ const Resource = ({ currentNodeId, resource, contentMetaLoading, responsible, sh
               currentNodeId={currentNodeId}
             />
             <VersionHistory resource={resource} contentType={contentType} />
+            <IconButton
+              aria-label={t("form.remove")}
+              title={t("form.remove")}
+              onClick={() => onDelete(resource.connectionId)}
+              size="small"
+              variant="danger"
+            >
+              <DeleteBinLine />
+            </IconButton>
           </ControlButtonGroup>
         </ContentRow>
       </StyledListItemContent>

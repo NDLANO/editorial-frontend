@@ -11,9 +11,8 @@ import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_DETAILS, TYPE_SUMMARY } from "./types";
 import { SlateSerializer } from "../../interfaces";
 import containsVoid from "../../utils/containsVoid";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
+import { NormalizerConfig } from "../../utils/defaultNormalizer";
 import getCurrentBlock from "../../utils/getCurrentBlock";
-import hasNodeOfType from "../../utils/hasNodeOfType";
 import { KEY_BACKSPACE, KEY_ENTER } from "../../utils/keys";
 import {
   afterOrBeforeTextBlockElement,
@@ -21,6 +20,7 @@ import {
   textBlockElements,
 } from "../../utils/normalizationHelpers";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
+import { KeyDown, createPlugin } from "../PluginFactory";
 import { TYPE_SPAN } from "../span/types";
 
 export interface DetailsElement {
@@ -63,53 +63,40 @@ const summaryNormalizerConfig: NormalizerConfig = {
   },
 };
 
-const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
-  if (hasNodeOfType(editor, TYPE_SUMMARY)) {
-    e.preventDefault();
-    Transforms.splitNodes(editor, {
-      match: (node) => Element.isElement(node) && node.type === TYPE_SUMMARY,
-      always: true,
-    });
-    return;
-  }
-  return nextOnKeyDown?.(e);
+const onEnter: KeyDown<SummaryElement["type"]> = (e, editor) => {
+  e.preventDefault();
+  Transforms.splitNodes(editor, {
+    match: (node) => Element.isElement(node) && node.type === TYPE_SUMMARY,
+    always: true,
+  });
+  return true;
 };
 
-const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
-  if (
-    hasNodeOfType(editor, TYPE_DETAILS) &&
-    Location.isLocation(editor.selection) &&
-    Range.isCollapsed(editor.selection)
-  ) {
-    const detailsEntry = getCurrentBlock(editor, TYPE_DETAILS);
-    if (detailsEntry) {
-      const [detailsNode, detailsPath] = detailsEntry;
+const onBackspace: KeyDown<DetailsElement["type"]> = (e, editor, entry) => {
+  if (Location.isLocation(editor.selection) && Range.isCollapsed(editor.selection)) {
+    const [detailsNode, detailsPath] = entry;
+    if (detailsNode) {
+      const summaryEntry = getCurrentBlock(editor, TYPE_SUMMARY);
 
-      if (detailsNode) {
-        const summaryEntry = getCurrentBlock(editor, TYPE_SUMMARY);
-
-        if (summaryEntry?.length) {
-          const [summaryNode] = summaryEntry;
-          if (Node.string(detailsNode).length > 0 && Node.string(summaryNode) === "") {
-            e.preventDefault();
-            Transforms.move(editor, { reverse: true });
-            return;
-          }
-        }
-        if (
-          Node.string(detailsNode) === "" &&
-          Element.isElement(detailsNode) &&
-          !containsVoid(editor, detailsNode) &&
-          detailsNode.children.length === 2
-        ) {
+      if (summaryEntry?.length) {
+        const [summaryNode] = summaryEntry;
+        if (Node.string(detailsNode).length > 0 && Node.string(summaryNode) === "") {
           e.preventDefault();
-          Transforms.removeNodes(editor, { at: detailsPath });
-          return;
+          Transforms.move(editor, { reverse: true });
+          return true;
         }
+      } else if (
+        Node.string(detailsNode) === "" &&
+        !containsVoid(editor, detailsNode) &&
+        detailsNode.children.length === 2
+      ) {
+        e.preventDefault();
+        Transforms.removeNodes(editor, { at: detailsPath });
+        return true;
       }
     }
   }
-  return nextOnKeyDown?.(e);
+  return false;
 };
 
 export const detailsSerializer: SlateSerializer = {
@@ -135,54 +122,41 @@ export const detailsSerializer: SlateSerializer = {
   },
 };
 
-export const detailsPlugin = (editor: Editor) => {
-  const {
-    normalizeNode: nextNormalizeNode,
-    shouldHideBlockPicker: nextShouldHideBlockPicker,
-    onKeyDown: nextOnKeyDown,
-  } = editor;
-
-  editor.onKeyDown = (event) => {
-    if (event.key === KEY_ENTER) {
-      onEnter(event, editor, nextOnKeyDown);
-    } else if (event.key === KEY_BACKSPACE) {
-      onBackspace(event, editor, nextOnKeyDown);
-    } else if (nextOnKeyDown) {
-      nextOnKeyDown(event);
-    }
-  };
-
-  editor.shouldHideBlockPicker = () => {
-    const [summaryEntry] = Editor.nodes(editor, {
-      match: (node) => Element.isElement(node) && node.type === TYPE_SUMMARY,
-    });
-    if (summaryEntry && Element.isElement(summaryEntry[0])) {
-      return true;
-    }
-    return nextShouldHideBlockPicker?.();
-  };
-
-  editor.normalizeNode = (entry) => {
-    const [node, path] = entry;
-
-    if (Element.isElement(node)) {
-      if (node.type === TYPE_DETAILS) {
-        if (defaultBlockNormalizer(editor, entry, detailsNormalizerConfig)) {
-          return;
-        }
-      }
-      if (node.type === TYPE_SUMMARY) {
-        if (defaultBlockNormalizer(editor, entry, summaryNormalizerConfig)) {
-          return;
-        }
-
-        if (node.children?.[0] && Element.isElement(node.children?.[0]) && node.children?.[0].type === TYPE_PARAGRAPH) {
-          return Transforms.setNodes(editor, { type: TYPE_PARAGRAPH, serializeAsText: true }, { at: [...path, 0] });
-        }
-      }
-    }
-
-    nextNormalizeNode(entry);
-  };
-  return editor;
-};
+export const detailsPlugin = createPlugin<DetailsElement["type"]>({
+  type: TYPE_DETAILS,
+  normalizeWithConfig: detailsNormalizerConfig,
+  onKeyDown: {
+    [KEY_BACKSPACE]: onBackspace,
+  },
+  childPlugins: [
+    {
+      type: TYPE_SUMMARY,
+      shouldHideBlockPicker: (editor) => {
+        const [summaryEntry] = Editor.nodes<SummaryElement>(editor, {
+          match: (node) => Element.isElement(node) && node.type === TYPE_SUMMARY,
+        });
+        return !!summaryEntry;
+      },
+      onKeyDown: {
+        [KEY_ENTER]: onEnter,
+      },
+      normalizeWithConfig: summaryNormalizerConfig,
+      normalizeMethods: [
+        {
+          description: "Assure that paragraphs should serialize as plaintext",
+          normalize: ([node, path], editor) => {
+            if (
+              node.children?.[0] &&
+              Element.isElement(node.children?.[0]) &&
+              node.children?.[0].type === TYPE_PARAGRAPH
+            ) {
+              Transforms.setNodes(editor, { type: TYPE_PARAGRAPH, serializeAsText: true }, { at: [...path, 0] });
+              return true;
+            }
+            return false;
+          },
+        },
+      ],
+    },
+  ],
+});

@@ -5,31 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Editor, Node, Element, Range, Transforms, Path, Point } from "slate";
-
-import { ReactEditor } from "slate-react";
+import { Editor, Node, Element, Range, Transforms, Path, Point, NodeEntry } from "slate";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { defaultParagraphBlock } from "../../paragraph/utils";
-import { getEditorAncestors } from "../../toolbar/toolbarState";
 import { TYPE_LIST_ITEM } from "../types";
 import { defaultListItemBlock } from "../utils/defaultBlocks";
 
-const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEvent) => void) => {
-  if (event.shiftKey || !editor.selection) return next?.(event);
+const onEnter = (event: KeyboardEvent, editor: Editor, entry: NodeEntry) => {
+  if (event.shiftKey || !editor.selection) return false;
 
-  const [firstChild, secondChild] = getEditorAncestors(editor, true);
-  const selectedDefinitionItem = firstChild.type === TYPE_LIST_ITEM ? firstChild : secondChild;
+  const [selectedDefinitionItem, selectedDefinitionItemPath] = entry;
 
-  if (!selectedDefinitionItem) {
-    return next?.(event);
+  if (!Element.isElement(selectedDefinitionItem) || selectedDefinitionItem.type !== TYPE_LIST_ITEM) {
+    return false;
   }
 
-  const selectedDefinitionItemPath = ReactEditor.findPath(editor, selectedDefinitionItem);
-
-  // Check that list and paragraph are of correct type.
-  if (selectedDefinitionItem.type !== TYPE_LIST_ITEM) {
-    return next?.(event);
-  }
   event.preventDefault();
 
   // If selection is expanded, delete selected content first.
@@ -48,7 +38,7 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
         at: selectedDefinitionItemPath,
       });
     });
-    return;
+    return true;
   }
 
   Transforms.unsetNodes(editor, "serializeAsText", {
@@ -66,7 +56,7 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
       { at: nextPath },
     );
     Transforms.select(editor, Editor.start(editor, nextPath));
-    return;
+    return true;
   }
 
   // If at the start of list-item, insert a new list item at current path
@@ -77,7 +67,7 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
       { ...defaultListItemBlock(), children: [defaultParagraphBlock()] },
       { at: selectedDefinitionItemPath },
     );
-    return;
+    return true;
   }
   // Split current listItem at selection.
   Transforms.splitNodes(editor, {
@@ -85,6 +75,7 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
     mode: "lowest",
   });
   Transforms.select(editor, Editor.start(editor, Path.next(selectedDefinitionItemPath)));
+  return true;
 };
 
 export default onEnter;

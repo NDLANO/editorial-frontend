@@ -6,13 +6,14 @@
  *
  */
 
-import { Descendant, Editor, Element, Text, Node, Transforms } from "slate";
+import { Descendant, Editor, Element, Text, Node, Transforms, NodeEntry } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { ContentLinkEmbedData } from "@ndla/types-embed";
 import { LinkEmbedData, TYPE_CONTENT_LINK, TYPE_LINK } from "./types";
 import { reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { TYPE_NDLA_EMBED } from "../embed/types";
+import { Normalize, createPlugin } from "../PluginFactory";
 
 export interface LinkElement {
   type: "link";
@@ -86,33 +87,40 @@ export const linkSerializer: SlateSerializer = {
   },
 };
 
-export const linkPlugin = (editor: Editor) => {
-  const { isInline: nextIsInline, normalizeNode: nextNormalizeNode } = editor;
-
-  editor.isInline = (element: Element) => {
-    if (element.type === "link" || element.type === "content-link") {
-      return true;
-    } else {
-      return nextIsInline(element);
-    }
-  };
-
-  editor.normalizeNode = (entry) => {
-    const [node, path] = entry;
-    if (Element.isElement(node)) {
-      if (node.type === "content-link" || node.type === "link") {
-        for (const [index, child] of node.children.entries()) {
-          if (!Text.isText(child)) {
-            return Transforms.unwrapNodes(editor, { at: [...path, index] });
-          }
-        }
-        if (Node.string(node) === "") {
-          return Transforms.removeNodes(editor, { at: path });
+const normalizeLink: Normalize<LinkElement | ContentLinkElement>[] = [
+  {
+    description: "Remove empty nodes",
+    normalize: ([node, path]: NodeEntry<Element>, editor: Editor) => {
+      if (Node.string(node) === "") {
+        Transforms.removeNodes(editor, { at: path });
+        return true;
+      }
+      return false;
+    },
+  },
+  {
+    description: "Unwrap paragraphs in link",
+    normalize: ([node, path]: NodeEntry<Element>, editor: Editor) => {
+      for (const [index, child] of node.children.entries()) {
+        if (!Text.isText(child)) {
+          Transforms.unwrapNodes(editor, { at: [...path, index] });
+          return true;
         }
       }
-    }
-    nextNormalizeNode(entry);
-  };
+      return false;
+    },
+  },
+];
 
-  return editor;
-};
+export const linkPlugin = createPlugin<LinkElement["type"]>({
+  type: TYPE_LINK,
+  isInline: true,
+  normalizeMethods: normalizeLink,
+  childPlugins: [
+    {
+      type: TYPE_CONTENT_LINK,
+      isInline: true,
+      normalizeMethods: normalizeLink,
+    },
+  ],
+});

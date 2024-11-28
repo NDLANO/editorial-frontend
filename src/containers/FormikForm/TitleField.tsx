@@ -48,7 +48,7 @@ const StyledRichTextEditor = styled(RichTextEditor, {
 
 const titlePlugins: SlatePlugin[] = [
   spanPlugin,
-  paragraphPlugin,
+  ...paragraphPlugin,
   textTransformPlugin,
   saveHotkeyPlugin,
   markPlugin,

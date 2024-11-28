@@ -6,19 +6,19 @@
  *
  */
 
-import { Editor, Element, Transforms, Range, Point } from "slate";
+import { Editor, Element, Transforms, Range, Point, NodeEntry } from "slate";
 import hasNodeOfType from "../../../utils/hasNodeOfType";
 import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from "../types";
 
-const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown: ((e: KeyboardEvent) => void) | undefined) => {
-  if (!editor.selection) return nextOnKeyDown?.(e);
+const onBackspace = (e: KeyboardEvent, editor: Editor, entry: NodeEntry) => {
+  if (!editor.selection) return false;
   const isDefinition = hasNodeOfType(editor, TYPE_DEFINITION_LIST);
 
   if (!isDefinition) {
-    return nextOnKeyDown?.(e);
+    return false;
   }
 
-  const [selectedDefinitionItem, selectedDefinitionItemPath] = Editor.parent(editor, editor.selection.anchor.path);
+  const [selectedDefinitionItem, selectedDefinitionItemPath] = entry;
   if (selectedDefinitionItem) {
     if (
       Element.isElement(selectedDefinitionItem) &&
@@ -29,15 +29,16 @@ const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown: ((e: Keybo
         const [, firstItemNodePath] = Editor.node(editor, [...selectedDefinitionItemPath, 0]);
         if (Point.equals(Range.start(editor.selection), Editor.start(editor, firstItemNodePath))) {
           e.preventDefault();
-          return Transforms.liftNodes(editor, {
+          Transforms.liftNodes(editor, {
             at: selectedDefinitionItemPath,
           });
+          return true;
         }
       }
     }
   }
 
-  return nextOnKeyDown?.(e);
+  return false;
 };
 
 export default onBackspace;

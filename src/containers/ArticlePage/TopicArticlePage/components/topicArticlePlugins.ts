@@ -29,19 +29,19 @@ import { toolbarPlugin } from "../../../../components/SlateEditor/plugins/toolba
 
 // Plugins are checked from last to first
 export const topicArticlePlugins: SlatePlugin[] = [
-  sectionPlugin,
+  ...sectionPlugin,
   spanPlugin,
   divPlugin,
-  paragraphPlugin,
+  ...paragraphPlugin,
   noEmbedPlugin,
-  linkPlugin,
+  ...linkPlugin,
   headingPlugin,
   // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
   // Blockquote and editList actions need to be triggered before paragraph action, else
   // unwrapping (jumping out of block) will not work.
   blockQuotePlugin,
-  definitionListPlugin,
-  listPlugin,
+  ...definitionListPlugin,
+  ...listPlugin,
   inlineConceptPlugin,
   commentInlinePlugin,
   mathmlPlugin,

@@ -158,6 +158,7 @@ export type ConfigType = {
   isVercel: boolean;
   defaultLanguage: LocaleType;
   runtimeType: RuntimeType;
+  debugSlate: boolean;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -202,6 +203,7 @@ const getServerSideConfig = (): ConfigType => {
     translateServiceUrl: getEnvironmentVariabel("NDKM_URL", getTranslateServiceUrl(ndlaEnvironment)),
     isVercel: getEnvironmentVariabel("IS_VERCEL", "false") === "true",
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as "test" | "development" | "production",
+    debugSlate: getEnvironmentVariabel("DEBUG_SLATE", "false") === "true",
   };
 };
 

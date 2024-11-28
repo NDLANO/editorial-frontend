@@ -47,10 +47,10 @@ import { disclaimerPlugin } from "../../../../components/SlateEditor/plugins/uuD
 import { videoPlugin } from "../../../../components/SlateEditor/plugins/video";
 
 export const learningResourcePlugins: SlatePlugin[] = [
-  sectionPlugin,
+  ...sectionPlugin,
   spanPlugin,
   divPlugin,
-  paragraphPlugin,
+  ...paragraphPlugin,
   footnotePlugin,
   audioPlugin(),
   imagePlugin(),
@@ -60,14 +60,14 @@ export const learningResourcePlugins: SlatePlugin[] = [
   embedPlugin(),
   framedContentPlugin,
   blockQuotePlugin,
-  linkPlugin,
+  ...linkPlugin,
   inlineConceptPlugin,
   blockConceptPlugin,
   commentInlinePlugin,
   commentBlockPlugin,
   headingPlugin,
   asidePlugin,
-  detailsPlugin,
+  ...detailsPlugin,
   // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
   // // Blockquote and editList actions need to be triggered before paragraph action, else
   // // unwrapping (jumping out of block) will not work.
@@ -83,8 +83,8 @@ export const learningResourcePlugins: SlatePlugin[] = [
   breakPlugin,
   saveHotkeyPlugin,
   markPlugin,
-  definitionListPlugin,
-  listPlugin,
+  ...definitionListPlugin,
+  ...listPlugin,
   gridPlugin,
   disclaimerPlugin,
   copyrightPlugin,

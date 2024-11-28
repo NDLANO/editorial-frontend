@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldErrorMessage, FieldLabel, FieldRoot, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { FieldWarning } from "../../../components/Form/FieldWarning";
 import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
@@ -48,6 +49,7 @@ const SubjectpageAbout = ({ selectedLanguage }: Props) => {
             <PlainTextEditor id={field.name} placeholder={t("subjectpageForm.description")} {...field} />
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
             <StyledFormRemainingCharacters maxLength={300} value={field.value} />
+            <FieldWarning name={field.name} />
           </FieldRoot>
         )}
       </FormField>

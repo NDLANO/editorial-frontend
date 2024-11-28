@@ -18,6 +18,7 @@ import { learningResourceRenderers } from "./learningResourceRenderers";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
 import FieldHeader from "../../../../components/Field/FieldHeader";
+import { FieldWarning } from "../../../../components/Form/FieldWarning";
 import { FormField } from "../../../../components/FormField";
 import { FormActionsContainer, FormContent } from "../../../../components/FormikForm";
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
@@ -181,6 +182,7 @@ const ContentField = ({ articleId, articleLanguage }: ContentFieldProps) => {
           />
           {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(field.value)} />}
           <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          <FieldWarning name={field.name} />
         </FieldRoot>
       )}
     </FormField>

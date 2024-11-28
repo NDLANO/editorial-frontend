@@ -14,6 +14,7 @@ import { topicArticleRenderers } from "./topicArticleRenderers";
 import { ContentTypeProvider } from "../../../../components/ContentTypeProvider";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
 import FieldHeader from "../../../../components/Field/FieldHeader";
+import { FieldWarning } from "../../../../components/Form/FieldWarning";
 import { FormField } from "../../../../components/FormField";
 import { FormContent } from "../../../../components/FormikForm";
 import {
@@ -81,6 +82,7 @@ const TopicArticleContent = ({ values, isSubmitting }: Props) => {
                 onChange={(value) => helpers.setValue(value)}
               />
               <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              <FieldWarning name={field.name} />
             </FieldRoot>
           )}
         </FormField>

@@ -76,7 +76,7 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
   }, []);
 
   return (
-    <>
+    <div>
       <Heading asChild consumeCss textStyle="title.small">
         <h3>{title}</h3>
       </Heading>
@@ -118,7 +118,7 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
           </DialogBody>
         </DialogContent>
       </DialogRoot>
-    </>
+    </div>
   );
 };
 

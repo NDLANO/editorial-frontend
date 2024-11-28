@@ -7,24 +7,33 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
+import oldstyled from "@emotion/styled";
 import { DeleteBinLine } from "@ndla/icons/action";
 import { Link } from "@ndla/icons/common";
-import { IconButton } from "@ndla/primitives";
+import { FieldErrorMessage, FieldInput, FieldRoot, IconButton, FieldLabel } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
-import FormikField from "../../../components/FormikField";
+import { FieldWarning } from "../../../components/Form/FieldWarning";
+import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
+import { FormField } from "../../../components/FormField";
 import MetaInformation from "../../../components/MetaInformation";
 
-const MetaImageContainer = styled.div`
+const MetaImageContainer = oldstyled.div`
   display: flex;
 `;
 
-const StyledImage = styled.img`
+const StyledImage = oldstyled.img`
   align-self: flex-start;
   max-width: 60%;
   margin-top: 10px;
 `;
+
+const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
+  base: {
+    marginInlineStart: "auto",
+  },
+});
 
 interface Props {
   disableAltEditing?: boolean;
@@ -82,13 +91,17 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, 
         />
       </MetaImageContainer>
       {!disableAltEditing && (
-        <FormikField
-          label={t("topicArticleForm.fields.alt.label")}
-          name="metaImageAlt"
-          noBorder
-          placeholder={t("topicArticleForm.fields.alt.placeholder")}
-          maxLength={300}
-        />
+        <FormField name="metaImageAlt">
+          {({ field, meta }) => (
+            <FieldRoot invalid={!!meta.error}>
+              <FieldLabel>{t("topicArticleForm.fields.alt.label")}</FieldLabel>
+              <FieldInput {...field} placeholder={t("topicArticleForm.fields.alt.placeholder")} />
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              <StyledFormRemainingCharacters maxLength={300} value={field.value} />
+              <FieldWarning name={field.name} />
+            </FieldRoot>
+          )}
+        </FormField>
       )}
     </>
   );

@@ -196,6 +196,7 @@ const SubjectpageForm = ({
               elementId={values.elementId!}
               errors={errors}
               leadsTo={values.leadsTo}
+              isSubmitting={isSubmitting}
             />
             <FormActionsContainer>
               <SaveButton

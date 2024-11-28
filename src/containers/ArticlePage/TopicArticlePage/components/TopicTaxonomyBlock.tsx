@@ -14,11 +14,10 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { spacing, colors } from "@ndla/core";
-import { Button, SelectLabel } from "@ndla/primitives";
+import { Button, SelectLabel, Text } from "@ndla/primitives";
 import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import { Node, Version } from "@ndla/types-taxonomy";
 import TopicArticleConnections from "./TopicArticleConnections";
-import { FormikFieldHelp } from "../../../../components/FormikField";
 import { FormActionsContainer } from "../../../../components/FormikForm";
 import SaveButton from "../../../../components/SaveButton";
 import OptGroupVersionSelector from "../../../../components/Taxonomy/OptGroupVersionSelector";
@@ -189,7 +188,7 @@ const TopicTaxonomyBlock = ({
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
   return (
     <>
-      {!hasTaxEntries && <FormikFieldHelp error>{t("errorMessage.missingTax")}</FormikFieldHelp>}
+      {!hasTaxEntries && <Text color="text.error">{t("errorMessage.missingTax")}</Text>}
       {!!isTaxonomyAdmin && (
         <>
           <TaxonomyConnectionErrors
@@ -223,7 +222,7 @@ const TopicTaxonomyBlock = ({
           </InvalidPlacementsWrapper>
         </details>
       )}
-      {!!showWarning && <FormikFieldHelp error>{t("errorMessage.unsavedTaxonomy")}</FormikFieldHelp>}
+      {!!showWarning && <Text color="text.error">{t("errorMessage.unsavedTaxonomy")}</Text>}
       <FormActionsContainer>
         <Button
           variant="secondary"

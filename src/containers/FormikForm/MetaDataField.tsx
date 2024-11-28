@@ -16,6 +16,7 @@ import {
   ComboboxItemText,
   FieldErrorMessage,
   FieldHelper,
+  FieldLabel,
   FieldRoot,
   Input,
   RadioGroupItem,
@@ -25,13 +26,15 @@ import {
   RadioGroupLabel,
   RadioGroupRoot,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { MetaImageSearch } from ".";
+import { FieldWarning } from "../../components/Form/FieldWarning";
+import { FormRemainingCharacters } from "../../components/Form/FormRemainingCharacters";
 import { SearchTagsContent } from "../../components/Form/SearchTagsContent";
 import { SearchTagsTagSelectorInput } from "../../components/Form/SearchTagsTagSelectorInput";
 import { FormField } from "../../components/FormField";
-import FormikField from "../../components/FormikField";
 import { FormContent } from "../../components/FormikForm";
 import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
@@ -39,6 +42,12 @@ import { DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useDraftSearchTags } from "../../modules/draft/draftQueries";
 import useDebounce from "../../util/useDebounce";
 import { useSession } from "../Session/SessionProvider";
+
+const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
+  base: {
+    marginInlineStart: "auto",
+  },
+});
 
 interface Props {
   articleLanguage: string;
@@ -129,17 +138,23 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
           )}
         </FormField>
       )}
-      <FormikField
-        name="metaDescription"
-        maxLength={155}
-        showMaxLength
-        label={t("form.metaDescription.label")}
-        description={t("form.metaDescription.description")}
-      >
-        {({ field }) => (
-          <PlainTextEditor id={field.name} placeholder={t("form.metaDescription.label")} {...field} plugins={plugins} />
+      <FormField name="metaDescription">
+        {({ field, meta }) => (
+          <FieldRoot invalid={!!meta.error}>
+            <FieldLabel>{t("form.metaDescription.label")}</FieldLabel>
+            <FieldHelper>{t("form.metaDescription.description")}</FieldHelper>
+            <PlainTextEditor
+              id={field.name}
+              placeholder={t("form.metaDescription.label")}
+              {...field}
+              plugins={plugins}
+            />
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+            <StyledFormRemainingCharacters maxLength={300} value={field.value} />
+            <FieldWarning name={field.name} />
+          </FieldRoot>
         )}
-      </FormikField>
+      </FormField>
       <FormField name="metaImageId">
         {({ field, meta }) => (
           <FieldRoot invalid={!!meta.error}>

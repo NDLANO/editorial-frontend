@@ -1409,6 +1409,8 @@ const phrases = {
     },
     h5p: {
       remove: "Fjern H5P",
+      copy: "Kopier H5P",
+      copyError: "Kopiering av H5P-elementet feila",
       metadata: {
         alttext: "Alt-tekst",
         save: "Lagre",

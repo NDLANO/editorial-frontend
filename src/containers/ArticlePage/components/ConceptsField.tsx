@@ -6,7 +6,7 @@
  *
  */
 
-import { FieldInputProps, FormikHelpers } from "formik";
+import { FieldInputProps } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DragVertical } from "@ndla/icons/editor";

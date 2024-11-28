@@ -40,18 +40,13 @@ import { FormikStatus } from "../../interfaces";
 const StyledSlateWrapper = styled("div", {
   base: {
     position: "relative",
-  },
-});
-
-const StyledEditable = styled(
-  Editable,
-  {
-    base: {
+    "& [data-slate-editor]": {
       outline: "none",
     },
   },
-  { baseComponent: true },
-);
+});
+
+const StyledEditable = styled(Editable, {}, { baseComponent: true });
 
 export interface RichTextEditorProps extends Omit<EditableProps, "value" | "onChange" | "onKeyDown"> {
   value: Descendant[];

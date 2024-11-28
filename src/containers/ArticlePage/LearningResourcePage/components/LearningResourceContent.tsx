@@ -6,12 +6,11 @@
  *
  */
 
-import { FieldProps, useField, useFormikContext } from "formik";
-import { useState, useMemo, useCallback, memo, useEffect } from "react";
+import { useField, useFormikContext } from "formik";
+import { useState, useMemo, memo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import styled from "@emotion/styled";
-import { Button } from "@ndla/primitives";
+import { Button, FieldErrorMessage, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { IAuthor } from "@ndla/types-backend/draft-api";
 import LearningResourceFootnotes, { FootnoteType } from "./LearningResourceFootnotes";
 import { learningResourcePlugins } from "./learningResourcePlugins";
@@ -20,8 +19,7 @@ import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
 import FieldHeader from "../../../../components/Field/FieldHeader";
 import { FormField } from "../../../../components/FormField";
-import FormikField from "../../../../components/FormikField";
-import { FormActionsContainer } from "../../../../components/FormikForm";
+import { FormActionsContainer, FormContent } from "../../../../components/FormikForm";
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
 import { TYPE_AUDIO } from "../../../../components/SlateEditor/plugins/audio/types";
 import { learningResourceActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
@@ -48,10 +46,6 @@ import { findNodesByType } from "../../../../util/slateHelpers";
 import { IngressField, TitleField } from "../../../FormikForm";
 import { HandleSubmitFunc, LearningResourceFormType } from "../../../FormikForm/articleFormHooks";
 import { useSession } from "../../../Session/SessionProvider";
-
-const StyledContentDiv = styled(FormikField)`
-  position: static;
-`;
 
 const findFootnotes = (content: Descendant[]): FootnoteType[] =>
   findNodesByType(content, TYPE_FOOTNOTE)
@@ -114,18 +108,20 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
   }, [isFormikDirty, isTouched, setStatus, status, status.status]);
 
   return (
-    <>
-      <TitleField />
-      <FormField name="published">
-        {({ field, helpers }) => (
-          <LastUpdatedLine
-            creators={creatorsField.value}
-            published={field.value}
-            allowEdit={true}
-            onChange={helpers.setValue}
-          />
-        )}
-      </FormField>
+    <FormContent>
+      <div>
+        <TitleField />
+        <FormField name="published">
+          {({ field, helpers }) => (
+            <LastUpdatedLine
+              creators={creatorsField.value}
+              published={field.value}
+              allowEdit={true}
+              onChange={helpers.setValue}
+            />
+          )}
+        </FormField>
+      </div>
       <IngressField />
       <AlertDialog
         title={t("editorFooter.changeHeader")}
@@ -141,61 +137,53 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
           </Button>
         </FormActionsContainer>
       </AlertDialog>
-      <StyledContentDiv name="content" label={t("form.content.label")} noBorder key={values.revision}>
-        {(fieldProps) => <ContentField articleLanguage={articleLanguage} articleId={articleId} {...fieldProps} />}
-      </StyledContentDiv>
-    </>
+      <ContentField articleLanguage={articleLanguage} articleId={articleId} />
+    </FormContent>
   );
 };
 
-interface ContentFieldProps extends FieldProps<Descendant[]> {
+interface ContentFieldProps {
   articleId?: number;
   articleLanguage: string;
 }
 
 const editorPlugins = learningResourcePlugins.concat(learningResourceRenderers);
 
-const ContentField = ({ articleId, field: { name, onChange, value }, articleLanguage }: ContentFieldProps) => {
+const ContentField = ({ articleId, articleLanguage }: ContentFieldProps) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { isSubmitting } = useFormikContext<LearningResourceFormType>();
 
   const blockPickerOptions = useMemo(() => ({ actionsToShowInAreas }), []);
 
-  const onSlateChange = useCallback(
-    (val: Descendant[]) => {
-      onChange({
-        target: {
-          value: val,
-          name,
-        },
-      });
-    },
-    [onChange, name],
-  );
-
   return (
-    <>
-      <FieldHeader title={t("form.content.label")}>
-        {!!articleId && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (
-          <EditMarkupLink to={toEditMarkup(articleId, articleLanguage ?? "")} title={t("editMarkup.linkTitle")} />
-        )}
-      </FieldHeader>
-      <RichTextEditor
-        actions={learningResourceActions}
-        language={articleLanguage}
-        blockpickerOptions={blockPickerOptions}
-        placeholder={t("form.content.placeholder")}
-        value={value}
-        submitted={isSubmitting}
-        plugins={editorPlugins}
-        data-testid="learning-resource-content"
-        onChange={onSlateChange}
-        toolbarOptions={toolbarOptions}
-        toolbarAreaFilters={toolbarAreaFilters}
-      />
-      {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(value)} />}
-    </>
+    <FormField name="content">
+      {({ field, meta, helpers }) => (
+        <FieldRoot invalid={!!meta.error}>
+          <FieldLabel srOnly>{t("form.content.label")}</FieldLabel>
+          <FieldHeader title={t("form.content.label")}>
+            {!!articleId && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (
+              <EditMarkupLink to={toEditMarkup(articleId, articleLanguage ?? "")} title={t("editMarkup.linkTitle")} />
+            )}
+          </FieldHeader>
+          <RichTextEditor
+            actions={learningResourceActions}
+            language={articleLanguage}
+            blockpickerOptions={blockPickerOptions}
+            placeholder={t("form.content.placeholder")}
+            value={field.value}
+            submitted={isSubmitting}
+            plugins={editorPlugins}
+            data-testid="learning-resource-content"
+            onChange={(value) => helpers.setValue(value)}
+            toolbarOptions={toolbarOptions}
+            toolbarAreaFilters={toolbarAreaFilters}
+          />
+          {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(field.value)} />}
+          <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+        </FieldRoot>
+      )}
+    </FormField>
   );
 };
 

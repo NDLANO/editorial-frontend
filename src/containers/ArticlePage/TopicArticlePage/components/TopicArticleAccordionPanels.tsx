@@ -70,7 +70,7 @@ const TopicArticleAccordionPanels = ({
   );
   const copyrightFields = useMemo<FlatArticleKeys[]>(() => ["copyright"], []);
 
-  const { values, errors } = formikContext;
+  const { values, errors, isSubmitting } = formikContext;
   return (
     <>
       <StyledControls>
@@ -97,7 +97,7 @@ const TopicArticleAccordionPanels = ({
             hasError={!!(errors.title || errors.introduction || errors.content || errors.visualElement)}
           >
             <PageContent variant="content">
-              <TopicArticleContent values={values} />
+              <TopicArticleContent values={values} isSubmitting={isSubmitting} />
             </PageContent>
           </FormAccordion>
           {!!article && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (

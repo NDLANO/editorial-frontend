@@ -11,7 +11,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { Link } from "@ndla/icons/editor";
-import { Button, IconButton } from "@ndla/primitives";
+import { Button, FieldErrorMessage, FieldLabel, FieldRoot, IconButton } from "@ndla/primitives";
 import { frontpagePlugins } from "./frontpagePlugins";
 import { frontpageRenderers } from "./frontpageRenderers";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
@@ -19,8 +19,7 @@ import { ContentTypeProvider } from "../../../../components/ContentTypeProvider"
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
 import FieldHeader from "../../../../components/Field/FieldHeader";
 import { FormField } from "../../../../components/FormField";
-import FormikField from "../../../../components/FormikField";
-import { FormActionsContainer } from "../../../../components/FormikForm";
+import { FormActionsContainer, FormContent } from "../../../../components/FormikForm";
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
 import { TYPE_AUDIO } from "../../../../components/SlateEditor/plugins/audio/types";
 import { frontpageActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
@@ -57,10 +56,6 @@ const StyledDiv = styled.div`
   justify-content: space-between;
 `;
 
-const StyledContentDiv = styled(FormikField)`
-  position: static;
-`;
-
 const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, TYPE_AUDIO, TYPE_EXTERNAL, TYPE_IMAGE];
 
 const actions = [
@@ -95,7 +90,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
   const { userPermissions } = useSession();
   const { t } = useTranslation();
 
-  const { dirty, initialValues, values } = useFormikContext<FrontpageArticleFormType>();
+  const { dirty, initialValues, values, isSubmitting } = useFormikContext<FrontpageArticleFormType>();
   const { slug, id, creators, language } = values;
 
   const isFormikDirty = useMemo(
@@ -124,25 +119,32 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
   const [editSlug, setEditSlug] = useState(false);
 
   return (
-    <>
-      {editSlug && slug !== undefined ? <SlugField /> : <TitleField />}
-      <StyledDiv>
-        <FormField name="published">
-          {({ field, helpers }) => (
-            <LastUpdatedLine creators={creators} published={field.value} allowEdit={true} onChange={helpers.setValue} />
+    <FormContent>
+      <div>
+        {editSlug && slug !== undefined ? <SlugField /> : <TitleField />}
+        <StyledDiv>
+          <FormField name="published">
+            {({ field, helpers }) => (
+              <LastUpdatedLine
+                creators={creators}
+                published={field.value}
+                allowEdit={true}
+                onChange={helpers.setValue}
+              />
+            )}
+          </FormField>
+          {!!slug && (
+            <IconButton
+              aria-label={t("form.slug.edit")}
+              title={t("form.slug.edit")}
+              variant={editSlug ? "secondary" : "clear"}
+              onClick={() => setEditSlug(!editSlug)}
+            >
+              <Link />
+            </IconButton>
           )}
-        </FormField>
-        {!!slug && (
-          <IconButton
-            aria-label={t("form.slug.edit")}
-            title={t("form.slug.edit")}
-            variant={editSlug ? "secondary" : "clear"}
-            onClick={() => setEditSlug(!editSlug)}
-          >
-            <Link />
-          </IconButton>
-        )}
-      </StyledDiv>
+        </StyledDiv>
+      </div>
       <IngressField />
       <AlertDialog
         title={t("editorFooter.changeHeader")}
@@ -158,40 +160,37 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
           </Button>
         </FormActionsContainer>
       </AlertDialog>
-      <StyledContentDiv name="content" label={t("form.content.label")} noBorder>
-        {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
-          <ContentTypeProvider value="subject-material">
-            <FieldHeader title={t("form.content.label")}>
-              {!!id && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (
-                <EditMarkupLink to={toEditMarkup(id, language ?? "")} title={t("editMarkup.linkTitle")} />
-              )}
-            </FieldHeader>
-            <RichTextEditor
-              language={articleLanguage}
-              actions={frontpageActions}
-              toolbarOptions={toolbarOptions}
-              toolbarAreaFilters={toolbarAreaFilters}
-              blockpickerOptions={{
-                actionsToShowInAreas,
-              }}
-              placeholder={t("form.content.placeholder")}
-              value={value}
-              submitted={isSubmitting}
-              plugins={editorPlugins}
-              data-testid="frontpage-article-content"
-              onChange={(value) => {
-                onChange({
-                  target: {
-                    value,
-                    name,
-                  },
-                });
-              }}
-            />
-          </ContentTypeProvider>
+      <FormField name="content">
+        {({ field, meta, helpers }) => (
+          <FieldRoot invalid={!!meta.error}>
+            <FieldLabel srOnly>{t("form.content.label")}</FieldLabel>
+            <ContentTypeProvider value="subject-material">
+              <FieldHeader title={t("form.content.label")}>
+                {!!id && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (
+                  <EditMarkupLink to={toEditMarkup(id, language ?? "")} title={t("editMarkup.linkTitle")} />
+                )}
+              </FieldHeader>
+              <RichTextEditor
+                language={articleLanguage}
+                actions={frontpageActions}
+                toolbarOptions={toolbarOptions}
+                toolbarAreaFilters={toolbarAreaFilters}
+                blockpickerOptions={{
+                  actionsToShowInAreas,
+                }}
+                placeholder={t("form.content.placeholder")}
+                value={field.value}
+                submitted={isSubmitting}
+                plugins={editorPlugins}
+                data-testid="frontpage-article-content"
+                onChange={(value) => helpers.setValue(value)}
+              />
+            </ContentTypeProvider>
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          </FieldRoot>
         )}
-      </StyledContentDiv>
-    </>
+      </FormField>
+    </FormContent>
   );
 };
 

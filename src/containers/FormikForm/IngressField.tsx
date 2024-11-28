@@ -79,12 +79,6 @@ const MetaWrapper = styled("div", {
   },
 });
 
-const StyledFieldRoot = styled(FieldRoot, {
-  base: {
-    paddingBlockStart: "medium",
-  },
-});
-
 const toolbarAreaFilters = createToolbarAreaOptions();
 
 const ingressPlugins: SlatePlugin[] = [
@@ -117,7 +111,7 @@ const IngressField = ({ name = "introduction", maxLength = 300, placeholder }: P
   return (
     <FormField name={name}>
       {({ field, meta, helpers }) => (
-        <StyledFieldRoot invalid={!!meta.error}>
+        <FieldRoot invalid={!!meta.error}>
           <FieldLabel srOnly>{t("form.introduction.label")}</FieldLabel>
           <StyledRichTextEditor
             {...field}
@@ -136,7 +130,7 @@ const IngressField = ({ name = "introduction", maxLength = 300, placeholder }: P
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
             <StyledFormRemainingCharacters maxLength={maxLength} value={field.value} />
           </MetaWrapper>
-        </StyledFieldRoot>
+        </FieldRoot>
       )}
     </FormField>
   );

@@ -9,9 +9,9 @@
 import { useFormikContext } from "formik";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { Link } from "@ndla/icons/editor";
 import { Button, FieldErrorMessage, FieldLabel, FieldRoot, IconButton } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { frontpagePlugins } from "./frontpagePlugins";
 import { frontpageRenderers } from "./frontpageRenderers";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
@@ -51,11 +51,13 @@ import { IngressField, TitleField, SlugField } from "../../../FormikForm";
 import { FrontpageArticleFormType } from "../../../FormikForm/articleFormHooks";
 import { useSession } from "../../../Session/SessionProvider";
 
-const StyledDiv = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-`;
+const StyledDiv = styled("div", {
+  base: {
+    display: "flex",
+    width: "100%",
+    justifyContent: "space-between",
+  },
+});
 
 const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, TYPE_AUDIO, TYPE_EXTERNAL, TYPE_IMAGE];
 

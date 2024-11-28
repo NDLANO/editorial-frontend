@@ -109,21 +109,22 @@ export const MastheadSearch = () => {
 
     const urlId = splittedNdlaUrl[splittedNdlaUrl.length - 1];
 
-    if (
-      !urlId.includes("urn:topic") &&
-      Number.isNaN(parseFloat(urlId)) &&
-      !splittedNdlaUrl.find((e) => e.match(/subject:*/)) &&
-      !/[a-f1-9]{10}/g.test(urlId)
-    ) {
+    const isTopicUrn = urlId.includes("urn:topic");
+    const isNaN = Number.isNaN(parseFloat(urlId));
+    const isNode = splittedNdlaUrl.includes("node");
+    const isLongTaxUrl = splittedNdlaUrl.find((e) => e.match(/subject:*/));
+    const isContextId = /[a-f1-9]{10}/g.test(urlId);
+
+    if (!isTopicUrn && isNaN && !isLongTaxUrl && !isContextId) {
       return;
     }
-    if (urlId.includes("urn:topic")) {
+    if (isTopicUrn) {
       handleTopicUrl(urlId);
-    } else if (splittedNdlaUrl.includes("node")) {
+    } else if (isNode) {
       handleNodeId(parseInt(urlId));
-    } else if (splittedNdlaUrl.find((e) => e.match(/subject:*/))) {
+    } else if (isLongTaxUrl) {
       handleFrontendUrl(cleanUrl);
-    } else if (/[a-f1-9]{10}/g.test(urlId)) {
+    } else if (isContextId) {
       handleContextId(urlId);
     } else {
       navigate(routes.editArticle(parseInt(urlId), "standard"));

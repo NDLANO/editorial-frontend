@@ -6,12 +6,12 @@
  *
  */
 
-import { connect } from "formik";
+import { connect, useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { fonts } from "@ndla/core";
+import { FieldErrorMessage, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { AudioFormikType } from "./AudioForm";
-import FormikField from "../../../components/FormikField";
+import { FieldWarning } from "../../../components/Form/FieldWarning";
+import { FormField } from "../../../components/FormField";
 import { SlatePlugin } from "../../../components/SlateEditor/interfaces";
 import { breakPlugin } from "../../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../../components/SlateEditor/plugins/break/render";
@@ -31,13 +31,6 @@ import {
   createToolbarDefaultValues,
 } from "../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
-
-const StyledFormikField = styled(FormikField)`
-  label {
-    font-weight: ${fonts.weight.semibold};
-    ${fonts.sizes("30px", "38px")};
-  }
-`;
 
 const toolbarOptions = createToolbarDefaultValues({
   text: {
@@ -71,30 +64,30 @@ const manuscriptRenderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, mar
 
 const plugins = manuscriptPlugins.concat(manuscriptRenderers);
 
-const StyledRichTextEditor = styled(RichTextEditor)`
-  white-space: pre-wrap;
-  ${fonts.sizes("16px", "30px")};
-  font-family: ${fonts.sans};
-`;
-
 const AudioManuscript = () => {
   const { t } = useTranslation();
+  const { isSubmitting } = useFormikContext();
 
   return (
-    <StyledFormikField label={t("podcastForm.fields.manuscript")} name="manuscript">
-      {({ field, form: { isSubmitting } }) => (
-        <StyledRichTextEditor
-          {...field}
-          hideBlockPicker
-          placeholder={t("podcastForm.fields.manuscript")}
-          submitted={isSubmitting}
-          plugins={plugins}
-          onChange={(val) => field.onChange({ target: { value: val, name: field.name } })}
-          toolbarOptions={toolbarOptions}
-          toolbarAreaFilters={toolbarAreaFilters}
-        />
+    <FormField name="manuscript">
+      {({ field, meta, helpers }) => (
+        <FieldRoot invalid={!!meta.error}>
+          <FieldLabel textStyle="title.medium">{t("podcastForm.fields.manuscript")}</FieldLabel>
+          <RichTextEditor
+            {...field}
+            hideBlockPicker
+            placeholder={t("podcastForm.fields.manuscript")}
+            submitted={isSubmitting}
+            plugins={plugins}
+            onChange={helpers.setValue}
+            toolbarOptions={toolbarOptions}
+            toolbarAreaFilters={toolbarAreaFilters}
+          />
+          <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          <FieldWarning name={field.name} />
+        </FieldRoot>
       )}
-    </StyledFormikField>
+    </FormField>
   );
 };
 

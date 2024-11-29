@@ -7,23 +7,23 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing, colors } from "@ndla/core";
-import { AlertCircle } from "@ndla/icons/editor";
+import { ErrorWarningFill } from "@ndla/icons/common";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 
-const StyledWarnIcon = styled(AlertCircle)`
-  height: ${spacing.nsmall};
-  width: ${spacing.nsmall};
-  fill: ${colors.support.red};
-`;
-
-const StyledAlertIcon = styled(AlertCircle)`
-  height: ${spacing.nsmall};
-  width: ${spacing.nsmall};
-  fill: ${colors.brand.grey};
-`;
+const StyledErrorWarningFill = styled(ErrorWarningFill, {
+  defaultVariants: {
+    variant: "warning",
+  },
+  variants: {
+    variant: {
+      warning: { fill: "icon.subtle" },
+      // TODO: update this color once icon error color is added to semantic tokens
+      error: { fill: "surface.danger" },
+    },
+  },
+});
 
 const StructureErrorIcon = (
   node: Node,
@@ -38,7 +38,7 @@ const StructureErrorIcon = (
     if (!isPublished) {
       const notPublishedWarning = t("taxonomy.info.notPublished");
 
-      return <StyledAlertIcon aria-label={notPublishedWarning} title={notPublishedWarning} />;
+      return <StyledErrorWarningFill aria-label={notPublishedWarning} title={notPublishedWarning} />;
     }
     return null;
   }
@@ -55,7 +55,7 @@ const StructureErrorIcon = (
 
     const error = !articleType ? missingArticleTypeError : wrongArticleTypeError;
 
-    return <StyledWarnIcon aria-label={error} title={error} />;
+    return <StyledErrorWarningFill aria-label={error} title={error} size="small" variant="error" />;
   }
   return null;
 };

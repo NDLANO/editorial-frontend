@@ -16,6 +16,7 @@ export const StatusTimeFill = styled(TimeFill, {
         fill: "surface.warning",
       },
       expired: {
+        // TODO: update this color once icon error color is added to semantic tokens
         fill: "surface.danger",
       },
     },

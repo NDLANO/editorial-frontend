@@ -55,11 +55,11 @@ const MastheadForm = styled("form", {
   },
 });
 
-const shortContextId = new RegExp(/[a-f0-9]{10}/);
-const longContextId = new RegExp(/[a-f0-9]{12}/);
-const slug = new RegExp(/^[a-z-]+$/);
-const nodeId = new RegExp(/#\d+/g);
-const taxonomyId = new RegExp(/#urn:(resource|topic)[:\da-fA-F-]+/g);
+const shortContextIdRegEx = new RegExp(/[a-f0-9]{10}/);
+const longContextIdRegEx = new RegExp(/[a-f0-9]{12}/);
+const slugRegEx = new RegExp(/^[a-z-]+$/);
+const nodeIdRegEx = new RegExp(/#\d+/g);
+const taxonomyIdRegEx = new RegExp(/#urn:(resource|topic)[:\da-fA-F-]+/g);
 
 export const MastheadSearch = () => {
   const [value, setValue] = useState([]);
@@ -124,16 +124,14 @@ export const MastheadSearch = () => {
 
     const urlId = splittedNdlaUrl[splittedNdlaUrl.length - 1];
 
-    const isNaN = Number.isNaN(parseFloat(urlId));
-    const isNode = splittedNdlaUrl.includes("node");
     const isLongTaxUrl = splittedNdlaUrl.find((e) => e.match(/subject:*/)) !== undefined;
-    const isContextId = shortContextId.test(urlId) || longContextId.test(urlId);
-    const isSlug = slug.test(urlId);
+    const isContextId = shortContextIdRegEx.test(urlId) || longContextIdRegEx.test(urlId);
+    const isSlug = slugRegEx.test(urlId);
 
-    if (isNaN && !isLongTaxUrl && !isContextId && !isSlug) {
+    if (Number.isNaN(parseFloat(urlId)) && !isLongTaxUrl && !isContextId && !isSlug) {
       return;
     }
-    if (isNode) {
+    if (splittedNdlaUrl.includes("node")) {
       handleNodeId(parseInt(urlId));
     } else if (isLongTaxUrl) {
       handleFrontendUrl(cleanUrl);
@@ -165,7 +163,7 @@ export const MastheadSearch = () => {
       } else {
         const arr = node?.contentUri?.split(":") ?? [];
         const id = arr[arr.length - 1];
-        const articleType = nodes[0].nodeType === "TOPIC" ? "topic-article" : "standard";
+        const articleType = node.nodeType === "TOPIC" ? "topic-article" : "standard";
         navigate(routes.editArticle(parseInt(id), articleType));
       }
     } catch {
@@ -194,8 +192,8 @@ export const MastheadSearch = () => {
   const handleSubmit = (evt: FormEvent) => {
     evt.preventDefault();
     const isNDLAUrl = isNDLAFrontendUrl(query);
-    const isNodeId = query.length > 2 && nodeId.test(query) && !Number.isNaN(parseFloat(query.substring(1)));
-    const isTaxonomyId = query.length > 2 && taxonomyId.test(query);
+    const isNodeId = query.length > 2 && nodeIdRegEx.test(query) && !Number.isNaN(parseFloat(query.substring(1)));
+    const isTaxonomyId = query.length > 2 && taxonomyIdRegEx.test(query);
 
     if (isNDLAUrl) {
       handleUrlPaste(query);

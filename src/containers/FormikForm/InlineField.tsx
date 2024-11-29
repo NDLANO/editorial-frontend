@@ -6,8 +6,8 @@
  *
  */
 
-import styled from "@emotion/styled";
-import { colors, misc, spacing } from "@ndla/core";
+import { Text, TextArea } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { SlatePlugin } from "../../components/SlateEditor/interfaces";
 import { breakPlugin } from "../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../components/SlateEditor/plugins/break/render";
@@ -45,6 +45,13 @@ const toolbarOptions = createToolbarDefaultValues({
   },
 });
 
+const StyledText = styled(Text, {
+  base: {
+    width: "unset!",
+    top: "xsmall!",
+  },
+});
+
 const toolbarAreaFilters = createToolbarAreaOptions();
 
 const inlinePlugins: SlatePlugin[] = [
@@ -58,21 +65,12 @@ const inlinePlugins: SlatePlugin[] = [
   noopPlugin,
 ];
 
-const StyledInlineField = styled(RichTextEditor)`
-  outline: 1px solid ${colors.brand.grey};
-  border-radius: ${misc.borderRadius};
-  background-color: ${colors.brand.greyLightest};
-  min-height: ${spacing.large} !important;
-  padding: 10px;
-  p {
-    margin: 0px;
-  }
-  &:focus-within {
-    outline-color: ${colors.brand.primary};
-    outline-offset: -1px;
-    outline-width: 2px;
-  }
-`;
+const StyledTextArea = styled(TextArea, {
+  base: {
+    minHeight: "unset",
+    height: "unset",
+  },
+});
 
 const renderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, markRenderer, breakRenderer, spanRenderer];
 
@@ -80,14 +78,21 @@ const plugins = inlinePlugins.concat(renderers);
 
 export const InlineField = ({ ...rest }: Props) => {
   return (
-    <StyledInlineField
-      testId="caption-editor"
-      data-testid={"caption-field"}
-      {...rest}
-      hideBlockPicker
-      plugins={plugins}
-      toolbarOptions={toolbarOptions}
-      toolbarAreaFilters={toolbarAreaFilters}
-    />
+    <StyledTextArea asChild>
+      <RichTextEditor
+        testId="caption-editor"
+        data-testid={"caption-field"}
+        {...rest}
+        hideBlockPicker
+        plugins={plugins}
+        toolbarOptions={toolbarOptions}
+        toolbarAreaFilters={toolbarAreaFilters}
+        renderPlaceholder={(placeholder) => (
+          <StyledText {...placeholder.attributes} textStyle="body.article">
+            {placeholder.children}
+          </StyledText>
+        )}
+      />
+    </StyledTextArea>
   );
 };

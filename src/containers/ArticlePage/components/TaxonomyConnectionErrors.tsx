@@ -8,40 +8,12 @@
 
 import { ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ErrorWarningFill, InformationLine } from "@ndla/icons/common";
-import { Text } from "@ndla/primitives";
+import { InformationLine } from "@ndla/icons/common";
+import { MessageBox, Text, UnOrderedList } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import { routes } from "../../../util/routeHelpers";
-
-const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-  },
-});
-
-const StyledList = styled("ul", {
-  base: {
-    listStyle: "none",
-  },
-});
-
-const TextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "3xsmall",
-  },
-});
-
-const StyledErrorWarningFill = styled(ErrorWarningFill, {
-  base: {
-    fill: "surface.danger",
-  },
-});
 
 const StyledSafeLink = styled(SafeLink, {
   variants: {
@@ -66,6 +38,19 @@ const StyledText = styled(Text, {
         color: "text.subtle",
       },
     },
+  },
+});
+
+const StyledMessageBox = styled(MessageBox, {
+  base: {
+    flexDirection: "column",
+  },
+});
+
+const StyledWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
   },
 });
 
@@ -106,32 +91,27 @@ const TaxonomyConnectionErrors = ({ topics, resources, articleType }: Props) => 
   });
 
   return (
-    <Wrapper>
-      <TextWrapper>
+    <StyledMessageBox variant="error">
+      <StyledWrapper>
+        <InformationLine />
         <Text textStyle="label.medium" fontWeight="bold">
           {t("taxonomy.info.wrongConnections")}
         </Text>
-        <InformationLine
-          aria-label={t("taxonomy.info.canBeFixedInDatabase")}
-          title={t("taxonomy.info.canBeFixedInDatabase")}
-        />
-      </TextWrapper>
-      <Text>{t("taxonomy.info.wrongConnectionsSubTitle")}</Text>
-      <StyledList>
+      </StyledWrapper>
+      <UnOrderedList>
         {wrongConnections.map((taxonomyElement) => {
           const visibility = taxonomyElement.metadata.visible ?? true;
-
           return (
             <li key={taxonomyElement.id}>
+              <Text>{title}</Text>
               <SafeLinkWrapper visible={visibility} path={taxonomyElement.path}>
-                <StyledErrorWarningFill aria-label={title} title={title} />
-                {` - ${taxonomyElement.id} (${taxonomyElement.name})`}
+                {`${taxonomyElement.id} (${taxonomyElement.name})`}
               </SafeLinkWrapper>
             </li>
           );
         })}
-      </StyledList>
-    </Wrapper>
+      </UnOrderedList>
+    </StyledMessageBox>
   );
 };
 

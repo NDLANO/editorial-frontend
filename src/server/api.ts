@@ -11,6 +11,7 @@ import { GetVerificationKey, expressjwt as jwt, Request } from "express-jwt";
 import jwksRsa from "jwks-rsa";
 import prettier from "prettier";
 import { BedrockRuntimeClient, ConversationRole, InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
+import { TranscribeClient, StartTranscriptionJobCommand, GetTranscriptionJobCommand } from "@aws-sdk/client-transcribe";
 import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getResponsibles } from "./auth";
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN } from "./httpCodes";
 import errorLogger from "./logger";
@@ -193,4 +194,72 @@ router.post("/invoke-model", async (req, res) => {
     res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
   }
 });
+
+router.post("/transcribe", async (req, res) => {
+  if (!req.body.languageCode || !req.body.mediaFormat || !req.body.mediaFileUri || !req.body.outputFileName) {
+    res.status(400).send("Missing required parameters");
+  }
+
+  const client = new TranscribeClient({
+    region: "eu-west-1",
+  });
+
+  const jobName = `transcribe-${Date.now()}`;
+  const command = new StartTranscriptionJobCommand({
+    TranscriptionJobName: jobName,
+    LanguageCode: req.body.languageCode,
+    MediaFormat: req.body.mediaFormat,
+    Media: {
+      MediaFileUri: req.body.mediaFileUri,
+    },
+    OutputBucketName: getEnvironmentVariabel("S3_TRANSCRIPTION_BUCKET_NAME") || "test.transcribe.ndla",
+    OutputKey: req.body.outputFileName,
+    Settings: {
+      ShowSpeakerLabels: true, // Enable speaker identification
+      MaxSpeakerLabels: req.body.maxSpeakers || 2,
+    },
+  });
+  try {
+    const response = await client.send(command);
+    res.status(OK).json(response);
+  } catch (err) {
+    res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
+  }
+});
+
+router.post("/get_transcription", async (req, res) => {
+  const jobName = req.body.jobName;
+
+  if (!jobName) {
+    res.status(404).send("");
+  }
+
+  const client = new TranscribeClient({
+    region: "eu-west-1",
+  });
+
+  try {
+    const command = new GetTranscriptionJobCommand({ TranscriptionJobName: jobName });
+    const response = await client.send(command);
+
+    if (!response || !response.TranscriptionJob) {
+      res.status(404).send({ error: "Job not found or an error occurred" });
+      return;
+    }
+    const jobStatus = response.TranscriptionJob.TranscriptionJobStatus;
+
+    if (jobStatus === "COMPLETED") {
+      const transcriptUri = response.TranscriptionJob.Transcript?.TranscriptFileUri || "";
+      res.json({ jobName, status: "COMPLETED", transcriptUrl: transcriptUri });
+    } else if (jobStatus === "FAILED") {
+      res.status(404).send({ jobName, status: "FAILED", reason: response.TranscriptionJob.FailureReason });
+    } else {
+      res.json({ jobName, status: jobStatus });
+    }
+  } catch (error) {
+    console.error("Error fetching job status:", error);
+    res.status(INTERNAL_SERVER_ERROR).send((error as NdlaError).message);
+  }
+});
+
 export default router;

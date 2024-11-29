@@ -13,7 +13,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Version } from "@ndla/types-taxonomy";
-import { StyledErrorMessage } from "./StyledErrorMessage";
 import VersionLockedField from "./VersionLockedField";
 import VersionNameField from "./VersionNameField";
 import VersionSourceField from "./VersionSourceField";
@@ -150,11 +149,13 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
         {({ isSubmitting, isValid, dirty, handleSubmit }) => {
           return (
             <FormikForm>
-              <Text>{t(`taxonomyVersions.${!version ? "newVersionTitle" : "editVersionTitle"}`)}</Text>
+              <Text textStyle="title.small">
+                {t(`taxonomyVersions.${!version ? "newVersionTitle" : "editVersionTitle"}`)}
+              </Text>
               <VersionNameField />
               {!version && <VersionSourceField existingVersions={existingVersions} />}
               {version?.versionType !== "PUBLISHED" && <VersionLockedField />}
-              {!!error && <StyledErrorMessage>{error}</StyledErrorMessage>}
+              {!!error && <Text color="text.error">{error}</Text>}
               <Row>
                 {version?.versionType === "BETA" && (
                   <StyledButton disabled={dirty} onClick={() => setShowAlertModal(true)}>

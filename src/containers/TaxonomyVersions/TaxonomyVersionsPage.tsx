@@ -63,11 +63,11 @@ const TaxonomyVersionsPage = () => {
           <VersionForm existingVersions={data ?? []} onClose={() => setShowNewForm(false)} />
         </NewFormWrapper>
       )}
-      <Heading textStyle="heading.small" asChild consumeCss>
+      <Heading textStyle="title.large" asChild consumeCss>
         <h2>{t("taxonomyVersions.publishedVersion")}</h2>
       </Heading>
       {published ? <UIVersion version={published} /> : t("taxonomyVersions.noPublished")}
-      <Heading textStyle="heading.small" asChild consumeCss>
+      <Heading textStyle="title.large" asChild consumeCss>
         <h2>{t("taxonomyVersions.otherVersions")}</h2>
       </Heading>
       <VersionList versions={other} />

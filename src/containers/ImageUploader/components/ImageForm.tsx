@@ -191,7 +191,7 @@ const ImageForm = ({
       validate={(values) => validateFormik(values, imageRules, t)}
       initialStatus={{ warnings: initialWarnings }}
     >
-      {({ values, dirty, errors, isSubmitting, submitForm, isValid }) => {
+      {({ values, dirty, errors, isSubmitting, submitForm, isValid, handleSubmit }) => {
         const formIsDirty = isFormikFormDirty({
           values,
           initialValues,
@@ -200,7 +200,7 @@ const ImageForm = ({
         });
         const hasError = (errorFields: ImageFormErrorFields[]): boolean => errorFields.some((field) => !!errors[field]);
         return (
-          <FormWrapper inModal={inModal}>
+          <FormWrapper inModal={inModal} onSubmit={handleSubmit}>
             <HeaderWithLanguage
               id={image?.id ? parseInt(image.id) : undefined}
               language={language}

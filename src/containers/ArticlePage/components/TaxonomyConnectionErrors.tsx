@@ -8,32 +8,66 @@
 
 import { ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
-import { InformationOutline } from "@ndla/icons/common";
-import { AlertCircle } from "@ndla/icons/editor";
+import { ErrorWarningFill, InformationLine } from "@ndla/icons/common";
+import { Text } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
-import FieldHeader from "../../../components/Field/FieldHeader";
-import { toStructure } from "../../../util/routeHelpers";
+import { routes } from "../../../util/routeHelpers";
 
-const StyledWarnIcon = styled(AlertCircle)`
-  height: ${spacing.nsmall};
-  width: ${spacing.nsmall};
-  fill: ${colors.support.red};
-`;
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+  },
+});
 
-const TaxonomyInfoDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-`;
+const StyledList = styled("ul", {
+  base: {
+    listStyle: "none",
+  },
+});
 
-const StyledId = styled.span<{ isVisible: boolean }>`
-  font-style: ${(props) => !props.isVisible && "italic"};
-  ${(props) => (!props.isVisible ? `color: ${colors.brand.grey}` : "")}
-`;
+const TextWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "3xsmall",
+  },
+});
+
+const StyledErrorWarningFill = styled(ErrorWarningFill, {
+  base: {
+    fill: "surface.danger",
+  },
+});
+
+const StyledSafeLink = styled(SafeLink, {
+  variants: {
+    visible: {
+      false: {
+        fontStyle: "italic",
+        color: "text.subtle",
+        textDecoration: "underline",
+        _hover: {
+          textDecoration: "none",
+        },
+      },
+    },
+  },
+});
+
+const StyledText = styled(Text, {
+  variants: {
+    visible: {
+      false: {
+        fontStyle: "italic",
+        color: "text.subtle",
+      },
+    },
+  },
+});
 
 interface Props {
   articleType: string;
@@ -41,31 +75,19 @@ interface Props {
   resources: Node[];
 }
 
-const iconCSS = css`
-  color: ${colors.brand.tertiary};
-
-  &:hover,
-  &:focus {
-    color: ${colors.brand.primary};
-  }
-  width: ${spacing.normal};
-  height: ${spacing.normal};
-  padding: 0;
-`;
-
-export const HelpIcon = styled(InformationOutline)`
-  ${iconCSS}
-`;
-
 const getOtherArticleType = (articleType: string): string => {
   return articleType === "standard" ? "topic-article" : "standard";
 };
 
-const LinkWrapper = ({ children, path }: { children: ReactNode; path?: string }) => {
+const SafeLinkWrapper = ({ children, visible, path }: { children: ReactNode; visible: boolean; path?: string }) => {
   if (!path) {
-    return <div>{children}</div>;
+    return <StyledText visible={visible}>{children}</StyledText>;
   }
-  return <Link to={toStructure(path)}>{children}</Link>;
+  return (
+    <StyledSafeLink to={routes.structure(path)} visible={visible}>
+      {children}
+    </StyledSafeLink>
+  );
 };
 
 const TaxonomyConnectionErrors = ({ topics, resources, articleType }: Props) => {
@@ -76,39 +98,40 @@ const TaxonomyConnectionErrors = ({ topics, resources, articleType }: Props) => 
     [articleType, resources, topics],
   );
 
-  if (wrongConnections.length < 1) return null;
+  if (!wrongConnections.length) return null;
 
-  const wrongTooltip = t("taxonomy.info.wrongArticleType", {
+  const title = t("taxonomy.info.wrongArticleType", {
     placedAs: t(`articleType.${getOtherArticleType(articleType)}`),
     isType: t(`articleType.${articleType}`),
   });
 
   return (
-    <>
-      <FieldHeader title={t("taxonomy.info.wrongConnections")} subTitle={t("taxonomy.info.wrongConnectionsSubTitle")}>
-        <div>
-          <HelpIcon
-            aria-label={t("taxonomy.info.canBeFixedInDatabase")}
-            title={t("taxonomy.info.canBeFixedInDatabase")}
-          />
-        </div>
-      </FieldHeader>
-      {wrongConnections.map((taxonomyElement) => {
-        const visibility = taxonomyElement.metadata ? taxonomyElement.metadata.visible : true;
-        const errorElement = ` - ${taxonomyElement.id} (${taxonomyElement.name})`;
+    <Wrapper>
+      <TextWrapper>
+        <Text textStyle="label.medium" fontWeight="bold">
+          {t("taxonomy.info.wrongConnections")}
+        </Text>
+        <InformationLine
+          aria-label={t("taxonomy.info.canBeFixedInDatabase")}
+          title={t("taxonomy.info.canBeFixedInDatabase")}
+        />
+      </TextWrapper>
+      <Text>{t("taxonomy.info.wrongConnectionsSubTitle")}</Text>
+      <StyledList>
+        {wrongConnections.map((taxonomyElement) => {
+          const visibility = taxonomyElement.metadata.visible ?? true;
 
-        return (
-          <TaxonomyInfoDiv key={taxonomyElement.id}>
-            <LinkWrapper path={taxonomyElement.path}>
-              <StyledId isVisible={visibility}>
-                <StyledWarnIcon aria-label={wrongTooltip} title={wrongTooltip} />
-                {errorElement}
-              </StyledId>
-            </LinkWrapper>
-          </TaxonomyInfoDiv>
-        );
-      })}
-    </>
+          return (
+            <li key={taxonomyElement.id}>
+              <SafeLinkWrapper visible={visibility} path={taxonomyElement.path}>
+                <StyledErrorWarningFill aria-label={title} title={title} />
+                {` - ${taxonomyElement.id} (${taxonomyElement.name})`}
+              </SafeLinkWrapper>
+            </li>
+          );
+        })}
+      </StyledList>
+    </Wrapper>
   );
 };
 

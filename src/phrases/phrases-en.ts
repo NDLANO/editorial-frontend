@@ -1840,6 +1840,8 @@ const phrases = {
       disconnectedTaxonomyWarning: "Invalid topic connection",
       taxonomySubjectConnections:
         "In order for a resource to be available in the structure, it must be linked to one or more topics.",
+      description:
+        "Choose where the subject should be placed in taxonomy. If you change placement in taxonomy, the old subject will not be deleted if it has subtopics or resources linked to it.",
     },
     grepCodes: {
       edit: "Edit grep codes",

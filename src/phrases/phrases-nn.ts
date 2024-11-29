@@ -1839,6 +1839,8 @@ const phrases = {
       disconnectedTaxonomyWarning: "Ugyldig tilknytning",
       taxonomySubjectConnections:
         "For at ein ressurs skal bli tilgjengeleg i strukturen, må han knytast til eitt eller fleire emne.",
+      description:
+        "Her kan du velje kvar emnet skal liggje i taksonomien. Dersom du endrar plassering i taksonomien, vil ikkje det gamle emnet bli sletta om det har underemne eller ressursar knytt til seg.",
     },
     grepCodes: {
       edit: "Endre læreplankobling",

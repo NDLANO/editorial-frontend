@@ -56,7 +56,7 @@ const Breadcrumb = ({ node }: Props) => {
 
   const crumbs = useMemo(() => {
     const ids = node.context?.parentIds ?? [];
-    if (node.nodeType === "TOPIC") {
+    if (node.nodeType === "TOPIC" || node.nodeType === "SUBJECT") {
       ids.push(node.id);
     }
     return (

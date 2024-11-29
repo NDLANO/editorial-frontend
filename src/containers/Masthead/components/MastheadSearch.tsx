@@ -29,8 +29,9 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";
 import { GenericComboboxItemIndicator } from "../../../components/abstractions/Combobox";
+import { NDLA_FILM_SUBJECT } from "../../../constants";
 import { isValidLocale } from "../../../i18n";
-import { fetchNewArticleId } from "../../../modules/draft/draftApi";
+import { fetchBySlug, fetchNewArticleId } from "../../../modules/draft/draftApi";
 import { useUserData } from "../../../modules/draft/draftQueries";
 import { fetchNode, fetchNodes } from "../../../modules/nodes/nodeApi";
 import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
@@ -53,6 +54,12 @@ const MastheadForm = styled("form", {
     width: "100%",
   },
 });
+
+const shortContextIdRegEx = new RegExp(/[a-f0-9]{10}/);
+const longContextIdRegEx = new RegExp(/[a-f0-9]{12}/);
+const slugRegEx = new RegExp(/^[a-z-]+$/);
+const nodeIdRegEx = new RegExp(/#\d+/g);
+const taxonomyIdRegEx = new RegExp(/#urn:(resource|topic)[:\da-fA-F-]+/g);
 
 export const MastheadSearch = () => {
   const [value, setValue] = useState([]);
@@ -98,52 +105,42 @@ export const MastheadSearch = () => {
     }
   };
 
+  const handleSlug = async (slug: string) => {
+    try {
+      const article = await fetchBySlug(slug);
+      navigate(routes.editArticle(article.id, "frontpage-article"));
+    } catch (error) {
+      navigate(routes.notFound);
+    }
+  };
+
   const handleUrlPaste = (frontendUrl: string) => {
     const url = new URL(frontendUrl);
     // Removes search queries before split
     const ndlaUrl = url.pathname;
-    // Strip / from end if topic
-    const cleanUrl = ndlaUrl.endsWith("/")
-      ? ndlaUrl.replace("/subjects", "").slice(0, -1)
-      : ndlaUrl.replace("/subjects", "");
+    // Strip / from end if present
+    const cleanUrl = ndlaUrl.endsWith("/") ? ndlaUrl.slice(0, -1) : ndlaUrl;
     const splittedNdlaUrl = cleanUrl.split("/");
 
     const urlId = splittedNdlaUrl[splittedNdlaUrl.length - 1];
 
-    const isTopicUrn = urlId.includes("urn:topic");
-    const isNaN = Number.isNaN(parseFloat(urlId));
-    const isNode = splittedNdlaUrl.includes("node");
-    const isLongTaxUrl = splittedNdlaUrl.find((e) => e.match(/subject:*/));
-    const isContextId = /[a-f0-9]{10}/g.test(urlId);
+    const isLongTaxUrl = splittedNdlaUrl.find((e) => e.match(/subject:*/)) !== undefined;
+    const isContextId = shortContextIdRegEx.test(urlId) || longContextIdRegEx.test(urlId);
+    const isSlug = slugRegEx.test(urlId);
 
-    if (!isTopicUrn && isNaN && !isLongTaxUrl && !isContextId) {
+    if (Number.isNaN(parseFloat(urlId)) && !isLongTaxUrl && !isContextId && !isSlug) {
       return;
     }
-    if (isTopicUrn) {
-      handleTopicUrl(urlId);
-    } else if (isNode) {
+    if (splittedNdlaUrl.includes("node")) {
       handleNodeId(parseInt(urlId));
     } else if (isLongTaxUrl) {
       handleFrontendUrl(cleanUrl);
     } else if (isContextId) {
       handleContextId(urlId);
+    } else if (isSlug) {
+      handleSlug(urlId);
     } else {
       navigate(routes.editArticle(parseInt(urlId), "standard"));
-    }
-  };
-
-  const handleTopicUrl = async (urlId: string) => {
-    try {
-      const topicArticle = await fetchNode({
-        id: urlId,
-        language: i18n.language,
-        taxonomyVersion,
-      });
-      const arr = topicArticle.contentUri?.split(":") ?? [];
-      const id = arr[arr.length - 1];
-      navigate(routes.editArticle(parseInt(id), "topic-article"));
-    } catch {
-      navigate(routes.notFound);
     }
   };
 
@@ -154,10 +151,21 @@ export const MastheadSearch = () => {
         language: i18n.language,
         taxonomyVersion,
       });
-      const arr = nodes[0]?.contentUri?.split(":") ?? [];
-      const id = arr[arr.length - 1];
-      const articleType = nodes[0].nodeType === "TOPIC" ? "topic-article" : "standard";
-      navigate(routes.editArticle(parseInt(id), articleType));
+      const node = nodes[0];
+      if (node.nodeType === "SUBJECT") {
+        if (node.id === NDLA_FILM_SUBJECT) {
+          navigate(routes.film.edit());
+        } else {
+          navigate(routes.structure(node.path));
+        }
+      } else if (node.nodeType === "PROGRAMME") {
+        navigate(routes.programme(node.id));
+      } else {
+        const arr = node?.contentUri?.split(":") ?? [];
+        const id = arr[arr.length - 1];
+        const articleType = node.nodeType === "TOPIC" ? "topic-article" : "standard";
+        navigate(routes.editArticle(parseInt(id), articleType));
+      }
     } catch {
       navigate(routes.notFound);
     }
@@ -184,9 +192,8 @@ export const MastheadSearch = () => {
   const handleSubmit = (evt: FormEvent) => {
     evt.preventDefault();
     const isNDLAUrl = isNDLAFrontendUrl(query);
-    const isNodeId = query.length > 2 && /#\d+/g.test(query) && !Number.isNaN(parseFloat(query.substring(1)));
-
-    const isTaxonomyId = query.length > 2 && /#urn:(resource|topic)[:\da-fA-F-]+/g.test(query);
+    const isNodeId = query.length > 2 && nodeIdRegEx.test(query) && !Number.isNaN(parseFloat(query.substring(1)));
+    const isTaxonomyId = query.length > 2 && taxonomyIdRegEx.test(query);
 
     if (isNDLAUrl) {
       handleUrlPaste(query);

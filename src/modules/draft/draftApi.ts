@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import queryString from "query-string";
 import { IArticleSearchParams } from "@ndla/types-backend/article-api";
 import {
@@ -31,6 +32,12 @@ const baseUserDataUrl: string = apiResourceUrl("/draft-api/v1/user-data");
 export const fetchDraft = async (id: number | string, language?: string): Promise<IArticle> => {
   const query = queryString.stringify({ language });
   const url = language ? `${baseUrl}/${id}?${query}&fallback=true` : `${baseUrl}/${id}`;
+  return fetchAuthorized(url).then((r) => resolveJsonOrRejectWithError<IArticle>(r));
+};
+
+export const fetchBySlug = async (slug: string, language?: string): Promise<IArticle> => {
+  const query = queryString.stringify({ language });
+  const url = language ? `${baseUrl}/slug/${slug}?${query}&fallback=true` : `${baseUrl}/slug/${slug}`;
   return fetchAuthorized(url).then((r) => resolveJsonOrRejectWithError<IArticle>(r));
 };
 

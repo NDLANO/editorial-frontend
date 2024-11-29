@@ -35,7 +35,16 @@ import { FlatArticleKeys } from "../../components/types";
 const StyledWrapper = styled("div", {
   base: {
     display: "grid",
-    gridTemplateColumns: "1fr auto",
+  },
+  variants: {
+    showComments: {
+      true: {
+        gridTemplateColumns: "minmax(0, 1fr) token(spacing.surface.xxsmall)",
+      },
+      false: {
+        gridTemplateColumns: "minmax(0, 1fr)",
+      },
+    },
   },
 });
 
@@ -104,7 +113,7 @@ const LearningResourcePanels = ({
           </SwitchRoot>
         )}
       </StyledControls>
-      <StyledWrapper>
+      <StyledWrapper showComments={!hideComments}>
         <FormAccordions defaultOpen={defaultOpen}>
           <FormAccordion
             id={"learning-resource-content"}

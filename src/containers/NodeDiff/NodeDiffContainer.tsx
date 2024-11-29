@@ -7,15 +7,14 @@
  */
 
 import isEqual from "lodash/isEqual";
-import { Fragment, ReactNode, useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing, fonts } from "@ndla/core";
 import { ArrowRightShortLine } from "@ndla/icons/common";
-import { MessageBox } from "@ndla/primitives";
+import { MessageBox, Skeleton } from "@ndla/primitives";
 import { NodeChild } from "@ndla/types-taxonomy";
-import { ContentLoader } from "@ndla/ui";
 import { diffTrees, DiffType, DiffTypeWithChildren, RootDiffType } from "./diffUtils";
 import NodeDiff from "./NodeDiff";
 import { RootNode } from "./TreeNode";
@@ -116,14 +115,12 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   );
 
   if (defaultQuery.isLoading || otherQuery.isLoading) {
-    const rows: ReactNode[] = [];
-    for (let i = 0; i < shownNodes; i++) {
-      rows.push(<rect x="0" y={(i * 45).toString()} rx="3" ry="3" width="800" height="40" key={`rect-${i}`} />);
-    }
     return (
-      <ContentLoader width={800} height={shownNodes * 50}>
-        {rows}
-      </ContentLoader>
+      <div>
+        {new Array(shownNodes).fill(0).map((_, i) => (
+          <Skeleton key={i} css={{ width: "100%", height: "xxlarge", marginBlockEnd: "small" }} />
+        ))}
+      </div>
     );
   }
 

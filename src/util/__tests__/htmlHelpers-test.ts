@@ -41,7 +41,11 @@ test("util/isNDLAFrontendUrl", () => {
     ),
   ).toBeTruthy();
   expect(isNDLAFrontendUrl("https://test.ndla.no/nb/subject:6/topic:1:182849")).toBeTruthy();
-  expect(isNDLAFrontendUrl("https://test.ndla.no/subject:6/topic:1:182849")).toBeTruthy();
+  expect(
+    isNDLAFrontendUrl(
+      "https://test.ndla.no/subject:1:a3c1b65a-c41f-4879-b650-32a13fe1801b/topic:9a5a8d5d-2be3-443d-b6f7-770e9b93a320/",
+    ),
+  ).toBeTruthy();
   expect(isNDLAFrontendUrl("https://test.ndla.no/node/182849")).toBeTruthy();
 });
 

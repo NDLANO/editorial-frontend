@@ -118,19 +118,16 @@ export const MastheadSearch = () => {
 
     const urlId = splittedNdlaUrl[splittedNdlaUrl.length - 1];
 
-    const isTopicUrn = urlId.includes("urn:topic");
     const isNaN = Number.isNaN(parseFloat(urlId));
     const isNode = splittedNdlaUrl.includes("node");
-    const isLongTaxUrl = splittedNdlaUrl.find((e) => e.match(/subject:*/));
-    const isContextId = /[a-f0-9]{10}/g.test(urlId) || /[a-f0-9]{12}/g.test(urlId);
-    const isSlug = /[a-z-]+/g.test(urlId);
+    const isLongTaxUrl = splittedNdlaUrl.find((e) => e.match(/subject:*/)) !== undefined;
+    const isContextId = /[a-f0-9]{10}/.test(urlId) || /[a-f0-9]{12}/.test(urlId);
+    const isSlug = /^[a-z-]+$/.test(urlId);
 
-    if (!isTopicUrn && isNaN && !isLongTaxUrl && !isContextId && !isSlug) {
+    if (isNaN && !isLongTaxUrl && !isContextId && !isSlug) {
       return;
     }
-    if (isTopicUrn) {
-      handleTopicUrl(urlId);
-    } else if (isNode) {
+    if (isNode) {
       handleNodeId(parseInt(urlId));
     } else if (isLongTaxUrl) {
       handleFrontendUrl(cleanUrl);
@@ -140,21 +137,6 @@ export const MastheadSearch = () => {
       handleSlug(urlId);
     } else {
       navigate(routes.editArticle(parseInt(urlId), "standard"));
-    }
-  };
-
-  const handleTopicUrl = async (urlId: string) => {
-    try {
-      const topicArticle = await fetchNode({
-        id: urlId,
-        language: i18n.language,
-        taxonomyVersion,
-      });
-      const arr = topicArticle.contentUri?.split(":") ?? [];
-      const id = arr[arr.length - 1];
-      navigate(routes.editArticle(parseInt(id), "topic-article"));
-    } catch {
-      navigate(routes.notFound);
     }
   };
 

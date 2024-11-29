@@ -30,7 +30,7 @@ const getResourceType = (type: string | undefined) => {
     case "standard":
     case "topic-article":
     case "frontpage-article":
-      return "article,multidiciplinary";
+      return "article,multidiciplinary,topic";
     default:
       return type;
   }

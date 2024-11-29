@@ -35,7 +35,7 @@ export const isValidURL = (string: string) =>
   false;
 
 export const isNDLAFrontendUrl = (url: string) =>
-  /^https:\/(.*).ndla.no\/(article|om|nb|nn|en)?\/?(node|\d*)(\/|\d*)/.test(url);
+  /^https:\/(.*).ndla.no\/(nb|nn|en|se)?\/?(r|e|f|om|article|node|utdanning|subject:[a-z0-9-]*)\/?/.test(url);
 
 export const isNDLAEdSearchUrl = (url: string) =>
   /(https?:\/\/)?(www\.)?ed(.*)?\.ndla\.no(\/(en|nb|nn))?\/search\//.test(url);

@@ -26,9 +26,7 @@ const StyledCommentWrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "large",
-    // TODO: Consider using value from semantic tokens or adding this as a semantic token
-    width: "220px",
-    marginInlineStart: "small",
+    marginInlineStart: "3xsmall",
   },
 });
 

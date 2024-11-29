@@ -5,15 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { GetTranscriptionJobCommand } from "@aws-sdk/client-transcribe";
-
-/**
- * Copyright (c) 2024-present, NDLA.
- *
- * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
 interface props {
   fileUrl: string;
   languageCode: string;
@@ -41,4 +32,21 @@ export const transcribe = async ({ fileUrl, maxSpeakers, mediaFormat, languageCo
     },
     body: JSON.stringify(payload),
   });
+
+  return response.json();
+};
+
+export const getTranscription = async (jobName: string) => {
+  const payload = {
+    jobName: jobName,
+  };
+
+  const response = await fetch("/get-transcription", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+  return response.json();
 };

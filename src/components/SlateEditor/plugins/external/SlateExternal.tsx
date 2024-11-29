@@ -12,6 +12,7 @@ import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
+import { ErrorWarningLine } from "@ndla/icons/common";
 import { Expandable } from "@ndla/icons/editor";
 import {
   DialogBody,
@@ -21,6 +22,7 @@ import {
   DialogTitle,
   DialogTrigger,
   IconButton,
+  MessageBox,
   Spinner,
   Text,
 } from "@ndla/primitives";
@@ -35,7 +37,6 @@ import { useExternalEmbed } from "../../../../modules/embed/queries";
 import { urlDomain } from "../../../../util/htmlHelpers";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
-import EditorErrorMessage from "../../EditorErrorMessage";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
@@ -194,7 +195,10 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
           {metaQuery.isLoading ? (
             <Spinner />
           ) : !allowedProvider ? (
-            <EditorErrorMessage msg={t("displayOembed.notSupported", { type, provider: provider })} />
+            <MessageBox variant="error">
+              <ErrorWarningLine />
+              {t("displayOembed.notSupported", { type, provider: provider })}
+            </MessageBox>
           ) : embed?.resource === "external" ? (
             <ExternalEmbed embed={embed} />
           ) : embed?.resource === "iframe" ? (

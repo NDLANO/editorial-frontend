@@ -212,7 +212,7 @@ router.post("/transcribe", async (req, res) => {
     Media: {
       MediaFileUri: req.body.mediaFileUri,
     },
-    OutputBucketName: getEnvironmentVariabel("S3_TRANSCRIPTION_BUCKET_NAME") || "test.transcribe.ndla",
+    OutputBucketName: getEnvironmentVariabel("S3_TRANSCRIPTION_BUCKET_NAME"),
     OutputKey: req.body.outputFileName,
     Settings: {
       ShowSpeakerLabels: true, // Enable speaker identification

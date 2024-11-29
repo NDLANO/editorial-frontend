@@ -31,7 +31,7 @@ import { useComboboxTranslations } from "@ndla/ui";
 import { GenericComboboxItemIndicator } from "../../../components/abstractions/Combobox";
 import { NDLA_FILM_SUBJECT } from "../../../constants";
 import { isValidLocale } from "../../../i18n";
-import { fetchNewArticleId } from "../../../modules/draft/draftApi";
+import { fetchBySlug, fetchNewArticleId } from "../../../modules/draft/draftApi";
 import { useUserData } from "../../../modules/draft/draftQueries";
 import { fetchNode, fetchNodes } from "../../../modules/nodes/nodeApi";
 import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
@@ -99,14 +99,21 @@ export const MastheadSearch = () => {
     }
   };
 
+  const handleSlug = async (slug: string) => {
+    try {
+      const article = await fetchBySlug(slug);
+      navigate(routes.editArticle(article.id, "frontpage-article"));
+    } catch (error) {
+      navigate(routes.notFound);
+    }
+  };
+
   const handleUrlPaste = (frontendUrl: string) => {
     const url = new URL(frontendUrl);
     // Removes search queries before split
     const ndlaUrl = url.pathname;
-    // Strip / from end if topic
-    const cleanUrl = ndlaUrl.endsWith("/")
-      ? ndlaUrl.replace("/subjects", "").slice(0, -1)
-      : ndlaUrl.replace("/subjects", "");
+    // Strip / from end if present
+    const cleanUrl = ndlaUrl.endsWith("/") ? ndlaUrl.slice(0, -1) : ndlaUrl;
     const splittedNdlaUrl = cleanUrl.split("/");
 
     const urlId = splittedNdlaUrl[splittedNdlaUrl.length - 1];
@@ -116,8 +123,9 @@ export const MastheadSearch = () => {
     const isNode = splittedNdlaUrl.includes("node");
     const isLongTaxUrl = splittedNdlaUrl.find((e) => e.match(/subject:*/));
     const isContextId = /[a-f0-9]{10}/g.test(urlId) || /[a-f0-9]{12}/g.test(urlId);
+    const isSlug = /[a-z-]+/g.test(urlId);
 
-    if (!isTopicUrn && isNaN && !isLongTaxUrl && !isContextId) {
+    if (!isTopicUrn && isNaN && !isLongTaxUrl && !isContextId && !isSlug) {
       return;
     }
     if (isTopicUrn) {
@@ -128,6 +136,8 @@ export const MastheadSearch = () => {
       handleFrontendUrl(cleanUrl);
     } else if (isContextId) {
       handleContextId(urlId);
+    } else if (isSlug) {
+      handleSlug(urlId);
     } else {
       navigate(routes.editArticle(parseInt(urlId), "standard"));
     }

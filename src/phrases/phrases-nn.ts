@@ -1251,7 +1251,7 @@ const phrases = {
         column: "kolonne",
       },
       normalizedOnLoad:
-        "Artikkelen du har åpna inneheld gammal html-kode som er endra av editoren. Dette medfører at du må republisere ressursen også om du berre har endra metadata eller læreplankoder.",
+        "Artikkelen inneheld HTML-kode som er endra av editoren. Derfor må ressursen republiserast sjølv om du berre har endra metadata eller læreplankodar.",
     },
     tags: {
       label: "Nøkkelord",

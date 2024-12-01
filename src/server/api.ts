@@ -16,7 +16,7 @@ import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getRespo
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN } from "./httpCodes";
 import errorLogger from "./logger";
 import { translateDocument } from "./translate";
-import config, { getEnvironmentVariabel } from "../config";
+import config from "../config";
 import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
 import { NdlaError } from "../interfaces";
 
@@ -160,10 +160,10 @@ router.post("/translate", async (req, res) => {
 });
 
 router.post("/invoke-model", async (req, res) => {
-  const modelId = getEnvironmentVariabel("NDLA_AI_MODEL_ID");
-  const modelRegion = getEnvironmentVariabel("NDLA_AI_MODEL_REGION");
-  const secretKey = getEnvironmentVariabel("NDLA_AI_SECRET_KEY", "");
-  const secretId = getEnvironmentVariabel("NDLA_AI_SECRET_ID", "");
+  const modelId = config.aiModelID;
+  const modelRegion = config.aiRegion;
+  const secretKey = config.aiSecretKey;
+  const secretId = config.aiSecretID;
 
   const client = new BedrockRuntimeClient({
     region: modelRegion, //As of now this is the closest aws-region, with the service
@@ -212,7 +212,7 @@ router.post("/transcribe", async (req, res) => {
     Media: {
       MediaFileUri: req.body.mediaFileUri,
     },
-    OutputBucketName: getEnvironmentVariabel("S3_TRANSCRIPTION_BUCKET_NAME"),
+    OutputBucketName: config.transcriptionBucketName,
     OutputKey: req.body.outputFileName,
     Settings: {
       ShowSpeakerLabels: true, // Enable speaker identification

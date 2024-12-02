@@ -52,6 +52,12 @@ const StyledFieldRoot = styled(FieldRoot, {
   },
 });
 
+const StyledButton = styled(Button, {
+  base: {
+    alignSelf: "flex-start",
+  },
+});
+
 const RevisionNotes = () => {
   const { t } = useTranslation();
   const [, { value }] = useField<RevisionMetaFormType>("revisionMeta");
@@ -139,7 +145,7 @@ const RevisionNotes = () => {
               </FieldWrapper>
             </FieldsetRoot>
           ))}
-          <Button
+          <StyledButton
             variant="secondary"
             onClick={() =>
               arrayHelpers.push({
@@ -151,7 +157,7 @@ const RevisionNotes = () => {
             }
           >
             {t("form.revisions.add")}
-          </Button>
+          </StyledButton>
         </FieldsetRoot>
       )}
     />

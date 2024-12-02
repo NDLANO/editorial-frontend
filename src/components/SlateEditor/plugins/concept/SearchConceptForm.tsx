@@ -118,7 +118,6 @@ const SearchConceptForm = ({ search, searchObject, subjects, userData }: Props) 
       value: getTagName(searchObject["concept-type"], conceptTypes),
       options: conceptTypes,
       formElementType: "dropdown",
-      width: 25,
     },
     {
       parameterName: "subjects",
@@ -127,12 +126,10 @@ const SearchConceptForm = ({ search, searchObject, subjects, userData }: Props) 
         .filter((s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true")
         .sort(sortByProperty("name")),
       formElementType: "dropdown",
-      width: 25,
     },
     {
       value: getTagName(searchObject["responsible-ids"], responsibles),
       parameterName: "responsible-ids",
-      width: 25,
       options: responsibles!,
       formElementType: "dropdown",
     },
@@ -140,21 +137,18 @@ const SearchConceptForm = ({ search, searchObject, subjects, userData }: Props) 
       parameterName: "status",
       value: getTagName(searchObject.status, getConceptStatuses()),
       options: getConceptStatuses(),
-      width: 25,
       formElementType: "dropdown",
     },
     {
       parameterName: "language",
       value: getTagName(searchObject.language, getResourceLanguages(t)),
       options: getResourceLanguages(t),
-      width: 25,
       formElementType: "dropdown",
     },
     {
       parameterName: "users",
       value: getTagName(searchObject.users, users),
       options: users!.sort(sortByProperty("name")),
-      width: 25,
       formElementType: "dropdown",
     },
   ];

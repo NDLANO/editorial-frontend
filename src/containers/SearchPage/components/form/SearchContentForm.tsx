@@ -207,55 +207,47 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
     {
       value: getTagName(searchObject.subjects, sortedSubjects),
       parameterName: "subjects",
-      width: 25,
       options: sortedSubjects,
       formElementType: "dropdown",
     },
     {
       value: getTagName(searchObject["resource-types"], resourceTypes),
       parameterName: "resource-types",
-      width: 25,
       options: resourceTypes!.sort(sortByProperty("name")),
       formElementType: "dropdown",
     },
     {
       value: getTagName(searchObject["responsible-ids"], responsibles),
       parameterName: "responsible-ids",
-      width: 25,
       options: responsibles!,
       formElementType: "dropdown",
     },
     {
       value: getTagName(isHasPublished ? "HAS_PUBLISHED" : searchObject["draft-status"], getDraftStatuses()),
       parameterName: "draft-status",
-      width: 25,
       options: getDraftStatuses().sort(sortByProperty("name")),
       formElementType: "dropdown",
     },
     {
       value: getTagName(searchObject.users, users),
       parameterName: "users",
-      width: 25,
       options: users!.sort(sortByProperty("name")),
       formElementType: "dropdown",
     },
     {
       value: getTagName(searchObject.language, getResourceLanguages(t)),
       parameterName: "language",
-      width: 25,
       options: getResourceLanguages(t),
       formElementType: "dropdown",
     },
     {
       value: searchObject["filter-inactive"]?.toString(),
       parameterName: "filter-inactive",
-      width: 25,
       formElementType: "check-box-reverse",
     },
     {
       value: searchObject["exclude-revision-log"]?.toString(),
       parameterName: "exclude-revision-log",
-      width: 25,
       formElementType: "check-box",
     },
   ];
@@ -264,13 +256,11 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
     {
       value: searchObject["revision-date-from"],
       parameterName: "revision-date-from",
-      width: 25,
       formElementType: "date-picker",
     },
     {
       value: searchObject["revision-date-to"],
       parameterName: "revision-date-to",
-      width: 25,
       formElementType: "date-picker",
     },
   );
@@ -288,6 +278,7 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
       emptySearch={emptySearch}
       removeTag={removeTagItem}
       userData={userData}
+      columnCount={4}
     />
   );
 };

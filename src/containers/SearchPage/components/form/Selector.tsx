@@ -17,7 +17,6 @@ import InlineDatePicker from "../../../FormikForm/components/InlineDatePicker";
 interface SearchFormSelectorBase {
   parameterName: keyof SearchParams;
   value?: string;
-  width?: number;
 }
 
 /** These types are to extract keys of a specific type from SearchParams */

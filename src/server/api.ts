@@ -16,7 +16,7 @@ import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getRespo
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN } from "./httpCodes";
 import errorLogger from "./logger";
 import { translateDocument } from "./translate";
-import config from "../config";
+import config, { getEnvironmentVariabel } from "../config";
 import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
 import { NdlaError } from "../interfaces";
 
@@ -27,6 +27,12 @@ type NdlaUser = {
   "https://ndla.no/user_name"?: string;
   permissions?: string[];
 };
+
+const aiModelID = getEnvironmentVariabel("NDLA_AI_MODEL_ID", "");
+const aiRegion = getEnvironmentVariabel("NDLA_AI_MODEL_REGION", "");
+const aiSecretKey = getEnvironmentVariabel("NDLA_AI_SECRET_KEY", "");
+const aiSecretID = getEnvironmentVariabel("NDLA_AI_SECRET_ID", "");
+const transcriptionBucketName = getEnvironmentVariabel("S3_TRANSCRIPTION_BUCKET_NAME", "");
 
 // Temporal hack to send users to prod
 router.get("*splat", (req, res, next) => {
@@ -160,14 +166,10 @@ router.post("/translate", async (req, res) => {
 });
 
 router.post("/invoke-model", async (req, res) => {
-  const modelId = config.aiModelID;
-  const modelRegion = config.aiRegion;
-  const secretKey = config.aiSecretKey;
-  const secretId = config.aiSecretID;
-
+  const modelId = aiModelID;
   const client = new BedrockRuntimeClient({
-    region: modelRegion, //As of now this is the closest aws-region, with the service
-    credentials: { accessKeyId: secretId, secretAccessKey: secretKey },
+    region: aiRegion, //As of now this is the closest aws-region, with the service
+    credentials: { accessKeyId: aiSecretID, secretAccessKey: aiSecretKey },
   });
 
   const payload = {
@@ -212,7 +214,7 @@ router.post("/transcribe", async (req, res) => {
     Media: {
       MediaFileUri: req.body.mediaFileUri,
     },
-    OutputBucketName: config.transcriptionBucketName,
+    OutputBucketName: transcriptionBucketName,
     OutputKey: req.body.outputFileName,
     Settings: {
       ShowSpeakerLabels: true, // Enable speaker identification

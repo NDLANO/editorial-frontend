@@ -29,9 +29,8 @@ import { useComboboxTranslations } from "@ndla/ui";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../components/abstractions/Combobox";
 import { scrollToIndexFn } from "../../components/Form/utils";
 import { FormField } from "../../components/FormField";
-import { useGrepCodesSearch } from "../../modules/draft/draftQueries";
-import { fetchGrepCodeTitle } from "../../modules/grep/grepApi";
-import { GrepCode } from "../../modules/grep/grepApiInterfaces";
+import { searchGrepCodes } from "../../modules/search/searchApi";
+import { useSearchGrepCodes } from "../../modules/search/searchQueries";
 import { isGrepCodeValid } from "../../util/articleUtil";
 import { usePaginatedQuery } from "../../util/usePaginatedQuery";
 
@@ -46,29 +45,36 @@ const StyledComboboxList = styled(ComboboxList, {
 });
 
 export const convertGrepCodesToObject = async (grepCodes: string[]): Promise<Record<string, string>> => {
-  const grepCodesWithTitle = await Promise.all(
-    grepCodes.map(async (c) => {
-      const grepCodeTitle = await fetchGrepCodeTitle(c);
-      return {
-        [c]: grepCodeTitle ? `${c} - ${grepCodeTitle}` : c,
-      };
-    }),
-  );
+  const grepCodesData = await searchGrepCodes({ codes: grepCodes });
+  const grepCodesWithTitle = grepCodesData.results.map((c) => ({
+    [c.code]: c.title.title ? `${c.code} - ${c.title.title}` : c,
+  }));
   return Object.assign({}, ...grepCodesWithTitle);
 };
 
-const GrepCodesField = () => {
+interface GrepCode {
+  code: string;
+  title: string;
+}
+
+interface Props {
+  prefixFilter: string[];
+}
+
+const GrepCodesField = ({ prefixFilter }: Props) => {
   const { t } = useTranslation();
   const translations = useComboboxTranslations();
   const [field, , helpers] = useField<string[]>("grepCodes");
   const [grepCodes, setGrepCodes] = useState<Record<string, string>>({});
 
   const { query, setQuery } = usePaginatedQuery();
-  const searchQuery = useGrepCodesSearch({ input: query });
+  const grepCodesQuery = useSearchGrepCodes({ prefixFilter: prefixFilter, query: query });
+
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     (async () => {
+      if (!field.value.length) return;
       const grepCodesObject = await convertGrepCodesToObject(field.value);
       setGrepCodes(grepCodesObject);
     })();
@@ -76,13 +82,12 @@ const GrepCodesField = () => {
   }, []);
 
   const fetchGrepCodeTitles = async (grepCode: string): Promise<GrepCode | undefined> => {
-    const grepCodeTitle = await fetchGrepCodeTitle(grepCode);
+    const grepCodeTitle = await searchGrepCodes({ codes: [grepCode] });
     const isGrepCodeSaved = grepCodes[grepCode];
-
-    if (grepCodeTitle && !isGrepCodeSaved && isGrepCodeValid(grepCode)) {
+    if (grepCodeTitle.results.length && !isGrepCodeSaved && isGrepCodeValid(grepCode, prefixFilter)) {
       return {
         code: grepCode,
-        title: `${grepCode} - ${grepCodeTitle}`,
+        title: `${grepCode} - ${grepCodeTitle.results[0].title.title}`,
       };
     } else if (!isGrepCodeSaved) {
       setTimeout(() => {
@@ -108,18 +113,18 @@ const GrepCodesField = () => {
 
   const collection = useMemo(() => {
     return createListCollection({
-      items: searchQuery.data?.results ?? [],
-      itemToString: (item) => item.title,
+      items: grepCodesQuery.data?.results ?? [],
+      itemToString: (item) => item.title.title,
       itemToValue: (item) => item.code,
     });
-  }, [searchQuery.data?.results]);
+  }, [grepCodesQuery.data?.results]);
 
   return (
     <FormField name="grepCodes">
       {({ field, meta }) => (
         <FieldRoot>
           <FieldLabel>{t("form.grepCodes.label")}</FieldLabel>
-          <FieldHelper>{t("form.grepCodes.description")}</FieldHelper>
+          <FieldHelper>{t("form.grepCodes.description", { codes: prefixFilter.join(", ") })}</FieldHelper>
           <Text color="text.error" aria-live="polite">
             {meta.error}
           </Text>
@@ -146,7 +151,7 @@ const GrepCodesField = () => {
           >
             <GenericComboboxInput
               placeholder={t("form.grepCodes.placeholder")}
-              isFetching={searchQuery.isFetching}
+              isFetching={grepCodesQuery.isFetching}
               onKeyUp={(event) => {
                 if (event.key === "Enter" && !!query.trim()) {
                   updateGrepCodes(query);
@@ -158,12 +163,14 @@ const GrepCodesField = () => {
               <StyledComboboxList>
                 {collection.items.map((item) => (
                   <ComboboxItem key={item.code} item={item} asChild>
-                    <GenericComboboxItemContent title={item.title} />
+                    <GenericComboboxItemContent title={`${item.code} - ${item.title.title}`} />
                   </ComboboxItem>
                 ))}
               </StyledComboboxList>
-              {!!searchQuery.isSuccess && (
-                <Text>{t("dropdown.numberHits", { hits: searchQuery.data?.totalCount ?? 0 })}</Text>
+              {!!grepCodesQuery.isSuccess && (
+                <Text>
+                  {`${t("dropdown.numberHits", { hits: grepCodesQuery.data?.totalCount ?? 0 })}. ${!grepCodesQuery.data?.totalCount ? t("form.grepCodes.noHits") : ""}`}
+                </Text>
               )}
             </ComboboxContent>
           </ComboboxRoot>

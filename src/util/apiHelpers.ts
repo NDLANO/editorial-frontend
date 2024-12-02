@@ -28,10 +28,6 @@ export function apiResourceUrl(path: string) {
   return apiBaseUrl + path;
 }
 
-export function grepUrl(path = "") {
-  return `${apiResourceUrl("/grep/kl06/v201906")}${path}`;
-}
-
 export function brightcoveApiResourceUrl(path: string) {
   return config.brightcoveApiUrl + path;
 }

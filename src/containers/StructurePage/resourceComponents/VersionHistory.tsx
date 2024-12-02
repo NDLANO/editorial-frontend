@@ -24,7 +24,7 @@ import { SafeLink } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { IEditorNote } from "@ndla/types-backend/draft-api";
-import { constants, ContentTypeBadgeNew } from "@ndla/ui";
+import { constants, ContentTypeBadge } from "@ndla/ui";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import NotesVersionHistory from "../../../components/VersionHistory/VersionHistory";
@@ -149,7 +149,7 @@ const VersionHistoryContent = ({ contentType, resource }: ModalContentProps) => 
       </DialogHeader>
       <DialogBody>
         <LinkWrapper>
-          <ContentTypeBadgeNew contentType={contentType === "topic-article" ? "topic" : contentType} />
+          <ContentTypeBadge contentType={contentType === "topic-article" ? "topic" : contentType} />
           {numericId ? (
             <SafeLink
               to={

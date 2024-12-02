@@ -2087,10 +2087,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/types-backend@npm:^0.2.98":
-  version: 0.2.98
-  resolution: "@ndla/types-backend@npm:0.2.98"
-  checksum: 10c0/4c4cbf5aaae7a44167f8982d869541aa3d57f18a3abba335171cf49b6c5ed23199ac2e71039b1bf09e79d4c2b281b85bd0684682f714265cf3d864696237357f
+"@ndla/types-backend@npm:^0.2.101":
+  version: 0.2.101
+  resolution: "@ndla/types-backend@npm:0.2.101"
+  checksum: 10c0/b1ecde76ee41beedc2cbe8577c57e617cba5d0aef263c3ef15f9bfee4f22403d6f1a638fcb75143118a4d37d5bd9b696ff5e20b63f40eed70db154f6f5e18c1e
   languageName: node
   linkType: hard
 
@@ -3048,7 +3048,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^18, @types/react@npm:^18.3.2":
+"@types/react@npm:*, @types/react@npm:^18.3.2":
+  version: 18.3.2
+  resolution: "@types/react@npm:18.3.2"
+  dependencies:
+    "@types/prop-types": "npm:*"
+    csstype: "npm:^3.0.2"
+  checksum: 10c0/9fb2f1fcf7e889ee4ea7c3c5978df595c66e770e5fd3a245dbdd2589b9b911524c11dab25a6275d8af4e336e4cb5fa850d447884b84c335a187a338c89df99ba
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^18":
   version: 18.3.14
   resolution: "@types/react@npm:18.3.14"
   dependencies:
@@ -6052,7 +6062,7 @@ __metadata:
     "@ndla/scripts": "npm:^2.1.3"
     "@ndla/styled-system": "npm:^0.0.29"
     "@ndla/tracker": "npm:^5.0.14-alpha.0"
-    "@ndla/types-backend": "npm:^0.2.98"
+    "@ndla/types-backend": "npm:^0.2.101"
     "@ndla/types-embed": "npm:^5.0.4-alpha.0"
     "@ndla/types-taxonomy": "npm:^1.0.30"
     "@ndla/ui": "npm:^56.0.78-alpha.0"

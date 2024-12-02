@@ -25,7 +25,7 @@ test("isGrepCodeValid correct behavior", () => {
   grepCodes.set("K3K", false);
   grepCodes.set("k123", false);
 
-  grepCodes.forEach((value, key) => expect(isGrepCodeValid(key)).toBe(value));
+  grepCodes.forEach((value, key) => expect(isGrepCodeValid(key, ["KE", "KM", "TT"])).toBe(value));
 });
 
 test("getSlugFromTitle filters away correct illegal characters", () => {

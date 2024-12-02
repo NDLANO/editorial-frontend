@@ -7,11 +7,18 @@
  */
 
 import { useTranslation } from "react-i18next";
+import { styled } from "@ndla/styled-system/jsx";
 import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
 import HeaderInformation, { StyledSplitter } from "./HeaderInformation";
 import HeaderLanguagePicker from "./HeaderLanguagePicker";
 import HeaderSupportedLanguages from "./HeaderSupportedLanguages";
-import { StyledLanguageWrapper } from "./HeaderWithLanguage";
+
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+  },
+});
 
 interface Props {
   articleType: string;
@@ -60,28 +67,26 @@ const SimpleLanguageHeader = ({
         id={id}
         language={language}
       />
-      <StyledLanguageWrapper>
-        {id ? (
-          <>
-            <HeaderSupportedLanguages
-              id={id}
-              editUrl={editUrl}
-              language={language}
-              supportedLanguages={supportedLanguages}
-              isSubmitting={isSubmitting}
-            />
-            {!!isNewLanguage && (
-              <HeaderCurrentLanguagePill key={`types_${language}`}>
-                {t(`languages.${language}`)}
-              </HeaderCurrentLanguagePill>
-            )}
-            <StyledSplitter />
-            <HeaderLanguagePicker id={id} emptyLanguages={emptyLanguages} editUrl={editUrl} />
-          </>
-        ) : (
-          <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
-        )}
-      </StyledLanguageWrapper>
+      {id ? (
+        <Wrapper>
+          <HeaderSupportedLanguages
+            id={id}
+            editUrl={editUrl}
+            language={language}
+            supportedLanguages={supportedLanguages}
+            isSubmitting={isSubmitting}
+          />
+          {!!isNewLanguage && (
+            <HeaderCurrentLanguagePill key={`types_${language}`}>
+              {t(`languages.${language}`)}
+            </HeaderCurrentLanguagePill>
+          )}
+          <StyledSplitter />
+          <HeaderLanguagePicker id={id} emptyLanguages={emptyLanguages} editUrl={editUrl} />
+        </Wrapper>
+      ) : (
+        <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
+      )}
     </div>
   );
 };

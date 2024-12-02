@@ -57,7 +57,12 @@ export const convertGrepCodesToObject = async (grepCodes: string[]): Promise<Rec
   return Object.assign({}, ...grepCodesWithTitle);
 };
 
-const GrepCodesField = () => {
+interface Props {
+  matchRegex?: RegExp;
+  description?: string;
+}
+
+const GrepCodesField = ({ matchRegex, description }: Props) => {
   const { t } = useTranslation();
   const translations = useComboboxTranslations();
   const [field, , helpers] = useField<string[]>("grepCodes");
@@ -79,7 +84,7 @@ const GrepCodesField = () => {
     const grepCodeTitle = await fetchGrepCodeTitle(grepCode);
     const isGrepCodeSaved = grepCodes[grepCode];
 
-    if (grepCodeTitle && !isGrepCodeSaved && isGrepCodeValid(grepCode)) {
+    if (grepCodeTitle && !isGrepCodeSaved && isGrepCodeValid(grepCode, matchRegex)) {
       return {
         code: grepCode,
         title: `${grepCode} - ${grepCodeTitle}`,
@@ -119,7 +124,7 @@ const GrepCodesField = () => {
       {({ field, meta }) => (
         <FieldRoot>
           <FieldLabel>{t("form.grepCodes.label")}</FieldLabel>
-          <FieldHelper>{t("form.grepCodes.description")}</FieldHelper>
+          <FieldHelper>{description ?? t("form.grepCodes.description")}</FieldHelper>
           <Text color="text.error" aria-live="polite">
             {meta.error}
           </Text>
@@ -163,7 +168,9 @@ const GrepCodesField = () => {
                 ))}
               </StyledComboboxList>
               {!!searchQuery.isSuccess && (
-                <Text>{t("dropdown.numberHits", { hits: searchQuery.data?.totalCount ?? 0 })}</Text>
+                <Text>
+                  {`${t("dropdown.numberHits", { hits: searchQuery.data?.totalCount ?? 0 })}. ${!searchQuery.data?.totalCount ? t("form.grepCodes.noHits") : ""}`}
+                </Text>
               )}
             </ComboboxContent>
           </ComboboxRoot>

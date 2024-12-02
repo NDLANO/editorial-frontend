@@ -60,14 +60,14 @@ const TaxonomyVersionsPage = () => {
       </Row>
       {!!showNewForm && (
         <NewFormWrapper>
-          <VersionForm existingVersions={data ?? []} onClose={() => setShowNewForm(false)} />
+          <VersionForm existingVersions={data ?? []} onClose={() => setShowNewForm(false)} headingLevel="h2" />
         </NewFormWrapper>
       )}
-      <Heading textStyle="heading.small" asChild consumeCss>
+      <Heading textStyle="title.large" asChild consumeCss>
         <h2>{t("taxonomyVersions.publishedVersion")}</h2>
       </Heading>
       {published ? <UIVersion version={published} /> : t("taxonomyVersions.noPublished")}
-      <Heading textStyle="heading.small" asChild consumeCss>
+      <Heading textStyle="title.large" asChild consumeCss>
         <h2>{t("taxonomyVersions.otherVersions")}</h2>
       </Heading>
       <VersionList versions={other} />

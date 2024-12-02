@@ -28,11 +28,11 @@ type NdlaUser = {
   permissions?: string[];
 };
 
-const aiModelID = getEnvironmentVariabel("NDLA_AI_MODEL_ID", "");
-const aiRegion = getEnvironmentVariabel("NDLA_AI_MODEL_REGION", "");
-const aiSecretKey = getEnvironmentVariabel("NDLA_AI_SECRET_KEY", "");
-const aiSecretID = getEnvironmentVariabel("NDLA_AI_SECRET_ID", "");
-const transcriptionBucketName = getEnvironmentVariabel("S3_TRANSCRIPTION_BUCKET_NAME", "");
+const aiModelID = process.env.NDLA_AI_MODEL_ID;
+const aiRegion = process.env.NDLA_AI_MODEL_REGION;
+const aiSecretKey = process.env.NDLA_AI_SECRET_KEY;
+const aiSecretID = process.env.NDLA_AI_SECRET_ID;
+const transcriptionBucketName = process.env.S3_TRANSCRIPTION_BUCKET_NAME;
 
 // Temporal hack to send users to prod
 router.get("*splat", (req, res, next) => {
@@ -167,6 +167,10 @@ router.post("/translate", async (req, res) => {
 
 router.post("/invoke-model", async (req, res) => {
   const modelId = aiModelID;
+  if (!aiRegion || !aiSecretID || !aiSecretKey || !modelId || !transcriptionBucketName) {
+    res.status(INTERNAL_SERVER_ERROR).send("Missing required environment variables");
+    return;
+  }
   const client = new BedrockRuntimeClient({
     region: aiRegion, //As of now this is the closest aws-region, with the service
     credentials: { accessKeyId: aiSecretID, secretAccessKey: aiSecretKey },

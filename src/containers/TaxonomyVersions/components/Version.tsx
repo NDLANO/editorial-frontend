@@ -47,6 +47,7 @@ const VersionContentWrapper = styled("div", {
   base: {
     display: "flex",
     justifyContent: "space-between",
+    gap: "3xsmall",
   },
 });
 
@@ -179,7 +180,7 @@ const Version = ({ version }: Props) => {
       </VersionWrapper>
       {!!isEditing && (
         <VersionsFormWrapper>
-          <VersionForm version={version} existingVersions={[]} onClose={() => setIsEditing(false)} />
+          <VersionForm version={version} existingVersions={[]} onClose={() => setIsEditing(false)} headingLevel="h3" />
         </VersionsFormWrapper>
       )}
     </>

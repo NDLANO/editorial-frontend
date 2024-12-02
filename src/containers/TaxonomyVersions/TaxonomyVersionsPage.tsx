@@ -60,7 +60,7 @@ const TaxonomyVersionsPage = () => {
       </Row>
       {!!showNewForm && (
         <NewFormWrapper>
-          <VersionForm existingVersions={data ?? []} onClose={() => setShowNewForm(false)} />
+          <VersionForm existingVersions={data ?? []} onClose={() => setShowNewForm(false)} headingLevel="h2" />
         </NewFormWrapper>
       )}
       <Heading textStyle="title.large" asChild consumeCss>

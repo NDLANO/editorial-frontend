@@ -21,16 +21,30 @@ import {
   SwitchLabel,
   SwitchRoot,
   SwitchThumb,
+  Text,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
-import FieldHeader from "../../../../components/Field/FieldHeader";
-import { HowToHelper } from "../../../../components/HowTo";
 import ActiveTopicConnections from "../../../../components/Taxonomy/ActiveTopicConnections";
 import TaxonomyBlockNode, { NodeWithChildren } from "../../../../components/Taxonomy/TaxonomyBlockNode";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../../../constants";
 import { fetchUserData } from "../../../../modules/draft/draftApi";
 import { MinimalNodeChild } from "../../LearningResourcePage/components/LearningResourceTaxonomy";
+
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    flexDirection: "column",
+  },
+});
+
+const StyledButton = styled(Button, {
+  base: {
+    alignSelf: "flex-start",
+  },
+});
 
 interface Props {
   structure: NodeWithChildren[];
@@ -91,14 +105,15 @@ const TopicArticleConnections = ({ structure, selectedNodes, addConnection, getS
   );
 
   return (
-    <>
-      <FieldHeader title={t("taxonomy.topics.topicPlacement")} subTitle={t("taxonomy.topics.subTitleTopic")}>
-        <HowToHelper pageId="TaxonomyTopicConnections" tooltip={t("taxonomy.topics.helpLabel")} />
-      </FieldHeader>
+    <Wrapper>
+      <Text textStyle="label.medium" fontWeight="bold">
+        {t("taxonomy.topics.topicPlacement")}
+      </Text>
+      <Text>{t("taxonomy.topics.description")}</Text>
       <ActiveTopicConnections activeTopics={selectedNodes} type="topic-article" />
       <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)} size="large">
         <DialogTrigger asChild>
-          <Button>{t(`taxonomy.topics.${"chooseTaxonomyPlacement"}`)}</Button>
+          <StyledButton>{t(`taxonomy.topics.${"chooseTaxonomyPlacement"}`)}</StyledButton>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
@@ -127,7 +142,7 @@ const TopicArticleConnections = ({ structure, selectedNodes, addConnection, getS
           </DialogBody>
         </DialogContent>
       </DialogRoot>
-    </>
+    </Wrapper>
   );
 };
 

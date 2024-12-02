@@ -116,7 +116,9 @@ const TopicConnections = ({
 
   return (
     <Wrapper>
-      <Text textStyle="title.small">{t("taxonomy.topics.title")}</Text>
+      <Text textStyle="label.medium" fontWeight="bold">
+        {t("taxonomy.topics.title")}
+      </Text>
       <Text>{t("taxonomy.topics.taxonomySubjectConnections")}</Text>
       <ActiveTopicConnections
         activeTopics={selectedNodes}

@@ -18,7 +18,7 @@ import { Button, SelectLabel, Text } from "@ndla/primitives";
 import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import { Node, Version } from "@ndla/types-taxonomy";
 import TopicArticleConnections from "./TopicArticleConnections";
-import { FormActionsContainer } from "../../../../components/FormikForm";
+import { FormActionsContainer, FormContent } from "../../../../components/FormikForm";
 import SaveButton from "../../../../components/SaveButton";
 import OptGroupVersionSelector from "../../../../components/Taxonomy/OptGroupVersionSelector";
 import { NodeWithChildren } from "../../../../components/Taxonomy/TaxonomyBlockNode";
@@ -187,7 +187,7 @@ const TopicTaxonomyBlock = ({
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
   return (
-    <>
+    <FormContent>
       {!hasTaxEntries && <Text color="text.error">{t("errorMessage.missingTax")}</Text>}
       {!!isTaxonomyAdmin && (
         <>
@@ -196,7 +196,6 @@ const TopicTaxonomyBlock = ({
             resources={resources}
             topics={topics}
           />
-
           <OptGroupVersionSelector
             currentVersion={taxonomyVersion}
             onVersionChanged={(version) => onVersionChanged(version.hash)}
@@ -240,7 +239,7 @@ const TopicTaxonomyBlock = ({
           formIsDirty={isDirty}
         />
       </FormActionsContainer>
-    </>
+    </FormContent>
   );
 };
 

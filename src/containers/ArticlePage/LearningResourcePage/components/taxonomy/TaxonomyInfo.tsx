@@ -24,6 +24,18 @@ const StyledText = styled(Text, {
   },
 });
 
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+  },
+});
+
+const StyledSwitchRoot = styled(SwitchRoot, {
+  base: { width: "fit-content" },
+});
+
 interface Props {
   taxonomyElement?: TaxNode;
   updateMetadata: (visible: boolean) => void;
@@ -33,12 +45,12 @@ const TaxonomyInfo = ({ taxonomyElement, updateMetadata }: Props) => {
   const { t } = useTranslation();
   if (!taxonomyElement) return null;
   return (
-    <>
+    <Wrapper>
       <StyledText visible={taxonomyElement.metadata.visible}>
         <b>ID: </b>
         <span>{taxonomyElement.id}</span>
       </StyledText>
-      <SwitchRoot
+      <StyledSwitchRoot
         checked={taxonomyElement.metadata?.visible ?? true}
         onCheckedChange={(details) => updateMetadata(details.checked)}
       >
@@ -47,8 +59,8 @@ const TaxonomyInfo = ({ taxonomyElement, updateMetadata }: Props) => {
           <SwitchThumb />
         </SwitchControl>
         <SwitchHiddenInput />
-      </SwitchRoot>
-    </>
+      </StyledSwitchRoot>
+    </Wrapper>
   );
 };
 

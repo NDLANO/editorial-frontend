@@ -7,6 +7,7 @@
  */
 
 import { useFormikContext } from "formik";
+import { isKeyHotkey } from "is-hotkey";
 import isEqual from "lodash/isEqual";
 import { FocusEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
 import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from "slate";
@@ -31,7 +32,7 @@ import { SlateToolbar } from "./plugins/toolbar";
 import { AreaFilters, CategoryFilters } from "./plugins/toolbar/toolbarState";
 import { SlateProvider } from "./SlateContext";
 import getCurrentBlock from "./utils/getCurrentBlock";
-import { KEY_ARROW_LEFT, KEY_ARROW_RIGHT, KEY_TAB } from "./utils/keys";
+import { KEY_TAB } from "./utils/keys";
 import withPlugins from "./utils/withPlugins";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
@@ -276,13 +277,13 @@ const RichTextEditor = ({
         }
       }
 
-      if (editor.selection && Range.isCollapsed(editor.selection) && !e.shiftKey) {
-        if (e.key === KEY_ARROW_LEFT) {
+      if (editor.selection && Range.isCollapsed(editor.selection)) {
+        if (isKeyHotkey("left", e.nativeEvent)) {
           e.preventDefault();
           Transforms.move(editor, { unit: "offset", reverse: true });
           return;
         }
-        if (e.key === KEY_ARROW_RIGHT) {
+        if (isKeyHotkey("right", e.nativeEvent)) {
           e.preventDefault();
           Transforms.move(editor, { unit: "offset" });
           return;

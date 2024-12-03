@@ -21,7 +21,6 @@ import handleError from "../../util/handleError";
 import { toEditArticle } from "../../util/routeHelpers";
 import { Plain } from "../../util/slatePlainSerializer";
 import { SegmentHeader } from "../Form/SegmentHeader";
-import Spinner from "../Spinner";
 
 const StyledSegmentHeader = styled(SegmentHeader, {
   base: {
@@ -178,9 +177,8 @@ const HeaderInformation = ({
           </Heading>
         )}
         {(type === "standard" || type === "topic-article") && (
-          <Button size="small" variant="tertiary" onClick={onSaveAsNew} data-testid="saveAsNew">
+          <Button size="small" variant="tertiary" onClick={onSaveAsNew} data-testid="saveAsNew" loading={loading}>
             {t("form.workflow.saveAsNew")}
-            {!!loading && <Spinner appearance="absolute" />}
           </Button>
         )}
       </StyledTitleHeaderWrapper>

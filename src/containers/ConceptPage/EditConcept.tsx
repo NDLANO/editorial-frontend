@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 import { HelmetWithTracker } from "@ndla/tracker";
 import ConceptForm from "./ConceptForm/ConceptForm";
 import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
-import Spinner from "../../components/Spinner";
+import { PageSpinner } from "../../components/PageSpinner";
 import { LocaleType } from "../../interfaces";
 import { useFetchConceptData } from "../FormikForm/formikConceptHooks";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
@@ -59,7 +59,7 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
   }, [concept, loading, setConcept, shouldTranslate, translate]);
 
   if (loading || translating) {
-    return <Spinner withWrapper />;
+    return <PageSpinner />;
   }
 
   if (!concept || !conceptId) {

@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 import { IImageMetaInformationV3, IUpdateImageMetaInformation } from "@ndla/types-backend/image-api";
 import ImageForm from "./components/ImageForm";
 import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
-import Spinner from "../../components/Spinner";
+import { PageSpinner } from "../../components/PageSpinner";
 import { draftLicensesToImageLicenses } from "../../modules/draft/draftApiUtils";
 import { useLicenses } from "../../modules/draft/draftQueries";
 import { fetchImage, updateImage } from "../../modules/image/imageApi";
@@ -92,7 +92,7 @@ const EditImage = ({ isNewlyCreated }: Props) => {
   };
 
   if (loading || translating) {
-    return <Spinner withWrapper />;
+    return <PageSpinner />;
   }
 
   if (!imageId || !image?.id) {

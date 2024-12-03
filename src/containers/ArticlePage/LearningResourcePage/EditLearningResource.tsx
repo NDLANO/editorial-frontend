@@ -13,8 +13,8 @@ import { HelmetWithTracker } from "@ndla/tracker";
 import LearningResourceForm from "./components/LearningResourceForm";
 import { ContentTypeProvider } from "../../../components/ContentTypeProvider";
 import { TranslateType, useTranslateToNN } from "../../../components/NynorskTranslateProvider";
+import { PageSpinner } from "../../../components/PageSpinner";
 import { isNewArticleLanguage } from "../../../components/SlateEditor/IsNewArticleLanguageProvider";
-import Spinner from "../../../components/Spinner";
 import { LocaleType } from "../../../interfaces";
 import { useNodes } from "../../../modules/nodes/nodeQueries";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
@@ -91,7 +91,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
   }, [article, loading, setArticle, shouldTranslate, translate]);
 
   if (loading || translating || taxonomyQuery.isLoading) {
-    return <Spinner withWrapper />;
+    return <PageSpinner />;
   }
 
   if (!article || !articleId) {

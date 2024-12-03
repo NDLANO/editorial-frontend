@@ -96,6 +96,17 @@ const StyledText = styled(Text, {
 const StyledListItemRoot = styled(ListItemRoot, {
   base: {
     minHeight: "unset",
+    _disabled: {
+      _hover: {
+        backgroundColor: "surface.selected",
+      },
+    },
+  },
+});
+
+const StyledImageLine = styled(ImageLine, {
+  base: {
+    fill: "stroke.default",
   },
 });
 
@@ -106,12 +117,12 @@ export const GenericComboboxItemContent = forwardRef<HTMLDivElement, GenericComb
         <ListItemImage
           src={image?.url ?? ""}
           alt={image?.alt ?? ""}
-          fallbackElement={fallbackImageElement ?? <ImageLine />}
+          fallbackElement={fallbackImageElement ?? <StyledImageLine />}
         />
       )}
       <ListItemContent>
         <Flex direction="column">
-          <ComboboxItemText>{title}</ComboboxItemText>
+          <ComboboxItemText color="text.default">{title}</ComboboxItemText>
           {!!description && (
             <StyledText textStyle="label.small" color="text.subtle">
               {description}

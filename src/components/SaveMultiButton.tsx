@@ -18,6 +18,13 @@ const StyledMultiButton = styled("div", {
   base: {
     display: "flex",
     gap: "5xsmall",
+    marginInlineStart: "auto",
+  },
+});
+
+const StyledSaveButton = styled(Button, {
+  base: {
+    marginInlineStart: "auto",
   },
 });
 
@@ -72,7 +79,7 @@ const SaveMultiButton = ({ isSaving, showSaved, formIsDirty, hasErrors, onClick,
 
   if (hideSecondaryButton)
     return (
-      <Button
+      <StyledSaveButton
         id={SAVE_BUTTON_ID}
         variant={showSaved ? "success" : "primary"}
         disabled={!!disabledButton && !showSaved}
@@ -82,7 +89,7 @@ const SaveMultiButton = ({ isSaving, showSaved, formIsDirty, hasErrors, onClick,
       >
         {!!showSaved && <CheckLine />}
         {buttonSaveText}
-      </Button>
+      </StyledSaveButton>
     );
 
   const secondaryButtons: SecondaryButton[] = [

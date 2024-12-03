@@ -108,7 +108,7 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
             }
             hasError={!!(errors.title || errors.introduction || errors.content)}
           >
-            <PageContent variant={isWideArticle ? "wide" : "content"}>
+            <PageContent variant={isWideArticle ? "page" : "content"}>
               <FrontpageArticleFormContent articleLanguage={articleLanguage} />
             </PageContent>
           </FormAccordion>

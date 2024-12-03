@@ -35,6 +35,19 @@ const StyledGenericSelectItem = styled(GenericSelectItem, {
   },
 });
 
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
+  base: {
+    width: "100%",
+  },
+});
+
+const StyledSelectRoot = styled(SelectRoot, {
+  base: {
+    flex: "1",
+    minWidth: "surface.xxsmall",
+  },
+});
+
 const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId }: Props) => {
   const { t } = useTranslation();
 
@@ -75,7 +88,7 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
   }, [responsible]);
 
   return (
-    <SelectRoot
+    <StyledSelectRoot
       data-testid="responsible-select"
       collection={collection}
       onValueChange={(details) => onSave(details.value[0])}
@@ -85,9 +98,9 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
       positioning={{ sameWidth: true }}
     >
       <SelectLabel srOnly>{t("form.responsible.choose")}</SelectLabel>
-      <GenericSelectTrigger clearable>
+      <StyledGenericSelectTrigger clearable>
         <StyledSelectValueText placeholder={t("form.responsible.choose")} css={{ lineClamp: "1" }} />
-      </GenericSelectTrigger>
+      </StyledGenericSelectTrigger>
       <SelectContent>
         {!collection.items.length ? (
           <Text>{t("form.responsible.noResults")}</Text>
@@ -99,7 +112,7 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
           ))
         )}
       </SelectContent>
-    </SelectRoot>
+    </StyledSelectRoot>
   );
 };
 

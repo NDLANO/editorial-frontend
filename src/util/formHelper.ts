@@ -307,10 +307,6 @@ export const parseImageUrl = (metaImage?: IArticleMetaImage) => {
   return splittedUrl[splittedUrl.length - 1];
 };
 
-export const getTagName = (id: string | undefined, data: { id: string; name: string }[] = []) => {
-  return id ? data.find((entry) => entry.id === id)?.name : undefined;
-};
-
 export const stripInlineContentHtmlTags = (html: string): string =>
   inlineContentToEditorValue(html, true)
     .map((n) => Node.string(n))

@@ -10,11 +10,18 @@ import { TFunction } from "i18next";
 import sortBy from "lodash/sortBy";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { FieldLabel, FieldRoot, FieldInput } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IUserData } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
-import GenericSearchForm, { OnFieldChangeFunction } from "./GenericSearchForm";
+import CheckboxSelector from "./CheckboxSelector";
+import SearchControlButtons from "./SearchControlButtons";
 import { SearchParams } from "./SearchForm";
-import { SearchFormSelector } from "./Selector";
+import SearchHeader from "./SearchHeader";
+import SearchTagGroup, { Filters } from "./SearchTagGroup";
+import { SelectElement, SelectRenderer } from "./SelectRenderer";
+import { OnFieldChangeFunction } from "./types";
+import { getTagName } from "./utils";
 import {
   DA_SUBJECT_ID,
   DRAFT_RESPONSIBLE,
@@ -29,10 +36,34 @@ import {
 import { useAuth0Editors, useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
 import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { useAllResourceTypes } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
-import { getTagName } from "../../../../util/formHelper";
+import formatDate from "../../../../util/formatDate";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import { flattenResourceTypesAndAddContextTypes } from "../../../../util/taxonomyHelpers";
+import InlineDatePicker from "../../../FormikForm/components/InlineDatePicker";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
+
+const StyledForm = styled("form", {
+  base: {
+    display: "grid",
+    gridTemplateColumns: "repeat(4, 1fr)",
+    gridGap: "3xsmall",
+    alignItems: "center",
+    desktopDown: {
+      gridTemplateColumns: "repeat(3, 1fr)",
+    },
+    tabletDown: {
+      gridTemplateColumns: "repeat(2, 1fr)",
+    },
+  },
+});
+
+const StyledFieldInput = styled(FieldInput, {
+  base: {
+    tabletDown: {
+      gridColumn: "-1/1",
+    },
+  },
+});
 
 const generateSubjectNode = (id: string, name: string, t: TFunction): Node => ({
   id: id,
@@ -125,7 +156,6 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
       "include-other-statuses": includeOtherStatuses,
       [name]: value,
     };
-
     if (name !== "query") {
       search(name !== "draft-status" ? searchObj : { ...searchObj, "draft-status": status, fallback: false });
     }
@@ -135,10 +165,10 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
     search({ ...searchObject, fallback: false, page: 1, query: queryInput });
   };
 
-  const removeTagItem = (tag: SearchFormSelector) => {
-    if (tag.parameterName === "query") setQueryInput("");
-    if (tag.parameterName === "draft-status") setIsHasPublished(tag.value === "HAS_PUBLISHED");
-    search({ ...searchObject, [tag.parameterName]: "" });
+  const removeTagItem = (parameterName: keyof SearchParams, value?: string) => {
+    if (parameterName === "query") setQueryInput("");
+    if (parameterName === "draft-status") setIsHasPublished(value === "HAS_PUBLISHED");
+    search({ ...searchObject, [parameterName]: "" });
   };
 
   const emptySearch = () => {
@@ -203,83 +233,74 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
       .concat(filteredAndSortedConceptSubjects);
   }, [subjects, t, userData]);
 
-  const selectors: SearchFormSelector[] = [
-    {
-      value: getTagName(searchObject.subjects, sortedSubjects),
-      parameterName: "subjects",
-      options: sortedSubjects,
-      formElementType: "dropdown",
-    },
-    {
-      value: getTagName(searchObject["resource-types"], resourceTypes),
-      parameterName: "resource-types",
-      options: resourceTypes!.sort(sortByProperty("name")),
-      formElementType: "dropdown",
-    },
-    {
-      value: getTagName(searchObject["responsible-ids"], responsibles),
-      parameterName: "responsible-ids",
-      options: responsibles!,
-      formElementType: "dropdown",
-    },
-    {
-      value: getTagName(isHasPublished ? "HAS_PUBLISHED" : searchObject["draft-status"], getDraftStatuses()),
-      parameterName: "draft-status",
-      options: getDraftStatuses().sort(sortByProperty("name")),
-      formElementType: "dropdown",
-    },
-    {
-      value: getTagName(searchObject.users, users),
-      parameterName: "users",
-      options: users!.sort(sortByProperty("name")),
-      formElementType: "dropdown",
-    },
-    {
-      value: getTagName(searchObject.language, getResourceLanguages(t)),
-      parameterName: "language",
-      options: getResourceLanguages(t),
-      formElementType: "dropdown",
-    },
-    {
-      value: searchObject["filter-inactive"]?.toString(),
-      parameterName: "filter-inactive",
-      formElementType: "check-box-reverse",
-    },
-    {
-      value: searchObject["exclude-revision-log"]?.toString(),
-      parameterName: "exclude-revision-log",
-      formElementType: "check-box",
-    },
+  const filters: Filters = {
+    query: searchObject.query,
+    subjects: getTagName(searchObject.subjects, sortedSubjects),
+    "resource-types": getTagName(searchObject["resource-types"], resourceTypes),
+    "responsible-ids": getTagName(searchObject["responsible-ids"], responsibles),
+    "draft-status": (isHasPublished ? "HAS_PUBLISHED" : searchObject["draft-status"])?.toLowerCase(),
+    users: getTagName(searchObject.users, users),
+    language: searchObject.language,
+    "filter-inactive": !searchObject["filter-inactive"] ? "false" : undefined,
+    "exclude-revision-log": searchObject["exclude-revision-log"] ? "true" : undefined,
+    "revision-date-from": formatDate(searchObject["revision-date-from"]) || undefined,
+    "revision-date-to": formatDate(searchObject["revision-date-to"]) || undefined,
+  };
+
+  const selectElements: SelectElement[] = [
+    { name: "subjects", options: sortedSubjects },
+    { name: "resource-types", options: resourceTypes!.sort(sortByProperty("name")) ?? [] },
+    { name: "responsible-ids", options: responsibles ?? [] },
+    { name: "draft-status", options: getDraftStatuses().sort(sortByProperty("name")) },
+    { name: "users", options: users!.sort(sortByProperty("name")) },
+    { name: "language", options: getResourceLanguages(t) },
   ];
 
-  selectors.push(
-    {
-      value: searchObject["revision-date-from"],
-      parameterName: "revision-date-from",
-      formElementType: "date-picker",
-    },
-    {
-      value: searchObject["revision-date-to"],
-      parameterName: "revision-date-to",
-      formElementType: "date-picker",
-    },
-  );
   return (
-    <GenericSearchForm
-      type="content"
-      selectors={selectors}
-      query={queryInput}
-      onSubmit={handleSearch}
-      searchObject={{
-        ...searchObject,
-        "draft-status": isHasPublished ? "HAS_PUBLISHED" : searchObject["draft-status"],
-      }}
-      onFieldChange={onFieldChange}
-      emptySearch={emptySearch}
-      removeTag={removeTagItem}
-      userData={userData}
-      columnCount={4}
-    />
+    <>
+      <SearchHeader type="content" filters={filters} userData={userData} />
+      <StyledForm
+        onSubmit={(e) => {
+          handleSearch();
+          e.preventDefault();
+        }}
+      >
+        <FieldRoot>
+          <FieldLabel srOnly>{t("searchForm.types.contentQuery")}</FieldLabel>
+          <StyledFieldInput
+            name="query"
+            placeholder={t("searchForm.types.contentQuery")}
+            value={queryInput}
+            onChange={(e) => setQueryInput(e.currentTarget.value)}
+          />
+        </FieldRoot>
+        <SelectRenderer selectElements={selectElements} searchObject={searchObject} onFieldChange={onFieldChange} />
+        <CheckboxSelector
+          name="filter-inactive"
+          checked={!(searchObject["filter-inactive"] ?? false)}
+          onCheckedChange={(value) => onFieldChange("filter-inactive", !value)}
+        />
+        <CheckboxSelector
+          name="exclude-revision-log"
+          checked={searchObject["exclude-revision-log"] ?? false}
+          onCheckedChange={(value) => onFieldChange("exclude-revision-log", value)}
+        />
+        <InlineDatePicker
+          name="revision-date-from"
+          onChange={(e) => onFieldChange("revision-date-from", e.currentTarget.value, e)}
+          placeholder={t("searchForm.types.revision-date-from")}
+          value={searchObject["revision-date-from"] ?? ""}
+        />
+        <InlineDatePicker
+          name="revision-date-to"
+          onChange={(e) => onFieldChange("revision-date-to", e.currentTarget.value, e)}
+          placeholder={t("searchForm.types.revision-date-to")}
+          value={searchObject["revision-date-to"] ?? ""}
+        />
+        <SearchControlButtons close={emptySearch} />
+      </StyledForm>
+      <SearchTagGroup onRemoveTag={removeTagItem} tags={filters} />
+    </>
   );
 };
 

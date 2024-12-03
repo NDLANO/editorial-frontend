@@ -6,14 +6,11 @@
  *
  */
 
-import { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
-import { CloseLine } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { SearchFormSelector } from "./Selector";
-import formatDate from "../../../../util/formatDate";
-import { unreachable } from "../../../../util/guards";
+import { SearchParams } from "./SearchForm";
 
 const TagsWrapper = styled("div", {
   base: {
@@ -23,46 +20,27 @@ const TagsWrapper = styled("div", {
   },
 });
 
-const searchParamsFormatter = (selector: SearchFormSelector, t: TFunction): string | number | boolean | undefined => {
-  switch (selector.formElementType) {
-    case "date-picker":
-      if (selector.value) return formatDate(selector.value);
-      break;
-    case "check-box":
-      if (selector.value === "true") return t(`searchForm.tagType.${selector.parameterName}`);
-      break;
-    case "check-box-reverse":
-      if (selector.value === "false") return t(`searchForm.tagType.${selector.parameterName}`);
-      break;
-    case "dropdown":
-    case "text-input":
-      return selector.value;
-    default:
-      unreachable(selector);
-  }
-};
-
+export type Filters = { [key in keyof SearchParams]: string | undefined };
 interface Props {
-  tagTypes: SearchFormSelector[];
-  onRemoveTag: (tag: SearchFormSelector) => void;
+  tags: Filters;
+  onRemoveTag: (parameterName: keyof SearchParams, value?: string) => void;
 }
 
-const SearchTagGroup = ({ tagTypes, onRemoveTag }: Props) => {
+const SearchTagGroup = ({ tags, onRemoveTag }: Props) => {
   const { t } = useTranslation();
   return (
-    <TagsWrapper>
-      {tagTypes.map((tag) => {
-        const value = searchParamsFormatter(tag, t);
+    <TagsWrapper role="group">
+      {Object.entries(tags).map(([key, value]) => {
         if (!value) return null;
         return (
           <Button
-            key={`searchtag_${tag.parameterName}`}
+            key={`searchtag_${key}`}
             size="small"
             variant="primary"
-            onClick={() => onRemoveTag(tag)}
+            onClick={() => onRemoveTag(key as keyof SearchParams, value)}
             data-testid="remove-tag-button"
           >
-            {value}
+            {t(`searchForm.tagType.${key}`, { value })}
             <CloseLine aria-label={t("remove")} title={t("remove")} />
           </Button>
         );

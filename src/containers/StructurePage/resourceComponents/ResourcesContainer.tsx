@@ -7,9 +7,8 @@
  */
 
 import { useMemo } from "react";
-import styled from "@emotion/styled";
-import { breakpoints, mq } from "@ndla/core";
 import { Spinner } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import ResourceItems from "./ResourceItems";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
@@ -19,12 +18,14 @@ import { NodeResourceMeta, useNodes } from "../../../modules/nodes/nodeQueries";
 import { groupResourcesByType } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
-const ResourceWrapper = styled.div`
-  overflow-y: auto;
-  ${mq.range({ from: breakpoints.desktop })} {
-    max-height: 80vh;
-  }
-`;
+const ResourceWrapper = styled("div", {
+  base: {
+    overflowY: "auto",
+    desktop: {
+      maxHeight: "80vh",
+    },
+  },
+});
 
 interface Props {
   nodeResources: ResourceWithNodeConnectionAndMeta[];

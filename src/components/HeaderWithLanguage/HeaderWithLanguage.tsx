@@ -8,21 +8,12 @@
 
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { IConcept } from "@ndla/types-backend/concept-api";
 import { IArticle, IStatus } from "@ndla/types-backend/draft-api";
 import { TaxonomyContext } from "@ndla/types-taxonomy";
 import HeaderActions from "./HeaderActions";
 import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
 import HeaderInformation from "./HeaderInformation";
-
-export const StyledLanguageWrapper = styled.div`
-  padding-left: ${spacing.small};
-  margin: 0;
-  display: flex;
-  align-items: center;
-`;
 
 export type FormHeaderType =
   | "image"
@@ -95,24 +86,22 @@ const HeaderWithLanguage = ({
         language={language}
         slug={article?.slug}
       />
-      <StyledLanguageWrapper>
-        {id ? (
-          <HeaderActions
-            id={id}
-            articleHistory={articleHistory}
-            language={language}
-            supportedLanguages={supportedLanguages}
-            disableDelete={!!(hasConnections || isArticle) && supportedLanguages.length === 1}
-            article={article}
-            concept={concept}
-            noStatus={noStatus}
-            isNewLanguage={isNewLanguage}
-            type={type}
-          />
-        ) : (
-          <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
-        )}
-      </StyledLanguageWrapper>
+      {id ? (
+        <HeaderActions
+          id={id}
+          articleHistory={articleHistory}
+          language={language}
+          supportedLanguages={supportedLanguages}
+          disableDelete={!!(hasConnections || isArticle) && supportedLanguages.length === 1}
+          article={article}
+          concept={concept}
+          noStatus={noStatus}
+          isNewLanguage={isNewLanguage}
+          type={type}
+        />
+      ) : (
+        <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
+      )}
     </header>
   );
 };

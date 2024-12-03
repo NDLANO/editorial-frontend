@@ -17,7 +17,6 @@ import { HeadingLevel } from "@ndla/ui";
 import VersionLockedField from "./VersionLockedField";
 import VersionNameField from "./VersionNameField";
 import VersionSourceField from "./VersionSourceField";
-import { Row } from "../../../components";
 import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer, FormikForm } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
@@ -52,6 +51,14 @@ const versionFormRules: RulesType<VersionFormType> = {
 const StyledButton = styled(Button, {
   base: {
     width: "fit-content",
+  },
+});
+
+const Row = styled("div", {
+  base: {
+    display: "grid",
+    gap: "xsmall",
+    gridAutoFlow: "column",
   },
 });
 

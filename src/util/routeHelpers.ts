@@ -25,6 +25,7 @@ export const routes = {
   structure: toStructure,
   programme: toProgramme,
   nodeDiff: toNodeDiff,
+  learningpath: toLearningpathFull,
   taxonomy: {
     structure: toStructure,
     versions: "/taxonomyVersions",

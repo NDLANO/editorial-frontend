@@ -48,6 +48,7 @@
     "@types/auth0-js": "^9.13.2",
     "@types/diff-match-patch": "^1.0.32",
     "@types/express": "^5.0.0",
+    "@types/is-hotkey": "^0.1.10",
     "@types/lodash": "^4.17.10",
     "@types/node": "^20.12.12",
     "@types/node-fetch": "^2.6.2",

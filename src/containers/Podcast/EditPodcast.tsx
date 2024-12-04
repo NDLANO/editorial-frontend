@@ -12,7 +12,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { IAudioMetaInformation, IUpdatedAudioMetaInformation } from "@ndla/types-backend/audio-api";
 import PodcastForm from "./components/PodcastForm";
 import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
-import Spinner from "../../components/Spinner";
+import { PageSpinner } from "../../components/PageSpinner";
 import { updateAudio, fetchAudio } from "../../modules/audio/audioApi";
 import { createFormData } from "../../util/formDataHelper";
 import { toEditAudio } from "../../util/routeHelpers";
@@ -90,7 +90,7 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
   }
 
   if (loading) {
-    return <Spinner withWrapper />;
+    return <PageSpinner />;
   }
 
   if (!podcastId || !podcast) {

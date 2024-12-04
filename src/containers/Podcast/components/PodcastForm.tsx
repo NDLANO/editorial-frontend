@@ -25,8 +25,8 @@ import { FormActionsContainer, FormContent } from "../../../components/FormikFor
 import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
 import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
+import { PageSpinner } from "../../../components/PageSpinner";
 import SaveButton from "../../../components/SaveButton";
-import Spinner from "../../../components/Spinner";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { PodcastFormValues } from "../../../modules/audio/audioApiInterfaces";
 import { useLicenses } from "../../../modules/draft/draftQueries";
@@ -245,7 +245,7 @@ const PodcastForm = ({
               title={audio?.title.title}
             />
             {translating ? (
-              <Spinner withWrapper />
+              <PageSpinner />
             ) : (
               <FormAccordions defaultOpen={["podcast-upload-content"]}>
                 <FormAccordion

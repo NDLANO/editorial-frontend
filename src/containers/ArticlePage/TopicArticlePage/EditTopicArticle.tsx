@@ -12,8 +12,8 @@ import { Navigate, useParams } from "react-router-dom";
 import { HelmetWithTracker } from "@ndla/tracker";
 import TopicArticleForm from "./components/TopicArticleForm";
 import { TranslateType, useTranslateToNN } from "../../../components/NynorskTranslateProvider";
+import { PageSpinner } from "../../../components/PageSpinner";
 import { isNewArticleLanguage } from "../../../components/SlateEditor/IsNewArticleLanguageProvider";
-import Spinner from "../../../components/Spinner";
 import { LocaleType } from "../../../interfaces";
 import { useNodes } from "../../../modules/nodes/nodeQueries";
 import { toEditArticle } from "../../../util/routeHelpers";
@@ -90,7 +90,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
   }, [article, loading, setArticle, shouldTranslate, translate]);
 
   if (loading || translating || shouldTranslate) {
-    return <Spinner withWrapper />;
+    return <PageSpinner />;
   }
 
   if (!article || !articleId) {

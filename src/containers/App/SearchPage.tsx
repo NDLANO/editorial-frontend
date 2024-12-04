@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router-dom";
 import { UseQueryResult } from "@tanstack/react-query";
 import { SearchMedia, SearchContent, VoiceprintLine, ListCheck } from "@ndla/icons";
-import { SearchType } from "../../interfaces";
+import { SearchParams, SearchType } from "../../interfaces";
 import { useSearchAudio, useSearchSeries } from "../../modules/audio/audioQueries";
 import { useSearchImages } from "../../modules/image/imageQueries";
 import { useSearchWithCustomSubjectsFiltering } from "../../modules/search/searchQueries";
@@ -21,7 +21,6 @@ import SubNavigation from "../Masthead/components/SubNavigation";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import { SearchParamsBody, parseSearchParams } from "../SearchPage/components/form/SearchForm";
-import { SearchParams } from "../SearchPage/components/form/types";
 import SearchContainer, { ResultType } from "../SearchPage/SearchContainer";
 
 const SearchPage = () => {

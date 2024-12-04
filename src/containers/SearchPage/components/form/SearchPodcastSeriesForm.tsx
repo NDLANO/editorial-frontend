@@ -12,11 +12,11 @@ import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IUserData } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
-import SearchControlButtons from "./SearchControlButtons";
-import SearchHeader from "./SearchHeader";
-import SearchTagGroup, { Filters } from "./SearchTagGroup";
-import { OnFieldChangeFunction, SearchParams } from "./types";
+import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
+import SearchHeader from "../../../../components/Form/SearchHeader";
+import SearchTagGroup, { Filters } from "../../../../components/Form/SearchTagGroup";
 import ObjectSelector from "../../../../components/ObjectSelector";
+import { OnFieldChangeFunction, SearchParams } from "../../../../interfaces";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 
 const StyledForm = styled("form", {

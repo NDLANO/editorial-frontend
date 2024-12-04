@@ -17,8 +17,7 @@ import SearchAudioForm from "./SearchAudioForm";
 import SearchContentForm from "./SearchContentForm";
 import SearchImageForm from "./SearchImageForm";
 import SearchPodcastSeriesForm from "./SearchPodcastSeriesForm";
-import { SearchParams } from "./types";
-import { SearchType } from "../../../../interfaces";
+import { SearchParams, SearchType } from "../../../../interfaces";
 
 /** Used to wraps backend types and replaces their `sort` with `sort?: string` */
 export type StringSort<T> = Omit<T, "sort"> & { sort?: string };

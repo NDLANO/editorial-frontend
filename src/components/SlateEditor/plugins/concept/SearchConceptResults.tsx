@@ -14,7 +14,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import config from "../../../../config";
 import { PUBLISHED } from "../../../../constants";
-import { SearchParams } from "../../../../containers/SearchPage/components/form/types";
+import { SearchParams } from "../../../../interfaces";
 import { FormActionsContainer } from "../../../FormikForm";
 
 const StyledListItemImage = styled(ListItemImage, {

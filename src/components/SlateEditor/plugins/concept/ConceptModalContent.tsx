@@ -35,7 +35,7 @@ import ConceptForm from "../../../../containers/ConceptPage/ConceptForm/ConceptF
 import { ConceptType } from "../../../../containers/ConceptPage/conceptInterfaces";
 import { GlossForm } from "../../../../containers/GlossPage/components/GlossForm";
 import { parseSearchParams } from "../../../../containers/SearchPage/components/form/SearchForm";
-import { SearchParams } from "../../../../containers/SearchPage/components/form/types";
+import { SearchParams } from "../../../../interfaces";
 import { postSearchConcepts } from "../../../../modules/concept/conceptApi";
 import Pagination from "../../../abstractions/Pagination";
 import { DialogCloseButton } from "../../../DialogCloseButton";

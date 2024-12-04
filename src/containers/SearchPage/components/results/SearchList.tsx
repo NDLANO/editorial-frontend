@@ -16,10 +16,9 @@ import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
 import SearchResult, { SearchResultReturnType } from "./SearchResult";
-import { LocaleType, SearchType } from "../../../../interfaces";
+import { LocaleType, SearchParams, SearchType } from "../../../../interfaces";
 import { useAuth0Users } from "../../../../modules/auth0/auth0Queries";
 import { ResultType } from "../../SearchContainer";
-import { SearchParams } from "../form/types";
 
 export type ResultSummaryType =
   | IImageMetaInformationV3

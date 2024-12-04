@@ -13,9 +13,9 @@ import { useTranslation } from "react-i18next";
 import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IUserData } from "@ndla/types-backend/draft-api";
+import { Filters } from "../../components/Form/SearchTagGroup";
 import SaveButton from "../../components/SaveButton";
 import { SearchType } from "../../interfaces";
-import { Filters } from "./components/form/SearchTagGroup";
 import { useUpdateUserDataMutation } from "../../modules/draft/draftQueries";
 
 type Error = "alreadyExist" | "other" | "fetchFailed" | "";

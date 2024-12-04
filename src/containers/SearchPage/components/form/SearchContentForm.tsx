@@ -15,12 +15,11 @@ import { styled } from "@ndla/styled-system/jsx";
 import { IUserData } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import CheckboxSelector from "./CheckboxSelector";
-import SearchControlButtons from "./SearchControlButtons";
-import SearchHeader from "./SearchHeader";
-import SearchTagGroup, { Filters } from "./SearchTagGroup";
-import { SelectElement, SelectRenderer } from "./SelectRenderer";
-import { OnFieldChangeFunction, SearchParams } from "./types";
-import { getTagName } from "./utils";
+import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
+import SearchHeader from "../../../../components/Form/SearchHeader";
+import SearchTagGroup, { Filters } from "../../../../components/Form/SearchTagGroup";
+import { SelectElement, SelectRenderer } from "../../../../components/Form/SelectRenderer";
+import { getTagName } from "../../../../components/Form/utils";
 import {
   DA_SUBJECT_ID,
   DRAFT_RESPONSIBLE,
@@ -32,6 +31,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from "../../../../constants";
+import { OnFieldChangeFunction, SearchParams } from "../../../../interfaces";
 import { useAuth0Editors, useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
 import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { useAllResourceTypes } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";

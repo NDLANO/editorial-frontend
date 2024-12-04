@@ -15,3 +15,7 @@ export const scrollToIndexFn = (contentRef: RefObject<HTMLDivElement>, index: nu
   const el = contentRef.current?.querySelectorAll(`[role='option']`)[index];
   el?.scrollIntoView({ behavior: "auto", block: "nearest" });
 };
+
+export const getTagName = (id: string | undefined, data: { id: string; name: string }[] = []) => {
+  return id ? data.find((entry) => entry.id === id)?.name : undefined;
+};

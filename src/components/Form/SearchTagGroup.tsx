@@ -12,7 +12,7 @@ import { CloseLine } from "@ndla/icons";
 import { Text, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { visuallyHidden } from "@ndla/styled-system/patterns";
-import { SearchParams } from "./types";
+import { SearchParams } from "../../interfaces";
 
 const TagsWrapper = styled("div", {
   base: {

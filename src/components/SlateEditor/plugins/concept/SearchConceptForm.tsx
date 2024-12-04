@@ -14,15 +14,15 @@ import { styled } from "@ndla/styled-system/jsx";
 import { IUserData } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import { CONCEPT_RESPONSIBLE, TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../../../constants";
-import SearchControlButtons from "../../../../containers/SearchPage/components/form/SearchControlButtons";
-import SearchHeader from "../../../../containers/SearchPage/components/form/SearchHeader";
-import SearchTagGroup, { Filters } from "../../../../containers/SearchPage/components/form/SearchTagGroup";
-import { SelectElement, SelectRenderer } from "../../../../containers/SearchPage/components/form/SelectRenderer";
-import { OnFieldChangeFunction, SearchParams } from "../../../../containers/SearchPage/components/form/types";
-import { getTagName } from "../../../../containers/SearchPage/components/form/utils";
+import { OnFieldChangeFunction, SearchParams } from "../../../../interfaces";
 import { useAuth0Editors, useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
 import { useConceptStateMachine } from "../../../../modules/concept/conceptQueries";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
+import SearchControlButtons from "../../../Form/SearchControlButtons";
+import SearchHeader from "../../../Form/SearchHeader";
+import SearchTagGroup, { Filters } from "../../../Form/SearchTagGroup";
+import { SelectElement, SelectRenderer } from "../../../Form/SelectRenderer";
+import { getTagName } from "../../../Form/utils";
 
 const StyledForm = styled("form", {
   base: {

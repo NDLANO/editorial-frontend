@@ -22,14 +22,13 @@ import SearchList from "./components/results/SearchList";
 import SearchListOptions from "./components/results/SearchListOptions";
 import SearchSort from "./components/sort/SearchSort";
 import Pagination from "../../components/abstractions/Pagination";
-import { SearchType } from "../../interfaces";
+import { SearchParams, SearchType } from "../../interfaces";
 import { useUserData } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
 import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
 import { isValid } from "../../util/jwtHelper";
 import { toSearch } from "../../util/routeHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
-import { SearchParams } from "./components/form/types";
 
 const StyledPageContainer = styled(PageContainer, {
   base: {

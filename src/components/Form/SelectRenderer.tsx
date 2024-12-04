@@ -7,8 +7,8 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { OnFieldChangeFunction, SearchParams } from "./types";
-import ObjectSelector, { SelectOption } from "../../../../components/ObjectSelector";
+import { OnFieldChangeFunction, SearchParams } from "../../interfaces";
+import ObjectSelector, { SelectOption } from "../ObjectSelector";
 
 export type SelectElement = {
   name: keyof SearchParams;

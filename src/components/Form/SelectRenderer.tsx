@@ -13,6 +13,7 @@ import ObjectSelector, { SelectOption } from "../ObjectSelector";
 export type SelectElement = {
   name: keyof SearchParams;
   options: SelectOption[];
+  value?: string;
 };
 
 interface Props {
@@ -30,7 +31,7 @@ export const SelectRenderer = ({ selectElements, searchObject, onFieldChange }: 
           key={selectElement.name}
           name={selectElement.name}
           placeholder={t(`searchForm.types.${selectElement.name}`)}
-          value={(searchObject[selectElement.name] as string) ?? ""}
+          value={selectElement.value ?? (searchObject[selectElement.name] as string) ?? ""}
           options={selectElement.options}
           onChange={(value) => onFieldChange(selectElement.name, value)}
         />

@@ -9,8 +9,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import { CloseLine, MenuLine } from "@ndla/icons/action";
-import { ExternalLinkLine } from "@ndla/icons/common";
+import { CloseLine, MenuLine, ExternalLinkLine } from "@ndla/icons";
 import {
   Button,
   DialogBody,

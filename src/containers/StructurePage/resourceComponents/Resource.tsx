@@ -8,8 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import { DeleteBinLine } from "@ndla/icons/action";
-import { CheckboxCircleLine } from "@ndla/icons/editor";
+import { DeleteBinLine, CheckboxCircleLine } from "@ndla/icons";
 import { Text, ListItemContent, ListItemHeading, ListItemRoot, IconButton } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";

@@ -10,7 +10,7 @@ import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { RenderElementProps, ReactEditor } from "slate-react";
-import { ErrorWarningLine } from "@ndla/icons/common";
+import { ErrorWarningLine } from "@ndla/icons";
 import { MessageBox } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { EmbedElements } from ".";

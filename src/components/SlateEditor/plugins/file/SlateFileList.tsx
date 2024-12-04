@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { CloseLine, AddLine } from "@ndla/icons/action";
+import { CloseLine, AddLine } from "@ndla/icons";
 import {
   DialogBody,
   DialogContent,

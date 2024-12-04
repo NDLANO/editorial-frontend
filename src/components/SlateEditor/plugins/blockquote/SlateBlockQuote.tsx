@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import { BrushLine } from "@ndla/icons/editor";
+import { BrushLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentTypeBlockQuote, EmbedWrapper } from "@ndla/ui";

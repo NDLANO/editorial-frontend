@@ -9,7 +9,7 @@
 import addYears from "date-fns/addYears";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alarm } from "@ndla/icons/common";
+import { NotificationLine } from "@ndla/icons";
 import {
   SwitchControl,
   SwitchHiddenInput,
@@ -232,7 +232,7 @@ const Revisions = ({ userData }: Props) => {
           <TableTitle
             title={t("welcomePage.revision")}
             description={t("welcomePage.revisionDescription")}
-            Icon={Alarm}
+            Icon={NotificationLine}
             infoText={t("welcomePage.revisionInfo")}
           />
           <ControlWrapperDashboard>

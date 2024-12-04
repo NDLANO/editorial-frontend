@@ -11,7 +11,7 @@ import { useEffect, useId, useMemo, useState, FormEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { createListCollection } from "@ark-ui/react";
-import { SearchLine } from "@ndla/icons/common";
+import { SearchLine } from "@ndla/icons";
 import {
   ComboboxContent,
   ComboboxControl,

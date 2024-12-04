@@ -8,8 +8,7 @@
 
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine } from "@ndla/icons/action";
-import { UploadCloudLine } from "@ndla/icons/editor";
+import { DeleteBinLine, UploadCloudLine } from "@ndla/icons";
 import { ImageMeta } from "@ndla/image-search";
 import {
   Button,

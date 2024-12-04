@@ -8,8 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { MessageLine } from "@ndla/icons/common";
-import { CheckboxCircleLine } from "@ndla/icons/editor";
+import { MessageLine, CheckboxCircleLine } from "@ndla/icons";
 import { Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";

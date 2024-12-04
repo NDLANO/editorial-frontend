@@ -9,7 +9,7 @@ import { FieldArray, useFormikContext } from "formik";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
-import { CloseLine } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons";
 import { contributorGroups, contributorTypes } from "@ndla/licenses";
 import {
   Button,

@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
 import { createListCollection } from "@ark-ui/react";
-import { Language } from "@ndla/icons/common";
+import { GlobalLine } from "@ndla/icons";
 import { SelectContent, SelectRoot, SelectValueText, SelectLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ToolbarCategoryProps } from "./SlateToolbar";
@@ -95,7 +95,7 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
     >
       <SelectLabel srOnly>{title}</SelectLabel>
       <StyledGenericSelectTrigger variant="tertiary" title={title} size="small" data-testid="toolbar-button-language">
-        <Language />
+        <GlobalLine />
         <SelectValueText />
       </StyledGenericSelectTrigger>
       <SelectContent>

@@ -11,8 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { DeleteBinLine, FileCopyLine } from "@ndla/icons/action";
-import { Link } from "@ndla/icons/common";
+import { DeleteBinLine, FileCopyLine, LinkMedium } from "@ndla/icons";
 import { DialogBody, DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { H5pEmbedData, H5pMetaData } from "@ndla/types-embed";
@@ -182,7 +181,7 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
         <DialogRoot size="large" open={isOpen} onOpenChange={(details) => setOpen(details.open)}>
           <DialogTrigger asChild>
             <IconButton variant="secondary" size="small" title={t("form.editH5p")} aria-label={t("form.editH5p")}>
-              <Link />
+              <LinkMedium />
             </IconButton>
           </DialogTrigger>
           <Portal>

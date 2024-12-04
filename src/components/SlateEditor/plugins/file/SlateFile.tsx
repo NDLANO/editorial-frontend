@@ -8,8 +8,7 @@
 
 import { KeyboardEvent, MouseEvent, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { CloseLine, PencilFill, DeleteBinLine } from "@ndla/icons/action";
-import { CheckboxCircleFill, CheckLine } from "@ndla/icons/editor";
+import { CloseLine, PencilFill, DeleteBinLine, CheckboxCircleFill, CheckLine } from "@ndla/icons";
 import {
   CheckboxControl,
   CheckboxHiddenInput,

@@ -9,9 +9,7 @@
 import { ArrayHelpers, FieldArray, useField } from "formik";
 import { CSSProperties, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AddLine, DeleteBinLine } from "@ndla/icons/action";
-import { ArrowRightShortLine } from "@ndla/icons/common";
-import { EyeFill } from "@ndla/icons/editor";
+import { AddLine, DeleteBinLine, ArrowRightShortLine, EyeFill } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";

@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { InformationLine } from "@ndla/icons/common";
+import { InformationLine } from "@ndla/icons";
 import { MessageBox } from "@ndla/primitives";
 import { AudioFormikType } from "./AudioForm";
 

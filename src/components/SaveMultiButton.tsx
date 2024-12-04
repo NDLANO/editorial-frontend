@@ -8,8 +8,7 @@
 
 import { useState, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { ArrowDownShortLine } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
+import { ArrowDownShortLine, CheckLine } from "@ndla/icons";
 import { Button, IconButton, MenuContent, MenuItem, MenuRoot, MenuTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { SAVE_BUTTON_ID } from "../constants";

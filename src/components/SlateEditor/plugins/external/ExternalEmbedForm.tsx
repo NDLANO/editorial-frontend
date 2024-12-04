@@ -9,9 +9,7 @@
 import { Formik, useFormikContext } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { CloseLine } from "@ndla/icons/action";
-import { Information } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
+import { CloseLine, InformationFill, CheckLine } from "@ndla/icons";
 import {
   Button,
   CheckboxControl,
@@ -273,7 +271,7 @@ const InnerForm = () => {
                     title={t("link.validDomains")}
                     aria-label={t("form.content.link.validDomains")}
                   >
-                    <Information />
+                    <InformationFill />
                   </IconButton>
                 </PopoverTrigger>
                 <StyledPopoverContent>

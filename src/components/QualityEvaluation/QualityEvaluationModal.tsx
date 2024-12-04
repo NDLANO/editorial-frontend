@@ -10,7 +10,7 @@ import { FieldHelperProps, FieldInputProps } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
-import { PencilLine } from "@ndla/icons/action";
+import { PencilLine } from "@ndla/icons";
 import {
   DialogBody,
   DialogContent,

@@ -8,7 +8,7 @@
 
 import { FormEvent, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons";
 import {
   Button,
   FieldErrorMessage,

@@ -6,8 +6,7 @@
  *
  */
 import { useTranslation } from "react-i18next";
-import { BookOpenLine } from "@ndla/icons/common";
-import { FileListLine } from "@ndla/icons/editor";
+import { BookOpenLine, FileListLine } from "@ndla/icons";
 import { Node } from "@ndla/types-taxonomy";
 import { DiffType } from "../containers/NodeDiff/diffUtils";
 import { SUBJECT_NODE } from "../modules/nodes/nodeApiTypes";

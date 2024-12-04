@@ -9,7 +9,7 @@
 import { useFormikContext } from "formik";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "@ndla/icons/editor";
+import { LinkMedium } from "@ndla/icons";
 import { Button, FieldErrorMessage, FieldLabel, FieldRoot, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { frontpagePlugins } from "./frontpagePlugins";
@@ -143,7 +143,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
               variant={editSlug ? "secondary" : "clear"}
               onClick={() => setEditSlug(!editSlug)}
             >
-              <Link />
+              <LinkMedium />
             </IconButton>
           )}
         </StyledDiv>

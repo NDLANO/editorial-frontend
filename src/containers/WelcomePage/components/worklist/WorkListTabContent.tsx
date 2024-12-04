@@ -8,8 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ExclamationMark, Comment } from "@ndla/icons/common";
-import { Calendar } from "@ndla/icons/editor";
+import { ArrowUpDoubleLine, MessageLine, CalendarLine } from "@ndla/icons";
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -107,7 +106,7 @@ const WorkListTabContent = ({
               id: `title_${res.id}`,
               data: (
                 <CellWrapper>
-                  <ExclamationMark
+                  <ArrowUpDoubleLine
                     aria-hidden={!res?.prioritized}
                     visibility={!res?.prioritized ? "hidden" : "visible"}
                     aria-label={t("editorFooter.prioritized")}
@@ -121,7 +120,7 @@ const WorkListTabContent = ({
                   </TextWrapper>
                   {res.comments?.length ? (
                     <CommentIndicatorWrapper>
-                      <Comment
+                      <MessageLine
                         size="small"
                         title={stripInlineContentHtmlTags(res.comments[0].content)}
                         aria-label={stripInlineContentHtmlTags(res.comments[0].content)}
@@ -183,7 +182,7 @@ const WorkListTabContent = ({
   return (
     <>
       <StyledTopRowDashboardInfo>
-        <TableTitle title={t(headerText)} description={t(descriptionText)} Icon={Calendar} />
+        <TableTitle title={t(headerText)} description={t(descriptionText)} Icon={CalendarLine} />
         <ControlWrapperDashboard>
           <TopRowControls>
             <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />

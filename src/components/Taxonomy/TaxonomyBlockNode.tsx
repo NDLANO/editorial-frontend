@@ -10,7 +10,7 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, fonts, spacing } from "@ndla/core";
-import { CheckboxCircleFill } from "@ndla/icons/editor";
+import { CheckboxCircleFill } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
 import Fade from "./Fade";

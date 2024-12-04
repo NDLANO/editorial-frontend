@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { ImageLine } from "@ndla/icons/editor";
+import { ImageLine } from "@ndla/icons";
 import { ImageMeta } from "@ndla/image-search";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
 import { ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";

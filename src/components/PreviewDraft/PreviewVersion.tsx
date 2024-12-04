@@ -11,7 +11,7 @@ import parse from "html-react-parser";
 import { ReactNode, useMemo, useState } from "react";
 import { renderToString } from "react-dom/server";
 import { useTranslation } from "react-i18next";
-import { InformationOutline } from "@ndla/icons/common";
+import { InformationLine } from "@ndla/icons";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { MissingRouterContext } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -140,7 +140,7 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
   return (
     <>
       <SwitchWrapper>
-        <InformationOutline
+        <InformationLine
           aria-hidden={false}
           aria-label={t("form.previewProductionArticle.diffInfo")}
           title={t("form.previewProductionArticle.diffInfo")}

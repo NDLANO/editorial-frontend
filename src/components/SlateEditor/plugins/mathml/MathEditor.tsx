@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Node, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { DeleteBinLine, PencilLine } from "@ndla/icons/action";
+import { DeleteBinLine, PencilLine } from "@ndla/icons";
 import {
   Button,
   DialogBody,

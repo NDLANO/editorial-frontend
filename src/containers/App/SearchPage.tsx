@@ -11,8 +11,7 @@ import { ReactElement } from "react";
 import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router-dom";
 import { UseQueryResult } from "@tanstack/react-query";
-import { List } from "@ndla/icons/action";
-import { SearchMedia, SearchContent, SquareAudio } from "@ndla/icons/editor";
+import { SearchMedia, SearchContent, VoiceprintLine, ListCheck } from "@ndla/icons";
 import { SearchType } from "../../interfaces";
 import { useSearchAudio, useSearchSeries } from "../../modules/audio/audioQueries";
 import { useSearchImages } from "../../modules/image/imageQueries";
@@ -60,7 +59,7 @@ const SearchPage = () => {
         },
         "audio",
       ),
-      icon: <SquareAudio />,
+      icon: <VoiceprintLine />,
       path: "audio",
       searchHook: useSearchAudio,
     },
@@ -83,7 +82,7 @@ const SearchPage = () => {
       title: t("subNavigation.searchPodcastSeries"),
       type: "podcast-series",
       url: toSearch({ page: "1", sort: "-relevance", "page-size": 10 }, "podcast-series"),
-      icon: <List />,
+      icon: <ListCheck />,
       path: "podcast-series",
       searchHook: useSearchSeries,
     },

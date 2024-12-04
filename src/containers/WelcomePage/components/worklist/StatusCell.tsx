@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { CheckboxCircleFill } from "@ndla/icons/editor";
+import { CheckboxCircleFill } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { IStatus } from "@ndla/types-backend/search-api";
 

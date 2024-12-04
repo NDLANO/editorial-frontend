@@ -10,9 +10,7 @@ import { useState, ReactNode, useCallback, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms, Path } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
-import { DeleteBinLine } from "@ndla/icons/action";
-import { ErrorWarningFill, Link as LinkIcon } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
+import { DeleteBinLine, ErrorWarningFill, CheckLine, LinkMedium } from "@ndla/icons";
 import { DialogContent, DialogRoot, IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -232,7 +230,7 @@ const ConceptButtonContainer = ({ concept, handleRemove, language, editor, eleme
         to={`/${concept.conceptType}/${concept.id}/edit/${language}`}
         target="_blank"
       >
-        <LinkIcon />
+        <LinkMedium />
       </SafeLinkIconButton>
       {!!(concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED)) && (
         <StyledCheckLine aria-label={t("form.workflow.published")} title={t("form.workflow.published")} />

@@ -10,8 +10,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
-import { CloseLine } from "@ndla/icons/action";
-import { CheckLine } from "@ndla/icons/editor";
+import { CloseLine, CheckLine } from "@ndla/icons";
 import {
   Button,
   CheckboxControl,

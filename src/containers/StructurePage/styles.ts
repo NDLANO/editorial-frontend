@@ -8,8 +8,7 @@
 
 import styled from "@emotion/styled";
 import { colors, fonts, spacing, breakpoints, misc, mq } from "@ndla/core";
-import { AddLine } from "@ndla/icons/action";
-import { Share } from "@ndla/icons/common";
+import { AddLine, ShareFill } from "@ndla/icons";
 
 export const ResourceGroupBanner = styled.div`
   background-color: ${colors.brand.lighter};
@@ -26,7 +25,7 @@ export const ResourceGroupBanner = styled.div`
   min-height: 52px;
 `;
 
-export const StyledShareIcon = styled(Share)`
+export const StyledShareIcon = styled(ShareFill)`
   width: 24px;
   height: 24px;
   margin-right: ${spacing.small};

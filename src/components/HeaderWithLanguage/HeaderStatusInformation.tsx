@@ -8,8 +8,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ErrorWarningFill, RssLine } from "@ndla/icons/common";
-import { CheckboxCircleFill } from "@ndla/icons/editor";
+import { ErrorWarningFill, RssLine, CheckboxCircleFill } from "@ndla/icons";
 import { Text } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";

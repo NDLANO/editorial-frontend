@@ -8,7 +8,7 @@
 
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { SubjectMaterial } from "@ndla/icons/contentType";
+import { FileListLine } from "@ndla/icons";
 import {
   DialogBody,
   DialogContent,
@@ -91,7 +91,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
           aria-label={t(`form.embedConnections.info.${type}`)}
           title={t(`form.embedConnections.info.${type}`)}
         >
-          <SubjectMaterial />
+          <FileListLine />
         </IconButton>
       </DialogTrigger>
       <DialogContent>

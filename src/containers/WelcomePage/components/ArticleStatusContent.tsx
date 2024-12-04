@@ -8,7 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { BookOpen } from "@ndla/icons/common";
+import { BookOpenLine } from "@ndla/icons";
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { IMultiSearchResult } from "@ndla/types-backend/search-api";
@@ -178,7 +178,7 @@ const ArticleStatusContent = ({
   return (
     <>
       <StyledTopRowDashboardInfo>
-        <TableTitle title={title} description={description} Icon={BookOpen} />
+        <TableTitle title={title} description={description} Icon={BookOpenLine} />
         <ControlWrapperDashboard>
           <TopRowControls>
             <SubjectCombobox

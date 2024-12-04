@@ -9,7 +9,7 @@
 import { FieldInputProps } from "formik";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DragVertical, Link } from "@ndla/icons/editor";
+import { Draggable, LinkMedium } from "@ndla/icons";
 import {
   Button,
   ComboboxLabel,
@@ -161,7 +161,7 @@ const ContentField = ({ field }: Props) => {
           items={releatedContentDndItems}
           dragHandle={
             <DragHandle aria-label={t("form.relatedContent.changeOrder")}>
-              <DragVertical />
+              <Draggable />
             </DragHandle>
           }
           renderItem={(item, index) =>
@@ -171,7 +171,7 @@ const ContentField = ({ field }: Props) => {
                 title={item.title}
                 url={item.url}
                 isExternal
-                fallbackElement={<Link />}
+                fallbackElement={<LinkMedium />}
                 onDelete={() => onDeleteElement(relatedContent, index)}
                 removeElementTranslation={t("form.relatedContent.removeArticle")}
               />

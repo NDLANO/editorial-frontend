@@ -8,7 +8,7 @@
 
 import { memo } from "react";
 import { Portal } from "@ark-ui/react";
-import { InformationOutline } from "@ndla/icons/common";
+import { InformationLine } from "@ndla/icons";
 import {
   Text,
   DialogBody,
@@ -37,7 +37,7 @@ const HowToHelper = ({ pageId, tooltip }: Props) => {
     <DialogRoot>
       <DialogTrigger asChild>
         <IconButton size="small" variant="tertiary" aria-label={tooltip} title={tooltip}>
-          <InformationOutline />
+          <InformationLine />
         </IconButton>
       </DialogTrigger>
       <Portal>
@@ -45,7 +45,7 @@ const HowToHelper = ({ pageId, tooltip }: Props) => {
           <DialogHeader>
             <DialogTitle>
               <HStack>
-                <InformationOutline />
+                <InformationLine />
                 {story.title}
               </HStack>
             </DialogTitle>

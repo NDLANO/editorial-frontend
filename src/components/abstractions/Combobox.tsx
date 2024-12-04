@@ -7,9 +7,7 @@
  */
 
 import { ReactNode, forwardRef } from "react";
-import { CloseLine } from "@ndla/icons/action";
-import { ArrowDownShortLine } from "@ndla/icons/common";
-import { CheckLine, ImageLine } from "@ndla/icons/editor";
+import { CloseLine, ArrowDownShortLine, CheckLine, ImageLine } from "@ndla/icons";
 import {
   ComboboxClearTrigger,
   ComboboxControl,

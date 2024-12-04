@@ -9,7 +9,7 @@
 import isEmpty from "lodash/isEmpty";
 import { CSSProperties, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { ExpandLess, ExpandMore } from "@ndla/icons/action";
+import { ArrowDownShortLine, ArrowUpShortLine } from "@ndla/icons";
 import { Spinner, Table, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
@@ -116,7 +116,7 @@ const TableComponent = <T extends string>({
                   {!!setSortOption && !!tableTitle.sortableField && (
                     <div>
                       <ContentWrapper>
-                        <ExpandLess
+                        <ArrowUpShortLine
                           aria-label={t("welcomePage.workList.sortAsc")}
                           role="button"
                           onClick={() => setSortOption(tableTitle.sortableField!)}
@@ -126,7 +126,7 @@ const TableComponent = <T extends string>({
                         />
                       </ContentWrapper>
                       <ContentWrapper>
-                        <ExpandMore
+                        <ArrowDownShortLine
                           aria-label={t("welcomePage.workList.sortDesc")}
                           role="button"
                           onClick={() => setSortOption(`-${tableTitle.sortableField!}`!)}

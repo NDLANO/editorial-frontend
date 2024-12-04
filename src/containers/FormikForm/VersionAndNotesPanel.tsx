@@ -10,7 +10,7 @@ import { useFormikContext } from "formik";
 import { useEffect, useState, memo } from "react";
 
 import { useTranslation } from "react-i18next";
-import { ArrowDownShortLine } from "@ndla/icons/common";
+import { ArrowDownShortLine } from "@ndla/icons";
 import {
   AccordionItem,
   AccordionItemContent,

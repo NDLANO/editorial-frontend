@@ -9,7 +9,7 @@
 import { Formik, FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
 import { TagsInputContext } from "@ark-ui/react";
-import { CloseLine } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons";
 import {
   Button,
   FieldErrorMessage,

@@ -12,9 +12,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Node, Transforms, Path } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { DeleteBinLine } from "@ndla/icons/action";
-import { ErrorWarningFill } from "@ndla/icons/common";
-import { CheckLine, Link } from "@ndla/icons/editor";
+import { DeleteBinLine, ErrorWarningFill, CheckLine, LinkMedium } from "@ndla/icons";
 import {
   PopoverRoot,
   PopoverTrigger,
@@ -231,7 +229,7 @@ const InlineWrapper = (props: Props) => {
                   title={t(`form.${concept?.conceptType}.edit`)}
                   aria-label={t(`form.${concept?.conceptType}.edit`)}
                 >
-                  <Link />
+                  <LinkMedium />
                 </SafeLinkIconButton>
               </ButtonWrapper>
               {concept?.glossData ? (

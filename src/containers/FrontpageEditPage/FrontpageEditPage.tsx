@@ -75,7 +75,10 @@ const FrontpageEditPage = () => {
     [frontpageQuery.data],
   );
 
-  const articlesQuery = useArticleSearch({ ids: articleIds.join(",") }, { enabled: !!articleIds.length });
+  const articlesQuery = useArticleSearch(
+    { ids: articleIds.join(","), license: "all" },
+    { enabled: !!articleIds.length },
+  );
 
   const transformedMenu: MenuWithArticle | undefined = useMemo(() => {
     if (frontpageQuery.isLoading || articlesQuery.isLoading || !articlesQuery.data) {

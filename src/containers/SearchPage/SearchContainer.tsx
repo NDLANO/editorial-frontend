@@ -17,7 +17,7 @@ import { IAudioSummarySearchResult, ISeriesSummarySearchResult } from "@ndla/typ
 import { IConceptSearchResult } from "@ndla/types-backend/concept-api";
 import { ISearchResultV3 } from "@ndla/types-backend/image-api";
 import { IMultiSearchResult } from "@ndla/types-backend/search-api";
-import SearchForm, { parseSearchParams, SearchParams } from "./components/form/SearchForm";
+import SearchForm, { parseSearchParams } from "./components/form/SearchForm";
 import SearchList from "./components/results/SearchList";
 import SearchListOptions from "./components/results/SearchListOptions";
 import SearchSort from "./components/sort/SearchSort";
@@ -29,6 +29,7 @@ import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
 import { isValid } from "../../util/jwtHelper";
 import { toSearch } from "../../util/routeHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
+import { SearchParams } from "./components/form/types";
 
 const StyledPageContainer = styled(PageContainer, {
   base: {

@@ -19,7 +19,7 @@ import SearchResult, { SearchResultReturnType } from "./SearchResult";
 import { LocaleType, SearchType } from "../../../../interfaces";
 import { useAuth0Users } from "../../../../modules/auth0/auth0Queries";
 import { ResultType } from "../../SearchContainer";
-import { SearchParams } from "../form/SearchForm";
+import { SearchParams } from "../form/types";
 
 export type ResultSummaryType =
   | IImageMetaInformationV3

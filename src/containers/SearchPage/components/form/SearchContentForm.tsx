@@ -16,11 +16,10 @@ import { IUserData } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import CheckboxSelector from "./CheckboxSelector";
 import SearchControlButtons from "./SearchControlButtons";
-import { SearchParams } from "./SearchForm";
 import SearchHeader from "./SearchHeader";
 import SearchTagGroup, { Filters } from "./SearchTagGroup";
 import { SelectElement, SelectRenderer } from "./SelectRenderer";
-import { OnFieldChangeFunction } from "./types";
+import { OnFieldChangeFunction, SearchParams } from "./types";
 import { getTagName } from "./utils";
 import {
   DA_SUBJECT_ID,

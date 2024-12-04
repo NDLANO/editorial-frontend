@@ -7,7 +7,6 @@
  */
 
 import { FormEvent } from "react";
-import { SearchParams } from "./SearchForm";
 import { DateChangedEvent } from "../../../FormikForm/components/InlineDatePicker";
 
 type FormEvents = FormEvent<HTMLInputElement> | FormEvent<HTMLSelectElement>;
@@ -18,3 +17,28 @@ export type OnFieldChangeFunction = <T extends keyof SearchParams>(
   value: SearchParams[T],
   event?: FieldChangedEvent,
 ) => void;
+
+export interface SearchParams {
+  query?: string;
+  "draft-status"?: string;
+  "include-other-statuses"?: boolean;
+  "resource-types"?: string;
+  "article-types"?: string;
+  "audio-type"?: string;
+  fallback?: boolean;
+  language?: string;
+  page?: number;
+  "page-size"?: number;
+  status?: string;
+  subjects?: string;
+  users?: string;
+  sort?: string;
+  license?: string;
+  "model-released"?: string;
+  "revision-date-from"?: string;
+  "revision-date-to"?: string;
+  "exclude-revision-log"?: boolean | undefined;
+  "responsible-ids"?: string;
+  "concept-type"?: string;
+  "filter-inactive"?: boolean;
+}

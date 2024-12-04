@@ -20,7 +20,8 @@ import { toSearch } from "../../util/routeHelpers";
 import SubNavigation from "../Masthead/components/SubNavigation";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
-import { SearchParams, SearchParamsBody, parseSearchParams } from "../SearchPage/components/form/SearchForm";
+import { SearchParamsBody, parseSearchParams } from "../SearchPage/components/form/SearchForm";
+import { SearchParams } from "../SearchPage/components/form/types";
 import SearchContainer, { ResultType } from "../SearchPage/SearchContainer";
 
 const SearchPage = () => {

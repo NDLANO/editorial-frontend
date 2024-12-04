@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { CloseLine } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { SearchParams } from "./SearchForm";
+import { SearchParams } from "./types";
 
 const TagsWrapper = styled("div", {
   base: {

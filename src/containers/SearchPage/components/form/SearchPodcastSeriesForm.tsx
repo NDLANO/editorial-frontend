@@ -13,10 +13,9 @@ import { styled } from "@ndla/styled-system/jsx";
 import { IUserData } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import SearchControlButtons from "./SearchControlButtons";
-import { SearchParams } from "./SearchForm";
 import SearchHeader from "./SearchHeader";
 import SearchTagGroup, { Filters } from "./SearchTagGroup";
-import { OnFieldChangeFunction } from "./types";
+import { OnFieldChangeFunction, SearchParams } from "./types";
 import ObjectSelector from "../../../../components/ObjectSelector";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 

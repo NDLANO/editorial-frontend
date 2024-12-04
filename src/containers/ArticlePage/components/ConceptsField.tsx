@@ -9,7 +9,7 @@
 import { FieldInputProps } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DragVertical } from "@ndla/icons/editor";
+import { Draggable } from "@ndla/icons";
 import { ComboboxLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
@@ -108,7 +108,7 @@ const ConceptsField = ({ field }: Props) => {
           items={concepts}
           dragHandle={
             <DragHandle aria-label={t("form.relatedConcepts.changeOrder")}>
-              <DragVertical />
+              <Draggable />
             </DragHandle>
           }
           renderItem={(item, index) => (

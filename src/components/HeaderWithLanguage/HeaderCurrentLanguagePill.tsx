@@ -7,7 +7,7 @@
  */
 
 import { ComponentPropsWithoutRef, ReactNode } from "react";
-import { CheckboxCircleFill } from "@ndla/icons/editor";
+import { CheckboxCircleFill } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 

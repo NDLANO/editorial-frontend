@@ -10,7 +10,7 @@ import { FormEvent, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { Search } from "@ndla/icons/common";
+import { SearchLine } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { IUserData } from "@ndla/types-backend/draft-api";
 import { SearchParams } from "./SearchForm";
@@ -126,7 +126,7 @@ const GenericSearchForm = ({
       {!disableSavedSearch && (
         <StyledSearchHeader>
           <h2>
-            <Search />
+            <SearchLine />
             {t(`searchPage.header.${type}`)}
           </h2>
           <SearchSaveButton userData={userData} selectors={selectors} searchContentType={type} />

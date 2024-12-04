@@ -8,7 +8,7 @@
 
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { LearningPath } from "@ndla/icons/contentType";
+import { TextWrap } from "@ndla/icons";
 import {
   DialogBody,
   DialogContent,
@@ -52,7 +52,7 @@ const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) 
           aria-label={t("form.learningpathConnections.sectionTitle")}
           title={t("form.learningpathConnections.sectionTitle")}
         >
-          <LearningPath />
+          <TextWrap />
         </IconButton>
       </DialogTrigger>
       <DialogContent>

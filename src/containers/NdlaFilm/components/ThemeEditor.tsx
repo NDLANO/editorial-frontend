@@ -9,8 +9,7 @@
 import { useField } from "formik";
 import { MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine, PencilFill } from "@ndla/icons/action";
-import { ArrowUpShortLine, ArrowDownShortLine } from "@ndla/icons/common";
+import { DeleteBinLine, PencilFill, ArrowUpShortLine, ArrowDownShortLine } from "@ndla/icons";
 import { Button, Heading, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IMovieTheme } from "@ndla/types-backend/frontpage-api";

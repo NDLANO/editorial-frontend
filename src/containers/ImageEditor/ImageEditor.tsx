@@ -10,16 +10,7 @@ import { useFormikContext } from "formik";
 import { MouseEvent, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PercentCrop } from "react-image-crop";
-import {
-  AlignCenter,
-  AlignLeft,
-  AlignRight,
-  Crop,
-  FocalPoint,
-  ImageSmall,
-  ImageXsmall,
-  ImageXxSmall,
-} from "@ndla/icons/editor";
+import { AlignCenter, AlignLeft, AlignRight, CropLine, FocusMode } from "@ndla/icons";
 import { Button, IconButton, ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
@@ -59,9 +50,9 @@ const alignments = [
 ] as const;
 
 const sizes = [
-  { value: "xsmall", children: <ImageXxSmall /> },
-  { value: "small", children: <ImageXsmall /> },
-  { value: "medium", children: <ImageSmall /> },
+  { value: "xsmall", name: "xs" },
+  { value: "small", name: "s" },
+  { value: "medium", name: "m" },
 ] as const;
 
 const defaultData: Record<string, Partial<ImageEmbedFormValues>> = {
@@ -206,7 +197,7 @@ const ImageEditor = ({ language, image }: Props) => {
                   helpers.setValue(details.value[0]);
                 }}
               >
-                {sizes.map(({ value, children }) => (
+                {sizes.map(({ value, name }) => (
                   <ToggleGroupItem
                     key={value}
                     value={value}
@@ -215,7 +206,7 @@ const ImageEditor = ({ language, image }: Props) => {
                     asChild
                   >
                     <IconButton variant="secondary" size="small">
-                      {children}
+                      {name}
                     </IconButton>
                   </ToggleGroupItem>
                 ))}
@@ -245,7 +236,7 @@ const ImageEditor = ({ language, image }: Props) => {
               asChild
             >
               <IconButton size="small" variant="secondary">
-                <FocalPoint />
+                <FocusMode />
               </IconButton>
             </ToggleGroupItem>
           )}
@@ -257,7 +248,7 @@ const ImageEditor = ({ language, image }: Props) => {
           {!!isModifiable && (
             <ToggleGroupItem value="crop" aria-label={t("form.image.crop")} title={t("form.image.crop")} asChild>
               <IconButton variant="secondary" size="small">
-                <Crop />
+                <CropLine />
               </IconButton>
             </ToggleGroupItem>
           )}

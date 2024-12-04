@@ -9,7 +9,7 @@
 import { FieldArray, Formik, useField, useFormikContext } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { AddLine, PencilFill } from "@ndla/icons/action";
+import { AddLine, PencilFill } from "@ndla/icons";
 import { Heading, IconButton, PageContainer, Spinner, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";

@@ -9,7 +9,7 @@
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
-import { AddLine } from "@ndla/icons/action";
+import { AddLine } from "@ndla/icons";
 import {
   Button,
   DialogBody,

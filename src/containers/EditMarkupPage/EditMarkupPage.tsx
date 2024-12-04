@@ -9,7 +9,7 @@
 import { lazy, Suspense, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useParams } from "react-router-dom";
-import { InformationLine } from "@ndla/icons/common";
+import { InformationLine } from "@ndla/icons";
 import {
   DialogBody,
   DialogContent,

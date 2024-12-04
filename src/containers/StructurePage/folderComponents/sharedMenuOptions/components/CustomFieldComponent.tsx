@@ -8,8 +8,7 @@
 
 import { useState, KeyboardEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine } from "@ndla/icons/action";
-import { CheckLine } from "@ndla/icons/editor";
+import { DeleteBinLine, CheckLine } from "@ndla/icons";
 import { IconButton, Input } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Metadata } from "@ndla/types-taxonomy";

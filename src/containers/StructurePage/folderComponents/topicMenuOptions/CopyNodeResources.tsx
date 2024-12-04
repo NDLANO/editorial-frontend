@@ -9,8 +9,7 @@
 import { Fragment, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
-import { ErrorWarningLine } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
+import { ErrorWarningLine, CheckLine } from "@ndla/icons";
 import { Text, Spinner, MessageBox } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";

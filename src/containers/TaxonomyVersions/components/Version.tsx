@@ -9,9 +9,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
-import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
-import { ExternalLinkLine } from "@ndla/icons/common";
-import { DoorLockLine } from "@ndla/icons/editor";
+import { PencilFill, DeleteBinLine, ExternalLinkLine, DoorLockLine } from "@ndla/icons";
 import { Text, Button, IconButton, Badge, BadgeVariant } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";

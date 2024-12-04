@@ -10,7 +10,7 @@ import { addYears } from "date-fns";
 import { FastField, FieldArray, FieldProps, useField } from "formik";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons";
 import {
   Button,
   FieldErrorMessage,

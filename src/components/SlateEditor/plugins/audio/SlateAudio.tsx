@@ -11,8 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
-import { Link } from "@ndla/icons/common";
+import { PencilFill, DeleteBinLine, LinkMedium } from "@ndla/icons";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -152,7 +151,7 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
                     title={t("form.editOriginalAudio")}
                     aria-label={t("form.editOriginalAudio")}
                   >
-                    <Link />
+                    <LinkMedium />
                   </SafeLinkIconButton>
                   <IconButton
                     title={t("form.audio.remove")}

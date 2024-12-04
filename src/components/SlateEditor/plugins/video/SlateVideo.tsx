@@ -11,8 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { DeleteBinLine, PencilFill } from "@ndla/icons/action";
-import { Link } from "@ndla/icons/editor";
+import { DeleteBinLine, PencilFill, LinkMedium } from "@ndla/icons";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -128,7 +127,7 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
               to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.embedData.videoid.split("&t=")[0]}`}
               size="small"
             >
-              <Link />
+              <LinkMedium />
             </SafeLinkIconButton>
             <IconButton
               aria-label={t("form.video.remove")}

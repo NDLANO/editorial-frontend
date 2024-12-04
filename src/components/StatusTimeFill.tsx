@@ -6,7 +6,7 @@
  *
  */
 
-import { TimeFill } from "@ndla/icons/common";
+import { TimeFill } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 
 export const StatusTimeFill = styled(TimeFill, {

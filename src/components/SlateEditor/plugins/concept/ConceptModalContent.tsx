@@ -10,7 +10,7 @@ import debounce from "lodash/debounce";
 import queryString from "query-string";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Search } from "@ndla/icons/common";
+import { SearchLine } from "@ndla/icons";
 import {
   Button,
   DialogBody,
@@ -139,7 +139,7 @@ const ConceptModalContent = ({
           <TabsContent value="concepts">
             <div>
               <h2>
-                <Search />
+                <SearchLine />
                 {t(`searchPage.header.concept`)}
               </h2>
               <SearchConceptForm

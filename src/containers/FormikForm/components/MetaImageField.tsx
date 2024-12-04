@@ -7,8 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine } from "@ndla/icons/action";
-import { Link } from "@ndla/icons/common";
+import { DeleteBinLine, LinkMedium } from "@ndla/icons";
 import { FieldErrorMessage, FieldInput, FieldRoot, IconButton, FieldLabel, Image } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -65,7 +64,7 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, 
         title={t("form.image.editImage")}
         size="small"
       >
-        <Link />
+        <LinkMedium />
       </SafeLinkIconButton>
     </>
   );

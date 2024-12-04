@@ -9,8 +9,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AudioSearch } from "@ndla/audio-search";
-import { CloseLine } from "@ndla/icons/action";
-import { Audio } from "@ndla/icons/common";
+import { CloseLine, VoiceprintLine } from "@ndla/icons";
 import {
   Button,
   DialogBody,
@@ -98,7 +97,7 @@ export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Pro
     <DialogRoot open={isOpen} onOpenChange={(details) => setIsOpen(details.open)}>
       <DialogTrigger asChild>
         <Button>
-          <Audio />
+          <VoiceprintLine />
           {t("form.gloss.audio.button")}
         </Button>
       </DialogTrigger>

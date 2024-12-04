@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Concept, Globe, CheckboxCircleLine } from "@ndla/icons/editor";
+import { ChatLine, GlobalLine, CheckboxCircleLine } from "@ndla/icons";
 import { Button, ListItemContent, ListItemHeading, ListItemImage, ListItemRoot, Spinner, Text } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -82,7 +82,7 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching = t
       {results.map((result) => (
         <ListItemRoot key={result.id} context="list" nonInteractive asChild consumeCss>
           <li>
-            <StyledListItemImage src="" alt="" fallbackElement={result.glossData ? <Globe /> : <Concept />} />
+            <StyledListItemImage src="" alt="" fallbackElement={result.glossData ? <GlobalLine /> : <ChatLine />} />
             <StyledListItemContent>
               <ListItemContent>
                 <ListItemHeading>

@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { AddLine } from "@ndla/icons/action";
+import { AddLine } from "@ndla/icons";
 import { Button, MenuContent, MenuItem, MenuRoot, MenuTrigger } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 

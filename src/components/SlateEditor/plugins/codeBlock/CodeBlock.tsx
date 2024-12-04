@@ -38,8 +38,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { DeleteBinLine, PencilFill } from "@ndla/icons/action";
-import { Code } from "@ndla/icons/editor";
+import { DeleteBinLine, PencilFill, CodeView } from "@ndla/icons";
 import {
   Button,
   DialogBody,
@@ -188,7 +187,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>
-                {t("codeEditor.title")} <Code />
+                {t("codeEditor.title")} <CodeView />
               </DialogTitle>
               <DialogCloseButton />
             </DialogHeader>

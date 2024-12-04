@@ -11,9 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
-import { ErrorWarningLine } from "@ndla/icons/common";
-import { Expandable } from "@ndla/icons/editor";
+import { PencilFill, DeleteBinLine, ErrorWarningLine, ExpandUpDownLine } from "@ndla/icons";
 import {
   DialogBody,
   DialogContent,
@@ -212,7 +210,7 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
               size="small"
               aria-label={t("form.resize")}
             >
-              <Expandable />
+              <ExpandUpDownLine />
             </ExpandableButton>
           )}
           {children}

@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { ErrorWarningFill } from "@ndla/icons/common";
+import { ErrorWarningFill } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import { getIdFromUrn } from "../../../util/taxonomyHelpers";

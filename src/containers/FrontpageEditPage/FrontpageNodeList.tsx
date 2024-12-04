@@ -10,7 +10,7 @@ import { FieldArrayRenderProps, useField } from "formik";
 import { ComponentType, CSSProperties, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
-import { Draggable } from "@ndla/icons/editor";
+import { Draggable } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import FrontpageNode from "./FrontpageNode";
 import { MenuWithArticle } from "./types";

@@ -8,7 +8,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { BookOpen, InformationOutline } from "@ndla/icons/common";
+import { BookOpenLine, InformationLine } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { getCurrentPageData } from "./LastUsedItems";
@@ -38,7 +38,7 @@ interface CellHeaderProps {
 
 const CellHeader = ({ title, description }: CellHeaderProps) => (
   <StyledTableHeader>
-    {title} <InformationOutline aria-label={description} title={description} size="small" />
+    {title} <InformationLine aria-label={description} title={description} size="small" />
   </StyledTableHeader>
 );
 
@@ -195,7 +195,7 @@ const SubjectViewContent = ({
   return (
     <>
       <StyledTopRowDashboardInfo>
-        <TableTitle title={title} description={description} Icon={BookOpen} />
+        <TableTitle title={title} description={description} Icon={BookOpenLine} />
         <ControlWrapperDashboard>
           <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
         </ControlWrapperDashboard>

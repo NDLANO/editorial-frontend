@@ -8,7 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { CheckboxCircleFill } from "@ndla/icons/editor";
+import { CheckboxCircleFill } from "@ndla/icons";
 import { Button, ButtonProps } from "@ndla/primitives";
 
 interface Props extends ButtonProps {

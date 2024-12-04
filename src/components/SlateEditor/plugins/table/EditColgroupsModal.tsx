@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Transforms } from "slate";
 import { useSlateStatic } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { PencilLine } from "@ndla/icons/action";
+import { PencilLine } from "@ndla/icons";
 import {
   Button,
   DialogBody,

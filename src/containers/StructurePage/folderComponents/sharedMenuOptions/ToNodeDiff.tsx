@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { ExternalLinkLine } from "@ndla/icons/common";
+import { ExternalLinkLine } from "@ndla/icons";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Node } from "@ndla/types-taxonomy";
 import { useTaxonomyVersion } from "../../../../containers/StructureVersion/TaxonomyVersionProvider";

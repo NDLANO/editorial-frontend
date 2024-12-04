@@ -9,7 +9,7 @@
 import { useFormikContext } from "formik";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Launch } from "@ndla/icons/common";
+import { ShareBoxLine } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -233,7 +233,7 @@ function EditorFooter<T extends FormValues>({
             {!!values.id && !!isArticle && (
               <SafeLinkButton variant="link" to={toPreviewDraft(values.id, values.language)} target="_blank">
                 {t("form.preview.button")}
-                <Launch size="small" />
+                <ShareBoxLine size="small" />
               </SafeLinkButton>
             )}
             {!!languageButton && languageButton}

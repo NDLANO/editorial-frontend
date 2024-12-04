@@ -10,8 +10,7 @@ import { MouseEvent, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Range } from "slate";
 import { ReactEditor } from "slate-react";
-import { Minus, AddLine } from "@ndla/icons/action";
-import { AlignCenter, AlignLeft, AlignRight } from "@ndla/icons/editor";
+import { SubtractLine, AddLine, AlignCenter, AlignLeft, AlignRight } from "@ndla/icons";
 import { Button, IconButton, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import EditColgroupsModal from "./EditColgroupsModal";
@@ -89,7 +88,7 @@ const rowActions = [
     name: "row-add",
   },
   {
-    icon: <Minus />,
+    icon: <SubtractLine />,
     name: "row-remove",
   },
 ];
@@ -100,7 +99,7 @@ const columnActions = [
     name: "column-add",
   },
   {
-    icon: <Minus />,
+    icon: <SubtractLine />,
     name: "column-remove",
   },
   {

@@ -9,7 +9,7 @@
 import isEqual from "lodash/isEqual";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DragVertical } from "@ndla/icons/editor";
+import { Draggable } from "@ndla/icons";
 import { ComboboxLabel, FieldRoot, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
@@ -128,7 +128,7 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder, comboboxLabe
             items={apiMovies}
             dragHandle={
               <DragHandle aria-label={t("ndlaFilm.editor.changeOrder")}>
-                <DragVertical />
+                <Draggable />
               </DragHandle>
             }
             renderItem={(item) => (

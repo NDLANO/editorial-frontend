@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { Node } from "slate";
 import { RenderElementProps } from "slate-react";
-import { ErrorWarningLine } from "@ndla/icons/common";
+import { ErrorWarningLine } from "@ndla/icons";
 import { MessageBox } from "@ndla/primitives";
 import { EmbedElements } from "../embed";
 

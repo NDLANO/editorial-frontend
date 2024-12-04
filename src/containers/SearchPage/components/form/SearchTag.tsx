@@ -10,7 +10,7 @@ import { MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
-import { CloseLine } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { SearchFormSelector } from "./Selector";
 import formatDate from "../../../../util/formatDate";

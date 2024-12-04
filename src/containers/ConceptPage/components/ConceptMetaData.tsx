@@ -11,8 +11,7 @@ import keyBy from "lodash/keyBy";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ComboboxContext, TagsInputContext, createListCollection } from "@ark-ui/react";
-import { CloseLine } from "@ndla/icons/action";
-import { ArrowDownShortLine } from "@ndla/icons/common";
+import { CloseLine, ArrowDownShortLine } from "@ndla/icons";
 import {
   ComboboxItem,
   ComboboxItemText,

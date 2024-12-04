@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { HeartFill } from "@ndla/icons/action";
+import { HeartFill } from "@ndla/icons";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useResourceStats } from "../../modules/myndla/myndlaQueries";

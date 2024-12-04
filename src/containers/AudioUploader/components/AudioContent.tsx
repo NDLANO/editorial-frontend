@@ -9,9 +9,7 @@
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
-import { DeleteBinLine } from "@ndla/icons/action";
-import { InformationLine } from "@ndla/icons/common";
-import { UploadCloudLine } from "@ndla/icons/editor";
+import { DeleteBinLine, InformationLine, UploadCloudLine } from "@ndla/icons";
 import {
   Button,
   DialogBody,

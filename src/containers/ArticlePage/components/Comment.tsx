@@ -10,9 +10,7 @@ import { FieldArrayRenderProps, FieldInputProps } from "formik";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { DeleteBinLine } from "@ndla/icons/action";
-import { ArrowDownShortLine, ArrowRightShortLine } from "@ndla/icons/common";
-import { Done } from "@ndla/icons/editor";
+import { DeleteBinLine, ArrowDownShortLine, ArrowRightShortLine, CheckLine } from "@ndla/icons";
 import { Button, FieldLabel, FieldRoot, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUtils";
@@ -146,7 +144,7 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
               title={field.value.solved ? t("form.comment.unresolve") : t("form.comment.solve")}
               onClick={() => updateComment("solved", !field.value.solved)}
             >
-              <Done />
+              <CheckLine />
             </IconButton>
             <IconButton
               variant="danger"

@@ -11,8 +11,7 @@ import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
-import { Subject } from "@ndla/icons/contentType";
-import { DragVertical, Star, SubjectMatter, Taxonomy } from "@ndla/icons/editor";
+import { BookmarkLine, BookOpenLine, Draggable, StarFill, OrganizationChart } from "@ndla/icons";
 import { Spinner } from "@ndla/primitives";
 import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
 import FolderItem from "./folderComponents/FolderItem";
@@ -47,7 +46,7 @@ interface RoundIconProps {
   type?: "button" | "reset" | "submit";
 }
 
-const StyledStar = styled(Star)`
+const StyledStar = styled(StarFill)`
   color: ${colors.brand.greyDark};
   &[data-favorite="true"] {
     color: ${colors.favoriteColor};
@@ -85,17 +84,17 @@ const getNodeIcon = (nodeType: NodeType): { icon: ReactNode; title: string } => 
   switch (nodeType) {
     case "SUBJECT":
       return {
-        icon: <SubjectMatter />,
+        icon: <BookOpenLine />,
         title: "subjectpageForm.title",
       };
     case "PROGRAMME":
       return {
-        icon: <Taxonomy />,
+        icon: <OrganizationChart />,
         title: "programmepageForm.title",
       };
     default:
       return {
-        icon: <Subject />,
+        icon: <BookmarkLine />,
         title: "topicArticleForm.title",
       };
   }
@@ -255,7 +254,7 @@ const NodeItem = ({
               )}
               dragHandle={
                 <DragHandle aria-label={t("dragAndDrop.handle")}>
-                  <DragVertical />
+                  <Draggable />
                 </DragHandle>
               }
             />

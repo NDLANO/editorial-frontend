@@ -8,7 +8,7 @@
 
 import { useField } from "formik";
 import { useTranslation } from "react-i18next";
-import { InformationOutline } from "@ndla/icons/common";
+import { InformationLine } from "@ndla/icons";
 import {
   DialogTrigger,
   DialogBody,
@@ -58,7 +58,7 @@ const VisualElementField = ({ types }: Props) => {
               aria-label={t("form.visualElement.helpLabel")}
               title={t("form.visualElement.helpLabel")}
             >
-              <InformationOutline />
+              <InformationLine />
             </IconButton>
           </DialogTrigger>
           <DialogContent>

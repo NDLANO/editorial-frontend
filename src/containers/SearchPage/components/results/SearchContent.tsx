@@ -8,8 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ErrorWarningFill } from "@ndla/icons/common";
-import { CheckLine, Code, Concept, Globe } from "@ndla/icons/editor";
+import { ErrorWarningFill, CheckLine, CodeView, ChatLine, GlobalLine } from "@ndla/icons";
 import { ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -160,9 +159,9 @@ const SearchContent = ({ content, locale, subjects, responsibleName }: Props) =>
 
   const imageData = useMemo(() => {
     if (content.learningResourceType === "gloss") {
-      return { icon: <Globe />, imageUrl: "" };
+      return { icon: <GlobalLine />, imageUrl: "" };
     } else if (content.learningResourceType === "concept") {
-      return { icon: <Concept />, imageUrl: "" };
+      return { icon: <ChatLine />, imageUrl: "" };
     } else {
       return { icon: undefined, imageUrl: content.metaImage?.url ?? "/placeholder.png" };
     }
@@ -229,7 +228,7 @@ const SearchContent = ({ content, locale, subjects, responsibleName }: Props) =>
                   content.supportedLanguages.includes(locale) ? locale : content.supportedLanguages[0],
                 )}
               >
-                <Code />
+                <CodeView />
               </SafeLinkIconButton>
             ) : null}
             {!!(content.status?.current === PUBLISHED || content.status?.other.includes(PUBLISHED)) && (

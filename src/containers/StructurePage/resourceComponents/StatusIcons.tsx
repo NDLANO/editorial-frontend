@@ -8,7 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ErrorWarningFill, FileEditLine } from "@ndla/icons/common";
+import { ErrorWarningFill, FileEditLine } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { isApproachingRevision } from "./ApproachingRevisionDate";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";

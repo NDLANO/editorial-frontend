@@ -6,7 +6,7 @@
  *
  */
 import { useMemo } from "react";
-import { ArrowRightShortLine } from "@ndla/icons/common";
+import { ArrowRightShortLine } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";

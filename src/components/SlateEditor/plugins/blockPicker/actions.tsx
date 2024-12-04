@@ -7,31 +7,28 @@
  */
 import { Element } from "slate";
 import {
-  Announcement,
-  Download,
-  Insights,
-  Link,
-  Person,
-  Podcast,
-  VolumeUp,
-  WarningOutline,
-  Comment,
-} from "@ndla/icons/common";
-import {
-  ArrowExpand,
-  BlogPost,
-  Camera,
-  Code,
-  FactBoxMaterial,
-  Framed,
-  Globe,
-  Grid,
-  Link as LinkIcon,
-  PlayBoxOutline,
-  PresentationPlay,
-  RelatedArticle,
-  TableMaterial,
-} from "@ndla/icons/editor";
+  LineChartLine,
+  BroadcastLine,
+  VolumeUpFill,
+  AlertLine,
+  MessageLine,
+  MegaphoneLine,
+  DownloadLine,
+  UserFill,
+  StickyNoteAddLine,
+  ExpandDiagonalLine,
+  FileListFill,
+  SquareLine,
+  GlobalLine,
+  LayoutColumnLine,
+  MovieLine,
+  OrganizationChart,
+  TableLine,
+  CameraFill,
+  SlideshowLine,
+  LinkMedium,
+  CodeView,
+} from "@ndla/icons";
 import { DRAFT_ADMIN_SCOPE } from "../../../../constants";
 import HowToHelper from "../../../HowTo/HowToHelper";
 import { StoryType } from "../../../HowTo/stories";
@@ -74,83 +71,83 @@ export interface Action {
 export const commonActions: Action[] = [
   {
     data: { type: TYPE_ASIDE, object: "factAside" },
-    icon: <FactBoxMaterial />,
+    icon: <FileListFill />,
     helpIcon: renderArticleInModal("FactAside"),
   },
   {
     data: { type: TYPE_DETAILS, object: "details" },
-    icon: <ArrowExpand />,
+    icon: <ExpandDiagonalLine />,
     helpIcon: renderArticleInModal("Details"),
   },
   {
     data: { type: TYPE_TABLE, object: "table" },
-    icon: <TableMaterial />,
+    icon: <TableLine />,
     helpIcon: renderArticleInModal("Table"),
   },
   {
     data: { type: TYPE_FRAMED_CONTENT, object: "framedContent" },
-    icon: <Framed />,
+    icon: <SquareLine />,
     helpIcon: renderArticleInModal("FramedContent"),
   },
   {
     data: { type: TYPE_IMAGE, object: "image" },
-    icon: <Camera />,
+    icon: <CameraFill />,
     helpIcon: renderArticleInModal("Images"),
   },
   {
     data: { type: TYPE_EMBED_BRIGHTCOVE, object: "video" },
-    icon: <PlayBoxOutline />,
+    icon: <MovieLine />,
     helpIcon: renderArticleInModal("Videos"),
   },
   {
     data: { type: TYPE_AUDIO, object: "audio" },
-    icon: <VolumeUp />,
+    icon: <VolumeUpFill />,
     helpIcon: renderArticleInModal("Audios"),
   },
   {
     data: { type: TYPE_AUDIO, object: "podcast" },
-    icon: <Podcast />,
+    icon: <BroadcastLine />,
     helpIcon: renderArticleInModal("Podcasts"),
   },
   {
     data: { type: TYPE_H5P, object: "h5p" },
-    icon: <PresentationPlay />,
+    icon: <SlideshowLine />,
     helpIcon: renderArticleInModal("H5P"),
   },
   {
     data: { type: TYPE_EXTERNAL, object: "url" },
-    icon: <LinkIcon />,
+    icon: <LinkMedium />,
     helpIcon: renderArticleInModal("ResourceFromLink"),
   },
   {
     data: { type: TYPE_FILE, object: "file" },
-    icon: <Download />,
+    icon: <DownloadLine />,
     helpIcon: renderArticleInModal("File"),
   },
   {
     data: { type: TYPE_RELATED, object: "related" },
-    icon: <RelatedArticle />,
+    icon: <OrganizationChart />,
     helpIcon: renderArticleInModal("RelatedArticle"),
   },
   {
     data: { type: TYPE_CODEBLOCK, object: "code" },
-    icon: <Code />,
+    icon: <CodeView />,
     helpIcon: renderArticleInModal("CodeBlock"),
   },
   {
     data: { type: TYPE_GLOSS_BLOCK, object: "gloss" },
-    icon: <Globe />,
+    icon: <GlobalLine />,
     helpIcon: renderArticleInModal("Gloss"),
   },
   {
     data: { type: TYPE_DISCLAIMER, object: "disclaimer" },
-    icon: <WarningOutline />,
+    icon: <AlertLine />,
     helpIcon: renderArticleInModal("Disclaimer"),
     requiredScope: DRAFT_ADMIN_SCOPE,
   },
   {
     data: { type: TYPE_COMMENT_BLOCK, object: "comment" },
-    icon: <Comment />,
+    icon: <MessageLine />,
     helpIcon: renderArticleInModal("Comment"),
   },
 ];
@@ -158,38 +155,38 @@ export const commonActions: Action[] = [
 export const frontpageActions = commonActions.concat(
   {
     data: { type: TYPE_GRID, object: "grid" },
-    icon: <Grid />,
+    icon: <LayoutColumnLine />,
     helpIcon: renderArticleInModal("Grid"),
   },
   {
     data: { type: TYPE_PITCH, object: "pitch" },
-    icon: <BlogPost />,
+    icon: <StickyNoteAddLine />,
     helpIcon: renderArticleInModal("Pitch"),
   },
   {
     data: { type: TYPE_KEY_FIGURE, object: "keyFigure" },
-    icon: <Insights />,
+    icon: <LineChartLine />,
     helpIcon: renderArticleInModal("KeyFigure"),
   },
   {
     data: { type: TYPE_CONTACT_BLOCK, object: "contactBlock" },
-    icon: <Person />,
+    icon: <UserFill />,
     helpIcon: renderArticleInModal("ContactBlock"),
   },
   {
     data: { type: TYPE_CAMPAIGN_BLOCK, object: "campaignBlock" },
-    icon: <Announcement />,
+    icon: <MegaphoneLine />,
     helpIcon: renderArticleInModal("CampaignBlock"),
   },
   {
     data: { type: TYPE_LINK_BLOCK_LIST, object: "linkBlockList" },
-    icon: <Link />,
+    icon: <LinkMedium />,
     helpIcon: renderArticleInModal("LinkBlockList"),
   },
 );
 
 export const learningResourceActions = commonActions.concat({
   data: { type: TYPE_GRID, object: "grid" },
-  icon: <Grid />,
+  icon: <LayoutColumnLine />,
   helpIcon: renderArticleInModal("Grid"),
 });

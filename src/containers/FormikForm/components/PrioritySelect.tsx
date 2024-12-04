@@ -10,6 +10,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 
 const priorityMapping = {
@@ -21,6 +22,20 @@ interface Props {
   priority: string | undefined;
   updatePriority: (value: string | undefined) => void;
 }
+
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
+  base: {
+    width: "100%",
+    maxWidth: "unset",
+    minWidth: "surface.xxsmall",
+  },
+});
+
+const StyledSelectRoot = styled(SelectRoot, {
+  base: {
+    flex: "1",
+  },
+});
 
 const PrioritySelect = ({ priority, updatePriority }: Props) => {
   const { t } = useTranslation();
@@ -35,16 +50,16 @@ const PrioritySelect = ({ priority, updatePriority }: Props) => {
   }, [t]);
 
   return (
-    <SelectRoot
+    <StyledSelectRoot
       collection={collection}
       positioning={{ sameWidth: true }}
       value={priority && Object.keys(priorityMapping).includes(priority) ? [priority] : undefined}
       onValueChange={(details) => updatePriority(details.value[0])}
     >
       <SelectLabel srOnly>{t("taxonomy.addPriority")}</SelectLabel>
-      <GenericSelectTrigger variant="secondary" clearable>
+      <StyledGenericSelectTrigger variant="secondary" clearable>
         <SelectValueText placeholder={t("editorFooter.placeholderPrioritized")} />
-      </GenericSelectTrigger>
+      </StyledGenericSelectTrigger>
       <SelectContent>
         {collection.items.map((item) => (
           <GenericSelectItem item={item} key={item.value}>
@@ -52,7 +67,7 @@ const PrioritySelect = ({ priority, updatePriority }: Props) => {
           </GenericSelectItem>
         ))}
       </SelectContent>
-    </SelectRoot>
+    </StyledSelectRoot>
   );
 };
 

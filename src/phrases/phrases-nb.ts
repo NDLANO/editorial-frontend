@@ -225,6 +225,7 @@ const phrases = {
       concept: "Søk etter forklaringer",
       "podcast-series": "Søk etter podkastserier",
     },
+    activeFilters: "Aktive filtre",
     searchButton: "Søk",
     emptyButton: "Tøm",
     title: "Tittel",

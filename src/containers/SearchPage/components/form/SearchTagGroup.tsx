@@ -6,10 +6,12 @@
  *
  */
 
+import { useId } from "react";
 import { useTranslation } from "react-i18next";
 import { CloseLine } from "@ndla/icons";
-import { Button } from "@ndla/primitives";
+import { Text, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { visuallyHidden } from "@ndla/styled-system/patterns";
 import { SearchParams } from "./types";
 
 const TagsWrapper = styled("div", {
@@ -28,24 +30,30 @@ interface Props {
 
 const SearchTagGroup = ({ tags, onRemoveTag }: Props) => {
   const { t } = useTranslation();
+  const activeFiltersId = useId();
   return (
-    <TagsWrapper role="group">
-      {Object.entries(tags).map(([key, value]) => {
-        if (!value) return null;
-        return (
-          <Button
-            key={`searchtag_${key}`}
-            size="small"
-            variant="primary"
-            onClick={() => onRemoveTag(key as keyof SearchParams, value)}
-            data-testid="remove-tag-button"
-          >
-            {t(`searchForm.tagType.${key}`, { value })}
-            <CloseLine aria-label={t("remove")} title={t("remove")} />
-          </Button>
-        );
-      })}
-    </TagsWrapper>
+    <>
+      <Text id={activeFiltersId} css={visuallyHidden.raw()}>
+        {t("searchPage.activeFilters")}
+      </Text>
+      <TagsWrapper role="group" aria-labelledby={activeFiltersId}>
+        {Object.entries(tags).map(([key, value]) => {
+          if (!value) return null;
+          return (
+            <Button
+              key={`searchtag_${key}`}
+              size="small"
+              variant="primary"
+              onClick={() => onRemoveTag(key as keyof SearchParams, value)}
+              data-testid="remove-tag-button"
+            >
+              {t(`searchForm.tagType.${key}`, { value })}
+              <CloseLine aria-label={t("remove")} title={t("remove")} />
+            </Button>
+          );
+        })}
+      </TagsWrapper>
+    </>
   );
 };
 

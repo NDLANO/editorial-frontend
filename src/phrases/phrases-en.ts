@@ -226,6 +226,7 @@ const phrases = {
       concept: "Search for concepts",
       "podcast-series": "Search for podcast series",
     },
+    activeFilters: "Active filters",
     searchButton: "Search",
     emptyButton: "Empty",
     title: "Title",

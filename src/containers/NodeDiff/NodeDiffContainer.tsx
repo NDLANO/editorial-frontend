@@ -10,10 +10,9 @@ import isEqual from "lodash/isEqual";
 import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing, fonts } from "@ndla/core";
 import { ArrowRightShortLine } from "@ndla/icons";
 import { MessageBox, Skeleton } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild } from "@ndla/types-taxonomy";
 import { diffTrees, DiffType, DiffTypeWithChildren, RootDiffType } from "./diffUtils";
 import NodeDiff from "./NodeDiff";
@@ -26,29 +25,34 @@ interface Props {
   otherHash: string;
 }
 
-const StyledNodeList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-`;
+const StyledNodeList = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+  },
+});
 
-const DiffContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const DiffContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
+
+const StyledBreadCrumb = styled("div", {
+  base: {
+    flexGrow: "1",
+    flexDirection: "row",
+    fontStyle: "italic",
+  },
+});
 
 interface NodeOptions {
   nodeView: string | null;
   fieldView: string | null;
 }
-
-const StyledBreadCrumb = styled("div")`
-  flex-grow: 1;
-  flex-direction: row;
-  font-style: italic;
-  font-size: ${fonts.sizes(16)};
-`;
 
 const filterNodes = <T,>(diff: DiffType<T>[], options: NodeOptions): DiffType<T>[] => {
   const afterNodeOption =

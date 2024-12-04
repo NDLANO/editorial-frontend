@@ -8,8 +8,8 @@
 
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing, colors } from "@ndla/core";
+import { Badge, BadgeVariant } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import { DiffResultType, DiffTree, DiffType, DiffTypeWithChildren, removeUnchangedFromTree } from "./diffUtils";
 import Fade from "../../components/Taxonomy/Fade";
@@ -36,9 +36,17 @@ interface RootNodeProps {
   selectedNode?: DiffType<Node> | DiffTypeWithChildren;
 }
 
-const StructureItem = styled(StyledStructureItem)`
-  margin-left: ${spacing.small};
-`;
+const StructureItem = styled(
+  StyledStructureItem,
+  {
+    base: {
+      // TODO: Update this once structure components are panda
+      marginLeft: "xsmall!",
+    },
+  },
+  // TODO: Remove this once structure components are panda
+  { baseComponent: true },
+);
 
 export const RootNode = ({ tree, onNodeSelected, selectedNode }: RootNodeProps) => {
   const root = tree.root;
@@ -65,47 +73,40 @@ export const RootNode = ({ tree, onNodeSelected, selectedNode }: RootNodeProps) 
   );
 };
 
-interface StyledChangedPillProps {
-  color: string;
-  textColor?: string;
-}
-const StyledChangedPill = styled.div<StyledChangedPillProps>`
-  padding: 0 ${spacing.small};
-  background-color: ${(props) => props.color};
-  color: ${(props) => props.textColor};
-  border-radius: 5px;
-`;
-
-const DiffPills = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: ${spacing.small};
-`;
+const DiffPills = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+  },
+});
 
 interface DiffTypePillProps {
   diffType: DiffResultType;
 }
 
-const diffTypeToColorMap: Record<DiffResultType, string> = {
-  NONE: "transparent",
-  MODIFIED: colors.support.yellow,
-  ADDED: colors.support.green,
-  DELETED: colors.support.red,
+const diffTypeToColorTheme: Record<DiffResultType, BadgeVariant> = {
+  NONE: "neutral",
+  MODIFIED: "warning",
+  ADDED: "success",
+  DELETED: "danger",
 };
 
 export const DiffTypePill = ({ diffType }: DiffTypePillProps) => {
   const { t } = useTranslation();
   if (diffType === "NONE") return null;
-  return (
-    <StyledChangedPill color={diffTypeToColorMap[diffType]} textColor="white">
-      {t(`diff.diffTypes.${diffType}`)}
-    </StyledChangedPill>
-  );
+  return <Badge colorTheme={diffTypeToColorTheme[diffType]}>{t(`diff.diffTypes.${diffType}`)}</Badge>;
 };
 
-const StyledItem = styled(StyledItemBar)`
-  justify-content: space-between;
-`;
+const StyledItem = styled(
+  StyledItemBar,
+  {
+    base: {
+      justifyContent: "space-between",
+    },
+  },
+  // TODO: Remove this once structure components are panda
+  { baseComponent: true },
+);
 
 const isChildNode = createGuard<DiffTypeWithChildren>("children");
 
@@ -144,15 +145,9 @@ export const TreeNode = ({ node, onNodeSelected, selectedNode, parentActive, nod
           {!!node.resourcesChanged &&
             node.resourcesChanged?.diffType !== "NONE" &&
             node.changed.diffType !== "DELETED" &&
-            node.changed.diffType !== "ADDED" && (
-              <StyledChangedPill color={colors.tasksAndActivities.dark} textColor={"white"}>
-                {t("diff.resourcesChanged")}
-              </StyledChangedPill>
-            )}
+            node.changed.diffType !== "ADDED" && <Badge colorTheme="brand2">{t("diff.resourcesChanged")}</Badge>}
           {!!node.childrenChanged && node.childrenChanged?.diffType !== "NONE" && (
-            <StyledChangedPill color={colors.brand.primary} textColor={"white"}>
-              {t("diff.childrenChanged")}
-            </StyledChangedPill>
+            <Badge colorTheme="neutral">{t("diff.childrenChanged")}</Badge>
           )}
           {node.changed.diffType !== "NONE" && <DiffTypePill diffType={node.changed.diffType} />}
         </DiffPills>

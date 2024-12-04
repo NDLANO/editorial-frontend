@@ -16,7 +16,6 @@ import { HelmetWithTracker } from "@ndla/tracker";
 import { Version } from "@ndla/types-taxonomy";
 import UIVersion from "./components/Version";
 import VersionForm from "./components/VersionForm";
-import VersionList from "./components/VersionList";
 import { useVersions } from "../../modules/taxonomy/versions/versionQueries";
 
 const NewFormWrapper = styled("div", {
@@ -49,6 +48,15 @@ const Row = styled("div", {
 const StyledButton = styled(Button, {
   base: {
     whiteSpace: "nowrap",
+  },
+});
+
+const StyledVersionList = styled("ul", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+    listStyle: "none",
   },
 });
 
@@ -89,7 +97,17 @@ const TaxonomyVersionsPage = () => {
       <Heading textStyle="title.large" asChild consumeCss>
         <h2>{t("taxonomyVersions.otherVersions")}</h2>
       </Heading>
-      <VersionList versions={other} />
+      {other.length === 0 ? (
+        <Text>{t("taxonomyVersions.noOtherVersions")}</Text>
+      ) : (
+        <StyledVersionList>
+          {other.map((version) => (
+            <li key={version.id}>
+              <UIVersion version={version} />
+            </li>
+          ))}
+        </StyledVersionList>
+      )}
     </StyledPageContainer>
   );
 };

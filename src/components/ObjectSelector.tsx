@@ -31,8 +31,13 @@ const StyledGenericSelectItem = styled(GenericSelectItem, {
   },
 });
 
+export interface SelectOption {
+  id: string;
+  name: string;
+}
+
 interface Props {
-  options: { id: string; name: string }[];
+  options: SelectOption[];
   value: string;
   onChange: (value: string) => void;
   placeholder: string;

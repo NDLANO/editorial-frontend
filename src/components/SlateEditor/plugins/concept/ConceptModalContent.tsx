@@ -10,7 +10,6 @@ import debounce from "lodash/debounce";
 import queryString from "query-string";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { SearchLine } from "@ndla/icons";
 import {
   Button,
   DialogBody,
@@ -35,10 +34,12 @@ import SearchConceptResults from "./SearchConceptResults";
 import ConceptForm from "../../../../containers/ConceptPage/ConceptForm/ConceptForm";
 import { ConceptType } from "../../../../containers/ConceptPage/conceptInterfaces";
 import { GlossForm } from "../../../../containers/GlossPage/components/GlossForm";
-import { SearchParams, parseSearchParams } from "../../../../containers/SearchPage/components/form/SearchForm";
+import { parseSearchParams } from "../../../../containers/SearchPage/components/form/SearchForm";
+import { SearchParams } from "../../../../interfaces";
 import { postSearchConcepts } from "../../../../modules/concept/conceptApi";
 import Pagination from "../../../abstractions/Pagination";
 import { DialogCloseButton } from "../../../DialogCloseButton";
+import FormWrapper from "../../../FormWrapper";
 
 interface Props {
   addConcept: (concept: IConceptSummary | IConcept) => void;
@@ -88,10 +89,20 @@ const ConceptModalContent = ({
 
   const conceptTypeTabs: ConceptType[] = [conceptType];
 
-  const searchConcept = useCallback(async (searchParam: SearchParams) => {
+  const searchConcept = useCallback(async (newSearchObject: SearchParams) => {
     if (!searching) {
       setSearching(true);
-      const searchBody = parseSearchParams(queryString.stringify(searchParam), true);
+
+      const searchQuery = {
+        ...searchObject,
+        ...newSearchObject,
+      };
+      // Remove unused/empty query params
+      const newQuery = Object.entries(searchQuery).reduce((prev, [currKey, currVal]) => {
+        const validValue = currVal !== "" && currVal !== undefined;
+        return validValue ? { ...prev, [currKey]: currVal } : prev;
+      }, {});
+      const searchBody = parseSearchParams(queryString.stringify(newQuery), true);
       const concepts = await postSearchConcepts(searchBody);
       setConcepts(concepts);
       setSearching(false);
@@ -137,11 +148,7 @@ const ConceptModalContent = ({
             <TabsIndicator />
           </TabsList>
           <TabsContent value="concepts">
-            <div>
-              <h2>
-                <SearchLine />
-                {t(`searchPage.header.concept`)}
-              </h2>
+            <FormWrapper inModal>
               <SearchConceptForm
                 search={(params: SearchParams) => {
                   updateSearchObject(params);
@@ -165,7 +172,7 @@ const ConceptModalContent = ({
                 pageSize={results?.pageSize}
                 siblingCount={1}
               />
-            </div>
+            </FormWrapper>
           </TabsContent>
           {conceptTypeTabs.map((conceptType) => (
             <TabsContent value={`new_${conceptType}`} key={conceptType}>

@@ -10,16 +10,13 @@ import { TFunction } from "i18next";
 import { parse, stringify } from "query-string";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
 import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IUserData } from "@ndla/types-backend/draft-api";
-import { SearchParams } from "./components/form/SearchForm";
-import { SearchFormSelector } from "./components/form/Selector";
+import { Filters } from "../../components/Form/SearchTagGroup";
 import SaveButton from "../../components/SaveButton";
 import { SearchType } from "../../interfaces";
 import { useUpdateUserDataMutation } from "../../modules/draft/draftQueries";
-import { unreachable } from "../../util/guards";
 
 type Error = "alreadyExist" | "other" | "fetchFailed" | "";
 
@@ -44,76 +41,13 @@ const getSavedSearchRelativeUrl = (inputValue: string) => {
   return "/search".concat(relativeUrl);
 };
 
-type FilterValuesType = { [key in keyof SearchParams]: string };
-
-const getDefaultFilterValues = (selectors: SearchFormSelector[], searchContentType: SearchType): FilterValuesType => {
-  const result = selectors.reduce((acc, { parameterName }) => {
-    acc[parameterName] = undefined;
-    return acc;
-  }, {} as FilterValuesType);
-
-  switch (searchContentType) {
-    case "content":
-      return { ...result, query: "", "filter-inactive": "true", "exclude-revision-log": "false" };
-    case "audio":
-    case "image":
-    case "concept":
-    case "podcast-series":
-      return { ...result, query: "" };
-    default:
-      return unreachable(searchContentType);
-  }
-};
-
-const getSearchFilterPhrase = (filter: SearchFormSelector, t: TFunction): string => {
-  const { parameterName } = filter;
-
-  switch (parameterName) {
-    case "responsible-ids":
-      return `${t("searchForm.tagType.responsible-ids")}: ${filter.value}`;
-    case "users":
-      return `${t("searchForm.tagType.users")}: ${filter.value}`;
-    case "filter-inactive":
-      return filter.value === "false" ? `${t("searchForm.tagType.filter-inactive")}` : "";
-    case "query":
-    case "draft-status":
-    case "status":
-    case "resource-types":
-    case "audio-type":
-    case "language":
-    case "subjects":
-    case "license":
-    case "concept-type":
-    case "model-released":
-      return filter.value ?? "";
-    case "include-other-statuses":
-    case "article-types":
-    case "fallback":
-    case "page":
-    case "page-size":
-    case "sort":
-    case "revision-date-from":
-    case "revision-date-to":
-    case "exclude-revision-log":
-      return "";
-    default:
-      return unreachable(parameterName);
-  }
-};
-
-const createSearchPhrase = (selectors: SearchFormSelector[], searchContentType: SearchType, t: TFunction): string => {
-  const defaultFilterValues = getDefaultFilterValues(selectors, searchContentType);
-  const activeFilters = selectors.filter((selector) => selector.value !== defaultFilterValues[selector.parameterName]);
-
-  const searchPhrase = activeFilters.reduce(
-    (acc, af) => {
-      const searchFilterPhrase = getSearchFilterPhrase(af, t);
-      return searchFilterPhrase ? `${acc} + ${searchFilterPhrase}` : acc;
-    },
-    `${t(`searchTypes.${searchContentType}`)}`,
-  );
-
-  return searchPhrase.trim();
+const createSearchPhrase = (filters: Filters, searchContentType: SearchType, t: TFunction): string => {
+  const activeFilters = Object.entries(filters)
+    .filter(([, value]) => value !== undefined)
+    .map(([key, value]) => t(`searchForm.tagType.${key}`, { value }));
+  const contentTypePhrase = t(`searchTypes.${searchContentType}`);
+  if (!activeFilters.length) return contentTypePhrase;
+  return `${contentTypePhrase}, ${activeFilters.join(", ")}`;
 };
 
 const createSearchString = (location: Location) => {
@@ -125,14 +59,13 @@ const createSearchString = (location: Location) => {
 };
 
 interface Props {
-  userData?: IUserData | undefined;
-  selectors: SearchFormSelector[];
+  filters: Filters;
   searchContentType: SearchType;
+  userData?: IUserData | undefined;
 }
 
-const SearchSaveButton = ({ userData, selectors, searchContentType }: Props) => {
+const SearchSaveButton = ({ filters, searchContentType, userData }: Props) => {
   const { t } = useTranslation();
-  const location = useLocation();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<Error>("");
   const [loading, setLoading] = useState(false);
@@ -171,20 +104,12 @@ const SearchSaveButton = ({ userData, selectors, searchContentType }: Props) => 
       handleFailure("fetchFailed");
       return;
     }
-    const newSearch = createSearchString(window.location);
+    const newSearch = getSavedSearchRelativeUrl(createSearchString(window.location));
+    const newSearchPhrase = createSearchPhrase(filters, searchContentType, t);
 
-    // Need to remove query if it is not in search url as it can exist in search input only
-    const actualSelectors = location.search.includes("query")
-      ? selectors
-      : selectors.map((selector) => (selector.parameterName === "query" ? { ...selector, value: "" } : selector));
-    const newSearchPhrase = createSearchPhrase(actualSelectors, searchContentType, t);
+    const newSearchList = [{ searchUrl: newSearch, searchPhrase: newSearchPhrase }, ...oldSearchList];
 
-    const newSearchList = [
-      { searchUrl: getSavedSearchRelativeUrl(newSearch), searchPhrase: newSearchPhrase },
-      ...oldSearchList,
-    ];
-
-    if (!oldSearchList.find((s) => s.searchUrl === getSavedSearchRelativeUrl(newSearch))) {
+    if (!oldSearchList.find((s) => s.searchUrl === newSearch)) {
       mutateAsync({ savedSearches: newSearchList })
         .then(() => handleSuccess())
         .catch(() => handleFailure("other"));
@@ -193,7 +118,7 @@ const SearchSaveButton = ({ userData, selectors, searchContentType }: Props) => 
     }
   };
 
-  const currentSearch = createSearchString(window.location);
+  const currentSearch = getSavedSearchRelativeUrl(createSearchString(window.location));
   const isSaved = savedSearches.some((s) => s.searchUrl === getSavedSearchRelativeUrl(currentSearch));
 
   return (

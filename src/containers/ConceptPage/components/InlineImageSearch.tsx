@@ -9,10 +9,9 @@
 import { useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { ImageSearch } from "@ndla/image-search";
-import { Button, FieldsetLegend, FieldsetRoot } from "@ndla/primitives";
+import { Button, FieldsetLegend, FieldsetRoot, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { useImageSearchTranslations } from "@ndla/ui";
 import { LocaleType } from "../../../interfaces";
@@ -20,9 +19,11 @@ import { fetchImage, postSearchImages, onError } from "../../../modules/image/im
 import MetaImageField from "../../FormikForm/components/MetaImageField";
 import { ConceptFormValues } from "../conceptInterfaces";
 
-const StyledTitleDiv = styled.div`
-  margin-bottom: ${spacing.small};
-`;
+const StyledText = styled(Text, {
+  base: {
+    marginBlockEnd: "xsmall",
+  },
+});
 
 interface Props {
   name: string;
@@ -85,7 +86,7 @@ const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
         }}
         noResults={
           <>
-            <StyledTitleDiv>{t("imageSearch.noResultsText")}</StyledTitleDiv>
+            <StyledText>{t("imageSearch.noResultsText")}</StyledText>
             <Button type="submit">{t("imageSearch.noResultsButtonText")}</Button>
           </>
         }

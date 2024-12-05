@@ -11,10 +11,9 @@ import isEqual from "lodash/isEqual";
 import partition from "lodash/partition";
 import { useCallback, useMemo, useState, MouseEvent, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
-import { spacing, colors } from "@ndla/core";
-import { Button, SelectLabel, Text } from "@ndla/primitives";
+import { Button, ExpandableBox, ExpandableBoxSummary, SelectLabel, Text, UnOrderedList } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import { Node, Version } from "@ndla/types-taxonomy";
 import TopicArticleConnections from "./TopicArticleConnections";
@@ -44,22 +43,11 @@ interface Props {
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
 }
 
-const InvalidPlacementsWrapper = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-  width: 100%;
-  padding: 0px;
-  margin: 0px 0px ${spacing.normal} ${spacing.normal};
-`;
-
-const InvalidPlacement = styled.li`
-  width: 100%;
-  color: ${colors.support.red};
-  margin: 0px;
-  margin: 0px;
-  padding: 0px;
-`;
+const StyledLi = styled("li", {
+  base: {
+    color: "text.error",
+  },
+});
 
 const TopicTaxonomyBlock = ({
   hasTaxEntries,
@@ -212,14 +200,14 @@ const TopicTaxonomyBlock = ({
         getSubjectTopics={getSubjectTopics}
       />
       {!!invalidPlacements.length && !!isTaxonomyAdmin && (
-        <details>
-          <summary>{t("errorMessage.invalidTopicPlacements")}</summary>
-          <InvalidPlacementsWrapper>
-            {invalidPlacements.map((placement) => (
-              <InvalidPlacement key={placement.id}>{placement.id}</InvalidPlacement>
+        <ExpandableBox>
+          <ExpandableBoxSummary>{t("errorMessage.invalidTopicPlacements")}</ExpandableBoxSummary>
+          <UnOrderedList>
+            {placements.map((placement) => (
+              <StyledLi key={placement.id}>{placement.id}</StyledLi>
             ))}
-          </InvalidPlacementsWrapper>
-        </details>
+          </UnOrderedList>
+        </ExpandableBox>
       )}
       {!!showWarning && <Text color="text.error">{t("errorMessage.unsavedTaxonomy")}</Text>}
       <FormActionsContainer>

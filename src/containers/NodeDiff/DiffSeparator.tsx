@@ -6,6 +6,7 @@
  *
  */
 
+import { styled } from "@ndla/styled-system/jsx";
 import { DiffResultType } from "./diffUtils";
 
 interface Props {
@@ -16,11 +17,17 @@ const typeToSeparatorMap: Record<DiffResultType, string> = {
   ADDED: "+",
   DELETED: "-",
   MODIFIED: "~",
-  NONE: "",
+  NONE: " ",
 };
 
+const StyledSpan = styled("span", {
+  base: {
+    width: "1ch",
+  },
+});
+
 const DiffSeparator = ({ type }: Props) => {
-  return typeToSeparatorMap[type];
+  return <StyledSpan>{typeToSeparatorMap[type] ?? " "}</StyledSpan>;
 };
 
 export default DiffSeparator;

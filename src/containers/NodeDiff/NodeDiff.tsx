@@ -8,8 +8,8 @@
 
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing, colors } from "@ndla/core";
+import { Badge, ExpandableBox, ExpandableBoxSummary } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild } from "@ndla/types-taxonomy";
 import ArrayDiffField from "./ArrayDiffField";
 import {
@@ -36,46 +36,43 @@ interface Props {
   isRoot?: boolean;
 }
 
-const DiffContainer = styled.div`
-  border: 2px solid black;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  padding: 10px;
-`;
+const DiffContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+    padding: "xsmall",
+    border: "2px solid",
+    borderColor: "stroke.default",
+    borderRadius: "xsmall",
+  },
+});
 
-const RootNodePill = styled.div`
-  background-color: ${colors.brand.primary};
-  color: ${colors.white};
-  padding: 0 ${spacing.small};
-  border-radius: 15px;
-  margin-right: 10px;
-`;
+const NodeInfoContainer = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+});
 
-const NodeInfoContainer = styled.div`
-  justify-content: flex-end;
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-`;
+const StyledExpandableBoxSummary = styled(ExpandableBoxSummary, {
+  base: {
+    "& > *": {
+      display: "inline-flex",
+      justifyContent: "space-between",
+      width: "97%",
+    },
+  },
+});
 
-const SummaryContent = styled.div`
-  display: inline-flex;
-  justify-content: space-between;
-  flex-direction: row;
-  width: 97%;
-`;
-
-const StyledDetails = styled.details`
-  margin: 0 !important;
-`;
-
-const DetailsContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const DetailsContent = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
 const NodeDiff = ({ node, isRoot }: Props) => {
   const [params] = useSearchParams();
@@ -95,7 +92,7 @@ const NodeDiff = ({ node, isRoot }: Props) => {
   return (
     <DiffContainer>
       <NodeInfoContainer>
-        {!!isRoot && <RootNodePill>{t("diff.isRoot")}</RootNodePill>}
+        {!!isRoot && <Badge colorTheme="brand1">{t("diff.isRoot")}</Badge>}
         <NodeIconType node={node} />
       </NodeInfoContainer>
       <FieldDiff fieldName="name" result={node.name} toDisplayValue={(v) => v} />
@@ -225,13 +222,13 @@ const ResourceDiff = ({ resource, fieldView }: ResourceDiffProps) => {
     return null;
   }
   return (
-    <StyledDetails>
-      <summary>
-        <SummaryContent>
+    <ExpandableBox>
+      <StyledExpandableBoxSummary>
+        <div>
           {resource.name.other ?? resource.name.original}
           <DiffTypePill diffType={resource.changed.diffType} />
-        </SummaryContent>
-      </summary>
+        </div>
+      </StyledExpandableBoxSummary>
       <DetailsContent>
         {!!res.connectionId && (
           <FieldDiff fieldName="connectionId" result={res.connectionId} toDisplayValue={(v) => v} />
@@ -267,7 +264,7 @@ const ResourceDiff = ({ resource, fieldView }: ResourceDiffProps) => {
           />
         )}
       </DetailsContent>
-    </StyledDetails>
+    </ExpandableBox>
   );
 };
 

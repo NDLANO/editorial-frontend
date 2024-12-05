@@ -316,6 +316,7 @@ const phrases = {
   },
   searchForm: {
     placeholder: "Search articles",
+    searchTypes: "Search types",
     types: {
       conceptQuery: "Search for concept",
       glossQuery: "Search for gloss",

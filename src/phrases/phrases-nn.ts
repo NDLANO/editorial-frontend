@@ -315,6 +315,7 @@ const phrases = {
   },
   searchForm: {
     placeholder: "Søk etter artikler, aktiviteter eller oppgaver",
+    searchTypes: "Søketypar",
     types: {
       conceptQuery: "Søk på forklaringar",
       glossQuery: "Søk på glose",

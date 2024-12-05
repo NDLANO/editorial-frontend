@@ -107,9 +107,7 @@ const SearchConceptForm = ({ search, searchObject, subjects, userData }: Props) 
     search({
       query: "",
       language: "",
-      "audio-type": "",
       "concept-type": "",
-      license: "",
       subjects: "",
       users: "",
       status: "",
@@ -166,10 +164,16 @@ const SearchConceptForm = ({ search, searchObject, subjects, userData }: Props) 
             placeholder={t("searchForm.types.contentQuery")}
             value={queryInput}
             onChange={(e) => setQueryInput(e.currentTarget.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                handleSearch();
+              }
+            }}
           />
         </FieldRoot>
         <SelectRenderer selectElements={selectElements} searchObject={searchObject} onFieldChange={onFieldChange} />
-        <SearchControlButtons close={emptySearch} search={handleSearch} />
+        <SearchControlButtons reset={emptySearch} search={handleSearch} />
       </StyledForm>
       <SearchTagGroup onRemoveTag={removeTagItem} tags={filters} />
     </>

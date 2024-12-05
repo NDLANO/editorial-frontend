@@ -300,7 +300,7 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
           placeholder={t("searchForm.types.revision-date-to")}
           value={searchObject["revision-date-to"] ?? ""}
         />
-        <SearchControlButtons close={emptySearch} />
+        <SearchControlButtons reset={emptySearch} />
       </StyledForm>
       <SearchTagGroup onRemoveTag={removeTagItem} tags={filters} />
     </>

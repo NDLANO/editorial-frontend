@@ -27,15 +27,15 @@ const ButtonContainer = styled("div", {
 });
 
 interface Props {
-  close: () => void;
+  reset: () => void;
   search?: () => void;
 }
 
-const SearchControlButtons = ({ close, search }: Props) => {
+const SearchControlButtons = ({ reset, search }: Props) => {
   const { t } = useTranslation();
   return (
     <ButtonContainer>
-      <StyledButton onClick={close} variant="secondary" size="small">
+      <StyledButton onClick={reset} variant="secondary" size="small">
         {t("searchForm.empty")}
       </StyledButton>
       {search ? (

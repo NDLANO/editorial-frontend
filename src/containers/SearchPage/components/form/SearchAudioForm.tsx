@@ -121,7 +121,7 @@ const SearchAudioForm = ({
           />
         </FieldRoot>
         <SelectRenderer selectElements={selectElements} searchObject={searchObject} onFieldChange={onFieldChange} />
-        <SearchControlButtons close={emptySearch} />
+        <SearchControlButtons reset={emptySearch} />
       </StyledForm>
       <SearchTagGroup onRemoveTag={removeTagItem} tags={filters} />
     </>

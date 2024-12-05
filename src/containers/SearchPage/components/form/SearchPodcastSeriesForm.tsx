@@ -102,7 +102,7 @@ const SearchAudioForm = ({
           onChange={(value) => onFieldChange("language", value)}
           placeholder={t("searchForm.types.language")}
         />
-        <SearchControlButtons close={emptySearch} />
+        <SearchControlButtons reset={emptySearch} />
       </StyledForm>
       <SearchTagGroup onRemoveTag={removeTagItem} tags={filters} />
     </>

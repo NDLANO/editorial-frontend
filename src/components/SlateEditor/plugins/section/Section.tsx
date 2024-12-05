@@ -24,6 +24,7 @@ const ButtonWrapper = styled("div", {
 
 const Wrapper = styled("div", {
   base: {
+    position: "relative",
     border: "1px solid transparent",
     _hover: {
       borderBlockColor: "stroke.hover",

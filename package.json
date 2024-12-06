@@ -116,7 +116,7 @@
     "he": "^1.2.0",
     "helmet": "^3.23.3",
     "history": "^5.1.0",
-    "html-react-parser": "^5.1.8",
+    "html-react-parser": "^5.2.0",
     "htmldiff-js": "^1.0.5",
     "i18next": "^23.11.5",
     "is-hotkey": "^0.2.0",

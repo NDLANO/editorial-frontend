@@ -20,7 +20,6 @@ import {
   FieldInput,
   FieldLabel,
   FieldRoot,
-  Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LinkBlockEmbedData } from "@ndla/types-embed";
@@ -30,6 +29,7 @@ import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../uti
 import { formatDateForBackend } from "../../../../util/formatDate";
 import { isFormikFormDirty } from "../../../../util/formHelper";
 import { DialogCloseButton } from "../../../DialogCloseButton";
+import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLabel";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -128,10 +128,10 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
                 <FormField name="title">
                   {({ field, helpers, meta }) => (
                     <FieldRoot invalid={!!meta.error}>
-                      <Text textStyle="label.medium" fontWeight="bold">
+                      <ContentEditableFieldLabel>
                         {t("form.name.title")}
                         <RichTextIndicator />
-                      </Text>
+                      </ContentEditableFieldLabel>
                       <InlineField
                         {...field}
                         placeholder={t("form.name.title")}

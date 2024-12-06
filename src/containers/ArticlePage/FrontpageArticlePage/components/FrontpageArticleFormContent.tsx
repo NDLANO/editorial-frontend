@@ -10,13 +10,14 @@ import { useFormikContext } from "formik";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LinkMedium } from "@ndla/icons";
-import { Button, FieldErrorMessage, FieldLabel, FieldRoot, IconButton } from "@ndla/primitives";
+import { Button, FieldErrorMessage, FieldRoot, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { frontpagePlugins } from "./frontpagePlugins";
 import { frontpageRenderers } from "./frontpageRenderers";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { ContentTypeProvider } from "../../../../components/ContentTypeProvider";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
+import { ContentEditableFieldLabel } from "../../../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../../components/Form/FieldWarning";
 import { SegmentHeader } from "../../../../components/Form/SegmentHeader";
 import { FormField } from "../../../../components/FormField";
@@ -168,7 +169,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
           <FieldRoot invalid={!!meta.error}>
             <ContentTypeProvider value="subject-material">
               <SegmentHeader>
-                <FieldLabel>{t("form.content.label")}</FieldLabel>
+                <ContentEditableFieldLabel>{t("form.content.label")}</ContentEditableFieldLabel>
                 {!!id && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (
                   <EditMarkupLink to={toEditMarkup(id, language ?? "")} title={t("editMarkup.linkTitle")} />
                 )}

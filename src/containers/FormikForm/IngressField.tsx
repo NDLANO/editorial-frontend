@@ -8,9 +8,10 @@
 
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import { FieldErrorMessage, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
+import { ContentEditableFieldLabel } from "../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../components/Form/FieldWarning";
 import { FormRemainingCharacters } from "../../components/Form/FormRemainingCharacters";
 import { FormField } from "../../components/FormField";
@@ -113,7 +114,7 @@ const IngressField = ({ name = "introduction", maxLength = 300, placeholder }: P
     <FormField name={name}>
       {({ field, meta, helpers }) => (
         <FieldRoot invalid={!!meta.error}>
-          <FieldLabel srOnly>{t("form.introduction.label")}</FieldLabel>
+          <ContentEditableFieldLabel srOnly>{t("form.introduction.label")}</ContentEditableFieldLabel>
           <StyledRichTextEditor
             {...field}
             id="ingress-editor"

@@ -12,7 +12,7 @@ import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
 import { createListCollection } from "@ark-ui/react";
 import { GlobalLine } from "@ndla/icons";
-import { SelectContent, SelectRoot, SelectValueText, SelectLabel } from "@ndla/primitives";
+import { SelectContent, SelectRoot, SelectValueText, SelectLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ToolbarCategoryProps } from "./SlateToolbar";
 import { LanguageType } from "./toolbarState";
@@ -84,28 +84,30 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
   if (!collection) return null;
 
   return (
-    <SelectRoot
-      collection={collection}
-      positioning={{ sameWidth: true }}
-      value={[currentLanguage ?? "none"]}
-      onValueChange={(details) => onClick(details.value[0])}
-    >
-      <SelectLabel srOnly>{title}</SelectLabel>
-      <StyledGenericSelectTrigger variant="tertiary" title={title} size="small" data-testid="toolbar-button-language">
-        <GlobalLine />
-        <SelectValueText />
-      </StyledGenericSelectTrigger>
-      <SelectContent>
-        {collection.items.map((option) => (
-          <GenericSelectItem
-            key={option.value}
-            data-testid={`language-button-${option.value}`}
-            item={{ label: option.value, value: option.value }}
-          >
-            {t(`languages.${option.value}`)}
-          </GenericSelectItem>
-        ))}
-      </SelectContent>
-    </SelectRoot>
+    <FieldRoot>
+      <SelectRoot
+        collection={collection}
+        positioning={{ sameWidth: true }}
+        value={[currentLanguage ?? "none"]}
+        onValueChange={(details) => onClick(details.value[0])}
+      >
+        <SelectLabel srOnly>{title}</SelectLabel>
+        <StyledGenericSelectTrigger variant="tertiary" title={title} size="small" data-testid="toolbar-button-language">
+          <GlobalLine />
+          <SelectValueText />
+        </StyledGenericSelectTrigger>
+        <SelectContent>
+          {collection.items.map((option) => (
+            <GenericSelectItem
+              key={option.value}
+              data-testid={`language-button-${option.value}`}
+              item={{ label: option.value, value: option.value }}
+            >
+              {t(`languages.${option.value}`)}
+            </GenericSelectItem>
+          ))}
+        </SelectContent>
+      </SelectRoot>
+    </FieldRoot>
   );
 };

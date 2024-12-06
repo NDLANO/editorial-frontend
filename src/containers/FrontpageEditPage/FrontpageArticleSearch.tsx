@@ -44,7 +44,7 @@ const FrontpageArticleSearch = ({ articleId, children, onChange }: Props) => {
   const comboboxTranslations = useComboboxTranslations();
 
   const articleQuery = useArticleSearch(
-    { articleTypes: ["frontpage-article"], page, query: delayedQuery },
+    { articleTypes: ["frontpage-article"], license: "all", page, query: delayedQuery },
     { placeholderData: (prev) => prev },
   );
 

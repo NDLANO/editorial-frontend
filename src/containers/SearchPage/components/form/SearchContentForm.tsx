@@ -56,7 +56,7 @@ const StyledForm = styled("form", {
   },
 });
 
-const StyledFieldInput = styled(FieldInput, {
+const StyledFieldRoot = styled(FieldRoot, {
   base: {
     tabletDown: {
       gridColumn: "-1/1",
@@ -268,15 +268,15 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
           e.preventDefault();
         }}
       >
-        <FieldRoot>
+        <StyledFieldRoot>
           <FieldLabel srOnly>{t("searchForm.types.contentQuery")}</FieldLabel>
-          <StyledFieldInput
+          <FieldInput
             name="query"
             placeholder={t("searchForm.types.contentQuery")}
             value={queryInput}
             onChange={(e) => setQueryInput(e.currentTarget.value)}
           />
-        </FieldRoot>
+        </StyledFieldRoot>
         <SelectRenderer selectElements={selectElements} searchObject={searchObject} onFieldChange={onFieldChange} />
         <CheckboxSelector
           name="filter-inactive"

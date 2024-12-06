@@ -17,7 +17,7 @@ export const spanRenderer = (editor: Editor) => {
   editor.renderElement = ({ element, attributes, children }: RenderElementProps) => {
     if (element.type === TYPE_SPAN) {
       return (
-        <Span {...attributes} lang={element.data.lang}>
+        <Span {...attributes} lang={element.data.lang} dir={element.data.dir}>
           <InlineBugfix />
           {children}
           <InlineBugfix />

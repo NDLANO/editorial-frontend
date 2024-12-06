@@ -6,148 +6,176 @@
  *
  */
 
-import { HTMLProps, MutableRefObject, ReactNode, useEffect, useMemo } from "react";
+import { CSSProperties, MutableRefObject, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
-import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
-import { BookmarkLine, BookOpenLine, Draggable, StarFill, OrganizationChart } from "@ndla/icons";
-import { Spinner } from "@ndla/primitives";
-import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
-import FolderItem from "./folderComponents/FolderItem";
+import {
+  Draggable,
+  StarLine,
+  StarFill,
+  ArrowRightShortLine,
+  ArrowDownShortLine,
+  BookmarkLine,
+  CornerDownRightLine,
+} from "@ndla/icons";
+import { IconButton } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { cva } from "@ndla/styled-system/css";
+import { styled } from "@ndla/styled-system/jsx";
+import { NodeChild, Node } from "@ndla/types-taxonomy";
+import NodeControls from "./folderComponents/NodeControls";
 import QualityEvaluationGrade from "./resourceComponents/QualityEvaluationGrade";
 import DndList from "../../components/DndList";
 import { DragHandle } from "../../components/DraggableItem";
 import Fade from "../../components/Taxonomy/Fade";
-import {
-  ItemTitleButton,
-  StructureWrapper,
-  StyledIcon,
-  StyledItemBar,
-  StyledStructureItem,
-} from "../../components/Taxonomy/nodeStyles";
 import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { NodeChildWithChildren } from "../../modules/nodes/nodeQueries";
-import { createGuard } from "../../util/guards";
 import { nodePathToUrnPath } from "../../util/taxonomyHelpers";
 import { useSession } from "../Session/SessionProvider";
+import StructureErrorIcon from "./folderComponents/StructureErrorIcon";
+import { removeLastItemFromUrl } from "../../util/routeHelpers";
 
-export type RenderBeforeFunction = (
-  node: NodeChild | Node,
-  isRoot: boolean,
-  isTaxonomyAdmin: boolean,
-  articleType?: string,
-  isPublished?: boolean,
-) => ReactNode;
+const QualityEvaluationWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+  },
+});
 
-interface RoundIconProps {
-  smallIcon: ReactNode;
-  clicked?: boolean;
-  type?: "button" | "reset" | "submit";
-}
+const StyledSafeLink = styled(SafeLink, {
+  base: {
+    textStyle: "label.medium",
+    color: "text.default",
+    textDecoration: "none",
+    display: "flex",
+    gap: "3xsmall",
+    alignItems: "center",
+    _hover: {
+      textDecoration: "underline",
+    },
+  },
+  variants: {
+    active: {
+      true: {
+        textDecoration: "underline",
+      },
+    },
+    visible: {
+      false: {
+        color: "text.subtle",
+      },
+    },
+  },
+});
 
-const StyledStar = styled(StarFill)`
-  color: ${colors.brand.greyDark};
-  &[data-favorite="true"] {
-    color: ${colors.favoriteColor};
-  }
-`;
+const StyledStructureItem = styled("div", {
+  base: {
+    width: "100%",
+  },
+  variants: {
+    root: { true: { overflowX: "auto" } },
+  },
+});
 
-const RoundIcon = ({ smallIcon, ...rest }: RoundIconProps & Omit<HTMLProps<HTMLButtonElement>, "as">) => (
-  <StyledIcon {...rest}>{smallIcon}</StyledIcon>
-);
+const StyledItemBar = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "xxsmall",
+    paddingBlock: "3xsmall",
+    paddingInline: "4xsmall",
+    paddingInlineStart: "calc(var(--level) * token(spacing.large))",
+  },
+  variants: {
+    active: {
+      true: {
+        background: "surface.brand.2.moderate",
+      },
+      false: {
+        _hover: {
+          background: "surface.hover",
+        },
+      },
+    },
+  },
+});
 
-const IconWrapper = styled.div`
-  padding: 0 ${spacing.xxsmall};
-  display: flex;
-  align-items: center;
-  svg {
-    height: ${spacing.nsmall};
-    width: ${spacing.nsmall};
-    fill: ${colors.text.primary};
-  }
-  &[data-color="green"] {
-    svg {
-      fill: ${colors.support.green};
-    }
-  }
-`;
+const StyledIconButton = styled(IconButton, {
+  variants: {
+    isHidden: { true: { visibility: "hidden" } },
+  },
+});
 
-const EvaluationWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.xxsmall};
-`;
+const StyledDragHandle = styled(DragHandle, {
+  base: {
+    position: "absolute",
+    marginInlineStart: "3xsmall",
+    left: "calc(var(--level) * token(spacing.large))",
+  },
+});
 
-const isChildNode = createGuard<NodeChild & { articleType?: string; isPublished?: boolean }>("connectionId");
+export const iconRecipe = cva({
+  base: {
+    fill: "icon.default",
+  },
+});
 
-const getNodeIcon = (nodeType: NodeType): { icon: ReactNode; title: string } => {
-  switch (nodeType) {
-    case "SUBJECT":
-      return {
-        icon: <BookOpenLine />,
-        title: "subjectpageForm.title",
-      };
-    case "PROGRAMME":
-      return {
-        icon: <OrganizationChart />,
-        title: "programmepageForm.title",
-      };
-    default:
-      return {
-        icon: <BookmarkLine />,
-        title: "topicArticleForm.title",
-      };
-  }
+const StyledUl = styled("ul", {
+  base: {
+    listStyle: "none",
+  },
+});
+
+const getPath = (path: string, rootPath: string): string => {
+  const currentPath = location.pathname.replace(rootPath, "");
+  const levelAbove = removeLastItemFromUrl(currentPath);
+  const newPath = currentPath === path ? levelAbove : path;
+  return `${rootPath}${newPath}`;
 };
+
 interface Props {
   id: string;
   item: (NodeChild & { articleType?: string; isPublished?: boolean }) | Node;
   openedPaths: string[];
-  toggleOpen: (nodeId: string) => void;
   onNodeSelected: (node?: Node) => void;
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   rootNodeId: string;
   onDragEnd: (result: DragEndEvent, childNodes: NodeChild[]) => Promise<void>;
   connectionId: string;
-  parentActive: boolean;
   isRoot?: boolean;
   isFavorite: boolean;
   toggleFavorite?: () => void;
   nodes?: NodeChildWithChildren[];
   isLoading?: boolean;
-  renderBeforeTitle?: RenderBeforeFunction;
-  addChildTooltip?: string;
   showQuality: boolean;
+  prevLevel?: number;
+  rootPath: string;
 }
 
 const NodeItem = ({
   item,
   openedPaths,
-  toggleOpen,
   onNodeSelected,
   rootNodeId,
   resourceSectionRef,
   onDragEnd,
-  parentActive,
   isRoot,
   isFavorite,
   toggleFavorite,
   isLoading,
-  nodes,
-  renderBeforeTitle,
-  addChildTooltip,
+  nodes = [],
   showQuality,
+  prevLevel = 0,
+  rootPath,
 }: Props) => {
+  const [level, _] = useState(isRoot ? 0 : prevLevel + 1);
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) || false;
   const path = nodePathToUrnPath(item.path) ?? "";
   const isOpen = openedPaths.includes(path);
   const isActive = openedPaths[openedPaths.length - 1] === path;
-  const hasChildNodes = isRoot ? true : nodes && nodes.length > 0;
-  const connectionId = isChildNode(item) ? item.connectionId : undefined;
-  const articleType = isChildNode(item) ? item.articleType : undefined;
-  const isPublished = isChildNode(item) ? item.isPublished : undefined;
+  const hasChildNodes = isRoot ? true : nodes.length > 0;
 
   useEffect(() => {
     if (isActive) {
@@ -156,41 +184,43 @@ const NodeItem = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item]);
 
-  const onItemClick = () => {
-    toggleOpen(path);
-    onNodeSelected(item);
-  };
-
-  const nodeTypeIcon = useMemo(() => getNodeIcon(item.nodeType), [item.nodeType]);
+  const newPath = getPath(path, rootPath);
 
   return (
-    <StyledStructureItem connectionId={connectionId} id={item.id} key={path} greyedOut={!parentActive && !isActive}>
-      <StyledItemBar highlight={isActive}>
-        {!!isRoot && (
-          <RoundIcon
-            onClick={toggleFavorite}
-            smallIcon={<StyledStar data-favorite={isFavorite} data-testid="star-icon" />}
-            data-testid="favourite-subject"
-          />
-        )}
-        <ItemTitleButton
-          type="button"
-          id={item.id}
-          hasChildNodes={hasChildNodes}
-          isRootNode={false}
-          lastItemClickable={true}
-          arrowDirection={isOpen ? 90 : 0}
-          onClick={onItemClick}
-          isVisible={item.metadata?.visible}
+    <StyledStructureItem id={item.id} key={path} root={!!isRoot} data-testid="structure-node-item">
+      <StyledItemBar active={isActive} style={{ "--level": level } as CSSProperties}>
+        <StyledIconButton
+          variant="clear"
+          size="small"
+          onClick={toggleFavorite}
+          aria-label={isFavorite ? t("taxonomy.favorite.remove") : t("taxonomy.favorite.add")}
+          title={isFavorite ? t("taxonomy.favorite.remove") : t("taxonomy.favorite.add")}
+          data-testid="favourite-subject"
+          isHidden={!isRoot}
         >
-          {renderBeforeTitle?.(item, !!isRoot, isTaxonomyAdmin, articleType, isPublished)}
-          <IconWrapper title={t(nodeTypeIcon.title)} aria-label={t(nodeTypeIcon.title)}>
-            {nodeTypeIcon.icon}
-          </IconWrapper>
+          {isFavorite ? <StarFill /> : <StarLine />}
+        </StyledIconButton>
+        <StyledSafeLink to={newPath} onClick={() => onNodeSelected(item)} visible={item.metadata?.visible}>
+          {hasChildNodes ? (
+            isOpen ? (
+              <ArrowDownShortLine css={iconRecipe.raw()} />
+            ) : (
+              <ArrowRightShortLine css={iconRecipe.raw()} />
+            )
+          ) : null}
+          {!hasChildNodes && <CornerDownRightLine css={iconRecipe.raw()} />}
+          {item.nodeType === "TOPIC" && (
+            <BookmarkLine
+              aria-label={t("taxonomy.nodeType.TOPIC")}
+              title={t("topicArticleForm.title")}
+              css={iconRecipe.raw()}
+            />
+          )}
           {item.name}
-        </ItemTitleButton>
+        </StyledSafeLink>
+        <StructureErrorIcon node={item} isRoot={!!isRoot} isTaxonomyAdmin={isTaxonomyAdmin} />
         {!!showQuality && (item.nodeType === "TOPIC" || item.nodeType === "SUBJECT") && (
-          <EvaluationWrapper>
+          <QualityEvaluationWrapper>
             <QualityEvaluationGrade
               grade={item.gradeAverage?.averageValue}
               averageGrade={item.gradeAverage?.averageValue.toFixed(1)}
@@ -205,29 +235,24 @@ const NodeItem = ({
                 item?.qualityEvaluation?.note ? `: ${item.qualityEvaluation.note}` : ""
               }`}
             />
-          </EvaluationWrapper>
+          </QualityEvaluationWrapper>
         )}
         {!!isActive && (
-          <FolderItem
+          <NodeControls
             node={item}
             rootNodeId={rootNodeId}
             key={item.id}
             isMainActive={isOpen}
             onCurrentNodeChanged={(node) => onNodeSelected(node)}
             jumpToResources={() => resourceSectionRef?.current?.scrollIntoView()}
-            nodeChildren={nodes ?? []}
-            addChildTooltip={addChildTooltip}
+            nodeChildren={nodes}
+            isLoading={!!isLoading}
           />
-        )}
-        {!!isLoading && (
-          <span>
-            <Spinner size="small" />
-          </span>
         )}
       </StyledItemBar>
       {!!hasChildNodes && !!isOpen && !!nodes && (
         <Fade show={true}>
-          <StructureWrapper>
+          <StyledUl>
             <DndList
               items={nodes}
               disabled={!isActive || nodes.length < 2}
@@ -235,9 +260,7 @@ const NodeItem = ({
               renderItem={(t) => (
                 <NodeItem
                   isFavorite={false}
-                  renderBeforeTitle={renderBeforeTitle}
                   key={`${path}/${t.id}`}
-                  parentActive={isActive}
                   connectionId={t.connectionId}
                   id={t.id}
                   rootNodeId={rootNodeId}
@@ -246,19 +269,23 @@ const NodeItem = ({
                   onNodeSelected={onNodeSelected}
                   item={t}
                   nodes={t.childNodes}
-                  toggleOpen={toggleOpen}
                   onDragEnd={onDragEnd}
-                  addChildTooltip={addChildTooltip}
                   showQuality={showQuality}
+                  prevLevel={level}
+                  rootPath={rootPath}
                 />
               )}
               dragHandle={
-                <DragHandle aria-label={t("dragAndDrop.handle")}>
+                <StyledDragHandle
+                  aria-label={t("dragAndDrop.handle")}
+                  size="small"
+                  style={{ "--level": level + 1 } as CSSProperties}
+                >
                   <Draggable />
-                </DragHandle>
+                </StyledDragHandle>
               }
             />
-          </StructureWrapper>
+          </StyledUl>
         </Fade>
       )}
     </StyledStructureItem>

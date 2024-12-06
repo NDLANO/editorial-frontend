@@ -25,7 +25,7 @@ const StyledForm = styled(Form, {
 });
 
 interface Props {
-  onClose: () => void;
+  onClose?: () => void;
   nodeType: NodeType;
   rootId?: string;
   parentNode?: Node;
@@ -77,7 +77,7 @@ const AddNodeModalContent = ({ onClose, nodeType, rootId, parentNode }: Props) =
         await connectNode(parentNode.id, nodeId);
       }
       setInputValue("");
-      onClose();
+      onClose?.();
     } catch (error) {
       handleError(error);
       setError(true);

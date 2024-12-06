@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import { createListCollection } from "@ark-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
+import { CheckLine } from "@ndla/icons";
 import {
   Button,
   FieldErrorMessage,
@@ -89,6 +90,25 @@ const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   },
 });
 
+const StatusIndicatorContent = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    alignItems: "center",
+  },
+});
+
+const StyledCheckLine = styled(CheckLine, {
+  base: { fill: "stroke.success" },
+});
+
+const StatusMessages = styled("div", {
+  base: {
+    alignSelf: "flex-end",
+    textAlign: "right",
+  },
+});
+
 const plannedResourceRules: RulesType<PlannedResourceFormikType> = {
   title: {
     required: true,
@@ -139,7 +159,7 @@ const getSlateComment = (userName: string | undefined, t: TFunction, formikComme
 interface Props {
   articleType: string;
   node: Node | undefined;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
@@ -148,7 +168,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
 
   const { t, i18n } = useTranslation();
   const { ndlaId, userName } = useSession();
-  const { mutateAsync: addNodeMutation, isPending: addNodeMutationLoading } = useAddNodeMutation();
+  const { mutateAsync: addNodeMutation, isPending: addNodeMutationLoading, isSuccess } = useAddNodeMutation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
   const nodeId = useMemo(() => node && getRootIdForNode(node), [node]);
@@ -264,7 +284,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
           }
         }
         if (!(addNodeMutationLoading || postResourceLoading || createResourceTypeLoading)) {
-          onClose();
+          onClose?.();
         }
       } catch (e) {
         setError("taxonomy.errorMessage");
@@ -394,7 +414,15 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
               {t("taxonomy.create")}
             </Button>
           </FormActionsContainer>
-          {!!error && <Text color="text.error">{t(error)}</Text>}
+          <StatusMessages>
+            {!!error && <Text color="text.error">{t(error)}</Text>}
+            {!onClose && !!isSuccess && (
+              <StatusIndicatorContent>
+                <StyledCheckLine />
+                <Text>{t("form.status.created")}</Text>
+              </StatusIndicatorContent>
+            )}
+          </StatusMessages>
         </StyledFormikForm>
       )}
     </Formik>

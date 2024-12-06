@@ -10,6 +10,8 @@ import { useTranslation } from "react-i18next";
 import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
+import AddProgramme from "./programmeMenuOptions/AddProgramme";
+import AddTopicNode from "./sharedMenuOptions/AddTopicNode";
 import MenuItemCustomField from "./sharedMenuOptions/components/MenuItemCustomField";
 import ConnectExistingNode from "./sharedMenuOptions/ConnectExistingNode";
 import DeleteNode from "./sharedMenuOptions/DeleteNode";
@@ -81,6 +83,11 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
               })}
             </TabsTrigger>
             <TabsTrigger value="toggleMetadataVisibility">{t("metadata.changeVisibility")}</TabsTrigger>
+            <TabsTrigger value="addProgramme">
+              {t("taxonomy.addNode", {
+                nodeType: t(`taxonomy.nodeType.${nodeType}`),
+              })}
+            </TabsTrigger>
             {!!isTaxonomyAdmin && (
               <TabsTrigger value="deleteProgramme">
                 {t("taxonomy.delete.deleteNode", {
@@ -108,6 +115,9 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
           </StyledTabsContent>
           <StyledTabsContent value="toggleMetadataVisibility">
             <ToggleVisibility node={node} rootNodeId={rootNodeId} rootNodeType="PROGRAMME" />
+          </StyledTabsContent>
+          <StyledTabsContent value="addProgramme">
+            <AddProgramme node={node} rootNodeId={rootNodeId} />
           </StyledTabsContent>
           {!!isTaxonomyAdmin && (
             <StyledTabsContent value="deleteProgramme">
@@ -165,6 +175,7 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
               {t("metadata.changeVisibility")}
             </TabsTrigger>
             {!!isTaxonomyAdmin && <TabsTrigger value="editGrepCodes">{t("taxonomy.grepCodes.edit")}</TabsTrigger>}
+            <TabsTrigger value="addTopic">{t("taxonomy.addTopic")}</TabsTrigger>
             {!!isTaxonomyAdmin && (
               <TabsTrigger value="deleteSubject">
                 {t("taxonomy.delete.deleteNode", {
@@ -195,6 +206,9 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
               <EditGrepCodes node={node} />
             </StyledTabsContent>
           )}
+          <StyledTabsContent value="addTopic">
+            <AddTopicNode node={node} />
+          </StyledTabsContent>
           {!!isTaxonomyAdmin && (
             <StyledTabsContent value="deleteSubject">
               <DeleteNode
@@ -237,6 +251,7 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
                 {t("taxonomy.resourcesPrimary.recursiveButtonText")}
               </TabsTrigger>
             )}
+            <TabsTrigger value="addTopic">{t("taxonomy.addTopic")}</TabsTrigger>
             {!!isTaxonomyAdmin && (
               <TabsTrigger value="deleteTopic">
                 {t("taxonomy.delete.deleteNode", {
@@ -280,6 +295,9 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
               <SetResourcesPrimary node={node} recursive />
             </StyledTabsContent>
           )}
+          <StyledTabsContent value="addTopic">
+            <AddTopicNode node={node} />
+          </StyledTabsContent>
           {!!isTaxonomyAdmin && (
             <StyledTabsContent value="deleteTopic">
               <DeleteNode

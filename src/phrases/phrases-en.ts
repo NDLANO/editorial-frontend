@@ -1668,6 +1668,7 @@ const phrases = {
       SUBJECT: "subject",
       TOPIC: "topic",
     },
+    favorite: { add: "Add subject as favorite", remove: "Remove subject as favorite" },
     publishedVersion: "See published version",
     noValue: "No value",
     previewProgrammes: "Preview programmes in frontend",

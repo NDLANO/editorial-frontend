@@ -136,7 +136,7 @@ export const createTopicNodeConnections = async ({
         contentUri: `urn:article:${articleId}`,
         name: name,
         nodeType: "TOPIC",
-        visible: placement.metadata.visible,
+        visible: false,
       },
       taxonomyVersion,
     });

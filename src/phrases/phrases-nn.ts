@@ -1274,7 +1274,10 @@ const phrases = {
       label: "Kompetansemål og kjerneelementer",
       placeholder: "Skriv inn kode",
       description:
-        "Skriv inn koder på formatet K(E/M) eller TT fulgt av eit eller fleire siffer. Eks. KE137, KM2255, TT2. Koder som ikkje eksisterer vil ikkje bli oppretta. Separer fleire kodar med komma. Tekstene visast på bokmål i ed, men korrekt i artikkelvisning.",
+        "Skriv inn koder på formatet K(E/M) eller TT fulgt av eit eller fleire siffer. Eks. KE137, KM2255, TT2. Koder som ikkje eksisterer vil ikkje bli oppretta. Tekstene visast på bokmål i ed, men korrekt i artikkelvisning.",
+      descriptionSubject:
+        "Skriv inn koder på formatet KV fulgt av eit eller fleire siffer. Eks. KV366, KV12. Koder som ikkje eksisterer vil ikkje bli oppretta. Tekstene visast på bokmål i ed, men korrekt i artikkelvisning.",
+      noHits: "Trykk enter for å leggje til koden.",
     },
     resourceTypes: {
       label: "Innhaldstype og egenskaper",

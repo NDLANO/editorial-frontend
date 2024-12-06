@@ -10,11 +10,12 @@ import { Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, Text } from "@ndla/primitives";
+import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { PitchEmbedData } from "@ndla/types-embed";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
+import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLabel";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -104,10 +105,10 @@ const PitchForm = ({ initialData, onSave, onCancel }: Props) => {
           <FormField name="title">
             {({ field, helpers, meta }) => (
               <FieldRoot invalid={!!meta.error}>
-                <Text textStyle="label.medium" fontWeight="bold">
+                <ContentEditableFieldLabel>
                   {t("form.name.title")}
                   <RichTextIndicator />
-                </Text>
+                </ContentEditableFieldLabel>
                 <InlineField
                   {...field}
                   placeholder={t("form.name.title")}
@@ -121,10 +122,10 @@ const PitchForm = ({ initialData, onSave, onCancel }: Props) => {
           <FormField name="description">
             {({ field, meta, helpers }) => (
               <FieldRoot required invalid={!!meta.error}>
-                <Text textStyle="label.medium" fontWeight="bold">
+                <ContentEditableFieldLabel>
                   {t("form.name.description")}
                   <RichTextIndicator />
-                </Text>
+                </ContentEditableFieldLabel>
                 <InlineField
                   {...field}
                   placeholder={t("form.name.description")}

@@ -7,12 +7,13 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { FieldErrorMessage, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import LastUpdatedLine from "./../../../../components/LastUpdatedLine/LastUpdatedLine";
 import { topicArticlePlugins } from "./topicArticlePlugins";
 import { topicArticleRenderers } from "./topicArticleRenderers";
 import { ContentTypeProvider } from "../../../../components/ContentTypeProvider";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
+import { ContentEditableFieldLabel } from "../../../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../../components/Form/FieldWarning";
 import { SegmentHeader } from "../../../../components/Form/SegmentHeader";
 import { FormField } from "../../../../components/FormField";
@@ -65,7 +66,7 @@ const TopicArticleContent = ({ values, isSubmitting }: Props) => {
           {({ field, meta, helpers }) => (
             <FieldRoot invalid={!!meta.error}>
               <SegmentHeader>
-                <FieldLabel>{t("form.content.label")}</FieldLabel>
+                <ContentEditableFieldLabel>{t("form.content.label")}</ContentEditableFieldLabel>
                 {!!values.id && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && !!values.language && (
                   <EditMarkupLink to={toEditMarkup(values.id, values.language)} title={t("editMarkup.linkTitle")} />
                 )}

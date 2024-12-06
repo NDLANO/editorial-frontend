@@ -8,8 +8,9 @@
 
 import { connect, useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import { FieldErrorMessage, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { AudioFormikType } from "./AudioForm";
+import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../components/Form/FieldWarning";
 import { FormField } from "../../../components/FormField";
 import { SlatePlugin } from "../../../components/SlateEditor/interfaces";
@@ -72,7 +73,9 @@ const AudioManuscript = () => {
     <FormField name="manuscript">
       {({ field, meta, helpers }) => (
         <FieldRoot invalid={!!meta.error}>
-          <FieldLabel textStyle="title.medium">{t("podcastForm.fields.manuscript")}</FieldLabel>
+          <ContentEditableFieldLabel textStyle="title.medium">
+            {t("podcastForm.fields.manuscript")}
+          </ContentEditableFieldLabel>
           <RichTextEditor
             {...field}
             hideBlockPicker

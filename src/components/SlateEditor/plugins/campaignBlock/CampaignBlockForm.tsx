@@ -28,7 +28,6 @@ import {
   RadioGroupItemText,
   RadioGroupLabel,
   RadioGroupRoot,
-  Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { CampaignBlockEmbedData } from "@ndla/types-embed";
@@ -38,6 +37,7 @@ import InlineImageSearch from "../../../../containers/ConceptPage/components/Inl
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../../util/formHelper";
+import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLabel";
 import { FormRemainingCharacters } from "../../../Form/FormRemainingCharacters";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
@@ -167,10 +167,10 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
           <FormField name="title">
             {({ field, helpers, meta }) => (
               <FieldRoot invalid={!!meta.error}>
-                <Text textStyle="label.medium" fontWeight="bold">
+                <ContentEditableFieldLabel>
                   {t("form.name.title")}
                   <RichTextIndicator />
-                </Text>
+                </ContentEditableFieldLabel>
                 <InlineField
                   {...field}
                   placeholder={t("form.name.title")}
@@ -184,10 +184,10 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
           <FormField name="description">
             {({ field, helpers, meta }) => (
               <FieldRoot invalid={!!meta.error}>
-                <Text textStyle="label.medium" fontWeight="bold">
+                <ContentEditableFieldLabel>
                   {t("form.name.description")}
                   <RichTextIndicator />
-                </Text>
+                </ContentEditableFieldLabel>
                 <InlineField
                   {...field}
                   maxLength={250}
@@ -213,10 +213,10 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
             <FormField name="linkText">
               {({ field, helpers, meta }) => (
                 <FieldRoot invalid={!!meta.error}>
-                  <Text textStyle="label.medium" fontWeight="bold">
+                  <ContentEditableFieldLabel>
                     {t("form.name.linkText")}
                     <RichTextIndicator />
-                  </Text>
+                  </ContentEditableFieldLabel>
                   <InlineField
                     {...field}
                     placeholder={t("form.name.linkText")}

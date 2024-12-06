@@ -10,11 +10,12 @@ import { FieldArrayRenderProps, FieldInputProps } from "formik";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { DeleteBinLine, ArrowDownShortLine, ArrowRightShortLine, CheckLine } from "@ndla/icons";
-import { Button, FieldLabel, FieldRoot, IconButton } from "@ndla/primitives";
+import { CheckLine, DeleteBinLine, ArrowDownShortLine, ArrowRightShortLine } from "@ndla/icons";
+import { Button, FieldRoot, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUtils";
 import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
+import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import { SlateCommentType } from "../../FormikForm/articleFormHooks";
@@ -158,7 +159,7 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
           </ButtonsWrapper>
         </TopButtonRow>
         <StyledFieldRoot id={`comment-${id}`} open={field.value.isOpen}>
-          <FieldLabel srOnly>{t("form.comment.commentField")}</FieldLabel>
+          <ContentEditableFieldLabel srOnly>{t("form.comment.commentField")}</ContentEditableFieldLabel>
           <RichTextEditor
             value={field.value.content ?? []}
             hideBlockPicker

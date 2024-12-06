@@ -9,11 +9,12 @@
 import { useFormikContext } from "formik";
 import { isKeyHotkey } from "is-hotkey";
 import isEqual from "lodash/isEqual";
-import { FocusEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
+import { FocusEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from "slate";
 import { withHistory } from "slate-history";
 import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
+import { useFieldContext } from "@ark-ui/react";
 import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import "../DisplayEmbed/helpers/h5pResizer";
@@ -92,7 +93,23 @@ const RichTextEditor = ({
 }: RichTextEditorProps) => {
   const [editor] = useState(() => withPlugins(withReact(withHistory(createEditor())), plugins));
   const [isFirstNormalize, setIsFirstNormalize] = useState(true);
+  const [labelledBy, setLabelledBy] = useState<string | undefined>(undefined);
   const prevSubmitted = useRef(submitted);
+  const field = useFieldContext();
+  // Including ID somehow crashes the editor.
+  const {
+    "aria-labelledby": fieldLabelledBy,
+    //@ts-expect-error - it exists, but not according to the type
+    "data-part": _,
+    ...fieldProps
+  } = useMemo(() => (field?.getTextareaProps() as EditableProps | undefined) ?? {}, [field]);
+
+  useEffect(() => {
+    const labelEl = document.getElementById(field.ids.label);
+    if (labelEl) {
+      setLabelledBy(labelEl.id);
+    }
+  }, [field.ids.label]);
 
   const { status, setStatus } = useFormikContext<ArticleFormType>();
 
@@ -322,6 +339,8 @@ const RichTextEditor = ({
                     />
                   )}
                   <StyledEditable
+                    {...fieldProps}
+                    aria-labelledby={labelledBy}
                     {...rest}
                     onBlur={onBlur}
                     decorate={decorations}

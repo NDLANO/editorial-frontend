@@ -8,8 +8,9 @@
 
 import { KeyboardEvent, memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { FieldErrorMessage, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { ContentEditableFieldLabel } from "../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../components/Form/FieldWarning";
 import { FormField } from "../../components/FormField";
 
@@ -95,7 +96,7 @@ const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => 
     <FormField name={name}>
       {({ field, meta }) => (
         <FieldRoot required invalid={!!meta.error}>
-          <FieldLabel srOnly>{t("form.title.label")}</FieldLabel>
+          <ContentEditableFieldLabel srOnly>{t("form.title.label")}</ContentEditableFieldLabel>
           <StyledRichTextEditor
             {...field}
             id="title-editor"

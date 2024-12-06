@@ -22,7 +22,6 @@ import {
   FieldInput,
   FieldLabel,
   FieldRoot,
-  Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { KeyFigureEmbedData } from "@ndla/types-embed";
@@ -31,6 +30,7 @@ import InlineImageSearch from "../../../../containers/ConceptPage/components/Inl
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../../util/formHelper";
+import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLabel";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -113,10 +113,10 @@ const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
           <FormField name="title">
             {({ field, helpers, meta }) => (
               <FieldRoot invalid={!!meta.error}>
-                <Text textStyle="label.medium" fontWeight="bold">
+                <ContentEditableFieldLabel>
                   {t("form.name.title")}
                   <RichTextIndicator />
-                </Text>
+                </ContentEditableFieldLabel>
                 <InlineField
                   {...field}
                   placeholder={t("form.name.title")}
@@ -130,10 +130,10 @@ const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
           <FormField name="subtitle">
             {({ field, helpers, meta }) => (
               <FieldRoot invalid={!!meta.error}>
-                <Text textStyle="label.medium" fontWeight="bold">
+                <ContentEditableFieldLabel>
                   {t("form.name.subtitle")}
                   <RichTextIndicator />
-                </Text>
+                </ContentEditableFieldLabel>
                 <InlineField
                   {...field}
                   placeholder={t("form.name.subtitle")}

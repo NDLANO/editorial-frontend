@@ -10,13 +10,14 @@ import { useField, useFormikContext } from "formik";
 import { useState, useMemo, memo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { Button, FieldErrorMessage, FieldRoot, FieldLabel } from "@ndla/primitives";
+import { Button, FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { IAuthor } from "@ndla/types-backend/draft-api";
 import LearningResourceFootnotes, { FootnoteType } from "./LearningResourceFootnotes";
 import { learningResourcePlugins } from "./learningResourcePlugins";
 import { learningResourceRenderers } from "./learningResourceRenderers";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
+import { ContentEditableFieldLabel } from "../../../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../../components/Form/FieldWarning";
 import { SegmentHeader } from "../../../../components/Form/SegmentHeader";
 import { FormField } from "../../../../components/FormField";
@@ -162,7 +163,7 @@ const ContentField = ({ articleId, articleLanguage }: ContentFieldProps) => {
       {({ field, meta, helpers }) => (
         <FieldRoot invalid={!!meta.error}>
           <SegmentHeader>
-            <FieldLabel>{t("form.content.label")}</FieldLabel>
+            <ContentEditableFieldLabel>{t("form.content.label")}</ContentEditableFieldLabel>
             {!!articleId && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (
               <EditMarkupLink to={toEditMarkup(articleId, articleLanguage ?? "")} title={t("editMarkup.linkTitle")} />
             )}

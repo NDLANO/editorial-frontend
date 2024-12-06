@@ -13,6 +13,7 @@ import { Text, ListItemContent, ListItemHeading, ListItemRoot, IconButton } from
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
+import { ContentTypeBadge } from "@ndla/ui";
 import GrepCodesDialog from "./GrepCodesDialog";
 import QualityEvaluationGrade from "./QualityEvaluationGrade";
 import StatusIcons from "./StatusIcons";
@@ -159,9 +160,9 @@ const Resource = ({ currentNodeId, resource, contentMetaLoading, responsible, sh
         </ContentRow>
         <ContentRow>
           <TextWrapper>
-            <Text color="text.subtle" textStyle="label.small">
+            <ContentTypeBadge contentType={contentType} size="small">
               {t(`contentTypes.${contentType}`)}
-            </Text>
+            </ContentTypeBadge>
             <Text color="text.subtle" aria-hidden>
               |
             </Text>

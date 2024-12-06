@@ -233,13 +233,11 @@ router.post("/transcribe", async (req, res) => {
   }
 });
 
-router.post("/get_transcription", async (req, res) => {
-  const jobName = req.body.jobName;
-
+router.get("/transcribe/:jobName", async (req, res) => {
+  const jobName = req.params.jobName;
   if (!jobName) {
-    res.status(404).send("");
+    res.status(404).send("Job name is required");
   }
-
   const client = new TranscribeClient({
     region: "eu-west-1",
   });
@@ -253,7 +251,6 @@ router.post("/get_transcription", async (req, res) => {
       return;
     }
     const jobStatus = response.TranscriptionJob.TranscriptionJobStatus;
-
     if (jobStatus === "COMPLETED") {
       const transcriptUri = response.TranscriptionJob.Transcript?.TranscriptFileUri || "";
       res.json({ jobName, status: "COMPLETED", transcriptUrl: transcriptUri });

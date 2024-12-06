@@ -2255,6 +2255,15 @@ const phrases = {
       textSuggested: "Forslag til ny formulering",
       title: "Alternativ formulering",
     },
+    altText: {
+      button: "Generer",
+      prompt: `<Instructions>
+        Du har lang erfaring frå utdanningssektoren. Du er spesialist i å skrive alternative tekster for bilete for å gjere dei tilgjengelege for alle elevar.
+        Du har fått som oppgåve å skrive en alternativ tekst for bilete vedlagt på {{ language }}. Beskrivinga skal vere på maks 125 teikn.
+        Svaret skal leverast med refleksjonar på kvifor du har valt å inkludere dei punktane du har valt først, så selve alternativteksten skrevet i ein <answer> tag.
+      </Instructions>`,
+      title: "Generer alt tekst",
+    },
     reflectionQuestions: {
       button: "Generer refleksjonsspørsmål",
       prompt: `<draft>{{ article }}</draft>

@@ -111,6 +111,17 @@ const StyledDragHandle = styled(DragHandle, {
     position: "absolute",
     marginInlineStart: "3xsmall",
     left: "calc(var(--level) * token(spacing.large))",
+
+    _hover: {
+      "& ~ [data-structure-item] > [data-item-bar]": {
+        background: "surface.hover",
+      },
+    },
+    _active: {
+      "& ~ [data-structure-item] > [data-item-bar]": {
+        background: "surface.hover",
+      },
+    },
   },
 });
 
@@ -187,8 +198,14 @@ const NodeItem = ({
   const newPath = getPath(path, rootPath);
 
   return (
-    <StyledStructureItem id={item.id} key={path} root={!!isRoot} data-testid="structure-node-item">
-      <StyledItemBar active={isActive} style={{ "--level": level } as CSSProperties}>
+    <StyledStructureItem
+      id={item.id}
+      key={path}
+      root={!!isRoot}
+      data-testid="structure-node-item"
+      data-structure-item=""
+    >
+      <StyledItemBar active={isActive} style={{ "--level": level } as CSSProperties} data-item-bar="">
         <StyledIconButton
           variant="clear"
           size="small"

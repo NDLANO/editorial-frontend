@@ -15,7 +15,7 @@ import { DragEndEvent } from "@dnd-kit/core";
 import { useQueryClient } from "@tanstack/react-query";
 import { IUserData } from "@ndla/types-backend/draft-api";
 import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
-import NodeItem, { RenderBeforeFunction } from "./NodeItem";
+import NodeItem from "./NodeItem";
 import { draftQueryKeys, useUpdateUserDataMutation } from "../../modules/draft/draftQueries";
 import { useUpdateNodeConnectionMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys, useChildNodesWithArticleType } from "../../modules/nodes/nodeQueries";
@@ -24,28 +24,24 @@ import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider"
 
 interface Props {
   node: Node;
-  toggleOpen: (path: string) => void;
   openedPaths: string[];
   isFavorite: boolean;
   onNodeSelected: (node?: Node) => void;
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
-  renderBeforeTitle?: RenderBeforeFunction;
   childNodeTypes: NodeType[];
-  addChildTooltip?: string;
   showQuality: boolean;
+  rootPath: string;
 }
 
 const RootNode = ({
   isFavorite,
   node,
   openedPaths,
-  toggleOpen,
   onNodeSelected,
   resourceSectionRef,
-  renderBeforeTitle,
   childNodeTypes,
-  addChildTooltip,
   showQuality,
+  rootPath,
 }: Props) => {
   const { i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -112,25 +108,22 @@ const RootNode = ({
 
   return (
     <NodeItem
-      renderBeforeTitle={renderBeforeTitle}
       id={node.id}
       key={node.id}
       item={node}
       nodes={childNodesQuery.data}
       openedPaths={openedPaths}
       onNodeSelected={onNodeSelected}
-      toggleOpen={toggleOpen}
       toggleFavorite={toggleFavorite}
       rootNodeId={node.id}
       resourceSectionRef={resourceSectionRef}
       onDragEnd={onDragEnd}
       connectionId={""}
-      parentActive={true}
       isRoot={true}
       isFavorite={isFavorite}
       isLoading={childNodesQuery.isLoading}
-      addChildTooltip={addChildTooltip}
       showQuality={showQuality}
+      rootPath={rootPath}
     />
   );
 };

@@ -9,15 +9,7 @@
 import { CSSProperties, MutableRefObject, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
-import {
-  Draggable,
-  StarLine,
-  StarFill,
-  ArrowRightShortLine,
-  ArrowDownShortLine,
-  BookmarkLine,
-  CornerDownRightLine,
-} from "@ndla/icons";
+import { Draggable, StarLine, StarFill, ArrowRightShortLine, BookmarkLine, CornerDownRightLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
@@ -144,13 +136,21 @@ const getPath = (path: string, rootPath: string): string => {
   return `${rootPath}${newPath}`;
 };
 
+const StyledArrowRightShortLine = styled(ArrowRightShortLine, {
+  base: {
+    transformOrigin: "center",
+    transitionDuration: "normal",
+    transitionProperty: "transform",
+    transitionTimingFunction: "default",
+    _open: {
+      transform: "rotate(90deg)",
+    },
+  },
+});
+
 const ToggleChevron = ({ hasChildNodes, isOpen }: { hasChildNodes: boolean; isOpen: boolean }) =>
   hasChildNodes ? (
-    isOpen ? (
-      <ArrowDownShortLine css={iconRecipe.raw()} />
-    ) : (
-      <ArrowRightShortLine css={iconRecipe.raw()} />
-    )
+    <StyledArrowRightShortLine {...(isOpen ? { "data-open": true } : {})} css={iconRecipe.raw()} />
   ) : null;
 
 interface Props {

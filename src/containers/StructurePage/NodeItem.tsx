@@ -144,6 +144,15 @@ const getPath = (path: string, rootPath: string): string => {
   return `${rootPath}${newPath}`;
 };
 
+const ToggleChevron = ({ hasChildNodes, isOpen }: { hasChildNodes: boolean; isOpen: boolean }) =>
+  hasChildNodes ? (
+    isOpen ? (
+      <ArrowDownShortLine css={iconRecipe.raw()} />
+    ) : (
+      <ArrowRightShortLine css={iconRecipe.raw()} />
+    )
+  ) : null;
+
 interface Props {
   id: string;
   item: (NodeChild & { articleType?: string; isPublished?: boolean }) | Node;
@@ -218,13 +227,7 @@ const NodeItem = ({
           {isFavorite ? <StarFill /> : <StarLine />}
         </StyledIconButton>
         <StyledSafeLink to={newPath} onClick={() => onNodeSelected(item)} visible={item.metadata?.visible}>
-          {hasChildNodes ? (
-            isOpen ? (
-              <ArrowDownShortLine css={iconRecipe.raw()} />
-            ) : (
-              <ArrowRightShortLine css={iconRecipe.raw()} />
-            )
-          ) : null}
+          <ToggleChevron hasChildNodes={hasChildNodes} isOpen={isOpen} />
           {!hasChildNodes && <CornerDownRightLine css={iconRecipe.raw()} />}
           {item.nodeType === "TOPIC" && (
             <BookmarkLine

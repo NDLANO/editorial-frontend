@@ -8,6 +8,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 import { ErrorWarningLine } from "@ndla/icons";
 import { Text, Button, Heading, MessageBox } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -18,6 +19,7 @@ import { updateStatusDraft } from "../../../../modules/draft/draftApi";
 import { fetchNodes } from "../../../../modules/nodes/nodeApi";
 import { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../../modules/nodes/nodeApiTypes";
 import { useDeleteNodeConnectionMutation, useDeleteNodeMutation } from "../../../../modules/nodes/nodeMutations";
+import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { capitalizeFirstLetter } from "../../utils";
 
@@ -57,6 +59,7 @@ const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNo
 
   const deleteNodeConnectionMutation = useDeleteNodeConnectionMutation();
   const deleteNodeMutation = useDeleteNodeMutation();
+  const queryClient = useQueryClient();
 
   const onDelete = async (): Promise<void> => {
     setLoading(true);
@@ -87,7 +90,13 @@ const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNo
           taxonomyVersion,
           rootId: "parentId" in node ? rootNodeId : undefined,
         },
-        { onSuccess: () => setLoading(false) },
+        {
+          onSuccess: () => setLoading(false),
+          onSettled: (_, __, { taxonomyVersion }) =>
+            queryClient.invalidateQueries({
+              queryKey: nodeQueryKeys.nodes({ taxonomyVersion }),
+            }),
+        },
       );
       navigate(location.pathname.split(node.id)[0], { replace: true });
       onCurrentNodeChanged(undefined);

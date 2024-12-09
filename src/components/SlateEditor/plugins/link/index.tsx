@@ -6,6 +6,7 @@
  *
  */
 
+import type { JSX } from "react";
 import { Descendant, Editor, Element, Text, Node, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { ContentLinkEmbedData } from "@ndla/types-embed";

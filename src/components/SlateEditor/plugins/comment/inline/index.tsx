@@ -6,6 +6,7 @@
  *
  */
 
+import type { JSX } from "react";
 import { Descendant, Editor, Element, Node, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_COMMENT_INLINE } from "./types";

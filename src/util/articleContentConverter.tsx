@@ -8,7 +8,7 @@
 import escapeHtml from "escape-html";
 import compact from "lodash/compact";
 import toArray from "lodash/toArray";
-import { cloneElement } from "react";
+import { cloneElement, type JSX } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { Descendant, Node, Text } from "slate";
 import { AudioEmbedData, ImageEmbedData } from "@ndla/types-embed";

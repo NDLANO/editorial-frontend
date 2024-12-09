@@ -6,7 +6,7 @@
  *
  */
 import isObject from "lodash/fp/isObject";
-import { ElementType, ReactNode } from "react";
+import { ElementType, ReactNode, type JSX } from "react";
 import { TYPE_AUDIO } from "../components/SlateEditor/plugins/audio/types";
 import { TYPE_NDLA_EMBED } from "../components/SlateEditor/plugins/embed/types";
 import { TYPE_IMAGE } from "../components/SlateEditor/plugins/image/types";

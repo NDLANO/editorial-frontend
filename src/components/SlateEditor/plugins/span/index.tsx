@@ -7,6 +7,7 @@
  */
 
 import isEmpty from "lodash/isEmpty";
+import type { JSX } from "react";
 import { Descendant, Editor, Element, Node, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_SPAN } from "./types";

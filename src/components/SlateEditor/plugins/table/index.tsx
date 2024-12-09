@@ -7,6 +7,7 @@
  */
 
 import equals from "lodash/fp/equals";
+import type { JSX } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { Descendant, Editor, Element, Node, NodeEntry, Path, Text, Transforms } from "slate";
 import { HistoryEditor } from "slate-history";

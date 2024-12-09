@@ -69,7 +69,7 @@ const DisconnectFromParent = ({ node, onCurrentNodeChanged }: Props) => {
       </Heading>
       <MessageBox variant="warning">
         <ErrorWarningLine />
-        <Text>{t("taxonomy.publish.info")}</Text>
+        <Text>{t("taxonomy.confirmDisconnect")}</Text>
       </MessageBox>
       <FormActionsContainer>
         <Button loading={isPending} variant="danger" onClick={onDisconnect}>

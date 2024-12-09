@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { ErrorWarningFill } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node } from "@ndla/types-taxonomy";
+import { Node, NodeChild } from "@ndla/types-taxonomy";
 import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
@@ -25,16 +25,21 @@ const StyledErrorWarningFill = styled(ErrorWarningFill, {
   },
 });
 
-const StructureErrorIcon = (
-  node: Node,
-  isRoot: boolean,
-  isTaxonomyAdmin: boolean,
-  articleType?: string,
-  isPublished?: boolean,
-) => {
+const isChildNode = (node: Node): node is NodeChild & { articleType?: string; isPublished?: boolean } =>
+  "connectionId" in node;
+
+interface Props {
+  node: Node;
+  isRoot: boolean;
+  isTaxonomyAdmin: boolean;
+}
+
+const StructureErrorIcon = ({ node, isRoot, isTaxonomyAdmin }: Props) => {
   const { t } = useTranslation();
   if (isRoot || node.nodeType !== "TOPIC") return null;
+  const articleType = isChildNode(node) ? node.articleType : undefined;
   if (articleType === "topic-article") {
+    const isPublished = isChildNode(node) ? node.isPublished : undefined;
     if (!isPublished) {
       const notPublishedWarning = t("taxonomy.info.notPublished");
 
@@ -55,7 +60,7 @@ const StructureErrorIcon = (
 
     const error = !articleType ? missingArticleTypeError : wrongArticleTypeError;
 
-    return <StyledErrorWarningFill aria-label={error} title={error} size="small" variant="error" />;
+    return <StyledErrorWarningFill aria-label={error} title={error} variant="error" />;
   }
   return null;
 };

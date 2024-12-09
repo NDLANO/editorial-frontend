@@ -110,16 +110,3 @@ export const StructureWrapper = styled.ul`
   margin: 0;
   padding: 0;
 `;
-
-export const StyledIcon = styled.button`
-  display: flex;
-  align-items: center;
-
-  border: 0;
-  background: transparent;
-
-  svg:hover {
-    fill: ${colors.favoriteColor};
-    cursor: pointer;
-  }
-`;

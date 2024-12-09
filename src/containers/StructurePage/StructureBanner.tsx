@@ -110,62 +110,56 @@ const StructureBanner = ({
     <ResourceGroupBanner>
       <Heading textStyle="title.small">{t("taxonomy.editStructure")}</Heading>
       <ButtonsWrapper>
-        {nodeType !== "PROGRAMME" && (
-          <PopoverRoot>
-            <PopoverTrigger asChild>
-              <Button variant="secondary" size="small" data-testid="display-options">
-                {t("taxonomy.displayOptions")}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent>
-              <SwitchWrapper>
-                {!!hasLmaSubjects && (
-                  <SwitchRoot
-                    checked={showLmaSubjects}
-                    onCheckedChange={(details) => setShowLmaSubjects(details.checked)}
-                  >
-                    <SwitchLabel>{t("taxonomy.showLMASubject")}</SwitchLabel>
-                    <SwitchControl>
-                      <SwitchThumb />
-                    </SwitchControl>
-                    <SwitchHiddenInput />
-                  </SwitchRoot>
-                )}
-                {!!hasDaSubjects && (
-                  <SwitchRoot
-                    checked={showDaSubjects}
-                    onCheckedChange={(details) => setShowDaSubjects(details.checked)}
-                  >
-                    <SwitchLabel>{t("taxonomy.showDASubject")}</SwitchLabel>
-                    <SwitchControl>
-                      <SwitchThumb />
-                    </SwitchControl>
-                    <SwitchHiddenInput />
-                  </SwitchRoot>
-                )}
-                {!!hasSaSubjects && (
-                  <SwitchRoot
-                    checked={showSaSubjects}
-                    onCheckedChange={(details) => setShowSaSubjects(details.checked)}
-                  >
-                    <SwitchLabel>{t("taxonomy.showSASubject")}</SwitchLabel>
-                    <SwitchControl>
-                      <SwitchThumb />
-                    </SwitchControl>
-                    <SwitchHiddenInput />
-                  </SwitchRoot>
-                )}
+        <PopoverRoot>
+          <PopoverTrigger asChild>
+            <Button variant="secondary" size="small" data-testid="display-options">
+              {t("taxonomy.displayOptions")}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <SwitchWrapper>
+              {!!hasLmaSubjects && (
                 <SwitchRoot
-                  checked={showFavorites}
-                  data-testid="switch-favorites"
-                  onCheckedChange={(details) => setShowFavorites(details.checked)}
+                  checked={showLmaSubjects}
+                  onCheckedChange={(details) => setShowLmaSubjects(details.checked)}
                 >
-                  <SwitchLabel>{t("taxonomy.favorites")}</SwitchLabel>
+                  <SwitchLabel>{t("taxonomy.showLMASubject")}</SwitchLabel>
                   <SwitchControl>
                     <SwitchThumb />
                   </SwitchControl>
                   <SwitchHiddenInput />
                 </SwitchRoot>
+              )}
+              {!!hasDaSubjects && (
+                <SwitchRoot checked={showDaSubjects} onCheckedChange={(details) => setShowDaSubjects(details.checked)}>
+                  <SwitchLabel>{t("taxonomy.showDASubject")}</SwitchLabel>
+                  <SwitchControl>
+                    <SwitchThumb />
+                  </SwitchControl>
+                  <SwitchHiddenInput />
+                </SwitchRoot>
+              )}
+              {!!hasSaSubjects && (
+                <SwitchRoot checked={showSaSubjects} onCheckedChange={(details) => setShowSaSubjects(details.checked)}>
+                  <SwitchLabel>{t("taxonomy.showSASubject")}</SwitchLabel>
+                  <SwitchControl>
+                    <SwitchThumb />
+                  </SwitchControl>
+                  <SwitchHiddenInput />
+                </SwitchRoot>
+              )}
+              <SwitchRoot
+                checked={showFavorites}
+                data-testid="switch-favorites"
+                onCheckedChange={(details) => setShowFavorites(details.checked)}
+              >
+                <SwitchLabel>{t("taxonomy.favorites")}</SwitchLabel>
+                <SwitchControl>
+                  <SwitchThumb />
+                </SwitchControl>
+                <SwitchHiddenInput />
+              </SwitchRoot>
+              {nodeType !== "PROGRAMME" && (
                 <SwitchRoot checked={showQuality} onCheckedChange={(details) => setShowQuality(details.checked)}>
                   <SwitchLabel>{t("taxonomy.quality")}</SwitchLabel>
                   <SwitchControl>
@@ -173,10 +167,10 @@ const StructureBanner = ({
                   </SwitchControl>
                   <SwitchHiddenInput />
                 </SwitchRoot>
-              </SwitchWrapper>
-            </PopoverContent>
-          </PopoverRoot>
-        )}
+              )}
+            </SwitchWrapper>
+          </PopoverContent>
+        </PopoverRoot>
 
         {!!isTaxonomyAdmin && (
           <DialogRoot open={addSubjectModalOpen} onOpenChange={({ open }) => setAddSubjectModalOpen(open)}>

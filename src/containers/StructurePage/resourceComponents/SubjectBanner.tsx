@@ -96,7 +96,7 @@ const SubjectBanner = ({ subjectNode, showQuality, users }: Props) => {
       </TopRow>
       <div>
         <Text fontWeight="bold">
-          <a href={`${config.ndlaFrontendDomain}${subjectNode.url}=versionHash=${taxonomyVersion}`}>
+          <a href={`${config.ndlaFrontendDomain}${subjectNode.url}?versionHash=${taxonomyVersion}`}>
             {subjectNode.name}
           </a>
         </Text>

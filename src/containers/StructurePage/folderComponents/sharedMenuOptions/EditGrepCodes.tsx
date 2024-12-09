@@ -31,7 +31,7 @@ const EditGrepCodes = ({ node }: Props) => {
     });
   };
 
-  return <GrepCodesForm codes={metadata?.grepCodes ?? []} onUpdate={updateMetadata} />;
+  return <GrepCodesForm codes={metadata?.grepCodes ?? []} onUpdate={updateMetadata} prefixFilter={["KV"]} />;
 };
 
 export default EditGrepCodes;

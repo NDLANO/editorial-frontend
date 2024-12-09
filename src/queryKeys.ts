@@ -12,6 +12,7 @@ export const SEARCH_SERIES = "searchSeries";
 export const SEARCH_IMAGES = "searchImages";
 export const SEARCH = "search";
 export const SEARCH_RESOURCES = "searchResources";
+export const SEARCH_GREP_CODES = "searchGrepCodes";
 export const SEARCH_WITH_CUSTOM_SUBJECTS_FILTERING = "searchWithCustomSubjectsFiltering";
 export const SEARCH_SUBJECT_STATS = "searchSubjectStats";
 export const MYNDLA_RESOURCE_STATS = "myNdlaResourceStats";
@@ -44,7 +45,6 @@ export const LICENSES = "licenses";
 export const USER_DATA = "userData";
 export const DRAFT_STATUS_STATE_MACHINE = "draftStatusStateMachine";
 export const DRAFT_SEARCH_TAGS = "draftSearchTags";
-export const GREP_CODES_SEARCH = "grepCodesSearch";
 
 export const RESOURCE_TYPE = "resourceType";
 export const RESOURCE_TYPES = "resourceTypes";

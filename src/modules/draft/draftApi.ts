@@ -15,7 +15,6 @@ import {
   IArticle,
   ITagsSearchResult,
   IArticleTag,
-  IGrepCodesSearchResult,
   IUserData,
   ISearchResult,
   IUpdatedUserData,
@@ -126,11 +125,6 @@ export const fetchSearchTags = async (input: string, language: string): Promise<
 
 export const fetchLicenses = async (): Promise<ILicense[]> =>
   fetchAuthorized(`${baseUrl}/licenses/`).then((r) => resolveJsonOrRejectWithError<ILicense[]>(r));
-
-export const fetchGrepCodes = async (query: string): Promise<IGrepCodesSearchResult> =>
-  fetchAuthorized(`${baseUrl}/grep-codes/?query=${query}`).then((r) =>
-    resolveJsonOrRejectWithError<IGrepCodesSearchResult>(r),
-  );
 
 export const fetchUserData = async (): Promise<IUserData> =>
   fetchAuthorized(`${baseUserDataUrl}`).then((r) => resolveJsonOrRejectWithError<IUserData>(r));

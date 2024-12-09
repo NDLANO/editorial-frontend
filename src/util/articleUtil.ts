@@ -33,8 +33,9 @@ export const convertUpdateToNewDraft = (article: IUpdatedArticle): INewArticle =
   };
 };
 
-export const isGrepCodeValid = (grepCode: string) => {
-  return !!grepCode.match(/^(K(E|M)\d+|TT\d+)$/);
+export const isGrepCodeValid = (grepCode: string, prefixFilter: string[]) => {
+  const regex = new RegExp(`^(${prefixFilter.join("|")})\\d+$`);
+  return !!grepCode.match(regex);
 };
 
 export const nullOrUndefined = (metaImageId?: unknown | null | undefined) => {

@@ -1274,7 +1274,8 @@ const phrases = {
       label: "Competences and core elements",
       placeholder: "Type code",
       description:
-        "Type in codes using the format K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2. Non existing codes will not be created. Separate multiple codes with comma. Texts will be displayed in norwegian here but will be shown correct in frontend.",
+        "Type in codes using the correct format ({{ codes }}) followed by one or more digits. Non existing codes will not be created. Texts will be displayed in norwegian here but will be shown correct in frontend.",
+      noHits: "Press enter to add the code.",
     },
     resourceTypes: {
       label: "Resource type and properties",

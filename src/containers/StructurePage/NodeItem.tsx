@@ -6,7 +6,7 @@
  *
  */
 
-import { CSSProperties, MutableRefObject, useEffect, useState } from "react";
+import { CSSProperties, MutableRefObject, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
 import { Draggable, StarLine, StarFill, ArrowRightShortLine, BookmarkLine, CornerDownRightLine } from "@ndla/icons";
@@ -168,7 +168,7 @@ interface Props {
   nodes?: NodeChildWithChildren[];
   isLoading?: boolean;
   showQuality: boolean;
-  prevLevel?: number;
+  level?: number;
   rootPath: string;
 }
 
@@ -185,10 +185,9 @@ const NodeItem = ({
   isLoading,
   nodes = [],
   showQuality,
-  prevLevel = 0,
+  level = 0,
   rootPath,
 }: Props) => {
-  const [level, _] = useState(isRoot ? 0 : prevLevel + 1);
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) || false;
@@ -291,7 +290,7 @@ const NodeItem = ({
                   nodes={t.childNodes}
                   onDragEnd={onDragEnd}
                   showQuality={showQuality}
-                  prevLevel={level}
+                  level={level + 1}
                   rootPath={rootPath}
                 />
               )}

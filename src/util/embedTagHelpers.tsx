@@ -133,7 +133,7 @@ export const createDataAttributes = <T extends object, R extends boolean = false
 };
 
 export const createTag = <T extends object>(
-  Tag: ElementType,
+  Tag: ElementType | "ndlaembed",
   data: EmbedProps<T> | undefined,
   children: ReactNode[] | undefined,
   opts: { bailOnEmptyData?: boolean },

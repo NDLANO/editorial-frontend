@@ -104,8 +104,8 @@ const Resource = ({ currentNodeId, resource, contentMetaLoading, responsible, sh
 
   const structurePaths: string[] = location.pathname.replace("/structure", "").split("/");
   const currentPath = structurePaths.map((p) => p.replace("urn:", "")).join("/");
-  const path = resource.paths.find((p) => {
-    const pArr = p.split("/");
+  const context = resource.contexts.find((ctx) => {
+    const pArr = ctx.path.split("/");
     const isResource = pArr[pArr.length - 1].startsWith("resource");
     const pathWithoutResource = pArr.slice(0, pArr.length - (isResource ? 1 : 0)).join("/");
     return pathWithoutResource === currentPath;
@@ -177,7 +177,7 @@ const Resource = ({ currentNodeId, resource, contentMetaLoading, responsible, sh
             ) && (
               <SafeLinkIconButton
                 target="_blank"
-                to={`${config.ndlaFrontendDomain}${path}?versionHash=${taxonomyVersion}`}
+                to={`${config.ndlaFrontendDomain}${context?.url}?versionHash=${taxonomyVersion}`}
                 aria-label={t("taxonomy.publishedVersion")}
                 title={t("taxonomy.publishedVersion")}
                 size="small"

@@ -9,7 +9,7 @@
 import { CSSProperties, MutableRefObject, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
-import { Draggable, StarLine, StarFill, ArrowRightShortLine, BookmarkLine, CornerDownRightLine } from "@ndla/icons";
+import { Draggable, StarLine, StarFill, BookmarkLine, CornerDownRightLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
@@ -20,6 +20,7 @@ import QualityEvaluationGrade from "./resourceComponents/QualityEvaluationGrade"
 import DndList from "../../components/DndList";
 import { DragHandle } from "../../components/DraggableItem";
 import Fade from "../../components/Taxonomy/Fade";
+import { NodeItemRoot, NodeItemTitle, ToggleIcon } from "../../components/Taxonomy/NodeItem";
 import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { NodeChildWithChildren } from "../../modules/nodes/nodeQueries";
 import { nodePathToUrnPath } from "../../util/taxonomyHelpers";
@@ -34,61 +35,12 @@ const QualityEvaluationWrapper = styled("div", {
   },
 });
 
-const StyledSafeLink = styled(SafeLink, {
-  base: {
-    textStyle: "label.medium",
-    color: "text.default",
-    textDecoration: "none",
-    display: "flex",
-    gap: "3xsmall",
-    alignItems: "center",
-    _hover: {
-      textDecoration: "underline",
-    },
-  },
-  variants: {
-    active: {
-      true: {
-        textDecoration: "underline",
-      },
-    },
-    visible: {
-      false: {
-        color: "text.subtle",
-      },
-    },
-  },
-});
-
 const StyledStructureItem = styled("div", {
   base: {
     width: "100%",
   },
   variants: {
     root: { true: { overflowX: "auto" } },
-  },
-});
-
-const StyledItemBar = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "xxsmall",
-    paddingBlock: "3xsmall",
-    paddingInline: "4xsmall",
-    paddingInlineStart: "calc(var(--level) * token(spacing.large))",
-  },
-  variants: {
-    active: {
-      true: {
-        background: "surface.brand.2.moderate",
-      },
-      false: {
-        _hover: {
-          background: "surface.hover",
-        },
-      },
-    },
   },
 });
 
@@ -117,15 +69,15 @@ const StyledDragHandle = styled(DragHandle, {
   },
 });
 
-export const iconRecipe = cva({
-  base: {
-    fill: "icon.default",
-  },
-});
-
 const StyledUl = styled("ul", {
   base: {
     listStyle: "none",
+  },
+});
+
+const iconRecipe = cva({
+  base: {
+    fill: "icon.default",
   },
 });
 
@@ -135,23 +87,6 @@ const getPath = (path: string, rootPath: string): string => {
   const newPath = currentPath === path ? levelAbove : path;
   return `${rootPath}${newPath}`;
 };
-
-const StyledArrowRightShortLine = styled(ArrowRightShortLine, {
-  base: {
-    transformOrigin: "center",
-    transitionDuration: "normal",
-    transitionProperty: "transform",
-    transitionTimingFunction: "default",
-    _open: {
-      transform: "rotate(90deg)",
-    },
-  },
-});
-
-const ToggleChevron = ({ hasChildNodes, isOpen }: { hasChildNodes: boolean; isOpen: boolean }) =>
-  hasChildNodes ? (
-    <StyledArrowRightShortLine {...(isOpen ? { "data-open": true } : {})} css={iconRecipe.raw()} />
-  ) : null;
 
 interface Props {
   id: string;
@@ -213,7 +148,12 @@ const NodeItem = ({
       data-testid="structure-node-item"
       data-structure-item=""
     >
-      <StyledItemBar active={isActive} style={{ "--level": level } as CSSProperties} data-item-bar="">
+      <NodeItemRoot
+        active={isActive}
+        visible={item.metadata?.visible}
+        style={{ "--level": level } as CSSProperties}
+        data-item-bar=""
+      >
         <StyledIconButton
           variant="clear"
           size="small"
@@ -225,18 +165,20 @@ const NodeItem = ({
         >
           {isFavorite ? <StarFill /> : <StarLine />}
         </StyledIconButton>
-        <StyledSafeLink to={newPath} onClick={() => onNodeSelected(item)} visible={item.metadata?.visible}>
-          <ToggleChevron hasChildNodes={hasChildNodes} isOpen={isOpen} />
-          {!hasChildNodes && <CornerDownRightLine css={iconRecipe.raw()} />}
-          {item.nodeType === "TOPIC" && (
-            <BookmarkLine
-              aria-label={t("taxonomy.nodeType.TOPIC")}
-              title={t("topicArticleForm.title")}
-              css={iconRecipe.raw()}
-            />
-          )}
-          {item.name}
-        </StyledSafeLink>
+        <NodeItemTitle asChild consumeCss>
+          <SafeLink to={newPath} onClick={() => onNodeSelected(item)}>
+            <ToggleIcon hasChildNodes={hasChildNodes} isOpen={isOpen} />
+            {!hasChildNodes && <CornerDownRightLine css={iconRecipe.raw()} />}
+            {item.nodeType === "TOPIC" && (
+              <BookmarkLine
+                aria-label={t("taxonomy.nodeType.TOPIC")}
+                title={t("topicArticleForm.title")}
+                css={iconRecipe.raw()}
+              />
+            )}
+            {item.name}
+          </SafeLink>
+        </NodeItemTitle>
         <StructureErrorIcon node={item} isRoot={!!isRoot} isTaxonomyAdmin={isTaxonomyAdmin} />
         {!!showQuality && (item.nodeType === "TOPIC" || item.nodeType === "SUBJECT") && (
           <QualityEvaluationWrapper>
@@ -268,7 +210,7 @@ const NodeItem = ({
             isLoading={!!isLoading}
           />
         )}
-      </StyledItemBar>
+      </NodeItemRoot>
       {!!hasChildNodes && !!isOpen && !!nodes && (
         <Fade show={true}>
           <StyledUl>

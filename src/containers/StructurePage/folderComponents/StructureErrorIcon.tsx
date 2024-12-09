@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 import { ErrorWarningFill } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
-import { createGuard } from "../../../util/guards";
 import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
@@ -26,7 +25,8 @@ const StyledErrorWarningFill = styled(ErrorWarningFill, {
   },
 });
 
-const isChildNode = createGuard<NodeChild & { articleType?: string; isPublished?: boolean }>("connectionId");
+const isChildNode = (node: Node): node is NodeChild & { articleType?: string; isPublished?: boolean } =>
+  "connectionId" in node;
 
 interface Props {
   node: Node;

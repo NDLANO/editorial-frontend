@@ -246,7 +246,7 @@ const TopicResourceBanner = ({
             ) && (
               <SafeLinkIconButton
                 target="_blank"
-                to={`${config.ndlaFrontendDomain}${currentNode.path}?versionHash=${taxonomyVersion}`}
+                to={`${config.ndlaFrontendDomain}${currentNode.url}?versionHash=${taxonomyVersion}`}
                 aria-label={t("taxonomy.publishedVersion")}
                 title={t("taxonomy.publishedVersion")}
                 size="small"

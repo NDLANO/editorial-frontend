@@ -69,7 +69,7 @@ const StyledStructureItem = styled("div", {
   },
 });
 
-const StyledItemBar = styled("div", {
+export const StyledItemBar = styled("div", {
   base: {
     display: "flex",
     alignItems: "center",

@@ -7,7 +7,7 @@
  */
 
 import { Descendant } from "slate";
-import { ISeries } from "@ndla/types-backend/audio-api";
+import { ISeriesDTO } from "@ndla/types-backend/audio-api";
 import { AudioFormikType } from "../../containers/AudioUploader/components/AudioForm";
 
 export interface PodcastFormValues extends AudioFormikType {
@@ -17,6 +17,6 @@ export interface PodcastFormValues extends AudioFormikType {
   coverPhotoId?: string;
   metaImageAlt?: string;
   metaImageUrl?: string;
-  series: ISeries | null;
+  series: ISeriesDTO | null;
   seriesId?: number;
 }

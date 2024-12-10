@@ -11,7 +11,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IUserData } from "@ndla/types-backend/draft-api";
+import { IUserDataDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import { CONCEPT_RESPONSIBLE, TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../../../constants";
 import { OnFieldChangeFunction, SearchParams } from "../../../../interfaces";
@@ -41,7 +41,7 @@ interface Props {
   subjects: Node[];
   searchObject: SearchParams;
   locale: string;
-  userData: IUserData | undefined;
+  userData: IUserDataDTO | undefined;
 }
 
 const SearchConceptForm = ({ search, searchObject, subjects, userData }: Props) => {

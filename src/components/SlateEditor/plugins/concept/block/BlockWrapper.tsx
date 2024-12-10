@@ -14,7 +14,7 @@ import { DeleteBinLine, ErrorWarningFill, CheckLine, LinkMedium } from "@ndla/ic
 import { DialogContent, DialogRoot, IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
+import { IConceptDTO, IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { ConceptEmbedData, ConceptMetaData } from "@ndla/types-embed";
 import { ConceptEmbed, EmbedWrapper } from "@ndla/ui";
 import { ConceptBlockElement } from "./interfaces";
@@ -28,7 +28,7 @@ import ConceptModalContent from "../ConceptModalContent";
 import EditGlossExamplesModal from "../EditGlossExamplesModal";
 import { getGlossDataAttributes } from "../utils";
 
-const getConceptDataAttributes = (concept: IConceptSummary | IConcept, locale: string): ConceptEmbedData => ({
+const getConceptDataAttributes = (concept: IConceptSummaryDTO | IConceptDTO, locale: string): ConceptEmbedData => ({
   contentId: concept.id.toString(),
   resource: "concept",
   type: "block",
@@ -98,7 +98,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
   }, [element.data, concept, loading, visualElementQuery.data]);
 
   const addConcept = useCallback(
-    (addedConcept: IConceptSummary | IConcept) => {
+    (addedConcept: IConceptSummaryDTO | IConceptDTO) => {
       setIsEditing(false);
       const data = getConceptDataAttributes(addedConcept, locale);
       const path = ReactEditor.findPath(editor, element);
@@ -175,7 +175,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
 };
 
 interface ButtonContainerProps {
-  concept: IConcept | IConceptSummary;
+  concept: IConceptDTO | IConceptSummaryDTO;
   handleRemove: () => void;
   language: string;
   editor: Editor;

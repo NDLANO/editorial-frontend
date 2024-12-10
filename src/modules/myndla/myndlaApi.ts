@@ -7,7 +7,7 @@
  */
 
 import queryString from "query-string";
-import { IResource, ISingleResourceStats, ResourceType } from "@ndla/types-backend/myndla-api";
+import { IResourceDTO, ISingleResourceStatsDTO, ResourceType } from "@ndla/types-backend/myndla-api";
 import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from "../../util/apiHelpers";
 
 const statsUrl = apiResourceUrl("/myndla-api/v1/stats");
@@ -16,12 +16,12 @@ const foldersUrl = apiResourceUrl("/myndla-api/v1/folders");
 export const fetchResourceStats = async (
   resourceTypes: string,
   resourceIds: string,
-): Promise<ISingleResourceStats[]> => {
+): Promise<ISingleResourceStatsDTO[]> => {
   const response = await fetchAuthorized(`${statsUrl}/favorites/${resourceTypes}/${resourceIds}`);
   return resolveJsonOrRejectWithError(response);
 };
 
-interface ResourceWithFilteredResourceType<T extends ResourceType> extends Omit<IResource, "resourceType"> {
+interface ResourceWithFilteredResourceType<T extends ResourceType> extends Omit<IResourceDTO, "resourceType"> {
   resourceType: Exclude<ResourceType, T>;
 }
 

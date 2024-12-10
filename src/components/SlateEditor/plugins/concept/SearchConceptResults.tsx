@@ -11,7 +11,7 @@ import { ChatLine, GlobalLine, CheckboxCircleLine } from "@ndla/icons";
 import { Button, ListItemContent, ListItemHeading, ListItemImage, ListItemRoot, Spinner, Text } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IConceptSummary } from "@ndla/types-backend/concept-api";
+import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import config from "../../../../config";
 import { PUBLISHED } from "../../../../constants";
 import { SearchParams } from "../../../../interfaces";
@@ -63,8 +63,8 @@ const StyledFormActionsContainer = styled(FormActionsContainer, {
 
 interface Props {
   searchObject: SearchParams;
-  results: IConceptSummary[];
-  addConcept: (concept: IConceptSummary) => void;
+  results: IConceptSummaryDTO[];
+  addConcept: (concept: IConceptSummaryDTO) => void;
   searching?: boolean;
 }
 

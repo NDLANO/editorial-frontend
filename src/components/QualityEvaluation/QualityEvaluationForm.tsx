@@ -26,7 +26,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
+import { IArticleDTO, IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import { Grade, Node } from "@ndla/types-taxonomy";
 import { qualityEvaluationOptionColors } from "./qualityEvaluationOptions";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
@@ -94,8 +94,8 @@ interface Props {
   taxonomy: Node[];
   revisionMetaField?: FieldInputProps<ArticleFormType["revisionMeta"]>;
   revisionMetaHelpers?: FieldHelperProps<ArticleFormType["revisionMeta"]>;
-  updateNotes?: (art: IUpdatedArticle) => Promise<IArticle>;
-  article?: IArticle;
+  updateNotes?: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
+  article?: IArticleDTO;
 }
 
 interface QualityEvaluationFormValues {

@@ -15,7 +15,7 @@ import { InformationLine } from "@ndla/icons";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { MissingRouterContext } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticle } from "@ndla/types-backend/draft-api";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import { ArticleWrapper } from "@ndla/ui";
 import { toFormArticle } from "./PreviewDraft";
 import { TwoArticleWrapper } from "./styles";
@@ -28,7 +28,7 @@ import { getDiff } from "../../util/diffHTML";
 
 export interface VersionPreviewProps {
   type: "version";
-  article: IArticle;
+  article: IArticleDTO;
   customTitle?: string;
   language: string;
 }

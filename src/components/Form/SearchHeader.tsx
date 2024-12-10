@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IUserData } from "@ndla/types-backend/draft-api";
+import { IUserDataDTO } from "@ndla/types-backend/draft-api";
 import SearchSaveButton from "./SearchSaveButton";
 import { Filters } from "./SearchTagGroup";
 import { SearchType } from "../../interfaces";
@@ -26,7 +26,7 @@ const StyledSearchHeader = styled("div", {
 interface Props {
   type: SearchType;
   filters?: Filters;
-  userData: IUserData | undefined;
+  userData: IUserDataDTO | undefined;
 }
 
 const SearchHeader = ({ type, filters, userData }: Props) => {

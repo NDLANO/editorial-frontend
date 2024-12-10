@@ -21,7 +21,7 @@ import {
   IconButton,
   Text,
 } from "@ndla/primitives";
-import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
+import { IArticleDTO, IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import QualityEvaluationForm from "./QualityEvaluationForm";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
@@ -29,12 +29,12 @@ import { DialogCloseButton } from "../DialogCloseButton";
 
 interface Props {
   articleType?: string;
-  article?: IArticle;
+  article?: IArticleDTO;
   taxonomy?: Node[];
   iconButtonColor?: "light" | "primary";
   revisionMetaField?: FieldInputProps<ArticleFormType["revisionMeta"]>;
   revisionMetaHelpers?: FieldHelperProps<ArticleFormType["revisionMeta"]>;
-  updateNotes?: (art: IUpdatedArticle) => Promise<IArticle>;
+  updateNotes?: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
 }
 
 const QualityEvaluationModal = ({

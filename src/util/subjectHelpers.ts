@@ -7,13 +7,13 @@
  */
 
 import { Descendant } from "slate";
-import { IArticle } from "@ndla/types-backend/draft-api";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import {
-  ISubjectPageData,
-  INewSubjectFrontPageData,
-  IUpdatedSubjectFrontPageData,
+  ISubjectPageDataDTO,
+  INewSubjectFrontPageDataDTO,
+  IUpdatedSubjectFrontPageDataDTO,
 } from "@ndla/types-backend/frontpage-api";
-import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
+import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { BrightcoveEmbedData, ImageEmbedData } from "@ndla/types-embed";
 import { editorValueToEmbed, editorValueToPlainText, plainTextToEditorValue } from "./articleContentConverter";
 import { convertVisualElement } from "./ndlaFilmHelpers";
@@ -32,7 +32,7 @@ export interface SubjectPageFormikType {
   metaDescription?: Descendant[];
   desktopBannerId?: number;
   mobileBannerId?: number;
-  editorsChoices: (ILearningPathV2 | IArticle)[];
+  editorsChoices: (ILearningPathV2DTO | IArticleDTO)[];
   language: string;
   elementId: string;
   title: Descendant[];
@@ -44,14 +44,14 @@ export interface SubjectPageFormikType {
 export const subjectpageFormikTypeToPatchType = (
   values: SubjectPageFormikType,
   editorsChoicesUrns?: string[],
-): IUpdatedSubjectFrontPageData => {
+): IUpdatedSubjectFrontPageDataDTO => {
   return subjectpageFormikTypeToPostType(values, editorsChoicesUrns);
 };
 
 export const subjectpageFormikTypeToPostType = (
   values: SubjectPageFormikType,
   editorsChoicesUrns?: string[],
-): INewSubjectFrontPageData => {
+): INewSubjectFrontPageDataDTO => {
   const visualElement = editorValueToEmbed(values.visualElement)! as ImageEmbedData | BrightcoveEmbedData;
   const alt = visualElement.resource === "image" ? visualElement.alt : visualElement.caption;
   const id = visualElement.resource === "image" ? visualElement.resourceId : visualElement.videoid;
@@ -87,11 +87,11 @@ export const subjectpageFormikTypeToPostType = (
 };
 
 export const subjectpageApiTypeToFormikType = (
-  subjectpage: ISubjectPageData | undefined,
+  subjectpage: ISubjectPageDataDTO | undefined,
   elementName: string | undefined,
   elementId: string,
   selectedLanguage: string,
-  editorsChoices?: (ILearningPathV2 | IArticle)[],
+  editorsChoices?: (ILearningPathV2DTO | IArticleDTO)[],
 ): SubjectPageFormikType => {
   const visualElement = subjectpage?.about?.visualElement;
 

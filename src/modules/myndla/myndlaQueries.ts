@@ -7,7 +7,7 @@
  */
 
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { ISingleResourceStats } from "@ndla/types-backend/myndla-api";
+import { ISingleResourceStatsDTO } from "@ndla/types-backend/myndla-api";
 import { fetchResourceStats } from "./myndlaApi";
 import { MYNDLA_RESOURCE_STATS } from "../../queryKeys";
 
@@ -22,9 +22,9 @@ export const myndlaQueryKeys = {
 
 export const useResourceStats = (
   params: UseResourceStats,
-  options?: Partial<UseQueryOptions<ISingleResourceStats[]>>,
+  options?: Partial<UseQueryOptions<ISingleResourceStatsDTO[]>>,
 ) =>
-  useQuery<ISingleResourceStats[]>({
+  useQuery<ISingleResourceStatsDTO[]>({
     queryKey: myndlaQueryKeys.resourceStats(params),
     queryFn: () => fetchResourceStats(params.resourceTypes, params.resourceIds),
     ...options,

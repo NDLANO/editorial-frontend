@@ -22,11 +22,11 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import {
-  IImageMetaInformationV3,
-  IUpdateImageMetaInformation,
-  ISearchResultV3,
-  INewImageMetaInformationV2,
-  ISearchParams,
+  IImageMetaInformationV3DTO,
+  IUpdateImageMetaInformationDTO,
+  ISearchResultV3DTO,
+  INewImageMetaInformationV2DTO,
+  ISearchParamsDTO,
 } from "@ndla/types-backend/image-api";
 import { useImageSearchTranslations } from "@ndla/ui";
 import ImageForm from "../containers/ImageUploader/components/ImageForm";
@@ -48,22 +48,22 @@ const StyledTabsContent = styled(TabsContent, {
 });
 
 interface Props {
-  onImageSelect: (image: IImageMetaInformationV3) => void;
+  onImageSelect: (image: IImageMetaInformationV3DTO) => void;
   locale: string;
   language?: string;
   closeModal: () => void;
   onError: (err: Error & Response) => void;
-  searchImages: (queryObject: ISearchParams) => Promise<ISearchResultV3>;
-  fetchImage: (id: number) => Promise<IImageMetaInformationV3>;
-  image?: IImageMetaInformationV3;
+  searchImages: (queryObject: ISearchParamsDTO) => Promise<ISearchResultV3DTO>;
+  fetchImage: (id: number) => Promise<IImageMetaInformationV3DTO>;
+  image?: IImageMetaInformationV3DTO;
   updateImage: (
-    imageMetadata: IUpdateImageMetaInformation & INewImageMetaInformationV2,
+    imageMetadata: IUpdateImageMetaInformationDTO & INewImageMetaInformationV2DTO,
     file: string | Blob,
     id?: number,
   ) => void;
   inModal?: boolean;
   showCheckbox?: boolean;
-  checkboxAction?: (image: IImageMetaInformationV3) => void;
+  checkboxAction?: (image: IImageMetaInformationV3DTO) => void;
   podcastFriendly?: boolean;
 }
 

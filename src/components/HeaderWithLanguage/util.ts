@@ -7,7 +7,7 @@
  */
 import isEqual from "lodash/fp/isEqual";
 import get from "lodash/get";
-import { IArticle } from "@ndla/types-backend/draft-api";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import { FlatArticleKeys } from "../../containers/ArticlePage/components/types";
 import { removeCommentTags } from "../../util/compareHTMLHelpers";
@@ -61,8 +61,8 @@ export const createEditUrl = (id: number, locale: string, type: keyof typeof toM
 };
 
 export const hasArticleFieldsChanged = (
-  current: IArticle | undefined,
-  lastPublished: IArticle | undefined,
+  current: IArticleDTO | undefined,
+  lastPublished: IArticleDTO | undefined,
   fields: FlatArticleKeys[],
 ): boolean => {
   if (current === undefined || lastPublished === undefined) return false;

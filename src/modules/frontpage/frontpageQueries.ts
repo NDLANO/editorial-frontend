@@ -7,7 +7,7 @@
  */
 
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
-import { IFrontPage } from "@ndla/types-backend/frontpage-api";
+import { IFrontPageDTO } from "@ndla/types-backend/frontpage-api";
 import { fetchFrontpage } from "./frontpageApi";
 import { FRONTPAGE } from "../../queryKeys";
 
@@ -15,8 +15,8 @@ export const frontpageQueryKeys = {
   frontpage: [FRONTPAGE] as const,
 };
 
-export const useFrontpage = (options?: Partial<UseQueryOptions<IFrontPage>>) => {
-  return useQuery<IFrontPage>({
+export const useFrontpage = (options?: Partial<UseQueryOptions<IFrontPageDTO>>) => {
+  return useQuery<IFrontPageDTO>({
     queryKey: frontpageQueryKeys.frontpage,
     queryFn: () => fetchFrontpage(),
     ...options,

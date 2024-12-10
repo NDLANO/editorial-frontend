@@ -111,7 +111,7 @@ const GrepCodeDialogContent = ({ codes, draftId, revision, currentNodeId, conten
         <DialogCloseButton />
       </DialogHeader>
       <DialogBody>
-        <GrepCodesForm codes={codes} onUpdate={onUpdateGrepCodes} close={close} />
+        <GrepCodesForm codes={codes} onUpdate={onUpdateGrepCodes} close={close} prefixFilter={["KE", "KM", "TT"]} />
       </DialogBody>
     </DialogContent>
   );

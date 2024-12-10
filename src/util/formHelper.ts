@@ -171,7 +171,7 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
   grepCodes: {
     required: false,
     test: (values) => {
-      const wrongFormat = !!values?.grepCodes?.find((value) => !isGrepCodeValid(value));
+      const wrongFormat = !!values?.grepCodes?.find((value) => !isGrepCodeValid(value, ["KE", "KM", "TT"]));
       return wrongFormat ? { translationKey: "validation.grepCodes" } : undefined;
     },
   },

@@ -8,6 +8,8 @@
 
 import {
   IDraftSearchParams,
+  IGrepSearchInput,
+  IGrepSearchResults,
   IMultiSearchResult,
   ISearchParams,
   ISubjectAggregations,
@@ -40,5 +42,10 @@ export const searchSubjectStats = async (body: ISubjectAggsInput): Promise<ISubj
     method: "POST",
     body: JSON.stringify(transformSearchBody(body)),
   });
+  return resolveJsonOrRejectWithError(response);
+};
+
+export const searchGrepCodes = async (body: IGrepSearchInput): Promise<IGrepSearchResults> => {
+  const response = await fetchAuthorized(`${baseUrl}/grep`, { method: "POST", body: JSON.stringify(body) });
   return resolveJsonOrRejectWithError(response);
 };

@@ -149,7 +149,7 @@ const TopicArticleAccordionPanels = ({
             />
           </FormAccordion>
           <FormAccordion id={"topic-article-grepCodes"} title={t("form.name.grepCodes")} hasError={!!errors.grepCodes}>
-            <GrepCodesField />
+            <GrepCodesField prefixFilter={["KE", "KM", "TT"]} />
           </FormAccordion>
           {config.ndlaEnvironment === "test" && (
             <FormAccordion

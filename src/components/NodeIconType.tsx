@@ -6,22 +6,11 @@
  *
  */
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
-import { MenuBook } from "@ndla/icons/action";
-import { Subject } from "@ndla/icons/contentType";
+import { BookOpenLine, FileListLine } from "@ndla/icons";
 import { Node } from "@ndla/types-taxonomy";
 import { DiffType } from "../containers/NodeDiff/diffUtils";
 import { SUBJECT_NODE } from "../modules/nodes/nodeApiTypes";
 import { getNodeTypeFromNodeId } from "../modules/nodes/nodeUtil";
-
-const StyledMenuBook = styled(MenuBook)`
-  height: 31px;
-  width: 31px;
-  color: ${colors.brand.primary};
-`;
-
-const StyledSubject = StyledMenuBook.withComponent(Subject);
 
 interface Props {
   node: DiffType<Node> | Node;
@@ -34,7 +23,7 @@ const NodeIconType = ({ node }: Props) => {
       ? getNodeTypeFromNodeId(node.id)
       : getNodeTypeFromNodeId(node.id.other ?? node.id.original!);
 
-  const Icon = nodeType === SUBJECT_NODE ? StyledMenuBook : StyledSubject;
+  const Icon = nodeType === SUBJECT_NODE ? BookOpenLine : FileListLine;
 
   return <Icon aria-label={t(`diff.nodeTypeTooltips.${nodeType}`)} title={t(`diff.nodeTypeTooltips.${nodeType}`)} />;
 };

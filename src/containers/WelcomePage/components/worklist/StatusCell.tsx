@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { CheckboxCircleFill } from "@ndla/icons/editor";
+import { CheckboxCircleFill } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { IStatus } from "@ndla/types-backend/search-api";
 
@@ -46,7 +46,7 @@ const StatusCell = ({ status }: Props) => {
   return (
     <CellWrapper>
       <TextWrapper title={statusTitle}>{statusTitle}</TextWrapper>
-      {published && (
+      {!!published && (
         <StyledCheckIcon title={t("form.workflow.published")} aria-label={t("form.workflow.published")} size="small" />
       )}
     </CellWrapper>

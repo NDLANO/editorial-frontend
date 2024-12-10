@@ -14,9 +14,7 @@ import {
   SelectItemProps,
   SelectTriggerProps,
 } from "@ark-ui/react";
-import { CloseLine } from "@ndla/icons/action";
-import { ArrowDownShortLine } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
+import { CloseLine, ArrowDownShortLine, CheckLine } from "@ndla/icons";
 import {
   Button,
   ButtonProps,
@@ -46,7 +44,7 @@ export const GenericSelectTrigger = forwardRef<
       </Button>
     </SelectTrigger>
 
-    {clearable && (
+    {!!clearable && (
       <SelectClearTrigger asChild>
         <IconButton variant="secondary" size={props.size}>
           <CloseLine />

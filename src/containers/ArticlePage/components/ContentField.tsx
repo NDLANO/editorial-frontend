@@ -6,10 +6,10 @@
  *
  */
 
-import { FieldInputProps, FormikHelpers } from "formik";
+import { FieldInputProps } from "formik";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DragVertical, Link } from "@ndla/icons/editor";
+import { Draggable, LinkMedium } from "@ndla/icons";
 import {
   Button,
   ComboboxLabel,
@@ -52,13 +52,12 @@ const StyledButtonWrapper = styled("div", {
 
 interface Props {
   field: FieldInputProps<ArticleFormType["relatedContent"]>;
-  form: FormikHelpers<ArticleFormType>;
 }
 
 const isDraftApiType = (relatedContent: ConvertedRelatedContent): relatedContent is IArticle =>
   (relatedContent as IArticle).id !== undefined;
 
-const ContentField = ({ field, form }: Props) => {
+const ContentField = ({ field }: Props) => {
   const { t, i18n } = useTranslation();
   const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
   const [relatedContent, setRelatedContent] = useState<ConvertedRelatedContent[]>([]);
@@ -112,7 +111,6 @@ const ContentField = ({ field, form }: Props) => {
   };
 
   const updateFormik = (formikField: Props["field"], newData: ConvertedRelatedContent[]) => {
-    form.setFieldTouched("relatedContent", true, false);
     const newRc: RelatedContent[] = newData.map((rc) => (isDraftApiType(rc) ? rc.id : rc));
     formikField.onChange({
       target: {
@@ -163,7 +161,7 @@ const ContentField = ({ field, form }: Props) => {
           items={releatedContentDndItems}
           dragHandle={
             <DragHandle aria-label={t("form.relatedContent.changeOrder")}>
-              <DragVertical />
+              <Draggable />
             </DragHandle>
           }
           renderItem={(item, index) =>
@@ -173,7 +171,7 @@ const ContentField = ({ field, form }: Props) => {
                 title={item.title}
                 url={item.url}
                 isExternal
-                fallbackElement={<Link />}
+                fallbackElement={<LinkMedium />}
                 onDelete={() => onDeleteElement(relatedContent, index)}
                 removeElementTranslation={t("form.relatedContent.removeArticle")}
               />

@@ -6,6 +6,7 @@
  *
  */
 
+import type { JSX } from "react";
 import { Descendant, Editor, Element, Path, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import onBackspace from "./handlers/onBackspace";

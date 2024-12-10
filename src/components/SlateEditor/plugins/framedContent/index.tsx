@@ -6,6 +6,7 @@
  *
  */
 
+import type { JSX } from "react";
 import { Descendant, Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_FRAMED_CONTENT } from "./types";
@@ -66,7 +67,13 @@ export const framedContentSerializer: SlateSerializer = {
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node) || node.type !== TYPE_FRAMED_CONTENT) return;
-    return createTag("div", { ...node.data, type: TYPE_FRAMED_CONTENT }, children, { bailOnEmptyData: false });
+    return createTag(
+      "div",
+      { ...node.data, type: TYPE_FRAMED_CONTENT },
+      children,
+      { bailOnEmptyData: false },
+      undefined,
+    );
   },
 };
 

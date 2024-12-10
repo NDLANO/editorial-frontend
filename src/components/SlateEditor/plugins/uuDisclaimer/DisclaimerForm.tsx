@@ -10,7 +10,7 @@ import { Formik, FormikValues } from "formik";
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { DeleteBinLine } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons";
 import {
   Button,
   ComboboxLabel,
@@ -89,7 +89,9 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
   useEffect(() => {
     const initSelectedArticle = async () => {
       let response: IArticleV2 | undefined = undefined;
-      initialValues.articleId && (response = await getArticle(Number(initialValues.articleId)));
+      if (initialValues.articleId) {
+        response = await getArticle(Number(initialValues.articleId));
+      }
       setSelectedArticle(response ?? undefined);
     };
     initSelectedArticle();

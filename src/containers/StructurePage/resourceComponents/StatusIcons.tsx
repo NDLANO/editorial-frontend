@@ -8,7 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ErrorWarningFill, FileEditLine } from "@ndla/icons/common";
+import { ErrorWarningFill, FileEditLine } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { isApproachingRevision } from "./ApproachingRevisionDate";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
@@ -44,7 +44,7 @@ const StatusIcons = ({ contentMetaLoading, resource, multipleTaxonomy }: Props) 
     [resource.contentMeta?.revisions],
   );
   const expirationDate = getExpirationDate({
-    revisions: resource.contentMeta?.revisions?.filter((r) => !!r)!,
+    revisions: resource.contentMeta?.revisions?.filter((r) => !!r) ?? [],
   });
   const warnStatus = getWarnStatus(expirationDate);
 
@@ -59,14 +59,14 @@ const StatusIcons = ({ contentMetaLoading, resource, multipleTaxonomy }: Props) 
 
   return (
     <IconWrapper>
-      {resource.contentMeta?.started && (
+      {!!resource.contentMeta?.started && (
         <FileEditLine aria-label={t("taxonomy.inProgress")} title={t("taxonomy.inProgress")} />
       )}
-      {approachingRevision && warnStatus && expirationDate && (
+      {!!approachingRevision && !!warnStatus && !!expirationDate && (
         <StatusTimeFill variant={warnStatus} aria-label={expirationText} title={expirationText} />
       )}
       {!contentMetaLoading && <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />}
-      {multipleTaxonomy && (
+      {!!multipleTaxonomy && (
         <StyledErrorWarningFill
           aria-label={t("form.workflow.multipleTaxonomy")}
           title={t("form.workflow.multipleTaxonomy")}

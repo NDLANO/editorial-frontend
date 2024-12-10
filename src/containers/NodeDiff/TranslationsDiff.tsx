@@ -53,7 +53,7 @@ const TranslationsDiff = ({ translations }: Props) => {
       <FieldWithTitle title={t("diff.fields.translations.title")} key={"diff.fields.translations.left"}>
         {keys.map((key, i) => (
           <DiffInnerField left type={diff[key].diffType} key={`translations-left-${i}`}>
-            {diff[key].original && (
+            {!!diff[key].original && (
               <span>
                 <strong>{`${key}: `}</strong>
                 <span>{diff[key].original}</span>
@@ -65,7 +65,7 @@ const TranslationsDiff = ({ translations }: Props) => {
       <FieldWithTitle title={t("diff.fields.translations.title")} key={"diff.fields.translations.right"}>
         {keys.map((key, i) => (
           <DiffInnerField type={diff[key].diffType} key={`translations-right-${i}`}>
-            {diff[key].other && (
+            {!!diff[key].other && (
               <span>
                 <strong>{`${key}: `}</strong>
                 <span>{diff[key].other}</span>

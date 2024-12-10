@@ -66,7 +66,7 @@ export const updateTax = async ({ node, originalNode }: UpdateTaxParams, taxonom
             parentId: diff.id.other!,
             childId: node.id,
             primary: diff.isPrimary.other!,
-            relevanceId: diff.relevanceId?.other!,
+            relevanceId: diff.relevanceId?.other,
           },
           taxonomyVersion,
         });
@@ -136,7 +136,7 @@ export const createTopicNodeConnections = async ({
         contentUri: `urn:article:${articleId}`,
         name: name,
         nodeType: "TOPIC",
-        visible: placement.metadata.visible,
+        visible: false,
       },
       taxonomyVersion,
     });

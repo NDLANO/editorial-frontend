@@ -13,7 +13,7 @@ import { HelmetWithTracker } from "@ndla/tracker";
 import { IUpdatedConcept } from "@ndla/types-backend/concept-api";
 import { GlossForm } from "./components/GlossForm";
 import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
-import Spinner from "../../components/Spinner";
+import { PageSpinner } from "../../components/PageSpinner";
 import { LocaleType } from "../../interfaces";
 import { useFetchConceptData } from "../FormikForm/formikConceptHooks";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
@@ -63,7 +63,7 @@ const EditGloss = ({ isNewlyCreated }: Props) => {
   }, [concept, loading, setConcept, shouldTranslate, translate]);
 
   if (loading || translating) {
-    return <Spinner withWrapper />;
+    return <PageSpinner />;
   }
 
   if (!concept || !conceptId) {

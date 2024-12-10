@@ -22,7 +22,6 @@ import { useUserData } from "../../modules/draft/draftQueries";
 import { usePostSearchNodes } from "../../modules/nodes/nodeQueries";
 import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
 import { isValid } from "../../util/jwtHelper";
-import Footer from "../App/components/FooterWrapper";
 import { useSession } from "../Session/SessionProvider";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
@@ -91,7 +90,7 @@ export const WelcomePage = () => {
     <StyledPageContent variant="wide">
       <HelmetWithTracker title={t("htmlTitles.welcomePage")} />
       <WelcomeHeader />
-      {ndlaId && (
+      {!!ndlaId && (
         <GridWrapper>
           <WorkList ndlaId={ndlaId} />
           <GridColumn>
@@ -114,7 +113,6 @@ export const WelcomePage = () => {
           </GridColumn>
         </GridWrapper>
       )}
-      <Footer showLocaleSelector />
     </StyledPageContent>
   );
 };

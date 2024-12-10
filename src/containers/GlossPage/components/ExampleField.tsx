@@ -10,7 +10,7 @@ import { useField } from "formik";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
-import { DeleteBinLine } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons";
 import {
   FieldErrorMessage,
   FieldInput,
@@ -22,7 +22,6 @@ import {
   SelectContent,
   SelectHiddenSelect,
   SelectLabel,
-  SelectPositioner,
   SelectRoot,
   SelectValueText,
 } from "@ndla/primitives";
@@ -132,15 +131,13 @@ const ExampleField = ({ example, name, index, exampleIndex, onRemoveExample }: P
                   placeholder={t("form.gloss.choose", { label: t("form.gloss.language").toLowerCase() })}
                 />
               </StyledGenericSelectTrigger>
-              <SelectPositioner>
-                <SelectContent>
-                  {collection.items.map((language) => (
-                    <GenericSelectItem key={language} item={language}>
-                      {t(`languages.${language}`)}
-                    </GenericSelectItem>
-                  ))}
-                </SelectContent>
-              </SelectPositioner>
+              <SelectContent>
+                {collection.items.map((language) => (
+                  <GenericSelectItem key={language} item={language}>
+                    {t(`languages.${language}`)}
+                  </GenericSelectItem>
+                ))}
+              </SelectContent>
               <SelectHiddenSelect />
             </SelectRoot>
           </FieldRoot>

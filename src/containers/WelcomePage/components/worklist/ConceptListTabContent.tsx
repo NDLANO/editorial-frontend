@@ -8,7 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Calendar } from "@ndla/icons/editor";
+import { CalendarLine } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import { IConceptSearchResult } from "@ndla/types-backend/concept-api";
 import PageSizeSelect from "./PageSizeSelect";
@@ -131,12 +131,12 @@ const ConceptListTabContent = ({
         <TableTitle
           title={t("welcomePage.workList.heading")}
           description={t("welcomePage.workList.conceptDescription")}
-          Icon={Calendar}
+          Icon={CalendarLine}
         />
         <ControlWrapperDashboard>
           <TopRowControls>
             <PageSizeSelect pageSize={pageSizeConcept} setPageSize={setPageSizeConcept} />
-            {setFilterSubject && (
+            {!!setFilterSubject && (
               <>
                 <SubjectCombobox
                   subjectIds={subjectIds ?? []}

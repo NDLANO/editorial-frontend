@@ -9,7 +9,8 @@
 import { useTranslation } from "react-i18next";
 import { Node } from "slate";
 import { RenderElementProps } from "slate-react";
-import EditorErrorMessage from "../../EditorErrorMessage";
+import { ErrorWarningLine } from "@ndla/icons";
+import { MessageBox } from "@ndla/primitives";
 import { EmbedElements } from "../embed";
 
 interface Props {
@@ -22,9 +23,13 @@ const NoEmbedMessage = ({ attributes, element }: Props) => {
 
   const text = Node.string(element);
   const embed = element.data;
-  const msg = text.length > 0 ? text : t("noEmbedMessage.deleteOnSave", { type: embed?.resource });
 
-  return <EditorErrorMessage attributes={attributes} msg={msg} />;
+  return (
+    <MessageBox variant="error" {...attributes} contentEditable={false}>
+      <ErrorWarningLine />
+      {text.length > 0 ? text : t("noEmbedMessage.deleteOnSave", { type: embed?.resource })}
+    </MessageBox>
+  );
 };
 
 export default NoEmbedMessage;

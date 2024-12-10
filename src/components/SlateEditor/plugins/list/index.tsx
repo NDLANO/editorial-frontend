@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import type { JSX } from "react";
 import { Editor, Node, Element, Descendant, Transforms, Text, Path } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import onBackspace from "./handlers/onBackspace";
@@ -135,7 +137,7 @@ export const listSerializer: SlateSerializer = {
       const illegalFirstElement = !firstElement || ["ol", "ul"].includes(firstElement.type);
       return (
         <li>
-          {illegalFirstElement && <p></p>}
+          {!!illegalFirstElement && <p></p>}
           {children}
         </li>
       );

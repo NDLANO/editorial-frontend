@@ -30,9 +30,18 @@ interface Props {
   elementId: string;
   errors: FormikErrors<SubjectPageFormikType>;
   leadsTo: string[];
+  isSubmitting: boolean;
 }
 
-const SubjectpageAccordionPanels = ({ buildsOn, connectedTo, editorsChoices, elementId, errors, leadsTo }: Props) => {
+const SubjectpageAccordionPanels = ({
+  buildsOn,
+  connectedTo,
+  editorsChoices,
+  elementId,
+  errors,
+  leadsTo,
+  isSubmitting,
+}: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -51,7 +60,7 @@ const SubjectpageAccordionPanels = ({ buildsOn, connectedTo, editorsChoices, ele
         title={t("subjectpageForm.metadata")}
         hasError={["metaDescription", "desktopBannerId", "mobileBannerId"].some((field) => field in errors)}
       >
-        <SubjectpageMetadata />
+        <SubjectpageMetadata isSubmitting={isSubmitting} />
       </FormAccordion>
       <FormAccordion
         id="subjectlinks"

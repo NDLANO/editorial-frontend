@@ -10,9 +10,8 @@ import keyBy from "lodash/keyBy";
 import { useEffect, useRef, useState, ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
-import styled from "@emotion/styled";
-import { breakpoints, spacing } from "@ndla/core";
-import { Spinner } from "@ndla/primitives";
+import { PageContent, Spinner } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
 import StructureErrorIcon from "./folderComponents/StructureErrorIcon";
 import StructureResources from "./resourceComponents/StructureResources";
@@ -21,7 +20,6 @@ import RootNode from "./RootNode";
 import StructureBanner from "./StructureBanner";
 import VersionSelector from "./VersionSelector";
 import ErrorBoundary from "../../components/ErrorBoundary";
-import { GridContainer, Column } from "../../components/Layout/Layout";
 import {
   REMEMBER_DA_SUBJECTS,
   REMEMBER_FAVORITE_NODES,
@@ -37,35 +35,39 @@ import { useUserData } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
 import { createGuard } from "../../util/guards";
 import { getPathsFromUrl, removeLastItemFromUrl } from "../../util/routeHelpers";
-import Footer from "../App/components/FooterWrapper";
 import { useSession } from "../Session/SessionProvider";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 import { useLocalStorageBooleanState } from "../WelcomePage/hooks/storedFilterHooks";
 import { getResultSubjectIdObject } from "../WelcomePage/utils";
 
-const StructureWrapper = styled.ul`
-  margin: 0;
-  padding: 0;
-`;
+const StickyContainer = styled("div", {
+  base: {
+    position: "sticky",
+    top: "xsmall",
+  },
+});
 
-const StickyContainer = styled.div`
-  position: sticky;
-  top: ${spacing.small};
-`;
+const GridWrapper = styled("div", {
+  base: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+    gap: "xsmall",
+    paddingBlock: "xsmall",
+    desktopDown: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "xsmall",
+    },
+  },
+});
+
+const MessageBoxWrapper = styled("div", {
+  base: {
+    gridColumn: "1/-1",
+  },
+});
 
 const isChildNode = createGuard<NodeChild>("connectionId");
-
-const StyledStructureContainer = styled.div`
-  position: relative;
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex: 1;
-  padding-block-start: ${spacing.nsmall};
-`;
 
 const getNodes = (
   allNodes: Node[] | undefined = [],
@@ -199,10 +201,10 @@ const StructureContainer = ({
 
   return (
     <ErrorBoundary>
-      <Wrapper>
-        <GridContainer breakpoint={breakpoints.desktop}>
-          {messageBox && <Column>{messageBox}</Column>}
-          <Column colEnd={7}>
+      <PageContent variant="wide">
+        <GridWrapper>
+          {!!messageBox && <MessageBoxWrapper>{messageBox}</MessageBoxWrapper>}
+          <div>
             <StructureBanner
               setShowFavorites={setShowFavorites}
               showFavorites={showFavorites}
@@ -219,33 +221,31 @@ const StructureContainer = ({
               showQuality={showQuality}
               setShowQuality={setShowQuality}
             />
-            <StyledStructureContainer>
-              {userDataQuery.isLoading || nodesQuery.isLoading ? (
-                <Spinner />
-              ) : (
-                <StructureWrapper data-testid="structure">
-                  {nodes!.map((node) => (
-                    <RootNode
-                      renderBeforeTitle={StructureErrorIcon}
-                      openedPaths={getPathsFromUrl(location.pathname)}
-                      resourceSectionRef={resourceSection}
-                      onNodeSelected={setCurrentNode}
-                      isFavorite={!!favoriteNodes[node.id]}
-                      key={node.id}
-                      node={node}
-                      toggleOpen={handleStructureToggle}
-                      childNodeTypes={childNodeTypes}
-                      addChildTooltip={addChildTooltip}
-                      showQuality={showQuality}
-                    />
-                  ))}
-                </StructureWrapper>
-              )}
-            </StyledStructureContainer>
-          </Column>
-          {showResourceColumn && (
-            <Column colStart={7}>
-              {currentNode && (
+            {userDataQuery.isLoading || nodesQuery.isLoading ? (
+              <Spinner />
+            ) : (
+              <div data-testid="structure">
+                {nodes!.map((node) => (
+                  <RootNode
+                    renderBeforeTitle={StructureErrorIcon}
+                    openedPaths={getPathsFromUrl(location.pathname)}
+                    resourceSectionRef={resourceSection}
+                    onNodeSelected={setCurrentNode}
+                    isFavorite={!!favoriteNodes[node.id]}
+                    key={node.id}
+                    node={node}
+                    toggleOpen={handleStructureToggle}
+                    childNodeTypes={childNodeTypes}
+                    addChildTooltip={addChildTooltip}
+                    showQuality={showQuality}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+          {!!showResourceColumn && (
+            <div>
+              {!!currentNode && (
                 <StickyContainer ref={resourceSection}>
                   {currentNode.nodeType === "SUBJECT" && (
                     <SubjectBanner subjectNode={currentNode} showQuality={showQuality} users={users} />
@@ -260,12 +260,11 @@ const StructureContainer = ({
                   )}
                 </StickyContainer>
               )}
-            </Column>
+            </div>
           )}
-        </GridContainer>
-        {isTaxonomyAdmin && <VersionSelector />}
-        <Footer showLocaleSelector />
-      </Wrapper>
+        </GridWrapper>
+      </PageContent>
+      {!!isTaxonomyAdmin && <VersionSelector />}
     </ErrorBoundary>
   );
 };

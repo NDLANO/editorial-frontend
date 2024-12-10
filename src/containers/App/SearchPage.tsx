@@ -11,10 +11,8 @@ import { ReactElement } from "react";
 import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router-dom";
 import { UseQueryResult } from "@tanstack/react-query";
-import { List } from "@ndla/icons/action";
-import { SearchMedia, SearchContent, SquareAudio } from "@ndla/icons/editor";
-import Footer from "./components/FooterWrapper";
-import { SearchType } from "../../interfaces";
+import { SearchMedia, SearchContent, VoiceprintLine, ListCheck } from "@ndla/icons";
+import { SearchParams, SearchType } from "../../interfaces";
 import { useSearchAudio, useSearchSeries } from "../../modules/audio/audioQueries";
 import { useSearchImages } from "../../modules/image/imageQueries";
 import { useSearchWithCustomSubjectsFiltering } from "../../modules/search/searchQueries";
@@ -22,7 +20,7 @@ import { toSearch } from "../../util/routeHelpers";
 import SubNavigation from "../Masthead/components/SubNavigation";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
-import { SearchParams, SearchParamsBody, parseSearchParams } from "../SearchPage/components/form/SearchForm";
+import { SearchParamsBody, parseSearchParams } from "../SearchPage/components/form/SearchForm";
 import SearchContainer, { ResultType } from "../SearchPage/SearchContainer";
 
 const SearchPage = () => {
@@ -61,7 +59,7 @@ const SearchPage = () => {
         },
         "audio",
       ),
-      icon: <SquareAudio />,
+      icon: <VoiceprintLine />,
       path: "audio",
       searchHook: useSearchAudio,
     },
@@ -84,7 +82,7 @@ const SearchPage = () => {
       title: t("subNavigation.searchPodcastSeries"),
       type: "podcast-series",
       url: toSearch({ page: "1", sort: "-relevance", "page-size": 10 }, "podcast-series"),
-      icon: <List />,
+      icon: <ListCheck />,
       path: "podcast-series",
       searchHook: useSearchSeries,
     },
@@ -118,7 +116,6 @@ const SearchPage = () => {
         })}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-      <Footer showLocaleSelector={false} />
     </>
   );
 };

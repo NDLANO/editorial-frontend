@@ -10,7 +10,7 @@ import { Formik, useFormikContext } from "formik";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { CheckLine } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons";
 import {
   Button,
   CheckboxControl,
@@ -20,7 +20,6 @@ import {
   CheckboxRoot,
   FieldLabel,
   FieldRoot,
-  Text,
   FieldErrorMessage,
   FieldTextArea,
 } from "@ndla/primitives";
@@ -31,6 +30,7 @@ import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import ImageEditor from "../../../../containers/ImageEditor/ImageEditor";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../../util/formHelper";
+import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLabel";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -166,18 +166,20 @@ const EmbedForm = ({
     <FormikForm>
       {!!image && <ImageEditor language={language} image={image} />}
       <InputWrapper>
-        <Text textStyle="label.medium" fontWeight="bold">
-          {t("form.image.caption.label")}
-          <RichTextIndicator />
-        </Text>
         <FormField name="caption">
           {({ field, helpers }) => (
-            <InlineField
-              {...field}
-              placeholder={t("form.image.caption.placeholder")}
-              submitted={isSubmitting}
-              onChange={helpers.setValue}
-            />
+            <FieldRoot>
+              <ContentEditableFieldLabel>
+                {t("form.image.caption.label")}
+                <RichTextIndicator />
+              </ContentEditableFieldLabel>
+              <InlineField
+                {...field}
+                placeholder={t("form.image.caption.placeholder")}
+                submitted={isSubmitting}
+                onChange={helpers.setValue}
+              />
+            </FieldRoot>
           )}
         </FormField>
 
@@ -192,7 +194,7 @@ const EmbedForm = ({
             )}
           </FormField>
         )}
-        {allowDecorative && (
+        {!!allowDecorative && (
           <FormField name="isDecorative">
             {({ field, helpers }) => (
               <FieldRoot>
@@ -217,7 +219,7 @@ const EmbedForm = ({
             )}
           </FormField>
         )}
-        {inGrid && (
+        {!!inGrid && (
           <FormField name="border">
             {({ field, helpers }) => (
               <FieldRoot>

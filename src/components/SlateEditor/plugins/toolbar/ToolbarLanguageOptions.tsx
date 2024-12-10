@@ -6,19 +6,26 @@
  *
  */
 
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms } from "slate";
-import { ReactEditor, useSlate, useSlateSelector } from "slate-react";
-import { ToolbarButton } from "@radix-ui/react-toolbar";
-import { DropdownItem, DropdownMenu, DropdownTrigger } from "@ndla/dropdown-menu";
-import { ArrowDropDown } from "@ndla/icons/common";
+import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
+import { createListCollection } from "@ark-ui/react";
+import { GlobalLine } from "@ndla/icons";
+import { SelectContent, SelectRoot, SelectValueText, SelectLabel, FieldRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { ToolbarCategoryProps } from "./SlateToolbar";
-import UIToolbarButton from "./ToolbarButton";
-import { ToolbarDropdownButton, ToolbarDropdownContent } from "./toolbarDropdownComponents";
 import { LanguageType } from "./toolbarState";
+import { getTitle } from "./ToolbarToggle";
+import { GenericSelectItem, GenericSelectTrigger } from "../../../abstractions/Select";
 import hasNodeOfType from "../../utils/hasNodeOfType";
 import { defaultSpanBlock } from "../span/utils";
+
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
+  base: {
+    width: "surface.xxsmall",
+  },
+});
 
 const getCurrentLanguage = (editor: Editor) => {
   const [currentBlock] =
@@ -32,14 +39,15 @@ const getCurrentLanguage = (editor: Editor) => {
 };
 
 export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<LanguageType>) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const editor = useSlate();
   const currentLanguage = useSlateSelector(getCurrentLanguage);
+  const selection = useSlateSelection();
 
   const onClick = useCallback(
     (language: string) => {
-      const sel = editor.selection;
-      Transforms.select(editor, sel!);
+      if (!selection) return;
+      Transforms.select(editor, selection);
       ReactEditor.focus(editor);
       const wrappedInSpan = hasNodeOfType(editor, "span");
       if (wrappedInSpan && language === "none") {
@@ -49,74 +57,57 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
       } else if (language === "none") {
         return;
       } else if (!wrappedInSpan) {
-        Transforms.wrapNodes(editor, defaultSpanBlock({ lang: language }), {
-          at: Editor.unhangRange(editor, editor.selection!),
+        Transforms.wrapNodes(editor, defaultSpanBlock({ lang: language, dir: language === "ar" ? "rtl" : undefined }), {
+          at: Editor.unhangRange(editor, selection),
           split: true,
         });
       } else {
-        Transforms.unwrapNodes(editor, {
-          match: (n) => Element.isElement(n) && n.type === "span",
-        });
-        Transforms.wrapNodes(editor, defaultSpanBlock({ lang: language }), {
-          at: Editor.unhangRange(editor, editor.selection!),
-          split: true,
-        });
+        const data = { dir: language === "ar" ? "rtl" : undefined, lang: language };
+        Transforms.setNodes(editor, { data }, { match: (n) => Element.isElement(n) && n.type === "span" });
       }
     },
-    [editor],
+    [editor, selection],
   );
 
-  const onCloseFocus = useCallback(
-    (e: Event) => {
-      e.preventDefault();
-      const sel = editor.selection;
-      if (!sel) return;
-      setTimeout(() => {
-        Transforms.select(editor, sel);
-        ReactEditor.focus(editor);
-      }, 0);
-    },
-    [editor],
-  );
+  const title = useMemo(() => getTitle(i18n, t, "language", false, false), [i18n, t]);
 
-  const visibleOptions = options.filter((option) => !option.hidden);
-  if (!visibleOptions.length) return null;
+  const collection = useMemo(() => {
+    const visibleOptions = options.filter((option) => !option.hidden);
+    if (!visibleOptions.length) return undefined;
+    return createListCollection({
+      items: [{ value: "none" }].concat(visibleOptions),
+      itemToString: (item) => t(`languages.${item.value}`),
+      itemToValue: (item) => item.value,
+    });
+  }, [options, t]);
+
+  if (!collection) return null;
 
   return (
-    <DropdownMenu modal={false}>
-      <ToolbarButton asChild>
-        <DropdownTrigger asChild>
-          <UIToolbarButton type="language">
-            {currentLanguage ? t(`languages.${currentLanguage}`) : t("editorToolbar.noneLanguage")}
-            <ArrowDropDown />
-          </UIToolbarButton>
-        </DropdownTrigger>
-      </ToolbarButton>
-      <ToolbarDropdownContent side="bottom" onCloseAutoFocus={onCloseFocus} sideOffset={2} portal={false}>
-        <DropdownItem>
-          <ToolbarDropdownButton
-            data-testid={"language-button-none"}
-            size="small"
-            noTitle
-            onClick={() => onClick("none")}
-          >
-            {t("editorToolbar.noneLanguage")}
-          </ToolbarDropdownButton>
-        </DropdownItem>
-        {visibleOptions.map((option) => (
-          <DropdownItem key={option.value}>
-            <ToolbarDropdownButton
+    <FieldRoot>
+      <SelectRoot
+        collection={collection}
+        positioning={{ sameWidth: true }}
+        value={[currentLanguage ?? "none"]}
+        onValueChange={(details) => onClick(details.value[0])}
+      >
+        <SelectLabel srOnly>{title}</SelectLabel>
+        <StyledGenericSelectTrigger variant="tertiary" title={title} size="small" data-testid="toolbar-button-language">
+          <GlobalLine />
+          <SelectValueText />
+        </StyledGenericSelectTrigger>
+        <SelectContent>
+          {collection.items.map((option) => (
+            <GenericSelectItem
+              key={option.value}
               data-testid={`language-button-${option.value}`}
-              size="small"
-              noTitle
-              disabled={option.disabled}
-              onClick={() => onClick(option.value)}
+              item={{ label: option.value, value: option.value }}
             >
               {t(`languages.${option.value}`)}
-            </ToolbarDropdownButton>
-          </DropdownItem>
-        ))}
-      </ToolbarDropdownContent>
-    </DropdownMenu>
+            </GenericSelectItem>
+          ))}
+        </SelectContent>
+      </SelectRoot>
+    </FieldRoot>
   );
 };

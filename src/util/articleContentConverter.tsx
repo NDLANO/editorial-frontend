@@ -8,7 +8,7 @@
 import escapeHtml from "escape-html";
 import compact from "lodash/compact";
 import toArray from "lodash/toArray";
-import { cloneElement } from "react";
+import { cloneElement, type JSX } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { Descendant, Node, Text } from "slate";
 import { AudioEmbedData, ImageEmbedData } from "@ndla/types-embed";
@@ -176,6 +176,7 @@ const articleContentToHTML = (value: Descendant[], rules: SlateSerializer[]) => 
         return cloneElement(ret, { key: nodeIdx });
       }
     }
+    // eslint-disable-next-line react/jsx-no-useless-fragment
     return <>{children}</>;
   };
 
@@ -271,8 +272,8 @@ export function editorValueToEmbedTag(editorValue?: Descendant[]) {
   if (embed) {
     const embedTag =
       embed?.resource === "audio" || embed?.resource === "image"
-        ? createEmbedTagV2<ImageEmbedData | AudioEmbedData>(embed)
-        : createEmbedTag(embed);
+        ? createEmbedTagV2<ImageEmbedData | AudioEmbedData>(embed, undefined, undefined)
+        : createEmbedTag(embed, undefined);
     return embedTag ? renderToStaticMarkup(embedTag) : "";
   }
   return "";

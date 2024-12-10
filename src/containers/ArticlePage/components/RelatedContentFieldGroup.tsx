@@ -7,21 +7,35 @@
  */
 
 import { memo } from "react";
+import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import ConceptsField from "./ConceptsField";
 import ContentField from "./ContentField";
-import FormikField from "../../../components/FormikField";
+import { FormField } from "../../../components/FormField";
 import { DRAFT_ADMIN_SCOPE } from "../../../constants";
 import { useSession } from "../../Session/SessionProvider";
 
 const RelatedContentFieldGroup = () => {
   const { userPermissions } = useSession();
+
   return (
     <>
-      <FormikField name={"conceptIds"}>{({ field, form }) => <ConceptsField field={field} form={form} />}</FormikField>
+      <FormField name="conceptIds">
+        {({ field, meta }) => (
+          <FieldRoot invalid={!!meta.error}>
+            <ConceptsField field={field} />
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          </FieldRoot>
+        )}
+      </FormField>
       {!!userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
-        <FormikField name={"relatedContent"}>
-          {({ field, form }) => <ContentField field={field} form={form} />}
-        </FormikField>
+        <FormField name="relatedContent">
+          {({ field, meta }) => (
+            <FieldRoot invalid={!!meta.error}>
+              <ContentField field={field} />
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+            </FieldRoot>
+          )}
+        </FormField>
       )}
     </>
   );

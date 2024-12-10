@@ -14,7 +14,6 @@ import {
   ComboboxItem,
   ComboboxItemText,
   ComboboxLabel,
-  ComboboxPositioner,
   ComboboxRoot,
   FieldErrorMessage,
   FieldRoot,
@@ -65,17 +64,15 @@ const PlannedResourceSelect = ({ label, fieldName, placeholder, options = [], de
             <ComboboxLabel>{t(label)}</ComboboxLabel>
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
             <GenericComboboxInput triggerable placeholder={t(placeholder)} />
-            <ComboboxPositioner>
-              <ComboboxContent>
-                {!collection.items.length && <Text>{t("form.responsible.noResults")}</Text>}
-                {collection.items.map((item) => (
-                  <ComboboxItem item={item} key={item.value}>
-                    <ComboboxItemText>{item.label}</ComboboxItemText>
-                    <GenericComboboxItemIndicator />
-                  </ComboboxItem>
-                ))}
-              </ComboboxContent>
-            </ComboboxPositioner>
+            <ComboboxContent>
+              {!collection.items.length && <Text>{t("form.responsible.noResults")}</Text>}
+              {collection.items.map((item) => (
+                <ComboboxItem item={item} key={item.value}>
+                  <ComboboxItemText>{item.label}</ComboboxItemText>
+                  <GenericComboboxItemIndicator />
+                </ComboboxItem>
+              ))}
+            </ComboboxContent>
           </ComboboxRoot>
         </FieldRoot>
       )}

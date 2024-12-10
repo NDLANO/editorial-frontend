@@ -8,7 +8,7 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AddLine } from "@ndla/icons/action";
+import { AddLine } from "@ndla/icons";
 import {
   Button,
   DialogBody,
@@ -119,7 +119,7 @@ const StructureBanner = ({
             </PopoverTrigger>
             <PopoverContent>
               <SwitchWrapper>
-                {hasLmaSubjects && (
+                {!!hasLmaSubjects && (
                   <SwitchRoot
                     checked={showLmaSubjects}
                     onCheckedChange={(details) => setShowLmaSubjects(details.checked)}
@@ -131,7 +131,7 @@ const StructureBanner = ({
                     <SwitchHiddenInput />
                   </SwitchRoot>
                 )}
-                {hasDaSubjects && (
+                {!!hasDaSubjects && (
                   <SwitchRoot
                     checked={showDaSubjects}
                     onCheckedChange={(details) => setShowDaSubjects(details.checked)}
@@ -143,7 +143,7 @@ const StructureBanner = ({
                     <SwitchHiddenInput />
                   </SwitchRoot>
                 )}
-                {hasSaSubjects && (
+                {!!hasSaSubjects && (
                   <SwitchRoot
                     checked={showSaSubjects}
                     onCheckedChange={(details) => setShowSaSubjects(details.checked)}
@@ -178,7 +178,7 @@ const StructureBanner = ({
           </PopoverRoot>
         )}
 
-        {isTaxonomyAdmin && (
+        {!!isTaxonomyAdmin && (
           <DialogRoot open={addSubjectModalOpen} onOpenChange={({ open }) => setAddSubjectModalOpen(open)}>
             <DialogTrigger asChild>
               <Button size="small" onClick={() => setAddSubjectModalOpen(true)} data-testid="AddSubjectButton">

@@ -6,73 +6,60 @@
  *
  */
 
-import { useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
-import { spacing, colors } from "@ndla/core";
-import { Copy } from "@ndla/icons/action";
-import { Done } from "@ndla/icons/editor";
-import { Spinner } from "@ndla/primitives";
+import { ErrorWarningLine, CheckLine } from "@ndla/icons";
+import { Text, Spinner, MessageBox } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
-import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
-import RoundIcon from "../../../../components/RoundIcon";
-import { EditMode } from "../../../../interfaces";
 import { cloneDraft } from "../../../../modules/draft/draftApi";
 import { learningpathCopy } from "../../../../modules/learningpath/learningpathApi";
 import { cloneNode, fetchNodeResources, postResourceForNode } from "../../../../modules/nodes/nodeApi";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
+import { routes, toLearningpathFull } from "../../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
-import ResourceItemLink from "../../resourceComponents/ResourceItemLink";
-import { EditModeHandler } from "../SettingsMenuDropdownType";
-import MenuItemButton from "../sharedMenuOptions/components/MenuItemButton";
+import { linkRecipe } from "../../resourceComponents/Resource";
 import NodeSearchDropdown from "../sharedMenuOptions/components/NodeSearchDropdown";
 
-type ActionType = Extract<EditMode, "copyResources" | "cloneResources">;
+type ActionType = "copyResources" | "cloneResources";
 interface Props {
   currentNode: Node;
   nodeType: NodeType;
-  editModeHandler: EditModeHandler;
   type: ActionType;
 }
 
-const StyledSpinner = styled(Spinner)`
-  margin: 0px 4px;
-`;
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+    width: "100%",
+  },
+});
 
-const StyledCopyIcon = styled(Copy)`
-  width: 8px;
-  height: 8px;
-`;
+const StyledCheckLine = styled(CheckLine, {
+  base: {
+    fill: "stroke.success",
+  },
+});
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin: ${spacing.xsmall};
-`;
+const StatusIndicatorContent = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+  },
+});
 
-const LinkWrapper = styled.div`
-  a {
-    color: ${colors.white};
-    &:hover {
-      color: ${colors.white};
-    }
-  }
-  margin-top: 0.5em;
-`;
+const StyledErrorTextWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+  },
+});
 
-const StyledDiv = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: ${spacing.normal};
-`;
-
-const StyledDone = styled(Done)`
-  margin: 0px 4px;
-  color: green;
-`;
-
-const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, currentNode, nodeType, type }: Props) => {
+const CopyNodeResources = ({ currentNode, nodeType, type }: Props) => {
   const {
     t,
     i18n: { language },
@@ -84,13 +71,6 @@ const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, curr
   const [failedResources, setFailedResources] = useState<NodeChild[]>([]);
   const [showDisplay, setShowDisplay] = useState(false);
   const [done, setDone] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
-
-  useEffect(() => {
-    setShowAlert(failedResources.length !== 0 && done);
-  }, [failedResources, done]);
-
-  const toggleEditModeFunc = () => toggleEditMode(type);
 
   const prepareForAction = () => {
     setFailedResources([]);
@@ -98,7 +78,6 @@ const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, curr
     setCount(0);
     setTotalAmount(0);
     setShowDisplay(true);
-    toggleEditModeFunc();
   };
 
   const cloneOrCopyResources = async (node: Node, type: ActionType) => {
@@ -177,61 +156,65 @@ const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, curr
     }
   };
 
-  if (editMode === type) {
-    return (
-      <Wrapper>
-        <RoundIcon open small smallIcon icon={<Copy />} />
-        <NodeSearchDropdown
-          label={t(`taxonomy.${type}.info`)}
-          placeholder={t(`taxonomy.${type}.placeholder`, { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
-          onChange={(node) => cloneOrCopyResources(node, type)}
-          searchNodeType={"TOPIC"}
-          filter={(node) => {
-            return (
-              !!node.path &&
-              !node.paths?.some((p) => {
-                const split = p.replace("/", "").split("/");
-                return split[split.length - 2] === currentNode.id.replace("urn:", "");
-              })
-            );
-          }}
-        />
-      </Wrapper>
-    );
-  }
-
   const prefixText = t(`taxonomy.${type}.${done ? "done" : "waiting"}`);
 
   return (
-    <>
-      <MenuItemButton onClick={toggleEditModeFunc}>
-        <RoundIcon small icon={<StyledCopyIcon />} />
-        {t(`taxonomy.${type}.info`)}
-      </MenuItemButton>
-      {showDisplay && (
-        <StyledDiv>
-          {done ? <StyledDone /> : <StyledSpinner size="small" />}
-          {`${prefixText} (${count}/${totalAmount})`}
-        </StyledDiv>
+    <Wrapper>
+      <NodeSearchDropdown
+        label={t(`taxonomy.${type}.info`)}
+        placeholder={t(`taxonomy.${type}.placeholder`, { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+        onChange={(node) => cloneOrCopyResources(node, type)}
+        searchNodeType={"TOPIC"}
+        filter={(node) => {
+          return (
+            !!node.path &&
+            !node.paths?.some((p) => {
+              const split = p.replace("/", "").split("/");
+              return split[split.length - 2] === currentNode.id.replace("urn:", "");
+            })
+          );
+        }}
+      />
+      {!!showDisplay && (
+        <StatusIndicatorContent aria-live="polite">
+          {done ? <StyledCheckLine /> : <Spinner size="small" />}
+          <Text>{`${prefixText} (${count}/${totalAmount})`}</Text>
+        </StatusIndicatorContent>
       )}
-      <AlertDialog
-        title={t("errorMessage.description")}
-        label={t("errorMessage.description")}
-        show={showAlert}
-        onCancel={() => setShowAlert(false)}
-        text={t(`taxonomy.${type}.error`)}
-      >
-        {failedResources.map((res, index) => (
-          <LinkWrapper key={index}>
-            <ResourceItemLink
-              contentType={res.contentUri?.split(":")[1] === "article" ? "article" : "learning-resource"}
-              contentUri={res.contentUri}
-              name={res.name}
-            />
-          </LinkWrapper>
-        ))}
-      </AlertDialog>
-    </>
+      {failedResources.length > 0 && (
+        <MessageBox variant="error">
+          <ErrorWarningLine />
+          <StyledErrorTextWrapper>
+            <Text>{t(`taxonomy.${type}.error`)}</Text>
+            <>
+              {failedResources.map((res, index) => {
+                const numericId = parseInt(res.contentUri?.split(":").pop() ?? "");
+                return (
+                  <Fragment key={index}>
+                    {numericId ? (
+                      <SafeLink
+                        to={
+                          res.contentUri?.includes("learningpath")
+                            ? toLearningpathFull(numericId, language)
+                            : routes.editArticle(numericId, "standard")
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        css={linkRecipe.raw()}
+                      >
+                        {res.name}
+                      </SafeLink>
+                    ) : (
+                      <Text textStyle="body.link">{res.name}</Text>
+                    )}
+                  </Fragment>
+                );
+              })}
+            </>
+          </StyledErrorTextWrapper>
+        </MessageBox>
+      )}
+    </Wrapper>
   );
 };
 

@@ -7,7 +7,7 @@
  */
 
 import { ElementType } from "react";
-import { InformationOutline } from "@ndla/icons/common";
+import { InformationLine } from "@ndla/icons";
 import { Heading, Text } from "@ndla/primitives";
 import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
@@ -70,7 +70,7 @@ const TableTitle = ({ title, description, Icon, infoText }: Props) => {
           <Heading textStyle="title.medium" asChild consumeCss>
             <h2>{title}</h2>
           </Heading>
-          {infoText && <InformationOutline aria-label={infoText} title={infoText} size="small" />}
+          {!!infoText && <InformationLine aria-label={infoText} title={infoText} size="small" />}
         </TitleWrapper>
         <Text textStyle="body.small">{description}</Text>
       </TextWrapper>

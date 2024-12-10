@@ -9,14 +9,12 @@
 import { FieldArray, Formik, useField, useFormikContext } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors, misc, spacing } from "@ndla/core";
-import { AddLine, PencilFill } from "@ndla/icons/action";
-import { Heading, IconButton, Spinner } from "@ndla/primitives";
+import { AddLine, PencilFill } from "@ndla/icons";
+import { Heading, IconButton, PageContainer, Spinner, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
-import { OneColumn } from "@ndla/ui";
 import FrontpageArticleSearch from "./FrontpageArticleSearch";
 import { addArticlesToAboutMenu, extractArticleIds, menuWithArticleToIMenu } from "./frontpageHelpers";
 import FrontpageNodeList from "./FrontpageNodeList";
@@ -33,41 +31,33 @@ import { AlertDialogWrapper } from "../FormikForm";
 import NotFound from "../NotFoundPage/NotFoundPage";
 import { useSession } from "../Session/SessionProvider";
 
-const FrontpageArticleWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  border-radius: ${misc.borderRadius};
-  padding: ${spacing.small};
-  background-color: ${colors.brand.lighter};
-`;
+const FrontpageArticleWrapper = styled("div", {
+  base: {
+    backgroundColor: "surface.brand.2.subtle",
+    padding: "small",
+    borderRadius: "xsmall",
+    border: "1px solid",
+    borderColor: "stroke.subtle",
+    marginBlockEnd: "xsmall",
+  },
+});
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: space-between;
-`;
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    width: "100%",
+    justifyContent: "space-between",
+  },
+});
 
-const ArticleTitle = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.xsmall};
-  span {
-    display: inline-flex;
-    gap: ${spacing.xsmall};
-  }
-`;
-
-const StyledSafeLink = styled(SafeLink)`
-  color: ${colors.brand.primary};
-  text-decoration: underline;
-  text-underline-offset: ${spacing.xsmall};
-  box-shadow: none;
-  &:hover,
-  &:focus-visible {
-    text-decoration: none;
-  }
-`;
+const EditFrontpageWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    alignItems: "center",
+  },
+});
 
 const frontpageRules: RulesType<MenuWithArticle> = {
   articleId: {
@@ -85,7 +75,10 @@ const FrontpageEditPage = () => {
     [frontpageQuery.data],
   );
 
-  const articlesQuery = useArticleSearch({ ids: articleIds.join(",") }, { enabled: !!articleIds.length });
+  const articlesQuery = useArticleSearch(
+    { ids: articleIds.join(","), license: "all" },
+    { enabled: !!articleIds.length },
+  );
 
   const transformedMenu: MenuWithArticle | undefined = useMemo(() => {
     if (frontpageQuery.isLoading || articlesQuery.isLoading || !articlesQuery.data) {
@@ -114,29 +107,31 @@ const FrontpageEditPage = () => {
   }
 
   return (
-    <OneColumn>
-      <HelmetWithTracker title={t("htmlTitles.editFrontpage")} />
-      {frontpageQuery.isLoading || articlesQuery.isLoading ? (
-        <Spinner />
-      ) : transformedMenu ? (
-        <Formik
-          initialValues={{ ...transformedMenu, article: initialFrontpageArticle }}
-          onSubmit={onSubmit}
-          validate={validate}
-          validateOnMount
-          enableReinitialize
-        >
-          {({ handleSubmit }) => (
-            <form onSubmit={handleSubmit}>
-              <RootFields />
-              <FieldArray name="menu" render={(props) => <FrontpageNodeList {...props} level={0} />} />
-            </form>
-          )}
-        </Formik>
-      ) : (
-        <p>{t("frontpageMenu.error")}</p>
-      )}
-    </OneColumn>
+    <PageContainer asChild consumeCss>
+      <main>
+        <HelmetWithTracker title={t("htmlTitles.editFrontpage")} />
+        {frontpageQuery.isLoading || articlesQuery.isLoading ? (
+          <Spinner />
+        ) : transformedMenu ? (
+          <Formik
+            initialValues={{ ...transformedMenu, article: initialFrontpageArticle }}
+            onSubmit={onSubmit}
+            validate={validate}
+            validateOnMount
+            enableReinitialize
+          >
+            {({ handleSubmit }) => (
+              <form onSubmit={handleSubmit}>
+                <RootFields />
+                <FieldArray name="menu" render={(props) => <FrontpageNodeList {...props} level={0} />} />
+              </form>
+            )}
+          </Formik>
+        ) : (
+          <Text>{t("frontpageMenu.error")}</Text>
+        )}
+      </main>
+    </PageContainer>
   );
 };
 
@@ -170,22 +165,20 @@ const RootFields = () => {
     <FrontpageArticleWrapper>
       <Heading textStyle="title.large">{t("htmlTitles.editFrontpage")}</Heading>
       <Wrapper>
-        <ArticleTitle>
-          <span>
-            {articleField.value ? (
-              <>
-                {t("frontpageForm.frontpageArticle")}
-                <StyledSafeLink to={toEditFrontPageArticle(articleField.value.id, i18n.language)} target="_blank">
-                  {articleField.value.title.title}
-                </StyledSafeLink>
-              </>
-            ) : (
-              t("frontpageForm.noFrontpageArticle")
-            )}
-          </span>
+        <EditFrontpageWrapper>
+          {articleField.value ? (
+            <>
+              <Text>{t("frontpageForm.frontpageArticle")}</Text>
+              <SafeLink to={toEditFrontPageArticle(articleField.value.id, i18n.language)} target="_blank">
+                {articleField.value.title.title}
+              </SafeLink>
+            </>
+          ) : (
+            <Text>{t("frontpageForm.noFrontpageArticle")}</Text>
+          )}
           <FrontpageArticleSearch articleId={idField.value} onChange={onChange}>
             <IconButton
-              variant="tertiary"
+              variant="secondary"
               size="small"
               aria-label={t("frontpageForm.changeFrontpageArticle")}
               title={t("frontpageForm.changeFrontpageArticle")}
@@ -193,7 +186,7 @@ const RootFields = () => {
               <PencilFill />
             </IconButton>
           </FrontpageArticleSearch>
-        </ArticleTitle>
+        </EditFrontpageWrapper>
         <FormActionsContainer>
           <FrontpageArticleSearch onChange={onAddNew}>
             <IconButton

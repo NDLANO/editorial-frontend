@@ -113,6 +113,7 @@ const phrases = {
     pli: "Pali",
     empty: "No languages left",
     change: "Change to {{language}} version",
+    none: "None",
   },
   welcomePage: {
     lastFavorited: "Last favorited resource: ",
@@ -225,6 +226,7 @@ const phrases = {
       concept: "Search for concepts",
       "podcast-series": "Search for podcast series",
     },
+    activeFilters: "Active filters",
     searchButton: "Search",
     emptyButton: "Empty",
     title: "Title",
@@ -314,6 +316,7 @@ const phrases = {
   },
   searchForm: {
     placeholder: "Search articles",
+    searchTypes: "Search types",
     types: {
       conceptQuery: "Search for concept",
       glossQuery: "Search for gloss",
@@ -338,21 +341,21 @@ const phrases = {
       "filter-inactive": "Include archived subjects",
     },
     tagType: {
-      query: "Query",
-      subjects: "Subject",
-      language: "Language",
-      users: "Editor",
-      "resource-types": "Resource type",
-      status: "Status",
-      "draft-status": "Status",
-      "audio-type": "Audio file type",
-      "concept-type": "Concept type",
-      license: "License",
-      "model-released": "Model released",
-      "revision-date-from": "Revisiondate from",
-      "revision-date-to": "Revisiondate to",
+      query: "Search: {{value}}",
+      subjects: "Subject: {{value}}",
+      language: "Language: $(languages.{{value}})",
+      users: "Editor: {{value}}",
+      "resource-types": "Resource type: {{value}}",
+      status: "Status: $t(form.status.{{value}})",
+      "draft-status": "Status: $t(form.status.{{value}})",
+      "audio-type": "Audio file type: {{value}}",
+      "concept-type": "Concept type: {{value}}",
+      license: "License: {{value}}",
+      "model-released": "Model released: {{value}}",
+      "revision-date-from": "Revisiondate from: {{value}}",
+      "revision-date-to": "Revisiondate to: {{value}}",
       "exclude-revision-log": "Revision log excluded",
-      "responsible-ids": "Responsible",
+      "responsible-ids": "Responsible: {{value}}",
       "filter-inactive": "Archived subjects included",
     },
     btn: "Search",
@@ -763,6 +766,7 @@ const phrases = {
     },
   },
   form: {
+    createNew: "Unsaved {{type}}",
     metadataSection: "Metadata",
     contentSection: "Content",
     workflowSection: "Version log and notes",
@@ -989,6 +993,8 @@ const phrases = {
       image: "Image search",
       imageUpload: "Upload image",
       h5p: "H5P",
+      description:
+        "A visual element can be set differently for each language. If a visual element does not exist, it will be automatically retrieved from another language.",
     },
     visualElementPicker: {
       h5p: "H5P",
@@ -1406,6 +1412,8 @@ const phrases = {
     },
     h5p: {
       remove: "Remove H5P",
+      copy: "Copy H5P",
+      copyError: "Failed to copy H5P",
       metadata: {
         alttext: "Alt-text",
         save: "Save",
@@ -1680,6 +1688,7 @@ const phrases = {
     fullTopic: "Average:",
     TOPIC: "topic",
     SUBJECT: "subject",
+    PROGRAMME: "programme",
     qualityDescription:
       "Average quality evaluation of all evaluated resources within the {{nodeType}} ({{count}} evaluated resources)",
     average: "Average",
@@ -1697,9 +1706,15 @@ const phrases = {
     subjectSettings: "Subject settings",
     topicSettings: "Topic settings",
     currentVersion: "Current version",
-    deleteNode: "Delete node",
-    deleteResource: "Delete resource",
-    confirmDelete: "Are you sure you want to delete this node?",
+    delete: {
+      deleteNode: "Delete {{ nodeType }}",
+      deleteResource: "Delete resource",
+      deleteDisabled: "{{ nodeType }} with {{ nodeChild }} can't be deleted",
+      child: "children",
+      subTopic: "sub topics",
+      topic: "topics",
+      confirmDelete: "Are you sure you want to delete this {{ nodeType }}?",
+    },
     version: "Version",
     createResource: "Create new resource",
     addNewPlannedResource: "Create planned resourse",
@@ -1826,6 +1841,10 @@ const phrases = {
       addNewSubTopic: "Add new sub topic",
       addedTopic: "Added to taxonomy",
       disconnectedTaxonomyWarning: "Invalid topic connection",
+      taxonomySubjectConnections:
+        "In order for a resource to be available in the structure, it must be linked to one or more topics.",
+      description:
+        "Choose where the subject should be placed in taxonomy. If you change placement in taxonomy, the old subject will not be deleted if it has subtopics or resources linked to it.",
     },
     grepCodes: {
       edit: "Edit grep codes",
@@ -1844,6 +1863,7 @@ const phrases = {
       buttonText: "Make resources primary",
       recursiveButtonText: "Make resources and sub resources primary",
       error: "An error occured",
+      success: "All resources have been converted to primary resources",
     },
     goTo: "Open in structure editor",
     missingResourceType: "Missing resource type",
@@ -1862,6 +1882,8 @@ const phrases = {
         subjectLMA: "Responsible for the subject",
         subjectSA: "Language responsible for the subject",
         subjectDA: "Desk responsible for the subject",
+        keyPlaceholder: "Add key",
+        valuePlaceholder: "Add value",
       },
       placeholders: {
         category: "Choose category",
@@ -2028,6 +2050,7 @@ const phrases = {
     nodeTypeTooltips: {
       SUBJECT: "This is a subject",
       TOPIC: "This is a topic",
+      PROGRAMME: "This is a programme",
     },
     fields: {
       id: {

@@ -11,11 +11,10 @@ import parse from "html-react-parser";
 import { ReactNode, useMemo, useState } from "react";
 import { renderToString } from "react-dom/server";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
-import { InformationOutline } from "@ndla/icons/common";
+import { InformationLine } from "@ndla/icons";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { MissingRouterContext } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { ArticleWrapper } from "@ndla/ui";
 import { toFormArticle } from "./PreviewDraft";
@@ -34,41 +33,39 @@ export interface VersionPreviewProps {
   language: string;
 }
 
-const SwitchWrapper = styled.div`
-  display: flex;
-  margin-right: ${spacing.xxlarge};
-  justify-content: flex-end;
-  align-items: center;
-  gap: ${spacing.xsmall};
-`;
+const SwitchWrapper = styled("div", {
+  base: {
+    display: "flex",
+    marginInlineEnd: "4xlarge",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    gap: "3xsmall",
+  },
+});
 
-const TwoArticleWrapperWithDiff = styled(TwoArticleWrapper)`
-  del.diffmod,
-  ins.diffmod,
-  ins.mod {
-    background-color: ${colors.support.yellow};
-    text-decoration: none;
-    display: inline-block;
-  }
-
-  .diffins:has(img, div, figure, picture),
-  .diffmod:has(div, img, figure, picture) {
-    // Add some padding to show the diff outline on block elements
-    padding: 5px;
-  }
-
-  .diffins {
-    background-color: ${colors.support.greenLight};
-    text-decoration: none;
-    display: inline-block;
-  }
-
-  del.diffdel {
-    background-color: ${colors.support.redLight};
-    text-decoration: none;
-    display: inline-block;
-  }
-`;
+const TwoArticleWrapperWithDiff = styled(TwoArticleWrapper, {
+  base: {
+    "& del.diffmod, ins.diffmod, ins.mod": {
+      background: "surface.warning",
+      textDecoration: "none",
+      display: "inline-block",
+    },
+    "& .diffins:has(img, div, figure, picture), .diffmod:has(div, img, figure, picture)": {
+      // Add some padding to show the diff outline on block elements
+      padding: "3xsmall",
+    },
+    "& .diffins": {
+      background: "surface.successSubtle",
+      textDecoration: "none",
+      display: "inline-block",
+    },
+    "& .diffdel": {
+      background: "surface.errorSubtle",
+      textDecoration: "none",
+      display: "inline-block",
+    },
+  },
+});
 
 const renderWithoutRouter = (node: ReactNode) => {
   return renderToString(<MissingRouterContext.Provider value={true}>{node}</MissingRouterContext.Provider>);
@@ -143,7 +140,7 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
   return (
     <>
       <SwitchWrapper>
-        <InformationOutline
+        <InformationLine
           aria-hidden={false}
           aria-label={t("form.previewProductionArticle.diffInfo")}
           title={t("form.previewProductionArticle.diffInfo")}
@@ -177,7 +174,7 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
         <PageContent variant="content">
           <h2>{t("form.previewProductionArticle.current")}</h2>
           <ArticleWrapper>
-            {transformedWithDiff.article && (
+            {!!transformedWithDiff.article && (
               <TransformedPreviewDraft
                 {...transformedWithDiff}
                 article={transformedWithDiff.article}

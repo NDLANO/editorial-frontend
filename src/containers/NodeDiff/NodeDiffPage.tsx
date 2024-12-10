@@ -8,20 +8,17 @@
 
 import { useTranslation } from "react-i18next";
 import { useParams, useSearchParams } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
+import { Heading, PageContainer, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { OneColumn } from "@ndla/ui";
 import DiffOptions from "./DiffOptions";
 import NodeDiffcontainer from "./NodeDiffContainer";
-import FooterWrapper from "../App/components/FooterWrapper";
 
-const StyledNodeContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-  padding-top: ${spacing.normal};
-`;
+const StyledPageContainer = styled(PageContainer, {
+  base: {
+    gap: "medium",
+  },
+});
 
 const NodeDiffPage = () => {
   const { nodeId } = useParams();
@@ -30,26 +27,21 @@ const NodeDiffPage = () => {
   const originalHash = params.get("originalHash");
   const otherHash = params.get("otherHash") ?? "default";
 
-  if (!originalHash || !nodeId) {
-    return (
-      <OneColumn>
-        <HelmetWithTracker title={t("htmlTitles.nodeDiffPage")} />
-        <h1>{t("diff.error.originalHashRequired")}</h1>
-      </OneColumn>
-    );
-  }
-
   return (
-    <>
-      <OneColumn>
+    <StyledPageContainer asChild consumeCss>
+      <main>
         <HelmetWithTracker title={t("htmlTitles.nodeDiffPage")} />
-        <StyledNodeContainer>
-          <DiffOptions originalHash={originalHash} otherHash={otherHash} />
-          <NodeDiffcontainer originalHash={originalHash} otherHash={otherHash} nodeId={nodeId} />
-        </StyledNodeContainer>
-      </OneColumn>
-      <FooterWrapper />
-    </>
+        <Heading textStyle="heading.medium">{t("diff.compareVersions")}</Heading>
+        {!originalHash || !nodeId ? (
+          <Text color="text.error">{t("diff.error.originalHashRequired")}</Text>
+        ) : (
+          <>
+            <DiffOptions originalHash={originalHash} otherHash={otherHash} />
+            <NodeDiffcontainer originalHash={originalHash} otherHash={otherHash} nodeId={nodeId} />
+          </>
+        )}
+      </main>
+    </StyledPageContainer>
   );
 };
 export default NodeDiffPage;

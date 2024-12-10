@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { UserLine } from "@ndla/icons/common";
+import { UserLine } from "@ndla/icons";
 import { SafeLinkButton, SafeLinkButtonProps } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { getAccessTokenPersonal } from "../../../util/authHelpers";

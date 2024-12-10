@@ -10,24 +10,32 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { UseQueryResult } from "@tanstack/react-query";
+import { PageContainer } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { IAudioSummarySearchResult, ISeriesSummarySearchResult } from "@ndla/types-backend/audio-api";
 import { IConceptSearchResult } from "@ndla/types-backend/concept-api";
 import { ISearchResultV3 } from "@ndla/types-backend/image-api";
 import { IMultiSearchResult } from "@ndla/types-backend/search-api";
-import { OneColumn } from "@ndla/ui";
-import SearchForm, { parseSearchParams, SearchParams } from "./components/form/SearchForm";
+import SearchForm, { parseSearchParams } from "./components/form/SearchForm";
 import SearchList from "./components/results/SearchList";
 import SearchListOptions from "./components/results/SearchListOptions";
 import SearchSort from "./components/sort/SearchSort";
 import Pagination from "../../components/abstractions/Pagination";
-import { SearchType } from "../../interfaces";
+import { SearchParams, SearchType } from "../../interfaces";
 import { useUserData } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
 import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
 import { isValid } from "../../util/jwtHelper";
 import { toSearch } from "../../util/routeHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
+
+const StyledPageContainer = styled(PageContainer, {
+  base: {
+    paddingBlockStart: "0",
+    gap: "xsmall",
+  },
+});
 
 export type ResultType =
   | ISearchResultV3
@@ -90,39 +98,41 @@ const SearchContainer = ({ searchHook, type }: Props) => {
   return (
     <>
       <HelmetWithTracker title={t(`htmlTitles.search.${type}`)} />
-      <OneColumn>
-        <SearchForm
-          type={type}
-          search={onQueryPush}
-          searchObject={searchObject}
-          locale={locale}
-          subjects={subjects}
-          userData={userData}
-        />
-        <SearchSort type={type} onSortOrderChange={onSortOrderChange} />
-        <SearchListOptions
-          type={type}
-          searchObject={searchObject}
-          totalCount={results?.totalCount}
-          search={onQueryPush}
-        />
-        <SearchList
-          searchObject={searchObject}
-          results={results?.results ?? []}
-          searching={isSearching}
-          type={type}
-          locale={locale}
-          subjects={subjects}
-          error={!!searchError}
-        />
-        <Pagination
-          page={searchObject.page}
-          onPageChange={(details) => onQueryPush({ ...searchObject, page: details.page })}
-          pageSize={results?.pageSize}
-          count={results?.totalCount ?? 0}
-          siblingCount={1}
-        />
-      </OneColumn>
+      <StyledPageContainer asChild consumeCss>
+        <main>
+          <SearchForm
+            type={type}
+            search={onQueryPush}
+            searchObject={searchObject}
+            locale={locale}
+            subjects={subjects}
+            userData={userData}
+          />
+          <SearchSort type={type} onSortOrderChange={onSortOrderChange} />
+          <SearchListOptions
+            type={type}
+            searchObject={searchObject}
+            totalCount={results?.totalCount}
+            search={onQueryPush}
+          />
+          <SearchList
+            searchObject={searchObject}
+            results={results?.results ?? []}
+            searching={isSearching}
+            type={type}
+            locale={locale}
+            subjects={subjects}
+            error={!!searchError}
+          />
+          <Pagination
+            page={searchObject.page}
+            onPageChange={(details) => onQueryPush({ ...searchObject, page: details.page })}
+            pageSize={results?.pageSize}
+            count={results?.totalCount ?? 0}
+            siblingCount={1}
+          />
+        </main>
+      </StyledPageContainer>
     </>
   );
 };

@@ -55,7 +55,7 @@ export const footnoteSerializer: SlateSerializer = {
       authors: node.data.authors ? node.data.authors.join(";") : "",
     };
 
-    return createEmbedTag(data);
+    return createEmbedTag(data, undefined);
   },
 };
 
@@ -95,7 +95,7 @@ export const footnotePlugin = (editor: Editor) => {
         }
       }
     }
-    nextOnKeyDown && nextOnKeyDown(e);
+    nextOnKeyDown?.(e);
   };
 
   return editor;

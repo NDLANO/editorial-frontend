@@ -154,12 +154,12 @@ const createTagGroupings = <Value extends object, Identifier extends keyof Value
   }));
   const allChildren = originalValues.concat(otherValues);
   return allChildren.reduce<Record<string, Grouping<Value>>>((acc, curr) => {
-    //@ts-ignore
+    //@ts-expect-error - Typing this is too hard
     if (acc[curr.value[identifier]]) {
-      //@ts-ignore
+      //@ts-expect-error - Typing this is too hard
       acc[curr.value[identifier]][curr.tag] = curr.value;
     } else {
-      //@ts-ignore
+      //@ts-expect-error - Typing this is too hard
       acc[curr.value[identifier]] = { [curr.tag]: curr.value };
     }
     return acc;
@@ -289,7 +289,7 @@ export const diffObject = <T>(original: T | undefined, other: T | undefined, ski
       }
       acc[key] = res;
     } else if (isObject(original?.[key], other?.[key])) {
-      //@ts-ignore
+      //@ts-expect-error - Typing this is too hard
       const res = diffObject(original?.[key], other?.[key], skipFields?.[key]);
       if (res.changed.diffType !== "NONE") {
         hasChanged = true;
@@ -303,10 +303,10 @@ export const diffObject = <T>(original: T | undefined, other: T | undefined, ski
       acc[key] = res;
     }
     return acc;
-    //@ts-ignore
+    //@ts-expect-error - Typing this is too hard
   }, {});
   return {
-    //@ts-ignore
+    //@ts-expect-error - Typing this is too hard
     ...test,
     changed: {
       diffType: !hasChanged && objDiff.diffType === "MODIFIED" ? "NONE" : objDiff.diffType,
@@ -356,10 +356,10 @@ export const removeType = <T>(diff: DiffType<T>, type: DiffResultType): Partial<
     .filter(([, entry]) => entry?.diffType !== type) //entry is either nested object or difftype
     .reduce<Partial<DiffType<T>>>((acc, [key, entry]) => {
       if (Array.isArray(entry) || (entry && "diffType" in entry)) {
-        //@ts-ignore
+        //@ts-expect-error - Typing this is too hard
         acc[key] = entry;
       } else {
-        //@ts-ignore
+        //@ts-expect-error - Typing this is too hard
         acc[key] = removeType(entry, type);
       }
       return acc;

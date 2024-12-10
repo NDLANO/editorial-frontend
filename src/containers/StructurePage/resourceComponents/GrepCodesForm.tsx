@@ -25,7 +25,7 @@ const StyledText = styled(Text, {
 interface Props {
   codes: string[];
   onUpdate: (grepCodes: string[]) => Promise<void>;
-  close: () => void;
+  close?: () => void;
 }
 
 interface Values {
@@ -45,7 +45,7 @@ const GrepCodesForm = ({ codes, onUpdate, close }: Props) => {
       await onUpdate(values.grepCodes);
       helpers.resetForm({ values: values });
       setLoading(false);
-      close();
+      close?.();
     } catch (err) {
       setError(true);
       setLoading(false);
@@ -61,15 +61,17 @@ const GrepCodesForm = ({ codes, onUpdate, close }: Props) => {
             <FormContent>
               <GrepCodesField />
               <FormActionsContainer>
-                <Button variant="secondary" onClick={close}>
-                  {t("cancel")}
-                </Button>
+                {!!close && (
+                  <Button variant="secondary" onClick={close}>
+                    {t("cancel")}
+                  </Button>
+                )}
                 <Button disabled={!dirty} loading={loading} onClick={submitForm}>
                   {t("save")}
                 </Button>
               </FormActionsContainer>
             </FormContent>
-            {error && (
+            {!!error && (
               <StyledText color="text.error" aria-live="polite">
                 {t("errorMessage.genericError")}
               </StyledText>

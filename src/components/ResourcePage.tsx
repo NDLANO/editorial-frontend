@@ -9,41 +9,12 @@
 import { ComponentType } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
-import styled from "@emotion/styled";
 import { UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
-import { mq, breakpoints } from "@ndla/core";
-import { Spinner } from "@ndla/primitives";
+import { PageContent, Spinner } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { NynorskTranslateProvider } from "./NynorskTranslateProvider";
-import { useWideArticle } from "./WideArticleEditorProvider";
-import { MAX_PAGE_WIDTH } from "../constants";
-import Footer from "../containers/App/components/FooterWrapper";
-import { MAX_WIDTH_FRONTPAGE_WITH_COMMENTS, MAX_WIDTH_WITH_COMMENTS } from "../containers/ArticlePage/styles";
 import NotFoundPage from "../containers/NotFoundPage/NotFoundPage";
 import { usePreviousLocation } from "../util/routeHelpers";
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const PageContent = styled.div`
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  ${mq.range({ until: breakpoints.wide })} {
-    padding-left: 24px;
-    padding-right: 24px;
-  }
-  max-width: ${MAX_PAGE_WIDTH}px;
-
-  &[data-wide="true"] {
-    max-width: ${MAX_WIDTH_FRONTPAGE_WITH_COMMENTS}px;
-  }
-  &[data-article="true"] {
-    max-width: ${MAX_WIDTH_WITH_COMMENTS}px;
-  }
-`;
 
 interface ResourceComponentProps {
   isNewlyCreated?: boolean;
@@ -56,7 +27,6 @@ interface BaseResource {
 interface Props<T extends BaseResource> {
   CreateComponent: ComponentType;
   EditComponent: ComponentType<ResourceComponentProps>;
-  className?: string;
   useHook: (params: { id: number; language?: string }, options?: Partial<UseQueryOptions<T>>) => UseQueryResult<T>;
   createUrl: string;
   titleTranslationKey?: string;
@@ -69,33 +39,28 @@ const ResourcePage = <T extends BaseResource>({
   useHook,
   createUrl,
   titleTranslationKey,
-  className,
   isArticle,
 }: Props<T>) => {
   const { t } = useTranslation();
   const previousLocation = usePreviousLocation();
-  const { isWideArticle } = useWideArticle();
   return (
-    <Wrapper>
-      <PageContent className={className} data-wide={isWideArticle} data-article={isArticle}>
-        {titleTranslationKey && <HelmetWithTracker title={t(titleTranslationKey)} />}
-        <Routes>
-          <Route path="new" element={<CreateComponent />} />
-          <Route
-            path=":id/edit/*"
-            element={
-              <EditResourceRedirect
-                Component={EditComponent}
-                useHook={useHook}
-                isNewlyCreated={previousLocation === createUrl}
-              />
-            }
-          />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </PageContent>
-      <Footer showLocaleSelector={false} />
-    </Wrapper>
+    <PageContent variant={isArticle ? "wide" : "page"}>
+      {!!titleTranslationKey && <HelmetWithTracker title={t(titleTranslationKey)} />}
+      <Routes>
+        <Route path="new" element={<CreateComponent />} />
+        <Route
+          path=":id/edit/*"
+          element={
+            <EditResourceRedirect
+              Component={EditComponent}
+              useHook={useHook}
+              isNewlyCreated={previousLocation === createUrl}
+            />
+          }
+        />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </PageContent>
   );
 };
 

@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Audio, Podcast } from "@ndla/icons/common";
+import { BroadcastLine, VoiceprintLine } from "@ndla/icons";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
 import { ListItemContent, ListItemHeading, ListItemImage, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
@@ -29,7 +29,11 @@ const SearchAudio = ({ audio, locale }: Props) => {
 
   return (
     <ListItemRoot context="list" variant="subtle" data-testid="audio-search-result">
-      <ListItemImage fallbackElement={audio.audioType === "podcast" ? <Podcast /> : <Audio />} src="" alt="" />
+      <ListItemImage
+        fallbackElement={audio.audioType === "podcast" ? <BroadcastLine /> : <VoiceprintLine />}
+        src=""
+        alt=""
+      />
       <ListItemContent>
         <SearchContentWrapper>
           <ListItemHeading asChild consumeCss>

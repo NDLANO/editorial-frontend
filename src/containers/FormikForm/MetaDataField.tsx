@@ -9,13 +9,14 @@
 import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
-import { CheckLine } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons";
 import {
   ComboboxItem,
   ComboboxItemIndicator,
   ComboboxItemText,
   FieldErrorMessage,
   FieldHelper,
+  FieldLabel,
   FieldRoot,
   Input,
   RadioGroupItem,
@@ -25,13 +26,15 @@ import {
   RadioGroupLabel,
   RadioGroupRoot,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { MetaImageSearch } from ".";
+import { FieldWarning } from "../../components/Form/FieldWarning";
+import { FormRemainingCharacters } from "../../components/Form/FormRemainingCharacters";
 import { SearchTagsContent } from "../../components/Form/SearchTagsContent";
 import { SearchTagsTagSelectorInput } from "../../components/Form/SearchTagsTagSelectorInput";
 import { FormField } from "../../components/FormField";
-import FormikField from "../../components/FormikField";
 import { FormContent } from "../../components/FormikForm";
 import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
@@ -39,6 +42,12 @@ import { DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useDraftSearchTags } from "../../modules/draft/draftQueries";
 import useDebounce from "../../util/useDebounce";
 import { useSession } from "../Session/SessionProvider";
+
+const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
+  base: {
+    marginInlineStart: "auto",
+  },
+});
 
 interface Props {
   articleLanguage: string;
@@ -107,7 +116,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
           </FieldRoot>
         )}
       </FormField>
-      {userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
+      {!!userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
         <FormField name="availability">
           {({ field, helpers }) => (
             <FieldRoot>
@@ -129,30 +138,38 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
           )}
         </FormField>
       )}
-      <FormikField
-        name="metaDescription"
-        maxLength={155}
-        showMaxLength
-        label={t("form.metaDescription.label")}
-        description={t("form.metaDescription.description")}
-      >
-        {({ field }) => (
-          <PlainTextEditor id={field.name} placeholder={t("form.metaDescription.label")} {...field} plugins={plugins} />
+      <FormField name="metaDescription">
+        {({ field, meta }) => (
+          <FieldRoot invalid={!!meta.error}>
+            <FieldLabel>{t("form.metaDescription.label")}</FieldLabel>
+            <FieldHelper>{t("form.metaDescription.description")}</FieldHelper>
+            <PlainTextEditor
+              id={field.name}
+              placeholder={t("form.metaDescription.label")}
+              {...field}
+              plugins={plugins}
+            />
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+            <StyledFormRemainingCharacters maxLength={155} value={field.value} />
+            <FieldWarning name={field.name} />
+          </FieldRoot>
         )}
-      </FormikField>
-      <FormikField name="metaImageId">
-        {({ field, form }) => (
-          <MetaImageSearch
-            metaImageId={field.value}
-            setFieldTouched={form.setFieldTouched}
-            showRemoveButton={false}
-            showCheckbox={showCheckbox}
-            checkboxAction={checkboxAction}
-            language={articleLanguage}
-            {...field}
-          />
+      </FormField>
+      <FormField name="metaImageId">
+        {({ field, meta }) => (
+          <FieldRoot invalid={!!meta.error}>
+            <MetaImageSearch
+              metaImageId={field.value}
+              showRemoveButton={false}
+              showCheckbox={!!showCheckbox}
+              checkboxAction={checkboxAction}
+              language={articleLanguage}
+              {...field}
+            />
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          </FieldRoot>
         )}
-      </FormikField>
+      </FormField>
     </FormContent>
   );
 };

@@ -9,7 +9,7 @@
 import { Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { CheckLine } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons";
 import {
   Button,
   CheckboxControl,
@@ -176,7 +176,12 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
             <Button variant="secondary" onClick={onCancel}>
               {t("cancel")}
             </Button>
-            <Button disabled={!dirty || !isValid} type="submit" onClick={() => handleSubmit()}>
+            <Button
+              disabled={!dirty || !isValid}
+              type="submit"
+              onClick={() => handleSubmit()}
+              data-testid="grid-form-save-button"
+            >
               {t("save")}
             </Button>
           </FormActionsContainer>

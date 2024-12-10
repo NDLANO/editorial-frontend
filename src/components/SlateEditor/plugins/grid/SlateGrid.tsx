@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { PencilFill } from "@ndla/icons/action";
+import { PencilFill } from "@ndla/icons";
 import {
   DialogBody,
   DialogContent,

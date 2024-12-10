@@ -44,7 +44,8 @@ export const linkBlockListSerializer: SlateSerializer = {
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node) || node.type !== TYPE_LINK_BLOCK_LIST) return;
-    return <nav data-type={TYPE_LINK_BLOCK_LIST}>{node.data?.map((child) => createEmbedTagV2(child))}</nav>;
+    const children = node.data?.map((child) => createEmbedTagV2(child, undefined, child.url));
+    return <nav data-type={TYPE_LINK_BLOCK_LIST}>{children}</nav>;
   },
 };
 

@@ -11,7 +11,7 @@ import parseISO from "date-fns/parseISO";
 
 const NORWEGIAN_FORMAT = "dd.MM.yyyy";
 
-export default function formatDate(date: string | number): string {
+export default function formatDate(date: string | number | undefined): string {
   if (!date) return "";
 
   if (typeof date === "string") {

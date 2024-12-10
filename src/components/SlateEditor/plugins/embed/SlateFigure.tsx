@@ -10,9 +10,12 @@ import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { RenderElementProps, ReactEditor } from "slate-react";
+import { ErrorWarningLine } from "@ndla/icons";
+import { MessageBox } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { EmbedElements } from ".";
 import { isSlateEmbed } from "./utils";
-import EditorErrorMessage from "../../EditorErrorMessage";
+import DeleteButton from "../../../DeleteButton";
 
 interface Props {
   attributes: RenderElementProps["attributes"];
@@ -20,6 +23,18 @@ interface Props {
   element: EmbedElements;
   children: ReactNode;
 }
+
+const StyledMessageBox = styled(MessageBox, {
+  base: {
+    position: "relative",
+  },
+});
+
+const StyledDeleteButton = styled(DeleteButton, {
+  base: {
+    alignSelf: "flex-end",
+  },
+});
 
 const SlateFigure = ({ attributes, editor, element, children }: Props) => {
   const embed = element.data;
@@ -36,25 +51,16 @@ const SlateFigure = ({ attributes, editor, element, children }: Props) => {
     });
   };
 
-  switch (embed?.resource) {
-    case "error":
-      return (
-        <EditorErrorMessage onRemoveClick={onRemoveClick} attributes={attributes} msg={embed.message}>
-          {children}
-        </EditorErrorMessage>
-      );
-    default:
-      return (
-        <EditorErrorMessage
-          attributes={attributes}
-          msg={t("form.content.figure.notSupported", {
-            mediaType: embed?.resource,
-          })}
-        >
-          {children}
-        </EditorErrorMessage>
-      );
-  }
+  return (
+    <StyledMessageBox variant="error" {...attributes} contentEditable={false}>
+      <ErrorWarningLine />
+      {embed?.resource === "error"
+        ? embed.message
+        : t("form.content.figure.notSupported", { mediaType: embed?.resource })}
+      {children}
+      {embed?.resource === "error" && <StyledDeleteButton aria-label={t("form.remove")} onClick={onRemoveClick} />}
+    </StyledMessageBox>
+  );
 };
 
 export default SlateFigure;

@@ -7,7 +7,8 @@
  */
 
 import isEmpty from "lodash/isEmpty";
-import { Descendant, Editor, Element, Node, Text, Transforms } from "slate";
+import type { JSX } from "react";
+import { Descendant, Editor, Element, Node, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_SPAN } from "./types";
 import { createProps, reduceElementDataAttributes } from "../../../../util/embedTagHelpers";
@@ -27,6 +28,7 @@ export interface SpanElement {
   type: "span";
   data: {
     lang?: string;
+    dir?: string;
     "data-size"?: string;
   };
   children: Descendant[];
@@ -61,6 +63,7 @@ export const spanSerializer: SlateSerializer = {
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node) || node.type !== TYPE_SPAN) return;
     if (!Object.keys(node.data ?? {}).length) {
+      // eslint-disable-next-line react/jsx-no-useless-fragment
       return <>{children}</>;
     }
 

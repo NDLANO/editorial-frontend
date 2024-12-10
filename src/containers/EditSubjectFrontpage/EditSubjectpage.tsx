@@ -8,9 +8,10 @@
 
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { PageContainer } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
 import SubjectpageForm from "./components/SubjectpageForm";
-import Spinner from "../../components/Spinner";
+import { PageSpinner } from "../../components/PageSpinner";
 import { LocaleType } from "../../interfaces";
 import { useFetchSubjectpageData } from "../FormikForm/formikSubjectpageHooks";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
@@ -35,21 +36,23 @@ const EditSubjectpage = ({ isNewlyCreated }: Props) => {
   }
 
   if (loading || !subjectpage || !subjectpage.id) {
-    return <Spinner withWrapper />;
+    return <PageSpinner />;
   }
 
   return (
-    <>
-      <HelmetWithTracker title={`${subjectpage?.about?.title} ${t("htmlTitles.titleTemplate")}`} />
-      <SubjectpageForm
-        editorsChoices={editorsChoices}
-        elementId={elementId!}
-        subjectpage={subjectpage}
-        selectedLanguage={selectedLanguage!}
-        updateSubjectpage={updateSubjectpage}
-        isNewlyCreated={isNewlyCreated}
-      />
-    </>
+    <PageContainer asChild consumeCss>
+      <main>
+        <HelmetWithTracker title={`${subjectpage?.about?.title} ${t("htmlTitles.titleTemplate")}`} />
+        <SubjectpageForm
+          editorsChoices={editorsChoices}
+          elementId={elementId!}
+          subjectpage={subjectpage}
+          selectedLanguage={selectedLanguage!}
+          updateSubjectpage={updateSubjectpage}
+          isNewlyCreated={isNewlyCreated}
+        />
+      </main>
+    </PageContainer>
   );
 };
 

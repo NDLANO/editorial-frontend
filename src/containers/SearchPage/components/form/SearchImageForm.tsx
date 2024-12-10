@@ -7,18 +7,30 @@
  */
 
 import { TFunction } from "i18next";
-import { useEffect, useState, MouseEvent } from "react";
-
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IUserData } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
-import GenericSearchForm, { OnFieldChangeFunction } from "./GenericSearchForm";
-import { SearchParams } from "./SearchForm";
-import { SearchFormSelector } from "./Selector";
+import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
+import SearchHeader from "../../../../components/Form/SearchHeader";
+import SearchTagGroup, { Filters } from "../../../../components/Form/SearchTagGroup";
+import { getTagName } from "../../../../components/Form/utils";
+import ObjectSelector from "../../../../components/ObjectSelector";
+import { OnFieldChangeFunction, SearchParams } from "../../../../interfaces";
 import { useLicenses } from "../../../../modules/draft/draftQueries";
-import { getTagName } from "../../../../util/formHelper";
 import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
+
+const StyledForm = styled("form", {
+  base: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, 1fr)",
+    gridGap: "3xsmall",
+    alignItems: "center",
+  },
+});
 
 interface Props {
   search: (o: SearchParams) => void;
@@ -69,51 +81,66 @@ const SearchImageForm = ({
 
   const handleSearch = () => search({ ...searchObject, page: 1, query: queryInput });
 
-  const removeTagItem = (tag: SearchFormSelector) => {
-    if (tag.parameterName === "query") setQueryInput("");
-    search({ ...searchObject, [tag.parameterName]: "" });
+  const removeTagItem = (parameterName: keyof SearchParams) => {
+    if (parameterName === "query") setQueryInput("");
+    search({ ...searchObject, [parameterName]: "" });
   };
 
-  const emptySearch = (evt: MouseEvent<HTMLButtonElement>) => {
-    evt.persist();
+  const emptySearch = () => {
     setQueryInput("");
     search({ query: "", language: "", license: "", "model-released": "" });
   };
 
-  const selectors: SearchFormSelector[] = [
-    {
-      parameterName: "license",
-      value: getTagName(searchObject.license, licenses),
-      options: licenses ?? [],
-      formElementType: "dropdown",
-    },
-    {
-      parameterName: "model-released",
-      value: getTagName(searchObject["model-released"], getModelReleasedValues(t)),
-      options: getModelReleasedValues(t),
-      formElementType: "dropdown",
-    },
-    {
-      parameterName: "language",
-      value: getTagName(searchObject.language, getResourceLanguages(t)),
-      options: getResourceLanguages(t),
-      width: 25,
-      formElementType: "dropdown",
-    },
-  ];
+  const filters: Filters = {
+    query: searchObject.query,
+    license: getTagName(searchObject["license"], licenses),
+    "model-released": getTagName(searchObject["model-released"], getModelReleasedValues(t)),
+    language: searchObject.language,
+  };
 
   return (
-    <GenericSearchForm
-      type="image"
-      selectors={selectors}
-      query={queryInput}
-      onSubmit={handleSearch}
-      searchObject={searchObject}
-      onFieldChange={onFieldChange}
-      emptySearch={emptySearch}
-      removeTag={removeTagItem}
-      userData={userData}
-    />
+    <>
+      <SearchHeader type="image" filters={filters} userData={userData} />
+      <StyledForm
+        onSubmit={(e) => {
+          handleSearch();
+          e.preventDefault();
+        }}
+      >
+        <FieldRoot>
+          <FieldLabel srOnly>{t("searchForm.types.imageQuery")}</FieldLabel>
+          <FieldInput
+            name="query"
+            placeholder={t("searchForm.types.imageQuery")}
+            value={queryInput}
+            onChange={(e) => setQueryInput(e.currentTarget.value)}
+          />
+        </FieldRoot>
+        <ObjectSelector
+          name="license"
+          value={searchObject.license ?? ""}
+          options={licenses ?? []}
+          onChange={(value) => onFieldChange("license", value)}
+          placeholder={t("searchForm.types.license")}
+        />
+        <ObjectSelector
+          name="model-released"
+          value={searchObject["model-released"] ?? ""}
+          options={getModelReleasedValues(t)}
+          onChange={(value) => onFieldChange("model-released", value)}
+          placeholder={t("searchForm.types.model-released")}
+        />
+        <ObjectSelector
+          name="language"
+          value={searchObject.language ?? ""}
+          options={getResourceLanguages(t)}
+          onChange={(value) => onFieldChange("language", value)}
+          placeholder={t("searchForm.types.language")}
+        />
+        <SearchControlButtons reset={emptySearch} />
+      </StyledForm>
+      <SearchTagGroup onRemoveTag={removeTagItem} tags={filters} />
+    </>
   );
 };
 

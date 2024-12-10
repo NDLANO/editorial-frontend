@@ -15,14 +15,12 @@ import { IArticle, IUpdatedArticle, IStatus } from "@ndla/types-backend/draft-ap
 import { Node } from "@ndla/types-taxonomy";
 import LearningResourcePanels from "./LearningResourcePanels";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
-import { FormActionsContainer } from "../../../../components/FormikForm";
+import { Form, FormActionsContainer } from "../../../../components/FormikForm";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
-import StyledForm from "../../../../components/StyledFormComponents";
 import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
-import { validateDraft } from "../../../../modules/draft/draftApi";
-import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
+import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { isFormikFormDirty, learningResourceRules } from "../../../../util/formHelper";
 import { AlertDialogWrapper } from "../../../FormikForm";
 import { HandleSubmitFunc, LearningResourceFormType, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
@@ -123,7 +121,7 @@ const LearningResourceForm = ({
       validate={validate}
       initialStatus={initialWarnings}
     >
-      <StyledForm>
+      <Form>
         <HeaderWithLanguage
           id={article?.id}
           language={articleLanguage}
@@ -169,7 +167,7 @@ const LearningResourceForm = ({
             </Button>
           </FormActionsContainer>
         </AlertDialog>
-      </StyledForm>
+      </Form>
     </Formik>
   );
 };
@@ -182,9 +180,14 @@ interface FormFooterProps {
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
 }
 
-const _FormFooter = ({ articleChanged, article, isNewlyCreated, savedToServer, handleSubmit }: FormFooterProps) => {
+const InternalFormFooter = ({
+  articleChanged,
+  article,
+  isNewlyCreated,
+  savedToServer,
+  handleSubmit,
+}: FormFooterProps) => {
   const { t } = useTranslation();
-  const { data: licenses } = useLicenses();
   const statusStateMachine = useDraftStatusStateMachine({
     articleId: article?.id,
   });
@@ -207,13 +210,6 @@ const _FormFooter = ({ articleChanged, article, isNewlyCreated, savedToServer, h
     [handleSubmit, values, formik],
   );
 
-  const validateOnServer = useCallback(async () => {
-    if (!values.id) return;
-    const article = learningResourceFormTypeToDraftApiType(values, initialValues, licenses!, false);
-    const data = await validateDraft(values.id, article);
-    return data;
-  }, [initialValues, licenses, values]);
-
   usePreventWindowUnload(formIsDirty);
 
   return (
@@ -225,7 +221,6 @@ const _FormFooter = ({ articleChanged, article, isNewlyCreated, savedToServer, h
         onSaveClick={onSave}
         entityStatus={article?.status}
         statusStateMachine={statusStateMachine.data}
-        validateEntity={validateOnServer}
         isArticle
         isNewlyCreated={isNewlyCreated}
         isConcept={false}
@@ -246,6 +241,6 @@ const _FormFooter = ({ articleChanged, article, isNewlyCreated, savedToServer, h
   );
 };
 
-const FormFooter = memo(_FormFooter);
+const FormFooter = memo(InternalFormFooter);
 
 export default LearningResourceForm;

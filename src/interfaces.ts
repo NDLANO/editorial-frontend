@@ -10,6 +10,8 @@ import { IAudioMetaInformation } from "@ndla/types-backend/audio-api";
 import { IArticle, IRelatedContentLink } from "@ndla/types-backend/draft-api";
 import { AudioEmbedData, BrightcoveEmbedData, H5pEmbedData, ImageEmbedData } from "@ndla/types-embed";
 import { SearchTypeValues, LOCALE_VALUES } from "./constants";
+import { FormEvent } from "react";
+import { DateChangedEvent } from "./containers/FormikForm/components/InlineDatePicker";
 
 export interface FormikStatus {
   status?: string;
@@ -35,27 +37,6 @@ export type LocaleType = (typeof LOCALE_VALUES)[number];
 export type PartialRecord<K extends keyof any, T> = {
   [P in K]?: T;
 };
-
-export type EditMode =
-  | "changeSubjectName"
-  | "deleteTopic"
-  | "addExistingSubjectTopic"
-  | "openCustomFields"
-  | "toggleMetadataVisibility"
-  | "editGrepCodes"
-  | "moveExistingNode"
-  | "addTopic"
-  | "deleteSubject"
-  | "requestPublish"
-  | "deleteNode"
-  | "disconnectFromParent"
-  | "copyResources"
-  | "cloneResources"
-  | "copyRevisionDate"
-  | "swapTopicArticle"
-  | "setResourcesPrimary"
-  | "connectExistingNode"
-  | "";
 
 export interface SearchResultBase<T> {
   totalCount: number;
@@ -189,3 +170,37 @@ interface ApiTranslateTypeArray extends BaseApiTranslateType {
 }
 
 export type ApiTranslateType = ApiTranslateTypeSingle | ApiTranslateTypeArray;
+
+type FormEvents = FormEvent<HTMLInputElement> | FormEvent<HTMLSelectElement>;
+type FieldChangedEvent = FormEvents | DateChangedEvent;
+
+export type OnFieldChangeFunction = <T extends keyof SearchParams>(
+  name: T,
+  value: SearchParams[T],
+  event?: FieldChangedEvent,
+) => void;
+
+export interface SearchParams {
+  query?: string;
+  "draft-status"?: string;
+  "include-other-statuses"?: boolean;
+  "resource-types"?: string;
+  "article-types"?: string;
+  "audio-type"?: string;
+  fallback?: boolean;
+  language?: string;
+  page?: number;
+  "page-size"?: number;
+  status?: string;
+  subjects?: string;
+  users?: string;
+  sort?: string;
+  license?: string;
+  "model-released"?: string;
+  "revision-date-from"?: string;
+  "revision-date-to"?: string;
+  "exclude-revision-log"?: boolean | undefined;
+  "responsible-ids"?: string;
+  "concept-type"?: string;
+  "filter-inactive"?: boolean;
+}

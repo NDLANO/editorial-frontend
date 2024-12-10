@@ -7,13 +7,14 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { ErrorWarningFill } from "@ndla/icons/common";
+import { ErrorWarningFill } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild } from "@ndla/types-taxonomy";
 import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
   base: {
+    // TODO: update this color once icon error color is added to semantic tokens
     fill: "surface.danger",
   },
 });

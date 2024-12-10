@@ -6,12 +6,12 @@
  *
  */
 
-import { Descendant, Editor, Element, Node, Transforms, Range } from "slate";
+import type { JSX } from "react";
+import { Descendant, Editor, Element, Node, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_COMMENT_INLINE } from "./types";
 import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../../interfaces";
-import hasNodeOfType from "../../../utils/hasNodeOfType";
 import { TYPE_NDLA_EMBED } from "../../embed/types";
 
 export const commentInlineSerializer: SlateSerializer = {
@@ -32,7 +32,7 @@ export const commentInlineSerializer: SlateSerializer = {
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node) || node.type !== TYPE_COMMENT_INLINE || !node.data) return;
-    return createEmbedTagV2(node.data, children);
+    return createEmbedTagV2(node.data, children, undefined);
   },
 };
 

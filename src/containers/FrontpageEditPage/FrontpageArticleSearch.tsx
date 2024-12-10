@@ -19,6 +19,7 @@ import {
   PopoverRoot,
   PopoverTrigger,
   Text,
+  ComboboxList,
 } from "@ndla/primitives";
 import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
 import { useComboboxTranslations } from "@ndla/ui";
@@ -43,7 +44,7 @@ const FrontpageArticleSearch = ({ articleId, children, onChange }: Props) => {
   const comboboxTranslations = useComboboxTranslations();
 
   const articleQuery = useArticleSearch(
-    { articleTypes: ["frontpage-article"], page, query: delayedQuery },
+    { articleTypes: ["frontpage-article"], license: "all", page, query: delayedQuery },
     { placeholderData: (prev) => prev },
   );
 
@@ -87,30 +88,35 @@ const FrontpageArticleSearch = ({ articleId, children, onChange }: Props) => {
         >
           <ComboboxLabel>{articleId ? t("frontpageForm.changeArticle") : t("frontpageForm.addArticle")}</ComboboxLabel>
           <GenericComboboxInput isFetching={articleQuery.isFetching} />
-          {!!articleQuery.data?.results.length && (
-            <ComboboxContent>
-              {articleQuery.data.results.map((article) => (
-                <ComboboxItem key={article.id} item={article} asChild>
-                  <GenericComboboxItemContent
-                    title={article.title.title}
-                    image={article.metaImage}
-                    description={article.metaDescription?.metaDescription}
-                    useFallbackImage
-                  />
-                </ComboboxItem>
-              ))}
-            </ComboboxContent>
-          )}
-          {articleQuery.isSuccess && <Text>{t("dropdown.numberHits", { hits: articleQuery.data.totalCount })}</Text>}
-          {!!articleQuery.data && articleQuery.data.totalCount > articleQuery.data.pageSize && (
-            <Pagination
-              count={articleQuery.data.totalCount}
-              pageSize={articleQuery.data.pageSize}
-              page={page}
-              onPageChange={(details) => setPage(details.page)}
-              buttonSize="small"
-            />
-          )}
+          <ComboboxContent>
+            {!!articleQuery.data?.results.length && (
+              <ComboboxList>
+                {articleQuery.data.results.map((article) => (
+                  <ComboboxItem key={article.id} item={article} asChild>
+                    <GenericComboboxItemContent
+                      title={article.title.title}
+                      image={article.metaImage}
+                      description={article.metaDescription?.metaDescription}
+                      useFallbackImage
+                      nonInteractive={selectedValues.includes(article.id.toString())}
+                    />
+                  </ComboboxItem>
+                ))}
+              </ComboboxList>
+            )}
+            {!!articleQuery.isSuccess && (
+              <Text>{t("dropdown.numberHits", { hits: articleQuery.data.totalCount })}</Text>
+            )}
+            {!!articleQuery.data && articleQuery.data.totalCount > articleQuery.data.pageSize && (
+              <Pagination
+                count={articleQuery.data.totalCount}
+                pageSize={articleQuery.data.pageSize}
+                page={page}
+                onPageChange={(details) => setPage(details.page)}
+                buttonSize="small"
+              />
+            )}
+          </ComboboxContent>
         </ComboboxRoot>
       </PopoverContent>
     </PopoverRoot>

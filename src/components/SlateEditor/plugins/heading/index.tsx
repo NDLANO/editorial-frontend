@@ -6,8 +6,8 @@
  *
  */
 
-import { createElement } from "react";
-import { Descendant, Text, Editor, Element, Transforms, Range, Node, Path, NodeEntry } from "slate";
+import { createElement, type JSX } from "react";
+import { Descendant, Text, Editor, Element, Transforms, Range, Node, Path } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_HEADING } from "./types";
 import { SlateSerializer } from "../../interfaces";
@@ -62,7 +62,7 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: Keybo
 
   if (!entry) return nextOnKeyDown?.(e);
 
-  const [_currentHeading, currentHeadingPath] = entry;
+  const [, currentHeadingPath] = entry;
   e.preventDefault();
 
   if (

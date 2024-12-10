@@ -6,16 +6,23 @@
  *
  */
 
-import { FieldProps } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
-import { Spinner } from "@ndla/primitives";
-import FormikField from "../../../components/FormikField";
+import { FieldErrorMessage, FieldLabel, FieldRoot, Spinner } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { FieldWarning } from "../../../components/Form/FieldWarning";
+import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
+import { FormField } from "../../../components/FormField";
+import { FormContent } from "../../../components/FormikForm";
 import PlainTextEditor from "../../../components/SlateEditor/PlainTextEditor";
 import { TitleField } from "../../FormikForm";
 import VisualElementField from "../../FormikForm/components/VisualElementField";
 
+const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
+  base: {
+    marginInlineStart: "auto",
+  },
+});
 interface Props {
   selectedLanguage?: string;
 }
@@ -33,20 +40,21 @@ const SubjectpageAbout = ({ selectedLanguage }: Props) => {
     return <Spinner />;
   }
   return (
-    <>
+    <FormContent>
       <TitleField hideToolbar />
-      <FormikField noBorder label={t("subjectpageForm.description")} name="description" showMaxLength maxLength={300}>
-        {({ field, form: { isSubmitting } }: FieldProps<Descendant[]>) => (
-          <PlainTextEditor
-            id={field.name}
-            {...field}
-            submitted={isSubmitting}
-            placeholder={t("subjectpageForm.description")}
-          />
+      <FormField name="description">
+        {({ field, meta }) => (
+          <FieldRoot invalid={!!meta.error}>
+            <FieldLabel srOnly>{t("subjectpageForm.description")}</FieldLabel>
+            <PlainTextEditor id={field.name} placeholder={t("subjectpageForm.description")} {...field} />
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+            <StyledFormRemainingCharacters maxLength={300} value={field.value} />
+            <FieldWarning name={field.name} />
+          </FieldRoot>
         )}
-      </FormikField>
+      </FormField>
       <VisualElementField types={["image", "video"]} />
-    </>
+    </FormContent>
   );
 };
 

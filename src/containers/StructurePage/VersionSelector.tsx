@@ -56,7 +56,7 @@ const VersionSelector = () => {
   const { data } = useVersions();
   const qc = useQueryClient();
 
-  if (!data) return <></>;
+  if (!data) return null;
   const currentVersion = data.find((version) => version.hash === taxonomyVersion);
 
   const onVersionChanged = (newVersionHash: string) => {

@@ -9,23 +9,16 @@
 import keyBy from "lodash/keyBy";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
-import { Spinner } from "@ndla/primitives";
+import { Spinner, Text } from "@ndla/primitives";
 import { IAudioSummary, ISeriesSummary } from "@ndla/types-backend/audio-api";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
 import SearchResult, { SearchResultReturnType } from "./SearchResult";
-import { LocaleType, SearchType } from "../../../../interfaces";
+import { LocaleType, SearchParams, SearchType } from "../../../../interfaces";
 import { useAuth0Users } from "../../../../modules/auth0/auth0Queries";
 import { ResultType } from "../../SearchContainer";
-import { SearchParams } from "../form/SearchForm";
-
-const StyledSearchError = styled.p`
-  color: ${colors.support.red};
-`;
 
 export type ResultSummaryType =
   | IImageMetaInformationV3
@@ -68,8 +61,8 @@ const SearchList = ({ results, searchObject, type, searching = true, locale, sub
   }, [auth0Responsibles.data]);
 
   if (searching) return <Spinner />;
-  if (error) return <StyledSearchError>{t("searchForm.error")}</StyledSearchError>;
-  if (results.length === 0) return <p>{t(`searchPage.${type}NoHits`, { query: searchObject.query ?? "" })}</p>;
+  if (error) return <Text color="text.error">{t("searchForm.error")}</Text>;
+  if (results.length === 0) return <Text>{t(`searchPage.${type}NoHits`, { query: searchObject.query ?? "" })}</Text>;
   return (
     <div>
       {toResultReturnType(results, type).map((result) => {

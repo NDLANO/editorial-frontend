@@ -55,7 +55,7 @@ describe("diffField", () => {
 
     const expected2: DiffResult<number> = {
       diffType: "ADDED",
-      //@ts-ignore
+      //@ts-expect-error - This is expected. We're testing undefined behavior
       original: null,
       other: 3,
     };
@@ -75,7 +75,7 @@ describe("diffField", () => {
     const expected2: DiffResult<number[]> = {
       diffType: "DELETED",
       original: [1, 2, 3],
-      //@ts-ignore
+      //@ts-expect-error - This is expected. We're testing undefined behavior
       other: null,
     };
     const res2 = diffField([1, 2, 3], null, undefined);
@@ -114,7 +114,7 @@ describe("diffField", () => {
     const expected1: DiffResult<number[]> = {
       diffType: "NONE",
       original: undefined,
-      //@ts-ignore
+      //@ts-expect-error - This is expected. We're testing undefined behavior
       other: null,
     };
     const res1 = diffField(undefined, null, undefined);
@@ -122,7 +122,7 @@ describe("diffField", () => {
 
     const expected2: DiffResult<number[]> = {
       diffType: "NONE",
-      //@ts-ignore
+      //@ts-expect-error - This is expected. We're testing undefined behavior
       original: null,
       other: undefined,
     };

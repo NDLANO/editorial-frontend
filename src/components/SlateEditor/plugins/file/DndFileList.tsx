@@ -8,7 +8,7 @@
 
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DragVertical } from "@ndla/icons/editor";
+import { Draggable } from "@ndla/icons";
 import { SlateFile } from "./SlateFile";
 import { File as FileType } from "../../../../interfaces";
 import DndList from "../../../DndList";
@@ -43,7 +43,7 @@ const DndFileList = ({ files, onEditFileList, onDeleteFile, missingFilePaths = [
       }}
       dragHandle={
         <DragHandle aria-label={t("form.file.changeOrder")} title={t("form.file.changeOrder")}>
-          <DragVertical />
+          <Draggable />
         </DragHandle>
       }
       renderItem={({ id: _, ...rest }, index) => (

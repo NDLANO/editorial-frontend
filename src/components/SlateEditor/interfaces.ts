@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import { JSX } from "react";
 import { Editor, Descendant, BaseEditor, NodeEntry, BaseRange, BaseSelection, Node, Element } from "slate";
 import { HistoryEditor } from "slate-history";
 import { ReactEditor, RenderElementProps, RenderLeafProps } from "slate-react";

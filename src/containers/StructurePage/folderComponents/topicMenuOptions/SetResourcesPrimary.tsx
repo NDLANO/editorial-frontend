@@ -6,72 +6,73 @@
  *
  */
 
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { PencilFill } from "@ndla/icons/action";
-import { Button } from "@ndla/primitives";
+import { ErrorWarningLine, CheckLine } from "@ndla/icons";
+import { Button, Heading, MessageBox, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
-import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
-import { FormActionsContainer } from "../../../../components/FormikForm";
-import Overlay from "../../../../components/Overlay";
-import RoundIcon from "../../../../components/RoundIcon";
-import Spinner from "../../../../components/Spinner";
 import { usePutResourcesPrimaryMutation } from "../../../../modules/nodes/nodeMutations";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
-import { EditModeHandler } from "../SettingsMenuDropdownType";
-import MenuItemButton from "../sharedMenuOptions/components/MenuItemButton";
-import { StyledErrorMessage } from "../styles";
+
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+  },
+});
+
+const StyledButton = styled(Button, {
+  base: {
+    alignSelf: "flex-end",
+  },
+});
+const StyledCheckLine = styled(CheckLine, {
+  base: { fill: "stroke.success" },
+});
+
+const StatusIndicatorContent = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    alignItems: "center",
+  },
+});
 
 interface Props {
   node: Node;
   recursive?: boolean;
-  editModeHandler: EditModeHandler;
 }
 
-const SetResourcesPrimary = ({ node, recursive = false, editModeHandler: { editMode, toggleEditMode } }: Props) => {
+const SetResourcesPrimary = ({ node, recursive = false }: Props) => {
   const { t } = useTranslation();
-  const [error, setError] = useState<string>();
-  const { mutateAsync, isPending } = usePutResourcesPrimaryMutation();
+  const { mutateAsync, isPending, isError, isSuccess } = usePutResourcesPrimaryMutation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const toggleConnectedResourcesPrimary = () => toggleEditMode("setResourcesPrimary");
-
   const setConnectedResourcesPrimary = async () => {
-    setError(undefined);
-    toggleConnectedResourcesPrimary();
-
-    await mutateAsync(
-      { taxonomyVersion, id: node.id, recursive },
-      { onError: () => setError(t("taxonomy.resourcesPrimary.error")) },
-    );
+    await mutateAsync({ taxonomyVersion, id: node.id, recursive });
   };
 
   return (
-    <>
-      <MenuItemButton onClick={toggleConnectedResourcesPrimary}>
-        <RoundIcon small icon={<PencilFill />} />
-        {recursive ? t("taxonomy.resourcesPrimary.recursiveButtonText") : t("taxonomy.resourcesPrimary.buttonText")}
-      </MenuItemButton>
-      <AlertDialog
-        title={t("taxonomy.resourcesPrimary.buttonText")}
-        label={t("taxonomy.resourcesPrimary.buttonText")}
-        show={editMode === "setResourcesPrimary"}
-        text={recursive ? t("taxonomy.resourcesPrimary.recursiveText") : t("taxonomy.resourcesPrimary.text")}
-        onCancel={toggleConnectedResourcesPrimary}
-      >
-        <FormActionsContainer>
-          <Button onClick={toggleConnectedResourcesPrimary} variant="danger">
-            {t("form.abort")}
-          </Button>
-          <Button onClick={setConnectedResourcesPrimary} variant="secondary">
-            {t("alertModal.continue")}
-          </Button>
-        </FormActionsContainer>
-      </AlertDialog>
-      {isPending && <Spinner appearance="absolute" />}
-      {isPending && <Overlay modifiers={["absolute", "white-opacity", "zIndex"]} />}
-      {error && <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>}
-    </>
+    <Wrapper>
+      <Heading consumeCss asChild textStyle="label.medium" fontWeight="bold">
+        <h2>{t("taxonomy.resourcesPrimary.recursiveButtonText")}</h2>
+      </Heading>
+      <MessageBox variant="warning">
+        <ErrorWarningLine />
+        <Text>{recursive ? t("taxonomy.resourcesPrimary.recursiveText") : t("taxonomy.resourcesPrimary.text")}</Text>
+      </MessageBox>
+      <StyledButton onClick={setConnectedResourcesPrimary} loading={isPending}>
+        {t("alertModal.continue")}
+      </StyledButton>
+      {!!isSuccess && (
+        <StatusIndicatorContent>
+          <StyledCheckLine />
+          <Text>{t("taxonomy.resourcesPrimary.success")}</Text>
+        </StatusIndicatorContent>
+      )}
+      {!!isError && <Text color="text.error">{t("taxonomy.resourcesPrimary.error")}</Text>}
+    </Wrapper>
   );
 };
 

@@ -10,11 +10,9 @@ import { MouseEvent, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Range } from "slate";
 import { ReactEditor } from "slate-react";
-import styled from "@emotion/styled";
-import { colors, fonts, stackOrder } from "@ndla/core";
-import { Minus, AddLine } from "@ndla/icons/action";
-import { AlignCenter, AlignLeft, AlignRight } from "@ndla/icons/editor";
-import { Button, IconButton } from "@ndla/primitives";
+import { SubtractLine, AddLine, AlignCenter, AlignLeft, AlignRight } from "@ndla/icons";
+import { Button, IconButton, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import EditColgroupsModal from "./EditColgroupsModal";
 import { TableElement } from "./interfaces";
 import { alignColumn } from "./slateActions";
@@ -25,43 +23,58 @@ import { DRAFT_HTML_SCOPE } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
 import getCurrentBlock from "../../utils/getCurrentBlock";
 
-const StyledTableActions = styled.div`
-  background: ${colors.white};
-  box-shadow: 1px 1px 8px 1px ${colors.brand.greyLighter};
-  border-radius: 5px;
-  position: absolute;
-  bottom: -50px;
-  padding: 10px;
-`;
+const StyledTableActions = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "3xsmall",
+    background: "background.default",
+    boxShadow: "large",
+    borderRadius: "xsmall",
+    position: "absolute",
+    bottom: "-large",
+    padding: "xsmall",
+  },
+});
 
-const ActionGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, auto);
-  column-gap: 10px;
-  align-items: center;
-`;
+const ActionGrid = styled("div", {
+  base: {
+    display: "grid",
+    gridTemplateColumns: "repeat(3, auto)",
+    columnGap: "xsmall",
+    rowGap: "3xsmall",
+    alignItems: "center",
+  },
+});
 
-const ActionGroup = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
+const ActionGroup = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "5xsmall",
+  },
+});
 
-const StyledRightAlign = styled.div`
-  margin-left: auto;
-`;
+const StyledRightAlign = styled("div", {
+  base: {
+    marginInlineStart: "auto",
+  },
+});
 
-const StyledWrapper = styled.div`
-  display: ${(p: { show: boolean }) => (p.show ? "block;" : "none")};
-  position: relative;
-  z-index: ${stackOrder.offsetSingle};
-  user-select: none;
-`;
+const StyledWrapper = styled("div", {
+  base: {
+    position: "relative",
+    zIndex: "docked",
+    userSelect: "none",
+  },
+});
 
-const StyledRowTitle = styled.strong`
-  font-family: ${fonts.sans};
-  margin-left: auto;
-`;
+const StyledText = styled(Text, {
+  base: {
+    marginInlineStart: "auto",
+  },
+});
 
 interface TableIconButtonProps {
   operation: string;
@@ -75,7 +88,7 @@ const rowActions = [
     name: "row-add",
   },
   {
-    icon: <Minus />,
+    icon: <SubtractLine />,
     name: "row-remove",
   },
 ];
@@ -86,7 +99,7 @@ const columnActions = [
     name: "column-add",
   },
   {
-    icon: <Minus />,
+    icon: <SubtractLine />,
     name: "column-remove",
   },
   {
@@ -112,6 +125,7 @@ const TableIconButton = ({ operation, onClick, children }: TableIconButtonProps)
       type="button"
       data-testid={operation}
       aria-label={t(`form.content.table.${operation}`)}
+      title={t(`form.content.table.${operation}`)}
       onMouseDown={(e: MouseEvent<HTMLButtonElement>) => onClick(e, operation)}
     >
       {children}
@@ -188,12 +202,12 @@ const TableActions = ({ editor, element }: Props) => {
     ReactEditor.isFocused(editor);
 
   return (
-    <StyledWrapper contentEditable={false} show={show}>
+    <StyledWrapper contentEditable={false} hidden={!show}>
       <StyledTableActions>
-        {showEditColgroups && <EditColgroupsModal element={element} />}
+        {!!showEditColgroups && <EditColgroupsModal element={element} />}
         <ActionGrid>
           {/* Row 1 - Row actions */}
-          <StyledRowTitle>{`${t("form.content.table.row")}:`}</StyledRowTitle>
+          <StyledText textStyle="label.medium" fontWeight="bold">{`${t("form.content.table.row")}:`}</StyledText>
           <ActionGroup>
             {rowActions.map((action, idx) => (
               <TableIconButton key={idx} operation={action.name} onClick={handleOnClick}>
@@ -202,9 +216,10 @@ const TableActions = ({ editor, element }: Props) => {
             ))}
           </ActionGroup>
           <StyledRightAlign>
-            {showAddHeader && (
+            {!!showAddHeader && (
               <Button
                 data-testid="head-add"
+                size="small"
                 title={t(`form.content.table.addHeader`)}
                 onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, "head-add")}
               >
@@ -213,7 +228,7 @@ const TableActions = ({ editor, element }: Props) => {
             )}
           </StyledRightAlign>
           {/* Row 2  - Column actions*/}
-          <StyledRowTitle>{`${t("form.content.table.column")}:`}</StyledRowTitle>
+          <StyledText textStyle="label.medium" fontWeight="bold">{`${t("form.content.table.column")}:`}</StyledText>
           <ActionGroup>
             {columnActions.map((action, idx) => (
               <TableIconButton key={idx} operation={action.name} onClick={handleOnClick}>
@@ -222,11 +237,9 @@ const TableActions = ({ editor, element }: Props) => {
             ))}
           </ActionGroup>
           <Button
+            size="small"
             data-testid="toggle-row-headers"
             onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, "toggle-row-headers")}
-            aria-label={t(
-              `form.content.table.${isTable(table) && table.rowHeaders ? "disable-header" : "enable-header"}`,
-            )}
           >
             {t(`form.content.table.${isTable(table) && table.rowHeaders ? "disable-header" : "enable-header"}`)}
           </Button>

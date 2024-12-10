@@ -9,7 +9,7 @@
 import { ReactNode, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
-import { ErrorWarningLine } from "@ndla/icons/common";
+import { ErrorWarningLine } from "@ndla/icons";
 import {
   DialogRoot,
   DialogContent,
@@ -20,7 +20,6 @@ import {
   DialogHeader,
   DialogFooter,
 } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import { MessageSeverity } from "../../interfaces";
 import { DialogCloseButton } from "../DialogCloseButton";
 

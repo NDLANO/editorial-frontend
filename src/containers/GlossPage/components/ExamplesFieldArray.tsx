@@ -44,7 +44,7 @@ interface Props {
 }
 
 const ExamplesFieldArray = ({ name }: Props) => {
-  const [_, { value }] = useField<IGlossExample[][]>("examples");
+  const [, { value }] = useField<IGlossExample[][]>("examples");
   const [originalLanguageField] = useField("gloss.originalLanguage");
   const { t } = useTranslation();
 

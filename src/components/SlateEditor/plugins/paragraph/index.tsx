@@ -6,6 +6,7 @@
  *
  */
 
+import type { JSX } from "react";
 import { Editor, Node, Element, Descendant, Text, Path, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_PARAGRAPH } from "./types";
@@ -118,6 +119,7 @@ export const paragraphSerializer: SlateSerializer = {
     if (Node.string(node) === "" && node.children.length === 1 && Text.isText(node.children[0])) return null;
 
     if (node.serializeAsText) {
+      // eslint-disable-next-line react/jsx-no-useless-fragment
       return <>{children}</>;
     }
 

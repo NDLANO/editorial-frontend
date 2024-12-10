@@ -76,12 +76,12 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
   }, []);
 
   return (
-    <>
+    <div>
       <Heading asChild consumeCss textStyle="title.small">
         <h3>{title}</h3>
       </Heading>
       <DialogRoot open={showImageSelect} onOpenChange={(details) => setShowImageSelect(details.open)} size="large">
-        {image && (
+        {!!image && (
           <ImageWrapper>
             <img src={`${config.ndlaApiUrl}/image-api/raw/id/${image.id}`} alt={image.alttext.alttext} />
             <MetaInformation
@@ -118,7 +118,7 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
           </DialogBody>
         </DialogContent>
       </DialogRoot>
-    </>
+    </div>
   );
 };
 

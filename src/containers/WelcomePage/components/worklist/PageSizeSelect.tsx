@@ -8,8 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { createListCollection, SelectHiddenSelect } from "@ark-ui/react";
-import { ArrowDownShortLine } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
+import { ArrowDownShortLine, CheckLine } from "@ndla/icons";
 import {
   Button,
   SelectContent,
@@ -19,7 +18,6 @@ import {
   SelectItemIndicator,
   SelectItemText,
   SelectLabel,
-  SelectPositioner,
   SelectRoot,
   SelectTrigger,
   SelectValueText,
@@ -76,18 +74,16 @@ const PageSizeSelect = ({ pageSize, setPageSize }: Props) => {
           </Button>
         </StyledSelectTrigger>
       </SelectControl>
-      <SelectPositioner>
-        <SelectContent>
-          {collection.items.map((item) => (
-            <SelectItem item={item} key={item.value}>
-              <SelectItemText>{item.label}</SelectItemText>
-              <SelectItemIndicator asChild>
-                <CheckLine />
-              </SelectItemIndicator>
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </SelectPositioner>
+      <SelectContent>
+        {collection.items.map((item) => (
+          <SelectItem item={item} key={item.value}>
+            <SelectItemText>{item.label}</SelectItemText>
+            <SelectItemIndicator asChild>
+              <CheckLine />
+            </SelectItemIndicator>
+          </SelectItem>
+        ))}
+      </SelectContent>
       <SelectHiddenSelect />
     </SelectRoot>
   );

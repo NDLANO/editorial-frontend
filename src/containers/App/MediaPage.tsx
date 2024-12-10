@@ -14,14 +14,12 @@ import PodcastSeriesPage from "../PodcastSeries/PodcastSeriesPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const MediaPage = () => (
-  <>
-    <Routes>
-      <Route path="image-upload/*" element={<PrivateRoute component={<ImageUploaderPage />} />} />
-      <Route path="audio-upload/*" element={<PrivateRoute component={<AudioUploaderPage />} />} />
-      <Route path="podcast-upload/*" element={<PrivateRoute component={<PodcastUploaderPage />} />} />
-      <Route path="podcast-series/*" element={<PrivateRoute component={<PodcastSeriesPage />} />} />
-    </Routes>
-  </>
+  <Routes>
+    <Route path="image-upload/*" element={<PrivateRoute component={<ImageUploaderPage />} />} />
+    <Route path="audio-upload/*" element={<PrivateRoute component={<AudioUploaderPage />} />} />
+    <Route path="podcast-upload/*" element={<PrivateRoute component={<PodcastUploaderPage />} />} />
+    <Route path="podcast-series/*" element={<PrivateRoute component={<PodcastSeriesPage />} />} />
+  </Routes>
 );
 
 export default MediaPage;

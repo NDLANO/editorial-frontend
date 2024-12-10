@@ -7,20 +7,18 @@
  */
 
 import { useEffect, useState, ReactNode } from "react";
-import styled from "@emotion/styled";
-import { animations } from "@ndla/core";
+import { styled } from "@ndla/styled-system/jsx";
 
 type Props = {
   show?: boolean;
   children: ReactNode;
 };
 
-const StyledFade = styled.div`
-  ${animations.fadeInTop(animations.durations.fast)};
-  &[data-out="true"] {
-    ${animations.fadeOutTop(animations.durations.fast)};
-  }
-`;
+const StyledFade = styled("div", {
+  base: {
+    animation: "fade-shift-in 200ms",
+  },
+});
 
 const Fade = ({ show = true, children }: Props) => {
   const [shouldRender, setRender] = useState(true);

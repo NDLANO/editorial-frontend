@@ -6,10 +6,10 @@
  *
  */
 
-import { FieldInputProps, FormikHelpers } from "formik";
+import { FieldInputProps } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DragVertical } from "@ndla/icons/editor";
+import { Draggable } from "@ndla/icons";
 import { ComboboxLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
@@ -31,10 +31,9 @@ const StyledList = styled("ul", {
 
 interface Props {
   field: FieldInputProps<ArticleFormType["conceptIds"]>;
-  form: FormikHelpers<ArticleFormType>;
 }
 
-const ConceptsField = ({ field, form }: Props) => {
+const ConceptsField = ({ field }: Props) => {
   const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
   const { t, i18n } = useTranslation();
   const [concepts, setConcepts] = useState<IConceptSummary[]>([]);
@@ -64,7 +63,6 @@ const ConceptsField = ({ field, form }: Props) => {
   };
 
   const updateFormik = (formikField: Props["field"], newData: IConceptSummary[]) => {
-    form.setFieldTouched("conceptIds", true, false);
     formikField.onChange({
       target: {
         name: formikField.name,
@@ -110,7 +108,7 @@ const ConceptsField = ({ field, form }: Props) => {
           items={concepts}
           dragHandle={
             <DragHandle aria-label={t("form.relatedConcepts.changeOrder")}>
-              <DragVertical />
+              <Draggable />
             </DragHandle>
           }
           renderItem={(item, index) => (

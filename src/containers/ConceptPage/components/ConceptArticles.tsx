@@ -8,7 +8,7 @@
 
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import { DragVertical } from "@ndla/icons/editor";
+import { Draggable } from "@ndla/icons";
 import { ComboboxLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IArticle, IArticleSummary } from "@ndla/types-backend/draft-api";
@@ -94,7 +94,7 @@ const ConceptArticles = () => {
           items={articles}
           dragHandle={
             <DragHandle aria-label={t("conceptpageForm.changeOrder")}>
-              <DragVertical />
+              <Draggable />
             </DragHandle>
           }
           renderItem={(item, index) => (

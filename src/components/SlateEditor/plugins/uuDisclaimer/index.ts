@@ -6,6 +6,7 @@
  *
  */
 
+import type { JSX } from "react";
 import { Descendant, Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_DISCLAIMER } from "./types";
@@ -26,7 +27,7 @@ export const disclaimerSerializer: SlateSerializer = {
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node) || node.type !== TYPE_DISCLAIMER || !node.data) return;
-    return createEmbedTagV2(node.data, children);
+    return createEmbedTagV2(node.data, children, undefined);
   },
 };
 

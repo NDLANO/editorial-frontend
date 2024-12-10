@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Node, Location, Range, Path, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { AddLine } from "@ndla/icons/action";
+import { AddLine } from "@ndla/icons";
 import { PopoverRoot, PopoverTrigger, IconButton, Button, Heading, PopoverContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Action, ActionData } from "./actions";
@@ -58,7 +58,7 @@ import { TYPE_RELATED } from "../related/types";
 import { defaultTableBlock } from "../table/defaultBlocks";
 import { isInTableCellHeader, isTableCell } from "../table/slateHelpers";
 import { TYPE_TABLE } from "../table/types";
-import { IS_MAC } from "../toolbar/ToolbarButton";
+import { IS_MAC } from "../toolbar/ToolbarToggle";
 import { TYPE_DISCLAIMER } from "../uuDisclaimer/types";
 import { defaultDisclaimerBlock } from "../uuDisclaimer/utils";
 import { TYPE_EMBED_BRIGHTCOVE } from "../video/types";
@@ -205,7 +205,9 @@ const SlateBlockPicker = ({
     if (Location.isLocation(editor.selection)) {
       setLastActiveSelection(editor.selection);
     }
-    !editor.selection && lastActiveSelection && (editor.selection = lastActiveSelection);
+    if (!editor.selection && lastActiveSelection) {
+      editor.selection = lastActiveSelection;
+    }
   }, [editor, editor.selection, lastActiveSelection]);
 
   const onOpenChange = useCallback(
@@ -404,7 +406,7 @@ const SlateBlockPicker = ({
               aria-label={blockPickerLabel}
               title={blockPickerLabel}
               data-state={blockPickerOpen ? "open" : "closed"}
-              onFocus={(_e) => {
+              onFocus={() => {
                 if (!blockPickerOpen) {
                   ReactEditor.focus(editor);
                 }

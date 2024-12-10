@@ -9,9 +9,7 @@
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
-import { DeleteBinLine } from "@ndla/icons/action";
-import { InformationLine } from "@ndla/icons/common";
-import { UploadCloudLine } from "@ndla/icons/editor";
+import { DeleteBinLine, InformationLine, UploadCloudLine } from "@ndla/icons";
 import {
   Button,
   DialogBody,
@@ -31,26 +29,36 @@ import {
   UnOrderedList,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import AudioCopyInfo from "./AudioCopyInfo";
+import { AudioCopyInfo } from "./AudioCopyInfo";
 import { AudioFormikType } from "./AudioForm";
 import AudioPlayer from "./AudioPlayer";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
-import FieldHeader from "../../../components/Field/FieldHeader";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import { PodcastFormValues } from "../../../modules/audio/audioApiInterfaces";
 import { TitleField } from "../../FormikForm";
-import { HandleSubmitFunc } from "../../FormikForm/articleFormHooks";
 
-interface Props<T extends AudioFormikType | PodcastFormValues> {
-  handleSubmit: HandleSubmitFunc<T>;
-}
-
-const PlayerWrapper = styled("div", {
+const ContentWrapper = styled("div", {
   base: {
     display: "flex",
     alignItems: "center",
-    gap: "small",
+    gap: "3xsmall",
+  },
+});
+
+const StyledIconButton = styled(IconButton, {
+  variants: {
+    hasSelectedAudio: {
+      true: {
+        alignSelf: "flex-start",
+      },
+    },
+  },
+});
+
+const StyledFieldRoot = styled(FieldRoot, {
+  base: {
+    flexGrow: "1",
   },
 });
 
@@ -71,9 +79,11 @@ const getPlayerObject = (values: AudioFormikType): { src: string; mimeType: stri
   return undefined;
 };
 
-const AudioContent = <T extends AudioFormikType | PodcastFormValues>({ handleSubmit: _handleSubmit }: Props<T>) => {
+type AudioType = AudioFormikType | PodcastFormValues;
+
+const AudioContent = () => {
   const { t } = useTranslation();
-  const formikContext = useFormikContext<T>();
+  const formikContext = useFormikContext<AudioType>();
   const { values, setFieldValue } = formikContext;
   const playerObject = getPlayerObject(values);
 
@@ -82,52 +92,11 @@ const AudioContent = <T extends AudioFormikType | PodcastFormValues>({ handleSub
       <TitleField hideToolbar />
       <FormField name="audioFile">
         {({ helpers, meta }) => (
-          <>
-            <FieldHeader title={t("form.audio.sound")}>
-              <DialogRoot>
-                <DialogTrigger asChild>
-                  <IconButton
-                    variant="tertiary"
-                    size="small"
-                    aria-label={t("form.audio.modal.label")}
-                    title={t("form.audio.modal.label")}
-                  >
-                    <InformationLine />
-                  </IconButton>
-                </DialogTrigger>
-                <Portal>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>{t("form.audio.modal.header")}</DialogTitle>
-                      <DialogCloseButton />
-                    </DialogHeader>
-                    <DialogBody>
-                      <UnOrderedList>
-                        <li>{t("form.audio.info.multipleFiles")}</li>
-                        <li>{t("form.audio.info.changeFile")}</li>
-                        <li>{t("form.audio.info.newLanguage")}</li>
-                        <li>{t("form.audio.info.deleteFiles")}</li>
-                      </UnOrderedList>
-                    </DialogBody>
-                  </DialogContent>
-                </Portal>
-              </DialogRoot>
-            </FieldHeader>
+          <ContentWrapper>
             {playerObject ? (
-              <PlayerWrapper>
-                <AudioPlayer audio={playerObject} />
-                <IconButton
-                  variant="danger"
-                  aria-label={t("form.audio.remove")}
-                  title={t("form.audio.remove")}
-                  onClick={() => setFieldValue("audioFile", {})}
-                  size="small"
-                >
-                  <DeleteBinLine />
-                </IconButton>
-              </PlayerWrapper>
+              <AudioPlayer audio={playerObject} />
             ) : (
-              <FieldRoot required invalid={!!meta.error}>
+              <StyledFieldRoot required invalid={!!meta.error}>
                 <FileUploadRoot
                   accept={["audio/mp3", "audio/mpeg"]}
                   onFileAccept={(details) => {
@@ -168,9 +137,49 @@ const AudioContent = <T extends AudioFormikType | PodcastFormValues>({ handleSub
                   <FileUploadHiddenInput />
                   <FieldErrorMessage>{meta.error}</FieldErrorMessage>
                 </FileUploadRoot>
-              </FieldRoot>
+              </StyledFieldRoot>
             )}
-          </>
+            {!!playerObject && (
+              <IconButton
+                variant="danger"
+                aria-label={t("form.audio.remove")}
+                title={t("form.audio.remove")}
+                onClick={() => setFieldValue("audioFile", {})}
+                size="small"
+              >
+                <DeleteBinLine />
+              </IconButton>
+            )}
+            <DialogRoot>
+              <DialogTrigger asChild>
+                <StyledIconButton
+                  variant="secondary"
+                  size="small"
+                  aria-label={t("form.audio.modal.label")}
+                  title={t("form.audio.modal.label")}
+                  hasSelectedAudio={!playerObject}
+                >
+                  <InformationLine />
+                </StyledIconButton>
+              </DialogTrigger>
+              <Portal>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>{t("form.audio.modal.header")}</DialogTitle>
+                    <DialogCloseButton />
+                  </DialogHeader>
+                  <DialogBody>
+                    <UnOrderedList>
+                      <li>{t("form.audio.info.multipleFiles")}</li>
+                      <li>{t("form.audio.info.changeFile")}</li>
+                      <li>{t("form.audio.info.newLanguage")}</li>
+                      <li>{t("form.audio.info.deleteFiles")}</li>
+                    </UnOrderedList>
+                  </DialogBody>
+                </DialogContent>
+              </Portal>
+            </DialogRoot>
+          </ContentWrapper>
         )}
       </FormField>
       <AudioCopyInfo values={values} />

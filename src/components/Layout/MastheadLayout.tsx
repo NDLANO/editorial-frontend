@@ -6,12 +6,20 @@
  *
  */
 
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 import { Outlet } from "react-router-dom";
 import { Masthead } from "../../containers/Masthead/Masthead";
+import Messages from "../../containers/Messages/Messages";
 
-export const MastheadLayout = () => (
-  <>
-    <Masthead />
-    <Outlet />
-  </>
-);
+export const MastheadLayout = () => {
+  const { t } = useTranslation();
+  return (
+    <>
+      <Helmet meta={[{ name: "description", content: t("meta.description") }]} />
+      <Masthead />
+      <Outlet />
+      <Messages />
+    </>
+  );
+};

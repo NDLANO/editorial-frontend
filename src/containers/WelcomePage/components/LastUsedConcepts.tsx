@@ -8,7 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { PencilFill } from "@ndla/icons/action";
+import { PencilFill } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import { SortOptionLastUsed } from "./LastUsedItems";

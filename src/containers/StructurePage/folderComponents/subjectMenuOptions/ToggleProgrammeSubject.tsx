@@ -7,25 +7,21 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons";
 import { IconButton, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import RoundIcon from "../../../../components/RoundIcon";
 import { TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT } from "../../../../constants";
-import { StyledMenuItemEditField } from "../styles";
 
-const StyledSwitchRoot = styled(SwitchRoot, {
+const SwitchWrapper = styled("div", {
   base: {
-    // TODO: Remove this once we redesign structure options
-    marginInlineEnd: "3xsmall",
-    flex: "1",
+    width: "100%",
+    display: "flex",
+    gap: "3xsmall",
   },
 });
 
-const StyledSwitchLabel = styled(SwitchLabel, {
-  base: {
-    flex: "1",
-  },
+const StyledSwitchRoot = styled(SwitchRoot, {
+  base: { flexGrow: "1" },
 });
 
 interface Props {
@@ -38,8 +34,7 @@ const ToggleProgrammeSubject = ({ customFields, updateFields }: Props) => {
   const isToggled = customFields[TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT]?.toLowerCase() === "true";
 
   return (
-    <StyledMenuItemEditField>
-      <RoundIcon open small />
+    <SwitchWrapper>
       <StyledSwitchRoot
         checked={isToggled}
         onCheckedChange={(details) =>
@@ -49,14 +44,14 @@ const ToggleProgrammeSubject = ({ customFields, updateFields }: Props) => {
           })
         }
       >
-        <StyledSwitchLabel>{t("taxonomy.metadata.customFields.programmeSubject")}</StyledSwitchLabel>
+        <SwitchLabel>{t("taxonomy.metadata.customFields.programmeSubject")}</SwitchLabel>
         <SwitchControl>
           <SwitchThumb />
         </SwitchControl>
         <SwitchHiddenInput />
       </StyledSwitchRoot>
       <IconButton
-        variant="secondary"
+        variant="danger"
         size="small"
         onClick={() => {
           delete customFields[TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT];
@@ -65,7 +60,7 @@ const ToggleProgrammeSubject = ({ customFields, updateFields }: Props) => {
       >
         <DeleteBinLine />
       </IconButton>
-    </StyledMenuItemEditField>
+    </SwitchWrapper>
   );
 };
 

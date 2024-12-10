@@ -27,19 +27,21 @@ test("Can use text input", async ({ page }) => {
 });
 
 test("Can use audiotype dropdown", async ({ page }) => {
-  await page.locator('select[name="audio-type"]').selectOption({ label: "Podkast" });
+  await page.getByTestId("audio-type-select").click();
+  await page.getByRole("option", { name: "Podkast", exact: true }).click();
   await page.getByTestId("audio-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("114");
-  await page.locator('select[name="audio-type"]').selectOption({ label: "Velg lydfiltype" });
+  await page.getByTestId("remove-tag-button").click();
   await page.getByTestId("audio-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(totalSearchCount);
 });
 
 test("Can use language dropdown", async ({ page }) => {
-  await page.locator('select[name="language"]').selectOption({ label: "Engelsk" });
+  await page.getByTestId("language-select").click();
+  await page.getByRole("option", { name: "Engelsk", exact: true }).click();
   await page.getByTestId("audio-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("315");
-  await page.locator('select[name="language"]').selectOption({ label: "Velg språk" });
+  await page.getByTestId("remove-tag-button").click();
   await page.getByTestId("audio-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(totalSearchCount);
 });

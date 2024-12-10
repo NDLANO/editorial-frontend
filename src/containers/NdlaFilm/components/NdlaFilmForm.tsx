@@ -11,19 +11,17 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import { PageContent } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import { IFilmFrontPageData, IMovieTheme } from "@ndla/types-backend/frontpage-api";
 import NdlaFilmArticle from "./NdlaFilmArticle";
 import SlideshowEditor from "./SlideshowEditor";
 import ThemeEditor from "./ThemeEditor";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
-import { FormActionsContainer } from "../../../components/FormikForm";
+import { FormActionsContainer, Form } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
 import SimpleLanguageHeader from "../../../components/HeaderWithLanguage/SimpleLanguageHeader";
 import SaveButton from "../../../components/SaveButton";
 import { isSlateEmbed } from "../../../components/SlateEditor/plugins/embed/utils";
-import StyledForm from "../../../components/StyledFormComponents";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { useUpdateFilmFrontpageMutation } from "../../../modules/frontpage/filmMutations";
 import { isFormikFormDirty } from "../../../util/formHelper";
@@ -34,12 +32,6 @@ import SubjectpageAbout from "../../EditSubjectFrontpage/components/SubjectpageA
 import { AlertDialogWrapper } from "../../FormikForm";
 import usePreventWindowUnload from "../../FormikForm/preventWindowUnloadHook";
 import { useMessages } from "../../Messages/MessagesProvider";
-
-const StyledFormActionsContainer = styled(FormActionsContainer, {
-  base: {
-    marginBlockStart: "xsmall",
-  },
-});
 
 interface Props {
   filmFrontpage: IFilmFrontPageData;
@@ -128,7 +120,7 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
         });
         setUnsaved(formIsDirty);
         return (
-          <StyledForm>
+          <Form>
             <SimpleLanguageHeader
               articleType="subjectpage"
               editUrl={(_, lang) => toEditNdlaFilm(lang)}
@@ -153,13 +145,13 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
                 <NdlaFilmArticle fieldName="article" />
               </FormAccordion>
               <FormAccordion id="slideshow" title={t("ndlaFilm.editor.slideshowHeader")} hasError={!!errors.slideShow}>
-                <SlideshowEditor fieldName="slideShow" />
+                <SlideshowEditor />
               </FormAccordion>
               <FormAccordion id="themes" title={t("ndlaFilm.editor.movieGroupHeader")} hasError={!!errors.themes}>
                 <ThemeEditor selectedLanguage={selectedLanguage} />
               </FormAccordion>
             </FormAccordions>
-            <StyledFormActionsContainer>
+            <FormActionsContainer>
               <SaveButton
                 id={SAVE_BUTTON_ID}
                 loading={isSubmitting}
@@ -168,14 +160,14 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
                 onClick={submitForm}
                 disabled={!isValid}
               />
-            </StyledFormActionsContainer>
+            </FormActionsContainer>
             <AlertDialogWrapper
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
               severity="danger"
               text={t("alertModal.notSaved")}
             />
-          </StyledForm>
+          </Form>
         );
       }}
     </Formik>

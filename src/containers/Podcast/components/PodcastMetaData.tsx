@@ -7,11 +7,20 @@
  */
 
 import { useTranslation } from "react-i18next";
-
-import FormikField from "../../../components/FormikField";
+import { FieldErrorMessage, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { FieldWarning } from "../../../components/Form/FieldWarning";
+import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
+import { FormField } from "../../../components/FormField";
 import PlainTextEditor from "../../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../../components/SlateEditor/plugins/textTransform";
 import { MetaImageSearch } from "../../FormikForm";
+
+const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
+  base: {
+    marginInlineStart: "auto",
+  },
+});
 
 interface Props {
   language?: string;
@@ -25,32 +34,39 @@ const PodcastMetaData = ({ language, onImageLoad }: Props) => {
 
   return (
     <>
-      <FormikField label={t("podcastForm.fields.introduction")} name="introduction" maxLength={1000} showMaxLength>
-        {({ field }) => (
-          <PlainTextEditor
-            id={field.name}
-            {...field}
-            placeholder={t("podcastForm.fields.introduction")}
-            plugins={plugins}
-          />
+      <FormField name="introduction">
+        {({ field, meta }) => (
+          <FieldRoot invalid={!!meta.error}>
+            <FieldLabel>{t("podcastForm.fields.introduction")}</FieldLabel>
+            <PlainTextEditor
+              id={field.name}
+              {...field}
+              placeholder={t("podcastForm.fields.introduction")}
+              plugins={plugins}
+            />
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+            <StyledFormRemainingCharacters maxLength={300} value={field.value} />
+            <FieldWarning name={field.name} />
+          </FieldRoot>
         )}
-      </FormikField>
-      <FormikField name="coverPhotoId">
-        {({ field, form }) => {
-          return (
+      </FormField>
+      <FormField name="coverPhotoId">
+        {({ field, meta }) => (
+          <FieldRoot invalid={!!meta.error}>
             <MetaImageSearch
               metaImageId={field.value}
-              setFieldTouched={form.setFieldTouched}
               showRemoveButton
               onImageLoad={onImageLoad}
               language={language}
               podcastFriendly={true}
               disableAltEditing={true}
+              showCheckbox={false}
               {...field}
             />
-          );
-        }}
-      </FormikField>
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          </FieldRoot>
+        )}
+      </FormField>
     </>
   );
 };

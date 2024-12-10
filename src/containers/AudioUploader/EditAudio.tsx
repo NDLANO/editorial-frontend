@@ -11,7 +11,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { IAudioMetaInformation, IUpdatedAudioMetaInformation } from "@ndla/types-backend/audio-api";
 import AudioForm from "./components/AudioForm";
 import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
-import Spinner from "../../components/Spinner";
+import { PageSpinner } from "../../components/PageSpinner";
 import { fetchAudio, updateAudio } from "../../modules/audio/audioApi";
 import { createFormData } from "../../util/formDataHelper";
 import { toEditPodcast } from "../../util/routeHelpers";
@@ -59,7 +59,7 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
   }, [shouldTranslate, translate, audio, loading]);
 
   if (loading || translating) {
-    return <Spinner withWrapper />;
+    return <PageSpinner />;
   }
 
   if (!audioId || !audio) {

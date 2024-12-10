@@ -9,8 +9,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import { CloseLine, MenuLine } from "@ndla/icons/action";
-import { ExternalLinkLine } from "@ndla/icons/common";
+import { CloseLine, MenuLine, ExternalLinkLine } from "@ndla/icons";
 import {
   Button,
   DialogBody,
@@ -144,7 +143,7 @@ const adminItems: MenuItem[] = [
     text: "subNavigation.taxonomyVersions",
     permission: TAXONOMY_ADMIN_SCOPE,
   },
-  { to: routes.programme, text: "subNavigation.programme", permission: TAXONOMY_ADMIN_SCOPE },
+  { to: routes.programme(), text: "subNavigation.programme", permission: TAXONOMY_ADMIN_SCOPE },
   { to: routes.film.edit(), text: "subNavigation.film", permission: FRONTPAGE_ADMIN_SCOPE },
   {
     to: routes.frontpage.structure,
@@ -249,7 +248,7 @@ export const MastheadDrawer = () => {
                         to={item.to}
                       >
                         {t(item.text)}
-                        {item.external && <ExternalLinkLine />}
+                        {!!item.external && <ExternalLinkLine />}
                       </StyledSafeLinkButton>
                     </StyledListItem>
                   ))}

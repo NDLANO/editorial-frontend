@@ -11,7 +11,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { createListCollection } from "@ark-ui/react";
-import { SelectContent, SelectLabel, SelectPositioner, SelectRoot, SelectValueText } from "@ndla/primitives";
+import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../../components/abstractions/Select";
 
@@ -94,15 +94,13 @@ const SearchSort = ({ sort: sortProp = "relevance", order: orderProp = "desc", o
         <StyledGenericSelectTrigger>
           <SelectValueText />
         </StyledGenericSelectTrigger>
-        <SelectPositioner>
-          <SelectContent>
-            {sortCollection.items.map((option) => (
-              <GenericSelectItem item={option} key={option}>
-                {t(`searchForm.sort.${option}`)}
-              </GenericSelectItem>
-            ))}
-          </SelectContent>
-        </SelectPositioner>
+        <SelectContent>
+          {sortCollection.items.map((option) => (
+            <GenericSelectItem item={option} key={option}>
+              {t(`searchForm.sort.${option}`)}
+            </GenericSelectItem>
+          ))}
+        </SelectContent>
       </SelectRoot>
       <SelectRoot
         collection={orderCollection}
@@ -114,15 +112,13 @@ const SearchSort = ({ sort: sortProp = "relevance", order: orderProp = "desc", o
         <StyledGenericSelectTrigger>
           <SelectValueText />
         </StyledGenericSelectTrigger>
-        <SelectPositioner>
-          <SelectContent>
-            {orderCollection.items.map((option) => (
-              <GenericSelectItem item={option} key={option}>
-                {t(`searchForm.${option}`)}
-              </GenericSelectItem>
-            ))}
-          </SelectContent>
-        </SelectPositioner>
+        <SelectContent>
+          {orderCollection.items.map((option) => (
+            <GenericSelectItem item={option} key={option}>
+              {t(`searchForm.${option}`)}
+            </GenericSelectItem>
+          ))}
+        </SelectContent>
       </SelectRoot>
     </StyledSortContainer>
   );

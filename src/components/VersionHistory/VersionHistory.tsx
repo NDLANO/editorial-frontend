@@ -38,7 +38,7 @@ const VersionHistory = ({ notes }: Props) => {
           <th>{t("editor.versionHistory.who")}</th>
           <th>{t("editor.versionHistory.when")}</th>
           <th>{t("editor.versionHistory.message")}</th>
-          {hasStatus && <th>{t("editor.versionHistory.status")}</th>}
+          {!!hasStatus && <th>{t("editor.versionHistory.status")}</th>}
         </tr>
       </thead>
       <tbody>
@@ -47,7 +47,7 @@ const VersionHistory = ({ notes }: Props) => {
             <td>{author}</td>
             <td>{date}</td>
             <td>{note}</td>
-            {hasStatus && <td>{status}</td>}
+            {!!hasStatus && <td>{status}</td>}
           </tr>
         ))}
       </tbody>

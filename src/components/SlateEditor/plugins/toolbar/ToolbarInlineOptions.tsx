@@ -7,12 +7,11 @@
  */
 
 import { useCallback } from "react";
-import { Editor, Element } from "slate";
-import { useSlate, useSlateSelector } from "slate-react";
-import { ToggleItem } from "@radix-ui/react-toolbar";
-import { StyledToggleGroup, ToolbarCategoryProps } from "./SlateToolbar";
-import ToolbarButton from "./ToolbarButton";
+import { Editor, Element, Transforms } from "slate";
+import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
+import { ToolbarCategoryProps } from "./SlateToolbar";
 import { InlineType } from "./toolbarState";
+import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
 import { insertComment } from "../comment/inline/utils";
 import { insertInlineConcept } from "../concept/inline/utils";
 import { insertLink } from "../link/utils";
@@ -38,9 +37,13 @@ const getCurrentInlineValues = (editor: Editor): InlineType | undefined => {
 export const ToolbarInlineOptions = ({ options }: ToolbarCategoryProps<InlineType>) => {
   const editor = useSlate();
   const value = useSlateSelector(getCurrentInlineValues);
+  const selection = useSlateSelection();
 
   const onClick = useCallback(
     (type: InlineType) => {
+      if (!selection) return;
+      Transforms.select(editor, selection);
+      ReactEditor.focus(editor);
       if (type === "content-link") {
         insertLink(editor);
       }
@@ -57,19 +60,27 @@ export const ToolbarInlineOptions = ({ options }: ToolbarCategoryProps<InlineTyp
         insertComment(editor);
       }
     },
-    [editor],
+    [editor, selection],
   );
 
   const visibleOptions = options.filter((option) => !option.hidden);
   if (!visibleOptions.length) return null;
 
   return (
-    <StyledToggleGroup type="single" value={value ?? ""}>
+    <ToolbarToggleGroupRoot value={value ? [value] : []}>
       {visibleOptions.map((type) => (
-        <ToggleItem key={type.value} value={type.value} asChild disabled={type.disabled}>
-          <ToolbarButton type={type.value} onClick={() => onClick(type.value)} disabled={type.disabled} />
-        </ToggleItem>
+        <ToolbarToggleButton
+          type={type.value}
+          onClick={(e) => {
+            e.preventDefault();
+            onClick(type.value);
+          }}
+          onMouseDown={(e) => e.preventDefault()}
+          disabled={type.disabled}
+          key={type.value}
+          value={type.value}
+        />
       ))}
-    </StyledToggleGroup>
+    </ToolbarToggleGroupRoot>
   );
 };

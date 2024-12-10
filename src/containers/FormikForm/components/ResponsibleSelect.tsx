@@ -9,9 +9,10 @@ import sortBy from "lodash/sortBy";
 import { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
-import { SelectContent, SelectLabel, SelectPositioner, SelectRoot, SelectValueText, Text } from "@ndla/primitives";
+import { ComboboxContent, ComboboxItem, ComboboxItemText, ComboboxLabel, ComboboxRoot, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
+import { useComboboxTranslations } from "@ndla/ui";
+import { GenericComboboxInput, GenericComboboxItemIndicator } from "../../../components/abstractions/Combobox";
 import { DRAFT_RESPONSIBLE } from "../../../constants";
 import { useAuth0Responsibles } from "../../../modules/auth0/auth0Queries";
 
@@ -22,21 +23,29 @@ interface Props {
   responsibleId?: string;
 }
 
-const StyledSelectValueText = styled(SelectValueText, {
+const StyledComboboxItem = styled(ComboboxItem, {
   base: {
-    lineClamp: "1",
     overflowWrap: "anywhere",
   },
 });
 
-const StyledGenericSelectItem = styled(GenericSelectItem, {
+const StyledGenericComboboxInput = styled(GenericComboboxInput, {
   base: {
-    overflowWrap: "anywhere",
+    width: "100%",
+  },
+});
+
+const StyledComboboxRoot = styled(ComboboxRoot, {
+  base: {
+    flex: "1",
+    minWidth: "surface.xxsmall",
   },
 });
 
 const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId }: Props) => {
   const { t } = useTranslation();
+  const comboboxTranslations = useComboboxTranslations();
+  const [query, setQuery] = useState("");
 
   const { data: users } = useAuth0Responsibles(
     { permission: DRAFT_RESPONSIBLE },
@@ -48,11 +57,11 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
 
   const collection = useMemo(() => {
     return createListCollection({
-      items: users ?? [],
+      items: users?.filter((item) => item.name.toLowerCase().includes(query.toLowerCase())) ?? [],
       itemToValue: (item) => item.app_metadata.ndla_id,
       itemToString: (item) => item.name,
     });
-  }, [users]);
+  }, [query, users]);
 
   const [enableRequired, setEnableRequired] = useState(false);
 
@@ -75,33 +84,33 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
   }, [responsible]);
 
   return (
-    <SelectRoot
+    <StyledComboboxRoot
       data-testid="responsible-select"
       collection={collection}
+      translations={comboboxTranslations}
       onValueChange={(details) => onSave(details.value[0])}
+      onInputValueChange={(details) => setQuery(details.inputValue)}
+      inputValue={query}
       value={responsible ? [responsible] : []}
       required={enableRequired}
-      invalid={enableRequired && !responsible}
+      invalid={!!enableRequired && !responsible}
       positioning={{ sameWidth: true }}
     >
-      <SelectLabel srOnly>{t("form.responsible.choose")}</SelectLabel>
-      <GenericSelectTrigger clearable>
-        <StyledSelectValueText placeholder={t("form.responsible.choose")} css={{ lineClamp: "1" }} />
-      </GenericSelectTrigger>
-      <SelectPositioner>
-        <SelectContent>
-          {!collection.items.length ? (
-            <Text>{t("form.responsible.noResults")}</Text>
-          ) : (
-            collection.items.map((item) => (
-              <StyledGenericSelectItem item={item} key={item.app_metadata.ndla_id}>
-                {item.name}
-              </StyledGenericSelectItem>
-            ))
-          )}
-        </SelectContent>
-      </SelectPositioner>
-    </SelectRoot>
+      <ComboboxLabel srOnly>{t("form.responsible.choose")}</ComboboxLabel>
+      <StyledGenericComboboxInput clearable triggerable placeholder={t("form.responsible.choose")} />
+      <ComboboxContent>
+        {!collection.items.length ? (
+          <Text>{t("form.responsible.noResults")}</Text>
+        ) : (
+          collection.items.map((item) => (
+            <StyledComboboxItem item={item} key={item.app_metadata.ndla_id}>
+              <ComboboxItemText>{item.name}</ComboboxItemText>
+              <GenericComboboxItemIndicator />
+            </StyledComboboxItem>
+          ))
+        )}
+      </ComboboxContent>
+    </StyledComboboxRoot>
   );
 };
 

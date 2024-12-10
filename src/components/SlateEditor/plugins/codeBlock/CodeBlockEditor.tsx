@@ -19,7 +19,6 @@ import {
   FieldRoot,
   SelectContent,
   SelectLabel,
-  SelectPositioner,
   SelectRoot,
   SelectValueText,
 } from "@ndla/primitives";
@@ -32,8 +31,8 @@ import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import { KEY_TAB } from "../../utils/keys";
 
 type Props = {
-  onSave: Function;
-  onAbort: Function;
+  onSave: (values: CodeBlockFormValues) => void;
+  onAbort: VoidFunction;
   highlight: (code: string, language: string) => string;
   content: CodeBlockFormValues | undefined;
   setShowWarning: (show: boolean) => void;
@@ -164,15 +163,13 @@ const CodeBlockEditor = ({ onSave, onAbort, highlight, content, setShowWarning }
                     <GenericSelectTrigger>
                       <SelectValueText />
                     </GenericSelectTrigger>
-                    <SelectPositioner>
-                      <SelectContent>
-                        {languageOptions.map((item) => (
-                          <GenericSelectItem key={item.format} item={item}>
-                            {item.title}
-                          </GenericSelectItem>
-                        ))}
-                      </SelectContent>
-                    </SelectPositioner>
+                    <SelectContent>
+                      {languageOptions.map((item) => (
+                        <GenericSelectItem key={item.format} item={item}>
+                          {item.title}
+                        </GenericSelectItem>
+                      ))}
+                    </SelectContent>
                     <SelectHiddenSelect data-testid="code-language" />
                   </SelectRoot>
                 </FieldRoot>

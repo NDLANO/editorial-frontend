@@ -8,8 +8,18 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { ErrorWarningLine } from "@ndla/icons";
 import { ImageSearch } from "@ndla/image-search";
-import { Button, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger, Text } from "@ndla/primitives";
+import {
+  Button,
+  MessageBox,
+  TabsContent,
+  TabsIndicator,
+  TabsList,
+  TabsRoot,
+  TabsTrigger,
+  Text,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import {
   IImageMetaInformationV3,
@@ -19,7 +29,6 @@ import {
   ISearchParams,
 } from "@ndla/types-backend/image-api";
 import { useImageSearchTranslations } from "@ndla/ui";
-import EditorErrorMessage from "./SlateEditor/EditorErrorMessage";
 import ImageForm from "../containers/ImageUploader/components/ImageForm";
 import { draftLicensesToImageLicenses } from "../modules/draft/draftApiUtils";
 import { useLicenses } from "../modules/draft/draftQueries";
@@ -135,7 +144,10 @@ const ImageSearchAndUploader = ({
             supportedLanguages={image?.supportedLanguages ?? [locale]}
           />
         ) : (
-          <EditorErrorMessage msg={t("errorMessage.description")} />
+          <MessageBox variant="error">
+            <ErrorWarningLine />
+            {t("errorMessage.description")}
+          </MessageBox>
         )}
       </StyledTabsContent>
     </TabsRoot>

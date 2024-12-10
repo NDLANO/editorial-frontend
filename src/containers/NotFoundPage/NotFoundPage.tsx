@@ -7,25 +7,28 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { OneColumn, ErrorMessage } from "@ndla/ui";
+import { PageContainer } from "@ndla/primitives";
+import { ErrorMessage } from "@ndla/ui";
 
 const NotFound = () => {
   const { t } = useTranslation();
   return (
-    <OneColumn>
-      <ErrorMessage
-        illustration={{
-          url: "/not-exist.gif",
-          altText: t("errorMessage.title"),
-        }}
-        messages={{
-          title: t("errorMessage.title"),
-          description: t("notFound.description"),
-          back: t("errorMessage.back"),
-          goToFrontPage: t("errorMessage.goToFrontPage"),
-        }}
-      />
-    </OneColumn>
+    <PageContainer asChild consumeCss>
+      <main>
+        <ErrorMessage
+          illustration={{
+            url: "/not-exist.gif",
+            altText: t("errorMessage.title"),
+          }}
+          messages={{
+            title: t("errorMessage.title"),
+            description: t("notFound.description"),
+            back: t("errorMessage.back"),
+            goToFrontPage: t("errorMessage.goToFrontPage"),
+          }}
+        />
+      </main>
+    </PageContainer>
   );
 };
 

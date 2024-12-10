@@ -8,8 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { MessageLine } from "@ndla/icons/common";
-import { CheckboxCircleLine } from "@ndla/icons/editor";
+import { MessageLine, CheckboxCircleLine } from "@ndla/icons";
 import { Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -145,7 +144,7 @@ const TopicResourceBanner = ({
   topicNodes,
   showQuality,
 }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const elementCount = Object.values(contentMeta).length;
@@ -164,7 +163,7 @@ const TopicResourceBanner = ({
   return (
     <ResourceGroupBanner>
       <TopRow data-show-quality={showQuality}>
-        {showQuality && (
+        {!!showQuality && (
           <ContentWrapper>
             <AverageQualityEvaluation gradeAverage={currentNode.gradeAverage} nodeType="TOPIC" />
             <QualityEvaluation articleType="topic-article" taxonomy={[currentNode]} />
@@ -174,7 +173,7 @@ const TopicResourceBanner = ({
           <Text color="text.subtle" textStyle="label.small">{`${workflowCount}/${elementCount} ${t(
             "taxonomy.workflow",
           ).toLowerCase()}`}</Text>
-          {lastCommentTopicArticle && (
+          {!!lastCommentTopicArticle && (
             <MessageLine
               title={stripInlineContentHtmlTags(lastCommentTopicArticle)}
               aria-label={stripInlineContentHtmlTags(lastCommentTopicArticle)}
@@ -192,7 +191,12 @@ const TopicResourceBanner = ({
           <TextWrapper>
             {numericId ? (
               <SafeLink
-                to={routes.topic.edit(numericId, "topic-article")}
+                to={routes.topic.edit(
+                  numericId,
+                  currentNode.supportedLanguages.includes(i18n.language)
+                    ? i18n.language
+                    : currentNode.supportedLanguages[0],
+                )}
                 target="_blank"
                 rel="noopener noreferrer"
                 css={linkRecipe.raw()}
@@ -204,7 +208,7 @@ const TopicResourceBanner = ({
                 {currentNode.name}
               </StyledText>
             )}
-            {isSupplementary && <SupplementaryIndicator />}
+            {!!isSupplementary && <SupplementaryIndicator />}
           </TextWrapper>
           <StatusIcons
             contentMetaLoading={contentMetaLoading}
@@ -225,7 +229,7 @@ const TopicResourceBanner = ({
             </Text>
           </TextWrapper>
           <ControlButtonGroup>
-            {currentNode && currentNode.id && (
+            {!!currentNode?.id && (
               <GroupTopicResources
                 node={currentNode}
                 onChanged={(partialMeta) => {
@@ -236,11 +240,13 @@ const TopicResourceBanner = ({
                 }}
               />
             )}
-            {(currentNode.contentMeta?.status?.current === PUBLISHED ||
-              currentNode.contentMeta?.status?.other?.includes(PUBLISHED)) && (
+            {!!(
+              currentNode.contentMeta?.status?.current === PUBLISHED ||
+              currentNode.contentMeta?.status?.other?.includes(PUBLISHED)
+            ) && (
               <SafeLinkIconButton
                 target="_blank"
-                to={`${config.ndlaFrontendDomain}${currentNode.path}?versionHash=${taxonomyVersion}`}
+                to={`${config.ndlaFrontendDomain}${currentNode.url}?versionHash=${taxonomyVersion}`}
                 aria-label={t("taxonomy.publishedVersion")}
                 title={t("taxonomy.publishedVersion")}
                 size="small"

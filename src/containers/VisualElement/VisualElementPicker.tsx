@@ -52,7 +52,7 @@ const VisualElementPicker = ({ editor, language, types }: Props) => {
 
   return (
     <div contentEditable={false}>
-      {selectedResource && (
+      {!!selectedResource && (
         <SlateVisualElementPicker
           isOpen
           label={t(`form.visualElementPicker.${selectedResource}`)}

@@ -6,7 +6,7 @@
  *
  */
 
-import { TimeFill } from "@ndla/icons/common";
+import { TimeFill } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 
 export const StatusTimeFill = styled(TimeFill, {
@@ -16,6 +16,7 @@ export const StatusTimeFill = styled(TimeFill, {
         fill: "surface.warning",
       },
       expired: {
+        // TODO: update this color once icon error color is added to semantic tokens
         fill: "surface.danger",
       },
     },

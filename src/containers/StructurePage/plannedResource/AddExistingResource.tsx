@@ -99,7 +99,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     language: i18n.language,
   });
   const { mutateAsync: createNodeResource } = usePostResourceForNodeMutation({
-    onSuccess: (_) => qc.invalidateQueries({ queryKey: compKey }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: compKey }),
   });
   const { data: articleSearchData } = useNodes({
     contentURI: `urn:article:${articleInputId}`,
@@ -256,14 +256,14 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
       body: { resourceId: id, nodeId },
       taxonomyVersion,
     })
-      .then((_) => onClose())
+      .then(() => onClose())
       .catch(() => resetPastedUrlStatesWithError("taxonomy.resource.creationFailed"));
     setLoading(false);
   };
 
   return (
     <StyledFormContent>
-      {selectedType && (
+      {!!selectedType && (
         <>
           <FieldRoot>
             <FieldLabel>{t("taxonomy.urlPlaceholder")}</FieldLabel>
@@ -280,7 +280,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
           }}
         />
       )}
-      {!pastedUrl && selectedType && (
+      {!pastedUrl && !!selectedType && (
         <GenericSearchCombobox
           value={preview ? [preview.id.toString()] : undefined}
           onValueChange={(details) => setPreview(toPreview(details.items[0]))}
@@ -321,7 +321,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
           </ListItemRoot>
         )
       )}
-      {error && <Text color="text.error">{t(error)}</Text>}
+      {!!error && <Text color="text.error">{t(error)}</Text>}
       <FormActionsContainer>
         <Button disabled={preview === undefined} onClick={onAddResource} loading={loading} type="submit">
           {t("taxonomy.add")}

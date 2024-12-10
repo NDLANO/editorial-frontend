@@ -25,8 +25,8 @@ import { FormActionsContainer, FormContent } from "../../../components/FormikFor
 import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
 import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
+import { PageSpinner } from "../../../components/PageSpinner";
 import SaveButton from "../../../components/SaveButton";
-import Spinner from "../../../components/Spinner";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { PodcastFormValues } from "../../../modules/audio/audioApiInterfaces";
 import { useLicenses } from "../../../modules/draft/draftQueries";
@@ -109,8 +109,8 @@ interface Props {
   inModal?: boolean;
   isNewlyCreated?: boolean;
   language: string;
-  onCreatePodcast?: (newPodcast: INewAudioMetaInformation, file?: string | Blob) => void;
-  onUpdatePodcast?: (updatedPodcast: IUpdatedAudioMetaInformation, file?: string | Blob) => void;
+  onCreatePodcast?: (newPodcast: INewAudioMetaInformation, file?: string | Blob) => Promise<void>;
+  onUpdatePodcast?: (updatedPodcast: IUpdatedAudioMetaInformation, file?: string | Blob) => Promise<void>;
   translating?: boolean;
   supportedLanguages: string[];
 }
@@ -177,9 +177,11 @@ const PodcastForm = ({
       seriesId: values.series?.id,
     };
     try {
-      audio?.revision
-        ? await onUpdatePodcast?.({ ...podcastMetaData, revision: audio.revision }, values.audioFile.newFile?.file)
-        : await onCreatePodcast?.(podcastMetaData, values.audioFile.newFile?.file);
+      if (audio?.revision) {
+        await onUpdatePodcast?.({ ...podcastMetaData, revision: audio.revision }, values.audioFile.newFile?.file);
+      } else {
+        await onCreatePodcast?.(podcastMetaData, values.audioFile.newFile?.file);
+      }
     } catch (e) {
       handleError(e);
     }
@@ -243,7 +245,7 @@ const PodcastForm = ({
               title={audio?.title.title}
             />
             {translating ? (
-              <Spinner withWrapper />
+              <PageSpinner />
             ) : (
               <FormAccordions defaultOpen={["podcast-upload-content"]}>
                 <FormAccordion
@@ -252,7 +254,7 @@ const PodcastForm = ({
                   hasError={["title", "audioFile"].some((field) => field in errors)}
                 >
                   <PageContent variant="content">
-                    <AudioContent handleSubmit={handleSubmit} />
+                    <AudioContent />
                   </PageContent>
                 </FormAccordion>
                 <FormAccordion

@@ -23,7 +23,6 @@ import {
   FieldRoot,
   SelectContent,
   SelectLabel,
-  SelectPositioner,
   SelectRoot,
   SelectValueText,
   SwitchControl,
@@ -163,14 +162,14 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
     language: i18n.language,
   });
   const { mutateAsync: createNodeResource, isPending: postResourceLoading } = usePostResourceForNodeMutation({
-    onSuccess: (_) => {
+    onSuccess: () => {
       qc.invalidateQueries({ queryKey: compKey });
       qc.invalidateQueries({ queryKey: compKeyChildNodes });
     },
   });
   const { mutateAsync: createResourceResourceType, isPending: createResourceTypeLoading } =
     useCreateResourceResourceTypeMutation({
-      onSuccess: (_) => qc.invalidateQueries({ queryKey: compKey }),
+      onSuccess: () => qc.invalidateQueries({ queryKey: compKey }),
     });
   const initialValues = useMemo(() => toInitialValues(ndlaId, articleType), [ndlaId, articleType]);
   const isTopicArticle = articleType === "topic-article";
@@ -356,15 +355,13 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
                   <StyledGenericSelectTrigger clearable>
                     <SelectValueText placeholder={t("editorFooter.placeholderPrioritized")} />
                   </StyledGenericSelectTrigger>
-                  <SelectPositioner>
-                    <SelectContent>
-                      {priorityCollection.items.map((item) => (
-                        <GenericSelectItem key={item.value} item={item}>
-                          {item.label}
-                        </GenericSelectItem>
-                      ))}
-                    </SelectContent>
-                  </SelectPositioner>
+                  <SelectContent>
+                    {priorityCollection.items.map((item) => (
+                      <GenericSelectItem key={item.value} item={item}>
+                        {item.label}
+                      </GenericSelectItem>
+                    ))}
+                  </SelectContent>
                 </SelectRoot>
               </FieldRoot>
             )}
@@ -397,7 +394,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
               {t("taxonomy.create")}
             </Button>
           </FormActionsContainer>
-          {error && <Text color="text.error">{t(error)}</Text>}
+          {!!error && <Text color="text.error">{t(error)}</Text>}
         </StyledFormikForm>
       )}
     </Formik>

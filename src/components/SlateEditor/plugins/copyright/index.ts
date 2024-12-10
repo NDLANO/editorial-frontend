@@ -6,6 +6,7 @@
  *
  */
 
+import type { JSX } from "react";
 import { Descendant, Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_COPYRIGHT } from "./types";
@@ -19,7 +20,6 @@ import {
   textBlockElements,
 } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
-import { TYPE_FRAMED_CONTENT } from "../framedContent/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 export const copyrightSerializer: SlateSerializer = {
@@ -36,7 +36,7 @@ export const copyrightSerializer: SlateSerializer = {
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node) || node.type !== TYPE_COPYRIGHT || !node.data) return;
-    return createEmbedTagV2({ ...node.data, copyright: JSON.stringify(node.data.copyright) }, children);
+    return createEmbedTagV2({ ...node.data, copyright: JSON.stringify(node.data.copyright) }, children, undefined);
   },
 };
 

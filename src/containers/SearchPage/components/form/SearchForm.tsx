@@ -17,32 +17,7 @@ import SearchAudioForm from "./SearchAudioForm";
 import SearchContentForm from "./SearchContentForm";
 import SearchImageForm from "./SearchImageForm";
 import SearchPodcastSeriesForm from "./SearchPodcastSeriesForm";
-import { SearchType } from "../../../../interfaces";
-
-export interface SearchParams {
-  query?: string;
-  "draft-status"?: string;
-  "include-other-statuses"?: boolean;
-  "resource-types"?: string;
-  "article-types"?: string;
-  "audio-type"?: string;
-  fallback?: boolean;
-  language?: string;
-  page?: number;
-  "page-size"?: number;
-  status?: string;
-  subjects?: string;
-  users?: string;
-  sort?: string;
-  license?: string;
-  "model-released"?: string;
-  "revision-date-from"?: string;
-  "revision-date-to"?: string;
-  "exclude-revision-log"?: boolean | undefined;
-  "responsible-ids"?: string;
-  "concept-type"?: string;
-  "filter-inactive"?: boolean;
-}
+import { SearchParams, SearchType } from "../../../../interfaces";
 
 /** Used to wraps backend types and replaces their `sort` with `sort?: string` */
 export type StringSort<T> = Omit<T, "sort"> & { sort?: string };

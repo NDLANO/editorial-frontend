@@ -7,29 +7,21 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons";
 import { IconButton, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import RoundIcon from "../../../../components/RoundIcon";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../../../constants";
-import { StyledMenuItemEditField } from "../styles";
 
 interface Props {
   customFields: Record<string, string>;
   updateFields: (newFields: Record<string, string>) => void;
 }
 
-const StyledSwitchRoot = styled(SwitchRoot, {
+const SwitchWrapper = styled("div", {
   base: {
-    // TODO: Remove this once we redesign structure options
-    marginInlineEnd: "3xsmall",
-    flex: "1",
-  },
-});
-
-const StyledSwitchLabel = styled(SwitchLabel, {
-  base: {
-    flex: "1",
+    display: "flex",
+    gap: "3xsmall",
+    alignSelf: "flex-end",
   },
 });
 
@@ -38,22 +30,21 @@ const ToggleExplanationSubject = ({ customFields, updateFields }: Props) => {
   const isToggled = customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT]?.toLowerCase() === "true";
 
   return (
-    <StyledMenuItemEditField>
-      <RoundIcon open small />
-      <StyledSwitchRoot
+    <SwitchWrapper>
+      <SwitchRoot
         checked={isToggled}
         onCheckedChange={(details) =>
           updateFields({ ...customFields, [TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT]: details.checked.toString() })
         }
       >
-        <StyledSwitchLabel>{t("taxonomy.metadata.customFields.explanationSubject")}</StyledSwitchLabel>
+        <SwitchLabel>{t("taxonomy.metadata.customFields.explanationSubject")}</SwitchLabel>
         <SwitchControl>
           <SwitchThumb />
         </SwitchControl>
         <SwitchHiddenInput />
-      </StyledSwitchRoot>
+      </SwitchRoot>
       <IconButton
-        variant="secondary"
+        variant="danger"
         size="small"
         onClick={() => {
           delete customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT];
@@ -62,7 +53,7 @@ const ToggleExplanationSubject = ({ customFields, updateFields }: Props) => {
       >
         <DeleteBinLine />
       </IconButton>
-    </StyledMenuItemEditField>
+    </SwitchWrapper>
   );
 };
 

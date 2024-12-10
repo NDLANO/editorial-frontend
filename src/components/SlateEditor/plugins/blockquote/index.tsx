@@ -6,6 +6,7 @@
  *
  */
 
+import type { JSX } from "react";
 import { Descendant, Editor, Element, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_QUOTE } from "./types";
@@ -37,7 +38,7 @@ export const blockQuoteSerializer: SlateSerializer = {
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_QUOTE) {
-      return createTag("blockquote", node.data, children, { bailOnEmptyData: false });
+      return createTag("blockquote", node.data, children, { bailOnEmptyData: false }, undefined);
     }
   },
 };

@@ -45,7 +45,6 @@ export const TransformedPreviewDraft = ({ article, draft, contentType }: Props) 
           authors={authors}
           suppliers={article.copyright?.rightsholders}
           published={article.published}
-          license={article.copyright?.license?.license ?? ""}
         />
       </ArticleFooter>
     </>

@@ -7,27 +7,16 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
-import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
-import { Home } from "@ndla/icons/common";
+import { ExternalLinkLine } from "@ndla/icons";
+import { SafeLinkButton } from "@ndla/safelink";
 import { Node } from "@ndla/types-taxonomy";
 
-import RoundIcon from "../../../../components/RoundIcon";
 import { toCreateSubjectpage, toEditSubjectpage } from "../../../../util/routeHelpers";
 import { getIdFromUrn } from "../../../../util/subjectHelpers";
-import MenuItemButton from "../sharedMenuOptions/components/MenuItemButton";
 
 interface Props {
   node: Node;
 }
-
-const StyledLink = styled(Link)`
-  color: ${colors.brand.greyDark};
-  &:hover {
-    color: ${colors.brand.primary};
-  }
-`;
 
 const EditSubjectpageOption = ({ node }: Props) => {
   const { t, i18n } = useTranslation();
@@ -37,12 +26,16 @@ const EditSubjectpageOption = ({ node }: Props) => {
     : toCreateSubjectpage(node.id, i18n.language);
 
   return (
-    <StyledLink state={{ elementName: node?.name }} to={{ pathname: link }}>
-      <MenuItemButton data-testid="editSubjectpageOption">
-        <RoundIcon small icon={<Home />} />
-        {t("taxonomy.editSubjectpage")}
-      </MenuItemButton>
-    </StyledLink>
+    <SafeLinkButton
+      to={{ pathname: link }}
+      state={{ elementName: node?.name }}
+      data-testid="editSubjectpageOption"
+      size="small"
+      variant="tertiary"
+    >
+      {t("taxonomy.editSubjectpage")}
+      <ExternalLinkLine />
+    </SafeLinkButton>
   );
 };
 

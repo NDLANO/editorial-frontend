@@ -10,58 +10,38 @@ import { useFormikContext } from "formik";
 import { MouseEvent, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PercentCrop } from "react-image-crop";
-import styled from "@emotion/styled";
-import { ToggleGroup, ToggleGroupItem } from "@radix-ui/react-toggle-group";
-import { colors, spacing } from "@ndla/core";
-import {
-  AlignCenter,
-  AlignLeft,
-  AlignRight,
-  Copyright,
-  Crop,
-  FocalPoint,
-  ImageSmall,
-  ImageXsmall,
-  ImageXxSmall,
-  PublicDomain,
-} from "@ndla/icons/editor";
+import { AlignCenter, AlignLeft, AlignRight, CropLine, FocusMode } from "@ndla/icons";
+import { Button, IconButton, ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import ImageTransformEditor from "./ImageTransformEditor";
 import { FormField } from "../../components/FormField";
 import { ImageEmbedFormValues } from "../../components/SlateEditor/plugins/image/ImageEmbedForm";
 
-const StyledImageEditorMenu = styled.div`
-  color: white;
-  background-color: black;
-  padding: ${spacing.small};
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-`;
+const StyledImageEditorMenu = styled("div", {
+  base: {
+    padding: "xsmall",
+    display: "flex",
+    justifyContent: "space-between",
+    // TODO: should update this color once design is ready
+    backgroundColor: "text.default",
+  },
+});
 
-const StyledImageEditorEditMode = styled.div`
-  position: relative;
-  background-color: ${colors.brand.grey};
-`;
+const StyledImageEditorEditMode = styled("div", {
+  base: {
+    // TODO: should update this color once design is ready
+    backgroundColor: "text.default",
+  },
+});
 
-const StyledToggleGroupItem = styled(ToggleGroupItem)`
-  all: unset;
-  transition: color 200ms ease;
-  color: ${colors.brand.grey};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  &:focus-visible,
-  &:hover,
-  &[data-state="on"] {
-    cursor: pointer;
-    color: ${colors.white};
-  }
-  &[disabled] {
-    color: ${colors.brand.primary};
-    cursor: not-allowed;
-  }
-`;
+const StyledToggleGroupRoot = styled(ToggleGroupRoot, {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+});
 
 const alignments = [
   { value: "left", children: <AlignLeft /> },
@@ -70,14 +50,9 @@ const alignments = [
 ] as const;
 
 const sizes = [
-  { value: "xsmall", children: <ImageXxSmall /> },
-  { value: "small", children: <ImageXsmall /> },
-  { value: "medium", children: <ImageSmall /> },
-] as const;
-
-const bylineOptions = [
-  { value: "hide", children: <PublicDomain /> },
-  { value: "show", children: <Copyright /> },
+  { value: "xsmall", name: "xs" },
+  { value: "small", name: "s" },
+  { value: "medium", name: "m" },
 ] as const;
 
 const defaultData: Record<string, Partial<ImageEmbedFormValues>> = {
@@ -99,12 +74,6 @@ interface Props {
   language: string;
   image: IImageMetaInformationV3;
 }
-
-const StyledToggleGroup = styled(ToggleGroup)`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-`;
 
 type StateProp = "crop" | "focalPoint" | "none";
 
@@ -142,6 +111,7 @@ const ImageEditor = ({ language, image }: Props) => {
       e.stopPropagation();
       setValues({ ...values, ...defaultData[editType] });
       setEditType("none");
+      setAspect("none");
     },
     [editType, setValues, values],
   );
@@ -189,10 +159,10 @@ const ImageEditor = ({ language, image }: Props) => {
       <StyledImageEditorMenu>
         <FormField name="align">
           {({ field, helpers }) => (
-            <StyledToggleGroup
-              type="single"
-              value={field.value}
-              onValueChange={(val) => {
+            <StyledToggleGroupRoot
+              value={[field.value]}
+              onValueChange={(details) => {
+                const val = details.value[0];
                 helpers.setValue(val);
                 if (val === "center") {
                   setFieldValue("size", "full");
@@ -200,17 +170,20 @@ const ImageEditor = ({ language, image }: Props) => {
               }}
             >
               {alignments.map(({ value, children }) => (
-                <StyledToggleGroupItem
+                <ToggleGroupItem
                   key={value}
                   value={value}
                   disabled={value === "left"}
                   aria-label={t(`form.image.alignment.${value}`)}
                   title={t(`form.image.alignment.${value}`)}
+                  asChild
                 >
-                  {children}
-                </StyledToggleGroupItem>
+                  <IconButton variant="secondary" size="small">
+                    {children}
+                  </IconButton>
+                </ToggleGroupItem>
               ))}
-            </StyledToggleGroup>
+            </StyledToggleGroupRoot>
           )}
         </FormField>
       </StyledImageEditorMenu>
@@ -218,24 +191,26 @@ const ImageEditor = ({ language, image }: Props) => {
         <StyledImageEditorMenu>
           <FormField name="size">
             {({ field, helpers }) => (
-              <StyledToggleGroup
-                type="single"
-                value={field.value}
-                onValueChange={(val) => {
-                  helpers.setValue(val);
+              <StyledToggleGroupRoot
+                value={[field.value]}
+                onValueChange={(details) => {
+                  helpers.setValue(details.value[0]);
                 }}
               >
-                {sizes.map(({ value, children }) => (
-                  <StyledToggleGroupItem
+                {sizes.map(({ value, name }) => (
+                  <ToggleGroupItem
                     key={value}
                     value={value}
                     aria-label={t(`form.image.sizes.${value}`)}
                     title={t(`form.image.sizes.${value}`)}
+                    asChild
                   >
-                    {children}
-                  </StyledToggleGroupItem>
+                    <IconButton variant="secondary" size="small">
+                      {name}
+                    </IconButton>
+                  </ToggleGroupItem>
                 ))}
-              </StyledToggleGroup>
+              </StyledToggleGroupRoot>
             )}
           </FormField>
         </StyledImageEditorMenu>
@@ -249,37 +224,47 @@ const ImageEditor = ({ language, image }: Props) => {
         onFocalPointChange={onFocalPointChange}
       />
       <StyledImageEditorMenu>
-        <StyledToggleGroup type="single" value={editType} onValueChange={(val) => setEditType(val as StateProp)}>
-          {isModifiable && (
-            <StyledToggleGroupItem
+        <StyledToggleGroupRoot
+          value={[editType]}
+          onValueChange={(details) => setEditType(details.value[0] as StateProp)}
+        >
+          {!!isModifiable && (
+            <ToggleGroupItem
               value="focalPoint"
               aria-label={t("form.image.focalPoint")}
               title={t("form.image.focalPoint")}
+              asChild
             >
-              <FocalPoint />
-            </StyledToggleGroupItem>
+              <IconButton size="small" variant="secondary">
+                <FocusMode />
+              </IconButton>
+            </ToggleGroupItem>
           )}
-          {imageCancelButtonNeeded && (
-            <StyledToggleGroupItem value="none" onClick={onCancelMode}>
+          {!!imageCancelButtonNeeded && (
+            <Button variant="danger" size="small" onClick={onCancelMode}>
               {t(`imageEditor.remove.${editType}`)}
-            </StyledToggleGroupItem>
+            </Button>
           )}
-          {isModifiable && (
-            <StyledToggleGroupItem value="crop" aria-label={t("form.image.crop")} title={t("form.image.crop")}>
-              <Crop />
-            </StyledToggleGroupItem>
+          {!!isModifiable && (
+            <ToggleGroupItem value="crop" aria-label={t("form.image.crop")} title={t("form.image.crop")} asChild>
+              <IconButton variant="secondary" size="small">
+                <CropLine />
+              </IconButton>
+            </ToggleGroupItem>
           )}
-        </StyledToggleGroup>
+        </StyledToggleGroupRoot>
       </StyledImageEditorMenu>
       {editType === "crop" && (
         <StyledImageEditorMenu>
-          <StyledToggleGroup type="single" value={aspect} onValueChange={setAspect}>
+          <StyledToggleGroupRoot value={[aspect]} onValueChange={(details) => setAspect(details.value[0])}>
             {aspects.map(({ label, aspect }) => (
-              <StyledToggleGroupItem key={label} value={aspect} aria-label={label} title={label}>
-                {label}
-              </StyledToggleGroupItem>
+              <ToggleGroupItem key={label} value={aspect} aria-label={label} title={label} asChild>
+                <Button variant="secondary" size="small">
+                  {label}
+                </Button>
+              </ToggleGroupItem>
             ))}
-          </StyledToggleGroup>
+          </StyledToggleGroupRoot>
         </StyledImageEditorMenu>
       )}
     </StyledImageEditorEditMode>

@@ -11,8 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
-import { Expandable } from "@ndla/icons/editor";
+import { PencilFill, DeleteBinLine, ErrorWarningLine, ExpandUpDownLine } from "@ndla/icons";
 import {
   DialogBody,
   DialogContent,
@@ -21,6 +20,7 @@ import {
   DialogTitle,
   DialogTrigger,
   IconButton,
+  MessageBox,
   Spinner,
   Text,
 } from "@ndla/primitives";
@@ -35,7 +35,6 @@ import { useExternalEmbed } from "../../../../modules/embed/queries";
 import { urlDomain } from "../../../../util/htmlHelpers";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
-import EditorErrorMessage from "../../EditorErrorMessage";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
@@ -194,7 +193,10 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
           {metaQuery.isLoading ? (
             <Spinner />
           ) : !allowedProvider ? (
-            <EditorErrorMessage msg={t("displayOembed.notSupported", { type, provider: provider })} />
+            <MessageBox variant="error">
+              <ErrorWarningLine />
+              {t("displayOembed.notSupported", { type, provider: provider })}
+            </MessageBox>
           ) : embed?.resource === "external" ? (
             <ExternalEmbed embed={embed} />
           ) : embed?.resource === "iframe" ? (
@@ -208,7 +210,7 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
               size="small"
               aria-label={t("form.resize")}
             >
-              <Expandable />
+              <ExpandUpDownLine />
             </ExpandableButton>
           )}
           {children}
@@ -223,7 +225,7 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
                   ? t("form.content.link.changeUrlResource", { type: type })
                   : t("form.content.link.newUrlResource")}
               </DialogTitle>
-              {provider && <Text textStyle="label.small">{provider}</Text>}
+              {!!provider && <Text textStyle="label.small">{provider}</Text>}
             </TitleWrapper>
             <DialogCloseButton />
           </DialogHeader>

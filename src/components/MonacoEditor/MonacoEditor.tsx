@@ -31,7 +31,6 @@ import { createFormatAction, createSaveAction } from "./editorActions";
 
 const StyledDiv = styled("div", {
   base: {
-    margin: "medium",
     border: "1px solid",
     borderColor: "stroke.subtle",
   },
@@ -66,7 +65,6 @@ monaco.editor.defineTheme("myCustomTheme", {
   colors: {},
 });
 
-// eslint-disable-next-line no-restricted-globals
 self.MonacoEnvironment = {
   getWorker() {
     return new htmlWorker();

@@ -6,7 +6,7 @@
  *
  */
 
-import { PencilFill } from "@ndla/icons/action";
+import { PencilFill } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import formatDate, { formatDateForBackend } from "../../util/formatDate";
 import DatePicker from "../DatePicker";

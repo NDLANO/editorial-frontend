@@ -9,7 +9,7 @@ import { FieldArray, useFormikContext } from "formik";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
-import { CloseLine } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons";
 import { contributorGroups, contributorTypes } from "@ndla/licenses";
 import {
   Button,
@@ -22,7 +22,6 @@ import {
   SelectContent,
   SelectHiddenSelect,
   SelectLabel,
-  SelectPositioner,
   SelectRoot,
   SelectValueText,
 } from "@ndla/primitives";
@@ -133,15 +132,13 @@ const Contributor = ({ type, onAddNew, onRemove }: ContributorProps) => {
                   <GenericSelectTrigger>
                     <SelectValueText placeholder={t("form.name.type")} />
                   </GenericSelectTrigger>
-                  <SelectPositioner>
-                    <SelectContent>
-                      {collection.items.map((item) => (
-                        <GenericSelectItem key={item.type} item={item}>
-                          {item.translation}
-                        </GenericSelectItem>
-                      ))}
-                    </SelectContent>
-                  </SelectPositioner>
+                  <SelectContent>
+                    {collection.items.map((item) => (
+                      <GenericSelectItem key={item.type} item={item}>
+                        {item.translation}
+                      </GenericSelectItem>
+                    ))}
+                  </SelectContent>
                   <SelectHiddenSelect data-testid="contributor-selector" />
                 </SelectRoot>
               </FieldRoot>

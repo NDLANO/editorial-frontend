@@ -5,15 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { useFormikContext } from "formik";
+import { isKeyHotkey } from "is-hotkey";
 import isEqual from "lodash/isEqual";
-import { FocusEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
+import { FocusEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from "slate";
 import { withHistory } from "slate-history";
 import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
+import { useFieldContext } from "@ark-ui/react";
 import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import "../DisplayEmbed/helpers/h5pResizer";
 import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
 import { SlatePlugin } from "./interfaces";
 import { Action, commonActions } from "./plugins/blockPicker/actions";
@@ -29,7 +33,7 @@ import { SlateToolbar } from "./plugins/toolbar";
 import { AreaFilters, CategoryFilters } from "./plugins/toolbar/toolbarState";
 import { SlateProvider } from "./SlateContext";
 import getCurrentBlock from "./utils/getCurrentBlock";
-import { KEY_ARROW_LEFT, KEY_ARROW_RIGHT, KEY_TAB } from "./utils/keys";
+import { KEY_TAB } from "./utils/keys";
 import withPlugins from "./utils/withPlugins";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
@@ -38,18 +42,13 @@ import { FormikStatus } from "../../interfaces";
 const StyledSlateWrapper = styled("div", {
   base: {
     position: "relative",
-  },
-});
-
-const StyledEditable = styled(
-  Editable,
-  {
-    base: {
+    "& [data-slate-editor]": {
       outline: "none",
     },
   },
-  { baseComponent: true },
-);
+});
+
+const StyledEditable = styled(Editable, {}, { baseComponent: true });
 
 export interface RichTextEditorProps extends Omit<EditableProps, "value" | "onChange" | "onKeyDown"> {
   value: Descendant[];
@@ -94,7 +93,23 @@ const RichTextEditor = ({
 }: RichTextEditorProps) => {
   const [editor] = useState(() => withPlugins(withReact(withHistory(createEditor())), plugins));
   const [isFirstNormalize, setIsFirstNormalize] = useState(true);
+  const [labelledBy, setLabelledBy] = useState<string | undefined>(undefined);
   const prevSubmitted = useRef(submitted);
+  const field = useFieldContext();
+  // Including ID somehow crashes the editor.
+  const {
+    "aria-labelledby": fieldLabelledBy,
+    //@ts-expect-error - it exists, but not according to the type
+    "data-part": _,
+    ...fieldProps
+  } = useMemo(() => (field?.getTextareaProps() as EditableProps | undefined) ?? {}, [field]);
+
+  useEffect(() => {
+    const labelEl = document.getElementById(field.ids.label);
+    if (labelEl) {
+      setLabelledBy(labelEl.id);
+    }
+  }, [field.ids.label]);
 
   const { status, setStatus } = useFormikContext<ArticleFormType>();
 
@@ -279,13 +294,13 @@ const RichTextEditor = ({
         }
       }
 
-      if (editor.selection && Range.isCollapsed(editor.selection) && !e.shiftKey) {
-        if (e.key === KEY_ARROW_LEFT) {
+      if (editor.selection && Range.isCollapsed(editor.selection)) {
+        if (isKeyHotkey("left", e.nativeEvent)) {
           e.preventDefault();
           Transforms.move(editor, { unit: "offset", reverse: true });
           return;
         }
-        if (e.key === KEY_ARROW_RIGHT) {
+        if (isKeyHotkey("right", e.nativeEvent)) {
           e.preventDefault();
           Transforms.move(editor, { unit: "offset" });
           return;
@@ -297,7 +312,7 @@ const RichTextEditor = ({
         allowEditorKeyDown = additionalOnKeyDown(e);
       }
       if (allowEditorKeyDown) {
-        // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
+        // @ts-expect-error is-hotkey and editor.onKeyDown does not have matching types
         editor.onKeyDown(e);
       }
     },
@@ -308,7 +323,7 @@ const RichTextEditor = ({
     <article className={noArticleStyling ? undefined : "ndla-article"}>
       <ArticleLanguageProvider language={language}>
         <SlateProvider isSubmitted={submitted}>
-          <StyledSlateWrapper data-testid={testId}>
+          <StyledSlateWrapper data-testid={testId} data-slate-wrapper="">
             <Slate editor={editor} initialValue={value} onChange={onChange}>
               {isFirstNormalize && !hideSpinner ? (
                 <Spinner />
@@ -324,6 +339,8 @@ const RichTextEditor = ({
                     />
                   )}
                   <StyledEditable
+                    {...fieldProps}
+                    aria-labelledby={labelledBy}
                     {...rest}
                     onBlur={onBlur}
                     decorate={decorations}

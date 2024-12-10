@@ -6,26 +6,17 @@
  *
  */
 
-import { CSSProperties, useMemo } from "react";
 import { Outlet } from "react-router-dom";
-import { useComponentSize } from "@ndla/hooks";
-import { styled } from "@ndla/styled-system/jsx";
-
-const PageLayout = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    // The minimum page height should be 100vh - masthead height
-    minHeight: "calc(100vh - (var(--masthead-height, 72px)))",
-  },
-});
+import { Footer } from "../Footer";
+import { PageLayout } from "../Layout/PageLayout";
 
 export const Layout = () => {
-  const { height } = useComponentSize("masthead");
-  const mastheadHeightVar = useMemo(() => ({ "--masthead-height": `${height}px` }) as CSSProperties, [height]);
   return (
-    <PageLayout style={mastheadHeightVar}>
-      <Outlet />
-    </PageLayout>
+    <>
+      <PageLayout>
+        <Outlet />
+      </PageLayout>
+      <Footer />
+    </>
   );
 };

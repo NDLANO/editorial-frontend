@@ -113,6 +113,7 @@ const phrases = {
     pli: "Pali",
     empty: "Ingen fleire språk",
     change: "Bytt til {{language}} versjon",
+    none: "Ingen",
   },
   welcomePage: {
     lastFavorited: "Siste hjertemarkerte ressurs: ",
@@ -224,6 +225,7 @@ const phrases = {
       concept: "Søk etter forklaringar",
       "podcast-series": "Søk etter podkastserier",
     },
+    activeFilters: "Aktive filtre",
     searchButton: "Søk",
     emptyButton: "Tøm",
     title: "Tittel",
@@ -313,6 +315,7 @@ const phrases = {
   },
   searchForm: {
     placeholder: "Søk etter artikler, aktiviteter eller oppgaver",
+    searchTypes: "Søketypar",
     types: {
       conceptQuery: "Søk på forklaringar",
       glossQuery: "Søk på glose",
@@ -337,21 +340,21 @@ const phrases = {
       "filter-inactive": "Inkluder utgåtte fag",
     },
     tagType: {
-      query: "Innhald",
-      subjects: "Fag",
-      language: "Språk",
-      users: "Bruker",
-      "resource-types": "Innhaldstype",
-      status: "Status",
-      "draft-status": "Status",
-      "audio-type": "Lydfiltype",
-      "concept-type": "Forklaringstype",
-      license: "Lisens",
-      "model-released": "Modellklarering",
-      "revision-date-from": "Revisjonsdato fra",
-      "revision-date-to": "Revisjonsdato til",
+      query: "Søk: {{value}}",
+      subjects: "Fag: {{value}}",
+      language: "Språk: $t(languages.{{value}})",
+      users: "Bruker: {{value}}",
+      "resource-types": "Innhaldstype: {{value}}",
+      status: "Status: $t(form.status.{{value}})",
+      "draft-status": "Status: $t(form.status.{{value}})",
+      "audio-type": "Lydfiltype: {{value}}",
+      "concept-type": "Forklaringstype: {{value}}",
+      license: "Lisens: {{value}}",
+      "model-released": "Modellklarering: {{value}}",
+      "revision-date-from": "Revisjonsdato fra: {{value}}",
+      "revision-date-to": "Revisjonsdato til: {{value}}",
       "exclude-revision-log": "Endringslogg ekskludert",
-      "responsible-ids": "Ansvarleg",
+      "responsible-ids": "Ansvarleg: {{value}}",
       "filter-inactive": "Utgåtte fag inkludert",
     },
     btn: "Søk",
@@ -763,6 +766,7 @@ const phrases = {
     },
   },
   form: {
+    createNew: "Ulagra {{type}}",
     articleSection: "Artiklar",
     metadataSection: "Metadata",
     contentSection: "Innhald",
@@ -989,6 +993,8 @@ const phrases = {
       image: "Biletesøk",
       imageUpload: "Last opp bilete",
       h5p: "H5P",
+      description:
+        "Visuelt element kan setjast ulikt for kvart språk. Dersom visuelt element ikkje finst, vil det hentast automatisk frå eit anna språk.",
     },
     visualElementPicker: {
       h5p: "H5P",
@@ -1250,7 +1256,7 @@ const phrases = {
         column: "kolonne",
       },
       normalizedOnLoad:
-        "Artikkelen du har åpna inneheld gammal html-kode som er endra av editoren. Dette medfører at du må republisere ressursen også om du berre har endra metadata eller læreplankoder.",
+        "Artikkelen inneheld HTML-kode som er endra av editoren. Derfor må ressursen republiserast sjølv om du berre har endra metadata eller læreplankodar.",
     },
     tags: {
       label: "Nøkkelord",
@@ -1406,6 +1412,8 @@ const phrases = {
     },
     h5p: {
       remove: "Fjern H5P",
+      copy: "Kopier H5P",
+      copyError: "Kopiering av H5P-elementet feila",
       metadata: {
         alttext: "Alt-tekst",
         save: "Lagre",
@@ -1441,7 +1449,7 @@ const phrases = {
         multipleFiles: "Du kan laste opp forskjellige lydfiler for kvart språk.",
         changeFile: "Fjerning og endring av eit språk vil ikkje påverke dei andre språka.",
         newLanguage: "Ved oppretting av eit nytt språk vil ei lydfil fra eit eksisterande språk foreslås.",
-        deleteFiles: "Ei lydfil slettes berre når den ikkje lenger brukes i eit språk.",
+        deleteFiles: "Ei lydfil slettast berre når den ikkje lenger brukes i eit språk.",
       },
       modal: {
         header: "Lydfiler",
@@ -1679,6 +1687,7 @@ const phrases = {
     fullTopic: "Gjennomsnitt:",
     TOPIC: "emnet",
     SUBJECT: "faget",
+    PROGRAMME: "utdanningsprogrammet",
     qualityDescription:
       "Snitt av kvalitetsvurdering av alle vurderte ressursar i {{nodeType}} ({{count}} vurderte ressurser)",
     average: "Gj.snitt",
@@ -1696,9 +1705,16 @@ const phrases = {
     subjectSettings: "Faginnstillinger",
     topicSettings: "Emneinnstillinger",
     currentVersion: "Noverande versjon",
-    deleteNode: "Slett node",
-    deleteResource: "Slett ressurs",
-    confirmDelete: "Er du sikker på at du vil slette denne noden?",
+    delete: {
+      deleteNode: "Slett {{ nodeType }}",
+      deleteDisabled: "{{ nodeType }} med {{ childNode }} kan ikkje slettast",
+      deleteResource: "Slett ressurs",
+      child: "barn",
+      subTopic: "underemner",
+      topic: "emner",
+      confirmDelete: "Er du sikker på at du vil slette dette {{ nodeType }}?",
+    },
+
     version: "Versjon",
     createResource: "Opprett ny ressurs",
     addNewPlannedResource: "Opprett ny planlagd ressurs",
@@ -1824,6 +1840,10 @@ const phrases = {
       filestructureClose: "Lukk",
       addedTopic: "Lagt til",
       disconnectedTaxonomyWarning: "Ugyldig tilknytning",
+      taxonomySubjectConnections:
+        "For at ein ressurs skal bli tilgjengeleg i strukturen, må han knytast til eitt eller fleire emne.",
+      description:
+        "Her kan du velje kvar emnet skal liggje i taksonomien. Dersom du endrar plassering i taksonomien, vil ikkje det gamle emnet bli sletta om det har underemne eller ressursar knytt til seg.",
     },
     grepCodes: {
       edit: "Endre læreplankobling",
@@ -1843,6 +1863,7 @@ const phrases = {
       buttonText: "Gjer alle ressursar om til primærkoblingar",
       recursiveButtonText: "Gjer alle ressursar og underressursar om til primærkoblingar",
       error: "Ein feil oppstod",
+      success: "Alle ressursar er gjort om til primærkoblingar",
     },
     goTo: "Åpne i stukturredigering",
     missingResourceType: "Mangler ressurstype",
@@ -1861,6 +1882,8 @@ const phrases = {
         subjectLMA: "LMA for faget",
         subjectSA: "SA for faget",
         subjectDA: "DA for faget",
+        keyPlaceholder: "Skriv inn nøkkel",
+        valuePlaceholder: "Skriv inn verdi",
       },
       placeholders: {
         category: "Velg kategori",
@@ -1943,10 +1966,10 @@ const phrases = {
     title: "Taksonomiversjonar",
     publishedVersion: "Publisert versjon",
     otherVersions: "Øvrige versjonar",
-    deleteLocked: "Denne versjonen kan ikkje slettes fordi den er låst",
-    deletePublished: "Denne versjonen kan ikkje slettes fordi den er publisert",
+    deleteLocked: "Denne versjonen kan ikkje slettast fordi den er låst",
+    deletePublished: "Denne versjonen kan ikkje slettast fordi den er publisert",
     delete: "Slett versjon",
-    locked: "Denne versjonen er låst og kan ikkje slettes",
+    locked: "Denne versjonen er låst og kan ikkje slettast",
     status: {
       PUBLISHED: "Publisert",
       ARCHIVED: "Arkivert",
@@ -1985,7 +2008,7 @@ const phrases = {
       },
       locked: {
         title: "Låst",
-        subTitle: "Lås versjonen så den ikkje kan slettes",
+        subTitle: "Lås versjonen så den ikkje kan slettast",
         locked: "Låst",
         unlocked: "Ulåst",
       },
@@ -2027,6 +2050,7 @@ const phrases = {
     nodeTypeTooltips: {
       SUBJECT: "Dette er eit fag",
       TOPIC: "Dette er eit emne",
+      PROGRAMME: "Dette er eit utdanningsprogram",
     },
     fields: {
       id: {

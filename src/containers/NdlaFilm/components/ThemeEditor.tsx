@@ -9,8 +9,7 @@
 import { useField } from "formik";
 import { MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine, PencilFill } from "@ndla/icons/action";
-import { ArrowUpShortLine, ArrowDownShortLine } from "@ndla/icons/common";
+import { DeleteBinLine, PencilFill, ArrowUpShortLine, ArrowDownShortLine } from "@ndla/icons";
 import { Button, Heading, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IMovieTheme } from "@ndla/types-backend/frontpage-api";
@@ -41,7 +40,7 @@ export type ThemeNames = Partial<Record<LocaleType, string>>;
 
 const ThemeEditor = ({ selectedLanguage }: Props) => {
   const { t } = useTranslation();
-  const [field, _, helpers] = useField<IMovieTheme[]>("themes");
+  const [field, , helpers] = useField<IMovieTheme[]>("themes");
 
   const onAddMovieToTheme = (movies: string[], index: number) => {
     const newThemes = field.value.map((theme, i) => (i === index ? { ...theme, movies } : theme));

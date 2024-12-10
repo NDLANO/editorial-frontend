@@ -25,8 +25,8 @@ export interface TranslateType {
   type: "text" | "html";
 }
 
-const domParser = new DOMParser();
-const xmlSerializer = new XMLSerializer();
+//const domParser = new DOMParser();
+//const xmlSerializer = new XMLSerializer();
 
 export const NynorskTranslateProvider = ({ children }: Props) => {
   const translateState = useState<boolean>(false);

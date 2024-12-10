@@ -12,7 +12,7 @@ import sortBy from "lodash/sortBy";
 import { useCallback, useMemo, useState, MouseEvent, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
-import { Button, SelectLabel } from "@ndla/primitives";
+import { Button, SelectLabel, Text } from "@ndla/primitives";
 import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import {
   Node,
@@ -24,8 +24,7 @@ import {
   Version,
 } from "@ndla/types-taxonomy";
 import TaxonomyInfo from "./TaxonomyInfo";
-import { FormikFieldHelp } from "../../../../../components/FormikField";
-import { FormActionsContainer } from "../../../../../components/FormikForm";
+import { FormActionsContainer, FormContent } from "../../../../../components/FormikForm";
 import SaveButton from "../../../../../components/SaveButton";
 import OptGroupVersionSelector from "../../../../../components/Taxonomy/OptGroupVersionSelector";
 import { NodeWithChildren } from "../../../../../components/Taxonomy/TaxonomyBlockNode";
@@ -330,16 +329,16 @@ const TaxonomyBlock = ({
   );
 
   return (
-    <>
-      {!hasTaxEntries && <FormikFieldHelp error>{t("errorMessage.missingTax")}</FormikFieldHelp>}
-      {isTaxonomyAdmin && (
+    <FormContent>
+      {!hasTaxEntries && <Text color="text.error">{t("errorMessage.missingTax")}</Text>}
+      {!!isTaxonomyAdmin && (
         <TaxonomyConnectionErrors
           articleType={article.articleType ?? "standard"}
           topics={topics}
           resources={resources}
         />
       )}
-      {isTaxonomyAdmin && (
+      {!!isTaxonomyAdmin && (
         <>
           <OptGroupVersionSelector
             currentVersion={taxonomyVersion}
@@ -365,15 +364,14 @@ const TaxonomyBlock = ({
         setRelevance={setRelevance}
         getSubjectTopics={getSubjectTopics}
       />
-      {updateTaxMutation.isError && <FormikFieldHelp error>{t("errorMessage.taxonomy")}</FormikFieldHelp>}
-      {showWarning && <FormikFieldHelp error>{t("errorMessage.unsavedTaxonomy")}</FormikFieldHelp>}
-
+      {!!updateTaxMutation.isError && <Text color="text.error">{t("errorMessage.taxonomy")}</Text>}
+      {!!showWarning && <Text color="text.error">{t("errorMessage.unsavedTaxonomy")}</Text>}
       <FormActionsContainer>
         <Button variant="secondary" disabled={!isDirty} onClick={onReset}>
           {t("reset")}
         </Button>
         <SaveButton
-          showSaved={updateTaxMutation.isSuccess && !isDirty}
+          showSaved={!!updateTaxMutation.isSuccess && !isDirty}
           loading={isSaving}
           disabled={!isDirty || isSaving}
           onClick={handleSubmit}
@@ -381,7 +379,7 @@ const TaxonomyBlock = ({
           formIsDirty={isDirty}
         />
       </FormActionsContainer>
-    </>
+    </FormContent>
   );
 };
 

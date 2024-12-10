@@ -10,7 +10,7 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import { Pin } from "@ndla/icons/common";
+import { PushpinFill } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { GridCellElement } from ".";
@@ -56,7 +56,7 @@ const GridCell = ({ element, editor, attributes, children }: Props) => {
         size="small"
         data-testid="grid-cell-parallax"
       >
-        <Pin />
+        <PushpinFill />
       </StyledIconButton>
       {children}
     </StyledGridCell>

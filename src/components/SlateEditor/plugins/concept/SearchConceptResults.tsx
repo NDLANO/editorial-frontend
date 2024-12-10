@@ -7,14 +7,14 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Concept, Globe, CheckboxCircleLine } from "@ndla/icons/editor";
+import { ChatLine, GlobalLine, CheckboxCircleLine } from "@ndla/icons";
 import { Button, ListItemContent, ListItemHeading, ListItemImage, ListItemRoot, Spinner, Text } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import config from "../../../../config";
 import { PUBLISHED } from "../../../../constants";
-import { SearchParams } from "../../../../containers/SearchPage/components/form/SearchForm";
+import { SearchParams } from "../../../../interfaces";
 import { FormActionsContainer } from "../../../FormikForm";
 
 const StyledListItemImage = styled(ListItemImage, {
@@ -82,7 +82,7 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching = t
       {results.map((result) => (
         <ListItemRoot key={result.id} context="list" nonInteractive asChild consumeCss>
           <li>
-            <StyledListItemImage src="" alt="" fallbackElement={result.glossData ? <Globe /> : <Concept />} />
+            <StyledListItemImage src="" alt="" fallbackElement={result.glossData ? <GlobalLine /> : <ChatLine />} />
             <StyledListItemContent>
               <ListItemContent>
                 <ListItemHeading>
@@ -96,7 +96,7 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching = t
                   <StyledText textStyle="body.small">{result.content.content}</StyledText>
                 )}
                 <StyledFormActionsContainer>
-                  {(result.status?.current === PUBLISHED || result.status?.other.includes(PUBLISHED)) && (
+                  {!!(result.status?.current === PUBLISHED || result.status?.other.includes(PUBLISHED)) && (
                     <SafeLinkIconButton
                       size="small"
                       variant="success"

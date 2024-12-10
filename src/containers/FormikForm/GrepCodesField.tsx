@@ -43,6 +43,9 @@ const StyledComboboxList = styled(ComboboxList, {
     overflowY: "auto",
   },
 });
+const StyledComboboxContent = styled(ComboboxContent, {
+  base: { zIndex: "popover" },
+});
 
 export const convertGrepCodesToObject = async (grepCodes: string[]): Promise<Record<string, string>> => {
   const grepCodesData = await searchGrepCodes({ codes: grepCodes });
@@ -159,7 +162,7 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
               }}
               triggerable
             />
-            <ComboboxContent ref={contentRef}>
+            <StyledComboboxContent ref={contentRef}>
               <StyledComboboxList>
                 {collection.items.map((item) => (
                   <ComboboxItem key={item.code} item={item} asChild>
@@ -172,7 +175,7 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
                   {`${t("dropdown.numberHits", { hits: grepCodesQuery.data?.totalCount ?? 0 })}. ${!grepCodesQuery.data?.totalCount ? t("form.grepCodes.noHits") : ""}`}
                 </Text>
               )}
-            </ComboboxContent>
+            </StyledComboboxContent>
           </ComboboxRoot>
           <StyledList>
             {Object.entries(grepCodes).map(([code, title]) => (

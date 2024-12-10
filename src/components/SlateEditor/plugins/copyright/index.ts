@@ -6,11 +6,10 @@
  *
  */
 
-import type { JSX } from "react";
 import { Descendant, Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_COPYRIGHT } from "./types";
-import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
+import { createDataAttributes, createHtmlTag, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import {
@@ -34,9 +33,10 @@ export const copyrightSerializer: SlateSerializer = {
       children,
     );
   },
-  serialize(node: Descendant, children: JSX.Element[]) {
+  serialize(node, children) {
     if (!Element.isElement(node) || node.type !== TYPE_COPYRIGHT || !node.data) return;
-    return createEmbedTagV2({ ...node.data, copyright: JSON.stringify(node.data.copyright) }, children, undefined);
+    const data = createDataAttributes({ ...node.data, copyright: JSON.stringify(node.data.copyright) });
+    return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true, children });
   },
 };
 

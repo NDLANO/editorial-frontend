@@ -7,10 +7,10 @@
  */
 
 import { Editor, Descendant, Element } from "slate";
-import { TYPE_NDLA_EMBED } from "./types";
+import { TYPE_EMBED_ERROR, TYPE_NDLA_EMBED } from "./types";
 import { defaultEmbedBlock, isSlateEmbed, isSlateEmbedElement } from "./utils";
 import { Embed, ErrorEmbed } from "../../../../interfaces";
-import { createEmbedTag, parseEmbedTag } from "../../../../util/embedTagHelpers";
+import { createDataAttributes, createHtmlTag, parseEmbedTag } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
@@ -44,9 +44,10 @@ export const embedSerializer: SlateSerializer = {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     return defaultEmbedBlock(parseEmbedTag(el.outerHTML) as Embed);
   },
-  serialize(node: Descendant) {
-    if (!Element.isElement(node) || !isSlateEmbed(node)) return;
-    return createEmbedTag(node.data, undefined);
+  serialize(node) {
+    if (!Element.isElement(node) || node.type !== TYPE_EMBED_ERROR) return;
+    const data = createDataAttributes(node.data);
+    return createHtmlTag({ tag: TYPE_NDLA_EMBED, data });
   },
 };
 

@@ -6,7 +6,6 @@
  *
  */
 
-import type { JSX } from "react";
 import { Descendant, Editor, Element, Transforms, Text } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_NOOP } from "./types";
@@ -26,10 +25,9 @@ export const noopSerializer: SlateSerializer = {
       return slatejsx("element", { type: TYPE_NOOP }, children);
     }
   },
-  serialize(node: Descendant, children: JSX.Element[]) {
+  serialize(node, children) {
     if (!Element.isElement(node) || node.type !== TYPE_NOOP) return;
-    // eslint-disable-next-line react/jsx-no-useless-fragment
-    return <>{children}</>;
+    return children;
   },
 };
 

@@ -9,6 +9,7 @@
 import { Editor, Element, Descendant } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_BREAK } from "./types";
+import { createHtmlTag } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 
 export interface BreakElement {
@@ -44,11 +45,10 @@ export const breakSerializer: SlateSerializer = {
     }
     return slatejsx("text", { text: "\n" });
   },
-  serialize(node: Descendant) {
+  serialize(node) {
     if (!Element.isElement(node)) return;
     if (node.type !== "br") return;
-
-    return <br />;
+    return createHtmlTag({ tag: "br", shorthand: true });
   },
 };
 

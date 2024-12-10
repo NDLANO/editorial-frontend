@@ -6,10 +6,10 @@
  *
  */
 
-import { Descendant, Editor, Element } from "slate";
+import { Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_EMBED_BRIGHTCOVE } from "./types";
-import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
+import { createDataAttributes, createHtmlTag, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
@@ -27,7 +27,7 @@ const normalizerConfig: NormalizerConfig = {
   },
 };
 
-export const embedSerializer: SlateSerializer = {
+export const brightcoveSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
@@ -35,9 +35,10 @@ export const embedSerializer: SlateSerializer = {
     if (embedAttributes.resource !== TYPE_EMBED_BRIGHTCOVE) return;
     return slatejsx("element", { type: TYPE_EMBED_BRIGHTCOVE, data: embedAttributes }, { text: "" });
   },
-  serialize(node: Descendant) {
+  serialize(node) {
     if (!Element.isElement(node) || node.type !== TYPE_EMBED_BRIGHTCOVE || !node.data) return;
-    return createEmbedTagV2(node.data, undefined, undefined);
+    const data = createDataAttributes(node.data);
+    return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
   },
 };
 

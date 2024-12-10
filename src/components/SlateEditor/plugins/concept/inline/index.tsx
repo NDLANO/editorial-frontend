@@ -6,10 +6,14 @@
  *
  */
 
-import { Descendant, Editor, Element, Node, Transforms } from "slate";
+import { Editor, Element, Node, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_CONCEPT_INLINE } from "./types";
-import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../../util/embedTagHelpers";
+import {
+  createDataAttributes,
+  createHtmlTag,
+  reduceElementDataAttributesV2,
+} from "../../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../../interfaces";
 import { TYPE_NDLA_EMBED } from "../../embed/types";
 
@@ -33,15 +37,10 @@ export const inlineConceptSerializer: SlateSerializer = {
       );
     }
   },
-  serialize(node: Descendant) {
+  serialize(node) {
     if (!Element.isElement(node) || node.type !== TYPE_CONCEPT_INLINE) return;
-
-    const data = {
-      ...node.data,
-      linkText: Node.string(node),
-    };
-
-    return createEmbedTagV2(data, undefined, undefined);
+    const data = createDataAttributes({ ...node.data, linkText: Node.string(node) });
+    return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
   },
 };
 

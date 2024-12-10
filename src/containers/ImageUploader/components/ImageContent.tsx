@@ -89,14 +89,18 @@ const ImageContent = () => {
                     const fileErrors = details.files?.[0]?.errors;
                     if (!fileErrors) return;
                     if (fileErrors.includes("FILE_TOO_LARGE")) {
-                      const errorMessage = `${t("form.image.fileUpload.genericError")}: ${t("form.image.fileUpload.tooLargeError")}`;
+                      const errorMessage = `${t("form.image.fileUpload.genericError")}: ${t(
+                        "form.image.fileUpload.tooLargeError",
+                      )}`;
                       setTimeout(() => {
                         helpers.setError(errorMessage);
                       }, 0);
                       return;
                     }
                     if (fileErrors.includes("FILE_INVALID_TYPE")) {
-                      const errorMessage = `${t("form.image.fileUpload.genericError")}: ${t("form.image.fileUpload.fileTypeInvalidError")}`;
+                      const errorMessage = `${t("form.image.fileUpload.genericError")}: ${t(
+                        "form.image.fileUpload.fileTypeInvalidError",
+                      )}`;
                       setTimeout(() => {
                         helpers.setError(errorMessage);
                       }, 0);

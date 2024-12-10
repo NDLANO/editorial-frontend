@@ -238,9 +238,11 @@ const SearchContent = ({ content, locale, subjects, responsibleName }: Props) =>
                 target="_blank"
                 aria-label={t("form.workflow.published")}
                 title={t("form.workflow.published")}
-                to={`${config.ndlaFrontendDomain}/${content.learningResourceType === "concept" || content.learningResourceType === "gloss" ? "concept" : "article"}/${
-                  content.id
-                }`}
+                to={`${config.ndlaFrontendDomain}/${
+                  content.learningResourceType === "concept" || content.learningResourceType === "gloss"
+                    ? "concept"
+                    : "article"
+                }/${content.id}`}
               >
                 <CheckLine />
               </SafeLinkIconButton>

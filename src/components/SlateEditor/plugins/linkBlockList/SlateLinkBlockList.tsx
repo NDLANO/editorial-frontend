@@ -197,7 +197,7 @@ const SlateLinkBlock = ({ link, onSave, onDelete, allEmbeds, index }: SlateLinkB
       <EmbedWrapper>
         <LinkBlock title={link.title} url={link.url} date={link.date} />
         <ButtonWrapper>
-          <DialogTrigger>
+          <DialogTrigger asChild>
             <IconButton aria-label={t("linkBlock.edit")} title={t("linkBlock.edit")} size="small">
               <PencilFill />
             </IconButton>

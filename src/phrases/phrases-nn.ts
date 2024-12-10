@@ -1667,6 +1667,7 @@ const phrases = {
       SUBJECT: "fag",
       TOPIC: "emne",
     },
+    favorite: { add: "Favorittmerk faget", remove: "Fjern favorittmarkering av faget" },
     publishedVersion: "Sjå publisert versjon",
     noValue: "Ikkje satt",
     previewProgrammes: "Forhåndsvis utdanningsprogram i frontend",

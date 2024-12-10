@@ -6,10 +6,10 @@
  *
  */
 
-import { Descendant, Editor, Element } from "slate";
+import { Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_H5P } from "./types";
-import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
+import { createDataAttributes, createHtmlTag, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
@@ -35,9 +35,10 @@ export const h5pSerializer: SlateSerializer = {
     if (embedAttributes.resource !== TYPE_H5P) return;
     return slatejsx("element", { type: TYPE_H5P, data: embedAttributes }, { text: "" });
   },
-  serialize(node: Descendant) {
+  serialize(node) {
     if (!Element.isElement(node) || node.type !== TYPE_H5P || !node.data) return;
-    return createEmbedTagV2(node.data, undefined, undefined);
+    const data = createDataAttributes(node.data);
+    return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
   },
 };
 

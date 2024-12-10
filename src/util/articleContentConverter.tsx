@@ -8,12 +8,10 @@
 import escapeHtml from "escape-html";
 import compact from "lodash/compact";
 import toArray from "lodash/toArray";
-import { cloneElement, type JSX } from "react";
-import { renderToStaticMarkup } from "react-dom/server";
 import { Descendant, Node, Text } from "slate";
-import { AudioEmbedData, ImageEmbedData } from "@ndla/types-embed";
+import { AudioEmbedData, BrightcoveEmbedData, H5pEmbedData, ImageEmbedData } from "@ndla/types-embed";
 import { convertFromHTML } from "./convertFromHTML";
-import { parseEmbedTag, createEmbedTag, createEmbedTagV2 } from "./embedTagHelpers";
+import { parseEmbedTag, createHtmlTag, createDataAttributes } from "./embedTagHelpers";
 import { Plain } from "./slatePlainSerializer";
 import { SlateSerializer } from "../components/SlateEditor/interfaces";
 import { asideSerializer } from "../components/SlateEditor/plugins/aside";
@@ -32,6 +30,7 @@ import { definitionListSerializer } from "../components/SlateEditor/plugins/defi
 import { detailsSerializer } from "../components/SlateEditor/plugins/details";
 import { divSerializer } from "../components/SlateEditor/plugins/div";
 import { embedSerializer } from "../components/SlateEditor/plugins/embed";
+import { TYPE_NDLA_EMBED } from "../components/SlateEditor/plugins/embed/types";
 import { defaultEmbedBlock, isSlateEmbed } from "../components/SlateEditor/plugins/embed/utils";
 import { externalSerializer } from "../components/SlateEditor/plugins/external";
 import { fileSerializer } from "../components/SlateEditor/plugins/file";
@@ -59,7 +58,8 @@ import { TYPE_SECTION } from "../components/SlateEditor/plugins/section/types";
 import { spanSerializer } from "../components/SlateEditor/plugins/span";
 import { tableSerializer } from "../components/SlateEditor/plugins/table";
 import { disclaimerSerializer } from "../components/SlateEditor/plugins/uuDisclaimer";
-import { Embed } from "../interfaces";
+import { brightcoveSerializer } from "../components/SlateEditor/plugins/video";
+import { Embed, ErrorEmbed } from "../interfaces";
 
 export const sectionSplitter = (html: string) => {
   const node = document.createElement("div");
@@ -123,6 +123,7 @@ const extendedRules: SlateSerializer[] = [
   linkBlockListSerializer,
   audioSerializer,
   imageSerializer,
+  brightcoveSerializer,
   h5pSerializer,
   externalSerializer,
   copyrightSerializer,
@@ -153,41 +154,42 @@ const commonRules: SlateSerializer[] = [
   spanSerializer,
 ];
 
+const serialize = (node: Descendant, rules: SlateSerializer[]): string | undefined => {
+  let children: string;
+  if (Text.isText(node)) {
+    children = escapeHtml(node.text);
+  } else {
+    children = node.children
+      .map((n) => serialize(n, rules))
+      .filter((n) => !!n)
+      .join("");
+  }
+
+  for (const rule of rules) {
+    if (!rule.serialize) {
+      continue;
+    }
+
+    const ret = rule.serialize(node, children);
+    if (ret === undefined) {
+      continue;
+    } else if (ret === null) {
+      return undefined;
+    } else return ret;
+  }
+
+  return children;
+};
+
+const DELETE_REGEXP = /<deleteme><\/deleteme>/g;
+
 const articleContentToHTML = (value: Descendant[], rules: SlateSerializer[]) => {
-  const serialize = (node: Descendant, nodeIdx: number): JSX.Element | null => {
-    let children: JSX.Element[];
-    if (Text.isText(node)) {
-      children = [escapeHtml(node.text)];
-    } else {
-      children = compact(node.children.map((n: Descendant, idx: number) => serialize(n, idx)));
-    }
-
-    for (const rule of rules) {
-      if (!rule.serialize) {
-        continue;
-      }
-      const ret = rule.serialize(node, children);
-
-      if (ret === undefined) {
-        continue;
-      } else if (ret === null) {
-        return null;
-      } else {
-        return cloneElement(ret, { key: nodeIdx });
-      }
-    }
-    // eslint-disable-next-line react/jsx-no-useless-fragment
-    return <>{children}</>;
-  };
-
   const elements = value
-    .map((descendant: Descendant, idx: number) => {
-      const html = serialize(descendant, idx);
-      return html ? renderToStaticMarkup(html) : "";
-    })
+    .map((descendant) => serialize(descendant, rules))
+    .filter((n) => !!n)
     .join("");
 
-  return elements.replace(/<deleteme><\/deleteme>/g, "");
+  return elements.replace(DELETE_REGEXP, "");
 };
 
 const articleContentToEditorValue = (html: string, rules: SlateSerializer[], noop?: boolean) => {
@@ -270,11 +272,14 @@ export function editorValueToEmbed(editorValue?: Descendant[]) {
 export function editorValueToEmbedTag(editorValue?: Descendant[]) {
   const embed = editorValueToEmbed(editorValue);
   if (embed) {
-    const embedTag =
-      embed?.resource === "audio" || embed?.resource === "image"
-        ? createEmbedTagV2<ImageEmbedData | AudioEmbedData>(embed, undefined, undefined)
-        : createEmbedTag(embed, undefined);
-    return embedTag ? renderToStaticMarkup(embedTag) : "";
+    const embedTag = createHtmlTag<"ndlaembed">({
+      tag: TYPE_NDLA_EMBED,
+      data: createDataAttributes<ErrorEmbed | ImageEmbedData | BrightcoveEmbedData | AudioEmbedData | H5pEmbedData>(
+        embed,
+      ),
+      bailOnEmpty: true,
+    });
+    return embedTag ?? "";
   }
   return "";
 }

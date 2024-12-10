@@ -6,11 +6,10 @@
  *
  */
 
-import type { JSX } from "react";
 import { Descendant, Editor, Element, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_QUOTE } from "./types";
-import { createTag, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
+import { createDataAttributes, createHtmlTag, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import getCurrentBlock from "../../utils/getCurrentBlock";
 import { KEY_ENTER } from "../../utils/keys";
@@ -35,10 +34,11 @@ export const blockQuoteSerializer: SlateSerializer = {
       children,
     );
   },
-  serialize(node: Descendant, children: JSX.Element[]) {
+  serialize(node, children) {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_QUOTE) {
-      return createTag("blockquote", node.data, children, { bailOnEmptyData: false }, undefined);
+      const data = createDataAttributes(node.data);
+      return createHtmlTag({ tag: "blockquote", data, children });
     }
   },
 };

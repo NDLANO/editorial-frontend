@@ -6,11 +6,10 @@
  *
  */
 
-import type { JSX } from "react";
 import { Descendant, Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_FRAMED_CONTENT } from "./types";
-import { createTag, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
+import { createDataAttributes, createHtmlTag, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import {
@@ -65,15 +64,10 @@ export const framedContentSerializer: SlateSerializer = {
       );
     }
   },
-  serialize(node: Descendant, children: JSX.Element[]) {
+  serialize(node, children) {
     if (!Element.isElement(node) || node.type !== TYPE_FRAMED_CONTENT) return;
-    return createTag(
-      "div",
-      { ...node.data, type: TYPE_FRAMED_CONTENT },
-      children,
-      { bailOnEmptyData: false },
-      undefined,
-    );
+    const data = createDataAttributes({ ...node.data, type: TYPE_FRAMED_CONTENT });
+    return createHtmlTag({ tag: "div", data, children });
   },
 };
 

@@ -9,7 +9,7 @@
 import { Descendant, Editor, Element, Transforms, Range } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_FOOTNOTE } from "./types";
-import { reduceElementDataAttributes, createEmbedTag } from "../../../../util/embedTagHelpers";
+import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import getCurrentBlock from "../../utils/getCurrentBlock";
 import { KEY_BACKSPACE, KEY_DELETE } from "../../utils/keys";
@@ -33,7 +33,7 @@ export const footnoteSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
-    const embedAttributes = reduceElementDataAttributes(embed);
+    const embedAttributes = parseElementAttributes(Array.from(embed.attributes));
     if (embedAttributes.resource !== "footnote") return;
     return slatejsx(
       "element",
@@ -50,12 +50,12 @@ export const footnoteSerializer: SlateSerializer = {
   serialize(node: Descendant) {
     if (!Element.isElement(node)) return;
     if (node.type !== TYPE_FOOTNOTE) return;
-    const data = {
+    const data = createDataAttributes({
       ...node.data,
       authors: node.data.authors ? node.data.authors.join(";") : "",
-    };
+    });
 
-    return createEmbedTag(data, undefined);
+    return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
   },
 };
 

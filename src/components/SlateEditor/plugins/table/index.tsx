@@ -7,8 +7,6 @@
  */
 
 import equals from "lodash/fp/equals";
-import type { JSX } from "react";
-import { renderToStaticMarkup } from "react-dom/server";
 import { Descendant, Editor, Element, Node, NodeEntry, Path, Text, Transforms } from "slate";
 import { HistoryEditor } from "slate-history";
 import { jsx as slatejsx } from "slate-hyperscript";
@@ -43,7 +41,7 @@ import {
   TYPE_TABLE_CELL,
   TYPE_TABLE_CELL_HEADER,
 } from "./types";
-import { reduceElementDataAttributes } from "../../../../util/embedTagHelpers";
+import { createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import getCurrentBlock from "../../utils/getCurrentBlock";
@@ -68,6 +66,21 @@ const normalizerConfig: NormalizerConfig = {
 const TABLE_TAGS = {
   th: "table-cell-header",
   td: "table-cell",
+};
+
+const TABLE_CAPTION_REGEXP = /(<caption\b[^>]*>[\s\S]*?<\/caption>)/i;
+
+// This uses regex parsing to be compatible with node, if we ever choose to do server-side serialization
+// instead of client-side.
+const extractTableCaption = (html: string) => {
+  // Extract the caption including its tags
+  const captionMatch = html.match(TABLE_CAPTION_REGEXP);
+  const caption = captionMatch ? captionMatch[1].trim() : undefined;
+
+  // Remove the caption from the table
+  const tableWithoutCaption = html.replace(TABLE_CAPTION_REGEXP, "").trim();
+
+  return { caption, tableContent: tableWithoutCaption };
 };
 
 export const tableSerializer: SlateSerializer = {
@@ -122,7 +135,7 @@ export const tableSerializer: SlateSerializer = {
         filter.push("scope");
       }
 
-      const attrs = reduceElementDataAttributes(el, filter);
+      const attrs = parseElementAttributes(Array.from(el.attributes), filter);
       const colspan = attrs.colspan && parseInt(attrs.colspan);
       const rowspan = attrs.rowspan && parseInt(attrs.rowspan);
       const data = {
@@ -142,74 +155,61 @@ export const tableSerializer: SlateSerializer = {
     }
     return;
   },
-  serialize(node: Descendant, children: JSX.Element[]) {
+  serialize(node, children) {
     if (!Element.isElement(node)) return;
 
     if (node.type === TYPE_TABLE_HEAD) {
-      return <thead>{children}</thead>;
+      return createHtmlTag({ tag: "thead", children });
     }
 
     if (node.type === TYPE_TABLE_BODY) {
-      return <tbody>{children}</tbody>;
+      return createHtmlTag({ tag: "tbody", children });
     }
 
     if (node.type === TYPE_TABLE_CAPTION) {
       if (Node.string(node) === "") {
-        return null;
+        return undefined;
       }
-      return <caption>{children}</caption>;
+      return createHtmlTag({ tag: "caption", children });
     }
     if (node.type === TYPE_TABLE) {
-      const [caption, ...rest] = children;
-      if (caption.type === "caption") {
-        return (
-          <table
-            dangerouslySetInnerHTML={{
-              __html:
-                renderToStaticMarkup(caption) + node.colgroups + rest.map((e) => renderToStaticMarkup(e)).join(""),
-            }}
-          ></table>
-        );
-      }
-      return (
-        <table
-          dangerouslySetInnerHTML={{
-            __html: node.colgroups + children.map((e) => renderToStaticMarkup(e)).join(""),
-          }}
-        ></table>
-      );
+      const { caption, tableContent } = children ? extractTableCaption(children) : {};
+      const tableElements = [caption, node.colgroups, tableContent].filter((el) => el);
+      const modifiedChildren = tableElements.length ? tableElements.join("") : children;
+      return createHtmlTag({ tag: "table", children: modifiedChildren });
     }
     if (node.type === TYPE_TABLE_ROW) {
-      return <tr>{children}</tr>;
+      return createHtmlTag({ tag: "tr", children });
     }
+
     if (node.type === TYPE_TABLE_CELL) {
-      return (
-        <td
-          rowSpan={node.data.rowspan !== 1 ? node.data.rowspan : undefined}
-          colSpan={node.data.colspan !== 1 ? node.data.colspan : undefined}
-          className={node.data.class}
-          headers={node.data.headers}
-          id={node.data.id}
-          data-align={node.data.align}
-        >
-          {children}
-        </td>
-      );
+      return createHtmlTag({
+        tag: "td",
+        data: {
+          rowSpan: node.data.rowspan !== 1 ? node.data.rowspan : undefined,
+          colSpan: node.data.colspan !== 1 ? node.data.colspan : undefined,
+          className: node.data.class,
+          headers: node.data.headers,
+          id: node.data.id,
+          "data-align": node.data.align,
+        },
+        children,
+      });
     }
     if (node.type === TYPE_TABLE_CELL_HEADER) {
-      return (
-        <th
-          rowSpan={node.data.rowspan !== 1 ? node.data.rowspan : undefined}
-          colSpan={node.data.colspan !== 1 ? node.data.colspan : undefined}
-          className={node.data.class}
-          headers={node.data.headers}
-          scope={node.data.scope}
-          id={node.data.id}
-          data-align={node.data.align}
-        >
-          {children}
-        </th>
-      );
+      return createHtmlTag({
+        tag: "th",
+        data: {
+          rowSpan: node.data.rowspan !== 1 ? node.data.rowspan : undefined,
+          colSpan: node.data.colspan !== 1 ? node.data.colspan : undefined,
+          className: node.data.class,
+          headers: node.data.headers,
+          scope: node.data.scope,
+          id: node.data.id,
+          "data-align": node.data.align,
+        },
+        children,
+      });
     }
   },
 };

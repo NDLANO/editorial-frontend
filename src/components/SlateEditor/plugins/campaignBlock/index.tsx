@@ -10,7 +10,7 @@ import { Descendant, Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { CampaignBlockEmbedData } from "@ndla/types-embed";
 import { TYPE_CAMPAIGN_BLOCK } from "./types";
-import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
+import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
@@ -39,13 +39,14 @@ export const campaignBlockSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
-    const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes));
+    const embedAttributes = parseElementAttributes(Array.from(embed.attributes));
     if (embedAttributes.resource !== TYPE_CAMPAIGN_BLOCK) return;
     return slatejsx("element", { type: TYPE_CAMPAIGN_BLOCK, data: embedAttributes }, { text: "" });
   },
-  serialize(node: Descendant) {
+  serialize(node) {
     if (!Element.isElement(node) || node.type !== TYPE_CAMPAIGN_BLOCK || !node.data) return;
-    return createEmbedTagV2(node.data, undefined, undefined);
+    const data = createDataAttributes(node.data);
+    return createHtmlTag({ tag: TYPE_NDLA_EMBED, data: data, bailOnEmpty: true });
   },
 };
 

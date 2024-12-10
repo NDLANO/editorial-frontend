@@ -6,12 +6,11 @@
  *
  */
 
-import type { JSX } from "react";
 import { Editor, Node, Element, Descendant, Text, Path, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_PARAGRAPH } from "./types";
 import { isParagraph } from "./utils";
-import { reduceElementDataAttributes } from "../../../../util/embedTagHelpers";
+import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import containsVoid from "../../utils/containsVoid";
 import { KEY_ENTER } from "../../utils/keys";
@@ -95,7 +94,7 @@ export const paragraphSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() !== "p") return;
 
-    const data = reduceElementDataAttributes(el, ["align", "data-align"]);
+    const data = parseElementAttributes(Array.from(el.attributes), ["align", "data-align"]);
 
     return slatejsx(
       "element",
@@ -106,7 +105,7 @@ export const paragraphSerializer: SlateSerializer = {
       children,
     );
   },
-  serialize(node: Descendant, children: JSX.Element[]) {
+  serialize(node, children) {
     if (!Element.isElement(node)) return;
     if (node.type !== TYPE_PARAGRAPH) return;
 
@@ -116,15 +115,14 @@ export const paragraphSerializer: SlateSerializer = {
       on seriaization.
      */
 
-    if (Node.string(node) === "" && node.children.length === 1 && Text.isText(node.children[0])) return null;
+    if (Node.string(node) === "" && node.children.length === 1 && Text.isText(node.children[0])) return undefined;
 
     if (node.serializeAsText) {
-      // eslint-disable-next-line react/jsx-no-useless-fragment
-      return <>{children}</>;
+      return children;
     }
 
-    const attributes = node.data?.align ? { "data-align": node.data.align } : {};
-    return <p {...attributes}>{children}</p>;
+    const data = createDataAttributes({ align: node.data?.align });
+    return createHtmlTag({ tag: "p", data, children });
   },
 };
 

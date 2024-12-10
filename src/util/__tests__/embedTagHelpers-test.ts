@@ -6,13 +6,15 @@
  *
  */
 
+import { TYPE_NDLA_EMBED } from "../../components/SlateEditor/plugins/embed/types";
 import { blockContentToEditorValue } from "../articleContentConverter";
 import {
   parseEmbedTag,
-  createEmbedTag,
   isUserProvidedEmbedDataValid,
-  createEmbedTagV2,
-  reduceElementDataAttributesV2,
+  createDataAttributes,
+  createHtmlTag,
+  parseElementAttributes,
+  stringifyAttributes,
 } from "../embedTagHelpers";
 
 test("parseEmbedTag parses image embed tag to object", () => {
@@ -62,25 +64,22 @@ test("parseEmbedTag parses related-content embed tag to object", () => {
   expect(obj).toMatchSnapshot();
 });
 
-test("createEmbedTag creates image embed tag from object", () => {
-  const tag = createEmbedTag(
-    {
-      align: "",
-      alt: "Guinness sign",
-      caption: "Guinness is good for you",
-      metaData: {},
-      resource: "image",
-      resource_id: "42159",
-      size: "full",
-      url: "https://api.ndla.no/image-api/v3/images/42159",
-    },
-    undefined,
-  );
-  expect(tag).toMatchSnapshot();
+test("createDataAttributes handles resourceId correctly", () => {
+  const data = createDataAttributes({
+    resourceId: "42159",
+  });
+  expect(data).toEqual({ "data-resource_id": "42159" });
 });
 
-test("createEmbedTagV2 creates image embed tag from object", () => {
-  const data = {
+test("createDataAttributes correctly translates camelCased keys to kebab-case", () => {
+  const data = createDataAttributes({
+    imageSize: "full",
+  });
+  expect(data).toEqual({ "data-image-size": "full" });
+});
+
+test("createHtmlTag creates image embed tag from object", () => {
+  const data = createDataAttributes({
     align: "",
     alt: "Guinness sign",
     caption: "Guinness is good for you",
@@ -88,94 +87,121 @@ test("createEmbedTagV2 creates image embed tag from object", () => {
     resource_id: "42159",
     size: "full",
     url: "https://api.ndla.no/image-api/v3/images/42159",
-  };
-  expect(createEmbedTag(data, undefined)).toEqual(createEmbedTagV2(data, undefined, undefined));
+  });
+  const tag = createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
+  expect(tag).toMatchSnapshot();
 });
 
-test("createEmbedTag creates h5p embed tag from object", () => {
-  const tag = createEmbedTag(
-    {
-      metaData: {},
+test("createHtmlTag creates image embed tag from object", () => {
+  const data = createDataAttributes({
+    align: "",
+    alt: "Guinness sign",
+    caption: "Guinness is good for you",
+    resource: "image",
+    resource_id: "42159",
+    size: "full",
+    url: "https://api.ndla.no/image-api/v3/images/42159",
+  });
+  expect(createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true })).toEqual(
+    `<ndlaembed data-align="" data-alt="Guinness sign" data-caption="Guinness is good for you" data-resource="image" data-resource_id="42159" data-size="full" data-url="https://api.ndla.no/image-api/v3/images/42159"></ndlaembed>`,
+  );
+});
+
+test("createHtmlTag creates h5p embed tag from object", () => {
+  const tag = createHtmlTag({
+    tag: TYPE_NDLA_EMBED,
+    data: createDataAttributes({
       resource: "h5p",
       url: "https://h5p-test.ndla.no/resource/3ab6850d/oembed",
-    },
-    undefined,
-  );
+    }),
+    bailOnEmpty: true,
+  });
 
   expect(tag).toMatchSnapshot();
 });
 
-test("createEmbedTagV2 creates h5p embed tag from object", () => {
-  const data = {
+test("createDataAttributes filters out non-supported values", () => {
+  const data = createDataAttributes({
+    str: "string",
+    //@ts-expect-error - we do not support boolean values
+    bool: false,
+    //@ts-expect-error - we do not support numbers
+    value: 1,
+    test: undefined,
+    //@ts-expect-error - we do not support null
+    nothing: null,
+    //@ts-expect-error - we do not support objects
+    metaData: { key: "value" },
+  });
+
+  expect(data).toEqual({ "data-str": "string" });
+});
+
+test("createHtmlTag creates h5p embed tag from object", () => {
+  const data = createDataAttributes({
     resource: "h5p",
     url: "https://h5p-test.ndla.no/resource/3ab6850d/oembed",
-  };
+  });
 
-  const tag = createEmbedTagV2(data, undefined, undefined);
+  const tag = createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
   expect(tag).toMatchSnapshot();
 });
 
-test("createEmbedTagV2 filters out null and undefined values, but not false values", () => {
-  const data = {
+test("createHtmlTag filters out null and undefined values, but not false values", () => {
+  const data = createDataAttributes({
     resource: "unknown",
     caption: undefined,
     player: undefined,
     autoPlay: "false",
     videoid: "123",
-  };
+  });
 
-  const tag = createEmbedTagV2(data, undefined, undefined);
-
-  expect(tag).toMatchSnapshot();
-});
-
-test("createEmbedTag creates brightcove embed tag from object", () => {
-  const tag = createEmbedTag(
-    {
-      account: "4806596774001",
-      caption: "Intervju med Hallvard",
-      metaData: {},
-      player: "BkLm8fT",
-      resource: "brightcove",
-      videoid: "ref:106952",
-    },
-    undefined,
-  );
+  const tag = createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
 
   expect(tag).toMatchSnapshot();
 });
 
-test("createEmbedTagV2 converts camel-case to kebab-case", () => {
-  const data = {
-    resource: "audio",
-    resourceId: "123",
-    type: "standard",
-    url: "https://api.test.ndla.no/audio-api/v1/audio/3000",
-  };
-
-  const tag = createEmbedTagV2(data, undefined, undefined);
-  expect(tag).toMatchSnapshot();
-});
-
-test("createEmbedTagV2 creates brightcove embed tag from object", () => {
-  const data = {
+test("createHtmlTag creates brightcove embed tag from object", () => {
+  const data = createDataAttributes({
     account: "4806596774001",
     caption: "Intervju med Hallvard",
     player: "BkLm8fT",
     resource: "brightcove",
     videoid: "ref:106952",
-  };
-  const tag = createEmbedTagV2(data, undefined, undefined);
+  });
 
-  expect(tag).toEqual(createEmbedTag(data, undefined));
+  expect(createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true })).toMatchSnapshot();
 });
 
-test("createEmbedTag returns undefined if the object contains no keys", () => {
-  expect(createEmbedTag({}, undefined)).toBe(undefined);
+test("createHtmlTag converts camel-case to kebab-case", () => {
+  const data = createDataAttributes({
+    resource: "audio",
+    resourceId: "123",
+    type: "standard",
+    url: "https://api.test.ndla.no/audio-api/v1/audio/3000",
+  });
+
+  const tag = createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
+  expect(tag).toMatchSnapshot();
 });
 
-test("createEmbedTagV2 returns undefined if the object contains no keys", () => {
-  expect(createEmbedTagV2({}, undefined, undefined)).toBe(undefined);
+test("createHtmlTag creates brightcove embed tag from object", () => {
+  const data = createDataAttributes({
+    account: "4806596774001",
+    caption: "Intervju med Hallvard",
+    player: "BkLm8fT",
+    resource: "brightcove",
+    videoid: "ref:106952",
+  });
+  const tag = createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
+
+  expect(tag).toEqual(
+    '<ndlaembed data-account="4806596774001" data-caption="Intervju med Hallvard" data-player="BkLm8fT" data-resource="brightcove" data-videoid="ref:106952"></ndlaembed>',
+  );
+});
+
+test("createHtmlTag returns an empty string if the object contains no keys", () => {
+  expect(createHtmlTag({ tag: TYPE_NDLA_EMBED, data: {}, bailOnEmpty: true })).toBe("");
 });
 
 test("isUserProvidedEmbedDataValid for image", () => {
@@ -214,24 +240,24 @@ test("deserializing related-content works", () => {
   expect(deserialized).toMatchSnapshot();
 });
 
-test("reduceElementDataAttributesV2 removes styled attribute", () => {
+test("parseElementAttributes removes styled attribute", () => {
   const attributes = [{ name: "style", value: "{display: flex;}" }];
-  const res = reduceElementDataAttributesV2(attributes);
+  const res = parseElementAttributes(attributes);
   expect(Object.keys(res).length).toBe(0);
 });
 
-test("reduceElementDataAttributesV2 correctly parses data attributes", () => {
+test("parseElementAttributes correctly parses data attributes", () => {
   const attributes = [
     { name: "style", value: "{display: flex;}" },
     { name: "data-align", value: "center" },
     { name: "data-image-id", value: "123" },
   ];
   const expected = { imageId: "123", align: "center" };
-  const res = reduceElementDataAttributesV2(attributes);
+  const res = parseElementAttributes(attributes);
   expect(res).toEqual(expected);
 });
 
-test("reduceElementDataAttributesV2 leaves weird parameters alone", () => {
+test("parseElementAttributes leaves weird parameters alone", () => {
   const attributes = [
     { name: "style", value: "{display: flex;}" },
     { name: "aria-label", value: "Test" },
@@ -239,17 +265,40 @@ test("reduceElementDataAttributesV2 leaves weird parameters alone", () => {
     { name: "data-resource_id", value: "123" },
   ];
   const expected = { imageid: "1234", resourceId: "123", "aria-label": "Test" };
-  const res = reduceElementDataAttributesV2(attributes);
+  const res = parseElementAttributes(attributes);
   expect(res).toEqual(expected);
 });
 
-test("reduceElementDataAttributesV2 only returns filter values", () => {
+test("parseElementAttributes only returns filter values", () => {
   const attributes = [
     { name: "style", value: "{display: flex;}" },
     { name: "src", value: "https://ndla.no" },
     { name: "data-image-id", value: "123" },
   ];
   const expected = { src: "https://ndla.no", imageId: "123" };
-  const res = reduceElementDataAttributesV2(attributes, ["src", "data-image-id"]);
+  const res = parseElementAttributes(attributes, ["src", "data-image-id"]);
   expect(res).toEqual(expected);
+});
+
+test("stringifyAttributes returns an empty string if no attributes are provided", () => {
+  expect(stringifyAttributes({})).toBe("");
+  expect(stringifyAttributes()).toBe("");
+  expect(stringifyAttributes({ src: null })).toBe("");
+  expect(stringifyAttributes({ src: undefined })).toBe("");
+});
+
+test("stringifyAttributes returns a single attribute correctly", () => {
+  const data = stringifyAttributes({ "data-test": "test" });
+  expect(data).toEqual(' data-test="test"');
+});
+
+test("stringifyAttributes translates between react-style and html-style attributes", () => {
+  const data = stringifyAttributes({
+    className: "test",
+    rowSpan: "2",
+    maxLength: "10",
+    htmlFor: "test",
+  });
+
+  expect(data).toEqual(' class="test" rowspan="2" maxlength="10" for="test"');
 });

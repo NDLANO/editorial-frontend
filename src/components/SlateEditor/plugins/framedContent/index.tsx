@@ -6,11 +6,10 @@
  *
  */
 
-import type { JSX } from "react";
 import { Descendant, Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_FRAMED_CONTENT } from "./types";
-import { createTag, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
+import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import {
@@ -57,7 +56,7 @@ export const framedContentSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: (Descendant | null)[]) {
     if (el.tagName.toLowerCase() !== "div") return;
     if (el.className === "c-bodybox" || el.attributes.getNamedItem("data-type")?.value === "framed-content") {
-      const { type: _, class: __, ...embedAttributes } = reduceElementDataAttributesV2(Array.from(el.attributes));
+      const { type: _, class: __, ...embedAttributes } = parseElementAttributes(Array.from(el.attributes));
       return slatejsx(
         "element",
         { type: TYPE_FRAMED_CONTENT, data: Object.keys(embedAttributes).length ? embedAttributes : undefined },
@@ -65,15 +64,10 @@ export const framedContentSerializer: SlateSerializer = {
       );
     }
   },
-  serialize(node: Descendant, children: JSX.Element[]) {
+  serialize(node, children) {
     if (!Element.isElement(node) || node.type !== TYPE_FRAMED_CONTENT) return;
-    return createTag(
-      "div",
-      { ...node.data, type: TYPE_FRAMED_CONTENT },
-      children,
-      { bailOnEmptyData: false },
-      undefined,
-    );
+    const data = createDataAttributes({ ...node.data, type: TYPE_FRAMED_CONTENT });
+    return createHtmlTag({ tag: "div", data, children });
   },
 };
 

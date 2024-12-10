@@ -9,6 +9,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import JumpToStructureButton from "./JumpToStructureButton";
@@ -96,9 +97,12 @@ const SubjectBanner = ({ subjectNode, showQuality, users }: Props) => {
       </TopRow>
       <div>
         <Text fontWeight="bold">
-          <a href={`${config.ndlaFrontendDomain}${subjectNode.url}?versionHash=${taxonomyVersion}`}>
+          <SafeLink
+            to={`${config.ndlaFrontendDomain}${subjectNode.url}?versionHash=${taxonomyVersion}`}
+            target="_blank"
+          >
             {subjectNode.name}
-          </a>
+          </SafeLink>
         </Text>
         {Object.entries(subjectResponsibles).map(([key, value]) => (
           <Text key={key}>

@@ -6,13 +6,13 @@
  *
  */
 import { useEffect, useState } from "react";
-import { IArticle } from "@ndla/types-backend/draft-api";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import {
-  ISubjectPageData,
-  IUpdatedSubjectFrontPageData,
-  INewSubjectFrontPageData,
+  ISubjectPageDataDTO,
+  IUpdatedSubjectFrontPageDataDTO,
+  INewSubjectFrontPageDataDTO,
 } from "@ndla/types-backend/frontpage-api";
-import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
+import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { Node } from "@ndla/types-taxonomy";
 import { LocaleType } from "../../interfaces";
 import { fetchDraft } from "../../modules/draft/draftApi";
@@ -27,8 +27,8 @@ export function useFetchSubjectpageData(
   selectedLanguage: LocaleType,
   subjectpageId: string | undefined,
 ) {
-  const [subjectpage, setSubjectpage] = useState<ISubjectPageData>();
-  const [editorsChoices, setEditorsChoices] = useState<(IArticle | ILearningPathV2)[]>([]);
+  const [subjectpage, setSubjectpage] = useState<ISubjectPageDataDTO>();
+  const [editorsChoices, setEditorsChoices] = useState<(IArticleDTO | ILearningPathV2DTO)[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | undefined>(undefined);
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -49,13 +49,13 @@ export function useFetchSubjectpageData(
     return await Promise.all(promises);
   };
 
-  const updateSubjectpage = async (id: string | number, updatedSubjectpage: IUpdatedSubjectFrontPageData) => {
+  const updateSubjectpage = async (id: string | number, updatedSubjectpage: IUpdatedSubjectFrontPageDataDTO) => {
     const savedSubjectpage = await frontpageApi.updateSubjectpage(updatedSubjectpage, id, selectedLanguage);
     setSubjectpage(savedSubjectpage);
     return savedSubjectpage;
   };
 
-  const createSubjectpage = async (subjectPage: INewSubjectFrontPageData) => {
+  const createSubjectpage = async (subjectPage: INewSubjectFrontPageDataDTO) => {
     const savedSubjectpage = await frontpageApi.createSubjectpage(subjectPage);
     await putNode({
       id: elementId,

@@ -10,7 +10,7 @@ import { Formik, useFormikContext } from "formik";
 import { memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult } from "@tanstack/react-query";
-import { IArticle, IUpdatedArticle, IStatus } from "@ndla/types-backend/draft-api";
+import { IArticleDTO, IUpdatedArticleDTO, IStatusDTO } from "@ndla/types-backend/draft-api";
 import FrontpageArticlePanels from "./FrontpageArticlePanels";
 import { Form } from "../../../../components/FormikForm";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
@@ -29,13 +29,13 @@ import {
 } from "../../articleTransformers";
 
 interface Props {
-  article?: IArticle;
-  articleHistory?: UseQueryResult<IArticle[]>;
-  articleStatus?: IStatus;
+  article?: IArticleDTO;
+  articleHistory?: UseQueryResult<IArticleDTO[]>;
+  articleStatus?: IStatusDTO;
   isNewlyCreated: boolean;
   articleChanged: boolean;
   supportedLanguages: string[];
-  updateArticle: (updatedArticle: IUpdatedArticle) => Promise<IArticle>;
+  updateArticle: (updatedArticle: IUpdatedArticleDTO) => Promise<IArticleDTO>;
   articleLanguage: string;
 }
 
@@ -109,7 +109,7 @@ const FrontpageArticleForm = ({
 
 interface FormFooterProps {
   articleChanged: boolean;
-  article?: IArticle;
+  article?: IArticleDTO;
   isNewlyCreated: boolean;
   savedToServer: boolean;
   handleSubmit: HandleSubmitFunc<FrontpageArticleFormType>;

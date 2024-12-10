@@ -22,7 +22,7 @@ import {
   SelectRoot,
   SelectValueText,
 } from "@ndla/primitives";
-import { IAudioMetaInformation } from "@ndla/types-backend/audio-api";
+import { IAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import { AudioEmbedData } from "@ndla/types-embed";
 import { AudioPlayer } from "@ndla/ui";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../abstractions/Select";
@@ -32,7 +32,7 @@ import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
 interface Props {
   embed: AudioEmbedData;
-  audio: IAudioMetaInformation;
+  audio: IAudioMetaInformationDTO;
   onCancel: () => void;
   onSave: (embed: AudioEmbedData) => void;
 }
@@ -88,7 +88,7 @@ const AudioEmbedForm = ({ embed, onCancel, onSave, audio }: Props) => {
 
 interface EmbedFormProps {
   onCancel: () => void;
-  audio: IAudioMetaInformation;
+  audio: IAudioMetaInformationDTO;
 }
 
 const EmbedForm = ({ onCancel, audio }: EmbedFormProps) => {

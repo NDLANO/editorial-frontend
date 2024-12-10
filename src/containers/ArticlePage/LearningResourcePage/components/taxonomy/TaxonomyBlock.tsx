@@ -13,7 +13,7 @@ import { useCallback, useMemo, useState, MouseEvent, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button, SelectLabel, Text } from "@ndla/primitives";
-import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
+import { IArticleDTO, IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import {
   Node,
   NodeChild,
@@ -46,9 +46,9 @@ interface Props {
   subjects: Node[];
   hasTaxEntries: boolean;
   resourceTypes: ResourceType[];
-  article: IArticle;
+  article: IArticleDTO;
   versions: Version[];
-  updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
+  updateNotes: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
   articleLanguage: string;
 }
 

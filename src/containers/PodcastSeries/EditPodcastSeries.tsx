@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { Spinner } from "@ndla/primitives";
-import { ISeries, INewSeries } from "@ndla/types-backend/audio-api";
+import { ISeriesDTO, INewSeriesDTO } from "@ndla/types-backend/audio-api";
 
 import PodcastSeriesForm from "./components/PodcastSeriesForm";
 import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
@@ -31,7 +31,7 @@ const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
   const params = useParams<"id" | "selectedLanguage">();
   const { i18n } = useTranslation();
   const locale = i18n.language;
-  const [podcastSeries, setPodcastSeries] = useState<ISeries | undefined>(undefined);
+  const [podcastSeries, setPodcastSeries] = useState<ISeriesDTO | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const { shouldTranslate, translate, translating } = useTranslateToNN();
   const seriesId = Number(params.id) || undefined;
@@ -68,7 +68,7 @@ const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
     return <NotFoundPage />;
   }
 
-  const onUpdate = async (newSeries: INewSeries): Promise<void> => {
+  const onUpdate = async (newSeries: INewSeriesDTO): Promise<void> => {
     const updatedSeries = await updateSeries(seriesId, newSeries);
     setPodcastSeries(updatedSeries);
   };

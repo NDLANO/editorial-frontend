@@ -9,7 +9,7 @@
 import parse from "html-react-parser";
 import { useMemo } from "react";
 import { extractEmbedMeta } from "@ndla/article-converter";
-import { IConcept } from "@ndla/types-backend/concept-api";
+import { IConceptDTO } from "@ndla/types-backend/concept-api";
 import { ConceptVisualElementMeta } from "@ndla/types-embed";
 import { BlockConcept, Gloss } from "@ndla/ui";
 import { usePreviewArticle } from "../../modules/article/articleGqlQueries";
@@ -25,7 +25,7 @@ const getAudioData = (visualElement?: ConceptVisualElementMeta): { title: string
 };
 
 interface Props {
-  concept: IConcept;
+  concept: IConceptDTO;
   language: string;
 }
 const PreviewConceptComponent = ({ concept, language }: Props) => {

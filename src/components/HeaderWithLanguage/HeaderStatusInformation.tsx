@@ -12,9 +12,9 @@ import { ErrorWarningFill, RssLine, CheckboxCircleFill } from "@ndla/icons";
 import { Text } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IConceptSummary } from "@ndla/types-backend/concept-api";
-import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
-import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import EmbedConnection from "./EmbedInformation/EmbedConnection";
 import HeaderFavoriteStatus from "./HeaderFavoriteStatus";
 import LearningpathConnection from "./LearningpathConnection";
@@ -93,9 +93,9 @@ const HeaderStatusInformation = ({
   favoriteCount,
 }: Props) => {
   const { t } = useTranslation();
-  const [learningpaths, setLearningpaths] = useState<ILearningPathV2[]>([]);
-  const [articles, setArticles] = useState<IMultiSearchSummary[]>([]);
-  const [concepts, setConcepts] = useState<IConceptSummary[]>([]);
+  const [learningpaths, setLearningpaths] = useState<ILearningPathV2DTO[]>([]);
+  const [articles, setArticles] = useState<IMultiSearchSummaryDTO[]>([]);
+  const [concepts, setConcepts] = useState<IConceptSummaryDTO[]>([]);
 
   useEffect(() => {
     setHasConnections?.(!!learningpaths?.length || !!articles?.length || !!concepts?.length);

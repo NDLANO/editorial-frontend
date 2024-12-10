@@ -34,7 +34,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IUpdatedArticle } from "@ndla/types-backend/draft-api";
+import { IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import PlannedResourceSelect from "./PlannedResourceSelect";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
@@ -224,7 +224,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
       try {
         setError(undefined);
         const slateComment = getSlateComment(userName, t, values.comments);
-        const plannedResource: IUpdatedArticle = {
+        const plannedResource: IUpdatedArticleDTO = {
           title: values.title,
           comments: slateComment.length ? [{ content: inlineContentToHTML(slateComment), isOpen: true }] : [],
           language: i18n.language,

@@ -19,8 +19,8 @@ import {
   IconButton,
   Text,
 } from "@ndla/primitives";
-import { IConceptSummary } from "@ndla/types-backend/concept-api";
-import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { postSearchConcepts } from "../../../modules/concept/conceptApi";
 import { postSearch } from "../../../modules/search/searchApi";
 import { routes } from "../../../util/routeHelpers";
@@ -32,10 +32,10 @@ type EmbedType = "image" | "audio" | "concept" | "gloss" | "article";
 interface Props {
   id?: number;
   type: EmbedType;
-  articles: IMultiSearchSummary[];
-  setArticles: (articles: IMultiSearchSummary[]) => void;
-  concepts?: IConceptSummary[];
-  setConcepts?: (concepts: IConceptSummary[]) => void;
+  articles: IMultiSearchSummaryDTO[];
+  setArticles: (articles: IMultiSearchSummaryDTO[]) => void;
+  concepts?: IConceptSummaryDTO[];
+  setConcepts?: (concepts: IConceptSummaryDTO[]) => void;
 }
 
 type SearchEmbedTypes = "image" | "audio" | "concept" | "gloss" | "content-link" | "related-content";

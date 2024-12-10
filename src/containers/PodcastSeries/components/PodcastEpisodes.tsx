@@ -11,7 +11,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ComboboxLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IAudioMetaInformation } from "@ndla/types-backend/audio-api";
+import { IAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import ListResource from "../../../components/Form/ListResource";
@@ -28,14 +28,14 @@ const StyledList = styled("ul", {
 interface Props {
   language: string;
   seriesId: number | undefined;
-  initialEpisodes: IAudioMetaInformation[] | undefined;
+  initialEpisodes: IAudioMetaInformationDTO[] | undefined;
 }
 
 const PodcastEpisodes = ({ language, seriesId, initialEpisodes = [] }: Props) => {
   const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
   const { t } = useTranslation();
   const [field, , helpers] = useField<number[]>("episodes");
-  const [apiEpisodes, setApiEpisodes] = useState<IAudioMetaInformation[]>(initialEpisodes);
+  const [apiEpisodes, setApiEpisodes] = useState<IAudioMetaInformationDTO[]>(initialEpisodes);
 
   const searchQuery = useSearchAudio(
     { query: delayedQuery, language, page, audioType: "podcast" },

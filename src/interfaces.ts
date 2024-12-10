@@ -6,8 +6,8 @@
  *
  */
 
-import { IAudioMetaInformation } from "@ndla/types-backend/audio-api";
-import { IArticle, IRelatedContentLink } from "@ndla/types-backend/draft-api";
+import { IAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
+import { IArticleDTO, IRelatedContentLinkDTO } from "@ndla/types-backend/draft-api";
 import { AudioEmbedData, BrightcoveEmbedData, H5pEmbedData, ImageEmbedData } from "@ndla/types-embed";
 import { SearchTypeValues, LOCALE_VALUES } from "./constants";
 import { FormEvent } from "react";
@@ -72,9 +72,9 @@ export interface ZendeskToken {
 
 export type TypeOfPreview = "preview" | "previewLanguageArticle" | "previewVersion" | "previewProductionArticle";
 
-export type RelatedContent = IRelatedContentLink | number;
+export type RelatedContent = IRelatedContentLinkDTO | number;
 
-export type ConvertedRelatedContent = RelatedContent | IArticle;
+export type ConvertedRelatedContent = RelatedContent | IArticleDTO;
 
 export type MessageSeverity = "danger" | "info" | "success" | "warning";
 
@@ -114,7 +114,7 @@ export interface UnsavedFile {
   type: string;
 }
 
-export interface SlateAudio extends Omit<IAudioMetaInformation, "title"> {
+export interface SlateAudio extends Omit<IAudioMetaInformationDTO, "title"> {
   title: string;
 }
 

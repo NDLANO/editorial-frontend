@@ -10,8 +10,8 @@ import { Formik, FormikProps, FormikHelpers } from "formik";
 import { useState, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { PageContent } from "@ndla/primitives";
-import { IConcept, INewConcept, IUpdatedConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
-import { IArticle } from "@ndla/types-backend/draft-api";
+import { IConceptDTO, INewConceptDTO, IUpdatedConceptDTO, IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import ConceptFormFooter from "./ConceptFormFooter";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
@@ -33,29 +33,29 @@ import { conceptApiTypeToFormType, getNewConceptType, getUpdatedConceptType } fr
 const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 
 interface UpdateProps {
-  onUpdate: (updatedConcept: IUpdatedConcept, revision?: number) => Promise<IConcept>;
+  onUpdate: (updatedConcept: IUpdatedConceptDTO, revision?: number) => Promise<IConceptDTO>;
 }
 
 interface CreateProps {
-  onCreate: (newConcept: INewConcept) => Promise<IConcept>;
+  onCreate: (newConcept: INewConceptDTO) => Promise<IConceptDTO>;
 }
 
 interface Props {
   upsertProps: CreateProps | UpdateProps;
-  concept?: IConcept;
+  concept?: IConceptDTO;
   conceptChanged?: boolean;
   inModal: boolean;
   isNewlyCreated?: boolean;
-  conceptArticles: IArticle[];
+  conceptArticles: IArticleDTO[];
   onClose?: () => void;
   language: string;
   subjects: Node[];
   initialTitle?: string;
-  onUpserted?: (concept: IConceptSummary | IConcept) => void;
+  onUpserted?: (concept: IConceptSummaryDTO | IConceptDTO) => void;
   supportedLanguages: string[];
 }
 
-export const conceptFormBaseRules: RulesType<ConceptFormValues, IConcept> = {
+export const conceptFormBaseRules: RulesType<ConceptFormValues, IConceptDTO> = {
   title: {
     required: true,
     warnings: {
@@ -99,7 +99,7 @@ export const conceptFormBaseRules: RulesType<ConceptFormValues, IConcept> = {
   },
 };
 
-const conceptRules: RulesType<ConceptFormValues, IConcept> = {
+const conceptRules: RulesType<ConceptFormValues, IConceptDTO> = {
   ...conceptFormBaseRules,
   conceptContent: {
     required: true,
@@ -143,7 +143,7 @@ const ConceptForm = ({
     const statusChange = initialStatus !== newStatus;
 
     try {
-      let savedConcept: IConcept;
+      let savedConcept: IConceptDTO;
       if ("onCreate" in upsertProps) {
         savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses, "concept"));
       } else {

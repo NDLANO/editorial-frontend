@@ -14,7 +14,7 @@ import { Portal } from "@ark-ui/react";
 import { PencilFill } from "@ndla/icons";
 import { DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticleV2 } from "@ndla/types-backend/article-api";
+import { IArticleV2DTO } from "@ndla/types-backend/article-api";
 import { UuDisclaimerEmbedData, UuDisclaimerMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, UuDisclaimerEmbed } from "@ndla/ui";
 import DisclaimerForm from "./DisclaimerForm";
@@ -64,7 +64,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
 
   useEffect(() => {
     const initDisclaimerLink = async () => {
-      let response: IArticleV2 | undefined = undefined;
+      let response: IArticleV2DTO | undefined = undefined;
       if (element.data.articleId) {
         response = await getArticle(Number(element.data.articleId));
       }

@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { Descendant } from "slate";
 import { Button, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { INewSeries, ISeries } from "@ndla/types-backend/audio-api";
+import { INewSeriesDTO, ISeriesDTO } from "@ndla/types-backend/audio-api";
 import PodcastEpisodes from "./PodcastEpisodes";
 import PodcastSeriesMetaData from "./PodcastSeriesMetaData";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
@@ -47,7 +47,7 @@ const StyledText = styled(Text, {
   },
 });
 
-const podcastRules: RulesType<PodcastSeriesFormikType, ISeries> = {
+const podcastRules: RulesType<PodcastSeriesFormikType, ISeriesDTO> = {
   title: {
     required: true,
     warnings: {
@@ -79,12 +79,12 @@ export interface PodcastSeriesFormikType {
 }
 
 interface Props {
-  podcastSeries?: ISeries;
+  podcastSeries?: ISeriesDTO;
   language: string;
   inModal?: boolean;
   isNewlyCreated: boolean;
   formikProps?: FormikProps<PodcastSeriesFormikType>;
-  onUpdate: (newPodcastSeries: INewSeries) => void;
+  onUpdate: (newPodcastSeries: INewSeriesDTO) => void;
   revision?: number;
   isNewLanguage?: boolean;
   supportedLanguages: string[];
@@ -123,7 +123,7 @@ const PodcastSeriesForm = ({
     actions.setSubmitting(true);
     const title: string = editorValueToPlainText(values.title);
     const description: string = editorValueToPlainText(values.description);
-    const newPodcastSeries: INewSeries = {
+    const newPodcastSeries: INewSeriesDTO = {
       revision: values.revision,
       title,
       description,

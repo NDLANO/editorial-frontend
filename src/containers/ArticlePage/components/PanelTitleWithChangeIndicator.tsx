@@ -10,15 +10,15 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticle } from "@ndla/types-backend/draft-api";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import { FlatArticleKeys } from "./types";
 import { hasArticleFieldsChanged } from "../../../components/HeaderWithLanguage/util";
 import { PUBLISHED } from "../../../constants";
 
 interface PanelTitleProps {
   title: string;
-  article: IArticle | undefined;
-  articleHistory: IArticle[] | undefined;
+  article: IArticleDTO | undefined;
+  articleHistory: IArticleDTO[] | undefined;
   fieldsToIndicatedChangesFor: FlatArticleKeys[];
 }
 

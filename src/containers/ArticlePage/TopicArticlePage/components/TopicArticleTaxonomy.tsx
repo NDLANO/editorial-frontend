@@ -10,7 +10,7 @@ import sortBy from "lodash/sortBy";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Spinner } from "@ndla/primitives";
-import { IUpdatedArticle, IArticle } from "@ndla/types-backend/draft-api";
+import { IUpdatedArticleDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import { ErrorMessage } from "@ndla/ui";
 import TopicTaxonomyBlock from "./TopicTaxonomyBlock";
@@ -19,8 +19,8 @@ import { useVersions } from "../../../../modules/taxonomy/versions/versionQuerie
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 
 type Props = {
-  article: IArticle;
-  updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
+  article: IArticleDTO;
+  updateNotes: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
   articleLanguage: string;
   hasTaxEntries: boolean;
 };

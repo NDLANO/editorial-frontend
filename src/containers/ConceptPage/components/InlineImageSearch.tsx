@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { ImageSearch } from "@ndla/image-search";
 import { Button, FieldsetLegend, FieldsetRoot, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { useImageSearchTranslations } from "@ndla/ui";
 import { LocaleType } from "../../../interfaces";
 import { fetchImage, postSearchImages, onError } from "../../../modules/image/imageApi";
@@ -34,7 +34,7 @@ interface Props {
 const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
   const { t, i18n } = useTranslation();
   const { setFieldValue, values, setFieldTouched } = useFormikContext<ConceptFormValues>();
-  const [image, setImage] = useState<IImageMetaInformationV3 | undefined>();
+  const [image, setImage] = useState<IImageMetaInformationV3DTO | undefined>();
   const imageSearchTranslations = useImageSearchTranslations();
   const locale: LocaleType = i18n.language;
   const fetchImageWithLocale = (id: number) => fetchImage(id, locale);
@@ -75,7 +75,7 @@ const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
         searchImages={searchImagesWithParameters}
         locale={locale}
         translations={imageSearchTranslations}
-        onImageSelect={(image: IImageMetaInformationV3) => {
+        onImageSelect={(image: IImageMetaInformationV3DTO) => {
           setFieldValue(name, image.id);
           setFieldValue("metaImageAlt", image.alttext.alttext.trim(), true);
           setImage(image);

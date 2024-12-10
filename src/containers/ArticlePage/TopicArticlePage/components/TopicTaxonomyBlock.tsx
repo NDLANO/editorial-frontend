@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button, ExpandableBox, ExpandableBoxSummary, SelectLabel, Text, UnOrderedList } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
+import { IArticleDTO, IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node, Version } from "@ndla/types-taxonomy";
 import TopicArticleConnections from "./TopicArticleConnections";
 import { FormActionsContainer, FormContent } from "../../../../components/FormikForm";
@@ -33,14 +33,14 @@ import TaxonomyConnectionErrors from "../../components/TaxonomyConnectionErrors"
 
 interface Props {
   hasTaxEntries: boolean;
-  article: IArticle;
+  article: IArticleDTO;
   versions: Version[];
   subjects: NodeWithChildren[];
   nodes: Node[];
   validPlacements: Node[];
   invalidPlacements: Node[];
   articleLanguage: string;
-  updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
+  updateNotes: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
 }
 
 const StyledLi = styled("li", {

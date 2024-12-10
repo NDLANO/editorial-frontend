@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IStatus as DraftStatus } from "@ndla/types-backend/draft-api";
+import { IStatusDTO as DraftStatus } from "@ndla/types-backend/draft-api";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { PUBLISHED } from "../../../constants";
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../../interfaces";

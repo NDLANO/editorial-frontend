@@ -9,7 +9,7 @@
 import { useFormikContext } from "formik";
 import { MouseEvent, ReactEventHandler, useRef, useState } from "react";
 import { styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { ImageEmbedFormValues } from "../../components/SlateEditor/plugins/image/ImageEmbedForm";
 import { getElementOffset, getClientPos, getImageDimensions, getSrcSets } from "../../util/imageEditorUtil";
 
@@ -45,7 +45,7 @@ const StyledFocalPointContainer = styled("div", {
 interface Props {
   language: string;
   onFocalPointChange: (focalPoint: { x: number; y: number }) => void;
-  image: IImageMetaInformationV3;
+  image: IImageMetaInformationV3DTO;
 }
 
 type Marker = {

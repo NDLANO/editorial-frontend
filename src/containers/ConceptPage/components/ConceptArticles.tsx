@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Draggable } from "@ndla/icons";
 import { ComboboxLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticle, IArticleSummary } from "@ndla/types-backend/draft-api";
+import { IArticleDTO, IArticleSummaryDTO } from "@ndla/types-backend/draft-api";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
@@ -39,7 +39,7 @@ const ConceptArticles = () => {
 
   const searchQuery = useSearchDrafts({ query: delayedQuery, language, page }, { placeholderData: (prev) => prev });
 
-  const onAddArticleToList = async (article: IArticleSummary) => {
+  const onAddArticleToList = async (article: IArticleSummaryDTO) => {
     try {
       if (articles.some((a) => a.id === article.id)) {
         setFieldValue(
@@ -57,11 +57,11 @@ const ConceptArticles = () => {
     }
   };
 
-  const onUpdateElements = (articleList: IArticle[]) => {
+  const onUpdateElements = (articleList: IArticleDTO[]) => {
     setFieldValue("articles", articleList);
   };
 
-  const onDeleteElement = (elements: IArticle[], deleteIndex: number) => {
+  const onDeleteElement = (elements: IArticleDTO[], deleteIndex: number) => {
     const newElements = elements.filter((_, i) => i !== deleteIndex);
     onUpdateElements(newElements);
   };

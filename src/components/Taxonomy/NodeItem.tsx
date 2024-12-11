@@ -83,16 +83,10 @@ const { withProvider, withContext } = createStyleContext(nodeItemRecipe);
 
 type NodeItemVariantProps = RecipeVariantProps<typeof nodeItemRecipe>;
 
-const InternalNodeItemRoot = withProvider<HTMLDivElement, HTMLArkProps<"div"> & JsxStyleProps & NodeItemVariantProps>(
+export const NodeItemRoot = withProvider<HTMLDivElement, HTMLArkProps<"div"> & JsxStyleProps & NodeItemVariantProps>(
   ark.div,
   "root",
   { baseComponent: true },
-);
-
-export const NodeItemRoot = forwardRef<HTMLDivElement, HTMLArkProps<"div"> & NodeItemVariantProps & JsxStyleProps>(
-  ({ active, visible, ...props }, ref) => {
-    return <InternalNodeItemRoot active={active} visible={visible} {...props} ref={ref} />;
-  },
 );
 
 const InternalNodeItemTitle = forwardRef<HTMLHeadingElement, TextProps>(

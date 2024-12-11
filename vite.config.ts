@@ -7,7 +7,7 @@
  */
 
 import { defineConfig, splitVendorChunkPlugin } from "vite";
-import react from "@vitejs/plugin-react";
+import react from "@vitejs/plugin-react-swc";
 
 export default defineConfig(() => {
   return {
@@ -17,7 +17,7 @@ export default defineConfig(() => {
       globals: true,
       setupFiles: "./src/__tests__/vitest.setup.ts",
     },
-    plugins: [react(), splitVendorChunkPlugin()],
+    plugins: [react({ devTarget: "es2022" }), splitVendorChunkPlugin()],
     resolve: {
       dedupe: ["react-router", "react-router-dom", "react-helmet-async", "i18next", "react-i18next"],
     },

@@ -64,8 +64,16 @@ const nodeItemRecipe = sva({
       },
     },
     visible: {
+      true: {
+        title: {
+          fontWeight: "semibold",
+        },
+      },
       false: {
-        title: { color: "text.subtle" },
+        title: {
+          color: "text.subtle",
+          fontStyle: "italic",
+        },
       },
     },
   },

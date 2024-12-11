@@ -21,7 +21,7 @@ import {
   DialogTrigger,
   IconButton,
 } from "@ndla/primitives";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { ContactBlockEmbedData } from "@ndla/types-embed";
 import { ContactBlock, ContactBlockBackground, EmbedWrapper } from "@ndla/ui";
 import { ContactBlockElement } from ".";
@@ -39,7 +39,7 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const contactBlock = element.data;
-  const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
+  const [image, setImage] = useState<IImageMetaInformationV3DTO | undefined>(undefined);
 
   useEffect(() => {
     setIsEditing(!!element.isFirstEdit);

@@ -11,7 +11,7 @@ import { useState, useMemo, memo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import { Button, FieldErrorMessage, FieldRoot } from "@ndla/primitives";
-import { IAuthor } from "@ndla/types-backend/draft-api";
+import { IAuthorDTO } from "@ndla/types-backend/draft-api";
 import LearningResourceFootnotes, { FootnoteType } from "./LearningResourceFootnotes";
 import { learningResourcePlugins } from "./learningResourcePlugins";
 import { learningResourceRenderers } from "./learningResourceRenderers";
@@ -78,7 +78,7 @@ interface Props {
 
 const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _handleSubmit }: Props) => {
   const { t } = useTranslation();
-  const [creatorsField] = useField<IAuthor[]>("creators");
+  const [creatorsField] = useField<IAuthorDTO[]>("creators");
 
   const { dirty, initialValues, values, status, setStatus } = useFormikContext<LearningResourceFormType>();
 

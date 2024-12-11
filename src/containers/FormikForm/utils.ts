@@ -7,14 +7,14 @@
  */
 
 import { FormikContextType } from "formik";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { ImageEmbedData } from "@ndla/types-embed";
 import { ArticleFormType } from "./articleFormHooks";
 import { defaultEmbedBlock } from "../../components/SlateEditor/plugins/embed/utils";
 import { ConceptFormValues } from "../ConceptPage/conceptInterfaces";
 
 export const onSaveAsVisualElement = <T extends ArticleFormType>(
-  image: IImageMetaInformationV3,
+  image: IImageMetaInformationV3DTO,
   formikContext: FormikContextType<ConceptFormValues> | FormikContextType<T>,
 ) => {
   const { setFieldValue, setFieldTouched } = formikContext;

@@ -24,7 +24,7 @@ import {
   FieldTextArea,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { ImageEmbedData } from "@ndla/types-embed";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import ImageEditor from "../../../../containers/ImageEditor/ImageEditor";
@@ -39,7 +39,7 @@ import { useInGrid } from "../grid/GridContext";
 
 interface Props {
   embed: ImageEmbedData;
-  image?: IImageMetaInformationV3;
+  image?: IImageMetaInformationV3DTO;
   onSave: (data: ImageEmbedData) => void;
   onClose: () => void;
   language: string;

@@ -9,10 +9,10 @@
 import { Descendant } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import {
-  IFilmFrontPageData,
-  IMovieTheme,
-  INewOrUpdatedFilmFrontPageData,
-  IVisualElement,
+  IFilmFrontPageDataDTO,
+  IMovieThemeDTO,
+  INewOrUpdatedFilmFrontPageDataDTO,
+  IVisualElementDTO,
 } from "@ndla/types-backend/frontpage-api";
 import { editorValueToPlainText, plainTextToEditorValue } from "./articleContentConverter";
 import { defineTypeOfEmbed, isSlateEmbed } from "../components/SlateEditor/plugins/embed/utils";
@@ -22,7 +22,7 @@ import { FilmFormikType } from "../containers/NdlaFilm/components/NdlaFilmForm";
 import { ThemeNames } from "../containers/NdlaFilm/components/ThemeEditor";
 import { LocaleType } from "../interfaces";
 
-export const getInitialValues = (filmFrontpage: IFilmFrontPageData, selectedLanguage: string): FilmFormikType => {
+export const getInitialValues = (filmFrontpage: IFilmFrontPageDataDTO, selectedLanguage: string): FilmFormikType => {
   const supportedLanguages = filmFrontpage.about.map((about) => about.language);
   const languageAbout = filmFrontpage.about.find((about) => about.language === selectedLanguage);
   const about = languageAbout ?? filmFrontpage.about?.[0];
@@ -42,7 +42,7 @@ export const getInitialValues = (filmFrontpage: IFilmFrontPageData, selectedLang
   };
 };
 
-export const convertVisualElement = (visualElement: IVisualElement): Descendant[] => {
+export const convertVisualElement = (visualElement: IVisualElementDTO): Descendant[] => {
   const id = getVisualElementId(visualElement);
   if (visualElement.type !== "brightcove") {
     return [
@@ -92,7 +92,7 @@ export const convertVisualElement = (visualElement: IVisualElement): Descendant[
   ];
 };
 
-const getVisualElementId = (visualElement: IVisualElement): string => {
+const getVisualElementId = (visualElement: IVisualElementDTO): string => {
   const splitter = visualElement.type === "brightcove" ? "=" : "/";
   const splittedUrl = visualElement.url.split(splitter);
   const id = splittedUrl.pop() ?? "";
@@ -100,10 +100,10 @@ const getVisualElementId = (visualElement: IVisualElement): string => {
 };
 
 export const getNdlaFilmFromSlate = (
-  initialFrontpage: IFilmFrontPageData,
+  initialFrontpage: IFilmFrontPageDataDTO,
   newFrontpage: FilmFormikType,
   selectedLanguage: string,
-): INewOrUpdatedFilmFrontPageData => {
+): INewOrUpdatedFilmFrontPageDataDTO => {
   const slateVisualElement = newFrontpage.visualElement?.[0];
   const data = isSlateEmbed(slateVisualElement) ? slateVisualElement.data : undefined;
 
@@ -162,7 +162,7 @@ export const getUrnFromId = (id: string | number) => {
   return `urn:article:${id}`;
 };
 
-export const changeThemeNames = (themes: IMovieTheme[], names: ConvertedThemeName[], index: number) => {
+export const changeThemeNames = (themes: IMovieThemeDTO[], names: ConvertedThemeName[], index: number) => {
   return themes.map((theme, i) => (i === index ? { ...theme, name: names } : theme));
 };
 

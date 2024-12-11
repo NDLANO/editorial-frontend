@@ -6,8 +6,8 @@
  *
  */
 
-import { ILicense as DraftApiLicense } from "@ndla/types-backend/draft-api";
-import { ILicense as ImageApiLicense } from "@ndla/types-backend/image-api";
+import { ILicenseDTO as DraftApiLicense } from "@ndla/types-backend/draft-api";
+import { ILicenseDTO as ImageApiLicense } from "@ndla/types-backend/image-api";
 
 export const draftLicensesToImageLicenses = (licenses: DraftApiLicense[]): ImageApiLicense[] =>
   licenses.map((l) => ({

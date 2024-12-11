@@ -26,7 +26,7 @@ import {
   SelectValueText,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IAuthor } from "@ndla/types-backend/draft-api";
+import { IAuthorDTO } from "@ndla/types-backend/draft-api";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { FormField } from "../../../components/FormField";
 
@@ -38,9 +38,9 @@ interface Props {
 }
 
 interface ContributorTypes {
-  creators: IAuthor[];
-  processors: IAuthor[];
-  rightsholders: IAuthor[];
+  creators: IAuthorDTO[];
+  processors: IAuthorDTO[];
+  rightsholders: IAuthorDTO[];
 }
 
 const StyledFieldsetRoot = styled(FieldsetRoot, {
@@ -76,7 +76,7 @@ const ContributorsField = ({ contributorTypes }: Props) => {
 
 interface ContributorProps {
   type: ContributorType;
-  onAddNew: (val: IAuthor) => void;
+  onAddNew: (val: IAuthorDTO) => void;
   onRemove: (index: number) => void;
 }
 
@@ -100,7 +100,7 @@ const Contributor = ({ type, onAddNew, onRemove }: ContributorProps) => {
   return (
     <StyledFieldsetRoot data-testid={`contributor-fieldset`}>
       <FieldsetLegend>{t(`form.${type}.label`)}</FieldsetLegend>
-      {values[type].map((_: IAuthor, contributorIndex: number) => (
+      {values[type].map((_: IAuthorDTO, contributorIndex: number) => (
         <StyledInnerFieldsetRoot key={`${type}.${contributorIndex}`}>
           <FieldsetLegend srOnly>
             {t(`form.${type}.label`)} {contributorIndex + 1}

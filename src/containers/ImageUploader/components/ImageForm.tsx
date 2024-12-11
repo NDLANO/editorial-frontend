@@ -13,10 +13,10 @@ import { useNavigate } from "react-router-dom";
 import { Button, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import {
-  IImageMetaInformationV3,
-  INewImageMetaInformationV2,
-  ILicense,
-  IUpdateImageMetaInformation,
+  IImageMetaInformationV3DTO,
+  INewImageMetaInformationV2DTO,
+  ILicenseDTO,
+  IUpdateImageMetaInformationDTO,
 } from "@ndla/types-backend/image-api";
 import ImageContent from "./ImageContent";
 import ImageCopyright from "./ImageCopyright";
@@ -47,7 +47,7 @@ const StyledPageContent = styled(PageContent, {
   },
 });
 
-const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
+const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3DTO> = {
   title: {
     required: true,
     warnings: {
@@ -94,9 +94,12 @@ const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
 };
 
 interface Props {
-  image?: IImageMetaInformationV3;
-  licenses: ILicense[];
-  onSubmitFunc: (imageMetadata: INewImageMetaInformationV2 & IUpdateImageMetaInformation, image: string | Blob) => void;
+  image?: IImageMetaInformationV3DTO;
+  licenses: ILicenseDTO[];
+  onSubmitFunc: (
+    imageMetadata: INewImageMetaInformationV2DTO & IUpdateImageMetaInformationDTO,
+    image: string | Blob,
+  ) => void;
   inModal?: boolean;
   isNewlyCreated?: boolean;
   closeModal?: () => void;
@@ -156,7 +159,7 @@ const ImageForm = ({
     }
 
     actions.setSubmitting(true);
-    const imageMetaData: INewImageMetaInformationV2 & IUpdateImageMetaInformation = {
+    const imageMetaData: INewImageMetaInformationV2DTO & IUpdateImageMetaInformationDTO = {
       title: editorValueToPlainText(values.title),
       alttext: values.alttext,
       caption: values.caption,

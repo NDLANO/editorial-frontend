@@ -27,7 +27,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticleSummaryV2, IArticleV2 } from "@ndla/types-backend/article-api";
+import { IArticleSummaryV2DTO, IArticleV2DTO } from "@ndla/types-backend/article-api";
 import { UuDisclaimerEmbedData } from "@ndla/types-embed";
 import { getArticle } from "../../../../modules/article/articleApi";
 import { useArticleSearch } from "../../../../modules/article/articleQueries";
@@ -81,14 +81,14 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
   const { t, i18n } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
-  const [selectedArticle, setSelectedArticle] = useState<IArticleV2 | IArticleSummaryV2 | undefined>(undefined);
+  const [selectedArticle, setSelectedArticle] = useState<IArticleV2DTO | IArticleSummaryV2DTO | undefined>(undefined);
   const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
 
   const searchQuery = useArticleSearch({ query: delayedQuery, page: page }, { placeholderData: (prev) => prev });
 
   useEffect(() => {
     const initSelectedArticle = async () => {
-      let response: IArticleV2 | undefined = undefined;
+      let response: IArticleV2DTO | undefined = undefined;
       if (initialValues.articleId) {
         response = await getArticle(Number(initialValues.articleId));
       }
@@ -141,7 +141,7 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
             </FormField>
             <FormField name="articleId">
               {({ field, helpers }) => {
-                const handleChange = (selected: IArticleSummaryV2 | undefined) => {
+                const handleChange = (selected: IArticleSummaryV2DTO | undefined) => {
                   helpers.setValue(selected?.id.toString() ?? "");
                   setSelectedArticle(selected);
                 };

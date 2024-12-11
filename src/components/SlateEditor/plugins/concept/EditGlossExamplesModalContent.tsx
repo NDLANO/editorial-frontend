@@ -30,7 +30,7 @@ import {
   IconButton,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IGlossExample } from "@ndla/types-backend/concept-api";
+import { IGlossExampleDTO } from "@ndla/types-backend/concept-api";
 import { ConceptMetaData } from "@ndla/types-embed";
 import { GlossExample } from "@ndla/ui";
 import { ConceptBlockElement } from "./block/interfaces";
@@ -40,7 +40,7 @@ import { Form, FormActionsContainer } from "../../../FormikForm";
 
 interface Props {
   originalLanguage: string | undefined;
-  examples: IGlossExample[][];
+  examples: IGlossExampleDTO[][];
   editor: Editor;
   element: ConceptBlockElement | ConceptInlineElement;
   embed: ConceptMetaData;
@@ -53,7 +53,7 @@ const StyledCheckboxRoot = styled(CheckboxRoot, {
   },
 });
 
-const getInitialStateSelectedExamples = (exampleIds: string | undefined, examples: IGlossExample[][]): string[] => {
+const getInitialStateSelectedExamples = (exampleIds: string | undefined, examples: IGlossExampleDTO[][]): string[] => {
   if (exampleIds) return exampleIds.split(",");
   else if (exampleIds === undefined) return generateNumbersArray(examples.length);
   else return [];

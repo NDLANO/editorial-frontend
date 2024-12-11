@@ -13,11 +13,11 @@ import { useNavigate } from "react-router-dom";
 import { Descendant } from "slate";
 import { Button, PageContent } from "@ndla/primitives";
 import {
-  IAudio,
-  IAuthor,
-  IAudioMetaInformation,
-  INewAudioMetaInformation,
-  IUpdatedAudioMetaInformation,
+  IAudioDTO,
+  IAuthorDTO,
+  IAudioMetaInformationDTO,
+  INewAudioMetaInformationDTO,
+  IUpdatedAudioMetaInformationDTO,
 } from "@ndla/types-backend/audio-api";
 import AudioContent from "./AudioContent";
 import AudioCopyright from "./AudioCopyright";
@@ -45,22 +45,22 @@ export interface AudioFormikType {
   title: Descendant[];
   manuscript: Descendant[];
   audioFile: {
-    storedFile?: IAudio;
+    storedFile?: IAudioDTO;
     newFile?: {
       filepath: string;
       file: File;
     };
   };
   tags: string[];
-  creators: IAuthor[];
-  processors: IAuthor[];
-  rightsholders: IAuthor[];
+  creators: IAuthorDTO[];
+  processors: IAuthorDTO[];
+  rightsholders: IAuthorDTO[];
   processed: boolean;
   origin: string;
   license: string;
 }
 
-const rules: RulesType<AudioFormikType, IAudioMetaInformation> = {
+const rules: RulesType<AudioFormikType, IAudioMetaInformationDTO> = {
   title: {
     required: true,
     warnings: {
@@ -102,9 +102,9 @@ const rules: RulesType<AudioFormikType, IAudioMetaInformation> = {
 };
 
 interface Props {
-  onCreateAudio?: (audio: INewAudioMetaInformation, file?: string | Blob) => Promise<void>;
-  onUpdateAudio?: (audio: IUpdatedAudioMetaInformation, file?: string | Blob) => Promise<void>;
-  audio?: IAudioMetaInformation;
+  onCreateAudio?: (audio: INewAudioMetaInformationDTO, file?: string | Blob) => Promise<void>;
+  onUpdateAudio?: (audio: IUpdatedAudioMetaInformationDTO, file?: string | Blob) => Promise<void>;
+  audio?: IAudioMetaInformationDTO;
   audioLanguage: string;
   supportedLanguages: string[];
   isNewlyCreated?: boolean;
@@ -141,7 +141,7 @@ const AudioForm = ({
   const handleSubmit = async (values: AudioFormikType, actions: FormikHelpers<AudioFormikType>) => {
     try {
       actions.setSubmitting(true);
-      const audioMetaData: INewAudioMetaInformation = {
+      const audioMetaData: INewAudioMetaInformationDTO = {
         title: editorValueToPlainText(values.title),
         manuscript: inlineContentToHTML(values.manuscript),
         language: values.language,

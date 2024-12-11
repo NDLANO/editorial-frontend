@@ -21,7 +21,7 @@ import {
   Text,
   ComboboxList,
 } from "@ndla/primitives";
-import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
+import { IArticleSummaryV2DTO } from "@ndla/types-backend/article-api";
 import { useComboboxTranslations } from "@ndla/ui";
 import { extractArticleIds } from "./frontpageHelpers";
 import { MenuWithArticle } from "./types";
@@ -33,7 +33,7 @@ import { usePaginatedQuery } from "../../util/usePaginatedQuery";
 interface Props {
   articleId?: number;
   children?: ReactNode;
-  onChange: (article: IArticleSummaryV2) => void;
+  onChange: (article: IArticleSummaryV2DTO) => void;
 }
 
 const FrontpageArticleSearch = ({ articleId, children, onChange }: Props) => {

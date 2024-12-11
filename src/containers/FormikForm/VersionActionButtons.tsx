@@ -9,15 +9,15 @@
 import { useTranslation } from "react-i18next";
 import { EyeFill, ResetLeft } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
-import { IArticle } from "@ndla/types-backend/draft-api";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
 
 import { PreviewResourceDialog } from "../../components/PreviewDraft/PreviewResourceDialog";
 
 interface Props {
   showFromArticleApi: boolean;
-  article: IArticle;
-  resetVersion: (version: IArticle, language: string, showFromArticleApi: boolean) => Promise<void>;
-  version: IArticle;
+  article: IArticleDTO;
+  resetVersion: (version: IArticleDTO, language: string, showFromArticleApi: boolean) => Promise<void>;
+  version: IArticleDTO;
   current: boolean;
   currentLanguage: string;
 }

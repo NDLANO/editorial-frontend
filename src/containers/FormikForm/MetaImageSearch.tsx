@@ -21,7 +21,7 @@ import {
   FieldsetRoot,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3, IUpdateImageMetaInformation } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3DTO, IUpdateImageMetaInformationDTO } from "@ndla/types-backend/image-api";
 import MetaImageField from "./components/MetaImageField";
 import ImageSearchAndUploader from "../../components/ControlledImageSearchAndUploader";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
@@ -41,7 +41,7 @@ interface Props {
   onImageLoad?: (width: number, height: number) => void;
   showRemoveButton: boolean;
   showCheckbox: boolean;
-  checkboxAction?: (image: IImageMetaInformationV3) => void;
+  checkboxAction?: (image: IImageMetaInformationV3DTO) => void;
   language?: string;
   podcastFriendly?: boolean;
   disableAltEditing?: boolean;
@@ -62,7 +62,7 @@ const MetaImageSearch = ({
   const { t, i18n } = useTranslation();
   const { setFieldValue } = useFormikContext();
   const [showImageSelect, setShowImageSelect] = useState(false);
-  const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
+  const [image, setImage] = useState<IImageMetaInformationV3DTO | undefined>(undefined);
   const locale = i18n.language;
 
   useEffect(() => {
@@ -83,7 +83,7 @@ const MetaImageSearch = ({
   };
   const onImageSelectClose = useCallback(() => setShowImageSelect(false), []);
 
-  const onImageSet = (image: IImageMetaInformationV3) => {
+  const onImageSet = (image: IImageMetaInformationV3DTO) => {
     setShowImageSelect(false);
     setImage(image);
     setFieldValue(name, image.id);
@@ -96,7 +96,7 @@ const MetaImageSearch = ({
     onChangeFormik(null);
   };
 
-  const onImageUpdate = async (image: IUpdateImageMetaInformation, file: string | Blob | undefined, id?: number) => {
+  const onImageUpdate = async (image: IUpdateImageMetaInformationDTO, file: string | Blob | undefined, id?: number) => {
     if (id) {
       const updatedImage = await updateImage(id, image);
       onImageSet(updatedImage);

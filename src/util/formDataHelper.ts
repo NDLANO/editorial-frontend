@@ -6,16 +6,16 @@
  *
  */
 
-import { INewAudioMetaInformation, IUpdatedAudioMetaInformation } from "@ndla/types-backend/audio-api";
-import { INewImageMetaInformationV2, IUpdateImageMetaInformation } from "@ndla/types-backend/image-api";
+import { INewAudioMetaInformationDTO, IUpdatedAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
+import { INewImageMetaInformationV2DTO, IUpdateImageMetaInformationDTO } from "@ndla/types-backend/image-api";
 
 export const createFormData = (
   file?: string | Blob,
   metadata?:
-    | INewImageMetaInformationV2
-    | IUpdateImageMetaInformation
-    | INewAudioMetaInformation
-    | IUpdatedAudioMetaInformation,
+    | INewImageMetaInformationV2DTO
+    | IUpdateImageMetaInformationDTO
+    | INewAudioMetaInformationDTO
+    | IUpdatedAudioMetaInformationDTO,
 ): Promise<FormData> =>
   new Promise((resolve) => {
     const form = new FormData();

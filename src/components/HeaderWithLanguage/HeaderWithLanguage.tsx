@@ -8,8 +8,8 @@
 
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { IConcept } from "@ndla/types-backend/concept-api";
-import { IArticle, IStatus } from "@ndla/types-backend/draft-api";
+import { IConceptDTO } from "@ndla/types-backend/concept-api";
+import { IArticleDTO, IStatusDTO } from "@ndla/types-backend/draft-api";
 import { TaxonomyContext } from "@ndla/types-taxonomy";
 import HeaderActions from "./HeaderActions";
 import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
@@ -32,13 +32,13 @@ interface Props {
   id?: number;
   taxonomy?: TaxonomyContext[];
   noStatus?: boolean;
-  article?: IArticle;
-  articleHistory?: IArticle[];
+  article?: IArticleDTO;
+  articleHistory?: IArticleDTO[];
   supportedLanguages: string[];
-  concept?: IConcept;
+  concept?: IConceptDTO;
   type: FormHeaderType;
   hasRSS?: boolean;
-  status?: IStatus;
+  status?: IStatusDTO;
   expirationDate?: string;
 }
 

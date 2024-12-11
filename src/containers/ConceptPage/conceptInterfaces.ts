@@ -7,8 +7,8 @@
  */
 
 import { Descendant } from "slate";
-import { IStatus, IAuthor, IGlossExample, IGlossData } from "@ndla/types-backend/concept-api";
-import { IArticle } from "@ndla/types-backend/draft-api";
+import { IStatusDTO, IAuthorDTO, IGlossExampleDTO, IGlossDataDTO } from "@ndla/types-backend/concept-api";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 
 export type ConceptType = "concept" | "gloss";
@@ -17,7 +17,7 @@ export interface ConceptFormValues {
   id?: number;
   language: string;
   revision?: number;
-  status?: IStatus;
+  status?: IStatusDTO;
   visualElement: Descendant[];
   source?: string;
   metaImage?: {
@@ -27,16 +27,16 @@ export interface ConceptFormValues {
     language?: string;
   };
   tags: string[];
-  articles: IArticle[];
+  articles: IArticleDTO[];
   title: Descendant[];
   conceptContent: Descendant[];
   created?: string;
-  creators: IAuthor[];
+  creators: IAuthorDTO[];
   license?: string;
   metaImageAlt: string;
   metaImageId: string;
-  processors: IAuthor[];
-  rightsholders: IAuthor[];
+  processors: IAuthorDTO[];
+  rightsholders: IAuthorDTO[];
   processed: boolean;
   subjects: Node[];
   supportedLanguages: string[];
@@ -49,6 +49,6 @@ export interface ConceptFormValues {
     wordClass: string;
     originalLanguage: string;
   };
-  examples?: IGlossExample[][];
-  transcriptions?: IGlossData["transcriptions"];
+  examples?: IGlossExampleDTO[][];
+  transcriptions?: IGlossDataDTO["transcriptions"];
 }

@@ -7,12 +7,12 @@
  */
 
 import {
-  IConcept,
-  IDraftConceptSearchParams,
-  IConceptSearchResult,
-  INewConcept,
-  ITagsSearchResult,
-  IUpdatedConcept,
+  IConceptDTO,
+  IDraftConceptSearchParamsDTO,
+  IConceptSearchResultDTO,
+  INewConceptDTO,
+  ITagsSearchResultDTO,
+  IUpdatedConceptDTO,
 } from "@ndla/types-backend/concept-api";
 import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
 import { ConceptStatusStateMachineType } from "../../interfaces";
@@ -20,7 +20,7 @@ import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from ".
 
 const draftConceptUrl: string = apiResourceUrl("/concept-api/v1/drafts");
 
-export const fetchSearchTags = async (input: string, language: string): Promise<ITagsSearchResult> => {
+export const fetchSearchTags = async (input: string, language: string): Promise<ITagsSearchResultDTO> => {
   const response = await fetchAuthorized(
     `${draftConceptUrl}/tag-search/?language=${language}&query=${input}&fallback=true`,
   );
@@ -37,43 +37,43 @@ export const fetchAllSubjects = async (): Promise<string[]> => {
   return resolveJsonOrRejectWithError(response);
 };
 
-export const fetchConcept = async (conceptId: string | number, locale?: string): Promise<IConcept> => {
+export const fetchConcept = async (conceptId: string | number, locale?: string): Promise<IConceptDTO> => {
   const languageParam = locale ? `language=${locale}&` : "";
   return fetchAuthorized(`${draftConceptUrl}/${conceptId}?${languageParam}fallback=true`).then((r) =>
-    resolveJsonOrRejectWithError<IConcept>(r),
+    resolveJsonOrRejectWithError<IConceptDTO>(r),
   );
 };
 
-export const addConcept = async (concept: INewConcept): Promise<IConcept> =>
+export const addConcept = async (concept: INewConceptDTO): Promise<IConceptDTO> =>
   fetchAuthorized(`${draftConceptUrl}/`, {
     method: "POST",
     body: JSON.stringify(concept),
-  }).then((r) => resolveJsonOrRejectWithError<IConcept>(r));
+  }).then((r) => resolveJsonOrRejectWithError<IConceptDTO>(r));
 
-export const updateConcept = async (id: number, concept: IUpdatedConcept): Promise<IConcept> =>
+export const updateConcept = async (id: number, concept: IUpdatedConceptDTO): Promise<IConceptDTO> =>
   fetchAuthorized(`${draftConceptUrl}/${id}`, {
     method: "PATCH",
     body: JSON.stringify(concept),
-  }).then((r) => resolveJsonOrRejectWithError<IConcept>(r));
+  }).then((r) => resolveJsonOrRejectWithError<IConceptDTO>(r));
 
-export const deleteLanguageVersionConcept = async (conceptId: number, language: string): Promise<IConcept> =>
+export const deleteLanguageVersionConcept = async (conceptId: number, language: string): Promise<IConceptDTO> =>
   fetchAuthorized(`${draftConceptUrl}/${conceptId}?language=${language}`, {
     method: "DELETE",
-  }).then((r) => resolveJsonOrRejectWithError<IConcept>(r));
+  }).then((r) => resolveJsonOrRejectWithError<IConceptDTO>(r));
 
 export const fetchStatusStateMachine = async (): Promise<ConceptStatusStateMachineType> =>
   fetchAuthorized(`${draftConceptUrl}/status-state-machine/`).then((r) =>
     resolveJsonOrRejectWithError<ConceptStatusStateMachineType>(r),
   );
 
-export const updateConceptStatus = async (id: number, status: string): Promise<IConcept> =>
+export const updateConceptStatus = async (id: number, status: string): Promise<IConceptDTO> =>
   fetchAuthorized(`${draftConceptUrl}/${id}/status/${status}`, {
     method: "PUT",
-  }).then((r) => resolveJsonOrRejectWithError<IConcept>(r));
+  }).then((r) => resolveJsonOrRejectWithError<IConceptDTO>(r));
 
 export const postSearchConcepts = async (
-  body: StringSort<IDraftConceptSearchParams>,
-): Promise<IConceptSearchResult> => {
+  body: StringSort<IDraftConceptSearchParamsDTO>,
+): Promise<IConceptSearchResultDTO> => {
   const response = await fetchAuthorized(`${draftConceptUrl}/search/`, {
     method: "POST",
     body: JSON.stringify(body),

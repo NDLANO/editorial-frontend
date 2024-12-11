@@ -10,13 +10,13 @@ import { useTranslation } from "react-i18next";
 import { BroadcastLine } from "@ndla/icons";
 import { ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { ISeriesSummary } from "@ndla/types-backend/audio-api";
+import { ISeriesSummaryDTO } from "@ndla/types-backend/audio-api";
 import { SearchContentWrapper } from "./SearchContentWrapper";
 import { SearchListItemImage } from "./SearchListItemImage";
 import { routes } from "../../../../util/routeHelpers";
 
 interface Props {
-  series: ISeriesSummary;
+  series: ISeriesSummaryDTO;
 }
 
 const SearchPodcastSeries = ({ series }: Props) => {

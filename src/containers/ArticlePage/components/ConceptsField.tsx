@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { Draggable } from "@ndla/icons";
 import { ComboboxLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IConceptSummary } from "@ndla/types-backend/concept-api";
+import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
@@ -36,7 +36,7 @@ interface Props {
 const ConceptsField = ({ field }: Props) => {
   const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
   const { t, i18n } = useTranslation();
-  const [concepts, setConcepts] = useState<IConceptSummary[]>([]);
+  const [concepts, setConcepts] = useState<IConceptSummaryDTO[]>([]);
 
   const searchQuery = useSearchConcepts(
     { query: delayedQuery, language: i18n.language, page },
@@ -52,17 +52,17 @@ const ConceptsField = ({ field }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onUpdateElements = (conceptList: IConceptSummary[]) => {
+  const onUpdateElements = (conceptList: IConceptSummaryDTO[]) => {
     setConcepts(conceptList);
     updateFormik(field, conceptList);
   };
 
-  const onDeleteElements = (elements: IConceptSummary[], deleteIndex: number) => {
+  const onDeleteElements = (elements: IConceptSummaryDTO[], deleteIndex: number) => {
     const newElements = elements.filter((_, i) => i !== deleteIndex);
     onUpdateElements(newElements);
   };
 
-  const updateFormik = (formikField: Props["field"], newData: IConceptSummary[]) => {
+  const updateFormik = (formikField: Props["field"], newData: IConceptSummaryDTO[]) => {
     formikField.onChange({
       target: {
         name: formikField.name,

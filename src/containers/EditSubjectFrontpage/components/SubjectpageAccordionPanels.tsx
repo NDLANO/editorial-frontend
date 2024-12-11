@@ -10,8 +10,8 @@ import { FormikErrors } from "formik";
 import { useTranslation } from "react-i18next";
 
 import { FieldErrorMessage, FieldRoot, PageContent } from "@ndla/primitives";
-import { IArticle } from "@ndla/types-backend/draft-api";
-import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
+import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 
 import SubjectpageAbout from "./SubjectpageAbout";
 import SubjectpageArticles from "./SubjectpageArticles";
@@ -26,7 +26,7 @@ import { SubjectPageFormikType } from "../../../util/subjectHelpers";
 interface Props {
   buildsOn: string[];
   connectedTo: string[];
-  editorsChoices: (IArticle | ILearningPathV2)[];
+  editorsChoices: (IArticleDTO | ILearningPathV2DTO)[];
   elementId: string;
   errors: FormikErrors<SubjectPageFormikType>;
   leadsTo: string[];

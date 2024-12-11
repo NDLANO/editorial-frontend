@@ -7,7 +7,7 @@
  */
 
 import parse from "html-react-parser";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import {
   AudioEmbedData,
   AudioMeta,
@@ -35,7 +35,7 @@ import { fetchBrightcoveSources, fetchBrightcoveVideo, getBrightcoveCopyright } 
 
 export const fetchAudioMeta = async (resourceId: string, language: string): Promise<AudioMeta> => {
   const audio = await fetchAudio(parseInt(resourceId), language);
-  let image: IImageMetaInformationV3 | undefined;
+  let image: IImageMetaInformationV3DTO | undefined;
   if (audio.podcastMeta?.coverPhoto.id) {
     image = await fetchImage(audio.podcastMeta?.coverPhoto.id, language);
   }

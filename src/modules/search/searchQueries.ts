@@ -9,13 +9,13 @@
 import { useMemo } from "react";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import {
-  IDraftSearchParams,
-  IGrepSearchInput,
-  IGrepSearchResults,
-  IMultiSearchResult,
-  ISearchParams,
-  ISubjectAggregations,
-  ISubjectAggsInput,
+  IDraftSearchParamsDTO,
+  IGrepSearchInputDTO,
+  IGrepSearchResultsDTO,
+  IMultiSearchResultDTO,
+  ISearchParamsDTO,
+  ISubjectAggregationsDTO,
+  ISubjectAggsInputDTO,
 } from "@ndla/types-backend/search-api";
 import { postSearch, searchGrepCodes, searchResources, searchSubjectStats } from "./searchApi";
 import { DA_SUBJECT_ID, SA_SUBJECT_ID, LMA_SUBJECT_ID } from "../../constants";
@@ -40,25 +40,25 @@ import { useUserData } from "../draft/draftQueries";
 import { usePostSearchNodes } from "../nodes/nodeQueries";
 
 export const searchQueryKeys = {
-  search: (params?: Partial<StringSort<IDraftSearchParams>>) => [SEARCH, params] as const,
-  searchWithCustomSubjectsFiltering: (params?: Partial<StringSort<IDraftSearchParams>>) =>
+  search: (params?: Partial<StringSort<IDraftSearchParamsDTO>>) => [SEARCH, params] as const,
+  searchWithCustomSubjectsFiltering: (params?: Partial<StringSort<IDraftSearchParamsDTO>>) =>
     [SEARCH_WITH_CUSTOM_SUBJECTS_FILTERING, params] as const,
-  searchSubjectStats: (params?: Partial<ISubjectAggsInput>) => [SEARCH_SUBJECT_STATS, params] as const,
-  searchResources: (params: Partial<ISearchParams>) => [SEARCH_RESOURCES, params] as const,
-  searchGrepCodes: (params: Partial<IGrepSearchResults>) => [SEARCH_GREP_CODES, params] as const,
+  searchSubjectStats: (params?: Partial<ISubjectAggsInputDTO>) => [SEARCH_SUBJECT_STATS, params] as const,
+  searchResources: (params: Partial<ISearchParamsDTO>) => [SEARCH_RESOURCES, params] as const,
+  searchGrepCodes: (params: Partial<IGrepSearchResultsDTO>) => [SEARCH_GREP_CODES, params] as const,
 };
 
 export const useSearch = (
-  query: StringSort<IDraftSearchParams>,
-  options?: Partial<UseQueryOptions<IMultiSearchResult>>,
+  query: StringSort<IDraftSearchParamsDTO>,
+  options?: Partial<UseQueryOptions<IMultiSearchResultDTO>>,
 ) =>
-  useQuery<IMultiSearchResult>({
+  useQuery<IMultiSearchResultDTO>({
     queryKey: searchQueryKeys.search(query),
     queryFn: () => postSearch(query),
     ...options,
   });
 
-interface UseSearchWithCustomSubjectsFiltering extends StringSort<IDraftSearchParams> {
+interface UseSearchWithCustomSubjectsFiltering extends StringSort<IDraftSearchParamsDTO> {
   favoriteSubjects?: string[];
 }
 
@@ -66,7 +66,7 @@ interface UseSearchWithCustomSubjectsFiltering extends StringSort<IDraftSearchPa
  These custom subjects represent multiple related subjects, requiring this custom search hook to correctly transform them */
 export const useSearchWithCustomSubjectsFiltering = (
   query: UseSearchWithCustomSubjectsFiltering,
-  options?: Partial<UseQueryOptions<IMultiSearchResult>>,
+  options?: Partial<UseQueryOptions<IMultiSearchResultDTO>>,
 ) => {
   const { taxonomyVersion } = useTaxonomyVersion();
 
@@ -90,7 +90,7 @@ export const useSearchWithCustomSubjectsFiltering = (
 
   const actualQuery = getSubjectsIdsQuery(query, data?.favoriteSubjects, subjectIdObject);
 
-  return useQuery<IMultiSearchResult>({
+  return useQuery<IMultiSearchResultDTO>({
     queryKey: searchQueryKeys.searchWithCustomSubjectsFiltering(actualQuery),
     queryFn: () => postSearch(actualQuery),
     ...options,
@@ -99,25 +99,31 @@ export const useSearchWithCustomSubjectsFiltering = (
 };
 
 export const useSearchSubjectStats = (
-  body: ISubjectAggsInput,
-  options?: Partial<UseQueryOptions<ISubjectAggregations>>,
+  body: ISubjectAggsInputDTO,
+  options?: Partial<UseQueryOptions<ISubjectAggregationsDTO>>,
 ) => {
-  return useQuery<ISubjectAggregations>({
+  return useQuery<ISubjectAggregationsDTO>({
     queryKey: searchQueryKeys.searchSubjectStats(body),
     queryFn: () => searchSubjectStats(body),
     ...options,
   });
 };
 
-export const useSearchResources = (query: ISearchParams, options?: Partial<UseQueryOptions<IMultiSearchResult>>) =>
-  useQuery<IMultiSearchResult>({
+export const useSearchResources = (
+  query: ISearchParamsDTO,
+  options?: Partial<UseQueryOptions<IMultiSearchResultDTO>>,
+) =>
+  useQuery<IMultiSearchResultDTO>({
     queryKey: searchQueryKeys.searchResources(query),
     queryFn: () => searchResources(query),
     ...options,
   });
 
-export const useSearchGrepCodes = (body: IGrepSearchInput, options?: Partial<UseQueryOptions<IGrepSearchResults>>) =>
-  useQuery<IGrepSearchResults>({
+export const useSearchGrepCodes = (
+  body: IGrepSearchInputDTO,
+  options?: Partial<UseQueryOptions<IGrepSearchResultsDTO>>,
+) =>
+  useQuery<IGrepSearchResultsDTO>({
     queryKey: searchQueryKeys.searchGrepCodes(body),
     queryFn: () => searchGrepCodes(body),
     ...options,

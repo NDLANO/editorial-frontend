@@ -56,7 +56,6 @@ interface Props {
 const TopicArticleConnections = ({ structure, selectedNodes, addConnection, getSubjectTopics }: Props) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
-  const [openedPaths, setOpenedPaths] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(true);
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
 
@@ -79,22 +78,6 @@ const TopicArticleConnections = ({ structure, selectedNodes, addConnection, getS
   useEffect(() => {
     fetchFavoriteSubjects();
   }, []);
-
-  const handleOpenToggle = ({ id }: Node) => {
-    let paths = [...openedPaths];
-    const index = paths.indexOf(id);
-    const isSubject = id.includes("subject");
-    if (index === -1) {
-      if (isSubject) {
-        getSubjectTopics(id);
-        paths = [];
-      }
-      paths.push(id);
-    } else {
-      paths.splice(index, 1);
-    }
-    setOpenedPaths(paths);
-  };
 
   const onAdd = useCallback(
     (node: NodeWithChildren | NodeChild) => {
@@ -132,11 +115,10 @@ const TopicArticleConnections = ({ structure, selectedNodes, addConnection, getS
               <TaxonomyBlockNode
                 key={node.id}
                 node={node}
-                openedPaths={openedPaths}
-                toggleOpen={handleOpenToggle}
                 selectedNodes={selectedNodes}
                 onRootSelected={onAdd}
                 onSelect={onAdd}
+                getSubjectTopics={getSubjectTopics}
               />
             ))}
           </DialogBody>

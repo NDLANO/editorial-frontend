@@ -88,8 +88,8 @@ export const InlineField = ({ ...rest }: Props) => {
         toolbarOptions={toolbarOptions}
         toolbarAreaFilters={toolbarAreaFilters}
         renderPlaceholder={(placeholder) => (
-          <StyledText {...placeholder.attributes} textStyle="body.article">
-            {placeholder.children}
+          <StyledText {...placeholder.attributes} textStyle="body.article" asChild consumeCss>
+            <span>{placeholder.children}</span>
           </StyledText>
         )}
       />

@@ -158,15 +158,17 @@ export const SlateFile = ({
           ) : (
             <>
               {file.type === "pdf" && (
-                <StyledCheckboxRoot checked={file.display === "block"} onCheckedChange={onToggleRenderInline}>
-                  <CheckboxControl>
-                    <CheckboxIndicator asChild>
-                      <CheckLine />
-                    </CheckboxIndicator>
-                  </CheckboxControl>
-                  <CheckboxLabel>{t("form.file.showPdf")}</CheckboxLabel>
-                  <CheckboxHiddenInput />
-                </StyledCheckboxRoot>
+                <FieldRoot>
+                  <StyledCheckboxRoot checked={file.display === "block"} onCheckedChange={onToggleRenderInline}>
+                    <CheckboxControl>
+                      <CheckboxIndicator asChild>
+                        <CheckLine />
+                      </CheckboxIndicator>
+                    </CheckboxControl>
+                    <CheckboxLabel>{t("form.file.showPdf")}</CheckboxLabel>
+                    <CheckboxHiddenInput />
+                  </StyledCheckboxRoot>
+                </FieldRoot>
               )}
               <IconButton
                 title={t("form.file.changeName")}

@@ -12,7 +12,6 @@ import { DragEndEvent } from "@dnd-kit/core";
 import { Draggable, StarLine, StarFill, BookmarkLine, CornerDownRightLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild, Node } from "@ndla/types-taxonomy";
 import NodeControls from "./folderComponents/NodeControls";
@@ -20,7 +19,7 @@ import QualityEvaluationGrade from "./resourceComponents/QualityEvaluationGrade"
 import DndList from "../../components/DndList";
 import { DragHandle } from "../../components/DraggableItem";
 import Fade from "../../components/Taxonomy/Fade";
-import { NodeItemRoot, NodeItemTitle, ToggleIcon } from "../../components/Taxonomy/NodeItem";
+import { iconRecipe, NodeItemRoot, NodeItemTitle, ToggleIcon } from "../../components/Taxonomy/NodeItem";
 import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { NodeChildWithChildren } from "../../modules/nodes/nodeQueries";
 import { nodePathToUrnPath } from "../../util/taxonomyHelpers";
@@ -72,12 +71,6 @@ const StyledDragHandle = styled(DragHandle, {
 const StyledUl = styled("ul", {
   base: {
     listStyle: "none",
-  },
-});
-
-const iconRecipe = cva({
-  base: {
-    fill: "icon.default",
   },
 });
 

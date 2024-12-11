@@ -10,7 +10,7 @@ import { forwardRef } from "react";
 import { ark, HTMLArkProps } from "@ark-ui/react";
 import { ArrowRightShortLine } from "@ndla/icons";
 import { createStyleContext, Heading, TextProps } from "@ndla/primitives";
-import { sva } from "@ndla/styled-system/css";
+import { cva, sva } from "@ndla/styled-system/css";
 import { JsxStyleProps, RecipeVariantProps } from "@ndla/styled-system/types";
 
 const nodeItemRecipe = sva({
@@ -108,3 +108,9 @@ const InternalToggleIcon = withContext(ArrowRightShortLine, "toggleIcon");
 
 export const ToggleIcon = ({ hasChildNodes, isOpen }: { hasChildNodes: boolean; isOpen: boolean }) =>
   hasChildNodes ? <InternalToggleIcon {...(isOpen ? { "data-open": true } : {})} /> : null;
+
+export const iconRecipe = cva({
+  base: {
+    fill: "icon.default",
+  },
+});

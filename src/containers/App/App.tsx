@@ -18,7 +18,6 @@ import "@fontsource/source-code-pro/700.css";
 import "@fontsource/source-serif-pro/index.css";
 import "@fontsource/source-serif-pro/400-italic.css";
 import "@fontsource/source-serif-pro/700.css";
-// import before all other imports component to make sure it is loaded before any emotion stuff.
 import "../../style/index.css";
 
 import { ReactElement } from "react";

@@ -7,7 +7,7 @@
  */
 
 import { Formik } from "formik";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, FieldErrorMessage, FieldLabel, FieldRoot, FieldTextArea } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -69,6 +69,12 @@ const CommentForm = ({
     });
   };
 
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    setTimeout(() => inputRef.current?.focus({ preventScroll: true }), 0);
+  }, []);
+
   return (
     <Formik
       initialValues={initialValues}
@@ -82,7 +88,7 @@ const CommentForm = ({
             {({ field, meta }) => (
               <FieldRoot required invalid={!!meta.error}>
                 <FieldLabel srOnly={labelVisuallyHidden}>{labelText}</FieldLabel>
-                <StyledTextArea {...field} />
+                <StyledTextArea ref={inputRef} {...field} />
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>
               </FieldRoot>
             )}

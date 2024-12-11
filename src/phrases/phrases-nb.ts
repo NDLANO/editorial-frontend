@@ -1275,7 +1275,6 @@ const phrases = {
       placeholder: "Skriv inn kode",
       description:
         "Skriv inn koder som starter på riktig format ({{ codes }}) fulgt av ett eller flere siffer. Koder som ikke finnes vil ikke bli opprettet. Tekstene vises på bokmål i ed men korrekt i artikkelvisning.",
-      noHits: "Trykk enter for å legge til koden.",
     },
     resourceTypes: {
       label: "Innholdstype og egenskaper",

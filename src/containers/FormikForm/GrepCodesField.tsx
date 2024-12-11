@@ -7,27 +7,13 @@
  */
 
 import { useField } from "formik";
-import { memo, useState, useEffect, useMemo, useRef } from "react";
+import { memo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { createListCollection } from "@ark-ui/react";
 import { DeleteBinLine } from "@ndla/icons";
-import {
-  ComboboxContent,
-  ComboboxItem,
-  ComboboxList,
-  ComboboxRoot,
-  FieldHelper,
-  FieldLabel,
-  FieldRoot,
-  IconButton,
-  ListItemContent,
-  ListItemRoot,
-  Text,
-} from "@ndla/primitives";
+import { FieldHelper, FieldLabel, FieldRoot, IconButton, ListItemContent, ListItemRoot, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useComboboxTranslations } from "@ndla/ui";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../components/abstractions/Combobox";
-import { scrollToIndexFn } from "../../components/Form/utils";
+import { GenericSearchCombobox } from "../../components/Form/GenericSearchCombobox";
 import { FormField } from "../../components/FormField";
 import { searchGrepCodes } from "../../modules/search/searchApi";
 import { useSearchGrepCodes } from "../../modules/search/searchQueries";
@@ -36,15 +22,6 @@ import { usePaginatedQuery } from "../../util/usePaginatedQuery";
 
 const StyledList = styled("ul", {
   base: { listStyle: "none" },
-});
-
-const StyledComboboxList = styled(ComboboxList, {
-  base: {
-    overflowY: "auto",
-  },
-});
-const StyledComboboxContent = styled(ComboboxContent, {
-  base: { zIndex: "popover" },
 });
 
 export const convertGrepCodesToObject = async (grepCodes: string[]): Promise<Record<string, string>> => {
@@ -66,14 +43,11 @@ interface Props {
 
 const GrepCodesField = ({ prefixFilter }: Props) => {
   const { t } = useTranslation();
-  const translations = useComboboxTranslations();
   const [field, , helpers] = useField<string[]>("grepCodes");
   const [grepCodes, setGrepCodes] = useState<Record<string, string>>({});
 
-  const { query, setQuery } = usePaginatedQuery();
-  const grepCodesQuery = useSearchGrepCodes({ prefixFilter: prefixFilter, query: query });
-
-  const contentRef = useRef<HTMLDivElement>(null);
+  const { query, setQuery, page, setPage } = usePaginatedQuery();
+  const grepCodesQuery = useSearchGrepCodes({ prefixFilter: prefixFilter, query: query, page: page });
 
   useEffect(() => {
     (async () => {
@@ -114,14 +88,6 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
     }
   };
 
-  const collection = useMemo(() => {
-    return createListCollection({
-      items: grepCodesQuery.data?.results ?? [],
-      itemToString: (item) => item.title.title,
-      itemToValue: (item) => item.code,
-    });
-  }, [grepCodesQuery.data?.results]);
-
   return (
     <FormField name="grepCodes">
       {({ field, meta }) => (
@@ -131,11 +97,15 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
           <Text color="text.error" aria-live="polite">
             {meta.error}
           </Text>
-          <ComboboxRoot
-            collection={collection}
-            translations={translations}
-            onInputValueChange={(details) => setQuery(details.inputValue)}
+          <GenericSearchCombobox
+            items={grepCodesQuery.data?.results ?? []}
+            itemToString={(item) => item.title.title}
+            itemToValue={(item) => item.code}
+            paginationData={grepCodesQuery.data}
+            isSuccess={grepCodesQuery.isSuccess}
+            onPageChange={(details) => setPage(details.page)}
             inputValue={query}
+            onInputValueChange={(details) => setQuery(details.inputValue)}
             onValueChange={(details) => {
               const newValue = details.value[0];
               if (!newValue) return;
@@ -143,12 +113,7 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
               updateGrepCodes(newValue);
             }}
             value={field.value}
-            positioning={{ strategy: "fixed" }}
-            variant="complex"
-            context="standalone"
-            scrollToIndexFn={(details) => {
-              scrollToIndexFn(contentRef, details.index);
-            }}
+            renderItem={(item) => <GenericComboboxItemContent title={`${item.code} - ${item.title.title}`} />}
             closeOnSelect={false}
             selectionBehavior="preserve"
           >
@@ -162,21 +127,7 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
               }}
               triggerable
             />
-            <StyledComboboxContent ref={contentRef}>
-              <StyledComboboxList>
-                {collection.items.map((item) => (
-                  <ComboboxItem key={item.code} item={item} asChild>
-                    <GenericComboboxItemContent title={`${item.code} - ${item.title.title}`} />
-                  </ComboboxItem>
-                ))}
-              </StyledComboboxList>
-              {!!grepCodesQuery.isSuccess && (
-                <Text>
-                  {`${t("dropdown.numberHits", { hits: grepCodesQuery.data?.totalCount ?? 0 })}. ${!grepCodesQuery.data?.totalCount ? t("form.grepCodes.noHits") : ""}`}
-                </Text>
-              )}
-            </StyledComboboxContent>
-          </ComboboxRoot>
+          </GenericSearchCombobox>
           <StyledList>
             {Object.entries(grepCodes).map(([code, title]) => (
               <ListItemRoot key={code} context="list" variant="subtle" asChild consumeCss id="list-item">

@@ -54,7 +54,7 @@ jobs:
         run: echo $DOCKER_HUB_PASSWORD | docker login --username $DOCKER_HUB_USERNAME
           --password-stdin
       - name: Cache pip
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ndla/deploy/.venv
           key: ${{ runner.os }}-pip-${{ hashFiles('ndla/deploy/poetry.lock') }}

@@ -44,7 +44,7 @@ const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: 
     <DialogRoot position="top">
       <DialogTrigger asChild>
         <IconButton
-          variant="clear"
+          variant="secondary"
           size="small"
           data-testid="settings-button"
           aria-label={t(`taxonomy.${nodeType.toLowerCase()}Settings`)}

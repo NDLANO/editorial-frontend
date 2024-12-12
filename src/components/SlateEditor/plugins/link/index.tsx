@@ -6,12 +6,11 @@
  *
  */
 
-import type { JSX } from "react";
 import { Descendant, Editor, Element, Text, Node, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { ContentLinkEmbedData } from "@ndla/types-embed";
 import { LinkEmbedData, TYPE_CONTENT_LINK, TYPE_LINK } from "./types";
-import { reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
+import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 
@@ -50,7 +49,7 @@ export const linkSerializer: SlateSerializer = {
     }
     if (tag === TYPE_NDLA_EMBED) {
       const embed = el as HTMLEmbedElement;
-      const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes));
+      const embedAttributes = parseElementAttributes(Array.from(embed.attributes));
       if (embedAttributes.resource !== "content-link") return;
       return slatejsx(
         "element",
@@ -63,26 +62,28 @@ export const linkSerializer: SlateSerializer = {
     }
     return;
   },
-  serialize(node: Descendant, children: JSX.Element[]) {
+  serialize(node, children) {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_LINK) {
-      return (
-        <a href={node.data?.href} target={node.data?.target} title={node.data?.title} rel={node.data?.rel}>
-          {children}
-        </a>
-      );
+      return createHtmlTag({
+        tag: "a",
+        data: {
+          href: node.data?.href,
+          target: node.data?.target,
+          title: node.data?.title,
+          rel: node.data?.rel,
+        },
+        children,
+      });
     }
     if (node.type === TYPE_CONTENT_LINK) {
-      return (
-        <ndlaembed
-          data-content-id={node.data.contentId}
-          data-open-in={node.data.openIn}
-          data-resource="content-link"
-          data-content-type={node.data.contentType}
-        >
-          {children}
-        </ndlaembed>
-      );
+      const data = createDataAttributes({
+        contentId: node.data.contentId,
+        openIn: node.data.openIn,
+        resource: "content-link",
+        contentType: node.data.contentType,
+      });
+      return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true, children });
     }
   },
 };

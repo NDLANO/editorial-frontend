@@ -6,13 +6,14 @@
  *
  */
 
-import { Descendant, Editor, Element } from "slate";
+import { Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_LINK_BLOCK_LIST } from "./types";
-import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
+import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
+import { TYPE_NDLA_EMBED } from "../embed/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 const normalizerConfig: NormalizerConfig = {
@@ -37,15 +38,18 @@ export const linkBlockListSerializer: SlateSerializer = {
       "element",
       {
         type: TYPE_LINK_BLOCK_LIST,
-        data: Array.from(el.children ?? []).map((el) => reduceElementDataAttributesV2(Array.from(el.attributes))),
+        data: Array.from(el.children ?? []).map((el) => parseElementAttributes(Array.from(el.attributes))),
       },
       [{ text: "" }],
     );
   },
-  serialize(node: Descendant) {
+  serialize(node) {
     if (!Element.isElement(node) || node.type !== TYPE_LINK_BLOCK_LIST) return;
-    const children = node.data?.map((child) => createEmbedTagV2(child, undefined, child.url));
-    return <nav data-type={TYPE_LINK_BLOCK_LIST}>{children}</nav>;
+    const data = createDataAttributes({ type: TYPE_LINK_BLOCK_LIST });
+    const children = node.data
+      ?.map((child) => createHtmlTag({ tag: TYPE_NDLA_EMBED, data: createDataAttributes(child), bailOnEmpty: true }))
+      ?.join("");
+    return createHtmlTag({ tag: "nav", data, children });
   },
 };
 

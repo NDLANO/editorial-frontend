@@ -10,7 +10,7 @@ import { Descendant, Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_MATHML } from "./types";
 import { onArrowDown, onArrowUp } from "./utils";
-import { reduceElementDataAttributes } from "../../../../util/embedTagHelpers";
+import { createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { KEY_ARROW_DOWN, KEY_ARROW_UP } from "../../utils/keys";
 
@@ -28,7 +28,7 @@ export const mathmlSerializer: SlateSerializer = {
       "element",
       {
         type: TYPE_MATHML,
-        data: { ...reduceElementDataAttributes(el), innerHTML: el.innerHTML },
+        data: { ...parseElementAttributes(Array.from(el.attributes)), innerHTML: el.innerHTML },
       },
       [{ text: el.textContent }],
     );
@@ -37,16 +37,7 @@ export const mathmlSerializer: SlateSerializer = {
     if (!Element.isElement(node)) return;
     if (node.type !== "mathml") return;
     const { innerHTML, ...mathAttributes } = node.data;
-
-    return (
-      // @ts-expect-error math does not exist in JSX, but this hack works by setting innerHTML manually.
-      <math
-        {...mathAttributes}
-        dangerouslySetInnerHTML={{
-          __html: innerHTML,
-        }}
-      />
-    );
+    return createHtmlTag({ tag: "math", data: mathAttributes, children: innerHTML });
   },
 };
 

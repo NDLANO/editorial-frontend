@@ -5,23 +5,24 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import isObject from "lodash/fp/isObject";
-import { ElementType, ReactNode, type JSX } from "react";
-import { TYPE_AUDIO } from "../components/SlateEditor/plugins/audio/types";
+import { ComponentProps, ElementType } from "react";
 import { TYPE_NDLA_EMBED } from "../components/SlateEditor/plugins/embed/types";
-import { TYPE_IMAGE } from "../components/SlateEditor/plugins/image/types";
 import { isEmpty } from "../components/validators";
-import { Dictionary, Embed } from "../interfaces";
+import { Embed } from "../interfaces";
 
 const reduceRegexp = /(-|_)[a-z]/g;
 
-export const reduceElementDataAttributesV2 = (
+export const parseElementAttributes = (
   attributes: Pick<Attr, "name" | "value">[],
   filter?: string[],
 ): Record<string, string> => {
-  const _attributes = attributes.filter((a) => a.name !== "style");
-  const filteredAttributes = filter?.length ? _attributes.filter((a) => filter.includes(a.name)) : _attributes;
-  return filteredAttributes.reduce<Record<string, string>>((acc, attr) => {
+  return attributes.reduce<Record<string, string>>((acc, attr) => {
+    if (attr.name === "style") {
+      return acc;
+    }
+    if (filter?.length && !filter.includes(attr.name)) {
+      return acc;
+    }
     if (attr.name.startsWith("data-")) {
       const key = attr.name
         .replace("data-", "")
@@ -36,53 +37,6 @@ export const reduceElementDataAttributesV2 = (
   }, {});
 };
 
-export const reduceElementDataAttributes = (el: Element, filter?: string[]): { [key: string]: string } => {
-  if (!el.attributes) return {};
-  let attrs: Attr[] = [].slice.call(el.attributes);
-  attrs = attrs.filter((a) => a.name !== "style");
-
-  if (filter) attrs = attrs.filter((a) => filter.includes(a.name));
-  const obj = attrs.reduce((all, attr) => Object.assign({}, all, { [attr.name.replace("data-", "")]: attr.value }), {});
-  return obj;
-};
-
-export const reduceChildElements = (el: HTMLElement, type: string) => {
-  const children: object[] = [];
-  el.childNodes.forEach((node) => {
-    const childElement = node as HTMLElement;
-    if (type === "file") {
-      children.push({
-        ...childElement.dataset,
-      });
-    } else if (type === "related-content") {
-      if (childElement.dataset) {
-        const convertedDataset = Object.keys(childElement.dataset).reduce((acc, curr) => {
-          const currValue = childElement.dataset[curr];
-          if (curr === "articleId")
-            return {
-              ...acc,
-              "article-id": currValue,
-            };
-          return {
-            ...acc,
-            [curr]: currValue,
-          };
-        }, {});
-        children.push(convertedDataset);
-      }
-    } else {
-      children.push(childElement.dataset);
-    }
-  });
-
-  return { nodes: children };
-};
-
-export const createProps = (obj: Dictionary<string>) =>
-  Object.keys(obj)
-    .filter((key) => obj[key] !== undefined && !isObject(obj[key]))
-    .reduce((acc, key) => ({ ...acc, [key]: obj[key] }), {});
-
 export const parseEmbedTag = (embedTag?: string): Embed | undefined => {
   if (!embedTag) {
     return undefined;
@@ -95,11 +49,7 @@ export const parseEmbedTag = (embedTag?: string): Embed | undefined => {
     return undefined;
   }
 
-  const resource = embedElements[0].getAttribute("data-resource");
-  const obj =
-    resource === TYPE_AUDIO || resource === TYPE_IMAGE
-      ? reduceElementDataAttributesV2(Array.from(embedElements[0].attributes))
-      : reduceElementDataAttributes(embedElements[0]);
+  const obj = parseElementAttributes(Array.from(embedElements[0].attributes));
   delete obj.id;
 
   return obj as unknown as Embed;
@@ -111,14 +61,10 @@ type EmbedProps<T extends object> = {
   [Key in keyof T]: string | undefined;
 };
 
-export const createDataAttributes = <T extends object, R extends boolean = false>(
-  data?: EmbedProps<T>,
-  bailOnEmpty?: R,
-): Record<string, string> | (R extends true ? undefined : never) => {
+type HTMLPropType<Tag> = Tag extends ElementType ? ComponentProps<Tag> : {};
+
+export const createDataAttributes = <T extends object>(data?: EmbedProps<T>): Record<string, string> => {
   const entries = Object.entries(data ?? {});
-  if (bailOnEmpty && entries.length === 0) {
-    return undefined as R extends true ? undefined : never;
-  }
   return entries.reduce<Record<string, string>>((acc, [key, value]) => {
     const newKey = key.replace(attributeRegex, (m) => `-${m.toLowerCase()}`);
     if (value != null && typeof value === "string") {
@@ -132,42 +78,62 @@ export const createDataAttributes = <T extends object, R extends boolean = false
   }, {});
 };
 
-export const createTag = <T extends object>(
-  Tag: ElementType | "ndlaembed",
-  data: EmbedProps<T> | undefined,
-  children: ReactNode[] | undefined,
-  opts: { bailOnEmptyData?: boolean },
-  key: string | undefined,
-): JSX.Element | undefined => {
-  const dataAttributes = createDataAttributes(data, opts?.bailOnEmptyData);
-  // dataAttributes is undefined if bailOnEmptyData is true and data is empty
-  if (!dataAttributes) {
-    return undefined;
-  }
+interface CreateHtmlTag<Tag> {
+  tag: Tag;
+  data?: HTMLPropType<Tag> & {
+    [key: `data-${string}`]: string | undefined;
+  };
+  children?: string;
+  bailOnEmpty?: boolean;
+  shorthand?: boolean;
+}
 
-  return (
-    <Tag {...dataAttributes} key={key}>
-      {children}
-    </Tag>
-  );
+const reactToHtmlPropMap: Record<string, string> = {
+  className: "class",
+  htmlFor: "for",
+  acceptCharset: "accept-charset",
+  httpEquiv: "http-equiv",
+  autoComplete: "autocomplete",
+  readOnly: "readonly",
+  maxLength: "maxlength",
+  minLength: "minlength",
+  colSpan: "colspan",
+  rowSpan: "rowspan",
+  contentEditable: "contenteditable",
+  tabIndex: "tabindex",
+  spellCheck: "spellcheck",
+  srcSet: "srcset",
 };
 
-export const createEmbedTagV2 = <T extends object>(
-  data: EmbedProps<T>,
-  children: ReactNode[] | undefined,
-  key: string | undefined,
-): JSX.Element | undefined => createTag("ndlaembed", data, children, { bailOnEmptyData: true }, key);
-
-export const createEmbedTag = (data: { [key: string]: any } | undefined, key: string | undefined) => {
-  if (!data || Object.keys(data).length === 0) {
-    return undefined;
+export const stringifyAttributes = <Tag extends ElementType | "ndlaembed" | "math">(
+  dataAttributes?: HTMLPropType<Tag>,
+) => {
+  const keys = Object.entries(dataAttributes ?? {}).reduce<string[]>((acc, [key, value]) => {
+    if (value != null) {
+      acc.push(`${reactToHtmlPropMap[key] ?? key}="${value}"`);
+    }
+    return acc;
+  }, []);
+  if (keys.length) {
+    return ` ${keys.join(" ")}`;
   }
-  const props: Dictionary<string> = {};
-  Object.keys(data)
-    .filter((key) => data[key] !== undefined && !isObject(data[key]))
-    .forEach((key) => (props[`data-${key}`] = data[key]));
+  return keys[0] ?? "";
+};
 
-  return <ndlaembed key={key} {...props}></ndlaembed>;
+export const createHtmlTag = <Tag extends ElementType | "ndlaembed" | "math">({
+  tag,
+  data,
+  children = "",
+  bailOnEmpty,
+  shorthand,
+}: CreateHtmlTag<Tag>): string => {
+  if (bailOnEmpty && (!data || Object.keys(data).length === 0)) {
+    return children;
+  }
+  if (shorthand && !children) {
+    return `<${tag}${stringifyAttributes<Tag>(data)}/>`;
+  }
+  return `<${tag}${stringifyAttributes<Tag>(data)}>${children}</${tag}>`;
 };
 
 export const isUserProvidedEmbedDataValid = (embed: Embed) => {

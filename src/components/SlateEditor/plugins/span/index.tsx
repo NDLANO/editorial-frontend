@@ -7,11 +7,10 @@
  */
 
 import isEmpty from "lodash/isEmpty";
-import type { JSX } from "react";
 import { Descendant, Editor, Element, Node, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_SPAN } from "./types";
-import { createProps, reduceElementDataAttributes } from "../../../../util/embedTagHelpers";
+import { createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { TYPE_QUOTE } from "../blockquote/types";
@@ -54,22 +53,19 @@ const normalizerConfig: NormalizerConfig = {
 export const spanSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() !== "span") return;
-    const attributes = reduceElementDataAttributes(el);
+    const attributes = parseElementAttributes(Array.from(el.attributes));
 
     if (isEmpty(attributes)) return;
 
     return slatejsx("element", { type: TYPE_SPAN, data: attributes }, children);
   },
-  serialize(node: Descendant, children: JSX.Element[]) {
+  serialize(node, children) {
     if (!Element.isElement(node) || node.type !== TYPE_SPAN) return;
     if (!Object.keys(node.data ?? {}).length) {
-      // eslint-disable-next-line react/jsx-no-useless-fragment
-      return <>{children}</>;
+      return children;
     }
 
-    const props = node.data ? createProps(node.data) : {};
-
-    return <span {...props}>{children}</span>;
+    return createHtmlTag({ tag: TYPE_SPAN, data: node.data, children });
   },
 };
 

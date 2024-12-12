@@ -10,10 +10,11 @@ import { Descendant, Editor, Element } from "slate";
 import { TYPE_FILE } from "./types";
 import { defaultFileBlock } from "./utils";
 import { File } from "../../../../interfaces";
-import { createEmbedTag } from "../../../../util/embedTagHelpers";
+import { createDataAttributes, createHtmlTag } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
+import { TYPE_NDLA_EMBED } from "../embed/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 export interface FileElement {
@@ -47,8 +48,13 @@ export const fileSerializer: SlateSerializer = {
   serialize(node: Descendant) {
     if (!Element.isElement(node)) return;
     if (node.type !== TYPE_FILE) return;
-    const children = node.data.map((file) => createEmbedTag(file, file.path));
-    return <div data-type="file">{children}</div>;
+    const children = node.data
+      .map(({ formats: _, ...file }) => {
+        const data = createDataAttributes(file);
+        return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
+      })
+      .join("");
+    return createHtmlTag({ tag: "div", data: { "data-type": TYPE_FILE }, children });
   },
 };
 

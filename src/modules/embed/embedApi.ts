@@ -28,7 +28,7 @@ import {
 } from "@ndla/types-embed";
 import { fetchH5PInfo, fetchH5pLicenseInformation, fetchH5pPreviewOembed } from "../../components/H5PElement/h5pApi";
 import { fetchExternalOembed } from "../../util/apiHelpers";
-import { reduceElementDataAttributesV2 } from "../../util/embedTagHelpers";
+import { parseElementAttributes } from "../../util/embedTagHelpers";
 import { fetchAudio } from "../audio/audioApi";
 import { fetchImage } from "../image/imageApi";
 import { fetchBrightcoveSources, fetchBrightcoveVideo, getBrightcoveCopyright } from "../video/brightcoveApi";
@@ -185,7 +185,7 @@ export const fetchConceptVisualElement = async (
     name,
     value,
   }));
-  const embed = reduceElementDataAttributesV2(attributes) as ConceptVisualElement;
+  const embed = parseElementAttributes(attributes) as ConceptVisualElement;
 
   if (embed.resource === "image") {
     return await fetchVisualImageMeta(embed, language);

@@ -8,7 +8,7 @@
 
 import { CSSProperties, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { CheckLine, CornerDownRightLine } from "@ndla/icons";
+import { CheckLine, SubtractLine } from "@ndla/icons";
 import { Text, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
@@ -173,7 +173,7 @@ const ChildNode = ({ node, onSelect, toggleOpen, openedPaths, selectedNodes, lev
             {node.childNodes?.length ? (
               <ToggleIcon hasChildNodes={true} isOpen={isOpen} />
             ) : (
-              <CornerDownRightLine css={iconRecipe.raw()} />
+              <SubtractLine css={iconRecipe.raw()} />
             )}
             {node.name}
           </button>

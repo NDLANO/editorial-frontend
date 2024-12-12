@@ -9,7 +9,7 @@
 import { CSSProperties, MutableRefObject, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
-import { Draggable, StarLine, StarFill, BookmarkLine, CornerDownRightLine } from "@ndla/icons";
+import { Draggable, StarLine, StarFill, SubtractLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -161,14 +161,7 @@ const NodeItem = ({
         <NodeItemTitle asChild consumeCss>
           <SafeLink to={newPath} onClick={() => onNodeSelected(item)}>
             <ToggleIcon hasChildNodes={hasChildNodes} isOpen={isOpen} />
-            {!hasChildNodes && <CornerDownRightLine css={iconRecipe.raw()} />}
-            {item.nodeType === "TOPIC" && (
-              <BookmarkLine
-                aria-label={t("taxonomy.nodeType.TOPIC")}
-                title={t("topicArticleForm.title")}
-                css={iconRecipe.raw()}
-              />
-            )}
+            {!hasChildNodes && <SubtractLine css={iconRecipe.raw()} />}
             {item.name}
           </SafeLink>
         </NodeItemTitle>

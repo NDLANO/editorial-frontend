@@ -9,7 +9,7 @@
 import { CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
-import { ArrowDownShortLine, CornerDownRightLine } from "@ndla/icons";
+import { ArrowDownShortLine, SubtractLine } from "@ndla/icons";
 import { Badge, BadgeVariant } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
@@ -100,7 +100,7 @@ export const TreeNode = ({ node, onNodeSelected, selectedNode, nodes, level = 0 
       <NodeItemRoot active={isActive} visible={isVisible} style={{ "--level": level } as CSSProperties}>
         <NodeItemTitle asChild consumeCss>
           <button onClick={onItemClick} type="button">
-            {hasChildNodes ? <ArrowDownShortLine /> : <CornerDownRightLine />}
+            {hasChildNodes ? <ArrowDownShortLine /> : <SubtractLine />}
             {node.name.other ?? node.name.original}
           </button>
         </NodeItemTitle>

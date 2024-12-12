@@ -237,6 +237,7 @@ const TaxonomyBlock = ({
         connectionId: "",
         name: node.name,
         nodeType: node.nodeType,
+        context: node.context,
       };
       return { ...res, placements: res.placements.concat(newPlacement) };
     });

@@ -16,7 +16,7 @@ What's in the box?
 
 - React
 - Express
-- Vite + Babel (ES6)
+- Vite + SWC
 
 ### Dependencies
 

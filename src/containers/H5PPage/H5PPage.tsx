@@ -8,7 +8,6 @@
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { styled } from "@ndla/styled-system/jsx";
-import { HelmetWithTracker } from "@ndla/tracker";
 import H5PElement from "../../components/H5PElement/H5PElement";
 import { PageLayout } from "../../components/Layout/PageLayout";
 
@@ -27,7 +26,7 @@ const H5PPage = () => {
   return (
     <PageLayout>
       <H5PWrapper>
-        <HelmetWithTracker title={t("htmlTitles.h5pPage")} />
+        <title>{t("htmlTitles.h5pPage")}</title>
         <H5PElement
           canReturnResources={false}
           onSelect={() => {}}

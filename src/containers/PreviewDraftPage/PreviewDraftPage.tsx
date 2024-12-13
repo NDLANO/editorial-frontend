@@ -10,7 +10,6 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
-import { HelmetWithTracker } from "@ndla/tracker";
 import { ArticleWrapper, ContentTypeHero } from "@ndla/ui";
 import LanguageSelector from "./LanguageSelector";
 import PreviewDraft from "../../components/PreviewDraft/PreviewDraft";
@@ -58,7 +57,7 @@ const PreviewDraftPage = () => {
             previewAlt={false}
           />
         </ArticleWrapper>
-        <HelmetWithTracker title={`${draft.data?.title?.title} ${t("htmlTitles.titleTemplate")}`} />
+        <title>{`${draft.data?.title?.title} ${t("htmlTitles.titleTemplate")}`}</title>
       </PageContent>
     );
   }
@@ -84,7 +83,7 @@ const PreviewDraftPage = () => {
           </ArticleWrapper>
         </PageContent>
       </PageContent>
-      <HelmetWithTracker title={`${draft.data?.title?.title} ${t("htmlTitles.titleTemplate")}`} />
+      <title>{`${draft.data?.title?.title} ${t("htmlTitles.titleTemplate")}`}</title>
     </ContentTypeHero>
   );
 };

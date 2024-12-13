@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 import { useParams, useSearchParams } from "react-router-dom";
 import { Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { HelmetWithTracker } from "@ndla/tracker";
 import DiffOptions from "./DiffOptions";
 import NodeDiffcontainer from "./NodeDiffContainer";
 
@@ -30,7 +29,7 @@ const NodeDiffPage = () => {
   return (
     <StyledPageContainer asChild consumeCss>
       <main>
-        <HelmetWithTracker title={t("htmlTitles.nodeDiffPage")} />
+        <title>{t("htmlTitles.nodeDiffPage")}</title>
         <Heading textStyle="heading.medium">{t("diff.compareVersions")}</Heading>
         {!originalHash || !nodeId ? (
           <Text color="text.error">{t("diff.error.originalHashRequired")}</Text>

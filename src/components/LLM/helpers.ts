@@ -6,11 +6,16 @@
  *
  */
 
+import { Buffer } from "buffer";
+
 export const claudeHaikuDefaults = { top_p: 0.7, top_k: 100, temperature: 0.9 };
 
 interface modelProps {
   prompt: string;
-  image?: string;
+  image?: {
+    base64: string;
+    fileType: string;
+  };
   max_tokens?: number;
 }
 
@@ -24,6 +29,7 @@ export const invokeModel = async ({ prompt, image, max_tokens = 2000, ...rest }:
   if (image) {
     payload.image = image;
   }
+
   const response = await fetch("/invoke-model", {
     method: "POST",
     headers: {
@@ -49,4 +55,8 @@ export const getTextFromHTML = (html: string) => {
 
 const parseResponse = (response: string) => {
   return response.split("<answer>")[1].split("</answer>")[0].trim();
+};
+
+export const convertBufferToBase64 = (buffer: ArrayBuffer) => {
+  return Buffer.from(buffer).toString("base64");
 };

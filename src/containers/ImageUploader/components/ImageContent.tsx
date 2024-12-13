@@ -7,9 +7,10 @@
  */
 
 import { useFormikContext } from "formik";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DeleteBinLine } from "@ndla/icons/action";
-import { UploadCloudLine } from "@ndla/icons/editor";
+import { BlogPost, UploadCloudLine } from "@ndla/icons/editor";
 import { ImageMeta } from "@ndla/image-search";
 import {
   Button,
@@ -23,11 +24,13 @@ import {
   IconButton,
   FieldErrorMessage,
   FieldTextArea,
+  Spinner,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
+import { convertBufferToBase64, invokeModel, claudeHaikuDefaults } from "../../../components/LLM/helpers";
 import { MAX_IMAGE_UPLOAD_SIZE } from "../../../constants";
 import { TitleField } from "../../FormikForm";
 import { ImageFormikType } from "../imageTransformers";
@@ -51,14 +54,43 @@ const ImageContentWrapper = styled("div", {
   },
 });
 
+const StyledButton = styled(Button, {
+  base: {
+    alignSelf: "flex-start",
+  },
+});
+
 const ImageContent = () => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ImageFormikType>();
   const { values, setFieldValue } = formikContext;
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // We use the timestamp to avoid caching of the `imageFile` url in the browser
   const timestamp = new Date().getTime();
   const imgSrc = values.filepath || `${values.imageFile}?width=800&ts=${timestamp}`;
+
+  const generateAltText = async () => {
+    setIsLoading(true);
+    if (!values.imageFile || typeof values.imageFile === "string") {
+      return null;
+    }
+
+    const buffer = await values.imageFile.arrayBuffer();
+    const base64 = convertBufferToBase64(buffer);
+
+    const result = await invokeModel({
+      prompt: t("textGeneration.altText.prompt"),
+      image: {
+        base64,
+        fileType: values.imageFile.type,
+      },
+      max_tokens: 2000,
+      ...claudeHaikuDefaults,
+    });
+    setIsLoading(false);
+    return result;
+  };
 
   return (
     <FormContent>
@@ -162,10 +194,21 @@ const ImageContent = () => {
         )}
       </FormField>
       <FormField name="alttext">
-        {({ field, meta }) => (
+        {({ field, meta, helpers }) => (
           <FieldRoot invalid={!!meta.error}>
             <FieldLabel>{t("form.image.alt.label")}</FieldLabel>
             <FieldTextArea placeholder={t("form.image.alt.placeholder")} {...field} />
+            <StyledButton
+              onClick={async () => {
+                const text = await generateAltText();
+                text && text.length > 0 && helpers.setValue(text);
+              }}
+              size="small"
+              title={t("textGeneration.altText.title")}
+            >
+              {t("textGeneration.altText.button")}
+              {isLoading ? <Spinner size="small" /> : <BlogPost />}
+            </StyledButton>
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
           </FieldRoot>
         )}

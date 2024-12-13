@@ -16,10 +16,9 @@ import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getRespo
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN } from "./httpCodes";
 import errorLogger from "./logger";
 import { translateDocument } from "./translate";
-import config, { getEnvironmentVariabel } from "../config";
+import config from "../config";
 import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
 import { NdlaError } from "../interfaces";
-import { imageToBase64 } from "../util/imageToBase64";
 
 const router = express.Router();
 
@@ -179,13 +178,12 @@ router.post("/invoke-model", async (req, res) => {
 
   const content = [];
   if (req.body.image) {
-    const { base64, filetype } = await imageToBase64(req.body.image);
     content.push({
       type: "image",
       source: {
         type: "base64",
-        media_type: filetype,
-        data: base64,
+        media_type: req.body.image.fileType,
+        data: req.body.image.base64,
       },
     });
   }

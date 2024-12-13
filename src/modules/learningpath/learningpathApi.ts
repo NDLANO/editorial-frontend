@@ -24,6 +24,7 @@ export const fetchLearningpaths = (ids: number[], language?: string): Promise<IL
   const query = queryString.stringify({
     ids: ids.join(","),
     language,
+    fallback: true,
     page: 1,
     "page-size": ids.length,
   });

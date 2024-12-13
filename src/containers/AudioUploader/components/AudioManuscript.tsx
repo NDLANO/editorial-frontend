@@ -7,9 +7,12 @@
  */
 
 import { connect } from "formik";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { fonts } from "@ndla/core";
+import { BlogPost } from "@ndla/icons/editor";
+import { Button, Spinner } from "@ndla/primitives";
 import { AudioFormikType } from "./AudioForm";
 import FormikField from "../../../components/FormikField";
 import { SlatePlugin } from "../../../components/SlateEditor/interfaces";
@@ -31,6 +34,13 @@ import {
   createToolbarDefaultValues,
 } from "../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
+import { getTranscription, transcribe } from "../../../components/Transcribe/helpers";
+
+interface AudioManuscriptProps {
+  audioLanguage?: string;
+  audioUrl?: string;
+  audioType?: string;
+}
 
 const StyledFormikField = styled(FormikField)`
   label {
@@ -77,25 +87,78 @@ const StyledRichTextEditor = styled(RichTextEditor)`
   font-family: ${fonts.sans};
 `;
 
-const AudioManuscript = () => {
+const AudioManuscript = ({ audioLanguage, audioUrl, audioType }: AudioManuscriptProps) => {
   const { t } = useTranslation();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const generateText = async () => {
+    setIsLoading(true);
+    if (!audioUrl || !audioLanguage || !audioType) {
+      setIsLoading(false);
+      return;
+    }
+
+    let language;
+
+    if (audioLanguage === "nb" || audioLanguage === "nn") {
+      language = "no-NO";
+    } else if (audioLanguage === "de") {
+      language = "de-DE";
+    } else {
+      language = "en-US";
+    }
+
+    const jobName = await transcribe({
+      fileUrl: audioUrl,
+      languageCode: language,
+      mediaFormat: audioType,
+      outputFileName: "transcription",
+    });
+    // while (isLoading) {
+    //   console.log("waiting for transcription");
+    //   setTimeout(async () => {
+    //     const response = await getTranscription(jobName);
+    //     if (response.status === "COMPLETED") {
+    //       setIsLoading(false);
+    //       return response.transcriptUrl;
+    //     } else if (response.status === "FAILED") {
+    //       setIsLoading(false);
+    //       return "Could not transcribe audio";
+    //     }
+    //   }, 10000);
+    // }
+    setIsLoading(false);
+  };
 
   return (
     <StyledFormikField label={t("podcastForm.fields.manuscript")} name="manuscript">
-      {({ field, form: { isSubmitting } }) => (
-        <StyledRichTextEditor
-          {...field}
-          hideBlockPicker
-          placeholder={t("podcastForm.fields.manuscript")}
-          submitted={isSubmitting}
-          plugins={plugins}
-          onChange={(val) => field.onChange({ target: { value: val, name: field.name } })}
-          toolbarOptions={toolbarOptions}
-          toolbarAreaFilters={toolbarAreaFilters}
-        />
+      {({ field, form: { isSubmitting }, helpers }) => (
+        <>
+          <StyledRichTextEditor
+            {...field}
+            hideBlockPicker
+            placeholder={t("podcastForm.fields.manuscript")}
+            submitted={isSubmitting}
+            plugins={plugins}
+            onChange={(val) => field.onChange({ target: { value: val, name: field.name } })}
+            toolbarOptions={toolbarOptions}
+            toolbarAreaFilters={toolbarAreaFilters}
+          />
+          {audioUrl && (
+            <Button
+              onClick={async () => {
+                const text = await generateText();
+              }}
+              size="small"
+            >
+              Test
+              {isLoading ? <Spinner size="small" /> : <BlogPost />}
+            </Button>
+          )}
+        </>
       )}
     </StyledFormikField>
   );
 };
 
-export default connect<{}, AudioFormikType>(AudioManuscript);
+export default connect<AudioManuscriptProps, AudioFormikType>(AudioManuscript);

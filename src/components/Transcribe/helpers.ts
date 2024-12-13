@@ -37,16 +37,11 @@ export const transcribe = async ({ fileUrl, maxSpeakers, mediaFormat, languageCo
 };
 
 export const getTranscription = async (jobName: string) => {
-  const payload = {
-    jobName: jobName,
-  };
-
-  const response = await fetch("/get-transcription", {
-    method: "POST",
+  const response = await fetch(`/transcribe/${jobName}`, {
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(payload),
   });
   return response.json();
 };

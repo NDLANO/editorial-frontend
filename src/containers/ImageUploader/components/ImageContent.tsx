@@ -50,7 +50,11 @@ const ImageContentWrapper = styled("div", {
   },
 });
 
-const ImageContent = () => {
+interface Props {
+  language: string;
+}
+
+const ImageContent = ({ language }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ImageFormikType>();
   const { values, setFieldValue } = formikContext;
@@ -147,6 +151,7 @@ const ImageContent = () => {
               contentType={values.contentType ?? ""}
               fileSize={values.fileSize ?? 0}
               imageDimensions={values.imageDimensions}
+              locale={language}
             />
           </>
         )}

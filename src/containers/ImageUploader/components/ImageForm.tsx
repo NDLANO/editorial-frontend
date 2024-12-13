@@ -219,7 +219,7 @@ const ImageForm = ({
                 hasError={hasError(["title", "imageFile", "caption", "alttext"])}
               >
                 <StyledPageContent variant="content">
-                  <ImageContent />
+                  <ImageContent language={language} />
                 </StyledPageContent>
               </FormAccordion>
               <FormAccordion

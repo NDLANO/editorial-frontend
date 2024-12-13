@@ -49,6 +49,7 @@ const SearchImage = ({ image, locale }: Props) => {
             contentType={image.image.contentType}
             fileSize={image.image.size}
             imageDimensions={image.image.dimensions}
+            locale={locale}
           />
         </SearchContentWrapper>
         {!!license && <LicenseLink license={getLicenseByAbbreviation(license.license, locale)} />}

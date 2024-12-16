@@ -8,7 +8,6 @@
 
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { HelmetWithTracker } from "@ndla/tracker";
 import { IUpdatedArticleDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
 import TopicArticleForm from "./components/TopicArticleForm";
 import { convertUpdateToNewDraft } from "../../../util/articleUtil";
@@ -29,7 +28,7 @@ const CreateTopicArticle = () => {
 
   return (
     <>
-      <HelmetWithTracker title={t("htmlTitles.createTopicArticlePage")} />
+      <title>{t("htmlTitles.createTopicArticlePage")}</title>
       <TopicArticleForm
         articleLanguage={i18n.language}
         updateArticle={createArticleAndPushRoute}

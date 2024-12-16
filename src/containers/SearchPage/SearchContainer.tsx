@@ -12,7 +12,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { UseQueryResult } from "@tanstack/react-query";
 import { PageContainer } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { HelmetWithTracker } from "@ndla/tracker";
 import { IAudioSummarySearchResultDTO, ISeriesSummarySearchResultDTO } from "@ndla/types-backend/audio-api";
 import { IConceptSearchResultDTO } from "@ndla/types-backend/concept-api";
 import { ISearchResultV3DTO } from "@ndla/types-backend/image-api";
@@ -97,7 +96,7 @@ const SearchContainer = ({ searchHook, type }: Props) => {
 
   return (
     <>
-      <HelmetWithTracker title={t(`htmlTitles.search.${type}`)} />
+      <title>{t(`htmlTitles.search.${type}`)}</title>
       <StyledPageContainer asChild consumeCss>
         <main>
           <SearchForm

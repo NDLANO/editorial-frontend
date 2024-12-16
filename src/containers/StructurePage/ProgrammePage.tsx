@@ -9,7 +9,6 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { MessageBox } from "@ndla/primitives";
-import { HelmetWithTracker } from "@ndla/tracker";
 import StructureContainer from "./StructureContainer";
 import config from "../../config";
 import { TaxonomyVersionProvider } from "../StructureVersion/TaxonomyVersionProvider";
@@ -29,7 +28,7 @@ const ProgrammePage = () => {
 
   return (
     <TaxonomyVersionProvider>
-      <HelmetWithTracker title={t("htmlTitles.programmePage")} />
+      <title>{t("htmlTitles.programmePage")}</title>
       <StructureContainer
         rootNodeType="PROGRAMME"
         childNodeTypes={["PROGRAMME", "SUBJECT"]}

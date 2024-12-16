@@ -9,7 +9,6 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { HelmetWithTracker } from "@ndla/tracker";
 import ConceptForm from "./ConceptForm/ConceptForm";
 import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
@@ -69,7 +68,7 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
 
   return (
     <>
-      <HelmetWithTracker title={`${concept.title.title} ${t("htmlTitles.titleTemplate")}`} />
+      <title>{`${concept.title.title} ${t("htmlTitles.titleTemplate")}`} </title>
       <ConceptForm
         inModal={false}
         concept={concept}

@@ -13,7 +13,6 @@ import { AddLine, PencilFill } from "@ndla/icons";
 import { Heading, IconButton, PageContainer, Spinner, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { HelmetWithTracker } from "@ndla/tracker";
 import { IArticleSummaryV2DTO } from "@ndla/types-backend/article-api";
 import FrontpageArticleSearch from "./FrontpageArticleSearch";
 import { addArticlesToAboutMenu, extractArticleIds, menuWithArticleToIMenu } from "./frontpageHelpers";
@@ -109,7 +108,7 @@ const FrontpageEditPage = () => {
   return (
     <PageContainer asChild consumeCss>
       <main>
-        <HelmetWithTracker title={t("htmlTitles.editFrontpage")} />
+        <title>{t("htmlTitles.editFrontpage")}</title>
         {frontpageQuery.isLoading || articlesQuery.isLoading ? (
           <Spinner />
         ) : transformedMenu ? (

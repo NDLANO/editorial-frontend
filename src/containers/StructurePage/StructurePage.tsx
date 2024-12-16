@@ -7,7 +7,6 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { HelmetWithTracker } from "@ndla/tracker";
 import StructureContainer from "./StructureContainer";
 import { TaxonomyVersionProvider } from "../StructureVersion/TaxonomyVersionProvider";
 
@@ -15,7 +14,7 @@ const StructurePage = () => {
   const { t } = useTranslation();
   return (
     <TaxonomyVersionProvider>
-      <HelmetWithTracker title={t("htmlTitles.structurePage")} />
+      <title>{t("htmlTitles.structurePage")}</title>
       <StructureContainer />
     </TaxonomyVersionProvider>
   );

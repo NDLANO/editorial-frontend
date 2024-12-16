@@ -8,7 +8,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider, useTranslation } from "react-i18next";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -116,14 +115,12 @@ const renderApp = () => {
   const container = document.getElementById("root")!;
   const root = createRoot(container);
   root.render(
-    <HelmetProvider>
-      <QueryClientProvider client={queryClient}>
-        <I18nextProvider i18n={i18nInstance}>
-          <AppWrapper basename={basename} />
-        </I18nextProvider>
-        <ReactQueryDevtools />
-      </QueryClientProvider>
-    </HelmetProvider>,
+    <QueryClientProvider client={queryClient}>
+      <I18nextProvider i18n={i18nInstance}>
+        <AppWrapper basename={basename} />
+      </I18nextProvider>
+      <ReactQueryDevtools />
+    </QueryClientProvider>,
   );
 };
 renderApp();

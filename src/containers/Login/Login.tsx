@@ -9,7 +9,6 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Route, useNavigate, useLocation, Routes } from "react-router-dom";
-import { HelmetWithTracker } from "@ndla/tracker";
 import LoginFailure from "./LoginFailure";
 import LoginProviders from "./LoginProviders";
 import LoginSuccess from "./LoginSuccess";
@@ -28,7 +27,7 @@ export const Login = () => {
 
   return (
     <>
-      <HelmetWithTracker title={t("htmlTitles.loginPage")} />
+      <title>{t("htmlTitles.loginPage")}</title>
       <Routes>
         <Route path="success/*" element={<LoginSuccess />} />
         <Route path="failure" element={<LoginFailure />} />

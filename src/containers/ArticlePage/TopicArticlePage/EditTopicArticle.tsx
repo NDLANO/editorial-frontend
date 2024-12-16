@@ -9,7 +9,6 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
-import { HelmetWithTracker } from "@ndla/tracker";
 import TopicArticleForm from "./components/TopicArticleForm";
 import { TranslateType, useTranslateToNN } from "../../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../../components/PageSpinner";
@@ -104,7 +103,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
   const newLanguage = isNewArticleLanguage(selectedLanguage, article);
   return (
     <>
-      <HelmetWithTracker title={`${article.title?.title} ${t("htmlTitles.titleTemplate")}`} />
+      <title>{`${article.title?.title} ${t("htmlTitles.titleTemplate")}`}</title>
       <TopicArticleForm
         articleTaxonomy={taxonomyQuery.data}
         articleStatus={article.status}

@@ -8,7 +8,6 @@
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { PageContainer } from "@ndla/primitives";
-import { HelmetWithTracker } from "@ndla/tracker";
 import { INewSubjectFrontPageDataDTO } from "@ndla/types-backend/frontpage-api";
 import SubjectpageForm from "./components/SubjectpageForm";
 import { LocaleType } from "../../interfaces";
@@ -42,7 +41,7 @@ const CreateSubjectpage = () => {
   return (
     <PageContainer asChild consumeCss>
       <main>
-        <HelmetWithTracker title={t("htmlTitles.createSubjectpage")} />
+        <title>{t("htmlTitles.createSubjectpage")}</title>
         <SubjectpageForm
           selectedLanguage={selectedLanguage}
           elementName={elementName}

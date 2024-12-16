@@ -9,7 +9,6 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
-import { HelmetWithTracker } from "@ndla/tracker";
 import FrontpageArticleForm from "./components/FrontpageArticleForm";
 import { TranslateType, useTranslateToNN } from "../../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../../components/PageSpinner";
@@ -96,7 +95,7 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
 
   return (
     <>
-      <HelmetWithTracker title={`${article.title?.title} ${t("htmlTitles.titleTemplate")}`} />
+      <title>{`${article.title?.title} ${t("htmlTitles.titleTemplate")}`}</title>
       <FrontpageArticleForm
         articleLanguage={selectedLanguage}
         article={article}

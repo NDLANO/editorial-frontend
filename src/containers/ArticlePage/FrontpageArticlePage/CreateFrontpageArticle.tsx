@@ -8,7 +8,6 @@
 
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { HelmetWithTracker } from "@ndla/tracker";
 import { IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import FrontpageArticleForm from "./components/FrontpageArticleForm";
 import { convertUpdateToNewDraft } from "../../../util/articleUtil";
@@ -29,7 +28,7 @@ const CreateFrontpageArticle = () => {
 
   return (
     <>
-      <HelmetWithTracker title={t("htmlTitles.createFrontPageArticePage")} />
+      <title>{t("htmlTitles.createFrontPageArticePage")}</title>
       <FrontpageArticleForm
         updateArticle={createArticleAndPushRoute}
         articleChanged={false}

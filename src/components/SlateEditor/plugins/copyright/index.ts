@@ -35,7 +35,12 @@ export const copyrightSerializer: SlateSerializer = {
   },
   serialize(node, children) {
     if (!Element.isElement(node) || node.type !== TYPE_COPYRIGHT || !node.data) return;
-    const data = createDataAttributes({ ...node.data, copyright: JSON.stringify(node.data.copyright) });
+    // TODO: Create global replace method to handle stringified objects
+    const data = createDataAttributes({
+      ...node.data,
+      copyright: JSON.stringify(node.data.copyright).replaceAll('"', "&quot;"),
+    });
+
     return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true, children });
   },
 };

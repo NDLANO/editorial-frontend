@@ -35,6 +35,7 @@ import {
 } from "../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import { getTranscription, transcribe } from "../../../components/Transcribe/helpers";
+import config from "../../../config";
 
 interface AudioManuscriptProps {
   audioLanguage?: string;
@@ -109,7 +110,7 @@ const AudioManuscript = ({ audioLanguage, audioUrl, audioType }: AudioManuscript
     }
 
     const jobName = await transcribe({
-      fileUrl: audioUrl,
+      fileUrl: config.s3AudioRoot + audioUrl.split("audio/files/")[1],
       languageCode: language,
       mediaFormat: audioType,
       outputFileName: "transcription",

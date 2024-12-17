@@ -131,7 +131,7 @@ export const isNDLAArticleUrl = (url: string) => /^http(s)?:\/\/((.*)\.)?ndla.no
 export const isNDLATaxonomyUrl = (url: string) =>
   /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?subject:(.*)\/topic(.*)/.test(url);
 export const isNDLATaxonomyContextUrl = (url: string) =>
-  /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?(f|e|r)\/(.*)\/?(.*)\/?[a-z0-9]{10}/.test(url);
+  /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?(e|r)\/(.*)\/?(.*)\/?[a-z0-9]{10}/.test(url);
 export const isNDLALearningPathUrl = (url: string) =>
   /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?learningpaths\/(.*)/.test(url);
 export const isNDLAEdPathUrl = (url: string) =>

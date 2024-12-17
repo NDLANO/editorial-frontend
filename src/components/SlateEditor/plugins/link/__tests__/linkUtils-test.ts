@@ -48,7 +48,6 @@ test("urls are parsed correctly", async () => {
   const taxonomyContextUrls = [
     "https://ndla.no/r/06b775d81a",
     "https://ndla.no/r/kroppsoving-vg1/kroppslig-laring-og-parkour-okt-1/06b775d81a",
-    "https://test.ndla.no/f/kroppsoving-vg1/06b775d81a",
     "https://ndla.no/e/kroppsoving-vg3/parkour/f9d2bbbb98",
   ];
 

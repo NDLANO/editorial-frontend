@@ -9,8 +9,8 @@
 import { connect, useFormikContext } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, FieldErrorMessage, FieldRoot, Spinner } from "@ndla/primitives";
 import { FileListLine } from "@ndla/icons";
+import { Button, FieldErrorMessage, FieldRoot, Spinner } from "@ndla/primitives";
 import { AudioFormikType } from "./AudioForm";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../components/Form/FieldWarning";
@@ -135,11 +135,13 @@ const AudioManuscript = ({ audioLanguage, audioUrl, audioType }: AudioManuscript
           />
           <FieldErrorMessage>{meta.error}</FieldErrorMessage>
           <FieldWarning name={field.name} />
-          {audioUrl && (
+          {!!audioUrl && (
             <Button
               onClick={async () => {
                 const text = await generateText();
-                text && helpers.setValue(text);
+                if (text) {
+                  helpers.setValue(text);
+                }
               }}
               size="small"
             >

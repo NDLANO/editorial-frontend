@@ -10,7 +10,7 @@ import express from "express";
 import { GetVerificationKey, expressjwt as jwt, Request } from "express-jwt";
 import jwksRsa from "jwks-rsa";
 import prettier from "prettier";
-import { BedrockRuntimeClient, ConversationRole, InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
+import { BedrockRuntimeClient, InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
 import { TranscribeClient, StartTranscriptionJobCommand, GetTranscriptionJobCommand } from "@aws-sdk/client-transcribe";
 import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getResponsibles } from "./auth";
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN } from "./httpCodes";
@@ -279,7 +279,7 @@ router.get("/transcribe/:jobName", async (req, res) => {
       res.json({ jobName, status: jobStatus });
     }
   } catch (error) {
-    console.error("Error fetching job status:", error);
+    // console.error("Error fetching job status:", error);
     res.status(INTERNAL_SERVER_ERROR).send((error as NdlaError).message);
   }
 });

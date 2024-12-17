@@ -109,25 +109,20 @@ const AudioManuscript = ({ audioLanguage, audioUrl, audioType }: AudioManuscript
       language = "en-US";
     }
 
-    const jobName = await transcribe({
+    const transcriptionResult = await transcribe({
       fileUrl: config.s3AudioRoot + audioUrl.split("audio/files/")[1],
       languageCode: language,
       mediaFormat: audioType,
       outputFileName: "transcription",
     });
-    // while (isLoading) {
-    //   console.log("waiting for transcription");
-    //   setTimeout(async () => {
-    //     const response = await getTranscription(jobName);
-    //     if (response.status === "COMPLETED") {
-    //       setIsLoading(false);
-    //       return response.transcriptUrl;
-    //     } else if (response.status === "FAILED") {
-    //       setIsLoading(false);
-    //       return "Could not transcribe audio";
-    //     }
-    //   }, 10000);
-    // }
+    const pollingInterval = setInterval(async () => {
+      const response = await getTranscription(transcriptionResult.TranscriptionJob.TranscriptionJobName);
+      if (response.status === "COMPLETED") {
+        clearInterval(pollingInterval);
+      } else if (response.status === "FAILED") {
+        clearInterval(pollingInterval);
+      }
+    }, 10000);
     setIsLoading(false);
   };
 
@@ -146,12 +141,7 @@ const AudioManuscript = ({ audioLanguage, audioUrl, audioType }: AudioManuscript
             toolbarAreaFilters={toolbarAreaFilters}
           />
           {audioUrl && (
-            <Button
-              onClick={async () => {
-                const text = await generateText();
-              }}
-              size="small"
-            >
+            <Button onClick={generateText} size="small">
               Test
               {isLoading ? <Spinner size="small" /> : <BlogPost />}
             </Button>

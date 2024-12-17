@@ -127,7 +127,7 @@ const usernamePasswordEnabled = (ndlaEnvironment: string) => {
 const getAudioS3Root = (ndlaEnvironment: string) => {
   switch (ndlaEnvironment) {
     case "prod":
-      return "s3://audio.2.ndla/";
+      return "s3://prod.audio.2.ndla/";
     default:
       return "s3://test.audio.2.ndla/";
   }

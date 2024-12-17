@@ -43,5 +43,6 @@ export const getTranscription = async (jobName: string) => {
       "Content-Type": "application/json",
     },
   });
-  return response.json();
+  const result = await response.json();
+  return result;
 };

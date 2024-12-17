@@ -51,7 +51,6 @@ import { toCreateFrontPageArticle, toEditMarkup } from "../../../../util/routeHe
 import { IngressField, TitleField, SlugField } from "../../../FormikForm";
 import { FrontpageArticleFormType } from "../../../FormikForm/articleFormHooks";
 import { useSession } from "../../../Session/SessionProvider";
-import ArticleSummary from "../../components/summary/ArticleSummary";
 
 const StyledDiv = styled("div", {
   base: {

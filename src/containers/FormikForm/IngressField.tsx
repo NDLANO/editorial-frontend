@@ -107,7 +107,7 @@ const ingressRenderers: SlatePlugin[] = [
 
 const plugins = ingressPlugins.concat(ingressRenderers);
 
-const IngressField = ({ name = "introduction", maxLength = 300, placeholder, showMaxLength = true }: Props) => {
+const IngressField = ({ name = "introduction", maxLength = 300, placeholder }: Props) => {
   const { t } = useTranslation();
   const { isSubmitting } = useFormikContext();
 

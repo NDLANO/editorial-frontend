@@ -17,6 +17,7 @@ import LearningResourceContent from "./LearningResourceContent";
 import LearningResourceTaxonomy from "./LearningResourceTaxonomy";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../../components/Accordion/FormAccordions";
+import { getTextFromHTML } from "../../../../components/LLM/helpers";
 import QualityEvaluation from "../../../../components/QualityEvaluation/QualityEvaluation";
 import { IsNewArticleLanguageProvider } from "../../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import config from "../../../../config";
@@ -92,6 +93,11 @@ const LearningResourcePanels = ({
     [article?.status],
   );
 
+  const articleText = useMemo(() => {
+    if (!article?.content) return " ";
+    return getTextFromHTML(article.content.content);
+  }, [article?.content]);
+
   return (
     <>
       <StyledControls>
@@ -130,6 +136,7 @@ const LearningResourcePanels = ({
             <IsNewArticleLanguageProvider locale={articleLanguage} article={article}>
               <PageContent variant="content">
                 <LearningResourceContent
+                  articleContent={articleText}
                   articleLanguage={articleLanguage}
                   articleId={article?.id}
                   handleSubmit={handleSubmit}
@@ -170,7 +177,7 @@ const LearningResourcePanels = ({
             title={t("form.metadataSection")}
             hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}
           >
-            <MetaDataField articleLanguage={articleLanguage} />
+            <MetaDataField articleContent={articleText} articleLanguage={articleLanguage} />
           </FormAccordion>
           <FormAccordion
             id={"learning-resource-grepCodes"}

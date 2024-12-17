@@ -7,7 +7,7 @@
  */
 import { format } from "date-fns";
 import { useCallback, useMemo } from "react";
-import { Calendar } from "@ndla/icons/editor";
+import { CalendarLine } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import DatePicker from "../../../components/DatePicker";
 import { formatDateForBackend } from "../../../util/formatDate";
@@ -56,7 +56,7 @@ const InlineDatePicker = ({ onChange, value, name, placeholder, title }: Props) 
     <DatePicker onChange={onValueChange} value={dateValue}>
       <Button variant="secondary" title={title}>
         {displayValue ?? placeholder}
-        <Calendar />
+        <CalendarLine />
       </Button>
     </DatePicker>
   );

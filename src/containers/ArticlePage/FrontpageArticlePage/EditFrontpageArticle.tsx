@@ -12,8 +12,8 @@ import { Navigate, useParams } from "react-router-dom";
 import { HelmetWithTracker } from "@ndla/tracker";
 import FrontpageArticleForm from "./components/FrontpageArticleForm";
 import { TranslateType, useTranslateToNN } from "../../../components/NynorskTranslateProvider";
+import { PageSpinner } from "../../../components/PageSpinner";
 import { isNewArticleLanguage } from "../../../components/SlateEditor/IsNewArticleLanguageProvider";
-import Spinner from "../../../components/Spinner";
 import { useWideArticle, articleIsWide } from "../../../components/WideArticleEditorProvider";
 import { LocaleType } from "../../../interfaces";
 import { toEditArticle } from "../../../util/routeHelpers";
@@ -81,7 +81,7 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
   }, [article, setWideArticle]);
 
   if (loading || translating) {
-    return <Spinner withWrapper />;
+    return <PageSpinner />;
   }
 
   if (!article) {

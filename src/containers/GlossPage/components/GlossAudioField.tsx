@@ -9,8 +9,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AudioSearch } from "@ndla/audio-search";
-import { CloseLine } from "@ndla/icons/action";
-import { Audio } from "@ndla/icons/common";
+import { CloseLine, VoiceprintLine } from "@ndla/icons";
 import {
   Button,
   DialogBody,
@@ -23,7 +22,7 @@ import {
   Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ISearchParams } from "@ndla/types-backend/audio-api";
+import { ISearchParamsDTO } from "@ndla/types-backend/audio-api";
 import { AudioEmbedData } from "@ndla/types-embed";
 import { AudioPlayer, useAudioSearchTranslations } from "@ndla/ui";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
@@ -44,12 +43,12 @@ const AudioWrapper = styled("div", {
   },
 });
 
-interface LocalAudioSearchParams extends ISearchParams {
+interface LocalAudioSearchParams extends ISearchParamsDTO {
   locale?: string;
 }
 const searchAudios = (query: LocalAudioSearchParams) => {
   // AudioSearch passes values that are not accepted by the API. They must be altered to have the correct key.
-  const correctedSearchBody: ISearchParams = {
+  const correctedSearchBody: ISearchParamsDTO = {
     language: query.language ?? query.locale,
     page: query.page,
     query: query.query,
@@ -63,7 +62,10 @@ const searchAudios = (query: LocalAudioSearchParams) => {
 export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Props) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const audioQuery = useAudio({ id: parseInt(element?.resourceId!), language: glossLanguage }, { enabled: !!element });
+  const audioQuery = useAudio(
+    { id: parseInt(element?.resourceId ?? ""), language: glossLanguage },
+    { enabled: !!parseInt(element?.resourceId ?? "") },
+  );
   const audioSearchTranslations = useAudioSearchTranslations();
 
   const defaultQueryObject = {
@@ -95,7 +97,7 @@ export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Pro
     <DialogRoot open={isOpen} onOpenChange={(details) => setIsOpen(details.open)}>
       <DialogTrigger asChild>
         <Button>
-          <Audio />
+          <VoiceprintLine />
           {t("form.gloss.audio.button")}
         </Button>
       </DialogTrigger>

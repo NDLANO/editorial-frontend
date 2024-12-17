@@ -10,11 +10,7 @@ import { useTranslation } from "react-i18next";
 import { ThemeMovies } from "./ThemeMovies";
 import { FormField } from "../../../components/FormField";
 
-interface Props {
-  fieldName: string;
-}
-
-const SlideshowEditor = ({ fieldName }: Props) => {
+const SlideshowEditor = () => {
   const { t } = useTranslation();
 
   return (

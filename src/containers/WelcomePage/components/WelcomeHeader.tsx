@@ -64,6 +64,7 @@ const getFavoriteResource = async (locale: string): Promise<FavoriteResource | u
 
   switch (recentFavorited.resourceType) {
     case "article":
+    case "topic":
     case "multidisciplinary": {
       const article = await getArticle(id, locale);
       return { title: article.title.title, path: toEditArticle(article.id, article.articleType) };
@@ -108,7 +109,7 @@ export const WelcomeHeader = () => {
         <Heading textStyle="heading.small">
           {`${t("welcomePage.welcomeBack")} ${userName ? `${userName}!` : t("welcomePage.welcomeText")}`}
         </Heading>
-        {favoriteResource && (
+        {!!favoriteResource && (
           <Text>
             {t("welcomePage.lastFavorited")}
             <SafeLink to={favoriteResource.path} title={favoriteResource.title}>

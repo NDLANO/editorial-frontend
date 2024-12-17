@@ -7,9 +7,7 @@
  */
 
 import { useState } from "react";
-import { CloseLine, AddLine } from "@ndla/icons/action";
-import { Audio } from "@ndla/icons/common";
-import { Camera, H5P, Link, Video } from "@ndla/icons/editor";
+import { CloseLine, AddLine, VoiceprintLine, CameraFill, H5P, LinkMedium, MovieLine } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
@@ -24,7 +22,7 @@ const ButtonWrapper = styled("div", {
 
 interface Props {
   types?: VisualElementType[];
-  onSelect: Function;
+  onSelect: (type: string) => void;
 }
 
 export type VisualElementType = "image" | "video" | "h5p" | "url" | "audio";
@@ -43,11 +41,11 @@ const VisualElementMenu = ({ onSelect, types = ["image", "video", "h5p", "url"] 
   const visualElementButtons = [
     {
       type: "image",
-      component: <Camera />,
+      component: <CameraFill />,
     },
     {
       type: "video",
-      component: <Video />,
+      component: <MovieLine />,
     },
     {
       type: "h5p",
@@ -55,11 +53,11 @@ const VisualElementMenu = ({ onSelect, types = ["image", "video", "h5p", "url"] 
     },
     {
       type: "url",
-      component: <Link />,
+      component: <LinkMedium />,
     },
     {
       type: "audio",
-      component: <Audio />,
+      component: <VoiceprintLine />,
     },
   ];
 
@@ -68,7 +66,7 @@ const VisualElementMenu = ({ onSelect, types = ["image", "video", "h5p", "url"] 
       <Button variant="secondary" onClick={toggleIsOpen}>
         {isOpen ? <CloseLine /> : <AddLine />}
       </Button>
-      {isOpen &&
+      {!!isOpen &&
         visualElementButtons
           .filter((button) => types.find((type) => type === button.type))
           .map((button) => {

@@ -7,14 +7,14 @@
  */
 
 import { i18n } from "i18next";
-import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 
 export const sortMoviesByIdList = (
   idList: number[],
-  movieList: IMultiSearchSummary[],
+  movieList: IMultiSearchSummaryDTO[],
   i18n: i18n,
-): IMultiSearchSummary[] => {
-  const notFoundMovie: IMultiSearchSummary = {
+): IMultiSearchSummaryDTO[] => {
+  const notFoundMovie: IMultiSearchSummaryDTO = {
     id: -1,
     title: {
       title: i18n.t("ndlaFilm.editor.notFound"),

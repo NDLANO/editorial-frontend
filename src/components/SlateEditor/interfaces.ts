@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import { JSX } from "react";
 import { Editor, Descendant, BaseEditor, NodeEntry, BaseRange, BaseSelection, Node, Element } from "slate";
 import { HistoryEditor } from "slate-history";
 import { ReactEditor, RenderElementProps, RenderLeafProps } from "slate-react";
@@ -58,7 +60,7 @@ export type SlatePlugin = (editor: Editor) => Editor;
 
 export interface SlateSerializer {
   deserialize: (el: HTMLElement, children: Descendant[]) => Descendant | Descendant[] | undefined;
-  serialize: (node: Descendant, children: JSX.Element[]) => JSX.Element | null | undefined;
+  serialize: (node: Descendant, children: string | undefined) => string | undefined;
 }
 
 export type CustomEditor = {

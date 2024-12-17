@@ -11,7 +11,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IUpdatedArticle, IArticle } from "@ndla/types-backend/draft-api";
+import { IUpdatedArticleDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
 import TopicArticleContent from "./TopicArticleContent";
 import TopicArticleTaxonomy from "./TopicArticleTaxonomy";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
@@ -33,7 +33,16 @@ import { FlatArticleKeys } from "../../components/types";
 const StyledWrapper = styled("div", {
   base: {
     display: "grid",
-    gridTemplateColumns: "1fr auto",
+  },
+  variants: {
+    showComments: {
+      true: {
+        gridTemplateColumns: "minmax(0, 1fr) token(spacing.surface.xxsmall)",
+      },
+      false: {
+        gridTemplateColumns: "minmax(0, 1fr)",
+      },
+    },
   },
 });
 
@@ -46,9 +55,9 @@ const StyledControls = styled("div", {
 });
 
 interface Props {
-  article?: IArticle;
-  articleHistory: IArticle[] | undefined;
-  updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
+  article?: IArticleDTO;
+  articleHistory: IArticleDTO[] | undefined;
+  updateNotes: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
   articleLanguage: string;
   hasTaxonomyEntries: boolean;
 }
@@ -70,7 +79,7 @@ const TopicArticleAccordionPanels = ({
   );
   const copyrightFields = useMemo<FlatArticleKeys[]>(() => ["copyright"], []);
 
-  const { values, errors } = formikContext;
+  const { values, errors, isSubmitting } = formikContext;
   return (
     <>
       <StyledControls>
@@ -82,7 +91,7 @@ const TopicArticleAccordionPanels = ({
           <SwitchHiddenInput />
         </SwitchRoot>
       </StyledControls>
-      <StyledWrapper>
+      <StyledWrapper showComments={!hideComments}>
         <FormAccordions defaultOpen={["topic-article-content"]}>
           <FormAccordion
             id={"topic-article-content"}
@@ -97,10 +106,10 @@ const TopicArticleAccordionPanels = ({
             hasError={!!(errors.title || errors.introduction || errors.content || errors.visualElement)}
           >
             <PageContent variant="content">
-              <TopicArticleContent values={values} />
+              <TopicArticleContent values={values} isSubmitting={isSubmitting} />
             </PageContent>
           </FormAccordion>
-          {article && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
+          {!!article && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
             <FormAccordion
               id={"topic-article-taxonomy"}
               title={t("form.taxonomySection")}
@@ -140,7 +149,7 @@ const TopicArticleAccordionPanels = ({
             />
           </FormAccordion>
           <FormAccordion id={"topic-article-grepCodes"} title={t("form.name.grepCodes")} hasError={!!errors.grepCodes}>
-            <GrepCodesField />
+            <GrepCodesField prefixFilter={["KE", "KM", "TT"]} />
           </FormAccordion>
           {config.ndlaEnvironment === "test" && (
             <FormAccordion
@@ -158,7 +167,7 @@ const TopicArticleAccordionPanels = ({
           >
             <RevisionNotes />
           </FormAccordion>
-          {article && (
+          {!!article && (
             <FormAccordion id={"topic-article-workflow"} title={t("form.workflowSection")} hasError={!!errors.notes}>
               <VersionAndNotesPanel
                 article={article}

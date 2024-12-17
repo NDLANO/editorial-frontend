@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IStatus as DraftStatus } from "@ndla/types-backend/draft-api";
+import { IStatusDTO as DraftStatus } from "@ndla/types-backend/draft-api";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { PUBLISHED } from "../../../constants";
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../../interfaces";
@@ -26,6 +26,19 @@ interface Props {
 const StyledSelectValueText = styled(SelectValueText, {
   base: {
     lineClamp: "1",
+  },
+});
+
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
+  base: {
+    width: "100%",
+    minWidth: "surface.xxsmall",
+  },
+});
+
+const StyledSelectRoot = styled(SelectRoot, {
+  base: {
+    flex: "1",
   },
 });
 
@@ -56,7 +69,7 @@ const StatusSelect = ({ status, setStatus, onSave, statusStateMachine, entitySta
   }, [entityStatus, statusStateMachine, t]);
 
   return (
-    <SelectRoot
+    <StyledSelectRoot
       key={status === undefined ? entityStatus?.current : undefined}
       collection={collection}
       positioning={{ sameWidth: true }}
@@ -65,11 +78,11 @@ const StatusSelect = ({ status, setStatus, onSave, statusStateMachine, entitySta
       onValueChange={(details) => onSave(details.value[0])}
     >
       <SelectLabel srOnly>{t("searchForm.types.status")}</SelectLabel>
-      <GenericSelectTrigger>
+      <StyledGenericSelectTrigger>
         <StyledSelectValueText
           placeholder={entityStatus?.current === PUBLISHED ? t("form.status.published") : t("searchForm.types.status")}
         />
-      </GenericSelectTrigger>
+      </StyledGenericSelectTrigger>
       <SelectContent>
         {collection.items.map((item) => (
           <GenericSelectItem item={item} key={item.status}>
@@ -77,7 +90,7 @@ const StatusSelect = ({ status, setStatus, onSave, statusStateMachine, entitySta
           </GenericSelectItem>
         ))}
       </SelectContent>
-    </SelectRoot>
+    </StyledSelectRoot>
   );
 };
 

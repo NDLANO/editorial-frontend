@@ -9,7 +9,7 @@
 import { Formik, FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
 import { TagsInputContext } from "@ark-ui/react";
-import { CloseLine } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons";
 import {
   Button,
   FieldErrorMessage,
@@ -163,7 +163,7 @@ const FootnoteForm = ({ isEdit, footnote, onRemove, onClose, onSave }: Props) =>
           )}
         </FormField>
         <FormActionsContainer>
-          {isEdit && (
+          {!!isEdit && (
             <Button variant="danger" onClick={onRemove}>
               {t("form.content.footnote.removeFootnote")}
             </Button>

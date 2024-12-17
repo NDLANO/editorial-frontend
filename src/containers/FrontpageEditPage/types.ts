@@ -6,11 +6,11 @@
  *
  */
 
-import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
+import { IArticleSummaryV2DTO } from "@ndla/types-backend/article-api";
 
 export interface MenuWithArticle {
   articleId: number;
-  article?: IArticleSummaryV2;
+  article?: IArticleSummaryV2DTO;
   menu: MenuWithArticle[];
   hideLevel?: boolean;
 }

@@ -8,7 +8,7 @@
 
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AddLine } from "@ndla/icons/action";
+import { AddLine } from "@ndla/icons";
 import { Button, Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, Metadata } from "@ndla/types-taxonomy";

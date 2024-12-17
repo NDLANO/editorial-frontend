@@ -6,7 +6,7 @@
  *
  */
 import { useMemo } from "react";
-import { ArrowRightShortLine } from "@ndla/icons/common";
+import { ArrowRightShortLine } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
@@ -56,7 +56,7 @@ const Breadcrumb = ({ node }: Props) => {
 
   const crumbs = useMemo(() => {
     const ids = node.context?.parentIds ?? [];
-    if (node.nodeType === "TOPIC") {
+    if (node.nodeType === "TOPIC" || node.nodeType === "SUBJECT") {
       ids.push(node.id);
     }
     return (

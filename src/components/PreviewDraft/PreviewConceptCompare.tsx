@@ -11,7 +11,7 @@ import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IConcept } from "@ndla/types-backend/concept-api";
+import { IConceptDTO } from "@ndla/types-backend/concept-api";
 import PreviewConceptComponent from "./PreviewConceptComponent";
 import { TwoArticleWrapper } from "./styles";
 import { ConceptFormValues } from "../../containers/ConceptPage/conceptInterfaces";
@@ -35,7 +35,7 @@ const PreviewTitleWrapper = styled("div", {
 
 export interface CompareConceptPreviewProps {
   type: "conceptCompare";
-  concept: IConcept;
+  concept: IConceptDTO;
   language: string;
 }
 
@@ -82,7 +82,7 @@ export const PreviewConceptCompare = ({ concept, language }: CompareConceptPrevi
             ))}
           </select>
         </PreviewTitleWrapper>
-        {apiConcept.data && <PreviewConceptComponent concept={apiConcept.data} language={previewLanguage} />}
+        {!!apiConcept.data && <PreviewConceptComponent concept={apiConcept.data} language={previewLanguage} />}
       </ConceptWrapper>
     </TwoArticleWrapper>
   );

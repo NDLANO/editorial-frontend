@@ -7,7 +7,7 @@
  */
 
 import { useLocation } from "react-router-dom";
-import { CodeView } from "@ndla/icons/editor";
+import { CodeView } from "@ndla/icons";
 import { SafeLinkIconButton } from "@ndla/safelink";
 
 interface Props {

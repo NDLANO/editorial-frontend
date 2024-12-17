@@ -10,12 +10,8 @@ import { useField } from "formik";
 import { ReactNode, memo, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
-import { List } from "@ndla/icons/action";
-import { Podcast } from "@ndla/icons/common";
-import { Camera, Concept, Taxonomy, SquareAudio, Globe } from "@ndla/icons/editor";
 import { Button, Heading } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { ContentTypeBadge, constants } from "@ndla/ui";
 import HeaderStatusInformation from "./HeaderStatusInformation";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
@@ -24,73 +20,76 @@ import * as draftApi from "../../modules/draft/draftApi";
 import handleError from "../../util/handleError";
 import { toEditArticle } from "../../util/routeHelpers";
 import { Plain } from "../../util/slatePlainSerializer";
-import Spinner from "../Spinner";
+import { SegmentHeader } from "../Form/SegmentHeader";
 
-export const StyledSplitter = styled.div`
-  width: 1px;
-  background: ${colors.brand.lighter};
-  height: ${spacing.normal};
-  margin: 0 ${spacing.xsmall};
-`;
+const StyledSegmentHeader = styled(SegmentHeader, {
+  base: {
+    paddingBlock: "3xsmall",
+    marginBlock: "xsmall",
+  },
+});
 
-const StyledHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: ${spacing.small} 0 ${spacing.xsmall};
-  margin: ${spacing.normal} 0 ${spacing.small};
-  border-bottom: 2px solid ${colors.brand.light};
-`;
+export const StyledSplitter = styled("div", {
+  base: {
+    width: "1px",
+    background: "stroke.default",
+    height: "medium",
+    marginInline: "3xsmall",
+  },
+});
 
-const StyledTitleHeaderWrapper = styled.div`
-  padding-left: ${spacing.small};
-  display: flex;
-  align-items: center;
-  gap: ${spacing.small};
-`;
+const StyledTitleHeaderWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    width: "100%",
+    gap: "3xsmall",
+  },
+});
 
 const { contentTypes } = constants;
 
 const types: Record<string, { form: string; icon: ReactNode }> = {
   standard: {
     form: "learningResourceForm",
-    icon: <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="small" />,
+    icon: <ContentTypeBadge contentType={contentTypes.SUBJECT_MATERIAL} />,
   },
   "topic-article": {
     form: "topicArticleForm",
-    icon: <ContentTypeBadge type={contentTypes.TOPIC} background size="small" />,
+    icon: <ContentTypeBadge contentType={contentTypes.TOPIC} />,
   },
   subjectpage: {
     form: "subjectpageForm",
-    icon: <ContentTypeBadge type={contentTypes.SUBJECT} background size="small" />,
+    icon: <ContentTypeBadge contentType={contentTypes.SUBJECT} />,
   },
   "frontpage-article": {
     form: "frontpageArticleForm",
-    icon: <ContentTypeBadge type={contentTypes.SUBJECT} background size="small" />,
+    icon: <ContentTypeBadge contentType={"frontpage-article"} />,
   },
-  image: { form: "imageForm", icon: <Camera /> },
+  image: { form: "imageForm", icon: <ContentTypeBadge contentType="image" /> },
   audio: {
     form: "audioForm",
-    icon: <SquareAudio />,
+    icon: <ContentTypeBadge contentType="audio" />,
   },
   podcast: {
     form: "podcastForm",
-    icon: <Podcast />,
+    icon: <ContentTypeBadge contentType="podcast" />,
   },
   "podcast-series": {
     form: "podcastSeriesForm",
-    icon: <List />,
+    icon: <ContentTypeBadge contentType="podcast-series" />,
   },
   concept: {
     form: "conceptForm",
-    icon: <Concept />,
+    icon: <ContentTypeBadge contentType="concept" />,
   },
   gloss: {
     form: "glossform",
-    icon: <Globe />,
+    icon: <ContentTypeBadge contentType="gloss" />,
   },
   programme: {
     form: "programmepageForm",
-    icon: <Taxonomy />,
+    icon: <ContentTypeBadge contentType="programme" />,
   },
 };
 
@@ -167,18 +166,19 @@ const HeaderInformation = ({
   }, [createMessage, formIsDirty, id, language, navigate]);
 
   return (
-    <StyledHeader>
+    <StyledSegmentHeader>
       <StyledTitleHeaderWrapper>
         {types[type].icon}
         {type === "gloss" && title ? (
           <GlossTitle />
         ) : (
-          <Heading textStyle="title.medium">{`${t(`${types[type].form}.title`)}${title ? `: ${title}` : ""}`}</Heading>
+          <Heading textStyle="title.medium">
+            {title ?? t("form.createNew", { type: t(`contentTypes.${type}`) })}
+          </Heading>
         )}
         {(type === "standard" || type === "topic-article") && (
-          <Button size="small" variant="tertiary" onClick={onSaveAsNew} data-testid="saveAsNew">
+          <Button size="small" variant="tertiary" onClick={onSaveAsNew} data-testid="saveAsNew" loading={loading}>
             {t("form.workflow.saveAsNew")}
-            {loading && <Spinner appearance="absolute" />}
           </Button>
         )}
       </StyledTitleHeaderWrapper>
@@ -196,7 +196,7 @@ const HeaderInformation = ({
         responsibleName={responsibleName}
         hasRSS={hasRSS}
       />
-    </StyledHeader>
+    </StyledSegmentHeader>
   );
 };
 

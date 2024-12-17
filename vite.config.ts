@@ -17,20 +17,9 @@ export default defineConfig(() => {
       globals: true,
       setupFiles: "./src/__tests__/vitest.setup.ts",
     },
-    plugins: [
-      react(),
-      splitVendorChunkPlugin(),
-    ],
+    plugins: [react(), splitVendorChunkPlugin()],
     resolve: {
-      dedupe: [
-        "react-router",
-        "react-router-dom",
-        "react-helmet-async",
-        "i18next",
-        "react-i18next",
-        "@emotion/react",
-        "@emotion/styled",
-      ],
+      dedupe: ["react-router", "react-router-dom", "react-helmet-async", "i18next", "react-i18next"],
     },
     build: {
       assetsDir: "static",

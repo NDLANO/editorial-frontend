@@ -10,8 +10,8 @@ import { FormikErrors } from "formik";
 import { useTranslation } from "react-i18next";
 
 import { FieldErrorMessage, FieldRoot, PageContent } from "@ndla/primitives";
-import { IArticle } from "@ndla/types-backend/draft-api";
-import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
+import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 
 import SubjectpageAbout from "./SubjectpageAbout";
 import SubjectpageArticles from "./SubjectpageArticles";
@@ -26,13 +26,22 @@ import { SubjectPageFormikType } from "../../../util/subjectHelpers";
 interface Props {
   buildsOn: string[];
   connectedTo: string[];
-  editorsChoices: (IArticle | ILearningPathV2)[];
+  editorsChoices: (IArticleDTO | ILearningPathV2DTO)[];
   elementId: string;
   errors: FormikErrors<SubjectPageFormikType>;
   leadsTo: string[];
+  isSubmitting: boolean;
 }
 
-const SubjectpageAccordionPanels = ({ buildsOn, connectedTo, editorsChoices, elementId, errors, leadsTo }: Props) => {
+const SubjectpageAccordionPanels = ({
+  buildsOn,
+  connectedTo,
+  editorsChoices,
+  elementId,
+  errors,
+  leadsTo,
+  isSubmitting,
+}: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -51,7 +60,7 @@ const SubjectpageAccordionPanels = ({ buildsOn, connectedTo, editorsChoices, ele
         title={t("subjectpageForm.metadata")}
         hasError={["metaDescription", "desktopBannerId", "mobileBannerId"].some((field) => field in errors)}
       >
-        <SubjectpageMetadata />
+        <SubjectpageMetadata isSubmitting={isSubmitting} />
       </FormAccordion>
       <FormAccordion
         id="subjectlinks"

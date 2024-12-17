@@ -6,10 +6,12 @@
  *
  */
 
-import { IAudioMetaInformation } from "@ndla/types-backend/audio-api";
-import { IArticle, IRelatedContentLink } from "@ndla/types-backend/draft-api";
+import { IAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
+import { IArticleDTO, IRelatedContentLinkDTO } from "@ndla/types-backend/draft-api";
 import { AudioEmbedData, BrightcoveEmbedData, H5pEmbedData, ImageEmbedData } from "@ndla/types-embed";
 import { SearchTypeValues, LOCALE_VALUES } from "./constants";
+import { FormEvent } from "react";
+import { DateChangedEvent } from "./containers/FormikForm/components/InlineDatePicker";
 
 export interface FormikStatus {
   status?: string;
@@ -70,9 +72,9 @@ export interface ZendeskToken {
 
 export type TypeOfPreview = "preview" | "previewLanguageArticle" | "previewVersion" | "previewProductionArticle";
 
-export type RelatedContent = IRelatedContentLink | number;
+export type RelatedContent = IRelatedContentLinkDTO | number;
 
-export type ConvertedRelatedContent = RelatedContent | IArticle;
+export type ConvertedRelatedContent = RelatedContent | IArticleDTO;
 
 export type MessageSeverity = "danger" | "info" | "success" | "warning";
 
@@ -112,7 +114,7 @@ export interface UnsavedFile {
   type: string;
 }
 
-export interface SlateAudio extends Omit<IAudioMetaInformation, "title"> {
+export interface SlateAudio extends Omit<IAudioMetaInformationDTO, "title"> {
   title: string;
 }
 
@@ -168,3 +170,37 @@ interface ApiTranslateTypeArray extends BaseApiTranslateType {
 }
 
 export type ApiTranslateType = ApiTranslateTypeSingle | ApiTranslateTypeArray;
+
+type FormEvents = FormEvent<HTMLInputElement> | FormEvent<HTMLSelectElement>;
+type FieldChangedEvent = FormEvents | DateChangedEvent;
+
+export type OnFieldChangeFunction = <T extends keyof SearchParams>(
+  name: T,
+  value: SearchParams[T],
+  event?: FieldChangedEvent,
+) => void;
+
+export interface SearchParams {
+  query?: string;
+  "draft-status"?: string;
+  "include-other-statuses"?: boolean;
+  "resource-types"?: string;
+  "article-types"?: string;
+  "audio-type"?: string;
+  fallback?: boolean;
+  language?: string;
+  page?: number;
+  "page-size"?: number;
+  status?: string;
+  subjects?: string;
+  users?: string;
+  sort?: string;
+  license?: string;
+  "model-released"?: string;
+  "revision-date-from"?: string;
+  "revision-date-to"?: string;
+  "exclude-revision-log"?: boolean | undefined;
+  "responsible-ids"?: string;
+  "concept-type"?: string;
+  "filter-inactive"?: boolean;
+}

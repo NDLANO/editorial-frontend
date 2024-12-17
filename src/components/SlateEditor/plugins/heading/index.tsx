@@ -6,10 +6,10 @@
  *
  */
 
-import { createElement } from "react";
 import { Descendant, Text, Editor, Element, Transforms, Range, Node, Path } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_HEADING } from "./types";
+import { createHtmlTag } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import hasNodeOfType from "../../utils/hasNodeOfType";
 import { KEY_BACKSPACE, KEY_ENTER } from "../../utils/keys";
@@ -45,10 +45,10 @@ export const headingSerializer: SlateSerializer = {
       return slatejsx("element", { type: TYPE_HEADING, level: 4 }, children);
     }
   },
-  serialize(node: Descendant, children: JSX.Element[]) {
+  serialize(node, children) {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_HEADING) {
-      return createElement("h" + node.level, [], [children]);
+      return createHtmlTag({ tag: `h${node.level}`, children });
     }
   },
 };

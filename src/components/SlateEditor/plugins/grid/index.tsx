@@ -11,7 +11,7 @@ import { jsx as slatejsx } from "slate-hyperscript";
 import { GridType } from "@ndla/ui";
 import { TYPE_GRID, TYPE_GRID_CELL } from "./types";
 import { defaultGridCellBlock } from "./utils";
-import { reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
+import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
@@ -63,7 +63,7 @@ export const gridSerializer: SlateSerializer = {
     if (el.tagName.toLowerCase() !== "div") return;
     if (el.dataset.type === TYPE_GRID) {
       const grid = el as HTMLDivElement;
-      const attributes = reduceElementDataAttributesV2(Array.from(grid.attributes));
+      const attributes = parseElementAttributes(Array.from(grid.attributes));
 
       return slatejsx(
         "element",
@@ -79,28 +79,22 @@ export const gridSerializer: SlateSerializer = {
       );
     }
     if (el.dataset.type === TYPE_GRID_CELL) {
-      const attributes = reduceElementDataAttributesV2(Array.from(el.attributes));
+      const attributes = parseElementAttributes(Array.from(el.attributes));
       return slatejsx("element", { type: TYPE_GRID_CELL, data: attributes }, children);
     }
   },
-  serialize(node: Descendant, children: JSX.Element[]) {
+  serialize(node, children) {
     if (Element.isElement(node) && node.type === TYPE_GRID) {
-      return (
-        <div
-          data-type={TYPE_GRID}
-          data-columns={node.data.columns}
-          data-border={node.data.border}
-          data-background={node.data.background}
-        >
-          {children}
-        </div>
-      );
+      const data = createDataAttributes({
+        type: TYPE_GRID,
+        columns: node.data.columns,
+        border: node.data.border,
+        background: node.data.background,
+      });
+      return createHtmlTag({ tag: "div", data, children });
     } else if (Element.isElement(node) && node.type === TYPE_GRID_CELL) {
-      return (
-        <div data-type={TYPE_GRID_CELL} data-parallax-cell={node.data?.parallaxCell ?? "false"}>
-          {children}
-        </div>
-      );
+      const data = createDataAttributes({ type: TYPE_GRID_CELL, parallaxCell: node.data.parallaxCell ?? "false" });
+      return createHtmlTag({ tag: "div", data, children });
     }
   },
 };

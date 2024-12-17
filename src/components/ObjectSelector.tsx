@@ -31,8 +31,13 @@ const StyledGenericSelectItem = styled(GenericSelectItem, {
   },
 });
 
+export interface SelectOption {
+  id: string;
+  name: string;
+}
+
 interface Props {
-  options: { id: string; name: string }[];
+  options: SelectOption[];
   value: string;
   onChange: (value: string) => void;
   placeholder: string;
@@ -53,7 +58,7 @@ const ObjectSelector = ({ options, onChange, value, placeholder, name }: Props) 
     <SelectRoot
       data-testid={`${name}-select`}
       collection={collection}
-      positioning={{ sameWidth: true }}
+      positioning={{ sameWidth: true, strategy: "fixed" }}
       value={value ? [value] : []}
       onValueChange={(details) => onChange(details.value[0])}
     >

@@ -6,9 +6,9 @@
  *
  */
 
-import { ReactElement } from "react";
 import { Descendant, Editor, Text, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
+import { createHtmlTag } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 
 export const isMarkActive = (editor: Editor, format: string) => {
@@ -48,36 +48,40 @@ export const markSerializer: SlateSerializer = {
     );
   },
 
-  serialize(node: Descendant) {
+  serialize(node) {
     if (!Text.isText(node)) return;
     let ret;
-    const children = node.text.split("\n").reduce((array: (ReactElement | string)[], text, i) => {
-      if (i !== 0) array.push(<br key={i} />);
-      array.push(text);
-      return array;
-    }, []);
+
+    const children = node.text.split("\n").reduce((acc, curr, i) => {
+      if (i !== 0) {
+        acc = acc.concat(createHtmlTag({ tag: "br", shorthand: true }));
+      }
+      acc = acc.concat(curr);
+      return acc;
+    }, "");
+
     if (node.bold) {
-      ret = <strong>{ret || children}</strong>;
+      ret = createHtmlTag({ tag: "strong", children: ret || children });
     }
     if (node.italic) {
-      ret = <em>{ret || children}</em>;
+      ret = createHtmlTag({ tag: "em", children: ret || children });
     }
     if (node.underlined) {
-      ret = <u>{ret || children}</u>;
+      ret = createHtmlTag({ tag: "u", children: ret || children });
     }
     if (node.sup) {
-      ret = <sup>{ret || children}</sup>;
+      ret = createHtmlTag({ tag: "sup", children: ret || children });
     }
     if (node.sub) {
-      ret = <sub>{ret || children}</sub>;
+      ret = createHtmlTag({ tag: "sub", children: ret || children });
     }
     if (node.code) {
-      ret = <code>{ret || children}</code>;
+      ret = createHtmlTag({ tag: "code", children: ret || children });
     }
     if (ret) {
       return ret;
     }
-    return <>{children}</>;
+    return children;
   },
 };
 

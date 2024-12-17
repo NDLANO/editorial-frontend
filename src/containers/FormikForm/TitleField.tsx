@@ -6,11 +6,12 @@
  *
  */
 
-import { useFormikContext } from "formik";
 import { KeyboardEvent, memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { FieldErrorMessage, FieldHelper, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { ContentEditableFieldLabel } from "../../components/Form/ContentEditableFieldLabel";
+import { FieldWarning } from "../../components/Form/FieldWarning";
 import { FormField } from "../../components/FormField";
 
 import { SlatePlugin } from "../../components/SlateEditor/interfaces";
@@ -46,13 +47,6 @@ const StyledRichTextEditor = styled(RichTextEditor, {
   },
 });
 
-const StyledFieldHelper = styled(FieldHelper, {
-  base: {
-    // TODO: Replace this
-    color: "#8c8c00",
-  },
-});
-
 const titlePlugins: SlatePlugin[] = [
   spanPlugin,
   paragraphPlugin,
@@ -85,7 +79,6 @@ const toolbarOptions = createToolbarDefaultValues({
 const toolbarAreaFilters = createToolbarAreaOptions();
 
 const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => {
-  const { status } = useFormikContext();
   const { t } = useTranslation();
   const plugins = useMemo(() => {
     if (hideToolbar) return basePlugins;
@@ -103,7 +96,7 @@ const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => 
     <FormField name={name}>
       {({ field, meta }) => (
         <FieldRoot required invalid={!!meta.error}>
-          <FieldLabel srOnly>{t("form.title.label")}</FieldLabel>
+          <ContentEditableFieldLabel srOnly>{t("form.title.label")}</ContentEditableFieldLabel>
           <StyledRichTextEditor
             {...field}
             id="title-editor"
@@ -121,7 +114,7 @@ const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => 
             maxLength={maxLength}
             hideToolbar={hideToolbar}
           />
-          {status?.warnings?.[name] && <StyledFieldHelper>{status.warnings[name]}</StyledFieldHelper>}
+          <FieldWarning name={field.name} />
           <FieldErrorMessage>{meta.error}</FieldErrorMessage>
         </FieldRoot>
       )}

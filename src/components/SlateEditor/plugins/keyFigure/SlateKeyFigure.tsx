@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
+import { PencilFill, DeleteBinLine } from "@ndla/icons";
 import {
   DialogBody,
   DialogContent,
@@ -21,7 +21,7 @@ import {
   DialogTrigger,
   IconButton,
 } from "@ndla/primitives";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { KeyFigureEmbedData } from "@ndla/types-embed";
 import { EmbedWrapper, KeyFigure } from "@ndla/ui";
 import { KeyFigureElement } from ".";
@@ -37,7 +37,7 @@ interface Props extends RenderElementProps {
 
 const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
   const [isEditing, setIsEditing] = useState<boolean | undefined>(false);
-  const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
+  const [image, setImage] = useState<IImageMetaInformationV3DTO | undefined>(undefined);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -100,7 +100,7 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
   return (
     <DialogRoot size="large" open={isEditing} onOpenChange={(details) => setIsEditing(details.open)}>
       <EmbedWrapper {...attributes} contentEditable={false} data-testid="slate-key-figure">
-        {data && (
+        {!!data && (
           <>
             <StyledFigureButtons>
               <DialogTrigger asChild>

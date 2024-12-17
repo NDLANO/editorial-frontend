@@ -9,7 +9,7 @@
 import { FormikContextType, useFormikContext } from "formik";
 import { Editor, Element } from "slate";
 import { useSlateStatic } from "slate-react";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import VisualElementModalWrapper from "../../../../containers/VisualElement/VisualElementModalWrapper";
 import VisualElementSearch from "../../../../containers/VisualElement/VisualElementSearch";
 import { Embed } from "../../../../interfaces";
@@ -19,7 +19,7 @@ import { defaultFileBlock } from "../file/utils";
 import { TYPE_TABLE_CELL } from "../table/types";
 
 export const checkboxAction = (
-  image: IImageMetaInformationV3,
+  image: IImageMetaInformationV3DTO,
   formikContext: FormikContextType<{
     metaImageId?: string;
     metaImageAlt?: string;
@@ -95,7 +95,7 @@ const SlateVisualElementPicker = ({
         handleVisualElementChange={onVisualElementAdd}
         closeModal={onVisualElementClose}
         showCheckbox={showCheckbox}
-        checkboxAction={(image: IImageMetaInformationV3) => checkboxAction(image, formikContext)}
+        checkboxAction={(image: IImageMetaInformationV3DTO) => checkboxAction(image, formikContext)}
       />
     </VisualElementModalWrapper>
   );

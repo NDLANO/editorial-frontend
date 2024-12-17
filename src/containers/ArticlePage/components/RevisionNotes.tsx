@@ -10,7 +10,7 @@ import { addYears } from "date-fns";
 import { FastField, FieldArray, FieldProps, useField } from "formik";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons";
 import {
   Button,
   FieldErrorMessage,
@@ -49,6 +49,12 @@ const FieldWrapper = styled(FieldsetRoot, {
 const StyledFieldRoot = styled(FieldRoot, {
   base: {
     flex: "1",
+  },
+});
+
+const StyledButton = styled(Button, {
+  base: {
+    alignSelf: "flex-start",
   },
 });
 
@@ -139,7 +145,7 @@ const RevisionNotes = () => {
               </FieldWrapper>
             </FieldsetRoot>
           ))}
-          <Button
+          <StyledButton
             variant="secondary"
             onClick={() =>
               arrayHelpers.push({
@@ -151,7 +157,7 @@ const RevisionNotes = () => {
             }
           >
             {t("form.revisions.add")}
-          </Button>
+          </StyledButton>
         </FieldsetRoot>
       )}
     />

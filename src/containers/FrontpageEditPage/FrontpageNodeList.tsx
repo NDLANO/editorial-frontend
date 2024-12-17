@@ -7,11 +7,11 @@
  */
 
 import { FieldArrayRenderProps, useField } from "formik";
-import { ComponentType, useCallback, useMemo } from "react";
+import { ComponentType, CSSProperties, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
-import styled from "@emotion/styled";
-import { DragVertical } from "@ndla/icons/editor";
+import { Draggable } from "@ndla/icons";
+import { styled } from "@ndla/styled-system/jsx";
 import FrontpageNode from "./FrontpageNode";
 import { MenuWithArticle } from "./types";
 import DndList from "../../components/DndList";
@@ -23,15 +23,32 @@ interface Props extends FieldArrayRenderProps {
 
 export const FRONTPAGE_DEPTH_LIMIT = 3;
 
-const StyledList = styled.ul`
-  list-style: none;
-  margin: 0px;
-  padding: 0px;
-`;
+const StyledList = styled("ul", {
+  base: {
+    listStyle: "none",
+  },
+});
 
-const StyledDragHandle = styled(DragHandle)`
-  align-self: flex-start;
-`;
+const StyledDragHandle = styled(DragHandle, {
+  base: {
+    alignSelf: "flex-start",
+    paddingBlock: "0",
+    paddingInline: "0",
+    position: "absolute",
+    marginBlockStart: "4xsmall",
+    marginInlineStart: "calc(var(--level) * token(spacing.large))",
+    _hover: {
+      "& ~ [data-node-wrapper] > [data-node]": {
+        background: "surface.hover",
+      },
+    },
+    _active: {
+      "& ~ [data-node-wrapper] > [data-node]": {
+        background: "surface.hover",
+      },
+    },
+  },
+});
 
 const FrontpageNodeList: ComponentType<Props> = ({ name, replace, remove, level, move }: Props) => {
   const { t } = useTranslation();
@@ -58,8 +75,8 @@ const FrontpageNodeList: ComponentType<Props> = ({ name, replace, remove, level,
         disabled={menuField.value.length < FRONTPAGE_DEPTH_LIMIT}
         onDragEnd={onDragEnd}
         dragHandle={
-          <StyledDragHandle aria-label={t("dragAndDrop.handle")}>
-            <DragVertical />
+          <StyledDragHandle aria-label={t("dragAndDrop.handle")} style={{ "--level": level } as CSSProperties}>
+            <Draggable />
           </StyledDragHandle>
         }
         renderItem={(_, index) => (
@@ -72,7 +89,7 @@ const FrontpageNodeList: ComponentType<Props> = ({ name, replace, remove, level,
             level={level}
           />
         )}
-      ></DndList>
+      />
     </StyledList>
   );
 };

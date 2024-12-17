@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { CheckLine } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons";
 import {
   CheckboxControl,
   CheckboxHiddenInput,
@@ -19,7 +19,6 @@ import {
   FieldRoot,
 } from "@ndla/primitives";
 import { FormField } from "../../../components/FormField";
-import FormikField from "../../../components/FormikField";
 import { FormContent } from "../../../components/FormikForm";
 import PlainTextEditor from "../../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../../components/SlateEditor/plugins/textTransform";
@@ -37,7 +36,6 @@ const PodcastSeriesMetaData = ({ language, onImageLoad }: Props) => {
   return (
     <FormContent>
       <TitleField hideToolbar />
-
       <FormField name="description">
         {({ field, meta }) => (
           <FieldRoot invalid={!!meta.error}>
@@ -52,22 +50,23 @@ const PodcastSeriesMetaData = ({ language, onImageLoad }: Props) => {
           </FieldRoot>
         )}
       </FormField>
-
-      <FormikField name="coverPhotoId">
-        {({ field, form }) => (
-          <MetaImageSearch
-            onImageLoad={onImageLoad}
-            metaImageId={field.value}
-            setFieldTouched={form.setFieldTouched}
-            showRemoveButton
-            language={language}
-            podcastFriendly={true}
-            disableAltEditing={true}
-            {...field}
-          />
+      <FormField name="coverPhotoId">
+        {({ field, meta }) => (
+          <FieldRoot invalid={!!meta.error}>
+            <MetaImageSearch
+              onImageLoad={onImageLoad}
+              metaImageId={field.value}
+              showRemoveButton
+              language={language}
+              podcastFriendly
+              disableAltEditing
+              showCheckbox={false}
+              {...field}
+            />
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          </FieldRoot>
         )}
-      </FormikField>
-
+      </FormField>
       <FormField name="hasRSS">
         {({ field, helpers }) => (
           <FieldRoot>

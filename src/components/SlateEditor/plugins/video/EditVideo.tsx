@@ -19,7 +19,6 @@ import {
   DialogHeader,
   DialogTitle,
   DialogBody,
-  Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { BrightcoveEmbedData } from "@ndla/types-embed";
@@ -30,6 +29,7 @@ import { inlineContentToEditorValue } from "../../../../util/articleContentConve
 import { isFormikFormDirty } from "../../../../util/formHelper";
 import { addBrightCoveTimeStampVideoid, getBrightCoveStartTime } from "../../../../util/videoUtil";
 import { DialogCloseButton } from "../../../DialogCloseButton";
+import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLabel";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -134,10 +134,10 @@ const VideoEmbedForm = ({ setHasError, close, isValid, dirty, initialValues, val
       <FormField name="caption">
         {({ field, meta }) => (
           <FieldRoot invalid={!!meta.error}>
-            <Text textStyle="label.medium" fontWeight="bold">
+            <ContentEditableFieldLabel>
               {t("form.video.caption.label")}
               <RichTextIndicator />
-            </Text>
+            </ContentEditableFieldLabel>
             <InlineField
               {...field}
               placeholder={t("form.video.caption.placeholder")}

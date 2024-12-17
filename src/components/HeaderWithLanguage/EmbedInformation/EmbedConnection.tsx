@@ -8,7 +8,7 @@
 
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { SubjectMaterial } from "@ndla/icons/contentType";
+import { FileListLine } from "@ndla/icons";
 import {
   DialogBody,
   DialogContent,
@@ -19,8 +19,8 @@ import {
   IconButton,
   Text,
 } from "@ndla/primitives";
-import { IConceptSummary } from "@ndla/types-backend/concept-api";
-import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { postSearchConcepts } from "../../../modules/concept/conceptApi";
 import { postSearch } from "../../../modules/search/searchApi";
 import { routes } from "../../../util/routeHelpers";
@@ -32,10 +32,10 @@ type EmbedType = "image" | "audio" | "concept" | "gloss" | "article";
 interface Props {
   id?: number;
   type: EmbedType;
-  articles: IMultiSearchSummary[];
-  setArticles: (articles: IMultiSearchSummary[]) => void;
-  concepts?: IConceptSummary[];
-  setConcepts?: (concepts: IConceptSummary[]) => void;
+  articles: IMultiSearchSummaryDTO[];
+  setArticles: (articles: IMultiSearchSummaryDTO[]) => void;
+  concepts?: IConceptSummaryDTO[];
+  setConcepts?: (concepts: IConceptSummaryDTO[]) => void;
 }
 
 type SearchEmbedTypes = "image" | "audio" | "concept" | "gloss" | "content-link" | "related-content";
@@ -91,7 +91,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
           aria-label={t(`form.embedConnections.info.${type}`)}
           title={t(`form.embedConnections.info.${type}`)}
         >
-          <SubjectMaterial />
+          <FileListLine />
         </IconButton>
       </DialogTrigger>
       <DialogContent>

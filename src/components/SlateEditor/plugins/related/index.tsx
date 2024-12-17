@@ -11,10 +11,11 @@ import { Descendant, Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { RelatedContentEmbedData } from "@ndla/types-embed";
 import { TYPE_RELATED } from "./types";
-import { reduceElementDataAttributesV2, createEmbedTagV2 } from "../../../../util/embedTagHelpers";
+import { parseElementAttributes, createDataAttributes, createHtmlTag } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
+import { TYPE_NDLA_EMBED } from "../embed/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 export const defaultRelatedBlock = () => slatejsx("element", { type: TYPE_RELATED, data: [] }, [{ text: "" }]);
@@ -47,7 +48,7 @@ export const relatedSerializer: SlateSerializer = {
       {
         type: TYPE_RELATED,
         data: Array.from(el.children ?? []).map((el) => {
-          const attributes = reduceElementDataAttributesV2(Array.from(el.attributes));
+          const attributes = parseElementAttributes(Array.from(el.attributes));
           if (attributes["url"]) {
             return {
               ...attributes,
@@ -60,15 +61,18 @@ export const relatedSerializer: SlateSerializer = {
       [{ text: "" }],
     );
   },
-  serialize(node: Descendant) {
+  serialize(node) {
     if (!Element.isElement(node) || node.type !== TYPE_RELATED) return;
 
-    const children = node.data.map((child) => {
-      const key = child.articleId ? child.articleId : child.url;
-      return createEmbedTagV2(child, undefined, key);
-    });
+    const children = node.data
+      .map((child) => {
+        const data = createDataAttributes(child);
+        return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
+      })
+      .filter((n) => !!n)
+      .join("");
 
-    return <div data-type="related-content">{children}</div>;
+    return createHtmlTag({ tag: "div", data: { "data-type": "related-content" }, children, bailOnEmpty: false });
   },
 };
 

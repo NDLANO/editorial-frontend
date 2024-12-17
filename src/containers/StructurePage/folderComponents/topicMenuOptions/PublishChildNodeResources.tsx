@@ -10,13 +10,12 @@ import partition from "lodash/partition";
 import { Fragment, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
-import { ErrorWarningLine } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
+import { ErrorWarningLine, CheckLine } from "@ndla/icons";
 import { Button, Heading, MessageBox, Spinner, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticle } from "@ndla/types-backend/draft-api";
-import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
+import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { Node } from "@ndla/types-taxonomy";
 import { PUBLISHED } from "../../../../constants";
 import { fetchDrafts, updateStatusDraft } from "../../../../modules/draft/draftApi";
@@ -102,7 +101,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
     });
     const draftIds = draftResources.map((res) => Number(res.contentUri!.split(":")[2]));
     const learningpathIds = learningpathResources.map((res) => Number(res.contentUri!.split(":")[2]));
-    const [drafts, learningpaths]: [IArticle[], ILearningPathV2[]] = await Promise.all([
+    const [drafts, learningpaths]: [IArticleDTO[], ILearningPathV2DTO[]] = await Promise.all([
       fetchDrafts(draftIds),
       fetchLearningpaths(learningpathIds),
     ]);
@@ -155,7 +154,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
         <Text>{t("taxonomy.publish.info")}</Text>
       </MessageBox>
       <StyledButton onClick={() => publishResources()}>{t("taxonomy.publish.button")}</StyledButton>
-      {showDisplay && (
+      {!!showDisplay && (
         <StatusIndicatorContent aria-live="polite">
           <StatusIndicatorContent>{done ? <StyledCheckLine /> : <Spinner size="small" />}</StatusIndicatorContent>
           <Text>{`${publishText} (${publishedCount}/${publishableCount})`}</Text>

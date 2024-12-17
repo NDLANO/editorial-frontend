@@ -8,15 +8,13 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import oldstyled from "@emotion/styled";
-import { colors, fonts, spacing } from "@ndla/core";
-import { ErrorWarningFill, RssFeed } from "@ndla/icons/common";
-import { CheckboxCircleFill } from "@ndla/icons/editor";
-import { SafeLink } from "@ndla/safelink";
+import { ErrorWarningFill, RssLine, CheckboxCircleFill } from "@ndla/icons";
+import { Text } from "@ndla/primitives";
+import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IConceptSummary } from "@ndla/types-backend/concept-api";
-import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
-import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import EmbedConnection from "./EmbedInformation/EmbedConnection";
 import HeaderFavoriteStatus from "./HeaderFavoriteStatus";
 import LearningpathConnection from "./LearningpathConnection";
@@ -24,18 +22,14 @@ import config from "../../config";
 import formatDate from "../../util/formatDate";
 import { StatusTimeFill } from "../StatusTimeFill";
 
-export const StyledSplitter = oldstyled.div`
-  width: 1px;
-  background: ${colors.brand.lighter};
-  height: ${spacing.normal};
-  margin: 0 ${spacing.xsmall};
-`;
-
-const StyledStatusWrapper = oldstyled.div`
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-`;
+const StyledStatusWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    whiteSpace: "nowrap",
+    gap: "3xsmall",
+  },
+});
 
 export const getWarnStatus = (date?: string): "warn" | "expired" | undefined => {
   if (!date) return undefined;
@@ -51,7 +45,6 @@ export const getWarnStatus = (date?: string): "warn" | "expired" | undefined => 
 };
 
 interface Props {
-  compact?: boolean;
   noStatus?: boolean;
   statusText?: string;
   isNewLanguage?: boolean;
@@ -68,47 +61,14 @@ interface Props {
   favoriteCount?: number;
 }
 
-const StyledStatus = oldstyled.p`
-  ${fonts.sizes("16", "1.1")};
-  font-weight: ${fonts.weight.semibold};
-  margin: 0 ${spacing.small} 0;
-  color: ${colors.brand.primary};
-  &[data-compact="true"] {
-    ${fonts.sizes("10", "1.1")};
-    margin: 0 ${spacing.xsmall} 0;
-  }
-  span {
-    display: block;
-  }
-`;
-
-const StyledSmallText = oldstyled.small`
-  color: ${colors.text.light};
-  ${fonts.sizes("16", "1.1")};
-  padding-right: ${spacing.xsmall};
-  font-weight: ${fonts.weight.normal};
-  color: ${colors.brand.primary};
-  &[data-compact="true"] {
-    color: #000;
-    ${fonts.sizes("9", "1.1")};
-  }
-`;
-
-const StyledCheckIcon = oldstyled(CheckboxCircleFill)`
-  height: ${spacing.normal};
-  width: ${spacing.normal};
-  fill: ${colors.support.green};
-`;
-
-const StyledRssIcon = oldstyled(RssFeed)`
-  height: ${spacing.normal};
-  width: ${spacing.normal};
-  fill: ${colors.support.green};
-`;
-
-const StyledLink = oldstyled(SafeLink)`
-  box-shadow: inset 0 0;
-`;
+const StyledText = styled(Text, {
+  base: {
+    display: "flex",
+    "& > *": {
+      flex: "1",
+    },
+  },
+});
 
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
   base: {
@@ -122,7 +82,6 @@ const HeaderStatusInformation = ({
   isNewLanguage,
   published,
   multipleTaxonomy,
-  compact,
   type,
   id,
   setHasConnections,
@@ -134,9 +93,9 @@ const HeaderStatusInformation = ({
   favoriteCount,
 }: Props) => {
   const { t } = useTranslation();
-  const [learningpaths, setLearningpaths] = useState<ILearningPathV2[]>([]);
-  const [articles, setArticles] = useState<IMultiSearchSummary[]>([]);
-  const [concepts, setConcepts] = useState<IConceptSummary[]>([]);
+  const [learningpaths, setLearningpaths] = useState<ILearningPathV2DTO[]>([]);
+  const [articles, setArticles] = useState<IMultiSearchSummaryDTO[]>([]);
+  const [concepts, setConcepts] = useState<IConceptSummaryDTO[]>([]);
 
   useEffect(() => {
     setHasConnections?.(!!learningpaths?.length || !!articles?.length || !!concepts?.length);
@@ -167,8 +126,10 @@ const HeaderStatusInformation = ({
         ) : (type === "concept" || type === "gloss") && !inSearch ? (
           <EmbedConnection id={id} type={type} articles={articles} setArticles={setArticles} />
         ) : null}
-        {published && (
-          <StyledLink
+        {!!published && (
+          <SafeLinkIconButton
+            variant="success"
+            size="small"
             target="_blank"
             aria-label={t("form.workflow.published")}
             title={t("form.workflow.published")}
@@ -176,10 +137,10 @@ const HeaderStatusInformation = ({
               slug ?? id
             }`}
           >
-            <StyledCheckIcon />
-          </StyledLink>
+            <CheckboxCircleFill />
+          </SafeLinkIconButton>
         )}
-        {multipleTaxonomy && (
+        {!!multipleTaxonomy && (
           <StyledErrorWarningFill
             aria-label={t("form.workflow.multipleTaxonomy")}
             title={t("form.workflow.multipleTaxonomy")}
@@ -187,20 +148,20 @@ const HeaderStatusInformation = ({
           />
         )}
         {!hideFavoritedIcon && <HeaderFavoriteStatus id={id} type={type} favoriteCount={favoriteCount} />}
-        <StyledStatus data-compact={compact}>
-          <span>
-            <StyledSmallText data-compact={compact}>{`${t("form.responsible.label")}:`}</StyledSmallText>
+        <div>
+          <StyledText textStyle="label.xsmall">
+            <b>{`${t("form.responsible.label")}: `}</b>
             {responsibleName || t("form.responsible.noResponsible")}
-          </span>
+          </StyledText>
           {noStatus ? (
             t("form.status.new_language")
           ) : (
-            <span>
-              <StyledSmallText data-compact={compact}>{t("form.workflow.statusLabel")}:</StyledSmallText>
+            <StyledText textStyle="label.xsmall">
+              <b>{`${t("form.workflow.statusLabel")}: `}</b>
               {isNewLanguage ? t("form.status.new_language") : statusText || t("form.status.new")}
-            </span>
+            </StyledText>
           )}
-        </StyledStatus>
+        </div>
       </StyledStatusWrapper>
     );
   } else if (type === "image") {
@@ -233,11 +194,16 @@ const HeaderStatusInformation = ({
     );
   } else if (type === "podcast-series" && hasRSS && id !== undefined) {
     return (
-      <StyledStatusWrapper>
-        <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}/podkast/${id}/feed.xml`}>
-          <StyledRssIcon title={t("podcastSeriesForm.rss")} />
-        </StyledLink>
-      </StyledStatusWrapper>
+      <SafeLinkIconButton
+        size="small"
+        variant="tertiary"
+        target="_blank"
+        to={`${config.ndlaFrontendDomain}/podkast/${id}/feed.xml`}
+        title={t("podcastSeriesForm.rss")}
+        aria-label={t("podcastSeriesForm.rss")}
+      >
+        <RssLine />
+      </SafeLinkIconButton>
     );
   }
   return null;

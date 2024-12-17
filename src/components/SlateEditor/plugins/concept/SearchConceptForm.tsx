@@ -7,27 +7,41 @@
  */
 
 import sortBy from "lodash/sortBy";
-import { useEffect, useState, MouseEvent, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { IUserData } from "@ndla/types-backend/draft-api";
+import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { IUserDataDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import { CONCEPT_RESPONSIBLE, TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../../../constants";
-import GenericSearchForm, {
-  OnFieldChangeFunction,
-} from "../../../../containers/SearchPage/components/form/GenericSearchForm";
-import { SearchParams } from "../../../../containers/SearchPage/components/form/SearchForm";
-import { SearchFormSelector } from "../../../../containers/SearchPage/components/form/Selector";
+import { OnFieldChangeFunction, SearchParams } from "../../../../interfaces";
 import { useAuth0Editors, useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
 import { useConceptStateMachine } from "../../../../modules/concept/conceptQueries";
-import { getTagName } from "../../../../util/formHelper";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
+import SearchControlButtons from "../../../Form/SearchControlButtons";
+import SearchHeader from "../../../Form/SearchHeader";
+import SearchTagGroup, { Filters } from "../../../Form/SearchTagGroup";
+import { SelectElement, SelectRenderer } from "../../../Form/SelectRenderer";
+import { getTagName } from "../../../Form/utils";
+
+const StyledForm = styled("form", {
+  base: {
+    display: "grid",
+    gridTemplateColumns: "repeat(4, 1fr)",
+    gridGap: "3xsmall",
+    alignItems: "center",
+    tabletDown: {
+      gridTemplateColumns: "repeat(2, 1fr)",
+    },
+  },
+});
 
 interface Props {
   search: (o: SearchParams) => void;
   subjects: Node[];
   searchObject: SearchParams;
   locale: string;
-  userData: IUserData | undefined;
+  userData: IUserDataDTO | undefined;
 }
 
 const SearchConceptForm = ({ search, searchObject, subjects, userData }: Props) => {
@@ -75,9 +89,9 @@ const SearchConceptForm = ({ search, searchObject, subjects, userData }: Props) 
 
   const handleSearch = () => search({ ...searchObject, page: 1, query: queryInput });
 
-  const removeTagItem = (tag: SearchFormSelector) => {
-    if (tag.parameterName === "query") setQueryInput("");
-    search({ ...searchObject, [tag.parameterName]: "" });
+  const removeTagItem = (parameterName: keyof SearchParams) => {
+    if (parameterName === "query") setQueryInput("");
+    search({ ...searchObject, [parameterName]: "" });
   };
 
   const conceptTypes = useMemo(
@@ -88,15 +102,12 @@ const SearchConceptForm = ({ search, searchObject, subjects, userData }: Props) 
     [t],
   );
 
-  const emptySearch = (evt: MouseEvent<HTMLButtonElement>) => {
-    evt.persist();
+  const emptySearch = () => {
     setQueryInput("");
     search({
       query: "",
       language: "",
-      "audio-type": "",
       "concept-type": "",
-      license: "",
       subjects: "",
       users: "",
       status: "",
@@ -112,66 +123,60 @@ const SearchConceptForm = ({ search, searchObject, subjects, userData }: Props) 
     };
   };
 
-  const selectors: SearchFormSelector[] = [
-    {
-      parameterName: "concept-type",
-      value: getTagName(searchObject["concept-type"], conceptTypes),
-      options: conceptTypes,
-      formElementType: "dropdown",
-      width: 25,
-    },
-    {
-      parameterName: "subjects",
-      value: getTagName(searchObject.subjects, subjects),
-      options: subjects
+  const sortedSubjects = useMemo(
+    () =>
+      subjects
         .filter((s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true")
         .sort(sortByProperty("name")),
-      formElementType: "dropdown",
-      width: 25,
-    },
+    [subjects],
+  );
+
+  const filters: Filters = {
+    query: searchObject.query,
+    "concept-type": getTagName(searchObject["concept-type"], conceptTypes),
+    subjects: getTagName(searchObject.subjects, sortedSubjects),
+    "responsible-ids": getTagName(searchObject["responsible-ids"], responsibles),
+    status: searchObject.status?.toLowerCase(),
+    language: searchObject.language,
+    users: getTagName(searchObject.users, users!.sort(sortByProperty("name"))),
+  };
+
+  const selectElements: SelectElement[] = [
     {
-      value: getTagName(searchObject["responsible-ids"], responsibles),
-      parameterName: "responsible-ids",
-      width: 25,
-      options: responsibles!,
-      formElementType: "dropdown",
+      name: "concept-type",
+      options: conceptTypes,
     },
-    {
-      parameterName: "status",
-      value: getTagName(searchObject.status, getConceptStatuses()),
-      options: getConceptStatuses(),
-      width: 25,
-      formElementType: "dropdown",
-    },
-    {
-      parameterName: "language",
-      value: getTagName(searchObject.language, getResourceLanguages(t)),
-      options: getResourceLanguages(t),
-      width: 25,
-      formElementType: "dropdown",
-    },
-    {
-      parameterName: "users",
-      value: getTagName(searchObject.users, users),
-      options: users!.sort(sortByProperty("name")),
-      width: 25,
-      formElementType: "dropdown",
-    },
+    { name: "subjects", options: sortedSubjects },
+    { name: "responsible-ids", options: responsibles ?? [] },
+    { name: "status", options: getConceptStatuses() },
+    { name: "language", options: getResourceLanguages(t) },
+    { name: "users", options: users!.sort(sortByProperty("name")) },
   ];
 
   return (
-    <GenericSearchForm
-      type="concept"
-      selectors={selectors}
-      query={queryInput}
-      onSubmit={handleSearch}
-      searchObject={searchObject}
-      onFieldChange={onFieldChange}
-      emptySearch={emptySearch}
-      removeTag={removeTagItem}
-      userData={userData}
-      disableSavedSearch
-    />
+    <>
+      <SearchHeader type="concept" userData={userData} />
+      <StyledForm>
+        <FieldRoot>
+          <FieldLabel srOnly>{t("searchForm.types.contentQuery")}</FieldLabel>
+          <FieldInput
+            name="query"
+            placeholder={t("searchForm.types.contentQuery")}
+            value={queryInput}
+            onChange={(e) => setQueryInput(e.currentTarget.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                handleSearch();
+              }
+            }}
+          />
+        </FieldRoot>
+        <SelectRenderer selectElements={selectElements} searchObject={searchObject} onFieldChange={onFieldChange} />
+        <SearchControlButtons reset={emptySearch} search={handleSearch} />
+      </StyledForm>
+      <SearchTagGroup onRemoveTag={removeTagItem} tags={filters} />
+    </>
   );
 };
 

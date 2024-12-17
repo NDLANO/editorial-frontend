@@ -25,7 +25,7 @@ export const LoginFailure = () => {
     <StyledPageContainer asChild consumeCss>
       <main>
         <Heading textStyle="heading.medium">{t("loginFailure.errorMessage")}</Heading>
-        {userNotRegistered && <Text>{t("loginFailure.userNotRegistered")}</Text>}
+        {!!userNotRegistered && <Text>{t("loginFailure.userNotRegistered")}</Text>}
         <Text>
           <Link to="/login">{t("loginFailure.loginLink")}</Link>
         </Text>

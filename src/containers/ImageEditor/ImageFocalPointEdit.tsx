@@ -8,38 +8,44 @@
 
 import { useFormikContext } from "formik";
 import { MouseEvent, ReactEventHandler, useRef, useState } from "react";
-import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { styled } from "@ndla/styled-system/jsx";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { ImageEmbedFormValues } from "../../components/SlateEditor/plugins/image/ImageEmbedForm";
 import { getElementOffset, getClientPos, getImageDimensions, getSrcSets } from "../../util/imageEditorUtil";
 
-const StyledFocalPointButton = styled("button")`
-  display: block;
-  cursor: crosshair;
-  min-width: -webkit-fill-available;
-  min-width: -moz-available;
-`;
+const StyledFocalPointButton = styled("button", {
+  base: {
+    display: "block",
+    cursor: "crosshair",
+    minWidth: ["-webkit-fill-available", "-moz-available"],
+  },
+});
 
-const StyledFocalPointMarker = styled("div")`
-  cursor: crosshair;
-  position: absolute;
-  background-color: ${colors.brand.secondary};
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: 1px solid ${colors.brand.secondary};
-  margin-left: -5px;
-  margin-top: -5px;
-`;
-const StyledFocalPointContainer = styled("div")`
-  position: relative;
-`;
+const StyledFocalPointMarker = styled("div", {
+  base: {
+    cursor: "crosshair",
+    position: "absolute",
+    background: "surface.brand.1",
+    width: "xsmall",
+    height: "xsmall",
+    borderRadius: "full",
+    border: "1px solid",
+    borderColor: "surface.brand.1",
+    marginInlineStart: "-3xsmall",
+    marginBlockStart: "-3xsmall",
+  },
+});
+
+const StyledFocalPointContainer = styled("div", {
+  base: {
+    position: "relative",
+  },
+});
 
 interface Props {
   language: string;
   onFocalPointChange: (focalPoint: { x: number; y: number }) => void;
-  image: IImageMetaInformationV3;
+  image: IImageMetaInformationV3DTO;
 }
 
 type Marker = {

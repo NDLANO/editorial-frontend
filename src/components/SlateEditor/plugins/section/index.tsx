@@ -9,6 +9,7 @@
 import { Node, Element, Descendant, Editor, Text, Transforms, Range } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_SECTION } from "./types";
+import { createHtmlTag } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { KEY_BACKSPACE, KEY_TAB } from "../../utils/keys";
 import { TYPE_HEADING } from "../heading/types";
@@ -34,10 +35,10 @@ export const sectionSerializer: SlateSerializer = {
     }
     return;
   },
-  serialize(node: Descendant, children: JSX.Element[]) {
+  serialize(node, children) {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_SECTION) {
-      return <section>{children}</section>;
+      return createHtmlTag({ tag: TYPE_SECTION, children });
     }
   },
 };

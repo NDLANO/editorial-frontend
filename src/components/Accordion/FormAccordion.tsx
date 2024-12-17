@@ -7,7 +7,7 @@
  */
 
 import { ReactNode, memo } from "react";
-import { ArrowDownShortLine } from "@ndla/icons/common";
+import { ArrowDownShortLine } from "@ndla/icons";
 import {
   AccordionItem,
   AccordionItemContent,

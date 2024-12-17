@@ -10,7 +10,7 @@ import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, NodeEntry, Text, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import { BlogPost, BrushLine, Copyright } from "@ndla/icons/editor";
+import { BrushLine, CopyrightLine, FileListLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentTypeFramedContent, EmbedWrapper } from "@ndla/ui";
@@ -120,7 +120,7 @@ const SlateFramedContent = (props: Props) => {
           onClick={generateQuestions}
           loading={isLoading}
         >
-          <BlogPost />
+          <FileListLine />
         </IconButton>
         {!hasSlateCopyright && (
           <IconButton
@@ -130,7 +130,7 @@ const SlateFramedContent = (props: Props) => {
             title={t("form.copyright.add")}
             onClick={insertCopyright}
           >
-            <Copyright />
+            <CopyrightLine />
           </IconButton>
         )}
         <IconButton

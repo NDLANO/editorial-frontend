@@ -6,55 +6,68 @@
  *
  */
 
-import { FieldProps } from "formik";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
+import { FieldErrorMessage, FieldHelper, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import SubjectpageBanner from "./SubjectpageBanner";
-import FormikField from "../../../components/FormikField";
+import { FieldWarning } from "../../../components/Form/FieldWarning";
+import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
+import { FormField } from "../../../components/FormField";
+import { FormContent } from "../../../components/FormikForm";
 import PlainTextEditor from "../../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../../components/SlateEditor/plugins/textTransform";
 
-const ImageWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  gap: ${spacing.normal};
-  > * {
-    flex: 1;
-  }
-`;
+const ImageWrapper = styled("div", {
+  base: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+    gap: "small",
+  },
+});
 
-const SubjectpageMetadata = () => {
+const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
+  base: {
+    marginInlineStart: "auto",
+  },
+});
+
+interface Props {
+  isSubmitting: boolean;
+}
+
+const SubjectpageMetadata = ({ isSubmitting }: Props) => {
   const { t } = useTranslation();
   const plugins = [textTransformPlugin];
   return (
-    <>
-      <FormikField
-        name="metaDescription"
-        maxLength={300}
-        showMaxLength
-        label={t("form.metaDescription.label")}
-        description={t("form.metaDescription.description")}
-      >
-        {({ field, form: { isSubmitting } }: FieldProps) => (
-          <PlainTextEditor
-            id={field.name}
-            {...field}
-            submitted={isSubmitting}
-            placeholder={t("form.metaDescription.label")}
-            plugins={plugins}
-          />
+    <FormContent>
+      <FormField name="metaDescription">
+        {({ field, meta }) => (
+          <FieldRoot invalid={!!meta.error}>
+            <FieldLabel>{t("form.metaDescription.label")}</FieldLabel>
+            <FieldHelper>{t("form.metaDescription.description")}</FieldHelper>
+            <PlainTextEditor
+              id={field.name}
+              {...field}
+              submitted={isSubmitting}
+              placeholder={t("form.metaDescription.label")}
+              plugins={plugins}
+            />
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+            <StyledFormRemainingCharacters maxLength={300} value={field.value} />
+            <FieldWarning name={field.name} />
+          </FieldRoot>
         )}
-      </FormikField>
+      </FormField>
+
       <ImageWrapper>
-        <FormikField name="desktopBannerId">
+        <FormField name="desktopBannerId">
           {() => <SubjectpageBanner title={t("form.name.desktopBannerId")} fieldName={"desktopBannerId"} />}
-        </FormikField>
-        <FormikField name="mobileBannerId">
+        </FormField>
+        <FormField name="mobileBannerId">
           {() => <SubjectpageBanner title={t("form.name.mobileBannerId")} fieldName={"mobileBannerId"} />}
-        </FormikField>
+        </FormField>
       </ImageWrapper>
-    </>
+    </FormContent>
   );
 };
 

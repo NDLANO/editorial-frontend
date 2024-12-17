@@ -15,7 +15,7 @@ export const removeCommentTags = (html: string): string => {
     replace(domNode) {
       if (domNode instanceof Element && "attribs" in domNode) {
         if (domNode.attribs["data-resource"] === "comment" && domNode.attribs["data-type"] === "block") {
-          return <></>;
+          return null;
         }
         if (domNode.attribs["data-resource"] === "comment" && domNode.attribs["data-type"] === "inline") {
           return <>{domToReact((domNode as Element).children as DOMNode[])}</>;

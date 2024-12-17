@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom";
 import { PageContainer } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
 import NdlaFilmForm from "./components/NdlaFilmForm";
-import Spinner from "../../components/Spinner";
+import { PageSpinner } from "../../components/PageSpinner";
 import config from "../../config";
 import { isValidLocale } from "../../i18n";
 import { useFilmFrontpageQuery } from "../../modules/frontpage/filmQueries";
@@ -28,7 +28,7 @@ const NdlaFilmEditor = () => {
   }
 
   if (!filmFrontpageQuery.data) {
-    return <Spinner withWrapper />;
+    return <PageSpinner />;
   }
 
   return (

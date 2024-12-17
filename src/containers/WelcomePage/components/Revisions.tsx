@@ -9,7 +9,7 @@
 import addYears from "date-fns/addYears";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alarm } from "@ndla/icons/common";
+import { NotificationLine } from "@ndla/icons";
 import {
   SwitchControl,
   SwitchHiddenInput,
@@ -23,8 +23,8 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IUserData } from "@ndla/types-backend/draft-api";
-import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import { IUserDataDTO } from "@ndla/types-backend/draft-api";
+import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import GoToSearch from "./GoToSearch";
 import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
@@ -72,7 +72,7 @@ const CellWrapper = styled("div", {
 });
 
 interface Props {
-  userData: IUserData | undefined;
+  userData: IUserDataDTO | undefined;
 }
 
 type SortOptionRevision = "title" | "revisionDate" | "status" | "primaryRoot";
@@ -134,14 +134,14 @@ const Revisions = ({ userData }: Props) => {
   }, [t, isError]);
 
   const getDataPrimaryConnectionToFavorite = useCallback(
-    (results: IMultiSearchSummary[] | undefined) => {
+    (results: IMultiSearchSummaryDTO[] | undefined) => {
       const filteredResult = results
         ?.map((r) => {
           const primarySubject = r.contexts.find((c) => c.isPrimary);
           const isFavorite = userData?.favoriteSubjects?.some((fs) => fs === primarySubject?.rootId);
           return isFavorite ? r : undefined;
         })
-        .filter((fd): fd is IMultiSearchSummary => !!fd);
+        .filter((fd): fd is IMultiSearchSummaryDTO => !!fd);
 
       return {
         results: filteredResult,
@@ -232,7 +232,7 @@ const Revisions = ({ userData }: Props) => {
           <TableTitle
             title={t("welcomePage.revision")}
             description={t("welcomePage.revisionDescription")}
-            Icon={Alarm}
+            Icon={NotificationLine}
             infoText={t("welcomePage.revisionInfo")}
           />
           <ControlWrapperDashboard>

@@ -8,7 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { CheckboxCircleFill } from "@ndla/icons/editor";
+import { CheckboxCircleFill } from "@ndla/icons";
 import { Button, ButtonProps } from "@ndla/primitives";
 
 interface Props extends ButtonProps {
@@ -30,7 +30,7 @@ const SaveButton = ({ loading, showSaved, defaultText, variant, formIsDirty = tr
   return (
     <Button disabled={disabledButton} variant={loading || showSaved ? "success" : variant} {...rest}>
       {t(`form.${modifier}`)}
-      {showSaved && <CheckboxCircleFill />}
+      {!!showSaved && <CheckboxCircleFill />}
     </Button>
   );
 };

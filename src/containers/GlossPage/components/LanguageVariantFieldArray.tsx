@@ -8,10 +8,10 @@
 
 import { FieldArray } from "formik";
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons";
 import { Button, FieldsetLegend, FieldsetRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IGlossExample } from "@ndla/types-backend/concept-api";
+import { IGlossExampleDTO } from "@ndla/types-backend/concept-api";
 import ExampleField from "./ExampleField";
 import { emptyGlossExample } from "../glossData";
 
@@ -25,7 +25,7 @@ const StyledFieldsetRoot = styled(FieldsetRoot, {
 
 type Props = {
   name: string;
-  examples: IGlossExample[];
+  examples: IGlossExampleDTO[];
   removeFromParentArray: () => void;
   index: number;
 };

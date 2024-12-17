@@ -9,14 +9,12 @@
 import { useFormikContext } from "formik";
 import { memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { FileCompare } from "@ndla/icons/action";
-import { Launch } from "@ndla/icons/common";
-import { Eye } from "@ndla/icons/editor";
+import { ArrowRightShortLine, ShareBoxLine, EyeFill } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IConcept } from "@ndla/types-backend/concept-api";
-import { IArticle } from "@ndla/types-backend/draft-api";
+import { IConceptDTO } from "@ndla/types-backend/concept-api";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import DeleteLanguageVersion from "./DeleteLanguageVersion";
 import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
 import { StyledSplitter } from "./HeaderInformation";
@@ -30,8 +28,8 @@ import { useIsTranslatableToNN } from "../NynorskTranslateProvider";
 import { PreviewResourceDialog } from "../PreviewDraft/PreviewResourceDialog";
 
 interface PreviewLightBoxProps {
-  article?: IArticle;
-  concept?: IConcept;
+  article?: IArticleDTO;
+  concept?: IConceptDTO;
   type: string;
   currentLanguage: string;
 }
@@ -66,7 +64,7 @@ const PreviewLightBox = memo(({ type, currentLanguage, article, concept }: Previ
         language={currentLanguage}
         activateButton={
           <Button size="small" variant="secondary">
-            <FileCompare /> {t("form.previewLanguageArticle.button")}
+            <ArrowRightShortLine /> {t("form.previewLanguageArticle.button")}
           </Button>
         }
       />
@@ -80,7 +78,7 @@ const PreviewLightBox = memo(({ type, currentLanguage, article, concept }: Previ
         target="_blank"
       >
         {t("form.previewLanguageArticle.button")}
-        <Launch />
+        <ShareBoxLine />
       </SafeLinkButton>
     );
   } else return null;
@@ -89,9 +87,9 @@ const PreviewLightBox = memo(({ type, currentLanguage, article, concept }: Previ
 interface Props {
   id: number;
   isNewLanguage: boolean;
-  article?: IArticle;
-  articleHistory: IArticle[] | undefined;
-  concept?: IConcept;
+  article?: IArticleDTO;
+  articleHistory: IArticleDTO[] | undefined;
+  concept?: IConceptDTO;
   noStatus: boolean;
   disableDelete: boolean;
   language: string;
@@ -166,20 +164,20 @@ const HeaderActions = ({
           supportedLanguages={supportedLanguages}
           isSubmitting={isSubmitting}
         />
-        {isNewLanguage && (
+        {!!isNewLanguage && (
           <HeaderCurrentLanguagePill key={`types_${language}`}>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
         )}
         <StyledSplitter />
         <HeaderLanguagePicker id={id} emptyLanguages={emptyLanguages} editUrl={editUrl} />
         {translatableTypes.includes(type) &&
-          language === "nb" &&
-          showTranslate &&
-          !supportedLanguages.includes("nn") && (
-            <>
-              <StyledSplitter />
-              <TranslateNbToNn id={id} editUrl={editUrl} />
-            </>
-          )}
+        language === "nb" &&
+        showTranslate &&
+        !supportedLanguages.includes("nn") ? (
+          <>
+            <StyledSplitter />
+            <TranslateNbToNn id={id} editUrl={editUrl} />
+          </>
+        ) : null}
         {!noStatus && (
           <>
             <StyledSplitter />
@@ -187,7 +185,7 @@ const HeaderActions = ({
           </>
         )}
         <StyledGroup>
-          {lastPublishedVersion && (
+          {!!lastPublishedVersion && (
             <>
               <StyledSplitter />
               <PreviewResourceDialog
@@ -211,7 +209,7 @@ const HeaderActions = ({
                         : t("form.previewProductionArticle.buttonDisabled")
                     }
                   >
-                    <Eye /> {t("form.previewVersion")}
+                    <EyeFill /> {t("form.previewVersion")}
                   </Button>
                 }
               />

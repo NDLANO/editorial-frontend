@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { IImageMetaInformationV3, INewImageMetaInformationV2 } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3DTO, INewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
 import ImageForm from "./components/ImageForm";
 import { draftLicensesToImageLicenses } from "../../modules/draft/draftApiUtils";
 import { useLicenses } from "../../modules/draft/draftQueries";
@@ -19,7 +19,7 @@ import { toEditImage } from "../../util/routeHelpers";
 interface Props {
   isNewlyCreated?: boolean;
   editingArticle?: boolean;
-  onImageCreated?: (image: IImageMetaInformationV3) => void;
+  onImageCreated?: (image: IImageMetaInformationV3DTO) => void;
   closeModal?: () => void;
   inModal?: boolean;
 }
@@ -31,7 +31,7 @@ const CreateImage = ({ isNewlyCreated, editingArticle, onImageCreated, inModal, 
   const imageLicenses = draftLicensesToImageLicenses(licenses!);
   const navigate = useNavigate();
 
-  const onCreateImage = async (imageMetadata: INewImageMetaInformationV2, image: string | Blob) => {
+  const onCreateImage = async (imageMetadata: INewImageMetaInformationV2DTO, image: string | Blob) => {
     const formData = await createFormData(image, imageMetadata);
     const createdImage = await postImage(formData);
     onImageCreated?.(createdImage);

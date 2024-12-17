@@ -9,35 +9,37 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
 import { PageContent, Spinner } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { ArticleWrapper } from "@ndla/ui";
 import PreviewDraft from "../../components/PreviewDraft/PreviewDraft";
 import { useDraft } from "../../modules/draft/draftQueries";
 
-const TwoArticleWrapper = styled.div`
-  width: 100%;
-  max-width: 100%;
-  display: flex;
-  align-items: flex-start;
+const TwoArticleWrapper = styled("div", {
+  base: {
+    width: "100%",
+    maxWidth: "100%",
+    display: "flex",
+    alignItems: "flex-start",
+    "& span[lang]": {
+      textDecoration: "underline",
+      textDecorationColor: "stroke.subtle",
+      _after: {
+        content: `"(" attr(lang) ")"`,
+        color: "text.subtle",
+        fontStyle: "italic",
+      },
+    },
+  },
+});
 
-  span[lang] {
-    text-decoration: underline;
-    text-decoration-color: ${colors.brand.tertiary};
-    &::after {
-      content: "(" attr(lang) ")";
-      color: ${colors.brand.greyMedium};
-      font-style: italic;
-    }
-  }
-`;
-
-const PreviewTitleWrapper = styled.div`
-  height: 90px;
-  position: relative;
-`;
+const PreviewTitleWrapper = styled("div", {
+  base: {
+    height: "surface.4xsmall",
+    position: "relative",
+  },
+});
 
 const ComparePage = () => {
   const { t } = useTranslation();
@@ -45,25 +47,27 @@ const ComparePage = () => {
   const draftId = Number(params.draftId!);
   const language = params.language!;
   const { data: article, isLoading } = useDraft({ id: draftId, language: language });
-  const [previewLanguage, setPreviewLanguage] = useState<string>(article?.supportedLanguages[0]!);
-  const draft = useDraft({ id: article?.id!, language: previewLanguage });
+  const [previewLanguage, setPreviewLanguage] = useState<string>(article?.supportedLanguages[0] ?? "");
+  const draft = useDraft({ id: article?.id ?? -1, language: previewLanguage }, { enabled: !!article?.id });
   const formArticle = useMemo(() => {
+    if (!article) return undefined;
     return {
-      id: article?.id!,
-      title: article?.title?.htmlTitle ?? "",
-      content: article?.content?.content ?? "",
-      introduction: article?.introduction?.htmlIntroduction ?? "",
-      visualElement: article?.visualElement?.visualElement ?? "",
-      published: article?.published,
-      copyright: article?.copyright,
+      id: article.id,
+      title: article.title?.htmlTitle ?? "",
+      content: article.content?.content ?? "",
+      introduction: article.introduction?.htmlIntroduction ?? "",
+      visualElement: article.visualElement?.visualElement ?? "",
+      published: article.published,
+      copyright: article.copyright,
     };
   }, [article]);
 
   useEffect(() => {
-    setPreviewLanguage(article?.supportedLanguages.find((l) => l !== language) ?? article?.supportedLanguages[0]!);
+    if (!article) return;
+    setPreviewLanguage(article.supportedLanguages.find((l) => l !== language) ?? article.supportedLanguages[0]);
   }, [article, language]);
 
-  if (!article || isLoading) return <Spinner />;
+  if (!article || isLoading || !formArticle) return <Spinner />;
 
   return (
     <>
@@ -97,7 +101,7 @@ const ComparePage = () => {
                 ))}
               </select>
             </PreviewTitleWrapper>
-            {draft.data && <PreviewDraft type="article" draft={draft.data} language={previewLanguage} previewAlt />}
+            {!!draft.data && <PreviewDraft type="article" draft={draft.data} language={previewLanguage} previewAlt />}
           </ArticleWrapper>
         </PageContent>
       </TwoArticleWrapper>

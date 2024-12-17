@@ -8,9 +8,9 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Calendar } from "@ndla/icons/editor";
+import { CalendarLine } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
-import { IConceptSearchResult } from "@ndla/types-backend/concept-api";
+import { IConceptSearchResultDTO } from "@ndla/types-backend/concept-api";
 import PageSizeSelect from "./PageSizeSelect";
 import StatusCell from "./StatusCell";
 import SubjectCombobox from "./SubjectCombobox";
@@ -25,7 +25,7 @@ import TableComponent, { FieldElement, Prefix, TitleElement } from "../TableComp
 import TableTitle from "../TableTitle";
 
 interface Props {
-  data: IConceptSearchResult | undefined;
+  data: IConceptSearchResultDTO | undefined;
   filterSubject: SelectItem | undefined;
   isPending: boolean;
   setSortOption: (o: Prefix<"-", SortOptionConceptList>) => void;
@@ -131,12 +131,12 @@ const ConceptListTabContent = ({
         <TableTitle
           title={t("welcomePage.workList.heading")}
           description={t("welcomePage.workList.conceptDescription")}
-          Icon={Calendar}
+          Icon={CalendarLine}
         />
         <ControlWrapperDashboard>
           <TopRowControls>
             <PageSizeSelect pageSize={pageSizeConcept} setPageSize={setPageSizeConcept} />
-            {setFilterSubject && (
+            {!!setFilterSubject && (
               <>
                 <SubjectCombobox
                   subjectIds={subjectIds ?? []}

@@ -6,10 +6,10 @@
  *
  */
 
-import { FieldInputProps, FormikHelpers } from "formik";
+import { FieldInputProps } from "formik";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DragVertical, Link } from "@ndla/icons/editor";
+import { Draggable, LinkMedium } from "@ndla/icons";
 import {
   Button,
   ComboboxLabel,
@@ -21,7 +21,7 @@ import {
   DialogTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticle, IArticleSummary, IRelatedContentLink } from "@ndla/types-backend/draft-api";
+import { IArticleDTO, IArticleSummaryDTO, IRelatedContentLinkDTO } from "@ndla/types-backend/draft-api";
 import ContentLink from "./ContentLink";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
@@ -52,13 +52,12 @@ const StyledButtonWrapper = styled("div", {
 
 interface Props {
   field: FieldInputProps<ArticleFormType["relatedContent"]>;
-  form: FormikHelpers<ArticleFormType>;
 }
 
-const isDraftApiType = (relatedContent: ConvertedRelatedContent): relatedContent is IArticle =>
-  (relatedContent as IArticle).id !== undefined;
+const isDraftApiType = (relatedContent: ConvertedRelatedContent): relatedContent is IArticleDTO =>
+  (relatedContent as IArticleDTO).id !== undefined;
 
-const ContentField = ({ field, form }: Props) => {
+const ContentField = ({ field }: Props) => {
   const { t, i18n } = useTranslation();
   const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
   const [relatedContent, setRelatedContent] = useState<ConvertedRelatedContent[]>([]);
@@ -73,7 +72,7 @@ const ContentField = ({ field, form }: Props) => {
 
   useEffect(() => {
     (async () => {
-      const promises = field.value.map<Promise<ConvertedRelatedContent> | IRelatedContentLink>((element) => {
+      const promises = field.value.map<Promise<ConvertedRelatedContent> | IRelatedContentLinkDTO>((element) => {
         if (typeof element === "number") {
           return fetchDraft(element);
         } else return element;
@@ -84,7 +83,7 @@ const ContentField = ({ field, form }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onAddArticleToList = async (article: IArticleSummary) => {
+  const onAddArticleToList = async (article: IArticleSummaryDTO) => {
     try {
       if (selectedItems.some((a) => a.id === article.id)) {
         const newRelatedContent = relatedContent.filter((a) => isDraftApiType(a) && a.id !== article.id);
@@ -112,7 +111,6 @@ const ContentField = ({ field, form }: Props) => {
   };
 
   const updateFormik = (formikField: Props["field"], newData: ConvertedRelatedContent[]) => {
-    form.setFieldTouched("relatedContent", true, false);
     const newRc: RelatedContent[] = newData.map((rc) => (isDraftApiType(rc) ? rc.id : rc));
     formikField.onChange({
       target: {
@@ -132,7 +130,8 @@ const ContentField = ({ field, form }: Props) => {
     () =>
       relatedContent
         .filter(
-          (rc: number | IArticle | IRelatedContentLink): rc is IArticle | IRelatedContentLink => typeof rc !== "number",
+          (rc: number | IArticleDTO | IRelatedContentLinkDTO): rc is IArticleDTO | IRelatedContentLinkDTO =>
+            typeof rc !== "number",
         )
         .map((r, index) => ("id" in r ? r : { ...r, isExternal: true, id: `${r.url}_${index + 1}` })),
     [relatedContent],
@@ -163,7 +162,7 @@ const ContentField = ({ field, form }: Props) => {
           items={releatedContentDndItems}
           dragHandle={
             <DragHandle aria-label={t("form.relatedContent.changeOrder")}>
-              <DragVertical />
+              <Draggable />
             </DragHandle>
           }
           renderItem={(item, index) =>
@@ -173,7 +172,7 @@ const ContentField = ({ field, form }: Props) => {
                 title={item.title}
                 url={item.url}
                 isExternal
-                fallbackElement={<Link />}
+                fallbackElement={<LinkMedium />}
                 onDelete={() => onDeleteElement(relatedContent, index)}
                 removeElementTranslation={t("form.relatedContent.removeArticle")}
               />

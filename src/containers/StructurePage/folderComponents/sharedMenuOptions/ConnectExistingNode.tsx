@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
-import { CheckLine } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons";
 import { Text, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeType } from "@ndla/types-taxonomy";
@@ -85,19 +85,19 @@ const ConnectExistingNode = ({ currentNode, nodeType }: Props) => {
         }}
       />
       <>
-        {isPending && (
+        {!!isPending && (
           <StatusIndicatorContent>
             <Spinner size="small" />
             <Text>{t("taxonomy.connectExistingLoading")}</Text>
           </StatusIndicatorContent>
         )}
-        {isSuccess && (
+        {!!isSuccess && (
           <StatusIndicatorContent>
             <StyledCheckLine />
             <Text>{t("taxonomy.connectExistingSuccess")}</Text>
           </StatusIndicatorContent>
         )}
-        {isError && <Text color="text.error">{t("taxonomy.errorMessage")}</Text>}
+        {!!isError && <Text color="text.error">{t("taxonomy.errorMessage")}</Text>}
       </>
     </Wrapper>
   );

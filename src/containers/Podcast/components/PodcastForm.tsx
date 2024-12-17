@@ -13,9 +13,9 @@ import { useNavigate } from "react-router-dom";
 import { Button, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import {
-  IAudioMetaInformation,
-  IUpdatedAudioMetaInformation,
-  INewAudioMetaInformation,
+  IAudioMetaInformationDTO,
+  IUpdatedAudioMetaInformationDTO,
+  INewAudioMetaInformationDTO,
 } from "@ndla/types-backend/audio-api";
 import PodcastMetaData from "./PodcastMetaData";
 import PodcastSeries from "./PodcastSeries";
@@ -25,8 +25,8 @@ import { FormActionsContainer, FormContent } from "../../../components/FormikFor
 import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
 import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
+import { PageSpinner } from "../../../components/PageSpinner";
 import SaveButton from "../../../components/SaveButton";
-import Spinner from "../../../components/Spinner";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { PodcastFormValues } from "../../../modules/audio/audioApiInterfaces";
 import { useLicenses } from "../../../modules/draft/draftQueries";
@@ -46,7 +46,7 @@ const StyledFormActionsContainer = styled(FormActionsContainer, {
   },
 });
 
-const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformation> = {
+const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformationDTO> = {
   title: {
     required: true,
     warnings: {
@@ -104,13 +104,13 @@ const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformation> = {
 };
 
 interface Props {
-  audio?: IAudioMetaInformation;
+  audio?: IAudioMetaInformationDTO;
   podcastChanged?: boolean;
   inModal?: boolean;
   isNewlyCreated?: boolean;
   language: string;
-  onCreatePodcast?: (newPodcast: INewAudioMetaInformation, file?: string | Blob) => Promise<void>;
-  onUpdatePodcast?: (updatedPodcast: IUpdatedAudioMetaInformation, file?: string | Blob) => Promise<void>;
+  onCreatePodcast?: (newPodcast: INewAudioMetaInformationDTO, file?: string | Blob) => Promise<void>;
+  onUpdatePodcast?: (updatedPodcast: IUpdatedAudioMetaInformationDTO, file?: string | Blob) => Promise<void>;
   translating?: boolean;
   supportedLanguages: string[];
 }
@@ -155,7 +155,7 @@ const PodcastForm = ({
     }
 
     actions.setSubmitting(true);
-    const podcastMetaData: INewAudioMetaInformation = {
+    const podcastMetaData: INewAudioMetaInformationDTO = {
       title: values.title ? editorValueToPlainText(values.title) : "",
       manuscript: values.manuscript ? inlineContentToHTML(values.manuscript) : "",
       tags: values.tags,
@@ -245,7 +245,7 @@ const PodcastForm = ({
               title={audio?.title.title}
             />
             {translating ? (
-              <Spinner withWrapper />
+              <PageSpinner />
             ) : (
               <FormAccordions defaultOpen={["podcast-upload-content"]}>
                 <FormAccordion
@@ -254,7 +254,7 @@ const PodcastForm = ({
                   hasError={["title", "audioFile"].some((field) => field in errors)}
                 >
                   <PageContent variant="content">
-                    <AudioContent handleSubmit={handleSubmit} />
+                    <AudioContent />
                   </PageContent>
                 </FormAccordion>
                 <FormAccordion

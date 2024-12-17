@@ -6,10 +6,10 @@
  *
  */
 
-import { Descendant, Editor, Element } from "slate";
+import { Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_COMMENT_BLOCK } from "./types";
-import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../../util/embedTagHelpers";
+import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../../interfaces";
 import { NormalizerConfig, defaultBlockNormalizer } from "../../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../../utils/normalizationHelpers";
@@ -31,14 +31,15 @@ export const commentBlockSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
-    const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes));
+    const embedAttributes = parseElementAttributes(Array.from(embed.attributes));
     if (embedAttributes.resource === "comment" && embedAttributes.type === "block") {
       return slatejsx("element", { type: TYPE_COMMENT_BLOCK, data: embedAttributes }, [{ text: "" }]);
     }
   },
-  serialize(node: Descendant) {
+  serialize(node) {
     if (!Element.isElement(node) || node.type !== TYPE_COMMENT_BLOCK || !node.data) return;
-    return createEmbedTagV2(node.data, undefined, undefined);
+    const data = createDataAttributes(node.data);
+    return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
   },
 };
 

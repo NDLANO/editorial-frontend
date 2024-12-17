@@ -9,10 +9,10 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
-import { CheckLine } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons";
 import { Text, ComboboxLabel, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../../components/Form/GenericSearchCombobox";
@@ -57,7 +57,7 @@ const SwapTopicArticle = ({ node, rootNodeId }: Props) => {
     { placeholderData: (prev) => prev },
   );
 
-  const handleSubmit = async (topic: IMultiSearchSummary) => {
+  const handleSubmit = async (topic: IMultiSearchSummaryDTO) => {
     setError(undefined);
     try {
       await putNodeMutation.mutateAsync({
@@ -118,14 +118,14 @@ const SwapTopicArticle = ({ node, rootNodeId }: Props) => {
         />
       </GenericSearchCombobox>
       <>
-        {putNodeMutation.isPending && <Spinner size="small" />}
-        {putNodeMutation.isSuccess && (
+        {!!putNodeMutation.isPending && <Spinner size="small" />}
+        {!!putNodeMutation.isSuccess && (
           <Text>
             <StyledCheckLine />
             {t("taxonomy.swapTopicArticle.success")}
           </Text>
         )}
-        {error && (
+        {!!error && (
           <Text color="text.error" data-testid="failedToSwapTopicArticle">
             {error}
           </Text>

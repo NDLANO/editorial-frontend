@@ -12,9 +12,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Node, Transforms, Path } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { DeleteBinLine } from "@ndla/icons/action";
-import { ErrorWarningFill } from "@ndla/icons/common";
-import { CheckLine, Link } from "@ndla/icons/editor";
+import { DeleteBinLine, ErrorWarningFill, CheckLine, LinkMedium } from "@ndla/icons";
 import {
   PopoverRoot,
   PopoverTrigger,
@@ -26,7 +24,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
+import { IConceptDTO, IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { ConceptEmbedData, ConceptMetaData } from "@ndla/types-embed";
 import { ConceptEmbed, Concept, Gloss, ConceptInlineTriggerButton } from "@ndla/ui";
 import { ConceptInlineElement } from "./interfaces";
@@ -41,7 +39,7 @@ import EditGlossExamplesModal from "../EditGlossExamplesModal";
 import { getGlossDataAttributes } from "../utils";
 
 const getConceptDataAttributes = (
-  concept: IConcept | IConceptSummary,
+  concept: IConceptDTO | IConceptSummaryDTO,
   title: string,
   locale: string,
 ): ConceptEmbedData => ({
@@ -102,9 +100,14 @@ const InlineWrapper = (props: Props) => {
     locale,
   );
 
-  const visualElementQuery = useConceptVisualElement(concept?.id!, concept?.visualElement?.visualElement!, locale, {
-    enabled: !!concept?.id && !!concept?.visualElement?.visualElement.length,
-  });
+  const visualElementQuery = useConceptVisualElement(
+    concept?.id ?? -1,
+    concept?.visualElement?.visualElement ?? "",
+    locale,
+    {
+      enabled: !!concept?.id && !!concept?.visualElement?.visualElement.length,
+    },
+  );
 
   const embed: ConceptMetaData | undefined = useMemo(() => {
     // This will be in an error state until the data is either fetched or fails, allowing
@@ -135,7 +138,7 @@ const InlineWrapper = (props: Props) => {
     }
   };
 
-  const addConcept = (addedConcept: IConceptSummary | IConcept) => {
+  const addConcept = (addedConcept: IConceptSummaryDTO | IConceptDTO) => {
     setIsEditing(false);
     handleSelectionChange(true);
     const data = getConceptDataAttributes(addedConcept, nodeText, locale);
@@ -193,7 +196,7 @@ const InlineWrapper = (props: Props) => {
           <Portal>
             <StyledPopoverContent>
               <ButtonWrapper>
-                {(concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED)) && (
+                {!!(concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED)) && (
                   <StyledCheckLine aria-label={t("form.workflow.published")} title={t("form.workflow.published")} />
                 )}
                 {concept?.status.current !== PUBLISHED && (
@@ -215,7 +218,7 @@ const InlineWrapper = (props: Props) => {
                 >
                   <DeleteBinLine />
                 </IconButton>
-                {concept && (
+                {!!concept && (
                   <EditGlossExamplesModal concept={concept} editor={editor} element={element} embed={embed} />
                 )}
                 <SafeLinkIconButton
@@ -226,7 +229,7 @@ const InlineWrapper = (props: Props) => {
                   title={t(`form.${concept?.conceptType}.edit`)}
                   aria-label={t(`form.${concept?.conceptType}.edit`)}
                 >
-                  <Link />
+                  <LinkMedium />
                 </SafeLinkIconButton>
               </ButtonWrapper>
               {concept?.glossData ? (

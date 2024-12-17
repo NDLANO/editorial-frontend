@@ -8,8 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { createListCollection, SelectHiddenSelect } from "@ark-ui/react";
-import { ArrowDownShortLine } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
+import { ArrowDownShortLine, CheckLine } from "@ndla/icons";
 import {
   Button,
   SelectContent,

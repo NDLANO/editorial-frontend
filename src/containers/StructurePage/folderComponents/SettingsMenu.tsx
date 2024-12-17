@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Settings } from "@ndla/icons/editor";
+import { MoreFill } from "@ndla/icons";
 import {
   DialogContent,
   DialogHeader,
@@ -49,7 +49,7 @@ const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: 
           data-testid="settings-button"
           aria-label={t(`taxonomy.${nodeType.toLowerCase()}Settings`)}
         >
-          <Settings />
+          <MoreFill />
         </IconButton>
       </DialogTrigger>
       <DialogContent data-testid="settings-menu-dialog">

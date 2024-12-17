@@ -10,13 +10,11 @@ import { useState, ReactNode, useCallback, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms, Path } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
-import { DeleteBinLine } from "@ndla/icons/action";
-import { ErrorWarningFill, Link as LinkIcon } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
+import { DeleteBinLine, ErrorWarningFill, CheckLine, LinkMedium } from "@ndla/icons";
 import { DialogContent, DialogRoot, IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
+import { IConceptDTO, IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { ConceptEmbedData, ConceptMetaData } from "@ndla/types-embed";
 import { ConceptEmbed, EmbedWrapper } from "@ndla/ui";
 import { ConceptBlockElement } from "./interfaces";
@@ -30,7 +28,7 @@ import ConceptModalContent from "../ConceptModalContent";
 import EditGlossExamplesModal from "../EditGlossExamplesModal";
 import { getGlossDataAttributes } from "../utils";
 
-const getConceptDataAttributes = (concept: IConceptSummary | IConcept, locale: string): ConceptEmbedData => ({
+const getConceptDataAttributes = (concept: IConceptSummaryDTO | IConceptDTO, locale: string): ConceptEmbedData => ({
   contentId: concept.id.toString(),
   resource: "concept",
   type: "block",
@@ -68,9 +66,14 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
     setIsEditing(!!element.isFirstEdit);
   }, [element.isFirstEdit]);
 
-  const visualElementQuery = useConceptVisualElement(concept?.id!, concept?.visualElement?.visualElement!, locale, {
-    enabled: !!concept?.id && !!concept?.visualElement?.visualElement.length,
-  });
+  const visualElementQuery = useConceptVisualElement(
+    concept?.id ?? -1,
+    concept?.visualElement?.visualElement ?? "",
+    locale,
+    {
+      enabled: !!concept?.id && !!concept?.visualElement?.visualElement.length,
+    },
+  );
 
   const embed: ConceptMetaData | undefined = useMemo(() => {
     if (!element.data || !concept) return undefined;
@@ -95,7 +98,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
   }, [element.data, concept, loading, visualElementQuery.data]);
 
   const addConcept = useCallback(
-    (addedConcept: IConceptSummary | IConcept) => {
+    (addedConcept: IConceptSummaryDTO | IConceptDTO) => {
       setIsEditing(false);
       const data = getConceptDataAttributes(addedConcept, locale);
       const path = ReactEditor.findPath(editor, element);
@@ -140,7 +143,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
   return (
     <DialogRoot size="large" open={isEditing} onOpenChange={({ open }) => setIsEditing(open)}>
       <StyledEmbedWrapper {...attributes} data-solid-border={isSelected} draggable={true} contentEditable={false}>
-        {concept && embed && (
+        {!!concept && !!embed && (
           <>
             <ConceptButtonContainer
               concept={concept}
@@ -172,7 +175,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
 };
 
 interface ButtonContainerProps {
-  concept: IConcept | IConceptSummary;
+  concept: IConceptDTO | IConceptSummaryDTO;
   handleRemove: () => void;
   language: string;
   editor: Editor;
@@ -227,9 +230,9 @@ const ConceptButtonContainer = ({ concept, handleRemove, language, editor, eleme
         to={`/${concept.conceptType}/${concept.id}/edit/${language}`}
         target="_blank"
       >
-        <LinkIcon />
+        <LinkMedium />
       </SafeLinkIconButton>
-      {(concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED)) && (
+      {!!(concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED)) && (
         <StyledCheckLine aria-label={t("form.workflow.published")} title={t("form.workflow.published")} />
       )}
       {concept?.status.current !== PUBLISHED && (

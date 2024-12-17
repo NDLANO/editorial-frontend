@@ -8,17 +8,18 @@
 
 import { useFormikContext } from "formik";
 import { PercentCrop } from "react-image-crop";
-import styled from "@emotion/styled";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { styled } from "@ndla/styled-system/jsx";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import ImageCropEdit from "./ImageCropEdit";
 import ImageFocalPointEdit from "./ImageFocalPointEdit";
 import { ImageEmbedFormValues } from "../../components/SlateEditor/plugins/image/ImageEmbedForm";
 import { getSrcSets } from "../../util/imageEditorUtil";
 
-const StyledImg = styled.img`
-  min-width: -webkit-fill-available;
-  min-width: -moz-available;
-`;
+const StyledImg = styled("img", {
+  base: {
+    minWidth: ["-webkit-fill-available", "-moz-available"],
+  },
+});
 
 interface Props {
   language: string;
@@ -26,7 +27,7 @@ interface Props {
   onFocalPointChange: (focalPoint: { x: number; y: number }) => void;
   onCropComplete: (crop: PercentCrop) => void;
   aspect?: number;
-  image: IImageMetaInformationV3;
+  image: IImageMetaInformationV3DTO;
 }
 
 const ImageTransformEditor = ({ language, editType, image, onFocalPointChange, onCropComplete, aspect }: Props) => {

@@ -6,7 +6,7 @@
  *
  */
 
-import { DeleteBinLine } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons";
 import { IconButton, type IconButtonProps } from "@ndla/primitives";
 
 export const DeleteButton = ({ children, ...rest }: IconButtonProps) => (

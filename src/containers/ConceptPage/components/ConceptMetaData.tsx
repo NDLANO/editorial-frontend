@@ -11,8 +11,7 @@ import keyBy from "lodash/keyBy";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ComboboxContext, TagsInputContext, createListCollection } from "@ark-ui/react";
-import { CloseLine } from "@ndla/icons/action";
-import { ArrowDownShortLine } from "@ndla/icons/common";
+import { CloseLine, ArrowDownShortLine } from "@ndla/icons";
 import {
   ComboboxItem,
   ComboboxItemText,
@@ -44,7 +43,6 @@ import { GenericComboboxItemIndicator } from "../../../components/abstractions/C
 import { SearchTagsContent } from "../../../components/Form/SearchTagsContent";
 import { SearchTagsTagSelectorInput } from "../../../components/Form/SearchTagsTagSelectorInput";
 import { FormField } from "../../../components/FormField";
-import FormikField from "../../../components/FormikField";
 import { FormContent } from "../../../components/FormikForm";
 import { useConceptSearchTags } from "../../../modules/concept/conceptQueries";
 import useDebounce from "../../../util/useDebounce";
@@ -105,19 +103,21 @@ const ConceptMetaData = ({ subjects, inModal, language }: Props) => {
       {inModal ? (
         <InlineImageSearch name="metaImageId" />
       ) : (
-        <FormikField name="metaImageId">
-          {({ field, form }) => (
-            <MetaImageSearch
-              metaImageId={field.value}
-              setFieldTouched={form.setFieldTouched}
-              showRemoveButton
-              showCheckbox={true}
-              checkboxAction={(image) => onSaveAsVisualElement(image, formikContext)}
-              language={language}
-              {...field}
-            />
+        <FormField name="metaImageId">
+          {({ field, meta }) => (
+            <FieldRoot invalid={!!meta.error}>
+              <MetaImageSearch
+                metaImageId={field.value}
+                showRemoveButton
+                showCheckbox={true}
+                checkboxAction={(image) => onSaveAsVisualElement(image, formikContext)}
+                language={language}
+                {...field}
+              />
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+            </FieldRoot>
           )}
-        </FormikField>
+        </FormField>
       )}
       <FormField<Node[]> name="subjects">
         {({ field, meta, helpers }) => (

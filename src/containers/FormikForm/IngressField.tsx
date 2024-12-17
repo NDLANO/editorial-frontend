@@ -6,10 +6,15 @@
  *
  */
 
+import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
+import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
-import FormikField from "../../components/FormikField";
+import { ContentEditableFieldLabel } from "../../components/Form/ContentEditableFieldLabel";
+import { FieldWarning } from "../../components/Form/FieldWarning";
+import { FormRemainingCharacters } from "../../components/Form/FormRemainingCharacters";
+import { FormField } from "../../components/FormField";
 import { SlatePlugin } from "../../components/SlateEditor/interfaces";
 
 import { breakPlugin } from "../../components/SlateEditor/plugins/break";
@@ -64,6 +69,19 @@ const StyledRichTextEditor = styled(RichTextEditor, {
   },
 });
 
+const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
+  base: {
+    marginInlineStart: "auto",
+  },
+});
+
+const MetaWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "baseline",
+  },
+});
+
 const toolbarAreaFilters = createToolbarAreaOptions();
 
 const ingressPlugins: SlatePlugin[] = [
@@ -91,30 +109,34 @@ const plugins = ingressPlugins.concat(ingressRenderers);
 
 const IngressField = ({ name = "introduction", maxLength = 300, placeholder, showMaxLength = true }: Props) => {
   const { t } = useTranslation();
+  const { isSubmitting } = useFormikContext();
+
   return (
-    <FormikField
-      noBorder
-      label={t("form.introduction.label")}
-      name={name}
-      showMaxLength={showMaxLength}
-      maxLength={maxLength}
-    >
-      {({ field, form: { isSubmitting } }) => (
-        <StyledRichTextEditor
-          {...field}
-          id="ingress-editor"
-          testId="ingress-editor"
-          hideBlockPicker
-          placeholder={placeholder || t("form.introduction.label")}
-          data-testid="learning-resource-ingress"
-          submitted={isSubmitting}
-          plugins={plugins}
-          onChange={(val) => field.onChange({ target: { value: val, name: field.name } })}
-          toolbarOptions={toolbarOptions}
-          toolbarAreaFilters={toolbarAreaFilters}
-        />
+    <FormField name={name}>
+      {({ field, meta, helpers }) => (
+        <FieldRoot invalid={!!meta.error}>
+          <ContentEditableFieldLabel srOnly>{t("form.introduction.label")}</ContentEditableFieldLabel>
+          <StyledRichTextEditor
+            {...field}
+            id="ingress-editor"
+            testId="ingress-editor"
+            hideBlockPicker
+            placeholder={placeholder || t("form.introduction.label")}
+            data-testid="learning-resource-ingress"
+            submitted={isSubmitting}
+            plugins={plugins}
+            onChange={helpers.setValue}
+            toolbarOptions={toolbarOptions}
+            toolbarAreaFilters={toolbarAreaFilters}
+          />
+          <MetaWrapper>
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+            <StyledFormRemainingCharacters maxLength={maxLength} value={field.value} />
+          </MetaWrapper>
+          <FieldWarning name={field.name} />
+        </FieldRoot>
       )}
-    </FormikField>
+    </FormField>
   );
 };
 

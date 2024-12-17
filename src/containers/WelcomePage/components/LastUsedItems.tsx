@@ -10,8 +10,8 @@ import orderBy from "lodash/orderBy";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
-import { IConceptSummary } from "@ndla/types-backend/concept-api";
-import { IArticleSummary } from "@ndla/types-backend/draft-api";
+import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import { IArticleSummaryDTO } from "@ndla/types-backend/draft-api";
 import LastUsedConcepts from "./LastUsedConcepts";
 import LastUsedResources from "./LastUsedResources";
 import { Prefix, TitleElement } from "./TableComponent";
@@ -38,7 +38,7 @@ export const getCurrentPageData = <T,>(page: number, data: T[], pageSize: number
   return currentPageElements ?? [];
 };
 
-const getSortedPaginationData = <T extends IConceptSummary | IArticleSummary>(
+const getSortedPaginationData = <T extends IConceptSummaryDTO | IArticleSummaryDTO>(
   page: number,
   sortOption: SortOptionType,
   data: T[],
@@ -98,7 +98,7 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
   const searchDraftsQuery = useSearchDrafts(
     {
       ids: lastUsedResources!,
-      //@ts-ignore TODO: Fix this once we can move away from enum
+      //@ts-expect-error TODO: Fix this once we can move away from enum
       sort: "-lastUpdated",
       language,
       pageSize: lastUsedResources.length,

@@ -8,10 +8,10 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { BookOpen } from "@ndla/icons/common";
+import { BookOpenLine } from "@ndla/icons";
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { IMultiSearchResult } from "@ndla/types-backend/search-api";
+import { IMultiSearchResultDTO } from "@ndla/types-backend/search-api";
 import TableComponent, { FieldElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import SubjectCombobox from "./worklist/SubjectCombobox";
@@ -25,8 +25,8 @@ const EXCLUDE_STATUSES = [PUBLISHED, UNPUBLISHED, ARCHIVED];
 
 // Function to combine results from two aggregations into one sorted result array
 const getResultAggregationList = (
-  searchResult: IMultiSearchResult | undefined,
-  responibleSearchResult: IMultiSearchResult | undefined,
+  searchResult: IMultiSearchResultDTO | undefined,
+  responibleSearchResult: IMultiSearchResultDTO | undefined,
 ) => {
   const aggData = searchResult?.aggregations.find((a) => a.field === "draftStatus.current");
   const aggDataExcludeStatuses = aggData?.values.filter((v) => !EXCLUDE_STATUSES.includes(v.value)) ?? [];
@@ -178,7 +178,7 @@ const ArticleStatusContent = ({
   return (
     <>
       <StyledTopRowDashboardInfo>
-        <TableTitle title={title} description={description} Icon={BookOpen} />
+        <TableTitle title={title} description={description} Icon={BookOpenLine} />
         <ControlWrapperDashboard>
           <TopRowControls>
             <SubjectCombobox

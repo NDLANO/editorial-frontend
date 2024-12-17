@@ -57,7 +57,7 @@ const DatePickerDropdown = (props: DropdownProps) => {
     return <Dropdown {...props} />;
   }
   const { children, ...rest } = props;
-  //@ts-ignore
+  // @ts-expect-error - TODO: We're going to migrate away from this at some point.
   return <StyledInput type="number" min={MIN_YEAR} max={MAX_YEAR} {...rest} />;
 };
 

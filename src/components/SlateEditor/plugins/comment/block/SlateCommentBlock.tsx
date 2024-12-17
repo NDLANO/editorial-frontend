@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { Comment } from "@ndla/icons/common";
+import { MessageLine } from "@ndla/icons";
 import {
   DialogBody,
   DialogContent,
@@ -140,11 +140,11 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
           </DialogBody>
         </DialogContent>
       </Portal>
-      {embed && (
+      {!!embed && (
         <PopoverRoot open={popoverOpen} onOpenChange={(details) => setPopoverOpen(details.open)}>
           <PopoverTrigger asChild consumeCss type={undefined}>
             <BlockCommentButton type="button" contentEditable={false} {...attributes}>
-              <Comment />
+              <MessageLine />
               <CommentText>{embed?.embedData?.text ?? ""}</CommentText>
             </BlockCommentButton>
           </PopoverTrigger>

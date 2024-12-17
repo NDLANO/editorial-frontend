@@ -9,7 +9,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { DeleteBinLine } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { deleteLanguageVersionAudio, deleteLanguageVersionSeries } from "../../modules/audio/audioApi";
@@ -105,6 +105,8 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
             await deleteLanguageVersionDraft(id, language);
             navigate(toEditFrontPageArticle(id, otherSupportedLanguage!));
             break;
+          default:
+            createMessage({ message: t("embed.unsupported", { type }) });
         }
       } catch (error) {
         createMessage(formatErrorMessage(error as NdlaErrorPayload));

@@ -9,10 +9,10 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
-import { IAudioMetaInformation, IUpdatedAudioMetaInformation } from "@ndla/types-backend/audio-api";
+import { IAudioMetaInformationDTO, IUpdatedAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import PodcastForm from "./components/PodcastForm";
 import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
-import Spinner from "../../components/Spinner";
+import { PageSpinner } from "../../components/PageSpinner";
 import { updateAudio, fetchAudio } from "../../modules/audio/audioApi";
 import { createFormData } from "../../util/formDataHelper";
 import { toEditAudio } from "../../util/routeHelpers";
@@ -51,9 +51,9 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
   const podcastLanguage = params.selectedLanguage!;
   const { i18n } = useTranslation();
   const locale = i18n.language;
-  const [podcast, setPodcast] = useState<IAudioMetaInformation | undefined>(undefined);
+  const [podcast, setPodcast] = useState<IAudioMetaInformationDTO | undefined>(undefined);
   const [podcastChanged, setPodcastChanged] = useState(false);
-  const setPodcastWithFlag = (podcast: IAudioMetaInformation | undefined, changed: boolean) => {
+  const setPodcastWithFlag = (podcast: IAudioMetaInformationDTO | undefined, changed: boolean) => {
     setPodcast(podcast);
     setPodcastChanged(changed);
   };
@@ -79,7 +79,7 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
     })();
   }, [podcast, shouldTranslate, translate]);
 
-  const onUpdate = async (newPodcast: IUpdatedAudioMetaInformation, podcastFile: string | Blob | undefined) => {
+  const onUpdate = async (newPodcast: IUpdatedAudioMetaInformationDTO, podcastFile: string | Blob | undefined) => {
     const formData = await createFormData(podcastFile, newPodcast);
     const updatedPodcast = await updateAudio(Number(podcastId!), formData);
     setPodcastWithFlag(updatedPodcast, false);
@@ -90,7 +90,7 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
   }
 
   if (loading) {
-    return <Spinner withWrapper />;
+    return <PageSpinner />;
   }
 
   if (!podcastId || !podcast) {

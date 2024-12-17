@@ -6,25 +6,37 @@
  *
  */
 
-import { useEffect, useState, MouseEvent } from "react";
-
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { IUserData } from "@ndla/types-backend/draft-api";
+import { FieldRoot, FieldInput, FieldLabel } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { IUserDataDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
-import GenericSearchForm, { OnFieldChangeFunction } from "./GenericSearchForm";
-import { SearchParams } from "./SearchForm";
-import { SearchFormSelector } from "./Selector";
+import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
+import SearchHeader from "../../../../components/Form/SearchHeader";
+import SearchTagGroup, { Filters } from "../../../../components/Form/SearchTagGroup";
+import { SelectElement, SelectRenderer } from "../../../../components/Form/SelectRenderer";
+import { getTagName } from "../../../../components/Form/utils";
+import { OnFieldChangeFunction, SearchParams } from "../../../../interfaces";
 import { useLicenses } from "../../../../modules/draft/draftQueries";
-import { getTagName } from "../../../../util/formHelper";
 import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
+
+const StyledForm = styled("form", {
+  base: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, 1fr)",
+    gridGap: "3xsmall",
+    alignItems: "center",
+  },
+});
 
 interface Props {
   search: (o: SearchParams) => void;
   subjects: Node[];
   searchObject: SearchParams;
   locale: string;
-  userData: IUserData | undefined;
+  userData: IUserDataDTO | undefined;
 }
 
 const SearchAudioForm = ({
@@ -62,13 +74,12 @@ const SearchAudioForm = ({
 
   const handleSearch = () => search({ ...searchObject, page: 1, query: queryInput });
 
-  const removeTagItem = (tag: SearchFormSelector) => {
-    if (tag.parameterName === "query") setQueryInput("");
-    search({ ...searchObject, [tag.parameterName]: "" });
+  const removeTagItem = (parameterName: keyof SearchParams) => {
+    if (parameterName === "query") setQueryInput("");
+    search({ ...searchObject, [parameterName]: "" });
   };
 
-  const emptySearch = (evt: MouseEvent<HTMLButtonElement>) => {
-    evt.persist();
+  const emptySearch = () => {
     setQueryInput("");
     search({ query: "", language: "", "audio-type": "", license: "" });
   };
@@ -78,40 +89,42 @@ const SearchAudioForm = ({
     { id: "podcast", name: t("searchForm.audioType.podcast") },
   ];
 
-  const selectors: SearchFormSelector[] = [
-    {
-      parameterName: "audio-type",
-      value: getTagName(searchObject["audio-type"], getAudioTypes()),
-      options: getAudioTypes(),
-      formElementType: "dropdown",
-    },
-    {
-      parameterName: "license",
-      value: getTagName(searchObject.license, licenses),
-      options: licenses ?? [],
-      formElementType: "dropdown",
-    },
-    {
-      parameterName: "language",
-      value: getTagName(searchObject.language, getResourceLanguages(t)),
-      options: getResourceLanguages(t),
-      width: 25,
-      formElementType: "dropdown",
-    },
+  const filters: Filters = {
+    query: searchObject.query,
+    "audio-type": getTagName(searchObject["audio-type"], getAudioTypes()),
+    license: getTagName(searchObject.license, licenses),
+    language: searchObject.language,
+  };
+
+  const selectElements: SelectElement[] = [
+    { name: "audio-type", options: getAudioTypes() },
+    { name: "license", options: licenses ?? [] },
+    { name: "language", options: getResourceLanguages(t) },
   ];
 
   return (
-    <GenericSearchForm
-      type="audio"
-      selectors={selectors}
-      query={queryInput}
-      onSubmit={handleSearch}
-      searchObject={searchObject}
-      onFieldChange={onFieldChange}
-      emptySearch={emptySearch}
-      removeTag={removeTagItem}
-      userData={userData}
-    />
+    <>
+      <SearchHeader type="audio" filters={filters} userData={userData} />
+      <StyledForm
+        onSubmit={(e) => {
+          handleSearch();
+          e.preventDefault();
+        }}
+      >
+        <FieldRoot>
+          <FieldLabel srOnly>{t("searchForm.types.audioQuery")}</FieldLabel>
+          <FieldInput
+            name="query"
+            placeholder={t("searchForm.types.audioQuery")}
+            value={queryInput}
+            onChange={(e) => setQueryInput(e.currentTarget.value)}
+          />
+        </FieldRoot>
+        <SelectRenderer selectElements={selectElements} searchObject={searchObject} onFieldChange={onFieldChange} />
+        <SearchControlButtons reset={emptySearch} />
+      </StyledForm>
+      <SearchTagGroup onRemoveTag={removeTagItem} tags={filters} />
+    </>
   );
 };
 

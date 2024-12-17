@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { IUpdatedArticle, IArticle } from "@ndla/types-backend/draft-api";
+import { IUpdatedArticleDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
 import TopicArticleForm from "./components/TopicArticleForm";
 import { convertUpdateToNewDraft } from "../../../util/articleUtil";
 import { toEditArticle } from "../../../util/routeHelpers";
@@ -21,7 +21,7 @@ const CreateTopicArticle = () => {
   const locale = i18n.language;
   const { createArticle } = useFetchArticleData(undefined, locale);
 
-  const createArticleAndPushRoute = async (createdArticle: IUpdatedArticle): Promise<IArticle> => {
+  const createArticleAndPushRoute = async (createdArticle: IUpdatedArticleDTO): Promise<IArticleDTO> => {
     const savedArticle = await createArticle(convertUpdateToNewDraft(createdArticle));
     navigate(toEditArticle(savedArticle.id, savedArticle.articleType, createdArticle.language));
     return savedArticle;

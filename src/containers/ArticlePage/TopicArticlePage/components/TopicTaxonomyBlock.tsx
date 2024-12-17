@@ -11,15 +11,13 @@ import isEqual from "lodash/isEqual";
 import partition from "lodash/partition";
 import { useCallback, useMemo, useState, MouseEvent, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
-import { spacing, colors } from "@ndla/core";
-import { Button, SelectLabel } from "@ndla/primitives";
-import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
+import { Button, ExpandableBox, ExpandableBoxSummary, SelectLabel, Text, UnOrderedList } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { IArticleDTO, IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node, Version } from "@ndla/types-taxonomy";
 import TopicArticleConnections from "./TopicArticleConnections";
-import { FormikFieldHelp } from "../../../../components/FormikField";
-import { FormActionsContainer } from "../../../../components/FormikForm";
+import { FormActionsContainer, FormContent } from "../../../../components/FormikForm";
 import SaveButton from "../../../../components/SaveButton";
 import OptGroupVersionSelector from "../../../../components/Taxonomy/OptGroupVersionSelector";
 import { NodeWithChildren } from "../../../../components/Taxonomy/TaxonomyBlockNode";
@@ -35,32 +33,21 @@ import TaxonomyConnectionErrors from "../../components/TaxonomyConnectionErrors"
 
 interface Props {
   hasTaxEntries: boolean;
-  article: IArticle;
+  article: IArticleDTO;
   versions: Version[];
   subjects: NodeWithChildren[];
   nodes: Node[];
   validPlacements: Node[];
   invalidPlacements: Node[];
   articleLanguage: string;
-  updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
+  updateNotes: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
 }
 
-const InvalidPlacementsWrapper = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-  width: 100%;
-  padding: 0px;
-  margin: 0px 0px ${spacing.normal} ${spacing.normal};
-`;
-
-const InvalidPlacement = styled.li`
-  width: 100%;
-  color: ${colors.support.red};
-  margin: 0px;
-  margin: 0px;
-  padding: 0px;
-`;
+const StyledLi = styled("li", {
+  base: {
+    color: "text.error",
+  },
+});
 
 const TopicTaxonomyBlock = ({
   hasTaxEntries,
@@ -188,16 +175,15 @@ const TopicTaxonomyBlock = ({
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
   return (
-    <>
-      {!hasTaxEntries && <FormikFieldHelp error>{t("errorMessage.missingTax")}</FormikFieldHelp>}
-      {isTaxonomyAdmin && (
+    <FormContent>
+      {!hasTaxEntries && <Text color="text.error">{t("errorMessage.missingTax")}</Text>}
+      {!!isTaxonomyAdmin && (
         <>
           <TaxonomyConnectionErrors
             articleType={article.articleType ?? "topic-article"}
             resources={resources}
             topics={topics}
           />
-
           <OptGroupVersionSelector
             currentVersion={taxonomyVersion}
             onVersionChanged={(version) => onVersionChanged(version.hash)}
@@ -213,17 +199,17 @@ const TopicTaxonomyBlock = ({
         selectedNodes={placements}
         getSubjectTopics={getSubjectTopics}
       />
-      {!!invalidPlacements.length && isTaxonomyAdmin && (
-        <details>
-          <summary>{t("errorMessage.invalidTopicPlacements")}</summary>
-          <InvalidPlacementsWrapper>
-            {invalidPlacements.map((placement) => (
-              <InvalidPlacement key={placement.id}>{placement.id}</InvalidPlacement>
+      {!!invalidPlacements.length && !!isTaxonomyAdmin && (
+        <ExpandableBox>
+          <ExpandableBoxSummary>{t("errorMessage.invalidTopicPlacements")}</ExpandableBoxSummary>
+          <UnOrderedList>
+            {placements.map((placement) => (
+              <StyledLi key={placement.id}>{placement.id}</StyledLi>
             ))}
-          </InvalidPlacementsWrapper>
-        </details>
+          </UnOrderedList>
+        </ExpandableBox>
       )}
-      {showWarning && <FormikFieldHelp error>{t("errorMessage.unsavedTaxonomy")}</FormikFieldHelp>}
+      {!!showWarning && <Text color="text.error">{t("errorMessage.unsavedTaxonomy")}</Text>}
       <FormActionsContainer>
         <Button
           variant="secondary"
@@ -234,14 +220,14 @@ const TopicTaxonomyBlock = ({
         </Button>
         <SaveButton
           loading={isSaving}
-          showSaved={createTopicNodeConnectionsMutation.isSuccess && !isDirty}
+          showSaved={!!createTopicNodeConnectionsMutation.isSuccess && !isDirty}
           disabled={!isDirty || isSaving}
           onClick={handleSubmit}
           defaultText="saveTax"
           formIsDirty={isDirty}
         />
       </FormActionsContainer>
-    </>
+    </FormContent>
   );
 };
 

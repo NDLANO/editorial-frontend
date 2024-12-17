@@ -71,19 +71,28 @@ const ImageContent = () => {
   const imgSrc = values.filepath || `${values.imageFile}?width=800&ts=${timestamp}`;
 
   const generateAltText = async () => {
-    setIsLoading(true);
-    if (!values.imageFile || typeof values.imageFile === "string") {
+    if (!values.imageFile) {
       return null;
     }
 
-    const buffer = await values.imageFile.arrayBuffer();
+    let image;
+    if (typeof values.imageFile === "string") {
+      const result = await fetch(values.imageFile);
+      image = await result.blob();
+    } else {
+      image = values.imageFile;
+    }
+
+    setIsLoading(true);
+
+    const buffer = await image.arrayBuffer();
     const base64 = convertBufferToBase64(buffer);
 
     const result = await invokeModel({
       prompt: t("textGeneration.altText.prompt"),
       image: {
         base64,
-        fileType: values.imageFile.type,
+        fileType: image.type,
       },
       max_tokens: 2000,
       ...claudeHaikuDefaults,

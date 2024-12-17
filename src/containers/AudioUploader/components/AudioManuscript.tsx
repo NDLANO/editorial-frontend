@@ -96,7 +96,7 @@ const AudioManuscript = ({ audioLanguage, audioUrl, audioType }: AudioManuscript
     setIsLoading(true);
     if (!audioUrl || !audioLanguage || !audioType) {
       setIsLoading(false);
-      return;
+      return null;
     }
 
     let language;
@@ -119,8 +119,10 @@ const AudioManuscript = ({ audioLanguage, audioUrl, audioType }: AudioManuscript
       const response = await getTranscription(transcriptionResult.TranscriptionJob.TranscriptionJobName);
       if (response.status === "COMPLETED") {
         clearInterval(pollingInterval);
+        return response.transcription;
       } else if (response.status === "FAILED") {
         clearInterval(pollingInterval);
+        return null;
       }
     }, 10000);
     setIsLoading(false);
@@ -141,8 +143,14 @@ const AudioManuscript = ({ audioLanguage, audioUrl, audioType }: AudioManuscript
             toolbarAreaFilters={toolbarAreaFilters}
           />
           {audioUrl && (
-            <Button onClick={generateText} size="small">
-              Test
+            <Button
+              onClick={async () => {
+                const text = await generateText();
+                text && helpers.setValue(text);
+              }}
+              size="small"
+            >
+              {t("textGeneration.transcription.button")}
               {isLoading ? <Spinner size="small" /> : <BlogPost />}
             </Button>
           )}

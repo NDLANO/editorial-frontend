@@ -2273,6 +2273,9 @@ const phrases = {
         The response must be given with reflections as to why you have chosen to include the selected points first. Then, the reflection questions must be given as bulletpoints in an <answer> tag.
         </Instructions>`,
     },
+    transcription: {
+      button: "Generate",
+    },
   },
 };
 

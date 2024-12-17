@@ -2271,6 +2271,9 @@ const phrases = {
         Svaret skal leveres med refleksjoner på hvorfor du har valgt å inkludere de punktene du har valgt først. Deretter skal refleksjonsspørsmålene gis som punktliste i en <answer> tag.
         </Instructions>`,
     },
+    transcription: {
+      button: "Generer",
+    },
   },
 };
 

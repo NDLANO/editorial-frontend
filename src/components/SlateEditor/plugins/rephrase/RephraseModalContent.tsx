@@ -43,7 +43,7 @@ const Actions = styled("div", {
 const RephraseModalContent = ({ selection, setSelection }: Props) => {
   const { t } = useTranslation();
   const editor = useSlate();
-  const { children: editorChildren, insertNode, insertText, apply } = editor;
+  const { children: editorChildren, insertNode, insertText } = editor;
   const language = useArticleLanguage();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [rephrasedText, setRephrasedText] = useState<string>("");
@@ -64,12 +64,16 @@ const RephraseModalContent = ({ selection, setSelection }: Props) => {
         language: t(`languages.${language}`),
       }),
     );
-    response && setRephrasedText(response);
+    if (response) {
+      setRephrasedText(response);
+    }
     setIsLoading(false);
   };
 
   const replaceSelectedText = () => {
-    rephrasedText && insertText(rephrasedText);
+    if (rephrasedText) {
+      insertText(rephrasedText);
+    }
     setSelection(null);
   };
 

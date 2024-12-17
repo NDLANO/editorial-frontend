@@ -6,18 +6,18 @@
  *
  */
 
-import { FieldHelperProps, useFormikContext } from "formik";
+// import { FieldHelperProps, useFormikContext } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
+// import { Descendant } from "slate";
 import { FileListLine } from "@ndla/icons";
-import { Button, FieldHelper, FieldLabel, FieldRoot, Spinner, TextArea } from "@ndla/primitives";
+import { Button, /* FieldHelper, FieldLabel, FieldRoot,*/ Spinner, TextArea } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { FormField } from "../../../../components/FormField";
+// import { FormField } from "../../../../components/FormField";
 import { claudeHaikuDefaults, invokeModel } from "../../../../components/LLM/helpers";
-import PlainTextEditor from "../../../../components/SlateEditor/PlainTextEditor";
-import { inlineContentToEditorValue } from "../../../../util/articleContentConverter";
-import { ArticleFormType } from "../../../FormikForm/articleFormHooks";
+// import PlainTextEditor from "../../../../components/SlateEditor/PlainTextEditor";
+// import { inlineContentToEditorValue } from "../../../../util/articleContentConverter";
+// import { ArticleFormType } from "../../../FormikForm/articleFormHooks";
 
 interface Props {
   articleContent?: string;
@@ -42,7 +42,7 @@ const ArticleSummary = ({ articleContent, articleLanguage }: Props) => {
   const { t } = useTranslation();
   const [generatedSummary, setGeneratedSummary] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { setStatus } = useFormikContext<ArticleFormType>();
+  // const { setStatus } = useFormikContext<ArticleFormType>();
 
   // const generateSummary = async (helpers: FieldHelperProps<Descendant[]>) => {
   //   const inputQuery = articleContent ?? "";
@@ -61,7 +61,7 @@ const ArticleSummary = ({ articleContent, articleLanguage }: Props) => {
 
   const generate = async () => {
     if (!articleContent) {
-      console.error("No article content provided to generate meta description");
+      // console.error("No article content provided to generate meta description");
       return;
     }
     setIsLoading(true);
@@ -73,9 +73,12 @@ const ArticleSummary = ({ articleContent, articleLanguage }: Props) => {
         }),
         ...claudeHaikuDefaults,
       });
-      generatedText ? setGeneratedSummary(generatedText) : console.error("No generated text");
+      if (generatedText) {
+        setGeneratedSummary(generatedText);
+      }
+      // generatedText ? setGeneratedSummary(generatedText) : console.error("No generated text");
     } catch (error) {
-      console.error("Error genetating summary", error);
+      // console.error("Error genetating summary", error);
     } finally {
       setIsLoading(false);
     }

@@ -15,7 +15,7 @@ interface modelProps {
 
 export const invokeModel = async ({ prompt, max_tokens = 2000, ...rest }: modelProps) => {
   if (!prompt) {
-    console.error("No prompt provided to invokeModel");
+    // console.error("No prompt provided to invokeModel");
     return null;
   }
   const response = await fetch("/invoke-model", {
@@ -31,7 +31,7 @@ export const invokeModel = async ({ prompt, max_tokens = 2000, ...rest }: modelP
   });
 
   if (!response.ok) {
-    console.error("Failed to get a response from the model");
+    // console.error("Failed to get a response from the model");
     return null;
   }
 

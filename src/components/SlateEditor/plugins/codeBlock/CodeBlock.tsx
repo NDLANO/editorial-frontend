@@ -38,8 +38,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { DeleteBinLine, PencilFill } from "@ndla/icons/action";
-import { Code } from "@ndla/icons/editor";
+import { DeleteBinLine, PencilFill, CodeView } from "@ndla/icons";
 import {
   Button,
   DialogBody,
@@ -158,7 +157,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
       <DialogRoot open={editMode} onOpenChange={(details) => onOpenChange(details.open)} size="large">
         <Figure aria-label={t("codeEditor.subtitle")} contentEditable={false} {...attributes}>
           <HStack justify="space-between">
-            {embedData.title && <h3>{embedData.title}</h3>}
+            {!!embedData.title && <h3>{embedData.title}</h3>}
             <HStack gap="4xsmall">
               <DialogTrigger asChild>
                 <IconButton
@@ -188,7 +187,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>
-                {t("codeEditor.title")} <Code />
+                {t("codeEditor.title")} <CodeView />
               </DialogTitle>
               <DialogCloseButton />
             </DialogHeader>

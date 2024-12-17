@@ -8,9 +8,9 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { PencilFill } from "@ndla/icons/action";
+import { PencilFill } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
-import { IArticleSummary } from "@ndla/types-backend/draft-api";
+import { IArticleSummaryDTO } from "@ndla/types-backend/draft-api";
 import { SortOptionLastUsed } from "./LastUsedItems";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
@@ -23,7 +23,7 @@ import { StyledTopRowDashboardInfo } from "../styles";
 import { SelectItem } from "../types";
 
 interface Props {
-  data: IArticleSummary[];
+  data: IArticleSummaryDTO[];
   isPending: boolean;
   page: number;
   setPage: (page: number) => void;

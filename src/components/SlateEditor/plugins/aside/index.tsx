@@ -9,6 +9,7 @@
 import { Descendant, Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_ASIDE } from "./types";
+import { createDataAttributes, createHtmlTag } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import {
@@ -55,10 +56,11 @@ export const asideSerializer: SlateSerializer = {
     if (el.tagName.toLowerCase() !== "aside") return;
     return slatejsx("element", { type: TYPE_ASIDE, data: { type: "factAside" } }, children);
   },
-  serialize(node: Descendant, children: JSX.Element[]) {
+  serialize(node, children) {
     if (!Element.isElement(node)) return;
     if (node.type !== "aside") return;
-    return <aside data-type={node.data.type || ""}>{children}</aside>;
+    const data = createDataAttributes({ type: node.data.type });
+    return createHtmlTag({ tag: "aside", data, children });
   },
 };
 

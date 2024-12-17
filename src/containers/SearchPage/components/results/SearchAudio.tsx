@@ -7,18 +7,18 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Audio, Podcast } from "@ndla/icons/common";
+import { BroadcastLine, VoiceprintLine } from "@ndla/icons";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
 import { ListItemContent, ListItemHeading, ListItemImage, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { IAudioSummary } from "@ndla/types-backend/audio-api";
+import { IAudioSummaryDTO } from "@ndla/types-backend/audio-api";
 import { LicenseLink } from "@ndla/ui";
 import { SearchContentWrapper } from "./SearchContentWrapper";
 import { useLicenses } from "../../../../modules/draft/draftQueries";
 import { routes } from "../../../../util/routeHelpers";
 
 interface Props {
-  audio: IAudioSummary;
+  audio: IAudioSummaryDTO;
   locale: string;
 }
 
@@ -29,7 +29,11 @@ const SearchAudio = ({ audio, locale }: Props) => {
 
   return (
     <ListItemRoot context="list" variant="subtle" data-testid="audio-search-result">
-      <ListItemImage fallbackElement={audio.audioType === "podcast" ? <Podcast /> : <Audio />} src="" alt="" />
+      <ListItemImage
+        fallbackElement={audio.audioType === "podcast" ? <BroadcastLine /> : <VoiceprintLine />}
+        src=""
+        alt=""
+      />
       <ListItemContent>
         <SearchContentWrapper>
           <ListItemHeading asChild consumeCss>

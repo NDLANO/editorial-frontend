@@ -23,9 +23,9 @@ import {
   Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticleV2 } from "@ndla/types-backend/article-api";
-import { ILearningPathSummaryV2, ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
-import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import { IArticleV2DTO } from "@ndla/types-backend/article-api";
+import { ILearningPathSummaryV2DTO, ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
@@ -73,12 +73,12 @@ interface Props {
   existingResourceIds: string[];
 }
 
-interface Preview extends Pick<IMultiSearchSummary, "id" | "title" | "metaDescription"> {
+interface Preview extends Pick<IMultiSearchSummaryDTO, "id" | "title" | "metaDescription"> {
   metaUrl?: string;
   paths?: string[];
 }
 
-type PossibleResources = IMultiSearchSummary | ILearningPathSummaryV2 | ILearningPathV2 | IArticleV2;
+type PossibleResources = IMultiSearchSummaryDTO | ILearningPathSummaryV2DTO | ILearningPathV2DTO | IArticleV2DTO;
 
 const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, nodeId }: Props) => {
   const { t, i18n } = useTranslation();
@@ -263,7 +263,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
 
   return (
     <StyledFormContent>
-      {selectedType && (
+      {!!selectedType && (
         <>
           <FieldRoot>
             <FieldLabel>{t("taxonomy.urlPlaceholder")}</FieldLabel>
@@ -280,7 +280,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
           }}
         />
       )}
-      {!pastedUrl && selectedType && (
+      {!pastedUrl && !!selectedType && (
         <GenericSearchCombobox
           value={preview ? [preview.id.toString()] : undefined}
           onValueChange={(details) => setPreview(toPreview(details.items[0]))}
@@ -321,7 +321,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
           </ListItemRoot>
         )
       )}
-      {error && <Text color="text.error">{t(error)}</Text>}
+      {!!error && <Text color="text.error">{t(error)}</Text>}
       <FormActionsContainer>
         <Button disabled={preview === undefined} onClick={onAddResource} loading={loading} type="submit">
           {t("taxonomy.add")}

@@ -10,17 +10,16 @@ import { TFunction } from "i18next";
 import { ElementType, ReactNode, forwardRef, useMemo } from "react";
 import { CustomI18n, useTranslation } from "react-i18next";
 import { ToggleGroupItemProps } from "@ark-ui/react";
-import { Language, Comment } from "@ndla/icons/common";
 import {
+  MessageLine,
   Bold,
-  Code,
-  Concept,
+  CodeView,
+  ChatLine,
   Italic,
-  Link,
-  ListCircle,
-  ListNumbered,
+  LinkMedium,
+  ListUnordered,
+  ListOrdered,
   ListAlphabetical,
-  Math,
   Quote,
   Subscript,
   Superscript,
@@ -28,10 +27,11 @@ import {
   AlignLeft,
   AlignCenter,
   AlignRight,
-  FormatList,
-  Globe,
-  BlogPost,
-} from "@ndla/icons/editor";
+  ListCheckFormat,
+  GlobalLine,
+  CalculatorLine,
+  FileListLine,
+} from "@ndla/icons";
 import { IconButton, Text, ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { FontWeightToken } from "@ndla/styled-system/tokens";
@@ -77,27 +77,27 @@ export const iconMapping: Record<string, ElementType> = {
   sub: Subscript,
   sup: Superscript,
   quote: Quote,
-  "content-link": Link,
-  "numbered-list": ListNumbered,
-  "bulleted-list": ListCircle,
+  "content-link": LinkMedium,
+  "numbered-list": ListOrdered,
+  "bulleted-list": ListUnordered,
   "letter-list": ListAlphabetical,
   "heading-1": HeadingOne,
   "heading-2": HeadingTwo,
   "heading-3": HeadingThree,
   "heading-4": HeadingFour,
   "normal-text": Paragraph,
-  "definition-list": FormatList,
-  "comment-inline": Comment,
-  mathml: Math,
-  "concept-inline": Concept,
-  "gloss-inline": Globe,
-  code: Code,
-  "code-block": Code,
-  language: Language,
+  "definition-list": ListCheckFormat,
+  "comment-inline": MessageLine,
+  mathml: CalculatorLine,
+  "concept-inline": ChatLine,
+  "gloss-inline": GlobalLine,
+  code: CodeView,
+  "code-block": CodeView,
+  language: GlobalLine,
   left: AlignLeft,
   center: AlignCenter,
   right: AlignRight,
-  rephrase: BlogPost,
+  rephrase: FileListLine,
 };
 
 interface Props {
@@ -143,7 +143,7 @@ export const ToolbarToggleButton = forwardRef<HTMLButtonElement, Omit<ToggleGrou
         asChild
       >
         <IconButton size="small" variant="tertiary">
-          {Icon && <Icon />}
+          {!!Icon && <Icon />}
           {children}
         </IconButton>
       </ToggleGroupItem>

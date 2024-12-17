@@ -19,7 +19,7 @@ import {
   Heading,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { ImageEmbedData } from "@ndla/types-embed";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import ImageSearchAndUploader from "../../../components/ImageSearchAndUploader";
@@ -45,7 +45,7 @@ interface Props {
 const SubjectpageBanner = ({ title, fieldName }: Props) => {
   const { t, i18n } = useTranslation();
   const { setFieldTouched } = useFormikContext();
-  const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
+  const [image, setImage] = useState<IImageMetaInformationV3DTO | undefined>(undefined);
   const [FieldInputProps] = useField<ImageEmbedData>(fieldName);
   const { onChange } = FieldInputProps;
   const [showImageSelect, setShowImageSelect] = useState(false);
@@ -60,7 +60,7 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
     })();
   }, [image, values, fieldName]);
 
-  const onImageChange = (image: IImageMetaInformationV3) => {
+  const onImageChange = (image: IImageMetaInformationV3DTO) => {
     setImage(image);
     updateFormik(parseInt(image.id));
     setShowImageSelect(false);
@@ -76,12 +76,12 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
   }, []);
 
   return (
-    <>
+    <div>
       <Heading asChild consumeCss textStyle="title.small">
         <h3>{title}</h3>
       </Heading>
       <DialogRoot open={showImageSelect} onOpenChange={(details) => setShowImageSelect(details.open)} size="large">
-        {image && (
+        {!!image && (
           <ImageWrapper>
             <img src={`${config.ndlaApiUrl}/image-api/raw/id/${image.id}`} alt={image.alttext.alttext} />
             <MetaInformation
@@ -118,7 +118,7 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
           </DialogBody>
         </DialogContent>
       </DialogRoot>
-    </>
+    </div>
   );
 };
 

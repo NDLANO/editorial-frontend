@@ -7,29 +7,34 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { DeleteBinLine } from "@ndla/icons/action";
-import { Link } from "@ndla/icons/common";
-import { IconButton } from "@ndla/primitives";
+import { DeleteBinLine, LinkMedium } from "@ndla/icons";
+import { FieldErrorMessage, FieldInput, FieldRoot, IconButton, FieldLabel, Image } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
-import FormikField from "../../../components/FormikField";
+import { styled } from "@ndla/styled-system/jsx";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { FieldWarning } from "../../../components/Form/FieldWarning";
+import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
+import { FormField } from "../../../components/FormField";
 import MetaInformation from "../../../components/MetaInformation";
 
-const MetaImageContainer = styled.div`
-  display: flex;
-`;
+const MetaImageContainer = styled("div", {
+  base: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+    gap: "small",
+  },
+});
 
-const StyledImage = styled.img`
-  align-self: flex-start;
-  max-width: 60%;
-  margin-top: 10px;
-`;
+const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
+  base: {
+    marginInlineStart: "auto",
+  },
+});
 
 interface Props {
   disableAltEditing?: boolean;
   hideAltText?: boolean;
-  image: IImageMetaInformationV3;
+  image: IImageMetaInformationV3DTO;
   onImageRemove: () => void;
   showRemoveButton: boolean;
   onImageLoad?: (width: number, height: number) => void;
@@ -59,12 +64,11 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, 
         title={t("form.image.editImage")}
         size="small"
       >
-        <Link />
+        <LinkMedium />
       </SafeLinkIconButton>
     </>
   );
 
-  const imageUrl = `${image.image.imageUrl}?width=400`;
   const { width, height } = image.image?.dimensions || { width: 0, height: 0 };
   const onLoad = () => {
     onImageLoad?.(width, height);
@@ -73,7 +77,7 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, 
   return (
     <>
       <MetaImageContainer>
-        <StyledImage src={imageUrl} alt={alt} onLoad={onLoad} />
+        <Image src={image.image.imageUrl} alt={alt} onLoad={onLoad} />
         <MetaInformation
           title={title}
           copyright={copyright}
@@ -82,13 +86,17 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, 
         />
       </MetaImageContainer>
       {!disableAltEditing && (
-        <FormikField
-          label={t("topicArticleForm.fields.alt.label")}
-          name="metaImageAlt"
-          noBorder
-          placeholder={t("topicArticleForm.fields.alt.placeholder")}
-          maxLength={300}
-        />
+        <FormField name="metaImageAlt">
+          {({ field, meta }) => (
+            <FieldRoot invalid={!!meta.error}>
+              <FieldLabel>{t("topicArticleForm.fields.alt.label")}</FieldLabel>
+              <FieldInput {...field} placeholder={t("topicArticleForm.fields.alt.placeholder")} />
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              <StyledFormRemainingCharacters maxLength={300} value={field.value} />
+              <FieldWarning name={field.name} />
+            </FieldRoot>
+          )}
+        </FormField>
       )}
     </>
   );

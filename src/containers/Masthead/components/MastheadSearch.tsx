@@ -11,7 +11,7 @@ import { useEffect, useId, useMemo, useState, FormEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { createListCollection } from "@ark-ui/react";
-import { SearchLine } from "@ndla/icons/common";
+import { SearchLine } from "@ndla/icons";
 import {
   ComboboxContent,
   ComboboxControl,
@@ -29,10 +29,11 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";
 import { GenericComboboxItemIndicator } from "../../../components/abstractions/Combobox";
+import { NDLA_FILM_SUBJECT } from "../../../constants";
 import { isValidLocale } from "../../../i18n";
-import { fetchNewArticleId } from "../../../modules/draft/draftApi";
+import { fetchBySlug, fetchNewArticleId } from "../../../modules/draft/draftApi";
 import { useUserData } from "../../../modules/draft/draftQueries";
-import { fetchNode } from "../../../modules/nodes/nodeApi";
+import { fetchNode, fetchNodes } from "../../../modules/nodes/nodeApi";
 import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
 import { getAccessToken, getAccessTokenPersonal } from "../../../util/authHelpers";
 import { isNDLAFrontendUrl } from "../../../util/htmlHelpers";
@@ -53,6 +54,12 @@ const MastheadForm = styled("form", {
     width: "100%",
   },
 });
+
+const shortContextIdRegEx = new RegExp(/[a-f0-9]{10}/);
+const longContextIdRegEx = new RegExp(/[a-f0-9]{12}/);
+const slugRegEx = new RegExp(/^[a-z-]+$/);
+const nodeIdRegEx = new RegExp(/#\d+/g);
+const taxonomyIdRegEx = new RegExp(/#urn:(resource|topic)[:\da-fA-F-]+/g);
 
 export const MastheadSearch = () => {
   const [value, setValue] = useState([]);
@@ -98,45 +105,71 @@ export const MastheadSearch = () => {
     }
   };
 
+  const handleSlug = async (slug: string) => {
+    try {
+      const article = await fetchBySlug(slug);
+      navigate(routes.editArticle(article.id, "frontpage-article"));
+    } catch (error) {
+      navigate(routes.notFound);
+    }
+  };
+
   const handleUrlPaste = (frontendUrl: string) => {
+    const url = new URL(frontendUrl);
     // Removes search queries before split
-    const ndlaUrl = frontendUrl.split(/\?/)[0];
-    // Strip / from end if topic
-    const cleanUrl = ndlaUrl.endsWith("/")
-      ? ndlaUrl.replace("/subjects", "").slice(0, -1)
-      : ndlaUrl.replace("/subjects", "");
+    const ndlaUrl = url.pathname;
+    // Strip / from end if present
+    const cleanUrl = ndlaUrl.endsWith("/") ? ndlaUrl.slice(0, -1) : ndlaUrl;
     const splittedNdlaUrl = cleanUrl.split("/");
 
     const urlId = splittedNdlaUrl[splittedNdlaUrl.length - 1];
 
-    if (
-      !urlId.includes("urn:topic") &&
-      Number.isNaN(parseFloat(urlId)) &&
-      !splittedNdlaUrl.find((e) => e.match(/subject:*/)) === undefined
-    ) {
+    const isLongTaxUrl = splittedNdlaUrl.find((e) => e.match(/subject:*/)) !== undefined;
+    const isContextId = shortContextIdRegEx.test(urlId) || longContextIdRegEx.test(urlId);
+    const isSlug = slugRegEx.test(urlId);
+
+    if (Number.isNaN(parseFloat(urlId)) && !isLongTaxUrl && !isContextId && !isSlug) {
       return;
     }
-    if (urlId.includes("urn:topic")) {
-      handleTopicUrl(urlId);
-    } else if (splittedNdlaUrl.includes("node")) {
+    if (splittedNdlaUrl.includes("node")) {
       handleNodeId(parseInt(urlId));
-    } else if (splittedNdlaUrl.find((e) => e.match(/subject:*/))) {
+    } else if (isLongTaxUrl) {
       handleFrontendUrl(cleanUrl);
+    } else if (isContextId) {
+      handleContextId(urlId);
+    } else if (isSlug) {
+      handleSlug(urlId);
     } else {
       navigate(routes.editArticle(parseInt(urlId), "standard"));
     }
   };
 
-  const handleTopicUrl = async (urlId: string) => {
+  const handleContextId = async (urlId: string) => {
     try {
-      const topicArticle = await fetchNode({
-        id: urlId,
+      const nodes = await fetchNodes({
+        contextId: urlId,
         language: i18n.language,
         taxonomyVersion,
       });
-      const arr = topicArticle.contentUri?.split(":") ?? [];
-      const id = arr[arr.length - 1];
-      navigate(routes.editArticle(parseInt(id), "topic-article"));
+      const node = nodes[0];
+      if (node.nodeType === "SUBJECT") {
+        if (node.id === NDLA_FILM_SUBJECT) {
+          navigate(routes.film.edit());
+        } else {
+          navigate(routes.structure(node.path));
+        }
+      } else if (node.nodeType === "PROGRAMME") {
+        navigate(routes.programme(node.id));
+      } else {
+        const arr = node?.contentUri?.split(":") ?? [];
+        const id = arr[arr.length - 1];
+        if (arr.at(-2) === "learningpath") {
+          window.location.href = routes.learningpath(id, i18n.language);
+        } else {
+          const articleType = node.nodeType === "TOPIC" ? "topic-article" : "standard";
+          navigate(routes.editArticle(parseInt(id), articleType));
+        }
+      }
     } catch {
       navigate(routes.notFound);
     }
@@ -153,8 +186,12 @@ export const MastheadSearch = () => {
         taxonomyVersion: "default",
       });
       const splittedUri = newArticle.contentUri.split(":");
-      const articleId = splittedUri[splittedUri.length - 1];
-      navigate(routes.editArticle(parseInt(articleId), "standard"));
+      const id = splittedUri[splittedUri.length - 1];
+      if (splittedUri.at(-2) === "learningpath") {
+        window.location.href = routes.learningpath(id, i18n.language);
+      } else {
+        navigate(routes.editArticle(parseInt(id), "standard"));
+      }
     } catch {
       navigate(routes.notFound);
     }
@@ -163,9 +200,8 @@ export const MastheadSearch = () => {
   const handleSubmit = (evt: FormEvent) => {
     evt.preventDefault();
     const isNDLAUrl = isNDLAFrontendUrl(query);
-    const isNodeId = query.length > 2 && /#\d+/g.test(query) && !Number.isNaN(parseFloat(query.substring(1)));
-
-    const isTaxonomyId = query.length > 2 && /#urn:(resource|topic)[:\da-fA-F-]+/g.test(query);
+    const isNodeId = query.length > 2 && nodeIdRegEx.test(query) && !Number.isNaN(parseFloat(query.substring(1)));
+    const isTaxonomyId = query.length > 2 && taxonomyIdRegEx.test(query);
 
     if (isNDLAUrl) {
       handleUrlPaste(query);

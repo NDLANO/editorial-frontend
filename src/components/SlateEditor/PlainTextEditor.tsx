@@ -91,7 +91,7 @@ const PlainTextEditor = forwardRef<HTMLTextAreaElement, Props>(
           // Forcing slate field to be deselected before selecting new field.
           // Fixes a problem where slate field is not properly focused on click.
           onBlur={onBlur}
-          // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
+          // @ts-expect-error is-hotkey and editor.onKeyDown does not have matching types
           onKeyDown={editor.onKeyDown}
           className={className}
           placeholder={placeholder}

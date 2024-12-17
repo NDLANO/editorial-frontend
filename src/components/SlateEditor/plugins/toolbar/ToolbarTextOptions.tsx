@@ -11,7 +11,15 @@ import { useTranslation } from "react-i18next";
 import { Element, Editor, Transforms } from "slate";
 import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
 import { createListCollection } from "@ark-ui/react";
-import { SelectContent, SelectItem, SelectItemText, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
+import {
+  FieldRoot,
+  SelectContent,
+  SelectItem,
+  SelectItemText,
+  SelectLabel,
+  SelectRoot,
+  SelectValueText,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { handleTextChange } from "./handleMenuClicks";
 import { ToolbarCategoryProps } from "./SlateToolbar";
@@ -81,31 +89,33 @@ export const ToolbarTextOptions = ({ options }: ToolbarCategoryProps<TextType>) 
   if (!collection) return null;
 
   return (
-    <SelectRoot
-      collection={collection}
-      positioning={{ sameWidth: true }}
-      value={[type]}
-      onValueChange={(details) => onTextOptionClick(details.value[0])}
-    >
-      <SelectLabel srOnly>{title}</SelectLabel>
-      <StyledGenericSelectTrigger variant="tertiary" size="small" title={title} data-testid="toolbar-button-text">
-        {TriggerIcon && <TriggerIcon title={title} fontWeight="semibold" />}
-        <SelectValueText />
-      </StyledGenericSelectTrigger>
-      <SelectContent>
-        {collection.items.map((item) => {
-          const Icon = item.value ? iconMapping[item.value] : undefined;
-          return (
-            <SelectItem item={item} data-testid={`text-option-${item.value}`} key={item.value}>
-              <TextWrapper>
-                {Icon && <Icon />}
-                <SelectItemText>{t(`editorToolbar.${item.value}-value`)}</SelectItemText>
-              </TextWrapper>
-              <GenericSelectItemIndicator />
-            </SelectItem>
-          );
-        })}
-      </SelectContent>
-    </SelectRoot>
+    <FieldRoot>
+      <SelectRoot
+        collection={collection}
+        positioning={{ sameWidth: true }}
+        value={[type]}
+        onValueChange={(details) => onTextOptionClick(details.value[0])}
+      >
+        <SelectLabel srOnly>{title}</SelectLabel>
+        <StyledGenericSelectTrigger variant="tertiary" size="small" title={title} data-testid="toolbar-button-text">
+          {!!TriggerIcon && <TriggerIcon title={title} fontWeight="semibold" />}
+          <SelectValueText />
+        </StyledGenericSelectTrigger>
+        <SelectContent>
+          {collection.items.map((item) => {
+            const Icon = item.value ? iconMapping[item.value] : undefined;
+            return (
+              <SelectItem item={item} data-testid={`text-option-${item.value}`} key={item.value}>
+                <TextWrapper>
+                  {!!Icon && <Icon />}
+                  <SelectItemText>{t(`editorToolbar.${item.value}-value`)}</SelectItemText>
+                </TextWrapper>
+                <GenericSelectItemIndicator />
+              </SelectItem>
+            );
+          })}
+        </SelectContent>
+      </SelectRoot>
+    </FieldRoot>
   );
 };

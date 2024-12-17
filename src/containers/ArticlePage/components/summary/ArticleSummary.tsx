@@ -10,11 +10,9 @@ import { FieldHelperProps, useFormikContext } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-
-import { BlogPost } from "@ndla/icons/editor";
+import { FileListLine } from "@ndla/icons";
 import { Button, FieldHelper, FieldLabel, FieldRoot, Spinner, TextArea } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import FieldHeader from "../../../../components/Field/FieldHeader";
 import { FormField } from "../../../../components/FormField";
 import { claudeHaikuDefaults, invokeModel } from "../../../../components/LLM/helpers";
 import PlainTextEditor from "../../../../components/SlateEditor/PlainTextEditor";
@@ -85,10 +83,10 @@ const ArticleSummary = ({ articleContent, articleLanguage }: Props) => {
 
   return (
     <ComponentRoot>
-      <FieldHeader title={t("textGeneration.articleSummary.title")}></FieldHeader>
+      {/* <FieldHeader title={t("textGeneration.articleSummary.title")}></FieldHeader> */}
       <TextArea onChange={() => {}} value={generatedSummary} />
       <StyledButton size="small" onClick={generate}>
-        {t("textGeneration.articleSummary.button")} {isLoading ? <Spinner size="small" /> : <BlogPost />}
+        {t("textGeneration.articleSummary.button")} {isLoading ? <Spinner size="small" /> : <FileListLine />}
       </StyledButton>
 
       {/* <FormField name={t("textGeneration.articleSummary.title")}>
@@ -99,7 +97,7 @@ const ArticleSummary = ({ articleContent, articleLanguage }: Props) => {
               <FieldHelper>{t("textGeneration.articleSummary.title")}</FieldHelper>
               <PlainTextEditor key={field.value} id={field.name} placeholder={t("textGeneration.articleSummary.title")} {...field} />
               <StyledButton size="small" onClick={() => generateSummary(helpers)}>
-                {t("textGeneration.articleSummary.button")} {isLoading ? <Spinner size="small" /> : <BlogPost />}
+                {t("textGeneration.articleSummary.button")} {isLoading ? <Spinner size="small" /> : <FileListLine />}
               </StyledButton>
             </FieldRoot>
           );

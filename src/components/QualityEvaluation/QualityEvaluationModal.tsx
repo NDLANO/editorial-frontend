@@ -10,7 +10,7 @@ import { FieldHelperProps, FieldInputProps } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
-import { PencilLine } from "@ndla/icons/action";
+import { PencilLine } from "@ndla/icons";
 import {
   DialogBody,
   DialogContent,
@@ -21,7 +21,7 @@ import {
   IconButton,
   Text,
 } from "@ndla/primitives";
-import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
+import { IArticleDTO, IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import QualityEvaluationForm from "./QualityEvaluationForm";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
@@ -29,12 +29,12 @@ import { DialogCloseButton } from "../DialogCloseButton";
 
 interface Props {
   articleType?: string;
-  article?: IArticle;
+  article?: IArticleDTO;
   taxonomy?: Node[];
   iconButtonColor?: "light" | "primary";
   revisionMetaField?: FieldInputProps<ArticleFormType["revisionMeta"]>;
   revisionMetaHelpers?: FieldHelperProps<ArticleFormType["revisionMeta"]>;
-  updateNotes?: (art: IUpdatedArticle) => Promise<IArticle>;
+  updateNotes?: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
 }
 
 const QualityEvaluationModal = ({
@@ -69,7 +69,7 @@ const QualityEvaluationModal = ({
             <Text textStyle="label.small">
               {t("qualityEvaluationForm.description", { resource: resourceTranslation })}
             </Text>
-            {taxonomy && (
+            {!!taxonomy && (
               <QualityEvaluationForm
                 setOpen={setOpen}
                 taxonomy={taxonomy}

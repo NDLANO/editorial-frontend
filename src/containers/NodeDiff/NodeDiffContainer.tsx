@@ -7,15 +7,13 @@
  */
 
 import isEqual from "lodash/isEqual";
-import { Fragment, ReactNode, useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing, fonts } from "@ndla/core";
-import { ArrowRightShortLine } from "@ndla/icons/common";
-import { MessageBox } from "@ndla/primitives";
+import { ArrowRightShortLine } from "@ndla/icons";
+import { MessageBox, Skeleton } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild } from "@ndla/types-taxonomy";
-import { ContentLoader } from "@ndla/ui";
 import { diffTrees, DiffType, DiffTypeWithChildren, RootDiffType } from "./diffUtils";
 import NodeDiff from "./NodeDiff";
 import { RootNode } from "./TreeNode";
@@ -27,29 +25,34 @@ interface Props {
   otherHash: string;
 }
 
-const StyledNodeList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-`;
+const StyledNodeList = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+  },
+});
 
-const DiffContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const DiffContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
+
+const StyledBreadCrumb = styled("div", {
+  base: {
+    flexGrow: "1",
+    flexDirection: "row",
+    fontStyle: "italic",
+  },
+});
 
 interface NodeOptions {
   nodeView: string | null;
   fieldView: string | null;
 }
-
-const StyledBreadCrumb = styled("div")`
-  flex-grow: 1;
-  flex-direction: row;
-  font-style: italic;
-  font-size: ${fonts.sizes(16)};
-`;
 
 const filterNodes = <T,>(diff: DiffType<T>[], options: NodeOptions): DiffType<T>[] => {
   const afterNodeOption =
@@ -79,7 +82,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     },
     {
       enabled: !!nodeId,
-      //@ts-ignore
+      //@ts-expect-error - this is a network error
       retry: (_, err) => err.status !== 404,
     },
   );
@@ -91,7 +94,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     },
     {
       enabled: !!nodeId && !!otherHash,
-      //@ts-ignore
+      //@ts-expect-error - this is a network error
       retry: (_, err) => err.status !== 404,
     },
   );
@@ -116,14 +119,12 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   );
 
   if (defaultQuery.isLoading || otherQuery.isLoading) {
-    const rows: ReactNode[] = [];
-    for (let i = 0; i < shownNodes; i++) {
-      rows.push(<rect x="0" y={(i * 45).toString()} rx="3" ry="3" width="800" height="40" key={`rect-${i}`} />);
-    }
     return (
-      <ContentLoader width={800} height={shownNodes * 50}>
-        {rows}
-      </ContentLoader>
+      <div>
+        {new Array(shownNodes).fill(0).map((_, i) => (
+          <Skeleton key={i} css={{ width: "100%", height: "xxlarge", marginBlockEnd: "small" }} />
+        ))}
+      </div>
     );
   }
 
@@ -152,10 +153,10 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
           );
         })}
       </StyledBreadCrumb>
-      {equal && <MessageBox>{t("diff.equalNodes")}</MessageBox>}
-      {error && <MessageBox variant="error">{t(error)}</MessageBox>}
+      {!!equal && <MessageBox>{t("diff.equalNodes")}</MessageBox>}
+      {!!error && <MessageBox variant="error">{t(error)}</MessageBox>}
       {view === "tree" && <RootNode tree={diff} onNodeSelected={setSelectedNode} selectedNode={selectedNode} />}
-      {view === "tree" && selectedNode && (
+      {view === "tree" && !!selectedNode && (
         <NodeDiff node={selectedNode} isRoot={isEqual(selectedNode.id, diff.root.id)} />
       )}
       {view === "flat" && (

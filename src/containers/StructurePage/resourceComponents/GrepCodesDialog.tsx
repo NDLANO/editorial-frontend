@@ -19,7 +19,7 @@ import {
   DialogTrigger,
   DialogContent,
 } from "@ndla/primitives";
-import { IArticle } from "@ndla/types-backend/draft-api";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import { constants } from "@ndla/ui";
 import GrepCodesForm from "./GrepCodesForm";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
@@ -93,7 +93,7 @@ const GrepCodeDialogContent = ({ codes, draftId, revision, currentNodeId, conten
         {
           onSuccess: (data) => {
             qc.cancelQueries({ queryKey: key });
-            qc.setQueryData<IArticle>(key, data);
+            qc.setQueryData<IArticleDTO>(key, data);
             qc.invalidateQueries({ queryKey: key });
             qc.setQueriesData<NodeResourceMeta[]>({ queryKey: nodeKey }, (data) =>
               data?.map((meta) => (meta.contentUri === contentUri ? { ...meta, grepCodes } : meta)),
@@ -111,7 +111,7 @@ const GrepCodeDialogContent = ({ codes, draftId, revision, currentNodeId, conten
         <DialogCloseButton />
       </DialogHeader>
       <DialogBody>
-        <GrepCodesForm codes={codes} onUpdate={onUpdateGrepCodes} close={close} />
+        <GrepCodesForm codes={codes} onUpdate={onUpdateGrepCodes} close={close} prefixFilter={["KE", "KM", "TT"]} />
       </DialogBody>
     </DialogContent>
   );

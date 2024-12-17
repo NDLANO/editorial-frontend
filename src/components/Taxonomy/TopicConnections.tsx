@@ -24,7 +24,7 @@ import {
   SwitchThumb,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node, NodeChild } from "@ndla/types-taxonomy";
+import { NodeChild } from "@ndla/types-taxonomy";
 import ActiveTopicConnections from "./ActiveTopicConnections";
 import TaxonomyBlockNode, { NodeWithChildren } from "./TaxonomyBlockNode";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
@@ -66,7 +66,6 @@ const TopicConnections = ({
 }: Props) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
-  const [openedPaths, setOpenedPaths] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(true);
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
 
@@ -90,22 +89,6 @@ const TopicConnections = ({
     setShowFavorites(favoriteSubjects.length > 0);
   };
 
-  const handleOpenToggle = ({ id }: Node) => {
-    let paths = [...openedPaths];
-    const index = paths.indexOf(id);
-    const isSubject = id.includes("subject");
-    if (index === -1) {
-      if (isSubject) {
-        getSubjectTopics(id);
-        paths = [];
-      }
-      paths.push(id);
-    } else {
-      paths.splice(index, 1);
-    }
-    setOpenedPaths(paths);
-  };
-
   const addNode = useCallback(
     (node: NodeChild) => {
       addConnection(node);
@@ -116,7 +99,9 @@ const TopicConnections = ({
 
   return (
     <Wrapper>
-      <Text textStyle="title.small">{t("taxonomy.topics.title")}</Text>
+      <Text textStyle="label.medium" fontWeight="bold">
+        {t("taxonomy.topics.title")}
+      </Text>
       <Text>{t("taxonomy.topics.taxonomySubjectConnections")}</Text>
       <ActiveTopicConnections
         activeTopics={selectedNodes}
@@ -146,10 +131,9 @@ const TopicConnections = ({
               <TaxonomyBlockNode
                 key={node.id}
                 node={node}
-                openedPaths={openedPaths}
-                toggleOpen={handleOpenToggle}
                 selectedNodes={selectedNodes}
                 onSelect={addNode}
+                getSubjectTopics={getSubjectTopics}
               />
             ))}
           </DialogBody>

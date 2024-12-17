@@ -9,6 +9,7 @@
 import { Element, Descendant, Editor, Transforms, Node, Range, Location } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_DETAILS, TYPE_SUMMARY } from "./types";
+import { createHtmlTag } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import containsVoid from "../../utils/containsVoid";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
@@ -125,12 +126,12 @@ export const detailsSerializer: SlateSerializer = {
     }
     return;
   },
-  serialize(node: Descendant, children: JSX.Element[]) {
+  serialize(node, children) {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_SUMMARY) {
-      return <summary>{children}</summary>;
+      return createHtmlTag({ tag: "summary", children });
     } else if (node.type === TYPE_DETAILS) {
-      return <details>{children}</details>;
+      return createHtmlTag({ tag: "details", children });
     }
   },
 };

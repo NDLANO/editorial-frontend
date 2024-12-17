@@ -23,8 +23,8 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
-import { IEditorNote } from "@ndla/types-backend/draft-api";
-import { constants, ContentTypeBadgeNew } from "@ndla/ui";
+import { IEditorNoteDTO } from "@ndla/types-backend/draft-api";
+import { constants, ContentTypeBadge } from "@ndla/ui";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import NotesVersionHistory from "../../../components/VersionHistory/VersionHistory";
@@ -114,7 +114,7 @@ const VersionHistoryContent = ({ contentType, resource }: ModalContentProps) => 
   const numericId = parseInt(resource.contentUri?.split(":").pop() ?? "");
 
   useEffect(() => {
-    const cleanupNotes = (notes: IEditorNote[], users: Auth0UserData[]) =>
+    const cleanupNotes = (notes: IEditorNoteDTO[], users: Auth0UserData[]) =>
       notes.map((note, index) => ({
         id: index,
         note: note.note,
@@ -125,7 +125,7 @@ const VersionHistoryContent = ({ contentType, resource }: ModalContentProps) => 
 
     const fetchHistory = async (id: number) => {
       const versions = await fetchDraftHistory(id);
-      const notes: IEditorNote[] = versions?.[0]?.notes;
+      const notes: IEditorNoteDTO[] = versions?.[0]?.notes;
       if (notes?.length) {
         const userIds = notes.map((note) => note.user).filter((user) => user !== "System");
         const uniqueUserIds = Array.from(new Set(userIds)).join(",");
@@ -149,7 +149,7 @@ const VersionHistoryContent = ({ contentType, resource }: ModalContentProps) => 
       </DialogHeader>
       <DialogBody>
         <LinkWrapper>
-          <ContentTypeBadgeNew contentType={contentType === "topic-article" ? "topic" : contentType} />
+          <ContentTypeBadge contentType={contentType === "topic-article" ? "topic" : contentType} />
           {numericId ? (
             <SafeLink
               to={

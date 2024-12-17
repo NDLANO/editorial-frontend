@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Node, Location, Range, Path, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { AddLine } from "@ndla/icons/action";
+import { AddLine } from "@ndla/icons";
 import { PopoverRoot, PopoverTrigger, IconButton, Button, Heading, PopoverContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Action, ActionData } from "./actions";

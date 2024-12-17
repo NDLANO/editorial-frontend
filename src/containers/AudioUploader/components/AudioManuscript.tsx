@@ -6,15 +6,15 @@
  *
  */
 
-import { connect } from "formik";
+import { connect, useFormikContext } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { fonts } from "@ndla/core";
-import { BlogPost } from "@ndla/icons/editor";
-import { Button, Spinner } from "@ndla/primitives";
+import { Button, FieldErrorMessage, FieldRoot, Spinner } from "@ndla/primitives";
+import { FileListLine } from "@ndla/icons";
 import { AudioFormikType } from "./AudioForm";
-import FormikField from "../../../components/FormikField";
+import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
+import { FieldWarning } from "../../../components/Form/FieldWarning";
+import { FormField } from "../../../components/FormField";
 import { SlatePlugin } from "../../../components/SlateEditor/interfaces";
 import { breakPlugin } from "../../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../../components/SlateEditor/plugins/break/render";
@@ -42,13 +42,6 @@ interface AudioManuscriptProps {
   audioUrl?: string;
   audioType?: string;
 }
-
-const StyledFormikField = styled(FormikField)`
-  label {
-    font-weight: ${fonts.weight.semibold};
-    ${fonts.sizes("30px", "38px")};
-  }
-`;
 
 const toolbarOptions = createToolbarDefaultValues({
   text: {
@@ -82,14 +75,9 @@ const manuscriptRenderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, mar
 
 const plugins = manuscriptPlugins.concat(manuscriptRenderers);
 
-const StyledRichTextEditor = styled(RichTextEditor)`
-  white-space: pre-wrap;
-  ${fonts.sizes("16px", "30px")};
-  font-family: ${fonts.sans};
-`;
-
 const AudioManuscript = ({ audioLanguage, audioUrl, audioType }: AudioManuscriptProps) => {
   const { t } = useTranslation();
+  const { isSubmitting } = useFormikContext();
   const [isLoading, setIsLoading] = useState(false);
 
   const generateText = async () => {
@@ -129,19 +117,24 @@ const AudioManuscript = ({ audioLanguage, audioUrl, audioType }: AudioManuscript
   };
 
   return (
-    <StyledFormikField label={t("podcastForm.fields.manuscript")} name="manuscript">
-      {({ field, form: { isSubmitting }, helpers }) => (
-        <>
-          <StyledRichTextEditor
+    <FormField name="manuscript">
+      {({ field, meta, helpers }) => (
+        <FieldRoot invalid={!!meta.error}>
+          <ContentEditableFieldLabel textStyle="title.medium">
+            {t("podcastForm.fields.manuscript")}
+          </ContentEditableFieldLabel>
+          <RichTextEditor
             {...field}
             hideBlockPicker
             placeholder={t("podcastForm.fields.manuscript")}
             submitted={isSubmitting}
             plugins={plugins}
-            onChange={(val) => field.onChange({ target: { value: val, name: field.name } })}
+            onChange={helpers.setValue}
             toolbarOptions={toolbarOptions}
             toolbarAreaFilters={toolbarAreaFilters}
           />
+          <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          <FieldWarning name={field.name} />
           {audioUrl && (
             <Button
               onClick={async () => {
@@ -151,12 +144,12 @@ const AudioManuscript = ({ audioLanguage, audioUrl, audioType }: AudioManuscript
               size="small"
             >
               {t("textGeneration.transcription.button")}
-              {isLoading ? <Spinner size="small" /> : <BlogPost />}
+              {isLoading ? <Spinner size="small" /> : <FileListLine />}
             </Button>
           )}
-        </>
+        </FieldRoot>
       )}
-    </StyledFormikField>
+    </FormField>
   );
 };
 

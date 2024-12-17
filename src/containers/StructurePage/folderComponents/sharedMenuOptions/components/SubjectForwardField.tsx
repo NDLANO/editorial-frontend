@@ -6,11 +6,10 @@
  *
  */
 
-import { useState, KeyboardEvent } from "react";
+import { useState, KeyboardEvent, Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldLabel } from "@ark-ui/react";
-import { DeleteBinLine } from "@ndla/icons/action";
-import { CheckLine } from "@ndla/icons/editor";
+import { DeleteBinLine, CheckLine } from "@ndla/icons";
 import { FieldInput, FieldRoot, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Metadata } from "@ndla/types-taxonomy";
@@ -39,7 +38,7 @@ const ButtonsWrapper = styled("div", {
 });
 
 interface Props {
-  onSubmit: Function;
+  onSubmit: Dispatch<SetStateAction<Metadata["customFields"]>>;
   initialVal?: string;
 }
 

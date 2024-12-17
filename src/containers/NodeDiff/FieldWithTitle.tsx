@@ -7,17 +7,20 @@
  */
 
 import { ReactNode } from "react";
-import styled from "@emotion/styled";
+import { styled } from "@ndla/styled-system/jsx";
 
 interface Props {
   title: string;
   children: ReactNode;
 }
 
-const StyledDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+const StyledDiv = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+  },
+});
 
 const FieldWithTitle = ({ title, children }: Props) => {
   return (

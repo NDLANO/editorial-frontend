@@ -8,8 +8,7 @@
 
 import { useState, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { ArrowDownShortLine } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
+import { ArrowDownShortLine, CheckLine } from "@ndla/icons";
 import { Button, IconButton, MenuContent, MenuItem, MenuRoot, MenuTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { SAVE_BUTTON_ID } from "../constants";
@@ -18,6 +17,13 @@ const StyledMultiButton = styled("div", {
   base: {
     display: "flex",
     gap: "5xsmall",
+    marginInlineStart: "auto",
+  },
+});
+
+const StyledSaveButton = styled(Button, {
+  base: {
+    marginInlineStart: "auto",
   },
 });
 
@@ -72,17 +78,17 @@ const SaveMultiButton = ({ isSaving, showSaved, formIsDirty, hasErrors, onClick,
 
   if (hideSecondaryButton)
     return (
-      <Button
+      <StyledSaveButton
         id={SAVE_BUTTON_ID}
         variant={showSaved ? "success" : "primary"}
-        disabled={disabledButton && !showSaved}
+        disabled={!!disabledButton && !showSaved}
         loading={isSaving}
         onClick={onSaveMainButton}
         aria-live="polite"
       >
-        {showSaved && <CheckLine />}
+        {!!showSaved && <CheckLine />}
         {buttonSaveText}
-      </Button>
+      </StyledSaveButton>
     );
 
   const secondaryButtons: SecondaryButton[] = [
@@ -105,12 +111,12 @@ const SaveMultiButton = ({ isSaving, showSaved, formIsDirty, hasErrors, onClick,
       <StyledButton
         id={SAVE_BUTTON_ID}
         variant={showSaved ? "success" : "primary"}
-        disabled={disabledButton && !showSaved}
+        disabled={!!disabledButton && !showSaved}
         loading={isSaving}
         onClick={onSaveMainButton}
         aria-live="polite"
       >
-        {showSaved && <CheckLine />}
+        {!!showSaved && <CheckLine />}
         {buttonSaveText}
       </StyledButton>
       <MenuRoot

@@ -10,11 +10,10 @@ import sortBy from "lodash/sortBy";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
-import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
-import { spacing } from "@ndla/core";
-import { DragVertical } from "@ndla/icons/editor";
-import { Button } from "@ndla/primitives";
+import { Draggable } from "@ndla/icons";
+import { Button, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild } from "@ndla/types-taxonomy";
 import Resource from "./Resource";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
@@ -28,20 +27,9 @@ import { NodeResourceMeta, nodeQueryKeys } from "../../../modules/nodes/nodeQuer
 import handleError from "../../../util/handleError";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
-const StyledResourceItems = styled.ul`
-  list-style: none;
-  margin: 0;
-  padding: 0;
-`;
-
-const StyledDragHandle = styled(DragHandle)`
-  margin-right: ${spacing.xsmall};
-`;
-
-const StyledErrorMessage = styled.div`
-  text-align: center;
-  color: #fe5f55;
-`;
+const StyledResourceItems = styled("ul", {
+  base: { listStyle: "none" },
+});
 
 interface Props {
   resources: ResourceWithNodeConnectionAndMeta[];
@@ -129,9 +117,9 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoadi
         disabled={resources.length < 2}
         onDragEnd={onDragEnd}
         dragHandle={
-          <StyledDragHandle aria-label={t("dragAndDrop.handle")}>
-            <DragVertical />
-          </StyledDragHandle>
+          <DragHandle aria-label={t("dragAndDrop.handle")}>
+            <Draggable />
+          </DragHandle>
         }
         renderItem={(resource) => (
           <Resource
@@ -144,11 +132,12 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoadi
             key={resource.id}
             contentMetaLoading={contentMetaLoading}
             showQuality={showQuality}
+            onDelete={toggleDelete}
           />
         )}
       />
       {deleteNodeResource.error && isError(deleteNodeResource.error) ? (
-        <StyledErrorMessage>{`${t("taxonomy.errorMessage")}: ${deleteNodeResource.error.message}`}</StyledErrorMessage>
+        <Text color="text.error">{`${t("taxonomy.errorMessage")}: ${deleteNodeResource.error.message}`}</Text>
       ) : null}
       <AlertDialog
         title={t("taxonomy.delete.deleteResource")}

@@ -8,14 +8,13 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ErrorWarningFill } from "@ndla/icons/common";
-import { CheckLine, Code, Concept, Globe } from "@ndla/icons/editor";
+import { ErrorWarningFill, CheckLine, CodeView, ChatLine, GlobalLine } from "@ndla/icons";
 import { ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
-import { ContentTypeBadgeNew, constants } from "@ndla/ui";
+import { ContentTypeBadge, constants } from "@ndla/ui";
 import SearchHighlight from "./SearchHighlight";
 import { SearchListItemImage } from "./SearchListItemImage";
 import HeaderFavoriteStatus from "../../../../components/HeaderWithLanguage/HeaderFavoriteStatus";
@@ -26,13 +25,13 @@ import { isLearningpath, routes } from "../../../../util/routeHelpers";
 import { useSession } from "../../../Session/SessionProvider";
 
 interface Props {
-  content: IMultiSearchSummary;
+  content: IMultiSearchSummaryDTO;
   locale: string;
   responsibleName?: string;
   subjects: Node[];
 }
 
-const SubjectBreadcrumb = ({ content, subjects }: { content: IMultiSearchSummary; subjects: Node[] }) => {
+const SubjectBreadcrumb = ({ content, subjects }: { content: IMultiSearchSummaryDTO; subjects: Node[] }) => {
   const breadcrumbs = useMemo(() => {
     if (content.learningResourceType === "gloss" || content.learningResourceType === "concept") {
       return subjects.filter((s) => content.conceptSubjectIds?.includes(s.id)).map((bc) => bc.name);
@@ -160,9 +159,9 @@ const SearchContent = ({ content, locale, subjects, responsibleName }: Props) =>
 
   const imageData = useMemo(() => {
     if (content.learningResourceType === "gloss") {
-      return { icon: <Globe />, imageUrl: "" };
+      return { icon: <GlobalLine />, imageUrl: "" };
     } else if (content.learningResourceType === "concept") {
-      return { icon: <Concept />, imageUrl: "" };
+      return { icon: <ChatLine />, imageUrl: "" };
     } else {
       return { icon: undefined, imageUrl: content.metaImage?.url ?? "/placeholder.png" };
     }
@@ -199,7 +198,7 @@ const SearchContent = ({ content, locale, subjects, responsibleName }: Props) =>
             {content.contexts.length > 1 && (
               <StyledErrorWarningFill title={t("searchForm.multiTaxonomy", { count: content.contexts.length })} />
             )}
-            {!!contentType && <ContentTypeBadgeNew contentType={contentType} />}
+            {!!contentType && <ContentTypeBadge contentType={contentType} />}
             {content.learningResourceType !== "frontpage-article" && (
               <HeaderFavoriteStatus
                 id={content.id}
@@ -216,23 +215,23 @@ const SearchContent = ({ content, locale, subjects, responsibleName }: Props) =>
           </ContentWrapper>
           <InfoWrapper>
             {!conceptTypes.includes(contentType ?? "") &&
-              content.id &&
-              content.resultType === "draft" &&
-              userPermissions?.includes(DRAFT_HTML_SCOPE) && (
-                <SafeLinkIconButton
-                  size="small"
-                  variant="secondary"
-                  title={t("editMarkup.linkTitle")}
-                  aria-label={t("editMarkup.linkTitle")}
-                  to={routes.editMarkup(
-                    content.id,
-                    content.supportedLanguages.includes(locale) ? locale : content.supportedLanguages[0],
-                  )}
-                >
-                  <Code />
-                </SafeLinkIconButton>
-              )}
-            {(content.status?.current === PUBLISHED || content.status?.other.includes(PUBLISHED)) && (
+            content.id &&
+            content.resultType === "draft" &&
+            userPermissions?.includes(DRAFT_HTML_SCOPE) ? (
+              <SafeLinkIconButton
+                size="small"
+                variant="secondary"
+                title={t("editMarkup.linkTitle")}
+                aria-label={t("editMarkup.linkTitle")}
+                to={routes.editMarkup(
+                  content.id,
+                  content.supportedLanguages.includes(locale) ? locale : content.supportedLanguages[0],
+                )}
+              >
+                <CodeView />
+              </SafeLinkIconButton>
+            ) : null}
+            {!!(content.status?.current === PUBLISHED || content.status?.other.includes(PUBLISHED)) && (
               <SafeLinkIconButton
                 size="small"
                 variant="success"

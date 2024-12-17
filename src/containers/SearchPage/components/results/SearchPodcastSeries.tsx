@@ -7,16 +7,16 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Podcast } from "@ndla/icons/common";
+import { BroadcastLine } from "@ndla/icons";
 import { ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { ISeriesSummary } from "@ndla/types-backend/audio-api";
+import { ISeriesSummaryDTO } from "@ndla/types-backend/audio-api";
 import { SearchContentWrapper } from "./SearchContentWrapper";
 import { SearchListItemImage } from "./SearchListItemImage";
 import { routes } from "../../../../util/routeHelpers";
 
 interface Props {
-  series: ISeriesSummary;
+  series: ISeriesSummaryDTO;
 }
 
 const SearchPodcastSeries = ({ series }: Props) => {
@@ -29,7 +29,7 @@ const SearchPodcastSeries = ({ series }: Props) => {
         alt={series.coverPhoto.altText}
         sizes="56px"
         fallbackWidth={56}
-        fallbackElement={<Podcast />}
+        fallbackElement={<BroadcastLine />}
       />
       <ListItemContent>
         <SearchContentWrapper>

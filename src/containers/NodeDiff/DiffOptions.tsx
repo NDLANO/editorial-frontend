@@ -10,9 +10,8 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import { createListCollection } from "@ark-ui/react";
-import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
-import { ContentLoader } from "@ndla/ui";
+import { SelectContent, SelectLabel, SelectRoot, SelectValueText, Skeleton } from "@ndla/primitives";
+import { Stack, styled } from "@ndla/styled-system/jsx";
 import { GenericSelectItem, GenericSelectTrigger } from "../../components/abstractions/Select";
 import { OptGroupVersionSelector } from "../../components/Taxonomy/OptGroupVersionSelector";
 import { useVersions } from "../../modules/taxonomy/versions/versionQueries";
@@ -121,19 +120,33 @@ const DiffOptions = ({ originalHash, otherHash }: Props) => {
 
   if (taxonomyVersions.isLoading) {
     return (
-      <ContentLoader width={800} height={150}>
-        <rect x="0" y="0" rx="3" ry="3" width="100" height="23" key="rect-1-2" />
-        <rect x="0" y="26" rx="3" ry="3" width="260" height="32" key="rect-1-3" />
-        <rect x="270" y="0" rx="3" ry="3" width="100" height="23" key="rect-1-4" />
-        <rect x="270" y="26" rx="3" ry="3" width="255" height="32" key="rect-1-5" />
-        <rect x="535" y="0" rx="3" ry="3" width="100" height="23" key="rect-1-6" />
-        <rect x="535" y="26" rx="3" ry="3" width="100" height="32" key="rect-1-7" />
-
-        <rect x="0" y="76" rx="3" ry="3" width="80" height="23" key="rect-2-1" />
-        <rect x="0" y="102" rx="3" ry="3" width="120" height="32" key="rect-2-2" />
-        <rect x="130" y="76" rx="3" ry="3" width="80" height="23" key="rect-2-3" />
-        <rect x="130" y="102" rx="3" ry="3" width="120" height="32" key="rect-2-4" />
-      </ContentLoader>
+      <>
+        <Skeleton css={{ width: "40%", height: "medium" }} />
+        <Stack direction="row" gap="small" justify="flex-start" align="flex-start">
+          <Stack direction="column" gap="3xsmall" css={{ width: "30%" }}>
+            <Skeleton css={{ width: "40%", height: "medium" }} />
+            <Skeleton css={{ height: "xlarge" }} />
+          </Stack>
+          <Stack direction="column" gap="3xsmall" css={{ width: "30%" }}>
+            <Skeleton css={{ width: "40%", height: "medium" }} />
+            <Skeleton css={{ height: "xlarge" }} />
+          </Stack>
+          <Stack direction="column" gap="3xsmall" css={{ width: "15%" }}>
+            <Skeleton css={{ width: "80%", height: "medium" }} />
+            <Skeleton css={{ height: "xlarge" }} />
+          </Stack>
+        </Stack>
+        <Stack direction="row" gap="small" justify="flex-start" align="flex-start">
+          <Stack direction="column" gap="3xsmall" css={{ width: "15%" }}>
+            <Skeleton css={{ width: "40%", height: "medium" }} />
+            <Skeleton css={{ height: "xlarge" }} />
+          </Stack>
+          <Stack direction="column" gap="3xsmall" css={{ width: "15%" }}>
+            <Skeleton css={{ width: "40%", height: "medium" }} />
+            <Skeleton css={{ height: "xlarge" }} />
+          </Stack>
+        </Stack>
+      </>
     );
   }
 

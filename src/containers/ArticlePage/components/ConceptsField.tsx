@@ -6,13 +6,13 @@
  *
  */
 
-import { FieldInputProps, FormikHelpers } from "formik";
+import { FieldInputProps } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DragVertical } from "@ndla/icons/editor";
+import { Draggable } from "@ndla/icons";
 import { ComboboxLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IConceptSummary } from "@ndla/types-backend/concept-api";
+import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
@@ -31,13 +31,12 @@ const StyledList = styled("ul", {
 
 interface Props {
   field: FieldInputProps<ArticleFormType["conceptIds"]>;
-  form: FormikHelpers<ArticleFormType>;
 }
 
-const ConceptsField = ({ field, form }: Props) => {
+const ConceptsField = ({ field }: Props) => {
   const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
   const { t, i18n } = useTranslation();
-  const [concepts, setConcepts] = useState<IConceptSummary[]>([]);
+  const [concepts, setConcepts] = useState<IConceptSummaryDTO[]>([]);
 
   const searchQuery = useSearchConcepts(
     { query: delayedQuery, language: i18n.language, page },
@@ -53,18 +52,17 @@ const ConceptsField = ({ field, form }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onUpdateElements = (conceptList: IConceptSummary[]) => {
+  const onUpdateElements = (conceptList: IConceptSummaryDTO[]) => {
     setConcepts(conceptList);
     updateFormik(field, conceptList);
   };
 
-  const onDeleteElements = (elements: IConceptSummary[], deleteIndex: number) => {
+  const onDeleteElements = (elements: IConceptSummaryDTO[], deleteIndex: number) => {
     const newElements = elements.filter((_, i) => i !== deleteIndex);
     onUpdateElements(newElements);
   };
 
-  const updateFormik = (formikField: Props["field"], newData: IConceptSummary[]) => {
-    form.setFieldTouched("conceptIds", true, false);
+  const updateFormik = (formikField: Props["field"], newData: IConceptSummaryDTO[]) => {
     formikField.onChange({
       target: {
         name: formikField.name,
@@ -110,7 +108,7 @@ const ConceptsField = ({ field, form }: Props) => {
           items={concepts}
           dragHandle={
             <DragHandle aria-label={t("form.relatedConcepts.changeOrder")}>
-              <DragVertical />
+              <Draggable />
             </DragHandle>
           }
           renderItem={(item, index) => (

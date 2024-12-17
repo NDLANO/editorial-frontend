@@ -21,6 +21,10 @@ export interface H5PInfo {
   title: string;
 }
 
+export interface H5pCopyResponse {
+  url: string;
+}
+
 export const fetchH5PiframeUrl = (
   locale: string = "",
   canReturnResources: boolean = false,
@@ -62,4 +66,16 @@ export const fetchH5pLicenseInformation = async (resourceId: string): Promise<H5
 export const fetchH5PInfo = async (resourceId: string): Promise<H5PInfo> => {
   const url = `${config.h5pApiUrl}/v1/resource/${resourceId}/info`;
   return fetch(url).then((r) => resolveJsonOrRejectWithError(r));
+};
+
+export const copyH5P = async (url: string): Promise<H5pCopyResponse> => {
+  const h5pUrl = `${config.h5pApiUrl}/copy`;
+  return await fetchReAuthorized(h5pUrl, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      Authorization: `Bearer JWT-token`,
+    },
+    method: "POST",
+    body: `url=${encodeURIComponent(url)}`,
+  }).then((r) => resolveJsonOrRejectWithError(r));
 };

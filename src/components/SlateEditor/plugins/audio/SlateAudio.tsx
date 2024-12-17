@@ -11,8 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
-import { Link } from "@ndla/icons/common";
+import { PencilFill, DeleteBinLine, LinkMedium } from "@ndla/icons";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -22,7 +21,6 @@ import AudioEmbedForm from "./AudioEmbedForm";
 import { AudioElement } from "./types";
 import { useAudioMeta } from "../../../../modules/embed/queries";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
-import { StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
   element: AudioElement;
@@ -39,13 +37,24 @@ const StyledEmbedWrapper = styled(EmbedWrapper, {
   },
 });
 
+const ButtonContainer = styled("div", {
+  base: {
+    position: "absolute",
+    right: "0",
+    top: "-xlarge",
+    display: "flex",
+    gap: "3xsmall",
+    justifyContent: "flex-end",
+  },
+});
+
 const SlateAudio = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const isSelected = useSelected();
   const language = useArticleLanguage();
 
-  const audioMetaQuery = useAudioMeta(element.data?.resourceId!, language, {
+  const audioMetaQuery = useAudioMeta(element.data?.resourceId ?? "", language, {
     enabled: !!parseInt(element.data?.resourceId ?? ""),
   });
   const embed: AudioMetaData | undefined = useMemo(
@@ -117,13 +126,13 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
           <Spinner />
         ) : embed ? (
           <>
-            <StyledFigureButtons>
+            <ButtonContainer>
               {embed.embedData.type !== "podcast" && (
                 <DialogTrigger asChild>
                   <IconButton
                     title={t("form.audio.edit")}
                     aria-label={t("form.audio.edit")}
-                    variant="tertiary"
+                    variant="secondary"
                     size="small"
                   >
                     <PencilFill />
@@ -142,7 +151,7 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
                     title={t("form.editOriginalAudio")}
                     aria-label={t("form.editOriginalAudio")}
                   >
-                    <Link />
+                    <LinkMedium />
                   </SafeLinkIconButton>
                   <IconButton
                     title={t("form.audio.remove")}
@@ -156,7 +165,7 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
                   </IconButton>
                 </>
               )}
-            </StyledFigureButtons>
+            </ButtonContainer>
             <AudioEmbed embed={embed} />
           </>
         ) : null}

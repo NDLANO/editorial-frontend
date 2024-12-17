@@ -10,6 +10,8 @@ import { useTranslation } from "react-i18next";
 import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
+import AddProgramme from "./programmeMenuOptions/AddProgramme";
+import AddTopicNode from "./sharedMenuOptions/AddTopicNode";
 import MenuItemCustomField from "./sharedMenuOptions/components/MenuItemCustomField";
 import ConnectExistingNode from "./sharedMenuOptions/ConnectExistingNode";
 import DeleteNode from "./sharedMenuOptions/DeleteNode";
@@ -64,10 +66,10 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
       <>
         <TabsRoot orientation="vertical" variant="line" translations={{ listLabel: t("taxonomy.nodeSettings") }}>
           <StyledTabsList>
-            {isTaxonomyAdmin && (
+            {!!isTaxonomyAdmin && (
               <TabsTrigger value="changeSubjectName">{t("taxonomy.changeName.buttonTitle")}</TabsTrigger>
             )}
-            {isTaxonomyAdmin && (
+            {!!isTaxonomyAdmin && (
               <TabsTrigger value="editCustomFields">{t("taxonomy.metadata.customFields.alterFields")}</TabsTrigger>
             )}
             <TabsTrigger value="moveExistingNode">
@@ -81,7 +83,12 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
               })}
             </TabsTrigger>
             <TabsTrigger value="toggleMetadataVisibility">{t("metadata.changeVisibility")}</TabsTrigger>
-            {isTaxonomyAdmin && (
+            <TabsTrigger value="addProgramme">
+              {t("taxonomy.addNode", {
+                nodeType: t(`taxonomy.nodeType.${nodeType}`),
+              })}
+            </TabsTrigger>
+            {!!isTaxonomyAdmin && (
               <TabsTrigger value="deleteProgramme">
                 {t("taxonomy.delete.deleteNode", {
                   nodeType: t(`taxonomy.nodeType.${nodeType}`),
@@ -90,12 +97,12 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
             )}
             <TabsIndicator />
           </StyledTabsList>
-          {isTaxonomyAdmin && (
+          {!!isTaxonomyAdmin && (
             <StyledTabsContent value="changeSubjectName">
               <ChangeNodeName node={node} />
             </StyledTabsContent>
           )}
-          {isTaxonomyAdmin && (
+          {!!isTaxonomyAdmin && (
             <StyledTabsContent value="editCustomFields">
               <MenuItemCustomField node={node} onCurrentNodeChanged={onCurrentNodeChanged} />
             </StyledTabsContent>
@@ -109,7 +116,10 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
           <StyledTabsContent value="toggleMetadataVisibility">
             <ToggleVisibility node={node} rootNodeId={rootNodeId} rootNodeType="PROGRAMME" />
           </StyledTabsContent>
-          {isTaxonomyAdmin && (
+          <StyledTabsContent value="addProgramme">
+            <AddProgramme node={node} rootNodeId={rootNodeId} />
+          </StyledTabsContent>
+          {!!isTaxonomyAdmin && (
             <StyledTabsContent value="deleteProgramme">
               <DeleteNode
                 node={node}
@@ -121,7 +131,7 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
             </StyledTabsContent>
           )}
         </TabsRoot>
-        {isTaxonomyAdmin && <EditSubjectpageOption node={node} />}
+        {!!isTaxonomyAdmin && <EditSubjectpageOption node={node} />}
         <ToNodeDiff node={node} />
       </>
     );
@@ -131,10 +141,12 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
       return (
         <TabsRoot orientation="vertical" variant="line" translations={{ listLabel: t("taxonomy.nodeSettings") }}>
           <StyledTabsList>
-            {isTaxonomyAdmin && <TabsTrigger value="disconnectFromParent">{t("taxonomy.disconnectNode")}</TabsTrigger>}
+            {!!isTaxonomyAdmin && (
+              <TabsTrigger value="disconnectFromParent">{t("taxonomy.disconnectNode")}</TabsTrigger>
+            )}
             <TabsIndicator />
           </StyledTabsList>
-          {isTaxonomyAdmin && (
+          {!!isTaxonomyAdmin && (
             <StyledTabsContent value="disconnectFromParent">
               <DisconnectFromParent node={node} onCurrentNodeChanged={onCurrentNodeChanged} />
             </StyledTabsContent>
@@ -146,12 +158,12 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
       <>
         <TabsRoot orientation="vertical" variant="line" translations={{ listLabel: t("taxonomy.nodeSettings") }}>
           <StyledTabsList>
-            {isTaxonomyAdmin && (
+            {!!isTaxonomyAdmin && (
               <TabsTrigger value="changeSubjectName" data-testid="changeNodeNameButton">
                 {t("taxonomy.changeName.buttonTitle")}
               </TabsTrigger>
             )}
-            {isTaxonomyAdmin && (
+            {!!isTaxonomyAdmin && (
               <TabsTrigger value="editCustomFields">{t("taxonomy.metadata.customFields.alterFields")}</TabsTrigger>
             )}
             <TabsTrigger value="moveExistingNode">
@@ -162,8 +174,9 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
             <TabsTrigger value="toggleMetadataVisibility" data-testid="toggleVisibilityButton">
               {t("metadata.changeVisibility")}
             </TabsTrigger>
-            {isTaxonomyAdmin && <TabsTrigger value="editGrepCodes">{t("taxonomy.grepCodes.edit")}</TabsTrigger>}
-            {isTaxonomyAdmin && (
+            {!!isTaxonomyAdmin && <TabsTrigger value="editGrepCodes">{t("taxonomy.grepCodes.edit")}</TabsTrigger>}
+            <TabsTrigger value="addTopic">{t("taxonomy.addTopic")}</TabsTrigger>
+            {!!isTaxonomyAdmin && (
               <TabsTrigger value="deleteSubject">
                 {t("taxonomy.delete.deleteNode", {
                   nodeType: t(`taxonomy.nodeType.${nodeType}`),
@@ -172,12 +185,12 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
             )}
             <TabsIndicator />
           </StyledTabsList>
-          {isTaxonomyAdmin && (
+          {!!isTaxonomyAdmin && (
             <StyledTabsContent value="changeSubjectName">
               <ChangeNodeName node={node} />
             </StyledTabsContent>
           )}
-          {isTaxonomyAdmin && (
+          {!!isTaxonomyAdmin && (
             <StyledTabsContent value="editCustomFields">
               <MenuItemCustomField node={node} onCurrentNodeChanged={onCurrentNodeChanged} />
             </StyledTabsContent>
@@ -188,12 +201,15 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
           <StyledTabsContent value="toggleMetadataVisibility">
             <ToggleVisibility node={node} rootNodeId={rootNodeId} />
           </StyledTabsContent>
-          {isTaxonomyAdmin && (
+          {!!isTaxonomyAdmin && (
             <StyledTabsContent value="editGrepCodes">
               <EditGrepCodes node={node} />
             </StyledTabsContent>
           )}
-          {isTaxonomyAdmin && (
+          <StyledTabsContent value="addTopic">
+            <AddTopicNode node={node} />
+          </StyledTabsContent>
+          {!!isTaxonomyAdmin && (
             <StyledTabsContent value="deleteSubject">
               <DeleteNode
                 node={node}
@@ -205,7 +221,7 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
             </StyledTabsContent>
           )}
         </TabsRoot>
-        {isTaxonomyAdmin && <EditSubjectpageOption node={node} />}
+        {!!isTaxonomyAdmin && <EditSubjectpageOption node={node} />}
         <ToNodeDiff node={node} />
       </>
     );
@@ -215,11 +231,11 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
       <>
         <TabsRoot orientation="vertical" variant="line" translations={{ listLabel: t("taxonomy.nodeSettings") }}>
           <StyledTabsList>
-            {isTaxonomyAdmin && <TabsTrigger value="requestPublish">{t("taxonomy.publish.button")}</TabsTrigger>}
-            {isTaxonomyAdmin && (
+            {!!isTaxonomyAdmin && <TabsTrigger value="requestPublish">{t("taxonomy.publish.button")}</TabsTrigger>}
+            {!!isTaxonomyAdmin && (
               <TabsTrigger value="swapTopicArticle">{t("taxonomy.swapTopicArticle.info")}</TabsTrigger>
             )}
-            {isTaxonomyAdmin && (
+            {!!isTaxonomyAdmin && (
               <TabsTrigger value="editCustomFields">{t("taxonomy.metadata.customFields.alterFields")}</TabsTrigger>
             )}
             <TabsTrigger value="moveExistingNode">
@@ -229,13 +245,14 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
             </TabsTrigger>
             <TabsTrigger value="toggleMetadataVisibility">{t("metadata.changeVisibility")}</TabsTrigger>
             <TabsTrigger value="copyResources">{t("taxonomy.copyResources.info")}</TabsTrigger>
-            {isTaxonomyAdmin && <TabsTrigger value="cloneResources">{t("taxonomy.cloneResources.info")}</TabsTrigger>}
-            {isTaxonomyAdmin && (
+            {!!isTaxonomyAdmin && <TabsTrigger value="cloneResources">{t("taxonomy.cloneResources.info")}</TabsTrigger>}
+            {!!isTaxonomyAdmin && (
               <TabsTrigger value="setResourcesPrimary">
                 {t("taxonomy.resourcesPrimary.recursiveButtonText")}
               </TabsTrigger>
             )}
-            {isTaxonomyAdmin && (
+            <TabsTrigger value="addTopic">{t("taxonomy.addTopic")}</TabsTrigger>
+            {!!isTaxonomyAdmin && (
               <TabsTrigger value="deleteTopic">
                 {t("taxonomy.delete.deleteNode", {
                   nodeType: t(`taxonomy.nodeType.${nodeType}`),
@@ -244,17 +261,17 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
             )}
             <TabsIndicator />
           </StyledTabsList>
-          {isTaxonomyAdmin && (
+          {!!isTaxonomyAdmin && (
             <StyledTabsContent value="requestPublish">
               <PublishChildNodeResources node={node} />
             </StyledTabsContent>
           )}
-          {isTaxonomyAdmin && (
+          {!!isTaxonomyAdmin && (
             <StyledTabsContent value="swapTopicArticle">
               <SwapTopicArticle node={node} rootNodeId={rootNodeId} />
             </StyledTabsContent>
           )}
-          {isTaxonomyAdmin && (
+          {!!isTaxonomyAdmin && (
             <StyledTabsContent value="editCustomFields">
               <MenuItemCustomField node={node} onCurrentNodeChanged={onCurrentNodeChanged} />
             </StyledTabsContent>
@@ -268,17 +285,20 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
           <StyledTabsContent value="copyResources">
             <CopyNodeResources currentNode={node} nodeType={TOPIC_NODE} type="copyResources" />
           </StyledTabsContent>
-          {isTaxonomyAdmin && (
+          {!!isTaxonomyAdmin && (
             <StyledTabsContent value="cloneResources">
               <CopyNodeResources currentNode={node} nodeType={TOPIC_NODE} type="cloneResources" />
             </StyledTabsContent>
           )}
-          {isTaxonomyAdmin && (
+          {!!isTaxonomyAdmin && (
             <StyledTabsContent value="setResourcesPrimary">
               <SetResourcesPrimary node={node} recursive />
             </StyledTabsContent>
           )}
-          {isTaxonomyAdmin && (
+          <StyledTabsContent value="addTopic">
+            <AddTopicNode node={node} />
+          </StyledTabsContent>
+          {!!isTaxonomyAdmin && (
             <StyledTabsContent value="deleteTopic">
               <DeleteNode
                 node={node}

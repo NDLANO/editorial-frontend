@@ -5,10 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import type { JSX } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { loginPersonalAccessToken } from "../../util/authHelpers";
 import { toLogin } from "../../util/routeHelpers";
 import { useSession } from "../Session/SessionProvider";
+
 const okPaths = ["/login", "/logout"];
 
 interface Props {

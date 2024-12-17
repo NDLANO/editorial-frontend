@@ -23,7 +23,9 @@ export const routes = {
   editGenericArticle: toEditGenericArticle,
   editMarkup: toEditMarkup,
   structure: toStructure,
+  programme: toProgramme,
   nodeDiff: toNodeDiff,
+  learningpath: toLearningpathFull,
   taxonomy: {
     structure: toStructure,
     versions: "/taxonomyVersions",
@@ -31,7 +33,6 @@ export const routes = {
   notFound: "/404",
   home: "/",
   login: "/login",
-  programme: "/programme",
   logout: {
     logout: "/logout",
     logoutSession: "/logout/session",
@@ -235,6 +236,11 @@ export function toStructure(path?: string) {
     .map((part) => `urn:${part}`)
     .join("/");
   return `/structure/${urnPath}`;
+}
+
+export function toProgramme(urn?: string) {
+  if (!urn) return "/programme";
+  return `/programme/${urn}`;
 }
 
 export function toNodeDiff(nodeId: string, originalHash: string, otherHash: string) {

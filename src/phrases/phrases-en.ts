@@ -226,6 +226,7 @@ const phrases = {
       concept: "Search for concepts",
       "podcast-series": "Search for podcast series",
     },
+    activeFilters: "Active filters",
     searchButton: "Search",
     emptyButton: "Empty",
     title: "Title",
@@ -315,6 +316,7 @@ const phrases = {
   },
   searchForm: {
     placeholder: "Search articles",
+    searchTypes: "Search types",
     types: {
       conceptQuery: "Search for concept",
       glossQuery: "Search for gloss",
@@ -339,21 +341,21 @@ const phrases = {
       "filter-inactive": "Include archived subjects",
     },
     tagType: {
-      query: "Query",
-      subjects: "Subject",
-      language: "Language",
-      users: "Editor",
-      "resource-types": "Resource type",
-      status: "Status",
-      "draft-status": "Status",
-      "audio-type": "Audio file type",
-      "concept-type": "Concept type",
-      license: "License",
-      "model-released": "Model released",
-      "revision-date-from": "Revisiondate from",
-      "revision-date-to": "Revisiondate to",
+      query: "Search: {{value}}",
+      subjects: "Subject: {{value}}",
+      language: "Language: $(languages.{{value}})",
+      users: "Editor: {{value}}",
+      "resource-types": "Resource type: {{value}}",
+      status: "Status: $t(form.status.{{value}})",
+      "draft-status": "Status: $t(form.status.{{value}})",
+      "audio-type": "Audio file type: {{value}}",
+      "concept-type": "Concept type: {{value}}",
+      license: "License: {{value}}",
+      "model-released": "Model released: {{value}}",
+      "revision-date-from": "Revisiondate from: {{value}}",
+      "revision-date-to": "Revisiondate to: {{value}}",
       "exclude-revision-log": "Revision log excluded",
-      "responsible-ids": "Responsible",
+      "responsible-ids": "Responsible: {{value}}",
       "filter-inactive": "Archived subjects included",
     },
     btn: "Search",
@@ -765,6 +767,7 @@ const phrases = {
     },
   },
   form: {
+    createNew: "Unsaved {{type}}",
     metadataSection: "Metadata",
     contentSection: "Content",
     workflowSection: "Version log and notes",
@@ -991,6 +994,8 @@ const phrases = {
       image: "Image search",
       imageUpload: "Upload image",
       h5p: "H5P",
+      description:
+        "A visual element can be set differently for each language. If a visual element does not exist, it will be automatically retrieved from another language.",
     },
     visualElementPicker: {
       h5p: "H5P",
@@ -1270,7 +1275,7 @@ const phrases = {
       label: "Competences and core elements",
       placeholder: "Type code",
       description:
-        "Type in codes using the format K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2. Non existing codes will not be created. Separate multiple codes with comma. Texts will be displayed in norwegian here but will be shown correct in frontend.",
+        "Type in codes using the correct format ({{ codes }}) followed by one or more digits. Non existing codes will not be created. Texts will be displayed in norwegian here but will be shown correct in frontend.",
     },
     resourceTypes: {
       label: "Resource type and properties",
@@ -1408,6 +1413,8 @@ const phrases = {
     },
     h5p: {
       remove: "Remove H5P",
+      copy: "Copy H5P",
+      copyError: "Failed to copy H5P",
       metadata: {
         alttext: "Alt-text",
         save: "Save",
@@ -1662,6 +1669,7 @@ const phrases = {
       SUBJECT: "subject",
       TOPIC: "topic",
     },
+    favorite: { add: "Add subject as favorite", remove: "Remove subject as favorite" },
     publishedVersion: "See published version",
     noValue: "No value",
     previewProgrammes: "Preview programmes in frontend",
@@ -1837,6 +1845,8 @@ const phrases = {
       disconnectedTaxonomyWarning: "Invalid topic connection",
       taxonomySubjectConnections:
         "In order for a resource to be available in the structure, it must be linked to one or more topics.",
+      description:
+        "Choose where the subject should be placed in taxonomy. If you change placement in taxonomy, the old subject will not be deleted if it has subtopics or resources linked to it.",
     },
     grepCodes: {
       edit: "Edit grep codes",

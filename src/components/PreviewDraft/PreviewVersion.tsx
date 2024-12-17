@@ -11,11 +11,11 @@ import parse from "html-react-parser";
 import { ReactNode, useMemo, useState } from "react";
 import { renderToString } from "react-dom/server";
 import { useTranslation } from "react-i18next";
-import { InformationOutline } from "@ndla/icons/common";
+import { InformationLine } from "@ndla/icons";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { MissingRouterContext } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticle } from "@ndla/types-backend/draft-api";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import { ArticleWrapper } from "@ndla/ui";
 import { toFormArticle } from "./PreviewDraft";
 import { TwoArticleWrapper } from "./styles";
@@ -28,7 +28,7 @@ import { getDiff } from "../../util/diffHTML";
 
 export interface VersionPreviewProps {
   type: "version";
-  article: IArticle;
+  article: IArticleDTO;
   customTitle?: string;
   language: string;
 }
@@ -140,7 +140,7 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
   return (
     <>
       <SwitchWrapper>
-        <InformationOutline
+        <InformationLine
           aria-hidden={false}
           aria-label={t("form.previewProductionArticle.diffInfo")}
           title={t("form.previewProductionArticle.diffInfo")}
@@ -174,7 +174,7 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
         <PageContent variant="content">
           <h2>{t("form.previewProductionArticle.current")}</h2>
           <ArticleWrapper>
-            {transformedWithDiff.article && (
+            {!!transformedWithDiff.article && (
               <TransformedPreviewDraft
                 {...transformedWithDiff}
                 article={transformedWithDiff.article}

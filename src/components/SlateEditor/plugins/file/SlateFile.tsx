@@ -8,8 +8,7 @@
 
 import { KeyboardEvent, MouseEvent, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { CloseLine, PencilFill, DeleteBinLine } from "@ndla/icons/action";
-import { CheckboxCircleFill, CheckLine } from "@ndla/icons/editor";
+import { CloseLine, PencilFill, DeleteBinLine, CheckboxCircleFill, CheckLine } from "@ndla/icons";
 import {
   CheckboxControl,
   CheckboxHiddenInput,
@@ -159,15 +158,17 @@ export const SlateFile = ({
           ) : (
             <>
               {file.type === "pdf" && (
-                <StyledCheckboxRoot checked={file.display === "block"} onCheckedChange={onToggleRenderInline}>
-                  <CheckboxControl>
-                    <CheckboxIndicator asChild>
-                      <CheckLine />
-                    </CheckboxIndicator>
-                  </CheckboxControl>
-                  <CheckboxLabel>{t("form.file.showPdf")}</CheckboxLabel>
-                  <CheckboxHiddenInput />
-                </StyledCheckboxRoot>
+                <FieldRoot>
+                  <StyledCheckboxRoot checked={file.display === "block"} onCheckedChange={onToggleRenderInline}>
+                    <CheckboxControl>
+                      <CheckboxIndicator asChild>
+                        <CheckLine />
+                      </CheckboxIndicator>
+                    </CheckboxControl>
+                    <CheckboxLabel>{t("form.file.showPdf")}</CheckboxLabel>
+                    <CheckboxHiddenInput />
+                  </StyledCheckboxRoot>
+                </FieldRoot>
               )}
               <IconButton
                 title={t("form.file.changeName")}

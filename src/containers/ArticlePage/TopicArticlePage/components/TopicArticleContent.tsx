@@ -7,15 +7,17 @@
  */
 
 import { useTranslation } from "react-i18next";
+import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import LastUpdatedLine from "./../../../../components/LastUpdatedLine/LastUpdatedLine";
-
 import { topicArticlePlugins } from "./topicArticlePlugins";
 import { topicArticleRenderers } from "./topicArticleRenderers";
 import { ContentTypeProvider } from "../../../../components/ContentTypeProvider";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
-import FieldHeader from "../../../../components/Field/FieldHeader";
+import { ContentEditableFieldLabel } from "../../../../components/Form/ContentEditableFieldLabel";
+import { FieldWarning } from "../../../../components/Form/FieldWarning";
+import { SegmentHeader } from "../../../../components/Form/SegmentHeader";
 import { FormField } from "../../../../components/FormField";
-import FormikField from "../../../../components/FormikField";
+import { FormContent } from "../../../../components/FormikForm";
 import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
@@ -35,54 +37,57 @@ const toolbarAreaFilters = createToolbarAreaOptions();
 
 interface Props {
   values: TopicArticleFormType;
+  isSubmitting: boolean;
 }
 
-const TopicArticleContent = (props: Props) => {
+const TopicArticleContent = ({ values, isSubmitting }: Props) => {
   const { t } = useTranslation();
-  const {
-    values: { id, language, creators },
-  } = props;
   const { userPermissions } = useSession();
 
   return (
     <ContentTypeProvider value="topic">
-      <TitleField />
-      <FormField name="published">
-        {({ field, helpers }) => (
-          <LastUpdatedLine creators={creators} published={field.value} allowEdit={true} onChange={helpers.setValue} />
-        )}
-      </FormField>
-      <IngressField />
-      <VisualElementField types={["image"]} />
-      <FormikField name="content" label={t("form.content.label")} noBorder>
-        {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
-          <>
-            <FieldHeader title={t("form.content.label")}>
-              {id && userPermissions?.includes(DRAFT_HTML_SCOPE) && language && (
-                <EditMarkupLink to={toEditMarkup(id, language)} title={t("editMarkup.linkTitle")} />
-              )}
-            </FieldHeader>
-            <RichTextEditor
-              language={language}
-              placeholder={t("form.content.placeholder")}
-              value={value}
-              submitted={isSubmitting}
-              plugins={plugins}
-              hideBlockPicker
-              toolbarOptions={toolbarOptions}
-              toolbarAreaFilters={toolbarAreaFilters}
-              onChange={(value) => {
-                onChange({
-                  target: {
-                    value,
-                    name,
-                  },
-                });
-              }}
-            />
-          </>
-        )}
-      </FormikField>
+      <FormContent>
+        <div>
+          <TitleField />
+          <FormField name="published">
+            {({ field, helpers }) => (
+              <LastUpdatedLine
+                creators={values.creators}
+                published={field.value}
+                allowEdit={true}
+                onChange={helpers.setValue}
+              />
+            )}
+          </FormField>
+        </div>
+        <IngressField />
+        <VisualElementField types={["image"]} />
+        <FormField name="content">
+          {({ field, meta, helpers }) => (
+            <FieldRoot invalid={!!meta.error}>
+              <SegmentHeader>
+                <ContentEditableFieldLabel>{t("form.content.label")}</ContentEditableFieldLabel>
+                {!!values.id && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && !!values.language && (
+                  <EditMarkupLink to={toEditMarkup(values.id, values.language)} title={t("editMarkup.linkTitle")} />
+                )}
+              </SegmentHeader>
+              <RichTextEditor
+                language={values.language}
+                placeholder={t("form.content.placeholder")}
+                value={field.value}
+                submitted={isSubmitting}
+                plugins={plugins}
+                hideBlockPicker
+                toolbarOptions={toolbarOptions}
+                toolbarAreaFilters={toolbarAreaFilters}
+                onChange={(value) => helpers.setValue(value)}
+              />
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              <FieldWarning name={field.name} />
+            </FieldRoot>
+          )}
+        </FormField>
+      </FormContent>
     </ContentTypeProvider>
   );
 };

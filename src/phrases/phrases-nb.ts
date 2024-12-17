@@ -225,6 +225,7 @@ const phrases = {
       concept: "Søk etter forklaringer",
       "podcast-series": "Søk etter podkastserier",
     },
+    activeFilters: "Aktive filtre",
     searchButton: "Søk",
     emptyButton: "Tøm",
     title: "Tittel",
@@ -314,6 +315,7 @@ const phrases = {
   },
   searchForm: {
     placeholder: "Søk etter artikler, aktiviteter eller oppgaver",
+    searchTypes: "Søketyper",
     types: {
       conceptQuery: "Søk på forklaring",
       glossQuery: "Søk på glose",
@@ -338,21 +340,21 @@ const phrases = {
       "filter-inactive": "Inkluder utgåtte fag",
     },
     tagType: {
-      query: "Innhold",
-      subjects: "Fag",
-      language: "Språk",
-      users: "Bruker",
-      "resource-types": "Innholdstype",
-      status: "Status",
-      "draft-status": "Status",
-      "audio-type": "Lydfiltype",
-      "concept-type": "Forklaringstype",
-      license: "Lisens",
-      "model-released": "Modellklarering",
-      "revision-date-from": "Revisjonsdato fra",
-      "revision-date-to": "Revisjonsdato til",
+      query: "Søk: {{value}}",
+      subjects: "Fag: {{value}}",
+      language: "Språk: $t(languages.{{value}})",
+      users: "Bruker: {{value}}",
+      "resource-types": "Innholdstype: {{value}}",
+      status: "Status: $t(form.status.{{value}})",
+      "draft-status": "Status: $t(form.status.{{value}})",
+      "audio-type": "Lydfiltype: {{value}}",
+      "concept-type": "Forklaringstype: {{value}}",
+      license: "Lisens: {{value}}",
+      "model-released": "Modellklarering: {{value}}",
+      "revision-date-from": "Revisjonsdato fra: {{value}}",
+      "revision-date-to": "Revisjonsdato til: {{value}}",
       "exclude-revision-log": "Endringslogg ekskludert",
-      "responsible-ids": "Ansvarlig",
+      "responsible-ids": "Ansvarlig: {{value}}",
       "filter-inactive": "Utgåtte fag inkludert",
     },
     btn: "Søk",
@@ -765,6 +767,7 @@ const phrases = {
     },
   },
   form: {
+    createNew: "Ulagret {{type}}",
     metadataSection: "Metadata",
     contentSection: "Innhold",
     workflowSection: "Versjonslogg og merknader",
@@ -1052,6 +1055,8 @@ const phrases = {
       image: "Bildesøk",
       imageUpload: "Last opp bilde",
       h5p: "H5P",
+      description:
+        "Visuelt element kan settes forskjellig for hvert språk. Dersom visuelt element ikke finnes vil det hentes automatisk fra et annet språk.",
     },
     workflow: {
       title: "Status",
@@ -1252,7 +1257,7 @@ const phrases = {
         column: "kolonne",
       },
       normalizedOnLoad:
-        "Artikkelen du har åpnet inneholder gammel html-kode, som er endret av editoren. Dette medfører at du må republisere ressursen også om du bare har endret metadata eller læreplankoder.",
+        "Artikkelen inneholder html-kode som er endret av editoren. Derfor må ressursen republiseres selv om du bare har endret metadata eller læreplankoder.",
     },
     tags: {
       label: "Nøkkelord",
@@ -1270,7 +1275,7 @@ const phrases = {
       label: "Kompetansemål og kjerneelementer",
       placeholder: "Skriv inn kode",
       description:
-        "Skriv inn koder på formatet K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2. Koder som ikke finnes vil ikke bli opprettet. Separer flere koder med komma. Tekstene vises på bokmål i ed men korrekt i artikkelvisning.",
+        "Skriv inn koder som starter på riktig format ({{ codes }}) fulgt av ett eller flere siffer. Koder som ikke finnes vil ikke bli opprettet. Tekstene vises på bokmål i ed men korrekt i artikkelvisning.",
     },
     resourceTypes: {
       label: "Innholdstype og egenskaper",
@@ -1408,6 +1413,8 @@ const phrases = {
     },
     h5p: {
       remove: "Fjern H5P",
+      copy: "Kopier H5P",
+      copyError: "Kopiering av H5P feilet",
       metadata: {
         alttext: "Alt-tekst",
         save: "Lagre",
@@ -1660,6 +1667,7 @@ const phrases = {
       SUBJECT: "fag",
       TOPIC: "emne",
     },
+    favorite: { add: "Favorittmarker faget", remove: "Fjern favorittmerking av faget" },
     publishedVersion: "Se publisert versjon",
     noValue: "Ikke satt",
     previewProgrammes: "Forhåndsvis utdanningsprogram i frontend",
@@ -1834,6 +1842,8 @@ const phrases = {
       disconnectedTaxonomyWarning: "Ugyldig tilknytning",
       taxonomySubjectConnections:
         "For at en ressurs skal bli tilgjengelig i strukturen må den tilknyttes et eller flere emner.",
+      description:
+        "Her kan du velge hvor emnet skal ligge i taksonomi. Dersom du endrer plassering i taksonomi, vil ikke det gamle emnet slettes om det har underemner eller ressurser knyttet til seg.",
     },
     grepCodes: {
       edit: "Endre læreplankobling",

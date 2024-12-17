@@ -9,12 +9,16 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import JumpToStructureButton from "./JumpToStructureButton";
+import { linkRecipe } from "./Resource";
 import AverageQualityEvaluation from "../../../components/QualityEvaluation/AverageQualityEvaluation";
 import QualityEvaluation from "../../../components/QualityEvaluation/QualityEvaluation";
+import config from "../../../config";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 const ResourceGroupBanner = styled("div", {
   base: {
@@ -55,6 +59,7 @@ interface Props {
 
 const SubjectBanner = ({ subjectNode, showQuality, users }: Props) => {
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
 
   const subjectResponsibles = useMemo(
     () => ({
@@ -83,7 +88,7 @@ const SubjectBanner = ({ subjectNode, showQuality, users }: Props) => {
   return (
     <ResourceGroupBanner>
       <TopRow>
-        {showQuality && (
+        {!!showQuality && (
           <ContentWrapper>
             <AverageQualityEvaluation gradeAverage={subjectNode.gradeAverage} nodeType="SUBJECT" />
             <QualityEvaluation articleType="subject" taxonomy={[subjectNode]} />
@@ -92,7 +97,13 @@ const SubjectBanner = ({ subjectNode, showQuality, users }: Props) => {
         <JumpToStructureButton nodeId={subjectNode.id} />
       </TopRow>
       <div>
-        <Text fontWeight="bold">{subjectNode.name}</Text>
+        <SafeLink
+          to={`${config.ndlaFrontendDomain}${subjectNode.url}?versionHash=${taxonomyVersion}`}
+          target="_blank"
+          css={linkRecipe.raw()}
+        >
+          {subjectNode.name}
+        </SafeLink>
         {Object.entries(subjectResponsibles).map(([key, value]) => (
           <Text key={key}>
             {key}: {value ? value.name : t("taxonomy.noValue")}

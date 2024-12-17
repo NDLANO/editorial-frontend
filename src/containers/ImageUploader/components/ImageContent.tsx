@@ -9,8 +9,7 @@
 import { useFormikContext } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine } from "@ndla/icons/action";
-import { BlogPost, UploadCloudLine } from "@ndla/icons/editor";
+import { DeleteBinLine, FileListLine, UploadCloudLine } from "@ndla/icons";
 import { ImageMeta } from "@ndla/image-search";
 import {
   Button,
@@ -60,7 +59,11 @@ const StyledButton = styled(Button, {
   },
 });
 
-const ImageContent = () => {
+interface Props {
+  language: string;
+}
+
+const ImageContent = ({ language }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ImageFormikType>();
   const { values, setFieldValue } = formikContext;
@@ -165,7 +168,7 @@ const ImageContent = () => {
             )}
           </FormField>
         )}
-        {values.imageFile && (
+        {!!values.imageFile && (
           <StyledIconButton
             aria-label={t("form.image.removeImage")}
             title={t("form.image.removeImage")}
@@ -176,7 +179,7 @@ const ImageContent = () => {
             <DeleteBinLine />
           </StyledIconButton>
         )}
-        {values.imageFile && (
+        {!!values.imageFile && (
           <>
             {typeof values.imageFile === "string" ? (
               <SafeLink target="_blank" to={values.imageFile}>
@@ -189,6 +192,7 @@ const ImageContent = () => {
               contentType={values.contentType ?? ""}
               fileSize={values.fileSize ?? 0}
               imageDimensions={values.imageDimensions}
+              locale={language}
             />
           </>
         )}
@@ -216,7 +220,7 @@ const ImageContent = () => {
               title={t("textGeneration.altText.title")}
             >
               {t("textGeneration.altText.button")}
-              {isLoading ? <Spinner size="small" /> : <BlogPost />}
+              {isLoading ? <Spinner size="small" /> : <FileListLine />}
             </StyledButton>
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
           </FieldRoot>

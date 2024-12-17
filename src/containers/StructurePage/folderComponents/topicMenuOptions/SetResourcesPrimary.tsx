@@ -7,8 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { ErrorWarningLine } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
+import { ErrorWarningLine, CheckLine } from "@ndla/icons";
 import { Button, Heading, MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
@@ -66,13 +65,13 @@ const SetResourcesPrimary = ({ node, recursive = false }: Props) => {
       <StyledButton onClick={setConnectedResourcesPrimary} loading={isPending}>
         {t("alertModal.continue")}
       </StyledButton>
-      {isSuccess && (
+      {!!isSuccess && (
         <StatusIndicatorContent>
           <StyledCheckLine />
           <Text>{t("taxonomy.resourcesPrimary.success")}</Text>
         </StatusIndicatorContent>
       )}
-      {isError && <Text color="text.error">{t("taxonomy.resourcesPrimary.error")}</Text>}
+      {!!isError && <Text color="text.error">{t("taxonomy.resourcesPrimary.error")}</Text>}
     </Wrapper>
   );
 };

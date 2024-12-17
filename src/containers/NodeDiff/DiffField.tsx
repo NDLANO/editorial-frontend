@@ -7,7 +7,7 @@
  */
 
 import { ReactNode } from "react";
-import styled from "@emotion/styled";
+import { styled } from "@ndla/styled-system/jsx";
 import DiffSeparator from "./DiffSeparator";
 import { DiffResultType } from "./diffUtils";
 
@@ -17,47 +17,70 @@ interface Props {
   type: DiffResultType;
 }
 
-const diffTypePositionColorMap: Record<DiffResultType, { left: string; right: string }> = {
-  ADDED: {
-    left: "transparent",
-    right: "green",
+const StyledDiffInnerField = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    padding: "3xsmall",
+    borderRadius: "xsmall",
   },
-  MODIFIED: {
-    left: "transparent",
-    right: "yellow",
+  variants: {
+    variant: {
+      ADDED: {
+        background: "surface.success",
+        color: "text.onAction",
+      },
+      MODIFIED: {
+        background: "surface.warning",
+      },
+      DELETED: {
+        background: "surface.error",
+        color: "text.onAction",
+      },
+      NONE: {
+        background: "transparent",
+      },
+    },
+    position: {
+      left: {},
+      right: {},
+    },
   },
-  DELETED: {
-    left: "red",
-    right: "transparent",
-  },
-  NONE: {
-    left: "transparent",
-    right: "transparent",
-  },
-};
+  compoundVariants: [
+    {
+      position: "left",
+      variant: ["ADDED", "MODIFIED", "NONE"],
+      css: {
+        background: "transparent",
+        color: "text.default",
+      },
+    },
+    {
+      position: "right",
+      variant: ["DELETED", "NONE"],
+      css: {
+        background: "transparent",
+        color: "text.default",
+      },
+    },
+  ],
+});
 
-interface StyledDiffInnerFieldProps {
-  position: "left" | "right";
-  type: DiffResultType;
-}
-
-const StyledDiffInnerField = styled.div<StyledDiffInnerFieldProps>`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  background-color: ${(props) => diffTypePositionColorMap[props.type][props.position]};
-`;
 export const DiffInnerField = ({ children, type, left }: Props) => {
   return (
-    <StyledDiffInnerField type={type} position={left ? "left" : "right"}>
+    <StyledDiffInnerField variant={type} position={left ? "left" : "right"}>
       <DiffSeparator type={type} />
       {children}
     </StyledDiffInnerField>
   );
 };
 
-export const DiffField = styled.div`
-  display: grid;
-  align-items: center;
-  grid-template-columns: 1fr 1fr;
-`;
+export const DiffField = styled("div", {
+  base: {
+    display: "grid",
+    alignItems: "center",
+    gridTemplateColumns: "1fr 1fr",
+    gap: "xsmall",
+  },
+});

@@ -12,8 +12,8 @@ import sortBy from "lodash/sortBy";
 import { useCallback, useMemo, useState, MouseEvent, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
-import { Button, SelectLabel } from "@ndla/primitives";
-import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
+import { Button, SelectLabel, Text } from "@ndla/primitives";
+import { IArticleDTO, IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import {
   Node,
   NodeChild,
@@ -24,7 +24,6 @@ import {
   Version,
 } from "@ndla/types-taxonomy";
 import TaxonomyInfo from "./TaxonomyInfo";
-import { FormikFieldHelp } from "../../../../../components/FormikField";
 import { FormActionsContainer, FormContent } from "../../../../../components/FormikForm";
 import SaveButton from "../../../../../components/SaveButton";
 import OptGroupVersionSelector from "../../../../../components/Taxonomy/OptGroupVersionSelector";
@@ -47,9 +46,9 @@ interface Props {
   subjects: Node[];
   hasTaxEntries: boolean;
   resourceTypes: ResourceType[];
-  article: IArticle;
+  article: IArticleDTO;
   versions: Version[];
-  updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
+  updateNotes: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
   articleLanguage: string;
 }
 
@@ -238,6 +237,7 @@ const TaxonomyBlock = ({
         connectionId: "",
         name: node.name,
         nodeType: node.nodeType,
+        context: node.context,
       };
       return { ...res, placements: res.placements.concat(newPlacement) };
     });
@@ -331,15 +331,15 @@ const TaxonomyBlock = ({
 
   return (
     <FormContent>
-      {!hasTaxEntries && <FormikFieldHelp error>{t("errorMessage.missingTax")}</FormikFieldHelp>}
-      {isTaxonomyAdmin && (
+      {!hasTaxEntries && <Text color="text.error">{t("errorMessage.missingTax")}</Text>}
+      {!!isTaxonomyAdmin && (
         <TaxonomyConnectionErrors
           articleType={article.articleType ?? "standard"}
           topics={topics}
           resources={resources}
         />
       )}
-      {isTaxonomyAdmin && (
+      {!!isTaxonomyAdmin && (
         <>
           <OptGroupVersionSelector
             currentVersion={taxonomyVersion}
@@ -365,14 +365,14 @@ const TaxonomyBlock = ({
         setRelevance={setRelevance}
         getSubjectTopics={getSubjectTopics}
       />
-      {updateTaxMutation.isError && <FormikFieldHelp error>{t("errorMessage.taxonomy")}</FormikFieldHelp>}
-      {showWarning && <FormikFieldHelp error>{t("errorMessage.unsavedTaxonomy")}</FormikFieldHelp>}
+      {!!updateTaxMutation.isError && <Text color="text.error">{t("errorMessage.taxonomy")}</Text>}
+      {!!showWarning && <Text color="text.error">{t("errorMessage.unsavedTaxonomy")}</Text>}
       <FormActionsContainer>
         <Button variant="secondary" disabled={!isDirty} onClick={onReset}>
           {t("reset")}
         </Button>
         <SaveButton
-          showSaved={updateTaxMutation.isSuccess && !isDirty}
+          showSaved={!!updateTaxMutation.isSuccess && !isDirty}
           loading={isSaving}
           disabled={!isDirty || isSaving}
           onClick={handleSubmit}

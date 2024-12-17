@@ -7,9 +7,7 @@
  */
 
 import { ReactNode, forwardRef } from "react";
-import { CloseLine } from "@ndla/icons/action";
-import { ArrowDownShortLine } from "@ndla/icons/common";
-import { CheckLine, ImageLine } from "@ndla/icons/editor";
+import { CloseLine, ArrowDownShortLine, CheckLine, ImageLine } from "@ndla/icons";
 import {
   ComboboxClearTrigger,
   ComboboxControl,
@@ -54,8 +52,8 @@ export const GenericComboboxInput = forwardRef<HTMLInputElement, GenericCombobox
           <ComboboxInput asChild ref={ref} {...props}>
             <Input componentSize={componentSize} />
           </ComboboxInput>
-          {isFetching && <Spinner size="small" />}
-          {clearable && (
+          {!!isFetching && <Spinner size="small" />}
+          {!!clearable && (
             <ComboboxClearTrigger asChild>
               <IconButton variant="clear" size={componentSize}>
                 <CloseLine />
@@ -64,7 +62,7 @@ export const GenericComboboxInput = forwardRef<HTMLInputElement, GenericCombobox
           )}
         </InputContainer>
 
-        {triggerable && (
+        {!!triggerable && (
           <ComboboxTrigger asChild>
             <IconButton variant="secondary" size={componentSize}>
               <ArrowDownShortLine />
@@ -96,22 +94,33 @@ const StyledText = styled(Text, {
 const StyledListItemRoot = styled(ListItemRoot, {
   base: {
     minHeight: "unset",
+    _disabled: {
+      _hover: {
+        backgroundColor: "surface.selected",
+      },
+    },
+  },
+});
+
+const StyledImageLine = styled(ImageLine, {
+  base: {
+    fill: "stroke.default",
   },
 });
 
 export const GenericComboboxItemContent = forwardRef<HTMLDivElement, GenericComboboxItemProps & ListItemProps>(
   ({ title, image, description, fallbackImageElement, useFallbackImage, ...props }, ref) => (
     <StyledListItemRoot context="list" ref={ref} {...props}>
-      {(!!image || useFallbackImage) && (
+      {!!(!!image || useFallbackImage) && (
         <ListItemImage
           src={image?.url ?? ""}
           alt={image?.alt ?? ""}
-          fallbackElement={fallbackImageElement ?? <ImageLine />}
+          fallbackElement={fallbackImageElement ?? <StyledImageLine />}
         />
       )}
       <ListItemContent>
         <Flex direction="column">
-          <ComboboxItemText>{title}</ComboboxItemText>
+          <ComboboxItemText color="text.default">{title}</ComboboxItemText>
           {!!description && (
             <StyledText textStyle="label.small" color="text.subtle">
               {description}

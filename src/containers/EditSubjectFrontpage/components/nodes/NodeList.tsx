@@ -7,8 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine } from "@ndla/icons/action";
-import { DragVertical } from "@ndla/icons/editor";
+import { DeleteBinLine, Draggable } from "@ndla/icons";
 import { IconButton, ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -45,7 +44,7 @@ const NodeList = ({ nodes, onUpdate }: Props) => {
         onDragEnd={(_, newArray) => onUpdate(newArray)}
         dragHandle={
           <DragHandle aria-label={t("form.file.changeOrder")}>
-            <DragVertical />
+            <Draggable />
           </DragHandle>
         }
         renderItem={(item) => {

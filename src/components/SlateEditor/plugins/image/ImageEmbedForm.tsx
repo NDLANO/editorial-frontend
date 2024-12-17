@@ -10,7 +10,7 @@ import { Formik, useFormikContext } from "formik";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { BlogPost, CheckLine } from "@ndla/icons/editor";
+import { FileListLine, CheckLine } from "@ndla/icons";
 import {
   Button,
   CheckboxControl,
@@ -20,19 +20,19 @@ import {
   CheckboxRoot,
   FieldLabel,
   FieldRoot,
-  Text,
   FieldErrorMessage,
   FieldTextArea,
   Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { ImageEmbedData } from "@ndla/types-embed";
 import { convertBufferToBase64, claudeHaikuDefaults, invokeModel } from "../../../../components/LLM/helpers";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import ImageEditor from "../../../../containers/ImageEditor/ImageEditor";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../../util/formHelper";
+import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLabel";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -41,7 +41,7 @@ import { useInGrid } from "../grid/GridContext";
 
 interface Props {
   embed: ImageEmbedData;
-  image?: IImageMetaInformationV3;
+  image?: IImageMetaInformationV3DTO;
   onSave: (data: ImageEmbedData) => void;
   onClose: () => void;
   language: string;
@@ -199,18 +199,20 @@ const EmbedForm = ({
     <FormikForm>
       {!!image && <ImageEditor language={language} image={image} />}
       <InputWrapper>
-        <Text textStyle="label.medium" fontWeight="bold">
-          {t("form.image.caption.label")}
-          <RichTextIndicator />
-        </Text>
         <FormField name="caption">
           {({ field, helpers }) => (
-            <InlineField
-              {...field}
-              placeholder={t("form.image.caption.placeholder")}
-              submitted={isSubmitting}
-              onChange={helpers.setValue}
-            />
+            <FieldRoot>
+              <ContentEditableFieldLabel>
+                {t("form.image.caption.label")}
+                <RichTextIndicator />
+              </ContentEditableFieldLabel>
+              <InlineField
+                {...field}
+                placeholder={t("form.image.caption.placeholder")}
+                submitted={isSubmitting}
+                onChange={helpers.setValue}
+              />
+            </FieldRoot>
           )}
         </FormField>
         {!values.isDecorative && (
@@ -228,14 +230,14 @@ const EmbedForm = ({
                   title={t("textGeneration.altText.title")}
                 >
                   {t("textGeneration.altText.button")}
-                  {isLoading ? <Spinner size="small" /> : <BlogPost />}
+                  {isLoading ? <Spinner size="small" /> : <FileListLine />}
                 </StyledButton>
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>
               </FieldRoot>
             )}
           </FormField>
         )}
-        {allowDecorative && (
+        {!!allowDecorative && (
           <FormField name="isDecorative">
             {({ field, helpers }) => (
               <FieldRoot>
@@ -260,7 +262,7 @@ const EmbedForm = ({
             )}
           </FormField>
         )}
-        {inGrid && (
+        {!!inGrid && (
           <FormField name="border">
             {({ field, helpers }) => (
               <FieldRoot>

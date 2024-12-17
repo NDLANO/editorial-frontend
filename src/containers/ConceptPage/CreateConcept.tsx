@@ -10,14 +10,14 @@ import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { INewConcept } from "@ndla/types-backend/concept-api";
+import { IConceptDTO, INewConceptDTO } from "@ndla/types-backend/concept-api";
 import ConceptForm from "./ConceptForm/ConceptForm";
 import { toEditConcept } from "../../util/routeHelpers";
 import { useFetchConceptData } from "../FormikForm/formikConceptHooks";
 
 interface Props {
   inModal?: boolean;
-  addConceptInModal?: Function;
+  addConceptInModal?: (concept: IConceptDTO) => void;
 }
 
 const CreateConcept = ({ inModal = false, addConceptInModal }: Props) => {
@@ -26,7 +26,7 @@ const CreateConcept = ({ inModal = false, addConceptInModal }: Props) => {
   const { subjects, createConcept, conceptArticles } = useFetchConceptData(undefined, i18n.language);
 
   const onCreate = useCallback(
-    async (createdConcept: INewConcept) => {
+    async (createdConcept: INewConceptDTO) => {
       const savedConcept = await createConcept(createdConcept);
       if (inModal && addConceptInModal) {
         addConceptInModal(savedConcept);

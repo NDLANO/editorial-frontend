@@ -32,14 +32,12 @@ interface PaginationData {
 
 const StyledComboboxContent = styled(ComboboxContent, {
   base: {
-    maxHeight: "unset",
     overflowY: "unset",
   },
 });
 
 const StyledComboboxList = styled(ComboboxList, {
   base: {
-    maxHeight: "surface.xsmall",
     overflowY: "auto",
   },
 });
@@ -105,7 +103,7 @@ export const GenericSearchCombobox = <T extends CollectionItem>({
             </ComboboxItem>
           ))}
         </StyledComboboxList>
-        {isSuccess && <Text>{t("dropdown.numberHits", { hits: paginationData?.totalCount ?? 0 })}</Text>}
+        {!!isSuccess && <Text>{t("dropdown.numberHits", { hits: paginationData?.totalCount ?? 0 })}</Text>}
         {!!paginationData && paginationData.totalCount > paginationData.pageSize && (
           <Pagination
             count={paginationData.totalCount}

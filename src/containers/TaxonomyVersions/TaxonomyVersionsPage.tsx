@@ -10,14 +10,12 @@ import partition from "lodash/partition";
 import sortBy from "lodash/sortBy";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Heading, PageContainer } from "@ndla/primitives";
+import { Button, Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Version } from "@ndla/types-taxonomy";
 import UIVersion from "./components/Version";
 import VersionForm from "./components/VersionForm";
-import VersionList from "./components/VersionList";
-import { Row } from "../../components";
 import { useVersions } from "../../modules/taxonomy/versions/versionQueries";
 
 const NewFormWrapper = styled("div", {
@@ -32,6 +30,33 @@ const NewFormWrapper = styled("div", {
 const StyledPageContainer = styled(PageContainer, {
   base: {
     gap: "xsmall",
+  },
+});
+
+const Row = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    gap: "xsmall",
+    tabletDown: {
+      flexWrap: "wrap",
+    },
+  },
+});
+
+const StyledButton = styled(Button, {
+  base: {
+    whiteSpace: "nowrap",
+  },
+});
+
+const StyledVersionList = styled("ul", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+    listStyle: "none",
   },
 });
 
@@ -54,23 +79,35 @@ const TaxonomyVersionsPage = () => {
     <StyledPageContainer>
       <HelmetWithTracker title={t("htmlTitles.versionsPage")} />
       <Heading textStyle="heading.medium">{t("taxonomyVersions.title")}</Heading>
-      <Row alignItems="center">
-        <p>{t("taxonomyVersions.about")}</p>
-        <Button onClick={() => setShowNewForm((prev) => !prev)}>{t("taxonomyVersions.newVersionButton")}</Button>
+      <Row>
+        <Text>{t("taxonomyVersions.about")}</Text>
+        <StyledButton onClick={() => setShowNewForm((prev) => !prev)}>
+          {t("taxonomyVersions.newVersionButton")}
+        </StyledButton>
       </Row>
-      {showNewForm && (
+      {!!showNewForm && (
         <NewFormWrapper>
-          <VersionForm existingVersions={data ?? []} onClose={() => setShowNewForm(false)} />
+          <VersionForm existingVersions={data ?? []} onClose={() => setShowNewForm(false)} headingLevel="h2" />
         </NewFormWrapper>
       )}
-      <Heading textStyle="heading.small" asChild consumeCss>
+      <Heading textStyle="title.large" asChild consumeCss>
         <h2>{t("taxonomyVersions.publishedVersion")}</h2>
       </Heading>
       {published ? <UIVersion version={published} /> : t("taxonomyVersions.noPublished")}
-      <Heading textStyle="heading.small" asChild consumeCss>
+      <Heading textStyle="title.large" asChild consumeCss>
         <h2>{t("taxonomyVersions.otherVersions")}</h2>
       </Heading>
-      <VersionList versions={other} />
+      {other.length === 0 ? (
+        <Text>{t("taxonomyVersions.noOtherVersions")}</Text>
+      ) : (
+        <StyledVersionList>
+          {other.map((version) => (
+            <li key={version.id}>
+              <UIVersion version={version} />
+            </li>
+          ))}
+        </StyledVersionList>
+      )}
     </StyledPageContainer>
   );
 };

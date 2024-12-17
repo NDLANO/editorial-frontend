@@ -11,7 +11,7 @@ import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import { createListCollection } from "@ark-ui/react";
-import { BlogPost, CheckLine } from "@ndla/icons/editor";
+import { CheckLine, FileListLine } from "@ndla/icons";
 import {
   Button,
   ComboboxItem,
@@ -31,14 +31,15 @@ import {
   Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { MetaImageSearch } from ".";
 import { ArticleFormType } from "./articleFormHooks";
+import { FieldWarning } from "../../components/Form/FieldWarning";
+import { FormRemainingCharacters } from "../../components/Form/FormRemainingCharacters";
 import { SearchTagsContent } from "../../components/Form/SearchTagsContent";
 import { SearchTagsTagSelectorInput } from "../../components/Form/SearchTagsTagSelectorInput";
 import { FormField } from "../../components/FormField";
-import FormikField from "../../components/FormikField";
 import { FormContent } from "../../components/FormikForm";
 import { claudeHaikuDefaults, invokeModel } from "../../components/LLM/helpers";
 import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
@@ -49,11 +50,17 @@ import { inlineContentToEditorValue } from "../../util/articleContentConverter";
 import useDebounce from "../../util/useDebounce";
 import { useSession } from "../Session/SessionProvider";
 
+const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
+  base: {
+    marginInlineStart: "auto",
+  },
+});
+
 interface Props {
   articleLanguage: string;
   articleContent?: string;
   showCheckbox?: boolean;
-  checkboxAction?: (image: IImageMetaInformationV3) => void;
+  checkboxAction?: (image: IImageMetaInformationV3DTO) => void;
 }
 
 const availabilityValues: string[] = ["everyone", "teacher"];
@@ -151,7 +158,7 @@ const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkbox
           </FieldRoot>
         )}
       </FormField>
-      {userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
+      {!!userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
         <FormField name="availability">
           {({ field, helpers }) => (
             <FieldRoot>
@@ -174,39 +181,41 @@ const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkbox
         </FormField>
       )}
       <FormField name="metaDescription">
-        {({ field, helpers, meta }) => {
-          return (
-            <FieldRoot required invalid={!!meta.error}>
-              <FieldLabel>{t("form.metaDescription.label")}</FieldLabel>
-              <FieldHelper>{t("form.metaDescription.description")}</FieldHelper>
-              <PlainTextEditor
-                key={field.value}
-                id={field.name}
-                placeholder={t("form.metaDescription.label")}
-                {...field}
-                plugins={plugins}
-              />
-              {/* <FormRemainingCharacters value={field.value[0].children[0].text.length} maxLength={155} /> */}
-              <StyledButton size="small" onClick={() => generateMetaDescription(helpers)}>
-                {t("textGeneration.metaDescription.button")} {isLoading ? <Spinner size="small" /> : <BlogPost />}
-              </StyledButton>
-            </FieldRoot>
-          );
-        }}
-      </FormField>
-      <FormikField name="metaImageId">
-        {({ field, form }) => (
-          <MetaImageSearch
-            metaImageId={field.value}
-            setFieldTouched={form.setFieldTouched}
-            showRemoveButton={false}
-            showCheckbox={showCheckbox}
-            checkboxAction={checkboxAction}
-            language={articleLanguage}
-            {...field}
-          />
+        {({ field, helpers, meta }) => (
+          <FieldRoot invalid={!!meta.error}>
+            <FieldLabel>{t("form.metaDescription.label")}</FieldLabel>
+            <FieldHelper>{t("form.metaDescription.description")}</FieldHelper>
+            <PlainTextEditor
+              key={field.value}
+              id={field.name}
+              placeholder={t("form.metaDescription.label")}
+              {...field}
+              plugins={plugins}
+            />
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+            <StyledFormRemainingCharacters maxLength={155} value={field.value} />
+            <FieldWarning name={field.name} />
+            <StyledButton size="small" onClick={() => generateMetaDescription(helpers)}>
+              {t("textGeneration.metaDescription.button")} {isLoading ? <Spinner size="small" /> : <FileListLine />}
+            </StyledButton>
+          </FieldRoot>
         )}
-      </FormikField>
+      </FormField>
+      <FormField name="metaImageId">
+        {({ field, meta }) => (
+          <FieldRoot invalid={!!meta.error}>
+            <MetaImageSearch
+              metaImageId={field.value}
+              showRemoveButton={false}
+              showCheckbox={!!showCheckbox}
+              checkboxAction={checkboxAction}
+              language={articleLanguage}
+              {...field}
+            />
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          </FieldRoot>
+        )}
+      </FormField>
     </FormContent>
   );
 };

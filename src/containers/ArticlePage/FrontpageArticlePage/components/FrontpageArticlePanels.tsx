@@ -11,7 +11,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticle } from "@ndla/types-backend/draft-api";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import FrontpageArticleFormContent from "./FrontpageArticleFormContent";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../../components/Accordion/FormAccordions";
@@ -28,7 +28,16 @@ import { FlatArticleKeys } from "../../components/types";
 const StyledWrapper = styled("div", {
   base: {
     display: "grid",
-    gridTemplateColumns: "1fr auto",
+  },
+  variants: {
+    showComments: {
+      true: {
+        gridTemplateColumns: "minmax(0, 1fr) token(spacing.surface.xxsmall)",
+      },
+      false: {
+        gridTemplateColumns: "minmax(0, 1fr)",
+      },
+    },
   },
 });
 
@@ -41,8 +50,8 @@ const StyledControls = styled("div", {
 });
 
 interface Props {
-  article?: IArticle;
-  articleHistory: IArticle[] | undefined;
+  article?: IArticleDTO;
+  articleHistory: IArticleDTO[] | undefined;
   articleLanguage: string;
 }
 
@@ -85,7 +94,7 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
           </SwitchRoot>
         )}
       </StyledControls>
-      <StyledWrapper>
+      <StyledWrapper showComments={!hideComments}>
         <FormAccordions defaultOpen={["frontpage-article-content"]}>
           <FormAccordion
             id={"frontpage-article-content"}
@@ -99,7 +108,7 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
             }
             hasError={!!(errors.title || errors.introduction || errors.content)}
           >
-            <PageContent variant={isWideArticle ? "wide" : "content"}>
+            <PageContent variant={isWideArticle ? "page" : "content"}>
               <FrontpageArticleFormContent articleLanguage={articleLanguage} />
             </PageContent>
           </FormAccordion>
@@ -131,7 +140,7 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
           >
             <RevisionNotes />
           </FormAccordion>
-          {article && (
+          {!!article && (
             <FormAccordion
               id={"frontpage-article-workflow"}
               title={t("form.workflowSection")}

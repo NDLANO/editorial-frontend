@@ -11,8 +11,8 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
 import { createListCollection } from "@ark-ui/react";
-import { Language } from "@ndla/icons/common";
-import { SelectContent, SelectRoot, SelectValueText, SelectLabel } from "@ndla/primitives";
+import { GlobalLine } from "@ndla/icons";
+import { SelectContent, SelectRoot, SelectValueText, SelectLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ToolbarCategoryProps } from "./SlateToolbar";
 import { LanguageType } from "./toolbarState";
@@ -57,16 +57,13 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
       } else if (language === "none") {
         return;
       } else if (!wrappedInSpan) {
-        Transforms.wrapNodes(editor, defaultSpanBlock({ lang: language }), {
+        Transforms.wrapNodes(editor, defaultSpanBlock({ lang: language, dir: language === "ar" ? "rtl" : undefined }), {
           at: Editor.unhangRange(editor, selection),
           split: true,
         });
       } else {
-        Transforms.setNodes(
-          editor,
-          { data: { lang: language } },
-          { match: (n) => Element.isElement(n) && n.type === "span" },
-        );
+        const data = { dir: language === "ar" ? "rtl" : undefined, lang: language };
+        Transforms.setNodes(editor, { data }, { match: (n) => Element.isElement(n) && n.type === "span" });
       }
     },
     [editor, selection],
@@ -87,28 +84,30 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
   if (!collection) return null;
 
   return (
-    <SelectRoot
-      collection={collection}
-      positioning={{ sameWidth: true }}
-      value={[currentLanguage ?? "none"]}
-      onValueChange={(details) => onClick(details.value[0])}
-    >
-      <SelectLabel srOnly>{title}</SelectLabel>
-      <StyledGenericSelectTrigger variant="tertiary" title={title} size="small" data-testid="toolbar-button-language">
-        <Language />
-        <SelectValueText />
-      </StyledGenericSelectTrigger>
-      <SelectContent>
-        {collection.items.map((option) => (
-          <GenericSelectItem
-            key={option.value}
-            data-testid={`language-button-${option.value}`}
-            item={{ label: option.value, value: option.value }}
-          >
-            {t(`languages.${option.value}`)}
-          </GenericSelectItem>
-        ))}
-      </SelectContent>
-    </SelectRoot>
+    <FieldRoot>
+      <SelectRoot
+        collection={collection}
+        positioning={{ sameWidth: true }}
+        value={[currentLanguage ?? "none"]}
+        onValueChange={(details) => onClick(details.value[0])}
+      >
+        <SelectLabel srOnly>{title}</SelectLabel>
+        <StyledGenericSelectTrigger variant="tertiary" title={title} size="small" data-testid="toolbar-button-language">
+          <GlobalLine />
+          <SelectValueText />
+        </StyledGenericSelectTrigger>
+        <SelectContent>
+          {collection.items.map((option) => (
+            <GenericSelectItem
+              key={option.value}
+              data-testid={`language-button-${option.value}`}
+              item={{ label: option.value, value: option.value }}
+            >
+              {t(`languages.${option.value}`)}
+            </GenericSelectItem>
+          ))}
+        </SelectContent>
+      </SelectRoot>
+    </FieldRoot>
   );
 };

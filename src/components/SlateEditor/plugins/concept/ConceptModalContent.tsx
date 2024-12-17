@@ -10,7 +10,6 @@ import debounce from "lodash/debounce";
 import queryString from "query-string";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Search } from "@ndla/icons/common";
 import {
   Button,
   DialogBody,
@@ -22,35 +21,37 @@ import {
   TabsTrigger,
 } from "@ndla/primitives";
 import {
-  IConcept,
-  IConceptSearchResult,
-  INewConcept,
-  IUpdatedConcept,
-  IConceptSummary,
+  IConceptDTO,
+  IConceptSearchResultDTO,
+  INewConceptDTO,
+  IUpdatedConceptDTO,
+  IConceptSummaryDTO,
 } from "@ndla/types-backend/concept-api";
-import { IArticle } from "@ndla/types-backend/draft-api";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import SearchConceptForm from "./SearchConceptForm";
 import SearchConceptResults from "./SearchConceptResults";
 import ConceptForm from "../../../../containers/ConceptPage/ConceptForm/ConceptForm";
 import { ConceptType } from "../../../../containers/ConceptPage/conceptInterfaces";
 import { GlossForm } from "../../../../containers/GlossPage/components/GlossForm";
-import { SearchParams, parseSearchParams } from "../../../../containers/SearchPage/components/form/SearchForm";
+import { parseSearchParams } from "../../../../containers/SearchPage/components/form/SearchForm";
+import { SearchParams } from "../../../../interfaces";
 import { postSearchConcepts } from "../../../../modules/concept/conceptApi";
 import Pagination from "../../../abstractions/Pagination";
 import { DialogCloseButton } from "../../../DialogCloseButton";
+import FormWrapper from "../../../FormWrapper";
 
 interface Props {
-  addConcept: (concept: IConceptSummary | IConcept) => void;
-  concept?: IConcept;
-  createConcept: (createdConcept: INewConcept) => Promise<IConcept>;
+  addConcept: (concept: IConceptSummaryDTO | IConceptDTO) => void;
+  concept?: IConceptDTO;
+  createConcept: (createdConcept: INewConceptDTO) => Promise<IConceptDTO>;
   handleRemove: () => void;
   onClose: () => void;
   locale: string;
   selectedText?: string;
   subjects: Node[];
-  updateConcept: (id: number, updatedConcept: IUpdatedConcept) => Promise<IConcept>;
-  conceptArticles: IArticle[];
+  updateConcept: (id: number, updatedConcept: IUpdatedConceptDTO) => Promise<IConceptDTO>;
+  conceptArticles: IArticleDTO[];
   conceptType: ConceptType;
 }
 
@@ -76,7 +77,7 @@ const ConceptModalContent = ({
     query: `${selectedText}`,
     "concept-type": conceptType,
   });
-  const [results, setConcepts] = useState<IConceptSearchResult>({
+  const [results, setConcepts] = useState<IConceptSearchResultDTO>({
     language: locale,
     page: 1,
     pageSize: 10,
@@ -88,10 +89,20 @@ const ConceptModalContent = ({
 
   const conceptTypeTabs: ConceptType[] = [conceptType];
 
-  const searchConcept = useCallback(async (searchParam: SearchParams) => {
+  const searchConcept = useCallback(async (newSearchObject: SearchParams) => {
     if (!searching) {
       setSearching(true);
-      const searchBody = parseSearchParams(queryString.stringify(searchParam), true);
+
+      const searchQuery = {
+        ...searchObject,
+        ...newSearchObject,
+      };
+      // Remove unused/empty query params
+      const newQuery = Object.entries(searchQuery).reduce((prev, [currKey, currVal]) => {
+        const validValue = currVal !== "" && currVal !== undefined;
+        return validValue ? { ...prev, [currKey]: currVal } : prev;
+      }, {});
+      const searchBody = parseSearchParams(queryString.stringify(newQuery), true);
       const concepts = await postSearchConcepts(searchBody);
       setConcepts(concepts);
       setSearching(false);
@@ -101,7 +112,7 @@ const ConceptModalContent = ({
 
   const upsertProps = concept
     ? {
-        onUpdate: (updatedConcept: IUpdatedConcept) => updateConcept(concept.id, updatedConcept),
+        onUpdate: (updatedConcept: IUpdatedConceptDTO) => updateConcept(concept.id, updatedConcept),
       }
     : { onCreate: createConcept };
 
@@ -120,7 +131,7 @@ const ConceptModalContent = ({
         <DialogCloseButton onClick={onClose} />
       </DialogHeader>
       <DialogBody>
-        {concept?.id && <Button onClick={handleRemove}>{t(`form.content.${concept.conceptType}.remove`)}</Button>}
+        {!!concept?.id && <Button onClick={handleRemove}>{t(`form.content.${concept.conceptType}.remove`)}</Button>}
         <TabsRoot
           defaultValue="concepts"
           translations={{
@@ -137,11 +148,7 @@ const ConceptModalContent = ({
             <TabsIndicator />
           </TabsList>
           <TabsContent value="concepts">
-            <div>
-              <h2>
-                <Search />
-                {t(`searchPage.header.concept`)}
-              </h2>
+            <FormWrapper inModal>
               <SearchConceptForm
                 search={(params: SearchParams) => {
                   updateSearchObject(params);
@@ -165,7 +172,7 @@ const ConceptModalContent = ({
                 pageSize={results?.pageSize}
                 siblingCount={1}
               />
-            </div>
+            </FormWrapper>
           </TabsContent>
           {conceptTypeTabs.map((conceptType) => (
             <TabsContent value={`new_${conceptType}`} key={conceptType}>

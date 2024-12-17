@@ -7,8 +7,7 @@
  */
 
 import { forwardRef } from "react";
-import { CloseLine } from "@ndla/icons/action";
-import { ArrowDownShortLine } from "@ndla/icons/common";
+import { CloseLine, ArrowDownShortLine } from "@ndla/icons";
 import { IconButton, InputContainer } from "@ndla/primitives";
 import { HStack } from "@ndla/styled-system/jsx";
 import {

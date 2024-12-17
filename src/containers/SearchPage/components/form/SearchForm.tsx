@@ -7,48 +7,27 @@
  */
 
 import queryString from "query-string";
-import { ISearchParams as IAudioSearchParams, ISeriesSearchParams } from "@ndla/types-backend/audio-api";
-import { IDraftConceptSearchParams } from "@ndla/types-backend/concept-api";
-import { IUserData } from "@ndla/types-backend/draft-api";
-import { ISearchParams as IImageSearchParams } from "@ndla/types-backend/image-api";
-import { IDraftSearchParams } from "@ndla/types-backend/search-api";
+import { ISearchParamsDTO as IAudioSearchParams, ISeriesSearchParamsDTO } from "@ndla/types-backend/audio-api";
+import { IDraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
+import { IUserDataDTO } from "@ndla/types-backend/draft-api";
+import { ISearchParamsDTO as IImageSearchParams } from "@ndla/types-backend/image-api";
+import { IDraftSearchParamsDTO } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
 import SearchAudioForm from "./SearchAudioForm";
 import SearchContentForm from "./SearchContentForm";
 import SearchImageForm from "./SearchImageForm";
 import SearchPodcastSeriesForm from "./SearchPodcastSeriesForm";
-import { SearchType } from "../../../../interfaces";
-
-export interface SearchParams {
-  query?: string;
-  "draft-status"?: string;
-  "include-other-statuses"?: boolean;
-  "resource-types"?: string;
-  "article-types"?: string;
-  "audio-type"?: string;
-  fallback?: boolean;
-  language?: string;
-  page?: number;
-  "page-size"?: number;
-  status?: string;
-  subjects?: string;
-  users?: string;
-  sort?: string;
-  license?: string;
-  "model-released"?: string;
-  "revision-date-from"?: string;
-  "revision-date-to"?: string;
-  "exclude-revision-log"?: boolean | undefined;
-  "responsible-ids"?: string;
-  "concept-type"?: string;
-  "filter-inactive"?: boolean;
-}
+import { SearchParams, SearchType } from "../../../../interfaces";
 
 /** Used to wraps backend types and replaces their `sort` with `sort?: string` */
 export type StringSort<T> = Omit<T, "sort"> & { sort?: string };
 
 export type SearchParamsBody = StringSort<
-  IDraftConceptSearchParams & IDraftSearchParams & IImageSearchParams & IAudioSearchParams & ISeriesSearchParams
+  IDraftConceptSearchParamsDTO &
+    IDraftSearchParamsDTO &
+    IImageSearchParams &
+    IAudioSearchParams &
+    ISeriesSearchParamsDTO
 >;
 
 type ReturnType<T> = T extends true ? SearchParamsBody : SearchParams;
@@ -122,7 +101,7 @@ interface Props {
   search: (o: SearchParams) => void;
   subjects: Node[];
   locale: string;
-  userData: IUserData | undefined;
+  userData: IUserDataDTO | undefined;
 }
 
 const SearchForm = ({ type, searchObject, ...rest }: Props) => {

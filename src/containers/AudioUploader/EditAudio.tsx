@@ -8,10 +8,10 @@
 
 import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
-import { IAudioMetaInformation, IUpdatedAudioMetaInformation } from "@ndla/types-backend/audio-api";
+import { IAudioMetaInformationDTO, IUpdatedAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import AudioForm from "./components/AudioForm";
 import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
-import Spinner from "../../components/Spinner";
+import { PageSpinner } from "../../components/PageSpinner";
 import { fetchAudio, updateAudio } from "../../modules/audio/audioApi";
 import { createFormData } from "../../util/formDataHelper";
 import { toEditPodcast } from "../../util/routeHelpers";
@@ -29,7 +29,7 @@ const translateFields: TranslateType[] = [
 
 const EditAudio = ({ isNewlyCreated }: Props) => {
   const params = useParams<"id" | "selectedLanguage">();
-  const [audio, setAudio] = useState<IAudioMetaInformation | undefined>(undefined);
+  const [audio, setAudio] = useState<IAudioMetaInformationDTO | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
   const { shouldTranslate, translate, translating } = useTranslateToNN();
   const audioId = Number(params.id) || undefined;
@@ -59,14 +59,17 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
   }, [shouldTranslate, translate, audio, loading]);
 
   if (loading || translating) {
-    return <Spinner withWrapper />;
+    return <PageSpinner />;
   }
 
   if (!audioId || !audio) {
     return <NotFoundPage />;
   }
 
-  const onUpdate = async (newAudio: IUpdatedAudioMetaInformation, file: string | Blob | undefined): Promise<void> => {
+  const onUpdate = async (
+    newAudio: IUpdatedAudioMetaInformationDTO,
+    file: string | Blob | undefined,
+  ): Promise<void> => {
     const formData = await createFormData(file, newAudio);
     const updatedAudio = await updateAudio(audioId, formData);
     setAudio(updatedAudio);

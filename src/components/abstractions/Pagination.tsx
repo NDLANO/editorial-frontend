@@ -6,7 +6,7 @@
  *
  */
 
-import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons/common";
+import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import {
   IconButton,
   PaginationContext,

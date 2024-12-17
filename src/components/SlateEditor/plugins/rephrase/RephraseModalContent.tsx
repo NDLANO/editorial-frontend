@@ -10,8 +10,7 @@ import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BaseRange, Editor, Path, Range } from "slate";
 import { useSlate } from "slate-react";
-import { CloseLine } from "@ndla/icons/action";
-import { BlogPost } from "@ndla/icons/editor";
+import { CloseLine, FileListLine } from "@ndla/icons";
 import { Button, DialogBody, DialogHeader, DialogTitle, Heading, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { getRephrasing } from "./utils";
@@ -118,7 +117,7 @@ const RephraseModalContent = ({ selection, setSelection }: Props) => {
           loading={isLoading}
         >
           {t("textGeneration.alternativePhrasing.buttons.generate.text")}
-          <BlogPost />
+          <FileListLine />
         </Button>
         <div>
           <Heading asChild consumeCss textStyle="label.medium">

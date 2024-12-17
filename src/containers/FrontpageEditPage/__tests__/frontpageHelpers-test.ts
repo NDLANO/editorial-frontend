@@ -6,11 +6,11 @@
  *
  */
 
-import { IMenu } from "@ndla/types-backend/frontpage-api";
+import { IMenuDTO } from "@ndla/types-backend/frontpage-api";
 import { extractArticleIds } from "../frontpageHelpers";
 describe("extractArticleIds", () => {
   it("should return a single value for a menu with no children", () => {
-    const menu: IMenu = {
+    const menu: IMenuDTO = {
       articleId: 1,
       menu: [],
       hideLevel: false,
@@ -18,7 +18,7 @@ describe("extractArticleIds", () => {
     expect(extractArticleIds(menu)).toEqual([1]);
   });
   it("should handle nested values", () => {
-    const menu: IMenu = {
+    const menu: IMenuDTO = {
       articleId: 1,
       menu: [
         {
@@ -37,7 +37,7 @@ describe("extractArticleIds", () => {
     expect(extractArticleIds(menu)).toEqual([1, 2, 3]);
   });
   it("should handle deeply nested values", () => {
-    const menu: IMenu = {
+    const menu: IMenuDTO = {
       articleId: 1,
       menu: [
         {

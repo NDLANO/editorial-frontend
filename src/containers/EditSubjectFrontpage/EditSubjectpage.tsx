@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom";
 import { PageContainer } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
 import SubjectpageForm from "./components/SubjectpageForm";
-import Spinner from "../../components/Spinner";
+import { PageSpinner } from "../../components/PageSpinner";
 import { LocaleType } from "../../interfaces";
 import { useFetchSubjectpageData } from "../FormikForm/formikSubjectpageHooks";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
@@ -36,7 +36,7 @@ const EditSubjectpage = ({ isNewlyCreated }: Props) => {
   }
 
   if (loading || !subjectpage || !subjectpage.id) {
-    return <Spinner withWrapper />;
+    return <PageSpinner />;
   }
 
   return (

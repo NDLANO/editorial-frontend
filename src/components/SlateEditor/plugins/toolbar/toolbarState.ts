@@ -178,7 +178,7 @@ export const defaultAreaOptions: AreaFilters = {
   },
   "definition-list": {
     block: { quote: { disabled: true } },
-    inline: { disabled: true },
+    inline: { disabled: true, "comment-inline": { disabled: false } },
   },
   quote: { inline: { disabled: true } },
 };
@@ -281,10 +281,13 @@ const disableInlineOnMultipleBlocksSelected = (
   const ancestors =
     editorAncestors?.[0]?.type === TYPE_NOOP ? (editorAncestors[0].children as Element[]) : editorAncestors;
 
+  // Filter ancestors that contain inline elements or text blocks
+  // We need to handle both flattened text element and paragraph blocks
   const filteredAncestors =
     ancestors?.filter(
       (fragment) =>
         fragment.children?.length > 1 ||
+        (Text.isText(fragment) && fragment.text !== "") ||
         (fragment.children?.length === 1 && Text.isText(fragment.children[0]) && fragment.children[0].text !== ""),
     ) ?? [];
 

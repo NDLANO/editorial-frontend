@@ -16,7 +16,7 @@ const editorialFrontendClientSecret = getEnvironmentVariabel("NDLA_EDITORIAL_CLI
 const btoa = (str: string) => Buffer.from(str.toString(), "binary").toString("base64");
 
 const b64EncodeUnicode = (str: string) =>
-  btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode(Number(`0x${p1}`))));
+  btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (_match, p1) => String.fromCharCode(Number(`0x${p1}`))));
 
 export const getToken = (audience = "ndla_system") =>
   fetch(url, {

@@ -9,13 +9,12 @@
 import { useFormikContext } from "formik";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
-import { Launch } from "@ndla/icons/common";
+import { ShareBoxLine } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import { IStatus as ConceptStatus } from "@ndla/types-backend/concept-api";
-import { IStatus as DraftStatus } from "@ndla/types-backend/draft-api";
+import { styled } from "@ndla/styled-system/jsx";
+import { IStatusDTO as ConceptStatus } from "@ndla/types-backend/concept-api";
+import { IStatusDTO as DraftStatus } from "@ndla/types-backend/draft-api";
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../constants";
 import PrioritySelect from "../../containers/FormikForm/components/PrioritySelect";
 import ResponsibleSelect from "../../containers/FormikForm/components/ResponsibleSelect";
@@ -24,7 +23,6 @@ import { NewMessageType, useMessages } from "../../containers/Messages/MessagesP
 import { useSession } from "../../containers/Session/SessionProvider";
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../interfaces";
 import { toPreviewDraft } from "../../util/routeHelpers";
-import Footer from "../Footer/Footer";
 import { createEditUrl, TranslatableType, translatableTypes } from "../HeaderWithLanguage/util";
 import { PreviewResourceDialog } from "../PreviewDraft/PreviewResourceDialog";
 import SaveMultiButton from "../SaveMultiButton";
@@ -36,7 +34,6 @@ interface Props {
   showSimpleFooter: boolean;
   onSaveClick: (saveAsNewVersion?: boolean) => void;
   statusStateMachine?: ConceptStatusStateMachineType | DraftStatusStateMachineType;
-  validateEntity?: () => Promise<{ id: number } | undefined>;
   isArticle?: boolean;
   isConcept: boolean;
   hideSecondaryButton: boolean;
@@ -57,37 +54,50 @@ interface FormValues {
   priority?: string;
 }
 
-const StyledLine = styled.hr`
-  width: 1px;
-  height: ${spacing.medium};
-  background: ${colors.brand.greyLight};
-  margin: 0 ${spacing.normal} 0 ${spacing.small};
-  &:before {
-    content: none;
-  }
-`;
+const LinksWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "5xsmall",
+    alignItems: "flex-start",
+  },
+});
 
-const Wrapper = styled.div`
-  width: 200px;
-`;
+const StyledPageContent = styled("div", {
+  base: {
+    position: "sticky",
+    bottom: "4xsmall",
+    zIndex: "sticky",
+  },
+});
 
-const ResponsibleWrapper = styled.div`
-  width: 250px;
-`;
+const StyledSafeLinkButton = styled(SafeLinkButton, {
+  base: {
+    whiteSpace: "nowrap",
+  },
+});
 
-const StyledFooterControls = styled.div`
-  display: flex;
-  gap: ${spacing.normal};
-  align-items: center;
-`;
-
-const StyledFooter = styled.div`
-  margin-left: auto;
-`;
-
-const StyledSafeLinkButton = styled(SafeLinkButton)`
-  white-space: nowrap;
-`;
+const ContentWrapper = styled("div", {
+  base: {
+    display: "grid",
+    gridTemplateColumns: "1fr repeat(3, minmax(150px, max-content)) min-content",
+    justifyContent: "space-between",
+    rowGap: "xsmall",
+    columnGap: "medium",
+    padding: "small",
+    boxShadow: "medium",
+    marginInline: "-xsmall",
+    borderRadius: "xsmall",
+    border: "1px solid",
+    borderColor: "stroke.default",
+    alignItems: "center",
+    background: "background.default",
+    desktopDown: {
+      display: "flex",
+      flexWrap: "wrap",
+    },
+  },
+});
 
 const STATUSES_RESET_RESPONSIBLE = [ARCHIVED, UNPUBLISHED];
 
@@ -98,7 +108,6 @@ function EditorFooter<T extends FormValues>({
   showSimpleFooter,
   onSaveClick,
   statusStateMachine,
-  validateEntity,
   isArticle,
   isConcept,
   hideSecondaryButton,
@@ -209,93 +218,55 @@ function EditorFooter<T extends FormValues>({
     [setFieldValue],
   );
 
-  if (showSimpleFooter) {
-    return (
-      <Footer isArticle={isArticle}>
-        <StyledFooter>
-          <StyledFooterControls>
-            {isArticle && <PrioritySelect priority={values.priority} updatePriority={updatePriority} />}
-            {articleOrConcept && (
-              <Wrapper>
-                <ResponsibleSelect
-                  responsible={responsible}
-                  setResponsible={setResponsible}
-                  onSave={updateResponsible}
-                  responsibleId={ndlaId}
-                />
-              </Wrapper>
-            )}
-            <SaveMultiButton
-              isSaving={isSubmitting}
-              formIsDirty={formIsDirty}
-              showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
-              onClick={onSave}
-              hideSecondaryButton={hideSecondaryButton}
-              hasErrors={!!hasErrors}
-            />
-          </StyledFooterControls>
-        </StyledFooter>
-      </Footer>
-    );
-  }
-
   return (
-    <Footer isArticle={isArticle}>
-      <>
-        <div data-testid="footerPreviewAndValidate">
-          {values.id && isConcept && (
-            <PreviewResourceDialog
-              type="concept"
-              language={values.language}
-              activateButton={<Button variant="link">{t("form.preview.button")}</Button>}
-            />
-          )}
-          {values.id && isArticle && (
-            <SafeLinkButton variant="link" to={toPreviewDraft(values.id, values.language)} target="_blank">
-              {t("form.preview.button")}
-              <Launch />
-            </SafeLinkButton>
-          )}
-          {languageButton && (
-            <>
-              <StyledLine />
-              {languageButton}
-            </>
-          )}
-        </div>
-
-        <StyledFooterControls>
-          <Wrapper>
-            {isArticle && <PrioritySelect priority={values.priority} updatePriority={updatePriority} />}
-          </Wrapper>
-          <ResponsibleWrapper>
-            <ResponsibleSelect
-              responsible={responsible}
-              setResponsible={setResponsible}
-              onSave={updateResponsible}
-              responsibleId={responsibleId}
-            />
-          </ResponsibleWrapper>
-          <Wrapper>
-            <StatusSelect
-              status={status}
-              setStatus={setStatus}
-              onSave={updateStatus}
-              statusStateMachine={statusStateMachine}
-              entityStatus={entityStatus}
-            />
-          </Wrapper>
-          <SaveMultiButton
-            isSaving={isSubmitting}
-            formIsDirty={formIsDirty}
-            showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
-            onClick={onSave}
-            hideSecondaryButton={hideSecondaryButton}
-            hasErrors={!!hasErrors}
+    <StyledPageContent>
+      <ContentWrapper>
+        {!showSimpleFooter && (
+          <LinksWrapper>
+            {!!values.id && !!isConcept && (
+              <PreviewResourceDialog
+                type="concept"
+                language={values.language}
+                activateButton={<Button variant="link">{t("form.preview.button")}</Button>}
+              />
+            )}
+            {!!values.id && !!isArticle && (
+              <SafeLinkButton variant="link" to={toPreviewDraft(values.id, values.language)} target="_blank">
+                {t("form.preview.button")}
+                <ShareBoxLine size="small" />
+              </SafeLinkButton>
+            )}
+            {!!languageButton && languageButton}
+          </LinksWrapper>
+        )}
+        {!!isArticle && <PrioritySelect priority={values.priority} updatePriority={updatePriority} />}
+        {!!articleOrConcept && (
+          <ResponsibleSelect
+            responsible={responsible}
+            setResponsible={setResponsible}
+            onSave={updateResponsible}
+            responsibleId={showSimpleFooter ? ndlaId : responsibleId}
           />
-        </StyledFooterControls>
-      </>
-    </Footer>
+        )}
+        {!showSimpleFooter && (
+          <StatusSelect
+            status={status}
+            setStatus={setStatus}
+            onSave={updateStatus}
+            statusStateMachine={statusStateMachine}
+            entityStatus={entityStatus}
+          />
+        )}
+        <SaveMultiButton
+          isSaving={isSubmitting}
+          formIsDirty={formIsDirty}
+          showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
+          onClick={onSave}
+          hideSecondaryButton={hideSecondaryButton}
+          hasErrors={!!hasErrors}
+        />
+      </ContentWrapper>
+    </StyledPageContent>
   );
 }
 

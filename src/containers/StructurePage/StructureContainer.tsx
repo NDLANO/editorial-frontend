@@ -9,11 +9,10 @@
 import keyBy from "lodash/keyBy";
 import { useEffect, useRef, useState, ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { PageContent, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
-import StructureErrorIcon from "./folderComponents/StructureErrorIcon";
 import StructureResources from "./resourceComponents/StructureResources";
 import SubjectBanner from "./resourceComponents/SubjectBanner";
 import RootNode from "./RootNode";
@@ -34,7 +33,7 @@ import { useAuth0Responsibles } from "../../modules/auth0/auth0Queries";
 import { useUserData } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
 import { createGuard } from "../../util/guards";
-import { getPathsFromUrl, removeLastItemFromUrl } from "../../util/routeHelpers";
+import { getPathsFromUrl } from "../../util/routeHelpers";
 import { useSession } from "../Session/SessionProvider";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 import { useLocalStorageBooleanState } from "../WelcomePage/hooks/storedFilterHooks";
@@ -104,12 +103,8 @@ const StructureContainer = ({
 }: Props) => {
   const location = useLocation();
   const paths = location.pathname.replace(rootPath, "").split("/");
-  const [rootId, childId, ...rest] = paths;
-  const joinedRest = rest.join("/");
-  const children = joinedRest.length > 0 ? joinedRest : undefined;
-  const params = { rootId, childId, children };
-  const navigate = useNavigate();
-  const { t, i18n } = useTranslation();
+  const [rootId] = paths;
+  const { i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [currentNode, setCurrentNode] = useState<Node | undefined>(undefined);
   const [shouldScroll, setShouldScroll] = useState(!!paths.length);
@@ -167,15 +162,6 @@ const StructureContainer = ({
     setShouldScroll(true);
   }, [taxonomyVersion]);
 
-  const handleStructureToggle = (path: string) => {
-    const { search } = location;
-    const currentPath = location.pathname.replace(rootPath, "");
-    const levelAbove = removeLastItemFromUrl(currentPath);
-    const newPath = currentPath === path ? levelAbove : path;
-    const deleteSearch = !!params.rootId && !newPath.includes(params.rootId);
-    navigate(`${rootPath}${newPath.concat(deleteSearch ? "" : search)}`);
-  };
-
   const resultSubjectIdObject = useMemo(
     () => getResultSubjectIdObject(ndlaId, nodesQuery.data),
     [ndlaId, nodesQuery.data],
@@ -195,15 +181,11 @@ const StructureContainer = ({
     ? rootNodes
     : rootNodes.filter((node) => node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== "true");
 
-  const addChildTooltip = childNodeTypes.includes("PROGRAMME")
-    ? t("taxonomy.addNode", { nodeType: t("taxonomy.nodeType.PROGRAMME") })
-    : t("taxonomy.addTopic");
-
   return (
     <ErrorBoundary>
       <PageContent variant="wide">
         <GridWrapper>
-          {messageBox && <MessageBoxWrapper>{messageBox}</MessageBoxWrapper>}
+          {!!messageBox && <MessageBoxWrapper>{messageBox}</MessageBoxWrapper>}
           <div>
             <StructureBanner
               setShowFavorites={setShowFavorites}
@@ -221,33 +203,29 @@ const StructureContainer = ({
               showQuality={showQuality}
               setShowQuality={setShowQuality}
             />
-            <>
-              {userDataQuery.isLoading || nodesQuery.isLoading ? (
-                <Spinner />
-              ) : (
-                <div data-testid="structure">
-                  {nodes!.map((node) => (
-                    <RootNode
-                      renderBeforeTitle={StructureErrorIcon}
-                      openedPaths={getPathsFromUrl(location.pathname)}
-                      resourceSectionRef={resourceSection}
-                      onNodeSelected={setCurrentNode}
-                      isFavorite={!!favoriteNodes[node.id]}
-                      key={node.id}
-                      node={node}
-                      toggleOpen={handleStructureToggle}
-                      childNodeTypes={childNodeTypes}
-                      addChildTooltip={addChildTooltip}
-                      showQuality={showQuality}
-                    />
-                  ))}
-                </div>
-              )}
-            </>
+            {userDataQuery.isLoading || nodesQuery.isLoading ? (
+              <Spinner />
+            ) : (
+              <div data-testid="structure">
+                {nodes.map((node) => (
+                  <RootNode
+                    openedPaths={getPathsFromUrl(location.pathname)}
+                    resourceSectionRef={resourceSection}
+                    onNodeSelected={setCurrentNode}
+                    isFavorite={!!favoriteNodes[node.id]}
+                    key={node.id}
+                    node={node}
+                    childNodeTypes={childNodeTypes}
+                    showQuality={showQuality}
+                    rootPath={rootPath}
+                  />
+                ))}
+              </div>
+            )}
           </div>
-          {showResourceColumn && (
+          {!!showResourceColumn && (
             <div>
-              {currentNode && (
+              {!!currentNode && (
                 <StickyContainer ref={resourceSection}>
                   {currentNode.nodeType === "SUBJECT" && (
                     <SubjectBanner subjectNode={currentNode} showQuality={showQuality} users={users} />
@@ -266,7 +244,7 @@ const StructureContainer = ({
           )}
         </GridWrapper>
       </PageContent>
-      {isTaxonomyAdmin && <VersionSelector />}
+      {!!isTaxonomyAdmin && <VersionSelector />}
     </ErrorBoundary>
   );
 };

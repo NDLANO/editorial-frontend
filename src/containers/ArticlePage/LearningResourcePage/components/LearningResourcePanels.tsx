@@ -11,7 +11,7 @@ import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IUpdatedArticle, IArticle } from "@ndla/types-backend/draft-api";
+import { IUpdatedArticleDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node, TaxonomyContext } from "@ndla/types-taxonomy";
 import LearningResourceContent from "./LearningResourceContent";
 import LearningResourceTaxonomy from "./LearningResourceTaxonomy";
@@ -36,7 +36,16 @@ import { FlatArticleKeys } from "../../components/types";
 const StyledWrapper = styled("div", {
   base: {
     display: "grid",
-    gridTemplateColumns: "1fr auto",
+  },
+  variants: {
+    showComments: {
+      true: {
+        gridTemplateColumns: "minmax(0, 1fr) token(spacing.surface.xxsmall)",
+      },
+      false: {
+        gridTemplateColumns: "minmax(0, 1fr)",
+      },
+    },
   },
 });
 
@@ -49,10 +58,10 @@ const StyledControls = styled("div", {
 });
 
 interface Props {
-  article?: IArticle;
-  articleHistory: IArticle[] | undefined;
+  article?: IArticleDTO;
+  articleHistory: IArticleDTO[] | undefined;
   taxonomy?: Node[];
-  updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
+  updateNotes: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
   articleLanguage: string;
   contexts?: TaxonomyContext[];
@@ -110,7 +119,7 @@ const LearningResourcePanels = ({
           </SwitchRoot>
         )}
       </StyledControls>
-      <StyledWrapper>
+      <StyledWrapper showComments={!hideComments}>
         <FormAccordions defaultOpen={defaultOpen}>
           <FormAccordion
             id={"learning-resource-content"}
@@ -175,7 +184,7 @@ const LearningResourcePanels = ({
             title={t("form.name.grepCodes")}
             hasError={!!errors.grepCodes}
           >
-            <GrepCodesField />
+            <GrepCodesField prefixFilter={["KE", "KM", "TT"]} />
           </FormAccordion>
           {config.ndlaEnvironment === "test" && (
             <FormAccordion
@@ -193,7 +202,7 @@ const LearningResourcePanels = ({
           >
             <RevisionNotes />
           </FormAccordion>
-          {article && (
+          {!!article && (
             <FormAccordion
               id={"learning-resource-workflow"}
               title={t("form.workflowSection")}

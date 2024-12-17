@@ -12,7 +12,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IRevisionMeta } from "@ndla/types-backend/draft-api";
+import { IRevisionMetaDTO } from "@ndla/types-backend/draft-api";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import { Dictionary } from "../../../interfaces";
 import { NodeResourceMeta } from "../../../modules/nodes/nodeQueries";
@@ -38,7 +38,7 @@ interface Props {
   currentNode: ResourceWithNodeConnectionAndMeta;
 }
 
-export const isApproachingRevision = (revisions?: IRevisionMeta[]) => {
+export const isApproachingRevision = (revisions?: IRevisionMetaDTO[]) => {
   if (!revisions?.length) return false;
   const expirationDate = getExpirationDate({ revisions: revisions });
   if (!expirationDate) return false;

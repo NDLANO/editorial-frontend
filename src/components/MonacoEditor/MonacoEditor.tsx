@@ -65,7 +65,6 @@ monaco.editor.defineTheme("myCustomTheme", {
   colors: {},
 });
 
-// eslint-disable-next-line no-restricted-globals
 self.MonacoEnvironment = {
   getWorker() {
     return new htmlWorker();

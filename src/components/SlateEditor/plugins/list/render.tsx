@@ -19,14 +19,14 @@ export const listRenderer = (editor: Editor) => {
       } else if (element.listType === "numbered-list") {
         const { start } = element.data;
         return (
-          <OrderedList start={start ? parseInt(start) : undefined} {...attributes}>
+          <OrderedList start={start} {...attributes}>
             {children}
           </OrderedList>
         );
       } else if (element.listType === "letter-list") {
         const { start } = element.data;
         return (
-          <OrderedList start={start ? parseInt(start) : undefined} variant="letters" {...attributes}>
+          <OrderedList start={start} variant="letters" {...attributes}>
             {children}
           </OrderedList>
         );

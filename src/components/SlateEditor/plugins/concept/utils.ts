@@ -6,12 +6,12 @@
  *
  */
 
-import { IGlossData, IGlossExample } from "@ndla/types-backend/concept-api";
+import { IGlossDataDTO, IGlossExampleDTO } from "@ndla/types-backend/concept-api";
 
 export const generateNumbersArray = (arrayLength: number): string[] =>
   Array.from(Array(arrayLength).keys()).map((el) => el.toString());
 
-export const generateUniqueGlossLanguageArray = (glossExamples: IGlossExample[][]): string[] =>
+export const generateUniqueGlossLanguageArray = (glossExamples: IGlossExampleDTO[][]): string[] =>
   Array.from(new Set(glossExamples.flat().map((e) => e.language)));
 
 interface GlossDataAttributes {
@@ -20,7 +20,7 @@ interface GlossDataAttributes {
 }
 
 export const getGlossDataAttributes = (
-  glossData: IGlossData,
+  glossData: IGlossDataDTO,
   locale: string,
   excludeKeys: (keyof GlossDataAttributes)[] = [],
 ): GlossDataAttributes => {

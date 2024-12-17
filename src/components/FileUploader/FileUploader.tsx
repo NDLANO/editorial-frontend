@@ -9,9 +9,7 @@
 import { Formik } from "formik";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine } from "@ndla/icons/action";
-import { FileDocumentOutline } from "@ndla/icons/common";
-import { UploadCloudLine } from "@ndla/icons/editor";
+import { DeleteBinLine, FileTextLine, UploadCloudLine } from "@ndla/icons";
 import {
   Button,
   FieldErrorMessage,
@@ -153,7 +151,7 @@ const FileUploader = ({ onFileSave, close }: Props) => {
                         acceptedFiles.map((file, index) => (
                           <FileUploadItem key={`${file.name}_${index}`} file={file}>
                             <FileUploadItemPreview>
-                              <FileDocumentOutline />
+                              <FileTextLine />
                             </FileUploadItemPreview>
                             <FileUploadItemName />
                             <FileUploadItemSizeText />
@@ -181,7 +179,7 @@ const FileUploader = ({ onFileSave, close }: Props) => {
               {t("form.save")}
             </Button>
           </FormActionsContainer>
-          {errorMessage && <StyledErrorText>{errorMessage}</StyledErrorText>}
+          {!!errorMessage && <StyledErrorText>{errorMessage}</StyledErrorText>}
         </FormikForm>
       )}
     </Formik>

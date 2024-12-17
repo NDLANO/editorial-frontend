@@ -25,9 +25,9 @@ export const noopSerializer: SlateSerializer = {
       return slatejsx("element", { type: TYPE_NOOP }, children);
     }
   },
-  serialize(node: Descendant, children: JSX.Element[]) {
+  serialize(node, children) {
     if (!Element.isElement(node) || node.type !== TYPE_NOOP) return;
-    return <>{children}</>;
+    return children;
   },
 };
 

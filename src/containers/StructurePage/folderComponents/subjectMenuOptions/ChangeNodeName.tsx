@@ -10,7 +10,7 @@ import { FieldArray, Formik, FormikProps } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
-import { DeleteBinLine } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons";
 import {
   Text,
   FieldErrorMessage,
@@ -130,7 +130,6 @@ const ChangeNodeName = ({ node }: Props) => {
         await promise();
       }
     } catch (e) {
-      console.error(e);
       handleError(e);
       setUpdateError(t("taxonomy.changeName.updateError"));
       await qc.invalidateQueries({
@@ -273,7 +272,7 @@ const ChangeNodeName = ({ node }: Props) => {
                   size="small"
                 />
               </FormActionsContainer>
-              {updateError && <Text color="text.error">{updateError}</Text>}
+              {!!updateError && <Text color="text.error">{updateError}</Text>}
             </FormWrapper>
           );
         }}

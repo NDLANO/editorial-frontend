@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { ImageSearch } from "@ndla/image-search";
 import { Button, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3, ISearchParams, ISearchResultV3 } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3DTO, ISearchParamsDTO, ISearchResultV3DTO } from "@ndla/types-backend/image-api";
 import { useImageSearchTranslations } from "@ndla/ui";
 import CreateImage from "../containers/ImageUploader/CreateImage";
 
@@ -30,16 +30,16 @@ const StyledTabsContent = styled(TabsContent, {
 });
 
 interface Props {
-  onImageSelect: (image: IImageMetaInformationV3) => void;
+  onImageSelect: (image: IImageMetaInformationV3DTO) => void;
   inModal?: boolean;
   locale: string;
   language?: string;
   closeModal: () => void;
   onError: (err: any) => void;
-  searchImages: (query: ISearchParams) => Promise<ISearchResultV3>;
-  fetchImage: (id: number) => Promise<IImageMetaInformationV3>;
+  searchImages: (query: ISearchParamsDTO) => Promise<ISearchResultV3DTO>;
+  fetchImage: (id: number) => Promise<IImageMetaInformationV3DTO>;
   showCheckbox?: boolean;
-  checkboxAction?: (image: IImageMetaInformationV3) => void;
+  checkboxAction?: (image: IImageMetaInformationV3DTO) => void;
 }
 
 const ImageSearchAndUploader = ({

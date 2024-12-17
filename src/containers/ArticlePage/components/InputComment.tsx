@@ -13,9 +13,10 @@ import uniqueId from "lodash/uniqueId";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { Button, FieldLabel, FieldRoot, FieldTextArea } from "@ndla/primitives";
+import { Button, FieldRoot, FieldTextArea } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUtils";
+import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { TYPE_DIV } from "../../../components/SlateEditor/plugins/div/types";
 import { TYPE_PARAGRAPH } from "../../../components/SlateEditor/plugins/paragraph/types";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
@@ -129,7 +130,7 @@ const InputComment = ({ isSubmitting, arrayHelpers }: Props) => {
   return (
     <CommentCard>
       <StyledFieldRoot>
-        <FieldLabel srOnly>{t("form.comment.commentField")}</FieldLabel>
+        <ContentEditableFieldLabel srOnly>{t("form.comment.commentField")}</ContentEditableFieldLabel>
         {isFocused ? (
           <RichTextEditor
             value={inputValue ?? []}

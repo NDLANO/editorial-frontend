@@ -8,12 +8,11 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ExclamationMark, Comment } from "@ndla/icons/common";
-import { Calendar } from "@ndla/icons/editor";
+import { ArrowUpDoubleLine, MessageLine, CalendarLine } from "@ndla/icons";
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IMultiSearchResult } from "@ndla/types-backend/search-api";
+import { IMultiSearchResultDTO } from "@ndla/types-backend/search-api";
 import PageSizeSelect from "./PageSizeSelect";
 import StatusCell from "./StatusCell";
 import SubjectCombobox from "./SubjectCombobox";
@@ -52,7 +51,7 @@ const CommentIndicatorWrapper = styled("div", {
 });
 
 interface Props {
-  data: IMultiSearchResult | undefined;
+  data: IMultiSearchResultDTO | undefined;
   isPending: boolean;
   setSortOption: (o: Prefix<"-", SortOptionWorkList>) => void;
   sortOption: string;
@@ -107,7 +106,7 @@ const WorkListTabContent = ({
               id: `title_${res.id}`,
               data: (
                 <CellWrapper>
-                  <ExclamationMark
+                  <ArrowUpDoubleLine
                     aria-hidden={!res?.prioritized}
                     visibility={!res?.prioritized ? "hidden" : "visible"}
                     aria-label={t("editorFooter.prioritized")}
@@ -121,7 +120,7 @@ const WorkListTabContent = ({
                   </TextWrapper>
                   {res.comments?.length ? (
                     <CommentIndicatorWrapper>
-                      <Comment
+                      <MessageLine
                         size="small"
                         title={stripInlineContentHtmlTags(res.comments[0].content)}
                         aria-label={stripInlineContentHtmlTags(res.comments[0].content)}
@@ -183,11 +182,11 @@ const WorkListTabContent = ({
   return (
     <>
       <StyledTopRowDashboardInfo>
-        <TableTitle title={t(headerText)} description={t(descriptionText)} Icon={Calendar} />
+        <TableTitle title={t(headerText)} description={t(descriptionText)} Icon={CalendarLine} />
         <ControlWrapperDashboard>
           <TopRowControls>
             <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
-            {setFilterSubject && (
+            {!!setFilterSubject && (
               <>
                 <SubjectCombobox
                   subjectIds={subjectIds ?? []}
@@ -197,7 +196,7 @@ const WorkListTabContent = ({
                 <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject?.value} searchEnv="content" />
               </>
             )}
-            {setPrioritized && (
+            {!!setPrioritized && (
               <SwitchRoot
                 checked={prioritized}
                 onCheckedChange={(details) => {

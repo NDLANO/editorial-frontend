@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { Editor, Node, Element, Descendant, Transforms, Text, Path } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import onBackspace from "./handlers/onBackspace";
@@ -12,7 +13,7 @@ import onEnter from "./handlers/onEnter";
 import onTab from "./handlers/onTab";
 import { TYPE_LIST, TYPE_LIST_ITEM } from "./types";
 import { defaultListBlock } from "./utils/defaultBlocks";
-import { Dictionary } from "../../../../interfaces";
+import { createHtmlTag } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { KEY_BACKSPACE, KEY_ENTER, KEY_TAB } from "../../utils/keys";
 import { firstTextBlockElement } from "../../utils/normalizationHelpers";
@@ -27,7 +28,9 @@ import { TYPE_PARAGRAPH } from "../paragraph/types";
 export interface ListElement {
   type: "list";
   listType: string;
-  data: Dictionary<string>;
+  data: {
+    start?: number;
+  };
   children: Descendant[];
 }
 
@@ -79,7 +82,7 @@ export const listSerializer: SlateSerializer = {
       return slatejsx("element", { type: TYPE_LIST, listType: "bulleted-list", data: {} }, children);
     }
     if (tag === "ol") {
-      const start = el.getAttribute("start");
+      const start = parseInt(el.getAttribute("start") ?? "");
       if (el.getAttribute("data-type") === "letters") {
         return slatejsx(
           "element",
@@ -108,37 +111,28 @@ export const listSerializer: SlateSerializer = {
       return slatejsx("element", { type: TYPE_LIST_ITEM }, children);
     }
   },
-  serialize(node: Descendant, children: JSX.Element[]) {
+  serialize(node, children) {
     if (!Element.isElement(node)) return;
 
     if (node.type === TYPE_LIST) {
       if (node.listType === "bulleted-list") {
-        return <ul>{children}</ul>;
+        return createHtmlTag({ tag: "ul", children });
       }
       if (node.listType === "numbered-list") {
         const { start } = node.data;
-        return <ol start={start ? parseInt(start) : undefined}>{children}</ol>;
+        return createHtmlTag({ tag: "ol", data: { start }, children });
       }
       if (node.listType === "letter-list") {
         const { start } = node.data;
-        return (
-          <ol data-type="letters" start={start ? parseInt(start) : undefined}>
-            {children}
-          </ol>
-        );
+        return createHtmlTag({ tag: "ol", data: { start, "data-type": "letters" }, children });
       }
     }
     if (node.type === TYPE_LIST_ITEM) {
       // If first child of list-item is a list, it means that an empty paragraph has been removed by
       // paragraph serializer. This should not be removed, therefore inserting it when serializing.
-      const firstElement = children[0];
-      const illegalFirstElement = !firstElement || ["ol", "ul"].includes(firstElement.type);
-      return (
-        <li>
-          {illegalFirstElement && <p></p>}
-          {children}
-        </li>
-      );
+      const firstChild = node.children[0];
+      const illegalFirstElement = !Element.isElement(firstChild) || ["ol", "ul"].includes(firstChild.type);
+      return createHtmlTag({ tag: "li", children: illegalFirstElement ? `<p></p>${children}` : children });
     }
   },
 };

@@ -6,8 +6,8 @@
  *
  */
 
-import { connect, useFormikContext } from "formik";
-import { useState } from "react";
+import { connect, useField, useFormikContext } from "formik";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FileListLine } from "@ndla/icons";
 import { Button, FieldErrorMessage, FieldRoot, Spinner } from "@ndla/primitives";
@@ -34,8 +34,6 @@ import {
   createToolbarDefaultValues,
 } from "../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
-import { getTranscription, transcribe } from "../../../components/Transcribe/helpers";
-import config from "../../../config";
 import { postAudioTranscription } from "../../../modules/audio/audioApi";
 import { useAudioTranscription } from "../../../modules/audio/audioQueries";
 
@@ -93,7 +91,10 @@ const AudioManuscript = ({ audioId, audioLanguage, audioUrl, audioType }: AudioM
       enabled: isLoading,
     },
   );
-  const generateText = async () => {
+
+  const [field, meta, helpers] = useField("manuscript");
+
+  const startJob = () => {
     if (!audioUrl || !audioLanguage || !audioType || !audioId) {
       return null;
     }
@@ -108,70 +109,43 @@ const AudioManuscript = ({ audioId, audioLanguage, audioUrl, audioType }: AudioM
     } else {
       language = "en-US";
     }
-    await postAudioTranscription(audioUrl?.split("audio/files/")[1], audioId, language);
-    const pollingInterval = setInterval(async () => {
-      if (transcribeData?.status === "COMPLETED") {
-        clearInterval(pollingInterval);
-        return transcribeData.transcription;
-      } else if (transcribeData?.status === "FAILED") {
-        clearInterval(pollingInterval);
-        return null;
-      }
-    }, 10000);
-    /* const transcriptionResult = await transcribe({
-      fileUrl: config.s3AudioRoot + audioUrl.split("audio/files/")[1],
-      languageCode: language,
-      mediaFormat: audioType,
-      outputFileName: "transcription",
-    });
-    const pollingInterval = setInterval(async () => {
-      const response = await getTranscription(transcriptionResult.TranscriptionJob.TranscriptionJobName);
-      if (response.status === "COMPLETED") {
-        clearInterval(pollingInterval);
-        return response.transcription;
-      } else if (response.status === "FAILED") {
-        clearInterval(pollingInterval);
-        return null;
-      }
-    }, 10000);*/
-    setIsLoading(false);
+    postAudioTranscription(audioUrl?.split("audio/files/")[1], audioId, language);
   };
+  if (transcribeData?.status === "COMPLETED" && isLoading) {
+    setIsLoading(false);
+    console.log("job complete yay", { transcribeData });
+    helpers.setValue(transcribeData.transcription);
+  }
 
   return (
     <FormField name="manuscript">
-      {({ field, meta, helpers }) => (
-        <FieldRoot invalid={!!meta.error}>
-          <ContentEditableFieldLabel textStyle="title.medium">
-            {t("podcastForm.fields.manuscript")}
-          </ContentEditableFieldLabel>
-          <RichTextEditor
-            {...field}
-            hideBlockPicker
-            placeholder={t("podcastForm.fields.manuscript")}
-            submitted={isSubmitting}
-            plugins={plugins}
-            onChange={helpers.setValue}
-            toolbarOptions={toolbarOptions}
-            toolbarAreaFilters={toolbarAreaFilters}
-          />
-          <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-          <FieldWarning name={field.name} />
-          {!!audioUrl && (
-            <Button
-              onClick={async () => {
-                const text = await generateText();
-                if (text) {
-                  helpers.setValue(text);
-                }
-              }}
-              size="small"
-            >
-              {t("textGeneration.transcription.button")}
-              {isLoading ? <Spinner size="small" /> : <FileListLine />}
-            </Button>
-          )}
-        </FieldRoot>
-      )}
+      {({ meta, helpers, field }) => {
+        return (
+          <FieldRoot invalid={!!meta.error}>
+            <ContentEditableFieldLabel textStyle="title.medium">
+              {t("podcastForm.fields.manuscript")}
+            </ContentEditableFieldLabel>
+            <RichTextEditor
+              {...field}
+              hideBlockPicker
+              placeholder={t("podcastForm.fields.manuscript")}
+              submitted={isSubmitting}
+              plugins={plugins}
+              onChange={helpers.setValue}
+              toolbarOptions={toolbarOptions}
+              toolbarAreaFilters={toolbarAreaFilters}
+            />
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+            <FieldWarning name={field.name} />
+            {!!audioUrl && (
+              <Button onClick={() => startJob()} size="small">
+                {t("textGeneration.transcription.button")}
+                {isLoading ? <Spinner size="small" /> : <FileListLine />}
+              </Button>
+            )}
+          </FieldRoot>
+        );
+      }}
     </FormField>
   );
 };

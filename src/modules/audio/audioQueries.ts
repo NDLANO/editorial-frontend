@@ -107,7 +107,13 @@ export const useAudioTranscription = (
 ) => {
   return useQuery<ITranscriptionResultDTO>({
     queryKey: ["audioTranscription", params],
-    queryFn: () => fetchAudioTranscription(params.audioName, params.audioId, params.language),
+    queryFn: () => {
+      const res = fetchAudioTranscription(params.audioName, params.audioId, params.language);
+      console.log({ res });
+      return res;
+    },
+    refetchInterval: 1000,
+    refetchIntervalInBackground: true,
     ...options,
   });
 };

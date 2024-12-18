@@ -108,7 +108,8 @@ export const fetchAudioTranscription = (
   audioId: number,
   language: string,
 ): Promise<ITranscriptionResultDTO> => {
-  return fetchAuthorized(`${transcribeUrl}/audio/${audioName}/${audioId}/${language}`, { method: "GET" }).then((r) =>
-    resolveJsonOrRejectWithError(r),
-  );
+  return fetchAuthorized(`${transcribeUrl}/audio/${audioName}/${audioId}/${language}`, { method: "GET" }).then((r) => {
+    console.log({ r });
+    return resolveJsonOrRejectWithError(r);
+  });
 };

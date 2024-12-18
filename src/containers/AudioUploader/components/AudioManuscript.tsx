@@ -6,9 +6,11 @@
  *
  */
 
-import { connect, useFormikContext } from "formik";
-import { useState } from "react";
+import { connect, FieldHelperProps, useField, useFormikContext } from "formik";
+import { update } from "lodash";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Descendant } from "slate";
 import { FileListLine } from "@ndla/icons";
 import { Button, FieldErrorMessage, FieldRoot, Spinner } from "@ndla/primitives";
 import { AudioFormikType } from "./AudioForm";
@@ -34,10 +36,10 @@ import {
   createToolbarDefaultValues,
 } from "../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
-import { getTranscription, transcribe } from "../../../components/Transcribe/helpers";
-import config from "../../../config";
 import { postAudioTranscription } from "../../../modules/audio/audioApi";
 import { useAudioTranscription } from "../../../modules/audio/audioQueries";
+import { inlineContentToEditorValue } from "../../../util/articleContentConverter";
+import { ArticleFormType } from "../../FormikForm/articleFormHooks";
 
 interface AudioManuscriptProps {
   audioName?: string;
@@ -81,97 +83,92 @@ const plugins = manuscriptPlugins.concat(manuscriptRenderers);
 
 const AudioManuscript = ({ audioId, audioLanguage, audioUrl, audioType }: AudioManuscriptProps) => {
   const { t } = useTranslation();
+  const { setStatus } = useFormikContext<ArticleFormType>();
   const { isSubmitting } = useFormikContext();
   const [isLoading, setIsLoading] = useState(false);
+  const getLanguage = (audioLanguage: string) => {
+    const languageMap: { [key: string]: string } = {
+      nb: "no-NO",
+      nn: "no-NO",
+      de: "de-DE",
+    };
+
+    return languageMap[audioLanguage] || "en-US";
+  };
+
+  const language = getLanguage(audioLanguage!);
+  const audioName = audioUrl?.split("audio/files/")[1];
   const { data: transcribeData } = useAudioTranscription(
     {
-      audioName: audioUrl?.split("audio/files/")[1]!,
+      audioName: audioName!,
       audioId: audioId!,
-      language: "no-NO",
+      language: language,
     },
     {
       enabled: isLoading,
     },
   );
-  const generateText = async () => {
+
+  const [_field, _meta, helpers] = useField("manuscript");
+
+  const startJob = () => {
     if (!audioUrl || !audioLanguage || !audioType || !audioId) {
       return null;
     }
 
     setIsLoading(true);
-    let language;
 
-    if (audioLanguage === "nb" || audioLanguage === "nn") {
-      language = "no-NO";
-    } else if (audioLanguage === "de") {
-      language = "de-DE";
-    } else {
-      language = "en-US";
-    }
-    await postAudioTranscription(audioUrl?.split("audio/files/")[1], audioId, language);
-    const pollingInterval = setInterval(async () => {
-      if (transcribeData?.status === "COMPLETED") {
-        clearInterval(pollingInterval);
-        return transcribeData.transcription;
-      } else if (transcribeData?.status === "FAILED") {
-        clearInterval(pollingInterval);
-        return null;
-      }
-    }, 10000);
-    /* const transcriptionResult = await transcribe({
-      fileUrl: config.s3AudioRoot + audioUrl.split("audio/files/")[1],
-      languageCode: language,
-      mediaFormat: audioType,
-      outputFileName: "transcription",
-    });
-    const pollingInterval = setInterval(async () => {
-      const response = await getTranscription(transcriptionResult.TranscriptionJob.TranscriptionJobName);
-      if (response.status === "COMPLETED") {
-        clearInterval(pollingInterval);
-        return response.transcription;
-      } else if (response.status === "FAILED") {
-        clearInterval(pollingInterval);
-        return null;
-      }
-    }, 10000);*/
-    setIsLoading(false);
+    postAudioTranscription(audioUrl?.split("audio/files/")[1], audioId, language);
   };
+
+  const getTranscriptText = (text: string) => {
+    const json = JSON.parse(text);
+    return json.results.transcripts[0].transcript;
+  };
+
+  useEffect(() => {
+    if (transcribeData?.status === "COMPLETED" && isLoading) {
+      setIsLoading(false);
+      const transcriptText = getTranscriptText(transcribeData?.transcription ?? "");
+      const editorContent = inlineContentToEditorValue(transcriptText, true);
+      helpers.setValue(editorContent, true);
+      setStatus({ status: "acceptGenerated" });
+    } else if (transcribeData?.status === "FAILED" && isLoading) {
+      setIsLoading(false);
+    }
+  }, [setStatus, helpers, isLoading, transcribeData]);
 
   return (
     <FormField name="manuscript">
-      {({ field, meta, helpers }) => (
-        <FieldRoot invalid={!!meta.error}>
-          <ContentEditableFieldLabel textStyle="title.medium">
-            {t("podcastForm.fields.manuscript")}
-          </ContentEditableFieldLabel>
-          <RichTextEditor
-            {...field}
-            hideBlockPicker
-            placeholder={t("podcastForm.fields.manuscript")}
-            submitted={isSubmitting}
-            plugins={plugins}
-            onChange={helpers.setValue}
-            toolbarOptions={toolbarOptions}
-            toolbarAreaFilters={toolbarAreaFilters}
-          />
-          <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-          <FieldWarning name={field.name} />
-          {!!audioUrl && (
-            <Button
-              onClick={async () => {
-                const text = await generateText();
-                if (text) {
-                  helpers.setValue(text);
-                }
+      {({ meta, helpers, field }) => {
+        return (
+          <FieldRoot invalid={!!meta.error}>
+            <ContentEditableFieldLabel textStyle="title.medium">
+              {t("podcastForm.fields.manuscript")}
+            </ContentEditableFieldLabel>
+            <RichTextEditor
+              {...field}
+              hideBlockPicker
+              placeholder={t("podcastForm.fields.manuscript")}
+              submitted={isSubmitting}
+              plugins={plugins}
+              onChange={(value) => {
+                helpers.setValue(value);
               }}
-              size="small"
-            >
-              {t("textGeneration.transcription.button")}
-              {isLoading ? <Spinner size="small" /> : <FileListLine />}
-            </Button>
-          )}
-        </FieldRoot>
-      )}
+              toolbarOptions={toolbarOptions}
+              toolbarAreaFilters={toolbarAreaFilters}
+            />
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+            <FieldWarning name={field.name} />
+            {!!audioUrl && (
+              <Button onClick={() => startJob()} size="small">
+                {t("textGeneration.transcription.button")}
+                {isLoading ? <Spinner size="small" /> : <FileListLine />}
+              </Button>
+            )}
+          </FieldRoot>
+        );
+      }}
     </FormField>
   );
 };

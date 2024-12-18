@@ -96,7 +96,6 @@ export const useAudioSearchTags = (params: UseSearchTags, options?: Partial<UseQ
 };
 
 interface UseTranscription {
-  audioName: string;
   audioId: number;
   language: string;
 }
@@ -107,7 +106,7 @@ export const useAudioTranscription = (
 ) => {
   return useQuery<ITranscriptionResultDTO>({
     queryKey: ["audioTranscription", params],
-    queryFn: () => fetchAudioTranscription(params.audioName, params.audioId, params.language),
+    queryFn: () => fetchAudioTranscription(params.audioId, params.language),
     refetchInterval: 1000,
     refetchIntervalInBackground: true,
     ...options,

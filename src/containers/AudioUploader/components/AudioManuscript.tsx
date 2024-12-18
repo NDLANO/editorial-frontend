@@ -95,10 +95,8 @@ const AudioManuscript = ({ audioId, audioLanguage, audioUrl, audioType }: AudioM
   };
 
   const language = getLanguage(audioLanguage!);
-  const audioName = audioUrl?.split("audio/files/")[1];
   const { data: transcribeData } = useAudioTranscription(
     {
-      audioName: audioName!,
       audioId: audioId!,
       language: language,
     },

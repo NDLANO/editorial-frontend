@@ -223,6 +223,8 @@ const AudioForm = ({
                 hasError={[].some((field) => field in errors)}
               >
                 <AudioManuscript
+                  audioName={audio?.title.title}
+                  audioId={audio?.id}
                   audioLanguage={audioLanguage}
                   audioUrl={audio?.audioFile.url}
                   audioType={audio?.audioFile.url.split(".").pop()}

@@ -9,8 +9,8 @@
 import { connect, useFormikContext } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, FieldErrorMessage, FieldRoot, Spinner } from "@ndla/primitives";
 import { FileListLine } from "@ndla/icons";
+import { Button, FieldErrorMessage, FieldRoot, Spinner } from "@ndla/primitives";
 import { AudioFormikType } from "./AudioForm";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../components/Form/FieldWarning";
@@ -36,8 +36,12 @@ import {
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import { getTranscription, transcribe } from "../../../components/Transcribe/helpers";
 import config from "../../../config";
+import { postAudioTranscription } from "../../../modules/audio/audioApi";
+import { useAudioTranscription } from "../../../modules/audio/audioQueries";
 
 interface AudioManuscriptProps {
+  audioName?: string;
+  audioId?: number;
   audioLanguage?: string;
   audioUrl?: string;
   audioType?: string;
@@ -75,18 +79,26 @@ const manuscriptRenderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, mar
 
 const plugins = manuscriptPlugins.concat(manuscriptRenderers);
 
-const AudioManuscript = ({ audioLanguage, audioUrl, audioType }: AudioManuscriptProps) => {
+const AudioManuscript = ({ audioId, audioLanguage, audioUrl, audioType }: AudioManuscriptProps) => {
   const { t } = useTranslation();
   const { isSubmitting } = useFormikContext();
   const [isLoading, setIsLoading] = useState(false);
-
+  const { data: transcribeData } = useAudioTranscription(
+    {
+      audioName: audioUrl?.split("audio/files/")[1]!,
+      audioId: audioId!,
+      language: "no-NO",
+    },
+    {
+      enabled: isLoading,
+    },
+  );
   const generateText = async () => {
-    setIsLoading(true);
-    if (!audioUrl || !audioLanguage || !audioType) {
-      setIsLoading(false);
+    if (!audioUrl || !audioLanguage || !audioType || !audioId) {
       return null;
     }
 
+    setIsLoading(true);
     let language;
 
     if (audioLanguage === "nb" || audioLanguage === "nn") {
@@ -96,8 +108,17 @@ const AudioManuscript = ({ audioLanguage, audioUrl, audioType }: AudioManuscript
     } else {
       language = "en-US";
     }
-
-    const transcriptionResult = await transcribe({
+    await postAudioTranscription(audioUrl?.split("audio/files/")[1], audioId, language);
+    const pollingInterval = setInterval(async () => {
+      if (transcribeData?.status === "COMPLETED") {
+        clearInterval(pollingInterval);
+        return transcribeData.transcription;
+      } else if (transcribeData?.status === "FAILED") {
+        clearInterval(pollingInterval);
+        return null;
+      }
+    }, 10000);
+    /* const transcriptionResult = await transcribe({
       fileUrl: config.s3AudioRoot + audioUrl.split("audio/files/")[1],
       languageCode: language,
       mediaFormat: audioType,
@@ -112,7 +133,7 @@ const AudioManuscript = ({ audioLanguage, audioUrl, audioType }: AudioManuscript
         clearInterval(pollingInterval);
         return null;
       }
-    }, 10000);
+    }, 10000);*/
     setIsLoading(false);
   };
 
@@ -135,7 +156,7 @@ const AudioManuscript = ({ audioLanguage, audioUrl, audioType }: AudioManuscript
           />
           <FieldErrorMessage>{meta.error}</FieldErrorMessage>
           <FieldWarning name={field.name} />
-          {audioUrl && (
+          {audioUrl ? (
             <Button
               onClick={async () => {
                 const text = await generateText();
@@ -146,7 +167,7 @@ const AudioManuscript = ({ audioLanguage, audioUrl, audioType }: AudioManuscript
               {t("textGeneration.transcription.button")}
               {isLoading ? <Spinner size="small" /> : <FileListLine />}
             </Button>
-          )}
+          ) : null}
         </FieldRoot>
       )}
     </FormField>

@@ -15,13 +15,18 @@ import {
   ITagsSearchResultDTO,
   ISeriesSearchParamsDTO,
   ISearchParamsDTO,
+  ITranscriptionResultDTO,
 } from "@ndla/types-backend/audio-api";
 import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
 import { apiResourceUrl, fetchAuthorized, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
-import { resolveJsonOrVoidOrRejectWithError } from "../../util/resolveJsonOrRejectWithError";
+import {
+  resolveJsonOrVoidOrRejectWithError,
+  resolveVoidOrRejectWithError,
+} from "../../util/resolveJsonOrRejectWithError";
 
 const baseUrl = apiResourceUrl("/audio-api/v1/audio");
 const seriesBaseUrl = apiResourceUrl("/audio-api/v1/series");
+const transcribeUrl = apiResourceUrl("/audio-api/v1/transcription");
 
 export const postAudio = (formData: FormData): Promise<IAudioMetaInformationDTO> =>
   fetchAuthorized(`${baseUrl}`, {
@@ -89,4 +94,21 @@ export const postSearchSeries = async (
 ): Promise<ISeriesSummarySearchResultDTO> => {
   const response = await fetchAuthorized(`${seriesBaseUrl}/search/`, { method: "POST", body: JSON.stringify(body) });
   return resolveJsonOrRejectWithError(response);
+};
+
+export const postAudioTranscription = async (audioName: string, audioId: number, language: string): Promise<void> => {
+  const response = await fetchAuthorized(`${transcribeUrl}/audio/${audioName}/${audioId}/${language}`, {
+    method: "POST",
+  });
+  return resolveVoidOrRejectWithError(response);
+};
+
+export const fetchAudioTranscription = (
+  audioName: string,
+  audioId: number,
+  language: string,
+): Promise<ITranscriptionResultDTO> => {
+  return fetchAuthorized(`${transcribeUrl}/audio/${audioName}/${audioId}/${language}`, { method: "GET" }).then((r) =>
+    resolveJsonOrRejectWithError(r),
+  );
 };

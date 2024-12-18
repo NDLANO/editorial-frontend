@@ -6,11 +6,9 @@
  *
  */
 
-import { connect, FieldHelperProps, useField, useFormikContext } from "formik";
-import { update } from "lodash";
+import { connect, useField, useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
 import { FileListLine } from "@ndla/icons";
 import { Button, FieldErrorMessage, FieldRoot, Spinner } from "@ndla/primitives";
 import { AudioFormikType } from "./AudioForm";

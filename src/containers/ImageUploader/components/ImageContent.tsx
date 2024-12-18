@@ -214,7 +214,9 @@ const ImageContent = ({ language }: Props) => {
             <StyledButton
               onClick={async () => {
                 const text = await generateAltText();
-                text && text.length > 0 && helpers.setValue(text);
+                if (text && text.length > 0) {
+                  helpers.setValue(text);
+                }
               }}
               size="small"
               title={t("textGeneration.altText.title")}

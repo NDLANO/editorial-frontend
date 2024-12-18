@@ -156,18 +156,20 @@ const AudioManuscript = ({ audioId, audioLanguage, audioUrl, audioType }: AudioM
           />
           <FieldErrorMessage>{meta.error}</FieldErrorMessage>
           <FieldWarning name={field.name} />
-          {audioUrl ? (
+          {!!audioUrl && (
             <Button
               onClick={async () => {
                 const text = await generateText();
-                text && helpers.setValue(text);
+                if (text) {
+                  helpers.setValue(text);
+                }
               }}
               size="small"
             >
               {t("textGeneration.transcription.button")}
               {isLoading ? <Spinner size="small" /> : <FileListLine />}
             </Button>
-          ) : null}
+          )}
         </FieldRoot>
       )}
     </FormField>

@@ -8,7 +8,7 @@
 
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Element, NodeEntry, Text, Transforms } from "slate";
+import { Editor, Element, NodeEntry, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { BrushLine, CopyrightLine, FileListLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
@@ -89,7 +89,7 @@ const SlateFramedContent = (props: Props) => {
   const generateQuestions = async () => {
     const articleText = editorValueToPlainText(editor.children);
     if (!articleText) {
-      console.error("No article content provided to generate meta description");
+      // console.error("No article content provided to generate meta description");
       return;
     }
     setIsLoading(true);
@@ -101,9 +101,12 @@ const SlateFramedContent = (props: Props) => {
         }),
         ...claudeHaikuDefaults,
       });
-      generatedText ? editor.insertText(generatedText) : console.error("No generated text");
+      if (generatedText) {
+        editor.insertText(generatedText);
+      }
+      // generatedText ? editor.insertText(generatedText) : console.error("No generated text");
     } catch (error) {
-      console.error("Error generating reflection questions", error);
+      // console.error("Error generating reflection questions", error);
     } finally {
       setIsLoading(false);
     }

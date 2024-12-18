@@ -197,7 +197,7 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
           <ToolbarBlockOptions options={options?.block ?? []} />
           <ToolbarInlineOptions options={options?.inline ?? []} />
           <ToolbarTableOptions options={options?.table ?? []} />
-          {selectors && <ToolbarLLMOptions options={options?.llm ?? []} selectors={selectors} />}
+          {!!selectors && <ToolbarLLMOptions options={options?.llm ?? []} selectors={selectors} />}
         </ToolbarRow>
       </ToolbarContainer>
     </PopoverRoot>

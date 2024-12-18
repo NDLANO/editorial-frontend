@@ -101,7 +101,7 @@ const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkbox
 
   const generateMetaDescription = async (helpers: FieldHelperProps<Descendant[]>) => {
     if (!articleContent) {
-      console.error("No article content provided to generate meta description");
+      // console.error("No article content provided to generate meta description");
       return;
     }
     setIsLoading(true);
@@ -113,13 +113,13 @@ const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkbox
         }),
         ...claudeHaikuDefaults,
       });
-      generatedText
-        ? await helpers.setValue(inlineContentToEditorValue(generatedText, true), true)
-        : console.error("No generated text");
+      if (generatedText) {
+        await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
+      }
       // We have to invalidate slate children. We do this with status.
       setStatus({ status: "acceptGenerated" });
     } catch (error) {
-      console.error("Error generating meta description", error);
+      // console.error("Error generating meta description", error);
     } finally {
       setIsLoading(false);
     }

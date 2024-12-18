@@ -12,6 +12,6 @@ export const getRephrasing = async (prompt: string) => {
   try {
     return await invokeModel({ prompt: prompt, ...claudeHaikuDefaults });
   } catch (error) {
-    console.error(error);
+    // console.error(error);
   }
 };

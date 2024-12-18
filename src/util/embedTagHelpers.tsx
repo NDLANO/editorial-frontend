@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import he from "he";
 import { ComponentProps, ElementType } from "react";
 import { TYPE_NDLA_EMBED } from "../components/SlateEditor/plugins/embed/types";
 import { isEmpty } from "../components/validators";
@@ -71,7 +73,7 @@ export const createDataAttributes = <T extends object>(data?: EmbedProps<T>): Re
       if (key === "resourceId") {
         acc["data-resource_id"] = value.toString();
       } else {
-        acc[`data-${newKey}`] = value.toString();
+        acc[`data-${newKey}`] = he.encode(value.toString());
       }
     }
     return acc;

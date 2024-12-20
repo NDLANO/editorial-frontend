@@ -1573,17 +1573,11 @@ const phrases = {
       deleteTooltip: "Fjern denne revisjonen",
     },
     disclaimer: {
-      edit: "Endre advarselstekst",
-      default:
-        "Dette innholdet er ikke universelt utformet, og noen brukere kan derfor ha problemer med å oppfatte og forstå det.",
-      title: "Universell utforming advarsel",
-      exampleHeader: "Skriv inn hvem som vil få problemer med komponenten og med hva",
-      exampleText:
-        "F.eks. Har du utfordringer med syn eller kognisjon? Da kan du få problemer med å oppfatte og forstå dette innholdet. Du kan istedet bruke denne siden: www.ndla.eksempel.no",
-      exampleLinkText: "Her finner du eksempelsetninger som skal brukes i fritekstfelt",
-      editorHeader: "Skriv inn hvor brukeren finner alternativt innhold",
-      articleId: "Artikkel med alternativt innhold",
-      removeArticle: "Fjern artikkel",
+      edit: "Endre informasjon on tilgjengelighet",
+      title: "Universell utforming - informasjon i løpende tekst",
+      description:
+        "Skriv inn hva som er problemet med komponenten. Det er utarbeidet maler for dette. Sjekk disse før du tar i bruk komponenten.",
+      editorHeader: "Informasjon om tilgjengelighet for enkeltkomponenter",
     },
     copyright: {
       title: "Rediger lisens",

@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, useCallback, useEffect, useState } from "react";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
@@ -14,13 +14,10 @@ import { Portal } from "@ark-ui/react";
 import { PencilFill } from "@ndla/icons";
 import { DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticleV2DTO } from "@ndla/types-backend/article-api";
 import { UuDisclaimerEmbedData, UuDisclaimerMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, UuDisclaimerEmbed } from "@ndla/ui";
 import DisclaimerForm from "./DisclaimerForm";
 import { DisclaimerElement, TYPE_DISCLAIMER } from "./types";
-import { toEditPage } from "./utils";
-import { getArticle } from "../../../../modules/article/articleApi";
 import DeleteButton from "../../../DeleteButton";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import MoveContentButton from "../../../MoveContentButton";
@@ -49,42 +46,26 @@ const ButtonContainer = styled("div", {
     flexDirection: "column",
     position: "absolute",
     right: "-xxlarge",
+    gap: "3xsmall",
   },
 });
 
 const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [embed, setEmbed] = useState<UuDisclaimerMetaData>({
-    status: "success",
-    data: {},
-    embedData: element.data,
-    resource: element.data.resource,
-  });
-
   useEffect(() => {
-    const initDisclaimerLink = async () => {
-      let response: IArticleV2DTO | undefined = undefined;
-      if (element.data.articleId) {
-        response = await getArticle(Number(element.data.articleId));
-      }
+    setModalOpen(!!element.isFirstEdit);
+  }, [element.isFirstEdit]);
 
-      setEmbed((prevState) => ({
-        ...prevState,
-        data: response
-          ? {
-              disclaimerLink: {
-                text: response.title.title,
-                href: toEditPage(response.articleType, response.id, i18n.language),
-              },
-            }
-          : {},
-        embedData: element.data,
-        resource: element.data.resource,
-      }));
+  const embed: UuDisclaimerMetaData = useMemo(() => {
+    if (!element.data) return undefined;
+    return {
+      status: "success",
+      data: null,
+      embedData: element.data,
+      resource: "uu-disclaimer",
     };
-    initDisclaimerLink();
-  }, [element.data, i18n.language]);
+  }, [element.data]);
 
   const handleDelete = () => {
     const path = ReactEditor.findPath(editor, element);
@@ -170,7 +151,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
           onMouseDown={handleRemoveDisclaimer}
         />
       </ButtonContainer>
-      <UuDisclaimerEmbed embed={embed}>{children}</UuDisclaimerEmbed>
+      {!!embed && <UuDisclaimerEmbed embed={{ ...embed }}>{children}</UuDisclaimerEmbed>}
     </StyledEmbedWrapper>
   );
 };

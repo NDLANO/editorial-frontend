@@ -11,15 +11,12 @@ import { TYPE_DISCLAIMER } from "./types";
 import { toEditFrontPageArticle, toEditLearningResource, toEditTopicArticle } from "../../../../util/routeHelpers";
 import { defaultParagraphBlock } from "../paragraph/utils";
 
-export const defaultDisclaimerBlock = (defaultDisclaimerText: string) => {
+export const defaultDisclaimerBlock = () => {
   return slatejsx(
     "element",
     {
       type: TYPE_DISCLAIMER,
-      data: {
-        resource: "uu-disclaimer",
-        disclaimer: defaultDisclaimerText,
-      },
+      isFirstEdit: true,
     },
     defaultParagraphBlock(),
   );

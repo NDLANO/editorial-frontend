@@ -87,6 +87,7 @@ const VisualElementSearch = ({
               alt: image.alttext.alttext ?? "",
               caption: image.caption.caption ?? "",
               metaData: image,
+              hideByline: `${image.copyright.license.license !== "COPYRIGHTED"}`,
             })
           }
           showCheckbox={showMetaImageCheckbox}

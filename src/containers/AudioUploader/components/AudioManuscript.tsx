@@ -34,7 +34,7 @@ import {
   createToolbarDefaultValues,
 } from "../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
-import { postAudioTranscription } from "../../../modules/audio/audioApi";
+import { fetchAudioTranscription, postAudioTranscription } from "../../../modules/audio/audioApi";
 import { useAudioTranscription } from "../../../modules/audio/audioQueries";
 import { inlineContentToEditorValue } from "../../../util/articleContentConverter";
 import { ArticleFormType } from "../../FormikForm/articleFormHooks";
@@ -107,14 +107,21 @@ const AudioManuscript = ({ audioId, audioLanguage, audioUrl, audioType }: AudioM
 
   const [_field, _meta, helpers] = useField("manuscript");
 
-  const startJob = () => {
+  const checkJobStatus = async (): Promise<boolean> => {
+    const response = await fetchAudioTranscription(audioId!, language);
+    return response.status !== "COMPLETE";
+  };
+
+  const startJob = async () => {
     if (!audioUrl || !audioLanguage || !audioType || !audioId) {
       return null;
     }
-
-    setIsLoading(true);
-
-    postAudioTranscription(audioUrl?.split("audio/files/")[1], audioId, language);
+    const shouldPost = await checkJobStatus();
+    if (shouldPost) {
+      postAudioTranscription(audioUrl?.split("audio/files/")[1], audioId, language).then((_) => {
+        setIsLoading(true);
+      });
+    }
   };
 
   const getTranscriptText = (text: string) => {

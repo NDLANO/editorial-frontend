@@ -15,8 +15,16 @@ import {
   ISeriesSearchParamsDTO,
   ISearchParamsDTO as IAudioSearchParams,
   ITagsSearchResultDTO,
+  ITranscriptionResultDTO,
 } from "@ndla/types-backend/audio-api";
-import { fetchAudio, fetchSearchTags, fetchSeries, postSearchAudio, postSearchSeries } from "./audioApi";
+import {
+  fetchAudio,
+  fetchAudioTranscription,
+  fetchSearchTags,
+  fetchSeries,
+  postSearchAudio,
+  postSearchSeries,
+} from "./audioApi";
 import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
 import { AUDIO, PODCAST_SERIES, SEARCH_AUDIO, AUDIO_SEARCH_TAGS, SEARCH_SERIES } from "../../queryKeys";
 
@@ -83,6 +91,24 @@ export const useAudioSearchTags = (params: UseSearchTags, options?: Partial<UseQ
   return useQuery<ITagsSearchResultDTO>({
     queryKey: audioQueryKeys.audioSearchTags(params),
     queryFn: () => fetchSearchTags(params.input, params.language),
+    ...options,
+  });
+};
+
+interface UseTranscription {
+  audioId: number;
+  language: string;
+}
+
+export const useAudioTranscription = (
+  params: UseTranscription,
+  options?: Partial<UseQueryOptions<ITranscriptionResultDTO>>,
+) => {
+  return useQuery<ITranscriptionResultDTO>({
+    queryKey: ["audioTranscription", params],
+    queryFn: () => fetchAudioTranscription(params.audioId, params.language),
+    refetchInterval: 1000,
+    refetchIntervalInBackground: true,
     ...options,
   });
 };

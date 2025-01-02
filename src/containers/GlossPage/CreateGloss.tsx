@@ -9,7 +9,6 @@
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { HelmetWithTracker } from "@ndla/tracker";
 import { IConceptDTO, INewConceptDTO } from "@ndla/types-backend/concept-api";
 import { GlossForm } from "./components/GlossForm";
 import { toEditGloss } from "../../util/routeHelpers";
@@ -40,7 +39,7 @@ const CreateGloss = ({ inModal = false, addConceptInModal }: Props) => {
 
   return (
     <>
-      <HelmetWithTracker title={t(`glossform.title`)} />
+      <title>{t(`glossform.title`)}</title>
       <GlossForm
         language={i18n.language}
         upsertProps={{ onCreate }}

@@ -16,5 +16,3 @@ declare module "react/jsx-runtime" {
     }
   }
 }
-
-// export class NdlaEmbed extends HTMLElement, Attributes {}

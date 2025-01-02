@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
+import { transform } from "@ndla/article-converter";
 import { PencilFill } from "@ndla/icons";
 import { DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -18,9 +19,11 @@ import { UuDisclaimerEmbedData, UuDisclaimerMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, UuDisclaimerEmbed } from "@ndla/ui";
 import DisclaimerForm from "./DisclaimerForm";
 import { DisclaimerElement, TYPE_DISCLAIMER } from "./types";
+import { usePreviewArticle } from "../../../../modules/article/articleGqlQueries";
 import DeleteButton from "../../../DeleteButton";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import MoveContentButton from "../../../MoveContentButton";
+import { useArticleLanguage } from "../../ArticleLanguageProvider";
 
 interface Props {
   attributes: RenderElementProps["attributes"];
@@ -57,7 +60,17 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
     setModalOpen(!!element.isFirstEdit);
   }, [element.isFirstEdit]);
 
-  const embed: UuDisclaimerMetaData = useMemo(() => {
+  const articleLanguage = useArticleLanguage();
+
+  const articleContentData = usePreviewArticle(element.data?.disclaimer, articleLanguage, undefined, false, {
+    enabled: !!element.data?.disclaimer.length,
+  });
+
+  const transformedContent = useMemo(() => {
+    return transform(articleContentData?.data ?? "", {});
+  }, [articleContentData?.data]);
+
+  const embed: UuDisclaimerMetaData | undefined = useMemo(() => {
     if (!element.data) return undefined;
     return {
       status: "success",
@@ -151,7 +164,11 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
           onMouseDown={handleRemoveDisclaimer}
         />
       </ButtonContainer>
-      {!!embed && <UuDisclaimerEmbed embed={{ ...embed }}>{children}</UuDisclaimerEmbed>}
+      {!!embed && !!transformedContent && (
+        <UuDisclaimerEmbed transformedDisclaimer={transformedContent} embed={{ ...embed }}>
+          {children}
+        </UuDisclaimerEmbed>
+      )}
     </StyledEmbedWrapper>
   );
 };

@@ -103,6 +103,7 @@ const draftApiTypeToArticleFormType = (
     responsibleId: article === undefined ? ndlaId : article?.responsible?.responsibleId,
     comments: getCommentsDraftApiToArticleFormType(article, articleType),
     priority: article?.priority ?? "unspecified",
+    disclaimer: inlineContentToEditorValue(article?.disclaimer?.disclaimer ?? "", true),
   };
 };
 
@@ -174,6 +175,7 @@ export const learningResourceFormTypeToDraftApiType = (
     responsibleId: article.responsibleId,
     comments: article.comments?.map((c) => ({ ...c, content: inlineContentToHTML(c.content) })),
     priority: article.priority ?? "unspecified",
+    disclaimer: article.disclaimer ? inlineContentToHTML(article.disclaimer) : undefined,
   };
 };
 

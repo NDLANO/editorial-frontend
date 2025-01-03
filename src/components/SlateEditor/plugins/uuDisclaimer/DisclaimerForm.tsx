@@ -10,15 +10,12 @@ import { Formik, FormikValues } from "formik";
 import { Dispatch, SetStateAction, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { Button, DialogBody, FieldErrorMessage, FieldHelper, FieldRoot } from "@ndla/primitives";
+import { Button, DialogBody } from "@ndla/primitives";
 import { UuDisclaimerEmbedData } from "@ndla/types-embed";
 import { DisclaimerField } from "./DisclaimerField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
-import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLabel";
-import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
-import { RichTextIndicator } from "../../RichTextIndicator";
 
 interface DisclaimerFormProps {
   initialData?: UuDisclaimerEmbedData;
@@ -71,19 +68,11 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
       {({ isSubmitting }) => (
         <DialogBody>
           <FormikForm>
-            <FormField name="disclaimer">
-              {({ field, meta, helpers }) => (
-                <FieldRoot invalid={!!meta.error}>
-                  <ContentEditableFieldLabel>
-                    {t("form.disclaimer.editorHeader")}
-                    <RichTextIndicator />
-                  </ContentEditableFieldLabel>
-                  <FieldHelper textStyle="body.medium">{t("form.disclaimer.description")}</FieldHelper>
-                  <DisclaimerField {...field} submitted={isSubmitting} onChange={helpers.setValue} />
-                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                </FieldRoot>
-              )}
-            </FormField>
+            <DisclaimerField
+              submitted={isSubmitting}
+              title={t("form.disclaimer.editorHeader")}
+              description={t("form.disclaimer.description")}
+            />
             <FormActionsContainer>
               <Button onClick={() => onOpenChange(false)} variant="secondary">
                 {t("form.abort")}

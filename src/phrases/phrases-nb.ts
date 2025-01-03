@@ -877,6 +877,7 @@ const phrases = {
       note: "Notat",
       files: "filopplasting",
       code: "Kode",
+      disclaimer: "Tilgjengelighet",
     },
     previewProductionArticle: {
       button: "Sammenlign gjeldende versjon med sist publiserte versjon",
@@ -1275,6 +1276,11 @@ const phrases = {
       placeholder: "Skriv inn kode",
       description:
         "Skriv inn koder som starter på riktig format ({{ codes }}) fulgt av ett eller flere siffer. Koder som ikke finnes vil ikke bli opprettet. Tekstene vises på bokmål i ed men korrekt i artikkelvisning.",
+    },
+    articleDisclaimer: {
+      title: "Informasjon om tilgjengelighet for hele artikkelen",
+      description:
+        "Skriv inn hva som er utfordrende med innholdet i artikkelen. Du kan også legge til lenker til alternativt innhold. Det er utarbeidet maler for dette. Sjekk disse før du tar i bruk komponenten. ",
     },
     resourceTypes: {
       label: "Innholdstype og egenskaper",

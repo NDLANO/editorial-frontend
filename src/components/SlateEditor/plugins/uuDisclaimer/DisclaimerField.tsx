@@ -6,10 +6,13 @@
  *
  */
 
-import { TextArea, Text } from "@ndla/primitives";
+import { TextArea, Text, FieldRoot, FieldHelper, FieldErrorMessage } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLabel";
+import { FormField } from "../../../FormField";
 import { SlatePlugin } from "../../interfaces";
-import RichTextEditor, { RichTextEditorProps } from "../../RichTextEditor";
+import RichTextEditor from "../../RichTextEditor";
+import { RichTextIndicator } from "../../RichTextIndicator";
 import { breakPlugin } from "../break";
 import { breakRenderer } from "../break/render";
 import { linkPlugin } from "../link";
@@ -26,8 +29,6 @@ import { spanRenderer } from "../span/render";
 import { textTransformPlugin } from "../textTransform";
 import { toolbarPlugin } from "../toolbar";
 import { createToolbarAreaOptions, createToolbarDefaultValues } from "../toolbar/toolbarState";
-
-interface Props extends Omit<RichTextEditorProps, "toolbarOptions" | "toolbarAreaFilters"> {}
 
 const toolbarOptions = createToolbarDefaultValues({
   text: {
@@ -84,22 +85,42 @@ const StyledText = styled(Text, {
   },
 });
 
-export const DisclaimerField = ({ ...rest }: Props) => {
+interface Props {
+  submitted: boolean;
+  title: string;
+  description: string;
+}
+
+export const DisclaimerField = ({ submitted, title, description }: Props) => {
   return (
-    <StyledTextArea asChild>
-      <RichTextEditor
-        {...rest}
-        hideBlockPicker
-        plugins={plugins}
-        toolbarOptions={toolbarOptions}
-        toolbarAreaFilters={toolbarAreaFilters}
-        noArticleStyling
-        renderPlaceholder={(placeholder) => (
-          <StyledText {...placeholder.attributes} textStyle="body.article" asChild consumeCss>
-            <span>{placeholder.children}</span>
-          </StyledText>
-        )}
-      />
-    </StyledTextArea>
+    <FormField name="disclaimer">
+      {({ field, meta, helpers }) => (
+        <FieldRoot invalid={!!meta.error}>
+          <ContentEditableFieldLabel>
+            {title}
+            <RichTextIndicator />
+          </ContentEditableFieldLabel>
+          <FieldHelper textStyle="body.medium">{description}</FieldHelper>
+          <StyledTextArea asChild>
+            <RichTextEditor
+              {...field}
+              submitted={submitted}
+              onChange={helpers.setValue}
+              hideBlockPicker
+              plugins={plugins}
+              toolbarOptions={toolbarOptions}
+              toolbarAreaFilters={toolbarAreaFilters}
+              noArticleStyling
+              renderPlaceholder={(placeholder) => (
+                <StyledText {...placeholder.attributes} textStyle="body.article" asChild consumeCss>
+                  <span>{placeholder.children}</span>
+                </StyledText>
+              )}
+            />
+          </StyledTextArea>
+          <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+        </FieldRoot>
+      )}
+    </FormField>
   );
 };

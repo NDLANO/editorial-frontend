@@ -876,6 +876,7 @@ const phrases = {
       note: "Note",
       files: "File upload",
       code: "Code",
+      disclaimer: "Accessibility",
     },
     previewProductionArticle: {
       button: "Compare current version with last published version",
@@ -1275,6 +1276,11 @@ const phrases = {
       placeholder: "Type code",
       description:
         "Type in codes using the correct format ({{ codes }}) followed by one or more digits. Non existing codes will not be created. Texts will be displayed in norwegian here but will be shown correct in frontend.",
+    },
+    articleDisclaimer: {
+      title: "Information about availability for the entire article",
+      description:
+        "Enter what is challenging about the content of the article. You can also add links to alternative content. Templates have been prepared for this. Check these before using the component.",
     },
     resourceTypes: {
       label: "Resource type and properties",

@@ -19,6 +19,7 @@ import FormAccordion from "../../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../../components/Accordion/FormAccordions";
 import QualityEvaluation from "../../../../components/QualityEvaluation/QualityEvaluation";
 import { IsNewArticleLanguageProvider } from "../../../../components/SlateEditor/IsNewArticleLanguageProvider";
+import { DisclaimerField } from "../../../../components/SlateEditor/plugins/uuDisclaimer/DisclaimerField";
 import config from "../../../../config";
 import { STORED_HIDE_COMMENTS, TAXONOMY_WRITE_SCOPE } from "../../../../constants";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
@@ -64,6 +65,7 @@ interface Props {
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
   articleLanguage: string;
   contexts?: TaxonomyContext[];
+  submitted: boolean;
 }
 
 const LearningResourcePanels = ({
@@ -74,6 +76,7 @@ const LearningResourcePanels = ({
   articleLanguage,
   contexts,
   handleSubmit,
+  submitted,
 }: Props) => {
   const [hideComments, setHideComments] = useLocalStorageBooleanState(STORED_HIDE_COMMENTS);
   const [revisionMetaField, , revisionMetaHelpers] = useField<ArticleFormType["revisionMeta"]>("revisionMeta");
@@ -178,6 +181,17 @@ const LearningResourcePanels = ({
             hasError={!!errors.grepCodes}
           >
             <GrepCodesField prefixFilter={["KE", "KM", "TT"]} />
+          </FormAccordion>
+          <FormAccordion
+            id="learning-resource-disclaimer"
+            title={t("form.name.disclaimer")}
+            hasError={!!errors.disclaimer}
+          >
+            <DisclaimerField
+              submitted={submitted}
+              title={t("form.articleDisclaimer.title")}
+              description={t("form.articleDisclaimer.description")}
+            />
           </FormAccordion>
           {config.ndlaEnvironment === "test" && (
             <FormAccordion

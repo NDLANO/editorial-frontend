@@ -132,7 +132,12 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
     <StyledEmbedWrapper data-testid="slate-disclaimer-block" {...attributes}>
       <ButtonContainer contentEditable={false}>
         <DeleteButton aria-label={t("delete")} data-testid="delete-disclaimer" onClick={handleDelete} />
-        <DialogRoot open={modalOpen} onOpenChange={(details) => setModalOpen(details.open)}>
+        <DialogRoot
+          open={modalOpen}
+          onOpenChange={(details) => setModalOpen(details.open)}
+          onInteractOutside={(e) => e.preventDefault()}
+          onPointerDownOutside={() => setModalOpen(false)}
+        >
           <DialogTrigger asChild>
             <IconButton
               variant="tertiary"

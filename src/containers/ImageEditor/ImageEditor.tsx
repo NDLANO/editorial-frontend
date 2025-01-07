@@ -162,9 +162,9 @@ const ImageEditor = ({ language, image }: Props) => {
             <StyledToggleGroupRoot
               value={[field.value]}
               onValueChange={(details) => {
-                const val = details.value[0] ?? "center"; // default to center if no value is set
+                const val = details.value[0] ?? "";
                 helpers.setValue(val);
-                if (val === "center") {
+                if (val !== "right" && val !== "left") {
                   setFieldValue("size", "full");
                 }
               }}

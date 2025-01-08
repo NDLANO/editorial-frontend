@@ -9,7 +9,8 @@
 import { useTranslation } from "react-i18next";
 import { ErrorWarningFill } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node, NodeChild } from "@ndla/types-taxonomy";
+import { Node } from "@ndla/types-taxonomy";
+import { TaxonomyNodeChild } from "../../../components/Taxonomy/types";
 import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
@@ -25,8 +26,7 @@ const StyledErrorWarningFill = styled(ErrorWarningFill, {
   },
 });
 
-const isChildNode = (node: Node): node is NodeChild & { articleType?: string; isPublished?: boolean } =>
-  "connectionId" in node;
+const isChildNode = (node: Node): node is TaxonomyNodeChild => "connectionId" in node;
 
 interface Props {
   node: Node;

@@ -34,7 +34,8 @@ export const convertGrepCodesToObject = async (grepCodes: string[]): Promise<Rec
 
 interface GrepCode {
   code: string;
-  title: string;
+  title?: string;
+  status: "success" | "error";
 }
 
 interface Props {
@@ -58,33 +59,57 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fetchGrepCodeTitles = async (grepCode: string): Promise<GrepCode | undefined> => {
+  const fetchGrepCodeTitles = async (grepCode: string): Promise<GrepCode> => {
     const grepCodeTitle = await searchGrepCodes({ codes: [grepCode] });
     const isGrepCodeSaved = grepCodes[grepCode];
     if (grepCodeTitle.results.length && !isGrepCodeSaved && isGrepCodeValid(grepCode, prefixFilter)) {
       return {
         code: grepCode,
         title: `${grepCode} - ${grepCodeTitle.results[0].title.title}`,
+        status: "success",
       };
-    } else if (!isGrepCodeSaved) {
-      setTimeout(() => {
-        helpers.setError(`${t("errorMessage.grepCodes")}${grepCode}`);
-      }, 0);
     }
+    return { code: grepCode, status: "error" };
   };
 
   const updateGrepCodes = async (newValue: string) => {
+    const delimitedValues = newValue.split(",");
     helpers.setError(undefined);
-    const trimmedValue = newValue.toUpperCase().trim();
-    if (field.value.includes(trimmedValue)) {
-      const { [trimmedValue]: _, ...remaining } = grepCodes;
-      setGrepCodes(remaining);
-      helpers.setValue(field.value.filter((v) => v !== trimmedValue));
-    } else {
-      const grepCodeWithName = await fetchGrepCodeTitles(trimmedValue);
-      if (!grepCodeWithName) return;
-      setGrepCodes({ ...grepCodes, [grepCodeWithName.code]: grepCodeWithName.title });
-      helpers.setValue([...field.value, grepCodeWithName.code]);
+
+    const addedGrepCodes = delimitedValues.reduce((acc, v) => {
+      const trimmedValue = v.toUpperCase().trim();
+      // Delete grep code
+      if (field.value.includes(trimmedValue)) {
+        const { [trimmedValue]: _, ...remaining } = grepCodes;
+        setGrepCodes(remaining);
+        helpers.setValue(field.value.filter((v) => v !== trimmedValue));
+        return acc;
+      }
+      //Add grep code
+      return [...acc, trimmedValue];
+    }, [] as string[]);
+    if (!addedGrepCodes.length) return;
+
+    const grepPromises = addedGrepCodes.map(async (v) => await fetchGrepCodeTitles(v));
+    const grepCodesWithName = await Promise.all(grepPromises);
+    const [success, error] = [
+      grepCodesWithName.filter((obj) => obj?.status === "success"),
+      grepCodesWithName.filter((obj) => obj?.status === "error"),
+    ];
+
+    const updatedGrepCodes = success.reduce(
+      (acc, v) => {
+        helpers.setValue([...field.value, v.code]);
+        return { ...acc, [v.code]: v.title } as Record<string, string>;
+      },
+      grepCodes as Record<string, string>,
+    );
+    setGrepCodes(updatedGrepCodes);
+
+    if (error.length) {
+      setTimeout(() => {
+        helpers.setError(`${t("errorMessage.grepCodes")}${error.map((e) => e.code).join(", ")}`);
+      }, 0);
     }
   };
 

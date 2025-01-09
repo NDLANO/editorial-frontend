@@ -1719,7 +1719,7 @@ const phrases = {
     version: "Versjon",
     createResource: "Opprett ny ressurs",
     addNewPlannedResource: "Opprett ny planlagd ressurs",
-    resourceType: "Kjernestoff eller tilleggstoff",
+    resourceType: { label: "Kjernestoff eller tilleggstoff", tabTitle: "Endre kjernestoff/tilleggstoff" },
     title: "Tittel",
     comment: "Kommentar",
     commentPlaceholder: "F.eks. innhald, læremål eller grep",

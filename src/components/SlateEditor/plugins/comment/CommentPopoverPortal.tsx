@@ -54,7 +54,7 @@ const CommentPopoverPortal = ({ onSave, embed, onDelete, onClose, onOpenChange, 
 
   return (
     <Portal>
-      <StyledPopoverContent>
+      <StyledPopoverContent onMouseDown={(e) => e.preventDefault()}>
         <CommentHeader>
           <PopoverTitle>{t("form.comment.comment")}</PopoverTitle>
           <ButtonContainer>

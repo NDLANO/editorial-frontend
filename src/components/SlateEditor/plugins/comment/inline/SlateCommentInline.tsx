@@ -39,7 +39,7 @@ const SlateCommentInline = ({ attributes, editor, element, children }: Props) =>
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    setOpen(!!element.isFirstEdit);
+    setTimeout(() => setOpen(!!element.isFirstEdit), 0);
     Transforms.select(editor, ReactEditor.findPath(editor, element));
   }, [editor, element, element.isFirstEdit]);
 

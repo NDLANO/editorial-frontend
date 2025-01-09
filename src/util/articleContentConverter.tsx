@@ -5,10 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import escapeHtml from "escape-html";
 import compact from "lodash/compact";
 import toArray from "lodash/toArray";
-import { Descendant, Node, Text } from "slate";
+import { Descendant, Element, Node } from "slate";
 import { AudioEmbedData, BrightcoveEmbedData, H5pEmbedData, ImageEmbedData } from "@ndla/types-embed";
 import { convertFromHTML } from "./convertFromHTML";
 import { parseEmbedTag, createHtmlTag, createDataAttributes } from "./embedTagHelpers";
@@ -155,15 +154,12 @@ const commonRules: SlateSerializer[] = [
 ];
 
 const serialize = (node: Descendant, rules: SlateSerializer[]): string | undefined => {
-  let children: string;
-  if (Text.isText(node)) {
-    children = escapeHtml(node.text);
-  } else {
-    children = node.children
-      .map((n) => serialize(n, rules))
-      .filter((n) => !!n)
-      .join("");
-  }
+  const children = Element.isElement(node)
+    ? node.children
+        .map((n) => serialize(n, rules))
+        .filter((n) => !!n)
+        .join("")
+    : "";
 
   for (const rule of rules) {
     if (!rule.serialize) {

@@ -6,6 +6,7 @@
  *
  */
 
+import escapeHtml from "escape-html";
 import { Descendant, Editor, Text, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { createHtmlTag } from "../../../../util/embedTagHelpers";
@@ -52,7 +53,8 @@ export const markSerializer: SlateSerializer = {
     if (!Text.isText(node)) return;
     let ret;
 
-    const children = node.text.split("\n").reduce((acc, curr, i) => {
+    const escapedText: string = escapeHtml(node.text);
+    const children = escapedText.split("\n").reduce((acc, curr, i) => {
       if (i !== 0) {
         acc = acc.concat(createHtmlTag({ tag: "br", shorthand: true }));
       }

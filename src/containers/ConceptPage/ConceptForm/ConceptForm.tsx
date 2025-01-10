@@ -245,11 +245,12 @@ const ConceptForm = ({
             <ConceptFormFooter
               entityStatus={concept?.status}
               conceptChanged={!!conceptChanged}
+              inModal={inModal}
               savedToServer={savedToServer}
               isNewlyCreated={isNewlyCreated}
               showSimpleFooter={!concept?.id}
               onClose={onClose}
-              responsibleId={concept?.responsible?.responsibleId}
+              responsibleId={concept?.responsible?.responsibleId ?? ndlaId}
             />
           </FormWrapper>
         );

@@ -9,6 +9,7 @@
 import { useFormikContext } from "formik";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IStatusDTO } from "@ndla/types-backend/concept-api";
 import { FormActionsContainer } from "../../../components/FormikForm";
@@ -76,13 +77,15 @@ const ConceptFormFooter = ({
   if (inModal) {
     return (
       <StyledFormActionsContainer>
-        <ResponsibleSelect
-          key="concept-modal-responsible-select"
-          responsible={responsible}
-          setResponsible={setResponsible}
-          onSave={updateResponsible}
-          responsibleId={responsibleId}
-        />
+        <FieldRoot key="responsible-select">
+          <ResponsibleSelect
+            key="concept-modal-responsible-select"
+            responsible={responsible}
+            setResponsible={setResponsible}
+            onSave={updateResponsible}
+            responsibleId={responsibleId}
+          />
+        </FieldRoot>
         <SaveButton
           id={SAVE_BUTTON_ID}
           type={"button"}

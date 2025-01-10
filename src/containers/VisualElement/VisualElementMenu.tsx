@@ -61,6 +61,18 @@ const VisualElementMenu = ({ onSelect, types = ["image", "video", "h5p", "url"] 
     },
   ];
 
+  if (types.length === 1) {
+    const button = visualElementButtons.find((button) => button.type === types[0]);
+    if (!button) {
+      return null;
+    }
+    return (
+      <Button key={button.type} variant="secondary" onClick={() => handleSelect(button.type)}>
+        {button.component}
+      </Button>
+    );
+  }
+
   return (
     <ButtonWrapper>
       <Button variant="secondary" onClick={toggleIsOpen}>

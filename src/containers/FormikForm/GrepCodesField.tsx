@@ -18,6 +18,7 @@ import { FormField } from "../../components/FormField";
 import { searchGrepCodes } from "../../modules/search/searchApi";
 import { useSearchGrepCodes } from "../../modules/search/searchQueries";
 import { isGrepCodeValid } from "../../util/articleUtil";
+import handleError from "../../util/handleError";
 import { usePaginatedQuery } from "../../util/usePaginatedQuery";
 
 const StyledList = styled("ul", {
@@ -59,17 +60,33 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fetchGrepCodeTitles = async (grepCode: string): Promise<GrepCode> => {
-    const grepCodeTitle = await searchGrepCodes({ codes: [grepCode] });
-    const isGrepCodeSaved = grepCodes[grepCode];
-    if (grepCodeTitle.results.length && !isGrepCodeSaved && isGrepCodeValid(grepCode, prefixFilter)) {
-      return {
-        code: grepCode,
-        title: `${grepCode} - ${grepCodeTitle.results[0].title.title}`,
-        status: "success",
-      };
+  const fetchGrepCodeTitles = async (newGrepCodes: string[]): Promise<GrepCode[]> => {
+    try {
+      const withoutSavedAndInvalid = newGrepCodes.filter(
+        (code) => !grepCodes[code] && isGrepCodeValid(code, prefixFilter),
+      );
+      if (!withoutSavedAndInvalid.length) return [];
+      const grepCodesData = await searchGrepCodes({ codes: withoutSavedAndInvalid });
+
+      const codes = grepCodesData.results.map((grepCode) => {
+        return {
+          code: grepCode.code,
+          title: `${grepCode.code} - ${grepCode.title.title}`,
+          status: "success",
+        } as GrepCode;
+      });
+
+      const withFailed = codes.concat(
+        newGrepCodes
+          .filter((code) => !codes.some((c) => c?.code === code))
+          .map((code) => ({ code: code, status: "error" }) as GrepCode),
+      );
+      return withFailed;
+    } catch (e) {
+      handleError(e);
+      helpers.setError(t("errorMessage.genericError"));
+      return [];
     }
-    return { code: grepCode, status: "error" };
   };
 
   const updateGrepCodes = async (newValue: string) => {
@@ -90,8 +107,7 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
     }, [] as string[]);
     if (!addedGrepCodes.length) return;
 
-    const grepPromises = addedGrepCodes.map(async (v) => await fetchGrepCodeTitles(v));
-    const grepCodesWithName = await Promise.all(grepPromises);
+    const grepCodesWithName = await fetchGrepCodeTitles(addedGrepCodes);
     const [success, error] = [
       grepCodesWithName.filter((obj) => obj?.status === "success"),
       grepCodesWithName.filter((obj) => obj?.status === "error"),

@@ -1280,7 +1280,7 @@ const phrases = {
     articleDisclaimer: {
       title: "Informasjon om tilgjengelegheit for heile artikkelen",
       description:
-        "Skriv inn kva som er utfordrande med innhaldet i artikkelen. Du kan òg leggje til lenkjer til alternativt innhald. Det er utarbeidd malar for dette. Sjekk desse før du tek i bruk komponenten.",
+        "Skriv inn kva som er utfordrande med innhaldet i artikkelen. Du kan òg leggje til lenker til alternativt innhald. Det er utarbeidd malar for dette. Sjekk desse før du tek i bruk komponenten.",
     },
     resourceTypes: {
       label: "Innhaldstype og egenskaper",

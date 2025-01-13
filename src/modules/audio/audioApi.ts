@@ -106,8 +106,7 @@ export const postAudioTranscription = async (audioName: string, audioId: number,
 export const fetchAudioTranscription = (audioId: number, language: string): Promise<ITranscriptionResultDTO> => {
   return fetchAuthorized(`${transcribeUrl}/audio/${audioId}/${language}`, { method: "GET" })
     .then((r) => resolveJsonOrRejectWithError<ITranscriptionResultDTO>(r))
-    .catch((e) => {
-      console.error("Error fetching transcription", e);
+    .catch(() => {
       return { status: "error" } as ITranscriptionResultDTO;
     });
 };

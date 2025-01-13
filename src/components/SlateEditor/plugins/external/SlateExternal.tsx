@@ -73,7 +73,7 @@ const TitleWrapper = styled("div", {
 
 const getAllowedProvider = (embed: OembedMetaData | IframeMetaData | undefined): WhitelistProvider | undefined => {
   const maybeProviderName =
-    embed?.resource === "external" && embed?.status === "success" ? embed.data.oembed.providerName : undefined;
+    embed?.resource === "external" && embed?.status === "success" ? embed.data.oembed?.providerName : undefined;
   const embedUrlOrigin = embed?.embedData.url && urlDomain(embed?.embedData.url);
 
   return EXTERNAL_WHITELIST_PROVIDERS.find((whitelistProvider) => {
@@ -113,7 +113,7 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
   const [provider, type] = useMemo(() => {
     if (!embed || embed.status === "error") return [undefined, undefined];
     if (embed.resource === "external") {
-      return [embed.data.oembed.providerName, embed.data.oembed.type];
+      return [embed.data.oembed?.providerName, embed.data.oembed?.type];
     } else {
       return [undefined, "iframe"];
     }

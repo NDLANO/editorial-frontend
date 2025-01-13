@@ -72,13 +72,14 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
 
   const embed: UuDisclaimerMetaData | undefined = useMemo(() => {
     if (!element.data) return undefined;
+
     return {
       status: "success",
-      data: null,
+      data: { transformedContent: "" },
       embedData: element.data,
       resource: "uu-disclaimer",
     };
-  }, [element.data]);
+  }, [element]);
 
   const handleDelete = () => {
     const path = ReactEditor.findPath(editor, element);

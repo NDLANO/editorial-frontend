@@ -107,6 +107,11 @@ const AudioManuscript = ({ audioId, audioLanguage, audioUrl, audioType }: AudioM
 
   const [_field, _meta, helpers] = useField("manuscript");
 
+  const fetchTranscription = async () => {
+    const response = await fetchAudioTranscription(audioId!, language);
+    return await JSON.parse(response.transcription!);
+  };
+
   const checkJobStatus = async (): Promise<boolean> => {
     const response = await fetchAudioTranscription(audioId!, language);
     return response.status !== "COMPLETE";
@@ -118,9 +123,19 @@ const AudioManuscript = ({ audioId, audioLanguage, audioUrl, audioType }: AudioM
     }
     const shouldPost = await checkJobStatus();
     if (shouldPost) {
-      postAudioTranscription(audioUrl?.split("audio/files/")[1], audioId, language).then((_) => {
-        setIsLoading(true);
-      });
+      postAudioTranscription(audioUrl?.split("audio/files/")[1], audioId, language)
+        .then((_) => {
+          setIsLoading(true);
+        })
+        .catch(async (err) => {
+          if (err.status === 400 && err.json.code === "JOB_ALREADY_FOUND") {
+            const fetchedTranscribeData = await fetchTranscription();
+            const editedContent = fetchedTranscribeData.results.transcripts[0].transcript;
+            const editorContent = inlineContentToEditorValue(editedContent, true);
+            helpers.setValue(editorContent, true);
+            setStatus({ status: "acceptGenerated" });
+          }
+        });
     }
   };
 

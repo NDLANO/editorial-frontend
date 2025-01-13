@@ -32,7 +32,7 @@ const aiModelID = process.env.NDLA_AI_MODEL_ID;
 const aiRegion = process.env.NDLA_AI_MODEL_REGION;
 const aiSecretKey = process.env.NDLA_AI_SECRET_KEY;
 const aiSecretID = process.env.NDLA_AI_SECRET_ID;
-const transcriptionBucketName = process.env.S3_TRANSCRIPTION_BUCKET_NAME;
+const transcriptionBucketName = process.env.TRANSCRIBE_FILE_S3_BUCKET;
 
 // Temporal hack to send users to prod
 router.get("*splat", (req, res, next) => {

@@ -116,6 +116,7 @@ export const DisclaimerField = ({ submitted, title, description }: Props) => {
                   <span>{placeholder.children}</span>
                 </StyledText>
               )}
+              data-testid="disclaimer-editor"
             />
           </StyledTextArea>
           <FieldErrorMessage>{meta.error}</FieldErrorMessage>

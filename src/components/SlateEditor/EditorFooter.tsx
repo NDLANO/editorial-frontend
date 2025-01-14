@@ -10,7 +10,7 @@ import { useFormikContext } from "formik";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ShareBoxLine } from "@ndla/icons";
-import { Button } from "@ndla/primitives";
+import { Button, FieldRoot } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IStatusDTO as ConceptStatus } from "@ndla/types-backend/concept-api";
@@ -19,10 +19,9 @@ import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../constants";
 import PrioritySelect from "../../containers/FormikForm/components/PrioritySelect";
 import ResponsibleSelect from "../../containers/FormikForm/components/ResponsibleSelect";
 import StatusSelect from "../../containers/FormikForm/components/StatusSelect";
-import { NewMessageType, useMessages } from "../../containers/Messages/MessagesProvider";
-import { useSession } from "../../containers/Session/SessionProvider";
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../interfaces";
 import { toPreviewDraft } from "../../util/routeHelpers";
+import { FormField } from "../FormField";
 import { createEditUrl, TranslatableType, translatableTypes } from "../HeaderWithLanguage/util";
 import { PreviewResourceDialog } from "../PreviewDraft/PreviewResourceDialog";
 import SaveMultiButton from "../SaveMultiButton";
@@ -39,7 +38,6 @@ interface Props {
   hideSecondaryButton: boolean;
   isNewlyCreated: boolean;
   hasErrors?: boolean;
-  responsibleId?: string;
   articleId?: number;
   articleType?: string;
   selectedLanguage?: string;
@@ -113,19 +111,13 @@ function EditorFooter<T extends FormValues>({
   hideSecondaryButton,
   isNewlyCreated,
   hasErrors,
-  responsibleId,
   articleId,
   articleType,
   selectedLanguage,
   supportedLanguages,
 }: Props) {
-  const [status, setStatus] = useState<string | undefined>(undefined);
-  const [responsible, setResponsible] = useState<string | undefined>(undefined);
-
-  const { ndlaId } = useSession();
   const { t } = useTranslation();
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
-  const { createMessage, formatErrorMessage } = useMessages();
 
   // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
   const [newStatus, setNewStatus] = useState<string | undefined>(undefined);
@@ -164,58 +156,14 @@ function EditorFooter<T extends FormValues>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newStatus]);
 
-  const catchError = useCallback(
-    (error: any, createMessage: (message: NewMessageType) => void) => {
-      if (error?.json?.messages) {
-        createMessage(formatErrorMessage(error));
-      } else {
-        createMessage(error);
-      }
-    },
-    [formatErrorMessage],
-  );
-
-  const updateResponsible = useCallback(
-    async (responsible: string | undefined) => {
-      try {
-        setResponsible(responsible);
-        setFieldValue("responsibleId", responsible ? responsible : null);
-      } catch (error) {
-        catchError(error, createMessage);
-      }
-    },
-    [catchError, createMessage, setFieldValue],
-  );
-
   const onSave = useCallback(
     (saveAsNewVersion?: boolean | undefined) => {
-      if (STATUSES_RESET_RESPONSIBLE.find((s) => s === status)) {
-        updateResponsible(undefined);
+      if (STATUSES_RESET_RESPONSIBLE.find((s) => s === values.status.current)) {
+        setFieldValue("responsibleId", null);
       }
       onSaveClick(saveAsNewVersion);
     },
-    [onSaveClick, status, updateResponsible],
-  );
-
-  const updateStatus = useCallback(
-    async (status: string | undefined) => {
-      try {
-        // Set new status field and update form (which we listen for changes to in the useEffect above)
-        setNewStatus(status);
-        if (status !== PUBLISHED) {
-          setStatus(status);
-        }
-        setFieldValue("status", { current: status });
-      } catch (error) {
-        catchError(error, createMessage);
-      }
-    },
-    [catchError, createMessage, setFieldValue],
-  );
-
-  const updatePriority = useCallback(
-    (value: string | undefined) => setFieldValue("priority", value ?? "unspecified"),
-    [setFieldValue],
+    [onSaveClick, setFieldValue, values.status],
   );
 
   return (
@@ -239,23 +187,43 @@ function EditorFooter<T extends FormValues>({
             {!!languageButton && languageButton}
           </LinksWrapper>
         )}
-        {!!isArticle && <PrioritySelect priority={values.priority} updatePriority={updatePriority} />}
+        {!!isArticle && (
+          <FormField name="priority">
+            {({ field, helpers }) => (
+              <FieldRoot>
+                <PrioritySelect
+                  priority={field.value}
+                  updatePriority={(value) => helpers.setValue(value ?? "unspecified")}
+                />
+              </FieldRoot>
+            )}
+          </FormField>
+        )}
         {!!articleOrConcept && (
-          <ResponsibleSelect
-            responsible={responsible}
-            setResponsible={setResponsible}
-            onSave={updateResponsible}
-            responsibleId={showSimpleFooter ? ndlaId : responsibleId}
-          />
+          <FormField name="responsibleId">
+            {({ field, helpers }) => (
+              <FieldRoot>
+                <ResponsibleSelect responsible={field.value} onSave={(value) => helpers.setValue(value ?? null)} />
+              </FieldRoot>
+            )}
+          </FormField>
         )}
         {!showSimpleFooter && (
-          <StatusSelect
-            status={status}
-            setStatus={setStatus}
-            onSave={updateStatus}
-            statusStateMachine={statusStateMachine}
-            entityStatus={entityStatus}
-          />
+          <FormField name="status">
+            {({ field, helpers }) => (
+              <FieldRoot>
+                <StatusSelect
+                  status={field.value.current}
+                  updateStatus={(value) => {
+                    helpers.setValue({ current: value });
+                    setNewStatus(value);
+                  }}
+                  statusStateMachine={statusStateMachine}
+                  entityStatus={entityStatus}
+                />
+              </FieldRoot>
+            )}
+          </FormField>
         )}
         <SaveMultiButton
           isSaving={isSubmitting}

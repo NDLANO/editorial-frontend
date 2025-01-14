@@ -204,7 +204,6 @@ export const GlossForm = ({
             savedToServer={savedToServer}
             isNewlyCreated={isNewlyCreated}
             showSimpleFooter={!concept?.id}
-            responsibleId={concept?.responsible?.responsibleId ?? ndlaId}
           />
         </FormWrapper>
       )}

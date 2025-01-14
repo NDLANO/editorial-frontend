@@ -30,7 +30,6 @@ interface Props {
   savedToServer: boolean;
   isNewlyCreated: boolean;
   showSimpleFooter: boolean;
-  responsibleId?: string;
 }
 
 const StyledFormActionsContainer = styled(FormActionsContainer, {
@@ -46,7 +45,6 @@ const ConceptFormFooter = ({
   savedToServer,
   isNewlyCreated,
   showSimpleFooter,
-  responsibleId,
 }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
@@ -87,8 +85,7 @@ const ConceptFormFooter = ({
         <FieldRoot key="status-select">
           <StatusSelect
             status={status}
-            setStatus={setStatus}
-            onSave={updateStatus}
+            updateStatus={updateStatus}
             statusStateMachine={conceptStateMachine.data}
             entityStatus={entityStatus ?? updated}
           />
@@ -97,9 +94,7 @@ const ConceptFormFooter = ({
           <ResponsibleSelect
             key="concept-modal-responsible-select"
             responsible={responsible}
-            setResponsible={setResponsible}
             onSave={updateResponsible}
-            responsibleId={responsibleId}
           />
         </FieldRoot>
         <DialogCloseTrigger asChild>
@@ -134,7 +129,6 @@ const ConceptFormFooter = ({
         isConcept
         isNewlyCreated={isNewlyCreated}
         hasErrors={isSubmitting || !formIsDirty || disableSave}
-        responsibleId={responsibleId}
       />
       <AlertDialogWrapper
         formIsDirty={formIsDirty}

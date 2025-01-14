@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
@@ -17,8 +17,7 @@ import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../.
 
 interface Props {
   status: string | undefined;
-  setStatus: (s: string | undefined) => void;
-  onSave: (s: string | undefined) => void;
+  updateStatus: (s: string | undefined) => void;
   statusStateMachine?: ConceptStatusStateMachineType | DraftStatusStateMachineType;
   entityStatus?: DraftStatus;
 }
@@ -42,19 +41,8 @@ const StyledSelectRoot = styled(SelectRoot, {
   },
 });
 
-const StatusSelect = ({ status, setStatus, onSave, statusStateMachine, entityStatus }: Props) => {
+const StatusSelect = ({ status, updateStatus, statusStateMachine, entityStatus }: Props) => {
   const { t } = useTranslation();
-
-  useEffect(() => {
-    if (entityStatus && statusStateMachine) {
-      setStatus(entityStatus.current);
-      const initialStatus = statusStateMachine[entityStatus.current].find(
-        (s) => s.toLowerCase() === entityStatus.current.toLowerCase(),
-      );
-      setStatus(initialStatus);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entityStatus, statusStateMachine]);
 
   const collection = useMemo(() => {
     const items =
@@ -75,7 +63,7 @@ const StatusSelect = ({ status, setStatus, onSave, statusStateMachine, entitySta
       positioning={{ sameWidth: true }}
       data-testid="status-select"
       value={status ? [status] : undefined}
-      onValueChange={(details) => onSave(details.value[0])}
+      onValueChange={(details) => updateStatus(details.value[0])}
     >
       <SelectLabel srOnly>{t("searchForm.types.status")}</SelectLabel>
       <StyledGenericSelectTrigger>

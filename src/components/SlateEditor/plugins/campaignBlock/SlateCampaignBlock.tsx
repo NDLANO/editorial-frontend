@@ -45,22 +45,26 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
     setIsEditing(!!element.isFirstEdit);
   }, [element.isFirstEdit]);
 
-  const onClose = useCallback(() => {
-    ReactEditor.focus(editor);
-    setIsEditing(false);
-    if (element.isFirstEdit) {
-      Transforms.removeNodes(editor, {
-        at: ReactEditor.findPath(editor, element),
-        voids: true,
-      });
-    }
-    const path = ReactEditor.findPath(editor, element);
-    if (Editor.hasPath(editor, Path.next(path))) {
-      setTimeout(() => {
-        Transforms.select(editor, Path.next(path));
-      }, 0);
-    }
-  }, [editor, element]);
+  const onOpenChange = useCallback(
+    (open: boolean) => {
+      setIsEditing(open);
+      if (open) return;
+      ReactEditor.focus(editor);
+      if (element.isFirstEdit) {
+        Transforms.removeNodes(editor, {
+          at: ReactEditor.findPath(editor, element),
+          voids: true,
+        });
+      }
+      const path = ReactEditor.findPath(editor, element);
+      if (Editor.hasPath(editor, Path.next(path))) {
+        setTimeout(() => {
+          Transforms.select(editor, Path.next(path));
+        }, 0);
+      }
+    },
+    [editor, element],
+  );
 
   const onSave = useCallback(
     (data: CampaignBlockEmbedData) => {
@@ -99,7 +103,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
   );
 
   return (
-    <DialogRoot size="large" open={isEditing} onOpenChange={(details) => setIsEditing(details.open)}>
+    <DialogRoot size="large" open={isEditing} onOpenChange={(details) => onOpenChange(details.open)}>
       <EmbedWrapper {...attributes} data-testid="slate-campaign-block" contentEditable={false}>
         {!!campaignBlock && (
           <>
@@ -151,7 +155,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
               <DialogCloseButton />
             </DialogHeader>
             <DialogBody>
-              <CampaignBlockForm initialData={campaignBlock} onSave={onSave} onCancel={onClose} />
+              <CampaignBlockForm initialData={campaignBlock} onSave={onSave} />
             </DialogBody>
           </DialogContent>
         </Portal>

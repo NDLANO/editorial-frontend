@@ -28,6 +28,7 @@ import {
   CheckboxIndicator,
   CheckboxLabel,
   CheckboxHiddenInput,
+  DialogCloseTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContactBlockEmbedData } from "@ndla/types-embed";
@@ -84,7 +85,6 @@ const rules: RulesType<ContactBlockFormValues> = {
 interface Props {
   initialData?: ContactBlockEmbedData;
   onSave: (data: ContactBlockEmbedData) => void;
-  onCancel: () => void;
 }
 
 const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormValues => {
@@ -102,7 +102,7 @@ const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormV
 };
 const colors: ContactBlockEmbedData["background"][] = ["subtle", "moderate", "strong"];
 
-const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
+const ContactBlockForm = ({ initialData, onSave }: Props) => {
   const { t } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
@@ -233,9 +233,9 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
             </FormField>
           )}
           <FormActionsContainer>
-            <Button variant="secondary" onClick={onCancel}>
-              {t("cancel")}
-            </Button>
+            <DialogCloseTrigger asChild>
+              <Button variant="secondary">{t("cancel")}</Button>
+            </DialogCloseTrigger>
             <Button disabled={!dirty || !isValid} type="submit">
               {t("save")}
             </Button>

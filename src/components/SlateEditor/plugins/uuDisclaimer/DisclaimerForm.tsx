@@ -7,7 +7,7 @@
  */
 
 import { Formik, FormikValues } from "formik";
-import { Dispatch, SetStateAction, useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import { Button, DialogBody } from "@ndla/primitives";
@@ -19,7 +19,7 @@ import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
 interface DisclaimerFormProps {
   initialData?: UuDisclaimerEmbedData;
-  onOpenChange: Dispatch<SetStateAction<boolean>>;
+  onOpenChange: (open: boolean) => void;
   onSave: (values: UuDisclaimerEmbedData) => void;
 }
 
@@ -52,9 +52,8 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
         resource: "uu-disclaimer",
         disclaimer: inlineContentToHTML(values.disclaimer),
       });
-      onOpenChange(false);
     },
-    [onOpenChange, onSave],
+    [onSave],
   );
 
   return (

@@ -56,6 +56,7 @@ const ButtonContainer = styled("div", {
 const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+
   useEffect(() => {
     setModalOpen(!!element.isFirstEdit);
   }, [element.isFirstEdit]);
@@ -80,6 +81,27 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
       resource: "uu-disclaimer",
     };
   }, [element]);
+
+  const onOpenChange = useCallback(
+    (open: boolean) => {
+      setModalOpen(open);
+      if (open) return;
+      ReactEditor.focus(editor);
+      if (element.isFirstEdit) {
+        Transforms.removeNodes(editor, {
+          at: ReactEditor.findPath(editor, element),
+          voids: true,
+        });
+      }
+      const path = ReactEditor.findPath(editor, element);
+      if (Editor.hasPath(editor, Path.next(path))) {
+        setTimeout(() => {
+          Transforms.select(editor, Path.next(path));
+        }, 0);
+      }
+    },
+    [editor, element],
+  );
 
   const handleDelete = () => {
     const path = ReactEditor.findPath(editor, element);
@@ -130,52 +152,50 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   );
 
   return (
-    <StyledEmbedWrapper data-testid="slate-disclaimer-block" {...attributes}>
-      <ButtonContainer contentEditable={false}>
-        <DeleteButton aria-label={t("delete")} data-testid="delete-disclaimer" onClick={handleDelete} />
-        <DialogRoot
-          open={modalOpen}
-          onOpenChange={(details) => setModalOpen(details.open)}
-          onInteractOutside={(e) => e.preventDefault()}
-          onPointerDownOutside={() => setModalOpen(false)}
-        >
-          <DialogTrigger asChild>
-            <IconButton
-              variant="tertiary"
-              size="small"
-              aria-label={t("form.disclaimer.edit")}
-              data-testid="edit-disclaimer"
-              title={t("form.disclaimer.edit")}
-            >
-              <PencilFill />
-            </IconButton>
-          </DialogTrigger>
-          <Portal>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>{t("form.disclaimer.title")}</DialogTitle>
-                <DialogCloseButton />
-              </DialogHeader>
-              <DisclaimerForm
-                initialData={embed?.embedData}
-                onOpenChange={setModalOpen}
-                onSave={onSaveDisclaimerText}
+    <DialogRoot
+      open={modalOpen}
+      onOpenChange={(details) => onOpenChange(details.open)}
+      onInteractOutside={(e) => e.preventDefault()}
+      onPointerDownOutside={() => onOpenChange(false)}
+    >
+      <StyledEmbedWrapper data-testid="slate-disclaimer-block" {...attributes}>
+        {!!embed && !!transformedContent && (
+          <>
+            <ButtonContainer contentEditable={false}>
+              <DeleteButton aria-label={t("delete")} data-testid="delete-disclaimer" onClick={handleDelete} />
+              <DialogTrigger asChild>
+                <IconButton
+                  variant="tertiary"
+                  size="small"
+                  aria-label={t("form.disclaimer.edit")}
+                  data-testid="edit-disclaimer"
+                  title={t("form.disclaimer.edit")}
+                >
+                  <PencilFill />
+                </IconButton>
+              </DialogTrigger>
+              <MoveContentButton
+                aria-label={t("form.moveContent")}
+                data-testid="move-disclaimer"
+                onMouseDown={handleRemoveDisclaimer}
               />
-            </DialogContent>
-          </Portal>
-        </DialogRoot>
-        <MoveContentButton
-          aria-label={t("form.moveContent")}
-          data-testid="move-disclaimer"
-          onMouseDown={handleRemoveDisclaimer}
-        />
-      </ButtonContainer>
-      {!!embed && !!transformedContent && (
-        <UuDisclaimerEmbed transformedDisclaimer={transformedContent} embed={{ ...embed }}>
-          {children}
-        </UuDisclaimerEmbed>
-      )}
-    </StyledEmbedWrapper>
+            </ButtonContainer>
+            <UuDisclaimerEmbed transformedDisclaimer={transformedContent} embed={{ ...embed }}>
+              {children}
+            </UuDisclaimerEmbed>
+          </>
+        )}
+        <Portal>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{t("form.disclaimer.title")}</DialogTitle>
+              <DialogCloseButton />
+            </DialogHeader>
+            <DisclaimerForm initialData={embed?.embedData} onOpenChange={onOpenChange} onSave={onSaveDisclaimerText} />
+          </DialogContent>
+        </Portal>
+      </StyledEmbedWrapper>
+    </DialogRoot>
   );
 };
 

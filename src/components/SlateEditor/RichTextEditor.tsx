@@ -142,8 +142,8 @@ const RichTextEditor = ({
     // When form is submitted or form content has been revert to a previous version, the editor has to be reinitialized.
     if (
       (!submitted && prevSubmitted.current) ||
-      status.status === "revertVersion" ||
-      status.status === "acceptGenerated"
+      status?.status === "revertVersion" ||
+      status?.status === "acceptGenerated"
     ) {
       if (isFirstNormalize) {
         return;

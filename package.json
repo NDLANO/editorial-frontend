@@ -71,6 +71,7 @@
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.16.0",
+    "vercel": "^33.6.2",
     "vite": "^6.0.1",
     "vitest": "^2.1.6"
   },
@@ -141,7 +142,6 @@
     "slate-hyperscript": "^0.100.0",
     "slate-react": "^0.111.0",
     "source-map-support": "^0.5.13",
-    "vercel": "^33.6.2",
     "winston": "^3.13.0"
   },
   "repository": {

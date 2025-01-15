@@ -6,12 +6,12 @@
  *
  */
 
+import parse from "html-react-parser";
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { transform } from "@ndla/article-converter";
 import { PencilFill } from "@ndla/icons";
 import { DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -19,11 +19,9 @@ import { UuDisclaimerEmbedData, UuDisclaimerMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, UuDisclaimerEmbed } from "@ndla/ui";
 import DisclaimerForm from "./DisclaimerForm";
 import { DisclaimerElement, TYPE_DISCLAIMER } from "./types";
-import { usePreviewArticle } from "../../../../modules/article/articleGqlQueries";
 import DeleteButton from "../../../DeleteButton";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import MoveContentButton from "../../../MoveContentButton";
-import { useArticleLanguage } from "../../ArticleLanguageProvider";
 
 interface Props {
   attributes: RenderElementProps["attributes"];
@@ -61,26 +59,18 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
     setModalOpen(!!element.isFirstEdit);
   }, [element.isFirstEdit]);
 
-  const articleLanguage = useArticleLanguage();
-
-  const articleContentData = usePreviewArticle(element.data?.disclaimer, articleLanguage, undefined, false, {
-    enabled: !!element.data?.disclaimer.length,
-  });
-
-  const transformedContent = useMemo(() => {
-    return transform(articleContentData?.data ?? "", {});
-  }, [articleContentData?.data]);
-
   const embed: UuDisclaimerMetaData | undefined = useMemo(() => {
     if (!element.data) return undefined;
 
+    const parsedContent = element.data?.disclaimer ? (parse(element.data?.disclaimer) as string) : "";
+
     return {
       status: "success",
-      data: { transformedContent: "" },
+      data: { transformedContent: parsedContent },
       embedData: element.data,
       resource: "uu-disclaimer",
     };
-  }, [element]);
+  }, [element.data]);
 
   const onOpenChange = useCallback(
     (open: boolean) => {
@@ -152,14 +142,9 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   );
 
   return (
-    <DialogRoot
-      open={modalOpen}
-      onOpenChange={(details) => onOpenChange(details.open)}
-      onInteractOutside={(e) => e.preventDefault()}
-      onPointerDownOutside={() => onOpenChange(false)}
-    >
+    <DialogRoot open={modalOpen} onOpenChange={(details) => setModalOpen(details.open)}>
       <StyledEmbedWrapper data-testid="slate-disclaimer-block" {...attributes}>
-        {!!embed && !!transformedContent && (
+        {!!embed && (
           <>
             <ButtonContainer contentEditable={false}>
               <DeleteButton aria-label={t("delete")} data-testid="delete-disclaimer" onClick={handleDelete} />
@@ -180,7 +165,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
                 onMouseDown={handleRemoveDisclaimer}
               />
             </ButtonContainer>
-            <UuDisclaimerEmbed transformedDisclaimer={transformedContent} embed={{ ...embed }}>
+            <UuDisclaimerEmbed transformedDisclaimer={embed.data.transformedContent} embed={{ ...embed }}>
               {children}
             </UuDisclaimerEmbed>
           </>

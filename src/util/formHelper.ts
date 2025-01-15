@@ -239,6 +239,11 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
       languageMatch: true,
     },
   },
+  disclaimer: {
+    warnings: {
+      languageMatch: true,
+    },
+  },
 };
 
 export const frontPageArticleRules: RulesType<FrontpageArticleFormType, IArticleDTO> = {

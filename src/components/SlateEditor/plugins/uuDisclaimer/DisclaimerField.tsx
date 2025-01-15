@@ -6,70 +6,16 @@
  *
  */
 
-import { TextArea, Text, FieldRoot, FieldHelper, FieldErrorMessage } from "@ndla/primitives";
+import { TextArea, FieldRoot, FieldHelper, FieldErrorMessage } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLabel";
+import { FieldWarning } from "../../../Form/FieldWarning";
 import { FormField } from "../../../FormField";
 import { SlatePlugin } from "../../interfaces";
 import RichTextEditor from "../../RichTextEditor";
-import { RichTextIndicator } from "../../RichTextIndicator";
-import { breakPlugin } from "../break";
-import { breakRenderer } from "../break/render";
-import { linkPlugin } from "../link";
-import { linkRenderer } from "../link/render";
-import { markPlugin } from "../mark";
-import { markRenderer } from "../mark/render";
-import { noopPlugin } from "../noop";
-import { noopRenderer } from "../noop/render";
-import { paragraphPlugin } from "../paragraph";
-import { paragraphRenderer } from "../paragraph/render";
-import saveHotkeyPlugin from "../saveHotkey";
-import { spanPlugin } from "../span";
-import { spanRenderer } from "../span/render";
-import { textTransformPlugin } from "../textTransform";
-import { toolbarPlugin } from "../toolbar";
-import { createToolbarAreaOptions, createToolbarDefaultValues } from "../toolbar/toolbarState";
-
-const toolbarOptions = createToolbarDefaultValues({
-  text: {
-    hidden: true,
-  },
-  mark: {
-    code: {
-      hidden: true,
-    },
-  },
-  block: { hidden: true },
-  inline: {
-    hidden: true,
-    "content-link": { hidden: false },
-  },
-});
+import { CategoryFilters, createToolbarAreaOptions } from "../toolbar/toolbarState";
 
 export const toolbarAreaFilters = createToolbarAreaOptions();
-
-export const disclaimerPlugins: SlatePlugin[] = [
-  spanPlugin,
-  paragraphPlugin,
-  toolbarPlugin(toolbarOptions, toolbarAreaFilters),
-  textTransformPlugin,
-  breakPlugin,
-  saveHotkeyPlugin,
-  markPlugin,
-  noopPlugin,
-  linkPlugin,
-];
-
-const renderers: SlatePlugin[] = [
-  noopRenderer,
-  paragraphRenderer,
-  markRenderer,
-  breakRenderer,
-  spanRenderer,
-  linkRenderer,
-];
-
-const plugins = disclaimerPlugins.concat(renderers);
 
 const StyledTextArea = styled(TextArea, {
   base: {
@@ -78,28 +24,20 @@ const StyledTextArea = styled(TextArea, {
   },
 });
 
-const StyledText = styled(Text, {
-  base: {
-    width: "unset!",
-    top: "xsmall!",
-  },
-});
-
 interface Props {
   submitted: boolean;
   title: string;
   description: string;
+  plugins: SlatePlugin[];
+  toolbarOptions: CategoryFilters;
 }
 
-export const DisclaimerField = ({ submitted, title, description }: Props) => {
+export const DisclaimerField = ({ submitted, title, description, plugins, toolbarOptions }: Props) => {
   return (
     <FormField name="disclaimer">
       {({ field, meta, helpers }) => (
         <FieldRoot invalid={!!meta.error}>
-          <ContentEditableFieldLabel>
-            {title}
-            <RichTextIndicator />
-          </ContentEditableFieldLabel>
+          <ContentEditableFieldLabel>{title}</ContentEditableFieldLabel>
           <FieldHelper textStyle="body.medium">{description}</FieldHelper>
           <StyledTextArea asChild>
             <RichTextEditor
@@ -111,14 +49,10 @@ export const DisclaimerField = ({ submitted, title, description }: Props) => {
               toolbarOptions={toolbarOptions}
               toolbarAreaFilters={toolbarAreaFilters}
               noArticleStyling
-              renderPlaceholder={(placeholder) => (
-                <StyledText {...placeholder.attributes} textStyle="body.article" asChild consumeCss>
-                  <span>{placeholder.children}</span>
-                </StyledText>
-              )}
               data-testid="disclaimer-editor"
             />
           </StyledTextArea>
+          <FieldWarning name={field.name} />
           <FieldErrorMessage>{meta.error}</FieldErrorMessage>
         </FieldRoot>
       )}

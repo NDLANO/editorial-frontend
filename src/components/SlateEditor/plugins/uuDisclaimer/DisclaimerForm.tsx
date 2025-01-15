@@ -12,10 +12,55 @@ import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import { Button, DialogBody } from "@ndla/primitives";
 import { UuDisclaimerEmbedData } from "@ndla/types-embed";
-import { DisclaimerField } from "./DisclaimerField";
+import { DisclaimerField, toolbarAreaFilters } from "./DisclaimerField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
+import { SlatePlugin } from "../../interfaces";
+import { breakPlugin } from "../break";
+import { breakRenderer } from "../break/render";
+import { markPlugin } from "../mark";
+import { markRenderer } from "../mark/render";
+import { noopPlugin } from "../noop";
+import { noopRenderer } from "../noop/render";
+import { paragraphPlugin } from "../paragraph";
+import { paragraphRenderer } from "../paragraph/render";
+import saveHotkeyPlugin from "../saveHotkey";
+import { spanPlugin } from "../span";
+import { spanRenderer } from "../span/render";
+import { textTransformPlugin } from "../textTransform";
+import { toolbarPlugin } from "../toolbar";
+import { createToolbarDefaultValues } from "../toolbar/toolbarState";
+
+const toolbarOptions = createToolbarDefaultValues({
+  text: {
+    hidden: true,
+  },
+  mark: {
+    code: {
+      hidden: true,
+    },
+  },
+  block: { hidden: true },
+  inline: {
+    hidden: true,
+  },
+});
+
+export const disclaimerPlugins: SlatePlugin[] = [
+  spanPlugin,
+  paragraphPlugin,
+  toolbarPlugin(toolbarOptions, toolbarAreaFilters),
+  textTransformPlugin,
+  breakPlugin,
+  saveHotkeyPlugin,
+  markPlugin,
+  noopPlugin,
+];
+
+const renderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, markRenderer, breakRenderer, spanRenderer];
+
+const plugins = disclaimerPlugins.concat(renderers);
 
 interface DisclaimerFormProps {
   initialData?: UuDisclaimerEmbedData;
@@ -71,6 +116,8 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
               submitted={isSubmitting}
               title={t("form.disclaimer.editorHeader")}
               description={t("form.disclaimer.description")}
+              toolbarOptions={toolbarOptions}
+              plugins={plugins}
             />
             <FormActionsContainer>
               <Button onClick={() => onOpenChange(false)} variant="secondary">

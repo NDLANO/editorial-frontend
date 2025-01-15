@@ -38,7 +38,7 @@ const StyledPopoverContent = styled(PopoverContent, {
   base: {
     flexDirection: "row",
     gap: "xsmall",
-    zIndex: "modal",
+    zIndex: "dropdown",
   },
 });
 
@@ -142,9 +142,9 @@ const Link = ({ attributes, editor, element, children }: Props) => {
   };
 
   return (
-    <DialogRoot open={editMode} onOpenChange={(details) => toggleEditMode(details.open)} context="alert">
+    <DialogRoot open={editMode} onOpenChange={(details) => toggleEditMode(details.open)}>
       <PopoverRoot
-        modal
+        modal={false}
         // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus={false}
         onOpenChange={(details) => {

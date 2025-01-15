@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node } from "@ndla/types-taxonomy";
+import { Node, NodeChild } from "@ndla/types-taxonomy";
 import AddProgramme from "./programmeMenuOptions/AddProgramme";
 import AddTopicNode from "./sharedMenuOptions/AddTopicNode";
 import MenuItemCustomField from "./sharedMenuOptions/components/MenuItemCustomField";
@@ -26,8 +26,11 @@ import CopyNodeResources from "./topicMenuOptions/CopyNodeResources";
 import PublishChildNodeResources from "./topicMenuOptions/PublishChildNodeResources";
 import SetResourcesPrimary from "./topicMenuOptions/SetResourcesPrimary";
 import SwapTopicArticle from "./topicMenuOptions/SwapTopicArticle";
+import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
+import { TaxonomyNodeChild } from "../../../components/Taxonomy/types";
 import { TAXONOMY_ADMIN_SCOPE } from "../../../constants";
 import { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../modules/nodes/nodeApiTypes";
+import { NodeChildWithChildren } from "../../../modules/nodes/nodeQueries";
 import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
 import { useSession } from "../../Session/SessionProvider";
 
@@ -49,9 +52,9 @@ const StyledTabsList = styled(TabsList, {
 
 interface Props {
   rootNodeId: string;
-  node: Node;
-  nodeChildren: Node[];
-  onCurrentNodeChanged: (node?: Node) => void;
+  node: TaxonomyNodeChild | Node;
+  nodeChildren: NodeChildWithChildren[];
+  onCurrentNodeChanged: (node?: Node | NodeChild) => void;
 }
 
 const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, nodeChildren }: Props) => {
@@ -244,6 +247,7 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
               })}
             </TabsTrigger>
             <TabsTrigger value="toggleMetadataVisibility">{t("metadata.changeVisibility")}</TabsTrigger>
+            <TabsTrigger value="toggleRelevance">{t("taxonomy.resourceType.tabTitle")}</TabsTrigger>
             <TabsTrigger value="copyResources">{t("taxonomy.copyResources.info")}</TabsTrigger>
             {!!isTaxonomyAdmin && <TabsTrigger value="cloneResources">{t("taxonomy.cloneResources.info")}</TabsTrigger>}
             {!!isTaxonomyAdmin && (
@@ -281,6 +285,9 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
           </StyledTabsContent>
           <StyledTabsContent value="toggleMetadataVisibility">
             <ToggleVisibility node={node} rootNodeId={rootNodeId} />
+          </StyledTabsContent>
+          <StyledTabsContent value="toggleRelevance">
+            <RelevanceOption node={node as NodeChild} currentNodeId={rootNodeId} />
           </StyledTabsContent>
           <StyledTabsContent value="copyResources">
             <CopyNodeResources currentNode={node} nodeType={TOPIC_NODE} type="copyResources" />

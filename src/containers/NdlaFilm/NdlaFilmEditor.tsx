@@ -9,7 +9,6 @@
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { PageContainer } from "@ndla/primitives";
-import { HelmetWithTracker } from "@ndla/tracker";
 import NdlaFilmForm from "./components/NdlaFilmForm";
 import { PageSpinner } from "../../components/PageSpinner";
 import config from "../../config";
@@ -34,7 +33,7 @@ const NdlaFilmEditor = () => {
   return (
     <PageContainer asChild consumeCss>
       <main>
-        <HelmetWithTracker title={t("htmlTitles.ndlaFilmPage")} />
+        <title>{t("htmlTitles.ndlaFilmPage")}</title>
         <NdlaFilmForm filmFrontpage={filmFrontpageQuery.data} selectedLanguage={selectedLangOrDefault} />
       </main>
     </PageContainer>

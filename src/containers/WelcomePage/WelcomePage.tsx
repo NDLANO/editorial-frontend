@@ -10,7 +10,6 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { HelmetWithTracker } from "@ndla/tracker";
 import ArticleStatuses from "./components/ArticleStatuses";
 import LastUsedItems from "./components/LastUsedItems";
 import Revisions from "./components/Revisions";
@@ -88,7 +87,7 @@ export const WelcomePage = () => {
 
   return (
     <StyledPageContent variant="wide">
-      <HelmetWithTracker title={t("htmlTitles.welcomePage")} />
+      <title>{t("htmlTitles.welcomePage")}</title>
       <WelcomeHeader />
       {!!ndlaId && (
         <GridWrapper>

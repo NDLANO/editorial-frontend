@@ -67,7 +67,7 @@ const StyledPageContent = styled("div", {
   base: {
     position: "sticky",
     bottom: "4xsmall",
-    zIndex: "sticky",
+    zIndex: "docked",
   },
 });
 

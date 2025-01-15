@@ -18,7 +18,7 @@ export const detailsRenderer = (editor: Editor) => {
   editor.renderElement = ({ attributes, children, element }) => {
     if (element.type === TYPE_SUMMARY) {
       return (
-        <ExpandableBoxSummary {...attributes} onClick={(e) => e.preventDefault()} asChild consumeCss>
+        <ExpandableBoxSummary {...attributes} asChild consumeCss>
           <div>{children}</div>
         </ExpandableBoxSummary>
       );

@@ -20,6 +20,7 @@ import DndList from "../../components/DndList";
 import { DragHandle } from "../../components/DraggableItem";
 import Fade from "../../components/Taxonomy/Fade";
 import { iconRecipe, NodeItemRoot, NodeItemTitle, ToggleIcon } from "../../components/Taxonomy/NodeItem";
+import { TaxonomyNodeChild } from "../../components/Taxonomy/types";
 import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { NodeChildWithChildren } from "../../modules/nodes/nodeQueries";
 import { nodePathToUrnPath } from "../../util/taxonomyHelpers";
@@ -83,7 +84,7 @@ const getPath = (path: string, rootPath: string): string => {
 
 interface Props {
   id: string;
-  item: (NodeChild & { articleType?: string; isPublished?: boolean }) | Node;
+  item: TaxonomyNodeChild | Node;
   openedPaths: string[];
   onNodeSelected: (node?: Node) => void;
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;

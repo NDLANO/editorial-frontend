@@ -38,7 +38,7 @@ export const copyrightSerializer: SlateSerializer = {
     // TODO: Create global replace method to handle stringified objects
     const data = createDataAttributes({
       ...node.data,
-      copyright: JSON.stringify(node.data.copyright).replaceAll('"', "&quot;"),
+      copyright: JSON.stringify(node.data.copyright),
     });
 
     return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true, children });

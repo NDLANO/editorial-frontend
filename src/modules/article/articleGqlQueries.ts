@@ -45,6 +45,7 @@ export const usePreviewArticle = (
       previewH5p: true,
       draftConcept: useDraftConcepts,
       absoluteUrl: true,
+      prettyUrl: true,
     },
     options,
   );
@@ -58,6 +59,7 @@ const transformArticleMutation = gql`
     $previewH5p: Boolean
     $draftConcept: Boolean
     $absoluteUrl: Boolean
+    $prettyUrl: Boolean
   ) {
     transformArticleContent(
       content: $content
@@ -66,6 +68,7 @@ const transformArticleMutation = gql`
       previewH5p: $previewH5p
       draftConcept: $draftConcept
       absoluteUrl: $absoluteUrl
+      prettyUrl: $prettyUrl
     )
   }
 `;

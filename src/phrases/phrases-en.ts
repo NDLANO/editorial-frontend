@@ -840,7 +840,6 @@ const phrases = {
       validFrom: "Valid from",
       validTo: "Valid to",
       description: "Content",
-      conceptContent: "Description",
       grepCodes: "Curriculum connection",
       desktopBannerId: "Wide subject page image",
       mobileBannerId: "Narrow subject page image",

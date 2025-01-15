@@ -262,7 +262,11 @@ const PodcastForm = ({
                   title={t("podcastForm.fields.manuscript")}
                   hasError={[].some((field) => field in errors)}
                 >
-                  <AudioManuscript />
+                  <AudioManuscript
+                    audioLanguage={language}
+                    audioUrl={audio?.audioFile.url}
+                    audioType={audio?.audioFile.url.split(".").pop()}
+                  />
                 </FormAccordion>
                 <FormAccordion
                   id="podcast-upload-podcastmeta"

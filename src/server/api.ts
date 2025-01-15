@@ -10,12 +10,13 @@ import express from "express";
 import { GetVerificationKey, expressjwt as jwt, Request } from "express-jwt";
 import jwksRsa from "jwks-rsa";
 import prettier from "prettier";
-import { BedrockRuntimeClient, ConversationRole, InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
+import { BedrockRuntimeClient, InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
+import { TranscribeClient, StartTranscriptionJobCommand, GetTranscriptionJobCommand } from "@aws-sdk/client-transcribe";
 import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getResponsibles } from "./auth";
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN } from "./httpCodes";
 import errorLogger from "./logger";
 import { translateDocument } from "./translate";
-import config, { getEnvironmentVariabel } from "../config";
+import config from "../config";
 import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
 import { NdlaError } from "../interfaces";
 
@@ -26,6 +27,12 @@ type NdlaUser = {
   "https://ndla.no/user_name"?: string;
   permissions?: string[];
 };
+
+const aiModelID = process.env.NDLA_AI_MODEL_ID;
+const aiRegion = process.env.NDLA_AI_MODEL_REGION;
+const aiSecretKey = process.env.NDLA_AI_SECRET_KEY;
+const aiSecretID = process.env.NDLA_AI_SECRET_ID;
+const transcriptionBucketName = process.env.TRANSCRIBE_FILE_S3_BUCKET;
 
 // Temporal hack to send users to prod
 router.get("*splat", (req, res, next) => {
@@ -159,25 +166,44 @@ router.post("/translate", async (req, res) => {
 });
 
 router.post("/invoke-model", async (req, res) => {
-  const modelId = getEnvironmentVariabel("NDLA_AI_MODEL_ID");
-  const modelRegion = getEnvironmentVariabel("NDLA_AI_MODEL_REGION");
-  const secretKey = getEnvironmentVariabel("NDLA_AI_SECRET_KEY", "");
-  const secretId = getEnvironmentVariabel("NDLA_AI_SECRET_ID", "");
-
+  const modelId = aiModelID;
+  if (!aiRegion || !aiSecretID || !aiSecretKey || !modelId || !transcriptionBucketName) {
+    res.status(INTERNAL_SERVER_ERROR).send("Missing required environment variables");
+    return;
+  }
   const client = new BedrockRuntimeClient({
-    region: modelRegion, //As of now this is the closest aws-region, with the service
-    credentials: { accessKeyId: secretId, secretAccessKey: secretKey },
+    region: aiRegion, //As of now this is the closest aws-region, with the service
+    credentials: { accessKeyId: aiSecretID, secretAccessKey: aiSecretKey },
   });
+
+  const content = [];
+  if (req.body.image) {
+    content.push({
+      type: "image",
+      source: {
+        type: "base64",
+        media_type: req.body.image.fileType,
+        data: req.body.image.base64,
+      },
+    });
+  }
+
+  content.push({
+    type: "text",
+    text: req.body.prompt,
+  });
+
+  const messages = [
+    {
+      role: "user",
+      content,
+    },
+  ];
 
   const payload = {
     anthropic_version: "bedrock-2023-05-31",
     max_tokens: req.body.max_tokens || 500,
-    messages: [
-      {
-        role: ConversationRole.USER,
-        content: [{ type: "text", text: req.body.prompt }],
-      },
-    ],
+    messages,
   };
   const command = new InvokeModelCommand({
     contentType: "application/json",
@@ -193,4 +219,69 @@ router.post("/invoke-model", async (req, res) => {
     res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
   }
 });
+
+router.post("/transcribe", async (req, res) => {
+  if (!req.body.languageCode || !req.body.mediaFormat || !req.body.mediaFileUri || !req.body.outputFileName) {
+    res.status(400).send("Missing required parameters");
+  }
+
+  const client = new TranscribeClient({
+    region: "eu-west-1",
+  });
+
+  const jobName = `transcribe-${Date.now()}`;
+  const command = new StartTranscriptionJobCommand({
+    TranscriptionJobName: jobName,
+    LanguageCode: req.body.languageCode,
+    MediaFormat: req.body.mediaFormat,
+    Media: {
+      MediaFileUri: req.body.mediaFileUri,
+    },
+    OutputBucketName: transcriptionBucketName,
+    OutputKey: req.body.outputFileName,
+    Settings: {
+      ShowSpeakerLabels: true, // Enable speaker identification
+      MaxSpeakerLabels: req.body.maxSpeakers || 2,
+    },
+  });
+  try {
+    const response = await client.send(command);
+    res.status(OK).json(response);
+  } catch (err) {
+    res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
+  }
+});
+
+router.get("/transcribe/:jobName", async (req, res) => {
+  const jobName = req.params.jobName;
+  if (!jobName) {
+    res.status(404).send("Job name is required");
+  }
+  const client = new TranscribeClient({
+    region: "eu-west-1",
+  });
+
+  try {
+    const command = new GetTranscriptionJobCommand({ TranscriptionJobName: jobName });
+    const response = await client.send(command);
+
+    if (!response || !response.TranscriptionJob) {
+      res.status(404).send({ error: "Job not found or an error occurred" });
+      return;
+    }
+    const jobStatus = response.TranscriptionJob.TranscriptionJobStatus;
+    if (jobStatus === "COMPLETED") {
+      const transcriptUri = response.TranscriptionJob.Transcript?.TranscriptFileUri || "";
+      res.json({ jobName, status: "COMPLETED", transcriptUrl: transcriptUri });
+    } else if (jobStatus === "FAILED") {
+      res.status(404).send({ jobName, status: "FAILED", reason: response.TranscriptionJob.FailureReason });
+    } else {
+      res.json({ jobName, status: jobStatus });
+    }
+  } catch (error) {
+    // console.error("Error fetching job status:", error);
+    res.status(INTERNAL_SERVER_ERROR).send((error as NdlaError).message);
+  }
+});
+
 export default router;

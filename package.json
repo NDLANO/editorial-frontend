@@ -141,6 +141,7 @@
     "slate-hyperscript": "^0.100.0",
     "slate-react": "^0.111.0",
     "source-map-support": "^0.5.13",
+    "vercel": "^33.6.2",
     "winston": "^3.13.0"
   },
   "repository": {

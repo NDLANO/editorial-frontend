@@ -25,7 +25,7 @@ const StyledList = styled("ul", {
 });
 
 export const convertGrepCodesToObject = async (grepCodes: string[]): Promise<Record<string, string>> => {
-  const grepCodesData = await searchGrepCodes({ codes: grepCodes });
+  const grepCodesData = await searchGrepCodes({ codes: grepCodes, pageSize: grepCodes.length });
   const grepCodesWithTitle = grepCodesData.results.map((c) => ({
     [c.code]: c.title.title ? `${c.code} - ${c.title.title}` : c,
   }));

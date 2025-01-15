@@ -5893,6 +5893,7 @@ __metadata:
     tsx: "npm:^4.19.2"
     typescript: "npm:^5.7.2"
     typescript-eslint: "npm:^8.16.0"
+    vercel: "npm:^33.6.2"
     vite: "npm:^6.0.1"
     vitest: "npm:^2.1.6"
     winston: "npm:^3.13.0"

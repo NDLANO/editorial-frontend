@@ -172,10 +172,8 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
     height: "398px",
   },
   { name: "MolView", url: ["embed.molview.org"] },
-  {
-    name: "NDLA Statisk",
-    url: [`statisk.${config.ndlaBaseUrl}`],
-  },
+  { name: "NDLA Statisk", url: [`statisk.${config.ndlaBaseUrl}`] },
+  { name: "NDLA Explore", url: ["xerte.explore.ndla.no"] },
   { name: "Ebok", url: ["ebok.no"] },
   { name: "VG", url: ["www.vg.no"] },
   { name: "Trinket", url: ["trinket.io"], height: "700px" },

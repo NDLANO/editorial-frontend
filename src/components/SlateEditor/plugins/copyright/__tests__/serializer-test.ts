@@ -51,7 +51,7 @@ const editor: Descendant[] = [
 ];
 
 const html =
-  '<section><div data-type="framed-content"><ndlaembed data-resource="copyright" data-copyright="{&quot;license&quot;:{&quot;license&quot;:&quot;asda&quot;},&quot;creators&quot;:[],&quot;processors&quot;:[],&quot;rightsholders&quot;:[],&quot;processed&quot;:false}"><p>hall</p></ndlaembed></div></section>';
+  '<section><div data-type="framed-content"><ndlaembed data-resource="copyright" data-copyright="{&#x22;license&#x22;:{&#x22;license&#x22;:&#x22;asda&#x22;},&#x22;creators&#x22;:[],&#x22;processors&#x22;:[],&#x22;rightsholders&#x22;:[],&#x22;processed&#x22;:false}"><p>hall</p></ndlaembed></div></section>';
 
 describe("concept serializing tests", () => {
   test("serializing", () => {

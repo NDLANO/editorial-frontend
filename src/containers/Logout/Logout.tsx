@@ -8,7 +8,6 @@
 
 import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router-dom";
-import { HelmetWithTracker } from "@ndla/tracker";
 import LogoutFederated from "./LogoutFederated";
 import LogoutProviders from "./LogoutProviders";
 import LogoutSession from "./LogoutSession";
@@ -17,7 +16,7 @@ const Logout = () => {
   const { t } = useTranslation();
   return (
     <>
-      <HelmetWithTracker title={t("htmlTitles.logoutPage")} />
+      <title>{t("htmlTitles.logoutPage")}</title>
       <Routes>
         <Route path="federated" element={<LogoutFederated />} />
         <Route path="session" element={<LogoutSession />} />

@@ -12,7 +12,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { HelmetWithTracker } from "@ndla/tracker";
 import { Version } from "@ndla/types-taxonomy";
 import UIVersion from "./components/Version";
 import VersionForm from "./components/VersionForm";
@@ -77,7 +76,7 @@ const TaxonomyVersionsPage = () => {
   const { t } = useTranslation();
   return (
     <StyledPageContainer>
-      <HelmetWithTracker title={t("htmlTitles.versionsPage")} />
+      <title>{t("htmlTitles.versionsPage")}</title>
       <Heading textStyle="heading.medium">{t("taxonomyVersions.title")}</Heading>
       <Row>
         <Text>{t("taxonomyVersions.about")}</Text>

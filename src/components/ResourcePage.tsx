@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import { Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 import { UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
 import { PageContent, Spinner } from "@ndla/primitives";
-import { HelmetWithTracker } from "@ndla/tracker";
 import { NynorskTranslateProvider } from "./NynorskTranslateProvider";
 import NotFoundPage from "../containers/NotFoundPage/NotFoundPage";
 import { usePreviousLocation } from "../util/routeHelpers";
@@ -45,7 +44,7 @@ const ResourcePage = <T extends BaseResource>({
   const previousLocation = usePreviousLocation();
   return (
     <PageContent variant={isArticle ? "wide" : "page"}>
-      {!!titleTranslationKey && <HelmetWithTracker title={t(titleTranslationKey)} />}
+      {!!titleTranslationKey && <title>{t(titleTranslationKey)} </title>}
       <Routes>
         <Route path="new" element={<CreateComponent />} />
         <Route

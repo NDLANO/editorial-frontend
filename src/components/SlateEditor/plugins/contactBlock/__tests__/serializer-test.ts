@@ -34,7 +34,7 @@ const editor: Descendant[] = [
 ];
 
 const html =
-  '<section><ndlaembed data-resource="contact-block" data-image-id="65750" data-job-title="Daglig leder og ansvarlig redaktør, Vestland fylkeskommune" data-description="Sigurd har variert ledererfaring fra utdanningssektoren, både fra videregående skole, nasjonalt senter og fra universitets/høgskolesektoren. Ansvarsområdene dekker bl.a. utdanning/opplæring/studiekvalitet, økonomi, HR, stratgi og IT-utvikling/-drift." data-name="Sigurd Trageton" data-email="sigurd@ndla.no" data-background="subtle"></ndlaembed></section>';
+  '<section><ndlaembed data-resource="contact-block" data-image-id="65750" data-job-title="Daglig leder og ansvarlig redakt&#xF8;r, Vestland fylkeskommune" data-description="Sigurd har variert ledererfaring fra utdanningssektoren, b&#xE5;de fra videreg&#xE5;ende skole, nasjonalt senter og fra universitets/h&#xF8;gskolesektoren. Ansvarsomr&#xE5;dene dekker bl.a. utdanning/oppl&#xE6;ring/studiekvalitet, &#xF8;konomi, HR, stratgi og IT-utvikling/-drift." data-name="Sigurd Trageton" data-email="sigurd@ndla.no" data-background="subtle"></ndlaembed></section>';
 
 describe("codeblock serializing tests", () => {
   test("serializing", () => {

@@ -398,7 +398,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
                   <SwitchControl>
                     <SwitchThumb>{field.value === RESOURCE_FILTER_CORE ? "K" : "T"}</SwitchThumb>
                   </SwitchControl>
-                  <SwitchLabel>{t("taxonomy.resourceType")}</SwitchLabel>
+                  <SwitchLabel>{t("taxonomy.resourceType.label")}</SwitchLabel>
                   <SwitchHiddenInput />
                 </SwitchRoot>
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>

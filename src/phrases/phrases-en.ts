@@ -1720,7 +1720,7 @@ const phrases = {
     version: "Version",
     createResource: "Create new resource",
     addNewPlannedResource: "Create planned resourse",
-    resourceType: "Core(K) or supplementary(T)",
+    resourceType: { label: "Core(K) or supplementary(T)", tabTitle: "Change Core(K)/supplementary(T)" },
     title: "Title",
     comment: "Comment",
     commentPlaceholder: "E.g. content, learning objective or grep",

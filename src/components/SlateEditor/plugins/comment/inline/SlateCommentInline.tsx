@@ -20,11 +20,8 @@ import { CommentInlineElement } from "../interfaces";
 const InlineComment = styled("span", {
   base: {
     display: "inline",
-    background: "surface.brand.4.subtle",
+    background: "surface.brand.4",
     cursor: "pointer",
-    _hover: {
-      background: "surface.brand.4",
-    },
   },
 });
 
@@ -39,7 +36,7 @@ const SlateCommentInline = ({ attributes, editor, element, children }: Props) =>
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    setOpen(!!element.isFirstEdit);
+    setTimeout(() => setOpen(!!element.isFirstEdit), 0);
     Transforms.select(editor, ReactEditor.findPath(editor, element));
   }, [editor, element, element.isFirstEdit]);
 

@@ -9,7 +9,6 @@
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { HelmetWithTracker } from "@ndla/tracker";
 import { IConceptDTO, INewConceptDTO } from "@ndla/types-backend/concept-api";
 import ConceptForm from "./ConceptForm/ConceptForm";
 import { toEditConcept } from "../../util/routeHelpers";
@@ -40,7 +39,7 @@ const CreateConcept = ({ inModal = false, addConceptInModal }: Props) => {
 
   return (
     <>
-      <HelmetWithTracker title={t(`conceptForm.title`)} />
+      <title>{t(`conceptForm.title`)}</title>
       <ConceptForm
         language={i18n.language}
         upsertProps={{ onCreate }}

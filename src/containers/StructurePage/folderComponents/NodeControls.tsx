@@ -11,6 +11,8 @@ import { Button, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import SettingsMenu from "./SettingsMenu";
+import { TaxonomyNodeChild } from "../../../components/Taxonomy/types";
+import { NodeChildWithChildren } from "../../../modules/nodes/nodeQueries";
 
 const StyledButton = styled(Button, {
   base: {
@@ -35,13 +37,13 @@ const Wrapper = styled("div", {
 });
 
 interface Props {
-  node: Node;
+  node: TaxonomyNodeChild | Node;
   jumpToResources?: () => void;
   isMainActive?: boolean;
   resourcesLoading?: boolean;
   rootNodeId: string;
   onCurrentNodeChanged: (node?: Node) => void;
-  nodeChildren: Node[];
+  nodeChildren: NodeChildWithChildren[];
   isLoading: boolean;
 }
 

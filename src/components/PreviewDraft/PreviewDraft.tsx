@@ -39,6 +39,7 @@ export interface FormArticle {
   copyright?: IDraftCopyrightDTO;
   articleType?: string;
   language?: string;
+  disclaimer?: string;
 }
 
 type Props = PreviewArticleV2Props | PreviewFormArticleV2Props;
@@ -54,6 +55,7 @@ export const toFormArticle = (article: IArticleDTO, language: string): FormArtic
     published: article.published,
     copyright: article.copyright,
     language: article.title?.language ?? language,
+    disclaimer: article.disclaimer?.disclaimer,
   };
 };
 

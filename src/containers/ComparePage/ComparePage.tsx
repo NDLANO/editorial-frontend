@@ -58,6 +58,7 @@ const ComparePage = () => {
       visualElement: article.visualElement?.visualElement ?? "",
       published: article.published,
       copyright: article.copyright,
+      disclaimer: article.disclaimer?.disclaimer ?? "",
     };
   }, [article]);
 

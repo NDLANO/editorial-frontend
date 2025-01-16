@@ -52,7 +52,9 @@ export const TransformedPreviewDraft = ({ article, draft, contentType }: Props) 
                   <AccessibilityFill />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent>{article.disclaimer}</PopoverContent>
+              <PopoverContent>
+                <div>{article.disclaimer}</div>
+              </PopoverContent>
             </PopoverRoot>
           ) : null
         }

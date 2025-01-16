@@ -142,7 +142,7 @@ export function getDiff(oldHtml: string, newHtml: string): string {
   const parser = new DOMParser();
   const parsedDiff = parser.parseFromString(unifiedDiff, "text/html");
   parsedDiff.querySelectorAll("del.diffmod").forEach((el) => el.remove());
-  return parsedDiff.body.outerHTML;
+  return parsedDiff.body.innerHTML;
 }
 
 export function diffHTML(oldHtml: string, newHtml: string) {

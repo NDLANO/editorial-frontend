@@ -18,6 +18,7 @@ import { FormField } from "../../components/FormField";
 import { searchGrepCodes } from "../../modules/search/searchApi";
 import { useSearchGrepCodes } from "../../modules/search/searchQueries";
 import { isGrepCodeValid } from "../../util/articleUtil";
+import handleError from "../../util/handleError";
 import { usePaginatedQuery } from "../../util/usePaginatedQuery";
 
 const StyledList = styled("ul", {
@@ -34,7 +35,8 @@ export const convertGrepCodesToObject = async (grepCodes: string[]): Promise<Rec
 
 interface GrepCode {
   code: string;
-  title: string;
+  title?: string;
+  status: "success" | "error";
 }
 
 interface Props {
@@ -58,33 +60,72 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fetchGrepCodeTitles = async (grepCode: string): Promise<GrepCode | undefined> => {
-    const grepCodeTitle = await searchGrepCodes({ codes: [grepCode] });
-    const isGrepCodeSaved = grepCodes[grepCode];
-    if (grepCodeTitle.results.length && !isGrepCodeSaved && isGrepCodeValid(grepCode, prefixFilter)) {
-      return {
-        code: grepCode,
-        title: `${grepCode} - ${grepCodeTitle.results[0].title.title}`,
-      };
-    } else if (!isGrepCodeSaved) {
-      setTimeout(() => {
-        helpers.setError(`${t("errorMessage.grepCodes")}${grepCode}`);
-      }, 0);
+  const fetchGrepCodeTitles = async (newGrepCodes: string[]): Promise<GrepCode[]> => {
+    try {
+      const withoutSavedAndInvalid = newGrepCodes.filter(
+        (code) => !grepCodes[code] && isGrepCodeValid(code, prefixFilter),
+      );
+      if (!withoutSavedAndInvalid.length) return [];
+      const grepCodesData = await searchGrepCodes({ codes: withoutSavedAndInvalid });
+
+      const codes = grepCodesData.results.map((grepCode) => {
+        return {
+          code: grepCode.code,
+          title: `${grepCode.code} - ${grepCode.title.title}`,
+          status: "success",
+        } as GrepCode;
+      });
+
+      const withFailed = codes.concat(
+        newGrepCodes
+          .filter((code) => !codes.some((c) => c?.code === code))
+          .map((code) => ({ code: code, status: "error" }) as GrepCode),
+      );
+      return withFailed;
+    } catch (e) {
+      handleError(e);
+      helpers.setError(t("errorMessage.genericError"));
+      return [];
     }
   };
 
   const updateGrepCodes = async (newValue: string) => {
+    const delimitedValues = newValue.split(",");
     helpers.setError(undefined);
-    const trimmedValue = newValue.toUpperCase().trim();
-    if (field.value.includes(trimmedValue)) {
-      const { [trimmedValue]: _, ...remaining } = grepCodes;
-      setGrepCodes(remaining);
-      helpers.setValue(field.value.filter((v) => v !== trimmedValue));
-    } else {
-      const grepCodeWithName = await fetchGrepCodeTitles(trimmedValue);
-      if (!grepCodeWithName) return;
-      setGrepCodes({ ...grepCodes, [grepCodeWithName.code]: grepCodeWithName.title });
-      helpers.setValue([...field.value, grepCodeWithName.code]);
+
+    const addedGrepCodes = delimitedValues.reduce((acc, v) => {
+      const trimmedValue = v.toUpperCase().trim();
+      // Delete grep code
+      if (field.value.includes(trimmedValue)) {
+        const { [trimmedValue]: _, ...remaining } = grepCodes;
+        setGrepCodes(remaining);
+        helpers.setValue(field.value.filter((v) => v !== trimmedValue));
+        return acc;
+      }
+      //Add grep code
+      return [...acc, trimmedValue];
+    }, [] as string[]);
+    if (!addedGrepCodes.length) return;
+
+    const grepCodesWithName = await fetchGrepCodeTitles(addedGrepCodes);
+    const [success, error] = [
+      grepCodesWithName.filter((obj) => obj?.status === "success"),
+      grepCodesWithName.filter((obj) => obj?.status === "error"),
+    ];
+
+    const updatedGrepCodes = success.reduce(
+      (acc, v) => {
+        helpers.setValue([...field.value, v.code]);
+        return { ...acc, [v.code]: v.title } as Record<string, string>;
+      },
+      grepCodes as Record<string, string>,
+    );
+    setGrepCodes(updatedGrepCodes);
+
+    if (error.length) {
+      setTimeout(() => {
+        helpers.setError(`${t("errorMessage.grepCodes")}${error.map((e) => e.code).join(", ")}`);
+      }, 0);
     }
   };
 

@@ -80,6 +80,9 @@ test("adds and removes image", async ({ page }) => {
 
 test("adds and removes disclaimer", async ({ page }) => {
   await page.getByTestId("create-disclaimer").click();
+  await page.getByTestId("disclaimer-editor").click();
+  await page.keyboard.type("Test disclaimer");
+  await page.getByTestId("disclaimer-save").click();
   await expect(page.getByTestId("delete-disclaimer")).toBeVisible();
   await page.getByTestId("delete-disclaimer").click();
   await expect(page.getByTestId("delete-disclaimer")).toHaveCount(0);

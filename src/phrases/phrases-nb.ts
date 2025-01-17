@@ -877,6 +877,7 @@ const phrases = {
       note: "Notat",
       files: "filopplasting",
       code: "Kode",
+      disclaimer: "Tilgjengelighet",
     },
     previewProductionArticle: {
       button: "Sammenlign gjeldende versjon med sist publiserte versjon",
@@ -1276,6 +1277,11 @@ const phrases = {
       description:
         "Skriv inn koder som starter på riktig format ({{ codes }}) fulgt av ett eller flere siffer. Koder som ikke finnes vil ikke bli opprettet. Tekstene vises på bokmål i ed men korrekt i artikkelvisning.",
     },
+    articleDisclaimer: {
+      title: "Informasjon om tilgjengelighet for hele artikkelen",
+      description:
+        "Skriv inn hva som er utfordrende med innholdet i artikkelen. Du kan også legge til lenker til alternativt innhold. Det er utarbeidet maler for dette. Sjekk disse før du tar i bruk komponenten. ",
+    },
     resourceTypes: {
       label: "Innholdstype og egenskaper",
       placeholder: "Legg til egenskap",
@@ -1573,17 +1579,11 @@ const phrases = {
       deleteTooltip: "Fjern denne revisjonen",
     },
     disclaimer: {
-      edit: "Endre advarselstekst",
-      default:
-        "Dette innholdet er ikke universelt utformet, og noen brukere kan derfor ha problemer med å oppfatte og forstå det.",
-      title: "Universell utforming advarsel",
-      exampleHeader: "Skriv inn hvem som vil få problemer med komponenten og med hva",
-      exampleText:
-        "F.eks. Har du utfordringer med syn eller kognisjon? Da kan du få problemer med å oppfatte og forstå dette innholdet. Du kan istedet bruke denne siden: www.ndla.eksempel.no",
-      exampleLinkText: "Her finner du eksempelsetninger som skal brukes i fritekstfelt",
-      editorHeader: "Skriv inn hvor brukeren finner alternativt innhold",
-      articleId: "Artikkel med alternativt innhold",
-      removeArticle: "Fjern artikkel",
+      edit: "Endre informasjon on tilgjengelighet",
+      title: "Universell utforming - informasjon i løpende tekst",
+      description:
+        "Skriv inn hva som er problemet med komponenten. Det er utarbeidet maler for dette. Sjekk disse før du tar i bruk komponenten.",
+      editorHeader: "Informasjon om tilgjengelighet for enkeltkomponenter",
     },
     copyright: {
       title: "Rediger lisens",

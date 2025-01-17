@@ -14,4 +14,5 @@ export interface DisclaimerElement {
   type: "uu-disclaimer";
   data: UuDisclaimerEmbedData;
   children: Descendant[];
+  isFirstEdit?: boolean;
 }

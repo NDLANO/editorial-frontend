@@ -26,6 +26,9 @@ export type UseTranslationOptions = {
 
 export const useTransformedArticle = ({ draft, language, previewAlt, useDraftConcepts }: UseTranslationOptions) => {
   const transformedContent = usePreviewArticle(draft.content!, language, draft.visualElement, useDraftConcepts);
+  const disclaimerContent = usePreviewArticle(draft?.disclaimer ?? "", language, undefined, false, {
+    enabled: !!draft.disclaimer,
+  });
 
   const article: undefined | ArticleType = useMemo(() => {
     if (!transformedContent.data) return;
@@ -34,13 +37,17 @@ export const useTransformedArticle = ({ draft, language, previewAlt, useDraftCon
       frontendDomain: config.ndlaFrontendDomain,
       articleLanguage: getUpdatedLanguage(draft.language),
     });
+
+    const disclaimer = transform(disclaimerContent?.data ?? "", {});
+
     return {
-      title: parse(draft.title ?? ""),
-      introduction: parse(draft.introduction ?? ""),
+      title: draft.title ? parse(draft.title) : "",
+      introduction: draft.introduction ? parse(draft.introduction) : "",
       content,
       copyright: draft.copyright,
       published: draft.published ? formatDate(draft.published) : "",
       footNotes: [],
+      disclaimer,
     };
   }, [transformedContent.data, draft, previewAlt]);
 

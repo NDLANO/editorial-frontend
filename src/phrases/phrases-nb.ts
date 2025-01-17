@@ -1221,7 +1221,7 @@ const phrases = {
         changeUrlResource: "Rediger ressurs: {{type}}",
         fullscreen: "Åpne i nytt vindu",
         description:
-          "Lenker til ndla-ressurser spesialhåndteres av systemet og vises korrekt på {{url}}. Ndla-ressurser vises med blå bakgrunn og eksterne lenker med gul.",
+          "Lenker til ndla-ressurser spesialhåndteres av systemet og vises korrekt på {{url}}. Interne ressurser vises med lilla bakgrunn og eksterne lenker med blå.",
       },
       footnote: {
         title: "Tittel",

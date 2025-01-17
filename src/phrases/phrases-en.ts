@@ -1221,7 +1221,7 @@ const phrases = {
         changeUrlResource: "Edit resource: {{type}}",
         fullscreen: "Open in new window",
         description:
-          "Links to ndla-resources are handled by the system and are displayed correct on {{url}}. Ndla-resources are shown with blue background and external links with yellow.",
+          "Links to ndla-resources are handled by the system and are displayed correct on {{url}}. Internal resources are shown with purple background and external links with blue.",
       },
       footnote: {
         title: "Title",

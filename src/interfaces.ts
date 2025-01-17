@@ -203,4 +203,5 @@ export interface SearchParams {
   "responsible-ids"?: string;
   "concept-type"?: string;
   "filter-inactive"?: boolean;
+  includeCopyrighted?: boolean;
 }

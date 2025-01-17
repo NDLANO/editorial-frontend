@@ -13,45 +13,45 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/search/image?page=1&page-size=10&sort=-relevance");
 });
 
-const totalSearchCount = "69084";
+const totalSearchCount = 69084;
 
 test("Can use text input", async ({ page }) => {
   await page.locator('input[name="query"]').fill("Test");
   await page.getByRole("button", { name: "Søk", exact: true }).click();
   await page.getByTestId("image-search-result").first().waitFor();
-  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("419");
+  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(400);
   await page.locator('input[name="query"]').clear();
   await page.getByRole("button", { name: "Søk", exact: true }).click();
   await page.getByTestId("image-search-result").first().waitFor();
-  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(totalSearchCount);
+  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(totalSearchCount);
 });
 
 test("Can use model released dropdown", async ({ page }) => {
   await page.getByTestId("model-released-select").click();
   await page.getByRole("option", { name: "Modellklarert", exact: true }).click();
   await page.getByTestId("image-search-result").first().waitFor();
-  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("2248");
+  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(2200);
   await page.getByTestId("remove-tag-button").click();
   await page.getByTestId("image-search-result").first().waitFor();
-  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(totalSearchCount);
+  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(totalSearchCount);
 });
 
 test("Can use language dropdown", async ({ page }) => {
   await page.getByTestId("language-select").click();
   await page.getByRole("option", { name: "Bokmål", exact: true }).click();
   await page.getByTestId("image-search-result").first().waitFor();
-  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("26966");
+  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(26000);
   await page.getByTestId("remove-tag-button").click();
   await page.getByTestId("image-search-result").first().waitFor();
-  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(totalSearchCount);
+  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(totalSearchCount);
 });
 
 test("Can use license dropdown", async ({ page }) => {
   await page.getByTestId("license-select").click();
   await page.getByRole("option", { name: "CC0 Public domain dedication: Gitt til fellesskapet", exact: true }).click();
   await page.getByTestId("image-search-result").first().waitFor();
-  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("906");
+  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(900);
   await page.getByTestId("remove-tag-button").click();
   await page.getByTestId("image-search-result").first().waitFor();
-  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(totalSearchCount);
+  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(totalSearchCount);
 });

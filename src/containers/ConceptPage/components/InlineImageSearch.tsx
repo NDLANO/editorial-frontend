@@ -39,7 +39,7 @@ const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
   const locale: LocaleType = i18n.language;
   const fetchImageWithLocale = (id: number) => fetchImage(id, locale);
   const searchImagesWithParameters = (query?: string, page?: number) => {
-    return postSearchImages({ query, page, pageSize: 16 });
+    return postSearchImages({ query, page, pageSize: 16, includeCopyrighted: true });
   };
 
   useEffect(() => {

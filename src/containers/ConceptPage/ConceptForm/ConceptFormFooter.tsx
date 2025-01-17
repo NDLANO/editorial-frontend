@@ -28,7 +28,6 @@ interface Props {
   isNewlyCreated: boolean;
   showSimpleFooter: boolean;
   onClose?: () => void;
-  responsibleId?: string;
 }
 
 const StyledFormActionsContainer = styled(FormActionsContainer, {
@@ -45,7 +44,6 @@ const ConceptFormFooter = ({
   isNewlyCreated,
   showSimpleFooter,
   onClose,
-  responsibleId,
 }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
@@ -95,7 +93,6 @@ const ConceptFormFooter = ({
         isConcept
         isNewlyCreated={isNewlyCreated}
         hasErrors={isSubmitting || !formIsDirty || disableSave}
-        responsibleId={responsibleId}
       />
       <AlertDialogWrapper
         formIsDirty={formIsDirty}

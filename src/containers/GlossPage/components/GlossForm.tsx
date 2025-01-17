@@ -205,7 +205,6 @@ export const GlossForm = ({
             isNewlyCreated={isNewlyCreated}
             showSimpleFooter={!concept?.id}
             onClose={onClose}
-            responsibleId={concept?.responsible?.responsibleId}
           />
         </FormWrapper>
       )}

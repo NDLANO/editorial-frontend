@@ -39,7 +39,7 @@ import { RichTextIndicator } from "../../RichTextIndicator";
 interface Props {
   onSave: (data: KeyFigureEmbedData) => void;
   initialData: KeyFigureEmbedData;
-  onCancel: () => void;
+  onOpenChange: (open: boolean) => void;
 }
 
 interface KeyFigureFormValue {
@@ -82,7 +82,7 @@ const rules: RulesType<KeyFigureFormValue> = {
   },
 };
 
-const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
+const KeyFigureForm = ({ onSave, initialData, onOpenChange }: Props) => {
   const { t } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
@@ -177,7 +177,7 @@ const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
             </FormField>
           )}
           <FormActionsContainer>
-            <Button variant="secondary" onClick={onCancel}>
+            <Button variant="secondary" onClick={() => onOpenChange(false)}>
               {t("cancel")}
             </Button>
             <Button disabled={!isFormikFormDirty({ values, initialValues, dirty }) || !isValid} type="submit">

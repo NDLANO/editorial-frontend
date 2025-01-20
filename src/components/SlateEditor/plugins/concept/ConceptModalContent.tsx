@@ -46,7 +46,7 @@ interface Props {
   concept?: IConceptDTO;
   createConcept: (createdConcept: INewConceptDTO) => Promise<IConceptDTO>;
   handleRemove: () => void;
-  onClose: () => void;
+  onOpenChange: (open: boolean) => void;
   locale: string;
   selectedText?: string;
   subjects: Node[];
@@ -56,7 +56,7 @@ interface Props {
 }
 
 const ConceptModalContent = ({
-  onClose,
+  onOpenChange,
   subjects,
   locale,
   handleRemove,
@@ -128,7 +128,7 @@ const ConceptModalContent = ({
   return (
     <div>
       <DialogHeader>
-        <DialogCloseButton onClick={onClose} />
+        <DialogCloseButton onClick={() => onOpenChange(false)} />
       </DialogHeader>
       <DialogBody>
         {!!concept?.id && <Button onClick={handleRemove}>{t(`form.content.${concept.conceptType}.remove`)}</Button>}
@@ -180,7 +180,7 @@ const ConceptModalContent = ({
                 <GlossForm
                   onUpserted={addConcept}
                   inModal
-                  onClose={onClose}
+                  onOpenChange={onOpenChange}
                   subjects={subjects}
                   upsertProps={upsertProps}
                   language={locale}
@@ -193,7 +193,7 @@ const ConceptModalContent = ({
                 <ConceptForm
                   onUpserted={addConcept}
                   inModal
-                  onClose={onClose}
+                  onOpenChange={onOpenChange}
                   subjects={subjects}
                   upsertProps={upsertProps}
                   language={locale}

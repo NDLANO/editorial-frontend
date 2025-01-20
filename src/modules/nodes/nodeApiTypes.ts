@@ -33,6 +33,7 @@ export interface GetChildNodesParams {
   recursive?: boolean;
   includeContexts?: boolean;
   filterProgrammes?: boolean;
+  isVisible?: boolean;
 }
 
 export interface GetNodeResourcesParams {
@@ -42,4 +43,5 @@ export interface GetNodeResourcesParams {
   type?: string;
   includeContexts?: boolean;
   filterProgrammes?: boolean;
+  isVisible?: boolean;
 }

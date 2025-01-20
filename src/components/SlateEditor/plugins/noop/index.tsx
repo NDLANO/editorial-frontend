@@ -10,6 +10,7 @@ import { Descendant, Editor, Element, Transforms, Text } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_NOOP } from "./types";
 import { SlateSerializer } from "../../interfaces";
+import { inlineElements } from "../../utils/normalizationHelpers";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
 import { isParagraph } from "../paragraph/utils";
 
@@ -46,10 +47,23 @@ export const noopPlugin = (editor: Editor) => {
           });
           return;
         }
-        if (isParagraph(child) && !child.serializeAsText) {
+        const containsInlineBlock = !!child.children.find(
+          (n) => Element.isElement(n) && inlineElements.includes(n.type),
+        );
+
+        if (isParagraph(child) && !child.serializeAsText && !containsInlineBlock) {
           Transforms.setNodes(
             editor,
             { type: TYPE_PARAGRAPH, serializeAsText: true },
+            { at: path, match: (n) => isParagraph(n) },
+          );
+          return;
+        }
+
+        if (isParagraph(child) && containsInlineBlock && child.serializeAsText) {
+          Transforms.setNodes(
+            editor,
+            { type: TYPE_PARAGRAPH, serializeAsText: false },
             { at: path, match: (n) => isParagraph(n) },
           );
         }

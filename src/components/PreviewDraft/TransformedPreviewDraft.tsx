@@ -9,10 +9,19 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { AccessibilityFill } from "@ndla/icons";
-import { Button, PopoverContent, PopoverRoot, PopoverTrigger } from "@ndla/primitives";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+} from "@ndla/primitives";
 import { ArticleType, ArticleTitle, ArticleContent, ArticleFooter, ArticleByline } from "@ndla/ui";
 import { FormArticle } from "./PreviewDraft";
 import { getUpdatedLanguage } from "./useTransformedArticle";
+import { DialogCloseButton } from "../DialogCloseButton";
 
 interface Props {
   article: ArticleType;
@@ -45,17 +54,23 @@ export const TransformedPreviewDraft = ({ article, draft, contentType }: Props) 
         lang={getUpdatedLanguage(draft.language)}
         disclaimer={
           disclaimerExists ? (
-            <PopoverRoot>
-              <PopoverTrigger asChild>
+            <DialogRoot>
+              <DialogTrigger asChild>
                 <Button variant="secondary" size="small">
                   {t("uuDisclaimer.title")}
                   <AccessibilityFill />
                 </Button>
-              </PopoverTrigger>
-              <PopoverContent>
-                <div>{article.disclaimer}</div>
-              </PopoverContent>
-            </PopoverRoot>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>{t("uuDisclaimer.title")}</DialogTitle>
+                  <DialogCloseButton />
+                </DialogHeader>
+                <DialogBody>
+                  <div>{article.disclaimer}</div>
+                </DialogBody>
+              </DialogContent>
+            </DialogRoot>
           ) : null
         }
       />

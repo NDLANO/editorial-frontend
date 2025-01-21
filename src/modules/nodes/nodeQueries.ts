@@ -184,6 +184,7 @@ const fetchChildNodesWithArticleType = async ({
     language,
     recursive: true,
     nodeType,
+    isVisible: false,
   });
   if (childNodes.length === 0) return [];
 

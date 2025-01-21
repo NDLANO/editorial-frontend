@@ -10,11 +10,21 @@ import { useFormikContext } from "formik";
 import { isKeyHotkey } from "is-hotkey";
 import isEqual from "lodash/isEqual";
 import { FocusEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from "slate";
+import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms, Element, Path } from "slate";
 import { withHistory } from "slate-history";
-import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
+import { Slate, Editable, withReact, RenderLeafProps, ReactEditor, RenderElementProps } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
 import { useFieldContext } from "@ark-ui/react";
+import {
+  closestCenter,
+  DndContext,
+  DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import "../DisplayEmbed/helpers/h5pResizer";
@@ -24,7 +34,6 @@ import { Action, commonActions } from "./plugins/blockPicker/actions";
 import { BlockPickerOptions, createBlockpickerOptions } from "./plugins/blockPicker/options";
 import SlateBlockPicker from "./plugins/blockPicker/SlateBlockPicker";
 import { TYPE_DEFINITION_LIST } from "./plugins/definitionList/types";
-import { onDragOver, onDragStart, onDrop } from "./plugins/DND";
 import { TYPE_HEADING } from "./plugins/heading/types";
 import { TYPE_LIST } from "./plugins/list/types";
 import { TYPE_PARAGRAPH } from "./plugins/paragraph/types";
@@ -229,13 +238,6 @@ const RichTextEditor = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onDragStartCallback = useCallback(onDragStart(editor), []);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onDragOverCallback = useCallback(onDragOver(), []);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onDropCallback = useCallback(onDrop(editor), []);
-
   // Deselect selection if focus is moved to any other element than the toolbar
   const onBlur = useCallback(
     (e: FocusEvent<HTMLDivElement>) => {
@@ -319,6 +321,53 @@ const RichTextEditor = ({
     [additionalOnKeyDown, editor],
   );
 
+  const onDragEnd = (dragEvent: DragEndEvent) => {
+    const overId = dragEvent.over?.data.current?.nodeId;
+    const activeId = dragEvent.active.id;
+    const dropAreaPosition = dragEvent.over?.data.current?.position;
+    if (!(dropAreaPosition === "top" || dropAreaPosition === "bottom")) return;
+
+    const [entry1, entry2] = editor.nodes({
+      match: (n) => {
+        return Element.isElement(n) && (n.id === activeId || n.id === overId);
+      },
+      at: [],
+    });
+
+    if (!entry1 || !("id" in entry1[0]) || !entry2) {
+      return;
+    }
+
+    const [, overPath] = entry1[0].id === overId ? entry1 : entry2;
+    const [, activePath] = entry1[0].id === activeId ? entry1 : entry2;
+
+    let targetPath = overPath;
+    // TODO: this logic needs to be adjusted for nested elements
+    // Move node to top or bottom based on drop area
+    if (dropAreaPosition === "top") {
+      if (Path.isBefore(overPath, activePath)) {
+        targetPath = overPath;
+      } else {
+        targetPath = Path.previous(overPath);
+      }
+    } else if (dropAreaPosition === "bottom") {
+      if (Path.isBefore(overPath, activePath)) {
+        targetPath = Path.next(overPath);
+      } else {
+        targetPath = overPath;
+      }
+    }
+    if (Path.equals(activePath, targetPath) || Path.isAncestor(activePath, targetPath)) return;
+    Transforms.moveNodes(editor, { mode: "lowest", at: activePath, to: targetPath });
+  };
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+
   return (
     <article className={noArticleStyling ? undefined : "ndla-article"}>
       <ArticleLanguageProvider language={language}>
@@ -338,21 +387,20 @@ const RichTextEditor = ({
                       {...createBlockpickerOptions(blockpickerOptions)}
                     />
                   )}
-                  <StyledEditable
-                    {...fieldProps}
-                    aria-labelledby={labelledBy}
-                    {...rest}
-                    onBlur={onBlur}
-                    decorate={decorations}
-                    onKeyDown={handleKeyDown}
-                    placeholder={placeholder}
-                    renderElement={renderElement}
-                    renderLeaf={renderLeaf}
-                    readOnly={submitted}
-                    onDragStart={onDragStartCallback}
-                    onDragOver={onDragOverCallback}
-                    onDrop={onDropCallback}
-                  />
+                  <DndContext sensors={sensors} onDragEnd={onDragEnd} collisionDetection={closestCenter}>
+                    <StyledEditable
+                      {...fieldProps}
+                      aria-labelledby={labelledBy}
+                      {...rest}
+                      onBlur={onBlur}
+                      decorate={decorations}
+                      onKeyDown={handleKeyDown}
+                      placeholder={placeholder}
+                      renderElement={renderElement}
+                      renderLeaf={renderLeaf}
+                      readOnly={submitted}
+                    />
+                  </DndContext>
                 </>
               )}
             </Slate>

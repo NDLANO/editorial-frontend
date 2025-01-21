@@ -23,7 +23,6 @@ import { copyrightPlugin } from "../../../../components/SlateEditor/plugins/copy
 import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList";
 import { detailsPlugin } from "../../../../components/SlateEditor/plugins/details";
 import { divPlugin } from "../../../../components/SlateEditor/plugins/div";
-import { dndPlugin } from "../../../../components/SlateEditor/plugins/DND";
 import { embedPlugin } from "../../../../components/SlateEditor/plugins/embed";
 import { externalPlugin } from "../../../../components/SlateEditor/plugins/external";
 import { filePlugin } from "../../../../components/SlateEditor/plugins/file";
@@ -85,7 +84,6 @@ export const frontpagePlugins: SlatePlugin[] = [
   codeblockPlugin,
   keyFigurePlugin,
   blockPickerPlugin,
-  dndPlugin,
   toolbarPlugin(),
   textTransformPlugin,
   breakPlugin,

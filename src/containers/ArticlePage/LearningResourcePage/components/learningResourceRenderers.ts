@@ -20,6 +20,7 @@ import { copyrightRenderer } from "../../../../components/SlateEditor/plugins/co
 import { definitionListRenderer } from "../../../../components/SlateEditor/plugins/definitionList/render";
 import { detailsRenderer } from "../../../../components/SlateEditor/plugins/details/render";
 import { divRenderer } from "../../../../components/SlateEditor/plugins/div/render";
+import { draggableElementRenderer } from "../../../../components/SlateEditor/plugins/DND/render";
 import { embedRenderer } from "../../../../components/SlateEditor/plugins/embed/render";
 import { externalRenderer } from "../../../../components/SlateEditor/plugins/external/render";
 import { fileRenderer } from "../../../../components/SlateEditor/plugins/file/render";
@@ -64,9 +65,9 @@ export const learningResourceRenderers: SlatePlugin[] = [
   commentInlineRenderer,
   commentBlockRenderer,
   headingRenderer,
-  // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
-  // // Blockquote and editList actions need to be triggered before paragraph action, else
-  // // unwrapping (jumping out of block) will not work.
+  // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
+  // Blockquote and editList actions need to be triggered before paragraph action, else
+  // unwrapping (jumping out of block) will not work.
   tableRenderer,
   relatedRenderer,
   fileRenderer,
@@ -79,4 +80,5 @@ export const learningResourceRenderers: SlatePlugin[] = [
   gridRenderer,
   disclaimerRenderer,
   copyrightRenderer,
+  draggableElementRenderer,
 ];

@@ -13,7 +13,6 @@ import { commentInlinePlugin } from "../../../../components/SlateEditor/plugins/
 import { inlineConceptPlugin } from "../../../../components/SlateEditor/plugins/concept/inline";
 import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList";
 import { divPlugin } from "../../../../components/SlateEditor/plugins/div";
-import { dndPlugin } from "../../../../components/SlateEditor/plugins/DND";
 import { headingPlugin } from "../../../../components/SlateEditor/plugins/heading";
 import { linkPlugin } from "../../../../components/SlateEditor/plugins/link";
 import { listPlugin } from "../../../../components/SlateEditor/plugins/list";
@@ -46,7 +45,6 @@ export const topicArticlePlugins: SlatePlugin[] = [
   commentInlinePlugin,
   mathmlPlugin,
   markPlugin,
-  dndPlugin,
   toolbarPlugin(),
   textTransformPlugin,
   breakPlugin,

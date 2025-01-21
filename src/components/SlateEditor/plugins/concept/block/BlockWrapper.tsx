@@ -142,7 +142,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
 
   return (
     <DialogRoot size="large" open={isEditing} onOpenChange={({ open }) => setIsEditing(open)}>
-      <StyledEmbedWrapper {...attributes} data-solid-border={isSelected} draggable={true} contentEditable={false}>
+      <StyledEmbedWrapper {...attributes} data-solid-border={isSelected} contentEditable={false}>
         {!!concept && !!embed && (
           <>
             <ConceptButtonContainer

@@ -21,7 +21,6 @@ import { copyrightPlugin } from "../../../../components/SlateEditor/plugins/copy
 import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList";
 import { detailsPlugin } from "../../../../components/SlateEditor/plugins/details";
 import { divPlugin } from "../../../../components/SlateEditor/plugins/div";
-import { dndPlugin } from "../../../../components/SlateEditor/plugins/DND";
 import { embedPlugin } from "../../../../components/SlateEditor/plugins/embed";
 import { externalPlugin } from "../../../../components/SlateEditor/plugins/external";
 import { filePlugin } from "../../../../components/SlateEditor/plugins/file";
@@ -35,6 +34,7 @@ import { linkPlugin } from "../../../../components/SlateEditor/plugins/link";
 import { listPlugin } from "../../../../components/SlateEditor/plugins/list";
 import { markPlugin } from "../../../../components/SlateEditor/plugins/mark";
 import { mathmlPlugin } from "../../../../components/SlateEditor/plugins/mathml";
+import { nodeIdPlugin } from "../../../../components/SlateEditor/plugins/nodeId";
 import { paragraphPlugin } from "../../../../components/SlateEditor/plugins/paragraph";
 import { relatedPlugin } from "../../../../components/SlateEditor/plugins/related";
 import saveHotkeyPlugin from "../../../../components/SlateEditor/plugins/saveHotkey";
@@ -68,16 +68,15 @@ export const learningResourcePlugins: SlatePlugin[] = [
   headingPlugin,
   asidePlugin,
   detailsPlugin,
-  // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
-  // // Blockquote and editList actions need to be triggered before paragraph action, else
-  // // unwrapping (jumping out of block) will not work.
+  // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
+  // Blockquote and editList actions need to be triggered before paragraph action, else
+  // unwrapping (jumping out of block) will not work.
   tablePlugin,
   relatedPlugin,
   filePlugin,
   mathmlPlugin,
   codeblockPlugin,
   blockPickerPlugin,
-  dndPlugin,
   toolbarPlugin(),
   textTransformPlugin,
   breakPlugin,
@@ -88,4 +87,5 @@ export const learningResourcePlugins: SlatePlugin[] = [
   gridPlugin,
   disclaimerPlugin,
   copyrightPlugin,
+  nodeIdPlugin,
 ];

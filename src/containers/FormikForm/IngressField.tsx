@@ -43,6 +43,7 @@ interface Props {
   maxLength?: number;
   type?: string;
   placeholder?: string;
+  showMaxLength?: boolean;
 }
 
 const toolbarOptions = createToolbarDefaultValues({

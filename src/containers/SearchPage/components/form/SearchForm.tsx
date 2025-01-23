@@ -80,7 +80,7 @@ export const parseSearchParams = <T extends boolean>(locationSearch: string, par
     sort: { key: "sort", data: queryStringObject.sort },
     subjects: { key: "subjects", data: queryStringObject.subjects?.split(",") },
     users: { key: "users", data: queryStringObject.users?.split(",") },
-    license: { key: "license", data: queryStringObject.license },
+    license: { key: "license", data: queryStringObject.license ?? "all" },
   } as const;
 
   return Object.entries(searchBodyKeyMapping).reduce(

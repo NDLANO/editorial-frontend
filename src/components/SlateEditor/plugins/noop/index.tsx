@@ -51,6 +51,7 @@ export const noopPlugin = (editor: Editor) => {
           (n) => Element.isElement(n) && inlineElements.includes(n.type),
         );
 
+        // Don't serialize single paragraph block without inlines as Paragraph
         if (isParagraph(child) && !child.serializeAsText && !containsInlineBlock) {
           Transforms.setNodes(
             editor,
@@ -60,6 +61,7 @@ export const noopPlugin = (editor: Editor) => {
           return;
         }
 
+        // Serialize single paragraph block that contains inlines as Paragraph
         if (isParagraph(child) && containsInlineBlock && child.serializeAsText) {
           Transforms.setNodes(
             editor,
@@ -70,6 +72,7 @@ export const noopPlugin = (editor: Editor) => {
         return;
       }
 
+      // If multiple blocks serialize as paragraphs
       if (node?.children.length > 1) {
         Transforms.setNodes(
           editor,

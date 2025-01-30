@@ -8,7 +8,7 @@
 
 import isEmpty from "lodash/isEmpty";
 import { Descendant } from "slate";
-import { ILicense, IUpdatedArticle, IArticle, IRevisionMeta } from "@ndla/types-backend/draft-api";
+import { ILicenseDTO, IUpdatedArticleDTO, IArticleDTO, IRevisionMetaDTO } from "@ndla/types-backend/draft-api";
 import { ARCHIVED, PUBLISHED, UNPUBLISHED, Revision } from "../../constants";
 import {
   editorValueToEmbedTag,
@@ -48,7 +48,7 @@ const getPublishedDate = (values: ArticleFormType, initialValues: ArticleFormTyp
 export const RESET_COMMENTS_STATUSES = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 
 const getCommentsDraftApiToArticleFormType = (
-  article: IArticle | undefined,
+  article: IArticleDTO | undefined,
   articleType: string,
 ): SlateCommentType[] => {
   if (!article?.comments) return [];
@@ -62,7 +62,7 @@ const getCommentsDraftApiToArticleFormType = (
 };
 
 const draftApiTypeToArticleFormType = (
-  article: IArticle | undefined,
+  article: IArticleDTO | undefined,
   language: string,
   articleType: string,
   ndlaId: string | undefined,
@@ -103,11 +103,12 @@ const draftApiTypeToArticleFormType = (
     responsibleId: article === undefined ? ndlaId : article?.responsible?.responsibleId,
     comments: getCommentsDraftApiToArticleFormType(article, articleType),
     priority: article?.priority ?? "unspecified",
+    disclaimer: inlineContentToEditorValue(article?.disclaimer?.disclaimer ?? "", true),
   };
 };
 
 export const draftApiTypeToLearningResourceFormType = (
-  article: IArticle | undefined,
+  article: IArticleDTO | undefined,
   language: string,
   ndlaId: string | undefined,
 ): LearningResourceFormType => {
@@ -117,7 +118,7 @@ export const draftApiTypeToLearningResourceFormType = (
 };
 
 export const draftApiTypeToFrontpageArticleFormType = (
-  article: IArticle | undefined,
+  article: IArticleDTO | undefined,
   language: string,
   ndlaId: string | undefined,
 ): FrontpageArticleFormType => {
@@ -127,7 +128,7 @@ export const draftApiTypeToFrontpageArticleFormType = (
 };
 
 export const draftApiTypeToTopicArticleFormType = (
-  article: IArticle | undefined,
+  article: IArticleDTO | undefined,
   language: string,
   ndlaId: string | undefined,
 ): TopicArticleFormType => {
@@ -140,9 +141,9 @@ export const draftApiTypeToTopicArticleFormType = (
 export const learningResourceFormTypeToDraftApiType = (
   article: LearningResourceFormType,
   initialValues: LearningResourceFormType,
-  licenses: ILicense[],
+  licenses: ILicenseDTO[],
   preview = false,
-): IUpdatedArticle => {
+): IUpdatedArticleDTO => {
   const metaImage = article.metaImageId
     ? { id: article.metaImageId, alt: article.metaImageAlt ?? "" }
     : nullOrUndefined(article.metaImageId);
@@ -174,15 +175,16 @@ export const learningResourceFormTypeToDraftApiType = (
     responsibleId: article.responsibleId,
     comments: article.comments?.map((c) => ({ ...c, content: inlineContentToHTML(c.content) })),
     priority: article.priority ?? "unspecified",
+    disclaimer: article.disclaimer ? inlineContentToHTML(article.disclaimer) : undefined,
   };
 };
 
 export const frontpageArticleFormTypeToDraftApiType = (
   article: FrontpageArticleFormType,
   initialValues: FrontpageArticleFormType,
-  licenses: ILicense[],
+  licenses: ILicenseDTO[],
   preview = false,
-): IUpdatedArticle => {
+): IUpdatedArticleDTO => {
   const metaImage = article.metaImageId
     ? { id: article.metaImageId, alt: article.metaImageAlt ?? "" }
     : nullOrUndefined(article.metaImageId);
@@ -221,9 +223,9 @@ export const frontpageArticleFormTypeToDraftApiType = (
 export const topicArticleFormTypeToDraftApiType = (
   article: TopicArticleFormType,
   initialValues: TopicArticleFormType,
-  licenses: ILicense[],
+  licenses: ILicenseDTO[],
   preview = false,
-): IUpdatedArticle => {
+): IUpdatedArticleDTO => {
   const metaImage = article.metaImageId
     ? { id: article.metaImageId, alt: article.metaImageAlt ?? "" }
     : nullOrUndefined(article.metaImageId);
@@ -262,7 +264,7 @@ export const topicArticleFormTypeToDraftApiType = (
   };
 };
 
-export const getExpirationDate = (article?: { revisions: IRevisionMeta[] }): string | undefined => {
+export const getExpirationDate = (article?: { revisions: IRevisionMetaDTO[] }): string | undefined => {
   if (!article) return undefined;
 
   const withParsed =

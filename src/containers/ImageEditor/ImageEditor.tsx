@@ -13,7 +13,7 @@ import { PercentCrop } from "react-image-crop";
 import { AlignCenter, AlignLeft, AlignRight, CropLine, FocusMode } from "@ndla/icons";
 import { Button, IconButton, ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import ImageTransformEditor from "./ImageTransformEditor";
 import { FormField } from "../../components/FormField";
 import { ImageEmbedFormValues } from "../../components/SlateEditor/plugins/image/ImageEmbedForm";
@@ -72,7 +72,7 @@ const defaultData: Record<string, Partial<ImageEmbedFormValues>> = {
 
 interface Props {
   language: string;
-  image: IImageMetaInformationV3;
+  image: IImageMetaInformationV3DTO;
 }
 
 type StateProp = "crop" | "focalPoint" | "none";
@@ -162,9 +162,9 @@ const ImageEditor = ({ language, image }: Props) => {
             <StyledToggleGroupRoot
               value={[field.value]}
               onValueChange={(details) => {
-                const val = details.value[0];
+                const val = details.value[0] ?? "";
                 helpers.setValue(val);
-                if (val === "center") {
+                if (val !== "right" && val !== "left") {
                   setFieldValue("size", "full");
                 }
               }}

@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { SettingsLine } from "@ndla/icons";
+import { MoreFill } from "@ndla/icons";
 import {
   DialogContent,
   DialogHeader,
@@ -21,6 +21,8 @@ import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import SettingsMenuDropdownType from "./SettingsMenuDropdownType";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
+import { TaxonomyNodeChild } from "../../../components/Taxonomy/types";
+import { NodeChildWithChildren } from "../../../modules/nodes/nodeQueries";
 import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
 
 const StyledDialogBody = styled(DialogBody, {
@@ -30,9 +32,9 @@ const StyledDialogBody = styled(DialogBody, {
 });
 
 interface Props {
-  node: Node;
+  node: TaxonomyNodeChild | Node;
   rootNodeId: string;
-  nodeChildren: Node[];
+  nodeChildren: NodeChildWithChildren[];
   onCurrentNodeChanged: (node?: Node) => void;
 }
 
@@ -49,7 +51,7 @@ const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: 
           data-testid="settings-button"
           aria-label={t(`taxonomy.${nodeType.toLowerCase()}Settings`)}
         >
-          <SettingsLine />
+          <MoreFill />
         </IconButton>
       </DialogTrigger>
       <DialogContent data-testid="settings-menu-dialog">

@@ -7,13 +7,13 @@
  */
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { IFrontPage } from "@ndla/types-backend/frontpage-api";
+import { IFrontPageDTO } from "@ndla/types-backend/frontpage-api";
 import { postFrontpage } from "./frontpageApi";
 import { frontpageQueryKeys } from "./frontpageQueries";
 
 export const useUpdateFrontpageMutation = () => {
   const qc = useQueryClient();
-  return useMutation<IFrontPage, unknown, IFrontPage>({
+  return useMutation<IFrontPageDTO, unknown, IFrontPageDTO>({
     mutationFn: postFrontpage,
     onSettled: () => qc.invalidateQueries({ queryKey: frontpageQueryKeys.frontpage }),
   });

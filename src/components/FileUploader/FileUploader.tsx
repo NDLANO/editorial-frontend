@@ -191,6 +191,7 @@ const FileUploader = ({ onFileSave, close }: Props) => {
 };
 
 const allowedFiletypes = [
+  ".3mf",
   ".csv",
   ".doc",
   ".docx",

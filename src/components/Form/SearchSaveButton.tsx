@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IUserData } from "@ndla/types-backend/draft-api";
+import { IUserDataDTO } from "@ndla/types-backend/draft-api";
 import { Filters } from "../../components/Form/SearchTagGroup";
 import SaveButton from "../../components/SaveButton";
 import { SearchType } from "../../interfaces";
@@ -61,7 +61,7 @@ const createSearchString = (location: Location) => {
 interface Props {
   filters: Filters;
   searchContentType: SearchType;
-  userData?: IUserData | undefined;
+  userData?: IUserDataDTO | undefined;
 }
 
 const SearchSaveButton = ({ filters, searchContentType, userData }: Props) => {

@@ -7,8 +7,8 @@
  */
 
 import { Node as SlateNode } from "slate";
-import { IConcept, ILicense, INewConcept, IUpdatedConcept } from "@ndla/types-backend/concept-api";
-import { IArticle } from "@ndla/types-backend/draft-api";
+import { IConceptDTO, ILicenseDTO, INewConceptDTO, IUpdatedConceptDTO } from "@ndla/types-backend/concept-api";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import { ConceptFormValues, ConceptType } from "./conceptInterfaces";
 import { IN_PROGRESS } from "../../constants";
@@ -23,10 +23,10 @@ import {
 import { parseImageUrl } from "../../util/formHelper";
 
 export const conceptApiTypeToFormType = (
-  concept: IConcept | undefined,
+  concept: IConceptDTO | undefined,
   language: string,
   subjects: Node[],
-  articles: IArticle[],
+  articles: IArticleDTO[],
   ndlaId: string | undefined,
   initialTitle = "",
   conceptType?: ConceptType,
@@ -81,9 +81,9 @@ const metaImageFromForm = (v: ConceptFormValues) =>
 
 export const getNewConceptType = (
   values: ConceptFormValues,
-  licenses: ILicense[],
+  licenses: ILicenseDTO[],
   conceptType: ConceptType,
-): INewConcept => ({
+): INewConceptDTO => ({
   language: values.language,
   title: editorValueToPlainText(values.title),
   content: blockContentToHTML(values.conceptContent),
@@ -116,9 +116,9 @@ export const getNewConceptType = (
 
 export const getUpdatedConceptType = (
   values: ConceptFormValues,
-  licenses: ILicense[],
+  licenses: ILicenseDTO[],
   conceptType: ConceptType,
-): IUpdatedConcept => {
+): IUpdatedConceptDTO => {
   const newConcept = getNewConceptType(values, licenses, conceptType);
   return {
     ...newConcept,
@@ -129,10 +129,10 @@ export const getUpdatedConceptType = (
 
 export const conceptFormTypeToApiType = (
   values: ConceptFormValues,
-  licenses: ILicense[],
+  licenses: ILicenseDTO[],
   conceptType: ConceptType,
   updatedBy?: string[],
-): IConcept => {
+): IConceptDTO => {
   return {
     id: values.id ?? -1,
     revision: values.revision ?? -1,

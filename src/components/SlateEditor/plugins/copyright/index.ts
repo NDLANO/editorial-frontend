@@ -6,11 +6,10 @@
  *
  */
 
-import type { JSX } from "react";
 import { Descendant, Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_COPYRIGHT } from "./types";
-import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
+import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import {
@@ -26,7 +25,7 @@ export const copyrightSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
-    const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes));
+    const embedAttributes = parseElementAttributes(Array.from(embed.attributes));
     if (embedAttributes.resource !== TYPE_COPYRIGHT) return;
     return slatejsx(
       "element",
@@ -34,9 +33,15 @@ export const copyrightSerializer: SlateSerializer = {
       children,
     );
   },
-  serialize(node: Descendant, children: JSX.Element[]) {
+  serialize(node, children) {
     if (!Element.isElement(node) || node.type !== TYPE_COPYRIGHT || !node.data) return;
-    return createEmbedTagV2({ ...node.data, copyright: JSON.stringify(node.data.copyright) }, children, undefined);
+    // TODO: Create global replace method to handle stringified objects
+    const data = createDataAttributes({
+      ...node.data,
+      copyright: JSON.stringify(node.data.copyright),
+    });
+
+    return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true, children });
   },
 };
 

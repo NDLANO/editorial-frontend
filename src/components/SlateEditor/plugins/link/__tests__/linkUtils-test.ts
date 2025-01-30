@@ -16,6 +16,7 @@ import {
   isNDLATaxonomyUrl,
   isNDLAEdPathUrl,
   isPlainId,
+  isNDLATaxonomyContextUrl,
 } from "../utils";
 
 test("urls are parsed correctly", async () => {
@@ -25,7 +26,7 @@ test("urls are parsed correctly", async () => {
     "http://www.test.ndla.no/en/article/64323",
   ];
 
-  const subjectUrls = [
+  const taxonomyUrls = [
     "https://api.test.ndla.no/en/subjects/subject:3/topic:1:2342/resource:1:64323",
     "https://api.test.ndla.no/subject:3/topic:1:2342/resource:1:64323",
     "https://ndla-frontend.api.test.ndla.no/sma/subject:3/topic:1:2342/resource:1:64323",
@@ -42,6 +43,12 @@ test("urls are parsed correctly", async () => {
     "https://www.staging.ndla.no/subject:3/topic:1:2342/resource:1:64323",
     "https://www.test.ndla.no/en/subject:3/topic:1:2342/resource:1:64323",
     "https://www.test.ndla.no/subject:3/topic:1:2342/resource:1:64323",
+  ];
+
+  const taxonomyContextUrls = [
+    "https://ndla.no/r/06b775d81a",
+    "https://ndla.no/r/kroppsoving-vg1/kroppslig-laring-og-parkour-okt-1/06b775d81a",
+    "https://ndla.no/e/kroppsoving-vg3/parkour/f9d2bbbb98",
   ];
 
   const learningPathUrls = [
@@ -79,14 +86,25 @@ test("urls are parsed correctly", async () => {
     expect(isNDLATaxonomyUrl(url)).toBe(false);
     expect(isNDLAEdPathUrl(url)).toBe(false);
     expect(isPlainId(url)).toBe(false);
+    expect(isNDLATaxonomyContextUrl(url)).toBe(false);
   });
 
-  subjectUrls.forEach((url) => {
+  taxonomyUrls.forEach((url) => {
     expect(isNDLAArticleUrl(url)).toBe(false);
     expect(isNDLALearningPathUrl(url)).toBe(false);
     expect(isNDLATaxonomyUrl(url)).toBe(true);
     expect(isNDLAEdPathUrl(url)).toBe(false);
     expect(isPlainId(url)).toBe(false);
+    expect(isNDLATaxonomyContextUrl(url)).toBe(false);
+  });
+
+  taxonomyContextUrls.forEach((url) => {
+    expect(isNDLAArticleUrl(url)).toBe(false);
+    expect(isNDLALearningPathUrl(url)).toBe(false);
+    expect(isNDLATaxonomyUrl(url)).toBe(false);
+    expect(isNDLAEdPathUrl(url)).toBe(false);
+    expect(isPlainId(url)).toBe(false);
+    expect(isNDLATaxonomyContextUrl(url)).toBe(true);
   });
 
   learningPathUrls.forEach((url) => {
@@ -103,6 +121,7 @@ test("urls are parsed correctly", async () => {
     expect(isNDLATaxonomyUrl(url)).toBe(false);
     expect(isNDLAEdPathUrl(url)).toBe(true);
     expect(isPlainId(url)).toBe(false);
+    expect(isNDLATaxonomyContextUrl(url)).toBe(false);
   });
 
   plainIds.forEach((url) => {
@@ -111,6 +130,7 @@ test("urls are parsed correctly", async () => {
     expect(isNDLATaxonomyUrl(url)).toBe(false);
     expect(isNDLAEdPathUrl(url)).toBe(false);
     expect(isPlainId(url)).toBe(true);
+    expect(isNDLATaxonomyContextUrl(url)).toBe(false);
   });
 
   otherUrls.forEach((url) => {
@@ -119,6 +139,7 @@ test("urls are parsed correctly", async () => {
     expect(isNDLATaxonomyUrl(url)).toBe(false);
     expect(isNDLAEdPathUrl(url)).toBe(false);
     expect(isPlainId(url)).toBe(false);
+    expect(isNDLATaxonomyContextUrl(url)).toBe(false);
   });
 });
 

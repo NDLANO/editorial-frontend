@@ -7,6 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
+import { FieldRoot } from "@ndla/primitives";
 import { OnFieldChangeFunction, SearchParams } from "../../interfaces";
 import ObjectSelector, { SelectOption } from "../ObjectSelector";
 
@@ -27,14 +28,15 @@ export const SelectRenderer = ({ selectElements, searchObject, onFieldChange }: 
   return (
     <>
       {selectElements.map((selectElement) => (
-        <ObjectSelector
-          key={selectElement.name}
-          name={selectElement.name}
-          placeholder={t(`searchForm.types.${selectElement.name}`)}
-          value={selectElement.value ?? (searchObject[selectElement.name] as string) ?? ""}
-          options={selectElement.options}
-          onChange={(value) => onFieldChange(selectElement.name, value)}
-        />
+        <FieldRoot key={selectElement.name}>
+          <ObjectSelector
+            name={selectElement.name}
+            placeholder={t(`searchForm.types.${selectElement.name}`)}
+            value={selectElement.value ?? (searchObject[selectElement.name] as string) ?? ""}
+            options={selectElement.options}
+            onChange={(value) => onFieldChange(selectElement.name, value)}
+          />
+        </FieldRoot>
       ))}
     </>
   );

@@ -173,7 +173,7 @@ export const defaultAreaOptions: AreaFilters = {
   },
   "definition-list": {
     block: { quote: { disabled: true } },
-    inline: { disabled: true },
+    inline: { disabled: true, "comment-inline": { disabled: false } },
   },
   quote: { inline: { disabled: true } },
 };

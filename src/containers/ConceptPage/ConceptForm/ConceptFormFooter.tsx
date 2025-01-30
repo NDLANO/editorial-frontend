@@ -10,7 +10,7 @@ import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IStatus } from "@ndla/types-backend/concept-api";
+import { IStatusDTO } from "@ndla/types-backend/concept-api";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import SaveButton from "../../../components/SaveButton";
 import EditorFooter from "../../../components/SlateEditor/EditorFooter";
@@ -21,7 +21,7 @@ import { AlertDialogWrapper } from "../../FormikForm";
 import { ConceptFormValues } from "../conceptInterfaces";
 
 interface Props {
-  entityStatus?: IStatus;
+  entityStatus?: IStatusDTO;
   conceptChanged: boolean;
   inModal?: boolean;
   savedToServer: boolean;

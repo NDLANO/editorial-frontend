@@ -25,7 +25,7 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
       aria-describedby="dialog::r3::description"
       aria-label="Pass på!"
       aria-modal="true"
-      class="emotion-0 pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% emotion-1 w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
+      class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
       data-part="content"
       data-scope="dialog"
       data-state="open"
@@ -49,7 +49,7 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
         </h1>
         <button
           aria-label="Lukk"
-          class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset emotion-2 h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+          class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
           data-part="close-trigger"
           data-scope="dialog"
           data-testid="closeAlert"
@@ -136,7 +136,7 @@ exports[`Messages > A single message renders correctly 1`] = `
       aria-describedby="dialog::r0::description"
       aria-label="Pass på!"
       aria-modal="true"
-      class="emotion-0 pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% emotion-1 w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
+      class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
       data-part="content"
       data-scope="dialog"
       data-state="open"
@@ -160,7 +160,7 @@ exports[`Messages > A single message renders correctly 1`] = `
         </h1>
         <button
           aria-label="Lukk"
-          class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset emotion-2 h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+          class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
           data-part="close-trigger"
           data-scope="dialog"
           data-testid="closeAlert"
@@ -245,7 +245,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
       aria-describedby="dialog::r1::description"
       aria-label="Pass på!"
       aria-modal="true"
-      class="emotion-0 pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% emotion-1 w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
+      class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
       data-part="content"
       data-scope="dialog"
       data-state="open"
@@ -269,7 +269,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
         </h1>
         <button
           aria-label="Lukk"
-          class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset emotion-2 h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+          class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
           data-part="close-trigger"
           data-scope="dialog"
           data-testid="closeAlert"
@@ -345,7 +345,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
       aria-describedby="dialog::r2::description"
       aria-label="Pass på!"
       aria-modal="true"
-      class="emotion-0 pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% emotion-1 w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
+      class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
       data-part="content"
       data-scope="dialog"
       data-state="open"
@@ -369,7 +369,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
         </h1>
         <button
           aria-label="Lukk"
-          class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset emotion-2 h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+          class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
           data-part="close-trigger"
           data-scope="dialog"
           data-testid="closeAlert"
@@ -454,7 +454,7 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
       aria-describedby="dialog::r4::description"
       aria-label="Pass på!"
       aria-modal="true"
-      class="emotion-0 pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% emotion-1 w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
+      class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
       data-part="content"
       data-scope="dialog"
       data-state="open"
@@ -478,7 +478,7 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
         </h1>
         <button
           aria-label="Lukk"
-          class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset emotion-2 h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+          class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
           data-part="close-trigger"
           data-scope="dialog"
           data-testid="closeAlert"

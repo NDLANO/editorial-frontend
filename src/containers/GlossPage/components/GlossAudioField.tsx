@@ -22,7 +22,7 @@ import {
   Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ISearchParams } from "@ndla/types-backend/audio-api";
+import { ISearchParamsDTO } from "@ndla/types-backend/audio-api";
 import { AudioEmbedData } from "@ndla/types-embed";
 import { AudioPlayer, useAudioSearchTranslations } from "@ndla/ui";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
@@ -43,12 +43,12 @@ const AudioWrapper = styled("div", {
   },
 });
 
-interface LocalAudioSearchParams extends ISearchParams {
+interface LocalAudioSearchParams extends ISearchParamsDTO {
   locale?: string;
 }
 const searchAudios = (query: LocalAudioSearchParams) => {
   // AudioSearch passes values that are not accepted by the API. They must be altered to have the correct key.
-  const correctedSearchBody: ISearchParams = {
+  const correctedSearchBody: ISearchParamsDTO = {
     language: query.language ?? query.locale,
     page: query.page,
     query: query.query,

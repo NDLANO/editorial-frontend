@@ -9,7 +9,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { IImageMetaInformationV3, IUpdateImageMetaInformation } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3DTO, IUpdateImageMetaInformationDTO } from "@ndla/types-backend/image-api";
 import ImageForm from "./components/ImageForm";
 import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
@@ -51,7 +51,7 @@ const EditImage = ({ isNewlyCreated }: Props) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const [loading, setLoading] = useState(true);
   const { applicationError, createMessage } = useMessages();
-  const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
+  const [image, setImage] = useState<IImageMetaInformationV3DTO | undefined>(undefined);
   const { shouldTranslate, translate, translating } = useTranslateToNN();
   const imageLicenses = draftLicensesToImageLicenses(licenses ?? []);
 
@@ -78,7 +78,7 @@ const EditImage = ({ isNewlyCreated }: Props) => {
     })();
   }, [shouldTranslate, translate, image, loading]);
 
-  const onUpdate = async (updatedImage: IUpdateImageMetaInformation, image: string | Blob) => {
+  const onUpdate = async (updatedImage: IUpdateImageMetaInformationDTO, image: string | Blob) => {
     const formData = await createFormData(image, updatedImage);
 
     try {

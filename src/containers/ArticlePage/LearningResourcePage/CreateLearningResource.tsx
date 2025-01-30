@@ -8,8 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { HelmetWithTracker } from "@ndla/tracker";
-import { IUpdatedArticle } from "@ndla/types-backend/draft-api";
+import { IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import LearningResourceForm from "./components/LearningResourceForm";
 import { convertUpdateToNewDraft } from "../../../util/articleUtil";
 import { toEditArticle } from "../../../util/routeHelpers";
@@ -21,7 +20,7 @@ const CreateLearningResource = () => {
   const locale = i18n.language;
   const { createArticle } = useFetchArticleData(undefined, locale);
 
-  const createArticleAndPushRoute = async (createdArticle: IUpdatedArticle) => {
+  const createArticleAndPushRoute = async (createdArticle: IUpdatedArticleDTO) => {
     const savedArticle = await createArticle(convertUpdateToNewDraft(createdArticle));
     navigate(toEditArticle(savedArticle.id, savedArticle.articleType, createdArticle.language));
     return savedArticle;
@@ -29,7 +28,7 @@ const CreateLearningResource = () => {
 
   return (
     <>
-      <HelmetWithTracker title={t("htmlTitles.createLearningResourcePage")} />
+      <title>{t("htmlTitles.createLearningResourcePage")}</title>
       <LearningResourceForm
         updateArticle={createArticleAndPushRoute}
         articleChanged={false}

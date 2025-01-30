@@ -65,6 +65,7 @@ const StructureResources = ({ currentChildNode, setCurrentNode, showQuality, use
       language: i18n.language,
       includeContexts: true,
       filterProgrammes: true,
+      isVisible: false,
       taxonomyVersion,
     },
     {

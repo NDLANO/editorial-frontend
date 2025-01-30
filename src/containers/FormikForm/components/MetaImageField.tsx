@@ -11,7 +11,7 @@ import { DeleteBinLine, LinkMedium } from "@ndla/icons";
 import { FieldErrorMessage, FieldInput, FieldRoot, IconButton, FieldLabel, Image } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { FieldWarning } from "../../../components/Form/FieldWarning";
 import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
 import { FormField } from "../../../components/FormField";
@@ -34,7 +34,7 @@ const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
 interface Props {
   disableAltEditing?: boolean;
   hideAltText?: boolean;
-  image: IImageMetaInformationV3;
+  image: IImageMetaInformationV3DTO;
   onImageRemove: () => void;
   showRemoveButton: boolean;
   onImageLoad?: (width: number, height: number) => void;

@@ -11,14 +11,35 @@ import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IUpdatedArticle, IArticle } from "@ndla/types-backend/draft-api";
+import { IUpdatedArticleDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node, TaxonomyContext } from "@ndla/types-taxonomy";
 import LearningResourceContent from "./LearningResourceContent";
 import LearningResourceTaxonomy from "./LearningResourceTaxonomy";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../../components/Accordion/FormAccordions";
 import QualityEvaluation from "../../../../components/QualityEvaluation/QualityEvaluation";
+import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import { IsNewArticleLanguageProvider } from "../../../../components/SlateEditor/IsNewArticleLanguageProvider";
+import { breakPlugin } from "../../../../components/SlateEditor/plugins/break";
+import { breakRenderer } from "../../../../components/SlateEditor/plugins/break/render";
+import { linkPlugin } from "../../../../components/SlateEditor/plugins/link";
+import { linkRenderer } from "../../../../components/SlateEditor/plugins/link/render";
+import { markPlugin } from "../../../../components/SlateEditor/plugins/mark";
+import { markRenderer } from "../../../../components/SlateEditor/plugins/mark/render";
+import { noopPlugin } from "../../../../components/SlateEditor/plugins/noop";
+import { noopRenderer } from "../../../../components/SlateEditor/plugins/noop/render";
+import { paragraphPlugin } from "../../../../components/SlateEditor/plugins/paragraph";
+import { paragraphRenderer } from "../../../../components/SlateEditor/plugins/paragraph/render";
+import saveHotkeyPlugin from "../../../../components/SlateEditor/plugins/saveHotkey";
+import { spanPlugin } from "../../../../components/SlateEditor/plugins/span";
+import { spanRenderer } from "../../../../components/SlateEditor/plugins/span/render";
+import { textTransformPlugin } from "../../../../components/SlateEditor/plugins/textTransform";
+import { toolbarPlugin } from "../../../../components/SlateEditor/plugins/toolbar";
+import { createToolbarDefaultValues } from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
+import {
+  DisclaimerField,
+  toolbarAreaFilters,
+} from "../../../../components/SlateEditor/plugins/uuDisclaimer/DisclaimerField";
 import config from "../../../../config";
 import { STORED_HIDE_COMMENTS, TAXONOMY_WRITE_SCOPE } from "../../../../constants";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
@@ -31,6 +52,45 @@ import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChange
 import RelatedContentFieldGroup from "../../components/RelatedContentFieldGroup";
 import RevisionNotes from "../../components/RevisionNotes";
 import { FlatArticleKeys } from "../../components/types";
+
+const toolbarOptions = createToolbarDefaultValues({
+  text: {
+    hidden: true,
+  },
+  mark: {
+    code: {
+      hidden: true,
+    },
+  },
+  block: { hidden: true },
+  inline: {
+    hidden: true,
+    "content-link": { hidden: false },
+  },
+});
+
+export const disclaimerPlugins: SlatePlugin[] = [
+  spanPlugin,
+  paragraphPlugin,
+  toolbarPlugin(toolbarOptions, toolbarAreaFilters),
+  textTransformPlugin,
+  breakPlugin,
+  saveHotkeyPlugin,
+  markPlugin,
+  noopPlugin,
+  linkPlugin,
+];
+
+const renderers: SlatePlugin[] = [
+  noopRenderer,
+  paragraphRenderer,
+  markRenderer,
+  breakRenderer,
+  spanRenderer,
+  linkRenderer,
+];
+
+const plugins = disclaimerPlugins.concat(renderers);
 
 const StyledWrapper = styled("div", {
   base: {
@@ -57,13 +117,14 @@ const StyledControls = styled("div", {
 });
 
 interface Props {
-  article?: IArticle;
-  articleHistory: IArticle[] | undefined;
+  article?: IArticleDTO;
+  articleHistory: IArticleDTO[] | undefined;
   taxonomy?: Node[];
-  updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
+  updateNotes: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
   articleLanguage: string;
   contexts?: TaxonomyContext[];
+  submitted: boolean;
 }
 
 const LearningResourcePanels = ({
@@ -74,6 +135,7 @@ const LearningResourcePanels = ({
   articleLanguage,
   contexts,
   handleSubmit,
+  submitted,
 }: Props) => {
   const [hideComments, setHideComments] = useLocalStorageBooleanState(STORED_HIDE_COMMENTS);
   const [revisionMetaField, , revisionMetaHelpers] = useField<ArticleFormType["revisionMeta"]>("revisionMeta");
@@ -177,7 +239,20 @@ const LearningResourcePanels = ({
             title={t("form.name.grepCodes")}
             hasError={!!errors.grepCodes}
           >
-            <GrepCodesField />
+            <GrepCodesField prefixFilter={["KE", "KM", "TT"]} />
+          </FormAccordion>
+          <FormAccordion
+            id="learning-resource-disclaimer"
+            title={t("form.name.disclaimer")}
+            hasError={!!errors.disclaimer}
+          >
+            <DisclaimerField
+              submitted={submitted}
+              title={t("form.articleDisclaimer.title")}
+              description={t("form.articleDisclaimer.description")}
+              plugins={plugins}
+              toolbarOptions={toolbarOptions}
+            />
           </FormAccordion>
           {config.ndlaEnvironment === "test" && (
             <FormAccordion

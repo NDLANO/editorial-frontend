@@ -23,7 +23,7 @@ import {
   Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticle, IEditorNote } from "@ndla/types-backend/draft-api";
+import { IArticleDTO, IEditorNoteDTO } from "@ndla/types-backend/draft-api";
 import AddNotesField from "./AddNotesField";
 import VersionActionbuttons from "./VersionActionButtons";
 import { FormField } from "../../components/FormField";
@@ -107,8 +107,8 @@ const getUser = (userId: string, allUsers: SimpleUserType[]) => {
 };
 
 interface Props {
-  article: IArticle;
-  articleHistory: IArticle[] | undefined;
+  article: IArticleDTO;
+  articleHistory: IArticleDTO[] | undefined;
   type: "standard" | "topic-article";
   currentLanguage: string;
 }
@@ -124,13 +124,13 @@ const VersionAndNotesPanel = ({ article, articleHistory, type, currentLanguage }
 
   useEffect(() => {
     if (articleHistory?.length) {
-      const notes = articleHistory.reduce((acc: IEditorNote[], v) => [...acc, ...v.notes], []);
+      const notes = articleHistory.reduce((acc: IEditorNoteDTO[], v) => [...acc, ...v.notes], []);
       const userIds = notes.map((note) => note.user).filter((user) => user !== "System");
       fetchAuth0UsersFromUserIds(userIds, setUsers);
     }
   }, [articleHistory]);
 
-  const cleanupNotes = (notes: IEditorNote[]) =>
+  const cleanupNotes = (notes: IEditorNoteDTO[]) =>
     notes.map((note, idx) => ({
       ...note,
       id: idx,
@@ -139,9 +139,9 @@ const VersionAndNotesPanel = ({ article, articleHistory, type, currentLanguage }
       status: t(`form.status.${note.status.current.toLowerCase()}`),
     }));
 
-  const resetVersion = async (version: IArticle, language: string, showFromArticleApi: boolean) => {
+  const resetVersion = async (version: IArticleDTO, language: string, showFromArticleApi: boolean) => {
     try {
-      let newArticle: IArticle = version;
+      let newArticle: IArticleDTO = version;
       if (showFromArticleApi) {
         const articleApiArticle = await articleApi.getArticle(article.id, language);
         newArticle = {

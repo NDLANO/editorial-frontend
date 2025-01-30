@@ -9,8 +9,7 @@
 import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { HelmetWithTracker } from "@ndla/tracker";
-import { IUpdatedConcept } from "@ndla/types-backend/concept-api";
+import { IUpdatedConceptDTO } from "@ndla/types-backend/concept-api";
 import { GlossForm } from "./components/GlossForm";
 import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
@@ -48,7 +47,7 @@ const EditGloss = ({ isNewlyCreated }: Props) => {
   const { shouldTranslate, translate, translating } = useTranslateToNN();
 
   const onUpdate = useCallback(
-    (concept: IUpdatedConcept) => {
+    (concept: IUpdatedConceptDTO) => {
       return updateConcept(conceptId, concept);
     },
     [conceptId, updateConcept],
@@ -73,7 +72,7 @@ const EditGloss = ({ isNewlyCreated }: Props) => {
 
   return (
     <>
-      <HelmetWithTracker title={`${concept.title.title} ${t("htmlTitles.titleTemplate")}`} />
+      <title>{`${concept.title.title} ${t("htmlTitles.titleTemplate")}`}</title>
       <GlossForm
         inModal={false}
         concept={concept}

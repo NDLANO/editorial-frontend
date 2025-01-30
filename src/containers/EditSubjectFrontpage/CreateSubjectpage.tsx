@@ -8,8 +8,7 @@
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { PageContainer } from "@ndla/primitives";
-import { HelmetWithTracker } from "@ndla/tracker";
-import { INewSubjectFrontPageData } from "@ndla/types-backend/frontpage-api";
+import { INewSubjectFrontPageDataDTO } from "@ndla/types-backend/frontpage-api";
 import SubjectpageForm from "./components/SubjectpageForm";
 import { LocaleType } from "../../interfaces";
 import { toEditSubjectpage } from "../../util/routeHelpers";
@@ -30,7 +29,7 @@ const CreateSubjectpage = () => {
   const navigate = useNavigate();
   const { createSubjectpage } = useFetchSubjectpageData(elementId, selectedLanguage, undefined);
 
-  const createSubjectpageAndPushRoute = async (createdSubjectpage: INewSubjectFrontPageData) => {
+  const createSubjectpageAndPushRoute = async (createdSubjectpage: INewSubjectFrontPageDataDTO) => {
     const savedSubjectpage = await createSubjectpage(createdSubjectpage);
     const savedId = savedSubjectpage?.id;
     if (savedId) {
@@ -42,7 +41,7 @@ const CreateSubjectpage = () => {
   return (
     <PageContainer asChild consumeCss>
       <main>
-        <HelmetWithTracker title={t("htmlTitles.createSubjectpage")} />
+        <title>{t("htmlTitles.createSubjectpage")}</title>
         <SubjectpageForm
           selectedLanguage={selectedLanguage}
           elementName={elementName}

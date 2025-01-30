@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { PageContent, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { HelmetWithTracker } from "@ndla/tracker";
 import { ArticleWrapper } from "@ndla/ui";
 import PreviewDraft from "../../components/PreviewDraft/PreviewDraft";
 import { useDraft } from "../../modules/draft/draftQueries";
@@ -59,6 +58,7 @@ const ComparePage = () => {
       visualElement: article.visualElement?.visualElement ?? "",
       published: article.published,
       copyright: article.copyright,
+      disclaimer: article.disclaimer?.disclaimer ?? "",
     };
   }, [article]);
 
@@ -71,7 +71,7 @@ const ComparePage = () => {
 
   return (
     <>
-      <HelmetWithTracker title={t("htmlTitles.comparePage")} />
+      <title>{t("htmlTitles.comparePage")}</title>
       <TwoArticleWrapper>
         <PageContent variant="content" asChild>
           <ArticleWrapper>

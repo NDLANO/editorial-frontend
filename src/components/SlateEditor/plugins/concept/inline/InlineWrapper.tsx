@@ -24,7 +24,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
+import { IConceptDTO, IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { ConceptEmbedData, ConceptMetaData } from "@ndla/types-embed";
 import { ConceptEmbed, Concept, Gloss, ConceptInlineTriggerButton } from "@ndla/ui";
 import { ConceptInlineElement } from "./interfaces";
@@ -39,7 +39,7 @@ import EditGlossExamplesModal from "../EditGlossExamplesModal";
 import { getGlossDataAttributes } from "../utils";
 
 const getConceptDataAttributes = (
-  concept: IConcept | IConceptSummary,
+  concept: IConceptDTO | IConceptSummaryDTO,
   title: string,
   locale: string,
 ): ConceptEmbedData => ({
@@ -138,7 +138,7 @@ const InlineWrapper = (props: Props) => {
     }
   };
 
-  const addConcept = (addedConcept: IConceptSummary | IConcept) => {
+  const addConcept = (addedConcept: IConceptSummaryDTO | IConceptDTO) => {
     setIsEditing(false);
     handleSelectionChange(true);
     const data = getConceptDataAttributes(addedConcept, nodeText, locale);

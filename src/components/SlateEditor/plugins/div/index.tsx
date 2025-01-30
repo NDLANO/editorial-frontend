@@ -6,10 +6,10 @@
  *
  */
 
-import type { JSX } from "react";
 import { Editor, Element, Descendant } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_DIV } from "./types";
+import { createHtmlTag } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 
 export interface DivElement {
@@ -32,7 +32,7 @@ export const divSerializer: SlateSerializer = {
       children,
     );
   },
-  serialize(node: Descendant, children: JSX.Element[]) {
+  serialize(node, children) {
     if (!Element.isElement(node)) return;
     if (node.type !== TYPE_DIV) return;
 
@@ -42,7 +42,7 @@ export const divSerializer: SlateSerializer = {
       on seriaization.
      */
 
-    return <div>{children}</div>;
+    return createHtmlTag({ tag: "div", children });
   },
 };
 

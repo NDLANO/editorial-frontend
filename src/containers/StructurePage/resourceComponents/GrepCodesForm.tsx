@@ -26,13 +26,14 @@ interface Props {
   codes: string[];
   onUpdate: (grepCodes: string[]) => Promise<void>;
   close?: () => void;
+  prefixFilter: string[];
 }
 
 interface Values {
   grepCodes: string[];
 }
 
-const GrepCodesForm = ({ codes, onUpdate, close }: Props) => {
+const GrepCodesForm = ({ codes, onUpdate, close, prefixFilter }: Props) => {
   const { t } = useTranslation();
   const initialValues = { grepCodes: codes };
   const [error, setError] = useState(false);
@@ -59,7 +60,7 @@ const GrepCodesForm = ({ codes, onUpdate, close }: Props) => {
         return (
           <FormWrapper inModal>
             <FormContent>
-              <GrepCodesField />
+              <GrepCodesField prefixFilter={prefixFilter} />
               <FormActionsContainer>
                 {!!close && (
                   <Button variant="secondary" onClick={close}>

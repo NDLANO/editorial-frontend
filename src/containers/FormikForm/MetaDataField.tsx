@@ -27,7 +27,7 @@ import {
   RadioGroupRoot,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { MetaImageSearch } from ".";
 import { FieldWarning } from "../../components/Form/FieldWarning";
@@ -52,7 +52,7 @@ const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
 interface Props {
   articleLanguage: string;
   showCheckbox?: boolean;
-  checkboxAction?: (image: IImageMetaInformationV3) => void;
+  checkboxAction?: (image: IImageMetaInformationV3DTO) => void;
 }
 
 const availabilityValues: string[] = ["everyone", "teacher"];

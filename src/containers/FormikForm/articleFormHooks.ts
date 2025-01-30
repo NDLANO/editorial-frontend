@@ -11,7 +11,14 @@ import { TFunction } from "i18next";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Descendant } from "slate";
 import { UseQueryResult } from "@tanstack/react-query";
-import { IArticle, ILicense, IStatus, IUpdatedArticle, IAuthor, IComment } from "@ndla/types-backend/draft-api";
+import {
+  IArticleDTO,
+  ILicenseDTO,
+  IStatusDTO,
+  IUpdatedArticleDTO,
+  IAuthorDTO,
+  ICommentDTO,
+} from "@ndla/types-backend/draft-api";
 import { getWarnings, RulesType } from "../../components/formikValidationSchema";
 import { PUBLISHED } from "../../constants";
 import { RelatedContent } from "../../interfaces";
@@ -35,14 +42,14 @@ const deleteRemovedFiles = async (oldArticleContent: string, newArticleContent: 
   return Promise.all(pathsToDelete.map((path) => deleteFile(path)));
 };
 
-export type SlateCommentType = Omit<IComment, "content"> & { content: Descendant[] };
+export type SlateCommentType = Omit<ICommentDTO, "content"> & { content: Descendant[] };
 
 export interface ArticleFormType {
   articleType: string;
   availability: string;
   conceptIds: number[];
   content: Descendant[];
-  creators: IAuthor[];
+  creators: IAuthorDTO[];
   grepCodes: string[];
   id?: number;
   introduction: Descendant[];
@@ -52,12 +59,12 @@ export interface ArticleFormType {
   metaImageAlt: string;
   metaImageId: string;
   notes: string[];
-  processors: IAuthor[];
+  processors: IAuthorDTO[];
   published?: string;
   relatedContent: RelatedContent[];
   revision?: number;
-  rightsholders: IAuthor[];
-  status?: IStatus;
+  rightsholders: IAuthorDTO[];
+  status?: IStatusDTO;
   supportedLanguages: string[];
   tags: string[];
   title: Descendant[];
@@ -73,10 +80,11 @@ export interface ArticleFormType {
   // This field is only used for error checking in revisions
   revisionError?: string;
   slug?: string;
-  comments?: (Omit<IComment, "content"> & { content: Descendant[] })[];
+  comments?: (Omit<ICommentDTO, "content"> & { content: Descendant[] })[];
   priority: string;
   processed: boolean;
   origin?: string;
+  disclaimer?: Descendant[];
 }
 
 export interface LearningResourceFormType extends ArticleFormType {}
@@ -88,17 +96,17 @@ export interface TopicArticleFormType extends ArticleFormType {
 export interface FrontpageArticleFormType extends ArticleFormType {}
 
 type HooksInputObject<T extends ArticleFormType> = {
-  getInitialValues: (article: IArticle | undefined, language: string, ndlaId: string | undefined) => T;
-  article?: IArticle;
+  getInitialValues: (article: IArticleDTO | undefined, language: string, ndlaId: string | undefined) => T;
+  article?: IArticleDTO;
   t: TFunction;
-  articleStatus?: IStatus;
-  updateArticle: (art: IUpdatedArticle) => Promise<IArticle>;
-  licenses?: ILicense[];
-  getArticleFromSlate: (values: T, initialValues: T, licenses: ILicense[], preview?: boolean) => IUpdatedArticle;
+  articleStatus?: IStatusDTO;
+  updateArticle: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
+  licenses?: ILicenseDTO[];
+  getArticleFromSlate: (values: T, initialValues: T, licenses: ILicenseDTO[], preview?: boolean) => IUpdatedArticleDTO;
   articleLanguage: string;
-  rules?: RulesType<T, IArticle>;
+  rules?: RulesType<T, IArticleDTO>;
   ndlaId?: string;
-  articleHistory: UseQueryResult<IArticle[]> | undefined;
+  articleHistory: UseQueryResult<IArticleDTO[]> | undefined;
 };
 
 export type HandleSubmitFunc<T> = (values: T, formikHelpers: FormikHelpers<T>, saveAsNew?: boolean) => Promise<void>;
@@ -144,7 +152,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
 
       const newArticle = saveAsNew ? { ...slateArticle, createNewVersion: true } : slateArticle;
 
-      let savedArticle: IArticle;
+      let savedArticle: IArticleDTO;
       try {
         savedArticle = await updateArticle({
           ...newArticle,

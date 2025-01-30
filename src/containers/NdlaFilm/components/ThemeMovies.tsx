@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { Draggable } from "@ndla/icons";
 import { ComboboxLabel, FieldRoot, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
@@ -41,7 +41,7 @@ interface Props {
 export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder, comboboxLabel }: Props) => {
   const { i18n, t } = useTranslation();
   const [localMovies, setLocalMovies] = useState<string[]>([]);
-  const [apiMovies, setApiMovies] = useState<IMultiSearchSummary[]>([]);
+  const [apiMovies, setApiMovies] = useState<IMultiSearchSummaryDTO[]>([]);
   const moviesQuery = useMoviesQuery({ movieUrns: movies }, { enabled: !isEqual(movies, localMovies) });
 
   const { query, page, setPage, delayedQuery, setQuery } = usePaginatedQuery();
@@ -67,7 +67,7 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder, comboboxLabe
     }
   }, [apiMovies.length, moviesQuery.data?.results, moviesQuery.isSuccess]);
 
-  const onUpdateMovies = (updates: IMultiSearchSummary[]) => {
+  const onUpdateMovies = (updates: IMultiSearchSummaryDTO[]) => {
     const updated = updates.map((u) => getUrnFromId(u.id));
     setApiMovies(updates);
     setLocalMovies(updated);

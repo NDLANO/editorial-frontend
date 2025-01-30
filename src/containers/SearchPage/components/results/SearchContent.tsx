@@ -12,7 +12,7 @@ import { ErrorWarningFill, CheckLine, CodeView, ChatLine, GlobalLine } from "@nd
 import { ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
 import { ContentTypeBadge, constants } from "@ndla/ui";
 import SearchHighlight from "./SearchHighlight";
@@ -25,13 +25,13 @@ import { isLearningpath, routes } from "../../../../util/routeHelpers";
 import { useSession } from "../../../Session/SessionProvider";
 
 interface Props {
-  content: IMultiSearchSummary;
+  content: IMultiSearchSummaryDTO;
   locale: string;
   responsibleName?: string;
   subjects: Node[];
 }
 
-const SubjectBreadcrumb = ({ content, subjects }: { content: IMultiSearchSummary; subjects: Node[] }) => {
+const SubjectBreadcrumb = ({ content, subjects }: { content: IMultiSearchSummaryDTO; subjects: Node[] }) => {
   const breadcrumbs = useMemo(() => {
     if (content.learningResourceType === "gloss" || content.learningResourceType === "concept") {
       return subjects.filter((s) => content.conceptSubjectIds?.includes(s.id)).map((bc) => bc.name);

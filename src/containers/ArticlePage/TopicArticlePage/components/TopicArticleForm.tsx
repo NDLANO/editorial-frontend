@@ -11,7 +11,7 @@ import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult } from "@tanstack/react-query";
 import { Button } from "@ndla/primitives";
-import { IUpdatedArticle, IArticle, IStatus } from "@ndla/types-backend/draft-api";
+import { IUpdatedArticleDTO, IArticleDTO, IStatusDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import TopicArticleAccordionPanels from "./TopicArticleAccordionPanels";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
@@ -34,12 +34,12 @@ import {
 } from "../../articleTransformers";
 
 interface Props {
-  article?: IArticle;
-  articleHistory?: UseQueryResult<IArticle[]>;
+  article?: IArticleDTO;
+  articleHistory?: UseQueryResult<IArticleDTO[]>;
   articleTaxonomy?: Node[];
   revision?: number;
-  updateArticle: (art: IUpdatedArticle) => Promise<IArticle>;
-  articleStatus?: IStatus;
+  updateArticle: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
+  articleStatus?: IStatusDTO;
   articleChanged: boolean;
   isNewlyCreated: boolean;
   supportedLanguages: string[];
@@ -166,7 +166,7 @@ const TopicArticleForm = ({
 
 interface FormFooterProps {
   articleChanged: boolean;
-  article?: IArticle;
+  article?: IArticleDTO;
   isNewlyCreated: boolean;
   savedToServer: boolean;
   handleSubmit: (

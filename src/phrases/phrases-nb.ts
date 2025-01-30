@@ -877,6 +877,7 @@ const phrases = {
       note: "Notat",
       files: "filopplasting",
       code: "Kode",
+      disclaimer: "Tilgjengelighet",
     },
     previewProductionArticle: {
       button: "Sammenlign gjeldende versjon med sist publiserte versjon",
@@ -1220,7 +1221,7 @@ const phrases = {
         changeUrlResource: "Rediger ressurs: {{type}}",
         fullscreen: "Åpne i nytt vindu",
         description:
-          "Lenker til ndla-ressurser spesialhåndteres av systemet og vises korrekt på {{url}}. Ndla-ressurser vises med blå bakgrunn og eksterne lenker med gul.",
+          "Lenker til ndla-ressurser spesialhåndteres av systemet og vises korrekt på {{url}}. Interne ressurser vises med lilla bakgrunn og eksterne lenker med blå.",
       },
       footnote: {
         title: "Tittel",
@@ -1274,7 +1275,12 @@ const phrases = {
       label: "Kompetansemål og kjerneelementer",
       placeholder: "Skriv inn kode",
       description:
-        "Skriv inn koder på formatet K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2. Koder som ikke finnes vil ikke bli opprettet. Separer flere koder med komma. Tekstene vises på bokmål i ed men korrekt i artikkelvisning.",
+        "Skriv inn koder som starter på riktig format ({{ codes }}) fulgt av ett eller flere siffer. Koder som ikke finnes vil ikke bli opprettet. Tekstene vises på bokmål i ed men korrekt i artikkelvisning.",
+    },
+    articleDisclaimer: {
+      title: "Informasjon om tilgjengelighet for hele artikkelen",
+      description:
+        "Skriv inn hva som er utfordrende med innholdet i artikkelen. Du kan også legge til lenker til alternativt innhold. Det er utarbeidet maler for dette. Sjekk disse før du tar i bruk komponenten. ",
     },
     resourceTypes: {
       label: "Innholdstype og egenskaper",
@@ -1573,17 +1579,11 @@ const phrases = {
       deleteTooltip: "Fjern denne revisjonen",
     },
     disclaimer: {
-      edit: "Endre advarselstekst",
-      default:
-        "Dette innholdet er ikke universelt utformet, og noen brukere kan derfor ha problemer med å oppfatte og forstå det.",
-      title: "Universell utforming advarsel",
-      exampleHeader: "Skriv inn hvem som vil få problemer med komponenten og med hva",
-      exampleText:
-        "F.eks. Har du utfordringer med syn eller kognisjon? Da kan du få problemer med å oppfatte og forstå dette innholdet. Du kan istedet bruke denne siden: www.ndla.eksempel.no",
-      exampleLinkText: "Her finner du eksempelsetninger som skal brukes i fritekstfelt",
-      editorHeader: "Skriv inn hvor brukeren finner alternativt innhold",
-      articleId: "Artikkel med alternativt innhold",
-      removeArticle: "Fjern artikkel",
+      edit: "Endre informasjon on tilgjengelighet",
+      title: "Universell utforming - informasjon i løpende tekst",
+      description:
+        "Skriv inn hva som er problemet med komponenten. Det er utarbeidet maler for dette. Sjekk disse før du tar i bruk komponenten.",
+      editorHeader: "Informasjon om tilgjengelighet for enkeltkomponenter",
     },
     copyright: {
       title: "Rediger lisens",
@@ -1666,6 +1666,7 @@ const phrases = {
       SUBJECT: "fag",
       TOPIC: "emne",
     },
+    favorite: { add: "Favorittmarker faget", remove: "Fjern favorittmerking av faget" },
     publishedVersion: "Se publisert versjon",
     noValue: "Ikke satt",
     previewProgrammes: "Forhåndsvis utdanningsprogram i frontend",
@@ -1716,7 +1717,7 @@ const phrases = {
     version: "Versjon",
     createResource: "Opprett ny ressurs",
     addNewPlannedResource: "Opprett ny planlagt ressurs",
-    resourceType: "Kjernestoff eller tilleggstoff",
+    resourceType: { label: "Kjernestoff eller tilleggstoff", tabTitle: "Endre kjernestoff/tilleggsstoff" },
     title: "Tittel",
     comment: "Kommentar",
     commentPlaceholder: "F.eks. innhold, læremål eller grep",

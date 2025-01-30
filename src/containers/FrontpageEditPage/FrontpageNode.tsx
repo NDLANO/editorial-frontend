@@ -13,7 +13,7 @@ import { AddLine, DeleteBinLine, ArrowRightShortLine, EyeFill } from "@ndla/icon
 import { IconButton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
+import { IArticleSummaryV2DTO } from "@ndla/types-backend/article-api";
 import FrontpageArticleSearch from "./FrontpageArticleSearch";
 import FrontpageNodeList, { FRONTPAGE_DEPTH_LIMIT } from "./FrontpageNodeList";
 import { MenuWithArticle } from "./types";
@@ -84,7 +84,7 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
   }, [field.value, index, replace]);
 
   const onAdd = useCallback(
-    (val: IArticleSummaryV2) => {
+    (val: IArticleSummaryV2DTO) => {
       const newMenu: MenuWithArticle = {
         articleId: val.id,
         article: val,

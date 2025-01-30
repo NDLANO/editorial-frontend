@@ -12,11 +12,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { UseQueryResult } from "@tanstack/react-query";
 import { PageContainer } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { HelmetWithTracker } from "@ndla/tracker";
-import { IAudioSummarySearchResult, ISeriesSummarySearchResult } from "@ndla/types-backend/audio-api";
-import { IConceptSearchResult } from "@ndla/types-backend/concept-api";
-import { ISearchResultV3 } from "@ndla/types-backend/image-api";
-import { IMultiSearchResult } from "@ndla/types-backend/search-api";
+import { IAudioSummarySearchResultDTO, ISeriesSummarySearchResultDTO } from "@ndla/types-backend/audio-api";
+import { IConceptSearchResultDTO } from "@ndla/types-backend/concept-api";
+import { ISearchResultV3DTO } from "@ndla/types-backend/image-api";
+import { IMultiSearchResultDTO } from "@ndla/types-backend/search-api";
 import SearchForm, { parseSearchParams } from "./components/form/SearchForm";
 import SearchList from "./components/results/SearchList";
 import SearchListOptions from "./components/results/SearchListOptions";
@@ -38,11 +37,11 @@ const StyledPageContainer = styled(PageContainer, {
 });
 
 export type ResultType =
-  | ISearchResultV3
-  | IConceptSearchResult
-  | ISeriesSummarySearchResult
-  | IAudioSummarySearchResult
-  | IMultiSearchResult;
+  | ISearchResultV3DTO
+  | IConceptSearchResultDTO
+  | ISeriesSummarySearchResultDTO
+  | IAudioSummarySearchResultDTO
+  | IMultiSearchResultDTO;
 
 interface Props {
   type: SearchType;
@@ -97,7 +96,7 @@ const SearchContainer = ({ searchHook, type }: Props) => {
 
   return (
     <>
-      <HelmetWithTracker title={t(`htmlTitles.search.${type}`)} />
+      <title>{t(`htmlTitles.search.${type}`)}</title>
       <StyledPageContainer asChild consumeCss>
         <main>
           <SearchForm

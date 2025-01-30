@@ -10,10 +10,10 @@ import keyBy from "lodash/keyBy";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Spinner, Text } from "@ndla/primitives";
-import { IAudioSummary, ISeriesSummary } from "@ndla/types-backend/audio-api";
-import { IConceptSummary } from "@ndla/types-backend/concept-api";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
-import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import { IAudioSummaryDTO, ISeriesSummaryDTO } from "@ndla/types-backend/audio-api";
+import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
 import SearchResult, { SearchResultReturnType } from "./SearchResult";
 import { LocaleType, SearchParams, SearchType } from "../../../../interfaces";
@@ -21,11 +21,11 @@ import { useAuth0Users } from "../../../../modules/auth0/auth0Queries";
 import { ResultType } from "../../SearchContainer";
 
 export type ResultSummaryType =
-  | IImageMetaInformationV3
-  | IConceptSummary
-  | ISeriesSummary
-  | IAudioSummary
-  | IMultiSearchSummary;
+  | IImageMetaInformationV3DTO
+  | IConceptSummaryDTO
+  | ISeriesSummaryDTO
+  | IAudioSummaryDTO
+  | IMultiSearchSummaryDTO;
 
 interface Props {
   results: ResultType["results"];

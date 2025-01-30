@@ -21,7 +21,7 @@ import {
   DialogTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticle, IArticleSummary, IRelatedContentLink } from "@ndla/types-backend/draft-api";
+import { IArticleDTO, IArticleSummaryDTO, IRelatedContentLinkDTO } from "@ndla/types-backend/draft-api";
 import ContentLink from "./ContentLink";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
@@ -54,8 +54,8 @@ interface Props {
   field: FieldInputProps<ArticleFormType["relatedContent"]>;
 }
 
-const isDraftApiType = (relatedContent: ConvertedRelatedContent): relatedContent is IArticle =>
-  (relatedContent as IArticle).id !== undefined;
+const isDraftApiType = (relatedContent: ConvertedRelatedContent): relatedContent is IArticleDTO =>
+  (relatedContent as IArticleDTO).id !== undefined;
 
 const ContentField = ({ field }: Props) => {
   const { t, i18n } = useTranslation();
@@ -72,7 +72,7 @@ const ContentField = ({ field }: Props) => {
 
   useEffect(() => {
     (async () => {
-      const promises = field.value.map<Promise<ConvertedRelatedContent> | IRelatedContentLink>((element) => {
+      const promises = field.value.map<Promise<ConvertedRelatedContent> | IRelatedContentLinkDTO>((element) => {
         if (typeof element === "number") {
           return fetchDraft(element);
         } else return element;
@@ -83,7 +83,7 @@ const ContentField = ({ field }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onAddArticleToList = async (article: IArticleSummary) => {
+  const onAddArticleToList = async (article: IArticleSummaryDTO) => {
     try {
       if (selectedItems.some((a) => a.id === article.id)) {
         const newRelatedContent = relatedContent.filter((a) => isDraftApiType(a) && a.id !== article.id);
@@ -130,7 +130,8 @@ const ContentField = ({ field }: Props) => {
     () =>
       relatedContent
         .filter(
-          (rc: number | IArticle | IRelatedContentLink): rc is IArticle | IRelatedContentLink => typeof rc !== "number",
+          (rc: number | IArticleDTO | IRelatedContentLinkDTO): rc is IArticleDTO | IRelatedContentLinkDTO =>
+            typeof rc !== "number",
         )
         .map((r, index) => ("id" in r ? r : { ...r, isExternal: true, id: `${r.url}_${index + 1}` })),
     [relatedContent],

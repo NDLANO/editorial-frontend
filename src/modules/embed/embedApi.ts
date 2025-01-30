@@ -7,7 +7,7 @@
  */
 
 import parse from "html-react-parser";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import {
   AudioEmbedData,
   AudioMeta,
@@ -28,14 +28,14 @@ import {
 } from "@ndla/types-embed";
 import { fetchH5PInfo, fetchH5pLicenseInformation, fetchH5pPreviewOembed } from "../../components/H5PElement/h5pApi";
 import { fetchExternalOembed } from "../../util/apiHelpers";
-import { reduceElementDataAttributesV2 } from "../../util/embedTagHelpers";
+import { parseElementAttributes } from "../../util/embedTagHelpers";
 import { fetchAudio } from "../audio/audioApi";
 import { fetchImage } from "../image/imageApi";
 import { fetchBrightcoveSources, fetchBrightcoveVideo, getBrightcoveCopyright } from "../video/brightcoveApi";
 
 export const fetchAudioMeta = async (resourceId: string, language: string): Promise<AudioMeta> => {
   const audio = await fetchAudio(parseInt(resourceId), language);
-  let image: IImageMetaInformationV3 | undefined;
+  let image: IImageMetaInformationV3DTO | undefined;
   if (audio.podcastMeta?.coverPhoto.id) {
     image = await fetchImage(audio.podcastMeta?.coverPhoto.id, language);
   }
@@ -185,7 +185,7 @@ export const fetchConceptVisualElement = async (
     name,
     value,
   }));
-  const embed = reduceElementDataAttributesV2(attributes) as ConceptVisualElement;
+  const embed = parseElementAttributes(attributes) as ConceptVisualElement;
 
   if (embed.resource === "image") {
     return await fetchVisualImageMeta(embed, language);

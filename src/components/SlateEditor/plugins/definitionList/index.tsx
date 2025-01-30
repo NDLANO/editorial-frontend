@@ -6,13 +6,13 @@
  *
  */
 
-import type { JSX } from "react";
 import { Descendant, Editor, Element, Path, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import onBackspace from "./handlers/onBackspace";
 import onEnter from "./handlers/onEnter";
 import onTab from "./handlers/onTab";
 import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from "./types";
+import { createHtmlTag } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { KEY_BACKSPACE, KEY_ENTER, KEY_TAB } from "../../utils/keys";
@@ -65,16 +65,16 @@ export const definitionListSerializer: SlateSerializer = {
       return slatejsx("element", { type: TYPE_DEFINITION_TERM }, children);
     }
   },
-  serialize(node: Descendant, children: JSX.Element[]) {
+  serialize(node, children) {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_DEFINITION_LIST) {
-      return <dl>{children}</dl>;
+      return createHtmlTag({ tag: "dl", children });
     }
     if (node.type === TYPE_DEFINITION_TERM) {
-      return <dt>{children}</dt>;
+      return createHtmlTag({ tag: "dt", children });
     }
     if (node.type === TYPE_DEFINITION_DESCRIPTION) {
-      return <dd>{children}</dd>;
+      return createHtmlTag({ tag: "dd", children });
     }
   },
 };

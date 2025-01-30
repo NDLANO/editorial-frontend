@@ -7,9 +7,21 @@
  */
 
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { AccessibilityFill } from "@ndla/icons";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+} from "@ndla/primitives";
 import { ArticleType, ArticleTitle, ArticleContent, ArticleFooter, ArticleByline } from "@ndla/ui";
 import { FormArticle } from "./PreviewDraft";
 import { getUpdatedLanguage } from "./useTransformedArticle";
+import { DialogCloseButton } from "../DialogCloseButton";
 
 interface Props {
   article: ArticleType;
@@ -18,6 +30,7 @@ interface Props {
 }
 
 export const TransformedPreviewDraft = ({ article, draft, contentType }: Props) => {
+  const { t } = useTranslation();
   useEffect(() => {
     if (window.MathJax) {
       window.MathJax.typesetPromise();
@@ -29,6 +42,8 @@ export const TransformedPreviewDraft = ({ article, draft, contentType }: Props) 
       ? article.copyright.creators
       : article.copyright?.processors;
 
+  const disclaimerExists = Array.isArray(article.disclaimer) ? article.disclaimer.length > 0 : !!article.disclaimer;
+
   return (
     <>
       <ArticleTitle
@@ -37,6 +52,27 @@ export const TransformedPreviewDraft = ({ article, draft, contentType }: Props) 
         title={article.title}
         introduction={article.introduction}
         lang={getUpdatedLanguage(draft.language)}
+        disclaimer={
+          disclaimerExists ? (
+            <DialogRoot>
+              <DialogTrigger asChild>
+                <Button variant="secondary" size="small">
+                  {t("uuDisclaimer.title")}
+                  <AccessibilityFill />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>{t("uuDisclaimer.title")}</DialogTitle>
+                  <DialogCloseButton />
+                </DialogHeader>
+                <DialogBody>
+                  <div>{article.disclaimer}</div>
+                </DialogBody>
+              </DialogContent>
+            </DialogRoot>
+          ) : null
+        }
       />
       <ArticleContent>{article.content ?? ""}</ArticleContent>
       <ArticleFooter>

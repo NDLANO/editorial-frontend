@@ -19,14 +19,17 @@ test.beforeEach(async ({ page }) => {
 
 test("update disclaimer text", async ({ page }) => {
   const newDisclaimerText = "This is a new disclaimer text";
-  await page.getByTestId("edit-disclaimer").click();
-  await page.getByTestId("disclaimer-editor").fill(newDisclaimerText);
+  await page.getByTestId("disclaimer-editor").click();
+  await page.keyboard.type(newDisclaimerText);
   await page.getByTestId("disclaimer-save").click();
-  await page.getByTestId("slate-disclaimer-block").click();
+  await page.getByLabel("Tilgjengelighet", { exact: true }).click();
   await expect(page.getByText(newDisclaimerText, { exact: true })).toBeVisible();
 });
 
 test("add content to disclaimer", async ({ page }) => {
+  await page.getByTestId("disclaimer-editor").click();
+  await page.keyboard.type("Test disclaimer");
+  await page.getByTestId("disclaimer-save").click();
   await page.locator("[data-uu-content]").click();
   await page.getByTestId("slate-block-picker").click();
   await page.getByTestId("create-image").click();
@@ -36,6 +39,9 @@ test("add content to disclaimer", async ({ page }) => {
 });
 
 test("move content out of disclaimer", async ({ page }) => {
+  await page.getByTestId("disclaimer-editor").click();
+  await page.keyboard.type("Test disclaimer");
+  await page.getByTestId("disclaimer-save").click();
   await page.locator("[data-uu-content]").click();
   await page.getByTestId("slate-block-picker").click();
   await page.getByTestId("create-image").click();
@@ -48,6 +54,9 @@ test("move content out of disclaimer", async ({ page }) => {
 });
 
 test("delete disclaimer with content", async ({ page }) => {
+  await page.getByTestId("disclaimer-editor").click();
+  await page.keyboard.type("Test disclaimer");
+  await page.getByTestId("disclaimer-save").click();
   await page.locator("[data-uu-content]").click();
   await page.getByTestId("slate-block-picker").click();
   await page.getByTestId("create-image").click();

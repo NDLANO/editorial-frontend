@@ -9,10 +9,10 @@
 import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 
 interface Props {
-  content: IMultiSearchSummary;
+  content: IMultiSearchSummaryDTO;
   locale: string;
 }
 

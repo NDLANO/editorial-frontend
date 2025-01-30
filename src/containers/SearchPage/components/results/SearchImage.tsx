@@ -12,7 +12,7 @@ import { ImageMeta } from "@ndla/image-search";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
 import { ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { LicenseLink } from "@ndla/ui";
 import { SearchContentWrapper } from "./SearchContentWrapper";
 import { SearchListItemImage } from "./SearchListItemImage";
@@ -20,7 +20,7 @@ import { useLicenses } from "../../../../modules/draft/draftQueries";
 import { routes } from "../../../../util/routeHelpers";
 
 interface Props {
-  image: IImageMetaInformationV3;
+  image: IImageMetaInformationV3DTO;
   locale: string;
 }
 
@@ -49,6 +49,7 @@ const SearchImage = ({ image, locale }: Props) => {
             contentType={image.image.contentType}
             fileSize={image.image.size}
             imageDimensions={image.image.dimensions}
+            locale={locale}
           />
         </SearchContentWrapper>
         {!!license && <LicenseLink license={getLicenseByAbbreviation(license.license, locale)} />}

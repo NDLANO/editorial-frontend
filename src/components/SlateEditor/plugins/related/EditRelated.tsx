@@ -15,6 +15,7 @@ import {
   DialogBody,
   DialogHeader,
   DialogTitle,
+  FieldRoot,
   IconButton,
   TabsContent,
   TabsIndicator,
@@ -199,36 +200,38 @@ const EditRelated = ({ updateArticles, insertExternal, embeds, onInsertBlock }: 
             <TabsIndicator />
           </TabsList>
           <StyledTabsContent value="internalArticle">
-            <GenericSearchCombobox
-              value={blockEmbeds}
-              items={searchQuery.data?.results ?? []}
-              itemToString={(item) => item.title.title}
-              itemToValue={(item) => item.id.toString()}
-              onValueChange={(details) => {
-                onInsertBlock(details.value[0]);
-              }}
-              paginationData={searchQuery.data}
-              inputValue={query}
-              isSuccess={searchQuery.isSuccess}
-              onInputValueChange={(details) => setQuery(details.inputValue)}
-              onPageChange={(details) => setPage(details.page)}
-              closeOnSelect={false}
-              selectionBehavior="preserve"
-              renderItem={(item) => (
-                <GenericComboboxItemContent
-                  title={item.title.title}
-                  description={item.metaDescription?.metaDescription}
-                  image={item.metaImage}
-                  useFallbackImage
+            <FieldRoot>
+              <GenericSearchCombobox
+                value={blockEmbeds}
+                items={searchQuery.data?.results ?? []}
+                itemToString={(item) => item.title.title}
+                itemToValue={(item) => item.id.toString()}
+                onValueChange={(details) => {
+                  onInsertBlock(details.value[0]);
+                }}
+                paginationData={searchQuery.data}
+                inputValue={query}
+                isSuccess={searchQuery.isSuccess}
+                onInputValueChange={(details) => setQuery(details.inputValue)}
+                onPageChange={(details) => setPage(details.page)}
+                closeOnSelect={false}
+                selectionBehavior="preserve"
+                renderItem={(item) => (
+                  <GenericComboboxItemContent
+                    title={item.title.title}
+                    description={item.metaDescription?.metaDescription}
+                    image={item.metaImage}
+                    useFallbackImage
+                  />
+                )}
+              >
+                <ComboboxLabel>{t("form.article.add")}</ComboboxLabel>
+                <GenericComboboxInput
+                  placeholder={t("form.content.relatedArticle.placeholder")}
+                  isFetching={searchQuery.isFetching}
                 />
-              )}
-            >
-              <ComboboxLabel>{t("form.article.add")}</ComboboxLabel>
-              <GenericComboboxInput
-                placeholder={t("form.content.relatedArticle.placeholder")}
-                isFetching={searchQuery.isFetching}
-              />
-            </GenericSearchCombobox>
+              </GenericSearchCombobox>
+            </FieldRoot>
           </StyledTabsContent>
           <TabsContent value="externalArticle">
             <ContentLink

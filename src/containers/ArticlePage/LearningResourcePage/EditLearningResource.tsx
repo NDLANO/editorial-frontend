@@ -9,7 +9,6 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
-import { HelmetWithTracker } from "@ndla/tracker";
 import LearningResourceForm from "./components/LearningResourceForm";
 import { ContentTypeProvider } from "../../../components/ContentTypeProvider";
 import { TranslateType, useTranslateToNN } from "../../../components/NynorskTranslateProvider";
@@ -55,6 +54,10 @@ const translateFields: TranslateType[] = [
   {
     field: "tags.tags",
     type: "text",
+  },
+  {
+    field: "disclaimer.disclaimer",
+    type: "html",
   },
 ];
 
@@ -105,7 +108,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
   const newLanguage = isNewArticleLanguage(selectedLanguage, article);
   return (
     <ContentTypeProvider value={getContentTypeFromResourceTypes(taxonomyQuery.data?.[0]?.resourceTypes ?? [])}>
-      <HelmetWithTracker title={`${article.title?.title} ${t("htmlTitles.titleTemplate")}`} />
+      <title>{`${article.title?.title} ${t("htmlTitles.titleTemplate")}`}</title>
       <LearningResourceForm
         articleLanguage={selectedLanguage}
         articleTaxonomy={taxonomyQuery.data}

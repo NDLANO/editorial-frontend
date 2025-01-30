@@ -9,13 +9,13 @@
 import { Formik, FormikProps } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { IArticle } from "@ndla/types-backend/draft-api";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import {
-  ISubjectPageData,
-  INewSubjectFrontPageData,
-  IUpdatedSubjectFrontPageData,
+  ISubjectPageDataDTO,
+  INewSubjectFrontPageDataDTO,
+  IUpdatedSubjectFrontPageDataDTO,
 } from "@ndla/types-backend/frontpage-api";
-import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
+import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import SubjectpageAccordionPanels from "./SubjectpageAccordionPanels";
 import { FormActionsContainer, Form } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
@@ -39,11 +39,14 @@ import { useMessages } from "../../Messages/MessagesProvider";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
-  subjectpage?: ISubjectPageData;
-  editorsChoices?: (IArticle | ILearningPathV2)[];
+  subjectpage?: ISubjectPageDataDTO;
+  editorsChoices?: (IArticleDTO | ILearningPathV2DTO)[];
   elementName?: string;
-  createSubjectpage?: (subjectpage: INewSubjectFrontPageData) => Promise<ISubjectPageData>;
-  updateSubjectpage?: (id: string | number, subjectpage: IUpdatedSubjectFrontPageData) => Promise<ISubjectPageData>;
+  createSubjectpage?: (subjectpage: INewSubjectFrontPageDataDTO) => Promise<ISubjectPageDataDTO>;
+  updateSubjectpage?: (
+    id: string | number,
+    subjectpage: IUpdatedSubjectFrontPageDataDTO,
+  ) => Promise<ISubjectPageDataDTO>;
   selectedLanguage: string;
   elementId: string;
   isNewlyCreated: boolean;
@@ -102,7 +105,7 @@ const SubjectpageForm = ({
   const [unsaved, setUnsaved] = useState(false);
   usePreventWindowUnload(unsaved);
 
-  const fetchTaxonomyUrns = async (choices: (IArticle | ILearningPathV2)[], language: string) => {
+  const fetchTaxonomyUrns = async (choices: (IArticleDTO | ILearningPathV2DTO)[], language: string) => {
     const fetched = await Promise.all(
       choices.map((choice) => {
         if ("articleType" in choice && choice.articleType === "topic-article") {

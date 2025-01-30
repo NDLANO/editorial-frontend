@@ -9,7 +9,7 @@
 import chunk from "lodash/chunk";
 import uniqBy from "lodash/uniqBy";
 import { useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
-import { IComment, IDraftResponsible, IEditorNote, IRevisionMeta } from "@ndla/types-backend/draft-api";
+import { ICommentDTO, IDraftResponsibleDTO, IEditorNoteDTO, IRevisionMetaDTO } from "@ndla/types-backend/draft-api";
 import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
 import { fetchChildNodes, fetchNode, fetchNodeResources, fetchNodes, postSearchNodes, searchNodes } from "./nodeApi";
 import { GetNodeParams, GetNodeResourcesParams, RESOURCE_NODE, TOPIC_NODE } from "./nodeApiTypes";
@@ -85,11 +85,11 @@ export interface NodeResourceMeta {
   status?: { current: string; other: string[] };
   articleType?: string;
   revision?: number;
-  notes?: IEditorNote[];
-  revisions?: IRevisionMeta[];
-  responsible?: IDraftResponsible;
+  notes?: IEditorNoteDTO[];
+  revisions?: IRevisionMetaDTO[];
+  responsible?: IDraftResponsibleDTO;
   started?: boolean;
-  comments?: IComment[];
+  comments?: ICommentDTO[];
 }
 
 export const useNodeResourceMetas = (
@@ -184,6 +184,7 @@ const fetchChildNodesWithArticleType = async ({
     language,
     recursive: true,
     nodeType,
+    isVisible: false,
   });
   if (childNodes.length === 0) return [];
 

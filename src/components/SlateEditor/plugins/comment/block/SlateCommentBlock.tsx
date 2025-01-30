@@ -33,7 +33,7 @@ import { CommentBlockElement } from "../interfaces";
 const BlockCommentButton = styled("button", {
   base: {
     all: "unset",
-    background: "surface.brand.4.subtle",
+    background: "surface.brand.4",
     cursor: "pointer",
     fontStyle: "italic",
     display: "flex",
@@ -41,9 +41,6 @@ const BlockCommentButton = styled("button", {
     alignItems: "center",
     padding: "3xsmall",
     width: "100%",
-    _hover: {
-      background: "surface.brand.4",
-    },
   },
 });
 

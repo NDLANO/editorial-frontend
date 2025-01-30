@@ -9,9 +9,11 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import JumpToStructureButton from "./JumpToStructureButton";
+import { linkRecipe } from "./Resource";
 import AverageQualityEvaluation from "../../../components/QualityEvaluation/AverageQualityEvaluation";
 import QualityEvaluation from "../../../components/QualityEvaluation/QualityEvaluation";
 import config from "../../../config";
@@ -95,11 +97,13 @@ const SubjectBanner = ({ subjectNode, showQuality, users }: Props) => {
         <JumpToStructureButton nodeId={subjectNode.id} />
       </TopRow>
       <div>
-        <Text fontWeight="bold">
-          <a href={`${config.ndlaFrontendDomain}${subjectNode.url}?versionHash=${taxonomyVersion}`}>
-            {subjectNode.name}
-          </a>
-        </Text>
+        <SafeLink
+          to={`${config.ndlaFrontendDomain}${subjectNode.url}?versionHash=${taxonomyVersion}`}
+          target="_blank"
+          css={linkRecipe.raw()}
+        >
+          {subjectNode.name}
+        </SafeLink>
         {Object.entries(subjectResponsibles).map(([key, value]) => (
           <Text key={key}>
             {key}: {value ? value.name : t("taxonomy.noValue")}

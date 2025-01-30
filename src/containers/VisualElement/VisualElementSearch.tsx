@@ -10,8 +10,8 @@ import { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import { AudioSearch } from "@ndla/audio-search";
 import { Heading } from "@ndla/primitives";
-import { IAudioSummary, ISearchParams } from "@ndla/types-backend/audio-api";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { IAudioSummaryDTO, ISearchParamsDTO } from "@ndla/types-backend/audio-api";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { BrightcoveApiType } from "@ndla/types-embed";
 import { useAudioSearchTranslations, useVideoSearchTranslations } from "@ndla/ui";
 import { VideoSearch } from "@ndla/video-search";
@@ -34,16 +34,16 @@ interface Props {
   articleLanguage?: string;
   closeModal: () => void;
   showCheckbox?: boolean;
-  checkboxAction?: (image: IImageMetaInformationV3) => void;
+  checkboxAction?: (image: IImageMetaInformationV3DTO) => void;
 }
 
-interface LocalAudioSearchParams extends ISearchParams {
+interface LocalAudioSearchParams extends ISearchParamsDTO {
   locale?: string;
 }
 
 const searchAudios = (query: LocalAudioSearchParams) => {
   // AudioSearch passes values that are not accepted by the API. They must be altered to have the correct key.
-  const correctedQuery: ISearchParams = {
+  const correctedQuery: ISearchParamsDTO = {
     language: query.language ?? query.locale,
     page: query.page,
     query: query.query,
@@ -87,6 +87,7 @@ const VisualElementSearch = ({
               alt: image.alttext.alttext ?? "",
               caption: image.caption.caption ?? "",
               metaData: image,
+              hideByline: `${image.copyright.license.license !== "COPYRIGHTED"}`,
             })
           }
           showCheckbox={showMetaImageCheckbox}
@@ -139,7 +140,7 @@ const VisualElementSearch = ({
           translations={audioSearchTranslations}
           fetchAudio={(id: number) => fetchAudio(id, articleLanguage ?? locale)}
           searchAudios={searchAudios}
-          onAudioSelect={(audio: IAudioSummary) =>
+          onAudioSelect={(audio: IAudioSummaryDTO) =>
             handleVisualElementChange({
               resource: "audio",
               resourceId: audio.id.toString(),

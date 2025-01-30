@@ -10,7 +10,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CalendarLine } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
-import { IConceptSearchResult } from "@ndla/types-backend/concept-api";
+import { IConceptSearchResultDTO } from "@ndla/types-backend/concept-api";
 import PageSizeSelect from "./PageSizeSelect";
 import StatusCell from "./StatusCell";
 import SubjectCombobox from "./SubjectCombobox";
@@ -25,7 +25,7 @@ import TableComponent, { FieldElement, Prefix, TitleElement } from "../TableComp
 import TableTitle from "../TableTitle";
 
 interface Props {
-  data: IConceptSearchResult | undefined;
+  data: IConceptSearchResultDTO | undefined;
   filterSubject: SelectItem | undefined;
   isPending: boolean;
   setSortOption: (o: Prefix<"-", SortOptionConceptList>) => void;

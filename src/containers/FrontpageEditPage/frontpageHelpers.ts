@@ -7,8 +7,8 @@
  */
 
 import keyBy from "lodash/keyBy";
-import { IArticleSummaryV2, ISearchResultV2 } from "@ndla/types-backend/article-api";
-import { IFrontPage, IMenu } from "@ndla/types-backend/frontpage-api";
+import { IArticleSummaryV2DTO, ISearchResultV2DTO } from "@ndla/types-backend/article-api";
+import { IFrontPageDTO, IMenuDTO } from "@ndla/types-backend/frontpage-api";
 import { MenuWithArticle } from "./types";
 
 export const extractArticleIds = (menu: MenuWithArticle): number[] => {
@@ -16,13 +16,13 @@ export const extractArticleIds = (menu: MenuWithArticle): number[] => {
   return [menu.articleId].concat(childIds);
 };
 
-const _addArticlesToMenu = (menu: IMenu, articles: Record<number, IArticleSummaryV2>): MenuWithArticle => {
+const _addArticlesToMenu = (menu: IMenuDTO, articles: Record<number, IArticleSummaryV2DTO>): MenuWithArticle => {
   const article = articles[menu.articleId];
   const children = menu.menu.map((m) => _addArticlesToMenu(m, articles));
   return { article: article, articleId: menu.articleId, menu: children, hideLevel: menu.hideLevel ?? false };
 };
 
-export const addArticlesToAboutMenu = (frontPage: IFrontPage | undefined, articles: ISearchResultV2) => {
+export const addArticlesToAboutMenu = (frontPage: IFrontPageDTO | undefined, articles: ISearchResultV2DTO) => {
   if (!frontPage) return { articleId: -1, menu: [] };
   const keyedArticles = keyBy(articles.results, (a) => a.id);
   const menuWithArticles = frontPage.menu.map((m) => _addArticlesToMenu(m, keyedArticles));
@@ -32,13 +32,13 @@ export const addArticlesToAboutMenu = (frontPage: IFrontPage | undefined, articl
   };
 };
 
-const _menuWithArticleToIMenu = (menu: MenuWithArticle): IMenu => {
+const _menuWithArticleToIMenu = (menu: MenuWithArticle): IMenuDTO => {
   const hideLevel = !!menu.hideLevel;
   const children = menu.menu.map((m) => _menuWithArticleToIMenu(m));
   return { articleId: menu.articleId, menu: children, hideLevel: hideLevel };
 };
 
-export const menuWithArticleToIMenu = (menu: MenuWithArticle): IFrontPage => {
+export const menuWithArticleToIMenu = (menu: MenuWithArticle): IFrontPageDTO => {
   return {
     articleId: typeof menu.article === "number" ? menu.article : menu.articleId,
     menu: menu.menu.map((m) => _menuWithArticleToIMenu(m)),

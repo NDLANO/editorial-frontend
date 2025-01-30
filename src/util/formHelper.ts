@@ -8,7 +8,7 @@
 
 import isEqual from "lodash/fp/isEqual";
 import { Descendant, Node } from "slate";
-import { IArticle, ILicense, IArticleMetaImage } from "@ndla/types-backend/draft-api";
+import { IArticleDTO, ILicenseDTO, IArticleMetaImageDTO } from "@ndla/types-backend/draft-api";
 import { blockContentToHTML, inlineContentToEditorValue } from "./articleContentConverter";
 import { isGrepCodeValid } from "./articleUtil";
 import { diffHTML } from "./diffHTML";
@@ -24,7 +24,7 @@ import {
   FrontpageArticleFormType,
 } from "../containers/FormikForm/articleFormHooks";
 
-export const DEFAULT_LICENSE: ILicense = {
+export const DEFAULT_LICENSE: ILicenseDTO = {
   description: "Creative Commons Attribution-ShareAlike 4.0 International",
   license: "CC-BY-SA-4.0",
   url: "https://creativecommons.org/licenses/by-sa/4.0/",
@@ -87,7 +87,7 @@ export const isFormikFormDirty = <T extends FormikFields>({
   return dirtyFields.length > 0 || changed;
 };
 
-export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
+export const formikCommonArticleRules: RulesType<ArticleFormType, IArticleDTO> = {
   title: {
     required: true,
     maxLength: 256,
@@ -171,7 +171,7 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
   grepCodes: {
     required: false,
     test: (values) => {
-      const wrongFormat = !!values?.grepCodes?.find((value) => !isGrepCodeValid(value));
+      const wrongFormat = !!values?.grepCodes?.find((value) => !isGrepCodeValid(value, ["KE", "KM", "TT"]));
       return wrongFormat ? { translationKey: "validation.grepCodes" } : undefined;
     },
   },
@@ -208,7 +208,7 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
   },
 };
 
-export const learningResourceRules: RulesType<LearningResourceFormType, IArticle> = {
+export const learningResourceRules: RulesType<LearningResourceFormType, IArticleDTO> = {
   ...formikCommonArticleRules,
   metaImageAlt: {
     required: true,
@@ -239,9 +239,14 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
       languageMatch: true,
     },
   },
+  disclaimer: {
+    warnings: {
+      languageMatch: true,
+    },
+  },
 };
 
-export const frontPageArticleRules: RulesType<FrontpageArticleFormType, IArticle> = {
+export const frontPageArticleRules: RulesType<FrontpageArticleFormType, IArticleDTO> = {
   ...learningResourceRules,
   slug: {
     required: true,
@@ -256,7 +261,7 @@ export const frontPageArticleRules: RulesType<FrontpageArticleFormType, IArticle
   },
 };
 
-export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {
+export const topicArticleRules: RulesType<TopicArticleFormType, IArticleDTO> = {
   ...formikCommonArticleRules,
   visualElementAlt: {
     required: false,
@@ -298,7 +303,7 @@ export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {
   },
 };
 
-export const parseImageUrl = (metaImage?: IArticleMetaImage) => {
+export const parseImageUrl = (metaImage?: IArticleMetaImageDTO) => {
   if (!metaImage || !metaImage.url || metaImage.url.length === 0) {
     return "";
   }

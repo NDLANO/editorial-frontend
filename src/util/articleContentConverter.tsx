@@ -60,17 +60,6 @@ import { disclaimerSerializer } from "../components/SlateEditor/plugins/uuDiscla
 import { brightcoveSerializer } from "../components/SlateEditor/plugins/video";
 import { Embed, ErrorEmbed } from "../interfaces";
 
-export const sectionSplitter = (html: string) => {
-  const node = document.createElement("div");
-  node.insertAdjacentHTML("beforeend", html);
-  const sections = [];
-  for (let i = 0; i < node.children.length; i += 1) {
-    sections.push(node.children[i].outerHTML);
-  }
-  node.remove();
-  return sections;
-};
-
 export const createEmptyValue = (): Descendant[] => [
   {
     type: TYPE_SECTION,

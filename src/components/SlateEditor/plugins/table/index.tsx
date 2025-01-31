@@ -282,12 +282,24 @@ export const tablePlugin = (editor: Editor) => {
             if (maybeNode?.[1] && !previousMatrixCellIsEqualCurrent(matrix, rowIndex, cellIndex)) {
               const [, cellPath] = maybeNode;
               const [parent] = Editor.node(editor, Path.parent(Path.parent(cellPath)));
-              const shouldHaveHeaders = !((node.rowHeaders && cellIndex === 0) || rowIndex === 0);
+
+              const shouldHaveHeaders =
+                (matrix?.[0]?.[1]?.type === TYPE_TABLE_CELL_HEADER && node.rowHeaders) ||
+                (matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER && node.rowHeaders) ||
+                (matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER &&
+                  matrix?.[0]?.[1]?.type === TYPE_TABLE_CELL_HEADER);
+
               const headers = shouldHaveHeaders ? getHeader(matrix, rowIndex, cellIndex, node.rowHeaders) : undefined;
 
               if (isTableHead(parent)) {
+                const shouldHaveId = parent.children.length > 1 || node.rowHeaders;
                 // If first row we add only a double digit id based on the cellIndex
-                if (rowIndex === 0 && cell.data.id !== `0${cellIndex}` && cell.type === TYPE_TABLE_CELL_HEADER) {
+                if (
+                  rowIndex === 0 &&
+                  cell.data.id !== `0${cellIndex}` &&
+                  cell.type === TYPE_TABLE_CELL_HEADER &&
+                  shouldHaveId
+                ) {
                   return updateCell(editor, cell, { id: `0${cellIndex}` }, TYPE_TABLE_CELL_HEADER);
                 }
 
@@ -296,7 +308,8 @@ export const tablePlugin = (editor: Editor) => {
                   rowIndex === 1 &&
                   matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER &&
                   (cell.data.id !== `0${cellIndex}1${cellIndex}` ||
-                    (shouldHaveHeaders && headers !== cell.data.headers))
+                    (shouldHaveHeaders && headers !== cell.data.headers)) &&
+                  shouldHaveId
                 ) {
                   return updateCell(
                     editor,
@@ -305,14 +318,23 @@ export const tablePlugin = (editor: Editor) => {
                     TYPE_TABLE_CELL_HEADER,
                   );
                 }
+
+                if (!shouldHaveId && (cell.data.id || cell.data.headers)) {
+                  return updateCell(editor, cell, { id: undefined, headers: undefined }, TYPE_TABLE_CELL_HEADER);
+                }
               }
               if (isTableBody(parent)) {
                 // If rowheaders need to set ID on the first cell of each row in the body.
-                if (node.rowHeaders && cellIndex === 0 && cell.data.id !== `r${rowIndex}`) {
-                  return updateCell(editor, cell, { id: `r${rowIndex}` }, TYPE_TABLE_CELL_HEADER);
+                if (
+                  shouldHaveHeaders &&
+                  node.rowHeaders &&
+                  cellIndex === 0 &&
+                  (cell.data.id !== `r${rowIndex}` || cell.data.headers !== headers)
+                ) {
+                  return updateCell(editor, cell, { id: `r${rowIndex}`, headers: headers }, TYPE_TABLE_CELL_HEADER);
                 }
-                // Adds headers to the cell
-                if (shouldHaveHeaders && cell.type === TYPE_TABLE_CELL && headers !== cell.data.headers) {
+
+                if (cell.type === TYPE_TABLE_CELL && headers !== cell.data.headers) {
                   return updateCell(editor, cell, { headers: headers });
                 }
               }

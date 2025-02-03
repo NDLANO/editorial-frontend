@@ -84,6 +84,7 @@ export interface ArticleFormType {
   priority: string;
   processed: boolean;
   origin?: string;
+  disclaimer?: Descendant[];
 }
 
 export interface LearningResourceFormType extends ArticleFormType {}

@@ -875,6 +875,7 @@ const phrases = {
       note: "Notat",
       files: "filopplasting",
       code: "Kode",
+      disclaimer: "Tilgjengelighet",
     },
     previewProductionArticle: {
       button: "Samanlikn gjeldande versjon med sist publiserte versjon",
@@ -1219,7 +1220,7 @@ const phrases = {
         changeUrlResource: "Rediger ressurs: {{type}}",
         fullscreen: "Åpne i nytt vindu",
         description:
-          "Lenker til ndla-ressursar spesialhandterast av systemet og visast korrekt på {{- url}}. Ndla-ressursar visast med blå bakgrunn og eksterne lenker med gul.",
+          "Lenker til ndla-ressursar spesialhandterast av systemet og visast korrekt på {{- url}}. Interne ressursar visast med lilla bakgrunn og eksterne lenker med blå.",
       },
       footnote: {
         title: "Tittel",
@@ -1274,6 +1275,11 @@ const phrases = {
       placeholder: "Skriv inn kode",
       description:
         "Skriv inn koder som starter på riktig format ({{ codes }} fulgt av eit eller fleire siffer. Koder som ikkje eksisterer vil ikkje bli oppretta. Tekstene visast på bokmål i ed, men korrekt i artikkelvisning.",
+    },
+    articleDisclaimer: {
+      title: "Informasjon om tilgjengelegheit for heile artikkelen",
+      description:
+        "Skriv inn kva som er utfordrande med innhaldet i artikkelen. Du kan òg leggje til lenker til alternativt innhald. Det er utarbeidd malar for dette. Sjekk desse før du tek i bruk komponenten.",
     },
     resourceTypes: {
       label: "Innhaldstype og egenskaper",
@@ -1572,17 +1578,11 @@ const phrases = {
       deleteTooltip: "Fjern denne revisjonen",
     },
     disclaimer: {
-      edit: "Endre åtvaringstekst",
-      default:
-        "Dette innhaldet er ikkje universelt utforma, og noken brukarar kan difor ha problem med å oppfatte og forstå det.",
-      title: "Universell utforming åtvaring",
-      exampleHeader: "Skriv inn kven som vil få problem med komponenten og med kva",
-      exampleText:
-        "T.d. Har du utfordringar med syn eller kognisjon? Då kan du få problem med å oppfatte og forstå dette innhaldet. Du kan istaden nytte denne sida: www.ndla.eksempel.no",
-      exampleLinkText: "Her finn du eksempelsetningar som skal brukast i fritekstfelt",
-      editorHeader: "Skriv inn kor brukaren finn alternativt innhald",
-      articleId: "Artikkel med alternativt innhald",
-      removeArticle: "Fjern artikkel",
+      edit: "Endre informasjon on tilgjengelighet",
+      title: "Universell utforming - informasjon i løpande tekst",
+      description:
+        "Skriv inn kva som er problemet med komponenten. Det er utarbeidd malar for dette. Sjekk desse før du tek i bruk komponenten.",
+      editorHeader: "Informasjon om tilgjengelegheit for enkeltkomponentar",
     },
     copyright: {
       title: "Rediger lisens",

@@ -20,11 +20,8 @@ import { CommentInlineElement } from "../interfaces";
 const InlineComment = styled("span", {
   base: {
     display: "inline",
-    background: "surface.brand.4.subtle",
+    background: "surface.brand.4",
     cursor: "pointer",
-    _hover: {
-      background: "surface.brand.4",
-    },
   },
 });
 

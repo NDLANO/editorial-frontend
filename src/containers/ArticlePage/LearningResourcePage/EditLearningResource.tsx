@@ -55,6 +55,10 @@ const translateFields: TranslateType[] = [
     field: "tags.tags",
     type: "text",
   },
+  {
+    field: "disclaimer.disclaimer",
+    type: "html",
+  },
 ];
 
 const EditLearningResource = ({ isNewlyCreated }: Props) => {

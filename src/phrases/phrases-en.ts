@@ -875,6 +875,7 @@ const phrases = {
       note: "Note",
       files: "File upload",
       code: "Code",
+      disclaimer: "Accessibility",
     },
     previewProductionArticle: {
       button: "Compare current version with last published version",
@@ -1219,7 +1220,7 @@ const phrases = {
         changeUrlResource: "Edit resource: {{type}}",
         fullscreen: "Open in new window",
         description:
-          "Links to ndla-resources are handled by the system and are displayed correct on {{url}}. Ndla-resources are shown with blue background and external links with yellow.",
+          "Links to ndla-resources are handled by the system and are displayed correct on {{url}}. Internal resources are shown with purple background and external links with blue.",
       },
       footnote: {
         title: "Title",
@@ -1274,6 +1275,11 @@ const phrases = {
       placeholder: "Type code",
       description:
         "Type in codes using the correct format ({{ codes }}) followed by one or more digits. Non existing codes will not be created. Texts will be displayed in norwegian here but will be shown correct in frontend.",
+    },
+    articleDisclaimer: {
+      title: "Information about availability for the entire article",
+      description:
+        "Enter what is challenging about the content of the article. You can also add links to alternative content. Templates have been prepared for this. Check these before using the component.",
     },
     resourceTypes: {
       label: "Resource type and properties",
@@ -1574,17 +1580,11 @@ const phrases = {
       deleteTooltip: "Remove this revision",
     },
     disclaimer: {
-      edit: "Edit disclaimer text",
-      default:
-        "This content is not accessible, and some users can potentially have difficulties perceiving and understanding it.",
-      title: "Accessability warning",
-      exampleHeader: "Write down who will experience issues with the component, and with what",
-      exampleText:
-        "E.g. Do you have issues with sight or cognition? Then you may experience issues perceiving and understanding this content. You can alternatively use this page: www.ndla.eksempel.no",
-      exampleLinkText: "You can find example sentences for use in multiline textfields here",
-      editorHeader: "Write down where the user can find alternative content",
-      articleId: "Article with alternative content",
-      removeArticle: "Remove article",
+      edit: "Edit accessibility information",
+      title: "Universal design - information in continuous text",
+      description:
+        "Write down what the problem with the component is. Templates have been prepared for this. Check these before using the component.",
+      editorHeader: "Information about accessibility for individual components",
     },
     copyright: {
       title: "Edit license",

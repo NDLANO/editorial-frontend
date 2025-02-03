@@ -27,6 +27,9 @@ import { TYPE_PARAGRAPH } from "../plugins/paragraph/types";
 import { TYPE_SPAN } from "../plugins/span/types";
 import { TYPE_TABLE } from "../plugins/table/types";
 import { TYPE_EMBED_BRIGHTCOVE } from "../plugins/video/types";
+import { TYPE_CONCEPT_INLINE } from "../plugins/concept/inline/types";
+import { TYPE_COMMENT_INLINE } from "../plugins/comment/inline/types";
+import { TYPE_CONTENT_LINK, TYPE_LINK } from "../plugins/link/types";
 
 export const firstTextBlockElement: Element["type"][] = [TYPE_PARAGRAPH, TYPE_HEADING, TYPE_QUOTE];
 
@@ -49,6 +52,13 @@ export const textBlockElements: Element["type"][] = [
   TYPE_DEFINITION_LIST,
   TYPE_GRID,
   TYPE_SPAN,
+];
+
+export const inlineElements: Element["type"][] = [
+  TYPE_CONCEPT_INLINE,
+  TYPE_COMMENT_INLINE,
+  TYPE_LINK,
+  TYPE_CONTENT_LINK,
 ];
 
 export const lastTextBlockElement: Element["type"][] = [TYPE_PARAGRAPH];

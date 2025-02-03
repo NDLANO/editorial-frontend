@@ -43,6 +43,11 @@ type SearchBodyKeyMapping = {
   [k in keyof SearchParams]: MappingType;
 };
 
+export const sortByProperty = (property: string) => {
+  type Sortable = { [key: string]: any };
+  return (a: Sortable, b: Sortable) => a[property]?.localeCompare(b[property]);
+};
+
 export const parseSearchParams = <T extends boolean>(locationSearch: string, parseAsSearchBody: T): ReturnType<T> => {
   const queryStringObject: Record<string, string | undefined> = queryString.parse(locationSearch);
 

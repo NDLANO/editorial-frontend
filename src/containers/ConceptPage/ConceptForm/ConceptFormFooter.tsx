@@ -17,6 +17,7 @@ import SaveButton from "../../../components/SaveButton";
 import EditorFooter from "../../../components/SlateEditor/EditorFooter";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import ResponsibleSelect from "../../../containers/FormikForm/components/ResponsibleSelect";
+import StatusSelect from "../../../containers/FormikForm/components/StatusSelect";
 import { useConceptStateMachine } from "../../../modules/concept/conceptQueries";
 import { isFormikFormDirty } from "../../../util/formHelper";
 import { AlertDialogWrapper } from "../../FormikForm";
@@ -52,6 +53,8 @@ const ConceptFormFooter = ({
   const formikContext = useFormikContext<ConceptFormValues>();
   const conceptStateMachine = useConceptStateMachine();
   const [responsible, setResponsible] = useState<string | undefined>(undefined);
+  const [status, setStatus] = useState<string | undefined>("IN_PROGRESS");
+  const [updated, setUpdated] = useState<IStatusDTO>({ current: "IN_PROGRESS", other: [] });
   const { values, errors, initialValues, dirty, isSubmitting, submitForm, setFieldValue } = formikContext;
   const formIsDirty = isFormikFormDirty({
     values,
@@ -74,9 +77,31 @@ const ConceptFormFooter = ({
     [setFieldValue],
   );
 
+  const updateStatus = useCallback(
+    async (status: string | undefined) => {
+      try {
+        setStatus(status);
+        setFieldValue("status", { current: status });
+        setUpdated({ current: status ?? "IN_PROGRESS", other: [] });
+      } catch (error) {
+        //catchError(error, createMessage);
+      }
+    },
+    [setFieldValue],
+  );
+
   if (inModal) {
     return (
       <StyledFormActionsContainer>
+        <FieldRoot key="status-select">
+          <StatusSelect
+            status={status}
+            setStatus={setStatus}
+            onSave={updateStatus}
+            statusStateMachine={conceptStateMachine.data}
+            entityStatus={entityStatus ?? updated}
+          />
+        </FieldRoot>
         <FieldRoot key="responsible-select">
           <ResponsibleSelect
             key="concept-modal-responsible-select"

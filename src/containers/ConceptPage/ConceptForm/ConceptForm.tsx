@@ -38,6 +38,7 @@ interface UpdateProps {
 
 interface CreateProps {
   onCreate: (newConcept: INewConceptDTO) => Promise<IConceptDTO>;
+  onUpdateStatus: (id: number, status?: string) => Promise<IConceptDTO>;
 }
 
 interface Props {
@@ -146,6 +147,7 @@ const ConceptForm = ({
       let savedConcept: IConceptDTO;
       if ("onCreate" in upsertProps) {
         savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses, "concept"));
+        savedConcept = await upsertProps.onUpdateStatus(savedConcept.id, newStatus);
       } else {
         const conceptWithStatus = {
           ...getUpdatedConceptType(values, licenses, "concept"),

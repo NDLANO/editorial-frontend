@@ -26,7 +26,7 @@ import CopyrightFieldGroup from "../../FormikForm/CopyrightFieldGroup";
 import SimpleVersionPanel from "../../FormikForm/SimpleVersionPanel";
 import { MessageError, useMessages } from "../../Messages/MessagesProvider";
 import { useSession } from "../../Session/SessionProvider";
-import { ConceptArticles, ConceptContent, ConceptMetaData } from "../components";
+import { ConceptContent, ConceptMetaData } from "../components";
 import { ConceptFormValues } from "../conceptInterfaces";
 import { conceptApiTypeToFormType, getNewConceptType, getUpdatedConceptType } from "../conceptTransformers";
 
@@ -233,11 +233,6 @@ const ConceptForm = ({
                   hasError={!!(errors.tags || errors.metaImageAlt || errors.subjects)}
                 >
                   <ConceptMetaData subjects={subjects} inModal={inModal} language={language} />
-                </FormAccordion>
-              )}
-              {!inModal && (
-                <FormAccordion id="articles" title={t("form.articleSection")} hasError={!!errors.articles}>
-                  <ConceptArticles />
                 </FormAccordion>
               )}
               <FormAccordion id="versionNotes" title={t("form.workflowSection")} hasError={false}>

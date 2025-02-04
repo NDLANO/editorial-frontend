@@ -27,7 +27,7 @@ interface Props {
   savedToServer: boolean;
   isNewlyCreated: boolean;
   showSimpleFooter: boolean;
-  onClose?: () => void;
+  onOpenChange?: (open: boolean) => void;
   responsibleId?: string;
 }
 
@@ -44,7 +44,7 @@ const ConceptFormFooter = ({
   savedToServer,
   isNewlyCreated,
   showSimpleFooter,
-  onClose,
+  onOpenChange,
   responsibleId,
 }: Props) => {
   const { t } = useTranslation();
@@ -63,7 +63,7 @@ const ConceptFormFooter = ({
   if (inModal) {
     return (
       <StyledFormActionsContainer>
-        <Button variant="secondary" onClick={onClose}>
+        <Button variant="secondary" onClick={() => onOpenChange?.(false)}>
           {t("form.abort")}
         </Button>
         <SaveButton

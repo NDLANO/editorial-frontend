@@ -84,7 +84,7 @@ const rules: RulesType<ContactBlockFormValues> = {
 interface Props {
   initialData?: ContactBlockEmbedData;
   onSave: (data: ContactBlockEmbedData) => void;
-  onCancel: () => void;
+  onOpenChange: (open: boolean) => void;
 }
 
 const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormValues => {
@@ -102,7 +102,7 @@ const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormV
 };
 const colors: ContactBlockEmbedData["background"][] = ["subtle", "moderate", "strong"];
 
-const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
+const ContactBlockForm = ({ initialData, onSave, onOpenChange }: Props) => {
   const { t } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
@@ -233,7 +233,7 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
             </FormField>
           )}
           <FormActionsContainer>
-            <Button variant="secondary" onClick={onCancel}>
+            <Button variant="secondary" onClick={() => onOpenChange(false)}>
               {t("cancel")}
             </Button>
             <Button disabled={!dirty || !isValid} type="submit">

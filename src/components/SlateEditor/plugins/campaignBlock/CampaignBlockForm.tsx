@@ -47,7 +47,7 @@ import { RichTextIndicator } from "../../RichTextIndicator";
 interface Props {
   initialData?: CampaignBlockEmbedData;
   onSave: (data: CampaignBlockEmbedData) => void;
-  onCancel: () => void;
+  onOpenChange: (open: boolean) => void;
 }
 
 export interface CampaignBlockFormValues {
@@ -120,7 +120,7 @@ const UrlWrapper = styled("div", {
 
 const placements: CampaignBlockEmbedData["imageSide"][] = ["left", "right"];
 
-const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
+const CampaignBlockForm = ({ initialData, onSave, onOpenChange }: Props) => {
   const { t } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
@@ -282,7 +282,7 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
             </FormField>
           )}
           <FormActionsContainer>
-            <Button variant="secondary" onClick={onCancel}>
+            <Button variant="secondary" onClick={() => onOpenChange(false)}>
               {t("cancel")}
             </Button>
             <Button disabled={!isFormikFormDirty({ values, initialValues, dirty }) || !isValid} type="submit">

@@ -48,7 +48,7 @@ interface Props {
   inModal: boolean;
   isNewlyCreated?: boolean;
   conceptArticles: IArticleDTO[];
-  onClose?: () => void;
+  onOpenChange?: (open: boolean) => void;
   language: string;
   subjects: Node[];
   initialTitle?: string;
@@ -89,7 +89,7 @@ export const GlossForm = ({
   conceptChanged,
   inModal,
   isNewlyCreated = false,
-  onClose,
+  onOpenChange,
   subjects,
   language,
   upsertProps,
@@ -204,7 +204,7 @@ export const GlossForm = ({
             savedToServer={savedToServer}
             isNewlyCreated={isNewlyCreated}
             showSimpleFooter={!concept?.id}
-            onClose={onClose}
+            onOpenChange={onOpenChange}
             responsibleId={concept?.responsible?.responsibleId}
           />
         </FormWrapper>

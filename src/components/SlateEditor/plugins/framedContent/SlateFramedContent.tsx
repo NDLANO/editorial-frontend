@@ -82,7 +82,7 @@ const SlateFramedContent = (props: Props) => {
   };
 
   return (
-    <EmbedWrapper draggable {...attributes}>
+    <EmbedWrapper {...attributes}>
       <FigureButtons contentEditable={false}>
         {!hasSlateCopyright && (
           <IconButton

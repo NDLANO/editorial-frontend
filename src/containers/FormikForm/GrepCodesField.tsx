@@ -7,6 +7,7 @@
  */
 
 import { useField } from "formik";
+import partition from "lodash/partition";
 import { memo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { DeleteBinLine } from "@ndla/icons";
@@ -33,11 +34,17 @@ export const convertGrepCodesToObject = async (grepCodes: string[]): Promise<Rec
   return Object.assign({}, ...grepCodesWithTitle);
 };
 
-interface GrepCode {
+interface GrepCodeSuccess {
   code: string;
-  title?: string;
-  status: "success" | "error";
+  title: string;
+  status: "success";
 }
+interface GrepCodeError {
+  code: string;
+  status: "error";
+}
+
+type GrepCode = GrepCodeSuccess | GrepCodeError;
 
 interface Props {
   prefixFilter: string[];
@@ -73,15 +80,14 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
           code: grepCode.code,
           title: `${grepCode.code} - ${grepCode.title.title}`,
           status: "success",
-        } as GrepCode;
+        } as const;
       });
 
-      const withFailed = codes.concat(
-        newGrepCodes
-          .filter((code) => !codes.some((c) => c?.code === code))
-          .map((code) => ({ code: code, status: "error" }) as GrepCode),
-      );
-      return withFailed;
+      const failedCodes = newGrepCodes
+        .filter((code) => !codes.some((c) => c?.code === code))
+        .map((code) => ({ code: code, status: "error" }) as const);
+
+      return [...codes, ...failedCodes];
     } catch (e) {
       handleError(e);
       helpers.setError(t("errorMessage.genericError"));
@@ -93,7 +99,7 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
     const delimitedValues = newValue.split(",");
     helpers.setError(undefined);
 
-    const addedGrepCodes = delimitedValues.reduce((acc, v) => {
+    const addedGrepCodes = delimitedValues.reduce<string[]>((acc, v) => {
       const trimmedValue = v.toUpperCase().trim();
       // Delete grep code
       if (field.value.includes(trimmedValue)) {
@@ -103,23 +109,18 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
         return acc;
       }
       //Add grep code
-      return [...acc, trimmedValue];
-    }, [] as string[]);
+      acc.push(trimmedValue);
+      return acc;
+    }, []);
     if (!addedGrepCodes.length) return;
 
     const grepCodesWithName = await fetchGrepCodeTitles(addedGrepCodes);
-    const [success, error] = [
-      grepCodesWithName.filter((obj) => obj?.status === "success"),
-      grepCodesWithName.filter((obj) => obj?.status === "error"),
-    ];
+    const [success, error] = partition(grepCodesWithName, (grepCode) => grepCode.status === "success");
 
-    const updatedGrepCodes = success.reduce(
-      (acc, v) => {
-        helpers.setValue([...field.value, v.code]);
-        return { ...acc, [v.code]: v.title } as Record<string, string>;
-      },
-      grepCodes as Record<string, string>,
-    );
+    const updatedGrepCodes = success.reduce<Record<string, string>>((acc, v) => {
+      helpers.setValue([...field.value, v.code]);
+      return { ...acc, [v.code]: v.title };
+    }, grepCodes);
     setGrepCodes(updatedGrepCodes);
 
     if (error.length) {

@@ -7,7 +7,7 @@
  */
 
 import { TFunction } from "i18next";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -73,7 +73,7 @@ const SearchImageForm = ({
     select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
     placeholderData: [],
   });
-  const userOptions = users?.sort(sortByProperty("name")) ?? [];
+  const userOptions = useMemo(() => (users ? [...users]?.sort(sortByProperty("name")) : []), [users]);
 
   useEffect(() => {
     if (searchObject.query !== queryInput) {

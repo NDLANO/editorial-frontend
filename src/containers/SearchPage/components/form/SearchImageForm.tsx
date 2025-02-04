@@ -94,7 +94,7 @@ const SearchImageForm = ({
 
   const emptySearch = () => {
     setQueryInput("");
-    search({ query: "", language: "", license: "", "model-released": "" });
+    search({ query: "", language: "", license: "", "model-released": "", users: undefined });
   };
 
   const filters: Filters = {

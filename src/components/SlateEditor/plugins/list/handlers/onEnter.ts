@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import type { KeyboardEvent } from "react";
 import { Editor, Node, Element, Range, Transforms, Path, Point } from "slate";
 
 import { ReactEditor } from "slate-react";
@@ -14,7 +16,11 @@ import { getEditorAncestors } from "../../toolbar/toolbarState";
 import { TYPE_LIST_ITEM } from "../types";
 import { defaultListItemBlock } from "../utils/defaultBlocks";
 
-const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEvent) => void) => {
+const onEnter = (
+  event: KeyboardEvent<HTMLDivElement>,
+  editor: Editor,
+  next?: (event: KeyboardEvent<HTMLDivElement>) => void,
+) => {
   if (event.shiftKey || !editor.selection) return next?.(event);
 
   const [firstChild, secondChild] = getEditorAncestors(editor, true);

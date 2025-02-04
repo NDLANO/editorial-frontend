@@ -6,6 +6,7 @@
  *
  */
 
+import type { KeyboardEvent } from "react";
 import { Descendant, Text, Editor, Element, Transforms, Range, Node, Path } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_HEADING } from "./types";
@@ -53,7 +54,11 @@ export const headingSerializer: SlateSerializer = {
   },
 };
 
-const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
+const onEnter = (
+  e: KeyboardEvent<HTMLDivElement>,
+  editor: Editor,
+  nextOnKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => void,
+) => {
   if (!Range.isRange(editor.selection) || !editor.selection) return nextOnKeyDown?.(e);
   const [entry] = Editor.nodes<HeadingElement>(editor, {
     match: (node) => Element.isElement(node) && node.type === TYPE_HEADING,
@@ -85,7 +90,11 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: Keybo
   return Transforms.insertNodes(editor, slatejsx("element", { type: TYPE_PARAGRAPH }, [{ text: "" }]));
 };
 
-const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
+const onBackspace = (
+  e: KeyboardEvent<HTMLDivElement>,
+  editor: Editor,
+  nextOnKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => void,
+) => {
   if (hasNodeOfType(editor, TYPE_HEADING)) {
     if (Range.isRange(editor.selection)) {
       if (e.ctrlKey) {
@@ -167,7 +176,7 @@ export const headingPlugin = (editor: Editor) => {
     nextNormalizeNode(entry);
   };
 
-  editor.onKeyDown = (e: KeyboardEvent) => {
+  editor.onKeyDown = (e) => {
     if (e.key === KEY_ENTER) {
       onEnter(e, editor, nextOnKeyDown);
     } else if (e.key === KEY_BACKSPACE) {

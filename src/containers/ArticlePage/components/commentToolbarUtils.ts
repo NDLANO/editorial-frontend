@@ -6,18 +6,15 @@
  *
  */
 
+import { breakPlugin, listPlugin, markPlugin, paragraphPlugin } from "@ndla/editor";
 import { SlatePlugin } from "../../../components/SlateEditor/interfaces";
-import { breakPlugin } from "../../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../../components/SlateEditor/plugins/break/render";
 import { linkPlugin } from "../../../components/SlateEditor/plugins/link";
 import { linkRenderer } from "../../../components/SlateEditor/plugins/link/render";
-import { listPlugin } from "../../../components/SlateEditor/plugins/list";
 import { listRenderer } from "../../../components/SlateEditor/plugins/list/render";
-import { markPlugin } from "../../../components/SlateEditor/plugins/mark";
 import { markRenderer } from "../../../components/SlateEditor/plugins/mark/render";
 import { noopPlugin } from "../../../components/SlateEditor/plugins/noop";
 import { noopRenderer } from "../../../components/SlateEditor/plugins/noop/render";
-import { paragraphPlugin } from "../../../components/SlateEditor/plugins/paragraph";
 import { paragraphRenderer } from "../../../components/SlateEditor/plugins/paragraph/render";
 import saveHotkeyPlugin from "../../../components/SlateEditor/plugins/saveHotkey";
 import { sectionPlugin } from "../../../components/SlateEditor/plugins/section";

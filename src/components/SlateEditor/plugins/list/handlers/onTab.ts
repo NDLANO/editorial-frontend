@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import { KeyboardEvent } from "react";
 import { Editor, Element, Transforms, Path } from "slate";
 import { ReactEditor } from "slate-react";
 
@@ -15,7 +17,11 @@ import { TYPE_LIST, TYPE_LIST_ITEM } from "../types";
 
 import { defaultListBlock } from "../utils/defaultBlocks";
 
-const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEvent) => void) => {
+const onTab = (
+  event: KeyboardEvent<HTMLDivElement>,
+  editor: Editor,
+  next?: (event: KeyboardEvent<HTMLDivElement>) => void,
+) => {
   if (!editor.selection) return next && next(event);
   const isList = hasNodeOfType(editor, TYPE_LIST);
 

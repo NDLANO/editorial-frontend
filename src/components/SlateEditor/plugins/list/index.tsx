@@ -248,7 +248,7 @@ export const listPlugin = (editor: Editor) => {
     normalizeNode(entry);
   };
 
-  editor.onKeyDown = (event: KeyboardEvent) => {
+  editor.onKeyDown = (event) => {
     switch (event.key) {
       case KEY_ENTER:
         return onEnter(event, editor, onKeyDown);

@@ -53,7 +53,7 @@ const toolbarPlugin =
       }
     };
 
-    editor.onKeyDown = (e: KeyboardEvent) => {
+    editor.onKeyDown = (e) => {
       let action: ToolbarAction | undefined;
 
       if (!e.metaKey && !e.ctrlKey) {

@@ -6,6 +6,7 @@
  *
  */
 
+import type { KeyboardEvent } from "react";
 import { Node, Element, Descendant, Editor, Text, Transforms, Range } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_SECTION } from "./types";
@@ -43,7 +44,11 @@ export const sectionSerializer: SlateSerializer = {
   },
 };
 
-const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
+const onBackspace = (
+  e: KeyboardEvent<HTMLDivElement>,
+  editor: Editor,
+  nextOnKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => void,
+) => {
   if (editor.selection) {
     // Find the closest ancestor <section>-element
     const section = Editor.above(editor, {
@@ -72,7 +77,7 @@ const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: K
 export const sectionPlugin = (editor: Editor) => {
   const { normalizeNode: nextNormalizeNode, onKeyDown: nextOnKeyDown } = editor;
 
-  editor.onKeyDown = (e: KeyboardEvent) => {
+  editor.onKeyDown = (e) => {
     if (e.key === KEY_BACKSPACE) {
       onBackspace(e, editor, nextOnKeyDown);
     } else if (e.key === KEY_TAB) {

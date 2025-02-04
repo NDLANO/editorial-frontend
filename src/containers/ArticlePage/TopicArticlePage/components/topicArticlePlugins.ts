@@ -6,21 +6,17 @@
  *
  */
 
+import { breakPlugin, headingPlugin, listPlugin, markPlugin, paragraphPlugin } from "@ndla/editor";
 import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import { blockQuotePlugin } from "../../../../components/SlateEditor/plugins/blockquote";
-import { breakPlugin } from "../../../../components/SlateEditor/plugins/break";
 import { commentInlinePlugin } from "../../../../components/SlateEditor/plugins/comment/inline";
 import { inlineConceptPlugin } from "../../../../components/SlateEditor/plugins/concept/inline";
 import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList";
 import { divPlugin } from "../../../../components/SlateEditor/plugins/div";
 import { dndPlugin } from "../../../../components/SlateEditor/plugins/DND";
-import { headingPlugin } from "../../../../components/SlateEditor/plugins/heading";
 import { linkPlugin } from "../../../../components/SlateEditor/plugins/link";
-import { listPlugin } from "../../../../components/SlateEditor/plugins/list";
-import { markPlugin } from "../../../../components/SlateEditor/plugins/mark";
 import { mathmlPlugin } from "../../../../components/SlateEditor/plugins/mathml";
 import { noEmbedPlugin } from "../../../../components/SlateEditor/plugins/noEmbed";
-import { paragraphPlugin } from "../../../../components/SlateEditor/plugins/paragraph";
 import saveHotkeyPlugin from "../../../../components/SlateEditor/plugins/saveHotkey";
 import { sectionPlugin } from "../../../../components/SlateEditor/plugins/section";
 import { spanPlugin } from "../../../../components/SlateEditor/plugins/span";

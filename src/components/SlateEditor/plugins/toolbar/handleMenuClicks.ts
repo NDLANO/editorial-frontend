@@ -6,7 +6,7 @@
  *
  */
 
-import { SyntheticEvent } from "react";
+import { KeyboardEvent, SyntheticEvent } from "react";
 import { Editor, Transforms, Element, Range, Node, BaseRange } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { BlockType, InlineType, TextType, getEditorAncestors } from "./toolbarState";
@@ -74,7 +74,7 @@ export const handleTextChange = (editor: Editor, type: string) => {
   });
 };
 
-export function handleClickBlock(event: Event, editor: Editor, type: BlockType) {
+export function handleClickBlock(event: KeyboardEvent<HTMLDivElement>, editor: Editor, type: BlockType) {
   event.preventDefault();
   if (type === "quote") {
     toggleBlock(editor, type);
@@ -85,7 +85,7 @@ export function handleClickBlock(event: Event, editor: Editor, type: BlockType) 
   }
 }
 
-export const handleClickText = (event: Event, editor: Editor, type: TextType) => {
+export const handleClickText = (event: KeyboardEvent<HTMLDivElement>, editor: Editor, type: TextType) => {
   event.preventDefault();
   if (type === "heading-4") {
     toggleHeading(editor, 4);
@@ -96,7 +96,7 @@ export const handleClickText = (event: Event, editor: Editor, type: TextType) =>
   }
 };
 
-export function handleClickInline(event: Event, editor: Editor, type: InlineType) {
+export function handleClickInline(event: KeyboardEvent<HTMLDivElement>, editor: Editor, type: InlineType) {
   if (editor.selection) {
     event.preventDefault();
     if (type === "content-link") {

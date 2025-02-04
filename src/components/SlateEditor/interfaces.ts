@@ -55,6 +55,7 @@ import {
 } from "./plugins/table/interfaces";
 import { DisclaimerElement } from "./plugins/uuDisclaimer/types";
 import { BrightcoveEmbedElement } from "./plugins/video/types";
+import { CustomEditor as _CustomEditor } from "@ndla/editor";
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -63,8 +64,7 @@ export interface SlateSerializer {
   serialize: (node: Descendant, children: string | undefined) => string | undefined;
 }
 
-export type CustomEditor = {
-  onKeyDown?: (event: KeyboardEvent) => void;
+export interface CustomEditor extends _CustomEditor {
   renderElement?: (props: RenderElementProps) => JSX.Element | undefined;
   renderLeaf?: (props: RenderLeafProps) => JSX.Element | undefined;
   lastSelection?: BaseSelection;
@@ -74,7 +74,7 @@ export type CustomEditor = {
   shouldHideBlockPicker?: () => boolean | undefined;
   decorations?: (editor: Editor, entry: NodeEntry) => BaseRange[];
   mathjaxInitialized?: boolean;
-};
+}
 
 declare module "slate" {
   interface CustomTypes {

@@ -6,16 +6,14 @@
  *
  */
 
+import { breakPlugin, markPlugin, paragraphPlugin } from "@ndla/editor";
 import { Text, TextArea } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { SlatePlugin } from "../../components/SlateEditor/interfaces";
-import { breakPlugin } from "../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../components/SlateEditor/plugins/break/render";
-import { markPlugin } from "../../components/SlateEditor/plugins/mark";
 import { markRenderer } from "../../components/SlateEditor/plugins/mark/render";
 import { noopPlugin } from "../../components/SlateEditor/plugins/noop";
 import { noopRenderer } from "../../components/SlateEditor/plugins/noop/render";
-import { paragraphPlugin } from "../../components/SlateEditor/plugins/paragraph";
 import { paragraphRenderer } from "../../components/SlateEditor/plugins/paragraph/render";
 import saveHotkeyPlugin from "../../components/SlateEditor/plugins/saveHotkey";
 import { spanPlugin } from "../../components/SlateEditor/plugins/span";

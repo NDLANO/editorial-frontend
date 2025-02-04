@@ -6,6 +6,7 @@
  *
  */
 
+import type { KeyboardEvent } from "react";
 import { Editor, Node, Element, Descendant, Text, Path, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_PARAGRAPH } from "./types";
@@ -29,7 +30,11 @@ export interface ParagraphElement {
   children: Descendant[];
 }
 
-const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
+const onEnter = (
+  e: KeyboardEvent<HTMLDivElement>,
+  editor: Editor,
+  nextOnKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => void,
+) => {
   if (!editor.selection) return nextOnKeyDown?.(e);
   const [entry] = Editor.nodes<ParagraphElement>(editor, {
     match: (node) => isParagraph(node) && !editor.isInline(node),
@@ -129,7 +134,7 @@ export const paragraphSerializer: SlateSerializer = {
 export const paragraphPlugin = (editor: Editor) => {
   const { onKeyDown, normalizeNode } = editor;
 
-  editor.onKeyDown = (e: KeyboardEvent) => {
+  editor.onKeyDown = (e) => {
     if (e.key === KEY_ENTER) {
       onEnter(e, editor, onKeyDown);
     } else if (onKeyDown) {

@@ -6,13 +6,17 @@
  *
  */
 
-import { MouseEvent } from "react";
+import { KeyboardEvent, MouseEvent } from "react";
 import { Editor, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 import { isMarkActive } from "./index";
 import { MarkType } from "../toolbar/toolbarState";
 
-export const toggleMark = (event: KeyboardEvent | MouseEvent<HTMLButtonElement>, editor: Editor, format: MarkType) => {
+export const toggleMark = (
+  event: KeyboardEvent<HTMLDivElement> | MouseEvent<HTMLButtonElement>,
+  editor: Editor,
+  format: MarkType,
+) => {
   event.preventDefault();
   if (!editor.selection) return;
   Transforms.select(editor, editor.selection);

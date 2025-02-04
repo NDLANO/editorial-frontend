@@ -27,7 +27,7 @@ import { getResourceLanguages } from "../../../../util/resourceHelpers";
 const StyledForm = styled("form", {
   base: {
     display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
+    gridTemplateColumns: "repeat(3, 1fr)",
     gridGap: "3xsmall",
     alignItems: "center",
   },

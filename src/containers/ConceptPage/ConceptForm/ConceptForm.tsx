@@ -26,7 +26,7 @@ import CopyrightFieldGroup from "../../FormikForm/CopyrightFieldGroup";
 import SimpleVersionPanel from "../../FormikForm/SimpleVersionPanel";
 import { MessageError, useMessages } from "../../Messages/MessagesProvider";
 import { useSession } from "../../Session/SessionProvider";
-import { ConceptArticles, ConceptContent, ConceptMetaData } from "../components";
+import { ConceptContent, ConceptMetaData } from "../components";
 import { ConceptFormValues } from "../conceptInterfaces";
 import { conceptApiTypeToFormType, getNewConceptType, getUpdatedConceptType } from "../conceptTransformers";
 
@@ -38,6 +38,7 @@ interface UpdateProps {
 
 interface CreateProps {
   onCreate: (newConcept: INewConceptDTO) => Promise<IConceptDTO>;
+  onUpdateStatus: (id: number, status?: string) => Promise<IConceptDTO>;
 }
 
 interface Props {
@@ -109,7 +110,7 @@ const conceptRules: RulesType<ConceptFormValues, IConceptDTO> = {
     },
   },
   subjects: {
-    minItems: 1,
+    minItems: 0,
   },
 };
 
@@ -134,7 +135,7 @@ const ConceptForm = ({
   const { ndlaId } = useSession();
 
   const handleSubmit = async (values: ConceptFormValues, formikHelpers: FormikHelpers<ConceptFormValues>) => {
-    if (!values.subjects.length || isEmpty(values.conceptContent) || isEmpty(values.title)) return;
+    if (isEmpty(values.conceptContent) || isEmpty(values.title)) return;
     formikHelpers.setSubmitting(true);
     const revision = concept?.revision;
     const status = concept?.status;
@@ -146,6 +147,7 @@ const ConceptForm = ({
       let savedConcept: IConceptDTO;
       if ("onCreate" in upsertProps) {
         savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses, "concept"));
+        savedConcept = await upsertProps.onUpdateStatus(savedConcept.id, newStatus);
       } else {
         const conceptWithStatus = {
           ...getUpdatedConceptType(values, licenses, "concept"),
@@ -214,7 +216,7 @@ const ConceptForm = ({
                 hasError={!!(errors.title || errors.conceptContent)}
               >
                 <PageContent variant="content">
-                  <ConceptContent />
+                  <ConceptContent inModal={inModal} />
                 </PageContent>
               </FormAccordion>
               <FormAccordion
@@ -224,16 +226,15 @@ const ConceptForm = ({
               >
                 <CopyrightFieldGroup enableLicenseNA={true} />
               </FormAccordion>
-              <FormAccordion
-                id="metadata"
-                title={t("form.metadataSection")}
-                hasError={!!(errors.tags || errors.metaImageAlt || errors.subjects)}
-              >
-                <ConceptMetaData subjects={subjects} inModal={inModal} language={language} />
-              </FormAccordion>
-              <FormAccordion id="articles" title={t("form.articleSection")} hasError={!!errors.articles}>
-                <ConceptArticles />
-              </FormAccordion>
+              {!inModal && (
+                <FormAccordion
+                  id="metadata"
+                  title={t("form.metadataSection")}
+                  hasError={!!(errors.tags || errors.metaImageAlt || errors.subjects)}
+                >
+                  <ConceptMetaData subjects={subjects} inModal={inModal} language={language} />
+                </FormAccordion>
+              )}
               <FormAccordion id="versionNotes" title={t("form.workflowSection")} hasError={false}>
                 <SimpleVersionPanel editorNotes={concept?.editorNotes} />
               </FormAccordion>
@@ -246,7 +247,7 @@ const ConceptForm = ({
               isNewlyCreated={isNewlyCreated}
               showSimpleFooter={!concept?.id}
               onClose={onClose}
-              responsibleId={concept?.responsible?.responsibleId}
+              responsibleId={concept?.responsible?.responsibleId ?? ndlaId}
             />
           </FormWrapper>
         );

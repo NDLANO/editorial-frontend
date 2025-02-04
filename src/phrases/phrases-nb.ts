@@ -841,7 +841,6 @@ const phrases = {
       validFrom: "Gyldig fra",
       validTo: "Gyldig til",
       description: "Innhold",
-      conceptContent: "Beskrivelse",
       grepCodes: "Læreplankobling",
       desktopBannerId: "Bredt fagsidebilde",
       mobileBannerId: "Smalt fagsidebilde",
@@ -1342,12 +1341,12 @@ const phrases = {
       error: "Noe gikk galt ved oppdatering av ansvarlig.",
     },
     origin: {
-      label: "Opphav",
+      label: "Kilde",
     },
     processed: {
       label: "Bearbeidet",
       description: "Innholdet har blitt bearbeidet",
-      disabledCause: "Bearbeidet kan kun settes dersom opphav er satt",
+      disabledCause: "Bearbeidet kan kun settes dersom kilde er satt",
     },
     image: {
       file: "Bilde",

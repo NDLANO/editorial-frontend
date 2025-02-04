@@ -32,6 +32,7 @@ const ToggleExplanationSubject = ({ customFields, updateFields }: Props) => {
   return (
     <SwitchWrapper>
       <SwitchRoot
+        disabled={true}
         checked={isToggled}
         onCheckedChange={(details) =>
           updateFields({ ...customFields, [TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT]: details.checked.toString() })

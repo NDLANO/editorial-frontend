@@ -65,6 +65,7 @@ const ImageSearchAndUploader = ({
       pageSize: 16,
       language: language,
       fallback: true,
+      includeCopyrighted: true,
     });
   };
 

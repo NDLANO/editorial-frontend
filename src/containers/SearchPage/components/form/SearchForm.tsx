@@ -81,6 +81,7 @@ export const parseSearchParams = <T extends boolean>(locationSearch: string, par
     subjects: { key: "subjects", data: queryStringObject.subjects?.split(",") },
     users: { key: "users", data: queryStringObject.users?.split(",") },
     license: { key: "license", data: queryStringObject.license },
+    includeCopyrighted: { key: "includeCopyrighted", data: true },
   } as const;
 
   return Object.entries(searchBodyKeyMapping).reduce(

@@ -8,7 +8,6 @@
 
 import { Formik } from "formik";
 import { TFunction } from "i18next";
-import sortBy from "lodash/sortBy";
 import uniq from "lodash/uniq";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -197,7 +196,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
   const { data: users } = useAuth0Responsibles(
     { permission: DRAFT_RESPONSIBLE },
     {
-      select: (users) => sortBy(formatUserList(users), (u) => u.label),
+      select: (users) => formatUserList(users),
       placeholderData: [],
     },
   );

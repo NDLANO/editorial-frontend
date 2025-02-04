@@ -6,7 +6,6 @@
  *
  */
 
-import sortBy from "lodash/sortBy";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
@@ -56,13 +55,10 @@ const SearchConceptForm = ({ search, searchObject, subjects, userData }: Props) 
     { permission: CONCEPT_RESPONSIBLE },
     {
       select: (users) =>
-        sortBy(
-          users.map((u) => ({
-            id: `${u.app_metadata.ndla_id}`,
-            name: u.name,
-          })),
-          (u) => u.name,
-        ),
+        users.map((u) => ({
+          id: `${u.app_metadata.ndla_id}`,
+          name: u.name,
+        })),
       placeholderData: [],
     },
   );

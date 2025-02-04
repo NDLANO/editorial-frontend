@@ -72,8 +72,7 @@ async function fetchAuth0UsersByQuery(token: string, query: string, page: number
 }
 
 export const getEditors = async (managementToken: ManagementToken) => {
-  const query = `include_totals=true&q=app_metadata.isOrWasEdUser:true`;
-
+  const query = `include_totals=true&q=app_metadata.isOrWasEdUser:true&sort=name:1`;
   const firstPage = await fetchAuth0UsersByQuery(managementToken.access_token, query, 0);
   const numberOfPages = Math.ceil(firstPage.total / firstPage.length);
   const requests = [firstPage];
@@ -85,7 +84,7 @@ export const getEditors = async (managementToken: ManagementToken) => {
 };
 
 export const getResponsibles = async (managementToken: ManagementToken, permission: string) => {
-  const query = `include_totals=true&q=app_metadata.permissions:"${permission}"`;
+  const query = `include_totals=true&q=app_metadata.permissions:"${permission}"&sort=name:1`;
 
   const firstPage = await fetchAuth0UsersByQuery(managementToken.access_token, query, 0);
   const numberOfPages = Math.ceil(firstPage.total / firstPage.length);

@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import sortBy from "lodash/sortBy";
 import { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
@@ -14,6 +13,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";
 import { GenericComboboxInput, GenericComboboxItemIndicator } from "../../../components/abstractions/Combobox";
 import { DRAFT_RESPONSIBLE } from "../../../constants";
+import { Auth0UserData } from "../../../interfaces";
 import { useAuth0Responsibles } from "../../../modules/auth0/auth0Queries";
 
 interface Props {
@@ -47,12 +47,9 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
   const comboboxTranslations = useComboboxTranslations();
   const [query, setQuery] = useState("");
 
-  const { data: users } = useAuth0Responsibles(
+  const { data: users } = useAuth0Responsibles<Auth0UserData[]>(
     { permission: DRAFT_RESPONSIBLE },
-    {
-      select: (users) => sortBy(users, (u) => u.name),
-      placeholderData: [],
-    },
+    { placeholderData: [] },
   );
 
   const collection = useMemo(() => {

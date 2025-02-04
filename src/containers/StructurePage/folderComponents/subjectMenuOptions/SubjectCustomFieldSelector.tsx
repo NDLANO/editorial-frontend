@@ -6,7 +6,6 @@
  *
  */
 
-import sortBy from "lodash/sortBy";
 import TaxonomyMetadataDropdown from "./TaxonomyMetadataDropdown";
 import { DRAFT_RESPONSIBLE } from "../../../../constants";
 import { useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
@@ -23,13 +22,10 @@ const SubjestCustomFieldSelector = ({ customFields, updateCustomFields, field, m
     { permission: DRAFT_RESPONSIBLE },
     {
       select: (users) =>
-        sortBy(
-          users.map((u) => ({
-            id: `${u.app_metadata.ndla_id}`,
-            name: u.name,
-          })),
-          (u) => u.name,
-        ),
+        users.map((u) => ({
+          id: `${u.app_metadata.ndla_id}`,
+          name: u.name,
+        })),
       placeholderData: [],
     },
   );

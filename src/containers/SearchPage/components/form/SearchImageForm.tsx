@@ -19,6 +19,7 @@ import SearchTagGroup, { Filters } from "../../../../components/Form/SearchTagGr
 import { getTagName } from "../../../../components/Form/utils";
 import ObjectSelector from "../../../../components/ObjectSelector";
 import { OnFieldChangeFunction, SearchParams } from "../../../../interfaces";
+import { useAuth0Editors } from "../../../../modules/auth0/auth0Queries";
 import { useLicenses } from "../../../../modules/draft/draftQueries";
 import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
@@ -26,7 +27,7 @@ import { getResourceLanguages } from "../../../../util/resourceHelpers";
 const StyledForm = styled("form", {
   base: {
     display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
+    gridTemplateColumns: "repeat(3, 1fr)",
     gridGap: "3xsmall",
     alignItems: "center",
   },
@@ -67,6 +68,11 @@ const SearchImageForm = ({
     placeholderData: [],
   });
 
+  const { data: users } = useAuth0Editors({
+    select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
+    placeholderData: [],
+  });
+
   useEffect(() => {
     if (searchObject.query !== queryInput) {
       setQueryInput(searchObject.query ?? "");
@@ -88,7 +94,7 @@ const SearchImageForm = ({
 
   const emptySearch = () => {
     setQueryInput("");
-    search({ query: "", language: "", license: "", "model-released": "" });
+    search({ query: "", language: "", license: "", "model-released": "", users: undefined });
   };
 
   const filters: Filters = {
@@ -96,6 +102,7 @@ const SearchImageForm = ({
     license: getTagName(searchObject["license"], licenses),
     "model-released": getTagName(searchObject["model-released"], getModelReleasedValues(t)),
     language: searchObject.language,
+    users: getTagName(searchObject.users, users),
   };
 
   return (
@@ -136,6 +143,13 @@ const SearchImageForm = ({
           options={getResourceLanguages(t)}
           onChange={(value) => onFieldChange("language", value)}
           placeholder={t("searchForm.types.language")}
+        />
+        <ObjectSelector
+          name="users"
+          value={searchObject.users ?? ""}
+          options={users ?? []}
+          onChange={(value) => onFieldChange("users", value)}
+          placeholder={t("searchForm.types.users")}
         />
         <SearchControlButtons reset={emptySearch} />
       </StyledForm>

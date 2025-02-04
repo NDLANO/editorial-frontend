@@ -14,7 +14,6 @@ import { styled } from "@ndla/styled-system/jsx";
 import { IUserDataDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import CheckboxSelector from "./CheckboxSelector";
-import { sortByProperty } from "./SearchForm";
 import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
 import SearchHeader from "../../../../components/Form/SearchHeader";
 import SearchTagGroup, { Filters } from "../../../../components/Form/SearchTagGroup";
@@ -194,6 +193,11 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
       }),
       { id: "HAS_PUBLISHED", name: t(`form.status.has_published`) },
     ];
+  };
+
+  const sortByProperty = (property: string) => {
+    type Sortable = { [key: string]: any };
+    return (a: Sortable, b: Sortable) => a[property]?.localeCompare(b[property]);
   };
 
   const sortedSubjects = useMemo(() => {

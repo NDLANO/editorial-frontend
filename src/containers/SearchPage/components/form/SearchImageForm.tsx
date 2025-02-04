@@ -7,13 +7,12 @@
  */
 
 import { TFunction } from "i18next";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IUserDataDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
-import { sortByProperty } from "./SearchForm";
 import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
 import SearchHeader from "../../../../components/Form/SearchHeader";
 import SearchTagGroup, { Filters } from "../../../../components/Form/SearchTagGroup";
@@ -73,7 +72,6 @@ const SearchImageForm = ({
     select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
     placeholderData: [],
   });
-  const userOptions = useMemo(() => (users ? [...users]?.sort(sortByProperty("name")) : []), [users]);
 
   useEffect(() => {
     if (searchObject.query !== queryInput) {
@@ -149,7 +147,7 @@ const SearchImageForm = ({
         <ObjectSelector
           name="users"
           value={searchObject.users ?? ""}
-          options={userOptions}
+          options={users ?? []}
           onChange={(value) => onFieldChange("users", value)}
           placeholder={t("searchForm.types.users")}
         />

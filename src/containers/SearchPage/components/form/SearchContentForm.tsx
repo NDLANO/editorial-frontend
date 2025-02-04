@@ -251,7 +251,7 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
       options: getDraftStatuses().sort(sortByProperty("name")),
       value: isHasPublished ? "HAS_PUBLISHED" : searchObject["draft-status"],
     },
-    { name: "users", options: users!.sort(sortByProperty("name")) },
+    { name: "users", options: users ?? [] },
     { name: "language", options: getResourceLanguages(t) },
   ];
 

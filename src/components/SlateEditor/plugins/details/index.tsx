@@ -12,7 +12,6 @@ import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_DETAILS, TYPE_SUMMARY } from "./types";
 import { createHtmlTag } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
-import containsVoid from "../../utils/containsVoid";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import getCurrentBlock from "../../utils/getCurrentBlock";
 import hasNodeOfType from "../../utils/hasNodeOfType";
@@ -109,7 +108,7 @@ const onBackspace = (
         if (
           Node.string(detailsNode) === "" &&
           Element.isElement(detailsNode) &&
-          !containsVoid(editor, detailsNode) &&
+          !editor.hasVoids(detailsNode) &&
           detailsNode.children.length === 2
         ) {
           e.preventDefault();

@@ -10,7 +10,7 @@ import { useFormikContext } from "formik";
 import { isKeyHotkey } from "is-hotkey";
 import isEqual from "lodash/isEqual";
 import { FocusEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Descendant, Editor, NodeEntry, Range, Transforms } from "slate";
+import { Descendant, Editor, Range, Transforms } from "slate";
 import { Slate, Editable, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
 import { useFieldContext } from "@ark-ui/react";
@@ -220,14 +220,6 @@ const RichTextEditor = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const decorations = useCallback((entry: NodeEntry) => {
-    if (editor.decorations) {
-      return editor.decorations(editor, entry);
-    }
-    return [];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onDragStartCallback = useCallback(onDragStart(editor), []);
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -341,7 +333,6 @@ const RichTextEditor = ({
                     aria-labelledby={labelledBy}
                     {...rest}
                     onBlur={onBlur}
-                    decorate={decorations}
                     onKeyDown={handleKeyDown}
                     placeholder={placeholder}
                     renderElement={renderElement}

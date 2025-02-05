@@ -6,10 +6,9 @@
  *
  */
 
-import { JSX } from "react";
-import { Editor, Descendant, BaseEditor, NodeEntry, BaseRange, BaseSelection, Node, Element } from "slate";
+import { Editor, Descendant, BaseEditor, BaseSelection, Node, Element } from "slate";
 import { HistoryEditor } from "slate-history";
-import { ReactEditor, RenderElementProps, RenderLeafProps } from "slate-react";
+import { ReactEditor } from "slate-react";
 import {
   CustomEditor as _CustomEditor,
   HeadingElement,
@@ -68,14 +67,10 @@ export interface SlateSerializer {
 }
 
 export interface CustomEditor extends _CustomEditor {
-  renderElement?: (props: RenderElementProps) => JSX.Element | undefined;
-  renderLeaf?: (props: RenderLeafProps) => JSX.Element | undefined;
   lastSelection?: BaseSelection;
   lastSelectedBlock?: Node;
-  removeSection?: () => void;
   shouldShowToolbar: () => boolean;
   shouldHideBlockPicker?: () => boolean | undefined;
-  decorations?: (editor: Editor, entry: NodeEntry) => BaseRange[];
   mathjaxInitialized?: boolean;
 }
 

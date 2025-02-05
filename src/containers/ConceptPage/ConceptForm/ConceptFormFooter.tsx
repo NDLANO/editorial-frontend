@@ -8,7 +8,7 @@
 
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import { Button } from "@ndla/primitives";
+import { Button, DialogCloseTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IStatusDTO } from "@ndla/types-backend/concept-api";
 import { FormActionsContainer } from "../../../components/FormikForm";
@@ -27,7 +27,6 @@ interface Props {
   savedToServer: boolean;
   isNewlyCreated: boolean;
   showSimpleFooter: boolean;
-  onClose?: () => void;
   responsibleId?: string;
 }
 
@@ -44,7 +43,6 @@ const ConceptFormFooter = ({
   savedToServer,
   isNewlyCreated,
   showSimpleFooter,
-  onClose,
   responsibleId,
 }: Props) => {
   const { t } = useTranslation();
@@ -63,9 +61,9 @@ const ConceptFormFooter = ({
   if (inModal) {
     return (
       <StyledFormActionsContainer>
-        <Button variant="secondary" onClick={onClose}>
-          {t("form.abort")}
-        </Button>
+        <DialogCloseTrigger asChild>
+          <Button variant="secondary">{t("form.abort")}</Button>
+        </DialogCloseTrigger>
         <SaveButton
           id={SAVE_BUTTON_ID}
           type={!inModal ? "submit" : "button"}

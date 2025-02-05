@@ -105,14 +105,19 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
   const onOpenChange = useCallback(
     (open: boolean) => {
       setModalOpen(open);
-      if (open === false) {
-        ReactEditor.focus(editor);
-        const path = ReactEditor.findPath(editor, element);
-        if (Editor.hasPath(editor, Path.next(path))) {
-          setTimeout(() => {
-            Transforms.select(editor, Path.next(path));
-          }, 0);
-        }
+      if (open) return;
+      ReactEditor.focus(editor);
+      if (element.isFirstEdit) {
+        Transforms.removeNodes(editor, {
+          at: ReactEditor.findPath(editor, element),
+          voids: true,
+        });
+      }
+      const path = ReactEditor.findPath(editor, element);
+      if (Editor.hasPath(editor, Path.next(path))) {
+        setTimeout(() => {
+          Transforms.select(editor, Path.next(path));
+        }, 0);
       }
     },
     [editor, element],

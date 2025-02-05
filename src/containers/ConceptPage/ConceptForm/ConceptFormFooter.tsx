@@ -9,7 +9,7 @@
 import { useFormikContext } from "formik";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FieldRoot } from "@ndla/primitives";
+import { Button, DialogCloseTrigger, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IStatusDTO } from "@ndla/types-backend/concept-api";
 import { FormActionsContainer } from "../../../components/FormikForm";
@@ -30,7 +30,6 @@ interface Props {
   savedToServer: boolean;
   isNewlyCreated: boolean;
   showSimpleFooter: boolean;
-  onClose?: () => void;
   responsibleId?: string;
 }
 
@@ -111,6 +110,9 @@ const ConceptFormFooter = ({
             responsibleId={responsibleId}
           />
         </FieldRoot>
+        <DialogCloseTrigger asChild>
+          <Button variant="secondary">{t("form.abort")}</Button>
+        </DialogCloseTrigger>
         <SaveButton
           id={SAVE_BUTTON_ID}
           type={"button"}

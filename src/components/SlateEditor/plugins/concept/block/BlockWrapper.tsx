@@ -123,25 +123,29 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
     [editor, element],
   );
 
-  const onClose = useCallback(() => {
-    ReactEditor.focus(editor);
-    setIsEditing(false);
-    if (element.isFirstEdit) {
-      Transforms.removeNodes(editor, {
-        at: ReactEditor.findPath(editor, element),
-        voids: true,
-      });
-    }
-    const path = ReactEditor.findPath(editor, element);
-    if (Editor.hasPath(editor, Path.next(path))) {
-      setTimeout(() => {
-        Transforms.select(editor, Path.next(path));
-      }, 0);
-    }
-  }, [editor, element]);
+  const onOpenChange = useCallback(
+    (open: boolean) => {
+      setIsEditing(open);
+      if (open) return;
+      ReactEditor.focus(editor);
+      if (element.isFirstEdit) {
+        Transforms.removeNodes(editor, {
+          at: ReactEditor.findPath(editor, element),
+          voids: true,
+        });
+      }
+      const path = ReactEditor.findPath(editor, element);
+      if (Editor.hasPath(editor, Path.next(path))) {
+        setTimeout(() => {
+          Transforms.select(editor, Path.next(path));
+        }, 0);
+      }
+    },
+    [editor, element],
+  );
 
   return (
-    <DialogRoot size="large" open={isEditing} onOpenChange={({ open }) => setIsEditing(open)}>
+    <DialogRoot size="large" open={isEditing} onOpenChange={({ open }) => onOpenChange(open)}>
       <StyledEmbedWrapper {...attributes} data-solid-border={isSelected} draggable={true} contentEditable={false}>
         {!!concept && !!embed && (
           <>
@@ -158,7 +162,6 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
         )}
         <DialogContent>
           <ConceptModalContent
-            onClose={onClose}
             addConcept={addConcept}
             locale={locale}
             concept={concept}

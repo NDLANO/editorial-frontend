@@ -53,9 +53,10 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
     });
   };
 
-  const onClose = () => {
+  const onOpenChange = (open: boolean) => {
+    setIsEditing(open);
+    if (open) return;
     ReactEditor.focus(editor);
-    setIsEditing(false);
     if (element.isFirstEdit) {
       Transforms.removeNodes(editor, {
         at: ReactEditor.findPath(editor, element),
@@ -98,7 +99,7 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
   }, [data?.imageId, setImage]);
 
   return (
-    <DialogRoot size="large" open={isEditing} onOpenChange={(details) => setIsEditing(details.open)}>
+    <DialogRoot size="large" open={isEditing} onOpenChange={(details) => onOpenChange(details.open)}>
       <EmbedWrapper {...attributes} contentEditable={false} data-testid="slate-key-figure">
         {!!data && (
           <>
@@ -140,7 +141,7 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
             <DialogCloseButton />
           </DialogHeader>
           <DialogBody>
-            <KeyFigureForm onSave={onSave} initialData={data} onCancel={onClose} />
+            <KeyFigureForm onSave={onSave} initialData={data} />
           </DialogBody>
         </DialogContent>
       </Portal>

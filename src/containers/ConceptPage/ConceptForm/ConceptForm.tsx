@@ -48,7 +48,6 @@ interface Props {
   inModal: boolean;
   isNewlyCreated?: boolean;
   conceptArticles: IArticleDTO[];
-  onClose?: () => void;
   language: string;
   subjects: Node[];
   initialTitle?: string;
@@ -119,7 +118,6 @@ const ConceptForm = ({
   conceptChanged,
   inModal,
   isNewlyCreated = false,
-  onClose,
   subjects,
   language,
   upsertProps,
@@ -246,7 +244,6 @@ const ConceptForm = ({
               savedToServer={savedToServer}
               isNewlyCreated={isNewlyCreated}
               showSimpleFooter={!concept?.id}
-              onClose={onClose}
               responsibleId={concept?.responsible?.responsibleId ?? ndlaId}
             />
           </FormWrapper>

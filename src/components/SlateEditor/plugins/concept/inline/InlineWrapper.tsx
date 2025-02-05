@@ -162,7 +162,9 @@ const InlineWrapper = (props: Props) => {
     });
   };
 
-  const onClose = () => {
+  const onOpenChange = (open: boolean) => {
+    setIsEditing(open);
+    if (open) return;
     if (!element.data.contentId) {
       handleRemove();
     } else {
@@ -251,10 +253,7 @@ const InlineWrapper = (props: Props) => {
       )}
       <DialogRoot
         open={isEditing}
-        onOpenChange={({ open }) => {
-          setIsEditing(open);
-          onClose();
-        }}
+        onOpenChange={(details) => onOpenChange(details.open)}
         onEscapeKeyDown={(e) => e.stopPropagation()}
         onExitComplete={() => ReactEditor.focus(editor)}
         size="large"
@@ -262,7 +261,6 @@ const InlineWrapper = (props: Props) => {
         <Portal>
           <DialogContent>
             <ConceptModalContent
-              onClose={onClose}
               addConcept={addConcept}
               locale={locale}
               concept={concept}

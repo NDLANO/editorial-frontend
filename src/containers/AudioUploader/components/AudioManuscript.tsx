@@ -8,14 +8,15 @@
 
 import { connect, useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import { breakPlugin, markPlugin } from "@ndla/editor";
 import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { AudioFormikType } from "./AudioForm";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../components/Form/FieldWarning";
 import { FormField } from "../../../components/FormField";
 import { SlatePlugin } from "../../../components/SlateEditor/interfaces";
+import { breakPlugin } from "../../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../../components/SlateEditor/plugins/break/render";
+import { markPlugin } from "../../../components/SlateEditor/plugins/mark";
 import { markRenderer } from "../../../components/SlateEditor/plugins/mark/render";
 import { noopPlugin } from "../../../components/SlateEditor/plugins/noop";
 import { noopRenderer } from "../../../components/SlateEditor/plugins/noop/render";

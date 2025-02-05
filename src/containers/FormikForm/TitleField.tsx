@@ -8,7 +8,6 @@
 
 import { KeyboardEvent, memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { markPlugin } from "@ndla/editor";
 import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentEditableFieldLabel } from "../../components/Form/ContentEditableFieldLabel";
@@ -16,6 +15,7 @@ import { FieldWarning } from "../../components/Form/FieldWarning";
 import { FormField } from "../../components/FormField";
 
 import { SlatePlugin } from "../../components/SlateEditor/interfaces";
+import { markPlugin } from "../../components/SlateEditor/plugins/mark";
 import { markRenderer } from "../../components/SlateEditor/plugins/mark/render";
 import { noopPlugin } from "../../components/SlateEditor/plugins/noop";
 import { noopRenderer } from "../../components/SlateEditor/plugins/noop/render";

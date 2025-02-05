@@ -11,6 +11,7 @@ import { HistoryEditor } from "slate-history";
 import { ReactEditor } from "slate-react";
 import {
   CustomEditor as _CustomEditor,
+  BreakElement,
   HeadingElement,
   ListElement,
   ListItemElement,
@@ -20,7 +21,6 @@ import {
 import { AsideElement } from "./plugins/aside";
 import { AudioElement } from "./plugins/audio/types";
 import { BlockQuoteElement } from "./plugins/blockquote";
-import { BreakElement } from "./plugins/break";
 import { CampaignBlockElement } from "./plugins/campaignBlock";
 import { CodeblockElement } from "./plugins/codeBlock";
 import { CommentBlockElement, CommentInlineElement } from "./plugins/comment/interfaces";

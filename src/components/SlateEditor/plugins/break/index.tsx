@@ -6,16 +6,7 @@
  *
  */
 
-import { Editor, Element, Descendant } from "slate";
-import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_BREAK } from "./types";
-import { createHtmlTag } from "../../../../util/embedTagHelpers";
-import { SlateSerializer } from "../../interfaces";
-
-export interface BreakElement {
-  type: "br";
-  children: Descendant[];
-}
+import { breakSerializer as _breakSerializer, breakPlugin as _breakPlugin } from "@ndla/editor";
 
 const allowedBreakContainers = [
   "section",
@@ -33,33 +24,8 @@ const allowedBreakContainers = [
   "pre",
 ];
 
-export const breakSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement) {
-    if (el.tagName.toLowerCase() !== TYPE_BREAK) return;
+export const breakSerializer = _breakSerializer.configure({
+  allowedBreakContainers: allowedBreakContainers,
+});
 
-    if (el.parentElement && el.parentElement.tagName) {
-      const tagName = el.parentElement.tagName.toLowerCase();
-      if (allowedBreakContainers.includes(tagName)) {
-        return slatejsx("element", { type: TYPE_BREAK }, [{ text: "" }]);
-      }
-    }
-    return slatejsx("text", { text: "\n" });
-  },
-  serialize(node) {
-    if (!Element.isElement(node)) return;
-    if (node.type !== "br") return;
-    return createHtmlTag({ tag: "br", shorthand: true });
-  },
-};
-
-export const breakPlugin = (editor: Editor) => {
-  const { isVoid: nextIsVoid } = editor;
-
-  editor.isVoid = (element: Element) => {
-    if (element.type === TYPE_BREAK) {
-      return true;
-    }
-    return nextIsVoid(element);
-  };
-  return editor;
-};
+export const breakPlugin = _breakPlugin;

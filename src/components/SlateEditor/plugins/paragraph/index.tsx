@@ -6,10 +6,16 @@
  *
  */
 
-import { paragraphPlugin as _paragraphPlugin, LIST_ITEM_ELEMENT_TYPE } from "@ndla/editor";
+import {
+  paragraphPlugin as _paragraphPlugin,
+  paragraphSerializer as _paragraphSerializer,
+  LIST_ITEM_ELEMENT_TYPE,
+} from "@ndla/editor";
 import { TYPE_SUMMARY } from "../details/types";
 import { TYPE_NOOP } from "../noop/types";
 import { TYPE_TABLE_CELL } from "../table/types";
+
+export const paragraphSerializer = _paragraphSerializer;
 
 export const paragraphPlugin = _paragraphPlugin.configure({
   options: {

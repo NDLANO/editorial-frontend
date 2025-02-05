@@ -10,7 +10,6 @@ import { Formik, FormikValues } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { breakPlugin, markPlugin } from "@ndla/editor";
 import { Button, DialogBody } from "@ndla/primitives";
 import { UuDisclaimerEmbedData } from "@ndla/types-embed";
 import { DisclaimerField, toolbarAreaFilters } from "./DisclaimerField";
@@ -18,7 +17,9 @@ import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../uti
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import { SlatePlugin } from "../../interfaces";
+import { breakPlugin } from "../break";
 import { breakRenderer } from "../break/render";
+import { markPlugin } from "../mark";
 import { markRenderer } from "../mark/render";
 import { noopPlugin } from "../noop";
 import { noopRenderer } from "../noop/render";

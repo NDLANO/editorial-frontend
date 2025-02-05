@@ -6,4 +6,7 @@
  *
  */
 
-export const TYPE_BREAK = "br";
+import { BREAK_ELEMENT_TYPE } from "@ndla/editor";
+
+// TODO: Replace with ndla/editor directly
+export const TYPE_BREAK = BREAK_ELEMENT_TYPE;

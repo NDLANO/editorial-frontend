@@ -6,6 +6,8 @@
  *
  */
 
-import { headingPlugin as _headingPlugin } from "@ndla/editor";
+import { headingPlugin as _headingPlugin, headingSerializer as _headingSerializer } from "@ndla/editor";
+
+export const headingSerializer = _headingSerializer;
 
 export const headingPlugin = _headingPlugin;

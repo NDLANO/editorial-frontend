@@ -6,12 +6,12 @@
  *
  */
 
+import type { KeyboardEvent } from "react";
 import { Element, Descendant, Editor, Transforms, Node, Range, Location } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_DETAILS, TYPE_SUMMARY } from "./types";
 import { createHtmlTag } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
-import containsVoid from "../../utils/containsVoid";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import getCurrentBlock from "../../utils/getCurrentBlock";
 import hasNodeOfType from "../../utils/hasNodeOfType";
@@ -64,7 +64,11 @@ const summaryNormalizerConfig: NormalizerConfig = {
   },
 };
 
-const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
+const onEnter = (
+  e: KeyboardEvent<HTMLDivElement>,
+  editor: Editor,
+  nextOnKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => void,
+) => {
   if (hasNodeOfType(editor, TYPE_SUMMARY)) {
     e.preventDefault();
     Transforms.splitNodes(editor, {
@@ -76,7 +80,11 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: Keybo
   return nextOnKeyDown?.(e);
 };
 
-const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
+const onBackspace = (
+  e: KeyboardEvent<HTMLDivElement>,
+  editor: Editor,
+  nextOnKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => void,
+) => {
   if (
     hasNodeOfType(editor, TYPE_DETAILS) &&
     Location.isLocation(editor.selection) &&
@@ -100,7 +108,7 @@ const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: K
         if (
           Node.string(detailsNode) === "" &&
           Element.isElement(detailsNode) &&
-          !containsVoid(editor, detailsNode) &&
+          !editor.hasVoids(detailsNode) &&
           detailsNode.children.length === 2
         ) {
           e.preventDefault();

@@ -8,7 +8,7 @@
 import { ReactNode } from "react";
 import { Editor } from "slate";
 import { RenderElementProps } from "slate-react";
-import { ParagraphElement } from ".";
+import { ParagraphElement } from "@ndla/editor";
 
 interface Props {
   attributes: RenderElementProps["attributes"];

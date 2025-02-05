@@ -6,15 +6,13 @@
  *
  */
 
-import { createEditor, Editor } from "slate";
-import { withHistory } from "slate-history";
-import { withReact } from "slate-react";
+import { Editor } from "slate";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
-import withPlugins from "../../../utils/withPlugins";
+import { createSlate } from "@ndla/editor";
 
-const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));
+const editor = createSlate({ plugins: learningResourcePlugins });
 
 describe("combined table plugin tests", () => {
   test("id in th and td is preserved on serialize and normalize", () => {

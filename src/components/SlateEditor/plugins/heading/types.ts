@@ -6,4 +6,7 @@
  *
  */
 
-export const TYPE_HEADING = "heading";
+import { HEADING_ELEMENT_TYPE } from "@ndla/editor";
+
+// TODO: Replace this
+export const TYPE_HEADING = HEADING_ELEMENT_TYPE;

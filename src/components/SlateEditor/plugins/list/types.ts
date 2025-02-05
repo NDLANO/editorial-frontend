@@ -6,6 +6,7 @@
  *
  */
 
-export const LIST_TYPES = ["numbered-list", "bulleted-list", "letter-list"];
-export const TYPE_LIST = "list";
-export const TYPE_LIST_ITEM = "list-item";
+import { LIST_ELEMENT_TYPE, LIST_ITEM_ELEMENT_TYPE } from "@ndla/editor";
+
+export const TYPE_LIST = LIST_ELEMENT_TYPE;
+export const TYPE_LIST_ITEM = LIST_ITEM_ELEMENT_TYPE;

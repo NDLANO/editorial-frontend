@@ -8,14 +8,13 @@
 
 import { FormikHandlers, useFormikContext } from "formik";
 import { useEffect, useCallback, useState, forwardRef, Ref } from "react";
-import { createEditor, Descendant } from "slate";
-import { withHistory } from "slate-history";
-import { Slate, Editable, ReactEditor, withReact } from "slate-react";
+import { Descendant } from "slate";
+import { Slate, Editable, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
+import { createSlate } from "@ndla/editor";
 import { styled } from "@ndla/styled-system/jsx";
 import { JsxStyleProps } from "@ndla/styled-system/types";
 import { SlatePlugin } from "./interfaces";
-import withPlugins from "./utils/withPlugins";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { FormikStatus } from "../../interfaces";
 
@@ -53,7 +52,7 @@ interface Props extends Omit<EditableProps & JsxStyleProps, "value"> {
 
 const PlainTextEditor = forwardRef<HTMLTextAreaElement, Props>(
   ({ onChange, value, id, submitted, className, placeholder, plugins, ...rest }, ref) => {
-    const [editor] = useState(() => withPlugins(withHistory(withReact(createEditor())), plugins));
+    const [editor] = useState(() => createSlate({ plugins }));
 
     const onBlur = useCallback(() => {
       ReactEditor.deselect(editor);
@@ -91,7 +90,6 @@ const PlainTextEditor = forwardRef<HTMLTextAreaElement, Props>(
           // Forcing slate field to be deselected before selecting new field.
           // Fixes a problem where slate field is not properly focused on click.
           onBlur={onBlur}
-          // @ts-expect-error is-hotkey and editor.onKeyDown does not have matching types
           onKeyDown={editor.onKeyDown}
           className={className}
           placeholder={placeholder}

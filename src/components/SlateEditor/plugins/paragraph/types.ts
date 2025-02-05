@@ -6,4 +6,7 @@
  *
  */
 
-export const TYPE_PARAGRAPH = "paragraph";
+import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
+
+// TODO: Replace this with the one in frontend-packages
+export const TYPE_PARAGRAPH = PARAGRAPH_ELEMENT_TYPE;

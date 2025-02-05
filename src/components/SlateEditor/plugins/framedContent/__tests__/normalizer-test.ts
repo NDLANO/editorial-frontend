@@ -6,19 +6,17 @@
  *
  */
 
-import { createEditor, Descendant, Editor } from "slate";
-import { withHistory } from "slate-history";
-import { withReact } from "slate-react";
+import { Descendant, Editor } from "slate";
 
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
-import withPlugins from "../../../utils/withPlugins";
 import { TYPE_HEADING } from "../../heading/types";
 import { TYPE_LINK } from "../../link/types";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
 import { TYPE_FRAMED_CONTENT } from "../types";
+import { createSlate } from "@ndla/editor";
 
-const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));
+const editor = createSlate({ plugins: learningResourcePlugins });
 
 describe("framedContent normalizer tests", () => {
   test("adds paragraphs around framedContent element", () => {

@@ -8,11 +8,11 @@
 import compact from "lodash/compact";
 import toArray from "lodash/toArray";
 import { Descendant, Element, Node } from "slate";
+import { PARAGRAPH_ELEMENT_TYPE, SlateSerializer } from "@ndla/editor";
 import { AudioEmbedData, BrightcoveEmbedData, H5pEmbedData, ImageEmbedData } from "@ndla/types-embed";
 import { convertFromHTML } from "./convertFromHTML";
 import { parseEmbedTag, createHtmlTag, createDataAttributes } from "./embedTagHelpers";
 import { Plain } from "./slatePlainSerializer";
-import { SlateSerializer } from "../components/SlateEditor/interfaces";
 import { asideSerializer } from "../components/SlateEditor/plugins/aside";
 import { audioSerializer } from "../components/SlateEditor/plugins/audio";
 import { blockQuoteSerializer } from "../components/SlateEditor/plugins/blockquote";
@@ -49,7 +49,6 @@ import { noEmbedSerializer } from "../components/SlateEditor/plugins/noEmbed";
 import { noopSerializer } from "../components/SlateEditor/plugins/noop";
 import { TYPE_NOOP } from "../components/SlateEditor/plugins/noop/types";
 import { paragraphSerializer } from "../components/SlateEditor/plugins/paragraph";
-import { TYPE_PARAGRAPH } from "../components/SlateEditor/plugins/paragraph/types";
 import { pitchSerializer } from "../components/SlateEditor/plugins/pitch";
 import { relatedSerializer } from "../components/SlateEditor/plugins/related";
 import { sectionSerializer } from "../components/SlateEditor/plugins/section";
@@ -65,7 +64,7 @@ export const createEmptyValue = (): Descendant[] => [
     type: TYPE_SECTION,
     children: [
       {
-        type: TYPE_PARAGRAPH,
+        type: PARAGRAPH_ELEMENT_TYPE,
         children: [
           {
             text: "",
@@ -79,7 +78,7 @@ export const createEmptyValue = (): Descendant[] => [
 export const createNoop = (): Descendant[] => [{ type: TYPE_NOOP, children: [{ text: "" }] }];
 
 // Rules are checked from first to last
-const extendedRules: SlateSerializer[] = [
+const extendedRules: SlateSerializer<any>[] = [
   noopSerializer,
   paragraphSerializer,
   sectionSerializer,
@@ -122,7 +121,7 @@ const extendedRules: SlateSerializer[] = [
 ];
 
 // Rules are checked from first to last
-const commonRules: SlateSerializer[] = [
+const commonRules: SlateSerializer<any>[] = [
   noopSerializer,
   paragraphSerializer,
   sectionSerializer,
@@ -155,7 +154,7 @@ const serialize = (node: Descendant, rules: SlateSerializer[]): string | undefin
       continue;
     }
 
-    const ret = rule.serialize(node, children);
+    const ret = rule.serialize(node, children, rule.options);
     if (ret === undefined) {
       continue;
     } else if (ret === null) {
@@ -198,7 +197,7 @@ const articleContentToEditorValue = (html: string, rules: SlateSerializer[], noo
         continue;
       }
       // Already checked that nodeType === 1 -> el must be of type HTMLElement.
-      const ret = rule.deserialize(el as HTMLElement, children);
+      const ret = rule.deserialize(el as HTMLElement, children, rule.options);
       if (ret === undefined) {
         continue;
       } else {

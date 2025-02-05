@@ -6,4 +6,7 @@
  *
  */
 
-export const TYPE_SECTION = "section";
+import { SECTION_ELEMENT_TYPE } from "@ndla/editor";
+
+// TODO: Replace this
+export const TYPE_SECTION = SECTION_ELEMENT_TYPE;

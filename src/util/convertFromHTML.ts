@@ -16,8 +16,8 @@
 
 import { Descendant, Element, Text, Node } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
+import { ParagraphElement } from "@ndla/editor";
 import { blocks, inlines } from "../components/SlateEditor/helpers";
-import { ParagraphElement } from "../components/SlateEditor/plugins/paragraph";
 import { defaultParagraphBlock } from "../components/SlateEditor/plugins/paragraph/utils";
 
 const addEmptyTextNodes = (node: Element) => {

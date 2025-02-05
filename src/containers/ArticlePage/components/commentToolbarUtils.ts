@@ -6,7 +6,7 @@
  *
  */
 
-import { breakPlugin, listPlugin, markPlugin, paragraphPlugin } from "@ndla/editor";
+import { breakPlugin, listPlugin, markPlugin } from "@ndla/editor";
 import { SlatePlugin } from "../../../components/SlateEditor/interfaces";
 import { breakRenderer } from "../../../components/SlateEditor/plugins/break/render";
 import { linkPlugin } from "../../../components/SlateEditor/plugins/link";
@@ -26,6 +26,7 @@ import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
 } from "../../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { paragraphPlugin } from "../../../components/SlateEditor/plugins/paragraph";
 
 export const plugins: SlatePlugin[] = [
   sectionPlugin,

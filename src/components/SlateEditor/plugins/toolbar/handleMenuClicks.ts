@@ -9,19 +9,15 @@
 import { KeyboardEvent, SyntheticEvent } from "react";
 import { Editor, Transforms, Element, Range, Node, BaseRange } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
+import { HeadingElement, LIST_TYPES, ParagraphElement, toggleHeading, toggleList } from "@ndla/editor";
 import { BlockType, InlineType, TextType, getEditorAncestors } from "./toolbarState";
 import toggleBlock from "../../utils/toggleBlock";
 import { insertComment } from "../comment/inline/utils";
 import { insertInlineConcept } from "../concept/inline/utils";
 import { toggleDefinitionList } from "../definitionList/utils/toggleDefinitionList";
-import { HeadingElement } from "../heading";
 import { TYPE_HEADING } from "../heading/types";
-import { toggleHeading } from "../heading/utils";
 import { insertLink, unwrapLink } from "../link/utils";
-import { LIST_TYPES } from "../list/types";
-import { toggleList } from "../list/utils/toggleList";
 import { insertMathml } from "../mathml/utils";
-import { ParagraphElement } from "../paragraph";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
 import { SpanElement } from "../span";
 import { TYPE_SPAN } from "../span/types";
@@ -78,10 +74,10 @@ export function handleClickBlock(event: KeyboardEvent<HTMLDivElement>, editor: E
   event.preventDefault();
   if (type === "quote") {
     toggleBlock(editor, type);
-  } else if (LIST_TYPES.includes(type)) {
-    toggleList(editor, type);
   } else if (type === "definition-list") {
     toggleDefinitionList(editor);
+  } else if (LIST_TYPES.includes(type)) {
+    toggleList(editor, type);
   }
 }
 

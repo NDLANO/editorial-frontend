@@ -9,7 +9,7 @@
 import { useField, useFormikContext } from "formik";
 import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { breakPlugin, markPlugin, paragraphPlugin } from "@ndla/editor";
+import { breakPlugin, markPlugin } from "@ndla/editor";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IUpdatedArticleDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
@@ -27,6 +27,7 @@ import { linkRenderer } from "../../../../components/SlateEditor/plugins/link/re
 import { markRenderer } from "../../../../components/SlateEditor/plugins/mark/render";
 import { noopPlugin } from "../../../../components/SlateEditor/plugins/noop";
 import { noopRenderer } from "../../../../components/SlateEditor/plugins/noop/render";
+import { paragraphPlugin } from "../../../../components/SlateEditor/plugins/paragraph";
 import { paragraphRenderer } from "../../../../components/SlateEditor/plugins/paragraph/render";
 import saveHotkeyPlugin from "../../../../components/SlateEditor/plugins/saveHotkey";
 import { spanPlugin } from "../../../../components/SlateEditor/plugins/span";

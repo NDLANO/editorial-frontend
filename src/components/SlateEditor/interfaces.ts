@@ -10,6 +10,14 @@ import { JSX } from "react";
 import { Editor, Descendant, BaseEditor, NodeEntry, BaseRange, BaseSelection, Node, Element } from "slate";
 import { HistoryEditor } from "slate-history";
 import { ReactEditor, RenderElementProps, RenderLeafProps } from "slate-react";
+import {
+  CustomEditor as _CustomEditor,
+  HeadingElement,
+  ListElement,
+  ListItemElement,
+  ParagraphElement,
+  SectionElement,
+} from "@ndla/editor";
 import { AsideElement } from "./plugins/aside";
 import { AudioElement } from "./plugins/audio/types";
 import { BlockQuoteElement } from "./plugins/blockquote";
@@ -31,19 +39,15 @@ import { FootnoteElement } from "./plugins/footnote";
 import { FramedContentElement } from "./plugins/framedContent";
 import { GridCellElement, GridElement } from "./plugins/grid";
 import { H5pElement } from "./plugins/h5p/types";
-import { HeadingElement } from "./plugins/heading";
 import { ImageElement } from "./plugins/image/types";
 import { KeyFigureElement } from "./plugins/keyFigure";
 import { ContentLinkElement, LinkElement } from "./plugins/link";
 import { LinkBlockListElement } from "./plugins/linkBlockList/types";
-import { ListElement, ListItemElement } from "./plugins/list";
 import { CustomTextWithMarks } from "./plugins/mark";
 import { MathmlElement } from "./plugins/mathml";
 import { NoopElement } from "./plugins/noop";
-import { ParagraphElement } from "./plugins/paragraph";
 import { PitchElement } from "./plugins/pitch/types";
 import { RelatedElement } from "./plugins/related";
-import { SectionElement } from "./plugins/section";
 import { SpanElement } from "./plugins/span";
 import {
   TableBodyElement,
@@ -55,7 +59,6 @@ import {
 } from "./plugins/table/interfaces";
 import { DisclaimerElement } from "./plugins/uuDisclaimer/types";
 import { BrightcoveEmbedElement } from "./plugins/video/types";
-import { CustomEditor as _CustomEditor } from "@ndla/editor";
 
 export type SlatePlugin = (editor: Editor) => Editor;
 

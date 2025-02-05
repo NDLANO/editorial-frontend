@@ -8,7 +8,7 @@
 
 import { KeyboardEvent, memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { markPlugin, paragraphPlugin } from "@ndla/editor";
+import { markPlugin } from "@ndla/editor";
 import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentEditableFieldLabel } from "../../components/Form/ContentEditableFieldLabel";
@@ -16,18 +16,15 @@ import { FieldWarning } from "../../components/Form/FieldWarning";
 import { FormField } from "../../components/FormField";
 
 import { SlatePlugin } from "../../components/SlateEditor/interfaces";
-import { TYPE_SUMMARY } from "../../components/SlateEditor/plugins/details/types";
-import { TYPE_LIST_ITEM } from "../../components/SlateEditor/plugins/list/types";
 import { markRenderer } from "../../components/SlateEditor/plugins/mark/render";
 import { noopPlugin } from "../../components/SlateEditor/plugins/noop";
 import { noopRenderer } from "../../components/SlateEditor/plugins/noop/render";
-import { TYPE_NOOP } from "../../components/SlateEditor/plugins/noop/types";
+import { paragraphPlugin } from "../../components/SlateEditor/plugins/paragraph";
 import { paragraphRenderer } from "../../components/SlateEditor/plugins/paragraph/render";
 import saveHotkeyPlugin from "../../components/SlateEditor/plugins/saveHotkey";
 import { sectionRenderer } from "../../components/SlateEditor/plugins/section/render";
 import { spanPlugin } from "../../components/SlateEditor/plugins/span";
 import { spanRenderer } from "../../components/SlateEditor/plugins/span/render";
-import { TYPE_TABLE_CELL } from "../../components/SlateEditor/plugins/table/types";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../components/SlateEditor/plugins/toolbar";
 import {
@@ -52,11 +49,7 @@ const StyledRichTextEditor = styled(RichTextEditor, {
 
 const titlePlugins: SlatePlugin[] = [
   spanPlugin,
-  paragraphPlugin.configure({
-    options: {
-      nonSerializableParents: { override: true, value: [TYPE_TABLE_CELL, TYPE_LIST_ITEM, TYPE_SUMMARY, TYPE_NOOP] },
-    },
-  }),
+  paragraphPlugin,
   textTransformPlugin,
   saveHotkeyPlugin,
   markPlugin,

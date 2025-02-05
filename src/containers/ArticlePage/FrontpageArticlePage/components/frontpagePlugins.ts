@@ -6,7 +6,7 @@
  *
  */
 
-import { breakPlugin, headingPlugin, listPlugin, markPlugin, paragraphPlugin, sectionPlugin } from "@ndla/editor";
+import { breakPlugin, headingPlugin, listPlugin, markPlugin, sectionPlugin } from "@ndla/editor";
 import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import { asidePlugin } from "../../../../components/SlateEditor/plugins/aside";
 import { audioPlugin } from "../../../../components/SlateEditor/plugins/audio";
@@ -45,6 +45,7 @@ import { textTransformPlugin } from "../../../../components/SlateEditor/plugins/
 import { toolbarPlugin } from "../../../../components/SlateEditor/plugins/toolbar";
 import { disclaimerPlugin } from "../../../../components/SlateEditor/plugins/uuDisclaimer";
 import { videoPlugin } from "../../../../components/SlateEditor/plugins/video";
+import { paragraphPlugin } from "../../../../components/SlateEditor/plugins/paragraph";
 
 // Plugins are checked from last to first
 export const frontpagePlugins: SlatePlugin[] = [

@@ -6,7 +6,7 @@
  *
  */
 
-import { breakPlugin, headingPlugin, listPlugin, markPlugin, paragraphPlugin } from "@ndla/editor";
+import { breakPlugin, headingPlugin, listPlugin, markPlugin } from "@ndla/editor";
 import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import { blockQuotePlugin } from "../../../../components/SlateEditor/plugins/blockquote";
 import { commentInlinePlugin } from "../../../../components/SlateEditor/plugins/comment/inline";
@@ -22,6 +22,7 @@ import { sectionPlugin } from "../../../../components/SlateEditor/plugins/sectio
 import { spanPlugin } from "../../../../components/SlateEditor/plugins/span";
 import { textTransformPlugin } from "../../../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../../../components/SlateEditor/plugins/toolbar";
+import { paragraphPlugin } from "../../../../components/SlateEditor/plugins/paragraph";
 
 // Plugins are checked from last to first
 export const topicArticlePlugins: SlatePlugin[] = [

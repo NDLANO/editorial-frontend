@@ -8,7 +8,7 @@
 
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import { breakPlugin, markPlugin, paragraphPlugin } from "@ndla/editor";
+import { breakPlugin, markPlugin } from "@ndla/editor";
 import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
@@ -24,6 +24,7 @@ import { commentInlineRenderer } from "../../components/SlateEditor/plugins/comm
 import { markRenderer } from "../../components/SlateEditor/plugins/mark/render";
 import { noopPlugin } from "../../components/SlateEditor/plugins/noop";
 import { noopRenderer } from "../../components/SlateEditor/plugins/noop/render";
+import { paragraphPlugin } from "../../components/SlateEditor/plugins/paragraph";
 import { paragraphRenderer } from "../../components/SlateEditor/plugins/paragraph/render";
 import saveHotkeyPlugin from "../../components/SlateEditor/plugins/saveHotkey";
 import { spanPlugin } from "../../components/SlateEditor/plugins/span";

@@ -6,7 +6,7 @@
  *
  */
 
-import { breakPlugin, headingPlugin, listPlugin, markPlugin, paragraphPlugin, sectionPlugin } from "@ndla/editor";
+import { breakPlugin, headingPlugin, listPlugin, markPlugin, sectionPlugin } from "@ndla/editor";
 import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import { asidePlugin } from "../../../../components/SlateEditor/plugins/aside";
 import { audioPlugin } from "../../../../components/SlateEditor/plugins/audio";
@@ -40,19 +40,13 @@ import { textTransformPlugin } from "../../../../components/SlateEditor/plugins/
 import { toolbarPlugin } from "../../../../components/SlateEditor/plugins/toolbar";
 import { disclaimerPlugin } from "../../../../components/SlateEditor/plugins/uuDisclaimer";
 import { videoPlugin } from "../../../../components/SlateEditor/plugins/video";
-import { TYPE_TABLE_CELL } from "../../../../components/SlateEditor/plugins/table/types";
-import { TYPE_SUMMARY } from "../../../../components/SlateEditor/plugins/details/types";
-import { TYPE_NOOP } from "../../../../components/SlateEditor/plugins/noop/types";
+import { paragraphPlugin } from "../../../../components/SlateEditor/plugins/paragraph";
 
 export const learningResourcePlugins: SlatePlugin[] = [
   sectionPlugin,
   spanPlugin,
   divPlugin,
-  paragraphPlugin.configure({
-    options: {
-      nonSerializableParents: [TYPE_TABLE_CELL, TYPE_SUMMARY, TYPE_NOOP],
-    },
-  }),
+  paragraphPlugin,
   footnotePlugin,
   audioPlugin(),
   imagePlugin(),

@@ -14,7 +14,7 @@ import { Descendant, Editor, NodeEntry, Range, Transforms } from "slate";
 import { Slate, Editable, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
 import { useFieldContext } from "@ark-ui/react";
-import { createSlate } from "@ndla/editor";
+import { createSlate, LoggerManager } from "@ndla/editor";
 import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import "../DisplayEmbed/helpers/h5pResizer";
@@ -90,7 +90,7 @@ const RichTextEditor = ({
   noArticleStyling,
   ...rest
 }: RichTextEditorProps) => {
-  const [editor] = useState(() => createSlate({ plugins }));
+  const [editor] = useState(() => createSlate({ plugins, logger: new LoggerManager({ debug: true }) }));
   const [isFirstNormalize, setIsFirstNormalize] = useState(true);
   const [labelledBy, setLabelledBy] = useState<string | undefined>(undefined);
   const prevSubmitted = useRef(submitted);

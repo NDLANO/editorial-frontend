@@ -19,7 +19,7 @@ import {
   getEditorAncestors,
   toolbarState,
 } from "./toolbarState";
-import { toggleMark } from "../mark/utils";
+import { toggleMark } from "@ndla/editor";
 
 const isBoldHotkey = isKeyHotkey("mod+b");
 const isCodeHotKey = isKeyHotkey("mod+k");
@@ -119,7 +119,7 @@ const toolbarPlugin =
       e.preventDefault();
 
       if (action.category === "mark") {
-        toggleMark(e, editor, action.value);
+        toggleMark(editor, action.value);
       } else if (action.category === "block") {
         handleClickBlock(e, editor, action.value);
       } else if (action.category === "inline") {

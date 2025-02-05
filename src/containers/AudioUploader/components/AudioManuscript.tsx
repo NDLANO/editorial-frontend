@@ -8,7 +8,7 @@
 
 import { connect, useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import { breakPlugin, markPlugin, paragraphPlugin } from "@ndla/editor";
+import { breakPlugin, markPlugin } from "@ndla/editor";
 import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { AudioFormikType } from "./AudioForm";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
@@ -19,6 +19,7 @@ import { breakRenderer } from "../../../components/SlateEditor/plugins/break/ren
 import { markRenderer } from "../../../components/SlateEditor/plugins/mark/render";
 import { noopPlugin } from "../../../components/SlateEditor/plugins/noop";
 import { noopRenderer } from "../../../components/SlateEditor/plugins/noop/render";
+import { paragraphPlugin } from "../../../components/SlateEditor/plugins/paragraph";
 import { paragraphRenderer } from "../../../components/SlateEditor/plugins/paragraph/render";
 import saveHotkeyPlugin from "../../../components/SlateEditor/plugins/saveHotkey";
 import { spanPlugin } from "../../../components/SlateEditor/plugins/span";

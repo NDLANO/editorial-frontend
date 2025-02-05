@@ -7,7 +7,6 @@
  */
 
 import { TFunction } from "i18next";
-import sortBy from "lodash/sortBy";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldLabel, FieldRoot, FieldInput } from "@ndla/primitives";
@@ -111,13 +110,10 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
     { permission: DRAFT_RESPONSIBLE },
     {
       select: (users) =>
-        sortBy(
-          users.map((u) => ({
-            id: `${u.app_metadata.ndla_id}`,
-            name: u.name,
-          })),
-          (u) => u.name,
-        ),
+        users.map((u) => ({
+          id: `${u.app_metadata.ndla_id}`,
+          name: u.name,
+        })),
       placeholderData: [],
     },
   );
@@ -255,7 +251,7 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
       options: getDraftStatuses().sort(sortByProperty("name")),
       value: isHasPublished ? "HAS_PUBLISHED" : searchObject["draft-status"],
     },
-    { name: "users", options: users!.sort(sortByProperty("name")) },
+    { name: "users", options: users ?? [] },
     { name: "language", options: getResourceLanguages(t) },
   ];
 

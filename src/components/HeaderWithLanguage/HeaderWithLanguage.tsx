@@ -78,13 +78,13 @@ const HeaderWithLanguage = ({
         title={title}
         id={id}
         published={published}
-        multipleTaxonomy={taxonomy.length > 1}
         setHasConnections={setHasConnections}
         expirationDate={expirationDate}
         responsibleId={responsible}
         hasRSS={hasRSS}
         language={language}
         slug={article?.slug}
+        taxonomy={taxonomy}
       />
       {id ? (
         <HeaderActions

@@ -233,9 +233,11 @@ const ConceptForm = ({
                   <ConceptMetaData subjects={subjects} inModal={inModal} language={language} />
                 </FormAccordion>
               )}
-              <FormAccordion id="versionNotes" title={t("form.workflowSection")} hasError={false}>
-                <SimpleVersionPanel editorNotes={concept?.editorNotes} />
-              </FormAccordion>
+              {!!concept?.id && (
+                <FormAccordion id="versionNotes" title={t("form.workflowSection")} hasError={false}>
+                  <SimpleVersionPanel editorNotes={concept?.editorNotes} />
+                </FormAccordion>
+              )}
             </FormAccordions>
             <ConceptFormFooter
               entityStatus={concept?.status}

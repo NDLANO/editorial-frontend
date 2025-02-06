@@ -17,9 +17,9 @@ import VisualElementField from "../../FormikForm/components/VisualElementField";
 
 import { ConceptFormValues } from "../conceptInterfaces";
 
-type Props = {
+interface Props {
   inModal: boolean;
-};
+}
 
 const ConceptContent = ({ inModal = false }: Props) => {
   const { t } = useTranslation();

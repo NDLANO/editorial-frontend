@@ -155,9 +155,11 @@ const RelatedArticleBox = ({ attributes, editor, element, children }: Props) => 
 
   const deleteElement = () => {
     const path = ReactEditor.findPath(editor, element);
-    ReactEditor.focus(editor);
-    Transforms.select(editor, path);
-    Transforms.removeNodes(editor, { at: path });
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, path);
+      Transforms.removeNodes(editor, { at: path });
+    }, 0);
   };
 
   const updateArticles = (newEmbeds: RelatedContentMetaData[]) => {

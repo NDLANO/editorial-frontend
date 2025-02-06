@@ -79,10 +79,16 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
   );
 
   const handleRemove = () => {
+    const path = ReactEditor.findPath(editor, element);
     Transforms.removeNodes(editor, {
-      at: ReactEditor.findPath(editor, element),
+      at: path,
       voids: true,
     });
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, path);
+      Transforms.collapse(editor);
+    }, 0);
   };
 
   const onClose = () => {

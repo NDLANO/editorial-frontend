@@ -89,14 +89,18 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
     }
   }, [campaignBlock?.imageId]);
 
-  const handleRemove = useCallback(
-    () =>
-      Transforms.removeNodes(editor, {
-        at: ReactEditor.findPath(editor, element),
-        voids: true,
-      }),
-    [editor, element],
-  );
+  const handleRemove = useCallback(() => {
+    const path = ReactEditor.findPath(editor, element);
+    Transforms.removeNodes(editor, {
+      at: path,
+      voids: true,
+    });
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, path);
+      Transforms.collapse(editor);
+    }, 0);
+  }, [editor, element]);
 
   return (
     <DialogRoot size="large" open={isEditing} onOpenChange={(details) => setIsEditing(details.open)}>

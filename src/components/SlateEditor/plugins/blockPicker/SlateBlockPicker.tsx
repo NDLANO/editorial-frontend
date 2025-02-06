@@ -205,9 +205,6 @@ const SlateBlockPicker = ({
     if (Location.isLocation(editor.selection)) {
       setLastActiveSelection(editor.selection);
     }
-    if (!editor.selection && lastActiveSelection) {
-      editor.selection = lastActiveSelection;
-    }
   }, [editor, editor.selection, lastActiveSelection]);
 
   const onOpenChange = useCallback(
@@ -310,7 +307,7 @@ const SlateBlockPicker = ({
         break;
       }
       case TYPE_GRID: {
-        onInsertBlock(defaultGridBlock());
+        onInsertBlock(defaultGridBlock(), true);
         break;
       }
       case TYPE_KEY_FIGURE: {

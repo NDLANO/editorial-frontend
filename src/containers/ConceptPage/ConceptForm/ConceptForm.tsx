@@ -38,7 +38,7 @@ interface UpdateProps {
 
 interface CreateProps {
   onCreate: (newConcept: INewConceptDTO) => Promise<IConceptDTO>;
-  onUpdateStatus: (id: number, status?: string) => Promise<IConceptDTO>;
+  onUpdateStatus: (id: number, status: string) => Promise<IConceptDTO>;
 }
 
 interface Props {
@@ -103,6 +103,7 @@ const conceptRules: RulesType<ConceptFormValues, IConceptDTO> = {
   ...conceptFormBaseRules,
   conceptContent: {
     required: true,
+    minLength: 1,
     warnings: {
       apiField: "content",
       languageMatch: true,
@@ -145,7 +146,7 @@ const ConceptForm = ({
       let savedConcept: IConceptDTO;
       if ("onCreate" in upsertProps) {
         savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses, "concept"));
-        savedConcept = await upsertProps.onUpdateStatus(savedConcept.id, newStatus);
+        savedConcept = newStatus ? await upsertProps.onUpdateStatus(savedConcept.id, newStatus) : savedConcept;
       } else {
         const conceptWithStatus = {
           ...getUpdatedConceptType(values, licenses, "concept"),

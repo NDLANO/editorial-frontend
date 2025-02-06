@@ -85,8 +85,7 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
     return savedConcept;
   };
 
-  const updateConceptStatus = async (id: number, status?: string): Promise<IConceptDTO> => {
-    if (status === undefined) return concept as IConceptDTO;
+  const updateConceptStatus = async (id: number, status: string): Promise<IConceptDTO> => {
     const savedConcept = await conceptApi.updateConceptStatus(id, status);
     const convertedArticles = await fetchElementList(savedConcept.articleIds);
     setConcept(savedConcept);

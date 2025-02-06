@@ -51,7 +51,7 @@ interface Props {
   selectedText?: string;
   subjects: Node[];
   updateConcept: (id: number, updatedConcept: IUpdatedConceptDTO) => Promise<IConceptDTO>;
-  updateConceptStatus: (id: number, status?: string) => Promise<IConceptDTO>;
+  updateConceptStatus: (id: number, status: string) => Promise<IConceptDTO>;
   conceptArticles: IArticleDTO[];
   conceptType: ConceptType;
 }

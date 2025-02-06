@@ -61,33 +61,29 @@ const VisualElementMenu = ({ onSelect, types = ["image", "video", "h5p", "url"] 
     },
   ];
 
-  if (types.length === 1) {
-    const button = visualElementButtons.find((button) => button.type === types[0]);
-    if (!button) {
-      return null;
-    }
+  const filteredButtons = visualElementButtons.filter((button) => types.find((type) => type === button.type));
+
+  if (filteredButtons.length === 1) {
+    const [button] = filteredButtons;
     return (
       <Button key={button.type} variant="secondary" onClick={() => handleSelect(button.type)}>
         {button.component}
       </Button>
     );
   }
-
   return (
     <ButtonWrapper>
       <Button variant="secondary" onClick={toggleIsOpen}>
         {isOpen ? <CloseLine /> : <AddLine />}
       </Button>
       {!!isOpen &&
-        visualElementButtons
-          .filter((button) => types.find((type) => type === button.type))
-          .map((button) => {
-            return (
-              <Button key={button.type} variant="secondary" onClick={() => handleSelect(button.type)}>
-                {button.component}
-              </Button>
-            );
-          })}
+        filteredButtons.map((button) => {
+          return (
+            <Button key={button.type} variant="secondary" onClick={() => handleSelect(button.type)}>
+              {button.component}
+            </Button>
+          );
+        })}
     </ButtonWrapper>
   );
 };

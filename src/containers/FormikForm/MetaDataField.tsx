@@ -9,10 +9,8 @@
 import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
-import { CheckLine } from "@ndla/icons";
 import {
   ComboboxItem,
-  ComboboxItemIndicator,
   ComboboxItemText,
   FieldErrorMessage,
   FieldHelper,
@@ -30,6 +28,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { MetaImageSearch } from ".";
+import { GenericComboboxItemIndicator } from "../../components/abstractions/Combobox";
 import { FieldWarning } from "../../components/Form/FieldWarning";
 import { FormRemainingCharacters } from "../../components/Form/FormRemainingCharacters";
 import { SearchTagsContent } from "../../components/Form/SearchTagsContent";
@@ -106,9 +105,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
                 {collection.items.map((item) => (
                   <ComboboxItem key={item} item={item}>
                     <ComboboxItemText>{item}</ComboboxItemText>
-                    <ComboboxItemIndicator asChild>
-                      <CheckLine />
-                    </ComboboxItemIndicator>
+                    <GenericComboboxItemIndicator />
                   </ComboboxItem>
                 ))}
               </SearchTagsContent>

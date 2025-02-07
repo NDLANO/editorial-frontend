@@ -1266,11 +1266,6 @@ const phrases = {
       createOption: "Create new tag",
       searchPlaceholder: "Search for tags",
     },
-    categories: {
-      label: "List and filters",
-      description: "Format: list:filter1:filter2",
-      searchPlaceholder: "Search for lists",
-    },
     grepCodes: {
       label: "Competences and core elements",
       placeholder: "Type code",

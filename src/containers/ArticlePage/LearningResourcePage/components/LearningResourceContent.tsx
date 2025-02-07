@@ -48,6 +48,7 @@ import { findNodesByType } from "../../../../util/slateHelpers";
 import { IngressField, TitleField } from "../../../FormikForm";
 import { HandleSubmitFunc, LearningResourceFormType } from "../../../FormikForm/articleFormHooks";
 import { useSession } from "../../../Session/SessionProvider";
+import ArticleSummary from "../../components/summary/ArticleSummary";
 
 const findFootnotes = (content: Descendant[]): FootnoteType[] =>
   findNodesByType(content, TYPE_FOOTNOTE)
@@ -72,11 +73,17 @@ const toolbarAreaFilters = createToolbarAreaOptions();
 // Plugins are checked from last to first
 interface Props {
   articleLanguage: string;
+  articleContent?: string;
   articleId?: number;
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
 }
 
-const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _handleSubmit }: Props) => {
+const LearningResourceContent = ({
+  articleContent,
+  articleLanguage,
+  articleId,
+  handleSubmit: _handleSubmit,
+}: Props) => {
   const { t } = useTranslation();
   const [creatorsField] = useField<IAuthorDTO[]>("creators");
 
@@ -139,6 +146,7 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
           </Button>
         </FormActionsContainer>
       </AlertDialog>
+      <ArticleSummary articleContent={articleContent} articleLanguage={articleLanguage} />
       <ContentField articleLanguage={articleLanguage} articleId={articleId} />
     </FormContent>
   );

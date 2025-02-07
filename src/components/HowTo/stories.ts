@@ -57,6 +57,8 @@ export type StoryType =
   | "ContactBlock"
   | "Grid"
   | "KeyFigure"
+  | "Gloss"
+  | "Disclaimer"
   | "Comment";
 
 export const stories: Record<StoryType, Story> = {
@@ -66,106 +68,183 @@ export const stories: Record<StoryType, Story> = {
   },
   FactAside: {
     title: "Faktaboks",
-    lead: "Denne funksjonen setter inn en faktaboks i teksten. En faktaboks er et avgrenset område i teksten med en ramme rundt seg. Den kan ha en overskrift og en kort mengde tekst. Marker teksten du ønsker som tittel og velg H1 fra verktøyslinjen.",
+    lead: "Les vår veiledning om bruk av faktaboks:",
+    body: [
+      {
+        type: "link",
+        content: {
+          href: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-faktaboks",
+          text: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-faktaboks",
+        },
+      },
+    ],
   },
   Table: {
     title: "Tabeller",
-    lead: "Tabeller skal brukes til å presentere data (tabulære data), ikke til utforming. Det anbefales å holde tabellene så enkle som mulig. Ved mer kompleksitet kan data heller deles opp i flere tabeller.",
+    lead: "Les vår veiledning om bruk av tabeller:",
+    body: [
+      {
+        type: "link",
+        content: {
+          href: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-tabell",
+          text: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-tabell",
+        },
+      },
+    ],
   },
   FramedContent: {
     title: "Tekst i ramme",
-    lead: "Tekst i ramme kan brukes for å framheve noe av særlig interesse, annet enn sitat",
+    lead: "Les vår veiledning om bruk av tektboks:",
     body: [
       {
-        type: "text",
-        content: "Teksten bør være kortfattet og ikke ha mer enn omtrent 100 ord eller 500 tegn.",
+        type: "link",
+        content: {
+          href: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-tekst-i-ramme",
+          text: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-tekst-i-ramme",
+        },
       },
     ],
   },
   Details: {
     title: "Ekspanderbar boks",
-    lead: "En ekspanderbar boks består av en tittel som er synlig og en kort tekst som er skjult. Brukeren kan klikke på en liten pil til venstre og utvide boksen for å se hele teksten.",
-  },
-  Images: {
-    title: "Bilder",
-    lead: "Denne funksjonen lar deg legge til et bilde i teksten. Du kan søke frem bilder fra NDLA sitt arkiv eller laste opp et nytt. Klikk på bildet etter du har lagt det inn i artikkelen for å velge plassering, utsnitt, størrelse og bildetekst på bildet.",
+    lead: "Les vår veiledning om bruk av ekspanderbar boks:",
     body: [
-      {
-        type: "text",
-        content: "Se lenken under for mer informasjon om bilder, rettigheter, universal utformning, motiv, m.m.",
-      },
       {
         type: "link",
         content: {
-          href: "https://ndla.zendesk.com/hc/no/articles/4405380397714-KAPITTEL-7-Bruk-av-bilder",
-          text: "https://ndla.zendesk.com/hc/no/articles/4405380397714-KAPITTEL-7-Bruk-av-bilder",
+          href: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-ekspanderende-boks",
+          text: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-ekspanderende-boks",
+        },
+      },
+    ],
+  },
+  Images: {
+    title: "Bilder",
+    lead: "Les vår veiledning om bruk av bilder:",
+    body: [
+      {
+        type: "link",
+        content: {
+          href: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-bilde",
+          text: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-bilde",
         },
       },
     ],
   },
   Videos: {
     title: "Video",
-    lead: "Denne funksjonen lar deg legge inn en video i artikkelen. Du kan søke frem videoer fra NDLA sin konto på Brightcove.",
+    lead: "Les vår veiledning om bruk av video fra Brightcove:",
+    body: [
+      {
+        type: "link",
+        content: {
+          href: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-video",
+          text: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-video",
+        },
+      },
+    ],
   },
   Audios: {
     title: "Lydfiler",
-    lead: "Denne funksjonen lar deg legge til en lydfil i artikkelen.",
+    lead: "Les vår veiledning om bruk av lyd:",
     body: [
       {
-        type: "text",
-        content: "Når du har lagt til en lydfil kan du klikke på den for å velge type avspiller eller legge til tekst.",
+        type: "link",
+        content: {
+          href: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-lyd",
+          text: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-lyd",
+        },
       },
     ],
   },
   Podcasts: {
     title: "Podkastepisoder",
-    lead: "Denne funksjonen lar deg legge til en podkastepisode i artikkelen.",
-  },
-  H5P: {
-    title: "h5p",
-    lead: "H5P er oppgaver man kan legge til en artikkel. Dette hjelper brukeren å bedre huske hva som blir lest, skaper engasjement og gjør det gøyere å lære.",
+    lead: "Les vår veiledning om bruk av podkast:",
     body: [
-      {
-        type: "text",
-        content:
-          "Ønsker du å bruke eksisterende oppgaver vil du finne disse i listen. Du kan også søke deg fram eller filtrere listen for enklere finne det du leter etter.",
-      },
-      {
-        type: "text",
-        content: 'For å legge til oppgaven trykker du "Use Resource"',
-      },
-      {
-        type: "text",
-        content: "Du kan også redigere en H5P eller lage en ny en. For mer informasjon se lenken under:",
-      },
       {
         type: "link",
         content: {
-          href: "https://h5p.org/",
-          text: "https://h5p.org/",
+          href: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-podkastepisode",
+          text: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-podkastepisode",
+        },
+      },
+    ],
+  },
+  H5P: {
+    title: "H5P",
+    lead: "Les vår veiledning om bruk av H5P:",
+    body: [
+      {
+        type: "link",
+        content: {
+          href: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-h5p",
+          text: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-h5p",
         },
       },
     ],
   },
   ResourceFromLink: {
     title: "Ressurs fra lenke?",
-    lead: "Denne funksjonen lar deg sette inn en ressurs fra en ekstern lenke.",
+    lead: "Les vår veiledning om innbygging/lenkeplakat:",
+    body: [
+      {
+        type: "link",
+        content: {
+          href: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-ressurs-fra-lenke",
+          text: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-ressurs-fra-lenke",
+        },
+      },
+    ],
   },
   File: {
-    title: "Last opp filer til artikkel",
-    lead: "Denne funksjonen gir deg mulighet til å laste opp filer som brukeren kan laste ned. Eksempelvis PDF-filer e.l.",
+    title: "Last opp filer til artikkel:",
+    lead: "Les vår veiledning om bruk av filer:",
+    body: [
+      {
+        type: "link",
+        content: {
+          href: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-fil",
+          text: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-fil",
+        },
+      },
+    ],
+  },
+  Disclaimer: {
+    title: "Tilgjengelighetsinformasjon",
+    lead: "Les vår veiledning om bruk av tilgjengelighetsknapp:",
+    body: [
+      {
+        type: "link",
+        content: {
+          href: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-kommentar",
+          text: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-kommentar",
+        },
+      },
+    ],
+  },
+  Gloss: {
+    title: "Glosekort",
+    lead: "Les vår veiledning om bruk av glosekort:",
+    body: [
+      {
+        type: "link",
+        content: {
+          href: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-glose",
+          text: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-glose",
+        },
+      },
+    ],
   },
   RelatedArticle: {
     title: "RelatedArticle",
-    lead: "Denne funksjonen lar deg lar deg vise og lenke til relaterte artikler.",
+    lead: "Les vår veiledning om bruk av relasjoner:",
     body: [
       {
-        type: "text",
-        content: "Dette hjelper brukeren å få oversikt og lettere finne nyttige ressurser i konteksten de står i.",
-      },
-      {
-        type: "text",
-        content: "Artiklene det lenkes til kan være interne eller eksterne.",
+        type: "link",
+        content: {
+          href: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-relatert-innhold",
+          text: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-relatert-innhold",
+        },
       },
     ],
   },
@@ -191,8 +270,8 @@ export const stories: Record<StoryType, Story> = {
       {
         type: "link",
         content: {
-          href: "https://ndla.zendesk.com/hc/no/articles/4405386986898-KAPITTEL-10-Bruk-av-lisenser",
-          text: "https://ndla.zendesk.com/hc/no/articles/4405386986898-KAPITTEL-10-Bruk-av-lisenser",
+          href: "https://kvalitet.ndla.no/books/rammer-regler-og-lovverk/page/vi-bruker-cc-lisenser-pa-ndla",
+          text: "https://kvalitet.ndla.no/books/rammer-regler-og-lovverk/page/vi-bruker-cc-lisenser-pa-ndla",
         },
       },
     ],
@@ -224,16 +303,7 @@ export const stories: Record<StoryType, Story> = {
   },
   TaxonomyContentTypes: {
     title: "Innholdstyper",
-    lead: "Alle ressurser skal få en innholdstype. Du kan lese mer om innholdstyper i Brukskvalitetsplattformen",
-    body: [
-      {
-        type: "link",
-        content: {
-          href: "https://ndla.zendesk.com/hc/no/articles/4405380403218-KAPITTEL-5-Innholdstyper",
-          text: "https://ndla.zendesk.com/hc/no/articles/4405380403218-KAPITTEL-5-Innholdstyper",
-        },
-      },
-    ],
+    lead: "Alle ressurser må være merket med en innholdstype.",
   },
   TaxonomySubjectConnections: {
     title: "Emnetilknytninger",
@@ -256,7 +326,7 @@ export const stories: Record<StoryType, Story> = {
   },
   status: {
     title: "Forklaring for ulike statuser",
-    lead: "Denne teksten kommer snart. Veeeldig snart!.",
+    lead: "I arbeid er en status der mange kan være involvert. Andre statuser er tiltenkt ulike aktører i ulike faser.",
   },
   Markdown: {
     title: "Markdown",
@@ -269,11 +339,14 @@ export const stories: Record<StoryType, Story> = {
   },
   CodeBlock: {
     title: "CodeBlock",
-    lead: "Legg til formatert kodesnutt.",
+    lead: "Les vår veiledning om bruk av kodeblokk:",
     body: [
       {
-        type: "text",
-        content: "Vis og presenter kodesnutter formatert i valgt språk.",
+        type: "link",
+        content: {
+          href: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-kodevisning",
+          text: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-kodevisning",
+        },
       },
     ],
   },
@@ -289,12 +362,14 @@ export const stories: Record<StoryType, Story> = {
   },
   Comment: {
     title: "Kommentar",
-    lead: "Legg til kommentar.",
+    lead: "Les vår veiledning om bruk av kommentarer:",
     body: [
       {
-        type: "text",
-        content:
-          "Legg til en kommentar i artikkel. Kommentaren vil ikke være synlig i publisert versjon av artikkelen.",
+        type: "link",
+        content: {
+          href: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-kommentar-1",
+          text: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-kommentar-1",
+        },
       },
     ],
   },
@@ -330,11 +405,14 @@ export const stories: Record<StoryType, Story> = {
   },
   Grid: {
     title: "Grid",
-    lead: "Legg til grid",
+    lead: "Les vår veiledning om bruk av bildegrid:",
     body: [
       {
-        type: "text",
-        content: "Gjør det mulig å plassere embeds eller tekst i grid på enten 1x2 eller 1x4.",
+        type: "link",
+        content: {
+          href: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-grid",
+          text: "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel#bkmrk-grid",
+        },
       },
     ],
   },

@@ -36,7 +36,7 @@ const ConceptContent = ({ inModal = false }: Props) => {
           <LastUpdatedLine onChange={() => {}} creators={creators} published={updated} contentType="concept" />
         </div>
         <VisualElementField types={["image"]} inModal={inModal} />
-        <IngressField name="conceptContent" maxLength={800} placeholder={t("form.name.content")} />
+        <IngressField name="conceptContent" maxLength={800} placeholder={t("form.name.conceptContent")} />
       </FormContent>
     </ContentTypeProvider>
   );

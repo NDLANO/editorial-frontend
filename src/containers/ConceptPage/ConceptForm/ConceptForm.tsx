@@ -103,7 +103,6 @@ const conceptRules: RulesType<ConceptFormValues, IConceptDTO> = {
   ...conceptFormBaseRules,
   conceptContent: {
     required: true,
-    minLength: 1,
     warnings: {
       apiField: "content",
       languageMatch: true,

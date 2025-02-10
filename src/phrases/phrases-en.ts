@@ -828,6 +828,7 @@ const phrases = {
       origin: "Origin",
       audioFile: "Audio file",
       content: "Content",
+      conceptContent: "Description",
       notes: "Notes",
       metaDescription: "Meta description",
       metaImageAlt: "Alt-text",

@@ -93,14 +93,18 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
     [editor, element],
   );
 
-  const onRemove = useCallback(
-    () =>
-      Transforms.unwrapNodes(editor, {
-        at: ReactEditor.findPath(editor, element),
-        voids: true,
-      }),
-    [editor, element],
-  );
+  const onRemove = useCallback(() => {
+    const path = ReactEditor.findPath(editor, element);
+    Transforms.removeNodes(editor, {
+      at: path,
+      voids: true,
+    });
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, path);
+      Transforms.collapse(editor);
+    }, 0);
+  }, [editor, element]);
 
   const onOpenChange = useCallback(
     (open: boolean) => {

@@ -42,9 +42,10 @@ test("Open previews", async ({ page }) => {
   await page.getByRole("heading", { name: "Versjonslogg og merknader" }).click();
   await page.getByTestId("previewVersion").last().click();
   await page.getByRole("article").first().waitFor();
-  await expect(page.getByRole("heading", { name: "Sammenlign med publisert" })).toBeVisible();
-  expect(await page.getByRole("article").count()).toBe(2);
-  await page.getByRole("button", { name: "Lukk" }).click();
+  const dialog = page.getByRole("dialog").filter({ hasText: "Sammenlign med publisert" });
+  await expect(dialog).toBeVisible();
+  expect(await dialog.getByRole("article").count()).toBe(2);
+  await dialog.getByRole("button", { name: "Lukk" }).click();
   await expect(page.getByTestId("preview-draft-modal")).toBeVisible({ visible: false });
 });
 

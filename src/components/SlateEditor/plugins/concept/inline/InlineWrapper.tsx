@@ -95,7 +95,7 @@ const InlineWrapper = (props: Props) => {
   const nodeText = Node.string(element).trim();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
   const locale = useArticleLanguage();
-  const { concept, subjects, loading, conceptArticles, createConcept, updateConcept } = useFetchConceptData(
+  const { concept, loading, conceptArticles, createConcept, updateConcept } = useFetchConceptData(
     parseInt(element.data.contentId),
     locale,
   );
@@ -266,7 +266,6 @@ const InlineWrapper = (props: Props) => {
               addConcept={addConcept}
               locale={locale}
               concept={concept}
-              subjects={subjects}
               handleRemove={handleRemove}
               selectedText={nodeText}
               createConcept={createConcept}

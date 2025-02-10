@@ -13,10 +13,10 @@ import { SafeLink } from "@ndla/safelink";
 import { IConceptSearchResultDTO } from "@ndla/types-backend/concept-api";
 import PageSizeSelect from "./PageSizeSelect";
 import StatusCell from "./StatusCell";
-import SubjectCombobox from "./SubjectCombobox";
 import { SortOptionConceptList } from "./WorkList";
 import Pagination from "../../../../components/abstractions/Pagination";
 import { useSearchConcepts } from "../../../../modules/concept/conceptQueries";
+import formatDate from "../../../../util/formatDate";
 import { toEditConcept, toEditGloss } from "../../../../util/routeHelpers";
 import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../../styles";
 import { SelectItem } from "../../types";
@@ -26,12 +26,10 @@ import TableTitle from "../TableTitle";
 
 interface Props {
   data: IConceptSearchResultDTO | undefined;
-  filterSubject: SelectItem | undefined;
   isPending: boolean;
   setSortOption: (o: Prefix<"-", SortOptionConceptList>) => void;
   sortOption: string;
   error: string | undefined;
-  setFilterSubject: (fs: SelectItem) => void;
   ndlaId: string;
   setPageConcept: (page: number) => void;
   pageSizeConcept: SelectItem;
@@ -40,12 +38,10 @@ interface Props {
 
 const ConceptListTabContent = ({
   data,
-  filterSubject,
   isPending,
   setSortOption,
   sortOption,
   error,
-  setFilterSubject,
   ndlaId,
   setPageConcept,
   pageSizeConcept,
@@ -91,12 +87,8 @@ const ConceptListTabContent = ({
               data: res.conceptTypeName,
             },
             {
-              id: `concept_subject_${res.id}`,
-              data: res.subjectName,
-            },
-            {
               id: `date_${res.id}`,
-              data: res.lastUpdated,
+              data: res.responsible ? formatDate(res.responsible.lastUpdated) : "",
             },
           ])
         : [[]],
@@ -107,7 +99,7 @@ const ConceptListTabContent = ({
     {
       title: t("welcomePage.workList.title"),
       sortableField: "title",
-      width: "25%",
+      width: "35%",
     },
     {
       title: t("welcomePage.workList.status"),
@@ -115,15 +107,12 @@ const ConceptListTabContent = ({
       width: "20%",
     },
     { title: t("welcomePage.workList.contentType"), width: "20%", sortableField: "conceptType" },
-    { title: t("welcomePage.workList.conceptSubject"), width: "20%", sortableField: "subject" },
     {
       title: t("welcomePage.workList.date"),
       sortableField: "responsibleLastUpdated",
       width: "15%",
     },
   ];
-
-  const subjectIds = searchQuery.data?.aggregations.flatMap((a) => a.values.map((v) => v.value));
 
   return (
     <>
@@ -136,16 +125,7 @@ const ConceptListTabContent = ({
         <ControlWrapperDashboard>
           <TopRowControls>
             <PageSizeSelect pageSize={pageSizeConcept} setPageSize={setPageSizeConcept} />
-            {!!setFilterSubject && (
-              <>
-                <SubjectCombobox
-                  subjectIds={subjectIds ?? []}
-                  filterSubject={filterSubject}
-                  setFilterSubject={setFilterSubject}
-                />
-                <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject?.value} searchEnv="content" />
-              </>
-            )}
+            <GoToSearch ndlaId={ndlaId} searchEnv="content" />
           </TopRowControls>
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>

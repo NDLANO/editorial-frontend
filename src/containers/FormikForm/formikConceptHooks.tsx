@@ -10,22 +10,17 @@ import uniq from "lodash/uniq";
 import { useState, useEffect } from "react";
 import { IConceptDTO, INewConceptDTO, IUpdatedConceptDTO } from "@ndla/types-backend/concept-api";
 import { IArticleDTO, IUserDataDTO } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-taxonomy";
-import { LAST_UPDATED_SIZE, TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
+import { LAST_UPDATED_SIZE } from "../../constants";
 import * as conceptApi from "../../modules/concept/conceptApi";
 import { fetchDraft } from "../../modules/draft/draftApi";
 import { useUpdateUserDataMutation, useUserData } from "../../modules/draft/draftQueries";
-import { fetchNodes } from "../../modules/nodes/nodeApi";
 import handleError from "../../util/handleError";
-import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
 export function useFetchConceptData(conceptId: number | undefined, locale: string) {
   const [concept, setConcept] = useState<IConceptDTO>();
   const [conceptArticles, setConceptArticles] = useState<IArticleDTO[]>([]);
   const [conceptChanged, setConceptChanged] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [subjects, setSubjects] = useState<Node[]>([]);
-  const { taxonomyVersion } = useTaxonomyVersion();
   const { mutateAsync } = useUpdateUserDataMutation();
   const { data } = useUserData();
 
@@ -48,20 +43,6 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
     };
     fetchConcept();
   }, [conceptId, locale]);
-
-  useEffect(() => {
-    const fetchSubjects = async () => {
-      const fetchedSubjects = await fetchNodes({
-        language: locale,
-        nodeType: "SUBJECT",
-        key: TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
-        value: "true",
-        taxonomyVersion,
-      });
-      setSubjects(fetchedSubjects);
-    };
-    fetchSubjects();
-  }, [locale, taxonomyVersion]);
 
   const fetchElementList = async (articleIds?: number[]): Promise<IArticleDTO[]> => {
     const promises = articleIds?.map((id) => fetchDraft(id)) ?? [];
@@ -105,7 +86,6 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
       setConceptChanged(true);
     },
     conceptChanged,
-    subjects,
     conceptArticles,
     updateConcept,
   };

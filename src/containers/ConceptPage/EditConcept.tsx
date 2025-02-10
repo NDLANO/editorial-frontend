@@ -44,8 +44,10 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
   const conceptId = Number(params.id) || undefined;
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const { t } = useTranslation();
-  const { concept, setConcept, conceptArticles, loading, conceptChanged, subjects, updateConcept } =
-    useFetchConceptData(conceptId, selectedLanguage!);
+  const { concept, setConcept, conceptArticles, loading, conceptChanged, updateConcept } = useFetchConceptData(
+    conceptId,
+    selectedLanguage!,
+  );
 
   const { shouldTranslate, translate, translating } = useTranslateToNN();
 
@@ -79,7 +81,6 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
           onUpdate: (concept) => updateConcept(conceptId, concept),
         }}
         language={selectedLanguage!}
-        subjects={subjects}
         supportedLanguages={concept.supportedLanguages}
       />
     </>

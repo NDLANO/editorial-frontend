@@ -60,7 +60,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
   const isSelected = useSelected();
   const locale = useArticleLanguage();
   const [isEditing, setIsEditing] = useState(false);
-  const { concept, subjects, loading, ...conceptHooks } = useFetchConceptData(parseInt(element.data.contentId), locale);
+  const { concept, loading, ...conceptHooks } = useFetchConceptData(parseInt(element.data.contentId), locale);
 
   useEffect(() => {
     setIsEditing(!!element.isFirstEdit);
@@ -169,7 +169,6 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
             addConcept={addConcept}
             locale={locale}
             concept={concept}
-            subjects={subjects}
             handleRemove={handleRemove}
             conceptType={(concept?.conceptType ?? element.conceptType) as ConceptType}
             {...conceptHooks}

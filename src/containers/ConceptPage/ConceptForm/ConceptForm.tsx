@@ -12,7 +12,6 @@ import { useTranslation } from "react-i18next";
 import { PageContent } from "@ndla/primitives";
 import { IConceptDTO, INewConceptDTO, IUpdatedConceptDTO, IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { IArticleDTO } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-taxonomy";
 import ConceptFormFooter from "./ConceptFormFooter";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
@@ -48,7 +47,6 @@ interface Props {
   isNewlyCreated?: boolean;
   conceptArticles: IArticleDTO[];
   language: string;
-  subjects: Node[];
   initialTitle?: string;
   onUpserted?: (concept: IConceptSummaryDTO | IConceptDTO) => void;
   supportedLanguages: string[];
@@ -107,9 +105,6 @@ const conceptRules: RulesType<ConceptFormValues, IConceptDTO> = {
       languageMatch: true,
     },
   },
-  subjects: {
-    minItems: 1,
-  },
 };
 
 const ConceptForm = ({
@@ -117,7 +112,6 @@ const ConceptForm = ({
   conceptChanged,
   inModal,
   isNewlyCreated = false,
-  subjects,
   language,
   upsertProps,
   conceptArticles,
@@ -132,7 +126,7 @@ const ConceptForm = ({
   const { ndlaId } = useSession();
 
   const handleSubmit = async (values: ConceptFormValues, formikHelpers: FormikHelpers<ConceptFormValues>) => {
-    if (!values.subjects.length || isEmpty(values.conceptContent) || isEmpty(values.title)) return;
+    if (isEmpty(values.conceptContent) || isEmpty(values.title)) return;
     formikHelpers.setSubmitting(true);
     const revision = concept?.revision;
     const status = concept?.status;
@@ -152,7 +146,7 @@ const ConceptForm = ({
         savedConcept = await upsertProps.onUpdate(conceptWithStatus, revision!);
       }
       formikHelpers.resetForm({
-        values: conceptApiTypeToFormType(savedConcept, language, subjects, conceptArticles, ndlaId),
+        values: conceptApiTypeToFormType(savedConcept, language, conceptArticles, ndlaId),
       });
       formikHelpers.setSubmitting(false);
       setSavedToServer(true);
@@ -164,15 +158,7 @@ const ConceptForm = ({
     }
   };
 
-  const initialValues = conceptApiTypeToFormType(
-    concept,
-    language,
-    subjects,
-    conceptArticles,
-    ndlaId,
-    initialTitle,
-    "concept",
-  );
+  const initialValues = conceptApiTypeToFormType(concept, language, conceptArticles, ndlaId, initialTitle, "concept");
 
   const initialWarnings = useMemo(
     () => getWarnings(initialValues, conceptRules, t, concept),
@@ -225,9 +211,9 @@ const ConceptForm = ({
               <FormAccordion
                 id="metadata"
                 title={t("form.metadataSection")}
-                hasError={!!(errors.tags || errors.metaImageAlt || errors.subjects)}
+                hasError={!!(errors.tags || errors.metaImageAlt)}
               >
-                <ConceptMetaData subjects={subjects} inModal={inModal} language={language} />
+                <ConceptMetaData inModal={inModal} language={language} />
               </FormAccordion>
               <FormAccordion id="articles" title={t("form.articleSection")} hasError={!!errors.articles}>
                 <ConceptArticles />

@@ -66,25 +66,17 @@ const ConceptFormFooter = ({
 
   const updateResponsible = useCallback(
     async (responsible: string | undefined) => {
-      try {
-        setResponsible(responsible);
-        setFieldValue("responsibleId", responsible ? responsible : null);
-      } catch (error) {
-        //catchError(error, createMessage);
-      }
+      setResponsible(responsible);
+      setFieldValue("responsibleId", responsible ? responsible : null);
     },
     [setFieldValue],
   );
 
   const updateStatus = useCallback(
     async (status: string | undefined) => {
-      try {
-        setStatus(status);
-        setFieldValue("status", { current: status });
-        setUpdated({ current: status ?? "IN_PROGRESS", other: [] });
-      } catch (error) {
-        //catchError(error, createMessage);
-      }
+      setStatus(status);
+      setFieldValue("status", { current: status });
+      setUpdated({ current: status ?? "IN_PROGRESS", other: [] });
     },
     [setFieldValue],
   );

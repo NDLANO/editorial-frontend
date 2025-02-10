@@ -73,7 +73,7 @@
     "typescript-eslint": "^8.16.0",
     "vercel": "^33.6.2",
     "vite": "^6.0.1",
-    "vitest": "^2.1.6"
+    "vitest": "^2.1.9"
   },
   "dependencies": {
     "@ark-ui/react": "^4.9.1",

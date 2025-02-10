@@ -46,10 +46,16 @@ const SlatePitch = ({ element, editor, attributes, children }: Props) => {
   }, [element.isFirstEdit]);
 
   const handleRemove = () => {
+    const path = ReactEditor.findPath(editor, element);
     Transforms.removeNodes(editor, {
-      at: ReactEditor.findPath(editor, element),
+      at: path,
       voids: true,
     });
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, path);
+      Transforms.collapse(editor);
+    }, 0);
   };
 
   const onClose = () => {

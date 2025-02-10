@@ -84,11 +84,15 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
 
   const removeFileList = () => {
     const path = ReactEditor.findPath(editor, element);
-    ReactEditor.focus(editor);
     Transforms.removeNodes(editor, {
       at: path,
       match: (node) => Element.isElement(node) && node.type === TYPE_FILE,
     });
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, path);
+      Transforms.collapse(editor);
+    }, 0);
   };
 
   const onDeleteFile = (indexToDelete: number) => {

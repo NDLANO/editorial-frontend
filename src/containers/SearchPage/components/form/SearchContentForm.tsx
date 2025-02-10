@@ -32,9 +32,10 @@ import {
 } from "../../../../constants";
 import { OnFieldChangeFunction, SearchParams } from "../../../../interfaces";
 import { useAuth0Editors, useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
-import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
+import { useDraftStatusStateMachine, useLicenses } from "../../../../modules/draft/draftQueries";
 import { useAllResourceTypes } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import formatDate from "../../../../util/formatDate";
+import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import { flattenResourceTypesAndAddContextTypes } from "../../../../util/taxonomyHelpers";
 import InlineDatePicker from "../../../FormikForm/components/InlineDatePicker";
@@ -127,6 +128,15 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
     },
   );
 
+  const { data: licenses } = useLicenses({
+    select: (licenses) =>
+      getLicensesWithTranslations(licenses, locale).map((license) => ({
+        id: license.license,
+        name: license.title,
+      })),
+    placeholderData: [],
+  });
+
   useEffect(() => {
     if (searchObject.query !== queryInput) {
       setQueryInput(searchObject.query ?? "");
@@ -177,6 +187,7 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
       "draft-status": "",
       users: "",
       language: "",
+      license: "",
       "revision-date-from": "",
       "revision-date-to": "",
       "exclude-revision-log": false,
@@ -237,6 +248,7 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
     "draft-status": (isHasPublished ? "HAS_PUBLISHED" : searchObject["draft-status"])?.toLowerCase(),
     users: getTagName(searchObject.users, users),
     language: searchObject.language,
+    license: getTagName(searchObject["license"], licenses),
     "filter-inactive": !searchObject["filter-inactive"] ? "false" : undefined,
     "exclude-revision-log": searchObject["exclude-revision-log"] ? "true" : undefined,
     "revision-date-from": formatDate(searchObject["revision-date-from"]) || undefined,
@@ -254,6 +266,7 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
     },
     { name: "users", options: users ?? [] },
     { name: "language", options: getResourceLanguages(t) },
+    { name: "license", options: licenses!.sort(sortByProperty("name")) },
   ];
 
   return (

@@ -52,11 +52,16 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
   const brightcoveQuery = useBrightcoveMeta(element.data?.videoid.split("&t=")[0] ?? "", i18n.language);
 
   const removeVideo = useCallback(() => {
-    ReactEditor.focus(editor);
+    const path = ReactEditor.findPath(editor, element);
     Transforms.removeNodes(editor, {
-      at: ReactEditor.findPath(editor, element),
+      at: path,
       match: (n) => Element.isElement(n) && n.type === TYPE_EMBED_BRIGHTCOVE,
     });
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, path);
+      Transforms.collapse(editor);
+    }, 0);
   }, [editor, element]);
 
   const embed: BrightcoveMetaData | undefined = useMemo(

@@ -91,11 +91,18 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
     }
   }, [contactBlock?.imageId, setImage]);
 
-  const handleRemove = () =>
+  const handleRemove = () => {
+    const path = ReactEditor.findPath(editor, element);
     Transforms.removeNodes(editor, {
-      at: ReactEditor.findPath(editor, element),
+      at: path,
       voids: true,
     });
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, path);
+      Transforms.collapse(editor);
+    }, 0);
+  };
 
   return (
     <DialogRoot size="large" open={isEditing} onOpenChange={(details) => onOpenChange(details.open)}>

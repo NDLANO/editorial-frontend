@@ -6,7 +6,7 @@
  *
  */
 
-import { useState, ReactNode, useCallback, useMemo, useEffect } from "react";
+import { useState, ReactNode, useCallback, useMemo, useEffect, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms, Path } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
@@ -114,14 +114,18 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
     [locale, editor, element],
   );
 
-  const handleRemove = useCallback(
-    () =>
-      Transforms.removeNodes(editor, {
-        at: ReactEditor.findPath(editor, element),
-        voids: true,
-      }),
-    [editor, element],
-  );
+  const handleRemove = useCallback(() => {
+    const path = ReactEditor.findPath(editor, element);
+    Transforms.removeNodes(editor, {
+      at: path,
+      voids: true,
+    });
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, path);
+      Transforms.collapse(editor);
+    });
+  }, [editor, element]);
 
   const onOpenChange = useCallback(
     (open: boolean) => {
@@ -179,7 +183,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
 
 interface ButtonContainerProps {
   concept: IConceptDTO | IConceptSummaryDTO;
-  handleRemove: () => void;
+  handleRemove: (e: MouseEvent) => void;
   language: string;
   editor: Editor;
   element: ConceptBlockElement;

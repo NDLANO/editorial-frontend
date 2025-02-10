@@ -8,7 +8,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
+import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { PencilFill, DeleteBinLine, ErrorWarningLine, ExpandUpDownLine } from "@ndla/icons";
@@ -28,7 +28,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { IframeEmbedData, IframeMetaData, OembedEmbedData, OembedMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, ExternalEmbed, IframeEmbed } from "@ndla/ui";
 import { ExternalEmbedForm } from "./ExternalEmbedForm";
-import { ExternalElement, IframeElement } from "./types";
+import { ExternalElement, IframeElement, TYPE_EXTERNAL, TYPE_IFRAME } from "./types";
 import { EXTERNAL_WHITELIST_PROVIDERS } from "../../../../constants";
 import { WhitelistProvider } from "../../../../interfaces";
 import { useExternalEmbed } from "../../../../modules/embed/queries";
@@ -135,14 +135,19 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
     [editor, element],
   );
 
-  const handleRemove = useCallback(
-    () =>
-      Transforms.removeNodes(editor, {
-        at: ReactEditor.findPath(editor, element),
-        voids: true,
-      }),
-    [editor, element],
-  );
+  const handleRemove = useCallback(() => {
+    const path = ReactEditor.findPath(editor, element);
+    Transforms.removeNodes(editor, {
+      at: path,
+      match: (node) => Element.isElement(node) && (node.type === TYPE_EXTERNAL || node.type === TYPE_IFRAME),
+      voids: true,
+    });
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, path);
+      Transforms.collapse(editor);
+    }, 0);
+  }, [editor, element]);
 
   const onMouseDown = useCallback(() => {
     const onMouseMove = (e: MouseEvent) => {

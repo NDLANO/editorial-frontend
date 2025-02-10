@@ -75,7 +75,7 @@ export const TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT = "programfag";
 export const MAX_IMAGE_UPLOAD_SIZE = 1024 * 1024 * 40; // 40MB.
 export const LAST_UPDATED_SIZE = 50;
 
-export const LOCALE_VALUES = ["nb", "nn", "en", "se", "sma"] as const;
+export const LOCALE_VALUES = ["nb", "nn", "en", "se", "sma", "ukr"] as const;
 
 export const ARCHIVED = "ARCHIVED";
 export const END_CONTROL = "END_CONTROL";

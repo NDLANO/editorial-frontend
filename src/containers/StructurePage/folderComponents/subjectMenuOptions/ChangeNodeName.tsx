@@ -29,7 +29,7 @@ import { FormActionsContainer } from "../../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../../components/formikValidationSchema";
 import FormWrapper from "../../../../components/FormWrapper";
 import SaveButton from "../../../../components/SaveButton";
-import { subjectpageLanguages } from "../../../../i18n2";
+import { subjectLanguages } from "../../../../i18n2";
 import {
   useDeleteNodeTranslationMutation,
   usePutNodeMutation,
@@ -198,7 +198,7 @@ const ChangeNodeName = ({ node }: Props) => {
         {(formik) => {
           const { values, dirty, isSubmitting, isValid } = formik;
           const takenLanguages = values.translations.reduce((prev, curr) => ({ ...prev, [curr.language]: "" }), {});
-          const availableLanguages = subjectpageLanguages.filter(
+          const availableLanguages = subjectLanguages.filter(
             (trans) => !Object.prototype.hasOwnProperty.call(takenLanguages, trans),
           );
           const formIsDirty: boolean = isFormikFormDirty({

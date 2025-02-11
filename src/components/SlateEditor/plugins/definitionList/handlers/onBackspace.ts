@@ -6,11 +6,16 @@
  *
  */
 
+import { KeyboardEvent } from "react";
 import { Editor, Element, Transforms, Range, Point } from "slate";
 import hasNodeOfType from "../../../utils/hasNodeOfType";
 import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from "../types";
 
-const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown: ((e: KeyboardEvent) => void) | undefined) => {
+const onBackspace = (
+  e: KeyboardEvent<HTMLDivElement>,
+  editor: Editor,
+  nextOnKeyDown: ((e: KeyboardEvent<HTMLDivElement>) => void) | undefined,
+) => {
   if (!editor.selection) return nextOnKeyDown?.(e);
   const isDefinition = hasNodeOfType(editor, TYPE_DEFINITION_LIST);
 

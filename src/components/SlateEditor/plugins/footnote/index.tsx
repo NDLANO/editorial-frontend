@@ -77,7 +77,7 @@ export const footnotePlugin = (editor: Editor) => {
     return nextIsVoid(element);
   };
 
-  editor.onKeyDown = (e: KeyboardEvent) => {
+  editor.onKeyDown = (e) => {
     if (e.key === KEY_BACKSPACE || e.key === KEY_DELETE) {
       if (editor.selection && Range.isCollapsed(editor.selection)) {
         const entry = getCurrentBlock(editor, TYPE_FOOTNOTE);

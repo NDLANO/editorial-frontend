@@ -14,7 +14,7 @@ const isBlockPickerHotkey = isHotkey("mod+Enter");
 export const blockPickerPlugin = (editor: Editor) => {
   const { onKeyDown: nextOnKeyDown } = editor;
 
-  editor.onKeyDown = (e: KeyboardEvent) => {
+  editor.onKeyDown = (e) => {
     if (isBlockPickerHotkey(e)) {
       const el = document.getElementById(BLOCK_PICKER_TRIGGER_ID);
       if (el && !el.hidden) {

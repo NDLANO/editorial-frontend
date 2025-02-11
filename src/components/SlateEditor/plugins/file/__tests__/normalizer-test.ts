@@ -6,16 +6,14 @@
  *
  */
 
-import { createEditor, Descendant, Editor } from "slate";
-import { withHistory } from "slate-history";
-import { withReact } from "slate-react";
+import { Descendant, Editor } from "slate";
+import { createSlate } from "@ndla/editor";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
-import withPlugins from "../../../utils/withPlugins";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
 import { TYPE_FILE } from "../types";
 
-const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));
+const editor = createSlate({ plugins: learningResourcePlugins });
 
 describe("file normalizer tests", () => {
   test("adds paragraphs around file element", () => {

@@ -8,11 +8,11 @@
 
 import { Descendant, Editor, Element, Transforms, Text } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
+import { isParagraphElement } from "@ndla/editor";
 import { TYPE_NOOP } from "./types";
 import { SlateSerializer } from "../../interfaces";
 import { inlineElements } from "../../utils/normalizationHelpers";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
-import { isParagraph } from "../paragraph/utils";
 
 export interface NoopElement {
   type: "noop";
@@ -52,21 +52,21 @@ export const noopPlugin = (editor: Editor) => {
         );
 
         // Don't serialize single paragraph block without inlines as Paragraph
-        if (isParagraph(child) && !child.serializeAsText && !containsInlineBlock) {
+        if (isParagraphElement(child) && !child.serializeAsText && !containsInlineBlock) {
           Transforms.setNodes(
             editor,
             { type: TYPE_PARAGRAPH, serializeAsText: true },
-            { at: path, match: (n) => isParagraph(n) },
+            { at: path, match: isParagraphElement },
           );
           return;
         }
 
         // Serialize single paragraph block that contains inlines as Paragraph
-        if (isParagraph(child) && containsInlineBlock && child.serializeAsText) {
+        if (isParagraphElement(child) && containsInlineBlock && child.serializeAsText) {
           Transforms.setNodes(
             editor,
             { type: TYPE_PARAGRAPH, serializeAsText: false },
-            { at: path, match: (n) => isParagraph(n) },
+            { at: path, match: isParagraphElement },
           );
         }
         return;
@@ -77,7 +77,7 @@ export const noopPlugin = (editor: Editor) => {
         Transforms.setNodes(
           editor,
           { type: TYPE_PARAGRAPH, serializeAsText: false },
-          { at: path, match: (n) => isParagraph(n) },
+          { at: path, match: isParagraphElement },
         );
         return;
       }

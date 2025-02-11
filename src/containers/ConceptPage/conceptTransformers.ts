@@ -32,7 +32,7 @@ export const conceptApiTypeToFormType = (
   conceptType?: ConceptType,
 ): ConceptFormValues => {
   const conceptSubjects = subjects.filter((s) => concept?.subjectIds?.find((id) => id === s.id)) ?? [];
-  const license = concept?.copyright?.license?.license;
+  const license = concept?.copyright?.license?.license ?? "N/A";
   const conceptLicense = license === "unknown" ? undefined : license;
 
   // Make sure to omit the content field from concept. It will crash Slate.

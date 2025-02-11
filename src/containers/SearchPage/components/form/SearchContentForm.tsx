@@ -68,6 +68,7 @@ const generateSubjectNode = (id: string, name: string, t: TFunction): Node => ({
   id: id,
   breadcrumbs: [],
   contexts: [],
+  contextids: [],
   paths: [],
   resourceTypes: [],
   supportedLanguages: [],

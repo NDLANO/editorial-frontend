@@ -828,6 +828,7 @@ const phrases = {
       origin: "Opphav",
       audioFile: "Lydfil",
       content: "Innhald",
+      conceptContent: "Beskrivelse",
       notes: "Merknader",
       metaDescription: "Metabeskrivelse",
       metaImageAlt: "Alt-tekst",
@@ -840,7 +841,6 @@ const phrases = {
       validFrom: "Gyldig fra",
       validTo: "Gyldig til",
       description: "Innhald",
-      conceptContent: "Skildring",
       grepCodes: "Læreplankobling",
       desktopBannerId: "Breitt fagsidebilete",
       mobileBannerId: "Smalt fagsidebilete",
@@ -1337,12 +1337,12 @@ const phrases = {
       error: "Noe gjekk gale ved oppdatering av ansvarleg.",
     },
     origin: {
-      label: "Opphav",
+      label: "Kjelde",
     },
     processed: {
       label: "Omarbeidd",
       description: "Innhaldet har vorte omarbeidd",
-      disabledCause: "Omarbeidd kan kun settast dersom opphav er satt",
+      disabledCause: "Omarbeidd kan kun settast dersom kjelde er satt",
     },
     image: {
       file: "Bilete",

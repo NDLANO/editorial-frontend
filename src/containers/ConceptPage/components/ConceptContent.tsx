@@ -17,7 +17,11 @@ import VisualElementField from "../../FormikForm/components/VisualElementField";
 
 import { ConceptFormValues } from "../conceptInterfaces";
 
-const ConceptContent = () => {
+interface Props {
+  inModal: boolean;
+}
+
+const ConceptContent = ({ inModal = false }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
   const {
@@ -31,7 +35,7 @@ const ConceptContent = () => {
           <TitleField hideToolbar />
           <LastUpdatedLine onChange={() => {}} creators={creators} published={updated} contentType="concept" />
         </div>
-        <VisualElementField types={["image"]} />
+        <VisualElementField types={["image"]} inModal={inModal} />
         <IngressField name="conceptContent" maxLength={800} placeholder={t("form.name.conceptContent")} />
       </FormContent>
     </ContentTypeProvider>

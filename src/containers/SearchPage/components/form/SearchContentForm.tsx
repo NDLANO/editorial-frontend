@@ -129,7 +129,7 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
 
   const { data: licenses } = useLicenses({
     select: (licenses) =>
-      getLicensesWithTranslations(licenses, locale).map((license) => ({
+      getLicensesWithTranslations(licenses, locale, true).map((license) => ({
         id: license.license,
         name: license.title,
       })),

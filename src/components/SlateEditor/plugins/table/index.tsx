@@ -283,15 +283,19 @@ export const tablePlugin = (editor: Editor) => {
               const [, cellPath] = maybeNode;
               const [parent] = Editor.node(editor, Path.parent(Path.parent(cellPath)));
 
+              const firstRowSecondNodeType = matrix?.[0]?.[1]?.type;
+              const secondRowSecondNodeType = matrix?.[1]?.[1]?.type;
+
               const shouldHaveHeaders =
-                (matrix?.[0]?.[1]?.type === TYPE_TABLE_CELL_HEADER && node.rowHeaders) ||
-                (matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER && node.rowHeaders) ||
-                (matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER &&
-                  matrix?.[0]?.[1]?.type === TYPE_TABLE_CELL_HEADER);
+                (firstRowSecondNodeType === TYPE_TABLE_CELL_HEADER && node.rowHeaders) ||
+                (secondRowSecondNodeType === TYPE_TABLE_CELL_HEADER && node.rowHeaders) ||
+                (secondRowSecondNodeType === TYPE_TABLE_CELL_HEADER &&
+                  firstRowSecondNodeType === TYPE_TABLE_CELL_HEADER);
 
               const headers = shouldHaveHeaders ? getHeader(matrix, rowIndex, cellIndex, node.rowHeaders) : undefined;
 
               if (isTableHead(parent)) {
+                // We only want to append id if we have multiple rows with headers. E.G multiple rows in tablehead or rows in tablehead with rowHeaders
                 const shouldHaveId = parent.children.length > 1 || node.rowHeaders;
                 // If first row we add only a double digit id based on the cellIndex
                 if (

@@ -42,7 +42,7 @@
     "@tanstack/react-query-devtools": "^5.62.3",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.1.0",
+    "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^14.5.2",
     "@types/auth0-js": "^9.13.2",
     "@types/diff-match-patch": "^1.0.32",
@@ -61,8 +61,8 @@
     "eslint": "^9.15.0",
     "eslint-config-ndla": "^6.0.0-alpha.0",
     "filter-console": "^0.1.1",
-    "jsdom": "^25.0.1",
-    "nock": "^13.5.4",
+    "jsdom": "^26.0.0",
+    "nock": "^14.0.1",
     "postcss": "^8.4.49",
     "postcss-import": "^16.1.0",
     "postcss-preset-env": "^10.1.1",
@@ -72,8 +72,8 @@
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.16.0",
     "vercel": "^33.6.2",
-    "vite": "^6.0.1",
-    "vitest": "^2.1.6"
+    "vite": "^6.1.0",
+    "vitest": "^3.0.5"
   },
   "dependencies": {
     "@ark-ui/react": "^4.9.1",

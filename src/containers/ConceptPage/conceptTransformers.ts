@@ -39,7 +39,7 @@ export const conceptApiTypeToFormType = (
   return {
     id: concept?.id,
     revision: concept?.revision,
-    status: concept?.status,
+    status: concept?.status ?? { current: IN_PROGRESS, other: [] },
     metaImage: concept?.metaImage,
     created: concept?.created,
     updated: concept?.updated,

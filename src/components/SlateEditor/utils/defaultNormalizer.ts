@@ -39,6 +39,15 @@ const normalizeNodes = (
 ): boolean => {
   const children = element.children;
 
+  if (children.length === 0) {
+    const rule = config.firstNode || config.lastNode || config.nodes;
+    if (rule?.defaultType) {
+      logger?.log("Node has no children, inserting default type.");
+      editor.insertNodes(createNode(rule.defaultType), { at: path.concat(0) });
+      return true;
+    }
+  }
+
   for (const [index, child] of children.entries()) {
     // 1. If first node
     if (index === 0 && config.firstNode) {
@@ -126,15 +135,6 @@ const normalizeNodes = (
         editor.unwrapNodes({ at: path.concat(index) });
         return true;
       }
-    }
-  }
-
-  if (children.length === 0) {
-    const rule = config.firstNode || config.lastNode || config.nodes;
-    if (rule?.defaultType) {
-      logger?.log("Node has no children, inserting default type.");
-      editor.insertNodes(createNode(rule.defaultType), { at: path.concat(0) });
-      return true;
     }
   }
 

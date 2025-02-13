@@ -1275,7 +1275,7 @@ const phrases = {
     articleDisclaimer: {
       title: "Information about availability for the entire article",
       description:
-        "Enter what is challenging about the content of the article. You can also add links to alternative content. Templates have been prepared for this. Check these before using the component.",
+        "Enter what is challenging about the content of the article. You can also add links to alternative content. Templates have been prepared for this. Check these <0>here</0> before using the component.",
     },
     resourceTypes: {
       label: "Resource type and properties",
@@ -1579,7 +1579,7 @@ const phrases = {
       edit: "Edit accessibility information",
       title: "Universal design - information in continuous text",
       description:
-        "Write down what the problem with the component is. Templates have been prepared for this. Check these before using the component.",
+        "Write down what the problem with the component is. Templates have been prepared for this. Check these <0>here</0> before using the component.",
       editorHeader: "Information about accessibility for individual components",
     },
     copyright: {

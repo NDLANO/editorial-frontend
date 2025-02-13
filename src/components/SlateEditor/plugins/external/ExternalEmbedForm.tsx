@@ -310,7 +310,7 @@ const InnerForm = () => {
       </FormField>
       {!errors.validUrl && !!values.validUrl.length && !values.isFullscreen && (
         <IframeWrapper>
-          <iframe src={values.iframeUrl ?? values.validUrl} title={values.title} height="350px" frameBorder="0" />
+          <iframe src={values.iframeUrl ?? values.validUrl} title={values.title} height={values.height} width="100%" />
         </IframeWrapper>
       )}
       {!!values.validUrl?.includes("youtube.com") && (

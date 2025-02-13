@@ -427,8 +427,7 @@ const phrases = {
     metaImageCheckboxLabel: "Sett som metabilete",
     visualElementCheckboxLabel: "Sett som visuelt element",
     noTitle: "Ingen tittel",
-    noResultsText: "Fann ingen bilete på søk. Ønskjer du å laste opp eit nytt bilete?",
-    noResultsButtonText: "Last opp bilete",
+    noResultsText: "Fann ingen bilete på søk",
     modelReleased: {
       yes: "Modellklarert",
       no: "Ikkje modellklarert",

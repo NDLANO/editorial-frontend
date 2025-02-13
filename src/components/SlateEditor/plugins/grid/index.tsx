@@ -130,11 +130,11 @@ export const gridPlugin = (editor: Editor) => {
         return;
       }
 
-      if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
+      if (defaultBlockNormalizer(editor, node, path, normalizerConfig)) {
         return;
       }
     } else if (Element.isElement(node) && node.type === TYPE_GRID_CELL) {
-      if (defaultBlockNormalizer(editor, entry, normalizerConfigGridCell)) {
+      if (defaultBlockNormalizer(editor, node, path, normalizerConfigGridCell)) {
         return;
       }
     }

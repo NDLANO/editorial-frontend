@@ -111,15 +111,15 @@ export const definitionListPlugin = (editor: Editor) => {
         }
       }
 
-      if (defaultBlockNormalizer(editor, entry, normalizerDLConfig)) {
+      if (defaultBlockNormalizer(editor, node, nodepath, normalizerDLConfig)) {
         return;
       }
     } else if (Element.isElement(node) && node.type === TYPE_DEFINITION_TERM) {
-      if (defaultBlockNormalizer(editor, entry, normalizerDTConfig)) {
+      if (defaultBlockNormalizer(editor, node, nodepath, normalizerDTConfig)) {
         return;
       }
     } else if (Element.isElement(node) && node.type === TYPE_DEFINITION_DESCRIPTION) {
-      if (defaultBlockNormalizer(editor, entry, normalizerDDConfig)) {
+      if (defaultBlockNormalizer(editor, node, nodepath, normalizerDDConfig)) {
         return;
       }
     }

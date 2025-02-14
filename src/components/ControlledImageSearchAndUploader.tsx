@@ -9,35 +9,17 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ErrorWarningLine } from "@ndla/icons";
-import { ImageSearch } from "@ndla/image-search";
-import {
-  Button,
-  MessageBox,
-  TabsContent,
-  TabsIndicator,
-  TabsList,
-  TabsRoot,
-  TabsTrigger,
-  Text,
-} from "@ndla/primitives";
+import { MessageBox, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import {
   IImageMetaInformationV3DTO,
   IUpdateImageMetaInformationDTO,
-  ISearchResultV3DTO,
   INewImageMetaInformationV2DTO,
-  ISearchParamsDTO,
 } from "@ndla/types-backend/image-api";
-import { useImageSearchTranslations } from "@ndla/ui";
+import { ImagePicker } from "./ImagePicker";
 import ImageForm from "../containers/ImageUploader/components/ImageForm";
 import { draftLicensesToImageLicenses } from "../modules/draft/draftApiUtils";
 import { useLicenses } from "../modules/draft/draftQueries";
-
-const StyledText = styled(Text, {
-  base: {
-    marginBlockEnd: "xsmall",
-  },
-});
 
 const StyledTabsContent = styled(TabsContent, {
   base: {
@@ -52,9 +34,6 @@ interface Props {
   locale: string;
   language?: string;
   closeModal: () => void;
-  onError: (err: Error & Response) => void;
-  searchImages: (queryObject: ISearchParamsDTO) => Promise<ISearchResultV3DTO>;
-  fetchImage: (id: number) => Promise<IImageMetaInformationV3DTO>;
   image?: IImageMetaInformationV3DTO;
   updateImage: (
     imageMetadata: IUpdateImageMetaInformationDTO & INewImageMetaInformationV2DTO,
@@ -74,9 +53,6 @@ const ImageSearchAndUploader = ({
   closeModal,
   locale,
   language,
-  fetchImage,
-  searchImages,
-  onError,
   inModal = false,
   showCheckbox,
   checkboxAction,
@@ -84,19 +60,8 @@ const ImageSearchAndUploader = ({
 }: Props) => {
   const { t } = useTranslation();
   const [selectedTab, setSelectedTab] = useState<string | undefined>(undefined);
-  const imageSearchTranslations = useImageSearchTranslations();
   const { data: licenses } = useLicenses({ placeholderData: [] });
-  const searchImagesWithParameters = (query?: string, page?: number) => {
-    return searchImages({
-      query,
-      page,
-      pageSize: 16,
-      language: language,
-      fallback: true,
-      includeCopyrighted: true,
-      podcastFriendly: podcastFriendly,
-    });
-  };
+
   const imageLicenses = draftLicensesToImageLicenses(licenses ?? []);
 
   return (
@@ -114,23 +79,12 @@ const ImageSearchAndUploader = ({
         <TabsIndicator />
       </TabsList>
       <StyledTabsContent value="image">
-        <ImageSearch
-          fetchImage={fetchImage}
-          searchImages={searchImagesWithParameters}
-          locale={locale}
-          translations={imageSearchTranslations}
+        <ImagePicker
           onImageSelect={onImageSelect}
-          noResults={
-            <>
-              <StyledText>{t("imageSearch.noResultsText")}</StyledText>
-              <Button type="submit" variant="secondary" onClick={() => setSelectedTab("imageUpload")}>
-                {t("imageSearch.noResultsButtonText")}
-              </Button>
-            </>
-          }
-          onError={onError}
+          locale={language}
           showCheckbox={showCheckbox}
           checkboxAction={checkboxAction}
+          searchParams={{ podcastFriendly: podcastFriendly }}
         />
       </StyledTabsContent>
       <StyledTabsContent value="uploadImage">

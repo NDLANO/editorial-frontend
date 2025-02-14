@@ -10,16 +10,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ErrorWarningLine } from "@ndla/icons";
 import { ImageSearch } from "@ndla/image-search";
-import {
-  Button,
-  MessageBox,
-  TabsContent,
-  TabsIndicator,
-  TabsList,
-  TabsRoot,
-  TabsTrigger,
-  Text,
-} from "@ndla/primitives";
+import { MessageBox, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import {
   IImageMetaInformationV3DTO,
@@ -120,14 +111,7 @@ const ImageSearchAndUploader = ({
           locale={locale}
           translations={imageSearchTranslations}
           onImageSelect={onImageSelect}
-          noResults={
-            <>
-              <StyledText>{t("imageSearch.noResultsText")}</StyledText>
-              <Button type="submit" variant="secondary" onClick={() => setSelectedTab("imageUpload")}>
-                {t("imageSearch.noResultsButtonText")}
-              </Button>
-            </>
-          }
+          noResults={<StyledText>{t("imageSearch.noResultsText")}</StyledText>}
           onError={onError}
           showCheckbox={showCheckbox}
           checkboxAction={checkboxAction}

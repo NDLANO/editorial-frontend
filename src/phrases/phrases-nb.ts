@@ -433,8 +433,7 @@ const phrases = {
     metaImageCheckboxLabel: "Sett som metabilde",
     visualElementCheckboxLabel: "Sett som visuelt element",
     noTitle: "Ingen tittel",
-    noResultsText: "Fant ingen bilder på søk. Ønsker du å laste opp et nytt bilde?",
-    noResultsButtonText: "Last opp bilde",
+    noResultsText: "Fant ingen bilder på søk",
   },
   videoSearch: {
     searchPlaceholder: "Søk i videoer",

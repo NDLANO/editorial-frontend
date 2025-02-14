@@ -10,7 +10,7 @@ import { useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ImageSearch } from "@ndla/image-search";
-import { Button, FieldsetLegend, FieldsetRoot, Text } from "@ndla/primitives";
+import { FieldsetLegend, FieldsetRoot, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { useImageSearchTranslations } from "@ndla/ui";
@@ -84,12 +84,7 @@ const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
             setFieldTouched(name, true, true);
           }, 0);
         }}
-        noResults={
-          <>
-            <StyledText>{t("imageSearch.noResultsText")}</StyledText>
-            <Button type="submit">{t("imageSearch.noResultsButtonText")}</Button>
-          </>
-        }
+        noResults={<StyledText>{t("imageSearch.noResultsText")}</StyledText>}
         onError={onError}
       />
     </FieldsetRoot>

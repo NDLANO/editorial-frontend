@@ -7,7 +7,13 @@
  */
 
 import { Descendant } from "slate";
-import { deserializeFromHtml, PARAGRAPH_ELEMENT_TYPE, serializeToHtml, SlateSerializer } from "@ndla/editor";
+import {
+  deserializeFromHtml,
+  NOOP_ELEMENT_TYPE,
+  PARAGRAPH_ELEMENT_TYPE,
+  serializeToHtml,
+  SlateSerializer,
+} from "@ndla/editor";
 import { AudioEmbedData, BrightcoveEmbedData, H5pEmbedData, ImageEmbedData } from "@ndla/types-embed";
 import { parseEmbedTag, createHtmlTag, createDataAttributes } from "./embedTagHelpers";
 import { Plain } from "./slatePlainSerializer";
@@ -46,7 +52,6 @@ import { markSerializer } from "../components/SlateEditor/plugins/mark";
 import { mathmlSerializer } from "../components/SlateEditor/plugins/mathml";
 import { noEmbedSerializer } from "../components/SlateEditor/plugins/noEmbed";
 import { noopSerializer } from "../components/SlateEditor/plugins/noop";
-import { TYPE_NOOP } from "../components/SlateEditor/plugins/noop/types";
 import { paragraphSerializer } from "../components/SlateEditor/plugins/paragraph";
 import { pitchSerializer } from "../components/SlateEditor/plugins/pitch";
 import { relatedSerializer } from "../components/SlateEditor/plugins/related";
@@ -74,7 +79,7 @@ export const createEmptyValue = (): Descendant[] => [
   },
 ];
 
-export const createNoop = (): Descendant[] => [{ type: TYPE_NOOP, children: [{ text: "" }] }];
+export const createNoop = (): Descendant[] => [{ type: NOOP_ELEMENT_TYPE, children: [{ text: "" }] }];
 
 // Rules are checked from first to last
 const extendedRules: SlateSerializer<any>[] = [

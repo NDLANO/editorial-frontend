@@ -15,6 +15,7 @@ import {
   HeadingElement,
   ListElement,
   ListItemElement,
+  NoopElement,
   ParagraphElement,
   SectionElement,
 } from "@ndla/editor";
@@ -44,7 +45,6 @@ import { ContentLinkElement, LinkElement } from "./plugins/link";
 import { LinkBlockListElement } from "./plugins/linkBlockList/types";
 import { CustomTextWithMarks } from "./plugins/mark";
 import { MathmlElement } from "./plugins/mathml";
-import { NoopElement } from "./plugins/noop";
 import { PitchElement } from "./plugins/pitch/types";
 import { RelatedElement } from "./plugins/related";
 import { SpanElement } from "./plugins/span";

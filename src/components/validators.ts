@@ -7,10 +7,10 @@
  */
 
 import { Descendant, Node, Element } from "slate";
+import { NOOP_ELEMENT_TYPE } from "@ndla/editor";
 import { TYPE_PARAGRAPH } from "./SlateEditor/plugins/paragraph/types";
 import { TYPE_SECTION } from "./SlateEditor/plugins/section/types";
 import { Dictionary } from "../interfaces";
-import { TYPE_NOOP } from "./SlateEditor/plugins/noop/types";
 import { ElementType } from "./SlateEditor/interfaces";
 
 const rUrl =
@@ -28,7 +28,7 @@ export const getLength = (value?: Descendant[] | Descendant | string | null) => 
   return value.length;
 };
 
-const ROOT_NODES: ElementType[] = [TYPE_PARAGRAPH, TYPE_SECTION, TYPE_NOOP];
+const ROOT_NODES: ElementType[] = [TYPE_PARAGRAPH, TYPE_SECTION, NOOP_ELEMENT_TYPE];
 
 export const isEmpty = (value?: Descendant[] | Descendant | string | null) => {
   if (!value) {
@@ -44,7 +44,7 @@ export const isEmpty = (value?: Descendant[] | Descendant | string | null) => {
       }
 
       // ii. If root node is NOOP => we need to check if children are empty
-      if (Element.isElement(node) && node.type === TYPE_NOOP) {
+      if (Element.isElement(node) && node.type === NOOP_ELEMENT_TYPE) {
         const containsText = node.children.reduce((acc, child) => acc || !!Node.string(child), false);
         return !containsText;
       }

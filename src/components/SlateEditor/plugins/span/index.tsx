@@ -9,6 +9,7 @@
 import isEmpty from "lodash/isEmpty";
 import { Descendant, Editor, Element, Node, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
+import { NOOP_ELEMENT_TYPE } from "@ndla/editor";
 import { TYPE_SPAN } from "./types";
 import { createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
@@ -19,7 +20,6 @@ import { TYPE_SUMMARY } from "../details/types";
 import { TYPE_HEADING } from "../heading/types";
 
 import { TYPE_LIST_ITEM } from "../list/types";
-import { TYPE_NOOP } from "../noop/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
 import { TYPE_TABLE_CELL } from "../table/types";
 
@@ -45,7 +45,7 @@ const normalizerConfig: NormalizerConfig = {
       TYPE_DEFINITION_DESCRIPTION,
       TYPE_SUMMARY,
       TYPE_SPAN,
-      TYPE_NOOP,
+      NOOP_ELEMENT_TYPE,
     ],
   },
 };

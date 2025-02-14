@@ -1275,7 +1275,7 @@ const phrases = {
     articleDisclaimer: {
       title: "Informasjon om tilgjengelegheit for heile artikkelen",
       description:
-        "Skriv inn kva som er utfordrande med innhaldet i artikkelen. Du kan òg leggje til lenker til alternativt innhald. Det er utarbeidd malar for dette. Sjekk desse før du tek i bruk komponenten.",
+        "Skriv inn kva som er utfordrande med innhaldet i artikkelen. Du kan òg leggje til lenker til alternativt innhald. Det er utarbeidd malar for dette. Sjekk desse før <0>her</0> du tek i bruk komponenten.",
     },
     resourceTypes: {
       label: "Innhaldstype og egenskaper",
@@ -1577,7 +1577,7 @@ const phrases = {
       edit: "Endre informasjon on tilgjengelighet",
       title: "Universell utforming - informasjon i løpande tekst",
       description:
-        "Skriv inn kva som er problemet med komponenten. Det er utarbeidd malar for dette. Sjekk desse før du tek i bruk komponenten.",
+        "Skriv inn kva som er problemet med komponenten. Det er utarbeidd malar for dette. Sjekk desse <0>her</0> før du tek i bruk komponenten.",
       editorHeader: "Informasjon om tilgjengelegheit for enkeltkomponentar",
     },
     copyright: {

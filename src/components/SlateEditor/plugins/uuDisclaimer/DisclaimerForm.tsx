@@ -8,11 +8,12 @@
 
 import { Formik, FormikValues } from "formik";
 import { useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import { Button, DialogBody } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { UuDisclaimerEmbedData } from "@ndla/types-embed";
-import { DisclaimerField, toolbarAreaFilters } from "./DisclaimerField";
+import { DISCLAIMER_TEMPLATES_URL, DisclaimerField, toolbarAreaFilters } from "./DisclaimerField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -115,7 +116,11 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
             <DisclaimerField
               submitted={isSubmitting}
               title={t("form.disclaimer.editorHeader")}
-              description={t("form.disclaimer.description")}
+              description={
+                <Trans i18nKey={"form.disclaimer.description"}>
+                  <SafeLink to={DISCLAIMER_TEMPLATES_URL} target="_blank" />
+                </Trans>
+              }
               toolbarOptions={toolbarOptions}
               plugins={plugins}
             />

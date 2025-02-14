@@ -83,7 +83,7 @@ const getAllowedProvider = (embed: OembedMetaData | IframeMetaData | undefined):
     };
   }
 
-  const embedUrlOrigin = embed?.embedData.url && urlDomain(embed?.embedData.url);
+  const embedUrlOrigin = embed?.embedData.url ? urlDomain(embed?.embedData.url) : undefined;
   return EXTERNAL_WHITELIST_PROVIDERS.find((whitelistProvider) => {
     return whitelistProvider.url.includes(embedUrlOrigin ?? "");
   });

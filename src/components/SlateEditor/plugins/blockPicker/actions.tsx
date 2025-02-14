@@ -44,7 +44,7 @@ import { TYPE_CONTACT_BLOCK } from "../contactBlock/types";
 import { TYPE_DETAILS } from "../details/types";
 import { TYPE_EXTERNAL } from "../external/types";
 import { TYPE_FILE } from "../file/types";
-import { TYPE_FRAMED_CONTENT } from "../framedContent/types";
+import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes";
 import { TYPE_GRID } from "../grid/types";
 import { TYPE_H5P } from "../h5p/types";
 import { TYPE_IMAGE } from "../image/types";
@@ -87,7 +87,7 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInModal("Table"),
   },
   {
-    data: { type: TYPE_FRAMED_CONTENT, object: "framedContent" },
+    data: { type: FRAMED_CONTENT_ELEMENT_TYPE, object: "framedContent" },
     icon: <SquareLine />,
     helpIcon: renderArticleInModal("FramedContent"),
   },

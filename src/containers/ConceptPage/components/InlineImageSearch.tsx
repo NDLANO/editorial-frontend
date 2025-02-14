@@ -9,21 +9,13 @@
 import { useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ImageSearch } from "@ndla/image-search";
-import { Button, FieldsetLegend, FieldsetRoot, Text } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { FieldsetLegend, FieldsetRoot } from "@ndla/primitives";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import { useImageSearchTranslations } from "@ndla/ui";
+import { ImagePicker } from "../../../components/ImagePicker";
 import { LocaleType } from "../../../interfaces";
-import { fetchImage, postSearchImages, onError } from "../../../modules/image/imageApi";
+import { fetchImage } from "../../../modules/image/imageApi";
 import MetaImageField from "../../FormikForm/components/MetaImageField";
 import { ConceptFormValues } from "../conceptInterfaces";
-
-const StyledText = styled(Text, {
-  base: {
-    marginBlockEnd: "xsmall",
-  },
-});
 
 interface Props {
   name: string;
@@ -35,12 +27,8 @@ const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
   const { t, i18n } = useTranslation();
   const { setFieldValue, values, setFieldTouched } = useFormikContext<ConceptFormValues>();
   const [image, setImage] = useState<IImageMetaInformationV3DTO | undefined>();
-  const imageSearchTranslations = useImageSearchTranslations();
   const locale: LocaleType = i18n.language;
   const fetchImageWithLocale = (id: number) => fetchImage(id, locale);
-  const searchImagesWithParameters = (query?: string, page?: number) => {
-    return postSearchImages({ query, page, pageSize: 16, includeCopyrighted: true });
-  };
 
   useEffect(() => {
     (async () => {
@@ -70,12 +58,8 @@ const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
   return (
     <FieldsetRoot>
       <FieldsetLegend textStyle="label.medium">{t("form.metaImage.title")}</FieldsetLegend>
-      <ImageSearch
-        fetchImage={fetchImageWithLocale}
-        searchImages={searchImagesWithParameters}
-        locale={locale}
-        translations={imageSearchTranslations}
-        onImageSelect={(image: IImageMetaInformationV3DTO) => {
+      <ImagePicker
+        onImageSelect={(image) => {
           setFieldValue(name, image.id);
           setFieldValue("metaImageAlt", image.alttext.alttext.trim(), true);
           setImage(image);
@@ -84,13 +68,6 @@ const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
             setFieldTouched(name, true, true);
           }, 0);
         }}
-        noResults={
-          <>
-            <StyledText>{t("imageSearch.noResultsText")}</StyledText>
-            <Button type="submit">{t("imageSearch.noResultsButtonText")}</Button>
-          </>
-        }
-        onError={onError}
       />
     </FieldsetRoot>
   );

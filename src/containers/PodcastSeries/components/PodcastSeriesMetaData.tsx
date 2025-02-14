@@ -60,7 +60,6 @@ const PodcastSeriesMetaData = ({ language, onImageLoad }: Props) => {
               language={language}
               podcastFriendly
               disableAltEditing
-              showCheckbox={false}
               {...field}
             />
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>

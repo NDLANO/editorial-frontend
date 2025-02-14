@@ -8,18 +8,11 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ImageSearch } from "@ndla/image-search";
-import { Button, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger, Text } from "@ndla/primitives";
+import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3DTO, ISearchParamsDTO, ISearchResultV3DTO } from "@ndla/types-backend/image-api";
-import { useImageSearchTranslations } from "@ndla/ui";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { ImagePicker } from "./ImagePicker";
 import CreateImage from "../containers/ImageUploader/CreateImage";
-
-const StyledText = styled(Text, {
-  base: {
-    marginBlockEnd: "xsmall",
-  },
-});
 
 const StyledTabsContent = styled(TabsContent, {
   base: {
@@ -32,42 +25,22 @@ const StyledTabsContent = styled(TabsContent, {
 interface Props {
   onImageSelect: (image: IImageMetaInformationV3DTO) => void;
   inModal?: boolean;
-  locale: string;
   language?: string;
   closeModal: () => void;
-  onError: (err: any) => void;
-  searchImages: (query: ISearchParamsDTO) => Promise<ISearchResultV3DTO>;
-  fetchImage: (id: number) => Promise<IImageMetaInformationV3DTO>;
   showCheckbox?: boolean;
   checkboxAction?: (image: IImageMetaInformationV3DTO) => void;
 }
 
 const ImageSearchAndUploader = ({
   onImageSelect,
-  locale,
   language,
   inModal,
   closeModal,
-  onError,
-  searchImages,
-  fetchImage,
   showCheckbox,
   checkboxAction,
 }: Props) => {
   const [selectedTab, setSelectedTab] = useState<string | undefined>(undefined);
   const { t } = useTranslation();
-  const imageSearchTranslations = useImageSearchTranslations();
-
-  const searchImagesWithParameters = (query?: string, page?: number) => {
-    return searchImages({
-      query,
-      page,
-      pageSize: 16,
-      language: language,
-      fallback: true,
-      includeCopyrighted: true,
-    });
-  };
 
   return (
     <TabsRoot
@@ -82,21 +55,9 @@ const ImageSearchAndUploader = ({
         <TabsIndicator />
       </TabsList>
       <StyledTabsContent value="image">
-        <ImageSearch
-          fetchImage={fetchImage}
-          searchImages={searchImagesWithParameters}
-          locale={locale}
-          translations={imageSearchTranslations}
+        <ImagePicker
           onImageSelect={onImageSelect}
-          noResults={
-            <>
-              <StyledText>{t("imageSearch.noResultsText")}</StyledText>
-              <Button type="submit" variant="secondary" onClick={() => setSelectedTab("upload")}>
-                {t("imageSearch.noResultsButtonText")}
-              </Button>
-            </>
-          }
-          onError={onError}
+          locale={language}
           showCheckbox={showCheckbox}
           checkboxAction={checkboxAction}
         />

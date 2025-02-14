@@ -25,7 +25,7 @@ import { IImageMetaInformationV3DTO, IUpdateImageMetaInformationDTO } from "@ndl
 import MetaImageField from "./components/MetaImageField";
 import ImageSearchAndUploader from "../../components/ControlledImageSearchAndUploader";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
-import { postImage, updateImage, postSearchImages, fetchImage, onError } from "../../modules/image/imageApi";
+import { postImage, updateImage, fetchImage } from "../../modules/image/imageApi";
 import { createFormData } from "../../util/formDataHelper";
 
 const StyledButton = styled(Button, {
@@ -128,9 +128,6 @@ const MetaImageSearch = ({
               locale={locale}
               language={language}
               closeModal={onImageSelectClose}
-              fetchImage={(id) => fetchImage(id, language)}
-              searchImages={postSearchImages}
-              onError={onError}
               updateImage={onImageUpdate}
               image={image}
               showCheckbox={showCheckbox}

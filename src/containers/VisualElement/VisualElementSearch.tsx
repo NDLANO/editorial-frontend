@@ -20,7 +20,6 @@ import ImageSearchAndUploader from "../../components/ImageSearchAndUploader";
 import config from "../../config";
 import { Embed } from "../../interfaces";
 import { fetchAudio, postSearchAudio } from "../../modules/audio/audioApi";
-import { fetchImage, postSearchImages } from "../../modules/image/imageApi";
 import { searchVideos, VideoSearchQuery } from "../../modules/video/brightcoveApi";
 import { NdlaErrorPayload, onError } from "../../util/resolveJsonOrRejectWithError";
 
@@ -72,12 +71,8 @@ const VisualElementSearch = ({
       return (
         <ImageSearchAndUploader
           inModal={true}
-          locale={locale}
           language={articleLanguage}
           closeModal={closeModal}
-          fetchImage={(id) => fetchImage(id, articleLanguage)}
-          searchImages={postSearchImages}
-          onError={onError}
           onImageSelect={(image) =>
             handleVisualElementChange({
               resource: selectedResource,

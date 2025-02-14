@@ -25,7 +25,7 @@ import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import ImageSearchAndUploader from "../../../components/ImageSearchAndUploader";
 import MetaInformation from "../../../components/MetaInformation";
 import config from "../../../config";
-import { fetchImage, onError, postSearchImages } from "../../../modules/image/imageApi";
+import { fetchImage } from "../../../modules/image/imageApi";
 import { SubjectPageFormikType } from "../../../util/subjectHelpers";
 
 const ImageWrapper = styled("div", {
@@ -43,7 +43,7 @@ interface Props {
 }
 
 const SubjectpageBanner = ({ title, fieldName }: Props) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { setFieldTouched } = useFormikContext();
   const [image, setImage] = useState<IImageMetaInformationV3DTO | undefined>(undefined);
   const [FieldInputProps] = useField<ImageEmbedData>(fieldName);
@@ -107,12 +107,8 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
           <DialogBody>
             <ImageSearchAndUploader
               inModal
-              locale={i18n.language}
               language={values.language}
               closeModal={onImageSelectClose}
-              fetchImage={(id) => fetchImage(id, values.language)}
-              searchImages={postSearchImages}
-              onError={onError}
               onImageSelect={onImageChange}
             />
           </DialogBody>

@@ -39,7 +39,7 @@ import { defaultEmbedBlock, isSlateEmbed } from "../components/SlateEditor/plugi
 import { externalSerializer } from "../components/SlateEditor/plugins/external";
 import { fileSerializer } from "../components/SlateEditor/plugins/file";
 import { footnoteSerializer } from "../components/SlateEditor/plugins/footnote";
-import { framedContentSerializer } from "../components/SlateEditor/plugins/framedContent";
+import { framedContentSerializer } from "../components/SlateEditor/plugins/framedContent/framedContentSerializer";
 import { gridSerializer } from "../components/SlateEditor/plugins/grid";
 import { h5pSerializer } from "../components/SlateEditor/plugins/h5p";
 import { headingSerializer } from "../components/SlateEditor/plugins/heading";

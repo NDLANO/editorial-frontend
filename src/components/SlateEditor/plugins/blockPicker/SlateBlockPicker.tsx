@@ -38,7 +38,7 @@ import { TYPE_EMBED_ERROR } from "../embed/types";
 import { TYPE_EXTERNAL } from "../external/types";
 import { defaultExternalBlock } from "../external/utils";
 import { TYPE_FILE } from "../file/types";
-import { TYPE_FRAMED_CONTENT } from "../framedContent/types";
+import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes";
 import { defaultFramedContentBlock } from "../framedContent/utils";
 import { TYPE_GRID } from "../grid/types";
 import { defaultGridBlock } from "../grid/utils";
@@ -245,7 +245,7 @@ const SlateBlockPicker = ({
 
   const onElementAdd = (data: ActionData) => {
     switch (data.type) {
-      case TYPE_FRAMED_CONTENT: {
+      case FRAMED_CONTENT_ELEMENT_TYPE: {
         onInsertBlock(defaultFramedContentBlock(), true);
         break;
       }

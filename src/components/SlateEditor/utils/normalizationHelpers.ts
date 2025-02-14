@@ -18,7 +18,6 @@ import { TYPE_DETAILS } from "../plugins/details/types";
 import { TYPE_EMBED_ERROR } from "../plugins/embed/types";
 import { TYPE_EXTERNAL } from "../plugins/external/types";
 import { TYPE_FILE } from "../plugins/file/types";
-import { TYPE_FRAMED_CONTENT } from "../plugins/framedContent/types";
 import { TYPE_GRID } from "../plugins/grid/types";
 import { TYPE_H5P } from "../plugins/h5p/types";
 import { TYPE_HEADING } from "../plugins/heading/types";
@@ -30,6 +29,7 @@ import { TYPE_EMBED_BRIGHTCOVE } from "../plugins/video/types";
 import { TYPE_CONCEPT_INLINE } from "../plugins/concept/inline/types";
 import { TYPE_COMMENT_INLINE } from "../plugins/comment/inline/types";
 import { TYPE_CONTENT_LINK, TYPE_LINK } from "../plugins/link/types";
+import { FRAMED_CONTENT_ELEMENT_TYPE } from "../plugins/framedContent/framedContentTypes";
 
 export const firstTextBlockElement: Element["type"][] = [TYPE_PARAGRAPH, TYPE_HEADING, TYPE_QUOTE];
 
@@ -47,7 +47,7 @@ export const textBlockElements: Element["type"][] = [
   TYPE_FILE,
   TYPE_CODEBLOCK,
   TYPE_ASIDE,
-  TYPE_FRAMED_CONTENT,
+  FRAMED_CONTENT_ELEMENT_TYPE,
   TYPE_DETAILS,
   TYPE_DEFINITION_LIST,
   TYPE_GRID,

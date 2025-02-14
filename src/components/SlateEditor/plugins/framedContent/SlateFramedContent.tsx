@@ -14,14 +14,14 @@ import { BrushLine, CopyrightLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentTypeFramedContent, EmbedWrapper } from "@ndla/ui";
-import { FramedContentElement } from ".";
-import { TYPE_FRAMED_CONTENT } from "./types";
+import { FramedContentElement } from "./framedContentTypes";
 import { useArticleContentType } from "../../../ContentTypeProvider";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
 import { TYPE_COPYRIGHT } from "../copyright/types";
 import { defaultCopyrightBlock } from "../copyright/utils";
 import { StyledFigureButtons } from "../embed/FigureButtons";
+import { isFramedContentElement } from "./queries/framedContentQueries";
 
 const FigureButtons = styled(StyledFigureButtons, {
   base: {
@@ -46,10 +46,7 @@ const SlateFramedContent = (props: Props) => {
 
   const onRemoveClick = () => {
     const path = ReactEditor.findPath(editor, element);
-    Transforms.removeNodes(editor, {
-      at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_FRAMED_CONTENT,
-    });
+    Transforms.removeNodes(editor, { at: path, match: isFramedContentElement });
     setTimeout(() => {
       ReactEditor.focus(editor);
       Transforms.select(editor, path);
@@ -59,11 +56,7 @@ const SlateFramedContent = (props: Props) => {
 
   const onMoveContent = () => {
     const path = ReactEditor.findPath(editor, element);
-    Transforms.unwrapNodes(editor, {
-      at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_FRAMED_CONTENT,
-      voids: true,
-    });
+    Transforms.unwrapNodes(editor, { at: path, match: isFramedContentElement, voids: true });
     setTimeout(() => {
       ReactEditor.focus(editor);
       Transforms.select(editor, path);

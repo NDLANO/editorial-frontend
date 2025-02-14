@@ -10,7 +10,7 @@ import { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
-import { TYPE_FRAMED_CONTENT } from "../types";
+import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContentTypes";
 
 const editor: Descendant[] = [
   {
@@ -18,7 +18,7 @@ const editor: Descendant[] = [
     children: [
       { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
       {
-        type: TYPE_FRAMED_CONTENT,
+        type: FRAMED_CONTENT_ELEMENT_TYPE,
         children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
       },
       { type: TYPE_PARAGRAPH, children: [{ text: "" }] },

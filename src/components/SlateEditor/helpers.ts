@@ -17,7 +17,7 @@ import { TYPE_EMBED_ERROR } from "./plugins/embed/types";
 import { TYPE_EXTERNAL } from "./plugins/external/types";
 import { TYPE_FILE } from "./plugins/file/types";
 import { TYPE_FOOTNOTE } from "./plugins/footnote/types";
-import { TYPE_FRAMED_CONTENT } from "./plugins/framedContent/types";
+import { FRAMED_CONTENT_ELEMENT_TYPE } from "./plugins/framedContent/framedContentTypes";
 import { TYPE_GRID } from "./plugins/grid/types";
 import { TYPE_H5P } from "./plugins/h5p/types";
 import { TYPE_IMAGE } from "./plugins/image/types";
@@ -42,7 +42,7 @@ export const inlines: ElementType[] = [
 
 export const blocks: ElementType[] = [
   TYPE_ASIDE,
-  TYPE_FRAMED_CONTENT,
+  FRAMED_CONTENT_ELEMENT_TYPE,
   TYPE_CODEBLOCK,
   TYPE_DETAILS,
   TYPE_AUDIO,

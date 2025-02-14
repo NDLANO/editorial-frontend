@@ -42,11 +42,13 @@ export const isEmpty = (value?: Descendant[] | Descendant | string | null) => {
       if (Element.isElement(node) && !ROOT_NODES.includes(node.type)) {
         return false;
       }
+
       // ii. If root node is NOOP => we need to check if children are empty
       if (Element.isElement(node) && node.type === TYPE_NOOP) {
-        const containsText = node.children.reduce((acc, child) => acc && !!Node.string(child), true);
+        const containsText = node.children.reduce((acc, child) => acc || !!Node.string(child), false);
         return !containsText;
       }
+
       // iii. If one descendant of root is not paragraph => nonEmpty
       for (const el of [...Node.elements(node)]) {
         const [element] = el;

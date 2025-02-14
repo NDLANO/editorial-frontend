@@ -47,10 +47,10 @@ export const commentBlockPlugin = (editor: Editor) => {
   const { normalizeNode: nextNormalizeNode, isVoid: nextIsVoid } = editor;
 
   editor.normalizeNode = (entry) => {
-    const [node] = entry;
+    const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_COMMENT_BLOCK) {
-      if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
+      if (defaultBlockNormalizer(editor, node, path, normalizerConfig)) {
         return;
       }
     }

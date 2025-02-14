@@ -55,10 +55,10 @@ export const embedPlugin = (disableNormalize?: boolean) => (editor: Editor) => {
   const { normalizeNode: nextNormalizeNode, isVoid: nextIsVoid } = editor;
 
   editor.normalizeNode = (entry) => {
-    const [node] = entry;
+    const [node, path] = entry;
 
     if (isSlateEmbed(node)) {
-      if (!disableNormalize && defaultBlockNormalizer(editor, entry, normalizerConfig)) {
+      if (!disableNormalize && defaultBlockNormalizer(editor, node, path, normalizerConfig)) {
         return;
       }
       return undefined;

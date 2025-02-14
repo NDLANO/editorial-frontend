@@ -261,7 +261,7 @@ export const tablePlugin = (editor: Editor) => {
         }
       }
       // v. Add surrounding paragraphs. Must be last since the table itself is not altered.
-      if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
+      if (defaultBlockNormalizer(editor, node, path, normalizerConfig)) {
         return;
       }
 

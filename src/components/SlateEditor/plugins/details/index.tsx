@@ -176,12 +176,12 @@ export const detailsPlugin = (editor: Editor) => {
 
     if (Element.isElement(node)) {
       if (node.type === TYPE_DETAILS) {
-        if (defaultBlockNormalizer(editor, entry, detailsNormalizerConfig)) {
+        if (defaultBlockNormalizer(editor, node, path, detailsNormalizerConfig)) {
           return;
         }
       }
       if (node.type === TYPE_SUMMARY) {
-        if (defaultBlockNormalizer(editor, entry, summaryNormalizerConfig)) {
+        if (defaultBlockNormalizer(editor, node, path, summaryNormalizerConfig)) {
           return;
         }
 

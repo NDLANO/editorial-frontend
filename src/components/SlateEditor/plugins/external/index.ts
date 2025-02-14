@@ -48,9 +48,9 @@ export const externalPlugin = (disableNormalize?: boolean) => (editor: Editor) =
   const { normalizeNode: nextNormalizeNode, isVoid: nextIsVoid } = editor;
 
   editor.normalizeNode = (entry) => {
-    const [node] = entry;
+    const [node, path] = entry;
     if (Element.isElement(node) && (node.type === TYPE_EXTERNAL || node.type === TYPE_IFRAME)) {
-      if (!disableNormalize && defaultBlockNormalizer(editor, entry, normalizerConfig)) {
+      if (!disableNormalize && defaultBlockNormalizer(editor, node, path, normalizerConfig)) {
         return;
       }
     }

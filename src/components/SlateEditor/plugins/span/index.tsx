@@ -87,7 +87,7 @@ export const spanPlugin = (editor: Editor) => {
         return Transforms.removeNodes(editor, { at: path });
       }
 
-      if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
+      if (defaultBlockNormalizer(editor, node, path, normalizerConfig)) {
         return;
       }
     }

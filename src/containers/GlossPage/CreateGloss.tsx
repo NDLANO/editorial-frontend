@@ -22,7 +22,7 @@ interface Props {
 const CreateGloss = ({ inModal = false, addConceptInModal }: Props) => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const { createConcept, conceptArticles } = useFetchConceptData(undefined, i18n.language);
+  const { createConcept, conceptArticles, updateConceptStatus } = useFetchConceptData(undefined, i18n.language);
 
   const onCreate = useCallback(
     async (createdConcept: INewConceptDTO) => {
@@ -42,7 +42,7 @@ const CreateGloss = ({ inModal = false, addConceptInModal }: Props) => {
       <title>{t(`glossform.title`)}</title>
       <GlossForm
         language={i18n.language}
-        upsertProps={{ onCreate }}
+        upsertProps={{ onCreate, onUpdateStatus: updateConceptStatus }}
         inModal={inModal}
         conceptArticles={conceptArticles}
         supportedLanguages={[i18n.language]}

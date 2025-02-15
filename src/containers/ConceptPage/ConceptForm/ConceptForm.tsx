@@ -25,7 +25,7 @@ import CopyrightFieldGroup from "../../FormikForm/CopyrightFieldGroup";
 import SimpleVersionPanel from "../../FormikForm/SimpleVersionPanel";
 import { MessageError, useMessages } from "../../Messages/MessagesProvider";
 import { useSession } from "../../Session/SessionProvider";
-import { ConceptArticles, ConceptContent, ConceptMetaData } from "../components";
+import { ConceptContent, ConceptMetaData } from "../components";
 import { ConceptFormValues } from "../conceptInterfaces";
 import { conceptApiTypeToFormType, getNewConceptType, getUpdatedConceptType } from "../conceptTransformers";
 
@@ -37,6 +37,7 @@ interface UpdateProps {
 
 interface CreateProps {
   onCreate: (newConcept: INewConceptDTO) => Promise<IConceptDTO>;
+  onUpdateStatus: (id: number, status: string) => Promise<IConceptDTO>;
 }
 
 interface Props {
@@ -138,6 +139,7 @@ const ConceptForm = ({
       let savedConcept: IConceptDTO;
       if ("onCreate" in upsertProps) {
         savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses, "concept"));
+        savedConcept = newStatus ? await upsertProps.onUpdateStatus(savedConcept.id, newStatus) : savedConcept;
       } else {
         const conceptWithStatus = {
           ...getUpdatedConceptType(values, licenses, "concept"),
@@ -198,7 +200,7 @@ const ConceptForm = ({
                 hasError={!!(errors.title || errors.conceptContent)}
               >
                 <PageContent variant="content">
-                  <ConceptContent />
+                  <ConceptContent inModal={inModal} />
                 </PageContent>
               </FormAccordion>
               <FormAccordion
@@ -208,19 +210,20 @@ const ConceptForm = ({
               >
                 <CopyrightFieldGroup enableLicenseNA={true} />
               </FormAccordion>
-              <FormAccordion
-                id="metadata"
-                title={t("form.metadataSection")}
-                hasError={!!(errors.tags || errors.metaImageAlt)}
-              >
-                <ConceptMetaData inModal={inModal} language={language} />
-              </FormAccordion>
-              <FormAccordion id="articles" title={t("form.articleSection")} hasError={!!errors.articles}>
-                <ConceptArticles />
-              </FormAccordion>
-              <FormAccordion id="versionNotes" title={t("form.workflowSection")} hasError={false}>
-                <SimpleVersionPanel editorNotes={concept?.editorNotes} />
-              </FormAccordion>
+              {!inModal && (
+                <FormAccordion
+                  id="metadata"
+                  title={t("form.metadataSection")}
+                  hasError={!!(errors.tags || errors.metaImageAlt)}
+                >
+                  <ConceptMetaData inModal={inModal} language={language} />
+                </FormAccordion>
+              )}
+              {!!concept?.id && (
+                <FormAccordion id="versionNotes" title={t("form.workflowSection")} hasError={false}>
+                  <SimpleVersionPanel editorNotes={concept?.editorNotes} />
+                </FormAccordion>
+              )}
             </FormAccordions>
             <ConceptFormFooter
               entityStatus={concept?.status}
@@ -229,7 +232,7 @@ const ConceptForm = ({
               savedToServer={savedToServer}
               isNewlyCreated={isNewlyCreated}
               showSimpleFooter={!concept?.id}
-              responsibleId={concept?.responsible?.responsibleId}
+              responsibleId={concept?.responsible?.responsibleId ?? ndlaId}
             />
           </FormWrapper>
         );

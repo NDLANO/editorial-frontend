@@ -6,8 +6,7 @@
  *
  */
 
-import ConceptArticles from "./ConceptArticles";
 import ConceptContent from "./ConceptContent";
 import ConceptMetaData from "./ConceptMetaData";
 
-export { ConceptArticles, ConceptContent, ConceptMetaData };
+export { ConceptContent, ConceptMetaData };

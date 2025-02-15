@@ -6,6 +6,7 @@
  *
  */
 
+import { KeyboardEvent } from "react";
 import { Editor, NodeEntry, Path, Point, Range, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 import { TableBodyElement, TableCellElement, TableElement, TableHeadElement, TableRowElement } from "./interfaces";
@@ -14,7 +15,11 @@ import { findCellCoordinate } from "./matrixHelpers";
 import { createIdenticalRow, isTableBody, isTableCell, isTableHead, isTableRow } from "./slateHelpers";
 import { KEY_ARROW_DOWN, KEY_ARROW_UP, KEY_BACKSPACE, KEY_DELETE, KEY_TAB } from "../../utils/keys";
 
-export const handleTableKeydown = (event: KeyboardEvent, editor: Editor, tableEntry: NodeEntry<TableElement>) => {
+export const handleTableKeydown = (
+  event: KeyboardEvent<HTMLDivElement>,
+  editor: Editor,
+  tableEntry: NodeEntry<TableElement>,
+) => {
   if (editor.selection) {
     const [cellEntry] = Editor.nodes(editor, {
       at: editor.selection.anchor.path,

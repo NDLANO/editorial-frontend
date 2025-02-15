@@ -50,9 +50,9 @@ export const videoPlugin = (disableNormalize?: boolean) => (editor: Editor) => {
   };
 
   editor.normalizeNode = (entry) => {
-    const [node] = entry;
+    const [node, path] = entry;
     if (Element.isElement(node) && node.type === TYPE_EMBED_BRIGHTCOVE) {
-      if (!disableNormalize && defaultBlockNormalizer(editor, entry, normalizerConfig)) {
+      if (!disableNormalize && defaultBlockNormalizer(editor, node, path, normalizerConfig)) {
         return;
       }
     }

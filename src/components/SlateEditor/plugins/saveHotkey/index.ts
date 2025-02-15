@@ -15,7 +15,7 @@ const isSaveHotkey = isHotkey("mod+s");
 
 const saveHotkeyPlugin = (editor: Editor) => {
   const { onKeyDown: nextOnKeyDown } = editor;
-  editor.onKeyDown = (e: KeyboardEvent) => {
+  editor.onKeyDown = (e) => {
     if (isSaveHotkey(e)) {
       e.preventDefault();
       editor.lastSelection = editor.selection && { ...editor.selection };

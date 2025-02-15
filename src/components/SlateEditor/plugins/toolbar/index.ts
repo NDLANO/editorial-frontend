@@ -8,6 +8,7 @@
 
 import { isKeyHotkey, isCodeHotkey } from "is-hotkey";
 import { Editor } from "slate";
+import { toggleMark } from "@ndla/editor";
 import { handleClickBlock, handleClickInline, handleClickText } from "./handleMenuClicks";
 import SlateToolbar from "./SlateToolbar";
 import {
@@ -19,7 +20,6 @@ import {
   getEditorAncestors,
   toolbarState,
 } from "./toolbarState";
-import { toggleMark } from "../mark/utils";
 
 const isBoldHotkey = isKeyHotkey("mod+b");
 const isCodeHotKey = isKeyHotkey("mod+k");
@@ -53,7 +53,7 @@ const toolbarPlugin =
       }
     };
 
-    editor.onKeyDown = (e: KeyboardEvent) => {
+    editor.onKeyDown = (e) => {
       let action: ToolbarAction | undefined;
 
       if (!e.metaKey && !e.ctrlKey) {
@@ -119,7 +119,7 @@ const toolbarPlugin =
       e.preventDefault();
 
       if (action.category === "mark") {
-        toggleMark(e, editor, action.value);
+        toggleMark(editor, action.value);
       } else if (action.category === "block") {
         handleClickBlock(e, editor, action.value);
       } else if (action.category === "inline") {

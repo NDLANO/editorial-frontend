@@ -49,6 +49,7 @@ interface Props {
   locale: string;
   selectedText?: string;
   updateConcept: (id: number, updatedConcept: IUpdatedConceptDTO) => Promise<IConceptDTO>;
+  updateConceptStatus: (id: number, status: string) => Promise<IConceptDTO>;
   conceptArticles: IArticleDTO[];
   conceptType: ConceptType;
 }
@@ -58,8 +59,9 @@ const ConceptModalContent = ({
   handleRemove,
   selectedText = "",
   addConcept,
-  updateConcept,
   createConcept,
+  updateConcept,
+  updateConceptStatus,
   concept,
   conceptArticles,
   conceptType,
@@ -110,7 +112,10 @@ const ConceptModalContent = ({
     ? {
         onUpdate: (updatedConcept: IUpdatedConceptDTO) => updateConcept(concept.id, updatedConcept),
       }
-    : { onCreate: createConcept };
+    : {
+        onCreate: createConcept,
+        onUpdateStatus: updateConceptStatus,
+      };
 
   useEffect(() => {
     searchConcept(searchObject);

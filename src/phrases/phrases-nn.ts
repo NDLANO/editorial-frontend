@@ -828,6 +828,7 @@ const phrases = {
       origin: "Opphav",
       audioFile: "Lydfil",
       content: "Innhald",
+      conceptContent: "Beskrivelse",
       notes: "Merknader",
       metaDescription: "Metabeskrivelse",
       metaImageAlt: "Alt-tekst",
@@ -840,7 +841,6 @@ const phrases = {
       validFrom: "Gyldig fra",
       validTo: "Gyldig til",
       description: "Innhald",
-      conceptContent: "Skildring",
       grepCodes: "Læreplankobling",
       desktopBannerId: "Breitt fagsidebilete",
       mobileBannerId: "Smalt fagsidebilete",
@@ -1270,12 +1270,12 @@ const phrases = {
       label: "Kompetansemål og kjerneelementer",
       placeholder: "Skriv inn kode",
       description:
-        "Skriv inn koder som starter på riktig format ({{ codes }} fulgt av eit eller fleire siffer. Koder som ikkje eksisterer vil ikkje bli oppretta. Tekstene visast på bokmål i ed, men korrekt i artikkelvisning.",
+        "Skriv inn koder som starter på riktig format ({{ codes }} fulgt av eit eller fleire siffer. Koder som ikkje eksisterer vil ikkje bli oppretta. Separer fleire koder med komma. Tekstene visast på bokmål i ed, men korrekt i artikkelvisning.",
     },
     articleDisclaimer: {
       title: "Informasjon om tilgjengelegheit for heile artikkelen",
       description:
-        "Skriv inn kva som er utfordrande med innhaldet i artikkelen. Du kan òg leggje til lenker til alternativt innhald. Det er utarbeidd malar for dette. Sjekk desse før du tek i bruk komponenten.",
+        "Skriv inn kva som er utfordrande med innhaldet i artikkelen. Du kan òg leggje til lenker til alternativt innhald. Det er utarbeidd malar for dette. Sjekk desse før <0>her</0> du tek i bruk komponenten.",
     },
     resourceTypes: {
       label: "Innhaldstype og egenskaper",
@@ -1337,12 +1337,12 @@ const phrases = {
       error: "Noe gjekk gale ved oppdatering av ansvarleg.",
     },
     origin: {
-      label: "Opphav",
+      label: "Kjelde",
     },
     processed: {
       label: "Omarbeidd",
       description: "Innhaldet har vorte omarbeidd",
-      disabledCause: "Omarbeidd kan kun settast dersom opphav er satt",
+      disabledCause: "Omarbeidd kan kun settast dersom kjelde er satt",
     },
     image: {
       file: "Bilete",
@@ -1577,7 +1577,7 @@ const phrases = {
       edit: "Endre informasjon on tilgjengelighet",
       title: "Universell utforming - informasjon i løpande tekst",
       description:
-        "Skriv inn kva som er problemet med komponenten. Det er utarbeidd malar for dette. Sjekk desse før du tek i bruk komponenten.",
+        "Skriv inn kva som er problemet med komponenten. Det er utarbeidd malar for dette. Sjekk desse <0>her</0> før du tek i bruk komponenten.",
       editorHeader: "Informasjon om tilgjengelegheit for enkeltkomponentar",
     },
     copyright: {

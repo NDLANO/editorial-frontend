@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import { ElementType } from "./interfaces";
 import { TYPE_ASIDE } from "./plugins/aside/types";
 import { TYPE_AUDIO } from "./plugins/audio/types";
 import { TYPE_CAMPAIGN_BLOCK } from "./plugins/campaignBlock/types";
@@ -29,7 +30,7 @@ import { TYPE_SPAN } from "./plugins/span/types";
 import { TYPE_TABLE } from "./plugins/table/types";
 import { TYPE_EMBED_BRIGHTCOVE } from "./plugins/video/types";
 
-export const inlines = [
+export const inlines: ElementType[] = [
   TYPE_CONCEPT_INLINE,
   TYPE_FOOTNOTE,
   TYPE_LINK,
@@ -39,7 +40,7 @@ export const inlines = [
   TYPE_COMMENT_INLINE,
 ];
 
-export const blocks = [
+export const blocks: ElementType[] = [
   TYPE_ASIDE,
   TYPE_FRAMED_CONTENT,
   TYPE_CODEBLOCK,

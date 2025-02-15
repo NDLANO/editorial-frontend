@@ -38,6 +38,7 @@ interface UpdateProps {
 
 interface CreateProps {
   onCreate: (newConcept: INewConceptDTO) => Promise<IConceptDTO>;
+  onUpdateStatus: (id: number, status: string) => Promise<IConceptDTO>;
 }
 
 interface Props {
@@ -112,6 +113,7 @@ export const GlossForm = ({
       let savedConcept: IConceptDTO;
       if ("onCreate" in upsertProps) {
         savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses, "gloss"));
+        savedConcept = newStatus ? await upsertProps.onUpdateStatus(savedConcept.id, newStatus) : savedConcept;
       } else {
         const conceptWithStatus = {
           ...getUpdatedConceptType(values, licenses, "gloss"),
@@ -191,7 +193,7 @@ export const GlossForm = ({
             savedToServer={savedToServer}
             isNewlyCreated={isNewlyCreated}
             showSimpleFooter={!concept?.id}
-            responsibleId={concept?.responsible?.responsibleId}
+            responsibleId={concept?.responsible?.responsibleId ?? ndlaId}
           />
         </FormWrapper>
       )}

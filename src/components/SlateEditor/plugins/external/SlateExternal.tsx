@@ -74,11 +74,17 @@ const TitleWrapper = styled("div", {
 const getAllowedProvider = (embed: OembedMetaData | IframeMetaData | undefined): WhitelistProvider | undefined => {
   const maybeProviderName =
     embed?.resource === "external" && embed?.status === "success" ? embed.data.oembed?.providerName : undefined;
-  const embedUrlOrigin = embed?.embedData.url && urlDomain(embed?.embedData.url);
 
+  // Valid oembed provider, use name
+  if (maybeProviderName !== undefined) {
+    return {
+      name: maybeProviderName,
+      url: [],
+    };
+  }
+
+  const embedUrlOrigin = embed?.embedData.url ? urlDomain(embed?.embedData.url) : undefined;
   return EXTERNAL_WHITELIST_PROVIDERS.find((whitelistProvider) => {
-    if (whitelistProvider.name === maybeProviderName) return true;
-    if (embed?.resource === "iframe") return embedUrlOrigin;
     return whitelistProvider.url.includes(embedUrlOrigin ?? "");
   });
 };

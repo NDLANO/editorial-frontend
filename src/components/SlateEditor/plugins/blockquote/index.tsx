@@ -6,6 +6,7 @@
  *
  */
 
+import type { KeyboardEvent } from "react";
 import { Descendant, Editor, Element, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_QUOTE } from "./types";
@@ -43,7 +44,11 @@ export const blockQuoteSerializer: SlateSerializer = {
   },
 };
 
-const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
+const onEnter = (
+  e: KeyboardEvent<HTMLDivElement>,
+  editor: Editor,
+  nextOnKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => void,
+) => {
   const entry = getCurrentBlock(editor, TYPE_QUOTE);
   if (!entry) {
     return nextOnKeyDown && nextOnKeyDown(e);
@@ -77,7 +82,7 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: Keybo
 export const blockQuotePlugin = (editor: Editor) => {
   const { onKeyDown: nextOnKeyDown } = editor;
 
-  editor.onKeyDown = (e: KeyboardEvent) => {
+  editor.onKeyDown = (e) => {
     if (e.key === KEY_ENTER) {
       onEnter(e, editor, nextOnKeyDown);
     } else if (nextOnKeyDown) {

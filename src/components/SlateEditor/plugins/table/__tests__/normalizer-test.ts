@@ -6,11 +6,9 @@
  *
  */
 
-import { createEditor, Descendant, Editor } from "slate";
-import { withHistory } from "slate-history";
-import { withReact } from "slate-react";
+import { Descendant, Editor } from "slate";
+import { createSlate } from "@ndla/editor";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
-import withPlugins from "../../../utils/withPlugins";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
 import {
@@ -23,7 +21,7 @@ import {
   TYPE_TABLE_CELL_HEADER,
 } from "../types";
 
-const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));
+const editor = createSlate({ plugins: learningResourcePlugins });
 
 describe("table normalizer tests", () => {
   test("Make sure non-row element in table-head or body is wrapped in row", () => {

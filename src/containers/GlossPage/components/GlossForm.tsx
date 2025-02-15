@@ -11,7 +11,6 @@ import isEmpty from "lodash/isEmpty";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IConceptDTO, IConceptSummaryDTO, INewConceptDTO, IUpdatedConceptDTO } from "@ndla/types-backend/concept-api";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import GlossDataSection from "./GlossDataSection";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
@@ -47,7 +46,6 @@ interface Props {
   conceptChanged?: boolean;
   inModal: boolean;
   isNewlyCreated?: boolean;
-  conceptArticles: IArticleDTO[];
   language: string;
   initialTitle?: string;
   onUpserted?: (concept: IConceptSummaryDTO | IConceptDTO) => void;
@@ -89,7 +87,6 @@ export const GlossForm = ({
   isNewlyCreated = false,
   language,
   upsertProps,
-  conceptArticles,
   initialTitle,
   onUpserted,
   supportedLanguages,
@@ -122,7 +119,7 @@ export const GlossForm = ({
         savedConcept = await upsertProps.onUpdate(conceptWithStatus, revision!);
       }
       formikHelpers.resetForm({
-        values: conceptApiTypeToFormType(savedConcept, language, conceptArticles, ndlaId),
+        values: conceptApiTypeToFormType(savedConcept, language, ndlaId),
       });
       formikHelpers.setSubmitting(false);
       setSavedToServer(true);
@@ -134,7 +131,7 @@ export const GlossForm = ({
     }
   };
 
-  const initialValues = conceptApiTypeToFormType(concept, language, conceptArticles, ndlaId, initialTitle, "gloss");
+  const initialValues = conceptApiTypeToFormType(concept, language, ndlaId, initialTitle, "gloss");
 
   const initialWarnings = useMemo(
     () => getWarnings(initialValues, glossRules, t, concept),

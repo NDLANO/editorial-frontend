@@ -41,7 +41,7 @@ const EditGloss = ({ isNewlyCreated }: Props) => {
   const conceptId = Number(params.id);
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const { t } = useTranslation();
-  const { concept, setConcept, conceptArticles, loading, conceptChanged, updateConcept } = useFetchConceptData(
+  const { concept, setConcept, loading, conceptChanged, updateConcept } = useFetchConceptData(
     conceptId,
     selectedLanguage!,
   );
@@ -78,7 +78,6 @@ const EditGloss = ({ isNewlyCreated }: Props) => {
       <GlossForm
         inModal={false}
         concept={concept}
-        conceptArticles={conceptArticles}
         conceptChanged={conceptChanged || newLanguage}
         isNewlyCreated={isNewlyCreated}
         upsertProps={{ onUpdate }}

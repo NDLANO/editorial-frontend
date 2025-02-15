@@ -15,7 +15,6 @@ import PageSizeSelect from "./PageSizeSelect";
 import StatusCell from "./StatusCell";
 import { SortOptionConceptList } from "./WorkList";
 import Pagination from "../../../../components/abstractions/Pagination";
-import { useSearchConcepts } from "../../../../modules/concept/conceptQueries";
 import formatDate from "../../../../util/formatDate";
 import { toEditConcept, toEditGloss } from "../../../../util/routeHelpers";
 import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../../styles";
@@ -47,19 +46,7 @@ const ConceptListTabContent = ({
   pageSizeConcept,
   setPageSizeConcept,
 }: Props) => {
-  const { t, i18n } = useTranslation();
-
-  // Separated request to not update subjects when filtered subject changes
-  const searchQuery = useSearchConcepts(
-    {
-      responsibleIds: [ndlaId],
-      pageSize: 0,
-      fallback: true,
-      aggregatePaths: ["subjectIds"],
-      language: i18n.language,
-    },
-    { enabled: !!ndlaId },
-  );
+  const { t } = useTranslation();
 
   const tableData: FieldElement[][] = useMemo(
     () =>

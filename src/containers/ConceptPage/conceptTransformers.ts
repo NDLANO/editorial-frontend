@@ -8,7 +8,6 @@
 
 import { Node as SlateNode } from "slate";
 import { IConceptDTO, ILicenseDTO, INewConceptDTO, IUpdatedConceptDTO } from "@ndla/types-backend/concept-api";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import { ConceptFormValues, ConceptType } from "./conceptInterfaces";
 import { IN_PROGRESS } from "../../constants";
 import {
@@ -24,7 +23,6 @@ import { parseImageUrl } from "../../util/formHelper";
 export const conceptApiTypeToFormType = (
   concept: IConceptDTO | undefined,
   language: string,
-  articles: IArticleDTO[],
   ndlaId: string | undefined,
   initialTitle = "",
   conceptType?: ConceptType,
@@ -53,7 +51,6 @@ export const conceptApiTypeToFormType = (
     metaImageId: parseImageUrl(concept?.metaImage),
     metaImageAlt: concept?.metaImage?.alt ?? "",
     tags: concept?.tags?.tags ?? [],
-    articles,
     visualElement: embedTagToEditorValue(concept?.visualElement?.visualElement ?? ""),
     origin: concept?.copyright?.origin,
     responsibleId: concept === undefined ? ndlaId : concept?.responsible?.responsibleId,
@@ -94,7 +91,7 @@ export const getNewConceptType = (
   tags: values.tags,
   metaImage: metaImageFromForm(values),
   subjectIds: [],
-  articleIds: values.articles.map((a) => a.id),
+  articleIds: [],
   visualElement: editorValueToEmbedTag(values.visualElement),
   responsibleId: values.responsibleId,
   conceptType: conceptType,
@@ -139,7 +136,7 @@ export const conceptFormTypeToApiType = (
     },
     source: values.source,
     tags: { tags: values.tags, language: values.language },
-    articleIds: values.articles.map((a) => a.id),
+    articleIds: [],
     title: {
       title: editorValueToPlainText(values.title),
       language: values.language,

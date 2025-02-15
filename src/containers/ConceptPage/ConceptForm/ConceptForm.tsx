@@ -11,7 +11,6 @@ import { useState, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { PageContent } from "@ndla/primitives";
 import { IConceptDTO, INewConceptDTO, IUpdatedConceptDTO, IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import ConceptFormFooter from "./ConceptFormFooter";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
@@ -46,7 +45,6 @@ interface Props {
   conceptChanged?: boolean;
   inModal: boolean;
   isNewlyCreated?: boolean;
-  conceptArticles: IArticleDTO[];
   language: string;
   initialTitle?: string;
   onUpserted?: (concept: IConceptSummaryDTO | IConceptDTO) => void;
@@ -115,7 +113,6 @@ const ConceptForm = ({
   isNewlyCreated = false,
   language,
   upsertProps,
-  conceptArticles,
   initialTitle,
   onUpserted,
   supportedLanguages,
@@ -148,7 +145,7 @@ const ConceptForm = ({
         savedConcept = await upsertProps.onUpdate(conceptWithStatus, revision!);
       }
       formikHelpers.resetForm({
-        values: conceptApiTypeToFormType(savedConcept, language, conceptArticles, ndlaId),
+        values: conceptApiTypeToFormType(savedConcept, language, ndlaId),
       });
       formikHelpers.setSubmitting(false);
       setSavedToServer(true);
@@ -160,7 +157,7 @@ const ConceptForm = ({
     }
   };
 
-  const initialValues = conceptApiTypeToFormType(concept, language, conceptArticles, ndlaId, initialTitle, "concept");
+  const initialValues = conceptApiTypeToFormType(concept, language, ndlaId, initialTitle, "concept");
 
   const initialWarnings = useMemo(
     () => getWarnings(initialValues, conceptRules, t, concept),

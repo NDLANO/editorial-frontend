@@ -28,7 +28,6 @@ import {
   IUpdatedConceptDTO,
   IConceptSummaryDTO,
 } from "@ndla/types-backend/concept-api";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import SearchConceptForm from "./SearchConceptForm";
 import SearchConceptResults from "./SearchConceptResults";
 import ConceptForm from "../../../../containers/ConceptPage/ConceptForm/ConceptForm";
@@ -50,7 +49,6 @@ interface Props {
   selectedText?: string;
   updateConcept: (id: number, updatedConcept: IUpdatedConceptDTO) => Promise<IConceptDTO>;
   updateConceptStatus: (id: number, status: string) => Promise<IConceptDTO>;
-  conceptArticles: IArticleDTO[];
   conceptType: ConceptType;
 }
 
@@ -63,7 +61,6 @@ const ConceptModalContent = ({
   updateConcept,
   updateConceptStatus,
   concept,
-  conceptArticles,
   conceptType,
 }: Props) => {
   const { t } = useTranslation();
@@ -185,7 +182,6 @@ const ConceptModalContent = ({
                   upsertProps={upsertProps}
                   language={locale}
                   concept={concept}
-                  conceptArticles={conceptArticles}
                   initialTitle={selectedText}
                   supportedLanguages={concept?.supportedLanguages ?? [locale]}
                 />
@@ -196,7 +192,6 @@ const ConceptModalContent = ({
                   upsertProps={upsertProps}
                   language={locale}
                   concept={concept}
-                  conceptArticles={conceptArticles}
                   initialTitle={selectedText}
                   supportedLanguages={concept?.supportedLanguages ?? [locale]}
                 />

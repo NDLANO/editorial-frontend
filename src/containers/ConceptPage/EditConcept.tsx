@@ -44,7 +44,7 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
   const conceptId = Number(params.id) || undefined;
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const { t } = useTranslation();
-  const { concept, setConcept, conceptArticles, loading, conceptChanged, updateConcept } = useFetchConceptData(
+  const { concept, setConcept, loading, conceptChanged, updateConcept } = useFetchConceptData(
     conceptId,
     selectedLanguage!,
   );
@@ -74,7 +74,6 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
       <ConceptForm
         inModal={false}
         concept={concept}
-        conceptArticles={conceptArticles}
         conceptChanged={conceptChanged || newLanguage}
         isNewlyCreated={isNewlyCreated}
         upsertProps={{

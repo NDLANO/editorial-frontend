@@ -11,11 +11,13 @@ import { asideRenderer } from "../../../../components/SlateEditor/plugins/aside/
 import { audioRenderer } from "../../../../components/SlateEditor/plugins/audio/render";
 import { blockQuoteRenderer } from "../../../../components/SlateEditor/plugins/blockquote/render";
 import { breakRenderer } from "../../../../components/SlateEditor/plugins/break/render";
+import { campaignBlockRenderer } from "../../../../components/SlateEditor/plugins/campaignBlock/render";
 import { codeblockRenderer } from "../../../../components/SlateEditor/plugins/codeBlock/render";
 import { commentBlockRenderer } from "../../../../components/SlateEditor/plugins/comment/block/render";
 import { commentInlineRenderer } from "../../../../components/SlateEditor/plugins/comment/inline/render";
 import { blockConceptRenderer } from "../../../../components/SlateEditor/plugins/concept/block/render";
 import { inlineConceptRenderer } from "../../../../components/SlateEditor/plugins/concept/inline/render";
+import { contactBlockRenderer } from "../../../../components/SlateEditor/plugins/contactBlock/render";
 import { copyrightRenderer } from "../../../../components/SlateEditor/plugins/copyright/render";
 import { definitionListRenderer } from "../../../../components/SlateEditor/plugins/definitionList/render";
 import { detailsRenderer } from "../../../../components/SlateEditor/plugins/details/render";
@@ -29,11 +31,14 @@ import { gridRenderer } from "../../../../components/SlateEditor/plugins/grid/re
 import { h5pRenderer } from "../../../../components/SlateEditor/plugins/h5p/render";
 import { headingRenderer } from "../../../../components/SlateEditor/plugins/heading/render";
 import { imageRenderer } from "../../../../components/SlateEditor/plugins/image/render";
+import { keyFigureRenderer } from "../../../../components/SlateEditor/plugins/keyFigure/render";
 import { linkRenderer } from "../../../../components/SlateEditor/plugins/link/render";
+import { linkBlockListRenderer } from "../../../../components/SlateEditor/plugins/linkBlockList/render";
 import { listRenderer } from "../../../../components/SlateEditor/plugins/list/render";
 import { markRenderer } from "../../../../components/SlateEditor/plugins/mark/render";
 import { mathRenderer } from "../../../../components/SlateEditor/plugins/mathml/mathRenderer";
 import { paragraphRenderer } from "../../../../components/SlateEditor/plugins/paragraph/render";
+import { pitchRenderer } from "../../../../components/SlateEditor/plugins/pitch/render";
 import { relatedRenderer } from "../../../../components/SlateEditor/plugins/related/relatedRenderer";
 import { sectionRenderer } from "../../../../components/SlateEditor/plugins/section/render";
 import { spanRenderer } from "../../../../components/SlateEditor/plugins/span/render";
@@ -48,12 +53,12 @@ export const learningResourceRenderers: SlatePlugin[] = [
   divRenderer,
   paragraphRenderer,
   footnoteRenderer,
+  externalRenderer,
+  embedRenderer,
   audioRenderer,
   imageRenderer(true),
   h5pRenderer,
   videoRenderer,
-  externalRenderer,
-  embedRenderer,
   framedContentRenderer,
   asideRenderer,
   detailsRenderer,
@@ -71,12 +76,17 @@ export const learningResourceRenderers: SlatePlugin[] = [
   relatedRenderer,
   fileRenderer,
   mathRenderer,
+  contactBlockRenderer,
   codeblockRenderer,
+  keyFigureRenderer,
   breakRenderer,
   markRenderer,
   definitionListRenderer,
   listRenderer,
   gridRenderer,
+  pitchRenderer,
+  campaignBlockRenderer,
+  linkBlockListRenderer,
   disclaimerRenderer,
   copyrightRenderer,
 ];

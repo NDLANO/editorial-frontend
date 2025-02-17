@@ -14,7 +14,6 @@ import { Button, FieldRoot } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IStatusDTO as ConceptStatus } from "@ndla/types-backend/concept-api";
-import { IStatusDTO as DraftStatus } from "@ndla/types-backend/draft-api";
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../constants";
 import PrioritySelect from "../../containers/FormikForm/components/PrioritySelect";
 import ResponsibleSelect from "../../containers/FormikForm/components/ResponsibleSelect";
@@ -29,7 +28,6 @@ import SaveMultiButton from "../SaveMultiButton";
 interface Props {
   formIsDirty: boolean;
   savedToServer: boolean;
-  entityStatus?: DraftStatus;
   showSimpleFooter: boolean;
   onSaveClick: (saveAsNewVersion?: boolean) => void;
   statusStateMachine?: ConceptStatusStateMachineType | DraftStatusStateMachineType;
@@ -102,7 +100,6 @@ const STATUSES_RESET_RESPONSIBLE = [ARCHIVED, UNPUBLISHED];
 function EditorFooter<T extends FormValues>({
   formIsDirty,
   savedToServer,
-  entityStatus,
   showSimpleFooter,
   onSaveClick,
   statusStateMachine,
@@ -213,13 +210,12 @@ function EditorFooter<T extends FormValues>({
             {({ field, helpers }) => (
               <FieldRoot>
                 <StatusSelect
-                  status={field.value.current}
+                  status={field.value}
                   updateStatus={(value) => {
                     helpers.setValue({ current: value });
                     setNewStatus(value);
                   }}
                   statusStateMachine={statusStateMachine}
-                  entityStatus={entityStatus}
                 />
               </FieldRoot>
             )}

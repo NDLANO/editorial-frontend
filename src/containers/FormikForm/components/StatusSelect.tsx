@@ -16,10 +16,9 @@ import { PUBLISHED } from "../../../constants";
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../../interfaces";
 
 interface Props {
-  status: string | undefined;
+  status: DraftStatus | undefined;
   updateStatus: (s: string | undefined) => void;
   statusStateMachine?: ConceptStatusStateMachineType | DraftStatusStateMachineType;
-  entityStatus?: DraftStatus;
 }
 
 const StyledSelectValueText = styled(SelectValueText, {
@@ -41,34 +40,34 @@ const StyledSelectRoot = styled(SelectRoot, {
   },
 });
 
-const StatusSelect = ({ status, updateStatus, statusStateMachine, entityStatus }: Props) => {
+const StatusSelect = ({ status, updateStatus, statusStateMachine }: Props) => {
   const { t } = useTranslation();
 
   const collection = useMemo(() => {
     const items =
-      statusStateMachine && entityStatus
-        ? statusStateMachine[entityStatus.current].map((status) => ({
+      statusStateMachine && status
+        ? statusStateMachine[status.current].map((status) => ({
             label: t(`form.status.actions.${status}`),
             status,
           }))
         : [];
 
     return createListCollection({ items, itemToValue: (item) => item.status, itemToString: (item) => item.label });
-  }, [entityStatus, statusStateMachine, t]);
+  }, [status, statusStateMachine, t]);
 
   return (
     <StyledSelectRoot
-      key={status === undefined ? entityStatus?.current : undefined}
+      key={status ? status?.current : undefined}
       collection={collection}
       positioning={{ sameWidth: true }}
       data-testid="status-select"
-      value={status ? [status] : undefined}
+      value={status ? [status.current] : undefined}
       onValueChange={(details) => updateStatus(details.value[0])}
     >
       <SelectLabel srOnly>{t("searchForm.types.status")}</SelectLabel>
       <StyledGenericSelectTrigger>
         <StyledSelectValueText
-          placeholder={entityStatus?.current === PUBLISHED ? t("form.status.published") : t("searchForm.types.status")}
+          placeholder={status?.current === PUBLISHED ? t("form.status.published") : t("searchForm.types.status")}
         />
       </StyledGenericSelectTrigger>
       <SelectContent>

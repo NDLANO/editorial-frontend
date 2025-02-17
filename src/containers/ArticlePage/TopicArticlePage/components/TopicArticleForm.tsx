@@ -215,7 +215,6 @@ const InternalFormFooter = ({
         formIsDirty={formIsDirty}
         savedToServer={savedToServer}
         onSaveClick={onSave}
-        entityStatus={article?.status}
         statusStateMachine={statusStateMachine.data}
         isArticle
         isNewlyCreated={isNewlyCreated}

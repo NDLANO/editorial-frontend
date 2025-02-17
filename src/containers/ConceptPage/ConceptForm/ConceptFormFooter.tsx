@@ -10,7 +10,6 @@ import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 import { Button, DialogCloseTrigger, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IStatusDTO } from "@ndla/types-backend/concept-api";
 import { FormField } from "../../../components/FormField";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import SaveButton from "../../../components/SaveButton";
@@ -24,7 +23,6 @@ import { AlertDialogWrapper } from "../../FormikForm";
 import { ConceptFormValues } from "../conceptInterfaces";
 
 interface Props {
-  entityStatus?: IStatusDTO;
   conceptChanged: boolean;
   inModal?: boolean;
   savedToServer: boolean;
@@ -38,14 +36,7 @@ const StyledFormActionsContainer = styled(FormActionsContainer, {
   },
 });
 
-const ConceptFormFooter = ({
-  entityStatus,
-  conceptChanged,
-  inModal,
-  savedToServer,
-  isNewlyCreated,
-  showSimpleFooter,
-}: Props) => {
+const ConceptFormFooter = ({ conceptChanged, inModal, savedToServer, isNewlyCreated, showSimpleFooter }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
   const conceptStateMachine = useConceptStateMachine();
@@ -66,10 +57,9 @@ const ConceptFormFooter = ({
           {({ field, helpers }) => (
             <FieldRoot>
               <StatusSelect
-                status={field.value?.current}
+                status={field.value}
                 updateStatus={(value) => helpers.setValue({ current: value })}
                 statusStateMachine={conceptStateMachine.data}
-                entityStatus={entityStatus ?? field.value}
               />
             </FieldRoot>
           )}
@@ -105,7 +95,6 @@ const ConceptFormFooter = ({
       <EditorFooter
         formIsDirty={formIsDirty}
         savedToServer={savedToServer}
-        entityStatus={entityStatus}
         statusStateMachine={conceptStateMachine.data}
         showSimpleFooter={showSimpleFooter}
         onSaveClick={submitForm}

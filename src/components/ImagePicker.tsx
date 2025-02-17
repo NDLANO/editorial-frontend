@@ -12,7 +12,7 @@ import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ISearchParamsDTO } from "@ndla/types-backend/image-api";
 import { useImageSearchTranslations } from "@ndla/ui";
-import { fetchImage, onError, postSearchImages } from "../modules/image/imageApi";
+import { onError, postSearchImages } from "../modules/image/imageApi";
 
 const StyledText = styled(Text, {
   base: {
@@ -41,8 +41,7 @@ export const ImagePicker = ({ searchParams = {}, locale, ...props }: Props) => {
           ...searchParams,
         })
       }
-      fetchImage={(id) => fetchImage(id, locale)}
-      noResults={props.noResults ?? <StyledText>{t("imageSearch.noResultsText")}</StyledText>}
+      noResults={<StyledText>{t("imageSearch.noResultsText")}</StyledText>}
       locale={locale ?? i18n.language}
       translations={translations}
       onError={onError}

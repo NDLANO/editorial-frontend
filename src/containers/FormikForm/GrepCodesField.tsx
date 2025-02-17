@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { DeleteBinLine } from "@ndla/icons";
 import { FieldHelper, FieldLabel, FieldRoot, IconButton, ListItemContent, ListItemRoot, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { GrepResultDTO } from "@ndla/types-backend/search-api";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../components/Form/GenericSearchCombobox";
 import { FormField } from "../../components/FormField";
@@ -25,14 +26,16 @@ const StyledList = styled("ul", {
   base: { listStyle: "none" },
 });
 
+const grepCodeTitle = (grepResult: GrepResultDTO) => {
+  const laereplan = "laereplan" in grepResult ? ` (${grepResult.laereplan.code})` : "";
+  return `${grepResult.code}${laereplan} - ${grepResult.title.title}`;
+};
+
 export const convertGrepCodesToObject = async (grepCodes: string[]): Promise<Record<string, string>> => {
   const grepCodesData = await searchGrepCodes({ codes: grepCodes, pageSize: grepCodes.length });
-  const grepCodesWithTitle = grepCodesData.results.map((c) => {
-    const laereplan = "laereplan" in c ? ` (${c.laereplan.code})` : "";
-    return {
-      [c.code]: `${c.code}${laereplan} - ${c.title.title}`,
-    };
-  });
+  const grepCodesWithTitle = grepCodesData.results.map((grepCode) => ({
+    [grepCode.code]: grepCodeTitle(grepCode),
+  }));
   return Object.assign({}, ...grepCodesWithTitle);
 };
 
@@ -78,10 +81,9 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
       const grepCodesData = await searchGrepCodes({ codes: withoutSavedAndInvalid });
 
       const codes = grepCodesData.results.map((grepCode) => {
-        const laereplan = "laereplan" in grepCode ? ` (${grepCode.laereplan.code})` : "";
         return {
           code: grepCode.code,
-          title: `${grepCode.code}${laereplan} - ${grepCode.title.title}`,
+          title: grepCodeTitle(grepCode),
           status: "success",
         } as const;
       });
@@ -158,10 +160,7 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
               updateGrepCodes(newValue);
             }}
             value={field.value}
-            renderItem={(item) => {
-              const laereplan = "laereplan" in item ? ` (${item.laereplan.code})` : "";
-              return <GenericComboboxItemContent title={`${item.code}${laereplan} - ${item.title.title}`} />;
-            }}
+            renderItem={(item) => <GenericComboboxItemContent title={grepCodeTitle(item)} />}
             closeOnSelect={false}
             selectionBehavior="preserve"
           >

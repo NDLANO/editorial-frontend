@@ -9,6 +9,7 @@
 import { FormikHandlers, useFormikContext } from "formik";
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { ErrorWarningLine } from "@ndla/icons";
 import {
   Button,
   DialogBody,
@@ -19,18 +20,35 @@ import {
   DialogTrigger,
   FieldsetLegend,
   FieldsetRoot,
+  MessageBox,
+  TabsContent,
+  TabsIndicator,
+  TabsList,
+  TabsRoot,
+  TabsTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO, IUpdateImageMetaInformationDTO } from "@ndla/types-backend/image-api";
 import MetaImageField from "./components/MetaImageField";
-import ImageSearchAndUploader from "../../components/ControlledImageSearchAndUploader";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
+import { ImagePicker } from "../../components/ImagePicker";
+import { draftLicensesToImageLicenses } from "../../modules/draft/draftApiUtils";
+import { useLicenses } from "../../modules/draft/draftQueries";
 import { postImage, updateImage, fetchImage } from "../../modules/image/imageApi";
 import { createFormData } from "../../util/formDataHelper";
+import ImageForm from "../ImageUploader/components/ImageForm";
 
 const StyledButton = styled(Button, {
   base: {
     width: "fit-content",
+  },
+});
+
+const StyledTabsContent = styled(TabsContent, {
+  base: {
+    "& > *": {
+      width: "100%",
+    },
   },
 });
 
@@ -59,11 +77,14 @@ const MetaImageSearch = ({
   podcastFriendly,
   disableAltEditing,
 }: Props) => {
-  const { t, i18n } = useTranslation();
-  const { setFieldValue } = useFormikContext();
   const [showImageSelect, setShowImageSelect] = useState(false);
   const [image, setImage] = useState<IImageMetaInformationV3DTO | undefined>(undefined);
-  const locale = i18n.language;
+
+  const { t, i18n } = useTranslation();
+  const { setFieldValue } = useFormikContext();
+  const { data: licenses } = useLicenses({ placeholderData: [] });
+
+  const imageLicenses = draftLicensesToImageLicenses(licenses ?? []);
 
   useEffect(() => {
     if (metaImageId) {
@@ -122,18 +143,45 @@ const MetaImageSearch = ({
             <DialogCloseButton />
           </DialogHeader>
           <DialogBody>
-            <ImageSearchAndUploader
-              inModal={true}
-              onImageSelect={onImageSet}
-              locale={locale}
-              language={language}
-              closeModal={onImageSelectClose}
-              updateImage={onImageUpdate}
-              image={image}
-              showCheckbox={showCheckbox}
-              checkboxAction={checkboxAction}
-              podcastFriendly={podcastFriendly}
-            />
+            <TabsRoot
+              defaultValue="image"
+              translations={{
+                listLabel: t("form.visualElement.image"),
+              }}
+            >
+              <TabsList>
+                <TabsTrigger value="image">{t("form.visualElement.image")}</TabsTrigger>
+                <TabsTrigger value="uploadImage">{t("form.visualElement.imageUpload")}</TabsTrigger>
+                <TabsIndicator />
+              </TabsList>
+              <StyledTabsContent value="image">
+                <ImagePicker
+                  onImageSelect={onImageSet}
+                  locale={language}
+                  showCheckbox={showCheckbox}
+                  checkboxAction={checkboxAction}
+                  searchParams={{ podcastFriendly: podcastFriendly }}
+                />
+              </StyledTabsContent>
+              <StyledTabsContent value="uploadImage">
+                {licenses ? (
+                  <ImageForm
+                    language={i18n.language}
+                    inModal
+                    image={image}
+                    onSubmitFunc={onImageUpdate}
+                    closeModal={onImageSelectClose}
+                    licenses={imageLicenses}
+                    supportedLanguages={image?.supportedLanguages ?? [i18n.language]}
+                  />
+                ) : (
+                  <MessageBox variant="error">
+                    <ErrorWarningLine />
+                    {t("errorMessage.description")}
+                  </MessageBox>
+                )}
+              </StyledTabsContent>
+            </TabsRoot>
           </DialogBody>
         </DialogContent>
       </DialogRoot>

@@ -20,10 +20,8 @@ const StyledText = styled(Text, {
   },
 });
 
-type ImageSearchPropsWithOptional = Pick<ImageSearchProps, "onImageSelect"> &
-  Partial<Omit<ImageSearchProps, "onImageSelect">>;
-
-interface Props extends ImageSearchPropsWithOptional {
+interface Props extends Partial<ImageSearchProps> {
+  onImageSelect: ImageSearchProps["onImageSelect"];
   searchParams?: ISearchParamsDTO;
 }
 

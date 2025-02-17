@@ -13,7 +13,7 @@ import { TYPE_HEADING } from "../../heading/types";
 import { TYPE_LINK } from "../../link/types";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
-import { TYPE_FRAMED_CONTENT } from "../types";
+import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContentTypes";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
 
@@ -24,15 +24,15 @@ describe("framedContent normalizer tests", () => {
         type: TYPE_SECTION,
         children: [
           {
-            type: TYPE_FRAMED_CONTENT,
+            type: FRAMED_CONTENT_ELEMENT_TYPE,
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
           {
-            type: TYPE_FRAMED_CONTENT,
+            type: FRAMED_CONTENT_ELEMENT_TYPE,
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
           {
-            type: TYPE_FRAMED_CONTENT,
+            type: FRAMED_CONTENT_ELEMENT_TYPE,
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
         ],
@@ -45,17 +45,17 @@ describe("framedContent normalizer tests", () => {
         children: [
           { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
-            type: TYPE_FRAMED_CONTENT,
+            type: FRAMED_CONTENT_ELEMENT_TYPE,
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
           { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
-            type: TYPE_FRAMED_CONTENT,
+            type: FRAMED_CONTENT_ELEMENT_TYPE,
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
           { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
-            type: TYPE_FRAMED_CONTENT,
+            type: FRAMED_CONTENT_ELEMENT_TYPE,
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
           { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
@@ -73,7 +73,7 @@ describe("framedContent normalizer tests", () => {
         type: TYPE_SECTION,
         children: [
           {
-            type: TYPE_FRAMED_CONTENT,
+            type: FRAMED_CONTENT_ELEMENT_TYPE,
             children: [],
           },
         ],
@@ -86,7 +86,7 @@ describe("framedContent normalizer tests", () => {
         children: [
           { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
-            type: TYPE_FRAMED_CONTENT,
+            type: FRAMED_CONTENT_ELEMENT_TYPE,
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "" }] }],
           },
           { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
@@ -104,7 +104,7 @@ describe("framedContent normalizer tests", () => {
         type: TYPE_SECTION,
         children: [
           {
-            type: TYPE_FRAMED_CONTENT,
+            type: FRAMED_CONTENT_ELEMENT_TYPE,
             children: [{ type: TYPE_HEADING, level: 1, children: [{ text: "content" }] }],
           },
         ],
@@ -117,7 +117,7 @@ describe("framedContent normalizer tests", () => {
         children: [
           { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
-            type: TYPE_FRAMED_CONTENT,
+            type: FRAMED_CONTENT_ELEMENT_TYPE,
             children: [
               { type: TYPE_HEADING, level: 1, children: [{ text: "content" }] },
               { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
@@ -138,7 +138,7 @@ describe("framedContent normalizer tests", () => {
         type: TYPE_SECTION,
         children: [
           {
-            type: TYPE_FRAMED_CONTENT,
+            type: FRAMED_CONTENT_ELEMENT_TYPE,
             children: [
               {
                 type: TYPE_LINK,
@@ -159,7 +159,7 @@ describe("framedContent normalizer tests", () => {
         children: [
           { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
-            type: TYPE_FRAMED_CONTENT,
+            type: FRAMED_CONTENT_ELEMENT_TYPE,
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
           { type: TYPE_PARAGRAPH, children: [{ text: "" }] },

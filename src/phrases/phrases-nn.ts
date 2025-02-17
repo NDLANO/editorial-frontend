@@ -1270,7 +1270,7 @@ const phrases = {
       label: "Kompetansemål og kjerneelementer",
       placeholder: "Skriv inn kode",
       description:
-        "Skriv inn koder som starter på riktig format ({{ codes }} fulgt av eit eller fleire siffer. Koder som ikkje eksisterer vil ikkje bli oppretta. Separer fleire koder med komma. Tekstene visast på bokmål i ed, men korrekt i artikkelvisning.",
+        "Skriv inn koder som starter på riktig format ({{ codes }} fulgt av eit eller fleire siffer. Koder som ikkje eksisterer vil ikkje bli oppretta. Separer fleire koder med komma. Tekstene visast på bokmål i ed, men korrekt i artikkelvisning. Du kan også filtrere på læreplankoder.",
     },
     articleDisclaimer: {
       title: "Informasjon om tilgjengelegheit for heile artikkelen",

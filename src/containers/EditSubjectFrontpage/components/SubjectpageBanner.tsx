@@ -17,16 +17,22 @@ import {
   DialogTitle,
   DialogTrigger,
   Heading,
+  TabsContent,
+  TabsIndicator,
+  TabsList,
+  TabsRoot,
+  TabsTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { ImageEmbedData } from "@ndla/types-embed";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
-import ImageSearchAndUploader from "../../../components/ImageSearchAndUploader";
+import { ImagePicker } from "../../../components/ImagePicker";
 import MetaInformation from "../../../components/MetaInformation";
 import config from "../../../config";
 import { fetchImage } from "../../../modules/image/imageApi";
 import { SubjectPageFormikType } from "../../../util/subjectHelpers";
+import CreateImage from "../../ImageUploader/CreateImage";
 
 const ImageWrapper = styled("div", {
   base: {
@@ -34,6 +40,14 @@ const ImageWrapper = styled("div", {
     flexDirection: "column",
     alignItems: "flex-start",
     gap: "xsmall",
+  },
+});
+
+const StyledTabsContent = styled(TabsContent, {
+  base: {
+    "& > *": {
+      width: "100%",
+    },
   },
 });
 
@@ -105,12 +119,24 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
             <DialogCloseButton />
           </DialogHeader>
           <DialogBody>
-            <ImageSearchAndUploader
-              inModal
-              language={values.language}
-              closeModal={onImageSelectClose}
-              onImageSelect={onImageChange}
-            />
+            <TabsRoot defaultValue="image" translations={{ listLabel: t("form.visualElement.image") }}>
+              <TabsList>
+                <TabsTrigger value="image">{t("form.visualElement.image")}</TabsTrigger>
+                <TabsTrigger value="upload">{t("form.visualElement.imageUpload")}</TabsTrigger>
+                <TabsIndicator />
+              </TabsList>
+              <StyledTabsContent value="image">
+                <ImagePicker onImageSelect={onImageChange} locale={values.language} />
+              </StyledTabsContent>
+              <StyledTabsContent value="upload">
+                <CreateImage
+                  inModal={true}
+                  editingArticle
+                  closeModal={onImageSelectClose}
+                  onImageCreated={onImageChange}
+                />
+              </StyledTabsContent>
+            </TabsRoot>
           </DialogBody>
         </DialogContent>
       </DialogRoot>

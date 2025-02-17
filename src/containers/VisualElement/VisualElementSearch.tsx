@@ -9,19 +9,29 @@
 import { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import { AudioSearch } from "@ndla/audio-search";
-import { Heading } from "@ndla/primitives";
+import { Heading, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IAudioSummaryDTO, ISearchParamsDTO } from "@ndla/types-backend/audio-api";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { BrightcoveApiType } from "@ndla/types-embed";
 import { useAudioSearchTranslations, useVideoSearchTranslations } from "@ndla/ui";
 import { VideoSearch } from "@ndla/video-search";
 import FileUploader from "../../components/FileUploader";
-import ImageSearchAndUploader from "../../components/ImageSearchAndUploader";
+import { ImagePicker } from "../../components/ImagePicker";
 import config from "../../config";
 import { Embed } from "../../interfaces";
 import { fetchAudio, postSearchAudio } from "../../modules/audio/audioApi";
 import { searchVideos, VideoSearchQuery } from "../../modules/video/brightcoveApi";
 import { NdlaErrorPayload, onError } from "../../util/resolveJsonOrRejectWithError";
+import CreateImage from "../ImageUploader/CreateImage";
+
+const StyledTabsContent = styled(TabsContent, {
+  base: {
+    "& > *": {
+      width: "100%",
+    },
+  },
+});
 
 const titles = (t: TFunction, resource: string) => ({
   [resource]: t(`form.visualElement.${resource.toLowerCase()}`),
@@ -67,28 +77,39 @@ const VisualElementSearch = ({
   const videoSearchTranslations = useVideoSearchTranslations();
   const locale = i18n.language;
   switch (selectedResource) {
-    case "image":
+    case "image": {
+      const onImageChange = (image: IImageMetaInformationV3DTO) =>
+        handleVisualElementChange({
+          resource: selectedResource,
+          resourceId: image.id,
+          size: "full",
+          align: "",
+          alt: image.alttext.alttext ?? "",
+          caption: image.caption.caption ?? "",
+          metaData: image,
+          hideByline: `${image.copyright.license.license !== "COPYRIGHTED"}`,
+        });
       return (
-        <ImageSearchAndUploader
-          inModal={true}
-          language={articleLanguage}
-          closeModal={closeModal}
-          onImageSelect={(image) =>
-            handleVisualElementChange({
-              resource: selectedResource,
-              resourceId: image.id,
-              size: "full",
-              align: "",
-              alt: image.alttext.alttext ?? "",
-              caption: image.caption.caption ?? "",
-              metaData: image,
-              hideByline: `${image.copyright.license.license !== "COPYRIGHTED"}`,
-            })
-          }
-          showCheckbox={showMetaImageCheckbox}
-          checkboxAction={onSaveAsMetaImage}
-        />
+        <TabsRoot defaultValue="image" translations={{ listLabel: t("form.visualElement.image") }}>
+          <TabsList>
+            <TabsTrigger value="image">{t("form.visualElement.image")}</TabsTrigger>
+            <TabsTrigger value="upload">{t("form.visualElement.imageUpload")}</TabsTrigger>
+            <TabsIndicator />
+          </TabsList>
+          <StyledTabsContent value="image">
+            <ImagePicker
+              onImageSelect={onImageChange}
+              locale={articleLanguage}
+              showCheckbox={showMetaImageCheckbox}
+              checkboxAction={onSaveAsMetaImage}
+            />
+          </StyledTabsContent>
+          <StyledTabsContent value="upload">
+            <CreateImage inModal={true} editingArticle closeModal={closeModal} onImageCreated={onImageChange} />
+          </StyledTabsContent>
+        </TabsRoot>
       );
+    }
     case "video": {
       return (
         <>

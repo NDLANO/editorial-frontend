@@ -18,9 +18,7 @@ import { useAuth0Responsibles } from "../../../modules/auth0/auth0Queries";
 
 interface Props {
   responsible: string | undefined;
-  setResponsible: (userId: string | undefined) => void;
   onSave: (userId: string | undefined) => void;
-  responsibleId?: string;
 }
 
 const StyledComboboxItem = styled(ComboboxItem, {
@@ -42,7 +40,7 @@ const StyledComboboxRoot = styled(ComboboxRoot, {
   },
 });
 
-const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId }: Props) => {
+const ResponsibleSelect = ({ responsible, onSave }: Props) => {
   const { t } = useTranslation();
   const comboboxTranslations = useComboboxTranslations();
   const [query, setQuery] = useState("");
@@ -60,25 +58,12 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
     });
   }, [query, users]);
 
-  const [enableRequired, setEnableRequired] = useState(false);
-
   useEffect(() => {
-    if (users && responsibleId) {
-      const initialResponsible = users.find((user) => user.app_metadata.ndla_id === responsibleId) ?? null;
-      setResponsible(initialResponsible?.app_metadata.ndla_id);
-    } else {
-      setResponsible(undefined);
+    if (users && responsible) {
+      const initialResponsible = users.find((user) => user.app_metadata.ndla_id === responsible) ?? null;
+      setQuery(initialResponsible?.name ?? "");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [users, responsibleId]);
-
-  useEffect(() => {
-    // Enable required styling after responsible is updated first time
-    if (!enableRequired && (responsible || !responsibleId)) {
-      setEnableRequired(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [responsible]);
+  }, [users, responsible]);
 
   return (
     <StyledComboboxRoot
@@ -89,8 +74,8 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
       onInputValueChange={(details) => setQuery(details.inputValue)}
       inputValue={query}
       value={responsible ? [responsible] : []}
-      required={enableRequired}
-      invalid={!!enableRequired && !responsible}
+      required={true}
+      invalid={!responsible}
       positioning={{ sameWidth: true }}
     >
       <ComboboxLabel srOnly>{t("form.responsible.choose")}</ComboboxLabel>

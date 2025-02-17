@@ -215,13 +215,11 @@ const InternalFormFooter = ({
         formIsDirty={formIsDirty}
         savedToServer={savedToServer}
         onSaveClick={onSave}
-        entityStatus={article?.status}
         statusStateMachine={statusStateMachine.data}
         isArticle
         isNewlyCreated={isNewlyCreated}
         isConcept={false}
         hideSecondaryButton={false}
-        responsibleId={article?.responsible?.responsibleId}
         articleId={article?.id}
         articleType={article?.articleType}
         selectedLanguage={article?.content?.language}

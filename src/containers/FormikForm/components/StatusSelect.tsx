@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
@@ -16,11 +16,9 @@ import { PUBLISHED } from "../../../constants";
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../../interfaces";
 
 interface Props {
-  status: string | undefined;
-  setStatus: (s: string | undefined) => void;
-  onSave: (s: string | undefined) => void;
+  status: DraftStatus | undefined;
+  updateStatus: (s: string | undefined) => void;
   statusStateMachine?: ConceptStatusStateMachineType | DraftStatusStateMachineType;
-  entityStatus?: DraftStatus;
 }
 
 const StyledSelectValueText = styled(SelectValueText, {
@@ -42,45 +40,34 @@ const StyledSelectRoot = styled(SelectRoot, {
   },
 });
 
-const StatusSelect = ({ status, setStatus, onSave, statusStateMachine, entityStatus }: Props) => {
+const StatusSelect = ({ status, updateStatus, statusStateMachine }: Props) => {
   const { t } = useTranslation();
-
-  useEffect(() => {
-    if (entityStatus && statusStateMachine) {
-      setStatus(entityStatus.current);
-      const initialStatus = statusStateMachine[entityStatus.current].find(
-        (s) => s.toLowerCase() === entityStatus.current.toLowerCase(),
-      );
-      setStatus(initialStatus);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entityStatus, statusStateMachine]);
 
   const collection = useMemo(() => {
     const items =
-      statusStateMachine && entityStatus
-        ? statusStateMachine[entityStatus.current].map((status) => ({
+      statusStateMachine && status
+        ? statusStateMachine[status.current].map((status) => ({
             label: t(`form.status.actions.${status}`),
             status,
           }))
         : [];
 
     return createListCollection({ items, itemToValue: (item) => item.status, itemToString: (item) => item.label });
-  }, [entityStatus, statusStateMachine, t]);
+  }, [status, statusStateMachine, t]);
 
   return (
     <StyledSelectRoot
-      key={status === undefined ? entityStatus?.current : undefined}
+      key={status ? status?.current : undefined}
       collection={collection}
       positioning={{ sameWidth: true }}
       data-testid="status-select"
-      value={status ? [status] : undefined}
-      onValueChange={(details) => onSave(details.value[0])}
+      value={status ? [status.current] : undefined}
+      onValueChange={(details) => updateStatus(details.value[0])}
     >
       <SelectLabel srOnly>{t("searchForm.types.status")}</SelectLabel>
       <StyledGenericSelectTrigger>
         <StyledSelectValueText
-          placeholder={entityStatus?.current === PUBLISHED ? t("form.status.published") : t("searchForm.types.status")}
+          placeholder={status?.current === PUBLISHED ? t("form.status.published") : t("searchForm.types.status")}
         />
       </StyledGenericSelectTrigger>
       <SelectContent>

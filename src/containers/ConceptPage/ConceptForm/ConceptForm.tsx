@@ -223,13 +223,11 @@ const ConceptForm = ({
               )}
             </FormAccordions>
             <ConceptFormFooter
-              entityStatus={concept?.status}
               conceptChanged={!!conceptChanged}
               inModal={inModal}
               savedToServer={savedToServer}
               isNewlyCreated={isNewlyCreated}
               showSimpleFooter={!concept?.id}
-              responsibleId={concept?.responsible?.responsibleId ?? ndlaId}
             />
           </FormWrapper>
         );

@@ -209,7 +209,9 @@ const InternalFormFooter = ({
   );
 
   const onSave = useCallback(
-    (saveAsNew?: boolean) => handleSubmit(values, formik, saveAsNew),
+    (saveAsNew?: boolean) => {
+      return handleSubmit(values, formik, saveAsNew);
+    },
     [handleSubmit, values, formik],
   );
 
@@ -222,13 +224,11 @@ const InternalFormFooter = ({
         formIsDirty={formIsDirty}
         savedToServer={savedToServer}
         onSaveClick={onSave}
-        entityStatus={article?.status}
         statusStateMachine={statusStateMachine.data}
         isArticle
         isNewlyCreated={isNewlyCreated}
         isConcept={false}
         hideSecondaryButton={false}
-        responsibleId={article?.responsible?.responsibleId}
         articleId={article?.id}
         articleType={article?.articleType}
         selectedLanguage={article?.content?.language}

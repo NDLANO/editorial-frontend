@@ -1887,9 +1887,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/image-search@npm:^11.0.85-alpha.0":
-  version: 11.0.85-alpha.0
-  resolution: "@ndla/image-search@npm:11.0.85-alpha.0"
+"@ndla/image-search@npm:^11.0.86-alpha.0":
+  version: 11.0.86-alpha.0
+  resolution: "@ndla/image-search@npm:11.0.86-alpha.0"
   dependencies:
     "@ndla/icons": "npm:^8.0.51-alpha.0"
     "@ndla/licenses": "npm:^9.0.0"
@@ -1899,7 +1899,7 @@ __metadata:
   peerDependencies:
     react: ">= 18"
     react-dom: ">= 18"
-  checksum: 10c0/2df48b39724aeea508c4abdf8bbc9ad080e4259b461b4345251a3e75ebe14a91b6b8ca9125a93d1b42920bf6490d07473b86fe6c8c577ebc63ad899975d52892
+  checksum: 10c0/f677757a26ea2dea221dde6e92918881e0173738c69626d8d570c41c621eec561e33eaeed0c9d2171480f259f133ddfbcc65c3e111ff2f03cca5a25f793c85d1
   languageName: node
   linkType: hard
 
@@ -5876,7 +5876,7 @@ __metadata:
     "@ndla/error-reporter": "npm:^2.0.10"
     "@ndla/hooks": "npm:^2.1.11"
     "@ndla/icons": "npm:^8.0.51-alpha.0"
-    "@ndla/image-search": "npm:^11.0.85-alpha.0"
+    "@ndla/image-search": "npm:^11.0.86-alpha.0"
     "@ndla/licenses": "npm:^9.0.0"
     "@ndla/preset-panda": "npm:^0.0.50"
     "@ndla/primitives": "npm:^1.0.76-alpha.0"

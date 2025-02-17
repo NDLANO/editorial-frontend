@@ -6,7 +6,6 @@
  *
  */
 
-import fetch from "cross-fetch";
 import { getEnvironmentVariabel, getUniversalConfig } from "../config";
 
 const url = `https://${getUniversalConfig().auth0Domain}/oauth/token`;

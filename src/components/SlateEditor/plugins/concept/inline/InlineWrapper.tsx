@@ -95,8 +95,10 @@ const InlineWrapper = (props: Props) => {
   const nodeText = Node.string(element).trim();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
   const locale = useArticleLanguage();
-  const { concept, subjects, loading, conceptArticles, createConcept, updateConcept, updateConceptStatus } =
-    useFetchConceptData(parseInt(element.data.contentId), locale);
+  const { concept, loading, createConcept, updateConcept, updateConceptStatus } = useFetchConceptData(
+    parseInt(element.data.contentId),
+    locale,
+  );
 
   const visualElementQuery = useConceptVisualElement(
     concept?.id ?? -1,
@@ -264,13 +266,11 @@ const InlineWrapper = (props: Props) => {
               addConcept={addConcept}
               locale={locale}
               concept={concept}
-              subjects={subjects}
               handleRemove={handleRemove}
               selectedText={nodeText}
               createConcept={createConcept}
               updateConcept={updateConcept}
               updateConceptStatus={updateConceptStatus}
-              conceptArticles={conceptArticles}
               conceptType={(concept?.conceptType ?? element.conceptType) as ConceptType}
             />
           </DialogContent>

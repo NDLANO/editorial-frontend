@@ -8,8 +8,6 @@
 
 import { Descendant } from "slate";
 import { IStatusDTO, IAuthorDTO, IGlossExampleDTO, IGlossDataDTO } from "@ndla/types-backend/concept-api";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-taxonomy";
 
 export type ConceptType = "concept" | "gloss";
 
@@ -27,7 +25,6 @@ export interface ConceptFormValues {
     language?: string;
   };
   tags: string[];
-  articles: IArticleDTO[];
   title: Descendant[];
   conceptContent: Descendant[];
   created?: string;
@@ -38,7 +35,6 @@ export interface ConceptFormValues {
   processors: IAuthorDTO[];
   rightsholders: IAuthorDTO[];
   processed: boolean;
-  subjects: Node[];
   supportedLanguages: string[];
   updated?: string;
   origin?: string;

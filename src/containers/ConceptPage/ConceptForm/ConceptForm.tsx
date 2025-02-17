@@ -11,8 +11,6 @@ import { useState, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { PageContent } from "@ndla/primitives";
 import { IConceptDTO, INewConceptDTO, IUpdatedConceptDTO, IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-taxonomy";
 import ConceptFormFooter from "./ConceptFormFooter";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
@@ -47,9 +45,7 @@ interface Props {
   conceptChanged?: boolean;
   inModal: boolean;
   isNewlyCreated?: boolean;
-  conceptArticles: IArticleDTO[];
   language: string;
-  subjects: Node[];
   initialTitle?: string;
   onUpserted?: (concept: IConceptSummaryDTO | IConceptDTO) => void;
   supportedLanguages: string[];
@@ -108,9 +104,6 @@ const conceptRules: RulesType<ConceptFormValues, IConceptDTO> = {
       languageMatch: true,
     },
   },
-  subjects: {
-    minItems: 0,
-  },
 };
 
 const ConceptForm = ({
@@ -118,10 +111,8 @@ const ConceptForm = ({
   conceptChanged,
   inModal,
   isNewlyCreated = false,
-  subjects,
   language,
   upsertProps,
-  conceptArticles,
   initialTitle,
   onUpserted,
   supportedLanguages,
@@ -154,7 +145,7 @@ const ConceptForm = ({
         savedConcept = await upsertProps.onUpdate(conceptWithStatus, revision!);
       }
       formikHelpers.resetForm({
-        values: conceptApiTypeToFormType(savedConcept, language, subjects, conceptArticles, ndlaId),
+        values: conceptApiTypeToFormType(savedConcept, language, ndlaId),
       });
       formikHelpers.setSubmitting(false);
       setSavedToServer(true);
@@ -166,15 +157,7 @@ const ConceptForm = ({
     }
   };
 
-  const initialValues = conceptApiTypeToFormType(
-    concept,
-    language,
-    subjects,
-    conceptArticles,
-    ndlaId,
-    initialTitle,
-    "concept",
-  );
+  const initialValues = conceptApiTypeToFormType(concept, language, ndlaId, initialTitle, "concept");
 
   const initialWarnings = useMemo(
     () => getWarnings(initialValues, conceptRules, t, concept),
@@ -228,9 +211,9 @@ const ConceptForm = ({
                 <FormAccordion
                   id="metadata"
                   title={t("form.metadataSection")}
-                  hasError={!!(errors.tags || errors.metaImageAlt || errors.subjects)}
+                  hasError={!!(errors.tags || errors.metaImageAlt)}
                 >
-                  <ConceptMetaData subjects={subjects} inModal={inModal} language={language} />
+                  <ConceptMetaData inModal={inModal} language={language} />
                 </FormAccordion>
               )}
               {!!concept?.id && (

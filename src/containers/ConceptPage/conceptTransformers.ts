@@ -8,8 +8,6 @@
 
 import { Node as SlateNode } from "slate";
 import { IConceptDTO, ILicenseDTO, INewConceptDTO, IUpdatedConceptDTO } from "@ndla/types-backend/concept-api";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-taxonomy";
 import { ConceptFormValues, ConceptType } from "./conceptInterfaces";
 import { IN_PROGRESS } from "../../constants";
 import {
@@ -25,13 +23,10 @@ import { parseImageUrl } from "../../util/formHelper";
 export const conceptApiTypeToFormType = (
   concept: IConceptDTO | undefined,
   language: string,
-  subjects: Node[],
-  articles: IArticleDTO[],
   ndlaId: string | undefined,
   initialTitle = "",
   conceptType?: ConceptType,
 ): ConceptFormValues => {
-  const conceptSubjects = subjects.filter((s) => concept?.subjectIds?.find((id) => id === s.id)) ?? [];
   const license = concept?.copyright?.license?.license ?? "N/A";
   const conceptLicense = license === "unknown" ? undefined : license;
 
@@ -45,7 +40,6 @@ export const conceptApiTypeToFormType = (
     updated: concept?.updated,
     title: plainTextToEditorValue(concept?.title?.title || initialTitle),
     language,
-    subjects: conceptSubjects,
     conceptContent: inlineContentToEditorValue(concept?.content?.htmlContent || "", true),
     supportedLanguages: concept?.supportedLanguages ?? [language],
     creators: concept?.copyright?.creators ?? [],
@@ -57,7 +51,6 @@ export const conceptApiTypeToFormType = (
     metaImageId: parseImageUrl(concept?.metaImage),
     metaImageAlt: concept?.metaImage?.alt ?? "",
     tags: concept?.tags?.tags ?? [],
-    articles,
     visualElement: embedTagToEditorValue(concept?.visualElement?.visualElement ?? ""),
     origin: concept?.copyright?.origin,
     responsibleId: concept === undefined ? ndlaId : concept?.responsible?.responsibleId,
@@ -97,8 +90,8 @@ export const getNewConceptType = (
   },
   tags: values.tags,
   metaImage: metaImageFromForm(values),
-  subjectIds: values.subjects.map((subject) => subject.id),
-  articleIds: values.articles.map((a) => a.id),
+  subjectIds: [],
+  articleIds: [],
   visualElement: editorValueToEmbedTag(values.visualElement),
   responsibleId: values.responsibleId,
   conceptType: conceptType,
@@ -143,7 +136,7 @@ export const conceptFormTypeToApiType = (
     },
     source: values.source,
     tags: { tags: values.tags, language: values.language },
-    articleIds: values.articles.map((a) => a.id),
+    articleIds: [],
     title: {
       title: editorValueToPlainText(values.title),
       language: values.language,
@@ -160,8 +153,7 @@ export const conceptFormTypeToApiType = (
       alt: values.metaImageAlt,
       language: values.metaImage?.language ?? values.language,
     },
-    subjectIds: values.subjects.map((subject) => subject.id),
-
+    subjectIds: [],
     updatedBy,
     copyright: {
       ...values,

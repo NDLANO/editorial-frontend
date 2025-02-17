@@ -28,8 +28,6 @@ import {
   IUpdatedConceptDTO,
   IConceptSummaryDTO,
 } from "@ndla/types-backend/concept-api";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-taxonomy";
 import SearchConceptForm from "./SearchConceptForm";
 import SearchConceptResults from "./SearchConceptResults";
 import ConceptForm from "../../../../containers/ConceptPage/ConceptForm/ConceptForm";
@@ -49,15 +47,12 @@ interface Props {
   handleRemove: () => void;
   locale: string;
   selectedText?: string;
-  subjects: Node[];
   updateConcept: (id: number, updatedConcept: IUpdatedConceptDTO) => Promise<IConceptDTO>;
   updateConceptStatus: (id: number, status: string) => Promise<IConceptDTO>;
-  conceptArticles: IArticleDTO[];
   conceptType: ConceptType;
 }
 
 const ConceptModalContent = ({
-  subjects,
   locale,
   handleRemove,
   selectedText = "",
@@ -66,7 +61,6 @@ const ConceptModalContent = ({
   updateConcept,
   updateConceptStatus,
   concept,
-  conceptArticles,
   conceptType,
 }: Props) => {
   const { t } = useTranslation();
@@ -160,7 +154,6 @@ const ConceptModalContent = ({
                   updateSearchObject(params);
                   debouncedSearchConcept(params);
                 }}
-                subjects={subjects}
                 searchObject={searchObject}
                 locale={locale}
                 userData={undefined}
@@ -186,11 +179,9 @@ const ConceptModalContent = ({
                 <GlossForm
                   onUpserted={addConcept}
                   inModal
-                  subjects={subjects}
                   upsertProps={upsertProps}
                   language={locale}
                   concept={concept}
-                  conceptArticles={conceptArticles}
                   initialTitle={selectedText}
                   supportedLanguages={concept?.supportedLanguages ?? [locale]}
                 />
@@ -198,11 +189,9 @@ const ConceptModalContent = ({
                 <ConceptForm
                   onUpserted={addConcept}
                   inModal
-                  subjects={subjects}
                   upsertProps={upsertProps}
                   language={locale}
                   concept={concept}
-                  conceptArticles={conceptArticles}
                   initialTitle={selectedText}
                   supportedLanguages={concept?.supportedLanguages ?? [locale]}
                 />

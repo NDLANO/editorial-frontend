@@ -13,7 +13,7 @@ import { TYPE_HEADING } from "../../heading/types";
 import { TYPE_LINK } from "../../link/types";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
-import { TYPE_ASIDE } from "../types";
+import { ASIDE_ELEMENT_TYPE } from "../asideTypes";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
 
@@ -24,17 +24,17 @@ describe("aside normalizer tests", () => {
         type: TYPE_SECTION,
         children: [
           {
-            type: TYPE_ASIDE,
+            type: ASIDE_ELEMENT_TYPE,
             data: { type: "factAside" },
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
           {
-            type: TYPE_ASIDE,
+            type: ASIDE_ELEMENT_TYPE,
             data: { type: "factAside" },
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
           {
-            type: TYPE_ASIDE,
+            type: ASIDE_ELEMENT_TYPE,
             data: { type: "factAside" },
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
@@ -48,19 +48,19 @@ describe("aside normalizer tests", () => {
         children: [
           { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
-            type: TYPE_ASIDE,
+            type: ASIDE_ELEMENT_TYPE,
             data: { type: "factAside" },
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
           { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
-            type: TYPE_ASIDE,
+            type: ASIDE_ELEMENT_TYPE,
             data: { type: "factAside" },
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
           { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
-            type: TYPE_ASIDE,
+            type: ASIDE_ELEMENT_TYPE,
             data: { type: "factAside" },
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
@@ -79,7 +79,7 @@ describe("aside normalizer tests", () => {
         type: TYPE_SECTION,
         children: [
           {
-            type: TYPE_ASIDE,
+            type: ASIDE_ELEMENT_TYPE,
             data: { type: "factAside" },
             children: [],
           },
@@ -93,7 +93,7 @@ describe("aside normalizer tests", () => {
         children: [
           { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
-            type: TYPE_ASIDE,
+            type: ASIDE_ELEMENT_TYPE,
             data: { type: "factAside" },
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "" }] }],
           },
@@ -112,7 +112,7 @@ describe("aside normalizer tests", () => {
         type: TYPE_SECTION,
         children: [
           {
-            type: TYPE_ASIDE,
+            type: ASIDE_ELEMENT_TYPE,
             data: { type: "factAside" },
             children: [{ type: TYPE_HEADING, level: 1, children: [{ text: "content" }] }],
           },
@@ -126,7 +126,7 @@ describe("aside normalizer tests", () => {
         children: [
           { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
-            type: TYPE_ASIDE,
+            type: ASIDE_ELEMENT_TYPE,
             data: { type: "factAside" },
             children: [
               { type: TYPE_HEADING, level: 1, children: [{ text: "content" }] },
@@ -148,7 +148,7 @@ describe("aside normalizer tests", () => {
         type: TYPE_SECTION,
         children: [
           {
-            type: TYPE_ASIDE,
+            type: ASIDE_ELEMENT_TYPE,
             data: { type: "factAside" },
             children: [
               {
@@ -170,7 +170,7 @@ describe("aside normalizer tests", () => {
         children: [
           { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
-            type: TYPE_ASIDE,
+            type: ASIDE_ELEMENT_TYPE,
             data: { type: "factAside" },
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },

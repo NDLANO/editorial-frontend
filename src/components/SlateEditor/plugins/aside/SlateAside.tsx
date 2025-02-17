@@ -9,9 +9,8 @@
 import { ReactNode } from "react";
 import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import { AsideElement } from ".";
+import { AsideElement, ASIDE_ELEMENT_TYPE } from "./asideTypes";
 import SlateFactAside from "./SlateFactAside";
-import { TYPE_ASIDE } from "./types";
 
 interface Props {
   element: AsideElement;
@@ -27,7 +26,7 @@ const SlateAside = (props: Props) => {
     const path = ReactEditor.findPath(editor, element);
     Transforms.removeNodes(editor, {
       at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_ASIDE,
+      match: (node) => Element.isElement(node) && node.type === ASIDE_ELEMENT_TYPE,
     });
     setTimeout(() => {
       ReactEditor.focus(editor);
@@ -40,7 +39,7 @@ const SlateAside = (props: Props) => {
     const path = ReactEditor.findPath(editor, element);
     Transforms.unwrapNodes(editor, {
       at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_ASIDE,
+      match: (node) => Element.isElement(node) && node.type === ASIDE_ELEMENT_TYPE,
       voids: true,
     });
     setTimeout(() => {

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import fetch from "cross-fetch";
+
 import queryString from "query-string";
 import { apiBaseUrl, getAccessToken, isAccessTokenValid, renewAuth } from "./authHelpers";
 import { resolveJsonOrRejectWithError, throwErrorPayload } from "./resolveJsonOrRejectWithError";

@@ -5912,7 +5912,6 @@ __metadata:
     compression: "npm:^1.7.4"
     concurrently: "npm:^9.1.0"
     cross-env: "npm:^7.0.3"
-    cross-fetch: "npm:^3.1.5"
     date-fns: "npm:2.30.0"
     diff-match-patch: "npm:^1.0.5"
     esbuild: "npm:^0.24.0"

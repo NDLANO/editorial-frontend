@@ -35,7 +35,7 @@ import { DRAFT_ADMIN_SCOPE } from "../../../../constants";
 import HowToHelper from "../../../HowTo/HowToHelper";
 import { StoryType } from "../../../HowTo/stories";
 import { TYPE_ASIDE } from "../aside/types";
-import { TYPE_AUDIO } from "../audio/types";
+import { AUDIO_ELEMENT_TYPE } from "../audio/audioTypes";
 import { TYPE_CAMPAIGN_BLOCK } from "../campaignBlock/types";
 import { TYPE_CODEBLOCK } from "../codeBlock/types";
 import { TYPE_COMMENT_BLOCK } from "../comment/block/types";
@@ -102,12 +102,12 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInModal("Videos"),
   },
   {
-    data: { type: TYPE_AUDIO, object: "audio" },
+    data: { type: AUDIO_ELEMENT_TYPE, object: "audio" },
     icon: <VolumeUpFill />,
     helpIcon: renderArticleInModal("Audios"),
   },
   {
-    data: { type: TYPE_AUDIO, object: "podcast" },
+    data: { type: AUDIO_ELEMENT_TYPE, object: "podcast" },
     icon: <BroadcastLine />,
     helpIcon: renderArticleInModal("Podcasts"),
   },

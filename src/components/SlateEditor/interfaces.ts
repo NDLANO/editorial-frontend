@@ -20,7 +20,7 @@ import {
   SectionElement,
 } from "@ndla/editor";
 import { AsideElement } from "./plugins/aside";
-import { AudioElement } from "./plugins/audio/types";
+import { AudioElement } from "./plugins/audio/audioTypes";
 import { BlockQuoteElement } from "./plugins/blockquote";
 import { CampaignBlockElement } from "./plugins/campaignBlock";
 import { CodeblockElement } from "./plugins/codeBlock";

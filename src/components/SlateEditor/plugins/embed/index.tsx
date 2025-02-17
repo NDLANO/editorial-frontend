@@ -14,7 +14,7 @@ import { createDataAttributes, createHtmlTag, parseEmbedTag } from "../../../../
 import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
-import { AudioElement } from "../audio/types";
+import { AudioElement } from "../audio/audioTypes";
 import { H5pElement } from "../h5p/types";
 import { ImageElement } from "../image/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";

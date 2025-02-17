@@ -8,7 +8,7 @@
 
 import { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
-import { TYPE_AUDIO } from "../../audio/types";
+import { AUDIO_ELEMENT_TYPE } from "../../audio/audioTypes";
 import { TYPE_H5P } from "../../h5p/types";
 import { TYPE_IMAGE } from "../../image/types";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
@@ -107,7 +107,7 @@ describe("embed audio serializing tests", () => {
         { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
 
         {
-          type: TYPE_AUDIO,
+          type: AUDIO_ELEMENT_TYPE,
           data: {
             resource: "audio",
             resourceId: "123",
@@ -146,7 +146,7 @@ describe("embed podcast serializing tests", () => {
       children: [
         { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
         {
-          type: TYPE_AUDIO,
+          type: AUDIO_ELEMENT_TYPE,
           data: {
             resource: "audio",
             resourceId: "123",

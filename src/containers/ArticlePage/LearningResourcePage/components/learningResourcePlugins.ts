@@ -8,7 +8,7 @@
 
 import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import { asidePlugin } from "../../../../components/SlateEditor/plugins/aside";
-import { audioPlugin } from "../../../../components/SlateEditor/plugins/audio";
+import { audioPlugin } from "../../../../components/SlateEditor/plugins/audio/audioPlugin";
 import { blockPickerPlugin } from "../../../../components/SlateEditor/plugins/blockPicker";
 import { blockQuotePlugin } from "../../../../components/SlateEditor/plugins/blockquote";
 import { codeblockPlugin } from "../../../../components/SlateEditor/plugins/codeBlock";
@@ -52,7 +52,7 @@ export const learningResourcePlugins: SlatePlugin[] = [
   divPlugin,
   paragraphPlugin,
   footnotePlugin,
-  audioPlugin(),
+  audioPlugin,
   imagePlugin(),
   h5pPlugin(),
   externalPlugin(),

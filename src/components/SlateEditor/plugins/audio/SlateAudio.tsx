@@ -18,7 +18,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { AudioEmbedData, AudioMetaData } from "@ndla/types-embed";
 import { AudioEmbed, EmbedWrapper } from "@ndla/ui";
 import AudioEmbedForm from "./AudioEmbedForm";
-import { AudioElement } from "./types";
+import { AudioElement } from "./audioTypes";
 import { useAudioMeta } from "../../../../modules/embed/queries";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 

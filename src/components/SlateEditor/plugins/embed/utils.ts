@@ -11,7 +11,7 @@ import { jsx as slatejsx } from "slate-hyperscript";
 import { EmbedElements, ErrorEmbedElement } from ".";
 import { TYPE_EMBED_ERROR } from "./types";
 import { Embed } from "../../../../interfaces";
-import { AudioElement, TYPE_AUDIO } from "../audio/types";
+import { AudioElement, AUDIO_ELEMENT_TYPE } from "../audio/audioTypes";
 import { H5pElement, TYPE_H5P } from "../h5p/types";
 import { ImageElement, TYPE_IMAGE } from "../image/types";
 import { BrightcoveEmbedElement, TYPE_EMBED_BRIGHTCOVE } from "../video/types";
@@ -26,7 +26,7 @@ export const isSlateEmbed = (
     Element.isElement(node) &&
     (node.type === TYPE_EMBED_ERROR ||
       node.type === TYPE_IMAGE ||
-      node.type === TYPE_AUDIO ||
+      node.type === AUDIO_ELEMENT_TYPE ||
       node.type === TYPE_H5P ||
       node.type === TYPE_EMBED_BRIGHTCOVE)
   );
@@ -40,7 +40,7 @@ export const defineTypeOfEmbed = (type?: string) => {
   } else if (type === "image") {
     return TYPE_IMAGE;
   } else if (type === "audio") {
-    return TYPE_AUDIO;
+    return AUDIO_ELEMENT_TYPE;
   } else if (type === undefined) {
     return TYPE_EMBED_ERROR;
   }

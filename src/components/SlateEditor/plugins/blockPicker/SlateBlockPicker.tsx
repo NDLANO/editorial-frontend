@@ -21,7 +21,7 @@ import { useSession } from "../../../../containers/Session/SessionProvider";
 import getCurrentBlock from "../../utils/getCurrentBlock";
 import { TYPE_ASIDE } from "../aside/types";
 import { defaultAsideBlock } from "../aside/utils";
-import { TYPE_AUDIO } from "../audio/types";
+import { AUDIO_ELEMENT_TYPE } from "../audio/audioTypes";
 import { TYPE_CAMPAIGN_BLOCK } from "../campaignBlock/types";
 import { defaultCampaignBlock } from "../campaignBlock/utils";
 import { TYPE_CODEBLOCK } from "../codeBlock/types";
@@ -261,7 +261,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultAsideBlock(), true);
         break;
       }
-      case TYPE_AUDIO: {
+      case AUDIO_ELEMENT_TYPE: {
         setVisualElementPickerOpen(true);
         setType(data.object);
         break;

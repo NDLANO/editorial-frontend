@@ -57,7 +57,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "concurrently": "^9.1.0",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.24.0",
+    "esbuild": "^0.25.0",
     "eslint": "^9.15.0",
     "eslint-config-ndla": "^6.0.0-alpha.0",
     "filter-console": "^0.1.1",

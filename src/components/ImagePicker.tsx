@@ -44,7 +44,7 @@ export const ImagePicker = ({ searchParams = {}, locale, ...props }: Props) => {
         })
       }
       fetchImage={(id) => fetchImage(id, locale)}
-      noResults={<StyledText>{t("imageSearch.noResultsText")}</StyledText>}
+      noResults={props.noResults ?? <StyledText>{t("imageSearch.noResultsText")}</StyledText>}
       locale={locale ?? i18n.language}
       translations={translations}
       onError={onError}

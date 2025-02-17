@@ -6,6 +6,7 @@
  *
  */
 
+import { ReactNode } from "react";
 import { TextArea, FieldRoot, FieldHelper, FieldErrorMessage } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLabel";
@@ -17,6 +18,9 @@ import { CategoryFilters, createToolbarAreaOptions } from "../toolbar/toolbarSta
 
 export const toolbarAreaFilters = createToolbarAreaOptions();
 
+export const DISCLAIMER_TEMPLATES_URL =
+  "https://docs.google.com/spreadsheets/d/1g8cCqgS4BvaChHX4R6VR5V5Q83fvYcMrgneBJMkLWYs/edit";
+
 const StyledTextArea = styled(TextArea, {
   base: {
     minHeight: "surface.3xsmall",
@@ -27,7 +31,7 @@ const StyledTextArea = styled(TextArea, {
 interface Props {
   submitted: boolean;
   title: string;
-  description: string;
+  description: ReactNode;
   plugins: SlatePlugin[];
   toolbarOptions: CategoryFilters;
 }

@@ -45,9 +45,10 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
     setIsEditing(!!element.isFirstEdit);
   }, [element.isFirstEdit]);
 
-  const onClose = () => {
+  const onOpenChange = (open: boolean) => {
+    setIsEditing(open);
+    if (open) return;
     ReactEditor.focus(editor);
-    setIsEditing(false);
     if (element.isFirstEdit) {
       Transforms.removeNodes(editor, {
         at: ReactEditor.findPath(editor, element),
@@ -90,14 +91,21 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
     }
   }, [contactBlock?.imageId, setImage]);
 
-  const handleRemove = () =>
+  const handleRemove = () => {
+    const path = ReactEditor.findPath(editor, element);
     Transforms.removeNodes(editor, {
-      at: ReactEditor.findPath(editor, element),
+      at: path,
       voids: true,
     });
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, path);
+      Transforms.collapse(editor);
+    }, 0);
+  };
 
   return (
-    <DialogRoot size="large" open={isEditing} onOpenChange={(details) => setIsEditing(details.open)}>
+    <DialogRoot size="large" open={isEditing} onOpenChange={(details) => onOpenChange(details.open)}>
       <EmbedWrapper {...attributes} contentEditable={false} data-testid="slate-contact-block">
         {!!contactBlock && !!image && (
           <>
@@ -143,7 +151,7 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
             <DialogCloseButton />
           </DialogHeader>
           <DialogBody>
-            <ContactBlockForm initialData={contactBlock} onSave={onSave} onCancel={onClose} />
+            <ContactBlockForm initialData={contactBlock} onSave={onSave} />
           </DialogBody>
         </DialogContent>
       </Portal>

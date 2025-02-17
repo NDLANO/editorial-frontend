@@ -57,7 +57,7 @@ test("adds and removes grid", async ({ page }) => {
 
 test("adds and removes code-block", async ({ page }) => {
   await page.getByTestId("create-code").click();
-  const dialog = page.getByRole("dialog");
+  const dialog = page.getByRole("dialog").filter({ hasText: "Legg til kodeeksempel" });
   await expect(dialog).toBeVisible();
   await dialog.getByLabel("Tittel").fill("Tittel");
   await dialog.getByRole("combobox", { name: "Velg kodespråk:" }).click();
@@ -106,15 +106,16 @@ test("opens and closes audio", async ({ page }) => {
 
 test("opens and closes file", async ({ page }) => {
   await page.getByTestId("create-file").click();
-  await expect(page.getByRole("dialog")).toBeVisible();
+  await expect(
+    page.getByRole("dialog").filter({ hasText: "Dra og slipp eller trykk for å laste opp fil(er)" }),
+  ).toBeVisible();
   await page.getByRole("dialog").getByRole("button", { name: "Avbryt" }).click();
   await expect(page.getByRole("dialog")).toHaveCount(0);
 });
 
 test("opens and closes url", async ({ page }) => {
   await page.getByTestId("create-url").click();
-  const dialog = page.getByRole("dialog");
-  await expect(dialog).toBeVisible();
+  const dialog = page.getByRole("dialog").filter({ hasText: "Ny ressurs" });
   await dialog.getByRole("button").getByText("Avbryt").click();
   await expect(page.getByRole("dialog")).toHaveCount(0);
 });

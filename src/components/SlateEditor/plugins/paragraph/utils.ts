@@ -6,14 +6,9 @@
  *
  */
 
-import { Element, Node } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { ParagraphElement } from ".";
-import { TYPE_PARAGRAPH } from "./types";
+import { PARAGRAPH_ELEMENT_TYPE, ParagraphElement } from "@ndla/editor";
 
-export const defaultParagraphBlock = () =>
-  slatejsx("element", { type: TYPE_PARAGRAPH }, { text: "" }) as ParagraphElement;
-
-export const isParagraph = (node: Node | undefined): node is ParagraphElement => {
-  return Element.isElement(node) && node.type === TYPE_PARAGRAPH;
-};
+// TODO: This shouldn't need to be casted
+export const defaultParagraphBlock = (): ParagraphElement =>
+  slatejsx("element", { type: PARAGRAPH_ELEMENT_TYPE }, { text: "" }) as ParagraphElement;

@@ -7,13 +7,14 @@
  */
 
 import { Editor } from "slate";
+import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import Paragraph from "./Paragraph";
-import { TYPE_PARAGRAPH } from "./types";
 
+// TODO: This can be replaced
 export const paragraphRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_PARAGRAPH) {
+    if (element.type === PARAGRAPH_ELEMENT_TYPE) {
       return (
         <Paragraph attributes={attributes} element={element} editor={editor}>
           {children}

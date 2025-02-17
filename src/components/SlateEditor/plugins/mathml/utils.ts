@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import type { KeyboardEvent } from "react";
 import { Editor, Element, Node, Range, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { MathmlElement } from ".";
@@ -45,9 +47,9 @@ export const insertMathml = (editor: Editor) => {
 };
 
 export const onArrowUp = (
-  e: KeyboardEvent,
+  e: KeyboardEvent<HTMLDivElement>,
   editor: Editor,
-  onKeyDown: ((event: KeyboardEvent) => void) | undefined,
+  onKeyDown: ((event: KeyboardEvent<HTMLDivElement>) => void) | undefined,
 ) => {
   if (!editor.selection || !Range.isCollapsed(editor.selection)) {
     return onKeyDown?.(e);
@@ -64,9 +66,9 @@ export const onArrowUp = (
 };
 
 export const onArrowDown = (
-  e: KeyboardEvent,
+  e: KeyboardEvent<HTMLDivElement>,
   editor: Editor,
-  onKeyDown: ((event: KeyboardEvent) => void) | undefined,
+  onKeyDown: ((event: KeyboardEvent<HTMLDivElement>) => void) | undefined,
 ) => {
   if (!editor.selection || !Range.isCollapsed(editor.selection)) {
     return onKeyDown?.(e);

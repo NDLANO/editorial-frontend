@@ -85,6 +85,16 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
     return savedConcept;
   };
 
+  const updateConceptStatus = async (id: number, status: string): Promise<IConceptDTO> => {
+    const savedConcept = await conceptApi.updateConceptStatus(id, status);
+    const convertedArticles = await fetchElementList(savedConcept.articleIds);
+    setConcept(savedConcept);
+    setConceptArticles(convertedArticles);
+    setConceptChanged(false);
+    updateUserData(data);
+    return savedConcept;
+  };
+
   const createConcept = async (createdConcept: INewConceptDTO) => {
     const savedConcept = await conceptApi.addConcept(createdConcept);
     const convertedArticles = await fetchElementList(savedConcept.articleIds);
@@ -108,5 +118,6 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
     subjects,
     conceptArticles,
     updateConcept,
+    updateConceptStatus,
   };
 }

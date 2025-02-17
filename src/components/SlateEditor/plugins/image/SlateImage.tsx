@@ -107,10 +107,16 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
   const embedWithoutCaching = useMemo(() => disableImageCache(embed), [embed]);
 
   const handleRemove = () => {
+    const path = ReactEditor.findPath(editor, element);
     Transforms.removeNodes(editor, {
-      at: ReactEditor.findPath(editor, element),
+      at: path,
       voids: true,
     });
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, path);
+      Transforms.collapse(editor);
+    }, 0);
   };
 
   const onClose = () => {

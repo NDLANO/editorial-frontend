@@ -9,7 +9,7 @@
 import parse from "html-react-parser";
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Element, Path, Transforms } from "slate";
+import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { PencilFill } from "@ndla/icons";
@@ -84,9 +84,9 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
         });
       }
       const path = ReactEditor.findPath(editor, element);
-      if (Editor.hasPath(editor, Path.next(path))) {
+      if (Editor.hasPath(editor, path)) {
         setTimeout(() => {
-          Transforms.select(editor, Path.next(path));
+          Transforms.select(editor, path);
         }, 0);
       }
     },
@@ -98,6 +98,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
     Transforms.removeNodes(editor, {
       at: path,
       match: (node) => Element.isElement(node) && node.type === TYPE_DISCLAIMER,
+      voids: true,
     });
     setTimeout(() => {
       ReactEditor.focus(editor);
@@ -111,18 +112,18 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
     Transforms.unwrapNodes(editor, {
       at: path,
       match: (node) => Element.isElement(node) && node.type === TYPE_DISCLAIMER,
+      voids: true,
     });
     setTimeout(() => {
       ReactEditor.focus(editor);
       Transforms.select(editor, path);
-      Transforms.collapse(editor);
+      Transforms.collapse(editor, { edge: "start" });
     }, 0);
   };
 
   const onSaveDisclaimerText = useCallback(
     (values: UuDisclaimerEmbedData) => {
       setModalOpen(false);
-      ReactEditor.focus(editor);
       const path = ReactEditor.findPath(editor, element);
       Transforms.setNodes(
         editor,
@@ -132,11 +133,9 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
         },
         { at: path },
       );
-      if (Editor.hasPath(editor, Path.next(path))) {
-        setTimeout(() => {
-          Transforms.select(editor, Path.next(path));
-        }, 0);
-      }
+      setTimeout(() => {
+        Transforms.select(editor, path.concat(0));
+      }, 0);
     },
     [setModalOpen, editor, element],
   );

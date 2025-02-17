@@ -8,6 +8,7 @@
 
 import isEqual from "lodash/fp/isEqual";
 import { Descendant, Node } from "slate";
+import { licenses } from "@ndla/licenses";
 import { IArticleDTO, ILicenseDTO, IArticleMetaImageDTO } from "@ndla/types-backend/draft-api";
 import { blockContentToHTML, inlineContentToEditorValue } from "./articleContentConverter";
 import { isGrepCodeValid } from "./articleUtil";
@@ -26,7 +27,7 @@ import {
 
 export const DEFAULT_LICENSE: ILicenseDTO = {
   description: "Creative Commons Attribution-ShareAlike 4.0 International",
-  license: "CC-BY-SA-4.0",
+  license: licenses.CC_BY_SA_4,
   url: "https://creativecommons.org/licenses/by-sa/4.0/",
 };
 

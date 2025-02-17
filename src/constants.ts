@@ -75,7 +75,7 @@ export const TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT = "programfag";
 export const MAX_IMAGE_UPLOAD_SIZE = 1024 * 1024 * 40; // 40MB.
 export const LAST_UPDATED_SIZE = 50;
 
-export const LOCALE_VALUES = ["nb", "nn", "en", "se", "sma"] as const;
+export const LOCALE_VALUES = ["nb", "nn", "en", "se", "sma", "ukr"] as const;
 
 export const ARCHIVED = "ARCHIVED";
 export const END_CONTROL = "END_CONTROL";
@@ -191,11 +191,12 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "JeopardyLabs", url: ["jeopardylabs.com"] },
   { name: "Brightcove", url: ["players.brightcove.net"] },
   { name: "UIO", url: ["vrtx.uio.no", "www.mn.uio.no"] },
-  { name: "Geodata", url: ["geodata.maps.arcgis.com", "ndla.maps.arcgis.com", "arcg.is"] },
+  { name: "Geodata", url: ["geodata.maps.arcgis.com", "ndla.maps.arcgis.com", "experience.arcgis.com", "arcg.is"] },
   { name: "Norgeskart", url: ["norgeskart.no"] },
   { name: "Kart i skolen", url: ["kartiskolen.no"] },
   { name: "Norge i bilder", url: ["norgeibilder.no"] },
   { name: "Qbrick", url: ["video.qbrick.com"] },
+  { name: "Norsk petroleum", url: ["www.norskpetroleum.no"], height: "486px" },
 ];
 
 export const SearchTypeValues = [

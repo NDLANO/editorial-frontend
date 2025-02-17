@@ -828,6 +828,7 @@ const phrases = {
       origin: "Origin",
       audioFile: "Audio file",
       content: "Content",
+      conceptContent: "Description",
       notes: "Notes",
       metaDescription: "Meta description",
       metaImageAlt: "Alt-text",
@@ -840,7 +841,6 @@ const phrases = {
       validFrom: "Valid from",
       validTo: "Valid to",
       description: "Content",
-      conceptContent: "Description",
       grepCodes: "Curriculum connection",
       desktopBannerId: "Wide subject page image",
       mobileBannerId: "Narrow subject page image",
@@ -1266,21 +1266,16 @@ const phrases = {
       createOption: "Create new tag",
       searchPlaceholder: "Search for tags",
     },
-    categories: {
-      label: "List and filters",
-      description: "Format: list:filter1:filter2",
-      searchPlaceholder: "Search for lists",
-    },
     grepCodes: {
       label: "Competences and core elements",
       placeholder: "Type code",
       description:
-        "Type in codes using the correct format ({{ codes }}) followed by one or more digits. Non existing codes will not be created. Texts will be displayed in norwegian here but will be shown correct in frontend.",
+        "Type in codes using the correct format ({{ codes }}) followed by one or more digits. Non existing codes will not be created. Separate multiple codes with comma. Texts will be displayed in norwegian here but will be shown correct in frontend.",
     },
     articleDisclaimer: {
       title: "Information about availability for the entire article",
       description:
-        "Enter what is challenging about the content of the article. You can also add links to alternative content. Templates have been prepared for this. Check these before using the component.",
+        "Enter what is challenging about the content of the article. You can also add links to alternative content. Templates have been prepared for this. Check these <0>here</0> before using the component.",
     },
     resourceTypes: {
       label: "Resource type and properties",
@@ -1584,7 +1579,7 @@ const phrases = {
       edit: "Edit accessibility information",
       title: "Universal design - information in continuous text",
       description:
-        "Write down what the problem with the component is. Templates have been prepared for this. Check these before using the component.",
+        "Write down what the problem with the component is. Templates have been prepared for this. Check these <0>here</0> before using the component.",
       editorHeader: "Information about accessibility for individual components",
     },
     copyright: {

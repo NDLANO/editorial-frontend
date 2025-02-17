@@ -23,7 +23,7 @@ interface Props extends RenderElementProps {
 const StyledIconButton = styled(IconButton, {
   base: {
     position: "absolute",
-    zIndex: "docked",
+    zIndex: "base",
     top: "4xsmall",
     right: "4xsmall",
   },

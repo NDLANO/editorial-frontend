@@ -10,11 +10,11 @@ import { useFormikContext } from "formik";
 import { isKeyHotkey } from "is-hotkey";
 import isEqual from "lodash/isEqual";
 import { FocusEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from "slate";
-import { withHistory } from "slate-history";
-import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
+import { Descendant, Editor, Range, Transforms } from "slate";
+import { Slate, Editable, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
 import { useFieldContext } from "@ark-ui/react";
+import { createSlate, LoggerManager } from "@ndla/editor";
 import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import "../DisplayEmbed/helpers/h5pResizer";
@@ -34,7 +34,6 @@ import { AreaFilters, CategoryFilters } from "./plugins/toolbar/toolbarState";
 import { SlateProvider } from "./SlateContext";
 import getCurrentBlock from "./utils/getCurrentBlock";
 import { KEY_TAB } from "./utils/keys";
-import withPlugins from "./utils/withPlugins";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { FormikStatus } from "../../interfaces";
@@ -91,7 +90,7 @@ const RichTextEditor = ({
   noArticleStyling,
   ...rest
 }: RichTextEditorProps) => {
-  const [editor] = useState(() => withPlugins(withReact(withHistory(createEditor())), plugins));
+  const [editor] = useState(() => createSlate({ plugins, logger: new LoggerManager({ debug: true }) }));
   const [isFirstNormalize, setIsFirstNormalize] = useState(true);
   const [labelledBy, setLabelledBy] = useState<string | undefined>(undefined);
   const prevSubmitted = useRef(submitted);
@@ -221,14 +220,6 @@ const RichTextEditor = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const decorations = useCallback((entry: NodeEntry) => {
-    if (editor.decorations) {
-      return editor.decorations(editor, entry);
-    }
-    return [];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onDragStartCallback = useCallback(onDragStart(editor), []);
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -312,7 +303,6 @@ const RichTextEditor = ({
         allowEditorKeyDown = additionalOnKeyDown(e);
       }
       if (allowEditorKeyDown) {
-        // @ts-expect-error is-hotkey and editor.onKeyDown does not have matching types
         editor.onKeyDown(e);
       }
     },
@@ -343,7 +333,6 @@ const RichTextEditor = ({
                     aria-labelledby={labelledBy}
                     {...rest}
                     onBlur={onBlur}
-                    decorate={decorations}
                     onKeyDown={handleKeyDown}
                     placeholder={placeholder}
                     renderElement={renderElement}

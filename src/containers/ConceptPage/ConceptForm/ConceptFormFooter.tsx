@@ -7,14 +7,17 @@
  */
 
 import { useFormikContext } from "formik";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button } from "@ndla/primitives";
+import { Button, DialogCloseTrigger, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IStatusDTO } from "@ndla/types-backend/concept-api";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import SaveButton from "../../../components/SaveButton";
 import EditorFooter from "../../../components/SlateEditor/EditorFooter";
 import { SAVE_BUTTON_ID } from "../../../constants";
+import ResponsibleSelect from "../../../containers/FormikForm/components/ResponsibleSelect";
+import StatusSelect from "../../../containers/FormikForm/components/StatusSelect";
 import { useConceptStateMachine } from "../../../modules/concept/conceptQueries";
 import { isFormikFormDirty } from "../../../util/formHelper";
 import { AlertDialogWrapper } from "../../FormikForm";
@@ -27,7 +30,6 @@ interface Props {
   savedToServer: boolean;
   isNewlyCreated: boolean;
   showSimpleFooter: boolean;
-  onClose?: () => void;
   responsibleId?: string;
 }
 
@@ -44,13 +46,15 @@ const ConceptFormFooter = ({
   savedToServer,
   isNewlyCreated,
   showSimpleFooter,
-  onClose,
   responsibleId,
 }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
   const conceptStateMachine = useConceptStateMachine();
-  const { values, errors, initialValues, dirty, isSubmitting, submitForm } = formikContext;
+  const [responsible, setResponsible] = useState<string | undefined>(undefined);
+  const [status, setStatus] = useState<string | undefined>("IN_PROGRESS");
+  const [updated, setUpdated] = useState<IStatusDTO>({ current: "IN_PROGRESS", other: [] });
+  const { values, errors, initialValues, dirty, isSubmitting, submitForm, setFieldValue } = formikContext;
   const formIsDirty = isFormikFormDirty({
     values,
     initialValues,
@@ -60,15 +64,50 @@ const ConceptFormFooter = ({
 
   const disableSave = Object.keys(errors).length > 0;
 
+  const updateResponsible = useCallback(
+    async (responsible: string | undefined) => {
+      setResponsible(responsible);
+      setFieldValue("responsibleId", responsible ? responsible : null);
+    },
+    [setFieldValue],
+  );
+
+  const updateStatus = useCallback(
+    async (status: string | undefined) => {
+      setStatus(status);
+      setFieldValue("status", { current: status });
+      setUpdated({ current: status ?? "IN_PROGRESS", other: [] });
+    },
+    [setFieldValue],
+  );
+
   if (inModal) {
     return (
       <StyledFormActionsContainer>
-        <Button variant="secondary" onClick={onClose}>
-          {t("form.abort")}
-        </Button>
+        <FieldRoot key="status-select">
+          <StatusSelect
+            status={status}
+            setStatus={setStatus}
+            onSave={updateStatus}
+            statusStateMachine={conceptStateMachine.data}
+            entityStatus={entityStatus ?? updated}
+          />
+        </FieldRoot>
+        <FieldRoot key="responsible-select">
+          <ResponsibleSelect
+            key="concept-modal-responsible-select"
+            responsible={responsible}
+            setResponsible={setResponsible}
+            onSave={updateResponsible}
+            responsibleId={responsibleId}
+          />
+        </FieldRoot>
+        <DialogCloseTrigger asChild>
+          <Button variant="secondary">{t("form.abort")}</Button>
+        </DialogCloseTrigger>
         <SaveButton
           id={SAVE_BUTTON_ID}
-          type={!inModal ? "submit" : "button"}
+          type={"button"}
           loading={isSubmitting}
           formIsDirty={formIsDirty}
           showSaved={!!savedToServer && !formIsDirty}

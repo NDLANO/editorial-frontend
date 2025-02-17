@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import {
   Button,
   DialogBody,
+  DialogCloseTrigger,
   DialogHeader,
   TabsContent,
   TabsIndicator,
@@ -46,24 +47,24 @@ interface Props {
   concept?: IConceptDTO;
   createConcept: (createdConcept: INewConceptDTO) => Promise<IConceptDTO>;
   handleRemove: () => void;
-  onClose: () => void;
   locale: string;
   selectedText?: string;
   subjects: Node[];
   updateConcept: (id: number, updatedConcept: IUpdatedConceptDTO) => Promise<IConceptDTO>;
+  updateConceptStatus: (id: number, status: string) => Promise<IConceptDTO>;
   conceptArticles: IArticleDTO[];
   conceptType: ConceptType;
 }
 
 const ConceptModalContent = ({
-  onClose,
   subjects,
   locale,
   handleRemove,
   selectedText = "",
   addConcept,
-  updateConcept,
   createConcept,
+  updateConcept,
+  updateConceptStatus,
   concept,
   conceptArticles,
   conceptType,
@@ -114,7 +115,10 @@ const ConceptModalContent = ({
     ? {
         onUpdate: (updatedConcept: IUpdatedConceptDTO) => updateConcept(concept.id, updatedConcept),
       }
-    : { onCreate: createConcept };
+    : {
+        onCreate: createConcept,
+        onUpdateStatus: updateConceptStatus,
+      };
 
   useEffect(() => {
     searchConcept(searchObject);
@@ -128,7 +132,9 @@ const ConceptModalContent = ({
   return (
     <div>
       <DialogHeader>
-        <DialogCloseButton onClick={onClose} />
+        <DialogCloseTrigger asChild>
+          <DialogCloseButton />
+        </DialogCloseTrigger>
       </DialogHeader>
       <DialogBody>
         {!!concept?.id && <Button onClick={handleRemove}>{t(`form.content.${concept.conceptType}.remove`)}</Button>}
@@ -180,7 +186,6 @@ const ConceptModalContent = ({
                 <GlossForm
                   onUpserted={addConcept}
                   inModal
-                  onClose={onClose}
                   subjects={subjects}
                   upsertProps={upsertProps}
                   language={locale}
@@ -193,7 +198,6 @@ const ConceptModalContent = ({
                 <ConceptForm
                   onUpserted={addConcept}
                   inModal
-                  onClose={onClose}
                   subjects={subjects}
                   upsertProps={upsertProps}
                   language={locale}

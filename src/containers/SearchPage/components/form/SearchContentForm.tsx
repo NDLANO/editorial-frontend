@@ -7,7 +7,6 @@
  */
 
 import { TFunction } from "i18next";
-import sortBy from "lodash/sortBy";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldLabel, FieldRoot, FieldInput } from "@ndla/primitives";
@@ -33,9 +32,10 @@ import {
 } from "../../../../constants";
 import { OnFieldChangeFunction, SearchParams } from "../../../../interfaces";
 import { useAuth0Editors, useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
-import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
+import { useDraftStatusStateMachine, useLicenses } from "../../../../modules/draft/draftQueries";
 import { useAllResourceTypes } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import formatDate from "../../../../util/formatDate";
+import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import { flattenResourceTypesAndAddContextTypes } from "../../../../util/taxonomyHelpers";
 import InlineDatePicker from "../../../FormikForm/components/InlineDatePicker";
@@ -68,6 +68,7 @@ const generateSubjectNode = (id: string, name: string, t: TFunction): Node => ({
   id: id,
   breadcrumbs: [],
   contexts: [],
+  contextids: [],
   paths: [],
   resourceTypes: [],
   supportedLanguages: [],
@@ -111,13 +112,10 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
     { permission: DRAFT_RESPONSIBLE },
     {
       select: (users) =>
-        sortBy(
-          users.map((u) => ({
-            id: `${u.app_metadata.ndla_id}`,
-            name: u.name,
-          })),
-          (u) => u.name,
-        ),
+        users.map((u) => ({
+          id: `${u.app_metadata.ndla_id}`,
+          name: u.name,
+        })),
       placeholderData: [],
     },
   );
@@ -129,6 +127,15 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
       placeholderData: [],
     },
   );
+
+  const { data: licenses } = useLicenses({
+    select: (licenses) =>
+      getLicensesWithTranslations(licenses, locale, true).map((license) => ({
+        id: license.license,
+        name: license.title,
+      })),
+    placeholderData: [],
+  });
 
   useEffect(() => {
     if (searchObject.query !== queryInput) {
@@ -180,6 +187,7 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
       "draft-status": "",
       users: "",
       language: "",
+      license: "",
       "revision-date-from": "",
       "revision-date-to": "",
       "exclude-revision-log": false,
@@ -240,6 +248,7 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
     "draft-status": (isHasPublished ? "HAS_PUBLISHED" : searchObject["draft-status"])?.toLowerCase(),
     users: getTagName(searchObject.users, users),
     language: searchObject.language,
+    license: getTagName(searchObject["license"], licenses),
     "filter-inactive": !searchObject["filter-inactive"] ? "false" : undefined,
     "exclude-revision-log": searchObject["exclude-revision-log"] ? "true" : undefined,
     "revision-date-from": formatDate(searchObject["revision-date-from"]) || undefined,
@@ -255,8 +264,9 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
       options: getDraftStatuses().sort(sortByProperty("name")),
       value: isHasPublished ? "HAS_PUBLISHED" : searchObject["draft-status"],
     },
-    { name: "users", options: users!.sort(sortByProperty("name")) },
+    { name: "users", options: users ?? [] },
     { name: "language", options: getResourceLanguages(t) },
+    { name: "license", options: licenses!.sort(sortByProperty("name")) },
   ];
 
   return (

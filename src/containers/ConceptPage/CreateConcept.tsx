@@ -22,7 +22,10 @@ interface Props {
 const CreateConcept = ({ inModal = false, addConceptInModal }: Props) => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const { subjects, createConcept, conceptArticles } = useFetchConceptData(undefined, i18n.language);
+  const { subjects, createConcept, conceptArticles, updateConceptStatus } = useFetchConceptData(
+    undefined,
+    i18n.language,
+  );
 
   const onCreate = useCallback(
     async (createdConcept: INewConceptDTO) => {
@@ -42,7 +45,7 @@ const CreateConcept = ({ inModal = false, addConceptInModal }: Props) => {
       <title>{t(`conceptForm.title`)}</title>
       <ConceptForm
         language={i18n.language}
-        upsertProps={{ onCreate }}
+        upsertProps={{ onCreate, onUpdateStatus: updateConceptStatus }}
         inModal={inModal}
         subjects={subjects}
         conceptArticles={conceptArticles}

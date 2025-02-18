@@ -11,7 +11,6 @@ import { IAudioSummaryDTO, ISeriesSummaryDTO } from "@ndla/types-backend/audio-a
 import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { IImageMetaSummaryDTO } from "@ndla/types-backend/image-api";
 import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { Node } from "@ndla/types-taxonomy";
 import SearchAudio from "./SearchAudio";
 import SearchContent from "./SearchContent";
 import SearchImage from "./SearchImage";
@@ -35,17 +34,14 @@ export type SearchResultReturnType =
 interface Props {
   result: SearchResultReturnType;
   locale: string;
-  subjects: Node[];
   responsibleName?: string;
 }
 
-const SearchResult = ({ result, locale, subjects, responsibleName }: Props) => {
+const SearchResult = ({ result, locale, responsibleName }: Props) => {
   const { t } = useTranslation();
   switch (result.type) {
     case "content":
-      return (
-        <SearchContent subjects={subjects} content={result.value} locale={locale} responsibleName={responsibleName} />
-      );
+      return <SearchContent content={result.value} locale={locale} responsibleName={responsibleName} />;
     case "image":
       return <SearchImage image={result.value} locale={locale} />;
     case "audio":

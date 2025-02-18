@@ -792,7 +792,6 @@ describe("table normalizer tests", () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          headers: "00",
                           colspan: 1,
                           rowspan: 2,
                           align: "right",
@@ -811,7 +810,6 @@ describe("table normalizer tests", () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          headers: "01",
                           colspan: 1,
                           rowspan: 1,
                           align: "right",
@@ -945,7 +943,6 @@ describe("table normalizer tests", () => {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
                           id: "r1",
-                          headers: "00",
                           colspan: 1,
                           rowspan: 2,
                           scope: "row",
@@ -1203,6 +1200,7 @@ describe("table normalizer tests", () => {
                       {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
+                          id: "00",
                           colspan: 1,
                           rowspan: 1,
                           scope: "col",
@@ -1222,6 +1220,7 @@ describe("table normalizer tests", () => {
                       {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
+                          id: "01",
                           colspan: 1,
                           rowspan: 1,
                           scope: "col",
@@ -1251,6 +1250,7 @@ describe("table normalizer tests", () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
+                          headers: "00",
                           colspan: 1,
                           rowspan: 2,
                           align: "right",
@@ -1272,6 +1272,7 @@ describe("table normalizer tests", () => {
                           colspan: 1,
                           rowspan: 1,
                           align: "right",
+                          headers: "01",
                         },
                         children: [
                           {
@@ -1294,6 +1295,7 @@ describe("table normalizer tests", () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
+                          headers: "01",
                           align: "right",
                         },
                         children: [

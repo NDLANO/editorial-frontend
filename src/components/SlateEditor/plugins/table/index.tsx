@@ -19,8 +19,8 @@ import {
 } from "./defaultBlocks";
 import { handleTableKeydown } from "./handleKeyDown";
 import { TableElement } from "./interfaces";
-import { getTableAsMatrix, tableContainsSpan } from "./matrix";
-import { getHeader, previousMatrixCellIsEqualCurrent } from "./matrixHelpers";
+import { getTableAsMatrix, tableContainsIdOrHeader, tableContainsSpan } from "./matrix";
+import { getHeader, getId, previousMatrixCellIsEqualCurrent } from "./matrixHelpers";
 import { normalizeTableBodyAsMatrix } from "./matrixNormalizer";
 import { updateCell } from "./slateActions";
 import {
@@ -268,81 +268,57 @@ export const tablePlugin = (editor: Editor) => {
       // Normalize headers and id. For each row check that id and headers are set accordingly.
       // We have a maximum of rows of header elements in thead and only 1 column max for rowheaders
       const matrix = getTableAsMatrix(editor, path);
-      if (tableContainsSpan(matrix ?? []) || node.rowHeaders || matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER) {
-        matrix?.forEach((row, rowIndex) => {
-          row.forEach((cell, cellIndex) => {
-            const result = Editor.nodes(editor, {
-              at: path,
-              match: (node) => equals(node, cell),
+
+      const containsSpans = tableContainsSpan(matrix);
+      const containsIdOrHeaders = tableContainsIdOrHeader(matrix);
+
+      const isFirstRowHeaderRow = matrix?.[0]?.[1]?.type === TYPE_TABLE_CELL_HEADER;
+      const isSecondRowHeaderRow = matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER;
+
+      const headersInMultipleRows =
+        (isFirstRowHeaderRow && node.rowHeaders) ||
+        (isSecondRowHeaderRow && node.rowHeaders) ||
+        (isFirstRowHeaderRow && isSecondRowHeaderRow);
+
+      const shouldHaveHeaders = containsSpans || headersInMultipleRows;
+      const shouldRemoveHeaders = !shouldHaveHeaders && containsIdOrHeaders;
+
+      if (shouldHaveHeaders) {
+        return editor.withoutNormalizing(() => {
+          matrix?.forEach((row, rowIndex) => {
+            row.forEach((cell, cellIndex) => {
+              const [maybeNode] = Editor.nodes(editor, {
+                at: path,
+                match: (node) => equals(node, cell),
+              });
+
+              // If the previous cell in column and row direction is not equal we can normalize the proper cell.
+              // Table matrix isn't a direct repsentation of the HTML table so read comments for `getTableAsMatrix`
+              if (!previousMatrixCellIsEqualCurrent(matrix, rowIndex, cellIndex) && maybeNode) {
+                const [_, cellPath] = maybeNode as NodeEntry<TableElement>;
+                const [parent] = Editor.node(editor, Path.parent(Path.parent(cellPath)));
+
+                const isBody = isTableBody(parent);
+
+                const headers = getHeader(matrix, rowIndex, cellIndex, node.rowHeaders);
+                const id = getId(matrix, rowIndex, cellIndex, isBody);
+
+                if (id !== cell.data.id || headers !== cell.data.headers) {
+                  updateCell(editor, cell, { id: id, headers: headers }, TYPE_TABLE_CELL_HEADER);
+                }
+              }
             });
-            const [maybeNode] = result;
-
-            // If the previous cell in column and row direction is not equal we can normalize the proper cell.
-            // Table matrix isn't a direct repsentation of the HTML table so read comments for `getTableAsMatrix`
-            if (maybeNode?.[1] && !previousMatrixCellIsEqualCurrent(matrix, rowIndex, cellIndex)) {
-              const [, cellPath] = maybeNode;
-              const [parent] = Editor.node(editor, Path.parent(Path.parent(cellPath)));
-
-              const firstRowSecondNodeType = matrix?.[0]?.[1]?.type;
-              const secondRowSecondNodeType = matrix?.[1]?.[1]?.type;
-
-              const shouldHaveHeaders =
-                (firstRowSecondNodeType === TYPE_TABLE_CELL_HEADER && node.rowHeaders) ||
-                (secondRowSecondNodeType === TYPE_TABLE_CELL_HEADER && node.rowHeaders) ||
-                (secondRowSecondNodeType === TYPE_TABLE_CELL_HEADER &&
-                  firstRowSecondNodeType === TYPE_TABLE_CELL_HEADER);
-
-              const headers = shouldHaveHeaders ? getHeader(matrix, rowIndex, cellIndex, node.rowHeaders) : undefined;
-
-              if (isTableHead(parent)) {
-                // We only want to append id if we have multiple rows with headers. E.G multiple rows in tablehead or rows in tablehead with rowHeaders
-                const shouldHaveId = parent.children.length > 1 || node.rowHeaders;
-                // If first row we add only a double digit id based on the cellIndex
-                if (
-                  rowIndex === 0 &&
-                  cell.data.id !== `0${cellIndex}` &&
-                  cell.type === TYPE_TABLE_CELL_HEADER &&
-                  shouldHaveId
-                ) {
-                  return updateCell(editor, cell, { id: `0${cellIndex}` }, TYPE_TABLE_CELL_HEADER);
-                }
-
-                // Second head row need to have a id combined with the previous cell and headers are set to the standard ruleset
-                if (
-                  rowIndex === 1 &&
-                  matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER &&
-                  (cell.data.id !== `0${cellIndex}1${cellIndex}` ||
-                    (shouldHaveHeaders && headers !== cell.data.headers)) &&
-                  shouldHaveId
-                ) {
-                  return updateCell(
-                    editor,
-                    cell,
-                    { id: `0${cellIndex}1${cellIndex}`, headers: headers },
-                    TYPE_TABLE_CELL_HEADER,
-                  );
-                }
-
-                if (!shouldHaveId && (cell.data.id || cell.data.headers)) {
-                  return updateCell(editor, cell, { id: undefined, headers: undefined }, TYPE_TABLE_CELL_HEADER);
-                }
+          });
+        });
+      }
+      if (shouldRemoveHeaders && containsIdOrHeaders) {
+        return editor.withoutNormalizing(() => {
+          matrix?.forEach((row) => {
+            row.forEach((cell) => {
+              if (cell.data.id || cell.data.headers) {
+                updateCell(editor, cell, { id: undefined, headers: undefined });
               }
-              if (isTableBody(parent)) {
-                // If rowheaders need to set ID on the first cell of each row in the body.
-                if (
-                  shouldHaveHeaders &&
-                  node.rowHeaders &&
-                  cellIndex === 0 &&
-                  (cell.data.id !== `r${rowIndex}` || cell.data.headers !== headers)
-                ) {
-                  return updateCell(editor, cell, { id: `r${rowIndex}`, headers: headers }, TYPE_TABLE_CELL_HEADER);
-                }
-
-                if (cell.type === TYPE_TABLE_CELL && headers !== cell.data.headers) {
-                  return updateCell(editor, cell, { headers: headers });
-                }
-              }
-            }
+            });
           });
         });
       }

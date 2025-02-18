@@ -70,5 +70,9 @@ export const getTableAsMatrix = (editor: Editor, path: Path) => {
   return matrix;
 };
 
-export const tableContainsSpan = (table: TableMatrix) =>
-  table?.filter((row) => row?.filter((cell) => cell.data.colspan > 1 || cell.data.rowspan > 1).length >= 1).length >= 1;
+export const tableContainsSpan = (table?: TableMatrix) =>
+  (table?.filter((row) => row?.filter((cell) => cell.data.colspan > 1 || cell.data.rowspan > 1).length >= 1)?.length ??
+    0) >= 1;
+
+export const tableContainsIdOrHeader = (table?: TableMatrix) =>
+  (table?.filter((row) => row?.filter((cell) => !!cell.data.headers || !!cell.data.id).length >= 1)?.length ?? 0) >= 1;

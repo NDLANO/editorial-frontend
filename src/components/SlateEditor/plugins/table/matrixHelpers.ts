@@ -108,33 +108,42 @@ export const getHeader = (matrix: TableMatrix, rowIndex: number, columnIndex: nu
   const { colspan, rowspan } = matrix[rowIndex][columnIndex].data;
 
   const normalizedHeaderRow = normalizeRow(matrix[0]);
-  const headers: TableCellElement[] = [];
+  if (matrix?.[rowIndex]?.[columnIndex]?.type !== TYPE_TABLE_CELL_HEADER) {
+    const headers: TableCellElement[] = [];
 
-  // First header row
-  // Adding all the cells in the corresponding colspan
-  [...Array(colspan)].forEach(
-    (_, it) => normalizedHeaderRow[columnIndex + it] && headers.push(normalizedHeaderRow[columnIndex + it]),
-  );
+    // First header row
+    // Adding all the cells in the corresponding colspan
+    [...Array(colspan)].forEach((_, it) => headers.push(normalizedHeaderRow[columnIndex + it]));
 
-  // Second header row
-  // If there is a second header row, the index 1 1  of the matrix will be of type table cell header
-  if (
-    matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER &&
-    matrix?.[rowIndex]?.[columnIndex].type !== TYPE_TABLE_CELL_HEADER
-  ) {
-    const normalizedSecondHeaderRow = normalizeRow(matrix[1]);
-    [...Array(colspan)].forEach(
-      (_, it) =>
-        normalizedSecondHeaderRow?.[columnIndex + it] && headers.push(normalizedSecondHeaderRow[columnIndex + it]),
-    );
+    // Second header row
+    // If there is a second header row, the index 1 1  of the matrix will be of type table cell header
+    if (matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER) {
+      const normalizedSecondHeaderRow = normalizeRow(matrix[1]);
+      [...Array(colspan)].forEach((_, it) => headers.push(normalizedSecondHeaderRow[columnIndex + it]));
+    }
+
+    // If row headers we append all row headers following the rowspan.
+    if (isRowHeaders && columnIndex !== 0) {
+      [...Array(rowspan)].forEach((_, it) => headers.push(matrix?.[rowIndex + it]?.[0]));
+    }
+    const header = headers
+      .map((cell) => cell?.data?.id)
+      .filter((cell) => !!cell)
+      .join(" ");
+
+    return header.trim().length > 0 ? header : undefined;
+  }
+  return undefined;
+};
+
+export const getId = (matrix: TableMatrix, rowIndex: number, columnIndex: number, isRowHeader: boolean) => {
+  if (!isRowHeader && rowIndex === 0 && matrix?.[rowIndex]?.[columnIndex]?.type === TYPE_TABLE_CELL_HEADER) {
+    return `0${columnIndex}`;
   }
 
-  // If row headers we append all row headers following the rowspan.
-  if (isRowHeaders && columnIndex !== 0 && matrix?.[rowIndex]?.[columnIndex]?.type !== TYPE_TABLE_CELL_HEADER) {
-    [...Array(rowspan)].forEach((_, it) => matrix?.[rowIndex + it]?.[0] && headers.push(matrix?.[rowIndex + it]?.[0]));
+  if (matrix?.[rowIndex]?.[columnIndex]?.type === TYPE_TABLE_CELL_HEADER) {
+    return isRowHeader ? `r${rowIndex}` : `0${rowIndex}1${columnIndex}`;
   }
-  return headers
-    .map((cell) => cell?.data?.id)
-    .filter((cell) => !!cell)
-    .join(" ");
+
+  return undefined;
 };

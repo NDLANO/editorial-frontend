@@ -7,7 +7,7 @@
  */
 
 import { Formik, useFormikContext } from "formik";
-import { memo, useCallback, useMemo } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult } from "@tanstack/react-query";
 import { IArticleDTO, IUpdatedArticleDTO, IStatusDTO } from "@ndla/types-backend/draft-api";
@@ -16,11 +16,14 @@ import { Form } from "../../../../components/FormikForm";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
+import { PUBLISHED } from "../../../../constants";
 import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { frontPageArticleRules, isFormikFormDirty } from "../../../../util/formHelper";
 import { AlertDialogWrapper } from "../../../FormikForm";
 import { FrontpageArticleFormType, HandleSubmitFunc, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
+import UnpublishedConceptsAlertDialog from "../../../FormikForm/UnpublishedConceptsAlertDialog";
+import { hasUnpublishedConcepts } from "../../../FormikForm/utils";
 import { useSession } from "../../../Session/SessionProvider";
 import {
   draftApiTypeToFrontpageArticleFormType,
@@ -49,9 +52,15 @@ const FrontpageArticleForm = ({
   articleLanguage,
   supportedLanguages,
 }: Props) => {
+  const [showUnpublishedConceptsWarning, setShowUnpublishedConceptsWarning] = useState(false);
   const { t } = useTranslation();
   const { ndlaId } = useSession();
-  const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks<FrontpageArticleFormType>({
+  const {
+    savedToServer,
+    formikRef,
+    initialValues,
+    handleSubmit: _handleSubmit,
+  } = useArticleFormHooks<FrontpageArticleFormType>({
     getInitialValues: draftApiTypeToFrontpageArticleFormType,
     article,
     articleHistory,
@@ -67,43 +76,60 @@ const FrontpageArticleForm = ({
   const initialWarnings = getWarnings(initialValues, frontPageArticleRules, t, article);
   const initialErrors = useMemo(() => validateFormik(initialValues, frontPageArticleRules, t), [initialValues, t]);
 
+  const handleSubmit: HandleSubmitFunc<FrontpageArticleFormType> = useCallback(
+    async (values, helpers, saveAsNew) => {
+      if (values.status?.current === PUBLISHED) {
+        const unpublishedConcepts = await hasUnpublishedConcepts(article);
+        if (unpublishedConcepts) setShowUnpublishedConceptsWarning(true);
+      }
+      return await _handleSubmit(values, helpers, saveAsNew);
+    },
+    [_handleSubmit, article],
+  );
+
   return (
-    <Formik
-      initialValues={initialValues}
-      initialErrors={initialErrors}
-      innerRef={formikRef}
-      validateOnBlur={false}
-      validateOnMount
-      onSubmit={handleSubmit}
-      validate={(values) => validateFormik(values, frontPageArticleRules, t)}
-      initialStatus={{ warnings: initialWarnings }}
-    >
-      <Form>
-        <HeaderWithLanguage
-          id={article?.id}
-          title={article?.title?.title}
-          article={article}
-          articleHistory={articleHistory?.data}
-          language={articleLanguage}
-          supportedLanguages={supportedLanguages}
-          status={article?.status}
-          type="frontpage-article"
-          expirationDate={getExpirationDate(article)}
-        />
-        <FrontpageArticlePanels
-          articleLanguage={articleLanguage}
-          article={article}
-          articleHistory={articleHistory?.data}
-        />
-        <FormFooter
-          articleChanged={!!articleChanged}
-          isNewlyCreated={isNewlyCreated}
-          savedToServer={savedToServer}
-          handleSubmit={handleSubmit}
-          article={article}
-        />
-      </Form>
-    </Formik>
+    <>
+      <Formik
+        initialValues={initialValues}
+        initialErrors={initialErrors}
+        innerRef={formikRef}
+        validateOnBlur={false}
+        validateOnMount
+        onSubmit={handleSubmit}
+        validate={(values) => validateFormik(values, frontPageArticleRules, t)}
+        initialStatus={{ warnings: initialWarnings }}
+      >
+        <Form>
+          <HeaderWithLanguage
+            id={article?.id}
+            title={article?.title?.title}
+            article={article}
+            articleHistory={articleHistory?.data}
+            language={articleLanguage}
+            supportedLanguages={supportedLanguages}
+            status={article?.status}
+            type="frontpage-article"
+            expirationDate={getExpirationDate(article)}
+          />
+          <FrontpageArticlePanels
+            articleLanguage={articleLanguage}
+            article={article}
+            articleHistory={articleHistory?.data}
+          />
+          <FormFooter
+            articleChanged={!!articleChanged}
+            isNewlyCreated={isNewlyCreated}
+            savedToServer={savedToServer}
+            handleSubmit={handleSubmit}
+            article={article}
+          />
+        </Form>
+      </Formik>
+      <UnpublishedConceptsAlertDialog
+        show={showUnpublishedConceptsWarning}
+        onClose={() => setShowUnpublishedConceptsWarning(false)}
+      />
+    </>
   );
 };
 

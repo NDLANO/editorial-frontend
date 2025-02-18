@@ -1655,6 +1655,7 @@ const phrases = {
     disconnect: "Disconnect",
     loginAgain: "Login again",
     watchOut: "Watch out!",
+    unpublishedConcepts: "The article contains unpublished concepts",
   },
   environment: { production: "", staging: "Staging", test: "Test" },
   taxonomy: {

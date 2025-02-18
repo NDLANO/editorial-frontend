@@ -19,12 +19,14 @@ import { Form, FormActionsContainer } from "../../../../components/FormikForm";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
-import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
+import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../../constants";
 import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { isFormikFormDirty, learningResourceRules } from "../../../../util/formHelper";
 import { AlertDialogWrapper } from "../../../FormikForm";
 import { HandleSubmitFunc, LearningResourceFormType, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
+import UnpublishedConceptsAlertDialog from "../../../FormikForm/UnpublishedConceptsAlertDialog";
+import { hasUnpublishedConcepts } from "../../../FormikForm/utils";
 import { useSession } from "../../../Session/SessionProvider";
 import { TaxonomyVersionProvider } from "../../../StructureVersion/TaxonomyVersionProvider";
 import {
@@ -56,6 +58,7 @@ const LearningResourceForm = ({
   articleLanguage,
   articleHistory,
 }: Props) => {
+  const [showUnpublishedConceptsWarning, setShowUnpublishedConceptsWarning] = useState(false);
   const [showTaxWarning, setShowTaxWarning] = useState(false);
   const { t } = useTranslation();
   const { ndlaId } = useSession();
@@ -96,9 +99,13 @@ const LearningResourceForm = ({
         setShowTaxWarning(true);
         return;
       }
+      if (values.status?.current === PUBLISHED) {
+        const unpublishedConcepts = await hasUnpublishedConcepts(article);
+        if (unpublishedConcepts) setShowUnpublishedConceptsWarning(true);
+      }
       return await _handleSubmit(values, helpers, saveAsNew);
     },
-    [_handleSubmit, contexts?.length],
+    [_handleSubmit, article, contexts?.length],
   );
 
   const initialWarnings = useMemo(() => {
@@ -110,68 +117,74 @@ const LearningResourceForm = ({
   const initialErrors = useMemo(() => validateFormik(initialValues, learningResourceRules, t), [initialValues, t]);
 
   return (
-    <Formik
-      key={articleLanguage}
-      initialValues={initialValues}
-      initialErrors={initialErrors}
-      innerRef={formikRef}
-      validateOnBlur={false}
-      validateOnMount
-      onSubmit={handleSubmit}
-      validate={validate}
-      initialStatus={initialWarnings}
-    >
-      {({ isSubmitting }) => (
-        <Form>
-          <HeaderWithLanguage
-            id={article?.id}
-            language={articleLanguage}
-            article={article}
-            status={article?.status}
-            articleHistory={articleHistory?.data}
-            supportedLanguages={supportedLanguages}
-            taxonomy={contexts}
-            title={article?.title?.title}
-            type="standard"
-            expirationDate={getExpirationDate(article)}
-          />
-          <TaxonomyVersionProvider>
-            <LearningResourcePanels
-              // Formik does not allow for invalid form submissions through their handleSubmit function, so we have to bypass formik
-              handleSubmit={handleSubmit}
-              articleLanguage={articleLanguage}
+    <>
+      <Formik
+        key={articleLanguage}
+        initialValues={initialValues}
+        initialErrors={initialErrors}
+        innerRef={formikRef}
+        validateOnBlur={false}
+        validateOnMount
+        onSubmit={handleSubmit}
+        validate={validate}
+        initialStatus={initialWarnings}
+      >
+        {({ isSubmitting }) => (
+          <Form>
+            <HeaderWithLanguage
+              id={article?.id}
+              language={articleLanguage}
               article={article}
+              status={article?.status}
               articleHistory={articleHistory?.data}
-              taxonomy={articleTaxonomy}
-              updateNotes={updateArticle}
-              contexts={contexts}
-              submitted={isSubmitting}
+              supportedLanguages={supportedLanguages}
+              taxonomy={contexts}
+              title={article?.title?.title}
+              type="standard"
+              expirationDate={getExpirationDate(article)}
             />
-          </TaxonomyVersionProvider>
-          <FormFooter
-            articleChanged={!!articleChanged}
-            isNewlyCreated={isNewlyCreated}
-            savedToServer={savedToServer}
-            handleSubmit={handleSubmit}
-            article={article}
-          />
-          <AlertDialog
-            text={t("errorMessage.missingTax")}
-            title={t("errorMessage.missingTaxTitle")}
-            label={t("errorMessage.missingTaxTitle")}
-            show={showTaxWarning}
-            onCancel={() => setShowTaxWarning(false)}
-            severity={"danger"}
-          >
-            <FormActionsContainer>
-              <Button variant="secondary" onClick={() => setShowTaxWarning(false)}>
-                {t("alertModal.continue")}
-              </Button>
-            </FormActionsContainer>
-          </AlertDialog>
-        </Form>
-      )}
-    </Formik>
+            <TaxonomyVersionProvider>
+              <LearningResourcePanels
+                // Formik does not allow for invalid form submissions through their handleSubmit function, so we have to bypass formik
+                handleSubmit={handleSubmit}
+                articleLanguage={articleLanguage}
+                article={article}
+                articleHistory={articleHistory?.data}
+                taxonomy={articleTaxonomy}
+                updateNotes={updateArticle}
+                contexts={contexts}
+                submitted={isSubmitting}
+              />
+            </TaxonomyVersionProvider>
+            <FormFooter
+              articleChanged={!!articleChanged}
+              isNewlyCreated={isNewlyCreated}
+              savedToServer={savedToServer}
+              handleSubmit={handleSubmit}
+              article={article}
+            />
+            <AlertDialog
+              text={t("errorMessage.missingTax")}
+              title={t("errorMessage.missingTaxTitle")}
+              label={t("errorMessage.missingTaxTitle")}
+              show={showTaxWarning}
+              onCancel={() => setShowTaxWarning(false)}
+              severity={"danger"}
+            >
+              <FormActionsContainer>
+                <Button variant="secondary" onClick={() => setShowTaxWarning(false)}>
+                  {t("alertModal.continue")}
+                </Button>
+              </FormActionsContainer>
+            </AlertDialog>
+          </Form>
+        )}
+      </Formik>
+      <UnpublishedConceptsAlertDialog
+        show={showUnpublishedConceptsWarning}
+        onClose={() => setShowUnpublishedConceptsWarning(false)}
+      />
+    </>
   );
 };
 

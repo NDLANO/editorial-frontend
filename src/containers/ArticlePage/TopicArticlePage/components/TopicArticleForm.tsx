@@ -19,12 +19,14 @@ import { Form, FormActionsContainer } from "../../../../components/FormikForm";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
-import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
+import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../../constants";
 import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { isFormikFormDirty, topicArticleRules } from "../../../../util/formHelper";
 import { AlertDialogWrapper } from "../../../FormikForm";
 import { HandleSubmitFunc, TopicArticleFormType, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
+import UnpublishedConceptsAlertDialog from "../../../FormikForm/UnpublishedConceptsAlertDialog";
+import { hasUnpublishedConcepts } from "../../../FormikForm/utils";
 import { useSession } from "../../../Session/SessionProvider";
 import { TaxonomyVersionProvider } from "../../../StructureVersion/TaxonomyVersionProvider";
 import {
@@ -57,6 +59,7 @@ const TopicArticleForm = ({
   articleLanguage,
   articleStatus,
 }: Props) => {
+  const [showUnpublishedConceptsWarning, setShowUnpublishedConceptsWarning] = useState(false);
   const [showTaxWarning, setShowTaxWarning] = useState(false);
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const { t } = useTranslation();
@@ -96,9 +99,13 @@ const TopicArticleForm = ({
         setShowTaxWarning(true);
         return;
       }
+      if (values.status?.current === PUBLISHED) {
+        const unpublishedConcepts = await hasUnpublishedConcepts(article);
+        if (unpublishedConcepts) setShowUnpublishedConceptsWarning(true);
+      }
       return await _handleSubmit(values, helpers, saveAsNew);
     },
-    [_handleSubmit, articleTaxonomy?.length],
+    [_handleSubmit, article, articleTaxonomy?.length],
   );
 
   const contexts = articleTaxonomy
@@ -106,61 +113,67 @@ const TopicArticleForm = ({
     .filter((context) => !context.rootId.includes("programme"));
 
   return (
-    <Formik
-      validateOnMount
-      initialValues={initialValues}
-      initialErrors={initialErrors}
-      validateOnBlur={false}
-      innerRef={formikRef}
-      onSubmit={handleSubmit}
-      validate={validate}
-      initialStatus={initialWarnings}
-    >
-      <Form>
-        <HeaderWithLanguage
-          id={article?.id}
-          language={articleLanguage}
-          taxonomy={contexts}
-          article={article}
-          articleHistory={articleHistory?.data}
-          status={article?.status}
-          supportedLanguages={supportedLanguages}
-          title={article?.title?.title}
-          type="topic-article"
-          expirationDate={getExpirationDate(article)}
-        />
-        <TaxonomyVersionProvider>
-          <TopicArticleAccordionPanels
-            articleLanguage={articleLanguage}
-            articleHistory={articleHistory?.data}
-            updateNotes={updateArticle}
+    <>
+      <Formik
+        validateOnMount
+        initialValues={initialValues}
+        initialErrors={initialErrors}
+        validateOnBlur={false}
+        innerRef={formikRef}
+        onSubmit={handleSubmit}
+        validate={validate}
+        initialStatus={initialWarnings}
+      >
+        <Form>
+          <HeaderWithLanguage
+            id={article?.id}
+            language={articleLanguage}
+            taxonomy={contexts}
             article={article}
-            hasTaxonomyEntries={!!articleTaxonomy?.length}
+            articleHistory={articleHistory?.data}
+            status={article?.status}
+            supportedLanguages={supportedLanguages}
+            title={article?.title?.title}
+            type="topic-article"
+            expirationDate={getExpirationDate(article)}
           />
-        </TaxonomyVersionProvider>
-        <FormFooter
-          articleChanged={!!articleChanged}
-          isNewlyCreated={isNewlyCreated}
-          savedToServer={savedToServer}
-          handleSubmit={handleSubmit}
-          article={article}
-        />
-        <AlertDialog
-          title={t("errorMessage.missingTaxTitle")}
-          label={t("errorMessage.missingTaxTitle")}
-          show={showTaxWarning}
-          onCancel={() => setShowTaxWarning(false)}
-          severity={"danger"}
-          text={t("errorMessage.missingTax")}
-        >
-          <FormActionsContainer>
-            <Button onClick={() => setShowTaxWarning(false)} variant="secondary">
-              {t("alertModal.continue")}
-            </Button>
-          </FormActionsContainer>
-        </AlertDialog>
-      </Form>
-    </Formik>
+          <TaxonomyVersionProvider>
+            <TopicArticleAccordionPanels
+              articleLanguage={articleLanguage}
+              articleHistory={articleHistory?.data}
+              updateNotes={updateArticle}
+              article={article}
+              hasTaxonomyEntries={!!articleTaxonomy?.length}
+            />
+          </TaxonomyVersionProvider>
+          <FormFooter
+            articleChanged={!!articleChanged}
+            isNewlyCreated={isNewlyCreated}
+            savedToServer={savedToServer}
+            handleSubmit={handleSubmit}
+            article={article}
+          />
+          <AlertDialog
+            title={t("errorMessage.missingTaxTitle")}
+            label={t("errorMessage.missingTaxTitle")}
+            show={showTaxWarning}
+            onCancel={() => setShowTaxWarning(false)}
+            severity={"danger"}
+            text={t("errorMessage.missingTax")}
+          >
+            <FormActionsContainer>
+              <Button onClick={() => setShowTaxWarning(false)} variant="secondary">
+                {t("alertModal.continue")}
+              </Button>
+            </FormActionsContainer>
+          </AlertDialog>
+        </Form>
+      </Formik>
+      <UnpublishedConceptsAlertDialog
+        show={showUnpublishedConceptsWarning}
+        onClose={() => setShowUnpublishedConceptsWarning(false)}
+      />
+    </>
   );
 };
 

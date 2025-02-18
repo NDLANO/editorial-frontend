@@ -1654,6 +1654,7 @@ const phrases = {
     disconnect: "Kople frå",
     loginAgain: "Logg inn på nytt",
     watchOut: "Pass på!",
+    unpublishedConcepts: "Artikkelen inneheld upubliserte forklaringar",
   },
   environment: { production: "", staging: "staging", test: "test" },
   taxonomy: {

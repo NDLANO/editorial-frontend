@@ -7,7 +7,7 @@
  */
 
 import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
-import { asidePlugin } from "../../../../components/SlateEditor/plugins/aside";
+import { asidePlugin } from "../../../../components/SlateEditor/plugins/aside/asidePlugin";
 import { audioPlugin } from "../../../../components/SlateEditor/plugins/audio/audioPlugin";
 import { blockPickerPlugin } from "../../../../components/SlateEditor/plugins/blockPicker";
 import { blockQuotePlugin } from "../../../../components/SlateEditor/plugins/blockquote";

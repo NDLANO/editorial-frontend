@@ -66,7 +66,7 @@ const ConceptFormFooter = ({
           {({ field, helpers }) => (
             <FieldRoot>
               <StatusSelect
-                status={field.value?.current}
+                status={field.value}
                 updateStatus={(value) => helpers.setValue({ current: value })}
                 statusStateMachine={conceptStateMachine.data}
                 entityStatus={entityStatus ?? field.value}

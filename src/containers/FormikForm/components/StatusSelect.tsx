@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
@@ -16,10 +17,10 @@ import { PUBLISHED } from "../../../constants";
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../../interfaces";
 
 interface Props {
-  status: string | undefined;
+  status: DraftStatus | undefined;
   updateStatus: (s: string | undefined) => void;
   statusStateMachine?: ConceptStatusStateMachineType | DraftStatusStateMachineType;
-  entityStatus?: DraftStatus;
+  entityStatus: DraftStatus | undefined;
 }
 
 const StyledSelectValueText = styled(SelectValueText, {
@@ -62,7 +63,7 @@ const StatusSelect = ({ status, updateStatus, statusStateMachine, entityStatus }
       collection={collection}
       positioning={{ sameWidth: true }}
       data-testid="status-select"
-      value={status ? [status] : undefined}
+      value={status ? [status.current] : undefined}
       onValueChange={(details) => updateStatus(details.value[0])}
     >
       <SelectLabel srOnly>{t("searchForm.types.status")}</SelectLabel>

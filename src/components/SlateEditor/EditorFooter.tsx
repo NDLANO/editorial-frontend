@@ -213,7 +213,7 @@ function EditorFooter<T extends FormValues>({
             {({ field, helpers }) => (
               <FieldRoot>
                 <StatusSelect
-                  status={field.value.current}
+                  status={field.value}
                   updateStatus={(value) => {
                     helpers.setValue({ current: value });
                     setNewStatus(value);

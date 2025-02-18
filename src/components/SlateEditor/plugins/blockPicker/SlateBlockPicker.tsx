@@ -19,7 +19,7 @@ import SlateVisualElementPicker from "./SlateVisualElementPicker";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
 import getCurrentBlock from "../../utils/getCurrentBlock";
-import { TYPE_ASIDE } from "../aside/types";
+import { ASIDE_ELEMENT_TYPE } from "../aside/asideTypes";
 import { defaultAsideBlock } from "../aside/utils";
 import { AUDIO_ELEMENT_TYPE } from "../audio/audioTypes";
 import { TYPE_CAMPAIGN_BLOCK } from "../campaignBlock/types";
@@ -257,7 +257,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultTableBlock(2, 2), true);
         break;
       }
-      case TYPE_ASIDE: {
+      case ASIDE_ELEMENT_TYPE: {
         onInsertBlock(defaultAsideBlock(), true);
         break;
       }

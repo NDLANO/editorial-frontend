@@ -7,13 +7,13 @@
  */
 
 import { Editor } from "slate";
+import { ASIDE_ELEMENT_TYPE } from "./asideTypes";
 import SlateAside from "./SlateAside";
-import { TYPE_ASIDE } from "./types";
 
 export const asideRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_ASIDE) {
+    if (element.type === ASIDE_ELEMENT_TYPE) {
       return (
         <SlateAside editor={editor} element={element} attributes={attributes}>
           {children}

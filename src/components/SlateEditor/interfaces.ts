@@ -19,7 +19,7 @@ import {
   ParagraphElement,
   SectionElement,
 } from "@ndla/editor";
-import { AsideElement } from "./plugins/aside";
+import { AsideElement } from "./plugins/aside/asideTypes";
 import { AudioElement } from "./plugins/audio/audioTypes";
 import { BlockQuoteElement } from "./plugins/blockquote";
 import { CampaignBlockElement } from "./plugins/campaignBlock";

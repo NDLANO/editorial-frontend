@@ -50,5 +50,6 @@ export const hasUnpublishedConcepts = async (article: IArticleDTO | undefined) =
   if (!convertedIds.length) return false;
 
   const response = await postSearchConcepts({ ids: convertedIds, status: [PUBLISHED] });
+
   return response.results.length !== convertedIds.length;
 };

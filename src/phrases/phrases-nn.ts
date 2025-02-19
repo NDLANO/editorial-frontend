@@ -794,6 +794,7 @@ const phrases = {
     openAll: "Opne alle",
     hideAll: "Lukk alle",
     unpublishedChanges: "(Endra sidan siste publisering)",
+    unpublishedConcepts: "Artikkelen inneheld upubliserte forklaringar",
     moveContent: "Flytt innhald inn i teksten",
     open: "Åpne",
     close: "Lukk",
@@ -1654,7 +1655,6 @@ const phrases = {
     disconnect: "Kople frå",
     loginAgain: "Logg inn på nytt",
     watchOut: "Pass på!",
-    unpublishedConcepts: "Artikkelen inneheld upubliserte forklaringar",
   },
   environment: { production: "", staging: "staging", test: "test" },
   taxonomy: {

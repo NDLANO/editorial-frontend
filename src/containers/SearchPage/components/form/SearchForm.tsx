@@ -87,7 +87,7 @@ export const parseSearchParams = <T extends boolean>(locationSearch: string, par
 
   return Object.entries(searchBodyKeyMapping).reduce(
     (acc, [key, val]) => {
-      if (val.data === undefined || !val.data) return acc;
+      if (val.data === undefined || val.data === "") return acc;
       const updatedKey = parseAsSearchBody ? val.key : key;
       const updatedVal = parseAsSearchBody || !Array.isArray(val.data) ? val.data : queryStringObject[key];
       acc[updatedKey] = updatedVal;

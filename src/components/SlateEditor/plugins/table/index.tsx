@@ -269,9 +269,7 @@ export const tablePlugin = (editor: Editor) => {
       // We have a maximum of rows of header elements in thead and only 1 column max for rowheaders
       const matrix = getTableAsMatrix(editor, path);
 
-      const containsSpans = tableContainsSpan(matrix);
-      const containsIdOrHeaders = tableContainsIdOrHeader(matrix);
-
+      // Column index 0 can't be used to check if a row is a headerrow as RowHeaders
       const isFirstRowHeaderRow = matrix?.[0]?.[1]?.type === TYPE_TABLE_CELL_HEADER;
       const isSecondRowHeaderRow = matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER;
 
@@ -279,6 +277,9 @@ export const tablePlugin = (editor: Editor) => {
         (isFirstRowHeaderRow && node.rowHeaders) ||
         (isSecondRowHeaderRow && node.rowHeaders) ||
         (isFirstRowHeaderRow && isSecondRowHeaderRow);
+
+      const containsSpans = tableContainsSpan(matrix);
+      const containsIdOrHeaders = tableContainsIdOrHeader(matrix);
 
       const shouldHaveHeaders = containsSpans || headersInMultipleRows;
       const shouldRemoveHeaders = !shouldHaveHeaders && containsIdOrHeaders;

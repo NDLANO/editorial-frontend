@@ -7,7 +7,6 @@
  */
 
 import { useFormikContext } from "formik";
-import { isKeyHotkey } from "is-hotkey";
 import isEqual from "lodash/isEqual";
 import { FocusEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Descendant, Editor, Range, Transforms } from "slate";
@@ -282,19 +281,6 @@ const RichTextEditor = ({
               }
             }
           }
-        }
-      }
-
-      if (editor.selection && Range.isCollapsed(editor.selection)) {
-        if (isKeyHotkey("left", e.nativeEvent)) {
-          e.preventDefault();
-          Transforms.move(editor, { unit: "offset", reverse: true });
-          return;
-        }
-        if (isKeyHotkey("right", e.nativeEvent)) {
-          e.preventDefault();
-          Transforms.move(editor, { unit: "offset" });
-          return;
         }
       }
 

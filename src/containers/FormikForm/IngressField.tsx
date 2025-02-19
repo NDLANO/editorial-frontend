@@ -8,6 +8,7 @@
 
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
+import { inlineNavigationPlugin } from "@ndla/editor";
 import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
@@ -84,6 +85,7 @@ const MetaWrapper = styled("div", {
 const toolbarAreaFilters = createToolbarAreaOptions();
 
 const ingressPlugins: SlatePlugin[] = [
+  inlineNavigationPlugin,
   spanPlugin,
   paragraphPlugin,
   toolbarPlugin(toolbarOptions, toolbarAreaFilters),

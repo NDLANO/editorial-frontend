@@ -17,6 +17,7 @@ import SearchAudioForm from "./SearchAudioForm";
 import SearchContentForm from "./SearchContentForm";
 import SearchImageForm from "./SearchImageForm";
 import SearchPodcastSeriesForm from "./SearchPodcastSeriesForm";
+import config from "../../../../config";
 import { SearchParams, SearchType } from "../../../../interfaces";
 
 /** Used to wraps backend types and replaces their `sort` with `sort?: string` */
@@ -80,13 +81,13 @@ export const parseSearchParams = <T extends boolean>(locationSearch: string, par
     sort: { key: "sort", data: queryStringObject.sort },
     subjects: { key: "subjects", data: queryStringObject.subjects?.split(",") },
     users: { key: "users", data: queryStringObject.users?.split(",") },
-    license: { key: "license", data: queryStringObject.license },
+    license: { key: "license", data: queryStringObject.license ?? config.licenseAll },
     includeCopyrighted: { key: "includeCopyrighted", data: true },
   } as const;
 
   return Object.entries(searchBodyKeyMapping).reduce(
     (acc, [key, val]) => {
-      if (val.data === undefined) return acc;
+      if (val.data === undefined || !val.data) return acc;
       const updatedKey = parseAsSearchBody ? val.key : key;
       const updatedVal = parseAsSearchBody || !Array.isArray(val.data) ? val.data : queryStringObject[key];
       acc[updatedKey] = updatedVal;

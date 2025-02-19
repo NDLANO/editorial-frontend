@@ -132,33 +132,29 @@ export const MathEditor = ({ element, children, attributes }: Props) => {
   const handleRemove = useCallback(() => {
     const path = ReactEditor.findPath(editor, element);
     setOpen(false);
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, editor.start(Path.next(path)));
-      Transforms.unwrapNodes(editor, { at: path, match: isMathElement, voids: true });
-    }, 0);
+    Transforms.select(editor, editor.start(Path.next(path)));
+    Transforms.unwrapNodes(editor, { at: path, match: isMathElement, voids: true });
+    setTimeout(() => ReactEditor.focus(editor), 0);
   }, [editor, element]);
 
   const onOpenChange = useCallback(
     (details: DialogOpenChangeDetails) => {
       if (details.open) {
         setOpen(details.open);
+        popover.setOpen(false);
         return;
       }
-      popover.setOpen(false);
       const editorContent = mathEditor?.getMathML();
-      if (editorContent !== nodeInfo.model.innerHTML) {
+      if (editorContent !== nodeInfo.model.innerHTML || element.isFirstEdit) {
         setShowAlert(true);
       } else {
         setOpen(details.open);
         Transforms.move(editor, { unit: "offset" });
         getClosestEditor(triggerRef.current)?.focus();
-        setTimeout(() => {
-          ReactEditor.focus(editor);
-        }, 0);
+        setTimeout(() => ReactEditor.focus(editor), 0);
       }
     },
-    [editor, mathEditor, nodeInfo.model.innerHTML, popover],
+    [editor, element.isFirstEdit, mathEditor, nodeInfo.model.innerHTML, popover],
   );
 
   const handleSave = useCallback(

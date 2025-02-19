@@ -6,19 +6,18 @@
  *
  */
 
-import { useState, useEffect, useRef, MouseEvent } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Editor } from "slate";
 import { ReactEditor } from "slate-react";
-import { MathmlElement } from ".";
+import { MathmlElement } from "./mathTypes";
 
 interface Props {
   model: {
     xlmns: string;
-    innerHTML: string;
+    innerHTML: string | undefined;
   };
   editor: Editor;
   element: MathmlElement;
-  onDoubleClick?: (e: MouseEvent<HTMLSpanElement>) => void;
 }
 
 const clearMathjax = (editor: Editor, element: MathmlElement) => {
@@ -29,7 +28,7 @@ const clearMathjax = (editor: Editor, element: MathmlElement) => {
   }
 };
 
-const MathML = ({ model, element, editor, onDoubleClick }: Props) => {
+const MathML = ({ model, element, editor }: Props) => {
   const [reRender, setReRender] = useState(false);
   const [mathjaxInitialized, setMathjaxInitialized] = useState(true);
 
@@ -75,7 +74,7 @@ const MathML = ({ model, element, editor, onDoubleClick }: Props) => {
   }
 
   return (
-    <span data-testid="math" onDoubleClick={onDoubleClick}>
+    <span data-testid="math">
       {/* @ts-expect-error math does not exist in JSX, but this hack works by setting innerHTML manually. */}
       <math
         // eslint-disable-next-line react/no-unknown-property

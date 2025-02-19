@@ -6,11 +6,10 @@
  *
  */
 
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { uuid } from "@ndla/util";
 import { FormActionsContainer } from "../../../FormikForm";
 
 declare global {
@@ -60,7 +59,7 @@ interface Props {
 const EditMath = ({ model: { innerHTML }, onRemove, onSave, mathEditor, setMathEditor }: Props) => {
   const [initialized, setInitialized] = useState(false);
   const [renderedMathML, setRenderedMathML] = useState(innerHTML ?? emptyMathTag);
-  const id = useMemo(() => uuid(), []);
+  const id = useId();
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
@@ -77,10 +76,6 @@ const EditMath = ({ model: { innerHTML }, onRemove, onSave, mathEditor, setMathE
       mathEditor?.focus();
       setInitialized(true);
     };
-    if (window?.com?.wiris?.jsEditor?.JsEditor) {
-      onScriptLoad();
-      return;
-    }
     const script = document.createElement("script");
     script.src = "https://www.wiris.net/client/editor/editor";
     script.onload = onScriptLoad;

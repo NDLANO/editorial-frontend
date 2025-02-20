@@ -19,7 +19,7 @@ import {
 } from "./defaultBlocks";
 import { handleTableKeydown } from "./handleKeyDown";
 import { TableElement } from "./interfaces";
-import { getTableAsMatrix, tableContainsIdOrHeader, tableContainsSpan } from "./matrix";
+import { getTableAsMatrix } from "./matrix";
 import { getHeader, getId, previousMatrixCellIsEqualCurrent } from "./matrixHelpers";
 import { normalizeTableBodyAsMatrix } from "./matrixNormalizer";
 import { updateCell } from "./slateActions";
@@ -269,18 +269,28 @@ export const tablePlugin = (editor: Editor) => {
       // We have a maximum of rows of header elements in thead and only 1 column max for rowheaders
       const matrix = getTableAsMatrix(editor, path);
 
-      // Column index 0 can't be used to check if a row is a headerrow as RowHeaders
-      const isFirstRowHeaderRow = matrix?.[0]?.[1]?.type === TYPE_TABLE_CELL_HEADER;
-      const isSecondRowHeaderRow = matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER;
+      const tableHeadRows = Array.from(
+        editor.nodes({
+          match: (node, nodePath) => {
+            if (isTableRow(node)) {
+              const [parent] = Editor.parent(editor, nodePath);
+              return parent && isTableHead(parent);
+            }
+            return false;
+          },
+          at: path,
+        }),
+      );
 
-      const headersInMultipleRows =
-        (isFirstRowHeaderRow && node.rowHeaders) ||
-        (isSecondRowHeaderRow && node.rowHeaders) ||
-        (isFirstRowHeaderRow && isSecondRowHeaderRow);
+      const containsSpans = !!editor
+        .nodes({ match: (n) => isTableCell(n) && (n.data.colspan > 1 || n.data.rowspan > 1), at: path })
+        .next().value;
 
-      const containsSpans = tableContainsSpan(matrix);
-      const containsIdOrHeaders = tableContainsIdOrHeader(matrix);
+      const containsIdOrHeaders = !!editor
+        .nodes({ match: (n) => isTableCell(n) && (!!n.data.id || !!n.data.headers), at: path })
+        .next().value;
 
+      const headersInMultipleRows = tableHeadRows.length === 2 || (tableHeadRows.length >= 1 && node.rowHeaders);
       const shouldHaveHeaders = containsSpans || headersInMultipleRows;
       const shouldRemoveHeaders = !shouldHaveHeaders && containsIdOrHeaders;
 

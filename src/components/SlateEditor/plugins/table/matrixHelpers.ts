@@ -113,19 +113,20 @@ export const getHeader = (matrix: TableMatrix, rowIndex: number, columnIndex: nu
 
     // First header row
     // Adding all the cells in the corresponding colspan
-    [...Array(colspan)].forEach((_, it) => headers.push(normalizedHeaderRow[columnIndex + it]));
+    Array.from({ length: colspan }).forEach((_, it) => headers.push(normalizedHeaderRow[columnIndex + it]));
 
     // Second header row
     // If there is a second header row, the index 1 1  of the matrix will be of type table cell header
     if (matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER) {
       const normalizedSecondHeaderRow = normalizeRow(matrix[1]);
-      [...Array(colspan)].forEach((_, it) => headers.push(normalizedSecondHeaderRow[columnIndex + it]));
+      Array.from({ length: colspan }).forEach((_, it) => headers.push(normalizedSecondHeaderRow[columnIndex + it]));
     }
 
     // If row headers we append all row headers following the rowspan.
     if (isRowHeaders && columnIndex !== 0) {
-      [...Array(rowspan)].forEach((_, it) => headers.push(matrix?.[rowIndex + it]?.[0]));
+      Array.from({ length: rowspan }).forEach((_, it) => headers.push(matrix?.[rowIndex + it]?.[0]));
     }
+
     const header = headers
       .map((cell) => cell?.data?.id)
       .filter((cell) => !!cell)

@@ -159,7 +159,7 @@ export type ConfigType = {
   defaultLanguage: LocaleType;
   runtimeType: RuntimeType;
   enableH5pCopy: boolean;
-  licenseAll: string;
+  licenseAll: string | undefined;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -205,7 +205,7 @@ const getServerSideConfig = (): ConfigType => {
     isVercel: getEnvironmentVariabel("IS_VERCEL", "false") === "true",
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as "test" | "development" | "production",
     enableH5pCopy: getEnvironmentVariabel("ENABLE_H5P_COPY", "true") === "true",
-    licenseAll: getEnvironmentVariabel("LICENSE_ALL", ""),
+    licenseAll: getEnvironmentVariabel("LICENSE_ALL"),
   };
 };
 

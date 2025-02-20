@@ -14,7 +14,6 @@ import { IAudioSummaryDTO, ISeriesSummaryDTO } from "@ndla/types-backend/audio-a
 import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { Node } from "@ndla/types-taxonomy";
 import SearchResult, { SearchResultReturnType } from "./SearchResult";
 import { LocaleType, SearchParams, SearchType } from "../../../../interfaces";
 import { useAuth0Users } from "../../../../modules/auth0/auth0Queries";
@@ -33,14 +32,13 @@ interface Props {
   searchObject: SearchParams;
   type: SearchType;
   locale: LocaleType;
-  subjects: Node[];
   error: boolean;
 }
 
 const toResultReturnType = (results: ResultType["results"], type: SearchType): SearchResultReturnType[] =>
   results.map((result: ResultSummaryType) => ({ type: type, value: result }));
 
-const SearchList = ({ results, searchObject, type, searching = true, locale, subjects, error }: Props) => {
+const SearchList = ({ results, searchObject, type, searching = true, locale, error }: Props) => {
   const { t } = useTranslation();
 
   const responsibleIds = useMemo(() => {
@@ -75,7 +73,6 @@ const SearchList = ({ results, searchObject, type, searching = true, locale, sub
             key={`${result.value.id}-${learningResourceType}`}
             result={result}
             locale={locale || result.value.title.language}
-            subjects={subjects}
             responsibleName={responsibleName}
           />
         );

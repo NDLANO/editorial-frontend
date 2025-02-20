@@ -290,8 +290,11 @@ export const tablePlugin = (editor: Editor) => {
         .nodes({ match: (n) => isTableCell(n) && (!!n.data.id || !!n.data.headers), at: path })
         .next().value;
 
-      const headersInMultipleRows = tableHeadRows.length === 2 || (tableHeadRows.length >= 1 && node.rowHeaders);
-      const shouldHaveHeaders = containsSpans || headersInMultipleRows;
+      const headerCellsInMultipleRows = tableHeadRows.length === 2 || (tableHeadRows.length >= 1 && node.rowHeaders);
+
+      // Should only have headers if a cell is associated with 2 or more header cells.
+      const shouldHaveHeaders = containsSpans || headerCellsInMultipleRows;
+      // Only remove headers if cell is only associated with 1 cell and there is cells with Id and headers in the table
       const shouldRemoveHeaders = !shouldHaveHeaders && containsIdOrHeaders;
 
       if (shouldHaveHeaders) {

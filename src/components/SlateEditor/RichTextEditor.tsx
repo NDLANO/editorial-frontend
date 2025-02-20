@@ -7,7 +7,7 @@
  */
 
 import { useFormikContext } from "formik";
-import isEqual from "lodash/isEqual";
+import { isEqual } from "lodash-es";
 import { FocusEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Descendant, Editor, Range, Transforms } from "slate";
 import { Slate, Editable, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";

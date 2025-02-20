@@ -6,7 +6,7 @@
  *
  */
 
-import isEmpty from "lodash/isEmpty";
+import { isEmpty } from "lodash-es";
 import { CSSProperties, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { ArrowDownShortLine, ArrowUpShortLine } from "@ndla/icons";

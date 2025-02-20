@@ -6,7 +6,7 @@
  *
  */
 
-import compact from "lodash/compact";
+import { compact } from "lodash-es";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 import { defaultTableRowBlock } from "./defaultBlocks";

@@ -6,7 +6,7 @@
  *
  */
 
-import keyBy from "lodash/keyBy";
+import { keyBy } from "lodash-es";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Spinner, Text } from "@ndla/primitives";

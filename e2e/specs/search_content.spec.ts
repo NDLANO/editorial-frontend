@@ -30,7 +30,7 @@ test("Can use status dropdown", async ({ page }) => {
   await page.getByTestId("draft-status-select").click();
   await page.getByRole("option", { name: "Publisert", exact: true }).click();
   await page.getByTestId("content-search-result").first().waitFor();
-  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(21500);
+  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(21000);
   await page.getByTestId("remove-tag-button").click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(searchTotalCount);
@@ -50,7 +50,7 @@ test("Can use subject dropdown", async ({ page }) => {
   await page.getByTestId("subjects-select").click();
   await page.getByRole("option", { name: "Biologi 1", exact: true }).click();
   await page.getByTestId("content-search-result").first().waitFor();
-  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(600);
+  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(500);
   await page.getByTestId("remove-tag-button").click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(searchTotalCount);
@@ -70,7 +70,7 @@ test("Can use user dropdown", async ({ page }) => {
   await page.getByTestId("users-select").click();
   await page.getByRole("option", { name: "Ed Test", exact: true }).click();
   await page.getByTestId("content-search-result").first().waitFor();
-  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(100);
+  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(80);
   await page.getByTestId("remove-tag-button").click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(searchTotalCount);

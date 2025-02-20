@@ -74,9 +74,7 @@ const internalEmbedToMeta = async (
         article,
         resource: {
           ...nodes[0],
-          path: func(article.id, language),
-          // Overriding paths is required in order to make ed links work
-          paths: [],
+          url: func(article.id, language),
         },
       },
     };

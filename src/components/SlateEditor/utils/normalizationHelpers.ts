@@ -8,8 +8,8 @@
 import { Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { ElementType } from "../interfaces";
-import { TYPE_ASIDE } from "../plugins/aside/types";
-import { TYPE_AUDIO } from "../plugins/audio/types";
+import { ASIDE_ELEMENT_TYPE } from "../plugins/aside/asideTypes";
+import { AUDIO_ELEMENT_TYPE } from "../plugins/audio/audioTypes";
 import { TYPE_QUOTE } from "../plugins/blockquote/types";
 import { TYPE_CODEBLOCK } from "../plugins/codeBlock/types";
 import { TYPE_COMMENT_BLOCK } from "../plugins/comment/block/types";
@@ -39,14 +39,14 @@ export const textBlockElements: Element["type"][] = [
   TYPE_LIST,
   TYPE_QUOTE,
   TYPE_TABLE,
-  TYPE_AUDIO,
+  AUDIO_ELEMENT_TYPE,
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EXTERNAL,
   TYPE_EMBED_ERROR,
   TYPE_H5P,
   TYPE_FILE,
   TYPE_CODEBLOCK,
-  TYPE_ASIDE,
+  ASIDE_ELEMENT_TYPE,
   FRAMED_CONTENT_ELEMENT_TYPE,
   TYPE_DETAILS,
   TYPE_DEFINITION_LIST,

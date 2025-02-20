@@ -7,8 +7,8 @@
  */
 
 import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
-import { asidePlugin } from "../../../../components/SlateEditor/plugins/aside";
-import { audioPlugin } from "../../../../components/SlateEditor/plugins/audio";
+import { asidePlugin } from "../../../../components/SlateEditor/plugins/aside/asidePlugin";
+import { audioPlugin } from "../../../../components/SlateEditor/plugins/audio/audioPlugin";
 import { blockPickerPlugin } from "../../../../components/SlateEditor/plugins/blockPicker";
 import { blockQuotePlugin } from "../../../../components/SlateEditor/plugins/blockquote";
 import { codeblockPlugin } from "../../../../components/SlateEditor/plugins/codeBlock";
@@ -45,14 +45,16 @@ import { headingPlugin } from "../../../../components/SlateEditor/plugins/headin
 import { breakPlugin } from "../../../../components/SlateEditor/plugins/break";
 import { markPlugin } from "../../../../components/SlateEditor/plugins/mark";
 import { listPlugin } from "../../../../components/SlateEditor/plugins/list";
+import { inlineNavigationPlugin } from "@ndla/editor";
 
 export const learningResourcePlugins: SlatePlugin[] = [
+  inlineNavigationPlugin,
   sectionPlugin,
   spanPlugin,
   divPlugin,
   paragraphPlugin,
   footnotePlugin,
-  audioPlugin(),
+  audioPlugin,
   imagePlugin(),
   h5pPlugin(),
   externalPlugin(),

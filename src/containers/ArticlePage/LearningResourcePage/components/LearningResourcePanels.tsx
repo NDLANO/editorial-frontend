@@ -9,6 +9,7 @@
 import { useField, useFormikContext } from "formik";
 import { memo, useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import { inlineNavigationPlugin } from "@ndla/editor";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -72,6 +73,7 @@ const toolbarOptions = createToolbarDefaultValues({
 });
 
 export const disclaimerPlugins: SlatePlugin[] = [
+  inlineNavigationPlugin,
   spanPlugin,
   paragraphPlugin,
   toolbarPlugin(toolbarOptions, toolbarAreaFilters),

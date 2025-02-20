@@ -18,8 +18,8 @@ import { AudioEmbedData, BrightcoveEmbedData, H5pEmbedData, ImageEmbedData } fro
 import { parseEmbedTag, createHtmlTag, createDataAttributes } from "./embedTagHelpers";
 import { Plain } from "./slatePlainSerializer";
 import { blocks, inlines } from "../components/SlateEditor/helpers";
-import { asideSerializer } from "../components/SlateEditor/plugins/aside";
-import { audioSerializer } from "../components/SlateEditor/plugins/audio";
+import { asideSerializer } from "../components/SlateEditor/plugins/aside/asideSerializer";
+import { audioSerializer } from "../components/SlateEditor/plugins/audio/audioSerializer";
 import { blockQuoteSerializer } from "../components/SlateEditor/plugins/blockquote";
 import { breakSerializer } from "../components/SlateEditor/plugins/break";
 import { campaignBlockSerializer } from "../components/SlateEditor/plugins/campaignBlock";

@@ -7,13 +7,13 @@
  */
 
 import { Editor } from "slate";
+import { AUDIO_ELEMENT_TYPE } from "./audioTypes";
 import SlateAudio from "./SlateAudio";
-import { TYPE_AUDIO } from "./types";
 
 export const audioRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_AUDIO) {
+    if (element.type === AUDIO_ELEMENT_TYPE) {
       return (
         <SlateAudio attributes={attributes} editor={editor} element={element}>
           {children}

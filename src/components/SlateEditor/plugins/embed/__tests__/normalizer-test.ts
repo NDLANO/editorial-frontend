@@ -9,7 +9,7 @@
 import { Descendant, Editor } from "slate";
 import { createSlate } from "@ndla/editor";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
-import { TYPE_AUDIO } from "../../audio/types";
+import { AUDIO_ELEMENT_TYPE } from "../../audio/audioTypes";
 import { TYPE_H5P } from "../../h5p/types";
 import { TYPE_IMAGE } from "../../image/types";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
@@ -54,7 +54,7 @@ describe("embed normalizer tests", () => {
             },
           },
           {
-            type: TYPE_AUDIO,
+            type: AUDIO_ELEMENT_TYPE,
             children: [
               {
                 text: "",
@@ -118,7 +118,7 @@ describe("embed normalizer tests", () => {
             children: [{ text: "" }],
           },
           {
-            type: TYPE_AUDIO,
+            type: AUDIO_ELEMENT_TYPE,
             children: [
               {
                 text: "",

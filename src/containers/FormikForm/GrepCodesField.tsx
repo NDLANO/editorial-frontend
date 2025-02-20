@@ -57,6 +57,7 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
   const { t } = useTranslation();
   const [field, , helpers] = useField<string[]>("grepCodes");
   const [grepCodes, setGrepCodes] = useState<Record<string, string>>({});
+  const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
 
   const { query, setQuery, page, setPage } = usePaginatedQuery();
   const grepCodesQuery = useSearchGrepCodes({ prefixFilter: prefixFilter, query: query, page: page });
@@ -148,6 +149,7 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
             items={grepCodesQuery.data?.results ?? []}
             itemToString={(item) => item.title.title}
             itemToValue={(item) => item.code}
+            onHighlightChange={(details) => setHighligtedValue(details.highlightedValue)}
             paginationData={grepCodesQuery.data}
             isSuccess={grepCodesQuery.isSuccess}
             onPageChange={(details) => setPage(details.page)}
@@ -167,10 +169,8 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
             <GenericComboboxInput
               placeholder={t("form.grepCodes.placeholder")}
               isFetching={grepCodesQuery.isFetching}
-              onKeyUp={(event) => {
-                if (event.key === "Enter" && !!query.trim()) {
-                  updateGrepCodes(query);
-                }
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && !highlightedValue) event.preventDefault();
               }}
               triggerable
             />

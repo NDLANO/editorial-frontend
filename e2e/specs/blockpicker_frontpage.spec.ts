@@ -42,6 +42,7 @@ test("adds and removes keyfigure", async ({ page }) => {
   await dialog.locator("div[name='subtitle']").fill("test");
   await dialog.getByTestId("select-image-from-list").first().dispatchEvent("click");
   await dialog.getByTestId("use-image").dispatchEvent("click");
+  await dialog.locator("input[name='metaImageAlt']").fill("alt");
   await expect(dialog.getByRole("button", { name: "Lagre", exact: true })).toBeEnabled();
   await dialog.getByRole("button", { name: "Lagre", exact: true }).dispatchEvent("click");
   await expect(page.getByTestId("slate-key-figure")).toBeVisible();
@@ -62,6 +63,7 @@ test("adds and removes pitch", async ({ page }) => {
   await dialog.locator("input[name='link']").fill("https://test.test");
   await dialog.getByTestId("select-image-from-list").first().dispatchEvent("click");
   await dialog.getByTestId("use-image").dispatchEvent("click");
+  await dialog.locator("input[name='metaImageAlt']").fill("alt");
   await expect(dialog.getByRole("button", { name: "Lagre", exact: true })).toBeEnabled();
   await dialog.getByRole("button", { name: "Lagre", exact: true }).dispatchEvent("click");
   await expect(page.getByTestId("slate-pitch")).toBeVisible();
@@ -79,6 +81,7 @@ test("adds and removes contactblock", async ({ page }) => {
   await dialog.locator("textarea[name='description']").fill("email");
   await dialog.getByTestId("select-image-from-list").first().dispatchEvent("click");
   await dialog.getByTestId("use-image").dispatchEvent("click");
+  await dialog.locator("input[name='metaImageAlt']").fill("alt");
   await expect(dialog.getByRole("button", { name: "Lagre", exact: true })).toBeEnabled();
   await dialog.getByRole("button", { name: "Lagre", exact: true }).dispatchEvent("click");
   await expect(page.getByTestId("slate-contact-block")).toBeVisible();
@@ -96,6 +99,7 @@ test("adds and removes campaignblock", async ({ page }) => {
   await dialog.locator("div[name='linkText']").fill("Test page");
   await dialog.getByTestId("select-image-from-list").first().dispatchEvent("click");
   await dialog.getByTestId("use-image").dispatchEvent("click");
+  await dialog.locator("input[name='metaImageAlt']").fill("alt");
   await expect(dialog.getByRole("button", { name: "Lagre", exact: true })).toBeEnabled();
   await dialog.getByRole("button", { name: "Lagre", exact: true }).dispatchEvent("click");
   await expect(page.getByTestId("slate-campaign-block")).toBeVisible();

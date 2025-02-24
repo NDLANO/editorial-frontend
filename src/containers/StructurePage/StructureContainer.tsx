@@ -6,7 +6,7 @@
  *
  */
 
-import keyBy from "lodash/keyBy";
+import { keyBy } from "lodash-es";
 import { useEffect, useRef, useState, ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";

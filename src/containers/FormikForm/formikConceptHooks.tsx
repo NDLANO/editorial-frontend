@@ -6,7 +6,7 @@
  *
  */
 
-import uniq from "lodash/uniq";
+import { uniq } from "lodash-es";
 import { useState, useEffect } from "react";
 import { IConceptDTO, INewConceptDTO, IUpdatedConceptDTO } from "@ndla/types-backend/concept-api";
 import { IUserDataDTO } from "@ndla/types-backend/draft-api";

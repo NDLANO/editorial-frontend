@@ -7,7 +7,7 @@
  */
 
 import { Formik, FormikHelpers } from "formik";
-import isEmpty from "lodash/isEmpty";
+import { isEmpty } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IConceptDTO, IConceptSummaryDTO, INewConceptDTO, IUpdatedConceptDTO } from "@ndla/types-backend/concept-api";

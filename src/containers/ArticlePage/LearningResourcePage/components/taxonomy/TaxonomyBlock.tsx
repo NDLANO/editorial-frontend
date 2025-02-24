@@ -6,9 +6,7 @@
  *
  */
 
-import isEqual from "lodash/isEqual";
-import partition from "lodash/partition";
-import sortBy from "lodash/sortBy";
+import { isEqual, sortBy, partition } from "lodash-es";
 import { useCallback, useMemo, useState, MouseEvent, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
@@ -56,7 +54,7 @@ export interface TaxNode extends Pick<Node, "resourceTypes" | "metadata" | "id" 
   placements: MinimalNodeChild[];
 }
 
-export const contextToMinimalNodeChild = (
+const contextToMinimalNodeChild = (
   nodeType: NodeType,
   context: TaxonomyContext,
   articleLanguage: string,

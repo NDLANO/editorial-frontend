@@ -6,9 +6,7 @@
  *
  */
 
-import compact from "lodash/compact";
-import isEqual from "lodash/isEqual";
-import uniq from "lodash/uniq";
+import { compact, isEqual, uniq } from "lodash-es";
 import { TableCellElement, TableMatrix } from "./interfaces";
 import { TYPE_TABLE_CELL_HEADER } from "./types";
 

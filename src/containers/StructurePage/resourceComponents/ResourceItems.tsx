@@ -6,7 +6,7 @@
  *
  */
 
-import sortBy from "lodash/sortBy";
+import { sortBy } from "lodash-es";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";

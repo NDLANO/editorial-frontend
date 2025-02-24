@@ -8,7 +8,7 @@
 
 import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
+import { Path, Transforms } from "slate";
 import { ReactEditor, useSlate } from "slate-react";
 import { DialogOpenChangeDetails, Portal } from "@ark-ui/react";
 import { getClosestEditor } from "@ndla/editor-components";
@@ -61,38 +61,6 @@ export const useMathDialog = () => {
   return context;
 };
 
-const upsertMath = (mathML: string, editor: Editor, element: MathmlElement) => {
-  const properties = {
-    data: { innerHTML: mathML },
-    isFirstEdit: false,
-  };
-
-  const { selection } = editor;
-  if (!selection) return;
-  const [mathEntry] = editor.nodes({ match: isMathElement });
-  if (!mathEntry) return;
-
-  if (element.isFirstEdit) {
-    const mathAsString = new DOMParser().parseFromString(mathML, "text/xml").firstChild?.textContent;
-
-    Transforms.insertText(editor, mathAsString ?? "", { at: mathEntry[1], voids: true });
-    Transforms.setNodes(editor, properties, { at: [...mathEntry[1], 0], voids: true, match: isMathElement });
-    // Insertion of math consists of inserting an empty mathml tag and then updating it with content. By merging the events we can consider them as one action and undo both with ctrl+z.
-    mergeLastUndos(editor);
-  } else {
-    Transforms.setNodes(editor, properties, { at: mathEntry[1], voids: true, match: isMathElement });
-  }
-
-  const nextPath = Path.next(mathEntry[1]);
-  if (editor.hasPath(nextPath)) {
-    Transforms.select(editor, {
-      anchor: { path: nextPath, offset: 0 },
-      focus: { path: nextPath, offset: 0 },
-    });
-    ReactEditor.focus(editor);
-  }
-};
-
 export const MathDialog = () => {
   const { t } = useTranslation();
   const [mathEditor, setMathEditor] = useState<MathMLType | undefined>(undefined);
@@ -104,13 +72,37 @@ export const MathDialog = () => {
   const handleSave = useCallback(
     (mathML: string) => {
       if (element) {
-        setTimeout(() => {
-          upsertMath(mathML, editor, element);
-          toggleDialog(false);
-        }, 0);
+        const properties = {
+          data: { innerHTML: mathML },
+          isFirstEdit: false,
+        };
+
+        const { selection } = editor;
+        if (!selection) return;
+        const [mathEntry] = editor.nodes({ match: isMathElement });
+        if (!mathEntry) return;
+
+        if (element.isFirstEdit) {
+          const mathAsString = new DOMParser().parseFromString(mathML, "text/xml").firstChild?.textContent;
+
+          Transforms.insertText(editor, mathAsString ?? "", { at: mathEntry[1], voids: true });
+          Transforms.setNodes(editor, properties, { at: [...mathEntry[1], 0], voids: true, match: isMathElement });
+          // Insertion of math consists of inserting an empty mathml tag and then updating it with content. By merging the events we can consider them as one action and undo both with ctrl+z.
+          mergeLastUndos(editor);
+        } else {
+          Transforms.setNodes(editor, properties, { at: mathEntry[1], voids: true, match: isMathElement });
+        }
+        const nextPath = Path.next(mathEntry[1]);
+        if (editor.hasPath(nextPath)) {
+          Transforms.select(editor, {
+            anchor: { path: nextPath, offset: 0 },
+            focus: { path: nextPath, offset: 0 },
+          });
+        }
+        setTimeout(() => ReactEditor.focus(editor), 0);
       }
     },
-    [editor, element, toggleDialog],
+    [editor, element],
   );
 
   const onOpenChange = useCallback(
@@ -159,13 +151,8 @@ export const MathDialog = () => {
       handleRemove();
     } else {
       const nextPath = Path.next(elementPath);
-      setTimeout(() => {
-        ReactEditor.focus(editor);
-        Transforms.select(editor, {
-          anchor: { path: nextPath, offset: 0 },
-          focus: { path: nextPath, offset: 0 },
-        });
-      }, 0);
+      Transforms.select(editor, editor.start(nextPath));
+      setTimeout(() => ReactEditor.focus(editor), 0);
       setOpen(false);
       toggleDialog(false);
     }

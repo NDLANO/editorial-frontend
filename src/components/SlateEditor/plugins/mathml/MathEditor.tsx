@@ -8,6 +8,7 @@
 
 import { useEffect, useMemo } from "react";
 import { ReactEditor, RenderElementProps, useSelected, useSlate } from "slate-react";
+import { InlineBugfix } from "@ndla/editor-components";
 import { styled } from "@ndla/styled-system/jsx";
 import { useMathDialog } from "./FloathingMathDialog";
 import { useFloatingMathPopover } from "./FloatingMathPopover";
@@ -35,6 +36,7 @@ export const MathEditor = ({ element, children, attributes }: Props) => {
   const editor = useSlate();
   const { togglePopover } = useFloatingMathPopover();
   const { toggleDialog } = useMathDialog();
+
   useEffect(() => {
     toggleDialog(!!element.isFirstEdit, element);
   }, [element, toggleDialog]);
@@ -53,7 +55,9 @@ export const MathEditor = ({ element, children, attributes }: Props) => {
       onClick={() => togglePopover(true, [element, ReactEditor.findPath(editor, element)])}
     >
       <MathML model={nodeInfo.model} editor={editor} element={element} />
+      <InlineBugfix />
       {children}
+      <InlineBugfix />
     </StyledSpan>
   );
 };

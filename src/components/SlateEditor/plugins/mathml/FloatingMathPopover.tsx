@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, useSlate } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { getClosestEditor } from "@ndla/editor-components";
 import { DeleteBinLine, PencilLine } from "@ndla/icons";
 import { IconButton, PopoverContent, PopoverRootProvider, PopoverTitle } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -53,7 +52,7 @@ const ActionsWrapper = styled("div", {
 
 export const FloatingMathEditor = () => {
   const { t } = useTranslation();
-  const { popover, triggerEl, nodeEntry } = useFloatingMathPopover();
+  const { popover, nodeEntry, togglePopover } = useFloatingMathPopover();
   const mathDialog = useMathDialog();
   const editor = useSlate();
   const contentRef = useRef<HTMLDivElement>(null);
@@ -62,8 +61,9 @@ export const FloatingMathEditor = () => {
     if (!nodeEntry) return;
     Transforms.select(editor, editor.start(Path.next(nodeEntry[1])));
     Transforms.unwrapNodes(editor, { at: nodeEntry[1], match: isMathElement, voids: true });
+    togglePopover(false);
     setTimeout(() => ReactEditor.focus(editor), 0);
-  }, [editor, nodeEntry]);
+  }, [editor, nodeEntry, togglePopover]);
 
   return (
     <PopoverRootProvider
@@ -71,8 +71,8 @@ export const FloatingMathEditor = () => {
       unmountOnExit
       value={popover}
       onExitComplete={() => {
-        const closestEditor = getClosestEditor(triggerEl);
-        closestEditor?.focus();
+        if (mathDialog.open || !editor.selection || !nodeEntry) return;
+        Transforms.select(editor, editor.start(Path.next(nodeEntry[1])));
         setTimeout(() => ReactEditor.focus(editor), 0);
       }}
     >

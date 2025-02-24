@@ -17,6 +17,7 @@ import { getInfoFromNode } from "./utils";
 
 const StyledSpan = styled("span", {
   base: {
+    display: "inline-block",
     _selected: {
       outline: "1px solid",
       outlineColor: "stroke.default",

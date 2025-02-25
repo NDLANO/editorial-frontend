@@ -8,7 +8,7 @@
 
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Editor } from "slate";
-import { ReactEditor, useSlate } from "slate-react";
+import { ReactEditor, useSlateStatic } from "slate-react";
 import { MathmlElement } from "./mathTypes";
 import { getInfoFromNode } from "./utils";
 
@@ -27,7 +27,7 @@ const clearMathjax = (editor: Editor, element: MathmlElement) => {
 const MathML = ({ element }: Props) => {
   const [reRender, setReRender] = useState(false);
   const [mathjaxInitialized, setMathjaxInitialized] = useState(true);
-  const editor = useSlate();
+  const editor = useSlateStatic();
 
   const mounted = useRef(false);
 

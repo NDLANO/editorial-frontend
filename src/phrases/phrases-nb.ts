@@ -2233,6 +2233,11 @@ const phrases = {
   user: {
     buttonLogOut: "Logg ut",
   },
+  matomo: {
+    visits: "Besøk i {{year}}: {{count}}",
+    avgTime: "Gj.snitt tid: {{time}} sek",
+    error: "Noe gikk galt ved henting av data fra Matomo",
+  },
 };
 
 export default phrases;

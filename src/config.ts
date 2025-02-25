@@ -160,6 +160,7 @@ export type ConfigType = {
   runtimeType: RuntimeType;
   enableH5pCopy: boolean;
   licenseAll: string | undefined;
+  matomoSiteId: string | undefined;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -206,6 +207,7 @@ const getServerSideConfig = (): ConfigType => {
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as "test" | "development" | "production",
     enableH5pCopy: getEnvironmentVariabel("ENABLE_H5P_COPY", "true") === "true",
     licenseAll: getEnvironmentVariabel("LICENSE_ALL"),
+    matomoSiteId: getEnvironmentVariabel("MATOMO_SITE_ID", ""),
   };
 };
 

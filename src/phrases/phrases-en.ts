@@ -2234,6 +2234,11 @@ const phrases = {
   user: {
     buttonLogOut: "Log out",
   },
+  matomo: {
+    visits: "Visits in {{year}}: {{count}}",
+    avgTime: "Avg. time: {{time}} sec",
+    error: "Something went wrong while fetching data from Matomo",
+  },
 };
 
 export default phrases;

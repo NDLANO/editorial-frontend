@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MessageLine, CheckboxCircleLine } from "@ndla/icons";
 import { Skeleton, Text } from "@ndla/primitives";
@@ -16,6 +16,7 @@ import { Node, NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import ApproachingRevisionDate from "./ApproachingRevisionDate";
 import GrepCodesDialog from "./GrepCodesDialog";
 import JumpToStructureButton from "./JumpToStructureButton";
+import MatomoStats from "./MatomoStats";
 import { linkRecipe } from "./Resource";
 import StatusIcons from "./StatusIcons";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
@@ -26,12 +27,14 @@ import { SupplementaryIndicator } from "../../../components/Taxonomy/Supplementa
 import config from "../../../config";
 import { PUBLISHED, RESOURCE_FILTER_SUPPLEMENTARY } from "../../../constants";
 import { Dictionary } from "../../../interfaces";
+import { useMatomoStats } from "../../../modules/matomo/matomoQueries";
 import { NodeResourceMeta } from "../../../modules/nodes/nodeQueries";
 import { stripInlineContentHtmlTags } from "../../../util/formHelper";
 import { routes } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import GroupTopicResources from "../folderComponents/topicMenuOptions/GroupTopicResources";
 import PlannedResourceDialog from "../plannedResource/PlannedResourceDialog";
+import { ResourceStats, transformMatomoData } from "../utils";
 
 const ResourceGroupBanner = styled("div", {
   base: {
@@ -144,11 +147,24 @@ const TopicResourceBanner = ({
   topicNodes,
   showQuality,
 }: Props) => {
+  const [resourceStats, setResourceStats] = useState<Record<string, ResourceStats> | undefined>(undefined);
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const elementCount = useMemo(() => Object.values(contentMeta).length, [contentMeta]);
   const workflowCount = useMemo(() => getWorkflowCount(contentMeta), [contentMeta]);
+
+  const {
+    data: matomoStatsData,
+    isPending: matomoStatsIsPending,
+    isError: matomoStatsIsError,
+  } = useMatomoStats({ taxonomyUrls: currentNode.url ? [currentNode.url] : [] }, { enabled: !!currentNode.url });
+
+  useEffect(() => {
+    if (!matomoStatsData) return;
+    const transformed = transformMatomoData(matomoStatsData);
+    setResourceStats(transformed);
+  }, [matomoStatsData]);
 
   const numericId = parseInt(currentNode.contentUri?.split(":").pop() ?? "");
 
@@ -222,6 +238,13 @@ const TopicResourceBanner = ({
             nodeResourcesIsPending={nodeResourcesIsPending}
             resource={currentNode}
             multipleTaxonomy={contexts?.length ? contexts.length > 1 : false}
+          />
+        </ContentRow>
+        <ContentRow>
+          <MatomoStats
+            matomoStats={currentNode.url ? resourceStats?.[currentNode.url] : undefined}
+            matomoStatsIsPending={matomoStatsIsPending}
+            matomoStatsIsError={matomoStatsIsError}
           />
         </ContentRow>
         <ContentRow>

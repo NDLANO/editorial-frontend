@@ -59,10 +59,13 @@ export const FloatingMathEditor = () => {
 
   const handleRemove = useCallback(() => {
     if (!nodeEntry) return;
-    Transforms.select(editor, editor.start(Path.next(nodeEntry[1])));
-    Transforms.unwrapNodes(editor, { at: nodeEntry[1], match: isMathElement, voids: true });
+    const [, path] = nodeEntry;
+    Transforms.move(editor, { unit: "character" });
     togglePopover(false);
-    setTimeout(() => ReactEditor.focus(editor), 0);
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.unwrapNodes(editor, { at: path, match: isMathElement, voids: true });
+    }, 0);
   }, [editor, nodeEntry, togglePopover]);
 
   return (

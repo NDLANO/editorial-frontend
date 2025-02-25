@@ -6,15 +6,13 @@
  *
  */
 
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect } from "react";
 import { ReactEditor, RenderElementProps, useSelected, useSlate } from "slate-react";
-import { InlineBugfix } from "@ndla/editor-components";
 import { styled } from "@ndla/styled-system/jsx";
 import { useMathDialog } from "./FloathingMathDialog";
 import { useFloatingMathPopover } from "./FloatingMathPopover";
 import MathML from "./MathML";
 import { MathmlElement } from "./mathTypes";
-import { getInfoFromNode } from "./utils";
 
 const StyledSpan = styled("span", {
   base: {
@@ -43,7 +41,9 @@ export const MathEditor = ({ element, children, attributes }: Props) => {
 
   const isSelected = useSelected();
 
-  const nodeInfo = useMemo(() => getInfoFromNode(element), [element]);
+  const onClick = useCallback(() => {
+    togglePopover(true, [element, ReactEditor.findPath(editor, element)]);
+  }, [editor, element, togglePopover]);
 
   return (
     <StyledSpan
@@ -52,12 +52,10 @@ export const MathEditor = ({ element, children, attributes }: Props) => {
       contentEditable={false}
       tabIndex={0}
       data-selected={isSelected ? "" : undefined}
-      onClick={() => togglePopover(true, [element, ReactEditor.findPath(editor, element)])}
+      onClick={onClick}
     >
-      <MathML model={nodeInfo.model} editor={editor} element={element} />
-      <InlineBugfix />
+      <MathML element={element} />
       {children}
-      <InlineBugfix />
     </StyledSpan>
   );
 };

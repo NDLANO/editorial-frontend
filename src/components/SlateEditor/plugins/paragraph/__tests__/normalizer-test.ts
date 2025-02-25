@@ -6,15 +6,13 @@
  *
  */
 
-import { createEditor, Descendant, Editor } from "slate";
-import { withHistory } from "slate-history";
-import { withReact } from "slate-react";
+import { Descendant, Editor } from "slate";
+import { createSlate } from "@ndla/editor";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
-import withPlugins from "../../../utils/withPlugins";
 import { TYPE_SECTION } from "../../section/types";
 import { TYPE_PARAGRAPH } from "../types";
 
-const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));
+const editor = createSlate({ plugins: learningResourcePlugins });
 
 describe("paragraph normalizer tests", () => {
   test("Remove serializeAsText from paragraph that is not placed in list-item", () => {

@@ -95,7 +95,7 @@ const InlineWrapper = (props: Props) => {
   const nodeText = Node.string(element).trim();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
   const locale = useArticleLanguage();
-  const { concept, subjects, loading, conceptArticles, createConcept, updateConcept } = useFetchConceptData(
+  const { concept, loading, createConcept, updateConcept, updateConceptStatus } = useFetchConceptData(
     parseInt(element.data.contentId),
     locale,
   );
@@ -164,7 +164,9 @@ const InlineWrapper = (props: Props) => {
     });
   };
 
-  const onClose = () => {
+  const onOpenChange = (open: boolean) => {
+    setIsEditing(open);
+    if (open) return;
     if (!element.data.contentId) {
       handleRemove();
     } else {
@@ -253,10 +255,7 @@ const InlineWrapper = (props: Props) => {
       )}
       <DialogRoot
         open={isEditing}
-        onOpenChange={({ open }) => {
-          setIsEditing(open);
-          onClose();
-        }}
+        onOpenChange={(details) => onOpenChange(details.open)}
         onEscapeKeyDown={(e) => e.stopPropagation()}
         onExitComplete={() => ReactEditor.focus(editor)}
         size="large"
@@ -264,16 +263,14 @@ const InlineWrapper = (props: Props) => {
         <Portal>
           <DialogContent>
             <ConceptModalContent
-              onClose={onClose}
               addConcept={addConcept}
               locale={locale}
               concept={concept}
-              subjects={subjects}
               handleRemove={handleRemove}
               selectedText={nodeText}
               createConcept={createConcept}
               updateConcept={updateConcept}
-              conceptArticles={conceptArticles}
+              updateConceptStatus={updateConceptStatus}
               conceptType={(concept?.conceptType ?? element.conceptType) as ConceptType}
             />
           </DialogContent>

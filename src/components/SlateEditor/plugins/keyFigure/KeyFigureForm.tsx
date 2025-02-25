@@ -18,6 +18,7 @@ import {
   CheckboxIndicator,
   CheckboxLabel,
   CheckboxRoot,
+  DialogCloseTrigger,
   FieldErrorMessage,
   FieldInput,
   FieldLabel,
@@ -39,7 +40,6 @@ import { RichTextIndicator } from "../../RichTextIndicator";
 interface Props {
   onSave: (data: KeyFigureEmbedData) => void;
   initialData: KeyFigureEmbedData;
-  onCancel: () => void;
 }
 
 interface KeyFigureFormValue {
@@ -82,7 +82,7 @@ const rules: RulesType<KeyFigureFormValue> = {
   },
 };
 
-const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
+const KeyFigureForm = ({ onSave, initialData }: Props) => {
   const { t } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
@@ -177,9 +177,9 @@ const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
             </FormField>
           )}
           <FormActionsContainer>
-            <Button variant="secondary" onClick={onCancel}>
-              {t("cancel")}
-            </Button>
+            <DialogCloseTrigger asChild>
+              <Button variant="secondary">{t("cancel")}</Button>
+            </DialogCloseTrigger>
             <Button disabled={!isFormikFormDirty({ values, initialValues, dirty }) || !isValid} type="submit">
               {t("save")}
             </Button>

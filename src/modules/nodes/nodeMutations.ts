@@ -64,6 +64,7 @@ export const useAddNodeMutation = () => {
         supportedLanguages: [],
         resourceTypes: [],
         contexts: [],
+        contextids: [],
         metadata: { visible: true, grepCodes: [], customFields: {} },
         breadcrumbs: [],
         language: "",

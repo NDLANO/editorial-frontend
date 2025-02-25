@@ -6,9 +6,7 @@
  *
  */
 
-import isObjectLike from "lodash/fp/isObjectLike";
-import isEqual from "lodash/isEqual";
-import partition from "lodash/partition";
+import { isObjectLike, isEqual, partition } from "lodash-es";
 import { NodeChild, Node } from "@ndla/types-taxonomy";
 
 export type DiffResultType = "NONE" | "MODIFIED" | "ADDED" | "DELETED";
@@ -86,6 +84,11 @@ const diffAndGroupChildren = <T extends Node = Node>(
       paths: true,
       resources: true,
       contexts: true,
+      context: true,
+      contextId: true,
+      contextids: true,
+      connectionId: true,
+      parentId: true,
       breadcrumbs: true,
       language: true,
       metadata: {
@@ -99,6 +102,11 @@ const diffAndGroupChildren = <T extends Node = Node>(
         path: true,
         paths: true,
         contexts: true,
+        context: true,
+        contextId: true,
+        contextids: true,
+        connectionId: true,
+        parentId: true,
         breadcrumbs: true,
         language: true,
       },
@@ -181,6 +189,11 @@ const diffChildren = (
           path: true,
           paths: true,
           contexts: true,
+          context: true,
+          contextId: true,
+          contextids: true,
+          connectionId: true,
+          parentId: true,
           breadcrumbs: true,
           language: true,
         },
@@ -192,6 +205,11 @@ const diffChildren = (
           paths: true,
           resources: true,
           contexts: true,
+          context: true,
+          contextId: true,
+          contextids: true,
+          connectionId: true,
+          parentId: true,
           language: true,
           metadata: {
             customFields: {},
@@ -227,6 +245,11 @@ export const diffTrees = (
     paths: true,
     resources: true,
     contexts: true,
+    context: true,
+    contextId: true,
+    contextids: true,
+    connectionId: true,
+    parentId: true,
     breadcrumbs: true,
     language: true,
     metadata: {
@@ -240,6 +263,11 @@ export const diffTrees = (
       path: true,
       paths: true,
       contexts: true,
+      context: true,
+      contextId: true,
+      contextids: true,
+      connectionId: true,
+      parentId: true,
       breadcrumbs: true,
       language: true,
     },

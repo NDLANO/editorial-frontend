@@ -6,14 +6,12 @@
  *
  */
 
-import sortBy from "lodash/sortBy";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IUserDataDTO } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-taxonomy";
-import { CONCEPT_RESPONSIBLE, TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../../../constants";
+import { CONCEPT_RESPONSIBLE } from "../../../../constants";
 import { OnFieldChangeFunction, SearchParams } from "../../../../interfaces";
 import { useAuth0Editors, useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
 import { useConceptStateMachine } from "../../../../modules/concept/conceptQueries";
@@ -38,13 +36,12 @@ const StyledForm = styled("form", {
 
 interface Props {
   search: (o: SearchParams) => void;
-  subjects: Node[];
   searchObject: SearchParams;
   locale: string;
   userData: IUserDataDTO | undefined;
 }
 
-const SearchConceptForm = ({ search, searchObject, subjects, userData }: Props) => {
+const SearchConceptForm = ({ search, searchObject, userData }: Props) => {
   const { t } = useTranslation();
   const [queryInput, setQueryInput] = useState(searchObject.query ?? "");
   const { data: users } = useAuth0Editors({
@@ -56,13 +53,10 @@ const SearchConceptForm = ({ search, searchObject, subjects, userData }: Props) 
     { permission: CONCEPT_RESPONSIBLE },
     {
       select: (users) =>
-        sortBy(
-          users.map((u) => ({
-            id: `${u.app_metadata.ndla_id}`,
-            name: u.name,
-          })),
-          (u) => u.name,
-        ),
+        users.map((u) => ({
+          id: `${u.app_metadata.ndla_id}`,
+          name: u.name,
+        })),
       placeholderData: [],
     },
   );
@@ -123,18 +117,9 @@ const SearchConceptForm = ({ search, searchObject, subjects, userData }: Props) 
     };
   };
 
-  const sortedSubjects = useMemo(
-    () =>
-      subjects
-        .filter((s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true")
-        .sort(sortByProperty("name")),
-    [subjects],
-  );
-
   const filters: Filters = {
     query: searchObject.query,
     "concept-type": getTagName(searchObject["concept-type"], conceptTypes),
-    subjects: getTagName(searchObject.subjects, sortedSubjects),
     "responsible-ids": getTagName(searchObject["responsible-ids"], responsibles),
     status: searchObject.status?.toLowerCase(),
     language: searchObject.language,
@@ -146,7 +131,6 @@ const SearchConceptForm = ({ search, searchObject, subjects, userData }: Props) 
       name: "concept-type",
       options: conceptTypes,
     },
-    { name: "subjects", options: sortedSubjects },
     { name: "responsible-ids", options: responsibles ?? [] },
     { name: "status", options: getConceptStatuses() },
     { name: "language", options: getResourceLanguages(t) },

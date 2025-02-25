@@ -37,8 +37,9 @@ const UploadVisualElementText = styled("div", {
 
 interface Props {
   types: VisualElementType[];
+  inModal?: boolean;
 }
-const VisualElementField = ({ types }: Props) => {
+const VisualElementField = ({ types, inModal = false }: Props) => {
   const { t } = useTranslation();
   const [languageField] = useField<string>("language");
   const [, visualElementCaptionMeta] = useField("visualElementCaption");
@@ -46,32 +47,34 @@ const VisualElementField = ({ types }: Props) => {
 
   return (
     <div>
-      <UploadVisualElementText>
-        <Text textStyle="label.medium" fontWeight="bold">
-          {t("form.visualElement.title")}
-        </Text>
-        <DialogRoot>
-          <DialogTrigger asChild>
-            <IconButton
-              size="small"
-              variant="tertiary"
-              aria-label={t("form.visualElement.helpLabel")}
-              title={t("form.visualElement.helpLabel")}
-            >
-              <InformationLine />
-            </IconButton>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>{t("form.visualElement.title")}</DialogTitle>
-              <DialogCloseButton />
-            </DialogHeader>
-            <DialogBody>
-              <Text>{t("form.visualElement.description")}</Text>
-            </DialogBody>
-          </DialogContent>
-        </DialogRoot>
-      </UploadVisualElementText>
+      {!inModal && (
+        <UploadVisualElementText>
+          <Text textStyle="label.medium" fontWeight="bold">
+            {t("form.visualElement.title")}
+          </Text>
+          <DialogRoot>
+            <DialogTrigger asChild>
+              <IconButton
+                size="small"
+                variant="tertiary"
+                aria-label={t("form.visualElement.helpLabel")}
+                title={t("form.visualElement.helpLabel")}
+              >
+                <InformationLine />
+              </IconButton>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>{t("form.visualElement.title")}</DialogTitle>
+                <DialogCloseButton />
+              </DialogHeader>
+              <DialogBody>
+                <Text>{t("form.visualElement.description")}</Text>
+              </DialogBody>
+            </DialogContent>
+          </DialogRoot>
+        </UploadVisualElementText>
+      )}
       <FormField name="visualElement">
         {({ field, meta, helpers }) => (
           <FieldRoot invalid={!!meta.error || !!visualElementCaptionMeta.error || !!visualElementAltMeta.error}>

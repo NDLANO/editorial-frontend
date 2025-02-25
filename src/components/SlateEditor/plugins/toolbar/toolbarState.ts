@@ -6,10 +6,10 @@
  *
  */
 
-import merge from "lodash/merge";
+import { merge } from "lodash-es";
 import { Editor, Element, Node, BaseSelection, Text } from "slate";
+import { NOOP_ELEMENT_TYPE } from "@ndla/editor";
 import { ElementType } from "../../interfaces";
-import { TYPE_NOOP } from "../noop/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
 import { TYPE_SECTION } from "../section/types";
 
@@ -274,7 +274,7 @@ const disableInlineOnMultipleBlocksSelected = (
   editorAncestors?: Element[],
 ): OptionsType & CategoryFilters => {
   const ancestors =
-    editorAncestors?.[0]?.type === TYPE_NOOP ? (editorAncestors[0].children as Element[]) : editorAncestors;
+    editorAncestors?.[0]?.type === NOOP_ELEMENT_TYPE ? (editorAncestors[0].children as Element[]) : editorAncestors;
 
   // Filter ancestors that contain inline elements or text blocks
   // We need to handle both flattened text element and paragraph blocks

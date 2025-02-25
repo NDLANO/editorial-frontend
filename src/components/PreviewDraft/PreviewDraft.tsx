@@ -71,6 +71,7 @@ export const PreviewDraft = (props: Props) => {
     language,
     previewAlt,
     useDraftConcepts: false,
+    contentType,
   });
 
   if (!article) return null;

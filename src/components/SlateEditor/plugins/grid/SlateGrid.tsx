@@ -8,7 +8,7 @@
 
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
+import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { PencilFill } from "@ndla/icons";
@@ -49,33 +49,30 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const handleRemove = () => {
+    const path = ReactEditor.findPath(editor, element);
     Transforms.removeNodes(editor, {
-      at: ReactEditor.findPath(editor, element),
+      at: path,
       voids: true,
     });
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, path);
+      Transforms.collapse(editor);
+    }, 0);
   };
 
   const onClose = () => {
     setIsEditing(false);
-    ReactEditor.focus(editor);
     const path = ReactEditor.findPath(editor, element);
-    if (Editor.hasPath(editor, Path.next(path))) {
-      setTimeout(() => Transforms.select(editor, Path.next(path)), 0);
-    }
+    setTimeout(() => Transforms.select(editor, path.concat([0, 0])), 0);
   };
 
   const onSave = useCallback(
     (data: GridType) => {
       setIsEditing(false);
-      const properties = {
-        data: data,
-      };
       ReactEditor.focus(editor);
       const path = ReactEditor.findPath(editor, element);
-      Transforms.setNodes(editor, properties, { at: path });
-      if (Editor.hasPath(editor, Path.next(path))) {
-        setTimeout(() => Transforms.select(editor, Path.next(path)), 0);
-      }
+      Transforms.setNodes(editor, { data }, { at: path });
     },
     [editor, element],
   );
@@ -86,7 +83,13 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
         <ButtonContainer>
           <DeleteButton aria-label={t("delete")} data-testid="remove-grid" onClick={handleRemove} />
           <DialogTrigger asChild>
-            <IconButton variant="tertiary" aria-label={t("gridForm.title")} data-testid="edit-grid-button" size="small">
+            <IconButton
+              variant="tertiary"
+              onMouseDown={(e) => e.preventDefault()}
+              aria-label={t("gridForm.title")}
+              data-testid="edit-grid-button"
+              size="small"
+            >
               <PencilFill />
             </IconButton>
           </DialogTrigger>

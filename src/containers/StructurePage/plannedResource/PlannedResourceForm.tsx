@@ -8,13 +8,13 @@
 
 import { Formik } from "formik";
 import { TFunction } from "i18next";
-import sortBy from "lodash/sortBy";
-import uniq from "lodash/uniq";
+import { uniq } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import { createListCollection } from "@ark-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
+import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { CheckLine } from "@ndla/icons";
 import {
   Button,
@@ -42,7 +42,6 @@ import { FormField } from "../../../components/FormField";
 import { FormActionsContainer, FormikForm } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
 import { TYPE_DIV } from "../../../components/SlateEditor/plugins/div/types";
-import { TYPE_PARAGRAPH } from "../../../components/SlateEditor/plugins/paragraph/types";
 import {
   DRAFT_RESPONSIBLE,
   LAST_UPDATED_SIZE,
@@ -148,8 +147,8 @@ const getSlateComment = (userName: string | undefined, t: TFunction, formikComme
     {
       type: TYPE_DIV,
       children: [
-        { type: TYPE_PARAGRAPH, children: [{ text: formikComment }] },
-        { type: TYPE_PARAGRAPH, children: [{ text: infoText }] },
+        { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: formikComment }] },
+        { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: infoText }] },
       ],
     },
   ];
@@ -197,7 +196,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
   const { data: users } = useAuth0Responsibles(
     { permission: DRAFT_RESPONSIBLE },
     {
-      select: (users) => sortBy(formatUserList(users), (u) => u.label),
+      select: (users) => formatUserList(users),
       placeholderData: [],
     },
   );

@@ -5,9 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Editor, Element, NodeEntry, Path, Text, Transforms } from "slate";
+
+import { Editor, Element, Path, Text } from "slate";
 import { createNode } from "./normalizationHelpers";
 import { ElementType } from "../interfaces";
+import { isElementOfType, Logger } from "@ndla/editor";
 
 interface DefaultNodeRule {
   allowed: ElementType[];
@@ -28,175 +30,170 @@ export interface NormalizerConfig {
   nodes?: DefaultNodeRule;
 }
 
-const normalizeNodes = (editor: Editor, entry: NodeEntry, config: NormalizerConfig): boolean => {
-  const [node, path] = entry;
+const normalizeNodes = (
+  editor: Editor,
+  element: Element,
+  path: Path,
+  config: NormalizerConfig,
+  logger?: Logger,
+): boolean => {
+  const children = element.children;
 
-  if (!Element.isElement(node)) return false;
-
-  const { firstNode, lastNode, nodes } = config;
-
-  const children = node.children;
+  if (children.length === 0) {
+    const rule = config.firstNode || config.lastNode || config.nodes;
+    if (rule?.defaultType) {
+      logger?.log("Node has no children, inserting default type.");
+      editor.insertNodes(createNode(rule.defaultType), { at: path.concat(0) });
+      return true;
+    }
+  }
 
   for (const [index, child] of children.entries()) {
     // 1. If first node
-    if (index === 0 && firstNode) {
+    if (index === 0 && config.firstNode) {
       // a. Wrap text as default firstNode type
       if (Text.isText(child)) {
-        Transforms.wrapNodes(editor, createNode(firstNode.defaultType), {
-          at: [...path, 0],
-        });
+        logger?.log("First child is text, wrapping in default firstNode type.");
+        editor.wrapNodes(createNode(config.firstNode.defaultType), { at: path.concat(0) });
         return true;
         // first node is wrong and must be changed
-      } else if (!firstNode.allowed.includes(child.type)) {
+      } else if (!config.firstNode.allowed.includes(child.type)) {
         // b. If child is also an allowed lastNode. Insert default firstNode type before
-        if (children.length === 1 && lastNode && lastNode.allowed.includes(child.type)) {
-          Transforms.insertNodes(editor, createNode(firstNode.defaultType), {
-            at: [...path, 0],
-          });
+        if (children.length === 1 && config.lastNode?.allowed.includes(child.type)) {
+          logger?.log(
+            "Node only has one child, and it is allowed as a lastNode. Inserting default firstNode type as first child.",
+          );
+          editor.insertNodes(createNode(config.firstNode.defaultType), { at: path.concat(0) });
           return true;
         }
         // c. If child is allowed nodes type. Insert default firstNode type before.
-        else if (nodes && nodes.allowed.includes(child.type)) {
-          Transforms.insertNodes(editor, createNode(firstNode.defaultType), {
-            at: [...path, 0],
-          });
+        else if (config.nodes?.allowed.includes(child.type)) {
+          logger?.log(
+            "First node is allowed as a child, but not as the first child. Inserting default firstNode type as first child.",
+          );
+          editor.insertNodes(createNode(config.firstNode.defaultType), { at: path.concat(0) });
           return true;
           // d. Else: Unwrap child
         } else {
-          Transforms.unwrapNodes(editor, { at: [...path, 0] });
+          logger?.log("First node is incorrect, unwrapping.");
+          editor.unwrapNodes({ at: path.concat(0) });
           return true;
         }
       }
     }
     // 2. If last node
-    if (index === children.length - 1 && lastNode) {
+    if (index === children.length - 1 && config.lastNode) {
       // a. Wrap text as default firstNode type
       if (Text.isText(child)) {
-        Transforms.wrapNodes(editor, createNode(lastNode.defaultType), {
-          at: [...path, children.length - 1],
-        });
+        logger?.log("Last child is text, wrapping in default lastNode type.");
+        editor.wrapNodes(createNode(config.lastNode.defaultType), { at: path.concat(children.length - 1) });
         return true;
         // last node is wrong and must be changed
-      } else if (!lastNode.allowed.includes(child.type)) {
+      } else if (!config.lastNode.allowed.includes(child.type)) {
         // b. If child is allowed firstNode type. Insert default firstNode type after
-        if (children.length === 1 && firstNode && firstNode.allowed.includes(child.type)) {
-          Transforms.insertNodes(editor, createNode(lastNode.defaultType), {
-            at: [...path, children.length],
-          });
+        if (children.length === 1 && config.firstNode?.allowed.includes(child.type)) {
+          logger?.log(
+            "Node only has one child, and it is allowed as a firstNode. Inserting default lastNode type as last child.",
+          );
+          editor.insertNode(createNode(config.lastNode.defaultType), { at: path.concat(children.length) });
           return true;
         }
         // c. If child is allowed nodes type. Insert default lastNode type after.
-        else if (nodes && nodes.allowed.includes(child.type)) {
-          Transforms.insertNodes(editor, createNode(lastNode.defaultType), {
-            at: [...path, children.length],
-          });
+        else if (config.nodes?.allowed.includes(child.type)) {
+          logger?.log("Last node is allowed as a child, but not as the last child. Inserting default lastNode type.");
+          editor.insertNodes(createNode(config.lastNode.defaultType), { at: path.concat(children.length) });
           return true;
           // c. Else: Unwrap child
         } else {
-          Transforms.unwrapNodes(editor, {
-            at: [...path, children.length - 1],
-          });
+          logger?.log("Last node is incorrect, unwrapping.");
+          editor.unwrapNodes({ at: path.concat(children.length - 1) });
           return true;
         }
       }
     }
 
+    // TODO: Make this prettier
     // 3. If node is valid first or last node, skip next step
     if (
       Element.isElement(child) &&
-      ((index === 0 && firstNode && firstNode.allowed.includes(child.type)) ||
-        (index === children.length - 1 && lastNode && lastNode.allowed.includes(child.type)))
+      ((index === 0 && config.firstNode?.allowed.includes(child.type)) ||
+        (index === children.length - 1 && config.lastNode?.allowed.includes(child.type)))
     ) {
       continue;
     }
 
     // 4. Other nodes
-    if (nodes) {
+    if (config.nodes) {
       // a. Wrap if text
       if (Text.isText(child)) {
-        Transforms.wrapNodes(editor, createNode(nodes.defaultType), {
-          at: [...path, index],
-        });
+        logger?.log("Child is text, wrapping in default nodes type.");
+        editor.wrapNodes(createNode(config.nodes.defaultType), { at: path.concat(index) });
         return true;
         // b. Unwrap if incorrect
-      } else if (!nodes.allowed.includes(child.type)) {
-        Transforms.unwrapNodes(editor, { at: [...path, index] });
+      } else if (!config.nodes.allowed.includes(child.type)) {
+        logger?.log("Child is incorrect, unwrapping.");
+        editor.unwrapNodes({ at: path.concat(index) });
         return true;
       }
     }
   }
 
-  if (children.length === 0) {
-    const rule = firstNode || lastNode || nodes;
-    if (rule?.defaultType) {
-      Transforms.insertNodes(editor, createNode(rule.defaultType), {
-        at: [...path, 0],
-      });
-      return true;
-    }
-  }
-
   return false;
 };
 
-const normalizePrevious = (editor: Editor, entry: NodeEntry, settings: DefaultNodeRule): boolean => {
-  const [, path] = entry;
-  const { defaultType, allowed } = settings;
-
+const normalizePrevious = (editor: Editor, path: Path, config: DefaultNodeRule, logger?: Logger): boolean => {
   if (Path.hasPrevious(path)) {
-    const previousPath = Path.previous(path);
-
-    const [previousNode] = Editor.node(editor, previousPath);
+    const [previousNode] = editor.node(Path.previous(path));
 
     // 1. If previous element is incorrect, insert default element
-    if (!Element.isElement(previousNode) || !allowed.includes(previousNode.type)) {
-      Transforms.insertNodes(editor, createNode(defaultType), { at: path });
+    if (!isElementOfType(previousNode, config.allowed)) {
+      logger?.log("Previous sibling is incorrect, inserting default type.");
+      editor.insertNodes(createNode(config.defaultType), { at: path });
       return true;
     }
     // 2. If previous element does not exist, insert default element
   } else {
-    Transforms.insertNodes(editor, createNode(defaultType), { at: path });
+    logger?.log("Previous sibling does not exist, inserting default type.");
+    editor.insertNodes(createNode(config.defaultType), { at: path });
     return true;
   }
 
   return false;
 };
 
-const normalizeNext = (editor: Editor, entry: NodeEntry, settings: DefaultNodeRule): boolean => {
-  const [, path] = entry;
+const normalizeNext = (editor: Editor, path: Path, config: DefaultNodeRule, logger?: Logger): boolean => {
   const nextPath = Path.next(path);
-  const { defaultType, allowed } = settings;
 
   // 1. If next element is incorrect, insert default element
-  if (Editor.hasPath(editor, nextPath)) {
-    const [nextNode] = Editor.node(editor, nextPath);
-    if (!Element.isElement(nextNode) || !allowed.includes(nextNode.type)) {
-      Transforms.insertNodes(editor, createNode(defaultType), { at: nextPath });
+  if (editor.hasPath(nextPath)) {
+    const [nextNode] = editor.node(nextPath);
+
+    if (!isElementOfType(nextNode, config.allowed)) {
+      logger?.log("Next sibling is incorrect, inserting default type.");
+      editor.insertNodes(createNode(config.defaultType), { at: nextPath });
       return true;
     }
     // 2. If next element does not exist, insert default element
   } else {
-    Transforms.insertNodes(editor, createNode(defaultType), { at: nextPath });
+    logger?.log("Next sibling does not exist, inserting default type.");
+    editor.insertNodes(createNode(config.defaultType), { at: nextPath });
     return true;
   }
 
   return false;
 };
 
-const normalizeParent = (editor: Editor, entry: NodeEntry, settings: ParentNodeRule): boolean => {
-  const [, path] = entry;
-  const { defaultType, allowed } = settings;
-
-  const [parent] = Editor.node(editor, Path.parent(path));
+const normalizeParent = (editor: Editor, path: Path, config: ParentNodeRule, logger?: Logger): boolean => {
+  const [parent] = editor.node(Path.parent(path));
 
   // 1. If parent element is incorrect, change current node to default element
-  if (!Element.isElement(parent) || !allowed.includes(parent.type)) {
-    if (defaultType) {
-      Transforms.setNodes<Element>(editor, createNode(defaultType), {
-        at: path,
-      });
+  if (!isElementOfType(parent, config.allowed)) {
+    if (config.defaultType) {
+      logger?.log("Parent element is incorrect, changing to default type");
+      editor.setNodes<Element>(createNode(config.defaultType), { at: path });
     } else {
-      Transforms.unwrapNodes(editor, { at: path });
+      logger?.log("Parent element is incorrect, but no default type is set. Unwrapping");
+      editor.unwrapNodes({ at: path });
     }
     return true;
   }
@@ -204,25 +201,25 @@ const normalizeParent = (editor: Editor, entry: NodeEntry, settings: ParentNodeR
   return false;
 };
 
-export const defaultBlockNormalizer = (editor: Editor, entry: NodeEntry, config: NormalizerConfig): boolean => {
-  const [node] = entry;
-
-  if (!Element.isElement(node)) return false;
-
-  const { previous, next, firstNode, lastNode, nodes, parent } = config;
-
-  if (firstNode || nodes || lastNode) {
-    if (normalizeNodes(editor, entry, config)) {
+export const defaultBlockNormalizer = (
+  editor: Editor,
+  node: Element,
+  path: Path,
+  config: NormalizerConfig,
+  logger?: Logger,
+): boolean => {
+  if (config.firstNode || config.nodes || config.lastNode) {
+    if (normalizeNodes(editor, node, path, config, logger)) {
       return true;
     }
   }
-  if (parent && normalizeParent(editor, entry, parent)) {
+  if (config.parent && normalizeParent(editor, path, config.parent, logger)) {
     return true;
   }
-  if (previous && normalizePrevious(editor, entry, previous)) {
+  if (config.previous && normalizePrevious(editor, path, config.previous, logger)) {
     return true;
   }
-  if (next && normalizeNext(editor, entry, next)) {
+  if (config.next && normalizeNext(editor, path, config.next, logger)) {
     return true;
   }
 

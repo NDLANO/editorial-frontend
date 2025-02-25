@@ -6,13 +6,13 @@
  *
  */
 
-import isEqual from "lodash/isEqual";
+import { isEqual } from "lodash-es";
 import { Editor } from "slate";
 import { useSlate, useSlateSelector } from "slate-react";
+import { toggleMark } from "@ndla/editor";
 import { ToolbarCategoryProps } from "./SlateToolbar";
 import { MarkType } from "./toolbarState";
 import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
-import { toggleMark } from "../mark/utils";
 
 const getMarks = (editor: Editor) => {
   return Object.entries(editor.getMarks() ?? {}).reduce<string[]>((acc, [key, value]) => {
@@ -34,7 +34,7 @@ export const ToolbarMarkOptions = ({ options }: ToolbarCategoryProps<MarkType>) 
         <ToolbarToggleButton
           onClick={(e) => {
             e.preventDefault();
-            toggleMark(e, editor, type.value);
+            toggleMark(editor, type.value);
           }}
           onMouseDown={(e) => e.preventDefault()}
           type={type.value}

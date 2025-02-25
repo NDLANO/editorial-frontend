@@ -6,8 +6,7 @@
  *
  */
 
-import chunk from "lodash/chunk";
-import uniqBy from "lodash/uniqBy";
+import { chunk, uniqBy } from "lodash-es";
 import { useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
 import { ICommentDTO, IDraftResponsibleDTO, IEditorNoteDTO, IRevisionMetaDTO } from "@ndla/types-backend/draft-api";
 import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";

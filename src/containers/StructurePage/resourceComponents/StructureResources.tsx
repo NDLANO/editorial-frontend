@@ -7,7 +7,7 @@
  */
 
 import { TFunction } from "i18next";
-import keyBy from "lodash/keyBy";
+import { keyBy } from "lodash-es";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";

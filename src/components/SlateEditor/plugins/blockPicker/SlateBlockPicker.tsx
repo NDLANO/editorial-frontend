@@ -19,9 +19,9 @@ import SlateVisualElementPicker from "./SlateVisualElementPicker";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
 import getCurrentBlock from "../../utils/getCurrentBlock";
-import { TYPE_ASIDE } from "../aside/types";
+import { ASIDE_ELEMENT_TYPE } from "../aside/asideTypes";
 import { defaultAsideBlock } from "../aside/utils";
-import { TYPE_AUDIO } from "../audio/types";
+import { AUDIO_ELEMENT_TYPE } from "../audio/audioTypes";
 import { TYPE_CAMPAIGN_BLOCK } from "../campaignBlock/types";
 import { defaultCampaignBlock } from "../campaignBlock/utils";
 import { TYPE_CODEBLOCK } from "../codeBlock/types";
@@ -38,7 +38,7 @@ import { TYPE_EMBED_ERROR } from "../embed/types";
 import { TYPE_EXTERNAL } from "../external/types";
 import { defaultExternalBlock } from "../external/utils";
 import { TYPE_FILE } from "../file/types";
-import { TYPE_FRAMED_CONTENT } from "../framedContent/types";
+import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes";
 import { defaultFramedContentBlock } from "../framedContent/utils";
 import { TYPE_GRID } from "../grid/types";
 import { defaultGridBlock } from "../grid/utils";
@@ -205,9 +205,6 @@ const SlateBlockPicker = ({
     if (Location.isLocation(editor.selection)) {
       setLastActiveSelection(editor.selection);
     }
-    if (!editor.selection && lastActiveSelection) {
-      editor.selection = lastActiveSelection;
-    }
   }, [editor, editor.selection, lastActiveSelection]);
 
   const onOpenChange = useCallback(
@@ -248,7 +245,7 @@ const SlateBlockPicker = ({
 
   const onElementAdd = (data: ActionData) => {
     switch (data.type) {
-      case TYPE_FRAMED_CONTENT: {
+      case FRAMED_CONTENT_ELEMENT_TYPE: {
         onInsertBlock(defaultFramedContentBlock(), true);
         break;
       }
@@ -260,11 +257,11 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultTableBlock(2, 2), true);
         break;
       }
-      case TYPE_ASIDE: {
+      case ASIDE_ELEMENT_TYPE: {
         onInsertBlock(defaultAsideBlock(), true);
         break;
       }
-      case TYPE_AUDIO: {
+      case AUDIO_ELEMENT_TYPE: {
         setVisualElementPickerOpen(true);
         setType(data.object);
         break;
@@ -310,7 +307,7 @@ const SlateBlockPicker = ({
         break;
       }
       case TYPE_GRID: {
-        onInsertBlock(defaultGridBlock());
+        onInsertBlock(defaultGridBlock(), true);
         break;
       }
       case TYPE_KEY_FIGURE: {

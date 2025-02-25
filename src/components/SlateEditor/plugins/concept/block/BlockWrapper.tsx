@@ -6,7 +6,7 @@
  *
  */
 
-import { useState, ReactNode, useCallback, useMemo, useEffect } from "react";
+import { useState, ReactNode, useCallback, useMemo, useEffect, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms, Path } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
@@ -60,7 +60,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
   const isSelected = useSelected();
   const locale = useArticleLanguage();
   const [isEditing, setIsEditing] = useState(false);
-  const { concept, subjects, loading, ...conceptHooks } = useFetchConceptData(parseInt(element.data.contentId), locale);
+  const { concept, loading, ...conceptHooks } = useFetchConceptData(parseInt(element.data.contentId), locale);
 
   useEffect(() => {
     setIsEditing(!!element.isFirstEdit);
@@ -114,34 +114,42 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
     [locale, editor, element],
   );
 
-  const handleRemove = useCallback(
-    () =>
-      Transforms.removeNodes(editor, {
-        at: ReactEditor.findPath(editor, element),
-        voids: true,
-      }),
+  const handleRemove = useCallback(() => {
+    const path = ReactEditor.findPath(editor, element);
+    Transforms.removeNodes(editor, {
+      at: path,
+      voids: true,
+    });
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, path);
+      Transforms.collapse(editor);
+    });
+  }, [editor, element]);
+
+  const onOpenChange = useCallback(
+    (open: boolean) => {
+      setIsEditing(open);
+      if (open) return;
+      ReactEditor.focus(editor);
+      if (element.isFirstEdit) {
+        Transforms.removeNodes(editor, {
+          at: ReactEditor.findPath(editor, element),
+          voids: true,
+        });
+      }
+      const path = ReactEditor.findPath(editor, element);
+      if (Editor.hasPath(editor, Path.next(path))) {
+        setTimeout(() => {
+          Transforms.select(editor, Path.next(path));
+        }, 0);
+      }
+    },
     [editor, element],
   );
 
-  const onClose = useCallback(() => {
-    ReactEditor.focus(editor);
-    setIsEditing(false);
-    if (element.isFirstEdit) {
-      Transforms.removeNodes(editor, {
-        at: ReactEditor.findPath(editor, element),
-        voids: true,
-      });
-    }
-    const path = ReactEditor.findPath(editor, element);
-    if (Editor.hasPath(editor, Path.next(path))) {
-      setTimeout(() => {
-        Transforms.select(editor, Path.next(path));
-      }, 0);
-    }
-  }, [editor, element]);
-
   return (
-    <DialogRoot size="large" open={isEditing} onOpenChange={({ open }) => setIsEditing(open)}>
+    <DialogRoot size="large" open={isEditing} onOpenChange={({ open }) => onOpenChange(open)}>
       <StyledEmbedWrapper {...attributes} data-solid-border={isSelected} draggable={true} contentEditable={false}>
         {!!concept && !!embed && (
           <>
@@ -158,11 +166,9 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
         )}
         <DialogContent>
           <ConceptModalContent
-            onClose={onClose}
             addConcept={addConcept}
             locale={locale}
             concept={concept}
-            subjects={subjects}
             handleRemove={handleRemove}
             conceptType={(concept?.conceptType ?? element.conceptType) as ConceptType}
             {...conceptHooks}
@@ -176,7 +182,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
 
 interface ButtonContainerProps {
   concept: IConceptDTO | IConceptSummaryDTO;
-  handleRemove: () => void;
+  handleRemove: (e: MouseEvent) => void;
   language: string;
   editor: Editor;
   element: ConceptBlockElement;

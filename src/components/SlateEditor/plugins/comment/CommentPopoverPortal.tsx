@@ -6,6 +6,7 @@
  *
  */
 
+import { MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
 import { CloseLine, DeleteBinLine } from "@ndla/icons";
@@ -43,7 +44,7 @@ const ButtonContainer = styled("div", {
 interface Props {
   onSave: (data: CommentEmbedData) => void;
   embed: CommentMetaData | undefined;
-  onDelete: () => void;
+  onDelete: (e: MouseEvent) => void;
   onClose: () => void;
   onOpenChange: (v: boolean) => void;
   variant: "inline" | "block";

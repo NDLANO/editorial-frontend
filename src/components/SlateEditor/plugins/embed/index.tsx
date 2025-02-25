@@ -14,7 +14,7 @@ import { createDataAttributes, createHtmlTag, parseEmbedTag } from "../../../../
 import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
-import { AudioElement } from "../audio/types";
+import { AudioElement } from "../audio/audioTypes";
 import { H5pElement } from "../h5p/types";
 import { ImageElement } from "../image/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
@@ -55,10 +55,10 @@ export const embedPlugin = (disableNormalize?: boolean) => (editor: Editor) => {
   const { normalizeNode: nextNormalizeNode, isVoid: nextIsVoid } = editor;
 
   editor.normalizeNode = (entry) => {
-    const [node] = entry;
+    const [node, path] = entry;
 
     if (isSlateEmbed(node)) {
-      if (!disableNormalize && defaultBlockNormalizer(editor, entry, normalizerConfig)) {
+      if (!disableNormalize && defaultBlockNormalizer(editor, node, path, normalizerConfig)) {
         return;
       }
       return undefined;

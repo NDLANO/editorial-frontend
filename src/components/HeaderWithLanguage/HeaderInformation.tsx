@@ -7,17 +7,19 @@
  */
 
 import { useField } from "formik";
-import { ReactNode, memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Button, Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { TaxonomyContext } from "@ndla/types-taxonomy";
 import { ContentTypeBadge, constants } from "@ndla/ui";
 import HeaderStatusInformation from "./HeaderStatusInformation";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { fetchAuth0Users } from "../../modules/auth0/auth0Api";
 import * as draftApi from "../../modules/draft/draftApi";
 import handleError from "../../util/handleError";
+import { getContentTypeFromResourceTypes } from "../../util/resourceHelpers";
 import { toEditArticle } from "../../util/routeHelpers";
 import { Plain } from "../../util/slatePlainSerializer";
 import { SegmentHeader } from "../Form/SegmentHeader";
@@ -49,48 +51,18 @@ const StyledTitleHeaderWrapper = styled("div", {
 
 const { contentTypes } = constants;
 
-const types: Record<string, { form: string; icon: ReactNode }> = {
-  standard: {
-    form: "learningResourceForm",
-    icon: <ContentTypeBadge contentType={contentTypes.SUBJECT_MATERIAL} />,
-  },
-  "topic-article": {
-    form: "topicArticleForm",
-    icon: <ContentTypeBadge contentType={contentTypes.TOPIC} />,
-  },
-  subjectpage: {
-    form: "subjectpageForm",
-    icon: <ContentTypeBadge contentType={contentTypes.SUBJECT} />,
-  },
-  "frontpage-article": {
-    form: "frontpageArticleForm",
-    icon: <ContentTypeBadge contentType={"frontpage-article"} />,
-  },
-  image: { form: "imageForm", icon: <ContentTypeBadge contentType="image" /> },
-  audio: {
-    form: "audioForm",
-    icon: <ContentTypeBadge contentType="audio" />,
-  },
-  podcast: {
-    form: "podcastForm",
-    icon: <ContentTypeBadge contentType="podcast" />,
-  },
-  "podcast-series": {
-    form: "podcastSeriesForm",
-    icon: <ContentTypeBadge contentType="podcast-series" />,
-  },
-  concept: {
-    form: "conceptForm",
-    icon: <ContentTypeBadge contentType="concept" />,
-  },
-  gloss: {
-    form: "glossform",
-    icon: <ContentTypeBadge contentType="gloss" />,
-  },
-  programme: {
-    form: "programmepageForm",
-    icon: <ContentTypeBadge contentType="programme" />,
-  },
+const contentTypeMapping: Record<string, string> = {
+  standard: contentTypes.SUBJECT_MATERIAL,
+  "topic-article": contentTypes.TOPIC,
+  subjectpage: contentTypes.SUBJECT,
+  "frontpage-article": "frontpage-article",
+  image: "image",
+  audio: "audio",
+  podcast: "podcast",
+  "podcast-series": "podcast-series",
+  concept: "concept",
+  gloss: "gloss",
+  programme: "programme",
 };
 
 interface Props {
@@ -101,7 +73,6 @@ interface Props {
   isNewLanguage: boolean;
   title?: string;
   formIsDirty?: boolean;
-  multipleTaxonomy?: boolean;
   id?: number;
   language: string;
   setHasConnections?: (hasConnections: boolean) => void;
@@ -109,6 +80,7 @@ interface Props {
   responsibleId?: string;
   hasRSS?: boolean;
   slug?: string;
+  taxonomy?: TaxonomyContext[];
 }
 
 const HeaderInformation = ({
@@ -120,19 +92,23 @@ const HeaderInformation = ({
   isNewLanguage,
   title,
   formIsDirty,
-  multipleTaxonomy,
   setHasConnections,
   expirationDate,
   responsibleId,
   hasRSS,
   language,
   slug,
+  taxonomy = [],
 }: Props) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const { createMessage } = useMessages();
   const navigate = useNavigate();
   const [responsibleName, setResponsibleName] = useState<string | undefined>(undefined);
+
+  const contentType = taxonomy[0]?.resourceTypes.length
+    ? getContentTypeFromResourceTypes(taxonomy[0].resourceTypes)
+    : contentTypeMapping[type];
 
   useEffect(() => {
     (async () => {
@@ -168,7 +144,7 @@ const HeaderInformation = ({
   return (
     <StyledSegmentHeader>
       <StyledTitleHeaderWrapper>
-        {types[type].icon}
+        <ContentTypeBadge contentType={contentType ?? contentTypes.SUBJECT_MATERIAL} />
         {type === "gloss" && title ? (
           <GlossTitle />
         ) : (
@@ -188,7 +164,7 @@ const HeaderInformation = ({
         isNewLanguage={isNewLanguage}
         published={published}
         slug={slug}
-        multipleTaxonomy={multipleTaxonomy}
+        multipleTaxonomy={taxonomy.length > 1}
         type={type}
         id={id}
         setHasConnections={setHasConnections}
@@ -207,7 +183,7 @@ const GlossTitle = () => {
 
   return (
     <Heading textStyle="title.medium">
-      {`${t(`${types["gloss"].form}.title`)}: ${Plain.serialize(titleField.value)}${
+      {`${t("glossform.title")}: ${Plain.serialize(titleField.value)}${
         targetLanguageField.value ? `/${targetLanguageField.value}` : ""
       }`}
     </Heading>

@@ -829,6 +829,7 @@ const phrases = {
       origin: "Opphav",
       audioFile: "Lydfil",
       content: "Innhold",
+      conceptContent: "Beskrivelse",
       notes: "Merknader",
       metaDescription: "Metabeskrivelse",
       metaImageAlt: "Alt-tekst",
@@ -841,7 +842,6 @@ const phrases = {
       validFrom: "Gyldig fra",
       validTo: "Gyldig til",
       description: "Innhold",
-      conceptContent: "Beskrivelse",
       grepCodes: "Læreplankobling",
       desktopBannerId: "Bredt fagsidebilde",
       mobileBannerId: "Smalt fagsidebilde",
@@ -1266,21 +1266,16 @@ const phrases = {
       createOption: "Opprett nytt nøkkelord",
       searchPlaceholder: "Søk etter nøkkelord",
     },
-    categories: {
-      label: "Liste og filter",
-      description: "Format: Liste:Filter1:Filter2",
-      searchPlaceholder: "Søk etter lister",
-    },
     grepCodes: {
       label: "Kompetansemål og kjerneelementer",
       placeholder: "Skriv inn kode",
       description:
-        "Skriv inn koder som starter på riktig format ({{ codes }}) fulgt av ett eller flere siffer. Koder som ikke finnes vil ikke bli opprettet. Tekstene vises på bokmål i ed men korrekt i artikkelvisning.",
+        "Skriv inn koder som starter på riktig format ({{ codes }}) fulgt av ett eller flere siffer. Koder som ikke finnes vil ikke bli opprettet. Separer flere koder med komma. Tekstene vises på bokmål i ed men korrekt i artikkelvisning. Du kan også filtrere på læreplankoder.",
     },
     articleDisclaimer: {
       title: "Informasjon om tilgjengelighet for hele artikkelen",
       description:
-        "Skriv inn hva som er utfordrende med innholdet i artikkelen. Du kan også legge til lenker til alternativt innhold. Det er utarbeidet maler for dette. Sjekk disse før du tar i bruk komponenten. ",
+        "Skriv inn hva som er utfordrende med innholdet i artikkelen. Du kan også legge til lenker til alternativt innhold. Det er utarbeidet maler for dette. Sjekk disse <0>her</0> før du tar i bruk komponenten. ",
     },
     resourceTypes: {
       label: "Innholdstype og egenskaper",
@@ -1342,12 +1337,12 @@ const phrases = {
       error: "Noe gikk galt ved oppdatering av ansvarlig.",
     },
     origin: {
-      label: "Opphav",
+      label: "Kilde",
     },
     processed: {
       label: "Bearbeidet",
       description: "Innholdet har blitt bearbeidet",
-      disabledCause: "Bearbeidet kan kun settes dersom opphav er satt",
+      disabledCause: "Bearbeidet kan kun settes dersom kilde er satt",
     },
     image: {
       file: "Bilde",
@@ -1582,7 +1577,7 @@ const phrases = {
       edit: "Endre informasjon on tilgjengelighet",
       title: "Universell utforming - informasjon i løpende tekst",
       description:
-        "Skriv inn hva som er problemet med komponenten. Det er utarbeidet maler for dette. Sjekk disse før du tar i bruk komponenten.",
+        "Skriv inn hva som er problemet med komponenten. Det er utarbeidet maler for dette. Sjekk disse <0>her</0> før du tar i bruk komponenten.",
       editorHeader: "Informasjon om tilgjengelighet for enkeltkomponenter",
     },
     copyright: {

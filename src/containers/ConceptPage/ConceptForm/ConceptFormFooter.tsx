@@ -8,13 +8,16 @@
 
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import { Button } from "@ndla/primitives";
+import { Button, DialogCloseTrigger, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IStatusDTO } from "@ndla/types-backend/concept-api";
+import { FormField } from "../../../components/FormField";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import SaveButton from "../../../components/SaveButton";
 import EditorFooter from "../../../components/SlateEditor/EditorFooter";
 import { SAVE_BUTTON_ID } from "../../../constants";
+import ResponsibleSelect from "../../../containers/FormikForm/components/ResponsibleSelect";
+import StatusSelect from "../../../containers/FormikForm/components/StatusSelect";
 import { useConceptStateMachine } from "../../../modules/concept/conceptQueries";
 import { isFormikFormDirty } from "../../../util/formHelper";
 import { AlertDialogWrapper } from "../../FormikForm";
@@ -27,8 +30,6 @@ interface Props {
   savedToServer: boolean;
   isNewlyCreated: boolean;
   showSimpleFooter: boolean;
-  onClose?: () => void;
-  responsibleId?: string;
 }
 
 const StyledFormActionsContainer = styled(FormActionsContainer, {
@@ -44,8 +45,6 @@ const ConceptFormFooter = ({
   savedToServer,
   isNewlyCreated,
   showSimpleFooter,
-  onClose,
-  responsibleId,
 }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
@@ -63,12 +62,31 @@ const ConceptFormFooter = ({
   if (inModal) {
     return (
       <StyledFormActionsContainer>
-        <Button variant="secondary" onClick={onClose}>
-          {t("form.abort")}
-        </Button>
+        <FormField name="status">
+          {({ field, helpers }) => (
+            <FieldRoot>
+              <StatusSelect
+                status={field.value}
+                updateStatus={(value) => helpers.setValue({ current: value })}
+                statusStateMachine={conceptStateMachine.data}
+                entityStatus={entityStatus ?? field.value}
+              />
+            </FieldRoot>
+          )}
+        </FormField>
+        <FormField name="responsibleId">
+          {({ field, helpers }) => (
+            <FieldRoot>
+              <ResponsibleSelect responsible={field.value} onSave={(value) => helpers.setValue(value ?? null)} />
+            </FieldRoot>
+          )}
+        </FormField>
+        <DialogCloseTrigger asChild>
+          <Button variant="secondary">{t("form.abort")}</Button>
+        </DialogCloseTrigger>
         <SaveButton
           id={SAVE_BUTTON_ID}
-          type={!inModal ? "submit" : "button"}
+          type={"button"}
           loading={isSubmitting}
           formIsDirty={formIsDirty}
           showSaved={!!savedToServer && !formIsDirty}
@@ -95,7 +113,6 @@ const ConceptFormFooter = ({
         isConcept
         isNewlyCreated={isNewlyCreated}
         hasErrors={isSubmitting || !formIsDirty || disableSave}
-        responsibleId={responsibleId}
       />
       <AlertDialogWrapper
         formIsDirty={formIsDirty}

@@ -45,6 +45,11 @@ export const nodeTreeWithNoChildren: NodeTree = {
     nodeType: "SUBJECT",
     contexts: [],
     breadcrumbs: [],
+    connectionId: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
+    isPrimary: true,
+    rank: 1,
+    parentId: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
+    contextids: [],
   },
   children: [],
 };
@@ -84,6 +89,11 @@ export const nodeTreeWithNoChildrenUpdated: NodeTree = {
     contexts: [],
     breadcrumbs: [],
     nodeType: "SUBJECT",
+    connectionId: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
+    isPrimary: true,
+    rank: 1,
+    parentId: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
+    contextids: [],
   },
   children: [],
 };
@@ -216,6 +226,34 @@ export const nodeTreeWithNoChildrenDiff: DiffTree = {
       other: [],
     },
     nodeType: { diffType: "NONE", original: "SUBJECT", other: "SUBJECT" },
+    connectionId: {
+      diffType: "NONE",
+      original: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
+      other: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
+      ignored: true,
+    },
+    parentId: {
+      diffType: "NONE",
+      original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
+      other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
+      ignored: true,
+    },
+    isPrimary: {
+      diffType: "NONE",
+      original: true,
+      other: true,
+    },
+    rank: {
+      diffType: "NONE",
+      original: 1,
+      other: 1,
+    },
+    contextids: {
+      diffType: "NONE",
+      original: [],
+      other: [],
+      ignored: true,
+    },
   },
   children: [],
 };
@@ -258,6 +296,11 @@ export const nodeTreeWithDirectChildren: NodeTree = {
     contexts: [],
     breadcrumbs: [],
     nodeType: "SUBJECT",
+    connectionId: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
+    isPrimary: true,
+    rank: 1,
+    parentId: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
+    contextids: [],
   },
   children: [
     {
@@ -293,6 +336,7 @@ export const nodeTreeWithDirectChildren: NodeTree = {
       nodeType: "TOPIC",
       resourceTypes: [],
       contexts: [],
+      contextids: [],
       breadcrumbs: [],
     },
     {
@@ -328,6 +372,7 @@ export const nodeTreeWithDirectChildren: NodeTree = {
       nodeType: "TOPIC",
       resourceTypes: [],
       contexts: [],
+      contextids: [],
       breadcrumbs: [],
     },
   ],
@@ -371,6 +416,11 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
     resourceTypes: [],
     contexts: [],
     breadcrumbs: [],
+    connectionId: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
+    isPrimary: true,
+    rank: 1,
+    parentId: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
+    contextids: [],
   },
   children: [
     {
@@ -406,6 +456,7 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
       nodeType: "TOPIC",
       resourceTypes: [],
       contexts: [],
+      contextids: [],
       breadcrumbs: [],
     },
     {
@@ -441,6 +492,7 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
       nodeType: "TOPIC",
       resourceTypes: [],
       contexts: [],
+      contextids: [],
       breadcrumbs: [],
     },
   ],
@@ -450,10 +502,21 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
   root: {
     changed: { diffType: "NONE" },
     childrenChanged: { diffType: "MODIFIED" },
+    connectionId: {
+      diffType: "NONE",
+      original: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
+      other: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
+      ignored: true,
+    },
     id: {
       original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       diffType: "NONE",
+    },
+    isPrimary: {
+      diffType: "NONE",
+      original: true,
+      other: true,
     },
     name: {
       original: "Samfunnskunnskap",
@@ -475,6 +538,12 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
       original: "urn:frontpage:62",
       other: "urn:frontpage:62",
       diffType: "NONE",
+    },
+    parentId: {
+      diffType: "NONE",
+      original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
+      other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
+      ignored: true,
     },
     path: {
       original: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
@@ -513,6 +582,11 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
           diffType: "NONE",
         },
       },
+    },
+    rank: {
+      diffType: "NONE",
+      original: 1,
+      other: 1,
     },
     relevanceId: {
       original: "urn:relevance:core",
@@ -565,6 +639,12 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
       original: [],
       other: [],
     },
+    contextids: {
+      diffType: "NONE",
+      ignored: true,
+      original: [],
+      other: [],
+    },
     breadcrumbs: {
       diffType: "NONE",
       ignored: true,
@@ -607,6 +687,7 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
         other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
         diffType: "NONE",
+        ignored: true,
       },
       path: {
         original: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
@@ -624,6 +705,7 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         original: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
         other: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
         diffType: "NONE",
+        ignored: true,
       },
       isPrimary: {
         original: true,
@@ -704,6 +786,12 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         original: [],
         other: [],
       },
+      contextids: {
+        diffType: "NONE",
+        ignored: true,
+        original: [],
+        other: [],
+      },
       breadcrumbs: {
         diffType: "NONE",
         ignored: true,
@@ -736,7 +824,6 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         diffType: "DELETED",
         ignored: true,
       },
-
       contentUri: {
         original: "urn:article:20126",
         other: undefined,
@@ -746,6 +833,7 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
         other: undefined,
         diffType: "DELETED",
+        ignored: true,
       },
       path: {
         original: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396",
@@ -763,6 +851,7 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         original: "urn:subject-topic:2b597082-6c36-4fc1-ac60-f7b9aec06cfc",
         other: undefined,
         diffType: "DELETED",
+        ignored: true,
       },
       isPrimary: {
         original: true,
@@ -834,6 +923,12 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         original: [],
         other: undefined,
       },
+      contextids: {
+        diffType: "DELETED",
+        ignored: true,
+        original: [],
+        other: undefined,
+      },
       breadcrumbs: {
         diffType: "DELETED",
         ignored: true,
@@ -875,6 +970,7 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         original: undefined,
         other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
         diffType: "ADDED",
+        ignored: true,
       },
       path: {
         original: undefined,
@@ -892,6 +988,7 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         original: undefined,
         other: "urn:subject-topic:e497ff48-b716-4d42-a5f2-c06c44c771eb",
         diffType: "ADDED",
+        ignored: true,
       },
       isPrimary: {
         original: undefined,
@@ -963,6 +1060,12 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         original: undefined,
         other: [],
       },
+      contextids: {
+        diffType: "ADDED",
+        ignored: true,
+        original: undefined,
+        other: [],
+      },
       breadcrumbs: {
         diffType: "ADDED",
         ignored: true,
@@ -1011,6 +1114,11 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
     resourceTypes: [],
     contexts: [],
     breadcrumbs: [],
+    connectionId: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
+    isPrimary: true,
+    rank: 1,
+    parentId: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
+    contextids: [],
   },
   children: [
     {
@@ -1046,6 +1154,7 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
       nodeType: "TOPIC",
       resourceTypes: [],
       contexts: [],
+      contextids: [],
       breadcrumbs: [],
     },
     {
@@ -1081,6 +1190,7 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
       nodeType: "TOPIC",
       resourceTypes: [],
       contexts: [],
+      contextids: [],
       breadcrumbs: [],
     },
   ],
@@ -1124,6 +1234,11 @@ export const nodeTreeWithNestedChildren: NodeTree = {
     resourceTypes: [],
     contexts: [],
     breadcrumbs: [],
+    connectionId: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
+    isPrimary: true,
+    rank: 1,
+    parentId: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
+    contextids: [],
   },
   children: [
     {
@@ -1159,6 +1274,7 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       nodeType: "TOPIC",
       resourceTypes: [],
       contexts: [],
+      contextids: [],
       breadcrumbs: [],
     },
     {
@@ -1196,6 +1312,7 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       nodeType: "TOPIC",
       resourceTypes: [],
       contexts: [],
+      contextids: [],
       breadcrumbs: [],
     },
     {
@@ -1233,6 +1350,7 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       nodeType: "TOPIC",
       resourceTypes: [],
       contexts: [],
+      contextids: [],
       breadcrumbs: [],
     },
   ],
@@ -1276,6 +1394,11 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
     resourceTypes: [],
     contexts: [],
     breadcrumbs: [],
+    connectionId: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
+    isPrimary: true,
+    rank: 1,
+    parentId: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
+    contextids: [],
   },
   children: [
     {
@@ -1311,6 +1434,7 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       nodeType: "TOPIC",
       resourceTypes: [],
       contexts: [],
+      contextids: [],
       breadcrumbs: [],
     },
     {
@@ -1348,6 +1472,7 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       nodeType: "TOPIC",
       resourceTypes: [],
       contexts: [],
+      contextids: [],
       breadcrumbs: [],
     },
     {
@@ -1385,6 +1510,7 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       nodeType: "TOPIC",
       resourceTypes: [],
       contexts: [],
+      contextids: [],
       breadcrumbs: [],
     },
   ],
@@ -1394,9 +1520,20 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
   root: {
     changed: { diffType: "NONE" },
     childrenChanged: { diffType: "NONE" },
+    connectionId: {
+      original: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
+      other: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
+      diffType: "NONE",
+      ignored: true,
+    },
     id: {
       original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
+      diffType: "NONE",
+    },
+    isPrimary: {
+      original: true,
+      other: true,
       diffType: "NONE",
     },
     name: {
@@ -1419,6 +1556,12 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
       original: "urn:frontpage:62",
       other: "urn:frontpage:62",
       diffType: "NONE",
+    },
+    parentId: {
+      original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
+      other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
+      diffType: "NONE",
+      ignored: true,
     },
     path: {
       original: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
@@ -1508,12 +1651,23 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
       other: [],
       diffType: "NONE",
     },
+    rank: {
+      original: 1,
+      other: 1,
+      diffType: "NONE",
+    },
     nodeType: {
       original: "SUBJECT",
       other: "SUBJECT",
       diffType: "NONE",
     },
     contexts: {
+      diffType: "NONE",
+      ignored: true,
+      original: [],
+      other: [],
+    },
+    contextids: {
       diffType: "NONE",
       ignored: true,
       original: [],
@@ -1560,6 +1714,7 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
         original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
         other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
         diffType: "NONE",
+        ignored: true,
       },
       path: {
         original: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
@@ -1577,6 +1732,7 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
         original: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
         other: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
         diffType: "NONE",
+        ignored: true,
       },
       isPrimary: {
         original: true,
@@ -1675,6 +1831,7 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
             original: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
             other: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
             diffType: "NONE",
+            ignored: true,
           },
           path: {
             original:
@@ -1698,6 +1855,7 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
             original: "urn:topic-subtopic:a105eda0-b2db-46c2-af9b-0157d1b764f0",
             other: "urn:topic-subtopic:a105eda0-b2db-46c2-af9b-0157d1b764f0",
             diffType: "NONE",
+            ignored: true,
           },
           isPrimary: {
             original: true,
@@ -1771,6 +1929,12 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
             original: [],
             other: [],
           },
+          contextids: {
+            diffType: "NONE",
+            ignored: true,
+            original: [],
+            other: [],
+          },
           breadcrumbs: {
             diffType: "NONE",
             ignored: true,
@@ -1811,6 +1975,7 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
             original: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
             other: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
             diffType: "NONE",
+            ignored: true,
           },
           path: {
             original:
@@ -1834,6 +1999,7 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
             original: "urn:topic-subtopic:753b00fa-1a18-4aae-b088-29ecc4a1dd1d",
             other: "urn:topic-subtopic:753b00fa-1a18-4aae-b088-29ecc4a1dd1d",
             diffType: "NONE",
+            ignored: true,
           },
           isPrimary: {
             original: true,
@@ -1915,6 +2081,12 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
             original: [],
             other: [],
           },
+          contextids: {
+            diffType: "NONE",
+            ignored: true,
+            original: [],
+            other: [],
+          },
           breadcrumbs: {
             diffType: "NONE",
             ignored: true,
@@ -1939,6 +2111,12 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
         original: [],
         other: [],
       },
+      contextids: {
+        diffType: "NONE",
+        ignored: true,
+        original: [],
+        other: [],
+      },
       breadcrumbs: {
         diffType: "NONE",
         ignored: true,
@@ -1953,8 +2131,19 @@ export const nodeTreeInOriginalVersionDiff: DiffTree = {
   root: {
     changed: { diffType: "DELETED" },
     childrenChanged: { diffType: "NONE" },
+    connectionId: {
+      original: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
+      other: undefined,
+      diffType: "DELETED",
+      ignored: true,
+    },
     id: {
       original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
+      other: undefined,
+      diffType: "DELETED",
+    },
+    isPrimary: {
+      original: true,
       other: undefined,
       diffType: "DELETED",
     },
@@ -1978,6 +2167,12 @@ export const nodeTreeInOriginalVersionDiff: DiffTree = {
       original: "urn:frontpage:62",
       other: undefined,
       diffType: "DELETED",
+    },
+    parentId: {
+      original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
+      other: undefined,
+      diffType: "DELETED",
+      ignored: true,
     },
     path: {
       original: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
@@ -2045,11 +2240,22 @@ export const nodeTreeInOriginalVersionDiff: DiffTree = {
       other: undefined,
       diffType: "DELETED",
     },
+    rank: {
+      original: 1,
+      other: undefined,
+      diffType: "DELETED",
+    },
     resources: [],
     resourcesChanged: { diffType: "NONE" },
     resourceTypes: { diffType: "DELETED", original: [], other: undefined },
     nodeType: { diffType: "DELETED", original: "SUBJECT", other: undefined },
     contexts: {
+      diffType: "DELETED",
+      ignored: true,
+      original: [],
+      other: undefined,
+    },
+    contextids: {
       diffType: "DELETED",
       ignored: true,
       original: [],
@@ -2074,6 +2280,11 @@ export const nodeTreeInOtherVersionDiff: DiffTree = {
       other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       diffType: "ADDED",
     },
+    isPrimary: {
+      original: undefined,
+      other: true,
+      diffType: "ADDED",
+    },
     name: {
       original: undefined,
       other: "Samfunnskunnskap",
@@ -2090,10 +2301,22 @@ export const nodeTreeInOtherVersionDiff: DiffTree = {
       diffType: "ADDED",
       ignored: true,
     },
+    connectionId: {
+      original: undefined,
+      other: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
+      diffType: "ADDED",
+      ignored: true,
+    },
     contentUri: {
       original: undefined,
       other: "urn:frontpage:62",
       diffType: "ADDED",
+    },
+    parentId: {
+      original: undefined,
+      other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
+      diffType: "ADDED",
+      ignored: true,
     },
     path: {
       original: undefined,
@@ -2133,6 +2356,11 @@ export const nodeTreeInOtherVersionDiff: DiffTree = {
         },
       },
     },
+    rank: {
+      original: undefined,
+      other: 1,
+      diffType: "ADDED",
+    },
     relevanceId: {
       original: undefined,
       other: undefined,
@@ -2166,6 +2394,12 @@ export const nodeTreeInOtherVersionDiff: DiffTree = {
     resourceTypes: { diffType: "ADDED", original: undefined, other: [] },
     nodeType: { diffType: "ADDED", original: undefined, other: "SUBJECT" },
     contexts: {
+      diffType: "ADDED",
+      ignored: true,
+      original: undefined,
+      other: [],
+    },
+    contextids: {
       diffType: "ADDED",
       ignored: true,
       original: undefined,
@@ -2219,6 +2453,11 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
     nodeType: "SUBJECT",
     contexts: [],
     breadcrumbs: [],
+    connectionId: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
+    isPrimary: true,
+    rank: 1,
+    parentId: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
+    contextids: [],
   },
   children: [
     {
@@ -2254,6 +2493,7 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
       resourceTypes: [],
       nodeType: "TOPIC",
       contexts: [],
+      contextids: [],
       breadcrumbs: [],
     },
     {
@@ -2351,12 +2591,14 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
           isPrimary: true,
           nodeType: "RESOURCE",
           contexts: [],
+          contextids: [],
           breadcrumbs: [],
         },
       ],
       resourceTypes: [],
       nodeType: "TOPIC",
       contexts: [],
+      contextids: [],
       breadcrumbs: [],
     },
     {
@@ -2394,6 +2636,7 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
       resourceTypes: [],
       nodeType: "TOPIC",
       contexts: [],
+      contextids: [],
       breadcrumbs: [],
     },
   ],
@@ -2437,6 +2680,11 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
     nodeType: "SUBJECT",
     contexts: [],
     breadcrumbs: [],
+    connectionId: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
+    isPrimary: true,
+    rank: 1,
+    parentId: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
+    contextids: [],
   },
   children: [
     {
@@ -2472,6 +2720,7 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
       resourceTypes: [],
       nodeType: "TOPIC",
       contexts: [],
+      contextids: [],
       breadcrumbs: [],
     },
     {
@@ -2570,12 +2819,14 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
           relevanceId: "urn:relevance:core",
           nodeType: "RESOURCE",
           contexts: [],
+          contextids: [],
           breadcrumbs: [],
           isPrimary: true,
         },
       ],
       nodeType: "TOPIC",
       resourceTypes: [],
+      contextids: [],
     },
     {
       id: "urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8",
@@ -2612,6 +2863,7 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
       nodeType: "TOPIC",
       resourceTypes: [],
       contexts: [],
+      contextids: [],
       breadcrumbs: [],
     },
   ],
@@ -2621,9 +2873,20 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
   root: {
     changed: { diffType: "NONE" },
     childrenChanged: { diffType: "MODIFIED" },
+    connectionId: {
+      original: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
+      other: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
+      diffType: "NONE",
+      ignored: true,
+    },
     id: {
       original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
+      diffType: "NONE",
+    },
+    isPrimary: {
+      original: true,
+      other: true,
       diffType: "NONE",
     },
     name: {
@@ -2646,6 +2909,12 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
       original: "urn:frontpage:62",
       other: "urn:frontpage:62",
       diffType: "NONE",
+    },
+    parentId: {
+      original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
+      other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
+      diffType: "NONE",
+      ignored: true,
     },
     path: {
       original: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
@@ -2684,6 +2953,11 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
           diffType: "NONE",
         },
       },
+    },
+    rank: {
+      original: 1,
+      other: 1,
+      diffType: "NONE",
     },
     relevanceId: {
       original: "urn:relevance:core",
@@ -2736,6 +3010,12 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
       original: [],
       other: [],
     },
+    contextids: {
+      diffType: "NONE",
+      ignored: true,
+      original: [],
+      other: [],
+    },
     breadcrumbs: {
       diffType: "NONE",
       ignored: true,
@@ -2776,6 +3056,7 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
         original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
         other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
         diffType: "NONE",
+        ignored: true,
       },
       path: {
         original: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
@@ -2794,6 +3075,7 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
         original: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
         other: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
         diffType: "NONE",
+        ignored: true,
       },
       isPrimary: {
         original: true,
@@ -2891,6 +3173,7 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
             original: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
             other: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
             diffType: "NONE",
+            ignored: true,
           },
           path: {
             original:
@@ -2914,6 +3197,7 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
             original: "urn:topic-subtopic:a105eda0-b2db-46c2-af9b-0157d1b764f0",
             other: "urn:topic-subtopic:a105eda0-b2db-46c2-af9b-0157d1b764f0",
             diffType: "NONE",
+            ignored: true,
           },
           isPrimary: {
             original: true,
@@ -3137,11 +3421,13 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
                 original: "urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
                 other: "urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
                 diffType: "NONE",
+                ignored: true,
               },
               connectionId: {
                 original: "urn:topic-resource:4e8305fa-7aac-4c08-97dc-9630becdb83a",
                 other: "urn:topic-resource:4e8305fa-7aac-4c08-97dc-9630becdb83a",
                 diffType: "NONE",
+                ignored: true,
               },
               rank: {
                 original: 2,
@@ -3169,6 +3455,12 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
                 original: [],
                 other: [],
               },
+              contextids: {
+                diffType: "NONE",
+                ignored: true,
+                original: [],
+                other: [],
+              },
               breadcrumbs: {
                 diffType: "NONE",
                 ignored: true,
@@ -3178,6 +3470,12 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
             },
           ],
           contexts: {
+            diffType: "NONE",
+            ignored: true,
+            original: [],
+            other: [],
+          },
+          contextids: {
             diffType: "NONE",
             ignored: true,
             original: [],
@@ -3222,6 +3520,7 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
             original: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
             other: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
             diffType: "NONE",
+            ignored: true,
           },
           path: {
             original:
@@ -3247,6 +3546,7 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
             original: "urn:topic-subtopic:753b00fa-1a18-4aae-b088-29ecc4a1dd1d",
             other: "urn:topic-subtopic:753b00fa-1a18-4aae-b088-29ecc4a1dd1d",
             diffType: "NONE",
+            ignored: true,
           },
           isPrimary: {
             original: true,
@@ -3319,6 +3619,12 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
             original: [],
             other: [],
           },
+          contextids: {
+            diffType: "NONE",
+            ignored: true,
+            original: [],
+            other: [],
+          },
           breadcrumbs: {
             diffType: "NONE",
             ignored: true,
@@ -3330,6 +3636,12 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
       resourceTypes: { diffType: "NONE", original: [], other: [] },
       nodeType: { diffType: "NONE", original: "TOPIC", other: "TOPIC" },
       contexts: {
+        diffType: "NONE",
+        ignored: true,
+        original: [],
+        other: [],
+      },
+      contextids: {
         diffType: "NONE",
         ignored: true,
         original: [],

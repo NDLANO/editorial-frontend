@@ -6,16 +6,16 @@
  *
  */
 
-import isEqual from "lodash/isEqual";
+import { isEqual } from "lodash-es";
 import { useCallback } from "react";
 import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, useSlate, useSlateSelector } from "slate-react";
+import { toggleList } from "@ndla/editor";
 import { ToolbarCategoryProps } from "./SlateToolbar";
 import { BlockType } from "./toolbarState";
 import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
 import toggleBlock from "../../utils/toggleBlock";
 import { toggleDefinitionList } from "../definitionList/utils/toggleDefinitionList";
-import { toggleList } from "../list/utils/toggleList";
 
 const getCurrentBlockValues = (editor: Editor) => {
   const [currentListBlock] =

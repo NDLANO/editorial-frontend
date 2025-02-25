@@ -6,13 +6,14 @@
  *
  */
 
-import debounce from "lodash/debounce";
+import { debounce } from "lodash-es";
 import queryString from "query-string";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Button,
   DialogBody,
+  DialogCloseTrigger,
   DialogHeader,
   TabsContent,
   TabsIndicator,
@@ -27,8 +28,6 @@ import {
   IUpdatedConceptDTO,
   IConceptSummaryDTO,
 } from "@ndla/types-backend/concept-api";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-taxonomy";
 import SearchConceptForm from "./SearchConceptForm";
 import SearchConceptResults from "./SearchConceptResults";
 import ConceptForm from "../../../../containers/ConceptPage/ConceptForm/ConceptForm";
@@ -46,26 +45,22 @@ interface Props {
   concept?: IConceptDTO;
   createConcept: (createdConcept: INewConceptDTO) => Promise<IConceptDTO>;
   handleRemove: () => void;
-  onClose: () => void;
   locale: string;
   selectedText?: string;
-  subjects: Node[];
   updateConcept: (id: number, updatedConcept: IUpdatedConceptDTO) => Promise<IConceptDTO>;
-  conceptArticles: IArticleDTO[];
+  updateConceptStatus: (id: number, status: string) => Promise<IConceptDTO>;
   conceptType: ConceptType;
 }
 
 const ConceptModalContent = ({
-  onClose,
-  subjects,
   locale,
   handleRemove,
   selectedText = "",
   addConcept,
-  updateConcept,
   createConcept,
+  updateConcept,
+  updateConceptStatus,
   concept,
-  conceptArticles,
   conceptType,
 }: Props) => {
   const { t } = useTranslation();
@@ -114,7 +109,10 @@ const ConceptModalContent = ({
     ? {
         onUpdate: (updatedConcept: IUpdatedConceptDTO) => updateConcept(concept.id, updatedConcept),
       }
-    : { onCreate: createConcept };
+    : {
+        onCreate: createConcept,
+        onUpdateStatus: updateConceptStatus,
+      };
 
   useEffect(() => {
     searchConcept(searchObject);
@@ -128,7 +126,9 @@ const ConceptModalContent = ({
   return (
     <div>
       <DialogHeader>
-        <DialogCloseButton onClick={onClose} />
+        <DialogCloseTrigger asChild>
+          <DialogCloseButton />
+        </DialogCloseTrigger>
       </DialogHeader>
       <DialogBody>
         {!!concept?.id && <Button onClick={handleRemove}>{t(`form.content.${concept.conceptType}.remove`)}</Button>}
@@ -154,7 +154,6 @@ const ConceptModalContent = ({
                   updateSearchObject(params);
                   debouncedSearchConcept(params);
                 }}
-                subjects={subjects}
                 searchObject={searchObject}
                 locale={locale}
                 userData={undefined}
@@ -180,12 +179,9 @@ const ConceptModalContent = ({
                 <GlossForm
                   onUpserted={addConcept}
                   inModal
-                  onClose={onClose}
-                  subjects={subjects}
                   upsertProps={upsertProps}
                   language={locale}
                   concept={concept}
-                  conceptArticles={conceptArticles}
                   initialTitle={selectedText}
                   supportedLanguages={concept?.supportedLanguages ?? [locale]}
                 />
@@ -193,12 +189,9 @@ const ConceptModalContent = ({
                 <ConceptForm
                   onUpserted={addConcept}
                   inModal
-                  onClose={onClose}
-                  subjects={subjects}
                   upsertProps={upsertProps}
                   language={locale}
                   concept={concept}
-                  conceptArticles={conceptArticles}
                   initialTitle={selectedText}
                   supportedLanguages={concept?.supportedLanguages ?? [locale]}
                 />

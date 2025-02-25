@@ -8,8 +8,10 @@
 
 import { useField, useFormikContext } from "formik";
 import { memo, useMemo } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
+import { inlineNavigationPlugin } from "@ndla/editor";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IUpdatedArticleDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node, TaxonomyContext } from "@ndla/types-taxonomy";
@@ -37,6 +39,7 @@ import { textTransformPlugin } from "../../../../components/SlateEditor/plugins/
 import { toolbarPlugin } from "../../../../components/SlateEditor/plugins/toolbar";
 import { createToolbarDefaultValues } from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import {
+  DISCLAIMER_TEMPLATES_URL,
   DisclaimerField,
   toolbarAreaFilters,
 } from "../../../../components/SlateEditor/plugins/uuDisclaimer/DisclaimerField";
@@ -70,6 +73,7 @@ const toolbarOptions = createToolbarDefaultValues({
 });
 
 export const disclaimerPlugins: SlatePlugin[] = [
+  inlineNavigationPlugin,
   spanPlugin,
   paragraphPlugin,
   toolbarPlugin(toolbarOptions, toolbarAreaFilters),
@@ -249,7 +253,11 @@ const LearningResourcePanels = ({
             <DisclaimerField
               submitted={submitted}
               title={t("form.articleDisclaimer.title")}
-              description={t("form.articleDisclaimer.description")}
+              description={
+                <Trans i18nKey={"form.articleDisclaimer.description"}>
+                  <SafeLink to={DISCLAIMER_TEMPLATES_URL} target="_blank" />
+                </Trans>
+              }
               plugins={plugins}
               toolbarOptions={toolbarOptions}
             />

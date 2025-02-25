@@ -82,7 +82,7 @@ export const definitionListSerializer: SlateSerializer = {
 export const definitionListPlugin = (editor: Editor) => {
   const { normalizeNode: nextNormalizeNode, onKeyDown: nextOnKeyDown } = editor;
 
-  editor.onKeyDown = (e: KeyboardEvent) => {
+  editor.onKeyDown = (e) => {
     if (e.key === KEY_ENTER) {
       onEnter(e, editor, nextOnKeyDown);
     } else if (e.key === KEY_BACKSPACE) {
@@ -111,15 +111,15 @@ export const definitionListPlugin = (editor: Editor) => {
         }
       }
 
-      if (defaultBlockNormalizer(editor, entry, normalizerDLConfig)) {
+      if (defaultBlockNormalizer(editor, node, nodepath, normalizerDLConfig)) {
         return;
       }
     } else if (Element.isElement(node) && node.type === TYPE_DEFINITION_TERM) {
-      if (defaultBlockNormalizer(editor, entry, normalizerDTConfig)) {
+      if (defaultBlockNormalizer(editor, node, nodepath, normalizerDTConfig)) {
         return;
       }
     } else if (Element.isElement(node) && node.type === TYPE_DEFINITION_DESCRIPTION) {
-      if (defaultBlockNormalizer(editor, entry, normalizerDDConfig)) {
+      if (defaultBlockNormalizer(editor, node, nodepath, normalizerDDConfig)) {
         return;
       }
     }

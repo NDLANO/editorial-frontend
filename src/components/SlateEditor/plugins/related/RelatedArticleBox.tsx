@@ -74,9 +74,7 @@ const internalEmbedToMeta = async (
         article,
         resource: {
           ...nodes[0],
-          path: func(article.id, language),
-          // Overriding paths is required in order to make ed links work
-          paths: [],
+          url: func(article.id, language),
         },
       },
     };
@@ -155,9 +153,11 @@ const RelatedArticleBox = ({ attributes, editor, element, children }: Props) => 
 
   const deleteElement = () => {
     const path = ReactEditor.findPath(editor, element);
-    ReactEditor.focus(editor);
-    Transforms.select(editor, path);
-    Transforms.removeNodes(editor, { at: path });
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, path);
+      Transforms.removeNodes(editor, { at: path });
+    }, 0);
   };
 
   const updateArticles = (newEmbeds: RelatedContentMetaData[]) => {

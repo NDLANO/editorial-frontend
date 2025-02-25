@@ -5,16 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import compact from "lodash/compact";
-import toArray from "lodash/toArray";
-import { Descendant, Element, Node } from "slate";
+
+import { Descendant } from "slate";
+import {
+  deserializeFromHtml,
+  NOOP_ELEMENT_TYPE,
+  PARAGRAPH_ELEMENT_TYPE,
+  serializeToHtml,
+  SlateSerializer,
+} from "@ndla/editor";
 import { AudioEmbedData, BrightcoveEmbedData, H5pEmbedData, ImageEmbedData } from "@ndla/types-embed";
-import { convertFromHTML } from "./convertFromHTML";
 import { parseEmbedTag, createHtmlTag, createDataAttributes } from "./embedTagHelpers";
 import { Plain } from "./slatePlainSerializer";
-import { SlateSerializer } from "../components/SlateEditor/interfaces";
-import { asideSerializer } from "../components/SlateEditor/plugins/aside";
-import { audioSerializer } from "../components/SlateEditor/plugins/audio";
+import { blocks, inlines } from "../components/SlateEditor/helpers";
+import { asideSerializer } from "../components/SlateEditor/plugins/aside/asideSerializer";
+import { audioSerializer } from "../components/SlateEditor/plugins/audio/audioSerializer";
 import { blockQuoteSerializer } from "../components/SlateEditor/plugins/blockquote";
 import { breakSerializer } from "../components/SlateEditor/plugins/break";
 import { campaignBlockSerializer } from "../components/SlateEditor/plugins/campaignBlock";
@@ -34,7 +39,7 @@ import { defaultEmbedBlock, isSlateEmbed } from "../components/SlateEditor/plugi
 import { externalSerializer } from "../components/SlateEditor/plugins/external";
 import { fileSerializer } from "../components/SlateEditor/plugins/file";
 import { footnoteSerializer } from "../components/SlateEditor/plugins/footnote";
-import { framedContentSerializer } from "../components/SlateEditor/plugins/framedContent";
+import { framedContentSerializer } from "../components/SlateEditor/plugins/framedContent/framedContentSerializer";
 import { gridSerializer } from "../components/SlateEditor/plugins/grid";
 import { h5pSerializer } from "../components/SlateEditor/plugins/h5p";
 import { headingSerializer } from "../components/SlateEditor/plugins/heading";
@@ -47,9 +52,7 @@ import { markSerializer } from "../components/SlateEditor/plugins/mark";
 import { mathmlSerializer } from "../components/SlateEditor/plugins/mathml";
 import { noEmbedSerializer } from "../components/SlateEditor/plugins/noEmbed";
 import { noopSerializer } from "../components/SlateEditor/plugins/noop";
-import { TYPE_NOOP } from "../components/SlateEditor/plugins/noop/types";
 import { paragraphSerializer } from "../components/SlateEditor/plugins/paragraph";
-import { TYPE_PARAGRAPH } from "../components/SlateEditor/plugins/paragraph/types";
 import { pitchSerializer } from "../components/SlateEditor/plugins/pitch";
 import { relatedSerializer } from "../components/SlateEditor/plugins/related";
 import { sectionSerializer } from "../components/SlateEditor/plugins/section";
@@ -60,23 +63,12 @@ import { disclaimerSerializer } from "../components/SlateEditor/plugins/uuDiscla
 import { brightcoveSerializer } from "../components/SlateEditor/plugins/video";
 import { Embed, ErrorEmbed } from "../interfaces";
 
-export const sectionSplitter = (html: string) => {
-  const node = document.createElement("div");
-  node.insertAdjacentHTML("beforeend", html);
-  const sections = [];
-  for (let i = 0; i < node.children.length; i += 1) {
-    sections.push(node.children[i].outerHTML);
-  }
-  node.remove();
-  return sections;
-};
-
 export const createEmptyValue = (): Descendant[] => [
   {
     type: TYPE_SECTION,
     children: [
       {
-        type: TYPE_PARAGRAPH,
+        type: PARAGRAPH_ELEMENT_TYPE,
         children: [
           {
             text: "",
@@ -87,10 +79,10 @@ export const createEmptyValue = (): Descendant[] => [
   },
 ];
 
-export const createNoop = (): Descendant[] => [{ type: TYPE_NOOP, children: [{ text: "" }] }];
+export const createNoop = (): Descendant[] => [{ type: NOOP_ELEMENT_TYPE, children: [{ text: "" }] }];
 
 // Rules are checked from first to last
-const extendedRules: SlateSerializer[] = [
+const extendedRules: SlateSerializer<any>[] = [
   noopSerializer,
   paragraphSerializer,
   sectionSerializer,
@@ -133,7 +125,7 @@ const extendedRules: SlateSerializer[] = [
 ];
 
 // Rules are checked from first to last
-const commonRules: SlateSerializer[] = [
+const commonRules: SlateSerializer<any>[] = [
   noopSerializer,
   paragraphSerializer,
   sectionSerializer,
@@ -153,93 +145,20 @@ const commonRules: SlateSerializer[] = [
   spanSerializer,
 ];
 
-const serialize = (node: Descendant, rules: SlateSerializer[]): string | undefined => {
-  const children = Element.isElement(node)
-    ? node.children
-        .map((n) => serialize(n, rules))
-        .filter((n) => !!n)
-        .join("")
-    : "";
-
-  for (const rule of rules) {
-    if (!rule.serialize) {
-      continue;
-    }
-
-    const ret = rule.serialize(node, children);
-    if (ret === undefined) {
-      continue;
-    } else if (ret === null) {
-      return undefined;
-    } else return ret;
-  }
-
-  return children;
-};
-
-const DELETE_REGEXP = /<deleteme><\/deleteme>/g;
-
-const articleContentToHTML = (value: Descendant[], rules: SlateSerializer[]) => {
-  const elements = value
-    .map((descendant) => serialize(descendant, rules))
-    .filter((n) => !!n)
-    .join("");
-
-  return elements.replace(DELETE_REGEXP, "");
-};
-
-const articleContentToEditorValue = (html: string, rules: SlateSerializer[], noop?: boolean) => {
-  if (!html) {
-    return noop ? createNoop() : createEmptyValue();
-  }
-  const deserialize = (el: HTMLElement | ChildNode): Descendant | Descendant[] => {
-    if (el.nodeType === 3) {
-      return { text: el.textContent || "" };
-    } else if (el.nodeType !== 1) {
-      return { text: "" };
-    }
-
-    let children = Array.from(el.childNodes).flatMap(deserialize);
-    if (children.length === 0) {
-      children = [{ text: "" }];
-    }
-
-    for (const rule of rules) {
-      if (!rule.deserialize) {
-        continue;
-      }
-      // Already checked that nodeType === 1 -> el must be of type HTMLElement.
-      const ret = rule.deserialize(el as HTMLElement, children);
-      if (ret === undefined) {
-        continue;
-      } else {
-        return ret;
-      }
-    }
-
-    return children;
-  };
-
-  const document = new DOMParser().parseFromString(noop ? `<div data-noop="true">${html}</div>` : html, "text/html");
-  const nodes = toArray(document.body.children).map(deserialize);
-  const normalizedNodes = compact(nodes.map((n) => convertFromHTML(Node.isNodeList(n) ? n[0] : n)));
-  return normalizedNodes;
-};
-
 export const blockContentToEditorValue = (html: string): Descendant[] => {
-  return articleContentToEditorValue(html, extendedRules);
+  return deserializeFromHtml(html, extendedRules, { inlines, blocks });
 };
 
 export function blockContentToHTML(contentValues: Descendant[]) {
-  return articleContentToHTML(contentValues, extendedRules);
+  return serializeToHtml(contentValues, extendedRules);
 }
 
 export function inlineContentToEditorValue(html: string, noop?: boolean) {
-  return articleContentToEditorValue(html, commonRules, noop);
+  return deserializeFromHtml(html, commonRules, { noop, inlines, blocks });
 }
 
 export function inlineContentToHTML(value: Descendant[]) {
-  return articleContentToHTML(value, commonRules);
+  return serializeToHtml(value, commonRules);
 }
 
 export function plainTextToEditorValue(text: string): Descendant[] {

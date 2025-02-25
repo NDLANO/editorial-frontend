@@ -9,12 +9,12 @@
 import { format } from "date-fns";
 import { FieldArrayRenderProps } from "formik";
 import { TFunction } from "i18next";
-import uniqueId from "lodash/uniqueId";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import { Button, FieldRoot, FieldTextArea } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { uuid } from "@ndla/util";
 import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUtils";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { TYPE_DIV } from "../../../components/SlateEditor/plugins/div/types";
@@ -97,7 +97,7 @@ const InputComment = ({ isSubmitting, arrayHelpers }: Props) => {
 
   const addComment = useCallback(() => {
     // We need a temporary unique id in frontend before id is generated in draft-api when comment is created
-    const uid = uniqueId();
+    const uid = uuid();
     arrayHelpers.insert(0, { generatedId: uid, content: inputValue, isOpen: true, solved: false });
   }, [arrayHelpers, inputValue]);
 

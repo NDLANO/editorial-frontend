@@ -69,10 +69,10 @@ export const filePlugin = (editor: Editor) => {
   };
 
   editor.normalizeNode = (entry) => {
-    const [node] = entry;
+    const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_FILE) {
-      if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
+      if (defaultBlockNormalizer(editor, node, path, normalizerConfig)) {
         return;
       }
     }

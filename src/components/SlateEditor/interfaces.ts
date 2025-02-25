@@ -6,14 +6,22 @@
  *
  */
 
-import { JSX } from "react";
-import { Editor, Descendant, BaseEditor, NodeEntry, BaseRange, BaseSelection, Node, Element } from "slate";
+import { Editor, Descendant, BaseEditor, BaseSelection, Node, Element } from "slate";
 import { HistoryEditor } from "slate-history";
-import { ReactEditor, RenderElementProps, RenderLeafProps } from "slate-react";
-import { AsideElement } from "./plugins/aside";
-import { AudioElement } from "./plugins/audio/types";
+import { ReactEditor } from "slate-react";
+import {
+  CustomEditor as _CustomEditor,
+  BreakElement,
+  HeadingElement,
+  ListElement,
+  ListItemElement,
+  NoopElement,
+  ParagraphElement,
+  SectionElement,
+} from "@ndla/editor";
+import { AsideElement } from "./plugins/aside/asideTypes";
+import { AudioElement } from "./plugins/audio/audioTypes";
 import { BlockQuoteElement } from "./plugins/blockquote";
-import { BreakElement } from "./plugins/break";
 import { CampaignBlockElement } from "./plugins/campaignBlock";
 import { CodeblockElement } from "./plugins/codeBlock";
 import { CommentBlockElement, CommentInlineElement } from "./plugins/comment/interfaces";
@@ -28,22 +36,17 @@ import { ErrorEmbedElement } from "./plugins/embed";
 import { ExternalElement, IframeElement } from "./plugins/external/types";
 import { FileElement } from "./plugins/file";
 import { FootnoteElement } from "./plugins/footnote";
-import { FramedContentElement } from "./plugins/framedContent";
+import { FramedContentElement } from "./plugins/framedContent/framedContentTypes";
 import { GridCellElement, GridElement } from "./plugins/grid";
 import { H5pElement } from "./plugins/h5p/types";
-import { HeadingElement } from "./plugins/heading";
 import { ImageElement } from "./plugins/image/types";
 import { KeyFigureElement } from "./plugins/keyFigure";
 import { ContentLinkElement, LinkElement } from "./plugins/link";
 import { LinkBlockListElement } from "./plugins/linkBlockList/types";
-import { ListElement, ListItemElement } from "./plugins/list";
 import { CustomTextWithMarks } from "./plugins/mark";
 import { MathmlElement } from "./plugins/mathml";
-import { NoopElement } from "./plugins/noop";
-import { ParagraphElement } from "./plugins/paragraph";
 import { PitchElement } from "./plugins/pitch/types";
 import { RelatedElement } from "./plugins/related";
-import { SectionElement } from "./plugins/section";
 import { SpanElement } from "./plugins/span";
 import {
   TableBodyElement,
@@ -63,18 +66,13 @@ export interface SlateSerializer {
   serialize: (node: Descendant, children: string | undefined) => string | undefined;
 }
 
-export type CustomEditor = {
-  onKeyDown?: (event: KeyboardEvent) => void;
-  renderElement?: (props: RenderElementProps) => JSX.Element | undefined;
-  renderLeaf?: (props: RenderLeafProps) => JSX.Element | undefined;
+export interface CustomEditor extends _CustomEditor {
   lastSelection?: BaseSelection;
   lastSelectedBlock?: Node;
-  removeSection?: () => void;
   shouldShowToolbar: () => boolean;
   shouldHideBlockPicker?: () => boolean | undefined;
-  decorations?: (editor: Editor, entry: NodeEntry) => BaseRange[];
   mathjaxInitialized?: boolean;
-};
+}
 
 declare module "slate" {
   interface CustomTypes {

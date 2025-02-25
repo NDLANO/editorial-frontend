@@ -7,12 +7,10 @@
  */
 
 import { Formik, FormikHelpers } from "formik";
-import isEmpty from "lodash/isEmpty";
+import { isEmpty } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IConceptDTO, IConceptSummaryDTO, INewConceptDTO, IUpdatedConceptDTO } from "@ndla/types-backend/concept-api";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-taxonomy";
 import GlossDataSection from "./GlossDataSection";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
@@ -39,6 +37,7 @@ interface UpdateProps {
 
 interface CreateProps {
   onCreate: (newConcept: INewConceptDTO) => Promise<IConceptDTO>;
+  onUpdateStatus: (id: number, status: string) => Promise<IConceptDTO>;
 }
 
 interface Props {
@@ -47,10 +46,7 @@ interface Props {
   conceptChanged?: boolean;
   inModal: boolean;
   isNewlyCreated?: boolean;
-  conceptArticles: IArticleDTO[];
-  onClose?: () => void;
   language: string;
-  subjects: Node[];
   initialTitle?: string;
   onUpserted?: (concept: IConceptSummaryDTO | IConceptDTO) => void;
   supportedLanguages: string[];
@@ -89,11 +85,8 @@ export const GlossForm = ({
   conceptChanged,
   inModal,
   isNewlyCreated = false,
-  onClose,
-  subjects,
   language,
   upsertProps,
-  conceptArticles,
   initialTitle,
   onUpserted,
   supportedLanguages,
@@ -117,6 +110,7 @@ export const GlossForm = ({
       let savedConcept: IConceptDTO;
       if ("onCreate" in upsertProps) {
         savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses, "gloss"));
+        savedConcept = newStatus ? await upsertProps.onUpdateStatus(savedConcept.id, newStatus) : savedConcept;
       } else {
         const conceptWithStatus = {
           ...getUpdatedConceptType(values, licenses, "gloss"),
@@ -125,7 +119,7 @@ export const GlossForm = ({
         savedConcept = await upsertProps.onUpdate(conceptWithStatus, revision!);
       }
       formikHelpers.resetForm({
-        values: conceptApiTypeToFormType(savedConcept, language, subjects, conceptArticles, ndlaId),
+        values: conceptApiTypeToFormType(savedConcept, language, ndlaId),
       });
       formikHelpers.setSubmitting(false);
       setSavedToServer(true);
@@ -137,15 +131,7 @@ export const GlossForm = ({
     }
   };
 
-  const initialValues = conceptApiTypeToFormType(
-    concept,
-    language,
-    subjects,
-    conceptArticles,
-    ndlaId,
-    initialTitle,
-    "gloss",
-  );
+  const initialValues = conceptApiTypeToFormType(concept, language, ndlaId, initialTitle, "gloss");
 
   const initialWarnings = useMemo(
     () => getWarnings(initialValues, glossRules, t, concept),
@@ -204,8 +190,6 @@ export const GlossForm = ({
             savedToServer={savedToServer}
             isNewlyCreated={isNewlyCreated}
             showSimpleFooter={!concept?.id}
-            onClose={onClose}
-            responsibleId={concept?.responsible?.responsibleId}
           />
         </FormWrapper>
       )}

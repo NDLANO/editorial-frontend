@@ -81,18 +81,19 @@ export const MathDialog = () => {
         if (!selection) return;
         const [mathEntry] = editor.nodes({ match: isMathElement });
         if (!mathEntry) return;
+        const [, path] = mathEntry;
 
         if (element.isFirstEdit) {
           const mathAsString = new DOMParser().parseFromString(mathML, "text/xml").firstChild?.textContent;
 
-          Transforms.insertText(editor, mathAsString ?? "", { at: mathEntry[1], voids: true });
-          Transforms.setNodes(editor, properties, { at: [...mathEntry[1], 0], voids: true, match: isMathElement });
+          Transforms.insertText(editor, mathAsString ?? "", { at: path, voids: true });
+          Transforms.setNodes(editor, properties, { at: [...path, 0], voids: true, match: isMathElement });
           // Insertion of math consists of inserting an empty mathml tag and then updating it with content. By merging the events we can consider them as one action and undo both with ctrl+z.
           mergeLastUndos(editor);
         } else {
-          Transforms.setNodes(editor, properties, { at: mathEntry[1], voids: true, match: isMathElement });
+          Transforms.setNodes(editor, properties, { at: path, voids: true, match: isMathElement });
         }
-        const nextPath = Path.next(mathEntry[1]);
+        const nextPath = Path.next(path);
         if (editor.hasPath(nextPath)) {
           Transforms.select(editor, {
             anchor: { path: nextPath, offset: 0 },

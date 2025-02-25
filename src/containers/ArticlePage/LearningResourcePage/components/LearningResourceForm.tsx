@@ -109,6 +109,10 @@ const LearningResourceForm = ({
 
   const initialErrors = useMemo(() => validateFormik(initialValues, learningResourceRules, t), [initialValues, t]);
 
+  const onCancel = useCallback(() => {
+    setShowTaxWarning(false);
+  }, []);
+
   return (
     <Formik
       key={articleLanguage}
@@ -160,11 +164,11 @@ const LearningResourceForm = ({
             title={t("errorMessage.missingTaxTitle")}
             label={t("errorMessage.missingTaxTitle")}
             show={showTaxWarning}
-            onCancel={() => setShowTaxWarning(false)}
+            onCancel={onCancel}
             severity={"danger"}
           >
             <FormActionsContainer>
-              <Button variant="secondary" onClick={() => setShowTaxWarning(false)}>
+              <Button variant="secondary" onClick={onCancel}>
                 {t("alertModal.continue")}
               </Button>
             </FormActionsContainer>

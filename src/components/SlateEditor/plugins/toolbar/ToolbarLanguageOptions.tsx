@@ -38,6 +38,8 @@ const getCurrentLanguage = (editor: Editor) => {
   return node.data.lang;
 };
 
+const positioningOptions = { sameWidth: true };
+
 export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<LanguageType>) => {
   const { t, i18n } = useTranslation();
   const editor = useSlate();
@@ -87,7 +89,7 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
     <FieldRoot>
       <SelectRoot
         collection={collection}
-        positioning={{ sameWidth: true }}
+        positioning={positioningOptions}
         value={[currentLanguage ?? "none"]}
         onValueChange={(details) => onClick(details.value[0])}
       >

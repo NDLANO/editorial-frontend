@@ -7,7 +7,7 @@
  */
 
 import { History, Blocker, Transition } from "history";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UNSAFE_NavigationContext, useNavigate, Location } from "react-router-dom";
 import { Button } from "@ndla/primitives";
@@ -74,16 +74,16 @@ export const AlertDialogWrapper = ({ text, severity, isSubmitting, formIsDirty, 
     }
   }, shouldBlock);
 
-  const onCancel = () => {
+  const onCancel = useCallback(() => {
     setNextLocation(undefined);
     setOpenModal(false);
-  };
+  }, []);
 
-  const onWillContinue = () => {
+  const onWillContinue = useCallback(() => {
     if (onContinue) onContinue();
     setDiscardChanges(true);
     setOpenModal(false);
-  };
+  }, [onContinue]);
 
   return (
     <AlertDialog

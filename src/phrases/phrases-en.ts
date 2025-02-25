@@ -2212,6 +2212,11 @@ const phrases = {
     title: "Preview concept",
   },
   math: "Math problem",
+  matomo: {
+    visits: "Visits in {{year}}: {{count}}",
+    avgTime: "Avg. time: {{time}} sec",
+    error: "Something went wrong while fetching data from Matomo",
+  },
 };
 
 export default phrases;

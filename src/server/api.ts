@@ -11,12 +11,13 @@ import { GetVerificationKey, expressjwt as jwt, Request } from "express-jwt";
 import jwksRsa from "jwks-rsa";
 import prettier from "prettier";
 import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getResponsibles } from "./auth";
-import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN } from "./httpCodes";
+import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN, BAD_REQUEST } from "./httpCodes";
 import errorLogger from "./logger";
 import { translateDocument } from "./translate";
 import config from "../config";
 import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
 import { NdlaError } from "../interfaces";
+import { fetchMatomoStats } from "./matomo";
 
 const router = express.Router();
 
@@ -154,6 +155,20 @@ router.post("/translate", async (req, res) => {
     res.status(OK).json(translated);
   } else {
     res.status(OK).json({ status: OK, text: "No body" });
+  }
+});
+
+router.post("/matomo-stats", jwtMiddleware, async (req, res) => {
+  const { body } = req;
+  if (body && body["taxonomyUrls"]) {
+    try {
+      const matomoStats = await fetchMatomoStats(body["taxonomyUrls"]);
+      res.status(OK).json(matomoStats);
+    } catch (err) {
+      res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
+    }
+  } else {
+    res.status(BAD_REQUEST).json({ status: NOT_ACCEPTABLE, text: "taxonomyUrl is not received" });
   }
 });
 

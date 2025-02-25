@@ -7,6 +7,9 @@
  */
 
 import config, { getEnvironmentVariabel } from "../config";
+import pLimit from "p-limit";
+
+const limit = pLimit(8);
 
 export const matomoApiToken = getEnvironmentVariabel("MATOMO_API_TOKEN");
 
@@ -15,9 +18,11 @@ export const fetchMatomoStats = async (taxonomyUrls: string[]) => {
   const siteId = config.matomoSiteId;
 
   const fetchPromises = taxonomyUrls.map((url) =>
-    fetch(
-      `https://${MATOMO_URL}/index.php?module=API&method=Actions.getPageUrl&idSite=${siteId}&period=year&date=last1&pageUrl=${encodeURIComponent(url)}&format=JSON&token_auth=${matomoApiToken}`,
-    ).then((res) => res.json()),
+    limit(() =>
+      fetch(
+        `https://${MATOMO_URL}/index.php?module=API&method=Actions.getPageUrl&idSite=${siteId}&period=year&date=last1&pageUrl=${encodeURIComponent(url)}&format=JSON&token_auth=${matomoApiToken}`,
+      ).then((res) => res.json()),
+    ),
   );
 
   const results = await Promise.allSettled(fetchPromises);

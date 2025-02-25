@@ -49,14 +49,20 @@ export interface MatomoStatsBody {
   taxonomyUrls: string[];
 }
 
+interface Props extends MatomoStatsBody {
+  signal: AbortSignal;
+}
+
 export const fetchMatomoStats = async ({
   taxonomyUrls,
-}: MatomoStatsBody): Promise<PromiseSettledResult<MatomoResponse>[]> => {
+  signal,
+}: Props): Promise<PromiseSettledResult<MatomoResponse>[]> => {
   return fetchAuthorized("/matomo-stats/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ taxonomyUrls: taxonomyUrls }),
+    signal: signal,
   }).then((r) => resolveJsonOrRejectWithError<PromiseSettledResult<MatomoResponse>[]>(r));
 };

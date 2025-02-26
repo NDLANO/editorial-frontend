@@ -106,10 +106,6 @@ const CodeBlockEditor = ({ onSave, onAbort, highlight, content, setShowWarning }
   const initialValues = useMemo(() => toInitialValues(content), [content]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
 
-  const abort = () => {
-    onAbort();
-  };
-
   const collection = useMemo(
     () =>
       createListCollection({
@@ -177,7 +173,7 @@ const CodeBlockEditor = ({ onSave, onAbort, highlight, content, setShowWarning }
             </FormField>
           </InputWrapper>
           <FormActionsContainer>
-            <Button variant="secondary" onClick={abort}>
+            <Button variant="secondary" onClick={onAbort}>
               {t("codeEditor.abort")}
             </Button>
             <Button type="submit">{t("codeEditor.save")}</Button>

@@ -7,11 +7,11 @@
  */
 
 import { toUnicode } from "punycode";
-import { useEffect, useRef, useState, ReactNode } from "react";
+import { useEffect, useRef, useState, ReactNode, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import { Portal } from "@ark-ui/react";
+import { DialogOpenChangeDetails, Portal } from "@ark-ui/react";
 import { PencilFill, DeleteBinLine } from "@ndla/icons";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -131,42 +131,59 @@ const RelatedArticleBox = ({ attributes, editor, element, children }: Props) => 
     setEmbeds((embeds) => embeds.concat(newMetaData));
   };
 
-  const insertInternal = async (articleId: string) => {
-    const existingNodes = element.data;
-    const exists = existingNodes.some((embed) => embed.articleId === articleId);
-    if (exists) {
-      return;
-    }
-    const newEmbed: RelatedContentEmbedData = {
-      resource: "related-content",
-      articleId,
-    };
-    const embed = await internalEmbedToMeta({ resource: "related-content", articleId }, i18n.language, taxonomyVersion);
-    setEmbeds((embeds) => embeds.concat(embed));
-    setNodeData(existingNodes.concat(newEmbed));
-  };
+  const setNodeData = useCallback(
+    (data: RelatedContentEmbedData[]) => {
+      const path = ReactEditor.findPath(editor, element);
+      Transforms.setNodes<RelatedElement>(editor, { data }, { at: path, voids: true });
+    },
+    [editor, element],
+  );
 
-  const setNodeData = (data: RelatedContentEmbedData[]) => {
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.setNodes<RelatedElement>(editor, { data }, { at: path, voids: true });
-  };
+  const insertInternal = useCallback(
+    async (articleId: string) => {
+      const existingNodes = element.data;
+      const exists = existingNodes.some((embed) => embed.articleId === articleId);
+      if (exists) {
+        return;
+      }
+      const newEmbed: RelatedContentEmbedData = {
+        resource: "related-content",
+        articleId,
+      };
+      const embed = await internalEmbedToMeta(
+        { resource: "related-content", articleId },
+        i18n.language,
+        taxonomyVersion,
+      );
+      setEmbeds((embeds) => embeds.concat(embed));
+      setNodeData(existingNodes.concat(newEmbed));
+    },
+    [element.data, i18n.language, setNodeData, taxonomyVersion],
+  );
 
-  const deleteElement = () => {
+  const deleteElement = useCallback(() => {
     const path = ReactEditor.findPath(editor, element);
     setTimeout(() => {
       ReactEditor.focus(editor);
       Transforms.select(editor, path);
       Transforms.removeNodes(editor, { at: path });
     }, 0);
-  };
+  }, [editor, element]);
 
-  const updateArticles = (newEmbeds: RelatedContentMetaData[]) => {
-    setEmbeds(newEmbeds.filter((a) => !!a));
-    setNodeData(newEmbeds.map((embed) => embed.embedData));
-  };
+  const updateArticles = useCallback(
+    (newEmbeds: RelatedContentMetaData[]) => {
+      setEmbeds(newEmbeds.filter((a) => !!a));
+      setNodeData(newEmbeds.map((embed) => embed.embedData));
+    },
+    [setNodeData],
+  );
+
+  const onOpenChange = useCallback((details: DialogOpenChangeDetails) => {
+    setEditMode(details.open);
+  }, []);
 
   return (
-    <DialogRoot open={editMode} onOpenChange={(details) => setEditMode(details.open)}>
+    <DialogRoot open={editMode} onOpenChange={onOpenChange}>
       <EmbedWrapper contentEditable={false} {...attributes}>
         <Portal>
           <DialogContent data-testid="editRelated">

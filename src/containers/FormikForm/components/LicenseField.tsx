@@ -6,9 +6,10 @@
  *
  */
 
-import { useMemo } from "react";
+import { useField } from "formik";
+import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { createListCollection } from "@ark-ui/react";
+import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
 import {
   FieldErrorMessage,
   FieldRoot,
@@ -20,7 +21,6 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
-import { FormField } from "../../../components/FormField";
 import { useLicenses } from "../../../modules/draft/draftQueries";
 import { getLicensesWithTranslations } from "../../../util/licenseHelpers";
 
@@ -35,9 +35,12 @@ const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   },
 });
 
+const positioning = { sameWidth: true };
+
 const LicenseField = ({ name = "license", enableLicenseNA }: Props) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const { t, i18n } = useTranslation();
+  const [field, meta, helpers] = useField<string>(name);
 
   const collection = useMemo(
     () =>
@@ -49,33 +52,33 @@ const LicenseField = ({ name = "license", enableLicenseNA }: Props) => {
     [enableLicenseNA, licenses, i18n.language],
   );
 
+  const value = useMemo(() => [field.value], [field.value]);
+
+  const onValueChange = useCallback(
+    (details: SelectValueChangeDetails) => {
+      helpers.setValue(details.value[0]);
+    },
+    [helpers],
+  );
+
   return (
-    <FormField name={name}>
-      {({ field, meta, helpers }) => (
-        <FieldRoot invalid={!!meta.error}>
-          <SelectRoot
-            value={[field.value]}
-            onValueChange={(details) => helpers.setValue(details.value[0])}
-            collection={collection}
-            positioning={{ sameWidth: true }}
-          >
-            <SelectLabel>{t("form.license.label")}</SelectLabel>
-            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-            <StyledGenericSelectTrigger>
-              <SelectValueText placeholder={t("form.license.choose")} />
-            </StyledGenericSelectTrigger>
-            <SelectContent>
-              {collection.items.map((item) => (
-                <GenericSelectItem key={item.license} item={item}>
-                  {item.title}
-                </GenericSelectItem>
-              ))}
-            </SelectContent>
-            <SelectHiddenSelect />
-          </SelectRoot>
-        </FieldRoot>
-      )}
-    </FormField>
+    <FieldRoot invalid={!!meta.error}>
+      <SelectRoot value={value} onValueChange={onValueChange} collection={collection} positioning={positioning}>
+        <SelectLabel>{t("form.license.label")}</SelectLabel>
+        <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+        <StyledGenericSelectTrigger>
+          <SelectValueText placeholder={t("form.license.choose")} />
+        </StyledGenericSelectTrigger>
+        <SelectContent>
+          {collection.items.map((item) => (
+            <GenericSelectItem key={item.license} item={item}>
+              {item.title}
+            </GenericSelectItem>
+          ))}
+        </SelectContent>
+        <SelectHiddenSelect />
+      </SelectRoot>
+    </FieldRoot>
   );
 };
 

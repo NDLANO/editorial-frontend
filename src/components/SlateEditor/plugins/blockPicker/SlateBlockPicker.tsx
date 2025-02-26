@@ -10,7 +10,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Node, Location, Range, Path, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
-import { Portal } from "@ark-ui/react";
+import { PopoverOpenChangeDetails, Portal } from "@ark-ui/react";
 import { AddLine } from "@ndla/icons";
 import { PopoverRoot, PopoverTrigger, IconButton, Button, Heading, PopoverContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -134,6 +134,10 @@ const getLeftAdjust = (parent?: Node) => {
   return 78;
 };
 
+const popoverIds = {
+  trigger: BLOCK_PICKER_TRIGGER_ID,
+} as const;
+
 const SlateBlockPicker = ({
   editor,
   actionsToShowInAreas,
@@ -157,7 +161,10 @@ const SlateBlockPicker = ({
     [blockPickerOpen, t],
   );
 
-  const [selectedParagraph, selectedParagraphPath] = getCurrentBlock(editor, TYPE_PARAGRAPH) || [];
+  const [selectedParagraph, selectedParagraphPath] = useMemo(
+    () => getCurrentBlock(editor, TYPE_PARAGRAPH) || [],
+    [editor],
+  );
 
   useEffect(() => {
     const el = portalRef.current;
@@ -205,16 +212,31 @@ const SlateBlockPicker = ({
     if (Location.isLocation(editor.selection)) {
       setLastActiveSelection(editor.selection);
     }
-  }, [editor, editor.selection, lastActiveSelection]);
+  }, [editor, lastActiveSelection]);
 
   const onOpenChange = useCallback(
-    (open: boolean) => {
-      setBlockPickerOpen(open);
-      if (!open && !visualElementPickerOpen) {
+    (details: PopoverOpenChangeDetails) => {
+      setBlockPickerOpen(details.open);
+      if (!details.open && !visualElementPickerOpen) {
         ReactEditor.focus(editor);
       }
     },
     [editor, visualElementPickerOpen],
+  );
+
+  const onFocus = useCallback(() => {
+    if (!blockPickerOpen) {
+      ReactEditor.focus(editor);
+    }
+  }, [blockPickerOpen, editor]);
+
+  const positioning = useMemo(
+    () =>
+      ({
+        placement: "right",
+        getAnchorRect: () => portalRef.current?.getBoundingClientRect() ?? null,
+      }) as const,
+    [],
   );
 
   const onVisualElementClose = useCallback(() => {
@@ -223,25 +245,28 @@ const SlateBlockPicker = ({
     ReactEditor.focus(editor);
   }, [editor]);
 
-  const onInsertBlock = (block: Element, selectBlock?: boolean) => {
-    setTimeout(() => {
-      Editor.withoutNormalizing(editor, () => {
-        if (selectedParagraphPath) {
-          Transforms.select(editor, selectedParagraphPath);
-          ReactEditor.focus(editor);
-        }
-        Transforms.insertNodes(editor, block, {
-          at: selectedParagraphPath,
+  const onInsertBlock = useCallback(
+    (block: Element, selectBlock?: boolean) => {
+      setTimeout(() => {
+        Editor.withoutNormalizing(editor, () => {
+          if (selectedParagraphPath) {
+            Transforms.select(editor, selectedParagraphPath);
+            ReactEditor.focus(editor);
+          }
+          Transforms.insertNodes(editor, block, {
+            at: selectedParagraphPath,
+          });
+          if (selectBlock && selectedParagraphPath) {
+            const targetPath = Editor.start(editor, selectedParagraphPath);
+            Transforms.select(editor, targetPath);
+          }
         });
-        if (selectBlock && selectedParagraphPath) {
-          const targetPath = Editor.start(editor, selectedParagraphPath);
-          Transforms.select(editor, targetPath);
-        }
-      });
-    }, 0);
-    setBlockPickerOpen(false);
-    setType("");
-  };
+      }, 0);
+      setBlockPickerOpen(false);
+      setType("");
+    },
+    [editor, selectedParagraphPath],
+  );
 
   const onElementAdd = (data: ActionData) => {
     switch (data.type) {
@@ -344,7 +369,7 @@ const SlateBlockPicker = ({
     }
   };
 
-  const getActionsForArea = () => {
+  const actionsForArea = useMemo(() => {
     if (!lastActiveSelection) return actions;
     if (
       !Node.has(editor, Range.start(lastActiveSelection).path) ||
@@ -376,7 +401,7 @@ const SlateBlockPicker = ({
     }
 
     return actions;
-  };
+  }, [actions, actionsToShowInAreas, editor, lastActiveSelection]);
 
   return (
     <>
@@ -387,14 +412,7 @@ const SlateBlockPicker = ({
         onVisualElementClose={onVisualElementClose}
         onInsertBlock={onInsertBlock}
       />
-      <PopoverRoot
-        open={blockPickerOpen}
-        positioning={{ placement: "right", getAnchorRect: () => portalRef.current?.getBoundingClientRect() ?? null }}
-        onOpenChange={(details) => onOpenChange(details.open)}
-        ids={{
-          trigger: BLOCK_PICKER_TRIGGER_ID,
-        }}
-      >
+      <PopoverRoot open={blockPickerOpen} positioning={positioning} onOpenChange={onOpenChange} ids={popoverIds}>
         <Portal>
           <PopoverTrigger ref={portalRef} asChild>
             <BlockPickerButton
@@ -403,11 +421,7 @@ const SlateBlockPicker = ({
               aria-label={blockPickerLabel}
               title={blockPickerLabel}
               data-state={blockPickerOpen ? "open" : "closed"}
-              onFocus={() => {
-                if (!blockPickerOpen) {
-                  ReactEditor.focus(editor);
-                }
-              }}
+              onFocus={onFocus}
             >
               <AddLine />
             </BlockPickerButton>
@@ -415,7 +429,7 @@ const SlateBlockPicker = ({
           <StyledPopoverContent data-testid="slate-block-picker-menu">
             <StyledHeading textStyle="title.small">{t("editorBlockpicker.heading")}</StyledHeading>
             <StyledList>
-              {getActionsForArea()
+              {actionsForArea
                 .filter((a) => !a.requiredScope || userPermissions?.includes(a.requiredScope))
                 .map((action) => (
                   <StyledLi key={action.data.object}>

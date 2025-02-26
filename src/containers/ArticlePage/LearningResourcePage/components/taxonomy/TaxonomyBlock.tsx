@@ -146,9 +146,9 @@ const TaxonomyBlock = ({
   );
 
   const onVersionChanged = useCallback(
-    (versionHash: string) => {
-      if (versionHash === taxonomyVersion) return;
-      changeVersion(versionHash);
+    (version: Version) => {
+      if (version.hash === taxonomyVersion) return;
+      changeVersion(version.hash);
       setShowWarning(false);
       updateTaxMutation.reset();
     },
@@ -341,7 +341,7 @@ const TaxonomyBlock = ({
         <>
           <OptGroupVersionSelector
             currentVersion={taxonomyVersion}
-            onVersionChanged={(version) => onVersionChanged(version.hash)}
+            onVersionChanged={onVersionChanged}
             versions={versions}
           >
             <SelectLabel>{t("taxonomy.version")}</SelectLabel>

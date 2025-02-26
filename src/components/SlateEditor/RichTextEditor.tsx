@@ -308,7 +308,6 @@ const RichTextEditor = ({
                   <SlateToolbar options={toolbarOptions} areaOptions={toolbarAreaFilters} hideToolbar={hideToolbar} />
                   {!hideBlockPicker && (
                     <SlateBlockPicker
-                      editor={editor}
                       actions={actions}
                       articleLanguage={language}
                       {...createBlockpickerOptions(blockpickerOptions)}

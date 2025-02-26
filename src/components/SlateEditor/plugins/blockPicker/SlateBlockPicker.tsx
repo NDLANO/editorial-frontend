@@ -9,7 +9,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Node, Location, Range, Path, Transforms } from "slate";
-import { ReactEditor } from "slate-react";
+import { ReactEditor, useSlate, useSlateSelection } from "slate-react";
 import { PopoverOpenChangeDetails, Portal } from "@ark-ui/react";
 import { AddLine } from "@ndla/icons";
 import { PopoverRoot, PopoverTrigger, IconButton, Button, Heading, PopoverContent } from "@ndla/primitives";
@@ -64,7 +64,6 @@ import { defaultDisclaimerBlock } from "../uuDisclaimer/utils";
 import { TYPE_EMBED_BRIGHTCOVE } from "../video/types";
 
 interface Props {
-  editor: Editor;
   actions: Action[];
   allowedPickAreas: Element["type"][];
   illegalAreas: Element["type"][];
@@ -139,13 +138,14 @@ const popoverIds = {
 } as const;
 
 const SlateBlockPicker = ({
-  editor,
   actionsToShowInAreas,
   articleLanguage,
   illegalAreas,
   allowedPickAreas,
   actions,
 }: Props) => {
+  const editor = useSlate();
+  const selection = useSlateSelection();
   const [blockPickerOpen, setBlockPickerOpen] = useState(false);
   const [lastActiveSelection, setLastActiveSelection] = useState<Range>();
   const portalRef = useRef<HTMLButtonElement | null>(null);
@@ -161,10 +161,7 @@ const SlateBlockPicker = ({
     [blockPickerOpen, t],
   );
 
-  const [selectedParagraph, selectedParagraphPath] = useMemo(
-    () => getCurrentBlock(editor, TYPE_PARAGRAPH) || [],
-    [editor],
-  );
+  const [selectedParagraph, selectedParagraphPath] = getCurrentBlock(editor, TYPE_PARAGRAPH) || [];
 
   useEffect(() => {
     const el = portalRef.current;
@@ -209,10 +206,10 @@ const SlateBlockPicker = ({
   });
 
   useEffect(() => {
-    if (Location.isLocation(editor.selection)) {
-      setLastActiveSelection(editor.selection);
+    if (Location.isLocation(selection)) {
+      setLastActiveSelection(selection);
     }
-  }, [editor, lastActiveSelection]);
+  }, [selection]);
 
   const onOpenChange = useCallback(
     (details: PopoverOpenChangeDetails) => {

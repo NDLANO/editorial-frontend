@@ -26,6 +26,8 @@ import { TYPE_DEFINITION_LIST } from "./plugins/definitionList/types";
 import { onDragOver, onDragStart, onDrop } from "./plugins/DND";
 import { TYPE_HEADING } from "./plugins/heading/types";
 import { TYPE_LIST } from "./plugins/list/types";
+import { MathDialog, MathDialogProvider } from "./plugins/mathml/FloathingMathDialog";
+import { FloatingMathEditor, FloatingMathEditorProvider } from "./plugins/mathml/FloatingMathPopover";
 import { TYPE_PARAGRAPH } from "./plugins/paragraph/types";
 import { TYPE_TABLE } from "./plugins/table/types";
 import { SlateToolbar } from "./plugins/toolbar";
@@ -304,30 +306,34 @@ const RichTextEditor = ({
               {isFirstNormalize && !hideSpinner ? (
                 <Spinner />
               ) : (
-                <>
-                  <SlateToolbar options={toolbarOptions} areaOptions={toolbarAreaFilters} hideToolbar={hideToolbar} />
-                  {!hideBlockPicker && (
-                    <SlateBlockPicker
-                      actions={actions}
-                      articleLanguage={language}
-                      {...createBlockpickerOptions(blockpickerOptions)}
+                <FloatingMathEditorProvider>
+                  <MathDialogProvider>
+                    <SlateToolbar options={toolbarOptions} areaOptions={toolbarAreaFilters} hideToolbar={hideToolbar} />
+                    {!hideBlockPicker && (
+                      <SlateBlockPicker
+                        actions={actions}
+                        articleLanguage={language}
+                        {...createBlockpickerOptions(blockpickerOptions)}
+                      />
+                    )}
+                    <StyledEditable
+                      {...fieldProps}
+                      aria-labelledby={labelledBy}
+                      {...rest}
+                      onBlur={onBlur}
+                      onKeyDown={handleKeyDown}
+                      placeholder={placeholder}
+                      renderElement={renderElement}
+                      renderLeaf={renderLeaf}
+                      readOnly={submitted}
+                      onDragStart={onDragStartCallback}
+                      onDragOver={onDragOverCallback}
+                      onDrop={onDropCallback}
                     />
-                  )}
-                  <StyledEditable
-                    {...fieldProps}
-                    aria-labelledby={labelledBy}
-                    {...rest}
-                    onBlur={onBlur}
-                    onKeyDown={handleKeyDown}
-                    placeholder={placeholder}
-                    renderElement={renderElement}
-                    renderLeaf={renderLeaf}
-                    readOnly={submitted}
-                    onDragStart={onDragStartCallback}
-                    onDragOver={onDragOverCallback}
-                    onDrop={onDropCallback}
-                  />
-                </>
+                    <FloatingMathEditor />
+                    <MathDialog />
+                  </MathDialogProvider>
+                </FloatingMathEditorProvider>
               )}
             </Slate>
           </StyledSlateWrapper>

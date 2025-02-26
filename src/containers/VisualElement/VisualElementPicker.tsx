@@ -6,7 +6,7 @@
  *
  */
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms } from "slate";
 import VisualElementMenu, { VisualElementType } from "./VisualElementMenu";
@@ -23,11 +23,14 @@ interface Props {
 
 const VisualElementPicker = ({ editor, language, types }: Props) => {
   const { t } = useTranslation();
-  const onInsertBlock = (block: Element) => {
-    Editor.withoutNormalizing(editor, () => {
-      Transforms.insertNodes(editor, block);
-    });
-  };
+  const onInsertBlock = useCallback(
+    (block: Element) => {
+      Editor.withoutNormalizing(editor, () => {
+        Transforms.insertNodes(editor, block);
+      });
+    },
+    [editor],
+  );
 
   const [selectedResource, setSelectedResource] = useState<string | undefined>(undefined);
 

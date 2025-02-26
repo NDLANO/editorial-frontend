@@ -24,7 +24,7 @@ export const detailsRenderer = (editor: Editor) => {
       );
     } else if (element.type === TYPE_DETAILS) {
       return (
-        <Details attributes={attributes} editor={editor} element={element}>
+        <Details attributes={attributes} element={element}>
           {children}
         </Details>
       );

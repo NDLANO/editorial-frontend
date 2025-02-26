@@ -10,7 +10,7 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Element, Editor, Transforms } from "slate";
 import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
-import { createListCollection } from "@ark-ui/react";
+import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
 import {
   FieldRoot,
   SelectContent,
@@ -57,6 +57,8 @@ const getTextValue = (editor: Editor): TextType => {
   return node.type === "heading" ? (`heading-${node.level}` as TextType) : "normal-text";
 };
 
+const positioning = { sameWidth: true };
+
 export const ToolbarTextOptions = ({ options }: ToolbarCategoryProps<TextType>) => {
   const { t, i18n } = useTranslation();
   const editor = useSlate();
@@ -64,11 +66,11 @@ export const ToolbarTextOptions = ({ options }: ToolbarCategoryProps<TextType>) 
   const type = useSlateSelector(getTextValue);
 
   const onTextOptionClick = useCallback(
-    (value: string) => {
+    (details: SelectValueChangeDetails) => {
       if (!selection) return;
       Transforms.select(editor, selection);
       ReactEditor.focus(editor);
-      handleTextChange(editor, value);
+      handleTextChange(editor, details.value[0]);
     },
     [editor, selection],
   );
@@ -90,12 +92,7 @@ export const ToolbarTextOptions = ({ options }: ToolbarCategoryProps<TextType>) 
 
   return (
     <FieldRoot>
-      <SelectRoot
-        collection={collection}
-        positioning={{ sameWidth: true }}
-        value={[type]}
-        onValueChange={(details) => onTextOptionClick(details.value[0])}
-      >
+      <SelectRoot collection={collection} positioning={positioning} value={[type]} onValueChange={onTextOptionClick}>
         <SelectLabel srOnly>{title}</SelectLabel>
         <StyledGenericSelectTrigger variant="tertiary" size="small" title={title} data-testid="toolbar-button-text">
           {!!TriggerIcon && <TriggerIcon title={title} fontWeight="semibold" />}

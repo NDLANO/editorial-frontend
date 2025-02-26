@@ -109,6 +109,19 @@ const getTranslateServiceUrl = (ndlaEnvironment: string) => {
   }
 };
 
+const matomoDomain = (ndlaEnvironment: string): string => {
+  switch (ndlaEnvironment) {
+    case "dev":
+    case "local":
+    case "test":
+      return "tall.test.ndla.no";
+    case "prod":
+      return "tall.ndla.no";
+    default:
+      return "tall.ndla.no";
+  }
+};
+
 export const taxonomyApi = `/taxonomy/v1`;
 
 const getDefaultLanguage = () => getEnvironmentVariabel("NDLA_DEFAULT_LANGUAGE", "nb") as LocaleType;
@@ -161,6 +174,7 @@ export type ConfigType = {
   enableH5pCopy: boolean;
   licenseAll: string | undefined;
   matomoSiteId: string | undefined;
+  matomoUrl: string;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -207,7 +221,8 @@ const getServerSideConfig = (): ConfigType => {
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as "test" | "development" | "production",
     enableH5pCopy: getEnvironmentVariabel("ENABLE_H5P_COPY", "true") === "true",
     licenseAll: getEnvironmentVariabel("LICENSE_ALL"),
-    matomoSiteId: getEnvironmentVariabel("MATOMO_SITE_ID", ""),
+    matomoSiteId: getEnvironmentVariabel("MATOMO_SITE_ID"),
+    matomoUrl: getEnvironmentVariabel("MATOMO_URL", matomoDomain(ndlaEnvironment)),
   };
 };
 

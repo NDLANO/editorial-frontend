@@ -89,12 +89,12 @@ interface Props {
   currentNodeId: string;
   responsible?: string;
   resource: ResourceWithNodeConnectionAndMeta;
-  contentMetaLoading: boolean;
+  nodeResourcesIsPending: boolean;
   showQuality: boolean;
   onDelete: (connectionId: string) => void;
 }
 
-const Resource = ({ currentNodeId, resource, contentMetaLoading, responsible, showQuality, onDelete }: Props) => {
+const Resource = ({ currentNodeId, resource, nodeResourcesIsPending, responsible, showQuality, onDelete }: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -152,7 +152,7 @@ const Resource = ({ currentNodeId, resource, contentMetaLoading, responsible, sh
               />
             )}
             <StatusIcons
-              contentMetaLoading={contentMetaLoading}
+              nodeResourcesIsPending={nodeResourcesIsPending}
               resource={resource}
               multipleTaxonomy={resource.contexts?.length > 1}
             />

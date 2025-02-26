@@ -9,6 +9,8 @@
 import config from "./config";
 import { WhitelistProvider } from "./interfaces";
 
+export const SAVE_DEBOUNCE_MS = 200;
+
 export const SAVE_BUTTON_ID = "editor-save-button";
 export const BLOCK_PICKER_TRIGGER_ID = "block-picker-trigger";
 

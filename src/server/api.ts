@@ -160,15 +160,15 @@ router.post("/translate", async (req, res) => {
 
 router.post("/matomo-stats", jwtMiddleware, async (req, res) => {
   const { body } = req;
-  if (body && body["taxonomyUrls"]) {
+  if (body && body.taxonomyUrls) {
     try {
-      const matomoStats = await fetchMatomoStats(body["taxonomyUrls"]);
+      const matomoStats = await fetchMatomoStats(body.taxonomyUrls);
       res.status(OK).json(matomoStats);
     } catch (err) {
       res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
     }
   } else {
-    res.status(BAD_REQUEST).json({ status: NOT_ACCEPTABLE, text: "taxonomyUrl is not received" });
+    res.status(BAD_REQUEST).json({ status: BAD_REQUEST, text: "taxonomyUrl is not received" });
   }
 });
 

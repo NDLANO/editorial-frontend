@@ -2213,8 +2213,8 @@ const phrases = {
   },
   math: "Mattestykke",
   matomo: {
-    visits: "Besøk i {{year}}: {{count}}",
-    avgTime: "Gj.snitt tid: {{time}} sek",
+    visits: "Unike sidevisningar i {{year}}: {{count}}",
+    timeSpent: "Total tid brukt av vitjarar: {{time}} sek",
     error: "Noko gjekk gale ved henting av data frå Matomo",
   },
 };

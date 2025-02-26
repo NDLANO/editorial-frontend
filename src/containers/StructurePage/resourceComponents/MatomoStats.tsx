@@ -52,7 +52,7 @@ const MatomoStats = ({ matomoStats, matomoStatsIsPending, matomoStatsIsError }: 
         |
       </Text>
       <Text textStyle="body.small" color="text.subtle">
-        {t("matomo.avgTime", { time: matomoStats.avg_time_on_page })}
+        {t("matomo.timeSpent", { time: matomoStats.sum_time_spent })}
       </Text>
     </TextWrapper>
   ) : null;

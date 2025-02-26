@@ -2213,8 +2213,8 @@ const phrases = {
   },
   math: "Math problem",
   matomo: {
-    visits: "Visits in {{year}}: {{count}}",
-    avgTime: "Avg. time: {{time}} sec",
+    visits: "Unique page views in {{year}}: {{count}}",
+    timeSpent: "Total time spent by visitors: {{time}} sec",
     error: "Something went wrong while fetching data from Matomo",
   },
 };

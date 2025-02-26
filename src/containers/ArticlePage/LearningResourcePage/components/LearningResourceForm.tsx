@@ -91,12 +91,12 @@ const LearningResourceForm = ({
   );
 
   const handleSubmit: HandleSubmitFunc<LearningResourceFormType> = useCallback(
-    async (values, helpers, saveAsNew) => {
+    async (values, helpers) => {
       if (!contexts?.length && values.status?.current !== ARCHIVED && values.status?.current !== UNPUBLISHED) {
         setShowTaxWarning(true);
         return;
       }
-      return await _handleSubmit(values, helpers, saveAsNew);
+      return await _handleSubmit(values, helpers);
     },
     [_handleSubmit, contexts?.length],
   );
@@ -156,7 +156,6 @@ const LearningResourceForm = ({
             articleChanged={!!articleChanged}
             isNewlyCreated={isNewlyCreated}
             savedToServer={savedToServer}
-            handleSubmit={handleSubmit}
             article={article}
           />
           <AlertDialog
@@ -184,22 +183,15 @@ interface FormFooterProps {
   article?: IArticleDTO;
   isNewlyCreated: boolean;
   savedToServer: boolean;
-  handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
 }
 
-const InternalFormFooter = ({
-  articleChanged,
-  article,
-  isNewlyCreated,
-  savedToServer,
-  handleSubmit,
-}: FormFooterProps) => {
+const InternalFormFooter = ({ articleChanged, article, isNewlyCreated, savedToServer }: FormFooterProps) => {
   const { t } = useTranslation();
   const statusStateMachine = useDraftStatusStateMachine({
     articleId: article?.id,
   });
   const formik = useFormikContext<LearningResourceFormType>();
-  const { values, dirty, isSubmitting, initialValues } = formik;
+  const { values, dirty, isSubmitting, initialValues, submitForm } = formik;
 
   const formIsDirty = useMemo(
     () =>
@@ -212,13 +204,6 @@ const InternalFormFooter = ({
     [articleChanged, dirty, initialValues, values],
   );
 
-  const onSave = useCallback(
-    (saveAsNew?: boolean) => {
-      return handleSubmit(values, formik, saveAsNew);
-    },
-    [handleSubmit, values, formik],
-  );
-
   usePreventWindowUnload(formIsDirty);
 
   return (
@@ -227,7 +212,7 @@ const InternalFormFooter = ({
         showSimpleFooter={!article?.id}
         formIsDirty={formIsDirty}
         savedToServer={savedToServer}
-        onSaveClick={onSave}
+        onSaveClick={submitForm}
         entityStatus={article?.status}
         statusStateMachine={statusStateMachine.data}
         isArticle

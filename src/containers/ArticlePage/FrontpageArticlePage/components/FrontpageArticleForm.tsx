@@ -7,7 +7,7 @@
  */
 
 import { Formik, useFormikContext } from "formik";
-import { memo, useCallback, useMemo } from "react";
+import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult } from "@tanstack/react-query";
 import { IArticleDTO, IUpdatedArticleDTO, IStatusDTO } from "@ndla/types-backend/draft-api";
@@ -127,7 +127,7 @@ const InternalFormFooter = ({
     articleId: article?.id,
   });
   const formik = useFormikContext<FrontpageArticleFormType>();
-  const { values, dirty, isSubmitting, initialValues } = formik;
+  const { values, dirty, isSubmitting, initialValues, submitForm } = formik;
 
   const formIsDirty = useMemo(
     () =>
@@ -140,11 +140,6 @@ const InternalFormFooter = ({
     [articleChanged, dirty, initialValues, values],
   );
 
-  const onSave = useCallback(
-    (saveAsNew?: boolean) => handleSubmit(values, formik, saveAsNew),
-    [handleSubmit, values, formik],
-  );
-
   usePreventWindowUnload(formIsDirty);
 
   return (
@@ -153,7 +148,7 @@ const InternalFormFooter = ({
         showSimpleFooter={!article?.id}
         formIsDirty={formIsDirty}
         savedToServer={savedToServer}
-        onSaveClick={onSave}
+        onSaveClick={submitForm}
         entityStatus={article?.status}
         statusStateMachine={statusStateMachine.data}
         isArticle

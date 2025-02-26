@@ -31,7 +31,7 @@ interface Props {
   savedToServer: boolean;
   entityStatus?: DraftStatus;
   showSimpleFooter: boolean;
-  onSaveClick: (saveAsNewVersion?: boolean) => void;
+  onSaveClick: () => void;
   statusStateMachine?: ConceptStatusStateMachineType | DraftStatusStateMachineType;
   isArticle?: boolean;
   isConcept: boolean;
@@ -161,7 +161,8 @@ function EditorFooter<T extends FormValues>({
       if (STATUSES_RESET_RESPONSIBLE.find((s) => s === values.status.current)) {
         setFieldValue("responsibleId", null);
       }
-      onSaveClick(saveAsNewVersion);
+      setFieldValue("saveAsNew", !!saveAsNewVersion);
+      onSaveClick();
     },
     [onSaveClick, setFieldValue, values.status],
   );
@@ -179,15 +180,15 @@ function EditorFooter<T extends FormValues>({
       <ContentWrapper>
         {!showSimpleFooter && (
           <LinksWrapper>
-            {!!values.id && !!isConcept && (
+            {!!articleId && !!isConcept && (
               <PreviewResourceDialog
                 type="concept"
                 language={values.language}
                 activateButton={<Button variant="link">{t("form.preview.button")}</Button>}
               />
             )}
-            {!!values.id && !!isArticle && (
-              <SafeLinkButton variant="link" to={toPreviewDraft(values.id, values.language)} target="_blank">
+            {!!articleId && !!isArticle && (
+              <SafeLinkButton variant="link" to={toPreviewDraft(articleId, values.language)} target="_blank">
                 {t("form.preview.button")}
                 <ShareBoxLine size="small" />
               </SafeLinkButton>

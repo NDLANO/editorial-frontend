@@ -16,14 +16,11 @@ import { Form } from "../../../../components/FormikForm";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
-import { PUBLISHED } from "../../../../constants";
 import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { frontPageArticleRules, isFormikFormDirty } from "../../../../util/formHelper";
 import { AlertDialogWrapper } from "../../../FormikForm";
 import { FrontpageArticleFormType, HandleSubmitFunc, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
-import { hasUnpublishedConcepts } from "../../../FormikForm/utils";
-import { useMessages } from "../../../Messages/MessagesProvider";
 import { useSession } from "../../../Session/SessionProvider";
 import {
   draftApiTypeToFrontpageArticleFormType,
@@ -54,14 +51,8 @@ const FrontpageArticleForm = ({
 }: Props) => {
   const { t } = useTranslation();
   const { ndlaId } = useSession();
-  const { createMessage } = useMessages();
 
-  const {
-    savedToServer,
-    formikRef,
-    initialValues,
-    handleSubmit: _handleSubmit,
-  } = useArticleFormHooks<FrontpageArticleFormType>({
+  const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks<FrontpageArticleFormType>({
     getInitialValues: draftApiTypeToFrontpageArticleFormType,
     article,
     articleHistory,
@@ -76,19 +67,6 @@ const FrontpageArticleForm = ({
 
   const initialWarnings = getWarnings(initialValues, frontPageArticleRules, t, article);
   const initialErrors = useMemo(() => validateFormik(initialValues, frontPageArticleRules, t), [initialValues, t]);
-
-  const handleSubmit: HandleSubmitFunc<FrontpageArticleFormType> = useCallback(
-    async (values, helpers, saveAsNew) => {
-      if (values.status?.current === PUBLISHED && !!article?.responsible?.responsibleId) {
-        const unpublishedConcepts = await hasUnpublishedConcepts(article);
-        if (unpublishedConcepts) {
-          createMessage({ message: t("form.unpublishedConcepts"), timeToLive: 0, severity: "warning" });
-        }
-      }
-      return await _handleSubmit(values, helpers, saveAsNew);
-    },
-    [_handleSubmit, article, createMessage, t],
-  );
 
   return (
     <Formik
@@ -183,10 +161,7 @@ const InternalFormFooter = ({
         isNewlyCreated={isNewlyCreated}
         isConcept={false}
         hideSecondaryButton={false}
-        articleId={article?.id}
-        articleType={article?.articleType}
-        selectedLanguage={article?.content?.language}
-        supportedLanguages={article?.supportedLanguages}
+        article={article}
       />
       <AlertDialogWrapper
         isSubmitting={isSubmitting}

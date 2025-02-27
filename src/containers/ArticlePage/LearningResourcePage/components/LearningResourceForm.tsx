@@ -19,14 +19,12 @@ import { Form, FormActionsContainer } from "../../../../components/FormikForm";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
-import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../../constants";
+import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
 import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { isFormikFormDirty, learningResourceRules } from "../../../../util/formHelper";
 import { AlertDialogWrapper } from "../../../FormikForm";
 import { HandleSubmitFunc, LearningResourceFormType, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
-import { hasUnpublishedConcepts } from "../../../FormikForm/utils";
-import { useMessages } from "../../../Messages/MessagesProvider";
 import { useSession } from "../../../Session/SessionProvider";
 import { TaxonomyVersionProvider } from "../../../StructureVersion/TaxonomyVersionProvider";
 import {
@@ -61,7 +59,6 @@ const LearningResourceForm = ({
   const [showTaxWarning, setShowTaxWarning] = useState(false);
   const { t } = useTranslation();
   const { ndlaId } = useSession();
-  const { createMessage } = useMessages();
 
   const validate = useCallback(
     (values: LearningResourceFormType) => {
@@ -99,15 +96,9 @@ const LearningResourceForm = ({
         setShowTaxWarning(true);
         return;
       }
-      if (values.status?.current === PUBLISHED && !!article?.responsible?.responsibleId) {
-        const unpublishedConcepts = await hasUnpublishedConcepts(article);
-        if (unpublishedConcepts) {
-          createMessage({ message: t("form.unpublishedConcepts"), timeToLive: 0, severity: "warning" });
-        }
-      }
       return await _handleSubmit(values, helpers, saveAsNew);
     },
-    [_handleSubmit, article, contexts?.length, createMessage, t],
+    [_handleSubmit, contexts?.length],
   );
 
   const initialWarnings = useMemo(() => {
@@ -243,10 +234,7 @@ const InternalFormFooter = ({
         isNewlyCreated={isNewlyCreated}
         isConcept={false}
         hideSecondaryButton={false}
-        articleId={article?.id}
-        articleType={article?.articleType}
-        selectedLanguage={article?.content?.language}
-        supportedLanguages={article?.supportedLanguages}
+        article={article}
       />
       <AlertDialogWrapper
         isSubmitting={isSubmitting}

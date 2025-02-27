@@ -19,14 +19,12 @@ import { Form, FormActionsContainer } from "../../../../components/FormikForm";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
-import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../../constants";
+import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
 import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { isFormikFormDirty, topicArticleRules } from "../../../../util/formHelper";
 import { AlertDialogWrapper } from "../../../FormikForm";
 import { HandleSubmitFunc, TopicArticleFormType, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
-import { hasUnpublishedConcepts } from "../../../FormikForm/utils";
-import { useMessages } from "../../../Messages/MessagesProvider";
 import { useSession } from "../../../Session/SessionProvider";
 import { TaxonomyVersionProvider } from "../../../StructureVersion/TaxonomyVersionProvider";
 import {
@@ -63,7 +61,6 @@ const TopicArticleForm = ({
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const { t } = useTranslation();
   const { ndlaId } = useSession();
-  const { createMessage } = useMessages();
 
   const validate = useCallback((values: TopicArticleFormType) => validateFormik(values, topicArticleRules, t), [t]);
 
@@ -99,15 +96,9 @@ const TopicArticleForm = ({
         setShowTaxWarning(true);
         return;
       }
-      if (values.status?.current === PUBLISHED && !!article?.responsible?.responsibleId) {
-        const unpublishedConcepts = await hasUnpublishedConcepts(article);
-        if (unpublishedConcepts) {
-          createMessage({ message: t("form.unpublishedConcepts"), timeToLive: 0, severity: "warning" });
-        }
-      }
       return await _handleSubmit(values, helpers, saveAsNew);
     },
-    [_handleSubmit, article, articleTaxonomy?.length, createMessage, t],
+    [_handleSubmit, articleTaxonomy?.length],
   );
 
   const contexts = articleTaxonomy
@@ -230,10 +221,7 @@ const InternalFormFooter = ({
         isNewlyCreated={isNewlyCreated}
         isConcept={false}
         hideSecondaryButton={false}
-        articleId={article?.id}
-        articleType={article?.articleType}
-        selectedLanguage={article?.content?.language}
-        supportedLanguages={article?.supportedLanguages}
+        article={article}
       />
       <AlertDialogWrapper
         isSubmitting={isSubmitting}

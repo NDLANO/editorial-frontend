@@ -15,7 +15,7 @@ import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IStatusDTO as ConceptStatus } from "@ndla/types-backend/concept-api";
 import { IStatusDTO as DraftStatus } from "@ndla/types-backend/draft-api";
-import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../constants";
+import { ARCHIVED, PUBLISHED, SAVE_DEBOUNCE_MS, UNPUBLISHED } from "../../constants";
 import PrioritySelect from "../../containers/FormikForm/components/PrioritySelect";
 import ResponsibleSelect from "../../containers/FormikForm/components/ResponsibleSelect";
 import StatusSelect from "../../containers/FormikForm/components/StatusSelect";
@@ -31,7 +31,7 @@ interface Props {
   savedToServer: boolean;
   entityStatus?: DraftStatus;
   showSimpleFooter: boolean;
-  onSaveClick: (saveAsNewVersion?: boolean) => void;
+  onSaveClick: () => void;
   statusStateMachine?: ConceptStatusStateMachineType | DraftStatusStateMachineType;
   isArticle?: boolean;
   isConcept: boolean;
@@ -121,6 +121,7 @@ function EditorFooter<T extends FormValues>({
 
   // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
   const [newStatus, setNewStatus] = useState<string | undefined>(undefined);
+  const [shouldSave, setShouldSave] = useState(false);
 
   const articleOrConcept = isArticle || isConcept;
 
@@ -148,23 +149,26 @@ function EditorFooter<T extends FormValues>({
     }
   }, [articleId, articleType, selectedLanguage, supportedLanguages, t]);
 
+  const onSave = useCallback(() => {
+    if (STATUSES_RESET_RESPONSIBLE.find((s) => s === values.status.current)) {
+      setFieldValue("responsibleId", null);
+    }
+    onSaveClick();
+  }, [onSaveClick, setFieldValue, values.status]);
+
+  useEffect(() => {
+    if (shouldSave) {
+      onSave();
+      setShouldSave(false);
+    }
+  }, [onSave, shouldSave]);
+
   useEffect(() => {
     if (newStatus === PUBLISHED) {
-      onSaveClick();
+      setTimeout(() => setShouldSave(true), SAVE_DEBOUNCE_MS);
       setNewStatus(undefined);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newStatus]);
-
-  const onSave = useCallback(
-    (saveAsNewVersion?: boolean | undefined) => {
-      if (STATUSES_RESET_RESPONSIBLE.find((s) => s === values.status.current)) {
-        setFieldValue("responsibleId", null);
-      }
-      onSaveClick(saveAsNewVersion);
-    },
-    [onSaveClick, setFieldValue, values.status],
-  );
 
   const onUpdateStatus = useCallback(
     (value: string | undefined) => {
@@ -231,7 +235,10 @@ function EditorFooter<T extends FormValues>({
           isSaving={isSubmitting}
           formIsDirty={formIsDirty}
           showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
-          onClick={onSave}
+          onClick={(saveAsNew) => {
+            setFieldValue("saveAsNew", saveAsNew);
+            setTimeout(() => setShouldSave(true), SAVE_DEBOUNCE_MS);
+          }}
           hideSecondaryButton={hideSecondaryButton}
           hasErrors={!!hasErrors}
         />

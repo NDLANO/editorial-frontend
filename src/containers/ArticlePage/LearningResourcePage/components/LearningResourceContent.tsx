@@ -41,10 +41,11 @@ import {
 } from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import { TYPE_EMBED_BRIGHTCOVE } from "../../../../components/SlateEditor/plugins/video/types";
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
-import { DRAFT_HTML_SCOPE } from "../../../../constants";
+import { DRAFT_HTML_SCOPE, SAVE_DEBOUNCE_MS } from "../../../../constants";
 import { isFormikFormDirty } from "../../../../util/formHelper";
 import { toCreateLearningResource, toEditMarkup } from "../../../../util/routeHelpers";
 import { findNodesByType } from "../../../../util/slateHelpers";
+import { useDebouncedCallback } from "../../../../util/useDebouncedCallback";
 import { IngressField, TitleField } from "../../../FormikForm";
 import { HandleSubmitFunc, LearningResourceFormType } from "../../../FormikForm/articleFormHooks";
 import { useSession } from "../../../Session/SessionProvider";
@@ -157,38 +158,37 @@ const ContentField = ({ articleId, articleLanguage }: ContentFieldProps) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { isSubmitting } = useFormikContext<LearningResourceFormType>();
+  const [field, meta, helpers] = useField("content");
 
   const blockPickerOptions = useMemo(() => ({ actionsToShowInAreas }), []);
 
+  const debouncedOnChange = useDebouncedCallback(helpers.setValue, SAVE_DEBOUNCE_MS);
+
   return (
-    <FormField name="content">
-      {({ field, meta, helpers }) => (
-        <FieldRoot invalid={!!meta.error}>
-          <SegmentHeader>
-            <ContentEditableFieldLabel>{t("form.content.label")}</ContentEditableFieldLabel>
-            {!!articleId && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (
-              <EditMarkupLink to={toEditMarkup(articleId, articleLanguage ?? "")} title={t("editMarkup.linkTitle")} />
-            )}
-          </SegmentHeader>
-          <RichTextEditor
-            actions={learningResourceActions}
-            language={articleLanguage}
-            blockpickerOptions={blockPickerOptions}
-            placeholder={t("form.content.placeholder")}
-            value={field.value}
-            submitted={isSubmitting}
-            plugins={editorPlugins}
-            data-testid="learning-resource-content"
-            onChange={(value) => helpers.setValue(value)}
-            toolbarOptions={toolbarOptions}
-            toolbarAreaFilters={toolbarAreaFilters}
-          />
-          {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(field.value)} />}
-          <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-          <FieldWarning name={field.name} />
-        </FieldRoot>
-      )}
-    </FormField>
+    <FieldRoot invalid={!!meta.error}>
+      <SegmentHeader>
+        <ContentEditableFieldLabel>{t("form.content.label")}</ContentEditableFieldLabel>
+        {!!articleId && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (
+          <EditMarkupLink to={toEditMarkup(articleId, articleLanguage ?? "")} title={t("editMarkup.linkTitle")} />
+        )}
+      </SegmentHeader>
+      <RichTextEditor
+        actions={learningResourceActions}
+        language={articleLanguage}
+        blockpickerOptions={blockPickerOptions}
+        placeholder={t("form.content.placeholder")}
+        value={field.value}
+        submitted={isSubmitting}
+        plugins={editorPlugins}
+        data-testid="learning-resource-content"
+        onChange={debouncedOnChange}
+        toolbarOptions={toolbarOptions}
+        toolbarAreaFilters={toolbarAreaFilters}
+      />
+      {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(field.value)} />}
+      <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+      <FieldWarning name={field.name} />
+    </FieldRoot>
   );
 };
 

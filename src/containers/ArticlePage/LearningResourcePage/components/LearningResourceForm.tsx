@@ -91,12 +91,12 @@ const LearningResourceForm = ({
   );
 
   const handleSubmit: HandleSubmitFunc<LearningResourceFormType> = useCallback(
-    async (values, helpers, saveAsNew) => {
+    async (values, helpers) => {
       if (!contexts?.length && values.status?.current !== ARCHIVED && values.status?.current !== UNPUBLISHED) {
         setShowTaxWarning(true);
         return;
       }
-      return await _handleSubmit(values, helpers, saveAsNew);
+      return await _handleSubmit(values, helpers);
     },
     [_handleSubmit, contexts?.length],
   );
@@ -212,12 +212,9 @@ const InternalFormFooter = ({
     [articleChanged, dirty, initialValues, values],
   );
 
-  const onSave = useCallback(
-    (saveAsNew?: boolean) => {
-      return handleSubmit(values, formik, saveAsNew);
-    },
-    [handleSubmit, values, formik],
-  );
+  const onSave = useCallback(() => {
+    return handleSubmit(values, formik);
+  }, [handleSubmit, values, formik]);
 
   usePreventWindowUnload(formIsDirty);
 

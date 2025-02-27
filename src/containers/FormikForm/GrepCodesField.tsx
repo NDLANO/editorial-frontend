@@ -170,7 +170,11 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
               placeholder={t("form.grepCodes.placeholder")}
               isFetching={grepCodesQuery.isFetching}
               onKeyDown={(event) => {
-                if (event.key === "Enter" && !highlightedValue) event.preventDefault();
+                if (event.key === "Enter" && !highlightedValue) {
+                  event.preventDefault();
+                  setQuery("");
+                  updateGrepCodes(event.currentTarget.value);
+                }
               }}
               triggerable
             />

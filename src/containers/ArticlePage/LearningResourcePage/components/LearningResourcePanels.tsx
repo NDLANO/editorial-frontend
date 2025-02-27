@@ -161,7 +161,7 @@ const LearningResourcePanels = ({
 
   const onCheckedChange = useCallback(
     (details: SwitchCheckedChangeDetails) => {
-      setHideComments(details.checked);
+      setHideComments(!details.checked);
     },
     [setHideComments],
   );

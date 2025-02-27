@@ -125,10 +125,7 @@ export const getHeader = (matrix: TableMatrix, rowIndex: number, columnIndex: nu
       Array.from({ length: rowspan }).forEach((_, it) => headers.push(matrix?.[rowIndex + it]?.[0]));
     }
 
-    const header = headers
-      .map((cell) => cell?.data?.id)
-      .filter((cell) => !!cell)
-      .join(" ");
+    const header = uniq(headers.filter((cell) => !!cell).map((cell) => cell?.data?.id)).join(" ");
 
     return header.trim().length > 0 ? header : undefined;
   }

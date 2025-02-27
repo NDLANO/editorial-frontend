@@ -6,9 +6,7 @@
  *
  */
 
-import get from "lodash/get";
-import merge from "lodash/merge";
-import set from "lodash/set";
+import { get, merge, set } from "lodash-es";
 import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ApiTranslateType } from "../interfaces";

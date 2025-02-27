@@ -6,7 +6,7 @@
  *
  */
 
-import orderBy from "lodash/orderBy";
+import { orderBy } from "lodash-es";
 import { ResolvedUrl, Node } from "@ndla/types-taxonomy";
 import { createResourceResourceType, deleteResourceResourceType } from "./resourcetypes";
 import { taxonomyApi } from "../../config";

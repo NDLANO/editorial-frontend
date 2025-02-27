@@ -7,7 +7,7 @@
  */
 
 import { useField, useFormikContext } from "formik";
-import { useState, useMemo, memo, useEffect } from "react";
+import { useState, useMemo, memo, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import { Button, FieldErrorMessage, FieldRoot } from "@ndla/primitives";
@@ -96,6 +96,8 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
   const [isTouched, setIsTouched] = useState(false);
   const isCreatePage = toCreateLearningResource() === window.location.pathname;
 
+  const onCancel = useCallback(() => setIsNormalizedOnLoad(false), []);
+
   useEffect(() => {
     setTimeout(() => {
       if (status.status === "revertVersion") {
@@ -130,11 +132,11 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
         label={t("editorFooter.changeHeader")}
         show={!!isNormalizedOnLoad && !isCreatePage}
         text={t("form.content.normalizedOnLoad")}
-        onCancel={() => setIsNormalizedOnLoad(false)}
+        onCancel={onCancel}
         severity="warning"
       >
         <FormActionsContainer>
-          <Button variant="danger" onClick={() => setIsNormalizedOnLoad(false)}>
+          <Button variant="danger" onClick={onCancel}>
             {t("alertModal.continue")}
           </Button>
         </FormActionsContainer>

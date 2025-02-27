@@ -6,7 +6,8 @@
  *
  */
 
-import { ReactElement, memo, useState } from "react";
+import { ReactElement, memo, useCallback, useState } from "react";
+import { AccordionValueChangeDetails } from "@ark-ui/react";
 import { AccordionRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { FormAccordionProps } from "./FormAccordion";
@@ -37,15 +38,13 @@ const StyledAccordionRoot = styled(AccordionRoot, {
 const FormAccordions = ({ defaultOpen, children }: Props) => {
   const [openAccordions, setOpenAccordions] = useState<string[]>(defaultOpen);
 
+  const onValueChange = useCallback((details: AccordionValueChangeDetails) => {
+    setOpenAccordions(details.value);
+  }, []);
+
   return (
     <AccordionsWrapper>
-      <StyledAccordionRoot
-        multiple
-        value={openAccordions}
-        onValueChange={(details) => setOpenAccordions(details.value)}
-        lazyMount
-        unmountOnExit
-      >
+      <StyledAccordionRoot multiple value={openAccordions} onValueChange={onValueChange} lazyMount unmountOnExit>
         {children}
       </StyledAccordionRoot>
     </AccordionsWrapper>

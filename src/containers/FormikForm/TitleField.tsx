@@ -94,7 +94,7 @@ const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => 
 
   return (
     <FormField name={name}>
-      {({ field, meta }) => (
+      {({ field, meta, helpers }) => (
         <FieldRoot required invalid={!!meta.error}>
           <ContentEditableFieldLabel srOnly>{t("form.title.label")}</ContentEditableFieldLabel>
           <StyledRichTextEditor
@@ -108,7 +108,7 @@ const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => 
             data-title=""
             data-testid="learning-resource-title"
             plugins={plugins}
-            onChange={(val) => field.onChange({ target: { value: val, name: field.name } })}
+            onChange={helpers.setValue}
             toolbarOptions={toolbarOptions}
             toolbarAreaFilters={toolbarAreaFilters}
             maxLength={maxLength}

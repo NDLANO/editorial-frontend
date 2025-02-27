@@ -10,7 +10,7 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
-import { createListCollection } from "@ark-ui/react";
+import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
 import { GlobalLine } from "@ndla/icons";
 import { SelectContent, SelectRoot, SelectValueText, SelectLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -38,6 +38,8 @@ const getCurrentLanguage = (editor: Editor) => {
   return node.data.lang;
 };
 
+const positioningOptions = { sameWidth: true };
+
 export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<LanguageType>) => {
   const { t, i18n } = useTranslation();
   const editor = useSlate();
@@ -45,8 +47,9 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
   const selection = useSlateSelection();
 
   const onClick = useCallback(
-    (language: string) => {
+    (details: SelectValueChangeDetails) => {
       if (!selection) return;
+      const language = details.value[0];
       Transforms.select(editor, selection);
       ReactEditor.focus(editor);
       const wrappedInSpan = hasNodeOfType(editor, "span");
@@ -87,9 +90,9 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
     <FieldRoot>
       <SelectRoot
         collection={collection}
-        positioning={{ sameWidth: true }}
+        positioning={positioningOptions}
         value={[currentLanguage ?? "none"]}
-        onValueChange={(details) => onClick(details.value[0])}
+        onValueChange={onClick}
       >
         <SelectLabel srOnly>{title}</SelectLabel>
         <StyledGenericSelectTrigger variant="tertiary" title={title} size="small" data-testid="toolbar-button-language">

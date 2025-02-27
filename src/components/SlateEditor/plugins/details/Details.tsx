@@ -6,10 +6,10 @@
  *
  */
 
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Transforms, Element } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
+import { Transforms, Element } from "slate";
+import { ReactEditor, RenderElementProps, useSlate } from "slate-react";
 import { ArrowDownShortLine } from "@ndla/icons";
 import { ExpandableBox, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -28,10 +28,6 @@ const ButtonContainer = styled("div", {
     justifyContent: "flex-end",
   },
 });
-
-interface Props {
-  editor: Editor;
-}
 
 const StyledIconButton = styled(IconButton, {
   base: {
@@ -71,14 +67,16 @@ const StyledExpandableBox = styled(ExpandableBox, {
   },
 });
 
-const Details = ({ children, editor, element, attributes }: Props & RenderElementProps) => {
+const Details = ({ children, element, attributes }: RenderElementProps) => {
   const [isOpen, setIsOpen] = useState(true);
   const { t } = useTranslation();
-  const toggleOpen = () => {
-    setIsOpen((open) => !open);
-  };
+  const editor = useSlate();
 
-  const onRemoveClick = () => {
+  const toggleOpen = useCallback(() => {
+    setIsOpen((open) => !open);
+  }, []);
+
+  const onRemoveClick = useCallback(() => {
     const path = ReactEditor.findPath(editor, element);
     Transforms.removeNodes(editor, {
       at: path,
@@ -89,9 +87,9 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
       Transforms.select(editor, path);
       Transforms.collapse(editor);
     }, 0);
-  };
+  }, [editor, element]);
 
-  const onMoveContent = () => {
+  const onMoveContent = useCallback(() => {
     const path = ReactEditor.findPath(editor, element);
     Transforms.unwrapNodes(editor, {
       at: path,
@@ -103,7 +101,7 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
       Transforms.select(editor, path);
       Transforms.collapse(editor, { edge: "start" });
     }, 0);
-  };
+  }, [editor, element]);
 
   const openAttribute = isOpen ? { "data-open": "" } : {};
   const toggleOpenTitle = isOpen ? t("form.close") : t("form.open");
@@ -131,4 +129,4 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
   );
 };
 
-export default Details;
+export default memo(Details);

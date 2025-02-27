@@ -6,7 +6,7 @@
  *
  */
 
-import sortBy from "lodash/sortBy";
+import { sortBy } from "lodash-es";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Spinner } from "@ndla/primitives";

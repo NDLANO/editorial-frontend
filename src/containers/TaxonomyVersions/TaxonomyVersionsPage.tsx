@@ -6,8 +6,7 @@
  *
  */
 
-import partition from "lodash/partition";
-import sortBy from "lodash/sortBy";
+import { partition, sortBy } from "lodash-es";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Heading, PageContainer, Text } from "@ndla/primitives";

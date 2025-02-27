@@ -120,7 +120,6 @@ const SearchContainer = ({ searchHook, type }: Props) => {
             searching={isSearching}
             type={type}
             locale={locale}
-            subjects={subjects}
             error={!!searchError}
           />
           <Pagination

@@ -6,7 +6,7 @@
  *
  */
 
-import keyBy from "lodash/keyBy";
+import { keyBy } from "lodash-es";
 import { IArticleSummaryV2DTO, ISearchResultV2DTO } from "@ndla/types-backend/article-api";
 import { IFrontPageDTO, IMenuDTO } from "@ndla/types-backend/frontpage-api";
 import { MenuWithArticle } from "./types";

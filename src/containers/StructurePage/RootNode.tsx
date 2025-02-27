@@ -6,9 +6,7 @@
  *
  */
 
-import isEqual from "lodash/isEqual";
-import partition from "lodash/partition";
-import sortBy from "lodash/sortBy";
+import { partition, isEqual, sortBy } from "lodash-es";
 import { memo, MutableRefObject } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";

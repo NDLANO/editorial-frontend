@@ -6,7 +6,7 @@
  *
  */
 
-import uniq from "lodash/uniq";
+import { uniq } from "lodash-es";
 import { useState, useEffect, useCallback } from "react";
 import { INewArticleDTO, IUpdatedArticleDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
 import { LAST_UPDATED_SIZE } from "../../constants";

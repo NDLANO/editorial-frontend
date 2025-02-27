@@ -6,7 +6,7 @@
  *
  */
 
-import partition from "lodash/partition";
+import { partition } from "lodash-es";
 import { Fragment, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";

@@ -6,7 +6,7 @@
  *
  */
 
-import isEmpty from "lodash/isEmpty";
+import { isEmpty } from "lodash-es";
 import { Descendant, Editor, Element, Node, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { NOOP_ELEMENT_TYPE } from "@ndla/editor";

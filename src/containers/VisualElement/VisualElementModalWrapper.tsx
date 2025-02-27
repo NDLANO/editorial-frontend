@@ -7,7 +7,7 @@
  */
 
 import { ReactElement, useCallback } from "react";
-import { Portal } from "@ark-ui/react";
+import { DialogOpenChangeDetails, Portal } from "@ark-ui/react";
 import { DialogBody, DialogRoot, DialogContent, DialogHeader } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
@@ -34,8 +34,8 @@ interface Props {
 
 const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, label }: Props) => {
   const onOpenChange = useCallback(
-    (open: boolean) => {
-      if (!open) {
+    (details: DialogOpenChangeDetails) => {
+      if (!details.open) {
         onClose();
       }
     },
@@ -44,7 +44,7 @@ const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, label 
 
   if (resource === "h5p") {
     return (
-      <DialogRoot size="large" open={isOpen} onOpenChange={(details) => onOpenChange(details.open)}>
+      <DialogRoot size="large" open={isOpen} onOpenChange={onOpenChange}>
         <Portal>
           <StyledDialogContent>
             <DialogBody>{children}</DialogBody>
@@ -55,7 +55,7 @@ const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, label 
   }
 
   return (
-    <DialogRoot open={isOpen} size="large" onOpenChange={(details) => onOpenChange(details.open)}>
+    <DialogRoot open={isOpen} size="large" onOpenChange={onOpenChange}>
       <Portal>
         <DialogContent aria-label={label}>
           <StyledDialogHeader>

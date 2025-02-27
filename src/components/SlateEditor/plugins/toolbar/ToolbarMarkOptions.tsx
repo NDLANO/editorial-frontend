@@ -6,7 +6,7 @@
  *
  */
 
-import isEqual from "lodash/isEqual";
+import { isEqual } from "lodash-es";
 import { Editor } from "slate";
 import { useSlate, useSlateSelector } from "slate-react";
 import { toggleMark } from "@ndla/editor";

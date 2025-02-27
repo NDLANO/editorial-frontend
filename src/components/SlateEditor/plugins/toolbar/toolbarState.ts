@@ -6,7 +6,7 @@
  *
  */
 
-import merge from "lodash/merge";
+import { merge } from "lodash-es";
 import { Editor, Element, Node, BaseSelection, Text } from "slate";
 import { NOOP_ELEMENT_TYPE } from "@ndla/editor";
 import { ElementType } from "../../interfaces";

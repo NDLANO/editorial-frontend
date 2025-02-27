@@ -9,7 +9,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { MessageLine, CheckboxCircleLine } from "@ndla/icons";
-import { Text } from "@ndla/primitives";
+import { Skeleton, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild, ResourceType } from "@ndla/types-taxonomy";
@@ -127,7 +127,7 @@ interface Props {
   resources: ResourceWithNodeConnectionAndMeta[];
   resourceTypes: Pick<ResourceType, "id" | "name">[];
   articleIds?: number[];
-  contentMetaLoading: boolean;
+  nodeResourcesIsPending: boolean;
   responsible: string | undefined;
   topicNodes: Node[] | undefined;
   showQuality: boolean;
@@ -139,7 +139,7 @@ const TopicResourceBanner = ({
   onCurrentNodeChanged,
   resourceTypes,
   resources,
-  contentMetaLoading,
+  nodeResourcesIsPending,
   responsible,
   topicNodes,
   showQuality,
@@ -147,7 +147,7 @@ const TopicResourceBanner = ({
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const elementCount = Object.values(contentMeta).length;
+  const elementCount = useMemo(() => Object.values(contentMeta).length, [contentMeta]);
   const workflowCount = useMemo(() => getWorkflowCount(contentMeta), [contentMeta]);
 
   const numericId = parseInt(currentNode.contentUri?.split(":").pop() ?? "");
@@ -170,9 +170,17 @@ const TopicResourceBanner = ({
           </ContentWrapper>
         )}
         <ContentWrapper>
-          <Text color="text.subtle" textStyle="label.small">{`${workflowCount}/${elementCount} ${t(
-            "taxonomy.workflow",
-          ).toLowerCase()}`}</Text>
+          {nodeResourcesIsPending ? (
+            <Skeleton aria-label={t("loading")}>
+              <Text color="text.subtle" textStyle="label.small">
+                {`${0}/${0} ${t("taxonomy.workflow").toLowerCase()}`}
+              </Text>
+            </Skeleton>
+          ) : (
+            <Text color="text.subtle" textStyle="label.small">{`${workflowCount}/${elementCount} ${t(
+              "taxonomy.workflow",
+            ).toLowerCase()}`}</Text>
+          )}
           {!!lastCommentTopicArticle && (
             <MessageLine
               title={stripInlineContentHtmlTags(lastCommentTopicArticle)}
@@ -211,7 +219,7 @@ const TopicResourceBanner = ({
             {!!isSupplementary && <SupplementaryIndicator />}
           </TextWrapper>
           <StatusIcons
-            contentMetaLoading={contentMetaLoading}
+            nodeResourcesIsPending={nodeResourcesIsPending}
             resource={currentNode}
             multipleTaxonomy={contexts?.length ? contexts.length > 1 : false}
           />

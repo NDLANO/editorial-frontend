@@ -6,9 +6,9 @@
  *
  */
 
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { createListCollection } from "@ark-ui/react";
+import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IStatusDTO as DraftStatus } from "@ndla/types-backend/draft-api";
@@ -42,6 +42,8 @@ const StyledSelectRoot = styled(SelectRoot, {
   },
 });
 
+const positioning = { sameWidth: true };
+
 const StatusSelect = ({ status, updateStatus, statusStateMachine, entityStatus }: Props) => {
   const { t } = useTranslation();
 
@@ -57,14 +59,23 @@ const StatusSelect = ({ status, updateStatus, statusStateMachine, entityStatus }
     return createListCollection({ items, itemToValue: (item) => item.status, itemToString: (item) => item.label });
   }, [entityStatus, statusStateMachine, t]);
 
+  const value = useMemo(() => (status ? [status.current] : undefined), [status]);
+
+  const onValueChange = useCallback(
+    (details: SelectValueChangeDetails) => {
+      updateStatus(details.value[0]);
+    },
+    [updateStatus],
+  );
+
   return (
     <StyledSelectRoot
       key={status === undefined ? entityStatus?.current : undefined}
       collection={collection}
-      positioning={{ sameWidth: true }}
+      positioning={positioning}
       data-testid="status-select"
-      value={status ? [status.current] : undefined}
-      onValueChange={(details) => updateStatus(details.value[0])}
+      value={value}
+      onValueChange={onValueChange}
     >
       <SelectLabel srOnly>{t("searchForm.types.status")}</SelectLabel>
       <StyledGenericSelectTrigger>

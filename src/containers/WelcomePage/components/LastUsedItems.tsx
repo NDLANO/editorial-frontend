@@ -6,7 +6,7 @@
  *
  */
 
-import orderBy from "lodash/orderBy";
+import { orderBy } from "lodash-es";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";

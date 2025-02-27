@@ -29,8 +29,10 @@ import { paragraphPlugin } from "../../../components/SlateEditor/plugins/paragra
 import { breakPlugin } from "../../../components/SlateEditor/plugins/break";
 import { markPlugin } from "../../../components/SlateEditor/plugins/mark";
 import { listPlugin } from "../../../components/SlateEditor/plugins/list";
+import { inlineNavigationPlugin } from "@ndla/editor";
 
 export const plugins: SlatePlugin[] = [
+  inlineNavigationPlugin,
   sectionPlugin,
   spanPlugin,
   paragraphPlugin,

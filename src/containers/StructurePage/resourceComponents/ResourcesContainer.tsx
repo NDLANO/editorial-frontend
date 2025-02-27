@@ -7,6 +7,7 @@
  */
 
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
@@ -34,7 +35,7 @@ interface Props {
   contentMeta: Dictionary<NodeResourceMeta>;
   grouped: boolean;
   setCurrentNode: (changedNode: NodeChild) => void;
-  contentMetaLoading: boolean;
+  nodeResourcesIsPending: boolean;
   showQuality: boolean;
   users: Dictionary<Auth0UserData> | undefined;
 }
@@ -45,10 +46,11 @@ const ResourcesContainer = ({
   contentMeta,
   grouped,
   setCurrentNode,
-  contentMetaLoading,
+  nodeResourcesIsPending,
   showQuality,
   users,
 }: Props) => {
+  const { t } = useTranslation();
   const resourceTypesWithoutMissing = useMemo(
     () => resourceTypes.filter((rt) => rt.id !== "missing").map((rt) => ({ id: rt.id, name: rt.name })),
     [resourceTypes],
@@ -89,14 +91,14 @@ const ResourcesContainer = ({
           resourceTypes: [],
           relevanceId: currentNode.relevanceId,
         }}
-        contentMetaLoading={contentMetaLoading}
+        nodeResourcesIsPending={nodeResourcesIsPending}
         responsible={currentMeta?.responsible ? users?.[currentMeta.responsible.responsibleId]?.name : undefined}
         topicNodes={data}
         showQuality={showQuality}
       />
       <ResourceWrapper>
-        {contentMetaLoading ? (
-          <Spinner />
+        {nodeResourcesIsPending ? (
+          <Spinner aria-label={t("loading")} />
         ) : grouped ? (
           mapping?.map((resource) => (
             <ResourceItems
@@ -104,7 +106,7 @@ const ResourcesContainer = ({
               resources={resource.resources}
               currentNodeId={currentNodeId}
               contentMeta={contentMeta}
-              contentMetaLoading={contentMetaLoading}
+              nodeResourcesIsPending={nodeResourcesIsPending}
               users={users}
               showQuality={showQuality}
             />
@@ -114,7 +116,7 @@ const ResourcesContainer = ({
             resources={nodeResources}
             currentNodeId={currentNodeId}
             contentMeta={contentMeta}
-            contentMetaLoading={contentMetaLoading}
+            nodeResourcesIsPending={nodeResourcesIsPending}
             users={users}
             showQuality={showQuality}
           />

@@ -6,7 +6,7 @@
  *
  */
 
-import debounce from "lodash/debounce";
+import { debounce } from "lodash-es";
 import queryString from "query-string";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";

@@ -431,9 +431,8 @@ exports[`Messages > Several messages renders correctly 1`] = `
 
 exports[`Messages > auth0 messages provides a cancel button 1`] = `
 <body
-  data-inert=""
   data-scroll-lock=""
-  style="pointer-events: none; overflow: hidden; padding-right: 1024px;"
+  style="overflow: hidden; padding-right: 1024px;"
 >
   <div />
   <div

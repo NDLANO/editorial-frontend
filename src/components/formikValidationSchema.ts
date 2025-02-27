@@ -7,8 +7,7 @@
  */
 
 import { TFunction } from "i18next";
-import get from "lodash/fp/get";
-import set from "lodash/set";
+import { get, set } from "lodash-es";
 import {
   isUrl,
   isEmpty,
@@ -55,7 +54,7 @@ const validateFormikField = <FormikValuesType, ApiTypes = any>({
     return errors;
   }
 
-  const value = get(valueKey, values);
+  const value = get(values, valueKey);
   if (rule.required && isEmpty(value)) {
     const error = appendError(errors[valueKey], t("validation.isRequired", { label }));
     set(errors, valueKey, error);
@@ -70,7 +69,7 @@ const validateFormikField = <FormikValuesType, ApiTypes = any>({
   if (rule.dateBefore) {
     const beforeDate = value;
     const afterKey = rule.afterKey;
-    const afterDate = get(afterKey!, values);
+    const afterDate = get(values, afterKey!);
     if (!validDateRange(beforeDate, afterDate)) {
       const error = appendError(
         errors[valueKey],
@@ -84,7 +83,7 @@ const validateFormikField = <FormikValuesType, ApiTypes = any>({
   }
   if (rule.dateAfter) {
     const beforeKey = rule.beforeKey;
-    const beforeDate = get(beforeKey!, values);
+    const beforeDate = get(values, beforeKey!);
     const afterDate = value;
     if (!validDateRange(beforeDate, afterDate)) {
       const error = appendError(
@@ -108,7 +107,7 @@ const validateFormikField = <FormikValuesType, ApiTypes = any>({
 
   if (rule.maxSize) {
     const maxSize = rule.maxSize;
-    const fileSize = get(valueKey, values);
+    const fileSize = get(values, valueKey);
     if (fileSize > maxSize) {
       const error = appendError(
         errors[valueKey],
@@ -231,7 +230,7 @@ const validateFormik = <FormikValuesType, ApiTypes = any>(
   let errors: Record<string, string> = {};
   try {
     Object.keys(rules).forEach((ruleKey) => {
-      const value = get(ruleKey, values);
+      const value = get(values, ruleKey);
       const rule = rules[ruleKey];
 
       if (rule.rules && (rule.onlyValidateIf ? rule.onlyValidateIf(values) : true)) {
@@ -306,9 +305,9 @@ export const getWarnings = <FormikValuesType, ApiType>(
         const warningRules = rule.warnings;
         if (warningRules?.languageMatch) {
           const apiField = warningRules.apiField ?? ruleKey;
-          const entityField = get([apiField], entity);
-          const fieldLanguage = get("language", entityField);
-          const formikLanguage = get("language", values);
+          const entityField = get(entity, [apiField]);
+          const fieldLanguage = get(entityField, "language");
+          const formikLanguage = get(values, "language");
           if (entity && fieldLanguage && formikLanguage !== fieldLanguage) {
             const edgeCaseWarning =
               apiField !== ruleKey

@@ -6,7 +6,7 @@
  *
  */
 
-import sortBy from "lodash/sortBy";
+import { sortBy } from "lodash-es";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Combobox, createListCollection } from "@ark-ui/react";

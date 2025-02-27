@@ -6,7 +6,7 @@
  *
  */
 
-import isEqual from "lodash/isEqual";
+import { isEqual } from "lodash-es";
 import { useCallback } from "react";
 import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, useSlate, useSlateSelector } from "slate-react";

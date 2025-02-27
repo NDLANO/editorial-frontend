@@ -5,8 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import isEqual from "lodash/fp/isEqual";
-import get from "lodash/get";
+import { isEqual, get } from "lodash-es";
 import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import { FlatArticleKeys } from "../../containers/ArticlePage/components/types";

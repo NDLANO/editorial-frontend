@@ -6,7 +6,7 @@
  *
  */
 
-import isEqual from "lodash/fp/isEqual";
+import { isEqual } from "lodash-es";
 import { Descendant, Node } from "slate";
 import { licenses } from "@ndla/licenses";
 import { IArticleDTO, ILicenseDTO, IArticleMetaImageDTO } from "@ndla/types-backend/draft-api";

@@ -6,9 +6,7 @@
  *
  */
 
-import get from "lodash/get";
-import merge from "lodash/merge";
-import set from "lodash/set";
+import { get, merge, set } from "lodash-es";
 import { useCallback, useEffect, useState } from "react";
 import { ApiTranslateType } from "../../interfaces";
 import { fetchNnTranslation } from "../../modules/translate/translateApi";

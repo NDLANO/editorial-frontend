@@ -90,8 +90,6 @@ export const getNewConceptType = (
   },
   tags: values.tags,
   metaImage: metaImageFromForm(values),
-  subjectIds: [],
-  articleIds: [],
   visualElement: editorValueToEmbedTag(values.visualElement),
   responsibleId: values.responsibleId,
   conceptType: conceptType,
@@ -136,7 +134,6 @@ export const conceptFormTypeToApiType = (
     },
     source: values.source,
     tags: { tags: values.tags, language: values.language },
-    articleIds: [],
     title: {
       title: editorValueToPlainText(values.title),
       language: values.language,
@@ -153,7 +150,6 @@ export const conceptFormTypeToApiType = (
       alt: values.metaImageAlt,
       language: values.metaImage?.language ?? values.language,
     },
-    subjectIds: [],
     updatedBy,
     copyright: {
       ...values,

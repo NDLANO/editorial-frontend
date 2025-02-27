@@ -8,7 +8,7 @@
 
 import { ReactNode, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Portal } from "@ark-ui/react";
+import { DialogOpenChangeDetails, Portal } from "@ark-ui/react";
 import { ErrorWarningLine } from "@ndla/icons";
 import {
   DialogRoot,
@@ -39,8 +39,8 @@ export const AlertDialog = ({ children, text, onCancel, title, show, label, seve
   const { t } = useTranslation();
 
   const onOpenChange = useCallback(
-    (open: boolean) => {
-      if (open) {
+    (details: DialogOpenChangeDetails) => {
+      if (details.open) {
         focusedElementBeforeModalRef.current = document.activeElement as HTMLElement;
       } else {
         onCancel();
@@ -49,16 +49,18 @@ export const AlertDialog = ({ children, text, onCancel, title, show, label, seve
     [onCancel],
   );
 
+  const onExitComplete = useCallback(() => {
+    focusedElementBeforeModalRef.current?.focus();
+    focusedElementBeforeModalRef.current = null;
+  }, []);
+
   return (
     <DialogRoot
       open={!!show}
-      onOpenChange={(details) => onOpenChange(details.open)}
+      onOpenChange={onOpenChange}
       aria-label={label}
+      onExitComplete={onExitComplete}
       context="alert"
-      onExitComplete={() => {
-        focusedElementBeforeModalRef.current?.focus();
-        focusedElementBeforeModalRef.current = null;
-      }}
     >
       <Portal>
         <DialogContent data-testid="alert-dialog">

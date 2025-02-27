@@ -7,7 +7,9 @@
  */
 
 import { useField } from "formik";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { CheckboxCheckedChangeDetails } from "@ark-ui/react";
 import { CheckLine } from "@ndla/icons";
 import {
   CheckboxControl,
@@ -18,28 +20,32 @@ import {
   FieldHelper,
   FieldRoot,
 } from "@ndla/primitives";
-import { FormField } from "../../../components/FormField";
 
 const ProcessedField = () => {
   const { t } = useTranslation();
   const [originField] = useField<string>("origin");
+  const [processedField, _, processedHelpers] = useField<boolean>("processed");
+
+  const onCheckedChange = useCallback(
+    (details: CheckboxCheckedChangeDetails) => {
+      processedHelpers.setValue(details.checked === true);
+    },
+    [processedHelpers],
+  );
+
   return (
-    <FormField name="processed">
-      {({ field, helpers }) => (
-        <FieldRoot disabled={!originField.value?.length && !field.value}>
-          {!originField.value?.length && <FieldHelper>{t("form.processed.disabledCause")}</FieldHelper>}
-          <CheckboxRoot checked={field.value} onCheckedChange={(details) => helpers.setValue(details.checked)}>
-            <CheckboxControl>
-              <CheckboxIndicator asChild>
-                <CheckLine />
-              </CheckboxIndicator>
-            </CheckboxControl>
-            <CheckboxLabel>{t("form.processed.description")}</CheckboxLabel>
-            <CheckboxHiddenInput />
-          </CheckboxRoot>
-        </FieldRoot>
-      )}
-    </FormField>
+    <FieldRoot disabled={!originField.value?.length && !processedField.value}>
+      {!originField.value?.length && <FieldHelper>{t("form.processed.disabledCause")}</FieldHelper>}
+      <CheckboxRoot checked={processedField.value} onCheckedChange={onCheckedChange}>
+        <CheckboxControl>
+          <CheckboxIndicator asChild>
+            <CheckLine />
+          </CheckboxIndicator>
+        </CheckboxControl>
+        <CheckboxLabel>{t("form.processed.description")}</CheckboxLabel>
+        <CheckboxHiddenInput />
+      </CheckboxRoot>
+    </FieldRoot>
   );
 };
 

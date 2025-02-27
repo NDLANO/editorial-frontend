@@ -7,8 +7,10 @@
  */
 
 import { useField, useFormikContext } from "formik";
-import { memo, useMemo } from "react";
+import { memo, useCallback, useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import { SwitchCheckedChangeDetails } from "@ark-ui/react";
+import { inlineNavigationPlugin } from "@ndla/editor";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -72,6 +74,7 @@ const toolbarOptions = createToolbarDefaultValues({
 });
 
 export const disclaimerPlugins: SlatePlugin[] = [
+  inlineNavigationPlugin,
   spanPlugin,
   paragraphPlugin,
   toolbarPlugin(toolbarOptions, toolbarAreaFilters),
@@ -156,6 +159,13 @@ const LearningResourcePanels = ({
     [article?.status],
   );
 
+  const onCheckedChange = useCallback(
+    (details: SwitchCheckedChangeDetails) => {
+      setHideComments(!details.checked);
+    },
+    [setHideComments],
+  );
+
   return (
     <>
       <StyledControls>
@@ -168,7 +178,7 @@ const LearningResourcePanels = ({
           updateNotes={updateNotes}
         />
         {!removeComments && (
-          <SwitchRoot checked={!hideComments} onCheckedChange={() => setHideComments(!hideComments)}>
+          <SwitchRoot checked={!hideComments} onCheckedChange={onCheckedChange}>
             <SwitchLabel>{t("form.comment.showComments")}</SwitchLabel>
             <SwitchControl>
               <SwitchThumb />

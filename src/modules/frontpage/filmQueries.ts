@@ -6,7 +6,7 @@
  *
  */
 
-import sortBy from "lodash/sortBy";
+import { sortBy } from "lodash-es";
 import { useTranslation } from "react-i18next";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { IFilmFrontPageDataDTO } from "@ndla/types-backend/frontpage-api";

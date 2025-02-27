@@ -45,8 +45,10 @@ import { headingPlugin } from "../../../../components/SlateEditor/plugins/headin
 import { breakPlugin } from "../../../../components/SlateEditor/plugins/break";
 import { markPlugin } from "../../../../components/SlateEditor/plugins/mark";
 import { listPlugin } from "../../../../components/SlateEditor/plugins/list";
+import { inlineNavigationPlugin } from "@ndla/editor";
 
 export const learningResourcePlugins: SlatePlugin[] = [
+  inlineNavigationPlugin,
   sectionPlugin,
   spanPlugin,
   divPlugin,

@@ -6,7 +6,7 @@
  *
  */
 
-import equals from "lodash/fp/equals";
+import { isEqual } from "lodash-es";
 import { Descendant, Editor, Element, Node, NodeEntry, Path, Text, Transforms } from "slate";
 import { HistoryEditor } from "slate-history";
 import { jsx as slatejsx } from "slate-hyperscript";
@@ -143,7 +143,7 @@ export const tableSerializer: SlateSerializer = {
         colspan: colspan || 1,
         rowspan: rowspan || 1,
       };
-      if (equals(children, [{ text: "" }])) {
+      if (isEqual(children, [{ text: "" }])) {
         children = [
           {
             ...defaultParagraphBlock(),
@@ -273,7 +273,7 @@ export const tablePlugin = (editor: Editor) => {
           row.forEach((cell, cellIndex) => {
             const result = Editor.nodes(editor, {
               at: path,
-              match: (node) => equals(node, cell),
+              match: (node) => isEqual(node, cell),
             });
             const [maybeNode] = result;
 

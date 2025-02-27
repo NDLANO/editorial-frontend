@@ -7,8 +7,8 @@
  */
 
 import { TFunction } from "i18next";
-import keyBy from "lodash/keyBy";
-import { memo } from "react";
+import { keyBy } from "lodash-es";
+import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import ResourcesContainer from "./ResourcesContainer";
@@ -59,7 +59,7 @@ const StructureResources = ({ currentChildNode, setCurrentNode, showQuality, use
   const { taxonomyVersion } = useTaxonomyVersion();
   const grouped = currentChildNode?.metadata?.customFields["topic-resources"] ?? "grouped";
 
-  const { data: nodeResources } = useResourcesWithNodeConnection(
+  const { data: nodeResources, isPending: nodeResourcesIsPending } = useResourcesWithNodeConnection(
     {
       id: currentChildNode.id,
       language: i18n.language,
@@ -70,11 +70,10 @@ const StructureResources = ({ currentChildNode, setCurrentNode, showQuality, use
     },
     {
       select: (resources) => resources.map((r) => (r.resourceTypes.length > 0 ? r : withMissing(r))),
-      placeholderData: [],
     },
   );
 
-  const { data: nodeResourceMetas, isLoading: contentMetaLoading } = useNodeResourceMetas(
+  const { data: nodeResourceMetas, isPending: contentMetaIsPending } = useNodeResourceMetas(
     {
       nodeId: currentChildNode.id,
       ids:
@@ -84,10 +83,10 @@ const StructureResources = ({ currentChildNode, setCurrentNode, showQuality, use
           .filter<string>((uri): uri is string => !!uri) ?? [],
       language: i18n.language,
     },
-    { enabled: !!currentChildNode.contentUri || !!nodeResources?.length },
+    { enabled: !!currentChildNode.contentUri || (!!nodeResources && !!nodeResources?.length) },
   );
 
-  const keyedMetas = keyBy(nodeResourceMetas, (m) => m.contentUri);
+  const keyedMetas = useMemo(() => keyBy(nodeResourceMetas, (m) => m.contentUri), [nodeResourceMetas]);
 
   const { data: resourceTypes } = useAllResourceTypes(
     { language: i18n.language, taxonomyVersion },
@@ -105,7 +104,7 @@ const StructureResources = ({ currentChildNode, setCurrentNode, showQuality, use
       contentMeta={keyedMetas}
       grouped={grouped === "grouped"}
       setCurrentNode={setCurrentNode}
-      contentMetaLoading={contentMetaLoading}
+      nodeResourcesIsPending={contentMetaIsPending || nodeResourcesIsPending}
       showQuality={showQuality}
       users={users}
     />

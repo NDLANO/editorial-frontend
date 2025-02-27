@@ -166,6 +166,14 @@ function EditorFooter<T extends FormValues>({
     [onSaveClick, setFieldValue, values.status],
   );
 
+  const onUpdateStatus = useCallback(
+    (value: string | undefined) => {
+      setFieldValue("status", { current: value });
+      setNewStatus(value);
+    },
+    [setFieldValue],
+  );
+
   return (
     <StyledPageContent>
       <ContentWrapper>
@@ -191,10 +199,7 @@ function EditorFooter<T extends FormValues>({
           <FormField name="priority">
             {({ field, helpers }) => (
               <FieldRoot>
-                <PrioritySelect
-                  priority={field.value}
-                  updatePriority={(value) => helpers.setValue(value ?? "unspecified")}
-                />
+                <PrioritySelect priority={field.value} updatePriority={helpers.setValue} />
               </FieldRoot>
             )}
           </FormField>
@@ -203,21 +208,18 @@ function EditorFooter<T extends FormValues>({
           <FormField name="responsibleId">
             {({ field, helpers }) => (
               <FieldRoot>
-                <ResponsibleSelect responsible={field.value} onSave={(value) => helpers.setValue(value ?? null)} />
+                <ResponsibleSelect responsible={field.value} onSave={helpers.setValue} />
               </FieldRoot>
             )}
           </FormField>
         )}
         {!showSimpleFooter && (
           <FormField name="status">
-            {({ field, helpers }) => (
+            {({ field }) => (
               <FieldRoot>
                 <StatusSelect
                   status={field.value}
-                  updateStatus={(value) => {
-                    helpers.setValue({ current: value });
-                    setNewStatus(value);
-                  }}
+                  updateStatus={onUpdateStatus}
                   statusStateMachine={statusStateMachine}
                   entityStatus={entityStatus}
                 />

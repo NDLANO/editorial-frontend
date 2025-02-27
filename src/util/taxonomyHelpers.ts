@@ -6,10 +6,7 @@
  *
  */
 
-import groupBy from "lodash/groupBy";
-import merge from "lodash/merge";
-import sortBy from "lodash/sortBy";
-import uniqBy from "lodash/uniqBy";
+import { groupBy, merge, sortBy, uniqBy } from "lodash-es";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import { getContentTypeFromResourceTypes } from "./resourceHelpers";
 import { ResourceWithNodeConnectionAndMeta } from "../containers/StructurePage/resourceComponents/StructureResources";

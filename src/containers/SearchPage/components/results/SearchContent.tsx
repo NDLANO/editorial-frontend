@@ -13,7 +13,6 @@ import { ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/prim
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { Node } from "@ndla/types-taxonomy";
 import { ContentTypeBadge, constants } from "@ndla/ui";
 import SearchHighlight from "./SearchHighlight";
 import { SearchListItemImage } from "./SearchListItemImage";
@@ -28,15 +27,12 @@ interface Props {
   content: IMultiSearchSummaryDTO;
   locale: string;
   responsibleName?: string;
-  subjects: Node[];
 }
 
-const SubjectBreadcrumb = ({ content, subjects }: { content: IMultiSearchSummaryDTO; subjects: Node[] }) => {
+const SubjectBreadcrumb = ({ content }: { content: IMultiSearchSummaryDTO }) => {
   const breadcrumbs = useMemo(() => {
-    if (content.learningResourceType === "gloss" || content.learningResourceType === "concept") {
-      return subjects.filter((s) => content.conceptSubjectIds?.includes(s.id)).map((bc) => bc.name);
-    } else return content.contexts?.[0]?.breadcrumbs ?? [];
-  }, [content.conceptSubjectIds, content.contexts, content.learningResourceType, subjects]);
+    return content.contexts?.[0]?.breadcrumbs ?? [];
+  }, [content.contexts]);
 
   if (!breadcrumbs) return null;
 
@@ -143,7 +139,7 @@ const StyledErrorWarningFill = styled(ErrorWarningFill, {
 
 const conceptTypes = ["concept", "gloss"];
 
-const SearchContent = ({ content, locale, subjects, responsibleName }: Props) => {
+const SearchContent = ({ content, locale, responsibleName }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
 
@@ -248,7 +244,7 @@ const SearchContent = ({ content, locale, subjects, responsibleName }: Props) =>
           </InfoWrapper>
         </ListItemMainContent>
         <ListItemFooterContent>
-          <SubjectBreadcrumb content={content} subjects={subjects} />
+          <SubjectBreadcrumb content={content} />
           <StatusWrapper>
             <StyledSpan>
               <Text asChild consumeCss fontWeight="bold" textStyle="label.xsmall">

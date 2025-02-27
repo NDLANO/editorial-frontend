@@ -16,7 +16,6 @@ import { Form } from "../../../../components/FormikForm";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
-import { useToast } from "../../../../components/ToastProvider";
 import { PUBLISHED } from "../../../../constants";
 import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { frontPageArticleRules, isFormikFormDirty } from "../../../../util/formHelper";
@@ -24,6 +23,7 @@ import { AlertDialogWrapper } from "../../../FormikForm";
 import { FrontpageArticleFormType, HandleSubmitFunc, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
 import { hasUnpublishedConcepts } from "../../../FormikForm/utils";
+import { useMessages } from "../../../Messages/MessagesProvider";
 import { useSession } from "../../../Session/SessionProvider";
 import {
   draftApiTypeToFrontpageArticleFormType,
@@ -54,7 +54,7 @@ const FrontpageArticleForm = ({
 }: Props) => {
   const { t } = useTranslation();
   const { ndlaId } = useSession();
-  const toast = useToast();
+  const { createMessage } = useMessages();
 
   const {
     savedToServer,
@@ -82,14 +82,12 @@ const FrontpageArticleForm = ({
       if (values.status?.current === PUBLISHED && !!article?.responsible?.responsibleId) {
         const unpublishedConcepts = await hasUnpublishedConcepts(article);
         if (unpublishedConcepts) {
-          toast.create({
-            title: t("form.unpublishedConcepts"),
-          });
+          createMessage({ message: t("form.unpublishedConcepts"), timeToLive: 0, severity: "warning" });
         }
       }
       return await _handleSubmit(values, helpers, saveAsNew);
     },
-    [_handleSubmit, article, t, toast],
+    [_handleSubmit, article, createMessage, t],
   );
 
   return (

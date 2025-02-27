@@ -6,27 +6,19 @@
  *
  */
 
-import type { KeyboardEvent } from "react";
-import { Editor, Element, Node, Range, Transforms } from "slate";
+import he from "he";
+import { Editor, Node, Range, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { MathmlElement } from ".";
-import { TYPE_MATHML } from "./types";
-import getCurrentBlock from "../../utils/getCurrentBlock";
 import hasNodeOfType from "../../utils/hasNodeOfType";
-
-export const isMathml = (node: Node | undefined): node is MathmlElement => {
-  return Element.isElement(node) && node.type === TYPE_MATHML;
-};
+import { isMathElement } from "./queries/mathQueries";
+import { MathmlElement } from "./mathTypes";
 
 export const insertMathml = (editor: Editor) => {
   const { selection } = editor;
   if (!Range.isRange(selection)) return;
 
   if (hasNodeOfType(editor, "mathml")) {
-    Transforms.unwrapNodes(editor, {
-      match: (node) => Element.isElement(node) && node.type === "mathml",
-      voids: true,
-    });
+    Transforms.unwrapNodes(editor, { match: isMathElement, voids: true });
     return;
   }
 
@@ -34,9 +26,7 @@ export const insertMathml = (editor: Editor) => {
     Transforms.insertNodes(
       editor,
       slatejsx("element", { type: "mathml", data: {}, isFirstEdit: true }, [{ text: "" }]),
-      {
-        at: Editor.unhangRange(editor, selection),
-      },
+      { at: Editor.unhangRange(editor, selection) },
     );
   } else {
     Transforms.wrapNodes(editor, slatejsx("element", { type: "mathml", data: {}, isFirstEdit: true }, [{ text: "" }]), {
@@ -46,40 +36,15 @@ export const insertMathml = (editor: Editor) => {
   }
 };
 
-export const onArrowUp = (
-  e: KeyboardEvent<HTMLDivElement>,
-  editor: Editor,
-  onKeyDown: ((event: KeyboardEvent<HTMLDivElement>) => void) | undefined,
-) => {
-  if (!editor.selection || !Range.isCollapsed(editor.selection)) {
-    return onKeyDown?.(e);
-  }
-
-  const mathml = getCurrentBlock(editor, TYPE_MATHML)?.[0];
-
-  if (isMathml(mathml)) {
-    e.preventDefault();
-    Transforms.move(editor, { unit: "line", reverse: true });
-    return;
-  }
-  onKeyDown?.(e);
-};
-
-export const onArrowDown = (
-  e: KeyboardEvent<HTMLDivElement>,
-  editor: Editor,
-  onKeyDown: ((event: KeyboardEvent<HTMLDivElement>) => void) | undefined,
-) => {
-  if (!editor.selection || !Range.isCollapsed(editor.selection)) {
-    return onKeyDown?.(e);
-  }
-
-  const mathml = getCurrentBlock(editor, TYPE_MATHML)?.[0];
-
-  if (isMathml(mathml)) {
-    e.preventDefault();
-    Transforms.move(editor, { unit: "line" });
-    return;
-  }
-  onKeyDown?.(e);
+export const getInfoFromNode = (node: MathmlElement) => {
+  const data = node.data ? node.data : {};
+  const innerHTML = data.innerHTML || `<mn>${he.encode(Node.string(node))}</mn>`;
+  return {
+    model: {
+      innerHTML: innerHTML.startsWith("<math")
+        ? innerHTML
+        : `<math xmlns="http://www.w3.org/1998/Math/MathML">${innerHTML}</math>`,
+      xlmns: data.xlmns || 'xmlns="http://www.w3.org/1998/Math/MathML',
+    },
+  };
 };

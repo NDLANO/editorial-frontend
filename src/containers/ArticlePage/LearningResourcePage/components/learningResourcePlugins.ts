@@ -30,7 +30,7 @@ import { gridPlugin } from "../../../../components/SlateEditor/plugins/grid";
 import { h5pPlugin } from "../../../../components/SlateEditor/plugins/h5p";
 import { imagePlugin } from "../../../../components/SlateEditor/plugins/image";
 import { linkPlugin } from "../../../../components/SlateEditor/plugins/link";
-import { mathmlPlugin } from "../../../../components/SlateEditor/plugins/mathml";
+import { mathPlugin } from "../../../../components/SlateEditor/plugins/mathml/mathPlugin";
 import { relatedPlugin } from "../../../../components/SlateEditor/plugins/related";
 import saveHotkeyPlugin from "../../../../components/SlateEditor/plugins/saveHotkey";
 import { spanPlugin } from "../../../../components/SlateEditor/plugins/span";
@@ -76,7 +76,7 @@ export const learningResourcePlugins: SlatePlugin[] = [
   tablePlugin,
   relatedPlugin,
   filePlugin,
-  mathmlPlugin,
+  mathPlugin,
   codeblockPlugin,
   blockPickerPlugin,
   dndPlugin,

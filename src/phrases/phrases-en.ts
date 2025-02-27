@@ -2212,6 +2212,14 @@ const phrases = {
     title: "Preview concept",
   },
   math: "Math problem",
+  richTextEditor: {
+    plugin: {
+      math: {
+        popoverTitle: "Change math problem",
+        dialogTitle: "Edit math problem",
+      },
+    },
+  },
 };
 
 export default phrases;

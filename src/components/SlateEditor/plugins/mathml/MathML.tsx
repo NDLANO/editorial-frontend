@@ -6,19 +6,14 @@
  *
  */
 
-import { useState, useEffect, useRef, MouseEvent } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { Editor } from "slate";
-import { ReactEditor } from "slate-react";
-import { MathmlElement } from ".";
+import { ReactEditor, useSlateStatic } from "slate-react";
+import { MathmlElement } from "./mathTypes";
+import { getInfoFromNode } from "./utils";
 
 interface Props {
-  model: {
-    xlmns: string;
-    innerHTML: string;
-  };
-  editor: Editor;
   element: MathmlElement;
-  onDoubleClick?: (e: MouseEvent<HTMLSpanElement>) => void;
 }
 
 const clearMathjax = (editor: Editor, element: MathmlElement) => {
@@ -29,11 +24,16 @@ const clearMathjax = (editor: Editor, element: MathmlElement) => {
   }
 };
 
-const MathML = ({ model, element, editor, onDoubleClick }: Props) => {
+const MathML = ({ element }: Props) => {
   const [reRender, setReRender] = useState(false);
   const [mathjaxInitialized, setMathjaxInitialized] = useState(true);
+  const editor = useSlateStatic();
 
   const mounted = useRef(false);
+
+  const nodeInfo = useMemo(() => {
+    return getInfoFromNode(element);
+  }, [element]);
 
   useEffect(() => {
     if (!mounted.current) {
@@ -55,7 +55,7 @@ const MathML = ({ model, element, editor, onDoubleClick }: Props) => {
       }, 10);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [model.innerHTML]);
+  }, [nodeInfo.model.innerHTML]);
 
   useEffect(() => {
     if (mathjaxInitialized) {
@@ -75,13 +75,13 @@ const MathML = ({ model, element, editor, onDoubleClick }: Props) => {
   }
 
   return (
-    <span data-testid="math" onDoubleClick={onDoubleClick}>
+    <span data-testid="math">
       {/* @ts-expect-error math does not exist in JSX, but this hack works by setting innerHTML manually. */}
       <math
         // eslint-disable-next-line react/no-unknown-property
-        xlmns={model.xlmns}
+        xlmns={nodeInfo.model.xlmns}
         dangerouslySetInnerHTML={{
-          __html: model.innerHTML,
+          __html: nodeInfo.model.innerHTML,
         }}
       />
     </span>

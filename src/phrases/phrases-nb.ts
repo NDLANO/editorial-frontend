@@ -2211,6 +2211,14 @@ const phrases = {
     title: "Forhåndsvis forklaring",
   },
   math: "Mattestykke",
+  richTextEditor: {
+    plugin: {
+      math: {
+        popoverTitle: "Endre mattestykke",
+        dialogTitle: "Rediger mattestykke",
+      },
+    },
+  },
 };
 
 export default phrases;

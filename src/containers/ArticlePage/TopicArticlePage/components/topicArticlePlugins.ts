@@ -14,7 +14,7 @@ import { definitionListPlugin } from "../../../../components/SlateEditor/plugins
 import { divPlugin } from "../../../../components/SlateEditor/plugins/div";
 import { dndPlugin } from "../../../../components/SlateEditor/plugins/DND";
 import { linkPlugin } from "../../../../components/SlateEditor/plugins/link";
-import { mathmlPlugin } from "../../../../components/SlateEditor/plugins/mathml";
+import { mathPlugin } from "../../../../components/SlateEditor/plugins/mathml/mathPlugin";
 import { noEmbedPlugin } from "../../../../components/SlateEditor/plugins/noEmbed";
 import saveHotkeyPlugin from "../../../../components/SlateEditor/plugins/saveHotkey";
 import { sectionPlugin } from "../../../../components/SlateEditor/plugins/section";
@@ -46,7 +46,7 @@ export const topicArticlePlugins: SlatePlugin[] = [
   listPlugin,
   inlineConceptPlugin,
   commentInlinePlugin,
-  mathmlPlugin,
+  mathPlugin,
   markPlugin,
   dndPlugin,
   toolbarPlugin(),

@@ -34,7 +34,7 @@ import { imagePlugin } from "../../../../components/SlateEditor/plugins/image";
 import { keyFigurePlugin } from "../../../../components/SlateEditor/plugins/keyFigure";
 import { linkPlugin } from "../../../../components/SlateEditor/plugins/link";
 import { linkBlockListPlugin } from "../../../../components/SlateEditor/plugins/linkBlockList";
-import { mathmlPlugin } from "../../../../components/SlateEditor/plugins/mathml";
+import { mathPlugin } from "../../../../components/SlateEditor/plugins/mathml/mathPlugin";
 import { pitchPlugin } from "../../../../components/SlateEditor/plugins/pitch";
 import { relatedPlugin } from "../../../../components/SlateEditor/plugins/related";
 import saveHotkeyPlugin from "../../../../components/SlateEditor/plugins/saveHotkey";
@@ -80,7 +80,7 @@ export const frontpagePlugins: SlatePlugin[] = [
   tablePlugin,
   relatedPlugin,
   filePlugin,
-  mathmlPlugin,
+  mathPlugin,
   contactBlockPlugin,
   codeblockPlugin,
   keyFigurePlugin,

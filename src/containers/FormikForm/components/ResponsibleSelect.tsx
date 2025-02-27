@@ -78,7 +78,7 @@ const ResponsibleSelect = ({ responsible, onSave }: Props) => {
     setQuery(details.inputValue);
   }, []);
 
-  const value = useMemo(() => (responsible ? [responsible] : undefined), [responsible]);
+  const value = useMemo(() => (responsible ? [responsible] : []), [responsible]);
 
   return (
     <StyledComboboxRoot

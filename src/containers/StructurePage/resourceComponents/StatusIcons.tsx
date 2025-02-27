@@ -32,12 +32,12 @@ const StyledErrorWarningFill = styled(ErrorWarningFill, {
 });
 
 interface Props {
-  contentMetaLoading: boolean;
+  nodeResourcesIsPending: boolean;
   resource: ResourceWithNodeConnectionAndMeta;
   multipleTaxonomy: boolean;
 }
 
-const StatusIcons = ({ contentMetaLoading, resource, multipleTaxonomy }: Props) => {
+const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy }: Props) => {
   const { t } = useTranslation();
   const approachingRevision = useMemo(
     () => isApproachingRevision(resource.contentMeta?.revisions),
@@ -65,7 +65,9 @@ const StatusIcons = ({ contentMetaLoading, resource, multipleTaxonomy }: Props) 
       {!!approachingRevision && !!warnStatus && !!expirationDate && (
         <StatusTimeFill variant={warnStatus} aria-label={expirationText} title={expirationText} />
       )}
-      {!contentMetaLoading && <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />}
+      {!nodeResourcesIsPending && (
+        <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />
+      )}
       {!!multipleTaxonomy && (
         <StyledErrorWarningFill
           aria-label={t("form.workflow.multipleTaxonomy")}

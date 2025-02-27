@@ -2211,6 +2211,11 @@ const phrases = {
     title: "Forhåndsvis forklaring",
   },
   math: "Mattestykke",
+  matomo: {
+    visits: "Unike sidevisninger i {{year}}: {{count}}",
+    timeSpent: "Total tid brukt av besøkere: {{time}} sek",
+    error: "Noe gikk galt ved henting av data fra Matomo",
+  },
 };
 
 export default phrases;

@@ -169,7 +169,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
         </FormActionsContainer>
       </AlertDialog>
       <FieldRoot invalid={!!meta.error}>
-        <ContentTypeProvider value="subject-material">
+        <ContentTypeProvider value="frontpage-article">
           <SegmentHeader>
             <ContentEditableFieldLabel>{t("form.content.label")}</ContentEditableFieldLabel>
             {!!id && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (

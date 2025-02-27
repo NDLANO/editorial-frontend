@@ -794,6 +794,7 @@ const phrases = {
     openAll: "Open all",
     hideAll: "Hide all",
     unpublishedChanges: "(Changed since last publish)",
+    unpublishedConcepts: "The article contains unpublished concepts",
     moveContent: "Move content into the text",
     open: "Open",
     close: "Close",

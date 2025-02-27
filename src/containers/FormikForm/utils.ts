@@ -12,6 +12,9 @@ import { ImageEmbedData } from "@ndla/types-embed";
 import { ArticleFormType } from "./articleFormHooks";
 import { defaultEmbedBlock } from "../../components/SlateEditor/plugins/embed/utils";
 import { ConceptFormValues } from "../ConceptPage/conceptInterfaces";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
+import { postSearchConcepts } from "../../modules/concept/conceptApi";
+import { PUBLISHED } from "../../constants";
 
 export const onSaveAsVisualElement = <T extends ArticleFormType>(
   image: IImageMetaInformationV3DTO,
@@ -33,4 +36,20 @@ export const onSaveAsVisualElement = <T extends ArticleFormType>(
       setFieldTouched("visualElement", true, false);
     }, 0);
   }
+};
+
+export const hasUnpublishedConcepts = async (article: IArticleDTO | undefined) => {
+  if (!article?.content?.content) return false;
+
+  const parser = new DOMParser();
+  const parsedContent = parser.parseFromString(article.content.content, "text/html");
+  const concepts = parsedContent.querySelectorAll('[data-resource="concept"]');
+  const conceptIds = Array.from(concepts).map((el) => el.getAttribute("data-content-id"));
+  const convertedIds = conceptIds.filter((id) => !!id).map(Number);
+
+  if (!convertedIds.length) return false;
+
+  const response = await postSearchConcepts({ ids: convertedIds, status: [PUBLISHED] });
+
+  return response.results.length !== convertedIds.length;
 };

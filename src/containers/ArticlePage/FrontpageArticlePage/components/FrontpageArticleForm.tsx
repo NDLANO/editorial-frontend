@@ -51,6 +51,7 @@ const FrontpageArticleForm = ({
 }: Props) => {
   const { t } = useTranslation();
   const { ndlaId } = useSession();
+
   const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks<FrontpageArticleFormType>({
     getInitialValues: draftApiTypeToFrontpageArticleFormType,
     article,
@@ -160,10 +161,7 @@ const InternalFormFooter = ({
         isNewlyCreated={isNewlyCreated}
         isConcept={false}
         hideSecondaryButton={false}
-        articleId={article?.id}
-        articleType={article?.articleType}
-        selectedLanguage={article?.content?.language}
-        supportedLanguages={article?.supportedLanguages}
+        article={article}
       />
       <AlertDialogWrapper
         isSubmitting={isSubmitting}

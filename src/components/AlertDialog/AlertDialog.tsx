@@ -65,7 +65,7 @@ export const AlertDialog = ({ children, text, onCancel, title, show, label, seve
       <Portal>
         <DialogContent data-testid="alert-dialog">
           <DialogHeader>
-            <DialogTitle>{title ?? t("alertDialog.watchOut")}</DialogTitle>
+            <DialogTitle>{title ?? t("alertModal.watchOut")}</DialogTitle>
             <DialogCloseButton variant="clear" data-testid="closeAlert" />
           </DialogHeader>
           <DialogBody>

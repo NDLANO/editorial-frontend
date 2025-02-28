@@ -6,7 +6,7 @@
  *
  */
 
-import { useFormikContext } from "formik";
+import { useField, useFormikContext } from "formik";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LinkMedium } from "@ndla/icons";
@@ -45,9 +45,10 @@ import {
 import { TYPE_DISCLAIMER } from "../../../../components/SlateEditor/plugins/uuDisclaimer/types";
 import { TYPE_EMBED_BRIGHTCOVE } from "../../../../components/SlateEditor/plugins/video/types";
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
-import { DRAFT_HTML_SCOPE } from "../../../../constants";
+import { DRAFT_HTML_SCOPE, SAVE_DEBOUNCE_MS } from "../../../../constants";
 import { isFormikFormDirty } from "../../../../util/formHelper";
 import { toCreateFrontPageArticle, toEditMarkup } from "../../../../util/routeHelpers";
+import { useDebouncedCallback } from "../../../../util/useDebouncedCallback";
 import { IngressField, TitleField, SlugField } from "../../../FormikForm";
 import { FrontpageArticleFormType } from "../../../FormikForm/articleFormHooks";
 import { useSession } from "../../../Session/SessionProvider";
@@ -93,6 +94,7 @@ const editorPlugins = frontpagePlugins.concat(frontpageRenderers);
 const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
   const { userPermissions } = useSession();
   const { t } = useTranslation();
+  const [field, meta, helpers] = useField("content");
 
   const { dirty, initialValues, values, isSubmitting } = useFormikContext<FrontpageArticleFormType>();
   const { slug, id, creators, language } = values;
@@ -110,6 +112,8 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
   const [isNormalizedOnLoad, setIsNormalizedOnLoad] = useState(isFormikDirty);
   const [isTouched, setIsTouched] = useState(false);
   const isCreatePage = toCreateFrontPageArticle() === window.location.pathname;
+
+  const debouncedOnChange = useDebouncedCallback(helpers.setValue, SAVE_DEBOUNCE_MS);
 
   useEffect(() => {
     setTimeout(() => {
@@ -164,37 +168,33 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
           </Button>
         </FormActionsContainer>
       </AlertDialog>
-      <FormField name="content">
-        {({ field, meta, helpers }) => (
-          <FieldRoot invalid={!!meta.error}>
-            <ContentTypeProvider value="subject-material">
-              <SegmentHeader>
-                <ContentEditableFieldLabel>{t("form.content.label")}</ContentEditableFieldLabel>
-                {!!id && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (
-                  <EditMarkupLink to={toEditMarkup(id, language ?? "")} title={t("editMarkup.linkTitle")} />
-                )}
-              </SegmentHeader>
-              <RichTextEditor
-                language={articleLanguage}
-                actions={frontpageActions}
-                toolbarOptions={toolbarOptions}
-                toolbarAreaFilters={toolbarAreaFilters}
-                blockpickerOptions={{
-                  actionsToShowInAreas,
-                }}
-                placeholder={t("form.content.placeholder")}
-                value={field.value}
-                submitted={isSubmitting}
-                plugins={editorPlugins}
-                data-testid="frontpage-article-content"
-                onChange={(value) => helpers.setValue(value)}
-              />
-            </ContentTypeProvider>
-            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-            <FieldWarning name={field.name} />
-          </FieldRoot>
-        )}
-      </FormField>
+      <FieldRoot invalid={!!meta.error}>
+        <ContentTypeProvider value="frontpage-article">
+          <SegmentHeader>
+            <ContentEditableFieldLabel>{t("form.content.label")}</ContentEditableFieldLabel>
+            {!!id && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (
+              <EditMarkupLink to={toEditMarkup(id, language ?? "")} title={t("editMarkup.linkTitle")} />
+            )}
+          </SegmentHeader>
+          <RichTextEditor
+            language={articleLanguage}
+            actions={frontpageActions}
+            toolbarOptions={toolbarOptions}
+            toolbarAreaFilters={toolbarAreaFilters}
+            blockpickerOptions={{
+              actionsToShowInAreas,
+            }}
+            placeholder={t("form.content.placeholder")}
+            value={field.value}
+            submitted={isSubmitting}
+            plugins={editorPlugins}
+            data-testid="frontpage-article-content"
+            onChange={debouncedOnChange}
+          />
+        </ContentTypeProvider>
+        <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+        <FieldWarning name={field.name} />
+      </FieldRoot>
     </FormContent>
   );
 };

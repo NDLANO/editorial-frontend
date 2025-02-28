@@ -2213,6 +2213,11 @@ const phrases = {
     title: "Forhåndsvis forklaring",
   },
   math: "Mattestykke",
+  matomo: {
+    visits: "Unike sidevisningar i {{year}}: {{count}}",
+    timeSpent: "Total tid brukt av vitjarar: {{time}} sek",
+    error: "Noko gjekk gale ved henting av data frå Matomo",
+  },
 };
 
 export default phrases;

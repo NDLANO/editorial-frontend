@@ -218,6 +218,7 @@ const phrases = {
     },
   },
   searchPage: {
+    search: "Søk",
     header: {
       content: "Søk etter innhald",
       audio: "Søk etter lydfiler",
@@ -1928,6 +1929,7 @@ const phrases = {
       addArticleToMoreInformation: "Legg til ein artikkel",
       removeArticleFromMoreInformation: "Fjern artikkel",
       createGroup: "Lag ny gruppe",
+      groupNamePlaceholder: "Skriv namn på {{lang}}",
     },
   },
   modal: {
@@ -2186,10 +2188,14 @@ const phrases = {
   },
   codeEditor: {
     title: "Legg til kodeeksempel",
+    subtitle: "kodeeksempel",
     titleLabel: "Tittel",
     programmingLanguage: "Kodespråk",
     edit: "Rediger kodevisning",
     delete: "Fjerne kodevisning",
+    languageSelect: "Velg kodespråk:",
+    save: "Lagre",
+    abort: "Avbryt",
   },
   framedContentForm: {
     changeVariant: {
@@ -2213,6 +2219,26 @@ const phrases = {
     title: "Forhåndsvis forklaring",
   },
   math: "Mattestykke",
+  editor: {
+    versionHistory: {
+      who: "Kven",
+      when: "Når",
+      message: "Merknad",
+      status: "Status",
+    },
+  },
+  masthead: {
+    menu: {
+      title: "Åpne meny",
+    },
+  },
+  footer: {
+    info: "Nettstaden er utarbeida som åpen kjeldekode.",
+    editorInChief: "Ansvarleg redaktør:",
+  },
+  user: {
+    buttonLogOut: "Logg ut",
+  },
 };
 
 export default phrases;

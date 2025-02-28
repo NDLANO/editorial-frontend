@@ -271,32 +271,19 @@ export const tablePlugin = (editor: Editor) => {
 
       const tableHeadRows = Array.from(
         editor.nodes({
-          match: (node, nodePath) => {
-            if (isTableRow(node)) {
-              const [parent] = Editor.parent(editor, nodePath);
-              return parent && isTableHead(parent);
-            }
-            return false;
-          },
+          match: isTableHead,
           at: path,
         }),
-      );
+      ).flatMap(([node]) => node.children);
 
       const containsSpans = !!editor
         .nodes({ match: (n) => isTableCell(n) && (n.data.colspan > 1 || n.data.rowspan > 1), at: path })
-        .next().value;
-
-      const containsIdOrHeaders = !!editor
-        .nodes({ match: (n) => isTableCell(n) && (!!n.data.id || !!n.data.headers), at: path })
         .next().value;
 
       const headerCellsInMultipleRows = tableHeadRows.length === 2 || (tableHeadRows.length >= 1 && node.rowHeaders);
 
       // Should only have headers if a cell is associated with 2 or more header cells.
       const shouldHaveHeaders = containsSpans || headerCellsInMultipleRows;
-      // Only remove headers if cell is only associated with 1 cell and there is cells with Id and headers in the table
-      const shouldRemoveHeaders = !shouldHaveHeaders && containsIdOrHeaders;
-
       if (shouldHaveHeaders) {
         return editor.withoutNormalizing(() => {
           matrix?.forEach((row, rowIndex) => {
@@ -325,6 +312,14 @@ export const tablePlugin = (editor: Editor) => {
           });
         });
       }
+
+      const containsIdOrHeaders = !!editor
+        .nodes({ match: (n) => isTableCell(n) && (!!n.data.id || !!n.data.headers), at: path })
+        .next().value;
+
+      // Only remove headers if cell is only associated with 1 cell and there is cells with Id and headers in the table
+      const shouldRemoveHeaders = !shouldHaveHeaders && containsIdOrHeaders;
+
       if (shouldRemoveHeaders && containsIdOrHeaders) {
         return editor.withoutNormalizing(() => {
           matrix?.forEach((row) => {

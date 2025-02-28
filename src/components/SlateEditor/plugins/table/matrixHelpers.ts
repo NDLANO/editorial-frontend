@@ -9,6 +9,7 @@
 import { compact, isEqual, uniq } from "lodash-es";
 import { TableCellElement, TableMatrix } from "./interfaces";
 import { TYPE_TABLE_CELL_HEADER } from "./types";
+import { isTableCellHeader } from "./slateHelpers";
 
 export const getPrevCell = (matrix: TableMatrix, row: number, column: number) => {
   return matrix[row][column - 1];
@@ -96,48 +97,60 @@ const normalizeRow = (row: TableCellElement[]) => {
 // Check if previous cell in both col or row is equal
 export const previousMatrixCellIsEqualCurrent = (matrix: TableMatrix, rowIndex: number, columnIndex: number) =>
   (matrix?.[rowIndex]?.[columnIndex]?.data?.colspan > 1 &&
-    isEqual(matrix?.[rowIndex]?.[columnIndex - 1]?.children, matrix?.[rowIndex]?.[columnIndex]?.children)) ||
+    isEqual(matrix?.[rowIndex]?.[columnIndex - 1], matrix?.[rowIndex]?.[columnIndex])) ||
   (matrix[rowIndex][columnIndex].data.rowspan > 1 &&
-    isEqual(matrix?.[rowIndex - 1]?.[columnIndex]?.children, matrix?.[rowIndex]?.[columnIndex]?.children));
+    isEqual(matrix?.[rowIndex - 1]?.[columnIndex], matrix?.[rowIndex]?.[columnIndex]));
+
+// Check if the row only contains TableCellHeader elements
+const isHeaderRow = (row?: TableCellElement[]) => row?.reduce((acc, cell) => acc && isTableCellHeader(cell), true);
 
 // Creates an header object depending on the ID's of the header cells surrounding it.
 // If colspan or rowspan we check the corresponding neighbor cells for the headercells.
 export const getHeader = (matrix: TableMatrix, rowIndex: number, columnIndex: number, isRowHeaders: boolean) => {
   const { colspan, rowspan } = matrix[rowIndex][columnIndex].data;
 
-  const normalizedHeaderRow = normalizeRow(matrix[0]);
   if (matrix?.[rowIndex]?.[columnIndex]?.type !== TYPE_TABLE_CELL_HEADER) {
     const headers: TableCellElement[] = [];
 
-    // First header row
-    // Adding all the cells in the corresponding colspan
-    Array.from({ length: colspan }).forEach((_, it) => headers.push(normalizedHeaderRow[columnIndex + it]));
+    // Check if the first row is a headerrow
+    // For the length of the cells colspan, append all header cells that is above
+    if (isHeaderRow(matrix?.[0])) {
+      const normalizedHeaderRow = normalizeRow(matrix[0]);
+      Array.from({ length: colspan }).forEach((_, it) => headers.push(normalizedHeaderRow[columnIndex + it]));
+    }
 
-    // Second header row
-    // If there is a second header row, the index 1 1  of the matrix will be of type table cell header
-    if (matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER) {
+    // Check if the second row is a headerrow
+    // For the length of the cells colspan, append all header cells that is above
+    if (isHeaderRow(matrix?.[1])) {
       const normalizedSecondHeaderRow = normalizeRow(matrix[1]);
       Array.from({ length: colspan }).forEach((_, it) => headers.push(normalizedSecondHeaderRow[columnIndex + it]));
     }
 
-    // If row headers we append all row headers following the rowspan.
-    if (isRowHeaders && columnIndex !== 0) {
+    // If rowHeaders is sat, append all row headers following the rowspan.
+    if (isRowHeaders) {
       Array.from({ length: rowspan }).forEach((_, it) => headers.push(matrix?.[rowIndex + it]?.[0]));
     }
 
-    const header = uniq(headers.filter((cell) => !!cell).map((cell) => cell?.data?.id)).join(" ");
+    // Creating a header string of all the header cells which is targeting the cell
+    const header = uniq(headers.filter((cell) => !!cell).map((cell) => cell?.data?.id))
+      .join(" ")
+      .trim();
 
-    return header.trim().length > 0 ? header : undefined;
+    return header.length > 0 ? header : undefined;
   }
   return undefined;
 };
 
+// Create the id for the selected TableHeaderCell element
 export const getId = (matrix: TableMatrix, rowIndex: number, columnIndex: number, isRowHeader: boolean) => {
-  if (!isRowHeader && rowIndex === 0 && matrix?.[rowIndex]?.[columnIndex]?.type === TYPE_TABLE_CELL_HEADER) {
-    return `0${columnIndex}`;
-  }
-
+  // Only add ID's to TableCellHeader elements
   if (matrix?.[rowIndex]?.[columnIndex]?.type === TYPE_TABLE_CELL_HEADER) {
+    //If the cell is on the first row and the first row is headerrow
+    if (rowIndex === 0 && isHeaderRow(matrix?.[0])) {
+      return `0${columnIndex}`;
+    }
+
+    // If rowHeader is enabled use rowHeader id otherwise it must be the second headerrow
     return isRowHeader ? `r${rowIndex}` : `0${rowIndex}1${columnIndex}`;
   }
 

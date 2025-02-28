@@ -89,4 +89,36 @@ describe("combined table plugin tests", () => {
     const serialized = blockContentToHTML(editor.children);
     expect(serialized).toMatch(expected);
   });
+
+  test("make sure id and headers are set correctly when rowspan on header cell", () => {
+    const initial =
+      '<section><table><thead><tr><td scope="col" data-align="right"><p>1</p></td><td scope="col" data-align="right"><p>1</p></td></tr></thead><tbody><tr><th scope="row" rowSpan="2" data-align="right"><p>1</p></th><td data-align="right"><p>2</p></td></tr><tr><td><p>hallo</p></td></tr></tbody></table></section>';
+
+    const expected =
+      '<section><table><thead><tr><th scope="col" id="00" data-align="right"><p>1</p></th><th scope="col" id="01" data-align="right"><p>1</p></th></tr></thead><tbody><tr><th rowspan="2" scope="row" id="r1" data-align="right"><p>1</p></th><td headers="01 r1" data-align="right"><p>2</p></td></tr><tr><td headers="01 r1"><p>hallo</p></td></tr></tbody></table></section>';
+
+    const deserialized = blockContentToEditorValue(initial);
+
+    editor.children = deserialized;
+    Editor.normalize(editor, { force: true });
+
+    const serialized = blockContentToHTML(editor.children);
+    expect(serialized).toMatch(expected);
+  });
+
+  test("make sure headers and id are set correctly when rowspan on cell", () => {
+    const initial =
+      '<section><table><thead><tr><td scope="col" data-align="right"><p>1</p></td><td scope="col" data-align="right"><p>1</p></td></tr></thead><tbody><tr><th scope="row" data-align="right"><p>1</p></th><td rowspan="2" data-align="right"><p>2</p></td></tr><tr><th scope="row" data-align="right"><p>1</p></th></tr></tbody></table></section>';
+
+    const expected =
+      '<section><table><thead><tr><th scope="col" id="00" data-align="right"><p>1</p></th><th scope="col" id="01" data-align="right"><p>1</p></th></tr></thead><tbody><tr><th scope="row" id="r1" data-align="right"><p>1</p></th><td rowspan="2" headers="01 r1 r2" data-align="right"><p>2</p></td></tr><tr><th scope="row" id="r2" data-align="right"><p>1</p></th></tr></tbody></table></section>';
+
+    const deserialized = blockContentToEditorValue(initial);
+
+    editor.children = deserialized;
+    Editor.normalize(editor, { force: true });
+
+    const serialized = blockContentToHTML(editor.children);
+    expect(serialized).toMatch(expected);
+  });
 });

@@ -7,18 +7,20 @@
  */
 
 import { useFormikContext } from "formik";
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ShareBoxLine } from "@ndla/icons";
 import { Button, FieldRoot } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IStatusDTO as ConceptStatus } from "@ndla/types-backend/concept-api";
-import { IStatusDTO as DraftStatus } from "@ndla/types-backend/draft-api";
+import { IStatusDTO as DraftStatus, IArticleDTO } from "@ndla/types-backend/draft-api";
 import { ARCHIVED, PUBLISHED, SAVE_DEBOUNCE_MS, UNPUBLISHED } from "../../constants";
 import PrioritySelect from "../../containers/FormikForm/components/PrioritySelect";
 import ResponsibleSelect from "../../containers/FormikForm/components/ResponsibleSelect";
 import StatusSelect from "../../containers/FormikForm/components/StatusSelect";
+import { hasUnpublishedConcepts } from "../../containers/FormikForm/utils";
+import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../interfaces";
 import { toPreviewDraft } from "../../util/routeHelpers";
 import { FormField } from "../FormField";
@@ -27,6 +29,7 @@ import { PreviewResourceDialog } from "../PreviewDraft/PreviewResourceDialog";
 import SaveMultiButton from "../SaveMultiButton";
 
 interface Props {
+  article?: IArticleDTO | undefined;
   formIsDirty: boolean;
   savedToServer: boolean;
   entityStatus?: DraftStatus;
@@ -38,10 +41,6 @@ interface Props {
   hideSecondaryButton: boolean;
   isNewlyCreated: boolean;
   hasErrors?: boolean;
-  articleId?: number;
-  articleType?: string;
-  selectedLanguage?: string;
-  supportedLanguages?: string[];
 }
 
 interface FormValues {
@@ -75,6 +74,31 @@ const StyledSafeLinkButton = styled(SafeLinkButton, {
   },
 });
 
+interface LanguageButtonProps {
+  article: IArticleDTO | undefined;
+}
+
+const LanguageButton = ({ article }: LanguageButtonProps) => {
+  const { t } = useTranslation();
+
+  if (!article) return;
+
+  const articleType = article.articleType as TranslatableType;
+  if (
+    ((article.content?.language === "nb" && article.supportedLanguages.includes("nn")) ||
+      (article.content?.language === "nn" && article.supportedLanguages.includes("nb"))) &&
+    translatableTypes.includes(articleType)
+  ) {
+    const targetLanguage = article.content.language === "nb" ? "nn" : "nb";
+
+    return (
+      <StyledSafeLinkButton variant="link" to={createEditUrl(article.id, targetLanguage, articleType)}>
+        {t(`languages.${targetLanguage}`)}
+      </StyledSafeLinkButton>
+    );
+  }
+};
+
 const ContentWrapper = styled("div", {
   base: {
     display: "grid",
@@ -100,6 +124,7 @@ const ContentWrapper = styled("div", {
 const STATUSES_RESET_RESPONSIBLE = [ARCHIVED, UNPUBLISHED];
 
 function EditorFooter<T extends FormValues>({
+  article,
   formIsDirty,
   savedToServer,
   entityStatus,
@@ -111,43 +136,16 @@ function EditorFooter<T extends FormValues>({
   hideSecondaryButton,
   isNewlyCreated,
   hasErrors,
-  articleId,
-  articleType,
-  selectedLanguage,
-  supportedLanguages,
 }: Props) {
   const { t } = useTranslation();
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
+  const { createMessage } = useMessages();
 
   // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
   const [newStatus, setNewStatus] = useState<string | undefined>(undefined);
   const [shouldSave, setShouldSave] = useState(false);
 
   const articleOrConcept = isArticle || isConcept;
-
-  const languageButton = useMemo(() => {
-    if (
-      ((selectedLanguage === "nb" && supportedLanguages?.includes("nn")) ||
-        (selectedLanguage === "nn" && supportedLanguages?.includes("nb"))) &&
-      articleId &&
-      articleType &&
-      translatableTypes.includes(articleType as TranslatableType)
-    ) {
-      const targetLanguage = selectedLanguage === "nb" ? "nn" : "nb";
-      const buttonText = t(`languages.${targetLanguage}`);
-      return (
-        <StyledSafeLinkButton
-          aria-label={buttonText}
-          variant="link"
-          to={createEditUrl(articleId, targetLanguage, articleType as TranslatableType)}
-        >
-          {buttonText}
-        </StyledSafeLinkButton>
-      );
-    } else {
-      return undefined;
-    }
-  }, [articleId, articleType, selectedLanguage, supportedLanguages, t]);
 
   const onSave = useCallback(() => {
     if (STATUSES_RESET_RESPONSIBLE.find((s) => s === values.status.current)) {
@@ -164,10 +162,19 @@ function EditorFooter<T extends FormValues>({
   }, [onSave, shouldSave]);
 
   useEffect(() => {
-    if (newStatus === PUBLISHED) {
-      setTimeout(() => setShouldSave(true), SAVE_DEBOUNCE_MS);
-      setNewStatus(undefined);
-    }
+    (async () => {
+      if (newStatus === PUBLISHED) {
+        setTimeout(() => setShouldSave(true), SAVE_DEBOUNCE_MS);
+        setNewStatus(undefined);
+        if (article?.responsible?.responsibleId) {
+          const unpublishedConcepts = await hasUnpublishedConcepts(article);
+          if (unpublishedConcepts) {
+            createMessage({ message: t("form.unpublishedConcepts"), timeToLive: 0, severity: "warning" });
+          }
+        }
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newStatus]);
 
   const onUpdateStatus = useCallback(
@@ -196,7 +203,7 @@ function EditorFooter<T extends FormValues>({
                 <ShareBoxLine size="small" />
               </SafeLinkButton>
             )}
-            {!!languageButton && languageButton}
+            <LanguageButton article={article} />
           </LinksWrapper>
         )}
         {!!isArticle && (

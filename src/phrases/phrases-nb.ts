@@ -795,6 +795,7 @@ const phrases = {
     openAll: "Åpne alle",
     hideAll: "Lukk alle",
     unpublishedChanges: "(Endret siden siste publisering)",
+    unpublishedConcepts: "Artikkelen inneholder upubliserte forklaringer",
     moveContent: "Flytt innhold inn i teksten",
     open: "Åpne",
     close: "Lukk",

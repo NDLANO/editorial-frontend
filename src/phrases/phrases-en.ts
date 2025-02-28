@@ -219,6 +219,7 @@ const phrases = {
     },
   },
   searchPage: {
+    search: "Søk",
     header: {
       content: "Search for content",
       audio: "Search for audio files",
@@ -1928,6 +1929,7 @@ const phrases = {
       addArticleToMoreInformation: "Add an article",
       removeArticleFromMoreInformation: "Remove article",
       createGroup: "Create new group",
+      groupNamePlaceholder: "Write name in {{lang}}",
     },
   },
   modal: {
@@ -2186,10 +2188,14 @@ const phrases = {
   },
   codeEditor: {
     title: "Add code example",
+    subtitle: "code example",
     titleLabel: "Title",
     programmingLanguage: "Programming language",
     edit: "Edit code example",
     delete: "Remove code example",
+    languageSelect: "Select language:",
+    save: "Save",
+    abort: "Abort",
   },
   framedContentForm: {
     changeVariant: {
@@ -2213,6 +2219,26 @@ const phrases = {
     title: "Preview concept",
   },
   math: "Math problem",
+  editor: {
+    versionHistory: {
+      who: "Who",
+      when: "When",
+      message: "Message",
+      status: "Status",
+    },
+  },
+  masthead: {
+    menu: {
+      title: "Open menu",
+    },
+  },
+  footer: {
+    info: "This webapplication is developed as Open Source code.",
+    editorInChief: "Editor in chief:",
+  },
+  user: {
+    buttonLogOut: "Log out",
+  },
 };
 
 export default phrases;

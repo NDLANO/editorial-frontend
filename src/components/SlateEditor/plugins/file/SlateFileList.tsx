@@ -20,7 +20,6 @@ import {
   DialogRoot,
   DialogTitle,
   DialogTrigger,
-  Heading,
   IconButton,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
@@ -120,9 +119,6 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
   return (
     <FileListWrapper {...attributes} contentEditable={false}>
       <StyledHeaderWrapper>
-        <Heading fontWeight="bold" textStyle="heading.small" asChild consumeCss>
-          <h3>{t("files")}</h3>
-        </Heading>
         <HStack gap="3xsmall">
           <DialogRoot open={showFileUploader} onOpenChange={(details) => setShowFileUploader(details.open)}>
             <DialogTrigger asChild>

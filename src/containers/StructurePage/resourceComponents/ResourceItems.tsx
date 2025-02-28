@@ -62,7 +62,7 @@ const ResourceItems = ({
     isPending: matomoStatsIsPending,
     isError: matomoStatsIsError,
   } = useMatomoStats(
-    { taxonomyUrls: resources?.filter((n) => !!n.url).map((n) => n.url!) },
+    { contextIds: resources?.filter((n) => !!n.contextId).map((n) => n.contextId!) },
     { enabled: !!resources?.length },
   );
 

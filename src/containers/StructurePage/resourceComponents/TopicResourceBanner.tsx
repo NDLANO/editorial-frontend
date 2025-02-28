@@ -158,7 +158,10 @@ const TopicResourceBanner = ({
     data: matomoStatsData,
     isPending: matomoStatsIsPending,
     isError: matomoStatsIsError,
-  } = useMatomoStats({ taxonomyUrls: currentNode.url ? [currentNode.url] : [] }, { enabled: !!currentNode.url });
+  } = useMatomoStats(
+    { contextIds: currentNode.contextId ? [currentNode.contextId] : [] },
+    { enabled: !!currentNode.contextId },
+  );
 
   useEffect(() => {
     if (!matomoStatsData) return;

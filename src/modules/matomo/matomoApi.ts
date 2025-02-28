@@ -46,7 +46,7 @@ export interface MatomoPageData {
 export type MatomoResponse = Record<string, MatomoPageData[]>;
 
 export interface MatomoStatsBody {
-  taxonomyUrls: string[];
+  contextIds: string[];
 }
 
 interface Props extends MatomoStatsBody {
@@ -54,7 +54,7 @@ interface Props extends MatomoStatsBody {
 }
 
 export const fetchMatomoStats = async ({
-  taxonomyUrls,
+  contextIds,
   signal,
 }: Props): Promise<PromiseSettledResult<MatomoResponse>[]> => {
   return fetchAuthorized("/matomo-stats/", {
@@ -62,7 +62,7 @@ export const fetchMatomoStats = async ({
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ taxonomyUrls: taxonomyUrls }),
+    body: JSON.stringify({ contextIds: contextIds }),
     signal: signal,
   }).then((r) => resolveJsonOrRejectWithError<PromiseSettledResult<MatomoResponse>[]>(r));
 };

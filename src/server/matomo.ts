@@ -13,11 +13,11 @@ const limit = pLimit(8);
 
 export const matomoApiToken = getEnvironmentVariabel("MATOMO_API_TOKEN");
 
-export const fetchMatomoStats = async (taxonomyUrls: string[]) => {
-  const fetchPromises = taxonomyUrls.map((url) =>
+export const fetchMatomoStats = async (contextIds: string[]) => {
+  const fetchPromises = contextIds.map((url) =>
     limit(() =>
       fetch(
-        `https://${config.matomoUrl}/index.php?module=API&method=Actions.getPageUrl&idSite=${config.matomoSiteId}&period=year&date=last1&pageUrl=${encodeURIComponent(url)}&format=JSON&token_auth=${matomoApiToken}`,
+        `https://${config.matomoUrl}/index.php?module=API&method=Actions.getPageUrls&idSite=${config.matomoSiteId}&period=year&date=last1&flat=1&filter_pattern=${encodeURIComponent(`${url}$`)}&format=JSON&token_auth=${matomoApiToken}`,
       ).then((res) => res.json()),
     ),
   );

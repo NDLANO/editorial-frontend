@@ -20,7 +20,7 @@ export const useMatomoStats = (
 ) => {
   return useQuery<PromiseSettledResult<MatomoResponse>[]>({
     queryKey: matomoQueryKeys.matomoStats(body),
-    queryFn: ({ signal }) => fetchMatomoStats({ taxonomyUrls: body.taxonomyUrls, signal }),
+    queryFn: ({ signal }) => fetchMatomoStats({ contextIds: body.contextIds, signal }),
     ...options,
   });
 };

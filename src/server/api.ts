@@ -160,9 +160,9 @@ router.post("/translate", async (req, res) => {
 
 router.post("/matomo-stats", jwtMiddleware, async (req, res) => {
   const { body } = req;
-  if (body && body.taxonomyUrls) {
+  if (body && body.contextIds) {
     try {
-      const matomoStats = await fetchMatomoStats(body.taxonomyUrls);
+      const matomoStats = await fetchMatomoStats(body.contextIds);
       res.status(OK).json(matomoStats);
     } catch (err) {
       res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);

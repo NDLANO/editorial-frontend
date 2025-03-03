@@ -2235,8 +2235,9 @@ const phrases = {
     buttonLogOut: "Logg ut",
   },
   matomo: {
-    visits: "Unike sidevisningar i {{year}}: {{count}}",
-    timeSpent: "Total tid brukt av vitjarar: {{time}} sek",
+    visits: "Unike sidevisningar: {{count}}",
+    hits: "Sidevisningar: {{count}}",
+    avgTime: "Gj.snitt tid brukt av vitjarar: {{time}} sek",
     error: "Noko gjekk gale ved henting av data frå Matomo",
   },
 };

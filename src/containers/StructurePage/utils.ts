@@ -10,7 +10,7 @@ import { MatomoPageData, MatomoResponse } from "../../modules/matomo/matomoApi";
 
 export const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
-type DataKeysType = "nb_visits" | "sum_time_spent";
+type DataKeysType = "nb_visits" | "avg_time_on_page" | "nb_hits";
 
 const sumValueEntries = (data: MatomoPageData[], key: DataKeysType): number =>
   data.reduce((acc, cur) => acc + cur[key], 0);
@@ -30,7 +30,8 @@ export const transformMatomoData = (data: PromiseSettledResult<MatomoResponse>[]
       acc[pathnameWithoutLanguage] = {
         year: Number(year),
         nb_visits: sumValueEntries(cur.value[year], "nb_visits"),
-        sum_time_spent: sumValueEntries(cur.value[year], "sum_time_spent"),
+        avg_time_on_page: sumValueEntries(cur.value[year], "avg_time_on_page"),
+        nb_hits: sumValueEntries(cur.value[year], "nb_hits"),
       };
     }
     return acc;

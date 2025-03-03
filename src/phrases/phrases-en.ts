@@ -2235,8 +2235,9 @@ const phrases = {
     buttonLogOut: "Log out",
   },
   matomo: {
-    visits: "Unique page views in {{year}}: {{count}}",
-    timeSpent: "Total time spent by visitors: {{time}} sec",
+    visits: "Unique page views: {{count}}",
+    hits: "Page views: {{count}}",
+    avgTime: "Avg. time spent by visitors: {{time}} sec",
     error: "Something went wrong while fetching data from Matomo",
   },
 };

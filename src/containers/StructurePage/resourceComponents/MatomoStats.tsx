@@ -16,6 +16,7 @@ const TextWrapper = styled("div", {
     display: "flex",
     gap: "xxsmall",
     alignItems: "center",
+    flexWrap: "wrap",
   },
 });
 
@@ -45,14 +46,21 @@ const MatomoStats = ({ matomoStats, matomoStatsIsPending, matomoStatsIsError }: 
 
   return matomoStats ? (
     <TextWrapper>
+      <Text textStyle="body.small" color="text.subtle">{`${matomoStats.year}:`}</Text>
       <Text textStyle="body.small" color="text.subtle">
-        {t("matomo.visits", { year: matomoStats.year, count: matomoStats.nb_visits })}
+        {t("matomo.visits", { count: matomoStats.nb_visits })}
       </Text>
       <Text color="text.subtle" aria-hidden>
         |
       </Text>
       <Text textStyle="body.small" color="text.subtle">
-        {t("matomo.timeSpent", { time: matomoStats.sum_time_spent })}
+        {t("matomo.hits", { count: matomoStats.nb_hits })}
+      </Text>
+      <Text color="text.subtle" aria-hidden>
+        |
+      </Text>
+      <Text textStyle="body.small" color="text.subtle">
+        {t("matomo.avgTime", { time: matomoStats.avg_time_on_page })}
       </Text>
     </TextWrapper>
   ) : null;

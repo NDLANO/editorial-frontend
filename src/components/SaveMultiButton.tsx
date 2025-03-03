@@ -48,7 +48,7 @@ const StyledIconButton = styled(IconButton, {
 type SaveVariant = "saveAsNew" | "save";
 
 interface SecondaryButton {
-  label: "string";
+  label: string;
   value: SaveVariant;
   disable: boolean;
 }

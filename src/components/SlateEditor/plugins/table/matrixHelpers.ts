@@ -113,20 +113,20 @@ export const getHeader = (matrix: TableMatrix, rowIndex: number, columnIndex: nu
     const headers: TableCellElement[] = [];
 
     // Check if the first row is a headerrow
-    // For the length of the cells colspan, append all header cells that is above
+    // For the length of the cells colspan, append all header cells vertical to the spanned cell
     if (isHeaderRow(matrix?.[0])) {
       const normalizedHeaderRow = normalizeRow(matrix[0]);
       Array.from({ length: colspan }).forEach((_, it) => headers.push(normalizedHeaderRow[columnIndex + it]));
     }
 
     // Check if the second row is a headerrow
-    // For the length of the cells colspan, append all header cells that is above
+    // For the length of the cells colspan, append all header cells vertical to the spanned cell
     if (isHeaderRow(matrix?.[1])) {
       const normalizedSecondHeaderRow = normalizeRow(matrix[1]);
       Array.from({ length: colspan }).forEach((_, it) => headers.push(normalizedSecondHeaderRow[columnIndex + it]));
     }
 
-    // If rowHeaders is sat, append all row headers following the rowspan.
+    // If rowHeaders is sat, append all header cells horizontal to the cell spanned over multiple rows.
     if (isRowHeaders) {
       Array.from({ length: rowspan }).forEach((_, it) => headers.push(matrix?.[rowIndex + it]?.[0]));
     }

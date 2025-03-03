@@ -130,9 +130,9 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
               </StyledTabsContent>
               <StyledTabsContent value="upload">
                 <CreateImage
-                  inModal={true}
+                  inDialog={true}
                   editingArticle
-                  closeModal={onImageSelectClose}
+                  closeDialog={onImageSelectClose}
                   onImageCreated={onImageChange}
                 />
               </StyledTabsContent>

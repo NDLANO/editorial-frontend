@@ -57,10 +57,10 @@ const ButtonContainer = styled(StyledFigureButtons, {
 
 const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    setModalOpen(!!element.isFirstEdit);
+    setOpen(!!element.isFirstEdit);
   }, [element.isFirstEdit]);
 
   const embed: CopyrightMetaData | undefined = useMemo(
@@ -104,7 +104,7 @@ const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
 
   const onClose = useCallback(() => {
     ReactEditor.focus(editor);
-    setModalOpen(false);
+    setOpen(false);
     if (element.isFirstEdit) {
       Transforms.removeNodes(editor, {
         at: ReactEditor.findPath(editor, element),
@@ -121,7 +121,7 @@ const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
 
   const onSave = useCallback(
     (data: CopyrightEmbedData) => {
-      setModalOpen(false);
+      setOpen(false);
       const properties = {
         data,
         isFirstEdit: false,
@@ -142,7 +142,7 @@ const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
     <StyledEmbedWrapper data-testid="slate-copyright-block" {...attributes}>
       <ButtonContainer contentEditable={false}>
         <DeleteButton aria-label={t("delete")} data-testid="delete-copyright" onClick={handleDelete} />
-        <DialogRoot open={modalOpen} onOpenChange={(details) => setModalOpen(details.open)}>
+        <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
           <DialogTrigger asChild>
             <IconButton
               variant="tertiary"

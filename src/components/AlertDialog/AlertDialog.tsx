@@ -35,13 +35,13 @@ interface Props {
 }
 
 export const AlertDialog = ({ children, text, onCancel, title, show, label, severity = "danger" }: Props) => {
-  const focusedElementBeforeModalRef = useRef<HTMLElement | null>(null);
+  const focusedElementBeforeDialogRef = useRef<HTMLElement | null>(null);
   const { t } = useTranslation();
 
   const onOpenChange = useCallback(
     (details: DialogOpenChangeDetails) => {
       if (details.open) {
-        focusedElementBeforeModalRef.current = document.activeElement as HTMLElement;
+        focusedElementBeforeDialogRef.current = document.activeElement as HTMLElement;
       } else {
         onCancel();
       }
@@ -50,8 +50,8 @@ export const AlertDialog = ({ children, text, onCancel, title, show, label, seve
   );
 
   const onExitComplete = useCallback(() => {
-    focusedElementBeforeModalRef.current?.focus();
-    focusedElementBeforeModalRef.current = null;
+    focusedElementBeforeDialogRef.current?.focus();
+    focusedElementBeforeDialogRef.current = null;
   }, []);
 
   return (
@@ -65,7 +65,7 @@ export const AlertDialog = ({ children, text, onCancel, title, show, label, seve
       <Portal>
         <DialogContent data-testid="alert-dialog">
           <DialogHeader>
-            <DialogTitle>{title ?? t("alertModal.watchOut")}</DialogTitle>
+            <DialogTitle>{title ?? t("alertDialog.watchOut")}</DialogTitle>
             <DialogCloseButton variant="clear" data-testid="closeAlert" />
           </DialogHeader>
           <DialogBody>

@@ -29,7 +29,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeType } from "@ndla/types-taxonomy";
-import AddNodeModalContent from "./AddNodeModalContent";
+import AddNodeDialogContent from "./AddNodeDialogContent";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { useSession } from "../Session/SessionProvider";
@@ -99,7 +99,7 @@ const StructureBanner = ({
   showQuality,
   setShowQuality,
 }: Props) => {
-  const [addSubjectModalOpen, setAddSubjectModalOpen] = useState(false);
+  const [addSubjectDialogOpen, setAddSubjectDialogOpen] = useState(false);
 
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -173,9 +173,9 @@ const StructureBanner = ({
         </PopoverRoot>
 
         {!!isTaxonomyAdmin && (
-          <DialogRoot open={addSubjectModalOpen} onOpenChange={({ open }) => setAddSubjectModalOpen(open)}>
+          <DialogRoot open={addSubjectDialogOpen} onOpenChange={({ open }) => setAddSubjectDialogOpen(open)}>
             <DialogTrigger asChild>
-              <Button size="small" onClick={() => setAddSubjectModalOpen(true)} data-testid="AddSubjectButton">
+              <Button size="small" onClick={() => setAddSubjectDialogOpen(true)} data-testid="AddSubjectButton">
                 <AddLine />
                 {t("taxonomy.newNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
               </Button>
@@ -190,7 +190,7 @@ const StructureBanner = ({
                 <DialogCloseButton />
               </DialogHeader>
               <DialogBody>
-                <AddNodeModalContent onClose={() => setAddSubjectModalOpen(false)} nodeType={nodeType} />
+                <AddNodeDialogContent onClose={() => setAddSubjectDialogOpen(false)} nodeType={nodeType} />
               </DialogBody>
             </DialogContent>
           </DialogRoot>

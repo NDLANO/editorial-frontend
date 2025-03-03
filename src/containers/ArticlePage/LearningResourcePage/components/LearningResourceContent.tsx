@@ -138,7 +138,7 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
       >
         <FormActionsContainer>
           <Button variant="danger" onClick={onCancel}>
-            {t("alertModal.continue")}
+            {t("alertDialog.continue")}
           </Button>
         </FormActionsContainer>
       </AlertDialog>

@@ -206,7 +206,7 @@ const RootFields = () => {
         isSubmitting={isSubmitting}
         formIsDirty={dirty}
         severity="danger"
-        text={t("alertModal.notSaved")}
+        text={t("alertDialog.notSaved")}
       />
     </FrontpageArticleWrapper>
   );

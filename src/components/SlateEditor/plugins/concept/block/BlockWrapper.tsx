@@ -24,8 +24,8 @@ import { ConceptType } from "../../../../../containers/ConceptPage/conceptInterf
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { useConceptVisualElement } from "../../../../../modules/embed/queries";
 import { useArticleLanguage } from "../../../ArticleLanguageProvider";
-import ConceptModalContent from "../ConceptModalContent";
-import EditGlossExamplesModal from "../EditGlossExamplesModal";
+import ConceptDialogContent from "../ConceptDialogContent";
+import EditGlossExamplesDialog from "../EditGlossExamplesDialog";
 import { getGlossDataAttributes } from "../utils";
 
 const getConceptDataAttributes = (concept: IConceptSummaryDTO | IConceptDTO, locale: string): ConceptEmbedData => ({
@@ -165,7 +165,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
           </>
         )}
         <DialogContent>
-          <ConceptModalContent
+          <ConceptDialogContent
             addConcept={addConcept}
             locale={locale}
             concept={concept}
@@ -227,7 +227,7 @@ const ConceptButtonContainer = ({ concept, handleRemove, language, editor, eleme
       >
         <DeleteBinLine />
       </IconButton>
-      <EditGlossExamplesModal concept={concept} editor={editor} element={element} embed={embed} />
+      <EditGlossExamplesDialog concept={concept} editor={editor} element={element} embed={embed} />
       <SafeLinkIconButton
         arial-label={t(`form.${concept?.conceptType}.edit`)}
         title={t(`form.${concept?.conceptType}.edit`)}

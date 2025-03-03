@@ -177,7 +177,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
         const err = e as NdlaErrorPayload;
         if (err && err.status && err.status === 409) {
           createMessage({
-            message: t("alertModal.needToRefresh"),
+            message: t("alertDialog.needToRefresh"),
             timeToLive: 0,
           });
         } else {

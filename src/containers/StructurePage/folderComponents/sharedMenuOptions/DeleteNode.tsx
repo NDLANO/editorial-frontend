@@ -130,7 +130,7 @@ const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNo
       </MessageBox>
       <FormActionsContainer>
         <Button variant="danger" onClick={onDelete} loading={loading} disabled={disabled}>
-          {t("alertModal.delete")}
+          {t("alertDialog.delete")}
         </Button>
       </FormActionsContainer>
       {!!error && <Text color="text.error">{error}</Text>}

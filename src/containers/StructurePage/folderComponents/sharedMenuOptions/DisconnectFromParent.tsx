@@ -73,7 +73,7 @@ const DisconnectFromParent = ({ node, onCurrentNodeChanged }: Props) => {
       </MessageBox>
       <FormActionsContainer>
         <Button loading={isPending} variant="danger" onClick={onDisconnect}>
-          {t("alertModal.disconnect")}
+          {t("alertDialog.disconnect")}
         </Button>
       </FormActionsContainer>
       {!!isError && <Text color="text.error">{t("taxonomy.errorMessage")}</Text>}

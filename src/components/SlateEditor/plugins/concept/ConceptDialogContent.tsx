@@ -52,7 +52,7 @@ interface Props {
   conceptType: ConceptType;
 }
 
-const ConceptModalContent = ({
+const ConceptDialogContent = ({
   locale,
   handleRemove,
   selectedText = "",
@@ -148,7 +148,7 @@ const ConceptModalContent = ({
             <TabsIndicator />
           </TabsList>
           <TabsContent value="concepts">
-            <FormWrapper inModal>
+            <FormWrapper inDialog>
               <SearchConceptForm
                 search={(params: SearchParams) => {
                   updateSearchObject(params);
@@ -178,7 +178,7 @@ const ConceptModalContent = ({
               {conceptType === "gloss" ? (
                 <GlossForm
                   onUpserted={addConcept}
-                  inModal
+                  inDialog
                   upsertProps={upsertProps}
                   language={locale}
                   concept={concept}
@@ -188,7 +188,7 @@ const ConceptModalContent = ({
               ) : (
                 <ConceptForm
                   onUpserted={addConcept}
-                  inModal
+                  inDialog
                   upsertProps={upsertProps}
                   language={locale}
                   concept={concept}
@@ -204,4 +204,4 @@ const ConceptModalContent = ({
   );
 };
 
-export default ConceptModalContent;
+export default ConceptDialogContent;

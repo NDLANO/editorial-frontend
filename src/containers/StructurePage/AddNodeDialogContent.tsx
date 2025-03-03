@@ -31,7 +31,7 @@ interface Props {
   parentNode?: Node;
 }
 
-const AddNodeModalContent = ({ onClose, nodeType, rootId, parentNode }: Props) => {
+const AddNodeDialogContent = ({ onClose, nodeType, rootId, parentNode }: Props) => {
   const { t } = useTranslation();
   const addNodeMutation = useAddNodeMutation();
   const compkey = nodeQueryKeys.childNodes({ id: rootId });
@@ -111,4 +111,4 @@ const AddNodeModalContent = ({ onClose, nodeType, rootId, parentNode }: Props) =
   );
 };
 
-export default AddNodeModalContent;
+export default AddNodeDialogContent;

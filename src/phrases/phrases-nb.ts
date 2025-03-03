@@ -680,7 +680,7 @@ const phrases = {
   qualityEvaluationForm: {
     title: "Kvalitetsvurdering",
     unavailable: "Ikke satt",
-    modalTitle: "Oppdater kvalitetsvurdering",
+    dialogTitle: "Oppdater kvalitetsvurdering",
     description:
       "Legg inn en kvalitetsvurdering av {{ resource }} med en beskrivelse av den valgte graderingen. Skalaen er som følger: 1 = enestående, 3 = veldig bra, 3 = OK, 4 = bør fikses, 5 = må fikses.",
     edit: "Rediger kvalitetsvurdering",
@@ -998,8 +998,6 @@ const phrases = {
     editPodcast: "Endre podkast",
     editH5p: "Endre H5P",
     resetToProd: {
-      button: "Tilbakestill endringer",
-      modal: "Vil du tilbakestille utkastet til slik det er på ndla forsiden?",
       success: "Innhold er tilbakestilt, trykk lagre for å lagre endringene",
     },
     resetToVersion: "Tilbakestill til versjon",
@@ -1068,7 +1066,7 @@ const phrases = {
       deleteLanguageVersion: {
         button: "Slett {{languageVersion}} versjon",
         title: "Slett språkversjon",
-        modal: "Er du sikker på at du vil slette denne språkversjonen?",
+        dialog: "Er du sikker på at du vil slette denne språkversjonen?",
       },
       statusInfoTooltip: "Hva er forskjellen på ulike statuser?",
       statusLabel: "Status",
@@ -1081,7 +1079,7 @@ const phrases = {
       },
       deleteComment: {
         title: "Slett kommentar",
-        modal: "Vil du slette denne kommentaren? Det er ikke mulig å gjenopprette den.",
+        dialog: "Vil du slette denne kommentaren? Det er ikke mulig å gjenopprette den.",
         button: "Slett",
       },
       addComment: {
@@ -1454,7 +1452,7 @@ const phrases = {
         newLanguage: "Ved oppretting av nytt språk vil en lydfil fra et eksisterende språk foreslås.",
         deleteFiles: "En lydfil slettes kun når den ikke lenger er brukt i et språk.",
       },
-      modal: {
+      dialog: {
         header: "Lydfiler",
         label: "Informasjon om lyd",
       },
@@ -1645,7 +1643,7 @@ const phrases = {
   forbiddenPage: {
     description: "Du har ikke tilgang til denne siden",
   },
-  alertModal: {
+  alertDialog: {
     notSaved: "Dokumentet er ikke lagret, ønsker du å fortsette?",
     needToRefresh:
       "Noen andre har lagret samme artikkel mens du redigerte. For å ta vare på endringene dine må du kopiere dem manuelt og deretter oppdatere siden",
@@ -1929,9 +1927,6 @@ const phrases = {
       createGroup: "Lag ny gruppe",
       groupNamePlaceholder: "Skriv navn på {{lang}}",
     },
-  },
-  modal: {
-    closeModal: "Lukk",
   },
   conceptForm: {
     title: "Forklaring",

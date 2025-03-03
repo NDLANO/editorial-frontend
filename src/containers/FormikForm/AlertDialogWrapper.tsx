@@ -49,7 +49,7 @@ const useBlocker = (blocker: Blocker, when = true): void => {
 };
 
 export const AlertDialogWrapper = ({ text, severity, isSubmitting, formIsDirty, onContinue }: Props) => {
-  const [openModal, setOpenModal] = useState(false);
+  const [open, setOpen] = useState(false);
   const [discardChanges, setDiscardChanges] = useState(false);
   const [nextLocation, setNextLocation] = useState<Location | undefined>(undefined);
   const { t } = useTranslation();
@@ -67,7 +67,7 @@ export const AlertDialogWrapper = ({ text, severity, isSubmitting, formIsDirty, 
       // transition does not respect basename. Filter out basename until it is fixed.
       const pathRegex = new RegExp(supportedLanguages.map((l) => `/${l}/`).join("|"));
       const pathname = transition.location.pathname.replace(pathRegex, "/");
-      setOpenModal(true);
+      setOpen(true);
       setNextLocation({ ...transition.location, pathname });
     } else {
       setDiscardChanges(false);
@@ -76,20 +76,20 @@ export const AlertDialogWrapper = ({ text, severity, isSubmitting, formIsDirty, 
 
   const onCancel = useCallback(() => {
     setNextLocation(undefined);
-    setOpenModal(false);
+    setOpen(false);
   }, []);
 
   const onWillContinue = useCallback(() => {
     if (onContinue) onContinue();
     setDiscardChanges(true);
-    setOpenModal(false);
+    setOpen(false);
   }, [onContinue]);
 
   return (
     <AlertDialog
       title={t("unsavedChanges")}
       label={t("unsavedChanges")}
-      show={openModal}
+      show={open}
       onCancel={onCancel}
       text={text}
       severity={severity}
@@ -99,7 +99,7 @@ export const AlertDialogWrapper = ({ text, severity, isSubmitting, formIsDirty, 
           {t("form.abort")}
         </Button>
         <Button onClick={onWillContinue} variant="danger">
-          {t("alertModal.continue")}
+          {t("alertDialog.continue")}
         </Button>
       </FormActionsContainer>
     </AlertDialog>

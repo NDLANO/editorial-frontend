@@ -155,7 +155,7 @@ const TopicArticleForm = ({
         >
           <FormActionsContainer>
             <Button onClick={() => setShowTaxWarning(false)} variant="secondary">
-              {t("alertModal.continue")}
+              {t("alertDialog.continue")}
             </Button>
           </FormActionsContainer>
         </AlertDialog>
@@ -220,7 +220,7 @@ const InternalFormFooter = ({
         isSubmitting={isSubmitting}
         formIsDirty={formIsDirty}
         severity="danger"
-        text={t("alertModal.notSaved")}
+        text={t("alertDialog.notSaved")}
       />
     </>
   );

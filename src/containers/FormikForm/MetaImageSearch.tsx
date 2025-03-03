@@ -167,10 +167,10 @@ const MetaImageSearch = ({
                 {licenses ? (
                   <ImageForm
                     language={i18n.language}
-                    inModal
+                    inDialog
                     image={image}
                     onSubmitFunc={onImageUpdate}
-                    closeModal={onImageSelectClose}
+                    closeDialog={onImageSelectClose}
                     licenses={imageLicenses}
                     supportedLanguages={image?.supportedLanguages ?? [i18n.language]}
                   />

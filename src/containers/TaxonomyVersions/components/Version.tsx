@@ -78,7 +78,7 @@ interface Props {
 
 const Version = ({ version }: Props) => {
   const { t } = useTranslation();
-  const [showAlertModal, setShowAlertModal] = useState(false);
+  const [showAlertDialog, setShowAlertDialog] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isEditing, setIsEditing] = useState(false);
   const qc = useQueryClient();
@@ -145,7 +145,7 @@ const Version = ({ version }: Props) => {
               size="small"
               aria-label={deleteTooltip}
               disabled={deleteDisabled}
-              onClick={() => (deleteDisabled ? undefined : setShowAlertModal(true))}
+              onClick={() => (deleteDisabled ? undefined : setShowAlertDialog(true))}
               title={deleteTooltip}
             >
               <DeleteBinLine />
@@ -154,22 +154,22 @@ const Version = ({ version }: Props) => {
           <AlertDialog
             title={t("taxonomyVersions.delete")}
             label={t("taxonomyVersions.delete")}
-            show={showAlertModal}
+            show={showAlertDialog}
             text={t(`taxonomyVersions.deleteWarning${version.versionType === "PUBLISHED" ? "Published" : ""}`)}
-            onCancel={() => setShowAlertModal(false)}
+            onCancel={() => setShowAlertDialog(false)}
           >
             <FormActionsContainer>
-              <Button onClick={() => setShowAlertModal(false)} variant="secondary">
+              <Button onClick={() => setShowAlertDialog(false)} variant="secondary">
                 {t("form.abort")}
               </Button>
               <Button
                 onClick={() => {
-                  setShowAlertModal(false);
+                  setShowAlertDialog(false);
                   onDelete();
                 }}
                 variant="danger"
               >
-                {t("alertModal.delete")}
+                {t("alertDialog.delete")}
               </Button>
             </FormActionsContainer>
           </AlertDialog>

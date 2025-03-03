@@ -680,7 +680,7 @@ const phrases = {
   qualityEvaluationForm: {
     title: "Kvalitetsvurdering",
     unavailable: "Ikkje satt",
-    modalTitle: "Oppdater kvalitetsvurdering",
+    dialogTitle: "Oppdater kvalitetsvurdering",
     description:
       "Legg inn ei kvalitetsvurdering av {{ resource }} med ei beskriving av den valde graderinga. Skalaen er som følgjer: 1 = eineståande, 2 = veldig bra, 3 = OK, 4 = bør fiksast, 5 = må fiksast.",
     edit: "Rediger kvalitetsvurdering",
@@ -943,8 +943,6 @@ const phrases = {
     editPodcast: "Endre podkast",
     editH5p: "Endre H5P",
     resetToProd: {
-      button: "Tilbakestill endringer",
-      modal: "Vil du tilbakestille utkastet til slik det er på ndla forsida?",
       success: "Innhold er tilbakestilt, trykk lagre for å lagre endringene",
     },
     resetToVersion: "Tilbakestill til versjon",
@@ -1068,7 +1066,7 @@ const phrases = {
       deleteLanguageVersion: {
         button: "Slett {{languageVersion}} versjon",
         title: "Slett språkversjon",
-        modal: "Er du sikker på at du vil slette denne språkversjonen?",
+        dialog: "Er du sikker på at du vil slette denne språkversjonen?",
       },
       statusInfoTooltip: "Kva er forskjella på dei ulike statusane?",
       statusLabel: "Status",
@@ -1081,7 +1079,7 @@ const phrases = {
       },
       deleteComment: {
         title: "Slett kommentar",
-        modal: "Vil du slette denne kommentaren? Det er ikkje mogleg å gjenopprette han.",
+        dialog: "Vil du slette denne kommentaren? Det er ikkje mogleg å gjenopprette han.",
         button: "Slett",
       },
       addComment: {
@@ -1454,7 +1452,7 @@ const phrases = {
         newLanguage: "Ved oppretting av eit nytt språk vil ei lydfil fra eit eksisterande språk foreslås.",
         deleteFiles: "Ei lydfil slettast berre når den ikkje lenger brukes i eit språk.",
       },
-      modal: {
+      dialog: {
         header: "Lydfiler",
         label: "Informasjon om lydfiler",
       },
@@ -1646,7 +1644,7 @@ const phrases = {
   forbiddenPage: {
     description: "Du har ikkje tilgang til denne sida",
   },
-  alertModal: {
+  alertDialog: {
     notSaved: "Dokumentet er ikkje lagra, ønsker du å fortsette?",
     needToRefresh:
       "Nokon har lagra samme artikkel medan du redigerte. For å ta vare på endringane dine må du kopiere dei manuelt og deretter oppdatere sida",
@@ -1931,9 +1929,6 @@ const phrases = {
       createGroup: "Lag ny gruppe",
       groupNamePlaceholder: "Skriv namn på {{lang}}",
     },
-  },
-  modal: {
-    closeModal: "Lukk",
   },
   conceptForm: {
     title: "Forklaring",

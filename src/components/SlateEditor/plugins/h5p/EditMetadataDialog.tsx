@@ -37,7 +37,7 @@ interface Props {
   element: H5pElement;
 }
 
-const EditMetadataModal = ({ embed, editor, element }: Props) => {
+const EditMetadataDialog = ({ embed, editor, element }: Props) => {
   const [alttext, setAlttext] = useState(embed?.embedData.alt);
   const [isOpen, setOpen] = useState<boolean>(false);
   const { t } = useTranslation();
@@ -105,4 +105,4 @@ const EditMetadataModal = ({ embed, editor, element }: Props) => {
   );
 };
 
-export default EditMetadataModal;
+export default EditMetadataDialog;

@@ -10,14 +10,14 @@ import { getLocaleObject, isValidLocale, formatNestedMessages } from "../i18n";
 
 test("i18n getLocaleObject()", () => {
   expect(getLocaleObject("en").abbreviation).toBe("en");
-  expect(getLocaleObject("en").messages["footer.aboutNDLA"]).toBe("About NDLA");
+  expect(getLocaleObject("en").messages["article.lastUpdated"]).toBe("Last revised date");
 
   expect(getLocaleObject("nb").abbreviation).toBe("nb");
-  expect(getLocaleObject("nb").messages["footer.aboutNDLA"]).toBe("Om NDLA");
+  expect(getLocaleObject("nb").messages["article.lastUpdated"]).toBe("Sist faglig oppdatert");
 
   // Defaults to nb if locale not found
   expect(getLocaleObject("ru").abbreviation).toBe("nb");
-  expect(getLocaleObject("ru").messages["footer.aboutNDLA"]).toBe("Om NDLA");
+  expect(getLocaleObject("ru").messages["article.lastUpdated"]).toBe("Sist faglig oppdatert");
 });
 
 test("i18n isValidLocale()", () => {

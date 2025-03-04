@@ -20,11 +20,11 @@ interface Props {
   isNewlyCreated?: boolean;
   editingArticle?: boolean;
   onImageCreated?: (image: IImageMetaInformationV3DTO) => void;
-  closeModal?: () => void;
-  inModal?: boolean;
+  closeDialog?: () => void;
+  inDialog?: boolean;
 }
 
-const CreateImage = ({ isNewlyCreated, editingArticle, onImageCreated, inModal, closeModal }: Props) => {
+const CreateImage = ({ isNewlyCreated, editingArticle, onImageCreated, inDialog, closeDialog }: Props) => {
   const { i18n } = useTranslation();
   const locale = i18n.language;
   const { data: licenses } = useLicenses({ placeholderData: [] });
@@ -43,11 +43,11 @@ const CreateImage = ({ isNewlyCreated, editingArticle, onImageCreated, inModal, 
   return (
     <ImageForm
       language={locale}
-      inModal={inModal}
+      inDialog={inDialog}
       isNewlyCreated={isNewlyCreated}
       licenses={imageLicenses}
       onSubmitFunc={onCreateImage}
-      closeModal={closeModal}
+      closeDialog={closeDialog}
       supportedLanguages={[locale]}
     />
   );

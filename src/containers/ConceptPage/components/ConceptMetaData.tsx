@@ -25,11 +25,11 @@ import { onSaveAsVisualElement } from "../../FormikForm/utils";
 import { ConceptFormValues } from "../conceptInterfaces";
 
 interface Props {
-  inModal: boolean;
+  inDialog: boolean;
   language?: string;
 }
 
-const ConceptMetaData = ({ inModal, language }: Props) => {
+const ConceptMetaData = ({ inDialog, language }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
   const tagSelectorTranslations = useTagSelectorTranslations();
@@ -57,7 +57,7 @@ const ConceptMetaData = ({ inModal, language }: Props) => {
 
   return (
     <FormContent>
-      {inModal ? (
+      {inDialog ? (
         <InlineImageSearch name="metaImageId" />
       ) : (
         <FormField name="metaImageId">

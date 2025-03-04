@@ -72,7 +72,7 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
     <>
       <title>{`${concept.title.title} ${t("htmlTitles.titleTemplate")}`} </title>
       <ConceptForm
-        inModal={false}
+        inDialog={false}
         concept={concept}
         conceptChanged={conceptChanged || newLanguage}
         isNewlyCreated={isNewlyCreated}

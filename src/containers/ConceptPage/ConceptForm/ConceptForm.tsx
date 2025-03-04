@@ -43,7 +43,7 @@ interface Props {
   upsertProps: CreateProps | UpdateProps;
   concept?: IConceptDTO;
   conceptChanged?: boolean;
-  inModal: boolean;
+  inDialog: boolean;
   isNewlyCreated?: boolean;
   language: string;
   initialTitle?: string;
@@ -109,7 +109,7 @@ const conceptRules: RulesType<ConceptFormValues, IConceptDTO> = {
 const ConceptForm = ({
   concept,
   conceptChanged,
-  inModal,
+  inDialog,
   isNewlyCreated = false,
   language,
   upsertProps,
@@ -180,7 +180,7 @@ const ConceptForm = ({
       {(formikProps) => {
         const { errors }: FormikProps<ConceptFormValues> = formikProps;
         return (
-          <FormWrapper inModal={inModal}>
+          <FormWrapper inDialog={inDialog}>
             <HeaderWithLanguage
               id={concept?.id}
               language={language}
@@ -197,7 +197,7 @@ const ConceptForm = ({
                 hasError={!!(errors.title || errors.conceptContent)}
               >
                 <PageContent variant="content">
-                  <ConceptContent inModal={inModal} />
+                  <ConceptContent inDialog={inDialog} />
                 </PageContent>
               </FormAccordion>
               <FormAccordion
@@ -207,13 +207,13 @@ const ConceptForm = ({
               >
                 <CopyrightFieldGroup enableLicenseNA={true} />
               </FormAccordion>
-              {!inModal && (
+              {!inDialog && (
                 <FormAccordion
                   id="metadata"
                   title={t("form.metadataSection")}
                   hasError={!!(errors.tags || errors.metaImageAlt)}
                 >
-                  <ConceptMetaData inModal={inModal} language={language} />
+                  <ConceptMetaData inDialog={inDialog} language={language} />
                 </FormAccordion>
               )}
               {!!concept?.id && (
@@ -225,7 +225,7 @@ const ConceptForm = ({
             <ConceptFormFooter
               entityStatus={concept?.status}
               conceptChanged={!!conceptChanged}
-              inModal={inModal}
+              inDialog={inDialog}
               savedToServer={savedToServer}
               isNewlyCreated={isNewlyCreated}
               showSimpleFooter={!concept?.id}

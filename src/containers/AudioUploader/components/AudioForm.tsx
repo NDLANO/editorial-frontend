@@ -258,7 +258,7 @@ const AudioForm = ({
               {...formikProps}
               formIsDirty={formIsDirty}
               severity="danger"
-              text={t("alertModal.notSaved")}
+              text={t("alertDialog.notSaved")}
             />
           </Form>
         );

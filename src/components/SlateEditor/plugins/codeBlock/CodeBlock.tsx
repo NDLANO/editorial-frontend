@@ -231,7 +231,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
               handleClose();
             }}
           >
-            {t("alertModal.continue")}
+            {t("alertDialog.continue")}
           </Button>
         </FormActionsContainer>
       </AlertDialog>

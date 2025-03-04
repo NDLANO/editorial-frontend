@@ -680,7 +680,7 @@ const phrases = {
   qualityEvaluationForm: {
     title: "Quality evaluation",
     unavailable: "Not specified",
-    modalTitle: "Update quality evaluation",
+    dialogTitle: "Update quality evaluation",
     description:
       "Provide a quality assessment of the {{ resource }} with a description of the chosen rating. The scale is as follows: 1 = outstanding, 2 = very good, 3 = OK, 4 = should be fixed, 5 = needs to be fixed.",
     edit: "Edit quality evaluation",
@@ -943,8 +943,6 @@ const phrases = {
     editPodcast: "Edit podcast",
     editH5p: "Edit H5P",
     resetToProd: {
-      button: "Reset to prod",
-      modal: "Do you want to reset the draft as it is on the ndla frontpage?",
       success: "Content is reset, press save to save changes",
     },
     resetToVersion: "Reset to version",
@@ -1068,7 +1066,7 @@ const phrases = {
       deleteLanguageVersion: {
         button: "Delete {{languageVersion}} version",
         title: "Delete language version",
-        modal: "Are you sure that you want to delete this language version?",
+        dialog: "Are you sure that you want to delete this language version?",
       },
       statusInfoTooltip: "Whats the difference between statuses?",
       statusLabel: "Status",
@@ -1081,7 +1079,7 @@ const phrases = {
       },
       deleteComment: {
         title: "Delete comment",
-        modal: "Are you sure you want to delete this comment? It can`t be restored.",
+        dialog: "Are you sure you want to delete this comment? It can`t be restored.",
         button: "Delete",
       },
       addComment: {
@@ -1455,7 +1453,7 @@ const phrases = {
         newLanguage: "When adding a new language, an audio file from an existing language will be suggested.",
         deleteFiles: "Audio files will only be deleted when not used in any language.",
       },
-      modal: {
+      dialog: {
         header: "Audio files",
         label: "Audio file information",
       },
@@ -1647,7 +1645,7 @@ const phrases = {
   forbiddenPage: {
     description: "You do not have access to this page",
   },
-  alertModal: {
+  alertDialog: {
     notSaved: "Document is not saved, do you want to continue?",
     needToRefresh:
       "Someone have saved the same article while you were editing. You need to copy your changes manually and refresh the page",
@@ -1931,9 +1929,6 @@ const phrases = {
       createGroup: "Create new group",
       groupNamePlaceholder: "Write name in {{lang}}",
     },
-  },
-  modal: {
-    closeModal: "Close",
   },
   conceptForm: {
     title: "Concept",

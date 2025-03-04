@@ -26,7 +26,7 @@ import { ConceptFormValues } from "../conceptInterfaces";
 interface Props {
   entityStatus?: IStatusDTO;
   conceptChanged: boolean;
-  inModal?: boolean;
+  inDialog?: boolean;
   savedToServer: boolean;
   isNewlyCreated: boolean;
   showSimpleFooter: boolean;
@@ -41,7 +41,7 @@ const StyledFormActionsContainer = styled(FormActionsContainer, {
 const ConceptFormFooter = ({
   entityStatus,
   conceptChanged,
-  inModal,
+  inDialog,
   savedToServer,
   isNewlyCreated,
   showSimpleFooter,
@@ -59,7 +59,7 @@ const ConceptFormFooter = ({
 
   const disableSave = Object.keys(errors).length > 0;
 
-  if (inModal) {
+  if (inDialog) {
     return (
       <StyledFormActionsContainer>
         <FormField name="status">
@@ -118,7 +118,7 @@ const ConceptFormFooter = ({
         formIsDirty={formIsDirty}
         isSubmitting={isSubmitting}
         severity="danger"
-        text={t("alertModal.notSaved")}
+        text={t("alertDialog.notSaved")}
       />
     </>
   );

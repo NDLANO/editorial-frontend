@@ -84,7 +84,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
   const [mathEditor, setMathEditor] = useState<MathMLType | undefined>(undefined);
   const [editMode, setEditMode] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-  const [openDiscardModal, setOpenDiscardModal] = useState(false);
+  const [openDiscardDialog, setOpenDiscardDialog] = useState(false);
 
   useEffect(() => {
     setEditMode(!!element.isFirstEdit);
@@ -95,7 +95,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       if (open) {
         setEditMode(open);
       } else if ((nodeInfo.model.innerHTML ?? emptyMathTag) !== mathEditor?.getMathML()) {
-        setOpenDiscardModal(true);
+        setOpenDiscardDialog(true);
       } else {
         setEditMode(false);
       }
@@ -163,11 +163,11 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
   }, [editor, element]);
 
   const onExit = useCallback(() => {
-    if ((nodeInfo.model.innerHTML ?? emptyMathTag !== mathEditor?.getMathML()) && !openDiscardModal) {
-      setOpenDiscardModal(true);
+    if ((nodeInfo.model.innerHTML ?? emptyMathTag !== mathEditor?.getMathML()) && !openDiscardDialog) {
+      setOpenDiscardDialog(true);
       return;
     }
-    setOpenDiscardModal(false);
+    setOpenDiscardDialog(false);
     const elementPath = ReactEditor.findPath(editor, element);
 
     if (element.isFirstEdit) {
@@ -184,7 +184,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       setEditMode(false);
       setShowMenu(false);
     }
-  }, [editor, element, handleRemove, mathEditor, nodeInfo.model.innerHTML, openDiscardModal]);
+  }, [editor, element, handleRemove, mathEditor, nodeInfo.model.innerHTML, openDiscardDialog]);
 
   return (
     <>
@@ -254,16 +254,16 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       <AlertDialog
         title={t("unsavedChanges")}
         label={t("unsavedChanges")}
-        show={openDiscardModal}
+        show={openDiscardDialog}
         text={t("mathEditor.continue")}
-        onCancel={() => setOpenDiscardModal(false)}
+        onCancel={() => setOpenDiscardDialog(false)}
       >
         <FormActionsContainer>
-          <Button variant="secondary" onClick={() => setOpenDiscardModal(false)}>
+          <Button variant="secondary" onClick={() => setOpenDiscardDialog(false)}>
             {t("form.abort")}
           </Button>
           <Button variant="danger" onClick={onExit}>
-            {t("alertModal.continue")}
+            {t("alertDialog.continue")}
           </Button>
         </FormActionsContainer>
       </AlertDialog>

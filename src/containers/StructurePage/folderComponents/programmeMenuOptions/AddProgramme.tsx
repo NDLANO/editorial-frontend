@@ -11,7 +11,7 @@ import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import { getNodeTypeFromNodeId } from "../../../../modules/nodes/nodeUtil";
-import AddNodeModalContent from "../../AddNodeModalContent";
+import AddNodeDialogContent from "../../AddNodeDialogContent";
 
 const Wrapper = styled("div", {
   base: {
@@ -39,7 +39,7 @@ const AddProgramme = ({ node, rootNodeId }: Props) => {
           })}
         </h2>
       </Heading>
-      <AddNodeModalContent parentNode={node} rootId={rootNodeId} nodeType={getNodeTypeFromNodeId(rootNodeId)} />
+      <AddNodeDialogContent parentNode={node} rootId={rootNodeId} nodeType={getNodeTypeFromNodeId(rootNodeId)} />
     </Wrapper>
   );
 };

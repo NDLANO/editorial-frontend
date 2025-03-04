@@ -29,14 +29,14 @@ test("Can remove movie from list", async ({ page }) => {
 });
 
 test("Can add and remove theme", async ({ page }) => {
-  await page.getByTestId("add-theme-modal").click();
+  await page.getByTestId("add-theme-dialog").click();
   await page.getByLabel("Bokmål").fill("Ny testgruppe");
   await page.getByRole("button", { name: "Opprett gruppe" }).click();
   await expect(page.getByRole("heading", { name: "Ny testgruppe" })).toBeVisible();
 });
 
 test("Can save changes with new data", async ({ page, harCheckpoint }) => {
-  await page.getByTestId("add-theme-modal").click();
+  await page.getByTestId("add-theme-dialog").click();
   await page.getByLabel("Bokmål").fill("Testgruppee");
   await page.getByRole("button", { name: "Opprett gruppe" }).click();
   await page.getByPlaceholder('Legg til film i "Testgruppee"').fill("Brukerstøtte");

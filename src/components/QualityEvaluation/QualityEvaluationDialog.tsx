@@ -37,7 +37,7 @@ interface Props {
   updateNotes?: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
 }
 
-const QualityEvaluationModal = ({
+const QualityEvaluationDialog = ({
   articleType,
   article,
   taxonomy,
@@ -64,7 +64,7 @@ const QualityEvaluationModal = ({
       <Portal>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{t("qualityEvaluationForm.modalTitle")}</DialogTitle>
+            <DialogTitle>{t("qualityEvaluationForm.dialogTitle")}</DialogTitle>
             <DialogCloseButton />
           </DialogHeader>
           <DialogBody>
@@ -88,4 +88,4 @@ const QualityEvaluationModal = ({
   );
 };
 
-export default QualityEvaluationModal;
+export default QualityEvaluationDialog;

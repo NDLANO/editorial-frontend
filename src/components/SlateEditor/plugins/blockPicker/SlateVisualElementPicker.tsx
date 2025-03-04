@@ -11,7 +11,7 @@ import { useCallback } from "react";
 import { Editor, Element } from "slate";
 import { useSlateStatic } from "slate-react";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import VisualElementModalWrapper from "../../../../containers/VisualElement/VisualElementModalWrapper";
+import VisualElementDialogWrapper from "../../../../containers/VisualElement/VisualElementDialogWrapper";
 import VisualElementSearch from "../../../../containers/VisualElement/VisualElementSearch";
 import { Embed } from "../../../../interfaces";
 import getCurrentBlock from "../../utils/getCurrentBlock";
@@ -93,16 +93,16 @@ const SlateVisualElementPicker = ({
   );
 
   return (
-    <VisualElementModalWrapper isOpen={isOpen} label={label} resource={resource} onClose={onVisualElementClose}>
+    <VisualElementDialogWrapper isOpen={isOpen} label={label} resource={resource} onClose={onVisualElementClose}>
       <VisualElementSearch
         articleLanguage={articleLanguage}
         selectedResource={resource}
         handleVisualElementChange={onVisualElementAdd}
-        closeModal={onVisualElementClose}
+        closeDialog={onVisualElementClose}
         showCheckbox={showCheckbox}
         checkboxAction={(image: IImageMetaInformationV3DTO) => checkboxAction(image, formikContext)}
       />
-    </VisualElementModalWrapper>
+    </VisualElementDialogWrapper>
   );
 };
 

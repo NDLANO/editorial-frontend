@@ -164,7 +164,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
       >
         <FormActionsContainer>
           <Button variant="secondary" onClick={() => setIsNormalizedOnLoad(false)}>
-            {t("alertModal.continue")}
+            {t("alertDialog.continue")}
           </Button>
         </FormActionsContainer>
       </AlertDialog>

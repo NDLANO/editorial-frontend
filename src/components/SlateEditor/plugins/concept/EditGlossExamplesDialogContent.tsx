@@ -59,7 +59,7 @@ const getInitialStateSelectedExamples = (exampleIds: string | undefined, example
   else return [];
 };
 
-const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, element, embed, close }: Props) => {
+const EditGlossExamplesDialogContent = ({ originalLanguage, examples, editor, element, embed, close }: Props) => {
   const { t } = useTranslation();
   const languages = generateUniqueGlossLanguageArray(examples);
   const [selectedExamples, setSelectedExamples] = useState<string[]>(
@@ -157,4 +157,4 @@ const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, ele
   );
 };
 
-export default EditGlossExamplesModalContent;
+export default EditGlossExamplesDialogContent;

@@ -157,7 +157,7 @@ const ResourceItems = ({
             {t("form.abort")}
           </Button>
           <Button onClick={() => onDelete(deleteId)} variant="danger">
-            {t("alertModal.delete")}
+            {t("alertDialog.delete")}
           </Button>
         </FormActionsContainer>
       </AlertDialog>

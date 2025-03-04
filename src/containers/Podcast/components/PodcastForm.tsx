@@ -106,7 +106,7 @@ const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformationDTO> = {
 interface Props {
   audio?: IAudioMetaInformationDTO;
   podcastChanged?: boolean;
-  inModal?: boolean;
+  inDialog?: boolean;
   isNewlyCreated?: boolean;
   language: string;
   onCreatePodcast?: (newPodcast: INewAudioMetaInformationDTO, file?: string | Blob) => Promise<void>;
@@ -118,7 +118,7 @@ interface Props {
 const PodcastForm = ({
   audio,
   podcastChanged,
-  inModal,
+  inDialog,
   isNewlyCreated,
   language,
   onCreatePodcast,
@@ -235,7 +235,7 @@ const PodcastForm = ({
           changed: podcastChanged,
         });
         return (
-          <FormWrapper inModal={inModal}>
+          <FormWrapper inDialog={inDialog}>
             <HeaderWithLanguage
               id={audio?.id}
               language={language}
@@ -303,7 +303,7 @@ const PodcastForm = ({
               </Button>
               <SaveButton
                 id={SAVE_BUTTON_ID}
-                type={!inModal ? "submit" : "button"}
+                type={!inDialog ? "submit" : "button"}
                 loading={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}
@@ -317,7 +317,7 @@ const PodcastForm = ({
               {...formikProps}
               formIsDirty={formIsDirty}
               severity="danger"
-              text={t("alertModal.notSaved")}
+              text={t("alertDialog.notSaved")}
             />
           </FormWrapper>
         );

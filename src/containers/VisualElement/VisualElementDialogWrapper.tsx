@@ -32,7 +32,7 @@ interface Props {
   label?: string;
 }
 
-const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, label }: Props) => {
+const VisualElementDialogWrapper = ({ resource, children, onClose, isOpen, label }: Props) => {
   const onOpenChange = useCallback(
     (details: DialogOpenChangeDetails) => {
       if (!details.open) {
@@ -68,4 +68,4 @@ const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, label 
   );
 };
 
-export default VisualElementModalWrapper;
+export default VisualElementDialogWrapper;

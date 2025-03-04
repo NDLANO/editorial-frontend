@@ -31,7 +31,7 @@ import { stripInlineContentHtmlTags } from "../../../util/formHelper";
 import { routes } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import GroupTopicResources from "../folderComponents/topicMenuOptions/GroupTopicResources";
-import PlannedResourceModal from "../plannedResource/PlannedResourceModal";
+import PlannedResourceDialog from "../plannedResource/PlannedResourceDialog";
 
 const ResourceGroupBanner = styled("div", {
   base: {
@@ -191,7 +191,7 @@ const TopicResourceBanner = ({
         </ContentWrapper>
         <ControlButtonGroup>
           <JumpToStructureButton nodeId={currentNode.id} />
-          <PlannedResourceModal currentNode={currentNode} resourceTypes={resourceTypes} resources={resources} />
+          <PlannedResourceDialog currentNode={currentNode} resourceTypes={resourceTypes} resources={resources} />
         </ControlButtonGroup>
       </TopRow>
       <StyledResource>

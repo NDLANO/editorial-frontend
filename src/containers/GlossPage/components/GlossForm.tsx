@@ -44,7 +44,7 @@ interface Props {
   upsertProps: CreateProps | UpdateProps;
   concept?: IConceptDTO;
   conceptChanged?: boolean;
-  inModal: boolean;
+  inDialog: boolean;
   isNewlyCreated?: boolean;
   language: string;
   initialTitle?: string;
@@ -83,7 +83,7 @@ const glossRules: RulesType<ConceptFormValues, IConceptDTO> = {
 export const GlossForm = ({
   concept,
   conceptChanged,
-  inModal,
+  inDialog,
   isNewlyCreated = false,
   language,
   upsertProps,
@@ -152,7 +152,7 @@ export const GlossForm = ({
       initialStatus={{ warnings: initialWarnings }}
     >
       {(formikProps) => (
-        <FormWrapper inModal={inModal}>
+        <FormWrapper inDialog={inDialog}>
           <HeaderWithLanguage
             id={concept?.id}
             language={language}
@@ -186,7 +186,7 @@ export const GlossForm = ({
           <ConceptFormFooter
             entityStatus={concept?.status}
             conceptChanged={!!conceptChanged}
-            inModal={inModal}
+            inDialog={inDialog}
             savedToServer={savedToServer}
             isNewlyCreated={isNewlyCreated}
             showSimpleFooter={!concept?.id}

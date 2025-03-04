@@ -58,7 +58,7 @@ const GrepCodesForm = ({ codes, onUpdate, close, prefixFilter }: Props) => {
     <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize>
       {({ dirty, submitForm }) => {
         return (
-          <FormWrapper inModal>
+          <FormWrapper inDialog>
             <FormContent>
               <GrepCodesField prefixFilter={prefixFilter} />
               <FormActionsContainer>

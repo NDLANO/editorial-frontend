@@ -14,6 +14,7 @@ import { Button, Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { TaxonomyContext } from "@ndla/types-taxonomy";
 import { ContentTypeBadge, constants } from "@ndla/ui";
+import { CloneImageDialog } from "./CloneImageDialog";
 import HeaderStatusInformation from "./HeaderStatusInformation";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { fetchAuth0Users } from "../../modules/auth0/auth0Api";
@@ -152,11 +153,12 @@ const HeaderInformation = ({
             {title ?? t("form.createNew", { type: t(`contentTypes.${type}`) })}
           </Heading>
         )}
-        {(type === "standard" || type === "topic-article") && (
+        {(type === "standard" || type === "topic-article") && id ? (
           <Button size="small" variant="tertiary" onClick={onSaveAsNew} data-testid="saveAsNew" loading={loading}>
             {t("form.workflow.saveAsNew")}
           </Button>
-        )}
+        ) : null}
+        {type === "image" && id ? <CloneImageDialog imageId={id} loading={loading} /> : null}
       </StyledTitleHeaderWrapper>
       <HeaderStatusInformation
         noStatus={noStatus}

@@ -39,6 +39,7 @@ const InfoItems = styled("div", {
     display: "flex",
     gap: "3xsmall",
     justifyContent: "flex-end",
+    alignItems: "center",
   },
 });
 
@@ -158,6 +159,13 @@ const Resource = ({
             {!!isSupplementary && <SupplementaryIndicator />}
           </TextWrapper>
           <InfoItems>
+            {showMatomoStats ? (
+              <MatomoStats
+                matomoStats={matomoStats}
+                matomoStatsIsPending={matomoStatsIsPending}
+                matomoStatsIsError={matomoStatsIsError}
+              />
+            ) : null}
             {!!showQuality && (
               <QualityEvaluationGrade
                 grade={resource.qualityEvaluation?.grade}
@@ -188,13 +196,6 @@ const Resource = ({
             </Text>
           </TextWrapper>
           <ControlButtonGroup>
-            {showMatomoStats ? (
-              <MatomoStats
-                matomoStats={matomoStats}
-                matomoStatsIsPending={matomoStatsIsPending}
-                matomoStatsIsError={matomoStatsIsError}
-              />
-            ) : null}
             {!!(
               resource.contentMeta?.status?.current === PUBLISHED ||
               resource.contentMeta?.status?.other?.includes(PUBLISHED)

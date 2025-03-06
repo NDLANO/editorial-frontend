@@ -18,13 +18,6 @@ import { StatusTimeFill } from "../../../components/StatusTimeFill";
 import formatDate from "../../../util/formatDate";
 import { getExpirationDate } from "../../ArticlePage/articleTransformers";
 
-const IconWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-  },
-});
-
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
   base: {
     fill: "icon.subtle",
@@ -58,7 +51,7 @@ const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy }: Pro
   }, [expirationDate, t, warnStatus]);
 
   return (
-    <IconWrapper>
+    <>
       {!!resource.contentMeta?.started && (
         <FileEditLine aria-label={t("taxonomy.inProgress")} title={t("taxonomy.inProgress")} />
       )}
@@ -74,7 +67,7 @@ const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy }: Pro
           title={t("form.workflow.multipleTaxonomy")}
         />
       )}
-    </IconWrapper>
+    </>
   );
 };
 

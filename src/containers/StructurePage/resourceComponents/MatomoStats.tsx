@@ -6,7 +6,6 @@
  *
  */
 
-import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import { LineChartLine } from "@ndla/icons";
 import { Text, Skeleton, PopoverRoot, PopoverTrigger, PopoverContent, Button } from "@ndla/primitives";
@@ -36,7 +35,9 @@ const MatomoStats = ({ matomoStats, matomoStatsIsPending, matomoStatsIsError }: 
     );
   }
 
-  return matomoStats ? (
+  if (!matomoStats) return;
+
+  return (
     <PopoverRoot>
       <PopoverTrigger asChild>
         <Button
@@ -45,10 +46,8 @@ const MatomoStats = ({ matomoStats, matomoStatsIsPending, matomoStatsIsError }: 
           aria-label={t("matomo.popoverTitle", { count: matomoStats.nb_visits })}
           title={t("matomo.popoverTitle", { count: matomoStats.nb_visits })}
         >
-          <Fragment aria-hidden>
-            <LineChartLine size="small" />
-            {matomoStats.nb_visits}
-          </Fragment>
+          <LineChartLine size="small" aria-hidden />
+          <div aria-hidden>{matomoStats.nb_visits}</div>
         </Button>
       </PopoverTrigger>
       <PopoverContent>
@@ -57,7 +56,7 @@ const MatomoStats = ({ matomoStats, matomoStatsIsPending, matomoStatsIsError }: 
         <Text textStyle="body.small">{t("matomo.avgTime", { time: matomoStats.avg_time_on_page })}</Text>
       </PopoverContent>
     </PopoverRoot>
-  ) : null;
+  );
 };
 
 export default MatomoStats;

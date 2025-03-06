@@ -117,6 +117,15 @@ const StyledResource = styled("div", {
   },
 });
 
+const InfoItems = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+});
+
 const getWorkflowCount = (contentMeta: Dictionary<NodeResourceMeta>) => {
   const contentMetaList = Object.values(contentMeta);
   const workflowCount = contentMetaList.filter((c) => c.status?.current !== PUBLISHED).length;
@@ -239,11 +248,20 @@ const TopicResourceBanner = ({
             )}
             {!!isSupplementary && <SupplementaryIndicator />}
           </TextWrapper>
-          <StatusIcons
-            nodeResourcesIsPending={nodeResourcesIsPending}
-            resource={currentNode}
-            multipleTaxonomy={contexts?.length ? contexts.length > 1 : false}
-          />
+          <InfoItems>
+            {showMatomoStats ? (
+              <MatomoStats
+                matomoStats={currentNode.url ? resourceStats?.[currentNode.url] : undefined}
+                matomoStatsIsPending={matomoStatsIsPending}
+                matomoStatsIsError={matomoStatsIsError}
+              />
+            ) : null}
+            <StatusIcons
+              nodeResourcesIsPending={nodeResourcesIsPending}
+              resource={currentNode}
+              multipleTaxonomy={contexts?.length ? contexts.length > 1 : false}
+            />
+          </InfoItems>
         </ContentRow>
         <ContentRow>
           <TextWrapper>
@@ -269,13 +287,6 @@ const TopicResourceBanner = ({
                 }}
               />
             )}
-            {showMatomoStats ? (
-              <MatomoStats
-                matomoStats={currentNode.url ? resourceStats?.[currentNode.url] : undefined}
-                matomoStatsIsPending={matomoStatsIsPending}
-                matomoStatsIsError={matomoStatsIsError}
-              />
-            ) : null}
             {!!(
               currentNode.contentMeta?.status?.current === PUBLISHED ||
               currentNode.contentMeta?.status?.other?.includes(PUBLISHED)

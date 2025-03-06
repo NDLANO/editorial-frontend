@@ -14,8 +14,6 @@ export interface MatomoPageData {
   nb_visits: number;
   nb_hits: number;
   avg_time_on_page: number;
-  bounce_rate: string;
-  exit_rate: string;
   segment: string;
   url: string;
 }

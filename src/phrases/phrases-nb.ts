@@ -2238,6 +2238,9 @@ const phrases = {
     hits: "Sidevisninger: {{count}}",
     avgTime: "Gj.snitt tid brukt av besøkere: {{time}} sek",
     error: "Noe gikk galt ved henting av data fra Matomo",
+    switchLabel: "Vis data fra Matomo",
+    popoverTitle_one: "{{count}} unik sidevisning, klikk for å se mer data fra Matomo",
+    popoverTitle_other: "{{count}} unike sidevisninger, klikk for å se mer data fra Matomo",
   },
 };
 

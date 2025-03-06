@@ -6,19 +6,11 @@
  *
  */
 
+import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
-import { Text, Skeleton } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { LineChartLine } from "@ndla/icons";
+import { Text, Skeleton, PopoverRoot, PopoverTrigger, PopoverContent, Button } from "@ndla/primitives";
 import { ResourceStats } from "../utils";
-
-const TextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xxsmall",
-    alignItems: "center",
-    flexWrap: "wrap",
-  },
-});
 
 interface Props {
   matomoStats: ResourceStats | undefined;
@@ -38,31 +30,33 @@ const MatomoStats = ({ matomoStats, matomoStatsIsPending, matomoStatsIsError }: 
 
   if (matomoStatsIsPending) {
     return (
-      <Skeleton css={{ width: "30%" }}>
+      <Skeleton css={{ width: "xxlarge" }}>
         <Text textStyle="body.small">&nbsp;</Text>
       </Skeleton>
     );
   }
 
   return matomoStats ? (
-    <TextWrapper>
-      <Text textStyle="body.small" color="text.subtle">{`${matomoStats.year}:`}</Text>
-      <Text textStyle="body.small" color="text.subtle">
-        {t("matomo.visits", { count: matomoStats.nb_visits })}
-      </Text>
-      <Text color="text.subtle" aria-hidden>
-        |
-      </Text>
-      <Text textStyle="body.small" color="text.subtle">
-        {t("matomo.hits", { count: matomoStats.nb_hits })}
-      </Text>
-      <Text color="text.subtle" aria-hidden>
-        |
-      </Text>
-      <Text textStyle="body.small" color="text.subtle">
-        {t("matomo.avgTime", { time: matomoStats.avg_time_on_page })}
-      </Text>
-    </TextWrapper>
+    <PopoverRoot>
+      <PopoverTrigger asChild>
+        <Button
+          size="small"
+          variant="secondary"
+          aria-label={t("matomo.popoverTitle", { count: matomoStats.nb_visits })}
+          title={t("matomo.popoverTitle", { count: matomoStats.nb_visits })}
+        >
+          <Fragment aria-hidden>
+            <LineChartLine size="small" />
+            {matomoStats.nb_visits}
+          </Fragment>
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent>
+        <Text textStyle="body.small">{t("matomo.visits", { count: matomoStats.nb_visits })}</Text>
+        <Text textStyle="body.small">{t("matomo.hits", { count: matomoStats.nb_hits })}</Text>
+        <Text textStyle="body.small">{t("matomo.avgTime", { time: matomoStats.avg_time_on_page })}</Text>
+      </PopoverContent>
+    </PopoverRoot>
   ) : null;
 };
 

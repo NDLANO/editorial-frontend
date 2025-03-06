@@ -40,6 +40,7 @@ interface Props {
   nodeResourcesIsPending: boolean;
   users?: Dictionary<Auth0UserData>;
   showQuality: boolean;
+  showMatomoStats: boolean;
 }
 
 const isError = (error: unknown): error is Error => (error as Error).message !== undefined;
@@ -51,6 +52,7 @@ const ResourceItems = ({
   nodeResourcesIsPending,
   users,
   showQuality,
+  showMatomoStats,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const [resourceStats, setResourceStats] = useState<Record<string, ResourceStats> | undefined>(undefined);
@@ -63,7 +65,7 @@ const ResourceItems = ({
     isError: matomoStatsIsError,
   } = useMatomoStats(
     { contextIds: resources?.filter((n) => !!n.contextId).map((n) => n.contextId!) },
-    { enabled: !!resources?.length },
+    { enabled: !!resources?.length && showMatomoStats },
   );
 
   useEffect(() => {
@@ -162,6 +164,7 @@ const ResourceItems = ({
               matomoStats={matomoStats}
               matomoStatsIsPending={matomoStatsIsPending}
               matomoStatsIsError={matomoStatsIsError}
+              showMatomoStats={showMatomoStats}
             />
           );
         }}

@@ -97,6 +97,7 @@ interface Props {
   matomoStats: ResourceStats | undefined;
   matomoStatsIsPending: boolean;
   matomoStatsIsError: boolean;
+  showMatomoStats: boolean;
 }
 
 const Resource = ({
@@ -109,6 +110,7 @@ const Resource = ({
   matomoStats,
   matomoStatsIsPending,
   matomoStatsIsError,
+  showMatomoStats,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
@@ -174,13 +176,6 @@ const Resource = ({
           </InfoItems>
         </ContentRow>
         <ContentRow>
-          <MatomoStats
-            matomoStats={matomoStats}
-            matomoStatsIsPending={matomoStatsIsPending}
-            matomoStatsIsError={matomoStatsIsError}
-          />
-        </ContentRow>
-        <ContentRow>
           <TextWrapper>
             <ContentTypeBadge contentType={contentType} size="small">
               {t(`contentTypes.${contentType}`)}
@@ -193,6 +188,13 @@ const Resource = ({
             </Text>
           </TextWrapper>
           <ControlButtonGroup>
+            {showMatomoStats ? (
+              <MatomoStats
+                matomoStats={matomoStats}
+                matomoStatsIsPending={matomoStatsIsPending}
+                matomoStatsIsError={matomoStatsIsError}
+              />
+            ) : null}
             {!!(
               resource.contentMeta?.status?.current === PUBLISHED ||
               resource.contentMeta?.status?.other?.includes(PUBLISHED)

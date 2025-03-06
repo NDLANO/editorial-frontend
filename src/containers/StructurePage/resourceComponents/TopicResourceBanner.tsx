@@ -134,6 +134,7 @@ interface Props {
   responsible: string | undefined;
   topicNodes: Node[] | undefined;
   showQuality: boolean;
+  showMatomoStats: boolean;
 }
 
 const TopicResourceBanner = ({
@@ -146,6 +147,7 @@ const TopicResourceBanner = ({
   responsible,
   topicNodes,
   showQuality,
+  showMatomoStats,
 }: Props) => {
   const [resourceStats, setResourceStats] = useState<Record<string, ResourceStats> | undefined>(undefined);
   const { t, i18n } = useTranslation();
@@ -160,7 +162,7 @@ const TopicResourceBanner = ({
     isError: matomoStatsIsError,
   } = useMatomoStats(
     { contextIds: currentNode.contextId ? [currentNode.contextId] : [] },
-    { enabled: !!currentNode.contextId },
+    { enabled: !!currentNode.contextId && showMatomoStats },
   );
 
   useEffect(() => {
@@ -244,13 +246,6 @@ const TopicResourceBanner = ({
           />
         </ContentRow>
         <ContentRow>
-          <MatomoStats
-            matomoStats={currentNode.url ? resourceStats?.[currentNode.url] : undefined}
-            matomoStatsIsPending={matomoStatsIsPending}
-            matomoStatsIsError={matomoStatsIsError}
-          />
-        </ContentRow>
-        <ContentRow>
           <TextWrapper>
             <Text color="text.subtle" textStyle="label.small">
               {t("articleType.topic-article")}
@@ -274,6 +269,13 @@ const TopicResourceBanner = ({
                 }}
               />
             )}
+            {showMatomoStats ? (
+              <MatomoStats
+                matomoStats={currentNode.url ? resourceStats?.[currentNode.url] : undefined}
+                matomoStatsIsPending={matomoStatsIsPending}
+                matomoStatsIsError={matomoStatsIsError}
+              />
+            ) : null}
             {!!(
               currentNode.contentMeta?.status?.current === PUBLISHED ||
               currentNode.contentMeta?.status?.other?.includes(PUBLISHED)

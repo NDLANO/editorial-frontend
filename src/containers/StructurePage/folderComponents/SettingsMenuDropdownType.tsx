@@ -85,9 +85,7 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
                 nodeType: t("taxonomy.nodeType.SUBJECT"),
               })}
             </TabsTrigger>
-            {!!isTaxonomyAdmin && (
-              <TabsTrigger value="toggleMetadataVisibility">{t("metadata.changeVisibility")}</TabsTrigger>
-            )}
+            <TabsTrigger value="toggleMetadataVisibility">{t("metadata.changeVisibility")}</TabsTrigger>
             <TabsTrigger value="addProgramme">
               {t("taxonomy.addNode", {
                 nodeType: t(`taxonomy.nodeType.${nodeType}`),
@@ -118,11 +116,9 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
           <StyledTabsContent value="connectExistingNode">
             <ConnectExistingNode currentNode={node} nodeType="SUBJECT" />
           </StyledTabsContent>
-          {!!isTaxonomyAdmin && (
-            <StyledTabsContent value="toggleMetadataVisibility">
-              <ToggleVisibility node={node} rootNodeId={rootNodeId} rootNodeType="PROGRAMME" />
-            </StyledTabsContent>
-          )}
+          <StyledTabsContent value="toggleMetadataVisibility">
+            <ToggleVisibility node={node} rootNodeId={rootNodeId} rootNodeType="PROGRAMME" />
+          </StyledTabsContent>
           <StyledTabsContent value="addProgramme">
             <AddProgramme node={node} rootNodeId={rootNodeId} />
           </StyledTabsContent>
@@ -139,7 +135,7 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
           )}
         </TabsRoot>
         {!!isTaxonomyAdmin && <EditSubjectpageOption node={node} />}
-        {!!isTaxonomyAdmin && <ToNodeDiff node={node} />}
+        <ToNodeDiff node={node} />
       </>
     );
   }
@@ -254,9 +250,7 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
                 nodeType: t(`taxonomy.nodeType.${nodeType}`),
               })}
             </TabsTrigger>
-            {!!isTaxonomyAdmin && (
-              <TabsTrigger value="toggleMetadataVisibility">{t("metadata.changeVisibility")}</TabsTrigger>
-            )}
+            <TabsTrigger value="toggleMetadataVisibility">{t("metadata.changeVisibility")}</TabsTrigger>
             <TabsTrigger value="toggleRelevance">{t("taxonomy.resourceType.tabTitle")}</TabsTrigger>
             <TabsTrigger value="copyResources">{t("taxonomy.copyResources.info")}</TabsTrigger>
             {!!isTaxonomyAdmin && <TabsTrigger value="cloneResources">{t("taxonomy.cloneResources.info")}</TabsTrigger>}
@@ -293,11 +287,9 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
           <StyledTabsContent value="moveExistingNode">
             <MoveExistingNode currentNode={node} />
           </StyledTabsContent>
-          {!!isTaxonomyAdmin && (
-            <StyledTabsContent value="toggleMetadataVisibility">
-              <ToggleVisibility node={node} rootNodeId={rootNodeId} />
-            </StyledTabsContent>
-          )}
+          <StyledTabsContent value="toggleMetadataVisibility">
+            <ToggleVisibility node={node} rootNodeId={rootNodeId} />
+          </StyledTabsContent>
           <StyledTabsContent value="toggleRelevance">
             <RelevanceOption node={node as NodeChild} currentNodeId={rootNodeId} />
           </StyledTabsContent>
@@ -329,7 +321,7 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
             </StyledTabsContent>
           )}
         </TabsRoot>
-        {!!isTaxonomyAdmin && <ToNodeDiff node={node} />}
+        <ToNodeDiff node={node} />
       </>
     );
   }

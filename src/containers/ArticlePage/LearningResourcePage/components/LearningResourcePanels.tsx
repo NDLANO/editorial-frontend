@@ -46,6 +46,7 @@ import {
 } from "../../../../components/SlateEditor/plugins/uuDisclaimer/DisclaimerField";
 import config from "../../../../config";
 import { STORED_HIDE_COMMENTS, TAXONOMY_WRITE_SCOPE } from "../../../../constants";
+import { getTextFromHTML } from "../../../../util/llmUtils";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
 import { ArticleFormType, HandleSubmitFunc, LearningResourceFormType } from "../../../FormikForm/articleFormHooks";
 import GrepCodesField from "../../../FormikForm/GrepCodesField";
@@ -166,6 +167,11 @@ const LearningResourcePanels = ({
     [setHideComments],
   );
 
+  const articleText = useMemo(() => {
+    if (!article?.content) return " ";
+    return getTextFromHTML(article.content.content);
+  }, [article?.content]);
+
   return (
     <>
       <StyledControls>
@@ -244,7 +250,7 @@ const LearningResourcePanels = ({
             title={t("form.metadataSection")}
             hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}
           >
-            <MetaDataField articleLanguage={articleLanguage} />
+            <MetaDataField articleContent={articleText} articleLanguage={articleLanguage} />
           </FormAccordion>
           <FormAccordion
             id={"learning-resource-grepCodes"}

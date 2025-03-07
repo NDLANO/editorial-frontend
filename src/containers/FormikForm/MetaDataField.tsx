@@ -6,10 +6,14 @@
  *
  */
 
+import { FieldHelperProps, useFormikContext } from "formik";
 import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Descendant } from "slate";
 import { createListCollection } from "@ark-ui/react";
+import { FileListLine } from "@ndla/icons";
 import {
+  Button,
   ComboboxItem,
   ComboboxItemText,
   FieldErrorMessage,
@@ -23,11 +27,13 @@ import {
   RadioGroupItemText,
   RadioGroupLabel,
   RadioGroupRoot,
+  Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { MetaImageSearch } from ".";
+import { ArticleFormType } from "./articleFormHooks";
 import { GenericComboboxItemIndicator } from "../../components/abstractions/Combobox";
 import { FieldWarning } from "../../components/Form/FieldWarning";
 import { FormRemainingCharacters } from "../../components/Form/FormRemainingCharacters";
@@ -39,6 +45,8 @@ import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
 import { DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useDraftSearchTags } from "../../modules/draft/draftQueries";
+import { inlineContentToEditorValue } from "../../util/articleContentConverter";
+import { claudeHaikuDefaults, invokeModel } from "../../util/llmUtils";
 import useDebounce from "../../util/useDebounce";
 import { useSession } from "../Session/SessionProvider";
 
@@ -50,19 +58,28 @@ const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
 
 interface Props {
   articleLanguage: string;
+  articleContent?: string;
   showCheckbox?: boolean;
   checkboxAction?: (image: IImageMetaInformationV3DTO) => void;
 }
 
 const availabilityValues: string[] = ["everyone", "teacher"];
 
-const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props) => {
+const StyledButton = styled(Button, {
+  base: {
+    alignSelf: "flex-start",
+  },
+});
+
+const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkboxAction }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const tagSelectorTranslations = useTagSelectorTranslations();
   const plugins = [textTransformPlugin];
   const [inputQuery, setInputQuery] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
   const debouncedQuery = useDebounce(inputQuery, 300);
+  const { setStatus } = useFormikContext<ArticleFormType>();
   const searchTagsQuery = useDraftSearchTags(
     {
       input: debouncedQuery,
@@ -81,6 +98,32 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
       itemToString: (item) => item,
     });
   }, [searchTagsQuery.data?.results]);
+
+  const generateMetaDescription = async (helpers: FieldHelperProps<Descendant[]>) => {
+    if (!articleContent) {
+      // console.error("No article content provided to generate meta description");
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const generatedText = await invokeModel({
+        prompt: t("textGeneration.metaDescription.prompt", {
+          article: articleContent,
+          language: t(`languages.${articleLanguage}`),
+        }),
+        ...claudeHaikuDefaults,
+      });
+      if (generatedText) {
+        await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
+      }
+      // We have to invalidate slate children. We do this with status.
+      setStatus({ status: "acceptGenerated" });
+    } catch (error) {
+      // console.error("Error generating meta description", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <FormContent>
@@ -136,7 +179,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         </FormField>
       )}
       <FormField name="metaDescription">
-        {({ field, meta }) => (
+        {({ field, meta, helpers }) => (
           <FieldRoot invalid={!!meta.error}>
             <FieldLabel>{t("form.metaDescription.label")}</FieldLabel>
             <FieldHelper>{t("form.metaDescription.description")}</FieldHelper>
@@ -149,6 +192,9 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
             <StyledFormRemainingCharacters maxLength={155} value={field.value} />
             <FieldWarning name={field.name} />
+            <StyledButton size="small" onClick={() => generateMetaDescription(helpers)}>
+              {t("textGeneration.metaDescription.button")} {isLoading ? <Spinner size="small" /> : <FileListLine />}
+            </StyledButton>
           </FieldRoot>
         )}
       </FormField>

@@ -7,7 +7,7 @@
  */
 
 import { sortBy } from "lodash-es";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
 import { useQueryClient } from "@tanstack/react-query";
@@ -59,14 +59,14 @@ const ResourceItems = ({
   const [deleteId, setDeleteId] = useState<string>("");
   const { taxonomyVersion } = useTaxonomyVersion();
 
+  const contextIds = useMemo(() => resources?.filter((n) => !!n.contextId).map((n) => n.contextId!), [resources]);
+
   const {
     data: matomoStatsData,
     isPending: matomoStatsIsPending,
     isError: matomoStatsIsError,
-  } = useMatomoStats(
-    { contextIds: resources?.filter((n) => !!n.contextId).map((n) => n.contextId!) },
-    { enabled: !!resources?.length && showMatomoStats },
-  );
+  } = useMatomoStats({ contextIds: contextIds }, { enabled: !!contextIds.length && showMatomoStats });
+
   useEffect(() => {
     if (!matomoStatsData) return;
     const transformed = transformMatomoData(matomoStatsData);

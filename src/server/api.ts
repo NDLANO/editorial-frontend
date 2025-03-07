@@ -168,7 +168,9 @@ router.post("/matomo-stats", jwtMiddleware, async (req, res) => {
       res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
     }
   } else {
-    res.status(BAD_REQUEST).json({ status: BAD_REQUEST, text: "taxonomyUrl is not received" });
+    res
+      .status(BAD_REQUEST)
+      .json({ status: BAD_REQUEST, text: "The 'contextIds' field is required in the request body." });
   }
 });
 

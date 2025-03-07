@@ -35,7 +35,8 @@ const StyledImg = styled("img", {
 const StyledIconButton = styled(IconButton, {
   base: {
     position: "absolute",
-    right: "-large",
+    top: "xsmall",
+    right: "xsmall",
   },
 });
 

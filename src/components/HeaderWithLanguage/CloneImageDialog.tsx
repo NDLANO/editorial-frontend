@@ -6,7 +6,7 @@
  *
  */
 
-import { Formik, useFormikContext } from "formik";
+import { Form, Formik, useFormikContext } from "formik";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -21,27 +21,19 @@ import {
   DialogTrigger,
   Text,
 } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import { ImageUploadFormElement } from "../../containers/ImageUploader/components/ImageUploadFormElement";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { cloneImage } from "../../modules/image/imageApi";
 import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import { toEditImage } from "../../util/routeHelpers";
 import { DialogCloseButton } from "../DialogCloseButton";
-import { FormActionsContainer, FormContent } from "../FormikForm";
+import { FormActionsContainer } from "../FormikForm";
 import validateFormik from "../formikValidationSchema";
 
 interface Props {
   loading: boolean;
   imageId: number;
 }
-
-const StyledFormContent = styled(FormContent, {
-  base: {
-    marginInlineEnd: "large",
-    gap: "small",
-  },
-});
 
 interface FormikValuesType {
   imageFile: Blob | string | undefined;
@@ -110,7 +102,7 @@ export const CloneImageDialog = ({ loading, imageId }: Props) => {
           >
             {({ dirty, submitForm }) => {
               return (
-                <StyledFormContent>
+                <Form>
                   <Text>{t("imageForm.copyDescription")}</Text>
                   <ImageUploadFormElement language={i18n.language} />
                   <FormActionsContainer>
@@ -118,7 +110,7 @@ export const CloneImageDialog = ({ loading, imageId }: Props) => {
                       {t("save")}
                     </Button>
                   </FormActionsContainer>
-                </StyledFormContent>
+                </Form>
               );
             }}
           </Formik>

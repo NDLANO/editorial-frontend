@@ -43,7 +43,7 @@ import { FormField } from "../../components/FormField";
 import { FormContent } from "../../components/FormikForm";
 import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
-import { DRAFT_ADMIN_SCOPE } from "../../constants";
+import { AI_ACCESS_SCOPE, DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useDraftSearchTags } from "../../modules/draft/draftQueries";
 import { inlineContentToEditorValue } from "../../util/articleContentConverter";
 import { claudeHaikuDefaults, invokeModel } from "../../util/llmUtils";
@@ -219,32 +219,37 @@ const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkbox
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
             <StyledFormRemainingCharacters maxLength={155} value={field.value} />
             <FieldWarning name={field.name} />
-            <StyledButton size="small" onClick={() => generateMetaDescription(helpers)}>
-              {t("textGeneration.metaDescription.button")} {isLoadingMeta ? <Spinner size="small" /> : <FileListLine />}
-            </StyledButton>
+            {!!userPermissions?.includes(AI_ACCESS_SCOPE) && (
+              <StyledButton size="small" onClick={() => generateMetaDescription(helpers)}>
+                {t("textGeneration.metaDescription.button")}{" "}
+                {isLoadingMeta ? <Spinner size="small" /> : <FileListLine />}
+              </StyledButton>
+            )}
           </FieldRoot>
         )}
       </FormField>
-      <FormField name="summary">
-        {({ field, meta, helpers }) => (
-          <FieldRoot invalid={!!meta.error}>
-            <FieldLabel>{t("form.articleSummary.label")}</FieldLabel>
-            <FieldHelper>{t("form.articleSummary.description")}</FieldHelper>
-            <PlainTextEditor
-              id={field.name}
-              placeholder={t("form.articleSummary.label")}
-              {...field}
-              plugins={plugins}
-            />
-            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-            <FieldWarning name={field.name} />
-            <StyledButton size="small" onClick={() => generateSummary(helpers)}>
-              {t("textGeneration.articleSummary.button")}{" "}
-              {isLoadingSummary ? <Spinner size="small" /> : <FileListLine />}
-            </StyledButton>
-          </FieldRoot>
-        )}
-      </FormField>
+      {!!userPermissions?.includes(AI_ACCESS_SCOPE) && (
+        <FormField name="summary">
+          {({ field, meta, helpers }) => (
+            <FieldRoot invalid={!!meta.error}>
+              <FieldLabel>{t("form.articleSummary.label")}</FieldLabel>
+              <FieldHelper>{t("form.articleSummary.description")}</FieldHelper>
+              <PlainTextEditor
+                id={field.name}
+                placeholder={t("form.articleSummary.label")}
+                {...field}
+                plugins={plugins}
+              />
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              <FieldWarning name={field.name} />
+              <StyledButton size="small" onClick={() => generateSummary(helpers)}>
+                {t("textGeneration.articleSummary.button")}{" "}
+                {isLoadingSummary ? <Spinner size="small" /> : <FileListLine />}
+              </StyledButton>
+            </FieldRoot>
+          )}
+        </FormField>
+      )}
       <FormField name="metaImageId">
         {({ field, meta }) => (
           <FieldRoot invalid={!!meta.error}>

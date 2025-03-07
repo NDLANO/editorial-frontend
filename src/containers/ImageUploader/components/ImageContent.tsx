@@ -29,7 +29,8 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
-import { MAX_IMAGE_UPLOAD_SIZE } from "../../../constants";
+import { AI_ACCESS_SCOPE, MAX_IMAGE_UPLOAD_SIZE } from "../../../constants";
+import { useSession } from "../../../containers/Session/SessionProvider";
 import { convertBufferToBase64, invokeModel, claudeHaikuDefaults } from "../../../util/llmUtils";
 import { TitleField } from "../../FormikForm";
 import { ImageFormikType } from "../imageTransformers";
@@ -65,6 +66,7 @@ interface Props {
 
 const ImageContent = ({ language }: Props) => {
   const { t } = useTranslation();
+  const { userPermissions } = useSession();
   const formikContext = useFormikContext<ImageFormikType>();
   const { values, setFieldValue } = formikContext;
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -211,19 +213,21 @@ const ImageContent = ({ language }: Props) => {
           <FieldRoot invalid={!!meta.error}>
             <FieldLabel>{t("form.image.alt.label")}</FieldLabel>
             <FieldTextArea placeholder={t("form.image.alt.placeholder")} {...field} />
-            <StyledButton
-              onClick={async () => {
-                const text = await generateAltText();
-                if (text && text.length > 0) {
-                  helpers.setValue(text);
-                }
-              }}
-              size="small"
-              title={t("textGeneration.altText.title")}
-            >
-              {t("textGeneration.altText.button")}
-              {isLoading ? <Spinner size="small" /> : <FileListLine />}
-            </StyledButton>
+            {!!userPermissions?.includes(AI_ACCESS_SCOPE) && (
+              <StyledButton
+                onClick={async () => {
+                  const text = await generateAltText();
+                  if (text && text.length > 0) {
+                    helpers.setValue(text);
+                  }
+                }}
+                size="small"
+                title={t("textGeneration.altText.title")}
+              >
+                {t("textGeneration.altText.button")}
+                {isLoading ? <Spinner size="small" /> : <FileListLine />}
+              </StyledButton>
+            )}
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
           </FieldRoot>
         )}

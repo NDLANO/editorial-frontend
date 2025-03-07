@@ -100,13 +100,13 @@ export const CloneImageDialog = ({ loading, imageId }: Props) => {
             onSubmit={handleSubmit}
             validate={(values) => validateFormik(values, formikRules, t)}
           >
-            {({ dirty, submitForm }) => {
+            {({ dirty, submitForm, isValid }) => {
               return (
                 <Form>
                   <Text>{t("imageForm.copyDescription")}</Text>
                   <ImageUploadFormElement language={i18n.language} />
                   <FormActionsContainer>
-                    <Button disabled={!dirty} loading={loading || updating} onClick={submitForm}>
+                    <Button disabled={!dirty || !isValid} loading={loading || updating} onClick={submitForm}>
                       {t("save")}
                     </Button>
                   </FormActionsContainer>

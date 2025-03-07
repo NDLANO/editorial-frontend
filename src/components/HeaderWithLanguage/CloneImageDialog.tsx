@@ -24,7 +24,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { ImageUploadFormElement } from "../../containers/ImageUploader/components/ImageUploadFormElement";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
-import * as imageApi from "../../modules/image/imageApi";
+import { cloneImage } from "../../modules/image/imageApi";
 import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import { toEditImage } from "../../util/routeHelpers";
 import { DialogCloseButton } from "../DialogCloseButton";
@@ -76,7 +76,7 @@ export const CloneImageDialog = ({ loading, imageId }: Props) => {
     async (values: FormikValuesType) => {
       try {
         setUpdating(true);
-        const newImage = await imageApi.cloneImage(imageId, values.imageFile);
+        const newImage = await cloneImage(imageId, values.imageFile);
         navigate(toEditImage(newImage.id, newImage.title.language));
       } catch (e) {
         const err = e as NdlaErrorPayload;

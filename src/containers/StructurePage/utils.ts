@@ -25,10 +25,12 @@ export const transformMatomoData = (data: PromiseSettledResult<MatomoResponse>[]
         .flat();
 
       if (!entriesWithData.length) return acc;
-      const { pathname } = new URL(entriesWithData[0].url);
-      const pathnameWithoutLanguage = pathname.replace(/^\/(nb|nn|en)(?=\/)/, "");
 
-      acc[pathnameWithoutLanguage] = {
+      const contextId = entriesWithData[0].label.split("/").pop();
+
+      if (!contextId) return acc;
+
+      acc[contextId] = {
         nb_visits: sumValueEntries(entriesWithData, "nb_visits"),
         avg_time_on_page: sumValueEntries(entriesWithData, "avg_time_on_page"),
         nb_hits: sumValueEntries(entriesWithData, "nb_hits"),

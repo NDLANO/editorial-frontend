@@ -67,7 +67,6 @@ const ResourceItems = ({
     { contextIds: resources?.filter((n) => !!n.contextId).map((n) => n.contextId!) },
     { enabled: !!resources?.length && showMatomoStats },
   );
-
   useEffect(() => {
     if (!matomoStatsData) return;
     const transformed = transformMatomoData(matomoStatsData);
@@ -148,7 +147,7 @@ const ResourceItems = ({
           </DragHandle>
         }
         renderItem={(resource) => {
-          const matomoStats = resource.url ? resourceStats?.[resource.url] : undefined;
+          const matomoStats = resource.contextId ? resourceStats?.[resource.contextId] : undefined;
           return (
             <Resource
               currentNodeId={currentNodeId}

@@ -251,7 +251,7 @@ const TopicResourceBanner = ({
           <InfoItems>
             {showMatomoStats ? (
               <MatomoStats
-                matomoStats={currentNode.url ? resourceStats?.[currentNode.url] : undefined}
+                matomoStats={currentNode.contextId ? resourceStats?.[currentNode.contextId] : undefined}
                 matomoStatsIsPending={matomoStatsIsPending}
                 matomoStatsIsError={matomoStatsIsError}
               />

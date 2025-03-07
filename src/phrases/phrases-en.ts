@@ -730,6 +730,7 @@ const phrases = {
     left: "Left aligned",
     center: "Center aligned",
     right: "Right aligned",
+    rephrase: "Rephrase",
     disabled: {
       "comment-inline": "Comment can only overlap text",
     },
@@ -2243,6 +2244,75 @@ const phrases = {
     popoverDescription_one: "{{count}} unique page view, click to see more visitor numbers",
     popoverDescription_other: "{{count}} unique page views, click to see more visitor numbers",
     popoverTitle: "Visitor numbers the last 12 months",
+  },
+  textGeneration: {
+    articleSummary: {
+      button: "Generate",
+      prompt: `<draft>{{ article }}</draft>
+        <Instructions>
+        You have more than 20 years experience from the educational sector. You are specialized in summarizing educational articles to make them more accessible for a wider audience. Your task is to help improving the learning experience for the students. To achieve this you have to read and summarize articles in a way that high school students can easily gain an impression of the most important points in the article.
+        Your task is to read through the article in <draft> og Write a summary in {{ Language }}. The summary must be in less than 300 words.
+        The response must be given with reflections as to why you have chosen to include the selected points first, then the summary in an <answer> tag.
+        </Instructions>
+      `,
+      title: "Summary",
+    },
+    metaDescription: {
+      button: "Generate",
+      prompt: `<draft>{{ article }}</draft>
+        <Instructions>
+        You have an extensive experience from the educational sector. You are specialized in finding good ways to describe educational articles, in a way that the reader can understand what the article is about from a very short summary.
+        Your task is to read through the article in <draft> and write meta description in {{ language }}. The meta description must be in less than 15 words.
+        The response must be given with reflections as to why you have chosen to include the selected points first, then the meta description in an <answer> tag.
+        </Instructions>`,
+    },
+    alternativePhrasing: {
+      buttons: {
+        generate: {
+          text: "Generate",
+          title: "Generate suggestion",
+        },
+        replace: {
+          text: "Replace",
+          title: "Insert text instead of selection",
+        },
+        add: {
+          text: "Insert after",
+          title: "Insert text after selection",
+        },
+      },
+      prompt: `<excerpt>{{ excerpt }}</excerpt>
+        <draft>{{ article }}</draft>
+        <Instructions>
+        You have an extensive experience from the educational sector. You are specialized in rewriting educational articles to improve its contents, with focus on clarity and readability.
+        Your task is to suggest a better phrasing of the text in <excerpt> in {{ language }}. The content in <draft> can be used as context, but should not be reused as part of the suggested rephrasing.
+        The response must be given with reflections as to why you have chosen to include the selected points first, then the suggested rephrasing in an <answer> tag.
+        </Instructions>`,
+      textCurrent: "Selected text",
+      textSuggested: "Suggested phrasing",
+      title: "Alternative phrasing",
+    },
+    altText: {
+      button: "Generate",
+      prompt: `<Instructions>
+        You have an extensive experience from the educational sector. You are specialized in writing alternative texts for images to make them accessible for all students.
+        Your task is to write an alternative text for the image in {{ language }}. The description must be at most 125 characters.
+        The response must be given with reflections as to why you have chosen to include the selected points first, then the allternative text written in an <answer> tag.
+      </Instructions>`,
+      title: "Generate alt text",
+    },
+    reflectionQuestions: {
+      button: "Generate reflection questions",
+      prompt: `<draft>{{ article }}</draft>
+        <Instructions>
+        You have an extensive esperience from the educational sector. You are specialized in analyzing educational articles to find good reflection questions which enables the students to reflect on what they have read.
+        Your task is to read through the article in <draft> og write five reflection questions based on the article in {{ language }}. The questions must be on a level which fits students in high school.
+        The response must be given with reflections as to why you have chosen to include the selected points first. Then, the reflection questions must be given as bulletpoints in an <answer> tag.
+        </Instructions>`,
+    },
+    transcription: {
+      button: "Generate",
+    },
   },
 };
 

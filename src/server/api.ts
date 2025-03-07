@@ -10,6 +10,7 @@ import express from "express";
 import { GetVerificationKey, expressjwt as jwt, Request } from "express-jwt";
 import jwksRsa from "jwks-rsa";
 import prettier from "prettier";
+import { BedrockRuntimeClient, InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
 import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getResponsibles } from "./auth";
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN, BAD_REQUEST } from "./httpCodes";
 import errorLogger from "./logger";
@@ -174,4 +175,62 @@ router.post("/matomo-stats", jwtMiddleware, async (req, res) => {
   }
 });
 
+const aiModelID = process.env.NDLA_AI_MODEL_ID;
+const aiRegion = process.env.NDLA_AI_MODEL_REGION;
+const aiSecretKey = process.env.NDLA_AI_SECRET_KEY;
+const aiSecretID = process.env.NDLA_AI_SECRET_ID;
+router.post("/invoke-model", async (req, res) => {
+  const modelId = aiModelID;
+  if (!aiRegion || !aiSecretID || !aiSecretKey || !modelId) {
+    res.status(INTERNAL_SERVER_ERROR).send("Missing required environment variables");
+    return;
+  }
+  const client = new BedrockRuntimeClient({
+    region: aiRegion, //As of now this is the closest aws-region, with the service
+    credentials: { accessKeyId: aiSecretID, secretAccessKey: aiSecretKey },
+  });
+
+  const content = [];
+  if (req.body.image) {
+    content.push({
+      type: "image",
+      source: {
+        type: "base64",
+        media_type: req.body.image.fileType,
+        data: req.body.image.base64,
+      },
+    });
+  }
+
+  content.push({
+    type: "text",
+    text: req.body.prompt,
+  });
+
+  const messages = [
+    {
+      role: "user",
+      content,
+    },
+  ];
+
+  const payload = {
+    anthropic_version: "bedrock-2023-05-31",
+    max_tokens: req.body.max_tokens || 500,
+    messages,
+  };
+  const command = new InvokeModelCommand({
+    contentType: "application/json",
+    body: JSON.stringify(payload),
+    modelId,
+  });
+  try {
+    const response = await client.send(command);
+    const decodedResponseBody = new TextDecoder().decode(response.body);
+    const responseBody = JSON.parse(decodedResponseBody);
+    res.status(OK).json(responseBody);
+  } catch (err) {
+    res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
+  }
+});
 export default router;

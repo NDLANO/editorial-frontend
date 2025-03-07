@@ -2240,8 +2240,9 @@ const phrases = {
     avgTime: "Avg. time spent by visitors: {{time}} sec",
     error: "Something went wrong while fetching data from Matomo",
     switchLabel: "Show data from Matomo",
-    popoverTitle_one: "{{count}} unique page view, click to see more data from Matomo",
-    popoverTitle_other: "{{count}} unique page views, click to see more data from Matomo",
+    popoverDescription_one: "{{count}} unique page view, click to see more data from Matomo",
+    popoverDescription_other: "{{count}} unique page views, click to see more data from Matomo",
+    popoverTitle: "Data from Matomo (last 12 months)",
   },
 };
 

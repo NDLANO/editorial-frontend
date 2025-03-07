@@ -2240,8 +2240,9 @@ const phrases = {
     avgTime: "Gj.snitt tid brukt av vitjarar: {{time}} sek",
     error: "Noko gjekk gale ved henting av data frå Matomo",
     switchLabel: "Vis data frå Matomo",
-    popoverTitle_one: "{{count}} unik sidevisning, klikk for å sjå meir data frå Matomo",
-    popoverTitle_other: "{{count}} unike sidevisingar, klikk for å sjå meir data frå Matomo",
+    popoverDescription_one: "{{count}} unik sidevisning, klikk for å sjå meir data frå Matomo",
+    popoverDescription_other: "{{count}} unike sidevisingar, klikk for å sjå meir data frå Matomo",
+    popoverTitle: "Data frå Matomo (siste 12 mnd)",
   },
 };
 

@@ -8,7 +8,16 @@
 
 import { useTranslation } from "react-i18next";
 import { LineChartLine } from "@ndla/icons";
-import { Text, Skeleton, PopoverRoot, PopoverTrigger, PopoverContent, Button } from "@ndla/primitives";
+import {
+  Text,
+  Skeleton,
+  PopoverRoot,
+  PopoverTrigger,
+  PopoverContent,
+  Button,
+  PopoverTitle,
+  UnOrderedList,
+} from "@ndla/primitives";
 import { ResourceStats } from "../utils";
 
 interface Props {
@@ -43,17 +52,20 @@ const MatomoStats = ({ matomoStats, matomoStatsIsPending, matomoStatsIsError }: 
         <Button
           size="small"
           variant="secondary"
-          aria-label={t("matomo.popoverTitle", { count: matomoStats.nb_visits })}
-          title={t("matomo.popoverTitle", { count: matomoStats.nb_visits })}
+          aria-label={t("matomo.popoverDescription", { count: matomoStats.nb_visits })}
+          title={t("matomo.popoverDescription", { count: matomoStats.nb_visits })}
         >
           <LineChartLine size="small" aria-hidden />
           <div aria-hidden>{matomoStats.nb_visits}</div>
         </Button>
       </PopoverTrigger>
       <PopoverContent>
-        <Text textStyle="body.small">{t("matomo.visits", { count: matomoStats.nb_visits })}</Text>
-        <Text textStyle="body.small">{t("matomo.hits", { count: matomoStats.nb_hits })}</Text>
-        <Text textStyle="body.small">{t("matomo.avgTime", { time: matomoStats.avg_time_on_page })}</Text>
+        <PopoverTitle>{t("matomo.popoverTitle")}</PopoverTitle>
+        <UnOrderedList>
+          <li>{t("matomo.visits", { count: matomoStats.nb_visits })}</li>
+          <li>{t("matomo.hits", { count: matomoStats.nb_hits })}</li>
+          <li>{t("matomo.avgTime", { time: matomoStats.avg_time_on_page })}</li>
+        </UnOrderedList>
       </PopoverContent>
     </PopoverRoot>
   );

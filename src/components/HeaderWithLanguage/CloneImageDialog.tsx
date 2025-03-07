@@ -10,7 +10,7 @@ import { Form, Formik, useFormikContext } from "formik";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { DialogOpenChangeDetails } from "@ark-ui/react";
+import { DialogOpenChangeDetails, Portal } from "@ark-ui/react";
 import {
   DialogContent,
   Button,
@@ -23,7 +23,7 @@ import {
 } from "@ndla/primitives";
 import { ImageUploadFormElement } from "../../containers/ImageUploader/components/ImageUploadFormElement";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
-import { cloneImage } from "../../modules/image/imageApi";
+import { useCloneImageMutation } from "../../modules/image/imageMutations";
 import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import { toEditImage } from "../../util/routeHelpers";
 import { DialogCloseButton } from "../DialogCloseButton";
@@ -48,7 +48,7 @@ export const CloneImageDialog = ({ loading, imageId }: Props) => {
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
   const { createMessage, applicationError } = useMessages();
-  const [updating, setUpdating] = useState(false);
+  const cloneImage = useCloneImageMutation();
   const navigate = useNavigate();
   const parentFormikContext = useFormikContext<unknown>();
   const parentFormIsDirty = parentFormikContext.dirty;
@@ -70,16 +70,14 @@ export const CloneImageDialog = ({ loading, imageId }: Props) => {
   const handleSubmit = useCallback(
     async (values: FormikValuesType) => {
       try {
-        setUpdating(true);
-        const newImage = await cloneImage(imageId, values.imageFile);
+        const newImage = await cloneImage.mutateAsync({ imageId, imageFile: values.imageFile });
         navigate(toEditImage(newImage.id, newImage.title.language));
       } catch (e) {
         const err = e as NdlaErrorPayload;
         applicationError(err);
-        setUpdating(false);
       }
     },
-    [imageId, navigate, applicationError],
+    [cloneImage, imageId, navigate, applicationError],
   );
 
   return (
@@ -89,33 +87,39 @@ export const CloneImageDialog = ({ loading, imageId }: Props) => {
           {t("form.workflow.saveAsNew")}
         </Button>
       </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t("imageForm.copyImageTitle")}</DialogTitle>
-          <DialogCloseButton />
-        </DialogHeader>
-        <DialogBody>
-          <Formik
-            initialValues={initialValues}
-            onSubmit={handleSubmit}
-            validate={(values) => validateFormik(values, formikRules, t)}
-          >
-            {({ dirty, submitForm, isValid }) => {
-              return (
-                <Form>
-                  <Text>{t("imageForm.copyDescription")}</Text>
-                  <ImageUploadFormElement language={i18n.language} />
-                  <FormActionsContainer>
-                    <Button disabled={!dirty || !isValid} loading={loading || updating} onClick={submitForm}>
-                      {t("save")}
-                    </Button>
-                  </FormActionsContainer>
-                </Form>
-              );
-            }}
-          </Formik>
-        </DialogBody>
-      </DialogContent>
+      <Portal>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("imageForm.copyImageTitle")}</DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <DialogBody>
+            <Formik
+              initialValues={initialValues}
+              onSubmit={handleSubmit}
+              validate={(values) => validateFormik(values, formikRules, t)}
+            >
+              {({ dirty, submitForm, isValid }) => {
+                return (
+                  <Form>
+                    <Text>{t("imageForm.copyDescription")}</Text>
+                    <ImageUploadFormElement language={i18n.language} />
+                    <FormActionsContainer>
+                      <Button
+                        disabled={!dirty || !isValid}
+                        loading={loading || cloneImage.isPending}
+                        onClick={submitForm}
+                      >
+                        {t("save")}
+                      </Button>
+                    </FormActionsContainer>
+                  </Form>
+                );
+              }}
+            </Formik>
+          </DialogBody>
+        </DialogContent>
+      </Portal>
     </DialogRoot>
   );
 };

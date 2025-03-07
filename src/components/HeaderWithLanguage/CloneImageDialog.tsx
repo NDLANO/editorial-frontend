@@ -58,28 +58,33 @@ export const CloneImageDialog = ({ loading, imageId }: Props) => {
   const parentFormikContext = useFormikContext<unknown>();
   const parentFormIsDirty = parentFormikContext.dirty;
 
-  const onOpenChange = useCallback((details: DialogOpenChangeDetails) => setOpen(details.open), []);
+  const onOpenChange = useCallback(
+    (details: DialogOpenChangeDetails) => {
+      if (parentFormIsDirty) {
+        createMessage({
+          translationKey: "form.mustSaveFirst",
+          severity: "danger",
+          timeToLive: 0,
+        });
+      } else {
+        setOpen(details.open);
+      }
+    },
+    [createMessage, parentFormIsDirty],
+  );
   const handleSubmit = useCallback(
     async (values: FormikValuesType) => {
       try {
-        if (parentFormIsDirty) {
-          createMessage({
-            translationKey: "form.mustSaveFirst",
-            severity: "danger",
-            timeToLive: 0,
-          });
-        } else {
-          setUpdating(true);
-          const newImage = await imageApi.cloneImage(imageId, values.imageFile);
-          navigate(toEditImage(newImage.id, newImage.title.language));
-        }
+        setUpdating(true);
+        const newImage = await imageApi.cloneImage(imageId, values.imageFile);
+        navigate(toEditImage(newImage.id, newImage.title.language));
       } catch (e) {
         const err = e as NdlaErrorPayload;
         applicationError(err);
         setUpdating(false);
       }
     },
-    [parentFormIsDirty, createMessage, imageId, navigate, applicationError],
+    [imageId, navigate, applicationError],
   );
 
   const initialValues: FormikValuesType = {
@@ -102,7 +107,6 @@ export const CloneImageDialog = ({ loading, imageId }: Props) => {
           <Text textStyle="label.small">{t("imageForm.copyDescription")}</Text>
           <Formik
             initialValues={initialValues}
-            initialErrors={{}}
             onSubmit={handleSubmit}
             validate={(values) => validateFormik(values, formikRules, t)}
           >

@@ -43,7 +43,7 @@ const headers = user
     }
   : undefined;
 
-const wrapAttribute = (html: CheerioAPI, element: any, attribute: string, selector?: string) => {
+const wrapAttribute = (html: CheerioAPI, element: AnyNode, attribute: string, selector?: string) => {
   const value = html(element).attr(attribute) ?? "";
   if (!value) return;
   const innerHtml = load(value);
@@ -116,6 +116,16 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
         const response = load(res);
         response("ndlaskip").each((_, el) => {
           response(el).contents().unwrap();
+        });
+        response("ndlaembed").each((_, el) => {
+          const attributes = response(el).attr() ?? {};
+          Object.keys(attributes).forEach((attr) => {
+            const inner = load(el.attribs[attr]);
+            inner("ndlaskip").each((_, el) => {
+              inner(el).contents().unwrap();
+            });
+            response(el).attr(attr, inner("body").html());
+          });
         });
         const strippedResponse = response("body").unwrap().html() ?? "";
         return { key: name, value: strippedResponse };

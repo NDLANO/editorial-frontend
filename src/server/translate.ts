@@ -7,6 +7,7 @@
  */
 
 import { CheerioAPI, load } from "cheerio";
+import { AnyNode } from "domhandler";
 import FormData from "form-data";
 import fetch from "node-fetch";
 import queryString from "query-string";
@@ -42,14 +43,30 @@ const headers = user
     }
   : undefined;
 
-const wrapAttribute = (html: CheerioAPI, element: any, attribute: string, selector: string) => {
+const wrapAttribute = (html: CheerioAPI, element: any, attribute: string, selector?: string) => {
   const value = html(element).attr(attribute) ?? "";
   if (!value) return;
   const innerHtml = load(value);
-  innerHtml(selector).each((_, el) => {
-    innerHtml(el).wrap("<ndlaskip></ndlaskip>");
-  });
+  if (!selector) {
+    innerHtml("body").wrapInner("<ndlaskip></ndlaskip>");
+  } else {
+    innerHtml(selector).each((_, el) => {
+      innerHtml(el).wrap("<ndlaskip></ndlaskip>");
+    });
+  }
   html(element).attr(attribute, innerHtml("body").html());
+};
+
+const wrapDataAttributes = (html: CheerioAPI, element: AnyNode) => {
+  const translateAttributes = ["data-caption", "data-title", "data-subtitle", "data-description", "data-url-text"];
+  const attributes = html(element).attr() ?? {};
+  Object.keys(attributes).forEach((attr) => {
+    if (translateAttributes.includes(attr)) {
+      wrapAttribute(html, element, attr, "span[lang]");
+    } else {
+      wrapAttribute(html, element, attr);
+    }
+  });
 };
 
 const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType> => {
@@ -79,16 +96,11 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
       html(el).wrap("<ndlaskip></ndlaskip>");
     });
     html("ndlaembed").each((_, el) => {
-      wrapAttribute(html, el, "data-caption", "span[lang]");
-      wrapAttribute(html, el, "data-title", "span[lang]");
-      wrapAttribute(html, el, "data-subtitle", "span[lang]");
-      wrapAttribute(html, el, "data-description", "span[lang]");
-      wrapAttribute(html, el, "data-url-text", "span[lang]");
+      wrapDataAttributes(html, el);
     });
     // Our backend uses Jsoup to encode html. However, nynodata expects it to be not encoded. As such, we have to parse
     // the entire html string and reencode it.
     const content = html.html({ xml: { xmlMode: false, decodeEntities: false } });
-
     const buffer = Buffer.from(content);
     const params = { stilmal };
 

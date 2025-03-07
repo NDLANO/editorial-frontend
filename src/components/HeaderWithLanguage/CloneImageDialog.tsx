@@ -103,7 +103,6 @@ export const CloneImageDialog = ({ loading, imageId }: Props) => {
           <DialogCloseButton />
         </DialogHeader>
         <DialogBody>
-          <Text textStyle="label.small">{t("imageForm.copyDescription")}</Text>
           <Formik
             initialValues={initialValues}
             onSubmit={handleSubmit}
@@ -112,6 +111,7 @@ export const CloneImageDialog = ({ loading, imageId }: Props) => {
             {({ dirty, submitForm }) => {
               return (
                 <StyledFormContent>
+                  <Text>{t("imageForm.copyDescription")}</Text>
                   <ImageUploadFormElement language={i18n.language} />
                   <FormActionsContainer>
                     <Button disabled={!dirty} loading={loading || updating} onClick={submitForm}>

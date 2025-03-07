@@ -1,0 +1,22 @@
+/**
+ * Copyright (c) 2025-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { useMutation, UseMutationOptions } from "@tanstack/react-query";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { cloneImage } from "./imageApi";
+
+export const useCloneImageMutation = (
+  options?: Partial<
+    UseMutationOptions<IImageMetaInformationV3DTO, unknown, { imageId: number; imageFile: Blob | string | undefined }>
+  >,
+) => {
+  return useMutation<IImageMetaInformationV3DTO, unknown, { imageId: number; imageFile: Blob | string | undefined }>({
+    mutationFn: (vars) => cloneImage(vars.imageId, vars.imageFile),
+    ...options,
+  });
+};

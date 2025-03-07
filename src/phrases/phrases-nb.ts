@@ -617,6 +617,8 @@ const phrases = {
   },
   imageForm: {
     title: "Bilde",
+    copyImageTitle: "Last opp bilde som kopi",
+    copyDescription: "Last opp et bilde med samme informasjon som dette bildet",
   },
   contactBlockForm: {
     title: "Kontaktblokk",

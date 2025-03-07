@@ -160,7 +160,7 @@ router.post("/translate", async (req, res) => {
 
 router.post("/matomo-stats", jwtMiddleware, async (req, res) => {
   const { body } = req;
-  if (body && body.contextIds) {
+  if (body?.contextIds?.length) {
     try {
       const matomoStats = await fetchMatomoStats(body.contextIds);
       res.status(OK).json(matomoStats);

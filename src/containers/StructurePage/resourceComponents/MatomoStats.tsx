@@ -55,8 +55,8 @@ const MatomoStats = ({ matomoStats, matomoStatsIsPending, matomoStatsIsError }: 
           aria-label={t("matomo.popoverDescription", { count: matomoStats.nb_visits })}
           title={t("matomo.popoverDescription", { count: matomoStats.nb_visits })}
         >
-          <LineChartLine size="small" aria-hidden />
-          <div aria-hidden>{matomoStats.nb_visits}</div>
+          <LineChartLine size="small" />
+          <span aria-hidden>{matomoStats.nb_visits}</span>
         </Button>
       </PopoverTrigger>
       <PopoverContent>

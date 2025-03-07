@@ -14,10 +14,10 @@ const limit = pLimit(8);
 export const matomoApiToken = getEnvironmentVariabel("MATOMO_API_TOKEN");
 
 export const fetchMatomoStats = async (contextIds: string[]) => {
-  const fetchPromises = contextIds.map((url) =>
+  const fetchPromises = contextIds.map((contextId) =>
     limit(() =>
       fetch(
-        `https://${config.matomoUrl}/index.php?module=API&method=Actions.getPageUrls&idSite=${config.matomoSiteId}&period=month&date=last12&flat=1&filter_pattern=${encodeURIComponent(`${url}$`)}&format=JSON&token_auth=${matomoApiToken}&showColumns=nb_visits,nb_hits,avg_time_on_page`,
+        `https://${config.matomoUrl}/index.php?module=API&method=Actions.getPageUrls&idSite=${config.matomoSiteId}&period=month&date=last12&flat=1&filter_pattern=${encodeURIComponent(contextId)}&format=JSON&token_auth=${matomoApiToken}&showColumns=nb_visits,nb_hits,avg_time_on_page`,
       ).then((res) => res.json()),
     ),
   );

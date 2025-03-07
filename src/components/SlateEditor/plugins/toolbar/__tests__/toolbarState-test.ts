@@ -140,7 +140,7 @@ const arrayifyToolbar = (toolbar: OptionsType) => {
       acc[key as ToolbarCategories] = Object.values(value);
       return acc;
     },
-    { text: [], mark: [], block: [], inline: [], table: [], languages: [] } as ToolbarType,
+    { text: [], mark: [], block: [], inline: [], table: [], languages: [], rephrase: [] } as ToolbarType,
   );
 };
 

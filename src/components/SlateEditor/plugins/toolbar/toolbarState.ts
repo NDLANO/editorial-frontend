@@ -37,6 +37,7 @@ export type MarkType = "bold" | "italic" | "code" | "sub" | "sup";
 export type BlockType = "quote" | "definition-list" | "numbered-list" | "bulleted-list" | "letter-list";
 export type InlineType = "content-link" | "mathml" | "concept-inline" | "gloss-inline" | "comment-inline";
 export type TableType = "left" | "center" | "right";
+export type RephraseType = "rephrase";
 export type LanguageType = (typeof languages)[number];
 
 type ToolbarMap = {
@@ -46,6 +47,7 @@ type ToolbarMap = {
   inline: InlineType;
   table: TableType;
   languages: LanguageType;
+  rephrase: RephraseType;
 };
 
 export type ToolbarCategories = keyof ToolbarMap;
@@ -115,6 +117,9 @@ export const allOptions: OptionsType = {
     },
     {} as Record<LanguageType, ToolbarValue<LanguageType>>,
   ),
+  rephrase: {
+    rephrase: { value: "rephrase" },
+  },
 };
 
 export type CategoryFilters = {
@@ -329,7 +334,7 @@ export const toolbarState = ({
       acc[curr[0] as ToolbarCategories] = Object.values(curr[1]);
       return acc;
     },
-    { text: [], mark: [], block: [], inline: [], table: [], languages: [] },
+    { text: [], mark: [], block: [], inline: [], table: [], languages: [], rephrase: [] },
   );
   return toolbar;
 };

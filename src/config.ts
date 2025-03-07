@@ -124,6 +124,15 @@ const usernamePasswordEnabled = (ndlaEnvironment: string) => {
   }
 };
 
+const getAudioS3Root = (ndlaEnvironment: string) => {
+  switch (ndlaEnvironment) {
+    case "prod":
+      return "s3://prod.audio.2.ndla/";
+    default:
+      return "s3://test.audio.2.ndla/";
+  }
+};
+
 export type ConfigType = {
   brightcoveAccountId: string | undefined;
   logEnvironment: string | undefined;
@@ -159,6 +168,7 @@ export type ConfigType = {
   defaultLanguage: LocaleType;
   runtimeType: RuntimeType;
   enableH5pCopy: boolean;
+  s3AudioRoot: string;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -204,6 +214,7 @@ const getServerSideConfig = (): ConfigType => {
     isVercel: getEnvironmentVariabel("IS_VERCEL", "false") === "true",
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as "test" | "development" | "production",
     enableH5pCopy: getEnvironmentVariabel("ENABLE_H5P_COPY", "true") === "true",
+    s3AudioRoot: getAudioS3Root(ndlaEnvironment),
   };
 };
 

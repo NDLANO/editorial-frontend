@@ -6,9 +6,11 @@
  *
  */
 
-import { connect, useFormikContext } from "formik";
+import { connect, useField, useFormikContext } from "formik";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
+import { FileListLine } from "@ndla/icons";
+import { Button, FieldErrorMessage, FieldRoot, Spinner } from "@ndla/primitives";
 import { AudioFormikType } from "./AudioForm";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../components/Form/FieldWarning";
@@ -32,6 +34,18 @@ import {
   createToolbarDefaultValues,
 } from "../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
+import { fetchAudioTranscription, postAudioTranscription } from "../../../modules/audio/audioApi";
+import { useAudioTranscription } from "../../../modules/audio/audioQueries";
+import { inlineContentToEditorValue } from "../../../util/articleContentConverter";
+import { ArticleFormType } from "../../FormikForm/articleFormHooks";
+
+interface AudioManuscriptProps {
+  audioName?: string;
+  audioId?: number;
+  audioLanguage?: string;
+  audioUrl?: string;
+  audioType?: string;
+}
 
 const toolbarOptions = createToolbarDefaultValues({
   text: {
@@ -65,33 +79,116 @@ const manuscriptRenderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, mar
 
 const plugins = manuscriptPlugins.concat(manuscriptRenderers);
 
-const AudioManuscript = () => {
+const AudioManuscript = ({ audioId, audioLanguage, audioUrl, audioType }: AudioManuscriptProps) => {
   const { t } = useTranslation();
+  const { setStatus } = useFormikContext<ArticleFormType>();
   const { isSubmitting } = useFormikContext();
+  const [isLoading, setIsLoading] = useState(false);
+  const getLanguage = (audioLanguage: string) => {
+    const languageMap: { [key: string]: string } = {
+      nb: "no-NO",
+      nn: "no-NO",
+      de: "de-DE",
+    };
+
+    return languageMap[audioLanguage] || "en-US";
+  };
+
+  const language = getLanguage(audioLanguage!);
+  const { data: transcribeData } = useAudioTranscription(
+    {
+      audioId: audioId!,
+      language: language,
+    },
+    {
+      enabled: isLoading,
+    },
+  );
+
+  const [_field, _meta, helpers] = useField("manuscript");
+
+  const fetchTranscription = async () => {
+    const response = await fetchAudioTranscription(audioId!, language);
+    return await JSON.parse(response.transcription!);
+  };
+
+  const checkJobStatus = async (): Promise<boolean> => {
+    const response = await fetchAudioTranscription(audioId!, language);
+    return response.status !== "COMPLETE";
+  };
+
+  const startJob = async () => {
+    if (!audioUrl || !audioLanguage || !audioType || !audioId) {
+      return null;
+    }
+    const shouldPost = await checkJobStatus();
+    if (shouldPost) {
+      postAudioTranscription(audioUrl?.split("audio/files/")[1], audioId, language)
+        .then((_) => {
+          setIsLoading(true);
+        })
+        .catch(async (err) => {
+          if (err.status === 400 && err.json.code === "JOB_ALREADY_FOUND") {
+            const fetchedTranscribeData = await fetchTranscription();
+            const editedContent = fetchedTranscribeData.results.transcripts[0].transcript;
+            const editorContent = inlineContentToEditorValue(editedContent, true);
+            helpers.setValue(editorContent, true);
+            setStatus({ status: "acceptGenerated" });
+          }
+        });
+    }
+  };
+
+  const getTranscriptText = (text: string) => {
+    const json = JSON.parse(text);
+    return json.results.transcripts[0].transcript;
+  };
+
+  useEffect(() => {
+    if (transcribeData?.status === "COMPLETED" && isLoading) {
+      setIsLoading(false);
+      const transcriptText = getTranscriptText(transcribeData?.transcription ?? "");
+      const editorContent = inlineContentToEditorValue(transcriptText, true);
+      helpers.setValue(editorContent, true);
+      setStatus({ status: "acceptGenerated" });
+    } else if (transcribeData?.status === "FAILED" && isLoading) {
+      setIsLoading(false);
+    }
+  }, [setStatus, helpers, isLoading, transcribeData]);
 
   return (
     <FormField name="manuscript">
-      {({ field, meta, helpers }) => (
-        <FieldRoot invalid={!!meta.error}>
-          <ContentEditableFieldLabel textStyle="title.medium">
-            {t("podcastForm.fields.manuscript")}
-          </ContentEditableFieldLabel>
-          <RichTextEditor
-            {...field}
-            hideBlockPicker
-            placeholder={t("podcastForm.fields.manuscript")}
-            submitted={isSubmitting}
-            plugins={plugins}
-            onChange={helpers.setValue}
-            toolbarOptions={toolbarOptions}
-            toolbarAreaFilters={toolbarAreaFilters}
-          />
-          <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-          <FieldWarning name={field.name} />
-        </FieldRoot>
-      )}
+      {({ meta, helpers, field }) => {
+        return (
+          <FieldRoot invalid={!!meta.error}>
+            <ContentEditableFieldLabel textStyle="title.medium">
+              {t("podcastForm.fields.manuscript")}
+            </ContentEditableFieldLabel>
+            <RichTextEditor
+              {...field}
+              hideBlockPicker
+              placeholder={t("podcastForm.fields.manuscript")}
+              submitted={isSubmitting}
+              plugins={plugins}
+              onChange={(value) => {
+                helpers.setValue(value);
+              }}
+              toolbarOptions={toolbarOptions}
+              toolbarAreaFilters={toolbarAreaFilters}
+            />
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+            <FieldWarning name={field.name} />
+            {!!audioUrl && (
+              <Button onClick={() => startJob()} size="small">
+                {t("textGeneration.transcription.button")}
+                {isLoading ? <Spinner size="small" /> : <FileListLine />}
+              </Button>
+            )}
+          </FieldRoot>
+        );
+      }}
     </FormField>
   );
 };
 
-export default connect<{}, AudioFormikType>(AudioManuscript);
+export default connect<AudioManuscriptProps, AudioFormikType>(AudioManuscript);

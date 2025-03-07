@@ -32,7 +32,7 @@ export const transformMatomoData = (data: PromiseSettledResult<MatomoResponse>[]
 
       acc[contextId] = {
         nb_visits: sumValueEntries(entriesWithData, "nb_visits"),
-        avg_time_on_page: sumValueEntries(entriesWithData, "avg_time_on_page"),
+        avg_time_on_page: Math.ceil(sumValueEntries(entriesWithData, "avg_time_on_page") / entriesWithData.length),
         nb_hits: sumValueEntries(entriesWithData, "nb_hits"),
       };
     }

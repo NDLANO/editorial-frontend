@@ -69,7 +69,49 @@ const wrapDataAttributes = (html: CheerioAPI, element: AnyNode) => {
   });
 };
 
-const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType> => {
+export const wrapDocument = (document: string): string => {
+  const html = load(document);
+  // running text first
+  html("span[lang]").each((_, el) => {
+    html(el).wrap("<ndlaskip></ndlaskip>");
+  });
+  // math second
+  html("math").each((_, el) => {
+    html(el).wrap("<ndlaskip></ndlaskip>");
+  });
+  // all attributes in ndla-embed. Handles text-fields separately
+  html("ndlaembed").each((_, el) => {
+    wrapDataAttributes(html, el);
+  });
+
+  // Our backend uses Jsoup to encode html. However, nynodata expects it to be not encoded. As such, we have to parse
+  // the entire html string and reencode it.
+  return html.html({ xml: { xmlMode: false, decodeEntities: false } });
+};
+
+export const unwrapDataAttributes = (html: CheerioAPI, element: any) => {
+  const attributes = html(element).attr() ?? {};
+  Object.keys(attributes).forEach((attr) => {
+    const inner = load(element.attribs[attr]);
+    inner("ndlaskip").each((_, el) => {
+      inner(el).contents().unwrap();
+    });
+    html(element).attr(attr, inner("body").html());
+  });
+};
+
+export const unwrapDocument = (res: string): string => {
+  const html = load(res);
+  html("ndlaskip").each((_, el) => {
+    html(el).contents().unwrap();
+  });
+  html("ndlaembed").each((_, el) => {
+    unwrapDataAttributes(html, el);
+  });
+  return html("body").unwrap().html() ?? "";
+};
+
+const doFetch = async (name: string, element: ApiTranslateType): Promise<ResponseType> => {
   if (element.type === "text") {
     const parsedContent = element.isArray ? element.content.join("|") : element.content;
     const params = {
@@ -88,19 +130,7 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
       });
   } else {
     const formData = new FormData();
-    const html = load(`${element.content}`);
-    html("span[lang]").each((_, el) => {
-      html(el).wrap("<ndlaskip></ndlaskip>");
-    });
-    html("math").each((_, el) => {
-      html(el).wrap("<ndlaskip></ndlaskip>");
-    });
-    html("ndlaembed").each((_, el) => {
-      wrapDataAttributes(html, el);
-    });
-    // Our backend uses Jsoup to encode html. However, nynodata expects it to be not encoded. As such, we have to parse
-    // the entire html string and reencode it.
-    const content = html.html({ xml: { xmlMode: false, decodeEntities: false } });
+    const content = wrapDocument(`${element.content}`);
     const buffer = Buffer.from(content);
     const params = { stilmal };
 
@@ -113,22 +143,8 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
       .then((res) => res.blob())
       .then((res) => res.text())
       .then(async (res) => {
-        const response = load(res);
-        response("ndlaskip").each((_, el) => {
-          response(el).contents().unwrap();
-        });
-        response("ndlaembed").each((_, el) => {
-          const attributes = response(el).attr() ?? {};
-          Object.keys(attributes).forEach((attr) => {
-            const inner = load(el.attribs[attr]);
-            inner("ndlaskip").each((_, el) => {
-              inner(el).contents().unwrap();
-            });
-            response(el).attr(attr, inner("body").html());
-          });
-        });
-        const strippedResponse = response("body").unwrap().html() ?? "";
-        return { key: name, value: strippedResponse };
+        const unwrapped = unwrapDocument(res);
+        return { key: name, value: unwrapped };
       });
   }
 };

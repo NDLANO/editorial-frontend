@@ -10,7 +10,7 @@ import { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
-import { TYPE_ASIDE } from "../types";
+import { ASIDE_ELEMENT_TYPE } from "../asideTypes";
 
 const editor: Descendant[] = [
   {
@@ -19,14 +19,14 @@ const editor: Descendant[] = [
       { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
 
       {
-        type: TYPE_ASIDE,
+        type: ASIDE_ELEMENT_TYPE,
         data: { type: "factAside" },
         children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
       },
       { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
 
       {
-        type: TYPE_ASIDE,
+        type: ASIDE_ELEMENT_TYPE,
         data: { type: "factAside" },
         children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
       },

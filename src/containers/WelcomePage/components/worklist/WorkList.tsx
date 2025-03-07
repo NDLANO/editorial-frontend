@@ -14,7 +14,6 @@ import ConceptListTabContent from "./ConceptListTabContent";
 import WorkListTabContent from "./WorkListTabContent";
 import {
   STORED_FILTER_WORKLIST,
-  STORED_FILTER_WORKLIST_CONCEPT,
   STORED_PAGE_SIZE,
   STORED_PAGE_SIZE_CONCEPT,
   STORED_PAGE_SIZE_ON_HOLD,
@@ -66,10 +65,6 @@ const WorkList = ({ ndlaId }: Props) => {
   const [page, setPage] = useState(1);
 
   // Worklist concepts state handling
-  const [filterConceptSubject, setFilterConceptSubject] = useLocalStorageSubjectFilterState(
-    STORED_FILTER_WORKLIST_CONCEPT,
-    i18n.language,
-  );
   const [pageSizeConcept, setPageSizeConcept] = useLocalStoragePageSizeState(STORED_PAGE_SIZE_CONCEPT);
   const [sortOptionConcepts, setSortOptionConcepts] = useLocalStorageSortOptionState<SortOptionConceptList>(
     STORED_SORT_OPTION_WORKLIST_CONCEPT,
@@ -89,10 +84,6 @@ const WorkList = ({ ndlaId }: Props) => {
     setPage(1);
   }, [filterSubject, pageSize]);
 
-  useEffect(() => {
-    setPageConcept(1);
-  }, [filterConceptSubject, pageSizeConcept]);
-
   const searchQuery = useSearch(
     {
       responsibleIds: [ndlaId],
@@ -111,7 +102,6 @@ const WorkList = ({ ndlaId }: Props) => {
     {
       responsibleIds: [ndlaId],
       sort: sortOptionConcepts,
-      ...(filterConceptSubject ? { subjects: [filterConceptSubject.value] } : {}),
       page: pageConcept,
       pageSize: Number(pageSizeConcept!.value),
       language: i18n.language,
@@ -210,8 +200,6 @@ const WorkList = ({ ndlaId }: Props) => {
           isPending={searchConceptsQuery.isPending}
           error={searchConceptsError}
           sortOption={sortOptionConcepts}
-          filterSubject={filterConceptSubject}
-          setFilterSubject={setFilterConceptSubject}
           ndlaId={ndlaId}
           setPageConcept={setPageConcept}
           pageSizeConcept={pageSizeConcept}

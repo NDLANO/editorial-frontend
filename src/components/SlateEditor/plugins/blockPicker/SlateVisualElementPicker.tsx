@@ -7,10 +7,11 @@
  */
 
 import { FormikContextType, useFormikContext } from "formik";
+import { useCallback } from "react";
 import { Editor, Element } from "slate";
 import { useSlateStatic } from "slate-react";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import VisualElementModalWrapper from "../../../../containers/VisualElement/VisualElementModalWrapper";
+import VisualElementDialogWrapper from "../../../../containers/VisualElement/VisualElementDialogWrapper";
 import VisualElementSearch from "../../../../containers/VisualElement/VisualElementSearch";
 import { Embed } from "../../../../interfaces";
 import getCurrentBlock from "../../utils/getCurrentBlock";
@@ -77,27 +78,31 @@ const SlateVisualElementPicker = ({
 
   const showCheckbox = values.metaImageAlt !== undefined && values.metaImageId !== undefined;
 
-  const onVisualElementAdd = (visualElement: Embed | DOMStringMap[]) => {
-    if (isEmbed(visualElement)) {
-      const blockToInsert = getNewEmbed(editor, visualElement);
-      onInsertBlock(blockToInsert);
-    } else {
-      const blockToInsert = defaultFileBlock(visualElement);
-      onInsertBlock(blockToInsert);
-    }
-    onVisualElementClose();
-  };
+  const onVisualElementAdd = useCallback(
+    (visualElement: Embed | DOMStringMap[]) => {
+      if (isEmbed(visualElement)) {
+        const blockToInsert = getNewEmbed(editor, visualElement);
+        onInsertBlock(blockToInsert);
+      } else {
+        const blockToInsert = defaultFileBlock(visualElement);
+        onInsertBlock(blockToInsert);
+      }
+      onVisualElementClose();
+    },
+    [editor, onInsertBlock, onVisualElementClose],
+  );
+
   return (
-    <VisualElementModalWrapper isOpen={isOpen} label={label} resource={resource} onClose={onVisualElementClose}>
+    <VisualElementDialogWrapper isOpen={isOpen} label={label} resource={resource} onClose={onVisualElementClose}>
       <VisualElementSearch
         articleLanguage={articleLanguage}
         selectedResource={resource}
         handleVisualElementChange={onVisualElementAdd}
-        closeModal={onVisualElementClose}
+        closeDialog={onVisualElementClose}
         showCheckbox={showCheckbox}
         checkboxAction={(image: IImageMetaInformationV3DTO) => checkboxAction(image, formikContext)}
       />
-    </VisualElementModalWrapper>
+    </VisualElementDialogWrapper>
   );
 };
 

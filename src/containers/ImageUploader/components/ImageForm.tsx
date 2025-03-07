@@ -100,9 +100,9 @@ interface Props {
     imageMetadata: INewImageMetaInformationV2DTO & IUpdateImageMetaInformationDTO,
     image: string | Blob,
   ) => void;
-  inModal?: boolean;
+  inDialog?: boolean;
   isNewlyCreated?: boolean;
-  closeModal?: () => void;
+  closeDialog?: () => void;
   isSaving?: boolean;
   isNewLanguage?: boolean;
   language: string;
@@ -124,9 +124,9 @@ const ImageForm = ({
   licenses,
   onSubmitFunc,
   image,
-  inModal,
+  inDialog,
   language,
-  closeModal,
+  closeDialog,
   isNewlyCreated,
   isSaving,
   isNewLanguage,
@@ -203,7 +203,7 @@ const ImageForm = ({
         });
         const hasError = (errorFields: ImageFormErrorFields[]): boolean => errorFields.some((field) => !!errors[field]);
         return (
-          <FormWrapper inModal={inModal} onSubmit={handleSubmit}>
+          <FormWrapper inDialog={inDialog} onSubmit={handleSubmit}>
             <HeaderWithLanguage
               id={image?.id ? parseInt(image.id) : undefined}
               language={language}
@@ -237,8 +237,8 @@ const ImageForm = ({
               </FormAccordion>
             </FormAccordions>
             <StyledFormActionsContainer>
-              {inModal ? (
-                <Button variant="secondary" onClick={closeModal}>
+              {inDialog ? (
+                <Button variant="secondary" onClick={closeDialog}>
                   {t("form.abort")}
                 </Button>
               ) : (
@@ -248,13 +248,13 @@ const ImageForm = ({
               )}
               <SaveButton
                 id={SAVE_BUTTON_ID}
-                type={!inModal ? "submit" : "button"}
+                type={!inDialog ? "submit" : "button"}
                 loading={isSubmitting || isSaving}
                 disabled={!isValid}
                 showSaved={!dirty && (isNewlyCreated || savedToServer)}
                 formIsDirty={formIsDirty}
                 onClick={(evt) => {
-                  if (inModal) {
+                  if (inDialog) {
                     evt.preventDefault();
                     submitForm();
                   }
@@ -265,7 +265,7 @@ const ImageForm = ({
               isSubmitting={isSubmitting}
               severity="danger"
               formIsDirty={formIsDirty}
-              text={t("alertModal.notSaved")}
+              text={t("alertDialog.notSaved")}
             />
           </FormWrapper>
         );

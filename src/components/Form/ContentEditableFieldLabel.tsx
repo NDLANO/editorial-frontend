@@ -6,7 +6,7 @@
  *
  */
 
-import { useRef } from "react";
+import { useCallback } from "react";
 import { useFieldContext } from "@ark-ui/react";
 import { mergeProps } from "@zag-js/react";
 import { Label, LabelProps } from "@ndla/primitives";
@@ -23,18 +23,13 @@ const StyledLabel = styled(Label, {
 export const ContentEditableFieldLabel = ({ children, ...props }: Props) => {
   const field = useFieldContext();
   const { htmlFor, ...rest } = mergeProps(field?.getLabelProps(), props);
-  const ref = useRef<HTMLLabelElement>(null);
+
+  const onClick = useCallback(() => {
+    document.getElementById(field?.ids.control)?.focus();
+  }, [field?.ids.control]);
 
   return (
-    <StyledLabel
-      asChild
-      consumeCss
-      onClick={(_) => {
-        document.getElementById(field?.ids.control)?.focus();
-      }}
-      {...(rest as LabelProps)}
-      ref={ref}
-    >
+    <StyledLabel asChild consumeCss onClick={onClick} {...(rest as LabelProps)}>
       <p>{children}</p>
     </StyledLabel>
   );

@@ -6,8 +6,8 @@
  *
  */
 import { ElementType } from "./interfaces";
-import { TYPE_ASIDE } from "./plugins/aside/types";
-import { TYPE_AUDIO } from "./plugins/audio/types";
+import { ASIDE_ELEMENT_TYPE } from "./plugins/aside/asideTypes";
+import { AUDIO_ELEMENT_TYPE } from "./plugins/audio/audioTypes";
 import { TYPE_CAMPAIGN_BLOCK } from "./plugins/campaignBlock/types";
 import { TYPE_CODEBLOCK } from "./plugins/codeBlock/types";
 import { TYPE_COMMENT_INLINE } from "./plugins/comment/inline/types";
@@ -17,7 +17,7 @@ import { TYPE_EMBED_ERROR } from "./plugins/embed/types";
 import { TYPE_EXTERNAL } from "./plugins/external/types";
 import { TYPE_FILE } from "./plugins/file/types";
 import { TYPE_FOOTNOTE } from "./plugins/footnote/types";
-import { TYPE_FRAMED_CONTENT } from "./plugins/framedContent/types";
+import { FRAMED_CONTENT_ELEMENT_TYPE } from "./plugins/framedContent/framedContentTypes";
 import { TYPE_GRID } from "./plugins/grid/types";
 import { TYPE_H5P } from "./plugins/h5p/types";
 import { TYPE_IMAGE } from "./plugins/image/types";
@@ -41,11 +41,11 @@ export const inlines: ElementType[] = [
 ];
 
 export const blocks: ElementType[] = [
-  TYPE_ASIDE,
-  TYPE_FRAMED_CONTENT,
+  ASIDE_ELEMENT_TYPE,
+  FRAMED_CONTENT_ELEMENT_TYPE,
   TYPE_CODEBLOCK,
   TYPE_DETAILS,
-  TYPE_AUDIO,
+  AUDIO_ELEMENT_TYPE,
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_ERROR,
   TYPE_EXTERNAL,

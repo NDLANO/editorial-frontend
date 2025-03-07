@@ -53,10 +53,10 @@ const ButtonContainer = styled("div", {
 
 const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    setModalOpen(!!element.isFirstEdit);
+    setOpen(!!element.isFirstEdit);
   }, [element.isFirstEdit]);
 
   const embed: UuDisclaimerMetaData | undefined = useMemo(() => {
@@ -74,7 +74,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
 
   const onOpenChange = useCallback(
     (open: boolean) => {
-      setModalOpen(open);
+      setOpen(open);
       if (open) return;
       ReactEditor.focus(editor);
       if (element.isFirstEdit) {
@@ -123,7 +123,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
 
   const onSaveDisclaimerText = useCallback(
     (values: UuDisclaimerEmbedData) => {
-      setModalOpen(false);
+      setOpen(false);
       const path = ReactEditor.findPath(editor, element);
       Transforms.setNodes(
         editor,
@@ -137,11 +137,11 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
         Transforms.select(editor, path.concat(0));
       }, 0);
     },
-    [setModalOpen, editor, element],
+    [editor, element],
   );
 
   return (
-    <DialogRoot open={modalOpen} onOpenChange={(details) => setModalOpen(details.open)}>
+    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
       <StyledEmbedWrapper data-testid="slate-disclaimer-block" {...attributes}>
         {!!embed && (
           <>

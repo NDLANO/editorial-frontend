@@ -7,13 +7,13 @@
  */
 
 import { Editor } from "slate";
+import { FRAMED_CONTENT_ELEMENT_TYPE } from "./framedContentTypes";
 import SlateFramedContent from "./SlateFramedContent";
-import { TYPE_FRAMED_CONTENT } from "./types";
 
 export const framedContentRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_FRAMED_CONTENT) {
+    if (element.type === FRAMED_CONTENT_ELEMENT_TYPE) {
       return (
         <SlateFramedContent editor={editor} element={element} attributes={attributes}>
           {children}

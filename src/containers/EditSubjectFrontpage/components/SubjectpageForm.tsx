@@ -149,7 +149,7 @@ const SubjectpageForm = ({
       const err = e as NdlaErrorPayload;
       if (err?.status === 409) {
         createMessage({
-          message: t("alertModal.needToRefresh"),
+          message: t("alertDialog.needToRefresh"),
           timeToLive: 0,
         });
       } else if (err?.json?.messages) {
@@ -215,7 +215,7 @@ const SubjectpageForm = ({
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
               severity="danger"
-              text={t("alertModal.notSaved")}
+              text={t("alertDialog.notSaved")}
             />
           </Form>
         );

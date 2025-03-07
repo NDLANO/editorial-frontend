@@ -33,7 +33,7 @@ interface Props {
   element: TableElement;
 }
 
-const EditColgroupsModal = ({ element }: Props) => {
+const EditColgroupsDialog = ({ element }: Props) => {
   const [open, setOpen] = useState(false);
   const editor = useSlateStatic();
   const { t } = useTranslation();
@@ -85,4 +85,4 @@ const EditColgroupsModal = ({ element }: Props) => {
   );
 };
 
-export default EditColgroupsModal;
+export default EditColgroupsDialog;

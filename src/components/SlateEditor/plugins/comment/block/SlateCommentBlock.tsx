@@ -61,10 +61,10 @@ interface Props {
 const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => {
   const { t } = useTranslation();
   const [popoverOpen, setPopoverOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    setModalOpen(!!element.isFirstEdit);
+    setOpen(!!element.isFirstEdit);
   }, [element.isFirstEdit]);
 
   const embed: CommentMetaData | undefined = useMemo(() => {
@@ -79,7 +79,7 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
 
   const onUpdateComment = useCallback(
     (values: CommentEmbedData) => {
-      setModalOpen(false);
+      setOpen(false);
       const path = ReactEditor.findPath(editor, element);
       Transforms.setNodes(
         editor,
@@ -108,7 +108,7 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
 
   const onOpenChange = useCallback(
     (open: boolean) => {
-      setModalOpen(open);
+      setOpen(open);
       if (open) return;
       ReactEditor.focus(editor);
       if (element.isFirstEdit) {
@@ -128,7 +128,7 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
   );
 
   return (
-    <DialogRoot open={modalOpen} size="small" onOpenChange={(details) => onOpenChange(details.open)}>
+    <DialogRoot open={open} size="small" onOpenChange={(details) => onOpenChange(details.open)}>
       <Portal>
         <DialogContent>
           <DialogHeader>

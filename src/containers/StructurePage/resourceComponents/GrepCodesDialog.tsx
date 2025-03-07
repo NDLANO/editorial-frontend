@@ -62,7 +62,7 @@ const GrepCodesDialog = ({ codes, contentType, contentUri, revision, currentNode
   );
 };
 
-interface ModalContentProps {
+interface DialogContentProps {
   codes: string[];
   draftId: number;
   revision: number;
@@ -71,7 +71,7 @@ interface ModalContentProps {
   close: () => void;
 }
 
-const GrepCodeDialogContent = ({ codes, draftId, revision, currentNodeId, contentUri, close }: ModalContentProps) => {
+const GrepCodeDialogContent = ({ codes, draftId, revision, currentNodeId, contentUri, close }: DialogContentProps) => {
   const updateDraft = useUpdateDraftMutation();
   const { t, i18n } = useTranslation();
   const qc = useQueryClient();

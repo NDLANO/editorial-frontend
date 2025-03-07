@@ -103,12 +103,12 @@ interface Props {
 const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
   const { t } = useTranslation();
   const [inputValue, setInputValue] = useState<Descendant[]>(field.value.content);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleDelete = () => {
     if (index === undefined) return;
     arrayHelpers.remove(index);
-    setModalOpen(false);
+    setOpen(false);
   };
 
   const updateComment = useCallback(
@@ -152,7 +152,7 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
               size="small"
               aria-label={t("form.workflow.deleteComment.title")}
               title={t("form.workflow.deleteComment.title")}
-              onClick={() => setModalOpen(true)}
+              onClick={() => setOpen(true)}
             >
               <DeleteBinLine />
             </IconButton>
@@ -178,12 +178,12 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
       <AlertDialog
         title={t("form.workflow.deleteComment.title")}
         label={t("form.workflow.deleteComment.title")}
-        show={modalOpen}
-        text={t("form.workflow.deleteComment.modal")}
-        onCancel={() => setModalOpen(!modalOpen)}
+        show={open}
+        text={t("form.workflow.deleteComment.dialog")}
+        onCancel={() => setOpen(!open)}
       >
         <FormActionsContainer>
-          <Button onClick={() => setModalOpen(false)} variant="secondary">
+          <Button onClick={() => setOpen(false)} variant="secondary">
             {t("form.abort")}
           </Button>
           <Button onClick={handleDelete} variant="danger">

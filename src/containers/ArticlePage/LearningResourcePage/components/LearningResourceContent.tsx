@@ -7,7 +7,7 @@
  */
 
 import { useField, useFormikContext } from "formik";
-import { useState, useMemo, memo, useEffect } from "react";
+import { useState, useMemo, memo, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import { Button, FieldErrorMessage, FieldRoot } from "@ndla/primitives";
@@ -23,7 +23,7 @@ import { SegmentHeader } from "../../../../components/Form/SegmentHeader";
 import { FormField } from "../../../../components/FormField";
 import { FormActionsContainer, FormContent } from "../../../../components/FormikForm";
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
-import { TYPE_AUDIO } from "../../../../components/SlateEditor/plugins/audio/types";
+import { AUDIO_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/audio/audioTypes";
 import { learningResourceActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
 import { TYPE_CODEBLOCK } from "../../../../components/SlateEditor/plugins/codeBlock/types";
 import { TYPE_COMMENT_BLOCK } from "../../../../components/SlateEditor/plugins/comment/block/types";
@@ -41,10 +41,11 @@ import {
 } from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import { TYPE_EMBED_BRIGHTCOVE } from "../../../../components/SlateEditor/plugins/video/types";
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
-import { DRAFT_HTML_SCOPE } from "../../../../constants";
+import { DRAFT_HTML_SCOPE, SAVE_DEBOUNCE_MS } from "../../../../constants";
 import { isFormikFormDirty } from "../../../../util/formHelper";
 import { toCreateLearningResource, toEditMarkup } from "../../../../util/routeHelpers";
 import { findNodesByType } from "../../../../util/slateHelpers";
+import { useDebouncedCallback } from "../../../../util/useDebouncedCallback";
 import { IngressField, TitleField } from "../../../FormikForm";
 import { HandleSubmitFunc, LearningResourceFormType } from "../../../FormikForm/articleFormHooks";
 import { useSession } from "../../../Session/SessionProvider";
@@ -55,7 +56,7 @@ const findFootnotes = (content: Descendant[]): FootnoteType[] =>
     .filter((footnote) => Object.keys(footnote.data).length > 0)
     .map((footnoteElement) => footnoteElement.data);
 
-const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, TYPE_AUDIO, TYPE_EXTERNAL, TYPE_IMAGE];
+const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, AUDIO_ELEMENT_TYPE, TYPE_EXTERNAL, TYPE_IMAGE];
 
 const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE, TYPE_GRID, TYPE_COMMENT_BLOCK].concat(visualElements);
 const actionsToShowInAreas = {
@@ -96,6 +97,8 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
   const [isTouched, setIsTouched] = useState(false);
   const isCreatePage = toCreateLearningResource() === window.location.pathname;
 
+  const onCancel = useCallback(() => setIsNormalizedOnLoad(false), []);
+
   useEffect(() => {
     setTimeout(() => {
       if (status.status === "revertVersion") {
@@ -130,12 +133,12 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
         label={t("editorFooter.changeHeader")}
         show={!!isNormalizedOnLoad && !isCreatePage}
         text={t("form.content.normalizedOnLoad")}
-        onCancel={() => setIsNormalizedOnLoad(false)}
+        onCancel={onCancel}
         severity="warning"
       >
         <FormActionsContainer>
-          <Button variant="danger" onClick={() => setIsNormalizedOnLoad(false)}>
-            {t("alertModal.continue")}
+          <Button variant="danger" onClick={onCancel}>
+            {t("alertDialog.continue")}
           </Button>
         </FormActionsContainer>
       </AlertDialog>
@@ -155,38 +158,37 @@ const ContentField = ({ articleId, articleLanguage }: ContentFieldProps) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { isSubmitting } = useFormikContext<LearningResourceFormType>();
+  const [field, meta, helpers] = useField("content");
 
   const blockPickerOptions = useMemo(() => ({ actionsToShowInAreas }), []);
 
+  const debouncedOnChange = useDebouncedCallback(helpers.setValue, SAVE_DEBOUNCE_MS);
+
   return (
-    <FormField name="content">
-      {({ field, meta, helpers }) => (
-        <FieldRoot invalid={!!meta.error}>
-          <SegmentHeader>
-            <ContentEditableFieldLabel>{t("form.content.label")}</ContentEditableFieldLabel>
-            {!!articleId && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (
-              <EditMarkupLink to={toEditMarkup(articleId, articleLanguage ?? "")} title={t("editMarkup.linkTitle")} />
-            )}
-          </SegmentHeader>
-          <RichTextEditor
-            actions={learningResourceActions}
-            language={articleLanguage}
-            blockpickerOptions={blockPickerOptions}
-            placeholder={t("form.content.placeholder")}
-            value={field.value}
-            submitted={isSubmitting}
-            plugins={editorPlugins}
-            data-testid="learning-resource-content"
-            onChange={(value) => helpers.setValue(value)}
-            toolbarOptions={toolbarOptions}
-            toolbarAreaFilters={toolbarAreaFilters}
-          />
-          {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(field.value)} />}
-          <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-          <FieldWarning name={field.name} />
-        </FieldRoot>
-      )}
-    </FormField>
+    <FieldRoot invalid={!!meta.error}>
+      <SegmentHeader>
+        <ContentEditableFieldLabel>{t("form.content.label")}</ContentEditableFieldLabel>
+        {!!articleId && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (
+          <EditMarkupLink to={toEditMarkup(articleId, articleLanguage ?? "")} title={t("editMarkup.linkTitle")} />
+        )}
+      </SegmentHeader>
+      <RichTextEditor
+        actions={learningResourceActions}
+        language={articleLanguage}
+        blockpickerOptions={blockPickerOptions}
+        placeholder={t("form.content.placeholder")}
+        value={field.value}
+        submitted={isSubmitting}
+        plugins={editorPlugins}
+        data-testid="learning-resource-content"
+        onChange={debouncedOnChange}
+        toolbarOptions={toolbarOptions}
+        toolbarAreaFilters={toolbarAreaFilters}
+      />
+      {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(field.value)} />}
+      <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+      <FieldWarning name={field.name} />
+    </FieldRoot>
   );
 };
 

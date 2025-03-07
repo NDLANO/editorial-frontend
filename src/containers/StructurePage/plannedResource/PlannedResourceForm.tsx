@@ -8,7 +8,7 @@
 
 import { Formik } from "formik";
 import { TFunction } from "i18next";
-import uniq from "lodash/uniq";
+import { uniq } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";

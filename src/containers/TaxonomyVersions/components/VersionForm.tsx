@@ -64,7 +64,7 @@ const Row = styled("div", {
 
 const VersionForm = ({ version, existingVersions, onClose, headingLevel: HeadingLevel }: Props) => {
   const { t } = useTranslation();
-  const [showAlertModal, setShowAlertModal] = useState(false);
+  const [showAlertDialog, setShowAlertDialog] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const initialValues = versionTypeToVersionFormType(version);
   const qc = useQueryClient();
@@ -169,7 +169,7 @@ const VersionForm = ({ version, existingVersions, onClose, headingLevel: Heading
               {!!error && <Text color="text.error">{error}</Text>}
               <Row>
                 {version?.versionType === "BETA" && (
-                  <StyledButton disabled={dirty} onClick={() => setShowAlertModal(true)}>
+                  <StyledButton disabled={dirty} onClick={() => setShowAlertDialog(true)}>
                     {t("taxonomyVersions.publishButton")}
                   </StyledButton>
                 )}
@@ -188,22 +188,22 @@ const VersionForm = ({ version, existingVersions, onClose, headingLevel: Heading
               <AlertDialog
                 title={t("taxonomyVersions.publishTitle")}
                 label={t("taxonomyVersions.publishTitle")}
-                show={showAlertModal}
+                show={showAlertDialog}
                 text={t("taxonomyVersions.publishWarning")}
-                onCancel={() => setShowAlertModal(false)}
+                onCancel={() => setShowAlertDialog(false)}
               >
                 <FormActionsContainer>
-                  <Button onClick={() => setShowAlertModal(false)} variant="danger">
+                  <Button onClick={() => setShowAlertDialog(false)} variant="danger">
                     {t("form.abort")}
                   </Button>
                   <Button
                     onClick={() => {
-                      setShowAlertModal(false);
+                      setShowAlertDialog(false);
                       onPublish();
                     }}
                     variant="secondary"
                   >
-                    {t("alertModal.continue")}
+                    {t("alertDialog.continue")}
                   </Button>
                 </FormActionsContainer>
               </AlertDialog>

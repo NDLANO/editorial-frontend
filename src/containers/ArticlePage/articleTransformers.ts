@@ -6,7 +6,7 @@
  *
  */
 
-import isEmpty from "lodash/isEmpty";
+import { isEmpty } from "lodash-es";
 import { Descendant } from "slate";
 import { ILicenseDTO, IUpdatedArticleDTO, IArticleDTO, IRevisionMetaDTO } from "@ndla/types-backend/draft-api";
 import { ARCHIVED, PUBLISHED, UNPUBLISHED, Revision } from "../../constants";
@@ -104,6 +104,7 @@ const draftApiTypeToArticleFormType = (
     comments: getCommentsDraftApiToArticleFormType(article, articleType),
     priority: article?.priority ?? "unspecified",
     disclaimer: inlineContentToEditorValue(article?.disclaimer?.disclaimer ?? "", true),
+    saveAsNew: false,
   };
 };
 

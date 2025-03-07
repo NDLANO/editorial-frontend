@@ -17,16 +17,22 @@ import {
   DialogTitle,
   DialogTrigger,
   Heading,
+  TabsContent,
+  TabsIndicator,
+  TabsList,
+  TabsRoot,
+  TabsTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { ImageEmbedData } from "@ndla/types-embed";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
-import ImageSearchAndUploader from "../../../components/ImageSearchAndUploader";
+import { ImagePicker } from "../../../components/ImagePicker";
 import MetaInformation from "../../../components/MetaInformation";
 import config from "../../../config";
-import { fetchImage, onError, postSearchImages } from "../../../modules/image/imageApi";
+import { fetchImage } from "../../../modules/image/imageApi";
 import { SubjectPageFormikType } from "../../../util/subjectHelpers";
+import CreateImage from "../../ImageUploader/CreateImage";
 
 const ImageWrapper = styled("div", {
   base: {
@@ -37,13 +43,21 @@ const ImageWrapper = styled("div", {
   },
 });
 
+const StyledTabsContent = styled(TabsContent, {
+  base: {
+    "& > *": {
+      width: "100%",
+    },
+  },
+});
+
 interface Props {
   title: string;
   fieldName: "desktopBannerId" | "mobileBannerId";
 }
 
 const SubjectpageBanner = ({ title, fieldName }: Props) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { setFieldTouched } = useFormikContext();
   const [image, setImage] = useState<IImageMetaInformationV3DTO | undefined>(undefined);
   const [FieldInputProps] = useField<ImageEmbedData>(fieldName);
@@ -105,16 +119,24 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
             <DialogCloseButton />
           </DialogHeader>
           <DialogBody>
-            <ImageSearchAndUploader
-              inModal
-              locale={i18n.language}
-              language={values.language}
-              closeModal={onImageSelectClose}
-              fetchImage={(id) => fetchImage(id, values.language)}
-              searchImages={postSearchImages}
-              onError={onError}
-              onImageSelect={onImageChange}
-            />
+            <TabsRoot defaultValue="image" translations={{ listLabel: t("form.visualElement.image") }}>
+              <TabsList>
+                <TabsTrigger value="image">{t("form.visualElement.image")}</TabsTrigger>
+                <TabsTrigger value="upload">{t("form.visualElement.imageUpload")}</TabsTrigger>
+                <TabsIndicator />
+              </TabsList>
+              <StyledTabsContent value="image">
+                <ImagePicker onImageSelect={onImageChange} locale={values.language} />
+              </StyledTabsContent>
+              <StyledTabsContent value="upload">
+                <CreateImage
+                  inDialog={true}
+                  editingArticle
+                  closeDialog={onImageSelectClose}
+                  onImageCreated={onImageChange}
+                />
+              </StyledTabsContent>
+            </TabsRoot>
           </DialogBody>
         </DialogContent>
       </DialogRoot>

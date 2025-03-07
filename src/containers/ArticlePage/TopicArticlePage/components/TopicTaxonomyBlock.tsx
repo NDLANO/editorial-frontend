@@ -6,9 +6,7 @@
  *
  */
 
-import differenceBy from "lodash/differenceBy";
-import isEqual from "lodash/isEqual";
-import partition from "lodash/partition";
+import { differenceBy, isEqual, partition } from "lodash-es";
 import { useCallback, useMemo, useState, MouseEvent, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";

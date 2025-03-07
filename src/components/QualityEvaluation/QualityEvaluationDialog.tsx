@@ -7,9 +7,9 @@
  */
 
 import { FieldHelperProps, FieldInputProps } from "formik";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Portal } from "@ark-ui/react";
+import { DialogOpenChangeDetails, Portal } from "@ark-ui/react";
 import { PencilLine } from "@ndla/icons";
 import {
   DialogBody,
@@ -37,7 +37,7 @@ interface Props {
   updateNotes?: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
 }
 
-const QualityEvaluationModal = ({
+const QualityEvaluationDialog = ({
   articleType,
   article,
   taxonomy,
@@ -48,12 +48,14 @@ const QualityEvaluationModal = ({
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
+  const onOpenChange = useCallback((details: DialogOpenChangeDetails) => setOpen(details.open), []);
+
   const resourceTranslation =
     articleType === "topic-article" ? t("qualityEvaluationForm.topicArticle") : t("qualityEvaluationForm.article");
   const title = taxonomy?.length ? t("qualityEvaluationForm.edit") : t("qualityEvaluationForm.disabled");
 
   return (
-    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
+    <DialogRoot open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <IconButton title={title} aria-label={title} size="small" disabled={!taxonomy?.length} variant="secondary">
           <PencilLine />
@@ -62,7 +64,7 @@ const QualityEvaluationModal = ({
       <Portal>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{t("qualityEvaluationForm.modalTitle")}</DialogTitle>
+            <DialogTitle>{t("qualityEvaluationForm.dialogTitle")}</DialogTitle>
             <DialogCloseButton />
           </DialogHeader>
           <DialogBody>
@@ -86,4 +88,4 @@ const QualityEvaluationModal = ({
   );
 };
 
-export default QualityEvaluationModal;
+export default QualityEvaluationDialog;

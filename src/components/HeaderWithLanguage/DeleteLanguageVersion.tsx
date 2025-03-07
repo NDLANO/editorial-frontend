@@ -6,7 +6,7 @@
  *
  */
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { DeleteBinLine } from "@ndla/icons";
@@ -53,9 +53,9 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
   const { createMessage, formatErrorMessage } = useMessages();
   const navigate = useNavigate();
 
-  const toggleShowDeleteWarning = () => {
-    setShowDeleteWarning(!showDeleteWarning);
-  };
+  const toggleShowDeleteWarning = useCallback(() => {
+    setShowDeleteWarning((p) => !p);
+  }, []);
 
   const deleteLanguageVersion = async () => {
     if (supportedLanguages.includes(language)) {
@@ -131,7 +131,7 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
         label={t("form.workflow.deleteLanguageVersion.title")}
         show={showDeleteWarning}
         onCancel={toggleShowDeleteWarning}
-        text={t("form.workflow.deleteLanguageVersion.modal")}
+        text={t("form.workflow.deleteLanguageVersion.dialog")}
       >
         <FormActionsContainer>
           <Button onClick={toggleShowDeleteWarning} variant="danger">

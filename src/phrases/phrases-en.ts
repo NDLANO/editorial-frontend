@@ -219,6 +219,7 @@ const phrases = {
     },
   },
   searchPage: {
+    search: "Søk",
     header: {
       content: "Search for content",
       audio: "Search for audio files",
@@ -679,7 +680,7 @@ const phrases = {
   qualityEvaluationForm: {
     title: "Quality evaluation",
     unavailable: "Not specified",
-    modalTitle: "Update quality evaluation",
+    dialogTitle: "Update quality evaluation",
     description:
       "Provide a quality assessment of the {{ resource }} with a description of the chosen rating. The scale is as follows: 1 = outstanding, 2 = very good, 3 = OK, 4 = should be fixed, 5 = needs to be fixed.",
     edit: "Edit quality evaluation",
@@ -794,6 +795,7 @@ const phrases = {
     openAll: "Open all",
     hideAll: "Hide all",
     unpublishedChanges: "(Changed since last publish)",
+    unpublishedConcepts: "The article contains unpublished concepts",
     moveContent: "Move content into the text",
     open: "Open",
     close: "Close",
@@ -941,8 +943,6 @@ const phrases = {
     editPodcast: "Edit podcast",
     editH5p: "Edit H5P",
     resetToProd: {
-      button: "Reset to prod",
-      modal: "Do you want to reset the draft as it is on the ndla frontpage?",
       success: "Content is reset, press save to save changes",
     },
     resetToVersion: "Reset to version",
@@ -1066,7 +1066,7 @@ const phrases = {
       deleteLanguageVersion: {
         button: "Delete {{languageVersion}} version",
         title: "Delete language version",
-        modal: "Are you sure that you want to delete this language version?",
+        dialog: "Are you sure that you want to delete this language version?",
       },
       statusInfoTooltip: "Whats the difference between statuses?",
       statusLabel: "Status",
@@ -1079,7 +1079,7 @@ const phrases = {
       },
       deleteComment: {
         title: "Delete comment",
-        modal: "Are you sure you want to delete this comment? It can`t be restored.",
+        dialog: "Are you sure you want to delete this comment? It can`t be restored.",
         button: "Delete",
       },
       addComment: {
@@ -1270,7 +1270,7 @@ const phrases = {
       label: "Competences and core elements",
       placeholder: "Type code",
       description:
-        "Type in codes using the correct format ({{ codes }}) followed by one or more digits. Non existing codes will not be created. Separate multiple codes with comma. Texts will be displayed in norwegian here but will be shown correct in frontend.",
+        "Type in codes using the correct format ({{ codes }}) followed by one or more digits. Non existing codes will not be created. Separate multiple codes with comma. Texts will be displayed in norwegian here but will be shown correct in frontend. You can also filter on learningplan codes.",
     },
     articleDisclaimer: {
       title: "Information about availability for the entire article",
@@ -1453,7 +1453,7 @@ const phrases = {
         newLanguage: "When adding a new language, an audio file from an existing language will be suggested.",
         deleteFiles: "Audio files will only be deleted when not used in any language.",
       },
-      modal: {
+      dialog: {
         header: "Audio files",
         label: "Audio file information",
       },
@@ -1535,10 +1535,10 @@ const phrases = {
         gloss: "Uses of the gloss in articles",
         article: "Uses of the article in other articles",
       },
-      articles: "1 article",
-      articles_plural: "{{count}} articles",
-      concepts: "1 concept/gloss",
-      concepts_plural: "{{count}} concepts/glosses",
+      articles_one: "1 article",
+      articles_other: "{{count}} articles",
+      concepts_one: "1 concept/gloss",
+      concepts_other: "{{count}} concepts/glosses",
     },
     relatedConcepts: {
       placeholder: "Search for title",
@@ -1598,8 +1598,8 @@ const phrases = {
     dateAfterInvalid: "{{label}} can not be before {{beforeLabel}}.",
     maxLength: "{{label}} must not have more than {{maxLength}} characters.",
     minLength: "{{length}} must have at least {{minLength}} characters.",
-    minItems: "{{label}} must have at least one {{labelLowerCase}}.",
-    minItems_plural: "{{label}} must have at least {{count}} unique {{labelLowerCase}}.",
+    minItems_one: "{{label}} must have at least one {{labelLowerCase}}.",
+    minItems_other: "{{label}} must have at least {{count}} unique {{labelLowerCase}}.",
     noEmptyNote: "A note cannot be empty",
     noEmptyRevision: "A description cannot be empty",
     noLicenseWithoutCopyrightHolder: "A license cannot be added without providing at least one copyright holder.",
@@ -1645,7 +1645,7 @@ const phrases = {
   forbiddenPage: {
     description: "You do not have access to this page",
   },
-  alertModal: {
+  alertDialog: {
     notSaved: "Document is not saved, do you want to continue?",
     needToRefresh:
       "Someone have saved the same article while you were editing. You need to copy your changes manually and refresh the page",
@@ -1927,10 +1927,8 @@ const phrases = {
       addArticleToMoreInformation: "Add an article",
       removeArticleFromMoreInformation: "Remove article",
       createGroup: "Create new group",
+      groupNamePlaceholder: "Write name in {{lang}}",
     },
-  },
-  modal: {
-    closeModal: "Close",
   },
   conceptForm: {
     title: "Concept",
@@ -2185,10 +2183,14 @@ const phrases = {
   },
   codeEditor: {
     title: "Add code example",
+    subtitle: "code example",
     titleLabel: "Title",
     programmingLanguage: "Programming language",
     edit: "Edit code example",
     delete: "Remove code example",
+    languageSelect: "Select language:",
+    save: "Save",
+    abort: "Abort",
   },
   framedContentForm: {
     changeVariant: {
@@ -2212,6 +2214,26 @@ const phrases = {
     title: "Preview concept",
   },
   math: "Math problem",
+  editor: {
+    versionHistory: {
+      who: "Who",
+      when: "When",
+      message: "Message",
+      status: "Status",
+    },
+  },
+  masthead: {
+    menu: {
+      title: "Open menu",
+    },
+  },
+  footer: {
+    info: "This webapplication is developed as Open Source code.",
+    editorInChief: "Editor in chief:",
+  },
+  user: {
+    buttonLogOut: "Log out",
+  },
 };
 
 export default phrases;

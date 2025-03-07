@@ -212,7 +212,7 @@ const ChangeNodeName = ({ node }: Props) => {
             setSaved(false);
           }
           return (
-            <FormWrapper inModal data-testid="edit-node-name-form">
+            <FormWrapper inDialog data-testid="edit-node-name-form">
               <FormField name="name">
                 {({ field, meta }) => (
                   <FieldRoot required invalid={!!meta.error}>

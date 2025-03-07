@@ -7,11 +7,11 @@
  */
 
 import { useFormikContext } from "formik";
-import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, DialogCloseTrigger, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IStatusDTO } from "@ndla/types-backend/concept-api";
+import { FormField } from "../../../components/FormField";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import SaveButton from "../../../components/SaveButton";
 import EditorFooter from "../../../components/SlateEditor/EditorFooter";
@@ -26,11 +26,10 @@ import { ConceptFormValues } from "../conceptInterfaces";
 interface Props {
   entityStatus?: IStatusDTO;
   conceptChanged: boolean;
-  inModal?: boolean;
+  inDialog?: boolean;
   savedToServer: boolean;
   isNewlyCreated: boolean;
   showSimpleFooter: boolean;
-  responsibleId?: string;
 }
 
 const StyledFormActionsContainer = styled(FormActionsContainer, {
@@ -42,19 +41,15 @@ const StyledFormActionsContainer = styled(FormActionsContainer, {
 const ConceptFormFooter = ({
   entityStatus,
   conceptChanged,
-  inModal,
+  inDialog,
   savedToServer,
   isNewlyCreated,
   showSimpleFooter,
-  responsibleId,
 }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
   const conceptStateMachine = useConceptStateMachine();
-  const [responsible, setResponsible] = useState<string | undefined>(undefined);
-  const [status, setStatus] = useState<string | undefined>("IN_PROGRESS");
-  const [updated, setUpdated] = useState<IStatusDTO>({ current: "IN_PROGRESS", other: [] });
-  const { values, errors, initialValues, dirty, isSubmitting, submitForm, setFieldValue } = formikContext;
+  const { values, errors, initialValues, dirty, isSubmitting, submitForm } = formikContext;
   const formIsDirty = isFormikFormDirty({
     values,
     initialValues,
@@ -64,44 +59,28 @@ const ConceptFormFooter = ({
 
   const disableSave = Object.keys(errors).length > 0;
 
-  const updateResponsible = useCallback(
-    async (responsible: string | undefined) => {
-      setResponsible(responsible);
-      setFieldValue("responsibleId", responsible ? responsible : null);
-    },
-    [setFieldValue],
-  );
-
-  const updateStatus = useCallback(
-    async (status: string | undefined) => {
-      setStatus(status);
-      setFieldValue("status", { current: status });
-      setUpdated({ current: status ?? "IN_PROGRESS", other: [] });
-    },
-    [setFieldValue],
-  );
-
-  if (inModal) {
+  if (inDialog) {
     return (
       <StyledFormActionsContainer>
-        <FieldRoot key="status-select">
-          <StatusSelect
-            status={status}
-            setStatus={setStatus}
-            onSave={updateStatus}
-            statusStateMachine={conceptStateMachine.data}
-            entityStatus={entityStatus ?? updated}
-          />
-        </FieldRoot>
-        <FieldRoot key="responsible-select">
-          <ResponsibleSelect
-            key="concept-modal-responsible-select"
-            responsible={responsible}
-            setResponsible={setResponsible}
-            onSave={updateResponsible}
-            responsibleId={responsibleId}
-          />
-        </FieldRoot>
+        <FormField name="status">
+          {({ field, helpers }) => (
+            <FieldRoot>
+              <StatusSelect
+                status={field.value}
+                updateStatus={(value) => helpers.setValue({ current: value })}
+                statusStateMachine={conceptStateMachine.data}
+                entityStatus={entityStatus ?? field.value}
+              />
+            </FieldRoot>
+          )}
+        </FormField>
+        <FormField name="responsibleId">
+          {({ field, helpers }) => (
+            <FieldRoot>
+              <ResponsibleSelect responsible={field.value} onSave={(value) => helpers.setValue(value ?? null)} />
+            </FieldRoot>
+          )}
+        </FormField>
         <DialogCloseTrigger asChild>
           <Button variant="secondary">{t("form.abort")}</Button>
         </DialogCloseTrigger>
@@ -134,13 +113,12 @@ const ConceptFormFooter = ({
         isConcept
         isNewlyCreated={isNewlyCreated}
         hasErrors={isSubmitting || !formIsDirty || disableSave}
-        responsibleId={responsibleId}
       />
       <AlertDialogWrapper
         formIsDirty={formIsDirty}
         isSubmitting={isSubmitting}
         severity="danger"
-        text={t("alertModal.notSaved")}
+        text={t("alertDialog.notSaved")}
       />
     </>
   );

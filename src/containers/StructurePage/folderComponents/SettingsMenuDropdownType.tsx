@@ -174,9 +174,11 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
                 nodeType: t(`taxonomy.nodeType.TOPIC`),
               })}
             </TabsTrigger>
-            <TabsTrigger value="toggleMetadataVisibility" data-testid="toggleVisibilityButton">
-              {t("metadata.changeVisibility")}
-            </TabsTrigger>
+            {!!isTaxonomyAdmin && (
+              <TabsTrigger value="toggleMetadataVisibility" data-testid="toggleVisibilityButton">
+                {t("metadata.changeVisibility")}
+              </TabsTrigger>
+            )}
             {!!isTaxonomyAdmin && <TabsTrigger value="editGrepCodes">{t("taxonomy.grepCodes.edit")}</TabsTrigger>}
             <TabsTrigger value="addTopic">{t("taxonomy.addTopic")}</TabsTrigger>
             {!!isTaxonomyAdmin && (
@@ -201,9 +203,11 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
           <StyledTabsContent value="moveExistingNode">
             <MoveExistingNode currentNode={node} />
           </StyledTabsContent>
-          <StyledTabsContent value="toggleMetadataVisibility">
-            <ToggleVisibility node={node} rootNodeId={rootNodeId} />
-          </StyledTabsContent>
+          {!!isTaxonomyAdmin && (
+            <StyledTabsContent value="toggleMetadataVisibility">
+              <ToggleVisibility node={node} rootNodeId={rootNodeId} />
+            </StyledTabsContent>
+          )}
           {!!isTaxonomyAdmin && (
             <StyledTabsContent value="editGrepCodes">
               <EditGrepCodes node={node} />
@@ -225,7 +229,7 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
           )}
         </TabsRoot>
         {!!isTaxonomyAdmin && <EditSubjectpageOption node={node} />}
-        <ToNodeDiff node={node} />
+        {!!isTaxonomyAdmin && <ToNodeDiff node={node} />}
       </>
     );
   }

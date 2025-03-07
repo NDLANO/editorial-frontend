@@ -34,8 +34,8 @@ import { ConceptType } from "../../../../../containers/ConceptPage/conceptInterf
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { useConceptVisualElement } from "../../../../../modules/embed/queries";
 import { useArticleLanguage } from "../../../ArticleLanguageProvider";
-import ConceptModalContent from "../ConceptModalContent";
-import EditGlossExamplesModal from "../EditGlossExamplesModal";
+import ConceptDialogContent from "../ConceptDialogContent";
+import EditGlossExamplesDialog from "../EditGlossExamplesDialog";
 import { getGlossDataAttributes } from "../utils";
 
 const getConceptDataAttributes = (
@@ -95,8 +95,10 @@ const InlineWrapper = (props: Props) => {
   const nodeText = Node.string(element).trim();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
   const locale = useArticleLanguage();
-  const { concept, subjects, loading, conceptArticles, createConcept, updateConcept, updateConceptStatus } =
-    useFetchConceptData(parseInt(element.data.contentId), locale);
+  const { concept, loading, createConcept, updateConcept, updateConceptStatus } = useFetchConceptData(
+    parseInt(element.data.contentId),
+    locale,
+  );
 
   const visualElementQuery = useConceptVisualElement(
     concept?.id ?? -1,
@@ -219,7 +221,7 @@ const InlineWrapper = (props: Props) => {
                   <DeleteBinLine />
                 </IconButton>
                 {!!concept && (
-                  <EditGlossExamplesModal concept={concept} editor={editor} element={element} embed={embed} />
+                  <EditGlossExamplesDialog concept={concept} editor={editor} element={element} embed={embed} />
                 )}
                 <SafeLinkIconButton
                   to={`/${concept?.conceptType}/${concept?.id}/edit/${concept?.content?.language}`}
@@ -260,17 +262,15 @@ const InlineWrapper = (props: Props) => {
       >
         <Portal>
           <DialogContent>
-            <ConceptModalContent
+            <ConceptDialogContent
               addConcept={addConcept}
               locale={locale}
               concept={concept}
-              subjects={subjects}
               handleRemove={handleRemove}
               selectedText={nodeText}
               createConcept={createConcept}
               updateConcept={updateConcept}
               updateConceptStatus={updateConceptStatus}
-              conceptArticles={conceptArticles}
               conceptType={(concept?.conceptType ?? element.conceptType) as ConceptType}
             />
           </DialogContent>

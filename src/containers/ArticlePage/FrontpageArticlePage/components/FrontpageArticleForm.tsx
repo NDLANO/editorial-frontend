@@ -140,10 +140,7 @@ const InternalFormFooter = ({
     [articleChanged, dirty, initialValues, values],
   );
 
-  const onSave = useCallback(
-    (saveAsNew?: boolean) => handleSubmit(values, formik, saveAsNew),
-    [handleSubmit, values, formik],
-  );
+  const onSave = useCallback(() => handleSubmit(values, formik), [handleSubmit, values, formik]);
 
   usePreventWindowUnload(formIsDirty);
 
@@ -160,17 +157,13 @@ const InternalFormFooter = ({
         isNewlyCreated={isNewlyCreated}
         isConcept={false}
         hideSecondaryButton={false}
-        responsibleId={article?.responsible?.responsibleId}
-        articleId={article?.id}
-        articleType={article?.articleType}
-        selectedLanguage={article?.content?.language}
-        supportedLanguages={article?.supportedLanguages}
+        article={article}
       />
       <AlertDialogWrapper
         isSubmitting={isSubmitting}
         formIsDirty={formIsDirty}
         severity="danger"
-        text={t("alertModal.notSaved")}
+        text={t("alertDialog.notSaved")}
       />
     </>
   );

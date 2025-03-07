@@ -20,10 +20,9 @@ import {
   DialogRoot,
   DialogTitle,
   DialogTrigger,
-  Heading,
   IconButton,
 } from "@ndla/primitives";
-import { HStack, styled } from "@ndla/styled-system/jsx";
+import { styled } from "@ndla/styled-system/jsx";
 import { FileListWrapper } from "@ndla/ui";
 import { FileElement } from ".";
 import DndFileList from "./DndFileList";
@@ -37,8 +36,8 @@ import FileUploader from "../../../FileUploader";
 const StyledHeaderWrapper = styled("div", {
   base: {
     display: "flex",
-    gap: "xsmall",
-    justifyContent: "space-between",
+    gap: "3xsmall",
+    justifyContent: "flex-end",
   },
 });
 
@@ -120,43 +119,38 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
   return (
     <FileListWrapper {...attributes} contentEditable={false}>
       <StyledHeaderWrapper>
-        <Heading fontWeight="bold" textStyle="heading.small" asChild consumeCss>
-          <h3>{t("files")}</h3>
-        </Heading>
-        <HStack gap="3xsmall">
-          <DialogRoot open={showFileUploader} onOpenChange={(details) => setShowFileUploader(details.open)}>
-            <DialogTrigger asChild>
-              <IconButton
-                variant="tertiary"
-                title={t("form.file.addFile")}
-                aria-label={t("form.file.addFile")}
-                size="small"
-              >
-                <AddLine />
-              </IconButton>
-            </DialogTrigger>
-            <Portal>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>{t("fileUpload.title")}</DialogTitle>
-                  <DialogCloseButton />
-                </DialogHeader>
-                <DialogBody>
-                  <FileUploader onFileSave={onAddFileToList} close={() => setShowFileUploader(false)} />
-                </DialogBody>
-              </DialogContent>
-            </Portal>
-          </DialogRoot>
-          <IconButton
-            variant="danger"
-            title={t("form.file.removeList")}
-            aria-label={t("form.file.removeList")}
-            onClick={removeFileList}
-            size="small"
-          >
-            <CloseLine />
-          </IconButton>
-        </HStack>
+        <DialogRoot open={showFileUploader} onOpenChange={(details) => setShowFileUploader(details.open)}>
+          <DialogTrigger asChild>
+            <IconButton
+              variant="tertiary"
+              title={t("form.file.addFile")}
+              aria-label={t("form.file.addFile")}
+              size="small"
+            >
+              <AddLine />
+            </IconButton>
+          </DialogTrigger>
+          <Portal>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>{t("fileUpload.title")}</DialogTitle>
+                <DialogCloseButton />
+              </DialogHeader>
+              <DialogBody>
+                <FileUploader onFileSave={onAddFileToList} close={() => setShowFileUploader(false)} />
+              </DialogBody>
+            </DialogContent>
+          </Portal>
+        </DialogRoot>
+        <IconButton
+          variant="danger"
+          title={t("form.file.removeList")}
+          aria-label={t("form.file.removeList")}
+          onClick={removeFileList}
+          size="small"
+        >
+          <CloseLine />
+        </IconButton>
       </StyledHeaderWrapper>
       <ul>
         <DndFileList

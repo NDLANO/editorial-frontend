@@ -91,12 +91,12 @@ const TopicArticleForm = ({
   const initialErrors = useMemo(() => validateFormik(initialValues, topicArticleRules, t), [initialValues, t]);
 
   const handleSubmit: HandleSubmitFunc<TopicArticleFormType> = useCallback(
-    async (values, helpers, saveAsNew) => {
+    async (values, helpers) => {
       if (!articleTaxonomy?.length && values.status?.current !== ARCHIVED && values.status?.current !== UNPUBLISHED) {
         setShowTaxWarning(true);
         return;
       }
-      return await _handleSubmit(values, helpers, saveAsNew);
+      return await _handleSubmit(values, helpers);
     },
     [_handleSubmit, articleTaxonomy?.length],
   );
@@ -155,7 +155,7 @@ const TopicArticleForm = ({
         >
           <FormActionsContainer>
             <Button onClick={() => setShowTaxWarning(false)} variant="secondary">
-              {t("alertModal.continue")}
+              {t("alertDialog.continue")}
             </Button>
           </FormActionsContainer>
         </AlertDialog>
@@ -169,11 +169,7 @@ interface FormFooterProps {
   article?: IArticleDTO;
   isNewlyCreated: boolean;
   savedToServer: boolean;
-  handleSubmit: (
-    values: TopicArticleFormType,
-    formikHelpers: FormikHelpers<TopicArticleFormType>,
-    saveAsNew?: boolean,
-  ) => Promise<void>;
+  handleSubmit: (values: TopicArticleFormType, formikHelpers: FormikHelpers<TopicArticleFormType>) => Promise<void>;
 }
 
 const InternalFormFooter = ({
@@ -201,10 +197,7 @@ const InternalFormFooter = ({
     [articleChanged, dirty, initialValues, values],
   );
 
-  const onSave = useCallback(
-    (saveAsNew?: boolean) => handleSubmit(values, formik, saveAsNew),
-    [handleSubmit, values, formik],
-  );
+  const onSave = useCallback(() => handleSubmit(values, formik), [handleSubmit, values, formik]);
 
   usePreventWindowUnload(formIsDirty);
 
@@ -221,17 +214,13 @@ const InternalFormFooter = ({
         isNewlyCreated={isNewlyCreated}
         isConcept={false}
         hideSecondaryButton={false}
-        responsibleId={article?.responsible?.responsibleId}
-        articleId={article?.id}
-        articleType={article?.articleType}
-        selectedLanguage={article?.content?.language}
-        supportedLanguages={article?.supportedLanguages}
+        article={article}
       />
       <AlertDialogWrapper
         isSubmitting={isSubmitting}
         formIsDirty={formIsDirty}
         severity="danger"
-        text={t("alertModal.notSaved")}
+        text={t("alertDialog.notSaved")}
       />
     </>
   );

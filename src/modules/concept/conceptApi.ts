@@ -32,11 +32,6 @@ export const fetchAllTags = async (language: string): Promise<string[]> => {
   return resolveJsonOrRejectWithError(response);
 };
 
-export const fetchAllSubjects = async (): Promise<string[]> => {
-  const response = await fetchAuthorized(`${draftConceptUrl}/subjects/`);
-  return resolveJsonOrRejectWithError(response);
-};
-
 export const fetchConcept = async (conceptId: string | number, locale?: string): Promise<IConceptDTO> => {
   const languageParam = locale ? `language=${locale}&` : "";
   return fetchAuthorized(`${draftConceptUrl}/${conceptId}?${languageParam}fallback=true`).then((r) =>

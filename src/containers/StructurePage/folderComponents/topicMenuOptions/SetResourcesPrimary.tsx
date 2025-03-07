@@ -63,7 +63,7 @@ const SetResourcesPrimary = ({ node, recursive = false }: Props) => {
         <Text>{recursive ? t("taxonomy.resourcesPrimary.recursiveText") : t("taxonomy.resourcesPrimary.text")}</Text>
       </MessageBox>
       <StyledButton onClick={setConnectedResourcesPrimary} loading={isPending}>
-        {t("alertModal.continue")}
+        {t("alertDialog.continue")}
       </StyledButton>
       {!!isSuccess && (
         <StatusIndicatorContent>

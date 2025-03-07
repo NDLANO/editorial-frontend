@@ -6,9 +6,7 @@
  *
  */
 
-import isEqual from "lodash/isEqual";
-import partition from "lodash/partition";
-import sortBy from "lodash/sortBy";
+import { isEqual, sortBy, partition } from "lodash-es";
 import { useCallback, useMemo, useState, MouseEvent, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
@@ -56,7 +54,7 @@ export interface TaxNode extends Pick<Node, "resourceTypes" | "metadata" | "id" 
   placements: MinimalNodeChild[];
 }
 
-export const contextToMinimalNodeChild = (
+const contextToMinimalNodeChild = (
   nodeType: NodeType,
   context: TaxonomyContext,
   articleLanguage: string,
@@ -148,9 +146,9 @@ const TaxonomyBlock = ({
   );
 
   const onVersionChanged = useCallback(
-    (versionHash: string) => {
-      if (versionHash === taxonomyVersion) return;
-      changeVersion(versionHash);
+    (version: Version) => {
+      if (version.hash === taxonomyVersion) return;
+      changeVersion(version.hash);
       setShowWarning(false);
       updateTaxMutation.reset();
     },
@@ -343,7 +341,7 @@ const TaxonomyBlock = ({
         <>
           <OptGroupVersionSelector
             currentVersion={taxonomyVersion}
-            onVersionChanged={(version) => onVersionChanged(version.hash)}
+            onVersionChanged={onVersionChanged}
             versions={versions}
           >
             <SelectLabel>{t("taxonomy.version")}</SelectLabel>

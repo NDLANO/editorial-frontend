@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { createListCollection } from "@ark-ui/react";
+import { ComboboxInputValueChangeDetails, ComboboxValueChangeDetails, createListCollection } from "@ark-ui/react";
 import { ComboboxContent, ComboboxItem, ComboboxItemText, ComboboxLabel, ComboboxRoot, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";
@@ -18,9 +18,7 @@ import { useAuth0Responsibles } from "../../../modules/auth0/auth0Queries";
 
 interface Props {
   responsible: string | undefined;
-  setResponsible: (userId: string | undefined) => void;
-  onSave: (userId: string | undefined) => void;
-  responsibleId?: string;
+  onSave: (userId: string | null) => void;
 }
 
 const StyledComboboxItem = styled(ComboboxItem, {
@@ -42,7 +40,9 @@ const StyledComboboxRoot = styled(ComboboxRoot, {
   },
 });
 
-const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId }: Props) => {
+const positioning = { sameWidth: true };
+
+const ResponsibleSelect = ({ responsible, onSave }: Props) => {
   const { t } = useTranslation();
   const comboboxTranslations = useComboboxTranslations();
   const [query, setQuery] = useState("");
@@ -60,38 +60,38 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
     });
   }, [query, users]);
 
-  const [enableRequired, setEnableRequired] = useState(false);
-
   useEffect(() => {
-    if (users && responsibleId) {
-      const initialResponsible = users.find((user) => user.app_metadata.ndla_id === responsibleId) ?? null;
-      setResponsible(initialResponsible?.app_metadata.ndla_id);
-    } else {
-      setResponsible(undefined);
+    if (users && responsible) {
+      const initialResponsible = users.find((user) => user.app_metadata.ndla_id === responsible) ?? null;
+      setQuery(initialResponsible?.name ?? "");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [users, responsibleId]);
+  }, [users, responsible]);
 
-  useEffect(() => {
-    // Enable required styling after responsible is updated first time
-    if (!enableRequired && (responsible || !responsibleId)) {
-      setEnableRequired(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [responsible]);
+  const onValueChange = useCallback(
+    (details: ComboboxValueChangeDetails) => {
+      onSave(details.value[0] ?? null);
+    },
+    [onSave],
+  );
+
+  const onInputValueChange = useCallback((details: ComboboxInputValueChangeDetails) => {
+    setQuery(details.inputValue);
+  }, []);
+
+  const value = useMemo(() => (responsible ? [responsible] : []), [responsible]);
 
   return (
     <StyledComboboxRoot
       data-testid="responsible-select"
       collection={collection}
       translations={comboboxTranslations}
-      onValueChange={(details) => onSave(details.value[0])}
-      onInputValueChange={(details) => setQuery(details.inputValue)}
+      onValueChange={onValueChange}
+      onInputValueChange={onInputValueChange}
       inputValue={query}
-      value={responsible ? [responsible] : []}
-      required={enableRequired}
-      invalid={!!enableRequired && !responsible}
-      positioning={{ sameWidth: true }}
+      value={value}
+      required={true}
+      invalid={!responsible}
+      positioning={positioning}
     >
       <ComboboxLabel srOnly>{t("form.responsible.choose")}</ComboboxLabel>
       <StyledGenericComboboxInput clearable triggerable placeholder={t("form.responsible.choose")} />

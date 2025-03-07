@@ -36,7 +36,7 @@ interface Props {
   resources: ResourceWithNodeConnectionAndMeta[];
 }
 
-const PlannedResourceModal = ({ currentNode, resourceTypes, resources }: Props) => {
+const PlannedResourceDialog = ({ currentNode, resourceTypes, resources }: Props) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
 
@@ -85,4 +85,4 @@ const PlannedResourceModal = ({ currentNode, resourceTypes, resources }: Props) 
   );
 };
 
-export default PlannedResourceModal;
+export default PlannedResourceDialog;

@@ -7,6 +7,6 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_AUDIO } from "./types";
+import { AUDIO_ELEMENT_TYPE } from "./audioTypes";
 
-export const defaultAudioBlock = () => slatejsx("element", { type: TYPE_AUDIO });
+export const defaultAudioBlock = () => slatejsx("element", { type: AUDIO_ELEMENT_TYPE });

@@ -218,6 +218,7 @@ const phrases = {
     },
   },
   searchPage: {
+    search: "Søk",
     header: {
       content: "Søk etter innhald",
       audio: "Søk etter lydfiler",
@@ -679,7 +680,7 @@ const phrases = {
   qualityEvaluationForm: {
     title: "Kvalitetsvurdering",
     unavailable: "Ikkje satt",
-    modalTitle: "Oppdater kvalitetsvurdering",
+    dialogTitle: "Oppdater kvalitetsvurdering",
     description:
       "Legg inn ei kvalitetsvurdering av {{ resource }} med ei beskriving av den valde graderinga. Skalaen er som følgjer: 1 = eineståande, 2 = veldig bra, 3 = OK, 4 = bør fiksast, 5 = må fiksast.",
     edit: "Rediger kvalitetsvurdering",
@@ -794,6 +795,7 @@ const phrases = {
     openAll: "Opne alle",
     hideAll: "Lukk alle",
     unpublishedChanges: "(Endra sidan siste publisering)",
+    unpublishedConcepts: "Artikkelen inneheld upubliserte forklaringar",
     moveContent: "Flytt innhald inn i teksten",
     open: "Åpne",
     close: "Lukk",
@@ -941,8 +943,6 @@ const phrases = {
     editPodcast: "Endre podkast",
     editH5p: "Endre H5P",
     resetToProd: {
-      button: "Tilbakestill endringer",
-      modal: "Vil du tilbakestille utkastet til slik det er på ndla forsida?",
       success: "Innhold er tilbakestilt, trykk lagre for å lagre endringene",
     },
     resetToVersion: "Tilbakestill til versjon",
@@ -1066,7 +1066,7 @@ const phrases = {
       deleteLanguageVersion: {
         button: "Slett {{languageVersion}} versjon",
         title: "Slett språkversjon",
-        modal: "Er du sikker på at du vil slette denne språkversjonen?",
+        dialog: "Er du sikker på at du vil slette denne språkversjonen?",
       },
       statusInfoTooltip: "Kva er forskjella på dei ulike statusane?",
       statusLabel: "Status",
@@ -1079,7 +1079,7 @@ const phrases = {
       },
       deleteComment: {
         title: "Slett kommentar",
-        modal: "Vil du slette denne kommentaren? Det er ikkje mogleg å gjenopprette han.",
+        dialog: "Vil du slette denne kommentaren? Det er ikkje mogleg å gjenopprette han.",
         button: "Slett",
       },
       addComment: {
@@ -1270,7 +1270,7 @@ const phrases = {
       label: "Kompetansemål og kjerneelementer",
       placeholder: "Skriv inn kode",
       description:
-        "Skriv inn koder som starter på riktig format ({{ codes }} fulgt av eit eller fleire siffer. Koder som ikkje eksisterer vil ikkje bli oppretta. Separer fleire koder med komma. Tekstene visast på bokmål i ed, men korrekt i artikkelvisning.",
+        "Skriv inn koder som starter på riktig format ({{ codes }} fulgt av eit eller fleire siffer. Koder som ikkje eksisterer vil ikkje bli oppretta. Separer fleire koder med komma. Tekstene visast på bokmål i ed, men korrekt i artikkelvisning. Du kan også filtrere på læreplankoder.",
     },
     articleDisclaimer: {
       title: "Informasjon om tilgjengelegheit for heile artikkelen",
@@ -1452,7 +1452,7 @@ const phrases = {
         newLanguage: "Ved oppretting av eit nytt språk vil ei lydfil fra eit eksisterande språk foreslås.",
         deleteFiles: "Ei lydfil slettast berre når den ikkje lenger brukes i eit språk.",
       },
-      modal: {
+      dialog: {
         header: "Lydfiler",
         label: "Informasjon om lydfiler",
       },
@@ -1533,10 +1533,10 @@ const phrases = {
         gloss: "Bruk av glosen i artikler",
         article: "Bruk av artikkelen i andre artiklar",
       },
-      articles: "1 artikkel",
-      articles_plural: "{{count}} artikler",
-      concepts: "1 forklaring/glose",
-      concepts_plural: "{{count}} forklaringar/gloser",
+      articles_one: "1 artikkel",
+      articles_other: "{{count}} artikler",
+      concepts_one: "1 forklaring/glose",
+      concepts_other: "{{count}} forklaringar/gloser",
     },
     relatedConcepts: {
       placeholder: "Søk på tittel",
@@ -1596,8 +1596,8 @@ const phrases = {
     urlOrNumber: "{{label}} må inneholde ei gyldig lenke eller artikkel-id.",
     dateBeforeInvalid: "{{label}} kan ikkje være etter {{afterLabel}}.",
     dateAfterInvalid: "{{label}} kan ikkje være før {{beforeLabel}}.",
-    minItems: "{{label}} feltet må minst inneholde ein/eitt {{labelLowerCase}}.",
-    minItems_plural: "{{label}} feltet må minst inneholde {{count}} ulike {{labelLowerCase}}.",
+    minItems_one: "{{label}} feltet må minst inneholde ein/eitt {{labelLowerCase}}.",
+    minItems_other: "{{label}} feltet må minst inneholde {{count}} ulike {{labelLowerCase}}.",
     noEmptyNote: "Ein merknad kan ikkje være tom",
     noEmptyRevision: "Ein beskrivelse kan ikkje være tom",
     noLicenseWithoutCopyrightHolder: "Ein lisens kan ikkje takast i bruk uten å definere minst ein opphavar.",
@@ -1644,7 +1644,7 @@ const phrases = {
   forbiddenPage: {
     description: "Du har ikkje tilgang til denne sida",
   },
-  alertModal: {
+  alertDialog: {
     notSaved: "Dokumentet er ikkje lagra, ønsker du å fortsette?",
     needToRefresh:
       "Nokon har lagra samme artikkel medan du redigerte. For å ta vare på endringane dine må du kopiere dei manuelt og deretter oppdatere sida",
@@ -1927,10 +1927,8 @@ const phrases = {
       addArticleToMoreInformation: "Legg til ein artikkel",
       removeArticleFromMoreInformation: "Fjern artikkel",
       createGroup: "Lag ny gruppe",
+      groupNamePlaceholder: "Skriv namn på {{lang}}",
     },
-  },
-  modal: {
-    closeModal: "Lukk",
   },
   conceptForm: {
     title: "Forklaring",
@@ -2185,10 +2183,14 @@ const phrases = {
   },
   codeEditor: {
     title: "Legg til kodeeksempel",
+    subtitle: "kodeeksempel",
     titleLabel: "Tittel",
     programmingLanguage: "Kodespråk",
     edit: "Rediger kodevisning",
     delete: "Fjerne kodevisning",
+    languageSelect: "Velg kodespråk:",
+    save: "Lagre",
+    abort: "Avbryt",
   },
   framedContentForm: {
     changeVariant: {
@@ -2212,6 +2214,26 @@ const phrases = {
     title: "Forhåndsvis forklaring",
   },
   math: "Mattestykke",
+  editor: {
+    versionHistory: {
+      who: "Kven",
+      when: "Når",
+      message: "Merknad",
+      status: "Status",
+    },
+  },
+  masthead: {
+    menu: {
+      title: "Åpne meny",
+    },
+  },
+  footer: {
+    info: "Nettstaden er utarbeida som åpen kjeldekode.",
+    editorInChief: "Ansvarleg redaktør:",
+  },
+  user: {
+    buttonLogOut: "Logg ut",
+  },
 };
 
 export default phrases;

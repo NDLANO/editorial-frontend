@@ -24,7 +24,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { IConceptDTO, IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { ConceptMetaData } from "@ndla/types-embed";
 import { ConceptBlockElement } from "./block/interfaces";
-import EditGlossExamplesModalContent from "./EditGlossExamplesModalContent";
+import EditGlossExamplesDialogContent from "./EditGlossExamplesDialogContent";
 import { ConceptInlineElement } from "./inline/interfaces";
 import { getGlossDataAttributes } from "./utils";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
@@ -51,14 +51,14 @@ const StyledDialogPositioner = styled(DialogPositioner, {
   },
 });
 
-const EditGlossExamplesModal = ({ concept, editor, element, embed }: Props) => {
+const EditGlossExamplesDialog = ({ concept, editor, element, embed }: Props) => {
   const { t } = useTranslation();
-  const [modalOpen, setModalOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const locale = useArticleLanguage();
   const isNewArticleLanguage = useIsNewArticleLanguage();
 
   // When new language version of article is created, we want to automatically update gloss language when article language is "nb" or "nn"
-  // We only update gloss language automatically once, to not overwrite changes made in the gloss examples update modal
+  // We only update gloss language automatically once, to not overwrite changes made in the gloss examples update dialog
   const embedDataLangsShouldAutoUpdate = useRef((locale === "nb" || locale === "nn") && isNewArticleLanguage);
 
   useEffect(() => {
@@ -80,7 +80,7 @@ const EditGlossExamplesModal = ({ concept, editor, element, embed }: Props) => {
   }, [concept.glossData, editor, element, embed.embedData, isNewArticleLanguage, locale]);
 
   return (
-    <DialogRoot open={modalOpen} onOpenChange={(details) => setModalOpen(details.open)}>
+    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
       {concept.conceptType === "gloss" && concept.glossData?.examples.length ? (
         <DialogTrigger asChild>
           <IconButton
@@ -97,13 +97,13 @@ const EditGlossExamplesModal = ({ concept, editor, element, embed }: Props) => {
         <StyledDialogBackdrop />
         <StyledDialogPositioner>
           <DialogStandaloneContent>
-            <EditGlossExamplesModalContent
+            <EditGlossExamplesDialogContent
               originalLanguage={concept.glossData?.originalLanguage}
               examples={concept.glossData?.examples ?? []}
               editor={editor}
               element={element}
               embed={embed}
-              close={() => setModalOpen(false)}
+              close={() => setOpen(false)}
             />
           </DialogStandaloneContent>
         </StyledDialogPositioner>
@@ -112,4 +112,4 @@ const EditGlossExamplesModal = ({ concept, editor, element, embed }: Props) => {
   );
 };
 
-export default EditGlossExamplesModal;
+export default EditGlossExamplesDialog;

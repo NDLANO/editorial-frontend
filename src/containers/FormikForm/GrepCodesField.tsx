@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { DeleteBinLine } from "@ndla/icons";
 import { FieldHelper, FieldLabel, FieldRoot, IconButton, ListItemContent, ListItemRoot, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { GrepResultDTO } from "@ndla/types-backend/search-api";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../components/Form/GenericSearchCombobox";
 import { FormField } from "../../components/FormField";
@@ -25,10 +26,15 @@ const StyledList = styled("ul", {
   base: { listStyle: "none" },
 });
 
+const grepCodeTitle = (grepResult: GrepResultDTO) => {
+  const laereplan = "laereplan" in grepResult ? ` (${grepResult.laereplan.code})` : "";
+  return `${grepResult.code}${laereplan} - ${grepResult.title.title}`;
+};
+
 export const convertGrepCodesToObject = async (grepCodes: string[]): Promise<Record<string, string>> => {
   const grepCodesData = await searchGrepCodes({ codes: grepCodes, pageSize: grepCodes.length });
-  const grepCodesWithTitle = grepCodesData.results.map((c) => ({
-    [c.code]: c.title.title ? `${c.code} - ${c.title.title}` : c,
+  const grepCodesWithTitle = grepCodesData.results.map((grepCode) => ({
+    [grepCode.code]: grepCodeTitle(grepCode),
   }));
   return Object.assign({}, ...grepCodesWithTitle);
 };
@@ -51,6 +57,7 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
   const { t } = useTranslation();
   const [field, , helpers] = useField<string[]>("grepCodes");
   const [grepCodes, setGrepCodes] = useState<Record<string, string>>({});
+  const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
 
   const { query, setQuery, page, setPage } = usePaginatedQuery();
   const grepCodesQuery = useSearchGrepCodes({ prefixFilter: prefixFilter, query: query, page: page });
@@ -77,7 +84,7 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
       const codes = grepCodesData.results.map((grepCode) => {
         return {
           code: grepCode.code,
-          title: `${grepCode.code} - ${grepCode.title.title}`,
+          title: grepCodeTitle(grepCode),
           status: "success",
         } as const;
       });
@@ -142,6 +149,7 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
             items={grepCodesQuery.data?.results ?? []}
             itemToString={(item) => item.title.title}
             itemToValue={(item) => item.code}
+            onHighlightChange={(details) => setHighligtedValue(details.highlightedValue)}
             paginationData={grepCodesQuery.data}
             isSuccess={grepCodesQuery.isSuccess}
             onPageChange={(details) => setPage(details.page)}
@@ -154,16 +162,18 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
               updateGrepCodes(newValue);
             }}
             value={field.value}
-            renderItem={(item) => <GenericComboboxItemContent title={`${item.code} - ${item.title.title}`} />}
+            renderItem={(item) => <GenericComboboxItemContent title={grepCodeTitle(item)} />}
             closeOnSelect={false}
             selectionBehavior="preserve"
           >
             <GenericComboboxInput
               placeholder={t("form.grepCodes.placeholder")}
               isFetching={grepCodesQuery.isFetching}
-              onKeyUp={(event) => {
-                if (event.key === "Enter" && !!query.trim()) {
-                  updateGrepCodes(query);
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && !highlightedValue) {
+                  event.preventDefault();
+                  setQuery("");
+                  updateGrepCodes(event.currentTarget.value);
                 }
               }}
               triggerable

@@ -81,7 +81,7 @@ export interface PodcastSeriesFormikType {
 interface Props {
   podcastSeries?: ISeriesDTO;
   language: string;
-  inModal?: boolean;
+  inDialog?: boolean;
   isNewlyCreated: boolean;
   formikProps?: FormikProps<PodcastSeriesFormikType>;
   onUpdate: (newPodcastSeries: INewSeriesDTO) => void;
@@ -92,7 +92,7 @@ interface Props {
 
 const PodcastSeriesForm = ({
   podcastSeries,
-  inModal,
+  inDialog,
   isNewlyCreated,
   onUpdate,
   language,
@@ -173,7 +173,7 @@ const PodcastSeriesForm = ({
         });
 
         return (
-          <FormWrapper inModal={inModal}>
+          <FormWrapper inDialog={inDialog}>
             <HeaderWithLanguage
               id={podcastSeries?.id}
               language={language}
@@ -217,7 +217,7 @@ const PodcastSeriesForm = ({
                 loading={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}
-                type={!inModal ? "submit" : "button"}
+                type={!inDialog ? "submit" : "button"}
                 onClick={(evt) => {
                   evt.preventDefault();
                   submitForm();
@@ -229,7 +229,7 @@ const PodcastSeriesForm = ({
               {...formikProps}
               formIsDirty={formIsDirty}
               severity="danger"
-              text={t("alertModal.notSaved")}
+              text={t("alertDialog.notSaved")}
             />
           </FormWrapper>
         );

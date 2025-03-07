@@ -91,12 +91,12 @@ const LearningResourceForm = ({
   );
 
   const handleSubmit: HandleSubmitFunc<LearningResourceFormType> = useCallback(
-    async (values, helpers, saveAsNew) => {
+    async (values, helpers) => {
       if (!contexts?.length && values.status?.current !== ARCHIVED && values.status?.current !== UNPUBLISHED) {
         setShowTaxWarning(true);
         return;
       }
-      return await _handleSubmit(values, helpers, saveAsNew);
+      return await _handleSubmit(values, helpers);
     },
     [_handleSubmit, contexts?.length],
   );
@@ -108,6 +108,10 @@ const LearningResourceForm = ({
   }, [article, initialValues, t]);
 
   const initialErrors = useMemo(() => validateFormik(initialValues, learningResourceRules, t), [initialValues, t]);
+
+  const onCancel = useCallback(() => {
+    setShowTaxWarning(false);
+  }, []);
 
   return (
     <Formik
@@ -160,12 +164,12 @@ const LearningResourceForm = ({
             title={t("errorMessage.missingTaxTitle")}
             label={t("errorMessage.missingTaxTitle")}
             show={showTaxWarning}
-            onCancel={() => setShowTaxWarning(false)}
+            onCancel={onCancel}
             severity={"danger"}
           >
             <FormActionsContainer>
-              <Button variant="secondary" onClick={() => setShowTaxWarning(false)}>
-                {t("alertModal.continue")}
+              <Button variant="secondary" onClick={onCancel}>
+                {t("alertDialog.continue")}
               </Button>
             </FormActionsContainer>
           </AlertDialog>
@@ -208,10 +212,9 @@ const InternalFormFooter = ({
     [articleChanged, dirty, initialValues, values],
   );
 
-  const onSave = useCallback(
-    (saveAsNew?: boolean) => handleSubmit(values, formik, saveAsNew),
-    [handleSubmit, values, formik],
-  );
+  const onSave = useCallback(() => {
+    return handleSubmit(values, formik);
+  }, [handleSubmit, values, formik]);
 
   usePreventWindowUnload(formIsDirty);
 
@@ -228,17 +231,13 @@ const InternalFormFooter = ({
         isNewlyCreated={isNewlyCreated}
         isConcept={false}
         hideSecondaryButton={false}
-        responsibleId={article?.responsible?.responsibleId}
-        articleId={article?.id}
-        articleType={article?.articleType}
-        selectedLanguage={article?.content?.language}
-        supportedLanguages={article?.supportedLanguages}
+        article={article}
       />
       <AlertDialogWrapper
         isSubmitting={isSubmitting}
         formIsDirty={formIsDirty}
         severity="danger"
-        text={t("alertModal.notSaved")}
+        text={t("alertDialog.notSaved")}
       />
     </>
   );

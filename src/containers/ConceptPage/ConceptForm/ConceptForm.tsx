@@ -11,8 +11,6 @@ import { useState, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { PageContent } from "@ndla/primitives";
 import { IConceptDTO, INewConceptDTO, IUpdatedConceptDTO, IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-taxonomy";
 import ConceptFormFooter from "./ConceptFormFooter";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
@@ -45,11 +43,9 @@ interface Props {
   upsertProps: CreateProps | UpdateProps;
   concept?: IConceptDTO;
   conceptChanged?: boolean;
-  inModal: boolean;
+  inDialog: boolean;
   isNewlyCreated?: boolean;
-  conceptArticles: IArticleDTO[];
   language: string;
-  subjects: Node[];
   initialTitle?: string;
   onUpserted?: (concept: IConceptSummaryDTO | IConceptDTO) => void;
   supportedLanguages: string[];
@@ -108,20 +104,15 @@ const conceptRules: RulesType<ConceptFormValues, IConceptDTO> = {
       languageMatch: true,
     },
   },
-  subjects: {
-    minItems: 0,
-  },
 };
 
 const ConceptForm = ({
   concept,
   conceptChanged,
-  inModal,
+  inDialog,
   isNewlyCreated = false,
-  subjects,
   language,
   upsertProps,
-  conceptArticles,
   initialTitle,
   onUpserted,
   supportedLanguages,
@@ -154,7 +145,7 @@ const ConceptForm = ({
         savedConcept = await upsertProps.onUpdate(conceptWithStatus, revision!);
       }
       formikHelpers.resetForm({
-        values: conceptApiTypeToFormType(savedConcept, language, subjects, conceptArticles, ndlaId),
+        values: conceptApiTypeToFormType(savedConcept, language, ndlaId),
       });
       formikHelpers.setSubmitting(false);
       setSavedToServer(true);
@@ -166,15 +157,7 @@ const ConceptForm = ({
     }
   };
 
-  const initialValues = conceptApiTypeToFormType(
-    concept,
-    language,
-    subjects,
-    conceptArticles,
-    ndlaId,
-    initialTitle,
-    "concept",
-  );
+  const initialValues = conceptApiTypeToFormType(concept, language, ndlaId, initialTitle, "concept");
 
   const initialWarnings = useMemo(
     () => getWarnings(initialValues, conceptRules, t, concept),
@@ -197,7 +180,7 @@ const ConceptForm = ({
       {(formikProps) => {
         const { errors }: FormikProps<ConceptFormValues> = formikProps;
         return (
-          <FormWrapper inModal={inModal}>
+          <FormWrapper inDialog={inDialog}>
             <HeaderWithLanguage
               id={concept?.id}
               language={language}
@@ -214,7 +197,7 @@ const ConceptForm = ({
                 hasError={!!(errors.title || errors.conceptContent)}
               >
                 <PageContent variant="content">
-                  <ConceptContent inModal={inModal} />
+                  <ConceptContent inDialog={inDialog} />
                 </PageContent>
               </FormAccordion>
               <FormAccordion
@@ -224,13 +207,13 @@ const ConceptForm = ({
               >
                 <CopyrightFieldGroup enableLicenseNA={true} />
               </FormAccordion>
-              {!inModal && (
+              {!inDialog && (
                 <FormAccordion
                   id="metadata"
                   title={t("form.metadataSection")}
-                  hasError={!!(errors.tags || errors.metaImageAlt || errors.subjects)}
+                  hasError={!!(errors.tags || errors.metaImageAlt)}
                 >
-                  <ConceptMetaData subjects={subjects} inModal={inModal} language={language} />
+                  <ConceptMetaData inDialog={inDialog} language={language} />
                 </FormAccordion>
               )}
               {!!concept?.id && (
@@ -242,11 +225,10 @@ const ConceptForm = ({
             <ConceptFormFooter
               entityStatus={concept?.status}
               conceptChanged={!!conceptChanged}
-              inModal={inModal}
+              inDialog={inDialog}
               savedToServer={savedToServer}
               isNewlyCreated={isNewlyCreated}
               showSimpleFooter={!concept?.id}
-              responsibleId={concept?.responsible?.responsibleId ?? ndlaId}
             />
           </FormWrapper>
         );

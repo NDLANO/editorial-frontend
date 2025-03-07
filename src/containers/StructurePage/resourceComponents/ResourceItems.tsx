@@ -6,7 +6,7 @@
  *
  */
 
-import sortBy from "lodash/sortBy";
+import { sortBy } from "lodash-es";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
@@ -35,14 +35,21 @@ interface Props {
   resources: ResourceWithNodeConnectionAndMeta[];
   currentNodeId: string;
   contentMeta: Dictionary<NodeResourceMeta>;
-  contentMetaLoading: boolean;
+  nodeResourcesIsPending: boolean;
   users?: Dictionary<Auth0UserData>;
   showQuality: boolean;
 }
 
 const isError = (error: unknown): error is Error => (error as Error).message !== undefined;
 
-const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoading, users, showQuality }: Props) => {
+const ResourceItems = ({
+  resources,
+  currentNodeId,
+  contentMeta,
+  nodeResourcesIsPending,
+  users,
+  showQuality,
+}: Props) => {
   const { t, i18n } = useTranslation();
   const [deleteId, setDeleteId] = useState<string>("");
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -80,7 +87,6 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoadi
   const { mutateAsync: updateNodeResource } = usePutResourceForNodeMutation({
     onMutate: ({ id, body }) => onUpdateRank(id, body.rank as number),
     onError: (e) => handleError(e),
-    onSuccess: () => qc.invalidateQueries({ queryKey: compKey }),
   });
 
   const onDelete = async (deleteId: string) => {
@@ -130,7 +136,7 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoadi
               contentMeta: resource.contentUri ? contentMeta[resource.contentUri] : undefined,
             }}
             key={resource.id}
-            contentMetaLoading={contentMetaLoading}
+            nodeResourcesIsPending={nodeResourcesIsPending}
             showQuality={showQuality}
             onDelete={toggleDelete}
           />
@@ -151,7 +157,7 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoadi
             {t("form.abort")}
           </Button>
           <Button onClick={() => onDelete(deleteId)} variant="danger">
-            {t("alertModal.delete")}
+            {t("alertDialog.delete")}
           </Button>
         </FormActionsContainer>
       </AlertDialog>

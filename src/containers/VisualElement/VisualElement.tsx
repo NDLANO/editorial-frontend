@@ -8,7 +8,7 @@
 
 import { FormikHandlers } from "formik";
 import { useMemo } from "react";
-import { audioPlugin } from "../../components/SlateEditor/plugins/audio";
+import { audioPlugin } from "../../components/SlateEditor/plugins/audio/audioPlugin";
 import { audioRenderer } from "../../components/SlateEditor/plugins/audio/render";
 import { EmbedElements, embedPlugin } from "../../components/SlateEditor/plugins/embed";
 import { embedRenderer } from "../../components/SlateEditor/plugins/embed/render";
@@ -46,7 +46,11 @@ const VisualElement = ({
 }: Props) => {
   const plugins = useMemo(() => {
     return [
-      audioPlugin(true),
+      audioPlugin.configure({
+        options: {
+          disableNormalization: true,
+        },
+      }),
       audioRenderer,
       h5pPlugin(true),
       h5pRenderer,

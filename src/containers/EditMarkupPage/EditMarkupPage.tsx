@@ -275,7 +275,7 @@ const EditMarkupPage = () => {
         isSubmitting={isSubmitting}
         formIsDirty={isDirty}
         severity="danger"
-        text={t("alertModal.notSaved")}
+        text={t("alertDialog.notSaved")}
       />
     </StyledPageContainer>
   );

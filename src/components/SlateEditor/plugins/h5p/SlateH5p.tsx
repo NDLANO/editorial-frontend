@@ -16,7 +16,7 @@ import { DialogBody, DialogContent, DialogRoot, DialogTrigger, IconButton, Spinn
 import { styled } from "@ndla/styled-system/jsx";
 import { H5pEmbedData, H5pMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, H5pEmbed } from "@ndla/ui";
-import EditMetadataModal from "./EditMetadataModal";
+import EditMetadataDialog from "./EditMetadataDialog";
 import { H5pElement, TYPE_H5P } from "./types";
 import config from "../../../../config";
 import { useMessages } from "../../../../containers/Messages/MessagesProvider";
@@ -183,7 +183,7 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
   return (
     <StyledEmbedWrapper {...attributes} aria-selected={isSelected} contentEditable={false}>
       <FigureButtons>
-        {config.h5pMetaEnabled === true && <EditMetadataModal embed={embed} editor={editor} element={element} />}
+        {config.h5pMetaEnabled === true && <EditMetadataDialog embed={embed} editor={editor} element={element} />}
         <DialogRoot size="large" open={isOpen} onOpenChange={(details) => setOpen(details.open)}>
           <DialogTrigger asChild>
             <IconButton variant="secondary" size="small" title={t("form.editH5p")} aria-label={t("form.editH5p")}>

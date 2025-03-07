@@ -2237,11 +2237,11 @@ const phrases = {
     visits: "Unike sidevisninger: {{count}}",
     hits: "Sidevisninger: {{count}}",
     avgTime: "Gj.snitt tid brukt av besøkere: {{time}} sek",
-    error: "Noe gikk galt ved henting av data fra Matomo",
-    switchLabel: "Vis data fra Matomo",
-    popoverDescription_one: "{{count}} unik sidevisning, klikk for å se mer data fra Matomo",
-    popoverDescription_other: "{{count}} unike sidevisninger, klikk for å se mer data fra Matomo",
-    popoverTitle: "Data fra Matomo (siste 12 mnd)",
+    error: "Noe gikk galt ved henting av besøkstalldata",
+    switchLabel: "Vis besøkstall",
+    popoverDescription_one: "{{count}} unik sidevisning, klikk for å se flere besøkstall",
+    popoverDescription_other: "{{count}} unike sidevisninger, klikk for å se flere besøkstall",
+    popoverTitle: "Besøkstall siste 12 mnd",
   },
 };
 

@@ -48,6 +48,9 @@ interface FormikValuesType {
 }
 
 const formikRules = { imageFile: { required: true } };
+const initialValues: FormikValuesType = {
+  imageFile: undefined,
+};
 
 export const CloneImageDialog = ({ loading, imageId }: Props) => {
   const { t, i18n } = useTranslation();
@@ -86,10 +89,6 @@ export const CloneImageDialog = ({ loading, imageId }: Props) => {
     },
     [imageId, navigate, applicationError],
   );
-
-  const initialValues: FormikValuesType = {
-    imageFile: undefined,
-  };
 
   return (
     <DialogRoot open={open} onOpenChange={onOpenChange}>

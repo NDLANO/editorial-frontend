@@ -30,6 +30,7 @@ interface Props {
   setCurrentNode: (changedNode: NodeChild) => void;
   showQuality: boolean;
   users: Dictionary<Auth0UserData> | undefined;
+  showMatomoStats: boolean;
 }
 
 const getMissingResourceType = (t: TFunction): ResourceType & { disabled?: boolean } => ({
@@ -54,7 +55,7 @@ const withMissing = (r: NodeChild): NodeChild => ({
   resourceTypes: [missingObject],
 });
 
-const StructureResources = ({ currentChildNode, setCurrentNode, showQuality, users }: Props) => {
+const StructureResources = ({ currentChildNode, setCurrentNode, showQuality, users, showMatomoStats }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const grouped = currentChildNode?.metadata?.customFields["topic-resources"] ?? "grouped";
@@ -107,6 +108,7 @@ const StructureResources = ({ currentChildNode, setCurrentNode, showQuality, use
       nodeResourcesIsPending={contentMetaIsPending || nodeResourcesIsPending}
       showQuality={showQuality}
       users={users}
+      showMatomoStats={showMatomoStats}
     />
   );
 };

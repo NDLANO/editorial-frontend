@@ -17,6 +17,8 @@ export const SEARCH_WITH_CUSTOM_SUBJECTS_FILTERING = "searchWithCustomSubjectsFi
 export const SEARCH_SUBJECT_STATS = "searchSubjectStats";
 export const MYNDLA_RESOURCE_STATS = "myNdlaResourceStats";
 
+export const MATOMO_STATS = "matomoStats";
+
 export const CONCEPT_STATE_MACHINE = "conceptStateMachine";
 export const CONCEPT_SEARCH_TAGS = "conceptSearchTags";
 

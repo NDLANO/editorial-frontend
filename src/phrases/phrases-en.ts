@@ -2234,6 +2234,16 @@ const phrases = {
   user: {
     buttonLogOut: "Log out",
   },
+  matomo: {
+    visits: "Unique page views: {{count}}",
+    hits: "Page views: {{count}}",
+    avgTime: "Avg. time spent by visitors: {{time}} sec",
+    error: "Something went wrong while fetching visitor numbers data",
+    switchLabel: "Show visitor numbers",
+    popoverDescription_one: "{{count}} unique page view, click to see more visitor numbers",
+    popoverDescription_other: "{{count}} unique page views, click to see more visitor numbers",
+    popoverTitle: "Visitor numbers the last 12 months",
+  },
 };
 
 export default phrases;

@@ -115,6 +115,7 @@ const StructureContainer = ({
   const [showDaSubjects, setShowDaSubjects] = useLocalStorageBooleanState(REMEMBER_DA_SUBJECTS);
   const [showSaSubjects, setShowSaSubjects] = useLocalStorageBooleanState(REMEMBER_SA_SUBJECTS);
   const [showQuality, setShowQuality] = useLocalStorageBooleanState(REMEMBER_QUALITY);
+  const [showMatomoStats, setShowMatomoStats] = useState(false);
 
   const resourceSection = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
@@ -202,6 +203,8 @@ const StructureContainer = ({
               hasSaSubjects={!!resultSubjectIdObject.subjectSA.length}
               showQuality={showQuality}
               setShowQuality={setShowQuality}
+              showMatomoStats={showMatomoStats}
+              setShowMatomoStats={setShowMatomoStats}
             />
             {userDataQuery.isLoading || nodesQuery.isLoading ? (
               <Spinner />
@@ -236,6 +239,7 @@ const StructureContainer = ({
                       setCurrentNode={setCurrentNode}
                       showQuality={showQuality}
                       users={users}
+                      showMatomoStats={showMatomoStats}
                     />
                   )}
                 </StickyContainer>

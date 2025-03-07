@@ -81,6 +81,8 @@ interface Props {
   hasSaSubjects: boolean;
   showQuality: boolean;
   setShowQuality: (checked: boolean) => void;
+  showMatomoStats: boolean;
+  setShowMatomoStats: (checked: boolean) => void;
 }
 
 const StructureBanner = ({
@@ -98,6 +100,8 @@ const StructureBanner = ({
   hasSaSubjects,
   showQuality,
   setShowQuality,
+  showMatomoStats,
+  setShowMatomoStats,
 }: Props) => {
   const [addSubjectDialogOpen, setAddSubjectDialogOpen] = useState(false);
 
@@ -160,13 +164,25 @@ const StructureBanner = ({
                 <SwitchHiddenInput />
               </SwitchRoot>
               {nodeType !== "PROGRAMME" && (
-                <SwitchRoot checked={showQuality} onCheckedChange={(details) => setShowQuality(details.checked)}>
-                  <SwitchLabel>{t("taxonomy.quality")}</SwitchLabel>
-                  <SwitchControl>
-                    <SwitchThumb />
-                  </SwitchControl>
-                  <SwitchHiddenInput />
-                </SwitchRoot>
+                <>
+                  <SwitchRoot checked={showQuality} onCheckedChange={(details) => setShowQuality(details.checked)}>
+                    <SwitchLabel>{t("taxonomy.quality")}</SwitchLabel>
+                    <SwitchControl>
+                      <SwitchThumb />
+                    </SwitchControl>
+                    <SwitchHiddenInput />
+                  </SwitchRoot>
+                  <SwitchRoot
+                    checked={showMatomoStats}
+                    onCheckedChange={(details) => setShowMatomoStats(details.checked)}
+                  >
+                    <SwitchLabel>{t("matomo.switchLabel")}</SwitchLabel>
+                    <SwitchControl>
+                      <SwitchThumb />
+                    </SwitchControl>
+                    <SwitchHiddenInput />
+                  </SwitchRoot>
+                </>
               )}
             </SwitchWrapper>
           </PopoverContent>

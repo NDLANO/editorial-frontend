@@ -38,6 +38,7 @@ interface Props {
   nodeResourcesIsPending: boolean;
   showQuality: boolean;
   users: Dictionary<Auth0UserData> | undefined;
+  showMatomoStats: boolean;
 }
 const ResourcesContainer = ({
   resourceTypes,
@@ -49,6 +50,7 @@ const ResourcesContainer = ({
   nodeResourcesIsPending,
   showQuality,
   users,
+  showMatomoStats,
 }: Props) => {
   const { t } = useTranslation();
   const resourceTypesWithoutMissing = useMemo(
@@ -95,6 +97,7 @@ const ResourcesContainer = ({
         responsible={currentMeta?.responsible ? users?.[currentMeta.responsible.responsibleId]?.name : undefined}
         topicNodes={data}
         showQuality={showQuality}
+        showMatomoStats={showMatomoStats}
       />
       <ResourceWrapper>
         {nodeResourcesIsPending ? (
@@ -109,6 +112,7 @@ const ResourcesContainer = ({
               nodeResourcesIsPending={nodeResourcesIsPending}
               users={users}
               showQuality={showQuality}
+              showMatomoStats={showMatomoStats}
             />
           ))
         ) : (
@@ -119,6 +123,7 @@ const ResourcesContainer = ({
             nodeResourcesIsPending={nodeResourcesIsPending}
             users={users}
             showQuality={showQuality}
+            showMatomoStats={showMatomoStats}
           />
         )}
       </ResourceWrapper>

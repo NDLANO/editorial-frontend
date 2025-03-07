@@ -6,4 +6,37 @@
  *
  */
 
+import { MatomoPageData, MatomoResponse } from "../../modules/matomo/matomoApi";
+
 export const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+
+type DataKeysType = "nb_visits" | "avg_time_on_page" | "nb_hits";
+
+const sumValueEntries = (data: MatomoPageData[], key: DataKeysType): number =>
+  data.reduce((acc, cur) => acc + cur[key], 0);
+
+export interface ResourceStats extends Pick<MatomoPageData, DataKeysType> {}
+
+export const transformMatomoData = (data: PromiseSettledResult<MatomoResponse>[]): Record<string, ResourceStats> => {
+  const transformed = data.reduce<Record<string, ResourceStats>>((acc, cur) => {
+    if (cur.status === "fulfilled") {
+      const entriesWithData = Object.values(cur.value)
+        .filter((entry) => !!entry.length)
+        .flat();
+
+      if (!entriesWithData.length) return acc;
+
+      const contextId = entriesWithData[0].label.split("/").pop();
+
+      if (!contextId) return acc;
+
+      acc[contextId] = {
+        nb_visits: sumValueEntries(entriesWithData, "nb_visits"),
+        avg_time_on_page: Math.ceil(sumValueEntries(entriesWithData, "avg_time_on_page") / entriesWithData.length),
+        nb_hits: sumValueEntries(entriesWithData, "nb_hits"),
+      };
+    }
+    return acc;
+  }, {});
+  return transformed;
+};

@@ -618,7 +618,7 @@ const phrases = {
   imageForm: {
     title: "Image",
     copyImageTitle: "Upload image as copy",
-    copyDescription: "Upload a image with the same information as the current image",
+    copyDescription: "Upload an image with the same information as the current image",
   },
   contactBlockForm: {
     title: "Contact block",

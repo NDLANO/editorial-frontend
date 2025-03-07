@@ -1300,6 +1300,10 @@ const phrases = {
       helpLabel: "What is a meta description?",
       description: "The description will be viewable in search.",
     },
+    articleSummary: {
+      label: "Summary",
+      description: "AI generated summary of the artile. Is not saved.",
+    },
     agreement: {
       label: "Connect to agreement",
       helpLabel: "What is an agreement?",

@@ -1300,6 +1300,10 @@ const phrases = {
       description: "Beskrivelsen blir synlig i søk.",
       helpLabel: "Kva er metabeskrivelse?",
     },
+    articleSummary: {
+      label: "Oppsummering",
+      description: "KI-generert oppsummering av artikkelen. Lagres ikke.",
+    },
     agreement: {
       label: "Koble til avtale",
       helpLabel: "Kva er ei avtale?",

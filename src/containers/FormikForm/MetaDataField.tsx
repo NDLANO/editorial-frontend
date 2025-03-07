@@ -77,7 +77,8 @@ const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkbox
   const tagSelectorTranslations = useTagSelectorTranslations();
   const plugins = [textTransformPlugin];
   const [inputQuery, setInputQuery] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingMeta, setIsLoadingMeta] = useState(false);
+  const [isLoadingSummary, setIsLoadingSummary] = useState(false);
   const debouncedQuery = useDebounce(inputQuery, 300);
   const { setStatus } = useFormikContext<ArticleFormType>();
   const searchTagsQuery = useDraftSearchTags(
@@ -104,7 +105,7 @@ const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkbox
       // console.error("No article content provided to generate meta description");
       return;
     }
-    setIsLoading(true);
+    setIsLoadingMeta(true);
     try {
       const generatedText = await invokeModel({
         prompt: t("textGeneration.metaDescription.prompt", {
@@ -121,7 +122,33 @@ const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkbox
     } catch (error) {
       // console.error("Error generating meta description", error);
     } finally {
-      setIsLoading(false);
+      setIsLoadingMeta(false);
+    }
+  };
+
+  const generateSummary = async (helpers: FieldHelperProps<Descendant[]>) => {
+    if (!articleContent) {
+      // console.error("No article content provided to generate meta description");
+      return;
+    }
+    setIsLoadingSummary(true);
+    try {
+      const generatedText = await invokeModel({
+        prompt: t("textGeneration.articleSummary.prompt", {
+          article: articleContent,
+          language: t(`languages.${articleLanguage}`),
+        }),
+        ...claudeHaikuDefaults,
+      });
+      if (generatedText) {
+        await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
+      }
+      // We have to invalidate slate children. We do this with status.
+      setStatus({ status: "acceptGenerated" });
+    } catch (error) {
+      // console.error("Error generating meta description", error);
+    } finally {
+      setIsLoadingSummary(false);
     }
   };
 
@@ -193,7 +220,27 @@ const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkbox
             <StyledFormRemainingCharacters maxLength={155} value={field.value} />
             <FieldWarning name={field.name} />
             <StyledButton size="small" onClick={() => generateMetaDescription(helpers)}>
-              {t("textGeneration.metaDescription.button")} {isLoading ? <Spinner size="small" /> : <FileListLine />}
+              {t("textGeneration.metaDescription.button")} {isLoadingMeta ? <Spinner size="small" /> : <FileListLine />}
+            </StyledButton>
+          </FieldRoot>
+        )}
+      </FormField>
+      <FormField name="summary">
+        {({ field, meta, helpers }) => (
+          <FieldRoot invalid={!!meta.error}>
+            <FieldLabel>{t("form.articleSummary.label")}</FieldLabel>
+            <FieldHelper>{t("form.articleSummary.description")}</FieldHelper>
+            <PlainTextEditor
+              id={field.name}
+              placeholder={t("form.articleSummary.label")}
+              {...field}
+              plugins={plugins}
+            />
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+            <FieldWarning name={field.name} />
+            <StyledButton size="small" onClick={() => generateSummary(helpers)}>
+              {t("textGeneration.articleSummary.button")}{" "}
+              {isLoadingSummary ? <Spinner size="small" /> : <FileListLine />}
             </StyledButton>
           </FieldRoot>
         )}

@@ -34,6 +34,8 @@ import {
   createToolbarDefaultValues,
 } from "../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
+import { AI_ACCESS_SCOPE } from "../../../constants";
+import { useSession } from "../../../containers/Session/SessionProvider";
 import { fetchAudioTranscription, postAudioTranscription } from "../../../modules/audio/audioApi";
 import { useAudioTranscription } from "../../../modules/audio/audioQueries";
 import { inlineContentToEditorValue } from "../../../util/articleContentConverter";
@@ -83,6 +85,7 @@ const AudioManuscript = ({ audioId, audioLanguage, audioUrl, audioType }: AudioM
   const { t } = useTranslation();
   const { setStatus } = useFormikContext<ArticleFormType>();
   const { isSubmitting } = useFormikContext();
+  const { userPermissions } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const getLanguage = (audioLanguage: string) => {
     const languageMap: { [key: string]: string } = {
@@ -178,12 +181,12 @@ const AudioManuscript = ({ audioId, audioLanguage, audioUrl, audioType }: AudioM
             />
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
             <FieldWarning name={field.name} />
-            {!!audioUrl && (
+            {!!audioUrl && userPermissions?.includes(AI_ACCESS_SCOPE) ? (
               <Button onClick={() => startJob()} size="small">
                 {t("textGeneration.transcription.button")}
                 {isLoading ? <Spinner size="small" /> : <FileListLine />}
               </Button>
-            )}
+            ) : undefined}
           </FieldRoot>
         );
       }}

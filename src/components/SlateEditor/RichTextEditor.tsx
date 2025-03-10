@@ -13,12 +13,11 @@ import { Descendant, Editor, Range, Transforms } from "slate";
 import { Slate, Editable, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
 import { useFieldContext } from "@ark-ui/react";
-import { createSlate, LoggerManager } from "@ndla/editor";
+import { createSlate, LoggerManager, SlatePlugin } from "@ndla/editor";
 import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import "../DisplayEmbed/helpers/h5pResizer";
 import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
-import { SlatePlugin } from "./interfaces";
 import { Action, commonActions } from "./plugins/blockPicker/actions";
 import { BlockPickerOptions, createBlockpickerOptions } from "./plugins/blockPicker/options";
 import SlateBlockPicker from "./plugins/blockPicker/SlateBlockPicker";
@@ -89,7 +88,13 @@ const RichTextEditor = ({
   noArticleStyling,
   ...rest
 }: RichTextEditorProps) => {
-  const [editor] = useState(() => createSlate({ plugins, logger: new LoggerManager({ debug: true }) }));
+  const [editor] = useState(() =>
+    createSlate({
+      plugins: plugins,
+      value,
+      logger: new LoggerManager({ debug: true }),
+    }),
+  );
   const [isFirstNormalize, setIsFirstNormalize] = useState(true);
   const [labelledBy, setLabelledBy] = useState<string | undefined>(undefined);
   const prevSubmitted = useRef(submitted);
@@ -300,7 +305,7 @@ const RichTextEditor = ({
       <ArticleLanguageProvider language={language}>
         <SlateProvider isSubmitted={submitted}>
           <StyledSlateWrapper data-testid={testId} data-slate-wrapper="">
-            <Slate editor={editor} initialValue={value} onChange={onChange}>
+            <Slate editor={editor} initialValue={editor.children} onChange={onChange}>
               {isFirstNormalize && !hideSpinner ? (
                 <Spinner />
               ) : (

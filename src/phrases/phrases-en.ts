@@ -2250,6 +2250,7 @@ const phrases = {
     popoverTitle: "Visitor numbers the last 12 months",
   },
   textGeneration: {
+    error: "Something went wrong when generating text. Message from the service: {{message}}",
     articleSummary: {
       button: "Generate",
       prompt: `<draft>{{ article }}</draft>

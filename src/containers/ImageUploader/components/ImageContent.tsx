@@ -30,6 +30,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import { AI_ACCESS_SCOPE, MAX_IMAGE_UPLOAD_SIZE } from "../../../constants";
+import { useMessages } from "../../../containers/Messages/MessagesProvider";
 import { useSession } from "../../../containers/Session/SessionProvider";
 import { convertBufferToBase64, invokeModel, claudeHaikuDefaults } from "../../../util/llmUtils";
 import { TitleField } from "../../FormikForm";
@@ -67,6 +68,7 @@ interface Props {
 const ImageContent = ({ language }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
+  const { createMessage } = useMessages();
   const formikContext = useFormikContext<ImageFormikType>();
   const { values, setFieldValue } = formikContext;
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -82,7 +84,7 @@ const ImageContent = ({ language }: Props) => {
 
     let image;
     if (typeof values.imageFile === "string") {
-      const result = await fetch(values.imageFile);
+      const result = await fetch(values.filepath || `${values.imageFile}?width=2000&ts=${timestamp}`);
       image = await result.blob();
     } else {
       image = values.imageFile;
@@ -93,17 +95,26 @@ const ImageContent = ({ language }: Props) => {
     const buffer = await image.arrayBuffer();
     const base64 = convertBufferToBase64(buffer);
 
-    const result = await invokeModel({
-      prompt: t("textGeneration.altText.prompt"),
-      image: {
-        base64,
-        fileType: image.type,
-      },
-      max_tokens: 2000,
-      ...claudeHaikuDefaults,
-    });
-    setIsLoading(false);
-    return result;
+    try {
+      const result = await invokeModel({
+        prompt: t("textGeneration.altText.prompt"),
+        image: {
+          base64,
+          fileType: image.type,
+        },
+        max_tokens: 2000,
+        ...claudeHaikuDefaults,
+      });
+      return result;
+    } catch (error: any) {
+      createMessage({
+        message: t("textGeneration.error", { message: error.message }),
+        timeToLive: 0,
+        severity: "warning",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

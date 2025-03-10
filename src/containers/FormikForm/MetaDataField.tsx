@@ -48,6 +48,7 @@ import { useDraftSearchTags } from "../../modules/draft/draftQueries";
 import { inlineContentToEditorValue } from "../../util/articleContentConverter";
 import { claudeHaikuDefaults, invokeModel } from "../../util/llmUtils";
 import useDebounce from "../../util/useDebounce";
+import { useMessages } from "../Messages/MessagesProvider";
 import { useSession } from "../Session/SessionProvider";
 
 const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
@@ -75,6 +76,7 @@ const StyledButton = styled(Button, {
 const MetaDataField = ({ articleLanguage, articleContent, articleTitle, showCheckbox, checkboxAction }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
+  const { createMessage } = useMessages();
   const tagSelectorTranslations = useTagSelectorTranslations();
   const plugins = [textTransformPlugin];
   const [inputQuery, setInputQuery] = useState<string>("");
@@ -121,8 +123,12 @@ const MetaDataField = ({ articleLanguage, articleContent, articleTitle, showChec
       }
       // We have to invalidate slate children. We do this with status.
       setStatus({ status: "acceptGenerated" });
-    } catch (error) {
-      // console.error("Error generating meta description", error);
+    } catch (error: any) {
+      createMessage({
+        message: t("textGeneration.error", { message: error.message }),
+        timeToLive: 0,
+        severity: "warning",
+      });
     } finally {
       setIsLoadingMeta(false);
     }

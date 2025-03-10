@@ -2249,6 +2249,7 @@ const phrases = {
     popoverTitle: "Besøkstall siste 12 mnd",
   },
   textGeneration: {
+    error: "Noe gikk galt under generering av tekst. Melding fra tjenesten: {{message}}",
     articleSummary: {
       button: "Generer",
       prompt: `<draft>{{ article }}</draft>

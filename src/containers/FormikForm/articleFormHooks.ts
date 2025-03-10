@@ -86,6 +86,7 @@ export interface ArticleFormType {
   origin?: string;
   disclaimer?: Descendant[];
   saveAsNew: boolean;
+  summary: Descendant[];
 }
 
 export interface LearningResourceFormType extends ArticleFormType {}

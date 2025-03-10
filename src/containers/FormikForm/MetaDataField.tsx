@@ -59,6 +59,7 @@ const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
 interface Props {
   articleLanguage: string;
   articleContent?: string;
+  articleTitle?: string;
   showCheckbox?: boolean;
   checkboxAction?: (image: IImageMetaInformationV3DTO) => void;
 }
@@ -71,7 +72,7 @@ const StyledButton = styled(Button, {
   },
 });
 
-const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkboxAction }: Props) => {
+const MetaDataField = ({ articleLanguage, articleContent, articleTitle, showCheckbox, checkboxAction }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const tagSelectorTranslations = useTagSelectorTranslations();
@@ -110,6 +111,7 @@ const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkbox
       const generatedText = await invokeModel({
         prompt: t("textGeneration.metaDescription.prompt", {
           article: articleContent,
+          title: articleTitle,
           language: t(`languages.${articleLanguage}`),
         }),
         ...claudeHaikuDefaults,
@@ -136,6 +138,7 @@ const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkbox
       const generatedText = await invokeModel({
         prompt: t("textGeneration.articleSummary.prompt", {
           article: articleContent,
+          title: articleTitle,
           language: t(`languages.${articleLanguage}`),
         }),
         ...claudeHaikuDefaults,

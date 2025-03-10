@@ -250,7 +250,11 @@ const LearningResourcePanels = ({
             title={t("form.metadataSection")}
             hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}
           >
-            <MetaDataField articleContent={articleText} articleLanguage={articleLanguage} />
+            <MetaDataField
+              articleContent={articleText}
+              articleTitle={article?.title?.title}
+              articleLanguage={articleLanguage}
+            />
           </FormAccordion>
           <FormAccordion
             id={"learning-resource-grepCodes"}

@@ -2254,8 +2254,11 @@ const phrases = {
       button: "Generate",
       prompt: `<draft>{{ article }}</draft>
         <Instructions>
-        You have more than 20 years experience from the educational sector. You are specialized in summarizing educational articles to make them more accessible for a wider audience. Your task is to help improving the learning experience for the students. To achieve this you have to read and summarize articles in a way that high school students can easily gain an impression of the most important points in the article.
-        Your task is to read through the article in <draft> og Write a summary in {{ Language }}. The summary must be in less than 300 words.
+        You have an extensive experience from the educational sector.
+        You are specialized in summarizing educational articles to make them more accessible for a wider audience.
+        Your task is to help improving the learning experience for the students.
+        To achieve this you have to read and summarize articles in a way that high school students can easily gain an impression of the most important points in the article.
+        Your task is to read through the article in <draft> with title {{ title }} and write a summary in {{ Language }}. The summary must be in less than 300 words.
         The response must be given with reflections as to why you have chosen to include the selected points first, then the summary in an <answer> tag.
         </Instructions>
       `,
@@ -2265,8 +2268,9 @@ const phrases = {
       button: "Generate",
       prompt: `<draft>{{ article }}</draft>
         <Instructions>
-        You have an extensive experience from the educational sector. You are specialized in finding good ways to describe educational articles, in a way that the reader can understand what the article is about from a very short summary.
-        Your task is to read through the article in <draft> and write meta description in {{ language }}. The meta description must be in less than 15 words.
+        You have an extensive experience from the educational sector.
+        You are specialized in finding good ways to describe educational articles, in a way that the reader can understand what the article is about from a very short summary.
+        Your task is to read through the article in <draft> with title {{ title }} and write meta description in {{ language }}. The meta description must be in less than 15 words.
         The response must be given with reflections as to why you have chosen to include the selected points first, then the meta description in an <answer> tag.
         </Instructions>`,
     },

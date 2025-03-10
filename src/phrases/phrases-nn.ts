@@ -2254,8 +2254,11 @@ const phrases = {
       button: "Generer",
       prompt: `<draft>{{ article }}</draft>
           <Instructions>
-          Du har meir enn 20 års erfaring frå utdanningssektoren. Du har spesialisert deg i å oppsummere fagartiklar for å gjere dei meir tilgjengeleg for eit større publikum. Du har fått som oppdrag å hjelpe med å forbedre læringsopplevelsen for elevane. For å gjere dette må du lese igjennom og lage ein oppsummering av artiklar så vidaregåandestudentane lett kan få eit inntrykk av dei viktigaste poenga i artikkelen.
-          Du har fått i oppgåve å lese gjennom artikkelen i <draft> og skrive ein oppsummering på {{ Language }}. Oppsummeringa skal vere på mindre enn 300 ord.
+          Du har lang erfaring frå utdanningssektoren.
+          Du har spesialisert deg i å oppsummere fagartiklar for å gjere dei meir tilgjengeleg for eit større publikum.
+          Du har fått som oppdrag å hjelpe med å forbedre læringsopplevelsen for elevane.
+          For å gjere dette må du lese igjennom og lage ein oppsummering av artiklar så vidaregåandestudentane lett kan få eit inntrykk av dei viktigaste poenga i artikkelen.
+          Du har fått i oppgåve å lese gjennom artikkelen i <draft> med tittel {{ title }} og skrive ein oppsummering på {{ Language }}. Oppsummeringa skal vere på mindre enn 300 ord.
           Svaret skal leverast med refleksjonar på kvifor du har valt å inkludere dei punktane du har valt først, så selve oppsummeringa skrevet i ein <answer> tag.
           </Instructions>
         `,
@@ -2265,8 +2268,9 @@ const phrases = {
       button: "Generer",
       prompt: `<draft>{{ article }}</draft>
           <Instructions>
-          Du har lang erfaring frå utdanningssektoren. Du er spesialist i å finne gode måter å skildre fagartiklar på, slik at man frå ein kort oppsummering kan forstå kva artikkelen handlar om.
-          Du har fått i oppgåve å lese igjennom artikkelen i <draft> og skrive ein metabeskriving av artikkelen på {{ language }}. Metabeskrivinga skal vere på mindre enn 15 ord.
+          Du har lang erfaring frå utdanningssektoren.
+          Du er spesialist i å finne gode måter å skildre fagartiklar på, slik at man frå ein kort oppsummering kan forstå kva artikkelen handlar om.
+          Du har fått i oppgåve å lese igjennom artikkelen i <draft> med tittel {{ title }} og skrive ein metabeskriving av artikkelen på {{ language }}. Metabeskrivinga skal vere på mindre enn 15 ord.
           Svaret skal leverast med refleksjonar på kvifor du har valt å inkludere dei punktane du har valt først, så selve metabeskrivinga skrevet i ein <answer> tag.
           </Instructions>`,
     },

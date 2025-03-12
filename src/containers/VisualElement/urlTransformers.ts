@@ -188,6 +188,25 @@ const jeopardyLabTransformer: UrlTransformer = {
   },
 };
 
+const gapminderTransformer: UrlTransformer = {
+  domains: ["www.gapminder.org"],
+  shouldTransform: (url, domains) => {
+    const aTag = urlAsATag(url);
+
+    if (!domains.includes(aTag.hostname)) {
+      return false;
+    }
+    if (aTag.href.includes("?embedded=true")) {
+      return false;
+    }
+    return true;
+  },
+  transform: async (url) => {
+    const parts = url.split("/tools/");
+    return parts.join("/tools/?embedded=true");
+  },
+};
+
 export const urlTransformers: UrlTransformer[] = [
   nrkTransformer,
   codepenTransformer,
@@ -196,4 +215,5 @@ export const urlTransformers: UrlTransformer[] = [
   sketchupTransformer,
   sketcfabTransformer,
   jeopardyLabTransformer,
+  gapminderTransformer,
 ];

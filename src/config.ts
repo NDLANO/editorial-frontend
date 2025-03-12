@@ -138,6 +138,17 @@ const usernamePasswordEnabled = (ndlaEnvironment: string) => {
   }
 };
 
+const getAudioS3Root = (ndlaEnvironment: string) => {
+  switch (ndlaEnvironment) {
+    case "prod":
+    case "staging":
+    case "test":
+      return `s3://${ndlaEnvironment}.audio.2.ndla/`;
+    default:
+      return "s3://test.audio.2.ndla/";
+  }
+};
+
 export type ConfigType = {
   brightcoveAccountId: string | undefined;
   logEnvironment: string | undefined;
@@ -176,6 +187,7 @@ export type ConfigType = {
   licenseAll: string | undefined;
   matomoSiteId: string | undefined;
   matomoUrl: string;
+  s3AudioRoot: string;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -224,6 +236,7 @@ const getServerSideConfig = (): ConfigType => {
     licenseAll: getEnvironmentVariabel("LICENSE_ALL"),
     matomoSiteId: getEnvironmentVariabel("MATOMO_SITE_ID"),
     matomoUrl: getEnvironmentVariabel("MATOMO_URL", matomoDomain(ndlaEnvironment)),
+    s3AudioRoot: getAudioS3Root(ndlaEnvironment),
   };
 };
 

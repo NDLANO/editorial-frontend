@@ -69,9 +69,6 @@ export const conceptApiTypeToFormType = (
   };
 };
 
-const metaImageFromForm = (v: ConceptFormValues) =>
-  v.metaImageId ? { id: v.metaImageId, alt: v.metaImageAlt } : undefined;
-
 export const getNewConceptType = (
   values: ConceptFormValues,
   licenses: ILicenseDTO[],
@@ -89,7 +86,7 @@ export const getNewConceptType = (
     processed: values.processed ?? false,
   },
   tags: values.tags,
-  metaImage: metaImageFromForm(values),
+  metaImage: undefined,
   visualElement: editorValueToEmbedTag(values.visualElement),
   responsibleId: values.responsibleId,
   conceptType: conceptType,
@@ -114,7 +111,7 @@ export const getUpdatedConceptType = (
   return {
     ...newConcept,
     responsibleId: newConcept.responsibleId,
-    metaImage: metaImageFromForm(values) ?? null,
+    metaImage: null,
   };
 };
 
@@ -145,11 +142,7 @@ export const conceptFormTypeToApiType = (
     },
     created: values.created ?? "",
     updated: values.updated ?? "",
-    metaImage: {
-      url: values.metaImage?.url ?? "",
-      alt: values.metaImageAlt,
-      language: values.metaImage?.language ?? values.language,
-    },
+    metaImage: undefined,
     updatedBy,
     copyright: {
       ...values,

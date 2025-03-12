@@ -156,7 +156,7 @@ const adminItems: MenuItem[] = [
 ];
 
 const externalItems: MenuItem[] = [
-  { to: config.learningpathFrontendDomain, text: "subNavigation.learningPathLink", external: true },
+  { to: `${config.learningpathFrontendDomain}/minside`, text: "subNavigation.learningPathLink", external: true },
 
   { to: routes.h5p.edit, text: "subNavigation.h5p" },
 ];

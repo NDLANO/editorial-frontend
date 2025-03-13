@@ -32,7 +32,7 @@ import { FormContent } from "../../../components/FormikForm";
 import { AI_ACCESS_SCOPE, MAX_IMAGE_UPLOAD_SIZE } from "../../../constants";
 import { useMessages } from "../../../containers/Messages/MessagesProvider";
 import { useSession } from "../../../containers/Session/SessionProvider";
-import { convertBufferToBase64, invokeModel, claudeHaikuDefaults } from "../../../util/llmUtils";
+import { fetchAIGeneratedAnswer } from "../../../util/llmUtils";
 import { TitleField } from "../../FormikForm";
 import { ImageFormikType } from "../imageTransformers";
 
@@ -70,7 +70,7 @@ const ImageContent = ({ language }: Props) => {
   const { userPermissions } = useSession();
   const { createMessage } = useMessages();
   const formikContext = useFormikContext<ImageFormikType>();
-  const { values, setFieldValue } = formikContext;
+  const { setFieldValue, values } = formikContext;
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // We use the timestamp to avoid caching of the `imageFile` url in the browser
@@ -92,18 +92,16 @@ const ImageContent = ({ language }: Props) => {
 
     setIsLoading(true);
 
-    const buffer = await image.arrayBuffer();
-    const base64 = convertBufferToBase64(buffer);
+    const base64 = Buffer.from(await image.arrayBuffer()).toString("base64");
 
     try {
-      const result = await invokeModel({
+      const result = await fetchAIGeneratedAnswer({
         prompt: t("textGeneration.altText.prompt"),
         image: {
-          base64,
+          base64: base64,
           fileType: image.type,
         },
         max_tokens: 2000,
-        ...claudeHaikuDefaults,
       });
       return result;
     } catch (error: any) {

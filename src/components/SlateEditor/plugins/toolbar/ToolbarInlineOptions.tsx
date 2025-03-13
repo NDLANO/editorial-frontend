@@ -16,6 +16,7 @@ import { insertComment } from "../comment/inline/utils";
 import { insertInlineConcept } from "../concept/inline/utils";
 import { insertLink } from "../link/utils";
 import { insertMathml } from "../mathml/utils";
+import { wrapRephrase } from "../rephrase/utils";
 
 const getCurrentInlineValues = (editor: Editor): InlineType | undefined => {
   const [currentBlock] =
@@ -25,7 +26,8 @@ const getCurrentInlineValues = (editor: Editor): InlineType | undefined => {
         (n.type === "concept-inline" ||
           n.type === "content-link" ||
           n.type === "mathml" ||
-          n.type === "comment-inline"),
+          n.type === "comment-inline" ||
+          n.type === "rephrase"),
       mode: "lowest",
     }) ?? [];
 
@@ -58,6 +60,9 @@ export const ToolbarInlineOptions = ({ options }: ToolbarCategoryProps<InlineTyp
       }
       if (type === "comment-inline") {
         insertComment(editor);
+      }
+      if (type === "rephrase") {
+        wrapRephrase(editor);
       }
     },
     [editor, selection],

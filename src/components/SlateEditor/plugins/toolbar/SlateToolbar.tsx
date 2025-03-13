@@ -28,7 +28,6 @@ import { ToolbarBlockOptions } from "./ToolbarBlockOptions";
 import { ToolbarInlineOptions } from "./ToolbarInlineOptions";
 import { ToolbarLanguageOptions } from "./ToolbarLanguageOptions";
 import { ToolbarMarkOptions } from "./ToolbarMarkOptions";
-import { ToolbarRephraseOptions } from "./ToolbarRephraseOptions";
 import {
   getSelectionElements,
   toolbarState,
@@ -39,9 +38,6 @@ import {
 } from "./toolbarState";
 import { ToolbarTableOptions } from "./ToolbarTableOptions";
 import { ToolbarTextOptions } from "./ToolbarTextOptions";
-
-import { AI_ACCESS_SCOPE } from "../../../../constants";
-import { useSession } from "../../../../containers/Session/SessionProvider";
 
 const ToolbarContainer = styled(PopoverContent, {
   base: {
@@ -98,8 +94,7 @@ const checkHasSelectionWithin = (el?: Element | null) => {
   return !range.collapsed && el.contains(range.commonAncestorContainer);
 };
 
-const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideToolbarProp, selectors }: Props) => {
-  const { userPermissions } = useSession();
+const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideToolbarProp }: Props) => {
   const selection = useSlateSelection();
   const editor = useSlate();
   const toolbarRef = useRef<HTMLDivElement>(null);
@@ -108,7 +103,6 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
   const [open, setOpen] = useState(false);
   const [hasSelectionWithin, setHasSelectionWithin] = useState(false);
   const [hasMouseDown, setHasMouseDown] = useState(false);
-  const hasAiAccess = userPermissions?.includes(AI_ACCESS_SCOPE);
 
   useEffect(() => {
     if (toolbarRef.current) {
@@ -206,9 +200,6 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
           <ToolbarBlockOptions options={options?.block ?? []} />
           <ToolbarInlineOptions options={options?.inline ?? []} />
           <ToolbarTableOptions options={options?.table ?? []} />
-          {hasAiAccess && !!selectors ? (
-            <ToolbarRephraseOptions options={options?.rephrase ?? []} selectors={selectors} />
-          ) : undefined}
         </ToolbarRow>
       </ToolbarContainer>
     </PopoverRoot>

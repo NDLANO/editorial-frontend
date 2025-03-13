@@ -104,6 +104,7 @@ describe("createToolbarDefaultValues", () => {
         "concept-inline": { hidden: true, disabled: true },
         "gloss-inline": { hidden: true, disabled: true },
         "comment-inline": { hidden: true, disabled: true },
+        rephrase: { hidden: true, disabled: true },
       },
     };
 
@@ -140,7 +141,7 @@ const arrayifyToolbar = (toolbar: OptionsType) => {
       acc[key as ToolbarCategories] = Object.values(value);
       return acc;
     },
-    { text: [], mark: [], block: [], inline: [], table: [], languages: [], rephrase: [] } as ToolbarType,
+    { text: [], mark: [], block: [], inline: [], table: [], languages: [] } as ToolbarType,
   );
 };
 
@@ -180,6 +181,7 @@ describe("toolbarState", () => {
         "concept-inline": { ...allOptions.inline["concept-inline"], hidden: true },
         "gloss-inline": { ...allOptions.inline["gloss-inline"], hidden: true },
         "comment-inline": { ...allOptions.inline["comment-inline"], hidden: false },
+        rephrase: { ...allOptions.inline["rephrase"], hidden: true },
       },
       mark: {
         ...allOptions.mark,

@@ -16,7 +16,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ContentTypeFramedContent, EmbedWrapper } from "@ndla/ui";
 import { FramedContentElement } from "./framedContentTypes";
 import { AI_ACCESS_SCOPE } from "../../../../constants";
-import { claudeHaikuDefaults, invokeModel } from "../../../../util/llmUtils";
+import { fetchAIGeneratedAnswer } from "../../../../util/llmUtils";
 import { useArticleContentType } from "../../../ContentTypeProvider";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
@@ -91,12 +91,11 @@ const SlateFramedContent = (props: Props) => {
     }
     setIsLoading(true);
     try {
-      const generatedText = await invokeModel({
+      const generatedText = await fetchAIGeneratedAnswer({
         prompt: t("textGeneration.reflectionQuestions.prompt", {
           article: articleText,
           language: t(`languages.${language}`),
         }),
-        ...claudeHaikuDefaults,
       });
       if (generatedText) {
         editor.insertText(generatedText);

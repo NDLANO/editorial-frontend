@@ -30,6 +30,7 @@ import { TYPE_CONCEPT_INLINE } from "../plugins/concept/inline/types";
 import { TYPE_COMMENT_INLINE } from "../plugins/comment/inline/types";
 import { TYPE_CONTENT_LINK, TYPE_LINK } from "../plugins/link/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../plugins/framedContent/framedContentTypes";
+import { REPHRASE_ELEMENT_TYPE } from "../plugins/rephrase";
 
 export const firstTextBlockElement: Element["type"][] = [TYPE_PARAGRAPH, TYPE_HEADING, TYPE_QUOTE];
 
@@ -59,6 +60,7 @@ export const inlineElements: Element["type"][] = [
   TYPE_COMMENT_INLINE,
   TYPE_LINK,
   TYPE_CONTENT_LINK,
+  REPHRASE_ELEMENT_TYPE,
 ];
 
 export const lastTextBlockElement: Element["type"][] = [TYPE_PARAGRAPH];

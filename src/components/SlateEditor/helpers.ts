@@ -26,6 +26,7 @@ import { TYPE_LINK, TYPE_CONTENT_LINK } from "./plugins/link/types";
 import { TYPE_MATHML } from "./plugins/mathml/types";
 import { TYPE_PITCH } from "./plugins/pitch/types";
 import { TYPE_RELATED } from "./plugins/related/types";
+import { REPHRASE_ELEMENT_TYPE } from "./plugins/rephrase";
 import { TYPE_SPAN } from "./plugins/span/types";
 import { TYPE_TABLE } from "./plugins/table/types";
 import { TYPE_EMBED_BRIGHTCOVE } from "./plugins/video/types";
@@ -38,6 +39,7 @@ export const inlines: ElementType[] = [
   TYPE_MATHML,
   TYPE_SPAN,
   TYPE_COMMENT_INLINE,
+  REPHRASE_ELEMENT_TYPE,
 ];
 
 export const blocks: ElementType[] = [

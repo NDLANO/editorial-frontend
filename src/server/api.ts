@@ -16,7 +16,7 @@ import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getRespo
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN, BAD_REQUEST } from "./httpCodes";
 import errorLogger from "./logger";
 import { translateDocument } from "./translate";
-import config from "../config";
+import config, { getEnvironmentVariabel } from "../config";
 import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
 import { NdlaError } from "../interfaces";
 import { fetchMatomoStats } from "./matomo";
@@ -176,11 +176,11 @@ router.post("/matomo-stats", jwtMiddleware, async (req, res) => {
   }
 });
 
-const aiModelID = process.env.NDLA_AI_MODEL_ID;
-const aiRegion = process.env.NDLA_AI_MODEL_REGION;
-const aiSecretKey = process.env.NDLA_AI_SECRET_KEY;
-const aiSecretID = process.env.NDLA_AI_SECRET_ID;
-const transcriptionBucketName = process.env.TRANSCRIBE_FILE_S3_BUCKET;
+const aiModelID = getEnvironmentVariabel("NDLA_AI_MODEL_ID");
+const aiRegion = getEnvironmentVariabel("NDLA_AI_MODEL_REGION");
+const aiSecretKey = getEnvironmentVariabel("NDLA_AI_SECRET_KEY");
+const aiSecretID = getEnvironmentVariabel("NDLA_AI_SECRET_ID");
+const transcriptionBucketName = getEnvironmentVariabel("TRANSCRIBE_FILE_S3_BUCKET");
 
 router.post("/invoke-model", async (req, res) => {
   const modelId = aiModelID;

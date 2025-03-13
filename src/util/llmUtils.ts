@@ -6,11 +6,11 @@
  *
  */
 
-import { Buffer } from "buffer";
+const LLM_ANSWER_REGEX = /(?<=<answer>\s*).*?(?=\s*<\/answer>)/g;
 
-export const claudeHaikuDefaults = { top_p: 0.7, top_k: 100, temperature: 0.9 };
+const CLAUDE_HAIKU_DEFAULTS = { top_p: 0.7, top_k: 100, temperature: 0.9 };
 
-interface modelProps {
+interface Payload {
   prompt: string;
   image?: {
     base64: string;
@@ -19,15 +19,9 @@ interface modelProps {
   max_tokens?: number;
 }
 
-export const invokeModel = async ({ prompt, image, max_tokens = 2000, ...rest }: modelProps) => {
-  if (!prompt) {
-    // console.error("No prompt provided to invokeModel");
-    return null;
-  }
-
-  const payload: any = { prompt, max_tokens, ...rest };
-  if (image) {
-    payload.image = image;
+export const fetchAIGeneratedAnswer = async (payload: Payload): Promise<string | undefined> => {
+  if (!payload.prompt) {
+    return undefined;
   }
 
   const response = await fetch("/invoke-model", {
@@ -35,28 +29,12 @@ export const invokeModel = async ({ prompt, image, max_tokens = 2000, ...rest }:
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(payload),
+    body: JSON.stringify(Object.assign(payload, CLAUDE_HAIKU_DEFAULTS)),
   });
 
-  if (!response.ok) {
-    // console.error("Failed to get a response from the model");
-    return null;
-  }
-
   const responseBody = await response.json();
-  return parseResponse(responseBody.content[0].text);
+  return responseBody.content[0].text.match(LLM_ANSWER_REGEX);
 };
 
-export const getTextFromHTML = (html: string) => {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, "text/html");
-  return doc.body.textContent || "";
-};
-
-const parseResponse = (response: string) => {
-  return response.split("<answer>")[1].split("</answer>")[0].trim();
-};
-
-export const convertBufferToBase64 = (buffer: ArrayBuffer) => {
-  return Buffer.from(buffer).toString("base64");
-};
+export const getTextFromHTML = (html: string) =>
+  new DOMParser().parseFromString(html, "text/html").body.textContent || "";

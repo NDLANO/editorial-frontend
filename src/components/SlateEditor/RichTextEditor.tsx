@@ -9,7 +9,7 @@
 import { useFormikContext } from "formik";
 import { isEqual } from "lodash-es";
 import { FocusEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { BaseRange, Descendant, Editor, Range, Transforms } from "slate";
+import { Descendant, Editor, Range, Transforms } from "slate";
 import { Slate, Editable, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
 import { useFieldContext } from "@ark-ui/react";
@@ -27,7 +27,6 @@ import { onDragOver, onDragStart, onDrop } from "./plugins/DND";
 import { TYPE_HEADING } from "./plugins/heading/types";
 import { TYPE_LIST } from "./plugins/list/types";
 import { TYPE_PARAGRAPH } from "./plugins/paragraph/types";
-import RephraseModal from "./plugins/rephrase/RephraseModal";
 import { TYPE_TABLE } from "./plugins/table/types";
 import { SlateToolbar } from "./plugins/toolbar";
 import { AreaFilters, CategoryFilters } from "./plugins/toolbar/toolbarState";
@@ -92,7 +91,6 @@ const RichTextEditor = ({
 }: RichTextEditorProps) => {
   const [editor] = useState(() => createSlate({ plugins, logger: new LoggerManager({ debug: true }) }));
   const [isFirstNormalize, setIsFirstNormalize] = useState(true);
-  const [rephraseSelection, setRephraseSelection] = useState<BaseRange | null>(null);
   const [labelledBy, setLabelledBy] = useState<string | undefined>(undefined);
   const prevSubmitted = useRef(submitted);
   const field = useFieldContext();
@@ -297,10 +295,6 @@ const RichTextEditor = ({
     [additionalOnKeyDown, editor],
   );
 
-  const selectors = useMemo(() => {
-    return { rephrase: setRephraseSelection };
-  }, []);
-
   return (
     <article className={noArticleStyling ? undefined : "ndla-article"}>
       <ArticleLanguageProvider language={language}>
@@ -311,12 +305,7 @@ const RichTextEditor = ({
                 <Spinner />
               ) : (
                 <>
-                  <SlateToolbar
-                    options={toolbarOptions}
-                    areaOptions={toolbarAreaFilters}
-                    hideToolbar={hideToolbar}
-                    selectors={selectors}
-                  />
+                  <SlateToolbar options={toolbarOptions} areaOptions={toolbarAreaFilters} hideToolbar={hideToolbar} />
                   {!hideBlockPicker && (
                     <SlateBlockPicker
                       actions={actions}
@@ -324,7 +313,6 @@ const RichTextEditor = ({
                       {...createBlockpickerOptions(blockpickerOptions)}
                     />
                   )}
-                  <RephraseModal selection={rephraseSelection} setSelection={setRephraseSelection} />
                   <StyledEditable
                     {...fieldProps}
                     aria-labelledby={labelledBy}

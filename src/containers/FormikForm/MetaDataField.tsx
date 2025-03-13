@@ -46,7 +46,7 @@ import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTr
 import { AI_ACCESS_SCOPE, DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useDraftSearchTags } from "../../modules/draft/draftQueries";
 import { inlineContentToEditorValue } from "../../util/articleContentConverter";
-import { claudeHaikuDefaults, invokeModel } from "../../util/llmUtils";
+import { fetchAIGeneratedAnswer } from "../../util/llmUtils";
 import useDebounce from "../../util/useDebounce";
 import { useMessages } from "../Messages/MessagesProvider";
 import { useSession } from "../Session/SessionProvider";
@@ -110,13 +110,12 @@ const MetaDataField = ({ articleLanguage, articleContent, articleTitle, showChec
     }
     setIsLoadingMeta(true);
     try {
-      const generatedText = await invokeModel({
+      const generatedText = await fetchAIGeneratedAnswer({
         prompt: t("textGeneration.metaDescription.prompt", {
           article: articleContent,
           title: articleTitle,
           language: t(`languages.${articleLanguage}`),
         }),
-        ...claudeHaikuDefaults,
       });
       if (generatedText) {
         await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
@@ -141,13 +140,12 @@ const MetaDataField = ({ articleLanguage, articleContent, articleTitle, showChec
     }
     setIsLoadingSummary(true);
     try {
-      const generatedText = await invokeModel({
+      const generatedText = await fetchAIGeneratedAnswer({
         prompt: t("textGeneration.articleSummary.prompt", {
           article: articleContent,
           title: articleTitle,
           language: t(`languages.${articleLanguage}`),
         }),
-        ...claudeHaikuDefaults,
       });
       if (generatedText) {
         await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);

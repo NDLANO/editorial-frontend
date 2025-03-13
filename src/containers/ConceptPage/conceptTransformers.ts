@@ -86,7 +86,6 @@ export const getNewConceptType = (
     processed: values.processed ?? false,
   },
   tags: values.tags,
-  metaImage: undefined,
   visualElement: editorValueToEmbedTag(values.visualElement),
   responsibleId: values.responsibleId,
   conceptType: conceptType,

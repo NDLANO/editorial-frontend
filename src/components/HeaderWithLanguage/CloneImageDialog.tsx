@@ -6,7 +6,7 @@
  *
  */
 
-import { Form, Formik, useFormikContext } from "formik";
+import { Formik, useFormikContext } from "formik";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -27,7 +27,7 @@ import { useCloneImageMutation } from "../../modules/image/imageMutations";
 import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import { toEditImage } from "../../util/routeHelpers";
 import { DialogCloseButton } from "../DialogCloseButton";
-import { FormActionsContainer } from "../FormikForm";
+import { Form, FormActionsContainer } from "../FormikForm";
 import validateFormik from "../formikValidationSchema";
 
 interface Props {

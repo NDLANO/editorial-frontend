@@ -10,12 +10,15 @@ import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { cloneImage } from "./imageApi";
 
+interface CloneImageInput {
+  imageId: number;
+  imageFile: Blob | string | undefined;
+}
+
 export const useCloneImageMutation = (
-  options?: Partial<
-    UseMutationOptions<IImageMetaInformationV3DTO, unknown, { imageId: number; imageFile: Blob | string | undefined }>
-  >,
+  options?: Partial<UseMutationOptions<IImageMetaInformationV3DTO, unknown, CloneImageInput>>,
 ) => {
-  return useMutation<IImageMetaInformationV3DTO, unknown, { imageId: number; imageFile: Blob | string | undefined }>({
+  return useMutation<IImageMetaInformationV3DTO, unknown, CloneImageInput>({
     mutationFn: (vars) => cloneImage(vars.imageId, vars.imageFile),
     ...options,
   });

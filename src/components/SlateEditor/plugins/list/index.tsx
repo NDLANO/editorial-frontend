@@ -18,7 +18,7 @@ import { TYPE_COMMENT_INLINE } from "../comment/inline/types";
 import { TYPE_CONCEPT_INLINE } from "../concept/inline/types";
 import { TYPE_FOOTNOTE } from "../footnote/types";
 import { TYPE_CONTENT_LINK } from "../link/types";
-import { TYPE_MATHML } from "../mathml/types";
+import { MATH_ELEMENT_TYPE } from "../mathml/mathTypes";
 
 export const listSerializer = _listSerializer.configure({
   inlineTypes: [
@@ -26,7 +26,7 @@ export const listSerializer = _listSerializer.configure({
     TYPE_FOOTNOTE,
     LINK_ELEMENT_TYPE,
     TYPE_CONTENT_LINK,
-    TYPE_MATHML,
+    MATH_ELEMENT_TYPE,
     TYPE_COMMENT_INLINE,
   ],
 });

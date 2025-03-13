@@ -7,15 +7,15 @@
  */
 
 import { Editor } from "slate";
-import MathEditor from "./MathEditor";
-import { TYPE_MATHML } from "./types";
+import { MathEditor } from "./MathEditor";
+import { MATH_ELEMENT_TYPE } from "./mathTypes";
 
 export const mathRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_MATHML) {
+    if (element.type === MATH_ELEMENT_TYPE) {
       return (
-        <MathEditor element={element} attributes={attributes} editor={editor}>
+        <MathEditor element={element} attributes={attributes}>
           {children}
         </MathEditor>
       );

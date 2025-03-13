@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,11 +7,12 @@
  */
 
 import he from "he";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Node, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
-import { Portal } from "@ark-ui/react";
+import { ReactEditor, RenderElementProps, useSelected, useSlate } from "slate-react";
+import { Portal, DialogOpenChangeDetails } from "@ark-ui/react";
+import { getClosestEditor, useEditorPopover } from "@ndla/editor-components";
 import { DeleteBinLine, PencilLine } from "@ndla/icons";
 import {
   Button,
@@ -23,18 +24,47 @@ import {
   DialogTrigger,
   IconButton,
   PopoverContent,
-  PopoverRoot,
+  PopoverRootProvider,
   PopoverTitle,
   PopoverTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { MathmlElement } from ".";
-import EditMath, { MathMLType, emptyMathTag } from "./EditMath";
+import EditMath, { emptyMathTag, MathMLType } from "./EditMath";
 import MathML from "./MathML";
+import { MathmlElement } from "./mathTypes";
+import { isMathElement } from "./queries/mathQueries";
 import { AlertDialog } from "../../../AlertDialog/AlertDialog";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormActionsContainer } from "../../../FormikForm";
 import mergeLastUndos from "../../utils/mergeLastUndos";
+
+const ActionsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+  },
+});
+
+const StyledPopoverContent = styled(PopoverContent, {
+  base: {
+    padding: "xsmall",
+  },
+});
+
+const StyledSpan = styled("span", {
+  base: {
+    _selected: {
+      outline: "1px solid",
+      outlineColor: "stroke.default",
+      outlineOffset: "4xsmall",
+      borderRadius: "xsmall",
+    },
+  },
+});
+
+interface Props extends RenderElementProps {
+  element: MathmlElement;
+}
 
 const getInfoFromNode = (node: MathmlElement) => {
   const data = node.data ? node.data : {};
@@ -49,125 +79,102 @@ const getInfoFromNode = (node: MathmlElement) => {
   };
 };
 
-const StyledPopoverContent = styled(PopoverContent, {
-  base: {
-    zIndex: "dropdown",
-    gap: "xsmall",
-  },
-});
+const upsertMath = (mathML: string, editor: Editor, element: MathmlElement) => {
+  const properties = {
+    data: { innerHTML: mathML },
+    isFirstEdit: false,
+  };
 
-const StyledFormActionsContainer = styled(FormActionsContainer, {
-  base: {
-    justifyContent: "flex-start",
-  },
-});
+  const { selection } = editor;
+  if (!selection) return;
+  const [mathEntry] = editor.nodes({ match: isMathElement });
+  if (!mathEntry) return;
 
-const StyledSpan = styled("span", {
-  base: {
-    _open: {
-      outline: "1px solid",
-      outlineColor: "stroke.default",
-      outlineOffset: "4xsmall",
-      borderRadius: "xsmall",
-    },
-  },
-});
+  if (element.isFirstEdit) {
+    const mathAsString = new DOMParser().parseFromString(mathML, "text/xml").firstChild?.textContent;
 
-interface Props {
-  editor: Editor;
-  element: MathmlElement;
-}
+    Transforms.insertText(editor, mathAsString ?? "", { at: mathEntry[1], voids: true });
+    Transforms.setNodes(editor, properties, { at: [...mathEntry[1], 0], voids: true, match: isMathElement });
+    // Insertion of math consists of insert an empty mathml and then updating it with content. By merging the events we can consider them as one action and undo both with ctrl+z.
+    mergeLastUndos(editor);
+  } else {
+    Transforms.setNodes(editor, properties, { at: mathEntry[1], voids: true, match: isMathElement });
+  }
 
-const MathEditor = ({ element, children, attributes, editor }: Props & RenderElementProps) => {
-  const { t } = useTranslation();
-  const nodeInfo = useMemo(() => getInfoFromNode(element), [element]);
+  const nextPath = Path.next(mathEntry[1]);
+  if (editor.hasPath(nextPath)) {
+    Transforms.select(editor, {
+      anchor: { path: nextPath, offset: 0 },
+      focus: { path: nextPath, offset: 0 },
+    });
+    ReactEditor.focus(editor);
+  }
+};
+
+export const MathEditor = ({ element, children, attributes }: Props) => {
   const [mathEditor, setMathEditor] = useState<MathMLType | undefined>(undefined);
-  const [editMode, setEditMode] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
-  const [openDiscardDialog, setOpenDiscardDialog] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const { t } = useTranslation();
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
+  const editor = useSlate();
+  const popover = useEditorPopover({ initialFocusEl: () => ref.current, triggerRef });
 
   useEffect(() => {
-    setEditMode(!!element.isFirstEdit);
+    setOpen(!!element.isFirstEdit);
   }, [element.isFirstEdit]);
 
+  const isSelected = useSelected();
+
+  const nodeInfo = useMemo(() => getInfoFromNode(element), [element]);
+
+  const handleRemove = useCallback(() => {
+    const path = ReactEditor.findPath(editor, element);
+    setOpen(false);
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, editor.start(Path.next(path)));
+      Transforms.unwrapNodes(editor, { at: path, match: isMathElement, voids: true });
+    }, 0);
+  }, [editor, element]);
+
   const onOpenChange = useCallback(
-    (open: boolean) => {
-      if (open) {
-        setEditMode(open);
-      } else if ((nodeInfo.model.innerHTML ?? emptyMathTag) !== mathEditor?.getMathML()) {
-        setOpenDiscardDialog(true);
+    (details: DialogOpenChangeDetails) => {
+      if (details.open) {
+        setOpen(details.open);
+        return;
+      }
+      popover.setOpen(false);
+      const editorContent = mathEditor?.getMathML();
+      if (editorContent !== nodeInfo.model.innerHTML) {
+        setShowAlert(true);
       } else {
-        setEditMode(false);
+        setOpen(details.open);
+        Transforms.move(editor, { unit: "offset" });
+        getClosestEditor(triggerRef.current)?.focus();
+        setTimeout(() => {
+          ReactEditor.focus(editor);
+        }, 0);
       }
     },
-    [mathEditor, nodeInfo.model.innerHTML],
+    [editor, mathEditor, nodeInfo.model.innerHTML, popover],
   );
 
   const handleSave = useCallback(
     (mathML: string) => {
-      const properties = {
-        data: { innerHTML: mathML },
-        isFirstEdit: false,
-      };
-      const path = ReactEditor.findPath(editor, element);
-
-      const nextPath = Path.next(path);
-
-      setEditMode(false);
-      setShowMenu(false);
-
-      setTimeout(() => {
-        ReactEditor.focus(editor);
-        if (element.isFirstEdit) {
-          Transforms.setNodes(editor, properties, {
-            at: path,
-            voids: true,
-            match: (node) => node === element,
-          });
-
-          const mathAsString = new DOMParser().parseFromString(mathML, "text/xml").firstChild?.textContent;
-
-          Transforms.insertText(editor, mathAsString || "", {
-            at: path,
-            voids: true,
-          });
-
-          // Insertion of concept consists of insert an empty mathml and then updating it with content. By merging the events we can consider them as one action and undo both with ctrl+z.
-          mergeLastUndos(editor);
-        } else {
-          Transforms.setNodes(editor, properties, {
-            at: path,
-            voids: true,
-            match: (node) => node === element,
-          });
-        }
-        Transforms.select(editor, {
-          anchor: { path: nextPath, offset: 0 },
-          focus: { path: nextPath, offset: 0 },
-        });
-      }, 0);
+      setOpen(false);
+      setTimeout(() => upsertMath(mathML, editor, element), 0);
     },
     [editor, element],
   );
 
-  const handleRemove = useCallback(() => {
-    const path = ReactEditor.findPath(editor, element);
-    ReactEditor.focus(editor);
-    Transforms.select(editor, Editor.start(editor, Path.next(path)));
-
-    Transforms.unwrapNodes(editor, {
-      at: path,
-      match: (node) => node === element,
-      voids: true,
-    });
-  }, [editor, element]);
-
   const onExit = useCallback(() => {
-    if ((nodeInfo.model.innerHTML ?? emptyMathTag !== mathEditor?.getMathML()) && !openDiscardDialog) {
-      setOpenDiscardDialog(true);
+    if ((nodeInfo.model.innerHTML ?? emptyMathTag !== mathEditor?.getMathML()) && !showAlert) {
+      setShowAlert(true);
       return;
     }
-    setOpenDiscardDialog(false);
+    setShowAlert(false);
     const elementPath = ReactEditor.findPath(editor, element);
 
     if (element.isFirstEdit) {
@@ -181,62 +188,62 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
           focus: { path: nextPath, offset: 0 },
         });
       }, 0);
-      setEditMode(false);
-      setShowMenu(false);
+      setOpen(false);
     }
-  }, [editor, element, handleRemove, mathEditor, nodeInfo.model.innerHTML, openDiscardDialog]);
+  }, [editor, element, handleRemove, mathEditor, nodeInfo.model.innerHTML, showAlert]);
 
   return (
     <>
-      <DialogRoot open={editMode} onOpenChange={(details) => onOpenChange(details.open)} size="large">
-        <span {...attributes} contentEditable={false}>
-          <PopoverRoot
-            open={showMenu}
-            onOpenChange={(details) => setShowMenu(details.open)}
-            modal={false}
-            // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus={false}
-          >
-            <PopoverTrigger asChild>
-              <StyledSpan role="button" tabIndex={0}>
-                <MathML
-                  model={nodeInfo.model}
-                  onDoubleClick={() => setEditMode(true)}
-                  editor={editor}
-                  element={element}
-                />
+      <DialogRoot
+        open={open}
+        onOpenChange={onOpenChange}
+        onExitComplete={() => {
+          getClosestEditor(triggerRef.current)?.focus();
+          setTimeout(() => ReactEditor.focus(editor), 0);
+        }}
+      >
+        <PopoverRootProvider
+          value={popover}
+          onExitComplete={() => {
+            if (open) return;
+            getClosestEditor(triggerRef.current)?.focus();
+            setTimeout(() => ReactEditor.focus(editor), 0);
+          }}
+        >
+          <PopoverTrigger asChild consumeCss ref={triggerRef}>
+            <span {...attributes} contentEditable={false}>
+              <StyledSpan role="button" tabIndex={0} data-selected={isSelected ? "" : undefined}>
+                <MathML model={nodeInfo.model} editor={editor} element={element} />
               </StyledSpan>
-            </PopoverTrigger>
-            <Portal>
-              <StyledPopoverContent>
-                <PopoverTitle textStyle="label.medium" fontWeight="bold">
-                  {t("math")}
-                </PopoverTitle>
-                <StyledFormActionsContainer>
-                  <DialogTrigger asChild>
-                    <IconButton size="small" aria-label={t("form.edit")} title={t("form.edit")}>
-                      <PencilLine />
-                    </IconButton>
-                  </DialogTrigger>
-                  <IconButton
-                    size="small"
-                    variant="danger"
-                    aria-label={t("form.edit")}
-                    title={t("form.edit")}
-                    onClick={handleRemove}
-                  >
-                    <DeleteBinLine />
+              {children}
+            </span>
+          </PopoverTrigger>
+          <Portal>
+            <StyledPopoverContent ref={ref}>
+              <PopoverTitle srOnly>{t("richTextEditor.plugin.math.popoverTitle")}</PopoverTitle>
+              <ActionsWrapper>
+                <DialogTrigger asChild>
+                  <IconButton size="small" aria-label={t("form.edit")} title={t("form.edit")}>
+                    <PencilLine />
                   </IconButton>
-                </StyledFormActionsContainer>
-              </StyledPopoverContent>
-            </Portal>
-          </PopoverRoot>
-          {children}
-        </span>
+                </DialogTrigger>
+                <IconButton
+                  size="small"
+                  variant="danger"
+                  aria-label={t("form.remove")}
+                  title={t("form.remove")}
+                  onClick={handleRemove}
+                >
+                  <DeleteBinLine />
+                </IconButton>
+              </ActionsWrapper>
+            </StyledPopoverContent>
+          </Portal>
+        </PopoverRootProvider>
         <Portal>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>{t("mathEditor.editMath")}</DialogTitle>
+              <DialogTitle>{t("richTextEditor.plugin.math.dialogTitle")}</DialogTitle>
               <DialogCloseButton />
             </DialogHeader>
             <DialogBody>
@@ -254,12 +261,12 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       <AlertDialog
         title={t("unsavedChanges")}
         label={t("unsavedChanges")}
-        show={openDiscardDialog}
+        show={showAlert}
         text={t("mathEditor.continue")}
-        onCancel={() => setOpenDiscardDialog(false)}
+        onCancel={() => setShowAlert(false)}
       >
         <FormActionsContainer>
-          <Button variant="secondary" onClick={() => setOpenDiscardDialog(false)}>
+          <Button variant="secondary" onClick={() => setShowAlert(false)}>
             {t("form.abort")}
           </Button>
           <Button variant="danger" onClick={onExit}>
@@ -270,5 +277,3 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
     </>
   );
 };
-
-export default MathEditor;

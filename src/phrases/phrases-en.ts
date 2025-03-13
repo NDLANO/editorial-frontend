@@ -2244,6 +2244,14 @@ const phrases = {
     popoverDescription_other: "{{count}} unique page views, click to see more visitor numbers",
     popoverTitle: "Visitor numbers the last 12 months",
   },
+  richTextEditor: {
+    plugin: {
+      math: {
+        popoverTitle: "Change math problem",
+        dialogTitle: "Edit math problem",
+      },
+    },
+  },
 };
 
 export default phrases;

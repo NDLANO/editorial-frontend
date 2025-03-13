@@ -70,6 +70,8 @@ export const ImageUploadFormElement = ({ language }: Props) => {
                 onFileAccept={(details) => {
                   const file = details.files?.[0];
                   if (!file) return;
+                  // TODO: Make consumers handle field values themselves
+                  //       https://github.com/NDLANO/editorial-frontend/pull/2891#discussion_r1991020617
                   setFieldValue("filepath", URL.createObjectURL(file));
                   Promise.resolve(
                     createImageBitmap(file as Blob).then((image) => {

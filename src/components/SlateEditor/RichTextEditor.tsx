@@ -22,17 +22,10 @@ import { SlatePlugin } from "./interfaces";
 import { Action, commonActions } from "./plugins/blockPicker/actions";
 import { BlockPickerOptions, createBlockpickerOptions } from "./plugins/blockPicker/options";
 import SlateBlockPicker from "./plugins/blockPicker/SlateBlockPicker";
-import { TYPE_DEFINITION_LIST } from "./plugins/definitionList/types";
 import { onDragOver, onDragStart, onDrop } from "./plugins/DND";
-import { TYPE_HEADING } from "./plugins/heading/types";
-import { TYPE_LIST } from "./plugins/list/types";
-import { TYPE_PARAGRAPH } from "./plugins/paragraph/types";
-import { TYPE_TABLE } from "./plugins/table/types";
 import { SlateToolbar } from "./plugins/toolbar";
 import { AreaFilters, CategoryFilters } from "./plugins/toolbar/toolbarState";
 import { SlateProvider } from "./SlateContext";
-import getCurrentBlock from "./utils/getCurrentBlock";
-import { KEY_TAB } from "./utils/keys";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { FormikStatus } from "../../interfaces";
@@ -238,52 +231,6 @@ const RichTextEditor = ({
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLDivElement>) => {
-      const getElementByType = (parent: HTMLElement, type: string): HTMLElement | null => {
-        if (parent.children.length > 0) {
-          for (let i = 0; i < parent.children.length; i++) {
-            const child = parent.children[i] as HTMLElement;
-            if (child.tagName.toLowerCase() === type) {
-              return child;
-            }
-            if (child.children.length > 0) {
-              const nextChild = getElementByType(child, type);
-              if (nextChild) {
-                return nextChild;
-              }
-            }
-          }
-        }
-        return null;
-      };
-
-      const selectedElement = getCurrentBlock(editor, TYPE_PARAGRAPH) || getCurrentBlock(editor, TYPE_HEADING) || [];
-      const [listBlock] = getCurrentBlock(editor, TYPE_DEFINITION_LIST) || getCurrentBlock(editor, TYPE_LIST) || [];
-      const [tableBlock] = getCurrentBlock(editor, TYPE_TABLE) || [];
-
-      if (e.key === KEY_TAB && selectedElement && selectedElement.length > 0 && !listBlock && !tableBlock) {
-        const path = ReactEditor.findPath(editor, selectedElement[0]!);
-        if (!e.shiftKey && !Editor.after(editor, path)) return; // If there is no block after the current block, and shift is not pressed, move out from the editor
-        if (e.shiftKey && !Editor.before(editor, path)) return; // If there is no block before the current block and shift is pressed, move out from the editor
-
-        let target = e.target as HTMLElement;
-        if (target.parentNode instanceof HTMLElement) {
-          let nextElement = target.parentNode.nextElementSibling as HTMLElement | null;
-
-          while (!nextElement) {
-            // Keeps looking until it finds the next focusable element
-            target = target.parentNode as HTMLElement;
-            if (target.parentNode instanceof HTMLElement) {
-              const el = target.parentNode.nextElementSibling as HTMLElement | null;
-              if (el) {
-                const button = getElementByType(el, "button");
-                button?.focus();
-                nextElement = button === document.activeElement ? el : null;
-              }
-            }
-          }
-        }
-      }
-
       let allowEditorKeyDown = true;
       if (additionalOnKeyDown) {
         allowEditorKeyDown = additionalOnKeyDown(e);

@@ -94,3 +94,12 @@ test("transformUrlIfNeeded creates embed-url for sketchup model if needed", asyn
   );
   expect(url2).toMatch("https://3dwarehouse.sketchup.com/embed/eb498ef3-3de5-42ca-a621-34ea29cc08c4");
 });
+
+test("transformUrlIfNeeded adds ?embeddable=true for gapminder", async () => {
+  const url1 = await transformUrlIfNeeded(
+    "https://www.gapminder.org/tools/#$model$markers$line$data$filter$dimensions$geo$",
+  ); // abbreviated
+  expect(url1).toMatch(
+    "https://www.gapminder.org/tools/?embedded=true#$model$markers$line$data$filter$dimensions$geo$",
+  );
+});

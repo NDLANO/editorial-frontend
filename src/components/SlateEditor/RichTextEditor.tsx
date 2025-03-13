@@ -9,7 +9,7 @@
 import { useFormikContext } from "formik";
 import { isEqual } from "lodash-es";
 import { FocusEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Descendant, Editor, Range, Transforms } from "slate";
+import { Descendant, Editor, Element, Range, Transforms } from "slate";
 import { Slate, Editable, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
 import { useFieldContext } from "@ark-ui/react";
@@ -127,7 +127,8 @@ const RichTextEditor = ({
 
   useEffect(() => {
     const { MathJax } = window;
-    if (MathJax && !isFirstNormalize && !editor.mathjaxInitialized) {
+    if (!MathJax || isFirstNormalize || editor.mathjaxInitialized) return;
+    if (editor.nodes({ match: (n) => Element.isElement(n) && n.type === "mathml", at: [] }).next().value) {
       MathJax.typesetPromise();
       editor.mathjaxInitialized = true;
     }

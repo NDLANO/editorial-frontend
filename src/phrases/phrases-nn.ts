@@ -2243,8 +2243,8 @@ const phrases = {
     error: "Noko gjekk gale ved henting av besøkstal",
     switchLabel: "Vis besøkstal",
     popoverDescription_one: "{{count}} unik sidevisning, klikk for å sjå fleire besøkstal",
-    popoverDescription_other: "{{count}} unike sidevisingar, klikk for å sjå fleire besøkstal",
-    popoverTitle: "Besøkstal siste 12 mnd",
+    popoverDescription_other: "{{count}} unike sidevisningar, klikk for å sjå fleire besøkstal",
+    popoverTitle: "Besøkstal siste 12 md",
   },
 };
 

@@ -2238,12 +2238,12 @@ const phrases = {
   matomo: {
     visits: "Besøk: {{count}}",
     hits: "Sidevisninger: {{count}}",
-    avgTime: "Gj.snitt tid på siden: {{time}} sekund",
+    avgTime: "Gj.snitt tid på siden: {{time}} sekunder",
     error: "Noe gikk galt ved henting av besøkstall",
     switchLabel: "Vis besøkstall",
     popoverDescription_one: "{{count}} unik sidevisning, klikk for å se flere besøkstall",
     popoverDescription_other: "{{count}} unike sidevisninger, klikk for å se flere besøkstall",
-    popoverTitle: "Besøkstall siste 12 mnd.",
+    popoverTitle: "Besøkstall siste 12 md.",
   },
 };
 

@@ -2236,14 +2236,14 @@ const phrases = {
     buttonLogOut: "Logg ut",
   },
   matomo: {
-    visits: "Unike sidevisninger: {{count}}",
+    visits: "Besøk: {{count}}",
     hits: "Sidevisninger: {{count}}",
-    avgTime: "Gj.snitt tid brukt av besøkere: {{time}} sek",
-    error: "Noe gikk galt ved henting av besøkstalldata",
+    avgTime: "Gj.snitt tid på siden: {{time}} sekund",
+    error: "Noe gikk galt ved henting av besøkstall",
     switchLabel: "Vis besøkstall",
     popoverDescription_one: "{{count}} unik sidevisning, klikk for å se flere besøkstall",
     popoverDescription_other: "{{count}} unike sidevisninger, klikk for å se flere besøkstall",
-    popoverTitle: "Besøkstall siste 12 mnd",
+    popoverTitle: "Besøkstall siste 12 mnd.",
   },
 };
 

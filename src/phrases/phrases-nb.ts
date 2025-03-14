@@ -2245,6 +2245,14 @@ const phrases = {
     popoverDescription_other: "{{count}} unike sidevisninger, klikk for å se flere besøkstall",
     popoverTitle: "Besøkstall siste 12 mnd",
   },
+  richTextEditor: {
+    plugin: {
+      math: {
+        popoverTitle: "Endre mattestykke",
+        dialogTitle: "Rediger mattestykke",
+      },
+    },
+  },
 };
 
 export default phrases;

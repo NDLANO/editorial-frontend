@@ -49,7 +49,7 @@ import { linkSerializer } from "../components/SlateEditor/plugins/link";
 import { linkBlockListSerializer } from "../components/SlateEditor/plugins/linkBlockList";
 import { listSerializer } from "../components/SlateEditor/plugins/list";
 import { markSerializer } from "../components/SlateEditor/plugins/mark";
-import { mathmlSerializer } from "../components/SlateEditor/plugins/mathml";
+import { mathmlSerializer } from "../components/SlateEditor/plugins/mathml/mathSerializer";
 import { noEmbedSerializer } from "../components/SlateEditor/plugins/noEmbed";
 import { noopSerializer } from "../components/SlateEditor/plugins/noop";
 import { paragraphSerializer } from "../components/SlateEditor/plugins/paragraph";

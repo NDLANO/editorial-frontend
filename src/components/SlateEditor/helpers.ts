@@ -23,7 +23,7 @@ import { TYPE_H5P } from "./plugins/h5p/types";
 import { TYPE_IMAGE } from "./plugins/image/types";
 import { TYPE_KEY_FIGURE } from "./plugins/keyFigure/types";
 import { TYPE_LINK, TYPE_CONTENT_LINK } from "./plugins/link/types";
-import { TYPE_MATHML } from "./plugins/mathml/types";
+import { MATH_ELEMENT_TYPE } from "./plugins/mathml/mathTypes";
 import { TYPE_PITCH } from "./plugins/pitch/types";
 import { TYPE_RELATED } from "./plugins/related/types";
 import { TYPE_SPAN } from "./plugins/span/types";
@@ -35,7 +35,7 @@ export const inlines: ElementType[] = [
   TYPE_FOOTNOTE,
   TYPE_LINK,
   TYPE_CONTENT_LINK,
-  TYPE_MATHML,
+  MATH_ELEMENT_TYPE,
   TYPE_SPAN,
   TYPE_COMMENT_INLINE,
 ];

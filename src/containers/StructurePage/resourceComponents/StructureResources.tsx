@@ -20,6 +20,7 @@ import {
 } from "../../../modules/nodes/nodeQueries";
 import { useAllResourceTypes } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import { usePreferences } from "../PreferencesProvider";
 
 export interface ResourceWithNodeConnectionAndMeta extends NodeChild {
   contentMeta?: NodeResourceMeta;
@@ -28,9 +29,7 @@ export interface ResourceWithNodeConnectionAndMeta extends NodeChild {
 interface Props {
   currentChildNode: NodeChild;
   setCurrentNode: (changedNode: NodeChild) => void;
-  showQuality: boolean;
   users: Dictionary<Auth0UserData> | undefined;
-  showMatomoStats: boolean;
 }
 
 const getMissingResourceType = (t: TFunction): ResourceType & { disabled?: boolean } => ({
@@ -55,10 +54,11 @@ const withMissing = (r: NodeChild): NodeChild => ({
   resourceTypes: [missingObject],
 });
 
-const StructureResources = ({ currentChildNode, setCurrentNode, showQuality, users, showMatomoStats }: Props) => {
+const StructureResources = ({ currentChildNode, setCurrentNode, users }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const grouped = currentChildNode?.metadata?.customFields["topic-resources"] ?? "grouped";
+  const { showQuality, showMatomoStats } = usePreferences();
 
   const { data: nodeResources, isPending: nodeResourcesIsPending } = useResourcesWithNodeConnection(
     {

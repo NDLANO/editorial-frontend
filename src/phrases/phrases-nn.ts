@@ -2237,14 +2237,14 @@ const phrases = {
     buttonLogOut: "Logg ut",
   },
   matomo: {
-    visits: "Unike sidevisningar: {{count}}",
+    visits: "Besøk: {{count}}",
     hits: "Sidevisningar: {{count}}",
-    avgTime: "Gj.snitt tid brukt av vitjarar: {{time}} sek",
-    error: "Noko gjekk gale ved henting av besøkstaldata",
+    avgTime: "Gj.snitt tid på sida: {{time}} sekund",
+    error: "Noko gjekk gale ved henting av besøkstal",
     switchLabel: "Vis besøkstal",
     popoverDescription_one: "{{count}} unik sidevisning, klikk for å sjå fleire besøkstal",
-    popoverDescription_other: "{{count}} unike sidevisingar, klikk for å sjå fleire besøkstal",
-    popoverTitle: "Besøkstal siste 12 mnd",
+    popoverDescription_other: "{{count}} unike sidevisningar, klikk for å sjå fleire besøkstal",
+    popoverTitle: "Besøkstal siste 12 md",
   },
 };
 

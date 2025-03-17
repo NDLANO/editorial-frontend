@@ -21,6 +21,7 @@ import {
   throwErrorPayload,
 } from "../../util/apiHelpers";
 import { resolveJsonOrVoidOrRejectWithError } from "../../util/resolveJsonOrRejectWithError";
+import { createFormData } from "../../util/formDataHelper";
 
 const baseUrl = apiResourceUrl("/image-api/v3/images");
 
@@ -67,4 +68,18 @@ export const deleteLanguageVersionImage = (
 export const fetchSearchTags = async (input: string, language: string): Promise<ITagsSearchResultDTO> => {
   const response = await fetchAuthorized(`${baseUrl}/tag-search/?language=${language}&query=${input}`);
   return resolveJsonOrRejectWithError(response);
+};
+
+export const cloneImage = async (
+  imageId: number,
+  file: Blob | string | undefined,
+): Promise<IImageMetaInformationV3DTO> => {
+  const formData = await createFormData(file);
+  const result = await fetchAuthorized(`${baseUrl}/${imageId}/copy`, {
+    method: "POST",
+    headers: { "Content-Type": undefined }, // Without this we're missing a boundary: https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
+    body: formData,
+  });
+
+  return resolveJsonOrRejectWithError<IImageMetaInformationV3DTO>(result);
 };

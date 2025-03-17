@@ -142,7 +142,6 @@ export const STORED_HIDE_COMMENTS = "STORED_HIDE_COMMENTS";
 
 export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "H5P", url: ["h5p"] },
-  { name: "YouTube", url: ["youtube.com", "youtu.be", "www.youtube.com"], height: "486px" },
   { name: "NRK", url: ["static.nrk.no"], height: "398px" },
   { name: "Vimeo", url: ["player.vimeo.com", "vimeo.com", "vimeopro.com"], height: "486px" },
   { name: "Norgesfilm", url: ["ndla.filmiundervisning.no"] },

@@ -61,15 +61,6 @@ export const conceptFormBaseRules: RulesType<ConceptFormValues, IConceptDTO> = {
   creators: {
     allObjectFieldsRequired: true,
   },
-  metaImageAlt: {
-    required: true,
-    onlyValidateIf: (values: ConceptFormValues) => !!values.metaImageId,
-    warnings: {
-      apiField: "metaImage",
-      languageMatch: true,
-    },
-  },
-
   visualElement: {
     warnings: {
       languageMatch: true,
@@ -208,12 +199,8 @@ const ConceptForm = ({
                 <CopyrightFieldGroup enableLicenseNA={true} />
               </FormAccordion>
               {!inDialog && (
-                <FormAccordion
-                  id="metadata"
-                  title={t("form.metadataSection")}
-                  hasError={!!(errors.tags || errors.metaImageAlt)}
-                >
-                  <ConceptMetaData inDialog={inDialog} language={language} />
+                <FormAccordion id="metadata" title={t("form.metadataSection")} hasError={!!errors.tags}>
+                  <ConceptMetaData />
                 </FormAccordion>
               )}
               {!!concept?.id && (

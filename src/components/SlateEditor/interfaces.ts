@@ -44,7 +44,7 @@ import { KeyFigureElement } from "./plugins/keyFigure";
 import { ContentLinkElement, LinkElement } from "./plugins/link";
 import { LinkBlockListElement } from "./plugins/linkBlockList/types";
 import { CustomTextWithMarks } from "./plugins/mark";
-import { MathmlElement } from "./plugins/mathml";
+import { MathmlElement } from "./plugins/mathml/mathTypes";
 import { PitchElement } from "./plugins/pitch/types";
 import { RelatedElement } from "./plugins/related";
 import { SpanElement } from "./plugins/span";

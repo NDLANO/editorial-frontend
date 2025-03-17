@@ -115,6 +115,7 @@ const matomoDomain = (ndlaEnvironment: string): string => {
     case "local":
     case "test":
       return "tall.test.ndla.no";
+    case "staging":
     case "prod":
       return "tall.ndla.no";
     default:

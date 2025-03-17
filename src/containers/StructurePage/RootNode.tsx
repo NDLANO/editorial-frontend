@@ -7,13 +7,14 @@
  */
 
 import { partition, isEqual, sortBy } from "lodash-es";
-import { memo, MutableRefObject } from "react";
+import { memo, RefObject } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
 import { useQueryClient } from "@tanstack/react-query";
 import { IUserDataDTO } from "@ndla/types-backend/draft-api";
 import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
 import NodeItem from "./NodeItem";
+import { usePreferences } from "./PreferencesProvider";
 import { draftQueryKeys, useUpdateUserDataMutation } from "../../modules/draft/draftQueries";
 import { useUpdateNodeConnectionMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys, useChildNodesWithArticleType } from "../../modules/nodes/nodeQueries";
@@ -25,9 +26,8 @@ interface Props {
   openedPaths: string[];
   isFavorite: boolean;
   onNodeSelected: (node?: Node) => void;
-  resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
+  resourceSectionRef: RefObject<HTMLDivElement | null>;
   childNodeTypes: NodeType[];
-  showQuality: boolean;
   rootPath: string;
 }
 
@@ -38,12 +38,12 @@ const RootNode = ({
   onNodeSelected,
   resourceSectionRef,
   childNodeTypes,
-  showQuality,
   rootPath,
 }: Props) => {
   const { i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const locale = i18n.language;
+  const { showQuality } = usePreferences();
   const childNodesQuery = useChildNodesWithArticleType(
     {
       id: node.id,
@@ -136,9 +136,6 @@ const propsAreEqual = (prevProps: Props, props: Props) => {
     return false;
   }
 
-  if (prevProps.showQuality !== props.showQuality) {
-    return false;
-  }
   if (prevProps.isFavorite !== props.isFavorite) {
     return false;
   }

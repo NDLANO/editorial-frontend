@@ -31,11 +31,16 @@ const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   },
 });
 
-const StyledSelectRoot = styled(SelectRoot, {
+const StyledSelectRoot = styled(SelectRoot<PriorityItem>, {
   base: {
     flex: "1",
   },
 });
+
+interface PriorityItem {
+  label: string;
+  value: string;
+}
 
 const positioning = { sameWidth: true };
 

@@ -38,7 +38,7 @@ const FieldWrapper = styled("div", {
   },
 });
 
-const StyledSelectRoot = styled(SelectRoot, {
+const StyledSelectRoot = styled(SelectRoot<LocaleType>, {
   base: {
     flex: "1",
   },

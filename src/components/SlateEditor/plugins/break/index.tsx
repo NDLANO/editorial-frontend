@@ -7,25 +7,32 @@
  */
 
 import { breakSerializer as _breakSerializer, breakPlugin as _breakPlugin } from "@ndla/editor";
+import { ASIDE_ELEMENT_TYPE } from "../aside/asideTypes";
+import { TYPE_COPYRIGHT } from "../copyright/types";
+import { TYPE_DETAILS } from "../details/types";
+import { TYPE_DIV } from "../div/types";
+import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes";
+import { TYPE_GRID_CELL } from "../grid/types";
+import { TYPE_TABLE_CELL } from "../table/types";
+import { TYPE_DISCLAIMER } from "../uuDisclaimer/types";
 
-const allowedBreakContainers = [
-  "section",
-  "div",
-  "aside",
-  "li",
-  "blockquote",
-  "h1",
-  "h2",
-  "h3",
-  "h4",
-  "h5",
-  "h6",
-  "summary",
-  "pre",
-];
+const allowedBreakContainers = ["section", "div", "aside", "li", "h1", "h2", "h3", "h4", "h5", "h6", "summary", "pre"];
 
 export const breakSerializer = _breakSerializer.configure({
   allowedBreakContainers: allowedBreakContainers,
 });
 
-export const breakPlugin = _breakPlugin;
+export const breakPlugin = _breakPlugin.configure({
+  options: {
+    validBreakParents: [
+      TYPE_DIV,
+      FRAMED_CONTENT_ELEMENT_TYPE,
+      ASIDE_ELEMENT_TYPE,
+      TYPE_DETAILS,
+      TYPE_GRID_CELL,
+      TYPE_DISCLAIMER,
+      TYPE_COPYRIGHT,
+      TYPE_TABLE_CELL,
+    ],
+  },
+});

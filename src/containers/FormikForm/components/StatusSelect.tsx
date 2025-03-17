@@ -36,11 +36,16 @@ const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   },
 });
 
-const StyledSelectRoot = styled(SelectRoot, {
+const StyledSelectRoot = styled(SelectRoot<StatusItem>, {
   base: {
     flex: "1",
   },
 });
+
+interface StatusItem {
+  label: string;
+  status: string;
+}
 
 const positioning = { sameWidth: true };
 

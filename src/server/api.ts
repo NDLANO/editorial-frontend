@@ -182,7 +182,9 @@ const aiSecretKey = getEnvironmentVariabel("NDLA_AI_SECRET_KEY");
 const aiSecretID = getEnvironmentVariabel("NDLA_AI_SECRET_ID");
 const transcriptionBucketName = getEnvironmentVariabel("TRANSCRIBE_FILE_S3_BUCKET");
 
-router.post("/invoke-model", async (req, res) => {
+const LLM_ANSWER_REGEX = /(?<=<answer>\s*).*?(?=\s*<\/answer>)/gs;
+
+router.post("/generate-ai", async (req, res) => {
   const modelId = aiModelID;
   if (!aiRegion || !aiSecretID || !aiSecretKey || !modelId) {
     res.status(INTERNAL_SERVER_ERROR).send("Missing required environment variables");
@@ -231,7 +233,9 @@ router.post("/invoke-model", async (req, res) => {
     const response = await client.send(command);
     const decodedResponseBody = new TextDecoder().decode(response.body);
     const responseBody = JSON.parse(decodedResponseBody);
-    res.status(OK).json(responseBody);
+    const responseText = responseBody.content[0].text.match(LLM_ANSWER_REGEX)[0].trim();
+
+    res.status(OK).send(responseText);
   } catch (err) {
     res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
   }

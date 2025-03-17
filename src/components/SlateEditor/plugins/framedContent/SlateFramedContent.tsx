@@ -6,17 +6,16 @@
  *
  */
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, NodeEntry, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { BrushLine, CopyrightLine, FileListLine } from "@ndla/icons";
-import { IconButton } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { IconButton, Spinner } from "@ndla/primitives";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import { ContentTypeFramedContent, EmbedWrapper } from "@ndla/ui";
 import { FramedContentElement } from "./framedContentTypes";
 import { AI_ACCESS_SCOPE } from "../../../../constants";
-import { fetchAIGeneratedAnswer } from "../../../../util/llmUtils";
 import { useArticleContentType } from "../../../ContentTypeProvider";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
@@ -27,6 +26,7 @@ import { StyledFigureButtons } from "../embed/FigureButtons";
 import { isFramedContentElement } from "./queries/framedContentQueries";
 import { useSession } from "../../../../containers/Session/SessionProvider";
 import { editorValueToPlainText } from "../../../../util/articleContentConverter";
+import { useAiGeneratedAnswer } from "../../../../util/llmUtils";
 
 const FigureButtons = styled(StyledFigureButtons, {
   base: {
@@ -45,7 +45,7 @@ const SlateFramedContent = (props: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const language = useArticleLanguage();
-  const [isLoading, setIsLoading] = useState(false);
+  const { mutateAsync, isPending } = useAiGeneratedAnswer();
   const variant = element.data?.variant ?? "neutral";
   const contentType = useArticleContentType();
   const hasSlateCopyright = useMemo(() => {
@@ -85,26 +85,15 @@ const SlateFramedContent = (props: Props) => {
 
   const generateQuestions = async () => {
     const articleText = editorValueToPlainText(editor.children);
-    if (!articleText) {
-      // console.error("No article content provided to generate meta description");
-      return;
-    }
-    setIsLoading(true);
-    try {
-      const generatedText = await fetchAIGeneratedAnswer({
-        prompt: t("textGeneration.reflectionQuestions.prompt", {
-          article: articleText,
-          language: t(`languages.${language}`),
-        }),
-      });
-      if (generatedText) {
-        editor.insertText(generatedText);
-      }
-      // generatedText ? editor.insertText(generatedText) : console.error("No generated text");
-    } catch (error) {
-      // console.error("Error generating reflection questions", error);
-    } finally {
-      setIsLoading(false);
+
+    const generatedText = await mutateAsync({
+      prompt: t("textGeneration.reflectionQuestions.prompt", {
+        article: articleText,
+        language: t(`languages.${language}`),
+      }),
+    });
+    if (generatedText) {
+      editor.insertText(generatedText);
     }
   };
 
@@ -112,16 +101,19 @@ const SlateFramedContent = (props: Props) => {
     <EmbedWrapper draggable {...attributes}>
       <FigureButtons contentEditable={false}>
         {hasAIAccess ? (
-          <IconButton
-            variant={variant === "colored" ? "primary" : "secondary"}
-            size="small"
-            title={t("textGeneration.reflectionQuestions.button")}
-            aria-label={t("textGeneration.reflectionQuestions.button")}
-            onClick={generateQuestions}
-            loading={isLoading}
-          >
-            <FileListLine />
-          </IconButton>
+          <HStack>
+            {isPending ? <Spinner size="small" /> : null}
+            <IconButton
+              variant={variant === "colored" ? "primary" : "secondary"}
+              size="small"
+              title={t("textGeneration.reflectionQuestions.button")}
+              aria-label={t("textGeneration.reflectionQuestions.button")}
+              onClick={generateQuestions}
+              disabled={isPending}
+            >
+              <FileListLine />
+            </IconButton>
+          </HStack>
         ) : undefined}
         {!hasSlateCopyright && (
           <IconButton

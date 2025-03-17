@@ -6,11 +6,11 @@
  *
  */
 
-const LLM_ANSWER_REGEX = /(?<=<answer>\s*).*?(?=\s*<\/answer>)/g;
+import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 
 const CLAUDE_HAIKU_DEFAULTS = { top_p: 0.7, top_k: 100, temperature: 0.9 };
 
-interface Payload {
+export interface Payload {
   prompt: string;
   image?: {
     base64: string;
@@ -19,22 +19,23 @@ interface Payload {
   max_tokens?: number;
 }
 
-export const fetchAIGeneratedAnswer = async (payload: Payload): Promise<string | undefined> => {
-  if (!payload.prompt) {
-    return undefined;
-  }
+const fetchAIGeneratedAnswer = async (payload: Payload): Promise<string> =>
+  (
+    await fetch("/generate-ai", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(Object.assign(payload, CLAUDE_HAIKU_DEFAULTS)),
+    })
+  ).text();
 
-  const response = await fetch("/invoke-model", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(Object.assign(payload, CLAUDE_HAIKU_DEFAULTS)),
+export const useAiGeneratedAnswer = (options?: UseMutationOptions<string, any, Payload>) =>
+  useMutation<string, any, Payload>({
+    mutationFn: fetchAIGeneratedAnswer,
+    mutationKey: ["aigeneratedAnswer"],
+    ...options,
   });
-
-  const responseBody = await response.json();
-  return responseBody.content[0].text.match(LLM_ANSWER_REGEX);
-};
 
 export const getTextFromHTML = (html: string) =>
   new DOMParser().parseFromString(html, "text/html").body.textContent || "";

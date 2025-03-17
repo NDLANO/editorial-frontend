@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FileListLine } from "@ndla/icons";
 import { Button, FieldErrorMessage, FieldRoot, Spinner } from "@ndla/primitives";
+import { IAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import { AudioFormikType } from "./AudioForm";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../components/Form/FieldWarning";
@@ -36,17 +37,13 @@ import {
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import { AI_ACCESS_SCOPE } from "../../../constants";
 import { useSession } from "../../../containers/Session/SessionProvider";
-import { fetchAudioTranscription, postAudioTranscription } from "../../../modules/audio/audioApi";
-import { useAudioTranscription } from "../../../modules/audio/audioQueries";
+import { useAudioTranscription, usePostTranscription } from "../../../modules/audio/audioQueries";
 import { inlineContentToEditorValue } from "../../../util/articleContentConverter";
 import { ArticleFormType } from "../../FormikForm/articleFormHooks";
 
 interface AudioManuscriptProps {
-  audioName?: string;
-  audioId?: number;
+  audio?: IAudioMetaInformationDTO;
   audioLanguage?: string;
-  audioUrl?: string;
-  audioType?: string;
 }
 
 const toolbarOptions = createToolbarDefaultValues({
@@ -77,87 +74,93 @@ const manuscriptPlugins: SlatePlugin[] = [
   noopPlugin,
 ];
 
-const manuscriptRenderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, markRenderer, breakRenderer, spanRenderer];
+const LANGUAGE_MAP: Record<string, string> = {
+  nb: "no-NO",
+  nn: "no-NO",
+  de: "de-DE",
+};
 
+const manuscriptRenderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, markRenderer, breakRenderer, spanRenderer];
 const plugins = manuscriptPlugins.concat(manuscriptRenderers);
 
-const AudioManuscript = ({ audioId, audioLanguage, audioUrl, audioType }: AudioManuscriptProps) => {
+const parseTranscript = (text: string) => {
+  const json = JSON.parse(text);
+  return json.results.transcripts[0].transcript;
+};
+
+const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) => {
   const { t } = useTranslation();
   const { setStatus } = useFormikContext<ArticleFormType>();
   const { isSubmitting } = useFormikContext();
   const { userPermissions } = useSession();
-  const [isLoading, setIsLoading] = useState(false);
-  const getLanguage = (audioLanguage: string) => {
-    const languageMap: { [key: string]: string } = {
-      nb: "no-NO",
-      nn: "no-NO",
-      de: "de-DE",
-    };
-
-    return languageMap[audioLanguage] || "en-US";
-  };
-
-  const language = getLanguage(audioLanguage!);
-  const { data: transcribeData } = useAudioTranscription(
-    {
-      audioId: audioId!,
-      language: language,
-    },
-    {
-      enabled: isLoading,
-    },
-  );
+  const [isPolling, setIsPolling] = useState<boolean>(false);
 
   const [_field, _meta, helpers] = useField("manuscript");
 
-  const fetchTranscription = async () => {
-    const response = await fetchAudioTranscription(audioId!, language);
-    return await JSON.parse(response.transcription!);
-  };
+  const language = LANGUAGE_MAP?.[audioLanguage] ?? "no-NO";
+  const { mutateAsync } = usePostTranscription();
+  const { refetch: fetchAudioTranscript } = useAudioTranscription(
+    {
+      audioId: audio?.id ?? -1,
+      language: language,
+    },
+    {
+      // Settings to make this a lazyQuery
+      enabled: false,
+      retry: false,
+    },
+  );
 
-  const checkJobStatus = async (): Promise<boolean> => {
-    const response = await fetchAudioTranscription(audioId!, language);
-    return response.status !== "COMPLETE";
-  };
+  const { data: polledData } = useAudioTranscription(
+    {
+      audioId: audio?.id ?? -1,
+      language: language,
+    },
+    {
+      refetchInterval: 1000,
+      enabled: isPolling,
+    },
+  );
 
-  const startJob = async () => {
-    if (!audioUrl || !audioLanguage || !audioType || !audioId) {
-      return null;
+  const startTranscription = async () => {
+    if (!audio || !audioLanguage) {
+      return;
     }
-    const shouldPost = await checkJobStatus();
-    if (shouldPost) {
-      postAudioTranscription(audioUrl?.split("audio/files/")[1], audioId, language)
-        .then((_) => {
-          setIsLoading(true);
-        })
-        .catch(async (err) => {
+
+    const isTrancripted = await fetchAudioTranscript({ cancelRefetch: false, throwOnError: true })
+      .then(({ data }) => {
+        if (data?.status === "COMPLETED") {
+          const transcriptText = parseTranscript(data?.transcription ?? "");
+          const editorContent = inlineContentToEditorValue(transcriptText, true);
+          helpers.setValue(editorContent, true);
+          setStatus({ status: "acceptGenerated" });
+          return true;
+        }
+        return false;
+      })
+      .catch(() => false);
+
+    if (!isTrancripted) {
+      const name = audio.audioFile.url?.split("audio/files/")[1];
+      await mutateAsync({ name, id: audio.id, language })
+        .then(() => setIsPolling(true))
+        .catch((err) => {
           if (err.status === 400 && err.json.code === "JOB_ALREADY_FOUND") {
-            const fetchedTranscribeData = await fetchTranscription();
-            const editedContent = fetchedTranscribeData.results.transcripts[0].transcript;
-            const editorContent = inlineContentToEditorValue(editedContent, true);
-            helpers.setValue(editorContent, true);
-            setStatus({ status: "acceptGenerated" });
+            setIsPolling(true);
           }
         });
     }
   };
 
-  const getTranscriptText = (text: string) => {
-    const json = JSON.parse(text);
-    return json.results.transcripts[0].transcript;
-  };
-
   useEffect(() => {
-    if (transcribeData?.status === "COMPLETED" && isLoading) {
-      setIsLoading(false);
-      const transcriptText = getTranscriptText(transcribeData?.transcription ?? "");
+    if (polledData?.status === "COMPLETED" && isPolling) {
+      setIsPolling(false);
+      const transcriptText = parseTranscript(polledData?.transcription ?? "");
       const editorContent = inlineContentToEditorValue(transcriptText, true);
       helpers.setValue(editorContent, true);
       setStatus({ status: "acceptGenerated" });
-    } else if (transcribeData?.status === "FAILED" && isLoading) {
-      setIsLoading(false);
     }
-  }, [setStatus, helpers, isLoading, transcribeData]);
+  }, [helpers, isPolling, polledData?.status, polledData?.transcription, setStatus]);
 
   return (
     <FormField name="manuscript">
@@ -181,10 +184,10 @@ const AudioManuscript = ({ audioId, audioLanguage, audioUrl, audioType }: AudioM
             />
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
             <FieldWarning name={field.name} />
-            {!!audioUrl && userPermissions?.includes(AI_ACCESS_SCOPE) ? (
-              <Button onClick={() => startJob()} size="small">
+            {!!audio?.audioFile.url && userPermissions?.includes(AI_ACCESS_SCOPE) ? (
+              <Button onClick={startTranscription} size="small">
                 {t("textGeneration.transcription.button")}
-                {isLoading ? <Spinner size="small" /> : <FileListLine />}
+                {isPolling ? <Spinner size="small" /> : <FileListLine />}
               </Button>
             ) : undefined}
           </FieldRoot>

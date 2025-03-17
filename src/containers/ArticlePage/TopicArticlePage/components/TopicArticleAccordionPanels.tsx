@@ -18,7 +18,6 @@ import FormAccordion from "../../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../../components/Accordion/FormAccordions";
 import config from "../../../../config";
 import { STORED_HIDE_COMMENTS, TAXONOMY_WRITE_SCOPE } from "../../../../constants";
-import { getTextFromHTML } from "../../../../util/llmUtils";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
 import { TopicArticleFormType } from "../../../FormikForm/articleFormHooks";
 import GrepCodesField from "../../../FormikForm/GrepCodesField";
@@ -79,11 +78,6 @@ const TopicArticleAccordionPanels = ({
     [],
   );
   const copyrightFields = useMemo<FlatArticleKeys[]>(() => ["copyright"], []);
-
-  const articleText = useMemo(() => {
-    if (!article?.content) return " ";
-    return getTextFromHTML(article.content.content);
-  }, [article?.content]);
 
   const { values, errors, isSubmitting } = formikContext;
   return (
@@ -149,8 +143,6 @@ const TopicArticleAccordionPanels = ({
             hasError={!!(errors.metaDescription || errors.tags)}
           >
             <MetaDataField
-              articleContent={articleText}
-              articleTitle={article?.title?.title}
               articleLanguage={articleLanguage}
               showCheckbox={true}
               checkboxAction={(image) => onSaveAsVisualElement(image, formikContext)}

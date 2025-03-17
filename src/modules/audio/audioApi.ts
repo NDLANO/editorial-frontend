@@ -103,10 +103,7 @@ export const postAudioTranscription = async (audioName: string, audioId: number,
   return resolveVoidOrRejectWithError(response);
 };
 
-export const fetchAudioTranscription = (audioId: number, language: string): Promise<ITranscriptionResultDTO> => {
-  return fetchAuthorized(`${transcribeUrl}/audio/${audioId}/${language}`, { method: "GET" })
-    .then((r) => resolveJsonOrRejectWithError<ITranscriptionResultDTO>(r))
-    .catch(() => {
-      return { status: "error" } as ITranscriptionResultDTO;
-    });
+export const fetchAudioTranscription = async (audioId: number, language: string): Promise<ITranscriptionResultDTO> => {
+  const response = await fetchAuthorized(`${transcribeUrl}/audio/${audioId}/${language}`, { method: "GET" });
+  return resolveJsonOrRejectWithError<ITranscriptionResultDTO>(response);
 };

@@ -17,7 +17,6 @@ import FormAccordion from "../../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../../components/Accordion/FormAccordions";
 import { useWideArticle } from "../../../../components/WideArticleEditorProvider";
 import { STORED_HIDE_COMMENTS } from "../../../../constants";
-import { getTextFromHTML } from "../../../../util/llmUtils";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
 import { FrontpageArticleFormType } from "../../../FormikForm/articleFormHooks";
 import { useLocalStorageBooleanState } from "../../../WelcomePage/hooks/storedFilterHooks";
@@ -72,11 +71,6 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
     () => RESET_COMMENTS_STATUSES.some((s) => s === article?.status.current),
     [article?.status],
   );
-
-  const articleText = useMemo(() => {
-    if (!article?.content) return " ";
-    return getTextFromHTML(article.content.content);
-  }, [article?.content]);
 
   return (
     <>
@@ -137,11 +131,7 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
             title={t("form.metadataSection")}
             hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}
           >
-            <MetaDataField
-              articleContent={articleText}
-              articleTitle={article?.title?.title}
-              articleLanguage={articleLanguage}
-            />
+            <MetaDataField articleLanguage={articleLanguage} />
           </FormAccordion>
           <FormAccordion
             id={"frontpage-article-revisions"}

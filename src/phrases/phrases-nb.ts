@@ -2251,7 +2251,7 @@ const phrases = {
   textGeneration: {
     error: "Noe gikk galt under generering av tekst. Melding fra tjenesten: {{message}}",
     articleSummary: {
-      button: "Generer",
+      button: "Generer oppsummering",
       prompt: `<draft>{{ article }}</draft>
         <Instructions>
         Du har lang erfaring fra utdanningssektoren.
@@ -2264,7 +2264,7 @@ const phrases = {
       title: "Oppsummering",
     },
     metaDescription: {
-      button: "Generer",
+      button: "Generer metabeskrivelse",
       prompt: `<draft>{{ article }}</draft>
         <Instructions>
         Du har lang erfaring fra utdanningssektoren.

@@ -222,13 +222,7 @@ const AudioForm = ({
                 title={t("podcastForm.fields.manuscript")}
                 hasError={[].some((field) => field in errors)}
               >
-                <AudioManuscript
-                  audioName={audio?.title.title}
-                  audioId={audio?.id}
-                  audioLanguage={audioLanguage}
-                  audioUrl={audio?.audioFile.url}
-                  audioType={audio?.audioFile.url.split(".").pop()}
-                />
+                <AudioManuscript audio={audio} audioLanguage={audioLanguage} />
               </FormAccordion>
               <FormAccordion
                 id="audio-upload-copyright"

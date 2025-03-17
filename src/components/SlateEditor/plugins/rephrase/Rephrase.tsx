@@ -28,7 +28,7 @@ import {
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { RephraseElement } from ".";
 import { isRephrase, unwrapRephrase } from "./utils";
-import { fetchAIGeneratedAnswer } from "../../../../util/llmUtils";
+import { useAiGeneratedAnswer } from "../../../../util/llmUtils";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
@@ -66,6 +66,7 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
   const { t } = useTranslation();
   const language = useArticleLanguage();
   const [generatedText, setGeneratedText] = useState<string | undefined>(undefined);
+  const { mutateAsync } = useAiGeneratedAnswer();
 
   const currentText = element.children.find(isParagraphElement)?.children.find(SlateText.isText)?.text ?? "";
 
@@ -74,7 +75,7 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
   };
 
   const fetchAiGeneratedText = async () => {
-    const res = await fetchAIGeneratedAnswer({
+    const res = await mutateAsync({
       prompt: t("textGeneration.alternativePhrasing.prompt", {
         article: currentText,
         excerpt: currentText,

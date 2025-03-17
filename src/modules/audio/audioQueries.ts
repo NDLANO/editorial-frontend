@@ -6,7 +6,7 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from "@tanstack/react-query";
 import {
   IAudioMetaInformationDTO,
   IAudioSummarySearchResultDTO,
@@ -22,6 +22,7 @@ import {
   fetchAudioTranscription,
   fetchSearchTags,
   fetchSeries,
+  postAudioTranscription,
   postSearchAudio,
   postSearchSeries,
 } from "./audioApi";
@@ -107,8 +108,20 @@ export const useAudioTranscription = (
   return useQuery<ITranscriptionResultDTO>({
     queryKey: ["audioTranscription", params],
     queryFn: () => fetchAudioTranscription(params.audioId, params.language),
-    refetchInterval: 1000,
-    refetchIntervalInBackground: true,
+    ...options,
+  });
+};
+
+interface PostAudioTranscription {
+  id: number;
+  name: string;
+  language: string;
+}
+
+export const usePostTranscription = (options?: Partial<UseMutationOptions<void, any, PostAudioTranscription>>) => {
+  return useMutation<void, any, PostAudioTranscription>({
+    mutationKey: ["createTranscription"],
+    mutationFn: (params) => postAudioTranscription(params.name, params.id, params.language),
     ...options,
   });
 };

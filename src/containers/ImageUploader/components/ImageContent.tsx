@@ -6,8 +6,7 @@
  *
  */
 
-import { useFormikContext } from "formik";
-import { useState } from "react";
+import { FieldHelperProps, useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 import { DeleteBinLine, FileListLine, UploadCloudLine } from "@ndla/icons";
 import { ImageMeta } from "@ndla/image-search";
@@ -26,13 +25,12 @@ import {
   Spinner,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { styled } from "@ndla/styled-system/jsx";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import { AI_ACCESS_SCOPE, MAX_IMAGE_UPLOAD_SIZE } from "../../../constants";
-import { useMessages } from "../../../containers/Messages/MessagesProvider";
 import { useSession } from "../../../containers/Session/SessionProvider";
-import { fetchAIGeneratedAnswer } from "../../../util/llmUtils";
+import { useAiGeneratedAnswer } from "../../../util/llmUtils";
 import { TitleField } from "../../FormikForm";
 import { ImageFormikType } from "../imageTransformers";
 
@@ -55,12 +53,6 @@ const ImageContentWrapper = styled("div", {
   },
 });
 
-const StyledButton = styled(Button, {
-  base: {
-    alignSelf: "flex-start",
-  },
-});
-
 interface Props {
   language: string;
 }
@@ -68,16 +60,15 @@ interface Props {
 const ImageContent = ({ language }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
-  const { createMessage } = useMessages();
   const formikContext = useFormikContext<ImageFormikType>();
-  const { setFieldValue, values } = formikContext;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { setFieldValue, values, setStatus } = formikContext;
+  const { mutateAsync, isPending } = useAiGeneratedAnswer();
 
   // We use the timestamp to avoid caching of the `imageFile` url in the browser
   const timestamp = new Date().getTime();
   const imgSrc = values.filepath || `${values.imageFile}?width=800&ts=${timestamp}`;
 
-  const generateAltText = async () => {
+  const generateAltText = async (helpers: FieldHelperProps<string | undefined>) => {
     if (!values.imageFile) {
       return null;
     }
@@ -90,12 +81,11 @@ const ImageContent = ({ language }: Props) => {
       image = values.imageFile;
     }
 
-    setIsLoading(true);
-
-    const base64 = Buffer.from(await image.arrayBuffer()).toString("base64");
-
-    try {
-      const result = await fetchAIGeneratedAnswer({
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(image);
+    fileReader.onloadend = async () => {
+      const base64 = fileReader.result?.toString().replace("data:image/jpeg;base64,", "") ?? "";
+      const res = await mutateAsync({
         prompt: t("textGeneration.altText.prompt"),
         image: {
           base64: base64,
@@ -103,16 +93,10 @@ const ImageContent = ({ language }: Props) => {
         },
         max_tokens: 2000,
       });
-      return result;
-    } catch (error: any) {
-      createMessage({
-        message: t("textGeneration.error", { message: error.message }),
-        timeToLive: 0,
-        severity: "warning",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+
+      helpers.setValue(res, true);
+      setStatus({ status: "acceptGenerated" });
+    };
   };
 
   return (
@@ -220,23 +204,16 @@ const ImageContent = ({ language }: Props) => {
       <FormField name="alttext">
         {({ field, meta, helpers }) => (
           <FieldRoot invalid={!!meta.error}>
-            <FieldLabel>{t("form.image.alt.label")}</FieldLabel>
+            <HStack justify="space-between">
+              <FieldLabel>{t("form.image.alt.label")}</FieldLabel>
+              {!!userPermissions?.includes(AI_ACCESS_SCOPE) && (
+                <Button onClick={() => generateAltText(helpers)} size="small" title={t("textGeneration.altText.title")}>
+                  {t("textGeneration.altText.button")}
+                  {isPending ? <Spinner size="small" /> : <FileListLine />}
+                </Button>
+              )}
+            </HStack>
             <FieldTextArea placeholder={t("form.image.alt.placeholder")} {...field} />
-            {!!userPermissions?.includes(AI_ACCESS_SCOPE) && (
-              <StyledButton
-                onClick={async () => {
-                  const text = await generateAltText();
-                  if (text && text.length > 0) {
-                    helpers.setValue(text);
-                  }
-                }}
-                size="small"
-                title={t("textGeneration.altText.title")}
-              >
-                {t("textGeneration.altText.button")}
-                {isLoading ? <Spinner size="small" /> : <FileListLine />}
-              </StyledButton>
-            )}
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
           </FieldRoot>
         )}

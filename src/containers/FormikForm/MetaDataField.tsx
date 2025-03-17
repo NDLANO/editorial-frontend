@@ -11,7 +11,7 @@ import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import { createListCollection } from "@ark-ui/react";
-import { FileListLine } from "@ndla/icons";
+import { UseMutateAsyncFunction } from "@tanstack/react-query";
 import {
   Button,
   ComboboxItem,
@@ -29,7 +29,7 @@ import {
   RadioGroupRoot,
   Spinner,
 } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { MetaImageSearch } from ".";
@@ -45,10 +45,13 @@ import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
 import { AI_ACCESS_SCOPE, DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useDraftSearchTags } from "../../modules/draft/draftQueries";
-import { inlineContentToEditorValue } from "../../util/articleContentConverter";
-import { fetchAIGeneratedAnswer } from "../../util/llmUtils";
+import {
+  blockContentToHTML,
+  inlineContentToEditorValue,
+  inlineContentToHTML,
+} from "../../util/articleContentConverter";
+import { getTextFromHTML, Payload, useAiGeneratedAnswer } from "../../util/llmUtils";
 import useDebounce from "../../util/useDebounce";
-import { useMessages } from "../Messages/MessagesProvider";
 import { useSession } from "../Session/SessionProvider";
 
 const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
@@ -59,31 +62,20 @@ const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
 
 interface Props {
   articleLanguage: string;
-  articleContent?: string;
-  articleTitle?: string;
   showCheckbox?: boolean;
   checkboxAction?: (image: IImageMetaInformationV3DTO) => void;
 }
 
 const availabilityValues: string[] = ["everyone", "teacher"];
 
-const StyledButton = styled(Button, {
-  base: {
-    alignSelf: "flex-start",
-  },
-});
-
-const MetaDataField = ({ articleLanguage, articleContent, articleTitle, showCheckbox, checkboxAction }: Props) => {
+const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
-  const { createMessage } = useMessages();
   const tagSelectorTranslations = useTagSelectorTranslations();
   const plugins = [textTransformPlugin];
   const [inputQuery, setInputQuery] = useState<string>("");
-  const [isLoadingMeta, setIsLoadingMeta] = useState(false);
-  const [isLoadingSummary, setIsLoadingSummary] = useState(false);
   const debouncedQuery = useDebounce(inputQuery, 300);
-  const { setStatus } = useFormikContext<ArticleFormType>();
+  const { setStatus, values } = useFormikContext<ArticleFormType>();
   const searchTagsQuery = useDraftSearchTags(
     {
       input: debouncedQuery,
@@ -103,60 +95,45 @@ const MetaDataField = ({ articleLanguage, articleContent, articleTitle, showChec
     });
   }, [searchTagsQuery.data?.results]);
 
-  const generateMetaDescription = async (helpers: FieldHelperProps<Descendant[]>) => {
-    if (!articleContent) {
-      // console.error("No article content provided to generate meta description");
-      return;
+  const articleTitle = useMemo(() => getTextFromHTML(inlineContentToHTML(values.title)), [values.title]);
+  const articleContent = useMemo(() => getTextFromHTML(blockContentToHTML(values.content)), [values.content]);
+
+  // TODO: Handle loading, the fetching can take a long time
+  const generateMetaDescription = async (
+    helpers: FieldHelperProps<Descendant[]>,
+    mutateAsync: UseMutateAsyncFunction<string, any, Payload>,
+  ) => {
+    const generatedText = await mutateAsync({
+      prompt: t("textGeneration.metaDescription.prompt", {
+        article: articleContent,
+        title: articleTitle,
+        language: t(`languages.${articleLanguage}`),
+      }),
+    });
+
+    if (generatedText) {
+      await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
     }
-    setIsLoadingMeta(true);
-    try {
-      const generatedText = await fetchAIGeneratedAnswer({
-        prompt: t("textGeneration.metaDescription.prompt", {
-          article: articleContent,
-          title: articleTitle,
-          language: t(`languages.${articleLanguage}`),
-        }),
-      });
-      if (generatedText) {
-        await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
-      }
-      // We have to invalidate slate children. We do this with status.
-      setStatus({ status: "acceptGenerated" });
-    } catch (error: any) {
-      createMessage({
-        message: t("textGeneration.error", { message: error.message }),
-        timeToLive: 0,
-        severity: "warning",
-      });
-    } finally {
-      setIsLoadingMeta(false);
-    }
+    setStatus({ status: "acceptGenerated" });
   };
 
-  const generateSummary = async (helpers: FieldHelperProps<Descendant[]>) => {
-    if (!articleContent) {
-      // console.error("No article content provided to generate meta description");
-      return;
+  // TODO: Handle loading, the fetching can take a long time
+  const generateSummary = async (
+    helpers: FieldHelperProps<Descendant[]>,
+    mutateAsync: UseMutateAsyncFunction<string, any, Payload>,
+  ) => {
+    const generatedText = await mutateAsync({
+      prompt: t("textGeneration.articleSummary.prompt", {
+        article: articleContent,
+        title: articleTitle,
+        language: t(`languages.${articleLanguage}`),
+      }),
+    });
+
+    if (generatedText) {
+      await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
     }
-    setIsLoadingSummary(true);
-    try {
-      const generatedText = await fetchAIGeneratedAnswer({
-        prompt: t("textGeneration.articleSummary.prompt", {
-          article: articleContent,
-          title: articleTitle,
-          language: t(`languages.${articleLanguage}`),
-        }),
-      });
-      if (generatedText) {
-        await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
-      }
-      // We have to invalidate slate children. We do this with status.
-      setStatus({ status: "acceptGenerated" });
-    } catch (error) {
-      // console.error("Error generating meta description", error);
-    } finally {
-      setIsLoadingSummary(false);
-    }
+    setStatus({ status: "acceptGenerated" });
   };
 
   return (
@@ -215,8 +192,16 @@ const MetaDataField = ({ articleLanguage, articleContent, articleTitle, showChec
       <FormField name="metaDescription">
         {({ field, meta, helpers }) => (
           <FieldRoot invalid={!!meta.error}>
-            <FieldLabel>{t("form.metaDescription.label")}</FieldLabel>
+            <HStack justify="space-between">
+              <FieldLabel>{t("form.metaDescription.label")}</FieldLabel>
+              <GenerateAnswerButton
+                title={t("textGeneration.metaDescription.button")}
+                onClick={generateMetaDescription}
+                helpers={helpers}
+              />
+            </HStack>
             <FieldHelper>{t("form.metaDescription.description")}</FieldHelper>
+
             <PlainTextEditor
               id={field.name}
               placeholder={t("form.metaDescription.label")}
@@ -226,12 +211,6 @@ const MetaDataField = ({ articleLanguage, articleContent, articleTitle, showChec
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
             <StyledFormRemainingCharacters maxLength={155} value={field.value} />
             <FieldWarning name={field.name} />
-            {!!userPermissions?.includes(AI_ACCESS_SCOPE) && (
-              <StyledButton size="small" onClick={() => generateMetaDescription(helpers)}>
-                {t("textGeneration.metaDescription.button")}{" "}
-                {isLoadingMeta ? <Spinner size="small" /> : <FileListLine />}
-              </StyledButton>
-            )}
           </FieldRoot>
         )}
       </FormField>
@@ -239,7 +218,14 @@ const MetaDataField = ({ articleLanguage, articleContent, articleTitle, showChec
         <FormField name="summary">
           {({ field, meta, helpers }) => (
             <FieldRoot invalid={!!meta.error}>
-              <FieldLabel>{t("form.articleSummary.label")}</FieldLabel>
+              <HStack justify="space-between">
+                <FieldLabel>{t("form.articleSummary.label")}</FieldLabel>
+                <GenerateAnswerButton
+                  title={t("textGeneration.articleSummary.button")}
+                  helpers={helpers}
+                  onClick={generateSummary}
+                />
+              </HStack>
               <FieldHelper>{t("form.articleSummary.description")}</FieldHelper>
               <PlainTextEditor
                 id={field.name}
@@ -249,10 +235,6 @@ const MetaDataField = ({ articleLanguage, articleContent, articleTitle, showChec
               />
               <FieldErrorMessage>{meta.error}</FieldErrorMessage>
               <FieldWarning name={field.name} />
-              <StyledButton size="small" onClick={() => generateSummary(helpers)}>
-                {t("textGeneration.articleSummary.button")}{" "}
-                {isLoadingSummary ? <Spinner size="small" /> : <FileListLine />}
-              </StyledButton>
             </FieldRoot>
           )}
         </FormField>
@@ -277,3 +259,20 @@ const MetaDataField = ({ articleLanguage, articleContent, articleTitle, showChec
 };
 
 export default memo(MetaDataField);
+
+interface GenerateAnswerButtonProps {
+  onClick: (helpers: FieldHelperProps<Descendant[]>, mutation: UseMutateAsyncFunction<string, any, Payload>) => void;
+  helpers: FieldHelperProps<Descendant[]>;
+  title: string;
+}
+export const GenerateAnswerButton = ({ onClick, helpers, title }: GenerateAnswerButtonProps) => {
+  const { userPermissions } = useSession();
+  const { mutateAsync, isPending } = useAiGeneratedAnswer();
+
+  return userPermissions?.includes(AI_ACCESS_SCOPE) ? (
+    <Button size="small" onClick={() => onClick(helpers, mutateAsync)}>
+      {title}
+      {isPending ? <Spinner size="small" /> : null}
+    </Button>
+  ) : null;
+};

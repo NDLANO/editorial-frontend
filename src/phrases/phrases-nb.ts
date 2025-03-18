@@ -2252,75 +2252,20 @@ const phrases = {
   },
   textGeneration: {
     error: "Noe gikk galt under generering av tekst. Melding fra tjenesten: {{message}}",
-    articleSummary: {
-      button: "Generer oppsummering",
-      prompt: `<draft>{{ article }}</draft>
-        <Instructions>
-        Du har lang erfaring fra utdanningssektoren.
-        Du har spesialisert deg i å oppsummere fagartikler for å gjøre dem mer tilgjengelige for et bredere publikum.
-        Du har fått som oppdrag å hjelpe med å forbedre læringsopplevelsen for elevene.
-        For å gjøre dette må du lese gjennom og lage en oppsummering av artikler sånn at videregåendestudentene lett kan få et inntrykk av de viktigste poengene i artikkelen.
-        Du har fått som oppdrag å lese gjennom artikkelen i <draft> med tittel "{{ title }}" og skrive en oppsummering på {{ language }}. Oppsummeringen skal være på mindre enn 300 ord.
-        Svaret skal leveres med refleksjoner på hvorfor du har valgt å inkludere de punktene du har valgt først, så selve oppsummeringen skrevet i en <answer> tag.
-        </Instructions>`,
-      title: "Oppsummering",
-    },
-    metaDescription: {
-      button: "Generer metabeskrivelse",
-      prompt: `<draft>{{ article }}</draft>
-        <Instructions>
-        Du har lang erfaring fra utdanningssektoren.
-        Du er spesialist i å finne gode måter å beskrive fagartikler på, slik at man fra en kort oppsummering klarer å forstå hva artiklene handler om.
-        Du har fått som oppdrag å lese gjennom artikkelen i <draft> med tittel "{{ title }}" og skrive en metabeskrivelse av artikkelen på {{ language }}. Metabeskrivelsen skal være på mindre enn 15 ord.
-        Svaret skal leveres med refleksjoner på hvorfor du har valgt å inkludere de punktene du har valgt først, så selve metabeskrivelsen skrevet i en <answer> tag.
-        </Instructions>`,
-    },
-    alternativePhrasing: {
-      buttons: {
-        generate: {
-          text: "Generer",
-          title: "Generer forslag",
-        },
-        replace: {
-          text: "Erstatt",
-          title: "Legg til istedet for valgt tekst",
-        },
-        add: {
-          text: "Legg til etter",
-          title: "Legg til etter valgt tekst",
-        },
-      },
-      prompt: `<excerpt>{{ excerpt }}</excerpt>
-        <draft>{{ article }}</draft>
-        <Instructions>
-        Du har lang erfaring fra utdanningssektoren. Du er spesialist i å finskrive fagartikler for å forbedre det tekstlige innholdet, med fokus på tydelighet og lesbarhet.
-        Du har fått som oppdrag å foreslå en bedre formulering av teksten i <excerpt> på {{ language }}. Innholdet i <draft> kan brukes som kontekst, men skal ikke gjenbrukes som del av den foreslåtte omformuleringen.
-        Svaret skal leveres med refleksjoner på hvorfor du har valgt å inkludere de punktene du har valgt først, så selve forslaget til forbedring av teksten skrevet i en <answer> tag.
-        </Instructions>`,
-      textCurrent: "Valgt tekst",
-      textSuggested: "Forslag til ny formulering",
-      title: "Alternativ formulering",
-    },
-    altText: {
-      button: "Generer",
-      prompt: `<Instructions>
-        Du har lang erfaring fra utdanningssektoren. Du er spesialist i å skrive alternative tekster for bilder for å gjøre dem tilgjengelige for alle elever.
-        Du har fått som oppdrag å skrive en alternativ tekst for bildet vedlagt på {{ language }}. Beskrivelsen skal være på maks 125 tegn.
-        Svaret skal leveres med refleksjoner på hvorfor du har valgt å inkludere de punktene du har valgt først, så selve alternativteksten skrevet i en <answer> tag.
-      </Instructions>`,
-      title: "Generer alt tekst",
-    },
-    reflectionQuestions: {
-      button: "Generer refleksjonsspørsmål",
-      prompt: `<draft>{{ article }}</draft>
-        <Instructions>
-        Du har lang erfaring fra utdanningssektoren. Du er spesialist i å analysere fagartikler for å finne gode refleksjonsspørsmål som får elevene til å tenke gjennom hva de har lest.
-        Du har fått som oppdrag å lese gjennom artikkelen i <draft> og skrive fem refleksjonsspørsmål basert på artikkelen på {{ language }}. Spørsmålene skal være på et nivå som passer for elever på videregående skole.
-        Svaret skal leveres med refleksjoner på hvorfor du har valgt å inkludere de punktene du har valgt først. Deretter skal refleksjonsspørsmålene gis som punktliste i en <answer> tag.
-        </Instructions>`,
-    },
-    transcription: {
-      button: "Generer",
+
+    summary: "Oppsummering",
+    replace: "Erstatt",
+    add: "Legg til etter",
+    chosenText: "Valgt tekst",
+    suggestedText: "Forslag til ny formulering",
+    alternativeText: "Alternativ formulering",
+    generate: {
+      metaDescription: "Generer metabeskrivelse",
+      reflection: "Generer refleksjonsspørsmål",
+      summary: "Generer oppsummering",
+      variant: "Generer forslag",
+      alttext: "Generer alt tekst",
+      transcription: "Generer transkribering",
     },
   },
 };

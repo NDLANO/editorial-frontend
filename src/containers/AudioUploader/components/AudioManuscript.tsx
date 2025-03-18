@@ -185,8 +185,8 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
             <FieldWarning name={field.name} />
             {!!audio?.audioFile.url && userPermissions?.includes(AI_ACCESS_SCOPE) ? (
-              <Button onClick={startTranscription} size="small">
-                {t("textGeneration.transcription.button")}
+              <Button onClick={startTranscription} size="small" disabled={isPolling}>
+                {t("textGeneration.generate.transcription")}
                 {isPolling ? <Spinner size="small" /> : <FileListLine />}
               </Button>
             ) : undefined}

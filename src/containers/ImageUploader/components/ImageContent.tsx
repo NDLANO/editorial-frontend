@@ -16,7 +16,7 @@ import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import { AI_ACCESS_SCOPE } from "../../../constants";
 import { useSession } from "../../../containers/Session/SessionProvider";
-import { useAiGeneratedAnswer } from "../../../util/llmUtils";
+import { useGenerateAlttext } from "../../../util/llmUtils";
 import { TitleField } from "../../FormikForm";
 import { ImageFormikType } from "../imageTransformers";
 
@@ -28,7 +28,7 @@ const ImageContent = ({ language }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { values, setStatus } = useFormikContext<ImageFormikType>();
-  const { mutateAsync, isPending } = useAiGeneratedAnswer();
+  const { mutateAsync, isPending } = useGenerateAlttext();
 
   // We use the timestamp to avoid caching of the `imageFile` url in the browser
   const timestamp = new Date().getTime();
@@ -51,12 +51,13 @@ const ImageContent = ({ language }: Props) => {
     fileReader.onloadend = async () => {
       const base64 = fileReader.result?.toString().replace("data:image/jpeg;base64,", "") ?? "";
       const res = await mutateAsync({
-        prompt: t("textGeneration.altText.prompt"),
+        type: "alttext",
         image: {
           base64: base64,
           fileType: image.type,
         },
         max_tokens: 2000,
+        language: language,
       });
 
       helpers.setValue(res, true);
@@ -83,8 +84,8 @@ const ImageContent = ({ language }: Props) => {
             <HStack justify="space-between">
               <FieldLabel>{t("form.image.alt.label")}</FieldLabel>
               {!!userPermissions?.includes(AI_ACCESS_SCOPE) && (
-                <Button onClick={() => generateAltText(helpers)} size="small" title={t("textGeneration.altText.title")}>
-                  {t("textGeneration.altText.button")}
+                <Button onClick={() => generateAltText(helpers)} size="small" disabled={isPending}>
+                  {t("textGeneration.generate.alttext")}
                   {isPending ? <Spinner size="small" /> : <FileListLine />}
                 </Button>
               )}

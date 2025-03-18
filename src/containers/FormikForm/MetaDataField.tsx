@@ -11,7 +11,6 @@ import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import { createListCollection } from "@ark-ui/react";
-import { UseMutateAsyncFunction } from "@tanstack/react-query";
 import {
   Button,
   ComboboxItem,
@@ -50,7 +49,7 @@ import {
   inlineContentToEditorValue,
   inlineContentToHTML,
 } from "../../util/articleContentConverter";
-import { getTextFromHTML, Payload, useAiGeneratedAnswer } from "../../util/llmUtils";
+import { getTextFromHTML, useGenerateMetaDescription, useGenerateSummary } from "../../util/llmUtils";
 import useDebounce from "../../util/useDebounce";
 import { useSession } from "../Session/SessionProvider";
 
@@ -86,6 +85,8 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
       placeholderData: (prev) => prev,
     },
   );
+  const { mutateAsync: generateSummary, isPending: isLoadingSummary } = useGenerateSummary();
+  const { mutateAsync: generateMetaDescription, isPending: isLoadingMeta } = useGenerateMetaDescription();
 
   const collection = useMemo(() => {
     return createListCollection({
@@ -95,22 +96,16 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
     });
   }, [searchTagsQuery.data?.results]);
 
-  const articleTitle = useMemo(() => getTextFromHTML(inlineContentToHTML(values.title)), [values.title]);
-  const articleContent = useMemo(() => getTextFromHTML(blockContentToHTML(values.content)), [values.content]);
+  const onClickMetaDescription = async (helpers: FieldHelperProps<Descendant[]>) => {
+    const articleTitle = getTextFromHTML(inlineContentToHTML(values.title));
+    const articleContent = getTextFromHTML(blockContentToHTML(values.content));
 
-  // TODO: Handle loading, the fetching can take a long time
-  const generateMetaDescription = async (
-    helpers: FieldHelperProps<Descendant[]>,
-    mutateAsync: UseMutateAsyncFunction<string, any, Payload>,
-  ) => {
-    const generatedText = await mutateAsync({
-      prompt: t("textGeneration.metaDescription.prompt", {
-        article: articleContent,
-        title: articleTitle,
-        language: t(`languages.${articleLanguage}`),
-      }),
+    const generatedText = await generateMetaDescription({
+      type: "metaDescription",
+      text: articleContent,
+      title: articleTitle,
+      language: t(`languages.${articleLanguage}`),
     });
-
     if (generatedText) {
       await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
     }
@@ -118,18 +113,16 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
   };
 
   // TODO: Handle loading, the fetching can take a long time
-  const generateSummary = async (
-    helpers: FieldHelperProps<Descendant[]>,
-    mutateAsync: UseMutateAsyncFunction<string, any, Payload>,
-  ) => {
-    const generatedText = await mutateAsync({
-      prompt: t("textGeneration.articleSummary.prompt", {
-        article: articleContent,
-        title: articleTitle,
-        language: t(`languages.${articleLanguage}`),
-      }),
-    });
+  const onClickGenerateSummary = async (helpers: FieldHelperProps<Descendant[]>) => {
+    const articleTitle = getTextFromHTML(inlineContentToHTML(values.title));
+    const articleContent = getTextFromHTML(blockContentToHTML(values.content));
 
+    const generatedText = await generateSummary({
+      type: "summary",
+      text: articleContent,
+      title: articleTitle,
+      language: t(`languages.${articleLanguage}`),
+    });
     if (generatedText) {
       await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
     }
@@ -194,11 +187,12 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
           <FieldRoot invalid={!!meta.error}>
             <HStack justify="space-between">
               <FieldLabel>{t("form.metaDescription.label")}</FieldLabel>
-              <GenerateAnswerButton
-                title={t("textGeneration.metaDescription.button")}
-                onClick={generateMetaDescription}
-                helpers={helpers}
-              />
+              {userPermissions?.includes(AI_ACCESS_SCOPE) ? (
+                <Button size="small" onClick={() => onClickMetaDescription(helpers)} disabled={isLoadingMeta}>
+                  {t("textGeneration.generate.metaDescription")}
+                  {isLoadingMeta ? <Spinner size="small" /> : null}
+                </Button>
+              ) : null}
             </HStack>
             <FieldHelper>{t("form.metaDescription.description")}</FieldHelper>
 
@@ -220,11 +214,10 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
             <FieldRoot invalid={!!meta.error}>
               <HStack justify="space-between">
                 <FieldLabel>{t("form.articleSummary.label")}</FieldLabel>
-                <GenerateAnswerButton
-                  title={t("textGeneration.articleSummary.button")}
-                  helpers={helpers}
-                  onClick={generateSummary}
-                />
+                <Button size="small" onClick={() => onClickGenerateSummary(helpers)} disabled={isLoadingSummary}>
+                  {t("textGeneration.generate.summary")}
+                  {isLoadingSummary ? <Spinner size="small" /> : null}
+                </Button>
               </HStack>
               <FieldHelper>{t("form.articleSummary.description")}</FieldHelper>
               <PlainTextEditor
@@ -259,20 +252,3 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
 };
 
 export default memo(MetaDataField);
-
-interface GenerateAnswerButtonProps {
-  onClick: (helpers: FieldHelperProps<Descendant[]>, mutation: UseMutateAsyncFunction<string, any, Payload>) => void;
-  helpers: FieldHelperProps<Descendant[]>;
-  title: string;
-}
-export const GenerateAnswerButton = ({ onClick, helpers, title }: GenerateAnswerButtonProps) => {
-  const { userPermissions } = useSession();
-  const { mutateAsync, isPending } = useAiGeneratedAnswer();
-
-  return userPermissions?.includes(AI_ACCESS_SCOPE) ? (
-    <Button size="small" onClick={() => onClick(helpers, mutateAsync)}>
-      {title}
-      {isPending ? <Spinner size="small" /> : null}
-    </Button>
-  ) : null;
-};

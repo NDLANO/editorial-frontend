@@ -23,12 +23,13 @@ import {
   DialogStandaloneContent,
   DialogTitle,
   Heading,
+  Spinner,
   Text,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { RephraseElement } from ".";
 import { isRephrase, unwrapRephrase } from "./utils";
-import { useAiGeneratedAnswer } from "../../../../util/llmUtils";
+import { useGenerateAlternativePhrasing } from "../../../../util/llmUtils";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
@@ -66,7 +67,7 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
   const { t } = useTranslation();
   const language = useArticleLanguage();
   const [generatedText, setGeneratedText] = useState<string | undefined>(undefined);
-  const { mutateAsync } = useAiGeneratedAnswer();
+  const { mutateAsync, isPending } = useGenerateAlternativePhrasing();
 
   const currentText = element.children.find(isParagraphElement)?.children.find(SlateText.isText)?.text ?? "";
 
@@ -76,11 +77,10 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
 
   const fetchAiGeneratedText = async () => {
     const res = await mutateAsync({
-      prompt: t("textGeneration.alternativePhrasing.prompt", {
-        article: currentText,
-        excerpt: currentText,
-        language: t(`language.${language}`),
-      }),
+      type: "alternativePhrasing",
+      text: currentText,
+      excerpt: currentText,
+      language: language,
     });
     setGeneratedText(res);
   };
@@ -102,37 +102,28 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
   };
 
   return (
-    <div {...attributes}>
+    <span {...attributes}>
       <DialogRoot defaultOpen closeOnInteractOutside closeOnEscape onExitComplete={onClose}>
         <Portal>
           <StyledDialogBackdrop />
           <StyledDialogPositioner>
             <DialogStandaloneContent>
               <DialogHeader>
-                <DialogTitle>{t("textGeneration.alternativePhrasing.title")}</DialogTitle>
+                <DialogTitle>{t("textGeneration.alternativeText")}</DialogTitle>
                 <DialogCloseButton />
               </DialogHeader>
               <DialogBody>
-                <div>
-                  <Heading asChild consumeCss textStyle="label.medium">
-                    <h2>{t("textGeneration.alternativePhrasing.textCurrent")}</h2>
-                  </Heading>
-                  <TextContainer>
-                    <Text>{currentText}</Text>
-                  </TextContainer>
-                </div>
-                <Button
-                  aria-label={t("textGeneration.alternativePhrasing.buttons.generate.title")}
-                  size="small"
-                  title={t("textGeneration.alternativePhrasing.buttons.generate.title")}
-                  onClick={fetchAiGeneratedText}
-                >
-                  {t("textGeneration.alternativePhrasing.buttons.generate.text")}
+                <TextContainer>
+                  <Text>{currentText}</Text>
+                </TextContainer>
+                <Button size="small" onClick={fetchAiGeneratedText} disabled={isPending}>
+                  {isPending ? <Spinner size="small" /> : null}
+                  {t("textGeneration.generate.variant")}
                   <FileListLine />
                 </Button>
                 <div>
                   <Heading asChild consumeCss textStyle="label.medium">
-                    <h2>{t("textGeneration.alternativePhrasing.textSuggested")}</h2>
+                    <h2>{t("textGeneration.suggestedText")}</h2>
                   </Heading>
                   <TextContainer>
                     <Text>{generatedText}</Text>
@@ -143,23 +134,11 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
                     {t("dialog.close")}
                   </Button>
                   <HStack gap="small">
-                    <Button
-                      aria-label={t("textGeneration.alternativePhrasing.buttons.add.title")}
-                      size="small"
-                      title={t("textGeneration.alternativePhrasing.buttons.add.title")}
-                      onClick={onAppend}
-                      disabled={!generatedText}
-                    >
-                      {t("textGeneration.alternativePhrasing.buttons.add.text")}
+                    <Button size="small" onClick={onAppend} disabled={!generatedText}>
+                      {t("textGeneration.add")}
                     </Button>
-                    <Button
-                      aria-label={t("textGeneration.alternativePhrasing.buttons.replace.title")}
-                      size="small"
-                      title={t("textGeneration.alternativePhrasing.buttons.replace.title")}
-                      onClick={onReplace}
-                      disabled={!generatedText}
-                    >
-                      {t("textGeneration.alternativePhrasing.buttons.replace.text")}
+                    <Button size="small" onClick={onReplace} disabled={!generatedText}>
+                      {t("textGeneration.replace")}
                     </Button>
                   </HStack>
                 </HStack>
@@ -169,6 +148,6 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
         </Portal>
       </DialogRoot>
       {children}
-    </div>
+    </span>
   );
 };

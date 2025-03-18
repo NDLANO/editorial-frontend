@@ -11,7 +11,13 @@ import { GetVerificationKey, expressjwt as jwt, Request } from "express-jwt";
 import jwksRsa from "jwks-rsa";
 import prettier from "prettier";
 import { BedrockRuntimeClient, InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
-import { TranscribeClient, StartTranscriptionJobCommand, GetTranscriptionJobCommand } from "@aws-sdk/client-transcribe";
+import {
+  TranscribeClient,
+  StartTranscriptionJobCommand,
+  GetTranscriptionJobCommand,
+  MediaFormat,
+  LanguageCode,
+} from "@aws-sdk/client-transcribe";
 import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getResponsibles } from "./auth";
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN, BAD_REQUEST } from "./httpCodes";
 import errorLogger from "./logger";
@@ -20,6 +26,7 @@ import config, { getEnvironmentVariabel } from "../config";
 import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
 import { NdlaError } from "../interfaces";
 import { fetchMatomoStats } from "./matomo";
+import { getPromptQuery, PromptVariables } from "./llmUtils";
 
 const router = express.Router();
 
@@ -176,63 +183,75 @@ router.post("/matomo-stats", jwtMiddleware, async (req, res) => {
   }
 });
 
-const aiModelID = getEnvironmentVariabel("NDLA_AI_MODEL_ID");
+const aiModelId = getEnvironmentVariabel("NDLA_AI_MODEL_ID");
 const aiRegion = getEnvironmentVariabel("NDLA_AI_MODEL_REGION");
 const aiSecretKey = getEnvironmentVariabel("NDLA_AI_SECRET_KEY");
 const aiSecretID = getEnvironmentVariabel("NDLA_AI_SECRET_ID");
 const transcriptionBucketName = getEnvironmentVariabel("TRANSCRIBE_FILE_S3_BUCKET");
 
 const LLM_ANSWER_REGEX = /(?<=<answer>\s*).*?(?=\s*<\/answer>)/gs;
+const ANTHROPIC_VERSION = "bedrock-2023-05-31";
 
-router.post("/generate-ai", async (req, res) => {
-  const modelId = aiModelID;
-  if (!aiRegion || !aiSecretID || !aiSecretKey || !modelId) {
+type GenerateAnswerBody = {
+  language: string;
+  max_tokens: number;
+} & PromptVariables;
+
+router.post<{}, {}, GenerateAnswerBody>("/generate-ai", async (req, res) => {
+  if (!aiRegion || !aiSecretID || !aiSecretKey || !aiModelId) {
     res.status(INTERNAL_SERVER_ERROR).send("Missing required environment variables");
     return;
   }
+
   const client = new BedrockRuntimeClient({
     region: aiRegion, //As of now this is the closest aws-region, with the service
     credentials: { accessKeyId: aiSecretID, secretAccessKey: aiSecretKey },
   });
 
-  const content = [];
-  if (req.body.image) {
-    content.push({
-      type: "image",
-      source: {
-        type: "base64",
-        media_type: req.body.image.fileType,
-        data: req.body.image.base64,
-      },
-    });
-  }
+  const promptQuery = getPromptQuery(req.body, req.body.language);
 
-  content.push({
+  const prompt = {
     type: "text",
-    text: req.body.prompt,
-  });
+    text: promptQuery,
+  };
 
-  const messages = [
-    {
-      role: "user",
-      content,
-    },
-  ];
+  const content =
+    req.body.type === "alttext"
+      ? [
+          {
+            type: "image",
+            source: {
+              type: "base64",
+              media_type: req.body.image.fileType,
+              data: req.body.image.base64,
+            },
+          },
+          prompt,
+        ]
+      : [prompt];
 
   const payload = {
-    anthropic_version: "bedrock-2023-05-31",
+    anthropic_version: ANTHROPIC_VERSION,
     max_tokens: req.body.max_tokens || 500,
-    messages,
+    messages: [
+      {
+        content: content,
+        role: "user",
+      },
+    ],
   };
+
   const command = new InvokeModelCommand({
     contentType: "application/json",
     body: JSON.stringify(payload),
-    modelId,
+    modelId: aiModelId,
   });
+
   try {
     const response = await client.send(command);
     const decodedResponseBody = new TextDecoder().decode(response.body);
     const responseBody = JSON.parse(decodedResponseBody);
+
     const responseText = responseBody.content[0].text.match(LLM_ANSWER_REGEX)[0].trim();
 
     res.status(OK).send(responseText);
@@ -241,7 +260,17 @@ router.post("/generate-ai", async (req, res) => {
   }
 });
 
-router.post("/transcribe", async (req, res) => {
+const TRANSCRIBE_REGION = "eu-west-1";
+
+interface StartTranscriptBody {
+  languageCode?: LanguageCode;
+  mediaFormat?: MediaFormat;
+  mediaFileUri?: string;
+  outputFileName?: string;
+  maxSpeakers?: number;
+}
+
+router.post<{}, {}, StartTranscriptBody>("/transcribe", async (req, res) => {
   if (!transcriptionBucketName) {
     res.status(INTERNAL_SERVER_ERROR).send("Missing required environment variables");
     return;
@@ -252,7 +281,7 @@ router.post("/transcribe", async (req, res) => {
   }
 
   const client = new TranscribeClient({
-    region: "eu-west-1",
+    region: TRANSCRIBE_REGION,
   });
 
   const jobName = `transcribe-${Date.now()}`;
@@ -270,6 +299,7 @@ router.post("/transcribe", async (req, res) => {
       MaxSpeakerLabels: req.body.maxSpeakers || 2,
     },
   });
+
   try {
     const response = await client.send(command);
     res.status(OK).json(response);
@@ -278,22 +308,21 @@ router.post("/transcribe", async (req, res) => {
   }
 });
 
-router.get("/transcribe/:jobName", async (req, res) => {
+interface TranscribeJobParams {
+  jobName: string;
+}
+router.get<TranscribeJobParams, {}, {}>("/transcribe/:jobName", async (req, res) => {
   if (!transcriptionBucketName) {
     res.status(INTERNAL_SERVER_ERROR).send("Missing required environment variables");
     return;
   }
 
-  const jobName = req.params.jobName;
-  if (!jobName) {
-    res.status(404).send("Job name is required");
-  }
   const client = new TranscribeClient({
-    region: "eu-west-1",
+    region: TRANSCRIBE_REGION,
   });
 
   try {
-    const command = new GetTranscriptionJobCommand({ TranscriptionJobName: jobName });
+    const command = new GetTranscriptionJobCommand({ TranscriptionJobName: req.params.jobName });
     const response = await client.send(command);
 
     if (!response || !response.TranscriptionJob) {
@@ -303,14 +332,15 @@ router.get("/transcribe/:jobName", async (req, res) => {
     const jobStatus = response.TranscriptionJob.TranscriptionJobStatus;
     if (jobStatus === "COMPLETED") {
       const transcriptUri = response.TranscriptionJob.Transcript?.TranscriptFileUri || "";
-      res.json({ jobName, status: "COMPLETED", transcriptUrl: transcriptUri });
+      res.json({ jobName: req.params.jobName, status: "COMPLETED", transcriptUrl: transcriptUri });
     } else if (jobStatus === "FAILED") {
-      res.status(404).send({ jobName, status: "FAILED", reason: response.TranscriptionJob.FailureReason });
+      res
+        .status(500)
+        .send({ jobName: req.params.jobName, status: "FAILED", reason: response.TranscriptionJob.FailureReason });
     } else {
-      res.json({ jobName, status: jobStatus });
+      res.json({ jobName: req.params.jobName, status: jobStatus });
     }
   } catch (error) {
-    // console.error("Error fetching job status:", error);
     res.status(INTERNAL_SERVER_ERROR).send((error as NdlaError).message);
   }
 });

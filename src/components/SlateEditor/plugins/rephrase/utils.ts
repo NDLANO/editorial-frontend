@@ -19,22 +19,10 @@ export const unwrapRephrase = (editor: Editor) => {
 };
 
 export const wrapRephrase = (editor: Editor) => {
-  if (!editor.selection) {
-    return;
-  }
-
-  const isCollapsed = editor.selection && Range.isCollapsed(editor.selection);
-
-  const node = slatejsx(
-    "element",
-    {
-      type: REPHRASE_ELEMENT_TYPE,
-    },
-    [],
-  );
-
-  if (!isCollapsed) {
-    Transforms.wrapNodes(editor, node, { split: true });
-    Transforms.collapse(editor, { edge: "end" });
+  if (Range.isRange(editor.selection) && !Range.isCollapsed(editor.selection)) {
+    Transforms.wrapNodes(editor, slatejsx("element", { type: REPHRASE_ELEMENT_TYPE }), {
+      at: Editor.unhangRange(editor, editor.selection),
+      split: true,
+    });
   }
 };

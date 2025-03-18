@@ -26,7 +26,7 @@ import { StyledFigureButtons } from "../embed/FigureButtons";
 import { isFramedContentElement } from "./queries/framedContentQueries";
 import { useSession } from "../../../../containers/Session/SessionProvider";
 import { editorValueToPlainText } from "../../../../util/articleContentConverter";
-import { useAiGeneratedAnswer } from "../../../../util/llmUtils";
+import { useGenerateReflection } from "../../../../util/llmUtils";
 
 const FigureButtons = styled(StyledFigureButtons, {
   base: {
@@ -45,13 +45,14 @@ const SlateFramedContent = (props: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const language = useArticleLanguage();
-  const { mutateAsync, isPending } = useAiGeneratedAnswer();
+  const { mutateAsync, isPending } = useGenerateReflection();
   const variant = element.data?.variant ?? "neutral";
   const contentType = useArticleContentType();
-  const hasSlateCopyright = useMemo(() => {
-    return element.children.some((child) => Element.isElement(child) && child.type === TYPE_COPYRIGHT);
-  }, [element.children]);
   const hasAIAccess = userPermissions?.includes(AI_ACCESS_SCOPE);
+  const hasSlateCopyright = useMemo(
+    () => element.children.some((child) => Element.isElement(child) && child.type === TYPE_COPYRIGHT),
+    [element.children],
+  );
 
   const onRemoveClick = () => {
     const path = ReactEditor.findPath(editor, element);
@@ -87,11 +88,11 @@ const SlateFramedContent = (props: Props) => {
     const articleText = editorValueToPlainText(editor.children);
 
     const generatedText = await mutateAsync({
-      prompt: t("textGeneration.reflectionQuestions.prompt", {
-        article: articleText,
-        language: t(`languages.${language}`),
-      }),
+      type: "reflection",
+      text: articleText,
+      language: t(`languages.${language}`),
     });
+
     if (generatedText) {
       editor.insertText(generatedText);
     }
@@ -106,8 +107,8 @@ const SlateFramedContent = (props: Props) => {
             <IconButton
               variant={variant === "colored" ? "primary" : "secondary"}
               size="small"
-              title={t("textGeneration.reflectionQuestions.button")}
-              aria-label={t("textGeneration.reflectionQuestions.button")}
+              title={t("textGeneration.generate.reflection")}
+              aria-label={t("textGeneration.generate.reflection")}
               onClick={generateQuestions}
               disabled={isPending}
             >

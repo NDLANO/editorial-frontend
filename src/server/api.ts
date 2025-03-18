@@ -232,7 +232,7 @@ router.post<{}, {}, GenerateAnswerBody>("/generate-ai", async (req, res) => {
 
   const payload = {
     anthropic_version: ANTHROPIC_VERSION,
-    max_tokens: req.body.max_tokens || 500,
+    max_tokens: req.body.max_tokens || 2000,
     messages: [
       {
         content: content,

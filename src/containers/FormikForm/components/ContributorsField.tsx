@@ -122,7 +122,7 @@ const Contributor = ({ type, onAddNew, onRemove }: ContributorProps) => {
             {({ field, meta, helpers }) => (
               <FieldRoot required invalid={!!meta.error}>
                 <SelectRoot
-                  value={field.value.length ? [field.value.toLowerCase()] : undefined}
+                  value={field.value.length ? [field.value.toLowerCase()] : []}
                   onValueChange={(details) => helpers.setValue(details.value[0])}
                   collection={collection}
                   positioning={{ sameWidth: true }}

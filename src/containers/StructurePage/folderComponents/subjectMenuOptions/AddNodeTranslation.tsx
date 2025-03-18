@@ -84,7 +84,7 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
       <FieldWrapper>
         <StyledSelectRoot
           collection={collection}
-          value={selectedLanguage ? [selectedLanguage] : undefined}
+          value={selectedLanguage ? [selectedLanguage] : []}
           onValueChange={(details) => setSelectedLanguage(details.value[0])}
           positioning={{ sameWidth: true }}
         >

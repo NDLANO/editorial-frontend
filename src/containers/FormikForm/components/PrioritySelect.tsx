@@ -64,7 +64,7 @@ const PrioritySelect = ({ priority, updatePriority }: Props) => {
   );
 
   const value = useMemo(
-    () => (priority && Object.keys(priorityMapping).includes(priority) ? [priority] : undefined),
+    () => (priority && Object.keys(priorityMapping).includes(priority) ? [priority] : []),
     [priority],
   );
 

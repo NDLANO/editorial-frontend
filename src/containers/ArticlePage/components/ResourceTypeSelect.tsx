@@ -63,7 +63,7 @@ const ResourceTypeSelect = ({ availableResourceTypes, selectedResourceTypes, onC
   return (
     <SelectRoot
       collection={collection}
-      value={value ? [value.value] : undefined}
+      value={value ? [value.value] : []}
       onValueChange={(details) => onChangeSelectedResource(details.items[0]?.value)}
     >
       <SelectLabel>{t("taxonomy.contentType")}</SelectLabel>

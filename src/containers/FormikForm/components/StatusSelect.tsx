@@ -64,7 +64,7 @@ const StatusSelect = ({ status, updateStatus, statusStateMachine, entityStatus }
     return createListCollection({ items, itemToValue: (item) => item.status, itemToString: (item) => item.label });
   }, [entityStatus, statusStateMachine, t]);
 
-  const value = useMemo(() => (status ? [status.current] : undefined), [status]);
+  const value = useMemo(() => (status ? [status.current] : []), [status]);
 
   const onValueChange = useCallback(
     (details: SelectValueChangeDetails) => {

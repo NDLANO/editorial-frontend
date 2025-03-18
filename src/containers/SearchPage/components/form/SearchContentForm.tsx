@@ -101,7 +101,9 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [queryInput, setQueryInput] = useState(searchObject.query ?? "");
-  const [isHasPublished, setIsHasPublished] = useState(false);
+  const [isHasPublished, setIsHasPublished] = useState(
+    searchObject["include-other-statuses"] === true && searchObject["draft-status"] === "PUBLISHED",
+  );
 
   const { data: users } = useAuth0Editors({
     select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),

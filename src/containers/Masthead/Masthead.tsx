@@ -6,12 +6,14 @@
  *
  */
 
+import { TFunction } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { NdlaLogoText, PageContent, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import alts from "./components/alts";
 import { MastheadDrawer } from "./components/MastheadDrawer";
 import { MastheadLinks } from "./components/MastheadLinks";
 import { MastheadSearch } from "./components/MastheadSearch";
@@ -87,8 +89,20 @@ const StyledText = styled(Text, {
 
 type Environment = "prod" | "staging" | "test";
 
+const altText = (t: TFunction, language: "nb" | "nn" | "en") => {
+  switch (config.ndlaEnvironment) {
+    case "prod":
+    case "staging":
+      return t("logo.altText");
+    default: {
+      const alternatives = alts[language] ?? [t("logo.altText")];
+      return alternatives[Math.floor(Math.random() * alternatives.length)];
+    }
+  }
+};
+
 export const Masthead = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const location = useLocation();
 
   const environmentName = useMemo(() => {
@@ -102,6 +116,8 @@ export const Masthead = () => {
     }
   }, [t]);
 
+  const alt = altText(t, i18n.language);
+
   return (
     <MastheadContainer environment={config.ndlaEnvironment as Environment} id="masthead">
       <StyledText textStyle="label.large" fontWeight="bold" color="text.strong">
@@ -110,12 +126,7 @@ export const Masthead = () => {
       <StyledPageContent variant="wide" gutters="never">
         <ContentWrapper>
           <MastheadDrawer />
-          <SafeLink
-            to={routes.home}
-            aria-label={t("logo.altText")}
-            title={t("logo.altText")}
-            reloadDocument={location.pathname === routes.home}
-          >
+          <SafeLink to={routes.home} aria-label={alt} title={alt} reloadDocument={location.pathname === routes.home}>
             <NdlaLogoText />
           </SafeLink>
           <MastheadSearch />

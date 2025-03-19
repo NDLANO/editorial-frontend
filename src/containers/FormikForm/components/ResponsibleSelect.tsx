@@ -33,7 +33,7 @@ const StyledGenericComboboxInput = styled(GenericComboboxInput, {
   },
 });
 
-const StyledComboboxRoot = styled(ComboboxRoot, {
+const StyledComboboxRoot = styled(ComboboxRoot<Auth0UserData>, {
   base: {
     flex: "1",
     minWidth: "surface.xxsmall",

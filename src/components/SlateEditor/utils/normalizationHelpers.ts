@@ -10,7 +10,6 @@ import { jsx as slatejsx } from "slate-hyperscript";
 import { ElementType } from "../interfaces";
 import { ASIDE_ELEMENT_TYPE } from "../plugins/aside/asideTypes";
 import { AUDIO_ELEMENT_TYPE } from "../plugins/audio/audioTypes";
-import { TYPE_QUOTE } from "../plugins/blockquote/types";
 import { TYPE_CODEBLOCK } from "../plugins/codeBlock/types";
 import { TYPE_COMMENT_BLOCK } from "../plugins/comment/block/types";
 import { TYPE_DEFINITION_LIST } from "../plugins/definitionList/types";
@@ -30,14 +29,15 @@ import { TYPE_CONCEPT_INLINE } from "../plugins/concept/inline/types";
 import { TYPE_COMMENT_INLINE } from "../plugins/comment/inline/types";
 import { TYPE_CONTENT_LINK, TYPE_LINK } from "../plugins/link/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../plugins/framedContent/framedContentTypes";
+import { BLOCK_QUOTE_ELEMENT_TYPE } from "../plugins/blockquote/blockquoteTypes";
 
-export const firstTextBlockElement: Element["type"][] = [TYPE_PARAGRAPH, TYPE_HEADING, TYPE_QUOTE];
+export const firstTextBlockElement: Element["type"][] = [TYPE_PARAGRAPH, TYPE_HEADING, BLOCK_QUOTE_ELEMENT_TYPE];
 
 export const textBlockElements: Element["type"][] = [
   TYPE_PARAGRAPH,
   TYPE_HEADING,
   TYPE_LIST,
-  TYPE_QUOTE,
+  BLOCK_QUOTE_ELEMENT_TYPE,
   TYPE_TABLE,
   AUDIO_ELEMENT_TYPE,
   TYPE_EMBED_BRIGHTCOVE,

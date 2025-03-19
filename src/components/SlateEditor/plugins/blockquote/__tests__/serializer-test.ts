@@ -9,14 +9,14 @@
 import { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 import { TYPE_SECTION } from "../../section/types";
-import { TYPE_QUOTE } from "../types";
+import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquoteTypes";
 
 const editor: Descendant[] = [
   {
     type: TYPE_SECTION,
     children: [
       {
-        type: TYPE_QUOTE,
+        type: BLOCK_QUOTE_ELEMENT_TYPE,
         children: [{ text: "content" }],
       },
     ],

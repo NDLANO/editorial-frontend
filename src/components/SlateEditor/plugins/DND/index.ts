@@ -11,12 +11,12 @@ import { Editor, Element, Node, Text } from "slate";
 import { ReactEditor } from "slate-react";
 import onDrop from "./onDrop";
 import { getTopNode } from "./utils";
-import { TYPE_QUOTE } from "../blockquote/types";
 import { TYPE_HEADING } from "../heading/types";
 import { TYPE_LIST, TYPE_LIST_ITEM } from "../list/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
 import { TYPE_SECTION } from "../section/types";
 import { TYPE_TABLE_CAPTION } from "../table/types";
+import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquote/blockquoteTypes";
 
 const onDragOver = (): DragEventHandler<HTMLDivElement> => (event) => {
   event.preventDefault();
@@ -49,7 +49,7 @@ const dndPlugin = (editor: Editor) => {
           return (
             Element.isElement(element) &&
             (element.children.length > 1 ||
-              [TYPE_HEADING, TYPE_PARAGRAPH, TYPE_QUOTE, TYPE_TABLE_CAPTION].includes(element.type))
+              [TYPE_HEADING, TYPE_PARAGRAPH, BLOCK_QUOTE_ELEMENT_TYPE, TYPE_TABLE_CAPTION].includes(element.type))
           );
         })?.[0];
         if (Element.isElement(lowestCommonAncestor)) {

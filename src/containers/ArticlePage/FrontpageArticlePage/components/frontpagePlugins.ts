@@ -10,7 +10,7 @@ import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import { asidePlugin } from "../../../../components/SlateEditor/plugins/aside/asidePlugin";
 import { audioPlugin } from "../../../../components/SlateEditor/plugins/audio/audioPlugin";
 import { blockPickerPlugin } from "../../../../components/SlateEditor/plugins/blockPicker";
-import { blockQuotePlugin } from "../../../../components/SlateEditor/plugins/blockquote";
+import { blockQuotePlugin } from "../../../../components/SlateEditor/plugins/blockquote/blockquotePlugin";
 import { campaignBlockPlugin } from "../../../../components/SlateEditor/plugins/campaignBlock";
 import { codeblockPlugin } from "../../../../components/SlateEditor/plugins/codeBlock";
 import { commentBlockPlugin } from "../../../../components/SlateEditor/plugins/comment/block";

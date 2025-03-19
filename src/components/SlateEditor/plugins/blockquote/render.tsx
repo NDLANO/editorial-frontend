@@ -7,13 +7,13 @@
  */
 
 import { Editor } from "slate";
+import { BLOCK_QUOTE_ELEMENT_TYPE } from "./blockquoteTypes";
 import { SlateBlockQuote } from "./SlateBlockQuote";
-import { TYPE_QUOTE } from "./types";
 
 export const blockQuoteRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_QUOTE) {
+    if (element.type === BLOCK_QUOTE_ELEMENT_TYPE) {
       return (
         <SlateBlockQuote attributes={attributes} element={element} editor={editor}>
           {children}

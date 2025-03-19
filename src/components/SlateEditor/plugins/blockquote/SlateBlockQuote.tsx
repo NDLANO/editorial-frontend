@@ -13,7 +13,7 @@ import { BrushLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentTypeBlockQuote, EmbedWrapper } from "@ndla/ui";
-import { BlockQuoteElement } from ".";
+import { BlockQuoteElement } from "./blockquoteTypes";
 import { useArticleContentType } from "../../../ContentTypeProvider";
 
 interface Props extends RenderElementProps {

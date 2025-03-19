@@ -6,10 +6,10 @@
  *
  */
 import { Element } from "slate";
-import { TYPE_QUOTE } from "../blockquote/types";
 import { TYPE_HEADING } from "../heading/types";
 import { TYPE_LIST } from "../list/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
+import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquote/blockquoteTypes";
 
 export interface BlockPickerOptions {
   allowedPickAreas: Element["type"][];
@@ -19,7 +19,7 @@ export interface BlockPickerOptions {
 
 const defaultOptions: BlockPickerOptions = {
   allowedPickAreas: [TYPE_PARAGRAPH, TYPE_HEADING],
-  illegalAreas: [TYPE_QUOTE, TYPE_LIST],
+  illegalAreas: [BLOCK_QUOTE_ELEMENT_TYPE, TYPE_LIST],
   actionsToShowInAreas: {},
 };
 

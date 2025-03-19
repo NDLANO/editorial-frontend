@@ -119,7 +119,7 @@ const matomoDomain = (ndlaEnvironment: string): string => {
     case "prod":
       return "tall.ndla.no";
     default:
-      return "tall.ndla.no";
+      return "tall.test.ndla.no";
   }
 };
 
@@ -188,6 +188,7 @@ export type ConfigType = {
   matomoSiteId: string | undefined;
   matomoUrl: string;
   s3AudioRoot: string;
+  enableMatomoData: boolean;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -237,6 +238,7 @@ const getServerSideConfig = (): ConfigType => {
     matomoSiteId: getEnvironmentVariabel("MATOMO_SITE_ID"),
     matomoUrl: getEnvironmentVariabel("MATOMO_URL", matomoDomain(ndlaEnvironment)),
     s3AudioRoot: getAudioS3Root(ndlaEnvironment),
+    enableMatomoData: getEnvironmentVariabel("ENABLE_MATOMO_DATA", "false") === "true",
   };
 };
 

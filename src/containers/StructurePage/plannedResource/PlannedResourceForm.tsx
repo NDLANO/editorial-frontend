@@ -365,7 +365,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
               <FieldRoot invalid={!!meta.error}>
                 <SelectRoot
                   collection={priorityCollection}
-                  value={["prioritized", "on-hold"].includes(field.value) ? [field.value] : undefined}
+                  value={["prioritized", "on-hold"].includes(field.value) ? [field.value] : []}
                   onValueChange={(details) => helpers.setValue(details.value[0])}
                   positioning={{ sameWidth: true }}
                 >

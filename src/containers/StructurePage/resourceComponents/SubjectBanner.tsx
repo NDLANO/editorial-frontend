@@ -19,6 +19,7 @@ import QualityEvaluation from "../../../components/QualityEvaluation/QualityEval
 import config from "../../../config";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import { usePreferences } from "../PreferencesProvider";
 
 const ResourceGroupBanner = styled("div", {
   base: {
@@ -53,13 +54,13 @@ const TopRow = styled("div", {
 
 interface Props {
   subjectNode: Node;
-  showQuality: boolean;
   users: Dictionary<Auth0UserData> | undefined;
 }
 
-const SubjectBanner = ({ subjectNode, showQuality, users }: Props) => {
+const SubjectBanner = ({ subjectNode, users }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
+  const { showQuality } = usePreferences();
 
   const subjectResponsibles = useMemo(
     () => ({

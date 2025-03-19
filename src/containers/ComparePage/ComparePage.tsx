@@ -17,10 +17,9 @@ import { useDraft } from "../../modules/draft/draftQueries";
 
 const TwoArticleWrapper = styled("div", {
   base: {
-    width: "100%",
-    maxWidth: "100%",
-    display: "flex",
-    alignItems: "flex-start",
+    display: "grid",
+    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+
     "& span[lang]": {
       textDecoration: "underline",
       textDecorationColor: "stroke.subtle",

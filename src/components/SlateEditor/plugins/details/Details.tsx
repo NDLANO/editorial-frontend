@@ -78,29 +78,25 @@ const Details = ({ children, element, attributes }: RenderElementProps) => {
 
   const onRemoveClick = useCallback(() => {
     const path = ReactEditor.findPath(editor, element);
+    Transforms.select(editor, path);
+    Transforms.collapse(editor);
     Transforms.removeNodes(editor, {
       at: path,
       match: (node) => Element.isElement(node) && node.type === TYPE_DETAILS,
     });
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, path);
-      Transforms.collapse(editor);
-    }, 0);
+    setTimeout(() => ReactEditor.focus(editor), 0);
   }, [editor, element]);
 
   const onMoveContent = useCallback(() => {
     const path = ReactEditor.findPath(editor, element);
+    Transforms.select(editor, path);
+    Transforms.collapse(editor, { edge: "start" });
     Transforms.unwrapNodes(editor, {
       at: path,
       match: (node) => Element.isElement(node) && node.type === TYPE_DETAILS,
       voids: true,
     });
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, path);
-      Transforms.collapse(editor, { edge: "start" });
-    }, 0);
+    setTimeout(() => ReactEditor.focus(editor), 0);
   }, [editor, element]);
 
   const openAttribute = isOpen ? { "data-open": "" } : {};
@@ -114,13 +110,23 @@ const Details = ({ children, element, attributes }: RenderElementProps) => {
           size="small"
           variant="secondary"
           onClick={toggleOpen}
+          onMouseDown={(e) => e.preventDefault()}
           aria-label={toggleOpenTitle}
           title={toggleOpenTitle}
         >
           <ArrowDownShortLine />
         </StyledIconButton>
-        <MoveContentButton onMouseDown={onMoveContent} aria-label={t("form.moveContent")} />
-        <DeleteButton data-testid="remove-details" aria-label={t("form.remove")} onMouseDown={onRemoveClick} />
+        <MoveContentButton
+          onClick={onMoveContent}
+          aria-label={t("form.moveContent")}
+          onMouseDown={(e) => e.preventDefault()}
+        />
+        <DeleteButton
+          data-testid="remove-details"
+          aria-label={t("form.remove")}
+          onClick={onRemoveClick}
+          onMouseDown={(e) => e.preventDefault()}
+        />
       </ButtonContainer>
       <StyledExpandableBox open={isOpen} asChild consumeCss>
         <div>{children}</div>

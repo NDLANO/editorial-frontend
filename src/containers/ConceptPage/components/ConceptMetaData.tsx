@@ -13,6 +13,7 @@ import { createListCollection } from "@ark-ui/react";
 import { ComboboxItem, ComboboxItemText, FieldErrorMessage, FieldRoot, Input } from "@ndla/primitives";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { GenericComboboxItemIndicator } from "../../../components/abstractions/Combobox";
+import { FieldWarning } from "../../../components/Form/FieldWarning";
 import { SearchTagsContent } from "../../../components/Form/SearchTagsContent";
 import { SearchTagsTagSelectorInput } from "../../../components/Form/SearchTagsTagSelectorInput";
 import { FormField } from "../../../components/FormField";
@@ -73,6 +74,7 @@ const ConceptMetaData = () => {
                   </ComboboxItem>
                 ))}
               </SearchTagsContent>
+              <FieldWarning name={field.name} />
             </TagSelectorRoot>
           </FieldRoot>
         )}

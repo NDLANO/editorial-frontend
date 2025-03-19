@@ -31,7 +31,7 @@ type Props = Omit<PaginationRootProps, "translations"> & { buttonSize?: "small" 
 
 const Pagination = ({ page = 1, onPageChange, count, pageSize, buttonSize = "medium", ...props }: Props) => {
   const translations = usePaginationTranslations();
-  const countWithMaxValue = Math.min(count, 1000);
+  const countWithMaxValue = Math.min(count ?? 0, 1000);
   return (
     <StyledPaginationRoot
       page={page}

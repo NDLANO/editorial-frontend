@@ -7,11 +7,11 @@
  */
 import queryString from "query-string";
 import {
-  ISubjectPageDataDTO,
-  IFilmFrontPageDataDTO,
-  INewSubjectFrontPageDataDTO,
-  IUpdatedSubjectFrontPageDataDTO,
-  INewOrUpdatedFilmFrontPageDataDTO,
+  ISubjectPageDTO,
+  IFilmFrontPageDTO,
+  INewSubjectPageDTO,
+  IUpdatedSubjectPageDTO,
+  INewOrUpdatedFilmFrontPageDTO,
   IFrontPageDTO,
 } from "@ndla/types-backend/frontpage-api";
 import { LocaleType } from "../../interfaces";
@@ -29,18 +29,16 @@ export const postFrontpage = (frontpage: IFrontPageDTO) =>
   }).then((r) => resolveJsonOrRejectWithError<IFrontPageDTO>(r));
 
 export const fetchFilmFrontpage = () =>
-  fetchAuthorized(`${baseUrl}/filmfrontpage/`).then((r) => resolveJsonOrRejectWithError<IFilmFrontPageDataDTO>(r));
+  fetchAuthorized(`${baseUrl}/filmfrontpage/`).then((r) => resolveJsonOrRejectWithError<IFilmFrontPageDTO>(r));
 
-export const updateFilmFrontpage = (
-  filmfrontpage: INewOrUpdatedFilmFrontPageDataDTO,
-): Promise<IFilmFrontPageDataDTO> => {
+export const updateFilmFrontpage = (filmfrontpage: INewOrUpdatedFilmFrontPageDTO): Promise<IFilmFrontPageDTO> => {
   return fetchAuthorized(`${baseUrl}/filmfrontpage/`, {
     method: "POST",
     body: JSON.stringify(filmfrontpage),
-  }).then((r) => resolveJsonOrRejectWithError<IFilmFrontPageDataDTO>(r));
+  }).then((r) => resolveJsonOrRejectWithError<IFilmFrontPageDTO>(r));
 };
 
-export const fetchSubjectpage = (id: number | string, language: LocaleType): Promise<ISubjectPageDataDTO> => {
+export const fetchSubjectpage = (id: number | string, language: LocaleType): Promise<ISubjectPageDTO> => {
   const query = queryString.stringify({ language });
   const url = `${baseUrl}/subjectpage/${id}`;
   const urlLang = language ? url + `?${query}&fallback=true` : url;
@@ -48,10 +46,10 @@ export const fetchSubjectpage = (id: number | string, language: LocaleType): Pro
 };
 
 export const updateSubjectpage = (
-  subjectpage: IUpdatedSubjectFrontPageDataDTO,
+  subjectpage: IUpdatedSubjectPageDTO,
   subjectpageId: number | string,
   language: LocaleType,
-): Promise<ISubjectPageDataDTO> => {
+): Promise<ISubjectPageDTO> => {
   const query = queryString.stringify({ language });
   return fetchAuthorized(`${baseUrl}/subjectpage/${subjectpageId}?${query}`, {
     method: "PATCH",
@@ -59,7 +57,7 @@ export const updateSubjectpage = (
   }).then((r) => resolveJsonOrRejectWithError(r));
 };
 
-export const createSubjectpage = (subjectpage: INewSubjectFrontPageDataDTO): Promise<ISubjectPageDataDTO> =>
+export const createSubjectpage = (subjectpage: INewSubjectPageDTO): Promise<ISubjectPageDTO> =>
   fetchAuthorized(`${baseUrl}/subjectpage/`, {
     method: "POST",
     body: JSON.stringify(subjectpage),

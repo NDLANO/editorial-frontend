@@ -27,6 +27,7 @@ import { SelectItem } from "../../types";
 import GoToSearch from "../GoToSearch";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "../TableComponent";
 import TableTitle from "../TableTitle";
+import { MultiSummarySearchResults } from "../../../../modules/search/searchApiInterfaces";
 
 const CellWrapper = styled("div", {
   base: {
@@ -51,7 +52,7 @@ const CommentIndicatorWrapper = styled("div", {
 });
 
 interface Props {
-  data: IMultiSearchResultDTO | undefined;
+  data: MultiSummarySearchResults | undefined;
   isPending: boolean;
   setSortOption: (o: Prefix<"-", SortOptionWorkList>) => void;
   sortOption: string;

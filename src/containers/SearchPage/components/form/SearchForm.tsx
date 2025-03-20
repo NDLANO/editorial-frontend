@@ -11,7 +11,6 @@ import { ISearchParamsDTO as IAudioSearchParams, ISeriesSearchParamsDTO } from "
 import { IDraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
 import { IUserDataDTO } from "@ndla/types-backend/draft-api";
 import { ISearchParamsDTO as IImageSearchParams } from "@ndla/types-backend/image-api";
-import { IDraftSearchParamsDTO } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
 import SearchAudioForm from "./SearchAudioForm";
 import SearchContentForm from "./SearchContentForm";
@@ -19,13 +18,14 @@ import SearchImageForm from "./SearchImageForm";
 import SearchPodcastSeriesForm from "./SearchPodcastSeriesForm";
 import config from "../../../../config";
 import { SearchParams, SearchType } from "../../../../interfaces";
+import { NoNodeDraftSearchParams } from "../../../../modules/search/searchApiInterfaces";
 
 /** Used to wraps backend types and replaces their `sort` with `sort?: string` */
 export type StringSort<T> = Omit<T, "sort"> & { sort?: string };
 
 export type SearchParamsBody = StringSort<
   IDraftConceptSearchParamsDTO &
-    IDraftSearchParamsDTO &
+    NoNodeDraftSearchParams &
     IImageSearchParams &
     IAudioSearchParams &
     ISeriesSearchParamsDTO

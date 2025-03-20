@@ -13,7 +13,7 @@ import {
   IArticleDTO,
   IUserDataDTO,
   IUpdatedUserDataDTO,
-  ISearchResultDTO,
+  ArticleSearchResultDTO,
   ITagsSearchResultDTO,
 } from "@ndla/types-backend/draft-api";
 import {
@@ -78,9 +78,9 @@ export const useDraftHistory = (params: UseDraftHistory, options?: Partial<UseQu
 
 export const useSearchDrafts = (
   params: IArticleSearchParamsDTO,
-  options?: Partial<UseQueryOptions<ISearchResultDTO>>,
+  options?: Partial<UseQueryOptions<ArticleSearchResultDTO>>,
 ) => {
-  return useQuery<ISearchResultDTO>({
+  return useQuery<ArticleSearchResultDTO>({
     queryKey: draftQueryKeys.search(params),
     queryFn: () => searchDrafts(params),
     ...options,

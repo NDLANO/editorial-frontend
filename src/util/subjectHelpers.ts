@@ -8,11 +8,7 @@
 
 import { Descendant } from "slate";
 import { IArticleDTO } from "@ndla/types-backend/draft-api";
-import {
-  ISubjectPageDataDTO,
-  INewSubjectFrontPageDataDTO,
-  IUpdatedSubjectFrontPageDataDTO,
-} from "@ndla/types-backend/frontpage-api";
+import { ISubjectPageDTO, INewSubjectPageDTO, IUpdatedSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
 import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { BrightcoveEmbedData, ImageEmbedData } from "@ndla/types-embed";
 import { editorValueToEmbed, editorValueToPlainText, plainTextToEditorValue } from "./articleContentConverter";
@@ -44,14 +40,14 @@ export interface SubjectPageFormikType {
 export const subjectpageFormikTypeToPatchType = (
   values: SubjectPageFormikType,
   editorsChoicesUrns?: string[],
-): IUpdatedSubjectFrontPageDataDTO => {
+): IUpdatedSubjectPageDTO => {
   return subjectpageFormikTypeToPostType(values, editorsChoicesUrns);
 };
 
 export const subjectpageFormikTypeToPostType = (
   values: SubjectPageFormikType,
   editorsChoicesUrns?: string[],
-): INewSubjectFrontPageDataDTO => {
+): INewSubjectPageDTO => {
   const visualElement = editorValueToEmbed(values.visualElement)! as ImageEmbedData | BrightcoveEmbedData;
   const alt = visualElement.resource === "image" ? visualElement.alt : visualElement.caption;
   const id = visualElement.resource === "image" ? visualElement.resourceId : visualElement.videoid;
@@ -87,7 +83,7 @@ export const subjectpageFormikTypeToPostType = (
 };
 
 export const subjectpageApiTypeToFormikType = (
-  subjectpage: ISubjectPageDataDTO | undefined,
+  subjectpage: ISubjectPageDTO | undefined,
   elementName: string | undefined,
   elementId: string,
   selectedLanguage: string,

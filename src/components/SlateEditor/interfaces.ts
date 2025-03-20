@@ -21,7 +21,7 @@ import {
 } from "@ndla/editor";
 import { AsideElement } from "./plugins/aside/asideTypes";
 import { AudioElement } from "./plugins/audio/audioTypes";
-import { BlockQuoteElement } from "./plugins/blockquote";
+import { BlockQuoteElement } from "./plugins/blockquote/blockquoteTypes";
 import { CampaignBlockElement } from "./plugins/campaignBlock";
 import { CodeblockElement } from "./plugins/codeBlock";
 import { CommentBlockElement, CommentInlineElement } from "./plugins/comment/interfaces";

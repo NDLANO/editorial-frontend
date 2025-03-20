@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Text as SlateText } from "slate";
 import { RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { isParagraphElement } from "@ndla/editor";
 import { FileListLine } from "@ndla/icons";
 import {
   Button,
@@ -69,7 +68,7 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
   const [generatedText, setGeneratedText] = useState<string | undefined>(undefined);
   const { mutateAsync, isPending } = useGenerateAlternativePhrasing();
 
-  const currentText = element.children.find(isParagraphElement)?.children.find(SlateText.isText)?.text ?? "";
+  const currentText = element.children.find(SlateText.isText)?.text ?? "";
 
   const onClose = () => {
     unwrapRephrase(editor);
@@ -102,52 +101,50 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
   };
 
   return (
-    <span {...attributes}>
-      <DialogRoot defaultOpen closeOnInteractOutside closeOnEscape onExitComplete={onClose}>
-        <Portal>
-          <StyledDialogBackdrop />
-          <StyledDialogPositioner>
-            <DialogStandaloneContent>
-              <DialogHeader>
-                <DialogTitle>{t("textGeneration.alternativeText")}</DialogTitle>
-                <DialogCloseButton />
-              </DialogHeader>
-              <DialogBody>
+    <DialogRoot defaultOpen closeOnInteractOutside closeOnEscape onExitComplete={onClose}>
+      <Portal>
+        <StyledDialogBackdrop />
+        <StyledDialogPositioner>
+          <DialogStandaloneContent>
+            <DialogHeader>
+              <DialogTitle>{t("textGeneration.alternativeText")}</DialogTitle>
+              <DialogCloseButton />
+            </DialogHeader>
+            <DialogBody>
+              <TextContainer>
+                <Text>{currentText}</Text>
+              </TextContainer>
+              <Button size="small" onClick={fetchAiGeneratedText} disabled={isPending}>
+                {isPending ? <Spinner size="small" /> : null}
+                {t("textGeneration.generate.variant")}
+                <FileListLine />
+              </Button>
+              <div>
+                <Heading asChild consumeCss textStyle="label.medium">
+                  <h2>{t("textGeneration.suggestedText")}</h2>
+                </Heading>
                 <TextContainer>
-                  <Text>{currentText}</Text>
+                  <Text>{generatedText}</Text>
                 </TextContainer>
-                <Button size="small" onClick={fetchAiGeneratedText} disabled={isPending}>
-                  {isPending ? <Spinner size="small" /> : null}
-                  {t("textGeneration.generate.variant")}
-                  <FileListLine />
+              </div>
+              <HStack justify="space-between">
+                <Button size="small" onClick={onClose} variant="secondary">
+                  {t("dialog.close")}
                 </Button>
-                <div>
-                  <Heading asChild consumeCss textStyle="label.medium">
-                    <h2>{t("textGeneration.suggestedText")}</h2>
-                  </Heading>
-                  <TextContainer>
-                    <Text>{generatedText}</Text>
-                  </TextContainer>
-                </div>
-                <HStack justify="space-between">
-                  <Button size="small" onClick={onClose} variant="secondary">
-                    {t("dialog.close")}
+                <HStack gap="small">
+                  <Button size="small" onClick={onAppend} disabled={!generatedText}>
+                    {t("textGeneration.add")}
                   </Button>
-                  <HStack gap="small">
-                    <Button size="small" onClick={onAppend} disabled={!generatedText}>
-                      {t("textGeneration.add")}
-                    </Button>
-                    <Button size="small" onClick={onReplace} disabled={!generatedText}>
-                      {t("textGeneration.replace")}
-                    </Button>
-                  </HStack>
+                  <Button size="small" onClick={onReplace} disabled={!generatedText}>
+                    {t("textGeneration.replace")}
+                  </Button>
                 </HStack>
-              </DialogBody>
-            </DialogStandaloneContent>
-          </StyledDialogPositioner>
-        </Portal>
-      </DialogRoot>
-      {children}
-    </span>
+              </HStack>
+            </DialogBody>
+          </DialogStandaloneContent>
+        </StyledDialogPositioner>
+      </Portal>
+      <span {...attributes}>{children}</span>
+    </DialogRoot>
   );
 };

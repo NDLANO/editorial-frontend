@@ -16,7 +16,8 @@ export interface RephraseElement {
 
 export const REPHRASE_ELEMENT_TYPE = "rephrase";
 
-export const rephrasePlugin = createPlugin<typeof REPHRASE_ELEMENT_TYPE, RephraseElement>({
+export const rephrasePlugin = createPlugin<"rephrase", RephraseElement>({
   name: REPHRASE_ELEMENT_TYPE,
+  type: REPHRASE_ELEMENT_TYPE,
   isInline: true,
 });

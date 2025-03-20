@@ -27,6 +27,7 @@ import { listPlugin } from "../../../../components/SlateEditor/plugins/list";
 import { markPlugin } from "../../../../components/SlateEditor/plugins/mark";
 import { breakPlugin } from "../../../../components/SlateEditor/plugins/break";
 import { inlineNavigationPlugin } from "@ndla/editor";
+import { rephrasePlugin } from "../../../../components/SlateEditor/plugins/rephrase";
 
 // Plugins are checked from last to first
 export const topicArticlePlugins: SlatePlugin[] = [
@@ -53,4 +54,5 @@ export const topicArticlePlugins: SlatePlugin[] = [
   textTransformPlugin,
   breakPlugin,
   saveHotkeyPlugin,
+  rephrasePlugin,
 ];

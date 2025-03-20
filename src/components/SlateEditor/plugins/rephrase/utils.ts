@@ -20,7 +20,7 @@ export const unwrapRephrase = (editor: Editor) => {
 
 export const wrapRephrase = (editor: Editor) => {
   if (Range.isRange(editor.selection) && !Range.isCollapsed(editor.selection)) {
-    Transforms.wrapNodes(editor, slatejsx("element", { type: REPHRASE_ELEMENT_TYPE }), {
+    Transforms.wrapNodes(editor, slatejsx("element", { type: REPHRASE_ELEMENT_TYPE }, []), {
       at: Editor.unhangRange(editor, editor.selection),
       split: true,
     });

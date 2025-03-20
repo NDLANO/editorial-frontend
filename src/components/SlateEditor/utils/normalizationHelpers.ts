@@ -53,7 +53,6 @@ export const textBlockElements: Element["type"][] = [
   TYPE_DEFINITION_LIST,
   TYPE_GRID,
   TYPE_SPAN,
-  REPHRASE_ELEMENT_TYPE,
 ];
 
 export const inlineElements: Element["type"][] = [

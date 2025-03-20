@@ -9,6 +9,7 @@
 import { Editor } from "slate";
 import { REPHRASE_ELEMENT_TYPE } from ".";
 import { Rephrase } from "./Rephrase";
+import { InlineBugfix } from "../../utils/InlineBugFix";
 
 export const rephraseRenderer = (editor: Editor) => {
   const { renderElement } = editor;
@@ -17,7 +18,9 @@ export const rephraseRenderer = (editor: Editor) => {
     if (element.type === REPHRASE_ELEMENT_TYPE) {
       return (
         <Rephrase element={element} attributes={attributes} editor={editor}>
+          <InlineBugfix />
           {children}
+          <InlineBugfix />
         </Rephrase>
       );
     } else {

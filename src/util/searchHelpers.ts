@@ -35,16 +35,16 @@ const getArticleTypesField = (resourceTypes?: string[]) => {
 
 const getContextTypes = (resourceType: string[] | undefined, contextTypes: string[]) => {
   if (resourceType?.includes("gloss")) {
-    return { contextTypes: ["gloss"], resourceTypes: [], resultTypes: ["concept"] };
+    return { contextTypes: ["gloss"], resourceTypes: [] };
   }
   if (resourceType?.includes("concept")) {
-    return { contextTypes: ["concept"], resourceTypes: [], resultTypes: ["concept"] };
+    return { contextTypes: ["concept"], resourceTypes: [] };
   }
 
   return { contextTypes };
 };
 
-export const transformSearchBody = (searchBody: SearchParamsBody) => {
+export const transformSearchBody = (searchBody: SearchParamsBody, editorial = false) => {
   const articleTypes = getArticleTypesField(searchBody.resourceTypes);
   const contextTypes = getContextTypes(searchBody.resourceTypes, searchBody.contextTypes || []);
 
@@ -52,5 +52,6 @@ export const transformSearchBody = (searchBody: SearchParamsBody) => {
     ...searchBody,
     ...articleTypes,
     ...contextTypes,
+    resultTypes: editorial ? ["draft", "concept", "learningpath"] : ["article", "learningpath"],
   };
 };

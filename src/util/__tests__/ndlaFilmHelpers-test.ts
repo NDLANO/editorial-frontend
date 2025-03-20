@@ -6,12 +6,12 @@
  *
  */
 
-import { IFilmFrontPageDataDTO } from "@ndla/types-backend/frontpage-api";
+import { IFilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
 import { TYPE_IMAGE } from "../../components/SlateEditor/plugins/image/types";
 import { FilmFormikType } from "../../containers/NdlaFilm/components/NdlaFilmForm";
 import { getInitialValues, getIdFromUrn, getUrnFromId } from "../ndlaFilmHelpers";
 
-const filmFrontPage: IFilmFrontPageDataDTO = {
+const filmFrontPage: IFilmFrontPageDTO = {
   name: "Film",
   about: [
     {

@@ -150,7 +150,8 @@ const Contributor = ({ type, onAddNew, onRemove }: ContributorProps) => {
           </Button>
         </StyledInnerFieldsetRoot>
       ))}
-      <Button variant="secondary" onClick={() => onAddNew({ name: "", type: "" })} data-testid="addContributor">
+      {/* TODO: Use a different type here? */}
+      <Button variant="secondary" onClick={() => onAddNew({ name: "", type: "" as any })} data-testid="addContributor">
         {t("form.contributor.add")}
       </Button>
     </StyledFieldsetRoot>

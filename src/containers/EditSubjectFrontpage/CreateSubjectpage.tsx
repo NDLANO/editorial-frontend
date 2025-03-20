@@ -8,7 +8,7 @@
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { PageContainer } from "@ndla/primitives";
-import { INewSubjectFrontPageDataDTO } from "@ndla/types-backend/frontpage-api";
+import { INewSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
 import SubjectpageForm from "./components/SubjectpageForm";
 import { LocaleType } from "../../interfaces";
 import { toEditSubjectpage } from "../../util/routeHelpers";
@@ -29,7 +29,7 @@ const CreateSubjectpage = () => {
   const navigate = useNavigate();
   const { createSubjectpage } = useFetchSubjectpageData(elementId, selectedLanguage, undefined);
 
-  const createSubjectpageAndPushRoute = async (createdSubjectpage: INewSubjectFrontPageDataDTO) => {
+  const createSubjectpageAndPushRoute = async (createdSubjectpage: INewSubjectPageDTO) => {
     const savedSubjectpage = await createSubjectpage(createdSubjectpage);
     const savedId = savedSubjectpage?.id;
     if (savedId) {

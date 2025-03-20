@@ -12,12 +12,12 @@ import { ArrowUpDoubleLine, MessageLine, CalendarLine } from "@ndla/icons";
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IMultiSearchResultDTO } from "@ndla/types-backend/search-api";
 import PageSizeSelect from "./PageSizeSelect";
 import StatusCell from "./StatusCell";
 import SubjectCombobox from "./SubjectCombobox";
 import { SortOptionWorkList } from "./WorkList";
 import Pagination from "../../../../components/abstractions/Pagination";
+import { MultiSummarySearchResults } from "../../../../modules/search/searchApiInterfaces";
 import { useSearch } from "../../../../modules/search/searchQueries";
 import formatDate from "../../../../util/formatDate";
 import { stripInlineContentHtmlTags } from "../../../../util/formHelper";
@@ -51,7 +51,7 @@ const CommentIndicatorWrapper = styled("div", {
 });
 
 interface Props {
-  data: IMultiSearchResultDTO | undefined;
+  data: MultiSummarySearchResults | undefined;
   isPending: boolean;
   setSortOption: (o: Prefix<"-", SortOptionWorkList>) => void;
   sortOption: string;

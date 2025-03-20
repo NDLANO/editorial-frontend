@@ -27,7 +27,14 @@ import {
   postSearchSeries,
 } from "./audioApi";
 import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
-import { AUDIO, PODCAST_SERIES, SEARCH_AUDIO, AUDIO_SEARCH_TAGS, SEARCH_SERIES } from "../../queryKeys";
+import {
+  AUDIO,
+  PODCAST_SERIES,
+  SEARCH_AUDIO,
+  AUDIO_SEARCH_TAGS,
+  SEARCH_SERIES,
+  AUDIO_TRANSCRIPTION,
+} from "../../queryKeys";
 
 export interface UseAudio {
   id: number;
@@ -40,6 +47,7 @@ export const audioQueryKeys = {
   podcastSeries: (params?: Partial<UseSeries>) => [PODCAST_SERIES, params] as const,
   podcastSeriesSearch: (params?: Partial<StringSort<ISeriesSearchParamsDTO>>) => [SEARCH_SERIES, params] as const,
   audioSearchTags: (params?: Partial<UseSearchTags>) => [AUDIO_SEARCH_TAGS, params] as const,
+  audioTranscription: (params?: Partial<UseTranscription>) => [AUDIO_TRANSCRIPTION, params] as const,
 };
 
 export const useAudio = (params: UseAudio, options?: Partial<UseQueryOptions<IAudioMetaInformationDTO>>) =>
@@ -106,7 +114,7 @@ export const useAudioTranscription = (
   options?: Partial<UseQueryOptions<ITranscriptionResultDTO>>,
 ) => {
   return useQuery<ITranscriptionResultDTO>({
-    queryKey: ["audioTranscription", params],
+    queryKey: audioQueryKeys.audioTranscription(params),
     queryFn: () => fetchAudioTranscription(params.audioId, params.language),
     ...options,
   });
@@ -120,7 +128,6 @@ interface PostAudioTranscription {
 
 export const usePostTranscription = (options?: Partial<UseMutationOptions<void, any, PostAudioTranscription>>) => {
   return useMutation<void, any, PostAudioTranscription>({
-    mutationKey: ["createTranscription"],
     mutationFn: (params) => postAudioTranscription(params.name, params.id, params.language),
     ...options,
   });

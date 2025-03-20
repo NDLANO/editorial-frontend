@@ -127,18 +127,16 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
       return;
     }
 
-    const isTrancripted = await fetchAudioTranscript({ cancelRefetch: false, throwOnError: true })
-      .then(({ data }) => {
-        if (data?.status === "COMPLETED") {
-          const transcriptText = parseTranscript(data?.transcription ?? "");
-          const editorContent = inlineContentToEditorValue(transcriptText, true);
-          helpers.setValue(editorContent, true);
-          setStatus({ status: "acceptGenerated" });
-          return true;
-        }
-        return false;
-      })
-      .catch(() => false);
+    const isTrancripted =
+      (await fetchAudioTranscript({ cancelRefetch: false }).then(({ data }) => {
+        if (data?.status !== "COMPLETED") return false;
+
+        const transcriptText = parseTranscript(data?.transcription ?? "");
+        const editorContent = inlineContentToEditorValue(transcriptText, true);
+        helpers.setValue(editorContent, true);
+        setStatus({ status: "acceptGenerated" });
+        return true;
+      })) ?? false;
 
     if (!isTrancripted) {
       const name = audio.audioFile.url?.split("audio/files/")[1];
@@ -176,9 +174,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
               placeholder={t("podcastForm.fields.manuscript")}
               submitted={isSubmitting}
               plugins={plugins}
-              onChange={(value) => {
-                helpers.setValue(value);
-              }}
+              onChange={helpers.setValue}
               toolbarOptions={toolbarOptions}
               toolbarAreaFilters={toolbarAreaFilters}
             />

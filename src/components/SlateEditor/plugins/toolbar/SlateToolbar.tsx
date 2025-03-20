@@ -9,7 +9,6 @@
 import {
   Children,
   ComponentPropsWithRef,
-  Dispatch,
   forwardRef,
   isValidElement,
   ReactNode,
@@ -17,9 +16,8 @@ import {
   useMemo,
   useRef,
   useState,
-  SetStateAction,
 } from "react";
-import { BaseRange, Editor, Range } from "slate";
+import { Editor, Range } from "slate";
 import { useFocused, useSlate, useSlateSelection } from "slate-react";
 import { usePopoverContext } from "@ark-ui/react";
 import { PopoverContent, PopoverRoot } from "@ndla/primitives";
@@ -82,7 +80,6 @@ interface Props {
   options: CategoryFilters;
   areaOptions: AreaFilters;
   hideToolbar?: boolean;
-  selectors?: { [key: string]: Dispatch<SetStateAction<BaseRange | null>> };
 }
 const checkHasSelectionWithin = (el?: Element | null) => {
   if (!el) return false;

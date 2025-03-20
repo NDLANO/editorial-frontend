@@ -40,7 +40,6 @@ interface SummaryVariables extends BaseVariables {
 export const useGenerateSummary = (options?: UseMutationOptions<string, any, SummaryVariables>) =>
   useMutation<string, any, SummaryVariables>({
     mutationFn: fetchAIGeneratedAnswer,
-    mutationKey: ["summary"],
     ...options,
   });
 
@@ -54,7 +53,6 @@ interface AlttextVariables extends BaseVariables {
 export const useGenerateAlttext = (options?: UseMutationOptions<string, any, AlttextVariables>) =>
   useMutation<string, any, AlttextVariables>({
     mutationFn: fetchAIGeneratedAnswer,
-    mutationKey: ["alttext"],
     ...options,
   });
 
@@ -68,7 +66,6 @@ export const useGenerateAlternativePhrasing = (
 ) =>
   useMutation<string, any, AlternativePhrasingVariables>({
     mutationFn: fetchAIGeneratedAnswer,
-    mutationKey: ["alternativePhrasing"],
     ...options,
   });
 
@@ -81,7 +78,6 @@ interface MetaDescriptionVariables extends BaseVariables {
 export const useGenerateMetaDescription = (options?: UseMutationOptions<string, any, MetaDescriptionVariables>) =>
   useMutation<string, any, MetaDescriptionVariables>({
     mutationFn: fetchAIGeneratedAnswer,
-    mutationKey: ["metadescription"],
     ...options,
   });
 
@@ -93,7 +89,6 @@ interface ReflectionVariables extends BaseVariables {
 export const useGenerateReflection = (options?: UseMutationOptions<string, any, ReflectionVariables>) =>
   useMutation<string, any, ReflectionVariables>({
     mutationFn: fetchAIGeneratedAnswer,
-    mutationKey: ["reflection"],
     ...options,
   });
 

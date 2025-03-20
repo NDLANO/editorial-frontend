@@ -195,7 +195,6 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
               ) : null}
             </HStack>
             <FieldHelper>{t("form.metaDescription.description")}</FieldHelper>
-
             <PlainTextEditor
               id={field.name}
               placeholder={t("form.metaDescription.label")}

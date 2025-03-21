@@ -44,12 +44,13 @@ import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
 import { AI_ACCESS_SCOPE, DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useDraftSearchTags } from "../../modules/draft/draftQueries";
+import { useGenerateSummary, useGenerateMetaDescription } from "../../modules/llm/llmMutations";
+import { getTextFromHTML } from "../../modules/llm/llmUtils";
 import {
   blockContentToHTML,
   inlineContentToEditorValue,
   inlineContentToHTML,
 } from "../../util/articleContentConverter";
-import { getTextFromHTML, useGenerateMetaDescription, useGenerateSummary } from "../../util/llmUtils";
 import useDebounce from "../../util/useDebounce";
 import { useSession } from "../Session/SessionProvider";
 
@@ -85,8 +86,8 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
       placeholderData: (prev) => prev,
     },
   );
-  const { mutateAsync: generateSummary, isPending: isLoadingSummary } = useGenerateSummary();
-  const { mutateAsync: generateMetaDescription, isPending: isLoadingMeta } = useGenerateMetaDescription();
+  const generateSummaryMutation = useGenerateSummary();
+  const generateMetaDescriptionMutation = useGenerateMetaDescription();
 
   const collection = useMemo(() => {
     return createListCollection({
@@ -100,7 +101,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
     const articleTitle = getTextFromHTML(inlineContentToHTML(values.title));
     const articleContent = getTextFromHTML(blockContentToHTML(values.content));
 
-    const generatedText = await generateMetaDescription({
+    const generatedText = await generateMetaDescriptionMutation.mutateAsync({
       type: "metaDescription",
       text: articleContent,
       title: articleTitle,
@@ -109,7 +110,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
     if (generatedText) {
       await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
     }
-    setStatus({ status: "acceptGenerated" });
+    setStatus({ status: "metaDescription" });
   };
 
   // TODO: Handle loading, the fetching can take a long time
@@ -117,7 +118,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
     const articleTitle = getTextFromHTML(inlineContentToHTML(values.title));
     const articleContent = getTextFromHTML(blockContentToHTML(values.content));
 
-    const generatedText = await generateSummary({
+    const generatedText = await generateSummaryMutation.mutateAsync({
       type: "summary",
       text: articleContent,
       title: articleTitle,
@@ -126,7 +127,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
     if (generatedText) {
       await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
     }
-    setStatus({ status: "acceptGenerated" });
+    setStatus({ status: "generateSummary" });
   };
 
   return (
@@ -188,9 +189,13 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
             <HStack justify="space-between">
               <FieldLabel>{t("form.metaDescription.label")}</FieldLabel>
               {userPermissions?.includes(AI_ACCESS_SCOPE) ? (
-                <Button size="small" onClick={() => onClickMetaDescription(helpers)} disabled={isLoadingMeta}>
+                <Button
+                  size="small"
+                  onClick={() => onClickMetaDescription(helpers)}
+                  disabled={generateMetaDescriptionMutation.isPending}
+                >
                   {t("textGeneration.generate.metaDescription")}
-                  {isLoadingMeta ? <Spinner size="small" /> : null}
+                  {generateMetaDescriptionMutation.isPending ? <Spinner size="small" /> : null}
                 </Button>
               ) : null}
             </HStack>
@@ -213,9 +218,13 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
             <FieldRoot invalid={!!meta.error}>
               <HStack justify="space-between">
                 <FieldLabel>{t("form.articleSummary.label")}</FieldLabel>
-                <Button size="small" onClick={() => onClickGenerateSummary(helpers)} disabled={isLoadingSummary}>
+                <Button
+                  size="small"
+                  onClick={() => onClickGenerateSummary(helpers)}
+                  disabled={generateSummaryMutation.isPending}
+                >
                   {t("textGeneration.generate.summary")}
-                  {isLoadingSummary ? <Spinner size="small" /> : null}
+                  {generateSummaryMutation.isPending ? <Spinner size="small" /> : null}
                 </Button>
               </HStack>
               <FieldHelper>{t("form.articleSummary.description")}</FieldHelper>

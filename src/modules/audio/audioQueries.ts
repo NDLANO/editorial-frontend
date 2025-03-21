@@ -6,7 +6,7 @@
  *
  */
 
-import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import {
   IAudioMetaInformationDTO,
   IAudioSummarySearchResultDTO,
@@ -22,7 +22,6 @@ import {
   fetchAudioTranscription,
   fetchSearchTags,
   fetchSeries,
-  postAudioTranscription,
   postSearchAudio,
   postSearchSeries,
 } from "./audioApi";
@@ -35,11 +34,7 @@ import {
   SEARCH_SERIES,
   AUDIO_TRANSCRIPTION,
 } from "../../queryKeys";
-
-export interface UseAudio {
-  id: number;
-  language?: string;
-}
+import { UseAudio, UseSearchTags, UseSeries, UseTranscription } from "./audioTypes";
 
 export const audioQueryKeys = {
   audio: (params?: Partial<UseAudio>) => [AUDIO, params] as const,
@@ -56,11 +51,6 @@ export const useAudio = (params: UseAudio, options?: Partial<UseQueryOptions<IAu
     queryFn: () => fetchAudio(params.id, params.language),
     ...options,
   });
-
-export interface UseSeries {
-  id: number;
-  language?: string;
-}
 
 export const useSeries = (params: UseSeries, options?: Partial<UseQueryOptions<ISeriesDTO>>) =>
   useQuery<ISeriesDTO>({
@@ -91,11 +81,6 @@ export const useSearchAudio = (
   });
 };
 
-interface UseSearchTags {
-  input: string;
-  language: string;
-}
-
 export const useAudioSearchTags = (params: UseSearchTags, options?: Partial<UseQueryOptions<ITagsSearchResultDTO>>) => {
   return useQuery<ITagsSearchResultDTO>({
     queryKey: audioQueryKeys.audioSearchTags(params),
@@ -104,11 +89,6 @@ export const useAudioSearchTags = (params: UseSearchTags, options?: Partial<UseQ
   });
 };
 
-interface UseTranscription {
-  audioId: number;
-  language: string;
-}
-
 export const useAudioTranscription = (
   params: UseTranscription,
   options?: Partial<UseQueryOptions<ITranscriptionResultDTO>>,
@@ -116,19 +96,6 @@ export const useAudioTranscription = (
   return useQuery<ITranscriptionResultDTO>({
     queryKey: audioQueryKeys.audioTranscription(params),
     queryFn: () => fetchAudioTranscription(params.audioId, params.language),
-    ...options,
-  });
-};
-
-interface PostAudioTranscription {
-  id: number;
-  name: string;
-  language: string;
-}
-
-export const usePostTranscription = (options?: Partial<UseMutationOptions<void, any, PostAudioTranscription>>) => {
-  return useMutation<void, any, PostAudioTranscription>({
-    mutationFn: (params) => postAudioTranscription(params.name, params.id, params.language),
     ...options,
   });
 };

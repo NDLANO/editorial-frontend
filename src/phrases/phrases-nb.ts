@@ -2252,7 +2252,7 @@ const phrases = {
   },
   textGeneration: {
     error: "Noe gikk galt under generering av tekst. Melding fra tjenesten: {{message}}",
-
+    errorImage: "Noe gikk galt, kunne ikke prosessere bildet.",
     summary: "Oppsummering",
     replace: "Erstatt",
     add: "Legg til etter",
@@ -2264,7 +2264,7 @@ const phrases = {
       reflection: "Generer refleksjonsspørsmål",
       summary: "Generer oppsummering",
       variant: "Generer forslag",
-      alttext: "Generer alt tekst",
+      alttext: "Generer alttekst",
       transcription: "Generer transkribering",
     },
   },

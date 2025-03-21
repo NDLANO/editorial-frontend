@@ -37,9 +37,9 @@ import {
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import { AI_ACCESS_SCOPE } from "../../../constants";
 import { useSession } from "../../../containers/Session/SessionProvider";
-import { useAudioTranscription, usePostTranscription } from "../../../modules/audio/audioQueries";
+import { usePostAudioTranscription } from "../../../modules/audio/audioMutation";
+import { useAudioTranscription } from "../../../modules/audio/audioQueries";
 import { inlineContentToEditorValue } from "../../../util/articleContentConverter";
-import { ArticleFormType } from "../../FormikForm/articleFormHooks";
 
 interface AudioManuscriptProps {
   audio?: IAudioMetaInformationDTO;
@@ -90,16 +90,15 @@ const parseTranscript = (text: string) => {
 
 const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) => {
   const { t } = useTranslation();
-  const { setStatus } = useFormikContext<ArticleFormType>();
-  const { isSubmitting } = useFormikContext();
+  const { setStatus, values, isSubmitting } = useFormikContext<AudioFormikType>();
   const { userPermissions } = useSession();
   const [isPolling, setIsPolling] = useState<boolean>(false);
 
   const [_field, _meta, helpers] = useField("manuscript");
 
   const language = LANGUAGE_MAP?.[audioLanguage] ?? "no-NO";
-  const { mutateAsync } = usePostTranscription();
-  const { refetch: fetchAudioTranscript } = useAudioTranscription(
+  const postAudioTranscriptionMutation = usePostAudioTranscription();
+  const fetchAudioTranscriptQuery = useAudioTranscription(
     {
       audioId: audio?.id ?? -1,
       language: language,
@@ -128,19 +127,20 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
     }
 
     const isTrancripted =
-      (await fetchAudioTranscript({ cancelRefetch: false }).then(({ data }) => {
+      (await fetchAudioTranscriptQuery.refetch({ cancelRefetch: false }).then(({ data }) => {
         if (data?.status !== "COMPLETED") return false;
 
         const transcriptText = parseTranscript(data?.transcription ?? "");
         const editorContent = inlineContentToEditorValue(transcriptText, true);
         helpers.setValue(editorContent, true);
-        setStatus({ status: "acceptGenerated" });
+        setStatus({ status: "manuscript" });
         return true;
       })) ?? false;
 
     if (!isTrancripted) {
       const name = audio.audioFile.url?.split("audio/files/")[1];
-      await mutateAsync({ name, id: audio.id, language })
+      await postAudioTranscriptionMutation
+        .mutateAsync({ name, id: audio.id, language })
         .then(() => setIsPolling(true))
         .catch((err) => {
           if (err.status === 400 && err.json.code === "JOB_ALREADY_FOUND") {
@@ -156,39 +156,41 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
       const transcriptText = parseTranscript(polledData?.transcription ?? "");
       const editorContent = inlineContentToEditorValue(transcriptText, true);
       helpers.setValue(editorContent, true);
-      setStatus({ status: "acceptGenerated" });
+      setStatus({ status: "manuscript" });
     }
   }, [helpers, isPolling, polledData?.status, polledData?.transcription, setStatus]);
 
   return (
     <FormField name="manuscript">
-      {({ meta, helpers, field }) => {
-        return (
-          <FieldRoot invalid={!!meta.error}>
-            <ContentEditableFieldLabel textStyle="title.medium">
-              {t("podcastForm.fields.manuscript")}
-            </ContentEditableFieldLabel>
-            <RichTextEditor
-              {...field}
-              hideBlockPicker
-              placeholder={t("podcastForm.fields.manuscript")}
-              submitted={isSubmitting}
-              plugins={plugins}
-              onChange={helpers.setValue}
-              toolbarOptions={toolbarOptions}
-              toolbarAreaFilters={toolbarAreaFilters}
-            />
-            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-            <FieldWarning name={field.name} />
-            {!!audio?.audioFile.url && userPermissions?.includes(AI_ACCESS_SCOPE) ? (
-              <Button onClick={startTranscription} size="small" disabled={isPolling}>
-                {t("textGeneration.generate.transcription")}
-                {isPolling ? <Spinner size="small" /> : <FileListLine />}
-              </Button>
-            ) : undefined}
-          </FieldRoot>
-        );
-      }}
+      {({ meta, helpers, field }) => (
+        <FieldRoot invalid={!!meta.error}>
+          <ContentEditableFieldLabel textStyle="title.medium">
+            {t("podcastForm.fields.manuscript")}
+          </ContentEditableFieldLabel>
+          <RichTextEditor
+            {...field}
+            hideBlockPicker
+            placeholder={t("podcastForm.fields.manuscript")}
+            submitted={isSubmitting}
+            plugins={plugins}
+            onChange={helpers.setValue}
+            toolbarOptions={toolbarOptions}
+            toolbarAreaFilters={toolbarAreaFilters}
+          />
+          <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          <FieldWarning name={field.name} />
+          {!!audio?.audioFile.url && userPermissions?.includes(AI_ACCESS_SCOPE) ? (
+            <Button
+              onClick={startTranscription}
+              size="small"
+              disabled={isPolling || !(values.audioFile.storedFile || values.audioFile.newFile)}
+            >
+              {t("textGeneration.generate.transcription")}
+              {isPolling ? <Spinner size="small" /> : <FileListLine />}
+            </Button>
+          ) : undefined}
+        </FieldRoot>
+      )}
     </FormField>
   );
 };

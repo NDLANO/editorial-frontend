@@ -7,18 +7,13 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { Range, Editor, Element, Transforms, Node } from "slate";
+import { Range, Editor, Transforms, Node } from "slate";
 import { REPHRASE_ELEMENT_TYPE } from ".";
+import { isElementOfType } from "@ndla/editor";
 
-export const isRephrase = (node: Node) => Element.isElement(node) && node.type === REPHRASE_ELEMENT_TYPE;
+export const isRephraseElement = (node: Node | undefined) => isElementOfType(node, REPHRASE_ELEMENT_TYPE);
 
-export const unwrapRephrase = (editor: Editor) => {
-  Transforms.unwrapNodes(editor, {
-    match: isRephrase,
-  });
-};
-
-export const wrapRephrase = (editor: Editor) => {
+export const insertRephrase = (editor: Editor) => {
   if (Range.isRange(editor.selection) && !Range.isCollapsed(editor.selection)) {
     Transforms.wrapNodes(editor, slatejsx("element", { type: REPHRASE_ELEMENT_TYPE }, []), {
       at: Editor.unhangRange(editor, editor.selection),

@@ -80,6 +80,7 @@ const RichTextEditor = ({
   hideSpinner,
   onBlur: onBlurProp,
   noArticleStyling,
+  id,
   ...rest
 }: RichTextEditorProps) => {
   const [editor] = useState(() => createSlate({ plugins, logger: new LoggerManager({ debug: true }) }));
@@ -130,7 +131,7 @@ const RichTextEditor = ({
 
   useEffect(() => {
     // When form is submitted or form content has been revert to a previous version, the editor has to be reinitialized.
-    if ((!submitted && prevSubmitted.current) || status === "revertVersion" || status?.status === "acceptGenerated") {
+    if ((!submitted && prevSubmitted.current) || status === "revertVersion" || status?.status === id) {
       if (isFirstNormalize) {
         return;
       }
@@ -263,6 +264,7 @@ const RichTextEditor = ({
                   )}
                   <StyledEditable
                     {...fieldProps}
+                    id={id}
                     aria-labelledby={labelledBy}
                     {...rest}
                     onBlur={onBlur}

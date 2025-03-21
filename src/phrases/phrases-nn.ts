@@ -1304,7 +1304,7 @@ const phrases = {
     },
     articleSummary: {
       label: "Oppsummering",
-      description: "KI-generert oppsummering av artikkelen. Lagres ikke.",
+      description: "KI-generert oppsummering av artikkelen. Lagres ikkje.",
     },
     agreement: {
       label: "Koble til avtale",
@@ -2252,7 +2252,8 @@ const phrases = {
     popoverTitle: "Besøkstal siste 12 md",
   },
   textGeneration: {
-    error: "Noe gikk galt under generering av tekst. Melding fra tjenesten: {{message}}",
+    error: "Noko gjekk gale under generering av tekst. Melding frå tjenesta: {{message}}",
+    errorImage: "Noko gjekk gale, kunne ikkje prosessere biletet.",
     summary: "Oppsummering",
     replace: "Erstatt",
     add: "Legg til etter",
@@ -2260,12 +2261,12 @@ const phrases = {
     suggestedText: "Forslag til ny formulering",
     alternativeText: "Alternativ formulering",
     generate: {
-      metaDescription: "Generer metabeskrivelse",
+      metaDescription: "Generer metabeskrivning",
       transcription: "Generer transkribering",
       reflection: "Generer refleksjonsspørsmål",
       summary: "Generer oppsummering",
       variant: "Generer forslag",
-      alttext: "Generer alt tekst",
+      alttext: "Generer alttekst",
     },
   },
 };

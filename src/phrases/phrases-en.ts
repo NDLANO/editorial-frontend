@@ -1304,7 +1304,7 @@ const phrases = {
     },
     articleSummary: {
       label: "Summary",
-      description: "AI generated summary of the artile. Is not saved.",
+      description: "AI generated summary of the artile. Will not be saved.",
     },
     agreement: {
       label: "Connect to agreement",
@@ -2253,6 +2253,7 @@ const phrases = {
   },
   textGeneration: {
     error: "Something went wrong when generating text. Message from the service: {{message}}",
+    errorImage: "Something went wrong. Could not process the image.",
     summary: "Summary",
     replace: "Replace",
     add: "Add after",

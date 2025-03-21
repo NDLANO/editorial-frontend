@@ -174,28 +174,21 @@ const REFLECTION_QUESTION_QUERY: ReflectionQuery = {
             </Instructions>`,
 };
 
-const AI_QUERIES = {
-  reflection: REFLECTION_QUESTION_QUERY,
-  alternativePhrasing: ALTERNATIVE_PRHASING_QUERY,
-  alttext: ALT_TEXT_QUERY,
-  metaDescription: META_DESCRIPTION_QUERY,
-  summary: ARTICLE_SUMMARY_QUERY,
-};
-
 const isSupportedLanguage = (lang: string): lang is LanguageCode => lang === "nb" || lang === "nn" || lang === "nb";
 
 export const getPromptQuery = (payload: PromptVariables, languageCode: string) => {
   const language = isSupportedLanguage(languageCode) ? languageCode : "nb";
   switch (payload.type) {
     case "alternativePhrasing":
-      return AI_QUERIES[payload.type][language](payload.text, payload.excerpt);
+      return ALTERNATIVE_PRHASING_QUERY[language](payload.text, payload.excerpt);
     case "metaDescription":
+      return META_DESCRIPTION_QUERY[language](payload.text, payload.title);
     case "summary":
-      return AI_QUERIES[payload.type][language](payload.text, payload.title);
+      return ARTICLE_SUMMARY_QUERY[language](payload.text, payload.title);
     case "reflection":
-      return AI_QUERIES[payload.type][language](payload.text);
+      return REFLECTION_QUESTION_QUERY[language](payload.text);
     case "alttext":
     default:
-      return AI_QUERIES[payload.type][language];
+      return ALT_TEXT_QUERY[language];
   }
 };

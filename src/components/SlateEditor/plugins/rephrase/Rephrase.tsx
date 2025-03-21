@@ -6,9 +6,9 @@
  *
  */
 
-import { useState, type JSX } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Path, Text as SlateText } from "slate";
+import { Editor, Path, Text as SlateText, Transforms } from "slate";
 import { RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { FileListLine } from "@ndla/icons";
@@ -27,17 +27,15 @@ import {
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { RephraseElement } from ".";
-import { isRephrase, unwrapRephrase } from "./utils";
-import { useGenerateAlternativePhrasing } from "../../../../util/llmUtils";
+import { isRephraseElement } from "./utils";
+import { useGenerateAlternativePhrasing } from "../../../../modules/llm/llmMutations";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
 
-interface Props {
-  attributes: RenderElementProps["attributes"];
-  editor: Editor;
+interface Props extends RenderElementProps {
   element: RephraseElement;
-  children: JSX.Element[];
+  editor: Editor;
 }
 
 const TextContainer = styled("div", {
@@ -49,33 +47,22 @@ const TextContainer = styled("div", {
   },
 });
 
-// We need to portal both the dialog and the surrounding popover in order to not render invalid HTML in the editor.
-// This is a workaround to avoid the popover being rendered above the dialog.
-const StyledDialogBackdrop = styled(DialogBackdrop, {
-  base: {
-    zIndex: "popover",
-  },
-});
-const StyledDialogPositioner = styled(DialogPositioner, {
-  base: {
-    zIndex: "popover",
-  },
-});
-
 export const Rephrase = ({ attributes, editor, element, children }: Props) => {
   const { t } = useTranslation();
   const language = useArticleLanguage();
   const [generatedText, setGeneratedText] = useState<string | undefined>(undefined);
-  const { mutateAsync, isPending } = useGenerateAlternativePhrasing();
+  const phrasingMutation = useGenerateAlternativePhrasing();
 
   const currentText = element.children.find(SlateText.isText)?.text ?? "";
 
   const onClose = () => {
-    unwrapRephrase(editor);
+    Transforms.unwrapNodes(editor, {
+      match: isRephraseElement,
+    });
   };
 
   const fetchAiGeneratedText = async () => {
-    const res = await mutateAsync({
+    const res = await phrasingMutation.mutateAsync({
       type: "alternativePhrasing",
       text: currentText,
       excerpt: currentText,
@@ -93,7 +80,7 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
 
   const onAppend = () => {
     if (generatedText) {
-      const [entry] = editor.nodes({ match: isRephrase });
+      const [entry] = editor.nodes({ match: isRephraseElement });
       const [_node, path] = entry;
       editor.insertNode({ type: TYPE_PARAGRAPH, children: [{ text: generatedText }] }, { at: Path.next(path) });
     }
@@ -103,8 +90,8 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
   return (
     <DialogRoot defaultOpen closeOnInteractOutside closeOnEscape onExitComplete={onClose}>
       <Portal>
-        <StyledDialogBackdrop />
-        <StyledDialogPositioner>
+        <DialogBackdrop />
+        <DialogPositioner>
           <DialogStandaloneContent>
             <DialogHeader>
               <DialogTitle>{t("textGeneration.alternativeText")}</DialogTitle>
@@ -114,8 +101,8 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
               <TextContainer>
                 <Text>{currentText}</Text>
               </TextContainer>
-              <Button size="small" onClick={fetchAiGeneratedText} disabled={isPending}>
-                {isPending ? <Spinner size="small" /> : null}
+              <Button size="small" onClick={fetchAiGeneratedText} disabled={phrasingMutation.isPending}>
+                {phrasingMutation.isPending ? <Spinner size="small" /> : null}
                 {t("textGeneration.generate.variant")}
                 <FileListLine />
               </Button>
@@ -142,7 +129,7 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
               </HStack>
             </DialogBody>
           </DialogStandaloneContent>
-        </StyledDialogPositioner>
+        </DialogPositioner>
       </Portal>
       <span {...attributes}>{children}</span>
     </DialogRoot>

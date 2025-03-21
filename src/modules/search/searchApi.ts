@@ -24,7 +24,7 @@ const baseUrl = apiResourceUrl("/search-api/v1/search");
 export const postSearch = async (body: StringSort<IDraftSearchParamsDTO>): Promise<IMultiSearchResultDTO> => {
   const response = await fetchAuthorized(`${baseUrl}/editorial/`, {
     method: "POST",
-    body: JSON.stringify(transformSearchBody(body)),
+    body: JSON.stringify(transformSearchBody(body, true)),
   });
   return resolveJsonOrRejectWithError(response);
 };

@@ -732,6 +732,7 @@ const phrases = {
     left: "Venstrejustert",
     center: "Midtstilt",
     right: "Høgrejustert",
+    rephrase: "Omformulering",
     disabled: {
       "comment-inline": "Kommentar kan kun overlappe tekst",
     },
@@ -1300,6 +1301,10 @@ const phrases = {
       label: "Metabeskrivelse",
       description: "Beskrivelsen blir synlig i søk.",
       helpLabel: "Kva er metabeskrivelse?",
+    },
+    articleSummary: {
+      label: "Oppsummering",
+      description: "KI-generert oppsummering av artikkelen. Lagres ikkje.",
     },
     agreement: {
       label: "Koble til avtale",
@@ -2245,6 +2250,24 @@ const phrases = {
     popoverDescription_one: "{{count}} unik sidevisning, klikk for å sjå fleire besøkstal",
     popoverDescription_other: "{{count}} unike sidevisningar, klikk for å sjå fleire besøkstal",
     popoverTitle: "Besøkstal siste 12 md",
+  },
+  textGeneration: {
+    error: "Noko gjekk gale under generering av tekst. Melding frå tjenesta: {{message}}",
+    errorImage: "Noko gjekk gale, kunne ikkje prosessere biletet.",
+    summary: "Oppsummering",
+    replace: "Erstatt",
+    add: "Legg til etter",
+    chosenText: "Valt tekst",
+    suggestedText: "Forslag til ny formulering",
+    alternativeText: "Alternativ formulering",
+    generate: {
+      metaDescription: "Generer metabeskrivning",
+      transcription: "Generer transkribering",
+      reflection: "Generer refleksjonsspørsmål",
+      summary: "Generer oppsummering",
+      variant: "Generer forslag",
+      alttext: "Generer alttekst",
+    },
   },
 };
 

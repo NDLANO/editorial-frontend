@@ -10,14 +10,17 @@ import express from "express";
 import { GetVerificationKey, expressjwt as jwt, Request } from "express-jwt";
 import jwksRsa from "jwks-rsa";
 import prettier from "prettier";
+import { MediaFormat, LanguageCode } from "@aws-sdk/client-transcribe";
 import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getResponsibles } from "./auth";
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN, BAD_REQUEST } from "./httpCodes";
 import errorLogger from "./logger";
 import { translateDocument } from "./translate";
-import config from "../config";
+import config, { getEnvironmentVariabel } from "../config";
 import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
 import { NdlaError } from "../interfaces";
 import { fetchMatomoStats } from "./matomo";
+import { PromptVariables } from "./llmQueries";
+import { generateAnswer, getTranscription, initializeTranscription } from "./llm";
 
 const router = express.Router();
 
@@ -171,6 +174,83 @@ router.post("/matomo-stats", jwtMiddleware, async (req, res) => {
     res
       .status(BAD_REQUEST)
       .json({ status: BAD_REQUEST, text: "The 'contextIds' field is required in the request body." });
+  }
+});
+
+type GenerateAnswerBody = {
+  language: string;
+  max_tokens: number;
+} & PromptVariables;
+
+router.post<{}, {}, GenerateAnswerBody>("/generate-ai", async (req, res) => {
+  try {
+    const text = await generateAnswer(req.body, req.body.language, req.body.max_tokens);
+    res.status(OK).send(text);
+  } catch (err) {
+    res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
+  }
+});
+
+interface StartTranscriptBody {
+  languageCode: LanguageCode;
+  mediaFormat: MediaFormat;
+  mediaFileUri: string;
+  outputFileName: string;
+  maxSpeakers: number;
+}
+
+const transcriptionBucketName = getEnvironmentVariabel("TRANSCRIBE_FILE_S3_BUCKET");
+
+router.post<{}, {}, StartTranscriptBody>("/transcribe", async (req, res) => {
+  if (!transcriptionBucketName) {
+    res.status(INTERNAL_SERVER_ERROR).send("Missing required environment variables");
+    return;
+  }
+
+  if (!req.body.languageCode || !req.body.mediaFormat || !req.body.mediaFileUri || !req.body.outputFileName) {
+    res.status(400).send("Missing required parameters");
+  }
+
+  try {
+    const response = await initializeTranscription(req.body, transcriptionBucketName);
+    res.status(OK).json(response);
+  } catch (err) {
+    res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
+  }
+});
+
+interface TranscribeJobParams {
+  jobName: string;
+}
+router.get<TranscribeJobParams, {}, {}>("/transcribe/:jobName", async (req, res) => {
+  if (!transcriptionBucketName) {
+    res.status(INTERNAL_SERVER_ERROR).send("Missing required environment variables");
+    return;
+  }
+  const { jobName } = req.params;
+  try {
+    const response = await getTranscription(jobName);
+
+    if (!response || !response.TranscriptionJob) {
+      res.status(404).send({ error: "Job not found or an error occurred" });
+      return;
+    }
+
+    switch (response.TranscriptionJob.TranscriptionJobStatus) {
+      case "COMPLETED": {
+        const transcriptUri = response.TranscriptionJob.Transcript?.TranscriptFileUri || "";
+        res.json({ jobName: jobName, status: "COMPLETED", transcriptUrl: transcriptUri });
+        break;
+      }
+      case "FAILED": {
+        res.status(500).send({ jobName: jobName, status: "FAILED", reason: response.TranscriptionJob.FailureReason });
+        break;
+      }
+      default:
+        res.json({ jobName: jobName, status: response.TranscriptionJob.TranscriptionJobStatus });
+    }
+  } catch (error) {
+    res.status(INTERNAL_SERVER_ERROR).send((error as NdlaError).message);
   }
 });
 

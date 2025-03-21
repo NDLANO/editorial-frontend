@@ -6,9 +6,12 @@
  *
  */
 
-import { connect, useFormikContext } from "formik";
+import { connect, useField, useFormikContext } from "formik";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
+import { FileListLine } from "@ndla/icons";
+import { Button, FieldErrorMessage, FieldRoot, Spinner } from "@ndla/primitives";
+import { IAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import { AudioFormikType } from "./AudioForm";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../components/Form/FieldWarning";
@@ -32,6 +35,16 @@ import {
   createToolbarDefaultValues,
 } from "../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
+import { AI_ACCESS_SCOPE } from "../../../constants";
+import { useSession } from "../../../containers/Session/SessionProvider";
+import { usePostAudioTranscription } from "../../../modules/audio/audioMutation";
+import { useAudioTranscription } from "../../../modules/audio/audioQueries";
+import { inlineContentToEditorValue } from "../../../util/articleContentConverter";
+
+interface AudioManuscriptProps {
+  audio?: IAudioMetaInformationDTO;
+  audioLanguage?: string;
+}
 
 const toolbarOptions = createToolbarDefaultValues({
   text: {
@@ -61,17 +74,95 @@ const manuscriptPlugins: SlatePlugin[] = [
   noopPlugin,
 ];
 
-const manuscriptRenderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, markRenderer, breakRenderer, spanRenderer];
+const LANGUAGE_MAP: Record<string, string> = {
+  nb: "no-NO",
+  nn: "no-NO",
+  de: "de-DE",
+};
 
+const manuscriptRenderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, markRenderer, breakRenderer, spanRenderer];
 const plugins = manuscriptPlugins.concat(manuscriptRenderers);
 
-const AudioManuscript = () => {
+const parseTranscript = (text: string) => {
+  const json = JSON.parse(text);
+  return json.results.transcripts[0].transcript;
+};
+
+const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) => {
   const { t } = useTranslation();
-  const { isSubmitting } = useFormikContext();
+  const { setStatus, values, isSubmitting } = useFormikContext<AudioFormikType>();
+  const { userPermissions } = useSession();
+  const [isPolling, setIsPolling] = useState<boolean>(false);
+
+  const [_field, _meta, helpers] = useField("manuscript");
+
+  const language = LANGUAGE_MAP?.[audioLanguage] ?? "no-NO";
+  const postAudioTranscriptionMutation = usePostAudioTranscription();
+  const fetchAudioTranscriptQuery = useAudioTranscription(
+    {
+      audioId: audio?.id ?? -1,
+      language: language,
+    },
+    {
+      // Settings to make this a lazyQuery
+      enabled: false,
+      retry: false,
+    },
+  );
+
+  const { data: polledData } = useAudioTranscription(
+    {
+      audioId: audio?.id ?? -1,
+      language: language,
+    },
+    {
+      refetchInterval: 1000,
+      enabled: isPolling,
+    },
+  );
+
+  const startTranscription = async () => {
+    if (!audio || !audioLanguage) {
+      return;
+    }
+
+    const isTrancripted =
+      (await fetchAudioTranscriptQuery.refetch({ cancelRefetch: false }).then(({ data }) => {
+        if (data?.status !== "COMPLETED") return false;
+
+        const transcriptText = parseTranscript(data?.transcription ?? "");
+        const editorContent = inlineContentToEditorValue(transcriptText, true);
+        helpers.setValue(editorContent, true);
+        setStatus({ status: "manuscript" });
+        return true;
+      })) ?? false;
+
+    if (!isTrancripted) {
+      const name = audio.audioFile.url?.split("audio/files/")[1];
+      await postAudioTranscriptionMutation
+        .mutateAsync({ name, id: audio.id, language })
+        .then(() => setIsPolling(true))
+        .catch((err) => {
+          if (err.status === 400 && err.json.code === "JOB_ALREADY_FOUND") {
+            setIsPolling(true);
+          }
+        });
+    }
+  };
+
+  useEffect(() => {
+    if (polledData?.status === "COMPLETED" && isPolling) {
+      setIsPolling(false);
+      const transcriptText = parseTranscript(polledData?.transcription ?? "");
+      const editorContent = inlineContentToEditorValue(transcriptText, true);
+      helpers.setValue(editorContent, true);
+      setStatus({ status: "manuscript" });
+    }
+  }, [helpers, isPolling, polledData?.status, polledData?.transcription, setStatus]);
 
   return (
     <FormField name="manuscript">
-      {({ field, meta, helpers }) => (
+      {({ meta, helpers, field }) => (
         <FieldRoot invalid={!!meta.error}>
           <ContentEditableFieldLabel textStyle="title.medium">
             {t("podcastForm.fields.manuscript")}
@@ -88,10 +179,20 @@ const AudioManuscript = () => {
           />
           <FieldErrorMessage>{meta.error}</FieldErrorMessage>
           <FieldWarning name={field.name} />
+          {!!audio?.audioFile.url && userPermissions?.includes(AI_ACCESS_SCOPE) ? (
+            <Button
+              onClick={startTranscription}
+              size="small"
+              disabled={isPolling || !(values.audioFile.storedFile || values.audioFile.newFile)}
+            >
+              {t("textGeneration.generate.transcription")}
+              {isPolling ? <Spinner size="small" /> : <FileListLine />}
+            </Button>
+          ) : undefined}
         </FieldRoot>
       )}
     </FormField>
   );
 };
 
-export default connect<{}, AudioFormikType>(AudioManuscript);
+export default connect<AudioManuscriptProps, AudioFormikType>(AudioManuscript);

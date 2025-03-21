@@ -50,6 +50,7 @@ import { headingPlugin } from "../../../../components/SlateEditor/plugins/headin
 import { breakPlugin } from "../../../../components/SlateEditor/plugins/break";
 import { markPlugin } from "../../../../components/SlateEditor/plugins/mark";
 import { listPlugin } from "../../../../components/SlateEditor/plugins/list";
+import { rephrasePlugin } from "../../../../components/SlateEditor/plugins/rephrase";
 
 // Plugins are checked from last to first
 export const frontpagePlugins: SlatePlugin[] = [
@@ -99,4 +100,5 @@ export const frontpagePlugins: SlatePlugin[] = [
   linkBlockListPlugin,
   disclaimerPlugin,
   copyrightPlugin,
+  rephrasePlugin,
 ];

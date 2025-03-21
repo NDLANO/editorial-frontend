@@ -10,18 +10,23 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, NodeEntry, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import { BrushLine, CopyrightLine } from "@ndla/icons";
-import { IconButton } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { BrushLine, CopyrightLine, FileListLine } from "@ndla/icons";
+import { IconButton, Spinner } from "@ndla/primitives";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import { ContentTypeFramedContent, EmbedWrapper } from "@ndla/ui";
 import { FramedContentElement } from "./framedContentTypes";
+import { AI_ACCESS_SCOPE } from "../../../../constants";
+import { useGenerateReflection } from "../../../../modules/llm/llmMutations";
 import { useArticleContentType } from "../../../ContentTypeProvider";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
+import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { TYPE_COPYRIGHT } from "../copyright/types";
 import { defaultCopyrightBlock } from "../copyright/utils";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import { isFramedContentElement } from "./queries/framedContentQueries";
+import { useSession } from "../../../../containers/Session/SessionProvider";
+import { editorValueToPlainText } from "../../../../util/articleContentConverter";
 
 const FigureButtons = styled(StyledFigureButtons, {
   base: {
@@ -38,11 +43,16 @@ interface Props extends RenderElementProps {
 const SlateFramedContent = (props: Props) => {
   const { element, editor, attributes, children } = props;
   const { t } = useTranslation();
+  const { userPermissions } = useSession();
+  const language = useArticleLanguage();
+  const generateReflectionMutation = useGenerateReflection();
   const variant = element.data?.variant ?? "neutral";
   const contentType = useArticleContentType();
-  const hasSlateCopyright = useMemo(() => {
-    return element.children.some((child) => Element.isElement(child) && child.type === TYPE_COPYRIGHT);
-  }, [element.children]);
+  const hasAIAccess = userPermissions?.includes(AI_ACCESS_SCOPE);
+  const hasSlateCopyright = useMemo(
+    () => element.children.some((child) => Element.isElement(child) && child.type === TYPE_COPYRIGHT),
+    [element.children],
+  );
 
   const onRemoveClick = () => {
     const path = ReactEditor.findPath(editor, element);
@@ -74,9 +84,39 @@ const SlateFramedContent = (props: Props) => {
     Transforms.insertNodes(editor, defaultCopyrightBlock(), { at: path.concat(node.children.length) });
   };
 
+  const generateQuestions = async () => {
+    const articleText = editorValueToPlainText(editor.children);
+
+    const generatedText = await generateReflectionMutation.mutateAsync({
+      type: "reflection",
+      text: articleText,
+      language: t(`languages.${language}`),
+    });
+
+    if (generatedText) {
+      const path = ReactEditor.findPath(editor, element);
+      editor.insertText(generatedText, { at: path });
+    }
+  };
+
   return (
     <EmbedWrapper draggable {...attributes}>
       <FigureButtons contentEditable={false}>
+        {hasAIAccess ? (
+          <HStack>
+            {generateReflectionMutation.isPending ? <Spinner size="small" /> : null}
+            <IconButton
+              variant={variant === "colored" ? "primary" : "secondary"}
+              size="small"
+              title={t("textGeneration.generate.reflection")}
+              aria-label={t("textGeneration.generate.reflection")}
+              onClick={generateQuestions}
+              disabled={generateReflectionMutation.isPending}
+            >
+              <FileListLine />
+            </IconButton>
+          </HStack>
+        ) : undefined}
         {!hasSlateCopyright && (
           <IconButton
             variant="tertiary"

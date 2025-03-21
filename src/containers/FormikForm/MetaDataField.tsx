@@ -6,10 +6,13 @@
  *
  */
 
+import { FieldHelperProps, useFormikContext } from "formik";
 import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Descendant } from "slate";
 import { createListCollection } from "@ark-ui/react";
 import {
+  Button,
   ComboboxItem,
   ComboboxItemText,
   FieldErrorMessage,
@@ -23,11 +26,13 @@ import {
   RadioGroupItemText,
   RadioGroupLabel,
   RadioGroupRoot,
+  Spinner,
 } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { MetaImageSearch } from ".";
+import { ArticleFormType } from "./articleFormHooks";
 import { GenericComboboxItemIndicator } from "../../components/abstractions/Combobox";
 import { FieldWarning } from "../../components/Form/FieldWarning";
 import { FormRemainingCharacters } from "../../components/Form/FormRemainingCharacters";
@@ -37,8 +42,15 @@ import { FormField } from "../../components/FormField";
 import { FormContent } from "../../components/FormikForm";
 import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
-import { DRAFT_ADMIN_SCOPE } from "../../constants";
+import { AI_ACCESS_SCOPE, DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useDraftSearchTags } from "../../modules/draft/draftQueries";
+import { useGenerateSummary, useGenerateMetaDescription } from "../../modules/llm/llmMutations";
+import { getTextFromHTML } from "../../modules/llm/llmUtils";
+import {
+  blockContentToHTML,
+  inlineContentToEditorValue,
+  inlineContentToHTML,
+} from "../../util/articleContentConverter";
 import useDebounce from "../../util/useDebounce";
 import { useSession } from "../Session/SessionProvider";
 
@@ -63,6 +75,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
   const plugins = [textTransformPlugin];
   const [inputQuery, setInputQuery] = useState<string>("");
   const debouncedQuery = useDebounce(inputQuery, 300);
+  const { setStatus, values } = useFormikContext<ArticleFormType>();
   const searchTagsQuery = useDraftSearchTags(
     {
       input: debouncedQuery,
@@ -73,6 +86,8 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
       placeholderData: (prev) => prev,
     },
   );
+  const generateSummaryMutation = useGenerateSummary();
+  const generateMetaDescriptionMutation = useGenerateMetaDescription();
 
   const collection = useMemo(() => {
     return createListCollection({
@@ -81,6 +96,39 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
       itemToString: (item) => item,
     });
   }, [searchTagsQuery.data?.results]);
+
+  const onClickMetaDescription = async (helpers: FieldHelperProps<Descendant[]>) => {
+    const articleTitle = getTextFromHTML(inlineContentToHTML(values.title));
+    const articleContent = getTextFromHTML(blockContentToHTML(values.content));
+
+    const generatedText = await generateMetaDescriptionMutation.mutateAsync({
+      type: "metaDescription",
+      text: articleContent,
+      title: articleTitle,
+      language: t(`languages.${articleLanguage}`),
+    });
+    if (generatedText) {
+      await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
+    }
+    setStatus({ status: "metaDescription" });
+  };
+
+  // TODO: Handle loading, the fetching can take a long time
+  const onClickGenerateSummary = async (helpers: FieldHelperProps<Descendant[]>) => {
+    const articleTitle = getTextFromHTML(inlineContentToHTML(values.title));
+    const articleContent = getTextFromHTML(blockContentToHTML(values.content));
+
+    const generatedText = await generateSummaryMutation.mutateAsync({
+      type: "summary",
+      text: articleContent,
+      title: articleTitle,
+      language: t(`languages.${articleLanguage}`),
+    });
+    if (generatedText) {
+      await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
+    }
+    setStatus({ status: "generateSummary" });
+  };
 
   return (
     <FormContent>
@@ -136,9 +184,21 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         </FormField>
       )}
       <FormField name="metaDescription">
-        {({ field, meta }) => (
+        {({ field, meta, helpers }) => (
           <FieldRoot invalid={!!meta.error}>
-            <FieldLabel>{t("form.metaDescription.label")}</FieldLabel>
+            <HStack justify="space-between">
+              <FieldLabel>{t("form.metaDescription.label")}</FieldLabel>
+              {userPermissions?.includes(AI_ACCESS_SCOPE) ? (
+                <Button
+                  size="small"
+                  onClick={() => onClickMetaDescription(helpers)}
+                  disabled={generateMetaDescriptionMutation.isPending}
+                >
+                  {t("textGeneration.generate.metaDescription")}
+                  {generateMetaDescriptionMutation.isPending ? <Spinner size="small" /> : null}
+                </Button>
+              ) : null}
+            </HStack>
             <FieldHelper>{t("form.metaDescription.description")}</FieldHelper>
             <PlainTextEditor
               id={field.name}
@@ -152,6 +212,34 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
           </FieldRoot>
         )}
       </FormField>
+      {!!userPermissions?.includes(AI_ACCESS_SCOPE) && (
+        <FormField name="summary">
+          {({ field, meta, helpers }) => (
+            <FieldRoot invalid={!!meta.error}>
+              <HStack justify="space-between">
+                <FieldLabel>{t("form.articleSummary.label")}</FieldLabel>
+                <Button
+                  size="small"
+                  onClick={() => onClickGenerateSummary(helpers)}
+                  disabled={generateSummaryMutation.isPending}
+                >
+                  {t("textGeneration.generate.summary")}
+                  {generateSummaryMutation.isPending ? <Spinner size="small" /> : null}
+                </Button>
+              </HStack>
+              <FieldHelper>{t("form.articleSummary.description")}</FieldHelper>
+              <PlainTextEditor
+                id={field.name}
+                placeholder={t("form.articleSummary.label")}
+                {...field}
+                plugins={plugins}
+              />
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              <FieldWarning name={field.name} />
+            </FieldRoot>
+          )}
+        </FormField>
+      )}
       <FormField name="metaImageId">
         {({ field, meta }) => (
           <FieldRoot invalid={!!meta.error}>

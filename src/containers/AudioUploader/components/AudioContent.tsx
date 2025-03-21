@@ -35,7 +35,7 @@ import AudioPlayer from "./AudioPlayer";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
-import { PodcastFormValues } from "../../../modules/audio/audioApiInterfaces";
+import { PodcastFormValues } from "../../../modules/audio/audioTypes";
 import { TitleField } from "../../FormikForm";
 
 const ContentWrapper = styled("div", {

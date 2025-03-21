@@ -8,7 +8,7 @@
 
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { DeleteBinLine } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
@@ -40,6 +40,7 @@ import {
   toEditSubjectpage,
   toCreateSubjectpage,
   toEditNdlaFilm,
+  toStructure,
 } from "../../util/routeHelpers";
 import { AlertDialog } from "../AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../FormikForm";
@@ -52,14 +53,14 @@ interface Props {
   id: number;
   disabled: boolean;
   type: string;
-  subjectId?: string;
 }
 
-const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disabled, subjectId }: Props) => {
+const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disabled }: Props) => {
   const { t } = useTranslation();
   const [showDeleteWarning, setShowDeleteWarning] = useState(false);
   const { createMessage, formatErrorMessage } = useMessages();
   const navigate = useNavigate();
+  const { elementId } = useParams<"elementId">();
 
   const toggleShowDeleteWarning = useCallback(() => {
     setShowDeleteWarning((p) => !p);
@@ -114,10 +115,12 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
             break;
           case "subjectpage":
             await deleteSubectPageLanguageVersion(id, language);
-            if (newAfterLanguageDeletion && subjectId && otherSupportedLanguage) {
-              navigate(toEditSubjectpage(subjectId, otherSupportedLanguage, id));
-            } else if (subjectId) {
-              navigate(toCreateSubjectpage(subjectId, "nb"));
+            if (newAfterLanguageDeletion && elementId && otherSupportedLanguage) {
+              navigate(toEditSubjectpage(elementId, otherSupportedLanguage, id));
+            } else if (elementId) {
+              navigate(toCreateSubjectpage(elementId, "nb"));
+            } else {
+              navigate(toStructure());
             }
             break;
           case "filmfrontpage":

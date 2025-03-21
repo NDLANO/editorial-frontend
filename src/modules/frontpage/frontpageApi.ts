@@ -64,3 +64,16 @@ export const createSubjectpage = (subjectpage: INewSubjectFrontPageDataDTO): Pro
     method: "POST",
     body: JSON.stringify(subjectpage),
   }).then((r) => resolveJsonOrRejectWithError(r));
+
+export const deleteSubectPageLanguageVersion = (
+  subjectPageId: number,
+  language: string,
+): Promise<ISubjectPageDataDTO> =>
+  fetchAuthorized(`${baseUrl}/subjectpage/${subjectPageId}/language/${language}`, {
+    method: "DELETE",
+  }).then((r) => resolveJsonOrRejectWithError(r));
+
+export const deleteFilmFrontPageLanguageVersion = (language: string): Promise<IFilmFrontPageDataDTO> =>
+  fetchAuthorized(`${baseUrl}/filmfrontpage/language/${language}`, {
+    method: "DELETE",
+  }).then((r) => resolveJsonOrRejectWithError(r));

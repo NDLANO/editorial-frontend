@@ -15,6 +15,10 @@ import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { deleteLanguageVersionAudio, deleteLanguageVersionSeries } from "../../modules/audio/audioApi";
 import { deleteLanguageVersionConcept } from "../../modules/concept/conceptApi";
 import { deleteLanguageVersion as deleteLanguageVersionDraft } from "../../modules/draft/draftApi";
+import {
+  deleteFilmFrontPageLanguageVersion,
+  deleteSubectPageLanguageVersion,
+} from "../../modules/frontpage/frontpageApi";
 import { deleteLanguageVersionImage } from "../../modules/image/imageApi";
 import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import {
@@ -33,6 +37,9 @@ import {
   toEditPodcast,
   toEditPodcastSeries,
   toEditTopicArticle,
+  toEditSubjectpage,
+  toCreateSubjectpage,
+  toEditNdlaFilm,
 } from "../../util/routeHelpers";
 import { AlertDialog } from "../AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../FormikForm";
@@ -45,9 +52,10 @@ interface Props {
   id: number;
   disabled: boolean;
   type: string;
+  subjectId?: string;
 }
 
-const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disabled }: Props) => {
+const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disabled, subjectId }: Props) => {
   const { t } = useTranslation();
   const [showDeleteWarning, setShowDeleteWarning] = useState(false);
   const { createMessage, formatErrorMessage } = useMessages();
@@ -100,10 +108,21 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
             await deleteLanguageVersionDraft(id, language);
             navigate(toEditTopicArticle(id, otherSupportedLanguage!));
             break;
-
           case "frontpage-article":
             await deleteLanguageVersionDraft(id, language);
             navigate(toEditFrontPageArticle(id, otherSupportedLanguage!));
+            break;
+          case "subjectpage":
+            await deleteSubectPageLanguageVersion(id, language);
+            if (newAfterLanguageDeletion && subjectId && otherSupportedLanguage) {
+              navigate(toEditSubjectpage(subjectId, otherSupportedLanguage, id));
+            } else if (subjectId) {
+              navigate(toCreateSubjectpage(subjectId, "nb"));
+            }
+            break;
+          case "filmfrontpage":
+            await deleteFilmFrontPageLanguageVersion(language);
+            navigate(toEditNdlaFilm(otherSupportedLanguage));
             break;
           default:
             createMessage({ message: t("embed.unsupported", { type }) });

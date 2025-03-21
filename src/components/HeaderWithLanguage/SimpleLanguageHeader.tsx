@@ -8,6 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { styled } from "@ndla/styled-system/jsx";
+import DeleteLanguageVersion from "./DeleteLanguageVersion";
 import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
 import HeaderInformation, { StyledSplitter } from "./HeaderInformation";
 import HeaderLanguagePicker from "./HeaderLanguagePicker";
@@ -17,6 +18,12 @@ const Wrapper = styled("div", {
   base: {
     display: "flex",
     alignItems: "center",
+  },
+});
+
+const DeleteLanguageVersionWrapper = styled("div", {
+  base: {
+    marginLeft: "auto",
   },
 });
 
@@ -83,6 +90,15 @@ const SimpleLanguageHeader = ({
           )}
           <StyledSplitter />
           <HeaderLanguagePicker id={id} emptyLanguages={emptyLanguages} editUrl={editUrl} />
+          <DeleteLanguageVersionWrapper>
+            <DeleteLanguageVersion
+              language={language}
+              supportedLanguages={supportedLanguages}
+              id={id}
+              disabled={supportedLanguages.length === 1}
+              type={articleType}
+            />
+          </DeleteLanguageVersionWrapper>
         </Wrapper>
       ) : (
         <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>

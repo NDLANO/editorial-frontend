@@ -72,7 +72,6 @@ export const brightcoveEmbedFormRules: RulesType<FormValues> = {
     required: false,
   },
   caption: {
-    required: true,
     translationKey: "form.video.caption.label",
   },
 };

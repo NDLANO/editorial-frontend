@@ -6,7 +6,7 @@
  *
  */
 
-import express, { NextFunction } from "express";
+import express from "express";
 import { GetVerificationKey, expressjwt as jwt, Request } from "express-jwt";
 import jwksRsa from "jwks-rsa";
 import prettier from "prettier";

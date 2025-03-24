@@ -94,6 +94,10 @@ const SlateFramedContent = (props: Props) => {
     });
 
     if (generatedText) {
+      if (!ReactEditor.isFocused(editor)) {
+        ReactEditor.focus(editor);
+      }
+
       const path = ReactEditor.findPath(editor, element);
       editor.insertText(generatedText, { at: path });
     }

@@ -6,11 +6,12 @@
  *
  */
 
+import { fetchAuthorized } from "../../util/apiHelpers";
 import { Payload } from "./llmApiTypes";
 
 export const fetchAIGeneratedAnswer = async (payload: Payload): Promise<string> =>
   (
-    await fetch("/generate-ai", {
+    await fetchAuthorized("/generate-ai", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

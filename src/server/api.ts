@@ -182,7 +182,7 @@ type GenerateAnswerBody = {
   max_tokens: number;
 } & PromptVariables;
 
-router.post<{}, {}, GenerateAnswerBody>("/generate-ai", async (req, res) => {
+router.post<{}, {}, GenerateAnswerBody>("/generate-ai", jwtMiddleware, async (req, res) => {
   try {
     const text = await generateAnswer(req.body, req.body.language, req.body.max_tokens);
     res.status(OK).send(text);
@@ -201,7 +201,7 @@ interface StartTranscriptBody {
 
 const transcriptionBucketName = getEnvironmentVariabel("TRANSCRIBE_FILE_S3_BUCKET");
 
-router.post<{}, {}, StartTranscriptBody>("/transcribe", async (req, res) => {
+router.post<{}, {}, StartTranscriptBody>("/transcribe", jwtMiddleware, async (req, res) => {
   if (!transcriptionBucketName) {
     res.status(INTERNAL_SERVER_ERROR).send("Missing required environment variables");
     return;
@@ -219,10 +219,7 @@ router.post<{}, {}, StartTranscriptBody>("/transcribe", async (req, res) => {
   }
 });
 
-interface TranscribeJobParams {
-  jobName: string;
-}
-router.get<TranscribeJobParams, {}, {}>("/transcribe/:jobName", async (req, res) => {
+router.get("/transcribe/:jobName", jwtMiddleware, async (req, res) => {
   if (!transcriptionBucketName) {
     res.status(INTERNAL_SERVER_ERROR).send("Missing required environment variables");
     return;

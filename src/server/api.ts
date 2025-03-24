@@ -6,17 +6,17 @@
  *
  */
 
-import express from "express";
+import express, { NextFunction } from "express";
 import { GetVerificationKey, expressjwt as jwt, Request } from "express-jwt";
 import jwksRsa from "jwks-rsa";
 import prettier from "prettier";
 import { MediaFormat, LanguageCode } from "@aws-sdk/client-transcribe";
 import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getResponsibles } from "./auth";
-import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN, BAD_REQUEST } from "./httpCodes";
+import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN, BAD_REQUEST, UNAUTHORIZED } from "./httpCodes";
 import errorLogger from "./logger";
 import { translateDocument } from "./translate";
 import config, { getEnvironmentVariabel } from "../config";
-import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
+import { AI_ACCESS_SCOPE, DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
 import { NdlaError } from "../interfaces";
 import { fetchMatomoStats } from "./matomo";
 import { PromptVariables } from "./llmQueries";
@@ -177,12 +177,25 @@ router.post("/matomo-stats", jwtMiddleware, async (req, res) => {
   }
 });
 
+const aiMiddleware = (req: Request, res: express.Response, next: express.NextFunction) => {
+  const { auth } = req;
+  const user = auth as NdlaUser;
+
+  const hasAiAccess = user && user.permissions && user.permissions.includes(AI_ACCESS_SCOPE);
+
+  if (!hasAiAccess) {
+    res.status(UNAUTHORIZED).send({ error: "Access denied. Missing access" });
+  } else {
+    next();
+  }
+};
+
 type GenerateAnswerBody = {
   language: string;
   max_tokens: number;
 } & PromptVariables;
 
-router.post<{}, {}, GenerateAnswerBody>("/generate-ai", jwtMiddleware, async (req, res) => {
+router.post<{}, {}, GenerateAnswerBody>("/generate-ai", jwtMiddleware, aiMiddleware, async (req, res) => {
   try {
     const text = await generateAnswer(req.body, req.body.language, req.body.max_tokens);
     res.status(OK).send(text);
@@ -201,7 +214,7 @@ interface StartTranscriptBody {
 
 const transcriptionBucketName = getEnvironmentVariabel("TRANSCRIBE_FILE_S3_BUCKET");
 
-router.post<{}, {}, StartTranscriptBody>("/transcribe", jwtMiddleware, async (req, res) => {
+router.post<{}, {}, StartTranscriptBody>("/transcribe", jwtMiddleware, aiMiddleware, async (req: Request, res) => {
   if (!transcriptionBucketName) {
     res.status(INTERNAL_SERVER_ERROR).send("Missing required environment variables");
     return;
@@ -219,7 +232,7 @@ router.post<{}, {}, StartTranscriptBody>("/transcribe", jwtMiddleware, async (re
   }
 });
 
-router.get("/transcribe/:jobName", jwtMiddleware, async (req, res) => {
+router.get("/transcribe/:jobName", jwtMiddleware, aiMiddleware, async (req, res) => {
   if (!transcriptionBucketName) {
     res.status(INTERNAL_SERVER_ERROR).send("Missing required environment variables");
     return;

@@ -13,7 +13,7 @@ import {
   PARAGRAPH_ELEMENT_TYPE,
   HEADING_ELEMENT_TYPE,
 } from "@ndla/editor";
-import { TYPE_QUOTE } from "../blockquote/types";
+import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquote/blockquoteTypes";
 import { TYPE_COMMENT_INLINE } from "../comment/inline/types";
 import { TYPE_CONCEPT_INLINE } from "../concept/inline/types";
 import { TYPE_FOOTNOTE } from "../footnote/types";
@@ -33,6 +33,6 @@ export const listSerializer = _listSerializer.configure({
 
 export const listPlugin = _listPlugin.configure({
   options: {
-    allowedListItemFirstChildTypes: [PARAGRAPH_ELEMENT_TYPE, HEADING_ELEMENT_TYPE, TYPE_QUOTE],
+    allowedListItemFirstChildTypes: [PARAGRAPH_ELEMENT_TYPE, HEADING_ELEMENT_TYPE, BLOCK_QUOTE_ELEMENT_TYPE],
   },
 });

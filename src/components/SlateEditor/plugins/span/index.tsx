@@ -14,7 +14,7 @@ import { TYPE_SPAN } from "./types";
 import { createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
-import { TYPE_QUOTE } from "../blockquote/types";
+import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquote/blockquoteTypes";
 import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_TERM } from "../definitionList/types";
 import { TYPE_SUMMARY } from "../details/types";
 import { TYPE_HEADING } from "../heading/types";
@@ -38,7 +38,7 @@ const normalizerConfig: NormalizerConfig = {
     allowed: [
       TYPE_HEADING,
       TYPE_PARAGRAPH,
-      TYPE_QUOTE,
+      BLOCK_QUOTE_ELEMENT_TYPE,
       TYPE_TABLE_CELL,
       TYPE_LIST_ITEM,
       TYPE_DEFINITION_TERM,

@@ -8,7 +8,7 @@
 
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Element, Path, Transforms } from "slate";
+import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { MessageLine } from "@ndla/icons";
@@ -24,11 +24,11 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
-import { TYPE_COMMENT_BLOCK } from "./types";
+import { CommentBlockElement } from "./types";
 import { DialogCloseButton } from "../../../../DialogCloseButton";
 import CommentForm from "../CommentForm";
 import CommentPopoverPortal from "../CommentPopoverPortal";
-import { CommentBlockElement } from "../interfaces";
+import { isCommentBlockElement } from "./queries/commentBlockQueries";
 
 const BlockCommentButton = styled("button", {
   base: {
@@ -81,14 +81,7 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
     (values: CommentEmbedData) => {
       setOpen(false);
       const path = ReactEditor.findPath(editor, element);
-      Transforms.setNodes(
-        editor,
-        { data: values, isFirstEdit: false },
-        {
-          at: path,
-          match: (node) => Element.isElement(node) && node.type === TYPE_COMMENT_BLOCK,
-        },
-      );
+      Transforms.setNodes(editor, { data: values, isFirstEdit: false }, { at: path, match: isCommentBlockElement });
     },
     [editor, element],
   );

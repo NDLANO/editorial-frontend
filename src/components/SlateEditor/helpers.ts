@@ -10,7 +10,7 @@ import { ASIDE_ELEMENT_TYPE } from "./plugins/aside/asideTypes";
 import { AUDIO_ELEMENT_TYPE } from "./plugins/audio/audioTypes";
 import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "./plugins/campaignBlock/types";
 import { CODE_BLOCK_ELEMENT_TYPE } from "./plugins/codeBlock/types";
-import { TYPE_COMMENT_INLINE } from "./plugins/comment/inline/types";
+import { COMMENT_INLINE_ELEMENT_TYPE } from "./plugins/comment/inline/types";
 import { TYPE_CONCEPT_INLINE } from "./plugins/concept/inline/types";
 import { TYPE_DETAILS } from "./plugins/details/types";
 import { TYPE_EMBED_ERROR } from "./plugins/embed/types";
@@ -37,7 +37,7 @@ export const inlines: ElementType[] = [
   TYPE_CONTENT_LINK,
   MATH_ELEMENT_TYPE,
   TYPE_SPAN,
-  TYPE_COMMENT_INLINE,
+  COMMENT_INLINE_ELEMENT_TYPE,
 ];
 
 export const blocks: ElementType[] = [

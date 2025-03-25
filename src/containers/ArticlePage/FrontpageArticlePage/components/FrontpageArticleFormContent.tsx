@@ -27,7 +27,7 @@ import { AUDIO_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/a
 import { frontpageActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
 import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/campaignBlock/types";
 import { CODE_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/codeBlock/types";
-import { TYPE_COMMENT_BLOCK } from "../../../../components/SlateEditor/plugins/comment/block/types";
+import { COMMENT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/comment/block/types";
 import { TYPE_CONTACT_BLOCK } from "../../../../components/SlateEditor/plugins/contactBlock/types";
 import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
 import { TYPE_FILE } from "../../../../components/SlateEditor/plugins/file/types";
@@ -73,7 +73,7 @@ const actions = [
   CAMPAIGN_BLOCK_ELEMENT_TYPE,
   TYPE_LINK_BLOCK_LIST,
   TYPE_DISCLAIMER,
-  TYPE_COMMENT_BLOCK,
+  COMMENT_BLOCK_ELEMENT_TYPE,
 ].concat(visualElements);
 
 const actionsToShowInAreas = {

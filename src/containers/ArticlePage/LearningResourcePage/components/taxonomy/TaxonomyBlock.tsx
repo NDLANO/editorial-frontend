@@ -12,15 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button, SelectLabel, Text } from "@ndla/primitives";
 import { IArticleDTO, IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
-import {
-  Node,
-  NodeChild,
-  NodeType,
-  ResourceType,
-  ResourceTypeWithConnection,
-  TaxonomyContext,
-  Version,
-} from "@ndla/types-taxonomy";
+import { Node, NodeChild, NodeType, ResourceType, TaxonomyContext, Version } from "@ndla/types-taxonomy";
 import TaxonomyInfo from "./TaxonomyInfo";
 import { FormActionsContainer, FormContent } from "../../../../../components/FormikForm";
 import SaveButton from "../../../../../components/SaveButton";
@@ -140,7 +132,7 @@ const TaxonomyBlock = ({
         .filter((rt) => !blacklistedResourceTypes.includes(rt.id))
         .map((rt) => ({
           ...rt,
-          subtype: rt?.subtypes?.filter((st) => !blacklistedResourceTypes.includes(st.id)),
+          subtypes: rt?.subtypes?.filter((st) => !blacklistedResourceTypes.includes(st.id)),
         })) ?? [],
     [resourceTypes],
   );
@@ -294,39 +286,6 @@ const TaxonomyBlock = ({
     ],
   );
 
-  const onChangeSelectedResource = useCallback(
-    (value?: string) => {
-      const options = value?.split(",") ?? [];
-      const selectedResource = resourceTypes.find((rt) => rt.id === options[0]);
-
-      if (selectedResource) {
-        const resourceTypes: ResourceTypeWithConnection[] = [
-          {
-            name: selectedResource.name,
-            id: selectedResource.id,
-            connectionId: "",
-            supportedLanguages: selectedResource.supportedLanguages,
-            translations: selectedResource.translations,
-          },
-        ];
-
-        if (options.length > 1) {
-          const subType = selectedResource.subtypes?.find((subtype) => subtype.id === options[1]);
-          if (subType)
-            resourceTypes.push({
-              id: subType.id,
-              name: subType.name,
-              connectionId: "",
-              supportedLanguages: subType.supportedLanguages,
-              translations: subType.translations,
-            });
-        }
-        setWorkingResource((res) => ({ ...res, resourceTypes }));
-      }
-    },
-    [resourceTypes],
-  );
-
   return (
     <FormContent>
       {!hasTaxEntries && <Text color="text.error">{t("errorMessage.missingTax")}</Text>}
@@ -350,9 +309,17 @@ const TaxonomyBlock = ({
         </>
       )}
       <ResourceTypeSelect
-        selectedResourceTypes={workingResource.resourceTypes}
         availableResourceTypes={filteredResourceTypes}
-        onChangeSelectedResource={onChangeSelectedResource}
+        selectedResourceType={workingResource.resourceTypes[1] ?? workingResource.resourceTypes[0]}
+        onChangeSelectedResource={(resourceType) => {
+          const resourceTypes = [resourceType.parentType, resourceType]
+            .filter((rt) => !!rt)
+            .map((rt) => ({
+              ...rt,
+              connectionId: "",
+            }));
+          setWorkingResource((res) => ({ ...res, resourceTypes }));
+        }}
       />
       <TopicConnections
         addConnection={addConnection}

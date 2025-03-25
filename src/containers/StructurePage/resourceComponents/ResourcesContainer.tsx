@@ -40,6 +40,7 @@ interface Props {
   users: Dictionary<Auth0UserData> | undefined;
   showMatomoStats: boolean;
 }
+
 const ResourcesContainer = ({
   resourceTypes,
   nodeResources,
@@ -53,10 +54,7 @@ const ResourcesContainer = ({
   showMatomoStats,
 }: Props) => {
   const { t } = useTranslation();
-  const resourceTypesWithoutMissing = useMemo(
-    () => resourceTypes.filter((rt) => rt.id !== "missing").map((rt) => ({ id: rt.id, name: rt.name })),
-    [resourceTypes],
-  );
+  const resourceTypesWithoutMissing = useMemo(() => resourceTypes.filter((rt) => rt.id !== "missing"), [resourceTypes]);
   const { taxonomyVersion } = useTaxonomyVersion();
   const currentNodeId = currentNode.id;
 

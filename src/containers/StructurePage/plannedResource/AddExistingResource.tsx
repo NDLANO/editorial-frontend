@@ -26,10 +26,11 @@ import { styled } from "@ndla/styled-system/jsx";
 import { IArticleV2DTO } from "@ndla/types-backend/article-api";
 import { ILearningPathSummaryV2DTO, ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { ResourceType } from "@ndla/types-taxonomy";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
-import { RESOURCE_TYPE_LEARNING_PATH, RESOURCE_TYPE_SUBJECT_MATERIAL } from "../../../constants";
+import { RESOURCE_TYPE_LEARNING_PATH } from "../../../constants";
 import { getArticle } from "../../../modules/article/articleApi";
 import { fetchLearningpaths, updateLearningPathTaxonomy } from "../../../modules/learningpath/learningpathApi";
 import { fetchNodes } from "../../../modules/nodes/nodeApi";
@@ -65,10 +66,7 @@ const StyledListItemContent = styled(ListItemContent, {
 
 interface Props {
   onClose: () => void;
-  resourceTypes?: {
-    id: string;
-    name: string;
-  }[];
+  resourceTypes?: ResourceType[];
   nodeId: string;
   existingResourceIds: string[];
 }
@@ -85,7 +83,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [selectedType, setSelectedType] = useState(RESOURCE_TYPE_SUBJECT_MATERIAL);
+  const [selectedType, setSelectedType] = useState<ResourceType | undefined>();
   const [pastedUrl, setPastedUrl] = useState("");
   const [previewLoading, setPreviewLoading] = useState(false);
   const [contentUri, setContentUri] = useState<string | undefined>();
@@ -166,7 +164,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     page,
     language: i18n.language,
     fallback: true,
-    resourceTypes: [selectedType],
+    resourceTypes: selectedType ? [selectedType.id] : undefined,
   });
 
   const resetPastedUrlStatesWithError = (error?: string) => {
@@ -234,7 +232,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     if (!preview) return;
     let id = resourceId;
     if (!id) {
-      const isLearningpath = selectedType === RESOURCE_TYPE_LEARNING_PATH && "metaUrl" in preview;
+      const isLearningpath = selectedType?.id === RESOURCE_TYPE_LEARNING_PATH && "metaUrl" in preview;
       const isArticleOrDraft = "paths" in preview;
       id = isLearningpath
         ? await findResourceIdLearningPath(preview.id)
@@ -263,24 +261,19 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
 
   return (
     <StyledFormContent>
-      {!!selectedType && (
-        <>
-          <FieldRoot>
-            <FieldLabel>{t("taxonomy.urlPlaceholder")}</FieldLabel>
-            <FieldInput onChange={onPaste} name="pasteUrlInput" placeholder={t("taxonomy.urlPlaceholder")} />
-          </FieldRoot>
-          {!pastedUrl && <StyledText>{t("taxonomy.or")}</StyledText>}
-        </>
-      )}
+      <FieldRoot>
+        <FieldLabel>{t("taxonomy.urlPlaceholder")}</FieldLabel>
+        <FieldInput onChange={onPaste} name="pasteUrlInput" placeholder={t("taxonomy.urlPlaceholder")} />
+      </FieldRoot>
+      {!pastedUrl && <StyledText>{t("taxonomy.or")}</StyledText>}
       {!pastedUrl && (
         <ResourceTypeSelect
           availableResourceTypes={resourceTypes ?? []}
-          onChangeSelectedResource={(value) => {
-            if (value) setSelectedType(value);
-          }}
+          onChangeSelectedResource={setSelectedType}
+          selectedResourceType={selectedType}
         />
       )}
-      {!pastedUrl && !!selectedType && (
+      {!pastedUrl && (
         <GenericSearchCombobox
           value={preview ? [preview.id.toString()] : undefined}
           onValueChange={(details) => setPreview(toPreview(details.items[0]))}

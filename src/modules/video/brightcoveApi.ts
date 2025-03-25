@@ -7,7 +7,7 @@
  */
 import queryString from "query-string";
 import { licenses, contributorGroups, contributorTypes, getLicenseByNBTitle } from "@ndla/licenses";
-import { ICopyrightDTO } from "@ndla/types-backend/article-api";
+import { ICopyrightDTO, AuthorDTO } from "@ndla/types-backend/article-api";
 import { BrightcoveApiType, BrightcoveCopyright, BrightcoveVideoSource } from "@ndla/types-embed";
 import config from "../../config";
 import {
@@ -120,7 +120,7 @@ export const getContributorGroups = (fields: Record<string, string>) => {
   return contributors.reduce<CopyrightType>(
     (groups, c) => {
       const group = objectKeys.find((key) => contributorGroups[key].find((t) => t === c.type));
-      groups[group ?? "creators"].push(c);
+      groups[group ?? "creators"].push(c as AuthorDTO);
       return groups;
     },
     { creators: [], processors: [], rightsholders: [] },

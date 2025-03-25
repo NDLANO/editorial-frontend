@@ -26,7 +26,6 @@ import {
   SelectValueText,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IAuthorDTO } from "@ndla/types-backend/draft-api";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { FormField } from "../../../components/FormField";
 
@@ -37,10 +36,15 @@ interface Props {
   width?: number;
 }
 
+interface StringAuthor {
+  type: string;
+  name: string;
+}
+
 interface ContributorTypes {
-  creators: IAuthorDTO[];
-  processors: IAuthorDTO[];
-  rightsholders: IAuthorDTO[];
+  creators: StringAuthor[];
+  processors: StringAuthor[];
+  rightsholders: StringAuthor[];
 }
 
 const StyledFieldsetRoot = styled(FieldsetRoot, {
@@ -76,7 +80,7 @@ const ContributorsField = ({ contributorTypes }: Props) => {
 
 interface ContributorProps {
   type: ContributorType;
-  onAddNew: (val: IAuthorDTO) => void;
+  onAddNew: (val: StringAuthor) => void;
   onRemove: (index: number) => void;
 }
 
@@ -100,7 +104,7 @@ const Contributor = ({ type, onAddNew, onRemove }: ContributorProps) => {
   return (
     <StyledFieldsetRoot data-testid={`contributor-fieldset`}>
       <FieldsetLegend>{t(`form.${type}.label`)}</FieldsetLegend>
-      {values[type].map((_: IAuthorDTO, contributorIndex: number) => (
+      {values[type].map((_: StringAuthor, contributorIndex: number) => (
         <StyledInnerFieldsetRoot key={`${type}.${contributorIndex}`}>
           <FieldsetLegend srOnly>
             {t(`form.${type}.label`)} {contributorIndex + 1}
@@ -150,7 +154,8 @@ const Contributor = ({ type, onAddNew, onRemove }: ContributorProps) => {
           </Button>
         </StyledInnerFieldsetRoot>
       ))}
-      <Button variant="secondary" onClick={() => onAddNew({ name: "", type: "" })} data-testid="addContributor">
+      {/* TODO: Use a different type here? */}
+      <Button variant="secondary" onClick={() => onAddNew({ name: "", type: "" as any })} data-testid="addContributor">
         {t("form.contributor.add")}
       </Button>
     </StyledFieldsetRoot>

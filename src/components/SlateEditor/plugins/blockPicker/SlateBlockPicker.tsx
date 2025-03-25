@@ -22,7 +22,7 @@ import getCurrentBlock from "../../utils/getCurrentBlock";
 import { ASIDE_ELEMENT_TYPE } from "../aside/asideTypes";
 import { defaultAsideBlock } from "../aside/utils";
 import { AUDIO_ELEMENT_TYPE } from "../audio/audioTypes";
-import { TYPE_CAMPAIGN_BLOCK } from "../campaignBlock/types";
+import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../campaignBlock/types";
 import { defaultCampaignBlock } from "../campaignBlock/utils";
 import { TYPE_CODEBLOCK } from "../codeBlock/types";
 import { defaultCodeblockBlock } from "../codeBlock/utils";
@@ -340,7 +340,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultContactBlock());
         break;
       }
-      case TYPE_CAMPAIGN_BLOCK: {
+      case CAMPAIGN_BLOCK_ELEMENT_TYPE: {
         onInsertBlock(defaultCampaignBlock());
         break;
       }

@@ -8,7 +8,7 @@
 import { ElementType } from "./interfaces";
 import { ASIDE_ELEMENT_TYPE } from "./plugins/aside/asideTypes";
 import { AUDIO_ELEMENT_TYPE } from "./plugins/audio/audioTypes";
-import { TYPE_CAMPAIGN_BLOCK } from "./plugins/campaignBlock/types";
+import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "./plugins/campaignBlock/types";
 import { TYPE_CODEBLOCK } from "./plugins/codeBlock/types";
 import { TYPE_COMMENT_INLINE } from "./plugins/comment/inline/types";
 import { TYPE_CONCEPT_INLINE } from "./plugins/concept/inline/types";
@@ -57,5 +57,5 @@ export const blocks: ElementType[] = [
   TYPE_PITCH,
   TYPE_GRID,
   TYPE_KEY_FIGURE,
-  TYPE_CAMPAIGN_BLOCK,
+  CAMPAIGN_BLOCK_ELEMENT_TYPE,
 ];

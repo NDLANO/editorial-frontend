@@ -24,8 +24,8 @@ import {
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { CampaignBlockEmbedData } from "@ndla/types-embed";
 import { CampaignBlock, EmbedWrapper } from "@ndla/ui";
-import { CampaignBlockElement } from ".";
 import CampaignBlockForm from "./CampaignBlockForm";
+import { CampaignBlockElement } from "./types";
 import { fetchImage } from "../../../../modules/image/imageApi";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { StyledFigureButtons } from "../embed/FigureButtons";

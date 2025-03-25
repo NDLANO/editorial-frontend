@@ -25,7 +25,7 @@ import { FormActionsContainer, FormContent } from "../../../../components/Formik
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
 import { AUDIO_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/audio/audioTypes";
 import { frontpageActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
-import { TYPE_CAMPAIGN_BLOCK } from "../../../../components/SlateEditor/plugins/campaignBlock/types";
+import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/campaignBlock/types";
 import { TYPE_CODEBLOCK } from "../../../../components/SlateEditor/plugins/codeBlock/types";
 import { TYPE_COMMENT_BLOCK } from "../../../../components/SlateEditor/plugins/comment/block/types";
 import { TYPE_CONTACT_BLOCK } from "../../../../components/SlateEditor/plugins/contactBlock/types";
@@ -70,7 +70,7 @@ const actions = [
   TYPE_CONTACT_BLOCK,
   TYPE_GRID,
   TYPE_KEY_FIGURE,
-  TYPE_CAMPAIGN_BLOCK,
+  CAMPAIGN_BLOCK_ELEMENT_TYPE,
   TYPE_LINK_BLOCK_LIST,
   TYPE_DISCLAIMER,
   TYPE_COMMENT_BLOCK,

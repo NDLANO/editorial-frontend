@@ -22,7 +22,7 @@ import {
 import { AsideElement } from "./plugins/aside/asideTypes";
 import { AudioElement } from "./plugins/audio/audioTypes";
 import { BlockQuoteElement } from "./plugins/blockquote/blockquoteTypes";
-import { CampaignBlockElement } from "./plugins/campaignBlock";
+import { CampaignBlockElement } from "./plugins/campaignBlock/types";
 import { CodeblockElement } from "./plugins/codeBlock";
 import { CommentBlockElement, CommentInlineElement } from "./plugins/comment/interfaces";
 import { ConceptBlockElement } from "./plugins/concept/block/interfaces";

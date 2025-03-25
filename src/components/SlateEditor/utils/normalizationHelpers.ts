@@ -10,7 +10,7 @@ import { jsx as slatejsx } from "slate-hyperscript";
 import { ElementType } from "../interfaces";
 import { ASIDE_ELEMENT_TYPE } from "../plugins/aside/asideTypes";
 import { AUDIO_ELEMENT_TYPE } from "../plugins/audio/audioTypes";
-import { TYPE_CODEBLOCK } from "../plugins/codeBlock/types";
+import { CODE_BLOCK_ELEMENT_TYPE } from "../plugins/codeBlock/types";
 import { TYPE_COMMENT_BLOCK } from "../plugins/comment/block/types";
 import { TYPE_DEFINITION_LIST } from "../plugins/definitionList/types";
 import { TYPE_DETAILS } from "../plugins/details/types";
@@ -45,7 +45,7 @@ export const textBlockElements: Element["type"][] = [
   TYPE_EMBED_ERROR,
   TYPE_H5P,
   TYPE_FILE,
-  TYPE_CODEBLOCK,
+  CODE_BLOCK_ELEMENT_TYPE,
   ASIDE_ELEMENT_TYPE,
   FRAMED_CONTENT_ELEMENT_TYPE,
   TYPE_DETAILS,

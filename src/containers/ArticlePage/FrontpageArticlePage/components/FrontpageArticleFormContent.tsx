@@ -26,7 +26,7 @@ import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedL
 import { AUDIO_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/audio/audioTypes";
 import { frontpageActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
 import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/campaignBlock/types";
-import { TYPE_CODEBLOCK } from "../../../../components/SlateEditor/plugins/codeBlock/types";
+import { CODE_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/codeBlock/types";
 import { TYPE_COMMENT_BLOCK } from "../../../../components/SlateEditor/plugins/comment/block/types";
 import { TYPE_CONTACT_BLOCK } from "../../../../components/SlateEditor/plugins/contactBlock/types";
 import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
@@ -65,7 +65,7 @@ const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, AUDIO_ELEMENT_TYPE, TYP
 
 const actions = [
   TYPE_TABLE,
-  TYPE_CODEBLOCK,
+  CODE_BLOCK_ELEMENT_TYPE,
   TYPE_FILE,
   TYPE_CONTACT_BLOCK,
   TYPE_GRID,

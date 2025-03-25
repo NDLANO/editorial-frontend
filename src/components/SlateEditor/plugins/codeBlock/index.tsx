@@ -6,23 +6,15 @@
  *
  */
 
-import { Descendant, Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { CodeEmbedData } from "@ndla/types-embed";
-import { TYPE_CODEBLOCK } from "./types";
+import { createPlugin, createSerializer } from "@ndla/editor";
+import { CODE_BLOCK_ELEMENT_TYPE, CODE_BLOCK_PLUGIN } from "./types";
 import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
-import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
-
-export interface CodeblockElement {
-  type: "code-block";
-  data: CodeEmbedData;
-  isFirstEdit: boolean;
-  children: Descendant[];
-}
+import { isCodeBlockElement } from "./queries/codeBlockQueries";
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
@@ -35,42 +27,31 @@ const normalizerConfig: NormalizerConfig = {
   },
 };
 
-export const codeblockSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement) {
+export const codeblockSerializer = createSerializer({
+  deserialize(el) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = parseElementAttributes(Array.from(embed.attributes));
     if (embedAttributes.resource !== "code-block") return;
-    return slatejsx("element", { type: TYPE_CODEBLOCK, data: embedAttributes, isFirstEdit: false }, [{ text: "" }]);
+    return slatejsx("element", { type: CODE_BLOCK_ELEMENT_TYPE, data: embedAttributes, isFirstEdit: false }, [
+      { text: "" },
+    ]);
   },
   serialize(node) {
-    if (!Element.isElement(node) || node.type !== "code-block") return;
+    if (!isCodeBlockElement(node)) return;
     const data = createDataAttributes(node.data);
     return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
   },
-};
+});
 
-export const codeblockPlugin = (editor: Editor) => {
-  const { normalizeNode: nextNormalizeNode, isVoid: nextIsVoid } = editor;
-
-  editor.normalizeNode = (entry) => {
-    const [node, path] = entry;
-
-    if (Element.isElement(node) && node.type === TYPE_CODEBLOCK) {
-      if (defaultBlockNormalizer(editor, node, path, normalizerConfig)) {
-        return;
-      }
+export const codeblockPlugin = createPlugin({
+  name: CODE_BLOCK_PLUGIN,
+  type: CODE_BLOCK_ELEMENT_TYPE,
+  isVoid: true,
+  normalize: (editor, node, path, logger) => {
+    if (isCodeBlockElement(node)) {
+      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
     }
-    nextNormalizeNode(entry);
-  };
-
-  editor.isVoid = (element) => {
-    if (Element.isElement(element) && element.type === TYPE_CODEBLOCK) {
-      return true;
-    } else {
-      return nextIsVoid(element);
-    }
-  };
-
-  return editor;
-};
+    return false;
+  },
+});

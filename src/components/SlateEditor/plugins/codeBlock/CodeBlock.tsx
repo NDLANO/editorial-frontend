@@ -53,15 +53,15 @@ import {
 import { HStack } from "@ndla/styled-system/jsx";
 import { CodeEmbedData } from "@ndla/types-embed";
 import { CodeBlock as UICodeBlock } from "@ndla/ui";
-import { CodeblockElement } from ".";
 import CodeBlockEditor from "./CodeBlockEditor";
+import { CodeBlockElement } from "./types";
 import { CodeBlockType } from "../../../../interfaces";
 import { AlertDialog } from "../../../AlertDialog/AlertDialog";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormActionsContainer } from "../../../FormikForm";
 
 interface Props extends RenderElementProps {
-  element: CodeblockElement;
+  element: CodeBlockElement;
   editor: Editor;
 }
 

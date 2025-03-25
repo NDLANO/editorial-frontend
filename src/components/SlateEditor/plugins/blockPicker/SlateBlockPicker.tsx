@@ -24,7 +24,7 @@ import { defaultAsideBlock } from "../aside/utils";
 import { AUDIO_ELEMENT_TYPE } from "../audio/audioTypes";
 import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../campaignBlock/types";
 import { defaultCampaignBlock } from "../campaignBlock/utils";
-import { TYPE_CODEBLOCK } from "../codeBlock/types";
+import { CODE_BLOCK_ELEMENT_TYPE } from "../codeBlock/types";
 import { defaultCodeblockBlock } from "../codeBlock/utils";
 import { TYPE_COMMENT_BLOCK } from "../comment/block/types";
 import { defaultCommentBlock } from "../comment/block/utils";
@@ -316,7 +316,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultRelatedBlock());
         break;
       }
-      case TYPE_CODEBLOCK: {
+      case CODE_BLOCK_ELEMENT_TYPE: {
         onInsertBlock(defaultCodeblockBlock());
         break;
       }

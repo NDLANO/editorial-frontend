@@ -37,7 +37,7 @@ import { StoryType } from "../../../HowTo/stories";
 import { ASIDE_ELEMENT_TYPE } from "../aside/asideTypes";
 import { AUDIO_ELEMENT_TYPE } from "../audio/audioTypes";
 import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../campaignBlock/types";
-import { TYPE_CODEBLOCK } from "../codeBlock/types";
+import { CODE_BLOCK_ELEMENT_TYPE } from "../codeBlock/types";
 import { TYPE_COMMENT_BLOCK } from "../comment/block/types";
 import { TYPE_GLOSS_BLOCK } from "../concept/block/types";
 import { TYPE_CONTACT_BLOCK } from "../contactBlock/types";
@@ -132,7 +132,7 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInDialog("RelatedArticle"),
   },
   {
-    data: { type: TYPE_CODEBLOCK, object: "code" },
+    data: { type: CODE_BLOCK_ELEMENT_TYPE, object: "code" },
     icon: <CodeView />,
     helpIcon: renderArticleInDialog("CodeBlock"),
   },

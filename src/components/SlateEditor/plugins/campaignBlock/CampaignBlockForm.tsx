@@ -33,7 +33,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { CampaignBlockEmbedData } from "@ndla/types-embed";
 import { HeadingLevel } from "@ndla/ui";
-import { TYPE_CAMPAIGN_BLOCK } from "./types";
+import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "./types";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
@@ -91,7 +91,7 @@ const rules: RulesType<CampaignBlockFormValues> = {
 
 const toInitialValues = (initialData?: CampaignBlockEmbedData): CampaignBlockFormValues => {
   return {
-    resource: TYPE_CAMPAIGN_BLOCK,
+    resource: CAMPAIGN_BLOCK_ELEMENT_TYPE,
     title: inlineContentToEditorValue(initialData?.title ?? "", true),
     description: inlineContentToEditorValue(initialData?.description ?? "", true),
     metaImageId: initialData?.imageId,
@@ -128,7 +128,7 @@ const CampaignBlockForm = ({ initialData, onSave }: Props) => {
   const onSubmit = useCallback(
     (values: CampaignBlockFormValues) => {
       onSave({
-        resource: TYPE_CAMPAIGN_BLOCK,
+        resource: CAMPAIGN_BLOCK_ELEMENT_TYPE,
         // TODO: The headingLevel type should be shared between all components
         headingLevel: values.headingLevel as "h2",
         title: inlineContentToHTML(values.title),

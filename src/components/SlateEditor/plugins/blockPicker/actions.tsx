@@ -36,7 +36,7 @@ import HowToHelper from "../../../HowTo/HowToHelper";
 import { StoryType } from "../../../HowTo/stories";
 import { ASIDE_ELEMENT_TYPE } from "../aside/asideTypes";
 import { AUDIO_ELEMENT_TYPE } from "../audio/audioTypes";
-import { TYPE_CAMPAIGN_BLOCK } from "../campaignBlock/types";
+import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../campaignBlock/types";
 import { TYPE_CODEBLOCK } from "../codeBlock/types";
 import { TYPE_COMMENT_BLOCK } from "../comment/block/types";
 import { TYPE_GLOSS_BLOCK } from "../concept/block/types";
@@ -176,7 +176,7 @@ export const frontpageActions = commonActions.concat(
     helpIcon: renderArticleInDialog("ContactBlock"),
   },
   {
-    data: { type: TYPE_CAMPAIGN_BLOCK, object: "campaignBlock" },
+    data: { type: CAMPAIGN_BLOCK_ELEMENT_TYPE, object: "campaignBlock" },
     icon: <MegaphoneLine />,
     helpIcon: renderArticleInDialog("CampaignBlock"),
   },

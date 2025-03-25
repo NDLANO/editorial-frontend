@@ -9,14 +9,14 @@
 import { FieldHelperProps, useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 import { FileListLine } from "@ndla/icons";
-import { Button, FieldLabel, FieldRoot, FieldErrorMessage, FieldTextArea, Spinner } from "@ndla/primitives";
+import { Button, FieldLabel, FieldRoot, FieldErrorMessage, FieldTextArea } from "@ndla/primitives";
 import { HStack } from "@ndla/styled-system/jsx";
 import { ImageUploadFormElement } from "./ImageUploadFormElement";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import { AI_ACCESS_SCOPE } from "../../../constants";
 import { useSession } from "../../../containers/Session/SessionProvider";
-import { useGenerateAlttext } from "../../../modules/llm/llmMutations";
+import { useGenerateAltText } from "../../../modules/llm/llmMutations";
 import { TitleField } from "../../FormikForm";
 import { ImageFormikType } from "../imageTransformers";
 
@@ -28,7 +28,7 @@ const ImageContent = ({ language }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { values, setStatus } = useFormikContext<ImageFormikType>();
-  const generateAlttextMutation = useGenerateAlttext();
+  const generateAlttextMutation = useGenerateAltText();
 
   const generateAltText = async (helpers: FieldHelperProps<string | undefined>) => {
     if (!values.imageFile) {
@@ -90,10 +90,11 @@ const ImageContent = ({ language }: Props) => {
                 <Button
                   onClick={() => generateAltText(helpers)}
                   size="small"
+                  loading={generateAlttextMutation.isPending}
                   disabled={generateAlttextMutation.isPending || !values.imageFile}
                 >
                   {t("textGeneration.generate.alttext")}
-                  {generateAlttextMutation.isPending ? <Spinner size="small" /> : <FileListLine />}
+                  <FileListLine />
                 </Button>
               )}
             </HStack>

@@ -6,7 +6,7 @@
  *
  */
 
-import { UseMutationOptions, useMutation } from "@tanstack/react-query";
+import { DefaultError, UseMutationOptions, useMutation } from "@tanstack/react-query";
 import { fetchAIGeneratedAnswer } from "./llmApi";
 import {
   SummaryVariables,
@@ -16,34 +16,36 @@ import {
   ReflectionVariables,
 } from "./llmApiTypes";
 
-export const useGenerateSummary = (options?: UseMutationOptions<string, any, SummaryVariables>) =>
-  useMutation<string, any, SummaryVariables>({
+export const useGenerateSummary = (options?: UseMutationOptions<string, DefaultError, SummaryVariables>) =>
+  useMutation<string, DefaultError, SummaryVariables>({
     mutationFn: fetchAIGeneratedAnswer,
     ...options,
   });
 
-export const useGenerateAlttext = (options?: UseMutationOptions<string, any, AlttextVariables>) =>
-  useMutation<string, any, AlttextVariables>({
+export const useGenerateAltText = (options?: UseMutationOptions<string, DefaultError, AlttextVariables>) =>
+  useMutation<string, DefaultError, AlttextVariables>({
     mutationFn: fetchAIGeneratedAnswer,
     ...options,
   });
 
 export const useGenerateAlternativePhrasing = (
-  options?: UseMutationOptions<string, any, AlternativePhrasingVariables>,
+  options?: UseMutationOptions<string, DefaultError, AlternativePhrasingVariables>,
 ) =>
-  useMutation<string, any, AlternativePhrasingVariables>({
+  useMutation<string, DefaultError, AlternativePhrasingVariables>({
     mutationFn: fetchAIGeneratedAnswer,
     ...options,
   });
 
-export const useGenerateMetaDescription = (options?: UseMutationOptions<string, any, MetaDescriptionVariables>) =>
-  useMutation<string, any, MetaDescriptionVariables>({
+export const useGenerateMetaDescription = (
+  options?: UseMutationOptions<string, DefaultError, MetaDescriptionVariables>,
+) =>
+  useMutation<string, DefaultError, MetaDescriptionVariables>({
     mutationFn: fetchAIGeneratedAnswer,
     ...options,
   });
 
-export const useGenerateReflection = (options?: UseMutationOptions<string, any, ReflectionVariables>) =>
-  useMutation<string, any, ReflectionVariables>({
+export const useGenerateReflection = (options?: UseMutationOptions<string, DefaultError, ReflectionVariables>) =>
+  useMutation<string, DefaultError, ReflectionVariables>({
     mutationFn: fetchAIGeneratedAnswer,
     ...options,
   });

@@ -7,15 +7,16 @@
  */
 
 import { fetchAuthorized } from "../../util/apiHelpers";
+import { resolveTextOrRejectWithError } from "../../util/resolveJsonOrRejectWithError";
 import { Payload } from "./llmApiTypes";
 
 export const fetchAIGeneratedAnswer = async (payload: Payload): Promise<string> =>
-  (
-    await fetchAuthorized("/generate-ai", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    })
-  ).text();
+  fetchAuthorized("/generate-ai", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((res) => res.text())
+    .catch((r) => resolveTextOrRejectWithError(r));

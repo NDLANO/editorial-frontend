@@ -1304,7 +1304,7 @@ const phrases = {
     },
     articleSummary: {
       label: "Summary",
-      description: "AI generated summary of the artile. Will not be saved.",
+      description: "AI generated summary of the article. Will not be saved.",
     },
     agreement: {
       label: "Connect to agreement",

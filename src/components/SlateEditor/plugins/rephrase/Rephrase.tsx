@@ -11,18 +11,18 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Text as SlateText, Transforms } from "slate";
 import { RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
+import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { FileListLine } from "@ndla/icons";
 import {
   Button,
   DialogBackdrop,
   DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
   DialogHeader,
-  DialogPositioner,
   DialogRoot,
-  DialogStandaloneContent,
   DialogTitle,
   Heading,
-  Spinner,
   Text,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
@@ -30,15 +30,15 @@ import { RephraseElement } from ".";
 import { isRephraseElement } from "./utils";
 import { useGenerateAlternativePhrasing } from "../../../../modules/llm/llmMutations";
 import { DialogCloseButton } from "../../../DialogCloseButton";
+import { FormActionsContainer } from "../../../FormikForm";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
-import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 interface Props extends RenderElementProps {
   element: RephraseElement;
   editor: Editor;
 }
 
-const TextContainer = styled("div", {
+const StyledText = styled(Text, {
   base: {
     border: "1px solid",
     borderColor: "primary",
@@ -82,54 +82,52 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
     if (generatedText) {
       const [entry] = editor.nodes({ match: isRephraseElement });
       const [_node, path] = entry;
-      editor.insertNode({ type: TYPE_PARAGRAPH, children: [{ text: generatedText }] }, { at: Path.next(path) });
+      editor.insertNode({ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: generatedText }] }, { at: Path.next(path) });
     }
     onClose();
   };
 
   return (
-    <DialogRoot defaultOpen closeOnInteractOutside closeOnEscape onExitComplete={onClose}>
+    <DialogRoot defaultOpen onExitComplete={onClose}>
       <Portal>
         <DialogBackdrop />
-        <DialogPositioner>
-          <DialogStandaloneContent>
-            <DialogHeader>
-              <DialogTitle>{t("textGeneration.alternativeText")}</DialogTitle>
-              <DialogCloseButton />
-            </DialogHeader>
-            <DialogBody>
-              <TextContainer>
-                <Text>{currentText}</Text>
-              </TextContainer>
-              <Button size="small" onClick={fetchAiGeneratedText} disabled={phrasingMutation.isPending}>
-                {phrasingMutation.isPending ? <Spinner size="small" /> : null}
-                {t("textGeneration.generate.variant")}
-                <FileListLine />
-              </Button>
-              <div>
-                <Heading asChild consumeCss textStyle="label.medium">
-                  <h2>{t("textGeneration.suggestedText")}</h2>
-                </Heading>
-                <TextContainer>
-                  <Text>{generatedText}</Text>
-                </TextContainer>
-              </div>
-              <HStack justify="space-between">
-                <Button size="small" onClick={onClose} variant="secondary">
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("textGeneration.alternativeText")}</DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <DialogBody>
+            <StyledText>{currentText}</StyledText>
+            <Button
+              size="small"
+              onClick={fetchAiGeneratedText}
+              disabled={phrasingMutation.isPending}
+              loading={phrasingMutation.isPending}
+            >
+              {t("textGeneration.generate.variant")}
+              <FileListLine />
+            </Button>
+            <Heading asChild consumeCss textStyle="label.medium">
+              <h2>{t("textGeneration.suggestedText")}</h2>
+            </Heading>
+            <StyledText>{generatedText}</StyledText>
+            <HStack justify="space-between">
+              <DialogCloseTrigger asChild>
+                <Button size="small" variant="secondary">
                   {t("dialog.close")}
                 </Button>
-                <HStack gap="small">
-                  <Button size="small" onClick={onAppend} disabled={!generatedText}>
-                    {t("textGeneration.add")}
-                  </Button>
-                  <Button size="small" onClick={onReplace} disabled={!generatedText}>
-                    {t("textGeneration.replace")}
-                  </Button>
-                </HStack>
-              </HStack>
-            </DialogBody>
-          </DialogStandaloneContent>
-        </DialogPositioner>
+              </DialogCloseTrigger>
+              <FormActionsContainer>
+                <Button size="small" onClick={onAppend} disabled={!generatedText}>
+                  {t("textGeneration.add")}
+                </Button>
+                <Button size="small" onClick={onReplace} disabled={!generatedText}>
+                  {t("textGeneration.replace")}
+                </Button>
+              </FormActionsContainer>
+            </HStack>
+          </DialogBody>
+        </DialogContent>
       </Portal>
       <span {...attributes}>{children}</span>
     </DialogRoot>

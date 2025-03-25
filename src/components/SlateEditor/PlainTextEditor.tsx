@@ -73,6 +73,7 @@ const PlainTextEditor = forwardRef<HTMLTextAreaElement, Props>(
     const { status, setStatus } = useFormikContext<ArticleFormType>();
 
     useEffect(() => {
+      // TODO: Add better logic for refreshing editors when values are changed/set outside of editor scope
       if (status?.status === "revertVersion" || status?.status === id) {
         ReactEditor.deselect(editor);
         editor.children = value;

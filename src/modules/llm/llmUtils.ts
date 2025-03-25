@@ -6,5 +6,6 @@
  *
  */
 
+//TODO: Handle deserialization
 export const getTextFromHTML = (html: string) =>
   new DOMParser().parseFromString(html, "text/html").body.textContent || "";

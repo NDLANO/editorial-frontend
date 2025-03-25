@@ -10,7 +10,7 @@ import { connect, useField, useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FileListLine } from "@ndla/icons";
-import { Button, FieldErrorMessage, FieldRoot, Spinner } from "@ndla/primitives";
+import { Button, FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { IAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import { AudioFormikType } from "./AudioForm";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
@@ -37,7 +37,7 @@ import {
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import { AI_ACCESS_SCOPE } from "../../../constants";
 import { useSession } from "../../../containers/Session/SessionProvider";
-import { usePostAudioTranscription } from "../../../modules/audio/audioMutation";
+import { usePostAudioTranscription } from "../../../modules/audio/audioMutations";
 import { useAudioTranscription } from "../../../modules/audio/audioQueries";
 import { inlineContentToEditorValue } from "../../../util/articleContentConverter";
 
@@ -184,9 +184,10 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
               onClick={startTranscription}
               size="small"
               disabled={isPolling || !(values.audioFile.storedFile || values.audioFile.newFile)}
+              loading={isPolling}
             >
               {t("textGeneration.generate.transcription")}
-              {isPolling ? <Spinner size="small" /> : <FileListLine />}
+              <FileListLine />
             </Button>
           ) : undefined}
         </FieldRoot>

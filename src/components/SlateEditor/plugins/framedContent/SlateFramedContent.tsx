@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, NodeEntry, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { BrushLine, CopyrightLine, FileListLine } from "@ndla/icons";
-import { IconButton, Spinner } from "@ndla/primitives";
+import { IconButton } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { ContentTypeFramedContent, EmbedWrapper } from "@ndla/ui";
 import { FramedContentElement } from "./framedContentTypes";
@@ -85,6 +85,7 @@ const SlateFramedContent = (props: Props) => {
   };
 
   const generateQuestions = async () => {
+    // TODO: Handle nested information and metadata from embeds
     const articleText = editorValueToPlainText(editor.children);
 
     const generatedText = await generateReflectionMutation.mutateAsync({
@@ -108,7 +109,6 @@ const SlateFramedContent = (props: Props) => {
       <FigureButtons contentEditable={false}>
         {hasAIAccess ? (
           <HStack>
-            {generateReflectionMutation.isPending ? <Spinner size="small" /> : null}
             <IconButton
               variant={variant === "colored" ? "primary" : "secondary"}
               size="small"
@@ -116,6 +116,7 @@ const SlateFramedContent = (props: Props) => {
               aria-label={t("textGeneration.generate.reflection")}
               onClick={generateQuestions}
               disabled={generateReflectionMutation.isPending}
+              loading={generateReflectionMutation.isPending}
             >
               <FileListLine />
             </IconButton>

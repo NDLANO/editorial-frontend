@@ -22,10 +22,16 @@ interface ResourceTypeWithParent extends ResourceTypeWithoutSubtype {
 interface Props {
   availableResourceTypes: ResourceType[];
   onChangeSelectedResource: (value: ResourceTypeWithParent) => void;
-  selectedResourceType?: ResourceTypeWithParent;
+  selectedResourceType?: ResourceTypeWithoutSubtype;
+  clearable?: boolean;
 }
 
-const ResourceTypeSelect = ({ availableResourceTypes, selectedResourceType, onChangeSelectedResource }: Props) => {
+const ResourceTypeSelect = ({
+  availableResourceTypes,
+  selectedResourceType,
+  onChangeSelectedResource,
+  clearable,
+}: Props) => {
   const { t } = useTranslation();
 
   const items = useMemo(
@@ -41,28 +47,31 @@ const ResourceTypeSelect = ({ availableResourceTypes, selectedResourceType, onCh
     [availableResourceTypes],
   );
 
+  const itemToString = (item: ResourceTypeWithParent) =>
+    item.parentType ? `${item.parentType.name} - ${item.name}` : item.name;
+
   const collection = useMemo(() => {
     return createListCollection({
       items,
       itemToValue: (item) => item.id,
-      itemToString: (item) => item.name,
+      itemToString,
     });
   }, [items]);
 
   return (
     <SelectRoot
       collection={collection}
-      value={selectedResourceType ? [selectedResourceType.id] : undefined}
+      value={selectedResourceType ? [selectedResourceType.id] : []}
       onValueChange={(details) => onChangeSelectedResource(details.items[0])}
     >
       <SelectLabel>{t("taxonomy.contentType")}</SelectLabel>
-      <GenericSelectTrigger>
+      <GenericSelectTrigger clearable={clearable}>
         <SelectValueText placeholder={t("taxonomy.resourceTypes.placeholder")} />
       </GenericSelectTrigger>
       <SelectContent>
         {items.map((item) => (
           <GenericSelectItem item={item} key={item.id}>
-            {item.name}
+            {itemToString(item)}
           </GenericSelectItem>
         ))}
       </SelectContent>

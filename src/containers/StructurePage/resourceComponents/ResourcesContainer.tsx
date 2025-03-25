@@ -54,7 +54,16 @@ const ResourcesContainer = ({
   showMatomoStats,
 }: Props) => {
   const { t } = useTranslation();
-  const resourceTypesWithoutMissing = useMemo(() => resourceTypes.filter((rt) => rt.id !== "missing"), [resourceTypes]);
+  const resourceTypesWithoutMissing = useMemo(
+    () =>
+      resourceTypes
+        .filter((rt) => rt.id !== "missing")
+        .map((rt) => ({
+          ...rt,
+          subtypes: undefined,
+        })),
+    [resourceTypes],
+  );
   const { taxonomyVersion } = useTaxonomyVersion();
   const currentNodeId = currentNode.id;
 

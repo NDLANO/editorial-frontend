@@ -12,7 +12,15 @@ import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button, SelectLabel, Text } from "@ndla/primitives";
 import { IArticleDTO, IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
-import { Node, NodeChild, NodeType, ResourceType, TaxonomyContext, Version } from "@ndla/types-taxonomy";
+import {
+  Node,
+  NodeChild,
+  NodeType,
+  ResourceType,
+  ResourceTypeWithConnection,
+  TaxonomyContext,
+  Version,
+} from "@ndla/types-taxonomy";
 import TaxonomyInfo from "./TaxonomyInfo";
 import { FormActionsContainer, FormContent } from "../../../../../components/FormikForm";
 import SaveButton from "../../../../../components/SaveButton";
@@ -310,14 +318,23 @@ const TaxonomyBlock = ({
       )}
       <ResourceTypeSelect
         availableResourceTypes={filteredResourceTypes}
-        selectedResourceType={workingResource.resourceTypes[1] ?? workingResource.resourceTypes[0]}
+        selectedResourceType={
+          workingResource.resourceTypes.find((rt) => !!rt.parentId) ?? workingResource.resourceTypes[0]
+        }
         onChangeSelectedResource={(resourceType) => {
-          const resourceTypes = [resourceType.parentType, resourceType]
-            .filter((rt) => !!rt)
-            .map((rt) => ({
-              ...rt,
+          const resourceTypes: ResourceTypeWithConnection[] = [
+            {
+              ...resourceType,
               connectionId: "",
-            }));
+              parentId: resourceType.parentType?.id,
+            },
+          ];
+          if (resourceType.parentType) {
+            resourceTypes.push({
+              ...resourceType.parentType,
+              connectionId: "",
+            });
+          }
           setWorkingResource((res) => ({ ...res, resourceTypes }));
         }}
       />

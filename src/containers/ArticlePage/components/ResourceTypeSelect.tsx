@@ -15,7 +15,7 @@ import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abs
 
 type ResourceTypeWithoutSubtype = Omit<ResourceType, "subtypes">;
 
-interface ResourceTypeWithParent extends ResourceTypeWithoutSubtype {
+export interface ResourceTypeWithParent extends ResourceTypeWithoutSubtype {
   parentType?: ResourceTypeWithoutSubtype;
 }
 

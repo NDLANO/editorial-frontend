@@ -35,7 +35,7 @@ import handleError from "../../../../../util/handleError";
 import { groupChildNodes } from "../../../../../util/taxonomyHelpers";
 import { useSession } from "../../../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../../../StructureVersion/TaxonomyVersionProvider";
-import ResourceTypeSelect from "../../../components/ResourceTypeSelect";
+import ResourceTypeSelect, { ResourceTypeWithParent } from "../../../components/ResourceTypeSelect";
 import TaxonomyConnectionErrors from "../../../components/TaxonomyConnectionErrors";
 import { MinimalNodeChild } from "../LearningResourceTaxonomy";
 
@@ -294,6 +294,29 @@ const TaxonomyBlock = ({
     ],
   );
 
+  const onChangeSelectedResource = (resourceType: ResourceTypeWithParent) => {
+    const resourceTypes: ResourceTypeWithConnection[] = [
+      {
+        id: resourceType.id,
+        name: resourceType.name,
+        parentId: resourceType.parentType?.id,
+        supportedLanguages: resourceType.supportedLanguages,
+        translations: resourceType.translations,
+        connectionId: "",
+      },
+    ];
+    if (resourceType.parentType) {
+      resourceTypes.push({
+        id: resourceType.parentType.id,
+        name: resourceType.parentType.name,
+        supportedLanguages: resourceType.parentType.supportedLanguages,
+        translations: resourceType.parentType.translations,
+        connectionId: "",
+      });
+    }
+    setWorkingResource((res) => ({ ...res, resourceTypes }));
+  };
+
   return (
     <FormContent>
       {!hasTaxEntries && <Text color="text.error">{t("errorMessage.missingTax")}</Text>}
@@ -321,22 +344,7 @@ const TaxonomyBlock = ({
         selectedResourceType={
           workingResource.resourceTypes.find((rt) => !!rt.parentId) ?? workingResource.resourceTypes[0]
         }
-        onChangeSelectedResource={(resourceType) => {
-          const resourceTypes: ResourceTypeWithConnection[] = [
-            {
-              ...resourceType,
-              connectionId: "",
-              parentId: resourceType.parentType?.id,
-            },
-          ];
-          if (resourceType.parentType) {
-            resourceTypes.push({
-              ...resourceType.parentType,
-              connectionId: "",
-            });
-          }
-          setWorkingResource((res) => ({ ...res, resourceTypes }));
-        }}
+        onChangeSelectedResource={onChangeSelectedResource}
       />
       <TopicConnections
         addConnection={addConnection}

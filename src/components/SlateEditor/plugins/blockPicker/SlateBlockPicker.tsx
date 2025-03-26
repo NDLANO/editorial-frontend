@@ -30,7 +30,7 @@ import { COMMENT_BLOCK_ELEMENT_TYPE } from "../comment/block/types";
 import { defaultCommentBlock } from "../comment/block/utils";
 import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from "../concept/block/types";
 import { defaultConceptBlock } from "../concept/block/utils";
-import { TYPE_CONTACT_BLOCK } from "../contactBlock/types";
+import { CONTACT_BLOCK_ELEMENT_TYPE } from "../contactBlock/types";
 import { defaultContactBlock } from "../contactBlock/utils";
 import { DETAILS_ELEMENT_TYPE } from "../details/detailsTypes";
 import { defaultDetailsBlock } from "../details/utils";
@@ -336,7 +336,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultKeyFigureBlock());
         break;
       }
-      case TYPE_CONTACT_BLOCK: {
+      case CONTACT_BLOCK_ELEMENT_TYPE: {
         onInsertBlock(defaultContactBlock());
         break;
       }

@@ -28,7 +28,7 @@ import { CommentBlockElement } from "./plugins/comment/block/types";
 import { CommentInlineElement } from "./plugins/comment/inline/types";
 import { ConceptBlockElement } from "./plugins/concept/block/interfaces";
 import { ConceptInlineElement } from "./plugins/concept/inline/interfaces";
-import { ContactBlockElement } from "./plugins/contactBlock";
+import { ContactBlockElement } from "./plugins/contactBlock/types";
 import { CopyrightElement } from "./plugins/copyright/types";
 import { DefinitionDescriptionElement, DefinitionListElement, DefinitionTermElement } from "./plugins/definitionList";
 import { DetailsElement } from "./plugins/details/detailsTypes";

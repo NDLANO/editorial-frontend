@@ -8,12 +8,12 @@
 
 import { Editor } from "slate";
 import SlateLinkBlockList from "./SlateLinkBlockList";
-import { TYPE_LINK_BLOCK_LIST } from "./types";
+import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "./types";
 
 export const linkBlockListRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_LINK_BLOCK_LIST) {
+    if (element.type === LINK_BLOCK_LIST_ELEMENT_TYPE) {
       return (
         <SlateLinkBlockList attributes={attributes} element={element} editor={editor}>
           {children}

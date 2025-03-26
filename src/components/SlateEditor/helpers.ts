@@ -19,7 +19,7 @@ import { FILE_ELEMENT_TYPE } from "./plugins/file/types";
 import { TYPE_FOOTNOTE } from "./plugins/footnote/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "./plugins/framedContent/framedContentTypes";
 import { TYPE_GRID } from "./plugins/grid/types";
-import { TYPE_H5P } from "./plugins/h5p/types";
+import { H5P_ELEMENT_TYPE } from "./plugins/h5p/types";
 import { TYPE_IMAGE } from "./plugins/image/types";
 import { TYPE_KEY_FIGURE } from "./plugins/keyFigure/types";
 import { TYPE_LINK, TYPE_CONTENT_LINK } from "./plugins/link/types";
@@ -49,7 +49,7 @@ export const blocks: ElementType[] = [
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_ERROR,
   TYPE_EXTERNAL,
-  TYPE_H5P,
+  H5P_ELEMENT_TYPE,
   TYPE_IMAGE,
   FILE_ELEMENT_TYPE,
   TYPE_RELATED,

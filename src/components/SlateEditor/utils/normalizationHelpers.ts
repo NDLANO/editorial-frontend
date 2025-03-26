@@ -18,7 +18,7 @@ import { TYPE_EMBED_ERROR } from "../plugins/embed/types";
 import { TYPE_EXTERNAL } from "../plugins/external/types";
 import { FILE_ELEMENT_TYPE } from "../plugins/file/types";
 import { TYPE_GRID } from "../plugins/grid/types";
-import { TYPE_H5P } from "../plugins/h5p/types";
+import { H5P_ELEMENT_TYPE } from "../plugins/h5p/types";
 import { TYPE_HEADING } from "../plugins/heading/types";
 import { TYPE_LIST } from "../plugins/list/types";
 import { TYPE_PARAGRAPH } from "../plugins/paragraph/types";
@@ -43,7 +43,7 @@ export const textBlockElements: Element["type"][] = [
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EXTERNAL,
   TYPE_EMBED_ERROR,
-  TYPE_H5P,
+  H5P_ELEMENT_TYPE,
   FILE_ELEMENT_TYPE,
   CODE_BLOCK_ELEMENT_TYPE,
   ASIDE_ELEMENT_TYPE,

@@ -7,20 +7,19 @@
  */
 
 import { Descendant } from "slate";
+import { PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 import { AUDIO_ELEMENT_TYPE } from "../../audio/audioTypes";
-import { TYPE_H5P } from "../../h5p/types";
+import { H5P_ELEMENT_TYPE } from "../../h5p/types";
 import { TYPE_IMAGE } from "../../image/types";
-import { TYPE_PARAGRAPH } from "../../paragraph/types";
-import { TYPE_SECTION } from "../../section/types";
 import { TYPE_EMBED_BRIGHTCOVE } from "../../video/types";
 
 describe("embed image serializing tests", () => {
   const editorWithImage: Descendant[] = [
     {
-      type: TYPE_SECTION,
+      type: SECTION_ELEMENT_TYPE,
       children: [
-        { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+        { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
 
         {
           type: TYPE_IMAGE,
@@ -39,7 +38,7 @@ describe("embed image serializing tests", () => {
             url: "https://test.url",
           },
         },
-        { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+        { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       ],
     },
   ];
@@ -62,7 +61,7 @@ describe("embed brightcove video serializing tests", () => {
   const editorWithBrightcove: Descendant[] = [
     {
       children: [
-        { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+        { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
 
         {
           type: TYPE_EMBED_BRIGHTCOVE,
@@ -81,7 +80,7 @@ describe("embed brightcove video serializing tests", () => {
             },
           ],
         },
-        { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+        { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       ],
       type: "section",
     },
@@ -102,9 +101,9 @@ describe("embed brightcove video serializing tests", () => {
 describe("embed audio serializing tests", () => {
   const editorWithAudio: Descendant[] = [
     {
-      type: TYPE_SECTION,
+      type: SECTION_ELEMENT_TYPE,
       children: [
-        { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+        { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
 
         {
           type: AUDIO_ELEMENT_TYPE,
@@ -120,7 +119,7 @@ describe("embed audio serializing tests", () => {
             },
           ],
         },
-        { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+        { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       ],
     },
   ];
@@ -142,9 +141,9 @@ describe("embed audio serializing tests", () => {
 describe("embed podcast serializing tests", () => {
   const editorWithPodcast: Descendant[] = [
     {
-      type: TYPE_SECTION,
+      type: SECTION_ELEMENT_TYPE,
       children: [
-        { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+        { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         {
           type: AUDIO_ELEMENT_TYPE,
           data: {
@@ -159,7 +158,7 @@ describe("embed podcast serializing tests", () => {
             },
           ],
         },
-        { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+        { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       ],
     },
   ];
@@ -181,12 +180,12 @@ describe("embed podcast serializing tests", () => {
 describe("embed h5p serializing tests", () => {
   const editorWithH5P: Descendant[] = [
     {
-      type: TYPE_SECTION,
+      type: SECTION_ELEMENT_TYPE,
       children: [
-        { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+        { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
 
         {
-          type: TYPE_H5P,
+          type: H5P_ELEMENT_TYPE,
           data: {
             resource: "h5p",
             path: "/resource/123",
@@ -198,7 +197,7 @@ describe("embed h5p serializing tests", () => {
             },
           ],
         },
-        { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+        { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       ],
     },
   ];

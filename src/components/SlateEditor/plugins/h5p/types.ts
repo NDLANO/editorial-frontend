@@ -9,11 +9,16 @@
 import { Descendant } from "slate";
 import { H5pEmbedData } from "@ndla/types-embed";
 
-export const TYPE_H5P = "h5p";
-
 export interface H5pElement {
   type: "h5p";
   data?: H5pEmbedData;
   children: Descendant[];
   isFirstEdit?: boolean;
 }
+
+export interface H5pPluginOptions {
+  disableNormalize?: boolean;
+}
+
+export const H5P_ELEMENT_TYPE = "h5p";
+export const H5P_PLUGIN = "h5p";

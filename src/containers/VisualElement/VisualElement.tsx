@@ -52,7 +52,7 @@ const VisualElement = ({
         },
       }),
       audioRenderer,
-      h5pPlugin(true),
+      h5pPlugin.configure({ options: { disableNormalize: true } }),
       h5pRenderer,
       externalPlugin(true),
       videoPlugin(true),

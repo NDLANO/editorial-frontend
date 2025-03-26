@@ -23,7 +23,7 @@ import { AsideElement } from "./plugins/aside/asideTypes";
 import { AudioElement } from "./plugins/audio/audioTypes";
 import { BlockQuoteElement } from "./plugins/blockquote/blockquoteTypes";
 import { CampaignBlockElement } from "./plugins/campaignBlock/types";
-import { CodeblockElement } from "./plugins/codeBlock";
+import { CodeBlockElement } from "./plugins/codeBlock/types";
 import { CommentBlockElement, CommentInlineElement } from "./plugins/comment/interfaces";
 import { ConceptBlockElement } from "./plugins/concept/block/interfaces";
 import { ConceptInlineElement } from "./plugins/concept/inline/interfaces";
@@ -95,7 +95,7 @@ declare module "slate" {
       | FileElement
       | DetailsElement
       | SummaryElement
-      | CodeblockElement
+      | CodeBlockElement
       | TableElement
       | TableCaptionElement
       | TableRowElement

@@ -6,7 +6,7 @@
  *
  */
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_CODEBLOCK } from "./types";
+import { CODE_BLOCK_ELEMENT_TYPE } from "./types";
 
 export const defaultCodeblockBlock = () =>
-  slatejsx("element", { type: TYPE_CODEBLOCK, data: {}, isFirstEdit: true }, [{ text: "" }]);
+  slatejsx("element", { type: CODE_BLOCK_ELEMENT_TYPE, data: {}, isFirstEdit: true }, [{ text: "" }]);

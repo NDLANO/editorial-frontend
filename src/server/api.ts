@@ -189,6 +189,14 @@ const aiMiddleware = (req: Request, res: express.Response, next: express.NextFun
 };
 
 router.post("/generate-ai", jwtMiddleware, aiMiddleware, async (req, res) => {
+  if (
+    (!req.body?.title && !req.body?.text) ||
+    (!req.body?.image?.fileType && !req.body?.image?.base64) ||
+    (!req.body.text && !req.body.excerpt) ||
+    !req.body.text
+  ) {
+    res.status(BAD_REQUEST).send({ error: "Missing required parameters" });
+  }
   try {
     const text = await generateAnswer(req.body, req.body.language, req.body.max_tokens);
     res.status(OK).send(text);
@@ -202,12 +210,12 @@ const transcriptionBucketName = getEnvironmentVariabel("TRANSCRIBE_FILE_S3_BUCKE
 
 router.post("/transcribe", jwtMiddleware, aiMiddleware, async (req: Request, res) => {
   if (!transcriptionBucketName) {
-    res.status(INTERNAL_SERVER_ERROR).send("Missing required environment variables");
+    res.status(INTERNAL_SERVER_ERROR).send({ error: "Missing required environment variables" });
     return;
   }
 
   if (!req.body.languageCode || !req.body.mediaFormat || !req.body.mediaFileUri || !req.body.outputFileName) {
-    res.status(BAD_REQUEST).send("Missing required parameters");
+    res.status(BAD_REQUEST).send({ error: "Missing required parameters" });
   }
 
   try {
@@ -221,7 +229,7 @@ router.post("/transcribe", jwtMiddleware, aiMiddleware, async (req: Request, res
 
 router.get("/transcribe/:jobName", jwtMiddleware, aiMiddleware, async (req, res) => {
   if (!transcriptionBucketName) {
-    res.status(INTERNAL_SERVER_ERROR).send("Missing required environment variables");
+    res.status(INTERNAL_SERVER_ERROR).send({ error: "Missing required environment variables" });
     return;
   }
   const { jobName } = req.params;

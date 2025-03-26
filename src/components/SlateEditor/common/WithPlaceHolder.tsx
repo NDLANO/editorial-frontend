@@ -26,6 +26,7 @@ const StyledSpan = styled("span", {
 const PlaceholderSpan = styled("span", {
   base: {
     position: "absolute",
+    top: "0",
     left: "0",
     userSelect: "none",
     pointerEvents: "none",

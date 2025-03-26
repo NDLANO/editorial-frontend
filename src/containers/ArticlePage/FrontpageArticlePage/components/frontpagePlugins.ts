@@ -20,7 +20,8 @@ import { inlineConceptPlugin } from "../../../../components/SlateEditor/plugins/
 import { contactBlockPlugin } from "../../../../components/SlateEditor/plugins/contactBlock";
 import { copyrightPlugin } from "../../../../components/SlateEditor/plugins/copyright";
 import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList";
-import { detailsPlugin } from "../../../../components/SlateEditor/plugins/details";
+import { detailsPlugin } from "../../../../components/SlateEditor/plugins/details/detailsPlugin";
+import { summaryPlugin } from "../../../../components/SlateEditor/plugins/details/summaryPlugin";
 import { divPlugin } from "../../../../components/SlateEditor/plugins/div";
 import { dndPlugin } from "../../../../components/SlateEditor/plugins/DND";
 import { embedPlugin } from "../../../../components/SlateEditor/plugins/embed";
@@ -74,6 +75,7 @@ export const frontpagePlugins: SlatePlugin[] = [
   headingPlugin,
   asidePlugin,
   detailsPlugin,
+  summaryPlugin,
   // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
   // // Blockquote and editList actions need to be triggered before paragraph action, else
   // // unwrapping (jumping out of block) will not work.

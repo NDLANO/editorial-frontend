@@ -8,13 +8,13 @@
 
 import { memo, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Transforms, Element } from "slate";
+import { Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSlate } from "slate-react";
 import { ArrowDownShortLine } from "@ndla/icons";
 import { ExpandableBox, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { EmbedWrapper } from "@ndla/ui";
-import { TYPE_DETAILS } from "./types";
+import { isDetailsElement } from "./queries/detailsQueries";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
 
@@ -58,6 +58,7 @@ const StyledExpandableBox = styled(ExpandableBox, {
       display: "none",
     },
     _open: {
+      overflow: "unset",
       "& [data-embed-type='expandable-box-summary']": {
         _before: {
           content: "'▼'",
@@ -80,10 +81,7 @@ const Details = ({ children, element, attributes }: RenderElementProps) => {
     const path = ReactEditor.findPath(editor, element);
     Transforms.select(editor, path);
     Transforms.collapse(editor);
-    Transforms.removeNodes(editor, {
-      at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_DETAILS,
-    });
+    Transforms.removeNodes(editor, { at: path, match: isDetailsElement });
     setTimeout(() => ReactEditor.focus(editor), 0);
   }, [editor, element]);
 
@@ -91,11 +89,7 @@ const Details = ({ children, element, attributes }: RenderElementProps) => {
     const path = ReactEditor.findPath(editor, element);
     Transforms.select(editor, path);
     Transforms.collapse(editor, { edge: "start" });
-    Transforms.unwrapNodes(editor, {
-      at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_DETAILS,
-      voids: true,
-    });
+    Transforms.unwrapNodes(editor, { at: path, match: isDetailsElement, voids: true });
     setTimeout(() => ReactEditor.focus(editor), 0);
   }, [editor, element]);
 

@@ -41,7 +41,7 @@ import { CODE_BLOCK_ELEMENT_TYPE } from "../codeBlock/types";
 import { TYPE_COMMENT_BLOCK } from "../comment/block/types";
 import { TYPE_GLOSS_BLOCK } from "../concept/block/types";
 import { TYPE_CONTACT_BLOCK } from "../contactBlock/types";
-import { TYPE_DETAILS } from "../details/types";
+import { DETAILS_ELEMENT_TYPE } from "../details/detailsTypes";
 import { TYPE_EXTERNAL } from "../external/types";
 import { TYPE_FILE } from "../file/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes";
@@ -77,7 +77,7 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInDialog("FactAside"),
   },
   {
-    data: { type: TYPE_DETAILS, object: "details" },
+    data: { type: DETAILS_ELEMENT_TYPE, object: "details" },
     icon: <ExpandDiagonalLine />,
     helpIcon: renderArticleInDialog("Details"),
   },

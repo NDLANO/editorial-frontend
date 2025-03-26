@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 import { DeleteBinLine, UploadCloudLine } from "@ndla/icons";

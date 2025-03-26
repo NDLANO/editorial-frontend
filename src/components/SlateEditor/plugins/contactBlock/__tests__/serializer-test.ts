@@ -7,16 +7,16 @@
  */
 
 import { Descendant } from "slate";
+import { SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
-import { TYPE_SECTION } from "../../section/types";
-import { TYPE_CONTACT_BLOCK } from "../types";
+import { CONTACT_BLOCK_ELEMENT_TYPE } from "../types";
 
 const editor: Descendant[] = [
   {
-    type: TYPE_SECTION,
+    type: SECTION_ELEMENT_TYPE,
     children: [
       {
-        type: TYPE_CONTACT_BLOCK,
+        type: CONTACT_BLOCK_ELEMENT_TYPE,
         data: {
           resource: "contact-block",
           imageId: "65750",

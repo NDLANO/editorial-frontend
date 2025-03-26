@@ -40,7 +40,7 @@ import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../campaignBlock/types";
 import { CODE_BLOCK_ELEMENT_TYPE } from "../codeBlock/types";
 import { COMMENT_BLOCK_ELEMENT_TYPE } from "../comment/block/types";
 import { TYPE_GLOSS_BLOCK } from "../concept/block/types";
-import { TYPE_CONTACT_BLOCK } from "../contactBlock/types";
+import { CONTACT_BLOCK_ELEMENT_TYPE } from "../contactBlock/types";
 import { DETAILS_ELEMENT_TYPE } from "../details/detailsTypes";
 import { TYPE_EXTERNAL } from "../external/types";
 import { TYPE_FILE } from "../file/types";
@@ -171,7 +171,7 @@ export const frontpageActions = commonActions.concat(
     helpIcon: renderArticleInDialog("KeyFigure"),
   },
   {
-    data: { type: TYPE_CONTACT_BLOCK, object: "contactBlock" },
+    data: { type: CONTACT_BLOCK_ELEMENT_TYPE, object: "contactBlock" },
     icon: <UserFill />,
     helpIcon: renderArticleInDialog("ContactBlock"),
   },

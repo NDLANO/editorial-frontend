@@ -6,4 +6,15 @@
  *
  */
 
-export const TYPE_CONTACT_BLOCK = "contact-block";
+import { Descendant } from "slate";
+import { ContactBlockEmbedData } from "@ndla/types-embed";
+
+export interface ContactBlockElement {
+  type: "contact-block";
+  data?: ContactBlockEmbedData;
+  isFirstEdit?: boolean;
+  children: Descendant[];
+}
+
+export const CONTACT_BLOCK_ELEMENT_TYPE = "contact-block";
+export const CONTACT_BLOCK_PLUGIN = "contact-block";

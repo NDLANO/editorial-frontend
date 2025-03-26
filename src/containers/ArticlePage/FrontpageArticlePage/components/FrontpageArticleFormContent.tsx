@@ -28,7 +28,7 @@ import { frontpageActions } from "../../../../components/SlateEditor/plugins/blo
 import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/campaignBlock/types";
 import { CODE_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/codeBlock/types";
 import { COMMENT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/comment/block/types";
-import { TYPE_CONTACT_BLOCK } from "../../../../components/SlateEditor/plugins/contactBlock/types";
+import { CONTACT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/contactBlock/types";
 import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
 import { TYPE_FILE } from "../../../../components/SlateEditor/plugins/file/types";
 import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
@@ -67,7 +67,7 @@ const actions = [
   TYPE_TABLE,
   CODE_BLOCK_ELEMENT_TYPE,
   TYPE_FILE,
-  TYPE_CONTACT_BLOCK,
+  CONTACT_BLOCK_ELEMENT_TYPE,
   TYPE_GRID,
   TYPE_KEY_FIGURE,
   CAMPAIGN_BLOCK_ELEMENT_TYPE,

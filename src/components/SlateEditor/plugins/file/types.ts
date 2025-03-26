@@ -6,4 +6,13 @@
  *
  */
 
-export const TYPE_FILE = "file";
+import { Descendant } from "slate";
+
+export interface FileElement {
+  type: "file";
+  data: File[];
+  children: Descendant[];
+}
+
+export const FILE_ELEMENT_TYPE = "file";
+export const FILE_PLUGIN = "file";

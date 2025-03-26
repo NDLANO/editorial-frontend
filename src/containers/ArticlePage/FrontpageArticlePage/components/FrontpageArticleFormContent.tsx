@@ -30,7 +30,7 @@ import { CODE_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plug
 import { COMMENT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/comment/block/types";
 import { CONTACT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/contactBlock/types";
 import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
-import { TYPE_FILE } from "../../../../components/SlateEditor/plugins/file/types";
+import { FILE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/file/types";
 import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
 import { TYPE_H5P } from "../../../../components/SlateEditor/plugins/h5p/types";
 import { TYPE_IMAGE } from "../../../../components/SlateEditor/plugins/image/types";
@@ -66,7 +66,7 @@ const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, AUDIO_ELEMENT_TYPE, TYP
 const actions = [
   TYPE_TABLE,
   CODE_BLOCK_ELEMENT_TYPE,
-  TYPE_FILE,
+  FILE_ELEMENT_TYPE,
   CONTACT_BLOCK_ELEMENT_TYPE,
   TYPE_GRID,
   TYPE_KEY_FIGURE,

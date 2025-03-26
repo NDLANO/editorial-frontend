@@ -45,7 +45,7 @@ import { defaultGridBlock } from "../grid/utils";
 import { H5P_ELEMENT_TYPE } from "../h5p/types";
 import { defaultH5pBlock } from "../h5p/utils";
 import { TYPE_IMAGE } from "../image/types";
-import { TYPE_KEY_FIGURE } from "../keyFigure/types";
+import { KEY_FIGURE_ELEMENT_TYPE } from "../keyFigure/types";
 import { defaultKeyFigureBlock } from "../keyFigure/utils";
 import { defaultLinkBlockList } from "../linkBlockList";
 import { TYPE_LINK_BLOCK_LIST } from "../linkBlockList/types";
@@ -332,7 +332,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultGridBlock(), true);
         break;
       }
-      case TYPE_KEY_FIGURE: {
+      case KEY_FIGURE_ELEMENT_TYPE: {
         onInsertBlock(defaultKeyFigureBlock());
         break;
       }

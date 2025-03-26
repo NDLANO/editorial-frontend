@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { createPlugin, getCurrentBlock, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { BLOCK_QUOTE_ELEMENT_TYPE, BLOCK_QUOTE_PLUGIN } from "./blockquoteTypes";
 import { Element, Node, Range, Transforms } from "slate";

@@ -43,7 +43,7 @@ import { TYPE_GLOSS_BLOCK } from "../concept/block/types";
 import { CONTACT_BLOCK_ELEMENT_TYPE } from "../contactBlock/types";
 import { DETAILS_ELEMENT_TYPE } from "../details/detailsTypes";
 import { TYPE_EXTERNAL } from "../external/types";
-import { TYPE_FILE } from "../file/types";
+import { FILE_ELEMENT_TYPE } from "../file/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes";
 import { TYPE_GRID } from "../grid/types";
 import { TYPE_H5P } from "../h5p/types";
@@ -122,7 +122,7 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInDialog("ResourceFromLink"),
   },
   {
-    data: { type: TYPE_FILE, object: "file" },
+    data: { type: FILE_ELEMENT_TYPE, object: "file" },
     icon: <DownloadLine />,
     helpIcon: renderArticleInDialog("File"),
   },

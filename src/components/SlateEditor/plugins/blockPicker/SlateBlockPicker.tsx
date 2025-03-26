@@ -37,7 +37,7 @@ import { defaultDetailsBlock } from "../details/utils";
 import { TYPE_EMBED_ERROR } from "../embed/types";
 import { TYPE_EXTERNAL } from "../external/types";
 import { defaultExternalBlock } from "../external/utils";
-import { TYPE_FILE } from "../file/types";
+import { FILE_ELEMENT_TYPE } from "../file/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes";
 import { defaultFramedContentBlock } from "../framedContent/utils";
 import { TYPE_GRID } from "../grid/types";
@@ -306,7 +306,7 @@ const SlateBlockPicker = ({
         setType(data.object);
         break;
       }
-      case TYPE_FILE:
+      case FILE_ELEMENT_TYPE:
       case TYPE_EMBED_ERROR: {
         setVisualElementPickerOpen(true);
         setType(data.object);

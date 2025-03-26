@@ -26,12 +26,12 @@ import {
   Text,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { RephraseElement } from ".";
-import { isRephraseElement } from "./utils";
 import { useGenerateAlternativePhrasing } from "../../../../modules/llm/llmMutations";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormActionsContainer } from "../../../FormikForm";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
+import { isRephraseElement } from "./queries/rephraseQueries";
+import { RephraseElement } from "./rephraseTypes";
 
 interface Props extends RenderElementProps {
   element: RephraseElement;

@@ -190,12 +190,14 @@ const aiMiddleware = (req: Request, res: express.Response, next: express.NextFun
 
 router.post("/generate-ai", jwtMiddleware, aiMiddleware, async (req, res) => {
   if (
-    (!req.body?.title && !req.body?.text) ||
-    (!req.body?.image?.fileType && !req.body?.image?.base64) ||
-    (!req.body.text && !req.body.excerpt) ||
-    !req.body.text
+    !req.body?.type ||
+    ((req.body?.type === "summary" || req.body?.type === "metaDescription") && !req.body?.title && !req.body?.text) ||
+    (req.body?.type === "alttext" && !req.body?.image?.fileType && !req.body?.image?.base63) ||
+    (req.body?.type === "alternativePhrasing" && !req.body?.text && !req.body?.excerpt) ||
+    (req.body?.type === "reflection" && !req.body?.text)
   ) {
     res.status(BAD_REQUEST).send({ error: "Missing required parameters" });
+    return;
   }
   try {
     const text = await generateAnswer(req.body, req.body.language, req.body.max_tokens);
@@ -216,6 +218,7 @@ router.post("/transcribe", jwtMiddleware, aiMiddleware, async (req: Request, res
 
   if (!req.body.languageCode || !req.body.mediaFormat || !req.body.mediaFileUri || !req.body.outputFileName) {
     res.status(BAD_REQUEST).send({ error: "Missing required parameters" });
+    return;
   }
 
   try {

@@ -26,7 +26,7 @@ import { TYPE_LINK, TYPE_CONTENT_LINK } from "./plugins/link/types";
 import { MATH_ELEMENT_TYPE } from "./plugins/mathml/mathTypes";
 import { TYPE_PITCH } from "./plugins/pitch/types";
 import { TYPE_RELATED } from "./plugins/related/types";
-import { REPHRASE_ELEMENT_TYPE } from "./plugins/rephrase";
+import { REPHRASE_ELEMENT_TYPE } from "./plugins/rephrase/rephraseTypes";
 import { TYPE_SPAN } from "./plugins/span/types";
 import { TYPE_TABLE } from "./plugins/table/types";
 import { TYPE_EMBED_BRIGHTCOVE } from "./plugins/video/types";

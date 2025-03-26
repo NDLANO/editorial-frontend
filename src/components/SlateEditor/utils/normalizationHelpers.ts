@@ -29,8 +29,8 @@ import { TYPE_CONCEPT_INLINE } from "../plugins/concept/inline/types";
 import { TYPE_COMMENT_INLINE } from "../plugins/comment/inline/types";
 import { TYPE_CONTENT_LINK, TYPE_LINK } from "../plugins/link/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../plugins/framedContent/framedContentTypes";
-import { REPHRASE_ELEMENT_TYPE } from "../plugins/rephrase";
 import { BLOCK_QUOTE_ELEMENT_TYPE } from "../plugins/blockquote/blockquoteTypes";
+import { REPHRASE_ELEMENT_TYPE } from "../plugins/rephrase/rephraseTypes";
 
 export const firstTextBlockElement: Element["type"][] = [TYPE_PARAGRAPH, TYPE_HEADING, BLOCK_QUOTE_ELEMENT_TYPE];
 

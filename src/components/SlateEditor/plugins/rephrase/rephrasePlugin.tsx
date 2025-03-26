@@ -6,18 +6,11 @@
  *
  */
 
-import { Descendant } from "slate";
 import { createPlugin } from "@ndla/editor";
+import { REPHRASE_ELEMENT_TYPE, REPHRASE_PLUGIN } from "./rephraseTypes";
 
-export interface RephraseElement {
-  type: "rephrase";
-  children: Descendant[];
-}
-
-export const REPHRASE_ELEMENT_TYPE = "rephrase";
-
-export const rephrasePlugin = createPlugin<"rephrase", RephraseElement>({
+export const rephrasePlugin = createPlugin({
   name: REPHRASE_ELEMENT_TYPE,
-  type: REPHRASE_ELEMENT_TYPE,
+  type: REPHRASE_PLUGIN,
   isInline: true,
 });

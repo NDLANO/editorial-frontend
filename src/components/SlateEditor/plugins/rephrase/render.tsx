@@ -7,8 +7,8 @@
  */
 
 import { Editor } from "slate";
-import { REPHRASE_ELEMENT_TYPE } from ".";
 import { Rephrase } from "./Rephrase";
+import { REPHRASE_ELEMENT_TYPE } from "./rephraseTypes";
 import { InlineBugfix } from "../../utils/InlineBugFix";
 
 export const rephraseRenderer = (editor: Editor) => {

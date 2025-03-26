@@ -25,7 +25,7 @@ import { KEY_FIGURE_ELEMENT_TYPE } from "./plugins/keyFigure/types";
 import { TYPE_LINK, TYPE_CONTENT_LINK } from "./plugins/link/types";
 import { MATH_ELEMENT_TYPE } from "./plugins/mathml/mathTypes";
 import { PITCH_ELEMENT_TYPE } from "./plugins/pitch/types";
-import { TYPE_RELATED } from "./plugins/related/types";
+import { RELATED_ELEMENT_TYPE } from "./plugins/related/types";
 import { TYPE_SPAN } from "./plugins/span/types";
 import { TYPE_TABLE } from "./plugins/table/types";
 import { TYPE_EMBED_BRIGHTCOVE } from "./plugins/video/types";
@@ -52,7 +52,7 @@ export const blocks: ElementType[] = [
   H5P_ELEMENT_TYPE,
   TYPE_IMAGE,
   FILE_ELEMENT_TYPE,
-  TYPE_RELATED,
+  RELATED_ELEMENT_TYPE,
   TYPE_TABLE,
   PITCH_ELEMENT_TYPE,
   TYPE_GRID,

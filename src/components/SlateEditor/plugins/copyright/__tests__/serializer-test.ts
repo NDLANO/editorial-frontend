@@ -7,25 +7,24 @@
  */
 
 import { Descendant } from "slate";
+import { PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../../framedContent/framedContentTypes";
-import { TYPE_PARAGRAPH } from "../../paragraph/types";
-import { TYPE_SECTION } from "../../section/types";
-import { TYPE_COPYRIGHT } from "../types";
+import { COPYRIGHT_ELEMENT_TYPE } from "../types";
 
 const editor: Descendant[] = [
   {
-    type: TYPE_SECTION,
+    type: SECTION_ELEMENT_TYPE,
     children: [
       {
-        type: TYPE_PARAGRAPH,
+        type: PARAGRAPH_ELEMENT_TYPE,
         children: [{ text: "" }],
       },
       {
         type: FRAMED_CONTENT_ELEMENT_TYPE,
         children: [
           {
-            type: TYPE_COPYRIGHT,
+            type: COPYRIGHT_ELEMENT_TYPE,
             data: {
               resource: "copyright",
               copyright: {
@@ -38,12 +37,12 @@ const editor: Descendant[] = [
                 processed: false,
               },
             },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "hall" }] }],
+            children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "hall" }] }],
           },
         ],
       },
       {
-        type: TYPE_PARAGRAPH,
+        type: PARAGRAPH_ELEMENT_TYPE,
         children: [{ text: "" }],
       },
     ],

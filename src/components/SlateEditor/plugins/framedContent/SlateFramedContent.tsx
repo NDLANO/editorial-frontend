@@ -8,7 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Element, NodeEntry, Transforms } from "slate";
+import { Editor, NodeEntry, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { BrushLine, CopyrightLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
@@ -18,10 +18,10 @@ import { FramedContentElement } from "./framedContentTypes";
 import { useArticleContentType } from "../../../ContentTypeProvider";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
-import { TYPE_COPYRIGHT } from "../copyright/types";
 import { defaultCopyrightBlock } from "../copyright/utils";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import { isFramedContentElement } from "./queries/framedContentQueries";
+import { isCopyrightElement } from "../copyright/queries";
 
 const FigureButtons = styled(StyledFigureButtons, {
   base: {
@@ -41,7 +41,7 @@ const SlateFramedContent = (props: Props) => {
   const variant = element.data?.variant ?? "neutral";
   const contentType = useArticleContentType();
   const hasSlateCopyright = useMemo(() => {
-    return element.children.some((child) => Element.isElement(child) && child.type === TYPE_COPYRIGHT);
+    return element.children.some((child) => isCopyrightElement(child));
   }, [element.children]);
 
   const onRemoveClick = () => {

@@ -8,12 +8,12 @@
 
 import { Editor } from "slate";
 import SlateCopyright from "./SlateCopyright";
-import { TYPE_COPYRIGHT } from "./types";
+import { COPYRIGHT_ELEMENT_TYPE } from "./types";
 
 export const copyrightRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_COPYRIGHT) {
+    if (element.type === COPYRIGHT_ELEMENT_TYPE) {
       return (
         <SlateCopyright attributes={attributes} element={element} editor={editor}>
           {children}

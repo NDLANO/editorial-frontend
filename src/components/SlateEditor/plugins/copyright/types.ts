@@ -9,11 +9,12 @@
 import { Descendant } from "slate";
 import { CopyrightEmbedData } from "@ndla/types-embed";
 
-export const TYPE_COPYRIGHT = "copyright";
-
 export interface CopyrightElement {
   type: "copyright";
   isFirstEdit?: boolean;
   data: CopyrightEmbedData;
   children: Descendant[];
 }
+
+export const COPYRIGHT_ELEMENT_TYPE = "copyright";
+export const COPYRIGHT_PLUGIN = "copyright";

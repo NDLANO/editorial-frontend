@@ -8,7 +8,7 @@
 
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Element, Path, Transforms } from "slate";
+import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { PencilFill } from "@ndla/icons";
@@ -25,7 +25,8 @@ import { styled } from "@ndla/styled-system/jsx";
 import { CopyrightEmbedData, CopyrightMetaData } from "@ndla/types-embed";
 import { CopyrightEmbed, EmbedWrapper } from "@ndla/ui";
 import { EmbedCopyrightForm } from "./EmbedCopyrightForm";
-import { CopyrightElement, TYPE_COPYRIGHT } from "./types";
+import { isCopyrightElement } from "./queries";
+import { CopyrightElement } from "./types";
 import DeleteButton from "../../../DeleteButton";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import MoveContentButton from "../../../MoveContentButton";
@@ -78,10 +79,7 @@ const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
 
   const handleDelete = () => {
     const path = ReactEditor.findPath(editor, element);
-    Transforms.removeNodes(editor, {
-      at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_COPYRIGHT,
-    });
+    Transforms.removeNodes(editor, { at: path, match: isCopyrightElement });
     setTimeout(() => {
       ReactEditor.focus(editor);
       Transforms.select(editor, Path.previous(path));
@@ -91,10 +89,7 @@ const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
 
   const handleRemoveCopyright = () => {
     const path = ReactEditor.findPath(editor, element);
-    Transforms.unwrapNodes(editor, {
-      at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_COPYRIGHT,
-    });
+    Transforms.unwrapNodes(editor, { at: path, match: isCopyrightElement });
     setTimeout(() => {
       ReactEditor.focus(editor);
       Transforms.select(editor, path);

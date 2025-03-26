@@ -8,7 +8,7 @@
 
 import { breakSerializer as _breakSerializer, breakPlugin as _breakPlugin } from "@ndla/editor";
 import { ASIDE_ELEMENT_TYPE } from "../aside/asideTypes";
-import { TYPE_COPYRIGHT } from "../copyright/types";
+import { COPYRIGHT_ELEMENT_TYPE } from "../copyright/types";
 import { DETAILS_ELEMENT_TYPE } from "../details/detailsTypes";
 import { TYPE_DIV } from "../div/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes";
@@ -34,7 +34,7 @@ export const breakPlugin = _breakPlugin.configure({
       DETAILS_ELEMENT_TYPE,
       TYPE_GRID_CELL,
       TYPE_DISCLAIMER,
-      TYPE_COPYRIGHT,
+      COPYRIGHT_ELEMENT_TYPE,
       TYPE_TABLE_CELL,
     ],
   },

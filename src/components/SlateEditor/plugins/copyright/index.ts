@@ -6,11 +6,16 @@
  *
  */
 
-import { Descendant, Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_COPYRIGHT } from "./types";
-import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
-import { SlateSerializer } from "../../interfaces";
+import {
+  createDataAttributes,
+  createHtmlTag,
+  createPlugin,
+  createSerializer,
+  PARAGRAPH_ELEMENT_TYPE,
+  parseElementAttributes,
+} from "@ndla/editor";
+import { COPYRIGHT_ELEMENT_TYPE, COPYRIGHT_PLUGIN } from "./types";
 import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import {
   afterOrBeforeTextBlockElement,
@@ -19,22 +24,22 @@ import {
   textBlockElements,
 } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
-import { TYPE_PARAGRAPH } from "../paragraph/types";
+import { isCopyrightElement } from "./queries";
 
-export const copyrightSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: Descendant[]) {
+export const copyrightSerializer = createSerializer({
+  deserialize(el, children) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = parseElementAttributes(Array.from(embed.attributes));
-    if (embedAttributes.resource !== TYPE_COPYRIGHT) return;
+    if (embedAttributes.resource !== COPYRIGHT_ELEMENT_TYPE) return;
     return slatejsx(
       "element",
-      { type: TYPE_COPYRIGHT, data: { ...embedAttributes, copyright: JSON.parse(embedAttributes.copyright) } },
+      { type: COPYRIGHT_ELEMENT_TYPE, data: { ...embedAttributes, copyright: JSON.parse(embedAttributes.copyright) } },
       children,
     );
   },
   serialize(node, children) {
-    if (!Element.isElement(node) || node.type !== TYPE_COPYRIGHT || !node.data) return;
+    if (!isCopyrightElement(node) || !node.data) return;
     // TODO: Create global replace method to handle stringified objects
     const data = createDataAttributes({
       ...node.data,
@@ -43,45 +48,38 @@ export const copyrightSerializer: SlateSerializer = {
 
     return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true, children });
   },
-};
+});
 
 const normalizerConfig: NormalizerConfig = {
   nodes: {
     allowed: textBlockElements,
-    defaultType: TYPE_PARAGRAPH,
+    defaultType: PARAGRAPH_ELEMENT_TYPE,
   },
   firstNode: {
     allowed: firstTextBlockElement,
-    defaultType: TYPE_PARAGRAPH,
+    defaultType: PARAGRAPH_ELEMENT_TYPE,
   },
   lastNode: {
     allowed: lastTextBlockElement,
-    defaultType: TYPE_PARAGRAPH,
+    defaultType: PARAGRAPH_ELEMENT_TYPE,
   },
   previous: {
     allowed: afterOrBeforeTextBlockElement,
-    defaultType: TYPE_PARAGRAPH,
+    defaultType: PARAGRAPH_ELEMENT_TYPE,
   },
   next: {
     allowed: afterOrBeforeTextBlockElement,
-    defaultType: TYPE_PARAGRAPH,
+    defaultType: PARAGRAPH_ELEMENT_TYPE,
   },
 };
 
-export const copyrightPlugin = (editor: Editor) => {
-  const { normalizeNode: nextNormalizeNode } = editor;
-
-  editor.normalizeNode = (entry) => {
-    const [node, path] = entry;
-
-    if (Element.isElement(node) && node.type === TYPE_COPYRIGHT) {
-      if (!defaultBlockNormalizer(editor, node, path, normalizerConfig)) {
-        return nextNormalizeNode(entry);
-      }
-    } else {
-      nextNormalizeNode(entry);
+export const copyrightPlugin = createPlugin({
+  name: COPYRIGHT_PLUGIN,
+  type: COPYRIGHT_ELEMENT_TYPE,
+  normalize: (editor, node, path, logger) => {
+    if (isCopyrightElement(node)) {
+      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
     }
-  };
-
-  return editor;
-};
+    return false;
+  },
+});

@@ -38,7 +38,7 @@ import { ASIDE_ELEMENT_TYPE } from "../aside/asideTypes";
 import { AUDIO_ELEMENT_TYPE } from "../audio/audioTypes";
 import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../campaignBlock/types";
 import { CODE_BLOCK_ELEMENT_TYPE } from "../codeBlock/types";
-import { TYPE_COMMENT_BLOCK } from "../comment/block/types";
+import { COMMENT_BLOCK_ELEMENT_TYPE } from "../comment/block/types";
 import { TYPE_GLOSS_BLOCK } from "../concept/block/types";
 import { TYPE_CONTACT_BLOCK } from "../contactBlock/types";
 import { DETAILS_ELEMENT_TYPE } from "../details/detailsTypes";
@@ -148,7 +148,7 @@ export const commonActions: Action[] = [
     requiredScope: DRAFT_ADMIN_SCOPE,
   },
   {
-    data: { type: TYPE_COMMENT_BLOCK, object: "comment" },
+    data: { type: COMMENT_BLOCK_ELEMENT_TYPE, object: "comment" },
     icon: <MessageLine />,
     helpIcon: renderArticleInDialog("Comment"),
   },

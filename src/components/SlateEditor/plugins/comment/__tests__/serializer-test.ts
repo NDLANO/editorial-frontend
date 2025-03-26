@@ -8,22 +8,21 @@
 
 import { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
-import { TYPE_PARAGRAPH } from "../../paragraph/types";
-import { TYPE_SECTION } from "../../section/types";
-import { TYPE_COMMENT_BLOCK } from "../block/types";
-import { TYPE_COMMENT_INLINE } from "../inline/types";
+import { COMMENT_BLOCK_ELEMENT_TYPE } from "../block/types";
+import { COMMENT_INLINE_ELEMENT_TYPE } from "../inline/types";
+import { PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 
 describe("inline comment serializing tests", () => {
   const editor: Descendant[] = [
     {
-      type: TYPE_SECTION,
+      type: SECTION_ELEMENT_TYPE,
       children: [
         {
-          type: TYPE_PARAGRAPH,
+          type: PARAGRAPH_ELEMENT_TYPE,
           children: [
             { text: "This is a " },
             {
-              type: TYPE_COMMENT_INLINE,
+              type: COMMENT_INLINE_ELEMENT_TYPE,
               data: { resource: "comment", type: "inline", text: "Comment text" },
               children: [{ text: "comment" }],
             },
@@ -51,7 +50,7 @@ describe("inline comment serializing tests", () => {
 describe("block comment serializing tests", () => {
   const editor: Descendant[] = [
     {
-      type: TYPE_COMMENT_BLOCK,
+      type: COMMENT_BLOCK_ELEMENT_TYPE,
       data: { resource: "comment", type: "block", text: "Comment text" },
       children: [{ text: "" }],
     },

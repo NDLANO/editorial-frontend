@@ -26,7 +26,7 @@ import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../campaignBlock/types";
 import { defaultCampaignBlock } from "../campaignBlock/utils";
 import { CODE_BLOCK_ELEMENT_TYPE } from "../codeBlock/types";
 import { defaultCodeblockBlock } from "../codeBlock/utils";
-import { TYPE_COMMENT_BLOCK } from "../comment/block/types";
+import { COMMENT_BLOCK_ELEMENT_TYPE } from "../comment/block/types";
 import { defaultCommentBlock } from "../comment/block/utils";
 import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from "../concept/block/types";
 import { defaultConceptBlock } from "../concept/block/utils";
@@ -356,7 +356,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultDisclaimerBlock());
         break;
       }
-      case TYPE_COMMENT_BLOCK: {
+      case COMMENT_BLOCK_ELEMENT_TYPE: {
         onInsertBlock(defaultCommentBlock());
         break;
       }

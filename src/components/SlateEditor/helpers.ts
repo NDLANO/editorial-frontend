@@ -15,7 +15,7 @@ import { TYPE_CONCEPT_INLINE } from "./plugins/concept/inline/types";
 import { DETAILS_ELEMENT_TYPE } from "./plugins/details/detailsTypes";
 import { TYPE_EMBED_ERROR } from "./plugins/embed/types";
 import { TYPE_EXTERNAL } from "./plugins/external/types";
-import { TYPE_FILE } from "./plugins/file/types";
+import { FILE_ELEMENT_TYPE } from "./plugins/file/types";
 import { TYPE_FOOTNOTE } from "./plugins/footnote/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "./plugins/framedContent/framedContentTypes";
 import { TYPE_GRID } from "./plugins/grid/types";
@@ -51,7 +51,7 @@ export const blocks: ElementType[] = [
   TYPE_EXTERNAL,
   TYPE_H5P,
   TYPE_IMAGE,
-  TYPE_FILE,
+  FILE_ELEMENT_TYPE,
   TYPE_RELATED,
   TYPE_TABLE,
   TYPE_PITCH,

@@ -28,7 +28,7 @@ import { learningResourceActions } from "../../../../components/SlateEditor/plug
 import { CODE_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/codeBlock/types";
 import { COMMENT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/comment/block/types";
 import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
-import { TYPE_FILE } from "../../../../components/SlateEditor/plugins/file/types";
+import { FILE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/file/types";
 import { FootnoteElement } from "../../../../components/SlateEditor/plugins/footnote";
 import { TYPE_FOOTNOTE } from "../../../../components/SlateEditor/plugins/footnote/types";
 import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
@@ -58,7 +58,7 @@ const findFootnotes = (content: Descendant[]): FootnoteType[] =>
 
 const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, AUDIO_ELEMENT_TYPE, TYPE_EXTERNAL, TYPE_IMAGE];
 
-const actions = [TYPE_TABLE, CODE_BLOCK_ELEMENT_TYPE, TYPE_FILE, TYPE_GRID, COMMENT_BLOCK_ELEMENT_TYPE].concat(
+const actions = [TYPE_TABLE, CODE_BLOCK_ELEMENT_TYPE, FILE_ELEMENT_TYPE, TYPE_GRID, COMMENT_BLOCK_ELEMENT_TYPE].concat(
   visualElements,
 );
 const actionsToShowInAreas = {

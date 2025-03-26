@@ -16,7 +16,7 @@ import { TYPE_DEFINITION_LIST } from "../plugins/definitionList/types";
 import { DETAILS_ELEMENT_TYPE } from "../plugins/details/detailsTypes";
 import { TYPE_EMBED_ERROR } from "../plugins/embed/types";
 import { TYPE_EXTERNAL } from "../plugins/external/types";
-import { TYPE_FILE } from "../plugins/file/types";
+import { FILE_ELEMENT_TYPE } from "../plugins/file/types";
 import { TYPE_GRID } from "../plugins/grid/types";
 import { TYPE_H5P } from "../plugins/h5p/types";
 import { TYPE_HEADING } from "../plugins/heading/types";
@@ -44,7 +44,7 @@ export const textBlockElements: Element["type"][] = [
   TYPE_EXTERNAL,
   TYPE_EMBED_ERROR,
   TYPE_H5P,
-  TYPE_FILE,
+  FILE_ELEMENT_TYPE,
   CODE_BLOCK_ELEMENT_TYPE,
   ASIDE_ELEMENT_TYPE,
   FRAMED_CONTENT_ELEMENT_TYPE,

@@ -6,10 +6,11 @@
  *
  */
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_DETAILS, TYPE_SUMMARY } from "./types";
 import { defaultParagraphBlock } from "../paragraph/utils";
+import { DETAILS_ELEMENT_TYPE } from "./detailsTypes";
+import { SUMMARY_ELEMENT_TYPE } from "./summaryTypes";
 
-export const defaultSummaryBlock = () => slatejsx("element", { type: TYPE_SUMMARY }, defaultParagraphBlock());
+export const defaultSummaryBlock = () => slatejsx("element", { type: SUMMARY_ELEMENT_TYPE }, defaultParagraphBlock());
 
 export const defaultDetailsBlock = () =>
-  slatejsx("element", { type: TYPE_DETAILS }, defaultSummaryBlock(), defaultParagraphBlock());
+  slatejsx("element", { type: DETAILS_ELEMENT_TYPE }, defaultSummaryBlock(), defaultParagraphBlock());

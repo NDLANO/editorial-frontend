@@ -32,7 +32,7 @@ import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from "../concept/block/types";
 import { defaultConceptBlock } from "../concept/block/utils";
 import { TYPE_CONTACT_BLOCK } from "../contactBlock/types";
 import { defaultContactBlock } from "../contactBlock/utils";
-import { TYPE_DETAILS } from "../details/types";
+import { DETAILS_ELEMENT_TYPE } from "../details/detailsTypes";
 import { defaultDetailsBlock } from "../details/utils";
 import { TYPE_EMBED_ERROR } from "../embed/types";
 import { TYPE_EXTERNAL } from "../external/types";
@@ -271,7 +271,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultFramedContentBlock(), true);
         break;
       }
-      case TYPE_DETAILS: {
+      case DETAILS_ELEMENT_TYPE: {
         onInsertBlock(defaultDetailsBlock(), true);
         break;
       }

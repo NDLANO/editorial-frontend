@@ -13,7 +13,7 @@ import { AUDIO_ELEMENT_TYPE } from "../plugins/audio/audioTypes";
 import { CODE_BLOCK_ELEMENT_TYPE } from "../plugins/codeBlock/types";
 import { TYPE_COMMENT_BLOCK } from "../plugins/comment/block/types";
 import { TYPE_DEFINITION_LIST } from "../plugins/definitionList/types";
-import { TYPE_DETAILS } from "../plugins/details/types";
+import { DETAILS_ELEMENT_TYPE } from "../plugins/details/detailsTypes";
 import { TYPE_EMBED_ERROR } from "../plugins/embed/types";
 import { TYPE_EXTERNAL } from "../plugins/external/types";
 import { TYPE_FILE } from "../plugins/file/types";
@@ -48,7 +48,7 @@ export const textBlockElements: Element["type"][] = [
   CODE_BLOCK_ELEMENT_TYPE,
   ASIDE_ELEMENT_TYPE,
   FRAMED_CONTENT_ELEMENT_TYPE,
-  TYPE_DETAILS,
+  DETAILS_ELEMENT_TYPE,
   TYPE_DEFINITION_LIST,
   TYPE_GRID,
   TYPE_SPAN,

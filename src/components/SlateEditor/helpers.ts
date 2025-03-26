@@ -12,7 +12,7 @@ import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "./plugins/campaignBlock/types";
 import { CODE_BLOCK_ELEMENT_TYPE } from "./plugins/codeBlock/types";
 import { TYPE_COMMENT_INLINE } from "./plugins/comment/inline/types";
 import { TYPE_CONCEPT_INLINE } from "./plugins/concept/inline/types";
-import { TYPE_DETAILS } from "./plugins/details/types";
+import { DETAILS_ELEMENT_TYPE } from "./plugins/details/detailsTypes";
 import { TYPE_EMBED_ERROR } from "./plugins/embed/types";
 import { TYPE_EXTERNAL } from "./plugins/external/types";
 import { TYPE_FILE } from "./plugins/file/types";
@@ -44,7 +44,7 @@ export const blocks: ElementType[] = [
   ASIDE_ELEMENT_TYPE,
   FRAMED_CONTENT_ELEMENT_TYPE,
   CODE_BLOCK_ELEMENT_TYPE,
-  TYPE_DETAILS,
+  DETAILS_ELEMENT_TYPE,
   AUDIO_ELEMENT_TYPE,
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_ERROR,

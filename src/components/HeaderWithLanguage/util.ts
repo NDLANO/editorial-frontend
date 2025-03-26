@@ -1,10 +1,11 @@
 /**
- * Copyright (c) 2021-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { isEqual, get } from "lodash-es";
 import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";

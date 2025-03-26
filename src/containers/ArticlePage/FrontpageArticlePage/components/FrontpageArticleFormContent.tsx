@@ -36,7 +36,7 @@ import { H5P_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/h5p
 import { TYPE_IMAGE } from "../../../../components/SlateEditor/plugins/image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/keyFigure/types";
 import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/linkBlockList/types";
-import { TYPE_PITCH } from "../../../../components/SlateEditor/plugins/pitch/types";
+import { PITCH_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/pitch/types";
 import { TYPE_TABLE } from "../../../../components/SlateEditor/plugins/table/types";
 import {
   createToolbarAreaOptions,
@@ -79,7 +79,7 @@ const actions = [
 const actionsToShowInAreas = {
   "table-cell": [TYPE_IMAGE],
   section: actions,
-  "grid-cell": [TYPE_IMAGE, KEY_FIGURE_ELEMENT_TYPE, TYPE_PITCH],
+  "grid-cell": [TYPE_IMAGE, KEY_FIGURE_ELEMENT_TYPE, PITCH_ELEMENT_TYPE],
 };
 
 const toolbarOptions = createToolbarDefaultValues();

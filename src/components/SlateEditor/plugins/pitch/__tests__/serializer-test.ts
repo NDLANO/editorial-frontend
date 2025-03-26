@@ -8,17 +8,16 @@
 
 import { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
-import { TYPE_PARAGRAPH } from "../../paragraph/types";
-import { TYPE_SECTION } from "../../section/types";
-import { TYPE_PITCH } from "../types";
+import { PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
+import { PITCH_ELEMENT_TYPE } from "../types";
 
 const editor: Descendant[] = [
   {
-    type: TYPE_SECTION,
+    type: SECTION_ELEMENT_TYPE,
     children: [
-      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+      { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       {
-        type: TYPE_PITCH,
+        type: PITCH_ELEMENT_TYPE,
         data: {
           resource: "pitch",
           imageId: "123",
@@ -28,7 +27,7 @@ const editor: Descendant[] = [
         },
         children: [{ text: "" }],
       },
-      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+      { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
     ],
   },
 ];

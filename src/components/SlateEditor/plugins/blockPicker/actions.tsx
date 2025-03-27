@@ -53,7 +53,7 @@ import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "../linkBlockList/types";
 import { PITCH_ELEMENT_TYPE } from "../pitch/types";
 import { RELATED_ELEMENT_TYPE } from "../related/types";
 import { TYPE_TABLE } from "../table/types";
-import { TYPE_DISCLAIMER } from "../uuDisclaimer/types";
+import { DISCLAIMER_ELEMENT_TYPE } from "../uuDisclaimer/types";
 import { TYPE_EMBED_BRIGHTCOVE } from "../video/types";
 
 const renderArticleInDialog = (pageId: string) => <HowToHelper pageId={pageId as StoryType} />;
@@ -142,7 +142,7 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInDialog("Gloss"),
   },
   {
-    data: { type: TYPE_DISCLAIMER, object: "disclaimer" },
+    data: { type: DISCLAIMER_ELEMENT_TYPE, object: "disclaimer" },
     icon: <AlertLine />,
     helpIcon: renderArticleInDialog("Disclaimer"),
     requiredScope: DRAFT_ADMIN_SCOPE,

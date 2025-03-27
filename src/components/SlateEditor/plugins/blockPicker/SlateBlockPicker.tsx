@@ -59,7 +59,7 @@ import { defaultTableBlock } from "../table/defaultBlocks";
 import { isInTableCellHeader, isTableCell } from "../table/slateHelpers";
 import { TYPE_TABLE } from "../table/types";
 import { IS_MAC } from "../toolbar/ToolbarToggle";
-import { TYPE_DISCLAIMER } from "../uuDisclaimer/types";
+import { DISCLAIMER_ELEMENT_TYPE } from "../uuDisclaimer/types";
 import { defaultDisclaimerBlock } from "../uuDisclaimer/utils";
 import { TYPE_EMBED_BRIGHTCOVE } from "../video/types";
 
@@ -352,7 +352,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultConceptBlock("gloss"));
         break;
       }
-      case TYPE_DISCLAIMER: {
+      case DISCLAIMER_ELEMENT_TYPE: {
         onInsertBlock(defaultDisclaimerBlock());
         break;
       }

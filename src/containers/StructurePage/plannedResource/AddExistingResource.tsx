@@ -233,7 +233,8 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     if (!preview) return;
     let id = resourceId;
     if (!id) {
-      const isLearningpath = selectedType?.id === RESOURCE_TYPE_LEARNING_PATH && "metaUrl" in preview;
+      const isLearningpath =
+        selectedType?.id === RESOURCE_TYPE_LEARNING_PATH || ("metaUrl" in preview && preview.metaUrl);
       const isArticleOrDraft = "paths" in preview;
       id = isLearningpath
         ? await findResourceIdLearningPath(preview.id)

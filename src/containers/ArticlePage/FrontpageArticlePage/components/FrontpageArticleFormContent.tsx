@@ -34,7 +34,7 @@ import { FILE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/fi
 import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
 import { H5P_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/h5p/types";
 import { TYPE_IMAGE } from "../../../../components/SlateEditor/plugins/image/types";
-import { TYPE_KEY_FIGURE } from "../../../../components/SlateEditor/plugins/keyFigure/types";
+import { KEY_FIGURE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/keyFigure/types";
 import { TYPE_LINK_BLOCK_LIST } from "../../../../components/SlateEditor/plugins/linkBlockList/types";
 import { TYPE_PITCH } from "../../../../components/SlateEditor/plugins/pitch/types";
 import { TYPE_TABLE } from "../../../../components/SlateEditor/plugins/table/types";
@@ -69,7 +69,7 @@ const actions = [
   FILE_ELEMENT_TYPE,
   CONTACT_BLOCK_ELEMENT_TYPE,
   TYPE_GRID,
-  TYPE_KEY_FIGURE,
+  KEY_FIGURE_ELEMENT_TYPE,
   CAMPAIGN_BLOCK_ELEMENT_TYPE,
   TYPE_LINK_BLOCK_LIST,
   TYPE_DISCLAIMER,
@@ -79,7 +79,7 @@ const actions = [
 const actionsToShowInAreas = {
   "table-cell": [TYPE_IMAGE],
   section: actions,
-  "grid-cell": [TYPE_IMAGE, TYPE_KEY_FIGURE, TYPE_PITCH],
+  "grid-cell": [TYPE_IMAGE, KEY_FIGURE_ELEMENT_TYPE, TYPE_PITCH],
 };
 
 const toolbarOptions = createToolbarDefaultValues();

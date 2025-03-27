@@ -22,7 +22,7 @@ import { FRAMED_CONTENT_ELEMENT_TYPE } from "./plugins/framedContent/framedConte
 import { TYPE_GRID } from "./plugins/grid/types";
 import { H5P_ELEMENT_TYPE } from "./plugins/h5p/types";
 import { TYPE_IMAGE } from "./plugins/image/types";
-import { TYPE_KEY_FIGURE } from "./plugins/keyFigure/types";
+import { KEY_FIGURE_ELEMENT_TYPE } from "./plugins/keyFigure/types";
 import { TYPE_LINK, TYPE_CONTENT_LINK } from "./plugins/link/types";
 import { MATH_ELEMENT_TYPE } from "./plugins/mathml/mathTypes";
 import { TYPE_PITCH } from "./plugins/pitch/types";
@@ -57,6 +57,6 @@ export const blocks: ElementType[] = [
   TYPE_TABLE,
   TYPE_PITCH,
   TYPE_GRID,
-  TYPE_KEY_FIGURE,
+  KEY_FIGURE_ELEMENT_TYPE,
   CAMPAIGN_BLOCK_ELEMENT_TYPE,
 ];

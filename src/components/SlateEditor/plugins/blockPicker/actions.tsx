@@ -48,7 +48,7 @@ import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes
 import { TYPE_GRID } from "../grid/types";
 import { H5P_ELEMENT_TYPE } from "../h5p/types";
 import { TYPE_IMAGE } from "../image/types";
-import { TYPE_KEY_FIGURE } from "../keyFigure/types";
+import { KEY_FIGURE_ELEMENT_TYPE } from "../keyFigure/types";
 import { TYPE_LINK_BLOCK_LIST } from "../linkBlockList/types";
 import { TYPE_PITCH } from "../pitch/types";
 import { TYPE_RELATED } from "../related/types";
@@ -166,7 +166,7 @@ export const frontpageActions = commonActions.concat(
     helpIcon: renderArticleInDialog("Pitch"),
   },
   {
-    data: { type: TYPE_KEY_FIGURE, object: "keyFigure" },
+    data: { type: KEY_FIGURE_ELEMENT_TYPE, object: "keyFigure" },
     icon: <LineChartLine />,
     helpIcon: renderArticleInDialog("KeyFigure"),
   },

@@ -25,11 +25,12 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { IArticleV2DTO } from "@ndla/types-backend/article-api";
 import { ILearningPathSummaryV2DTO, ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { IApiTaxonomyContextDTO, IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { ResourceType } from "@ndla/types-taxonomy";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
-import { RESOURCE_TYPE_LEARNING_PATH, RESOURCE_TYPE_SUBJECT_MATERIAL } from "../../../constants";
+import { RESOURCE_TYPE_LEARNING_PATH } from "../../../constants";
 import { getArticle } from "../../../modules/article/articleApi";
 import { fetchLearningpaths, updateLearningPathTaxonomy } from "../../../modules/learningpath/learningpathApi";
 import { fetchNodes } from "../../../modules/nodes/nodeApi";
@@ -38,7 +39,6 @@ import { nodeQueryKeys, useNodes } from "../../../modules/nodes/nodeQueries";
 import { useSearch } from "../../../modules/search/searchQueries";
 import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
 import handleError from "../../../util/handleError";
-import { getResourceIdFromPath } from "../../../util/routeHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 import ResourceTypeSelect from "../../ArticlePage/components/ResourceTypeSelect";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -65,17 +65,14 @@ const StyledListItemContent = styled(ListItemContent, {
 
 interface Props {
   onClose: () => void;
-  resourceTypes?: {
-    id: string;
-    name: string;
-  }[];
+  resourceTypes?: ResourceType[];
   nodeId: string;
   existingResourceIds: string[];
 }
 
-interface Preview extends Pick<IMultiSearchSummaryDTO, "id" | "title" | "metaDescription"> {
+interface Preview extends Pick<IMultiSearchSummaryDTO, "id" | "title" | "metaDescription" | "learningResourceType"> {
   metaUrl?: string;
-  paths?: string[];
+  contexts?: IApiTaxonomyContextDTO[];
 }
 
 type PossibleResources = IMultiSearchSummaryDTO | ILearningPathSummaryV2DTO | ILearningPathV2DTO | IArticleV2DTO;
@@ -85,7 +82,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [selectedType, setSelectedType] = useState(RESOURCE_TYPE_SUBJECT_MATERIAL);
+  const [selectedType, setSelectedType] = useState<ResourceType | undefined>();
   const [pastedUrl, setPastedUrl] = useState("");
   const [previewLoading, setPreviewLoading] = useState(false);
   const [contentUri, setContentUri] = useState<string | undefined>();
@@ -155,9 +152,12 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
         },
         metaUrl: url,
         metaDescription: { metaDescription: description, language },
+        learningResourceType: "learningpath",
       };
-    } else {
+    } else if ("learningResourceType" in resource) {
       return { ...resource, metaUrl: resource.metaImage?.url };
+    } else {
+      return { ...resource, learningResourceType: "standard", metaUrl: resource.metaImage?.url };
     }
   };
 
@@ -166,7 +166,8 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     page,
     language: i18n.language,
     fallback: true,
-    resourceTypes: [selectedType],
+    resourceTypes: selectedType ? [selectedType.id] : undefined,
+    contextTypes: ["standard", "learningpath"],
   });
 
   const resetPastedUrlStatesWithError = (error?: string) => {
@@ -234,12 +235,13 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     if (!preview) return;
     let id = resourceId;
     if (!id) {
-      const isLearningpath = selectedType === RESOURCE_TYPE_LEARNING_PATH && "metaUrl" in preview;
-      const isArticleOrDraft = "paths" in preview;
+      const isLearningpath =
+        selectedType?.id === RESOURCE_TYPE_LEARNING_PATH || preview.learningResourceType === "learningpath";
+      const isArticleOrDraft = "contexts" in preview;
       id = isLearningpath
         ? await findResourceIdLearningPath(preview.id)
         : isArticleOrDraft
-          ? getResourceIdFromPath(preview.paths?.[0])
+          ? preview.contexts?.[0]?.publicId
           : undefined;
     }
 
@@ -263,24 +265,20 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
 
   return (
     <StyledFormContent>
-      {!!selectedType && (
-        <>
-          <FieldRoot>
-            <FieldLabel>{t("taxonomy.urlPlaceholder")}</FieldLabel>
-            <FieldInput onChange={onPaste} name="pasteUrlInput" placeholder={t("taxonomy.urlPlaceholder")} />
-          </FieldRoot>
-          {!pastedUrl && <StyledText>{t("taxonomy.or")}</StyledText>}
-        </>
-      )}
+      <FieldRoot>
+        <FieldLabel>{t("taxonomy.urlPlaceholder")}</FieldLabel>
+        <FieldInput onChange={onPaste} name="pasteUrlInput" placeholder={t("taxonomy.urlPlaceholder")} />
+      </FieldRoot>
+      {!pastedUrl && <StyledText>{t("taxonomy.or")}</StyledText>}
       {!pastedUrl && (
         <ResourceTypeSelect
           availableResourceTypes={resourceTypes ?? []}
-          onChangeSelectedResource={(value) => {
-            if (value) setSelectedType(value);
-          }}
+          onChangeSelectedResource={setSelectedType}
+          selectedResourceType={selectedType}
+          clearable
         />
       )}
-      {!pastedUrl && !!selectedType && (
+      {!pastedUrl && (
         <GenericSearchCombobox
           value={preview ? [preview.id.toString()] : undefined}
           onValueChange={(details) => setPreview(toPreview(details.items[0]))}

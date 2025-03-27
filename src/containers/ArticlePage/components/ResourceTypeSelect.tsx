@@ -10,70 +10,68 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { SelectValueText, createListCollection } from "@ark-ui/react";
 import { SelectContent, SelectLabel, SelectRoot } from "@ndla/primitives";
+import { ResourceType } from "@ndla/types-taxonomy";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
-import { selectedResourceTypeValue } from "../../../util/taxonomyHelpers";
 
-interface ResourceType {
-  id: string;
-  name: string;
-  parentId?: string;
-}
+type ResourceTypeWithoutSubtype = Omit<ResourceType, "subtypes">;
 
-interface ResourceTypeWithSubtypes extends ResourceType {
-  subtypes?: ResourceType[];
+export interface ResourceTypeWithParent extends ResourceTypeWithoutSubtype {
+  parentType?: ResourceTypeWithoutSubtype;
 }
 
 interface Props {
-  onChangeSelectedResource: (value?: string) => void;
-  availableResourceTypes: ResourceTypeWithSubtypes[];
-  selectedResourceTypes?: ResourceType[];
+  availableResourceTypes: ResourceType[];
+  onChangeSelectedResource: (value: ResourceTypeWithParent) => void;
+  selectedResourceType?: ResourceTypeWithoutSubtype;
+  clearable?: boolean;
 }
-const ResourceTypeSelect = ({ availableResourceTypes, selectedResourceTypes, onChangeSelectedResource }: Props) => {
+
+const ResourceTypeSelect = ({
+  availableResourceTypes,
+  selectedResourceType,
+  onChangeSelectedResource,
+  clearable,
+}: Props) => {
   const { t } = useTranslation();
 
-  const options = useMemo(
-    () =>
+  const items = useMemo(
+    (): ResourceTypeWithParent[] =>
       availableResourceTypes.flatMap((resourceType) =>
         resourceType.subtypes
           ? resourceType.subtypes.map((subtype) => ({
-              label: `${resourceType.name} - ${subtype.name}`,
-              value: `${resourceType.id},${subtype.id}`,
+              ...subtype,
+              parentType: resourceType,
             }))
-          : { label: resourceType.name, value: resourceType.id },
+          : [resourceType],
       ),
     [availableResourceTypes],
   );
 
-  const value = useMemo(
-    () =>
-      selectedResourceTypes?.length
-        ? options.find((o) => o.value === selectedResourceTypeValue(selectedResourceTypes))
-        : undefined,
-    [options, selectedResourceTypes],
-  );
+  const itemToString = (item: ResourceTypeWithParent) =>
+    item.parentType ? `${item.parentType.name} - ${item.name}` : item.name;
 
   const collection = useMemo(() => {
     return createListCollection({
-      items: options,
-      itemToValue: (item) => item.value,
-      itemToString: (item) => item.label,
+      items,
+      itemToValue: (item) => item.id,
+      itemToString,
     });
-  }, [options]);
+  }, [items]);
 
   return (
     <SelectRoot
       collection={collection}
-      value={value ? [value.value] : []}
-      onValueChange={(details) => onChangeSelectedResource(details.items[0]?.value)}
+      value={selectedResourceType ? [selectedResourceType.id] : []}
+      onValueChange={(details) => onChangeSelectedResource(details.items[0])}
     >
       <SelectLabel>{t("taxonomy.contentType")}</SelectLabel>
-      <GenericSelectTrigger>
+      <GenericSelectTrigger clearable={clearable}>
         <SelectValueText placeholder={t("taxonomy.resourceTypes.placeholder")} />
       </GenericSelectTrigger>
       <SelectContent>
-        {options.map((item) => (
-          <GenericSelectItem item={item} key={item.value}>
-            {item.label}
+        {items.map((item) => (
+          <GenericSelectItem item={item} key={item.id}>
+            {itemToString(item)}
           </GenericSelectItem>
         ))}
       </SelectContent>

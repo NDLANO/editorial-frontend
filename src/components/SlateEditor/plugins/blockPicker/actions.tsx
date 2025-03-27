@@ -51,7 +51,7 @@ import { TYPE_IMAGE } from "../image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "../keyFigure/types";
 import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "../linkBlockList/types";
 import { PITCH_ELEMENT_TYPE } from "../pitch/types";
-import { TYPE_RELATED } from "../related/types";
+import { RELATED_ELEMENT_TYPE } from "../related/types";
 import { TYPE_TABLE } from "../table/types";
 import { TYPE_DISCLAIMER } from "../uuDisclaimer/types";
 import { TYPE_EMBED_BRIGHTCOVE } from "../video/types";
@@ -127,7 +127,7 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInDialog("File"),
   },
   {
-    data: { type: TYPE_RELATED, object: "related" },
+    data: { type: RELATED_ELEMENT_TYPE, object: "related" },
     icon: <OrganizationChart />,
     helpIcon: renderArticleInDialog("RelatedArticle"),
   },

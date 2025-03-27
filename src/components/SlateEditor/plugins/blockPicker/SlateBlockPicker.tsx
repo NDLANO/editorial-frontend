@@ -54,7 +54,7 @@ import { TYPE_PARAGRAPH } from "../paragraph/types";
 import { PITCH_ELEMENT_TYPE } from "../pitch/types";
 import { defaultPitchBlock } from "../pitch/utils";
 import { defaultRelatedBlock } from "../related";
-import { TYPE_RELATED } from "../related/types";
+import { RELATED_ELEMENT_TYPE } from "../related/types";
 import { defaultTableBlock } from "../table/defaultBlocks";
 import { isInTableCellHeader, isTableCell } from "../table/slateHelpers";
 import { TYPE_TABLE } from "../table/types";
@@ -312,7 +312,7 @@ const SlateBlockPicker = ({
         setType(data.object);
         break;
       }
-      case TYPE_RELATED: {
+      case RELATED_ELEMENT_TYPE: {
         onInsertBlock(defaultRelatedBlock());
         break;
       }

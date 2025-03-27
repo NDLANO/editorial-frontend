@@ -48,7 +48,7 @@ import { LinkBlockListElement } from "./plugins/linkBlockList/types";
 import { CustomTextWithMarks } from "./plugins/mark";
 import { MathmlElement } from "./plugins/mathml/mathTypes";
 import { PitchElement } from "./plugins/pitch/types";
-import { RelatedElement } from "./plugins/related";
+import { RelatedElement } from "./plugins/related/types";
 import { SpanElement } from "./plugins/span";
 import {
   TableBodyElement,

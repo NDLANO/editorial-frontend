@@ -33,7 +33,7 @@ import { FootnoteElement } from "../../../../components/SlateEditor/plugins/foot
 import { TYPE_FOOTNOTE } from "../../../../components/SlateEditor/plugins/footnote/types";
 import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
 import { H5P_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/h5p/types";
-import { TYPE_IMAGE } from "../../../../components/SlateEditor/plugins/image/types";
+import { IMAGE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/image/types";
 import { TYPE_TABLE } from "../../../../components/SlateEditor/plugins/table/types";
 import {
   createToolbarAreaOptions,
@@ -56,7 +56,13 @@ const findFootnotes = (content: Descendant[]): FootnoteType[] =>
     .filter((footnote) => Object.keys(footnote.data).length > 0)
     .map((footnoteElement) => footnoteElement.data);
 
-const visualElements = [H5P_ELEMENT_TYPE, BRIGHTCOVE_ELEMENT_TYPE, AUDIO_ELEMENT_TYPE, TYPE_EXTERNAL, TYPE_IMAGE];
+const visualElements = [
+  H5P_ELEMENT_TYPE,
+  BRIGHTCOVE_ELEMENT_TYPE,
+  AUDIO_ELEMENT_TYPE,
+  TYPE_EXTERNAL,
+  IMAGE_ELEMENT_TYPE,
+];
 
 const actions = [TYPE_TABLE, CODE_BLOCK_ELEMENT_TYPE, FILE_ELEMENT_TYPE, TYPE_GRID, COMMENT_BLOCK_ELEMENT_TYPE].concat(
   visualElements,
@@ -65,8 +71,8 @@ const actionsToShowInAreas = {
   details: actions,
   aside: actions,
   framedContent: actions,
-  "table-cell": [TYPE_IMAGE],
-  "grid-cell": [TYPE_IMAGE],
+  "table-cell": [IMAGE_ELEMENT_TYPE],
+  "grid-cell": [IMAGE_ELEMENT_TYPE],
 };
 
 const toolbarOptions = createToolbarDefaultValues();

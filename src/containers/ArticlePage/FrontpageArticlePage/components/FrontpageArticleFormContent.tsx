@@ -33,7 +33,7 @@ import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/extern
 import { FILE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/file/types";
 import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
 import { H5P_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/h5p/types";
-import { TYPE_IMAGE } from "../../../../components/SlateEditor/plugins/image/types";
+import { IMAGE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/keyFigure/types";
 import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/linkBlockList/types";
 import { PITCH_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/pitch/types";
@@ -61,7 +61,13 @@ const StyledDiv = styled("div", {
   },
 });
 
-const visualElements = [H5P_ELEMENT_TYPE, BRIGHTCOVE_ELEMENT_TYPE, AUDIO_ELEMENT_TYPE, TYPE_EXTERNAL, TYPE_IMAGE];
+const visualElements = [
+  H5P_ELEMENT_TYPE,
+  BRIGHTCOVE_ELEMENT_TYPE,
+  AUDIO_ELEMENT_TYPE,
+  TYPE_EXTERNAL,
+  IMAGE_ELEMENT_TYPE,
+];
 
 const actions = [
   TYPE_TABLE,
@@ -77,9 +83,9 @@ const actions = [
 ].concat(visualElements);
 
 const actionsToShowInAreas = {
-  "table-cell": [TYPE_IMAGE],
+  "table-cell": [IMAGE_ELEMENT_TYPE],
   section: actions,
-  "grid-cell": [TYPE_IMAGE, KEY_FIGURE_ELEMENT_TYPE, PITCH_ELEMENT_TYPE],
+  "grid-cell": [IMAGE_ELEMENT_TYPE, KEY_FIGURE_ELEMENT_TYPE, PITCH_ELEMENT_TYPE],
 };
 
 const toolbarOptions = createToolbarDefaultValues();

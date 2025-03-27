@@ -57,7 +57,7 @@ const VisualElement = ({
       externalPlugin(true),
       videoPlugin.configure({ options: { disableNormalization: true } }),
       videoRenderer,
-      imagePlugin(true),
+      imagePlugin.configure({ options: { disableNormalization: true } }),
       imageRenderer(allowDecorative),
       externalRenderer,
       embedPlugin(true),

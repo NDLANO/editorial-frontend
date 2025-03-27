@@ -21,7 +21,7 @@ import { TYPE_FOOTNOTE } from "./plugins/footnote/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "./plugins/framedContent/framedContentTypes";
 import { TYPE_GRID } from "./plugins/grid/types";
 import { H5P_ELEMENT_TYPE } from "./plugins/h5p/types";
-import { TYPE_IMAGE } from "./plugins/image/types";
+import { IMAGE_ELEMENT_TYPE } from "./plugins/image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "./plugins/keyFigure/types";
 import { TYPE_LINK, TYPE_CONTENT_LINK } from "./plugins/link/types";
 import { MATH_ELEMENT_TYPE } from "./plugins/mathml/mathTypes";
@@ -51,7 +51,7 @@ export const blocks: ElementType[] = [
   TYPE_EMBED_ERROR,
   TYPE_EXTERNAL,
   H5P_ELEMENT_TYPE,
-  TYPE_IMAGE,
+  IMAGE_ELEMENT_TYPE,
   FILE_ELEMENT_TYPE,
   RELATED_ELEMENT_TYPE,
   TYPE_TABLE,

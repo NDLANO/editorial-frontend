@@ -11,7 +11,7 @@ import { createSlate, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 import { AUDIO_ELEMENT_TYPE } from "../../audio/audioTypes";
 import { H5P_ELEMENT_TYPE } from "../../h5p/types";
-import { TYPE_IMAGE } from "../../image/types";
+import { IMAGE_ELEMENT_TYPE } from "../../image/types";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
 
@@ -22,7 +22,7 @@ describe("embed normalizer tests", () => {
         type: SECTION_ELEMENT_TYPE,
         children: [
           {
-            type: TYPE_IMAGE,
+            type: IMAGE_ELEMENT_TYPE,
             children: [
               {
                 text: "",
@@ -78,7 +78,7 @@ describe("embed normalizer tests", () => {
             children: [{ text: "" }],
           },
           {
-            type: TYPE_IMAGE,
+            type: IMAGE_ELEMENT_TYPE,
             children: [
               {
                 text: "",

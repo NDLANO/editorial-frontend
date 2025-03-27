@@ -59,7 +59,7 @@ export const learningResourcePlugins: SlatePlugin[] = [
   imagePlugin(),
   h5pPlugin,
   externalPlugin(),
-  videoPlugin(),
+  videoPlugin,
   embedPlugin(),
   framedContentPlugin,
   blockQuotePlugin,

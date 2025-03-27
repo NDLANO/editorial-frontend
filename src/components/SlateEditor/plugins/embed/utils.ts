@@ -14,7 +14,7 @@ import { Embed } from "../../../../interfaces";
 import { AudioElement, AUDIO_ELEMENT_TYPE } from "../audio/audioTypes";
 import { H5pElement, H5P_ELEMENT_TYPE } from "../h5p/types";
 import { ImageElement, TYPE_IMAGE } from "../image/types";
-import { BrightcoveEmbedElement, TYPE_EMBED_BRIGHTCOVE } from "../video/types";
+import { BrightcoveEmbedElement, BRIGHTCOVE_ELEMENT_TYPE } from "../video/types";
 
 export const defaultEmbedBlock = (data: Partial<Embed>) =>
   slatejsx("element", { type: defineTypeOfEmbed(data?.resource), data }, { text: "" });
@@ -28,13 +28,13 @@ export const isSlateEmbed = (
       node.type === TYPE_IMAGE ||
       node.type === AUDIO_ELEMENT_TYPE ||
       node.type === H5P_ELEMENT_TYPE ||
-      node.type === TYPE_EMBED_BRIGHTCOVE)
+      node.type === BRIGHTCOVE_ELEMENT_TYPE)
   );
 };
 
 export const defineTypeOfEmbed = (type?: string) => {
   if (type === "video" || type === "brightcove") {
-    return TYPE_EMBED_BRIGHTCOVE;
+    return BRIGHTCOVE_ELEMENT_TYPE;
   } else if (type === "h5p") {
     return H5P_ELEMENT_TYPE;
   } else if (type === "image") {

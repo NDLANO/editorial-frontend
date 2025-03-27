@@ -64,7 +64,7 @@ export const frontpagePlugins: SlatePlugin[] = [
   audioPlugin,
   imagePlugin(),
   h5pPlugin,
-  videoPlugin(),
+  videoPlugin,
   framedContentPlugin,
   blockQuotePlugin,
   linkPlugin,

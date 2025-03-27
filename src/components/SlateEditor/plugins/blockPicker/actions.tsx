@@ -54,7 +54,7 @@ import { PITCH_ELEMENT_TYPE } from "../pitch/types";
 import { RELATED_ELEMENT_TYPE } from "../related/types";
 import { TYPE_TABLE } from "../table/types";
 import { DISCLAIMER_ELEMENT_TYPE } from "../uuDisclaimer/types";
-import { TYPE_EMBED_BRIGHTCOVE } from "../video/types";
+import { BRIGHTCOVE_ELEMENT_TYPE } from "../video/types";
 
 const renderArticleInDialog = (pageId: string) => <HowToHelper pageId={pageId as StoryType} />;
 
@@ -97,7 +97,7 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInDialog("Images"),
   },
   {
-    data: { type: TYPE_EMBED_BRIGHTCOVE, object: "video" },
+    data: { type: BRIGHTCOVE_ELEMENT_TYPE, object: "video" },
     icon: <MovieLine />,
     helpIcon: renderArticleInDialog("Videos"),
   },

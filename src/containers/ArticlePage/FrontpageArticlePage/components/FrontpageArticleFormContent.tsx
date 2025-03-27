@@ -43,7 +43,7 @@ import {
   createToolbarDefaultValues,
 } from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import { DISCLAIMER_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/uuDisclaimer/types";
-import { TYPE_EMBED_BRIGHTCOVE } from "../../../../components/SlateEditor/plugins/video/types";
+import { BRIGHTCOVE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/video/types";
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
 import { DRAFT_HTML_SCOPE, SAVE_DEBOUNCE_MS } from "../../../../constants";
 import { isFormikFormDirty } from "../../../../util/formHelper";
@@ -61,7 +61,7 @@ const StyledDiv = styled("div", {
   },
 });
 
-const visualElements = [H5P_ELEMENT_TYPE, TYPE_EMBED_BRIGHTCOVE, AUDIO_ELEMENT_TYPE, TYPE_EXTERNAL, TYPE_IMAGE];
+const visualElements = [H5P_ELEMENT_TYPE, BRIGHTCOVE_ELEMENT_TYPE, AUDIO_ELEMENT_TYPE, TYPE_EXTERNAL, TYPE_IMAGE];
 
 const actions = [
   TYPE_TABLE,

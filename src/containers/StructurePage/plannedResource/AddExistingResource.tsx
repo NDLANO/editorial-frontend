@@ -25,7 +25,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { IArticleV2DTO } from "@ndla/types-backend/article-api";
 import { ILearningPathSummaryV2DTO, ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { IApiTaxonomyContextDTO, IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { ResourceType } from "@ndla/types-taxonomy";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
@@ -39,7 +39,6 @@ import { nodeQueryKeys, useNodes } from "../../../modules/nodes/nodeQueries";
 import { useSearch } from "../../../modules/search/searchQueries";
 import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
 import handleError from "../../../util/handleError";
-import { getResourceIdFromPath } from "../../../util/routeHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 import ResourceTypeSelect from "../../ArticlePage/components/ResourceTypeSelect";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -71,9 +70,9 @@ interface Props {
   existingResourceIds: string[];
 }
 
-interface Preview extends Pick<IMultiSearchSummaryDTO, "id" | "title" | "metaDescription"> {
+interface Preview extends Pick<IMultiSearchSummaryDTO, "id" | "title" | "metaDescription" | "learningResourceType"> {
   metaUrl?: string;
-  paths?: string[];
+  contexts?: IApiTaxonomyContextDTO[];
 }
 
 type PossibleResources = IMultiSearchSummaryDTO | ILearningPathSummaryV2DTO | ILearningPathV2DTO | IArticleV2DTO;
@@ -153,9 +152,12 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
         },
         metaUrl: url,
         metaDescription: { metaDescription: description, language },
+        learningResourceType: "learningpath",
       };
-    } else {
+    } else if ("learningResourceType" in resource) {
       return { ...resource, metaUrl: resource.metaImage?.url };
+    } else {
+      return { ...resource, learningResourceType: "standard", metaUrl: resource.metaImage?.url };
     }
   };
 
@@ -234,12 +236,12 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     let id = resourceId;
     if (!id) {
       const isLearningpath =
-        selectedType?.id === RESOURCE_TYPE_LEARNING_PATH || ("metaUrl" in preview && preview.metaUrl);
-      const isArticleOrDraft = "paths" in preview;
+        selectedType?.id === RESOURCE_TYPE_LEARNING_PATH || preview.learningResourceType === "learningpath";
+      const isArticleOrDraft = "contexts" in preview;
       id = isLearningpath
         ? await findResourceIdLearningPath(preview.id)
         : isArticleOrDraft
-          ? getResourceIdFromPath(preview.paths?.[0])
+          ? preview.contexts?.[0]?.publicId
           : undefined;
     }
 

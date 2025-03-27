@@ -7,13 +7,13 @@
  */
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { IFilmFrontPageDataDTO, INewOrUpdatedFilmFrontPageDataDTO } from "@ndla/types-backend/frontpage-api";
+import { IFilmFrontPageDTO, INewOrUpdatedFilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
 import { filmQueryKeys } from "./filmQueries";
 import { updateFilmFrontpage } from "./frontpageApi";
 
 export const useUpdateFilmFrontpageMutation = () => {
   const queryClient = useQueryClient();
-  return useMutation<IFilmFrontPageDataDTO, unknown, INewOrUpdatedFilmFrontPageDataDTO>({
+  return useMutation<IFilmFrontPageDTO, unknown, INewOrUpdatedFilmFrontPageDTO>({
     mutationFn: (data) => updateFilmFrontpage(data),
     onError: (_, __, previousFrontpage) => {
       if (previousFrontpage) {

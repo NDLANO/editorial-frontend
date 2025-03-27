@@ -18,8 +18,7 @@ import { i18nInstance } from "@ndla/ui";
 import config, { ConfigType } from "./config";
 import { STORED_LANGUAGE_KEY } from "./constants";
 import App from "./containers/App/App";
-import { isValidLocale } from "./i18n";
-import { initializeI18n, supportedLanguages } from "./i18n2";
+import { isValidLocale, initializeI18n, supportedLanguages } from "./i18n";
 import { LocaleType } from "./interfaces";
 
 declare global {

@@ -16,6 +16,7 @@ export const sortMoviesByIdList = (
 ): IMultiSearchSummaryDTO[] => {
   const notFoundMovie: IMultiSearchSummaryDTO = {
     id: -1,
+    typename: "MultiSearchSummaryDTO",
     title: {
       title: i18n.t("ndlaFilm.editor.notFound"),
       htmlTitle: i18n.t("ndlaFilm.editor.notFound"),

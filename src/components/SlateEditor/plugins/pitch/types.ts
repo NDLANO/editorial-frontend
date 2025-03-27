@@ -9,11 +9,12 @@
 import { Descendant } from "slate";
 import { PitchEmbedData } from "@ndla/types-embed";
 
-export const TYPE_PITCH = "pitch";
-
 export interface PitchElement {
   type: "pitch";
   data?: PitchEmbedData;
   isFirstEdit?: boolean;
   children: Descendant[];
 }
+
+export const PITCH_ELEMENT_TYPE = "pitch";
+export const PITCH_PLUGIN = "pitch";

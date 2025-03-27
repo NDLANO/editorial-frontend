@@ -1,17 +1,14 @@
 /**
- * Copyright (c) 2020-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { useEffect, useState } from "react";
 import { IArticleDTO } from "@ndla/types-backend/draft-api";
-import {
-  ISubjectPageDataDTO,
-  IUpdatedSubjectFrontPageDataDTO,
-  INewSubjectFrontPageDataDTO,
-} from "@ndla/types-backend/frontpage-api";
+import { ISubjectPageDTO, IUpdatedSubjectPageDTO, INewSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
 import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { Node } from "@ndla/types-taxonomy";
 import { LocaleType } from "../../interfaces";
@@ -27,7 +24,7 @@ export function useFetchSubjectpageData(
   selectedLanguage: LocaleType,
   subjectpageId: string | undefined,
 ) {
-  const [subjectpage, setSubjectpage] = useState<ISubjectPageDataDTO>();
+  const [subjectpage, setSubjectpage] = useState<ISubjectPageDTO>();
   const [editorsChoices, setEditorsChoices] = useState<(IArticleDTO | ILearningPathV2DTO)[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | undefined>(undefined);
@@ -49,13 +46,13 @@ export function useFetchSubjectpageData(
     return await Promise.all(promises);
   };
 
-  const updateSubjectpage = async (id: string | number, updatedSubjectpage: IUpdatedSubjectFrontPageDataDTO) => {
+  const updateSubjectpage = async (id: string | number, updatedSubjectpage: IUpdatedSubjectPageDTO) => {
     const savedSubjectpage = await frontpageApi.updateSubjectpage(updatedSubjectpage, id, selectedLanguage);
     setSubjectpage(savedSubjectpage);
     return savedSubjectpage;
   };
 
-  const createSubjectpage = async (subjectPage: INewSubjectFrontPageDataDTO) => {
+  const createSubjectpage = async (subjectPage: INewSubjectPageDTO) => {
     const savedSubjectpage = await frontpageApi.createSubjectpage(subjectPage);
     await putNode({
       id: elementId,

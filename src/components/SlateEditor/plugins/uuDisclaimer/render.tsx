@@ -8,12 +8,12 @@
 
 import { Editor } from "slate";
 import SlateDisclaimer from "./SlateDisclaimer";
-import { TYPE_DISCLAIMER } from "./types";
+import { DISCLAIMER_ELEMENT_TYPE } from "./types";
 
 export const disclaimerRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_DISCLAIMER) {
+    if (element.type === DISCLAIMER_ELEMENT_TYPE) {
       return (
         <SlateDisclaimer attributes={attributes} element={element} editor={editor}>
           {children}

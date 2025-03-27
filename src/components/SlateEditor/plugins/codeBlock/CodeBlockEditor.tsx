@@ -152,7 +152,7 @@ const CodeBlockEditor = ({ onSave, onAbort, highlight, content, setShowWarning }
                     value={[field.value]}
                     onValueChange={(details) => helpers.setValue(details.items[0].format, true)}
                     collection={collection}
-                    positioning={{ sameWidth: true }}
+                    positioning={{ sameWidth: true, strategy: "fixed" }}
                   >
                     <SelectLabel>{t("codeEditor.languageSelect")}</SelectLabel>
                     <FieldErrorMessage>{meta.error}</FieldErrorMessage>

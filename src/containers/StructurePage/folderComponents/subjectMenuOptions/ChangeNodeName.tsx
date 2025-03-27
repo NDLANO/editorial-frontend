@@ -29,7 +29,7 @@ import { FormActionsContainer } from "../../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../../components/formikValidationSchema";
 import FormWrapper from "../../../../components/FormWrapper";
 import SaveButton from "../../../../components/SaveButton";
-import { subjectLanguages } from "../../../../i18n2";
+import { subjectLanguages } from "../../../../i18n";
 import {
   useDeleteNodeTranslationMutation,
   usePutNodeMutation,

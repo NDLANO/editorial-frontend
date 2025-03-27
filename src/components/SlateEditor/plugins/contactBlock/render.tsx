@@ -8,12 +8,12 @@
 
 import { Editor } from "slate";
 import SlateContactBlock from "./SlateContactBlock";
-import { TYPE_CONTACT_BLOCK } from "./types";
+import { CONTACT_BLOCK_ELEMENT_TYPE } from "./types";
 
 export const contactBlockRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_CONTACT_BLOCK) {
+    if (element.type === CONTACT_BLOCK_ELEMENT_TYPE) {
       return (
         <SlateContactBlock editor={editor} element={element} attributes={attributes}>
           {children}

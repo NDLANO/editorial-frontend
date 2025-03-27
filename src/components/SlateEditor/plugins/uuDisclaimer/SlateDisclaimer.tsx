@@ -9,7 +9,7 @@
 import parse from "html-react-parser";
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Element, Transforms } from "slate";
+import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { PencilFill } from "@ndla/icons";
@@ -18,7 +18,8 @@ import { styled } from "@ndla/styled-system/jsx";
 import { UuDisclaimerEmbedData, UuDisclaimerMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, UuDisclaimerEmbed } from "@ndla/ui";
 import DisclaimerForm from "./DisclaimerForm";
-import { DisclaimerElement, TYPE_DISCLAIMER } from "./types";
+import { isDisclaimerElement } from "./queries";
+import { DisclaimerElement } from "./types";
 import DeleteButton from "../../../DeleteButton";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import MoveContentButton from "../../../MoveContentButton";
@@ -95,11 +96,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
 
   const handleDelete = () => {
     const path = ReactEditor.findPath(editor, element);
-    Transforms.removeNodes(editor, {
-      at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_DISCLAIMER,
-      voids: true,
-    });
+    Transforms.removeNodes(editor, { at: path, match: isDisclaimerElement, voids: true });
     setTimeout(() => {
       ReactEditor.focus(editor);
       Transforms.select(editor, path);
@@ -109,11 +106,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
 
   const handleRemoveDisclaimer = () => {
     const path = ReactEditor.findPath(editor, element);
-    Transforms.unwrapNodes(editor, {
-      at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_DISCLAIMER,
-      voids: true,
-    });
+    Transforms.unwrapNodes(editor, { at: path, match: isDisclaimerElement, voids: true });
     setTimeout(() => {
       ReactEditor.focus(editor);
       Transforms.select(editor, path);

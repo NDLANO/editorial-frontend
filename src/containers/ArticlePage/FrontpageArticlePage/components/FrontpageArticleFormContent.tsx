@@ -42,7 +42,7 @@ import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
 } from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
-import { TYPE_DISCLAIMER } from "../../../../components/SlateEditor/plugins/uuDisclaimer/types";
+import { DISCLAIMER_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/uuDisclaimer/types";
 import { TYPE_EMBED_BRIGHTCOVE } from "../../../../components/SlateEditor/plugins/video/types";
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
 import { DRAFT_HTML_SCOPE, SAVE_DEBOUNCE_MS } from "../../../../constants";
@@ -72,7 +72,7 @@ const actions = [
   KEY_FIGURE_ELEMENT_TYPE,
   CAMPAIGN_BLOCK_ELEMENT_TYPE,
   LINK_BLOCK_LIST_ELEMENT_TYPE,
-  TYPE_DISCLAIMER,
+  DISCLAIMER_ELEMENT_TYPE,
   COMMENT_BLOCK_ELEMENT_TYPE,
 ].concat(visualElements);
 

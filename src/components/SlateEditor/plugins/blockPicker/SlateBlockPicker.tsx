@@ -42,7 +42,7 @@ import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes
 import { defaultFramedContentBlock } from "../framedContent/utils";
 import { TYPE_GRID } from "../grid/types";
 import { defaultGridBlock } from "../grid/utils";
-import { TYPE_H5P } from "../h5p/types";
+import { H5P_ELEMENT_TYPE } from "../h5p/types";
 import { defaultH5pBlock } from "../h5p/utils";
 import { TYPE_IMAGE } from "../image/types";
 import { TYPE_KEY_FIGURE } from "../keyFigure/types";
@@ -288,7 +288,7 @@ const SlateBlockPicker = ({
         setType(data.object);
         break;
       }
-      case TYPE_H5P: {
+      case H5P_ELEMENT_TYPE: {
         onInsertBlock(defaultH5pBlock());
         break;
       }

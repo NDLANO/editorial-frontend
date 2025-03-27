@@ -46,7 +46,7 @@ import { TYPE_EXTERNAL } from "../external/types";
 import { FILE_ELEMENT_TYPE } from "../file/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes";
 import { TYPE_GRID } from "../grid/types";
-import { TYPE_H5P } from "../h5p/types";
+import { H5P_ELEMENT_TYPE } from "../h5p/types";
 import { TYPE_IMAGE } from "../image/types";
 import { TYPE_KEY_FIGURE } from "../keyFigure/types";
 import { TYPE_LINK_BLOCK_LIST } from "../linkBlockList/types";
@@ -112,7 +112,7 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInDialog("Podcasts"),
   },
   {
-    data: { type: TYPE_H5P, object: "h5p" },
+    data: { type: H5P_ELEMENT_TYPE, object: "h5p" },
     icon: <SlideshowLine />,
     helpIcon: renderArticleInDialog("H5P"),
   },

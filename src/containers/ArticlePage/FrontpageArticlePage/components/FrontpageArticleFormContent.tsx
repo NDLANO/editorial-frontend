@@ -32,7 +32,7 @@ import { CONTACT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/p
 import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
 import { FILE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/file/types";
 import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
-import { TYPE_H5P } from "../../../../components/SlateEditor/plugins/h5p/types";
+import { H5P_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/h5p/types";
 import { TYPE_IMAGE } from "../../../../components/SlateEditor/plugins/image/types";
 import { TYPE_KEY_FIGURE } from "../../../../components/SlateEditor/plugins/keyFigure/types";
 import { TYPE_LINK_BLOCK_LIST } from "../../../../components/SlateEditor/plugins/linkBlockList/types";
@@ -61,7 +61,7 @@ const StyledDiv = styled("div", {
   },
 });
 
-const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, AUDIO_ELEMENT_TYPE, TYPE_EXTERNAL, TYPE_IMAGE];
+const visualElements = [H5P_ELEMENT_TYPE, TYPE_EMBED_BRIGHTCOVE, AUDIO_ELEMENT_TYPE, TYPE_EXTERNAL, TYPE_IMAGE];
 
 const actions = [
   TYPE_TABLE,

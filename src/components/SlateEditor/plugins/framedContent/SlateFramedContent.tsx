@@ -10,6 +10,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, NodeEntry, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
+import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { BrushLine, CopyrightLine, FileListLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -97,12 +98,16 @@ const SlateFramedContent = (props: Props) => {
         language: t(`languages.${language}`),
       })
       .then((res) => {
-        if (!ReactEditor.isFocused(editor)) {
-          ReactEditor.focus(editor);
-        }
+        const [node, path] = Editor.node(
+          editor,
+          ReactEditor.findPath(editor, element),
+        ) as NodeEntry<FramedContentElement>;
 
-        const path = ReactEditor.findPath(editor, element);
-        editor.insertText(res, { at: path });
+        Transforms.insertNodes(
+          editor,
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: res }] },
+          { at: path.concat(node.children.length) },
+        );
       })
       .catch(() => toast.create({ title: t("textGeneration.failed.reflection") }));
   };

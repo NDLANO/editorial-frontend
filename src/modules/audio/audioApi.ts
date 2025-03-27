@@ -21,7 +21,7 @@ import { StringSort } from "../../containers/SearchPage/components/form/SearchFo
 import { apiResourceUrl, fetchAuthorized, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
 import {
   resolveJsonOrVoidOrRejectWithError,
-  resolveVoidOrRejectWithError,
+  resolveTextOrRejectWithError,
 } from "../../util/resolveJsonOrRejectWithError";
 
 const baseUrl = apiResourceUrl("/audio-api/v1/audio");
@@ -96,11 +96,11 @@ export const postSearchSeries = async (
   return resolveJsonOrRejectWithError(response);
 };
 
-export const postAudioTranscription = async (audioName: string, audioId: number, language: string): Promise<void> => {
+export const postAudioTranscription = async (audioName: string, audioId: number, language: string): Promise<string> => {
   const response = await fetchAuthorized(`${transcribeUrl}/audio/${audioName}/${audioId}/${language}`, {
     method: "POST",
   });
-  return resolveVoidOrRejectWithError(response);
+  return resolveTextOrRejectWithError(response);
 };
 
 export const fetchAudioTranscription = async (audioId: number, language: string): Promise<ITranscriptionResultDTO> => {

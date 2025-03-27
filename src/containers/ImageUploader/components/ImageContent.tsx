@@ -16,7 +16,7 @@ import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import { AI_ACCESS_SCOPE } from "../../../constants";
 import { useSession } from "../../../containers/Session/SessionProvider";
-import { useGenerateAltText } from "../../../modules/llm/llmMutations";
+import { useGenerateAltTextMutation } from "../../../modules/llm/llmMutations";
 import { TitleField } from "../../FormikForm";
 import { ImageFormikType } from "../imageTransformers";
 
@@ -28,7 +28,7 @@ const ImageContent = ({ language }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { values, setStatus } = useFormikContext<ImageFormikType>();
-  const generateAlttextMutation = useGenerateAltText();
+  const generateAlttextMutation = useGenerateAltTextMutation();
 
   const generateAltText = async (helpers: FieldHelperProps<string | undefined>) => {
     if (!values.imageFile) {
@@ -52,19 +52,22 @@ const ImageContent = ({ language }: Props) => {
     }
 
     if (image) {
-      const imageText = await image.text();
-      const base64 = imageText.replace("data:image/jpeg;base64,", "") ?? "";
-      const res = await generateAlttextMutation.mutateAsync({
-        type: "alttext",
-        image: {
-          base64: base64,
-          fileType: image.type,
-        },
-        max_tokens: 2000,
-        language: language,
-      });
-      helpers.setValue(res, true);
-      setStatus({ status: "alttext" });
+      const imageText = (await image.text()).replace("data:image/jpeg;base64,", "") ?? "";
+      await generateAlttextMutation
+        .mutateAsync({
+          type: "alttext",
+          image: {
+            base64: imageText,
+            fileType: image.type,
+          },
+          max_tokens: 2000,
+          language: language,
+        })
+        .then((res) => {
+          helpers.setValue(res, true);
+          setStatus({ status: "alttext" });
+        })
+        .catch(() => helpers.setError(t("textGeneration.failed.alttext")));
     }
   };
 
@@ -91,7 +94,7 @@ const ImageContent = ({ language }: Props) => {
                   onClick={() => generateAltText(helpers)}
                   size="small"
                   loading={generateAlttextMutation.isPending}
-                  disabled={generateAlttextMutation.isPending || !values.imageFile}
+                  disabled={!values.imageFile}
                 >
                   {t("textGeneration.generate.alttext")}
                   <FileListLine />

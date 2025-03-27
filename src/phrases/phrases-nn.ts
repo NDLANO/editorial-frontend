@@ -2268,6 +2268,14 @@ const phrases = {
       variant: "Generer forslag",
       alttext: "Generer alttekst",
     },
+    failed: {
+      alttext: "Her gjekk det gale! Klarte ikkje å generera alttekst.",
+      reflection: "Her gjekk det gale! Klarte ikkje å generera refleksjonsspørsmål.",
+      summary: "Her gjekk det gale! Klarte ikkje å generera oppsummering.",
+      transcription: "Her gjekk det gale! Klarte ikkje å generera transkribering.",
+      metaDescription: "Her gjekk det gale! Klarte ikkje å generera metabeskriving.",
+      variant: "Her gjekk det gale! Klarte ikkje å generera forslag.",
+    },
   },
 };
 

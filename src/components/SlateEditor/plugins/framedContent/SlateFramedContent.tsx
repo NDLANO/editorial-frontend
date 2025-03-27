@@ -12,21 +12,22 @@ import { Editor, NodeEntry, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { BrushLine, CopyrightLine, FileListLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
-import { HStack, styled } from "@ndla/styled-system/jsx";
+import { styled } from "@ndla/styled-system/jsx";
 import { ContentTypeFramedContent, EmbedWrapper } from "@ndla/ui";
 import { FramedContentElement } from "./framedContentTypes";
+import { isFramedContentElement } from "./queries/framedContentQueries";
 import { AI_ACCESS_SCOPE } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
-import { useGenerateReflection } from "../../../../modules/llm/llmMutations";
+import { useGenerateReflectionMutation } from "../../../../modules/llm/llmMutations";
 import { editorValueToPlainText } from "../../../../util/articleContentConverter";
 import { useArticleContentType } from "../../../ContentTypeProvider";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
+import { useToast } from "../../../ToastProvider";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
+import { isCopyrightElement } from "../copyright/queries";
 import { defaultCopyrightBlock } from "../copyright/utils";
 import { StyledFigureButtons } from "../embed/FigureButtons";
-import { isFramedContentElement } from "./queries/framedContentQueries";
-import { isCopyrightElement } from "../copyright/queries";
 
 const FigureButtons = styled(StyledFigureButtons, {
   base: {
@@ -45,10 +46,11 @@ const SlateFramedContent = (props: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const language = useArticleLanguage();
-  const generateReflectionMutation = useGenerateReflection();
+  const generateReflectionMutation = useGenerateReflectionMutation();
   const variant = element.data?.variant ?? "neutral";
   const contentType = useArticleContentType();
   const hasAIAccess = userPermissions?.includes(AI_ACCESS_SCOPE);
+  const toast = useToast();
 
   const hasSlateCopyright = useMemo(() => {
     return element.children.some((child) => isCopyrightElement(child));
@@ -88,39 +90,37 @@ const SlateFramedContent = (props: Props) => {
     // TODO: Handle nested information and metadata from embeds
     const articleText = editorValueToPlainText(editor.children);
 
-    const generatedText = await generateReflectionMutation.mutateAsync({
-      type: "reflection",
-      text: articleText,
-      language: t(`languages.${language}`),
-    });
+    await generateReflectionMutation
+      .mutateAsync({
+        type: "reflection",
+        text: articleText,
+        language: t(`languages.${language}`),
+      })
+      .then((res) => {
+        if (!ReactEditor.isFocused(editor)) {
+          ReactEditor.focus(editor);
+        }
 
-    if (generatedText) {
-      if (!ReactEditor.isFocused(editor)) {
-        ReactEditor.focus(editor);
-      }
-
-      const path = ReactEditor.findPath(editor, element);
-      editor.insertText(generatedText, { at: path });
-    }
+        const path = ReactEditor.findPath(editor, element);
+        editor.insertText(res, { at: path });
+      })
+      .catch(() => toast.create({ title: t("textGeneration.failed.reflection") }));
   };
 
   return (
     <EmbedWrapper draggable {...attributes}>
       <FigureButtons contentEditable={false}>
         {hasAIAccess ? (
-          <HStack>
-            <IconButton
-              variant={variant === "colored" ? "primary" : "secondary"}
-              size="small"
-              title={t("textGeneration.generate.reflection")}
-              aria-label={t("textGeneration.generate.reflection")}
-              onClick={generateQuestions}
-              disabled={generateReflectionMutation.isPending}
-              loading={generateReflectionMutation.isPending}
-            >
-              <FileListLine />
-            </IconButton>
-          </HStack>
+          <IconButton
+            variant={variant === "colored" ? "primary" : "secondary"}
+            size="small"
+            title={t("textGeneration.generate.reflection")}
+            aria-label={t("textGeneration.generate.reflection")}
+            onClick={generateQuestions}
+            loading={generateReflectionMutation.isPending}
+          >
+            <FileListLine />
+          </IconButton>
         ) : undefined}
         {!hasSlateCopyright && (
           <IconButton

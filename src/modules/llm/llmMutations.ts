@@ -16,19 +16,19 @@ import {
   ReflectionVariables,
 } from "./llmApiTypes";
 
-export const useGenerateSummary = (options?: UseMutationOptions<string, DefaultError, SummaryVariables>) =>
+export const useGenerateSummaryMutation = (options?: UseMutationOptions<string, DefaultError, SummaryVariables>) =>
   useMutation<string, DefaultError, SummaryVariables>({
     mutationFn: fetchAIGeneratedAnswer,
     ...options,
   });
 
-export const useGenerateAltText = (options?: UseMutationOptions<string, DefaultError, AlttextVariables>) =>
+export const useGenerateAltTextMutation = (options?: UseMutationOptions<string, DefaultError, AlttextVariables>) =>
   useMutation<string, DefaultError, AlttextVariables>({
     mutationFn: fetchAIGeneratedAnswer,
     ...options,
   });
 
-export const useGenerateAlternativePhrasing = (
+export const useGenerateAlternativePhrasingMutation = (
   options?: UseMutationOptions<string, DefaultError, AlternativePhrasingVariables>,
 ) =>
   useMutation<string, DefaultError, AlternativePhrasingVariables>({
@@ -36,7 +36,7 @@ export const useGenerateAlternativePhrasing = (
     ...options,
   });
 
-export const useGenerateMetaDescription = (
+export const useGenerateMetaDescriptionMutation = (
   options?: UseMutationOptions<string, DefaultError, MetaDescriptionVariables>,
 ) =>
   useMutation<string, DefaultError, MetaDescriptionVariables>({
@@ -44,7 +44,9 @@ export const useGenerateMetaDescription = (
     ...options,
   });
 
-export const useGenerateReflection = (options?: UseMutationOptions<string, DefaultError, ReflectionVariables>) =>
+export const useGenerateReflectionMutation = (
+  options?: UseMutationOptions<string, DefaultError, ReflectionVariables>,
+) =>
   useMutation<string, DefaultError, ReflectionVariables>({
     mutationFn: fetchAIGeneratedAnswer,
     ...options,

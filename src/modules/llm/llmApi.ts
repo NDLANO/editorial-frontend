@@ -17,6 +17,4 @@ export const fetchAIGeneratedAnswer = async (payload: Payload): Promise<string> 
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
-  })
-    .then((res) => res.text())
-    .catch((r) => resolveTextOrRejectWithError(r));
+  }).then((res) => resolveTextOrRejectWithError(res));

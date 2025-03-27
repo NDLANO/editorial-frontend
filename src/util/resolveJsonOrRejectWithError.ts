@@ -92,9 +92,13 @@ export const resolveJsonOrRejectWithError = <T>(
 
 export const resolveTextOrRejectWithError = (res: Response): Promise<string> => {
   return new Promise((resolve, reject) => {
-    if (!res.ok) {
-      reject(throwErrorPayload(res.status, res.statusText, res.body));
+    if (res.ok) {
+      return resolve(res.text());
     }
-    resolve(res.text());
+
+    return res
+      .text()
+      .then((txt) => reject(throwErrorPayload(res.status, res.statusText, txt)))
+      .catch(reject);
   });
 };

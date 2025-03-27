@@ -11,9 +11,9 @@ import { postAudioTranscription } from "./audioApi";
 import { PostAudioTranscription } from "./audioTypes";
 
 export const usePostAudioTranscription = (
-  options?: Partial<UseMutationOptions<void, DefaultError, PostAudioTranscription>>,
+  options?: Partial<UseMutationOptions<string, DefaultError, PostAudioTranscription>>,
 ) => {
-  return useMutation<void, DefaultError, PostAudioTranscription>({
+  return useMutation<string, DefaultError, PostAudioTranscription>({
     mutationFn: (params) => postAudioTranscription(params.name, params.id, params.language),
     ...options,
   });

@@ -19,6 +19,7 @@ import { AI_ACCESS_SCOPE, DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../cons
 import { NdlaError } from "../interfaces";
 import { fetchMatomoStats } from "./matomo";
 import { generateAnswer, getTranscription, initializeTranscription } from "./llm";
+import { isValidRequestBody } from "./utils";
 
 const router = express.Router();
 
@@ -189,13 +190,7 @@ const aiMiddleware = (req: Request, res: express.Response, next: express.NextFun
 };
 
 router.post("/generate-ai", jwtMiddleware, aiMiddleware, async (req, res) => {
-  if (
-    !req.body?.type ||
-    ((req.body?.type === "summary" || req.body?.type === "metaDescription") && !req.body?.title && !req.body?.text) ||
-    (req.body?.type === "alttext" && !req.body?.image?.fileType && !req.body?.image?.base63) ||
-    (req.body?.type === "alternativePhrasing" && !req.body?.text && !req.body?.excerpt) ||
-    (req.body?.type === "reflection" && !req.body?.text)
-  ) {
+  if (!isValidRequestBody(req.body)) {
     res.status(BAD_REQUEST).send({ error: "Missing required parameters" });
     return;
   }

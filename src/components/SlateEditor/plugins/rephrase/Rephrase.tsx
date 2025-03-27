@@ -6,9 +6,9 @@
  *
  */
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Path, Text as SlateText, Transforms } from "slate";
+import { Editor, Path, Node, Transforms } from "slate";
 import { RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
@@ -26,12 +26,13 @@ import {
   Text,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { useGenerateAlternativePhrasing } from "../../../../modules/llm/llmMutations";
+import { useGenerateAlternativePhrasingMutation } from "../../../../modules/llm/llmMutations";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormActionsContainer } from "../../../FormikForm";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { isRephraseElement } from "./queries/rephraseQueries";
 import { RephraseElement } from "./rephraseTypes";
+import { useToast } from "../../../ToastProvider";
 
 interface Props extends RenderElementProps {
   element: RephraseElement;
@@ -51,9 +52,11 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
   const { t } = useTranslation();
   const language = useArticleLanguage();
   const [generatedText, setGeneratedText] = useState<string | undefined>(undefined);
-  const phrasingMutation = useGenerateAlternativePhrasing();
+  const phrasingMutation = useGenerateAlternativePhrasingMutation();
+  const toast = useToast();
 
-  const currentText = element.children.find(SlateText.isText)?.text ?? "";
+  // TODO Handle marks and inlines in query.
+  const currentText = useMemo(() => Node.string(element), [element]);
 
   const onClose = () => {
     Transforms.unwrapNodes(editor, {
@@ -61,15 +64,16 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
     });
   };
 
-  const fetchAiGeneratedText = async () => {
-    const res = await phrasingMutation.mutateAsync({
-      type: "alternativePhrasing",
-      text: currentText,
-      excerpt: currentText,
-      language: language,
-    });
-    setGeneratedText(res);
-  };
+  const fetchAiGeneratedText = async () =>
+    await phrasingMutation
+      .mutateAsync({
+        type: "alternativePhrasing",
+        text: currentText,
+        excerpt: currentText,
+        language: language,
+      })
+      .then((res) => setGeneratedText(res))
+      .catch(() => toast.error({ title: t("textGeneration.failed.variant") }));
 
   const onReplace = () => {
     if (generatedText) {
@@ -98,12 +102,7 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
           </DialogHeader>
           <DialogBody>
             <StyledText>{currentText}</StyledText>
-            <Button
-              size="small"
-              onClick={fetchAiGeneratedText}
-              disabled={phrasingMutation.isPending}
-              loading={phrasingMutation.isPending}
-            >
+            <Button size="small" onClick={fetchAiGeneratedText} loading={phrasingMutation.isPending}>
               {t("textGeneration.generate.variant")}
               <FileListLine />
             </Button>

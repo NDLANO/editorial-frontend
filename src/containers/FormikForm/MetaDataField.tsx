@@ -9,7 +9,7 @@
 import { FieldHelperProps, useFormikContext } from "formik";
 import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
+import { Descendant, Node } from "slate";
 import { createListCollection } from "@ark-ui/react";
 import {
   Button,
@@ -26,7 +26,6 @@ import {
   RadioGroupItemText,
   RadioGroupLabel,
   RadioGroupRoot,
-  Spinner,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
@@ -44,13 +43,8 @@ import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
 import { AI_ACCESS_SCOPE, DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useDraftSearchTags } from "../../modules/draft/draftQueries";
-import { useGenerateSummary, useGenerateMetaDescription } from "../../modules/llm/llmMutations";
-import { getTextFromHTML } from "../../modules/llm/llmUtils";
-import {
-  blockContentToHTML,
-  inlineContentToEditorValue,
-  inlineContentToHTML,
-} from "../../util/articleContentConverter";
+import { useGenerateSummaryMutation, useGenerateMetaDescriptionMutation } from "../../modules/llm/llmMutations";
+import { inlineContentToEditorValue } from "../../util/articleContentConverter";
 import useDebounce from "../../util/useDebounce";
 import { useSession } from "../Session/SessionProvider";
 
@@ -86,8 +80,8 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
       placeholderData: (prev) => prev,
     },
   );
-  const generateSummaryMutation = useGenerateSummary();
-  const generateMetaDescriptionMutation = useGenerateMetaDescription();
+  const generateSummaryMutation = useGenerateSummaryMutation();
+  const generateMetaDescriptionMutation = useGenerateMetaDescriptionMutation();
 
   const collection = useMemo(() => {
     return createListCollection({
@@ -98,36 +92,40 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
   }, [searchTagsQuery.data?.results]);
 
   const onClickMetaDescription = async (helpers: FieldHelperProps<Descendant[]>) => {
-    const articleTitle = getTextFromHTML(inlineContentToHTML(values.title));
-    const articleContent = getTextFromHTML(blockContentToHTML(values.content));
+    const articleTitle = values.title.map((val) => Node.string(val)).join("");
+    const articleContent = values.content.map((val) => Node.string(val)).join("");
 
-    const generatedText = await generateMetaDescriptionMutation.mutateAsync({
-      type: "metaDescription",
-      text: articleContent,
-      title: articleTitle,
-      language: t(`languages.${articleLanguage}`),
-    });
-    if (generatedText) {
-      await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
-    }
-    setStatus({ status: "metaDescription" });
+    await generateMetaDescriptionMutation
+      .mutateAsync({
+        type: "metaDescription",
+        text: articleContent,
+        title: articleTitle,
+        language: t(`languages.${articleLanguage}`),
+      })
+      .then(async (res) => {
+        await helpers.setValue(inlineContentToEditorValue(res, true), true);
+        setStatus({ status: "metaDescription" });
+      })
+      .catch(() => helpers.setError(t("textGeneration.failed.metaDescription")));
   };
 
   // TODO: Handle loading, the fetching can take a long time
   const onClickGenerateSummary = async (helpers: FieldHelperProps<Descendant[]>) => {
-    const articleTitle = getTextFromHTML(inlineContentToHTML(values.title));
-    const articleContent = getTextFromHTML(blockContentToHTML(values.content));
+    const articleTitle = values.title.map((val) => Node.string(val)).join("");
+    const articleContent = values.content.map((val) => Node.string(val)).join("");
 
-    const generatedText = await generateSummaryMutation.mutateAsync({
-      type: "summary",
-      text: articleContent,
-      title: articleTitle,
-      language: t(`languages.${articleLanguage}`),
-    });
-    if (generatedText) {
-      await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
-    }
-    setStatus({ status: "generateSummary" });
+    await generateSummaryMutation
+      .mutateAsync({
+        type: "summary",
+        text: articleContent,
+        title: articleTitle,
+        language: t(`languages.${articleLanguage}`),
+      })
+      .then(async (res) => {
+        await helpers.setValue(inlineContentToEditorValue(res, true), true);
+        setStatus({ status: "generateSummary" });
+      })
+      .catch(() => helpers.setError(t("textGeneration.failed.summary")));
   };
 
   return (
@@ -192,10 +190,9 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
                 <Button
                   size="small"
                   onClick={() => onClickMetaDescription(helpers)}
-                  disabled={generateMetaDescriptionMutation.isPending}
+                  loading={generateMetaDescriptionMutation.isPending}
                 >
                   {t("textGeneration.generate.metaDescription")}
-                  {generateMetaDescriptionMutation.isPending ? <Spinner size="small" /> : null}
                 </Button>
               ) : null}
             </HStack>
@@ -221,10 +218,9 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
                 <Button
                   size="small"
                   onClick={() => onClickGenerateSummary(helpers)}
-                  disabled={generateSummaryMutation.isPending}
+                  loading={generateSummaryMutation.isPending}
                 >
                   {t("textGeneration.generate.summary")}
-                  {generateSummaryMutation.isPending ? <Spinner size="small" /> : null}
                 </Button>
               </HStack>
               <FieldHelper>{t("form.articleSummary.description")}</FieldHelper>

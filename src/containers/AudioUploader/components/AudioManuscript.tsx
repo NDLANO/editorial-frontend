@@ -93,7 +93,6 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
   const { setStatus, values, isSubmitting } = useFormikContext<AudioFormikType>();
   const { userPermissions } = useSession();
   const [isPolling, setIsPolling] = useState<boolean>(false);
-
   const [_field, _meta, helpers] = useField("manuscript");
 
   const language = LANGUAGE_MAP?.[audioLanguage] ?? "no-NO";
@@ -157,8 +156,11 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
       const editorContent = inlineContentToEditorValue(transcriptText, true);
       helpers.setValue(editorContent, true);
       setStatus({ status: "manuscript" });
+    } else if (polledData?.status === "FAILED" && isPolling) {
+      setIsPolling(false);
+      helpers.setError(t("textGeneration.failed.transcription"));
     }
-  }, [helpers, isPolling, polledData?.status, polledData?.transcription, setStatus]);
+  }, [helpers, isPolling, polledData?.status, polledData?.transcription, setStatus, t]);
 
   return (
     <FormField name="manuscript">
@@ -183,7 +185,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
             <Button
               onClick={startTranscription}
               size="small"
-              disabled={isPolling || !(values.audioFile.storedFile || values.audioFile.newFile)}
+              disabled={!(values.audioFile.storedFile || values.audioFile.newFile)}
               loading={isPolling}
             >
               {t("textGeneration.generate.transcription")}

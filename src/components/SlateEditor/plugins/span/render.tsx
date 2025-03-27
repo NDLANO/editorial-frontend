@@ -9,13 +9,13 @@
 import { Editor } from "slate";
 import { RenderElementProps } from "slate-react";
 import { Span } from "./Span";
-import { TYPE_SPAN } from "./types";
+import { SPAN_ELEMENT_TYPE } from "./types";
 import { InlineBugfix } from "../../utils/InlineBugFix";
 
 export const spanRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ element, attributes, children }: RenderElementProps) => {
-    if (element.type === TYPE_SPAN) {
+    if (element.type === SPAN_ELEMENT_TYPE) {
       return (
         <Span {...attributes} lang={element.data.lang} dir={element.data.dir}>
           <InlineBugfix />

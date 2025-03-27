@@ -19,7 +19,7 @@ const summaryNormalizerConfig: NormalizerConfig = {
   },
   // TODO: Consider implementing this!
   // nodes: {
-  //   allowed: [PARAGRAPH_ELEMENT_TYPE, HEADING_ELEMENT_TYPE, TYPE_SPAN],
+  //   allowed: [PARAGRAPH_ELEMENT_TYPE, HEADING_ELEMENT_TYPE, SPAN_ELEMENT_TYPE],
   //   defaultType: PARAGRAPH_ELEMENT_TYPE,
   // },
 };

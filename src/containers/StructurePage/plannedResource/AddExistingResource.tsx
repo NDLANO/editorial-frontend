@@ -30,7 +30,7 @@ import { ResourceType } from "@ndla/types-taxonomy";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
-import { RESOURCE_TYPE_LEARNING_PATH, RESOURCE_TYPE_SOURCE_MATERIAL } from "../../../constants";
+import { RESOURCE_TYPE_LEARNING_PATH } from "../../../constants";
 import { getArticle } from "../../../modules/article/articleApi";
 import { fetchLearningpaths, updateLearningPathTaxonomy } from "../../../modules/learningpath/learningpathApi";
 import { fetchNodes } from "../../../modules/nodes/nodeApi";
@@ -83,9 +83,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [selectedType, setSelectedType] = useState<ResourceType | undefined>(
-    resourceTypes?.find((rt) => rt.id === RESOURCE_TYPE_SOURCE_MATERIAL),
-  );
+  const [selectedType, setSelectedType] = useState<ResourceType | undefined>();
   const [pastedUrl, setPastedUrl] = useState("");
   const [previewLoading, setPreviewLoading] = useState(false);
   const [contentUri, setContentUri] = useState<string | undefined>();

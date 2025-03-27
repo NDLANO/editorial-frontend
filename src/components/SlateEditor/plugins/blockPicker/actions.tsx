@@ -49,7 +49,7 @@ import { TYPE_GRID } from "../grid/types";
 import { H5P_ELEMENT_TYPE } from "../h5p/types";
 import { TYPE_IMAGE } from "../image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "../keyFigure/types";
-import { TYPE_LINK_BLOCK_LIST } from "../linkBlockList/types";
+import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "../linkBlockList/types";
 import { TYPE_PITCH } from "../pitch/types";
 import { TYPE_RELATED } from "../related/types";
 import { TYPE_TABLE } from "../table/types";
@@ -181,7 +181,7 @@ export const frontpageActions = commonActions.concat(
     helpIcon: renderArticleInDialog("CampaignBlock"),
   },
   {
-    data: { type: TYPE_LINK_BLOCK_LIST, object: "linkBlockList" },
+    data: { type: LINK_BLOCK_LIST_ELEMENT_TYPE, object: "linkBlockList" },
     icon: <LinkMedium />,
     helpIcon: renderArticleInDialog("LinkBlockList"),
   },

@@ -48,7 +48,7 @@ import { TYPE_IMAGE } from "../image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "../keyFigure/types";
 import { defaultKeyFigureBlock } from "../keyFigure/utils";
 import { defaultLinkBlockList } from "../linkBlockList";
-import { TYPE_LINK_BLOCK_LIST } from "../linkBlockList/types";
+import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "../linkBlockList/types";
 import { TYPE_LIST_ITEM } from "../list/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
 import { TYPE_PITCH } from "../pitch/types";
@@ -344,7 +344,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultCampaignBlock());
         break;
       }
-      case TYPE_LINK_BLOCK_LIST: {
+      case LINK_BLOCK_LIST_ELEMENT_TYPE: {
         onInsertBlock(defaultLinkBlockList());
         break;
       }

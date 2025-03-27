@@ -32,14 +32,14 @@ import { FILE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/fi
 import { FootnoteElement } from "../../../../components/SlateEditor/plugins/footnote";
 import { TYPE_FOOTNOTE } from "../../../../components/SlateEditor/plugins/footnote/types";
 import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
-import { TYPE_H5P } from "../../../../components/SlateEditor/plugins/h5p/types";
+import { H5P_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/h5p/types";
 import { TYPE_IMAGE } from "../../../../components/SlateEditor/plugins/image/types";
 import { TYPE_TABLE } from "../../../../components/SlateEditor/plugins/table/types";
 import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
 } from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
-import { TYPE_EMBED_BRIGHTCOVE } from "../../../../components/SlateEditor/plugins/video/types";
+import { BRIGHTCOVE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/video/types";
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
 import { DRAFT_HTML_SCOPE, SAVE_DEBOUNCE_MS } from "../../../../constants";
 import { isFormikFormDirty } from "../../../../util/formHelper";
@@ -56,7 +56,7 @@ const findFootnotes = (content: Descendant[]): FootnoteType[] =>
     .filter((footnote) => Object.keys(footnote.data).length > 0)
     .map((footnoteElement) => footnoteElement.data);
 
-const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, AUDIO_ELEMENT_TYPE, TYPE_EXTERNAL, TYPE_IMAGE];
+const visualElements = [H5P_ELEMENT_TYPE, BRIGHTCOVE_ELEMENT_TYPE, AUDIO_ELEMENT_TYPE, TYPE_EXTERNAL, TYPE_IMAGE];
 
 const actions = [TYPE_TABLE, CODE_BLOCK_ELEMENT_TYPE, FILE_ELEMENT_TYPE, TYPE_GRID, COMMENT_BLOCK_ELEMENT_TYPE].concat(
   visualElements,

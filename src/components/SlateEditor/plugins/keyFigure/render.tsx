@@ -8,12 +8,12 @@
 
 import { Editor } from "slate";
 import SlateKeyFigure from "./SlateKeyFigure";
-import { TYPE_KEY_FIGURE } from "./types";
+import { KEY_FIGURE_ELEMENT_TYPE } from "./types";
 
 export const keyFigureRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_KEY_FIGURE) {
+    if (element.type === KEY_FIGURE_ELEMENT_TYPE) {
       return (
         <SlateKeyFigure element={element} editor={editor} attributes={attributes}>
           {children}

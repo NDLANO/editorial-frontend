@@ -42,13 +42,13 @@ import { FramedContentElement } from "./plugins/framedContent/framedContentTypes
 import { GridCellElement, GridElement } from "./plugins/grid";
 import { H5pElement } from "./plugins/h5p/types";
 import { ImageElement } from "./plugins/image/types";
-import { KeyFigureElement } from "./plugins/keyFigure";
+import { KeyFigureElement } from "./plugins/keyFigure/types";
 import { ContentLinkElement, LinkElement } from "./plugins/link";
 import { LinkBlockListElement } from "./plugins/linkBlockList/types";
 import { CustomTextWithMarks } from "./plugins/mark";
 import { MathmlElement } from "./plugins/mathml/mathTypes";
 import { PitchElement } from "./plugins/pitch/types";
-import { RelatedElement } from "./plugins/related";
+import { RelatedElement } from "./plugins/related/types";
 import { SpanElement } from "./plugins/span";
 import {
   TableBodyElement,

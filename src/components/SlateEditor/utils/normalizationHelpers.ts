@@ -19,13 +19,13 @@ import { TYPE_EMBED_ERROR } from "../plugins/embed/types";
 import { TYPE_EXTERNAL } from "../plugins/external/types";
 import { FILE_ELEMENT_TYPE } from "../plugins/file/types";
 import { TYPE_GRID } from "../plugins/grid/types";
-import { TYPE_H5P } from "../plugins/h5p/types";
+import { H5P_ELEMENT_TYPE } from "../plugins/h5p/types";
 import { TYPE_HEADING } from "../plugins/heading/types";
 import { TYPE_LIST } from "../plugins/list/types";
 import { TYPE_PARAGRAPH } from "../plugins/paragraph/types";
 import { TYPE_SPAN } from "../plugins/span/types";
 import { TYPE_TABLE } from "../plugins/table/types";
-import { TYPE_EMBED_BRIGHTCOVE } from "../plugins/video/types";
+import { BRIGHTCOVE_ELEMENT_TYPE } from "../plugins/video/types";
 import { TYPE_CONCEPT_INLINE } from "../plugins/concept/inline/types";
 import { COMMENT_INLINE_ELEMENT_TYPE } from "../plugins/comment/inline/types";
 import { TYPE_CONTENT_LINK, TYPE_LINK } from "../plugins/link/types";
@@ -42,10 +42,10 @@ export const textBlockElements: Element["type"][] = [
   BLOCK_QUOTE_ELEMENT_TYPE,
   TYPE_TABLE,
   AUDIO_ELEMENT_TYPE,
-  TYPE_EMBED_BRIGHTCOVE,
+  BRIGHTCOVE_ELEMENT_TYPE,
   TYPE_EXTERNAL,
   TYPE_EMBED_ERROR,
-  TYPE_H5P,
+  H5P_ELEMENT_TYPE,
   FILE_ELEMENT_TYPE,
   CODE_BLOCK_ELEMENT_TYPE,
   ASIDE_ELEMENT_TYPE,

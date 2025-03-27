@@ -32,18 +32,18 @@ import { CONTACT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/p
 import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
 import { FILE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/file/types";
 import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
-import { TYPE_H5P } from "../../../../components/SlateEditor/plugins/h5p/types";
+import { H5P_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/h5p/types";
 import { TYPE_IMAGE } from "../../../../components/SlateEditor/plugins/image/types";
-import { TYPE_KEY_FIGURE } from "../../../../components/SlateEditor/plugins/keyFigure/types";
-import { TYPE_LINK_BLOCK_LIST } from "../../../../components/SlateEditor/plugins/linkBlockList/types";
-import { TYPE_PITCH } from "../../../../components/SlateEditor/plugins/pitch/types";
+import { KEY_FIGURE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/keyFigure/types";
+import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/linkBlockList/types";
+import { PITCH_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/pitch/types";
 import { TYPE_TABLE } from "../../../../components/SlateEditor/plugins/table/types";
 import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
 } from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
-import { TYPE_DISCLAIMER } from "../../../../components/SlateEditor/plugins/uuDisclaimer/types";
-import { TYPE_EMBED_BRIGHTCOVE } from "../../../../components/SlateEditor/plugins/video/types";
+import { DISCLAIMER_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/uuDisclaimer/types";
+import { BRIGHTCOVE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/video/types";
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
 import { DRAFT_HTML_SCOPE, SAVE_DEBOUNCE_MS } from "../../../../constants";
 import { isFormikFormDirty } from "../../../../util/formHelper";
@@ -61,7 +61,7 @@ const StyledDiv = styled("div", {
   },
 });
 
-const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, AUDIO_ELEMENT_TYPE, TYPE_EXTERNAL, TYPE_IMAGE];
+const visualElements = [H5P_ELEMENT_TYPE, BRIGHTCOVE_ELEMENT_TYPE, AUDIO_ELEMENT_TYPE, TYPE_EXTERNAL, TYPE_IMAGE];
 
 const actions = [
   TYPE_TABLE,
@@ -69,17 +69,17 @@ const actions = [
   FILE_ELEMENT_TYPE,
   CONTACT_BLOCK_ELEMENT_TYPE,
   TYPE_GRID,
-  TYPE_KEY_FIGURE,
+  KEY_FIGURE_ELEMENT_TYPE,
   CAMPAIGN_BLOCK_ELEMENT_TYPE,
-  TYPE_LINK_BLOCK_LIST,
-  TYPE_DISCLAIMER,
+  LINK_BLOCK_LIST_ELEMENT_TYPE,
+  DISCLAIMER_ELEMENT_TYPE,
   COMMENT_BLOCK_ELEMENT_TYPE,
 ].concat(visualElements);
 
 const actionsToShowInAreas = {
   "table-cell": [TYPE_IMAGE],
   section: actions,
-  "grid-cell": [TYPE_IMAGE, TYPE_KEY_FIGURE, TYPE_PITCH],
+  "grid-cell": [TYPE_IMAGE, KEY_FIGURE_ELEMENT_TYPE, PITCH_ELEMENT_TYPE],
 };
 
 const toolbarOptions = createToolbarDefaultValues();

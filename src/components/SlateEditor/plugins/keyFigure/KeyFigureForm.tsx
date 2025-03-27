@@ -26,7 +26,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { KeyFigureEmbedData } from "@ndla/types-embed";
-import { TYPE_KEY_FIGURE } from "./types";
+import { KEY_FIGURE_ELEMENT_TYPE } from "./types";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
@@ -58,7 +58,7 @@ const StyledCheckboxRoot = styled(CheckboxRoot, {
 });
 
 const toInitialValues = (initialData: KeyFigureEmbedData): KeyFigureFormValue => ({
-  resource: TYPE_KEY_FIGURE,
+  resource: KEY_FIGURE_ELEMENT_TYPE,
   metaImageId: initialData?.imageId,
   title: inlineContentToEditorValue(initialData?.title ?? "", true),
   subtitle: inlineContentToEditorValue(initialData?.subtitle, true),
@@ -90,7 +90,7 @@ const KeyFigureForm = ({ onSave, initialData }: Props) => {
   const onSubmit = useCallback(
     (values: KeyFigureFormValue) => {
       const newData: KeyFigureEmbedData = {
-        resource: TYPE_KEY_FIGURE,
+        resource: KEY_FIGURE_ELEMENT_TYPE,
         imageId: values.metaImageId,
         title: inlineContentToHTML(values.title),
         subtitle: inlineContentToHTML(values.subtitle),

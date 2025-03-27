@@ -46,15 +46,15 @@ import { TYPE_EXTERNAL } from "../external/types";
 import { FILE_ELEMENT_TYPE } from "../file/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes";
 import { TYPE_GRID } from "../grid/types";
-import { TYPE_H5P } from "../h5p/types";
+import { H5P_ELEMENT_TYPE } from "../h5p/types";
 import { TYPE_IMAGE } from "../image/types";
-import { TYPE_KEY_FIGURE } from "../keyFigure/types";
-import { TYPE_LINK_BLOCK_LIST } from "../linkBlockList/types";
-import { TYPE_PITCH } from "../pitch/types";
-import { TYPE_RELATED } from "../related/types";
+import { KEY_FIGURE_ELEMENT_TYPE } from "../keyFigure/types";
+import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "../linkBlockList/types";
+import { PITCH_ELEMENT_TYPE } from "../pitch/types";
+import { RELATED_ELEMENT_TYPE } from "../related/types";
 import { TYPE_TABLE } from "../table/types";
-import { TYPE_DISCLAIMER } from "../uuDisclaimer/types";
-import { TYPE_EMBED_BRIGHTCOVE } from "../video/types";
+import { DISCLAIMER_ELEMENT_TYPE } from "../uuDisclaimer/types";
+import { BRIGHTCOVE_ELEMENT_TYPE } from "../video/types";
 
 const renderArticleInDialog = (pageId: string) => <HowToHelper pageId={pageId as StoryType} />;
 
@@ -97,7 +97,7 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInDialog("Images"),
   },
   {
-    data: { type: TYPE_EMBED_BRIGHTCOVE, object: "video" },
+    data: { type: BRIGHTCOVE_ELEMENT_TYPE, object: "video" },
     icon: <MovieLine />,
     helpIcon: renderArticleInDialog("Videos"),
   },
@@ -112,7 +112,7 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInDialog("Podcasts"),
   },
   {
-    data: { type: TYPE_H5P, object: "h5p" },
+    data: { type: H5P_ELEMENT_TYPE, object: "h5p" },
     icon: <SlideshowLine />,
     helpIcon: renderArticleInDialog("H5P"),
   },
@@ -127,7 +127,7 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInDialog("File"),
   },
   {
-    data: { type: TYPE_RELATED, object: "related" },
+    data: { type: RELATED_ELEMENT_TYPE, object: "related" },
     icon: <OrganizationChart />,
     helpIcon: renderArticleInDialog("RelatedArticle"),
   },
@@ -142,7 +142,7 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInDialog("Gloss"),
   },
   {
-    data: { type: TYPE_DISCLAIMER, object: "disclaimer" },
+    data: { type: DISCLAIMER_ELEMENT_TYPE, object: "disclaimer" },
     icon: <AlertLine />,
     helpIcon: renderArticleInDialog("Disclaimer"),
     requiredScope: DRAFT_ADMIN_SCOPE,
@@ -161,12 +161,12 @@ export const frontpageActions = commonActions.concat(
     helpIcon: renderArticleInDialog("Grid"),
   },
   {
-    data: { type: TYPE_PITCH, object: "pitch" },
+    data: { type: PITCH_ELEMENT_TYPE, object: "pitch" },
     icon: <StickyNoteAddLine />,
     helpIcon: renderArticleInDialog("Pitch"),
   },
   {
-    data: { type: TYPE_KEY_FIGURE, object: "keyFigure" },
+    data: { type: KEY_FIGURE_ELEMENT_TYPE, object: "keyFigure" },
     icon: <LineChartLine />,
     helpIcon: renderArticleInDialog("KeyFigure"),
   },
@@ -181,7 +181,7 @@ export const frontpageActions = commonActions.concat(
     helpIcon: renderArticleInDialog("CampaignBlock"),
   },
   {
-    data: { type: TYPE_LINK_BLOCK_LIST, object: "linkBlockList" },
+    data: { type: LINK_BLOCK_LIST_ELEMENT_TYPE, object: "linkBlockList" },
     icon: <LinkMedium />,
     helpIcon: renderArticleInDialog("LinkBlockList"),
   },

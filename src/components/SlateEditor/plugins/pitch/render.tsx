@@ -8,12 +8,12 @@
 
 import { Editor } from "slate";
 import SlatePitch from "./SlatePitch";
-import { TYPE_PITCH } from "./types";
+import { PITCH_ELEMENT_TYPE } from "./types";
 
 export const pitchRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_PITCH) {
+    if (element.type === PITCH_ELEMENT_TYPE) {
       return (
         <SlatePitch editor={editor} element={element} attributes={attributes}>
           {children}

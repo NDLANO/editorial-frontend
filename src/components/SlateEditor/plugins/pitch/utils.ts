@@ -7,6 +7,7 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_PITCH } from "./types";
+import { PITCH_ELEMENT_TYPE } from "./types";
 
-export const defaultPitchBlock = () => slatejsx("element", { type: TYPE_PITCH, isFirstEdit: true }, { text: "" });
+export const defaultPitchBlock = () =>
+  slatejsx("element", { type: PITCH_ELEMENT_TYPE, isFirstEdit: true }, { text: "" });

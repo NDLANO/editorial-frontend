@@ -13,7 +13,7 @@ import { UNSAFE_NavigationContext, useNavigate, Location } from "react-router-do
 import { Button } from "@ndla/primitives";
 import { AlertDialog } from "../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../../components/FormikForm";
-import { supportedLanguages } from "../../i18n2";
+import { supportedLanguages } from "../../i18n";
 import { MessageSeverity } from "../../interfaces";
 
 interface Props {

@@ -33,7 +33,7 @@ const ImageContent = ({ language }: Props) => {
   const generateAltText = async (helpers: FieldHelperProps<string | undefined>) => {
     if (!values.imageFile) {
       helpers.setError(t("textGeneration.errorImage"));
-      return null;
+      return;
     }
 
     let image;
@@ -41,7 +41,6 @@ const ImageContent = ({ language }: Props) => {
       if (typeof values.imageFile === "string") {
         // We use the timestamp to avoid caching of the `imageFile` url in the browser
         const timestamp = new Date().getTime();
-
         const result = await fetch(values.filepath || `${values.imageFile}?width=2000&ts=${timestamp}`);
         image = await result.blob();
       } else {
@@ -49,15 +48,17 @@ const ImageContent = ({ language }: Props) => {
       }
     } catch (e) {
       helpers.setError(t("textGeneration.errorImage"));
+      return;
     }
 
     if (image) {
-      const imageText = (await image.text()).replace("data:image/jpeg;base64,", "") ?? "";
+      const imageText = await image.text();
+      const base64 = imageText.replace("data:image/jpeg;base64,", "") ?? "";
       await generateAlttextMutation
         .mutateAsync({
           type: "alttext",
           image: {
-            base64: imageText,
+            base64: base64,
             fileType: image.type,
           },
           max_tokens: 2000,

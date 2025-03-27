@@ -37,7 +37,7 @@ import {
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import { AI_ACCESS_SCOPE } from "../../../constants";
 import { useSession } from "../../../containers/Session/SessionProvider";
-import { usePostAudioTranscription } from "../../../modules/audio/audioMutations";
+import { usePostAudioTranscriptionMutation } from "../../../modules/audio/audioMutations";
 import { useAudioTranscription } from "../../../modules/audio/audioQueries";
 import { inlineContentToEditorValue } from "../../../util/articleContentConverter";
 
@@ -95,8 +95,8 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
   const [isPolling, setIsPolling] = useState<boolean>(false);
   const [_field, _meta, helpers] = useField("manuscript");
 
-  const language = LANGUAGE_MAP?.[audioLanguage] ?? "no-NO";
-  const postAudioTranscriptionMutation = usePostAudioTranscription();
+  const language = LANGUAGE_MAP?.[audioLanguage] ?? LANGUAGE_MAP.nb;
+  const postAudioTranscriptionMutation = usePostAudioTranscriptionMutation();
   const fetchAudioTranscriptQuery = useAudioTranscription(
     {
       audioId: audio?.id ?? -1,
@@ -116,7 +116,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
     },
     {
       refetchInterval: 1000,
-      enabled: isPolling,
+      enabled: isPolling && !!audio,
     },
   );
 
@@ -125,18 +125,16 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
       return;
     }
 
-    const isTrancripted =
-      (await fetchAudioTranscriptQuery.refetch({ cancelRefetch: false }).then(({ data }) => {
-        if (data?.status !== "COMPLETED") return false;
+    const transcript = await fetchAudioTranscriptQuery.refetch({ cancelRefetch: false });
 
-        const transcriptText = parseTranscript(data?.transcription ?? "");
-        const editorContent = inlineContentToEditorValue(transcriptText, true);
-        helpers.setValue(editorContent, true);
-        setStatus({ status: "manuscript" });
-        return true;
-      })) ?? false;
-
-    if (!isTrancripted) {
+    if (transcript?.data?.status === "COMPLETED") {
+      const transcriptText = parseTranscript(transcript?.data?.transcription ?? "");
+      const editorContent = inlineContentToEditorValue(transcriptText, true);
+      helpers.setValue(editorContent, true);
+      setStatus({ status: "manuscript" });
+    } else if (transcript?.data?.status === "FAILED") {
+      helpers.setError(t("textGeneration.failed.transcription"));
+    } else {
       const name = audio.audioFile.url?.split("audio/files/")[1];
       await postAudioTranscriptionMutation
         .mutateAsync({ name, id: audio.id, language })

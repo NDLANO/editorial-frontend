@@ -175,7 +175,7 @@ const REFLECTION_QUESTION_QUERY: ReflectionQuery = {
             </Instructions>`,
 };
 
-const isSupportedLanguage = (lang: string): lang is LanguageCode => lang === "nb" || lang === "nn" || lang === "nb";
+const isSupportedLanguage = (lang: string): lang is LanguageCode => lang === "nb" || lang === "nn" || lang === "en";
 
 export const getPromptQuery = (payload: PromptVariables, languageCode: string) => {
   const language = isSupportedLanguage(languageCode) ? languageCode : "nb";

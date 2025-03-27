@@ -10,7 +10,7 @@ import { DefaultError, UseMutationOptions, useMutation } from "@tanstack/react-q
 import { postAudioTranscription } from "./audioApi";
 import { PostAudioTranscription } from "./audioTypes";
 
-export const usePostAudioTranscription = (
+export const usePostAudioTranscriptionMutation = (
   options?: Partial<UseMutationOptions<string, DefaultError, PostAudioTranscription>>,
 ) => {
   return useMutation<string, DefaultError, PostAudioTranscription>({

@@ -92,8 +92,8 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
   }, [searchTagsQuery.data?.results]);
 
   const onClickMetaDescription = async (helpers: FieldHelperProps<Descendant[]>) => {
-    const articleTitle = values.title.map((val) => Node.string(val)).join("");
-    const articleContent = values.content.map((val) => Node.string(val)).join("");
+    const articleTitle = values.title.map((val) => Node.string(val)).join(" ");
+    const articleContent = values.content.map((val) => Node.string(val)).join(" ");
 
     await generateMetaDescriptionMutation
       .mutateAsync({
@@ -109,10 +109,9 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
       .catch(() => helpers.setError(t("textGeneration.failed.metaDescription")));
   };
 
-  // TODO: Handle loading, the fetching can take a long time
   const onClickGenerateSummary = async (helpers: FieldHelperProps<Descendant[]>) => {
-    const articleTitle = values.title.map((val) => Node.string(val)).join("");
-    const articleContent = values.content.map((val) => Node.string(val)).join("");
+    const articleTitle = values.title.map((val) => Node.string(val)).join(" ");
+    const articleContent = values.content.map((val) => Node.string(val)).join(" ");
 
     await generateSummaryMutation
       .mutateAsync({

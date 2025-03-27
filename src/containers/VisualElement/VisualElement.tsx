@@ -55,7 +55,7 @@ const VisualElement = ({
       h5pPlugin.configure({ options: { disableNormalize: true } }),
       h5pRenderer,
       externalPlugin(true),
-      videoPlugin(true),
+      videoPlugin.configure({ options: { disableNormalization: true } }),
       videoRenderer,
       imagePlugin(true),
       imageRenderer(allowDecorative),

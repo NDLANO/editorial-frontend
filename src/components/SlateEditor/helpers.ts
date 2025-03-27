@@ -29,7 +29,7 @@ import { PITCH_ELEMENT_TYPE } from "./plugins/pitch/types";
 import { RELATED_ELEMENT_TYPE } from "./plugins/related/types";
 import { TYPE_SPAN } from "./plugins/span/types";
 import { TYPE_TABLE } from "./plugins/table/types";
-import { TYPE_EMBED_BRIGHTCOVE } from "./plugins/video/types";
+import { BRIGHTCOVE_ELEMENT_TYPE } from "./plugins/video/types";
 
 export const inlines: ElementType[] = [
   TYPE_CONCEPT_INLINE,
@@ -47,7 +47,7 @@ export const blocks: ElementType[] = [
   CODE_BLOCK_ELEMENT_TYPE,
   DETAILS_ELEMENT_TYPE,
   AUDIO_ELEMENT_TYPE,
-  TYPE_EMBED_BRIGHTCOVE,
+  BRIGHTCOVE_ELEMENT_TYPE,
   TYPE_EMBED_ERROR,
   TYPE_EXTERNAL,
   H5P_ELEMENT_TYPE,

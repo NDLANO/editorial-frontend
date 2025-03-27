@@ -8,7 +8,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Element, Path, Transforms } from "slate";
+import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { DeleteBinLine, PencilFill, LinkMedium } from "@ndla/icons";
@@ -18,7 +18,8 @@ import { styled } from "@ndla/styled-system/jsx";
 import { BrightcoveMetaData } from "@ndla/types-embed";
 import { BrightcoveEmbed, EmbedWrapper } from "@ndla/ui";
 import EditVideo, { FormValues } from "./EditVideo";
-import { BrightcoveEmbedElement, TYPE_EMBED_BRIGHTCOVE } from "./types";
+import { isBrightcoveElement } from "./queries";
+import { BrightcoveEmbedElement } from "./types";
 import { useBrightcoveMeta } from "../../../../modules/embed/queries";
 import { inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { addBrightCoveTimeStampVideoid } from "../../../../util/videoUtil";
@@ -53,10 +54,7 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
 
   const removeVideo = useCallback(() => {
     const path = ReactEditor.findPath(editor, element);
-    Transforms.removeNodes(editor, {
-      at: path,
-      match: (n) => Element.isElement(n) && n.type === TYPE_EMBED_BRIGHTCOVE,
-    });
+    Transforms.removeNodes(editor, { at: path, match: isBrightcoveElement });
     setTimeout(() => {
       ReactEditor.focus(editor);
       Transforms.select(editor, path);
@@ -100,10 +98,7 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
           videoid: addBrightCoveTimeStampVideoid(values.videoid, values.startTime),
         },
       },
-      {
-        match: (node) => Element.isElement(node) && node.type === TYPE_EMBED_BRIGHTCOVE,
-        at: ReactEditor.findPath(editor, element),
-      },
+      { match: isBrightcoveElement, at: ReactEditor.findPath(editor, element) },
     );
     onClose();
   };

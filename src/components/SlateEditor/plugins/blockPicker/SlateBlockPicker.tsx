@@ -61,7 +61,7 @@ import { TYPE_TABLE } from "../table/types";
 import { IS_MAC } from "../toolbar/ToolbarToggle";
 import { DISCLAIMER_ELEMENT_TYPE } from "../uuDisclaimer/types";
 import { defaultDisclaimerBlock } from "../uuDisclaimer/utils";
-import { TYPE_EMBED_BRIGHTCOVE } from "../video/types";
+import { BRIGHTCOVE_ELEMENT_TYPE } from "../video/types";
 
 interface Props {
   actions: Action[];
@@ -296,7 +296,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultExternalBlock());
         break;
       }
-      case TYPE_EMBED_BRIGHTCOVE: {
+      case BRIGHTCOVE_ELEMENT_TYPE: {
         setVisualElementPickerOpen(true);
         setType(data.object);
         break;

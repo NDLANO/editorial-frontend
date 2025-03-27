@@ -9,11 +9,16 @@
 import { Descendant } from "slate";
 import { BrightcoveEmbedData } from "@ndla/types-embed";
 
-export const TYPE_EMBED_BRIGHTCOVE = "brightcove-embed";
-
 export interface BrightcoveEmbedElement {
   type: "brightcove-embed";
   data?: BrightcoveEmbedData;
   children: Descendant[];
   isFirstEdit?: boolean;
 }
+
+export interface BrightcovePluginOptions {
+  disableNormalization?: boolean;
+}
+
+export const BRIGHTCOVE_ELEMENT_TYPE = "brightcove-embed";
+export const BRIGHTCOVE_PLUGIN = "brightcove-embed";

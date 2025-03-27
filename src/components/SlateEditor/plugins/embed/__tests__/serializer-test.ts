@@ -12,7 +12,7 @@ import { blockContentToEditorValue, blockContentToHTML } from "../../../../../ut
 import { AUDIO_ELEMENT_TYPE } from "../../audio/audioTypes";
 import { H5P_ELEMENT_TYPE } from "../../h5p/types";
 import { TYPE_IMAGE } from "../../image/types";
-import { TYPE_EMBED_BRIGHTCOVE } from "../../video/types";
+import { BRIGHTCOVE_ELEMENT_TYPE } from "../../video/types";
 
 describe("embed image serializing tests", () => {
   const editorWithImage: Descendant[] = [
@@ -64,7 +64,7 @@ describe("embed brightcove video serializing tests", () => {
         { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
 
         {
-          type: TYPE_EMBED_BRIGHTCOVE,
+          type: BRIGHTCOVE_ELEMENT_TYPE,
           data: {
             resource: "brightcove",
             videoid: "123",

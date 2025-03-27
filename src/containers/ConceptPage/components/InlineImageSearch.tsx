@@ -6,7 +6,6 @@
  *
  */
 
-import { useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldsetLegend, FieldsetRoot } from "@ndla/primitives";
@@ -15,17 +14,22 @@ import { ImagePicker } from "../../../components/ImagePicker";
 import { LocaleType } from "../../../interfaces";
 import { fetchImage } from "../../../modules/image/imageApi";
 import MetaImageField from "../../FormikForm/components/MetaImageField";
-import { ConceptFormValues } from "../conceptInterfaces";
+
+interface FormValues {
+  metaImageId?: string;
+}
 
 interface Props {
   name: string;
   disableAltEditing?: boolean;
   hideAltText?: boolean;
+  values: FormValues;
+  setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
+  setFieldTouched: (field: string, isTouched?: boolean, shouldValidate?: boolean) => void;
 }
 
-const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
+const InlineImageSearch = ({ name, disableAltEditing, hideAltText, setFieldValue, values, setFieldTouched }: Props) => {
   const { t, i18n } = useTranslation();
-  const { setFieldValue, values, setFieldTouched } = useFormikContext<ConceptFormValues>();
   const [image, setImage] = useState<IImageMetaInformationV3DTO | undefined>();
   const locale: LocaleType = i18n.language;
   const fetchImageWithLocale = (id: number) => fetchImage(id, locale);

@@ -37,6 +37,7 @@ const filmFrontPage: IFilmFrontPageDTO = {
     },
   ],
   slideShow: [],
+  supportedLanguages: ["nb"],
 };
 
 const filmFrontPageAfterTransformation: FilmFormikType = {

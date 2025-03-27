@@ -8,7 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Element, NodeEntry, Transforms } from "slate";
+import { Editor, NodeEntry, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { BrushLine, CopyrightLine, FileListLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
@@ -16,17 +16,17 @@ import { HStack, styled } from "@ndla/styled-system/jsx";
 import { ContentTypeFramedContent, EmbedWrapper } from "@ndla/ui";
 import { FramedContentElement } from "./framedContentTypes";
 import { AI_ACCESS_SCOPE } from "../../../../constants";
+import { useSession } from "../../../../containers/Session/SessionProvider";
 import { useGenerateReflection } from "../../../../modules/llm/llmMutations";
+import { editorValueToPlainText } from "../../../../util/articleContentConverter";
 import { useArticleContentType } from "../../../ContentTypeProvider";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
-import { TYPE_COPYRIGHT } from "../copyright/types";
 import { defaultCopyrightBlock } from "../copyright/utils";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import { isFramedContentElement } from "./queries/framedContentQueries";
-import { useSession } from "../../../../containers/Session/SessionProvider";
-import { editorValueToPlainText } from "../../../../util/articleContentConverter";
+import { isCopyrightElement } from "../copyright/queries";
 
 const FigureButtons = styled(StyledFigureButtons, {
   base: {
@@ -49,10 +49,10 @@ const SlateFramedContent = (props: Props) => {
   const variant = element.data?.variant ?? "neutral";
   const contentType = useArticleContentType();
   const hasAIAccess = userPermissions?.includes(AI_ACCESS_SCOPE);
-  const hasSlateCopyright = useMemo(
-    () => element.children.some((child) => Element.isElement(child) && child.type === TYPE_COPYRIGHT),
-    [element.children],
-  );
+
+  const hasSlateCopyright = useMemo(() => {
+    return element.children.some((child) => isCopyrightElement(child));
+  }, [element.children]);
 
   const onRemoveClick = () => {
     const path = ReactEditor.findPath(editor, element);

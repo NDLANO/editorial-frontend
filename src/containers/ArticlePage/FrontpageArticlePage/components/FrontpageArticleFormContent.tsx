@@ -25,12 +25,12 @@ import { FormActionsContainer, FormContent } from "../../../../components/Formik
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
 import { AUDIO_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/audio/audioTypes";
 import { frontpageActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
-import { TYPE_CAMPAIGN_BLOCK } from "../../../../components/SlateEditor/plugins/campaignBlock/types";
-import { TYPE_CODEBLOCK } from "../../../../components/SlateEditor/plugins/codeBlock/types";
-import { TYPE_COMMENT_BLOCK } from "../../../../components/SlateEditor/plugins/comment/block/types";
-import { TYPE_CONTACT_BLOCK } from "../../../../components/SlateEditor/plugins/contactBlock/types";
+import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/campaignBlock/types";
+import { CODE_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/codeBlock/types";
+import { COMMENT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/comment/block/types";
+import { CONTACT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/contactBlock/types";
 import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
-import { TYPE_FILE } from "../../../../components/SlateEditor/plugins/file/types";
+import { FILE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/file/types";
 import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
 import { TYPE_H5P } from "../../../../components/SlateEditor/plugins/h5p/types";
 import { TYPE_IMAGE } from "../../../../components/SlateEditor/plugins/image/types";
@@ -65,15 +65,15 @@ const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, AUDIO_ELEMENT_TYPE, TYP
 
 const actions = [
   TYPE_TABLE,
-  TYPE_CODEBLOCK,
-  TYPE_FILE,
-  TYPE_CONTACT_BLOCK,
+  CODE_BLOCK_ELEMENT_TYPE,
+  FILE_ELEMENT_TYPE,
+  CONTACT_BLOCK_ELEMENT_TYPE,
   TYPE_GRID,
   TYPE_KEY_FIGURE,
-  TYPE_CAMPAIGN_BLOCK,
+  CAMPAIGN_BLOCK_ELEMENT_TYPE,
   TYPE_LINK_BLOCK_LIST,
   TYPE_DISCLAIMER,
-  TYPE_COMMENT_BLOCK,
+  COMMENT_BLOCK_ELEMENT_TYPE,
 ].concat(visualElements);
 
 const actionsToShowInAreas = {

@@ -6,4 +6,15 @@
  *
  */
 
-export const TYPE_COMMENT_BLOCK = "comment-block";
+import { CommentEmbedData } from "@ndla/types-embed";
+import { Descendant } from "slate";
+
+export interface CommentBlockElement {
+  type: "comment-block";
+  data: CommentEmbedData;
+  children: Descendant[];
+  isFirstEdit?: boolean;
+}
+
+export const COMMENT_BLOCK_ELEMENT_TYPE = "comment-block";
+export const COMMENT_BLOCK_PLUGIN = "comment-block";

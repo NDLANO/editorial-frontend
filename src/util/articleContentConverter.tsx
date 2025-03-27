@@ -31,7 +31,8 @@ import { inlineConceptSerializer } from "../components/SlateEditor/plugins/conce
 import { contactBlockSerializer } from "../components/SlateEditor/plugins/contactBlock";
 import { copyrightSerializer } from "../components/SlateEditor/plugins/copyright";
 import { definitionListSerializer } from "../components/SlateEditor/plugins/definitionList";
-import { detailsSerializer } from "../components/SlateEditor/plugins/details";
+import { detailsSerializer } from "../components/SlateEditor/plugins/details/detailsSerializer";
+import { summarySerializer } from "../components/SlateEditor/plugins/details/summarySerializer";
 import { divSerializer } from "../components/SlateEditor/plugins/div";
 import { embedSerializer } from "../components/SlateEditor/plugins/embed";
 import { TYPE_NDLA_EMBED } from "../components/SlateEditor/plugins/embed/types";
@@ -102,6 +103,7 @@ const extendedRules: SlateSerializer<any>[] = [
   asideSerializer,
   disclaimerSerializer,
   fileSerializer,
+  summarySerializer,
   detailsSerializer,
   tableSerializer,
   relatedSerializer,

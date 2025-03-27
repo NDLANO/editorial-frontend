@@ -9,9 +9,9 @@
 import { Descendant } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import {
-  IFilmFrontPageDataDTO,
+  IFilmFrontPageDTO,
   IMovieThemeDTO,
-  INewOrUpdatedFilmFrontPageDataDTO,
+  INewOrUpdatedFilmFrontPageDTO,
   IVisualElementDTO,
 } from "@ndla/types-backend/frontpage-api";
 import { editorValueToPlainText, plainTextToEditorValue } from "./articleContentConverter";
@@ -22,7 +22,7 @@ import { FilmFormikType } from "../containers/NdlaFilm/components/NdlaFilmForm";
 import { ThemeNames } from "../containers/NdlaFilm/components/ThemeEditor";
 import { LocaleType } from "../interfaces";
 
-export const getInitialValues = (filmFrontpage: IFilmFrontPageDataDTO, selectedLanguage: string): FilmFormikType => {
+export const getInitialValues = (filmFrontpage: IFilmFrontPageDTO, selectedLanguage: string): FilmFormikType => {
   const supportedLanguages = filmFrontpage.about.map((about) => about.language);
   const languageAbout = filmFrontpage.about.find((about) => about.language === selectedLanguage);
   const about = languageAbout ?? filmFrontpage.about?.[0];
@@ -100,10 +100,10 @@ const getVisualElementId = (visualElement: IVisualElementDTO): string => {
 };
 
 export const getNdlaFilmFromSlate = (
-  initialFrontpage: IFilmFrontPageDataDTO,
+  initialFrontpage: IFilmFrontPageDTO,
   newFrontpage: FilmFormikType,
   selectedLanguage: string,
-): INewOrUpdatedFilmFrontPageDataDTO => {
+): INewOrUpdatedFilmFrontPageDTO => {
   const slateVisualElement = newFrontpage.visualElement?.[0];
   const data = isSlateEmbed(slateVisualElement) ? slateVisualElement.data : undefined;
 

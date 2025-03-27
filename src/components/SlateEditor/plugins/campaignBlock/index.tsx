@@ -6,64 +6,49 @@
  *
  */
 
-import { Descendant, Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { CampaignBlockEmbedData } from "@ndla/types-embed";
-import { TYPE_CAMPAIGN_BLOCK } from "./types";
+import { createPlugin, createSerializer, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
+import { CAMPAIGN_BLOCK_ELEMENT_TYPE, CAMPAIGN_BLOCK_PLUGIN } from "./types";
 import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
-import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
-import { TYPE_PARAGRAPH } from "../paragraph/types";
-
-export interface CampaignBlockElement {
-  type: "campaign-block";
-  data?: CampaignBlockEmbedData;
-  isFirstEdit?: boolean;
-  children: Descendant[];
-}
+import { isCampaignBlockElement } from "./queries/campaignBlockQueries";
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
     allowed: afterOrBeforeTextBlockElement,
-    defaultType: TYPE_PARAGRAPH,
+    defaultType: PARAGRAPH_ELEMENT_TYPE,
   },
   next: {
     allowed: afterOrBeforeTextBlockElement,
-    defaultType: TYPE_PARAGRAPH,
+    defaultType: PARAGRAPH_ELEMENT_TYPE,
   },
 };
 
-export const campaignBlockSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement) {
+export const campaignBlockSerializer = createSerializer({
+  deserialize(el) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = parseElementAttributes(Array.from(embed.attributes));
-    if (embedAttributes.resource !== TYPE_CAMPAIGN_BLOCK) return;
-    return slatejsx("element", { type: TYPE_CAMPAIGN_BLOCK, data: embedAttributes }, { text: "" });
+    if (embedAttributes.resource !== CAMPAIGN_BLOCK_ELEMENT_TYPE) return;
+    return slatejsx("element", { type: CAMPAIGN_BLOCK_ELEMENT_TYPE, data: embedAttributes }, { text: "" });
   },
   serialize(node) {
-    if (!Element.isElement(node) || node.type !== TYPE_CAMPAIGN_BLOCK || !node.data) return;
+    if (!isCampaignBlockElement(node) || !node.data) return;
     const data = createDataAttributes(node.data);
     return createHtmlTag({ tag: TYPE_NDLA_EMBED, data: data, bailOnEmpty: true });
   },
-};
+});
 
-export const campaignBlockPlugin = (editor: Editor) => {
-  const { normalizeNode: nextNormalizeNode, isVoid: nextIsVoid } = editor;
-
-  editor.normalizeNode = (entry) => {
-    const [node, path] = entry;
-    if (Element.isElement(node) && node.type === TYPE_CAMPAIGN_BLOCK) {
-      if (defaultBlockNormalizer(editor, node, path, normalizerConfig)) {
-        return;
-      }
+export const campaignBlockPlugin = createPlugin({
+  name: CAMPAIGN_BLOCK_PLUGIN,
+  type: CAMPAIGN_BLOCK_ELEMENT_TYPE,
+  isVoid: true,
+  normalize: (editor, node, path, logger) => {
+    if (isCampaignBlockElement(node)) {
+      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
     }
-    nextNormalizeNode(entry);
-  };
-
-  editor.isVoid = (element) => (element.type === TYPE_CAMPAIGN_BLOCK ? true : nextIsVoid(element));
-
-  return editor;
-};
+    return false;
+  },
+});

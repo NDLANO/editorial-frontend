@@ -6,21 +6,19 @@
  *
  */
 
-import { Editor, Transforms, Element, Range } from "slate";
+import { Editor, Transforms, Range } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_COMMENT_INLINE } from "./types";
+import { COMMENT_INLINE_ELEMENT_TYPE } from "./types";
 import hasNodeOfType from "../../../utils/hasNodeOfType";
+import { isCommentInlineElement } from "./queries/commentInlineQueries";
 
 export const insertComment = (editor: Editor) => {
-  if (hasNodeOfType(editor, TYPE_COMMENT_INLINE)) {
-    Transforms.unwrapNodes(editor, {
-      match: (node) => Element.isElement(node) && node.type === TYPE_COMMENT_INLINE,
-      voids: true,
-    });
+  if (hasNodeOfType(editor, COMMENT_INLINE_ELEMENT_TYPE)) {
+    Transforms.unwrapNodes(editor, { match: isCommentInlineElement, voids: true });
     return;
   }
   if (Range.isRange(editor.selection) && !Range.isCollapsed(editor.selection)) {
-    Transforms.wrapNodes(editor, slatejsx("element", { type: TYPE_COMMENT_INLINE, isFirstEdit: true }), {
+    Transforms.wrapNodes(editor, slatejsx("element", { type: COMMENT_INLINE_ELEMENT_TYPE, isFirstEdit: true }), {
       at: Editor.unhangRange(editor, editor.selection),
       split: true,
     });

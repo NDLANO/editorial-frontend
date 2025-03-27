@@ -7,7 +7,7 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_CONTACT_BLOCK } from "./types";
+import { CONTACT_BLOCK_ELEMENT_TYPE } from "./types";
 
 export const defaultContactBlock = () =>
-  slatejsx("element", { type: TYPE_CONTACT_BLOCK, isFirstEdit: true }, { text: "" });
+  slatejsx("element", { type: CONTACT_BLOCK_ELEMENT_TYPE, isFirstEdit: true }, { text: "" });

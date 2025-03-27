@@ -36,14 +36,14 @@ import HowToHelper from "../../../HowTo/HowToHelper";
 import { StoryType } from "../../../HowTo/stories";
 import { ASIDE_ELEMENT_TYPE } from "../aside/asideTypes";
 import { AUDIO_ELEMENT_TYPE } from "../audio/audioTypes";
-import { TYPE_CAMPAIGN_BLOCK } from "../campaignBlock/types";
-import { TYPE_CODEBLOCK } from "../codeBlock/types";
-import { TYPE_COMMENT_BLOCK } from "../comment/block/types";
+import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../campaignBlock/types";
+import { CODE_BLOCK_ELEMENT_TYPE } from "../codeBlock/types";
+import { COMMENT_BLOCK_ELEMENT_TYPE } from "../comment/block/types";
 import { TYPE_GLOSS_BLOCK } from "../concept/block/types";
-import { TYPE_CONTACT_BLOCK } from "../contactBlock/types";
-import { TYPE_DETAILS } from "../details/types";
+import { CONTACT_BLOCK_ELEMENT_TYPE } from "../contactBlock/types";
+import { DETAILS_ELEMENT_TYPE } from "../details/detailsTypes";
 import { TYPE_EXTERNAL } from "../external/types";
-import { TYPE_FILE } from "../file/types";
+import { FILE_ELEMENT_TYPE } from "../file/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes";
 import { TYPE_GRID } from "../grid/types";
 import { TYPE_H5P } from "../h5p/types";
@@ -77,7 +77,7 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInDialog("FactAside"),
   },
   {
-    data: { type: TYPE_DETAILS, object: "details" },
+    data: { type: DETAILS_ELEMENT_TYPE, object: "details" },
     icon: <ExpandDiagonalLine />,
     helpIcon: renderArticleInDialog("Details"),
   },
@@ -122,7 +122,7 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInDialog("ResourceFromLink"),
   },
   {
-    data: { type: TYPE_FILE, object: "file" },
+    data: { type: FILE_ELEMENT_TYPE, object: "file" },
     icon: <DownloadLine />,
     helpIcon: renderArticleInDialog("File"),
   },
@@ -132,7 +132,7 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInDialog("RelatedArticle"),
   },
   {
-    data: { type: TYPE_CODEBLOCK, object: "code" },
+    data: { type: CODE_BLOCK_ELEMENT_TYPE, object: "code" },
     icon: <CodeView />,
     helpIcon: renderArticleInDialog("CodeBlock"),
   },
@@ -148,7 +148,7 @@ export const commonActions: Action[] = [
     requiredScope: DRAFT_ADMIN_SCOPE,
   },
   {
-    data: { type: TYPE_COMMENT_BLOCK, object: "comment" },
+    data: { type: COMMENT_BLOCK_ELEMENT_TYPE, object: "comment" },
     icon: <MessageLine />,
     helpIcon: renderArticleInDialog("Comment"),
   },
@@ -171,12 +171,12 @@ export const frontpageActions = commonActions.concat(
     helpIcon: renderArticleInDialog("KeyFigure"),
   },
   {
-    data: { type: TYPE_CONTACT_BLOCK, object: "contactBlock" },
+    data: { type: CONTACT_BLOCK_ELEMENT_TYPE, object: "contactBlock" },
     icon: <UserFill />,
     helpIcon: renderArticleInDialog("ContactBlock"),
   },
   {
-    data: { type: TYPE_CAMPAIGN_BLOCK, object: "campaignBlock" },
+    data: { type: CAMPAIGN_BLOCK_ELEMENT_TYPE, object: "campaignBlock" },
     icon: <MegaphoneLine />,
     helpIcon: renderArticleInDialog("CampaignBlock"),
   },

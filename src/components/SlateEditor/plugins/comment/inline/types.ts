@@ -6,4 +6,15 @@
  *
  */
 
-export const TYPE_COMMENT_INLINE = "comment-inline";
+import { CommentEmbedData } from "@ndla/types-embed";
+import { Descendant } from "slate";
+
+export interface CommentInlineElement {
+  type: "comment-inline";
+  data: CommentEmbedData;
+  children: Descendant[];
+  isFirstEdit?: boolean;
+}
+
+export const COMMENT_INLINE_ELEMENT_TYPE = "comment-inline";
+export const COMMENT_INLINE_PLUGIN = "comment-inline";

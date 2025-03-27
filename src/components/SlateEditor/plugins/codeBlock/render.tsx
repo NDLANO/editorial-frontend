@@ -8,12 +8,12 @@
 
 import { Editor } from "slate";
 import CodeBlock from "./CodeBlock";
-import { TYPE_CODEBLOCK } from "./types";
+import { CODE_BLOCK_ELEMENT_TYPE } from "./types";
 
 export const codeblockRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_CODEBLOCK) {
+    if (element.type === CODE_BLOCK_ELEMENT_TYPE) {
       return (
         <CodeBlock editor={editor} element={element} attributes={attributes}>
           {children}

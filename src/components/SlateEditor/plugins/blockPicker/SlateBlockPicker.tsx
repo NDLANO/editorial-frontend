@@ -22,22 +22,22 @@ import getCurrentBlock from "../../utils/getCurrentBlock";
 import { ASIDE_ELEMENT_TYPE } from "../aside/asideTypes";
 import { defaultAsideBlock } from "../aside/utils";
 import { AUDIO_ELEMENT_TYPE } from "../audio/audioTypes";
-import { TYPE_CAMPAIGN_BLOCK } from "../campaignBlock/types";
+import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../campaignBlock/types";
 import { defaultCampaignBlock } from "../campaignBlock/utils";
-import { TYPE_CODEBLOCK } from "../codeBlock/types";
+import { CODE_BLOCK_ELEMENT_TYPE } from "../codeBlock/types";
 import { defaultCodeblockBlock } from "../codeBlock/utils";
-import { TYPE_COMMENT_BLOCK } from "../comment/block/types";
+import { COMMENT_BLOCK_ELEMENT_TYPE } from "../comment/block/types";
 import { defaultCommentBlock } from "../comment/block/utils";
 import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from "../concept/block/types";
 import { defaultConceptBlock } from "../concept/block/utils";
-import { TYPE_CONTACT_BLOCK } from "../contactBlock/types";
+import { CONTACT_BLOCK_ELEMENT_TYPE } from "../contactBlock/types";
 import { defaultContactBlock } from "../contactBlock/utils";
-import { TYPE_DETAILS } from "../details/types";
+import { DETAILS_ELEMENT_TYPE } from "../details/detailsTypes";
 import { defaultDetailsBlock } from "../details/utils";
 import { TYPE_EMBED_ERROR } from "../embed/types";
 import { TYPE_EXTERNAL } from "../external/types";
 import { defaultExternalBlock } from "../external/utils";
-import { TYPE_FILE } from "../file/types";
+import { FILE_ELEMENT_TYPE } from "../file/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes";
 import { defaultFramedContentBlock } from "../framedContent/utils";
 import { TYPE_GRID } from "../grid/types";
@@ -271,7 +271,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultFramedContentBlock(), true);
         break;
       }
-      case TYPE_DETAILS: {
+      case DETAILS_ELEMENT_TYPE: {
         onInsertBlock(defaultDetailsBlock(), true);
         break;
       }
@@ -306,7 +306,7 @@ const SlateBlockPicker = ({
         setType(data.object);
         break;
       }
-      case TYPE_FILE:
+      case FILE_ELEMENT_TYPE:
       case TYPE_EMBED_ERROR: {
         setVisualElementPickerOpen(true);
         setType(data.object);
@@ -316,7 +316,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultRelatedBlock());
         break;
       }
-      case TYPE_CODEBLOCK: {
+      case CODE_BLOCK_ELEMENT_TYPE: {
         onInsertBlock(defaultCodeblockBlock());
         break;
       }
@@ -336,11 +336,11 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultKeyFigureBlock());
         break;
       }
-      case TYPE_CONTACT_BLOCK: {
+      case CONTACT_BLOCK_ELEMENT_TYPE: {
         onInsertBlock(defaultContactBlock());
         break;
       }
-      case TYPE_CAMPAIGN_BLOCK: {
+      case CAMPAIGN_BLOCK_ELEMENT_TYPE: {
         onInsertBlock(defaultCampaignBlock());
         break;
       }
@@ -356,7 +356,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultDisclaimerBlock());
         break;
       }
-      case TYPE_COMMENT_BLOCK: {
+      case COMMENT_BLOCK_ELEMENT_TYPE: {
         onInsertBlock(defaultCommentBlock());
         break;
       }

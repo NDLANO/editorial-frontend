@@ -7,34 +7,53 @@
  */
 
 import {
-  IDraftSearchParamsDTO,
   IGrepSearchInputDTO,
   IGrepSearchResultsDTO,
   IMultiSearchResultDTO,
-  ISearchParamsDTO,
   ISubjectAggregationsDTO,
   ISubjectAggsInputDTO,
 } from "@ndla/types-backend/search-api";
 import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
-import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from "../../util/apiHelpers";
+import { apiResourceUrl, fetchAuthorized, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
 import { transformSearchBody } from "../../util/searchHelpers";
+import { MultiSummarySearchResults, NoNodeDraftSearchParams, NoNodeSearchParams } from "./searchApiInterfaces";
 
 const baseUrl = apiResourceUrl("/search-api/v1/search");
 
-export const postSearch = async (body: StringSort<IDraftSearchParamsDTO>): Promise<IMultiSearchResultDTO> => {
+export const postSearch = async (body: StringSort<NoNodeDraftSearchParams>): Promise<MultiSummarySearchResults> => {
   const response = await fetchAuthorized(`${baseUrl}/editorial/`, {
     method: "POST",
     body: JSON.stringify(transformSearchBody(body, true)),
   });
-  return resolveJsonOrRejectWithError(response);
+  const jsonResolved = await resolveJsonOrRejectWithError<IMultiSearchResultDTO>(response);
+  return convertSearchTypeOrThrowError(jsonResolved);
 };
 
-export const searchResources = async (body: ISearchParamsDTO): Promise<IMultiSearchResultDTO> => {
+export const convertSearchTypeOrThrowError = (result: IMultiSearchResultDTO): MultiSummarySearchResults => {
+  const wrongType = result.results.find((result) => {
+    return result.typename !== "MultiSearchSummaryDTO";
+  });
+
+  if (wrongType !== undefined) {
+    throw new Error("Got unexpected typename from search-api. This is a bug");
+  }
+
+  return {
+    ...result,
+    results: result.results.filter((result) => {
+      return result.typename === "MultiSearchSummaryDTO";
+    }),
+  };
+};
+
+export const searchResources = async (body: NoNodeSearchParams): Promise<MultiSummarySearchResults> => {
   const response = await fetchAuthorized(`${baseUrl}/`, {
     method: "POST",
     body: JSON.stringify(transformSearchBody(body)),
   });
-  return resolveJsonOrRejectWithError(response);
+
+  const jsonResolved = await resolveJsonOrRejectWithError<IMultiSearchResultDTO>(response);
+  return convertSearchTypeOrThrowError(jsonResolved);
 };
 
 export const searchSubjectStats = async (body: ISubjectAggsInputDTO): Promise<ISubjectAggregationsDTO> => {

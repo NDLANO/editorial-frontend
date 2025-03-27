@@ -16,11 +16,11 @@ import {
   lastTextBlockElement,
   textBlockElements,
 } from "../../utils/normalizationHelpers";
-import { TYPE_COPYRIGHT } from "../copyright/types";
+import { COPYRIGHT_ELEMENT_TYPE } from "../copyright/types";
 
 const config: NormalizerConfig = {
   nodes: {
-    allowed: textBlockElements.concat(TYPE_COPYRIGHT),
+    allowed: textBlockElements.concat(COPYRIGHT_ELEMENT_TYPE),
     defaultType: PARAGRAPH_ELEMENT_TYPE,
   },
   previous: {
@@ -32,11 +32,11 @@ const config: NormalizerConfig = {
     defaultType: PARAGRAPH_ELEMENT_TYPE,
   },
   firstNode: {
-    allowed: firstTextBlockElement.concat(TYPE_COPYRIGHT),
+    allowed: firstTextBlockElement.concat(COPYRIGHT_ELEMENT_TYPE),
     defaultType: PARAGRAPH_ELEMENT_TYPE,
   },
   lastNode: {
-    allowed: lastTextBlockElement.concat(TYPE_COPYRIGHT),
+    allowed: lastTextBlockElement.concat(COPYRIGHT_ELEMENT_TYPE),
     defaultType: PARAGRAPH_ELEMENT_TYPE,
   },
 };

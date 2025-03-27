@@ -14,7 +14,7 @@ import {
   HEADING_ELEMENT_TYPE,
 } from "@ndla/editor";
 import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquote/blockquoteTypes";
-import { TYPE_COMMENT_INLINE } from "../comment/inline/types";
+import { COMMENT_INLINE_ELEMENT_TYPE } from "../comment/inline/types";
 import { TYPE_CONCEPT_INLINE } from "../concept/inline/types";
 import { TYPE_FOOTNOTE } from "../footnote/types";
 import { TYPE_CONTENT_LINK } from "../link/types";
@@ -27,7 +27,7 @@ export const listSerializer = _listSerializer.configure({
     LINK_ELEMENT_TYPE,
     TYPE_CONTENT_LINK,
     MATH_ELEMENT_TYPE,
-    TYPE_COMMENT_INLINE,
+    COMMENT_INLINE_ELEMENT_TYPE,
   ],
 });
 

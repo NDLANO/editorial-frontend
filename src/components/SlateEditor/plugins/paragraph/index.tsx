@@ -12,7 +12,7 @@ import {
   LIST_ITEM_ELEMENT_TYPE,
   NOOP_ELEMENT_TYPE,
 } from "@ndla/editor";
-import { TYPE_SUMMARY } from "../details/types";
+import { SUMMARY_ELEMENT_TYPE } from "../details/summaryTypes";
 import { TYPE_TABLE_CELL } from "../table/types";
 
 export const paragraphSerializer = _paragraphSerializer;
@@ -21,7 +21,7 @@ export const paragraphPlugin = _paragraphPlugin.configure({
   options: {
     nonSerializableParents: {
       override: true,
-      value: [TYPE_TABLE_CELL, LIST_ITEM_ELEMENT_TYPE, TYPE_SUMMARY, NOOP_ELEMENT_TYPE],
+      value: [TYPE_TABLE_CELL, LIST_ITEM_ELEMENT_TYPE, SUMMARY_ELEMENT_TYPE, NOOP_ELEMENT_TYPE],
     },
   },
 });

@@ -9,7 +9,7 @@
 import { TFunction } from "i18next";
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Element, Transforms } from "slate";
+import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { CloseLine, AddLine } from "@ndla/icons";
@@ -26,7 +26,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { FileListWrapper } from "@ndla/ui";
 import { FileElement } from ".";
 import DndFileList from "./DndFileList";
-import { TYPE_FILE } from "./types";
+import { isFileElement } from "./queries";
 import config from "../../../../config";
 import { File, UnsavedFile } from "../../../../interfaces";
 import { headFileAtRemote } from "../../../../modules/draft/draftApi";
@@ -83,10 +83,7 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
 
   const removeFileList = () => {
     const path = ReactEditor.findPath(editor, element);
-    Transforms.removeNodes(editor, {
-      at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_FILE,
-    });
+    Transforms.removeNodes(editor, { at: path, match: isFileElement });
     setTimeout(() => {
       ReactEditor.focus(editor);
       Transforms.select(editor, path);

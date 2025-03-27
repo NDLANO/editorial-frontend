@@ -1,10 +1,11 @@
 /**
- * Copyright (c) 2021-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { RenderLeafProps } from "slate-react";
@@ -26,6 +27,7 @@ const StyledSpan = styled("span", {
 const PlaceholderSpan = styled("span", {
   base: {
     position: "absolute",
+    top: "0",
     left: "0",
     userSelect: "none",
     pointerEvents: "none",

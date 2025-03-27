@@ -51,7 +51,7 @@ import { defaultLinkBlockList } from "../linkBlockList";
 import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "../linkBlockList/types";
 import { TYPE_LIST_ITEM } from "../list/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
-import { TYPE_PITCH } from "../pitch/types";
+import { PITCH_ELEMENT_TYPE } from "../pitch/types";
 import { defaultPitchBlock } from "../pitch/utils";
 import { defaultRelatedBlock } from "../related";
 import { TYPE_RELATED } from "../related/types";
@@ -320,7 +320,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultCodeblockBlock());
         break;
       }
-      case TYPE_PITCH: {
+      case PITCH_ELEMENT_TYPE: {
         onInsertBlock(defaultPitchBlock());
         break;
       }

@@ -50,7 +50,7 @@ import { H5P_ELEMENT_TYPE } from "../h5p/types";
 import { TYPE_IMAGE } from "../image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "../keyFigure/types";
 import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "../linkBlockList/types";
-import { TYPE_PITCH } from "../pitch/types";
+import { PITCH_ELEMENT_TYPE } from "../pitch/types";
 import { TYPE_RELATED } from "../related/types";
 import { TYPE_TABLE } from "../table/types";
 import { TYPE_DISCLAIMER } from "../uuDisclaimer/types";
@@ -161,7 +161,7 @@ export const frontpageActions = commonActions.concat(
     helpIcon: renderArticleInDialog("Grid"),
   },
   {
-    data: { type: TYPE_PITCH, object: "pitch" },
+    data: { type: PITCH_ELEMENT_TYPE, object: "pitch" },
     icon: <StickyNoteAddLine />,
     helpIcon: renderArticleInDialog("Pitch"),
   },

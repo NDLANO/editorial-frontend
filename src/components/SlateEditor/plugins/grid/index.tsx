@@ -20,7 +20,7 @@ import { TYPE_IMAGE } from "../image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "../keyFigure/types";
 import { TYPE_LIST } from "../list/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
-import { TYPE_PITCH } from "../pitch/types";
+import { PITCH_ELEMENT_TYPE } from "../pitch/types";
 
 export interface GridElement {
   type: "grid";
@@ -53,7 +53,7 @@ const normalizerConfig: NormalizerConfig = {
 
 const normalizerConfigGridCell: NormalizerConfig = {
   nodes: {
-    allowed: [KEY_FIGURE_ELEMENT_TYPE, TYPE_PITCH, TYPE_PARAGRAPH, TYPE_IMAGE, TYPE_HEADING, TYPE_LIST],
+    allowed: [KEY_FIGURE_ELEMENT_TYPE, PITCH_ELEMENT_TYPE, TYPE_PARAGRAPH, TYPE_IMAGE, TYPE_HEADING, TYPE_LIST],
     defaultType: TYPE_PARAGRAPH,
   },
 };

@@ -25,7 +25,7 @@ import { TYPE_IMAGE } from "./plugins/image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "./plugins/keyFigure/types";
 import { TYPE_LINK, TYPE_CONTENT_LINK } from "./plugins/link/types";
 import { MATH_ELEMENT_TYPE } from "./plugins/mathml/mathTypes";
-import { TYPE_PITCH } from "./plugins/pitch/types";
+import { PITCH_ELEMENT_TYPE } from "./plugins/pitch/types";
 import { TYPE_RELATED } from "./plugins/related/types";
 import { TYPE_SPAN } from "./plugins/span/types";
 import { TYPE_TABLE } from "./plugins/table/types";
@@ -55,7 +55,7 @@ export const blocks: ElementType[] = [
   FILE_ELEMENT_TYPE,
   TYPE_RELATED,
   TYPE_TABLE,
-  TYPE_PITCH,
+  PITCH_ELEMENT_TYPE,
   TYPE_GRID,
   KEY_FIGURE_ELEMENT_TYPE,
   CAMPAIGN_BLOCK_ELEMENT_TYPE,

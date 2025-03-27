@@ -122,7 +122,7 @@
     "lodash-es": "^4.17.21",
     "monaco-editor": "0.47.0",
     "p-limit": "^6.2.0",
-    "prettier": "^3.1.1",
+    "prettier": "^3.5.3",
     "prismjs": "^1.29.0",
     "punycode": "2.3.1",
     "query-string": "^5.1.1",

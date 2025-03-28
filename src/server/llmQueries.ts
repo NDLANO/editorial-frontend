@@ -118,15 +118,17 @@ const ALTERNATIVE_PRHASING_QUERY: AlternativePhrasingQuery = {
         <Instructions>
           Du har lang erfaring fra utdanningssektoren. Du er spesialist i å finskrive fagartikler for å forbedre det tekstlige innholdet, med fokus på tydelighet og lesbarhet.
           Du har fått som oppdrag å foreslå en bedre formulering av teksten i <excerpt> på NB. Innholdet i <draft> kan brukes som kontekst, men skal ikke gjenbrukes som del av den foreslåtte omformuleringen.
-          Svaret skal leveres med refleksjoner på hvorfor du har valgt å inkludere de punktene du har valgt først, så selve forslaget til forbedring av teksten skrevet i en <answer> tag.
+          Du skal skal skrive refleksjoner på hvorfor du har valgt å inkludere de punktene du har valgt først. 
+          Forslaget til en forbedret tekst skal være skrevet i en <answer> tag.
           Om du ikke klarer å levere svaret på formatet <answer> som er spesifisert skal første linje i responsen være <ERROR>.
         </Instructions>`,
   en: (text: string, excerpt: string) => `<excerpt>${excerpt}</excerpt>
         <draft>${text}</draft>
         <Instructions>
           You have an extensive experience from the educational sector. You are specialized in rewriting educational articles to improve its contents, with focus on clarity and readability.
-          Your task is to suggest a better phrasing of the text in <excerpt> in NB. The content in <draft> can be used as context, but should not be reused as part of the suggested rephrasing.
-          The response must be given with reflections as to why you have chosen to include the selected points first, then the suggested rephrasing in an <answer> tag.
+          Your task is to suggest a better phrasing of the text in <excerpt> in EN. The content in <draft> can be used as context, but should not be reused as part of the suggested rephrasing.
+          You are going to write reflections as to why you have chosen to include the selected points first.
+          The suggested rephrasing is to be written inside a <answer> tag.
           If you can not deliver the answer in the given format <answer>, the first line in the response should be <ERROR>.
         </Instructions>`,
   nn: (text: string, excerpt: string) => `<excerpt>${excerpt}</excerpt>
@@ -134,7 +136,8 @@ const ALTERNATIVE_PRHASING_QUERY: AlternativePhrasingQuery = {
         <Instructions>
           Du har lang erfaring frå utdanningssektoren. Du er spesialist i å finskrive fagartiklar for å gjere det tekstlige innhaldet betre, med fokus på klarleik og lesbarheit.
           Du har fått i oppgåve å foreslå ein betre formulering av teksten i <excerpt> på NN. Innhaldet i <draft> kan nyttast som kontekst, men skal ikkje gjenbrukast som deil av den føreslåtte omformuleringa.
-          Svaret skal leverast med refleksjonar på kvifor du har valt å inkludere dei punktane du har valt først, så selve forslaget til betre formulering skrevet i ein <answer> tag.
+          Du skal skrive refleksjonar på kvifor du har valt å inkludere dei punktane du har valt først.
+          Forslaget til en betre formulering skal være skrevet i ein <answer> tag.
           Om du ikkje klarar å levere svaret på formatet <answer> som er spesifisert skal fyrste linje i responsen være <ERROR>.
         </Instructions>`,
 };

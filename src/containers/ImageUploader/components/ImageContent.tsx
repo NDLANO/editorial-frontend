@@ -14,12 +14,14 @@ import { HStack } from "@ndla/styled-system/jsx";
 import { ImageUploadFormElement } from "./ImageUploadFormElement";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
+import { useToast } from "../../../components/ToastProvider";
 import { AI_ACCESS_SCOPE } from "../../../constants";
 import { useSession } from "../../../containers/Session/SessionProvider";
 import { useGenerateAltTextMutation } from "../../../modules/llm/llmMutations";
 import { TitleField } from "../../FormikForm";
 import { ImageFormikType } from "../imageTransformers";
 
+const IMAGE_IDENTIFIER_REGEX = /data:image\/(jpe?g|png|svg+xml);base64,/;
 interface Props {
   language: string;
 }
@@ -28,6 +30,7 @@ const ImageContent = ({ language }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { values, setStatus } = useFormikContext<ImageFormikType>();
+  const toast = useToast();
   const generateAlttextMutation = useGenerateAltTextMutation();
 
   const generateAltText = async (helpers: FieldHelperProps<string | undefined>) => {
@@ -52,23 +55,28 @@ const ImageContent = ({ language }: Props) => {
     }
 
     if (image) {
-      const imageText = await image.text();
-      const base64 = imageText.replace("data:image/jpeg;base64,", "") ?? "";
-      await generateAlttextMutation
-        .mutateAsync({
-          type: "alttext",
-          image: {
-            base64: base64,
-            fileType: image.type,
-          },
-          max_tokens: 2000,
-          language: language,
-        })
-        .then((res) => {
-          helpers.setValue(res, true);
-          setStatus({ status: "alttext" });
-        })
-        .catch(() => helpers.setError(t("textGeneration.failed.alttext")));
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(image);
+      fileReader.onloadend = async () => {
+        const imageText = fileReader.result?.toString() ?? "";
+        // All images from the filereader is appended with a data identifier string. https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL
+        const base64 = imageText.replace(IMAGE_IDENTIFIER_REGEX, "");
+        await generateAlttextMutation
+          .mutateAsync({
+            type: "alttext",
+            image: {
+              base64: base64,
+              fileType: image.type,
+            },
+            max_tokens: 2000,
+            language: language,
+          })
+          .then((res) => {
+            helpers.setValue(res, true);
+            setStatus({ status: "alttext" });
+          })
+          .catch(() => toast.error({ title: t("textGeneration.failed.alttext") }));
+      };
     }
   };
 

@@ -8,7 +8,7 @@
 
 import { Descendant } from "slate";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../../util/articleContentConverter";
-import { TYPE_IMAGE } from "../../image/types";
+import { IMAGE_ELEMENT_TYPE } from "../../image/types";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
 
@@ -18,7 +18,7 @@ const editor: Descendant[] = [
     children: [
       { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
       {
-        type: TYPE_IMAGE,
+        type: IMAGE_ELEMENT_TYPE,
         children: [
           {
             text: "",

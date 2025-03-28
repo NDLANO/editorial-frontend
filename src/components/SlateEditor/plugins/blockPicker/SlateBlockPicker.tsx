@@ -44,7 +44,7 @@ import { TYPE_GRID } from "../grid/types";
 import { defaultGridBlock } from "../grid/utils";
 import { H5P_ELEMENT_TYPE } from "../h5p/types";
 import { defaultH5pBlock } from "../h5p/utils";
-import { TYPE_IMAGE } from "../image/types";
+import { IMAGE_ELEMENT_TYPE } from "../image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "../keyFigure/types";
 import { defaultKeyFigureBlock } from "../keyFigure/utils";
 import { defaultLinkBlockList } from "../linkBlockList";
@@ -301,7 +301,7 @@ const SlateBlockPicker = ({
         setType(data.object);
         break;
       }
-      case TYPE_IMAGE: {
+      case IMAGE_ELEMENT_TYPE: {
         setVisualElementPickerOpen(true);
         setType(data.object);
         break;

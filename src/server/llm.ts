@@ -75,6 +75,12 @@ export const generateAnswer = async (params: PromptVariables, language: string, 
   const decodedResponseBody = textDecoder.decode(response.body);
   const responseBody = JSON.parse(decodedResponseBody);
 
+  const containsError = responseBody.content[0].text.includes("<ERROR>");
+
+  if (containsError) {
+    throw new Error("The AI model could not create an proper answer with the given input");
+  }
+
   const responseText = responseBody.content[0].text.match(LLM_ANSWER_REGEX)[0].trim();
   return responseText;
 };

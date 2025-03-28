@@ -27,7 +27,7 @@ import { TYPE_LINK, TYPE_CONTENT_LINK } from "./plugins/link/types";
 import { MATH_ELEMENT_TYPE } from "./plugins/mathml/mathTypes";
 import { PITCH_ELEMENT_TYPE } from "./plugins/pitch/types";
 import { RELATED_ELEMENT_TYPE } from "./plugins/related/types";
-import { TYPE_SPAN } from "./plugins/span/types";
+import { SPAN_ELEMENT_TYPE } from "./plugins/span/types";
 import { TYPE_TABLE } from "./plugins/table/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "./plugins/video/types";
 
@@ -37,7 +37,7 @@ export const inlines: ElementType[] = [
   TYPE_LINK,
   TYPE_CONTENT_LINK,
   MATH_ELEMENT_TYPE,
-  TYPE_SPAN,
+  SPAN_ELEMENT_TYPE,
   COMMENT_INLINE_ELEMENT_TYPE,
 ];
 

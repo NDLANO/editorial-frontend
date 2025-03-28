@@ -57,6 +57,7 @@ const contentTypeMapping: Record<string, string> = {
   "topic-article": contentTypes.TOPIC,
   subjectpage: contentTypes.SUBJECT,
   "frontpage-article": "frontpage-article",
+  filmfrontpage: contentTypes.SUBJECT,
   image: "image",
   audio: "audio",
   podcast: "podcast",

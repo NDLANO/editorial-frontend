@@ -124,7 +124,7 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
             <SimpleLanguageHeader
               articleType="filmfrontpage"
               editUrl={(_, lang) => toEditNdlaFilm(lang)}
-              id={1}
+              id={20}
               isSubmitting={isSubmitting}
               language={selectedLanguage}
               supportedLanguages={values.supportedLanguages}

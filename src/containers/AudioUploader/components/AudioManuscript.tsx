@@ -83,6 +83,7 @@ const LANGUAGE_MAP: Record<string, string> = {
 const manuscriptRenderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, markRenderer, breakRenderer, spanRenderer];
 const plugins = manuscriptPlugins.concat(manuscriptRenderers);
 
+// TODO: remove when object is properly typed from the backend
 const parseTranscript = (text: string) => {
   const json = JSON.parse(text);
   return json.results.transcripts[0].transcript;
@@ -128,6 +129,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
     const transcript = await fetchAudioTranscriptQuery.refetch({ cancelRefetch: false });
 
     if (transcript?.data?.status === "COMPLETED") {
+      // TODO: use object directly when type is properly typed from backend
       const transcriptText = parseTranscript(transcript?.data?.transcription ?? "");
       const editorContent = inlineContentToEditorValue(transcriptText, true);
       helpers.setValue(editorContent, true);

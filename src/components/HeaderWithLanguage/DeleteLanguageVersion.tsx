@@ -9,12 +9,14 @@
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 import { DeleteBinLine } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { deleteLanguageVersionAudio, deleteLanguageVersionSeries } from "../../modules/audio/audioApi";
 import { deleteLanguageVersionConcept } from "../../modules/concept/conceptApi";
 import { deleteLanguageVersion as deleteLanguageVersionDraft } from "../../modules/draft/draftApi";
+import { filmQueryKeys } from "../../modules/frontpage/filmQueries";
 import {
   deleteFilmFrontPageLanguageVersion,
   deleteSubectPageLanguageVersion,
@@ -61,6 +63,7 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
   const { createMessage, formatErrorMessage } = useMessages();
   const navigate = useNavigate();
   const { elementId } = useParams<"elementId">();
+  const queryClient = useQueryClient();
 
   const toggleShowDeleteWarning = useCallback(() => {
     setShowDeleteWarning((p) => !p);
@@ -125,6 +128,7 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
             break;
           case "filmfrontpage":
             await deleteFilmFrontPageLanguageVersion(language);
+            await queryClient.invalidateQueries({ queryKey: filmQueryKeys.filmFrontpage });
             navigate(toEditNdlaFilm(otherSupportedLanguage));
             break;
           default:

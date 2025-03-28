@@ -18,6 +18,7 @@ const Wrapper = styled("div", {
   base: {
     display: "flex",
     alignItems: "center",
+    gap: "3xsmall",
   },
 });
 

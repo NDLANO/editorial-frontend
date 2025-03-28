@@ -40,6 +40,7 @@ import { mathRenderer } from "../../../../components/SlateEditor/plugins/mathml/
 import { paragraphRenderer } from "../../../../components/SlateEditor/plugins/paragraph/render";
 import { pitchRenderer } from "../../../../components/SlateEditor/plugins/pitch/render";
 import { relatedRenderer } from "../../../../components/SlateEditor/plugins/related/relatedRenderer";
+import { rephraseRenderer } from "../../../../components/SlateEditor/plugins/rephrase/render";
 import { sectionRenderer } from "../../../../components/SlateEditor/plugins/section/render";
 import { spanRenderer } from "../../../../components/SlateEditor/plugins/span/render";
 import { tableRenderer } from "../../../../components/SlateEditor/plugins/table/render";
@@ -89,4 +90,5 @@ export const frontpageRenderers: SlatePlugin[] = [
   linkBlockListRenderer,
   disclaimerRenderer,
   copyrightRenderer,
+  rephraseRenderer,
 ];

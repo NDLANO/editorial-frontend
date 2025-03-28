@@ -47,6 +47,7 @@ import { breakPlugin } from "../../../../components/SlateEditor/plugins/break";
 import { markPlugin } from "../../../../components/SlateEditor/plugins/mark";
 import { listPlugin } from "../../../../components/SlateEditor/plugins/list";
 import { inlineNavigationPlugin } from "@ndla/editor";
+import { rephrasePlugin } from "../../../../components/SlateEditor/plugins/rephrase/rephrasePlugin";
 
 export const learningResourcePlugins: SlatePlugin[] = [
   inlineNavigationPlugin,
@@ -92,4 +93,5 @@ export const learningResourcePlugins: SlatePlugin[] = [
   gridPlugin,
   disclaimerPlugin,
   copyrightPlugin,
+  rephrasePlugin,
 ];

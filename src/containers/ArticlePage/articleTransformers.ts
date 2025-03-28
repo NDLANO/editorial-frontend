@@ -105,6 +105,7 @@ const draftApiTypeToArticleFormType = (
     priority: article?.priority ?? "unspecified",
     disclaimer: inlineContentToEditorValue(article?.disclaimer?.disclaimer ?? "", true),
     saveAsNew: false,
+    summary: inlineContentToEditorValue("", true),
   };
 };
 

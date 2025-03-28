@@ -25,6 +25,7 @@ import { TYPE_IMAGE } from "./plugins/image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "./plugins/keyFigure/types";
 import { TYPE_LINK, TYPE_CONTENT_LINK } from "./plugins/link/types";
 import { MATH_ELEMENT_TYPE } from "./plugins/mathml/mathTypes";
+import { REPHRASE_ELEMENT_TYPE } from "./plugins/rephrase/rephraseTypes";
 import { PITCH_ELEMENT_TYPE } from "./plugins/pitch/types";
 import { RELATED_ELEMENT_TYPE } from "./plugins/related/types";
 import { TYPE_SPAN } from "./plugins/span/types";
@@ -38,6 +39,7 @@ export const inlines: ElementType[] = [
   TYPE_CONTENT_LINK,
   MATH_ELEMENT_TYPE,
   TYPE_SPAN,
+  REPHRASE_ELEMENT_TYPE,
   COMMENT_INLINE_ELEMENT_TYPE,
 ];
 

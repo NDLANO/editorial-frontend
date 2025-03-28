@@ -60,6 +60,7 @@ import {
 } from "./plugins/table/interfaces";
 import { DisclaimerElement } from "./plugins/uuDisclaimer/types";
 import { BrightcoveEmbedElement } from "./plugins/video/types";
+import { RephraseElement } from "./plugins/rephrase/rephraseTypes";
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -129,7 +130,8 @@ declare module "slate" {
       | IframeElement
       | CopyrightElement
       | CommentInlineElement
-      | CommentBlockElement;
+      | CommentBlockElement
+      | RephraseElement;
     Text: CustomTextWithMarks;
   }
 }

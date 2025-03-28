@@ -35,6 +35,7 @@ import { markRenderer } from "../../../../components/SlateEditor/plugins/mark/re
 import { mathRenderer } from "../../../../components/SlateEditor/plugins/mathml/mathRenderer";
 import { paragraphRenderer } from "../../../../components/SlateEditor/plugins/paragraph/render";
 import { relatedRenderer } from "../../../../components/SlateEditor/plugins/related/relatedRenderer";
+import { rephraseRenderer } from "../../../../components/SlateEditor/plugins/rephrase/render";
 import { sectionRenderer } from "../../../../components/SlateEditor/plugins/section/render";
 import { spanRenderer } from "../../../../components/SlateEditor/plugins/span/render";
 import { tableRenderer } from "../../../../components/SlateEditor/plugins/table/render";
@@ -79,4 +80,5 @@ export const learningResourceRenderers: SlatePlugin[] = [
   gridRenderer,
   disclaimerRenderer,
   copyrightRenderer,
+  rephraseRenderer,
 ];

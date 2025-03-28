@@ -80,6 +80,7 @@ const RichTextEditor = ({
   hideSpinner,
   onBlur: onBlurProp,
   noArticleStyling,
+  id,
   ...rest
 }: RichTextEditorProps) => {
   const [editor] = useState(() => createSlate({ plugins, logger: new LoggerManager({ debug: true }) }));
@@ -129,8 +130,9 @@ const RichTextEditor = ({
   }, [editor.mathjaxInitialized, isFirstNormalize]);
 
   useEffect(() => {
+    // TODO: Add better logic for refreshing editors when values are changed/set outside of editor scope
     // When form is submitted or form content has been revert to a previous version, the editor has to be reinitialized.
-    if ((!submitted && prevSubmitted.current) || status === "revertVersion") {
+    if ((!submitted && prevSubmitted.current) || status === "revertVersion" || status?.status === id) {
       if (isFirstNormalize) {
         return;
       }
@@ -263,6 +265,7 @@ const RichTextEditor = ({
                   )}
                   <StyledEditable
                     {...fieldProps}
+                    id={id}
                     aria-labelledby={labelledBy}
                     {...rest}
                     onBlur={onBlur}

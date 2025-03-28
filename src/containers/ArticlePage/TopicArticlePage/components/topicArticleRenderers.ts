@@ -20,6 +20,7 @@ import { markRenderer } from "../../../../components/SlateEditor/plugins/mark/re
 import { mathRenderer } from "../../../../components/SlateEditor/plugins/mathml/mathRenderer";
 import { noEmbedRenderer } from "../../../../components/SlateEditor/plugins/noEmbed/render";
 import { paragraphRenderer } from "../../../../components/SlateEditor/plugins/paragraph/render";
+import { rephraseRenderer } from "../../../../components/SlateEditor/plugins/rephrase/render";
 import { sectionRenderer } from "../../../../components/SlateEditor/plugins/section/render";
 import { spanRenderer } from "../../../../components/SlateEditor/plugins/span/render";
 
@@ -43,4 +44,5 @@ export const topicArticleRenderers: SlatePlugin[] = [
   mathRenderer,
   markRenderer,
   breakRenderer,
+  rephraseRenderer,
 ];

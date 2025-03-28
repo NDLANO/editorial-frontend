@@ -6,10 +6,13 @@
  *
  */
 
+import { FieldHelperProps, useFormikContext } from "formik";
 import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Descendant, Node } from "slate";
 import { createListCollection } from "@ark-ui/react";
 import {
+  Button,
   ComboboxItem,
   ComboboxItemText,
   FieldErrorMessage,
@@ -24,10 +27,11 @@ import {
   RadioGroupLabel,
   RadioGroupRoot,
 } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { MetaImageSearch } from ".";
+import { ArticleFormType } from "./articleFormHooks";
 import { GenericComboboxItemIndicator } from "../../components/abstractions/Combobox";
 import { FieldWarning } from "../../components/Form/FieldWarning";
 import { FormRemainingCharacters } from "../../components/Form/FormRemainingCharacters";
@@ -37,8 +41,10 @@ import { FormField } from "../../components/FormField";
 import { FormContent } from "../../components/FormikForm";
 import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
-import { DRAFT_ADMIN_SCOPE } from "../../constants";
+import { AI_ACCESS_SCOPE, DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useDraftSearchTags } from "../../modules/draft/draftQueries";
+import { useGenerateSummaryMutation, useGenerateMetaDescriptionMutation } from "../../modules/llm/llmMutations";
+import { inlineContentToEditorValue } from "../../util/articleContentConverter";
 import useDebounce from "../../util/useDebounce";
 import { useSession } from "../Session/SessionProvider";
 
@@ -63,6 +69,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
   const plugins = [textTransformPlugin];
   const [inputQuery, setInputQuery] = useState<string>("");
   const debouncedQuery = useDebounce(inputQuery, 300);
+  const { setStatus, values } = useFormikContext<ArticleFormType>();
   const searchTagsQuery = useDraftSearchTags(
     {
       input: debouncedQuery,
@@ -73,6 +80,8 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
       placeholderData: (prev) => prev,
     },
   );
+  const generateSummaryMutation = useGenerateSummaryMutation();
+  const generateMetaDescriptionMutation = useGenerateMetaDescriptionMutation();
 
   const collection = useMemo(() => {
     return createListCollection({
@@ -81,6 +90,42 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
       itemToString: (item) => item,
     });
   }, [searchTagsQuery.data?.results]);
+
+  const onClickMetaDescription = async (helpers: FieldHelperProps<Descendant[]>) => {
+    const articleTitle = values.title.map((val) => Node.string(val)).join(" ");
+    const articleContent = values.content.map((val) => Node.string(val)).join(" ");
+
+    await generateMetaDescriptionMutation
+      .mutateAsync({
+        type: "metaDescription",
+        text: articleContent,
+        title: articleTitle,
+        language: t(`languages.${articleLanguage}`),
+      })
+      .then(async (res) => {
+        await helpers.setValue(inlineContentToEditorValue(res, true), true);
+        setStatus({ status: "metaDescription" });
+      })
+      .catch(() => helpers.setError(t("textGeneration.failed.metaDescription")));
+  };
+
+  const onClickGenerateSummary = async (helpers: FieldHelperProps<Descendant[]>) => {
+    const articleTitle = values.title.map((val) => Node.string(val)).join(" ");
+    const articleContent = values.content.map((val) => Node.string(val)).join(" ");
+
+    await generateSummaryMutation
+      .mutateAsync({
+        type: "summary",
+        text: articleContent,
+        title: articleTitle,
+        language: t(`languages.${articleLanguage}`),
+      })
+      .then(async (res) => {
+        await helpers.setValue(inlineContentToEditorValue(res, true), true);
+        setStatus({ status: "summary" });
+      })
+      .catch(() => helpers.setError(t("textGeneration.failed.summary")));
+  };
 
   return (
     <FormContent>
@@ -136,9 +181,20 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         </FormField>
       )}
       <FormField name="metaDescription">
-        {({ field, meta }) => (
+        {({ field, meta, helpers }) => (
           <FieldRoot invalid={!!meta.error}>
-            <FieldLabel>{t("form.metaDescription.label")}</FieldLabel>
+            <HStack justify="space-between">
+              <FieldLabel>{t("form.metaDescription.label")}</FieldLabel>
+              {userPermissions?.includes(AI_ACCESS_SCOPE) ? (
+                <Button
+                  size="small"
+                  onClick={() => onClickMetaDescription(helpers)}
+                  loading={generateMetaDescriptionMutation.isPending}
+                >
+                  {t("textGeneration.generate.metaDescription")}
+                </Button>
+              ) : null}
+            </HStack>
             <FieldHelper>{t("form.metaDescription.description")}</FieldHelper>
             <PlainTextEditor
               id={field.name}
@@ -152,6 +208,33 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
           </FieldRoot>
         )}
       </FormField>
+      {!!userPermissions?.includes(AI_ACCESS_SCOPE) && (
+        <FormField name="summary">
+          {({ field, meta, helpers }) => (
+            <FieldRoot invalid={!!meta.error}>
+              <HStack justify="space-between">
+                <FieldLabel>{t("form.articleSummary.label")}</FieldLabel>
+                <Button
+                  size="small"
+                  onClick={() => onClickGenerateSummary(helpers)}
+                  loading={generateSummaryMutation.isPending}
+                >
+                  {t("textGeneration.generate.summary")}
+                </Button>
+              </HStack>
+              <FieldHelper>{t("form.articleSummary.description")}</FieldHelper>
+              <PlainTextEditor
+                id={field.name}
+                placeholder={t("form.articleSummary.label")}
+                {...field}
+                plugins={plugins}
+              />
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              <FieldWarning name={field.name} />
+            </FieldRoot>
+          )}
+        </FormField>
+      )}
       <FormField name="metaImageId">
         {({ field, meta }) => (
           <FieldRoot invalid={!!meta.error}>

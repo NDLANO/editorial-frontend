@@ -35,6 +35,7 @@ import {
   createToolbarDefaultValues,
 } from "../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
+import { useToast } from "../../../components/ToastProvider";
 import { AI_ACCESS_SCOPE } from "../../../constants";
 import { useSession } from "../../../containers/Session/SessionProvider";
 import { usePostAudioTranscriptionMutation } from "../../../modules/audio/audioMutations";
@@ -93,6 +94,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
   const { t } = useTranslation();
   const { setStatus, values, isSubmitting } = useFormikContext<AudioFormikType>();
   const { userPermissions } = useSession();
+  const toast = useToast();
   const [isPolling, setIsPolling] = useState<boolean>(false);
   const [_field, _meta, helpers] = useField("manuscript");
 
@@ -132,10 +134,10 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
       // TODO: use object directly when type is properly typed from backend
       const transcriptText = parseTranscript(transcript?.data?.transcription ?? "");
       const editorContent = inlineContentToEditorValue(transcriptText, true);
-      helpers.setValue(editorContent, true);
+      await helpers.setValue(editorContent);
       setStatus({ status: "manuscript" });
     } else if (transcript?.data?.status === "FAILED") {
-      helpers.setError(t("textGeneration.failed.transcription"));
+      toast.error({ title: "textGeneration.failed.transcription" });
     } else {
       const name = audio.audioFile.url?.split("audio/files/")[1];
       await postAudioTranscriptionMutation
@@ -158,9 +160,9 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
       setStatus({ status: "manuscript" });
     } else if (polledData?.status === "FAILED" && isPolling) {
       setIsPolling(false);
-      helpers.setError(t("textGeneration.failed.transcription"));
+      toast.error({ title: "textGeneration.failed.transcription" });
     }
-  }, [helpers, isPolling, polledData?.status, polledData?.transcription, setStatus, t]);
+  }, [helpers, isPolling, polledData?.status, polledData?.transcription, setStatus, t, toast]);
 
   return (
     <FormField name="manuscript">
@@ -170,6 +172,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
             {t("podcastForm.fields.manuscript")}
           </ContentEditableFieldLabel>
           <RichTextEditor
+            id="manuscript"
             {...field}
             hideBlockPicker
             placeholder={t("podcastForm.fields.manuscript")}
@@ -186,7 +189,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
               onClick={startTranscription}
               size="small"
               disabled={!(values.audioFile.storedFile || values.audioFile.newFile)}
-              loading={isPolling}
+              loading={isPolling || fetchAudioTranscriptQuery.isLoading}
             >
               {t("textGeneration.generate.transcription")}
               <FileListLine />

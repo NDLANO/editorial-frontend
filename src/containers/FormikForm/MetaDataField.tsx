@@ -122,7 +122,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
       })
       .then(async (res) => {
         await helpers.setValue(inlineContentToEditorValue(res, true), true);
-        setStatus({ status: "generateSummary" });
+        setStatus({ status: "summary" });
       })
       .catch(() => helpers.setError(t("textGeneration.failed.summary")));
   };

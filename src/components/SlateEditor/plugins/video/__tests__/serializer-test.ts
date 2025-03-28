@@ -10,7 +10,7 @@ import { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
-import { TYPE_EMBED_BRIGHTCOVE } from "../types";
+import { BRIGHTCOVE_ELEMENT_TYPE } from "../types";
 
 const editor: Descendant[] = [
   {
@@ -18,7 +18,7 @@ const editor: Descendant[] = [
     children: [
       { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
       {
-        type: TYPE_EMBED_BRIGHTCOVE,
+        type: BRIGHTCOVE_ELEMENT_TYPE,
         data: {
           resource: "brightcove",
           videoid: "123",

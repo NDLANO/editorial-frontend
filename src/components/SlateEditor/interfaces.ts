@@ -21,16 +21,18 @@ import {
 } from "@ndla/editor";
 import { AsideElement } from "./plugins/aside/asideTypes";
 import { AudioElement } from "./plugins/audio/audioTypes";
-import { BlockQuoteElement } from "./plugins/blockquote";
-import { CampaignBlockElement } from "./plugins/campaignBlock";
-import { CodeblockElement } from "./plugins/codeBlock";
-import { CommentBlockElement, CommentInlineElement } from "./plugins/comment/interfaces";
+import { BlockQuoteElement } from "./plugins/blockquote/blockquoteTypes";
+import { CampaignBlockElement } from "./plugins/campaignBlock/types";
+import { CodeBlockElement } from "./plugins/codeBlock/types";
+import { CommentBlockElement } from "./plugins/comment/block/types";
+import { CommentInlineElement } from "./plugins/comment/inline/types";
 import { ConceptBlockElement } from "./plugins/concept/block/interfaces";
 import { ConceptInlineElement } from "./plugins/concept/inline/interfaces";
-import { ContactBlockElement } from "./plugins/contactBlock";
+import { ContactBlockElement } from "./plugins/contactBlock/types";
 import { CopyrightElement } from "./plugins/copyright/types";
 import { DefinitionDescriptionElement, DefinitionListElement, DefinitionTermElement } from "./plugins/definitionList";
-import { DetailsElement, SummaryElement } from "./plugins/details";
+import { DetailsElement } from "./plugins/details/detailsTypes";
+import { SummaryElement } from "./plugins/details/summaryTypes";
 import { DivElement } from "./plugins/div";
 import { ErrorEmbedElement } from "./plugins/embed";
 import { ExternalElement, IframeElement } from "./plugins/external/types";
@@ -40,13 +42,13 @@ import { FramedContentElement } from "./plugins/framedContent/framedContentTypes
 import { GridCellElement, GridElement } from "./plugins/grid";
 import { H5pElement } from "./plugins/h5p/types";
 import { ImageElement } from "./plugins/image/types";
-import { KeyFigureElement } from "./plugins/keyFigure";
+import { KeyFigureElement } from "./plugins/keyFigure/types";
 import { ContentLinkElement, LinkElement } from "./plugins/link";
 import { LinkBlockListElement } from "./plugins/linkBlockList/types";
 import { CustomTextWithMarks } from "./plugins/mark";
 import { MathmlElement } from "./plugins/mathml/mathTypes";
 import { PitchElement } from "./plugins/pitch/types";
-import { RelatedElement } from "./plugins/related";
+import { RelatedElement } from "./plugins/related/types";
 import { SpanElement } from "./plugins/span";
 import {
   TableBodyElement,
@@ -95,7 +97,7 @@ declare module "slate" {
       | FileElement
       | DetailsElement
       | SummaryElement
-      | CodeblockElement
+      | CodeBlockElement
       | TableElement
       | TableCaptionElement
       | TableRowElement

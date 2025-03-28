@@ -6,60 +6,52 @@
  *
  */
 
-import { Descendant, Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_DISCLAIMER } from "./types";
+import { DISCLAIMER_ELEMENT_TYPE, DISCLAIMER_PLUGIN } from "./types";
 import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
-import { SlateSerializer } from "../../interfaces";
 import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement, firstTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
-import { TYPE_PARAGRAPH } from "../paragraph/types";
+import { createPlugin, createSerializer, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
+import { isDisclaimerElement } from "./queries";
 
-export const disclaimerSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: Descendant[]) {
+export const disclaimerSerializer = createSerializer({
+  deserialize(el, children) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = parseElementAttributes(Array.from(embed.attributes));
-    if (embedAttributes.resource !== TYPE_DISCLAIMER) return;
-    return slatejsx("element", { type: TYPE_DISCLAIMER, data: embedAttributes }, children);
+    if (embedAttributes.resource !== DISCLAIMER_ELEMENT_TYPE) return;
+    return slatejsx("element", { type: DISCLAIMER_ELEMENT_TYPE, data: embedAttributes }, children);
   },
   serialize(node, children) {
-    if (!Element.isElement(node) || node.type !== TYPE_DISCLAIMER || !node.data) return;
+    if (!isDisclaimerElement(node) || !node.data) return;
     const data = createDataAttributes(node.data);
     return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, children, bailOnEmpty: true });
   },
-};
+});
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
     allowed: afterOrBeforeTextBlockElement,
-    defaultType: TYPE_PARAGRAPH,
+    defaultType: PARAGRAPH_ELEMENT_TYPE,
   },
   next: {
     allowed: afterOrBeforeTextBlockElement,
-    defaultType: TYPE_PARAGRAPH,
+    defaultType: PARAGRAPH_ELEMENT_TYPE,
   },
   firstNode: {
     allowed: firstTextBlockElement,
-    defaultType: TYPE_PARAGRAPH,
+    defaultType: PARAGRAPH_ELEMENT_TYPE,
   },
 };
 
-export const disclaimerPlugin = (editor: Editor) => {
-  const { normalizeNode: nextNormalizeNode } = editor;
-
-  editor.normalizeNode = (entry) => {
-    const [node, path] = entry;
-
-    if (Element.isElement(node) && node.type === TYPE_DISCLAIMER) {
-      if (!defaultBlockNormalizer(editor, node, path, normalizerConfig)) {
-        return nextNormalizeNode(entry);
-      }
-    } else {
-      nextNormalizeNode(entry);
+export const disclaimerPlugin = createPlugin({
+  name: DISCLAIMER_PLUGIN,
+  type: DISCLAIMER_ELEMENT_TYPE,
+  normalize: (editor, node, path, logger) => {
+    if (isDisclaimerElement(node)) {
+      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
     }
-  };
-
-  return editor;
-};
+    return false;
+  },
+});

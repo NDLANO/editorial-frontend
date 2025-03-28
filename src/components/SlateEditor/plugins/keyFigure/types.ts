@@ -6,4 +6,15 @@
  *
  */
 
-export const TYPE_KEY_FIGURE = "key-figure";
+import { Descendant } from "slate";
+import { KeyFigureEmbedData } from "@ndla/types-embed";
+
+export interface KeyFigureElement {
+  type: "key-figure";
+  data: KeyFigureEmbedData;
+  isFirstEdit?: boolean;
+  children: Descendant[];
+}
+
+export const KEY_FIGURE_ELEMENT_TYPE = "key-figure";
+export const KEY_FIGURE_PLUGIN = "key-figure";

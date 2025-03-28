@@ -8,12 +8,12 @@
 
 import { Editor } from "slate";
 import SlateCampaignBlock from "./SlateCampaignBlock";
-import { TYPE_CAMPAIGN_BLOCK } from "./types";
+import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "./types";
 
 export const campaignBlockRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_CAMPAIGN_BLOCK) {
+    if (element.type === CAMPAIGN_BLOCK_ELEMENT_TYPE) {
       return (
         <SlateCampaignBlock editor={editor} element={element} attributes={attributes}>
           {children}

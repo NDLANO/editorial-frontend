@@ -7,13 +7,11 @@
  */
 
 import { Descendant, Editor } from "slate";
-import { createSlate } from "@ndla/editor";
+import { createSlate, HEADING_ELEMENT_TYPE, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
-import { TYPE_HEADING } from "../../heading/types";
-import { TYPE_PARAGRAPH } from "../../paragraph/types";
-import { TYPE_SECTION } from "../../section/types";
 import { TYPE_SPAN } from "../../span/types";
-import { TYPE_DETAILS, TYPE_SUMMARY } from "../types";
+import { DETAILS_ELEMENT_TYPE } from "../detailsTypes";
+import { SUMMARY_ELEMENT_TYPE } from "../summaryTypes";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
 
@@ -21,27 +19,27 @@ describe("details normalizer tests", () => {
   test("adds paragraphs around details element", () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
           {
-            type: TYPE_DETAILS,
+            type: DETAILS_ELEMENT_TYPE,
             children: [
-              { type: TYPE_SUMMARY, children: [{ text: "title" }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: "content" }] },
+              { type: SUMMARY_ELEMENT_TYPE, children: [{ text: "title" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] },
             ],
           },
           {
-            type: TYPE_DETAILS,
+            type: DETAILS_ELEMENT_TYPE,
             children: [
-              { type: TYPE_SUMMARY, children: [{ text: "title" }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: "content" }] },
+              { type: SUMMARY_ELEMENT_TYPE, children: [{ text: "title" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] },
             ],
           },
           {
-            type: TYPE_DETAILS,
+            type: DETAILS_ELEMENT_TYPE,
             children: [
-              { type: TYPE_SUMMARY, children: [{ text: "title" }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: "content" }] },
+              { type: SUMMARY_ELEMENT_TYPE, children: [{ text: "title" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] },
             ],
           },
         ],
@@ -50,33 +48,33 @@ describe("details normalizer tests", () => {
 
     const expectedValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
-            type: TYPE_DETAILS,
+            type: DETAILS_ELEMENT_TYPE,
             children: [
-              { type: TYPE_SUMMARY, children: [{ text: "title" }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: "content" }] },
+              { type: SUMMARY_ELEMENT_TYPE, children: [{ text: "title" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
-            type: TYPE_DETAILS,
+            type: DETAILS_ELEMENT_TYPE,
             children: [
-              { type: TYPE_SUMMARY, children: [{ text: "title" }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: "content" }] },
+              { type: SUMMARY_ELEMENT_TYPE, children: [{ text: "title" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
-            type: TYPE_DETAILS,
+            type: DETAILS_ELEMENT_TYPE,
             children: [
-              { type: TYPE_SUMMARY, children: [{ text: "title" }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: "content" }] },
+              { type: SUMMARY_ELEMENT_TYPE, children: [{ text: "title" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
@@ -88,31 +86,34 @@ describe("details normalizer tests", () => {
   test("adds summary and paragraph to empty details element", () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
-            type: TYPE_DETAILS,
+            type: DETAILS_ELEMENT_TYPE,
             children: [],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
 
     const expectedValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
-            type: TYPE_DETAILS,
+            type: DETAILS_ELEMENT_TYPE,
             children: [
-              { type: TYPE_SUMMARY, children: [{ text: "" }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+              {
+                type: SUMMARY_ELEMENT_TYPE,
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, serializeAsText: true, children: [{ text: "" }] }],
+              },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
@@ -124,31 +125,31 @@ describe("details normalizer tests", () => {
   test("adds paragraph at the end of details with only summary", () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
-            type: TYPE_DETAILS,
-            children: [{ type: TYPE_SUMMARY, children: [{ text: "title" }] }],
+            type: DETAILS_ELEMENT_TYPE,
+            children: [{ type: SUMMARY_ELEMENT_TYPE, children: [{ text: "title" }] }],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
 
     const expectedValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
-            type: TYPE_DETAILS,
+            type: DETAILS_ELEMENT_TYPE,
             children: [
-              { type: TYPE_SUMMARY, children: [{ text: "title" }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+              { type: SUMMARY_ELEMENT_TYPE, children: [{ text: "title" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
@@ -160,34 +161,34 @@ describe("details normalizer tests", () => {
   test("unwraps summary and rewraps it as paragraph if placed elsewhere", () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
-            type: TYPE_DETAILS,
+            type: DETAILS_ELEMENT_TYPE,
             children: [
-              { type: TYPE_SUMMARY, children: [{ text: "title" }] },
-              { type: TYPE_SUMMARY, children: [{ text: "wrong" }] },
+              { type: SUMMARY_ELEMENT_TYPE, children: [{ text: "title" }] },
+              { type: SUMMARY_ELEMENT_TYPE, children: [{ text: "wrong" }] },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
 
     const expectedValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
-            type: TYPE_DETAILS,
+            type: DETAILS_ELEMENT_TYPE,
             children: [
-              { type: TYPE_SUMMARY, children: [{ text: "title" }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: "wrong" }] },
+              { type: SUMMARY_ELEMENT_TYPE, children: [{ text: "title" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "wrong" }] },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
@@ -199,15 +200,15 @@ describe("details normalizer tests", () => {
   test("change summary node to paragraph if not child of details element", () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
-        children: [{ type: TYPE_SUMMARY, children: [{ text: "title" }] }],
+        type: SECTION_ELEMENT_TYPE,
+        children: [{ type: SUMMARY_ELEMENT_TYPE, children: [{ text: "title" }] }],
       },
     ];
 
     const expectedValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
-        children: [{ type: TYPE_PARAGRAPH, children: [{ text: "title" }] }],
+        type: SECTION_ELEMENT_TYPE,
+        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "title" }] }],
       },
     ];
     editor.children = editorValue;
@@ -218,40 +219,40 @@ describe("details normalizer tests", () => {
   test("allow header element inside summary", () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "upper" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "upper" }] },
           {
-            type: TYPE_DETAILS,
+            type: DETAILS_ELEMENT_TYPE,
             children: [
               {
-                type: TYPE_SUMMARY,
-                children: [{ type: TYPE_HEADING, level: 2, children: [{ text: "title" }] }],
+                type: SUMMARY_ELEMENT_TYPE,
+                children: [{ type: HEADING_ELEMENT_TYPE, level: 2, children: [{ text: "title" }] }],
               },
-              { type: TYPE_PARAGRAPH, children: [{ text: "content" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "lower" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "lower" }] },
         ],
       },
     ];
 
     const expectedValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "upper" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "upper" }] },
           {
-            type: TYPE_DETAILS,
+            type: DETAILS_ELEMENT_TYPE,
             children: [
               {
-                type: TYPE_SUMMARY,
-                children: [{ type: TYPE_HEADING, level: 2, children: [{ text: "title" }] }],
+                type: SUMMARY_ELEMENT_TYPE,
+                children: [{ type: HEADING_ELEMENT_TYPE, level: 2, children: [{ text: "title" }] }],
               },
-              { type: TYPE_PARAGRAPH, children: [{ text: "content" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "lower" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "lower" }] },
         ],
       },
     ];
@@ -263,40 +264,40 @@ describe("details normalizer tests", () => {
   test("allow paragraph element inside summary", () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "upper" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "upper" }] },
           {
-            type: TYPE_DETAILS,
+            type: DETAILS_ELEMENT_TYPE,
             children: [
               {
-                type: TYPE_SUMMARY,
-                children: [{ type: TYPE_PARAGRAPH, children: [{ text: "title" }] }],
+                type: SUMMARY_ELEMENT_TYPE,
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "title" }] }],
               },
-              { type: TYPE_PARAGRAPH, children: [{ text: "content" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "lower" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "lower" }] },
         ],
       },
     ];
 
     const expectedValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "upper" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "upper" }] },
           {
-            type: TYPE_DETAILS,
+            type: DETAILS_ELEMENT_TYPE,
             children: [
               {
-                type: TYPE_SUMMARY,
-                children: [{ type: TYPE_PARAGRAPH, serializeAsText: true, children: [{ text: "title" }] }],
+                type: SUMMARY_ELEMENT_TYPE,
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, serializeAsText: true, children: [{ text: "title" }] }],
               },
-              { type: TYPE_PARAGRAPH, children: [{ text: "content" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "lower" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "lower" }] },
         ],
       },
     ];
@@ -308,40 +309,40 @@ describe("details normalizer tests", () => {
   test("allow span element inside summary", () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "upper" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "upper" }] },
           {
-            type: TYPE_DETAILS,
+            type: DETAILS_ELEMENT_TYPE,
             children: [
               {
-                type: TYPE_SUMMARY,
+                type: SUMMARY_ELEMENT_TYPE,
                 children: [{ type: TYPE_SPAN, data: {}, children: [{ text: "title" }] }],
               },
-              { type: TYPE_PARAGRAPH, children: [{ text: "content" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "lower" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "lower" }] },
         ],
       },
     ];
 
     const expectedValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "upper" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "upper" }] },
           {
-            type: TYPE_DETAILS,
+            type: DETAILS_ELEMENT_TYPE,
             children: [
               {
-                type: TYPE_SUMMARY,
+                type: SUMMARY_ELEMENT_TYPE,
                 children: [{ text: "" }, { type: TYPE_SPAN, data: {}, children: [{ text: "title" }] }, { text: "" }],
               },
-              { type: TYPE_PARAGRAPH, children: [{ text: "content" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "lower" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "lower" }] },
         ],
       },
     ];

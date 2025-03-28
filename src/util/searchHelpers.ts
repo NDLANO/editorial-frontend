@@ -44,7 +44,7 @@ const getContextTypes = (resourceType: string[] | undefined, contextTypes: strin
   return { contextTypes };
 };
 
-export const transformSearchBody = (searchBody: SearchParamsBody) => {
+export const transformSearchBody = (searchBody: SearchParamsBody, editorial = false) => {
   const articleTypes = getArticleTypesField(searchBody.resourceTypes);
   const contextTypes = getContextTypes(searchBody.resourceTypes, searchBody.contextTypes || []);
 
@@ -52,6 +52,6 @@ export const transformSearchBody = (searchBody: SearchParamsBody) => {
     ...searchBody,
     ...articleTypes,
     ...contextTypes,
-    resultTypes: ["draft", "concept", "learningpath"],
+    resultTypes: editorial ? ["draft", "concept", "learningpath"] : ["article", "learningpath"],
   };
 };

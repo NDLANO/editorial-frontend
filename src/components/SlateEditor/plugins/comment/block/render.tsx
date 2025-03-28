@@ -8,12 +8,12 @@
 
 import { Editor } from "slate";
 import SlateCommentBlock from "./SlateCommentBlock";
-import { TYPE_COMMENT_BLOCK } from "./types";
+import { COMMENT_BLOCK_ELEMENT_TYPE } from "./types";
 
 export const commentBlockRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_COMMENT_BLOCK) {
+    if (element.type === COMMENT_BLOCK_ELEMENT_TYPE) {
       return (
         <SlateCommentBlock attributes={attributes} element={element} editor={editor}>
           {children}

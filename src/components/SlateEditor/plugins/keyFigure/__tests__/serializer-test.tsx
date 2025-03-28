@@ -7,21 +7,20 @@
  */
 
 import { Descendant } from "slate";
+import { PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
-import { TYPE_PARAGRAPH } from "../../paragraph/types";
-import { TYPE_SECTION } from "../../section/types";
-import { TYPE_KEY_FIGURE } from "../types";
+import { KEY_FIGURE_ELEMENT_TYPE } from "../types";
 
 const html =
   '<section><ndlaembed data-resource="key-figure" data-image-id="65790" data-title="Her erre en test folkens" data-subtitle="Her erre en test folkens"></ndlaembed></section>';
 
 const editor: Descendant[] = [
   {
-    type: TYPE_SECTION,
+    type: SECTION_ELEMENT_TYPE,
     children: [
-      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+      { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       {
-        type: TYPE_KEY_FIGURE,
+        type: KEY_FIGURE_ELEMENT_TYPE,
         data: {
           resource: "key-figure",
           imageId: "65790",
@@ -30,7 +29,7 @@ const editor: Descendant[] = [
         },
         children: [],
       },
-      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+      { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
     ],
   },
 ];

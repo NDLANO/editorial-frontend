@@ -6,4 +6,15 @@
  *
  */
 
-export const TYPE_CAMPAIGN_BLOCK = "campaign-block";
+import { CampaignBlockEmbedData } from "@ndla/types-embed";
+import { Descendant } from "slate";
+
+export interface CampaignBlockElement {
+  type: "campaign-block";
+  data?: CampaignBlockEmbedData;
+  isFirstEdit?: boolean;
+  children: Descendant[];
+}
+
+export const CAMPAIGN_BLOCK_ELEMENT_TYPE = "campaign-block";
+export const CAMPAIGN_BLOCK_PLUGIN = "campaign-block";

@@ -8,12 +8,12 @@
 
 import { Editor } from "slate";
 import SlateFileList from "./SlateFileList";
-import { TYPE_FILE } from "./types";
+import { FILE_ELEMENT_TYPE } from "./types";
 
 export const fileRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_FILE) {
+    if (element.type === FILE_ELEMENT_TYPE) {
       return (
         <SlateFileList editor={editor} element={element} attributes={attributes}>
           {children}

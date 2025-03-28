@@ -8,7 +8,6 @@
 
 import { Descendant } from "slate";
 import { UuDisclaimerEmbedData } from "@ndla/types-embed";
-export const TYPE_DISCLAIMER = "uu-disclaimer";
 
 export interface DisclaimerElement {
   type: "uu-disclaimer";
@@ -16,3 +15,6 @@ export interface DisclaimerElement {
   children: Descendant[];
   isFirstEdit?: boolean;
 }
+
+export const DISCLAIMER_ELEMENT_TYPE = "uu-disclaimer";
+export const DISCLAIMER_PLUGIN = "uu-disclaimer";

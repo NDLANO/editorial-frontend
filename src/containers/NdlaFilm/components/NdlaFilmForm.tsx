@@ -11,7 +11,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import { PageContent } from "@ndla/primitives";
-import { IFilmFrontPageDataDTO, IMovieThemeDTO } from "@ndla/types-backend/frontpage-api";
+import { IFilmFrontPageDTO, IMovieThemeDTO } from "@ndla/types-backend/frontpage-api";
 import NdlaFilmArticle from "./NdlaFilmArticle";
 import SlideshowEditor from "./SlideshowEditor";
 import ThemeEditor from "./ThemeEditor";
@@ -34,7 +34,7 @@ import usePreventWindowUnload from "../../FormikForm/preventWindowUnloadHook";
 import { useMessages } from "../../Messages/MessagesProvider";
 
 interface Props {
-  filmFrontpage: IFilmFrontPageDataDTO;
+  filmFrontpage: IFilmFrontPageDTO;
   selectedLanguage: string;
 }
 

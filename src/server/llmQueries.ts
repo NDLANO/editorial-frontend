@@ -73,10 +73,10 @@ const ARTICLE_SUMMARY_QUERY: ArticleSummaryQuery = {
           <Instructions>
           Du har lang erfaring frå utdanningssektoren.
           Du har spesialisert deg i å oppsummere fagartiklar for å gjere dei meir tilgjengeleg for eit større publikum.
-          Du har fått som oppdrag å hjelpe med å forbedre læringsopplevelsen for elevane.
-          For å gjere dette må du lese igjennom og lage ein oppsummering av artiklar så vidaregåandestudentane lett kan få eit inntrykk av dei viktigaste poenga i artikkelen.
-          Du har fått i oppgåve å lese gjennom artikkelen i <draft> med tittel "${title}" og skrive ein oppsummering på NN. Oppsummeringa skal vere på mindre enn 300 ord.
-          Svaret skal leverast med refleksjonar på kvifor du har valt å inkludere dei punktane du har valt først, så selve oppsummeringa skreve i ein <answer>-tag.
+          Du har fått som oppdrag å hjelpe med å forbetre læringsopplevelsen for elevane.
+          For å gjere dette må du lese igjennom og lage ei oppsummering av artiklar så vidaregåandestudentane lett kan få eit inntrykk av dei viktigaste poenga i artikkelen.
+          Du har fått i oppgåve å lese gjennom artikkelen i <draft> med tittel "${title}" og skrive ei oppsummering på NN. Oppsummeringa skal vere på mindre enn 300 ord.
+          Svaret skal leverast med refleksjonar på kvifor du har valt å inkludere dei punkta du har valt først, så sjølve oppsummeringa skrive i ein <answer>-tag.
           Om du ikkje klarar å levere svaret på formatet <answer> som er spesifisert skal fyrste linje i responsen vere <ERROR>-tag.
         </Instructions>`,
 };

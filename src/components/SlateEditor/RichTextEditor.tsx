@@ -13,12 +13,10 @@ import { Descendant, Editor, Element, Range, Transforms } from "slate";
 import { Slate, Editable, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
 import { useFieldContext } from "@ark-ui/react";
-import { createSlate, LoggerManager } from "@ndla/editor";
-import { Spinner } from "@ndla/primitives";
+import { createSlate, LoggerManager, SlatePlugin } from "@ndla/editor";
 import { styled } from "@ndla/styled-system/jsx";
 import "../DisplayEmbed/helpers/h5pResizer";
 import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
-import { SlatePlugin } from "./interfaces";
 import { Action, commonActions } from "./plugins/blockPicker/actions";
 import { BlockPickerOptions, createBlockpickerOptions } from "./plugins/blockPicker/options";
 import SlateBlockPicker from "./plugins/blockPicker/SlateBlockPicker";
@@ -57,8 +55,8 @@ export interface RichTextEditorProps extends Omit<EditableProps, "value" | "onCh
   testId?: string;
   hideToolbar?: boolean;
   receiveInitialFocus?: boolean;
-  hideSpinner?: boolean;
   noArticleStyling?: boolean;
+  onInitialNormalized?: (value: Descendant[]) => void;
 }
 
 const RichTextEditor = ({
@@ -77,13 +75,20 @@ const RichTextEditor = ({
   additionalOnKeyDown,
   hideToolbar,
   receiveInitialFocus,
-  hideSpinner,
   onBlur: onBlurProp,
   noArticleStyling,
+  onInitialNormalized,
   ...rest
 }: RichTextEditorProps) => {
-  const [editor] = useState(() => createSlate({ plugins, logger: new LoggerManager({ debug: true }) }));
-  const [isFirstNormalize, setIsFirstNormalize] = useState(true);
+  const [editor] = useState(() =>
+    createSlate({
+      plugins: plugins,
+      value,
+      logger: new LoggerManager({ debug: true }),
+      shouldNormalize: true,
+      onInitialNormalized,
+    }),
+  );
   const [labelledBy, setLabelledBy] = useState<string | undefined>(undefined);
   const prevSubmitted = useRef(submitted);
   const field = useFieldContext();
@@ -105,35 +110,24 @@ const RichTextEditor = ({
   const { status, setStatus } = useFormikContext<ArticleFormType>();
 
   useEffect(() => {
-    if (receiveInitialFocus && !isFirstNormalize) {
+    if (receiveInitialFocus) {
       ReactEditor.focus(editor);
     }
-  }, [editor, isFirstNormalize, receiveInitialFocus]);
-
-  useEffect(() => {
-    Editor.normalize(editor, { force: true });
-    editor.history = { redos: [], undos: [] };
-    setIsFirstNormalize(false);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [editor, receiveInitialFocus]);
 
   useEffect(() => {
     const { MathJax } = window;
-    if (!MathJax || isFirstNormalize || editor.mathjaxInitialized) return;
+    if (!MathJax || editor.mathjaxInitialized) return;
     if (editor.nodes({ match: (n) => Element.isElement(n) && n.type === "mathml", at: [] }).next().value) {
       MathJax.typesetPromise();
       editor.mathjaxInitialized = true;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editor.mathjaxInitialized, isFirstNormalize]);
+  }, [editor.mathjaxInitialized]);
 
   useEffect(() => {
     // When form is submitted or form content has been revert to a previous version, the editor has to be reinitialized.
     if ((!submitted && prevSubmitted.current) || status === "revertVersion") {
-      if (isFirstNormalize) {
-        return;
-      }
       ReactEditor.deselect(editor);
       editor.children = value;
       editor.history = { redos: [], undos: [] };
@@ -248,35 +242,29 @@ const RichTextEditor = ({
       <ArticleLanguageProvider language={language}>
         <SlateProvider isSubmitted={submitted}>
           <StyledSlateWrapper data-testid={testId} data-slate-wrapper="">
-            <Slate editor={editor} initialValue={value} onChange={onChange}>
-              {isFirstNormalize && !hideSpinner ? (
-                <Spinner />
-              ) : (
-                <>
-                  <SlateToolbar options={toolbarOptions} areaOptions={toolbarAreaFilters} hideToolbar={hideToolbar} />
-                  {!hideBlockPicker && (
-                    <SlateBlockPicker
-                      actions={actions}
-                      articleLanguage={language}
-                      {...createBlockpickerOptions(blockpickerOptions)}
-                    />
-                  )}
-                  <StyledEditable
-                    {...fieldProps}
-                    aria-labelledby={labelledBy}
-                    {...rest}
-                    onBlur={onBlur}
-                    onKeyDown={handleKeyDown}
-                    placeholder={placeholder}
-                    renderElement={renderElement}
-                    renderLeaf={renderLeaf}
-                    readOnly={submitted}
-                    onDragStart={onDragStartCallback}
-                    onDragOver={onDragOverCallback}
-                    onDrop={onDropCallback}
-                  />
-                </>
+            <Slate editor={editor} initialValue={editor.children} onChange={onChange}>
+              <SlateToolbar options={toolbarOptions} areaOptions={toolbarAreaFilters} hideToolbar={hideToolbar} />
+              {!hideBlockPicker && (
+                <SlateBlockPicker
+                  actions={actions}
+                  articleLanguage={language}
+                  {...createBlockpickerOptions(blockpickerOptions)}
+                />
               )}
+              <StyledEditable
+                {...fieldProps}
+                aria-labelledby={labelledBy}
+                {...rest}
+                onBlur={onBlur}
+                onKeyDown={handleKeyDown}
+                placeholder={placeholder}
+                renderElement={renderElement}
+                renderLeaf={renderLeaf}
+                readOnly={submitted}
+                onDragStart={onDragStartCallback}
+                onDragOver={onDragOverCallback}
+                onDrop={onDropCallback}
+              />
             </Slate>
           </StyledSlateWrapper>
         </SlateProvider>

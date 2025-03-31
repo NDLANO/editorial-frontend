@@ -7,8 +7,9 @@
  */
 
 import { useField, useFormikContext } from "formik";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Descendant } from "slate";
 import { LinkMedium } from "@ndla/icons";
 import { Button, FieldErrorMessage, FieldRoot, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -96,33 +97,22 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
   const { t } = useTranslation();
   const [field, meta, helpers] = useField("content");
 
-  const { dirty, initialValues, values, isSubmitting } = useFormikContext<FrontpageArticleFormType>();
+  const { initialValues, values, isSubmitting } = useFormikContext<FrontpageArticleFormType>();
   const { slug, id, creators, language } = values;
 
-  const isFormikDirty = useMemo(
-    () =>
-      isFormikFormDirty({
-        values,
-        initialValues,
-        dirty,
-      }),
-    [values, initialValues, dirty],
-  );
-
-  const [isNormalizedOnLoad, setIsNormalizedOnLoad] = useState(isFormikDirty);
-  const [isTouched, setIsTouched] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const isCreatePage = toCreateFrontPageArticle() === window.location.pathname;
 
-  const debouncedOnChange = useDebouncedCallback(helpers.setValue, SAVE_DEBOUNCE_MS);
-
-  useEffect(() => {
-    setTimeout(() => {
-      if (!isTouched) {
-        setIsNormalizedOnLoad(isFormikDirty);
-        setIsTouched(true);
+  const onInitialNormalized = useCallback(
+    (value: Descendant[]) => {
+      if (isFormikFormDirty({ values: { ...values, content: value }, initialValues, dirty: true })) {
+        setShowAlert(true);
       }
-    }, 100);
-  }, [isFormikDirty, isTouched]);
+    },
+    [initialValues, values],
+  );
+
+  const debouncedOnChange = useDebouncedCallback(helpers.setValue, SAVE_DEBOUNCE_MS);
 
   const [editSlug, setEditSlug] = useState(false);
 
@@ -157,13 +147,13 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
       <AlertDialog
         title={t("editorFooter.changeHeader")}
         label={t("editorFooter.changeHeader")}
-        show={!!isNormalizedOnLoad && !isCreatePage}
+        show={!!showAlert && !isCreatePage}
         text={t("form.content.normalizedOnLoad")}
-        onCancel={() => setIsNormalizedOnLoad(false)}
+        onCancel={() => setShowAlert(false)}
         severity="warning"
       >
         <FormActionsContainer>
-          <Button variant="secondary" onClick={() => setIsNormalizedOnLoad(false)}>
+          <Button variant="secondary" onClick={() => setShowAlert(false)}>
             {t("alertDialog.continue")}
           </Button>
         </FormActionsContainer>
@@ -190,6 +180,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
             plugins={editorPlugins}
             data-testid="frontpage-article-content"
             onChange={debouncedOnChange}
+            onInitialNormalized={onInitialNormalized}
           />
         </ContentTypeProvider>
         <FieldErrorMessage>{meta.error}</FieldErrorMessage>

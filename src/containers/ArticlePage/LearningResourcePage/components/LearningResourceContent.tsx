@@ -7,7 +7,7 @@
  */
 
 import { useField, useFormikContext } from "formik";
-import { useState, useMemo, memo, useEffect, useCallback } from "react";
+import { useState, memo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import { Button, FieldErrorMessage, FieldRoot } from "@ndla/primitives";
@@ -80,39 +80,7 @@ interface Props {
 }
 
 const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _handleSubmit }: Props) => {
-  const { t } = useTranslation();
   const [creatorsField] = useField<IAuthorDTO[]>("creators");
-
-  const { dirty, initialValues, values, status, setStatus } = useFormikContext<LearningResourceFormType>();
-
-  const isFormikDirty = useMemo(
-    () =>
-      isFormikFormDirty({
-        values,
-        initialValues,
-        dirty,
-      }),
-    [values, initialValues, dirty],
-  );
-
-  const [isNormalizedOnLoad, setIsNormalizedOnLoad] = useState(isFormikDirty);
-  const [isTouched, setIsTouched] = useState(false);
-  const isCreatePage = toCreateLearningResource() === window.location.pathname;
-
-  const onCancel = useCallback(() => setIsNormalizedOnLoad(false), []);
-
-  useEffect(() => {
-    setTimeout(() => {
-      if (status.status === "revertVersion") {
-        setIsNormalizedOnLoad(false);
-        setIsTouched(true);
-        setStatus({ ...status, status: undefined });
-      } else if (!isTouched) {
-        setIsNormalizedOnLoad(isFormikDirty);
-        setIsTouched(true);
-      }
-    }, 100);
-  }, [isFormikDirty, isTouched, setStatus, status, status.status]);
 
   return (
     <FormContent>
@@ -130,20 +98,6 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
         </FormField>
       </div>
       <IngressField />
-      <AlertDialog
-        title={t("editorFooter.changeHeader")}
-        label={t("editorFooter.changeHeader")}
-        show={!!isNormalizedOnLoad && !isCreatePage}
-        text={t("form.content.normalizedOnLoad")}
-        onCancel={onCancel}
-        severity="warning"
-      >
-        <FormActionsContainer>
-          <Button variant="danger" onClick={onCancel}>
-            {t("alertDialog.continue")}
-          </Button>
-        </FormActionsContainer>
-      </AlertDialog>
       <ContentField articleLanguage={articleLanguage} articleId={articleId} />
     </FormContent>
   );
@@ -156,41 +110,74 @@ interface ContentFieldProps {
 
 const editorPlugins = learningResourcePlugins.concat(learningResourceRenderers);
 
+const blockPickerOptions = { actionsToShowInAreas };
+
 const ContentField = ({ articleId, articleLanguage }: ContentFieldProps) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
-  const { isSubmitting } = useFormikContext<LearningResourceFormType>();
+  const { values, isSubmitting, initialValues } = useFormikContext<LearningResourceFormType>();
   const [field, meta, helpers] = useField("content");
+  const [showAlert, setShowAlert] = useState(false);
 
-  const blockPickerOptions = useMemo(() => ({ actionsToShowInAreas }), []);
+  const isCreatePage = toCreateLearningResource() === window.location.pathname;
+
+  const onInitialNormalized = useCallback(
+    (value: Descendant[]) => {
+      if (isFormikFormDirty({ values: { ...values, content: value }, initialValues, dirty: true })) {
+        setShowAlert(true);
+      }
+    },
+    [initialValues, values],
+  );
 
   const debouncedOnChange = useDebouncedCallback(helpers.setValue, SAVE_DEBOUNCE_MS);
 
+  const onCancel = useCallback(() => {
+    setShowAlert(false);
+  }, []);
+
   return (
-    <FieldRoot invalid={!!meta.error}>
-      <SegmentHeader>
-        <ContentEditableFieldLabel>{t("form.content.label")}</ContentEditableFieldLabel>
-        {!!articleId && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (
-          <EditMarkupLink to={toEditMarkup(articleId, articleLanguage ?? "")} title={t("editMarkup.linkTitle")} />
-        )}
-      </SegmentHeader>
-      <RichTextEditor
-        actions={learningResourceActions}
-        language={articleLanguage}
-        blockpickerOptions={blockPickerOptions}
-        placeholder={t("form.content.placeholder")}
-        value={field.value}
-        submitted={isSubmitting}
-        plugins={editorPlugins}
-        data-testid="learning-resource-content"
-        onChange={debouncedOnChange}
-        toolbarOptions={toolbarOptions}
-        toolbarAreaFilters={toolbarAreaFilters}
-      />
-      {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(field.value)} />}
-      <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-      <FieldWarning name={field.name} />
-    </FieldRoot>
+    <>
+      <AlertDialog
+        title={t("editorFooter.changeHeader")}
+        label={t("editorFooter.changeHeader")}
+        show={!!showAlert && !isCreatePage}
+        text={t("form.content.normalizedOnLoad")}
+        onCancel={onCancel}
+        severity="warning"
+      >
+        <FormActionsContainer>
+          <Button variant="danger" onClick={onCancel}>
+            {t("alertDialog.continue")}
+          </Button>
+        </FormActionsContainer>
+      </AlertDialog>
+      <FieldRoot invalid={!!meta.error}>
+        <SegmentHeader>
+          <ContentEditableFieldLabel>{t("form.content.label")}</ContentEditableFieldLabel>
+          {!!articleId && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (
+            <EditMarkupLink to={toEditMarkup(articleId, articleLanguage ?? "")} title={t("editMarkup.linkTitle")} />
+          )}
+        </SegmentHeader>
+        <RichTextEditor
+          actions={learningResourceActions}
+          language={articleLanguage}
+          blockpickerOptions={blockPickerOptions}
+          placeholder={t("form.content.placeholder")}
+          value={field.value}
+          submitted={isSubmitting}
+          plugins={editorPlugins}
+          data-testid="learning-resource-content"
+          onChange={debouncedOnChange}
+          toolbarOptions={toolbarOptions}
+          toolbarAreaFilters={toolbarAreaFilters}
+          onInitialNormalized={onInitialNormalized}
+        />
+        {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(field.value)} />}
+        <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+        <FieldWarning name={field.name} />
+      </FieldRoot>
+    </>
   );
 };
 

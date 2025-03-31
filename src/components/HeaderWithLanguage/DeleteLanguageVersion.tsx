@@ -118,7 +118,7 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
             break;
           case "subjectpage":
             await deleteSubectPageLanguageVersion(id, language);
-            if (newAfterLanguageDeletion && elementId && otherSupportedLanguage) {
+            if (!newAfterLanguageDeletion && elementId && otherSupportedLanguage) {
               navigate(toEditSubjectpage(elementId, otherSupportedLanguage, id));
             } else if (elementId) {
               navigate(toCreateSubjectpage(elementId, "nb"));

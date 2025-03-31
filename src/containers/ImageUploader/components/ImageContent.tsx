@@ -21,7 +21,7 @@ import { useGenerateAltTextMutation } from "../../../modules/llm/llmMutations";
 import { TitleField } from "../../FormikForm";
 import { ImageFormikType } from "../imageTransformers";
 
-const IMAGE_IDENTIFIER_REGEX = /data:image\/(jpe?g|png|svg+xml);base64,/;
+const IMAGE_IDENTIFIER_REGEX = /data:image\/(jpe?g|png|svg+xml|gif);base64,/;
 interface Props {
   language: string;
 }

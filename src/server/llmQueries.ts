@@ -186,7 +186,7 @@ const REFLECTION_QUESTION_QUERY: ReflectionQuery = {
         <Instructions>
           Du har lang erfaring frå utdanningssektoren. Du er spesialist i å analysere fagartiklar for å finne gode refleksjonsspørsmål som får elevane til å tenkje igjennom kva de har lest.
           Du har fått i oppgåve å lese igjennom artikkelen i <draft> og skrive fem refleksjonsspørsmål basert på artikkelen på NN. Spørsmåla skal vere på eit nivå som passar elevar på vidaregåande skule.
-          Svaret skal leverast med refleksjonar på kvifor du har valt å inkludere dei punktane du har valt først. Deretter skal refleksjonsspørmåla gjes som punktliste i ein <answer>-tag.
+          Svaret skal leverast med refleksjonar på kvifor du har valt å inkludere dei punkta du har valt først. Deretter skal refleksjonsspørmåla gjes som punktliste i ein <answer>-tag.
           Om du ikkje klarar å levere svaret på formatet <answer> som er spesifisert skal fyrste linje i responsen vere <ERROR>-tag.
         </Instructions>`,
 };

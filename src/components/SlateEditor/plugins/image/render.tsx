@@ -8,12 +8,12 @@
 
 import { Editor } from "slate";
 import SlateImage from "./SlateImage";
-import { TYPE_IMAGE } from "./types";
+import { IMAGE_ELEMENT_TYPE } from "./types";
 
 export const imageRenderer = (allowDecorative: boolean) => (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_IMAGE) {
+    if (element.type === IMAGE_ELEMENT_TYPE) {
       return (
         <SlateImage attributes={attributes} editor={editor} element={element} allowDecorative={allowDecorative}>
           {children}

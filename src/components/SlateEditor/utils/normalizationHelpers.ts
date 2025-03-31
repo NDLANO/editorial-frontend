@@ -23,7 +23,7 @@ import { H5P_ELEMENT_TYPE } from "../plugins/h5p/types";
 import { TYPE_HEADING } from "../plugins/heading/types";
 import { TYPE_LIST } from "../plugins/list/types";
 import { TYPE_PARAGRAPH } from "../plugins/paragraph/types";
-import { TYPE_SPAN } from "../plugins/span/types";
+import { SPAN_ELEMENT_TYPE } from "../plugins/span/types";
 import { TYPE_TABLE } from "../plugins/table/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../plugins/video/types";
 import { TYPE_CONCEPT_INLINE } from "../plugins/concept/inline/types";
@@ -53,8 +53,8 @@ export const textBlockElements: Element["type"][] = [
   DETAILS_ELEMENT_TYPE,
   TYPE_DEFINITION_LIST,
   TYPE_GRID,
-  TYPE_SPAN,
   REPHRASE_ELEMENT_TYPE,
+  SPAN_ELEMENT_TYPE,
 ];
 
 export const inlineElements: Element["type"][] = [

@@ -47,7 +47,7 @@ import { FILE_ELEMENT_TYPE } from "../file/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes";
 import { TYPE_GRID } from "../grid/types";
 import { H5P_ELEMENT_TYPE } from "../h5p/types";
-import { TYPE_IMAGE } from "../image/types";
+import { IMAGE_ELEMENT_TYPE } from "../image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "../keyFigure/types";
 import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "../linkBlockList/types";
 import { PITCH_ELEMENT_TYPE } from "../pitch/types";
@@ -92,7 +92,7 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInDialog("FramedContent"),
   },
   {
-    data: { type: TYPE_IMAGE, object: "image" },
+    data: { type: IMAGE_ELEMENT_TYPE, object: "image" },
     icon: <CameraFill />,
     helpIcon: renderArticleInDialog("Images"),
   },

@@ -20,7 +20,7 @@ import { insertLink, unwrapLink } from "../link/utils";
 import { insertMathml } from "../mathml/utils";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
 import { SpanElement } from "../span";
-import { TYPE_SPAN } from "../span/types";
+import { SPAN_ELEMENT_TYPE } from "../span/types";
 import { toggleCellAlign } from "../table/slateActions";
 
 type TextElements = ParagraphElement | HeadingElement | SpanElement;
@@ -51,7 +51,7 @@ export const handleTextChange = (editor: Editor, type: string) => {
     const selectionPath = Editor.unhangRange(editor, editor.selection);
     const options = textOptions(selectionPath);
 
-    if (props.type === TYPE_SPAN) {
+    if (props.type === SPAN_ELEMENT_TYPE) {
       return Transforms.unwrapNodes(editor, options);
     }
 

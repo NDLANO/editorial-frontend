@@ -11,7 +11,7 @@ import { PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 import { AUDIO_ELEMENT_TYPE } from "../../audio/audioTypes";
 import { H5P_ELEMENT_TYPE } from "../../h5p/types";
-import { TYPE_IMAGE } from "../../image/types";
+import { IMAGE_ELEMENT_TYPE } from "../../image/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../../video/types";
 
 describe("embed image serializing tests", () => {
@@ -22,7 +22,7 @@ describe("embed image serializing tests", () => {
         { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
 
         {
-          type: TYPE_IMAGE,
+          type: IMAGE_ELEMENT_TYPE,
           children: [
             {
               text: "",

@@ -21,14 +21,14 @@ import { TYPE_FOOTNOTE } from "./plugins/footnote/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "./plugins/framedContent/framedContentTypes";
 import { TYPE_GRID } from "./plugins/grid/types";
 import { H5P_ELEMENT_TYPE } from "./plugins/h5p/types";
-import { TYPE_IMAGE } from "./plugins/image/types";
+import { IMAGE_ELEMENT_TYPE } from "./plugins/image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "./plugins/keyFigure/types";
 import { TYPE_LINK, TYPE_CONTENT_LINK } from "./plugins/link/types";
 import { MATH_ELEMENT_TYPE } from "./plugins/mathml/mathTypes";
 import { REPHRASE_ELEMENT_TYPE } from "./plugins/rephrase/rephraseTypes";
 import { PITCH_ELEMENT_TYPE } from "./plugins/pitch/types";
 import { RELATED_ELEMENT_TYPE } from "./plugins/related/types";
-import { TYPE_SPAN } from "./plugins/span/types";
+import { SPAN_ELEMENT_TYPE } from "./plugins/span/types";
 import { TYPE_TABLE } from "./plugins/table/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "./plugins/video/types";
 
@@ -38,8 +38,8 @@ export const inlines: ElementType[] = [
   TYPE_LINK,
   TYPE_CONTENT_LINK,
   MATH_ELEMENT_TYPE,
-  TYPE_SPAN,
   REPHRASE_ELEMENT_TYPE,
+  SPAN_ELEMENT_TYPE,
   COMMENT_INLINE_ELEMENT_TYPE,
 ];
 
@@ -53,7 +53,7 @@ export const blocks: ElementType[] = [
   TYPE_EMBED_ERROR,
   TYPE_EXTERNAL,
   H5P_ELEMENT_TYPE,
-  TYPE_IMAGE,
+  IMAGE_ELEMENT_TYPE,
   FILE_ELEMENT_TYPE,
   RELATED_ELEMENT_TYPE,
   TYPE_TABLE,

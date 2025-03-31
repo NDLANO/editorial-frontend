@@ -6,4 +6,17 @@
  *
  */
 
-export const TYPE_SPAN = "span";
+import { Descendant } from "slate";
+
+export interface SpanElement {
+  type: "span";
+  data: {
+    lang?: string;
+    dir?: string;
+    "data-size"?: string;
+  };
+  children: Descendant[];
+}
+
+export const SPAN_ELEMENT_TYPE = "span";
+export const SPAN_PLUGIN = "span";

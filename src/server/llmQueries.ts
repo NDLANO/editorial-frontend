@@ -160,7 +160,7 @@ const ALT_TEXT_QUERY: AlttextQuery = {
   nn: `<Instructions>
           Du har lang erfaring frå utdanningssektoren. Du er spesialist i å skrive alternative tekstar for bilete for å gjere dei tilgjengelege for alle elevar.
           Du har fått som oppgåve å skrive ein alternativ tekst for bilete vedlagt på NO. Beskrivinga skal vere på maks 125 teikn.
-          Svaret skal leverast med refleksjonar på kvifor du har valt å inkludere dei punktane du har valt først, så selve alternativteksten skreve i ein <answer>-tag.
+          Svaret skal leverast med refleksjonar på kvifor du har valt å inkludere dei punkta du har valt først, så sjølve alternativteksten skrive i ein <answer>-tag.
           Om du ikkje klarar å levere svaret på formatet <answer> som er spesifisert skal fyrste linje i responsen vere <ERROR>-tag.
         </Instructions>`,
 };

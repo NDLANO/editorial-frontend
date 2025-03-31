@@ -218,6 +218,12 @@ const phrases = {
       articleStatuses: "Subject types",
     },
   },
+  updateCodesPage: {
+    title: "Update codes",
+    description: "Convert old codes to new ones.",
+    buttonText: "Update",
+    error: "Something went wrong while updating codes",
+  },
   searchPage: {
     search: "Søk",
     header: {
@@ -292,6 +298,7 @@ const phrases = {
     newSubject: "Create new subject",
     newFrontpageArticle: "About-NDLA article",
     frontpage: "NDLA frontpage",
+    updateCodes: "Update grep codes",
   },
   logo: {
     altText: "The Norwegian Digital Learning Arena",

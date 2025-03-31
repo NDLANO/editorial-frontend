@@ -177,6 +177,7 @@ export type ConfigType = {
   matomoSiteId: string | undefined;
   matomoUrl: string;
   enableMatomoData: boolean;
+  enableUpdateGrepCodes: boolean;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -226,6 +227,7 @@ const getServerSideConfig = (): ConfigType => {
     matomoSiteId: getEnvironmentVariabel("MATOMO_SITE_ID"),
     matomoUrl: getEnvironmentVariabel("MATOMO_URL", matomoDomain(ndlaEnvironment)),
     enableMatomoData: getEnvironmentVariabel("ENABLE_MATOMO_DATA", "false") === "true",
+    enableUpdateGrepCodes: getEnvironmentVariabel("ENABLE_UPDATE_GREP_CODES", "false") === "true",
   };
 };
 

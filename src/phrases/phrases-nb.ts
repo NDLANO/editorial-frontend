@@ -217,6 +217,12 @@ const phrases = {
       articleStatuses: "Fagtyper",
     },
   },
+  updateCodesPage: {
+    title: "Oppdater koder",
+    description: "Konverter gamle koder til nye.",
+    buttonText: "Oppdater",
+    error: "Noe gikk galt ved oppdatering av koder",
+  },
   searchPage: {
     search: "Søk",
     header: {
@@ -291,6 +297,7 @@ const phrases = {
     newSubject: "Opprett fag",
     newFrontpageArticle: "Om-NDLA-artikkel",
     frontpage: "NDLA forside",
+    updateCodes: "Oppdater koder",
   },
   logo: {
     altText: "Nasjonal digital læringsarena",

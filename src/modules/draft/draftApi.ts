@@ -172,3 +172,8 @@ export const deleteFile = async (fileUrl: string): Promise<void> => {
     method: "DELETE",
   }).then(resolveVoidOrRejectWithError);
 };
+
+export const migrateCodes = async (): Promise<void> =>
+  fetchAuthorized(`${baseUrl}/migrate-greps`, {
+    method: "POST",
+  }).then(resolveVoidOrRejectWithError);

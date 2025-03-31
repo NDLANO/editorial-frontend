@@ -134,10 +134,10 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
       // TODO: use object directly when type is properly typed from backend
       const transcriptText = parseTranscript(transcript?.data?.transcription ?? "");
       const editorContent = inlineContentToEditorValue(transcriptText, true);
-      await helpers.setValue(editorContent);
+      helpers.setValue(editorContent, true);
       setStatus({ status: "manuscript" });
     } else if (transcript?.data?.status === "FAILED") {
-      toast.error({ title: "textGeneration.failed.transcription" });
+      toast.error({ title: t("textGeneration.failed.transcription") });
     } else {
       const name = audio.audioFile.url?.split("audio/files/")[1];
       await postAudioTranscriptionMutation
@@ -160,7 +160,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
       setStatus({ status: "manuscript" });
     } else if (polledData?.status === "FAILED" && isPolling) {
       setIsPolling(false);
-      toast.error({ title: "textGeneration.failed.transcription" });
+      toast.error({ title: t("textGeneration.failed.transcription") });
     }
   }, [helpers, isPolling, polledData?.status, polledData?.transcription, setStatus, t, toast]);
 

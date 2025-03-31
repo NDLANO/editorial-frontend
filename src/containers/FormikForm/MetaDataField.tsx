@@ -41,6 +41,7 @@ import { FormField } from "../../components/FormField";
 import { FormContent } from "../../components/FormikForm";
 import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
+import { useToast } from "../../components/ToastProvider";
 import { AI_ACCESS_SCOPE, DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useDraftSearchTags } from "../../modules/draft/draftQueries";
 import { useGenerateSummaryMutation, useGenerateMetaDescriptionMutation } from "../../modules/llm/llmMutations";
@@ -69,6 +70,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
   const plugins = [textTransformPlugin];
   const [inputQuery, setInputQuery] = useState<string>("");
   const debouncedQuery = useDebounce(inputQuery, 300);
+  const toast = useToast();
   const { setStatus, values } = useFormikContext<ArticleFormType>();
   const searchTagsQuery = useDraftSearchTags(
     {
@@ -106,7 +108,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         await helpers.setValue(inlineContentToEditorValue(res, true), true);
         setStatus({ status: "metaDescription" });
       })
-      .catch(() => helpers.setError(t("textGeneration.failed.metaDescription")));
+      .catch(() => toast.error({ title: t("textGeneration.failed.metaDescription") }));
   };
 
   const onClickGenerateSummary = async (helpers: FieldHelperProps<Descendant[]>) => {
@@ -124,7 +126,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         await helpers.setValue(inlineContentToEditorValue(res, true), true);
         setStatus({ status: "summary" });
       })
-      .catch(() => helpers.setError(t("textGeneration.failed.summary")));
+      .catch(() => toast.error({ title: t("textGeneration.failed.summary") }));
   };
 
   return (

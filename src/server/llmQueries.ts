@@ -135,9 +135,9 @@ const ALTERNATIVE_PRHASING_QUERY: AlternativePhrasingQuery = {
         <draft>${text}</draft>
         <Instructions>
           Du har lang erfaring frå utdanningssektoren. Du er spesialist i å reinskrive fagartiklar for å gjere det tekstlige innhaldet betre, med fokus på klarleik og lesbarheit.
-          Du har fått i oppgåve å foreslå ein betre formulering av teksten i <excerpt> på NN. Innhaldet i <draft> kan nyttast som kontekst, men skal ikkje gjenbrukast som deil av den føreslåtte omformuleringa.
-          Du skal skrive refleksjonar på kvifor du har valt å inkludere dei punktane du har valt først.
-          Forslaget til en betre formulering skal være skreve i ein <answer>-tag.
+          Du har fått i oppgåve å foreslå ein betre formulering av teksten i <excerpt> på NN. Innhaldet i <draft> kan nyttast som kontekst, men skal ikkje gjenbrukast som del av den føreslåtte omformuleringa.
+          Du skal skrive refleksjonar på kvifor du har valt å inkludere dei punkta du har valt først.
+          Forslaget til en betre formulering skal være skrive i ein <answer>-tag.
           Om du ikkje klarar å levere svaret på formatet <answer> som er spesifisert skal fyrste linje i responsen være <ERROR>-tag.
         </Instructions>`,
 };

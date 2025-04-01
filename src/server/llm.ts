@@ -23,6 +23,7 @@ const aiSecretKey = getEnvironmentVariabel("NDLA_AI_SECRET_KEY", "test");
 const aiSecretID = getEnvironmentVariabel("NDLA_AI_SECRET_ID", "test");
 
 const LLM_ANSWER_REGEX = /(?<=<answer>\s*).*?(?=\s*<\/answer>)/gs;
+const LLM_ERROR_REGEX = /(?<=<ERROR>\s*).*?(?=\s*<\/ERROR>)/gs;
 const ANTHROPIC_VERSION = "bedrock-2023-05-31";
 const TRANSCRIBE_REGION = "eu-west-1";
 
@@ -78,7 +79,8 @@ export const generateAnswer = async (params: PromptVariables, language: string, 
   const containsError = responseBody.content[0].text.includes("<ERROR>");
 
   if (containsError) {
-    throw new Error("The AI model could not create a proper answer with the given input");
+    const errorMsg = responseBody.content[0].text.match(LLM_ERROR_REGEX)[0].trim();
+    throw new Error(errorMsg);
   }
 
   const responseText = responseBody.content[0].text.match(LLM_ANSWER_REGEX)[0].trim();

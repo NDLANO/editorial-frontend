@@ -29,7 +29,7 @@ interface Props {
 const ImageContent = ({ language }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
-  const { values, setStatus } = useFormikContext<ImageFormikType>();
+  const { values } = useFormikContext<ImageFormikType>();
   const toast = useToast();
   const generateAlttextMutation = useGenerateAltTextMutation();
 
@@ -71,11 +71,10 @@ const ImageContent = ({ language }: Props) => {
             max_tokens: 2000,
             language: language,
           })
-          .then((res) => {
-            helpers.setValue(res, true);
-            setStatus({ status: "alttext" });
-          })
-          .catch(() => toast.error({ title: t("textGeneration.failed.alttext") }));
+          .then((res) => helpers.setValue(res, true))
+          .catch((err) =>
+            toast.error({ title: t("textGeneration.failed.alttext"), description: err.messages, removeDelay: 1500 }),
+          );
       };
     }
   };

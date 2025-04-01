@@ -21,6 +21,7 @@ import { AI_ACCESS_SCOPE } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
 import { useGenerateReflectionMutation } from "../../../../modules/llm/llmMutations";
 import { editorValueToPlainText } from "../../../../util/articleContentConverter";
+import { NdlaErrorPayload } from "../../../../util/resolveJsonOrRejectWithError";
 import { useArticleContentType } from "../../../ContentTypeProvider";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
@@ -109,7 +110,9 @@ const SlateFramedContent = (props: Props) => {
           { at: path.concat(node.children.length) },
         );
       })
-      .catch(() => toast.create({ title: t("textGeneration.failed.reflection") }));
+      .catch((err: NdlaErrorPayload) =>
+        toast.error({ title: t("textGeneration.failed.reflection"), description: err.messages, removeDelay: 1500 }),
+      );
   };
 
   return (

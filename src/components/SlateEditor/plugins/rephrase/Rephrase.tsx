@@ -27,6 +27,7 @@ import {
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { useGenerateAlternativePhrasingMutation } from "../../../../modules/llm/llmMutations";
+import { NdlaErrorPayload } from "../../../../util/resolveJsonOrRejectWithError";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormActionsContainer } from "../../../FormikForm";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
@@ -73,7 +74,9 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
         language: language,
       })
       .then((res) => setGeneratedText(res))
-      .catch(() => toast.error({ title: t("textGeneration.failed.variant") }));
+      .catch((err: NdlaErrorPayload) =>
+        toast.error({ title: t("textGeneration.failed.variant"), description: err.messages, removeDelay: 1500 }),
+      );
 
   const onReplace = () => {
     if (generatedText) {
@@ -92,7 +95,7 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
   };
 
   return (
-    <DialogRoot defaultOpen onExitComplete={onClose}>
+    <DialogRoot defaultOpen closeOnEscape closeOnInteractOutside onExitComplete={onClose}>
       <Portal>
         <DialogBackdrop />
         <DialogContent>

@@ -46,6 +46,7 @@ import { AI_ACCESS_SCOPE, DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useDraftSearchTags } from "../../modules/draft/draftQueries";
 import { useGenerateSummaryMutation, useGenerateMetaDescriptionMutation } from "../../modules/llm/llmMutations";
 import { inlineContentToEditorValue } from "../../util/articleContentConverter";
+import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import useDebounce from "../../util/useDebounce";
 import { useSession } from "../Session/SessionProvider";
 
@@ -62,6 +63,8 @@ interface Props {
 }
 
 const availabilityValues: string[] = ["everyone", "teacher"];
+const SUMMARY_EDITOR = "editor-summary";
+const METADATA_EDITOR = "editor-metadata";
 
 const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props) => {
   const { t } = useTranslation();
@@ -106,9 +109,11 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
       })
       .then(async (res) => {
         await helpers.setValue(inlineContentToEditorValue(res, true), true);
-        setStatus({ status: "metaDescription" });
+        setStatus({ status: METADATA_EDITOR });
       })
-      .catch(() => toast.error({ title: t("textGeneration.failed.metaDescription") }));
+      .catch((e: NdlaErrorPayload) =>
+        toast.error({ title: t("textGeneration.failed.metaDescription"), description: e.messages, removeDelay: 1500 }),
+      );
   };
 
   const onClickGenerateSummary = async (helpers: FieldHelperProps<Descendant[]>) => {
@@ -124,9 +129,11 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
       })
       .then(async (res) => {
         await helpers.setValue(inlineContentToEditorValue(res, true), true);
-        setStatus({ status: "summary" });
+        setStatus({ status: SUMMARY_EDITOR });
       })
-      .catch(() => toast.error({ title: t("textGeneration.failed.summary") }));
+      .catch((e: NdlaErrorPayload) =>
+        toast.error({ title: t("textGeneration.failed.summary"), description: e.messages, removeDelay: 1500 }),
+      );
   };
 
   return (
@@ -199,7 +206,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
             </HStack>
             <FieldHelper>{t("form.metaDescription.description")}</FieldHelper>
             <PlainTextEditor
-              id={field.name}
+              id={METADATA_EDITOR}
               placeholder={t("form.metaDescription.label")}
               {...field}
               plugins={plugins}
@@ -226,7 +233,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
               </HStack>
               <FieldHelper>{t("form.articleSummary.description")}</FieldHelper>
               <PlainTextEditor
-                id={field.name}
+                id={SUMMARY_EDITOR}
                 placeholder={t("form.articleSummary.label")}
                 {...field}
                 plugins={plugins}

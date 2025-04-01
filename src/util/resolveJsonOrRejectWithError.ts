@@ -98,7 +98,7 @@ export const resolveTextOrRejectWithError = (res: Response): Promise<string> => 
 
     return res
       .text()
-      .then((txt) => reject(throwErrorPayload(res.status, res.statusText, txt)))
+      .then((txt) => reject(throwErrorPayload(res.status, txt, undefined)))
       .catch(reject);
   });
 };

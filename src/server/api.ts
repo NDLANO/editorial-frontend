@@ -198,8 +198,7 @@ router.post("/generate-ai", jwtMiddleware, aiMiddleware, async (req, res) => {
     const text = await generateAnswer(req.body, req.body.language, req.body.max_tokens);
     res.status(OK).send(text);
   } catch (err) {
-    errorLogger.error(err);
-    res.status(INTERNAL_SERVER_ERROR).send({ error: "An error occured" });
+    res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
   }
 });
 

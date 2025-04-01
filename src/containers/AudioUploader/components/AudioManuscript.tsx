@@ -90,6 +90,8 @@ const parseTranscript = (text: string) => {
   return json.results.transcripts[0].transcript;
 };
 
+const MANUSCRIPT_EDITOR = "editor-manuscript";
+
 const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) => {
   const { t } = useTranslation();
   const { setStatus, values, isSubmitting } = useFormikContext<AudioFormikType>();
@@ -135,7 +137,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
       const transcriptText = parseTranscript(transcript?.data?.transcription ?? "");
       const editorContent = inlineContentToEditorValue(transcriptText, true);
       helpers.setValue(editorContent, true);
-      setStatus({ status: "manuscript" });
+      setStatus({ status: MANUSCRIPT_EDITOR });
     } else if (transcript?.data?.status === "FAILED") {
       toast.error({ title: t("textGeneration.failed.transcription") });
     } else {
@@ -157,7 +159,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
       const transcriptText = parseTranscript(polledData?.transcription ?? "");
       const editorContent = inlineContentToEditorValue(transcriptText, true);
       helpers.setValue(editorContent, true);
-      setStatus({ status: "manuscript" });
+      setStatus({ status: MANUSCRIPT_EDITOR });
     } else if (polledData?.status === "FAILED" && isPolling) {
       setIsPolling(false);
       toast.error({ title: t("textGeneration.failed.transcription") });
@@ -172,7 +174,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
             {t("podcastForm.fields.manuscript")}
           </ContentEditableFieldLabel>
           <RichTextEditor
-            id="manuscript"
+            id={MANUSCRIPT_EDITOR}
             {...field}
             hideBlockPicker
             placeholder={t("podcastForm.fields.manuscript")}

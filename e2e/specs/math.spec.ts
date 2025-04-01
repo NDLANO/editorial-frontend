@@ -14,50 +14,69 @@ const metaKey = process.platform === "darwin" ? "Meta" : "Control";
 test.beforeEach(async ({ page }) => {
   await page.goto("/subject-matter/learning-resource/new");
 
+  await page.waitForTimeout(300);
+
   const el = page.getByTestId("slate-editor");
   await el.click();
-  await page.keyboard.type("111+1");
+  await el.getByRole("textbox").fill("111+1");
   await el.press(`${metaKey}+A`);
-  await page.getByTestId("toolbar-button-mathml").click();
-});
-
-test("editor is visible", async ({ page }) => {
-  const mathEditor = page.getByRole("dialog").getByRole("application");
-  await mathEditor.waitFor();
-  await expect(mathEditor).toBeVisible();
+  const mathButton = page.getByTestId("toolbar-button-mathml");
+  await mathButton.waitFor({ state: "visible" });
+  await mathButton.click();
 });
 
 test("contains text from slate editor", async ({ page }) => {
   const mathEditor = page.getByRole("dialog").getByRole("application");
-  await mathEditor.waitFor();
-  await mathEditor.locator('[class="wrs_container"]').waitFor();
-  expect((await mathEditor.locator('[class="wrs_container"]').textContent())?.slice(1)).toEqual("111+1");
+  await mathEditor.waitFor({ state: "visible" });
+  await mathEditor.locator(".wrs_panelContainer").waitFor({ state: "visible" });
+  const textContent = await mathEditor.locator(".wrs_container").textContent();
+  expect(textContent?.slice(1)).toEqual("111+1");
+  await page.getByTestId("save-math").click();
+  await expect(page.getByRole("dialog")).not.toBeVisible();
 });
 
 test("can change text and save", async ({ page }) => {
   const mathEditor = page.getByRole("dialog").getByRole("application");
-  await mathEditor.waitFor();
-  await mathEditor.locator('[class="wrs_focusElementContainer"]').getByRole("textbox").click();
+  await mathEditor.waitFor({ state: "visible" });
+  await mathEditor.locator(".wrs_panelContainer").waitFor({ state: "visible" });
+  const mathInput = mathEditor.locator(".wrs_focusElement");
+  await mathInput.click();
+  await expect(mathInput).toBeFocused();
   await page.keyboard.type("=112");
   await page.getByTestId("save-math").click();
+  await expect(page.getByRole("dialog")).not.toBeVisible();
   expect(await page.getByTestId("math").textContent()).toEqual("111+1=112");
 });
 
 test("can change preview when preview button pressed", async ({ page }) => {
   const mathEditor = page.getByRole("dialog").getByRole("application");
-  await mathEditor.waitFor();
-  expect(await page.getByTestId("preview-math-text").textContent()).toEqual("111+1");
-  await mathEditor.locator('[class="wrs_focusElementContainer"]').getByRole("textbox").click();
+  await mathEditor.waitFor({ state: "visible" });
+  await mathEditor.locator(".wrs_panelContainer").waitFor({ state: "visible" });
+  const textContent = await page.getByTestId("preview-math-text").textContent();
+  expect(textContent).toEqual("111+1");
+  const mathInput = mathEditor.locator(".wrs_focusElement");
+  await mathInput.click();
+  await expect(mathInput).toBeFocused();
   await page.keyboard.type("=112");
   await page.getByTestId("preview-math").click();
   expect(await page.getByTestId("preview-math-text").textContent()).toEqual("111+1=112");
+  await page.getByTestId("save-math").click();
+  await expect(page.getByRole("dialog")).not.toBeVisible();
 });
 
 test("can provide modal when leaving unchecked edits", async ({ page }) => {
   const mathEditor = page.getByRole("dialog").getByRole("application");
-  await mathEditor.waitFor();
+  await mathEditor.waitFor({ state: "visible" });
+  await mathEditor.locator(".wrs_panelContainer").waitFor({ state: "visible" });
   await mathEditor.locator('[class="wrs_focusElementContainer"]').getByRole("textbox").click();
+  const mathInput = mathEditor.locator(".wrs_focusElement");
+  await mathInput.click();
+  await expect(mathInput).toBeFocused();
   await page.keyboard.type("=112");
   await page.getByRole("button", { name: "Lukk" }).click();
-  await expect(page.getByTestId("alert-dialog")).toBeVisible();
+  const alertDialog = page.getByTestId("alert-dialog");
+  await alertDialog.waitFor({ state: "visible" });
+  await expect(alertDialog).toBeVisible();
+  await alertDialog.getByRole("button", { name: "Fortsett" }).click();
+  await expect(page.getByRole("dialog")).not.toBeVisible();
 });

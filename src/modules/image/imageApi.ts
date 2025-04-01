@@ -12,6 +12,8 @@ import {
   ISearchResultV3DTO,
   ITagsSearchResultDTO,
   ISearchParamsDTO,
+  INewImageMetaInformationV2DTO,
+  openapi,
 } from "@ndla/types-backend/image-api";
 import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
 import {
@@ -19,18 +21,34 @@ import {
   apiResourceUrl,
   fetchAuthorized,
   throwErrorPayload,
+  authMiddleware,
 } from "../../util/apiHelpers";
-import { resolveJsonOrVoidOrRejectWithError } from "../../util/resolveJsonOrRejectWithError";
+import { resolveJsonOATS, resolveJsonOrVoidOrRejectWithError } from "../../util/resolveJsonOrRejectWithError";
 import { createFormData } from "../../util/formDataHelper";
+import createClient from "openapi-fetch";
+import { apiBaseUrl } from "../../util/authHelpers";
 
 const baseUrl = apiResourceUrl("/image-api/v3/images");
 
-export const postImage = (formData: FormData): Promise<IImageMetaInformationV3DTO> =>
-  fetchAuthorized(`${baseUrl}`, {
-    method: "POST",
-    headers: { "Content-Type": undefined }, // Without this we're missing a boundary: https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
-    body: formData,
-  }).then((r) => resolveJsonOrRejectWithError<IImageMetaInformationV3DTO>(r));
+const client = createClient<openapi.paths>({ baseUrl: apiBaseUrl });
+client.use(authMiddleware);
+
+export const postImage = async (
+  metadata: INewImageMetaInformationV2DTO,
+  file: Blob,
+): Promise<IImageMetaInformationV3DTO> => {
+  const res = await client.POST("/image-api/v3/images", {
+    body: {
+      metadata,
+      file,
+    },
+    bodySerializer(body) {
+      return createFormData(body.file, body.metadata);
+    },
+  });
+
+  return resolveJsonOATS(res);
+};
 
 export const fetchImage = (id: number | string, language?: string): Promise<IImageMetaInformationV3DTO> =>
   fetchAuthorized(`${baseUrl}/${id}?language=${language}`).then((r) =>
@@ -74,7 +92,7 @@ export const cloneImage = async (
   imageId: number,
   file: Blob | string | undefined,
 ): Promise<IImageMetaInformationV3DTO> => {
-  const formData = await createFormData(file);
+  const formData = createFormData(file);
   const result = await fetchAuthorized(`${baseUrl}/${imageId}/copy`, {
     method: "POST",
     headers: { "Content-Type": undefined }, // Without this we're missing a boundary: https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post

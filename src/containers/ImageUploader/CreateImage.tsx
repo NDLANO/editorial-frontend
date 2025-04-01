@@ -13,7 +13,6 @@ import ImageForm from "./components/ImageForm";
 import { draftLicensesToImageLicenses } from "../../modules/draft/draftApiUtils";
 import { useLicenses } from "../../modules/draft/draftQueries";
 import { postImage } from "../../modules/image/imageApi";
-import { createFormData } from "../../util/formDataHelper";
 import { toEditImage } from "../../util/routeHelpers";
 
 interface Props {
@@ -32,11 +31,12 @@ const CreateImage = ({ isNewlyCreated, editingArticle, onImageCreated, inDialog,
   const navigate = useNavigate();
 
   const onCreateImage = async (imageMetadata: INewImageMetaInformationV2DTO, image: string | Blob) => {
-    const formData = await createFormData(image, imageMetadata);
-    const createdImage = await postImage(formData);
-    onImageCreated?.(createdImage);
-    if (!editingArticle && createdImage.id) {
-      navigate(toEditImage(createdImage.id, imageMetadata.language));
+    if (image instanceof Blob) {
+      const createdImage = await postImage(imageMetadata, image);
+      onImageCreated?.(createdImage);
+      if (!editingArticle && createdImage.id) {
+        navigate(toEditImage(createdImage.id, imageMetadata.language));
+      }
     }
   };
 

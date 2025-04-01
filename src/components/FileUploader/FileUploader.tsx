@@ -74,7 +74,7 @@ const FileUploader = ({ onFileSave, close }: Props) => {
   const [errorMessage, setErrorMessage] = useState<string>();
 
   const saveFile = async (file: string | Blob | undefined) => {
-    const formData = await createFormData(file);
+    const formData = createFormData(file);
     return uploadFile(formData);
   };
 

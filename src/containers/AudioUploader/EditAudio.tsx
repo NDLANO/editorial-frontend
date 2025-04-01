@@ -70,7 +70,7 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
     newAudio: IUpdatedAudioMetaInformationDTO,
     file: string | Blob | undefined,
   ): Promise<void> => {
-    const formData = await createFormData(file, newAudio);
+    const formData = createFormData(file, newAudio);
     const updatedAudio = await updateAudio(audioId, formData);
     setAudio(updatedAudio);
   };

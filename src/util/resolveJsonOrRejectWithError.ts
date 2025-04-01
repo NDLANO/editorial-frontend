@@ -6,6 +6,9 @@
  *
  */
 
+import { FetchResponse } from "openapi-fetch";
+import type { MediaType } from "openapi-typescript-helpers";
+
 type NdlaErrorFields = {
   status: number;
   messages: string;
@@ -67,6 +70,19 @@ export const resolveJsonOrVoidOrRejectWithError = <T>(res: Response): Promise<T 
   res.headers.get("content-type")?.includes("application/json")
     ? resolveJsonOrRejectWithError<T>(res)
     : resolveVoidOrRejectWithError(res);
+
+export const resolveJsonOATS = async <A extends Record<string | number, any>, B, C extends MediaType>(
+  res: FetchResponse<A, B, C>,
+) => {
+  const { data, response, error } = res;
+  if (response.ok && data) {
+    return data;
+  }
+
+  const json = error as any;
+  const messages = json.messages ?? json.description ?? response.statusText;
+  throw buildErrorPayload(response.status, messages, json);
+};
 
 export const resolveJsonOrRejectWithError = <T>(
   res: Response,

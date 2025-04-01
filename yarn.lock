@@ -6644,6 +6644,7 @@ __metadata:
     monaco-editor: "npm:0.47.0"
     nanoid: "npm:^5.1.2"
     nock: "npm:^14.0.1"
+    openapi-fetch: "npm:^0.13.5"
     p-limit: "npm:^6.2.0"
     postcss: "npm:^8.5.3"
     postcss-import: "npm:^16.1.0"
@@ -10194,6 +10195,22 @@ __metadata:
   dependencies:
     fn.name: "npm:1.x.x"
   checksum: 10c0/6e4887b331edbb954f4e915831cbec0a7b9956c36f4feb5f6de98c448ac02ff881fd8d9b55a6b1b55030af184c6b648f340a76eb211812f4ad8c9b4b8692fdaa
+  languageName: node
+  linkType: hard
+
+"openapi-fetch@npm:^0.13.5":
+  version: 0.13.5
+  resolution: "openapi-fetch@npm:0.13.5"
+  dependencies:
+    openapi-typescript-helpers: "npm:^0.0.15"
+  checksum: 10c0/57736d9d4310d7bc7fa5e4e37e80d28893a7fefee88ee6e0327600de893e0638479445bf0c9f5bd7b1a2429f409425d3945d6e942b23b37b8081630ac52244fb
+  languageName: node
+  linkType: hard
+
+"openapi-typescript-helpers@npm:^0.0.15":
+  version: 0.0.15
+  resolution: "openapi-typescript-helpers@npm:0.0.15"
+  checksum: 10c0/5eb68d487b787e3e31266470b1a310726549dd45a1079655ab18066ab291b0b3c343fdf629991013706a2329b86964f8798d56ef0272b94b931fe6c19abd7a88
   languageName: node
   linkType: hard
 

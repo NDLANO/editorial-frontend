@@ -28,14 +28,17 @@ import {
   TabsTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3DTO, IUpdateImageMetaInformationDTO } from "@ndla/types-backend/image-api";
+import {
+  IImageMetaInformationV3DTO,
+  INewImageMetaInformationV2DTO,
+  IUpdateImageMetaInformationDTO,
+} from "@ndla/types-backend/image-api";
 import MetaImageField from "./components/MetaImageField";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { ImagePicker } from "../../components/ImagePicker";
 import { draftLicensesToImageLicenses } from "../../modules/draft/draftApiUtils";
 import { useLicenses } from "../../modules/draft/draftQueries";
 import { postImage, updateImage, fetchImage } from "../../modules/image/imageApi";
-import { createFormData } from "../../util/formDataHelper";
 import ImageForm from "../ImageUploader/components/ImageForm";
 
 const StyledButton = styled(Button, {
@@ -117,14 +120,37 @@ const MetaImageSearch = ({
     onChangeFormik(null);
   };
 
+  const convertImageMeta = (image: IUpdateImageMetaInformationDTO): INewImageMetaInformationV2DTO => {
+    if (
+      image.title === undefined ||
+      image.copyright === undefined ||
+      image.alttext === null ||
+      image.tags === undefined ||
+      image.caption === undefined
+    ) {
+      throw new Error("Invalid image metadata, this is probably a form validation bug");
+    }
+
+    return {
+      ...image,
+      title: image.title,
+      alttext: image.alttext,
+      tags: image.tags,
+      caption: image.caption,
+      copyright: image.copyright,
+    };
+  };
+
   const onImageUpdate = async (image: IUpdateImageMetaInformationDTO, file: string | Blob | undefined, id?: number) => {
-    if (id) {
+    if (!id && file instanceof Blob) {
+      const newImage = convertImageMeta(image);
+      const createdImage = await postImage(newImage, file);
+      onImageSet(createdImage);
+    } else if (id) {
       const updatedImage = await updateImage(id, image);
       onImageSet(updatedImage);
     } else {
-      const formData = await createFormData(file, image);
-      const createdImage = await postImage(formData);
-      onImageSet(createdImage);
+      throw new Error("Invalid state when creating / updating image");
     }
   };
 

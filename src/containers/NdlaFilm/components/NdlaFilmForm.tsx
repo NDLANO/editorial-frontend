@@ -129,6 +129,7 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
               language={selectedLanguage}
               supportedLanguages={values.supportedLanguages}
               title={values.name}
+              availableLanguages={["nb", "nn", "en"]}
             />
 
             <FormAccordions defaultOpen={["slideshow", "themes"]}>

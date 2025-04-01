@@ -36,6 +36,7 @@ interface Props {
   language: string;
   supportedLanguages: string[];
   title: string;
+  availableLanguages?: string[];
 }
 
 const SimpleLanguageHeader = ({
@@ -46,24 +47,15 @@ const SimpleLanguageHeader = ({
   language,
   supportedLanguages,
   title,
+  availableLanguages,
 }: Props) => {
   const { t } = useTranslation();
   const isNewLanguage = !!id && !supportedLanguages.includes(language);
 
-  const languages = [
-    { key: "nn", title: t("languages.nn"), include: true },
-    { key: "en", title: t("languages.en"), include: true },
-    { key: "nb", title: t("languages.nb"), include: true },
-    { key: "sma", title: t("languages.sma"), include: true },
-    { key: "se", title: t("languages.se"), include: true },
-    { key: "und", title: t("languages.und"), include: false },
-    { key: "de", title: t("languages.de"), include: true },
-    { key: "es", title: t("languages.es"), include: true },
-    { key: "ukr", title: t("languages.ukr"), include: false },
-  ];
-  const emptyLanguages = languages.filter(
-    (lang) => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include,
-  );
+  const languages = availableLanguages ?? ["nn", "en", "nb", "sma", "se", "de", "es"];
+  const emptyLanguages = languages
+    .filter((lang) => lang !== language && !supportedLanguages.includes(lang))
+    .map((lang) => ({ key: lang, title: t(`languages.${lang}`) }));
 
   return (
     <div>
@@ -89,8 +81,12 @@ const SimpleLanguageHeader = ({
               {t(`languages.${language}`)}
             </HeaderCurrentLanguagePill>
           )}
-          <StyledSplitter />
-          <HeaderLanguagePicker id={id} emptyLanguages={emptyLanguages} editUrl={editUrl} />
+          {emptyLanguages.length > 0 && (
+            <>
+              <StyledSplitter />
+              <HeaderLanguagePicker id={id} emptyLanguages={emptyLanguages} editUrl={editUrl} />
+            </>
+          )}
           <DeleteLanguageVersionWrapper>
             <DeleteLanguageVersion
               language={language}

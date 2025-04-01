@@ -16,16 +16,15 @@ export const createFormData = (
     | IUpdateImageMetaInformationDTO
     | INewAudioMetaInformationDTO
     | IUpdatedAudioMetaInformationDTO,
-): Promise<FormData> =>
-  new Promise((resolve) => {
-    const form = new FormData();
-    if (metadata) {
-      form.append("metadata", JSON.stringify(metadata));
-    }
-    // If the file is a string, it is a URL to existing data, that didn't change
-    // and we don't want to send it to the server
-    if (file && typeof file !== "string") {
-      form.append("file", file);
-    }
-    resolve(form);
-  });
+): FormData => {
+  const form = new FormData();
+  if (metadata) {
+    form.append("metadata", JSON.stringify(metadata));
+  }
+  // If the file is a string, it is a URL to existing data, that didn't change
+  // and we don't want to send it to the server
+  if (file && typeof file !== "string") {
+    form.append("file", file);
+  }
+  return form;
+};

@@ -79,7 +79,7 @@ const EditImage = ({ isNewlyCreated }: Props) => {
   }, [shouldTranslate, translate, image, loading]);
 
   const onUpdate = async (updatedImage: IUpdateImageMetaInformationDTO, image: string | Blob) => {
-    const formData = await createFormData(image, updatedImage);
+    const formData = createFormData(image, updatedImage);
 
     try {
       const res = await updateImage(Number(imageId), updatedImage, formData);

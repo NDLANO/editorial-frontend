@@ -20,7 +20,7 @@ const CreatePodcast = () => {
   const navigate = useNavigate();
 
   const onCreatePodcast = async (newPodcast: INewAudioMetaInformationDTO, podcastFile: string | Blob | undefined) => {
-    const formData = await createFormData(podcastFile, newPodcast);
+    const formData = createFormData(podcastFile, newPodcast);
     const createdPodcast = await postAudio(formData);
     navigate(toEditPodcast(createdPodcast.id, newPodcast.language));
   };

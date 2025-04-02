@@ -7,20 +7,24 @@
  */
 
 import { isEmpty } from "lodash-es";
-import { Descendant, Editor, Element, Node, Transforms } from "slate";
+import { Descendant, Node, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { NOOP_ELEMENT_TYPE } from "@ndla/editor";
-import { TYPE_SPAN } from "./types";
-import { createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
-import { SlateSerializer } from "../../interfaces";
+import {
+  createHtmlTag,
+  createPlugin,
+  createSerializer,
+  HEADING_ELEMENT_TYPE,
+  LIST_ITEM_ELEMENT_TYPE,
+  NOOP_ELEMENT_TYPE,
+  PARAGRAPH_ELEMENT_TYPE,
+  parseElementAttributes,
+} from "@ndla/editor";
+import { isSpanElement } from "./queries";
+import { SPAN_ELEMENT_TYPE, SPAN_PLUGIN } from "./types";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
-import { TYPE_QUOTE } from "../blockquote/types";
+import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquote/blockquoteTypes";
 import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_TERM } from "../definitionList/types";
-import { TYPE_SUMMARY } from "../details/types";
-import { TYPE_HEADING } from "../heading/types";
-
-import { TYPE_LIST_ITEM } from "../list/types";
-import { TYPE_PARAGRAPH } from "../paragraph/types";
+import { SUMMARY_ELEMENT_TYPE } from "../details/summaryTypes";
 import { TYPE_TABLE_CELL } from "../table/types";
 
 export interface SpanElement {
@@ -36,64 +40,52 @@ export interface SpanElement {
 const normalizerConfig: NormalizerConfig = {
   parent: {
     allowed: [
-      TYPE_HEADING,
-      TYPE_PARAGRAPH,
-      TYPE_QUOTE,
+      HEADING_ELEMENT_TYPE,
+      PARAGRAPH_ELEMENT_TYPE,
+      BLOCK_QUOTE_ELEMENT_TYPE,
       TYPE_TABLE_CELL,
-      TYPE_LIST_ITEM,
+      LIST_ITEM_ELEMENT_TYPE,
       TYPE_DEFINITION_TERM,
       TYPE_DEFINITION_DESCRIPTION,
-      TYPE_SUMMARY,
-      TYPE_SPAN,
+      SUMMARY_ELEMENT_TYPE,
+      SPAN_ELEMENT_TYPE,
       NOOP_ELEMENT_TYPE,
     ],
   },
 };
 
-export const spanSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: Descendant[]) {
+export const spanSerializer = createSerializer({
+  deserialize(el, children) {
     if (el.tagName.toLowerCase() !== "span") return;
     const attributes = parseElementAttributes(Array.from(el.attributes));
 
     if (isEmpty(attributes)) return;
 
-    return slatejsx("element", { type: TYPE_SPAN, data: attributes }, children);
+    return slatejsx("element", { type: SPAN_ELEMENT_TYPE, data: attributes }, children);
   },
   serialize(node, children) {
-    if (!Element.isElement(node) || node.type !== TYPE_SPAN) return;
+    if (!isSpanElement(node)) return;
     if (!Object.keys(node.data ?? {}).length) {
       return children;
     }
 
-    return createHtmlTag({ tag: TYPE_SPAN, data: node.data, children });
+    return createHtmlTag({ tag: SPAN_ELEMENT_TYPE, data: node.data, children });
   },
-};
+});
 
-export const spanPlugin = (editor: Editor) => {
-  const { isInline: nextIsInline, normalizeNode } = editor;
-
-  editor.isInline = (element) => {
-    if (element.type === TYPE_SPAN) {
-      return true;
-    }
-    return nextIsInline(element);
-  };
-
-  editor.normalizeNode = (entry) => {
-    const [node, path] = entry;
-
-    if (Element.isElement(node) && node.type === TYPE_SPAN) {
+export const spanPlugin = createPlugin({
+  name: SPAN_PLUGIN,
+  type: SPAN_ELEMENT_TYPE,
+  isInline: true,
+  normalize: (editor, node, path, logger) => {
+    if (isSpanElement(node)) {
       if (Node.string(node) === "") {
-        return Transforms.removeNodes(editor, { at: path });
+        logger.log("Removing empty span");
+        Transforms.removeNodes(editor, { at: path });
+        return true;
       }
-
-      if (defaultBlockNormalizer(editor, node, path, normalizerConfig)) {
-        return;
-      }
+      return defaultBlockNormalizer(editor, node, path, normalizerConfig);
     }
-
-    normalizeNode(entry);
-  };
-
-  return editor;
-};
+    return false;
+  },
+});

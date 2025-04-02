@@ -148,7 +148,7 @@ function EditorFooter<T extends FormValues>({
   const articleOrConcept = isArticle || isConcept;
 
   const onSave = useCallback(() => {
-    if (STATUSES_RESET_RESPONSIBLE.find((s) => s === values.status.current)) {
+    if (STATUSES_RESET_RESPONSIBLE.find((s) => s === values.status?.current)) {
       setFieldValue("responsibleId", null);
     }
     onSaveClick();

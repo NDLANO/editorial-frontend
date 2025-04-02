@@ -7,8 +7,9 @@
  */
 
 import { useField, useFormikContext } from "formik";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Descendant } from "slate";
 import { LinkMedium } from "@ndla/icons";
 import { Button, FieldErrorMessage, FieldRoot, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -25,25 +26,25 @@ import { FormActionsContainer, FormContent } from "../../../../components/Formik
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
 import { AUDIO_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/audio/audioTypes";
 import { frontpageActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
-import { TYPE_CAMPAIGN_BLOCK } from "../../../../components/SlateEditor/plugins/campaignBlock/types";
-import { TYPE_CODEBLOCK } from "../../../../components/SlateEditor/plugins/codeBlock/types";
-import { TYPE_COMMENT_BLOCK } from "../../../../components/SlateEditor/plugins/comment/block/types";
-import { TYPE_CONTACT_BLOCK } from "../../../../components/SlateEditor/plugins/contactBlock/types";
+import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/campaignBlock/types";
+import { CODE_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/codeBlock/types";
+import { COMMENT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/comment/block/types";
+import { CONTACT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/contactBlock/types";
 import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
-import { TYPE_FILE } from "../../../../components/SlateEditor/plugins/file/types";
+import { FILE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/file/types";
 import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
-import { TYPE_H5P } from "../../../../components/SlateEditor/plugins/h5p/types";
-import { TYPE_IMAGE } from "../../../../components/SlateEditor/plugins/image/types";
-import { TYPE_KEY_FIGURE } from "../../../../components/SlateEditor/plugins/keyFigure/types";
-import { TYPE_LINK_BLOCK_LIST } from "../../../../components/SlateEditor/plugins/linkBlockList/types";
-import { TYPE_PITCH } from "../../../../components/SlateEditor/plugins/pitch/types";
+import { H5P_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/h5p/types";
+import { IMAGE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/image/types";
+import { KEY_FIGURE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/keyFigure/types";
+import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/linkBlockList/types";
+import { PITCH_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/pitch/types";
 import { TYPE_TABLE } from "../../../../components/SlateEditor/plugins/table/types";
 import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
 } from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
-import { TYPE_DISCLAIMER } from "../../../../components/SlateEditor/plugins/uuDisclaimer/types";
-import { TYPE_EMBED_BRIGHTCOVE } from "../../../../components/SlateEditor/plugins/video/types";
+import { DISCLAIMER_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/uuDisclaimer/types";
+import { BRIGHTCOVE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/video/types";
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
 import { DRAFT_HTML_SCOPE, SAVE_DEBOUNCE_MS } from "../../../../constants";
 import { isFormikFormDirty } from "../../../../util/formHelper";
@@ -61,25 +62,31 @@ const StyledDiv = styled("div", {
   },
 });
 
-const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, AUDIO_ELEMENT_TYPE, TYPE_EXTERNAL, TYPE_IMAGE];
+const visualElements = [
+  H5P_ELEMENT_TYPE,
+  BRIGHTCOVE_ELEMENT_TYPE,
+  AUDIO_ELEMENT_TYPE,
+  TYPE_EXTERNAL,
+  IMAGE_ELEMENT_TYPE,
+];
 
 const actions = [
   TYPE_TABLE,
-  TYPE_CODEBLOCK,
-  TYPE_FILE,
-  TYPE_CONTACT_BLOCK,
+  CODE_BLOCK_ELEMENT_TYPE,
+  FILE_ELEMENT_TYPE,
+  CONTACT_BLOCK_ELEMENT_TYPE,
   TYPE_GRID,
-  TYPE_KEY_FIGURE,
-  TYPE_CAMPAIGN_BLOCK,
-  TYPE_LINK_BLOCK_LIST,
-  TYPE_DISCLAIMER,
-  TYPE_COMMENT_BLOCK,
+  KEY_FIGURE_ELEMENT_TYPE,
+  CAMPAIGN_BLOCK_ELEMENT_TYPE,
+  LINK_BLOCK_LIST_ELEMENT_TYPE,
+  DISCLAIMER_ELEMENT_TYPE,
+  COMMENT_BLOCK_ELEMENT_TYPE,
 ].concat(visualElements);
 
 const actionsToShowInAreas = {
-  "table-cell": [TYPE_IMAGE],
+  "table-cell": [IMAGE_ELEMENT_TYPE],
   section: actions,
-  "grid-cell": [TYPE_IMAGE, TYPE_KEY_FIGURE, TYPE_PITCH],
+  "grid-cell": [IMAGE_ELEMENT_TYPE, KEY_FIGURE_ELEMENT_TYPE, PITCH_ELEMENT_TYPE],
 };
 
 const toolbarOptions = createToolbarDefaultValues();
@@ -96,33 +103,22 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
   const { t } = useTranslation();
   const [field, meta, helpers] = useField("content");
 
-  const { dirty, initialValues, values, isSubmitting } = useFormikContext<FrontpageArticleFormType>();
+  const { initialValues, values, isSubmitting } = useFormikContext<FrontpageArticleFormType>();
   const { slug, id, creators, language } = values;
 
-  const isFormikDirty = useMemo(
-    () =>
-      isFormikFormDirty({
-        values,
-        initialValues,
-        dirty,
-      }),
-    [values, initialValues, dirty],
-  );
-
-  const [isNormalizedOnLoad, setIsNormalizedOnLoad] = useState(isFormikDirty);
-  const [isTouched, setIsTouched] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const isCreatePage = toCreateFrontPageArticle() === window.location.pathname;
 
-  const debouncedOnChange = useDebouncedCallback(helpers.setValue, SAVE_DEBOUNCE_MS);
-
-  useEffect(() => {
-    setTimeout(() => {
-      if (!isTouched) {
-        setIsNormalizedOnLoad(isFormikDirty);
-        setIsTouched(true);
+  const onInitialNormalized = useCallback(
+    (value: Descendant[]) => {
+      if (isFormikFormDirty({ values: { ...values, content: value }, initialValues, dirty: true })) {
+        setShowAlert(true);
       }
-    }, 100);
-  }, [isFormikDirty, isTouched]);
+    },
+    [initialValues, values],
+  );
+
+  const debouncedOnChange = useDebouncedCallback(helpers.setValue, SAVE_DEBOUNCE_MS);
 
   const [editSlug, setEditSlug] = useState(false);
 
@@ -157,13 +153,13 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
       <AlertDialog
         title={t("editorFooter.changeHeader")}
         label={t("editorFooter.changeHeader")}
-        show={!!isNormalizedOnLoad && !isCreatePage}
+        show={!!showAlert && !isCreatePage}
         text={t("form.content.normalizedOnLoad")}
-        onCancel={() => setIsNormalizedOnLoad(false)}
+        onCancel={() => setShowAlert(false)}
         severity="warning"
       >
         <FormActionsContainer>
-          <Button variant="secondary" onClick={() => setIsNormalizedOnLoad(false)}>
+          <Button variant="secondary" onClick={() => setShowAlert(false)}>
             {t("alertDialog.continue")}
           </Button>
         </FormActionsContainer>
@@ -190,6 +186,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
             plugins={editorPlugins}
             data-testid="frontpage-article-content"
             onChange={debouncedOnChange}
+            onInitialNormalized={onInitialNormalized}
           />
         </ContentTypeProvider>
         <FieldErrorMessage>{meta.error}</FieldErrorMessage>

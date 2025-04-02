@@ -617,6 +617,8 @@ const phrases = {
   },
   imageForm: {
     title: "Bilde",
+    copyImageTitle: "Last opp bilde som kopi",
+    copyDescription: "Last opp et bilde med samme informasjon som dette bildet",
   },
   contactBlockForm: {
     title: "Kontaktblokk",
@@ -2232,6 +2234,16 @@ const phrases = {
   },
   user: {
     buttonLogOut: "Logg ut",
+  },
+  matomo: {
+    visits: "Besøk: {{count}}",
+    hits: "Sidevisninger: {{count}}",
+    avgTime: "Gj.snitt tid på siden: {{time}} sekunder",
+    error: "Noe gikk galt ved henting av besøkstall",
+    switchLabel: "Vis besøkstall",
+    popoverDescription_one: "{{count}} unik sidevisning, klikk for å se flere besøkstall",
+    popoverDescription_other: "{{count}} unike sidevisninger, klikk for å se flere besøkstall",
+    popoverTitle: "Besøkstall siste 12 md.",
   },
 };
 

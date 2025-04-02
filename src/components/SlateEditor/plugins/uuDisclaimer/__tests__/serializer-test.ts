@@ -9,25 +9,24 @@
 import { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../../framedContent/framedContentTypes";
-import { TYPE_PARAGRAPH } from "../../paragraph/types";
-import { TYPE_SECTION } from "../../section/types";
-import { TYPE_DISCLAIMER } from "../types";
+import { DISCLAIMER_ELEMENT_TYPE } from "../types";
+import { PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 
 describe("disclaimer with content serializing tests", () => {
   const editorContent: Descendant[] = [
     {
-      type: TYPE_DISCLAIMER,
+      type: DISCLAIMER_ELEMENT_TYPE,
       data: { resource: "uu-disclaimer", disclaimer: "disclaimer text" },
       children: [
         {
-          type: TYPE_SECTION,
+          type: SECTION_ELEMENT_TYPE,
           children: [
-            { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+            { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
             {
               type: FRAMED_CONTENT_ELEMENT_TYPE,
-              children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
+              children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] }],
             },
-            { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+            { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           ],
         },
       ],
@@ -51,7 +50,7 @@ describe("disclaimer with content serializing tests", () => {
 describe("disclaimer without content serializing tests", () => {
   const editorEmpty: Descendant[] = [
     {
-      type: TYPE_DISCLAIMER,
+      type: DISCLAIMER_ELEMENT_TYPE,
       data: { resource: "uu-disclaimer", disclaimer: "disclaimer text" },
       children: [{ text: "" }],
     },

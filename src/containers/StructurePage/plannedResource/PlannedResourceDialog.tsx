@@ -32,7 +32,7 @@ import { ResourceWithNodeConnectionAndMeta } from "../resourceComponents/Structu
 
 interface Props {
   currentNode: ResourceWithNodeConnectionAndMeta;
-  resourceTypes: Pick<ResourceType, "id" | "name">[];
+  resourceTypes: ResourceType[];
   resources: ResourceWithNodeConnectionAndMeta[];
 }
 

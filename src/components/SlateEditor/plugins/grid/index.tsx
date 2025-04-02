@@ -16,11 +16,11 @@ import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_HEADING } from "../heading/types";
-import { TYPE_IMAGE } from "../image/types";
-import { TYPE_KEY_FIGURE } from "../keyFigure/types";
+import { IMAGE_ELEMENT_TYPE } from "../image/types";
+import { KEY_FIGURE_ELEMENT_TYPE } from "../keyFigure/types";
 import { TYPE_LIST } from "../list/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
-import { TYPE_PITCH } from "../pitch/types";
+import { PITCH_ELEMENT_TYPE } from "../pitch/types";
 
 export interface GridElement {
   type: "grid";
@@ -53,7 +53,7 @@ const normalizerConfig: NormalizerConfig = {
 
 const normalizerConfigGridCell: NormalizerConfig = {
   nodes: {
-    allowed: [TYPE_KEY_FIGURE, TYPE_PITCH, TYPE_PARAGRAPH, TYPE_IMAGE, TYPE_HEADING, TYPE_LIST],
+    allowed: [KEY_FIGURE_ELEMENT_TYPE, PITCH_ELEMENT_TYPE, TYPE_PARAGRAPH, IMAGE_ELEMENT_TYPE, TYPE_HEADING, TYPE_LIST],
     defaultType: TYPE_PARAGRAPH,
   },
 };

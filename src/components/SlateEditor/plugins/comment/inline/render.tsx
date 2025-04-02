@@ -8,12 +8,12 @@
 
 import { Editor } from "slate";
 import SlateCommentInline from "./SlateCommentInline";
-import { TYPE_COMMENT_INLINE } from "./types";
+import { COMMENT_INLINE_ELEMENT_TYPE } from "./types";
 
 export const commentInlineRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_COMMENT_INLINE) {
+    if (element.type === COMMENT_INLINE_ELEMENT_TYPE) {
       return (
         <SlateCommentInline element={element} attributes={attributes} editor={editor}>
           {children}

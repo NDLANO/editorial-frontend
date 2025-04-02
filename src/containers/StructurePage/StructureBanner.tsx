@@ -30,7 +30,9 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeType } from "@ndla/types-taxonomy";
 import AddNodeDialogContent from "./AddNodeDialogContent";
+import { usePreferences } from "./PreferencesProvider";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
+import config from "../../config";
 import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { useSession } from "../Session/SessionProvider";
 
@@ -67,39 +69,28 @@ const ButtonsWrapper = styled("div", {
 });
 
 interface Props {
-  setShowFavorites: (checked: boolean) => void;
-  showFavorites: boolean;
-  setShowLmaSubjects: (checked: boolean) => void;
-  setShowDaSubjects: (checked: boolean) => void;
-  setShowSaSubjects: (checked: boolean) => void;
-  showLmaSubjects: boolean;
-  showDaSubjects: boolean;
-  showSaSubjects: boolean;
   nodeType: NodeType;
   hasLmaSubjects: boolean;
   hasDaSubjects: boolean;
   hasSaSubjects: boolean;
-  showQuality: boolean;
-  setShowQuality: (checked: boolean) => void;
 }
 
-const StructureBanner = ({
-  setShowFavorites,
-  showFavorites,
-  setShowLmaSubjects,
-  setShowDaSubjects,
-  setShowSaSubjects,
-  showLmaSubjects,
-  showDaSubjects,
-  showSaSubjects,
-  nodeType,
-  hasLmaSubjects,
-  hasDaSubjects,
-  hasSaSubjects,
-  showQuality,
-  setShowQuality,
-}: Props) => {
+const StructureBanner = ({ nodeType, hasLmaSubjects, hasDaSubjects, hasSaSubjects }: Props) => {
   const [addSubjectDialogOpen, setAddSubjectDialogOpen] = useState(false);
+  const {
+    showFavorites,
+    setShowFavorites,
+    showLmaSubjects,
+    setShowLmaSubjects,
+    showDaSubjects,
+    setShowDaSubjects,
+    showSaSubjects,
+    setShowSaSubjects,
+    showQuality,
+    setShowQuality,
+    showMatomoStats,
+    setShowMatomoStats,
+  } = usePreferences();
 
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -160,13 +151,27 @@ const StructureBanner = ({
                 <SwitchHiddenInput />
               </SwitchRoot>
               {nodeType !== "PROGRAMME" && (
-                <SwitchRoot checked={showQuality} onCheckedChange={(details) => setShowQuality(details.checked)}>
-                  <SwitchLabel>{t("taxonomy.quality")}</SwitchLabel>
-                  <SwitchControl>
-                    <SwitchThumb />
-                  </SwitchControl>
-                  <SwitchHiddenInput />
-                </SwitchRoot>
+                <>
+                  <SwitchRoot checked={showQuality} onCheckedChange={(details) => setShowQuality(details.checked)}>
+                    <SwitchLabel>{t("taxonomy.quality")}</SwitchLabel>
+                    <SwitchControl>
+                      <SwitchThumb />
+                    </SwitchControl>
+                    <SwitchHiddenInput />
+                  </SwitchRoot>
+                  {config.enableMatomoData ? (
+                    <SwitchRoot
+                      checked={showMatomoStats}
+                      onCheckedChange={(details) => setShowMatomoStats(details.checked)}
+                    >
+                      <SwitchLabel>{t("matomo.switchLabel")}</SwitchLabel>
+                      <SwitchControl>
+                        <SwitchThumb />
+                      </SwitchControl>
+                      <SwitchHiddenInput />
+                    </SwitchRoot>
+                  ) : undefined}
+                </>
               )}
             </SwitchWrapper>
           </PopoverContent>

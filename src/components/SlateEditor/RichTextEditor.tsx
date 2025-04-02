@@ -13,26 +13,17 @@ import { Descendant, Editor, Range, Transforms } from "slate";
 import { Slate, Editable, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
 import { useFieldContext } from "@ark-ui/react";
-import { createSlate, LoggerManager } from "@ndla/editor";
-import { Spinner } from "@ndla/primitives";
+import { createSlate, LoggerManager, SlatePlugin } from "@ndla/editor";
 import { styled } from "@ndla/styled-system/jsx";
 import "../DisplayEmbed/helpers/h5pResizer";
 import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
-import { SlatePlugin } from "./interfaces";
 import { Action, commonActions } from "./plugins/blockPicker/actions";
 import { BlockPickerOptions, createBlockpickerOptions } from "./plugins/blockPicker/options";
 import SlateBlockPicker from "./plugins/blockPicker/SlateBlockPicker";
-import { TYPE_DEFINITION_LIST } from "./plugins/definitionList/types";
 import { onDragOver, onDragStart, onDrop } from "./plugins/DND";
-import { TYPE_HEADING } from "./plugins/heading/types";
-import { TYPE_LIST } from "./plugins/list/types";
-import { TYPE_PARAGRAPH } from "./plugins/paragraph/types";
-import { TYPE_TABLE } from "./plugins/table/types";
 import { SlateToolbar } from "./plugins/toolbar";
 import { AreaFilters, CategoryFilters } from "./plugins/toolbar/toolbarState";
 import { SlateProvider } from "./SlateContext";
-import getCurrentBlock from "./utils/getCurrentBlock";
-import { KEY_TAB } from "./utils/keys";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { FormikStatus } from "../../interfaces";
@@ -64,8 +55,8 @@ export interface RichTextEditorProps extends Omit<EditableProps, "value" | "onCh
   testId?: string;
   hideToolbar?: boolean;
   receiveInitialFocus?: boolean;
-  hideSpinner?: boolean;
   noArticleStyling?: boolean;
+  onInitialNormalized?: (value: Descendant[]) => void;
 }
 
 const RichTextEditor = ({
@@ -84,13 +75,20 @@ const RichTextEditor = ({
   additionalOnKeyDown,
   hideToolbar,
   receiveInitialFocus,
-  hideSpinner,
   onBlur: onBlurProp,
   noArticleStyling,
+  onInitialNormalized,
   ...rest
 }: RichTextEditorProps) => {
-  const [editor] = useState(() => createSlate({ plugins, logger: new LoggerManager({ debug: true }) }));
-  const [isFirstNormalize, setIsFirstNormalize] = useState(true);
+  const [editor] = useState(() =>
+    createSlate({
+      plugins: plugins,
+      value,
+      logger: new LoggerManager({ debug: true }),
+      shouldNormalize: true,
+      onInitialNormalized,
+    }),
+  );
   const [labelledBy, setLabelledBy] = useState<string | undefined>(undefined);
   const prevSubmitted = useRef(submitted);
   const field = useFieldContext();
@@ -112,39 +110,17 @@ const RichTextEditor = ({
   const { status, setStatus } = useFormikContext<ArticleFormType>();
 
   useEffect(() => {
-    if (receiveInitialFocus && !isFirstNormalize) {
+    if (receiveInitialFocus) {
       ReactEditor.focus(editor);
     }
-  }, [editor, isFirstNormalize, receiveInitialFocus]);
-
-  useEffect(() => {
-    Editor.normalize(editor, { force: true });
-    editor.history = { redos: [], undos: [] };
-    setIsFirstNormalize(false);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    const { MathJax } = window;
-    if (MathJax && !isFirstNormalize && !editor.mathjaxInitialized) {
-      MathJax.typesetPromise();
-      editor.mathjaxInitialized = true;
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editor.mathjaxInitialized, isFirstNormalize]);
+  }, [editor, receiveInitialFocus]);
 
   useEffect(() => {
     // When form is submitted or form content has been revert to a previous version, the editor has to be reinitialized.
     if ((!submitted && prevSubmitted.current) || status === "revertVersion") {
-      if (isFirstNormalize) {
-        return;
-      }
       ReactEditor.deselect(editor);
       editor.children = value;
       editor.history = { redos: [], undos: [] };
-      editor.mathjaxInitialized = false;
-      window.MathJax?.typesetClear();
       Editor.normalize(editor, { force: true });
       if (editor.lastSelection || editor.lastSelectedBlock) {
         ReactEditor.focus(editor);
@@ -238,52 +214,6 @@ const RichTextEditor = ({
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLDivElement>) => {
-      const getElementByType = (parent: HTMLElement, type: string): HTMLElement | null => {
-        if (parent.children.length > 0) {
-          for (let i = 0; i < parent.children.length; i++) {
-            const child = parent.children[i] as HTMLElement;
-            if (child.tagName.toLowerCase() === type) {
-              return child;
-            }
-            if (child.children.length > 0) {
-              const nextChild = getElementByType(child, type);
-              if (nextChild) {
-                return nextChild;
-              }
-            }
-          }
-        }
-        return null;
-      };
-
-      const selectedElement = getCurrentBlock(editor, TYPE_PARAGRAPH) || getCurrentBlock(editor, TYPE_HEADING) || [];
-      const [listBlock] = getCurrentBlock(editor, TYPE_DEFINITION_LIST) || getCurrentBlock(editor, TYPE_LIST) || [];
-      const [tableBlock] = getCurrentBlock(editor, TYPE_TABLE) || [];
-
-      if (e.key === KEY_TAB && selectedElement && selectedElement.length > 0 && !listBlock && !tableBlock) {
-        const path = ReactEditor.findPath(editor, selectedElement[0]!);
-        if (!e.shiftKey && !Editor.after(editor, path)) return; // If there is no block after the current block, and shift is not pressed, move out from the editor
-        if (e.shiftKey && !Editor.before(editor, path)) return; // If there is no block before the current block and shift is pressed, move out from the editor
-
-        let target = e.target as HTMLElement;
-        if (target.parentNode instanceof HTMLElement) {
-          let nextElement = target.parentNode.nextElementSibling as HTMLElement | null;
-
-          while (!nextElement) {
-            // Keeps looking until it finds the next focusable element
-            target = target.parentNode as HTMLElement;
-            if (target.parentNode instanceof HTMLElement) {
-              const el = target.parentNode.nextElementSibling as HTMLElement | null;
-              if (el) {
-                const button = getElementByType(el, "button");
-                button?.focus();
-                nextElement = button === document.activeElement ? el : null;
-              }
-            }
-          }
-        }
-      }
-
       let allowEditorKeyDown = true;
       if (additionalOnKeyDown) {
         allowEditorKeyDown = additionalOnKeyDown(e);
@@ -300,35 +230,29 @@ const RichTextEditor = ({
       <ArticleLanguageProvider language={language}>
         <SlateProvider isSubmitted={submitted}>
           <StyledSlateWrapper data-testid={testId} data-slate-wrapper="">
-            <Slate editor={editor} initialValue={value} onChange={onChange}>
-              {isFirstNormalize && !hideSpinner ? (
-                <Spinner />
-              ) : (
-                <>
-                  <SlateToolbar options={toolbarOptions} areaOptions={toolbarAreaFilters} hideToolbar={hideToolbar} />
-                  {!hideBlockPicker && (
-                    <SlateBlockPicker
-                      actions={actions}
-                      articleLanguage={language}
-                      {...createBlockpickerOptions(blockpickerOptions)}
-                    />
-                  )}
-                  <StyledEditable
-                    {...fieldProps}
-                    aria-labelledby={labelledBy}
-                    {...rest}
-                    onBlur={onBlur}
-                    onKeyDown={handleKeyDown}
-                    placeholder={placeholder}
-                    renderElement={renderElement}
-                    renderLeaf={renderLeaf}
-                    readOnly={submitted}
-                    onDragStart={onDragStartCallback}
-                    onDragOver={onDragOverCallback}
-                    onDrop={onDropCallback}
-                  />
-                </>
+            <Slate editor={editor} initialValue={editor.children} onChange={onChange}>
+              <SlateToolbar options={toolbarOptions} areaOptions={toolbarAreaFilters} hideToolbar={hideToolbar} />
+              {!hideBlockPicker && (
+                <SlateBlockPicker
+                  actions={actions}
+                  articleLanguage={language}
+                  {...createBlockpickerOptions(blockpickerOptions)}
+                />
               )}
+              <StyledEditable
+                {...fieldProps}
+                aria-labelledby={labelledBy}
+                {...rest}
+                onBlur={onBlur}
+                onKeyDown={handleKeyDown}
+                placeholder={placeholder}
+                renderElement={renderElement}
+                renderLeaf={renderLeaf}
+                readOnly={submitted}
+                onDragStart={onDragStartCallback}
+                onDragOver={onDragOverCallback}
+                onDrop={onDropCallback}
+              />
             </Slate>
           </StyledSlateWrapper>
         </SlateProvider>

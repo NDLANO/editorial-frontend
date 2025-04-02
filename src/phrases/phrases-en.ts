@@ -618,6 +618,8 @@ const phrases = {
   },
   imageForm: {
     title: "Image",
+    copyImageTitle: "Upload image as copy",
+    copyDescription: "Upload an image with the same information as the current image",
   },
   contactBlockForm: {
     title: "Contact block",
@@ -2233,6 +2235,16 @@ const phrases = {
   },
   user: {
     buttonLogOut: "Log out",
+  },
+  matomo: {
+    visits: "Visits: {{count}}",
+    hits: "Page views: {{count}}",
+    avgTime: "Avg. time spent by visitors: {{time}} seconds",
+    error: "Something went wrong while fetching visitor data",
+    switchLabel: "Show visitor numbers",
+    popoverDescription_one: "{{count}} unique page view, click to see more visitor numbers",
+    popoverDescription_other: "{{count}} unique page views, click to see more visitor numbers",
+    popoverTitle: "Visitor numbers the last 12 months",
   },
 };
 

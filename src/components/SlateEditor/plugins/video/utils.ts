@@ -7,6 +7,6 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_EMBED_BRIGHTCOVE } from "./types";
+import { BRIGHTCOVE_ELEMENT_TYPE } from "./types";
 
-export const defaultVideoBlock = () => slatejsx("element", { type: TYPE_EMBED_BRIGHTCOVE }, [{ text: "" }]);
+export const defaultVideoBlock = () => slatejsx("element", { type: BRIGHTCOVE_ELEMENT_TYPE }, [{ text: "" }]);

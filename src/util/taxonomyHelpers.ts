@@ -63,7 +63,15 @@ export const groupResourcesByType = (resources: ResourceWithNodeConnectionAndMet
 
   const typeToResourcesMapping = resources
     .flatMap((res) => res.resourceTypes.map<[string, ResourceWithNodeConnectionAndMeta]>((rt) => [rt.id, res]))
-    .reduce<Record<string, { parentId: string; resources: ResourceWithNodeConnectionAndMeta[] }>>((acc, [id, curr]) => {
+    .reduce<
+      Record<
+        string,
+        {
+          parentId: string;
+          resources: ResourceWithNodeConnectionAndMeta[];
+        }
+      >
+    >((acc, [id, curr]) => {
       if (acc[id]) {
         acc[id]["resources"] = acc[id]["resources"].concat(curr);
       } else {
@@ -125,18 +133,6 @@ const groupChildNodes = (childNodes: NodeChild[]) =>
     return insertChild(withoutCurrent, curr);
   }, childNodes);
 
-const selectedResourceTypeValue = (resourceTypes: { id: string; parentId?: string }[]): string => {
-  if (resourceTypes.length === 0) {
-    return "";
-  }
-  const withParentId = resourceTypes.find((resourceType) => resourceType.parentId);
-  if (withParentId) {
-    return `${withParentId.parentId},${withParentId.id}`;
-  }
-  // return first match (multiple selections not possible..)
-  return resourceTypes[0].id;
-};
-
 export const nodePathToUrnPath = (path?: string) => path?.replace(/\//g, "/urn:")?.substring(1);
 
-export { groupChildNodes, flattenResourceTypesAndAddContextTypes, selectedResourceTypeValue };
+export { groupChildNodes, flattenResourceTypesAndAddContextTypes };

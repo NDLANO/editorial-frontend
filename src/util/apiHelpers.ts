@@ -22,6 +22,7 @@ export interface FetchConfigType {
   method?: "POST" | "PUT" | "DELETE" | "GET" | "PATCH";
   headers?: Partial<HttpHeadersType>;
   body?: any;
+  signal?: AbortSignal;
 }
 
 export function apiResourceUrl(path: string) {

@@ -10,7 +10,7 @@ import { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
-import { TYPE_MATHML } from "../types";
+import { MATH_ELEMENT_TYPE } from "../mathTypes";
 
 const editor: Descendant[] = [
   {
@@ -20,7 +20,7 @@ const editor: Descendant[] = [
         children: [
           { text: "" },
           {
-            type: TYPE_MATHML,
+            type: MATH_ELEMENT_TYPE,
             data: {
               innerHTML: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><mn>2</mn></mfrac></math>',
             },

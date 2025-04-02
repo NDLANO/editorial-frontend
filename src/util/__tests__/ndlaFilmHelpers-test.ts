@@ -6,12 +6,12 @@
  *
  */
 
-import { IFilmFrontPageDataDTO } from "@ndla/types-backend/frontpage-api";
-import { TYPE_IMAGE } from "../../components/SlateEditor/plugins/image/types";
+import { IFilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
+import { IMAGE_ELEMENT_TYPE } from "../../components/SlateEditor/plugins/image/types";
 import { FilmFormikType } from "../../containers/NdlaFilm/components/NdlaFilmForm";
 import { getInitialValues, getIdFromUrn, getUrnFromId } from "../ndlaFilmHelpers";
 
-const filmFrontPage: IFilmFrontPageDataDTO = {
+const filmFrontPage: IFilmFrontPageDTO = {
   name: "Film",
   about: [
     {
@@ -37,6 +37,7 @@ const filmFrontPage: IFilmFrontPageDataDTO = {
     },
   ],
   slideShow: [],
+  supportedLanguages: ["nb"],
 };
 
 const filmFrontPageAfterTransformation: FilmFormikType = {
@@ -77,7 +78,7 @@ const filmFrontPageAfterTransformation: FilmFormikType = {
   ],
   visualElement: [
     {
-      type: TYPE_IMAGE,
+      type: IMAGE_ELEMENT_TYPE,
       data: {
         alt: "Et bilde Foto.",
         metaData: {

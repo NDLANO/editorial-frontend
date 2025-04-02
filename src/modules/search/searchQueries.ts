@@ -12,7 +12,6 @@ import {
   IDraftSearchParamsDTO,
   IGrepSearchInputDTO,
   IGrepSearchResultsDTO,
-  IMultiSearchResultDTO,
   ISearchParamsDTO,
   ISubjectAggregationsDTO,
   ISubjectAggsInputDTO,
@@ -38,6 +37,7 @@ import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
 import { isValid } from "../../util/jwtHelper";
 import { useUserData } from "../draft/draftQueries";
 import { usePostSearchNodes } from "../nodes/nodeQueries";
+import { MultiSummarySearchResults, NoNodeDraftSearchParams, NoNodeSearchParams } from "./searchApiInterfaces";
 
 export const searchQueryKeys = {
   search: (params?: Partial<StringSort<IDraftSearchParamsDTO>>) => [SEARCH, params] as const,
@@ -49,16 +49,16 @@ export const searchQueryKeys = {
 };
 
 export const useSearch = (
-  query: StringSort<IDraftSearchParamsDTO>,
-  options?: Partial<UseQueryOptions<IMultiSearchResultDTO>>,
+  query: StringSort<NoNodeDraftSearchParams>,
+  options?: Partial<UseQueryOptions<MultiSummarySearchResults>>,
 ) =>
-  useQuery<IMultiSearchResultDTO>({
+  useQuery<MultiSummarySearchResults>({
     queryKey: searchQueryKeys.search(query),
     queryFn: () => postSearch(query),
     ...options,
   });
 
-interface UseSearchWithCustomSubjectsFiltering extends StringSort<IDraftSearchParamsDTO> {
+interface UseSearchWithCustomSubjectsFiltering extends StringSort<NoNodeDraftSearchParams> {
   favoriteSubjects?: string[];
 }
 
@@ -66,7 +66,7 @@ interface UseSearchWithCustomSubjectsFiltering extends StringSort<IDraftSearchPa
  These custom subjects represent multiple related subjects, requiring this custom search hook to correctly transform them */
 export const useSearchWithCustomSubjectsFiltering = (
   query: UseSearchWithCustomSubjectsFiltering,
-  options?: Partial<UseQueryOptions<IMultiSearchResultDTO>>,
+  options?: Partial<UseQueryOptions<MultiSummarySearchResults>>,
 ) => {
   const { taxonomyVersion } = useTaxonomyVersion();
 
@@ -90,7 +90,7 @@ export const useSearchWithCustomSubjectsFiltering = (
 
   const actualQuery = getSubjectsIdsQuery(query, data?.favoriteSubjects, subjectIdObject);
 
-  return useQuery<IMultiSearchResultDTO>({
+  return useQuery<MultiSummarySearchResults>({
     queryKey: searchQueryKeys.searchWithCustomSubjectsFiltering(actualQuery),
     queryFn: () => postSearch(actualQuery),
     ...options,
@@ -110,10 +110,10 @@ export const useSearchSubjectStats = (
 };
 
 export const useSearchResources = (
-  query: ISearchParamsDTO,
-  options?: Partial<UseQueryOptions<IMultiSearchResultDTO>>,
+  query: NoNodeSearchParams,
+  options?: Partial<UseQueryOptions<MultiSummarySearchResults>>,
 ) =>
-  useQuery<IMultiSearchResultDTO>({
+  useQuery<MultiSummarySearchResults>({
     queryKey: searchQueryKeys.searchResources(query),
     queryFn: () => searchResources(query),
     ...options,

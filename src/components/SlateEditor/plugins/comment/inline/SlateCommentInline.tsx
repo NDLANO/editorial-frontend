@@ -7,15 +7,15 @@
  */
 
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
-import { Editor, Element, Path, Transforms } from "slate";
+import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { PopoverRoot, PopoverTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
-import { TYPE_COMMENT_INLINE } from "./types";
+import { CommentInlineElement } from "./types";
 import { InlineBugfix } from "../../../utils/InlineBugFix";
 import CommentPopoverPortal from "../CommentPopoverPortal";
-import { CommentInlineElement } from "../interfaces";
+import { isCommentInlineElement } from "./queries/commentInlineQueries";
 
 const InlineComment = styled("span", {
   base: {
@@ -64,24 +64,14 @@ const SlateCommentInline = ({ attributes, editor, element, children }: Props) =>
     handleSelectionChange(false);
     if (element) {
       const path = ReactEditor.findPath(editor, element);
-      Transforms.setNodes(
-        editor,
-        { data: values, isFirstEdit: false },
-        {
-          at: path,
-          match: (node) => Element.isElement(node) && node.type === TYPE_COMMENT_INLINE,
-        },
-      );
+      Transforms.setNodes(editor, { data: values, isFirstEdit: false }, { at: path, match: isCommentInlineElement });
     }
   };
 
   const onRemove = () => {
     handleSelectionChange(true);
     const path = ReactEditor.findPath(editor, element);
-    Transforms.unwrapNodes(editor, {
-      at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_COMMENT_INLINE,
-    });
+    Transforms.unwrapNodes(editor, { at: path, match: isCommentInlineElement });
   };
 
   const onOpenChange = (open: boolean) => {

@@ -15,6 +15,7 @@ import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentTypeBadge } from "@ndla/ui";
 import GrepCodesDialog from "./GrepCodesDialog";
+import MatomoStats from "./MatomoStats";
 import QualityEvaluationGrade from "./QualityEvaluationGrade";
 import StatusIcons from "./StatusIcons";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
@@ -25,6 +26,7 @@ import { PUBLISHED, RESOURCE_FILTER_SUPPLEMENTARY } from "../../../constants";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
 import { routes, toLearningpathFull } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import { ResourceStats } from "../utils";
 
 const StyledListItemRoot = styled(ListItemRoot, {
   base: {
@@ -37,6 +39,7 @@ const InfoItems = styled("div", {
     display: "flex",
     gap: "3xsmall",
     justifyContent: "flex-end",
+    alignItems: "center",
   },
 });
 
@@ -92,9 +95,24 @@ interface Props {
   nodeResourcesIsPending: boolean;
   showQuality: boolean;
   onDelete: (connectionId: string) => void;
+  matomoStats: ResourceStats | undefined;
+  matomoStatsIsPending: boolean;
+  matomoStatsIsError: boolean;
+  showMatomoStats: boolean;
 }
 
-const Resource = ({ currentNodeId, resource, nodeResourcesIsPending, responsible, showQuality, onDelete }: Props) => {
+const Resource = ({
+  currentNodeId,
+  resource,
+  nodeResourcesIsPending,
+  responsible,
+  showQuality,
+  onDelete,
+  matomoStats,
+  matomoStatsIsPending,
+  matomoStatsIsError,
+  showMatomoStats,
+}: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -141,6 +159,13 @@ const Resource = ({ currentNodeId, resource, nodeResourcesIsPending, responsible
             {!!isSupplementary && <SupplementaryIndicator />}
           </TextWrapper>
           <InfoItems>
+            {showMatomoStats ? (
+              <MatomoStats
+                matomoStats={matomoStats}
+                matomoStatsIsPending={matomoStatsIsPending}
+                matomoStatsIsError={matomoStatsIsError}
+              />
+            ) : null}
             {!!showQuality && (
               <QualityEvaluationGrade
                 grade={resource.qualityEvaluation?.grade}

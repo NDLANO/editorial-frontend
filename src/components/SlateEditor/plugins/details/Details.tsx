@@ -8,13 +8,13 @@
 
 import { memo, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Transforms, Element } from "slate";
-import { ReactEditor, RenderElementProps, useSlate } from "slate-react";
+import { Transforms } from "slate";
+import { ReactEditor, RenderElementProps, useSlateStatic } from "slate-react";
 import { ArrowDownShortLine } from "@ndla/icons";
 import { ExpandableBox, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { EmbedWrapper } from "@ndla/ui";
-import { TYPE_DETAILS } from "./types";
+import { isDetailsElement } from "./queries/detailsQueries";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
 
@@ -58,6 +58,7 @@ const StyledExpandableBox = styled(ExpandableBox, {
       display: "none",
     },
     _open: {
+      overflow: "unset",
       "& [data-embed-type='expandable-box-summary']": {
         _before: {
           content: "'▼'",
@@ -70,7 +71,7 @@ const StyledExpandableBox = styled(ExpandableBox, {
 const Details = ({ children, element, attributes }: RenderElementProps) => {
   const [isOpen, setIsOpen] = useState(true);
   const { t } = useTranslation();
-  const editor = useSlate();
+  const editor = useSlateStatic();
 
   const toggleOpen = useCallback(() => {
     setIsOpen((open) => !open);
@@ -78,29 +79,18 @@ const Details = ({ children, element, attributes }: RenderElementProps) => {
 
   const onRemoveClick = useCallback(() => {
     const path = ReactEditor.findPath(editor, element);
-    Transforms.removeNodes(editor, {
-      at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_DETAILS,
-    });
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, path);
-      Transforms.collapse(editor);
-    }, 0);
+    Transforms.select(editor, path);
+    Transforms.collapse(editor);
+    Transforms.removeNodes(editor, { at: path, match: isDetailsElement });
+    setTimeout(() => ReactEditor.focus(editor), 0);
   }, [editor, element]);
 
   const onMoveContent = useCallback(() => {
     const path = ReactEditor.findPath(editor, element);
-    Transforms.unwrapNodes(editor, {
-      at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_DETAILS,
-      voids: true,
-    });
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, path);
-      Transforms.collapse(editor, { edge: "start" });
-    }, 0);
+    Transforms.select(editor, path);
+    Transforms.collapse(editor, { edge: "start" });
+    Transforms.unwrapNodes(editor, { at: path, match: isDetailsElement, voids: true });
+    setTimeout(() => ReactEditor.focus(editor), 0);
   }, [editor, element]);
 
   const openAttribute = isOpen ? { "data-open": "" } : {};
@@ -114,13 +104,23 @@ const Details = ({ children, element, attributes }: RenderElementProps) => {
           size="small"
           variant="secondary"
           onClick={toggleOpen}
+          onMouseDown={(e) => e.preventDefault()}
           aria-label={toggleOpenTitle}
           title={toggleOpenTitle}
         >
           <ArrowDownShortLine />
         </StyledIconButton>
-        <MoveContentButton onMouseDown={onMoveContent} aria-label={t("form.moveContent")} />
-        <DeleteButton data-testid="remove-details" aria-label={t("form.remove")} onMouseDown={onRemoveClick} />
+        <MoveContentButton
+          onClick={onMoveContent}
+          aria-label={t("form.moveContent")}
+          onMouseDown={(e) => e.preventDefault()}
+        />
+        <DeleteButton
+          data-testid="remove-details"
+          aria-label={t("form.remove")}
+          onClick={onRemoveClick}
+          onMouseDown={(e) => e.preventDefault()}
+        />
       </ButtonContainer>
       <StyledExpandableBox open={isOpen} asChild consumeCss>
         <div>{children}</div>

@@ -7,10 +7,10 @@
  */
 
 import he from "he";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Node, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
+import { Node, Path, Transforms } from "slate";
+import { ReactEditor, RenderElementProps, useSelected, useSlateStatic } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { DeleteBinLine, PencilLine } from "@ndla/icons";
 import {
@@ -28,9 +28,10 @@ import {
   PopoverTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { MathmlElement } from ".";
-import EditMath, { MathMLType, emptyMathTag } from "./EditMath";
+import EditMath, { MathMLType } from "./EditMath";
 import MathML from "./MathML";
+import { MathmlElement } from "./mathTypes";
+import { isMathElement } from "./queries/mathQueries";
 import { AlertDialog } from "../../../AlertDialog/AlertDialog";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormActionsContainer } from "../../../FormikForm";
@@ -51,7 +52,6 @@ const getInfoFromNode = (node: MathmlElement) => {
 
 const StyledPopoverContent = styled(PopoverContent, {
   base: {
-    zIndex: "dropdown",
     gap: "xsmall",
   },
 });
@@ -64,6 +64,7 @@ const StyledFormActionsContainer = styled(FormActionsContainer, {
 
 const StyledSpan = styled("span", {
   base: {
+    display: "inline-block",
     _open: {
       outline: "1px solid",
       outlineColor: "stroke.default",
@@ -71,36 +72,54 @@ const StyledSpan = styled("span", {
       borderRadius: "xsmall",
     },
   },
+  variants: {
+    selected: {
+      true: {
+        outline: "1px solid",
+        outlineColor: "stroke.default",
+        outlineOffset: "4xsmall",
+        borderRadius: "xsmall",
+      },
+    },
+  },
 });
 
-interface Props {
-  editor: Editor;
+interface Props extends RenderElementProps {
   element: MathmlElement;
 }
 
-const MathEditor = ({ element, children, attributes, editor }: Props & RenderElementProps) => {
+const MathEditor = ({ element, children, attributes }: Props) => {
   const { t } = useTranslation();
+  const editor = useSlateStatic();
   const nodeInfo = useMemo(() => getInfoFromNode(element), [element]);
   const [mathEditor, setMathEditor] = useState<MathMLType | undefined>(undefined);
-  const [editMode, setEditMode] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
-  const [openDiscardDialog, setOpenDiscardDialog] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [popoverOpen, setPopoverOpen] = useState(false);
+  const [discardDialogOpen, setDiscardDialogOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const selected = useSelected();
 
   useEffect(() => {
-    setEditMode(!!element.isFirstEdit);
+    setDialogOpen(!!element.isFirstEdit);
   }, [element.isFirstEdit]);
 
   const onOpenChange = useCallback(
     (open: boolean) => {
       if (open) {
-        setEditMode(open);
-      } else if ((nodeInfo.model.innerHTML ?? emptyMathTag) !== mathEditor?.getMathML()) {
-        setOpenDiscardDialog(true);
+        setDialogOpen(open);
+        setPopoverOpen(false);
+        return;
+      }
+      if (
+        !element.data.innerHTML ||
+        (mathEditor && he.decode(nodeInfo.model.innerHTML) !== he.decode(mathEditor.getMathML()))
+      ) {
+        setDiscardDialogOpen(true);
       } else {
-        setEditMode(false);
+        setDialogOpen(false);
       }
     },
-    [mathEditor, nodeInfo.model.innerHTML],
+    [element.data.innerHTML, mathEditor, nodeInfo.model.innerHTML],
   );
 
   const handleSave = useCallback(
@@ -110,101 +129,75 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
         isFirstEdit: false,
       };
       const path = ReactEditor.findPath(editor, element);
-
       const nextPath = Path.next(path);
 
-      setEditMode(false);
-      setShowMenu(false);
-
-      setTimeout(() => {
-        ReactEditor.focus(editor);
+      setDialogOpen(false);
+      editor.withoutNormalizing(() => {
+        Transforms.setNodes(editor, properties, { at: path, voids: true, match: isMathElement });
         if (element.isFirstEdit) {
-          Transforms.setNodes(editor, properties, {
-            at: path,
-            voids: true,
-            match: (node) => node === element,
-          });
-
           const mathAsString = new DOMParser().parseFromString(mathML, "text/xml").firstChild?.textContent;
-
-          Transforms.insertText(editor, mathAsString || "", {
-            at: path,
-            voids: true,
-          });
-
-          // Insertion of concept consists of insert an empty mathml and then updating it with content. By merging the events we can consider them as one action and undo both with ctrl+z.
+          Transforms.insertText(editor, mathAsString || "", { at: path, voids: true });
+          // Insertion consists of insert an empty mathml and then updating it with content. By merging the events we can consider them as one action and undo both with ctrl+z.
           mergeLastUndos(editor);
-        } else {
-          Transforms.setNodes(editor, properties, {
-            at: path,
-            voids: true,
-            match: (node) => node === element,
-          });
         }
-        Transforms.select(editor, {
-          anchor: { path: nextPath, offset: 0 },
-          focus: { path: nextPath, offset: 0 },
-        });
-      }, 0);
+        Transforms.select(editor, { anchor: { path: nextPath, offset: 0 }, focus: { path: nextPath, offset: 0 } });
+      });
+
+      setTimeout(() => ReactEditor.focus(editor), 0);
     },
     [editor, element],
   );
 
   const handleRemove = useCallback(() => {
     const path = ReactEditor.findPath(editor, element);
-    ReactEditor.focus(editor);
-    Transforms.select(editor, Editor.start(editor, Path.next(path)));
-
-    Transforms.unwrapNodes(editor, {
-      at: path,
-      match: (node) => node === element,
-      voids: true,
-    });
+    setDialogOpen(false);
+    Transforms.select(editor, editor.start(Path.next(path)));
+    Transforms.unwrapNodes(editor, { at: path, match: isMathElement, voids: true });
+    setTimeout(() => ReactEditor.focus(editor), 0);
   }, [editor, element]);
 
   const onExit = useCallback(() => {
-    if ((nodeInfo.model.innerHTML ?? emptyMathTag !== mathEditor?.getMathML()) && !openDiscardDialog) {
-      setOpenDiscardDialog(true);
-      return;
-    }
-    setOpenDiscardDialog(false);
-    const elementPath = ReactEditor.findPath(editor, element);
-
+    setDiscardDialogOpen(false);
     if (element.isFirstEdit) {
       handleRemove();
     } else {
-      const nextPath = Path.next(elementPath);
-      setTimeout(() => {
-        ReactEditor.focus(editor);
-        Transforms.select(editor, {
-          anchor: { path: nextPath, offset: 0 },
-          focus: { path: nextPath, offset: 0 },
-        });
-      }, 0);
-      setEditMode(false);
-      setShowMenu(false);
+      setDialogOpen(false);
+      setPopoverOpen(false);
     }
-  }, [editor, element, handleRemove, mathEditor, nodeInfo.model.innerHTML, openDiscardDialog]);
+  }, [element, handleRemove]);
+
+  const onExitDialog = useCallback(() => {
+    Transforms.select(editor, Path.next(ReactEditor.findPath(editor, element)));
+    Transforms.collapse(editor, { edge: "start" });
+    setTimeout(() => ReactEditor.focus(editor), 0);
+  }, [editor, element]);
+
+  const onExitPopover = useCallback(() => {
+    if (dialogOpen) return;
+    if (triggerRef.current === document.activeElement) {
+      Transforms.select(editor, Path.next(ReactEditor.findPath(editor, element)));
+      Transforms.collapse(editor, { edge: "start" });
+      setTimeout(() => ReactEditor.focus(editor), 0);
+    }
+  }, [dialogOpen, editor, element]);
 
   return (
     <>
-      <DialogRoot open={editMode} onOpenChange={(details) => onOpenChange(details.open)} size="large">
+      <DialogRoot
+        open={dialogOpen}
+        onOpenChange={(details) => onOpenChange(details.open)}
+        size="large"
+        onExitComplete={onExitDialog}
+      >
         <span {...attributes} contentEditable={false}>
           <PopoverRoot
-            open={showMenu}
-            onOpenChange={(details) => setShowMenu(details.open)}
-            modal={false}
-            // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus={false}
+            open={popoverOpen}
+            onOpenChange={(details) => setPopoverOpen(details.open)}
+            onExitComplete={onExitPopover}
           >
-            <PopoverTrigger asChild>
-              <StyledSpan role="button" tabIndex={0}>
-                <MathML
-                  model={nodeInfo.model}
-                  onDoubleClick={() => setEditMode(true)}
-                  editor={editor}
-                  element={element}
-                />
+            <PopoverTrigger asChild ref={triggerRef} onMouseDown={(e) => e.preventDefault()} data-trigger="">
+              <StyledSpan role="button" tabIndex={0} selected={selected}>
+                <MathML innerHTML={nodeInfo.model.innerHTML} onDoubleClick={() => setDialogOpen(true)}></MathML>
               </StyledSpan>
             </PopoverTrigger>
             <Portal>
@@ -254,12 +247,12 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       <AlertDialog
         title={t("unsavedChanges")}
         label={t("unsavedChanges")}
-        show={openDiscardDialog}
+        show={discardDialogOpen}
         text={t("mathEditor.continue")}
-        onCancel={() => setOpenDiscardDialog(false)}
+        onCancel={() => setDiscardDialogOpen(false)}
       >
         <FormActionsContainer>
-          <Button variant="secondary" onClick={() => setOpenDiscardDialog(false)}>
+          <Button variant="secondary" onClick={() => setDiscardDialogOpen(false)}>
             {t("form.abort")}
           </Button>
           <Button variant="danger" onClick={onExit}>

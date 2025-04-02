@@ -142,7 +142,6 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
                 <ListResource
                   key={element.id}
                   title={element.title.title}
-                  metaImage={element.metaImage}
                   url={
                     element.conceptType === "concept"
                       ? routes.concept.edit(element.id, i18n.language)

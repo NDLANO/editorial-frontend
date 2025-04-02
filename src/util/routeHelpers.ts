@@ -1,10 +1,11 @@
 /**
- * Copyright (c) 2019-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import queryString from "query-string";
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
@@ -254,14 +255,6 @@ export function to404() {
 export function isLearningpath(path: string | string[]): boolean {
   if (typeof path !== "string") return false;
   return path.includes("learningpath-api");
-}
-
-export function getResourceIdFromPath(path?: string): string | undefined {
-  if (typeof path !== "string") return undefined;
-  const learningPath = path.match(/learningpaths\/(\d+)/);
-  if (learningPath && learningPath[1]) return learningPath[1];
-  const resource = path.match(/(resource:[:\da-fA-F-]+)\/?$/);
-  return resource ? `urn:${resource[1]}` : "";
 }
 
 export function toLearningpathFull(id: number | string, locale: string) {

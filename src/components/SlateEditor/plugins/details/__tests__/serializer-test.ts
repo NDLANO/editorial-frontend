@@ -7,28 +7,28 @@
  */
 
 import { Descendant } from "slate";
+import { PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
-import { TYPE_PARAGRAPH } from "../../paragraph/types";
-import { TYPE_SECTION } from "../../section/types";
-import { TYPE_DETAILS, TYPE_SUMMARY } from "../types";
+import { DETAILS_ELEMENT_TYPE } from "../detailsTypes";
+import { SUMMARY_ELEMENT_TYPE } from "../summaryTypes";
 
 const editor: Descendant[] = [
   {
-    type: TYPE_SECTION,
+    type: SECTION_ELEMENT_TYPE,
     children: [
-      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+      { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
 
       {
-        type: TYPE_DETAILS,
+        type: DETAILS_ELEMENT_TYPE,
         children: [
           {
-            type: TYPE_SUMMARY,
-            children: [{ type: TYPE_PARAGRAPH, serializeAsText: true, children: [{ text: "title" }] }],
+            type: SUMMARY_ELEMENT_TYPE,
+            children: [{ type: PARAGRAPH_ELEMENT_TYPE, serializeAsText: true, children: [{ text: "title" }] }],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "content" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] },
         ],
       },
-      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+      { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
     ],
   },
 ];

@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MessageLine, CheckboxCircleLine } from "@ndla/icons";
 import { Skeleton, Text } from "@ndla/primitives";
@@ -16,6 +16,7 @@ import { Node, NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import ApproachingRevisionDate from "./ApproachingRevisionDate";
 import GrepCodesDialog from "./GrepCodesDialog";
 import JumpToStructureButton from "./JumpToStructureButton";
+import MatomoStats from "./MatomoStats";
 import { linkRecipe } from "./Resource";
 import StatusIcons from "./StatusIcons";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
@@ -26,12 +27,14 @@ import { SupplementaryIndicator } from "../../../components/Taxonomy/Supplementa
 import config from "../../../config";
 import { PUBLISHED, RESOURCE_FILTER_SUPPLEMENTARY } from "../../../constants";
 import { Dictionary } from "../../../interfaces";
+import { useMatomoStats } from "../../../modules/matomo/matomoQueries";
 import { NodeResourceMeta } from "../../../modules/nodes/nodeQueries";
 import { stripInlineContentHtmlTags } from "../../../util/formHelper";
 import { routes } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import GroupTopicResources from "../folderComponents/topicMenuOptions/GroupTopicResources";
 import PlannedResourceDialog from "../plannedResource/PlannedResourceDialog";
+import { ResourceStats, transformMatomoData } from "../utils";
 
 const ResourceGroupBanner = styled("div", {
   base: {
@@ -114,6 +117,15 @@ const StyledResource = styled("div", {
   },
 });
 
+const InfoItems = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+});
+
 const getWorkflowCount = (contentMeta: Dictionary<NodeResourceMeta>) => {
   const contentMetaList = Object.values(contentMeta);
   const workflowCount = contentMetaList.filter((c) => c.status?.current !== PUBLISHED).length;
@@ -125,12 +137,13 @@ interface Props {
   currentNode: ResourceWithNodeConnectionAndMeta;
   onCurrentNodeChanged: (changedNode: NodeChild) => void;
   resources: ResourceWithNodeConnectionAndMeta[];
-  resourceTypes: Pick<ResourceType, "id" | "name">[];
+  resourceTypes: ResourceType[];
   articleIds?: number[];
   nodeResourcesIsPending: boolean;
   responsible: string | undefined;
   topicNodes: Node[] | undefined;
   showQuality: boolean;
+  showMatomoStats: boolean;
 }
 
 const TopicResourceBanner = ({
@@ -143,12 +156,29 @@ const TopicResourceBanner = ({
   responsible,
   topicNodes,
   showQuality,
+  showMatomoStats,
 }: Props) => {
+  const [resourceStats, setResourceStats] = useState<Record<string, ResourceStats> | undefined>(undefined);
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const elementCount = useMemo(() => Object.values(contentMeta).length, [contentMeta]);
   const workflowCount = useMemo(() => getWorkflowCount(contentMeta), [contentMeta]);
+
+  const {
+    data: matomoStatsData,
+    isPending: matomoStatsIsPending,
+    isError: matomoStatsIsError,
+  } = useMatomoStats(
+    { contextIds: currentNode.contextId ? [currentNode.contextId] : [] },
+    { enabled: !!currentNode.contextId && showMatomoStats },
+  );
+
+  useEffect(() => {
+    if (!matomoStatsData) return;
+    const transformed = transformMatomoData(matomoStatsData);
+    setResourceStats(transformed);
+  }, [matomoStatsData]);
 
   const numericId = parseInt(currentNode.contentUri?.split(":").pop() ?? "");
 
@@ -218,11 +248,20 @@ const TopicResourceBanner = ({
             )}
             {!!isSupplementary && <SupplementaryIndicator />}
           </TextWrapper>
-          <StatusIcons
-            nodeResourcesIsPending={nodeResourcesIsPending}
-            resource={currentNode}
-            multipleTaxonomy={contexts?.length ? contexts.length > 1 : false}
-          />
+          <InfoItems>
+            {showMatomoStats ? (
+              <MatomoStats
+                matomoStats={currentNode.contextId ? resourceStats?.[currentNode.contextId] : undefined}
+                matomoStatsIsPending={matomoStatsIsPending}
+                matomoStatsIsError={matomoStatsIsError}
+              />
+            ) : null}
+            <StatusIcons
+              nodeResourcesIsPending={nodeResourcesIsPending}
+              resource={currentNode}
+              multipleTaxonomy={contexts?.length ? contexts.length > 1 : false}
+            />
+          </InfoItems>
         </ContentRow>
         <ContentRow>
           <TextWrapper>

@@ -8,12 +8,12 @@
 
 import { Editor } from "slate";
 import SlateVideo from "./SlateVideo";
-import { TYPE_EMBED_BRIGHTCOVE } from "./types";
+import { BRIGHTCOVE_ELEMENT_TYPE } from "./types";
 
 export const videoRenderer = (editor: Editor) => {
   const { renderElement: nextRenderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_EMBED_BRIGHTCOVE) {
+    if (element.type === BRIGHTCOVE_ELEMENT_TYPE) {
       return (
         <SlateVideo attributes={attributes} editor={editor} element={element}>
           {children}

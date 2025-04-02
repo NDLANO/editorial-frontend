@@ -18,20 +18,12 @@ export interface ConceptFormValues {
   status?: IStatusDTO;
   visualElement: Descendant[];
   source?: string;
-  metaImage?: {
-    id?: string;
-    url?: string;
-    alt: string;
-    language?: string;
-  };
   tags: string[];
   title: Descendant[];
   conceptContent: Descendant[];
   created?: string;
   creators: IAuthorDTO[];
   license?: string;
-  metaImageAlt: string;
-  metaImageId: string;
   processors: IAuthorDTO[];
   rightsholders: IAuthorDTO[];
   processed: boolean;

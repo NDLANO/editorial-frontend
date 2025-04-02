@@ -23,7 +23,7 @@ import { RichTextIndicator } from "../../RichTextIndicator";
 
 interface PitchFormValues {
   resource: "pitch";
-  metaImageId?: number;
+  metaImageId?: string;
   title: Descendant[];
   description?: Descendant[];
   link: string;
@@ -54,7 +54,7 @@ const toInitialValues = (initialData?: PitchEmbedData): PitchFormValues => {
   return {
     resource: "pitch",
     title: inlineContentToEditorValue(initialData?.title ?? "", true),
-    metaImageId: initialData?.imageId ? parseInt(initialData.imageId) : undefined,
+    metaImageId: initialData?.imageId,
     description: inlineContentToEditorValue(initialData?.description ?? "", true),
     link: initialData?.url ?? "",
     metaImageAlt: initialData?.alt ?? "",
@@ -80,7 +80,7 @@ const PitchForm = ({ initialData, onSave, onCancel }: Props) => {
 
       const newData: PitchEmbedData = {
         resource: "pitch",
-        imageId: values.metaImageId.toString(),
+        imageId: values.metaImageId,
         title: inlineContentToHTML(values.title),
         description: inlineContentToHTML(values.description ?? []),
         url: values.link,

@@ -15,7 +15,11 @@ import { ImagePicker } from "../../../components/ImagePicker";
 import { LocaleType } from "../../../interfaces";
 import { fetchImage } from "../../../modules/image/imageApi";
 import MetaImageField from "../../FormikForm/components/MetaImageField";
-import { ConceptFormValues } from "../conceptInterfaces";
+
+interface MetaImageFormValues {
+  metaImageId?: string;
+  metaImageAlt?: string;
+}
 
 interface Props {
   name: string;
@@ -25,7 +29,7 @@ interface Props {
 
 const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
   const { t, i18n } = useTranslation();
-  const { setFieldValue, values, setFieldTouched } = useFormikContext<ConceptFormValues>();
+  const { setFieldValue, values, setFieldTouched } = useFormikContext<MetaImageFormValues>();
   const [image, setImage] = useState<IImageMetaInformationV3DTO | undefined>();
   const locale: LocaleType = i18n.language;
   const fetchImageWithLocale = (id: number) => fetchImage(id, locale);

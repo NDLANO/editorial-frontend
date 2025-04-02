@@ -96,9 +96,7 @@ const ConceptsField = ({ field }: Props) => {
         paginationData={searchQuery.data}
         onInputValueChange={(details) => setQuery(details.inputValue)}
         onPageChange={(details) => setPage(details.page)}
-        renderItem={(item) => (
-          <GenericComboboxItemContent title={item.title.title} image={item.metaImage} useFallbackImage />
-        )}
+        renderItem={(item) => <GenericComboboxItemContent title={item.title.title} useFallbackImage />}
       >
         <ComboboxLabel>{t("form.relatedConcepts.articlesTitle")}</ComboboxLabel>
         <GenericComboboxInput placeholder={t("form.relatedConcepts.placeholder")} isFetching={searchQuery.isFetching} />
@@ -115,7 +113,6 @@ const ConceptsField = ({ field }: Props) => {
             <ListResource
               key={item.id}
               title={item.title.title}
-              metaImage={item.metaImage}
               url={
                 item.conceptType === "concept"
                   ? routes.concept.edit(item.id, i18n.language)

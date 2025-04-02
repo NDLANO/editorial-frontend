@@ -16,22 +16,11 @@ import {
   openapi,
 } from "@ndla/types-backend/image-api";
 import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
-import {
-  resolveJsonOrRejectWithError,
-  apiResourceUrl,
-  fetchAuthorized,
-  throwErrorPayload,
-  authMiddleware,
-} from "../../util/apiHelpers";
-import { resolveJsonOATS, resolveJsonOrVoidOrRejectWithError } from "../../util/resolveJsonOrRejectWithError";
+import { throwErrorPayload, createAuthClient } from "../../util/apiHelpers";
+import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 import { createFormData } from "../../util/formDataHelper";
-import createClient from "openapi-fetch";
-import { apiBaseUrl } from "../../util/authHelpers";
 
-const baseUrl = apiResourceUrl("/image-api/v3/images");
-
-const client = createClient<openapi.paths>({ baseUrl: apiBaseUrl });
-client.use(authMiddleware);
+const client = createAuthClient<openapi.paths>();
 
 export const postImage = async (
   metadata: INewImageMetaInformationV2DTO,
@@ -51,53 +40,97 @@ export const postImage = async (
 };
 
 export const fetchImage = (id: number | string, language?: string): Promise<IImageMetaInformationV3DTO> =>
-  fetchAuthorized(`${baseUrl}/${id}?language=${language}`).then((r) =>
-    resolveJsonOrRejectWithError<IImageMetaInformationV3DTO>(r),
-  );
+  client
+    .GET("/image-api/v3/images/{image_id}", {
+      params: {
+        path: {
+          image_id: typeof id === "string" ? Number(id) : id,
+        },
+        query: {
+          language,
+        },
+      },
+    })
+    .then((r) => resolveJsonOATS(r));
 
-export const updateImage = (
+export const updateImage = async (
   id: number,
-  imageMetadata: IUpdateImageMetaInformationDTO,
-  formData?: FormData,
+  metadata: IUpdateImageMetaInformationDTO,
+  file?: Blob | string,
 ): Promise<IImageMetaInformationV3DTO> =>
-  fetchAuthorized(`${baseUrl}/${id}`, {
-    method: "PATCH",
-    headers: { "Content-Type": undefined }, // Without this we're missing a boundary: https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
-    body: formData || JSON.stringify(imageMetadata),
-  }).then((r) => resolveJsonOrRejectWithError<IImageMetaInformationV3DTO>(r));
+  client
+    .PATCH("/image-api/v3/images/{image_id}", {
+      params: {
+        path: {
+          image_id: id,
+        },
+      },
+      body: {
+        metadata,
+        file: file instanceof Blob ? file : undefined,
+      },
+      bodySerializer(body) {
+        return createFormData(body.file, body.metadata);
+      },
+    })
+    .then((r) => resolveJsonOATS(r));
 
-export const postSearchImages = async (body: StringSort<ISearchParamsDTO>): Promise<ISearchResultV3DTO> => {
-  const response = await fetchAuthorized(`${baseUrl}/search/`, { method: "POST", body: JSON.stringify(body) });
-  return resolveJsonOrRejectWithError(response);
-};
+export const postSearchImages = async (body: StringSort<ISearchParamsDTO>): Promise<ISearchResultV3DTO> =>
+  client
+    .POST("/image-api/v3/images/search", {
+      body: {
+        ...body,
+        // @ts-expect-error TODO: API's use different sorting types and we share them in the frontend
+        sort: body.sort,
+      },
+    })
+    .then((r) => resolveJsonOATS(r));
 
 export const onError = (err: Response & Error) => {
   throwErrorPayload(err.status, err.message ?? err.statusText, err);
 };
 
-export const deleteLanguageVersionImage = (
+export const deleteLanguageVersionImage = async (
   imageId: number,
   locale: string,
-): Promise<IImageMetaInformationV3DTO | void> =>
-  fetchAuthorized(`${baseUrl}/${imageId}/language/${locale}`, {
-    method: "DELETE",
-  }).then((r) => resolveJsonOrVoidOrRejectWithError(r));
-
-export const fetchSearchTags = async (input: string, language: string): Promise<ITagsSearchResultDTO> => {
-  const response = await fetchAuthorized(`${baseUrl}/tag-search/?language=${language}&query=${input}`);
-  return resolveJsonOrRejectWithError(response);
+): Promise<IImageMetaInformationV3DTO | void> => {
+  return client
+    .DELETE("/image-api/v3/images/{image_id}/language/{language}", {
+      params: {
+        path: {
+          image_id: imageId,
+          language: locale,
+        },
+      },
+    })
+    .then((r) => resolveJsonOATS(r));
 };
 
-export const cloneImage = async (
-  imageId: number,
-  file: Blob | string | undefined,
-): Promise<IImageMetaInformationV3DTO> => {
-  const formData = createFormData(file);
-  const result = await fetchAuthorized(`${baseUrl}/${imageId}/copy`, {
-    method: "POST",
-    headers: { "Content-Type": undefined }, // Without this we're missing a boundary: https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
-    body: formData,
-  });
+export const fetchSearchTags = async (input: string, language: string): Promise<ITagsSearchResultDTO> =>
+  client
+    .GET("/image-api/v3/images/tag-search", {
+      params: {
+        query: {
+          query: input,
+          language,
+        },
+      },
+    })
+    .then((r) => resolveJsonOATS(r));
 
-  return resolveJsonOrRejectWithError<IImageMetaInformationV3DTO>(result);
-};
+export const cloneImage = async (imageId: number, file: Blob): Promise<IImageMetaInformationV3DTO> =>
+  client
+    .POST("/image-api/v3/images/{image_id}/copy", {
+      body: {
+        file,
+      },
+      bodySerializer(body) {
+        return createFormData(body.file, undefined);
+      },
+      params: {
+        path: {
+          image_id: imageId,
+        },
+      },
+    })
+    .then((r) => resolveJsonOATS(r));

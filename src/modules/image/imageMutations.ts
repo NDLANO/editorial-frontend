@@ -12,7 +12,7 @@ import { cloneImage } from "./imageApi";
 
 interface CloneImageInput {
   imageId: number;
-  imageFile: Blob | string | undefined;
+  imageFile: Blob;
 }
 
 export const useCloneImageMutation = (

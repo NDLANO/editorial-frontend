@@ -75,7 +75,7 @@ const PlainTextEditor = forwardRef<HTMLTextAreaElement, Props>(
     useEffect(() => {
       if (status?.status === "revertVersion") {
         ReactEditor.deselect(editor);
-        editor.children = value;
+        editor.reinitialize({ value });
         setStatus((prevStatus: FormikStatus) => ({
           ...prevStatus,
           status: undefined,

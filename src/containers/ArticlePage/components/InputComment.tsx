@@ -141,7 +141,6 @@ const InputComment = ({ isSubmitting, arrayHelpers }: Props) => {
             toolbarOptions={toolbarOptions}
             toolbarAreaFilters={toolbarAreaFilters}
             data-comment=""
-            hideSpinner
             receiveInitialFocus
             noArticleStyling
           />

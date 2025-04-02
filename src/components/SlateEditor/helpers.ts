@@ -20,16 +20,16 @@ import { FILE_ELEMENT_TYPE } from "./plugins/file/types";
 import { TYPE_FOOTNOTE } from "./plugins/footnote/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "./plugins/framedContent/framedContentTypes";
 import { TYPE_GRID } from "./plugins/grid/types";
-import { TYPE_H5P } from "./plugins/h5p/types";
-import { TYPE_IMAGE } from "./plugins/image/types";
-import { TYPE_KEY_FIGURE } from "./plugins/keyFigure/types";
+import { H5P_ELEMENT_TYPE } from "./plugins/h5p/types";
+import { IMAGE_ELEMENT_TYPE } from "./plugins/image/types";
+import { KEY_FIGURE_ELEMENT_TYPE } from "./plugins/keyFigure/types";
 import { TYPE_LINK, TYPE_CONTENT_LINK } from "./plugins/link/types";
 import { MATH_ELEMENT_TYPE } from "./plugins/mathml/mathTypes";
-import { TYPE_PITCH } from "./plugins/pitch/types";
-import { TYPE_RELATED } from "./plugins/related/types";
-import { TYPE_SPAN } from "./plugins/span/types";
+import { PITCH_ELEMENT_TYPE } from "./plugins/pitch/types";
+import { RELATED_ELEMENT_TYPE } from "./plugins/related/types";
+import { SPAN_ELEMENT_TYPE } from "./plugins/span/types";
 import { TYPE_TABLE } from "./plugins/table/types";
-import { TYPE_EMBED_BRIGHTCOVE } from "./plugins/video/types";
+import { BRIGHTCOVE_ELEMENT_TYPE } from "./plugins/video/types";
 
 export const inlines: ElementType[] = [
   TYPE_CONCEPT_INLINE,
@@ -37,7 +37,7 @@ export const inlines: ElementType[] = [
   TYPE_LINK,
   TYPE_CONTENT_LINK,
   MATH_ELEMENT_TYPE,
-  TYPE_SPAN,
+  SPAN_ELEMENT_TYPE,
   COMMENT_INLINE_ELEMENT_TYPE,
 ];
 
@@ -47,16 +47,16 @@ export const blocks: ElementType[] = [
   CODE_BLOCK_ELEMENT_TYPE,
   DETAILS_ELEMENT_TYPE,
   AUDIO_ELEMENT_TYPE,
-  TYPE_EMBED_BRIGHTCOVE,
+  BRIGHTCOVE_ELEMENT_TYPE,
   TYPE_EMBED_ERROR,
   TYPE_EXTERNAL,
-  TYPE_H5P,
-  TYPE_IMAGE,
+  H5P_ELEMENT_TYPE,
+  IMAGE_ELEMENT_TYPE,
   FILE_ELEMENT_TYPE,
-  TYPE_RELATED,
+  RELATED_ELEMENT_TYPE,
   TYPE_TABLE,
-  TYPE_PITCH,
+  PITCH_ELEMENT_TYPE,
   TYPE_GRID,
-  TYPE_KEY_FIGURE,
+  KEY_FIGURE_ELEMENT_TYPE,
   CAMPAIGN_BLOCK_ELEMENT_TYPE,
 ];

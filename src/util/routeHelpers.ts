@@ -257,14 +257,6 @@ export function isLearningpath(path: string | string[]): boolean {
   return path.includes("learningpath-api");
 }
 
-export function getResourceIdFromPath(path?: string): string | undefined {
-  if (typeof path !== "string") return undefined;
-  const learningPath = path.match(/learningpaths\/(\d+)/);
-  if (learningPath && learningPath[1]) return learningPath[1];
-  const resource = path.match(/(resource:[:\da-fA-F-]+)\/?$/);
-  return resource ? `urn:${resource[1]}` : "";
-}
-
 export function toLearningpathFull(id: number | string, locale: string) {
   return `${config.learningpathFrontendDomain}/${locale}/learningpaths/${id}/first-step`;
 }

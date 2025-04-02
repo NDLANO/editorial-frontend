@@ -7,7 +7,7 @@
  */
 
 import { useField, useFormikContext } from "formik";
-import { useState, useMemo, memo, useEffect, useCallback } from "react";
+import { useState, memo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import { Button, FieldErrorMessage, FieldRoot } from "@ndla/primitives";
@@ -32,14 +32,14 @@ import { FILE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/fi
 import { FootnoteElement } from "../../../../components/SlateEditor/plugins/footnote";
 import { TYPE_FOOTNOTE } from "../../../../components/SlateEditor/plugins/footnote/types";
 import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
-import { TYPE_H5P } from "../../../../components/SlateEditor/plugins/h5p/types";
-import { TYPE_IMAGE } from "../../../../components/SlateEditor/plugins/image/types";
+import { H5P_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/h5p/types";
+import { IMAGE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/image/types";
 import { TYPE_TABLE } from "../../../../components/SlateEditor/plugins/table/types";
 import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
 } from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
-import { TYPE_EMBED_BRIGHTCOVE } from "../../../../components/SlateEditor/plugins/video/types";
+import { BRIGHTCOVE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/video/types";
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
 import { DRAFT_HTML_SCOPE, SAVE_DEBOUNCE_MS } from "../../../../constants";
 import { isFormikFormDirty } from "../../../../util/formHelper";
@@ -56,7 +56,13 @@ const findFootnotes = (content: Descendant[]): FootnoteType[] =>
     .filter((footnote) => Object.keys(footnote.data).length > 0)
     .map((footnoteElement) => footnoteElement.data);
 
-const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, AUDIO_ELEMENT_TYPE, TYPE_EXTERNAL, TYPE_IMAGE];
+const visualElements = [
+  H5P_ELEMENT_TYPE,
+  BRIGHTCOVE_ELEMENT_TYPE,
+  AUDIO_ELEMENT_TYPE,
+  TYPE_EXTERNAL,
+  IMAGE_ELEMENT_TYPE,
+];
 
 const actions = [TYPE_TABLE, CODE_BLOCK_ELEMENT_TYPE, FILE_ELEMENT_TYPE, TYPE_GRID, COMMENT_BLOCK_ELEMENT_TYPE].concat(
   visualElements,
@@ -65,8 +71,8 @@ const actionsToShowInAreas = {
   details: actions,
   aside: actions,
   framedContent: actions,
-  "table-cell": [TYPE_IMAGE],
-  "grid-cell": [TYPE_IMAGE],
+  "table-cell": [IMAGE_ELEMENT_TYPE],
+  "grid-cell": [IMAGE_ELEMENT_TYPE],
 };
 
 const toolbarOptions = createToolbarDefaultValues();
@@ -80,39 +86,7 @@ interface Props {
 }
 
 const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _handleSubmit }: Props) => {
-  const { t } = useTranslation();
   const [creatorsField] = useField<IAuthorDTO[]>("creators");
-
-  const { dirty, initialValues, values, status, setStatus } = useFormikContext<LearningResourceFormType>();
-
-  const isFormikDirty = useMemo(
-    () =>
-      isFormikFormDirty({
-        values,
-        initialValues,
-        dirty,
-      }),
-    [values, initialValues, dirty],
-  );
-
-  const [isNormalizedOnLoad, setIsNormalizedOnLoad] = useState(isFormikDirty);
-  const [isTouched, setIsTouched] = useState(false);
-  const isCreatePage = toCreateLearningResource() === window.location.pathname;
-
-  const onCancel = useCallback(() => setIsNormalizedOnLoad(false), []);
-
-  useEffect(() => {
-    setTimeout(() => {
-      if (status.status === "revertVersion") {
-        setIsNormalizedOnLoad(false);
-        setIsTouched(true);
-        setStatus({ ...status, status: undefined });
-      } else if (!isTouched) {
-        setIsNormalizedOnLoad(isFormikDirty);
-        setIsTouched(true);
-      }
-    }, 100);
-  }, [isFormikDirty, isTouched, setStatus, status, status.status]);
 
   return (
     <FormContent>
@@ -130,20 +104,6 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
         </FormField>
       </div>
       <IngressField />
-      <AlertDialog
-        title={t("editorFooter.changeHeader")}
-        label={t("editorFooter.changeHeader")}
-        show={!!isNormalizedOnLoad && !isCreatePage}
-        text={t("form.content.normalizedOnLoad")}
-        onCancel={onCancel}
-        severity="warning"
-      >
-        <FormActionsContainer>
-          <Button variant="danger" onClick={onCancel}>
-            {t("alertDialog.continue")}
-          </Button>
-        </FormActionsContainer>
-      </AlertDialog>
       <ContentField articleLanguage={articleLanguage} articleId={articleId} />
     </FormContent>
   );
@@ -156,41 +116,74 @@ interface ContentFieldProps {
 
 const editorPlugins = learningResourcePlugins.concat(learningResourceRenderers);
 
+const blockPickerOptions = { actionsToShowInAreas };
+
 const ContentField = ({ articleId, articleLanguage }: ContentFieldProps) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
-  const { isSubmitting } = useFormikContext<LearningResourceFormType>();
+  const { values, isSubmitting, initialValues } = useFormikContext<LearningResourceFormType>();
   const [field, meta, helpers] = useField("content");
+  const [showAlert, setShowAlert] = useState(false);
 
-  const blockPickerOptions = useMemo(() => ({ actionsToShowInAreas }), []);
+  const isCreatePage = toCreateLearningResource() === window.location.pathname;
+
+  const onInitialNormalized = useCallback(
+    (value: Descendant[]) => {
+      if (isFormikFormDirty({ values: { ...values, content: value }, initialValues, dirty: true })) {
+        setShowAlert(true);
+      }
+    },
+    [initialValues, values],
+  );
 
   const debouncedOnChange = useDebouncedCallback(helpers.setValue, SAVE_DEBOUNCE_MS);
 
+  const onCancel = useCallback(() => {
+    setShowAlert(false);
+  }, []);
+
   return (
-    <FieldRoot invalid={!!meta.error}>
-      <SegmentHeader>
-        <ContentEditableFieldLabel>{t("form.content.label")}</ContentEditableFieldLabel>
-        {!!articleId && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (
-          <EditMarkupLink to={toEditMarkup(articleId, articleLanguage ?? "")} title={t("editMarkup.linkTitle")} />
-        )}
-      </SegmentHeader>
-      <RichTextEditor
-        actions={learningResourceActions}
-        language={articleLanguage}
-        blockpickerOptions={blockPickerOptions}
-        placeholder={t("form.content.placeholder")}
-        value={field.value}
-        submitted={isSubmitting}
-        plugins={editorPlugins}
-        data-testid="learning-resource-content"
-        onChange={debouncedOnChange}
-        toolbarOptions={toolbarOptions}
-        toolbarAreaFilters={toolbarAreaFilters}
-      />
-      {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(field.value)} />}
-      <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-      <FieldWarning name={field.name} />
-    </FieldRoot>
+    <>
+      <AlertDialog
+        title={t("editorFooter.changeHeader")}
+        label={t("editorFooter.changeHeader")}
+        show={!!showAlert && !isCreatePage}
+        text={t("form.content.normalizedOnLoad")}
+        onCancel={onCancel}
+        severity="warning"
+      >
+        <FormActionsContainer>
+          <Button variant="danger" onClick={onCancel}>
+            {t("alertDialog.continue")}
+          </Button>
+        </FormActionsContainer>
+      </AlertDialog>
+      <FieldRoot invalid={!!meta.error}>
+        <SegmentHeader>
+          <ContentEditableFieldLabel>{t("form.content.label")}</ContentEditableFieldLabel>
+          {!!articleId && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (
+            <EditMarkupLink to={toEditMarkup(articleId, articleLanguage ?? "")} title={t("editMarkup.linkTitle")} />
+          )}
+        </SegmentHeader>
+        <RichTextEditor
+          actions={learningResourceActions}
+          language={articleLanguage}
+          blockpickerOptions={blockPickerOptions}
+          placeholder={t("form.content.placeholder")}
+          value={field.value}
+          submitted={isSubmitting}
+          plugins={editorPlugins}
+          data-testid="learning-resource-content"
+          onChange={debouncedOnChange}
+          toolbarOptions={toolbarOptions}
+          toolbarAreaFilters={toolbarAreaFilters}
+          onInitialNormalized={onInitialNormalized}
+        />
+        {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(field.value)} />}
+        <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+        <FieldWarning name={field.name} />
+      </FieldRoot>
+    </>
   );
 };
 

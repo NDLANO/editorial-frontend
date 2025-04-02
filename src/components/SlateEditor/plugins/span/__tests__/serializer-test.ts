@@ -7,18 +7,21 @@
  */
 
 import { Descendant } from "slate";
+import { PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
-import { TYPE_PARAGRAPH } from "../../paragraph/types";
-import { TYPE_SECTION } from "../../section/types";
-import { TYPE_SPAN } from "../types";
+import { SPAN_ELEMENT_TYPE } from "../types";
 
 const editor: Descendant[] = [
   {
-    type: TYPE_SECTION,
+    type: SECTION_ELEMENT_TYPE,
     children: [
       {
-        type: TYPE_PARAGRAPH,
-        children: [{ text: "" }, { type: TYPE_SPAN, data: { lang: "en" }, children: [{ text: "test" }] }, { text: "" }],
+        type: PARAGRAPH_ELEMENT_TYPE,
+        children: [
+          { text: "" },
+          { type: SPAN_ELEMENT_TYPE, data: { lang: "en" }, children: [{ text: "test" }] },
+          { text: "" },
+        ],
       },
     ],
   },
@@ -37,14 +40,14 @@ describe("span serializing tests", () => {
   test("serializing unwraps span without attributes", () => {
     const editorWithoutAttributes: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
           {
-            type: TYPE_PARAGRAPH,
+            type: PARAGRAPH_ELEMENT_TYPE,
             children: [
               { text: "" },
               {
-                type: TYPE_SPAN,
+                type: SPAN_ELEMENT_TYPE,
                 data: {},
                 children: [{ text: "test" }, { text: "" }],
               },
@@ -66,10 +69,10 @@ describe("span serializing tests", () => {
   test("deserializing handles span without attributes", () => {
     const editorWithoutSpan: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
           {
-            type: TYPE_PARAGRAPH,
+            type: PARAGRAPH_ELEMENT_TYPE,
             children: [{ text: "test" }],
           },
         ],

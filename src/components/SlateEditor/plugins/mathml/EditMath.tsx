@@ -10,6 +10,7 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import MathML from "./MathML";
 import { FormActionsContainer } from "../../../FormikForm";
 
 declare global {
@@ -29,13 +30,6 @@ export const emptyMathTag = '<math xmlns="http://www.w3.org/1998/Math/MathML"/>'
 const StyledMathEditorWrapper = styled("div", {
   base: {
     height: "40vh",
-  },
-});
-
-const StyledMathPreviewWrapper = styled("div", {
-  base: {
-    display: "flex",
-    overflow: "auto",
   },
 });
 
@@ -61,7 +55,6 @@ const EditMath = ({ model: { innerHTML }, onRemove, onSave, mathEditor, setMathE
   const [renderedMathML, setRenderedMathML] = useState(innerHTML ?? emptyMathTag);
   const { t, i18n } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
-  const previewRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (initialized) {
@@ -82,10 +75,6 @@ const EditMath = ({ model: { innerHTML }, onRemove, onSave, mathEditor, setMathE
     script.onload = onScriptLoad;
     document.head.appendChild(script);
   }, [i18n.language, initialized, renderedMathML, setMathEditor]);
-
-  useEffect(() => {
-    if (previewRef.current && window.MathJax) window.MathJax.typesetPromise([previewRef.current]);
-  }, [renderedMathML]);
 
   return (
     <>
@@ -108,13 +97,7 @@ const EditMath = ({ model: { innerHTML }, onRemove, onSave, mathEditor, setMathE
       <Heading textStyle="title.small" asChild consumeCss>
         <h2>{t("mathEditor.preview")}</h2>
       </Heading>
-      <StyledMathPreviewWrapper
-        ref={previewRef}
-        dangerouslySetInnerHTML={{
-          __html: renderedMathML,
-        }}
-        data-testid="preview-math-text"
-      />
+      <MathML innerHTML={renderedMathML} key="dialog" data-testid="math-preview" />
     </>
   );
 };

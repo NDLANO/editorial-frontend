@@ -7,13 +7,11 @@
  */
 
 import { Descendant, Editor } from "slate";
-import { createSlate } from "@ndla/editor";
+import { createSlate, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 import { AUDIO_ELEMENT_TYPE } from "../../audio/audioTypes";
-import { TYPE_H5P } from "../../h5p/types";
-import { TYPE_IMAGE } from "../../image/types";
-import { TYPE_PARAGRAPH } from "../../paragraph/types";
-import { TYPE_SECTION } from "../../section/types";
+import { H5P_ELEMENT_TYPE } from "../../h5p/types";
+import { IMAGE_ELEMENT_TYPE } from "../../image/types";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
 
@@ -21,10 +19,10 @@ describe("embed normalizer tests", () => {
   test("adds paragraphs around embed", () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
           {
-            type: TYPE_IMAGE,
+            type: IMAGE_ELEMENT_TYPE,
             children: [
               {
                 text: "",
@@ -41,7 +39,7 @@ describe("embed normalizer tests", () => {
             },
           },
           {
-            type: TYPE_H5P,
+            type: H5P_ELEMENT_TYPE,
             children: [
               {
                 text: "",
@@ -73,14 +71,14 @@ describe("embed normalizer tests", () => {
 
     const expectedValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
           {
-            type: TYPE_PARAGRAPH,
+            type: PARAGRAPH_ELEMENT_TYPE,
             children: [{ text: "" }],
           },
           {
-            type: TYPE_IMAGE,
+            type: IMAGE_ELEMENT_TYPE,
             children: [
               {
                 text: "",
@@ -97,11 +95,11 @@ describe("embed normalizer tests", () => {
             },
           },
           {
-            type: TYPE_PARAGRAPH,
+            type: PARAGRAPH_ELEMENT_TYPE,
             children: [{ text: "" }],
           },
           {
-            type: TYPE_H5P,
+            type: H5P_ELEMENT_TYPE,
             children: [
               {
                 text: "",
@@ -114,7 +112,7 @@ describe("embed normalizer tests", () => {
             },
           },
           {
-            type: TYPE_PARAGRAPH,
+            type: PARAGRAPH_ELEMENT_TYPE,
             children: [{ text: "" }],
           },
           {
@@ -132,7 +130,7 @@ describe("embed normalizer tests", () => {
             },
           },
           {
-            type: TYPE_PARAGRAPH,
+            type: PARAGRAPH_ELEMENT_TYPE,
             children: [{ text: "" }],
           },
         ],

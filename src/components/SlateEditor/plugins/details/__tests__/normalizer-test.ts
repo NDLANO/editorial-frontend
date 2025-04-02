@@ -9,7 +9,7 @@
 import { Descendant, Editor } from "slate";
 import { createSlate, HEADING_ELEMENT_TYPE, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
-import { TYPE_SPAN } from "../../span/types";
+import { SPAN_ELEMENT_TYPE } from "../../span/types";
 import { DETAILS_ELEMENT_TYPE } from "../detailsTypes";
 import { SUMMARY_ELEMENT_TYPE } from "../summaryTypes";
 
@@ -317,7 +317,7 @@ describe("details normalizer tests", () => {
             children: [
               {
                 type: SUMMARY_ELEMENT_TYPE,
-                children: [{ type: TYPE_SPAN, data: {}, children: [{ text: "title" }] }],
+                children: [{ type: SPAN_ELEMENT_TYPE, data: {}, children: [{ text: "title" }] }],
               },
               { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] },
             ],
@@ -337,7 +337,11 @@ describe("details normalizer tests", () => {
             children: [
               {
                 type: SUMMARY_ELEMENT_TYPE,
-                children: [{ text: "" }, { type: TYPE_SPAN, data: {}, children: [{ text: "title" }] }, { text: "" }],
+                children: [
+                  { text: "" },
+                  { type: SPAN_ELEMENT_TYPE, data: {}, children: [{ text: "title" }] },
+                  { text: "" },
+                ],
               },
               { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] },
             ],

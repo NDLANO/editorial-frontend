@@ -17,8 +17,8 @@ import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/prim
 import { styled } from "@ndla/styled-system/jsx";
 import { RelatedContentEmbedData, RelatedContentMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, RelatedArticleList, RelatedContentEmbed } from "@ndla/ui";
-import { RelatedElement } from ".";
 import EditRelated from "./EditRelated";
+import { RelatedElement } from "./types";
 import { useTaxonomyVersion } from "../../../../containers/StructureVersion/TaxonomyVersionProvider";
 import { fetchDraft } from "../../../../modules/draft/draftApi";
 import { fetchNodes } from "../../../../modules/nodes/nodeApi";

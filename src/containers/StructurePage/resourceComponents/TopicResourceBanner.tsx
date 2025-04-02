@@ -137,7 +137,7 @@ interface Props {
   currentNode: ResourceWithNodeConnectionAndMeta;
   onCurrentNodeChanged: (changedNode: NodeChild) => void;
   resources: ResourceWithNodeConnectionAndMeta[];
-  resourceTypes: Pick<ResourceType, "id" | "name">[];
+  resourceTypes: ResourceType[];
   articleIds?: number[];
   nodeResourcesIsPending: boolean;
   responsible: string | undefined;

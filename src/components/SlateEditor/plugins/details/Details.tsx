@@ -9,7 +9,7 @@
 import { memo, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Transforms } from "slate";
-import { ReactEditor, RenderElementProps, useSlate } from "slate-react";
+import { ReactEditor, RenderElementProps, useSlateStatic } from "slate-react";
 import { ArrowDownShortLine } from "@ndla/icons";
 import { ExpandableBox, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -71,7 +71,7 @@ const StyledExpandableBox = styled(ExpandableBox, {
 const Details = ({ children, element, attributes }: RenderElementProps) => {
   const [isOpen, setIsOpen] = useState(true);
   const { t } = useTranslation();
-  const editor = useSlate();
+  const editor = useSlateStatic();
 
   const toggleOpen = useCallback(() => {
     setIsOpen((open) => !open);

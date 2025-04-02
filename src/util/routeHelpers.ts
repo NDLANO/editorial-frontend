@@ -40,7 +40,7 @@ export const routes = {
     logoutFederated: "/logout/federated",
   },
   h5p: {
-    edit: "/h5p",
+    edit: toH5pPage,
   },
   film: {
     edit: toEditNdlaFilm,
@@ -122,6 +122,10 @@ export function toEditSubjectpage(subjectId: string, locale: string, subjectpage
     return toEditNdlaFilm(locale);
   }
   return `/subjectpage/${subjectId}/${subjectpageId}/edit/${locale}`;
+}
+
+export function toH5pPage(locale: string, accessToken: string | null | undefined) {
+  return `/h5p?locale=${locale}&access-token=${accessToken}`;
 }
 
 export function toEditNdlaFilm(language?: string) {

@@ -74,7 +74,6 @@ export interface CustomEditor extends _CustomEditor {
   lastSelectedBlock?: Node;
   shouldShowToolbar: () => boolean;
   shouldHideBlockPicker?: () => boolean | undefined;
-  mathjaxInitialized?: boolean;
 }
 
 declare module "slate" {

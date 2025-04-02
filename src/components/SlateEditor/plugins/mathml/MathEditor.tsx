@@ -197,12 +197,7 @@ const MathEditor = ({ element, children, attributes }: Props) => {
           >
             <PopoverTrigger asChild ref={triggerRef} onMouseDown={(e) => e.preventDefault()} data-trigger="">
               <StyledSpan role="button" tabIndex={0} selected={selected}>
-                <MathML
-                  model={nodeInfo.model}
-                  onDoubleClick={() => setDialogOpen(true)}
-                  editor={editor}
-                  element={element}
-                ></MathML>
+                <MathML innerHTML={nodeInfo.model.innerHTML} onDoubleClick={() => setDialogOpen(true)}></MathML>
               </StyledSpan>
             </PopoverTrigger>
             <Portal>

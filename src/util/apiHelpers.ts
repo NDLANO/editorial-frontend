@@ -11,7 +11,7 @@ import { apiBaseUrl, getAccessToken, isAccessTokenValid, renewAuth } from "./aut
 import { resolveJsonOrRejectWithError, throwErrorPayload } from "./resolveJsonOrRejectWithError";
 import config from "../config";
 import { BrightcoveAccessToken, H5POembed } from "../interfaces";
-import { Middleware } from "openapi-fetch";
+import createClient, { Middleware } from "openapi-fetch";
 
 export interface HttpHeadersType {
   "Content-Type": string;
@@ -53,6 +53,12 @@ export const authMiddleware: Middleware = {
 
     return request;
   },
+};
+
+export const createAuthClient = <T extends {}>() => {
+  const client = createClient<T>({ baseUrl: apiBaseUrl });
+  client.use(authMiddleware);
+  return client;
 };
 
 export const fetchWithAuthorization = async (url: string, config: FetchConfigType = {}, forceAuth: boolean) => {

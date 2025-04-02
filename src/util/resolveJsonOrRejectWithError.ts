@@ -71,6 +71,12 @@ export const resolveJsonOrVoidOrRejectWithError = <T>(res: Response): Promise<T 
     ? resolveJsonOrRejectWithError<T>(res)
     : resolveVoidOrRejectWithError(res);
 
+const getErrorMessages = (err: unknown): string | undefined => {
+  if (!err || typeof err !== "object") return;
+  if ("messages" in err && typeof err.messages === "string") return err.messages;
+  if ("description" in err && typeof err.description === "string") return err.description;
+};
+
 export const resolveJsonOATS = async <A extends Record<string | number, any>, B, C extends MediaType>(
   res: FetchResponse<A, B, C>,
 ) => {
@@ -79,9 +85,8 @@ export const resolveJsonOATS = async <A extends Record<string | number, any>, B,
     return data;
   }
 
-  const json = error as any;
-  const messages = json.messages ?? json.description ?? response.statusText;
-  throw buildErrorPayload(response.status, messages, json);
+  const messages = getErrorMessages(error) ?? response.statusText;
+  throw buildErrorPayload(response.status, messages, error);
 };
 
 export const resolveJsonOrRejectWithError = <T>(

@@ -215,7 +215,7 @@ export const ExternalEmbedForm = ({ initialData, onSave }: Props) => {
 
 const InnerForm = () => {
   const { t } = useTranslation();
-  const { setFieldValue, setFieldError, setFieldTouched, setValues, values, dirty, errors, isValid } =
+  const { setFieldValue, setFieldError, setValues, values, dirty, errors, isValid } =
     useFormikContext<ExternalFormValues>();
   const { userPermissions } = useSession();
 
@@ -375,14 +375,7 @@ const InnerForm = () => {
               </FieldRoot>
             )}
           </FormField>
-          <InlineImageSearch
-            name="metaImageId"
-            disableAltEditing
-            hideAltText
-            values={values}
-            setFieldValue={setFieldValue}
-            setFieldTouched={setFieldTouched}
-          />
+          <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
           {!!values.metaImageId && (
             <>
               <FormField name="isDecorative">

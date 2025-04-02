@@ -108,7 +108,7 @@ const KeyFigureForm = ({ onSave, initialData }: Props) => {
       validateOnMount
       validate={(values) => validateFormik(values, rules, t)}
     >
-      {({ dirty, isValid, values, isSubmitting, setFieldValue, setFieldTouched }) => (
+      {({ dirty, isValid, values, isSubmitting }) => (
         <FormikForm>
           <FormField name="title">
             {({ field, helpers, meta }) => (
@@ -144,14 +144,7 @@ const KeyFigureForm = ({ onSave, initialData }: Props) => {
               </FieldRoot>
             )}
           </FormField>
-          <InlineImageSearch
-            name="metaImageId"
-            disableAltEditing
-            hideAltText
-            values={values}
-            setFieldValue={setFieldValue}
-            setFieldTouched={setFieldTouched}
-          />
+          <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
           {!values.isDecorative && !!values.metaImageId && (
             <FormField name="metaImageAlt">
               {({ field, meta }) => (

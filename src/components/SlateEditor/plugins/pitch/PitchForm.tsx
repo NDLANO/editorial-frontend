@@ -100,7 +100,7 @@ const PitchForm = ({ initialData, onSave, onCancel }: Props) => {
       validateOnMount
       validate={(values) => validateFormik(values, rules, t)}
     >
-      {({ dirty, isValid, values, isSubmitting, setFieldValue, setFieldTouched }) => (
+      {({ dirty, isValid, values, isSubmitting }) => (
         <FormikForm>
           <FormField name="title">
             {({ field, helpers, meta }) => (
@@ -145,14 +145,7 @@ const PitchForm = ({ initialData, onSave, onCancel }: Props) => {
               </FieldRoot>
             )}
           </FormField>
-          <InlineImageSearch
-            name="metaImageId"
-            disableAltEditing
-            hideAltText
-            values={values}
-            setFieldValue={setFieldValue}
-            setFieldTouched={setFieldTouched}
-          />
+          <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
           {!!values.metaImageId && (
             <FormField name="metaImageAlt">
               {({ field, meta }) => (

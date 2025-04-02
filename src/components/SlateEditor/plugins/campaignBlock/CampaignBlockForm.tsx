@@ -162,7 +162,7 @@ const CampaignBlockForm = ({ initialData, onSave }: Props) => {
       validateOnMount
       validate={onValidate}
     >
-      {({ dirty, isValid, isSubmitting, values, setFieldValue, setFieldTouched }) => (
+      {({ dirty, isValid, isSubmitting, values }) => (
         <FormikForm>
           <FormField name="title">
             {({ field, helpers, meta }) => (
@@ -248,14 +248,7 @@ const CampaignBlockForm = ({ initialData, onSave }: Props) => {
               </FieldRoot>
             )}
           </FormField>
-          <InlineImageSearch
-            name="metaImageId"
-            disableAltEditing
-            hideAltText
-            values={values}
-            setFieldValue={setFieldValue}
-            setFieldTouched={setFieldTouched}
-          />
+          <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
           {!values.isDecorative && !!values.metaImageId && (
             <FormField name="metaImageAlt">
               {({ field, meta }) => (

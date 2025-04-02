@@ -144,7 +144,7 @@ const ContactBlockForm = ({ initialData, onSave }: Props) => {
       validateOnMount
       validate={(values) => validateFormik(values, rules, t)}
     >
-      {({ dirty, isValid, values, setFieldValue, setFieldTouched }) => (
+      {({ dirty, isValid, values }) => (
         <FormikForm>
           <FormField name="name">
             {({ field, meta }) => (
@@ -200,14 +200,7 @@ const ContactBlockForm = ({ initialData, onSave }: Props) => {
               </RadioGroupRoot>
             )}
           </FormField>
-          <InlineImageSearch
-            name="metaImageId"
-            disableAltEditing
-            hideAltText
-            values={values}
-            setFieldValue={setFieldValue}
-            setFieldTouched={setFieldTouched}
-          />
+          <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
           {!values.isDecorative && !!values.metaImageId && (
             <FormField name="metaImageAlt">
               {({ field, meta }) => (

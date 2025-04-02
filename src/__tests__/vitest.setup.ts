@@ -9,6 +9,8 @@
 import "@testing-library/jest-dom/vitest";
 import { cleanup } from "@testing-library/react";
 
+export const anySlateElementId = expect.any(String);
+
 afterEach(() => {
   cleanup();
 });

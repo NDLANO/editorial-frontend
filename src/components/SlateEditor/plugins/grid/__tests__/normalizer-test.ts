@@ -6,7 +6,7 @@
  *
  */
 
-import { Descendant, Editor } from "slate";
+import { Descendant } from "slate";
 import { createSlate } from "@ndla/editor";
 import { frontpagePlugins } from "../../../../../containers/ArticlePage/FrontpageArticlePage/components/frontpagePlugins";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
@@ -85,8 +85,7 @@ describe("normalizing grid tests", () => {
       },
     ];
 
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
 
@@ -159,8 +158,7 @@ describe("normalizing grid tests", () => {
       },
     ];
 
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
 });

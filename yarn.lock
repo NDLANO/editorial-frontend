@@ -1506,11 +1506,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/editor-components@npm:^0.0.23":
-  version: 0.0.23
-  resolution: "@ndla/editor-components@npm:0.0.23"
+"@ndla/editor-components@npm:^0.0.24":
+  version: 0.0.24
+  resolution: "@ndla/editor-components@npm:0.0.24"
   dependencies:
-    "@ndla/editor": "npm:^0.0.16"
+    "@ndla/editor": "npm:^0.0.17"
     "@ndla/primitives": "npm:^1.0.84-alpha.0"
     "@ndla/styled-system": "npm:^0.0.33"
   peerDependencies:
@@ -1520,13 +1520,13 @@ __metadata:
     slate-dom: ^0.112.0
     slate-history: ^0.110.3
     slate-react: ^0.112.0
-  checksum: 10c0/fc3b7a8ee3600c501eddbf8ed28fb999acedc14b17d33209b72eea55499919a6ad0bd8f73ef2f02fc6efa9414751c7c9c528add0f4892b81901e8ecdce9091bc
+  checksum: 10c0/5baae3b117e53276d80fc305dec2c53558f888dc5e9dc5b645a6cf7dd2ed3654f8fdb33aebfd52f4c595cd3ffc6e020ef36b55865756a1bf136407c7ed7b3e02
   languageName: node
   linkType: hard
 
-"@ndla/editor@npm:^0.0.16":
-  version: 0.0.16
-  resolution: "@ndla/editor@npm:0.0.16"
+"@ndla/editor@npm:^0.0.17":
+  version: 0.0.17
+  resolution: "@ndla/editor@npm:0.0.17"
   dependencies:
     escape-html: "npm:^1.0.3"
     he: "npm:^1.2.0"
@@ -1540,7 +1540,7 @@ __metadata:
     slate-dom: ^0.112.0
     slate-history: ^0.110.3
     slate-react: ^0.112.0
-  checksum: 10c0/4289ff5f9a95504896f81b1569dfbb9f0b200ae6aa6416d0e24834787693eccafd96ced6d9ca5522e68cc2a82e02dbc7e5d6430704277163d3e0f8aeb95ac48c
+  checksum: 10c0/393436e9cea4a810ee625471f3d38c9377f8345b099de7db658f44c78d20bfd812d5f56627a10d79dc93452245d82cc3f126f2a67cb5abaa54822a2a139ebde7
   languageName: node
   linkType: hard
 
@@ -5505,8 +5505,8 @@ __metadata:
     "@fontsource/source-serif-pro": "npm:^4.5.7"
     "@ndla/article-converter": "npm:^10.0.113-alpha.0"
     "@ndla/audio-search": "npm:^7.0.91-alpha.0"
-    "@ndla/editor": "npm:^0.0.16"
-    "@ndla/editor-components": "npm:^0.0.23"
+    "@ndla/editor": "npm:^0.0.17"
+    "@ndla/editor-components": "npm:^0.0.24"
     "@ndla/error-reporter": "npm:^2.0.12"
     "@ndla/hooks": "npm:^2.1.11"
     "@ndla/icons": "npm:^8.0.53-alpha.0"

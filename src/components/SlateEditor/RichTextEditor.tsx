@@ -121,9 +121,7 @@ const RichTextEditor = ({
     // When form is submitted or form content has been revert to a previous version, the editor has to be reinitialized.
     if ((!submitted && prevSubmitted.current) || status === "revertVersion" || status?.status === id) {
       ReactEditor.deselect(editor);
-      editor.children = value;
-      editor.history = { redos: [], undos: [] };
-      Editor.normalize(editor, { force: true });
+      editor.reinitialize({ value, shouldNormalize: true, onInitialNormalized });
       if (editor.lastSelection || editor.lastSelectedBlock) {
         ReactEditor.focus(editor);
       }

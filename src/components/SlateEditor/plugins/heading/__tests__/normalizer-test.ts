@@ -67,8 +67,7 @@ describe("heading normalizer tests", () => {
         ],
       },
     ];
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
 
@@ -163,7 +162,6 @@ test("remove bold marker on header", () => {
       ],
     },
   ];
-  editor.children = editorValue;
-  Editor.normalize(editor, { force: true });
+  editor.reinitialize({ value: editorValue, shouldNormalize: true });
   expect(editor.children).toEqual(expectedValue);
 });

@@ -111,9 +111,8 @@ const phrases = {
     san: "Sanskrit",
     heb: "Hebrew",
     pli: "Pali",
-    empty: "No languages left",
     change: "Change to {{language}} version",
-    none: "None",
+    none: "Language",
   },
   welcomePage: {
     lastFavorited: "Last favorited resource: ",

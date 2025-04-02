@@ -111,9 +111,8 @@ const phrases = {
     san: "Sanskrit",
     heb: "Hebraisk",
     pli: "Pali",
-    empty: "Ingen fleire språk",
     change: "Bytt til {{language}} versjon",
-    none: "Ingen",
+    none: "Språk",
   },
   welcomePage: {
     lastFavorited: "Siste hjertemarkerte ressurs: ",

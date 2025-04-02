@@ -218,10 +218,11 @@ const phrases = {
     },
   },
   updateCodesPage: {
-    title: "Oppdater koder",
-    description: "Konverter gamle koder til nye.",
+    title: "Oppdater læreplankoder",
+    description:
+      "Konverter grep-koder fra utgåtte læreplaner til tilsvarende grep-koder for nye læreplaner. Dette endrer alle artikler som har tilknyttede kompetansemål og kjerneelement fra utgåtte læreplaner, både publiserte og upubliserte versjoner. Artiklene trenger ikke endres i etterkant for at nye grep-koder skal bli synlige.",
     buttonText: "Oppdater",
-    error: "Noe gikk galt ved oppdatering av koder",
+    error: "Noe gikk galt ved oppdatering av grep-koder",
   },
   searchPage: {
     search: "Søk",
@@ -297,7 +298,7 @@ const phrases = {
     newSubject: "Opprett fag",
     newFrontpageArticle: "Om-NDLA-artikkel",
     frontpage: "NDLA forside",
-    updateCodes: "Oppdater koder",
+    updateCodes: "Oppdater læreplankoder",
   },
   logo: {
     altText: "Nasjonal digital læringsarena",

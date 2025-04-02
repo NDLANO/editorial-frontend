@@ -219,10 +219,11 @@ const phrases = {
     },
   },
   updateCodesPage: {
-    title: "Update codes",
-    description: "Convert old codes to new ones.",
+    title: "Update curriculum codes",
+    description:
+      "Convert grep-codes from outdated curricula to the corresponding grep-codes for new curricula. This updates all articles that have associated competency goals and core elements from outdated curricula, in both published and unpublished versions. The articles do not need to be modified afterward for the new grep-codes to become visible.",
     buttonText: "Update",
-    error: "Something went wrong while updating codes",
+    error: "Something went wrong while updating grep-codes",
   },
   searchPage: {
     search: "Søk",
@@ -298,7 +299,7 @@ const phrases = {
     newSubject: "Create new subject",
     newFrontpageArticle: "About-NDLA article",
     frontpage: "NDLA frontpage",
-    updateCodes: "Update grep codes",
+    updateCodes: "Update curriculum codes",
   },
   logo: {
     altText: "The Norwegian Digital Learning Arena",

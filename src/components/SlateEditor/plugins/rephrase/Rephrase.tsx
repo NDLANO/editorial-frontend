@@ -9,7 +9,7 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Node, Transforms } from "slate";
-import { RenderElementProps } from "slate-react";
+import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { FileListLine } from "@ndla/icons";
@@ -60,8 +60,10 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
   const currentText = useMemo(() => Node.string(element), [element]);
 
   const onClose = () => {
+    const path = ReactEditor.findPath(editor, element);
     Transforms.unwrapNodes(editor, {
       match: isRephraseElement,
+      at: path,
     });
   };
 
@@ -95,7 +97,7 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
   };
 
   return (
-    <DialogRoot defaultOpen closeOnEscape closeOnInteractOutside onExitComplete={onClose}>
+    <DialogRoot defaultOpen onExitComplete={onClose}>
       <Portal>
         <DialogBackdrop />
         <DialogContent>

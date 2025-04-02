@@ -198,7 +198,9 @@ router.post("/generate-ai", jwtMiddleware, aiMiddleware, async (req, res) => {
     const text = await generateAnswer(req.body, req.body.language, req.body.max_tokens);
     res.status(OK).send(text);
   } catch (err) {
-    res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
+    res
+      .status(INTERNAL_SERVER_ERROR)
+      .send((err as NdlaError).message ?? "Answer generation failed to give a proper answer with the given input");
   }
 });
 

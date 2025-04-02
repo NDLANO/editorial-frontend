@@ -57,6 +57,7 @@ export interface RichTextEditorProps extends Omit<EditableProps, "value" | "onCh
   receiveInitialFocus?: boolean;
   noArticleStyling?: boolean;
   onInitialNormalized?: (value: Descendant[]) => void;
+  editorId?: string;
 }
 
 const RichTextEditor = ({
@@ -77,7 +78,7 @@ const RichTextEditor = ({
   receiveInitialFocus,
   onBlur: onBlurProp,
   noArticleStyling,
-  id,
+  editorId,
   onInitialNormalized,
   ...rest
 }: RichTextEditorProps) => {
@@ -119,7 +120,11 @@ const RichTextEditor = ({
   useEffect(() => {
     // TODO: Add better logic for refreshing editors when values are changed/set outside of editor scope
     // When form is submitted or form content has been revert to a previous version, the editor has to be reinitialized.
-    if ((!submitted && prevSubmitted.current) || status === "revertVersion" || status?.status === id) {
+    if (
+      (!submitted && prevSubmitted.current) ||
+      status === "revertVersion" ||
+      (editorId && status?.status === editorId)
+    ) {
       ReactEditor.deselect(editor);
       editor.reinitialize({ value, shouldNormalize: true, onInitialNormalized });
       if (editor.lastSelection || editor.lastSelectedBlock) {
@@ -241,7 +246,6 @@ const RichTextEditor = ({
               )}
               <StyledEditable
                 {...fieldProps}
-                id={id}
                 aria-labelledby={labelledBy}
                 {...rest}
                 onBlur={onBlur}

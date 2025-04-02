@@ -207,10 +207,11 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
             </HStack>
             <FieldHelper>{t("form.metaDescription.description")}</FieldHelper>
             <PlainTextEditor
-              id={METADATA_EDITOR}
+              id={field.name}
               placeholder={t("form.metaDescription.label")}
               {...field}
               plugins={plugins}
+              editorId={METADATA_EDITOR}
             />
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
             <StyledFormRemainingCharacters maxLength={155} value={field.value} />
@@ -228,7 +229,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
           </HStack>
           <FieldHelper>{t("form.articleSummary.description")}</FieldHelper>
           <PlainTextEditor
-            id={SUMMARY_EDITOR}
+            id="summary"
             placeholder={t("form.articleSummary.label")}
             plugins={plugins}
             onChange={(val: {
@@ -239,6 +240,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
               };
             }) => setSummary(val.target.value)}
             value={summary}
+            editorId={SUMMARY_EDITOR}
           />
         </div>
       )}

@@ -174,8 +174,8 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
             {t("podcastForm.fields.manuscript")}
           </ContentEditableFieldLabel>
           <RichTextEditor
-            id={MANUSCRIPT_EDITOR}
             {...field}
+            editorId={MANUSCRIPT_EDITOR}
             hideBlockPicker
             placeholder={t("podcastForm.fields.manuscript")}
             submitted={isSubmitting}

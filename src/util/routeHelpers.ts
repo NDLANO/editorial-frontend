@@ -124,7 +124,7 @@ export function toEditSubjectpage(subjectId: string, locale: string, subjectpage
   return `/subjectpage/${subjectId}/${subjectpageId}/edit/${locale}`;
 }
 
-export function toH5pPage(locale: string, accessToken: string | null | undefined) {
+export function toH5pPage(locale: string, accessToken: string) {
   return `/h5p?locale=${locale}&access-token=${accessToken}`;
 }
 

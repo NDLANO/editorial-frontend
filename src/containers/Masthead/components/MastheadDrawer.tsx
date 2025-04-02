@@ -180,34 +180,41 @@ export const MastheadDrawer = () => {
   const { userPermissions } = useSession();
   const { pathname } = useLocation();
 
+  const accessToken = getAccessToken();
+
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
 
-  const lists = useMemo(
-    () =>
-      [
-        ...listsWithoutExternal,
-        {
-          id: "external",
-          items: [
-            {
-              to: `${config.learningpathFrontendDomain}/minside`,
-              text: "subNavigation.learningPathLink",
-              external: true,
-            },
+  const lists = useMemo(() => {
+    const externalItems: MenuItem[] = [
+      {
+        to: `${config.learningpathFrontendDomain}/minside`,
+        text: "subNavigation.learningPathLink",
+        external: true,
+      },
+    ];
+    if (accessToken) {
+      externalItems.push({
+        to: routes.h5p.edit(language, accessToken),
+        text: "subNavigation.h5p",
+        external: true,
+      });
+    }
 
-            { to: routes.h5p.edit(language, getAccessToken()), text: "subNavigation.h5p", external: true },
-          ],
-        },
-      ]
-        .map((list) => ({
-          ...list,
-          items: list.items.filter((item) => !item.permission || userPermissions?.includes(item.permission)),
-        }))
-        .filter((list) => list.items.length > 0),
-    [language, userPermissions],
-  );
+    return [
+      ...listsWithoutExternal,
+      {
+        id: "external",
+        items: externalItems,
+      },
+    ]
+      .map((list) => ({
+        ...list,
+        items: list.items.filter((item) => !item.permission || userPermissions?.includes(item.permission)),
+      }))
+      .filter((list) => list.items.length > 0);
+  }, [language, userPermissions, accessToken]);
 
   return (
     <DialogRoot

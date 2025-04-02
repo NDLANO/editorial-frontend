@@ -72,6 +72,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
   const tagSelectorTranslations = useTagSelectorTranslations();
   const plugins = [textTransformPlugin];
   const [inputQuery, setInputQuery] = useState<string>("");
+  const [summary, setSummary] = useState<Descendant[]>([]);
   const debouncedQuery = useDebounce(inputQuery, 300);
   const toast = useToast();
   const { setStatus, values } = useFormikContext<ArticleFormType>();
@@ -116,7 +117,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
       );
   };
 
-  const onClickGenerateSummary = async (helpers: FieldHelperProps<Descendant[]>) => {
+  const onClickGenerateSummary = async () => {
     const articleTitle = values.title.map((val) => Node.string(val)).join(" ");
     const articleContent = values.content.map((val) => Node.string(val)).join(" ");
 
@@ -128,7 +129,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         language: t(`languages.${articleLanguage}`),
       })
       .then(async (res) => {
-        await helpers.setValue(inlineContentToEditorValue(res, true), true);
+        setSummary(inlineContentToEditorValue(res, true));
         setStatus({ status: SUMMARY_EDITOR });
       })
       .catch((e: NdlaErrorPayload) =>
@@ -218,31 +219,28 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         )}
       </FormField>
       {!!userPermissions?.includes(AI_ACCESS_SCOPE) && (
-        <FormField name="summary">
-          {({ field, meta, helpers }) => (
-            <FieldRoot invalid={!!meta.error}>
-              <HStack justify="space-between">
-                <FieldLabel>{t("form.articleSummary.label")}</FieldLabel>
-                <Button
-                  size="small"
-                  onClick={() => onClickGenerateSummary(helpers)}
-                  loading={generateSummaryMutation.isPending}
-                >
-                  {t("textGeneration.generate.summary")}
-                </Button>
-              </HStack>
-              <FieldHelper>{t("form.articleSummary.description")}</FieldHelper>
-              <PlainTextEditor
-                id={SUMMARY_EDITOR}
-                placeholder={t("form.articleSummary.label")}
-                {...field}
-                plugins={plugins}
-              />
-              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              <FieldWarning name={field.name} />
-            </FieldRoot>
-          )}
-        </FormField>
+        <div>
+          <HStack justify="space-between">
+            <FieldLabel>{t("form.articleSummary.label")}</FieldLabel>
+            <Button size="small" onClick={() => onClickGenerateSummary()} loading={generateSummaryMutation.isPending}>
+              {t("textGeneration.generate.summary")}
+            </Button>
+          </HStack>
+          <FieldHelper>{t("form.articleSummary.description")}</FieldHelper>
+          <PlainTextEditor
+            id={SUMMARY_EDITOR}
+            placeholder={t("form.articleSummary.label")}
+            plugins={plugins}
+            onChange={(val: {
+              target: {
+                name: number;
+                value: Descendant[];
+                type: "SlateEditorValue";
+              };
+            }) => setSummary(val.target.value)}
+            value={summary}
+          />
+        </div>
       )}
       <FormField name="metaImageId">
         {({ field, meta }) => (

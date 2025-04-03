@@ -236,7 +236,7 @@ export const MastheadSearch = () => {
     return createListCollection({
       items: filteredSavedSearches,
       itemToString: (item) => item.searchPhrase,
-      itemToValue: (item) => item.searchPhrase,
+      itemToValue: (item) => `${item.searchPhrase}_${filteredSavedSearches.indexOf(item)}`,
     });
   }, [filteredSavedSearches]);
 

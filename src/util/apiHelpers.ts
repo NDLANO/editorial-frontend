@@ -35,7 +35,7 @@ export function brightcoveApiResourceUrl(path: string) {
 }
 
 /** openapi-fetch middleware to add authentication headers */
-export const authMiddleware: Middleware = {
+export const OATSAuthMiddleware: Middleware = {
   async onRequest({ request }) {
     if (!isAccessTokenValid()) {
       await renewAuth();
@@ -57,7 +57,7 @@ export const authMiddleware: Middleware = {
 
 export const createAuthClient = <T extends {}>() => {
   const client = createClient<T>({ baseUrl: apiBaseUrl });
-  client.use(authMiddleware);
+  client.use(OATSAuthMiddleware);
   return client;
 };
 

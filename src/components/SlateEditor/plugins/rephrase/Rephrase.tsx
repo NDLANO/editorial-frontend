@@ -8,8 +8,7 @@
 
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Path, Node } from "slate";
-import { HistoryEditor } from "slate-history";
+import { Editor, Path, Node, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
@@ -61,12 +60,13 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
   const currentText = useMemo(() => Node.string(element), [element]);
 
   const onClose = () => {
-    HistoryEditor.withoutSaving(editor, () => {
-      const path = ReactEditor.findPath(editor, element);
-      editor.unwrapNodes({
-        match: isRephraseElement,
-        at: path,
-      });
+    const path = ReactEditor.findPath(editor, element);
+    const startOfNextPath = editor.start(Path.next(path));
+    Transforms.select(editor, startOfNextPath);
+    Transforms.unwrapNodes(editor, {
+      match: isRephraseElement,
+      at: path,
+      voids: true,
     });
   };
 

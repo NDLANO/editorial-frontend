@@ -348,7 +348,7 @@ const phrases = {
       "filter-inactive": "Inkluder utgåtte fag",
     },
     tagType: {
-      query: "Søk: {{value}}",
+      query: "Søk:",
       subjects: "Fag: {{value}}",
       language: "Språk: $t(languages.{{value}})",
       users: "Bruker: {{value}}",

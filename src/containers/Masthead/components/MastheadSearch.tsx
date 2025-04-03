@@ -80,7 +80,13 @@ export const MastheadSearch = () => {
   }, [location.pathname]);
 
   const filteredSavedSearches = useMemo(() => {
-    return userDataQuery.data?.savedSearches?.filter((item) => item.searchPhrase.includes(query)) ?? [];
+    return (
+      userDataQuery.data?.savedSearches?.filter((item) => {
+        const searchPhraseToLowerCase = item.searchPhrase.toLowerCase();
+        const queryToLowerCase = query.toLowerCase();
+        return searchPhraseToLowerCase.includes(queryToLowerCase);
+      }) ?? []
+    );
   }, [query, userDataQuery.data?.savedSearches]);
 
   const handleNodeId = async (nodeId: number) => {

@@ -14,7 +14,7 @@ const DEBUG_INSTRUCTION = {
 
 const ERROR_INSTRUCTION = {
   nb: "Om du ikke klarer å levere svaret på det spesifiserte <answer>-formatet skal grunnen skrives i en <ERROR>-tag.",
-  nn: "Om du ikkje klarar å levere svaret på de spesifiserte <answer>-formatet skal grunnen skrivast i ein <ERROR>-tag.",
+  nn: "Om du ikkje klarar å levere svaret på det spesifiserte <answer>-formatet skal grunnen skrivast i ein <ERROR>-tag.",
   en: "If you cannot deliver the answer in the given format <answer>, the reasoning should be written inside an <ERROR> tag.",
 };
 
@@ -244,7 +244,7 @@ const REFLECTION_QUESTION_QUERY: ReflectionQuery = {
         <Instructions>
           You have extensive experience from the educational sector. 
           You are specialized in analyzing educational articles to find good reflection questions which enables the students to reflect on what they have read.
-          Your task is to read through the article in the <draft> tag and write five reflection questions based on the article
+          Your task is to read through the article in the <draft> tag and write five reflection questions based on the article.
           The questions should be written in EN.
           The questions must be on a level which fits students in high school.
           The reflection questions must be given as bulletpoints in an <answer> tag.

@@ -26,6 +26,7 @@ import {
   RadioGroupItemText,
   RadioGroupLabel,
   RadioGroupRoot,
+  Text,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
@@ -222,12 +223,12 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
       {!!userPermissions?.includes(AI_ACCESS_SCOPE) && (
         <div>
           <HStack justify="space-between">
-            <FieldLabel>{t("form.articleSummary.label")}</FieldLabel>
+            <Text textStyle="label.medium">{t("form.articleSummary.label")}</Text>
             <Button size="small" onClick={() => onClickGenerateSummary()} loading={generateSummaryMutation.isPending}>
               {t("textGeneration.generate.summary")}
             </Button>
           </HStack>
-          <FieldHelper>{t("form.articleSummary.description")}</FieldHelper>
+          <Text textStyle="label.small">{t("form.articleSummary.description")}</Text>
           <PlainTextEditor
             id="summary"
             placeholder={t("form.articleSummary.label")}

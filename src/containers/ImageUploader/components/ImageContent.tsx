@@ -109,6 +109,7 @@ const ImageContent = ({ language }: Props) => {
                 </Button>
               )}
             </HStack>
+            {/*  TODO: FieldTextArea does not resize when setting generated alttext */}
             <FieldTextArea placeholder={t("form.image.alt.placeholder")} {...field} />
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
           </FieldRoot>

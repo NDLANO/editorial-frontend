@@ -37,7 +37,6 @@ import Subjectpage from "../EditSubjectFrontpage/Subjectpage";
 import ForbiddenPage from "../ForbiddenPage/ForbiddenPage";
 import FrontpageEditPage from "../FrontpageEditPage/FrontpageEditPage";
 import GlossPage from "../GlossPage/GlossPage";
-import H5PPage from "../H5PPage/H5PPage";
 import Login from "../Login/Login";
 import Logout from "../Logout/Logout";
 import { MessagesProvider, useMessages } from "../Messages/MessagesProvider";
@@ -86,7 +85,6 @@ const App = () => {
                     <Route path="/forbidden" element={<ForbiddenPage />} />
                     <Route path="*" element={<NotFoundPage />} />
                   </Route>
-                  <Route path="/h5p/*" element={<PrivateRoute component={<H5PPage />} />} />
                 </Route>
               </Routes>
             </ToastProvider>

@@ -11,13 +11,14 @@ import { GetVerificationKey, expressjwt as jwt, Request } from "express-jwt";
 import jwksRsa from "jwks-rsa";
 import prettier from "prettier";
 import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getResponsibles } from "./auth";
-import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN, BAD_REQUEST } from "./httpCodes";
+import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN, BAD_REQUEST, FOUND } from "./httpCodes";
 import errorLogger from "./logger";
 import { translateDocument } from "./translate";
 import config from "../config";
 import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
 import { NdlaError } from "../interfaces";
 import { fetchMatomoStats } from "./matomo";
+import { getH5pLocale } from "../components/H5PElement/h5pApi";
 
 const router = express.Router();
 
@@ -33,7 +34,7 @@ router.get("*splat", (req, res, next) => {
     next();
   } else {
     res.set("location", `https://ed.ndla.no${req.originalUrl}`);
-    res.status(302).send();
+    res.status(FOUND).send();
   }
 });
 
@@ -119,6 +120,31 @@ router.get("/get_responsibles", jwtMiddleware, async (req, res) => {
     const managementToken = await getToken(`https://${config.auth0Domain}/api/v2/`);
     const editors = await getResponsibles(managementToken, permission as string);
     res.status(OK).json(editors);
+  } catch (err) {
+    res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
+  }
+});
+
+router.get("/h5p", async (req, res) => {
+  const {
+    query: { locale, "access-token": accessToken },
+  } = req;
+  if (typeof accessToken !== "string") {
+    res
+      .status(BAD_REQUEST)
+      .json({ status: BAD_REQUEST, text: "The 'access-token' query parameter is required, and must be a string." });
+    return;
+  }
+
+  const h5pLocale = getH5pLocale(typeof locale === "string" ? locale : "");
+  try {
+    const h5pResponse = await fetch(`${config.h5pApiUrl}/select?locale=${h5pLocale}&canReturnResources=false`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    const data = await h5pResponse.json();
+    res.set("location", data.url);
+    res.status(FOUND).send();
   } catch (err) {
     res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
   }

@@ -34,7 +34,7 @@
     "@babel/core": "^7.26.10",
     "@ndla/preset-panda": "^0.0.52",
     "@ndla/scripts": "^3.0.1",
-    "@ndla/types-backend": "^1.0.36",
+    "@ndla/types-backend": "^1.0.38",
     "@ndla/types-embed": "^5.0.11-alpha.0",
     "@ndla/types-taxonomy": "^1.0.34",
     "@pandacss/dev": "^0.53.3",

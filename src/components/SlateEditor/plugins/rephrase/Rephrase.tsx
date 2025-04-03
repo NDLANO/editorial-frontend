@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Node, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
@@ -34,6 +34,7 @@ import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { isRephraseElement } from "./queries/rephraseQueries";
 import { RephraseElement } from "./rephraseTypes";
 import { useToast } from "../../../ToastProvider";
+import mergeLastUndos from "../../utils/mergeLastUndos";
 
 interface Props extends RenderElementProps {
   element: RephraseElement;
@@ -59,7 +60,7 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
   // TODO Handle marks and inlines in query.
   const currentText = useMemo(() => Node.string(element), [element]);
 
-  const onClose = () => {
+  const onClose = useCallback(() => {
     const path = ReactEditor.findPath(editor, element);
     const startOfNextPath = editor.start(Path.next(path));
     Transforms.select(editor, startOfNextPath);
@@ -68,7 +69,8 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
       at: path,
       voids: true,
     });
-  };
+    setTimeout(() => ReactEditor.focus(editor), 0);
+  }, [editor, element]);
 
   const fetchAiGeneratedText = async () =>
     await phrasingMutation
@@ -86,6 +88,7 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
   const onReplace = () => {
     if (generatedText) {
       editor.insertText(generatedText);
+      mergeLastUndos(editor);
     }
     onClose();
   };
@@ -95,6 +98,7 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
       const [entry] = editor.nodes({ match: isRephraseElement });
       const [_node, path] = entry;
       editor.insertNode({ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: generatedText }] }, { at: Path.next(path) });
+      mergeLastUndos(editor);
     }
     onClose();
   };

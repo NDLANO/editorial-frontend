@@ -68,7 +68,7 @@ const TwoArticleWrapperWithDiff = styled(TwoArticleWrapper, {
 });
 
 const renderWithoutRouter = (node: ReactNode) => {
-  return renderToString(<MissingRouterContext.Provider value={true}>{node}</MissingRouterContext.Provider>);
+  return renderToString(<MissingRouterContext value={true}>{node}</MissingRouterContext>);
 };
 
 export const PreviewVersion = ({ article, language, customTitle }: VersionPreviewProps) => {

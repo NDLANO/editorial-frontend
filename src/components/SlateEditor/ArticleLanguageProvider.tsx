@@ -17,9 +17,7 @@ interface Props {
 }
 
 export const ArticleLanguageProvider = ({ language, children }: Props) => (
-  <ArticleLanguageContext.Provider value={language ?? config.defaultLanguage}>
-    {children}
-  </ArticleLanguageContext.Provider>
+  <ArticleLanguageContext value={language ?? config.defaultLanguage}>{children}</ArticleLanguageContext>
 );
 
 export const useArticleLanguage = () => {

@@ -50,7 +50,7 @@ const formatNewMessage = (newMessage: NewMessageType): MessageType => {
 
 export const MessagesProvider = ({ children, initialValues = [] }: Props) => {
   const messagesState = useState<MessageType[]>(initialValues);
-  return <MessagesContext.Provider value={messagesState}>{children}</MessagesContext.Provider>;
+  return <MessagesContext value={messagesState}>{children}</MessagesContext>;
 };
 
 export const useMessages = () => {

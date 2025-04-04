@@ -19,7 +19,7 @@ interface Props {
 
 export const IsNewArticleLanguageProvider = ({ locale, article, children }: Props) => {
   const value = isNewArticleLanguage(locale, article);
-  return <IsNewArticleLanguageContext.Provider value={value}>{children}</IsNewArticleLanguageContext.Provider>;
+  return <IsNewArticleLanguageContext value={value}>{children}</IsNewArticleLanguageContext>;
 };
 
 export const useIsNewArticleLanguage = () => {

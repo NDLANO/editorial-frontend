@@ -27,7 +27,7 @@ const SlateProvider = ({ isSubmitted, children }: ProviderProps) => {
     }
   }, [isSubmitted]);
 
-  return <SlateContext.Provider value={{ submitted, setSubmitted }}>{children}</SlateContext.Provider>;
+  return <SlateContext value={{ submitted, setSubmitted }}>{children}</SlateContext>;
 };
 
 const useSlateContext = (): SlateContextType => {

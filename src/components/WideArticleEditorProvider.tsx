@@ -22,7 +22,7 @@ export const articleIsWide = (draftId: number) => getArticleIdList().includes(dr
 
 export const WideArticleEditorProvider = ({ children, initialValue = false }: Props) => {
   const isWide = useState<boolean>(initialValue);
-  return <WideArticleContext.Provider value={isWide}>{children}</WideArticleContext.Provider>;
+  return <WideArticleContext value={isWide}>{children}</WideArticleContext>;
 };
 
 export const useWideArticle = () => {

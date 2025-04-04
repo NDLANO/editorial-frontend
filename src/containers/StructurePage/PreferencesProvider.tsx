@@ -46,7 +46,7 @@ export const PreferencesProvider = ({ children }: Props) => {
   const [showMatomoStats, setShowMatomoStats] = useState(false);
 
   return (
-    <PreferencesContext.Provider
+    <PreferencesContext
       value={{
         showFavorites,
         setShowFavorites,
@@ -63,7 +63,7 @@ export const PreferencesProvider = ({ children }: Props) => {
       }}
     >
       {children}
-    </PreferencesContext.Provider>
+    </PreferencesContext>
   );
 };
 

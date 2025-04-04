@@ -46,12 +46,13 @@ interface Props extends Omit<EditableProps & JsxStyleProps, "value"> {
   className?: string;
   placeholder?: string;
   plugins?: SlatePlugin[];
+  editorId?: string;
 }
 
 // TODO: Find a way to properly integrate this with `Field`
 
 const PlainTextEditor = forwardRef<HTMLTextAreaElement, Props>(
-  ({ onChange, value, id, submitted, className, placeholder, plugins, ...rest }, ref) => {
+  ({ onChange, value, id, submitted, className, placeholder, plugins, editorId, ...rest }, ref) => {
     const [editor] = useState(() => createSlate({ plugins }));
 
     const onBlur = useCallback(() => {
@@ -73,7 +74,8 @@ const PlainTextEditor = forwardRef<HTMLTextAreaElement, Props>(
     const { status, setStatus } = useFormikContext<ArticleFormType>();
 
     useEffect(() => {
-      if (status?.status === "revertVersion") {
+      // TODO: Add better logic for refreshing editors when values are changed/set outside of editor scope
+      if (status?.status === "revertVersion" || (editorId && status?.status === editorId)) {
         ReactEditor.deselect(editor);
         editor.reinitialize({ value });
         setStatus((prevStatus: FormikStatus) => ({

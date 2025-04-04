@@ -10,6 +10,7 @@ import { Descendant } from "slate";
 import { createSlate, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 import { CODE_BLOCK_ELEMENT_TYPE } from "../types";
+import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
 
@@ -59,10 +60,12 @@ describe("codeblock normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
+        id: anySlateElementId,
         children: [
-          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: CODE_BLOCK_ELEMENT_TYPE,
+            id: anySlateElementId,
             data: {
               codeContent: "print(1)",
               codeFormat: "python",
@@ -72,9 +75,10 @@ describe("codeblock normalizer tests", () => {
             children: [{ text: "" }],
             isFirstEdit: false,
           },
-          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: CODE_BLOCK_ELEMENT_TYPE,
+            id: anySlateElementId,
             data: {
               codeContent: "print(1)",
               codeFormat: "python",
@@ -84,9 +88,10 @@ describe("codeblock normalizer tests", () => {
             children: [{ text: "" }],
             isFirstEdit: false,
           },
-          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: CODE_BLOCK_ELEMENT_TYPE,
+            id: anySlateElementId,
             data: {
               codeContent: "print(1)",
               codeFormat: "python",
@@ -96,7 +101,7 @@ describe("codeblock normalizer tests", () => {
             children: [{ text: "" }],
             isFirstEdit: false,
           },
-          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];

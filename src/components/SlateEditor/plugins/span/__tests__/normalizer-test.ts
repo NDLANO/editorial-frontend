@@ -10,6 +10,7 @@ import { Descendant } from "slate";
 import { createSlate, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 import { SPAN_ELEMENT_TYPE } from "../types";
+import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
 
@@ -38,9 +39,11 @@ describe("span normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
+        id: anySlateElementId,
         children: [
           {
             type: PARAGRAPH_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [
               { text: "" },
               {

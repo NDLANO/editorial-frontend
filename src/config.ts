@@ -189,6 +189,7 @@ export type ConfigType = {
   matomoUrl: string;
   s3AudioRoot: string;
   enableMatomoData: boolean;
+  enableUpdateGrepCodes: boolean;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -239,6 +240,7 @@ const getServerSideConfig = (): ConfigType => {
     matomoUrl: getEnvironmentVariabel("MATOMO_URL", matomoDomain(ndlaEnvironment)),
     s3AudioRoot: getAudioS3Root(ndlaEnvironment),
     enableMatomoData: getEnvironmentVariabel("ENABLE_MATOMO_DATA", "false") === "true",
+    enableUpdateGrepCodes: getEnvironmentVariabel("ENABLE_UPDATE_GREP_CODES", "false") === "true",
   };
 };
 

@@ -76,61 +76,63 @@ export interface CustomEditor extends _CustomEditor {
   shouldHideBlockPicker?: () => boolean | undefined;
 }
 
+type CustomElement =
+  | ParagraphElement
+  | SectionElement
+  | BreakElement
+  | LinkElement
+  | ContentLinkElement
+  | BlockQuoteElement
+  | HeadingElement
+  | ListElement
+  | ListItemElement
+  | FootnoteElement
+  | MathmlElement
+  | ConceptInlineElement
+  | ConceptBlockElement
+  | AsideElement
+  | FileElement
+  | DetailsElement
+  | SummaryElement
+  | CodeBlockElement
+  | TableElement
+  | TableCaptionElement
+  | TableRowElement
+  | TableCellElement
+  | TableHeadElement
+  | TableBodyElement
+  | RelatedElement
+  | BrightcoveEmbedElement
+  | AudioElement
+  | ImageElement
+  | ErrorEmbedElement
+  | H5pElement
+  | FramedContentElement
+  | DivElement
+  | SpanElement
+  | DefinitionListElement
+  | DefinitionDescriptionElement
+  | DefinitionTermElement
+  | PitchElement
+  | GridElement
+  | GridCellElement
+  | KeyFigureElement
+  | ContactBlockElement
+  | CampaignBlockElement
+  | LinkBlockListElement
+  | DisclaimerElement
+  | NoopElement
+  | ExternalElement
+  | IframeElement
+  | CopyrightElement
+  | CommentInlineElement
+  | CommentBlockElement
+  | RephraseElement;
+
 declare module "slate" {
   interface CustomTypes {
     Editor: BaseEditor & ReactEditor & HistoryEditor & CustomEditor;
-    Element:
-      | ParagraphElement
-      | SectionElement
-      | BreakElement
-      | LinkElement
-      | ContentLinkElement
-      | BlockQuoteElement
-      | HeadingElement
-      | ListElement
-      | ListItemElement
-      | FootnoteElement
-      | MathmlElement
-      | ConceptInlineElement
-      | ConceptBlockElement
-      | AsideElement
-      | FileElement
-      | DetailsElement
-      | SummaryElement
-      | CodeBlockElement
-      | TableElement
-      | TableCaptionElement
-      | TableRowElement
-      | TableCellElement
-      | TableHeadElement
-      | TableBodyElement
-      | RelatedElement
-      | BrightcoveEmbedElement
-      | AudioElement
-      | ImageElement
-      | ErrorEmbedElement
-      | H5pElement
-      | FramedContentElement
-      | DivElement
-      | SpanElement
-      | DefinitionListElement
-      | DefinitionDescriptionElement
-      | DefinitionTermElement
-      | PitchElement
-      | GridElement
-      | GridCellElement
-      | KeyFigureElement
-      | ContactBlockElement
-      | CampaignBlockElement
-      | LinkBlockListElement
-      | DisclaimerElement
-      | NoopElement
-      | ExternalElement
-      | IframeElement
-      | CopyrightElement
-      | CommentInlineElement
-      | CommentBlockElement
-      | RephraseElement;
+    Element: CustomElement & { id?: string };
     Text: CustomTextWithMarks;
   }
 }

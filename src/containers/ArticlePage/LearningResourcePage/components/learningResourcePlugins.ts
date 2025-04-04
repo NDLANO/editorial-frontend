@@ -6,6 +6,7 @@
  *
  */
 
+import { inlineNavigationPlugin } from "@ndla/editor";
 import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import { asidePlugin } from "../../../../components/SlateEditor/plugins/aside/asidePlugin";
 import { audioPlugin } from "../../../../components/SlateEditor/plugins/audio/audioPlugin";
@@ -46,10 +47,11 @@ import { headingPlugin } from "../../../../components/SlateEditor/plugins/headin
 import { breakPlugin } from "../../../../components/SlateEditor/plugins/break";
 import { markPlugin } from "../../../../components/SlateEditor/plugins/mark";
 import { listPlugin } from "../../../../components/SlateEditor/plugins/list";
-import { inlineNavigationPlugin } from "@ndla/editor";
+import { idPlugin } from "../../../../components/SlateEditor/plugins/id/idPlugin";
 import { rephrasePlugin } from "../../../../components/SlateEditor/plugins/rephrase/rephrasePlugin";
 
 export const learningResourcePlugins: SlatePlugin[] = [
+  idPlugin,
   inlineNavigationPlugin,
   sectionPlugin,
   spanPlugin,

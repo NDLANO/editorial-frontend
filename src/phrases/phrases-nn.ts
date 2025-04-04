@@ -111,9 +111,8 @@ const phrases = {
     san: "Sanskrit",
     heb: "Hebraisk",
     pli: "Pali",
-    empty: "Ingen fleire språk",
     change: "Bytt til {{language}} versjon",
-    none: "Ingen",
+    none: "Språk",
   },
   welcomePage: {
     lastFavorited: "Siste hjertemarkerte ressurs: ",
@@ -217,6 +216,13 @@ const phrases = {
       articleStatuses: "Fagtypar",
     },
   },
+  updateCodesPage: {
+    title: "Oppdater læreplankoder",
+    description:
+      "Konverter grep-koder frå utgåtte læreplanar til tilsvarande grep-koder for nye læreplanar. Dette endrar alle artiklar som har tilknytta kompetansemål og kjerneelement frå utgåtte læreplanar, både publiserte og upubliserte versjonar. Artiklane treng ikkje endrast i etterkant for at nye grep-koder skal bli synlege.",
+    buttonText: "Oppdater",
+    error: "Noko gjekk gale ved oppdatering av grep-koder",
+  },
   searchPage: {
     search: "Søk",
     header: {
@@ -291,6 +297,7 @@ const phrases = {
     newSubject: "Opprett fag",
     newFrontpageArticle: "Om-NDLA-artikkel",
     frontpage: "NDLA forside",
+    updateCodes: "Oppdater læreplankoder",
   },
   logo: {
     altText: "Nasjonal digital læringsarena",

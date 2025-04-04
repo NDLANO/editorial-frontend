@@ -9,7 +9,6 @@
 import {
   Children,
   ComponentPropsWithRef,
-  forwardRef,
   isValidElement,
   ReactNode,
   useEffect,
@@ -203,7 +202,9 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
   );
 };
 
-const ToolbarRepositioner = forwardRef<HTMLDivElement, ComponentPropsWithRef<"div">>((props, ref) => {
+interface ToolbarRepositionerProps extends ComponentPropsWithRef<"div"> {}
+
+const ToolbarRepositioner = ({ ref, ...props }: ToolbarRepositionerProps) => {
   const { open, reposition } = usePopoverContext();
   const selection = useSlateSelection();
 
@@ -214,7 +215,7 @@ const ToolbarRepositioner = forwardRef<HTMLDivElement, ComponentPropsWithRef<"di
   }, [open, reposition, selection]);
 
   return <div ref={ref} {...props} />;
-});
+};
 
 const ToolbarRow = ({ children }: { children: ReactNode }) => {
   // Do not render categories with only disabled and hidden options

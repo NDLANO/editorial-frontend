@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, forwardRef } from "react";
+import { ReactNode, type RefObject } from "react";
 import { CloseLine, ArrowDownShortLine, CheckLine, ImageLine } from "@ndla/icons";
 import {
   ComboboxClearTrigger,
@@ -30,60 +30,57 @@ import {
 } from "@ndla/primitives";
 import { Flex, styled } from "@ndla/styled-system/jsx";
 
-export const GenericComboboxItemIndicator = forwardRef<HTMLDivElement, ComboboxItemIndicatorProps>(
-  ({ children, ...props }, ref) => (
-    <ComboboxItemIndicator ref={ref} {...props} asChild>
-      {children ?? <CheckLine />}
-    </ComboboxItemIndicator>
-  ),
+interface GenericComboboxItemIndicatorProps extends ComboboxItemIndicatorProps {
+  ref?: RefObject<HTMLDivElement>;
+}
+
+export const GenericComboboxItemIndicator = ({ children, ref, ...props }: GenericComboboxItemIndicatorProps) => (
+  <ComboboxItemIndicator ref={ref} {...props} asChild>
+    {children ?? <CheckLine />}
+  </ComboboxItemIndicator>
 );
 
-export interface GenericComboboxInputProps extends ComboboxInputProps {
+export interface GenericComboboxInputProps extends ComboboxInputProps, InputProps {
+  ref?: RefObject<HTMLInputElement>;
   clearable?: boolean;
   triggerable?: boolean;
   isFetching?: boolean;
 }
 
-export const GenericComboboxInput = forwardRef<HTMLInputElement, GenericComboboxInputProps & InputProps>(
-  ({ clearable, componentSize, isFetching, triggerable, ...props }, ref) => {
-    return (
-      <ComboboxControl>
-        <InputContainer>
-          <ComboboxInput asChild ref={ref} {...props}>
-            <Input componentSize={componentSize} />
-          </ComboboxInput>
-          {!!isFetching && <Spinner size="small" />}
-          {!!clearable && (
-            <ComboboxClearTrigger asChild>
-              <IconButton variant="clear" size={componentSize}>
-                <CloseLine />
-              </IconButton>
-            </ComboboxClearTrigger>
-          )}
-        </InputContainer>
-
-        {!!triggerable && (
-          <ComboboxTrigger asChild>
-            <IconButton variant="secondary" size={componentSize}>
-              <ArrowDownShortLine />
+export const GenericComboboxInput = ({
+  clearable,
+  componentSize,
+  isFetching,
+  triggerable,
+  ref,
+  ...props
+}: GenericComboboxInputProps) => {
+  return (
+    <ComboboxControl>
+      <InputContainer>
+        <ComboboxInput asChild ref={ref} {...props}>
+          <Input componentSize={componentSize} />
+        </ComboboxInput>
+        {!!isFetching && <Spinner size="small" />}
+        {!!clearable && (
+          <ComboboxClearTrigger asChild>
+            <IconButton variant="clear" size={componentSize}>
+              <CloseLine />
             </IconButton>
-          </ComboboxTrigger>
+          </ComboboxClearTrigger>
         )}
-      </ComboboxControl>
-    );
-  },
-);
+      </InputContainer>
 
-interface GenericComboboxItemProps {
-  title: string;
-  description?: string;
-  fallbackImageElement?: ReactNode;
-  useFallbackImage?: boolean;
-  image?: {
-    url?: string;
-    alt?: string;
-  };
-}
+      {!!triggerable && (
+        <ComboboxTrigger asChild>
+          <IconButton variant="secondary" size={componentSize}>
+            <ArrowDownShortLine />
+          </IconButton>
+        </ComboboxTrigger>
+      )}
+    </ComboboxControl>
+  );
+};
 
 const StyledText = styled(Text, {
   base: {
@@ -108,27 +105,46 @@ const StyledImageLine = styled(ImageLine, {
   },
 });
 
-export const GenericComboboxItemContent = forwardRef<HTMLDivElement, GenericComboboxItemProps & ListItemProps>(
-  ({ title, image, description, fallbackImageElement, useFallbackImage, ...props }, ref) => (
-    <StyledListItemRoot context="list" ref={ref} {...props}>
-      {!!(!!image || useFallbackImage) && (
-        <ListItemImage
-          src={image?.url ?? ""}
-          alt={image?.alt ?? ""}
-          fallbackElement={fallbackImageElement ?? <StyledImageLine />}
-        />
-      )}
-      <ListItemContent>
-        <Flex direction="column">
-          <ComboboxItemText color="text.default">{title}</ComboboxItemText>
-          {!!description && (
-            <StyledText textStyle="label.small" color="text.subtle">
-              {description}
-            </StyledText>
-          )}
-        </Flex>
-        <GenericComboboxItemIndicator />
-      </ListItemContent>
-    </StyledListItemRoot>
-  ),
+interface GenericComboboxItemCustomProps {
+  title: string;
+  description?: string;
+  fallbackImageElement?: ReactNode;
+  useFallbackImage?: boolean;
+  image?: {
+    url?: string;
+    alt?: string;
+  };
+}
+
+type GenericComboboxItemProps = GenericComboboxItemCustomProps & ListItemProps & { ref?: RefObject<HTMLDivElement> };
+
+export const GenericComboboxItemContent = ({
+  title,
+  image,
+  description,
+  fallbackImageElement,
+  useFallbackImage,
+  ref,
+  ...props
+}: GenericComboboxItemProps) => (
+  <StyledListItemRoot context="list" ref={ref} {...props}>
+    {!!(!!image || useFallbackImage) && (
+      <ListItemImage
+        src={image?.url ?? ""}
+        alt={image?.alt ?? ""}
+        fallbackElement={fallbackImageElement ?? <StyledImageLine />}
+      />
+    )}
+    <ListItemContent>
+      <Flex direction="column">
+        <ComboboxItemText color="text.default">{title}</ComboboxItemText>
+        {!!description && (
+          <StyledText textStyle="label.small" color="text.subtle">
+            {description}
+          </StyledText>
+        )}
+      </Flex>
+      <GenericComboboxItemIndicator />
+    </ListItemContent>
+  </StyledListItemRoot>
 );

@@ -6,7 +6,7 @@
  *
  */
 
-import { forwardRef } from "react";
+import { type RefObject } from "react";
 import { CloseLine, ArrowDownShortLine } from "@ndla/icons";
 import { IconButton, InputContainer } from "@ndla/primitives";
 import { HStack } from "@ndla/styled-system/jsx";
@@ -18,9 +18,11 @@ import {
   TagSelectorInputProps,
 } from "@ndla/ui";
 
-interface Props extends TagSelectorInputProps {}
+interface Props extends TagSelectorInputProps {
+  ref?: RefObject<HTMLInputElement>;
+}
 
-export const SearchTagsTagSelectorInput = forwardRef<HTMLInputElement, Props>((props, ref) => {
+export const SearchTagsTagSelectorInput = ({ ref, ...props }: Props) => {
   return (
     <HStack gap="3xsmall">
       <TagSelectorControl asChild>
@@ -40,4 +42,4 @@ export const SearchTagsTagSelectorInput = forwardRef<HTMLInputElement, Props>((p
       </TagSelectorTrigger>
     </HStack>
   );
-});
+};

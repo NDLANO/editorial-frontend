@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo, RefObject } from "react";
+import { useMemo, type RefObject } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { Spinner } from "@ndla/primitives";

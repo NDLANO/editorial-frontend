@@ -36,7 +36,9 @@ interface Props {
   imageId: number;
 }
 
-type FormikValuesType = Partial<ImageFormikType>;
+interface FormikValuesType extends Partial<ImageFormikType> {
+  imageFile: Blob | string | undefined;
+}
 
 const formikRules = { imageFile: { required: true } };
 const initialValues: FormikValuesType = {

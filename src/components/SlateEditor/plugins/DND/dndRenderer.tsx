@@ -6,16 +6,21 @@
  *
  */
 
-import { ReactNode } from "react";
-import { Editor, Element } from "slate";
-import { ReactEditor, useSlateStatic } from "slate-react";
+import { MouseEvent, ReactNode } from "react";
+import { Editor, Element, ElementType } from "slate";
+import { ReactEditor } from "slate-react";
 import { useDraggable } from "@dnd-kit/core";
-import { CSS } from "@dnd-kit/utilities";
 import { Draggable } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { DND_PLUGIN, DndPluginOptions } from "./dndTypes";
 import { DropArea } from "./DropArea";
+
+const getAccepts = (editor: Editor, element: Element, options?: DndPluginOptions) => {
+  const [parent] = editor.parent(ReactEditor.findPath(editor, element));
+  if (!parent || !Element.isElement(parent)) return undefined;
+  return options?.legalChildren?.[parent.type];
+};
 
 export const dndRenderer = (editor: Editor) => {
   const { renderElement } = editor;
@@ -24,8 +29,12 @@ export const dndRenderer = (editor: Editor) => {
     if (!element.id || dndOptions?.disabledElements?.includes(element.type)) {
       return renderElement?.({ attributes, children, element });
     }
+    const accepts = getAccepts(editor, element, dndOptions);
+    if (accepts && !accepts.length) {
+      return renderElement?.({ attributes, children, element });
+    }
     return (
-      <DraggableElement element={element} options={dndOptions}>
+      <DraggableElement element={element} accepts={accepts}>
         {renderElement?.({ attributes, children, element })}
       </DraggableElement>
     );
@@ -49,22 +58,14 @@ const StyledWrapper = styled("div", {
   base: {
     position: "relative",
   },
-  variants: {
-    dragging: {
-      true: {
-        zIndex: "base",
-        opacity: "0.5",
-      },
-    },
-  },
 });
 
 const StyledContainer = styled("div", {
   base: {
     position: "relative",
     overflow: "visible",
-    "&:hover, &:focus-visible": {
-      "& > [data-embed-wrapper] > button": {
+    _hover: {
+      "& [data-drag-button]": {
         visibility: "visible",
       },
     },
@@ -74,45 +75,26 @@ const StyledContainer = styled("div", {
 interface Props {
   children: ReactNode;
   element: Element;
-  options?: DndPluginOptions;
+  accepts?: ElementType[];
 }
 
-const useAccepts = (element: Element, options?: DndPluginOptions) => {
-  const editor = useSlateStatic();
-
-  const [parent] = editor.parent(ReactEditor.findPath(editor, element));
-
-  if (!parent || !Element.isElement(parent)) return undefined;
-
-  // console.log(element, parent, options?.legalChildren?.[parent.type]);
-
-  return options?.legalChildren?.[parent.type];
+const onMouseDown = (e: MouseEvent<HTMLButtonElement>) => {
+  e.preventDefault();
 };
 
-const DraggableElement = ({ children, element, options }: Props) => {
-  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+const DraggableElement = ({ children, element, accepts }: Props) => {
+  const { attributes, listeners, setNodeRef } = useDraggable({
     id: element.id!,
-    data: { element },
+    data: { element, children },
   });
-
-  const accepts = useAccepts(element, options);
-
-  if (options?.disabledElements?.includes(element.type) || (accepts && !accepts.length)) {
-    return children;
-  }
 
   return (
     <StyledContainer data-embed-wrapper="">
-      {<DropArea element={element} accepts={accepts} position="top" />}
-      <StyledWrapper
-        data-embed-wrapper=""
-        dragging={isDragging}
-        style={{ transform: CSS.Translate.toString(transform) }}
-        ref={setNodeRef}
-      >
+      <DropArea element={element} accepts={accepts} position="top" />
+      <StyledWrapper data-embed-wrapper="" ref={setNodeRef}>
         <StyledIconButton
           size="small"
-          onMouseDown={(e) => e.preventDefault()}
+          onMouseDown={onMouseDown}
           variant="clear"
           {...attributes}
           {...listeners}
@@ -122,7 +104,7 @@ const DraggableElement = ({ children, element, options }: Props) => {
         </StyledIconButton>
         {children}
       </StyledWrapper>
-      {<DropArea element={element} accepts={accepts} position="bottom" />}
+      <DropArea element={element} accepts={accepts} position="bottom" />
     </StyledContainer>
   );
 };

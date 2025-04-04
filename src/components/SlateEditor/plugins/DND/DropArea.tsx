@@ -6,6 +6,7 @@
  *
  */
 
+import { memo } from "react";
 import { Element } from "slate";
 import { useDroppable } from "@dnd-kit/core";
 import { styled } from "@ndla/styled-system/jsx";
@@ -38,7 +39,7 @@ interface Props {
   position: "top" | "bottom";
   accepts?: Element["type"][];
 }
-export const DropArea = ({ element, position, accepts }: Props) => {
+export const DropArea = memo(({ element, position, accepts }: Props) => {
   const { setNodeRef, isOver } = useDroppable({
     id: `${element.id}-${position}`,
     data: { element, position: position, accepts },
@@ -53,4 +54,4 @@ export const DropArea = ({ element, position, accepts }: Props) => {
       variant={position}
     />
   );
-};
+});

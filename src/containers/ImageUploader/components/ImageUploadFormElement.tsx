@@ -54,7 +54,7 @@ interface Props {
 export const ImageUploadFormElement = ({ language }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ImageFormikType>();
-  const { values, setFieldValue } = formikContext;
+  const { values, setValues, setFieldValue } = formikContext;
 
   // We use the timestamp to avoid caching of the `imageFile` url in the browser
   const timestamp = new Date().getTime();
@@ -73,15 +73,18 @@ export const ImageUploadFormElement = ({ language }: Props) => {
                   if (!file) return;
                   // TODO: Make consumers handle field values themselves
                   //       https://github.com/NDLANO/editorial-frontend/pull/2891#discussion_r1991020617
-                  setFieldValue("filepath", URL.createObjectURL(file));
+                  setValues((values) => ({
+                    ...values,
+                    imageFile: file,
+                    contentType: file.type,
+                    fileSize: file.size,
+                    filepath: URL.createObjectURL(file),
+                  }));
                   Promise.resolve(
                     createImageBitmap(file as Blob).then((image) => {
                       setFieldValue("imageDimensions", image);
                     }),
                   );
-                  setFieldValue("imageFile", file);
-                  setFieldValue("contentType", file.type);
-                  setFieldValue("fileSize", file.size);
                 }}
                 maxFileSize={MAX_IMAGE_UPLOAD_SIZE}
                 onFileReject={(details) => {
@@ -90,14 +93,18 @@ export const ImageUploadFormElement = ({ language }: Props) => {
                   const fileErrors = details.files?.[0]?.errors;
                   if (!fileErrors) return;
                   if (fileErrors.includes("FILE_TOO_LARGE")) {
-                    const errorMessage = `${t("form.image.fileUpload.genericError")}: ${t("form.image.fileUpload.tooLargeError")}`;
+                    const errorMessage = `${t("form.image.fileUpload.genericError")}: ${t(
+                      "form.image.fileUpload.tooLargeError",
+                    )}`;
                     setTimeout(() => {
                       helpers.setError(errorMessage);
                     }, 0);
                     return;
                   }
                   if (fileErrors.includes("FILE_INVALID_TYPE")) {
-                    const errorMessage = `${t("form.image.fileUpload.genericError")}: ${t("form.image.fileUpload.fileTypeInvalidError")}`;
+                    const errorMessage = `${t("form.image.fileUpload.genericError")}: ${t(
+                      "form.image.fileUpload.fileTypeInvalidError",
+                    )}`;
                     setTimeout(() => {
                       helpers.setError(errorMessage);
                     }, 0);
@@ -129,7 +136,15 @@ export const ImageUploadFormElement = ({ language }: Props) => {
           aria-label={t("form.image.removeImage")}
           title={t("form.image.removeImage")}
           variant="danger"
-          onClick={() => setFieldValue("imageFile", undefined)}
+          onClick={() =>
+            setValues((values) => ({
+              ...values,
+              imageFile: undefined,
+              contentType: undefined,
+              fileSize: undefined,
+              filepath: undefined,
+            }))
+          }
           size="small"
         >
           <DeleteBinLine />

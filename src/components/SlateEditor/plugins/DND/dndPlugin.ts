@@ -24,10 +24,12 @@ export const dndPlugin = createPlugin<any, DndPluginOptions>({
       "table-cell",
       "table-caption",
       "table-row",
+      "grid-cell",
       "br",
     ],
     legalChildren: {
       "list-item": [],
+      "grid-cell": ["paragraph", "image", "list", "definition-list", "quote"],
       summary: [],
       aside: [
         "paragraph",

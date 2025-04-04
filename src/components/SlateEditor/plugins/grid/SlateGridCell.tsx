@@ -71,6 +71,7 @@ const StyledGridCell = styled("div", {
     border: "1px solid",
     borderColor: "stroke.default",
     minWidth: "xxlarge",
+    paddingInline: "medium",
   },
 });
 

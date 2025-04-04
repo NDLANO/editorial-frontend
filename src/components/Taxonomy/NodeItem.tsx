@@ -6,7 +6,7 @@
  *
  */
 
-import { forwardRef } from "react";
+import { type RefObject } from "react";
 import { ark, HTMLArkProps } from "@ark-ui/react";
 import { ArrowRightShortLine } from "@ndla/icons";
 import { createStyleContext, Heading, TextProps } from "@ndla/primitives";
@@ -89,8 +89,12 @@ export const NodeItemRoot = withProvider<HTMLDivElement, HTMLArkProps<"div"> & J
   { baseComponent: true },
 );
 
-const InternalNodeItemTitle = forwardRef<HTMLHeadingElement, TextProps>(
-  ({ textStyle = "label.medium", ...props }, ref) => <Heading textStyle={textStyle} {...props} ref={ref} />,
+interface InternalNodeItemTitleProps extends TextProps {
+  ref?: RefObject<HTMLHeadingElement>;
+}
+
+const InternalNodeItemTitle = ({ textStyle = "label.medium", ref, ...props }: InternalNodeItemTitleProps) => (
+  <Heading textStyle={textStyle} {...props} ref={ref} />
 );
 
 export const NodeItemTitle = withContext<HTMLHeadingElement, TextProps & HTMLArkProps<"h1"> & JsxStyleProps>(

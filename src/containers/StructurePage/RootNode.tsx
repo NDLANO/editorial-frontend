@@ -7,7 +7,7 @@
  */
 
 import { partition, isEqual, sortBy } from "lodash-es";
-import { memo, RefObject } from "react";
+import { memo, type RefObject } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
 import { useQueryClient } from "@tanstack/react-query";

@@ -17,9 +17,18 @@ import { DND_PLUGIN, DndPluginOptions } from "./dndTypes";
 import { DropArea } from "./DropArea";
 
 const getAccepts = (editor: Editor, element: Element, options?: DndPluginOptions) => {
-  const [parent] = editor.parent(ReactEditor.findPath(editor, element));
-  if (!parent || !Element.isElement(parent)) return undefined;
-  return options?.legalChildren?.[parent.type];
+  const path = ReactEditor.findPath(editor, element);
+  const [parent] = editor.parent(path);
+  if (!parent || !Element.isElement(parent)) {
+    return {
+      accepts: undefined,
+      firstElementInContainer: false,
+    };
+  }
+  return {
+    accepts: options?.legalChildren?.[parent.type],
+    firstElementInContainer: path.length === 2 ? path.at(1) === 0 : path.at(-1) === 0,
+  };
 };
 
 export const dndRenderer = (editor: Editor) => {
@@ -29,12 +38,12 @@ export const dndRenderer = (editor: Editor) => {
     if (!element.id || dndOptions?.disabledElements?.includes(element.type)) {
       return renderElement?.({ attributes, children, element });
     }
-    const accepts = getAccepts(editor, element, dndOptions);
+    const { accepts, firstElementInContainer } = getAccepts(editor, element, dndOptions);
     if (accepts && !accepts.length) {
       return renderElement?.({ attributes, children, element });
     }
     return (
-      <DraggableElement element={element} accepts={accepts}>
+      <DraggableElement element={element} accepts={accepts} firstElementInContainer={firstElementInContainer}>
         {renderElement?.({ attributes, children, element })}
       </DraggableElement>
     );
@@ -54,12 +63,6 @@ const StyledIconButton = styled(IconButton, {
   },
 });
 
-const StyledWrapper = styled("div", {
-  base: {
-    position: "relative",
-  },
-});
-
 const StyledContainer = styled("div", {
   base: {
     position: "relative",
@@ -76,34 +79,34 @@ interface Props {
   children: ReactNode;
   element: Element;
   accepts?: ElementType[];
+  firstElementInContainer?: boolean;
 }
 
 const onMouseDown = (e: MouseEvent<HTMLButtonElement>) => {
   e.preventDefault();
 };
 
-const DraggableElement = ({ children, element, accepts }: Props) => {
+const DraggableElement = ({ children, element, accepts, firstElementInContainer }: Props) => {
   const { attributes, listeners, setNodeRef } = useDraggable({
     id: element.id!,
     data: { element, children },
   });
 
   return (
-    <StyledContainer data-embed-wrapper="">
-      <DropArea element={element} accepts={accepts} position="top" />
-      <StyledWrapper data-embed-wrapper="" ref={setNodeRef}>
-        <StyledIconButton
-          size="small"
-          onMouseDown={onMouseDown}
-          variant="clear"
-          {...attributes}
-          {...listeners}
-          data-drag-button=""
-        >
-          <Draggable />
-        </StyledIconButton>
-        {children}
-      </StyledWrapper>
+    <StyledContainer data-embed-wrapper="" ref={setNodeRef}>
+      {!!firstElementInContainer && <DropArea element={element} accepts={accepts} position="top" />}
+      <StyledIconButton
+        size="small"
+        onMouseDown={onMouseDown}
+        contentEditable={false}
+        variant="clear"
+        {...attributes}
+        {...listeners}
+        data-drag-button=""
+      >
+        <Draggable />
+      </StyledIconButton>
+      {children}
       <DropArea element={element} accepts={accepts} position="bottom" />
     </StyledContainer>
   );

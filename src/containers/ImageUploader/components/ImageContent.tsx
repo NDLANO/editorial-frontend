@@ -21,7 +21,9 @@ import { TitleField } from "../../FormikForm";
 import { useMessages } from "../../Messages/MessagesProvider";
 import { ImageFormikType } from "../imageTransformers";
 
-const IMAGE_IDENTIFIER_REGEX = /data:image\/(jpe?g|png|svg+xml|gif);base64,/;
+const ALLOWED_IMAGE_TYPES = "(jpe?g|png|gif)";
+const IMAGE_TYPE_REGEX = new RegExp(ALLOWED_IMAGE_TYPES);
+const IMAGE_IDENTIFIER_REGEX = new RegExp(`data:image/${ALLOWED_IMAGE_TYPES};base64,`);
 interface Props {
   language: string;
 }
@@ -31,7 +33,7 @@ const ImageContent = ({ language }: Props) => {
   const { userPermissions } = useSession();
   const { values } = useFormikContext<ImageFormikType>();
   const { createMessage } = useMessages();
-  const generateAlttextMutation = useGenerateAltTextMutation();
+  const generateAltTextMutation = useGenerateAltTextMutation();
 
   const generateAltText = async (helpers: FieldHelperProps<string | undefined>) => {
     if (!values.imageFile) {
@@ -61,7 +63,7 @@ const ImageContent = ({ language }: Props) => {
         const imageText = fileReader.result?.toString() ?? "";
         // All images from the filereader is appended with a data identifier string. https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL
         const base64 = imageText.replace(IMAGE_IDENTIFIER_REGEX, "");
-        await generateAlttextMutation
+        await generateAltTextMutation
           .mutateAsync({
             type: "alttext",
             image: {
@@ -76,7 +78,7 @@ const ImageContent = ({ language }: Props) => {
             createMessage({
               message: t("textGeneration.failed.alttext", { error: err.messages }),
               severity: "danger",
-              timeToLive: 10000,
+              timeToLive: 0,
             }),
           );
       };
@@ -101,17 +103,17 @@ const ImageContent = ({ language }: Props) => {
           <FieldRoot invalid={!!meta.error}>
             <HStack justify="space-between">
               <FieldLabel>{t("form.image.alt.label")}</FieldLabel>
-              {!!userPermissions?.includes(AI_ACCESS_SCOPE) && (
+              {userPermissions?.includes(AI_ACCESS_SCOPE) && !!values.contentType?.match(IMAGE_TYPE_REGEX) ? (
                 <Button
                   onClick={() => generateAltText(helpers)}
                   size="small"
-                  loading={generateAlttextMutation.isPending}
+                  loading={generateAltTextMutation.isPending}
                   disabled={!values.imageFile}
                 >
                   {t("textGeneration.generate.alttext")}
                   <FileListLine />
                 </Button>
-              )}
+              ) : null}
             </HStack>
             {/*  TODO: FieldTextArea does not resize when setting generated alttext */}
             <FieldTextArea placeholder={t("form.image.alt.placeholder")} {...field} />

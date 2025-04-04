@@ -109,15 +109,15 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         title: articleTitle,
         language: t(`languages.${articleLanguage}`),
       })
-      .then(async (res) => {
-        await helpers.setValue(inlineContentToEditorValue(res, true), true);
+      .then((res) => {
+        helpers.setValue(inlineContentToEditorValue(res, true), true);
         setStatus({ status: METADATA_EDITOR });
       })
       .catch((e: NdlaErrorPayload) =>
         createMessage({
           message: t("textGeneration.failed.metaDescription", { error: e.messages }),
           severity: "danger",
-          timeToLive: 10000,
+          timeToLive: 0,
         }),
       );
   };
@@ -133,7 +133,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         title: articleTitle,
         language: t(`languages.${articleLanguage}`),
       })
-      .then(async (res) => {
+      .then((res) => {
         setSummary(inlineContentToEditorValue(res, true));
         setStatus({ status: SUMMARY_EDITOR });
       })
@@ -141,7 +141,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         createMessage({
           message: t("textGeneration.failed.summary", { error: e.messages }),
           severity: "danger",
-          timeToLive: 10000,
+          timeToLive: 0,
         }),
       );
   };

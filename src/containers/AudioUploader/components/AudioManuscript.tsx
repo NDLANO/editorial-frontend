@@ -100,7 +100,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
   const [isPolling, setIsPolling] = useState<boolean>(false);
   const [_field, _meta, helpers] = useField("manuscript");
 
-  const language = LANGUAGE_MAP?.[audioLanguage] ?? LANGUAGE_MAP.nb;
+  const language = LANGUAGE_MAP[audioLanguage] ?? LANGUAGE_MAP.nb;
   const postAudioTranscriptionMutation = usePostAudioTranscriptionMutation();
   const fetchAudioTranscriptQuery = useAudioTranscription(
     {
@@ -135,8 +135,8 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
         const editorContent = inlineContentToEditorValue(transcriptText, true);
         helpers.setValue(editorContent, true);
         setStatus({ status: MANUSCRIPT_EDITOR });
-      } else if (transcript?.data?.status === "FAILED" || transcript.error) {
-        createMessage({ message: t("textGeneration.failed.transcription"), severity: "danger", timeToLive: 10000 });
+      } else if (transcript?.data?.status === "FAILED") {
+        createMessage({ message: t("textGeneration.failed.transcription"), severity: "danger", timeToLive: 0 });
       } else {
         const name = audio.audioFile.url?.split("audio/files/")[1];
         await postAudioTranscriptionMutation
@@ -160,7 +160,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
       setStatus({ status: MANUSCRIPT_EDITOR });
     } else if (polledData?.status === "FAILED" && isPolling) {
       setIsPolling(false);
-      createMessage({ message: t("textGeneration.failed.transcription"), severity: "danger", timeToLive: 10000 });
+      createMessage({ message: t("textGeneration.failed.transcription"), severity: "danger", timeToLive: 0 });
     }
   }, [createMessage, helpers, isPolling, polledData?.status, polledData?.transcription, setStatus, t]);
 

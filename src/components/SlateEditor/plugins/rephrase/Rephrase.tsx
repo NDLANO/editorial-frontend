@@ -44,7 +44,7 @@ interface Props extends RenderElementProps {
 const StyledText = styled(Text, {
   base: {
     border: "1px solid",
-    borderColor: "primary",
+    borderColor: "stroke.default",
     borderRadius: "small",
     padding: "small",
   },
@@ -85,7 +85,7 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
         createMessage({
           message: t("textGeneration.failed.variant", { error: err.messages }),
           severity: "danger",
-          timeToLive: 10000,
+          timeToLive: 0,
         }),
       );
 

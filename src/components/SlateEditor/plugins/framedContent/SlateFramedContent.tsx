@@ -114,7 +114,7 @@ const SlateFramedContent = (props: Props) => {
         createMessage({
           message: t("textGeneration.failed.reflection", { error: err.messages }),
           severity: "danger",
-          timeToLive: 10000,
+          timeToLive: 0,
         }),
       );
   };

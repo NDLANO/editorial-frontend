@@ -7,13 +7,9 @@
  */
 
 import { useFormikContext } from "formik";
-import { ComponentPropsWithRef, forwardRef } from "react";
+import { ComponentPropsWithRef } from "react";
 import { FieldHelper, TextProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-
-interface Props extends ComponentPropsWithRef<"div"> {
-  name: string;
-}
 
 const StyledFieldHelper = styled(FieldHelper, {
   base: {
@@ -22,11 +18,11 @@ const StyledFieldHelper = styled(FieldHelper, {
   },
 });
 
-export const FieldWarning = forwardRef<HTMLDivElement, Props & TextProps>(({ name, ...props }, ref) => {
+interface Props extends TextProps, Omit<ComponentPropsWithRef<"div">, "color"> {
+  name: string;
+}
+
+export const FieldWarning = ({ name, ...props }: Props) => {
   const { status } = useFormikContext();
-  return (
-    <StyledFieldHelper ref={ref} {...props}>
-      {status?.warnings?.[name]}
-    </StyledFieldHelper>
-  );
-});
+  return <StyledFieldHelper {...props}>{status?.warnings?.[name]}</StyledFieldHelper>;
+};

@@ -6,7 +6,7 @@
  *
  */
 
-import { CSSProperties, RefObject, useEffect } from "react";
+import { CSSProperties, type RefObject, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
 import { Draggable, StarLine, StarFill, SubtractLine } from "@ndla/icons";

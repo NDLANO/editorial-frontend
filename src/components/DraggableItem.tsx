@@ -6,7 +6,7 @@
  *
  */
 
-import { ComponentProps, ReactElement, ReactNode, cloneElement, forwardRef } from "react";
+import { ComponentProps, ReactElement, ReactNode, type Ref, cloneElement } from "react";
 import { UniqueIdentifier } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -87,14 +87,16 @@ const StyledDragHandle = styled(IconButton, {
   },
 });
 
-export const DragHandle = forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ children, id, tabIndex = 0, variant = "clear", ...rest }, ref) => {
-    return (
-      <StyledDragHandle {...rest} tabIndex={tabIndex} variant={variant} ref={ref}>
-        {children}
-      </StyledDragHandle>
-    );
-  },
-);
+interface DragHandleProps extends IconButtonProps {
+  ref?: Ref<HTMLButtonElement>;
+}
+
+export const DragHandle = ({ children, id, tabIndex = 0, variant = "clear", ...rest }: DragHandleProps) => {
+  return (
+    <StyledDragHandle {...rest} tabIndex={tabIndex} variant={variant}>
+      {children}
+    </StyledDragHandle>
+  );
+};
 
 export default DraggableItem;

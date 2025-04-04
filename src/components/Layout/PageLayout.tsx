@@ -6,7 +6,7 @@
  *
  */
 
-import { ComponentPropsWithRef, CSSProperties, forwardRef, useMemo } from "react";
+import { ComponentPropsWithRef, CSSProperties, useMemo } from "react";
 import { useComponentSize } from "@ndla/hooks";
 import { styled } from "@ndla/styled-system/jsx";
 import { JsxStyleProps } from "@ndla/styled-system/types";
@@ -20,8 +20,10 @@ const StyledPageLayout = styled("div", {
   },
 });
 
-export const PageLayout = forwardRef<HTMLDivElement, ComponentPropsWithRef<"div"> & JsxStyleProps>((props, ref) => {
+interface Props extends ComponentPropsWithRef<"div">, JsxStyleProps {}
+
+export const PageLayout = (props: Props) => {
   const { height } = useComponentSize("masthead");
   const mastheadHeightVar = useMemo(() => ({ "--masthead-height": `${height}px` }) as CSSProperties, [height]);
-  return <StyledPageLayout ref={ref} {...props} style={mastheadHeightVar} />;
-});
+  return <StyledPageLayout {...props} style={mastheadHeightVar} />;
+};

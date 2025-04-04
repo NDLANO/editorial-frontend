@@ -44,7 +44,9 @@ const getSavedSearchRelativeUrl = (inputValue: string) => {
 const createSearchPhrase = (filters: Filters, searchContentType: SearchType, t: TFunction): string => {
   const activeFilters = Object.entries(filters)
     .filter(([, value]) => value !== undefined)
-    .map(([key, value]) => t(`searchForm.tagType.${key}`, { value }));
+    .map(([key, value]) =>
+      key === "query" ? `${t(`searchForm.tagType.${key}`)} ${value}` : t(`searchForm.tagType.${key}`, { value }),
+    );
   const contentTypePhrase = t(`searchTypes.${searchContentType}`);
   if (!activeFilters.length) return contentTypePhrase;
   return `${contentTypePhrase}, ${activeFilters.join(", ")}`;

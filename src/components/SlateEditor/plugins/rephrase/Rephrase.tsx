@@ -26,6 +26,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
+import { useMessages } from "../../../../containers/Messages/MessagesProvider";
 import { useGenerateAlternativePhrasingMutation } from "../../../../modules/llm/llmMutations";
 import { NdlaErrorPayload } from "../../../../util/resolveJsonOrRejectWithError";
 import { DialogCloseButton } from "../../../DialogCloseButton";
@@ -33,7 +34,6 @@ import { FormActionsContainer } from "../../../FormikForm";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { isRephraseElement } from "./queries/rephraseQueries";
 import { RephraseElement } from "./rephraseTypes";
-import { useToast } from "../../../ToastProvider";
 import mergeLastUndos from "../../utils/mergeLastUndos";
 
 interface Props extends RenderElementProps {
@@ -52,10 +52,10 @@ const StyledText = styled(Text, {
 
 export const Rephrase = ({ attributes, editor, element, children }: Props) => {
   const { t } = useTranslation();
+  const { createMessage } = useMessages();
   const language = useArticleLanguage();
   const [generatedText, setGeneratedText] = useState<string | undefined>(undefined);
   const phrasingMutation = useGenerateAlternativePhrasingMutation();
-  const toast = useToast();
 
   // TODO Handle marks and inlines in query.
   const currentText = useMemo(() => Node.string(element), [element]);
@@ -82,7 +82,11 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
       })
       .then((res) => setGeneratedText(res))
       .catch((err: NdlaErrorPayload) =>
-        toast.error({ title: t("textGeneration.failed.variant"), description: err.messages, removeDelay: 1500 }),
+        createMessage({
+          message: t("textGeneration.failed.variant", { error: err.messages }),
+          severity: "danger",
+          timeToLive: 10000,
+        }),
       );
 
   const onReplace = () => {

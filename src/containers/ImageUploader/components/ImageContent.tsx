@@ -14,11 +14,11 @@ import { HStack } from "@ndla/styled-system/jsx";
 import { ImageUploadFormElement } from "./ImageUploadFormElement";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
-import { useToast } from "../../../components/ToastProvider";
 import { AI_ACCESS_SCOPE } from "../../../constants";
 import { useSession } from "../../../containers/Session/SessionProvider";
 import { useGenerateAltTextMutation } from "../../../modules/llm/llmMutations";
 import { TitleField } from "../../FormikForm";
+import { useMessages } from "../../Messages/MessagesProvider";
 import { ImageFormikType } from "../imageTransformers";
 
 const IMAGE_IDENTIFIER_REGEX = /data:image\/(jpe?g|png|svg+xml|gif);base64,/;
@@ -30,7 +30,7 @@ const ImageContent = ({ language }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { values } = useFormikContext<ImageFormikType>();
-  const toast = useToast();
+  const { createMessage } = useMessages();
   const generateAlttextMutation = useGenerateAltTextMutation();
 
   const generateAltText = async (helpers: FieldHelperProps<string | undefined>) => {
@@ -73,7 +73,11 @@ const ImageContent = ({ language }: Props) => {
           })
           .then((res) => helpers.setValue(res, true))
           .catch((err) =>
-            toast.error({ title: t("textGeneration.failed.alttext"), description: err.messages, removeDelay: 1500 }),
+            createMessage({
+              message: t("textGeneration.failed.alttext", { error: err.messages }),
+              severity: "danger",
+              timeToLive: 10000,
+            }),
           );
       };
     }

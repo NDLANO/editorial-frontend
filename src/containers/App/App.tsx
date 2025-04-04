@@ -28,7 +28,6 @@ import SubjectMatterPage from "./SubjectMatterPage";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import { MastheadLayout } from "../../components/Layout/MastheadLayout";
 import { Layout } from "../../components/Page/Layout";
-import { ToastProvider } from "../../components/ToastProvider";
 import { scheduleRenewal } from "../../util/authHelpers";
 import ComparePage from "../ComparePage/ComparePage";
 import ConceptPage from "../ConceptPage/ConceptPage";
@@ -58,38 +57,36 @@ const App = () => {
       <MessagesProvider>
         <SessionProvider initialValue={getSessionStateFromLocalStorage()}>
           <AuthInitializer>
-            <ToastProvider>
-              <Routes>
-                <Route element={<MastheadLayout />}>
-                  <Route path="/" element={<Layout />}>
-                    <Route index element={<WelcomePage />} />
-                    <Route path="login/*" element={<Login />} />
-                    <Route path="logout/*" element={<Logout />} />
-                    <Route path="/subjectpage/*" element={<PrivateRoute component={<Subjectpage />} />} />
-                    <Route path="search/*" element={<PrivateRoute component={<SearchPage />} />} />
-                    <Route path="subject-matter/*" element={<PrivateRoute component={<SubjectMatterPage />} />} />
-                    <Route
-                      path="/edit-markup/:draftId/:language/*"
-                      element={<PrivateRoute component={<EditMarkupPage />} />}
-                    />
-                    <Route path="/concept/*" element={<PrivateRoute component={<ConceptPage />} />} />
-                    <Route path="/gloss/*" element={<PrivateRoute component={<GlossPage />} />} />
-                    <Route path="/preview/:draftId/:language/*" element={<PreviewDraftPage />} />
-                    <Route path="/compare/:draftId/:language/*" element={<ComparePage />} />
-                    <Route path="/media/*" element={<PrivateRoute component={<MediaPage />} />} />
-                    <Route path="/film/*" element={<PrivateRoute component={<NdlaFilm />} />} />
-                    <Route path="/structure/*" element={<PrivateRoute component={<StructurePage />} />} />
-                    <Route path="/programme/*" element={<PrivateRoute component={<ProgrammePage />} />} />
-                    <Route path="/taxonomyVersions/*" element={<PrivateRoute component={<TaxonomyVersionsPage />} />} />
-                    <Route path="/nodeDiff/:nodeId" element={<PrivateRoute component={<NodeDiffPage />} />} />
-                    <Route path="/frontpage/" element={<PrivateRoute component={<FrontpageEditPage />} />} />
-                    <Route path="/forbidden" element={<ForbiddenPage />} />
-                    <Route path="*" element={<NotFoundPage />} />
-                  </Route>
-                  <Route path="/h5p/*" element={<PrivateRoute component={<H5PPage />} />} />
+            <Routes>
+              <Route element={<MastheadLayout />}>
+                <Route path="/" element={<Layout />}>
+                  <Route index element={<WelcomePage />} />
+                  <Route path="login/*" element={<Login />} />
+                  <Route path="logout/*" element={<Logout />} />
+                  <Route path="/subjectpage/*" element={<PrivateRoute component={<Subjectpage />} />} />
+                  <Route path="search/*" element={<PrivateRoute component={<SearchPage />} />} />
+                  <Route path="subject-matter/*" element={<PrivateRoute component={<SubjectMatterPage />} />} />
+                  <Route
+                    path="/edit-markup/:draftId/:language/*"
+                    element={<PrivateRoute component={<EditMarkupPage />} />}
+                  />
+                  <Route path="/concept/*" element={<PrivateRoute component={<ConceptPage />} />} />
+                  <Route path="/gloss/*" element={<PrivateRoute component={<GlossPage />} />} />
+                  <Route path="/preview/:draftId/:language/*" element={<PreviewDraftPage />} />
+                  <Route path="/compare/:draftId/:language/*" element={<ComparePage />} />
+                  <Route path="/media/*" element={<PrivateRoute component={<MediaPage />} />} />
+                  <Route path="/film/*" element={<PrivateRoute component={<NdlaFilm />} />} />
+                  <Route path="/structure/*" element={<PrivateRoute component={<StructurePage />} />} />
+                  <Route path="/programme/*" element={<PrivateRoute component={<ProgrammePage />} />} />
+                  <Route path="/taxonomyVersions/*" element={<PrivateRoute component={<TaxonomyVersionsPage />} />} />
+                  <Route path="/nodeDiff/:nodeId" element={<PrivateRoute component={<NodeDiffPage />} />} />
+                  <Route path="/frontpage/" element={<PrivateRoute component={<FrontpageEditPage />} />} />
+                  <Route path="/forbidden" element={<ForbiddenPage />} />
+                  <Route path="*" element={<NotFoundPage />} />
                 </Route>
-              </Routes>
-            </ToastProvider>
+                <Route path="/h5p/*" element={<PrivateRoute component={<H5PPage />} />} />
+              </Route>
+            </Routes>
           </AuthInitializer>
         </SessionProvider>
       </MessagesProvider>

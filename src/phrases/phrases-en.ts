@@ -2269,12 +2269,12 @@ const phrases = {
       transcription: "Generate transcription",
     },
     failed: {
-      alttext: "Oops, something went wrong! Could not generate alttext.",
-      reflection: "Oops, something went wrong! Could not generate reflection.",
-      summary: "Oops, something went wrong! Could not generate summary.",
+      alttext: "Oops, something went wrong! Could not generate alttext. \n {{ error }}",
+      reflection: "Oops, something went wrong! Could not generate reflection. \n {{ error }}",
+      summary: "Oops, something went wrong! Could not generate summary. \n {{ error }}",
       transcription: "Oops, something went wrong! Could not generate transcription.",
-      metaDescription: "Oops, something went wrong! Could not generate meta description.",
-      variant: "Oops, something went wrong! Could not generate suggestion.",
+      metaDescription: "Oops, something went wrong! Could not generate meta description. \n {{ error }}",
+      variant: "Oops, something went wrong! Could not generate suggestion. \n {{ error }}",
     },
   },
 };

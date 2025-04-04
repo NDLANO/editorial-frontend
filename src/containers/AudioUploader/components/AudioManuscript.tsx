@@ -35,12 +35,12 @@ import {
   createToolbarDefaultValues,
 } from "../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
-import { useToast } from "../../../components/ToastProvider";
 import { AI_ACCESS_SCOPE } from "../../../constants";
 import { useSession } from "../../../containers/Session/SessionProvider";
 import { usePostAudioTranscriptionMutation } from "../../../modules/audio/audioMutations";
 import { useAudioTranscription } from "../../../modules/audio/audioQueries";
 import { inlineContentToEditorValue } from "../../../util/articleContentConverter";
+import { useMessages } from "../../Messages/MessagesProvider";
 
 interface AudioManuscriptProps {
   audio?: IAudioMetaInformationDTO;
@@ -96,7 +96,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
   const { t } = useTranslation();
   const { setStatus, values, isSubmitting } = useFormikContext<AudioFormikType>();
   const { userPermissions } = useSession();
-  const toast = useToast();
+  const { createMessage } = useMessages();
   const [isPolling, setIsPolling] = useState<boolean>(false);
   const [_field, _meta, helpers] = useField("manuscript");
 
@@ -126,30 +126,28 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
   );
 
   const startTranscription = async () => {
-    if (!audio || !audioLanguage) {
-      return;
-    }
+    if (audio) {
+      const transcript = await fetchAudioTranscriptQuery.refetch({ cancelRefetch: false });
 
-    const transcript = await fetchAudioTranscriptQuery.refetch({ cancelRefetch: false });
-
-    if (transcript?.data?.status === "COMPLETED") {
-      // TODO: use object directly when type is properly typed from backend
-      const transcriptText = parseTranscript(transcript?.data?.transcription ?? "");
-      const editorContent = inlineContentToEditorValue(transcriptText, true);
-      helpers.setValue(editorContent, true);
-      setStatus({ status: MANUSCRIPT_EDITOR });
-    } else if (transcript?.data?.status === "FAILED") {
-      toast.error({ title: t("textGeneration.failed.transcription") });
-    } else {
-      const name = audio.audioFile.url?.split("audio/files/")[1];
-      await postAudioTranscriptionMutation
-        .mutateAsync({ name, id: audio.id, language })
-        .then(() => setIsPolling(true))
-        .catch((err) => {
-          if (err.status === 400 && err.json.code === "JOB_ALREADY_FOUND") {
-            setIsPolling(true);
-          }
-        });
+      if (transcript?.data?.status === "COMPLETED") {
+        // TODO: use object directly when type is properly typed from backend
+        const transcriptText = parseTranscript(transcript?.data?.transcription ?? "");
+        const editorContent = inlineContentToEditorValue(transcriptText, true);
+        helpers.setValue(editorContent, true);
+        setStatus({ status: MANUSCRIPT_EDITOR });
+      } else if (transcript?.data?.status === "FAILED" || transcript.error) {
+        createMessage({ message: t("textGeneration.failed.transcription"), severity: "danger", timeToLive: 10000 });
+      } else {
+        const name = audio.audioFile.url?.split("audio/files/")[1];
+        await postAudioTranscriptionMutation
+          .mutateAsync({ name, id: audio.id, language })
+          .then(() => setIsPolling(true))
+          .catch((err) => {
+            if (err.status === 400 && err.json.code === "JOB_ALREADY_FOUND") {
+              setIsPolling(true);
+            }
+          });
+      }
     }
   };
 
@@ -162,9 +160,9 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
       setStatus({ status: MANUSCRIPT_EDITOR });
     } else if (polledData?.status === "FAILED" && isPolling) {
       setIsPolling(false);
-      toast.error({ title: t("textGeneration.failed.transcription") });
+      createMessage({ message: t("textGeneration.failed.transcription"), severity: "danger", timeToLive: 10000 });
     }
-  }, [helpers, isPolling, polledData?.status, polledData?.transcription, setStatus, t, toast]);
+  }, [createMessage, helpers, isPolling, polledData?.status, polledData?.transcription, setStatus, t]);
 
   return (
     <FormField name="manuscript">

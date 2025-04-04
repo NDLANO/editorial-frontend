@@ -42,13 +42,13 @@ import { FormField } from "../../components/FormField";
 import { FormContent } from "../../components/FormikForm";
 import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
-import { useToast } from "../../components/ToastProvider";
 import { AI_ACCESS_SCOPE, DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useDraftSearchTags } from "../../modules/draft/draftQueries";
 import { useGenerateSummaryMutation, useGenerateMetaDescriptionMutation } from "../../modules/llm/llmMutations";
 import { inlineContentToEditorValue } from "../../util/articleContentConverter";
 import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import useDebounce from "../../util/useDebounce";
+import { useMessages } from "../Messages/MessagesProvider";
 import { useSession } from "../Session/SessionProvider";
 
 const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
@@ -70,12 +70,12 @@ const METADATA_EDITOR = "editor-metadata";
 const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
+  const { createMessage } = useMessages();
   const tagSelectorTranslations = useTagSelectorTranslations();
   const plugins = [textTransformPlugin];
   const [inputQuery, setInputQuery] = useState<string>("");
   const [summary, setSummary] = useState<Descendant[]>([]);
   const debouncedQuery = useDebounce(inputQuery, 300);
-  const toast = useToast();
   const { setStatus, values } = useFormikContext<ArticleFormType>();
   const searchTagsQuery = useDraftSearchTags(
     {
@@ -114,7 +114,11 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         setStatus({ status: METADATA_EDITOR });
       })
       .catch((e: NdlaErrorPayload) =>
-        toast.error({ title: t("textGeneration.failed.metaDescription"), description: e.messages, removeDelay: 1500 }),
+        createMessage({
+          message: t("textGeneration.failed.metaDescription", { error: e.messages }),
+          severity: "danger",
+          timeToLive: 10000,
+        }),
       );
   };
 
@@ -134,7 +138,11 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         setStatus({ status: SUMMARY_EDITOR });
       })
       .catch((e: NdlaErrorPayload) =>
-        toast.error({ title: t("textGeneration.failed.summary"), description: e.messages, removeDelay: 1500 }),
+        createMessage({
+          message: t("textGeneration.failed.summary", { error: e.messages }),
+          severity: "danger",
+          timeToLive: 10000,
+        }),
       );
   };
 

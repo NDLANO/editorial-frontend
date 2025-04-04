@@ -2268,12 +2268,12 @@ const phrases = {
       transcription: "Generer transkribering",
     },
     failed: {
-      alttext: "Her gikk det galt! Klarte ikke å generere alttext.",
-      reflection: "Her gikk det galt! Klarte ikke å generere refleksjonsspørsmål.",
-      summary: "Her gikk det galt! Klarte ikke å generere oppsummering.",
+      alttext: "Her gikk det galt! Klarte ikke å generere alttext. \n {{ error }}",
+      reflection: "Her gikk det galt! Klarte ikke å generere refleksjonsspørsmål. \n {{ error }}",
+      summary: "Her gikk det galt! Klarte ikke å generere oppsummering. \n {{ error }}",
       transcription: "Her gikk det galt! Klarte ikke å generere transkribering.",
-      metaDescription: "Her gikk det galt! Klarte ikke å generere metabeskrivelse.",
-      variant: "Her gikk det galt! Klarte ikke å generere forslag.",
+      metaDescription: "Her gikk det galt! Klarte ikke å generere metabeskrivelse. \n {{ error }}",
+      variant: "Her gikk det galt! Klarte ikke å generere forslag. \n {{ error }}",
     },
   },
 };

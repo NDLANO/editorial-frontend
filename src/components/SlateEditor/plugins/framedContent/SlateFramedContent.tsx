@@ -18,6 +18,7 @@ import { ContentTypeFramedContent, EmbedWrapper } from "@ndla/ui";
 import { FramedContentElement } from "./framedContentTypes";
 import { isFramedContentElement } from "./queries/framedContentQueries";
 import { AI_ACCESS_SCOPE } from "../../../../constants";
+import { useMessages } from "../../../../containers/Messages/MessagesProvider";
 import { useSession } from "../../../../containers/Session/SessionProvider";
 import { useGenerateReflectionMutation } from "../../../../modules/llm/llmMutations";
 import { editorValueToPlainText } from "../../../../util/articleContentConverter";
@@ -25,7 +26,6 @@ import { NdlaErrorPayload } from "../../../../util/resolveJsonOrRejectWithError"
 import { useArticleContentType } from "../../../ContentTypeProvider";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
-import { useToast } from "../../../ToastProvider";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { isCopyrightElement } from "../copyright/queries";
 import { defaultCopyrightBlock } from "../copyright/utils";
@@ -47,12 +47,12 @@ const SlateFramedContent = (props: Props) => {
   const { element, editor, attributes, children } = props;
   const { t } = useTranslation();
   const { userPermissions } = useSession();
+  const { createMessage } = useMessages();
   const language = useArticleLanguage();
   const generateReflectionMutation = useGenerateReflectionMutation();
   const variant = element.data?.variant ?? "neutral";
   const contentType = useArticleContentType();
   const hasAIAccess = userPermissions?.includes(AI_ACCESS_SCOPE);
-  const toast = useToast();
 
   const hasSlateCopyright = useMemo(() => {
     return element.children.some((child) => isCopyrightElement(child));
@@ -111,7 +111,11 @@ const SlateFramedContent = (props: Props) => {
         );
       })
       .catch((err: NdlaErrorPayload) =>
-        toast.error({ title: t("textGeneration.failed.reflection"), description: err.messages, removeDelay: 1500 }),
+        createMessage({
+          message: t("textGeneration.failed.reflection", { error: err.messages }),
+          severity: "danger",
+          timeToLive: 10000,
+        }),
       );
   };
 

@@ -22,6 +22,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { ImageUploadFormElement } from "../../containers/ImageUploader/components/ImageUploadFormElement";
+import { ImageFormikType } from "../../containers/ImageUploader/imageTransformers";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { useCloneImageMutation } from "../../modules/image/imageMutations";
 import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
@@ -35,9 +36,7 @@ interface Props {
   imageId: number;
 }
 
-interface FormikValuesType {
-  imageFile: Blob | string | undefined;
-}
+type FormikValuesType = Partial<ImageFormikType>;
 
 const formikRules = { imageFile: { required: true } };
 const initialValues: FormikValuesType = {

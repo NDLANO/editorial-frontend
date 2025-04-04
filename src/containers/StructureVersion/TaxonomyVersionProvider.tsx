@@ -19,7 +19,7 @@ interface Props {
 
 export const TaxonomyVersionProvider = ({ children }: Props) => {
   const versionState = useState<string | undefined>(undefined);
-  return <TaxonomyVersionContext.Provider value={versionState}>{children}</TaxonomyVersionContext.Provider>;
+  return <TaxonomyVersionContext value={versionState}>{children}</TaxonomyVersionContext>;
 };
 
 export interface TaxonomyVersion {

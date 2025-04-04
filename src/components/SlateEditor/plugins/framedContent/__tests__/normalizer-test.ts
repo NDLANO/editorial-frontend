@@ -14,6 +14,7 @@ import { TYPE_LINK } from "../../link/types";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContentTypes";
+import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
 
@@ -42,23 +43,27 @@ describe("framedContent normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: TYPE_SECTION,
+        id: anySlateElementId,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: FRAMED_CONTENT_ELEMENT_TYPE,
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
+            id: anySlateElementId,
+            children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "content" }] }],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: FRAMED_CONTENT_ELEMENT_TYPE,
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
+            id: anySlateElementId,
+            children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "content" }] }],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: FRAMED_CONTENT_ELEMENT_TYPE,
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
+            id: anySlateElementId,
+            children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "content" }] }],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];
@@ -82,13 +87,15 @@ describe("framedContent normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: TYPE_SECTION,
+        id: anySlateElementId,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: FRAMED_CONTENT_ELEMENT_TYPE,
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "" }] }],
+            id: anySlateElementId,
+            children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] }],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];
@@ -112,16 +119,18 @@ describe("framedContent normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: TYPE_SECTION,
+        id: anySlateElementId,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: FRAMED_CONTENT_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [
-              { type: TYPE_HEADING, level: 1, children: [{ text: "content" }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+              { type: TYPE_HEADING, id: anySlateElementId, level: 1, children: [{ text: "content" }] },
+              { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];
@@ -153,13 +162,15 @@ describe("framedContent normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: TYPE_SECTION,
+        id: anySlateElementId,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: FRAMED_CONTENT_ELEMENT_TYPE,
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
+            id: anySlateElementId,
+            children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "content" }] }],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];

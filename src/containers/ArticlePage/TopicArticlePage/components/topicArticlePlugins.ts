@@ -27,9 +27,11 @@ import { listPlugin } from "../../../../components/SlateEditor/plugins/list";
 import { markPlugin } from "../../../../components/SlateEditor/plugins/mark";
 import { breakPlugin } from "../../../../components/SlateEditor/plugins/break";
 import { inlineNavigationPlugin } from "@ndla/editor";
+import { idPlugin } from "../../../../components/SlateEditor/plugins/id/idPlugin";
 
 // Plugins are checked from last to first
 export const topicArticlePlugins: SlatePlugin[] = [
+  idPlugin,
   inlineNavigationPlugin,
   sectionPlugin,
   spanPlugin,

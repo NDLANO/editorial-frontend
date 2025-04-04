@@ -12,6 +12,7 @@ import { learningResourcePlugins } from "../../../../../containers/ArticlePage/L
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
 import { TYPE_LIST, TYPE_LIST_ITEM } from "../types";
+import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
 
@@ -41,9 +42,11 @@ describe("list normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: TYPE_SECTION,
+        id: anySlateElementId,
         children: [
           {
             type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
             children: [{ text: "abc" }],
           },
         ],
@@ -80,9 +83,11 @@ describe("list normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: TYPE_SECTION,
+        id: anySlateElementId,
         children: [
           {
             type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
             children: [
               {
                 text: "",
@@ -91,14 +96,17 @@ describe("list normalizer tests", () => {
           },
           {
             type: TYPE_LIST,
+            id: anySlateElementId,
             listType: "letter-list",
             data: {},
             children: [
               {
                 type: TYPE_LIST_ITEM,
+                id: anySlateElementId,
                 children: [
                   {
                     type: TYPE_PARAGRAPH,
+                    id: anySlateElementId,
                     children: [
                       {
                         text: "abc",
@@ -111,6 +119,7 @@ describe("list normalizer tests", () => {
           },
           {
             type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
             children: [
               {
                 text: "",
@@ -168,9 +177,11 @@ describe("list normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: TYPE_SECTION,
+        id: anySlateElementId,
         children: [
           {
             type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
             children: [
               {
                 text: "",
@@ -179,14 +190,17 @@ describe("list normalizer tests", () => {
           },
           {
             type: TYPE_LIST,
+            id: anySlateElementId,
             listType: "letter-list",
             data: {},
             children: [
               {
                 type: TYPE_LIST_ITEM,
+                id: anySlateElementId,
                 children: [
                   {
                     type: TYPE_PARAGRAPH,
+                    id: anySlateElementId,
                     children: [
                       {
                         text: "",
@@ -195,14 +209,17 @@ describe("list normalizer tests", () => {
                   },
                   {
                     type: TYPE_LIST,
+                    id: anySlateElementId,
                     listType: "letter-list",
                     data: {},
                     children: [
                       {
                         type: TYPE_LIST_ITEM,
+                        id: anySlateElementId,
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
+                            id: anySlateElementId,
                             children: [
                               {
                                 text: "",
@@ -219,6 +236,7 @@ describe("list normalizer tests", () => {
           },
           {
             type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
             children: [
               {
                 text: "",
@@ -290,9 +308,11 @@ describe("list normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: TYPE_SECTION,
+        id: anySlateElementId,
         children: [
           {
             type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
             children: [
               {
                 text: "",
@@ -301,14 +321,17 @@ describe("list normalizer tests", () => {
           },
           {
             type: TYPE_LIST,
+            id: anySlateElementId,
             listType: "letter-list",
             data: {},
             children: [
               {
                 type: TYPE_LIST_ITEM,
+                id: anySlateElementId,
                 children: [
                   {
                     type: TYPE_PARAGRAPH,
+                    id: anySlateElementId,
                     children: [
                       {
                         text: "",
@@ -317,14 +340,17 @@ describe("list normalizer tests", () => {
                   },
                   {
                     type: TYPE_LIST,
+                    id: anySlateElementId,
                     listType: "numbered-list",
                     data: {},
                     children: [
                       {
                         type: TYPE_LIST_ITEM,
+                        id: anySlateElementId,
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
+                            id: anySlateElementId,
                             children: [
                               {
                                 text: "abc",
@@ -337,14 +363,17 @@ describe("list normalizer tests", () => {
                   },
                   {
                     type: TYPE_LIST,
+                    id: anySlateElementId,
                     listType: "letter-list",
                     data: {},
                     children: [
                       {
                         type: TYPE_LIST_ITEM,
+                        id: anySlateElementId,
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
+                            id: anySlateElementId,
                             children: [
                               {
                                 text: "def",
@@ -361,6 +390,7 @@ describe("list normalizer tests", () => {
           },
           {
             type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
             children: [
               {
                 text: "",
@@ -392,9 +422,11 @@ describe("list normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: TYPE_SECTION,
+        id: anySlateElementId,
         children: [
           {
             type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
             children: [{ text: "" }],
           },
         ],
@@ -422,9 +454,11 @@ describe("list normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: TYPE_SECTION,
+        id: anySlateElementId,
         children: [
           {
             type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
             children: [
               {
                 text: "",
@@ -433,14 +467,17 @@ describe("list normalizer tests", () => {
           },
           {
             type: TYPE_LIST,
+            id: anySlateElementId,
             listType: "numbered-list",
             data: {},
             children: [
               {
                 type: TYPE_LIST_ITEM,
+                id: anySlateElementId,
                 children: [
                   {
                     type: TYPE_PARAGRAPH,
+                    id: anySlateElementId,
                     children: [
                       {
                         text: "abc",
@@ -453,6 +490,7 @@ describe("list normalizer tests", () => {
           },
           {
             type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
             children: [
               {
                 text: "",
@@ -534,9 +572,11 @@ describe("list normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: TYPE_SECTION,
+        id: anySlateElementId,
         children: [
           {
             type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
             children: [
               {
                 text: "",
@@ -545,14 +585,17 @@ describe("list normalizer tests", () => {
           },
           {
             type: TYPE_LIST,
+            id: anySlateElementId,
             listType: "letter-list",
             data: {},
             children: [
               {
                 type: TYPE_LIST_ITEM,
+                id: anySlateElementId,
                 children: [
                   {
                     type: TYPE_PARAGRAPH,
+                    id: anySlateElementId,
                     children: [
                       {
                         text: "abc",
@@ -563,9 +606,11 @@ describe("list normalizer tests", () => {
               },
               {
                 type: TYPE_LIST_ITEM,
+                id: anySlateElementId,
                 children: [
                   {
                     type: TYPE_PARAGRAPH,
+                    id: anySlateElementId,
                     children: [
                       {
                         text: "def",
@@ -578,6 +623,7 @@ describe("list normalizer tests", () => {
           },
           {
             type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
             children: [
               {
                 text: "",

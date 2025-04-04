@@ -12,6 +12,7 @@ import { learningResourcePlugins } from "../../../../../containers/ArticlePage/L
 import { AUDIO_ELEMENT_TYPE } from "../../audio/audioTypes";
 import { H5P_ELEMENT_TYPE } from "../../h5p/types";
 import { IMAGE_ELEMENT_TYPE } from "../../image/types";
+import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
 
@@ -72,13 +73,16 @@ describe("embed normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
+        id: anySlateElementId,
         children: [
           {
             type: PARAGRAPH_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [{ text: "" }],
           },
           {
             type: IMAGE_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [
               {
                 text: "",
@@ -96,10 +100,12 @@ describe("embed normalizer tests", () => {
           },
           {
             type: PARAGRAPH_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [{ text: "" }],
           },
           {
             type: H5P_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [
               {
                 text: "",
@@ -113,10 +119,12 @@ describe("embed normalizer tests", () => {
           },
           {
             type: PARAGRAPH_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [{ text: "" }],
           },
           {
             type: AUDIO_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [
               {
                 text: "",
@@ -131,6 +139,7 @@ describe("embed normalizer tests", () => {
           },
           {
             type: PARAGRAPH_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [{ text: "" }],
           },
         ],

@@ -51,9 +51,11 @@ import { headingPlugin } from "../../../../components/SlateEditor/plugins/headin
 import { breakPlugin } from "../../../../components/SlateEditor/plugins/break";
 import { markPlugin } from "../../../../components/SlateEditor/plugins/mark";
 import { listPlugin } from "../../../../components/SlateEditor/plugins/list";
+import { idPlugin } from "../../../../components/SlateEditor/plugins/id/idPlugin";
 
 // Plugins are checked from last to first
 export const frontpagePlugins: SlatePlugin[] = [
+  idPlugin,
   sectionPlugin,
   spanPlugin,
   divPlugin,

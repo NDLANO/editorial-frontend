@@ -77,10 +77,9 @@ export const dndPlugin = createPlugin<any, DndPluginOptions>({
       quote: ["paragraph"],
     },
   },
-  transform: (editor, options) => {
+  transform: (editor) => {
     const { apply } = editor;
     editor.apply = (operation) => {
-      console.log("operation", operation);
       return apply(operation);
     };
 

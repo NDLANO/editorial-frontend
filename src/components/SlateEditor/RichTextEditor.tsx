@@ -37,6 +37,7 @@ import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { FormikStatus } from "../../interfaces";
 import { DND_PLUGIN, DndPluginOptions } from "./plugins/DND/dndTypes";
+import { SlateDragOverlay } from "./plugins/DND/SlateDragOverlay";
 
 const StyledSlateWrapper = styled("div", {
   base: {
@@ -101,7 +102,7 @@ const RichTextEditor = ({
       onInitialNormalized,
     }),
   );
-  const dndOptions = editor.getPluginOptions<DndPluginOptions>(DND_PLUGIN);
+  const dndOptions = useMemo(() => editor.getPluginOptions<DndPluginOptions>(DND_PLUGIN), [editor]);
   const [labelledBy, setLabelledBy] = useState<string | undefined>(undefined);
   const prevSubmitted = useRef(submitted);
   const field = useFieldContext();
@@ -234,50 +235,53 @@ const RichTextEditor = ({
     [additionalOnKeyDown, editor],
   );
 
-  const onDragEnd = (dragEvent: DragEndEvent) => {
-    const overElement = dragEvent.over?.data.current?.element;
-    const activeElement = dragEvent.active.data.current?.element;
-    const overId = overElement?.id;
-    const activeId = dragEvent.active.id;
-    const dropAreaPosition = dragEvent.over?.data.current?.position;
-    if (!(dropAreaPosition === "top" || dropAreaPosition === "bottom")) return;
+  const onDragEnd = useCallback(
+    (dragEvent: DragEndEvent) => {
+      const overElement = dragEvent.over?.data.current?.element;
+      const activeElement = dragEvent.active.data.current?.element;
+      const overId = overElement?.id;
+      const activeId = dragEvent.active.id;
+      const dropAreaPosition = dragEvent.over?.data.current?.position;
+      if (!(dropAreaPosition === "top" || dropAreaPosition === "bottom")) return;
 
-    const [entry1, entry2] = editor.nodes({
-      match: (n) => Element.isElement(n) && (n.id === activeId || n.id === overId),
-      mode: "lowest",
-      at: [],
-    });
+      const [entry1, entry2] = editor.nodes({
+        match: (n) => Element.isElement(n) && (n.id === activeId || n.id === overId),
+        mode: "lowest",
+        at: [],
+      });
 
-    if (!entry1 || !("id" in entry1[0]) || !entry2) {
-      return;
-    }
-
-    const [, overPath] = entry1[0].id === overId ? entry1 : entry2;
-    const [, activePath] = entry1[0].id === activeId ? entry1 : entry2;
-
-    const [parent] = editor.parent(overPath);
-
-    const legalChildren = Element.isElement(parent) && dndOptions?.legalChildren?.[parent.type];
-
-    if (legalChildren && activeElement && !legalChildren.includes(activeElement.type)) return;
-
-    let targetPath = overPath;
-    // TODO: this logic needs to be adjusted for nested elements
-    // Move node to top or bottom based on drop area
-    if (dropAreaPosition === "top") {
-      targetPath = overPath;
-    } else if (dropAreaPosition === "bottom") {
-      if (Path.isBefore(overPath, activePath) || overPath.length > activePath.length) {
-        targetPath = Path.next(overPath);
-      } else {
-        targetPath = overPath;
+      if (!entry1 || !("id" in entry1[0]) || !entry2) {
+        return;
       }
-    }
-    if (Path.equals(activePath, targetPath) || Path.isAncestor(activePath, targetPath)) return;
-    setTimeout(() => {
-      Transforms.moveNodes(editor, { at: activePath, to: targetPath });
-    }, 0);
-  };
+
+      const [, overPath] = entry1[0].id === overId ? entry1 : entry2;
+      const [, activePath] = entry1[0].id === activeId ? entry1 : entry2;
+
+      const [parent] = editor.parent(overPath);
+
+      const legalChildren = Element.isElement(parent) && dndOptions?.legalChildren?.[parent.type];
+
+      if (legalChildren && activeElement && !legalChildren.includes(activeElement.type)) return;
+
+      let targetPath = overPath;
+      // TODO: this logic needs to be adjusted for nested elements
+      // Move node to top or bottom based on drop area
+      if (dropAreaPosition === "top") {
+        targetPath = overPath;
+      } else if (dropAreaPosition === "bottom") {
+        if (Path.isBefore(overPath, activePath) || overPath.length > activePath.length) {
+          targetPath = Path.next(overPath);
+        } else {
+          targetPath = overPath;
+        }
+      }
+      if (Path.equals(activePath, targetPath) || Path.isAncestor(activePath, targetPath)) return;
+      setTimeout(() => {
+        Transforms.moveNodes(editor, { at: activePath, to: targetPath });
+      }, 0);
+    },
+    [dndOptions?.legalChildren, editor],
+  );
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -312,6 +316,7 @@ const RichTextEditor = ({
                   renderLeaf={renderLeaf}
                   readOnly={submitted}
                 />
+                <SlateDragOverlay />
               </DndContext>
             </Slate>
           </StyledSlateWrapper>

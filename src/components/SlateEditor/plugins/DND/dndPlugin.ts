@@ -16,6 +16,8 @@ export const dndPlugin = createPlugin<any, DndPluginOptions>({
       "section",
       "summary",
       "list-item",
+      "definition-description",
+      "definition-term",
       "table-cell-header",
       "table-head",
       "table-body",

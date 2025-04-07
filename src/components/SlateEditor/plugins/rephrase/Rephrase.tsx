@@ -26,7 +26,6 @@ import {
   Text,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { useMessages } from "../../../../containers/Messages/MessagesProvider";
 import { useGenerateAlternativePhrasingMutation } from "../../../../modules/llm/llmMutations";
 import { NdlaErrorPayload } from "../../../../util/resolveJsonOrRejectWithError";
 import { DialogCloseButton } from "../../../DialogCloseButton";
@@ -52,9 +51,9 @@ const StyledText = styled(Text, {
 
 export const Rephrase = ({ attributes, editor, element, children }: Props) => {
   const { t } = useTranslation();
-  const { createMessage } = useMessages();
   const language = useArticleLanguage();
   const [generatedText, setGeneratedText] = useState<string | undefined>(undefined);
+  const [error, setError] = useState<string | undefined>(undefined);
   const phrasingMutation = useGenerateAlternativePhrasingMutation();
 
   // TODO Handle marks and inlines in query.
@@ -72,7 +71,8 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
     setTimeout(() => ReactEditor.focus(editor), 0);
   }, [editor, element]);
 
-  const fetchAiGeneratedText = async () =>
+  const fetchAiGeneratedText = async () => {
+    setError(undefined);
     await phrasingMutation
       .mutateAsync({
         type: "alternativePhrasing",
@@ -81,13 +81,8 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
         language: language,
       })
       .then((res) => setGeneratedText(res))
-      .catch((err: NdlaErrorPayload) =>
-        createMessage({
-          message: t("textGeneration.failed.variant", { error: err.messages }),
-          severity: "danger",
-          timeToLive: 0,
-        }),
-      );
+      .catch((err: NdlaErrorPayload) => setError(t("textGeneration.failed.variant", { error: err.messages })));
+  };
 
   const onReplace = () => {
     if (generatedText) {
@@ -126,6 +121,11 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
               <h2>{t("textGeneration.suggestedText")}</h2>
             </Heading>
             <StyledText>{generatedText}</StyledText>
+            {error ? (
+              <Text textStyle="label.small" color="text.error">
+                {error}
+              </Text>
+            ) : null}
             <HStack justify="space-between">
               <DialogCloseTrigger asChild>
                 <Button size="small" variant="secondary">

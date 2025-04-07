@@ -278,6 +278,8 @@ const RichTextEditor = ({
       if (Path.equals(activePath, targetPath) || Path.isAncestor(activePath, targetPath)) return;
       setTimeout(() => {
         Transforms.moveNodes(editor, { at: activePath, to: targetPath });
+        // in case the move operation puts the editor in an invalid state
+        Editor.normalize(editor, { force: true });
       }, 0);
     },
     [dndOptions?.legalChildren, editor],

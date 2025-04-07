@@ -91,7 +91,7 @@ interface DragHandleProps extends IconButtonProps {
   ref?: Ref<HTMLButtonElement>;
 }
 
-export const DragHandle = ({ children, id, tabIndex = 0, variant = "clear", ...rest }: DragHandleProps) => {
+export const DragHandle = ({ children, tabIndex = 0, variant = "clear", ...rest }: DragHandleProps) => {
   return (
     <StyledDragHandle {...rest} tabIndex={tabIndex} variant={variant}>
       {children}

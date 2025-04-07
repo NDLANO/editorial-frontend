@@ -20,7 +20,8 @@ import { isFramedContentElement } from "./queries/framedContentQueries";
 import { AI_ACCESS_SCOPE } from "../../../../constants";
 import { useMessages } from "../../../../containers/Messages/MessagesProvider";
 import { useSession } from "../../../../containers/Session/SessionProvider";
-import { useGenerateReflectionMutation } from "../../../../modules/llm/llmMutations";
+import { ReflectionVariables } from "../../../../modules/llm/llmApiTypes";
+import { useGenerateAIMutation } from "../../../../modules/llm/llmMutations";
 import { editorValueToPlainText } from "../../../../util/articleContentConverter";
 import { NdlaErrorPayload } from "../../../../util/resolveJsonOrRejectWithError";
 import { useArticleContentType } from "../../../ContentTypeProvider";
@@ -49,7 +50,7 @@ const SlateFramedContent = (props: Props) => {
   const { userPermissions } = useSession();
   const { createMessage } = useMessages();
   const language = useArticleLanguage();
-  const generateReflectionMutation = useGenerateReflectionMutation();
+  const generateReflectionMutation = useGenerateAIMutation<ReflectionVariables>();
   const variant = element.data?.variant ?? "neutral";
   const contentType = useArticleContentType();
   const hasAIAccess = userPermissions?.includes(AI_ACCESS_SCOPE);

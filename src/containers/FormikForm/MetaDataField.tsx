@@ -44,7 +44,8 @@ import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
 import { AI_ACCESS_SCOPE, DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useDraftSearchTags } from "../../modules/draft/draftQueries";
-import { useGenerateSummaryMutation, useGenerateMetaDescriptionMutation } from "../../modules/llm/llmMutations";
+import { MetaDescriptionVariables, SummaryVariables } from "../../modules/llm/llmApiTypes";
+import { useGenerateAIMutation } from "../../modules/llm/llmMutations";
 import { inlineContentToEditorValue } from "../../util/articleContentConverter";
 import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import useDebounce from "../../util/useDebounce";
@@ -87,8 +88,8 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
       placeholderData: (prev) => prev,
     },
   );
-  const generateSummaryMutation = useGenerateSummaryMutation();
-  const generateMetaDescriptionMutation = useGenerateMetaDescriptionMutation();
+  const generateSummaryMutation = useGenerateAIMutation<SummaryVariables>();
+  const generateMetaDescriptionMutation = useGenerateAIMutation<MetaDescriptionVariables>();
 
   const collection = useMemo(() => {
     return createListCollection({

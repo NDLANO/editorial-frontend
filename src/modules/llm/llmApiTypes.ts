@@ -8,7 +8,7 @@
 
 export type Payload =
   | SummaryVariables
-  | AlttextVariables
+  | AltTextVariables
   | AlternativePhrasingVariables
   | MetaDescriptionVariables
   | ReflectionVariables;
@@ -35,7 +35,7 @@ export interface MetaDescriptionVariables extends BaseVariables {
   title: string;
 }
 
-export interface AlttextVariables extends BaseVariables {
+export interface AltTextVariables extends BaseVariables {
   type: "alttext";
   image: {
     fileType: string;

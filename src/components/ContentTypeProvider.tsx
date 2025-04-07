@@ -17,7 +17,7 @@ interface Props {
 }
 
 export const ContentTypeProvider = ({ children, value = "subject-material" }: Props) => {
-  return <ContentTypeContext.Provider value={value}>{children}</ContentTypeContext.Provider>;
+  return <ContentTypeContext value={value}>{children}</ContentTypeContext>;
 };
 
 export const useArticleContentType = (fallback?: ContentType) => {

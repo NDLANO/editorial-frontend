@@ -60,6 +60,7 @@ const StyledIconButton = styled(IconButton, {
     top: "50%",
     transform: "translateY(-50%)",
     visibility: "hidden",
+    opacity: "0",
   },
 });
 
@@ -70,6 +71,7 @@ const StyledContainer = styled("div", {
     "&:not(:has([data-drag-wrapper]:hover)):hover": {
       "& > [data-drag-button]": {
         visibility: "visible",
+        opacity: "1",
       },
     },
   },

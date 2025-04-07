@@ -33,6 +33,7 @@ export const IMAGE_SEARCH_TAGS = "imageSearchTags";
 
 export const AUDIO = "audio";
 export const AUDIO_SEARCH_TAGS = "audioSearchTags";
+export const AUDIO_TRANSCRIPTION = "audioTranscription";
 
 export const AUDIO_EMBED = "audioEmbed";
 export const BRIGHTCOVE_EMBED = "brightcoveEmbed";

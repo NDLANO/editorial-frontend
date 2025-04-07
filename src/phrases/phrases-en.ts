@@ -349,7 +349,7 @@ const phrases = {
       "filter-inactive": "Include archived subjects",
     },
     tagType: {
-      query: "Search: {{value}}",
+      query: "Search:",
       subjects: "Subject: {{value}}",
       language: "Language: $(languages.{{value}})",
       users: "Editor: {{value}}",
@@ -739,6 +739,7 @@ const phrases = {
     left: "Left aligned",
     center: "Center aligned",
     right: "Right aligned",
+    rephrase: "Rephrase",
     disabled: {
       "comment-inline": "Comment can only overlap text",
     },
@@ -1307,6 +1308,10 @@ const phrases = {
       label: "Meta description",
       helpLabel: "What is a meta description?",
       description: "The description will be viewable in search.",
+    },
+    articleSummary: {
+      label: "Summary",
+      description: "AI generated summary of the article. Will not be saved.",
     },
     agreement: {
       label: "Connect to agreement",
@@ -2252,6 +2257,32 @@ const phrases = {
     popoverDescription_one: "{{count}} unique page view, click to see more visitor numbers",
     popoverDescription_other: "{{count}} unique page views, click to see more visitor numbers",
     popoverTitle: "Visitor numbers the last 12 months",
+  },
+  textGeneration: {
+    error: "Something went wrong when generating text. Message from the service: {{message}}",
+    errorImage: "Something went wrong. Could not process the image.",
+    summary: "Summary",
+    replace: "Replace",
+    add: "Add after",
+    chosenText: "Selected text",
+    suggestedText: "Suggestions for alternative phrasing",
+    alternativeText: "Suggested phrasing",
+    generate: {
+      metaDescription: "Generate meta description",
+      reflection: "Generate reflection question",
+      summary: "Generate summary",
+      variant: "Generate suggestion",
+      alttext: "Generate alt text",
+      transcription: "Generate transcription",
+    },
+    failed: {
+      alttext: "Oops, something went wrong! Could not generate alttext. \n {{ error }}",
+      reflection: "Oops, something went wrong! Could not generate reflection. \n {{ error }}",
+      summary: "Oops, something went wrong! Could not generate summary. \n {{ error }}",
+      transcription: "Oops, something went wrong! Could not generate transcription.",
+      metaDescription: "Oops, something went wrong! Could not generate meta description. \n {{ error }}",
+      variant: "Oops, something went wrong! Could not generate suggestion. \n {{ error }}",
+    },
   },
 };
 

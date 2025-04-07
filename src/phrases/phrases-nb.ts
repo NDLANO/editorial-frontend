@@ -348,7 +348,7 @@ const phrases = {
       "filter-inactive": "Inkluder utgåtte fag",
     },
     tagType: {
-      query: "Søk: {{value}}",
+      query: "Søk:",
       subjects: "Fag: {{value}}",
       language: "Språk: $t(languages.{{value}})",
       users: "Bruker: {{value}}",
@@ -739,6 +739,7 @@ const phrases = {
     left: "Venstrejustert",
     center: "Midtstilt",
     right: "Høyrejustert",
+    rephrase: "Omformulering",
     disabled: {
       "comment-inline": "Kommentar kan kun overlappe tekst",
     },
@@ -1307,6 +1308,10 @@ const phrases = {
       label: "Metabeskrivelse",
       helpLabel: "Hva er metabeskrivelse?",
       description: "Beskrivelsen blir synlig i søk.",
+    },
+    articleSummary: {
+      label: "Oppsummering",
+      description: "KI-generert oppsummering av artikkelen. Lagres ikke.",
     },
     agreement: {
       label: "Koble til avtale",
@@ -2251,6 +2256,32 @@ const phrases = {
     popoverDescription_one: "{{count}} unik sidevisning, klikk for å se flere besøkstall",
     popoverDescription_other: "{{count}} unike sidevisninger, klikk for å se flere besøkstall",
     popoverTitle: "Besøkstall siste 12 md.",
+  },
+  textGeneration: {
+    error: "Noe gikk galt under generering av tekst. Melding fra tjenesten: {{message}}",
+    errorImage: "Noe gikk galt, kunne ikke prosessere bildet.",
+    summary: "Oppsummering",
+    replace: "Erstatt",
+    add: "Legg til etter",
+    chosenText: "Valgt tekst",
+    suggestedText: "Forslag til ny formulering",
+    alternativeText: "Alternativ formulering",
+    generate: {
+      metaDescription: "Generer metabeskrivelse",
+      reflection: "Generer refleksjonsspørsmål",
+      summary: "Generer oppsummering",
+      variant: "Generer forslag",
+      alttext: "Generer alttekst",
+      transcription: "Generer transkribering",
+    },
+    failed: {
+      alttext: "Her gikk det galt! Klarte ikke å generere alttext. \n {{ error }}",
+      reflection: "Her gikk det galt! Klarte ikke å generere refleksjonsspørsmål. \n {{ error }}",
+      summary: "Her gikk det galt! Klarte ikke å generere oppsummering. \n {{ error }}",
+      transcription: "Her gikk det galt! Klarte ikke å generere transkribering.",
+      metaDescription: "Her gikk det galt! Klarte ikke å generere metabeskrivelse. \n {{ error }}",
+      variant: "Her gikk det galt! Klarte ikke å generere forslag. \n {{ error }}",
+    },
   },
 };
 

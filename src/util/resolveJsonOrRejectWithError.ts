@@ -89,3 +89,16 @@ export const resolveJsonOrRejectWithError = <T>(
       .catch(reject);
   });
 };
+
+export const resolveTextOrRejectWithError = (res: Response): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    if (res.ok) {
+      return resolve(res.text());
+    }
+
+    return res
+      .text()
+      .then((txt) => reject(throwErrorPayload(res.status, txt, undefined)))
+      .catch(reject);
+  });
+};

@@ -55,8 +55,8 @@ const MastheadForm = styled("form", {
   },
 });
 
-const shortContextIdRegEx = new RegExp(/[a-f0-9]{10}/);
-const longContextIdRegEx = new RegExp(/[a-f0-9]{12}/);
+const shortContextIdRegEx = new RegExp(/^[a-f0-9]{10}/);
+const longContextIdRegEx = new RegExp(/^[a-f0-9]{12}/);
 const slugRegEx = new RegExp(/^[a-z-]+$/);
 const nodeIdRegEx = new RegExp(/#\d+/g);
 const taxonomyIdRegEx = new RegExp(/#urn:(resource|topic)[:\da-fA-F-]+/g);
@@ -130,7 +130,7 @@ export const MastheadSearch = () => {
 
     const urlId = splittedNdlaUrl[splittedNdlaUrl.length - 1];
 
-    const isLongTaxUrl = splittedNdlaUrl.find((e) => e.match(/subject:*/)) !== undefined;
+    const isLongTaxUrl = splittedNdlaUrl.find((e) => e.match(/(subject:)/)) !== undefined;
     const isContextId = shortContextIdRegEx.test(urlId) || longContextIdRegEx.test(urlId);
     const isSlug = slugRegEx.test(urlId);
 

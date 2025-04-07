@@ -28,7 +28,7 @@ import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
 import { PageSpinner } from "../../../components/PageSpinner";
 import SaveButton from "../../../components/SaveButton";
 import { SAVE_BUTTON_ID } from "../../../constants";
-import { PodcastFormValues } from "../../../modules/audio/audioApiInterfaces";
+import { PodcastFormValues } from "../../../modules/audio/audioTypes";
 import { useLicenses } from "../../../modules/draft/draftQueries";
 import { editorValueToPlainText, inlineContentToHTML } from "../../../util/articleContentConverter";
 import { audioApiTypeToPodcastFormType } from "../../../util/audioHelpers";
@@ -262,7 +262,7 @@ const PodcastForm = ({
                   title={t("podcastForm.fields.manuscript")}
                   hasError={[].some((field) => field in errors)}
                 >
-                  <AudioManuscript />
+                  <AudioManuscript audioLanguage={language} audio={audio} />
                 </FormAccordion>
                 <FormAccordion
                   id="podcast-upload-podcastmeta"

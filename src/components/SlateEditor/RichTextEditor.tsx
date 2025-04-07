@@ -9,7 +9,7 @@
 import { useFormikContext } from "formik";
 import { isEqual } from "lodash-es";
 import { FocusEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Descendant, Editor, Element, Range, Transforms } from "slate";
+import { Descendant, Editor, Range, Transforms } from "slate";
 import { Slate, Editable, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
 import { useFieldContext } from "@ark-ui/react";
@@ -116,24 +116,10 @@ const RichTextEditor = ({
   }, [editor, receiveInitialFocus]);
 
   useEffect(() => {
-    const { MathJax } = window;
-    if (!MathJax || editor.mathjaxInitialized) return;
-    if (editor.nodes({ match: (n) => Element.isElement(n) && n.type === "mathml", at: [] }).next().value) {
-      MathJax.typesetPromise();
-      editor.mathjaxInitialized = true;
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editor.mathjaxInitialized]);
-
-  useEffect(() => {
     // When form is submitted or form content has been revert to a previous version, the editor has to be reinitialized.
     if ((!submitted && prevSubmitted.current) || status === "revertVersion") {
       ReactEditor.deselect(editor);
-      editor.children = value;
-      editor.history = { redos: [], undos: [] };
-      editor.mathjaxInitialized = false;
-      window.MathJax?.typesetClear();
-      Editor.normalize(editor, { force: true });
+      editor.reinitialize({ value, shouldNormalize: true, onInitialNormalized });
       if (editor.lastSelection || editor.lastSelectedBlock) {
         ReactEditor.focus(editor);
       }

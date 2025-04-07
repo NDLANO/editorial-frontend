@@ -44,7 +44,7 @@ const ResourcePage = <T extends BaseResource>({
   const previousLocation = usePreviousLocation();
   return (
     <PageContent variant={isArticle ? "wide" : "page"}>
-      {!!titleTranslationKey && <title>{t(titleTranslationKey)} </title>}
+      {!!titleTranslationKey && <title>{t(titleTranslationKey)}</title>}
       <Routes>
         <Route path="new" element={<CreateComponent />} />
         <Route

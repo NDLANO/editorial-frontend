@@ -45,8 +45,7 @@ const VisualElementEditor = ({ name, value, plugins, onChange, types, language }
 
   useEffect(() => {
     if (!isEqual(editor.children, value)) {
-      editor.children = value;
-      editor.history = { undos: [], redos: [] };
+      editor.reinitialize({ value });
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

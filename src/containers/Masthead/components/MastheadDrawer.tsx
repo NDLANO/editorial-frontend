@@ -156,6 +156,14 @@ const adminItems: MenuItem[] = [
   { to: routes.podcastSeries.create, text: "subNavigation.podcastSeries", permission: AUDIO_ADMIN_SCOPE },
 ];
 
+if (config.enableUpdateGrepCodes) {
+  adminItems.push({
+    to: routes.updateCodes,
+    text: "subNavigation.updateCodes",
+    permission: DRAFT_ADMIN_SCOPE,
+  });
+}
+
 const listsWithoutExternal: MenuList[] = [
   {
     id: "create",

@@ -18,7 +18,7 @@ interface Props {
 
 const DateEdit = ({ published, onChange }: Props) => (
   <DatePicker value={new Date(published)} onChange={(date) => (date ? onChange(formatDateForBackend(date)) : {})}>
-    <Button variant="link" data-testid="last-edited">
+    <Button variant="tertiary" size="small" data-testid="last-edited">
       {formatDate(published)} <PencilFill />
     </Button>
   </DatePicker>

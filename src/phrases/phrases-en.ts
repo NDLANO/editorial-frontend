@@ -111,9 +111,8 @@ const phrases = {
     san: "Sanskrit",
     heb: "Hebrew",
     pli: "Pali",
-    empty: "No languages left",
     change: "Change to {{language}} version",
-    none: "None",
+    none: "Language",
   },
   welcomePage: {
     lastFavorited: "Last favorited resource: ",
@@ -218,6 +217,13 @@ const phrases = {
       articleStatuses: "Subject types",
     },
   },
+  updateCodesPage: {
+    title: "Update curriculum codes",
+    description:
+      "Convert grep-codes from outdated curricula to the corresponding grep-codes for new curricula. This updates all articles that have associated competency goals and core elements from outdated curricula, in both published and unpublished versions. The articles do not need to be modified afterward for the new grep-codes to become visible.",
+    buttonText: "Update",
+    error: "Something went wrong while updating grep-codes",
+  },
   searchPage: {
     search: "Søk",
     header: {
@@ -292,6 +298,7 @@ const phrases = {
     newSubject: "Create new subject",
     newFrontpageArticle: "About-NDLA article",
     frontpage: "NDLA frontpage",
+    updateCodes: "Update curriculum codes",
   },
   logo: {
     altText: "The Norwegian Digital Learning Arena",

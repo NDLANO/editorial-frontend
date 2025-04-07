@@ -1506,11 +1506,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/editor-components@npm:^0.0.23":
-  version: 0.0.23
-  resolution: "@ndla/editor-components@npm:0.0.23"
+"@ndla/editor-components@npm:^0.0.24":
+  version: 0.0.24
+  resolution: "@ndla/editor-components@npm:0.0.24"
   dependencies:
-    "@ndla/editor": "npm:^0.0.16"
+    "@ndla/editor": "npm:^0.0.17"
     "@ndla/primitives": "npm:^1.0.84-alpha.0"
     "@ndla/styled-system": "npm:^0.0.33"
   peerDependencies:
@@ -1520,13 +1520,13 @@ __metadata:
     slate-dom: ^0.112.0
     slate-history: ^0.110.3
     slate-react: ^0.112.0
-  checksum: 10c0/fc3b7a8ee3600c501eddbf8ed28fb999acedc14b17d33209b72eea55499919a6ad0bd8f73ef2f02fc6efa9414751c7c9c528add0f4892b81901e8ecdce9091bc
+  checksum: 10c0/5baae3b117e53276d80fc305dec2c53558f888dc5e9dc5b645a6cf7dd2ed3654f8fdb33aebfd52f4c595cd3ffc6e020ef36b55865756a1bf136407c7ed7b3e02
   languageName: node
   linkType: hard
 
-"@ndla/editor@npm:^0.0.16":
-  version: 0.0.16
-  resolution: "@ndla/editor@npm:0.0.16"
+"@ndla/editor@npm:^0.0.17":
+  version: 0.0.17
+  resolution: "@ndla/editor@npm:0.0.17"
   dependencies:
     escape-html: "npm:^1.0.3"
     he: "npm:^1.2.0"
@@ -1540,7 +1540,7 @@ __metadata:
     slate-dom: ^0.112.0
     slate-history: ^0.110.3
     slate-react: ^0.112.0
-  checksum: 10c0/4289ff5f9a95504896f81b1569dfbb9f0b200ae6aa6416d0e24834787693eccafd96ced6d9ca5522e68cc2a82e02dbc7e5d6430704277163d3e0f8aeb95ac48c
+  checksum: 10c0/393436e9cea4a810ee625471f3d38c9377f8345b099de7db658f44c78d20bfd812d5f56627a10d79dc93452245d82cc3f126f2a67cb5abaa54822a2a139ebde7
   languageName: node
   linkType: hard
 
@@ -1661,10 +1661,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/types-backend@npm:^1.0.35":
-  version: 1.0.35
-  resolution: "@ndla/types-backend@npm:1.0.35"
-  checksum: 10c0/a4d5740eed94cbb6609c6197ac7d509d0f59244017f47dced2f2e6d57466312063997b27e27979dceea15a0ebedd7dae524a52e769704eaa40c59c6d083ce2bb
+"@ndla/types-backend@npm:^1.0.36":
+  version: 1.0.36
+  resolution: "@ndla/types-backend@npm:1.0.36"
+  checksum: 10c0/73cee84920d4d6304a3b27215d863562eab813cc988c627fe3ffcd0c684855cd5721d065ae4ee8418d837b219675e94d11ff3ff222d1fe5b4dd72654851b6a70
   languageName: node
   linkType: hard
 
@@ -5505,8 +5505,8 @@ __metadata:
     "@fontsource/source-serif-pro": "npm:^4.5.7"
     "@ndla/article-converter": "npm:^10.0.113-alpha.0"
     "@ndla/audio-search": "npm:^7.0.91-alpha.0"
-    "@ndla/editor": "npm:^0.0.16"
-    "@ndla/editor-components": "npm:^0.0.23"
+    "@ndla/editor": "npm:^0.0.17"
+    "@ndla/editor-components": "npm:^0.0.24"
     "@ndla/error-reporter": "npm:^2.0.12"
     "@ndla/hooks": "npm:^2.1.11"
     "@ndla/icons": "npm:^8.0.53-alpha.0"
@@ -5517,7 +5517,7 @@ __metadata:
     "@ndla/safelink": "npm:^7.0.85-alpha.0"
     "@ndla/scripts": "npm:^3.0.1"
     "@ndla/styled-system": "npm:^0.0.33"
-    "@ndla/types-backend": "npm:^1.0.35"
+    "@ndla/types-backend": "npm:^1.0.36"
     "@ndla/types-embed": "npm:^5.0.11-alpha.0"
     "@ndla/types-taxonomy": "npm:^1.0.34"
     "@ndla/ui": "npm:^56.0.110-alpha.0"
@@ -5571,6 +5571,7 @@ __metadata:
     jwt-decode: "npm:^4.0.0"
     lodash-es: "npm:^4.17.21"
     monaco-editor: "npm:0.47.0"
+    nanoid: "npm:^5.1.2"
     nock: "npm:^14.0.1"
     p-limit: "npm:^6.2.0"
     postcss: "npm:^8.5.3"
@@ -6608,7 +6609,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fdir@npm:^6.4.3":
+"fdir@npm:^6.4.2, fdir@npm:^6.4.3":
   version: 6.4.3
   resolution: "fdir@npm:6.4.3"
   peerDependencies:
@@ -8817,6 +8818,15 @@ __metadata:
   bin:
     nanoid: bin/nanoid.cjs
   checksum: 10c0/4b1bb29f6cfebf3be3bc4ad1f1296fb0a10a3043a79f34fbffe75d1621b4318319211cd420549459018ea3592f0d2f159247a6f874911d6d26eaaadda2478120
+  languageName: node
+  linkType: hard
+
+"nanoid@npm:^5.1.2":
+  version: 5.1.3
+  resolution: "nanoid@npm:5.1.3"
+  bin:
+    nanoid: bin/nanoid.js
+  checksum: 10c0/632ab0e758f8cdd3d14835b2c094e7320cdb92c2404e4bc6cd864765d8fab76647e73ee664a7d11b1a5b5c7e04b8c030d6719d2b61f8b1295a5fb64a9d779a8b
   languageName: node
   linkType: hard
 
@@ -11395,13 +11405,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinyglobby@npm:0.2.12, tinyglobby@npm:^0.2.9":
+"tinyglobby@npm:0.2.12":
   version: 0.2.12
   resolution: "tinyglobby@npm:0.2.12"
   dependencies:
     fdir: "npm:^6.4.3"
     picomatch: "npm:^4.0.2"
   checksum: 10c0/7c9be4fd3625630e262dcb19015302aad3b4ba7fc620f269313e688f2161ea8724d6cb4444baab5ef2826eb6bed72647b169a33ec8eea37501832a2526ff540f
+  languageName: node
+  linkType: hard
+
+"tinyglobby@npm:^0.2.9":
+  version: 0.2.10
+  resolution: "tinyglobby@npm:0.2.10"
+  dependencies:
+    fdir: "npm:^6.4.2"
+    picomatch: "npm:^4.0.2"
+  checksum: 10c0/ce946135d39b8c0e394e488ad59f4092e8c4ecd675ef1bcd4585c47de1b325e61ec6adfbfbe20c3c2bfa6fd674c5b06de2a2e65c433f752ae170aff11793e5ef
   languageName: node
   linkType: hard
 

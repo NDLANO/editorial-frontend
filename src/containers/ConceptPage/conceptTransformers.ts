@@ -18,7 +18,6 @@ import {
   blockContentToHTML,
   inlineContentToEditorValue,
 } from "../../util/articleContentConverter";
-import { parseImageUrl } from "../../util/formHelper";
 
 export const conceptApiTypeToFormType = (
   concept: IConceptDTO | undefined,
@@ -35,7 +34,6 @@ export const conceptApiTypeToFormType = (
     id: concept?.id,
     revision: concept?.revision,
     status: concept?.status ?? { current: IN_PROGRESS, other: [] },
-    metaImage: concept?.metaImage,
     created: concept?.created,
     updated: concept?.updated,
     title: plainTextToEditorValue(concept?.title?.title || initialTitle),
@@ -48,8 +46,6 @@ export const conceptApiTypeToFormType = (
     processed: concept?.copyright?.processed ?? false,
     source: concept?.source ?? "",
     license: conceptLicense,
-    metaImageId: parseImageUrl(concept?.metaImage),
-    metaImageAlt: concept?.metaImage?.alt ?? "",
     tags: concept?.tags?.tags ?? [],
     visualElement: embedTagToEditorValue(concept?.visualElement?.visualElement ?? ""),
     origin: concept?.copyright?.origin,
@@ -110,7 +106,6 @@ export const getUpdatedConceptType = (
   return {
     ...newConcept,
     responsibleId: newConcept.responsibleId,
-    metaImage: null,
   };
 };
 
@@ -141,7 +136,6 @@ export const conceptFormTypeToApiType = (
     },
     created: values.created ?? "",
     updated: values.updated ?? "",
-    metaImage: undefined,
     updatedBy,
     copyright: {
       ...values,

@@ -6,10 +6,11 @@
  *
  */
 
-import { Descendant, Editor } from "slate";
+import { Descendant } from "slate";
 import { createSlate, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 import { FILE_ELEMENT_TYPE } from "../types";
+import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
 
@@ -53,13 +54,16 @@ describe("file normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
+        id: anySlateElementId,
         children: [
           {
             type: PARAGRAPH_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [{ text: "" }],
           },
           {
             type: FILE_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [
               {
                 text: "",
@@ -69,10 +73,12 @@ describe("file normalizer tests", () => {
           },
           {
             type: PARAGRAPH_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [{ text: "" }],
           },
           {
             type: FILE_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [
               {
                 text: "",
@@ -82,10 +88,12 @@ describe("file normalizer tests", () => {
           },
           {
             type: PARAGRAPH_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [{ text: "" }],
           },
           {
             type: FILE_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [
               {
                 text: "",
@@ -95,14 +103,13 @@ describe("file normalizer tests", () => {
           },
           {
             type: PARAGRAPH_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [{ text: "" }],
           },
         ],
       },
     ];
-
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
 });

@@ -52,14 +52,14 @@ test("can change preview when preview button pressed", async ({ page }) => {
   const mathEditor = page.getByRole("dialog").getByRole("application");
   await mathEditor.waitFor({ state: "visible" });
   await mathEditor.locator(".wrs_panelContainer").waitFor({ state: "visible" });
-  const textContent = await page.getByTestId("preview-math-text").textContent();
+  const textContent = await page.getByTestId("math-preview").textContent();
   expect(textContent).toEqual("111+1");
   const mathInput = mathEditor.locator(".wrs_focusElement");
   await mathInput.click();
   await expect(mathInput).toBeFocused();
   await page.keyboard.type("=112");
   await page.getByTestId("preview-math").click();
-  expect(await page.getByTestId("preview-math-text").textContent()).toEqual("111+1=112");
+  expect(await page.getByTestId("math-preview").textContent()).toEqual("111+1=112");
   await page.getByTestId("save-math").click();
   await expect(page.getByRole("dialog")).not.toBeVisible();
 });

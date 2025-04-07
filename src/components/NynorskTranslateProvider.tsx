@@ -28,7 +28,7 @@ const xmlSerializer = new XMLSerializer();
 
 export const NynorskTranslateProvider = ({ children }: Props) => {
   const translateState = useState<boolean>(false);
-  return <TranslateContext.Provider value={translateState}>{children}</TranslateContext.Provider>;
+  return <TranslateContext value={translateState}>{children}</TranslateContext>;
 };
 
 const errorMessage = "useTranslateToNN must be used within a NynorskTranslateProvider";

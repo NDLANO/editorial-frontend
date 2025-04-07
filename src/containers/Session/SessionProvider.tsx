@@ -75,7 +75,7 @@ export const getSessionStateFromLocalStorage = (): SessionState => {
 
 export const SessionProvider = ({ children, initialValue = initialState }: Props) => {
   const sessionState = useState<SessionState>(initialValue);
-  return <SessionContext.Provider value={sessionState}>{children}</SessionContext.Provider>;
+  return <SessionContext value={sessionState}>{children}</SessionContext>;
 };
 
 export const useSession = (): SessionProps => {

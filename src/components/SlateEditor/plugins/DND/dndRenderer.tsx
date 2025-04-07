@@ -67,8 +67,8 @@ const StyledContainer = styled("div", {
   base: {
     position: "relative",
     overflow: "visible",
-    _hover: {
-      "& [data-drag-button]": {
+    "&:not(:has([data-drag-wrapper]:hover)):hover": {
+      "& > [data-drag-button]": {
         visibility: "visible",
       },
     },
@@ -93,7 +93,7 @@ const DraggableElement = ({ children, element, accepts, firstElementInContainer 
   });
 
   return (
-    <StyledContainer data-embed-wrapper="" ref={setNodeRef}>
+    <StyledContainer data-embed-wrapper="" data-drag-wrapper="" ref={setNodeRef}>
       {!!firstElementInContainer && <DropArea element={element} accepts={accepts} position="top" />}
       <StyledIconButton
         size="small"

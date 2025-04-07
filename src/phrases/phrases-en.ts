@@ -349,7 +349,7 @@ const phrases = {
       "filter-inactive": "Include archived subjects",
     },
     tagType: {
-      query: "Search: {{value}}",
+      query: "Search:",
       subjects: "Subject: {{value}}",
       language: "Language: $(languages.{{value}})",
       users: "Editor: {{value}}",

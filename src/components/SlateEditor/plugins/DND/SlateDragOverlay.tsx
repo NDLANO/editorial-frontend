@@ -6,7 +6,9 @@
  *
  */
 
-import { ReactNode, useState } from "react";
+import { useState } from "react";
+import { ReactEditor, useSlateStatic } from "slate-react";
+import { Portal } from "@ark-ui/react";
 import { DragOverlay, useDndMonitor } from "@dnd-kit/core";
 import { styled } from "@ndla/styled-system/jsx";
 
@@ -21,16 +23,31 @@ const StyledDragOverlay = styled(
 );
 
 export const SlateDragOverlay = () => {
-  const [activeElement, setActiveElement] = useState<ReactNode | null>(null);
+  const editor = useSlateStatic();
+  const [activeHtml, setActiveHtml] = useState<string>("");
 
+  /**
+   * This is a workaround to ensure that duplicating slate elements does not cause selection issues.
+   * If you directly render a pre-existing element, the selection will be lost.
+   */
   useDndMonitor({
     onDragStart: ({ active }) => {
-      setActiveElement(active.data.current?.children);
+      const domNode = ReactEditor.toDOMNode(editor, active.data.current?.element);
+      setActiveHtml(domNode.outerHTML);
     },
     onDragEnd: () => {
-      setActiveElement(null);
+      setActiveHtml("");
+    },
+    onDragCancel: () => {
+      setActiveHtml("");
     },
   });
 
-  return <StyledDragOverlay>{activeElement}</StyledDragOverlay>;
+  return (
+    <Portal>
+      <StyledDragOverlay>
+        <div contentEditable={false} dangerouslySetInnerHTML={{ __html: activeHtml }} />
+      </StyledDragOverlay>
+    </Portal>
+  );
 };

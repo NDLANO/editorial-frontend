@@ -14,7 +14,7 @@ import { Slate, Editable, RenderElementProps, RenderLeafProps, ReactEditor } fro
 import { EditableProps } from "slate-react/dist/components/editable";
 import { useFieldContext } from "@ark-ui/react";
 import {
-  closestCenter,
+  closestCorners,
   DndContext,
   DragEndEvent,
   KeyboardSensor,
@@ -246,7 +246,7 @@ const RichTextEditor = ({
 
       const [entry1, entry2] = editor.nodes({
         match: (n) => Element.isElement(n) && (n.id === activeId || n.id === overId),
-        mode: "lowest",
+        mode: "all",
         at: [],
       });
 
@@ -269,7 +269,11 @@ const RichTextEditor = ({
       if (dropAreaPosition === "top") {
         targetPath = overPath;
       } else if (dropAreaPosition === "bottom") {
-        if (Path.isBefore(overPath, activePath) || overPath.length > activePath.length) {
+        // if the active element is the last child of the parent, we need to move it out of the parent and into the parent sibling
+        if (Path.isParent(overPath, activePath) && editor.node(overPath).length === activePath[activePath.length - 1]) {
+          targetPath = Path.next(overPath);
+          // TODO: Figure out what this does
+        } else if (Path.isBefore(overPath, activePath) || overPath.length > activePath.length) {
           targetPath = Path.next(overPath);
         } else {
           targetPath = overPath;
@@ -306,7 +310,7 @@ const RichTextEditor = ({
                   {...createBlockpickerOptions(blockpickerOptions)}
                 />
               )}
-              <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+              <DndContext sensors={sensors} collisionDetection={closestCorners} onDragEnd={onDragEnd}>
                 <StyledEditable
                   {...fieldProps}
                   aria-labelledby={labelledBy}

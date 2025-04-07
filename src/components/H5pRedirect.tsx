@@ -6,6 +6,7 @@
  *
  */
 
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "@ndla/primitives";
@@ -28,9 +29,11 @@ const H5pRedirect = () => {
   } = useTranslation();
   const navigate = useNavigate();
 
-  fetchH5PiframeUrl(language)
-    .then(({ url }) => window.location.replace(url))
-    .catch(() => navigate(routes.notFound));
+  useEffect(() => {
+    fetchH5PiframeUrl(language)
+      .then(({ url }) => window.location.replace(url))
+      .catch(() => navigate(routes.notFound));
+  }, [language, navigate]);
 
   return (
     <PageLayout>

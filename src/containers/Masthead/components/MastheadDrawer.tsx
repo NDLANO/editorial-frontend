@@ -166,7 +166,7 @@ if (config.enableUpdateGrepCodes) {
 const externalItems: MenuItem[] = [
   { to: `${config.learningpathFrontendDomain}/minside`, text: "subNavigation.learningPathLink", external: true },
 
-  { to: routes.h5p.edit, text: "subNavigation.h5p" },
+  { to: routes.h5p.edit, text: "subNavigation.h5p", external: true },
 ];
 
 const lists: MenuList[] = [

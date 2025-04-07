@@ -11,7 +11,7 @@ import { GetVerificationKey, expressjwt as jwt, Request } from "express-jwt";
 import jwksRsa from "jwks-rsa";
 import prettier from "prettier";
 import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getResponsibles } from "./auth";
-import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN, BAD_REQUEST, NOT_FOUND } from "./httpCodes";
+import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN, BAD_REQUEST, NOT_FOUND, FOUND } from "./httpCodes";
 import errorLogger from "./logger";
 import { translateDocument } from "./translate";
 import config, { getEnvironmentVariabel } from "../config";
@@ -35,7 +35,7 @@ router.get("*splat", (req, res, next) => {
     next();
   } else {
     res.set("location", `https://ed.ndla.no${req.originalUrl}`);
-    res.status(302).send();
+    res.status(FOUND).send();
   }
 });
 

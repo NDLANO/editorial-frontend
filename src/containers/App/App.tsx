@@ -26,6 +26,7 @@ import MediaPage from "./MediaPage";
 import SearchPage from "./SearchPage";
 import SubjectMatterPage from "./SubjectMatterPage";
 import ErrorBoundary from "../../components/ErrorBoundary";
+import H5pRedirect from "../../components/H5pRedirect";
 import { MastheadLayout } from "../../components/Layout/MastheadLayout";
 import { Layout } from "../../components/Page/Layout";
 import { ToastProvider } from "../../components/ToastProvider";
@@ -88,6 +89,7 @@ const App = () => {
                     <Route path="*" element={<NotFoundPage />} />
                   </Route>
                 </Route>
+                <Route path="/h5p" element={<PrivateRoute component={<H5pRedirect />} />} />
               </Routes>
             </ToastProvider>
           </AuthInitializer>

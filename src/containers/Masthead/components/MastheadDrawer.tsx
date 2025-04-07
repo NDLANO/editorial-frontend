@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { CloseLine, MenuLine, ExternalLinkLine } from "@ndla/icons";
@@ -27,7 +27,6 @@ import { MastheadLinks } from "./MastheadLinks";
 import { MastheadSessionLink } from "./MastheadSessionLink";
 import config from "../../../config";
 import { AUDIO_ADMIN_SCOPE, DRAFT_ADMIN_SCOPE, FRONTPAGE_ADMIN_SCOPE, TAXONOMY_ADMIN_SCOPE } from "../../../constants";
-import { getAccessToken } from "../../../util/authHelpers";
 import { routes } from "../../../util/routeHelpers";
 import { useSession } from "../../Session/SessionProvider";
 
@@ -164,7 +163,13 @@ if (config.enableUpdateGrepCodes) {
   });
 }
 
-const listsWithoutExternal: MenuList[] = [
+const externalItems: MenuItem[] = [
+  { to: `${config.learningpathFrontendDomain}/minside`, text: "subNavigation.learningPathLink", external: true },
+
+  { to: routes.h5p.edit, text: "subNavigation.h5p", external: true },
+];
+
+const lists: MenuList[] = [
   {
     id: "create",
     items: createItems,
@@ -177,52 +182,36 @@ const listsWithoutExternal: MenuList[] = [
     id: "admin",
     items: adminItems,
   },
+  {
+    id: "external",
+    items: externalItems,
+  },
 ];
 
 export const MastheadDrawer = () => {
   const [open, setOpen] = useState(false);
-  const {
-    t,
-    i18n: { language },
-  } = useTranslation();
+  const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { pathname } = useLocation();
-
-  const accessToken = getAccessToken();
 
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
 
-  const lists = useMemo(() => {
-    const externalItems: MenuItem[] = [
-      {
-        to: `${config.learningpathFrontendDomain}/minside`,
-        text: "subNavigation.learningPathLink",
-        external: true,
-      },
-    ];
-    if (accessToken) {
-      externalItems.push({
-        to: routes.h5p.edit(language, accessToken),
-        text: "subNavigation.h5p",
-        external: true,
-      });
+  const filteredLists = lists.reduce<MenuList[]>((acc, list) => {
+    const filteredItems = list.items.filter((item) => !item.permission || userPermissions?.includes(item.permission));
+
+    if (!filteredItems.length) {
+      return acc;
     }
 
-    return [
-      ...listsWithoutExternal,
-      {
-        id: "external",
-        items: externalItems,
-      },
-    ]
-      .map((list) => ({
-        ...list,
-        items: list.items.filter((item) => !item.permission || userPermissions?.includes(item.permission)),
-      }))
-      .filter((list) => list.items.length > 0);
-  }, [language, userPermissions, accessToken]);
+    acc.push({
+      ...list,
+      items: filteredItems,
+    });
+
+    return acc;
+  }, []);
 
   return (
     <DialogRoot
@@ -252,7 +241,7 @@ export const MastheadDrawer = () => {
             <MastheadSessionLink />
           </LinksWrapper>
           <StyledNav>
-            {lists.map((list) => (
+            {filteredLists.map((list) => (
               <ListWrapper key={list.id}>
                 <StyledText id={list.id} textStyle="label.medium" fontWeight="bold">
                   {t(`subNavigation.listTitle.${list.id}`)}

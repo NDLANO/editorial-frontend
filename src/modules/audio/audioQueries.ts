@@ -15,15 +15,26 @@ import {
   ISeriesSearchParamsDTO,
   ISearchParamsDTO as IAudioSearchParams,
   ITagsSearchResultDTO,
+  ITranscriptionResultDTO,
 } from "@ndla/types-backend/audio-api";
-import { fetchAudio, fetchSearchTags, fetchSeries, postSearchAudio, postSearchSeries } from "./audioApi";
+import {
+  fetchAudio,
+  fetchAudioTranscription,
+  fetchSearchTags,
+  fetchSeries,
+  postSearchAudio,
+  postSearchSeries,
+} from "./audioApi";
 import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
-import { AUDIO, PODCAST_SERIES, SEARCH_AUDIO, AUDIO_SEARCH_TAGS, SEARCH_SERIES } from "../../queryKeys";
-
-export interface UseAudio {
-  id: number;
-  language?: string;
-}
+import {
+  AUDIO,
+  PODCAST_SERIES,
+  SEARCH_AUDIO,
+  AUDIO_SEARCH_TAGS,
+  SEARCH_SERIES,
+  AUDIO_TRANSCRIPTION,
+} from "../../queryKeys";
+import { UseAudio, UseSearchTags, UseSeries, UseTranscription } from "./audioTypes";
 
 export const audioQueryKeys = {
   audio: (params?: Partial<UseAudio>) => [AUDIO, params] as const,
@@ -31,6 +42,7 @@ export const audioQueryKeys = {
   podcastSeries: (params?: Partial<UseSeries>) => [PODCAST_SERIES, params] as const,
   podcastSeriesSearch: (params?: Partial<StringSort<ISeriesSearchParamsDTO>>) => [SEARCH_SERIES, params] as const,
   audioSearchTags: (params?: Partial<UseSearchTags>) => [AUDIO_SEARCH_TAGS, params] as const,
+  audioTranscription: (params?: Partial<UseTranscription>) => [AUDIO_TRANSCRIPTION, params] as const,
 };
 
 export const useAudio = (params: UseAudio, options?: Partial<UseQueryOptions<IAudioMetaInformationDTO>>) =>
@@ -39,11 +51,6 @@ export const useAudio = (params: UseAudio, options?: Partial<UseQueryOptions<IAu
     queryFn: () => fetchAudio(params.id, params.language),
     ...options,
   });
-
-export interface UseSeries {
-  id: number;
-  language?: string;
-}
 
 export const useSeries = (params: UseSeries, options?: Partial<UseQueryOptions<ISeriesDTO>>) =>
   useQuery<ISeriesDTO>({
@@ -74,15 +81,21 @@ export const useSearchAudio = (
   });
 };
 
-interface UseSearchTags {
-  input: string;
-  language: string;
-}
-
 export const useAudioSearchTags = (params: UseSearchTags, options?: Partial<UseQueryOptions<ITagsSearchResultDTO>>) => {
   return useQuery<ITagsSearchResultDTO>({
     queryKey: audioQueryKeys.audioSearchTags(params),
     queryFn: () => fetchSearchTags(params.input, params.language),
+    ...options,
+  });
+};
+
+export const useAudioTranscription = (
+  params: UseTranscription,
+  options?: Partial<UseQueryOptions<ITranscriptionResultDTO>>,
+) => {
+  return useQuery<ITranscriptionResultDTO>({
+    queryKey: audioQueryKeys.audioTranscription(params),
+    queryFn: () => fetchAudioTranscription(params.audioId, params.language),
     ...options,
   });
 };

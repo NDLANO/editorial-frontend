@@ -30,6 +30,7 @@ import {
   ListCheckFormat,
   GlobalLine,
   CalculatorLine,
+  FileListLine,
 } from "@ndla/icons";
 import { IconButton, Text, ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -96,6 +97,7 @@ export const iconMapping: Record<string, ElementType> = {
   left: AlignLeft,
   center: AlignCenter,
   right: AlignRight,
+  rephrase: FileListLine,
 };
 
 interface Props {

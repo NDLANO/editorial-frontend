@@ -7,10 +7,16 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { createPlugin, createSerializer, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
+import {
+  createDataAttributes,
+  createHtmlTag,
+  createPlugin,
+  createSerializer,
+  PARAGRAPH_ELEMENT_TYPE,
+  parseElementAttributes,
+} from "@ndla/editor";
 import { isH5pElement } from "./queries";
 import { H5P_ELEMENT_TYPE, H5P_PLUGIN, H5pPluginOptions } from "./types";
-import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
 import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";

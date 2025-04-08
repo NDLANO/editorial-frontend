@@ -6,8 +6,8 @@
  *
  */
 
-import { MouseEvent, ReactNode } from "react";
-import { Editor, Element, ElementType } from "slate";
+import { MouseEvent, ReactNode, useEffect } from "react";
+import { Editor, Element, ElementType, PathRef } from "slate";
 import { ReactEditor } from "slate-react";
 import { useDraggable } from "@dnd-kit/core";
 import { Draggable } from "@ndla/icons";
@@ -22,12 +22,18 @@ const getAccepts = (editor: Editor, element: Element, options?: DndPluginOptions
   if (!parent || !Element.isElement(parent)) {
     return {
       accepts: undefined,
-      firstElementInContainer: false,
+      pathRef: null,
     };
   }
+
+  // We need to keep track of of the path of the element to determine whether we should show the top drop area.
+  // Doing it through other means (useEffect, for instance), is too costly.
+  // Remember to unref the pathref when unmounting the component that consumes it.
+  const pathRef = editor.pathRef(path);
+
   return {
     accepts: options?.legalChildren?.[parent.type],
-    firstElementInContainer: path.length === 2 ? path.at(1) === 0 : path.at(-1) === 0,
+    pathRef,
   };
 };
 
@@ -38,12 +44,13 @@ export const dndRenderer = (editor: Editor) => {
     if (!element.id || dndOptions?.disabledElements?.includes(element.type)) {
       return renderElement?.({ attributes, children, element });
     }
-    const { accepts, firstElementInContainer } = getAccepts(editor, element, dndOptions);
-    if (accepts && !accepts.length) {
+    const { accepts, pathRef } = getAccepts(editor, element, dndOptions);
+    if ((accepts && !accepts.length) || !pathRef) {
       return renderElement?.({ attributes, children, element });
     }
+
     return (
-      <DraggableElement element={element} accepts={accepts} firstElementInContainer={firstElementInContainer}>
+      <DraggableElement element={element} accepts={accepts} pathRef={pathRef}>
         {renderElement?.({ attributes, children, element })}
       </DraggableElement>
     );
@@ -81,22 +88,28 @@ interface Props {
   children: ReactNode;
   element: Element;
   accepts?: ElementType[];
-  firstElementInContainer?: boolean;
+  pathRef: PathRef;
 }
 
 const onMouseDown = (e: MouseEvent<HTMLButtonElement>) => {
   e.preventDefault();
 };
 
-const DraggableElement = ({ children, element, accepts, firstElementInContainer }: Props) => {
+const DraggableElement = ({ children, element, accepts, pathRef }: Props) => {
   const { attributes, listeners, setNodeRef } = useDraggable({
     id: element.id!,
     data: { element, children },
   });
 
+  useEffect(() => {
+    return () => {
+      pathRef?.unref();
+    };
+  }, [pathRef]);
+
   return (
     <StyledContainer data-embed-wrapper="" data-drag-wrapper="" ref={setNodeRef}>
-      {!!firstElementInContainer && <DropArea element={element} accepts={accepts} position="top" />}
+      {pathRef?.current?.at(-1) === 0 && <DropArea element={element} accepts={accepts} position="top" />}
       <StyledIconButton
         size="small"
         onMouseDown={onMouseDown}

@@ -29,7 +29,7 @@ import {
   TagsInputRoot,
 } from "@ndla/primitives";
 import { useTagsInputTranslations } from "@ndla/ui";
-import { FootnoteElement } from ".";
+import { FootnoteElement } from "./types";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik from "../../../formikValidationSchema";

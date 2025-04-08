@@ -29,8 +29,7 @@ import { CODE_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plug
 import { COMMENT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/comment/block/types";
 import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
 import { FILE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/file/types";
-import { FootnoteElement } from "../../../../components/SlateEditor/plugins/footnote";
-import { TYPE_FOOTNOTE } from "../../../../components/SlateEditor/plugins/footnote/types";
+import { FOOTNOTE_ELEMENT_TYPE, FootnoteElement } from "../../../../components/SlateEditor/plugins/footnote/types";
 import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
 import { H5P_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/h5p/types";
 import { IMAGE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/image/types";
@@ -51,7 +50,7 @@ import { HandleSubmitFunc, LearningResourceFormType } from "../../../FormikForm/
 import { useSession } from "../../../Session/SessionProvider";
 
 const findFootnotes = (content: Descendant[]): FootnoteType[] =>
-  findNodesByType(content, TYPE_FOOTNOTE)
+  findNodesByType(content, FOOTNOTE_ELEMENT_TYPE)
     .map((e) => e as FootnoteElement)
     .filter((footnote) => Object.keys(footnote.data).length > 0)
     .map((footnoteElement) => footnoteElement.data);

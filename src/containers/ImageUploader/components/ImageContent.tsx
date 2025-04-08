@@ -16,7 +16,8 @@ import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import { AI_ACCESS_SCOPE } from "../../../constants";
 import { useSession } from "../../../containers/Session/SessionProvider";
-import { useGenerateAltTextMutation } from "../../../modules/llm/llmMutations";
+import { AltTextVariables } from "../../../modules/llm/llmApiTypes";
+import { useGenerateAIMutation } from "../../../modules/llm/llmMutations";
 import { TitleField } from "../../FormikForm";
 import { useMessages } from "../../Messages/MessagesProvider";
 import { ImageFormikType } from "../imageTransformers";
@@ -33,7 +34,7 @@ const ImageContent = ({ language }: Props) => {
   const { userPermissions } = useSession();
   const { values } = useFormikContext<ImageFormikType>();
   const { createMessage } = useMessages();
-  const generateAltTextMutation = useGenerateAltTextMutation();
+  const generateAltTextMutation = useGenerateAIMutation<AltTextVariables>();
 
   const generateAltText = async (helpers: FieldHelperProps<string | undefined>) => {
     if (!values.imageFile) {

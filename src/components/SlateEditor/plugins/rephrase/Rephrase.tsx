@@ -26,7 +26,8 @@ import {
   Text,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { useGenerateAlternativePhrasingMutation } from "../../../../modules/llm/llmMutations";
+import { AlternativePhrasingVariables } from "../../../../modules/llm/llmApiTypes";
+import { useGenerateAIMutation } from "../../../../modules/llm/llmMutations";
 import { NdlaErrorPayload } from "../../../../util/resolveJsonOrRejectWithError";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormActionsContainer } from "../../../FormikForm";
@@ -54,7 +55,7 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
   const language = useArticleLanguage();
   const [generatedText, setGeneratedText] = useState<string | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
-  const phrasingMutation = useGenerateAlternativePhrasingMutation();
+  const phrasingMutation = useGenerateAIMutation<AlternativePhrasingVariables>();
 
   // TODO Handle marks and inlines in query.
   const currentText = useMemo(() => Node.string(element), [element]);

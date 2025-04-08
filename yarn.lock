@@ -2184,10 +2184,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/types-backend@npm:^1.0.36":
-  version: 1.0.36
-  resolution: "@ndla/types-backend@npm:1.0.36"
-  checksum: 10c0/73cee84920d4d6304a3b27215d863562eab813cc988c627fe3ffcd0c684855cd5721d065ae4ee8418d837b219675e94d11ff3ff222d1fe5b4dd72654851b6a70
+"@ndla/types-backend@npm:^1.0.38":
+  version: 1.0.38
+  resolution: "@ndla/types-backend@npm:1.0.38"
+  checksum: 10c0/f05955bc6f99367f1acd5991ed4c75bdf25f082d6ea787c0f5707d88b40248b94077c36207582d41445cb16edda4469b29939884ac4ba9585b132804aa2f1982
   languageName: node
   linkType: hard
 
@@ -6588,7 +6588,7 @@ __metadata:
     "@ndla/safelink": "npm:^7.0.85-alpha.0"
     "@ndla/scripts": "npm:^3.0.1"
     "@ndla/styled-system": "npm:^0.0.33"
-    "@ndla/types-backend": "npm:^1.0.36"
+    "@ndla/types-backend": "npm:^1.0.38"
     "@ndla/types-embed": "npm:^5.0.11-alpha.0"
     "@ndla/types-taxonomy": "npm:^1.0.34"
     "@ndla/ui": "npm:^56.0.110-alpha.0"
@@ -6644,6 +6644,7 @@ __metadata:
     monaco-editor: "npm:0.47.0"
     nanoid: "npm:^5.1.2"
     nock: "npm:^14.0.1"
+    openapi-fetch: "npm:^0.13.5"
     p-limit: "npm:^6.2.0"
     postcss: "npm:^8.5.3"
     postcss-import: "npm:^16.1.0"
@@ -10194,6 +10195,22 @@ __metadata:
   dependencies:
     fn.name: "npm:1.x.x"
   checksum: 10c0/6e4887b331edbb954f4e915831cbec0a7b9956c36f4feb5f6de98c448ac02ff881fd8d9b55a6b1b55030af184c6b648f340a76eb211812f4ad8c9b4b8692fdaa
+  languageName: node
+  linkType: hard
+
+"openapi-fetch@npm:^0.13.5":
+  version: 0.13.5
+  resolution: "openapi-fetch@npm:0.13.5"
+  dependencies:
+    openapi-typescript-helpers: "npm:^0.0.15"
+  checksum: 10c0/57736d9d4310d7bc7fa5e4e37e80d28893a7fefee88ee6e0327600de893e0638479445bf0c9f5bd7b1a2429f409425d3945d6e942b23b37b8081630ac52244fb
+  languageName: node
+  linkType: hard
+
+"openapi-typescript-helpers@npm:^0.0.15":
+  version: 0.0.15
+  resolution: "openapi-typescript-helpers@npm:0.0.15"
+  checksum: 10c0/5eb68d487b787e3e31266470b1a310726549dd45a1079655ab18066ab291b0b3c343fdf629991013706a2329b86964f8798d56ef0272b94b931fe6c19abd7a88
   languageName: node
   linkType: hard
 

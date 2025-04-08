@@ -8,10 +8,10 @@
 
 import { Descendant, Editor, Element, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
+import { createDataAttributes, createHtmlTag, parseElementAttributes } from "@ndla/editor";
 import { GridType } from "@ndla/ui";
 import { TYPE_GRID, TYPE_GRID_CELL } from "./types";
 import { defaultGridCellBlock } from "./utils";
-import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";

@@ -8,8 +8,8 @@
 
 import { Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
+import { createDataAttributes, createHtmlTag, parseElementAttributes } from "@ndla/editor";
 import { TYPE_EXTERNAL, TYPE_IFRAME } from "./types";
-import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";

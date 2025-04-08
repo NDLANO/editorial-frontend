@@ -59,13 +59,13 @@ const ResourceItems = ({
   const [deleteId, setDeleteId] = useState<string>("");
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const contextIds = useMemo(() => resources?.filter((n) => !!n.contextId).map((n) => n.contextId!), [resources]);
+  const urls = useMemo(() => resources.filter((n) => !!n.url).map((n) => n.url as string), [resources]);
 
   const {
     data: matomoStatsData,
     isPending: matomoStatsIsPending,
     isError: matomoStatsIsError,
-  } = useMatomoStats({ contextIds: contextIds }, { enabled: !!contextIds.length && showMatomoStats });
+  } = useMatomoStats({ urls: urls }, { enabled: !!urls.length && showMatomoStats });
 
   useEffect(() => {
     if (!matomoStatsData) return;

@@ -6,14 +6,13 @@
  *
  */
 
-import { Descendant } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { createDataAttributes, createHtmlTag, SlateSerializer } from "@ndla/editor";
+import { createDataAttributes, createHtmlTag, createSerializer } from "@ndla/editor";
 import { ASIDE_ELEMENT_TYPE } from "./asideTypes";
 import { isAsideElement } from "./queries/asideQueries";
 
-export const asideSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: Descendant[]) {
+export const asideSerializer = createSerializer({
+  deserialize(el, children) {
     if (el.tagName.toLowerCase() !== "aside") return;
     return slatejsx("element", { type: ASIDE_ELEMENT_TYPE, data: { type: "factAside" } }, children);
   },
@@ -22,4 +21,4 @@ export const asideSerializer: SlateSerializer = {
     const data = createDataAttributes({ type: node.data.type });
     return createHtmlTag({ tag: "aside", data, children });
   },
-};
+});

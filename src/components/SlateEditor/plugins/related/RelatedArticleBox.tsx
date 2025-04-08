@@ -52,7 +52,8 @@ const internalEmbedToMeta = async (
   language: string,
   taxonomyVersion: string,
 ): Promise<RelatedContentMetaData> => {
-  const article = await fetchDraft(embedData.articleId!, language).catch(() => undefined);
+  const parsedId = parseInt(embedData.articleId ?? "");
+  const article = await fetchDraft(parsedId, language).catch(() => undefined);
   const nodes = await fetchNodes({
     taxonomyVersion,
     contentURI: `urn:article:${embedData.articleId}`,

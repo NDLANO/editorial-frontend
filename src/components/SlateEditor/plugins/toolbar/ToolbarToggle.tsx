@@ -7,7 +7,7 @@
  */
 
 import { TFunction } from "i18next";
-import { ElementType, ReactNode, forwardRef, useMemo } from "react";
+import { ElementType, ReactNode, type Ref, useMemo } from "react";
 import { CustomI18n, useTranslation } from "react-i18next";
 import { ToggleGroupItemProps } from "@ark-ui/react";
 import {
@@ -100,12 +100,6 @@ export const iconMapping: Record<string, ElementType> = {
   rephrase: FileListLine,
 };
 
-interface Props {
-  type?: string;
-  noTitle?: boolean;
-  disabled?: boolean;
-}
-
 export const getTitle = (
   i18n: CustomI18n,
   t: TFunction,
@@ -125,31 +119,35 @@ export const getTitle = (
   return t(`editorToolbar.${type}`, options);
 };
 
-export const ToolbarToggleButton = forwardRef<HTMLButtonElement, Omit<ToggleGroupItemProps, "type"> & Props>(
-  ({ type, children, noTitle, disabled, value, ...rest }, ref) => {
-    const Icon = useMemo(() => (type ? iconMapping[type] : undefined), [type]);
-    const { i18n, t } = useTranslation();
+interface Props extends Omit<ToggleGroupItemProps, "type"> {
+  ref?: Ref<HTMLButtonElement>;
+  type?: string;
+  noTitle?: boolean;
+  disabled?: boolean;
+}
 
-    const title = useMemo(() => getTitle(i18n, t, type, noTitle, disabled), [i18n, t, type, noTitle, disabled]);
+export const ToolbarToggleButton = ({ type, children, noTitle, disabled, value, ...rest }: Props) => {
+  const Icon = useMemo(() => (type ? iconMapping[type] : undefined), [type]);
+  const { i18n, t } = useTranslation();
 
-    return (
-      <ToggleGroupItem
-        data-testid={`toolbar-button-${type}`}
-        title={title}
-        disabled={disabled}
-        ref={ref}
-        value={value}
-        {...rest}
-        asChild
-      >
-        <IconButton size="small" variant="tertiary">
-          {!!Icon && <Icon />}
-          {children}
-        </IconButton>
-      </ToggleGroupItem>
-    );
-  },
-);
+  const title = useMemo(() => getTitle(i18n, t, type, noTitle, disabled), [i18n, t, type, noTitle, disabled]);
+
+  return (
+    <ToggleGroupItem
+      data-testid={`toolbar-button-${type}`}
+      title={title}
+      disabled={disabled}
+      value={value}
+      {...rest}
+      asChild
+    >
+      <IconButton size="small" variant="tertiary">
+        {!!Icon && <Icon />}
+        {children}
+      </IconButton>
+    </ToggleGroupItem>
+  );
+};
 
 export const ToolbarToggleGroupRoot = styled(ToggleGroupRoot, {
   base: {

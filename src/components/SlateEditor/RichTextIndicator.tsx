@@ -6,7 +6,7 @@
  *
  */
 
-import { ComponentPropsWithRef, forwardRef } from "react";
+import { ComponentPropsWithRef } from "react";
 import { Text, TextProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
@@ -16,10 +16,10 @@ const StyledText = styled(Text, {
   },
 });
 
-export const RichTextIndicator = forwardRef<HTMLParagraphElement, ComponentPropsWithRef<"p"> & TextProps>(
-  ({ textStyle = "label.xsmall", ...props }, ref) => (
-    <StyledText textStyle={textStyle} ref={ref} asChild consumeCss {...props}>
-      <span>(HTML)</span>
-    </StyledText>
-  ),
+interface Props extends TextProps, Omit<ComponentPropsWithRef<"p">, "color"> {}
+
+export const RichTextIndicator = ({ textStyle = "label.xsmall", ...props }: Props) => (
+  <StyledText textStyle={textStyle} asChild consumeCss {...props}>
+    <span>(HTML)</span>
+  </StyledText>
 );

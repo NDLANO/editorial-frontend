@@ -6,7 +6,7 @@
  *
  */
 
-import { RefObject } from "react";
+import { type RefObject } from "react";
 
 // keyboard scrolling does not work properly when items are not nested directly within
 // ComboboxContent, so we need to provide a custom scroll function

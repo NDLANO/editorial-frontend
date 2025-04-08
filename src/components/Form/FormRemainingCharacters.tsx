@@ -6,13 +6,13 @@
  *
  */
 
-import { ComponentPropsWithRef, forwardRef, useMemo } from "react";
+import { ComponentPropsWithRef, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant, Node } from "slate";
 import { FieldHelper, Text, TextProps } from "@ndla/primitives";
 import useDebounce from "../../util/useDebounce";
 
-interface Props extends ComponentPropsWithRef<"div"> {
+interface Props extends TextProps, Omit<ComponentPropsWithRef<"div">, "color"> {
   value: string | Descendant[];
   maxLength: number;
   debounceDuration?: number;
@@ -23,23 +23,27 @@ const getValueLength = (value: string | Descendant[]) =>
     ? value.map((node) => Node.string(node)).reduce((acc, curr) => acc + curr, "").length
     : value.length;
 
-export const FormRemainingCharacters = forwardRef<HTMLDivElement, Props & TextProps>(
-  ({ value, textStyle = "label.xsmall", maxLength, debounceDuration = 500, ...rest }, ref) => {
-    const { t } = useTranslation();
-    const debouncedValue = useDebounce(value, debounceDuration);
-    const valueLength = getValueLength(value);
+export const FormRemainingCharacters = ({
+  value,
+  textStyle = "label.xsmall",
+  maxLength,
+  debounceDuration = 500,
+  ...rest
+}: Props) => {
+  const { t } = useTranslation();
+  const debouncedValue = useDebounce(value, debounceDuration);
+  const valueLength = getValueLength(value);
 
-    const debouncedValueLength = useMemo(() => getValueLength(debouncedValue), [debouncedValue]);
+  const debouncedValueLength = useMemo(() => getValueLength(debouncedValue), [debouncedValue]);
 
-    return (
-      <>
-        <Text textStyle={textStyle} ref={ref} {...rest}>
-          {t("form.remainingCharacters", { remaining: maxLength - valueLength, maxLength })}
-        </Text>
-        <FieldHelper srOnly aria-live="polite">
-          {t("form.remainingCharacters", { remaining: maxLength - debouncedValueLength, maxLength })}
-        </FieldHelper>
-      </>
-    );
-  },
-);
+  return (
+    <>
+      <Text textStyle={textStyle} {...rest}>
+        {t("form.remainingCharacters", { remaining: maxLength - valueLength, maxLength })}
+      </Text>
+      <FieldHelper srOnly aria-live="polite">
+        {t("form.remainingCharacters", { remaining: maxLength - debouncedValueLength, maxLength })}
+      </FieldHelper>
+    </>
+  );
+};

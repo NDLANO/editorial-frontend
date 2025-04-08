@@ -9,10 +9,20 @@
 import { useFormikContext } from "formik";
 import { isEqual } from "lodash-es";
 import { FocusEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Descendant, Editor, Range, Transforms } from "slate";
+import { Descendant, Editor, Element, Path, Range, Transforms } from "slate";
 import { Slate, Editable, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
 import { useFieldContext } from "@ark-ui/react";
+import {
+  closestCenter,
+  DndContext,
+  DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { createSlate, LoggerManager, SlatePlugin } from "@ndla/editor";
 import { styled } from "@ndla/styled-system/jsx";
 import "../DisplayEmbed/helpers/h5pResizer";
@@ -20,13 +30,13 @@ import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
 import { Action, commonActions } from "./plugins/blockPicker/actions";
 import { BlockPickerOptions, createBlockpickerOptions } from "./plugins/blockPicker/options";
 import SlateBlockPicker from "./plugins/blockPicker/SlateBlockPicker";
-import { onDragOver, onDragStart, onDrop } from "./plugins/DND";
 import { SlateToolbar } from "./plugins/toolbar";
 import { AreaFilters, CategoryFilters } from "./plugins/toolbar/toolbarState";
 import { SlateProvider } from "./SlateContext";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { FormikStatus } from "../../interfaces";
+import { DND_PLUGIN, DndPluginOptions } from "./plugins/DND/dndTypes";
 
 const StyledSlateWrapper = styled("div", {
   base: {
@@ -91,6 +101,7 @@ const RichTextEditor = ({
       onInitialNormalized,
     }),
   );
+  const dndOptions = editor.getPluginOptions<DndPluginOptions>(DND_PLUGIN);
   const [labelledBy, setLabelledBy] = useState<string | undefined>(undefined);
   const prevSubmitted = useRef(submitted);
   const field = useFieldContext();
@@ -191,7 +202,7 @@ const RichTextEditor = ({
   const renderLeaf = useCallback((renderProps: RenderLeafProps) => {
     const { attributes, children } = renderProps;
     if (editor.renderLeaf) {
-      const ret = editor.renderLeaf(renderProps);
+      const ret = editor.renderLeaf?.(renderProps);
       if (ret) {
         return ret;
       }
@@ -199,13 +210,6 @@ const RichTextEditor = ({
     return <span {...attributes}>{children}</span>;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onDragStartCallback = useCallback(onDragStart(editor), []);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onDragOverCallback = useCallback(onDragOver(), []);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onDropCallback = useCallback(onDrop(editor), []);
 
   // Deselect selection if focus is moved to any other element than the toolbar
   const onBlur = useCallback(
@@ -230,6 +234,58 @@ const RichTextEditor = ({
     [additionalOnKeyDown, editor],
   );
 
+  const onDragEnd = (dragEvent: DragEndEvent) => {
+    const overElement = dragEvent.over?.data.current?.element;
+    const activeElement = dragEvent.active.data.current?.element;
+    const overId = overElement?.id;
+    const activeId = dragEvent.active.id;
+    const dropAreaPosition = dragEvent.over?.data.current?.position;
+    if (!(dropAreaPosition === "top" || dropAreaPosition === "bottom")) return;
+
+    const [entry1, entry2] = editor.nodes({
+      match: (n) => Element.isElement(n) && (n.id === activeId || n.id === overId),
+      mode: "lowest",
+      at: [],
+    });
+
+    if (!entry1 || !("id" in entry1[0]) || !entry2) {
+      return;
+    }
+
+    const [, overPath] = entry1[0].id === overId ? entry1 : entry2;
+    const [, activePath] = entry1[0].id === activeId ? entry1 : entry2;
+
+    const [parent] = editor.parent(overPath);
+
+    const legalChildren = Element.isElement(parent) && dndOptions?.legalChildren?.[parent.type];
+
+    if (legalChildren && activeElement && !legalChildren.includes(activeElement.type)) return;
+
+    let targetPath = overPath;
+    // TODO: this logic needs to be adjusted for nested elements
+    // Move node to top or bottom based on drop area
+    if (dropAreaPosition === "top") {
+      targetPath = overPath;
+    } else if (dropAreaPosition === "bottom") {
+      if (Path.isBefore(overPath, activePath) || overPath.length > activePath.length) {
+        targetPath = Path.next(overPath);
+      } else {
+        targetPath = overPath;
+      }
+    }
+    if (Path.equals(activePath, targetPath) || Path.isAncestor(activePath, targetPath)) return;
+    setTimeout(() => {
+      Transforms.moveNodes(editor, { at: activePath, to: targetPath });
+    }, 0);
+  };
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+
   return (
     <article className={noArticleStyling ? undefined : "ndla-article"}>
       <ArticleLanguageProvider language={language}>
@@ -244,20 +300,19 @@ const RichTextEditor = ({
                   {...createBlockpickerOptions(blockpickerOptions)}
                 />
               )}
-              <StyledEditable
-                {...fieldProps}
-                aria-labelledby={labelledBy}
-                {...rest}
-                onBlur={onBlur}
-                onKeyDown={handleKeyDown}
-                placeholder={placeholder}
-                renderElement={renderElement}
-                renderLeaf={renderLeaf}
-                readOnly={submitted}
-                onDragStart={onDragStartCallback}
-                onDragOver={onDragOverCallback}
-                onDrop={onDropCallback}
-              />
+              <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+                <StyledEditable
+                  {...fieldProps}
+                  aria-labelledby={labelledBy}
+                  {...rest}
+                  onBlur={onBlur}
+                  onKeyDown={handleKeyDown}
+                  placeholder={placeholder}
+                  renderElement={renderElement}
+                  renderLeaf={renderLeaf}
+                  readOnly={submitted}
+                />
+              </DndContext>
             </Slate>
           </StyledSlateWrapper>
         </SlateProvider>

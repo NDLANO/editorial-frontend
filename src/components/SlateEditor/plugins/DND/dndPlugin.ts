@@ -39,7 +39,11 @@ export const dndPlugin = createPlugin<any, DndPluginOptions>({
     ],
     legalChildren: {
       "list-item": [],
-      "grid-cell": ["paragraph", "image", "list", "definition-list", "quote"],
+      "table-cell": [],
+      "table-row": [],
+      "grid-cell": ["paragraph", "image", "quote", "list", "definition-list"],
+      "table-head": [],
+      "table-cell-header": [],
       summary: [],
       aside: [
         "paragraph",

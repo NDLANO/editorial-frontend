@@ -6,7 +6,6 @@
  *
  */
 
-import queryString from "query-string";
 import {
   ISubjectPageDTO,
   IFilmFrontPageDTO,
@@ -14,62 +13,67 @@ import {
   IUpdatedSubjectPageDTO,
   INewOrUpdatedFilmFrontPageDTO,
   IFrontPageDTO,
+  openapi,
 } from "@ndla/types-backend/frontpage-api";
 import { LocaleType } from "../../interfaces";
-import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from "../../util/apiHelpers";
+import { createAuthClient } from "../../util/apiHelpers";
+import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 
-const baseUrl = apiResourceUrl("/frontpage-api/v1");
+const client = createAuthClient<openapi.paths>();
 
-export const fetchFrontpage = () =>
-  fetchAuthorized(`${baseUrl}/frontpage`).then((r) => resolveJsonOrRejectWithError<IFrontPageDTO>(r));
+export const fetchFrontpage = () => client.GET("/frontpage-api/v1/frontpage").then(resolveJsonOATS);
 
-export const postFrontpage = (frontpage: IFrontPageDTO) =>
-  fetchAuthorized(`${baseUrl}/frontpage`, {
-    method: "POST",
-    body: JSON.stringify(frontpage),
-  }).then((r) => resolveJsonOrRejectWithError<IFrontPageDTO>(r));
+export const postFrontpage = (body: IFrontPageDTO) =>
+  client.POST("/frontpage-api/v1/frontpage", { body }).then(resolveJsonOATS);
 
-export const fetchFilmFrontpage = () =>
-  fetchAuthorized(`${baseUrl}/filmfrontpage/`).then((r) => resolveJsonOrRejectWithError<IFilmFrontPageDTO>(r));
+export const fetchFilmFrontpage = () => client.GET("/frontpage-api/v1/filmfrontpage").then(resolveJsonOATS);
 
-export const updateFilmFrontpage = (filmfrontpage: INewOrUpdatedFilmFrontPageDTO): Promise<IFilmFrontPageDTO> => {
-  return fetchAuthorized(`${baseUrl}/filmfrontpage/`, {
-    method: "POST",
-    body: JSON.stringify(filmfrontpage),
-  }).then((r) => resolveJsonOrRejectWithError<IFilmFrontPageDTO>(r));
-};
+export const updateFilmFrontpage = (filmfrontpage: INewOrUpdatedFilmFrontPageDTO): Promise<IFilmFrontPageDTO> =>
+  client.POST("/frontpage-api/v1/filmfrontpage", { body: filmfrontpage }).then(resolveJsonOATS);
 
-export const fetchSubjectpage = (id: number | string, language: LocaleType): Promise<ISubjectPageDTO> => {
-  const query = queryString.stringify({ language });
-  const url = `${baseUrl}/subjectpage/${id}`;
-  const urlLang = language ? url + `?${query}&fallback=true` : url;
-  return fetchAuthorized(urlLang).then((r) => resolveJsonOrRejectWithError(r));
-};
+export const fetchSubjectpage = (id: number, language: LocaleType): Promise<ISubjectPageDTO> =>
+  client
+    .GET("/frontpage-api/v1/subjectpage/{subjectpage-id}", {
+      params: {
+        path: { "subjectpage-id": id },
+        query: { language, fallback: language ? true : undefined },
+      },
+    })
+    .then(resolveJsonOATS);
 
 export const updateSubjectpage = (
   subjectpage: IUpdatedSubjectPageDTO,
-  subjectpageId: number | string,
+  subjectpageId: number,
   language: LocaleType,
-): Promise<ISubjectPageDTO> => {
-  const query = queryString.stringify({ language });
-  return fetchAuthorized(`${baseUrl}/subjectpage/${subjectpageId}?${query}`, {
-    method: "PATCH",
-    body: JSON.stringify(subjectpage),
-  }).then((r) => resolveJsonOrRejectWithError(r));
-};
+): Promise<ISubjectPageDTO> =>
+  client
+    .PATCH("/frontpage-api/v1/subjectpage/{subjectpage-id}", {
+      body: subjectpage,
+      params: {
+        path: { "subjectpage-id": subjectpageId },
+        query: { language },
+      },
+    })
+    .then(resolveJsonOATS);
 
-export const createSubjectpage = (subjectpage: INewSubjectPageDTO): Promise<ISubjectPageDTO> =>
-  fetchAuthorized(`${baseUrl}/subjectpage/`, {
-    method: "POST",
-    body: JSON.stringify(subjectpage),
-  }).then((r) => resolveJsonOrRejectWithError(r));
+export const createSubjectpage = (body: INewSubjectPageDTO): Promise<ISubjectPageDTO> =>
+  client.POST("/frontpage-api/v1/subjectpage", { body }).then(resolveJsonOATS);
 
 export const deleteSubectPageLanguageVersion = (subjectPageId: number, language: string): Promise<ISubjectPageDTO> =>
-  fetchAuthorized(`${baseUrl}/subjectpage/${subjectPageId}/language/${language}`, {
-    method: "DELETE",
-  }).then((r) => resolveJsonOrRejectWithError(r));
+  client
+    .DELETE("/frontpage-api/v1/subjectpage/{subjectpage-id}/language/{language}", {
+      params: {
+        path: {
+          "subjectpage-id": subjectPageId,
+          language,
+        },
+      },
+    })
+    .then(resolveJsonOATS);
 
 export const deleteFilmFrontPageLanguageVersion = (language: string): Promise<IFilmFrontPageDTO> =>
-  fetchAuthorized(`${baseUrl}/filmfrontpage/language/${language}`, {
-    method: "DELETE",
-  }).then((r) => resolveJsonOrRejectWithError(r));
+  client
+    .DELETE("/frontpage-api/v1/filmfrontpage/language/{language}", {
+      params: { path: { language } },
+    })
+    .then(resolveJsonOATS);

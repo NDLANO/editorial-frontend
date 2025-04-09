@@ -86,6 +86,7 @@ export const resolveOATS = async <A extends Record<string | number, any>, B, C e
   throw buildErrorPayload(response.status, messages, error);
 };
 
+/** Resolves a response from OpenApi-TS fetch client and asserts that the response is successful */
 export const resolveJsonOATS = async <A extends Record<string | number, any>, B, C extends MediaType>(
   res: FetchResponse<A, B, C>,
 ) => {

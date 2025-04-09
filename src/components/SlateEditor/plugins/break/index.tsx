@@ -12,7 +12,7 @@ import { COPYRIGHT_ELEMENT_TYPE } from "../copyright/types";
 import { DETAILS_ELEMENT_TYPE } from "../details/detailsTypes";
 import { DIV_ELEMENT_TYPE } from "../div/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes";
-import { TYPE_GRID_CELL } from "../grid/types";
+import { GRID_CELL_ELEMENT_TYPE } from "../grid/types";
 import { TYPE_TABLE_CELL } from "../table/types";
 import { DISCLAIMER_ELEMENT_TYPE } from "../uuDisclaimer/types";
 
@@ -32,7 +32,7 @@ export const breakPlugin = _breakPlugin.configure({
       FRAMED_CONTENT_ELEMENT_TYPE,
       ASIDE_ELEMENT_TYPE,
       DETAILS_ELEMENT_TYPE,
-      TYPE_GRID_CELL,
+      GRID_CELL_ELEMENT_TYPE,
       DISCLAIMER_ELEMENT_TYPE,
       COPYRIGHT_ELEMENT_TYPE,
       TYPE_TABLE_CELL,

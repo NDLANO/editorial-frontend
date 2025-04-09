@@ -52,7 +52,8 @@ import { defaultExternalBlock } from "../external/utils";
 import { FILE_ELEMENT_TYPE } from "../file/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes";
 import { defaultFramedContentBlock } from "../framedContent/utils";
-import { TYPE_GRID } from "../grid/types";
+import { isGridElement } from "../grid/queries";
+import { GRID_ELEMENT_TYPE } from "../grid/types";
 import { defaultGridBlock } from "../grid/utils";
 import { H5P_ELEMENT_TYPE } from "../h5p/types";
 import { defaultH5pBlock } from "../h5p/utils";
@@ -138,7 +139,7 @@ const getLeftAdjust = (parent?: Node) => {
   if (isTableCell(parent)) {
     return 100;
   }
-  if (Element.isElement(parent) && parent.type === TYPE_GRID) {
+  if (isGridElement(parent)) {
     return -100;
   }
 
@@ -359,7 +360,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultConceptBlock());
         break;
       }
-      case TYPE_GRID: {
+      case GRID_ELEMENT_TYPE: {
         onInsertBlock(defaultGridBlock(), true);
         break;
       }

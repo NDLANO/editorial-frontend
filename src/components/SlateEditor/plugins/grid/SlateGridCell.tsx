@@ -13,7 +13,7 @@ import { ReactEditor, RenderElementProps } from "slate-react";
 import { PushpinFill } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { GridCellElement } from ".";
+import { GridCellElement } from "./types";
 
 interface Props extends RenderElementProps {
   editor: Editor;

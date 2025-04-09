@@ -42,7 +42,7 @@ import { DETAILS_ELEMENT_TYPE } from "../details/detailsTypes";
 import { TYPE_EXTERNAL } from "../external/types";
 import { FILE_ELEMENT_TYPE } from "../file/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes";
-import { TYPE_GRID } from "../grid/types";
+import { GRID_ELEMENT_TYPE } from "../grid/types";
 import { H5P_ELEMENT_TYPE } from "../h5p/types";
 import { IMAGE_ELEMENT_TYPE } from "../image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "../keyFigure/types";
@@ -150,7 +150,7 @@ export const commonActions: Action[] = [
 
 export const frontpageActions = commonActions.concat(
   {
-    data: { type: TYPE_GRID, object: "grid" },
+    data: { type: GRID_ELEMENT_TYPE, object: "grid" },
     icon: <LayoutColumnLine />,
     bookmark: "#bkmrk-grid",
   },
@@ -177,7 +177,7 @@ export const frontpageActions = commonActions.concat(
 );
 
 export const learningResourceActions = commonActions.concat({
-  data: { type: TYPE_GRID, object: "grid" },
+  data: { type: GRID_ELEMENT_TYPE, object: "grid" },
   icon: <LayoutColumnLine />,
   bookmark: "#bkmrk-grid",
 });

@@ -32,7 +32,7 @@ import { COMMENT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/p
 import { CONTACT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/contactBlock/types";
 import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
 import { FILE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/file/types";
-import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
+import { GRID_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/grid/types";
 import { H5P_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/h5p/types";
 import { IMAGE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/keyFigure/types";
@@ -75,7 +75,7 @@ const actions = [
   CODE_BLOCK_ELEMENT_TYPE,
   FILE_ELEMENT_TYPE,
   CONTACT_BLOCK_ELEMENT_TYPE,
-  TYPE_GRID,
+  GRID_ELEMENT_TYPE,
   KEY_FIGURE_ELEMENT_TYPE,
   CAMPAIGN_BLOCK_ELEMENT_TYPE,
   LINK_BLOCK_LIST_ELEMENT_TYPE,

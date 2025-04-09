@@ -20,8 +20,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@ndla/primitives";
-import { FootnoteElement } from ".";
 import FootnoteForm from "./FootnoteForm";
+import { FootnoteElement } from "./types";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 
 interface Props extends RenderElementProps {

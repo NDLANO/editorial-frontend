@@ -17,7 +17,7 @@ import { DETAILS_ELEMENT_TYPE } from "./plugins/details/detailsTypes";
 import { TYPE_EMBED_ERROR } from "./plugins/embed/types";
 import { TYPE_EXTERNAL } from "./plugins/external/types";
 import { FILE_ELEMENT_TYPE } from "./plugins/file/types";
-import { TYPE_FOOTNOTE } from "./plugins/footnote/types";
+import { FOOTNOTE_ELEMENT_TYPE } from "./plugins/footnote/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "./plugins/framedContent/framedContentTypes";
 import { TYPE_GRID } from "./plugins/grid/types";
 import { H5P_ELEMENT_TYPE } from "./plugins/h5p/types";
@@ -34,7 +34,7 @@ import { BRIGHTCOVE_ELEMENT_TYPE } from "./plugins/video/types";
 
 export const inlines: ElementType[] = [
   TYPE_CONCEPT_INLINE,
-  TYPE_FOOTNOTE,
+  FOOTNOTE_ELEMENT_TYPE,
   TYPE_LINK,
   TYPE_CONTENT_LINK,
   MATH_ELEMENT_TYPE,

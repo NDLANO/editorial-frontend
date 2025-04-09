@@ -6,5 +6,28 @@
  *
  */
 
+import { Descendant } from "slate";
+import { GridType } from "@ndla/ui";
+
 export const TYPE_GRID = "grid";
 export const TYPE_GRID_CELL = "grid-cell";
+
+export const GRID_ELEMENT_TYPE = "grid";
+export const GRID_PLUGIN = "grid";
+
+export const GRID_CELL_ELEMENT_TYPE = "grid-cell";
+export const GRID_CELL_PLUGIN = "grid-cell";
+
+export interface GridElement {
+  type: "grid";
+  data: GridType;
+  children: Descendant[];
+}
+
+export interface GridCellElement {
+  type: "grid-cell";
+  data: {
+    parallaxCell: string;
+  };
+  children: Descendant[];
+}

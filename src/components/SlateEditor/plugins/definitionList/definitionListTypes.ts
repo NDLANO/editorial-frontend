@@ -9,11 +9,16 @@
 import { Descendant } from "slate";
 
 export type DefinitionListType = "definition-list";
+export type DefinitionTermType = "definition-term";
+export type DefinitionDescriptionType = "definition-description";
 
 export const DEFINITION_LIST_ELEMENT_TYPE = "definition-list" as const;
 export const DEFINITION_DESCRIPTION_ELEMENT_TYPE = "definition-description" as const;
 export const DEFINITION_TERM_ELEMENT_TYPE = "definition-term" as const;
+
 export const DEFINITION_LIST_PLUGIN = "definition-list" as const;
+export const DEFINITION_DESCRIPTION_PLUGIN = "definition-description" as const;
+export const DEFINITION_TERM_PLUGIN = "definition-term" as const;
 
 export interface DefinitionListElement {
   type: "definition-list";

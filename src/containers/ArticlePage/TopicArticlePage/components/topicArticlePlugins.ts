@@ -29,6 +29,8 @@ import { inlineNavigationPlugin } from "@ndla/editor";
 import { idPlugin } from "../../../../components/SlateEditor/plugins/id/idPlugin";
 import { rephrasePlugin } from "../../../../components/SlateEditor/plugins/rephrase/rephrasePlugin";
 import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionListPlugin";
+import { definitionTermPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionTermPlugin";
+import { definitionDescriptionPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionDescriptionPlugin";
 
 // Plugins are checked from last to first
 export const topicArticlePlugins: SlatePlugin[] = [
@@ -46,6 +48,8 @@ export const topicArticlePlugins: SlatePlugin[] = [
   // unwrapping (jumping out of block) will not work.
   blockQuotePlugin,
   definitionListPlugin,
+  definitionDescriptionPlugin,
+  definitionTermPlugin,
   listPlugin,
   inlineConceptPlugin,
   commentInlinePlugin,

@@ -53,6 +53,8 @@ import { listPlugin } from "../../../../components/SlateEditor/plugins/list";
 import { idPlugin } from "../../../../components/SlateEditor/plugins/id/idPlugin";
 import { rephrasePlugin } from "../../../../components/SlateEditor/plugins/rephrase/rephrasePlugin";
 import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionListPlugin";
+import { definitionTermPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionTermPlugin";
+import { definitionDescriptionPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionDescriptionPlugin";
 
 // Plugins are checked from last to first
 export const frontpagePlugins: SlatePlugin[] = [
@@ -97,6 +99,8 @@ export const frontpagePlugins: SlatePlugin[] = [
   saveHotkeyPlugin,
   markPlugin,
   definitionListPlugin,
+  definitionTermPlugin,
+  definitionDescriptionPlugin,
   listPlugin,
   gridPlugin,
   pitchPlugin,

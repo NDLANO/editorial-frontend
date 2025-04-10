@@ -20,7 +20,7 @@ import {
 import { onBackspace } from "./handlers/onBackspace";
 import { onEnter } from "./handlers/onEnter";
 import { onTab } from "./handlers/onTab";
-import { isDefinitionTerm, isDefinitionDescription, isDefinitionList } from "./queries/definitionListQueries";
+import { isDefinitionList } from "./queries/definitionListQueries";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 
 const normalizerDLConfig: NormalizerConfig = {
@@ -29,43 +29,17 @@ const normalizerDLConfig: NormalizerConfig = {
     defaultType: DEFINITION_TERM_ELEMENT_TYPE,
   },
 };
-const normalizerDTConfig: NormalizerConfig = {
-  parent: {
-    allowed: [DEFINITION_LIST_ELEMENT_TYPE],
-  },
-};
-
-const normalizerDDConfig: NormalizerConfig = {
-  ...normalizerDTConfig,
-  previous: {
-    allowed: [DEFINITION_TERM_ELEMENT_TYPE, DEFINITION_DESCRIPTION_ELEMENT_TYPE],
-    defaultType: DEFINITION_TERM_ELEMENT_TYPE,
-  },
-};
-
 export const definitionListSerializer = createSerializer({
   deserialize(el: HTMLElement, children: (Descendant | null)[]) {
     const tag = el.tagName.toLowerCase();
     if (tag === "dl") {
       return slatejsx("element", { type: DEFINITION_LIST_ELEMENT_TYPE }, children);
     }
-    if (tag === "dt") {
-      return slatejsx("element", { type: DEFINITION_TERM_ELEMENT_TYPE }, children);
-    }
-    if (tag === "dd") {
-      return slatejsx("element", { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE }, children);
-    }
   },
   serialize(node, children) {
     if (!Element.isElement(node)) return;
     if (node.type === DEFINITION_LIST_ELEMENT_TYPE) {
       return createHtmlTag({ tag: "dl", children });
-    }
-    if (node.type === DEFINITION_TERM_ELEMENT_TYPE) {
-      return createHtmlTag({ tag: "dt", children });
-    }
-    if (node.type === DEFINITION_DESCRIPTION_ELEMENT_TYPE) {
-      return createHtmlTag({ tag: "dd", children });
     }
   },
 });
@@ -79,16 +53,6 @@ export const definitionListPlugin = createPlugin<DefinitionListType>({
     listItemDeletion: { keyCondition: isKeyHotkey("backspace"), handler: onBackspace },
   },
   normalize: (editor, node, path, logger) => {
-    if (isDefinitionTerm(node)) {
-      if (defaultBlockNormalizer(editor, node, path, normalizerDTConfig)) {
-        return true;
-      }
-    }
-    if (isDefinitionDescription(node)) {
-      if (defaultBlockNormalizer(editor, node, path, normalizerDDConfig)) {
-        return true;
-      }
-    }
     if (isDefinitionList(node)) {
       if (Path.hasPrevious(path)) {
         const previousPath = Path.previous(path);

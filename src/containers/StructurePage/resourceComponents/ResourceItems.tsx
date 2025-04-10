@@ -7,7 +7,7 @@
  */
 
 import { sortBy } from "lodash-es";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
 import { useQueryClient } from "@tanstack/react-query";
@@ -22,12 +22,10 @@ import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
-import { useMatomoStats } from "../../../modules/matomo/matomoQueries";
 import { useDeleteResourceForNodeMutation, usePutResourceForNodeMutation } from "../../../modules/nodes/nodeMutations";
 import { NodeResourceMeta, nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import handleError from "../../../util/handleError";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-import { ResourceStats, transformMatomoData } from "../utils";
 
 const StyledResourceItems = styled("ul", {
   base: { listStyle: "none" },
@@ -55,23 +53,8 @@ const ResourceItems = ({
   showMatomoStats,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const [resourceStats, setResourceStats] = useState<Record<string, ResourceStats> | undefined>(undefined);
   const [deleteId, setDeleteId] = useState<string>("");
   const { taxonomyVersion } = useTaxonomyVersion();
-
-  const urls = useMemo(() => resources.filter((n) => !!n.url).map((n) => n.url as string), [resources]);
-
-  const {
-    data: matomoStatsData,
-    isPending: matomoStatsIsPending,
-    isError: matomoStatsIsError,
-  } = useMatomoStats({ urls: urls }, { enabled: !!urls.length && showMatomoStats });
-
-  useEffect(() => {
-    if (!matomoStatsData) return;
-    const transformed = transformMatomoData(matomoStatsData);
-    setResourceStats(transformed);
-  }, [matomoStatsData]);
 
   const qc = useQueryClient();
   const compKey = nodeQueryKeys.resources({
@@ -79,6 +62,7 @@ const ResourceItems = ({
     language: i18n.language,
     taxonomyVersion,
   });
+
   const deleteNodeResource = useDeleteResourceForNodeMutation({
     onMutate: async ({ id }) => {
       await qc.cancelQueries({ queryKey: compKey });
@@ -146,27 +130,21 @@ const ResourceItems = ({
             <Draggable />
           </DragHandle>
         }
-        renderItem={(resource) => {
-          const matomoStats = resource.contextId ? resourceStats?.[resource.contextId] : undefined;
-          return (
-            <Resource
-              currentNodeId={currentNodeId}
-              responsible={users?.[contentMeta[resource.contentUri ?? ""]?.responsible?.responsibleId ?? ""]?.name}
-              resource={{
-                ...resource,
-                contentMeta: resource.contentUri ? contentMeta[resource.contentUri] : undefined,
-              }}
-              key={resource.id}
-              nodeResourcesIsPending={nodeResourcesIsPending}
-              showQuality={showQuality}
-              onDelete={toggleDelete}
-              matomoStats={matomoStats}
-              matomoStatsIsPending={matomoStatsIsPending}
-              matomoStatsIsError={matomoStatsIsError}
-              showMatomoStats={showMatomoStats}
-            />
-          );
-        }}
+        renderItem={(resource) => (
+          <Resource
+            currentNodeId={currentNodeId}
+            responsible={users?.[contentMeta[resource.contentUri ?? ""]?.responsible?.responsibleId ?? ""]?.name}
+            resource={{
+              ...resource,
+              contentMeta: resource.contentUri ? contentMeta[resource.contentUri] : undefined,
+            }}
+            key={resource.id}
+            nodeResourcesIsPending={nodeResourcesIsPending}
+            showQuality={showQuality}
+            onDelete={toggleDelete}
+            showMatomoStats={showMatomoStats}
+          />
+        )}
       />
       {deleteNodeResource.error && isError(deleteNodeResource.error) ? (
         <Text color="text.error">{`${t("taxonomy.errorMessage")}: ${deleteNodeResource.error.message}`}</Text>

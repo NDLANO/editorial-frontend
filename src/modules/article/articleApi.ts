@@ -27,9 +27,7 @@ export const searchArticles = (params?: ArticleSearchParams): Promise<ISearchRes
   client
     .GET("/article-api/v2/articles", {
       params: {
-        query: {
-          ...params,
-        },
+        query: params,
       },
     })
     .then((r) => resolveJsonOATS(r));

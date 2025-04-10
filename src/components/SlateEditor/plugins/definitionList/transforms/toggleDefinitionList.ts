@@ -1,16 +1,31 @@
 /**
- * Copyright (c) 2023-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
 
-import { Editor, Range, Element, Transforms } from "slate";
-import { isDefinitionListItem } from "./isDefinitionListItem";
-import isOnlySelectionOfDefinitionList from "./isOnlySelectionOfDefinitionList";
+import { Editor, Transforms, Range, Element } from "slate";
 import { firstTextBlockElement } from "../../../utils/normalizationHelpers";
-import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_TERM, TYPE_DEFINITION_LIST } from "../types";
+import { isDefinitionDescription, isDefinitionList, isDefinitionTerm } from "../queries/definitionListQueries";
+import { DEFINITION_LIST_ELEMENT_TYPE } from "../definitionListTypes";
+
+const isOnlySelectionOfDefinitionList = (editor: Editor) => {
+  let hasListItems = false;
+
+  for (const [, path] of Editor.nodes(editor, {
+    match: (node) => isDefinitionDescription(node) || isDefinitionTerm(node),
+  })) {
+    const [parentNode] = Editor.parent(editor, path);
+    if (isDefinitionList(parentNode)) {
+      hasListItems = true;
+      continue;
+    }
+    return false;
+  }
+  return hasListItems;
+};
 
 export const toggleDefinitionList = (editor: Editor) => {
   if (!Range.isRange(editor.selection)) {
@@ -20,10 +35,7 @@ export const toggleDefinitionList = (editor: Editor) => {
 
   if (isSelected) {
     return Transforms.liftNodes(editor, {
-      match: (node, path) =>
-        Element.isElement(node) &&
-        (node.type === TYPE_DEFINITION_DESCRIPTION || node.type === TYPE_DEFINITION_TERM) &&
-        isDefinitionListItem(editor, path),
+      match: (node) => isDefinitionDescription(node) || isDefinitionTerm(node),
       mode: "all",
     });
   } else {
@@ -35,7 +47,7 @@ export const toggleDefinitionList = (editor: Editor) => {
 
       Transforms.setNodes(
         editor,
-        { type: TYPE_DEFINITION_LIST },
+        { type: DEFINITION_LIST_ELEMENT_TYPE },
         {
           match: (node) => Element.isElement(node) && firstTextBlockElement.includes(node.type),
           at: Editor.unhangRange(editor, editor.selection),

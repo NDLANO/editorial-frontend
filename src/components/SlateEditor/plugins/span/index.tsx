@@ -23,7 +23,10 @@ import { isSpanElement } from "./queries";
 import { SPAN_ELEMENT_TYPE, SPAN_PLUGIN } from "./types";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquote/blockquoteTypes";
-import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_TERM } from "../definitionList/types";
+import {
+  DEFINITION_DESCRIPTION_ELEMENT_TYPE,
+  DEFINITION_TERM_ELEMENT_TYPE,
+} from "../definitionList/definitionListTypes";
 import { SUMMARY_ELEMENT_TYPE } from "../details/summaryTypes";
 import { TYPE_TABLE_CELL } from "../table/types";
 
@@ -45,8 +48,8 @@ const normalizerConfig: NormalizerConfig = {
       BLOCK_QUOTE_ELEMENT_TYPE,
       TYPE_TABLE_CELL,
       LIST_ITEM_ELEMENT_TYPE,
-      TYPE_DEFINITION_TERM,
-      TYPE_DEFINITION_DESCRIPTION,
+      DEFINITION_DESCRIPTION_ELEMENT_TYPE,
+      DEFINITION_TERM_ELEMENT_TYPE,
       SUMMARY_ELEMENT_TYPE,
       SPAN_ELEMENT_TYPE,
       NOOP_ELEMENT_TYPE,

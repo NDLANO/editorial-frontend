@@ -7,42 +7,34 @@
  */
 
 import { KeyboardEvent } from "react";
-import { Editor, Element, Transforms, Range, Point } from "slate";
+import { Editor, Transforms, Range, Point } from "slate";
 import hasNodeOfType from "../../../utils/hasNodeOfType";
-import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from "../types";
+import { Logger } from "@ndla/editor";
+import { DEFINITION_LIST_ELEMENT_TYPE } from "../definitionListTypes";
+import { isDefinitionDescription, isDefinitionTerm } from "../queries/definitionListQueries";
 
-const onBackspace = (
-  e: KeyboardEvent<HTMLDivElement>,
-  editor: Editor,
-  nextOnKeyDown: ((e: KeyboardEvent<HTMLDivElement>) => void) | undefined,
-) => {
-  if (!editor.selection) return nextOnKeyDown?.(e);
-  const isDefinition = hasNodeOfType(editor, TYPE_DEFINITION_LIST);
+export const onBackspace = (editor: Editor, e: KeyboardEvent<HTMLDivElement>, logger: Logger) => {
+  if (!editor.selection) return false;
+  const isDefinition = hasNodeOfType(editor, DEFINITION_LIST_ELEMENT_TYPE);
 
   if (!isDefinition) {
-    return nextOnKeyDown?.(e);
+    return false;
   }
 
-  const [selectedDefinitionItem, selectedDefinitionItemPath] = Editor.parent(editor, editor.selection.anchor.path);
-  if (selectedDefinitionItem) {
-    if (
-      Element.isElement(selectedDefinitionItem) &&
-      (selectedDefinitionItem.type === TYPE_DEFINITION_DESCRIPTION ||
-        selectedDefinitionItem.type === TYPE_DEFINITION_TERM)
-    ) {
-      if (Range.isCollapsed(editor.selection)) {
-        const [, firstItemNodePath] = Editor.node(editor, [...selectedDefinitionItemPath, 0]);
-        if (Point.equals(Range.start(editor.selection), Editor.start(editor, firstItemNodePath))) {
-          e.preventDefault();
-          return Transforms.liftNodes(editor, {
-            at: selectedDefinitionItemPath,
-          });
-        }
+  const [selectedDefinitionNode, selectedDefinitionPath] = Editor.parent(editor, editor.selection.anchor.path);
+  if (isDefinitionTerm(selectedDefinitionNode) || isDefinitionDescription(selectedDefinitionNode)) {
+    if (Range.isCollapsed(editor.selection)) {
+      const [, firstItemNodePath] = Editor.node(editor, [...selectedDefinitionPath, 0]);
+      if (Point.equals(Range.start(editor.selection), Editor.start(editor, firstItemNodePath))) {
+        e.preventDefault();
+        Transforms.liftNodes(editor, {
+          at: selectedDefinitionPath,
+        });
+        logger.log("Backspace at the start of node, lift node out of list.");
+        return true;
       }
     }
   }
 
-  return nextOnKeyDown?.(e);
+  return false;
 };
-
-export default onBackspace;

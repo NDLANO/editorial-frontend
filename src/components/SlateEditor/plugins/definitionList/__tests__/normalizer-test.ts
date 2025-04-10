@@ -11,8 +11,12 @@ import { createSlate } from "@ndla/editor";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
-import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from "../types";
 import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
+import {
+  DEFINITION_DESCRIPTION_ELEMENT_TYPE,
+  DEFINITION_LIST_ELEMENT_TYPE,
+  DEFINITION_TERM_ELEMENT_TYPE,
+} from "../definitionListTypes";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
 
@@ -20,31 +24,31 @@ describe("definition normalizing tests", () => {
   test("should not remove any description or term", () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_DEFINITION_LIST,
+        type: DEFINITION_LIST_ELEMENT_TYPE,
         children: [
-          { type: TYPE_DEFINITION_TERM, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_TERM, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_TERM, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_TERM, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: "" }] },
+          { type: DEFINITION_TERM_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: DEFINITION_TERM_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: DEFINITION_TERM_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: DEFINITION_TERM_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
 
     const expectedValue: Descendant[] = [
       {
-        type: TYPE_DEFINITION_LIST,
+        type: DEFINITION_LIST_ELEMENT_TYPE,
         id: anySlateElementId,
         children: [
-          { type: TYPE_DEFINITION_TERM, id: anySlateElementId, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_DESCRIPTION, id: anySlateElementId, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_TERM, id: anySlateElementId, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_TERM, id: anySlateElementId, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_DESCRIPTION, id: anySlateElementId, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_TERM, id: anySlateElementId, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_DESCRIPTION, id: anySlateElementId, children: [{ text: "" }] },
+          { type: DEFINITION_TERM_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
+          { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
+          { type: DEFINITION_TERM_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
+          { type: DEFINITION_TERM_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
+          { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
+          { type: DEFINITION_TERM_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
+          { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];
@@ -55,37 +59,35 @@ describe("definition normalizing tests", () => {
   test("should only contain term and description objects", () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_DEFINITION_LIST,
+        type: DEFINITION_LIST_ELEMENT_TYPE,
         children: [
-          { type: TYPE_DEFINITION_TERM, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_TERM, children: [{ text: "" }] },
+          { type: DEFINITION_TERM_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE, children: [{ text: "" }] },
           { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_TERM, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_TERM, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: "" }] },
+          { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: DEFINITION_TERM_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: DEFINITION_TERM_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE, children: [{ text: "" }] },
+        ],
+      },
+    ];
+    const expectedValue: Descendant[] = [
+      {
+        type: DEFINITION_LIST_ELEMENT_TYPE,
+        id: anySlateElementId,
+        children: [
+          { type: DEFINITION_TERM_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
+          { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
+          { type: DEFINITION_TERM_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
+          { type: DEFINITION_TERM_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
+          { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
+          { type: DEFINITION_TERM_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
+          { type: DEFINITION_TERM_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
+          { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];
 
-    const expectedValue: Descendant[] = [
-      {
-        type: TYPE_DEFINITION_LIST,
-        id: anySlateElementId,
-        children: [
-          { type: TYPE_DEFINITION_TERM, id: anySlateElementId, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_DESCRIPTION, id: anySlateElementId, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_TERM, id: anySlateElementId, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_TERM, id: anySlateElementId, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_TERM, id: anySlateElementId, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_DESCRIPTION, id: anySlateElementId, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_TERM, id: anySlateElementId, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_TERM, id: anySlateElementId, children: [{ text: "" }] },
-          { type: TYPE_DEFINITION_DESCRIPTION, id: anySlateElementId, children: [{ text: "" }] },
-        ],
-      },
-    ];
     editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
@@ -100,17 +102,17 @@ describe("definition normalizing tests", () => {
             children: [{ text: "" }],
           },
           {
-            type: TYPE_DEFINITION_LIST,
+            type: DEFINITION_LIST_ELEMENT_TYPE,
             children: [
-              { type: TYPE_DEFINITION_TERM, children: [{ text: "" }] },
-              { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: "" }] },
+              { type: DEFINITION_TERM_ELEMENT_TYPE, children: [{ text: "" }] },
+              { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE, children: [{ text: "" }] },
             ],
           },
           {
-            type: TYPE_DEFINITION_LIST,
+            type: DEFINITION_LIST_ELEMENT_TYPE,
             children: [
-              { type: TYPE_DEFINITION_TERM, children: [{ text: "" }] },
-              { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: "" }] },
+              { type: DEFINITION_TERM_ELEMENT_TYPE, children: [{ text: "" }] },
+              { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE, children: [{ text: "" }] },
             ],
           },
           {
@@ -132,13 +134,13 @@ describe("definition normalizing tests", () => {
             children: [{ text: "" }],
           },
           {
-            type: TYPE_DEFINITION_LIST,
+            type: DEFINITION_LIST_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [
-              { type: TYPE_DEFINITION_TERM, id: anySlateElementId, children: [{ text: "" }] },
-              { type: TYPE_DEFINITION_DESCRIPTION, id: anySlateElementId, children: [{ text: "" }] },
-              { type: TYPE_DEFINITION_TERM, id: anySlateElementId, children: [{ text: "" }] },
-              { type: TYPE_DEFINITION_DESCRIPTION, id: anySlateElementId, children: [{ text: "" }] },
+              { type: DEFINITION_TERM_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
+              { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
+              { type: DEFINITION_TERM_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
+              { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
             ],
           },
           {

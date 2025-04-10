@@ -36,7 +36,7 @@ export const fetchSubjectpage = (id: number, language: LocaleType): Promise<ISub
     .GET("/frontpage-api/v1/subjectpage/{subjectpage-id}", {
       params: {
         path: { "subjectpage-id": id },
-        query: { language, fallback: language ? true : undefined },
+        query: { language, fallback: language ? undefined : true },
       },
     })
     .then(resolveJsonOATS);

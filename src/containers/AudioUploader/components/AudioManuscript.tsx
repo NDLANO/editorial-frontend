@@ -34,6 +34,7 @@ import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
 } from "../../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { UnsupportedElement } from "../../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import { AI_ACCESS_SCOPE } from "../../../constants";
 import { useSession } from "../../../containers/Session/SessionProvider";
@@ -180,6 +181,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
             plugins={plugins}
             onChange={helpers.setValue}
             toolbarOptions={toolbarOptions}
+            renderInvalidElement={(props) => <UnsupportedElement {...props} />}
             toolbarAreaFilters={toolbarAreaFilters}
           />
           <FieldErrorMessage>{meta.error}</FieldErrorMessage>

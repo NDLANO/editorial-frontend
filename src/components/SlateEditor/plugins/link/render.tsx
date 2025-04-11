@@ -8,11 +8,12 @@
 
 import { Editor } from "slate";
 import Link from "./Link";
+import { CONTENT_LINK_ELEMENT_TYPE, LINK_ELEMENT_TYPE } from "./types";
 
 export const linkRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === "link" || element.type === "content-link") {
+    if (element.type === LINK_ELEMENT_TYPE || element.type === CONTENT_LINK_ELEMENT_TYPE) {
       return (
         <Link element={element} attributes={attributes} editor={editor}>
           {children}

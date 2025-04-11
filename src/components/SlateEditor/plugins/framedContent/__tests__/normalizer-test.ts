@@ -10,7 +10,7 @@ import { Descendant } from "slate";
 import { createSlate } from "@ndla/editor";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 import { TYPE_HEADING } from "../../heading/types";
-import { TYPE_LINK } from "../../link/types";
+import { LINK_ELEMENT_TYPE } from "../../link/types";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContentTypes";
@@ -147,7 +147,7 @@ describe("framedContent normalizer tests", () => {
             type: FRAMED_CONTENT_ELEMENT_TYPE,
             children: [
               {
-                type: TYPE_LINK,
+                type: LINK_ELEMENT_TYPE,
                 data: {
                   href: "testurl",
                 },

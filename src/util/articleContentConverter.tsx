@@ -46,7 +46,7 @@ import { h5pSerializer } from "../components/SlateEditor/plugins/h5p";
 import { headingSerializer } from "../components/SlateEditor/plugins/heading";
 import { imageSerializer } from "../components/SlateEditor/plugins/image";
 import { keyFigureSerializer } from "../components/SlateEditor/plugins/keyFigure";
-import { linkSerializer } from "../components/SlateEditor/plugins/link";
+import { contentLinkSerializer, linkSerializer } from "../components/SlateEditor/plugins/link";
 import { linkBlockListSerializer } from "../components/SlateEditor/plugins/linkBlockList";
 import { listSerializer } from "../components/SlateEditor/plugins/list";
 import { markSerializer } from "../components/SlateEditor/plugins/mark";
@@ -90,6 +90,7 @@ const extendedRules: SlateSerializer<any>[] = [
   breakSerializer,
   markSerializer,
   linkSerializer,
+  contentLinkSerializer,
   blockQuoteSerializer,
   headingSerializer,
   listSerializer,
@@ -134,6 +135,7 @@ const commonRules: SlateSerializer<any>[] = [
   breakSerializer,
   markSerializer,
   linkSerializer,
+  contentLinkSerializer,
   blockQuoteSerializer,
   headingSerializer,
   listSerializer,

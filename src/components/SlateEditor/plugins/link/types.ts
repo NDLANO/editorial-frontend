@@ -6,8 +6,28 @@
  *
  */
 
-export const TYPE_LINK = "link";
-export const TYPE_CONTENT_LINK = "content-link";
+import { Descendant } from "slate";
+import { ContentLinkEmbedData } from "@ndla/types-embed";
+
+export const LINK_ELEMENT_TYPE = "link";
+export const LINK_PLUGIN = "link";
+
+export const CONTENT_LINK_ELEMENT_TYPE = "content-link";
+export const CONTENT_LINK_PLUGIN = "content-link";
+
+export interface LinkElement {
+  type: "link";
+  data: LinkEmbedData;
+  children: Descendant[];
+  isFirstEdit?: boolean;
+}
+
+export interface ContentLinkElement {
+  type: "content-link";
+  data: ContentLinkEmbedData;
+  children: Descendant[];
+  isFirstEdit?: boolean;
+}
 
 export type LinkEmbedData = {
   href: string;

@@ -7,29 +7,17 @@
  */
 
 import type { KeyboardEvent } from "react";
-import { Editor, Element, Path, Transforms, Node, Range, Point, NodeEntry } from "slate";
+import { Editor, Path, Transforms, Node, Range, Point } from "slate";
 import { Logger } from "@ndla/editor";
-import { isDefinitionTerm, isDefinitionDescription } from "../queries/definitionListQueries";
 import { defaultDefinitionTermBlock, defaultDefinitionDescriptionBlock } from "../utils";
-import { DEFINITION_DESCRIPTION_ELEMENT_TYPE, DEFINITION_TERM_ELEMENT_TYPE } from "../definitionListTypes";
+import { isDefinitionTermElement, isDefinitionDescriptionElement } from "../queries/definitionListQueries";
 
 export const onEnter = (editor: Editor, e: KeyboardEvent<HTMLDivElement>, logger: Logger) => {
-  if (e.shiftKey || !editor.selection) {
-    return false;
-  }
-  const ancestors = Node.ancestors(editor, editor.path(editor.selection.anchor.path), { reverse: true });
-  const [firstEntry, secondEntry] = Array.from(ancestors).filter(
-    (entry): entry is NodeEntry<Element> => Element.isElement(entry[0]) && entry[0].type !== "section",
-  );
+  if (e.shiftKey || !editor.selection) return false;
 
-  const selectedDefinitionEntry =
-    firstEntry[0]?.type === DEFINITION_DESCRIPTION_ELEMENT_TYPE || firstEntry[0]?.type === DEFINITION_TERM_ELEMENT_TYPE
-      ? firstEntry
-      : secondEntry;
+  const [selectedDefinitionNode, selectedDefinitionPath] = editor.parent(editor.selection);
 
-  const [selectedDefinitionNode, selectedDefinitionPath] = selectedDefinitionEntry;
-
-  if (!(isDefinitionTerm(selectedDefinitionNode) || isDefinitionDescription(selectedDefinitionNode))) {
+  if (!(isDefinitionTermElement(selectedDefinitionNode) || isDefinitionDescriptionElement(selectedDefinitionNode))) {
     return false;
   }
 
@@ -40,6 +28,7 @@ export const onEnter = (editor: Editor, e: KeyboardEvent<HTMLDivElement>, logger
   }
 
   if (Node.string(selectedDefinitionNode) === "" && selectedDefinitionNode.children.length === 1) {
+    logger.log("Enter on empty definition node, unwrapping and lifting.");
     Editor.withoutNormalizing(editor, () => {
       Transforms.unwrapNodes(editor, {
         at: selectedDefinitionPath,
@@ -48,12 +37,11 @@ export const onEnter = (editor: Editor, e: KeyboardEvent<HTMLDivElement>, logger
         at: selectedDefinitionPath,
       });
     });
-    logger.log("Enter on empty definition node, unwrapping and lifting.");
     return true;
   }
 
   Transforms.unsetNodes(editor, "serializeAsText", {
-    match: (node) => isDefinitionDescription(node) || isDefinitionTerm(node),
+    match: (node) => isDefinitionDescriptionElement(node) || isDefinitionTermElement(node),
     mode: "lowest",
   });
 
@@ -62,22 +50,23 @@ export const onEnter = (editor: Editor, e: KeyboardEvent<HTMLDivElement>, logger
 
   if ((nextPoint && Point.equals(listItemEnd, nextPoint)) || Point.equals(listItemEnd, editor.selection.anchor)) {
     const nextPath = Path.next(selectedDefinitionPath);
-    if (isDefinitionTerm(selectedDefinitionNode)) {
-      Transforms.insertNodes(editor, defaultDefinitionTermBlock(), { at: nextPath });
+    if (isDefinitionTermElement(selectedDefinitionNode)) {
       logger.log("Enter on definition term, inserting new definition term node.");
-    } else if (isDefinitionDescription(selectedDefinitionNode)) {
-      Transforms.insertNodes(editor, defaultDefinitionDescriptionBlock(), { at: nextPath });
+      Transforms.insertNodes(editor, defaultDefinitionTermBlock(), { at: nextPath });
+    } else if (isDefinitionDescriptionElement(selectedDefinitionNode)) {
       logger.log("Enter on definition description, inserting new definition description node.");
+      Transforms.insertNodes(editor, defaultDefinitionDescriptionBlock(), { at: nextPath });
     }
     Transforms.select(editor, Editor.start(editor, nextPath));
     return true;
   }
 
   // Split current listItem at selection.
+  logger.log("Enter inside definition node, splitting node.");
   Transforms.splitNodes(editor, {
-    match: (node) => isDefinitionDescription(node) || isDefinitionTerm(node),
+    match: (node) => isDefinitionDescriptionElement(node) || isDefinitionTermElement(node),
     mode: "lowest",
   });
-  logger.log("Enter inside definition node, splitting node.");
+  Transforms.select(editor, editor.start(Path.next(selectedDefinitionPath)));
   return true;
 };

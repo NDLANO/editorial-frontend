@@ -14,9 +14,9 @@ import {
   DEFINITION_TERM_ELEMENT_TYPE,
 } from "../definitionListTypes";
 
-export const isDefinitionTerm = (node: Node | undefined) => isElementOfType(node, DEFINITION_TERM_ELEMENT_TYPE);
+export const isDefinitionTermElement = (node: Node | undefined) => isElementOfType(node, DEFINITION_TERM_ELEMENT_TYPE);
 
-export const isDefinitionDescription = (node: Node | undefined) =>
+export const isDefinitionDescriptionElement = (node: Node | undefined) =>
   isElementOfType(node, DEFINITION_DESCRIPTION_ELEMENT_TYPE);
 
-export const isDefinitionList = (node: Node | undefined) => isElementOfType(node, DEFINITION_LIST_ELEMENT_TYPE);
+export const isDefinitionListElement = (node: Node | undefined) => isElementOfType(node, DEFINITION_LIST_ELEMENT_TYPE);

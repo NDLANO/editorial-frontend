@@ -8,17 +8,21 @@
 
 import { Editor, Transforms, Range, Element } from "slate";
 import { firstTextBlockElement } from "../../../utils/normalizationHelpers";
-import { isDefinitionDescription, isDefinitionList, isDefinitionTerm } from "../queries/definitionListQueries";
 import { DEFINITION_LIST_ELEMENT_TYPE } from "../definitionListTypes";
+import {
+  isDefinitionDescriptionElement,
+  isDefinitionTermElement,
+  isDefinitionListElement,
+} from "../queries/definitionListQueries";
 
 const isOnlySelectionOfDefinitionList = (editor: Editor) => {
   let hasListItems = false;
 
   for (const [, path] of Editor.nodes(editor, {
-    match: (node) => isDefinitionDescription(node) || isDefinitionTerm(node),
+    match: (node) => isDefinitionDescriptionElement(node) || isDefinitionTermElement(node),
   })) {
     const [parentNode] = Editor.parent(editor, path);
-    if (isDefinitionList(parentNode)) {
+    if (isDefinitionListElement(parentNode)) {
       hasListItems = true;
       continue;
     }
@@ -34,26 +38,19 @@ export const toggleDefinitionList = (editor: Editor) => {
   const isSelected = isOnlySelectionOfDefinitionList(editor);
 
   if (isSelected) {
-    return Transforms.liftNodes(editor, {
-      match: (node) => isDefinitionDescription(node) || isDefinitionTerm(node),
+    Transforms.liftNodes(editor, {
+      match: (node) => isDefinitionDescriptionElement(node) || isDefinitionTermElement(node),
       mode: "all",
     });
   } else {
-    Editor.withoutNormalizing(editor, () => {
-      // The withoutNormalizing function is within its own scope and the selection check above does then not follow
-      if (!Range.isRange(editor.selection)) {
-        return;
-      }
-
-      Transforms.setNodes(
-        editor,
-        { type: DEFINITION_LIST_ELEMENT_TYPE },
-        {
-          match: (node) => Element.isElement(node) && firstTextBlockElement.includes(node.type),
-          at: Editor.unhangRange(editor, editor.selection),
-          mode: "lowest",
-        },
-      );
-    });
+    Transforms.setNodes(
+      editor,
+      { type: DEFINITION_LIST_ELEMENT_TYPE },
+      {
+        match: (node) => Element.isElement(node) && firstTextBlockElement.includes(node.type),
+        at: Editor.unhangRange(editor, editor.selection),
+        mode: "lowest",
+      },
+    );
   }
 };

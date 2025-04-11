@@ -9,19 +9,7 @@
 import { jsx as slatejsx } from "slate-hyperscript";
 import { Descendant, Element } from "slate";
 import { createHtmlTag, createPlugin, createSerializer } from "@ndla/editor";
-import {
-  DEFINITION_LIST_ELEMENT_TYPE,
-  DEFINITION_TERM_ELEMENT_TYPE,
-  DEFINITION_TERM_PLUGIN,
-} from "./definitionListTypes";
-import { isDefinitionTerm } from "./queries/definitionListQueries";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
-
-const normalizeDTConfig: NormalizerConfig = {
-  parent: {
-    allowed: [DEFINITION_LIST_ELEMENT_TYPE],
-  },
-};
+import { DEFINITION_TERM_ELEMENT_TYPE, DEFINITION_TERM_PLUGIN } from "./definitionListTypes";
 
 export const definitionTermSerializer = createSerializer({
   deserialize(el: HTMLElement, children: (Descendant | null)[]) {
@@ -41,12 +29,4 @@ export const definitionTermSerializer = createSerializer({
 export const definitionTermPlugin = createPlugin({
   name: DEFINITION_TERM_PLUGIN,
   type: DEFINITION_TERM_ELEMENT_TYPE,
-  normalize: (editor, node, path, logger) => {
-    if (isDefinitionTerm(node)) {
-      if (defaultBlockNormalizer(editor, node, path, normalizeDTConfig, logger)) {
-        return true;
-      }
-    }
-    return false;
-  },
 });

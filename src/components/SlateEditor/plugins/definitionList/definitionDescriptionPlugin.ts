@@ -7,7 +7,7 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { Descendant, Element } from "slate";
+import { Descendant } from "slate";
 import { createHtmlTag, createPlugin, createSerializer } from "@ndla/editor";
 import {
   DEFINITION_DESCRIPTION_ELEMENT_TYPE,
@@ -16,8 +16,8 @@ import {
   DEFINITION_TERM_ELEMENT_TYPE,
   DefinitionDescriptionType,
 } from "./definitionListTypes";
-import { isDefinitionDescription } from "./queries/definitionListQueries";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
+import { isDefinitionDescriptionElement } from "./queries/definitionListQueries";
 
 const normalizerDDConfig: NormalizerConfig = {
   parent: {
@@ -32,15 +32,12 @@ const normalizerDDConfig: NormalizerConfig = {
 export const definitionDescriptionSerializer = createSerializer({
   deserialize(el: HTMLElement, children: (Descendant | null)[]) {
     const tag = el.tagName.toLowerCase();
-    if (tag === "dd") {
-      return slatejsx("element", { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE }, children);
-    }
+    if (tag !== "dd") return;
+    return slatejsx("element", { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE }, children);
   },
   serialize(node, children) {
-    if (!Element.isElement(node)) return;
-    if (node.type === DEFINITION_DESCRIPTION_ELEMENT_TYPE) {
-      return createHtmlTag({ tag: "dd", children });
-    }
+    if (!isDefinitionDescriptionElement(node)) return;
+    return createHtmlTag({ tag: "dd", children });
   },
 });
 
@@ -48,11 +45,7 @@ export const definitionDescriptionPlugin = createPlugin<DefinitionDescriptionTyp
   name: DEFINITION_DESCRIPTION_PLUGIN,
   type: DEFINITION_DESCRIPTION_ELEMENT_TYPE,
   normalize: (editor, node, path, logger) => {
-    if (isDefinitionDescription(node)) {
-      if (defaultBlockNormalizer(editor, node, path, normalizerDDConfig, logger)) {
-        return true;
-      }
-    }
-    return false;
+    if (!isDefinitionDescriptionElement(node)) return false;
+    return defaultBlockNormalizer(editor, node, path, normalizerDDConfig, logger);
   },
 });

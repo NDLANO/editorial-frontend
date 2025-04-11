@@ -14,7 +14,6 @@ import { BlockType, InlineType, TextType, getEditorAncestors } from "./toolbarSt
 import toggleBlock from "../../utils/toggleBlock";
 import { insertComment } from "../comment/inline/utils";
 import { insertInlineConcept } from "../concept/inline/utils";
-import { toggleDefinitionList } from "../definitionList/utils/toggleDefinitionList";
 import { TYPE_HEADING } from "../heading/types";
 import { insertLink, unwrapLink } from "../link/utils";
 import { insertMathml } from "../mathml/utils";
@@ -22,6 +21,7 @@ import { TYPE_PARAGRAPH } from "../paragraph/types";
 import { SpanElement } from "../span";
 import { SPAN_ELEMENT_TYPE } from "../span/types";
 import { toggleCellAlign } from "../table/slateActions";
+import { toggleDefinitionList } from "../definitionList/transforms/toggleDefinitionList";
 
 type TextElements = ParagraphElement | HeadingElement | SpanElement;
 const defaultValueState: Partial<Record<Element["type"], Partial<TextElements>>> = {

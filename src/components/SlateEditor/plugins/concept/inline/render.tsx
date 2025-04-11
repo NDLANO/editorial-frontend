@@ -8,13 +8,13 @@
 
 import { Editor } from "slate";
 import InlineConcept from "./InlineWrapper";
-import { TYPE_CONCEPT_INLINE } from "./types";
+import { CONCEPT_INLINE_ELEMENT_TYPE } from "./types";
 import { InlineBugfix } from "../../../utils/InlineBugFix";
 
 export const inlineConceptRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_CONCEPT_INLINE) {
+    if (element.type === CONCEPT_INLINE_ELEMENT_TYPE) {
       return (
         <InlineConcept element={element} attributes={attributes} editor={editor}>
           <InlineBugfix />

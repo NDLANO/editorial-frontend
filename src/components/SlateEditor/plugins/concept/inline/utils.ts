@@ -6,16 +6,17 @@
  *
  */
 
-import { Editor, Transforms, Element, Range } from "slate";
+import { Editor, Transforms, Range } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_CONCEPT_INLINE } from "./types";
+import { CONCEPT_INLINE_ELEMENT_TYPE } from "./types";
 import { ConceptType } from "../../../../../containers/ConceptPage/conceptInterfaces";
 import hasNodeOfType from "../../../utils/hasNodeOfType";
+import { isConceptInlineElement } from "./queries";
 
 export const insertInlineConcept = (editor: Editor, conceptType: ConceptType) => {
-  if (hasNodeOfType(editor, TYPE_CONCEPT_INLINE)) {
+  if (hasNodeOfType(editor, CONCEPT_INLINE_ELEMENT_TYPE)) {
     Transforms.unwrapNodes(editor, {
-      match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
+      match: isConceptInlineElement,
       voids: true,
     });
     return;
@@ -48,7 +49,7 @@ export const insertInlineConcept = (editor: Editor, conceptType: ConceptType) =>
     Transforms.wrapNodes(
       editor,
       slatejsx("element", {
-        type: TYPE_CONCEPT_INLINE,
+        type: CONCEPT_INLINE_ELEMENT_TYPE,
         isFirstEdit: true,
         conceptType: conceptType,
         data: {},

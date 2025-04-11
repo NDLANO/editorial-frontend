@@ -235,7 +235,7 @@ const getServerSideConfig = (): ConfigType => {
     isVercel: getEnvironmentVariabel("IS_VERCEL", "false") === "true",
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as "test" | "development" | "production",
     enableH5pCopy: getEnvironmentVariabel("ENABLE_H5P_COPY", "true") === "true",
-    licenseAll: getEnvironmentVariabel("LICENSE_ALL"),
+    licenseAll: getEnvironmentVariabel("LICENSE_ALL", "all"),
     matomoSiteId: getEnvironmentVariabel("MATOMO_SITE_ID"),
     matomoUrl: getEnvironmentVariabel("MATOMO_URL", matomoDomain(ndlaEnvironment)),
     s3AudioRoot: getAudioS3Root(ndlaEnvironment),

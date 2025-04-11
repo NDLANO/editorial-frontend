@@ -8,7 +8,7 @@
 
 import { useFormikContext } from "formik";
 import { isEqual } from "lodash-es";
-import { FocusEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { FocusEvent, KeyboardEvent, JSX, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Descendant, Editor, Range, Transforms } from "slate";
 import { Slate, Editable, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
@@ -57,6 +57,7 @@ export interface RichTextEditorProps extends Omit<EditableProps, "value" | "onCh
   receiveInitialFocus?: boolean;
   noArticleStyling?: boolean;
   onInitialNormalized?: (value: Descendant[]) => void;
+  renderInvalidElement?: (props: RenderElementProps & { editor: Editor }) => JSX.Element;
   editorId?: string;
 }
 
@@ -80,6 +81,7 @@ const RichTextEditor = ({
   noArticleStyling,
   editorId,
   onInitialNormalized,
+  renderInvalidElement,
   ...rest
 }: RichTextEditorProps) => {
   const [editor] = useState(() =>
@@ -184,7 +186,7 @@ const RichTextEditor = ({
         return ret;
       }
     }
-    return <p {...attributes}>{children}</p>;
+    return renderInvalidElement?.({ ...renderProps, editor }) ?? <p {...attributes}>{children}</p>;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

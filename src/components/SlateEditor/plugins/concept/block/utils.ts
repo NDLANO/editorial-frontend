@@ -7,8 +7,7 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { ConceptBlockElement } from "./interfaces";
-import { TYPE_CONCEPT_BLOCK } from "./types";
+import { CONCEPT_BLOCK_ELEMENT_TYPE, ConceptBlockElement } from "./types";
 
 export const defaultConceptBlock = (conceptType: ConceptBlockElement["conceptType"] = "concept") =>
-  slatejsx("element", { type: TYPE_CONCEPT_BLOCK, data: {}, isFirstEdit: true, conceptType }, [{ text: "" }]);
+  slatejsx("element", { type: CONCEPT_BLOCK_ELEMENT_TYPE, data: {}, isFirstEdit: true, conceptType }, [{ text: "" }]);

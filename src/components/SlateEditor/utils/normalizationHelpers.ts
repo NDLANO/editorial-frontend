@@ -26,7 +26,7 @@ import { TYPE_PARAGRAPH } from "../plugins/paragraph/types";
 import { SPAN_ELEMENT_TYPE } from "../plugins/span/types";
 import { TYPE_TABLE } from "../plugins/table/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../plugins/video/types";
-import { TYPE_CONCEPT_INLINE } from "../plugins/concept/inline/types";
+import { CONCEPT_INLINE_ELEMENT_TYPE } from "../plugins/concept/inline/types";
 import { COMMENT_INLINE_ELEMENT_TYPE } from "../plugins/comment/inline/types";
 import { TYPE_CONTENT_LINK, TYPE_LINK } from "../plugins/link/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../plugins/framedContent/framedContentTypes";
@@ -58,7 +58,7 @@ export const textBlockElements: Element["type"][] = [
 ];
 
 export const inlineElements: Element["type"][] = [
-  TYPE_CONCEPT_INLINE,
+  CONCEPT_INLINE_ELEMENT_TYPE,
   COMMENT_INLINE_ELEMENT_TYPE,
   TYPE_LINK,
   TYPE_CONTENT_LINK,

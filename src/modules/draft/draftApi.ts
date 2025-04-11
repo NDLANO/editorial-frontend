@@ -16,7 +16,7 @@ import {
   ITagsSearchResultDTO,
   IArticleTagDTO,
   IUserDataDTO,
-  ISearchResultDTO,
+  ArticleSearchResultDTO,
   IUpdatedUserDataDTO,
   IUploadedFileDTO,
 } from "@ndla/types-backend/draft-api";
@@ -70,11 +70,11 @@ export const createDraft = async (draft: INewArticleDTO): Promise<IArticleDTO> =
     body: JSON.stringify(draft),
   }).then((r) => resolveJsonOrRejectWithError<IArticleDTO>(r));
 
-export const searchDrafts = async (query: IArticleSearchParamsDTO): Promise<ISearchResultDTO> =>
+export const searchDrafts = async (query: IArticleSearchParamsDTO): Promise<ArticleSearchResultDTO> =>
   fetchAuthorized(`${baseUrl}/search/`, {
     method: "POST",
     body: JSON.stringify(query),
-  }).then((r) => resolveJsonOrRejectWithError<ISearchResultDTO>(r));
+  }).then((r) => resolveJsonOrRejectWithError<ArticleSearchResultDTO>(r));
 
 export const cloneDraft = async (
   id: number,
@@ -172,3 +172,8 @@ export const deleteFile = async (fileUrl: string): Promise<void> => {
     method: "DELETE",
   }).then(resolveVoidOrRejectWithError);
 };
+
+export const migrateCodes = async (): Promise<void> =>
+  fetchAuthorized(`${baseUrl}/migrate-greps`, {
+    method: "POST",
+  }).then(resolveVoidOrRejectWithError);

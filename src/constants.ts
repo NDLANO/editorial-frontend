@@ -9,6 +9,8 @@
 import config from "./config";
 import { WhitelistProvider } from "./interfaces";
 
+export const SAVE_DEBOUNCE_MS = 200;
+
 export const SAVE_BUTTON_ID = "editor-save-button";
 export const BLOCK_PICKER_TRIGGER_ID = "block-picker-trigger";
 
@@ -40,6 +42,7 @@ export const RESOURCE_FILTER_SUPPLEMENTARY = "urn:relevance:supplementary";
 
 export const NDLA_FILM_SUBJECT = "urn:subject:20";
 
+export const AI_ACCESS_SCOPE = "ai:access";
 export const DRAFT_ADMIN_SCOPE = "drafts:admin";
 export const DRAFT_WRITE_SCOPE = "drafts:write";
 export const DRAFT_HTML_SCOPE = "drafts:html";
@@ -139,7 +142,6 @@ export const STORED_HIDE_COMMENTS = "STORED_HIDE_COMMENTS";
 
 export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "H5P", url: ["h5p"] },
-  { name: "YouTube", url: ["youtube.com", "youtu.be", "www.youtube.com"], height: "486px" },
   { name: "NRK", url: ["static.nrk.no"], height: "398px" },
   { name: "Vimeo", url: ["player.vimeo.com", "vimeo.com", "vimeopro.com"], height: "486px" },
   { name: "Norgesfilm", url: ["ndla.filmiundervisning.no"] },

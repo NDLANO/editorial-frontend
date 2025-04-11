@@ -17,6 +17,8 @@ export const SEARCH_WITH_CUSTOM_SUBJECTS_FILTERING = "searchWithCustomSubjectsFi
 export const SEARCH_SUBJECT_STATS = "searchSubjectStats";
 export const MYNDLA_RESOURCE_STATS = "myNdlaResourceStats";
 
+export const MATOMO_STATS = "matomoStats";
+
 export const CONCEPT_STATE_MACHINE = "conceptStateMachine";
 export const CONCEPT_SEARCH_TAGS = "conceptSearchTags";
 
@@ -31,6 +33,7 @@ export const IMAGE_SEARCH_TAGS = "imageSearchTags";
 
 export const AUDIO = "audio";
 export const AUDIO_SEARCH_TAGS = "audioSearchTags";
+export const AUDIO_TRANSCRIPTION = "audioTranscription";
 
 export const AUDIO_EMBED = "audioEmbed";
 export const BRIGHTCOVE_EMBED = "brightcoveEmbed";

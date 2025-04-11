@@ -6,86 +6,26 @@
  *
  */
 
-import { useState, useEffect, useRef, MouseEvent } from "react";
-import { Editor } from "slate";
-import { ReactEditor } from "slate-react";
-import { MathmlElement } from ".";
+import { useEffect, useRef, ComponentProps } from "react";
 
-interface Props {
-  model: {
-    xlmns: string;
-    innerHTML: string;
-  };
-  editor: Editor;
-  element: MathmlElement;
-  onDoubleClick?: (e: MouseEvent<HTMLSpanElement>) => void;
+interface Props extends ComponentProps<"span"> {
+  innerHTML: string;
 }
 
-const clearMathjax = (editor: Editor, element: MathmlElement) => {
-  const { MathJax } = window;
-  const node = ReactEditor.toDOMNode(editor, element);
-  if (MathJax && node) {
-    MathJax.typesetClear([node]);
-  }
-};
-
-const MathML = ({ model, element, editor, onDoubleClick }: Props) => {
-  const [reRender, setReRender] = useState(false);
-  const [mathjaxInitialized, setMathjaxInitialized] = useState(true);
-
-  const mounted = useRef(false);
+const MathML = ({ innerHTML, onDoubleClick, children, ...rest }: Props) => {
+  const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    if (!mounted.current) {
-      // Mathml can sometimes be re-mounted. Usually caused itself or nearby elements being moved.
-      // If editor already has fully formatted all Mathjax, we must make sure the re-mounted node is formatted again.
-      if (editor.mathjaxInitialized) {
-        clearMathjax(editor, element);
-        setMathjaxInitialized(false);
-      }
-      mounted.current = true;
-    } else {
-      clearMathjax(editor, element);
-      // Note: a small delay before a 're-render" is required in order to
-      // get the MathJax script to render correctly after editing the MathML
-      setReRender(true);
-      setTimeout(() => {
-        setReRender(false);
-        setMathjaxInitialized(false);
-      }, 10);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [model.innerHTML]);
+    if (!window.MathJax || !ref.current) return;
 
-  useEffect(() => {
-    if (mathjaxInitialized) {
-      return;
-    }
-    const { MathJax } = window;
-    const node = ReactEditor.toDOMNode(editor, element);
-    if (MathJax && node) {
-      MathJax.typeset([node]);
-      setMathjaxInitialized(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mathjaxInitialized]);
+    ref.current.innerHTML = innerHTML;
+    window.MathJax.typesetPromise([ref.current]);
+    return () => {
+      window.MathJax.typesetClear();
+    };
+  }, [innerHTML]);
 
-  if (reRender) {
-    return null;
-  }
-
-  return (
-    <span data-testid="math" onDoubleClick={onDoubleClick}>
-      {/* @ts-expect-error math does not exist in JSX, but this hack works by setting innerHTML manually. */}
-      <math
-        // eslint-disable-next-line react/no-unknown-property
-        xlmns={model.xlmns}
-        dangerouslySetInnerHTML={{
-          __html: model.innerHTML,
-        }}
-      />
-    </span>
-  );
+  return <span ref={ref} data-testid="math" onDoubleClick={onDoubleClick} {...rest} />;
 };
 
 export default MathML;

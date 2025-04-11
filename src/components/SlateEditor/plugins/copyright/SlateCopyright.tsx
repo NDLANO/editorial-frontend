@@ -8,7 +8,7 @@
 
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Element, Path, Transforms } from "slate";
+import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { PencilFill } from "@ndla/icons";
@@ -25,7 +25,8 @@ import { styled } from "@ndla/styled-system/jsx";
 import { CopyrightEmbedData, CopyrightMetaData } from "@ndla/types-embed";
 import { CopyrightEmbed, EmbedWrapper } from "@ndla/ui";
 import { EmbedCopyrightForm } from "./EmbedCopyrightForm";
-import { CopyrightElement, TYPE_COPYRIGHT } from "./types";
+import { isCopyrightElement } from "./queries";
+import { CopyrightElement } from "./types";
 import DeleteButton from "../../../DeleteButton";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import MoveContentButton from "../../../MoveContentButton";
@@ -57,10 +58,10 @@ const ButtonContainer = styled(StyledFigureButtons, {
 
 const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    setModalOpen(!!element.isFirstEdit);
+    setOpen(!!element.isFirstEdit);
   }, [element.isFirstEdit]);
 
   const embed: CopyrightMetaData | undefined = useMemo(
@@ -78,10 +79,7 @@ const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
 
   const handleDelete = () => {
     const path = ReactEditor.findPath(editor, element);
-    Transforms.removeNodes(editor, {
-      at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_COPYRIGHT,
-    });
+    Transforms.removeNodes(editor, { at: path, match: isCopyrightElement });
     setTimeout(() => {
       ReactEditor.focus(editor);
       Transforms.select(editor, Path.previous(path));
@@ -91,10 +89,7 @@ const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
 
   const handleRemoveCopyright = () => {
     const path = ReactEditor.findPath(editor, element);
-    Transforms.unwrapNodes(editor, {
-      at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_COPYRIGHT,
-    });
+    Transforms.unwrapNodes(editor, { at: path, match: isCopyrightElement });
     setTimeout(() => {
       ReactEditor.focus(editor);
       Transforms.select(editor, path);
@@ -104,7 +99,7 @@ const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
 
   const onClose = useCallback(() => {
     ReactEditor.focus(editor);
-    setModalOpen(false);
+    setOpen(false);
     if (element.isFirstEdit) {
       Transforms.removeNodes(editor, {
         at: ReactEditor.findPath(editor, element),
@@ -121,7 +116,7 @@ const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
 
   const onSave = useCallback(
     (data: CopyrightEmbedData) => {
-      setModalOpen(false);
+      setOpen(false);
       const properties = {
         data,
         isFirstEdit: false,
@@ -142,7 +137,7 @@ const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
     <StyledEmbedWrapper data-testid="slate-copyright-block" {...attributes}>
       <ButtonContainer contentEditable={false}>
         <DeleteButton aria-label={t("delete")} data-testid="delete-copyright" onClick={handleDelete} />
-        <DialogRoot open={modalOpen} onOpenChange={(details) => setModalOpen(details.open)}>
+        <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
           <DialogTrigger asChild>
             <IconButton
               variant="tertiary"

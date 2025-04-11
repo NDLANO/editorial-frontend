@@ -6,12 +6,11 @@
  *
  */
 
-import { Descendant, Editor } from "slate";
-import { createSlate } from "@ndla/editor";
+import { Descendant } from "slate";
+import { createSlate, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
-import { TYPE_PARAGRAPH } from "../../paragraph/types";
-import { TYPE_SECTION } from "../../section/types";
-import { TYPE_CODEBLOCK } from "../types";
+import { CODE_BLOCK_ELEMENT_TYPE } from "../types";
+import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
 
@@ -19,10 +18,10 @@ describe("codeblock normalizer tests", () => {
   test("adds paragraphs around codeblock", () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
           {
-            type: TYPE_CODEBLOCK,
+            type: CODE_BLOCK_ELEMENT_TYPE,
             data: {
               codeContent: "print(1)",
               codeFormat: "python",
@@ -33,7 +32,7 @@ describe("codeblock normalizer tests", () => {
             isFirstEdit: false,
           },
           {
-            type: TYPE_CODEBLOCK,
+            type: CODE_BLOCK_ELEMENT_TYPE,
             data: {
               codeContent: "print(1)",
               codeFormat: "python",
@@ -44,7 +43,7 @@ describe("codeblock normalizer tests", () => {
             isFirstEdit: false,
           },
           {
-            type: TYPE_CODEBLOCK,
+            type: CODE_BLOCK_ELEMENT_TYPE,
             data: {
               codeContent: "print(1)",
               codeFormat: "python",
@@ -60,11 +59,13 @@ describe("codeblock normalizer tests", () => {
 
     const expectedValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
+        id: anySlateElementId,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
-            type: TYPE_CODEBLOCK,
+            type: CODE_BLOCK_ELEMENT_TYPE,
+            id: anySlateElementId,
             data: {
               codeContent: "print(1)",
               codeFormat: "python",
@@ -74,9 +75,10 @@ describe("codeblock normalizer tests", () => {
             children: [{ text: "" }],
             isFirstEdit: false,
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
-            type: TYPE_CODEBLOCK,
+            type: CODE_BLOCK_ELEMENT_TYPE,
+            id: anySlateElementId,
             data: {
               codeContent: "print(1)",
               codeFormat: "python",
@@ -86,9 +88,10 @@ describe("codeblock normalizer tests", () => {
             children: [{ text: "" }],
             isFirstEdit: false,
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
-            type: TYPE_CODEBLOCK,
+            type: CODE_BLOCK_ELEMENT_TYPE,
+            id: anySlateElementId,
             data: {
               codeContent: "print(1)",
               codeFormat: "python",
@@ -98,12 +101,11 @@ describe("codeblock normalizer tests", () => {
             children: [{ text: "" }],
             isFirstEdit: false,
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
 });

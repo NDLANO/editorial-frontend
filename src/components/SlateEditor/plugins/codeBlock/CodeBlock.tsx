@@ -1,10 +1,11 @@
 /**
- * Copyright (c) 2020-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import he from "he";
 import { highlight, languages } from "prismjs";
 import "prismjs/components/prism-clike";
@@ -53,15 +54,15 @@ import {
 import { HStack } from "@ndla/styled-system/jsx";
 import { CodeEmbedData } from "@ndla/types-embed";
 import { CodeBlock as UICodeBlock } from "@ndla/ui";
-import { CodeblockElement } from ".";
 import CodeBlockEditor from "./CodeBlockEditor";
+import { CodeBlockElement } from "./types";
 import { CodeBlockType } from "../../../../interfaces";
 import { AlertDialog } from "../../../AlertDialog/AlertDialog";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormActionsContainer } from "../../../FormikForm";
 
 interface Props extends RenderElementProps {
-  element: CodeblockElement;
+  element: CodeBlockElement;
   editor: Editor;
 }
 
@@ -231,7 +232,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
               handleClose();
             }}
           >
-            {t("alertModal.continue")}
+            {t("alertDialog.continue")}
           </Button>
         </FormActionsContainer>
       </AlertDialog>

@@ -7,6 +7,6 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_IMAGE } from "./types";
+import { IMAGE_ELEMENT_TYPE } from "./types";
 
-export const defaultImageBlock = () => slatejsx("element", { type: TYPE_IMAGE });
+export const defaultImageBlock = () => slatejsx("element", { type: IMAGE_ELEMENT_TYPE });

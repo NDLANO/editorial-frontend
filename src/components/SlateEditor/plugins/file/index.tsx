@@ -6,16 +6,21 @@
  *
  */
 
-import { Descendant, Editor, Element } from "slate";
-import { TYPE_FILE } from "./types";
+import { Descendant } from "slate";
+import {
+  createDataAttributes,
+  createHtmlTag,
+  createPlugin,
+  createSerializer,
+  PARAGRAPH_ELEMENT_TYPE,
+} from "@ndla/editor";
+import { isFileElement } from "./queries";
+import { FILE_ELEMENT_TYPE, FILE_PLUGIN } from "./types";
 import { defaultFileBlock } from "./utils";
 import { File } from "../../../../interfaces";
-import { createDataAttributes, createHtmlTag } from "../../../../util/embedTagHelpers";
-import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
-import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 export interface FileElement {
   type: "file";
@@ -26,18 +31,18 @@ export interface FileElement {
 const normalizerConfig: NormalizerConfig = {
   previous: {
     allowed: afterOrBeforeTextBlockElement,
-    defaultType: TYPE_PARAGRAPH,
+    defaultType: PARAGRAPH_ELEMENT_TYPE,
   },
   next: {
     allowed: afterOrBeforeTextBlockElement,
-    defaultType: TYPE_PARAGRAPH,
+    defaultType: PARAGRAPH_ELEMENT_TYPE,
   },
 };
 
-export const fileSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement) {
+export const fileSerializer = createSerializer({
+  deserialize(el) {
     if (el.tagName.toLowerCase() !== "div") return;
-    if (el.dataset.type !== TYPE_FILE) return;
+    if (el.dataset.type !== FILE_ELEMENT_TYPE) return;
 
     const children: DOMStringMap[] = [];
     el.childNodes.forEach((node) => {
@@ -45,39 +50,26 @@ export const fileSerializer: SlateSerializer = {
     });
     return defaultFileBlock(children);
   },
-  serialize(node: Descendant) {
-    if (!Element.isElement(node)) return;
-    if (node.type !== TYPE_FILE) return;
+  serialize(node) {
+    if (!isFileElement(node)) return;
     const children = node.data
       .map(({ formats: _, ...file }) => {
         const data = createDataAttributes(file);
         return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
       })
       .join("");
-    return createHtmlTag({ tag: "div", data: { "data-type": TYPE_FILE }, children });
+    return createHtmlTag({ tag: "div", data: { "data-type": FILE_ELEMENT_TYPE }, children });
   },
-};
+});
 
-export const filePlugin = (editor: Editor) => {
-  const { normalizeNode: nextNormalizeNode, isVoid: nextIsVoid } = editor;
-
-  editor.isVoid = (element: Element) => {
-    if (element.type === TYPE_FILE) {
-      return true;
+export const filePlugin = createPlugin({
+  name: FILE_PLUGIN,
+  type: FILE_ELEMENT_TYPE,
+  isVoid: true,
+  normalize: (editor, node, path, logger) => {
+    if (isFileElement(node)) {
+      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
     }
-    return nextIsVoid(element);
-  };
-
-  editor.normalizeNode = (entry) => {
-    const [node, path] = entry;
-
-    if (Element.isElement(node) && node.type === TYPE_FILE) {
-      if (defaultBlockNormalizer(editor, node, path, normalizerConfig)) {
-        return;
-      }
-    }
-    nextNormalizeNode(entry);
-  };
-
-  return editor;
-};
+    return false;
+  },
+});

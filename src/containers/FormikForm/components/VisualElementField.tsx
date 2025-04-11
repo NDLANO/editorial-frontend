@@ -37,9 +37,9 @@ const UploadVisualElementText = styled("div", {
 
 interface Props {
   types: VisualElementType[];
-  inModal?: boolean;
+  inDialog?: boolean;
 }
-const VisualElementField = ({ types, inModal = false }: Props) => {
+const VisualElementField = ({ types, inDialog = false }: Props) => {
   const { t } = useTranslation();
   const [languageField] = useField<string>("language");
   const [, visualElementCaptionMeta] = useField("visualElementCaption");
@@ -47,7 +47,7 @@ const VisualElementField = ({ types, inModal = false }: Props) => {
 
   return (
     <div>
-      {!inModal && (
+      {!inDialog && (
         <UploadVisualElementText>
           <Text textStyle="label.medium" fontWeight="bold">
             {t("form.visualElement.title")}

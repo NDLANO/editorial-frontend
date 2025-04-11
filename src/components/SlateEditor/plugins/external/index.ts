@@ -8,9 +8,8 @@
 
 import { Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
+import { createDataAttributes, createHtmlTag, createSerializer, parseElementAttributes } from "@ndla/editor";
 import { TYPE_EXTERNAL, TYPE_IFRAME } from "./types";
-import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
-import { SlateSerializer } from "../../interfaces";
 import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
@@ -27,7 +26,7 @@ const normalizerConfig: NormalizerConfig = {
   },
 };
 
-export const externalSerializer: SlateSerializer = {
+export const externalSerializer = createSerializer({
   deserialize(el) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
@@ -42,7 +41,7 @@ export const externalSerializer: SlateSerializer = {
       return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
     }
   },
-};
+});
 
 export const externalPlugin = (disableNormalize?: boolean) => (editor: Editor) => {
   const { normalizeNode: nextNormalizeNode, isVoid: nextIsVoid } = editor;

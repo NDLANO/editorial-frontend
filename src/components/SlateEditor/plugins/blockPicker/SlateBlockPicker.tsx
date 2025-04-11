@@ -9,8 +9,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Node, Location, Range, Path, Transforms } from "slate";
-import { ReactEditor } from "slate-react";
-import { Portal } from "@ark-ui/react";
+import { ReactEditor, useSlate, useSlateSelection } from "slate-react";
+import { PopoverOpenChangeDetails, Portal } from "@ark-ui/react";
 import { AddLine } from "@ndla/icons";
 import { PopoverRoot, PopoverTrigger, IconButton, Button, Heading, PopoverContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -22,49 +22,48 @@ import getCurrentBlock from "../../utils/getCurrentBlock";
 import { ASIDE_ELEMENT_TYPE } from "../aside/asideTypes";
 import { defaultAsideBlock } from "../aside/utils";
 import { AUDIO_ELEMENT_TYPE } from "../audio/audioTypes";
-import { TYPE_CAMPAIGN_BLOCK } from "../campaignBlock/types";
+import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../campaignBlock/types";
 import { defaultCampaignBlock } from "../campaignBlock/utils";
-import { TYPE_CODEBLOCK } from "../codeBlock/types";
+import { CODE_BLOCK_ELEMENT_TYPE } from "../codeBlock/types";
 import { defaultCodeblockBlock } from "../codeBlock/utils";
-import { TYPE_COMMENT_BLOCK } from "../comment/block/types";
+import { COMMENT_BLOCK_ELEMENT_TYPE } from "../comment/block/types";
 import { defaultCommentBlock } from "../comment/block/utils";
 import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from "../concept/block/types";
 import { defaultConceptBlock } from "../concept/block/utils";
-import { TYPE_CONTACT_BLOCK } from "../contactBlock/types";
+import { CONTACT_BLOCK_ELEMENT_TYPE } from "../contactBlock/types";
 import { defaultContactBlock } from "../contactBlock/utils";
-import { TYPE_DETAILS } from "../details/types";
+import { DETAILS_ELEMENT_TYPE } from "../details/detailsTypes";
 import { defaultDetailsBlock } from "../details/utils";
 import { TYPE_EMBED_ERROR } from "../embed/types";
 import { TYPE_EXTERNAL } from "../external/types";
 import { defaultExternalBlock } from "../external/utils";
-import { TYPE_FILE } from "../file/types";
+import { FILE_ELEMENT_TYPE } from "../file/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes";
 import { defaultFramedContentBlock } from "../framedContent/utils";
 import { TYPE_GRID } from "../grid/types";
 import { defaultGridBlock } from "../grid/utils";
-import { TYPE_H5P } from "../h5p/types";
+import { H5P_ELEMENT_TYPE } from "../h5p/types";
 import { defaultH5pBlock } from "../h5p/utils";
-import { TYPE_IMAGE } from "../image/types";
-import { TYPE_KEY_FIGURE } from "../keyFigure/types";
+import { IMAGE_ELEMENT_TYPE } from "../image/types";
+import { KEY_FIGURE_ELEMENT_TYPE } from "../keyFigure/types";
 import { defaultKeyFigureBlock } from "../keyFigure/utils";
 import { defaultLinkBlockList } from "../linkBlockList";
-import { TYPE_LINK_BLOCK_LIST } from "../linkBlockList/types";
+import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "../linkBlockList/types";
 import { TYPE_LIST_ITEM } from "../list/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
-import { TYPE_PITCH } from "../pitch/types";
+import { PITCH_ELEMENT_TYPE } from "../pitch/types";
 import { defaultPitchBlock } from "../pitch/utils";
 import { defaultRelatedBlock } from "../related";
-import { TYPE_RELATED } from "../related/types";
+import { RELATED_ELEMENT_TYPE } from "../related/types";
 import { defaultTableBlock } from "../table/defaultBlocks";
 import { isInTableCellHeader, isTableCell } from "../table/slateHelpers";
 import { TYPE_TABLE } from "../table/types";
 import { IS_MAC } from "../toolbar/ToolbarToggle";
-import { TYPE_DISCLAIMER } from "../uuDisclaimer/types";
+import { DISCLAIMER_ELEMENT_TYPE } from "../uuDisclaimer/types";
 import { defaultDisclaimerBlock } from "../uuDisclaimer/utils";
-import { TYPE_EMBED_BRIGHTCOVE } from "../video/types";
+import { BRIGHTCOVE_ELEMENT_TYPE } from "../video/types";
 
 interface Props {
-  editor: Editor;
   actions: Action[];
   allowedPickAreas: Element["type"][];
   illegalAreas: Element["type"][];
@@ -134,14 +133,19 @@ const getLeftAdjust = (parent?: Node) => {
   return 78;
 };
 
+const popoverIds = {
+  trigger: BLOCK_PICKER_TRIGGER_ID,
+} as const;
+
 const SlateBlockPicker = ({
-  editor,
   actionsToShowInAreas,
   articleLanguage,
   illegalAreas,
   allowedPickAreas,
   actions,
 }: Props) => {
+  const editor = useSlate();
+  const selection = useSlateSelection();
   const [blockPickerOpen, setBlockPickerOpen] = useState(false);
   const [lastActiveSelection, setLastActiveSelection] = useState<Range>();
   const portalRef = useRef<HTMLButtonElement | null>(null);
@@ -202,19 +206,34 @@ const SlateBlockPicker = ({
   });
 
   useEffect(() => {
-    if (Location.isLocation(editor.selection)) {
-      setLastActiveSelection(editor.selection);
+    if (Location.isLocation(selection)) {
+      setLastActiveSelection(selection);
     }
-  }, [editor, editor.selection, lastActiveSelection]);
+  }, [selection]);
 
   const onOpenChange = useCallback(
-    (open: boolean) => {
-      setBlockPickerOpen(open);
-      if (!open && !visualElementPickerOpen) {
+    (details: PopoverOpenChangeDetails) => {
+      setBlockPickerOpen(details.open);
+      if (!details.open && !visualElementPickerOpen) {
         ReactEditor.focus(editor);
       }
     },
     [editor, visualElementPickerOpen],
+  );
+
+  const onFocus = useCallback(() => {
+    if (!blockPickerOpen) {
+      ReactEditor.focus(editor);
+    }
+  }, [blockPickerOpen, editor]);
+
+  const positioning = useMemo(
+    () =>
+      ({
+        placement: "right",
+        getAnchorRect: () => portalRef.current?.getBoundingClientRect() ?? null,
+      }) as const,
+    [],
   );
 
   const onVisualElementClose = useCallback(() => {
@@ -223,25 +242,28 @@ const SlateBlockPicker = ({
     ReactEditor.focus(editor);
   }, [editor]);
 
-  const onInsertBlock = (block: Element, selectBlock?: boolean) => {
-    setTimeout(() => {
-      Editor.withoutNormalizing(editor, () => {
-        if (selectedParagraphPath) {
-          Transforms.select(editor, selectedParagraphPath);
-          ReactEditor.focus(editor);
-        }
-        Transforms.insertNodes(editor, block, {
-          at: selectedParagraphPath,
+  const onInsertBlock = useCallback(
+    (block: Element, selectBlock?: boolean) => {
+      setTimeout(() => {
+        Editor.withoutNormalizing(editor, () => {
+          if (selectedParagraphPath) {
+            Transforms.select(editor, selectedParagraphPath);
+            ReactEditor.focus(editor);
+          }
+          Transforms.insertNodes(editor, block, {
+            at: selectedParagraphPath,
+          });
+          if (selectBlock && selectedParagraphPath) {
+            const targetPath = Editor.start(editor, selectedParagraphPath);
+            Transforms.select(editor, targetPath);
+          }
         });
-        if (selectBlock && selectedParagraphPath) {
-          const targetPath = Editor.start(editor, selectedParagraphPath);
-          Transforms.select(editor, targetPath);
-        }
-      });
-    }, 0);
-    setBlockPickerOpen(false);
-    setType("");
-  };
+      }, 0);
+      setBlockPickerOpen(false);
+      setType("");
+    },
+    [editor, selectedParagraphPath],
+  );
 
   const onElementAdd = (data: ActionData) => {
     switch (data.type) {
@@ -249,7 +271,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultFramedContentBlock(), true);
         break;
       }
-      case TYPE_DETAILS: {
+      case DETAILS_ELEMENT_TYPE: {
         onInsertBlock(defaultDetailsBlock(), true);
         break;
       }
@@ -266,7 +288,7 @@ const SlateBlockPicker = ({
         setType(data.object);
         break;
       }
-      case TYPE_H5P: {
+      case H5P_ELEMENT_TYPE: {
         onInsertBlock(defaultH5pBlock());
         break;
       }
@@ -274,31 +296,31 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultExternalBlock());
         break;
       }
-      case TYPE_EMBED_BRIGHTCOVE: {
+      case BRIGHTCOVE_ELEMENT_TYPE: {
         setVisualElementPickerOpen(true);
         setType(data.object);
         break;
       }
-      case TYPE_IMAGE: {
+      case IMAGE_ELEMENT_TYPE: {
         setVisualElementPickerOpen(true);
         setType(data.object);
         break;
       }
-      case TYPE_FILE:
+      case FILE_ELEMENT_TYPE:
       case TYPE_EMBED_ERROR: {
         setVisualElementPickerOpen(true);
         setType(data.object);
         break;
       }
-      case TYPE_RELATED: {
+      case RELATED_ELEMENT_TYPE: {
         onInsertBlock(defaultRelatedBlock());
         break;
       }
-      case TYPE_CODEBLOCK: {
+      case CODE_BLOCK_ELEMENT_TYPE: {
         onInsertBlock(defaultCodeblockBlock());
         break;
       }
-      case TYPE_PITCH: {
+      case PITCH_ELEMENT_TYPE: {
         onInsertBlock(defaultPitchBlock());
         break;
       }
@@ -310,19 +332,19 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultGridBlock(), true);
         break;
       }
-      case TYPE_KEY_FIGURE: {
+      case KEY_FIGURE_ELEMENT_TYPE: {
         onInsertBlock(defaultKeyFigureBlock());
         break;
       }
-      case TYPE_CONTACT_BLOCK: {
+      case CONTACT_BLOCK_ELEMENT_TYPE: {
         onInsertBlock(defaultContactBlock());
         break;
       }
-      case TYPE_CAMPAIGN_BLOCK: {
+      case CAMPAIGN_BLOCK_ELEMENT_TYPE: {
         onInsertBlock(defaultCampaignBlock());
         break;
       }
-      case TYPE_LINK_BLOCK_LIST: {
+      case LINK_BLOCK_LIST_ELEMENT_TYPE: {
         onInsertBlock(defaultLinkBlockList());
         break;
       }
@@ -330,11 +352,11 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultConceptBlock("gloss"));
         break;
       }
-      case TYPE_DISCLAIMER: {
+      case DISCLAIMER_ELEMENT_TYPE: {
         onInsertBlock(defaultDisclaimerBlock());
         break;
       }
-      case TYPE_COMMENT_BLOCK: {
+      case COMMENT_BLOCK_ELEMENT_TYPE: {
         onInsertBlock(defaultCommentBlock());
         break;
       }
@@ -344,7 +366,7 @@ const SlateBlockPicker = ({
     }
   };
 
-  const getActionsForArea = () => {
+  const actionsForArea = useMemo(() => {
     if (!lastActiveSelection) return actions;
     if (
       !Node.has(editor, Range.start(lastActiveSelection).path) ||
@@ -376,7 +398,7 @@ const SlateBlockPicker = ({
     }
 
     return actions;
-  };
+  }, [actions, actionsToShowInAreas, editor, lastActiveSelection]);
 
   return (
     <>
@@ -387,14 +409,7 @@ const SlateBlockPicker = ({
         onVisualElementClose={onVisualElementClose}
         onInsertBlock={onInsertBlock}
       />
-      <PopoverRoot
-        open={blockPickerOpen}
-        positioning={{ placement: "right", getAnchorRect: () => portalRef.current?.getBoundingClientRect() ?? null }}
-        onOpenChange={(details) => onOpenChange(details.open)}
-        ids={{
-          trigger: BLOCK_PICKER_TRIGGER_ID,
-        }}
-      >
+      <PopoverRoot open={blockPickerOpen} positioning={positioning} onOpenChange={onOpenChange} ids={popoverIds}>
         <Portal>
           <PopoverTrigger ref={portalRef} asChild>
             <BlockPickerButton
@@ -403,11 +418,7 @@ const SlateBlockPicker = ({
               aria-label={blockPickerLabel}
               title={blockPickerLabel}
               data-state={blockPickerOpen ? "open" : "closed"}
-              onFocus={() => {
-                if (!blockPickerOpen) {
-                  ReactEditor.focus(editor);
-                }
-              }}
+              onFocus={onFocus}
             >
               <AddLine />
             </BlockPickerButton>
@@ -415,7 +426,7 @@ const SlateBlockPicker = ({
           <StyledPopoverContent data-testid="slate-block-picker-menu">
             <StyledHeading textStyle="title.small">{t("editorBlockpicker.heading")}</StyledHeading>
             <StyledList>
-              {getActionsForArea()
+              {actionsForArea
                 .filter((a) => !a.requiredScope || userPermissions?.includes(a.requiredScope))
                 .map((action) => (
                   <StyledLi key={action.data.object}>

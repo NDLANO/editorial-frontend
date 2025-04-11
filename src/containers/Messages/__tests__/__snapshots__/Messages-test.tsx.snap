@@ -1,10 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`Messages > A message is removed if the modal is closed 1`] = `
-<body
-  data-scroll-lock=""
-  style="overflow: hidden; padding-right: 1024px;"
->
+<body>
   <div />
   <div
     class="pos_fixed h_100vh w_100vw left_0 top_0 bg_rgba(1,_1,_1,_0.3) open:anim_backdrop-in open:motionReduce:anim_none closed:anim_backdrop-out closed:motionReduce:anim_none z_alertModalOverlay"
@@ -112,10 +109,7 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
 exports[`Messages > A message is removed if the modal is closed 2`] = `"<div></div>"`;
 
 exports[`Messages > A single message renders correctly 1`] = `
-<body
-  data-scroll-lock=""
-  style="overflow: hidden; padding-right: 1024px;"
->
+<body>
   <div />
   <div
     class="pos_fixed h_100vh w_100vw left_0 top_0 bg_rgba(1,_1,_1,_0.3) open:anim_backdrop-in open:motionReduce:anim_none closed:anim_backdrop-out closed:motionReduce:anim_none z_alertModalOverlay"
@@ -221,10 +215,7 @@ exports[`Messages > A single message renders correctly 1`] = `
 `;
 
 exports[`Messages > Several messages renders correctly 1`] = `
-<body
-  data-scroll-lock=""
-  style="overflow: hidden; padding-right: 1024px;"
->
+<body>
   <div />
   <div
     class="pos_fixed h_100vh w_100vw left_0 top_0 bg_rgba(1,_1,_1,_0.3) open:anim_backdrop-in open:motionReduce:anim_none closed:anim_backdrop-out closed:motionReduce:anim_none z_alertModalOverlay"
@@ -430,11 +421,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
 `;
 
 exports[`Messages > auth0 messages provides a cancel button 1`] = `
-<body
-  data-inert=""
-  data-scroll-lock=""
-  style="pointer-events: none; overflow: hidden; padding-right: 1024px;"
->
+<body>
   <div />
   <div
     class="pos_fixed h_100vh w_100vw left_0 top_0 bg_rgba(1,_1,_1,_0.3) open:anim_backdrop-in open:motionReduce:anim_none closed:anim_backdrop-out closed:motionReduce:anim_none z_alertModalOverlay"

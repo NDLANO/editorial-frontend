@@ -32,7 +32,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContactBlockEmbedData } from "@ndla/types-embed";
-import { TYPE_CONTACT_BLOCK } from "./types";
+import { CONTACT_BLOCK_ELEMENT_TYPE } from "./types";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
@@ -89,7 +89,7 @@ interface Props {
 
 const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormValues => {
   return {
-    resource: TYPE_CONTACT_BLOCK,
+    resource: CONTACT_BLOCK_ELEMENT_TYPE,
     jobTitle: initialData?.jobTitle ?? "",
     background: initialData?.background ?? "subtle",
     description: initialData?.description ?? "",
@@ -113,7 +113,7 @@ const ContactBlockForm = ({ initialData, onSave }: Props) => {
         return;
       }
       const newData: ContactBlockEmbedData = {
-        resource: TYPE_CONTACT_BLOCK,
+        resource: CONTACT_BLOCK_ELEMENT_TYPE,
         imageId: values.metaImageId,
         jobTitle: values.jobTitle,
         description: values.description,

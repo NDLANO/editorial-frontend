@@ -10,7 +10,7 @@ import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import { asidePlugin } from "../../../../components/SlateEditor/plugins/aside/asidePlugin";
 import { audioPlugin } from "../../../../components/SlateEditor/plugins/audio/audioPlugin";
 import { blockPickerPlugin } from "../../../../components/SlateEditor/plugins/blockPicker";
-import { blockQuotePlugin } from "../../../../components/SlateEditor/plugins/blockquote";
+import { blockQuotePlugin } from "../../../../components/SlateEditor/plugins/blockquote/blockquotePlugin";
 import { campaignBlockPlugin } from "../../../../components/SlateEditor/plugins/campaignBlock";
 import { codeblockPlugin } from "../../../../components/SlateEditor/plugins/codeBlock";
 import { commentBlockPlugin } from "../../../../components/SlateEditor/plugins/comment/block";
@@ -20,7 +20,8 @@ import { inlineConceptPlugin } from "../../../../components/SlateEditor/plugins/
 import { contactBlockPlugin } from "../../../../components/SlateEditor/plugins/contactBlock";
 import { copyrightPlugin } from "../../../../components/SlateEditor/plugins/copyright";
 import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList";
-import { detailsPlugin } from "../../../../components/SlateEditor/plugins/details";
+import { detailsPlugin } from "../../../../components/SlateEditor/plugins/details/detailsPlugin";
+import { summaryPlugin } from "../../../../components/SlateEditor/plugins/details/summaryPlugin";
 import { divPlugin } from "../../../../components/SlateEditor/plugins/div";
 import { dndPlugin } from "../../../../components/SlateEditor/plugins/DND";
 import { embedPlugin } from "../../../../components/SlateEditor/plugins/embed";
@@ -34,7 +35,7 @@ import { imagePlugin } from "../../../../components/SlateEditor/plugins/image";
 import { keyFigurePlugin } from "../../../../components/SlateEditor/plugins/keyFigure";
 import { linkPlugin } from "../../../../components/SlateEditor/plugins/link";
 import { linkBlockListPlugin } from "../../../../components/SlateEditor/plugins/linkBlockList";
-import { mathmlPlugin } from "../../../../components/SlateEditor/plugins/mathml";
+import { mathmlPlugin } from "../../../../components/SlateEditor/plugins/mathml/mathPlugin";
 import { pitchPlugin } from "../../../../components/SlateEditor/plugins/pitch";
 import { relatedPlugin } from "../../../../components/SlateEditor/plugins/related";
 import saveHotkeyPlugin from "../../../../components/SlateEditor/plugins/saveHotkey";
@@ -50,9 +51,12 @@ import { headingPlugin } from "../../../../components/SlateEditor/plugins/headin
 import { breakPlugin } from "../../../../components/SlateEditor/plugins/break";
 import { markPlugin } from "../../../../components/SlateEditor/plugins/mark";
 import { listPlugin } from "../../../../components/SlateEditor/plugins/list";
+import { idPlugin } from "../../../../components/SlateEditor/plugins/id/idPlugin";
+import { rephrasePlugin } from "../../../../components/SlateEditor/plugins/rephrase/rephrasePlugin";
 
 // Plugins are checked from last to first
 export const frontpagePlugins: SlatePlugin[] = [
+  idPlugin,
   sectionPlugin,
   spanPlugin,
   divPlugin,
@@ -61,9 +65,9 @@ export const frontpagePlugins: SlatePlugin[] = [
   externalPlugin(),
   embedPlugin(),
   audioPlugin,
-  imagePlugin(),
-  h5pPlugin(),
-  videoPlugin(),
+  imagePlugin,
+  h5pPlugin,
+  videoPlugin,
   framedContentPlugin,
   blockQuotePlugin,
   linkPlugin,
@@ -74,6 +78,7 @@ export const frontpagePlugins: SlatePlugin[] = [
   headingPlugin,
   asidePlugin,
   detailsPlugin,
+  summaryPlugin,
   // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
   // // Blockquote and editList actions need to be triggered before paragraph action, else
   // // unwrapping (jumping out of block) will not work.
@@ -99,4 +104,5 @@ export const frontpagePlugins: SlatePlugin[] = [
   linkBlockListPlugin,
   disclaimerPlugin,
   copyrightPlugin,
+  rephrasePlugin,
 ];

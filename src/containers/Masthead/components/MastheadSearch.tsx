@@ -55,8 +55,8 @@ const MastheadForm = styled("form", {
   },
 });
 
-const shortContextIdRegEx = new RegExp(/[a-f0-9]{10}/);
-const longContextIdRegEx = new RegExp(/[a-f0-9]{12}/);
+const shortContextIdRegEx = new RegExp(/^[a-f0-9]{10}/);
+const longContextIdRegEx = new RegExp(/^[a-f0-9]{12}/);
 const slugRegEx = new RegExp(/^[a-z-]+$/);
 const nodeIdRegEx = new RegExp(/#\d+/g);
 const taxonomyIdRegEx = new RegExp(/#urn:(resource|topic)[:\da-fA-F-]+/g);
@@ -80,7 +80,13 @@ export const MastheadSearch = () => {
   }, [location.pathname]);
 
   const filteredSavedSearches = useMemo(() => {
-    return userDataQuery.data?.savedSearches?.filter((item) => item.searchPhrase.includes(query)) ?? [];
+    return (
+      userDataQuery.data?.savedSearches?.filter((item) => {
+        const searchPhraseToLowerCase = item.searchPhrase.toLowerCase();
+        const queryToLowerCase = query.toLowerCase();
+        return searchPhraseToLowerCase.includes(queryToLowerCase);
+      }) ?? []
+    );
   }, [query, userDataQuery.data?.savedSearches]);
 
   const handleNodeId = async (nodeId: number) => {
@@ -124,7 +130,7 @@ export const MastheadSearch = () => {
 
     const urlId = splittedNdlaUrl[splittedNdlaUrl.length - 1];
 
-    const isLongTaxUrl = splittedNdlaUrl.find((e) => e.match(/subject:*/)) !== undefined;
+    const isLongTaxUrl = splittedNdlaUrl.find((e) => e.match(/(subject:)/)) !== undefined;
     const isContextId = shortContextIdRegEx.test(urlId) || longContextIdRegEx.test(urlId);
     const isSlug = slugRegEx.test(urlId);
 
@@ -236,7 +242,7 @@ export const MastheadSearch = () => {
     return createListCollection({
       items: filteredSavedSearches,
       itemToString: (item) => item.searchPhrase,
-      itemToValue: (item) => item.searchPhrase,
+      itemToValue: (item) => `${item.searchPhrase}_${filteredSavedSearches.indexOf(item)}`,
     });
   }, [filteredSavedSearches]);
 

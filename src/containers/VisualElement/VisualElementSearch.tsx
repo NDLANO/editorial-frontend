@@ -41,7 +41,7 @@ interface Props {
   selectedResource: string;
   handleVisualElementChange: (returnType: Embed | DOMStringMap[]) => void;
   articleLanguage?: string;
-  closeModal: () => void;
+  closeDialog: () => void;
   showCheckbox?: boolean;
   checkboxAction?: (image: IImageMetaInformationV3DTO) => void;
 }
@@ -68,7 +68,7 @@ const VisualElementSearch = ({
   selectedResource,
   handleVisualElementChange,
   articleLanguage,
-  closeModal,
+  closeDialog,
   showCheckbox: showMetaImageCheckbox,
   checkboxAction: onSaveAsMetaImage,
 }: Props) => {
@@ -105,7 +105,7 @@ const VisualElementSearch = ({
             />
           </StyledTabsContent>
           <StyledTabsContent value="upload">
-            <CreateImage inModal={true} editingArticle closeModal={closeModal} onImageCreated={onImageChange} />
+            <CreateImage inDialog={true} editingArticle closeDialog={closeDialog} onImageCreated={onImageChange} />
           </StyledTabsContent>
         </TabsRoot>
       );
@@ -180,7 +180,7 @@ const VisualElementSearch = ({
             }));
             handleVisualElementChange(preparedFiles);
           }}
-          close={closeModal}
+          close={closeDialog}
         />
       );
     default:

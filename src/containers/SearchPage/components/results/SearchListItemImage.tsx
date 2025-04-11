@@ -6,7 +6,7 @@
  *
  */
 
-import { forwardRef } from "react";
+import { type Ref } from "react";
 import { ImageProps, ListItemImage } from "@ndla/primitives";
 import { css } from "@ndla/styled-system/css";
 
@@ -17,6 +17,10 @@ const listItemStyle = css.raw({
   maxHeight: "77px",
 });
 
-export const SearchListItemImage = forwardRef<HTMLImageElement, ImageProps>(({ css: cssProp, ...props }, ref) => (
-  <ListItemImage css={css.raw(listItemStyle, cssProp)} {...props} ref={ref} />
-));
+interface Props extends ImageProps {
+  ref?: Ref<HTMLImageElement>;
+}
+
+export const SearchListItemImage = ({ css: cssProp, ...props }: Props) => (
+  <ListItemImage css={css.raw(listItemStyle, cssProp)} {...props} />
+);

@@ -35,7 +35,7 @@ import handleError from "../../../../../util/handleError";
 import { groupChildNodes } from "../../../../../util/taxonomyHelpers";
 import { useSession } from "../../../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../../../StructureVersion/TaxonomyVersionProvider";
-import ResourceTypeSelect from "../../../components/ResourceTypeSelect";
+import ResourceTypeSelect, { ResourceTypeWithParent } from "../../../components/ResourceTypeSelect";
 import TaxonomyConnectionErrors from "../../../components/TaxonomyConnectionErrors";
 import { MinimalNodeChild } from "../LearningResourceTaxonomy";
 
@@ -140,15 +140,15 @@ const TaxonomyBlock = ({
         .filter((rt) => !blacklistedResourceTypes.includes(rt.id))
         .map((rt) => ({
           ...rt,
-          subtype: rt?.subtypes?.filter((st) => !blacklistedResourceTypes.includes(st.id)),
+          subtypes: rt?.subtypes?.filter((st) => !blacklistedResourceTypes.includes(st.id)),
         })) ?? [],
     [resourceTypes],
   );
 
   const onVersionChanged = useCallback(
-    (versionHash: string) => {
-      if (versionHash === taxonomyVersion) return;
-      changeVersion(versionHash);
+    (version: Version) => {
+      if (version.hash === taxonomyVersion) return;
+      changeVersion(version.hash);
       setShowWarning(false);
       updateTaxMutation.reset();
     },
@@ -294,38 +294,28 @@ const TaxonomyBlock = ({
     ],
   );
 
-  const onChangeSelectedResource = useCallback(
-    (value?: string) => {
-      const options = value?.split(",") ?? [];
-      const selectedResource = resourceTypes.find((rt) => rt.id === options[0]);
-
-      if (selectedResource) {
-        const resourceTypes: ResourceTypeWithConnection[] = [
-          {
-            name: selectedResource.name,
-            id: selectedResource.id,
-            connectionId: "",
-            supportedLanguages: selectedResource.supportedLanguages,
-            translations: selectedResource.translations,
-          },
-        ];
-
-        if (options.length > 1) {
-          const subType = selectedResource.subtypes?.find((subtype) => subtype.id === options[1]);
-          if (subType)
-            resourceTypes.push({
-              id: subType.id,
-              name: subType.name,
-              connectionId: "",
-              supportedLanguages: subType.supportedLanguages,
-              translations: subType.translations,
-            });
-        }
-        setWorkingResource((res) => ({ ...res, resourceTypes }));
-      }
-    },
-    [resourceTypes],
-  );
+  const onChangeSelectedResource = (resourceType: ResourceTypeWithParent) => {
+    const resourceTypes: ResourceTypeWithConnection[] = [
+      {
+        id: resourceType.id,
+        name: resourceType.name,
+        parentId: resourceType.parentType?.id,
+        supportedLanguages: resourceType.supportedLanguages,
+        translations: resourceType.translations,
+        connectionId: "",
+      },
+    ];
+    if (resourceType.parentType) {
+      resourceTypes.push({
+        id: resourceType.parentType.id,
+        name: resourceType.parentType.name,
+        supportedLanguages: resourceType.parentType.supportedLanguages,
+        translations: resourceType.parentType.translations,
+        connectionId: "",
+      });
+    }
+    setWorkingResource((res) => ({ ...res, resourceTypes }));
+  };
 
   return (
     <FormContent>
@@ -341,7 +331,7 @@ const TaxonomyBlock = ({
         <>
           <OptGroupVersionSelector
             currentVersion={taxonomyVersion}
-            onVersionChanged={(version) => onVersionChanged(version.hash)}
+            onVersionChanged={onVersionChanged}
             versions={versions}
           >
             <SelectLabel>{t("taxonomy.version")}</SelectLabel>
@@ -350,8 +340,10 @@ const TaxonomyBlock = ({
         </>
       )}
       <ResourceTypeSelect
-        selectedResourceTypes={workingResource.resourceTypes}
         availableResourceTypes={filteredResourceTypes}
+        selectedResourceType={
+          workingResource.resourceTypes.find((rt) => !!rt.parentId) ?? workingResource.resourceTypes[0]
+        }
         onChangeSelectedResource={onChangeSelectedResource}
       />
       <TopicConnections

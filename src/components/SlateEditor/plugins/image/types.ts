@@ -9,10 +9,15 @@
 import { Descendant } from "slate";
 import { ImageEmbedData } from "@ndla/types-embed";
 
-export const TYPE_IMAGE = "image";
-
 export interface ImageElement {
   type: "image";
   data?: ImageEmbedData;
   children: Descendant[];
 }
+
+export interface ImagePluginOptions {
+  disableNormalization?: boolean;
+}
+
+export const IMAGE_ELEMENT_TYPE = "image";
+export const IMAGE_PLUGIN = "image";

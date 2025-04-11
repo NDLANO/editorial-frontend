@@ -6,15 +6,21 @@
  *
  */
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 import { DeleteBinLine } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { deleteLanguageVersionAudio, deleteLanguageVersionSeries } from "../../modules/audio/audioApi";
 import { deleteLanguageVersionConcept } from "../../modules/concept/conceptApi";
 import { deleteLanguageVersion as deleteLanguageVersionDraft } from "../../modules/draft/draftApi";
+import { filmQueryKeys } from "../../modules/frontpage/filmQueries";
+import {
+  deleteFilmFrontPageLanguageVersion,
+  deleteSubectPageLanguageVersion,
+} from "../../modules/frontpage/frontpageApi";
 import { deleteLanguageVersionImage } from "../../modules/image/imageApi";
 import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import {
@@ -33,6 +39,10 @@ import {
   toEditPodcast,
   toEditPodcastSeries,
   toEditTopicArticle,
+  toEditSubjectpage,
+  toCreateSubjectpage,
+  toEditNdlaFilm,
+  toStructure,
 } from "../../util/routeHelpers";
 import { AlertDialog } from "../AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../FormikForm";
@@ -52,10 +62,12 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
   const [showDeleteWarning, setShowDeleteWarning] = useState(false);
   const { createMessage, formatErrorMessage } = useMessages();
   const navigate = useNavigate();
+  const { elementId } = useParams<"elementId">();
+  const queryClient = useQueryClient();
 
-  const toggleShowDeleteWarning = () => {
-    setShowDeleteWarning(!showDeleteWarning);
-  };
+  const toggleShowDeleteWarning = useCallback(() => {
+    setShowDeleteWarning((p) => !p);
+  }, []);
 
   const deleteLanguageVersion = async () => {
     if (supportedLanguages.includes(language)) {
@@ -100,10 +112,24 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
             await deleteLanguageVersionDraft(id, language);
             navigate(toEditTopicArticle(id, otherSupportedLanguage!));
             break;
-
           case "frontpage-article":
             await deleteLanguageVersionDraft(id, language);
             navigate(toEditFrontPageArticle(id, otherSupportedLanguage!));
+            break;
+          case "subjectpage":
+            await deleteSubectPageLanguageVersion(id, language);
+            if (!newAfterLanguageDeletion && elementId && otherSupportedLanguage) {
+              navigate(toEditSubjectpage(elementId, otherSupportedLanguage, id));
+            } else if (elementId) {
+              navigate(toCreateSubjectpage(elementId, "nb"));
+            } else {
+              navigate(toStructure());
+            }
+            break;
+          case "filmfrontpage":
+            await deleteFilmFrontPageLanguageVersion(language);
+            await queryClient.invalidateQueries({ queryKey: filmQueryKeys.filmFrontpage });
+            navigate(toEditNdlaFilm(otherSupportedLanguage));
             break;
           default:
             createMessage({ message: t("embed.unsupported", { type }) });
@@ -131,7 +157,7 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
         label={t("form.workflow.deleteLanguageVersion.title")}
         show={showDeleteWarning}
         onCancel={toggleShowDeleteWarning}
-        text={t("form.workflow.deleteLanguageVersion.modal")}
+        text={t("form.workflow.deleteLanguageVersion.dialog")}
       >
         <FormActionsContainer>
           <Button onClick={toggleShowDeleteWarning} variant="danger">

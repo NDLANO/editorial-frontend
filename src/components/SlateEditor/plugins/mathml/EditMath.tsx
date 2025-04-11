@@ -6,11 +6,11 @@
  *
  */
 
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { uuid } from "@ndla/util";
+import MathML from "./MathML";
 import { FormActionsContainer } from "../../../FormikForm";
 
 declare global {
@@ -30,13 +30,6 @@ export const emptyMathTag = '<math xmlns="http://www.w3.org/1998/Math/MathML"/>'
 const StyledMathEditorWrapper = styled("div", {
   base: {
     height: "40vh",
-  },
-});
-
-const StyledMathPreviewWrapper = styled("div", {
-  base: {
-    display: "flex",
-    overflow: "auto",
   },
 });
 
@@ -60,8 +53,8 @@ interface Props {
 const EditMath = ({ model: { innerHTML }, onRemove, onSave, mathEditor, setMathEditor }: Props) => {
   const [initialized, setInitialized] = useState(false);
   const [renderedMathML, setRenderedMathML] = useState(innerHTML ?? emptyMathTag);
-  const id = useMemo(() => uuid(), []);
   const { t, i18n } = useTranslation();
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (initialized) {
@@ -73,28 +66,19 @@ const EditMath = ({ model: { innerHTML }, onRemove, onSave, mathEditor, setMathE
       });
       setMathEditor(mathEditor);
       mathEditor?.setMathML(renderedMathML ?? emptyMathTag);
-      mathEditor?.insertInto(document.getElementById(`mathEditorContainer-${id}`));
+      mathEditor?.insertInto(containerRef.current);
       mathEditor?.focus();
       setInitialized(true);
     };
-    if (window?.com?.wiris?.jsEditor?.JsEditor) {
-      onScriptLoad();
-      return;
-    }
     const script = document.createElement("script");
     script.src = "https://www.wiris.net/client/editor/editor";
     script.onload = onScriptLoad;
     document.head.appendChild(script);
-  }, [i18n.language, id, initialized, renderedMathML, setMathEditor]);
-
-  useEffect(() => {
-    const node = document.getElementById(id);
-    if (node && window.MathJax) window.MathJax.typesetPromise([node]);
-  }, [id, renderedMathML]);
+  }, [i18n.language, initialized, renderedMathML, setMathEditor]);
 
   return (
     <>
-      <StyledMathEditorWrapper id={`mathEditorContainer-${id}`} />
+      <StyledMathEditorWrapper ref={containerRef} />
       <FormActionsContainer>
         <Button data-testid="save-math" onClick={() => onSave(mathEditor?.getMathML() ?? emptyMathTag)}>
           {t("form.save")}
@@ -113,13 +97,7 @@ const EditMath = ({ model: { innerHTML }, onRemove, onSave, mathEditor, setMathE
       <Heading textStyle="title.small" asChild consumeCss>
         <h2>{t("mathEditor.preview")}</h2>
       </Heading>
-      <StyledMathPreviewWrapper
-        id={id}
-        dangerouslySetInnerHTML={{
-          __html: renderedMathML,
-        }}
-        data-testid="preview-math-text"
-      />
+      <MathML innerHTML={renderedMathML} key="dialog" data-testid="math-preview" />
     </>
   );
 };

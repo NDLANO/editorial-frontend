@@ -39,10 +39,12 @@ const TaxonomyMetadataDropdown = ({ options, field, customFields, updateCustomFi
     });
   }, [options]);
 
+  const value = customFields[field] ? [customFields[field]] : [];
+
   return (
     <SelectRoot
       collection={collection}
-      value={[customFields[field]]}
+      value={value}
       onValueChange={(details) =>
         updateCustomFields({
           ...customFields,

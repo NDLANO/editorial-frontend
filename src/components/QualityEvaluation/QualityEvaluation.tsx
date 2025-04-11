@@ -12,7 +12,7 @@ import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IArticleDTO, IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
-import QualityEvaluationModal from "./QualityEvaluationModal";
+import QualityEvaluationDialog from "./QualityEvaluationDialog";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import SmallQualityEvaluationGrade from "../../containers/StructurePage/resourceComponents/QualityEvaluationGrade";
 
@@ -55,7 +55,7 @@ const QualityEvaluation = ({
           {t("qualityEvaluationForm.unavailable")}
         </Text>
       )}
-      <QualityEvaluationModal
+      <QualityEvaluationDialog
         articleType={articleType}
         article={article}
         taxonomy={taxonomy}

@@ -18,7 +18,7 @@ const CreateAudio = () => {
   const { i18n } = useTranslation();
   const navigate = useNavigate();
   const onCreateAudio = async (newAudio: INewAudioMetaInformationDTO, file?: string | Blob): Promise<void> => {
-    const formData = await createFormData(file, newAudio);
+    const formData = createFormData(file, newAudio);
     const createdAudio = await postAudio(formData);
     navigate(toEditAudio(createdAudio.id, newAudio.language));
   };

@@ -24,8 +24,8 @@ import {
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { KeyFigureEmbedData } from "@ndla/types-embed";
 import { EmbedWrapper, KeyFigure } from "@ndla/ui";
-import { KeyFigureElement } from ".";
 import KeyFigureForm from "./KeyFigureForm";
+import { KeyFigureElement } from "./types";
 import { fetchImage } from "../../../../modules/image/imageApi";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { StyledFigureButtons } from "../embed/FigureButtons";

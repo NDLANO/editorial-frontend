@@ -62,7 +62,7 @@ const Message = ({ message }: MessageProps) => {
               window.location.reload();
             }}
           >
-            {t("alertModal.loginAgain")}
+            {t("alertDialog.loginAgain")}
           </Button>
         </FormActionsContainer>
       ) : null}

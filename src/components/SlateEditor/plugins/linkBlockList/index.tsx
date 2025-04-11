@@ -6,73 +6,66 @@
  *
  */
 
-import { Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_LINK_BLOCK_LIST } from "./types";
-import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
-import { SlateSerializer } from "../../interfaces";
+import {
+  createDataAttributes,
+  createHtmlTag,
+  createPlugin,
+  createSerializer,
+  PARAGRAPH_ELEMENT_TYPE,
+  parseElementAttributes,
+} from "@ndla/editor";
+import { isLinkBlockListElement } from "./queries";
+import { LINK_BLOCK_LIST_ELEMENT_TYPE, LINK_BLOCK_LIST_PLUGIN } from "./types";
 import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
-import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
     allowed: afterOrBeforeTextBlockElement,
-    defaultType: TYPE_PARAGRAPH,
+    defaultType: PARAGRAPH_ELEMENT_TYPE,
   },
   next: {
     allowed: afterOrBeforeTextBlockElement,
-    defaultType: TYPE_PARAGRAPH,
+    defaultType: PARAGRAPH_ELEMENT_TYPE,
   },
 };
 
 export const defaultLinkBlockList = () =>
-  slatejsx("element", { type: TYPE_LINK_BLOCK_LIST, data: [], isFirstEdit: true }, { text: "" });
+  slatejsx("element", { type: LINK_BLOCK_LIST_ELEMENT_TYPE, data: [], isFirstEdit: true }, { text: "" });
 
-export const linkBlockListSerializer: SlateSerializer = {
+export const linkBlockListSerializer = createSerializer({
   deserialize(el) {
-    if (el.tagName.toLowerCase() !== "nav" || el.dataset.type !== TYPE_LINK_BLOCK_LIST) return;
+    if (el.tagName.toLowerCase() !== "nav" || el.dataset.type !== LINK_BLOCK_LIST_ELEMENT_TYPE) return;
 
     return slatejsx(
       "element",
       {
-        type: TYPE_LINK_BLOCK_LIST,
+        type: LINK_BLOCK_LIST_ELEMENT_TYPE,
         data: Array.from(el.children ?? []).map((el) => parseElementAttributes(Array.from(el.attributes))),
       },
       [{ text: "" }],
     );
   },
   serialize(node) {
-    if (!Element.isElement(node) || node.type !== TYPE_LINK_BLOCK_LIST) return;
-    const data = createDataAttributes({ type: TYPE_LINK_BLOCK_LIST });
+    if (!isLinkBlockListElement(node)) return;
+    const data = createDataAttributes({ type: LINK_BLOCK_LIST_ELEMENT_TYPE });
     const children = node.data
       ?.map((child) => createHtmlTag({ tag: TYPE_NDLA_EMBED, data: createDataAttributes(child), bailOnEmpty: true }))
       ?.join("");
     return createHtmlTag({ tag: "nav", data, children });
   },
-};
+});
 
-export const linkBlockListPlugin = (editor: Editor) => {
-  const { isVoid, normalizeNode } = editor;
-
-  editor.isVoid = (element) => {
-    if (element.type === TYPE_LINK_BLOCK_LIST) {
-      return true;
+export const linkBlockListPlugin = createPlugin({
+  name: LINK_BLOCK_LIST_PLUGIN,
+  type: LINK_BLOCK_LIST_ELEMENT_TYPE,
+  isVoid: true,
+  normalize: (editor, node, path, logger) => {
+    if (isLinkBlockListElement(node)) {
+      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
     }
-    return isVoid(element);
-  };
-
-  editor.normalizeNode = (entry) => {
-    const [node, path] = entry;
-
-    if (Element.isElement(node) && node.type === TYPE_LINK_BLOCK_LIST) {
-      if (defaultBlockNormalizer(editor, node, path, normalizerConfig)) {
-        return;
-      }
-    }
-    normalizeNode(entry);
-  };
-
-  return editor;
-};
+    return false;
+  },
+});

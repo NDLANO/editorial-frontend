@@ -10,7 +10,7 @@ import { createContext, useContext } from "react";
 
 const GridContext = createContext(false);
 
-export const GridProvider = GridContext.Provider;
+export const GridProvider = GridContext;
 
 export const useInGrid = () => {
   const context = useContext(GridContext);

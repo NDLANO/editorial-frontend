@@ -71,8 +71,8 @@ const CommentPopoverPortal = ({ onSave, embed, onDelete, onClose, onOpenChange, 
             <IconButton
               variant="tertiary"
               size="small"
-              aria-label={t("modal.closeModal")}
-              title={t("modal.closeModal")}
+              aria-label={t("form.close")}
+              title={t("form.close")}
               onClick={onClose}
             >
               <CloseLine />

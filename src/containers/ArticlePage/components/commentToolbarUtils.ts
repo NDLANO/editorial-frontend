@@ -30,6 +30,7 @@ import { breakPlugin } from "../../../components/SlateEditor/plugins/break";
 import { markPlugin } from "../../../components/SlateEditor/plugins/mark";
 import { listPlugin } from "../../../components/SlateEditor/plugins/list";
 import { inlineNavigationPlugin } from "@ndla/editor";
+import { divRenderer } from "../../../components/SlateEditor/plugins/div/render";
 
 export const plugins: SlatePlugin[] = [
   inlineNavigationPlugin,
@@ -51,6 +52,7 @@ export const plugins: SlatePlugin[] = [
   breakRenderer,
   linkRenderer,
   listRenderer,
+  divRenderer,
 ];
 
 export const toolbarOptions = createToolbarDefaultValues({

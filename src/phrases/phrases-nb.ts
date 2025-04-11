@@ -111,9 +111,8 @@ const phrases = {
     san: "Sanskrit",
     heb: "Hebraisk",
     pli: "Pali",
-    empty: "Ingen flere språk",
     change: "Bytt til {{language}} versjon",
-    none: "Ingen",
+    none: "Språk",
   },
   welcomePage: {
     lastFavorited: "Siste hjertemarkerte ressurs: ",
@@ -217,7 +216,15 @@ const phrases = {
       articleStatuses: "Fagtyper",
     },
   },
+  updateCodesPage: {
+    title: "Oppdater læreplankoder",
+    description:
+      "Konverter grep-koder fra utgåtte læreplaner til tilsvarende grep-koder for nye læreplaner. Dette endrer alle artikler som har tilknyttede kompetansemål og kjerneelement fra utgåtte læreplaner, både publiserte og upubliserte versjoner. Artiklene trenger ikke endres i etterkant for at nye grep-koder skal bli synlige.",
+    buttonText: "Oppdater",
+    error: "Noe gikk galt ved oppdatering av grep-koder",
+  },
   searchPage: {
+    search: "Søk",
     header: {
       content: "Søk etter innhold",
       audio: "Søk etter lydfiler",
@@ -290,6 +297,7 @@ const phrases = {
     newSubject: "Opprett fag",
     newFrontpageArticle: "Om-NDLA-artikkel",
     frontpage: "NDLA forside",
+    updateCodes: "Oppdater læreplankoder",
   },
   logo: {
     altText: "Nasjonal digital læringsarena",
@@ -340,7 +348,7 @@ const phrases = {
       "filter-inactive": "Inkluder utgåtte fag",
     },
     tagType: {
-      query: "Søk: {{value}}",
+      query: "Søk:",
       subjects: "Fag: {{value}}",
       language: "Språk: $t(languages.{{value}})",
       users: "Bruker: {{value}}",
@@ -616,6 +624,8 @@ const phrases = {
   },
   imageForm: {
     title: "Bilde",
+    copyImageTitle: "Last opp bilde som kopi",
+    copyDescription: "Last opp et bilde med samme informasjon som dette bildet",
   },
   contactBlockForm: {
     title: "Kontaktblokk",
@@ -679,7 +689,7 @@ const phrases = {
   qualityEvaluationForm: {
     title: "Kvalitetsvurdering",
     unavailable: "Ikke satt",
-    modalTitle: "Oppdater kvalitetsvurdering",
+    dialogTitle: "Oppdater kvalitetsvurdering",
     description:
       "Legg inn en kvalitetsvurdering av {{ resource }} med en beskrivelse av den valgte graderingen. Skalaen er som følger: 1 = enestående, 3 = veldig bra, 3 = OK, 4 = bør fikses, 5 = må fikses.",
     edit: "Rediger kvalitetsvurdering",
@@ -729,6 +739,7 @@ const phrases = {
     left: "Venstrejustert",
     center: "Midtstilt",
     right: "Høyrejustert",
+    rephrase: "Omformulering",
     disabled: {
       "comment-inline": "Kommentar kan kun overlappe tekst",
     },
@@ -795,6 +806,7 @@ const phrases = {
     openAll: "Åpne alle",
     hideAll: "Lukk alle",
     unpublishedChanges: "(Endret siden siste publisering)",
+    unpublishedConcepts: "Artikkelen inneholder upubliserte forklaringer",
     moveContent: "Flytt innhold inn i teksten",
     open: "Åpne",
     close: "Lukk",
@@ -996,8 +1008,6 @@ const phrases = {
     editPodcast: "Endre podkast",
     editH5p: "Endre H5P",
     resetToProd: {
-      button: "Tilbakestill endringer",
-      modal: "Vil du tilbakestille utkastet til slik det er på ndla forsiden?",
       success: "Innhold er tilbakestilt, trykk lagre for å lagre endringene",
     },
     resetToVersion: "Tilbakestill til versjon",
@@ -1066,7 +1076,7 @@ const phrases = {
       deleteLanguageVersion: {
         button: "Slett {{languageVersion}} versjon",
         title: "Slett språkversjon",
-        modal: "Er du sikker på at du vil slette denne språkversjonen?",
+        dialog: "Er du sikker på at du vil slette denne språkversjonen?",
       },
       statusInfoTooltip: "Hva er forskjellen på ulike statuser?",
       statusLabel: "Status",
@@ -1079,7 +1089,7 @@ const phrases = {
       },
       deleteComment: {
         title: "Slett kommentar",
-        modal: "Vil du slette denne kommentaren? Det er ikke mulig å gjenopprette den.",
+        dialog: "Vil du slette denne kommentaren? Det er ikke mulig å gjenopprette den.",
         button: "Slett",
       },
       addComment: {
@@ -1299,6 +1309,10 @@ const phrases = {
       helpLabel: "Hva er metabeskrivelse?",
       description: "Beskrivelsen blir synlig i søk.",
     },
+    articleSummary: {
+      label: "Oppsummering",
+      description: "KI-generert oppsummering av artikkelen. Lagres ikke.",
+    },
     agreement: {
       label: "Koble til avtale",
       helpLabel: "Hva er en avtale?",
@@ -1452,7 +1466,7 @@ const phrases = {
         newLanguage: "Ved oppretting av nytt språk vil en lydfil fra et eksisterende språk foreslås.",
         deleteFiles: "En lydfil slettes kun når den ikke lenger er brukt i et språk.",
       },
-      modal: {
+      dialog: {
         header: "Lydfiler",
         label: "Informasjon om lyd",
       },
@@ -1533,10 +1547,10 @@ const phrases = {
         gloss: "Bruk av glosen i artikler",
         article: "Bruk av artikkelen i andre artikler",
       },
-      articles: "{{count}} artikkel",
-      articles_plural: "{{count}} artikler",
-      concepts: "1 forklaring/glose",
-      concepts_plural: "{{count}} forklaringer/gloser",
+      articles_one: "{{count}} artikkel",
+      articles_other: "{{count}} artikler",
+      concepts_one: "1 forklaring/glose",
+      concepts_other: "{{count}} forklaringer/gloser",
     },
     relatedConcepts: {
       placeholder: "Søk på tittel",
@@ -1596,8 +1610,8 @@ const phrases = {
     urlOrNumber: "{{label}} må inneholde en gyldig lenke eller artikkel-id.",
     dateBeforeInvalid: "{{label}} kan ikke være etter {{afterLabel}}.",
     dateAfterInvalid: "{{label}} kan ikke være før {{beforeLabel}}.",
-    minItems: "{{label}} feltet må minst inneholde en/ett {{labelLowerCase}}.",
-    minItems_plural: "{{label}} feltet må minst inneholde {{minItems}} ulike {{labelLowerCase}}",
+    minItems_one: "{{label}} feltet må minst inneholde en/ett {{labelLowerCase}}.",
+    minItems_other: "{{label}} feltet må minst inneholde {{minItems}} ulike {{labelLowerCase}}",
     noEmptyNote: "En merknad kan ikke være tom",
     noEmptyRevision: "En beskrivelse kan ikke være tom",
     noLicenseWithoutCopyrightHolder: "En lisens kan ikke tas i bruk uten å definere minst en opphaver.",
@@ -1643,7 +1657,7 @@ const phrases = {
   forbiddenPage: {
     description: "Du har ikke tilgang til denne siden",
   },
-  alertModal: {
+  alertDialog: {
     notSaved: "Dokumentet er ikke lagret, ønsker du å fortsette?",
     needToRefresh:
       "Noen andre har lagret samme artikkel mens du redigerte. For å ta vare på endringene dine må du kopiere dem manuelt og deretter oppdatere siden",
@@ -1925,10 +1939,8 @@ const phrases = {
       addArticleToMoreInformation: "Legg til en artikkel",
       removeArticleFromMoreInformation: "Fjern artikkel",
       createGroup: "Lag ny gruppe",
+      groupNamePlaceholder: "Skriv navn på {{lang}}",
     },
-  },
-  modal: {
-    closeModal: "Lukk",
   },
   conceptForm: {
     title: "Forklaring",
@@ -2184,10 +2196,14 @@ const phrases = {
   },
   codeEditor: {
     title: "Legg til kodeeksempel",
+    subtitle: "kodeeksempel",
     titleLabel: "Tittel",
     programmingLanguage: "Kodespråk",
     edit: "Rediger kodevisning",
     delete: "Fjerne kodevisning",
+    languageSelect: "Velg kodespråk:",
+    save: "Lagre",
+    abort: "Avbryt",
   },
   framedContentForm: {
     changeVariant: {
@@ -2211,6 +2227,62 @@ const phrases = {
     title: "Forhåndsvis forklaring",
   },
   math: "Mattestykke",
+  editor: {
+    versionHistory: {
+      who: "Hvem",
+      when: "Når",
+      message: "Merknad",
+      status: "Status",
+    },
+  },
+  masthead: {
+    menu: {
+      title: "Åpne meny",
+    },
+  },
+  footer: {
+    info: "Nettstedet er utarbeidet som åpen kildekode.",
+    editorInChief: "Ansvarlig redaktør:",
+  },
+  user: {
+    buttonLogOut: "Logg ut",
+  },
+  matomo: {
+    visits: "Besøk: {{count}}",
+    hits: "Sidevisninger: {{count}}",
+    avgTime: "Gj.snitt tid på siden: {{time}} sekunder",
+    error: "Noe gikk galt ved henting av besøkstall",
+    switchLabel: "Vis besøkstall",
+    popoverDescription_one: "{{count}} unik sidevisning, klikk for å se flere besøkstall",
+    popoverDescription_other: "{{count}} unike sidevisninger, klikk for å se flere besøkstall",
+    popoverTitle: "Besøkstall siste 12 md.",
+  },
+  textGeneration: {
+    error: "Noe gikk galt under generering av tekst. Melding fra tjenesten: {{message}}",
+    errorImage: "Noe gikk galt, kunne ikke prosessere bildet.",
+    summary: "Oppsummering",
+    replace: "Erstatt",
+    add: "Legg til etter",
+    chosenText: "Valgt tekst",
+    suggestedText: "Forslag til ny formulering",
+    alternativeText: "Alternativ formulering",
+    generate: {
+      metaDescription: "Generer metabeskrivelse",
+      reflection: "Generer refleksjonsspørsmål",
+      summary: "Generer oppsummering",
+      variant: "Generer forslag",
+      alttext: "Generer alttekst",
+      transcription: "Generer transkribering",
+    },
+    failed: {
+      alttext: "Her gikk det galt! Klarte ikke å generere alttext. \n {{ error }}",
+      reflection: "Her gikk det galt! Klarte ikke å generere refleksjonsspørsmål. \n {{ error }}",
+      summary: "Her gikk det galt! Klarte ikke å generere oppsummering. \n {{ error }}",
+      transcription: "Her gikk det galt! Klarte ikke å generere transkribering.",
+      metaDescription: "Her gikk det galt! Klarte ikke å generere metabeskrivelse. \n {{ error }}",
+      variant: "Her gikk det galt! Klarte ikke å generere forslag. \n {{ error }}",
+    },
+  },
 };
 
 export default phrases;

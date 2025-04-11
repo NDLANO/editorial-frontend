@@ -6,25 +6,27 @@
  *
  */
 
-import { Editor, Path, Element, Node } from "slate";
+import { Editor, Path, Node } from "slate";
 import { ReactEditor, RenderLeafProps } from "slate-react";
 import { ExpandableBoxSummary } from "@ndla/primitives";
 import Details from "./Details";
-import { TYPE_DETAILS, TYPE_SUMMARY } from "./types";
+import { DETAILS_ELEMENT_TYPE } from "./detailsTypes";
+import { isSummaryElement } from "./queries/detailsQueries";
+import { SUMMARY_ELEMENT_TYPE } from "./summaryTypes";
 import WithPlaceHolder from "../../common/WithPlaceHolder";
 
 export const detailsRenderer = (editor: Editor) => {
   const { renderElement, renderLeaf } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_SUMMARY) {
+    if (element.type === SUMMARY_ELEMENT_TYPE) {
       return (
         <ExpandableBoxSummary {...attributes} asChild consumeCss>
           <div>{children}</div>
         </ExpandableBoxSummary>
       );
-    } else if (element.type === TYPE_DETAILS) {
+    } else if (element.type === DETAILS_ELEMENT_TYPE) {
       return (
-        <Details attributes={attributes} editor={editor} element={element}>
+        <Details attributes={attributes} element={element}>
           {children}
         </Details>
       );
@@ -36,7 +38,7 @@ export const detailsRenderer = (editor: Editor) => {
     const path = ReactEditor.findPath(editor, text);
 
     const [parent] = Editor.node(editor, Path.parent(Path.parent(path)));
-    if (Element.isElement(parent) && parent.type === TYPE_SUMMARY && Node.string(parent) === "") {
+    if (isSummaryElement(parent) && Node.string(parent) === "") {
       return (
         <WithPlaceHolder attributes={attributes} placeholder="form.name.title">
           {children}

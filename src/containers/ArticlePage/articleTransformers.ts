@@ -104,6 +104,7 @@ const draftApiTypeToArticleFormType = (
     comments: getCommentsDraftApiToArticleFormType(article, articleType),
     priority: article?.priority ?? "unspecified",
     disclaimer: inlineContentToEditorValue(article?.disclaimer?.disclaimer ?? "", true),
+    saveAsNew: false,
   };
 };
 

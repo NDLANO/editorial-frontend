@@ -6,31 +6,16 @@
  *
  */
 
-import { Descendant, Editor, Element, Transforms, Range } from "slate";
+import { Descendant } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_FOOTNOTE } from "./types";
+import { createPlugin, createSerializer } from "@ndla/editor";
+import { isFootnoteElement } from "./queries";
+import { FOOTNOTE_ELEMENT_TYPE, FOOTNOTE_PLUGIN } from "./types";
 import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
-import { SlateSerializer } from "../../interfaces";
-import getCurrentBlock from "../../utils/getCurrentBlock";
-import { KEY_BACKSPACE, KEY_DELETE } from "../../utils/keys";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 
-export interface FootnoteElement {
-  type: "footnote";
-  data: {
-    authors: string[];
-    title: string;
-    year: string;
-    resource: string;
-    edition: string;
-    publisher: string;
-    type?: string;
-  };
-  children: Descendant[];
-}
-
-export const footnoteSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement) {
+export const footnoteSerializer = createSerializer({
+  deserialize(el) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = parseElementAttributes(Array.from(embed.attributes));
@@ -38,7 +23,7 @@ export const footnoteSerializer: SlateSerializer = {
     return slatejsx(
       "element",
       {
-        type: TYPE_FOOTNOTE,
+        type: FOOTNOTE_ELEMENT_TYPE,
         data: {
           ...embedAttributes,
           authors: embedAttributes.authors ? embedAttributes.authors.split(";") : [],
@@ -48,8 +33,7 @@ export const footnoteSerializer: SlateSerializer = {
     );
   },
   serialize(node: Descendant) {
-    if (!Element.isElement(node)) return;
-    if (node.type !== TYPE_FOOTNOTE) return;
+    if (!isFootnoteElement(node)) return;
     const data = createDataAttributes({
       ...node.data,
       authors: node.data.authors ? node.data.authors.join(";") : "",
@@ -57,46 +41,11 @@ export const footnoteSerializer: SlateSerializer = {
 
     return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
   },
-};
+});
 
-export const footnotePlugin = (editor: Editor) => {
-  const { isInline: nextIsInline, isVoid: nextIsVoid, onKeyDown: nextOnKeyDown } = editor;
-
-  editor.isInline = (element: Element) => {
-    if (element.type === TYPE_FOOTNOTE) {
-      return true;
-    } else {
-      return nextIsInline(element);
-    }
-  };
-
-  editor.isVoid = (element: Element) => {
-    if (element.type === TYPE_FOOTNOTE) {
-      return true;
-    }
-    return nextIsVoid(element);
-  };
-
-  editor.onKeyDown = (e) => {
-    if (e.key === KEY_BACKSPACE || e.key === KEY_DELETE) {
-      if (editor.selection && Range.isCollapsed(editor.selection)) {
-        const entry = getCurrentBlock(editor, TYPE_FOOTNOTE);
-        if (!entry) {
-          return nextOnKeyDown && nextOnKeyDown(e);
-        }
-        const [currentBlock, currentPath] = entry;
-
-        if (Element.isElement(currentBlock) && currentBlock.type === "footnote") {
-          e.preventDefault();
-          Transforms.removeNodes(editor, {
-            at: currentPath,
-          });
-          return;
-        }
-      }
-    }
-    nextOnKeyDown?.(e);
-  };
-
-  return editor;
-};
+export const footnotePlugin = createPlugin({
+  name: FOOTNOTE_PLUGIN,
+  type: FOOTNOTE_ELEMENT_TYPE,
+  isInline: true,
+  isVoid: true,
+});

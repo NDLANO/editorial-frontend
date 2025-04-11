@@ -11,7 +11,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import { PageContent } from "@ndla/primitives";
-import { IFilmFrontPageDataDTO, IMovieThemeDTO } from "@ndla/types-backend/frontpage-api";
+import { IFilmFrontPageDTO, IMovieThemeDTO } from "@ndla/types-backend/frontpage-api";
 import NdlaFilmArticle from "./NdlaFilmArticle";
 import SlideshowEditor from "./SlideshowEditor";
 import ThemeEditor from "./ThemeEditor";
@@ -34,7 +34,7 @@ import usePreventWindowUnload from "../../FormikForm/preventWindowUnloadHook";
 import { useMessages } from "../../Messages/MessagesProvider";
 
 interface Props {
-  filmFrontpage: IFilmFrontPageDataDTO;
+  filmFrontpage: IFilmFrontPageDTO;
   selectedLanguage: string;
 }
 
@@ -92,7 +92,7 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
       const err = e as NdlaErrorPayload;
       if (err?.status === 409) {
         createMessage({
-          message: t("alertModal.needToRefresh"),
+          message: t("alertDialog.needToRefresh"),
           timeToLive: 0,
         });
       } else if (err?.json?.messages) {
@@ -122,13 +122,14 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
         return (
           <Form>
             <SimpleLanguageHeader
-              articleType="subjectpage"
+              articleType="filmfrontpage"
               editUrl={(_, lang) => toEditNdlaFilm(lang)}
               id={20}
               isSubmitting={isSubmitting}
               language={selectedLanguage}
               supportedLanguages={values.supportedLanguages}
               title={values.name}
+              availableLanguages={["nb", "nn", "en"]}
             />
 
             <FormAccordions defaultOpen={["slideshow", "themes"]}>
@@ -165,7 +166,7 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
               severity="danger"
-              text={t("alertModal.notSaved")}
+              text={t("alertDialog.notSaved")}
             />
           </Form>
         );

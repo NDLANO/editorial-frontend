@@ -13,26 +13,26 @@ import {
   PARAGRAPH_ELEMENT_TYPE,
   HEADING_ELEMENT_TYPE,
 } from "@ndla/editor";
-import { TYPE_QUOTE } from "../blockquote/types";
-import { TYPE_COMMENT_INLINE } from "../comment/inline/types";
+import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquote/blockquoteTypes";
+import { COMMENT_INLINE_ELEMENT_TYPE } from "../comment/inline/types";
 import { TYPE_CONCEPT_INLINE } from "../concept/inline/types";
-import { TYPE_FOOTNOTE } from "../footnote/types";
+import { FOOTNOTE_ELEMENT_TYPE } from "../footnote/types";
 import { TYPE_CONTENT_LINK } from "../link/types";
-import { TYPE_MATHML } from "../mathml/types";
+import { MATH_ELEMENT_TYPE } from "../mathml/mathTypes";
 
 export const listSerializer = _listSerializer.configure({
   inlineTypes: [
     TYPE_CONCEPT_INLINE,
-    TYPE_FOOTNOTE,
+    FOOTNOTE_ELEMENT_TYPE,
     LINK_ELEMENT_TYPE,
     TYPE_CONTENT_LINK,
-    TYPE_MATHML,
-    TYPE_COMMENT_INLINE,
+    MATH_ELEMENT_TYPE,
+    COMMENT_INLINE_ELEMENT_TYPE,
   ],
 });
 
 export const listPlugin = _listPlugin.configure({
   options: {
-    allowedListItemFirstChildTypes: [PARAGRAPH_ELEMENT_TYPE, HEADING_ELEMENT_TYPE, TYPE_QUOTE],
+    allowedListItemFirstChildTypes: [PARAGRAPH_ELEMENT_TYPE, HEADING_ELEMENT_TYPE, BLOCK_QUOTE_ELEMENT_TYPE],
   },
 });

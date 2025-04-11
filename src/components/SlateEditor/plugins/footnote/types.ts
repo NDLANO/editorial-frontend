@@ -6,4 +6,21 @@
  *
  */
 
-export const TYPE_FOOTNOTE = "footnote";
+import { Descendant } from "slate";
+
+export const FOOTNOTE_ELEMENT_TYPE = "footnote";
+export const FOOTNOTE_PLUGIN = "footnote";
+
+export interface FootnoteElement {
+  type: "footnote";
+  data: {
+    authors: string[];
+    title: string;
+    year: string;
+    resource: string;
+    edition: string;
+    publisher: string;
+    type?: string;
+  };
+  children: Descendant[];
+}

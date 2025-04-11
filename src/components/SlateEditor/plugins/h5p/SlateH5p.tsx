@@ -8,7 +8,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Element, Path, Transforms } from "slate";
+import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { DeleteBinLine, FileCopyLine, LinkMedium } from "@ndla/icons";
@@ -16,8 +16,9 @@ import { DialogBody, DialogContent, DialogRoot, DialogTrigger, IconButton, Spinn
 import { styled } from "@ndla/styled-system/jsx";
 import { H5pEmbedData, H5pMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, H5pEmbed } from "@ndla/ui";
-import EditMetadataModal from "./EditMetadataModal";
-import { H5pElement, TYPE_H5P } from "./types";
+import EditMetadataDialog from "./EditMetadataDialog";
+import { isH5pElement } from "./queries";
+import { H5pElement } from "./types";
 import config from "../../../../config";
 import { useMessages } from "../../../../containers/Messages/MessagesProvider";
 import { useH5pMeta } from "../../../../modules/embed/queries";
@@ -160,10 +161,7 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
       }, 0);
     }
     if (!element.data) {
-      Transforms.removeNodes(editor, {
-        at: path,
-        match: (node) => Element.isElement(node) && node.type === TYPE_H5P,
-      });
+      Transforms.removeNodes(editor, { at: path, match: isH5pElement });
     }
   };
 
@@ -183,7 +181,7 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
   return (
     <StyledEmbedWrapper {...attributes} aria-selected={isSelected} contentEditable={false}>
       <FigureButtons>
-        {config.h5pMetaEnabled === true && <EditMetadataModal embed={embed} editor={editor} element={element} />}
+        {config.h5pMetaEnabled === true && <EditMetadataDialog embed={embed} editor={editor} element={element} />}
         <DialogRoot size="large" open={isOpen} onOpenChange={(details) => setOpen(details.open)}>
           <DialogTrigger asChild>
             <IconButton variant="secondary" size="small" title={t("form.editH5p")} aria-label={t("form.editH5p")}>

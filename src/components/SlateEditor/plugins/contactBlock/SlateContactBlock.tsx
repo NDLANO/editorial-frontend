@@ -24,8 +24,8 @@ import {
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { ContactBlockEmbedData } from "@ndla/types-embed";
 import { ContactBlock, ContactBlockBackground, EmbedWrapper } from "@ndla/ui";
-import { ContactBlockElement } from ".";
 import ContactBlockForm from "./ContactBlockForm";
+import { ContactBlockElement } from "./types";
 import { fetchImage } from "../../../../modules/image/imageApi";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { StyledFigureButtons } from "../embed/FigureButtons";

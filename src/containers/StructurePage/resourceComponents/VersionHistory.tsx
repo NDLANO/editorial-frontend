@@ -95,7 +95,7 @@ const VersionHistory = ({ resource, contentType }: Props) => {
   );
 };
 
-interface ModalContentProps {
+interface DialogContentProps {
   contentType: string;
   resource: ResourceWithNodeConnectionAndMeta;
 }
@@ -108,7 +108,7 @@ interface VersionHistoryNotes {
   status: string;
 }
 
-const VersionHistoryContent = ({ contentType, resource }: ModalContentProps) => {
+const VersionHistoryContent = ({ contentType, resource }: DialogContentProps) => {
   const { t, i18n } = useTranslation();
   const [notes, setNotes] = useState<VersionHistoryNotes[] | undefined>(undefined);
   const numericId = parseInt(resource.contentUri?.split(":").pop() ?? "");

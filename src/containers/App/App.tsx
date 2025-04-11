@@ -26,6 +26,7 @@ import MediaPage from "./MediaPage";
 import SearchPage from "./SearchPage";
 import SubjectMatterPage from "./SubjectMatterPage";
 import ErrorBoundary from "../../components/ErrorBoundary";
+import H5pRedirect from "../../components/H5pRedirect";
 import { MastheadLayout } from "../../components/Layout/MastheadLayout";
 import { Layout } from "../../components/Page/Layout";
 import { scheduleRenewal } from "../../util/authHelpers";
@@ -36,7 +37,6 @@ import Subjectpage from "../EditSubjectFrontpage/Subjectpage";
 import ForbiddenPage from "../ForbiddenPage/ForbiddenPage";
 import FrontpageEditPage from "../FrontpageEditPage/FrontpageEditPage";
 import GlossPage from "../GlossPage/GlossPage";
-import H5PPage from "../H5PPage/H5PPage";
 import Login from "../Login/Login";
 import Logout from "../Logout/Logout";
 import { MessagesProvider, useMessages } from "../Messages/MessagesProvider";
@@ -49,6 +49,7 @@ import { getSessionStateFromLocalStorage, SessionProvider } from "../Session/Ses
 import ProgrammePage from "../StructurePage/ProgrammePage";
 import StructurePage from "../StructurePage/StructurePage";
 import TaxonomyVersionsPage from "../TaxonomyVersions/TaxonomyVersionsPage";
+import UpdateCodesPage from "../UpdateCodes/UpdateCodesPage";
 import WelcomePage from "../WelcomePage/WelcomePage";
 
 const App = () => {
@@ -81,11 +82,12 @@ const App = () => {
                   <Route path="/taxonomyVersions/*" element={<PrivateRoute component={<TaxonomyVersionsPage />} />} />
                   <Route path="/nodeDiff/:nodeId" element={<PrivateRoute component={<NodeDiffPage />} />} />
                   <Route path="/frontpage/" element={<PrivateRoute component={<FrontpageEditPage />} />} />
+                  <Route path="/updateCodes/" element={<PrivateRoute component={<UpdateCodesPage />} />} />
                   <Route path="/forbidden" element={<ForbiddenPage />} />
                   <Route path="*" element={<NotFoundPage />} />
                 </Route>
-                <Route path="/h5p/*" element={<PrivateRoute component={<H5PPage />} />} />
               </Route>
+              <Route path="/h5p" element={<PrivateRoute component={<H5pRedirect />} />} />
             </Routes>
           </AuthInitializer>
         </SessionProvider>

@@ -1,13 +1,14 @@
 /**
- * Copyright (c) 2021-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import queryString from "query-string";
 import { licenses, contributorGroups, contributorTypes, getLicenseByNBTitle } from "@ndla/licenses";
-import { ICopyrightDTO } from "@ndla/types-backend/article-api";
+import { ICopyrightDTO, AuthorDTO } from "@ndla/types-backend/article-api";
 import { BrightcoveApiType, BrightcoveCopyright, BrightcoveVideoSource } from "@ndla/types-embed";
 import config from "../../config";
 import {
@@ -27,7 +28,7 @@ interface BrightcoveQueryParams {
 export const searchBrightcoveVideos = (query: BrightcoveQueryParams) =>
   fetchWithBrightCoveToken(
     `${baseBrightCoveUrlV3}/?${queryString.stringify({
-      q: query.query || "",
+      query: query.query ? `${query.query} +state:ACTIVE` : "+state:ACTIVE",
       offset: query.offset,
       limit: query.limit,
     })}`,
@@ -120,7 +121,7 @@ export const getContributorGroups = (fields: Record<string, string>) => {
   return contributors.reduce<CopyrightType>(
     (groups, c) => {
       const group = objectKeys.find((key) => contributorGroups[key].find((t) => t === c.type));
-      groups[group ?? "creators"].push(c);
+      groups[group ?? "creators"].push(c as AuthorDTO);
       return groups;
     },
     { creators: [], processors: [], rightsholders: [] },

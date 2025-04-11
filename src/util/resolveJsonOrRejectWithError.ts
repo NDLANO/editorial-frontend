@@ -6,6 +6,9 @@
  *
  */
 
+import { FetchResponse } from "openapi-fetch";
+import type { MediaType } from "openapi-typescript-helpers";
+
 type NdlaErrorFields = {
   status: number;
   messages: string;
@@ -68,6 +71,24 @@ export const resolveJsonOrVoidOrRejectWithError = <T>(res: Response): Promise<T 
     ? resolveJsonOrRejectWithError<T>(res)
     : resolveVoidOrRejectWithError(res);
 
+const getErrorMessages = (err: unknown): string | undefined => {
+  if (!err || typeof err !== "object") return;
+  if ("messages" in err && typeof err.messages === "string") return err.messages;
+  if ("description" in err && typeof err.description === "string") return err.description;
+};
+
+export const resolveJsonOATS = async <A extends Record<string | number, any>, B, C extends MediaType>(
+  res: FetchResponse<A, B, C>,
+) => {
+  const { data, response, error } = res;
+  if (response.ok && data) {
+    return data;
+  }
+
+  const messages = getErrorMessages(error) ?? response.statusText;
+  throw buildErrorPayload(response.status, messages, error);
+};
+
 export const resolveJsonOrRejectWithError = <T>(
   res: Response,
   { alternateResolve }: ResolveOptions<T> = {},
@@ -86,6 +107,19 @@ export const resolveJsonOrRejectWithError = <T>(
       .then((json) => {
         reject(throwErrorPayload(res.status, json.messages ?? json.description ?? res.statusText, json));
       })
+      .catch(reject);
+  });
+};
+
+export const resolveTextOrRejectWithError = (res: Response): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    if (res.ok) {
+      return resolve(res.text());
+    }
+
+    return res
+      .text()
+      .then((txt) => reject(throwErrorPayload(res.status, txt, undefined)))
       .catch(reject);
   });
 };

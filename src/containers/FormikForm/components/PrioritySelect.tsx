@@ -6,9 +6,9 @@
  *
  */
 
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { createListCollection } from "@ark-ui/react";
+import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
@@ -31,11 +31,18 @@ const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   },
 });
 
-const StyledSelectRoot = styled(SelectRoot, {
+const StyledSelectRoot = styled(SelectRoot<PriorityItem>, {
   base: {
     flex: "1",
   },
 });
+
+interface PriorityItem {
+  label: string;
+  value: string;
+}
+
+const positioning = { sameWidth: true };
 
 const PrioritySelect = ({ priority, updatePriority }: Props) => {
   const { t } = useTranslation();
@@ -49,13 +56,20 @@ const PrioritySelect = ({ priority, updatePriority }: Props) => {
     });
   }, [t]);
 
+  const onValueChange = useCallback(
+    (details: SelectValueChangeDetails) => {
+      updatePriority(details.value[0] ?? "unspecified");
+    },
+    [updatePriority],
+  );
+
+  const value = useMemo(
+    () => (priority && Object.keys(priorityMapping).includes(priority) ? [priority] : []),
+    [priority],
+  );
+
   return (
-    <StyledSelectRoot
-      collection={collection}
-      positioning={{ sameWidth: true }}
-      value={priority && Object.keys(priorityMapping).includes(priority) ? [priority] : undefined}
-      onValueChange={(details) => updatePriority(details.value[0])}
-    >
+    <StyledSelectRoot collection={collection} positioning={positioning} value={value} onValueChange={onValueChange}>
       <SelectLabel srOnly>{t("taxonomy.addPriority")}</SelectLabel>
       <StyledGenericSelectTrigger variant="secondary" clearable>
         <SelectValueText placeholder={t("editorFooter.placeholderPrioritized")} />

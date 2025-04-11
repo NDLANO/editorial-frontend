@@ -85,6 +85,7 @@ export interface ArticleFormType {
   processed: boolean;
   origin?: string;
   disclaimer?: Descendant[];
+  saveAsNew: boolean;
 }
 
 export interface LearningResourceFormType extends ArticleFormType {}
@@ -109,7 +110,7 @@ type HooksInputObject<T extends ArticleFormType> = {
   articleHistory: UseQueryResult<IArticleDTO[]> | undefined;
 };
 
-export type HandleSubmitFunc<T> = (values: T, formikHelpers: FormikHelpers<T>, saveAsNew?: boolean) => Promise<void>;
+export type HandleSubmitFunc<T> = (values: T, formikHelpers: FormikHelpers<T>) => Promise<void>;
 
 export function useArticleFormHooks<T extends ArticleFormType>({
   getInitialValues,
@@ -143,14 +144,14 @@ export function useArticleFormHooks<T extends ArticleFormType>({
   }, [articleLanguage, id]);
 
   const handleSubmit: HandleSubmitFunc<T> = useCallback(
-    async (values, formikHelpers, saveAsNew = false) => {
+    async (values, formikHelpers) => {
       formikHelpers.setSubmitting(true);
       const initialStatus = articleStatus?.current;
       const newStatus = values.status?.current;
       const statusChange = initialStatus !== newStatus;
       const slateArticle = getArticleFromSlate(values, initialValues, licenses!, false);
 
-      const newArticle = saveAsNew ? { ...slateArticle, createNewVersion: true } : slateArticle;
+      const newArticle = values.saveAsNew ? { ...slateArticle, createNewVersion: true } : slateArticle;
 
       let savedArticle: IArticleDTO;
       try {
@@ -176,7 +177,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
         const err = e as NdlaErrorPayload;
         if (err && err.status && err.status === 409) {
           createMessage({
-            message: t("alertModal.needToRefresh"),
+            message: t("alertDialog.needToRefresh"),
             timeToLive: 0,
           });
         } else {

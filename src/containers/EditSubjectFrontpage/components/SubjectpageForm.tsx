@@ -10,11 +10,7 @@ import { Formik, FormikProps } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IArticleDTO } from "@ndla/types-backend/draft-api";
-import {
-  ISubjectPageDataDTO,
-  INewSubjectFrontPageDataDTO,
-  IUpdatedSubjectFrontPageDataDTO,
-} from "@ndla/types-backend/frontpage-api";
+import { ISubjectPageDTO, INewSubjectPageDTO, IUpdatedSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
 import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import SubjectpageAccordionPanels from "./SubjectpageAccordionPanels";
 import { FormActionsContainer, Form } from "../../../components/FormikForm";
@@ -39,14 +35,11 @@ import { useMessages } from "../../Messages/MessagesProvider";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
-  subjectpage?: ISubjectPageDataDTO;
+  subjectpage?: ISubjectPageDTO;
   editorsChoices?: (IArticleDTO | ILearningPathV2DTO)[];
   elementName?: string;
-  createSubjectpage?: (subjectpage: INewSubjectFrontPageDataDTO) => Promise<ISubjectPageDataDTO>;
-  updateSubjectpage?: (
-    id: string | number,
-    subjectpage: IUpdatedSubjectFrontPageDataDTO,
-  ) => Promise<ISubjectPageDataDTO>;
+  createSubjectpage?: (subjectpage: INewSubjectPageDTO) => Promise<ISubjectPageDTO>;
+  updateSubjectpage?: (id: string | number, subjectpage: IUpdatedSubjectPageDTO) => Promise<ISubjectPageDTO>;
   selectedLanguage: string;
   elementId: string;
   isNewlyCreated: boolean;
@@ -149,7 +142,7 @@ const SubjectpageForm = ({
       const err = e as NdlaErrorPayload;
       if (err?.status === 409) {
         createMessage({
-          message: t("alertModal.needToRefresh"),
+          message: t("alertDialog.needToRefresh"),
           timeToLive: 0,
         });
       } else if (err?.json?.messages) {
@@ -215,7 +208,7 @@ const SubjectpageForm = ({
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
               severity="danger"
-              text={t("alertModal.notSaved")}
+              text={t("alertDialog.notSaved")}
             />
           </Form>
         );

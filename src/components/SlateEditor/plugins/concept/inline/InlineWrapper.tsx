@@ -34,8 +34,8 @@ import { ConceptType } from "../../../../../containers/ConceptPage/conceptInterf
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { useConceptVisualElement } from "../../../../../modules/embed/queries";
 import { useArticleLanguage } from "../../../ArticleLanguageProvider";
-import ConceptModalContent from "../ConceptModalContent";
-import EditGlossExamplesModal from "../EditGlossExamplesModal";
+import ConceptDialogContent from "../ConceptDialogContent";
+import EditGlossExamplesDialog from "../EditGlossExamplesDialog";
 import { getGlossDataAttributes } from "../utils";
 
 const getConceptDataAttributes = (
@@ -221,7 +221,7 @@ const InlineWrapper = (props: Props) => {
                   <DeleteBinLine />
                 </IconButton>
                 {!!concept && (
-                  <EditGlossExamplesModal concept={concept} editor={editor} element={element} embed={embed} />
+                  <EditGlossExamplesDialog concept={concept} editor={editor} element={element} embed={embed} />
                 )}
                 <SafeLinkIconButton
                   to={`/${concept?.conceptType}/${concept?.id}/edit/${concept?.content?.language}`}
@@ -262,7 +262,7 @@ const InlineWrapper = (props: Props) => {
       >
         <Portal>
           <DialogContent>
-            <ConceptModalContent
+            <ConceptDialogContent
               addConcept={addConcept}
               locale={locale}
               concept={concept}

@@ -1,13 +1,14 @@
 /**
- * Copyright (c) 2022-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useState, useEffect, useMemo } from "react";
+
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { createListCollection } from "@ark-ui/react";
+import { ComboboxInputValueChangeDetails, ComboboxValueChangeDetails, createListCollection } from "@ark-ui/react";
 import { ComboboxContent, ComboboxItem, ComboboxItemText, ComboboxLabel, ComboboxRoot, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";
@@ -18,7 +19,7 @@ import { useAuth0Responsibles } from "../../../modules/auth0/auth0Queries";
 
 interface Props {
   responsible: string | undefined;
-  onSave: (userId: string | undefined) => void;
+  onSave: (userId: string | null) => void;
 }
 
 const StyledComboboxItem = styled(ComboboxItem, {
@@ -33,12 +34,14 @@ const StyledGenericComboboxInput = styled(GenericComboboxInput, {
   },
 });
 
-const StyledComboboxRoot = styled(ComboboxRoot, {
+const StyledComboboxRoot = styled(ComboboxRoot<Auth0UserData>, {
   base: {
     flex: "1",
     minWidth: "surface.xxsmall",
   },
 });
+
+const positioning = { sameWidth: true };
 
 const ResponsibleSelect = ({ responsible, onSave }: Props) => {
   const { t } = useTranslation();
@@ -65,18 +68,31 @@ const ResponsibleSelect = ({ responsible, onSave }: Props) => {
     }
   }, [users, responsible]);
 
+  const onValueChange = useCallback(
+    (details: ComboboxValueChangeDetails) => {
+      onSave(details.value[0] ?? null);
+    },
+    [onSave],
+  );
+
+  const onInputValueChange = useCallback((details: ComboboxInputValueChangeDetails) => {
+    setQuery(details.inputValue);
+  }, []);
+
+  const value = useMemo(() => (responsible ? [responsible] : []), [responsible]);
+
   return (
     <StyledComboboxRoot
       data-testid="responsible-select"
       collection={collection}
       translations={comboboxTranslations}
-      onValueChange={(details) => onSave(details.value[0])}
-      onInputValueChange={(details) => setQuery(details.inputValue)}
+      onValueChange={onValueChange}
+      onInputValueChange={onInputValueChange}
       inputValue={query}
-      value={responsible ? [responsible] : []}
+      value={value}
       required={true}
       invalid={!responsible}
-      positioning={{ sameWidth: true }}
+      positioning={positioning}
     >
       <ComboboxLabel srOnly>{t("form.responsible.choose")}</ComboboxLabel>
       <StyledGenericComboboxInput clearable triggerable placeholder={t("form.responsible.choose")} />

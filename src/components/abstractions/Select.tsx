@@ -6,7 +6,7 @@
  *
  */
 
-import { forwardRef } from "react";
+import { type Ref } from "react";
 import {
   SelectIndicatorProps,
   SelectItemIndicator,
@@ -28,16 +28,19 @@ import {
 } from "@ndla/primitives";
 import { JsxStyleProps } from "@ndla/styled-system/types";
 
-interface GenericSelectTriggerProps {
+interface GenericSelectTriggerProps extends SelectTriggerProps, ButtonProps {
+  ref?: Ref<HTMLButtonElement>;
   clearable?: boolean;
 }
 
-export const GenericSelectTrigger = forwardRef<
-  HTMLButtonElement,
-  SelectTriggerProps & ButtonProps & GenericSelectTriggerProps
->(({ children, variant = "secondary", clearable, ...props }, ref) => (
+export const GenericSelectTrigger = ({
+  children,
+  variant = "secondary",
+  clearable,
+  ...props
+}: GenericSelectTriggerProps) => (
   <SelectControl>
-    <SelectTrigger asChild ref={ref} {...props}>
+    <SelectTrigger asChild {...props}>
       <Button variant={variant}>
         {children}
         <GenericSelectIndicator />
@@ -52,29 +55,33 @@ export const GenericSelectTrigger = forwardRef<
       </SelectClearTrigger>
     )}
   </SelectControl>
-));
-
-export const GenericSelectIndicator = forwardRef<HTMLDivElement, SelectIndicatorProps & JsxStyleProps>(
-  ({ children, ...props }, ref) => (
-    <SelectIndicator ref={ref} {...props}>
-      {children ?? <ArrowDownShortLine />}
-    </SelectIndicator>
-  ),
 );
 
-export const GenericSelectItem = forwardRef<HTMLDivElement, SelectItemProps & JsxStyleProps>(
-  ({ children, ...props }, ref) => (
-    <SelectItem ref={ref} {...props}>
-      <SelectItemText>{children}</SelectItemText>
-      <GenericSelectItemIndicator />
-    </SelectItem>
-  ),
+interface GenericSelectIndicatorProps extends SelectIndicatorProps, JsxStyleProps {
+  ref?: Ref<HTMLDivElement>;
+}
+
+export const GenericSelectIndicator = ({ children, ...props }: GenericSelectIndicatorProps) => (
+  <SelectIndicator {...props}>{children ?? <ArrowDownShortLine />}</SelectIndicator>
 );
 
-export const GenericSelectItemIndicator = forwardRef<HTMLDivElement, SelectItemIndicatorProps & JsxStyleProps>(
-  ({ children, ...props }, ref) => (
-    <SelectItemIndicator ref={ref} {...props} asChild>
-      {children ?? <CheckLine />}
-    </SelectItemIndicator>
-  ),
+interface GenericSelectItemProps extends SelectItemProps, JsxStyleProps {
+  ref?: Ref<HTMLDivElement>;
+}
+
+export const GenericSelectItem = ({ children, ...props }: GenericSelectItemProps) => (
+  <SelectItem {...props}>
+    <SelectItemText>{children}</SelectItemText>
+    <GenericSelectItemIndicator />
+  </SelectItem>
+);
+
+interface GenericSelectItemIndicatorProps extends SelectItemIndicatorProps, JsxStyleProps {
+  ref?: Ref<HTMLDivElement>;
+}
+
+export const GenericSelectItemIndicator = ({ children, ...props }: GenericSelectItemIndicatorProps) => (
+  <SelectItemIndicator {...props} asChild>
+    {children ?? <CheckLine />}
+  </SelectItemIndicator>
 );

@@ -6,15 +6,21 @@
  *
  */
 
-import { Descendant, Editor, Element, Node, Transforms } from "slate";
+import { Node, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_COMMENT_INLINE } from "./types";
-import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../../util/embedTagHelpers";
-import { SlateSerializer } from "../../../interfaces";
+import {
+  createDataAttributes,
+  createHtmlTag,
+  createPlugin,
+  createSerializer,
+  parseElementAttributes,
+} from "@ndla/editor";
+import { isCommentInlineElement } from "./queries/commentInlineQueries";
+import { COMMENT_INLINE_ELEMENT_TYPE, COMMENT_INLINE_PLUGIN } from "./types";
 import { TYPE_NDLA_EMBED } from "../../embed/types";
 
-export const commentInlineSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: Descendant[]) {
+export const commentInlineSerializer = createSerializer({
+  deserialize(el, children) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = parseElementAttributes(Array.from(embed.attributes));
@@ -22,7 +28,7 @@ export const commentInlineSerializer: SlateSerializer = {
       return slatejsx(
         "element",
         {
-          type: TYPE_COMMENT_INLINE,
+          type: COMMENT_INLINE_ELEMENT_TYPE,
           data: embedAttributes,
         },
         children,
@@ -30,33 +36,22 @@ export const commentInlineSerializer: SlateSerializer = {
     }
   },
   serialize(node, children) {
-    if (!Element.isElement(node) || node.type !== TYPE_COMMENT_INLINE || !node.data) return;
+    if (!isCommentInlineElement(node) || !node.data) return;
     const data = createDataAttributes(node.data);
     return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true, children });
   },
-};
+});
 
-export const commentInlinePlugin = (editor: Editor) => {
-  const { isInline: nextIsInline, normalizeNode: nextNormalizeNode } = editor;
-
-  editor.isInline = (element: Element) => {
-    if (element.type === TYPE_COMMENT_INLINE) {
+export const commentInlinePlugin = createPlugin({
+  name: COMMENT_INLINE_PLUGIN,
+  type: COMMENT_INLINE_ELEMENT_TYPE,
+  isInline: true,
+  normalize: (editor, node, path, logger) => {
+    if (isCommentInlineElement(node) && Node.string(node) === "") {
+      logger.log("Inline comment is empty, removing it");
+      Transforms.removeNodes(editor, { at: path });
       return true;
     }
-    return nextIsInline(element);
-  };
-
-  editor.normalizeNode = (entry) => {
-    const [node, path] = entry;
-    if (Element.isElement(node)) {
-      if (node.type === TYPE_COMMENT_INLINE) {
-        if (Node.string(node) === "") {
-          return Transforms.removeNodes(editor, { at: path });
-        }
-      }
-    }
-    nextNormalizeNode(entry);
-  };
-
-  return editor;
-};
+    return false;
+  },
+});

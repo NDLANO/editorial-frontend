@@ -1,10 +1,11 @@
 /**
- * Copyright (c) 2020-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { useField, useFormikContext } from "formik";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -130,9 +131,9 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
               </StyledTabsContent>
               <StyledTabsContent value="upload">
                 <CreateImage
-                  inModal={true}
+                  inDialog={true}
                   editingArticle
-                  closeModal={onImageSelectClose}
+                  closeDialog={onImageSelectClose}
                   onImageCreated={onImageChange}
                 />
               </StyledTabsContent>

@@ -6,4 +6,14 @@
  *
  */
 
-export const TYPE_RELATED = "related";
+import { Descendant } from "slate";
+import { RelatedContentEmbedData } from "@ndla/types-embed";
+
+export interface RelatedElement {
+  type: "related";
+  data: RelatedContentEmbedData[];
+  children: Descendant[];
+}
+
+export const RELATED_ELEMENT_TYPE = "related";
+export const RELATED_PLUGIN = "related";

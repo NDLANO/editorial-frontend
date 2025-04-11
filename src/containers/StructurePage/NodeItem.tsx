@@ -6,7 +6,7 @@
  *
  */
 
-import { CSSProperties, MutableRefObject, useEffect } from "react";
+import { CSSProperties, type RefObject, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
 import { Draggable, StarLine, StarFill, SubtractLine } from "@ndla/icons";
@@ -87,7 +87,7 @@ interface Props {
   item: TaxonomyNodeChild | Node;
   openedPaths: string[];
   onNodeSelected: (node?: Node) => void;
-  resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
+  resourceSectionRef: RefObject<HTMLDivElement | null>;
   rootNodeId: string;
   onDragEnd: (result: DragEndEvent, childNodes: NodeChild[]) => Promise<void>;
   connectionId: string;

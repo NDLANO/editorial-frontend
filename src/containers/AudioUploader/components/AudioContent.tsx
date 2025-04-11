@@ -35,7 +35,7 @@ import AudioPlayer from "./AudioPlayer";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
-import { PodcastFormValues } from "../../../modules/audio/audioApiInterfaces";
+import { PodcastFormValues } from "../../../modules/audio/audioTypes";
 import { TitleField } from "../../FormikForm";
 
 const ContentWrapper = styled("div", {
@@ -153,8 +153,8 @@ const AudioContent = () => {
                 <StyledIconButton
                   variant="secondary"
                   size="small"
-                  aria-label={t("form.audio.modal.label")}
-                  title={t("form.audio.modal.label")}
+                  aria-label={t("form.audio.dialog.label")}
+                  title={t("form.audio.dialog.label")}
                   hasSelectedAudio={!playerObject}
                 >
                   <InformationLine />
@@ -163,7 +163,7 @@ const AudioContent = () => {
               <Portal>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>{t("form.audio.modal.header")}</DialogTitle>
+                    <DialogTitle>{t("form.audio.dialog.header")}</DialogTitle>
                     <DialogCloseButton />
                   </DialogHeader>
                   <DialogBody>

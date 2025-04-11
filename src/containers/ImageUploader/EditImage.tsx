@@ -16,7 +16,6 @@ import { PageSpinner } from "../../components/PageSpinner";
 import { draftLicensesToImageLicenses } from "../../modules/draft/draftApiUtils";
 import { useLicenses } from "../../modules/draft/draftQueries";
 import { fetchImage, updateImage } from "../../modules/image/imageApi";
-import { createFormData } from "../../util/formDataHelper";
 import { useMessages } from "../Messages/MessagesProvider";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
@@ -78,11 +77,9 @@ const EditImage = ({ isNewlyCreated }: Props) => {
     })();
   }, [shouldTranslate, translate, image, loading]);
 
-  const onUpdate = async (updatedImage: IUpdateImageMetaInformationDTO, image: string | Blob) => {
-    const formData = await createFormData(image, updatedImage);
-
+  const onUpdate = async (updatedImage: IUpdateImageMetaInformationDTO, image: Blob | string) => {
     try {
-      const res = await updateImage(Number(imageId), updatedImage, formData);
+      const res = await updateImage(Number(imageId), updatedImage, image);
       setImage(res);
     } catch (e) {
       const error = e as any;

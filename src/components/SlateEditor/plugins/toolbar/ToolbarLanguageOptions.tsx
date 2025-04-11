@@ -10,8 +10,7 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
-import { createListCollection } from "@ark-ui/react";
-import { GlobalLine } from "@ndla/icons";
+import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
 import { SelectContent, SelectRoot, SelectValueText, SelectLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ToolbarCategoryProps } from "./SlateToolbar";
@@ -23,7 +22,7 @@ import { defaultSpanBlock } from "../span/utils";
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   base: {
-    width: "surface.xxsmall",
+    width: "surface.3xsmall",
   },
 });
 
@@ -38,6 +37,8 @@ const getCurrentLanguage = (editor: Editor) => {
   return node.data.lang;
 };
 
+const positioningOptions = { sameWidth: true };
+
 export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<LanguageType>) => {
   const { t, i18n } = useTranslation();
   const editor = useSlate();
@@ -45,16 +46,17 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
   const selection = useSlateSelection();
 
   const onClick = useCallback(
-    (language: string) => {
+    (details: SelectValueChangeDetails) => {
       if (!selection) return;
+      const language = details.value[0];
       Transforms.select(editor, selection);
       ReactEditor.focus(editor);
       const wrappedInSpan = hasNodeOfType(editor, "span");
-      if (wrappedInSpan && language === "none") {
+      if (wrappedInSpan && language === undefined) {
         Transforms.unwrapNodes(editor, {
           match: (node) => Element.isElement(node) && node.type === "span",
         });
-      } else if (language === "none") {
+      } else if (language === undefined) {
         return;
       } else if (!wrappedInSpan) {
         Transforms.wrapNodes(editor, defaultSpanBlock({ lang: language, dir: language === "ar" ? "rtl" : undefined }), {
@@ -75,7 +77,7 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
     const visibleOptions = options.filter((option) => !option.hidden);
     if (!visibleOptions.length) return undefined;
     return createListCollection({
-      items: [{ value: "none" }].concat(visibleOptions),
+      items: visibleOptions,
       itemToString: (item) => t(`languages.${item.value}`),
       itemToValue: (item) => item.value,
     });
@@ -87,14 +89,19 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
     <FieldRoot>
       <SelectRoot
         collection={collection}
-        positioning={{ sameWidth: true }}
-        value={[currentLanguage ?? "none"]}
-        onValueChange={(details) => onClick(details.value[0])}
+        positioning={positioningOptions}
+        value={currentLanguage ? [currentLanguage] : []}
+        onValueChange={onClick}
       >
         <SelectLabel srOnly>{title}</SelectLabel>
-        <StyledGenericSelectTrigger variant="tertiary" title={title} size="small" data-testid="toolbar-button-language">
-          <GlobalLine />
-          <SelectValueText />
+        <StyledGenericSelectTrigger
+          clearable
+          variant="tertiary"
+          title={title}
+          size="small"
+          data-testid="toolbar-button-language"
+        >
+          <SelectValueText placeholder={t("languages.none")} />
         </StyledGenericSelectTrigger>
         <SelectContent>
           {collection.items.map((option) => (

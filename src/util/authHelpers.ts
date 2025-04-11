@@ -26,11 +26,7 @@ const locationOrigin = (() => {
     return "";
   }
   if (typeof window.location.origin === "undefined") {
-    const oldLoc = window.location;
-    window.location = {
-      ...oldLoc,
-      origin: [window.location.protocol, "//", window.location.host, ":", window.location.port].join(""),
-    };
+    return [window.location.protocol, "//", window.location.host, ":", window.location.port].join("");
   }
 
   return window.location.origin;

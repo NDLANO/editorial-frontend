@@ -109,6 +109,20 @@ const getTranslateServiceUrl = (ndlaEnvironment: string) => {
   }
 };
 
+const matomoDomain = (ndlaEnvironment: string): string => {
+  switch (ndlaEnvironment) {
+    case "dev":
+    case "local":
+    case "test":
+      return "tall.test.ndla.no";
+    case "staging":
+    case "prod":
+      return "tall.ndla.no";
+    default:
+      return "tall.test.ndla.no";
+  }
+};
+
 export const taxonomyApi = `/taxonomy/v1`;
 
 const getDefaultLanguage = () => getEnvironmentVariabel("NDLA_DEFAULT_LANGUAGE", "nb") as LocaleType;
@@ -121,6 +135,17 @@ const usernamePasswordEnabled = (ndlaEnvironment: string) => {
       return true;
     default:
       return false;
+  }
+};
+
+const getAudioS3Root = (ndlaEnvironment: string) => {
+  switch (ndlaEnvironment) {
+    case "prod":
+    case "staging":
+    case "test":
+      return `s3://${ndlaEnvironment}.audio.2.ndla/`;
+    default:
+      return "s3://test.audio.2.ndla/";
   }
 };
 
@@ -160,6 +185,11 @@ export type ConfigType = {
   runtimeType: RuntimeType;
   enableH5pCopy: boolean;
   licenseAll: string | undefined;
+  matomoSiteId: string | undefined;
+  matomoUrl: string;
+  s3AudioRoot: string;
+  enableMatomoData: boolean;
+  enableUpdateGrepCodes: boolean;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -205,7 +235,12 @@ const getServerSideConfig = (): ConfigType => {
     isVercel: getEnvironmentVariabel("IS_VERCEL", "false") === "true",
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as "test" | "development" | "production",
     enableH5pCopy: getEnvironmentVariabel("ENABLE_H5P_COPY", "true") === "true",
-    licenseAll: getEnvironmentVariabel("LICENSE_ALL"),
+    licenseAll: getEnvironmentVariabel("LICENSE_ALL", "all"),
+    matomoSiteId: getEnvironmentVariabel("MATOMO_SITE_ID"),
+    matomoUrl: getEnvironmentVariabel("MATOMO_URL", matomoDomain(ndlaEnvironment)),
+    s3AudioRoot: getAudioS3Root(ndlaEnvironment),
+    enableMatomoData: getEnvironmentVariabel("ENABLE_MATOMO_DATA", "false") === "true",
+    enableUpdateGrepCodes: getEnvironmentVariabel("ENABLE_UPDATE_GREP_CODES", "false") === "true",
   };
 };
 

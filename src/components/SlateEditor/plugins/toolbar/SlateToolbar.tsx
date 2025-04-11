@@ -9,7 +9,6 @@
 import {
   Children,
   ComponentPropsWithRef,
-  forwardRef,
   isValidElement,
   ReactNode,
   useEffect,
@@ -168,21 +167,25 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
     });
   }, [hideToolbar, editor, selection, toolbarOptions, areaOptions]);
 
+  const positioningOptions = useMemo(() => {
+    return {
+      strategy: "fixed",
+      placement: "top",
+      getAnchorRect() {
+        const selection = editorWrapperRef.current?.ownerDocument.getSelection();
+        if (!selection?.rangeCount) return null;
+        const range = selection.getRangeAt(0);
+        return range.getBoundingClientRect();
+      },
+    } as const;
+  }, []);
+
   return (
     <PopoverRoot
       open={open}
       // eslint-disable-next-line jsx-a11y/no-autofocus
       autoFocus={false}
-      positioning={{
-        strategy: "fixed",
-        placement: "top",
-        getAnchorRect() {
-          const selection = editorWrapperRef.current?.ownerDocument.getSelection();
-          if (!selection?.rangeCount) return null;
-          const range = selection.getRangeAt(0);
-          return range.getBoundingClientRect();
-        },
-      }}
+      positioning={positioningOptions}
     >
       <ToolbarRepositioner ref={toolbarRef} />
       <ToolbarContainer data-toolbar="" hidden={hideToolbar}>
@@ -199,7 +202,9 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
   );
 };
 
-const ToolbarRepositioner = forwardRef<HTMLDivElement, ComponentPropsWithRef<"div">>((props, ref) => {
+interface ToolbarRepositionerProps extends ComponentPropsWithRef<"div"> {}
+
+const ToolbarRepositioner = (props: ToolbarRepositionerProps) => {
   const { open, reposition } = usePopoverContext();
   const selection = useSlateSelection();
 
@@ -209,8 +214,8 @@ const ToolbarRepositioner = forwardRef<HTMLDivElement, ComponentPropsWithRef<"di
     }
   }, [open, reposition, selection]);
 
-  return <div ref={ref} {...props} />;
-});
+  return <div {...props} />;
+};
 
 const ToolbarRow = ({ children }: { children: ReactNode }) => {
   // Do not render categories with only disabled and hidden options

@@ -15,11 +15,11 @@ import { toEditConcept } from "../../util/routeHelpers";
 import { useFetchConceptData } from "../FormikForm/formikConceptHooks";
 
 interface Props {
-  inModal?: boolean;
-  addConceptInModal?: (concept: IConceptDTO) => void;
+  inDialog?: boolean;
+  addConceptInDialog?: (concept: IConceptDTO) => void;
 }
 
-const CreateConcept = ({ inModal = false, addConceptInModal }: Props) => {
+const CreateConcept = ({ inDialog = false, addConceptInDialog }: Props) => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { createConcept, updateConceptStatus } = useFetchConceptData(undefined, i18n.language);
@@ -27,14 +27,14 @@ const CreateConcept = ({ inModal = false, addConceptInModal }: Props) => {
   const onCreate = useCallback(
     async (createdConcept: INewConceptDTO) => {
       const savedConcept = await createConcept(createdConcept);
-      if (inModal && addConceptInModal) {
-        addConceptInModal(savedConcept);
+      if (inDialog && addConceptInDialog) {
+        addConceptInDialog(savedConcept);
       } else {
         navigate(toEditConcept(savedConcept.id, createdConcept.language));
       }
       return savedConcept;
     },
-    [addConceptInModal, createConcept, inModal, navigate],
+    [addConceptInDialog, createConcept, inDialog, navigate],
   );
 
   return (
@@ -43,7 +43,7 @@ const CreateConcept = ({ inModal = false, addConceptInModal }: Props) => {
       <ConceptForm
         language={i18n.language}
         upsertProps={{ onCreate, onUpdateStatus: updateConceptStatus }}
-        inModal={inModal}
+        inDialog={inDialog}
         supportedLanguages={[i18n.language]}
       />
     </>

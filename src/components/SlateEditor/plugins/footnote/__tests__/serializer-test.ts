@@ -10,7 +10,7 @@ import { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
-import { TYPE_FOOTNOTE } from "../types";
+import { FOOTNOTE_ELEMENT_TYPE } from "../types";
 
 const editor: Descendant[] = [
   {
@@ -23,7 +23,7 @@ const editor: Descendant[] = [
             text: "text",
           },
           {
-            type: TYPE_FOOTNOTE,
+            type: FOOTNOTE_ELEMENT_TYPE,
             data: {
               title: "test-title",
               year: "2000",

@@ -29,7 +29,7 @@ import { FormActionsContainer } from "../../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../../components/formikValidationSchema";
 import FormWrapper from "../../../../components/FormWrapper";
 import SaveButton from "../../../../components/SaveButton";
-import { subjectLanguages } from "../../../../i18n2";
+import { subjectLanguages } from "../../../../i18n";
 import {
   useDeleteNodeTranslationMutation,
   usePutNodeMutation,
@@ -212,7 +212,7 @@ const ChangeNodeName = ({ node }: Props) => {
             setSaved(false);
           }
           return (
-            <FormWrapper inModal data-testid="edit-node-name-form">
+            <FormWrapper inDialog data-testid="edit-node-name-form">
               <FormField name="name">
                 {({ field, meta }) => (
                   <FieldRoot required invalid={!!meta.error}>

@@ -18,13 +18,6 @@ import { StatusTimeFill } from "../../../components/StatusTimeFill";
 import formatDate from "../../../util/formatDate";
 import { getExpirationDate } from "../../ArticlePage/articleTransformers";
 
-const IconWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-  },
-});
-
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
   base: {
     fill: "icon.subtle",
@@ -32,12 +25,12 @@ const StyledErrorWarningFill = styled(ErrorWarningFill, {
 });
 
 interface Props {
-  contentMetaLoading: boolean;
+  nodeResourcesIsPending: boolean;
   resource: ResourceWithNodeConnectionAndMeta;
   multipleTaxonomy: boolean;
 }
 
-const StatusIcons = ({ contentMetaLoading, resource, multipleTaxonomy }: Props) => {
+const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy }: Props) => {
   const { t } = useTranslation();
   const approachingRevision = useMemo(
     () => isApproachingRevision(resource.contentMeta?.revisions),
@@ -58,21 +51,23 @@ const StatusIcons = ({ contentMetaLoading, resource, multipleTaxonomy }: Props) 
   }, [expirationDate, t, warnStatus]);
 
   return (
-    <IconWrapper>
+    <>
       {!!resource.contentMeta?.started && (
         <FileEditLine aria-label={t("taxonomy.inProgress")} title={t("taxonomy.inProgress")} />
       )}
       {!!approachingRevision && !!warnStatus && !!expirationDate && (
         <StatusTimeFill variant={warnStatus} aria-label={expirationText} title={expirationText} />
       )}
-      {!contentMetaLoading && <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />}
+      {!nodeResourcesIsPending && (
+        <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />
+      )}
       {!!multipleTaxonomy && (
         <StyledErrorWarningFill
           aria-label={t("form.workflow.multipleTaxonomy")}
           title={t("form.workflow.multipleTaxonomy")}
         />
       )}
-    </IconWrapper>
+    </>
   );
 };
 

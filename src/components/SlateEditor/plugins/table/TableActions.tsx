@@ -13,7 +13,7 @@ import { ReactEditor } from "slate-react";
 import { SubtractLine, AddLine, AlignCenter, AlignLeft, AlignRight } from "@ndla/icons";
 import { Button, IconButton, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import EditColgroupsModal from "./EditColgroupsModal";
+import EditColgroupsDialog from "./EditColgroupsDialog";
 import { TableElement } from "./interfaces";
 import { alignColumn } from "./slateActions";
 import { isTable, isTableHead } from "./slateHelpers";
@@ -204,7 +204,7 @@ const TableActions = ({ editor, element }: Props) => {
   return (
     <StyledWrapper contentEditable={false} hidden={!show}>
       <StyledTableActions>
-        {!!showEditColgroups && <EditColgroupsModal element={element} />}
+        {!!showEditColgroups && <EditColgroupsDialog element={element} />}
         <ActionGrid>
           {/* Row 1 - Row actions */}
           <StyledText textStyle="label.medium" fontWeight="bold">{`${t("form.content.table.row")}:`}</StyledText>

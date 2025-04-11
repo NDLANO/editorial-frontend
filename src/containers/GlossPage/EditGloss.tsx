@@ -76,7 +76,7 @@ const EditGloss = ({ isNewlyCreated }: Props) => {
     <>
       <title>{`${concept.title.title} ${t("htmlTitles.titleTemplate")}`}</title>
       <GlossForm
-        inModal={false}
+        inDialog={false}
         concept={concept}
         conceptChanged={conceptChanged || newLanguage}
         isNewlyCreated={isNewlyCreated}

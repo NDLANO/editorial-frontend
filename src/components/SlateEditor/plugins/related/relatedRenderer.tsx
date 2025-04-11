@@ -8,11 +8,12 @@
 
 import { Editor } from "slate";
 import RelatedArticleBox from "./RelatedArticleBox";
+import { RELATED_ELEMENT_TYPE } from "./types";
 
 export const relatedRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === "related") {
+    if (element.type === RELATED_ELEMENT_TYPE) {
       return (
         <RelatedArticleBox attributes={attributes} element={element} editor={editor}>
           {children}

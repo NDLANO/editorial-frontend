@@ -1,10 +1,11 @@
 /**
- * Copyright (c) 2022-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -130,7 +131,7 @@ const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNo
       </MessageBox>
       <FormActionsContainer>
         <Button variant="danger" onClick={onDelete} loading={loading} disabled={disabled}>
-          {t("alertModal.delete")}
+          {t("alertDialog.delete")}
         </Button>
       </FormActionsContainer>
       {!!error && <Text color="text.error">{error}</Text>}

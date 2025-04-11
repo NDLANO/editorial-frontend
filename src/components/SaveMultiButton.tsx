@@ -6,8 +6,9 @@
  *
  */
 
-import { useState, MouseEvent } from "react";
+import { useState, MouseEvent, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { MenuOpenChangeDetails } from "@ark-ui/react";
 import { ArrowDownShortLine, CheckLine } from "@ndla/icons";
 import { Button, IconButton, MenuContent, MenuItem, MenuRoot, MenuTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -47,7 +48,7 @@ const StyledIconButton = styled(IconButton, {
 type SaveVariant = "saveAsNew" | "save";
 
 interface SecondaryButton {
-  label: "string";
+  label: string;
   value: SaveVariant;
   disable: boolean;
 }
@@ -60,6 +61,8 @@ interface Props {
   onClick: (saveAsNew: boolean) => void;
   hideSecondaryButton?: boolean;
 }
+
+const positioning = { placement: "top" } as const;
 
 const SaveMultiButton = ({ isSaving, showSaved, formIsDirty, hasErrors, onClick, hideSecondaryButton }: Props) => {
   const { t } = useTranslation();
@@ -76,6 +79,26 @@ const SaveMultiButton = ({ isSaving, showSaved, formIsDirty, hasErrors, onClick,
     onClick(false);
   };
 
+  const onOpenChange = useCallback((details: MenuOpenChangeDetails) => {
+    setOpen(details.open);
+  }, []);
+
+  const secondaryButtons: SecondaryButton[] = useMemo(
+    () => [
+      {
+        label: t("form.saveAsNewVersion"),
+        value: "saveAsNew",
+        disable: isSaving,
+      },
+      {
+        label: t("form.save"),
+        value: "save",
+        disable: disabledButton,
+      },
+    ],
+    [disabledButton, isSaving, t],
+  );
+
   if (hideSecondaryButton)
     return (
       <StyledSaveButton
@@ -90,19 +113,6 @@ const SaveMultiButton = ({ isSaving, showSaved, formIsDirty, hasErrors, onClick,
         {buttonSaveText}
       </StyledSaveButton>
     );
-
-  const secondaryButtons: SecondaryButton[] = [
-    {
-      label: t("form.saveAsNewVersion"),
-      value: "saveAsNew",
-      disable: isSaving,
-    },
-    {
-      label: t("form.save"),
-      value: "save",
-      disable: disabledButton,
-    },
-  ];
 
   const isDisabled = secondaryButtons.some((button) => !button.disable) ? hasErrors : true;
 
@@ -119,13 +129,7 @@ const SaveMultiButton = ({ isSaving, showSaved, formIsDirty, hasErrors, onClick,
         {!!showSaved && <CheckLine />}
         {buttonSaveText}
       </StyledButton>
-      <MenuRoot
-        open={open}
-        onOpenChange={(details) => setOpen(details.open)}
-        positioning={{
-          placement: "top",
-        }}
-      >
+      <MenuRoot open={open} onOpenChange={onOpenChange} positioning={positioning}>
         <MenuTrigger asChild>
           <StyledIconButton disabled={isDisabled} aria-label={t("form.open")} title={t("form.open")}>
             <ArrowDownShortLine />

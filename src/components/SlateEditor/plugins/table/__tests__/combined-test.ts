@@ -6,7 +6,6 @@
  *
  */
 
-import { Editor } from "slate";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
@@ -20,8 +19,7 @@ describe("combined table plugin tests", () => {
       '<section><table><thead><tr><th scope="col" id="00" data-align="right"><p>1</p></th><th scope="col" id="01" data-align="right"><p>1</p></th></tr></thead><tbody><tr><th scope="row" id="r1" data-align="right"><p>1</p></th><td headers="01 r1" data-align="right"><p>2</p></td></tr></tbody></table></section>';
     const deserialized = blockContentToEditorValue(html);
 
-    editor.children = deserialized;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: deserialized, shouldNormalize: true });
 
     const serialized = blockContentToHTML(editor.children);
     expect(serialized).toMatch(html);
@@ -115,8 +113,7 @@ describe("combined table plugin tests", () => {
 
     const deserialized = blockContentToEditorValue(initial);
 
-    editor.children = deserialized;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: deserialized, shouldNormalize: true });
 
     const serialized = blockContentToHTML(editor.children);
     expect(serialized).toMatch(expected);

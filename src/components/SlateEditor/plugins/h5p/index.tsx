@@ -6,58 +6,58 @@
  *
  */
 
-import { Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_H5P } from "./types";
-import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
-import { SlateSerializer } from "../../interfaces";
+import {
+  createDataAttributes,
+  createHtmlTag,
+  createPlugin,
+  createSerializer,
+  PARAGRAPH_ELEMENT_TYPE,
+  parseElementAttributes,
+} from "@ndla/editor";
+import { isH5pElement } from "./queries";
+import { H5P_ELEMENT_TYPE, H5P_PLUGIN, H5pPluginOptions } from "./types";
 import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
-import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
     allowed: afterOrBeforeTextBlockElement,
-    defaultType: TYPE_PARAGRAPH,
+    defaultType: PARAGRAPH_ELEMENT_TYPE,
   },
   next: {
     allowed: afterOrBeforeTextBlockElement,
-    defaultType: TYPE_PARAGRAPH,
+    defaultType: PARAGRAPH_ELEMENT_TYPE,
   },
 };
 
-export const h5pSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement) {
+export const h5pSerializer = createSerializer({
+  deserialize(el) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = parseElementAttributes(Array.from(embed.attributes));
-    if (embedAttributes.resource !== TYPE_H5P) return;
-    return slatejsx("element", { type: TYPE_H5P, data: embedAttributes }, { text: "" });
+    if (embedAttributes.resource !== H5P_ELEMENT_TYPE) return;
+    return slatejsx("element", { type: H5P_ELEMENT_TYPE, data: embedAttributes }, { text: "" });
   },
   serialize(node) {
-    if (!Element.isElement(node) || node.type !== TYPE_H5P || !node.data) return;
+    if (!isH5pElement(node) || !node.data) return;
     const data = createDataAttributes(node.data);
     return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
   },
-};
+});
 
-export const h5pPlugin = (disableNormalize?: boolean) => (editor: Editor) => {
-  const { normalizeNode: nextNormalizeNode, isVoid: nextIsVoid } = editor;
-
-  editor.normalizeNode = (entry) => {
-    const [node, path] = entry;
-    if (Element.isElement(node) && node.type === TYPE_H5P) {
-      if (!disableNormalize && defaultBlockNormalizer(editor, node, path, normalizerConfig)) {
-        return;
-      }
+export const h5pPlugin = createPlugin<"h5p", H5pPluginOptions>({
+  name: H5P_PLUGIN,
+  type: H5P_ELEMENT_TYPE,
+  isVoid: true,
+  options: {
+    disableNormalize: false,
+  },
+  normalize: (editor, node, path, logger, options) => {
+    if (isH5pElement(node) && !options.disableNormalize) {
+      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
     }
-    nextNormalizeNode(entry);
-  };
-
-  editor.isVoid = (element: Element) => {
-    return element.type === TYPE_H5P ? true : nextIsVoid(element);
-  };
-
-  return editor;
-};
+    return false;
+  },
+});

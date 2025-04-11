@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
+import { scrollElementId } from "./isVisibleHook";
 import ResourceItems from "./ResourceItems";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import TopicResourceBanner from "./TopicResourceBanner";
@@ -106,7 +107,7 @@ const ResourcesContainer = ({
         showQuality={showQuality}
         showMatomoStats={showMatomoStats}
       />
-      <ResourceWrapper>
+      <ResourceWrapper id={scrollElementId}>
         {nodeResourcesIsPending ? (
           <Spinner aria-label={t("loading")} />
         ) : grouped ? (

@@ -1239,18 +1239,22 @@ describe("table normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: TYPE_SECTION,
+        id: anySlateElementId,
         children: [
           {
             type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
             children: [{ text: "" }],
           },
           {
             type: TYPE_TABLE,
             rowHeaders: false,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
+            id: anySlateElementId,
             children: [
               {
                 type: TYPE_TABLE_CAPTION,
+                id: anySlateElementId,
                 children: [
                   {
                     text: "",
@@ -1259,12 +1263,15 @@ describe("table normalizer tests", () => {
               },
               {
                 type: TYPE_TABLE_HEAD,
+                id: anySlateElementId,
                 children: [
                   {
                     type: TYPE_TABLE_ROW,
+                    id: anySlateElementId,
                     children: [
                       {
                         type: TYPE_TABLE_CELL_HEADER,
+                        id: anySlateElementId,
                         data: {
                           id: "00",
                           colspan: 1,
@@ -1275,6 +1282,7 @@ describe("table normalizer tests", () => {
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
+                            id: anySlateElementId,
                             children: [
                               {
                                 text: "1",
@@ -1285,6 +1293,7 @@ describe("table normalizer tests", () => {
                       },
                       {
                         type: TYPE_TABLE_CELL_HEADER,
+                        id: anySlateElementId,
                         data: {
                           id: "01",
                           colspan: 1,
@@ -1295,6 +1304,7 @@ describe("table normalizer tests", () => {
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
+                            id: anySlateElementId,
                             children: [
                               {
                                 text: "2",
@@ -1309,12 +1319,15 @@ describe("table normalizer tests", () => {
               },
               {
                 type: TYPE_TABLE_BODY,
+                id: anySlateElementId,
                 children: [
                   {
                     type: TYPE_TABLE_ROW,
+                    id: anySlateElementId,
                     children: [
                       {
                         type: TYPE_TABLE_CELL,
+                        id: anySlateElementId,
                         data: {
                           headers: "00",
                           colspan: 1,
@@ -1324,6 +1337,7 @@ describe("table normalizer tests", () => {
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
+                            id: anySlateElementId,
                             children: [
                               {
                                 text: "3",
@@ -1334,6 +1348,7 @@ describe("table normalizer tests", () => {
                       },
                       {
                         type: TYPE_TABLE_CELL,
+                        id: anySlateElementId,
                         data: {
                           colspan: 1,
                           rowspan: 1,
@@ -1343,6 +1358,7 @@ describe("table normalizer tests", () => {
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
+                            id: anySlateElementId,
                             children: [
                               {
                                 text: "4",
@@ -1355,9 +1371,11 @@ describe("table normalizer tests", () => {
                   },
                   {
                     type: TYPE_TABLE_ROW,
+                    id: anySlateElementId,
                     children: [
                       {
                         type: TYPE_TABLE_CELL,
+                        id: anySlateElementId,
                         data: {
                           colspan: 1,
                           rowspan: 1,
@@ -1367,6 +1385,7 @@ describe("table normalizer tests", () => {
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
+                            id: anySlateElementId,
                             children: [
                               {
                                 text: "5",
@@ -1383,14 +1402,14 @@ describe("table normalizer tests", () => {
           },
           {
             type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
             children: [{ text: "" }],
           },
         ],
       },
     ];
 
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
 });

@@ -157,7 +157,6 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
       <StyledEmbedWrapper
         {...attributes}
         contentEditable={false}
-        draggable
         noClear
         variant={
           embed.embedData.isDecorative === "false" && !embed.embedData.alt

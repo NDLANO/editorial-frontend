@@ -6,51 +6,59 @@
  *
  */
 
-import queryString from "query-string";
-import { ILearningPathV2DTO, ISearchResultV2DTO } from "@ndla/types-backend/learningpath-api";
+import {
+  ILearningPathSummaryV2DTO,
+  ILearningPathV2DTO,
+  ISearchResultV2DTO,
+  openapi,
+} from "@ndla/types-backend/learningpath-api";
 import { CopyLearningPathBody, SearchBody } from "./learningpathApiInterfaces";
-import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from "../../util/apiHelpers";
+import { createAuthClient } from "../../util/apiHelpers";
+import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 
-const baseUrl = apiResourceUrl("/learningpath-api/v2/learningpaths");
+const client = createAuthClient<openapi.paths>();
 
-export const fetchLearningpath = (id: number, locale?: string): Promise<ILearningPathV2DTO> => {
-  const language = locale ? `?language=${locale}&fallback=true` : "";
-  return fetchAuthorized(`${baseUrl}/${id}${language}`).then((res) =>
-    resolveJsonOrRejectWithError<ILearningPathV2DTO>(res),
-  );
-};
+export const fetchLearningpath = (id: number, locale?: string): Promise<ILearningPathV2DTO> =>
+  client
+    .GET("/learningpath-api/v2/learningpaths/{learningpath_id}", {
+      params: { path: { learningpath_id: id }, query: { language: locale, fallback: true } },
+    })
+    .then(resolveJsonOATS);
 
-export const fetchLearningpaths = (ids: number[], language?: string): Promise<ILearningPathV2DTO[]> => {
-  const query = queryString.stringify({
-    ids: ids.join(","),
-    language,
-    fallback: true,
-    page: 1,
-    "page-size": ids.length,
-  });
-  return fetchAuthorized(`${baseUrl}/ids/?${query}`, {
-    method: "GET",
-  }).then((r) => resolveJsonOrRejectWithError<ILearningPathV2DTO[]>(r));
-};
+export const fetchLearningpaths = (ids: number[], language?: string): Promise<ILearningPathV2DTO[]> =>
+  client
+    .GET("/learningpath-api/v2/learningpaths/ids", {
+      params: {
+        query: {
+          ids,
+          language,
+          fallback: true,
+          page: 1,
+          "page-size": ids.length,
+        },
+      },
+    })
+    .then(resolveJsonOATS);
 
-export const fetchLearningpathsWithArticle = (id: number): Promise<ILearningPathV2DTO[]> =>
-  fetchAuthorized(`${baseUrl}/contains-article/${id}`).then((r) =>
-    resolveJsonOrRejectWithError<ILearningPathV2DTO[]>(r),
-  );
+export const fetchLearningpathsWithArticle = (id: number): Promise<ILearningPathSummaryV2DTO[]> =>
+  client
+    .GET("/learningpath-api/v2/learningpaths/contains-article/{article_id}", { params: { path: { article_id: id } } })
+    .then(resolveJsonOATS);
 
 export const updateStatusLearningpath = (id: number, status: string, message?: string): Promise<ILearningPathV2DTO> =>
-  fetchAuthorized(`${baseUrl}/${id}/status/`, {
-    method: "PUT",
-    body: JSON.stringify({
-      status,
-      message,
-    }),
-  }).then((r) => resolveJsonOrRejectWithError<ILearningPathV2DTO>(r));
+  client
+    .PUT("/learningpath-api/v2/learningpaths/{learningpath_id}/status", {
+      params: { path: { learningpath_id: id } },
+      body: { status, message },
+    })
+    .then(resolveJsonOATS);
 
 export const updateLearningPathTaxonomy = (id: number, createIfMissing: boolean = false): Promise<ILearningPathV2DTO> =>
-  fetchAuthorized(`${baseUrl}/${id}/update-taxonomy/?create-if-missing=${createIfMissing}`, {
-    method: "POST",
-  }).then((r) => resolveJsonOrRejectWithError<ILearningPathV2DTO>(r));
+  client
+    .POST("/learningpath-api/v2/learningpaths/{learningpath_id}/update-taxonomy", {
+      params: { path: { learningpath_id: id }, query: { "create-if-missing": createIfMissing } },
+    })
+    .then(resolveJsonOATS);
 
 export const learningpathSearch = async (query: SearchBody & { ids?: number[] }): Promise<ISearchResultV2DTO> => {
   if (query.ids && query.ids.length === 0) {
@@ -62,14 +70,14 @@ export const learningpathSearch = async (query: SearchBody & { ids?: number[] })
       results: [],
     };
   }
-  return fetchAuthorized(`${baseUrl}/search/`, {
-    method: "POST",
-    body: JSON.stringify(query),
-  }).then((r) => resolveJsonOrRejectWithError<ISearchResultV2DTO>(r));
+
+  return client.POST("/learningpath-api/v2/learningpaths/search", { body: query }).then(resolveJsonOATS);
 };
 
 export const learningpathCopy = (id: number, query: CopyLearningPathBody): Promise<ILearningPathV2DTO> =>
-  fetchAuthorized(`${baseUrl}/${id}/copy/`, {
-    method: "POST",
-    body: JSON.stringify(query),
-  }).then((r) => resolveJsonOrRejectWithError<ILearningPathV2DTO>(r));
+  client
+    .POST("/learningpath-api/v2/learningpaths/{learningpath_id}/copy", {
+      body: query,
+      params: { path: { learningpath_id: id } },
+    })
+    .then(resolveJsonOATS);

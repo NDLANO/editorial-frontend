@@ -12,21 +12,27 @@ import {
   IMultiSearchResultDTO,
   ISubjectAggregationsDTO,
   ISubjectAggsInputDTO,
+  openapi,
 } from "@ndla/types-backend/search-api";
 import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
-import { apiResourceUrl, fetchAuthorized, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
+import { createAuthClient } from "../../util/apiHelpers";
 import { transformSearchBody } from "../../util/searchHelpers";
 import { MultiSummarySearchResults, NoNodeDraftSearchParams, NoNodeSearchParams } from "./searchApiInterfaces";
+import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 
-const baseUrl = apiResourceUrl("/search-api/v1/search");
+const client = createAuthClient<openapi.paths>();
 
 export const postSearch = async (body: StringSort<NoNodeDraftSearchParams>): Promise<MultiSummarySearchResults> => {
-  const response = await fetchAuthorized(`${baseUrl}/editorial/`, {
-    method: "POST",
-    body: JSON.stringify(transformSearchBody(body, true)),
-  });
-  const jsonResolved = await resolveJsonOrRejectWithError<IMultiSearchResultDTO>(response);
-  return convertSearchTypeOrThrowError(jsonResolved);
+  const response = await client
+    .POST("/search-api/v1/search/editorial", {
+      body: {
+        ...transformSearchBody(body, true),
+        // @ts-expect-error TODO: API's use different sorting types and we share them in the frontend
+        sort: body.sort,
+      },
+    })
+    .then(resolveJsonOATS);
+  return convertSearchTypeOrThrowError(response);
 };
 
 export const convertSearchTypeOrThrowError = (result: IMultiSearchResultDTO): MultiSummarySearchResults => {
@@ -47,24 +53,24 @@ export const convertSearchTypeOrThrowError = (result: IMultiSearchResultDTO): Mu
 };
 
 export const searchResources = async (body: NoNodeSearchParams): Promise<MultiSummarySearchResults> => {
-  const response = await fetchAuthorized(`${baseUrl}/`, {
-    method: "POST",
-    body: JSON.stringify(transformSearchBody(body)),
-  });
-
-  const jsonResolved = await resolveJsonOrRejectWithError<IMultiSearchResultDTO>(response);
-  return convertSearchTypeOrThrowError(jsonResolved);
+  const response = await client
+    .POST("/search-api/v1/search", {
+      body: {
+        ...transformSearchBody(body),
+        sort: body.sort,
+        resultTypes: body.resultTypes,
+      },
+    })
+    .then(resolveJsonOATS);
+  return convertSearchTypeOrThrowError(response);
 };
 
-export const searchSubjectStats = async (body: ISubjectAggsInputDTO): Promise<ISubjectAggregationsDTO> => {
-  const response = await fetchAuthorized(`${baseUrl}/subjects`, {
-    method: "POST",
-    body: JSON.stringify(transformSearchBody(body)),
-  });
-  return resolveJsonOrRejectWithError(response);
-};
+export const searchSubjectStats = async (body: ISubjectAggsInputDTO): Promise<ISubjectAggregationsDTO> =>
+  client
+    .POST("/search-api/v1/search/subjects", {
+      body: transformSearchBody(body),
+    })
+    .then(resolveJsonOATS);
 
-export const searchGrepCodes = async (body: IGrepSearchInputDTO): Promise<IGrepSearchResultsDTO> => {
-  const response = await fetchAuthorized(`${baseUrl}/grep`, { method: "POST", body: JSON.stringify(body) });
-  return resolveJsonOrRejectWithError(response);
-};
+export const searchGrepCodes = async (body: IGrepSearchInputDTO): Promise<IGrepSearchResultsDTO> =>
+  client.POST("/search-api/v1/search/grep", { body }).then(resolveJsonOATS);

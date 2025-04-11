@@ -13,7 +13,7 @@ import { Text } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
-import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { ILearningPathSummaryV2DTO } from "@ndla/types-backend/learningpath-api";
 import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import EmbedConnection from "./EmbedInformation/EmbedConnection";
 import HeaderFavoriteStatus from "./HeaderFavoriteStatus";
@@ -93,7 +93,7 @@ const HeaderStatusInformation = ({
   favoriteCount,
 }: Props) => {
   const { t } = useTranslation();
-  const [learningpaths, setLearningpaths] = useState<ILearningPathV2DTO[]>([]);
+  const [learningpaths, setLearningpaths] = useState<ILearningPathSummaryV2DTO[]>([]);
   const [articles, setArticles] = useState<IMultiSearchSummaryDTO[]>([]);
   const [concepts, setConcepts] = useState<IConceptSummaryDTO[]>([]);
 

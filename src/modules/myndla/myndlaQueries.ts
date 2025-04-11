@@ -12,8 +12,8 @@ import { fetchResourceStats } from "./myndlaApi";
 import { MYNDLA_RESOURCE_STATS } from "../../queryKeys";
 
 interface UseResourceStats {
-  resourceTypes: string;
-  resourceIds: string;
+  resourceTypes: string[];
+  resourceIds: string[];
 }
 
 export const myndlaQueryKeys = {

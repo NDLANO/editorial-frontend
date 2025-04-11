@@ -6,30 +6,43 @@
  *
  */
 
-import queryString from "query-string";
-import { IArticleV2DTO, ISearchResultV2DTO } from "@ndla/types-backend/article-api";
-import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from "../../util/apiHelpers";
+import { IArticleV2DTO, ISearchResultV2DTO, openapi } from "@ndla/types-backend/article-api";
+import { createAuthClient } from "../../util/apiHelpers";
+import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 
-const articleUrl = apiResourceUrl("/article-api/v2/articles");
+const client = createAuthClient<openapi.paths>();
 
 export interface ArticleSearchParams {
   query?: string;
   language?: string;
   articleTypes?: string[];
-  ids?: string;
+  ids?: number[];
   license?: string;
   page?: number;
   pageSize?: number;
   sort?: string;
 }
 
-export const searchArticles = (params?: ArticleSearchParams): Promise<ISearchResultV2DTO> => {
-  const stringifiedParams = queryString.stringify(params);
-  const query = params ? `?${stringifiedParams}` : "";
-  return fetchAuthorized(`${articleUrl}/${query}`).then((r) => resolveJsonOrRejectWithError<ISearchResultV2DTO>(r));
-};
+export const searchArticles = (params?: ArticleSearchParams): Promise<ISearchResultV2DTO> =>
+  client
+    .GET("/article-api/v2/articles", {
+      params: {
+        query: params,
+      },
+    })
+    .then((r) => resolveJsonOATS(r));
 
 export const getArticle = (id: number, locale: string = "nb"): Promise<IArticleV2DTO> =>
-  fetchAuthorized(`${articleUrl}/${id}?language=${locale}&fallback=true`).then((r) =>
-    resolveJsonOrRejectWithError<IArticleV2DTO>(r),
-  );
+  client
+    .GET("/article-api/v2/articles/{article_id}", {
+      params: {
+        path: {
+          article_id: id.toString(),
+        },
+        query: {
+          fallback: true,
+          language: locale,
+        },
+      },
+    })
+    .then((r) => resolveJsonOATS(r));

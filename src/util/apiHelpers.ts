@@ -56,7 +56,15 @@ export const OATSAuthMiddleware: Middleware = {
 };
 
 export const createAuthClient = <T extends {}>() => {
-  const client = createClient<T>({ baseUrl: apiBaseUrl });
+  const client = createClient<T>({
+    baseUrl: apiBaseUrl,
+    querySerializer: {
+      array: {
+        style: "form",
+        explode: false,
+      },
+    },
+  });
   client.use(OATSAuthMiddleware);
   return client;
 };

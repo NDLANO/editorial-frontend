@@ -77,14 +77,21 @@ const getErrorMessages = (err: unknown): string | undefined => {
   if ("description" in err && typeof err.description === "string") return err.description;
 };
 
+export const resolveOATS = async <A extends Record<string | number, any>, B, C extends MediaType>(
+  res: FetchResponse<A, B, C>,
+) => {
+  const { data, response, error } = res;
+  if (response.ok) return data;
+  const messages = getErrorMessages(error) ?? response.statusText;
+  throw buildErrorPayload(response.status, messages, error);
+};
+
+/** Resolves a response from OpenApi-TS fetch client and asserts that the response is successful */
 export const resolveJsonOATS = async <A extends Record<string | number, any>, B, C extends MediaType>(
   res: FetchResponse<A, B, C>,
 ) => {
   const { data, response, error } = res;
-  if (response.ok && data) {
-    return data;
-  }
-
+  if (response.ok && data) return data;
   const messages = getErrorMessages(error) ?? response.statusText;
   throw buildErrorPayload(response.status, messages, error);
 };

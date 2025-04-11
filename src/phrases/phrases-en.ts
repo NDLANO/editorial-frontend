@@ -740,6 +740,7 @@ const phrases = {
     center: "Center aligned",
     right: "Right aligned",
     rephrase: "Rephrase",
+    symbol: "Symbol",
     disabled: {
       "comment-inline": "Comment can only overlap text",
     },
@@ -1268,6 +1269,10 @@ const phrases = {
       },
       normalizedOnLoad:
         "This article contains old html-code, changed by the editor. This means that you will have to republish the resource even if you only have changed metadata or grep-codes.",
+      symbol: {
+        title: "Insert symbol",
+        insert: "Insert",
+      },
     },
     tags: {
       label: "Tags",

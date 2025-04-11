@@ -31,6 +31,7 @@ import {
   GlobalLine,
   CalculatorLine,
   FileListLine,
+  AddLine,
 } from "@ndla/icons";
 import { IconButton, Text, ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -98,6 +99,7 @@ export const iconMapping: Record<string, ElementType> = {
   center: AlignCenter,
   right: AlignRight,
   rephrase: FileListLine,
+  symbol: AddLine,
 };
 
 export const getTitle = (

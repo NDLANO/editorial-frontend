@@ -103,11 +103,11 @@ const FileUploader = ({ onFileSave, close }: Props) => {
       initialValues={{ files: [] } as FileUploadFormValues}
       initialErrors={validateFormik({ files: [] }, rules, t)}
     >
-      {({ dirty }) => (
+      {({ dirty, isSubmitting }) => (
         <FormikForm>
           <FormField name="files">
             {({ helpers, meta }) => (
-              <FieldRoot required invalid={!!meta.error}>
+              <FieldRoot invalid={!!meta.error}>
                 <FileUploadRoot
                   accept={allowedFiles}
                   onFileChange={(details) => helpers.setValue(details.acceptedFiles)}
@@ -175,7 +175,7 @@ const FileUploader = ({ onFileSave, close }: Props) => {
             <Button onClick={close} variant="secondary">
               {t("form.abort")}
             </Button>
-            <Button type="submit" disabled={!dirty}>
+            <Button type="submit" disabled={!dirty || isSubmitting}>
               {t("form.save")}
             </Button>
           </FormActionsContainer>

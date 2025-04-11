@@ -839,7 +839,6 @@ describe("table normalizer tests", () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          headers: "00",
                           colspan: 1,
                           rowspan: 2,
                           align: "right",
@@ -858,7 +857,6 @@ describe("table normalizer tests", () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          headers: "01",
                           colspan: 1,
                           rowspan: 1,
                           align: "right",
@@ -1005,7 +1003,6 @@ describe("table normalizer tests", () => {
                         id: anySlateElementId,
                         data: {
                           id: "r1",
-                          headers: "00",
                           colspan: 1,
                           rowspan: 2,
                           scope: "row",
@@ -1057,6 +1054,332 @@ describe("table normalizer tests", () => {
                           headers: "01 r1",
                           colspan: 1,
                           rowspan: 1,
+                          align: "right",
+                        },
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            id: anySlateElementId,
+                            children: [
+                              {
+                                text: "5",
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
+            children: [{ text: "" }],
+          },
+        ],
+      },
+    ];
+
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
+    expect(editor.children).toEqual(expectedValue);
+  });
+
+  test("Make sure row headers and table headers are set correctly when rowHeaders=false", () => {
+    const editorValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_PARAGRAPH,
+            children: [{ text: "" }],
+          },
+          {
+            type: TYPE_TABLE,
+            rowHeaders: false,
+            colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
+            children: [
+              {
+                type: TYPE_TABLE_CAPTION,
+                children: [
+                  {
+                    text: "",
+                  },
+                ],
+              },
+              {
+                type: TYPE_TABLE_HEAD,
+                children: [
+                  {
+                    type: TYPE_TABLE_ROW,
+                    children: [
+                      {
+                        type: TYPE_TABLE_CELL_HEADER,
+                        data: {
+                          colspan: 1,
+                          rowspan: 1,
+                          align: "right",
+                        },
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: "1",
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      {
+                        type: TYPE_TABLE_CELL_HEADER,
+                        data: {
+                          colspan: 1,
+                          rowspan: 1,
+                          align: "right",
+                        },
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: "2",
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                type: TYPE_TABLE_BODY,
+                children: [
+                  {
+                    type: TYPE_TABLE_ROW,
+                    children: [
+                      {
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          headers: "00",
+                          colspan: 1,
+                          rowspan: 2,
+                          align: "right",
+                        },
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: "3",
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      {
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          headers: "01",
+                          colspan: 1,
+                          rowspan: 1,
+                          align: "right",
+                        },
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: "4",
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  {
+                    type: TYPE_TABLE_ROW,
+                    children: [
+                      {
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          colspan: 1,
+                          rowspan: 1,
+                          align: "right",
+                        },
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: "5",
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: TYPE_PARAGRAPH,
+            children: [{ text: "" }],
+          },
+        ],
+      },
+    ];
+
+    const expectedValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        id: anySlateElementId,
+        children: [
+          {
+            type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
+            children: [{ text: "" }],
+          },
+          {
+            type: TYPE_TABLE,
+            rowHeaders: false,
+            colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
+            id: anySlateElementId,
+            children: [
+              {
+                type: TYPE_TABLE_CAPTION,
+                id: anySlateElementId,
+                children: [
+                  {
+                    text: "",
+                  },
+                ],
+              },
+              {
+                type: TYPE_TABLE_HEAD,
+                id: anySlateElementId,
+                children: [
+                  {
+                    type: TYPE_TABLE_ROW,
+                    id: anySlateElementId,
+                    children: [
+                      {
+                        type: TYPE_TABLE_CELL_HEADER,
+                        id: anySlateElementId,
+                        data: {
+                          id: "00",
+                          colspan: 1,
+                          rowspan: 1,
+                          scope: "col",
+                          align: "right",
+                        },
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            id: anySlateElementId,
+                            children: [
+                              {
+                                text: "1",
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      {
+                        type: TYPE_TABLE_CELL_HEADER,
+                        id: anySlateElementId,
+                        data: {
+                          id: "01",
+                          colspan: 1,
+                          rowspan: 1,
+                          scope: "col",
+                          align: "right",
+                        },
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            id: anySlateElementId,
+                            children: [
+                              {
+                                text: "2",
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                type: TYPE_TABLE_BODY,
+                id: anySlateElementId,
+                children: [
+                  {
+                    type: TYPE_TABLE_ROW,
+                    id: anySlateElementId,
+                    children: [
+                      {
+                        type: TYPE_TABLE_CELL,
+                        id: anySlateElementId,
+                        data: {
+                          headers: "00",
+                          colspan: 1,
+                          rowspan: 2,
+                          align: "right",
+                        },
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            id: anySlateElementId,
+                            children: [
+                              {
+                                text: "3",
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      {
+                        type: TYPE_TABLE_CELL,
+                        id: anySlateElementId,
+                        data: {
+                          colspan: 1,
+                          rowspan: 1,
+                          align: "right",
+                          headers: "01",
+                        },
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            id: anySlateElementId,
+                            children: [
+                              {
+                                text: "4",
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  {
+                    type: TYPE_TABLE_ROW,
+                    id: anySlateElementId,
+                    children: [
+                      {
+                        type: TYPE_TABLE_CELL,
+                        id: anySlateElementId,
+                        data: {
+                          colspan: 1,
+                          rowspan: 1,
+                          headers: "01",
                           align: "right",
                         },
                         children: [

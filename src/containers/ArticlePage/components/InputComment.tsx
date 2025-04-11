@@ -17,7 +17,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { uuid } from "@ndla/util";
 import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUtils";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
-import { TYPE_DIV } from "../../../components/SlateEditor/plugins/div/types";
+import { DIV_ELEMENT_TYPE } from "../../../components/SlateEditor/plugins/div/types";
 import { TYPE_PARAGRAPH } from "../../../components/SlateEditor/plugins/paragraph/types";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import formatDate, { formatDateForBackend } from "../../../util/formatDate";
@@ -106,7 +106,7 @@ const InputComment = ({ isSubmitting, arrayHelpers }: Props) => {
       const comment = getCommentInfoText(userName, t);
 
       const emptyComment: Descendant[] = [
-        { type: TYPE_DIV, children: [...inputValue, { type: TYPE_PARAGRAPH, children: [{ text: comment }] }] },
+        { type: DIV_ELEMENT_TYPE, children: [...inputValue, { type: TYPE_PARAGRAPH, children: [{ text: comment }] }] },
       ];
 
       setInputValue(emptyComment);

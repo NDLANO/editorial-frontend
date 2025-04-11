@@ -8,12 +8,12 @@
 
 import { Editor } from "slate";
 import { RenderElementProps } from "slate-react";
-import { TYPE_DIV } from "./types";
+import { DIV_ELEMENT_TYPE } from "./types";
 
 export const divRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === TYPE_DIV) {
+    if (element.type === DIV_ELEMENT_TYPE) {
       return <div {...attributes}>{children}</div>;
     } else return renderElement?.({ attributes, children, element });
   };

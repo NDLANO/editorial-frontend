@@ -33,7 +33,7 @@ import { gridPlugin } from "../../../../components/SlateEditor/plugins/grid";
 import { h5pPlugin } from "../../../../components/SlateEditor/plugins/h5p";
 import { imagePlugin } from "../../../../components/SlateEditor/plugins/image";
 import { keyFigurePlugin } from "../../../../components/SlateEditor/plugins/keyFigure";
-import { linkPlugin } from "../../../../components/SlateEditor/plugins/link";
+import { contentLinkPlugin, linkPlugin } from "../../../../components/SlateEditor/plugins/link";
 import { linkBlockListPlugin } from "../../../../components/SlateEditor/plugins/linkBlockList";
 import { mathmlPlugin } from "../../../../components/SlateEditor/plugins/mathml/mathPlugin";
 import { pitchPlugin } from "../../../../components/SlateEditor/plugins/pitch";
@@ -71,6 +71,7 @@ export const frontpagePlugins: SlatePlugin[] = [
   framedContentPlugin,
   blockQuotePlugin,
   linkPlugin,
+  contentLinkPlugin,
   inlineConceptPlugin,
   blockConceptPlugin,
   commentInlinePlugin,

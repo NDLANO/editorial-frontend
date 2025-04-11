@@ -13,7 +13,7 @@ import { inlineConceptPlugin } from "../../../../components/SlateEditor/plugins/
 import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList";
 import { divPlugin } from "../../../../components/SlateEditor/plugins/div";
 import { dndPlugin } from "../../../../components/SlateEditor/plugins/DND";
-import { linkPlugin } from "../../../../components/SlateEditor/plugins/link";
+import { contentLinkPlugin, linkPlugin } from "../../../../components/SlateEditor/plugins/link";
 import { mathmlPlugin } from "../../../../components/SlateEditor/plugins/mathml/mathPlugin";
 import { noEmbedPlugin } from "../../../../components/SlateEditor/plugins/noEmbed";
 import saveHotkeyPlugin from "../../../../components/SlateEditor/plugins/saveHotkey";
@@ -40,6 +40,7 @@ export const topicArticlePlugins: SlatePlugin[] = [
   paragraphPlugin,
   noEmbedPlugin,
   linkPlugin,
+  contentLinkPlugin,
   headingPlugin,
   // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
   // Blockquote and editList actions need to be triggered before paragraph action, else

@@ -17,7 +17,7 @@ import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquote/blockquoteTypes";
 import { COMMENT_INLINE_ELEMENT_TYPE } from "../comment/inline/types";
 import { CONCEPT_INLINE_ELEMENT_TYPE } from "../concept/inline/types";
 import { FOOTNOTE_ELEMENT_TYPE } from "../footnote/types";
-import { TYPE_CONTENT_LINK } from "../link/types";
+import { CONTENT_LINK_ELEMENT_TYPE } from "../link/types";
 import { MATH_ELEMENT_TYPE } from "../mathml/mathTypes";
 
 export const listSerializer = _listSerializer.configure({
@@ -25,7 +25,7 @@ export const listSerializer = _listSerializer.configure({
     CONCEPT_INLINE_ELEMENT_TYPE,
     FOOTNOTE_ELEMENT_TYPE,
     LINK_ELEMENT_TYPE,
-    TYPE_CONTENT_LINK,
+    CONTENT_LINK_ELEMENT_TYPE,
     MATH_ELEMENT_TYPE,
     COMMENT_INLINE_ELEMENT_TYPE,
   ],

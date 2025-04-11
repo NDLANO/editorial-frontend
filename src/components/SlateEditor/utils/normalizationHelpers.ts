@@ -28,7 +28,7 @@ import { TYPE_TABLE } from "../plugins/table/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../plugins/video/types";
 import { CONCEPT_INLINE_ELEMENT_TYPE } from "../plugins/concept/inline/types";
 import { COMMENT_INLINE_ELEMENT_TYPE } from "../plugins/comment/inline/types";
-import { TYPE_CONTENT_LINK, TYPE_LINK } from "../plugins/link/types";
+import { CONTENT_LINK_ELEMENT_TYPE, LINK_ELEMENT_TYPE } from "../plugins/link/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../plugins/framedContent/framedContentTypes";
 import { BLOCK_QUOTE_ELEMENT_TYPE } from "../plugins/blockquote/blockquoteTypes";
 import { REPHRASE_ELEMENT_TYPE } from "../plugins/rephrase/rephraseTypes";
@@ -60,8 +60,8 @@ export const textBlockElements: Element["type"][] = [
 export const inlineElements: Element["type"][] = [
   CONCEPT_INLINE_ELEMENT_TYPE,
   COMMENT_INLINE_ELEMENT_TYPE,
-  TYPE_LINK,
-  TYPE_CONTENT_LINK,
+  LINK_ELEMENT_TYPE,
+  CONTENT_LINK_ELEMENT_TYPE,
   REPHRASE_ELEMENT_TYPE,
 ];
 

@@ -10,7 +10,7 @@ import { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
-import { TYPE_LINK, TYPE_CONTENT_LINK } from "../types";
+import { LINK_ELEMENT_TYPE, CONTENT_LINK_ELEMENT_TYPE } from "../types";
 
 const editor: Descendant[] = [
   {
@@ -21,7 +21,7 @@ const editor: Descendant[] = [
         children: [
           { text: "" },
           {
-            type: TYPE_LINK,
+            type: LINK_ELEMENT_TYPE,
             data: {
               href: "http://test.url/",
               rel: undefined,
@@ -42,9 +42,9 @@ const editor: Descendant[] = [
         children: [
           { text: "" },
           {
-            type: TYPE_CONTENT_LINK,
+            type: CONTENT_LINK_ELEMENT_TYPE,
             data: {
-              resource: TYPE_CONTENT_LINK,
+              resource: CONTENT_LINK_ELEMENT_TYPE,
               contentId: "123",
               contentType: "article",
               openIn: "new-context",

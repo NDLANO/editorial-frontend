@@ -178,6 +178,7 @@ const frameSrc = (() => {
     "norgeibilder.no",
     "video.qbrick.com",
     "www.norskpetroleum.no",
+    "pub.dialogapi.no",
   ];
   if (process.env.NODE_ENV === "development") {
     return [

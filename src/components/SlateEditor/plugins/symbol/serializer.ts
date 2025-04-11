@@ -17,11 +17,12 @@ export const symbolSerializer = createSerializer({
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const attributes = parseElementAttributes(Array.from(el.attributes));
     if (attributes.type !== SYMBOL_ELEMENT_TYPE) return;
-    return slatejsx("element", { type: SYMBOL_ELEMENT_TYPE, data: attributes }, children);
+    return slatejsx("element", { type: SYMBOL_ELEMENT_TYPE, symbol: attributes.symbol }, children);
   },
   serialize(node, children) {
     if (!isSymbolElement(node)) return;
-    const data = createDataAttributes({ type: SYMBOL_ELEMENT_TYPE });
+    if (!node.symbol) return children;
+    const data = createDataAttributes({ type: SYMBOL_ELEMENT_TYPE, symbol: node.symbol });
     return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, children });
   },
 });

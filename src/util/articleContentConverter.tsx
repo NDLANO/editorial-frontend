@@ -121,11 +121,11 @@ const extendedRules: SlateSerializer<any>[] = [
   h5pSerializer,
   externalSerializer,
   copyrightSerializer,
+  symbolSerializer,
   embedSerializer,
   framedContentSerializer,
   divSerializer,
   spanSerializer,
-  symbolSerializer,
 ];
 
 // Rules are checked from first to last

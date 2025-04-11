@@ -31,7 +31,6 @@ import {
   LinkMedium,
   CodeView,
 } from "@ndla/icons";
-import { DRAFT_ADMIN_SCOPE } from "../../../../constants";
 import HowToHelper from "../../../HowTo/HowToHelper";
 import { StoryType } from "../../../HowTo/stories";
 import { ASIDE_ELEMENT_TYPE } from "../aside/asideTypes";
@@ -145,7 +144,6 @@ export const commonActions: Action[] = [
     data: { type: DISCLAIMER_ELEMENT_TYPE, object: "disclaimer" },
     icon: <AlertLine />,
     helpIcon: renderArticleInDialog("Disclaimer"),
-    requiredScope: DRAFT_ADMIN_SCOPE,
   },
   {
     data: { type: COMMENT_BLOCK_ELEMENT_TYPE, object: "comment" },

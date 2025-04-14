@@ -150,9 +150,15 @@ const WorkList = ({ ndlaId }: Props) => {
       }}
     >
       <TabsList>
-        <TabsTrigger value="articles">{`${t("taxonomy.resources")} (${searchQuery.data?.totalCount ?? 0})`}</TabsTrigger>
-        <TabsTrigger value="onHold">{`${t("welcomePage.workList.onHold")} (${searchOnHoldQuery.data?.totalCount ?? 0})`}</TabsTrigger>
-        <TabsTrigger value="concepts">{`${t("form.name.concepts")} (${searchConceptsQuery.data?.totalCount ?? 0})`}</TabsTrigger>
+        <TabsTrigger value="articles">{`${t("taxonomy.resources")} (${
+          searchQuery.data?.totalCount ?? 0
+        })`}</TabsTrigger>
+        <TabsTrigger value="onHold">{`${t("welcomePage.workList.onHold")} (${
+          searchOnHoldQuery.data?.totalCount ?? 0
+        })`}</TabsTrigger>
+        <TabsTrigger value="concepts">{`${t("form.name.concepts")} (${
+          searchConceptsQuery.data?.totalCount ?? 0
+        })`}</TabsTrigger>
         <TabsIndicator />
       </TabsList>
       <WelcomePageTabsContent value="articles">

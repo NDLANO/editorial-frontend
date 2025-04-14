@@ -92,6 +92,7 @@ const ResourceItems = ({
   const onUpdateRank = async (id: string, newRank: number) => {
     await qc.cancelQueries({ queryKey: compKey });
     const prevData = qc.getQueryData<NodeChild[]>(compKey) ?? [];
+
     const updated = prevData.map((r) => {
       if (r.connectionId === id) {
         return { ...r, rank: newRank };
@@ -99,6 +100,7 @@ const ResourceItems = ({
         return r;
       } else return { ...r, rank: r.rank + 1 };
     });
+
     qc.setQueryData<NodeChild[]>(compKey, sortBy(updated, ["rank"]));
     return resources;
   };
@@ -106,6 +108,7 @@ const ResourceItems = ({
   const { mutateAsync: updateNodeResource } = usePutResourceForNodeMutation({
     onMutate: ({ id, body }) => onUpdateRank(id, body.rank as number),
     onError: (e) => handleError(e),
+    onSettled: () => qc.invalidateQueries({ queryKey: compKey }),
   });
 
   const onDelete = async (deleteId: string) => {

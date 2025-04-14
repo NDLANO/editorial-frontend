@@ -23,9 +23,9 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { EmbedWrapper, Grid, GridType } from "@ndla/ui";
-import { GridElement } from ".";
 import { GridProvider } from "./GridContext";
 import GridForm from "./GridForm";
+import { GridElement } from "./types";
 import DeleteButton from "../../../DeleteButton";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 
@@ -44,7 +44,7 @@ const ButtonContainer = styled("div", {
   },
 });
 
-export const SlateGrid = ({ element, editor, children }: Props) => {
+export const SlateGrid = ({ element, editor, children, attributes }: Props) => {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
 
@@ -106,7 +106,7 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
           </Portal>
         </ButtonContainer>
         <GridProvider value={true}>
-          <Grid border="none" columns={element.data.columns} background={element.data.background}>
+          <Grid border="none" columns={element.data.columns} background={element.data.background} {...attributes}>
             {children}
           </Grid>
         </GridProvider>

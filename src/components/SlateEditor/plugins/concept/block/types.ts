@@ -6,6 +6,17 @@
  *
  */
 
-export const TYPE_CONCEPT_BLOCK = "concept-block";
+import { Descendant } from "slate";
+import { ConceptEmbedData } from "@ndla/types-embed";
 
-export const TYPE_GLOSS_BLOCK = "gloss-block";
+export const CONCEPT_BLOCK_ELEMENT_TYPE = "concept-block" as const;
+export const CONCEPT_BLOCK_PLUGIN = "concept-block" as const;
+export const GLOSS_BLOCK_ELEMENT_TYPE = "gloss-block" as const;
+
+export interface ConceptBlockElement {
+  type: "concept-block" | "gloss-block";
+  data: ConceptEmbedData;
+  children: Descendant[];
+  conceptType?: "concept" | "gloss";
+  isFirstEdit?: boolean;
+}

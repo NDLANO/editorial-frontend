@@ -169,7 +169,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
         const newInitialValues = getInitialValues(savedArticle, articleLanguage, ndlaId);
         formikHelpers.resetForm({ values: newInitialValues });
         if (rules) {
-          const newInitialWarnings = getWarnings(newInitialValues, rules, t, savedArticle);
+          const newInitialWarnings = getWarnings(newInitialValues, rules, t, [], savedArticle);
           formikHelpers.setStatus({ warnings: newInitialWarnings });
         }
         formikHelpers.setFieldValue("notes", [], false);

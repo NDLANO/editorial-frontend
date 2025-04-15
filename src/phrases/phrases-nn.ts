@@ -1651,6 +1651,7 @@ const phrases = {
   },
   warningMessage: {
     fieldWithWrongLanguage: "Dette feltet er henta frå språkkode: {{language}}",
+    translatedField: "Dette feltet er automatisk omsett frå språkkode: nb",
   },
   notFound: {
     description: "Denne sida finnes ikkje.",

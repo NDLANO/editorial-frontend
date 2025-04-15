@@ -23,7 +23,14 @@ const CreateAudio = () => {
     navigate(toEditAudio(createdAudio.id, newAudio.language));
   };
 
-  return <AudioForm onCreateAudio={onCreateAudio} audioLanguage={i18n.language} supportedLanguages={[i18n.language]} />;
+  return (
+    <AudioForm
+      onCreateAudio={onCreateAudio}
+      audioLanguage={i18n.language}
+      supportedLanguages={[i18n.language]}
+      translatedFieldsToNN={[]}
+    />
+  );
 };
 
 export default CreateAudio;

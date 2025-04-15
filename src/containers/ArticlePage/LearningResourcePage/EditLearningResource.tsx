@@ -83,7 +83,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
     selectedLanguage,
   );
 
-  const { translate, shouldTranslate, translating } = useTranslateToNN();
+  const { translate, shouldTranslate, translating, translatedFields } = useTranslateToNN();
 
   useEffect(() => {
     (async () => {
@@ -106,6 +106,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
     return <Navigate replace to={replaceUrl} />;
   }
   const newLanguage = isNewArticleLanguage(selectedLanguage, article);
+
   return (
     <ContentTypeProvider value={getContentTypeFromResourceTypes(taxonomyQuery.data?.[0]?.resourceTypes ?? [])}>
       <title>{`${article.title?.title} ${t("htmlTitles.titleTemplate")}`}</title>
@@ -119,6 +120,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
         isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
         supportedLanguages={article.supportedLanguages}
+        translatedFieldsToNN={translatedFields}
       />
     </ContentTypeProvider>
   );

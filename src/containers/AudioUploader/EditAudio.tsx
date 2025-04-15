@@ -31,7 +31,7 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
   const params = useParams<"id" | "selectedLanguage">();
   const [audio, setAudio] = useState<IAudioMetaInformationDTO | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
-  const { shouldTranslate, translate, translating } = useTranslateToNN();
+  const { shouldTranslate, translate, translating, translatedFields } = useTranslateToNN();
   const audioId = Number(params.id) || undefined;
   const audioLanguage = params.selectedLanguage!;
 
@@ -89,6 +89,7 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
       isNewlyCreated={isNewlyCreated}
       isNewLanguage={isNewLanguage}
       supportedLanguages={audio.supportedLanguages}
+      translatedFieldsToNN={translatedFields}
     />
   );
 };

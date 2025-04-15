@@ -740,6 +740,7 @@ const phrases = {
     center: "Midtstilt",
     right: "Høgrejustert",
     rephrase: "Omformulering",
+    symbol: "Symbol",
     disabled: {
       "comment-inline": "Kommentar kan kun overlappe tekst",
     },
@@ -1268,6 +1269,10 @@ const phrases = {
       },
       normalizedOnLoad:
         "Artikkelen inneheld HTML-kode som er endra av editoren. Derfor må ressursen republiserast sjølv om du berre har endra metadata eller læreplankodar.",
+      symbol: {
+        title: "Sett inn symbol",
+        insert: "Sett inn",
+      },
     },
     tags: {
       label: "Nøkkelord",

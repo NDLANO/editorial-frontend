@@ -61,6 +61,7 @@ import {
 import { DisclaimerElement } from "./plugins/uuDisclaimer/types";
 import { BrightcoveEmbedElement } from "./plugins/video/types";
 import { RephraseElement } from "./plugins/rephrase/rephraseTypes";
+import { SymbolElement } from "./plugins/symbol/types";
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -127,7 +128,8 @@ type CustomElement =
   | CopyrightElement
   | CommentInlineElement
   | CommentBlockElement
-  | RephraseElement;
+  | RephraseElement
+  | SymbolElement;
 
 declare module "slate" {
   interface CustomTypes {

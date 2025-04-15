@@ -58,7 +58,9 @@ export const tableRenderer = (editor: Editor) => {
         return <thead {...attributes}>{children}</thead>;
       case TYPE_TABLE_BODY:
         return <tbody {...attributes}>{children}</tbody>;
-      case TYPE_TABLE_CELL_HEADER:
+      case TYPE_TABLE_CELL_HEADER: {
+        const align = element.data?.align || "";
+        const parsedAlign = ["left", "center", "right"].includes(align) ? align : undefined;
         return (
           <th
             rowSpan={element.data.rowspan}
@@ -66,11 +68,13 @@ export const tableRenderer = (editor: Editor) => {
             headers={element.data.headers}
             id={element.data.id}
             scope={element.data.scope}
+            data-align={parsedAlign}
             {...attributes}
           >
             {children}
           </th>
         );
+      }
       default:
         return renderElement?.({ attributes, children, element });
     }

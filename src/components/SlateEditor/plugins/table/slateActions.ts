@@ -12,8 +12,6 @@ import { TableBodyElement, TableCellElement, TableElement, TableHeadElement } fr
 import { getTableAsMatrix } from "./matrix";
 import { findCellCoordinate, getMatrixColumn } from "./matrixHelpers";
 import { hasCellAlignOfType, isTableCell, isTableCellHeader, isTableRow } from "./slateHelpers";
-import { TYPE_TABLE_CELL, TYPE_TABLE_CELL_HEADER } from "./types";
-import getCurrentBlock from "../../utils/getCurrentBlock";
 
 export const insertEmptyCells = (editor: Editor, path: Path, amount: number) => {
   Transforms.insertNodes(
@@ -78,25 +76,18 @@ export const updateCell = (
 };
 
 export const alignColumn = (editor: Editor, tablePath: Path, align: string) => {
-  let element: TableCellElement | undefined;
-  const cellElement = getCurrentBlock(editor, TYPE_TABLE_CELL)?.[0];
-  const headerElement = getCurrentBlock(editor, TYPE_TABLE_CELL_HEADER)?.[0];
+  const [entry] = editor.nodes({
+    at: editor.selection?.anchor.path,
+    match: isTableCell || isTableCellHeader,
+    mode: "lowest",
+  });
 
-  if (isTableCell(cellElement)) {
-    element = cellElement;
-  }
-
-  if (isTableCellHeader(headerElement)) {
-    element = headerElement;
-  }
-
-  if (!element) return;
+  if (!entry) return;
 
   const matrix = getTableAsMatrix(editor, tablePath);
 
-  if (!matrix) {
-    return;
-  }
+  if (!matrix) return;
+  const [element, _elementPath] = entry;
 
   const currentPosition = findCellCoordinate(matrix, element);
 

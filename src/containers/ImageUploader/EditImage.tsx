@@ -51,7 +51,7 @@ const EditImage = ({ isNewlyCreated }: Props) => {
   const [loading, setLoading] = useState(true);
   const { applicationError, createMessage } = useMessages();
   const [image, setImage] = useState<IImageMetaInformationV3DTO | undefined>(undefined);
-  const { shouldTranslate, translate, translating } = useTranslateToNN();
+  const { shouldTranslate, translate, translating, translatedFields } = useTranslateToNN();
   const imageLicenses = draftLicensesToImageLicenses(licenses ?? []);
 
   useEffect(() => {
@@ -107,6 +107,7 @@ const EditImage = ({ isNewlyCreated }: Props) => {
       licenses={imageLicenses}
       isNewLanguage={isNewLanguage}
       supportedLanguages={image.supportedLanguages}
+      translatedFieldsToNN={translatedFields}
     />
   );
 };

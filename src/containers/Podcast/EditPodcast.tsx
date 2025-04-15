@@ -58,7 +58,7 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
     setPodcastChanged(changed);
   };
   const [loading, setLoading] = useState<boolean>(false);
-  const { shouldTranslate, translate, translating } = useTranslateToNN();
+  const { shouldTranslate, translate, translating, translatedFields } = useTranslateToNN();
 
   useEffect(() => {
     (async () => {
@@ -111,6 +111,7 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
       onUpdatePodcast={onUpdate}
       isNewlyCreated={isNewlyCreated}
       translating={translating}
+      translatedFieldsToNN={translatedFields}
     />
   );
 };

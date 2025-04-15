@@ -62,7 +62,7 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
     articleId,
     selectedLanguage,
   );
-  const { translate, shouldTranslate, translating } = useTranslateToNN();
+  const { translate, shouldTranslate, translating, translatedFields } = useTranslateToNN();
   const { setWideArticle } = useWideArticle();
 
   useEffect(() => {
@@ -105,6 +105,7 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
         isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
         supportedLanguages={article.supportedLanguages}
+        translatedFieldsToNN={translatedFields}
       />
     </>
   );

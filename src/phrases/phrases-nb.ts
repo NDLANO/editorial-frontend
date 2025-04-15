@@ -1650,6 +1650,7 @@ const phrases = {
   },
   warningMessage: {
     fieldWithWrongLanguage: "Dette feltet er hentet fra språkkode: {{language}}",
+    translatedField: "Dette feltet er auto-oversatt fra språkkode: nb",
   },
   notFound: {
     description: "Denne siden finnes ikke.",

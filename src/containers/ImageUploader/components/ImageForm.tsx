@@ -107,6 +107,7 @@ interface Props {
   isNewLanguage?: boolean;
   language: string;
   supportedLanguages: string[];
+  translatedFieldsToNN: string[];
 }
 
 export type ImageFormErrorFields =
@@ -131,6 +132,7 @@ const ImageForm = ({
   isSaving,
   isNewLanguage,
   supportedLanguages,
+  translatedFieldsToNN,
 }: Props) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
@@ -182,7 +184,7 @@ const ImageForm = ({
 
   const initialValues = imageApiTypeToFormType(image, language);
   const initialErrors = validateFormik(initialValues, imageRules, t);
-  const initialWarnings = getWarnings(initialValues, imageRules, t, image);
+  const initialWarnings = getWarnings(initialValues, imageRules, t, translatedFieldsToNN, image);
 
   return (
     <Formik

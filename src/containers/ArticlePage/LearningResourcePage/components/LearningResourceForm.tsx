@@ -43,6 +43,7 @@ interface Props {
   articleChanged: boolean;
   updateArticle: (updatedArticle: IUpdatedArticleDTO) => Promise<IArticleDTO>;
   articleLanguage: string;
+  translatedFieldsToNN: string[];
 }
 
 const LearningResourceForm = ({
@@ -55,6 +56,7 @@ const LearningResourceForm = ({
   articleChanged,
   articleLanguage,
   articleHistory,
+  translatedFieldsToNN,
 }: Props) => {
   const [showTaxWarning, setShowTaxWarning] = useState(false);
   const { t } = useTranslation();
@@ -103,9 +105,9 @@ const LearningResourceForm = ({
 
   const initialWarnings = useMemo(() => {
     return {
-      warnings: getWarnings(initialValues, learningResourceRules, t, article),
+      warnings: getWarnings(initialValues, learningResourceRules, t, translatedFieldsToNN, article),
     };
-  }, [article, initialValues, t]);
+  }, [article, initialValues, translatedFieldsToNN, t]);
 
   const initialErrors = useMemo(() => validateFormik(initialValues, learningResourceRules, t), [initialValues, t]);
 

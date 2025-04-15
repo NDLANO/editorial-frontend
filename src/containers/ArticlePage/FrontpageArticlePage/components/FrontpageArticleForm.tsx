@@ -37,6 +37,7 @@ interface Props {
   supportedLanguages: string[];
   updateArticle: (updatedArticle: IUpdatedArticleDTO) => Promise<IArticleDTO>;
   articleLanguage: string;
+  translatedFieldsToNN: string[];
 }
 
 const FrontpageArticleForm = ({
@@ -48,6 +49,7 @@ const FrontpageArticleForm = ({
   articleChanged,
   articleLanguage,
   supportedLanguages,
+  translatedFieldsToNN,
 }: Props) => {
   const { t } = useTranslation();
   const { ndlaId } = useSession();
@@ -64,7 +66,7 @@ const FrontpageArticleForm = ({
     ndlaId,
   });
 
-  const initialWarnings = getWarnings(initialValues, frontPageArticleRules, t, article);
+  const initialWarnings = getWarnings(initialValues, frontPageArticleRules, t, translatedFieldsToNN, article);
   const initialErrors = useMemo(() => validateFormik(initialValues, frontPageArticleRules, t), [initialValues, t]);
 
   return (

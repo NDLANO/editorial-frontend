@@ -31,6 +31,7 @@ const CreatePodcast = () => {
       supportedLanguages={[locale]}
       isNewlyCreated={false}
       language={locale}
+      translatedFieldsToNN={[]}
     />
   );
 };

@@ -8,16 +8,20 @@
 
 import { Editor } from "slate";
 import { DefinitionList } from "@ndla/primitives";
-import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from "./types";
+import {
+  DEFINITION_DESCRIPTION_ELEMENT_TYPE,
+  DEFINITION_LIST_ELEMENT_TYPE,
+  DEFINITION_TERM_ELEMENT_TYPE,
+} from "./definitionListTypes";
 
 export const definitionListRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_DEFINITION_LIST) {
+    if (element.type === DEFINITION_LIST_ELEMENT_TYPE) {
       return <DefinitionList {...attributes}>{children}</DefinitionList>;
-    } else if (element.type === TYPE_DEFINITION_DESCRIPTION) {
+    } else if (element.type === DEFINITION_DESCRIPTION_ELEMENT_TYPE) {
       return <dd {...attributes}>{children}</dd>;
-    } else if (element.type === TYPE_DEFINITION_TERM) {
+    } else if (element.type === DEFINITION_TERM_ELEMENT_TYPE) {
       return <dt {...attributes}>{children}</dt>;
     } else return renderElement?.({ attributes, children, element });
   };

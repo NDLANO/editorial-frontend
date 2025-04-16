@@ -9,21 +9,25 @@
 import { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 import { TYPE_SECTION } from "../../section/types";
-import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from "../types";
+import {
+  DEFINITION_DESCRIPTION_ELEMENT_TYPE,
+  DEFINITION_LIST_ELEMENT_TYPE,
+  DEFINITION_TERM_ELEMENT_TYPE,
+} from "../definitionListTypes";
 
 const editor: Descendant[] = [
   {
     type: TYPE_SECTION,
     children: [
       {
-        type: TYPE_DEFINITION_LIST,
+        type: DEFINITION_LIST_ELEMENT_TYPE,
         children: [
           {
-            type: TYPE_DEFINITION_TERM,
+            type: DEFINITION_TERM_ELEMENT_TYPE,
             children: [{ text: "Tester vi testesen" }],
           },
           {
-            type: TYPE_DEFINITION_DESCRIPTION,
+            type: DEFINITION_DESCRIPTION_ELEMENT_TYPE,
             children: [
               {
                 text: "En test er en test vi tester for å teste om testingen gir test resultater",

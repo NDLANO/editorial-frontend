@@ -15,7 +15,7 @@ import { ToolbarCategoryProps } from "./SlateToolbar";
 import { BlockType } from "./toolbarState";
 import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
 import toggleBlock from "../../utils/toggleBlock";
-import { toggleDefinitionList } from "../definitionList/utils/toggleDefinitionList";
+import { toggleDefinitionList } from "../definitionList/transforms/toggleDefinitionList";
 
 const getCurrentBlockValues = (editor: Editor) => {
   const [currentListBlock] =

@@ -21,23 +21,20 @@ export interface MatomoPageData {
 export type MatomoResponse = Record<string, MatomoPageData[]>;
 
 export interface MatomoStatsBody {
-  contextIds: string[];
+  urls: string[];
 }
 
 interface Props extends MatomoStatsBody {
   signal: AbortSignal;
 }
 
-export const fetchMatomoStats = async ({
-  contextIds,
-  signal,
-}: Props): Promise<PromiseSettledResult<MatomoResponse>[]> => {
+export const fetchMatomoStats = async ({ urls, signal }: Props): Promise<PromiseSettledResult<MatomoResponse>[]> => {
   return fetchAuthorized("/matomo-stats/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ contextIds: contextIds }),
+    body: JSON.stringify({ urls: urls }),
     signal: signal,
   }).then((r) => resolveJsonOrRejectWithError<PromiseSettledResult<MatomoResponse>[]>(r));
 };

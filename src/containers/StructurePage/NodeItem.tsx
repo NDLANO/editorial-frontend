@@ -11,11 +11,11 @@ import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
 import { Draggable, StarLine, StarFill, SubtractLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
-import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild, Node } from "@ndla/types-taxonomy";
 import NodeControls from "./folderComponents/NodeControls";
 import QualityEvaluationGrade from "./resourceComponents/QualityEvaluationGrade";
+import { SafeLinkWithQuery } from "./SafeLinkWithQuery";
 import DndList from "../../components/DndList";
 import { DragHandle } from "../../components/DraggableItem";
 import Fade from "../../components/Taxonomy/Fade";
@@ -160,11 +160,11 @@ const NodeItem = ({
           {isFavorite ? <StarFill /> : <StarLine />}
         </StyledIconButton>
         <NodeItemTitle asChild consumeCss>
-          <SafeLink to={newPath} onClick={() => onNodeSelected(item)}>
+          <SafeLinkWithQuery to={newPath} onClick={() => onNodeSelected(item)}>
             <ToggleIcon hasChildNodes={hasChildNodes} isOpen={isOpen} />
             {!hasChildNodes && <SubtractLine css={iconRecipe.raw()} />}
             {item.name}
-          </SafeLink>
+          </SafeLinkWithQuery>
         </NodeItemTitle>
         <StructureErrorIcon node={item} isRoot={!!isRoot} isTaxonomyAdmin={isTaxonomyAdmin} />
         {!!showQuality && (item.nodeType === "TOPIC" || item.nodeType === "SUBJECT") && (

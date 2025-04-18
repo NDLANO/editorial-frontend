@@ -162,17 +162,15 @@ router.post("/translate", async (req, res) => {
 
 router.post("/matomo-stats", jwtMiddleware, async (req, res) => {
   const { body } = req;
-  if (body?.contextIds?.length) {
+  if (body?.urls?.length) {
     try {
-      const matomoStats = await fetchMatomoStats(body.contextIds);
+      const matomoStats = await fetchMatomoStats(body.urls);
       res.status(OK).json(matomoStats);
     } catch (err) {
       res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
     }
   } else {
-    res
-      .status(BAD_REQUEST)
-      .json({ status: BAD_REQUEST, text: "The 'contextIds' field is required in the request body." });
+    res.status(BAD_REQUEST).json({ status: BAD_REQUEST, text: "The 'urls' field is required in the request body." });
   }
 });
 

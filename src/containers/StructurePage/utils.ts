@@ -17,13 +17,19 @@ const sumValueEntries = (data: MatomoPageData[], key: DataKeysType): number =>
 
 export interface ResourceStats extends Pick<MatomoPageData, DataKeysType> {}
 
+const getEntriesWithData = (value: MatomoResponse): MatomoPageData[] => {
+  if (Array.isArray(value)) {
+    return value.flatMap(getEntriesWithData);
+  }
+  return Object.values(value)
+    .filter((entry) => !!entry.length)
+    .flat();
+};
+
 export const transformMatomoData = (data: PromiseSettledResult<MatomoResponse>[]): Record<string, ResourceStats> => {
   const transformed = data.reduce<Record<string, ResourceStats>>((acc, cur) => {
     if (cur.status === "fulfilled") {
-      const entriesWithData = Object.values(cur.value)
-        .filter((entry) => !!entry.length)
-        .flat();
-
+      const entriesWithData = getEntriesWithData(cur.value);
       if (!entriesWithData.length) return acc;
 
       const contextId = entriesWithData[0].label.split("/").pop();

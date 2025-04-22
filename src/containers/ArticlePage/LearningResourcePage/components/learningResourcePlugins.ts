@@ -31,7 +31,7 @@ import { framedContentPlugin } from "../../../../components/SlateEditor/plugins/
 import { gridPlugin } from "../../../../components/SlateEditor/plugins/grid";
 import { h5pPlugin } from "../../../../components/SlateEditor/plugins/h5p";
 import { imagePlugin } from "../../../../components/SlateEditor/plugins/image";
-import { linkPlugin } from "../../../../components/SlateEditor/plugins/link";
+import { contentLinkPlugin, linkPlugin } from "../../../../components/SlateEditor/plugins/link";
 import { mathmlPlugin } from "../../../../components/SlateEditor/plugins/mathml/mathPlugin";
 import { relatedPlugin } from "../../../../components/SlateEditor/plugins/related";
 import saveHotkeyPlugin from "../../../../components/SlateEditor/plugins/saveHotkey";
@@ -67,6 +67,7 @@ export const learningResourcePlugins: SlatePlugin[] = [
   framedContentPlugin,
   blockQuotePlugin,
   linkPlugin,
+  contentLinkPlugin,
   inlineConceptPlugin,
   blockConceptPlugin,
   commentInlinePlugin,

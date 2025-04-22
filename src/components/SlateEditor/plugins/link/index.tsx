@@ -6,10 +6,12 @@
  *
  */
 
-import { Descendant, Editor, Element, Text, Node, Transforms } from "slate";
+import { Descendant, Element, Text, Node, Transforms, ElementType } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
+import { createPlugin, createSerializer, PluginConfiguration } from "@ndla/editor";
 import { ContentLinkEmbedData } from "@ndla/types-embed";
-import { LinkEmbedData, TYPE_CONTENT_LINK, TYPE_LINK } from "./types";
+import { isContentLinkElement, isLinkElement } from "./queries";
+import { CONTENT_LINK_ELEMENT_TYPE, CONTENT_LINK_PLUGIN, LINK_ELEMENT_TYPE, LINK_PLUGIN, LinkEmbedData } from "./types";
 import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { TYPE_NDLA_EMBED } from "../embed/types";
@@ -30,91 +32,101 @@ export interface ContentLinkElement {
 
 export const linkSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
-    const tag = el.tagName.toLowerCase();
-    if (tag === "a") {
-      const a = el as HTMLLinkElement;
-      return slatejsx(
-        "element",
-        {
-          type: TYPE_LINK,
-          data: {
-            href: a.href ?? "#",
-            target: a.target !== "" ? a.target : undefined,
-            title: a.title !== "" ? a.title : undefined,
-            rel: a.rel !== "" ? a.rel : undefined,
-          },
+    if (el.tagName.toLowerCase() !== "a") return;
+    const a = el as HTMLLinkElement;
+    return slatejsx(
+      "element",
+      {
+        type: LINK_ELEMENT_TYPE,
+        data: {
+          href: a.href ?? "#",
+          target: a.target !== "" ? a.target : undefined,
+          title: a.title !== "" ? a.title : undefined,
+          rel: a.rel !== "" ? a.rel : undefined,
         },
-        children,
-      );
-    }
-    if (tag === TYPE_NDLA_EMBED) {
-      const embed = el as HTMLEmbedElement;
-      const embedAttributes = parseElementAttributes(Array.from(embed.attributes));
-      if (embedAttributes.resource !== "content-link") return;
-      return slatejsx(
-        "element",
-        {
-          type: TYPE_CONTENT_LINK,
-          data: embedAttributes,
-        },
-        children,
-      );
-    }
-    return;
+      },
+      children,
+    );
   },
   serialize(node, children) {
-    if (!Element.isElement(node)) return;
-    if (node.type === TYPE_LINK) {
-      return createHtmlTag({
-        tag: "a",
-        data: {
-          href: node.data?.href,
-          target: node.data?.target,
-          title: node.data?.title,
-          rel: node.data?.rel,
-        },
-        children,
-      });
-    }
-    if (node.type === TYPE_CONTENT_LINK) {
-      const data = createDataAttributes({
-        contentId: node.data.contentId,
-        openIn: node.data.openIn,
-        resource: "content-link",
-        contentType: node.data.contentType,
-      });
-      return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true, children });
-    }
+    if (!isLinkElement(node)) return;
+    return createHtmlTag({
+      tag: "a",
+      data: {
+        href: node.data?.href,
+        target: node.data?.target,
+        title: node.data?.title,
+        rel: node.data?.rel,
+      },
+      children,
+    });
   },
 };
 
-export const linkPlugin = (editor: Editor) => {
-  const { isInline: nextIsInline, normalizeNode: nextNormalizeNode } = editor;
+export const contentLinkSerializer = createSerializer({
+  deserialize(el, children) {
+    if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
+    const embed = el as HTMLEmbedElement;
+    const embedAttributes = parseElementAttributes(Array.from(embed.attributes));
+    if (embedAttributes.resource !== "content-link") return;
+    return slatejsx(
+      "element",
+      {
+        type: CONTENT_LINK_ELEMENT_TYPE,
+        data: embedAttributes,
+      },
+      children,
+    );
+  },
+  serialize(node, children) {
+    if (!isContentLinkElement(node)) return;
+    const data = createDataAttributes({
+      contentId: node.data.contentId,
+      openIn: node.data.openIn,
+      resource: "content-link",
+      contentType: node.data.contentType,
+    });
+    return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true, children });
+  },
+});
 
-  editor.isInline = (element: Element) => {
-    if (element.type === "link" || element.type === "content-link") {
+const normalizeNode =
+  <T extends ElementType>(type: T): PluginConfiguration<T, undefined>["normalize"] =>
+  (editor, node, path, logger) => {
+    if (!Element.isElement(node) || node.type !== type) return false;
+    if (Node.string(node) === "") {
+      // we unwrap instead of remove here to keep the cursor position in the new paragraph
+      logger.log("Link element is empty, unwrapping it");
+      Transforms.unwrapNodes(editor, { at: path });
       return true;
-    } else {
-      return nextIsInline(element);
     }
+    const nonTextEntries = Array.from(node.children.entries()).filter(([_, child]) => !Text.isText(child));
+    if (nonTextEntries.length) {
+      logger.log("Link element contains non-text children, unwrapping them");
+      editor.withoutNormalizing(() => {
+        for (const [index] of nonTextEntries) {
+          Transforms.unwrapNodes(editor, { at: path.concat(index) });
+        }
+        return true;
+      });
+    }
+    return false;
   };
 
-  editor.normalizeNode = (entry) => {
-    const [node, path] = entry;
-    if (Element.isElement(node)) {
-      if (node.type === "content-link" || node.type === "link") {
-        for (const [index, child] of node.children.entries()) {
-          if (!Text.isText(child)) {
-            return Transforms.unwrapNodes(editor, { at: [...path, index] });
-          }
-        }
-        if (Node.string(node) === "") {
-          return Transforms.removeNodes(editor, { at: path });
-        }
-      }
-    }
-    nextNormalizeNode(entry);
-  };
+// TODO: Consider changing the implementation in frontend-packages to allow for customizing the type checked for in normalizer.
+// This would allow us to use the same normalizer for both link and content-link elements.
+// We also need to change the serializer if we choose to go through with that.
 
-  return editor;
-};
+export const linkPlugin = createPlugin({
+  name: LINK_PLUGIN,
+  type: LINK_ELEMENT_TYPE,
+  isInline: true,
+  normalize: normalizeNode(LINK_ELEMENT_TYPE),
+});
+
+export const contentLinkPlugin = createPlugin({
+  name: CONTENT_LINK_PLUGIN,
+  type: CONTENT_LINK_ELEMENT_TYPE,
+  isInline: true,
+  normalize: normalizeNode(CONTENT_LINK_ELEMENT_TYPE),
+});

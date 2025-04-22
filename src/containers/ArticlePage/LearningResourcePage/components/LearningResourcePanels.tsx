@@ -25,7 +25,7 @@ import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import { IsNewArticleLanguageProvider } from "../../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import { breakPlugin } from "../../../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../../../components/SlateEditor/plugins/break/render";
-import { linkPlugin } from "../../../../components/SlateEditor/plugins/link";
+import { contentLinkPlugin, linkPlugin } from "../../../../components/SlateEditor/plugins/link";
 import { linkRenderer } from "../../../../components/SlateEditor/plugins/link/render";
 import { markPlugin } from "../../../../components/SlateEditor/plugins/mark";
 import { markRenderer } from "../../../../components/SlateEditor/plugins/mark/render";
@@ -84,6 +84,7 @@ export const disclaimerPlugins: SlatePlugin[] = [
   markPlugin,
   noopPlugin,
   linkPlugin,
+  contentLinkPlugin,
 ];
 
 const renderers: SlatePlugin[] = [

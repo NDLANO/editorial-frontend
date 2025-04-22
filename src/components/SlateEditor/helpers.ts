@@ -23,7 +23,7 @@ import { TYPE_GRID } from "./plugins/grid/types";
 import { H5P_ELEMENT_TYPE } from "./plugins/h5p/types";
 import { IMAGE_ELEMENT_TYPE } from "./plugins/image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "./plugins/keyFigure/types";
-import { TYPE_LINK, TYPE_CONTENT_LINK } from "./plugins/link/types";
+import { LINK_ELEMENT_TYPE, CONTENT_LINK_ELEMENT_TYPE } from "./plugins/link/types";
 import { MATH_ELEMENT_TYPE } from "./plugins/mathml/mathTypes";
 import { REPHRASE_ELEMENT_TYPE } from "./plugins/rephrase/rephraseTypes";
 import { PITCH_ELEMENT_TYPE } from "./plugins/pitch/types";
@@ -35,8 +35,8 @@ import { BRIGHTCOVE_ELEMENT_TYPE } from "./plugins/video/types";
 export const inlines: ElementType[] = [
   CONCEPT_INLINE_ELEMENT_TYPE,
   FOOTNOTE_ELEMENT_TYPE,
-  TYPE_LINK,
-  TYPE_CONTENT_LINK,
+  LINK_ELEMENT_TYPE,
+  CONTENT_LINK_ELEMENT_TYPE,
   MATH_ELEMENT_TYPE,
   REPHRASE_ELEMENT_TYPE,
   SPAN_ELEMENT_TYPE,

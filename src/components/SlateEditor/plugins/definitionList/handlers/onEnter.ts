@@ -6,67 +6,28 @@
  *
  */
 
-import type { KeyboardEvent } from "react";
-import { Editor, Path, Transforms, Node, Range, Point } from "slate";
-import { Logger } from "@ndla/editor";
-import { defaultDefinitionTermBlock, defaultDefinitionDescriptionBlock } from "../utils";
+import { Transforms, Node, Range } from "slate";
+import { ShortcutHandler } from "@ndla/editor";
 import { isDefinitionTermElement, isDefinitionDescriptionElement } from "../queries/definitionListQueries";
+import { DEFINITION_DESCRIPTION_ELEMENT_TYPE, DEFINITION_TERM_ELEMENT_TYPE } from "../definitionListTypes";
 
-export const onEnter = (editor: Editor, e: KeyboardEvent<HTMLDivElement>, logger: Logger) => {
-  if (e.shiftKey || !editor.selection) return false;
+export const onEnter: ShortcutHandler = (editor, event, logger) => {
+  if (!editor.selection || Range.isExpanded(editor.selection)) return false;
+  const [parentNode, parentPath] = editor.parent(editor.selection);
+  if (!isDefinitionTermElement(parentNode) && !isDefinitionDescriptionElement(parentNode)) return false;
+  if (Node.string(parentNode) !== "" || editor.hasVoids(parentNode)) return false;
 
-  const [selectedDefinitionNode, selectedDefinitionPath] = editor.parent(editor.selection);
+  event.preventDefault();
 
-  if (!(isDefinitionTermElement(selectedDefinitionNode) || isDefinitionDescriptionElement(selectedDefinitionNode))) {
-    return false;
-  }
-
-  e.preventDefault();
-
-  if (Range.isExpanded(editor.selection)) {
-    Editor.deleteFragment(editor);
-  }
-
-  if (Node.string(selectedDefinitionNode) === "" && selectedDefinitionNode.children.length === 1) {
-    logger.log("Enter on empty definition node, unwrapping and lifting.");
-    Editor.withoutNormalizing(editor, () => {
-      Transforms.unwrapNodes(editor, {
-        at: selectedDefinitionPath,
-      });
-      Transforms.liftNodes(editor, {
-        at: selectedDefinitionPath,
-      });
+  if (parentNode.type === DEFINITION_DESCRIPTION_ELEMENT_TYPE) {
+    logger.log("Tried to enter on empty definition description, converting it to term.");
+    Transforms.setNodes(editor, { type: DEFINITION_TERM_ELEMENT_TYPE }, { at: parentPath });
+  } else {
+    logger.log("Tried to enter on empty definition term, splitting list and inserting paragraph");
+    editor.withoutNormalizing(() => {
+      Transforms.unwrapNodes(editor, { at: parentPath });
+      Transforms.liftNodes(editor, { at: parentPath });
     });
-    return true;
   }
-
-  Transforms.unsetNodes(editor, "serializeAsText", {
-    match: (node) => isDefinitionDescriptionElement(node) || isDefinitionTermElement(node),
-    mode: "lowest",
-  });
-
-  const nextPoint = Editor.after(editor, Range.end(editor.selection));
-  const listItemEnd = Editor.end(editor, selectedDefinitionPath);
-
-  if ((nextPoint && Point.equals(listItemEnd, nextPoint)) || Point.equals(listItemEnd, editor.selection.anchor)) {
-    const nextPath = Path.next(selectedDefinitionPath);
-    if (isDefinitionTermElement(selectedDefinitionNode)) {
-      logger.log("Enter on definition term, inserting new definition term node.");
-      Transforms.insertNodes(editor, defaultDefinitionTermBlock(), { at: nextPath });
-    } else if (isDefinitionDescriptionElement(selectedDefinitionNode)) {
-      logger.log("Enter on definition description, inserting new definition description node.");
-      Transforms.insertNodes(editor, defaultDefinitionDescriptionBlock(), { at: nextPath });
-    }
-    Transforms.select(editor, Editor.start(editor, nextPath));
-    return true;
-  }
-
-  // Split current listItem at selection.
-  logger.log("Enter inside definition node, splitting node.");
-  Transforms.splitNodes(editor, {
-    match: (node) => isDefinitionDescriptionElement(node) || isDefinitionTermElement(node),
-    mode: "lowest",
-  });
-  Transforms.select(editor, editor.start(Path.next(selectedDefinitionPath)));
   return true;
 };

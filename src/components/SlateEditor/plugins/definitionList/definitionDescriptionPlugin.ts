@@ -19,7 +19,7 @@ import {
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { isDefinitionDescriptionElement } from "./queries/definitionListQueries";
 
-const normalizerDDConfig: NormalizerConfig = {
+const normalizerConfig: NormalizerConfig = {
   parent: {
     allowed: [DEFINITION_LIST_ELEMENT_TYPE],
   },
@@ -46,6 +46,6 @@ export const definitionDescriptionPlugin = createPlugin<DefinitionDescriptionTyp
   type: DEFINITION_DESCRIPTION_ELEMENT_TYPE,
   normalize: (editor, node, path, logger) => {
     if (!isDefinitionDescriptionElement(node)) return false;
-    return defaultBlockNormalizer(editor, node, path, normalizerDDConfig, logger);
+    return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
   },
 });

@@ -23,7 +23,7 @@ import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNor
 import { isDefinitionListElement } from "./queries/definitionListQueries";
 import { onEnter } from "./handlers/onEnter";
 
-const normalizerDLConfig: NormalizerConfig = {
+const normalizerConfig: NormalizerConfig = {
   firstNode: {
     allowed: [DEFINITION_TERM_ELEMENT_TYPE],
     defaultType: DEFINITION_TERM_ELEMENT_TYPE,
@@ -55,25 +55,18 @@ export const definitionListPlugin = createPlugin<DefinitionListType>({
     listItemDeletion: { keyCondition: isKeyHotkey("backspace"), handler: onBackspace },
   },
   normalize: (editor, node, path, logger) => {
-    if (isDefinitionListElement(node)) {
-      if (Path.hasPrevious(path)) {
-        const previousPath = Path.previous(path);
-        if (Editor.hasPath(editor, previousPath)) {
-          const [prevNode] = Editor.node(editor, previousPath);
-          if (isDefinitionListElement(prevNode)) {
-            logger.log("Current node and previous node is definition list, merging.");
-            Transforms.mergeNodes(editor, {
-              at: path,
-            });
-            return true;
-          }
+    if (!isDefinitionListElement(node)) return false;
+    if (Path.hasPrevious(path)) {
+      const previousPath = Path.previous(path);
+      if (Editor.hasPath(editor, previousPath)) {
+        const [prevNode] = Editor.node(editor, previousPath);
+        if (isDefinitionListElement(prevNode)) {
+          logger.log("Current node and previous node is definition list, merging.");
+          Transforms.mergeNodes(editor, { at: path });
+          return true;
         }
       }
-
-      if (defaultBlockNormalizer(editor, node, path, normalizerDLConfig)) {
-        return true;
-      }
     }
-    return false;
+    return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
   },
 });

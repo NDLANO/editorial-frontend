@@ -17,7 +17,6 @@ import {
   DEFINITION_TERM_ELEMENT_TYPE,
   DefinitionListType,
 } from "./definitionListTypes";
-import { onBackspace } from "./handlers/onBackspace";
 import { onTab } from "./handlers/onTab";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { isDefinitionListElement } from "./queries/definitionListQueries";
@@ -52,7 +51,6 @@ export const definitionListPlugin = createPlugin<DefinitionListType>({
     // TODO: Add transforms logic to replace some onKeyDown functionality
     dentList: { keyCondition: isKeyHotkey("shift?+tab"), handler: onTab },
     listItemInsertion: { keyCondition: isKeyHotkey("enter"), handler: onEnter },
-    listItemDeletion: { keyCondition: isKeyHotkey("backspace"), handler: onBackspace },
   },
   normalize: (editor, node, path, logger) => {
     if (!isDefinitionListElement(node)) return false;

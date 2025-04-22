@@ -7,7 +7,7 @@
  */
 
 import { isKeyHotkey } from "is-hotkey";
-import { Editor, Path, Transforms } from "slate";
+import { Editor, Node, Path, Range, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { createHtmlTag, createPlugin, createSerializer } from "@ndla/editor";
 import {
@@ -19,8 +19,11 @@ import {
 } from "./definitionListTypes";
 import { onTab } from "./handlers/onTab";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
-import { isDefinitionListElement } from "./queries/definitionListQueries";
-import { onEnter } from "./handlers/onEnter";
+import {
+  isDefinitionDescriptionElement,
+  isDefinitionListElement,
+  isDefinitionTermElement,
+} from "./queries/definitionListQueries";
 
 const normalizerConfig: NormalizerConfig = {
   firstNode: {
@@ -50,7 +53,6 @@ export const definitionListPlugin = createPlugin<DefinitionListType>({
   shortcuts: {
     // TODO: Add transforms logic to replace some onKeyDown functionality
     dentList: { keyCondition: isKeyHotkey("shift?+tab"), handler: onTab },
-    listItemInsertion: { keyCondition: isKeyHotkey("enter"), handler: onEnter },
   },
   normalize: (editor, node, path, logger) => {
     if (!isDefinitionListElement(node)) return false;
@@ -66,5 +68,28 @@ export const definitionListPlugin = createPlugin<DefinitionListType>({
       }
     }
     return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+  },
+  transform: (editor, logger) => {
+    const { insertBreak } = editor;
+
+    editor.insertBreak = () => {
+      if (!editor.selection || Range.isExpanded(editor.selection)) return insertBreak();
+      const [parentNode, parentPath] = editor.parent(editor.selection);
+
+      if (!isDefinitionTermElement(parentNode) && !isDefinitionDescriptionElement(parentNode)) return insertBreak();
+      if (Node.string(parentNode) !== "" || editor.hasVoids(parentNode)) return insertBreak();
+
+      if (parentNode.type === DEFINITION_DESCRIPTION_ELEMENT_TYPE) {
+        logger.log("Tried to enter on empty definition description, converting it to term.");
+        Transforms.setNodes(editor, { type: DEFINITION_TERM_ELEMENT_TYPE }, { at: parentPath });
+      } else {
+        logger.log("Tried to enter on empty definition term, splitting list and inserting paragraph");
+        editor.withoutNormalizing(() => {
+          Transforms.unwrapNodes(editor, { at: parentPath });
+          Transforms.liftNodes(editor, { at: parentPath });
+        });
+      }
+    };
+    return editor;
   },
 });

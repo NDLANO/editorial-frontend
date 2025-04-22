@@ -41,7 +41,7 @@ import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abs
 import { FormField } from "../../../components/FormField";
 import { FormActionsContainer, FormikForm } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
-import { TYPE_DIV } from "../../../components/SlateEditor/plugins/div/types";
+import { DIV_ELEMENT_TYPE } from "../../../components/SlateEditor/plugins/div/types";
 import {
   DRAFT_RESPONSIBLE,
   LAST_UPDATED_SIZE,
@@ -145,7 +145,7 @@ const getSlateComment = (userName: string | undefined, t: TFunction, formikComme
   const infoText = getCommentInfoText(userName, t);
   const slateComment: Descendant[] = [
     {
-      type: TYPE_DIV,
+      type: DIV_ELEMENT_TYPE,
       children: [
         { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: formikComment }] },
         { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: infoText }] },

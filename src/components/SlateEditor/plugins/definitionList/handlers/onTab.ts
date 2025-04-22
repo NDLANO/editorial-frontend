@@ -6,9 +6,8 @@
  *
  */
 
-import type { KeyboardEvent } from "react";
-import { Editor, Transforms } from "slate";
-import { Logger } from "@ndla/editor";
+import { Transforms } from "slate";
+import { ShortcutHandler } from "@ndla/editor";
 import hasNodeOfType from "../../../utils/hasNodeOfType";
 import {
   DEFINITION_DESCRIPTION_ELEMENT_TYPE,
@@ -17,32 +16,20 @@ import {
 } from "../definitionListTypes";
 import { isDefinitionTermElement, isDefinitionDescriptionElement } from "../queries/definitionListQueries";
 
-export const onTab = (editor: Editor, event: KeyboardEvent<HTMLDivElement>, logger: Logger) => {
+export const onTab: ShortcutHandler = (editor, event, logger) => {
   if (!editor.selection || !hasNodeOfType(editor, DEFINITION_LIST_ELEMENT_TYPE)) return false;
-
-  event.preventDefault();
 
   const [selectedDefinitionNode, selectedDefinitionPath] = editor.parent(editor.selection);
 
   if (event.shiftKey && isDefinitionDescriptionElement(selectedDefinitionNode)) {
+    event.preventDefault();
     logger.log("Shift + Tab event on DESCRIPTION, setting type to TERM.");
-    Transforms.setNodes(
-      editor,
-      {
-        type: DEFINITION_TERM_ELEMENT_TYPE,
-      },
-      { at: selectedDefinitionPath },
-    );
+    Transforms.setNodes(editor, { type: DEFINITION_TERM_ELEMENT_TYPE }, { at: selectedDefinitionPath });
     return true;
   } else if (isDefinitionTermElement(selectedDefinitionNode)) {
+    event.preventDefault();
     logger.log("Tab event on TERM, setting type to DESCRIPTION.");
-    Transforms.setNodes(
-      editor,
-      {
-        type: DEFINITION_DESCRIPTION_ELEMENT_TYPE,
-      },
-      { at: selectedDefinitionPath },
-    );
+    Transforms.setNodes(editor, { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE }, { at: selectedDefinitionPath });
     return true;
   }
   return false;

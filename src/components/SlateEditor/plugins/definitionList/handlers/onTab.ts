@@ -19,17 +19,17 @@ import { isDefinitionTermElement, isDefinitionDescriptionElement } from "../quer
 export const onTab: ShortcutHandler = (editor, event, logger) => {
   if (!editor.selection || !hasNodeOfType(editor, DEFINITION_LIST_ELEMENT_TYPE)) return false;
 
-  const [selectedDefinitionNode, selectedDefinitionPath] = editor.parent(editor.selection);
+  const [parentNode, parentPath] = editor.parent(editor.selection);
 
-  if (event.shiftKey && isDefinitionDescriptionElement(selectedDefinitionNode)) {
+  if (event.shiftKey && isDefinitionDescriptionElement(parentNode)) {
     event.preventDefault();
     logger.log("Shift + Tab event on DESCRIPTION, setting type to TERM.");
-    Transforms.setNodes(editor, { type: DEFINITION_TERM_ELEMENT_TYPE }, { at: selectedDefinitionPath });
+    Transforms.setNodes(editor, { type: DEFINITION_TERM_ELEMENT_TYPE }, { at: parentPath });
     return true;
-  } else if (isDefinitionTermElement(selectedDefinitionNode)) {
+  } else if (isDefinitionTermElement(parentNode) && !event.shiftKey) {
     event.preventDefault();
     logger.log("Tab event on TERM, setting type to DESCRIPTION.");
-    Transforms.setNodes(editor, { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE }, { at: selectedDefinitionPath });
+    Transforms.setNodes(editor, { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE }, { at: parentPath });
     return true;
   }
   return false;

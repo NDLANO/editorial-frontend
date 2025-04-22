@@ -7,7 +7,6 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { Descendant } from "slate";
 import { createHtmlTag, createPlugin, createSerializer } from "@ndla/editor";
 import {
   DEFINITION_DESCRIPTION_ELEMENT_TYPE,
@@ -30,7 +29,7 @@ const normalizerConfig: NormalizerConfig = {
 };
 
 export const definitionDescriptionSerializer = createSerializer({
-  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
+  deserialize(el, children) {
     const tag = el.tagName.toLowerCase();
     if (tag !== "dd") return;
     return slatejsx("element", { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE }, children);

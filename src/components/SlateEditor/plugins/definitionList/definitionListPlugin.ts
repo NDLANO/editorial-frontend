@@ -7,7 +7,7 @@
  */
 
 import { isKeyHotkey } from "is-hotkey";
-import { Editor, Descendant, Path, Transforms } from "slate";
+import { Editor, Path, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { createHtmlTag, createPlugin, createSerializer } from "@ndla/editor";
 import {
@@ -34,7 +34,7 @@ const normalizerConfig: NormalizerConfig = {
   },
 };
 export const definitionListSerializer = createSerializer({
-  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
+  deserialize(el, children) {
     const tag = el.tagName.toLowerCase();
     if (tag !== "dl") return;
     return slatejsx("element", { type: DEFINITION_LIST_ELEMENT_TYPE }, children);

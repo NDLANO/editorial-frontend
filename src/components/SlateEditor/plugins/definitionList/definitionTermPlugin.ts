@@ -7,13 +7,12 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { Descendant } from "slate";
 import { createHtmlTag, createPlugin, createSerializer } from "@ndla/editor";
 import { DEFINITION_TERM_ELEMENT_TYPE, DEFINITION_TERM_PLUGIN } from "./definitionListTypes";
 import { isDefinitionTermElement } from "./queries/definitionListQueries";
 
 export const definitionTermSerializer = createSerializer({
-  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
+  deserialize(el, children) {
     const tag = el.tagName.toLowerCase();
     if (tag !== "dt") return;
     return slatejsx("element", { type: DEFINITION_TERM_ELEMENT_TYPE }, children);

@@ -33,8 +33,8 @@ import { styled } from "@ndla/styled-system/jsx";
 import { IGlossExampleDTO } from "@ndla/types-backend/concept-api";
 import { ConceptMetaData } from "@ndla/types-embed";
 import { GlossExample } from "@ndla/ui";
-import { ConceptBlockElement } from "./block/interfaces";
-import { ConceptInlineElement } from "./inline/interfaces";
+import { ConceptBlockElement } from "./block/types";
+import { ConceptInlineElement } from "./inline/types";
 import { generateNumbersArray, generateUniqueGlossLanguageArray } from "./utils";
 import { Form, FormActionsContainer } from "../../../FormikForm";
 

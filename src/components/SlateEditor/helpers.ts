@@ -12,7 +12,7 @@ import { AUDIO_ELEMENT_TYPE } from "./plugins/audio/audioTypes";
 import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "./plugins/campaignBlock/types";
 import { CODE_BLOCK_ELEMENT_TYPE } from "./plugins/codeBlock/types";
 import { COMMENT_INLINE_ELEMENT_TYPE } from "./plugins/comment/inline/types";
-import { TYPE_CONCEPT_INLINE } from "./plugins/concept/inline/types";
+import { CONCEPT_INLINE_ELEMENT_TYPE } from "./plugins/concept/inline/types";
 import { DETAILS_ELEMENT_TYPE } from "./plugins/details/detailsTypes";
 import { TYPE_EMBED_ERROR } from "./plugins/embed/types";
 import { TYPE_EXTERNAL } from "./plugins/external/types";
@@ -33,7 +33,7 @@ import { TYPE_TABLE } from "./plugins/table/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "./plugins/video/types";
 
 export const inlines: ElementType[] = [
-  TYPE_CONCEPT_INLINE,
+  CONCEPT_INLINE_ELEMENT_TYPE,
   FOOTNOTE_ELEMENT_TYPE,
   TYPE_LINK,
   TYPE_CONTENT_LINK,

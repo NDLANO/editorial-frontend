@@ -6,4 +6,16 @@
  *
  */
 
-export const TYPE_CONCEPT_INLINE = "concept-inline";
+import { Descendant } from "slate";
+import { ConceptEmbedData } from "@ndla/types-embed";
+
+export const CONCEPT_INLINE_ELEMENT_TYPE = "concept-inline" as const;
+export const CONCEPT_INLINE_PLUGIN = "concept-inline" as const;
+
+export interface ConceptInlineElement {
+  type: "concept-inline";
+  data: ConceptEmbedData;
+  children: Descendant[];
+  conceptType?: "gloss" | "concept";
+  isFirstEdit?: boolean;
+}

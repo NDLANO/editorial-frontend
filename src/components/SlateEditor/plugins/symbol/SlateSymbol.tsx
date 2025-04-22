@@ -9,7 +9,7 @@
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
+import { ReactEditor, RenderElementProps, useSlateSelector } from "slate-react";
 import { DialogOpenChangeDetails, Portal, ToggleGroupValueChangeDetails } from "@ark-ui/react";
 import {
   Button,
@@ -28,6 +28,7 @@ import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormActionsContainer } from "../../../FormikForm";
 import { InlineBugfix } from "../../utils/InlineBugFix";
 import mergeLastUndos from "../../utils/mergeLastUndos";
+import { styled } from "@ndla/styled-system/jsx";
 
 interface Props extends RenderElementProps {
   element: SymbolElement;
@@ -37,10 +38,37 @@ interface Props extends RenderElementProps {
 
 type Symbol = (typeof symbols)[number];
 
+const SymbolWrapper = styled("span", {
+  variants: {
+    isSelected: {
+      true: {
+        backgroundColor: "background.subtle",
+        outline: "1px solid",
+        outlineColor: "stroke.default",
+        outlineOffset: "1px",
+        borderRadius: "xsmall",
+      },
+    },
+  },
+});
+
+const getCurrentSymbol = (editor: Editor) => {
+  const [match] =
+    Editor.nodes(editor, {
+      match: isSymbolElement,
+      voids: true,
+    }) ?? [];
+
+  const symbol = match?.[0];
+  if (!isSymbolElement(symbol)) return;
+  return symbol;
+};
+
 export const SlateSymbol = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [selectedSymbol, setSelectedSymbol] = useState<Symbol>(symbols[0]);
+  const currentSymbol = useSlateSelector(getCurrentSymbol);
 
   useEffect(() => {
     setOpen(!!element.isFirstEdit);
@@ -76,12 +104,12 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
 
   return (
     <DialogRoot open={open} onOpenChange={handleOpenChange}>
-      <span {...attributes} contentEditable={false}>
+      <SymbolWrapper {...attributes} contentEditable={false} isSelected={!!currentSymbol}>
         <InlineBugfix />
         {element.symbol}
         {children}
         <InlineBugfix />
-      </span>
+      </SymbolWrapper>
       <Portal>
         <DialogContent>
           <DialogHeader>

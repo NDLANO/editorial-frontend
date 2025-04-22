@@ -2100,6 +2100,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ndla/icons@npm:^8.0.55-alpha.0":
+  version: 8.0.55-alpha.0
+  resolution: "@ndla/icons@npm:8.0.55-alpha.0"
+  dependencies:
+    "@ndla/styled-system": "npm:^0.0.33"
+  peerDependencies:
+    react: ">= 18"
+    react-dom: ">= 18"
+  checksum: 10c0/5b0033a0dd2d8e8da879c318f206215975942e786d9fdb2f35ef90f6c39ae27df63bbae974df8d4ce8b57be7bb64a585e3da7449801497a6df4aca07063e3916
+  languageName: node
+  linkType: hard
+
 "@ndla/image-search@npm:^11.0.96-alpha.0":
   version: 11.0.96-alpha.0
   resolution: "@ndla/image-search@npm:11.0.96-alpha.0"
@@ -3720,16 +3732,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*":
-  version: 19.0.12
-  resolution: "@types/react@npm:19.0.12"
-  dependencies:
-    csstype: "npm:^3.0.2"
-  checksum: 10c0/c814b6af5c0fbcf5c65d031b1c9bf98c5b857e015254d95811f2851b27b869c3d31c6f35dab127dc6921a3dbda0b0622c6323d493a14b31b231a6a58c41c5e84
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:^19.1.0":
+"@types/react@npm:*, @types/react@npm:^19.1.0":
   version: 19.1.0
   resolution: "@types/react@npm:19.1.0"
   dependencies:
@@ -6608,7 +6611,7 @@ __metadata:
     "@ndla/editor-components": "npm:^0.0.25"
     "@ndla/error-reporter": "npm:^2.0.12"
     "@ndla/hooks": "npm:^2.1.11"
-    "@ndla/icons": "npm:^8.0.53-alpha.0"
+    "@ndla/icons": "npm:^8.0.55-alpha.0"
     "@ndla/image-search": "npm:^11.0.96-alpha.0"
     "@ndla/licenses": "npm:^9.0.0"
     "@ndla/preset-panda": "npm:^0.0.52"

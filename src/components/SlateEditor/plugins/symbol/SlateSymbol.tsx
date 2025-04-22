@@ -21,6 +21,7 @@ import {
   ToggleGroupItem,
   ToggleGroupRoot,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { isSymbolElement } from "./queries";
 import { symbols } from "./symbols";
 import { SymbolElement } from "./types";
@@ -28,7 +29,6 @@ import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormActionsContainer } from "../../../FormikForm";
 import { InlineBugfix } from "../../utils/InlineBugFix";
 import mergeLastUndos from "../../utils/mergeLastUndos";
-import { styled } from "@ndla/styled-system/jsx";
 
 interface Props extends RenderElementProps {
   element: SymbolElement;
@@ -39,10 +39,12 @@ interface Props extends RenderElementProps {
 type Symbol = (typeof symbols)[number];
 
 const SymbolWrapper = styled("span", {
+  base: {
+    backgroundColor: "surface.brand.3.moderate",
+  },
   variants: {
     isSelected: {
       true: {
-        backgroundColor: "background.subtle",
         outline: "1px solid",
         outlineColor: "stroke.default",
         outlineOffset: "1px",
@@ -85,10 +87,9 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
     [editor, element],
   );
 
-  const handleSymbolChange = useCallback(
-    (details: ToggleGroupValueChangeDetails) => details.value[0] && setSelectedSymbol(details.value[0] as Symbol),
-    [],
-  );
+  const handleSymbolChange = useCallback((details: ToggleGroupValueChangeDetails) => {
+    if (details.value[0]) setSelectedSymbol(details.value[0] as Symbol);
+  }, []);
 
   const onClick = useCallback(() => {
     setOpen(false);

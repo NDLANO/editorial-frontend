@@ -37,7 +37,7 @@ export const symbolPlugin = createPlugin<typeof SYMBOL_ELEMENT_TYPE, SymbolPlugi
     if (isSymbolElement(node)) {
       if (!node.isFirstEdit && !node.symbol) {
         logger.log("Removing empty symbol");
-        Transforms.removeNodes(editor, { at: path });
+        Transforms.removeNodes(editor, { at: path, voids: true });
         return true;
       }
 

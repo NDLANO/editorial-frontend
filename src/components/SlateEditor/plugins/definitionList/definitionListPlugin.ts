@@ -51,7 +51,6 @@ export const definitionListPlugin = createPlugin<DefinitionListType>({
   name: DEFINITION_LIST_PLUGIN,
   type: DEFINITION_LIST_ELEMENT_TYPE,
   shortcuts: {
-    // TODO: Add transforms logic to replace some onKeyDown functionality
     dentList: { keyCondition: isKeyHotkey("shift?+tab"), handler: onTab },
   },
   normalize: (editor, node, path, logger) => {

@@ -18,9 +18,8 @@ import {
 const isOnlySelectionOfDefinitionList = (editor: Editor) => {
   let hasListItems = false;
 
-  for (const [, path] of Editor.nodes(editor, {
-    match: (node) => isDefinitionDescriptionElement(node) || isDefinitionTermElement(node),
-  })) {
+  const nodes = editor.nodes({ match: (n) => isDefinitionDescriptionElement(n) || isDefinitionTermElement(n) });
+  for (const [, path] of nodes) {
     const [parentNode] = Editor.parent(editor, path);
     if (isDefinitionListElement(parentNode)) {
       hasListItems = true;
@@ -31,6 +30,7 @@ const isOnlySelectionOfDefinitionList = (editor: Editor) => {
   return hasListItems;
 };
 
+// TODO: This doesn't work perfectly when combined with regular lists.
 export const toggleDefinitionList = (editor: Editor) => {
   if (!Range.isRange(editor.selection)) {
     return;

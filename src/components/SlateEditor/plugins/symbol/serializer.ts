@@ -13,16 +13,20 @@ import { jsx as slatejsx } from "slate-hyperscript";
 import { isSymbolElement } from "./queries";
 
 export const symbolSerializer = createSerializer({
-  deserialize(el, children) {
+  deserialize(el) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const attributes = parseElementAttributes(Array.from(el.attributes));
-    if (attributes.type !== SYMBOL_ELEMENT_TYPE) return;
-    return slatejsx("element", { type: SYMBOL_ELEMENT_TYPE, symbol: attributes.symbol }, children);
+    if (attributes.resource !== SYMBOL_ELEMENT_TYPE) return;
+
+    if (!el.hasChildNodes()) return;
+    const symbol = el.firstChild?.textContent;
+    if (!symbol) return;
+
+    return slatejsx("element", { type: SYMBOL_ELEMENT_TYPE, symbol });
   },
-  serialize(node, children) {
-    if (!isSymbolElement(node)) return;
-    if (!node.symbol) return children;
-    const data = createDataAttributes({ type: SYMBOL_ELEMENT_TYPE, symbol: node.symbol });
-    return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, children });
+  serialize(node) {
+    if (!isSymbolElement(node) || !node.symbol) return;
+    const data = createDataAttributes({ resource: SYMBOL_ELEMENT_TYPE });
+    return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, children: node.symbol });
   },
 });

@@ -10,9 +10,9 @@ import { Descendant } from "slate";
 import { SYMBOL_ELEMENT_TYPE } from "../types";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 
-const editor: Descendant[] = [{ type: SYMBOL_ELEMENT_TYPE, symbol: "$", children: [{ text: "" }] }];
+const editor: Descendant[] = [{ type: SYMBOL_ELEMENT_TYPE, symbol: "$", children: [] }];
 
-const html = '<ndlaembed data-type="symbol" data-symbol="$"></ndlaembed>';
+const html = '<ndlaembed data-resource="symbol">$</ndlaembed>';
 
 describe("symbol serializing tests", () => {
   test("serializing", () => {

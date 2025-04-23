@@ -31,6 +31,7 @@ import { RELATED_ELEMENT_TYPE } from "./plugins/related/types";
 import { SPAN_ELEMENT_TYPE } from "./plugins/span/types";
 import { TYPE_TABLE } from "./plugins/table/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "./plugins/video/types";
+import { SYMBOL_ELEMENT_TYPE } from "./plugins/symbol/types";
 
 export const inlines: ElementType[] = [
   TYPE_CONCEPT_INLINE,
@@ -41,6 +42,7 @@ export const inlines: ElementType[] = [
   REPHRASE_ELEMENT_TYPE,
   SPAN_ELEMENT_TYPE,
   COMMENT_INLINE_ELEMENT_TYPE,
+  SYMBOL_ELEMENT_TYPE,
 ];
 
 export const blocks: ElementType[] = [

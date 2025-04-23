@@ -30,7 +30,6 @@ import { ConceptBlockElement } from "./plugins/concept/block/types";
 import { ConceptInlineElement } from "./plugins/concept/inline/types";
 import { ContactBlockElement } from "./plugins/contactBlock/types";
 import { CopyrightElement } from "./plugins/copyright/types";
-import { DefinitionDescriptionElement, DefinitionListElement, DefinitionTermElement } from "./plugins/definitionList";
 import { DetailsElement } from "./plugins/details/detailsTypes";
 import { SummaryElement } from "./plugins/details/summaryTypes";
 import { DivElement } from "./plugins/div/types";
@@ -61,6 +60,11 @@ import {
 import { DisclaimerElement } from "./plugins/uuDisclaimer/types";
 import { BrightcoveEmbedElement } from "./plugins/video/types";
 import { RephraseElement } from "./plugins/rephrase/rephraseTypes";
+import {
+  DefinitionListElement,
+  DefinitionDescriptionElement,
+  DefinitionTermElement,
+} from "./plugins/definitionList/definitionListTypes";
 
 export type SlatePlugin = (editor: Editor) => Editor;
 

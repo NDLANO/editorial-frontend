@@ -10,7 +10,6 @@ import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import { blockQuotePlugin } from "../../../../components/SlateEditor/plugins/blockquote/blockquotePlugin";
 import { commentInlinePlugin } from "../../../../components/SlateEditor/plugins/comment/inline";
 import { inlineConceptPlugin } from "../../../../components/SlateEditor/plugins/concept/inline";
-import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList";
 import { divPlugin } from "../../../../components/SlateEditor/plugins/div";
 import { dndPlugin } from "../../../../components/SlateEditor/plugins/DND";
 import { contentLinkPlugin, linkPlugin } from "../../../../components/SlateEditor/plugins/link";
@@ -29,6 +28,9 @@ import { breakPlugin } from "../../../../components/SlateEditor/plugins/break";
 import { inlineNavigationPlugin } from "@ndla/editor";
 import { idPlugin } from "../../../../components/SlateEditor/plugins/id/idPlugin";
 import { rephrasePlugin } from "../../../../components/SlateEditor/plugins/rephrase/rephrasePlugin";
+import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionListPlugin";
+import { definitionTermPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionTermPlugin";
+import { definitionDescriptionPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionDescriptionPlugin";
 
 // Plugins are checked from last to first
 export const topicArticlePlugins: SlatePlugin[] = [
@@ -47,6 +49,8 @@ export const topicArticlePlugins: SlatePlugin[] = [
   // unwrapping (jumping out of block) will not work.
   blockQuotePlugin,
   definitionListPlugin,
+  definitionDescriptionPlugin,
+  definitionTermPlugin,
   listPlugin,
   inlineConceptPlugin,
   commentInlinePlugin,

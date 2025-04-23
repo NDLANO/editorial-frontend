@@ -13,7 +13,6 @@ import { ASIDE_ELEMENT_TYPE } from "../plugins/aside/asideTypes";
 import { AUDIO_ELEMENT_TYPE } from "../plugins/audio/audioTypes";
 import { CODE_BLOCK_ELEMENT_TYPE } from "../plugins/codeBlock/types";
 import { COMMENT_BLOCK_ELEMENT_TYPE } from "../plugins/comment/block/types";
-import { TYPE_DEFINITION_LIST } from "../plugins/definitionList/types";
 import { DETAILS_ELEMENT_TYPE } from "../plugins/details/detailsTypes";
 import { TYPE_EMBED_ERROR } from "../plugins/embed/types";
 import { TYPE_EXTERNAL } from "../plugins/external/types";
@@ -32,6 +31,7 @@ import { CONTENT_LINK_ELEMENT_TYPE, LINK_ELEMENT_TYPE } from "../plugins/link/ty
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../plugins/framedContent/framedContentTypes";
 import { BLOCK_QUOTE_ELEMENT_TYPE } from "../plugins/blockquote/blockquoteTypes";
 import { REPHRASE_ELEMENT_TYPE } from "../plugins/rephrase/rephraseTypes";
+import { DEFINITION_LIST_ELEMENT_TYPE } from "../plugins/definitionList/definitionListTypes";
 
 export const firstTextBlockElement: Element["type"][] = [TYPE_PARAGRAPH, TYPE_HEADING, BLOCK_QUOTE_ELEMENT_TYPE];
 
@@ -51,7 +51,7 @@ export const textBlockElements: Element["type"][] = [
   ASIDE_ELEMENT_TYPE,
   FRAMED_CONTENT_ELEMENT_TYPE,
   DETAILS_ELEMENT_TYPE,
-  TYPE_DEFINITION_LIST,
+  DEFINITION_LIST_ELEMENT_TYPE,
   TYPE_GRID,
   REPHRASE_ELEMENT_TYPE,
   SPAN_ELEMENT_TYPE,

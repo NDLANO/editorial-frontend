@@ -30,7 +30,9 @@ import { blockConceptSerializer } from "../components/SlateEditor/plugins/concep
 import { inlineConceptSerializer } from "../components/SlateEditor/plugins/concept/inline";
 import { contactBlockSerializer } from "../components/SlateEditor/plugins/contactBlock";
 import { copyrightSerializer } from "../components/SlateEditor/plugins/copyright";
-import { definitionListSerializer } from "../components/SlateEditor/plugins/definitionList";
+import { definitionDescriptionSerializer } from "../components/SlateEditor/plugins/definitionList/definitionDescriptionPlugin";
+import { definitionListSerializer } from "../components/SlateEditor/plugins/definitionList/definitionListPlugin";
+import { definitionTermSerializer } from "../components/SlateEditor/plugins/definitionList/definitionTermPlugin";
 import { detailsSerializer } from "../components/SlateEditor/plugins/details/detailsSerializer";
 import { summarySerializer } from "../components/SlateEditor/plugins/details/summarySerializer";
 import { divSerializer } from "../components/SlateEditor/plugins/div";
@@ -95,6 +97,8 @@ const extendedRules: SlateSerializer<any>[] = [
   headingSerializer,
   listSerializer,
   definitionListSerializer,
+  definitionDescriptionSerializer,
+  definitionTermSerializer,
   footnoteSerializer,
   mathmlSerializer,
   inlineConceptSerializer,
@@ -140,6 +144,8 @@ const commonRules: SlateSerializer<any>[] = [
   headingSerializer,
   listSerializer,
   definitionListSerializer,
+  definitionDescriptionSerializer,
+  definitionTermSerializer,
   footnoteSerializer,
   mathmlSerializer,
   inlineConceptSerializer,

@@ -20,10 +20,12 @@ import {
   DialogTitle,
   ToggleGroupItem,
   ToggleGroupRoot,
+  TooltipContent,
+  TooltipRoot,
+  TooltipTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { isSymbolElement } from "./queries";
-import { symbols } from "./symbols";
 import { SymbolElement } from "./types";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormActionsContainer } from "../../../FormikForm";
@@ -35,8 +37,6 @@ interface Props extends RenderElementProps {
   editor: Editor;
   children: ReactNode;
 }
-
-type Symbol = (typeof symbols)[number];
 
 const SymbolWrapper = styled("span", {
   base: {
@@ -66,8 +66,9 @@ const useSymbolSelected = (element: SymbolElement) =>
 
 export const SlateSymbol = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
+  const symbols = t("symbols", { returnObjects: true }) as Record<string, string>;
   const [open, setOpen] = useState(false);
-  const [selectedSymbol, setSelectedSymbol] = useState<Symbol>(symbols[0]);
+  const [selectedSymbol, setSelectedSymbol] = useState<string>(Object.keys(symbols)[0]);
   const isSelected = useSymbolSelected(element);
 
   useEffect(() => {
@@ -86,7 +87,7 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
   );
 
   const handleSymbolChange = useCallback((details: ToggleGroupValueChangeDetails) => {
-    if (details.value[0]) setSelectedSymbol(details.value[0] as Symbol);
+    if (details.value[0]) setSelectedSymbol(details.value[0]);
   }, []);
 
   const onClick = useCallback(() => {
@@ -117,10 +118,15 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
           </DialogHeader>
           <DialogBody>
             <ToggleGroupRoot value={[selectedSymbol]} onValueChange={handleSymbolChange}>
-              {symbols.map((symbol) => (
-                <ToggleGroupItem key={symbol} value={symbol} asChild>
-                  <Button variant="tertiary">{symbol}</Button>
-                </ToggleGroupItem>
+              {Object.entries(symbols).map(([symbol, label]) => (
+                <TooltipRoot key={symbol} openDelay={0}>
+                  <TooltipTrigger asChild>
+                    <ToggleGroupItem value={symbol} asChild>
+                      <Button variant="tertiary">{symbol}</Button>
+                    </ToggleGroupItem>
+                  </TooltipTrigger>
+                  <TooltipContent>{label}</TooltipContent>
+                </TooltipRoot>
               ))}
             </ToggleGroupRoot>
             <FormActionsContainer>

@@ -59,6 +59,16 @@ interface Props {
   children: ReactNode;
 }
 
+const StyledConceptInlineTriggerButton = styled(ConceptInlineTriggerButton, {
+  base: {
+    background: "surface.actionSubtle.hover",
+    position: "static",
+    _hover: {
+      background: "surface.actionSubtle.hover.strong",
+    },
+  },
+});
+
 const StyledPopoverContent = styled(PopoverContent, {
   base: {
     width: "surface.xlarge",
@@ -187,7 +197,7 @@ const InlineWrapper = (props: Props) => {
       ) : (
         <PopoverRoot>
           <PopoverTrigger asChild {...attributes}>
-            <ConceptInlineTriggerButton>{children}</ConceptInlineTriggerButton>
+            <StyledConceptInlineTriggerButton>{children}</StyledConceptInlineTriggerButton>
           </PopoverTrigger>
           <Portal>
             <StyledPopoverContent>

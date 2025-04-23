@@ -8,7 +8,7 @@
 
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Transforms } from "slate";
+import { Editor, Range, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSlateSelector } from "slate-react";
 import { DialogOpenChangeDetails, Portal, ToggleGroupValueChangeDetails } from "@ark-ui/react";
 import {
@@ -54,23 +54,21 @@ const SymbolWrapper = styled("span", {
   },
 });
 
-const getCurrentSymbol = (editor: Editor) => {
-  const [match] =
-    Editor.nodes(editor, {
-      match: isSymbolElement,
-      voids: true,
-    }) ?? [];
+const useSymbolSelected = (element: SymbolElement) =>
+  useSlateSelector((editor) => {
+    const selection = editor.selection;
+    if (Range.isRange(selection) && Range.isCollapsed(selection)) {
+      return Range.includes(selection, ReactEditor.findPath(editor, element));
+    }
 
-  const symbol = match?.[0];
-  if (!isSymbolElement(symbol)) return;
-  return symbol;
-};
+    return false;
+  });
 
 export const SlateSymbol = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [selectedSymbol, setSelectedSymbol] = useState<Symbol>(symbols[0]);
-  const currentSymbol = useSlateSelector(getCurrentSymbol);
+  const isSelected = useSymbolSelected(element);
 
   useEffect(() => {
     setOpen(!!element.isFirstEdit);
@@ -105,7 +103,7 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
 
   return (
     <DialogRoot open={open} onOpenChange={handleOpenChange}>
-      <SymbolWrapper {...attributes} contentEditable={false} isSelected={!!currentSymbol}>
+      <SymbolWrapper {...attributes} contentEditable={false} isSelected={isSelected}>
         <InlineBugfix />
         {element.symbol}
         {children}

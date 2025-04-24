@@ -10,7 +10,7 @@ import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
-import { DialogOpenChangeDetails, Portal, ToggleGroupValueChangeDetails } from "@ark-ui/react";
+import { DialogOpenChangeDetails, Portal } from "@ark-ui/react";
 import {
   Button,
   DialogBody,
@@ -18,14 +18,14 @@ import {
   DialogHeader,
   DialogRoot,
   DialogTitle,
-  ToggleGroupItem,
-  ToggleGroupRoot,
+  TooltipContent,
+  TooltipRoot,
+  TooltipTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { isSymbolElement } from "./queries";
 import { SymbolElement } from "./types";
 import { DialogCloseButton } from "../../../DialogCloseButton";
-import { FormActionsContainer } from "../../../FormikForm";
 import { InlineBugfix } from "../../utils/InlineBugFix";
 import mergeLastUndos from "../../utils/mergeLastUndos";
 
@@ -51,11 +51,18 @@ const SymbolWrapper = styled("span", {
   },
 });
 
+const SymbolButtonsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "3xsmall",
+  },
+});
+
 export const SlateSymbol = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
   const symbols = t("symbols", { returnObjects: true }) as Record<string, string>;
   const [open, setOpen] = useState(false);
-  const [selectedSymbol, setSelectedSymbol] = useState<string>(Object.keys(symbols)[0]);
   const isSelected = useSelected();
 
   useEffect(() => {
@@ -73,21 +80,20 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
     [editor, element],
   );
 
-  const handleSymbolChange = useCallback((details: ToggleGroupValueChangeDetails) => {
-    if (details.value[0]) setSelectedSymbol(details.value[0]);
-  }, []);
-
-  const onClick = useCallback(() => {
-    setOpen(false);
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.setNodes(
-      editor,
-      { ...element, isFirstEdit: false, symbol: selectedSymbol },
-      { match: isSymbolElement, at: path, voids: true },
-    );
-    mergeLastUndos(editor);
-    setTimeout(() => ReactEditor.focus(editor), 0);
-  }, [editor, element, selectedSymbol]);
+  const onClick = useCallback(
+    (symbol: string) => {
+      setOpen(false);
+      const path = ReactEditor.findPath(editor, element);
+      Transforms.setNodes(
+        editor,
+        { ...element, isFirstEdit: false, symbol },
+        { match: isSymbolElement, at: path, voids: true },
+      );
+      mergeLastUndos(editor);
+      setTimeout(() => ReactEditor.focus(editor), 0);
+    },
+    [editor, element],
+  );
 
   return (
     <DialogRoot open={open} onOpenChange={handleOpenChange}>
@@ -104,18 +110,23 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
             <DialogCloseButton />
           </DialogHeader>
           <DialogBody>
-            <ToggleGroupRoot value={[selectedSymbol]} onValueChange={handleSymbolChange}>
+            <SymbolButtonsWrapper>
               {Object.entries(symbols).map(([symbol, label]) => (
-                <ToggleGroupItem key={symbol} value={symbol} asChild>
-                  <Button variant="tertiary" title={label} aria-label={label}>
-                    {symbol}
-                  </Button>
-                </ToggleGroupItem>
+                <TooltipRoot key={symbol} openDelay={0}>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="secondary"
+                      onClick={() => onClick(symbol)}
+                      aria-label={label}
+                      data-testid={`button-${symbol}`}
+                    >
+                      {symbol}
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>{label}</TooltipContent>
+                </TooltipRoot>
               ))}
-            </ToggleGroupRoot>
-            <FormActionsContainer>
-              <Button onClick={onClick}>{t("form.content.symbol.insert")}</Button>
-            </FormActionsContainer>
+            </SymbolButtonsWrapper>
           </DialogBody>
         </DialogContent>
       </Portal>

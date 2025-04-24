@@ -6,18 +6,14 @@
  *
  */
 
-import {
-  createPlugin,
-  HEADING_ELEMENT_TYPE,
-  LIST_ITEM_ELEMENT_TYPE,
-  NOOP_ELEMENT_TYPE,
-  PARAGRAPH_ELEMENT_TYPE,
-} from "@ndla/editor";
+import { createPlugin, HEADING_ELEMENT_TYPE, NOOP_ELEMENT_TYPE, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { SYMBOL_ELEMENT_TYPE, SYMBOL_PLUGIN, SymbolPluginOptions } from "./types";
 import { isSymbolElement } from "./queries";
 import { SPAN_ELEMENT_TYPE } from "../span/types";
 import { defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import { Transforms } from "slate";
+import { SUMMARY_ELEMENT_TYPE } from "../details/summaryTypes";
+import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_TERM } from "../definitionList/types";
 
 export const symbolPlugin = createPlugin<typeof SYMBOL_ELEMENT_TYPE, SymbolPluginOptions>({
   name: SYMBOL_PLUGIN,
@@ -28,22 +24,20 @@ export const symbolPlugin = createPlugin<typeof SYMBOL_ELEMENT_TYPE, SymbolPlugi
     allowedParents: [
       HEADING_ELEMENT_TYPE,
       PARAGRAPH_ELEMENT_TYPE,
-      LIST_ITEM_ELEMENT_TYPE,
+      SUMMARY_ELEMENT_TYPE,
+      TYPE_DEFINITION_DESCRIPTION,
+      TYPE_DEFINITION_TERM,
       SPAN_ELEMENT_TYPE,
       NOOP_ELEMENT_TYPE,
     ],
   },
   normalize(editor, node, path, logger, options) {
-    if (isSymbolElement(node)) {
-      if (!node.isFirstEdit && !node.symbol) {
-        logger.log("Removing empty symbol");
-        Transforms.removeNodes(editor, { at: path, voids: true });
-        return true;
-      }
-
+    if (!isSymbolElement(node)) return false;
+    if (node.isFirstEdit || node.symbol)
       return defaultBlockNormalizer(editor, node, path, { parent: { allowed: options.allowedParents } }, logger);
-    }
 
-    return false;
+    logger.log("Removing empty symbol");
+    Transforms.removeNodes(editor, { at: path, voids: true });
+    return true;
   },
 });

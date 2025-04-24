@@ -29,7 +29,7 @@ import { useMessages } from "../Messages/MessagesProvider";
 
 const getFilePathsFromHtml = (htmlString: string): string[] => {
   const parsed = new DOMParser().parseFromString(htmlString, "text/html");
-  const fileNodesArr = Array.from(parsed.querySelectorAll("embed[data-resource=file]"));
+  const fileNodesArr = Array.from(parsed.querySelectorAll("ndlaembed[data-resource=file]"));
   const paths = fileNodesArr.map((e) => e.getAttribute("data-path"));
   return paths.filter((x): x is string => x !== null);
 };

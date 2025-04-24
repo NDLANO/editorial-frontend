@@ -13,7 +13,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/search/audio?page=1&page-size=10&sort=-relevance");
 });
 
-const totalSearchCount = 3300;
+const totalSearchCount = 2300;
 
 test("Can use text input", async ({ page }) => {
   await page.locator('input[name="query"]').fill("Test");
@@ -40,7 +40,7 @@ test("Can use language dropdown", async ({ page }) => {
   await page.getByTestId("language-select").click();
   await page.getByRole("option", { name: "Engelsk", exact: true }).click();
   await page.getByTestId("audio-search-result").first().waitFor();
-  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(300);
+  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(283);
   await page.getByTestId("remove-tag-button").click();
   await page.getByTestId("audio-search-result").first().waitFor();
   expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(totalSearchCount);

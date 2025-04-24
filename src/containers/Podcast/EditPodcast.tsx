@@ -14,7 +14,6 @@ import PodcastForm from "./components/PodcastForm";
 import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
 import { updateAudio, fetchAudio } from "../../modules/audio/audioApi";
-import { createFormData } from "../../util/formDataHelper";
 import { toEditAudio } from "../../util/routeHelpers";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
@@ -80,8 +79,8 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
   }, [podcast, shouldTranslate, translate]);
 
   const onUpdate = async (newPodcast: IUpdatedAudioMetaInformationDTO, podcastFile: string | Blob | undefined) => {
-    const formData = createFormData(podcastFile, newPodcast);
-    const updatedPodcast = await updateAudio(Number(podcastId!), formData);
+    if (typeof podcastFile === "string") return;
+    const updatedPodcast = await updateAudio(Number(podcastId!), newPodcast, podcastFile);
     setPodcastWithFlag(updatedPodcast, false);
   };
 

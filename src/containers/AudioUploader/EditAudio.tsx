@@ -13,7 +13,6 @@ import AudioForm from "./components/AudioForm";
 import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
 import { fetchAudio, updateAudio } from "../../modules/audio/audioApi";
-import { createFormData } from "../../util/formDataHelper";
 import { toEditPodcast } from "../../util/routeHelpers";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
@@ -70,8 +69,8 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
     newAudio: IUpdatedAudioMetaInformationDTO,
     file: string | Blob | undefined,
   ): Promise<void> => {
-    const formData = createFormData(file, newAudio);
-    const updatedAudio = await updateAudio(audioId, formData);
+    if (typeof file === "string") return;
+    const updatedAudio = await updateAudio(audioId, newAudio, file);
     setAudio(updatedAudio);
   };
 

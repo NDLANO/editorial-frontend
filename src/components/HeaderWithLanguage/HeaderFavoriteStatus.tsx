@@ -27,12 +27,14 @@ interface Props {
 
 const getResourceType = (type: string | undefined) => {
   switch (type) {
+    case undefined:
+      return [];
     case "standard":
     case "topic-article":
     case "frontpage-article":
-      return "article,multidiciplinary,topic";
+      return ["article", "multidiciplinary", "topic"];
     default:
-      return type;
+      return [type];
   }
 };
 
@@ -42,8 +44,8 @@ const HeaderFavoriteStatus = ({ id, type, favoriteCount }: Props) => {
   const { t } = useTranslation();
   const { isLoading, isError, data } = useResourceStats(
     {
-      resourceIds: id?.toString() ?? "",
-      resourceTypes: resourceType ?? "",
+      resourceIds: [id?.toString() ?? ""],
+      resourceTypes: resourceType,
     },
     {
       enabled: favoriteMakesSense && favoriteCount === undefined,

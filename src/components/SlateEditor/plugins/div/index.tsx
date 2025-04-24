@@ -6,35 +6,26 @@
  *
  */
 
-import { Editor, Element, Descendant } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_DIV } from "./types";
+import { createPlugin, createSerializer } from "@ndla/editor";
+import { isDivElement } from "./queries";
+import { DIV_ELEMENT_TYPE, DIV_PLUGIN } from "./types";
 import { createHtmlTag } from "../../../../util/embedTagHelpers";
-import { SlateSerializer } from "../../interfaces";
 
-export interface DivElement {
-  type: "div";
-  data?: {
-    align?: string;
-  };
-  children: Descendant[];
-}
-
-export const divSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: Descendant[]) {
+export const divSerializer = createSerializer({
+  deserialize(el, children) {
     if (el.tagName.toLowerCase() !== "div") return;
 
     return slatejsx(
       "element",
       {
-        type: TYPE_DIV,
+        type: DIV_ELEMENT_TYPE,
       },
       children,
     );
   },
   serialize(node, children) {
-    if (!Element.isElement(node)) return;
-    if (node.type !== TYPE_DIV) return;
+    if (!isDivElement(node)) return;
 
     /**
       We insert empty p tag throughout the document to enable positioning the cursor
@@ -44,8 +35,6 @@ export const divSerializer: SlateSerializer = {
 
     return createHtmlTag({ tag: "div", children });
   },
-};
+});
 
-export const divPlugin = (editor: Editor) => {
-  return editor;
-};
+export const divPlugin = createPlugin({ name: DIV_PLUGIN, type: DIV_ELEMENT_TYPE });

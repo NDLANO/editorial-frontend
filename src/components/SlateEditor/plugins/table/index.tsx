@@ -19,8 +19,8 @@ import {
 } from "./defaultBlocks";
 import { handleTableKeydown } from "./handleKeyDown";
 import { TableElement } from "./interfaces";
-import { getTableAsMatrix, tableContainsSpan } from "./matrix";
-import { getHeader, previousMatrixCellIsEqualCurrent } from "./matrixHelpers";
+import { getTableAsMatrix } from "./matrix";
+import { getHeader, getId, previousMatrixCellIsEqualCurrent } from "./matrixHelpers";
 import { normalizeTableBodyAsMatrix } from "./matrixNormalizer";
 import { updateCell } from "./slateActions";
 import {
@@ -268,55 +268,66 @@ export const tablePlugin = (editor: Editor) => {
       // Normalize headers and id. For each row check that id and headers are set accordingly.
       // We have a maximum of rows of header elements in thead and only 1 column max for rowheaders
       const matrix = getTableAsMatrix(editor, path);
-      if (tableContainsSpan(matrix ?? []) || node.rowHeaders || matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER) {
-        matrix?.forEach((row, rowIndex) => {
-          row.forEach((cell, cellIndex) => {
-            const result = Editor.nodes(editor, {
-              at: path,
-              match: (node) => isEqual(node, cell),
+
+      const tableHeadRows = Array.from(
+        editor.nodes({
+          match: isTableHead,
+          at: path,
+        }),
+      ).flatMap(([node]) => node.children);
+
+      const containsSpans = !!editor
+        .nodes({ match: (n) => isTableCell(n) && (n.data.colspan > 1 || n.data.rowspan > 1), at: path })
+        .next().value;
+
+      const headerCellsInMultipleRows = tableHeadRows.length === 2 || (tableHeadRows.length >= 1 && node.rowHeaders);
+
+      // Should only have headers if a cell is associated with 2 or more header cells.
+      const shouldHaveHeaders = containsSpans || headerCellsInMultipleRows;
+      if (shouldHaveHeaders) {
+        return editor.withoutNormalizing(() => {
+          matrix?.forEach((row, rowIndex) => {
+            row.forEach((cell, cellIndex) => {
+              const [maybeNode] = Editor.nodes(editor, {
+                at: path,
+                match: (node) => isEqual(node, cell),
+              });
+
+              // If the previous cell in column and row direction is not equal we can normalize the proper cell.
+              // Table matrix isn't a direct repsentation of the HTML table so read comments for `getTableAsMatrix`
+              if (!previousMatrixCellIsEqualCurrent(matrix, rowIndex, cellIndex) && maybeNode) {
+                const [_, cellPath] = maybeNode as NodeEntry<TableElement>;
+                const [parent] = Editor.node(editor, Path.parent(Path.parent(cellPath)));
+
+                const isBody = isTableBody(parent);
+
+                const headers = getHeader(matrix, rowIndex, cellIndex, node.rowHeaders);
+                const id = getId(matrix, rowIndex, cellIndex, isBody);
+
+                if (id !== cell.data.id || headers !== cell.data.headers) {
+                  updateCell(editor, cell, { id: id, headers: headers }, TYPE_TABLE_CELL_HEADER);
+                }
+              }
             });
-            const [maybeNode] = result;
+          });
+        });
+      }
 
-            // If the previous cell in column and row direction is not equal we can normalize the proper cell.
-            // Table matrix isn't a direct repsentation of the HTML table so read comments for `getTableAsMatrix`
-            if (maybeNode?.[1] && !previousMatrixCellIsEqualCurrent(matrix, rowIndex, cellIndex)) {
-              const [, cellPath] = maybeNode;
-              const [parent] = Editor.node(editor, Path.parent(Path.parent(cellPath)));
-              const shouldHaveHeaders = !((node.rowHeaders && cellIndex === 0) || rowIndex === 0);
-              const headers = shouldHaveHeaders ? getHeader(matrix, rowIndex, cellIndex, node.rowHeaders) : undefined;
+      const containsIdOrHeaders = !!editor
+        .nodes({ match: (n) => isTableCell(n) && (!!n.data.id || !!n.data.headers), at: path })
+        .next().value;
 
-              if (isTableHead(parent)) {
-                // If first row we add only a double digit id based on the cellIndex
-                if (rowIndex === 0 && cell.data.id !== `0${cellIndex}` && cell.type === TYPE_TABLE_CELL_HEADER) {
-                  return updateCell(editor, cell, { id: `0${cellIndex}` }, TYPE_TABLE_CELL_HEADER);
-                }
+      // Only remove headers if cell is only associated with 1 cell and there is cells with Id and headers in the table
+      const shouldRemoveHeaders = !shouldHaveHeaders && containsIdOrHeaders;
 
-                // Second head row need to have a id combined with the previous cell and headers are set to the standard ruleset
-                if (
-                  rowIndex === 1 &&
-                  matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER &&
-                  (cell.data.id !== `0${cellIndex}1${cellIndex}` ||
-                    (shouldHaveHeaders && headers !== cell.data.headers))
-                ) {
-                  return updateCell(
-                    editor,
-                    cell,
-                    { id: `0${cellIndex}1${cellIndex}`, headers: headers },
-                    TYPE_TABLE_CELL_HEADER,
-                  );
-                }
+      if (shouldRemoveHeaders && containsIdOrHeaders) {
+        return editor.withoutNormalizing(() => {
+          matrix?.forEach((row) => {
+            row.forEach((cell) => {
+              if (cell.data.id || cell.data.headers) {
+                updateCell(editor, cell, { id: undefined, headers: undefined });
               }
-              if (isTableBody(parent)) {
-                // If rowheaders need to set ID on the first cell of each row in the body.
-                if (node.rowHeaders && cellIndex === 0 && cell.data.id !== `r${rowIndex}`) {
-                  return updateCell(editor, cell, { id: `r${rowIndex}` }, TYPE_TABLE_CELL_HEADER);
-                }
-                // Adds headers to the cell
-                if (shouldHaveHeaders && cell.type === TYPE_TABLE_CELL && headers !== cell.data.headers) {
-                  return updateCell(editor, cell, { headers: headers });
-                }
-              }
-            }
+            });
           });
         });
       }

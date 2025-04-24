@@ -66,7 +66,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
     selectedLanguage,
   );
 
-  const { shouldTranslate, translate, translating } = useTranslateToNN();
+  const { shouldTranslate, translate, translating, translatedFields } = useTranslateToNN();
 
   const taxonomyQuery = useNodes(
     {
@@ -114,6 +114,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
         isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
         supportedLanguages={article.supportedLanguages}
+        translatedFieldsToNN={translatedFields}
       />
     </>
   );

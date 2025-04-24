@@ -25,7 +25,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentLinkEmbedData } from "@ndla/types-embed";
-import { LinkData, LinkEmbedData, TYPE_CONTENT_LINK } from "./types";
+import { LinkData, LinkEmbedData, CONTENT_LINK_ELEMENT_TYPE } from "./types";
 import {
   getIdAndTypeFromUrl,
   isNDLAArticleUrl,
@@ -92,7 +92,7 @@ const getLinkType = (href: string) => {
 
 const createContentLinkData = (id: string, resourceType: string | undefined, openIn: string): ContentLinkEmbedData => {
   return {
-    resource: TYPE_CONTENT_LINK,
+    resource: CONTENT_LINK_ELEMENT_TYPE,
     contentId: id,
     contentType: resourceType || "article",
     openIn,

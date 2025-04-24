@@ -109,6 +109,7 @@ interface Props {
   supportedLanguages: string[];
   isNewlyCreated?: boolean;
   isNewLanguage?: boolean;
+  translatedFieldsToNN: string[];
 }
 
 const AudioForm = ({
@@ -119,6 +120,7 @@ const AudioForm = ({
   onUpdateAudio,
   isNewLanguage,
   supportedLanguages,
+  translatedFieldsToNN,
 }: Props) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
@@ -173,7 +175,7 @@ const AudioForm = ({
 
   const initialValues = audioApiTypeToFormType(audio, audioLanguage);
   const initialErrors = validateFormik(initialValues, rules, t);
-  const initialWarnings = getWarnings(initialValues, rules, t, audio);
+  const initialWarnings = getWarnings(initialValues, rules, t, translatedFieldsToNN, audio);
 
   return (
     <Formik

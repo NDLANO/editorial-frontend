@@ -31,7 +31,6 @@ import {
   LinkMedium,
   CodeView,
 } from "@ndla/icons";
-import { DRAFT_ADMIN_SCOPE } from "../../../../constants";
 import HowToHelper from "../../../HowTo/HowToHelper";
 import { StoryType } from "../../../HowTo/stories";
 import { ASIDE_ELEMENT_TYPE } from "../aside/asideTypes";
@@ -39,7 +38,7 @@ import { AUDIO_ELEMENT_TYPE } from "../audio/audioTypes";
 import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../campaignBlock/types";
 import { CODE_BLOCK_ELEMENT_TYPE } from "../codeBlock/types";
 import { COMMENT_BLOCK_ELEMENT_TYPE } from "../comment/block/types";
-import { TYPE_GLOSS_BLOCK } from "../concept/block/types";
+import { GLOSS_BLOCK_ELEMENT_TYPE } from "../concept/block/types";
 import { CONTACT_BLOCK_ELEMENT_TYPE } from "../contactBlock/types";
 import { DETAILS_ELEMENT_TYPE } from "../details/detailsTypes";
 import { TYPE_EXTERNAL } from "../external/types";
@@ -137,7 +136,7 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInDialog("CodeBlock"),
   },
   {
-    data: { type: TYPE_GLOSS_BLOCK, object: "gloss" },
+    data: { type: GLOSS_BLOCK_ELEMENT_TYPE, object: "gloss" },
     icon: <GlobalLine />,
     helpIcon: renderArticleInDialog("Gloss"),
   },
@@ -145,7 +144,6 @@ export const commonActions: Action[] = [
     data: { type: DISCLAIMER_ELEMENT_TYPE, object: "disclaimer" },
     icon: <AlertLine />,
     helpIcon: renderArticleInDialog("Disclaimer"),
-    requiredScope: DRAFT_ADMIN_SCOPE,
   },
   {
     data: { type: COMMENT_BLOCK_ELEMENT_TYPE, object: "comment" },

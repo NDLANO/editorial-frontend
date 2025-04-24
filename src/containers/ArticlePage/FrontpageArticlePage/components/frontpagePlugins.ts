@@ -19,7 +19,6 @@ import { blockConceptPlugin } from "../../../../components/SlateEditor/plugins/c
 import { inlineConceptPlugin } from "../../../../components/SlateEditor/plugins/concept/inline";
 import { contactBlockPlugin } from "../../../../components/SlateEditor/plugins/contactBlock";
 import { copyrightPlugin } from "../../../../components/SlateEditor/plugins/copyright";
-import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList";
 import { detailsPlugin } from "../../../../components/SlateEditor/plugins/details/detailsPlugin";
 import { summaryPlugin } from "../../../../components/SlateEditor/plugins/details/summaryPlugin";
 import { divPlugin } from "../../../../components/SlateEditor/plugins/div";
@@ -33,7 +32,7 @@ import { gridPlugin } from "../../../../components/SlateEditor/plugins/grid";
 import { h5pPlugin } from "../../../../components/SlateEditor/plugins/h5p";
 import { imagePlugin } from "../../../../components/SlateEditor/plugins/image";
 import { keyFigurePlugin } from "../../../../components/SlateEditor/plugins/keyFigure";
-import { linkPlugin } from "../../../../components/SlateEditor/plugins/link";
+import { contentLinkPlugin, linkPlugin } from "../../../../components/SlateEditor/plugins/link";
 import { linkBlockListPlugin } from "../../../../components/SlateEditor/plugins/linkBlockList";
 import { mathmlPlugin } from "../../../../components/SlateEditor/plugins/mathml/mathPlugin";
 import { pitchPlugin } from "../../../../components/SlateEditor/plugins/pitch";
@@ -53,6 +52,9 @@ import { markPlugin } from "../../../../components/SlateEditor/plugins/mark";
 import { listPlugin } from "../../../../components/SlateEditor/plugins/list";
 import { idPlugin } from "../../../../components/SlateEditor/plugins/id/idPlugin";
 import { rephrasePlugin } from "../../../../components/SlateEditor/plugins/rephrase/rephrasePlugin";
+import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionListPlugin";
+import { definitionTermPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionTermPlugin";
+import { definitionDescriptionPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionDescriptionPlugin";
 
 // Plugins are checked from last to first
 export const frontpagePlugins: SlatePlugin[] = [
@@ -71,6 +73,7 @@ export const frontpagePlugins: SlatePlugin[] = [
   framedContentPlugin,
   blockQuotePlugin,
   linkPlugin,
+  contentLinkPlugin,
   inlineConceptPlugin,
   blockConceptPlugin,
   commentInlinePlugin,
@@ -97,6 +100,8 @@ export const frontpagePlugins: SlatePlugin[] = [
   saveHotkeyPlugin,
   markPlugin,
   definitionListPlugin,
+  definitionTermPlugin,
+  definitionDescriptionPlugin,
   listPlugin,
   gridPlugin,
   pitchPlugin,

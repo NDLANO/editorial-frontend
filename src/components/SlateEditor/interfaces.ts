@@ -26,14 +26,13 @@ import { CampaignBlockElement } from "./plugins/campaignBlock/types";
 import { CodeBlockElement } from "./plugins/codeBlock/types";
 import { CommentBlockElement } from "./plugins/comment/block/types";
 import { CommentInlineElement } from "./plugins/comment/inline/types";
-import { ConceptBlockElement } from "./plugins/concept/block/interfaces";
-import { ConceptInlineElement } from "./plugins/concept/inline/interfaces";
+import { ConceptBlockElement } from "./plugins/concept/block/types";
+import { ConceptInlineElement } from "./plugins/concept/inline/types";
 import { ContactBlockElement } from "./plugins/contactBlock/types";
 import { CopyrightElement } from "./plugins/copyright/types";
-import { DefinitionDescriptionElement, DefinitionListElement, DefinitionTermElement } from "./plugins/definitionList";
 import { DetailsElement } from "./plugins/details/detailsTypes";
 import { SummaryElement } from "./plugins/details/summaryTypes";
-import { DivElement } from "./plugins/div";
+import { DivElement } from "./plugins/div/types";
 import { ErrorEmbedElement } from "./plugins/embed";
 import { ExternalElement, IframeElement } from "./plugins/external/types";
 import { FileElement } from "./plugins/file";
@@ -62,6 +61,11 @@ import { DisclaimerElement } from "./plugins/uuDisclaimer/types";
 import { BrightcoveEmbedElement } from "./plugins/video/types";
 import { RephraseElement } from "./plugins/rephrase/rephraseTypes";
 import { SymbolElement } from "./plugins/symbol/types";
+import {
+  DefinitionListElement,
+  DefinitionDescriptionElement,
+  DefinitionTermElement,
+} from "./plugins/definitionList/definitionListTypes";
 
 export type SlatePlugin = (editor: Editor) => Editor;
 

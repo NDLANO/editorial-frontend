@@ -113,6 +113,7 @@ interface Props {
   onUpdatePodcast?: (updatedPodcast: IUpdatedAudioMetaInformationDTO, file?: string | Blob) => Promise<void>;
   translating?: boolean;
   supportedLanguages: string[];
+  translatedFieldsToNN: string[];
 }
 
 const PodcastForm = ({
@@ -125,6 +126,7 @@ const PodcastForm = ({
   onUpdatePodcast,
   translating,
   supportedLanguages,
+  translatedFieldsToNN,
 }: Props) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const { t } = useTranslation();
@@ -213,7 +215,7 @@ const PodcastForm = ({
   );
 
   const initialValues = audioApiTypeToPodcastFormType(audio, language);
-  const initialWarnings = getWarnings(initialValues, podcastRules, t, audio);
+  const initialWarnings = getWarnings(initialValues, podcastRules, t, translatedFieldsToNN, audio);
   const initialErrors = useMemo(() => validateFunction(initialValues), [initialValues, validateFunction]);
 
   return (

@@ -49,6 +49,7 @@ const CreateImage = ({ isNewlyCreated, editingArticle, onImageCreated, inDialog,
       onSubmitFunc={onCreateImage}
       closeDialog={closeDialog}
       supportedLanguages={[locale]}
+      translatedFieldsToNN={[]}
     />
   );
 };

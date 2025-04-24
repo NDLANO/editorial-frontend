@@ -199,6 +199,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "Norge i bilder", url: ["norgeibilder.no"] },
   { name: "Qbrick", url: ["video.qbrick.com"] },
   { name: "Norsk petroleum", url: ["www.norskpetroleum.no"], height: "486px" },
+  { name: "NDLA Nyhetsbrev", url: ["pub.dialogapi.no"], height: "486px" },
 ];
 
 export const SearchTypeValues = [

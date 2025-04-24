@@ -50,6 +50,7 @@ interface Props {
   initialTitle?: string;
   onUpserted?: (concept: IConceptSummaryDTO | IConceptDTO) => void;
   supportedLanguages: string[];
+  translatedFieldsToNN: string[];
 }
 
 const glossRules: RulesType<ConceptFormValues, IConceptDTO> = {
@@ -90,6 +91,7 @@ export const GlossForm = ({
   initialTitle,
   onUpserted,
   supportedLanguages,
+  translatedFieldsToNN,
 }: Props) => {
   const [savedToServer, setSavedToServer] = useState(false);
   const { t } = useTranslation();
@@ -134,8 +136,8 @@ export const GlossForm = ({
   const initialValues = conceptApiTypeToFormType(concept, language, ndlaId, initialTitle, "gloss");
 
   const initialWarnings = useMemo(
-    () => getWarnings(initialValues, glossRules, t, concept),
-    [concept, initialValues, t],
+    () => getWarnings(initialValues, glossRules, t, translatedFieldsToNN, concept),
+    [concept, initialValues, t, translatedFieldsToNN],
   );
   const initialErrors = useMemo(() => validateFormik(initialValues, glossRules, t), [initialValues, t]);
 

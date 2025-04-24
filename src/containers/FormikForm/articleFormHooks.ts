@@ -29,7 +29,7 @@ import { useMessages } from "../Messages/MessagesProvider";
 
 const getFilePathsFromHtml = (htmlString: string): string[] => {
   const parsed = new DOMParser().parseFromString(htmlString, "text/html");
-  const fileNodesArr = Array.from(parsed.querySelectorAll("embed[data-resource=file]"));
+  const fileNodesArr = Array.from(parsed.querySelectorAll("ndlaembed[data-resource=file]"));
   const paths = fileNodesArr.map((e) => e.getAttribute("data-path"));
   return paths.filter((x): x is string => x !== null);
 };
@@ -169,7 +169,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
         const newInitialValues = getInitialValues(savedArticle, articleLanguage, ndlaId);
         formikHelpers.resetForm({ values: newInitialValues });
         if (rules) {
-          const newInitialWarnings = getWarnings(newInitialValues, rules, t, savedArticle);
+          const newInitialWarnings = getWarnings(newInitialValues, rules, t, [], savedArticle);
           formikHelpers.setStatus({ warnings: newInitialWarnings });
         }
         formikHelpers.setFieldValue("notes", [], false);

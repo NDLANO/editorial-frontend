@@ -34,7 +34,6 @@ import { DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useSession } from "../../containers/Session/SessionProvider";
 import { UnsavedFile } from "../../interfaces";
 import { uploadFile } from "../../modules/draft/draftApi";
-import { createFormData } from "../../util/formDataHelper";
 import handleError from "../../util/handleError";
 import { isNdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import { FormField } from "../FormField";
@@ -73,14 +72,9 @@ const FileUploader = ({ onFileSave, close }: Props) => {
   );
   const [errorMessage, setErrorMessage] = useState<string>();
 
-  const saveFile = async (file: string | Blob | undefined) => {
-    const formData = createFormData(file);
-    return uploadFile(formData);
-  };
-
   const onSave = async (values: FileUploadFormValues) => {
     try {
-      const newFiles = await Promise.all(values.files.map((file) => saveFile(file)));
+      const newFiles = await Promise.all(values.files.map((file) => uploadFile(file)));
       onFileSave(
         newFiles.map((file, i) => ({
           path: file.path,
@@ -103,11 +97,11 @@ const FileUploader = ({ onFileSave, close }: Props) => {
       initialValues={{ files: [] } as FileUploadFormValues}
       initialErrors={validateFormik({ files: [] }, rules, t)}
     >
-      {({ dirty }) => (
+      {({ dirty, isSubmitting }) => (
         <FormikForm>
           <FormField name="files">
             {({ helpers, meta }) => (
-              <FieldRoot required invalid={!!meta.error}>
+              <FieldRoot invalid={!!meta.error}>
                 <FileUploadRoot
                   accept={allowedFiles}
                   onFileChange={(details) => helpers.setValue(details.acceptedFiles)}
@@ -175,7 +169,7 @@ const FileUploader = ({ onFileSave, close }: Props) => {
             <Button onClick={close} variant="secondary">
               {t("form.abort")}
             </Button>
-            <Button type="submit" disabled={!dirty}>
+            <Button type="submit" disabled={!dirty || isSubmitting}>
               {t("form.save")}
             </Button>
           </FormActionsContainer>

@@ -13,7 +13,10 @@ import { SPAN_ELEMENT_TYPE } from "../span/types";
 import { defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import { Transforms } from "slate";
 import { SUMMARY_ELEMENT_TYPE } from "../details/summaryTypes";
-import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_TERM } from "../definitionList/types";
+import {
+  DEFINITION_DESCRIPTION_ELEMENT_TYPE,
+  DEFINITION_TERM_ELEMENT_TYPE,
+} from "../definitionList/definitionListTypes";
 
 export const symbolPlugin = createPlugin<typeof SYMBOL_ELEMENT_TYPE, SymbolPluginOptions>({
   name: SYMBOL_PLUGIN,
@@ -25,8 +28,8 @@ export const symbolPlugin = createPlugin<typeof SYMBOL_ELEMENT_TYPE, SymbolPlugi
       HEADING_ELEMENT_TYPE,
       PARAGRAPH_ELEMENT_TYPE,
       SUMMARY_ELEMENT_TYPE,
-      TYPE_DEFINITION_DESCRIPTION,
-      TYPE_DEFINITION_TERM,
+      DEFINITION_DESCRIPTION_ELEMENT_TYPE,
+      DEFINITION_TERM_ELEMENT_TYPE,
       SPAN_ELEMENT_TYPE,
       NOOP_ELEMENT_TYPE,
     ],

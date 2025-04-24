@@ -170,8 +170,8 @@ const TopicResourceBanner = ({
     isPending: matomoStatsIsPending,
     isError: matomoStatsIsError,
   } = useMatomoStats(
-    { contextIds: currentNode.contextId ? [currentNode.contextId] : [] },
-    { enabled: !!currentNode.contextId && showMatomoStats },
+    { urls: currentNode.url ? [currentNode.url] : [] },
+    { enabled: !!currentNode.url && showMatomoStats },
   );
 
   useEffect(() => {

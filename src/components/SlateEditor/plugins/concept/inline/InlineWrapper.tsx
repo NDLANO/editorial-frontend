@@ -9,7 +9,7 @@
 import parse from "html-react-parser";
 import { useState, ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Element, Node, Transforms, Path } from "slate";
+import { Editor, Node, Transforms, Path } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { DeleteBinLine, ErrorWarningFill, CheckLine, LinkMedium } from "@ndla/icons";
@@ -27,8 +27,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { IConceptDTO, IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { ConceptEmbedData, ConceptMetaData } from "@ndla/types-embed";
 import { ConceptEmbed, Concept, Gloss, ConceptInlineTriggerButton } from "@ndla/ui";
-import { ConceptInlineElement } from "./interfaces";
-import { TYPE_CONCEPT_INLINE } from "./types";
+import { ConceptInlineElement } from "./types";
 import { PUBLISHED } from "../../../../../constants";
 import { ConceptType } from "../../../../../containers/ConceptPage/conceptInterfaces";
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
@@ -37,6 +36,7 @@ import { useArticleLanguage } from "../../../ArticleLanguageProvider";
 import ConceptDialogContent from "../ConceptDialogContent";
 import EditGlossExamplesDialog from "../EditGlossExamplesDialog";
 import { getGlossDataAttributes } from "../utils";
+import { isConceptInlineElement } from "./queries";
 
 const getConceptDataAttributes = (
   concept: IConceptDTO | IConceptSummaryDTO,
@@ -58,6 +58,16 @@ interface Props {
   attributes: RenderElementProps["attributes"];
   children: ReactNode;
 }
+
+const StyledConceptInlineTriggerButton = styled(ConceptInlineTriggerButton, {
+  base: {
+    background: "surface.actionSubtle.hover",
+    position: "static",
+    _hover: {
+      background: "surface.actionSubtle.hover.strong",
+    },
+  },
+});
 
 const StyledPopoverContent = styled(PopoverContent, {
   base: {
@@ -147,10 +157,7 @@ const InlineWrapper = (props: Props) => {
       Transforms.setNodes<ConceptInlineElement>(
         editor,
         { data, isFirstEdit: false },
-        {
-          at: path,
-          match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
-        },
+        { at: path, match: isConceptInlineElement },
       );
     }
   };
@@ -158,10 +165,7 @@ const InlineWrapper = (props: Props) => {
   const handleRemove = () => {
     handleSelectionChange(false);
     const path = ReactEditor.findPath(editor, element);
-    Transforms.unwrapNodes(editor, {
-      at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
-    });
+    Transforms.unwrapNodes(editor, { at: path, match: isConceptInlineElement });
   };
 
   const onOpenChange = (open: boolean) => {
@@ -193,7 +197,7 @@ const InlineWrapper = (props: Props) => {
       ) : (
         <PopoverRoot>
           <PopoverTrigger asChild {...attributes}>
-            <ConceptInlineTriggerButton>{children}</ConceptInlineTriggerButton>
+            <StyledConceptInlineTriggerButton>{children}</StyledConceptInlineTriggerButton>
           </PopoverTrigger>
           <Portal>
             <StyledPopoverContent>

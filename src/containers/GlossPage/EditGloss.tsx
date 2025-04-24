@@ -46,7 +46,7 @@ const EditGloss = ({ isNewlyCreated }: Props) => {
     selectedLanguage!,
   );
 
-  const { shouldTranslate, translate, translating } = useTranslateToNN();
+  const { shouldTranslate, translate, translating, translatedFields } = useTranslateToNN();
 
   const onUpdate = useCallback(
     (concept: IUpdatedConceptDTO) => {
@@ -83,6 +83,7 @@ const EditGloss = ({ isNewlyCreated }: Props) => {
         upsertProps={{ onUpdate }}
         language={selectedLanguage!}
         supportedLanguages={concept.supportedLanguages}
+        translatedFieldsToNN={translatedFields}
       />
     </>
   );

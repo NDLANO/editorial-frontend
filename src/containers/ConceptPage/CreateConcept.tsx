@@ -45,6 +45,7 @@ const CreateConcept = ({ inDialog = false, addConceptInDialog }: Props) => {
         upsertProps={{ onCreate, onUpdateStatus: updateConceptStatus }}
         inDialog={inDialog}
         supportedLanguages={[i18n.language]}
+        translatedFieldsToNN={[]}
       />
     </>
   );

@@ -13,14 +13,19 @@ const limit = pLimit(8);
 
 export const matomoApiToken = getEnvironmentVariabel("MATOMO_API_TOKEN");
 
-export const fetchMatomoStats = async (contextIds: string[]) => {
-  const fetchPromises = contextIds.map((contextId) =>
-    limit(() =>
+export const fetchMatomoStats = async (urls: string[]) => {
+  const fetchPromises = urls.map((url) => {
+    const withLang = [`/nb${url}`, `/nn${url}`, url];
+    const bulkRequest = withLang.map(
+      (url, index) =>
+        `urls[${index}]=${encodeURIComponent(`method=Actions.getPageUrl&idSite=${config.matomoSiteId}&pageUrl=${url}&period=month&date=last12&showColumns=nb_visits,nb_hits,avg_time_on_page`)}`,
+    );
+    return limit(() =>
       fetch(
-        `https://${config.matomoUrl}/index.php?module=API&method=Actions.getPageUrls&idSite=${config.matomoSiteId}&period=month&date=last12&flat=1&filter_pattern=${encodeURIComponent(contextId)}&format=JSON&token_auth=${matomoApiToken}&showColumns=nb_visits,nb_hits,avg_time_on_page`,
+        `https://${config.matomoUrl}/index.php?module=API&method=API.getBulkRequest&format=JSON&token_auth=${matomoApiToken}&${bulkRequest.join("&")}`,
       ).then((res) => res.json()),
-    ),
-  );
+    );
+  });
 
   const results = await Promise.allSettled(fetchPromises);
   return results;

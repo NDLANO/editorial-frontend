@@ -184,6 +184,7 @@ const ConceptDialogContent = ({
                   concept={concept}
                   initialTitle={selectedText}
                   supportedLanguages={concept?.supportedLanguages ?? [locale]}
+                  translatedFieldsToNN={[]}
                 />
               ) : (
                 <ConceptForm
@@ -194,6 +195,7 @@ const ConceptDialogContent = ({
                   concept={concept}
                   initialTitle={selectedText}
                   supportedLanguages={concept?.supportedLanguages ?? [locale]}
+                  translatedFieldsToNN={[]}
                 />
               )}
             </TabsContent>

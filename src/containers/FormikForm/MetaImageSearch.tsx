@@ -199,6 +199,7 @@ const MetaImageSearch = ({
                     closeDialog={onImageSelectClose}
                     licenses={imageLicenses}
                     supportedLanguages={image?.supportedLanguages ?? [i18n.language]}
+                    translatedFieldsToNN={[]}
                   />
                 ) : (
                   <MessageBox variant="error">

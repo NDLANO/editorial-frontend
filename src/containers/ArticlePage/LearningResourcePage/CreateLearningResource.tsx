@@ -35,6 +35,7 @@ const CreateLearningResource = () => {
         isNewlyCreated={false}
         articleLanguage={i18n.language}
         supportedLanguages={[i18n.language]}
+        translatedFieldsToNN={[]}
       />
     </>
   );

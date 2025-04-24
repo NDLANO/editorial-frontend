@@ -39,7 +39,7 @@ interface Props {
   editorsChoices?: (IArticleDTO | ILearningPathV2DTO)[];
   elementName?: string;
   createSubjectpage?: (subjectpage: INewSubjectPageDTO) => Promise<ISubjectPageDTO>;
-  updateSubjectpage?: (id: string | number, subjectpage: IUpdatedSubjectPageDTO) => Promise<ISubjectPageDTO>;
+  updateSubjectpage?: (id: number, subjectpage: IUpdatedSubjectPageDTO) => Promise<ISubjectPageDTO>;
   selectedLanguage: string;
   elementId: string;
   isNewlyCreated: boolean;

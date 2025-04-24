@@ -10,7 +10,7 @@ import { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
-import { TYPE_CONCEPT_INLINE } from "../inline/types";
+import { CONCEPT_INLINE_ELEMENT_TYPE } from "../inline/types";
 
 const editor: Descendant[] = [
   {
@@ -21,7 +21,7 @@ const editor: Descendant[] = [
         children: [
           { text: "" },
           {
-            type: TYPE_CONCEPT_INLINE,
+            type: CONCEPT_INLINE_ELEMENT_TYPE,
             data: {
               contentId: "123",
               linkText: "my concept",

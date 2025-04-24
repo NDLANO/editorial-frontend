@@ -1676,6 +1676,7 @@ const phrases = {
   },
   warningMessage: {
     fieldWithWrongLanguage: "This value is fetched from language code: {{language}}",
+    translatedField: "This field is auto-translated from language code: nb",
   },
   notFound: {
     description: "The page cannot be found",

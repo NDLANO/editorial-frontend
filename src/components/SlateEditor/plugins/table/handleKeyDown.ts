@@ -28,20 +28,6 @@ export const handleTableKeydown = (
     if (!cellEntry) {
       return;
     }
-    const [rowEntry] = Editor.nodes(editor, {
-      at: editor.selection.anchor.path,
-      match: (node) => isTableRow(node),
-    });
-    if (!rowEntry) {
-      return;
-    }
-    const [bodyEntry] = Editor.nodes(editor, {
-      at: editor.selection.anchor.path,
-      match: (node) => isTableHead(node) || isTableBody(node),
-    });
-    if (!bodyEntry) {
-      return;
-    }
 
     switch (event.key) {
       case KEY_ARROW_DOWN:
@@ -50,7 +36,21 @@ export const handleTableKeydown = (
       case KEY_ARROW_UP:
         event.preventDefault();
         return moveUp(editor, tableEntry, cellEntry as NodeEntry<TableCellElement>);
-      case KEY_TAB:
+      case KEY_TAB: {
+        const [rowEntry] = Editor.nodes(editor, {
+          at: editor.selection.anchor.path,
+          match: (node) => isTableRow(node),
+        });
+        if (!rowEntry) {
+          return;
+        }
+        const [bodyEntry] = Editor.nodes(editor, {
+          at: editor.selection.anchor.path,
+          match: (node) => isTableHead(node) || isTableBody(node),
+        });
+        if (!bodyEntry) {
+          return;
+        }
         event.preventDefault();
         if (event.shiftKey) {
           return moveLeft(
@@ -68,6 +68,7 @@ export const handleTableKeydown = (
           rowEntry as NodeEntry<TableRowElement>,
           cellEntry as NodeEntry<TableCellElement>,
         );
+      }
       case KEY_BACKSPACE:
         return handleBackspaceClick(event, editor, cellEntry as NodeEntry<TableCellElement>);
       case KEY_DELETE:

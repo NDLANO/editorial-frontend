@@ -242,13 +242,6 @@ export const tablePlugin = (editor: Editor) => {
         if (index !== 0 && isTableCaption(child)) {
           return Transforms.removeNodes(editor, { at: [...path, index] });
         }
-
-        // Consecutive items must be tableBody. Otherwise: Wrap as tableBody.
-        if (index === 1 && !isTableHead(child) && !isTableBody(child)) {
-          return Transforms.wrapNodes(editor, defaultTableBodyBlock(1, 0), {
-            at: [...path, index],
-          });
-        }
       }
 
       // iv. Normalize each tableBody using matrix convertion for help.

@@ -114,6 +114,8 @@ const phrases = {
     change: "Change to {{language}} version",
     none: "Language",
   },
+  // WARNING: Some of these symbols contain special unicode characters that look like normal characters.
+  // Make sure not to accidentally change them!
   symbols: {
     "½": "One half",
     "¼": "One quarter",

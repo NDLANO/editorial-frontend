@@ -114,6 +114,8 @@ const phrases = {
     change: "Bytt til {{language}} versjon",
     none: "Språk",
   },
+  // WARNING: Some of these symbols contain special unicode characters that look like normal characters.
+  // Make sure not to accidentally change them!
   symbols: {
     "½": "Ein halv",
     "¼": "Ein fjerdedel",

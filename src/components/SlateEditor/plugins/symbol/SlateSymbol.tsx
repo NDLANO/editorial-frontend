@@ -119,14 +119,11 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
           <DialogBody>
             <ToggleGroupRoot value={[selectedSymbol]} onValueChange={handleSymbolChange}>
               {Object.entries(symbols).map(([symbol, label]) => (
-                <TooltipRoot key={symbol} openDelay={0}>
-                  <TooltipTrigger asChild>
-                    <ToggleGroupItem value={symbol} asChild>
-                      <Button variant="tertiary">{symbol}</Button>
-                    </ToggleGroupItem>
-                  </TooltipTrigger>
-                  <TooltipContent>{label}</TooltipContent>
-                </TooltipRoot>
+                <ToggleGroupItem key={symbol} value={symbol} asChild>
+                  <Button variant="tertiary" title={label} aria-label={label}>
+                    {symbol}
+                  </Button>
+                </ToggleGroupItem>
               ))}
             </ToggleGroupRoot>
             <FormActionsContainer>

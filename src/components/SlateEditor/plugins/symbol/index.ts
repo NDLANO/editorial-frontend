@@ -41,6 +41,10 @@ export const symbolPlugin = createPlugin<typeof SYMBOL_ELEMENT_TYPE, SymbolPlugi
         return true;
       }
 
+      if (node.symbol) {
+        console.log("length of symbol:", node.symbol.length);
+      }
+
       return defaultBlockNormalizer(editor, node, path, { parent: { allowed: options.allowedParents } }, logger);
     }
 

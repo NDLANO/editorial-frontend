@@ -15,7 +15,7 @@ import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 const editor = createSlate({ plugins: learningResourcePlugins });
 
 describe("symbol normalizer tests", () => {
-  test("symbol element wihtout symbol and not first edit is removed", () => {
+  test("symbol element without symbol and not first edit is removed", () => {
     const editorValue: Descendant[] = [
       {
         type: PARAGRAPH_ELEMENT_TYPE,

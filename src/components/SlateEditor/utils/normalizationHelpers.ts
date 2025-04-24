@@ -15,7 +15,7 @@ import { CODE_BLOCK_ELEMENT_TYPE } from "../plugins/codeBlock/types";
 import { COMMENT_BLOCK_ELEMENT_TYPE } from "../plugins/comment/block/types";
 import { DETAILS_ELEMENT_TYPE } from "../plugins/details/detailsTypes";
 import { TYPE_EMBED_ERROR } from "../plugins/embed/types";
-import { TYPE_EXTERNAL } from "../plugins/external/types";
+import { EXTERNAL_ELEMENT_TYPE, IFRAME_ELEMENT_TYPE } from "../plugins/external/types";
 import { FILE_ELEMENT_TYPE } from "../plugins/file/types";
 import { TYPE_GRID } from "../plugins/grid/types";
 import { H5P_ELEMENT_TYPE } from "../plugins/h5p/types";
@@ -43,7 +43,8 @@ export const textBlockElements: Element["type"][] = [
   TYPE_TABLE,
   AUDIO_ELEMENT_TYPE,
   BRIGHTCOVE_ELEMENT_TYPE,
-  TYPE_EXTERNAL,
+  EXTERNAL_ELEMENT_TYPE,
+  IFRAME_ELEMENT_TYPE,
   TYPE_EMBED_ERROR,
   H5P_ELEMENT_TYPE,
   FILE_ELEMENT_TYPE,

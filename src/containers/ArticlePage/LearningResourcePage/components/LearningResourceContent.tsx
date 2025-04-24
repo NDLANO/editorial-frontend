@@ -27,7 +27,7 @@ import { AUDIO_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/a
 import { learningResourceActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
 import { CODE_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/codeBlock/types";
 import { COMMENT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/comment/block/types";
-import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
+import { EXTERNAL_ELEMENT_TYPE, IFRAME_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/external/types";
 import { FILE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/file/types";
 import { FOOTNOTE_ELEMENT_TYPE, FootnoteElement } from "../../../../components/SlateEditor/plugins/footnote/types";
 import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
@@ -59,7 +59,8 @@ const visualElements = [
   H5P_ELEMENT_TYPE,
   BRIGHTCOVE_ELEMENT_TYPE,
   AUDIO_ELEMENT_TYPE,
-  TYPE_EXTERNAL,
+  EXTERNAL_ELEMENT_TYPE,
+  IFRAME_ELEMENT_TYPE,
   IMAGE_ELEMENT_TYPE,
 ];
 

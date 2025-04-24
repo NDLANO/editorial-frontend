@@ -35,7 +35,7 @@ import { defaultContactBlock } from "../contactBlock/utils";
 import { DETAILS_ELEMENT_TYPE } from "../details/detailsTypes";
 import { defaultDetailsBlock } from "../details/utils";
 import { TYPE_EMBED_ERROR } from "../embed/types";
-import { TYPE_EXTERNAL } from "../external/types";
+import { EXTERNAL_ELEMENT_TYPE } from "../external/types";
 import { defaultExternalBlock } from "../external/utils";
 import { FILE_ELEMENT_TYPE } from "../file/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes";
@@ -292,7 +292,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultH5pBlock());
         break;
       }
-      case TYPE_EXTERNAL: {
+      case EXTERNAL_ELEMENT_TYPE: {
         onInsertBlock(defaultExternalBlock());
         break;
       }

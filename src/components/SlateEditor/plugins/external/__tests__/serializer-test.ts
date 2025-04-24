@@ -10,7 +10,7 @@ import { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
-import { TYPE_EXTERNAL } from "../types";
+import { EXTERNAL_ELEMENT_TYPE } from "../types";
 
 describe("external serializer", () => {
   const editorWithYoutube: Descendant[] = [
@@ -19,7 +19,7 @@ describe("external serializer", () => {
       children: [
         { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
         {
-          type: TYPE_EXTERNAL,
+          type: EXTERNAL_ELEMENT_TYPE,
           children: [
             {
               text: "",

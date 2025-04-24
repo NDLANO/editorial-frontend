@@ -9,8 +9,19 @@
 import { Descendant } from "slate";
 import { IframeEmbedData, OembedEmbedData } from "@ndla/types-embed";
 
-export const TYPE_EXTERNAL = "external";
-export const TYPE_IFRAME = "iframe";
+export const IFRAME_ELEMENT_TYPE = "iframe";
+export const IFRAME_PLUGIN = "iframe-plugin";
+
+export const EXTERNAL_ELEMENT_TYPE = "external";
+export const EXTERNAL_PLUGIN = "external-plugin";
+
+export interface ExternalPluginOptions {
+  disableNormalize?: boolean;
+}
+
+export interface IframePluginOptions {
+  disableNormalize?: boolean;
+}
 
 export interface ExternalElement {
   type: "external";

@@ -39,7 +39,7 @@ import { divSerializer } from "../components/SlateEditor/plugins/div";
 import { embedSerializer } from "../components/SlateEditor/plugins/embed";
 import { TYPE_NDLA_EMBED } from "../components/SlateEditor/plugins/embed/types";
 import { defaultEmbedBlock, isSlateEmbed } from "../components/SlateEditor/plugins/embed/utils";
-import { externalSerializer } from "../components/SlateEditor/plugins/external";
+import { externalSerializer, iframeSerializer } from "../components/SlateEditor/plugins/external";
 import { fileSerializer } from "../components/SlateEditor/plugins/file";
 import { footnoteSerializer } from "../components/SlateEditor/plugins/footnote";
 import { framedContentSerializer } from "../components/SlateEditor/plugins/framedContent/framedContentSerializer";
@@ -124,6 +124,7 @@ const extendedRules: SlateSerializer<any>[] = [
   brightcoveSerializer,
   h5pSerializer,
   externalSerializer,
+  iframeSerializer,
   copyrightSerializer,
   embedSerializer,
   framedContentSerializer,

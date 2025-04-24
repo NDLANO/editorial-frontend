@@ -15,7 +15,7 @@ import { COMMENT_INLINE_ELEMENT_TYPE } from "./plugins/comment/inline/types";
 import { CONCEPT_INLINE_ELEMENT_TYPE } from "./plugins/concept/inline/types";
 import { DETAILS_ELEMENT_TYPE } from "./plugins/details/detailsTypes";
 import { TYPE_EMBED_ERROR } from "./plugins/embed/types";
-import { TYPE_EXTERNAL } from "./plugins/external/types";
+import { EXTERNAL_ELEMENT_TYPE, IFRAME_ELEMENT_TYPE } from "./plugins/external/types";
 import { FILE_ELEMENT_TYPE } from "./plugins/file/types";
 import { FOOTNOTE_ELEMENT_TYPE } from "./plugins/footnote/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "./plugins/framedContent/framedContentTypes";
@@ -51,7 +51,8 @@ export const blocks: ElementType[] = [
   AUDIO_ELEMENT_TYPE,
   BRIGHTCOVE_ELEMENT_TYPE,
   TYPE_EMBED_ERROR,
-  TYPE_EXTERNAL,
+  EXTERNAL_ELEMENT_TYPE,
+  IFRAME_ELEMENT_TYPE,
   H5P_ELEMENT_TYPE,
   IMAGE_ELEMENT_TYPE,
   FILE_ELEMENT_TYPE,

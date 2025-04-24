@@ -9,7 +9,7 @@
 import { compact, isEqual, uniq } from "lodash-es";
 import { TableCellElement, TableMatrix } from "./interfaces";
 import { TYPE_TABLE_CELL_HEADER } from "./types";
-import { isTableCellHeader } from "./slateHelpers";
+import { isTableCellHeaderElement } from "./queries";
 
 export const getPrevCell = (matrix: TableMatrix, row: number, column: number) => {
   return matrix[row][column - 1];
@@ -102,7 +102,8 @@ export const previousMatrixCellIsEqualCurrent = (matrix: TableMatrix, rowIndex: 
     isEqual(matrix?.[rowIndex - 1]?.[columnIndex], matrix?.[rowIndex]?.[columnIndex]));
 
 // Check if the row only contains TableCellHeader elements
-const isHeaderRow = (row?: TableCellElement[]) => row?.reduce((acc, cell) => acc && isTableCellHeader(cell), true);
+const isHeaderRow = (row?: TableCellElement[]) =>
+  row?.reduce((acc, cell) => acc && isTableCellHeaderElement(cell), true);
 
 // Creates an header object depending on the ID's of the header cells surrounding it.
 // If colspan or rowspan we check the corresponding neighbor cells for the headercells.

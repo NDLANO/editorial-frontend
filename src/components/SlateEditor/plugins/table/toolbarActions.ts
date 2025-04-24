@@ -20,21 +20,21 @@ import { TableElement } from "./interfaces";
 import { getTableAsMatrix, getTableBodyAsMatrix } from "./matrix";
 import { findCellCoordinate } from "./matrixHelpers";
 import { updateCell } from "./slateActions";
-import {
-  getTableBodyWidth,
-  isTable,
-  isTableBody,
-  isTableCell,
-  isTableCellHeader,
-  isTableHead,
-  isTableRow,
-} from "./slateHelpers";
 import { TYPE_TABLE_ROW, TYPE_TABLE_BODY, TYPE_TABLE_CELL_HEADER, TYPE_TABLE_HEAD } from "./types";
 import getCurrentBlock from "../../utils/getCurrentBlock";
+import {
+  isAnyTableCellElement,
+  isTableBodyElement,
+  isTableCellHeaderElement,
+  isTableElement,
+  isTableHeadElement,
+  isTableRowElement,
+} from "./queries";
+import { getTableBodyWidth } from "./slateHelpers";
 
 export const toggleRowHeaders = (editor: Editor, path: Path) => {
   const [table] = Editor.node(editor, path);
-  if (isTable(table)) {
+  if (isTableElement(table)) {
     Transforms.setNodes(
       editor,
       { rowHeaders: !table.rowHeaders },
@@ -48,7 +48,7 @@ export const toggleRowHeaders = (editor: Editor, path: Path) => {
 export const removeRow = (editor: Editor, path: Path) => {
   const [tableBodyEntry] = Editor.nodes(editor, {
     at: path,
-    match: (node) => isTableHead(node) || isTableBody(node),
+    match: (node) => isTableHeadElement(node) || isTableBodyElement(node),
   });
 
   if (!tableBodyEntry) {
@@ -58,27 +58,24 @@ export const removeRow = (editor: Editor, path: Path) => {
   const [tableBody, tableBodyPath] = tableBodyEntry;
 
   // If tableHead only contains one row. Remove it.
-  if (isTableHead(tableBody)) {
+  if (isTableHeadElement(tableBody)) {
     if (tableBody.children.length === 1) {
       return Transforms.removeNodes(editor, { at: tableBodyPath });
     }
   }
 
-  if (isTableBody(tableBody)) {
+  if (isTableBodyElement(tableBody)) {
     if (tableBody.children.length === 1) {
       return;
     }
   }
 
-  const [cellEntry] = Editor.nodes(editor, {
-    at: path,
-    match: (node) => isTableCell(node),
-  });
+  const [cellEntry] = Editor.nodes(editor, { at: path, match: isAnyTableCellElement });
   const [selectedCell, selectedCellPath] = cellEntry;
 
   const matrix = getTableBodyAsMatrix(editor, Path.parent(Path.parent(selectedCellPath)));
 
-  if (matrix && isTableCell(selectedCell)) {
+  if (matrix && isAnyTableCellElement(selectedCell)) {
     // If selected cell has same height as entire body. Do nothing.
     if (selectedCell.data.rowspan === matrix.length) {
       return;
@@ -216,7 +213,7 @@ export const insertTableHead = (editor: Editor) => {
 export const insertRow = (editor: Editor, tableElement: TableElement, path: Path) => {
   const [tableBodyEntry] = Editor.nodes(editor, {
     at: path,
-    match: (node) => isTableHead(node) || isTableRow(node),
+    match: (node) => isTableHeadElement(node) || isTableRowElement(node),
   });
 
   if (!tableBodyEntry) {
@@ -225,23 +222,23 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
 
   // If tableHead contains two rows. Insert the row in tableBody instead
   const [tableHead, tableHeadPath] = tableBodyEntry;
-  if (isTableHead(tableHead)) {
+  if (isTableHeadElement(tableHead)) {
     if (tableHead.children.length === 2) {
       const tableBodyPath = Path.next(tableHeadPath);
 
       if (Editor.hasPath(editor, tableBodyPath)) {
         const [tableBody] = Editor.node(editor, tableBodyPath);
 
-        if (isTableBody(tableBody)) {
+        if (isTableBodyElement(tableBody)) {
           const firstRow = tableBody.children[0];
 
-          if (isTableRow(firstRow)) {
+          if (isTableRowElement(firstRow)) {
             return Transforms.insertNodes(
               editor,
               {
                 ...defaultTableRowBlock(0),
                 children: firstRow.children.map((cell) => {
-                  const cellData = isTableCell(cell) ? cell.data : {};
+                  const cellData = isAnyTableCellElement(cell) ? cell.data : {};
                   const defaultCell = defaultTableCellBlock();
                   return {
                     ...defaultCell,
@@ -288,15 +285,12 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
     }
   }
 
-  const [cellEntry] = Editor.nodes(editor, {
-    at: path,
-    match: (node) => isTableCell(node),
-  });
+  const [cellEntry] = Editor.nodes(editor, { at: path, match: isAnyTableCellElement });
   const [cell, cellPath] = cellEntry;
 
   const matrix = getTableAsMatrix(editor, ReactEditor.findPath(editor, tableElement));
 
-  if (matrix && isTableCell(cell)) {
+  if (matrix && isAnyTableCellElement(cell)) {
     const selectedCoordinate = findCellCoordinate(matrix, cell);
     if (selectedCoordinate) {
       const selectedRowIndex =
@@ -362,22 +356,19 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
 export const insertColumn = (editor: Editor, tableElement: TableElement, path: Path) => {
   const [tableBodyEntry] = Editor.nodes(editor, {
     at: path,
-    match: (node) => isTableHead(node) || isTableRow(node),
+    match: (node) => isTableHeadElement(node) || isTableRowElement(node),
   });
 
   if (!tableBodyEntry) {
     return;
   }
 
-  const [cellEntry] = Editor.nodes(editor, {
-    at: path,
-    match: (node) => isTableCell(node),
-  });
+  const [cellEntry] = Editor.nodes(editor, { at: path, match: isAnyTableCellElement });
   const [cell] = cellEntry;
 
   const matrix = getTableAsMatrix(editor, ReactEditor.findPath(editor, tableElement));
 
-  if (matrix && isTableCell(cell)) {
+  if (matrix && isAnyTableCellElement(cell)) {
     const selectedPath = findCellCoordinate(matrix, cell);
     if (selectedPath) {
       // Select the right edge of the cell
@@ -404,7 +395,7 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
             Transforms.insertNodes(
               editor,
               {
-                ...(isTableCellHeader(cell) ? defaultTableCellHeaderBlock() : defaultTableCellBlock()),
+                ...(isTableCellHeaderElement(cell) ? defaultTableCellHeaderBlock() : defaultTableCellBlock()),
                 data: {
                   ...cell.data,
                   colspan: 1,
@@ -422,30 +413,27 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
 export const removeColumn = (editor: Editor, tableElement: TableElement, path: Path) => {
   const [tableBodyEntry] = Editor.nodes(editor, {
     at: path,
-    match: (node) => isTableHead(node) || isTableRow(node),
+    match: (node) => isTableHeadElement(node) || isTableRowElement(node),
   });
 
   if (!tableBodyEntry) {
     return;
   }
 
-  const [cellEntry] = Editor.nodes(editor, {
-    at: path,
-    match: (node) => isTableCell(node),
-  });
+  const [cellEntry] = Editor.nodes(editor, { at: path, match: isAnyTableCellElement });
   const [cell] = cellEntry;
 
   const matrix = getTableAsMatrix(editor, ReactEditor.findPath(editor, tableElement));
 
   const firstBody = tableElement.children[0];
 
-  if (isTableBody(firstBody) || isTableHead(firstBody)) {
+  if (isTableBodyElement(firstBody) || isTableHeadElement(firstBody)) {
     if (getTableBodyWidth(firstBody) === 1) {
       return;
     }
   }
 
-  if (matrix && isTableCell(cell)) {
+  if (matrix && isAnyTableCellElement(cell)) {
     const selectedPath = findCellCoordinate(matrix, cell);
     if (selectedPath) {
       const [, selectedColumnIndex] = selectedPath;

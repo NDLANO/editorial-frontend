@@ -6,18 +6,20 @@
  *
  */
 
-import { ReactNode, useCallback, useEffect, useState } from "react";
+import { ReactNode, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
-import { DialogOpenChangeDetails, Portal } from "@ark-ui/react";
+import { Portal } from "@ark-ui/react";
+import { CloseLine, DeleteBinLine } from "@ndla/icons";
 import {
   Button,
-  DialogBody,
-  DialogContent,
-  DialogHeader,
-  DialogRoot,
-  DialogTitle,
+  IconButton,
+  PopoverContent,
+  PopoverDescription,
+  PopoverRoot,
+  PopoverTitle,
+  PopoverTrigger,
   TooltipContent,
   TooltipRoot,
   TooltipTrigger,
@@ -25,7 +27,6 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { isSymbolElement } from "./queries";
 import { SymbolElement } from "./types";
-import { DialogCloseButton } from "../../../DialogCloseButton";
 import { InlineBugfix } from "../../utils/InlineBugFix";
 import mergeLastUndos from "../../utils/mergeLastUndos";
 
@@ -51,6 +52,32 @@ const SymbolWrapper = styled("span", {
   },
 });
 
+const StyledPopoverContent = styled(PopoverContent, {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+    width: "surface.medium",
+  },
+});
+
+const PopoverHeader = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: "medium",
+  },
+});
+
+const PopoverHeaderButtons = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    alignItems: "center",
+  },
+});
+
 const SymbolButtonsWrapper = styled("div", {
   base: {
     display: "flex",
@@ -59,20 +86,22 @@ const SymbolButtonsWrapper = styled("div", {
   },
 });
 
+const StyledButton = styled(Button, {
+  base: {
+    width: "xxlarge",
+  },
+});
+
 export const SlateSymbol = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
   const symbols = t("symbols", { returnObjects: true }) as Record<string, string>;
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(!!element.isFirstEdit);
   const isSelected = useSelected();
 
-  useEffect(() => {
-    setOpen(!!element.isFirstEdit);
-  }, [element.isFirstEdit]);
-
   const handleOpenChange = useCallback(
-    (details: DialogOpenChangeDetails) => {
-      setOpen(details.open);
-      if (!details.open) {
+    (value: boolean, shouldDelete?: boolean) => {
+      setOpen(value);
+      if (!value && (shouldDelete ?? !!element.isFirstEdit)) {
         const path = ReactEditor.findPath(editor, element);
         Transforms.removeNodes(editor, { match: isSymbolElement, at: path, voids: true });
       }
@@ -96,40 +125,61 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
   );
 
   return (
-    <DialogRoot open={open} onOpenChange={handleOpenChange}>
-      <SymbolWrapper {...attributes} contentEditable={false} isSelected={isSelected}>
-        <InlineBugfix />
-        {element.symbol}
-        {children}
-        <InlineBugfix />
-      </SymbolWrapper>
+    <PopoverRoot open={open} onOpenChange={(details) => handleOpenChange(details.open)} positioning={{}}>
+      <PopoverTrigger asChild>
+        <SymbolWrapper {...attributes} contentEditable={false} isSelected={isSelected}>
+          <InlineBugfix />
+          {element.symbol}
+          {children}
+          <InlineBugfix />
+        </SymbolWrapper>
+      </PopoverTrigger>
       <Portal>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t("form.content.symbol.title")}</DialogTitle>
-            <DialogCloseButton />
-          </DialogHeader>
-          <DialogBody>
+        <StyledPopoverContent>
+          <PopoverHeader>
+            <PopoverTitle>{t("form.content.symbol.title")}</PopoverTitle>
+            <PopoverHeaderButtons>
+              <IconButton
+                variant="danger"
+                size="small"
+                aria-label={t("form.workflow.deleteComment.title")}
+                title={t("form.workflow.deleteComment.title")}
+                onClick={() => handleOpenChange(false, true)}
+              >
+                <DeleteBinLine />
+              </IconButton>
+              <IconButton
+                variant="tertiary"
+                size="small"
+                aria-label={t("form.close")}
+                title={t("form.close")}
+                onClick={() => handleOpenChange(false)}
+              >
+                <CloseLine />
+              </IconButton>
+            </PopoverHeaderButtons>
+          </PopoverHeader>
+          <PopoverDescription>
             <SymbolButtonsWrapper>
               {Object.entries(symbols).map(([symbol, label]) => (
                 <TooltipRoot key={symbol} openDelay={0}>
                   <TooltipTrigger asChild>
-                    <Button
+                    <StyledButton
                       variant="secondary"
                       onClick={() => onClick(symbol)}
                       aria-label={label}
                       data-testid={`button-${symbol}`}
                     >
                       {symbol}
-                    </Button>
+                    </StyledButton>
                   </TooltipTrigger>
                   <TooltipContent>{label}</TooltipContent>
                 </TooltipRoot>
               ))}
             </SymbolButtonsWrapper>
-          </DialogBody>
-        </DialogContent>
+          </PopoverDescription>
+        </StyledPopoverContent>
       </Portal>
-    </DialogRoot>
+    </PopoverRoot>
   );
 };

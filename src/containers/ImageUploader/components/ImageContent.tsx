@@ -47,7 +47,7 @@ const ImageContent = ({ language }: Props) => {
       if (typeof values.imageFile === "string") {
         // We use the timestamp to avoid caching of the `imageFile` url in the browser
         const timestamp = new Date().getTime();
-        const result = await fetch(values.filepath || `${values.imageFile}?width=2000&ts=${timestamp}`);
+        const result = await fetch(values.filepath || `${values.imageFile}?width=1500&ts=${timestamp}`);
         image = await result.blob();
       } else {
         image = values.imageFile;

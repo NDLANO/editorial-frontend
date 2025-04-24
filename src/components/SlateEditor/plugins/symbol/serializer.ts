@@ -9,8 +9,8 @@
 import { createDataAttributes, createHtmlTag, createSerializer, parseElementAttributes } from "@ndla/editor";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 import { SYMBOL_ELEMENT_TYPE } from "./types";
-import { jsx as slatejsx } from "slate-hyperscript";
 import { isSymbolElement } from "./queries";
+import { defaultSymbol } from "./utils";
 
 export const symbolSerializer = createSerializer({
   deserialize(el) {
@@ -22,7 +22,7 @@ export const symbolSerializer = createSerializer({
     const symbol = el.firstChild?.textContent;
     if (!symbol) return;
 
-    return slatejsx("element", { type: SYMBOL_ELEMENT_TYPE, symbol });
+    return defaultSymbol(symbol);
   },
   serialize(node) {
     if (!isSymbolElement(node) || !node.symbol) return;

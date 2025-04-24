@@ -10,7 +10,7 @@ import { Descendant } from "slate";
 import { SYMBOL_ELEMENT_TYPE } from "../types";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 
-const editor: Descendant[] = [{ type: SYMBOL_ELEMENT_TYPE, symbol: "$", children: [] }];
+const editor: Descendant[] = [{ type: SYMBOL_ELEMENT_TYPE, symbol: "$", isFirstEdit: false, children: [{ text: "" }] }];
 
 const html = '<ndlaembed data-resource="symbol">$</ndlaembed>';
 

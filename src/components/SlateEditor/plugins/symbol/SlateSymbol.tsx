@@ -20,9 +20,6 @@ import {
   DialogTitle,
   ToggleGroupItem,
   ToggleGroupRoot,
-  TooltipContent,
-  TooltipRoot,
-  TooltipTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { isSymbolElement } from "./queries";

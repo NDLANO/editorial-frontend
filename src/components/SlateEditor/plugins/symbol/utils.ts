@@ -10,9 +10,11 @@ import { Editor, Transforms, Range } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { SYMBOL_ELEMENT_TYPE } from "./types";
 
+export const defaultSymbol = (symbol?: string) =>
+  slatejsx("element", { type: SYMBOL_ELEMENT_TYPE, symbol, isFirstEdit: !symbol }, [{ text: "" }]);
+
 export const insertSymbol = (editor: Editor) => {
   if (editor.selection) {
-    const symbol = slatejsx("element", { type: SYMBOL_ELEMENT_TYPE, isFirstEdit: true });
-    Transforms.insertNodes(editor, symbol, { at: Range.start(editor.selection) });
+    Transforms.insertNodes(editor, defaultSymbol(), { at: Range.start(editor.selection) });
   }
 };

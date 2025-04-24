@@ -120,6 +120,8 @@ const phrases = {
     "½": "One half",
     "¼": "One quarter",
     "¾": "Three quarters",
+    "²": "Squared",
+    "³": "Cubed",
     "©": "Copyright",
     "™": "Trademark",
     "°": "Degrees",

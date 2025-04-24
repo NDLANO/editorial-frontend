@@ -120,6 +120,8 @@ const phrases = {
     "½": "Ein halv",
     "¼": "Ein fjerdedel",
     "¾": "Tre fjerdedelar",
+    "²": "I andre",
+    "³": "I tredje",
     "©": "Copyright",
     "™": "Trademark",
     "°": "Grader",

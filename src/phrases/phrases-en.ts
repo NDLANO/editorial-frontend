@@ -759,7 +759,7 @@ const phrases = {
     center: "Center aligned",
     right: "Right aligned",
     rephrase: "Rephrase",
-    symbol: "Symbol",
+    symbol: "Symbol\n({{ctrl}}+alt+y)",
     disabled: {
       "comment-inline": "Comment can only overlap text",
     },

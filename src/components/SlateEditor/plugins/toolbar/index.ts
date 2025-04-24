@@ -34,6 +34,7 @@ const isLetteredListHotKey = isCodeHotkey("mod+alt+a");
 const isLinkHotKey = isCodeHotkey("mod+alt+l");
 const isListHotKey = isKeyHotkey("mod+l");
 const isMathHotKey = isKeyHotkey("mod+m");
+const isSymbolHotKey = isCodeHotkey("mod+alt+y");
 const isNumberedListHotKey = isCodeHotkey("mod+alt+1");
 const isDefinitionListHotkey = isCodeHotkey("mod+alt+d");
 const isQuoteHotKey = isCodeHotkey("mod+alt+b");
@@ -86,6 +87,8 @@ const toolbarPlugin =
         action = { category: "block", value: "bulleted-list" };
       } else if (isMathHotKey(e)) {
         action = { category: "inline", value: "mathml" };
+      } else if (isSymbolHotKey(e)) {
+        action = { category: "inline", value: "symbol" };
       } else if (isNumberedListHotKey(e)) {
         action = { category: "block", value: "numbered-list" };
       } else if (isQuoteHotKey(e)) {

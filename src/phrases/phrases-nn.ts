@@ -759,7 +759,7 @@ const phrases = {
     center: "Midtstilt",
     right: "Høgrejustert",
     rephrase: "Omformulering",
-    symbol: "Symbol",
+    symbol: "Symbol\n({{ctrl}}+alt+y)",
     disabled: {
       "comment-inline": "Kommentar kan kun overlappe tekst",
     },

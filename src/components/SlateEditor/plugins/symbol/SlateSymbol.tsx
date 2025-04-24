@@ -8,8 +8,8 @@
 
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Range, Transforms } from "slate";
-import { ReactEditor, RenderElementProps, useSlateSelector } from "slate-react";
+import { Editor, Transforms } from "slate";
+import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { DialogOpenChangeDetails, Portal, ToggleGroupValueChangeDetails } from "@ark-ui/react";
 import {
   Button,
@@ -51,22 +51,12 @@ const SymbolWrapper = styled("span", {
   },
 });
 
-const useSymbolSelected = (element: SymbolElement) =>
-  useSlateSelector((editor) => {
-    const selection = editor.selection;
-    if (Range.isRange(selection) && Range.isCollapsed(selection)) {
-      return Range.includes(selection, ReactEditor.findPath(editor, element));
-    }
-
-    return false;
-  });
-
 export const SlateSymbol = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
   const symbols = t("symbols", { returnObjects: true }) as Record<string, string>;
   const [open, setOpen] = useState(false);
   const [selectedSymbol, setSelectedSymbol] = useState<string>(Object.keys(symbols)[0]);
-  const isSelected = useSymbolSelected(element);
+  const isSelected = useSelected();
 
   useEffect(() => {
     setOpen(!!element.isFirstEdit);

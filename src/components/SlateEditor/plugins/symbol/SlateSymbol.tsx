@@ -6,8 +6,8 @@
  *
  */
 
-import { ReactNode, useCallback, useState } from "react";
-import { Editor, Transforms } from "slate";
+import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { styled } from "@ndla/styled-system/jsx";
 import { isSymbolElement } from "./queries";
@@ -40,11 +40,25 @@ const SymbolWrapper = styled("span", {
 });
 
 export const SlateSymbol = ({ element, editor, attributes, children }: Props) => {
-  const [open, setOpen] = useState(!!element.isFirstEdit);
+  const [open, setOpen] = useState(false);
   const isSelected = useSelected();
+  const hasHandledOpenChange = useRef(false);
+  hasHandledOpenChange.current = false;
+
+  useEffect(() => {
+    if (element.isFirstEdit) {
+      setOpen(true);
+      const path = ReactEditor.findPath(editor, element);
+      Transforms.select(editor, { path: Path.next(path), offset: 0 });
+    }
+  }, [editor, element]);
 
   const handleOpenChange = useCallback(
     (value: boolean, shouldDelete?: boolean) => {
+      // This method is sometimes called twice in a single render by Ark when the popover should close
+      if (hasHandledOpenChange.current) return;
+      hasHandledOpenChange.current = true;
+
       setOpen(value);
       if (!value && (shouldDelete ?? !!element.isFirstEdit)) {
         const path = ReactEditor.findPath(editor, element);

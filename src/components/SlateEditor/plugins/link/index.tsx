@@ -13,7 +13,6 @@ import { ContentLinkEmbedData } from "@ndla/types-embed";
 import { isContentLinkElement, isLinkElement } from "./queries";
 import { CONTENT_LINK_ELEMENT_TYPE, CONTENT_LINK_PLUGIN, LINK_ELEMENT_TYPE, LINK_PLUGIN, LinkEmbedData } from "./types";
 import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
-import { SlateSerializer } from "../../interfaces";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 
 export interface LinkElement {
@@ -30,8 +29,8 @@ export interface ContentLinkElement {
   isFirstEdit?: boolean;
 }
 
-export const linkSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: Descendant[]) {
+export const linkSerializer = createSerializer({
+  deserialize(el, children) {
     if (el.tagName.toLowerCase() !== "a") return;
     const a = el as HTMLLinkElement;
     return slatejsx(
@@ -61,7 +60,7 @@ export const linkSerializer: SlateSerializer = {
       children,
     });
   },
-};
+});
 
 export const contentLinkSerializer = createSerializer({
   deserialize(el, children) {

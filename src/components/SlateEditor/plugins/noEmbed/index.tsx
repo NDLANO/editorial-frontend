@@ -6,25 +6,26 @@
  *
  */
 
-import { Descendant, Editor } from "slate";
+import { createPlugin, createSerializer } from "@ndla/editor";
 import { Embed } from "../../../../interfaces";
 import { parseEmbedTag } from "../../../../util/embedTagHelpers";
-import { SlateSerializer } from "../../interfaces";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 import { defaultEmbedBlock, isSlateEmbed } from "../embed/utils";
 
-export const noEmbedSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement) {
+// TODO: Consider if this is needed after we implement the "unknown" embed
+
+export const noEmbedSerializer = createSerializer({
+  deserialize(el) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     return defaultEmbedBlock(parseEmbedTag(el.outerHTML) as Embed);
   },
-  serialize(node: Descendant) {
+  serialize(node) {
     if (isSlateEmbed(node)) {
       return "<deleteme></deleteme>";
     }
   },
-};
+});
 
-export const noEmbedPlugin = (editor: Editor) => {
-  return editor;
-};
+export const noEmbedPlugin = createPlugin({
+  name: "no-embed",
+});

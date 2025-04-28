@@ -748,7 +748,7 @@ const phrases = {
     heading: "Legg til",
     open: "Åpne meny ({{ctrl}}+Enter)",
     close: "Lukk meny",
-    tooltip: "Les vår veiledning om bruk av {{ type }}",
+    tooltip: "Les rettleiinga vår om bruk av {{ type }}",
     actions: {
       block: "Seksjon",
       factAside: "Faktaboks",

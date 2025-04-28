@@ -748,6 +748,7 @@ const phrases = {
     open: "Open menu ({{ctrl}}+Enter)",
     close: "Close menu",
     heading: "Add",
+    tooltip: "Read our guidelines for using {{ type }}",
     actions: {
       block: "Section",
       factAside: "Factbox",
@@ -991,10 +992,6 @@ const phrases = {
       "not-applicable": "Not applicable",
       "not-set": "Not set",
       description: "Whether the image is model released or not:",
-    },
-    markdown: {
-      button: "Click to view markdown",
-      helpLabel: "What is markdown?",
     },
     visualElement: {
       title: "Add visual element",

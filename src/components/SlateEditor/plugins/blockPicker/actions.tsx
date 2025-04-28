@@ -9,30 +9,28 @@
 import type { JSX } from "react";
 import { Element } from "slate";
 import {
-  LineChartLine,
-  BroadcastLine,
-  VolumeUpFill,
   AlertLine,
-  MessageLine,
-  MegaphoneLine,
+  BroadcastLine,
+  CameraFill,
+  CodeView,
   DownloadLine,
-  UserFill,
-  StickyNoteAddLine,
   ExpandDiagonalLine,
   FileListFill,
-  SquareLine,
   GlobalLine,
   LayoutColumnLine,
+  LineChartLine,
+  LinkMedium,
+  MegaphoneLine,
+  MessageLine,
   MovieLine,
   OrganizationChart,
-  TableLine,
-  CameraFill,
   SlideshowLine,
-  LinkMedium,
-  CodeView,
+  SquareLine,
+  StickyNoteAddLine,
+  TableLine,
+  UserFill,
+  VolumeUpFill,
 } from "@ndla/icons";
-import HowToHelper from "../../../HowTo/HowToHelper";
-import { StoryType } from "../../../HowTo/stories";
 import { ASIDE_ELEMENT_TYPE } from "../aside/asideTypes";
 import { AUDIO_ELEMENT_TYPE } from "../audio/audioTypes";
 import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../campaignBlock/types";
@@ -55,8 +53,6 @@ import { TYPE_TABLE } from "../table/types";
 import { DISCLAIMER_ELEMENT_TYPE } from "../uuDisclaimer/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../video/types";
 
-const renderArticleInDialog = (pageId: string) => <HowToHelper pageId={pageId as StoryType} />;
-
 export interface ActionData {
   type: Element["type"];
   object: string;
@@ -65,7 +61,7 @@ export interface ActionData {
 export interface Action {
   data: ActionData;
   icon: JSX.Element;
-  helpIcon: JSX.Element;
+  bookmark?: string;
   requiredScope?: string;
 }
 
@@ -73,82 +69,82 @@ export const commonActions: Action[] = [
   {
     data: { type: ASIDE_ELEMENT_TYPE, object: "factAside" },
     icon: <FileListFill />,
-    helpIcon: renderArticleInDialog("FactAside"),
+    bookmark: "#bkmrk-faktaboks",
   },
   {
     data: { type: DETAILS_ELEMENT_TYPE, object: "details" },
     icon: <ExpandDiagonalLine />,
-    helpIcon: renderArticleInDialog("Details"),
+    bookmark: "#bkmrk-ekspanderende-boks",
   },
   {
     data: { type: TYPE_TABLE, object: "table" },
     icon: <TableLine />,
-    helpIcon: renderArticleInDialog("Table"),
+    bookmark: "#bkmrk-tabell",
   },
   {
     data: { type: FRAMED_CONTENT_ELEMENT_TYPE, object: "framedContent" },
     icon: <SquareLine />,
-    helpIcon: renderArticleInDialog("FramedContent"),
+    bookmark: "#bkmrk-tekst-i-ramme",
   },
   {
     data: { type: IMAGE_ELEMENT_TYPE, object: "image" },
     icon: <CameraFill />,
-    helpIcon: renderArticleInDialog("Images"),
+    bookmark: "#bkmrk-bilde",
   },
   {
     data: { type: BRIGHTCOVE_ELEMENT_TYPE, object: "video" },
     icon: <MovieLine />,
-    helpIcon: renderArticleInDialog("Videos"),
+    bookmark: "#bkmrk-video",
   },
   {
     data: { type: AUDIO_ELEMENT_TYPE, object: "audio" },
     icon: <VolumeUpFill />,
-    helpIcon: renderArticleInDialog("Audios"),
+    bookmark: "#bkmrk-lyd",
   },
   {
     data: { type: AUDIO_ELEMENT_TYPE, object: "podcast" },
     icon: <BroadcastLine />,
-    helpIcon: renderArticleInDialog("Podcasts"),
+    bookmark: "#bkmrk-podkastepisode",
   },
   {
     data: { type: H5P_ELEMENT_TYPE, object: "h5p" },
     icon: <SlideshowLine />,
-    helpIcon: renderArticleInDialog("H5P"),
+    bookmark: "#bkmrk-h5p",
   },
   {
     data: { type: TYPE_EXTERNAL, object: "url" },
     icon: <LinkMedium />,
-    helpIcon: renderArticleInDialog("ResourceFromLink"),
+    bookmark: "#bkmrk-ressurs-fra-lenke",
   },
   {
     data: { type: FILE_ELEMENT_TYPE, object: "file" },
     icon: <DownloadLine />,
-    helpIcon: renderArticleInDialog("File"),
+    bookmark: "#bkmrk-fil",
   },
   {
     data: { type: RELATED_ELEMENT_TYPE, object: "related" },
     icon: <OrganizationChart />,
-    helpIcon: renderArticleInDialog("RelatedArticle"),
+    bookmark: "#bkmrk-relatert-innhold",
   },
   {
     data: { type: CODE_BLOCK_ELEMENT_TYPE, object: "code" },
     icon: <CodeView />,
-    helpIcon: renderArticleInDialog("CodeBlock"),
+    bookmark: "#bkmrk-kodevisning",
   },
   {
     data: { type: GLOSS_BLOCK_ELEMENT_TYPE, object: "gloss" },
     icon: <GlobalLine />,
-    helpIcon: renderArticleInDialog("Gloss"),
+    bookmark: "#bkmrk-glose",
   },
   {
     data: { type: DISCLAIMER_ELEMENT_TYPE, object: "disclaimer" },
     icon: <AlertLine />,
-    helpIcon: renderArticleInDialog("Disclaimer"),
+    bookmark: "#bkmrk-kommentar",
   },
   {
     data: { type: COMMENT_BLOCK_ELEMENT_TYPE, object: "comment" },
     icon: <MessageLine />,
-    helpIcon: renderArticleInDialog("Comment"),
+    bookmark: "#bkmrk-kommentar-1",
   },
 ];
 
@@ -156,37 +152,32 @@ export const frontpageActions = commonActions.concat(
   {
     data: { type: TYPE_GRID, object: "grid" },
     icon: <LayoutColumnLine />,
-    helpIcon: renderArticleInDialog("Grid"),
+    bookmark: "#bkmrk-grid",
   },
   {
     data: { type: PITCH_ELEMENT_TYPE, object: "pitch" },
     icon: <StickyNoteAddLine />,
-    helpIcon: renderArticleInDialog("Pitch"),
   },
   {
     data: { type: KEY_FIGURE_ELEMENT_TYPE, object: "keyFigure" },
     icon: <LineChartLine />,
-    helpIcon: renderArticleInDialog("KeyFigure"),
   },
   {
     data: { type: CONTACT_BLOCK_ELEMENT_TYPE, object: "contactBlock" },
     icon: <UserFill />,
-    helpIcon: renderArticleInDialog("ContactBlock"),
   },
   {
     data: { type: CAMPAIGN_BLOCK_ELEMENT_TYPE, object: "campaignBlock" },
     icon: <MegaphoneLine />,
-    helpIcon: renderArticleInDialog("CampaignBlock"),
   },
   {
     data: { type: LINK_BLOCK_LIST_ELEMENT_TYPE, object: "linkBlockList" },
     icon: <LinkMedium />,
-    helpIcon: renderArticleInDialog("LinkBlockList"),
   },
 );
 
 export const learningResourceActions = commonActions.concat({
   data: { type: TYPE_GRID, object: "grid" },
   icon: <LayoutColumnLine />,
-  helpIcon: renderArticleInDialog("Grid"),
+  bookmark: "#bkmrk-grid",
 });

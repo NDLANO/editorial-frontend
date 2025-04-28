@@ -748,6 +748,7 @@ const phrases = {
     heading: "Legg til",
     open: "Åpne meny ({{ctrl}}+Enter)",
     close: "Lukk meny",
+    tooltip: "Les vår veiledning om bruk av {{ type }}",
     actions: {
       block: "Seksjon",
       factAside: "Faktaboks",
@@ -1052,10 +1053,6 @@ const phrases = {
       url: "Ny ressurs",
       video: "Video",
       image: "Bilde",
-    },
-    markdown: {
-      button: "Klikk for å se markdown",
-      helpLabel: "Hva er markdown?",
     },
     visualElement: {
       title: "Visuelt element",

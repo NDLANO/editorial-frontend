@@ -748,6 +748,7 @@ const phrases = {
     heading: "Legg til",
     open: "Åpne meny ({{ctrl}}+Enter)",
     close: "Lukk meny",
+    tooltip: "Les vår veiledning om bruk av {{ type }}",
     actions: {
       block: "Seksjon",
       factAside: "Faktaboks",
@@ -991,10 +992,6 @@ const phrases = {
       "not-applicable": "Ikkje relevant",
       "not-set": "Ikkje valgt",
       description: "Om biletet er modellklarert eller ikkje:",
-    },
-    markdown: {
-      button: "Klikk for å se markdown",
-      helpLabel: "Kva er markdown?",
     },
     visualElement: {
       title: "Legg til visuelt element",

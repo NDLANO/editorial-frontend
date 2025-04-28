@@ -50,7 +50,7 @@ const PopoverHeaderButtons = styled("div", {
   },
 });
 
-const SymbolButtonsWrapper = styled("div", {
+const StyledPopoverDescription = styled(PopoverDescription, {
   base: {
     display: "flex",
     flexWrap: "wrap",
@@ -102,25 +102,23 @@ export const SymbolPopover = ({ open, handleOpenChange, handleSymbolClick, child
               </IconButton>
             </PopoverHeaderButtons>
           </PopoverHeader>
-          <PopoverDescription>
-            <SymbolButtonsWrapper>
-              {Object.entries(symbols).map(([symbol, label]) => (
-                <TooltipRoot key={symbol} openDelay={0}>
-                  <TooltipTrigger asChild>
-                    <StyledButton
-                      variant="secondary"
-                      onClick={() => handleSymbolClick(symbol)}
-                      aria-label={label}
-                      data-testid={`button-${symbol}`}
-                    >
-                      {symbol}
-                    </StyledButton>
-                  </TooltipTrigger>
-                  <TooltipContent>{label}</TooltipContent>
-                </TooltipRoot>
-              ))}
-            </SymbolButtonsWrapper>
-          </PopoverDescription>
+          <StyledPopoverDescription>
+            {Object.entries(symbols).map(([symbol, label]) => (
+              <TooltipRoot key={symbol} openDelay={0}>
+                <TooltipTrigger asChild>
+                  <StyledButton
+                    variant="secondary"
+                    onClick={() => handleSymbolClick(symbol)}
+                    aria-label={label}
+                    data-testid={`button-${symbol}`}
+                  >
+                    {symbol}
+                  </StyledButton>
+                </TooltipTrigger>
+                <TooltipContent>{label}</TooltipContent>
+              </TooltipRoot>
+            ))}
+          </StyledPopoverDescription>
         </StyledPopoverContent>
       </Portal>
     </PopoverRoot>

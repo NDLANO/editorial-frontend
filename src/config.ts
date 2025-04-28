@@ -161,7 +161,6 @@ export type ConfigType = {
   redirectPort: string | undefined;
   host: string | undefined;
   componentName: string | undefined;
-  helpBaseUrl: string;
   isNdlaProdEnvironment: boolean;
   ndlaEnvironment: string;
   learningpathFrontendDomain: string;
@@ -199,10 +198,6 @@ const getServerSideConfig = (): ConfigType => {
     ndlaEnvironment,
     taxonomyApi,
     componentName: getEnvironmentVariabel("npm_package_name", "editorial-frontend"),
-    helpBaseUrl: getEnvironmentVariabel(
-      "HELP_BASE_URL",
-      "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel",
-    ),
     host: getEnvironmentVariabel("EDITORIAL_FRONTEND_HOST", "localhost"),
     port: getEnvironmentVariabel("EDITORIAL_FRONTEND_PORT", "3000"),
     redirectPort: getEnvironmentVariabel("NDLA_REDIRECT_PORT", "3001"),

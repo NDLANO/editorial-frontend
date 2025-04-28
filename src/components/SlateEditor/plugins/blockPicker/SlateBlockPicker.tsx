@@ -28,7 +28,6 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Action, ActionData } from "./actions";
 import SlateVisualElementPicker from "./SlateVisualElementPicker";
-import config from "../../../../config";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
 import getCurrentBlock from "../../utils/getCurrentBlock";
@@ -150,12 +149,13 @@ const popoverIds = {
   trigger: BLOCK_PICKER_TRIGGER_ID,
 } as const;
 
+const helpBaseUrl = "https://kvalitet.ndla.no/books/produsere-innhold-i-ed/page/innholdsblokker-i-artikkel";
 const helpLink = (type: string, t: TFunction, bookmark?: string) => {
   if (bookmark) {
     return (
       <TooltipRoot key={type} openDelay={0}>
         <TooltipTrigger asChild>
-          <SafeLink to={config.helpBaseUrl + bookmark} target="_blank">
+          <SafeLink to={helpBaseUrl + bookmark} target="_blank">
             <ExternalLinkLine size="small" />
           </SafeLink>
         </TooltipTrigger>

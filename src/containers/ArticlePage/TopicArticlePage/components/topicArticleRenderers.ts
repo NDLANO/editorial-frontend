@@ -23,6 +23,7 @@ import { paragraphRenderer } from "../../../../components/SlateEditor/plugins/pa
 import { rephraseRenderer } from "../../../../components/SlateEditor/plugins/rephrase/render";
 import { sectionRenderer } from "../../../../components/SlateEditor/plugins/section/render";
 import { spanRenderer } from "../../../../components/SlateEditor/plugins/span/render";
+import { symbolRenderer } from "../../../../components/SlateEditor/plugins/symbol/render";
 
 // Plugins are checked from last to first
 export const topicArticleRenderers: SlatePlugin[] = [
@@ -45,4 +46,5 @@ export const topicArticleRenderers: SlatePlugin[] = [
   markRenderer,
   breakRenderer,
   rephraseRenderer,
+  symbolRenderer,
 ];

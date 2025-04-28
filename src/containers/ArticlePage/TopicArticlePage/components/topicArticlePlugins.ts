@@ -31,6 +31,7 @@ import { rephrasePlugin } from "../../../../components/SlateEditor/plugins/rephr
 import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionListPlugin";
 import { definitionTermPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionTermPlugin";
 import { definitionDescriptionPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionDescriptionPlugin";
+import { symbolPlugin } from "../../../../components/SlateEditor/plugins/symbol";
 
 // Plugins are checked from last to first
 export const topicArticlePlugins: SlatePlugin[] = [
@@ -62,4 +63,5 @@ export const topicArticlePlugins: SlatePlugin[] = [
   breakPlugin,
   saveHotkeyPlugin,
   rephrasePlugin,
+  symbolPlugin,
 ];

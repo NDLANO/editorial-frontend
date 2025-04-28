@@ -148,6 +148,22 @@ const InputWrapper = styled("div", {
   },
 });
 
+const toolbarOptions = {
+  text: {
+    hidden: true,
+  },
+  mark: {
+    code: {
+      hidden: true,
+    },
+  },
+  block: { hidden: true },
+  inline: {
+    hidden: true,
+    "content-link": { hidden: false },
+  },
+};
+
 const EmbedForm = ({
   onClose,
   language,
@@ -180,6 +196,7 @@ const EmbedForm = ({
                 </ContentEditableFieldLabel>
                 <InlineField
                   {...field}
+                  toolbarOptionsOverride={toolbarOptions}
                   placeholder={t("form.image.caption.placeholder")}
                   submitted={isSubmitting}
                   onChange={helpers.setValue}

@@ -6,11 +6,14 @@
  *
  */
 
+import { useMemo } from "react";
 import { Text, TextArea } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { SlatePlugin } from "../../components/SlateEditor/interfaces";
 import { breakPlugin } from "../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../components/SlateEditor/plugins/break/render";
+import { linkPlugin } from "../../components/SlateEditor/plugins/link";
+import { linkRenderer } from "../../components/SlateEditor/plugins/link/render";
 import { markPlugin } from "../../components/SlateEditor/plugins/mark";
 import { markRenderer } from "../../components/SlateEditor/plugins/mark/render";
 import { noopPlugin } from "../../components/SlateEditor/plugins/noop";
@@ -23,27 +26,21 @@ import { spanRenderer } from "../../components/SlateEditor/plugins/span/render";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../components/SlateEditor/plugins/toolbar";
 import {
+  AreaFilters,
+  CategoryFilters,
   createToolbarAreaOptions,
   createToolbarDefaultValues,
 } from "../../components/SlateEditor/plugins/toolbar/toolbarState";
 import RichTextEditor, { RichTextEditorProps } from "../../components/SlateEditor/RichTextEditor";
 
-interface Props extends Omit<RichTextEditorProps, "toolbarOptions" | "toolbarAreaFilters"> {}
-
-const toolbarOptions = createToolbarDefaultValues({
-  text: {
-    hidden: true,
-  },
-  mark: {
-    code: {
-      hidden: true,
-    },
-  },
-  block: { hidden: true },
-  inline: {
-    hidden: true,
-  },
-});
+interface Props
+  extends Omit<
+    RichTextEditorProps,
+    "hideBlockPicker" | "plugins" | "toolbarOptions" | "toolbarAreaFilters" | "renderPlaceholder"
+  > {
+  toolbarOptionsOverride?: CategoryFilters;
+  toolbarAreaFiltersOverride?: AreaFilters;
+}
 
 const StyledText = styled(Text, {
   base: {
@@ -52,19 +49,6 @@ const StyledText = styled(Text, {
   },
 });
 
-const toolbarAreaFilters = createToolbarAreaOptions();
-
-const inlinePlugins: SlatePlugin[] = [
-  spanPlugin,
-  paragraphPlugin,
-  toolbarPlugin(toolbarOptions, toolbarAreaFilters),
-  textTransformPlugin,
-  breakPlugin,
-  saveHotkeyPlugin,
-  markPlugin,
-  noopPlugin,
-];
-
 const StyledTextArea = styled(TextArea, {
   base: {
     minHeight: "unset",
@@ -72,11 +56,50 @@ const StyledTextArea = styled(TextArea, {
   },
 });
 
-const renderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, markRenderer, breakRenderer, spanRenderer];
+const renderers: SlatePlugin[] = [
+  noopRenderer,
+  paragraphRenderer,
+  markRenderer,
+  breakRenderer,
+  spanRenderer,
+  linkRenderer,
+];
 
-const plugins = inlinePlugins.concat(renderers);
+export const InlineField = ({ toolbarOptionsOverride, toolbarAreaFiltersOverride, ...rest }: Props) => {
+  const { toolbarOptions, toolbarAreaFilters, plugins } = useMemo(() => {
+    const toolbarOptions = createToolbarDefaultValues(
+      toolbarOptionsOverride ?? {
+        text: {
+          hidden: true,
+        },
+        mark: {
+          code: {
+            hidden: true,
+          },
+        },
+        block: { hidden: true },
+        inline: {
+          hidden: true,
+        },
+      },
+    );
+    const toolbarAreaFilters = createToolbarAreaOptions(toolbarAreaFiltersOverride);
 
-export const InlineField = ({ ...rest }: Props) => {
+    const inlinePlugins: SlatePlugin[] = [
+      spanPlugin,
+      paragraphPlugin,
+      toolbarPlugin(toolbarOptions, toolbarAreaFilters),
+      textTransformPlugin,
+      breakPlugin,
+      saveHotkeyPlugin,
+      markPlugin,
+      noopPlugin,
+      linkPlugin,
+    ];
+
+    return { toolbarOptions, toolbarAreaFilters, plugins: inlinePlugins.concat(renderers) };
+  }, [toolbarOptionsOverride, toolbarAreaFiltersOverride]);
+
   return (
     <StyledTextArea asChild>
       <RichTextEditor

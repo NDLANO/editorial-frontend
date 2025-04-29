@@ -27,7 +27,7 @@
     "check-translations": "vitest src/phrases/__tests__/ --run"
   },
   "engines": {
-    "node": ">=20.13.1",
+    "node": ">=20.19.1",
     "npm": ">=8.0.0"
   },
   "devDependencies": {

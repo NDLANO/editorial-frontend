@@ -17,7 +17,7 @@ import {
   useState,
 } from "react";
 import { Editor, Range } from "slate";
-import { useFocused, useSlate, useSlateSelection } from "slate-react";
+import { useSlate, useSlateSelection, useSlateSelector } from "slate-react";
 import { usePopoverContext } from "@ark-ui/react";
 import { PopoverContent, PopoverRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -95,10 +95,14 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
   const editor = useSlate();
   const toolbarRef = useRef<HTMLDivElement>(null);
   const editorWrapperRef = useRef<HTMLDivElement | null>(null);
-  const editorFocused = useFocused();
   const [open, setOpen] = useState(false);
   const [hasSelectionWithin, setHasSelectionWithin] = useState(false);
   const [hasMouseDown, setHasMouseDown] = useState(false);
+
+  const shouldShowToolbar = useSlateSelector((editor) => {
+    if (!editor.selection || Range.isCollapsed(editor.selection)) return false;
+    return editor.shouldShowToolbar() && !!Editor.string(editor, editor.selection).length;
+  });
 
   useEffect(() => {
     if (toolbarRef.current) {
@@ -137,26 +141,12 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
   }, []);
 
   useEffect(() => {
-    const nonCollapsed = selection && !Range.isCollapsed(selection);
-    if (nonCollapsed && hasSelectionWithin && !hasMouseDown) {
-      setOpen(true);
-    } else if (!document.activeElement?.closest('[role="dialog"]')) {
-      setOpen(false);
-    }
-  }, [editor, editor.selection, editorFocused, hasMouseDown, hasSelectionWithin, selection]);
+    setOpen(shouldShowToolbar);
+  }, [shouldShowToolbar]);
 
   const hideToolbar = useMemo(() => {
-    return (
-      hasMouseDown ||
-      !open ||
-      !selection ||
-      !hasSelectionWithin ||
-      hideToolbarProp ||
-      Range.isCollapsed(selection) ||
-      Editor.string(editor, selection) === "" ||
-      !editor.shouldShowToolbar()
-    );
-  }, [hasMouseDown, open, selection, hasSelectionWithin, hideToolbarProp, editor]);
+    return hasMouseDown || !open || !hasSelectionWithin || hideToolbarProp || !shouldShowToolbar;
+  }, [hasMouseDown, open, hasSelectionWithin, hideToolbarProp, shouldShowToolbar]);
 
   const options = useMemo(() => {
     if (hideToolbar) return;

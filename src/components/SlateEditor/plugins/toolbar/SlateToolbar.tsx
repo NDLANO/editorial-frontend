@@ -140,8 +140,6 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
     const nonCollapsed = selection && !Range.isCollapsed(selection);
     if (nonCollapsed && hasSelectionWithin && !hasMouseDown) {
       setOpen(true);
-    } else if (!document.activeElement?.closest('[role="dialog"]')) {
-      setOpen(false);
     }
   }, [editor, editor.selection, editorFocused, hasMouseDown, hasSelectionWithin, selection]);
 

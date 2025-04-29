@@ -12,7 +12,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { SlatePlugin } from "../../components/SlateEditor/interfaces";
 import { breakPlugin } from "../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../components/SlateEditor/plugins/break/render";
-import { linkPlugin } from "../../components/SlateEditor/plugins/link";
+import { contentLinkPlugin, linkPlugin } from "../../components/SlateEditor/plugins/link";
 import { linkRenderer } from "../../components/SlateEditor/plugins/link/render";
 import { markPlugin } from "../../components/SlateEditor/plugins/mark";
 import { markRenderer } from "../../components/SlateEditor/plugins/mark/render";
@@ -95,6 +95,7 @@ export const InlineField = ({ toolbarOptionsOverride, toolbarAreaFiltersOverride
       markPlugin,
       noopPlugin,
       linkPlugin,
+      contentLinkPlugin,
     ];
 
     return { toolbarOptions, toolbarAreaFilters, plugins: inlinePlugins.concat(renderers) };

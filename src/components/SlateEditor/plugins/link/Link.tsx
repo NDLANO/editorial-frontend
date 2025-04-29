@@ -65,12 +65,16 @@ export interface Model {
 
 const Link = ({ attributes, editor, element, children }: Props) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
+  const [container, setContainer] = useState<HTMLElement | null>(null);
   const [editMode, setEditMode] = useState(false);
   const language = useArticleLanguage();
   const { t } = useTranslation();
 
   useEffect(() => {
     setEditMode(!!element.isFirstEdit);
+    if (!linkRef.current) return;
+    // We need to portal the popover into the closest slate editor instead of the body to account for editors in portalled dialogs.
+    setContainer(linkRef.current.closest("[data-slate-wrapper]") as HTMLElement | null);
   }, [element]);
 
   const linkData: LinkData = useMemo(() => {
@@ -161,7 +165,7 @@ const Link = ({ attributes, editor, element, children }: Props) => {
             <InlineBugfix />
           </a>
         </PopoverTrigger>
-        <Portal>
+        <Portal container={{ current: container }}>
           <StyledPopoverContent>
             <DialogTrigger asChild>
               <Button variant="link">{t("form.content.link.change")}</Button>

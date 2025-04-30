@@ -6,13 +6,14 @@
  *
  */
 
-import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { styled } from "@ndla/styled-system/jsx";
 import { isSymbolElement } from "./queries";
 import { SymbolPopover } from "./SymbolPopover";
 import { SymbolElement } from "./types";
+import { useDebouncedCallback } from "../../../../util/useDebouncedCallback";
 import { InlineBugfix } from "../../utils/InlineBugFix";
 import mergeLastUndos from "../../utils/mergeLastUndos";
 
@@ -42,8 +43,6 @@ const SymbolWrapper = styled("span", {
 export const SlateSymbol = ({ element, editor, attributes, children }: Props) => {
   const [open, setOpen] = useState(false);
   const isSelected = useSelected();
-  const hasHandledOpenChange = useRef(false);
-  hasHandledOpenChange.current = false;
 
   useEffect(() => {
     if (element.isFirstEdit) {
@@ -53,20 +52,13 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
     }
   }, [editor, element]);
 
-  const handleOpenChange = useCallback(
-    (value: boolean, shouldDelete?: boolean) => {
-      // This method is sometimes called twice in a single render by Ark when the popover should close
-      if (hasHandledOpenChange.current) return;
-      hasHandledOpenChange.current = true;
-
-      setOpen(value);
-      if (!value && (shouldDelete ?? !!element.isFirstEdit)) {
-        const path = ReactEditor.findPath(editor, element);
-        Transforms.removeNodes(editor, { match: isSymbolElement, at: path, voids: true });
-      }
-    },
-    [editor, element],
-  );
+  const handleOpenChange = useDebouncedCallback((value: boolean, shouldDelete?: boolean) => {
+    setOpen(value);
+    if (!value && (shouldDelete ?? !!element.isFirstEdit)) {
+      const path = ReactEditor.findPath(editor, element);
+      Transforms.removeNodes(editor, { match: isSymbolElement, at: path, voids: true });
+    }
+  }, 10);
 
   const handleSymbolClick = useCallback(
     (symbol: string) => {

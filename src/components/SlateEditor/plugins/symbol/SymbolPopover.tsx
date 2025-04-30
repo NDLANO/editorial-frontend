@@ -76,7 +76,9 @@ export const SymbolPopover = ({ open, handleOpenChange, handleSymbolClick, child
 
   return (
     <PopoverRoot open={open} onOpenChange={(details) => handleOpenChange(details.open)}>
-      <PopoverTrigger asChild>{children}</PopoverTrigger>
+      <PopoverTrigger asChild type={undefined}>
+        {children}
+      </PopoverTrigger>
       <Portal>
         <StyledPopoverContent>
           <PopoverHeader>

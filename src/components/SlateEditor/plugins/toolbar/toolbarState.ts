@@ -172,6 +172,7 @@ export const defaultAreaOptions: AreaFilters = {
     inline: { disabled: true, mathml: { disabled: false } },
   },
   "comment-inline": { inline: { disabled: true, "comment-inline": { disabled: false } } },
+  [SYMBOL_ELEMENT_TYPE]: { inline: { disabled: true, [SYMBOL_ELEMENT_TYPE]: { disabled: false } } },
   list: { inline: { disabled: true } },
   "definition-term": {
     block: { quote: { disabled: true } },

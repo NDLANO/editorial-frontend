@@ -29,7 +29,8 @@ const getCurrentInlineValues = (editor: Editor): InlineType | undefined => {
           n.type === "content-link" ||
           n.type === "mathml" ||
           n.type === "comment-inline" ||
-          n.type === "rephrase"),
+          n.type === "rephrase" ||
+          n.type === SYMBOL_ELEMENT_TYPE),
       mode: "lowest",
     }) ?? [];
 

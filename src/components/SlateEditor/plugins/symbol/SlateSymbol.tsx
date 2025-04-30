@@ -7,11 +7,25 @@
  */
 
 import { ReactNode, useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
+import { Portal } from "@ark-ui/react";
+import { CloseLine, DeleteBinLine } from "@ndla/icons";
+import {
+  Button,
+  IconButton,
+  PopoverContent,
+  PopoverDescription,
+  PopoverRoot,
+  PopoverTitle,
+  PopoverTrigger,
+  TooltipContent,
+  TooltipRoot,
+  TooltipTrigger,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { isSymbolElement } from "./queries";
-import { SymbolPopover } from "./SymbolPopover";
 import { SymbolElement } from "./types";
 import { useDebouncedCallback } from "../../../../util/useDebouncedCallback";
 import { InlineBugfix } from "../../utils/InlineBugFix";
@@ -40,9 +54,52 @@ const SymbolWrapper = styled("span", {
   },
 });
 
+const StyledPopoverContent = styled(PopoverContent, {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+    width: "surface.medium",
+  },
+});
+
+const PopoverHeader = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: "medium",
+  },
+});
+
+const PopoverHeaderButtons = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    alignItems: "center",
+  },
+});
+
+const StyledPopoverDescription = styled(PopoverDescription, {
+  base: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "3xsmall",
+  },
+});
+
+const StyledButton = styled(Button, {
+  base: {
+    width: "xxlarge",
+  },
+});
+
 export const SlateSymbol = ({ element, editor, attributes, children }: Props) => {
   const [open, setOpen] = useState(false);
   const isSelected = useSelected();
+  const { t } = useTranslation();
+
+  const symbols = t("symbols", { returnObjects: true }) as Record<string, string>;
 
   useEffect(() => {
     if (element.isFirstEdit) {
@@ -78,13 +135,59 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
   );
 
   return (
-    <SymbolPopover open={open} handleOpenChange={handleOpenChange} handleSymbolClick={handleSymbolClick}>
-      <SymbolWrapper {...attributes} contentEditable={false} isSelected={isSelected}>
-        <InlineBugfix />
-        {element.symbol}
-        {children}
-        <InlineBugfix />
-      </SymbolWrapper>
-    </SymbolPopover>
+    <PopoverRoot open={open} onOpenChange={(details) => handleOpenChange(details.open)}>
+      <PopoverTrigger asChild type={undefined}>
+        <SymbolWrapper {...attributes} contentEditable={false} isSelected={isSelected}>
+          <InlineBugfix />
+          {element.symbol}
+          {children}
+          <InlineBugfix />
+        </SymbolWrapper>
+      </PopoverTrigger>
+      <Portal>
+        <StyledPopoverContent>
+          <PopoverHeader>
+            <PopoverTitle>{t("form.content.symbol.title")}</PopoverTitle>
+            <PopoverHeaderButtons>
+              <IconButton
+                variant="danger"
+                size="small"
+                aria-label={t("form.workflow.deleteComment.title")}
+                title={t("form.workflow.deleteComment.title")}
+                onClick={() => handleOpenChange(false, true)}
+              >
+                <DeleteBinLine />
+              </IconButton>
+              <IconButton
+                variant="tertiary"
+                size="small"
+                aria-label={t("form.close")}
+                title={t("form.close")}
+                onClick={() => handleOpenChange(false)}
+              >
+                <CloseLine />
+              </IconButton>
+            </PopoverHeaderButtons>
+          </PopoverHeader>
+          <StyledPopoverDescription>
+            {Object.entries(symbols).map(([symbol, label]) => (
+              <TooltipRoot key={symbol} openDelay={0}>
+                <TooltipTrigger asChild>
+                  <StyledButton
+                    variant="secondary"
+                    onClick={() => handleSymbolClick(symbol)}
+                    aria-label={label}
+                    data-testid={`button-${symbol}`}
+                  >
+                    {symbol}
+                  </StyledButton>
+                </TooltipTrigger>
+                <TooltipContent>{label}</TooltipContent>
+              </TooltipRoot>
+            ))}
+          </StyledPopoverDescription>
+        </StyledPopoverContent>
+      </Portal>
+    </PopoverRoot>
   );
 };

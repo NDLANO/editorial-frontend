@@ -61,7 +61,15 @@ import { relatedSerializer } from "../components/SlateEditor/plugins/related";
 import { sectionSerializer } from "../components/SlateEditor/plugins/section";
 import { TYPE_SECTION } from "../components/SlateEditor/plugins/section/types";
 import { spanSerializer } from "../components/SlateEditor/plugins/span";
-import { tableSerializer } from "../components/SlateEditor/plugins/table";
+import {
+  tableBodySerializer,
+  tableCaptionSerializer,
+  tableCellSerializer,
+  tableHeaderSerializer,
+  tableHeadSerializer,
+  tableRowSerializer,
+  tableSerializer,
+} from "../components/SlateEditor/plugins/table/tableSerializers";
 import { disclaimerSerializer } from "../components/SlateEditor/plugins/uuDisclaimer";
 import { brightcoveSerializer } from "../components/SlateEditor/plugins/video";
 import { Embed, ErrorEmbed } from "../interfaces";
@@ -111,6 +119,12 @@ const extendedRules: SlateSerializer<any>[] = [
   summarySerializer,
   detailsSerializer,
   tableSerializer,
+  tableRowSerializer,
+  tableCaptionSerializer,
+  tableHeadSerializer,
+  tableBodySerializer,
+  tableCellSerializer,
+  tableHeaderSerializer,
   relatedSerializer,
   gridSerializer,
   pitchSerializer,

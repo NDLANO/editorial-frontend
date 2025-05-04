@@ -11,7 +11,8 @@ import { defaultTableCellBlock } from "./defaultBlocks";
 import { TableBodyElement, TableCellElement, TableElement, TableHeadElement } from "./interfaces";
 import { getTableAsMatrix } from "./matrix";
 import { findCellCoordinate, getMatrixColumn } from "./matrixHelpers";
-import { hasCellAlignOfType, isTableCell, isTableCellHeader, isTableRow } from "./slateHelpers";
+import { hasCellAlignOfType } from "./slateHelpers";
+import { isAnyTableCellElement, isTableRowElement } from "./queries";
 
 export const insertEmptyCells = (editor: Editor, path: Path, amount: number) => {
   Transforms.insertNodes(
@@ -31,7 +32,7 @@ export const increaseTableBodyWidth = (
 ) => {
   Editor.withoutNormalizing(editor, () => {
     for (const [index, row] of body.children.entries()) {
-      if (isTableRow(row)) {
+      if (isTableRowElement(row)) {
         const targetPath = [...path, index, row.children.length];
         insertEmptyCells(editor, targetPath, Math.abs(amount));
       }
@@ -43,9 +44,7 @@ export const toggleCellAlign = (editor: Editor, type: string) => {
   const newAlign = hasCellAlignOfType(editor, type) ? undefined : type;
 
   Editor.withoutNormalizing(editor, () => {
-    for (const [cell] of Editor.nodes<TableCellElement>(editor, {
-      match: (node) => isTableCell(node),
-    })) {
+    for (const [cell] of Editor.nodes<TableCellElement>(editor, { match: isAnyTableCellElement })) {
       updateCell(editor, cell, { align: newAlign });
     }
   });
@@ -78,7 +77,7 @@ export const updateCell = (
 export const alignColumn = (editor: Editor, tablePath: Path, align: string) => {
   const [entry] = editor.nodes({
     at: editor.selection?.anchor.path,
-    match: isTableCell || isTableCellHeader,
+    match: isAnyTableCellElement,
     mode: "lowest",
   });
 

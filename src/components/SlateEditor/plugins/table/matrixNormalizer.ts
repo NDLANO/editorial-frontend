@@ -13,8 +13,15 @@ import { defaultTableRowBlock } from "./defaultBlocks";
 import { TableMatrix, TableHeadElement, TableBodyElement } from "./interfaces";
 import { getPrevCell, countMatrixRowCells, insertCellInMatrix } from "./matrixHelpers";
 import { insertEmptyCells, updateCell, increaseTableBodyWidth } from "./slateActions";
-import { isTable, isTableHead, isTableRow, isTableCell, isTableBody, getTableBodyWidth } from "./slateHelpers";
+import { getTableBodyWidth } from "./slateHelpers";
 import { TYPE_TABLE_CELL, TYPE_TABLE_CELL_HEADER } from "./types";
+import {
+  isAnyTableCellElement,
+  isTableBodyElement,
+  isTableElement,
+  isTableHeadElement,
+  isTableRowElement,
+} from "./queries";
 
 // Before placing a cell in the table matrix, make sure the cell has the required space
 // If not, add the required space by inserting empty cells.
@@ -70,8 +77,8 @@ const normalizeRow = (
 
   // C. Make sure isHeader and scope is set correctly in cells in header and body
   const [table] = Editor.node(editor, Path.parent(tableBodyPath));
-  if (isTable(table)) {
-    const isHead = isTableHead(tableBody);
+  if (isTableElement(table)) {
+    const isHead = isTableHeadElement(tableBody);
     const { rowHeaders } = table;
     // Check every cell of the row to be normalized
 
@@ -83,7 +90,7 @@ const normalizeRow = (
         if (isHead) {
           // i. If cell in header
           //    Make sure scope='col' and isHeader=true and type is correct
-          if ((isTableCell(cell) && cell.type !== TYPE_TABLE_CELL_HEADER) || cell.data.scope !== "col") {
+          if (cell.type !== TYPE_TABLE_CELL_HEADER || cell.data.scope !== "col") {
             updateCell(editor, cell, { scope: "col" }, TYPE_TABLE_CELL_HEADER);
             return true;
           }
@@ -176,7 +183,7 @@ export const normalizeTableBodyAsMatrix = (
 
   // Build up a matrix by inserting and normalizing one row at a time
   for (const [rowIndex, row] of tableBody.children.entries()) {
-    if (!isTableRow(row)) {
+    if (!isTableRowElement(row)) {
       return false;
     }
     if (!matrix[rowIndex]) {
@@ -185,7 +192,7 @@ export const normalizeTableBodyAsMatrix = (
 
     // A. Insert all cells in a each row into a matrix. Normalize if needed.
     for (const cell of row.children) {
-      if (!isTableCell(cell)) {
+      if (!isAnyTableCellElement(cell)) {
         return false;
       }
 
@@ -217,7 +224,7 @@ export const normalizeTableBodyAsMatrix = (
   // C. Previous header/body can have different width. Add cells if necessary.
   if (Path.hasPrevious(tableBodyPath)) {
     const [previousBody, previousBodyPath] = Editor.node(editor, Path.previous(tableBodyPath));
-    if (isTableHead(previousBody) || isTableBody(previousBody)) {
+    if (isTableHeadElement(previousBody) || isTableBodyElement(previousBody)) {
       const previousBodyWidth = getTableBodyWidth(previousBody);
       const currentBodyWidth = getTableBodyWidth(tableBody);
 
@@ -236,7 +243,7 @@ export const normalizeTableBodyAsMatrix = (
     // D. Next head/body can have different width. Add cells if necessary.
   } else if (Editor.hasPath(editor, Path.next(tableBodyPath))) {
     const [nextBody, nextBodyPath] = Editor.node(editor, Path.next(tableBodyPath));
-    if (isTableHead(nextBody) || isTableBody(nextBody)) {
+    if (isTableHeadElement(nextBody) || isTableBodyElement(nextBody)) {
       const nextBodyWidth = getTableBodyWidth(nextBody);
       const currentBodyWidth = getTableBodyWidth(tableBody);
 
@@ -245,7 +252,7 @@ export const normalizeTableBodyAsMatrix = (
       // i. First row in next body is narrower. Add cells in that row
       if (widthDiff > 0) {
         const targetRow = nextBody.children[0];
-        if (isTableRow(targetRow)) {
+        if (isTableRowElement(targetRow)) {
           const targetPath = [...nextBodyPath, 0, targetRow.children.length];
           insertEmptyCells(editor, targetPath, widthDiff);
           return true;

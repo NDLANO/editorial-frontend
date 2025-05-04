@@ -59,4 +59,4 @@ interface TableCellData {
   scope?: "row" | "col";
 }
 
-export type TableMatrix = TableCellElement[][];
+export type TableMatrix = (TableCellElement | TableHeaderCellElement)[][];

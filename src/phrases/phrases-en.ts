@@ -956,8 +956,8 @@ const phrases = {
     resetToProd: {
       success: "Content is reset, press save to save changes",
     },
-    resetToVersion: "Reset to version",
-    previewVersion: "Compare with published",
+    resetToVersion: "Reset language variant from version",
+    previewVersion: "Compare article with version",
     variant: {
       create: "Create variant",
       translate: "Translate to Nynorsk",

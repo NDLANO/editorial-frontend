@@ -113,9 +113,13 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
   // This handler is called twice on interaction outside the popover due to a bug, see https://github.com/chakra-ui/ark/issues/3463
   const handleOpenChange = useDebouncedCallback((value: boolean, shouldDelete?: boolean) => {
     setOpen(value);
-    if (!value && (shouldDelete ?? !!element.isFirstEdit)) {
-      const path = ReactEditor.findPath(editor, element);
-      Transforms.removeNodes(editor, { match: isSymbolElement, at: path, voids: true });
+    if (!value) {
+      if (shouldDelete ?? !!element.isFirstEdit) {
+        const path = ReactEditor.findPath(editor, element);
+        Transforms.removeNodes(editor, { match: isSymbolElement, at: path, voids: true });
+      }
+
+      ReactEditor.focus(editor);
     }
   }, 10);
 

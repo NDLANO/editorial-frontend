@@ -2277,7 +2277,7 @@ const phrases = {
     switchLabel: "Vis besøkstall",
     popoverDescription_one: "{{count}} unik sidevisning, klikk for å se flere besøkstall",
     popoverDescription_other: "{{count}} unike sidevisninger, klikk for å se flere besøkstall",
-    popoverTitle: "Besøkstall siste 12 md.",
+    popoverTitle: "Besøkstall siden desember 2024.",
   },
   textGeneration: {
     error: "Noe gikk galt under generering av tekst. Melding fra tjenesten: {{message}}",

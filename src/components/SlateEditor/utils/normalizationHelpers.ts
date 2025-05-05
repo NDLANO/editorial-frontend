@@ -31,6 +31,7 @@ import { CONTENT_LINK_ELEMENT_TYPE, LINK_ELEMENT_TYPE } from "../plugins/link/ty
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../plugins/framedContent/framedContentTypes";
 import { BLOCK_QUOTE_ELEMENT_TYPE } from "../plugins/blockquote/blockquoteTypes";
 import { REPHRASE_ELEMENT_TYPE } from "../plugins/rephrase/rephraseTypes";
+import { SYMBOL_ELEMENT_TYPE } from "../plugins/symbol/types";
 import { DEFINITION_LIST_ELEMENT_TYPE } from "../plugins/definitionList/definitionListTypes";
 
 export const firstTextBlockElement: Element["type"][] = [TYPE_PARAGRAPH, TYPE_HEADING, BLOCK_QUOTE_ELEMENT_TYPE];
@@ -63,6 +64,7 @@ export const inlineElements: Element["type"][] = [
   LINK_ELEMENT_TYPE,
   CONTENT_LINK_ELEMENT_TYPE,
   REPHRASE_ELEMENT_TYPE,
+  SYMBOL_ELEMENT_TYPE,
 ];
 
 export const lastTextBlockElement: Element["type"][] = [TYPE_PARAGRAPH];

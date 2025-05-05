@@ -61,6 +61,7 @@ import { relatedSerializer } from "../components/SlateEditor/plugins/related";
 import { sectionSerializer } from "../components/SlateEditor/plugins/section";
 import { TYPE_SECTION } from "../components/SlateEditor/plugins/section/types";
 import { spanSerializer } from "../components/SlateEditor/plugins/span";
+import { symbolSerializer } from "../components/SlateEditor/plugins/symbol/serializer";
 import { tableSerializer } from "../components/SlateEditor/plugins/table";
 import { disclaimerSerializer } from "../components/SlateEditor/plugins/uuDisclaimer";
 import { brightcoveSerializer } from "../components/SlateEditor/plugins/video";
@@ -125,6 +126,7 @@ const extendedRules: SlateSerializer<any>[] = [
   h5pSerializer,
   externalSerializer,
   copyrightSerializer,
+  symbolSerializer,
   embedSerializer,
   framedContentSerializer,
   divSerializer,
@@ -153,6 +155,7 @@ const commonRules: SlateSerializer<any>[] = [
   noEmbedSerializer,
   divSerializer,
   spanSerializer,
+  symbolSerializer,
 ];
 
 export const blockContentToEditorValue = (html: string): Descendant[] => {

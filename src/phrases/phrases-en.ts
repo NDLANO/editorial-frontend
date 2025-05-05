@@ -114,6 +114,25 @@ const phrases = {
     change: "Change to {{language}} version",
     none: "Language",
   },
+  // WARNING: Some of these symbols contain special unicode characters that look like normal characters.
+  // Make sure not to accidentally change them!
+  symbols: {
+    "½": "One half",
+    "¼": "One quarter",
+    "¾": "Three quarters",
+    "²": "Squared",
+    "³": "Cubed",
+    "©": "Copyright",
+    "™": "Trademark",
+    "°": "Degrees",
+    "¥": "Yen",
+    "−": "Minus",
+    "‑": "Hard hyphen",
+    "–": "N-dash",
+    " ": "Non breaking space",
+    "§": "Section",
+    "¿": "Inverted questionmark",
+  },
   welcomePage: {
     lastFavorited: "Last favorited resource: ",
     addSearch: "Add new search",
@@ -740,6 +759,7 @@ const phrases = {
     center: "Center aligned",
     right: "Right aligned",
     rephrase: "Rephrase",
+    symbol: "Symbol\n({{ctrl}}+alt+y)",
     disabled: {
       "comment-inline": "Comment can only overlap text",
     },
@@ -1265,6 +1285,10 @@ const phrases = {
       },
       normalizedOnLoad:
         "This article contains old html-code, changed by the editor. This means that you will have to republish the resource even if you only have changed metadata or grep-codes.",
+      symbol: {
+        title: "Insert symbol",
+        insert: "Insert",
+      },
     },
     tags: {
       label: "Tags",

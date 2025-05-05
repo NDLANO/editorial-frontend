@@ -114,6 +114,25 @@ const phrases = {
     change: "Bytt til {{language}} versjon",
     none: "Språk",
   },
+  // WARNING: Some of these symbols contain special unicode characters that look like normal characters.
+  // Make sure not to accidentally change them!
+  symbols: {
+    "½": "En halv",
+    "¼": "En fjerdedel",
+    "¾": "Tre fjerdedeler",
+    "²": "I andre",
+    "³": "I tredje",
+    "©": "Copyright",
+    "™": "Trademark",
+    "°": "Grader",
+    "¥": "Yen",
+    "−": "Minus",
+    "‑": "Hard bindestrek",
+    "–": "Tankestrek",
+    " ": "Hardt mellomrom",
+    "§": "Paragraf",
+    "¿": "Invertert spørsmåltegn",
+  },
   welcomePage: {
     lastFavorited: "Siste hjertemarkerte ressurs: ",
     addSearch: "Legg til nytt søk",
@@ -740,6 +759,7 @@ const phrases = {
     center: "Midtstilt",
     right: "Høyrejustert",
     rephrase: "Omformulering",
+    symbol: "Symbol\n({{ctrl}}+alt+y)",
     disabled: {
       "comment-inline": "Kommentar kan kun overlappe tekst",
     },
@@ -1265,6 +1285,10 @@ const phrases = {
       },
       normalizedOnLoad:
         "Artikkelen inneholder html-kode som er endret av editoren. Derfor må ressursen republiseres selv om du bare har endret metadata eller læreplankoder.",
+      symbol: {
+        title: "Sett inn symbol",
+        insert: "Sett inn",
+      },
     },
     tags: {
       label: "Nøkkelord",

@@ -21,6 +21,8 @@ import { TYPE_PARAGRAPH } from "../paragraph/types";
 import { SpanElement } from "../span";
 import { SPAN_ELEMENT_TYPE } from "../span/types";
 import { toggleCellAlign } from "../table/slateActions";
+import { insertSymbol } from "../symbol/utils";
+import { SYMBOL_ELEMENT_TYPE } from "../symbol/types";
 import { toggleDefinitionList } from "../definitionList/transforms/toggleDefinitionList";
 
 type TextElements = ParagraphElement | HeadingElement | SpanElement;
@@ -109,6 +111,9 @@ export function handleClickInline(event: KeyboardEvent<HTMLDivElement>, editor: 
     }
     if (type === "comment-inline") {
       insertComment(editor);
+    }
+    if (type === SYMBOL_ELEMENT_TYPE) {
+      insertSymbol(editor);
     }
   }
 }

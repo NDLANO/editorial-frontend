@@ -105,6 +105,7 @@ describe("createToolbarDefaultValues", () => {
         "gloss-inline": { hidden: true, disabled: true },
         "comment-inline": { hidden: true, disabled: true },
         rephrase: { hidden: true, disabled: true },
+        symbol: { hidden: true, disabled: true },
       },
     };
 
@@ -182,6 +183,7 @@ describe("toolbarState", () => {
         "gloss-inline": { ...allOptions.inline["gloss-inline"], hidden: true },
         "comment-inline": { ...allOptions.inline["comment-inline"], hidden: false },
         rephrase: { ...allOptions.inline["rephrase"], hidden: true },
+        symbol: { ...allOptions.inline.symbol, hidden: true },
       },
       mark: {
         ...allOptions.mark,

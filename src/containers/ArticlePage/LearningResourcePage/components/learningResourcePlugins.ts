@@ -48,6 +48,7 @@ import { markPlugin } from "../../../../components/SlateEditor/plugins/mark";
 import { listPlugin } from "../../../../components/SlateEditor/plugins/list";
 import { idPlugin } from "../../../../components/SlateEditor/plugins/id/idPlugin";
 import { rephrasePlugin } from "../../../../components/SlateEditor/plugins/rephrase/rephrasePlugin";
+import { symbolPlugin } from "../../../../components/SlateEditor/plugins/symbol";
 import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionListPlugin";
 import { definitionTermPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionTermPlugin";
 import { definitionDescriptionPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionDescriptionPlugin";
@@ -101,4 +102,5 @@ export const learningResourcePlugins: SlatePlugin[] = [
   disclaimerPlugin,
   copyrightPlugin,
   rephrasePlugin,
+  symbolPlugin,
 ];

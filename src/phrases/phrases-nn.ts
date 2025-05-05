@@ -114,6 +114,25 @@ const phrases = {
     change: "Bytt til {{language}} versjon",
     none: "Språk",
   },
+  // WARNING: Some of these symbols contain special unicode characters that look like normal characters.
+  // Make sure not to accidentally change them!
+  symbols: {
+    "½": "Ein halv",
+    "¼": "Ein fjerdedel",
+    "¾": "Tre fjerdedelar",
+    "²": "I andre",
+    "³": "I tredje",
+    "©": "Copyright",
+    "™": "Trademark",
+    "°": "Grader",
+    "¥": "Yen",
+    "−": "Minus",
+    "‑": "Hard bindestrek",
+    "–": "Tankestrek",
+    " ": "Hardt mellomrom",
+    "§": "Paragraf",
+    "¿": "Invertert spørsmålteikn",
+  },
   welcomePage: {
     lastFavorited: "Siste hjertemarkerte ressurs: ",
     addSearch: "Legg til nytt søk",
@@ -740,6 +759,7 @@ const phrases = {
     center: "Midtstilt",
     right: "Høgrejustert",
     rephrase: "Omformulering",
+    symbol: "Symbol\n({{ctrl}}+alt+y)",
     disabled: {
       "comment-inline": "Kommentar kan kun overlappe tekst",
     },
@@ -748,6 +768,7 @@ const phrases = {
     heading: "Legg til",
     open: "Åpne meny ({{ctrl}}+Enter)",
     close: "Lukk meny",
+    tooltip: "Les rettleiinga vår om bruk av {{ type }}",
     actions: {
       block: "Seksjon",
       factAside: "Faktaboks",
@@ -991,10 +1012,6 @@ const phrases = {
       "not-applicable": "Ikkje relevant",
       "not-set": "Ikkje valgt",
       description: "Om biletet er modellklarert eller ikkje:",
-    },
-    markdown: {
-      button: "Klikk for å se markdown",
-      helpLabel: "Kva er markdown?",
     },
     visualElement: {
       title: "Legg til visuelt element",
@@ -1268,6 +1285,10 @@ const phrases = {
       },
       normalizedOnLoad:
         "Artikkelen inneheld HTML-kode som er endra av editoren. Derfor må ressursen republiserast sjølv om du berre har endra metadata eller læreplankodar.",
+      symbol: {
+        title: "Sett inn symbol",
+        insert: "Sett inn",
+      },
     },
     tags: {
       label: "Nøkkelord",

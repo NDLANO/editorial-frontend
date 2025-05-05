@@ -112,5 +112,5 @@ test("blockpicker to give limited options in table", async ({ page }) => {
   await expect(page.getByTestId("slate-block-picker")).toBeVisible();
   await page.getByTestId("slate-block-picker").click();
   await expect(page.getByTestId("create-image")).toBeVisible();
-  expect(await page.getByTestId("slate-block-picker-menu").getByRole("button").count()).toEqual(2);
+  expect(await page.getByTestId("slate-block-picker-menu").getByRole("button").count()).toEqual(1);
 });

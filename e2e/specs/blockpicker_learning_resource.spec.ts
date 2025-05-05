@@ -50,7 +50,7 @@ test("adds and removes grid", async ({ page }) => {
   await expect(page.getByTestId("remove-grid")).toBeVisible();
   await page.getByTestId("slate-grid-cell").first().click();
   await page.getByTestId("slate-block-picker").click();
-  await expect(page.getByTestId("slate-block-picker-menu").getByRole("button")).toHaveCount(2);
+  await expect(page.getByTestId("slate-block-picker-menu").getByRole("button")).toHaveCount(1);
   await page.getByTestId("remove-grid").click();
   await expect(page.getByTestId("remove-grid")).toHaveCount(0);
 });

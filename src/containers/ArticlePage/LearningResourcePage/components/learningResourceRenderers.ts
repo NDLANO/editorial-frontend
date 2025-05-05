@@ -38,6 +38,7 @@ import { relatedRenderer } from "../../../../components/SlateEditor/plugins/rela
 import { rephraseRenderer } from "../../../../components/SlateEditor/plugins/rephrase/render";
 import { sectionRenderer } from "../../../../components/SlateEditor/plugins/section/render";
 import { spanRenderer } from "../../../../components/SlateEditor/plugins/span/render";
+import { symbolRenderer } from "../../../../components/SlateEditor/plugins/symbol/render";
 import { tableRenderer } from "../../../../components/SlateEditor/plugins/table/render";
 import { disclaimerRenderer } from "../../../../components/SlateEditor/plugins/uuDisclaimer/render";
 import { videoRenderer } from "../../../../components/SlateEditor/plugins/video/render";
@@ -81,4 +82,5 @@ export const learningResourceRenderers: SlatePlugin[] = [
   disclaimerRenderer,
   copyrightRenderer,
   rephraseRenderer,
+  symbolRenderer,
 ];

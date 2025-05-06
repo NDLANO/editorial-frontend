@@ -49,20 +49,20 @@ const MatomoStats = ({ matomoStats, matomoStatsIsPending, matomoStatsIsError }: 
       <PopoverTrigger
         asChild
         disabled={!matomoStats}
-        aria-label={matomoStats ? t("matomo.popoverDescription", { count: matomoStats.nb_visits }) : t("matomo.noData")}
-        title={matomoStats ? t("matomo.popoverDescription", { count: matomoStats.nb_visits }) : t("matomo.noData")}
+        aria-label={matomoStats ? t("matomo.popoverDescription", { count: matomoStats.nb_hits }) : t("matomo.noData")}
+        title={matomoStats ? t("matomo.popoverDescription", { count: matomoStats.nb_hits }) : t("matomo.noData")}
       >
         <Button size="small" variant="secondary">
           <LineChartLine size="small" />
-          <span aria-hidden>{matomoStats?.nb_visits ?? 0}</span>
+          <span aria-hidden>{matomoStats?.nb_hits ?? 0}</span>
         </Button>
       </PopoverTrigger>
       <PopoverContent>
         <PopoverTitle>{t("matomo.popoverTitle")}</PopoverTitle>
         {!!matomoStats && (
           <UnOrderedList>
-            <li>{t("matomo.visits", { count: matomoStats.nb_visits })}</li>
             <li>{t("matomo.hits", { count: matomoStats.nb_hits })}</li>
+            <li>{t("matomo.visits", { count: matomoStats.nb_visits })}</li>
             <li>{t("matomo.avgTime", { time: matomoStats.avg_time_on_page })}</li>
           </UnOrderedList>
         )}

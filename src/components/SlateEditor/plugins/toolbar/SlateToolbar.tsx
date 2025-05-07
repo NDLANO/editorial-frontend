@@ -6,6 +6,7 @@
  *
  */
 
+import { merge } from "lodash-es";
 import {
   Children,
   ComponentPropsWithRef,
@@ -35,6 +36,8 @@ import {
 } from "./toolbarState";
 import { ToolbarTableOptions } from "./ToolbarTableOptions";
 import { ToolbarTextOptions } from "./ToolbarTextOptions";
+import { AI_ACCESS_SCOPE } from "../../../../constants";
+import { useSession } from "../../../../containers/Session/SessionProvider";
 
 const ToolbarContainer = styled(PopoverContent, {
   base: {
@@ -99,6 +102,7 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
   const [open, setOpen] = useState(false);
   const [hasSelectionWithin, setHasSelectionWithin] = useState(false);
   const [hasMouseDown, setHasMouseDown] = useState(false);
+  const { userPermissions } = useSession();
 
   useEffect(() => {
     if (toolbarRef.current) {
@@ -162,10 +166,13 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
     if (hideToolbar) return;
     return toolbarState({
       editorAncestors: getSelectionElements(editor, selection),
-      options: toolbarOptions,
+      // TODO: This is not really scalable if we're going to introduce more constraints later-on.
+      options: userPermissions?.includes(AI_ACCESS_SCOPE)
+        ? toolbarOptions
+        : merge({ inline: { rephrase: { hidden: true, disabled: true } } } as CategoryFilters, toolbarOptions),
       areaOptions,
     });
-  }, [hideToolbar, editor, selection, toolbarOptions, areaOptions]);
+  }, [hideToolbar, editor, selection, userPermissions, toolbarOptions, areaOptions]);
 
   const positioningOptions = useMemo(() => {
     return {

@@ -17,16 +17,15 @@ import { createSlate, LoggerManager, SlatePlugin } from "@ndla/editor";
 import { styled } from "@ndla/styled-system/jsx";
 import "../DisplayEmbed/helpers/h5pResizer";
 import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
+import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
+import { FormikStatus } from "../../interfaces";
 import { Action, commonActions } from "./plugins/blockPicker/actions";
 import { BlockPickerOptions, createBlockpickerOptions } from "./plugins/blockPicker/options";
 import SlateBlockPicker from "./plugins/blockPicker/SlateBlockPicker";
 import { onDragOver, onDragStart, onDrop } from "./plugins/DND";
 import { SlateToolbar } from "./plugins/toolbar";
 import { AreaFilters, CategoryFilters } from "./plugins/toolbar/toolbarState";
-import { SlateProvider } from "./SlateContext";
-import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
-import { FormikStatus } from "../../interfaces";
 
 const StyledSlateWrapper = styled("div", {
   base: {
@@ -233,34 +232,32 @@ const RichTextEditor = ({
   return (
     <article className={noArticleStyling ? undefined : "ndla-article"}>
       <ArticleLanguageProvider language={language}>
-        <SlateProvider isSubmitted={submitted}>
-          <StyledSlateWrapper data-testid={testId} data-slate-wrapper="">
-            <Slate editor={editor} initialValue={editor.children} onChange={onChange}>
-              <SlateToolbar options={toolbarOptions} areaOptions={toolbarAreaFilters} hideToolbar={hideToolbar} />
-              {!hideBlockPicker && (
-                <SlateBlockPicker
-                  actions={actions}
-                  articleLanguage={language}
-                  {...createBlockpickerOptions(blockpickerOptions)}
-                />
-              )}
-              <StyledEditable
-                {...fieldProps}
-                aria-labelledby={labelledBy}
-                {...rest}
-                onBlur={onBlur}
-                onKeyDown={handleKeyDown}
-                placeholder={placeholder}
-                renderElement={renderElement}
-                renderLeaf={renderLeaf}
-                readOnly={submitted}
-                onDragStart={onDragStartCallback}
-                onDragOver={onDragOverCallback}
-                onDrop={onDropCallback}
+        <StyledSlateWrapper data-testid={testId} data-slate-wrapper="">
+          <Slate editor={editor} initialValue={editor.children} onChange={onChange}>
+            <SlateToolbar options={toolbarOptions} areaOptions={toolbarAreaFilters} hideToolbar={hideToolbar} />
+            {!hideBlockPicker && (
+              <SlateBlockPicker
+                actions={actions}
+                articleLanguage={language}
+                {...createBlockpickerOptions(blockpickerOptions)}
               />
-            </Slate>
-          </StyledSlateWrapper>
-        </SlateProvider>
+            )}
+            <StyledEditable
+              {...fieldProps}
+              aria-labelledby={labelledBy}
+              {...rest}
+              onBlur={onBlur}
+              onKeyDown={handleKeyDown}
+              placeholder={placeholder}
+              renderElement={renderElement}
+              renderLeaf={renderLeaf}
+              readOnly={submitted}
+              onDragStart={onDragStartCallback}
+              onDragOver={onDragOverCallback}
+              onDrop={onDropCallback}
+            />
+          </Slate>
+        </StyledSlateWrapper>
       </ArticleLanguageProvider>
     </article>
   );

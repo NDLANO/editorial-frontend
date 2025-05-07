@@ -7,6 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
+import { Portal } from "@ark-ui/react";
 import { LineChartLine } from "@ndla/icons";
 import {
   Text,
@@ -57,16 +58,18 @@ const MatomoStats = ({ matomoStats, matomoStatsIsPending, matomoStatsIsError }: 
           <span aria-hidden>{matomoStats?.nb_hits ?? 0}</span>
         </Button>
       </PopoverTrigger>
-      <PopoverContent>
-        <PopoverTitle>{t("matomo.popoverTitle")}</PopoverTitle>
-        {!!matomoStats && (
-          <UnOrderedList>
-            <li>{t("matomo.hits", { count: matomoStats.nb_hits })}</li>
-            <li>{t("matomo.visits", { count: matomoStats.nb_visits })}</li>
-            <li>{t("matomo.avgTime", { time: matomoStats.avg_time_on_page })}</li>
-          </UnOrderedList>
-        )}
-      </PopoverContent>
+      <Portal>
+        <PopoverContent>
+          <PopoverTitle>{t("matomo.popoverTitle")}</PopoverTitle>
+          {!!matomoStats && (
+            <UnOrderedList>
+              <li>{t("matomo.hits", { count: matomoStats.nb_hits })}</li>
+              <li>{t("matomo.visits", { count: matomoStats.nb_visits })}</li>
+              <li>{t("matomo.avgTime", { time: matomoStats.avg_time_on_page })}</li>
+            </UnOrderedList>
+          )}
+        </PopoverContent>
+      </Portal>
     </PopoverRoot>
   );
 };

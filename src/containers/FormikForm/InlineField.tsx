@@ -6,6 +6,7 @@
  *
  */
 
+import { merge } from "lodash-es";
 import { useMemo } from "react";
 import { Text, TextArea } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -38,8 +39,8 @@ interface Props
     RichTextEditorProps,
     "hideBlockPicker" | "plugins" | "toolbarOptions" | "toolbarAreaFilters" | "renderPlaceholder"
   > {
-  toolbarOptionsOverride?: CategoryFilters;
-  toolbarAreaFiltersOverride?: AreaFilters;
+  toolbarOptions?: CategoryFilters;
+  toolbarAreaFilters?: AreaFilters;
 }
 
 const StyledText = styled(Text, {
@@ -56,6 +57,21 @@ const StyledTextArea = styled(TextArea, {
   },
 });
 
+const defaultToolbarOptions = createToolbarDefaultValues({
+  text: {
+    hidden: true,
+  },
+  mark: {
+    code: {
+      hidden: true,
+    },
+  },
+  block: { hidden: true },
+  inline: {
+    hidden: true,
+  },
+});
+
 const renderers: SlatePlugin[] = [
   noopRenderer,
   paragraphRenderer,
@@ -65,25 +81,14 @@ const renderers: SlatePlugin[] = [
   linkRenderer,
 ];
 
-export const InlineField = ({ toolbarOptionsOverride, toolbarAreaFiltersOverride, ...rest }: Props) => {
+export const InlineField = ({
+  toolbarOptions: toolbarOptionsProp,
+  toolbarAreaFilters: toolbarAreaFiltersProp,
+  ...rest
+}: Props) => {
   const { toolbarOptions, toolbarAreaFilters, plugins } = useMemo(() => {
-    const toolbarOptions = createToolbarDefaultValues(
-      toolbarOptionsOverride ?? {
-        text: {
-          hidden: true,
-        },
-        mark: {
-          code: {
-            hidden: true,
-          },
-        },
-        block: { hidden: true },
-        inline: {
-          hidden: true,
-        },
-      },
-    );
-    const toolbarAreaFilters = createToolbarAreaOptions(toolbarAreaFiltersOverride);
+    const toolbarOptions = merge({}, defaultToolbarOptions, toolbarOptionsProp);
+    const toolbarAreaFilters = createToolbarAreaOptions(toolbarAreaFiltersProp);
 
     const inlinePlugins: SlatePlugin[] = [
       spanPlugin,
@@ -99,7 +104,7 @@ export const InlineField = ({ toolbarOptionsOverride, toolbarAreaFiltersOverride
     ];
 
     return { toolbarOptions, toolbarAreaFilters, plugins: inlinePlugins.concat(renderers) };
-  }, [toolbarOptionsOverride, toolbarAreaFiltersOverride]);
+  }, [toolbarOptionsProp, toolbarAreaFiltersProp]);
 
   return (
     <StyledTextArea asChild>

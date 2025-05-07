@@ -25,6 +25,7 @@ const ButtonContainer = styled("div", {
     top: "-xlarge",
     display: "flex",
     gap: "3xsmall",
+    zIndex: "docked",
     justifyContent: "flex-end",
   },
 });

@@ -6,8 +6,10 @@
  *
  */
 
-import { KeyboardEvent, memo, useCallback, useMemo } from "react";
+import { isKeyHotkey } from "is-hotkey";
+import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { createPlugin } from "@ndla/editor";
 import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentEditableFieldLabel } from "../../components/Form/ContentEditableFieldLabel";
@@ -47,7 +49,22 @@ const StyledRichTextEditor = styled(RichTextEditor, {
   },
 });
 
+const noEnterPlugin = createPlugin({
+  name: "no-enter",
+  shortcuts: {
+    enter: {
+      keyCondition: isKeyHotkey("Enter"),
+      handler: (_, event, logger) => {
+        event.preventDefault();
+        logger.log("Enter key pressed in title field, preventing default behavior");
+        return true;
+      },
+    },
+  },
+});
+
 const titlePlugins: SlatePlugin[] = [
+  noEnterPlugin,
   spanPlugin,
   paragraphPlugin,
   textTransformPlugin,
@@ -85,13 +102,6 @@ const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => 
     return basePlugins.concat(toolbarPlugin(toolbarOptions, toolbarAreaFilters));
   }, [hideToolbar]);
 
-  const onKeyDown = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      return false;
-    } else return true;
-  }, []);
-
   return (
     <FormField name={name}>
       {({ field, meta, helpers }) => (
@@ -101,7 +111,6 @@ const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => 
             {...field}
             id="title-editor"
             testId="title-editor"
-            additionalOnKeyDown={onKeyDown}
             hideBlockPicker
             submitted={false}
             placeholder={t("form.title.label")}

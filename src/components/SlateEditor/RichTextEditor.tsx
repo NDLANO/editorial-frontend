@@ -8,7 +8,7 @@
 
 import { useFormikContext } from "formik";
 import { isEqual } from "lodash-es";
-import { FocusEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { FocusEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Descendant, Editor, Range, Transforms } from "slate";
 import { Slate, Editable, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
@@ -49,7 +49,6 @@ export interface RichTextEditorProps extends Omit<EditableProps, "value" | "onCh
   blockpickerOptions?: Partial<BlockPickerOptions>;
   toolbarOptions: CategoryFilters;
   toolbarAreaFilters: AreaFilters;
-  additionalOnKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => boolean;
   hideBlockPicker?: boolean;
   testId?: string;
   hideToolbar?: boolean;
@@ -72,7 +71,6 @@ const RichTextEditor = ({
   toolbarOptions,
   toolbarAreaFilters,
   hideBlockPicker,
-  additionalOnKeyDown,
   hideToolbar,
   receiveInitialFocus,
   onBlur: onBlurProp,
@@ -216,19 +214,6 @@ const RichTextEditor = ({
     [onBlurProp],
   );
 
-  const handleKeyDown = useCallback(
-    (e: KeyboardEvent<HTMLDivElement>) => {
-      let allowEditorKeyDown = true;
-      if (additionalOnKeyDown) {
-        allowEditorKeyDown = additionalOnKeyDown(e);
-      }
-      if (allowEditorKeyDown) {
-        editor.onKeyDown(e);
-      }
-    },
-    [additionalOnKeyDown, editor],
-  );
-
   return (
     <article className={noArticleStyling ? undefined : "ndla-article"}>
       <ArticleLanguageProvider language={language}>
@@ -247,7 +232,7 @@ const RichTextEditor = ({
               aria-labelledby={labelledBy}
               {...rest}
               onBlur={onBlur}
-              onKeyDown={handleKeyDown}
+              onKeyDown={editor.onKeyDown}
               placeholder={placeholder}
               renderElement={renderElement}
               renderLeaf={renderLeaf}

@@ -51,7 +51,7 @@ import {
   Figure,
   IconButton,
 } from "@ndla/primitives";
-import { HStack } from "@ndla/styled-system/jsx";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import { CodeEmbedData } from "@ndla/types-embed";
 import { CodeBlock as UICodeBlock } from "@ndla/ui";
 import CodeBlockEditor from "./CodeBlockEditor";
@@ -65,6 +65,12 @@ interface Props extends RenderElementProps {
   element: CodeBlockElement;
   editor: Editor;
 }
+
+const StyledFigure = styled(Figure, {
+  base: {
+    clear: "both",
+  },
+});
 
 const highlightCode = (code: string, language: string): string => {
   const highlighted = highlight(code, languages[language], language);
@@ -162,7 +168,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
   return (
     <>
       <DialogRoot open={editMode} onOpenChange={(details) => onOpenChange(details.open)} size="large">
-        <Figure aria-label={t("codeEditor.subtitle")} contentEditable={false} {...attributes}>
+        <StyledFigure aria-label={t("codeEditor.subtitle")} contentEditable={false} {...attributes}>
           <HStack justify="space-between">
             {!!embedData.title && <h3>{embedData.title}</h3>}
             <HStack gap="4xsmall">
@@ -189,7 +195,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
           </HStack>
           <UICodeBlock format={embedData.codeFormat} highlightedCode={highlightedCode} />
           {children}
-        </Figure>
+        </StyledFigure>
         <Portal>
           <DialogContent>
             <DialogHeader>

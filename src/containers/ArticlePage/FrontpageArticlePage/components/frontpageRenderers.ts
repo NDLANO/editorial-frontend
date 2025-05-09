@@ -22,7 +22,6 @@ import { copyrightRenderer } from "../../../../components/SlateEditor/plugins/co
 import { definitionListRenderer } from "../../../../components/SlateEditor/plugins/definitionList/render";
 import { detailsRenderer } from "../../../../components/SlateEditor/plugins/details/render";
 import { divRenderer } from "../../../../components/SlateEditor/plugins/div/render";
-import { embedRenderer } from "../../../../components/SlateEditor/plugins/embed/render";
 import { externalRenderer } from "../../../../components/SlateEditor/plugins/external/render";
 import { fileRenderer } from "../../../../components/SlateEditor/plugins/file/render";
 import { footnoteRenderer } from "../../../../components/SlateEditor/plugins/footnote/render";
@@ -56,7 +55,6 @@ export const frontpageRenderers: SlatePlugin[] = [
   paragraphRenderer,
   footnoteRenderer,
   externalRenderer,
-  embedRenderer,
   audioRenderer,
   imageRenderer(true),
   h5pRenderer,

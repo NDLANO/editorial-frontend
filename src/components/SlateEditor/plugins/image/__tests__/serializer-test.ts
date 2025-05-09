@@ -7,16 +7,15 @@
  */
 
 import { Descendant } from "slate";
+import { PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../../util/articleContentConverter";
 import { IMAGE_ELEMENT_TYPE } from "../../image/types";
-import { TYPE_PARAGRAPH } from "../../paragraph/types";
-import { TYPE_SECTION } from "../../section/types";
 
 const editor: Descendant[] = [
   {
-    type: TYPE_SECTION,
+    type: SECTION_ELEMENT_TYPE,
     children: [
-      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+      { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       {
         type: IMAGE_ELEMENT_TYPE,
         children: [
@@ -34,12 +33,12 @@ const editor: Descendant[] = [
           url: "https://test123.no",
         },
       },
-      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+      { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
     ],
   },
 ];
 
-describe("embed serializing tests", () => {
+describe("image embed serializing tests", () => {
   test("serializing", () => {
     const emptySectionHtml = "<section></section>";
 

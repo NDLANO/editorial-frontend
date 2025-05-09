@@ -14,7 +14,6 @@ import { divPlugin } from "../../../../components/SlateEditor/plugins/div";
 import { dndPlugin } from "../../../../components/SlateEditor/plugins/DND";
 import { contentLinkPlugin, linkPlugin } from "../../../../components/SlateEditor/plugins/link";
 import { mathmlPlugin } from "../../../../components/SlateEditor/plugins/mathml/mathPlugin";
-import { noEmbedPlugin } from "../../../../components/SlateEditor/plugins/noEmbed";
 import saveHotkeyPlugin from "../../../../components/SlateEditor/plugins/saveHotkey";
 import { sectionPlugin } from "../../../../components/SlateEditor/plugins/section";
 import { spanPlugin } from "../../../../components/SlateEditor/plugins/span";
@@ -41,7 +40,6 @@ export const topicArticlePlugins: SlatePlugin[] = [
   spanPlugin,
   divPlugin,
   paragraphPlugin,
-  noEmbedPlugin,
   linkPlugin,
   contentLinkPlugin,
   headingPlugin,

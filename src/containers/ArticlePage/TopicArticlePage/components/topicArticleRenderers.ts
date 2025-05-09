@@ -18,7 +18,6 @@ import { linkRenderer } from "../../../../components/SlateEditor/plugins/link/re
 import { listRenderer } from "../../../../components/SlateEditor/plugins/list/render";
 import { markRenderer } from "../../../../components/SlateEditor/plugins/mark/render";
 import { mathRenderer } from "../../../../components/SlateEditor/plugins/mathml/mathRenderer";
-import { noEmbedRenderer } from "../../../../components/SlateEditor/plugins/noEmbed/render";
 import { paragraphRenderer } from "../../../../components/SlateEditor/plugins/paragraph/render";
 import { rephraseRenderer } from "../../../../components/SlateEditor/plugins/rephrase/render";
 import { sectionRenderer } from "../../../../components/SlateEditor/plugins/section/render";
@@ -31,7 +30,6 @@ export const topicArticleRenderers: SlatePlugin[] = [
   spanRenderer,
   divRenderer,
   paragraphRenderer,
-  noEmbedRenderer,
   linkRenderer,
   headingRenderer,
   // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.

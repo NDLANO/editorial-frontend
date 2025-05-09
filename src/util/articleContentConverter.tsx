@@ -8,6 +8,8 @@
 
 import { Descendant } from "slate";
 import {
+  createDataAttributes,
+  createHtmlTag,
   deserializeFromHtml,
   NOOP_ELEMENT_TYPE,
   PARAGRAPH_ELEMENT_TYPE,
@@ -15,7 +17,7 @@ import {
   SlateSerializer,
 } from "@ndla/editor";
 import { AudioEmbedData, BrightcoveEmbedData, H5pEmbedData, ImageEmbedData } from "@ndla/types-embed";
-import { parseEmbedTag, createHtmlTag, createDataAttributes } from "./embedTagHelpers";
+import { parseEmbedTag } from "./embedTagHelpers";
 import { Plain } from "./slatePlainSerializer";
 import { blocks, inlines } from "../components/SlateEditor/helpers";
 import { asideSerializer } from "../components/SlateEditor/plugins/aside/asideSerializer";

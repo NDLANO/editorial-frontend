@@ -7,6 +7,7 @@
  */
 
 import parse from "html-react-parser";
+import { parseElementAttributes } from "@ndla/editor";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import {
   AudioEmbedData,
@@ -28,7 +29,6 @@ import {
 } from "@ndla/types-embed";
 import { fetchH5PInfo, fetchH5pLicenseInformation, fetchH5pPreviewOembed } from "../../components/H5PElement/h5pApi";
 import { fetchExternalOembed } from "../../util/apiHelpers";
-import { parseElementAttributes } from "../../util/embedTagHelpers";
 import { fetchAudio } from "../audio/audioApi";
 import { fetchImage } from "../image/imageApi";
 import { fetchBrightcoveSources, fetchBrightcoveVideo, getBrightcoveCopyright } from "../video/brightcoveApi";

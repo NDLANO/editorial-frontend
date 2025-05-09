@@ -47,7 +47,7 @@ export const brightcoveSerializer = createSerializer({
   },
 });
 
-export const videoPlugin = createPlugin<"brightcove-embed", BrightcovePluginOptions>({
+export const videoPlugin = createPlugin<"brightcove", BrightcovePluginOptions>({
   name: BRIGHTCOVE_PLUGIN,
   type: BRIGHTCOVE_ELEMENT_TYPE,
   isVoid: true,

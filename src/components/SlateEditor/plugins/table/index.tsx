@@ -10,6 +10,7 @@ import { isEqual } from "lodash-es";
 import { Descendant, Editor, Element, Node, NodeEntry, Path, Text, Transforms } from "slate";
 import { HistoryEditor } from "slate-history";
 import { jsx as slatejsx } from "slate-hyperscript";
+import { createHtmlTag, parseElementAttributes } from "@ndla/editor";
 import {
   defaultTableBodyBlock,
   defaultTableCaptionBlock,
@@ -41,7 +42,6 @@ import {
   TYPE_TABLE_CELL,
   TYPE_TABLE_CELL_HEADER,
 } from "./types";
-import { createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import getCurrentBlock from "../../utils/getCurrentBlock";

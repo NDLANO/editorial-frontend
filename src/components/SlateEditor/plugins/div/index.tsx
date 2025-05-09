@@ -7,10 +7,9 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { createPlugin, createSerializer } from "@ndla/editor";
+import { createHtmlTag, createPlugin, createSerializer } from "@ndla/editor";
 import { isDivElement } from "./queries";
 import { DIV_ELEMENT_TYPE, DIV_PLUGIN } from "./types";
-import { createHtmlTag } from "../../../../util/embedTagHelpers";
 
 export const divSerializer = createSerializer({
   deserialize(el, children) {

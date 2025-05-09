@@ -15,7 +15,7 @@ export const matomoApiToken = getEnvironmentVariabel("MATOMO_API_TOKEN");
 
 export const fetchMatomoStats = async (urls: string[]) => {
   const fetchPromises = urls.map((url) => {
-    const withLang = [`/nb${url}`, `/nn${url}`, url];
+    const withLang = [`/nb${url}`, `/nn${url}`, `/en${url}`, `/se${url}`, url];
     const bulkRequest = withLang.map(
       (url, index) =>
         `urls[${index}]=${encodeURIComponent(`method=Actions.getPageUrl&idSite=${config.matomoSiteId}&pageUrl=${url}&period=month&date=last12&showColumns=nb_visits,nb_hits,avg_time_on_page`)}`,

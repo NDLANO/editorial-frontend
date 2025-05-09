@@ -8,11 +8,17 @@
 
 import { Descendant, Element, Text, Node, Transforms, ElementType } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { createPlugin, createSerializer, PluginConfiguration } from "@ndla/editor";
+import {
+  createDataAttributes,
+  createHtmlTag,
+  createPlugin,
+  createSerializer,
+  parseElementAttributes,
+  PluginConfiguration,
+} from "@ndla/editor";
 import { ContentLinkEmbedData } from "@ndla/types-embed";
 import { isContentLinkElement, isLinkElement } from "./queries";
 import { CONTENT_LINK_ELEMENT_TYPE, CONTENT_LINK_PLUGIN, LINK_ELEMENT_TYPE, LINK_PLUGIN, LinkEmbedData } from "./types";
-import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 
 export interface LinkElement {

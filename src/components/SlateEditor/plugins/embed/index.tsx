@@ -6,11 +6,11 @@
  *
  */
 
-import { Editor, Descendant, Element } from "slate";
-import { TYPE_EMBED_ERROR, TYPE_NDLA_EMBED } from "./types";
-import { defaultEmbedBlock, isSlateEmbed, isSlateEmbedElement } from "./utils";
+import { Editor, Descendant } from "slate";
+import { TYPE_NDLA_EMBED } from "./types";
+import { defaultEmbedBlock, isSlateEmbed } from "./utils";
 import { Embed, ErrorEmbed } from "../../../../interfaces";
-import { createDataAttributes, createHtmlTag, parseEmbedTag } from "../../../../util/embedTagHelpers";
+import { parseEmbedTag } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
@@ -44,15 +44,13 @@ export const embedSerializer: SlateSerializer = {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     return defaultEmbedBlock(parseEmbedTag(el.outerHTML) as Embed);
   },
-  serialize(node) {
-    if (!Element.isElement(node) || node.type !== TYPE_EMBED_ERROR) return;
-    const data = createDataAttributes(node.data);
-    return createHtmlTag({ tag: TYPE_NDLA_EMBED, data });
+  serialize() {
+    return undefined;
   },
 };
 
 export const embedPlugin = (disableNormalize?: boolean) => (editor: Editor) => {
-  const { normalizeNode: nextNormalizeNode, isVoid: nextIsVoid } = editor;
+  const { normalizeNode: nextNormalizeNode } = editor;
 
   editor.normalizeNode = (entry) => {
     const [node, path] = entry;
@@ -65,13 +63,6 @@ export const embedPlugin = (disableNormalize?: boolean) => (editor: Editor) => {
     }
 
     nextNormalizeNode(entry);
-  };
-
-  editor.isVoid = (element: Element) => {
-    if (isSlateEmbedElement(element)) {
-      return true;
-    }
-    return nextIsVoid(element);
   };
 
   return editor;

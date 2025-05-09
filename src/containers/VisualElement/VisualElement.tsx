@@ -11,7 +11,6 @@ import { useMemo } from "react";
 import { audioPlugin } from "../../components/SlateEditor/plugins/audio/audioPlugin";
 import { audioRenderer } from "../../components/SlateEditor/plugins/audio/render";
 import { EmbedElements, embedPlugin } from "../../components/SlateEditor/plugins/embed";
-import { embedRenderer } from "../../components/SlateEditor/plugins/embed/render";
 import { externalPlugin, iframePlugin } from "../../components/SlateEditor/plugins/external";
 import { externalRenderer } from "../../components/SlateEditor/plugins/external/render";
 import { h5pPlugin } from "../../components/SlateEditor/plugins/h5p";
@@ -62,7 +61,6 @@ const VisualElement = ({
       imageRenderer(allowDecorative),
       externalRenderer,
       embedPlugin(true),
-      embedRenderer,
     ];
   }, [allowDecorative]);
 

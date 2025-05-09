@@ -15,7 +15,7 @@ import {
   IVisualElementDTO,
 } from "@ndla/types-backend/frontpage-api";
 import { editorValueToPlainText, plainTextToEditorValue } from "./articleContentConverter";
-import { defineTypeOfEmbed, isSlateEmbed } from "../components/SlateEditor/plugins/embed/utils";
+import { isSlateEmbed } from "../components/SlateEditor/plugins/embed/utils";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../components/SlateEditor/plugins/video/types";
 import { LOCALE_VALUES } from "../constants";
 import { FilmFormikType } from "../containers/NdlaFilm/components/NdlaFilmForm";
@@ -49,7 +49,7 @@ export const convertVisualElement = (visualElement: IVisualElementDTO): Descenda
       slatejsx(
         "element",
         {
-          type: defineTypeOfEmbed(visualElement.type),
+          type: visualElement.type,
           data: {
             url: visualElement.url,
             resource: visualElement.type,

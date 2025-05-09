@@ -39,7 +39,7 @@ import { COMMENT_BLOCK_ELEMENT_TYPE } from "../comment/block/types";
 import { GLOSS_BLOCK_ELEMENT_TYPE } from "../concept/block/types";
 import { CONTACT_BLOCK_ELEMENT_TYPE } from "../contactBlock/types";
 import { DETAILS_ELEMENT_TYPE } from "../details/detailsTypes";
-import { TYPE_EXTERNAL } from "../external/types";
+import { EXTERNAL_ELEMENT_TYPE } from "../external/types";
 import { FILE_ELEMENT_TYPE } from "../file/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes";
 import { GRID_ELEMENT_TYPE } from "../grid/types";
@@ -112,7 +112,7 @@ export const commonActions: Action[] = [
     bookmark: "#bkmrk-h5p",
   },
   {
-    data: { type: TYPE_EXTERNAL, object: "url" },
+    data: { type: EXTERNAL_ELEMENT_TYPE, object: "url" },
     icon: <LinkMedium />,
     bookmark: "#bkmrk-ressurs-fra-lenke",
   },

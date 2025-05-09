@@ -30,7 +30,7 @@ import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/
 import { CODE_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/codeBlock/types";
 import { COMMENT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/comment/block/types";
 import { CONTACT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/contactBlock/types";
-import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
+import { EXTERNAL_ELEMENT_TYPE, IFRAME_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/external/types";
 import { FILE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/file/types";
 import { GRID_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/grid/types";
 import { H5P_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/h5p/types";
@@ -66,7 +66,8 @@ const visualElements = [
   H5P_ELEMENT_TYPE,
   BRIGHTCOVE_ELEMENT_TYPE,
   AUDIO_ELEMENT_TYPE,
-  TYPE_EXTERNAL,
+  EXTERNAL_ELEMENT_TYPE,
+  IFRAME_ELEMENT_TYPE,
   IMAGE_ELEMENT_TYPE,
 ];
 

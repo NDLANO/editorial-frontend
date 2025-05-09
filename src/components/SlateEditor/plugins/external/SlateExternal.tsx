@@ -8,9 +8,10 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Element, Path, Transforms } from "slate";
+import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
+import { isElementOfType } from "@ndla/editor";
 import { PencilFill, DeleteBinLine, ErrorWarningLine, ExpandUpDownLine } from "@ndla/icons";
 import {
   DialogBody,
@@ -28,7 +29,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { IframeEmbedData, IframeMetaData, OembedEmbedData, OembedMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, ExternalEmbed, IframeEmbed } from "@ndla/ui";
 import { ExternalEmbedForm } from "./ExternalEmbedForm";
-import { ExternalElement, IframeElement, TYPE_EXTERNAL, TYPE_IFRAME } from "./types";
+import { EXTERNAL_ELEMENT_TYPE, ExternalElement, IFRAME_ELEMENT_TYPE, IframeElement } from "./types";
 import { EXTERNAL_WHITELIST_PROVIDERS } from "../../../../constants";
 import { WhitelistProvider } from "../../../../interfaces";
 import { useExternalEmbed } from "../../../../modules/embed/queries";
@@ -145,7 +146,7 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
     const path = ReactEditor.findPath(editor, element);
     Transforms.removeNodes(editor, {
       at: path,
-      match: (node) => Element.isElement(node) && (node.type === TYPE_EXTERNAL || node.type === TYPE_IFRAME),
+      match: (node) => isElementOfType(node, [EXTERNAL_ELEMENT_TYPE, IFRAME_ELEMENT_TYPE]),
       voids: true,
     });
     setTimeout(() => {

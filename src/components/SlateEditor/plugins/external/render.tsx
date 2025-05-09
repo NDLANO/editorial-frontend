@@ -8,12 +8,12 @@
 
 import { Editor } from "slate";
 import { SlateExternal } from "./SlateExternal";
-import { TYPE_EXTERNAL, TYPE_IFRAME } from "./types";
+import { EXTERNAL_ELEMENT_TYPE, IFRAME_ELEMENT_TYPE } from "./types";
 
 export const externalRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_EXTERNAL || element.type === TYPE_IFRAME) {
+    if (element.type === EXTERNAL_ELEMENT_TYPE || element.type === IFRAME_ELEMENT_TYPE) {
       return (
         <SlateExternal attributes={attributes} editor={editor} element={element}>
           {children}

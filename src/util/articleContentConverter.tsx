@@ -43,7 +43,8 @@ import { externalSerializer } from "../components/SlateEditor/plugins/external";
 import { fileSerializer } from "../components/SlateEditor/plugins/file";
 import { footnoteSerializer } from "../components/SlateEditor/plugins/footnote";
 import { framedContentSerializer } from "../components/SlateEditor/plugins/framedContent/framedContentSerializer";
-import { gridSerializer } from "../components/SlateEditor/plugins/grid";
+import { gridCellSerializer } from "../components/SlateEditor/plugins/grid/gridCellPlugin";
+import { gridSerializer } from "../components/SlateEditor/plugins/grid/gridPlugin";
 import { h5pSerializer } from "../components/SlateEditor/plugins/h5p";
 import { headingSerializer } from "../components/SlateEditor/plugins/heading";
 import { imageSerializer } from "../components/SlateEditor/plugins/image";
@@ -114,6 +115,7 @@ const extendedRules: SlateSerializer<any>[] = [
   tableSerializer,
   relatedSerializer,
   gridSerializer,
+  gridCellSerializer,
   pitchSerializer,
   codeblockSerializer,
   keyFigureSerializer,

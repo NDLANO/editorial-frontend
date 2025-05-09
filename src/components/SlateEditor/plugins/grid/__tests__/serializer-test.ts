@@ -10,7 +10,7 @@ import { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
-import { TYPE_GRID, TYPE_GRID_CELL } from "../types";
+import { GRID_ELEMENT_TYPE, GRID_CELL_ELEMENT_TYPE } from "../types";
 
 const editor2: Descendant[] = [
   {
@@ -18,19 +18,19 @@ const editor2: Descendant[] = [
     children: [
       { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
       {
-        type: TYPE_GRID,
+        type: GRID_ELEMENT_TYPE,
         data: {
           columns: "2",
           border: "none",
         },
         children: [
           {
-            type: TYPE_GRID_CELL,
+            type: GRID_CELL_ELEMENT_TYPE,
             data: { parallaxCell: "false" },
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
           },
           {
-            type: TYPE_GRID_CELL,
+            type: GRID_CELL_ELEMENT_TYPE,
             data: { parallaxCell: "false" },
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
           },
@@ -50,29 +50,29 @@ const editor4: Descendant[] = [
     children: [
       { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
       {
-        type: TYPE_GRID,
+        type: GRID_ELEMENT_TYPE,
         data: {
           columns: "4",
           border: "none",
         },
         children: [
           {
-            type: TYPE_GRID_CELL,
+            type: GRID_CELL_ELEMENT_TYPE,
             data: { parallaxCell: "false" },
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
           },
           {
-            type: TYPE_GRID_CELL,
+            type: GRID_CELL_ELEMENT_TYPE,
             data: { parallaxCell: "false" },
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
           },
           {
-            type: TYPE_GRID_CELL,
+            type: GRID_CELL_ELEMENT_TYPE,
             data: { parallaxCell: "false" },
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
           },
           {
-            type: TYPE_GRID_CELL,
+            type: GRID_CELL_ELEMENT_TYPE,
             data: { parallaxCell: "false" },
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
           },
@@ -92,14 +92,14 @@ const editorMultipleChildrenGridCell: Descendant[] = [
     children: [
       { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
       {
-        type: TYPE_GRID,
+        type: GRID_ELEMENT_TYPE,
         data: {
           columns: "4",
           border: "none",
         },
         children: [
           {
-            type: TYPE_GRID_CELL,
+            type: GRID_CELL_ELEMENT_TYPE,
             data: { parallaxCell: "false" },
             children: [
               { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
@@ -107,7 +107,7 @@ const editorMultipleChildrenGridCell: Descendant[] = [
             ],
           },
           {
-            type: TYPE_GRID_CELL,
+            type: GRID_CELL_ELEMENT_TYPE,
             data: { parallaxCell: "false" },
             children: [
               { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
@@ -116,7 +116,7 @@ const editorMultipleChildrenGridCell: Descendant[] = [
             ],
           },
           {
-            type: TYPE_GRID_CELL,
+            type: GRID_CELL_ELEMENT_TYPE,
             data: { parallaxCell: "false" },
             children: [
               { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
@@ -124,7 +124,7 @@ const editorMultipleChildrenGridCell: Descendant[] = [
             ],
           },
           {
-            type: TYPE_GRID_CELL,
+            type: GRID_CELL_ELEMENT_TYPE,
             data: { parallaxCell: "false" },
             children: [
               { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },

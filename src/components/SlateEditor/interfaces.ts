@@ -38,7 +38,7 @@ import { ExternalElement, IframeElement } from "./plugins/external/types";
 import { FileElement } from "./plugins/file";
 import { FootnoteElement } from "./plugins/footnote/types";
 import { FramedContentElement } from "./plugins/framedContent/framedContentTypes";
-import { GridCellElement, GridElement } from "./plugins/grid";
+import { GridCellElement, GridElement } from "./plugins/grid/types";
 import { H5pElement } from "./plugins/h5p/types";
 import { ImageElement } from "./plugins/image/types";
 import { KeyFigureElement } from "./plugins/keyFigure/types";

@@ -30,7 +30,7 @@ import { COMMENT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/p
 import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
 import { FILE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/file/types";
 import { FOOTNOTE_ELEMENT_TYPE, FootnoteElement } from "../../../../components/SlateEditor/plugins/footnote/types";
-import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
+import { GRID_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/grid/types";
 import { H5P_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/h5p/types";
 import { IMAGE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/image/types";
 import { TYPE_TABLE } from "../../../../components/SlateEditor/plugins/table/types";
@@ -63,9 +63,13 @@ const visualElements = [
   IMAGE_ELEMENT_TYPE,
 ];
 
-const actions = [TYPE_TABLE, CODE_BLOCK_ELEMENT_TYPE, FILE_ELEMENT_TYPE, TYPE_GRID, COMMENT_BLOCK_ELEMENT_TYPE].concat(
-  visualElements,
-);
+const actions = [
+  TYPE_TABLE,
+  CODE_BLOCK_ELEMENT_TYPE,
+  FILE_ELEMENT_TYPE,
+  GRID_ELEMENT_TYPE,
+  COMMENT_BLOCK_ELEMENT_TYPE,
+].concat(visualElements);
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,

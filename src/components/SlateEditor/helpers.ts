@@ -19,7 +19,7 @@ import { TYPE_EXTERNAL } from "./plugins/external/types";
 import { FILE_ELEMENT_TYPE } from "./plugins/file/types";
 import { FOOTNOTE_ELEMENT_TYPE } from "./plugins/footnote/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "./plugins/framedContent/framedContentTypes";
-import { TYPE_GRID } from "./plugins/grid/types";
+import { GRID_ELEMENT_TYPE } from "./plugins/grid/types";
 import { H5P_ELEMENT_TYPE } from "./plugins/h5p/types";
 import { IMAGE_ELEMENT_TYPE } from "./plugins/image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "./plugins/keyFigure/types";
@@ -60,7 +60,7 @@ export const blocks: ElementType[] = [
   RELATED_ELEMENT_TYPE,
   TYPE_TABLE,
   PITCH_ELEMENT_TYPE,
-  TYPE_GRID,
+  GRID_ELEMENT_TYPE,
   KEY_FIGURE_ELEMENT_TYPE,
   CAMPAIGN_BLOCK_ELEMENT_TYPE,
 ];

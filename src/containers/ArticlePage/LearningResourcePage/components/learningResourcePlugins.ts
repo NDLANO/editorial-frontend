@@ -27,7 +27,8 @@ import { externalPlugin } from "../../../../components/SlateEditor/plugins/exter
 import { filePlugin } from "../../../../components/SlateEditor/plugins/file";
 import { footnotePlugin } from "../../../../components/SlateEditor/plugins/footnote";
 import { framedContentPlugin } from "../../../../components/SlateEditor/plugins/framedContent/framedContentPlugin";
-import { gridPlugin } from "../../../../components/SlateEditor/plugins/grid";
+import { gridPlugin } from "../../../../components/SlateEditor/plugins/grid/gridPlugin";
+import { gridCellPlugin } from "../../../../components/SlateEditor/plugins/grid/gridCellPlugin";
 import { h5pPlugin } from "../../../../components/SlateEditor/plugins/h5p";
 import { imagePlugin } from "../../../../components/SlateEditor/plugins/image";
 import { contentLinkPlugin, linkPlugin } from "../../../../components/SlateEditor/plugins/link";
@@ -99,6 +100,7 @@ export const learningResourcePlugins: SlatePlugin[] = [
   definitionDescriptionPlugin,
   listPlugin,
   gridPlugin,
+  gridCellPlugin,
   disclaimerPlugin,
   copyrightPlugin,
   rephrasePlugin,

@@ -46,7 +46,6 @@ import { CONTACT_BLOCK_ELEMENT_TYPE } from "../contactBlock/types";
 import { defaultContactBlock } from "../contactBlock/utils";
 import { DETAILS_ELEMENT_TYPE } from "../details/detailsTypes";
 import { defaultDetailsBlock } from "../details/utils";
-import { TYPE_EMBED_ERROR } from "../embed/types";
 import { EXTERNAL_ELEMENT_TYPE } from "../external/types";
 import { defaultExternalBlock } from "../external/utils";
 import { FILE_ELEMENT_TYPE } from "../file/types";
@@ -338,8 +337,7 @@ const SlateBlockPicker = ({
         setType(data.object);
         break;
       }
-      case FILE_ELEMENT_TYPE:
-      case TYPE_EMBED_ERROR: {
+      case FILE_ELEMENT_TYPE: {
         setVisualElementPickerOpen(true);
         setType(data.object);
         break;

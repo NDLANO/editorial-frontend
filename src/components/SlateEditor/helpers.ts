@@ -14,7 +14,6 @@ import { CODE_BLOCK_ELEMENT_TYPE } from "./plugins/codeBlock/types";
 import { COMMENT_INLINE_ELEMENT_TYPE } from "./plugins/comment/inline/types";
 import { CONCEPT_INLINE_ELEMENT_TYPE } from "./plugins/concept/inline/types";
 import { DETAILS_ELEMENT_TYPE } from "./plugins/details/detailsTypes";
-import { TYPE_EMBED_ERROR } from "./plugins/embed/types";
 import { EXTERNAL_ELEMENT_TYPE, IFRAME_ELEMENT_TYPE } from "./plugins/external/types";
 import { FILE_ELEMENT_TYPE } from "./plugins/file/types";
 import { FOOTNOTE_ELEMENT_TYPE } from "./plugins/footnote/types";
@@ -52,7 +51,6 @@ export const blocks: ElementType[] = [
   DETAILS_ELEMENT_TYPE,
   AUDIO_ELEMENT_TYPE,
   BRIGHTCOVE_ELEMENT_TYPE,
-  TYPE_EMBED_ERROR,
   EXTERNAL_ELEMENT_TYPE,
   IFRAME_ELEMENT_TYPE,
   H5P_ELEMENT_TYPE,

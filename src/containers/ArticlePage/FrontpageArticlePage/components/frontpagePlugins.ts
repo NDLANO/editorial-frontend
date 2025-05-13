@@ -23,7 +23,6 @@ import { detailsPlugin } from "../../../../components/SlateEditor/plugins/detail
 import { summaryPlugin } from "../../../../components/SlateEditor/plugins/details/summaryPlugin";
 import { divPlugin } from "../../../../components/SlateEditor/plugins/div";
 import { dndPlugin } from "../../../../components/SlateEditor/plugins/DND";
-import { embedPlugin } from "../../../../components/SlateEditor/plugins/embed";
 import { externalPlugin, iframePlugin } from "../../../../components/SlateEditor/plugins/external";
 import { filePlugin } from "../../../../components/SlateEditor/plugins/file";
 import { footnotePlugin } from "../../../../components/SlateEditor/plugins/footnote";
@@ -68,7 +67,6 @@ export const frontpagePlugins: SlatePlugin[] = [
   footnotePlugin,
   externalPlugin,
   iframePlugin,
-  embedPlugin(),
   audioPlugin,
   imagePlugin,
   h5pPlugin,

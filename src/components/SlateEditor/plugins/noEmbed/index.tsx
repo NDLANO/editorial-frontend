@@ -6,7 +6,7 @@
  *
  */
 
-import { createPlugin, createSerializer } from "@ndla/editor";
+import { createSerializer } from "@ndla/editor";
 import { Embed } from "../../../../interfaces";
 import { parseEmbedTag } from "../../../../util/embedTagHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
@@ -24,8 +24,4 @@ export const noEmbedSerializer = createSerializer({
       return "<deleteme></deleteme>";
     }
   },
-});
-
-export const noEmbedPlugin = createPlugin({
-  name: "no-embed",
 });

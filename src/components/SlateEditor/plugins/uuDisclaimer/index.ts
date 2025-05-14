@@ -12,11 +12,12 @@ import {
   createHtmlTag,
   createPlugin,
   createSerializer,
+  defaultNormalizer,
+  NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
 import { DISCLAIMER_ELEMENT_TYPE, DISCLAIMER_PLUGIN } from "./types";
-import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement, firstTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 import { isDisclaimerElement } from "./queries";
@@ -56,7 +57,7 @@ export const disclaimerPlugin = createPlugin({
   type: DISCLAIMER_ELEMENT_TYPE,
   normalize: (editor, node, path, logger) => {
     if (isDisclaimerElement(node)) {
-      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+      return defaultNormalizer(editor, node, path, normalizerConfig, logger);
     }
     return false;
   },

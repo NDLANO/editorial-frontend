@@ -12,6 +12,8 @@ import {
   createHtmlTag,
   createPlugin,
   createSerializer,
+  defaultNormalizer,
+  NormalizerConfig,
   parseElementAttributes,
 } from "@ndla/editor";
 import {
@@ -22,7 +24,6 @@ import {
   IFRAME_PLUGIN,
   IframePluginOptions,
 } from "./types";
-import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
@@ -76,7 +77,7 @@ export const iframePlugin = createPlugin<typeof IFRAME_ELEMENT_TYPE, IframePlugi
   options: { disableNormalize: false },
   normalize: (editor, node, path, logger, opts) => {
     if (!isIframeElement(node) || opts.disableNormalize) return false;
-    return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+    return defaultNormalizer(editor, node, path, normalizerConfig, logger);
   },
 });
 
@@ -87,6 +88,6 @@ export const externalPlugin = createPlugin<typeof EXTERNAL_ELEMENT_TYPE, Externa
   options: { disableNormalize: false },
   normalize: (editor, node, path, logger, opts) => {
     if (!isExternalElement(node) || opts.disableNormalize) return false;
-    return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+    return defaultNormalizer(editor, node, path, normalizerConfig, logger);
   },
 });

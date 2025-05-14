@@ -12,13 +12,14 @@ import {
   createHtmlTag,
   createPlugin,
   createSerializer,
+  defaultNormalizer,
+  NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
 import { EmbedData } from "@ndla/types-embed";
 import { isKeyFigureElement } from "./queries";
 import { KEY_FIGURE_ELEMENT_TYPE, KEY_FIGURE_PLUGIN } from "./types";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 
@@ -57,7 +58,7 @@ export const keyFigurePlugin = createPlugin({
   isVoid: true,
   normalize: (editor, node, path, logger) => {
     if (isKeyFigureElement(node)) {
-      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+      return defaultNormalizer(editor, node, path, normalizerConfig, logger);
     }
     return false;
   },

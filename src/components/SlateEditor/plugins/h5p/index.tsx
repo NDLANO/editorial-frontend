@@ -12,12 +12,13 @@ import {
   createHtmlTag,
   createPlugin,
   createSerializer,
+  defaultNormalizer,
+  NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
 import { isH5pElement } from "./queries";
 import { H5P_ELEMENT_TYPE, H5P_PLUGIN, H5pPluginOptions } from "./types";
-import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 
@@ -56,7 +57,7 @@ export const h5pPlugin = createPlugin<"h5p", H5pPluginOptions>({
   },
   normalize: (editor, node, path, logger, options) => {
     if (isH5pElement(node) && !options.disableNormalize) {
-      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+      return defaultNormalizer(editor, node, path, normalizerConfig, logger);
     }
     return false;
   },

@@ -12,11 +12,12 @@ import {
   createHtmlTag,
   createPlugin,
   createSerializer,
+  defaultNormalizer,
+  NormalizerConfig,
   parseElementAttributes,
 } from "@ndla/editor";
 import { isConceptBlockElement } from "./queries";
 import { CONCEPT_BLOCK_ELEMENT_TYPE, CONCEPT_BLOCK_PLUGIN } from "./types";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../../embed/types";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
@@ -60,6 +61,6 @@ export const blockConceptPlugin = createPlugin({
   isVoid: true,
   normalize: (editor, node, path, logger) => {
     if (!isConceptBlockElement(node)) return false;
-    return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+    return defaultNormalizer(editor, node, path, normalizerConfig, logger);
   },
 });

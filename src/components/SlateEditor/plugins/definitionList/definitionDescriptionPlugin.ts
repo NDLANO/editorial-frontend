@@ -7,7 +7,7 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { createHtmlTag, createPlugin, createSerializer } from "@ndla/editor";
+import { createHtmlTag, createPlugin, createSerializer, defaultNormalizer, NormalizerConfig } from "@ndla/editor";
 import {
   DEFINITION_DESCRIPTION_ELEMENT_TYPE,
   DEFINITION_DESCRIPTION_PLUGIN,
@@ -15,7 +15,6 @@ import {
   DEFINITION_TERM_ELEMENT_TYPE,
   DefinitionDescriptionType,
 } from "./definitionListTypes";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { isDefinitionDescriptionElement } from "./queries/definitionListQueries";
 
 const normalizerConfig: NormalizerConfig = {
@@ -45,6 +44,6 @@ export const definitionDescriptionPlugin = createPlugin<DefinitionDescriptionTyp
   type: DEFINITION_DESCRIPTION_ELEMENT_TYPE,
   normalize: (editor, node, path, logger) => {
     if (!isDefinitionDescriptionElement(node)) return false;
-    return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+    return defaultNormalizer(editor, node, path, normalizerConfig, logger);
   },
 });

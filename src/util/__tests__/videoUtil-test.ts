@@ -8,7 +8,6 @@
 
 import {
   getBrightCoveStartTime,
-  addBrightCovetimeStampSrc,
   addBrightCoveTimeStampVideoid,
   addYoutubeTimeStamps,
   calcSecondsFromHMS,
@@ -38,16 +37,6 @@ test("util/calcSecondsFromHMS return seconds based on hms string", () => {
   expect(calcSecondsFromHMS(hs)).toBe(3601);
   expect(calcSecondsFromHMS(s)).toBe(1);
   expect(calcSecondsFromHMS(faulty)).toBe(0);
-});
-
-test("util/addBrightCovetimeStampSrc return brightCove url with timestamp", () => {
-  expect(typeof addBrightCovetimeStampSrc).toBe("function");
-  const url = `https://players.brightcove.net/dummyuser/dummyplayer_default/index.html?videoId=1231241`;
-  const start = "10"; // 10 seconds
-  const faulty = "asdasda";
-  expect(addBrightCovetimeStampSrc(url, start)).toBe(`${url}&t=${start}s`);
-  expect(addBrightCovetimeStampSrc(url, "")).toBe(url);
-  expect(addBrightCovetimeStampSrc(url, faulty)).toBe(url);
 });
 
 test("util/addBrightCoveTimeStampVideoid return brightCove videoid with timestamp", () => {

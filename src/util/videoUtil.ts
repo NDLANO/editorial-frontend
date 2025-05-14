@@ -72,22 +72,11 @@ export const removeYoutubeTimeStamps = (url: string) => {
   return baseUrl;
 };
 
-export const removeParams = (url: string) => {
-  return url.split("?")[0];
-};
-
 export const addBrightCoveTimeStampVideoid = (videoid: string, start: string) => {
   const [baseVideoid] = videoid.split("&t=");
   const startSeconds = start ? `${calcSecondsFromHMS(start)}s` : ``;
 
   return startSeconds === "" || startSeconds === "0s" ? baseVideoid : `${baseVideoid}&t=${startSeconds}`;
-};
-
-export const addBrightCovetimeStampSrc = (src: string, start: string) => {
-  const [baseUrl, videoid] = src.split("?");
-  const newVideoid = start ? addBrightCoveTimeStampVideoid(videoid, start) : videoid.split("&t=")[0];
-
-  return `${baseUrl}?${newVideoid}`;
 };
 
 export const getBrightCoveStartTime = (videoid: string) => {

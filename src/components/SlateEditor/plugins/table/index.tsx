@@ -10,7 +10,7 @@ import { isEqual } from "lodash-es";
 import { Descendant, Editor, Element, Node, NodeEntry, Path, Text, Transforms } from "slate";
 import { HistoryEditor } from "slate-history";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { createHtmlTag, parseElementAttributes } from "@ndla/editor";
+import { createHtmlTag, defaultNormalizer, NormalizerConfig, parseElementAttributes } from "@ndla/editor";
 import {
   defaultTableBodyBlock,
   defaultTableCaptionBlock,
@@ -43,7 +43,6 @@ import {
   TYPE_TABLE_CELL_HEADER,
 } from "./types";
 import { SlateSerializer } from "../../interfaces";
-import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import getCurrentBlock from "../../utils/getCurrentBlock";
 import { KEY_ARROW_DOWN, KEY_ARROW_UP, KEY_BACKSPACE, KEY_DELETE, KEY_ENTER, KEY_TAB } from "../../utils/keys";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
@@ -261,7 +260,7 @@ export const tablePlugin = (editor: Editor) => {
         }
       }
       // v. Add surrounding paragraphs. Must be last since the table itself is not altered.
-      if (defaultBlockNormalizer(editor, node, path, normalizerConfig)) {
+      if (defaultNormalizer(editor, node, path, normalizerConfig)) {
         return;
       }
 

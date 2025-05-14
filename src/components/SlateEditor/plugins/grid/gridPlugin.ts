@@ -12,6 +12,8 @@ import {
   createHtmlTag,
   createPlugin,
   createSerializer,
+  defaultNormalizer,
+  NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
@@ -19,7 +21,6 @@ import { GRID_CELL_ELEMENT_TYPE, GRID_ELEMENT_TYPE, GRID_PLUGIN } from "./types"
 import { isGridElement } from "./queries";
 import { Editor, Transforms } from "slate";
 import { defaultGridCellBlock } from "./utils";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 
 export const gridSerializer = createSerializer({
@@ -94,6 +95,6 @@ export const gridPlugin = createPlugin({
       return true;
     }
 
-    return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+    return defaultNormalizer(editor, node, path, normalizerConfig, logger);
   },
 });

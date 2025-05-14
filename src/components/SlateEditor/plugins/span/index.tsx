@@ -13,15 +13,16 @@ import {
   createHtmlTag,
   createPlugin,
   createSerializer,
+  defaultNormalizer,
   HEADING_ELEMENT_TYPE,
   LIST_ITEM_ELEMENT_TYPE,
   NOOP_ELEMENT_TYPE,
+  NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
 import { isSpanElement } from "./queries";
 import { SPAN_ELEMENT_TYPE, SPAN_PLUGIN } from "./types";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquote/blockquoteTypes";
 import {
   DEFINITION_DESCRIPTION_ELEMENT_TYPE,
@@ -87,7 +88,7 @@ export const spanPlugin = createPlugin({
         Transforms.removeNodes(editor, { at: path });
         return true;
       }
-      return defaultBlockNormalizer(editor, node, path, normalizerConfig);
+      return defaultNormalizer(editor, node, path, normalizerConfig);
     }
     return false;
   },

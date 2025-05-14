@@ -9,7 +9,7 @@
 import { isKeyHotkey } from "is-hotkey";
 import { Editor, Node, Path, Range, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { createHtmlTag, createPlugin, createSerializer } from "@ndla/editor";
+import { createHtmlTag, createPlugin, createSerializer, defaultNormalizer, NormalizerConfig } from "@ndla/editor";
 import {
   DEFINITION_DESCRIPTION_ELEMENT_TYPE,
   DEFINITION_LIST_ELEMENT_TYPE,
@@ -18,7 +18,6 @@ import {
   DefinitionListType,
 } from "./definitionListTypes";
 import { onTab } from "./handlers/onTab";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import {
   isDefinitionDescriptionElement,
   isDefinitionListElement,
@@ -66,7 +65,7 @@ export const definitionListPlugin = createPlugin<DefinitionListType>({
         }
       }
     }
-    return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+    return defaultNormalizer(editor, node, path, normalizerConfig, logger);
   },
   transform: (editor, logger) => {
     const { insertBreak } = editor;

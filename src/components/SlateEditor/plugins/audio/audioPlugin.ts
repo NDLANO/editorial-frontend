@@ -6,9 +6,14 @@
  *
  */
 
-import { createPlugin, isElementOfType, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
+import {
+  createPlugin,
+  defaultNormalizer,
+  isElementOfType,
+  NormalizerConfig,
+  PARAGRAPH_ELEMENT_TYPE,
+} from "@ndla/editor";
 import { AUDIO_ELEMENT_TYPE, AUDIO_PLUGIN, AudioElementType, AudioPluginOptions } from "./audioTypes";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 
 const normalizerConfig: NormalizerConfig = {
@@ -31,7 +36,7 @@ export const audioPlugin = createPlugin<AudioElementType, AudioPluginOptions>({
   },
   normalize: (editor, node, path, logger, options) => {
     if (isElementOfType(node, AUDIO_ELEMENT_TYPE) && !options.disableNormalization) {
-      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+      return defaultNormalizer(editor, node, path, normalizerConfig, logger);
     }
     return false;
   },

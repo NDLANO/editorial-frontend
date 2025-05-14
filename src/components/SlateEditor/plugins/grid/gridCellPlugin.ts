@@ -12,14 +12,15 @@ import {
   createHtmlTag,
   createPlugin,
   createSerializer,
+  defaultNormalizer,
   HEADING_ELEMENT_TYPE,
   LIST_ELEMENT_TYPE,
+  NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
 import { GRID_CELL_ELEMENT_TYPE, GRID_CELL_PLUGIN } from "./types";
 import { isGridCellElement } from "./queries";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { KEY_FIGURE_ELEMENT_TYPE } from "../keyFigure/types";
 import { PITCH_ELEMENT_TYPE } from "../pitch/types";
 import { IMAGE_ELEMENT_TYPE } from "../image/types";
@@ -59,6 +60,6 @@ export const gridCellPlugin = createPlugin({
   type: GRID_CELL_ELEMENT_TYPE,
   normalize: (editor, node, path, logger) => {
     if (!isGridCellElement(node)) return false;
-    return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+    return defaultNormalizer(editor, node, path, normalizerConfig, logger);
   },
 });

@@ -7,14 +7,13 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { createHtmlTag, createPlugin, createSerializer } from "@ndla/editor";
+import { createHtmlTag, createPlugin, createSerializer, defaultNormalizer, NormalizerConfig } from "@ndla/editor";
 import {
   DEFINITION_LIST_ELEMENT_TYPE,
   DEFINITION_TERM_ELEMENT_TYPE,
   DEFINITION_TERM_PLUGIN,
 } from "./definitionListTypes";
 import { isDefinitionTermElement } from "./queries/definitionListQueries";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 
 export const definitionTermSerializer = createSerializer({
   deserialize(el, children) {
@@ -39,6 +38,6 @@ export const definitionTermPlugin = createPlugin({
   type: DEFINITION_TERM_ELEMENT_TYPE,
   normalize: (editor, node, path, logger) => {
     if (!isDefinitionTermElement(node)) return false;
-    return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+    return defaultNormalizer(editor, node, path, normalizerConfig, logger);
   },
 });

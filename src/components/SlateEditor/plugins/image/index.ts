@@ -12,11 +12,12 @@ import {
   createHtmlTag,
   createPlugin,
   createSerializer,
+  defaultNormalizer,
+  NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
 import { IMAGE_ELEMENT_TYPE, IMAGE_PLUGIN, ImagePluginOptions } from "./types";
-import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 import { isImageElement } from "./queries";
@@ -56,7 +57,7 @@ export const imagePlugin = createPlugin<typeof IMAGE_ELEMENT_TYPE, ImagePluginOp
   },
   normalize: (editor, node, path, logger, options) => {
     if (isImageElement(node) && !options.disableNormalization) {
-      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+      return defaultNormalizer(editor, node, path, normalizerConfig, logger);
     }
     return false;
   },

@@ -2285,6 +2285,7 @@ const phrases = {
     error: "Something went wrong when generating text. Message from the service: {{message}}",
     errorImage: "Something went wrong. Could not process the image.",
     summary: "Summary",
+    insert: "Insert",
     replace: "Replace",
     add: "Add after",
     chosenText: "Selected text",

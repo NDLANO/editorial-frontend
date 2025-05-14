@@ -2285,6 +2285,7 @@ const phrases = {
     error: "Noko gjekk gale under generering av tekst. Melding frå tenesta: {{message}}",
     errorImage: "Noko gjekk gale, kunne ikkje prosessere biletet.",
     summary: "Oppsummering",
+    insert: "Sett inn",
     replace: "Erstatt",
     add: "Legg til etter",
     chosenText: "Valt tekst",

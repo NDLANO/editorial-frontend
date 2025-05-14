@@ -2284,6 +2284,7 @@ const phrases = {
     error: "Noe gikk galt under generering av tekst. Melding fra tjenesten: {{message}}",
     errorImage: "Noe gikk galt, kunne ikke prosessere bildet.",
     summary: "Oppsummering",
+    insert: "Sett inn",
     replace: "Erstatt",
     add: "Legg til etter",
     chosenText: "Valgt tekst",

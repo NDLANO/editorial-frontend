@@ -7,7 +7,6 @@
  */
 
 import { BedrockRuntimeClient, InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
-import { getPromptQuery, PromptVariables } from "./llmQueries";
 import { getEnvironmentVariabel } from "../config";
 import {
   GetTranscriptionJobCommand,
@@ -16,6 +15,8 @@ import {
   StartTranscriptionJobCommand,
   TranscribeClient,
 } from "@aws-sdk/client-transcribe";
+import { Payload, PromptVariables } from "../modules/llm/llmApiTypes";
+import { llmQueryText } from "./llmQueries";
 
 const aiModelId = getEnvironmentVariabel("NDLA_AI_MODEL_ID", "test");
 const aiRegion = getEnvironmentVariabel("NDLA_AI_MODEL_REGION", "eu-west-1");
@@ -33,23 +34,23 @@ const bedRockClient = new BedrockRuntimeClient({
 });
 const textDecoder = new TextDecoder();
 
-export const generateAnswer = async (params: PromptVariables, language: string, max_tokens: number) => {
-  const promptQuery = getPromptQuery(params, language);
+export const generateAnswer = async (request: Payload<PromptVariables>, language: string, max_tokens: number) => {
+  const { role, message } = llmQueryText(request, language);
 
   const prompt = {
     type: "text",
-    text: promptQuery,
+    text: message,
   };
 
   const content =
-    params.type === "alttext"
+    request.type === "altText"
       ? [
           {
             type: "image",
             source: {
               type: "base64",
-              media_type: params.image.fileType,
-              data: params.image.base64,
+              media_type: request.image.fileType,
+              data: request.image.base64,
             },
           },
           prompt,
@@ -65,6 +66,7 @@ export const generateAnswer = async (params: PromptVariables, language: string, 
         role: "user",
       },
     ],
+    system: role,
   };
 
   const command = new InvokeModelCommand({
@@ -77,6 +79,15 @@ export const generateAnswer = async (params: PromptVariables, language: string, 
   const responseBody = JSON.parse(decodedResponseBody);
 
   const containsError = responseBody.content[0].text.includes("<ERROR>");
+
+  console.log(
+    "The LLM query with role:",
+    role,
+    "\nAnd message:",
+    message,
+    "\nReturned the answer:\n",
+    responseBody.content[0].text,
+  );
 
   if (containsError) {
     const errorMsg = responseBody.content[0].text.match(LLM_ERROR_REGEX)[0].trim();

@@ -8,9 +8,11 @@
 
 import { fetchAuthorized } from "../../util/apiHelpers";
 import { resolveTextOrRejectWithError } from "../../util/resolveJsonOrRejectWithError";
-import { Payload } from "./llmApiTypes";
+import { Payload, PromptVariables } from "./llmApiTypes";
 
-export const fetchAIGeneratedAnswer = async (payload: Payload): Promise<string> =>
+export const fetchAIGeneratedAnswer = async <TVariables extends PromptVariables>(
+  payload: Payload<TVariables>,
+): Promise<string> =>
   fetchAuthorized("/generate-ai", {
     method: "POST",
     headers: {

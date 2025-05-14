@@ -6,45 +6,53 @@
  *
  */
 
-export type Payload =
+export type PromptType = PromptVariables["type"];
+
+export type PromptVariables =
   | SummaryVariables
   | AltTextVariables
   | AlternativePhrasingVariables
   | MetaDescriptionVariables
   | ReflectionVariables;
 
-interface BaseVariables {
-  language: string;
-  max_tokens?: number;
-}
-
-export interface AlternativePhrasingVariables extends BaseVariables {
-  type: "alternativePhrasing";
-  text: string;
-  excerpt: string;
-}
-
-export interface ReflectionVariables extends BaseVariables {
-  type: "reflection";
-  text: string;
-}
-
-export interface MetaDescriptionVariables extends BaseVariables {
-  type: "metaDescription";
+export interface SummaryVariables {
+  type: "summary";
   text: string;
   title: string;
 }
 
-export interface AltTextVariables extends BaseVariables {
-  type: "alttext";
+export interface AltTextVariables {
+  type: "altText";
   image: {
     fileType: string;
     base64: string;
   };
 }
 
-export interface SummaryVariables extends BaseVariables {
-  type: "summary";
+export interface AlternativePhrasingVariables {
+  type: "alternativePhrasing";
+  text: string;
+  excerpt: string;
+}
+
+export interface MetaDescriptionVariables {
+  type: "metaDescription";
   text: string;
   title: string;
 }
+
+export interface ReflectionVariables {
+  type: "reflection";
+  text: string;
+}
+
+export type Payload<T extends PromptVariables> = T & {
+  language: string;
+  role?: string;
+  instructions?: string;
+  max_tokens?: number;
+};
+
+export type LanguageCode = "nb" | "nn" | "en";
+
+export const isLanguageCode = (lang: string): lang is LanguageCode => lang === "nb" || lang === "nn" || lang === "en";

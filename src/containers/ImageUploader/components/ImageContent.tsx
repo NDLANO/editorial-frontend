@@ -66,7 +66,7 @@ const ImageContent = ({ language }: Props) => {
         const base64 = imageText.replace(IMAGE_IDENTIFIER_REGEX, "");
         await generateAltTextMutation
           .mutateAsync({
-            type: "alttext",
+            type: "altText",
             image: {
               base64: base64,
               fileType: image.type,

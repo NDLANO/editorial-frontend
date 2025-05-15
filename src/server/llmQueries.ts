@@ -36,6 +36,7 @@ const createQuery = <T extends PromptType>(
 
 const ARTICLE_SUMMARY_QUERY = createQuery("summary", {
   draft: "text",
+  title: "title",
 });
 
 const META_DESCRIPTION_QUERY = createQuery("metaDescription", {

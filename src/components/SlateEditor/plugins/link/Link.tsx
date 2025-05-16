@@ -65,9 +65,16 @@ export interface Model {
 
 const Link = ({ attributes, editor, element, children }: Props) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
+  const editorWrapperRef = useRef<HTMLElement>(null);
   const [editMode, setEditMode] = useState(false);
   const language = useArticleLanguage();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (linkRef.current) {
+      editorWrapperRef.current = linkRef.current.closest("[data-slate-wrapper]");
+    }
+  }, []);
 
   useEffect(() => {
     setEditMode(!!element.isFirstEdit);
@@ -161,7 +168,7 @@ const Link = ({ attributes, editor, element, children }: Props) => {
             <InlineBugfix />
           </a>
         </PopoverTrigger>
-        <Portal>
+        <Portal container={{ current: editorWrapperRef.current }}>
           <StyledPopoverContent>
             <DialogTrigger asChild>
               <Button variant="link">{t("form.content.link.change")}</Button>
@@ -172,7 +179,7 @@ const Link = ({ attributes, editor, element, children }: Props) => {
           </StyledPopoverContent>
         </Portal>
       </PopoverRoot>
-      <Portal>
+      <Portal container={{ current: editorWrapperRef.current }}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t(`form.content.link.${element.data ? "changeTitle" : "addTitle"}`)}</DialogTitle>

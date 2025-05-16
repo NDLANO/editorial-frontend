@@ -13,8 +13,7 @@ import {
   TABLE_CELL_HEADER_PLUGIN,
   TABLE_CELL_PLUGIN,
 } from "./types";
-import { Element, Node, Transforms } from "slate";
-import { defaultParagraphBlock } from "../paragraph/utils";
+import { Node } from "slate";
 import { HistoryEditor } from "slate-history";
 import { updateCell } from "./slateActions";
 
@@ -22,17 +21,8 @@ const normalizeNode =
   <T extends typeof TABLE_CELL_ELEMENT_TYPE | typeof TABLE_CELL_HEADER_ELEMENT_TYPE>(
     type: T,
   ): NonNullable<PluginConfiguration<T>["normalize"]> =>
-  (editor, node, path, logger) => {
+  (editor, node, _path, logger) => {
     if (!isElementOfType(node, type)) return false;
-    if (!Element.isElementList(node.children)) {
-      logger.log("Table cell children is not a list of elements. Inserting paragraph.");
-      Transforms.wrapNodes(
-        editor,
-        { ...defaultParagraphBlock(), serializeAsText: true },
-        { at: path, match: (n) => n !== node },
-      );
-      return true;
-    }
 
     if (node.data.align) return false;
 

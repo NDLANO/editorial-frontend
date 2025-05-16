@@ -52,14 +52,7 @@ describe("Table Normalizer", () => {
                     type: TYPE_TABLE_CELL_HEADER,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1, scope: "col" },
-                    children: [
-                      {
-                        type: PARAGRAPH_ELEMENT_TYPE,
-                        serializeAsText: true,
-                        children: [{ text: "" }],
-                        id: anySlateElementId,
-                      },
-                    ],
+                    children: [{ text: "" }],
                   },
                 ],
               },

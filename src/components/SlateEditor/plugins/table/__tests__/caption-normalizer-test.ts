@@ -41,14 +41,7 @@ describe("Table caption normalizer", () => {
                       colspan: 1,
                       scope: "col",
                     },
-                    children: [
-                      {
-                        type: PARAGRAPH_ELEMENT_TYPE,
-                        serializeAsText: true,
-                        children: [{ text: "" }],
-                        id: anySlateElementId,
-                      },
-                    ],
+                    children: [{ text: "" }],
                   },
                 ],
               },

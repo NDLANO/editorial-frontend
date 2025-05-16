@@ -6,7 +6,14 @@
  *
  */
 
-import { createPlugin, getCurrentBlock, isElementOfType, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
+import {
+  createPlugin,
+  defaultNormalizer,
+  getCurrentBlock,
+  isElementOfType,
+  NormalizerConfig,
+  PARAGRAPH_ELEMENT_TYPE,
+} from "@ndla/editor";
 import {
   TABLE_BODY_ELEMENT_TYPE,
   TABLE_CELL_HEADER_ELEMENT_TYPE,
@@ -14,7 +21,6 @@ import {
   TABLE_HEAD_ELEMENT_TYPE,
   TABLE_PLUGIN,
 } from "./types";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import {
   isAnyTableCellElement,
   isTableBodyElement,
@@ -111,7 +117,7 @@ export const tablePlugin = createPlugin({
       Transforms.insertNodes(editor, defaultTableCaptionBlock(), { at: path.concat(0) });
       return true;
     }
-    if (defaultBlockNormalizer(editor, node, path, normalizerConfig, logger)) return true;
+    if (defaultNormalizer(editor, node, path, normalizerConfig, logger)) return true;
     const [, secondChild] = node.children;
     if (!isElementOfType(secondChild, [TABLE_HEAD_ELEMENT_TYPE, TABLE_BODY_ELEMENT_TYPE])) {
       logger.log(

@@ -7,7 +7,7 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { createSerializer, isElementOfType, parseElementAttributes } from "@ndla/editor";
+import { createHtmlTag, createSerializer, isElementOfType, parseElementAttributes } from "@ndla/editor";
 import {
   TABLE_BODY_ELEMENT_TYPE,
   TABLE_CAPTION_ELEMENT_TYPE,
@@ -26,7 +26,6 @@ import {
   isTableHeadElement,
   isTableRowElement,
 } from "./queries";
-import { createHtmlTag } from "../../../../util/embedTagHelpers";
 import { Node } from "slate";
 
 const TABLE_TAGS = {

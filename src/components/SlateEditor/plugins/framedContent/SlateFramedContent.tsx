@@ -12,18 +12,16 @@ import { Editor, NodeEntry, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { BrushLine, CopyrightLine, FileListLine } from "@ndla/icons";
-import { IconButton } from "@ndla/primitives";
+import { DialogTrigger, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentTypeFramedContent, EmbedWrapper } from "@ndla/ui";
 import { FramedContentElement } from "./framedContentTypes";
 import { isFramedContentElement } from "./queries/framedContentQueries";
 import { AI_ACCESS_SCOPE } from "../../../../constants";
-import { useMessages } from "../../../../containers/Messages/MessagesProvider";
 import { useSession } from "../../../../containers/Session/SessionProvider";
 import { ReflectionVariables } from "../../../../modules/llm/llmApiTypes";
-import { useGenerateAIMutation } from "../../../../modules/llm/llmMutations";
 import { editorValueToPlainText } from "../../../../util/articleContentConverter";
-import { NdlaErrorPayload } from "../../../../util/resolveJsonOrRejectWithError";
+import { AiPromptDialog } from "../../../AiPromptDialog";
 import { useArticleContentType } from "../../../ContentTypeProvider";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
@@ -48,9 +46,7 @@ const SlateFramedContent = (props: Props) => {
   const { element, editor, attributes, children } = props;
   const { t } = useTranslation();
   const { userPermissions } = useSession();
-  const { createMessage } = useMessages();
   const language = useArticleLanguage();
-  const generateReflectionMutation = useGenerateAIMutation<ReflectionVariables>();
   const variant = element.data?.variant ?? "neutral";
   const contentType = useArticleContentType();
   const hasAIAccess = userPermissions?.includes(AI_ACCESS_SCOPE);
@@ -89,51 +85,41 @@ const SlateFramedContent = (props: Props) => {
     Transforms.insertNodes(editor, defaultCopyrightBlock(), { at: path.concat(node.children.length) });
   };
 
-  const generateQuestions = async () => {
+  const promptVariables = useMemo<ReflectionVariables>(() => {
     // TODO: Handle nested information and metadata from embeds
     const articleText = editorValueToPlainText(editor.children);
+    return {
+      type: "reflection",
+      text: articleText,
+    };
+  }, [editor.children]);
 
-    await generateReflectionMutation
-      .mutateAsync({
-        type: "reflection",
-        text: articleText,
-        language: t(`languages.${language}`),
-      })
-      .then((res) => {
-        const [node, path] = Editor.node(
-          editor,
-          ReactEditor.findPath(editor, element),
-        ) as NodeEntry<FramedContentElement>;
+  const onInsertReflectionQuestions = (generatedText: string) => {
+    const [node, path] = Editor.node(editor, ReactEditor.findPath(editor, element)) as NodeEntry<FramedContentElement>;
 
-        Transforms.insertNodes(
-          editor,
-          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: res }] },
-          { at: path.concat(node.children.length) },
-        );
-      })
-      .catch((err: NdlaErrorPayload) =>
-        createMessage({
-          message: t("textGeneration.failed.reflection", { error: err.messages }),
-          severity: "danger",
-          timeToLive: 0,
-        }),
-      );
+    Transforms.insertNodes(
+      editor,
+      { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: generatedText }] },
+      { at: path.concat(node.children.length) },
+    );
   };
 
   return (
     <EmbedWrapper draggable {...attributes}>
       <FigureButtons contentEditable={false}>
         {hasAIAccess ? (
-          <IconButton
-            variant={variant === "colored" ? "primary" : "secondary"}
-            size="small"
-            title={t("textGeneration.generate.reflection")}
-            aria-label={t("textGeneration.generate.reflection")}
-            onClick={generateQuestions}
-            loading={generateReflectionMutation.isPending}
-          >
-            <FileListLine />
-          </IconButton>
+          <AiPromptDialog promptVariables={promptVariables} language={language} onInsert={onInsertReflectionQuestions}>
+            <DialogTrigger asChild>
+              <IconButton
+                variant={variant === "colored" ? "primary" : "secondary"}
+                size="small"
+                title={t("textGeneration.generateButton", { type: "reflection" })}
+                aria-label={t("textGeneration.generateButton", { type: "reflection" })}
+              >
+                <FileListLine />
+              </IconButton>
+            </DialogTrigger>
+          </AiPromptDialog>
         ) : undefined}
         {!hasSlateCopyright && (
           <IconButton

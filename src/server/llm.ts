@@ -80,15 +80,6 @@ export const generateAnswer = async (request: Payload<PromptVariables>, language
 
   const containsError = responseBody.content[0].text.includes("<ERROR>");
 
-  console.log(
-    "The LLM query with role:",
-    role,
-    "\nAnd message:",
-    message,
-    "\nReturned the answer:\n",
-    responseBody.content[0].text,
-  );
-
   if (containsError) {
     const errorMsg = responseBody.content[0].text.match(LLM_ERROR_REGEX)[0].trim();
     throw new Error(errorMsg);

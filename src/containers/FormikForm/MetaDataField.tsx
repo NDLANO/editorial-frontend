@@ -15,6 +15,7 @@ import {
   Button,
   ComboboxItem,
   ComboboxItemText,
+  DialogTrigger,
   FieldErrorMessage,
   FieldHelper,
   FieldLabel,
@@ -34,6 +35,7 @@ import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@
 import { MetaImageSearch } from ".";
 import { ArticleFormType } from "./articleFormHooks";
 import { GenericComboboxItemIndicator } from "../../components/abstractions/Combobox";
+import { AiPromptDialog } from "../../components/AiPromptDialog";
 import { FieldWarning } from "../../components/Form/FieldWarning";
 import { FormRemainingCharacters } from "../../components/Form/FormRemainingCharacters";
 import { SearchTagsContent } from "../../components/Form/SearchTagsContent";
@@ -45,11 +47,8 @@ import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTr
 import { AI_ACCESS_SCOPE, DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useDraftSearchTags } from "../../modules/draft/draftQueries";
 import { MetaDescriptionVariables, SummaryVariables } from "../../modules/llm/llmApiTypes";
-import { useGenerateAIMutation } from "../../modules/llm/llmMutations";
 import { inlineContentToEditorValue } from "../../util/articleContentConverter";
-import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import useDebounce from "../../util/useDebounce";
-import { useMessages } from "../Messages/MessagesProvider";
 import { useSession } from "../Session/SessionProvider";
 
 const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
@@ -71,7 +70,6 @@ const METADATA_EDITOR = "editor-metadata";
 const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
-  const { createMessage } = useMessages();
   const tagSelectorTranslations = useTagSelectorTranslations();
   const plugins = [textTransformPlugin];
   const [inputQuery, setInputQuery] = useState<string>("");
@@ -88,8 +86,6 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
       placeholderData: (prev) => prev,
     },
   );
-  const generateSummaryMutation = useGenerateAIMutation<SummaryVariables>();
-  const generateMetaDescriptionMutation = useGenerateAIMutation<MetaDescriptionVariables>();
 
   const collection = useMemo(() => {
     return createListCollection({
@@ -99,52 +95,34 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
     });
   }, [searchTagsQuery.data?.results]);
 
-  const onClickMetaDescription = async (helpers: FieldHelperProps<Descendant[]>) => {
+  const metaDescriptionPromptVariables = useMemo<MetaDescriptionVariables>(() => {
     const articleTitle = values.title.map((val) => Node.string(val)).join(" ");
     const articleContent = values.content.map((val) => Node.string(val)).join(" ");
+    return {
+      type: "metaDescription",
+      text: articleContent,
+      title: articleTitle,
+    };
+  }, [values.content, values.title]);
 
-    await generateMetaDescriptionMutation
-      .mutateAsync({
-        type: "metaDescription",
-        text: articleContent,
-        title: articleTitle,
-        language: t(`languages.${articleLanguage}`),
-      })
-      .then((res) => {
-        helpers.setValue(inlineContentToEditorValue(res, true), true);
-        setStatus({ status: METADATA_EDITOR });
-      })
-      .catch((e: NdlaErrorPayload) =>
-        createMessage({
-          message: t("textGeneration.failed.metaDescription", { error: e.messages }),
-          severity: "danger",
-          timeToLive: 0,
-        }),
-      );
+  const symmaryPromptVariables = useMemo<SummaryVariables>(() => {
+    const articleTitle = values.title.map((val) => Node.string(val)).join(" ");
+    const articleContent = values.content.map((val) => Node.string(val)).join(" ");
+    return {
+      type: "summary",
+      text: articleContent,
+      title: articleTitle,
+    };
+  }, [values.content, values.title]);
+
+  const onInsertMetaDescription = (generatedText: string, helpers: FieldHelperProps<Descendant[]>) => {
+    helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
+    setStatus({ status: METADATA_EDITOR });
   };
 
-  const onClickGenerateSummary = async () => {
-    const articleTitle = values.title.map((val) => Node.string(val)).join(" ");
-    const articleContent = values.content.map((val) => Node.string(val)).join(" ");
-
-    await generateSummaryMutation
-      .mutateAsync({
-        type: "summary",
-        text: articleContent,
-        title: articleTitle,
-        language: t(`languages.${articleLanguage}`),
-      })
-      .then((res) => {
-        setSummary(inlineContentToEditorValue(res, true));
-        setStatus({ status: SUMMARY_EDITOR });
-      })
-      .catch((e: NdlaErrorPayload) =>
-        createMessage({
-          message: t("textGeneration.failed.summary", { error: e.messages }),
-          severity: "danger",
-          timeToLive: 0,
-        }),
-      );
+  const onInsertSummary = (generatedText: string) => {
+    setSummary(inlineContentToEditorValue(generatedText, true));
+    setStatus({ status: SUMMARY_EDITOR });
   };
 
   return (
@@ -206,13 +184,15 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
             <HStack justify="space-between">
               <FieldLabel>{t("form.metaDescription.label")}</FieldLabel>
               {userPermissions?.includes(AI_ACCESS_SCOPE) ? (
-                <Button
-                  size="small"
-                  onClick={() => onClickMetaDescription(helpers)}
-                  loading={generateMetaDescriptionMutation.isPending}
+                <AiPromptDialog
+                  promptVariables={metaDescriptionPromptVariables}
+                  language={articleLanguage}
+                  onInsert={(text) => onInsertMetaDescription(text, helpers)}
                 >
-                  {t("textGeneration.generate.metaDescription")}
-                </Button>
+                  <DialogTrigger asChild>
+                    <Button size="small">{t("textGeneration.generateButton", { type: "metaDescription" })}</Button>
+                  </DialogTrigger>
+                </AiPromptDialog>
               ) : null}
             </HStack>
             <FieldHelper>{t("form.metaDescription.description")}</FieldHelper>
@@ -233,9 +213,15 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         <div>
           <HStack justify="space-between">
             <Text textStyle="label.medium">{t("form.articleSummary.label")}</Text>
-            <Button size="small" onClick={() => onClickGenerateSummary()} loading={generateSummaryMutation.isPending}>
-              {t("textGeneration.generate.summary")}
-            </Button>
+            <AiPromptDialog
+              promptVariables={symmaryPromptVariables}
+              language={articleLanguage}
+              onInsert={onInsertSummary}
+            >
+              <DialogTrigger asChild>
+                <Button size="small">{t("textGeneration.generateButton", { type: "summary" })}</Button>
+              </DialogTrigger>
+            </AiPromptDialog>
           </HStack>
           <Text textStyle="label.small">{t("form.articleSummary.description")}</Text>
           <PlainTextEditor

@@ -6,7 +6,7 @@
  *
  */
 
-import { createPlugin, isElementOfType, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
+import { createPlugin, getCurrentBlock, isElementOfType, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import {
   TABLE_BODY_ELEMENT_TYPE,
   TABLE_CELL_HEADER_ELEMENT_TYPE,
@@ -15,17 +15,27 @@ import {
   TABLE_PLUGIN,
 } from "./types";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
-import { isTableBodyElement, isTableCaptionElement, isTableElement, isTableHeadElement } from "./queries";
+import {
+  isAnyTableCellElement,
+  isTableBodyElement,
+  isTableCaptionElement,
+  isTableElement,
+  isTableHeadElement,
+  isTableBodyOrHeadElement,
+  isTableRowElement,
+} from "./queries";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
-import { Editor, NodeEntry, Path, Transforms } from "slate";
+import { Editor, NodeEntry, Path, Point, Range, Transforms } from "slate";
 import { defaultTableCaptionBlock, defaultTableHeadBlock } from "./defaultBlocks";
 import { getTableAsMatrix } from "./matrix";
-import { isTableCell } from "./slateHelpers";
 import isEqual from "lodash-es/isEqual";
 import { getHeader, getId, previousMatrixCellIsEqualCurrent } from "./matrixHelpers";
 import { TableElement } from "./interfaces";
 import { updateCell } from "./slateActions";
 import { normalizeTableBodyAsMatrix } from "./matrixNormalizer";
+import { isKeyHotkey } from "is-hotkey";
+import { KEY_ARROW_DOWN, KEY_ARROW_UP, KEY_BACKSPACE, KEY_DELETE } from "../../utils/keys";
+import { moveDown, moveLeft, moveRight, moveUp } from "./handleKeyDown";
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
@@ -41,6 +51,59 @@ const normalizerConfig: NormalizerConfig = {
 export const tablePlugin = createPlugin({
   name: TABLE_PLUGIN,
   type: TABLE_ELEMENT_TYPE,
+  shortcuts: {
+    onArrow: {
+      keyCondition: isKeyHotkey([KEY_ARROW_DOWN, KEY_ARROW_UP]),
+      handler: (editor, event, logger) => {
+        if (!editor.selection) return false;
+        const entry = getCurrentBlock(editor, TABLE_ELEMENT_TYPE);
+        if (!entry) return false;
+        const [cell] = editor.nodes({ at: editor.selection.anchor.path, match: isAnyTableCellElement });
+        if (!cell) return false;
+        event.preventDefault();
+        const move = event.key === KEY_ARROW_DOWN ? moveDown : moveUp;
+        move(editor, entry, cell, logger);
+        return true;
+      },
+    },
+    onTab: {
+      keyCondition: isKeyHotkey("shift?+tab"),
+      handler: (editor, event, logger) => {
+        if (!editor.selection) return false;
+        const entry = getCurrentBlock(editor, TABLE_ELEMENT_TYPE);
+        if (!entry) return false;
+        const [row] = editor.nodes({ at: editor.selection.anchor.path, match: isTableRowElement });
+        if (!row) return false;
+        const [body] = editor.nodes({
+          at: editor.selection.anchor.path,
+          match: (n) => isTableBodyOrHeadElement(n),
+        });
+        if (!body) return false;
+        const [cell] = editor.nodes({ at: editor.selection.anchor.path, match: isAnyTableCellElement });
+        if (!cell) return false;
+        const move = event.shiftKey ? moveLeft : moveRight;
+        event.preventDefault();
+        move(editor, entry, body, row, cell, logger);
+        return true;
+      },
+    },
+    onDelete: {
+      keyCondition: isKeyHotkey([KEY_DELETE, KEY_BACKSPACE]),
+      handler: (editor, event, logger) => {
+        if (!editor.selection || Range.isExpanded(editor.selection)) return false;
+        const [cell] = editor.nodes({ at: editor.selection.anchor.path, match: isAnyTableCellElement });
+        if (!cell) return false;
+        const edge = event.key === KEY_DELETE ? "end" : "start";
+        const edgePoint = editor.point(cell[1], { edge: event.key === KEY_DELETE ? "end" : "start" });
+        if (Point.equals(editor.selection.anchor, edgePoint)) {
+          logger.log(`Pressed ${event.key} at ${edge} of cell. Preventing.`);
+          event.preventDefault();
+          return true;
+        }
+        return false;
+      },
+    },
+  },
   normalize: (editor, node, path, logger) => {
     if (!isTableElement(node)) return false;
     if (!isTableCaptionElement(node.children[0])) {
@@ -80,7 +143,7 @@ export const tablePlugin = createPlugin({
     );
 
     const containsSpans = !!editor
-      .nodes({ match: (n) => isTableCell(n) && (n.data.colspan > 1 || n.data.rowspan > 1), at: path })
+      .nodes({ match: (n) => isAnyTableCellElement(n) && (n.data.colspan > 1 || n.data.rowspan > 1), at: path })
       .next().value;
 
     const headerCellsInMultipleRows = tableHeadRows.length === 2 || (tableHeadRows.length >= 1 && node.rowHeaders);
@@ -118,7 +181,7 @@ export const tablePlugin = createPlugin({
     }
 
     const containsIdOrHeaders = !!editor
-      .nodes({ match: (n) => isTableCell(n) && (!!n.data.id || !!n.data.headers), at: path })
+      .nodes({ match: (n) => isAnyTableCellElement(n) && (!!n.data.id || !!n.data.headers), at: path })
       .next().value;
 
     // Only remove headers if cell is only associated with 1 cell and there is cells with Id and headers in the table

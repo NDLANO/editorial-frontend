@@ -9,7 +9,7 @@
 import queryString from "query-string";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
+import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { PencilFill, DeleteBinLine, LinkMedium } from "@ndla/icons";
@@ -22,6 +22,7 @@ import ImageEmbedForm from "./ImageEmbedForm";
 import { ImageElement } from "./types";
 import { useImageMeta } from "../../../../modules/embed/queries";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
+import { restoreFocusOnPopperExit } from "../../utils/restoreFocusOnPopperExit";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
@@ -114,20 +115,7 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
     });
     setTimeout(() => {
       ReactEditor.focus(editor);
-      Transforms.select(editor, path);
-      Transforms.collapse(editor);
     }, 0);
-  };
-
-  const onClose = () => {
-    setIsEditing(false);
-    ReactEditor.focus(editor);
-    const path = ReactEditor.findPath(editor, element);
-    if (Editor.hasPath(editor, Path.next(path))) {
-      setTimeout(() => {
-        Transforms.select(editor, Path.next(path));
-      }, 0);
-    }
   };
 
   const onSave = useCallback(
@@ -136,14 +124,8 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
       const properties = {
         data,
       };
-      ReactEditor.focus(editor);
       const path = ReactEditor.findPath(editor, element);
       Transforms.setNodes(editor, properties, { at: path });
-      if (Editor.hasPath(editor, Path.next(path))) {
-        setTimeout(() => {
-          Transforms.select(editor, Path.next(path));
-        }, 0);
-      }
     },
     [editor, element],
   );
@@ -153,7 +135,11 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
   }
 
   return (
-    <DialogRoot open={isEditing} onOpenChange={({ open }) => setIsEditing(open)}>
+    <DialogRoot
+      open={isEditing}
+      onOpenChange={(details) => setIsEditing(details.open)}
+      onExitComplete={() => restoreFocusOnPopperExit(editor)}
+    >
       <StyledEmbedWrapper
         {...attributes}
         contentEditable={false}
@@ -208,7 +194,7 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
               embed={embed.embedData}
               image={embed.status === "success" ? embed.data : undefined}
               onSave={onSave}
-              onClose={onClose}
+              onClose={() => setIsEditing(false)}
               language={language}
               allowDecorative={allowDecorative}
             />

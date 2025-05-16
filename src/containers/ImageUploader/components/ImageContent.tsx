@@ -25,6 +25,15 @@ import { ImageFormikType } from "../imageTransformers";
 const ALLOWED_IMAGE_TYPES = "(jpe?g|png|gif)";
 const IMAGE_TYPE_REGEX = new RegExp(ALLOWED_IMAGE_TYPES);
 const IMAGE_IDENTIFIER_REGEX = new RegExp(`data:image/${ALLOWED_IMAGE_TYPES};base64,`);
+
+const readImageText = (imageBlob: Blob): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.onloadend = () => resolve(fileReader.result?.toString() ?? "");
+    fileReader.onerror = reject;
+    fileReader.readAsDataURL(imageBlob);
+  });
+
 interface Props {
   language: string;
 }
@@ -56,14 +65,10 @@ const ImageContent = ({ language }: Props) => {
       }
 
       if (imageBlob) {
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(imageBlob);
-        fileReader.onloadend = () => {
-          const imageText = fileReader.result?.toString() ?? "";
-          // All images from the filereader is appended with a data identifier string. https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL
-          const base64 = imageText.replace(IMAGE_IDENTIFIER_REGEX, "");
-          setImage({ base64, fileType: imageBlob.type });
-        };
+        const imageText = await readImageText(imageBlob);
+        // All images from the filereader is appended with a data identifier string. https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL
+        const base64 = imageText.replace(IMAGE_IDENTIFIER_REGEX, "");
+        setImage({ base64, fileType: imageBlob.type });
       }
     };
     getImagePromptVariables();

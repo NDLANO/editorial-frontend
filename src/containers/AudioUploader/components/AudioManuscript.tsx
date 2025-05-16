@@ -136,7 +136,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
         helpers.setValue(editorContent, true);
         setStatus({ status: MANUSCRIPT_EDITOR });
       } else if (transcript?.data?.status === "FAILED") {
-        createMessage({ message: t("textGeneration.failed.transcription"), severity: "danger", timeToLive: 0 });
+        createMessage({ message: t("textGeneration.failedTranscription"), severity: "danger", timeToLive: 0 });
       } else {
         const name = audio.audioFile.url?.split("audio/files/")[1];
         await postAudioTranscriptionMutation
@@ -160,7 +160,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
       setStatus({ status: MANUSCRIPT_EDITOR });
     } else if (polledData?.status === "FAILED" && isPolling) {
       setIsPolling(false);
-      createMessage({ message: t("textGeneration.failed.transcription"), severity: "danger", timeToLive: 0 });
+      createMessage({ message: t("textGeneration.failedTranscription"), severity: "danger", timeToLive: 0 });
     }
   }, [createMessage, helpers, isPolling, polledData?.status, polledData?.transcription, setStatus, t]);
 
@@ -191,7 +191,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
               disabled={!(values.audioFile.storedFile || values.audioFile.newFile)}
               loading={isPolling || fetchAudioTranscriptQuery.isLoading}
             >
-              {t("textGeneration.generate.transcription")}
+              {t("textGeneration.generateTranscription")}
               <FileListLine />
             </Button>
           ) : undefined}

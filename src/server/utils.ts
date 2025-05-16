@@ -6,15 +6,19 @@
  *
  */
 
-const validTypesAi = ["summary", "metaDescription", "alttext", "alternativePhrasing", "reflection"];
+import { PromptType } from "../modules/llm/llmApiTypes";
+
+const validTypesAi: PromptType[] = ["summary", "metaDescription", "altText", "alternativePhrasing", "reflection"];
+
+const isValidTypeAi = (type: string): type is PromptType => validTypesAi.includes(type as PromptType);
 
 export const isValidRequestBody = (body: any) => {
   const type = body?.type;
-  if (!type || !validTypesAi.includes(type)) {
+  if (!isValidTypeAi(type)) {
     return false;
   } else if ((type === "summary" || type === "metaDescription") && !body.title && !body.text) {
     return false;
-  } else if (type === "alttext" && !body.image?.fileType && !body.image?.base64) {
+  } else if (type === "altText" && !body.image?.fileType && !body.image?.base64) {
     return false;
   } else if (type === "alternativePhrasing" && !body.text && !body.excerpt) {
     return false;

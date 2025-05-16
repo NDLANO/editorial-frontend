@@ -37,7 +37,7 @@ const ImageContent = ({ language }: Props) => {
   const [altTextField, altTextMeta, altTextHelpers] = useField("alttext");
 
   useEffect(() => {
-    const loadImage = async () => {
+    const getImagePromptVariables = async () => {
       if (!values.imageFile) return;
 
       let imageBlob;
@@ -66,7 +66,7 @@ const ImageContent = ({ language }: Props) => {
         };
       }
     };
-    loadImage();
+    getImagePromptVariables();
   }, [values.imageFile, values.filepath, altTextHelpers, t]);
 
   return (

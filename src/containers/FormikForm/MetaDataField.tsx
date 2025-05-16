@@ -95,7 +95,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
     });
   }, [searchTagsQuery.data?.results]);
 
-  const metaDescriptionPromptVariables = useMemo<MetaDescriptionVariables>(() => {
+  const getMetaDescriptionPromptVariables = (): MetaDescriptionVariables => {
     const articleTitle = values.title.map((val) => Node.string(val)).join(" ");
     const articleContent = values.content.map((val) => Node.string(val)).join(" ");
     return {
@@ -103,9 +103,9 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
       text: articleContent,
       title: articleTitle,
     };
-  }, [values.content, values.title]);
+  };
 
-  const symmaryPromptVariables = useMemo<SummaryVariables>(() => {
+  const getSummaryPromptVariables = (): SummaryVariables => {
     const articleTitle = values.title.map((val) => Node.string(val)).join(" ");
     const articleContent = values.content.map((val) => Node.string(val)).join(" ");
     return {
@@ -113,7 +113,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
       text: articleContent,
       title: articleTitle,
     };
-  }, [values.content, values.title]);
+  };
 
   const onInsertMetaDescription = (generatedText: string, helpers: FieldHelperProps<Descendant[]>) => {
     helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
@@ -185,7 +185,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
               <FieldLabel>{t("form.metaDescription.label")}</FieldLabel>
               {userPermissions?.includes(AI_ACCESS_SCOPE) ? (
                 <AiPromptDialog
-                  promptVariables={metaDescriptionPromptVariables}
+                  promptVariables={getMetaDescriptionPromptVariables}
                   language={articleLanguage}
                   onInsert={(text) => onInsertMetaDescription(text, helpers)}
                 >
@@ -214,7 +214,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
           <HStack justify="space-between">
             <Text textStyle="label.medium">{t("form.articleSummary.label")}</Text>
             <AiPromptDialog
-              promptVariables={symmaryPromptVariables}
+              promptVariables={getSummaryPromptVariables}
               language={articleLanguage}
               onInsert={onInsertSummary}
             >

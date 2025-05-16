@@ -85,14 +85,14 @@ const SlateFramedContent = (props: Props) => {
     Transforms.insertNodes(editor, defaultCopyrightBlock(), { at: path.concat(node.children.length) });
   };
 
-  const promptVariables = useMemo<ReflectionVariables>(() => {
+  const getPromptVariables = (): ReflectionVariables => {
     // TODO: Handle nested information and metadata from embeds
     const articleText = editorValueToPlainText(editor.children);
     return {
       type: "reflection",
       text: articleText,
     };
-  }, [editor.children]);
+  };
 
   const onInsertReflectionQuestions = (generatedText: string) => {
     const [node, path] = Editor.node(editor, ReactEditor.findPath(editor, element)) as NodeEntry<FramedContentElement>;
@@ -108,7 +108,11 @@ const SlateFramedContent = (props: Props) => {
     <EmbedWrapper draggable {...attributes}>
       <FigureButtons contentEditable={false}>
         {hasAIAccess ? (
-          <AiPromptDialog promptVariables={promptVariables} language={language} onInsert={onInsertReflectionQuestions}>
+          <AiPromptDialog
+            promptVariables={getPromptVariables}
+            language={language}
+            onInsert={onInsertReflectionQuestions}
+          >
             <DialogTrigger asChild>
               <IconButton
                 variant={variant === "colored" ? "primary" : "secondary"}

@@ -280,11 +280,11 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
       )}
       {!pastedUrl && (
         <GenericSearchCombobox
-          value={preview ? [preview.id.toString()] : undefined}
+          value={preview ? [`${preview.learningResourceType}_${preview.id.toString()}`] : undefined}
           onValueChange={(details) => setPreview(toPreview(details.items[0]))}
           items={searchQuery.data?.results ?? []}
           itemToString={(item) => item.title.title}
-          itemToValue={(item) => item.id.toString()}
+          itemToValue={(item) => `${item.learningResourceType}_${item.id.toString()}`}
           inputValue={query}
           onInputValueChange={(details) => setQuery(details.inputValue)}
           isSuccess={searchQuery.isSuccess}

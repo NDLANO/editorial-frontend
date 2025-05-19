@@ -7,7 +7,7 @@
  */
 
 import { Descendant, Editor, Path } from "slate";
-import { TableCellElement, TableMatrix } from "./interfaces";
+import { TableMatrix } from "./interfaces";
 import { insertCellInMatrix } from "./matrixHelpers";
 import { isAnyTableCellElement, isTableElement, isTableRowElement, isTableSectionElement } from "./queries";
 
@@ -16,7 +16,7 @@ export const getTableSectionAsMatrix = (editor: Editor, path: Path) => {
   if (!Editor.hasPath(editor, path)) return;
   const [tableSection] = Editor.node(editor, path);
   if (!isTableSectionElement(tableSection)) return;
-  const matrix: TableCellElement[][] = [];
+  const matrix: TableMatrix = [];
 
   // Build up a matrix one row at a time.
   tableSection.children.forEach((row, rowIndex) => {

@@ -6,8 +6,9 @@
  *
  */
 
-import { Editor, Element, Node, Path } from "slate";
+import { Editor, Node, Path } from "slate";
 import { ReactEditor } from "slate-react";
+import { isTableCaptionElement } from "./queries";
 import SlateTable from "./SlateTable";
 import TableActions from "./TableActions";
 import {
@@ -84,7 +85,7 @@ export const tableRenderer = (editor: Editor) => {
     const path = ReactEditor.findPath(editor, text);
 
     const [parent] = Editor.node(editor, Path.parent(path));
-    if (Element.isElement(parent) && parent.type === TABLE_CAPTION_ELEMENT_TYPE && Node.string(leaf) === "") {
+    if (isTableCaptionElement(parent) && Node.string(leaf) === "") {
       return (
         <WithPlaceHolder attributes={attributes} placeholder="form.name.title">
           {children}

@@ -18,8 +18,9 @@ import config, { getEnvironmentVariabel } from "../config";
 import { AI_ACCESS_SCOPE, DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
 import { NdlaError } from "../interfaces";
 import { fetchMatomoStats } from "./matomo";
-import { generateAnswer, getTranscription, initializeTranscription } from "./llm";
+import { generateAnswer, getDefaultPrompts, getTranscription, initializeTranscription } from "./llm";
 import { isValidRequestBody } from "./utils";
+import { isPromptType } from "../modules/llm/llmApiTypes";
 
 const router = express.Router();
 
@@ -186,6 +187,21 @@ const aiMiddleware = (req: Request, res: express.Response, next: express.NextFun
     next();
   }
 };
+
+router.get("/default-ai-prompts", jwtMiddleware, aiMiddleware, async (req, res) => {
+  const {
+    query: { type, language },
+  } = req;
+
+  const promptType = type as string;
+  if (!isPromptType(promptType)) {
+    res.status(BAD_REQUEST).send({ error: "Invalid prompt type" });
+    return;
+  }
+
+  const defaultPrompts = getDefaultPrompts(promptType, language as string);
+  res.status(OK).json(defaultPrompts);
+});
 
 router.post("/generate-ai", jwtMiddleware, aiMiddleware, async (req, res) => {
   if (!isValidRequestBody(req.body)) {

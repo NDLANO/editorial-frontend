@@ -46,6 +46,10 @@ export interface ReflectionVariables {
   text: string;
 }
 
+const promptTypes: PromptType[] = ["summary", "altText", "alternativePhrasing", "metaDescription", "reflection"];
+
+export const isPromptType = (type: string): type is PromptType => promptTypes.includes(type as PromptType);
+
 export type Payload<T extends PromptVariables> = T & {
   language: string;
   role?: string;
@@ -56,3 +60,8 @@ export type Payload<T extends PromptVariables> = T & {
 export type LanguageCode = "nb" | "nn" | "en";
 
 export const isLanguageCode = (lang: string): lang is LanguageCode => lang === "nb" || lang === "nn" || lang === "en";
+
+export interface DefaultPrompts {
+  role: string;
+  instructions: string;
+}

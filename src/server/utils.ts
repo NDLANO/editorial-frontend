@@ -6,15 +6,11 @@
  *
  */
 
-import { PromptType } from "../modules/llm/llmApiTypes";
-
-const validTypesAi: PromptType[] = ["summary", "metaDescription", "altText", "alternativePhrasing", "reflection"];
-
-const isValidTypeAi = (type: string): type is PromptType => validTypesAi.includes(type as PromptType);
+import { isPromptType } from "../modules/llm/llmApiTypes";
 
 export const isValidRequestBody = (body: any) => {
   const type = body?.type;
-  if (!isValidTypeAi(type)) {
+  if (!isPromptType(type)) {
     return false;
   } else if ((type === "summary" || type === "metaDescription") && !body.title && !body.text) {
     return false;

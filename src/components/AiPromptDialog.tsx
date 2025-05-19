@@ -6,7 +6,7 @@
  *
  */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
 import { FileListLine } from "@ndla/icons";
@@ -21,10 +21,13 @@ import {
   DialogRootProps,
   DialogTitle,
   FieldHelper,
-  FieldInput,
   FieldLabel,
   FieldRoot,
+  FieldTextArea,
   Heading,
+  Input,
+  Label,
+  Skeleton,
   SwitchControl,
   SwitchHiddenInput,
   SwitchLabel,
@@ -37,6 +40,7 @@ import { DialogCloseButton } from "./DialogCloseButton";
 import { FormActionsContainer } from "./FormikForm";
 import { PromptVariables } from "../modules/llm/llmApiTypes";
 import { useGenerateAIMutation } from "../modules/llm/llmMutations";
+import { useDefaultAiPrompts } from "../modules/llm/llmQueries";
 import { NdlaErrorPayload } from "../util/resolveJsonOrRejectWithError";
 
 const CustomPromptsContainer = styled(Stack, {
@@ -54,6 +58,13 @@ const StyledText = styled(Text, {
     whiteSpace: "pre-wrap",
   },
 });
+
+const trimIndent = (text: string) =>
+  text
+    .split("\n")
+    .map((t) => t.trim())
+    .filter(Boolean)
+    .join(" ");
 
 type BaseProps = {
   promptVariables: PromptVariables | (() => PromptVariables);
@@ -78,9 +89,19 @@ const PromptDialogContent = ({
   const [instructionsPrompt, setInstructionsPrompt] = useState("");
   const [generatedText, setGeneratedText] = useState("");
   const [error, setError] = useState<string | undefined>(undefined);
-  const { mutateAsync, isPending } = useGenerateAIMutation<PromptVariables>();
-
+  const { mutateAsync, isPending: mutateIsPending } = useGenerateAIMutation<PromptVariables>();
   const promptVariables = typeof promptVariablesProp === "function" ? promptVariablesProp() : promptVariablesProp;
+  const { data: defaultPrompts, isPending: defaultPromptsIsPending } = useDefaultAiPrompts(
+    promptVariables.type,
+    language,
+  );
+
+  useEffect(() => {
+    if (defaultPrompts) {
+      if (rolePrompt === "") setRolePrompt(trimIndent(defaultPrompts.role));
+      if (instructionsPrompt === "") setInstructionsPrompt(trimIndent(defaultPrompts.instructions));
+    }
+  }, [defaultPrompts, rolePrompt, instructionsPrompt]);
 
   const fetchAiGeneratedText = async () => {
     setError(undefined);
@@ -118,22 +139,29 @@ const PromptDialogContent = ({
             </SwitchRoot>
           </FieldRoot>
           {customPromptChecked ? (
-            <>
-              <FieldRoot>
-                <FieldLabel>{t("textGeneration.customPrompts.roleLabel")}</FieldLabel>
-                <FieldInput value={rolePrompt} onChange={(e) => setRolePrompt(e.target.value)} />
-                <FieldHelper>{t("textGeneration.customPrompts.roleHelper")}</FieldHelper>
-              </FieldRoot>
-              <FieldRoot>
-                <FieldLabel>{t("textGeneration.customPrompts.instructionsLabel")}</FieldLabel>
-                <FieldInput value={instructionsPrompt} onChange={(e) => setInstructionsPrompt(e.target.value)} />
-                <FieldHelper>{t("textGeneration.customPrompts.instructionsHelper")}</FieldHelper>
-              </FieldRoot>
-            </>
+            defaultPromptsIsPending ? (
+              <Skeleton>
+                <Label>Label</Label>
+                <Input />
+              </Skeleton>
+            ) : (
+              <>
+                <FieldRoot>
+                  <FieldLabel>{t("textGeneration.customPrompts.roleLabel")}</FieldLabel>
+                  <FieldHelper>{t("textGeneration.customPrompts.roleHelper")}</FieldHelper>
+                  <FieldTextArea value={rolePrompt} onChange={(e) => setRolePrompt(e.target.value)} />
+                </FieldRoot>
+                <FieldRoot>
+                  <FieldLabel>{t("textGeneration.customPrompts.instructionsLabel")}</FieldLabel>
+                  <FieldHelper>{t("textGeneration.customPrompts.instructionsHelper")}</FieldHelper>
+                  <FieldTextArea value={instructionsPrompt} onChange={(e) => setInstructionsPrompt(e.target.value)} />
+                </FieldRoot>
+              </>
+            )
           ) : null}
         </CustomPromptsContainer>
         {promptVariables.type === "alternativePhrasing" && <StyledText>{promptVariables.text}</StyledText>}
-        <Button size="small" onClick={fetchAiGeneratedText} loading={isPending}>
+        <Button size="small" onClick={fetchAiGeneratedText} loading={mutateIsPending}>
           {t("textGeneration.generateButton", { type: promptVariables.type })}
           <FileListLine />
         </Button>

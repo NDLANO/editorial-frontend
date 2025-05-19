@@ -15,8 +15,9 @@ import {
   StartTranscriptionJobCommand,
   TranscribeClient,
 } from "@aws-sdk/client-transcribe";
-import { Payload, PromptVariables } from "../modules/llm/llmApiTypes";
+import { DefaultPrompts, isLanguageCode, Payload, PromptType, PromptVariables } from "../modules/llm/llmApiTypes";
 import { llmQueryText } from "./llmQueries";
+import { PROMPTS } from "./llmPrompts";
 
 const aiModelId = getEnvironmentVariabel("NDLA_AI_MODEL_ID", "test");
 const aiRegion = getEnvironmentVariabel("NDLA_AI_MODEL_REGION", "eu-west-1");
@@ -33,6 +34,12 @@ const bedRockClient = new BedrockRuntimeClient({
   credentials: { accessKeyId: aiSecretID, secretAccessKey: aiSecretKey },
 });
 const textDecoder = new TextDecoder();
+
+export const getDefaultPrompts = (type: PromptType, language: string): DefaultPrompts => {
+  const lang = isLanguageCode(language) ? language : "nb";
+  const { role, generalInstructions: instructions } = PROMPTS[lang][type];
+  return { role, instructions };
+};
 
 export const generateAnswer = async (request: Payload<PromptVariables>, language: string, max_tokens: number) => {
   const { role, message } = llmQueryText(request, language);

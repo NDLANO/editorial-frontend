@@ -9,23 +9,17 @@
 import { Descendant, Editor, Path } from "slate";
 import { TableCellElement, TableMatrix } from "./interfaces";
 import { insertCellInMatrix } from "./matrixHelpers";
-import {
-  isAnyTableCellElement,
-  isTableBodyElement,
-  isTableElement,
-  isTableHeadElement,
-  isTableRowElement,
-} from "./queries";
+import { isAnyTableCellElement, isTableElement, isTableRowElement, isTableSectionElement } from "./queries";
 
-// Expects a perfectly normalized table. Requires path to the table body
-export const getTableBodyAsMatrix = (editor: Editor, path: Path) => {
+// Expects a perfectly normalized table. Requires path to the table section
+export const getTableSectionAsMatrix = (editor: Editor, path: Path) => {
   if (!Editor.hasPath(editor, path)) return;
-  const [tableBody] = Editor.node(editor, path);
-  if (!isTableHeadElement(tableBody) && !isTableBodyElement(tableBody)) return;
+  const [tableSection] = Editor.node(editor, path);
+  if (!isTableSectionElement(tableSection)) return;
   const matrix: TableCellElement[][] = [];
 
   // Build up a matrix one row at a time.
-  tableBody.children.forEach((row, rowIndex) => {
+  tableSection.children.forEach((row, rowIndex) => {
     if (!isTableRowElement(row)) return;
     if (!matrix[rowIndex]) {
       matrix[rowIndex] = [];
@@ -53,7 +47,7 @@ export const getTableAsMatrix = (editor: Editor, path: Path) => {
   // Merge all rows in head and body. Then build up a matrix one row at a time.
   table.children
     .reduce((acc, cur) => {
-      if (isTableHeadElement(cur) || isTableBodyElement(cur)) {
+      if (isTableSectionElement(cur)) {
         acc.push(...cur.children);
       }
       return acc;

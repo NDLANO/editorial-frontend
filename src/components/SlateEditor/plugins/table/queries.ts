@@ -26,15 +26,15 @@ export const isTableHeadElement = (node: Node | undefined) => isElementOfType(no
 
 export const isTableBodyElement = (node: Node | undefined) => isElementOfType(node, TABLE_BODY_ELEMENT_TYPE);
 
+export const isTableSectionElement = (node: Node | undefined) =>
+  isElementOfType(node, [TABLE_HEAD_ELEMENT_TYPE, TABLE_BODY_ELEMENT_TYPE]);
+
 export const isTableRowElement = (node: Node | undefined) => isElementOfType(node, TABLE_ROW_ELEMENT_TYPE);
 
 export const isTableCellElement = (node: Node | undefined) => isElementOfType(node, TABLE_CELL_ELEMENT_TYPE);
 
 export const isTableCellHeaderElement = (node: Node | undefined) =>
   isElementOfType(node, TABLE_CELL_HEADER_ELEMENT_TYPE);
-
-export const isTableBodyOrHeadElement = (node: Node | undefined) =>
-  isElementOfType(node, [TABLE_HEAD_ELEMENT_TYPE, TABLE_BODY_ELEMENT_TYPE]);
 
 export const isAnyTableCellElement = (node: Node | undefined) =>
   isElementOfType(node, [TABLE_CELL_ELEMENT_TYPE, TABLE_CELL_HEADER_ELEMENT_TYPE]);

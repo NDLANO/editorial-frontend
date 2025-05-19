@@ -9,12 +9,11 @@
 import { Editor, NodeEntry, Path, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 import {
-  TableBodyElement,
   TableCellElement,
   TableElement,
-  TableHeadElement,
   TableHeaderCellElement,
   TableRowElement,
+  TableSectionElement,
 } from "./interfaces";
 import { getTableAsMatrix } from "./matrix";
 import { findCellCoordinate } from "./matrixHelpers";
@@ -24,18 +23,18 @@ import { Logger } from "@ndla/editor";
 export const moveLeft = (
   editor: Editor,
   tableEntry: NodeEntry<TableElement>,
-  bodyEntry: NodeEntry<TableBodyElement | TableHeadElement>,
+  sectionEntry: NodeEntry<TableSectionElement>,
   rowEntry: NodeEntry<TableRowElement>,
   cellEntry: NodeEntry<TableCellElement>,
   logger: Logger,
 ) => {
   const tablePath = tableEntry[1];
-  const bodyPath = bodyEntry[1];
+  const sectionPath = sectionEntry[1];
   const [row, rowPath] = rowEntry;
   const cellPath = cellEntry[1];
 
   // A. If a previous cell exists, move to it.
-  if ((Path.hasPrevious(cellPath) || Path.hasPrevious(rowPath) || Path.hasPrevious(bodyPath)) && editor.selection) {
+  if ((Path.hasPrevious(cellPath) || Path.hasPrevious(rowPath) || Path.hasPrevious(sectionPath)) && editor.selection) {
     logger.log("Moving left in table");
     Transforms.select(editor, Editor.start(editor, cellEntry[1]));
     Transforms.move(editor, { reverse: true });
@@ -59,22 +58,24 @@ export const moveLeft = (
 export const moveRight = (
   editor: Editor,
   tableEntry: NodeEntry<TableElement>,
-  bodyEntry: NodeEntry<TableBodyElement | TableHeadElement>,
+  sectionEntry: NodeEntry<TableSectionElement>,
   rowEntry: NodeEntry<TableRowElement>,
   cellEntry: NodeEntry<TableCellElement>,
   logger: Logger,
 ) => {
   const tablePath = tableEntry[1];
-  const bodyPath = bodyEntry[1];
+  const sectionPath = sectionEntry[1];
   const [row, rowPath] = rowEntry;
   const cellPath = cellEntry[1];
   const nextPath = Path.next(cellPath);
   const nextRowPath = Path.next(rowPath);
-  const nextBodyPath = Path.next(bodyPath);
+  const nextSectionPath = Path.next(sectionPath);
 
   // A. If next cell exists, move to it.
   if (
-    (Editor.hasPath(editor, nextPath) || Editor.hasPath(editor, nextRowPath) || Editor.hasPath(editor, nextBodyPath)) &&
+    (Editor.hasPath(editor, nextPath) ||
+      Editor.hasPath(editor, nextRowPath) ||
+      Editor.hasPath(editor, nextSectionPath)) &&
     editor.selection
   ) {
     logger.log("Moving right in table");

@@ -9,7 +9,7 @@
 import { Editor, Path } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { defaultTableCellBlock } from "./defaultBlocks";
-import { TableBodyElement, TableHeadElement, TableRowElement } from "./interfaces";
+import { TableRowElement, TableSectionElement } from "./interfaces";
 import { TABLE_ROW_ELEMENT_TYPE } from "./types";
 import { isAnyTableCellElement, isTableCellHeaderElement, isTableRowElement } from "./queries";
 
@@ -27,7 +27,7 @@ export const countCells = (row: TableRowElement) => {
   }, 0);
 };
 
-export const getTableBodyWidth = (element: TableHeadElement | TableBodyElement) => {
+export const getTableSectionWidth = (element: TableSectionElement) => {
   const firstRow = element.children[0];
   if (isTableRowElement(firstRow)) {
     return countCells(firstRow);

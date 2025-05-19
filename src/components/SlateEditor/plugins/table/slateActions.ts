@@ -8,7 +8,7 @@
 
 import { Editor, Path, Transforms } from "slate";
 import { defaultTableCellBlock } from "./defaultBlocks";
-import { TableBodyElement, TableCellElement, TableElement, TableHeadElement } from "./interfaces";
+import { TableCellElement, TableElement, TableSectionElement } from "./interfaces";
 import { getTableAsMatrix } from "./matrix";
 import { findCellCoordinate, getMatrixColumn } from "./matrixHelpers";
 import { hasCellAlignOfType } from "./slateHelpers";
@@ -24,14 +24,9 @@ export const insertEmptyCells = (editor: Editor, path: Path, amount: number) => 
   );
 };
 
-export const increaseTableBodyWidth = (
-  editor: Editor,
-  body: TableBodyElement | TableHeadElement,
-  path: Path,
-  amount: number,
-) => {
+export const increaseTableSectionWidth = (editor: Editor, section: TableSectionElement, path: Path, amount: number) => {
   Editor.withoutNormalizing(editor, () => {
-    for (const [index, row] of body.children.entries()) {
+    for (const [index, row] of section.children.entries()) {
       if (isTableRowElement(row)) {
         const targetPath = [...path, index, row.children.length];
         insertEmptyCells(editor, targetPath, Math.abs(amount));

@@ -10,25 +10,18 @@ import {
   createPlugin,
   defaultNormalizer,
   getCurrentBlock,
-  isElementOfType,
   NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
 } from "@ndla/editor";
-import {
-  TABLE_BODY_ELEMENT_TYPE,
-  TABLE_CELL_HEADER_ELEMENT_TYPE,
-  TABLE_ELEMENT_TYPE,
-  TABLE_HEAD_ELEMENT_TYPE,
-  TABLE_PLUGIN,
-} from "./types";
+import { TABLE_CELL_HEADER_ELEMENT_TYPE, TABLE_ELEMENT_TYPE, TABLE_PLUGIN } from "./types";
 import {
   isAnyTableCellElement,
   isTableBodyElement,
   isTableCaptionElement,
   isTableElement,
   isTableHeadElement,
-  isTableBodyOrHeadElement,
   isTableRowElement,
+  isTableSectionElement,
 } from "./queries";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { Editor, NodeEntry, Path, Point, Range, Transforms } from "slate";
@@ -38,7 +31,7 @@ import isEqual from "lodash-es/isEqual";
 import { getHeader, getId, previousMatrixCellIsEqualCurrent } from "./matrixHelpers";
 import { TableElement } from "./interfaces";
 import { updateCell } from "./slateActions";
-import { normalizeTableBodyAsMatrix } from "./matrixNormalizer";
+import { normalizeTableSectionAsMatrix } from "./matrixNormalizer";
 import { isKeyHotkey } from "is-hotkey";
 import { KEY_ARROW_DOWN, KEY_ARROW_UP, KEY_BACKSPACE, KEY_DELETE } from "../../utils/keys";
 import { moveDown, moveLeft, moveRight, moveUp } from "./handleKeyDown";
@@ -80,16 +73,13 @@ export const tablePlugin = createPlugin({
         if (!entry) return false;
         const [row] = editor.nodes({ at: editor.selection.anchor.path, match: isTableRowElement });
         if (!row) return false;
-        const [body] = editor.nodes({
-          at: editor.selection.anchor.path,
-          match: (n) => isTableBodyOrHeadElement(n),
-        });
-        if (!body) return false;
+        const [section] = editor.nodes({ at: editor.selection.anchor.path, match: isTableSectionElement });
+        if (!section) return false;
         const [cell] = editor.nodes({ at: editor.selection.anchor.path, match: isAnyTableCellElement });
         if (!cell) return false;
         const move = event.shiftKey ? moveLeft : moveRight;
         event.preventDefault();
-        move(editor, entry, body, row, cell, logger);
+        move(editor, entry, section, row, cell, logger);
         return true;
       },
     },
@@ -119,7 +109,7 @@ export const tablePlugin = createPlugin({
     }
     if (defaultNormalizer(editor, node, path, normalizerConfig, logger)) return true;
     const [, secondChild] = node.children;
-    if (!isElementOfType(secondChild, [TABLE_HEAD_ELEMENT_TYPE, TABLE_BODY_ELEMENT_TYPE])) {
+    if (!isTableSectionElement(secondChild)) {
       logger.log(
         "Second table child is neither a table head nor a table body. Inserting table head.",
         node.children,
@@ -131,8 +121,8 @@ export const tablePlugin = createPlugin({
 
     // TODO: I realllllly don't want to have this here. It really should be on head and body, but that breaks stuff. We'll figure it out once we refactor the matrix normalizer.
     for (const [index, child] of node.children.entries()) {
-      if (isElementOfType(child, [TABLE_HEAD_ELEMENT_TYPE, TABLE_BODY_ELEMENT_TYPE])) {
-        if (normalizeTableBodyAsMatrix(editor, child, path.concat(index))) {
+      if (isTableSectionElement(child)) {
+        if (normalizeTableSectionAsMatrix(editor, child, path.concat(index))) {
           return true;
         }
       }

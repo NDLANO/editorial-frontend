@@ -31,7 +31,6 @@ const normalizeNode =
     // Numbers should be aligned to the right by default.
     if (typeof nodeString === "string" && nodeString.trim() !== "" && !Number.isNaN(+nodeString)) {
       logger.log("Table cell has no alignment, but only contains a number. Aligning to the right.");
-      // TODO: I don't know if I like updateCell yet.
       HistoryEditor.withoutSaving(editor, () => updateCell(editor, node, { align: "right" }));
       return true;
     }

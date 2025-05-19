@@ -45,10 +45,7 @@ import {
   tableCellHeaderPlugin,
   tableCellPlugin,
 } from "../../../../components/SlateEditor/plugins/table/tableCellPlugins";
-import {
-  tableBodyPlugin,
-  tableHeadPlugin,
-} from "../../../../components/SlateEditor/plugins/table/tableContainerPlugins";
+import { tableBodyPlugin } from "../../../../components/SlateEditor/plugins/table/tableBodyPlugin";
 import { tableRowPlugin } from "../../../../components/SlateEditor/plugins/table/tableRowPlugin";
 import { textTransformPlugin } from "../../../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../../../components/SlateEditor/plugins/toolbar";
@@ -66,6 +63,7 @@ import { definitionListPlugin } from "../../../../components/SlateEditor/plugins
 import { definitionTermPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionTermPlugin";
 import { definitionDescriptionPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionDescriptionPlugin";
 import { symbolPlugin } from "../../../../components/SlateEditor/plugins/symbol";
+import { tableHeadPlugin } from "../../../../components/SlateEditor/plugins/table/tableHeadPlugin";
 
 // Plugins are checked from last to first
 export const frontpagePlugins: SlatePlugin[] = [

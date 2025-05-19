@@ -41,7 +41,7 @@ import {
   tableCellHeaderPlugin,
   tableCellPlugin,
 } from "../../../../components/SlateEditor/plugins/table/tableCellPlugins";
-import { tableBodyPlugin } from "../../../../components/SlateEditor/plugins/table/tableContainerPlugins";
+import { tableBodyPlugin } from "../../../../components/SlateEditor/plugins/table/tableBodyPlugin";
 import { tableHeadPlugin } from "../../../../components/SlateEditor/plugins/table/tableHeadPlugin";
 import { tableRowPlugin } from "../../../../components/SlateEditor/plugins/table/tableRowPlugin";
 import { textTransformPlugin } from "../../../../components/SlateEditor/plugins/textTransform";

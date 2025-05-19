@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button, ExpandableBox, ExpandableBoxSummary, SelectLabel, Text, UnOrderedList } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticleDTO, IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node, Version } from "@ndla/types-taxonomy";
 import TopicArticleConnections from "./TopicArticleConnections";
 import { FormActionsContainer, FormContent } from "../../../../components/FormikForm";
@@ -38,7 +38,6 @@ interface Props {
   validPlacements: Node[];
   invalidPlacements: Node[];
   articleLanguage: string;
-  updateNotes: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
 }
 
 const StyledLi = styled("li", {
@@ -56,7 +55,6 @@ const TopicTaxonomyBlock = ({
   nodes,
   subjects: propSubjects,
   articleLanguage,
-  updateNotes,
 }: Props) => {
   const { userPermissions } = useSession();
   const { taxonomyVersion, changeVersion } = useTaxonomyVersion();
@@ -103,13 +101,6 @@ const TopicTaxonomyBlock = ({
         name: article.title?.title ?? "",
         articleId: article.id,
         taxonomyVersion,
-      });
-      await updateNotes({
-        revision: article.revision,
-        language: article.title?.language,
-        notes: ["Oppdatert taksonomi."],
-        metaImage: undefined,
-        responsibleId: undefined,
       });
       await qc.invalidateQueries({
         queryKey: nodeQueryKeys.nodes({

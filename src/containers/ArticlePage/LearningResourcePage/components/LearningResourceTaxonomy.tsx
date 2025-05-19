@@ -10,7 +10,7 @@ import { sortBy } from "lodash-es";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { Spinner } from "@ndla/primitives";
-import { IUpdatedArticleDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import { Metadata, NodeChild } from "@ndla/types-taxonomy";
 import TaxonomyBlock from "./taxonomy/TaxonomyBlock";
 import { useNodes } from "../../../../modules/nodes/nodeQueries";
@@ -20,7 +20,6 @@ import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionPro
 
 interface Props {
   article: IArticleDTO;
-  updateNotes: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
   articleLanguage: string;
   hasTaxEntries: boolean;
 }
@@ -33,7 +32,7 @@ export interface MinimalNodeChild
   metadata: Pick<Metadata, "visible">;
 }
 
-const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage, hasTaxEntries }: Props) => {
+const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: Props) => {
   const { i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
@@ -73,7 +72,6 @@ const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage, hasTa
       subjects={subjectsQuery.data ?? []}
       hasTaxEntries={hasTaxEntries}
       resourceTypes={allResourceTypesQuery.data ?? []}
-      updateNotes={updateNotes}
       article={article}
       articleLanguage={articleLanguage}
       versions={versionsQuery.data ?? []}

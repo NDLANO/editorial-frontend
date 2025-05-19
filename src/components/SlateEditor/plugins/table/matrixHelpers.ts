@@ -102,8 +102,7 @@ export const previousMatrixCellIsEqualCurrent = (matrix: TableMatrix, rowIndex: 
     isEqual(matrix?.[rowIndex - 1]?.[columnIndex], matrix?.[rowIndex]?.[columnIndex]));
 
 // Check if the row only contains TableCellHeader elements
-const isHeaderRow = (row?: TableCellElement[]) =>
-  row?.reduce((acc, cell) => acc && isTableCellHeaderElement(cell), true);
+const isHeaderRow = (row?: TableCellElement[]) => row?.every((cell) => isTableCellHeaderElement(cell));
 
 // Creates an header object depending on the ID's of the header cells surrounding it.
 // If colspan or rowspan we check the corresponding neighbor cells for the headercells.

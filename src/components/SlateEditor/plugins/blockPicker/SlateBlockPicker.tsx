@@ -70,7 +70,7 @@ import { RELATED_ELEMENT_TYPE } from "../related/types";
 import { defaultTableBlock } from "../table/defaultBlocks";
 import { isAnyTableCellElement } from "../table/queries";
 import { isInTableCellHeader } from "../table/slateHelpers";
-import { TYPE_TABLE } from "../table/types";
+import { TABLE_ELEMENT_TYPE } from "../table/types";
 import { IS_MAC } from "../toolbar/ToolbarToggle";
 import { DISCLAIMER_ELEMENT_TYPE } from "../uuDisclaimer/types";
 import { defaultDisclaimerBlock } from "../uuDisclaimer/utils";
@@ -307,7 +307,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultDetailsBlock(), true);
         break;
       }
-      case TYPE_TABLE: {
+      case TABLE_ELEMENT_TYPE: {
         onInsertBlock(defaultTableBlock(2, 2), true);
         break;
       }

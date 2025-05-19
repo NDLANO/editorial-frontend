@@ -18,7 +18,7 @@ import { TableElement } from "./interfaces";
 import { isTableElement, isTableHeadElement } from "./queries";
 import { alignColumn } from "./slateActions";
 import { insertColumn, insertRow, insertTableHead, removeColumn, removeRow, toggleRowHeaders } from "./toolbarActions";
-import { TYPE_TABLE_CAPTION } from "./types";
+import { TABLE_CAPTION_ELEMENT_TYPE } from "./types";
 import { DRAFT_HTML_SCOPE } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
 import getCurrentBlock from "../../utils/getCurrentBlock";
@@ -144,7 +144,7 @@ const TableActions = ({ editor, element }: Props) => {
 
   const tablePath = ReactEditor.findPath(editor, element);
   const [table] = Editor.node(editor, tablePath);
-  const captionEntry = getCurrentBlock(editor, TYPE_TABLE_CAPTION);
+  const captionEntry = getCurrentBlock(editor, TABLE_CAPTION_ELEMENT_TYPE);
 
   if (!isTableElement(table) || captionEntry) {
     return null;

@@ -38,7 +38,7 @@ import { IMAGE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/i
 import { KEY_FIGURE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/keyFigure/types";
 import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/linkBlockList/types";
 import { PITCH_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/pitch/types";
-import { TYPE_TABLE } from "../../../../components/SlateEditor/plugins/table/types";
+import { TABLE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/table/types";
 import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
@@ -72,7 +72,7 @@ const visualElements = [
 ];
 
 const actions = [
-  TYPE_TABLE,
+  TABLE_ELEMENT_TYPE,
   CODE_BLOCK_ELEMENT_TYPE,
   FILE_ELEMENT_TYPE,
   CONTACT_BLOCK_ELEMENT_TYPE,

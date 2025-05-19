@@ -14,7 +14,7 @@ import { TableMatrix, TableSectionElement } from "./interfaces";
 import { getPrevCell, countMatrixRowCells, insertCellInMatrix } from "./matrixHelpers";
 import { insertEmptyCells, updateCell, increaseTableSectionWidth } from "./slateActions";
 import { getTableSectionWidth } from "./slateHelpers";
-import { TYPE_TABLE_CELL, TYPE_TABLE_CELL_HEADER } from "./types";
+import { TABLE_CELL_ELEMENT_TYPE, TABLE_CELL_HEADER_ELEMENT_TYPE } from "./types";
 import {
   isAnyTableCellElement,
   isTableElement,
@@ -90,21 +90,21 @@ const normalizeRow = (
         if (isHead) {
           // i. If cell in header
           //    Make sure scope='col' and isHeader=true and type is correct
-          if (cell.type !== TYPE_TABLE_CELL_HEADER || cell.data.scope !== "col") {
-            updateCell(editor, cell, { scope: "col" }, TYPE_TABLE_CELL_HEADER);
+          if (cell.type !== TABLE_CELL_HEADER_ELEMENT_TYPE || cell.data.scope !== "col") {
+            updateCell(editor, cell, { scope: "col" }, TABLE_CELL_HEADER_ELEMENT_TYPE);
             return true;
           }
         } else {
           // i. If table does not have headers on rows
           //    Make sure cells in body has scope=undefined and isHeader=false
-          if (!rowHeaders && (cell.type === TYPE_TABLE_CELL_HEADER || hasScope)) {
+          if (!rowHeaders && (cell.type === TABLE_CELL_HEADER_ELEMENT_TYPE || hasScope)) {
             updateCell(
               editor,
               cell,
               {
                 scope: undefined,
               },
-              TYPE_TABLE_CELL,
+              TABLE_CELL_ELEMENT_TYPE,
             );
             return true;
           }
@@ -114,26 +114,29 @@ const normalizeRow = (
           //    Other cells should not be a header
           if (rowHeaders) {
             if (index === 0) {
-              if (cell.type !== TYPE_TABLE_CELL_HEADER || cell.data.scope !== "row") {
+              if (cell.type !== TABLE_CELL_HEADER_ELEMENT_TYPE || cell.data.scope !== "row") {
                 updateCell(
                   editor,
                   cell,
                   {
                     scope: "row",
                   },
-                  TYPE_TABLE_CELL_HEADER,
+                  TABLE_CELL_HEADER_ELEMENT_TYPE,
                 );
                 return true;
               }
             } else {
-              if ((cell.type === TYPE_TABLE_CELL_HEADER || hasScope) && getPrevCell(matrix, rowIndex, index) !== cell) {
+              if (
+                (cell.type === TABLE_CELL_HEADER_ELEMENT_TYPE || hasScope) &&
+                getPrevCell(matrix, rowIndex, index) !== cell
+              ) {
                 updateCell(
                   editor,
                   cell,
                   {
                     scope: undefined,
                   },
-                  TYPE_TABLE_CELL,
+                  TABLE_CELL_ELEMENT_TYPE,
                 );
                 return true;
               }

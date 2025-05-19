@@ -49,7 +49,7 @@ import { KEY_FIGURE_ELEMENT_TYPE } from "../keyFigure/types";
 import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "../linkBlockList/types";
 import { PITCH_ELEMENT_TYPE } from "../pitch/types";
 import { RELATED_ELEMENT_TYPE } from "../related/types";
-import { TYPE_TABLE } from "../table/types";
+import { TABLE_ELEMENT_TYPE } from "../table/types";
 import { DISCLAIMER_ELEMENT_TYPE } from "../uuDisclaimer/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../video/types";
 
@@ -77,7 +77,7 @@ export const commonActions: Action[] = [
     bookmark: "#bkmrk-ekspanderende-boks",
   },
   {
-    data: { type: TYPE_TABLE, object: "table" },
+    data: { type: TABLE_ELEMENT_TYPE, object: "table" },
     icon: <TableLine />,
     bookmark: "#bkmrk-tabell",
   },

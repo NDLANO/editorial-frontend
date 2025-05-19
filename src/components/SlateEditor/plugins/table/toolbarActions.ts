@@ -20,7 +20,12 @@ import { TableElement } from "./interfaces";
 import { getTableAsMatrix, getTableSectionAsMatrix } from "./matrix";
 import { findCellCoordinate } from "./matrixHelpers";
 import { updateCell } from "./slateActions";
-import { TYPE_TABLE_ROW, TYPE_TABLE_BODY, TYPE_TABLE_CELL_HEADER, TYPE_TABLE_HEAD } from "./types";
+import {
+  TABLE_BODY_ELEMENT_TYPE,
+  TABLE_CELL_HEADER_ELEMENT_TYPE,
+  TABLE_HEAD_ELEMENT_TYPE,
+  TABLE_ROW_ELEMENT_TYPE,
+} from "./types";
 import getCurrentBlock from "../../utils/getCurrentBlock";
 import {
   isAnyTableCellElement,
@@ -158,8 +163,8 @@ export const removeRow = (editor: Editor, path: Path) => {
 };
 
 export const insertTableHead = (editor: Editor) => {
-  const tableBodyEntry = getCurrentBlock(editor, TYPE_TABLE_BODY);
-  const tableRowEntry = getCurrentBlock(editor, TYPE_TABLE_ROW);
+  const tableBodyEntry = getCurrentBlock(editor, TABLE_BODY_ELEMENT_TYPE);
+  const tableRowEntry = getCurrentBlock(editor, TABLE_ROW_ELEMENT_TYPE);
 
   if (!tableBodyEntry || !tableRowEntry) {
     return;
@@ -170,9 +175,9 @@ export const insertTableHead = (editor: Editor) => {
   if (
     bodyPath &&
     Element.isElement(bodyElement) &&
-    bodyElement.type === TYPE_TABLE_BODY &&
+    bodyElement.type === TABLE_BODY_ELEMENT_TYPE &&
     Element.isElement(rowElement) &&
-    rowElement.type === TYPE_TABLE_ROW
+    rowElement.type === TABLE_ROW_ELEMENT_TYPE
   ) {
     return Transforms.insertNodes(
       editor,
@@ -182,7 +187,7 @@ export const insertTableHead = (editor: Editor) => {
           {
             ...defaultTableRowBlock(0, true),
             children: rowElement.children.map((cell) => {
-              if (Element.isElement(cell) && cell.type === TYPE_TABLE_CELL_HEADER) {
+              if (Element.isElement(cell) && cell.type === TABLE_CELL_HEADER_ELEMENT_TYPE) {
                 return {
                   ...defaultTableCellHeaderBlock(),
                   data: {
@@ -321,12 +326,12 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
           } else {
             // C. If not row is inserted yet. Insert a new row.
             if (!rowsInserted) {
-              Transforms.insertNodes(editor, slatejsx("element", { type: TYPE_TABLE_ROW }), {
+              Transforms.insertNodes(editor, slatejsx("element", { type: TABLE_ROW_ELEMENT_TYPE }), {
                 at: newRowPath,
               });
             }
             const maybeTableHead = Editor.parent(editor, currentRowPath)[0];
-            const isInTableHead = Element.isElement(maybeTableHead) && maybeTableHead.type === TYPE_TABLE_HEAD;
+            const isInTableHead = Element.isElement(maybeTableHead) && maybeTableHead.type === TABLE_HEAD_ELEMENT_TYPE;
 
             // D. Insert new cell with matching colspan.
             Transforms.insertNodes(

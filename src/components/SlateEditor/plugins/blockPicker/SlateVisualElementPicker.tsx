@@ -17,7 +17,7 @@ import { Embed } from "../../../../interfaces";
 import getCurrentBlock from "../../utils/getCurrentBlock";
 import { defaultEmbedBlock } from "../embed/utils";
 import { defaultFileBlock } from "../file/utils";
-import { TYPE_TABLE_CELL } from "../table/types";
+import { TABLE_CELL_ELEMENT_TYPE } from "../table/types";
 
 export const checkboxAction = (
   image: IImageMetaInformationV3DTO,
@@ -40,7 +40,7 @@ const getNewEmbed = (editor: Editor, visualElement: Embed) => {
   const data = visualElement;
 
   if (data.resource === "image") {
-    const tableCell = getCurrentBlock(editor, TYPE_TABLE_CELL)?.[0];
+    const tableCell = getCurrentBlock(editor, TABLE_CELL_ELEMENT_TYPE)?.[0];
     if (tableCell) {
       return defaultEmbedBlock({ ...data, size: "xsmall", align: "left" });
     }

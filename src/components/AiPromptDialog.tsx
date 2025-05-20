@@ -28,6 +28,7 @@ import {
   Input,
   Label,
   Skeleton,
+  Spinner,
   SwitchControl,
   SwitchHiddenInput,
   SwitchLabel,
@@ -140,10 +141,7 @@ const PromptDialogContent = ({
           </FieldRoot>
           {customPromptChecked ? (
             defaultPromptsIsPending ? (
-              <Skeleton>
-                <Label>Label</Label>
-                <Input />
-              </Skeleton>
+              <Spinner size="large" />
             ) : (
               <>
                 <FieldRoot>

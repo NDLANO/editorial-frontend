@@ -25,9 +25,6 @@ import {
   FieldRoot,
   FieldTextArea,
   Heading,
-  Input,
-  Label,
-  Skeleton,
   Spinner,
   SwitchControl,
   SwitchHiddenInput,
@@ -92,17 +89,14 @@ const PromptDialogContent = ({
   const [error, setError] = useState<string | undefined>(undefined);
   const { mutateAsync, isPending: mutateIsPending } = useGenerateAIMutation<PromptVariables>();
   const promptVariables = typeof promptVariablesProp === "function" ? promptVariablesProp() : promptVariablesProp;
-  const { data: defaultPrompts, isPending: defaultPromptsIsPending } = useDefaultAiPrompts(
-    promptVariables.type,
-    language,
-  );
+  const defaultPromptsQuery = useDefaultAiPrompts(promptVariables.type, language);
 
   useEffect(() => {
-    if (defaultPrompts) {
-      if (rolePrompt === "") setRolePrompt(trimIndent(defaultPrompts.role));
-      if (instructionsPrompt === "") setInstructionsPrompt(trimIndent(defaultPrompts.instructions));
+    if (defaultPromptsQuery.data) {
+      if (rolePrompt === "") setRolePrompt(trimIndent(defaultPromptsQuery.data.role));
+      if (instructionsPrompt === "") setInstructionsPrompt(trimIndent(defaultPromptsQuery.data.instructions));
     }
-  }, [defaultPrompts, rolePrompt, instructionsPrompt]);
+  }, [defaultPromptsQuery.data, rolePrompt, instructionsPrompt]);
 
   const fetchAiGeneratedText = async () => {
     setError(undefined);
@@ -140,7 +134,7 @@ const PromptDialogContent = ({
             </SwitchRoot>
           </FieldRoot>
           {customPromptChecked ? (
-            defaultPromptsIsPending ? (
+            defaultPromptsQuery.isPending ? (
               <Spinner size="large" />
             ) : (
               <>

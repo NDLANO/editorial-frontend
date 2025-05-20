@@ -8,7 +8,12 @@
 
 import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
-import { TYPE_TABLE_CAPTION, TYPE_TABLE_CELL_HEADER, TYPE_TABLE_HEAD, TYPE_TABLE_ROW } from "../types";
+import {
+  TABLE_CAPTION_ELEMENT_TYPE,
+  TABLE_CELL_HEADER_ELEMENT_TYPE,
+  TABLE_HEAD_ELEMENT_TYPE,
+  TABLE_ROW_ELEMENT_TYPE,
+} from "../types";
 import { defaultTable, tableEditor } from "./tableTestHelpers";
 
 describe("Table caption normalizer", () => {
@@ -21,34 +26,27 @@ describe("Table caption normalizer", () => {
       defaultTable({
         value: [
           {
-            type: TYPE_TABLE_CAPTION,
+            type: TABLE_CAPTION_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [{ text: "" }],
           },
           {
-            type: TYPE_TABLE_HEAD,
+            type: TABLE_HEAD_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [
               {
-                type: TYPE_TABLE_ROW,
+                type: TABLE_ROW_ELEMENT_TYPE,
                 id: anySlateElementId,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL_HEADER,
+                    type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: {
                       rowspan: 1,
                       colspan: 1,
                       scope: "col",
                     },
-                    children: [
-                      {
-                        type: PARAGRAPH_ELEMENT_TYPE,
-                        serializeAsText: true,
-                        children: [{ text: "" }],
-                        id: anySlateElementId,
-                      },
-                    ],
+                    children: [{ text: "" }],
                   },
                 ],
               },
@@ -63,15 +61,15 @@ describe("Table caption normalizer", () => {
       value: defaultTable({
         value: [
           {
-            type: TYPE_TABLE_HEAD,
+            type: TABLE_HEAD_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [
               {
-                type: TYPE_TABLE_ROW,
+                type: TABLE_ROW_ELEMENT_TYPE,
                 id: anySlateElementId,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL_HEADER,
+                    type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: {
                       rowspan: 1,
@@ -92,7 +90,7 @@ describe("Table caption normalizer", () => {
             ],
           },
           {
-            type: TYPE_TABLE_CAPTION,
+            type: TABLE_CAPTION_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [{ text: "hello" }],
           },
@@ -105,20 +103,20 @@ describe("Table caption normalizer", () => {
       defaultTable({
         value: [
           {
-            type: TYPE_TABLE_CAPTION,
+            type: TABLE_CAPTION_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [{ text: "" }],
           },
           {
-            type: TYPE_TABLE_HEAD,
+            type: TABLE_HEAD_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [
               {
-                type: TYPE_TABLE_ROW,
+                type: TABLE_ROW_ELEMENT_TYPE,
                 id: anySlateElementId,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL_HEADER,
+                    type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: {
                       rowspan: 1,
@@ -148,7 +146,7 @@ describe("Table caption normalizer", () => {
       value: defaultTable({
         value: [
           {
-            type: TYPE_TABLE_CAPTION,
+            type: TABLE_CAPTION_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [
               { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "hello" }] },
@@ -161,15 +159,15 @@ describe("Table caption normalizer", () => {
             ],
           },
           {
-            type: TYPE_TABLE_HEAD,
+            type: TABLE_HEAD_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [
               {
-                type: TYPE_TABLE_ROW,
+                type: TABLE_ROW_ELEMENT_TYPE,
                 id: anySlateElementId,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL_HEADER,
+                    type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: {
                       rowspan: 1,
@@ -197,20 +195,20 @@ describe("Table caption normalizer", () => {
       defaultTable({
         value: [
           {
-            type: TYPE_TABLE_CAPTION,
+            type: TABLE_CAPTION_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [{ text: "helloworld" }],
           },
           {
-            type: TYPE_TABLE_HEAD,
+            type: TABLE_HEAD_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [
               {
-                type: TYPE_TABLE_ROW,
+                type: TABLE_ROW_ELEMENT_TYPE,
                 id: anySlateElementId,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL_HEADER,
+                    type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: {
                       rowspan: 1,
@@ -241,20 +239,20 @@ describe("Table caption normalizer", () => {
       value: defaultTable({
         value: [
           {
-            type: TYPE_TABLE_CAPTION,
+            type: TABLE_CAPTION_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [{ text: "hello", bold: true, code: true, italic: true, sub: true, sup: true, underlined: true }],
           },
           {
-            type: TYPE_TABLE_HEAD,
+            type: TABLE_HEAD_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [
               {
-                type: TYPE_TABLE_ROW,
+                type: TABLE_ROW_ELEMENT_TYPE,
                 id: anySlateElementId,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL_HEADER,
+                    type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: {
                       rowspan: 1,
@@ -282,20 +280,20 @@ describe("Table caption normalizer", () => {
       defaultTable({
         value: [
           {
-            type: TYPE_TABLE_CAPTION,
+            type: TABLE_CAPTION_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [{ text: "hello" }],
           },
           {
-            type: TYPE_TABLE_HEAD,
+            type: TABLE_HEAD_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [
               {
-                type: TYPE_TABLE_ROW,
+                type: TABLE_ROW_ELEMENT_TYPE,
                 id: anySlateElementId,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL_HEADER,
+                    type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: {
                       rowspan: 1,

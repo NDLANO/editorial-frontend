@@ -22,7 +22,7 @@ import { TYPE_HEADING } from "../plugins/heading/types";
 import { TYPE_LIST } from "../plugins/list/types";
 import { TYPE_PARAGRAPH } from "../plugins/paragraph/types";
 import { SPAN_ELEMENT_TYPE } from "../plugins/span/types";
-import { TYPE_TABLE } from "../plugins/table/types";
+import { TABLE_ELEMENT_TYPE } from "../plugins/table/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../plugins/video/types";
 import { CONCEPT_INLINE_ELEMENT_TYPE } from "../plugins/concept/inline/types";
 import { COMMENT_INLINE_ELEMENT_TYPE } from "../plugins/comment/inline/types";
@@ -40,7 +40,7 @@ export const textBlockElements: Element["type"][] = [
   TYPE_HEADING,
   TYPE_LIST,
   BLOCK_QUOTE_ELEMENT_TYPE,
-  TYPE_TABLE,
+  TABLE_ELEMENT_TYPE,
   AUDIO_ELEMENT_TYPE,
   BRIGHTCOVE_ELEMENT_TYPE,
   EXTERNAL_ELEMENT_TYPE,

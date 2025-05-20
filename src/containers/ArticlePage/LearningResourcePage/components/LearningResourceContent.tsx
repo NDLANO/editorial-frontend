@@ -33,7 +33,7 @@ import { FOOTNOTE_ELEMENT_TYPE, FootnoteElement } from "../../../../components/S
 import { GRID_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/grid/types";
 import { H5P_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/h5p/types";
 import { IMAGE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/image/types";
-import { TYPE_TABLE } from "../../../../components/SlateEditor/plugins/table/types";
+import { TABLE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/table/types";
 import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
@@ -65,7 +65,7 @@ const visualElements = [
 ];
 
 const actions = [
-  TYPE_TABLE,
+  TABLE_ELEMENT_TYPE,
   CODE_BLOCK_ELEMENT_TYPE,
   FILE_ELEMENT_TYPE,
   GRID_ELEMENT_TYPE,

@@ -15,10 +15,10 @@ import { Button, IconButton, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import EditColgroupsDialog from "./EditColgroupsDialog";
 import { TableElement } from "./interfaces";
+import { isTableElement, isTableHeadElement } from "./queries";
 import { alignColumn } from "./slateActions";
-import { isTable, isTableHead } from "./slateHelpers";
 import { insertColumn, insertRow, insertTableHead, removeColumn, removeRow, toggleRowHeaders } from "./toolbarActions";
-import { TYPE_TABLE_CAPTION } from "./types";
+import { TABLE_CAPTION_ELEMENT_TYPE } from "./types";
 import { DRAFT_HTML_SCOPE } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
 import getCurrentBlock from "../../utils/getCurrentBlock";
@@ -144,9 +144,9 @@ const TableActions = ({ editor, element }: Props) => {
 
   const tablePath = ReactEditor.findPath(editor, element);
   const [table] = Editor.node(editor, tablePath);
-  const captionEntry = getCurrentBlock(editor, TYPE_TABLE_CAPTION);
+  const captionEntry = getCurrentBlock(editor, TABLE_CAPTION_ELEMENT_TYPE);
 
-  if (!isTable(table) || captionEntry) {
+  if (!isTableElement(table) || captionEntry) {
     return null;
   }
 
@@ -191,7 +191,7 @@ const TableActions = ({ editor, element }: Props) => {
   };
 
   const tableHead = table.children[1];
-  const hasTableHead = isTableHead(tableHead);
+  const hasTableHead = isTableHeadElement(tableHead);
   const selectedPath = editor.selection?.anchor.path;
 
   const showAddHeader = selectedPath && !hasTableHead;
@@ -241,7 +241,7 @@ const TableActions = ({ editor, element }: Props) => {
             data-testid="toggle-row-headers"
             onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, "toggle-row-headers")}
           >
-            {t(`form.content.table.${isTable(table) && table.rowHeaders ? "disable-header" : "enable-header"}`)}
+            {t(`form.content.table.${isTableElement(table) && table.rowHeaders ? "disable-header" : "enable-header"}`)}
           </Button>
         </ActionGrid>
       </StyledTableActions>

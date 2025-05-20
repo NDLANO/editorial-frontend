@@ -29,7 +29,7 @@ import {
   DEFINITION_TERM_ELEMENT_TYPE,
 } from "../definitionList/definitionListTypes";
 import { SUMMARY_ELEMENT_TYPE } from "../details/summaryTypes";
-import { TYPE_TABLE_CELL } from "../table/types";
+import { TABLE_CELL_ELEMENT_TYPE } from "../table/types";
 
 export interface SpanElement {
   type: "span";
@@ -47,7 +47,7 @@ const normalizerConfig: NormalizerConfig = {
       HEADING_ELEMENT_TYPE,
       PARAGRAPH_ELEMENT_TYPE,
       BLOCK_QUOTE_ELEMENT_TYPE,
-      TYPE_TABLE_CELL,
+      TABLE_CELL_ELEMENT_TYPE,
       LIST_ITEM_ELEMENT_TYPE,
       DEFINITION_DESCRIPTION_ELEMENT_TYPE,
       DEFINITION_TERM_ELEMENT_TYPE,

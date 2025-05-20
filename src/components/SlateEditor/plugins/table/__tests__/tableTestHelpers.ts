@@ -10,7 +10,7 @@ import { createSlate, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 import { Descendant } from "slate";
 import { TableElement } from "../interfaces";
-import { TYPE_TABLE } from "../types";
+import { TABLE_ELEMENT_TYPE } from "../types";
 import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 
 export const tableEditor = createSlate({ plugins: learningResourcePlugins });
@@ -29,7 +29,7 @@ export const defaultTable = ({
       children: [
         { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "Some text" }], id: anySlateElementId },
         {
-          type: TYPE_TABLE,
+          type: TABLE_ELEMENT_TYPE,
           id: anySlateElementId,
           children: value,
           rowHeaders: false,

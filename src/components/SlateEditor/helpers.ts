@@ -28,7 +28,7 @@ import { REPHRASE_ELEMENT_TYPE } from "./plugins/rephrase/rephraseTypes";
 import { PITCH_ELEMENT_TYPE } from "./plugins/pitch/types";
 import { RELATED_ELEMENT_TYPE } from "./plugins/related/types";
 import { SPAN_ELEMENT_TYPE } from "./plugins/span/types";
-import { TYPE_TABLE } from "./plugins/table/types";
+import { TABLE_ELEMENT_TYPE } from "./plugins/table/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "./plugins/video/types";
 import { SYMBOL_ELEMENT_TYPE } from "./plugins/symbol/types";
 
@@ -57,7 +57,7 @@ export const blocks: ElementType[] = [
   IMAGE_ELEMENT_TYPE,
   FILE_ELEMENT_TYPE,
   RELATED_ELEMENT_TYPE,
-  TYPE_TABLE,
+  TABLE_ELEMENT_TYPE,
   PITCH_ELEMENT_TYPE,
   GRID_ELEMENT_TYPE,
   KEY_FIGURE_ELEMENT_TYPE,

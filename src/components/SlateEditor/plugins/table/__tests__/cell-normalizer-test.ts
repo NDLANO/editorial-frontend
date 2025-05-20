@@ -8,12 +8,12 @@
 
 import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import {
-  TYPE_TABLE_BODY,
-  TYPE_TABLE_CAPTION,
-  TYPE_TABLE_CELL,
-  TYPE_TABLE_CELL_HEADER,
-  TYPE_TABLE_HEAD,
-  TYPE_TABLE_ROW,
+  TABLE_BODY_ELEMENT_TYPE,
+  TABLE_CAPTION_ELEMENT_TYPE,
+  TABLE_HEAD_ELEMENT_TYPE,
+  TABLE_ROW_ELEMENT_TYPE,
+  TABLE_CELL_ELEMENT_TYPE,
+  TABLE_CELL_HEADER_ELEMENT_TYPE,
 } from "../types";
 import { defaultTable, tableEditor } from "./tableTestHelpers";
 import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
@@ -24,20 +24,20 @@ describe("Table cell normalizer", () => {
       value: defaultTable({
         value: [
           {
-            type: TYPE_TABLE_CAPTION,
+            type: TABLE_CAPTION_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [{ text: "" }],
           },
           {
-            type: TYPE_TABLE_HEAD,
+            type: TABLE_HEAD_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [
               {
-                type: TYPE_TABLE_ROW,
+                type: TABLE_ROW_ELEMENT_TYPE,
                 id: anySlateElementId,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL_HEADER,
+                    type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1, scope: "col" },
                     children: [
@@ -49,7 +49,7 @@ describe("Table cell normalizer", () => {
                     ],
                   },
                   {
-                    type: TYPE_TABLE_CELL_HEADER,
+                    type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1, scope: "col" },
                     children: [
@@ -65,15 +65,15 @@ describe("Table cell normalizer", () => {
             ],
           },
           {
-            type: TYPE_TABLE_BODY,
+            type: TABLE_BODY_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [
               {
-                type: TYPE_TABLE_ROW,
+                type: TABLE_ROW_ELEMENT_TYPE,
                 id: anySlateElementId,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL,
+                    type: TABLE_CELL_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1 },
                     children: [
@@ -85,7 +85,7 @@ describe("Table cell normalizer", () => {
                     ],
                   },
                   {
-                    type: TYPE_TABLE_CELL,
+                    type: TABLE_CELL_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1 },
                     children: [
@@ -108,20 +108,20 @@ describe("Table cell normalizer", () => {
       defaultTable({
         value: [
           {
-            type: TYPE_TABLE_CAPTION,
+            type: TABLE_CAPTION_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [{ text: "" }],
           },
           {
-            type: TYPE_TABLE_HEAD,
+            type: TABLE_HEAD_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [
               {
-                type: TYPE_TABLE_ROW,
+                type: TABLE_ROW_ELEMENT_TYPE,
                 id: anySlateElementId,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL_HEADER,
+                    type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1, scope: "col", align: "right" },
                     children: [
@@ -133,7 +133,7 @@ describe("Table cell normalizer", () => {
                     ],
                   },
                   {
-                    type: TYPE_TABLE_CELL_HEADER,
+                    type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1, scope: "col", align: "right" },
                     children: [
@@ -149,15 +149,15 @@ describe("Table cell normalizer", () => {
             ],
           },
           {
-            type: TYPE_TABLE_BODY,
+            type: TABLE_BODY_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [
               {
-                type: TYPE_TABLE_ROW,
+                type: TABLE_ROW_ELEMENT_TYPE,
                 id: anySlateElementId,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL,
+                    type: TABLE_CELL_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1, align: "right" },
                     children: [
@@ -169,7 +169,7 @@ describe("Table cell normalizer", () => {
                     ],
                   },
                   {
-                    type: TYPE_TABLE_CELL,
+                    type: TABLE_CELL_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1 },
                     children: [
@@ -193,20 +193,20 @@ describe("Table cell normalizer", () => {
       value: defaultTable({
         value: [
           {
-            type: TYPE_TABLE_CAPTION,
+            type: TABLE_CAPTION_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [{ text: "" }],
           },
           {
-            type: TYPE_TABLE_HEAD,
+            type: TABLE_HEAD_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [
               {
-                type: TYPE_TABLE_ROW,
+                type: TABLE_ROW_ELEMENT_TYPE,
                 id: anySlateElementId,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL_HEADER,
+                    type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1, scope: "col", align: "left" },
                     children: [
@@ -218,7 +218,7 @@ describe("Table cell normalizer", () => {
                     ],
                   },
                   {
-                    type: TYPE_TABLE_CELL_HEADER,
+                    type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1, scope: "col", align: "right" },
                     children: [
@@ -234,15 +234,15 @@ describe("Table cell normalizer", () => {
             ],
           },
           {
-            type: TYPE_TABLE_BODY,
+            type: TABLE_BODY_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [
               {
-                type: TYPE_TABLE_ROW,
+                type: TABLE_ROW_ELEMENT_TYPE,
                 id: anySlateElementId,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL,
+                    type: TABLE_CELL_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1, align: "left" },
                     children: [
@@ -254,7 +254,7 @@ describe("Table cell normalizer", () => {
                     ],
                   },
                   {
-                    type: TYPE_TABLE_CELL,
+                    type: TABLE_CELL_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1, align: "right" },
                     children: [
@@ -277,20 +277,20 @@ describe("Table cell normalizer", () => {
       defaultTable({
         value: [
           {
-            type: TYPE_TABLE_CAPTION,
+            type: TABLE_CAPTION_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [{ text: "" }],
           },
           {
-            type: TYPE_TABLE_HEAD,
+            type: TABLE_HEAD_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [
               {
-                type: TYPE_TABLE_ROW,
+                type: TABLE_ROW_ELEMENT_TYPE,
                 id: anySlateElementId,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL_HEADER,
+                    type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1, scope: "col", align: "left" },
                     children: [
@@ -302,7 +302,7 @@ describe("Table cell normalizer", () => {
                     ],
                   },
                   {
-                    type: TYPE_TABLE_CELL_HEADER,
+                    type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1, scope: "col", align: "right" },
                     children: [
@@ -318,15 +318,15 @@ describe("Table cell normalizer", () => {
             ],
           },
           {
-            type: TYPE_TABLE_BODY,
+            type: TABLE_BODY_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [
               {
-                type: TYPE_TABLE_ROW,
+                type: TABLE_ROW_ELEMENT_TYPE,
                 id: anySlateElementId,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL,
+                    type: TABLE_CELL_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1, align: "left" },
                     children: [
@@ -338,167 +338,13 @@ describe("Table cell normalizer", () => {
                     ],
                   },
                   {
-                    type: TYPE_TABLE_CELL,
+                    type: TABLE_CELL_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1, align: "right" },
                     children: [
                       {
                         type: PARAGRAPH_ELEMENT_TYPE,
                         id: anySlateElementId,
-                        children: [{ text: "Svaret er 1" }],
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      }),
-    );
-  });
-
-  it("should wrap text elements in paragraphs", () => {
-    tableEditor.reinitialize({
-      value: defaultTable({
-        value: [
-          {
-            type: TYPE_TABLE_CAPTION,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
-          {
-            type: TYPE_TABLE_HEAD,
-            id: anySlateElementId,
-            children: [
-              {
-                type: TYPE_TABLE_ROW,
-                id: anySlateElementId,
-                children: [
-                  {
-                    type: TYPE_TABLE_CELL_HEADER,
-                    id: anySlateElementId,
-                    data: { rowspan: 1, colspan: 1, scope: "col" },
-                    children: [{ text: "1" }],
-                  },
-                  {
-                    type: TYPE_TABLE_CELL_HEADER,
-                    id: anySlateElementId,
-                    data: { rowspan: 1, colspan: 1, scope: "col" },
-                    children: [{ text: "0" }],
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            type: TYPE_TABLE_BODY,
-            id: anySlateElementId,
-            children: [
-              {
-                type: TYPE_TABLE_ROW,
-                id: anySlateElementId,
-                children: [
-                  {
-                    type: TYPE_TABLE_CELL,
-                    id: anySlateElementId,
-                    data: { rowspan: 1, colspan: 1 },
-                    children: [{ text: "1" }],
-                  },
-                  {
-                    type: TYPE_TABLE_CELL,
-                    id: anySlateElementId,
-                    data: { rowspan: 1, colspan: 1 },
-                    children: [{ text: "Svaret er 1" }],
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      }),
-      shouldNormalize: true,
-    });
-    expect(tableEditor.children).toEqual(
-      defaultTable({
-        value: [
-          {
-            type: TYPE_TABLE_CAPTION,
-            id: anySlateElementId,
-            children: [{ text: "" }],
-          },
-          {
-            type: TYPE_TABLE_HEAD,
-            id: anySlateElementId,
-            children: [
-              {
-                type: TYPE_TABLE_ROW,
-                id: anySlateElementId,
-                children: [
-                  {
-                    type: TYPE_TABLE_CELL_HEADER,
-                    id: anySlateElementId,
-                    data: { rowspan: 1, colspan: 1, scope: "col", align: "right" },
-                    children: [
-                      {
-                        type: PARAGRAPH_ELEMENT_TYPE,
-                        id: anySlateElementId,
-                        // TODO: Should this be here?
-                        // serializeAsText: true,
-                        children: [{ text: "1" }],
-                      },
-                    ],
-                  },
-                  {
-                    type: TYPE_TABLE_CELL_HEADER,
-                    id: anySlateElementId,
-                    data: { rowspan: 1, colspan: 1, scope: "col", align: "right" },
-                    children: [
-                      {
-                        type: PARAGRAPH_ELEMENT_TYPE,
-                        id: anySlateElementId,
-                        // TODO: Should this be here?
-                        // serializeAsText: true,
-                        children: [{ text: "0" }],
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            type: TYPE_TABLE_BODY,
-            id: anySlateElementId,
-            children: [
-              {
-                type: TYPE_TABLE_ROW,
-                id: anySlateElementId,
-                children: [
-                  {
-                    type: TYPE_TABLE_CELL,
-                    id: anySlateElementId,
-                    data: { rowspan: 1, colspan: 1, align: "right" },
-                    children: [
-                      {
-                        type: PARAGRAPH_ELEMENT_TYPE,
-                        id: anySlateElementId,
-                        // TODO: Should this be here?
-                        serializeAsText: true,
-                        children: [{ text: "1" }],
-                      },
-                    ],
-                  },
-                  {
-                    type: TYPE_TABLE_CELL,
-                    id: anySlateElementId,
-                    data: { rowspan: 1, colspan: 1 },
-                    children: [
-                      {
-                        type: PARAGRAPH_ELEMENT_TYPE,
-                        id: anySlateElementId,
-                        // TODO: Should this be here?
-                        serializeAsText: true,
                         children: [{ text: "Svaret er 1" }],
                       },
                     ],
@@ -516,20 +362,20 @@ describe("Table cell normalizer", () => {
       value: defaultTable({
         value: [
           {
-            type: TYPE_TABLE_CAPTION,
+            type: TABLE_CAPTION_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [{ text: "" }],
           },
           {
-            type: TYPE_TABLE_HEAD,
+            type: TABLE_HEAD_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [
               {
-                type: TYPE_TABLE_ROW,
+                type: TABLE_ROW_ELEMENT_TYPE,
                 id: anySlateElementId,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL,
+                    type: TABLE_CELL_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1 },
                     children: [
@@ -541,7 +387,7 @@ describe("Table cell normalizer", () => {
                     ],
                   },
                   {
-                    type: TYPE_TABLE_CELL,
+                    type: TABLE_CELL_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1 },
                     children: [
@@ -557,15 +403,15 @@ describe("Table cell normalizer", () => {
             ],
           },
           {
-            type: TYPE_TABLE_BODY,
+            type: TABLE_BODY_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [
               {
-                type: TYPE_TABLE_ROW,
+                type: TABLE_ROW_ELEMENT_TYPE,
                 id: anySlateElementId,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL,
+                    type: TABLE_CELL_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1 },
                     children: [
@@ -577,7 +423,7 @@ describe("Table cell normalizer", () => {
                     ],
                   },
                   {
-                    type: TYPE_TABLE_CELL,
+                    type: TABLE_CELL_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1 },
                     children: [
@@ -600,20 +446,20 @@ describe("Table cell normalizer", () => {
       defaultTable({
         value: [
           {
-            type: TYPE_TABLE_CAPTION,
+            type: TABLE_CAPTION_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [{ text: "" }],
           },
           {
-            type: TYPE_TABLE_HEAD,
+            type: TABLE_HEAD_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [
               {
-                type: TYPE_TABLE_ROW,
+                type: TABLE_ROW_ELEMENT_TYPE,
                 id: anySlateElementId,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL_HEADER,
+                    type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1, scope: "col" },
                     children: [
@@ -625,7 +471,7 @@ describe("Table cell normalizer", () => {
                     ],
                   },
                   {
-                    type: TYPE_TABLE_CELL_HEADER,
+                    type: TABLE_CELL_HEADER_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1, scope: "col" },
                     children: [
@@ -641,15 +487,15 @@ describe("Table cell normalizer", () => {
             ],
           },
           {
-            type: TYPE_TABLE_BODY,
+            type: TABLE_BODY_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [
               {
-                type: TYPE_TABLE_ROW,
+                type: TABLE_ROW_ELEMENT_TYPE,
                 id: anySlateElementId,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL,
+                    type: TABLE_CELL_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1 },
                     children: [
@@ -661,7 +507,7 @@ describe("Table cell normalizer", () => {
                     ],
                   },
                   {
-                    type: TYPE_TABLE_CELL,
+                    type: TABLE_CELL_ELEMENT_TYPE,
                     id: anySlateElementId,
                     data: { rowspan: 1, colspan: 1 },
                     children: [

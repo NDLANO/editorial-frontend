@@ -6,18 +6,19 @@
  *
  */
 
-import { Editor, Element, Node, Path } from "slate";
+import { Editor, Node, Path } from "slate";
 import { ReactEditor } from "slate-react";
+import { isTableCaptionElement } from "./queries";
 import SlateTable from "./SlateTable";
 import TableActions from "./TableActions";
 import {
-  TYPE_TABLE,
-  TYPE_TABLE_BODY,
-  TYPE_TABLE_CAPTION,
-  TYPE_TABLE_CELL,
-  TYPE_TABLE_CELL_HEADER,
-  TYPE_TABLE_HEAD,
-  TYPE_TABLE_ROW,
+  TABLE_ELEMENT_TYPE,
+  TABLE_CAPTION_ELEMENT_TYPE,
+  TABLE_ROW_ELEMENT_TYPE,
+  TABLE_CELL_ELEMENT_TYPE,
+  TABLE_HEAD_ELEMENT_TYPE,
+  TABLE_BODY_ELEMENT_TYPE,
+  TABLE_CELL_HEADER_ELEMENT_TYPE,
 } from "./types";
 import WithPlaceHolder from "../../common/WithPlaceHolder";
 
@@ -25,7 +26,7 @@ export const tableRenderer = (editor: Editor) => {
   const { renderElement, renderLeaf } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
     switch (element.type) {
-      case TYPE_TABLE:
+      case TABLE_ELEMENT_TYPE:
         return (
           <>
             <TableActions editor={editor} element={element} />
@@ -35,11 +36,11 @@ export const tableRenderer = (editor: Editor) => {
             </SlateTable>
           </>
         );
-      case TYPE_TABLE_CAPTION:
+      case TABLE_CAPTION_ELEMENT_TYPE:
         return <caption {...attributes}>{children}</caption>;
-      case TYPE_TABLE_ROW:
+      case TABLE_ROW_ELEMENT_TYPE:
         return <tr {...attributes}>{children}</tr>;
-      case TYPE_TABLE_CELL: {
+      case TABLE_CELL_ELEMENT_TYPE: {
         const align = element.data?.align || "";
         const parsedAlign = ["left", "center", "right"].includes(align) ? align : undefined;
         return (
@@ -54,11 +55,11 @@ export const tableRenderer = (editor: Editor) => {
           </td>
         );
       }
-      case TYPE_TABLE_HEAD:
+      case TABLE_HEAD_ELEMENT_TYPE:
         return <thead {...attributes}>{children}</thead>;
-      case TYPE_TABLE_BODY:
+      case TABLE_BODY_ELEMENT_TYPE:
         return <tbody {...attributes}>{children}</tbody>;
-      case TYPE_TABLE_CELL_HEADER: {
+      case TABLE_CELL_HEADER_ELEMENT_TYPE: {
         const align = element.data?.align || "";
         const parsedAlign = ["left", "center", "right"].includes(align) ? align : undefined;
         return (
@@ -84,7 +85,7 @@ export const tableRenderer = (editor: Editor) => {
     const path = ReactEditor.findPath(editor, text);
 
     const [parent] = Editor.node(editor, Path.parent(path));
-    if (Element.isElement(parent) && parent.type === TYPE_TABLE_CAPTION && Node.string(leaf) === "") {
+    if (isTableCaptionElement(parent) && Node.string(leaf) === "") {
       return (
         <WithPlaceHolder attributes={attributes} placeholder="form.name.title">
           {children}

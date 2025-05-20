@@ -68,8 +68,9 @@ import { defaultPitchBlock } from "../pitch/utils";
 import { defaultRelatedBlock } from "../related";
 import { RELATED_ELEMENT_TYPE } from "../related/types";
 import { defaultTableBlock } from "../table/defaultBlocks";
-import { isInTableCellHeader, isTableCell } from "../table/slateHelpers";
-import { TYPE_TABLE } from "../table/types";
+import { isAnyTableCellElement } from "../table/queries";
+import { isInTableCellHeader } from "../table/slateHelpers";
+import { TABLE_ELEMENT_TYPE } from "../table/types";
 import { IS_MAC } from "../toolbar/ToolbarToggle";
 import { DISCLAIMER_ELEMENT_TYPE } from "../uuDisclaimer/types";
 import { defaultDisclaimerBlock } from "../uuDisclaimer/utils";
@@ -135,7 +136,7 @@ const getLeftAdjust = (parent?: Node) => {
   if (Element.isElement(parent) && parent.type === TYPE_LIST_ITEM) {
     return 110;
   }
-  if (isTableCell(parent)) {
+  if (isAnyTableCellElement(parent)) {
     return 100;
   }
   if (isGridElement(parent)) {
@@ -306,7 +307,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultDetailsBlock(), true);
         break;
       }
-      case TYPE_TABLE: {
+      case TABLE_ELEMENT_TYPE: {
         onInsertBlock(defaultTableBlock(2, 2), true);
         break;
       }

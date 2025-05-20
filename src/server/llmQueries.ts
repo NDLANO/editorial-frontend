@@ -6,8 +6,8 @@
  *
  */
 
-import { isLanguageCode, LanguageCode, Payload, PromptType, PromptVariables } from "../modules/llm/llmApiTypes";
 import { unreachable } from "../util/guards";
+import { PromptVariables, LanguageCode, PromptType, Payload, isLanguageCode } from "./llmApiTypes";
 import { DEBUG_INSTRUCTION, ERROR_INSTRUCTION, Prompt, PROMPTS } from "./llmPrompts";
 
 type LlmQuery<T extends PromptVariables> = {

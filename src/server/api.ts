@@ -20,7 +20,7 @@ import { NdlaError } from "../interfaces";
 import { fetchMatomoStats } from "./matomo";
 import { generateAnswer, getDefaultPrompts, getTranscription, initializeTranscription } from "./llm";
 import { isValidRequestBody } from "./utils";
-import { isPromptType } from "../modules/llm/llmApiTypes";
+import { isPromptType } from "./llmApiTypes";
 
 const router = express.Router();
 

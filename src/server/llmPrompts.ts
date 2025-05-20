@@ -6,7 +6,7 @@
  *
  */
 
-import { LanguageCode, PromptVariables } from "../modules/llm/llmApiTypes";
+import { PromptVariables, LanguageCode } from "./llmApiTypes";
 
 export type Prompt = {
   role: string;

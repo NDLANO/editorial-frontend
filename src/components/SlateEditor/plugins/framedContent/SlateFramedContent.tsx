@@ -19,7 +19,7 @@ import { FramedContentElement } from "./framedContentTypes";
 import { isFramedContentElement } from "./queries/framedContentQueries";
 import { AI_ACCESS_SCOPE } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
-import { ReflectionVariables } from "../../../../modules/llm/llmApiTypes";
+import { ReflectionVariables } from "../../../../server/llmApiTypes";
 import { editorValueToPlainText } from "../../../../util/articleContentConverter";
 import { AiPromptDialog } from "../../../AiPromptDialog";
 import { useArticleContentType } from "../../../ContentTypeProvider";

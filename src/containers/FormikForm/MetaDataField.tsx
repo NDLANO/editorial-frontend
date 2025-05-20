@@ -46,7 +46,7 @@ import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
 import { AI_ACCESS_SCOPE, DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useDraftSearchTags } from "../../modules/draft/draftQueries";
-import { MetaDescriptionVariables, SummaryVariables } from "../../modules/llm/llmApiTypes";
+import { MetaDescriptionVariables, SummaryVariables } from "../../server/llmApiTypes";
 import { inlineContentToEditorValue } from "../../util/articleContentConverter";
 import useDebounce from "../../util/useDebounce";
 import { useSession } from "../Session/SessionProvider";

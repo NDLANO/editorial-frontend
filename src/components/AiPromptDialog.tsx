@@ -36,9 +36,9 @@ import {
 import { HStack, Stack, styled } from "@ndla/styled-system/jsx";
 import { DialogCloseButton } from "./DialogCloseButton";
 import { FormActionsContainer } from "./FormikForm";
-import { PromptVariables } from "../modules/llm/llmApiTypes";
 import { useGenerateAIMutation } from "../modules/llm/llmMutations";
 import { useDefaultAiPrompts } from "../modules/llm/llmQueries";
+import { PromptVariables } from "../server/llmApiTypes";
 import { NdlaErrorPayload } from "../util/resolveJsonOrRejectWithError";
 
 const CustomPromptsContainer = styled(Stack, {

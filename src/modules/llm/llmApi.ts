@@ -6,9 +6,9 @@
  *
  */
 
+import { PromptVariables, Payload, PromptType, DefaultPrompts } from "../../server/llmApiTypes";
 import { fetchAuthorized } from "../../util/apiHelpers";
 import { resolveJsonOrRejectWithError, resolveTextOrRejectWithError } from "../../util/resolveJsonOrRejectWithError";
-import { DefaultPrompts, Payload, PromptType, PromptVariables } from "./llmApiTypes";
 
 export const fetchAIGeneratedAnswer = async <TVariables extends PromptVariables>(
   payload: Payload<TVariables>,

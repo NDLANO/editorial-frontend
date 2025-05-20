@@ -7,8 +7,8 @@
  */
 
 import { useQuery } from "@tanstack/react-query";
-import { PromptType } from "./llmApiTypes";
 import { fetchDefaultAiPrompts } from "./llmApi";
+import { PromptType } from "../../server/llmApiTypes";
 
 export const useDefaultAiPrompts = (type: PromptType, language: string) =>
   useQuery({

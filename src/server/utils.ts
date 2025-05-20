@@ -6,7 +6,7 @@
  *
  */
 
-import { isPromptType } from "../modules/llm/llmApiTypes";
+import { isPromptType } from "./llmApiTypes";
 
 export const isValidRequestBody = (body: any) => {
   const type = body?.type;

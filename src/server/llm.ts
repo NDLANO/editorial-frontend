@@ -15,9 +15,9 @@ import {
   StartTranscriptionJobCommand,
   TranscribeClient,
 } from "@aws-sdk/client-transcribe";
-import { DefaultPrompts, isLanguageCode, Payload, PromptType, PromptVariables } from "../modules/llm/llmApiTypes";
 import { llmQueryText } from "./llmQueries";
 import { PROMPTS } from "./llmPrompts";
+import { PromptType, DefaultPrompts, isLanguageCode, Payload, PromptVariables } from "./llmApiTypes";
 
 const aiModelId = getEnvironmentVariabel("NDLA_AI_MODEL_ID", "test");
 const aiRegion = getEnvironmentVariabel("NDLA_AI_MODEL_REGION", "eu-west-1");

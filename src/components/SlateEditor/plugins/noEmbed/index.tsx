@@ -9,8 +9,9 @@
 import { createSerializer } from "@ndla/editor";
 import { Embed } from "../../../../interfaces";
 import { parseEmbedTag } from "../../../../util/embedTagHelpers";
+import { isVisualElementSlateElement } from "../../helpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
-import { defaultEmbedBlock, isSlateEmbed } from "../embed/utils";
+import { defaultEmbedBlock } from "../embed/utils";
 
 // TODO: Consider if this is needed after we implement the "unknown" embed
 
@@ -20,7 +21,7 @@ export const noEmbedSerializer = createSerializer({
     return defaultEmbedBlock(parseEmbedTag(el.outerHTML) as Embed);
   },
   serialize(node) {
-    if (isSlateEmbed(node)) {
+    if (isVisualElementSlateElement(node)) {
       return "<deleteme></deleteme>";
     }
   },

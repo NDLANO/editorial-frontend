@@ -31,6 +31,8 @@ import { SPAN_ELEMENT_TYPE } from "./plugins/span/types";
 import { TABLE_ELEMENT_TYPE } from "./plugins/table/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "./plugins/video/types";
 import { SYMBOL_ELEMENT_TYPE } from "./plugins/symbol/types";
+import { Node } from "slate";
+import { isElementOfType } from "@ndla/editor";
 
 export const inlines: ElementType[] = [
   CONCEPT_INLINE_ELEMENT_TYPE,
@@ -63,3 +65,6 @@ export const blocks: ElementType[] = [
   KEY_FIGURE_ELEMENT_TYPE,
   CAMPAIGN_BLOCK_ELEMENT_TYPE,
 ];
+
+export const isVisualElementSlateElement = (node: Node | undefined) =>
+  isElementOfType(node, [IMAGE_ELEMENT_TYPE, AUDIO_ELEMENT_TYPE, H5P_ELEMENT_TYPE, BRIGHTCOVE_ELEMENT_TYPE]);

@@ -15,12 +15,12 @@ import {
   IVisualElementDTO,
 } from "@ndla/types-backend/frontpage-api";
 import { editorValueToPlainText, plainTextToEditorValue } from "./articleContentConverter";
-import { isSlateEmbed } from "../components/SlateEditor/plugins/embed/utils";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../components/SlateEditor/plugins/video/types";
 import { LOCALE_VALUES } from "../constants";
 import { FilmFormikType } from "../containers/NdlaFilm/components/NdlaFilmForm";
 import { ThemeNames } from "../containers/NdlaFilm/components/ThemeEditor";
 import { LocaleType } from "../interfaces";
+import { isVisualElementSlateElement } from "../components/SlateEditor/helpers";
 
 export const getInitialValues = (filmFrontpage: IFilmFrontPageDTO, selectedLanguage: string): FilmFormikType => {
   const supportedLanguages = filmFrontpage.about.map((about) => about.language);
@@ -105,7 +105,7 @@ export const getNdlaFilmFromSlate = (
   selectedLanguage: string,
 ): INewOrUpdatedFilmFrontPageDTO => {
   const slateVisualElement = newFrontpage.visualElement?.[0];
-  const data = isSlateEmbed(slateVisualElement) ? slateVisualElement.data : undefined;
+  const data = isVisualElementSlateElement(slateVisualElement) ? slateVisualElement.data : undefined;
 
   const editedAbout = {
     description: editorValueToPlainText(newFrontpage.description),

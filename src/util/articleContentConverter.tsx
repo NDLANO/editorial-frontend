@@ -19,7 +19,7 @@ import {
 import { AudioEmbedData, BrightcoveEmbedData, H5pEmbedData, ImageEmbedData } from "@ndla/types-embed";
 import { parseEmbedTag } from "./embedTagHelpers";
 import { Plain } from "./slatePlainSerializer";
-import { blocks, inlines } from "../components/SlateEditor/helpers";
+import { blocks, inlines, isVisualElementSlateElement } from "../components/SlateEditor/helpers";
 import { asideSerializer } from "../components/SlateEditor/plugins/aside/asideSerializer";
 import { audioSerializer } from "../components/SlateEditor/plugins/audio/audioSerializer";
 import { blockQuoteSerializer } from "../components/SlateEditor/plugins/blockquote/blockquoteSerializer";
@@ -40,7 +40,7 @@ import { summarySerializer } from "../components/SlateEditor/plugins/details/sum
 import { divSerializer } from "../components/SlateEditor/plugins/div";
 import { embedSerializer } from "../components/SlateEditor/plugins/embed";
 import { TYPE_NDLA_EMBED } from "../components/SlateEditor/plugins/embed/types";
-import { defaultEmbedBlock, isSlateEmbed } from "../components/SlateEditor/plugins/embed/utils";
+import { defaultEmbedBlock } from "../components/SlateEditor/plugins/embed/utils";
 import { externalSerializer, iframeSerializer } from "../components/SlateEditor/plugins/external";
 import { fileSerializer } from "../components/SlateEditor/plugins/file";
 import { footnoteSerializer } from "../components/SlateEditor/plugins/footnote";
@@ -212,7 +212,7 @@ export function embedTagToEditorValue(embedTag: string) {
 
 export function editorValueToEmbed(editorValue?: Descendant[]) {
   const embed = editorValue && editorValue[0];
-  if (embed && isSlateEmbed(embed)) return embed.data;
+  if (embed && isVisualElementSlateElement(embed)) return embed.data;
   else return undefined;
 }
 

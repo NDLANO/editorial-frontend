@@ -17,7 +17,6 @@ import { diffHTML } from "./diffHTML";
 import { isUserProvidedEmbedDataValid } from "./embedTagHelpers";
 import { findNodesByType } from "./slateHelpers";
 import { RulesType } from "../components/formikValidationSchema";
-import { EmbedElements } from "../components/SlateEditor/plugins/embed";
 import {
   ArticleFormType,
   LearningResourceFormType,
@@ -233,8 +232,8 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
         "audio",
         "error-embed",
         "external",
-      ).map((node) => (node as EmbedElements).data);
-      const notValidEmbeds = embeds.filter((embed) => embed && !isUserProvidedEmbedDataValid(embed));
+      );
+      const notValidEmbeds = embeds.filter((embed) => embed.data && !isUserProvidedEmbedDataValid(embed.data));
       const embedsHasErrors = notValidEmbeds.length > 0;
 
       return embedsHasErrors ? { translationKey: "learningResourceForm.validation.missingEmbedData" } : undefined;

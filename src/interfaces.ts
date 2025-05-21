@@ -8,7 +8,14 @@
 
 import { IAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import { IArticleDTO, IRelatedContentLinkDTO } from "@ndla/types-backend/draft-api";
-import { AudioEmbedData, BrightcoveEmbedData, H5pEmbedData, ImageEmbedData } from "@ndla/types-embed";
+import {
+  AudioEmbedData,
+  BrightcoveEmbedData,
+  H5pEmbedData,
+  IframeEmbedData,
+  ImageEmbedData,
+  OembedEmbedData,
+} from "@ndla/types-embed";
 import { SearchTypeValues, LOCALE_VALUES } from "./constants";
 import { FormEvent } from "react";
 import { DateChangedEvent } from "./containers/FormikForm/components/InlineDatePicker";
@@ -90,7 +97,14 @@ export interface ErrorEmbed {
   message: string;
 }
 
-export type Embed = ImageEmbedData | BrightcoveEmbedData | AudioEmbedData | H5pEmbedData | ErrorEmbed;
+export type Embed =
+  | ImageEmbedData
+  | BrightcoveEmbedData
+  | AudioEmbedData
+  | H5pEmbedData
+  | ErrorEmbed
+  | OembedEmbedData
+  | IframeEmbedData;
 
 export interface FileFormat {
   url: string;

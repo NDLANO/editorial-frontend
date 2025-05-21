@@ -255,6 +255,7 @@ const SlateBlockPicker = ({
 
   const onFocus = useCallback(() => {
     if (!blockPickerOpen) {
+      // TODO: This should probably be deferred to the next render, but doing it breaks CI.
       ReactEditor.focus(editor);
     }
   }, [blockPickerOpen, editor]);

@@ -7,12 +7,13 @@
  */
 
 import { unreachable } from "../util/guards";
-import { PromptVariables, LanguageCode, PromptType, Payload, isLanguageCode } from "./llmApiTypes";
-import { DEBUG_INSTRUCTION, ERROR_INSTRUCTION, Prompt, PROMPTS } from "./llmPrompts";
+import { PromptVariables, PromptType, PromptPayload } from "../interfaces";
+import { DEBUG_INSTRUCTION, ERROR_INSTRUCTION, PROMPTS } from "./llmPrompts";
+import { isLlmLanguageCode, LlmLanguageCode, Prompt } from "./llmTypes";
 
 type LlmQuery<T extends PromptVariables> = {
   components: (variables: T) => string;
-  promptSelector: (lang: LanguageCode) => Prompt;
+  promptSelector: (lang: LlmLanguageCode) => Prompt;
 };
 
 type ExtractVariables<T extends PromptType> = Extract<PromptVariables, { type: T }>;
@@ -26,7 +27,7 @@ const createQuery = <T extends PromptType>(
       .map(([tag, variableKey]) => `<${tag}>${variables[variableKey]}</${tag}>`)
       .join("\n");
 
-  const promptSelector = (lang: LanguageCode) => PROMPTS[lang][type];
+  const promptSelector = (lang: LlmLanguageCode) => PROMPTS[lang][type];
 
   return {
     promptSelector,
@@ -71,8 +72,8 @@ const getLlmQuery = <T extends PromptVariables>(type: T["type"]): LlmQuery<T> =>
   }
 };
 
-export const llmQueryText = (payload: Payload<PromptVariables>, language: string) => {
-  const lang = isLanguageCode(language) ? language : "nb";
+export const llmQueryText = (payload: PromptPayload<PromptVariables>, language: string) => {
+  const lang = isLlmLanguageCode(language) ? language : "nb";
   const { components, promptSelector } = getLlmQuery(payload.type);
   const prompt = promptSelector(lang);
   const role = payload.role ?? prompt.role;

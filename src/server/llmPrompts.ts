@@ -6,20 +6,13 @@
  *
  */
 
-import { PromptVariables, LanguageCode } from "./llmApiTypes";
-
-export type Prompt = {
-  role: string;
-  generalInstructions: string;
-  formatInstructions: string;
-};
+import { PromptVariables } from "../interfaces";
+import { LlmLanguageCode, Prompt } from "./llmTypes";
 
 export type Prompts = {
-  [T in PromptVariables as T["type"]]: Prompt;
-};
-
-export type LanguageRecord<T> = {
-  [U in LanguageCode]: T;
+  [T in LlmLanguageCode]: {
+    [U in PromptVariables["type"]]: Prompt;
+  };
 };
 
 export const DEBUG_INSTRUCTION = {
@@ -34,7 +27,7 @@ export const ERROR_INSTRUCTION = {
   en: "If you cannot deliver the answer in the given format <answer>, the reasoning should be written inside an <ERROR> tag.",
 };
 
-export const PROMPTS: LanguageRecord<Prompts> = {
+export const PROMPTS: Prompts = {
   nb: {
     summary: {
       role: `

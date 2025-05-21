@@ -17,7 +17,8 @@ import {
 } from "@aws-sdk/client-transcribe";
 import { llmQueryText } from "./llmQueries";
 import { PROMPTS } from "./llmPrompts";
-import { PromptType, DefaultPrompts, isLanguageCode, Payload, PromptVariables } from "./llmApiTypes";
+import { PromptType, DefaultPrompts, PromptPayload, PromptVariables } from "../interfaces";
+import { isLlmLanguageCode } from "./llmTypes";
 
 const aiModelId = getEnvironmentVariabel("NDLA_AI_MODEL_ID", "test");
 const aiRegion = getEnvironmentVariabel("NDLA_AI_MODEL_REGION", "eu-west-1");
@@ -36,12 +37,12 @@ const bedRockClient = new BedrockRuntimeClient({
 const textDecoder = new TextDecoder();
 
 export const getDefaultPrompts = (type: PromptType, language: string): DefaultPrompts => {
-  const lang = isLanguageCode(language) ? language : "nb";
+  const lang = isLlmLanguageCode(language) ? language : "nb";
   const { role, generalInstructions: instructions } = PROMPTS[lang][type];
   return { role, instructions };
 };
 
-export const generateAnswer = async (request: Payload<PromptVariables>, language: string, max_tokens: number) => {
+export const generateAnswer = async (request: PromptPayload<PromptVariables>, language: string, max_tokens: number) => {
   const { role, message } = llmQueryText(request, language);
 
   const prompt = {

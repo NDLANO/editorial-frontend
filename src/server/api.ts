@@ -16,11 +16,10 @@ import errorLogger from "./logger";
 import { translateDocument } from "./translate";
 import config, { getEnvironmentVariabel } from "../config";
 import { AI_ACCESS_SCOPE, DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
-import { NdlaError } from "../interfaces";
+import { isPromptType, NdlaError } from "../interfaces";
 import { fetchMatomoStats } from "./matomo";
 import { generateAnswer, getDefaultPrompts, getTranscription, initializeTranscription } from "./llm";
 import { isValidRequestBody } from "./utils";
-import { isPromptType } from "./llmApiTypes";
 
 const router = express.Router();
 

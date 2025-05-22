@@ -14,16 +14,15 @@ import { AUDIO_ELEMENT_TYPE } from "../plugins/audio/audioTypes";
 import { CODE_BLOCK_ELEMENT_TYPE } from "../plugins/codeBlock/types";
 import { COMMENT_BLOCK_ELEMENT_TYPE } from "../plugins/comment/block/types";
 import { DETAILS_ELEMENT_TYPE } from "../plugins/details/detailsTypes";
-import { TYPE_EMBED_ERROR } from "../plugins/embed/types";
-import { TYPE_EXTERNAL } from "../plugins/external/types";
+import { EXTERNAL_ELEMENT_TYPE, IFRAME_ELEMENT_TYPE } from "../plugins/external/types";
 import { FILE_ELEMENT_TYPE } from "../plugins/file/types";
-import { TYPE_GRID } from "../plugins/grid/types";
+import { GRID_ELEMENT_TYPE } from "../plugins/grid/types";
 import { H5P_ELEMENT_TYPE } from "../plugins/h5p/types";
 import { TYPE_HEADING } from "../plugins/heading/types";
 import { TYPE_LIST } from "../plugins/list/types";
 import { TYPE_PARAGRAPH } from "../plugins/paragraph/types";
 import { SPAN_ELEMENT_TYPE } from "../plugins/span/types";
-import { TYPE_TABLE } from "../plugins/table/types";
+import { TABLE_ELEMENT_TYPE } from "../plugins/table/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../plugins/video/types";
 import { CONCEPT_INLINE_ELEMENT_TYPE } from "../plugins/concept/inline/types";
 import { COMMENT_INLINE_ELEMENT_TYPE } from "../plugins/comment/inline/types";
@@ -41,11 +40,11 @@ export const textBlockElements: Element["type"][] = [
   TYPE_HEADING,
   TYPE_LIST,
   BLOCK_QUOTE_ELEMENT_TYPE,
-  TYPE_TABLE,
+  TABLE_ELEMENT_TYPE,
   AUDIO_ELEMENT_TYPE,
   BRIGHTCOVE_ELEMENT_TYPE,
-  TYPE_EXTERNAL,
-  TYPE_EMBED_ERROR,
+  EXTERNAL_ELEMENT_TYPE,
+  IFRAME_ELEMENT_TYPE,
   H5P_ELEMENT_TYPE,
   FILE_ELEMENT_TYPE,
   CODE_BLOCK_ELEMENT_TYPE,
@@ -53,7 +52,7 @@ export const textBlockElements: Element["type"][] = [
   FRAMED_CONTENT_ELEMENT_TYPE,
   DETAILS_ELEMENT_TYPE,
   DEFINITION_LIST_ELEMENT_TYPE,
-  TYPE_GRID,
+  GRID_ELEMENT_TYPE,
   REPHRASE_ELEMENT_TYPE,
   SPAN_ELEMENT_TYPE,
 ];

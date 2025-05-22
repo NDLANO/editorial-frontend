@@ -10,9 +10,8 @@ import { FormikHandlers } from "formik";
 import { useMemo } from "react";
 import { audioPlugin } from "../../components/SlateEditor/plugins/audio/audioPlugin";
 import { audioRenderer } from "../../components/SlateEditor/plugins/audio/render";
-import { EmbedElements, embedPlugin } from "../../components/SlateEditor/plugins/embed";
-import { embedRenderer } from "../../components/SlateEditor/plugins/embed/render";
-import { externalPlugin } from "../../components/SlateEditor/plugins/external";
+import { EmbedElements } from "../../components/SlateEditor/plugins/embed";
+import { externalPlugin, iframePlugin } from "../../components/SlateEditor/plugins/external";
 import { externalRenderer } from "../../components/SlateEditor/plugins/external/render";
 import { h5pPlugin } from "../../components/SlateEditor/plugins/h5p";
 import { h5pRenderer } from "../../components/SlateEditor/plugins/h5p/render";
@@ -54,14 +53,13 @@ const VisualElement = ({
       audioRenderer,
       h5pPlugin.configure({ options: { disableNormalize: true } }),
       h5pRenderer,
-      externalPlugin(true),
+      externalPlugin.configure({ options: { disableNormalize: true } }),
+      iframePlugin.configure({ options: { disableNormalize: true } }),
       videoPlugin.configure({ options: { disableNormalization: true } }),
       videoRenderer,
       imagePlugin.configure({ options: { disableNormalization: true } }),
       imageRenderer(allowDecorative),
       externalRenderer,
-      embedPlugin(true),
-      embedRenderer,
     ];
   }, [allowDecorative]);
 

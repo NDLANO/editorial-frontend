@@ -137,7 +137,7 @@ const SlateFramedContent = (props: Props) => {
         ) : undefined}
         {!hasSlateCopyright && (
           <IconButton
-            variant="tertiary"
+            variant="secondary"
             size="small"
             aria-label={t("form.copyright.add")}
             title={t("form.copyright.add")}

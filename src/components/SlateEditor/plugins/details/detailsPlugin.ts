@@ -6,10 +6,9 @@
  *
  */
 
-import { createPlugin, Logger, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
+import { createPlugin, defaultNormalizer, Logger, NormalizerConfig, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { DETAILS_ELEMENT_TYPE, DETAILS_PLUGIN } from "./detailsTypes";
 import { isDetailsElement, isSummaryElement } from "./queries/detailsQueries";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { SUMMARY_ELEMENT_TYPE } from "./summaryTypes";
 import {
   afterOrBeforeTextBlockElement,
@@ -72,7 +71,7 @@ export const detailsPlugin = createPlugin({
         );
         return true;
       }
-      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+      return defaultNormalizer(editor, node, path, normalizerConfig, logger);
     }
     return false;
   },

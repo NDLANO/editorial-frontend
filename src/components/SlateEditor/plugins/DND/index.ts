@@ -9,13 +9,16 @@
 import { DragEventHandler } from "react";
 import { Editor, Element, Node, Text } from "slate";
 import { ReactEditor } from "slate-react";
+import {
+  HEADING_ELEMENT_TYPE,
+  LIST_ELEMENT_TYPE,
+  LIST_ITEM_ELEMENT_TYPE,
+  PARAGRAPH_ELEMENT_TYPE,
+  SECTION_ELEMENT_TYPE,
+} from "@ndla/editor";
 import onDrop from "./onDrop";
 import { getTopNode } from "./utils";
-import { TYPE_HEADING } from "../heading/types";
-import { TYPE_LIST, TYPE_LIST_ITEM } from "../list/types";
-import { TYPE_PARAGRAPH } from "../paragraph/types";
-import { TYPE_SECTION } from "../section/types";
-import { TYPE_TABLE_CAPTION } from "../table/types";
+import { TABLE_CAPTION_ELEMENT_TYPE } from "../table/types";
 import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquote/blockquoteTypes";
 
 const onDragOver = (): DragEventHandler<HTMLDivElement> => (event) => {
@@ -44,25 +47,30 @@ const dndPlugin = (editor: Editor) => {
       const fragment = Node.fragment(editor, selection);
       const section = fragment[0];
 
-      if (Element.isElement(section) && section.type === TYPE_SECTION) {
+      if (Element.isElement(section) && section.type === SECTION_ELEMENT_TYPE) {
         const lowestCommonAncestor = [...Node.nodes(section)].find(([element]) => {
           return (
             Element.isElement(element) &&
             (element.children.length > 1 ||
-              [TYPE_HEADING, TYPE_PARAGRAPH, BLOCK_QUOTE_ELEMENT_TYPE, TYPE_TABLE_CAPTION].includes(element.type))
+              [
+                HEADING_ELEMENT_TYPE,
+                PARAGRAPH_ELEMENT_TYPE,
+                BLOCK_QUOTE_ELEMENT_TYPE,
+                TABLE_CAPTION_ELEMENT_TYPE,
+              ].includes(element.type))
           );
         })?.[0];
         if (Element.isElement(lowestCommonAncestor)) {
-          if (lowestCommonAncestor.type === TYPE_HEADING) {
+          if (lowestCommonAncestor.type === HEADING_ELEMENT_TYPE) {
             return [lowestCommonAncestor];
           }
-          if (lowestCommonAncestor.type === TYPE_LIST) {
+          if (lowestCommonAncestor.type === LIST_ELEMENT_TYPE) {
             return [lowestCommonAncestor];
           }
-          if (lowestCommonAncestor.type === TYPE_TABLE_CAPTION) {
+          if (lowestCommonAncestor.type === TABLE_CAPTION_ELEMENT_TYPE) {
             return lowestCommonAncestor.children;
           }
-          if (lowestCommonAncestor.type === TYPE_LIST_ITEM) {
+          if (lowestCommonAncestor.type === LIST_ITEM_ELEMENT_TYPE) {
             const lowestCommonList = [...Node.nodes(section)].find(([element]) => {
               return Element.isElement(element) && element.children.includes(lowestCommonAncestor);
             })?.[0];

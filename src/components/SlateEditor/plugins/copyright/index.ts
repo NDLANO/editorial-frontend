@@ -12,11 +12,12 @@ import {
   createHtmlTag,
   createPlugin,
   createSerializer,
+  defaultNormalizer,
+  NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
 import { COPYRIGHT_ELEMENT_TYPE, COPYRIGHT_PLUGIN } from "./types";
-import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import {
   afterOrBeforeTextBlockElement,
   firstTextBlockElement,
@@ -78,7 +79,7 @@ export const copyrightPlugin = createPlugin({
   type: COPYRIGHT_ELEMENT_TYPE,
   normalize: (editor, node, path, logger) => {
     if (isCopyrightElement(node)) {
-      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+      return defaultNormalizer(editor, node, path, normalizerConfig, logger);
     }
     return false;
   },

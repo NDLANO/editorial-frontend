@@ -11,7 +11,7 @@ import { createSlate } from "@ndla/editor";
 import { frontpagePlugins } from "../../../../../containers/ArticlePage/FrontpageArticlePage/components/frontpagePlugins";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
-import { TYPE_GRID, TYPE_GRID_CELL } from "../types";
+import { GRID_ELEMENT_TYPE, GRID_CELL_ELEMENT_TYPE } from "../types";
 import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 
 const editor = createSlate({ plugins: frontpagePlugins });
@@ -24,29 +24,29 @@ describe("normalizing grid tests", () => {
         children: [
           { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
-            type: TYPE_GRID,
+            type: GRID_ELEMENT_TYPE,
             data: {
               columns: "2",
               border: "none",
             },
             children: [
               {
-                type: TYPE_GRID_CELL,
+                type: GRID_CELL_ELEMENT_TYPE,
                 data: { parallaxCell: "false" },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
               },
               {
-                type: TYPE_GRID_CELL,
+                type: GRID_CELL_ELEMENT_TYPE,
                 data: { parallaxCell: "false" },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
               },
               {
-                type: TYPE_GRID_CELL,
+                type: GRID_CELL_ELEMENT_TYPE,
                 data: { parallaxCell: "false" },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
               },
               {
-                type: TYPE_GRID_CELL,
+                type: GRID_CELL_ELEMENT_TYPE,
                 data: { parallaxCell: "false" },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
               },
@@ -64,7 +64,7 @@ describe("normalizing grid tests", () => {
         children: [
           { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
           {
-            type: TYPE_GRID,
+            type: GRID_ELEMENT_TYPE,
             id: anySlateElementId,
             data: {
               columns: "2",
@@ -72,13 +72,13 @@ describe("normalizing grid tests", () => {
             },
             children: [
               {
-                type: TYPE_GRID_CELL,
+                type: GRID_CELL_ELEMENT_TYPE,
                 id: anySlateElementId,
                 data: { parallaxCell: "false" },
                 children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "a" }] }],
               },
               {
-                type: TYPE_GRID_CELL,
+                type: GRID_CELL_ELEMENT_TYPE,
                 id: anySlateElementId,
                 data: { parallaxCell: "false" },
                 children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "a" }] }],
@@ -101,19 +101,19 @@ describe("normalizing grid tests", () => {
         children: [
           { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
-            type: TYPE_GRID,
+            type: GRID_ELEMENT_TYPE,
             data: {
               columns: "4",
               border: "none",
             },
             children: [
               {
-                type: TYPE_GRID_CELL,
+                type: GRID_CELL_ELEMENT_TYPE,
                 data: { parallaxCell: "false" },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
               },
               {
-                type: TYPE_GRID_CELL,
+                type: GRID_CELL_ELEMENT_TYPE,
                 data: { parallaxCell: "false" },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
               },
@@ -131,7 +131,7 @@ describe("normalizing grid tests", () => {
         children: [
           { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
           {
-            type: TYPE_GRID,
+            type: GRID_ELEMENT_TYPE,
             id: anySlateElementId,
             data: {
               columns: "4",
@@ -139,25 +139,25 @@ describe("normalizing grid tests", () => {
             },
             children: [
               {
-                type: TYPE_GRID_CELL,
+                type: GRID_CELL_ELEMENT_TYPE,
                 id: anySlateElementId,
                 data: { parallaxCell: "false" },
                 children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "a" }] }],
               },
               {
-                type: TYPE_GRID_CELL,
+                type: GRID_CELL_ELEMENT_TYPE,
                 id: anySlateElementId,
                 data: { parallaxCell: "false" },
                 children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "a" }] }],
               },
               {
-                type: TYPE_GRID_CELL,
+                type: GRID_CELL_ELEMENT_TYPE,
                 id: anySlateElementId,
                 data: { parallaxCell: "false" },
                 children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] }],
               },
               {
-                type: TYPE_GRID_CELL,
+                type: GRID_CELL_ELEMENT_TYPE,
                 id: anySlateElementId,
                 data: { parallaxCell: "false" },
                 children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] }],

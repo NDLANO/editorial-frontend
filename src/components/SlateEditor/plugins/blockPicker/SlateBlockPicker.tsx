@@ -46,13 +46,13 @@ import { CONTACT_BLOCK_ELEMENT_TYPE } from "../contactBlock/types";
 import { defaultContactBlock } from "../contactBlock/utils";
 import { DETAILS_ELEMENT_TYPE } from "../details/detailsTypes";
 import { defaultDetailsBlock } from "../details/utils";
-import { TYPE_EMBED_ERROR } from "../embed/types";
-import { TYPE_EXTERNAL } from "../external/types";
+import { EXTERNAL_ELEMENT_TYPE } from "../external/types";
 import { defaultExternalBlock } from "../external/utils";
 import { FILE_ELEMENT_TYPE } from "../file/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes";
 import { defaultFramedContentBlock } from "../framedContent/utils";
-import { TYPE_GRID } from "../grid/types";
+import { isGridElement } from "../grid/queries";
+import { GRID_ELEMENT_TYPE } from "../grid/types";
 import { defaultGridBlock } from "../grid/utils";
 import { H5P_ELEMENT_TYPE } from "../h5p/types";
 import { defaultH5pBlock } from "../h5p/utils";
@@ -68,8 +68,9 @@ import { defaultPitchBlock } from "../pitch/utils";
 import { defaultRelatedBlock } from "../related";
 import { RELATED_ELEMENT_TYPE } from "../related/types";
 import { defaultTableBlock } from "../table/defaultBlocks";
-import { isInTableCellHeader, isTableCell } from "../table/slateHelpers";
-import { TYPE_TABLE } from "../table/types";
+import { isAnyTableCellElement } from "../table/queries";
+import { isInTableCellHeader } from "../table/slateHelpers";
+import { TABLE_ELEMENT_TYPE } from "../table/types";
 import { IS_MAC } from "../toolbar/ToolbarToggle";
 import { DISCLAIMER_ELEMENT_TYPE } from "../uuDisclaimer/types";
 import { defaultDisclaimerBlock } from "../uuDisclaimer/utils";
@@ -135,10 +136,10 @@ const getLeftAdjust = (parent?: Node) => {
   if (Element.isElement(parent) && parent.type === TYPE_LIST_ITEM) {
     return 110;
   }
-  if (isTableCell(parent)) {
+  if (isAnyTableCellElement(parent)) {
     return 100;
   }
-  if (Element.isElement(parent) && parent.type === TYPE_GRID) {
+  if (isGridElement(parent)) {
     return -100;
   }
 
@@ -306,7 +307,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultDetailsBlock(), true);
         break;
       }
-      case TYPE_TABLE: {
+      case TABLE_ELEMENT_TYPE: {
         onInsertBlock(defaultTableBlock(2, 2), true);
         break;
       }
@@ -323,7 +324,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultH5pBlock());
         break;
       }
-      case TYPE_EXTERNAL: {
+      case EXTERNAL_ELEMENT_TYPE: {
         onInsertBlock(defaultExternalBlock());
         break;
       }
@@ -337,8 +338,7 @@ const SlateBlockPicker = ({
         setType(data.object);
         break;
       }
-      case FILE_ELEMENT_TYPE:
-      case TYPE_EMBED_ERROR: {
+      case FILE_ELEMENT_TYPE: {
         setVisualElementPickerOpen(true);
         setType(data.object);
         break;
@@ -359,7 +359,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultConceptBlock());
         break;
       }
-      case TYPE_GRID: {
+      case GRID_ELEMENT_TYPE: {
         onInsertBlock(defaultGridBlock(), true);
         break;
       }

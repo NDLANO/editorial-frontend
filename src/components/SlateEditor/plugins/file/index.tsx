@@ -12,13 +12,14 @@ import {
   createHtmlTag,
   createPlugin,
   createSerializer,
+  defaultNormalizer,
+  NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
 } from "@ndla/editor";
 import { isFileElement } from "./queries";
 import { FILE_ELEMENT_TYPE, FILE_PLUGIN } from "./types";
 import { defaultFileBlock } from "./utils";
 import { File } from "../../../../interfaces";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 
@@ -68,7 +69,7 @@ export const filePlugin = createPlugin({
   isVoid: true,
   normalize: (editor, node, path, logger) => {
     if (isFileElement(node)) {
-      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+      return defaultNormalizer(editor, node, path, normalizerConfig, logger);
     }
     return false;
   },

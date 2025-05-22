@@ -9,18 +9,18 @@
 import { Editor } from "slate";
 import { SlateGrid } from "./SlateGrid";
 import SlateGridCell from "./SlateGridCell";
-import { TYPE_GRID, TYPE_GRID_CELL } from "./types";
+import { GRID_CELL_ELEMENT_TYPE, GRID_ELEMENT_TYPE } from "./types";
 
 export const gridRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_GRID) {
+    if (element.type === GRID_ELEMENT_TYPE) {
       return (
         <SlateGrid editor={editor} element={element} attributes={attributes}>
           {children}
         </SlateGrid>
       );
-    } else if (element.type === TYPE_GRID_CELL) {
+    } else if (element.type === GRID_CELL_ELEMENT_TYPE) {
       return (
         <SlateGridCell editor={editor} element={element} attributes={attributes}>
           {children}

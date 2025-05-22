@@ -12,11 +12,12 @@ import {
   createHtmlTag,
   createPlugin,
   createSerializer,
+  defaultNormalizer,
+  NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
 import { CAMPAIGN_BLOCK_ELEMENT_TYPE, CAMPAIGN_BLOCK_PLUGIN } from "./types";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 import { isCampaignBlockElement } from "./queries/campaignBlockQueries";
@@ -53,7 +54,7 @@ export const campaignBlockPlugin = createPlugin({
   isVoid: true,
   normalize: (editor, node, path, logger) => {
     if (isCampaignBlockElement(node)) {
-      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+      return defaultNormalizer(editor, node, path, normalizerConfig, logger);
     }
     return false;
   },

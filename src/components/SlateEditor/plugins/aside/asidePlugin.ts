@@ -6,10 +6,9 @@
  *
  */
 
-import { createPlugin, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
+import { createPlugin, defaultNormalizer, NormalizerConfig, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { ASIDE_ELEMENT_TYPE, ASIDE_PLUGIN } from "./asideTypes";
 import { isAsideElement } from "./queries/asideQueries";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import {
   afterOrBeforeTextBlockElement,
   firstTextBlockElement,
@@ -45,7 +44,7 @@ export const asidePlugin = createPlugin({
   type: ASIDE_ELEMENT_TYPE,
   normalize: (editor, node, path, logger) => {
     if (isAsideElement(node)) {
-      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+      return defaultNormalizer(editor, node, path, normalizerConfig, logger);
     }
     return false;
   },

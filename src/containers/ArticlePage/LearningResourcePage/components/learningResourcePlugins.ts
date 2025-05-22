@@ -22,12 +22,12 @@ import { detailsPlugin } from "../../../../components/SlateEditor/plugins/detail
 import { summaryPlugin } from "../../../../components/SlateEditor/plugins/details/summaryPlugin";
 import { divPlugin } from "../../../../components/SlateEditor/plugins/div";
 import { dndPlugin } from "../../../../components/SlateEditor/plugins/DND";
-import { embedPlugin } from "../../../../components/SlateEditor/plugins/embed";
-import { externalPlugin } from "../../../../components/SlateEditor/plugins/external";
+import { externalPlugin, iframePlugin } from "../../../../components/SlateEditor/plugins/external";
 import { filePlugin } from "../../../../components/SlateEditor/plugins/file";
 import { footnotePlugin } from "../../../../components/SlateEditor/plugins/footnote";
 import { framedContentPlugin } from "../../../../components/SlateEditor/plugins/framedContent/framedContentPlugin";
-import { gridPlugin } from "../../../../components/SlateEditor/plugins/grid";
+import { gridPlugin } from "../../../../components/SlateEditor/plugins/grid/gridPlugin";
+import { gridCellPlugin } from "../../../../components/SlateEditor/plugins/grid/gridCellPlugin";
 import { h5pPlugin } from "../../../../components/SlateEditor/plugins/h5p";
 import { imagePlugin } from "../../../../components/SlateEditor/plugins/image";
 import { contentLinkPlugin, linkPlugin } from "../../../../components/SlateEditor/plugins/link";
@@ -35,7 +35,15 @@ import { mathmlPlugin } from "../../../../components/SlateEditor/plugins/mathml/
 import { relatedPlugin } from "../../../../components/SlateEditor/plugins/related";
 import saveHotkeyPlugin from "../../../../components/SlateEditor/plugins/saveHotkey";
 import { spanPlugin } from "../../../../components/SlateEditor/plugins/span";
-import { tablePlugin } from "../../../../components/SlateEditor/plugins/table";
+import { tablePlugin } from "../../../../components/SlateEditor/plugins/table/tablePlugin";
+import { tableCaptionPlugin } from "../../../../components/SlateEditor/plugins/table/tableCaptionPlugin";
+import {
+  tableCellHeaderPlugin,
+  tableCellPlugin,
+} from "../../../../components/SlateEditor/plugins/table/tableCellPlugins";
+import { tableBodyPlugin } from "../../../../components/SlateEditor/plugins/table/tableBodyPlugin";
+import { tableHeadPlugin } from "../../../../components/SlateEditor/plugins/table/tableHeadPlugin";
+import { tableRowPlugin } from "../../../../components/SlateEditor/plugins/table/tableRowPlugin";
 import { textTransformPlugin } from "../../../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../../../components/SlateEditor/plugins/toolbar";
 import { disclaimerPlugin } from "../../../../components/SlateEditor/plugins/uuDisclaimer";
@@ -64,9 +72,9 @@ export const learningResourcePlugins: SlatePlugin[] = [
   audioPlugin,
   imagePlugin,
   h5pPlugin,
-  externalPlugin(),
+  externalPlugin,
+  iframePlugin,
   videoPlugin,
-  embedPlugin(),
   framedContentPlugin,
   blockQuotePlugin,
   linkPlugin,
@@ -83,6 +91,12 @@ export const learningResourcePlugins: SlatePlugin[] = [
   // // Blockquote and editList actions need to be triggered before paragraph action, else
   // // unwrapping (jumping out of block) will not work.
   tablePlugin,
+  tableCaptionPlugin,
+  tableCellPlugin,
+  tableCellHeaderPlugin,
+  tableBodyPlugin,
+  tableHeadPlugin,
+  tableRowPlugin,
   relatedPlugin,
   filePlugin,
   mathmlPlugin,
@@ -99,6 +113,7 @@ export const learningResourcePlugins: SlatePlugin[] = [
   definitionDescriptionPlugin,
   listPlugin,
   gridPlugin,
+  gridCellPlugin,
   disclaimerPlugin,
   copyrightPlugin,
   rephrasePlugin,

@@ -13,12 +13,13 @@ import {
   createHtmlTag,
   createPlugin,
   createSerializer,
+  defaultNormalizer,
+  NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
 import { isRelatedElement } from "./queries";
 import { RELATED_ELEMENT_TYPE, RELATED_PLUGIN } from "./types";
-import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 
@@ -80,7 +81,7 @@ export const relatedPlugin = createPlugin({
   isVoid: true,
   normalize: (editor, node, path, logger) => {
     if (isRelatedElement(node)) {
-      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+      return defaultNormalizer(editor, node, path, normalizerConfig, logger);
     }
     return false;
   },

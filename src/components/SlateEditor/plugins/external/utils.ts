@@ -7,8 +7,10 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_EXTERNAL, TYPE_IFRAME } from "./types";
+import { EXTERNAL_ELEMENT_TYPE, IFRAME_ELEMENT_TYPE } from "./types";
 
-export const defaultExternalBlock = () => slatejsx("element", { type: TYPE_EXTERNAL, isFirstEdit: true }, { text: "" });
+export const defaultExternalBlock = () =>
+  slatejsx("element", { type: EXTERNAL_ELEMENT_TYPE, isFirstEdit: true }, { text: "" });
 
-export const defaultIframeBlock = () => slatejsx("element", { type: TYPE_IFRAME, isFirstEdit: true }, { text: "" });
+export const defaultIframeBlock = () =>
+  slatejsx("element", { type: IFRAME_ELEMENT_TYPE, isFirstEdit: true }, { text: "" });

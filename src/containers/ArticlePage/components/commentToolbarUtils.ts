@@ -8,7 +8,7 @@
 
 import { SlatePlugin } from "../../../components/SlateEditor/interfaces";
 import { breakRenderer } from "../../../components/SlateEditor/plugins/break/render";
-import { linkPlugin } from "../../../components/SlateEditor/plugins/link";
+import { contentLinkPlugin, linkPlugin } from "../../../components/SlateEditor/plugins/link";
 import { linkRenderer } from "../../../components/SlateEditor/plugins/link/render";
 import { listRenderer } from "../../../components/SlateEditor/plugins/list/render";
 import { markRenderer } from "../../../components/SlateEditor/plugins/mark/render";
@@ -43,6 +43,7 @@ export const plugins: SlatePlugin[] = [
   saveHotkeyPlugin,
   markPlugin,
   noopPlugin,
+  contentLinkPlugin,
   linkPlugin,
   listPlugin,
   sectionRenderer,

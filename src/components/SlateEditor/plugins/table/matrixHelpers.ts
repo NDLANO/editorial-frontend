@@ -8,8 +8,8 @@
 
 import { compact, isEqual, uniq } from "lodash-es";
 import { TableCellElement, TableMatrix } from "./interfaces";
-import { TYPE_TABLE_CELL_HEADER } from "./types";
-import { isTableCellHeader } from "./slateHelpers";
+import { TABLE_CELL_HEADER_ELEMENT_TYPE } from "./types";
+import { isTableCellHeaderElement } from "./queries";
 
 export const getPrevCell = (matrix: TableMatrix, row: number, column: number) => {
   return matrix[row][column - 1];
@@ -102,14 +102,14 @@ export const previousMatrixCellIsEqualCurrent = (matrix: TableMatrix, rowIndex: 
     isEqual(matrix?.[rowIndex - 1]?.[columnIndex], matrix?.[rowIndex]?.[columnIndex]));
 
 // Check if the row only contains TableCellHeader elements
-const isHeaderRow = (row?: TableCellElement[]) => row?.reduce((acc, cell) => acc && isTableCellHeader(cell), true);
+const isHeaderRow = (row?: TableCellElement[]) => row?.every((cell) => isTableCellHeaderElement(cell));
 
 // Creates an header object depending on the ID's of the header cells surrounding it.
 // If colspan or rowspan we check the corresponding neighbor cells for the headercells.
 export const getHeader = (matrix: TableMatrix, rowIndex: number, columnIndex: number, isRowHeaders: boolean) => {
   const { colspan, rowspan } = matrix[rowIndex][columnIndex].data;
 
-  if (matrix?.[rowIndex]?.[columnIndex]?.type !== TYPE_TABLE_CELL_HEADER) {
+  if (matrix?.[rowIndex]?.[columnIndex]?.type !== TABLE_CELL_HEADER_ELEMENT_TYPE) {
     const headers: TableCellElement[] = [];
 
     // Check if the first row is a headerrow
@@ -144,7 +144,7 @@ export const getHeader = (matrix: TableMatrix, rowIndex: number, columnIndex: nu
 // Create the id for the selected TableHeaderCell element
 export const getId = (matrix: TableMatrix, rowIndex: number, columnIndex: number, isRowHeader: boolean) => {
   // Only add ID's to TableCellHeader elements
-  if (matrix?.[rowIndex]?.[columnIndex]?.type === TYPE_TABLE_CELL_HEADER) {
+  if (matrix?.[rowIndex]?.[columnIndex]?.type === TABLE_CELL_HEADER_ELEMENT_TYPE) {
     //If the cell is on the first row and the first row is headerrow
     if (rowIndex === 0 && isHeaderRow(matrix?.[0])) {
       return `0${columnIndex}`;

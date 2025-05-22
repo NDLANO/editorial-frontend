@@ -8,6 +8,8 @@
 
 import { Descendant } from "slate";
 import {
+  createDataAttributes,
+  createHtmlTag,
   deserializeFromHtml,
   NOOP_ELEMENT_TYPE,
   PARAGRAPH_ELEMENT_TYPE,
@@ -15,9 +17,9 @@ import {
   SlateSerializer,
 } from "@ndla/editor";
 import { AudioEmbedData, BrightcoveEmbedData, H5pEmbedData, ImageEmbedData } from "@ndla/types-embed";
-import { parseEmbedTag, createHtmlTag, createDataAttributes } from "./embedTagHelpers";
+import { parseEmbedTag } from "./embedTagHelpers";
 import { Plain } from "./slatePlainSerializer";
-import { blocks, inlines } from "../components/SlateEditor/helpers";
+import { blocks, inlines, isVisualElementSlateElement } from "../components/SlateEditor/helpers";
 import { asideSerializer } from "../components/SlateEditor/plugins/aside/asideSerializer";
 import { audioSerializer } from "../components/SlateEditor/plugins/audio/audioSerializer";
 import { blockQuoteSerializer } from "../components/SlateEditor/plugins/blockquote/blockquoteSerializer";
@@ -38,12 +40,13 @@ import { summarySerializer } from "../components/SlateEditor/plugins/details/sum
 import { divSerializer } from "../components/SlateEditor/plugins/div";
 import { embedSerializer } from "../components/SlateEditor/plugins/embed";
 import { TYPE_NDLA_EMBED } from "../components/SlateEditor/plugins/embed/types";
-import { defaultEmbedBlock, isSlateEmbed } from "../components/SlateEditor/plugins/embed/utils";
-import { externalSerializer } from "../components/SlateEditor/plugins/external";
+import { defaultEmbedBlock } from "../components/SlateEditor/plugins/embed/utils";
+import { externalSerializer, iframeSerializer } from "../components/SlateEditor/plugins/external";
 import { fileSerializer } from "../components/SlateEditor/plugins/file";
 import { footnoteSerializer } from "../components/SlateEditor/plugins/footnote";
 import { framedContentSerializer } from "../components/SlateEditor/plugins/framedContent/framedContentSerializer";
-import { gridSerializer } from "../components/SlateEditor/plugins/grid";
+import { gridCellSerializer } from "../components/SlateEditor/plugins/grid/gridCellPlugin";
+import { gridSerializer } from "../components/SlateEditor/plugins/grid/gridPlugin";
 import { h5pSerializer } from "../components/SlateEditor/plugins/h5p";
 import { headingSerializer } from "../components/SlateEditor/plugins/heading";
 import { imageSerializer } from "../components/SlateEditor/plugins/image";
@@ -62,7 +65,15 @@ import { sectionSerializer } from "../components/SlateEditor/plugins/section";
 import { TYPE_SECTION } from "../components/SlateEditor/plugins/section/types";
 import { spanSerializer } from "../components/SlateEditor/plugins/span";
 import { symbolSerializer } from "../components/SlateEditor/plugins/symbol/serializer";
-import { tableSerializer } from "../components/SlateEditor/plugins/table";
+import {
+  tableBodySerializer,
+  tableCaptionSerializer,
+  tableCellSerializer,
+  tableHeaderSerializer,
+  tableHeadSerializer,
+  tableRowSerializer,
+  tableSerializer,
+} from "../components/SlateEditor/plugins/table/tableSerializers";
 import { disclaimerSerializer } from "../components/SlateEditor/plugins/uuDisclaimer";
 import { brightcoveSerializer } from "../components/SlateEditor/plugins/video";
 import { Embed, ErrorEmbed } from "../interfaces";
@@ -112,8 +123,15 @@ const extendedRules: SlateSerializer<any>[] = [
   summarySerializer,
   detailsSerializer,
   tableSerializer,
+  tableRowSerializer,
+  tableCaptionSerializer,
+  tableHeadSerializer,
+  tableBodySerializer,
+  tableCellSerializer,
+  tableHeaderSerializer,
   relatedSerializer,
   gridSerializer,
+  gridCellSerializer,
   pitchSerializer,
   codeblockSerializer,
   keyFigureSerializer,
@@ -125,6 +143,7 @@ const extendedRules: SlateSerializer<any>[] = [
   brightcoveSerializer,
   h5pSerializer,
   externalSerializer,
+  iframeSerializer,
   copyrightSerializer,
   symbolSerializer,
   embedSerializer,
@@ -193,7 +212,7 @@ export function embedTagToEditorValue(embedTag: string) {
 
 export function editorValueToEmbed(editorValue?: Descendant[]) {
   const embed = editorValue && editorValue[0];
-  if (embed && isSlateEmbed(embed)) return embed.data;
+  if (embed && isVisualElementSlateElement(embed)) return embed.data;
   else return undefined;
 }
 

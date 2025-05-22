@@ -12,8 +12,8 @@ import { COPYRIGHT_ELEMENT_TYPE } from "../copyright/types";
 import { DETAILS_ELEMENT_TYPE } from "../details/detailsTypes";
 import { DIV_ELEMENT_TYPE } from "../div/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes";
-import { TYPE_GRID_CELL } from "../grid/types";
-import { TYPE_TABLE_CELL } from "../table/types";
+import { GRID_CELL_ELEMENT_TYPE } from "../grid/types";
+import { TABLE_CELL_ELEMENT_TYPE } from "../table/types";
 import { DISCLAIMER_ELEMENT_TYPE } from "../uuDisclaimer/types";
 
 const allowedBreakContainers = ["section", "div", "aside", "li", "h1", "h2", "h3", "h4", "h5", "h6", "pre"];
@@ -32,10 +32,10 @@ export const breakPlugin = _breakPlugin.configure({
       FRAMED_CONTENT_ELEMENT_TYPE,
       ASIDE_ELEMENT_TYPE,
       DETAILS_ELEMENT_TYPE,
-      TYPE_GRID_CELL,
+      GRID_CELL_ELEMENT_TYPE,
       DISCLAIMER_ELEMENT_TYPE,
       COPYRIGHT_ELEMENT_TYPE,
-      TYPE_TABLE_CELL,
+      TABLE_CELL_ELEMENT_TYPE,
     ],
   },
 });

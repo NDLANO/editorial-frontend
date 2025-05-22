@@ -14,12 +14,11 @@ import { CODE_BLOCK_ELEMENT_TYPE } from "./plugins/codeBlock/types";
 import { COMMENT_INLINE_ELEMENT_TYPE } from "./plugins/comment/inline/types";
 import { CONCEPT_INLINE_ELEMENT_TYPE } from "./plugins/concept/inline/types";
 import { DETAILS_ELEMENT_TYPE } from "./plugins/details/detailsTypes";
-import { TYPE_EMBED_ERROR } from "./plugins/embed/types";
-import { TYPE_EXTERNAL } from "./plugins/external/types";
+import { EXTERNAL_ELEMENT_TYPE, IFRAME_ELEMENT_TYPE } from "./plugins/external/types";
 import { FILE_ELEMENT_TYPE } from "./plugins/file/types";
 import { FOOTNOTE_ELEMENT_TYPE } from "./plugins/footnote/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "./plugins/framedContent/framedContentTypes";
-import { TYPE_GRID } from "./plugins/grid/types";
+import { GRID_ELEMENT_TYPE } from "./plugins/grid/types";
 import { H5P_ELEMENT_TYPE } from "./plugins/h5p/types";
 import { IMAGE_ELEMENT_TYPE } from "./plugins/image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "./plugins/keyFigure/types";
@@ -29,9 +28,11 @@ import { REPHRASE_ELEMENT_TYPE } from "./plugins/rephrase/rephraseTypes";
 import { PITCH_ELEMENT_TYPE } from "./plugins/pitch/types";
 import { RELATED_ELEMENT_TYPE } from "./plugins/related/types";
 import { SPAN_ELEMENT_TYPE } from "./plugins/span/types";
-import { TYPE_TABLE } from "./plugins/table/types";
+import { TABLE_ELEMENT_TYPE } from "./plugins/table/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "./plugins/video/types";
 import { SYMBOL_ELEMENT_TYPE } from "./plugins/symbol/types";
+import { Node } from "slate";
+import { isElementOfType } from "@ndla/editor";
 
 export const inlines: ElementType[] = [
   CONCEPT_INLINE_ELEMENT_TYPE,
@@ -52,15 +53,18 @@ export const blocks: ElementType[] = [
   DETAILS_ELEMENT_TYPE,
   AUDIO_ELEMENT_TYPE,
   BRIGHTCOVE_ELEMENT_TYPE,
-  TYPE_EMBED_ERROR,
-  TYPE_EXTERNAL,
+  EXTERNAL_ELEMENT_TYPE,
+  IFRAME_ELEMENT_TYPE,
   H5P_ELEMENT_TYPE,
   IMAGE_ELEMENT_TYPE,
   FILE_ELEMENT_TYPE,
   RELATED_ELEMENT_TYPE,
-  TYPE_TABLE,
+  TABLE_ELEMENT_TYPE,
   PITCH_ELEMENT_TYPE,
-  TYPE_GRID,
+  GRID_ELEMENT_TYPE,
   KEY_FIGURE_ELEMENT_TYPE,
   CAMPAIGN_BLOCK_ELEMENT_TYPE,
 ];
+
+export const isVisualElementSlateElement = (node: Node | undefined) =>
+  isElementOfType(node, [IMAGE_ELEMENT_TYPE, AUDIO_ELEMENT_TYPE, H5P_ELEMENT_TYPE, BRIGHTCOVE_ELEMENT_TYPE]);

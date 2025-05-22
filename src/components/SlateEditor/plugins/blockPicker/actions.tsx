@@ -39,17 +39,17 @@ import { COMMENT_BLOCK_ELEMENT_TYPE } from "../comment/block/types";
 import { GLOSS_BLOCK_ELEMENT_TYPE } from "../concept/block/types";
 import { CONTACT_BLOCK_ELEMENT_TYPE } from "../contactBlock/types";
 import { DETAILS_ELEMENT_TYPE } from "../details/detailsTypes";
-import { TYPE_EXTERNAL } from "../external/types";
+import { EXTERNAL_ELEMENT_TYPE } from "../external/types";
 import { FILE_ELEMENT_TYPE } from "../file/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContent/framedContentTypes";
-import { TYPE_GRID } from "../grid/types";
+import { GRID_ELEMENT_TYPE } from "../grid/types";
 import { H5P_ELEMENT_TYPE } from "../h5p/types";
 import { IMAGE_ELEMENT_TYPE } from "../image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "../keyFigure/types";
 import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "../linkBlockList/types";
 import { PITCH_ELEMENT_TYPE } from "../pitch/types";
 import { RELATED_ELEMENT_TYPE } from "../related/types";
-import { TYPE_TABLE } from "../table/types";
+import { TABLE_ELEMENT_TYPE } from "../table/types";
 import { DISCLAIMER_ELEMENT_TYPE } from "../uuDisclaimer/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../video/types";
 
@@ -77,7 +77,7 @@ export const commonActions: Action[] = [
     bookmark: "#bkmrk-ekspanderende-boks",
   },
   {
-    data: { type: TYPE_TABLE, object: "table" },
+    data: { type: TABLE_ELEMENT_TYPE, object: "table" },
     icon: <TableLine />,
     bookmark: "#bkmrk-tabell",
   },
@@ -112,7 +112,7 @@ export const commonActions: Action[] = [
     bookmark: "#bkmrk-h5p",
   },
   {
-    data: { type: TYPE_EXTERNAL, object: "url" },
+    data: { type: EXTERNAL_ELEMENT_TYPE, object: "url" },
     icon: <LinkMedium />,
     bookmark: "#bkmrk-ressurs-fra-lenke",
   },
@@ -150,7 +150,7 @@ export const commonActions: Action[] = [
 
 export const frontpageActions = commonActions.concat(
   {
-    data: { type: TYPE_GRID, object: "grid" },
+    data: { type: GRID_ELEMENT_TYPE, object: "grid" },
     icon: <LayoutColumnLine />,
     bookmark: "#bkmrk-grid",
   },
@@ -177,7 +177,7 @@ export const frontpageActions = commonActions.concat(
 );
 
 export const learningResourceActions = commonActions.concat({
-  data: { type: TYPE_GRID, object: "grid" },
+  data: { type: GRID_ELEMENT_TYPE, object: "grid" },
   icon: <LayoutColumnLine />,
   bookmark: "#bkmrk-grid",
 });

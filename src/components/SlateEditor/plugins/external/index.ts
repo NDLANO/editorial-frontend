@@ -6,14 +6,28 @@
  *
  */
 
-import { Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { createDataAttributes, createHtmlTag, createSerializer, parseElementAttributes } from "@ndla/editor";
-import { TYPE_EXTERNAL, TYPE_IFRAME } from "./types";
-import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
+import {
+  createDataAttributes,
+  createHtmlTag,
+  createPlugin,
+  createSerializer,
+  defaultNormalizer,
+  NormalizerConfig,
+  parseElementAttributes,
+} from "@ndla/editor";
+import {
+  EXTERNAL_ELEMENT_TYPE,
+  EXTERNAL_PLUGIN,
+  ExternalPluginOptions,
+  IFRAME_ELEMENT_TYPE,
+  IFRAME_PLUGIN,
+  IframePluginOptions,
+} from "./types";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
+import { isExternalElement, isIframeElement } from "./queries";
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
@@ -30,34 +44,50 @@ export const externalSerializer = createSerializer({
   deserialize(el) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
-    const embedAttributes = parseElementAttributes(Array.from(embed.attributes));
-    if (embedAttributes.resource === TYPE_EXTERNAL || embedAttributes.resource === TYPE_IFRAME) {
-      return slatejsx("element", { type: embedAttributes.resource, data: embedAttributes }, { text: "" });
-    }
+    const attributes = parseElementAttributes(Array.from(embed.attributes));
+    if (attributes.resource !== EXTERNAL_ELEMENT_TYPE) return;
+    return slatejsx("element", { type: attributes.resource, data: attributes }, { text: "" });
   },
   serialize(node) {
-    if (Element.isElement(node) && (node.type === TYPE_EXTERNAL || node.type === TYPE_IFRAME) && node.data) {
-      const data = createDataAttributes(node.data);
-      return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
-    }
+    if (!isExternalElement(node)) return;
+    const data = createDataAttributes(node.data);
+    return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
   },
 });
 
-export const externalPlugin = (disableNormalize?: boolean) => (editor: Editor) => {
-  const { normalizeNode: nextNormalizeNode, isVoid: nextIsVoid } = editor;
+export const iframeSerializer = createSerializer({
+  deserialize(el) {
+    if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
+    const embed = el as HTMLEmbedElement;
+    const attributes = parseElementAttributes(Array.from(embed.attributes));
+    if (attributes.resource !== IFRAME_ELEMENT_TYPE) return;
+    return slatejsx("element", { type: attributes.resource, data: attributes }, { text: "" });
+  },
+  serialize(node) {
+    if (!isIframeElement(node)) return;
+    const data = createDataAttributes(node.data);
+    return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
+  },
+});
 
-  editor.normalizeNode = (entry) => {
-    const [node, path] = entry;
-    if (Element.isElement(node) && (node.type === TYPE_EXTERNAL || node.type === TYPE_IFRAME)) {
-      if (!disableNormalize && defaultBlockNormalizer(editor, node, path, normalizerConfig)) {
-        return;
-      }
-    }
-    nextNormalizeNode(entry);
-  };
+export const iframePlugin = createPlugin<typeof IFRAME_ELEMENT_TYPE, IframePluginOptions>({
+  name: IFRAME_PLUGIN,
+  type: IFRAME_ELEMENT_TYPE,
+  isVoid: true,
+  options: { disableNormalize: false },
+  normalize: (editor, node, path, logger, opts) => {
+    if (!isIframeElement(node) || opts.disableNormalize) return false;
+    return defaultNormalizer(editor, node, path, normalizerConfig, logger);
+  },
+});
 
-  editor.isVoid = (element) => {
-    return element.type === TYPE_EXTERNAL || element.type === TYPE_IFRAME ? true : nextIsVoid(element);
-  };
-  return editor;
-};
+export const externalPlugin = createPlugin<typeof EXTERNAL_ELEMENT_TYPE, ExternalPluginOptions>({
+  name: EXTERNAL_PLUGIN,
+  type: EXTERNAL_ELEMENT_TYPE,
+  isVoid: true,
+  options: { disableNormalize: false },
+  normalize: (editor, node, path, logger, opts) => {
+    if (!isExternalElement(node) || opts.disableNormalize) return false;
+    return defaultNormalizer(editor, node, path, normalizerConfig, logger);
+  },
+});

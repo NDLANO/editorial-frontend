@@ -145,6 +145,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
 
   const handleSubmit: HandleSubmitFunc<T> = useCallback(
     async (values, formikHelpers) => {
+      if (formikRef?.current?.isSubmitting) return;
       formikHelpers.setSubmitting(true);
       const initialStatus = articleStatus?.current;
       const newStatus = values.status?.current;

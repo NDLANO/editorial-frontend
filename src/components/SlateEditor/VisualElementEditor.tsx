@@ -14,7 +14,6 @@ import { Slate, Editable, RenderElementProps } from "slate-react";
 import { createSlate } from "@ndla/editor";
 import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
 import { SlatePlugin } from "./interfaces";
-import { SlateProvider } from "./SlateContext";
 import { VisualElementType } from "../../containers/VisualElement/VisualElementMenu";
 import VisualElementPicker from "../../containers/VisualElement/VisualElementPicker";
 
@@ -52,31 +51,29 @@ const VisualElementEditor = ({ name, value, plugins, onChange, types, language }
   }, [value]);
 
   return (
-    <SlateProvider>
-      <ArticleLanguageProvider language={language}>
-        <Slate
-          editor={editor}
-          initialValue={value}
-          onChange={(val: Descendant[]) => {
-            onChange({
-              target: {
-                name,
-                value: val,
-              },
-            });
+    <ArticleLanguageProvider language={language}>
+      <Slate
+        editor={editor}
+        initialValue={value}
+        onChange={(val: Descendant[]) => {
+          onChange({
+            target: {
+              name,
+              value: val,
+            },
+          });
+        }}
+      >
+        <VisualElementPicker editor={editor} types={types} language={language} />
+        <Editable
+          readOnly={true}
+          renderElement={renderElement}
+          onDragStart={(e) => {
+            e.stopPropagation();
           }}
-        >
-          <VisualElementPicker editor={editor} types={types} language={language} />
-          <Editable
-            readOnly={true}
-            renderElement={renderElement}
-            onDragStart={(e) => {
-              e.stopPropagation();
-            }}
-          />
-        </Slate>
-      </ArticleLanguageProvider>
-    </SlateProvider>
+        />
+      </Slate>
+    </ArticleLanguageProvider>
   );
 };
 

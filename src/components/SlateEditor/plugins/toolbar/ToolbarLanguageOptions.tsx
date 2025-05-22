@@ -26,6 +26,12 @@ const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   },
 });
 
+const StyledGenericSelectItem = styled(GenericSelectItem, {
+  base: {
+    padding: "3xsmall",
+  },
+});
+
 const getCurrentLanguage = (editor: Editor) => {
   const [currentBlock] =
     Editor.nodes(editor, {
@@ -105,13 +111,13 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
         </StyledGenericSelectTrigger>
         <SelectContent>
           {collection.items.map((option) => (
-            <GenericSelectItem
+            <StyledGenericSelectItem
               key={option.value}
               data-testid={`language-button-${option.value}`}
               item={{ label: option.value, value: option.value }}
             >
               {t(`languages.${option.value}`)}
-            </GenericSelectItem>
+            </StyledGenericSelectItem>
           ))}
         </SelectContent>
       </SelectRoot>

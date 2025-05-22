@@ -8,7 +8,6 @@
 
 import { jsx as slatejsx } from "slate-hyperscript";
 import { BRIGHTCOVE_ELEMENT_TYPE, BRIGHTCOVE_PLUGIN, BrightcovePluginOptions } from "./types";
-import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 import {
@@ -16,6 +15,8 @@ import {
   createHtmlTag,
   createPlugin,
   createSerializer,
+  defaultNormalizer,
+  NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
@@ -47,7 +48,7 @@ export const brightcoveSerializer = createSerializer({
   },
 });
 
-export const videoPlugin = createPlugin<"brightcove-embed", BrightcovePluginOptions>({
+export const videoPlugin = createPlugin<"brightcove", BrightcovePluginOptions>({
   name: BRIGHTCOVE_PLUGIN,
   type: BRIGHTCOVE_ELEMENT_TYPE,
   isVoid: true,
@@ -56,7 +57,7 @@ export const videoPlugin = createPlugin<"brightcove-embed", BrightcovePluginOpti
   },
   normalize: (editor, node, path, logger, options) => {
     if (isBrightcoveElement(node) && !options.disableNormalization) {
-      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+      return defaultNormalizer(editor, node, path, normalizerConfig, logger);
     }
     return false;
   },

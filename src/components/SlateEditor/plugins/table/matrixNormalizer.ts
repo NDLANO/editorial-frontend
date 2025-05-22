@@ -10,11 +10,18 @@ import { compact } from "lodash-es";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 import { defaultTableRowBlock } from "./defaultBlocks";
-import { TableMatrix, TableHeadElement, TableBodyElement } from "./interfaces";
+import { TableMatrix, TableSectionElement } from "./interfaces";
 import { getPrevCell, countMatrixRowCells, insertCellInMatrix } from "./matrixHelpers";
-import { insertEmptyCells, updateCell, increaseTableBodyWidth } from "./slateActions";
-import { isTable, isTableHead, isTableRow, isTableCell, isTableBody, getTableBodyWidth } from "./slateHelpers";
-import { TYPE_TABLE_CELL, TYPE_TABLE_CELL_HEADER } from "./types";
+import { insertEmptyCells, updateCell, increaseTableSectionWidth } from "./slateActions";
+import { getTableSectionWidth } from "./slateHelpers";
+import { TABLE_CELL_ELEMENT_TYPE, TABLE_CELL_HEADER_ELEMENT_TYPE } from "./types";
+import {
+  isAnyTableCellElement,
+  isTableElement,
+  isTableHeadElement,
+  isTableRowElement,
+  isTableSectionElement,
+} from "./queries";
 
 // Before placing a cell in the table matrix, make sure the cell has the required space
 // If not, add the required space by inserting empty cells.
@@ -48,13 +55,13 @@ const normalizeRow = (
   editor: Editor,
   matrix: TableMatrix,
   rowIndex: number,
-  tableBody: TableHeadElement | TableBodyElement,
-  tableBodyPath: Path,
+  tableSection: TableSectionElement,
+  tableSectionPath: Path,
 ): boolean => {
   // A. If row does not exist in slate => Insert empty row
-  if (!Editor.hasPath(editor, [...tableBodyPath, rowIndex])) {
+  if (!Editor.hasPath(editor, [...tableSectionPath, rowIndex])) {
     Transforms.insertNodes(editor, defaultTableRowBlock(1), {
-      at: [...tableBodyPath, rowIndex],
+      at: [...tableSectionPath, rowIndex],
     });
     return true;
   }
@@ -62,16 +69,16 @@ const normalizeRow = (
   // B. Insert empty cell if missing
   for (const [columnIndex, element] of matrix[rowIndex].entries()) {
     if (!element && columnIndex === 0) {
-      const targetPath = [...tableBodyPath, rowIndex, 0];
+      const targetPath = [...tableSectionPath, rowIndex, 0];
       insertEmptyCells(editor, targetPath, 1);
       return true;
     }
   }
 
   // C. Make sure isHeader and scope is set correctly in cells in header and body
-  const [table] = Editor.node(editor, Path.parent(tableBodyPath));
-  if (isTable(table)) {
-    const isHead = isTableHead(tableBody);
+  const [table] = Editor.node(editor, Path.parent(tableSectionPath));
+  if (isTableElement(table)) {
+    const isHead = isTableHeadElement(tableSection);
     const { rowHeaders } = table;
     // Check every cell of the row to be normalized
 
@@ -83,21 +90,21 @@ const normalizeRow = (
         if (isHead) {
           // i. If cell in header
           //    Make sure scope='col' and isHeader=true and type is correct
-          if ((isTableCell(cell) && cell.type !== TYPE_TABLE_CELL_HEADER) || cell.data.scope !== "col") {
-            updateCell(editor, cell, { scope: "col" }, TYPE_TABLE_CELL_HEADER);
+          if (cell.type !== TABLE_CELL_HEADER_ELEMENT_TYPE || cell.data.scope !== "col") {
+            updateCell(editor, cell, { scope: "col" }, TABLE_CELL_HEADER_ELEMENT_TYPE);
             return true;
           }
         } else {
           // i. If table does not have headers on rows
           //    Make sure cells in body has scope=undefined and isHeader=false
-          if (!rowHeaders && (cell.type === TYPE_TABLE_CELL_HEADER || hasScope)) {
+          if (!rowHeaders && (cell.type === TABLE_CELL_HEADER_ELEMENT_TYPE || hasScope)) {
             updateCell(
               editor,
               cell,
               {
                 scope: undefined,
               },
-              TYPE_TABLE_CELL,
+              TABLE_CELL_ELEMENT_TYPE,
             );
             return true;
           }
@@ -107,26 +114,29 @@ const normalizeRow = (
           //    Other cells should not be a header
           if (rowHeaders) {
             if (index === 0) {
-              if (cell.type !== TYPE_TABLE_CELL_HEADER || cell.data.scope !== "row") {
+              if (cell.type !== TABLE_CELL_HEADER_ELEMENT_TYPE || cell.data.scope !== "row") {
                 updateCell(
                   editor,
                   cell,
                   {
                     scope: "row",
                   },
-                  TYPE_TABLE_CELL_HEADER,
+                  TABLE_CELL_HEADER_ELEMENT_TYPE,
                 );
                 return true;
               }
             } else {
-              if ((cell.type === TYPE_TABLE_CELL_HEADER || hasScope) && getPrevCell(matrix, rowIndex, index) !== cell) {
+              if (
+                (cell.type === TABLE_CELL_HEADER_ELEMENT_TYPE || hasScope) &&
+                getPrevCell(matrix, rowIndex, index) !== cell
+              ) {
                 updateCell(
                   editor,
                   cell,
                   {
                     scope: undefined,
                   },
-                  TYPE_TABLE_CELL,
+                  TABLE_CELL_ELEMENT_TYPE,
                 );
                 return true;
               }
@@ -143,18 +153,18 @@ const normalizeRow = (
 
     // Previous row is shorter
     if (lengthDiff > 0) {
-      const rowEndPath = Path.next([...tableBodyPath, rowIndex - 1, countMatrixRowCells(matrix, rowIndex - 1) - 1]);
+      const rowEndPath = Path.next([...tableSectionPath, rowIndex - 1, countMatrixRowCells(matrix, rowIndex - 1) - 1]);
       insertEmptyCells(editor, rowEndPath, lengthDiff);
       return true;
 
       // Current row is shorter. Insert empty cells.
     } else if (lengthDiff < 0) {
-      const lastCellPath = [...tableBodyPath, rowIndex, countMatrixRowCells(matrix, rowIndex) - 1];
+      const lastCellPath = [...tableSectionPath, rowIndex, countMatrixRowCells(matrix, rowIndex) - 1];
 
       // In case current row does not exist in Slate, insert an entire row.
-      if (!Editor.hasPath(editor, [...tableBodyPath, rowIndex])) {
+      if (!Editor.hasPath(editor, [...tableSectionPath, rowIndex])) {
         Transforms.insertNodes(editor, defaultTableRowBlock(Math.abs(lengthDiff)), {
-          at: [...tableBodyPath, rowIndex],
+          at: [...tableSectionPath, rowIndex],
         });
         return true;
       }
@@ -167,16 +177,16 @@ const normalizeRow = (
 };
 
 // Normalize <head> or <body>. Return true if normalization occurs.
-export const normalizeTableBodyAsMatrix = (
+export const normalizeTableSectionAsMatrix = (
   editor: Editor,
-  tableBody: TableHeadElement | TableBodyElement,
-  tableBodyPath: Path,
+  section: TableSectionElement,
+  sectionPath: Path,
 ): boolean => {
   const matrix: TableMatrix = [];
 
   // Build up a matrix by inserting and normalizing one row at a time
-  for (const [rowIndex, row] of tableBody.children.entries()) {
-    if (!isTableRow(row)) {
+  for (const [rowIndex, row] of section.children.entries()) {
+    if (!isTableRowElement(row)) {
       return false;
     }
     if (!matrix[rowIndex]) {
@@ -185,7 +195,7 @@ export const normalizeTableBodyAsMatrix = (
 
     // A. Insert all cells in a each row into a matrix. Normalize if needed.
     for (const cell of row.children) {
-      if (!isTableCell(cell)) {
+      if (!isAnyTableCellElement(cell)) {
         return false;
       }
 
@@ -202,58 +212,58 @@ export const normalizeTableBodyAsMatrix = (
       insertCellInMatrix(matrix, rowIndex, colspan, rowspan, cell);
     }
     // B. Validate insertion of the current row. This will automatically restart the normalization if true.
-    if (normalizeRow(editor, matrix, rowIndex, tableBody, tableBodyPath)) {
+    if (normalizeRow(editor, matrix, rowIndex, section, sectionPath)) {
       return true;
     }
   }
 
   // B. Rowspan can cause matrix to have more rows than slate. Normalize if needed.
-  if (tableBody.children.length < matrix.length) {
-    if (normalizeRow(editor, matrix, tableBody.children.length, tableBody, tableBodyPath)) {
+  if (section.children.length < matrix.length) {
+    if (normalizeRow(editor, matrix, section.children.length, section, sectionPath)) {
       return true;
     }
   }
 
   // C. Previous header/body can have different width. Add cells if necessary.
-  if (Path.hasPrevious(tableBodyPath)) {
-    const [previousBody, previousBodyPath] = Editor.node(editor, Path.previous(tableBodyPath));
-    if (isTableHead(previousBody) || isTableBody(previousBody)) {
-      const previousBodyWidth = getTableBodyWidth(previousBody);
-      const currentBodyWidth = getTableBodyWidth(tableBody);
+  if (Path.hasPrevious(sectionPath)) {
+    const [previousSection, previousSectionPath] = Editor.node(editor, Path.previous(sectionPath));
+    if (isTableSectionElement(previousSection)) {
+      const previousSectionWidth = getTableSectionWidth(previousSection);
+      const currentSectionWidth = getTableSectionWidth(section);
 
-      const widthDiff = currentBodyWidth - previousBodyWidth;
+      const widthDiff = currentSectionWidth - previousSectionWidth;
 
-      // i. Previous body is narrower. Add cells in all rows in previous body
+      // i. Previous section is narrower. Add cells in all rows in previous section
       if (widthDiff > 0) {
-        increaseTableBodyWidth(editor, previousBody, previousBodyPath, widthDiff);
+        increaseTableSectionWidth(editor, previousSection, previousSectionPath, widthDiff);
         return true;
-        // ii. Current body is narrower. Add cells to all rows in current body
+        // ii. Current section is narrower. Add cells to all rows in current section
       } else if (widthDiff < 0) {
-        increaseTableBodyWidth(editor, tableBody, tableBodyPath, widthDiff);
+        increaseTableSectionWidth(editor, section, sectionPath, widthDiff);
         return true;
       }
     }
     // D. Next head/body can have different width. Add cells if necessary.
-  } else if (Editor.hasPath(editor, Path.next(tableBodyPath))) {
-    const [nextBody, nextBodyPath] = Editor.node(editor, Path.next(tableBodyPath));
-    if (isTableHead(nextBody) || isTableBody(nextBody)) {
-      const nextBodyWidth = getTableBodyWidth(nextBody);
-      const currentBodyWidth = getTableBodyWidth(tableBody);
+  } else if (Editor.hasPath(editor, Path.next(sectionPath))) {
+    const [nextSection, nextSectionPath] = Editor.node(editor, Path.next(sectionPath));
+    if (isTableSectionElement(nextSection)) {
+      const nextSectionWidth = getTableSectionWidth(nextSection);
+      const currentSectionWidth = getTableSectionWidth(section);
 
-      const widthDiff = currentBodyWidth - nextBodyWidth;
+      const widthDiff = currentSectionWidth - nextSectionWidth;
 
-      // i. First row in next body is narrower. Add cells in that row
+      // i. First row in next section is narrower. Add cells in that row
       if (widthDiff > 0) {
-        const targetRow = nextBody.children[0];
-        if (isTableRow(targetRow)) {
-          const targetPath = [...nextBodyPath, 0, targetRow.children.length];
+        const targetRow = nextSection.children[0];
+        if (isTableRowElement(targetRow)) {
+          const targetPath = [...nextSectionPath, 0, targetRow.children.length];
           insertEmptyCells(editor, targetPath, widthDiff);
           return true;
         }
 
-        // ii. Current body is narrower. Add cells in all rows
+        // ii. Current section is narrower. Add cells in all rows
       } else if (widthDiff < 0) {
-        increaseTableBodyWidth(editor, tableBody, tableBodyPath, widthDiff);
+        increaseTableSectionWidth(editor, section, sectionPath, widthDiff);
         return true;
       }
     }

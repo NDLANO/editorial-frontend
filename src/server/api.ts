@@ -20,6 +20,7 @@ import { isPromptType, NdlaError } from "../interfaces";
 import { fetchMatomoStats } from "./matomo";
 import { generateAnswer, getDefaultPrompts, getTranscription, initializeTranscription } from "./llm";
 import { isValidRequestBody } from "./utils";
+import { isLlmLanguageCode } from "./llmTypes";
 
 const router = express.Router();
 
@@ -193,12 +194,13 @@ router.get("/default-ai-prompts", jwtMiddleware, aiMiddleware, async (req, res) 
   } = req;
 
   const promptType = type as string;
-  if (!isPromptType(promptType)) {
-    res.status(BAD_REQUEST).send({ error: "Invalid prompt type" });
+  const lang = language as string;
+  if (!isPromptType(promptType) || !isLlmLanguageCode(lang)) {
+    res.status(BAD_REQUEST).send({ error: "Invalid parameter types" });
     return;
   }
 
-  const defaultPrompts = getDefaultPrompts(promptType, language as string);
+  const defaultPrompts = getDefaultPrompts(promptType, lang);
   res.status(OK).json(defaultPrompts);
 });
 

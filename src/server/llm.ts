@@ -18,7 +18,7 @@ import {
 import { llmQueryText } from "./llmQueries";
 import { PROMPTS } from "./llmPrompts";
 import { PromptType, DefaultPrompts, PromptPayload, PromptVariables } from "../interfaces";
-import { isLlmLanguageCode } from "./llmTypes";
+import { LlmLanguageCode } from "./llmTypes";
 
 const aiModelId = getEnvironmentVariabel("NDLA_AI_MODEL_ID", "test");
 const aiRegion = getEnvironmentVariabel("NDLA_AI_MODEL_REGION", "eu-west-1");
@@ -36,9 +36,8 @@ const bedRockClient = new BedrockRuntimeClient({
 });
 const textDecoder = new TextDecoder();
 
-export const getDefaultPrompts = (type: PromptType, language: string): DefaultPrompts => {
-  const lang = isLlmLanguageCode(language) ? language : "nb";
-  const { role, generalInstructions: instructions } = PROMPTS[lang][type];
+export const getDefaultPrompts = (type: PromptType, language: LlmLanguageCode): DefaultPrompts => {
+  const { role, generalInstructions: instructions } = PROMPTS[language][type];
   return { role, instructions };
 };
 

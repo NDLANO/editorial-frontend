@@ -43,12 +43,15 @@ import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
 } from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { UNSUPPORTED_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/unsupported/types";
+import { UnsupportedElement } from "../../../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
 import { DISCLAIMER_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/uuDisclaimer/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/video/types";
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
 import { DRAFT_HTML_SCOPE, SAVE_DEBOUNCE_MS } from "../../../../constants";
 import { isFormikFormDirty } from "../../../../util/formHelper";
 import { toCreateFrontPageArticle, toEditMarkup } from "../../../../util/routeHelpers";
+import { findNodesByType } from "../../../../util/slateHelpers";
 import { useDebouncedCallback } from "../../../../util/useDebouncedCallback";
 import { IngressField, TitleField, SlugField } from "../../../FormikForm";
 import { FrontpageArticleFormType } from "../../../FormikForm/articleFormHooks";
@@ -112,7 +115,10 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
 
   const onInitialNormalized = useCallback(
     (value: Descendant[]) => {
-      if (isFormikFormDirty({ values: { ...values, content: value }, initialValues, dirty: true })) {
+      if (
+        isFormikFormDirty({ values: { ...values, content: value }, initialValues, dirty: true }) ||
+        findNodesByType(value, UNSUPPORTED_ELEMENT_TYPE).length
+      ) {
         setShowAlert(true);
       }
     },
@@ -188,6 +194,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
             data-testid="frontpage-article-content"
             onChange={debouncedOnChange}
             onInitialNormalized={onInitialNormalized}
+            renderInvalidElement={(props) => <UnsupportedElement {...props} />}
           />
         </ContentTypeProvider>
         <FieldErrorMessage>{meta.error}</FieldErrorMessage>

@@ -36,6 +36,9 @@ import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
 } from "../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { UnsupportedElement } from "../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
+import { unsupportedElementRenderer } from "../../components/SlateEditor/plugins/unsupported/unsupportedElementRenderer";
+import { unsupportedPlugin } from "../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
 import RichTextEditor from "../../components/SlateEditor/RichTextEditor";
 import { SAVE_DEBOUNCE_MS } from "../../constants";
 import { useDebouncedCallback } from "../../util/useDebouncedCallback";
@@ -96,6 +99,7 @@ const ingressPlugins: SlatePlugin[] = [
   markPlugin,
   noopPlugin,
   commentInlinePlugin,
+  unsupportedPlugin,
 ];
 
 const ingressRenderers: SlatePlugin[] = [
@@ -105,6 +109,7 @@ const ingressRenderers: SlatePlugin[] = [
   breakRenderer,
   spanRenderer,
   commentInlineRenderer,
+  unsupportedElementRenderer,
 ];
 
 const plugins = ingressPlugins.concat(ingressRenderers);
@@ -131,6 +136,7 @@ const IngressField = ({ name = "introduction", maxLength = 300, placeholder }: P
         onChange={debouncedOnChange}
         toolbarOptions={toolbarOptions}
         toolbarAreaFilters={toolbarAreaFilters}
+        renderInvalidElement={(props) => <UnsupportedElement {...props} />}
       />
       <MetaWrapper>
         <FieldErrorMessage>{meta.error}</FieldErrorMessage>

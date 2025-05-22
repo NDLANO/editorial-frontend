@@ -2270,6 +2270,12 @@ const phrases = {
   user: {
     buttonLogOut: "Log out",
   },
+  unsupportedElement: {
+    title: 'Unsupported element: "{{type}}"',
+    description:
+      "This element is not supported here. You can either delete the entire element, or move its contents out",
+    noContent: "The element had no content",
+  },
   matomo: {
     visits: "Visits: {{count}}",
     hits: "Page views: {{count}}",

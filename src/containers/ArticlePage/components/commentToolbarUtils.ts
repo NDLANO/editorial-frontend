@@ -32,6 +32,8 @@ import { listPlugin } from "../../../components/SlateEditor/plugins/list";
 import { inlineNavigationPlugin } from "@ndla/editor";
 import { divRenderer } from "../../../components/SlateEditor/plugins/div/render";
 import { divPlugin } from "../../../components/SlateEditor/plugins/div";
+import { unsupportedPlugin } from "../../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
+import { unsupportedElementRenderer } from "../../../components/SlateEditor/plugins/unsupported/unsupportedElementRenderer";
 
 export const plugins: SlatePlugin[] = [
   inlineNavigationPlugin,
@@ -48,6 +50,7 @@ export const plugins: SlatePlugin[] = [
   contentLinkPlugin,
   linkPlugin,
   listPlugin,
+  unsupportedPlugin,
   sectionRenderer,
   noopRenderer,
   paragraphRenderer,
@@ -56,6 +59,7 @@ export const plugins: SlatePlugin[] = [
   linkRenderer,
   listRenderer,
   divRenderer,
+  unsupportedElementRenderer,
 ];
 
 export const toolbarOptions = createToolbarDefaultValues({

@@ -34,6 +34,9 @@ import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
 } from "../../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { UnsupportedElement } from "../../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
+import { unsupportedElementRenderer } from "../../../components/SlateEditor/plugins/unsupported/unsupportedElementRenderer";
+import { unsupportedPlugin } from "../../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import { AI_ACCESS_SCOPE } from "../../../constants";
 import { useSession } from "../../../containers/Session/SessionProvider";
@@ -73,6 +76,7 @@ const manuscriptPlugins: SlatePlugin[] = [
   saveHotkeyPlugin,
   markPlugin,
   noopPlugin,
+  unsupportedPlugin,
 ];
 
 const LANGUAGE_MAP: Record<string, string> = {
@@ -81,7 +85,14 @@ const LANGUAGE_MAP: Record<string, string> = {
   de: "de-DE",
 };
 
-const manuscriptRenderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, markRenderer, breakRenderer, spanRenderer];
+const manuscriptRenderers: SlatePlugin[] = [
+  noopRenderer,
+  paragraphRenderer,
+  markRenderer,
+  breakRenderer,
+  spanRenderer,
+  unsupportedElementRenderer,
+];
 const plugins = manuscriptPlugins.concat(manuscriptRenderers);
 
 // TODO: remove when object is properly typed from the backend
@@ -180,6 +191,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
             plugins={plugins}
             onChange={helpers.setValue}
             toolbarOptions={toolbarOptions}
+            renderInvalidElement={(props) => <UnsupportedElement {...props} />}
             toolbarAreaFilters={toolbarAreaFilters}
           />
           <FieldErrorMessage>{meta.error}</FieldErrorMessage>

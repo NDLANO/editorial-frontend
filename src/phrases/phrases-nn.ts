@@ -2270,6 +2270,11 @@ const phrases = {
   user: {
     buttonLogOut: "Logg ut",
   },
+  unsupportedElement: {
+    title: 'Ugyldig element: "{{type}}"',
+    description: "Dette elementet er ikkje støtta her. Du kan enten slette heile elementet, eller trekke ut innhaldet.",
+    noContent: "Elementet hadde ikkje noko innhald",
+  },
   matomo: {
     visits: "Besøk: {{count}}",
     hits: "Sidevisningar: {{count}}",

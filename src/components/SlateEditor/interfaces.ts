@@ -66,6 +66,7 @@ import {
   DefinitionDescriptionElement,
   DefinitionTermElement,
 } from "./plugins/definitionList/definitionListTypes";
+import { UnsupportedElement } from "./plugins/unsupported/types";
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -133,7 +134,8 @@ type CustomElement =
   | CommentInlineElement
   | CommentBlockElement
   | RephraseElement
-  | SymbolElement;
+  | SymbolElement
+  | UnsupportedElement;
 
 declare module "slate" {
   interface CustomTypes {

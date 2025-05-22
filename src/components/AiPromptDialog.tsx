@@ -12,7 +12,6 @@ import { Portal } from "@ark-ui/react";
 import { FileListLine } from "@ndla/icons";
 import {
   Button,
-  DialogBackdrop,
   DialogBody,
   DialogCloseTrigger,
   DialogContent,
@@ -214,7 +213,6 @@ export const AiPromptDialog = ({
   <DialogRoot {...rest}>
     {children}
     <Portal>
-      <DialogBackdrop />
       <PromptDialogContent
         promptVariables={promptVariables}
         language={language}

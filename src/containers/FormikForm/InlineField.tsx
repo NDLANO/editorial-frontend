@@ -32,6 +32,9 @@ import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
 } from "../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { UnsupportedElement } from "../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
+import { unsupportedElementRenderer } from "../../components/SlateEditor/plugins/unsupported/unsupportedElementRenderer";
+import { unsupportedPlugin } from "../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
 import RichTextEditor, { RichTextEditorProps } from "../../components/SlateEditor/RichTextEditor";
 
 interface Props
@@ -79,6 +82,7 @@ const renderers: SlatePlugin[] = [
   breakRenderer,
   spanRenderer,
   linkRenderer,
+  unsupportedElementRenderer,
 ];
 
 export const InlineField = ({
@@ -101,6 +105,7 @@ export const InlineField = ({
       inlineNoopPlugin,
       linkPlugin,
       contentLinkPlugin,
+      unsupportedPlugin,
     ];
 
     return { toolbarOptions, toolbarAreaFilters, plugins: inlinePlugins.concat(renderers) };
@@ -116,6 +121,7 @@ export const InlineField = ({
         plugins={plugins}
         toolbarOptions={toolbarOptions}
         toolbarAreaFilters={toolbarAreaFilters}
+        renderInvalidElement={(props) => <UnsupportedElement {...props} />}
         renderPlaceholder={(placeholder) => (
           <StyledText {...placeholder.attributes} textStyle="body.article" asChild consumeCss>
             <span>{placeholder.children}</span>

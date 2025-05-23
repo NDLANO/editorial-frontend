@@ -19,6 +19,7 @@ import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUti
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { DIV_ELEMENT_TYPE } from "../../../components/SlateEditor/plugins/div/types";
 import { TYPE_PARAGRAPH } from "../../../components/SlateEditor/plugins/paragraph/types";
+import { UnsupportedElement } from "../../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import formatDate, { formatDateForBackend } from "../../../util/formatDate";
 import { useSession } from "../../Session/SessionProvider";
@@ -143,6 +144,7 @@ const InputComment = ({ isSubmitting, arrayHelpers }: Props) => {
             data-comment=""
             receiveInitialFocus
             noArticleStyling
+            renderInvalidElement={(props) => <UnsupportedElement {...props} />}
           />
         ) : (
           <StyledFieldTextArea

@@ -32,6 +32,8 @@ import { spanRenderer } from "../span/render";
 import { textTransformPlugin } from "../textTransform";
 import { toolbarPlugin } from "../toolbar";
 import { createToolbarDefaultValues } from "../toolbar/toolbarState";
+import { unsupportedElementRenderer } from "../unsupported/unsupportedElementRenderer";
+import { unsupportedPlugin } from "../unsupported/unsupportedPlugin";
 
 const toolbarOptions = createToolbarDefaultValues({
   text: {
@@ -57,9 +59,17 @@ export const disclaimerPlugins: SlatePlugin[] = [
   saveHotkeyPlugin,
   markPlugin,
   noopPlugin,
+  unsupportedPlugin,
 ];
 
-const renderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, markRenderer, breakRenderer, spanRenderer];
+const renderers: SlatePlugin[] = [
+  noopRenderer,
+  paragraphRenderer,
+  markRenderer,
+  breakRenderer,
+  spanRenderer,
+  unsupportedElementRenderer,
+];
 
 const plugins = disclaimerPlugins.concat(renderers);
 

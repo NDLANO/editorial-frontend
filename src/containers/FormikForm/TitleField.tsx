@@ -33,6 +33,9 @@ import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
 } from "../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { UnsupportedElement } from "../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
+import { unsupportedElementRenderer } from "../../components/SlateEditor/plugins/unsupported/unsupportedElementRenderer";
+import { unsupportedPlugin } from "../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
 import RichTextEditor from "../../components/SlateEditor/RichTextEditor";
 
 interface Props {
@@ -71,9 +74,17 @@ const titlePlugins: SlatePlugin[] = [
   saveHotkeyPlugin,
   markPlugin,
   noopPlugin,
+  unsupportedPlugin,
 ];
 
-const titleRenderers: SlatePlugin[] = [sectionRenderer, paragraphRenderer, markRenderer, noopRenderer, spanRenderer];
+const titleRenderers: SlatePlugin[] = [
+  sectionRenderer,
+  paragraphRenderer,
+  markRenderer,
+  noopRenderer,
+  spanRenderer,
+  unsupportedElementRenderer,
+];
 
 const basePlugins = titlePlugins.concat(titleRenderers);
 
@@ -122,6 +133,7 @@ const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => 
             toolbarAreaFilters={toolbarAreaFilters}
             maxLength={maxLength}
             hideToolbar={hideToolbar}
+            renderInvalidElement={(props) => <UnsupportedElement {...props} />}
           />
           <FieldWarning name={field.name} />
           <FieldErrorMessage>{meta.error}</FieldErrorMessage>

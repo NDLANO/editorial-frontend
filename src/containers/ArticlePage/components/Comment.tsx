@@ -17,6 +17,7 @@ import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUti
 import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { FormActionsContainer } from "../../../components/FormikForm";
+import { UnsupportedElement } from "../../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import { SlateCommentType } from "../../FormikForm/articleFormHooks";
 
@@ -170,6 +171,7 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
             onBlur={updateContentOnBlur}
             toolbarOptions={toolbarOptions}
             toolbarAreaFilters={toolbarAreaFilters}
+            renderInvalidElement={(props) => <UnsupportedElement {...props} />}
             data-comment=""
             noArticleStyling
           />

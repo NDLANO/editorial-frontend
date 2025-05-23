@@ -39,6 +39,8 @@ import { spanRenderer } from "../../../../components/SlateEditor/plugins/span/re
 import { textTransformPlugin } from "../../../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../../../components/SlateEditor/plugins/toolbar";
 import { createToolbarDefaultValues } from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { unsupportedElementRenderer } from "../../../../components/SlateEditor/plugins/unsupported/unsupportedElementRenderer";
+import { unsupportedPlugin } from "../../../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
 import {
   DISCLAIMER_TEMPLATES_URL,
   DisclaimerField,
@@ -85,6 +87,7 @@ export const disclaimerPlugins: SlatePlugin[] = [
   noopPlugin,
   linkPlugin,
   contentLinkPlugin,
+  unsupportedPlugin,
 ];
 
 const renderers: SlatePlugin[] = [
@@ -94,6 +97,7 @@ const renderers: SlatePlugin[] = [
   breakRenderer,
   spanRenderer,
   linkRenderer,
+  unsupportedElementRenderer,
 ];
 
 const plugins = disclaimerPlugins.concat(renderers);

@@ -15,6 +15,7 @@ import { FormField } from "../../../FormField";
 import { SlatePlugin } from "../../interfaces";
 import RichTextEditor from "../../RichTextEditor";
 import { CategoryFilters, createToolbarAreaOptions } from "../toolbar/toolbarState";
+import { UnsupportedElement } from "../unsupported/UnsupportedElement";
 
 export const toolbarAreaFilters = createToolbarAreaOptions();
 
@@ -52,6 +53,7 @@ export const DisclaimerField = ({ submitted, title, description, plugins, toolba
               plugins={plugins}
               toolbarOptions={toolbarOptions}
               toolbarAreaFilters={toolbarAreaFilters}
+              renderInvalidElement={(props) => <UnsupportedElement {...props} />}
               noArticleStyling
               data-testid="disclaimer-editor"
             />

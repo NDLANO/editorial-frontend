@@ -44,6 +44,7 @@ import { sectionRenderer } from "../../../../components/SlateEditor/plugins/sect
 import { spanRenderer } from "../../../../components/SlateEditor/plugins/span/render";
 import { symbolRenderer } from "../../../../components/SlateEditor/plugins/symbol/render";
 import { tableRenderer } from "../../../../components/SlateEditor/plugins/table/render";
+import { unsupportedElementRenderer } from "../../../../components/SlateEditor/plugins/unsupported/unsupportedElementRenderer";
 import { disclaimerRenderer } from "../../../../components/SlateEditor/plugins/uuDisclaimer/render";
 import { videoRenderer } from "../../../../components/SlateEditor/plugins/video/render";
 
@@ -91,4 +92,5 @@ export const frontpageRenderers: SlatePlugin[] = [
   copyrightRenderer,
   rephraseRenderer,
   symbolRenderer,
+  unsupportedElementRenderer,
 ];

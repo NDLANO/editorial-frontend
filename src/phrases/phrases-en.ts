@@ -126,7 +126,6 @@ const phrases = {
     "™": "Trademark",
     "°": "Degrees",
     "¥": "Yen",
-    "−": "Minus",
     "‑": "Hard hyphen",
     "–": "N-dash",
     " ": "Non breaking space",
@@ -2270,6 +2269,12 @@ const phrases = {
   user: {
     buttonLogOut: "Log out",
   },
+  unsupportedElement: {
+    title: 'Unsupported element: "{{type}}"',
+    description:
+      "This element is not supported here. You can either delete the entire element, or move its contents out",
+    noContent: "The element had no content",
+  },
   matomo: {
     visits: "Visits: {{count}}",
     hits: "Page views: {{count}}",
@@ -2284,28 +2289,30 @@ const phrases = {
   textGeneration: {
     error: "Something went wrong when generating text. Message from the service: {{message}}",
     errorImage: "Something went wrong. Could not process the image.",
-    summary: "Summary",
+    insert: "Insert",
     replace: "Replace",
-    add: "Add after",
+    append: "Add after",
     chosenText: "Selected text",
-    suggestedText: "Suggestions for alternative phrasing",
-    alternativeText: "Suggested phrasing",
-    generate: {
-      metaDescription: "Generate meta description",
-      reflection: "Generate reflection question",
-      summary: "Generate summary",
-      variant: "Generate suggestion",
-      alttext: "Generate alt text",
-      transcription: "Generate transcription",
+    suggestedText: "Forslag til $t(textGeneration.types.{{type}})",
+    dialogTitle: "Generer $t(textGeneration.types.{{type}})",
+    generateButton: "Generer $t(textGeneration.types.{{type}})",
+    generateTranscription: "Generate transcription",
+    types: {
+      summary: "summary",
+      altText: "alternative text",
+      alternativePhrasing: "alternative phrasing",
+      metaDescription: "meta description",
+      reflection: "reflection questions",
     },
-    failed: {
-      alttext: "Oops, something went wrong! Could not generate alttext. \n {{ error }}",
-      reflection: "Oops, something went wrong! Could not generate reflection. \n {{ error }}",
-      summary: "Oops, something went wrong! Could not generate summary. \n {{ error }}",
-      transcription: "Oops, something went wrong! Could not generate transcription.",
-      metaDescription: "Oops, something went wrong! Could not generate meta description. \n {{ error }}",
-      variant: "Oops, something went wrong! Could not generate suggestion. \n {{ error }}",
+    customPrompts: {
+      switchLabel: "Custom prompts",
+      roleLabel: "Role prompt",
+      roleHelper: 'Describe the role of the AI model. E.g.: "You are a specialist in..."',
+      instructionsLabel: "Instruction prompt",
+      instructionsHelper: 'Describe the instructions for the AI model. E.g.: "Your task is to..."',
     },
+    failed: "Oops, something went wrong! Could not generate $t(textGeneration.types.{{type}}).\n{{error}}",
+    failedTranscription: "Oops, something went wrong! Could not generate transcription.",
   },
 };
 

@@ -26,6 +26,9 @@ import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
 } from "../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { UnsupportedElement } from "../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
+import { unsupportedElementRenderer } from "../../components/SlateEditor/plugins/unsupported/unsupportedElementRenderer";
+import { unsupportedPlugin } from "../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
 import RichTextEditor, { RichTextEditorProps } from "../../components/SlateEditor/RichTextEditor";
 
 interface Props extends Omit<RichTextEditorProps, "toolbarOptions" | "toolbarAreaFilters"> {}
@@ -63,6 +66,7 @@ const inlinePlugins: SlatePlugin[] = [
   saveHotkeyPlugin,
   markPlugin,
   noopPlugin,
+  unsupportedPlugin,
 ];
 
 const StyledTextArea = styled(TextArea, {
@@ -72,7 +76,14 @@ const StyledTextArea = styled(TextArea, {
   },
 });
 
-const renderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, markRenderer, breakRenderer, spanRenderer];
+const renderers: SlatePlugin[] = [
+  noopRenderer,
+  paragraphRenderer,
+  markRenderer,
+  breakRenderer,
+  spanRenderer,
+  unsupportedElementRenderer,
+];
 
 const plugins = inlinePlugins.concat(renderers);
 
@@ -87,6 +98,7 @@ export const InlineField = ({ ...rest }: Props) => {
         plugins={plugins}
         toolbarOptions={toolbarOptions}
         toolbarAreaFilters={toolbarAreaFilters}
+        renderInvalidElement={(props) => <UnsupportedElement {...props} />}
         renderPlaceholder={(placeholder) => (
           <StyledText {...placeholder.attributes} textStyle="body.article" asChild consumeCss>
             <span>{placeholder.children}</span>

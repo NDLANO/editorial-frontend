@@ -38,6 +38,8 @@ import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
 } from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { UNSUPPORTED_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/unsupported/types";
+import { UnsupportedElement } from "../../../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/video/types";
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
 import { DRAFT_HTML_SCOPE, SAVE_DEBOUNCE_MS } from "../../../../constants";
@@ -132,7 +134,10 @@ const ContentField = ({ articleId, articleLanguage }: ContentFieldProps) => {
 
   const onInitialNormalized = useCallback(
     (value: Descendant[]) => {
-      if (isFormikFormDirty({ values: { ...values, content: value }, initialValues, dirty: true })) {
+      if (
+        isFormikFormDirty({ values: { ...values, content: value }, initialValues, dirty: true }) ||
+        findNodesByType(value, UNSUPPORTED_ELEMENT_TYPE).length
+      ) {
         setShowAlert(true);
       }
     },
@@ -181,6 +186,7 @@ const ContentField = ({ articleId, articleLanguage }: ContentFieldProps) => {
           toolbarOptions={toolbarOptions}
           toolbarAreaFilters={toolbarAreaFilters}
           onInitialNormalized={onInitialNormalized}
+          renderInvalidElement={(props) => <UnsupportedElement {...props} />}
         />
         {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(field.value)} />}
         <FieldErrorMessage>{meta.error}</FieldErrorMessage>

@@ -74,6 +74,7 @@ import {
   tableRowSerializer,
   tableSerializer,
 } from "../components/SlateEditor/plugins/table/tableSerializers";
+import { unsupportedElementSerializer } from "../components/SlateEditor/plugins/unsupported/unsupportedElementSerializer";
 import { disclaimerSerializer } from "../components/SlateEditor/plugins/uuDisclaimer";
 import { brightcoveSerializer } from "../components/SlateEditor/plugins/video";
 import { Embed, ErrorEmbed } from "../interfaces";
@@ -150,6 +151,7 @@ const extendedRules: SlateSerializer<any>[] = [
   framedContentSerializer,
   divSerializer,
   spanSerializer,
+  unsupportedElementSerializer,
 ];
 
 // Rules are checked from first to last
@@ -175,6 +177,7 @@ const commonRules: SlateSerializer<any>[] = [
   divSerializer,
   spanSerializer,
   symbolSerializer,
+  unsupportedElementSerializer,
 ];
 
 export const blockContentToEditorValue = (html: string): Descendant[] => {

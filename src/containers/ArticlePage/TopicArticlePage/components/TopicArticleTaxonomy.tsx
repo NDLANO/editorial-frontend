@@ -10,7 +10,7 @@ import { sortBy } from "lodash-es";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Spinner } from "@ndla/primitives";
-import { IUpdatedArticleDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import { ErrorMessage } from "@ndla/ui";
 import TopicTaxonomyBlock from "./TopicTaxonomyBlock";
@@ -20,7 +20,6 @@ import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionPro
 
 type Props = {
   article: IArticleDTO;
-  updateNotes: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
   articleLanguage: string;
   hasTaxEntries: boolean;
 };
@@ -41,7 +40,7 @@ const partitionByValidity = (nodes: Node[]) => {
   return [validPlacements, invalidPlacements];
 };
 
-const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage, hasTaxEntries }: Props) => {
+const TopicArticleTaxonomy = ({ article, articleLanguage, hasTaxEntries }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion, changeVersion } = useTaxonomyVersion();
   const versionsQuery = useVersions();
@@ -99,7 +98,6 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage, hasTaxEnt
       versions={versionsQuery.data ?? []}
       hasTaxEntries={hasTaxEntries}
       articleLanguage={articleLanguage}
-      updateNotes={updateNotes}
     />
   );
 };

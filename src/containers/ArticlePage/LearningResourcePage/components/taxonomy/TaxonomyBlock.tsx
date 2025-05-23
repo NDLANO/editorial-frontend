@@ -11,7 +11,7 @@ import { useCallback, useMemo, useState, MouseEvent, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button, SelectLabel, Text } from "@ndla/primitives";
-import { IArticleDTO, IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import {
   Node,
   NodeChild,
@@ -46,7 +46,6 @@ interface Props {
   resourceTypes: ResourceType[];
   article: IArticleDTO;
   versions: Version[];
-  updateNotes: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
   articleLanguage: string;
 }
 
@@ -104,7 +103,6 @@ const TaxonomyBlock = ({
   resourceTypes,
   versions,
   article,
-  updateNotes,
   articleLanguage,
 }: Props) => {
   const { t, i18n } = useTranslation();
@@ -264,12 +262,6 @@ const TaxonomyBlock = ({
         originalNode: initialResource,
         taxonomyVersion,
       });
-      await updateNotes({
-        revision: article.revision,
-        notes: ["Oppdatert taksonomi."],
-        metaImage: undefined,
-        responsibleId: undefined,
-      });
       await qc.invalidateQueries({
         queryKey: nodeQueryKeys.nodes({
           contentURI: `urn:article:${article.id}`,
@@ -282,13 +274,11 @@ const TaxonomyBlock = ({
     },
     [
       article.id,
-      article.revision,
       article.title?.title,
       articleLanguage,
       initialResource,
       qc,
       taxonomyVersion,
-      updateNotes,
       updateTaxMutation,
       workingResource,
     ],

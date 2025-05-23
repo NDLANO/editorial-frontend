@@ -126,7 +126,6 @@ const phrases = {
     "™": "Trademark",
     "°": "Grader",
     "¥": "Yen",
-    "−": "Minus",
     "‑": "Hard bindestrek",
     "–": "Tankestrek",
     " ": "Hardt mellomrom",

@@ -126,7 +126,6 @@ const phrases = {
     "™": "Trademark",
     "°": "Degrees",
     "¥": "Yen",
-    "−": "Minus",
     "‑": "Hard hyphen",
     "–": "N-dash",
     " ": "Non breaking space",

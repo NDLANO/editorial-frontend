@@ -23,7 +23,7 @@ interface Props extends RenderElementProps {
 const StyledIconButton = styled(IconButton, {
   base: {
     position: "absolute",
-    zIndex: "base",
+    zIndex: "docked",
     top: "4xsmall",
     right: "4xsmall",
   },
@@ -71,6 +71,7 @@ const StyledGridCell = styled("div", {
     border: "1px solid",
     borderColor: "stroke.default",
     minWidth: "xxlarge",
+    paddingInline: "medium",
   },
 });
 

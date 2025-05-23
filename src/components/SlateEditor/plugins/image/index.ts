@@ -61,4 +61,14 @@ export const imagePlugin = createPlugin<typeof IMAGE_ELEMENT_TYPE, ImagePluginOp
     }
     return false;
   },
+  transform: (editor) => {
+    const { isDragDisabled } = editor;
+    editor.isDragDisabled = (element) => {
+      if (isImageElement(element)) {
+        return !!element.data?.align && ["left", "right"].includes(element.data.align);
+      }
+      return isDragDisabled?.(element);
+    };
+    return editor;
+  },
 });

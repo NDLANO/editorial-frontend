@@ -11,7 +11,7 @@ import { blockQuotePlugin } from "../../../../components/SlateEditor/plugins/blo
 import { commentInlinePlugin } from "../../../../components/SlateEditor/plugins/comment/inline";
 import { inlineConceptPlugin } from "../../../../components/SlateEditor/plugins/concept/inline";
 import { divPlugin } from "../../../../components/SlateEditor/plugins/div";
-import { dndPlugin } from "../../../../components/SlateEditor/plugins/DND";
+import { dndPlugin } from "../../../../components/SlateEditor/plugins/DND/dndPlugin";
 import { contentLinkPlugin, linkPlugin } from "../../../../components/SlateEditor/plugins/link";
 import { mathmlPlugin } from "../../../../components/SlateEditor/plugins/mathml/mathPlugin";
 import saveHotkeyPlugin from "../../../../components/SlateEditor/plugins/saveHotkey";

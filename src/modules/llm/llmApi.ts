@@ -6,11 +6,13 @@
  *
  */
 
+import { PromptVariables, PromptPayload, PromptType, DefaultPrompts } from "../../interfaces";
 import { fetchAuthorized } from "../../util/apiHelpers";
-import { resolveTextOrRejectWithError } from "../../util/resolveJsonOrRejectWithError";
-import { Payload } from "./llmApiTypes";
+import { resolveJsonOrRejectWithError, resolveTextOrRejectWithError } from "../../util/resolveJsonOrRejectWithError";
 
-export const fetchAIGeneratedAnswer = async (payload: Payload): Promise<string> =>
+export const fetchAIGeneratedAnswer = async <TVariables extends PromptVariables>(
+  payload: PromptPayload<TVariables>,
+): Promise<string> =>
   fetchAuthorized("/generate-ai", {
     method: "POST",
     headers: {
@@ -18,3 +20,8 @@ export const fetchAIGeneratedAnswer = async (payload: Payload): Promise<string> 
     },
     body: JSON.stringify(payload),
   }).then((res) => resolveTextOrRejectWithError(res));
+
+export const fetchDefaultAiPrompts = async (type: PromptType, language: string): Promise<DefaultPrompts> =>
+  fetchAuthorized(`/default-ai-prompts?type=${type}&language=${language}`).then((res) =>
+    resolveJsonOrRejectWithError(res),
+  );

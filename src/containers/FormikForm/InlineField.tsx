@@ -17,7 +17,7 @@ import { contentLinkPlugin, linkPlugin } from "../../components/SlateEditor/plug
 import { linkRenderer } from "../../components/SlateEditor/plugins/link/render";
 import { markPlugin } from "../../components/SlateEditor/plugins/mark";
 import { markRenderer } from "../../components/SlateEditor/plugins/mark/render";
-import { noopPlugin } from "../../components/SlateEditor/plugins/noop";
+import { inlineNoopPlugin } from "../../components/SlateEditor/plugins/noop";
 import { noopRenderer } from "../../components/SlateEditor/plugins/noop/render";
 import { paragraphPlugin } from "../../components/SlateEditor/plugins/paragraph";
 import { paragraphRenderer } from "../../components/SlateEditor/plugins/paragraph/render";
@@ -98,7 +98,7 @@ export const InlineField = ({
       breakPlugin,
       saveHotkeyPlugin,
       markPlugin,
-      noopPlugin,
+      inlineNoopPlugin,
       linkPlugin,
       contentLinkPlugin,
     ];

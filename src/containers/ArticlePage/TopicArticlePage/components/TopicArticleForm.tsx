@@ -135,7 +135,6 @@ const TopicArticleForm = ({
           <TopicArticleAccordionPanels
             articleLanguage={articleLanguage}
             articleHistory={articleHistory?.data}
-            updateNotes={updateArticle}
             article={article}
             hasTaxonomyEntries={!!articleTaxonomy?.length}
           />

@@ -224,7 +224,6 @@ const LearningResourcePanels = ({
             >
               <LearningResourceTaxonomy
                 article={article}
-                updateNotes={updateNotes}
                 articleLanguage={articleLanguage}
                 hasTaxEntries={!!contexts?.length}
               />

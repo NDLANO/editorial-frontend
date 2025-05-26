@@ -29,7 +29,6 @@ import {
   Text,
 } from "@ndla/primitives";
 import { Flex, styled } from "@ndla/styled-system/jsx";
-import { ContentTypeBadge } from "@ndla/ui";
 
 interface GenericComboboxItemIndicatorProps extends ComboboxItemIndicatorProps {
   ref?: Ref<HTMLDivElement>;
@@ -110,7 +109,7 @@ interface GenericComboboxItemCustomProps {
   description?: string;
   fallbackImageElement?: ReactNode;
   useFallbackImage?: boolean;
-  contentType?: string;
+  child?: ReactNode;
   image?: {
     url?: string;
     alt?: string;
@@ -124,7 +123,7 @@ export const GenericComboboxItemContent = ({
   image,
   description,
   fallbackImageElement,
-  contentType,
+  child,
   useFallbackImage,
   ...props
 }: GenericComboboxItemProps) => (
@@ -145,7 +144,7 @@ export const GenericComboboxItemContent = ({
           </StyledText>
         )}
       </Flex>
-      {contentType ? <ContentTypeBadge contentType={contentType} /> : undefined}
+      {child}
       <GenericComboboxItemIndicator />
     </ListItemContent>
   </StyledListItemRoot>

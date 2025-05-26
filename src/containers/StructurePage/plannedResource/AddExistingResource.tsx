@@ -296,7 +296,11 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
               title={item.title.title}
               description={item.metaDescription.metaDescription}
               image={item.metaImage}
-              contentType={item.learningResourceType === "learningpath" ? item.learningResourceType : undefined}
+              child={
+                item.learningResourceType === "learningpath" ? (
+                  <ContentTypeBadge contentType={item.learningResourceType} />
+                ) : undefined
+              }
               useFallbackImage
             />
           )}

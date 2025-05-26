@@ -9,7 +9,7 @@
 import { useField } from "formik";
 import { memo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine } from "@ndla/icons";
+import { AlertLine, DeleteBinLine } from "@ndla/icons";
 import { FieldHelper, FieldLabel, FieldRoot, IconButton, ListItemContent, ListItemRoot, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { GrepResultDTO } from "@ndla/types-backend/search-api";
@@ -26,15 +26,21 @@ const StyledList = styled("ul", {
   base: { listStyle: "none" },
 });
 
+const StyledAlertLine = styled(AlertLine, {
+  base: {
+    color: "red",
+  },
+});
+
 const grepCodeTitle = (grepResult: GrepResultDTO) => {
   const laereplan = "laereplan" in grepResult ? ` (${grepResult.laereplan.code})` : "";
   return `${grepResult.code}${laereplan} - ${grepResult.title.title}`;
 };
 
-export const convertGrepCodesToObject = async (grepCodes: string[]): Promise<Record<string, string>> => {
+export const convertGrepCodesToObject = async (grepCodes: string[]): Promise<Record<string, GrepObject>> => {
   const grepCodesData = await searchGrepCodes({ codes: grepCodes, pageSize: grepCodes.length });
   const grepCodesWithTitle = grepCodesData.results.map((grepCode) => ({
-    [grepCode.code]: grepCodeTitle(grepCode),
+    [grepCode.code]: { title: grepCodeTitle(grepCode), isExpired: grepCode.status !== "Published" },
   }));
   return Object.assign({}, ...grepCodesWithTitle);
 };
@@ -42,11 +48,16 @@ export const convertGrepCodesToObject = async (grepCodes: string[]): Promise<Rec
 interface GrepCodeSuccess {
   code: string;
   title: string;
+  isExpired: boolean;
   status: "success";
 }
 interface GrepCodeError {
   code: string;
   status: "error";
+}
+interface GrepObject {
+  title: string;
+  isExpired: boolean;
 }
 
 interface Props {
@@ -56,7 +67,7 @@ interface Props {
 const GrepCodesField = ({ prefixFilter }: Props) => {
   const { t } = useTranslation();
   const [field, , helpers] = useField<string[]>("grepCodes");
-  const [grepCodes, setGrepCodes] = useState<Record<string, string>>({});
+  const [grepCodes, setGrepCodes] = useState<Record<string, GrepObject>>({});
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
 
   const { query, setQuery, page, setPage } = usePaginatedQuery();
@@ -85,6 +96,7 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
         return {
           code: grepCode.code,
           title: grepCodeTitle(grepCode),
+          isExpired: grepCode.status !== "Published",
           status: "success",
         } as const;
       });
@@ -122,9 +134,9 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
 
     const grepCodesWithName = await fetchGrepCodeTitles(addedGrepCodes);
 
-    const updatedGrepCodes = grepCodesWithName.success.reduce<Record<string, string>>((acc, v) => {
+    const updatedGrepCodes = grepCodesWithName.success.reduce<Record<string, GrepObject>>((acc, v) => {
       helpers.setValue([...field.value, v.code]);
-      acc[v.code] = v.title;
+      acc[v.code] = { title: v.title, isExpired: v.isExpired };
       return acc;
     }, grepCodes);
     setGrepCodes(updatedGrepCodes);
@@ -162,7 +174,14 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
               updateGrepCodes(newValue);
             }}
             value={field.value}
-            renderItem={(item) => <GenericComboboxItemContent title={grepCodeTitle(item)} />}
+            renderItem={(item) => (
+              <GenericComboboxItemContent
+                title={grepCodeTitle(item)}
+                child={
+                  item.status !== "Published" ? <StyledAlertLine title={t("form.grepCodes.expired")} /> : undefined
+                }
+              />
+            )}
             closeOnSelect={false}
             selectionBehavior="preserve"
           >
@@ -180,10 +199,11 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
             />
           </GenericSearchCombobox>
           <StyledList>
-            {Object.entries(grepCodes).map(([code, title]) => (
+            {Object.entries(grepCodes).map(([code, object]) => (
               <ListItemRoot key={code} context="list" variant="subtle" asChild consumeCss id="list-item">
                 <li>
-                  <ListItemContent>{title}</ListItemContent>
+                  <ListItemContent>{object.title}</ListItemContent>
+                  {object.isExpired ? <StyledAlertLine title={t("form.grepCodes.expired")} /> : undefined}
                   <IconButton
                     variant="danger"
                     size="small"

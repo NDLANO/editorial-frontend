@@ -128,7 +128,8 @@ export const PROMPTS: Prompts = {
       formatInstructions: `
         Tekstutdraget er gitt i <excerpt>-taggen.
         Innhaldet i <excerpt>-taggen kan nyttast som kontekst, men skal ikkje gjenbrukast som del av den føreslåtte omformuleringa.
-        <excerpt>-taggen inneheld HTML-taggar som kan gjenbrukast i svaret ditt.
+        <excerpt>-taggen kan innehalde HTML-taggar. Disse bør i så måte gjenbrukast i omformuleringa, så lenge dei framleis gir meining.
+        <excerpt>-taggen kan innehalde <ndlaembed> og <math>-taggar. Disse må ikkje endras på, og må gjenbrukas med same innhald og format i omformuleringa.
         Forslaget til ein betre formulering skal vere skrive på NN.
         Forslaget til ein betre formulering skal vere skrive i ein <answer>-tag.`,
     },
@@ -191,7 +192,8 @@ export const PROMPTS: Prompts = {
       formatInstructions: `
         The excerpt is given in the <excerpt> tag.
         The content in the <excerpt> tag can be used as context, but should not be reused as part of the suggested rephrasing.
-        The <excerpt> tag contains HTML tags that can be reused in your answer.
+        The <excerpt> tag might contain HTML tags. If so, the tags should be reused in the suggested rephrasing, as long as they still make sense.
+        The <excerpt> tag might contain <ndlaembed> and <math> tags. These must not be changed, and must be reused with the same content and format in the suggested rephrasing.
         The suggested rephrasing is to be written in EN.
         The suggested rephrasing is to be written inside an <answer> tag.`,
     },

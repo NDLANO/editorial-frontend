@@ -2312,6 +2312,7 @@ const phrases = {
     },
     failed: "Her gjekk det gale! Klarte ikkje å generere $t(textGeneration.types.{{type}}).\n{{error}}",
     failedTranscription: "Her gjekk det gale! Klarte ikkje å generere transkribering.",
+    responseBox: "Full respons fra KI-modellen",
   },
 };
 

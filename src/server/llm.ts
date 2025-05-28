@@ -17,7 +17,7 @@ import {
 } from "@aws-sdk/client-transcribe";
 import { llmQueryText } from "./llmQueries";
 import { PROMPTS } from "./llmPrompts";
-import { PromptType, DefaultPrompts, PromptPayload, PromptVariables } from "../interfaces";
+import { PromptType, DefaultPrompts, PromptPayload, PromptVariables, LlmReponse } from "../interfaces";
 import { LlmLanguageCode } from "./llmTypes";
 
 const aiModelId = getEnvironmentVariabel("NDLA_AI_MODEL_ID", "test");
@@ -41,7 +41,11 @@ export const getDefaultPrompts = (type: PromptType, language: LlmLanguageCode): 
   return { role, instructions };
 };
 
-export const generateAnswer = async (request: PromptPayload<PromptVariables>, language: string, max_tokens: number) => {
+export const generateAnswer = async (
+  request: PromptPayload<PromptVariables>,
+  language: string,
+  max_tokens: number | undefined,
+): Promise<LlmReponse> => {
   const { role, message } = llmQueryText(request, language);
 
   const prompt = {
@@ -85,15 +89,22 @@ export const generateAnswer = async (request: PromptPayload<PromptVariables>, la
   const decodedResponseBody = textDecoder.decode(response.body);
   const responseBody = JSON.parse(decodedResponseBody);
 
-  const containsError = responseBody.content[0].text.includes("<ERROR>");
+  const responseText = responseBody.content?.[0]?.text;
+  if (typeof responseText !== "string") throw new Error("Invalid response from Bedrock");
 
+  const containsError = responseText.includes("<ERROR>");
   if (containsError) {
-    const errorMsg = responseBody.content[0].text.match(LLM_ERROR_REGEX)[0].trim();
+    const errorMsg = responseText.match(LLM_ERROR_REGEX)?.[0].trim();
     throw new Error(errorMsg);
   }
 
-  const responseText = responseBody.content[0].text.match(LLM_ANSWER_REGEX)[0].trim();
-  return responseText;
+  const answer = responseText.match(LLM_ANSWER_REGEX)?.[0].trim();
+  if (!answer) throw new Error("LLM response did not include an answer tag");
+
+  return {
+    fullResponse: responseText,
+    answer,
+  };
 };
 
 interface StartTranscriptionJob {

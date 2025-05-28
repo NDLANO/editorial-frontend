@@ -19,6 +19,8 @@ import {
   DialogRoot,
   DialogRootProps,
   DialogTitle,
+  ExpandableBox,
+  ExpandableBoxSummary,
   FieldHelper,
   FieldLabel,
   FieldRoot,
@@ -43,6 +45,19 @@ import { NdlaErrorPayload } from "../util/resolveJsonOrRejectWithError";
 const CustomPromptsContainer = styled(Stack, {
   base: {
     marginBlockEnd: "small",
+  },
+});
+
+const AnswerWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+    marginBlockStart: "small",
+    marginBlockEnd: "small",
+    paddingBlockStart: "small",
+    borderTop: "1px solid",
+    borderColor: "stroke.subtle",
   },
 });
 
@@ -85,8 +100,9 @@ const PromptDialogContent = ({
   const [rolePrompt, setRolePrompt] = useState("");
   const [instructionsPrompt, setInstructionsPrompt] = useState("");
   const [generatedText, setGeneratedText] = useState("");
+  const [fullResponse, setFullResponse] = useState("");
   const [error, setError] = useState<string | undefined>(undefined);
-  const { mutateAsync, isPending: mutateIsPending } = useGenerateAIMutation<PromptVariables>();
+  const generateAiMutation = useGenerateAIMutation<PromptVariables>();
   const promptVariables = typeof promptVariablesProp === "function" ? promptVariablesProp() : promptVariablesProp;
   const defaultPromptsQuery = useDefaultAiPrompts(promptVariables.type, language);
 
@@ -99,14 +115,18 @@ const PromptDialogContent = ({
 
   const fetchAiGeneratedText = async () => {
     setError(undefined);
-    mutateAsync({
-      ...promptVariables,
-      language,
-      max_tokens: maxTokens,
-      role: rolePrompt.trim() ? rolePrompt : undefined,
-      instructions: instructionsPrompt.trim() ? instructionsPrompt : undefined,
-    })
-      .then((res) => setGeneratedText(res))
+    generateAiMutation
+      .mutateAsync({
+        ...promptVariables,
+        language,
+        max_tokens: maxTokens,
+        role: rolePrompt.trim() ? rolePrompt : undefined,
+        instructions: instructionsPrompt.trim() ? instructionsPrompt : undefined,
+      })
+      .then(({ fullResponse, answer }) => {
+        setFullResponse(fullResponse);
+        setGeneratedText(answer);
+      })
       .catch((err: NdlaErrorPayload) =>
         setError(t(`textGeneration.failed`, { type: promptVariables.type, error: err.messages })),
       );
@@ -151,19 +171,29 @@ const PromptDialogContent = ({
             )
           ) : null}
         </CustomPromptsContainer>
-        {promptVariables.type === "alternativePhrasing" && <StyledText>{promptVariables.text}</StyledText>}
-        <Button size="small" onClick={fetchAiGeneratedText} loading={mutateIsPending}>
+        {promptVariables.type === "alternativePhrasing" && <StyledText>{promptVariables.html}</StyledText>}
+        <Button size="small" onClick={fetchAiGeneratedText} loading={generateAiMutation.isPending}>
           {t("textGeneration.generateButton", { type: promptVariables.type })}
           <FileListLine />
         </Button>
-        <Heading asChild consumeCss textStyle="label.medium">
-          <h2>{t("textGeneration.suggestedText", { type: promptVariables.type })}</h2>
-        </Heading>
-        <StyledText>{generatedText}</StyledText>
-        {error ? (
-          <Text textStyle="label.small" color="text.error">
-            {error}
-          </Text>
+        {generateAiMutation.data ? (
+          <AnswerWrapper>
+            <Heading asChild consumeCss textStyle="title.small">
+              <h2>{t("textGeneration.suggestedText", { type: promptVariables.type })}</h2>
+            </Heading>
+            <StyledText>{generatedText}</StyledText>
+            {error ? (
+              <Text textStyle="label.small" color="text.error">
+                {error}
+              </Text>
+            ) : null}
+            {fullResponse ? (
+              <ExpandableBox>
+                <ExpandableBoxSummary>{t("textGeneration.responseBox")}</ExpandableBoxSummary>
+                {fullResponse}
+              </ExpandableBox>
+            ) : null}
+          </AnswerWrapper>
         ) : null}
         <HStack justify="space-between">
           <DialogCloseTrigger asChild>

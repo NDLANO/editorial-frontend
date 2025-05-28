@@ -63,7 +63,8 @@ export const PROMPTS: Prompts = {
         Du har fått som oppdrag å foreslå en bedre formulering av et tekstutdrag.`,
       formatInstructions: `
         Tekstutdraget er gitt i <excerpt>-taggen.
-        Innholdet i <draft>-taggen kan brukes som kontekst, men skal ikke gjenbrukes som del av den foreslåtte omformuleringen.
+        <excerpt>-taggen kan inneholde HTML-tagger. Disse bør i så fall gjenbrukes i omformuleringen, så lenge de fortsatt gir mening.
+        <excerpt>-taggen kan inneholde <ndlaembed> og <math>-tagger. Disse må ikke endres på, og må gjenbrukes med samme innhold og format i omformuleringen.
         Forslaget til en forbedret tekst skal være skrevet på NB.
         Forslaget til en forbedret tekst skal være skrevet i en <answer>-tag.`,
     },
@@ -125,7 +126,8 @@ export const PROMPTS: Prompts = {
         Du har fått i oppgåve å foreslå ei betre formulering av eit tekstutdrag.`,
       formatInstructions: `
         Tekstutdraget er gitt i <excerpt>-taggen.
-        Innhaldet i <draft>-taggen kan nyttast som kontekst, men skal ikkje gjenbrukast som del av den føreslåtte omformuleringa.
+        <excerpt>-taggen kan innehalde HTML-taggar. Disse bør i så måte gjenbrukast i omformuleringa, så lenge dei framleis gir meining.
+        <excerpt>-taggen kan innehalde <ndlaembed> og <math>-taggar. Disse må ikkje endras på, og må gjenbrukas med same innhald og format i omformuleringa.
         Forslaget til ein betre formulering skal vere skrive på NN.
         Forslaget til ein betre formulering skal vere skrive i ein <answer>-tag.`,
     },
@@ -187,7 +189,8 @@ export const PROMPTS: Prompts = {
         Your task is to suggest a better phrasing of the text in an excerpt.`,
       formatInstructions: `
         The excerpt is given in the <excerpt> tag.
-        The content in the <draft> tag can be used as context, but should not be reused as part of the suggested rephrasing.
+        The <excerpt> tag might contain HTML tags. If so, the tags should be reused in the suggested rephrasing, as long as they still make sense.
+        The <excerpt> tag might contain <ndlaembed> and <math> tags. These must not be changed, and must be reused with the same content and format in the suggested rephrasing.
         The suggested rephrasing is to be written in EN.
         The suggested rephrasing is to be written inside an <answer> tag.`,
     },

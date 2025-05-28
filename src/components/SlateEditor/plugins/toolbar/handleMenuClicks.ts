@@ -10,7 +10,7 @@ import { KeyboardEvent, SyntheticEvent } from "react";
 import { Editor, Transforms, Element, Range, Node, BaseRange } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { HeadingElement, LIST_TYPES, ParagraphElement, toggleHeading, toggleList } from "@ndla/editor";
-import { BlockType, InlineType, TextType, getEditorAncestors } from "./toolbarState";
+import { BlockType, InlineType, TextType, getSelectionElementTypes } from "./toolbarState";
 import toggleBlock from "../../utils/toggleBlock";
 import { insertComment } from "../comment/inline/utils";
 import { insertInlineConcept } from "../concept/inline/utils";
@@ -38,9 +38,9 @@ const textOptions = (range: BaseRange) => ({
 });
 
 export const handleTextChange = (editor: Editor, type: string) => {
-  const ancestors = getEditorAncestors(editor, true);
-  const defaultValue = defaultValueState?.[ancestors[1]?.type] ??
-    defaultValueState?.[ancestors[0]?.type] ?? { type: TYPE_PARAGRAPH };
+  const { types: selectionTypes } = getSelectionElementTypes(editor, true);
+  const defaultValue = defaultValueState?.[selectionTypes[1]] ??
+    defaultValueState?.[selectionTypes[0]] ?? { type: TYPE_PARAGRAPH };
 
   const props: Partial<TextElements> =
     type === "normal-text" ? defaultValue : { type: TYPE_HEADING, level: parseHeadingLevel(type) };

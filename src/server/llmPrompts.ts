@@ -63,7 +63,9 @@ export const PROMPTS: Prompts = {
         Du har fått som oppdrag å foreslå en bedre formulering av et tekstutdrag.`,
       formatInstructions: `
         Tekstutdraget er gitt i <excerpt>-taggen.
-        Innholdet i <draft>-taggen kan brukes som kontekst, men skal ikke gjenbrukes som del av den foreslåtte omformuleringen.
+        Innholdet i <excerpt>-taggen kan brukes som kontekst, men skal ikke gjenbrukes som del av den foreslåtte omformuleringen.
+        <excerpt>-taggen kan inneholde HTML-tagger. Disse bør i så fall gjenbrukes i omformuleringen, så lenge de fortsatt gir mening.
+        <excerpt>-taggen kan inneholde <ndlaembed> og <math>-tagger. Disse må ikke endres på, og må gjenbrukes med samme innhold og format i omformuleringen.
         Forslaget til en forbedret tekst skal være skrevet på NB.
         Forslaget til en forbedret tekst skal være skrevet i en <answer>-tag.`,
     },
@@ -125,7 +127,8 @@ export const PROMPTS: Prompts = {
         Du har fått i oppgåve å foreslå ei betre formulering av eit tekstutdrag.`,
       formatInstructions: `
         Tekstutdraget er gitt i <excerpt>-taggen.
-        Innhaldet i <draft>-taggen kan nyttast som kontekst, men skal ikkje gjenbrukast som del av den føreslåtte omformuleringa.
+        Innhaldet i <excerpt>-taggen kan nyttast som kontekst, men skal ikkje gjenbrukast som del av den føreslåtte omformuleringa.
+        <excerpt>-taggen inneheld HTML-taggar som kan gjenbrukast i svaret ditt.
         Forslaget til ein betre formulering skal vere skrive på NN.
         Forslaget til ein betre formulering skal vere skrive i ein <answer>-tag.`,
     },
@@ -187,7 +190,8 @@ export const PROMPTS: Prompts = {
         Your task is to suggest a better phrasing of the text in an excerpt.`,
       formatInstructions: `
         The excerpt is given in the <excerpt> tag.
-        The content in the <draft> tag can be used as context, but should not be reused as part of the suggested rephrasing.
+        The content in the <excerpt> tag can be used as context, but should not be reused as part of the suggested rephrasing.
+        The <excerpt> tag contains HTML tags that can be reused in your answer.
         The suggested rephrasing is to be written in EN.
         The suggested rephrasing is to be written inside an <answer> tag.`,
     },

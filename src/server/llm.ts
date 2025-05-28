@@ -80,7 +80,6 @@ export const generateAnswer = async (
     system: role,
   };
 
-  console.log("Invoking LLM with role:", role, "\nAnd prompt:", message);
   const command = new InvokeModelCommand({
     contentType: "application/json",
     body: JSON.stringify(payload),

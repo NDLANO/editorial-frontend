@@ -22,7 +22,7 @@ import {
 } from "@ndla/types-backend/audio-api";
 import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
 import { createAuthClient } from "../../util/apiHelpers";
-import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
+import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 import { createFormData } from "../../util/formDataHelper";
 
 const client = createAuthClient<openapi.paths>();
@@ -96,14 +96,14 @@ export const deleteLanguageVersionAudio = async (
     .DELETE("/audio-api/v1/audio/{audio-id}/language/{language}", {
       params: { path: { "audio-id": audioId, language: locale } },
     })
-    .then((r) => resolveJsonOATS(r));
+    .then((r) => resolveOATS(r));
 
 export const deleteLanguageVersionSeries = async (seriesId: number, language: string): Promise<ISeriesDTO | void> =>
   client
     .DELETE("/audio-api/v1/series/{series-id}/language/{language}", {
       params: { path: { "series-id": seriesId, language } },
     })
-    .then((r) => resolveJsonOATS(r));
+    .then((r) => resolveOATS(r));
 
 export const fetchSearchTags = async (query: string, language: string): Promise<ITagsSearchResultDTO> =>
   client

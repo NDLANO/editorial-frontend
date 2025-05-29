@@ -105,7 +105,7 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
 
   const shouldShowToolbar = useSlateSelector((editor) => {
     if (!editor.selection || Range.isCollapsed(editor.selection)) return false;
-    return editor.shouldShowToolbar() && !!Editor.string(editor, editor.selection).length;
+    return !!editor.shouldShowToolbar?.() && !!Editor.string(editor, editor.selection).length;
   });
 
   useEffect(() => {

@@ -68,6 +68,6 @@ export const podcastSeriesTypeToFormType = (
     description: plainTextToEditorValue(series?.description.description ?? ""),
     episodes: series?.episodes?.map((e) => e.id) ?? [],
     supportedLanguages: series?.supportedLanguages ?? [language],
-    hasRSS: series?.hasRSS,
+    hasRSS: !!series?.hasRSS,
   };
 };

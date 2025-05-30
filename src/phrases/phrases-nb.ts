@@ -1301,6 +1301,7 @@ const phrases = {
       placeholder: "Skriv inn kode",
       description:
         "Skriv inn koder som starter på riktig format ({{ codes }}) fulgt av ett eller flere siffer. Koder som ikke finnes vil ikke bli opprettet. Separer flere koder med komma. Tekstene vises på bokmål i ed men korrekt i artikkelvisning. Du kan også filtrere på læreplankoder.",
+      expired: "Denne koden er ikke lenger aktiv",
     },
     articleDisclaimer: {
       title: "Informasjon om tilgjengelighet for hele artikkelen",

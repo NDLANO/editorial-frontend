@@ -1301,6 +1301,7 @@ const phrases = {
       placeholder: "Type code",
       description:
         "Type in codes using the correct format ({{ codes }}) followed by one or more digits. Non existing codes will not be created. Separate multiple codes with comma. Texts will be displayed in norwegian here but will be shown correct in frontend. You can also filter on learningplan codes.",
+      expired: "This code is no longer active",
     },
     articleDisclaimer: {
       title: "Information about availability for the entire article",

@@ -136,7 +136,7 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
 
     const updatedGrepCodes = grepCodesWithName.success.reduce<Record<string, GrepObject>>((acc, v) => {
       helpers.setValue([...field.value, v.code]);
-      acc[v.code] = { title: v.title, isExpired: v.isExpired };
+      acc[v.code] = v;
       return acc;
     }, grepCodes);
     setGrepCodes(updatedGrepCodes);

@@ -78,7 +78,7 @@ export interface SlateSerializer {
 export interface CustomEditor extends _CustomEditor {
   lastSelection?: BaseSelection;
   lastSelectedBlock?: Node;
-  shouldShowToolbar: () => boolean;
+  shouldShowToolbar?: () => boolean;
   shouldHideBlockPicker?: () => boolean | undefined;
 }
 

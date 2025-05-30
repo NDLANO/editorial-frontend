@@ -101,7 +101,7 @@ const toolbarPlugin =
         action = { category: "block", value: "definition-list" };
       }
 
-      if (!action || !editor.shouldShowToolbar()) {
+      if (!action || !editor.shouldShowToolbar?.()) {
         nextOnKeyDown?.(e);
         return;
       }

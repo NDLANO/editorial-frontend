@@ -17,7 +17,7 @@ import {
 } from "@ndla/types-backend/image-api";
 import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
 import { throwErrorPayload, createAuthClient } from "../../util/apiHelpers";
-import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
+import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 import { createFormData } from "../../util/formDataHelper";
 
 const client = createAuthClient<openapi.paths>();
@@ -103,7 +103,7 @@ export const deleteLanguageVersionImage = async (
         },
       },
     })
-    .then((r) => resolveJsonOATS(r));
+    .then((r) => resolveOATS(r));
 };
 
 export const fetchSearchTags = async (input: string, language: string): Promise<ITagsSearchResultDTO> =>

@@ -2314,6 +2314,7 @@ const phrases = {
     },
     failed: "Oops, something went wrong! Could not generate $t(textGeneration.types.{{type}}).\n{{error}}",
     failedTranscription: "Oops, something went wrong! Could not generate transcription.",
+    responseBox: "Full response from the AI model",
   },
 };
 

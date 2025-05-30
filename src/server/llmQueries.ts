@@ -45,8 +45,7 @@ const META_DESCRIPTION_QUERY = createQuery("metaDescription", {
 });
 
 const ALTERNATIVE_PRHASING_QUERY = createQuery("alternativePhrasing", {
-  excerpt: "excerpt",
-  draft: "text",
+  excerpt: "html",
 });
 
 const ALT_TEXT_QUERY = createQuery("altText");

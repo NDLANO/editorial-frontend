@@ -210,8 +210,8 @@ router.post("/generate-ai", jwtMiddleware, aiMiddleware, async (req, res) => {
     return;
   }
   try {
-    const text = await generateAnswer(req.body, req.body.language, req.body.max_tokens);
-    res.status(OK).send(text);
+    const llmResponse = await generateAnswer(req.body, req.body.language, req.body.max_tokens);
+    res.status(OK).send(llmResponse);
   } catch (err) {
     res
       .status(INTERNAL_SERVER_ERROR)

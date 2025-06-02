@@ -6,13 +6,13 @@
  *
  */
 
-import { PromptVariables, PromptPayload, PromptType, DefaultPrompts, LlmReponse } from "../../interfaces";
+import { PromptVariables, PromptPayload, PromptType, DefaultPrompts, LlmResponse } from "../../interfaces";
 import { fetchAuthorized } from "../../util/apiHelpers";
 import { resolveJsonOrRejectWithError } from "../../util/resolveJsonOrRejectWithError";
 
 export const fetchAIGeneratedAnswer = async <TVariables extends PromptVariables>(
   payload: PromptPayload<TVariables>,
-): Promise<LlmReponse> =>
+): Promise<LlmResponse> =>
   fetchAuthorized("/generate-ai", {
     method: "POST",
     headers: {

@@ -17,7 +17,7 @@ import {
 } from "@aws-sdk/client-transcribe";
 import { llmQueryText } from "./llmQueries";
 import { PROMPTS } from "./llmPrompts";
-import { PromptType, DefaultPrompts, PromptPayload, PromptVariables, LlmReponse } from "../interfaces";
+import { PromptType, DefaultPrompts, PromptPayload, PromptVariables, LlmResponse } from "../interfaces";
 import { LlmLanguageCode } from "./llmTypes";
 
 const aiModelId = getEnvironmentVariabel("NDLA_AI_MODEL_ID", "test");
@@ -45,7 +45,7 @@ export const generateAnswer = async (
   request: PromptPayload<PromptVariables>,
   language: string,
   max_tokens: number | undefined,
-): Promise<LlmReponse> => {
+): Promise<LlmResponse> => {
   const { role, message } = llmQueryText(request, language);
 
   const prompt = {

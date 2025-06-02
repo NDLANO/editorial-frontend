@@ -8,10 +8,10 @@
 
 import { DefaultError, UseMutationOptions, useMutation } from "@tanstack/react-query";
 import { fetchAIGeneratedAnswer } from "./llmApi";
-import { PromptVariables, PromptPayload, LlmReponse } from "../../interfaces";
+import { PromptVariables, PromptPayload, LlmResponse } from "../../interfaces";
 
 export const useGenerateAIMutation = <TVariables extends PromptVariables>(
-  options?: UseMutationOptions<LlmReponse, DefaultError, PromptPayload<TVariables>>,
+  options?: UseMutationOptions<LlmResponse, DefaultError, PromptPayload<TVariables>>,
 ) =>
   useMutation({
     mutationFn: fetchAIGeneratedAnswer,

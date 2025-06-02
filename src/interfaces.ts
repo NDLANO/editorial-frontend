@@ -281,7 +281,7 @@ export interface DefaultPrompts {
   instructions: string;
 }
 
-export interface LlmReponse {
+export interface LlmResponse {
   fullResponse: string;
   answer: string;
 }

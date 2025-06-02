@@ -149,9 +149,11 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
       return getContentTypeFromResourceTypes(resourceTypes);
     } else if (isLearningpath(content.url)) {
       return getContentTypeFromResourceTypes([{ id: RESOURCE_TYPE_LEARNING_PATH }]);
+    } else if (["concept", "gloss"].includes(content.learningResourceType)) {
+      return content.learningResourceType;
     }
     return undefined;
-  }, [content.url, content.contexts]);
+  }, [content.url, content.contexts, content.learningResourceType]);
 
   const imageData = useMemo(() => {
     if (content.learningResourceType === "gloss") {

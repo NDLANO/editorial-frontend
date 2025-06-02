@@ -281,7 +281,7 @@ export const topicArticleRules: RulesType<TopicArticleFormType, IArticleDTO> = {
   visualElement: {
     required: false,
     test: (values) =>
-      isImageElement(values.visualElement[0])
+      values.visualElement[0] && !isImageElement(values.visualElement[0])
         ? { translationKey: "topicArticleForm.validation.illegalResource" }
         : undefined,
   },

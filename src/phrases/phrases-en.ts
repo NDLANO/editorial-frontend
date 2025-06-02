@@ -577,8 +577,7 @@ const phrases = {
       },
     },
     validation: {
-      containsContent:
-        "Topic articles should only have title, introduction and visualelement. The content is in most cases not needed.",
+      containsContent: "Only topics in multidisciplinary subjects (case) can have text in the content field.",
       illegalResource: "Topic articles should only have image as visual element.",
     },
   },

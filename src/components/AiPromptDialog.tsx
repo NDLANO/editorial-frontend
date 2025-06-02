@@ -114,7 +114,10 @@ const PromptDialogContent = ({
   }, [defaultPromptsQuery.data, rolePrompt, instructionsPrompt]);
 
   const fetchAiGeneratedText = async () => {
+    setFullResponse("");
+    setGeneratedText("");
     setError(undefined);
+
     generateAiMutation
       .mutateAsync({
         ...promptVariables,

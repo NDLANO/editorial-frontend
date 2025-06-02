@@ -576,8 +576,7 @@ const phrases = {
       },
     },
     validation: {
-      containsContent:
-        "Emneartikler bør kun ha tittel, ingress og visuelt element. Innhold trengs ikke i de fleste tilfeller.",
+      containsContent: "Kun emner i tverrfaglige tema (case) kan ha tekst i innholdsfeltet.",
       illegalResource: "Emneartikler bør kun ha bilde som visuelt element.",
     },
   },

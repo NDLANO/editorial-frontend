@@ -15,8 +15,6 @@ import { RephraseElement } from "./rephraseTypes";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../util/articleContentConverter";
 import { AiPromptDialog } from "../../../AiPromptDialog";
 import mergeLastUndos from "../../utils/mergeLastUndos";
-import { isDivElement } from "../div/queries";
-import { DIV_ELEMENT_TYPE } from "../div/types";
 
 interface Props extends RenderElementProps {
   element: RephraseElement;
@@ -35,8 +33,7 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
 
       if (generatedHtml) {
         const [node] = blockContentToEditorValue(`<div>${generatedHtml}</div>`) as Element[];
-        Transforms.insertNodes(editor, { type: DIV_ELEMENT_TYPE, children: node.children }, { at: nextPath });
-        Transforms.unwrapNodes(editor, { match: isDivElement, at: nextPath });
+        Transforms.insertNodes(editor, node.children, { at: nextPath });
         mergeLastUndos(editor);
       }
 

@@ -127,7 +127,7 @@ export const PROMPTS: Prompts = {
       formatInstructions: `
         Tekstutdraget er gitt i <excerpt>-taggen.
         <excerpt>-taggen kan innehalde HTML-taggar. Disse bør i så måte gjenbrukast i omformuleringa, så lenge dei framleis gir meining.
-        <excerpt>-taggen kan innehalde <ndlaembed> og <math>-taggar. Disse må ikkje endras på, og må gjenbrukas med same innhald og format i omformuleringa.
+        <excerpt>-taggen kan innehalde <ndlaembed> og <math>-taggar. Disse må ikkje endrast på, og må brukast igjen med same innhald og format i omformuleringa.
         Forslaget til ein betre formulering skal vere skrive på NN.
         Forslaget til ein betre formulering skal vere skrive i ein <answer>-tag.`,
     },

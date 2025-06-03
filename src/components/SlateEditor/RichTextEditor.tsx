@@ -8,16 +8,15 @@
 
 import { useFormikContext } from "formik";
 import { isEqual } from "lodash-es";
-import { FocusEvent, useCallback, useEffect, useRef, useState, JSX } from "react";
+import { useCallback, useEffect, useRef, JSX } from "react";
 import { Descendant, Editor, Range, Transforms } from "slate";
 import { Slate, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
-import { createSlate, LoggerManager, SlatePlugin } from "@ndla/editor";
+import { LoggerManager, SlatePlugin, useCreateSlate } from "@ndla/editor";
 import { styled } from "@ndla/styled-system/jsx";
 import "../DisplayEmbed/helpers/h5pResizer";
 import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
 import { FieldEditable } from "./FieldEditable";
-import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
 import { FormikStatus } from "../../interfaces";
 import { Action, commonActions } from "./plugins/blockPicker/actions";
 import { BlockPickerOptions, createBlockpickerOptions } from "./plugins/blockPicker/options";
@@ -74,22 +73,19 @@ const RichTextEditor = ({
   hideBlockPicker,
   hideToolbar,
   receiveInitialFocus,
-  onBlur: onBlurProp,
   noArticleStyling,
   editorId,
   onInitialNormalized,
   renderInvalidElement,
   ...rest
 }: RichTextEditorProps) => {
-  const [editor] = useState(() =>
-    createSlate({
-      plugins: plugins,
-      value,
-      logger: new LoggerManager({ debug: true }),
-      shouldNormalize: true,
-      onInitialNormalized,
-    }),
-  );
+  const editor = useCreateSlate({
+    plugins: plugins,
+    value,
+    logger: new LoggerManager({ debug: true }),
+    shouldNormalize: true,
+    onInitialNormalized,
+  });
   const prevSubmitted = useRef(submitted);
 
   const { status, setStatus } = useFormikContext<ArticleFormType>();
@@ -105,7 +101,7 @@ const RichTextEditor = ({
     // When form is submitted or form content has been revert to a previous version, the editor has to be reinitialized.
     if (
       (!submitted && prevSubmitted.current) ||
-      status === "revertVersion" ||
+      status?.status === "revertVersion" ||
       (editorId && status?.status === editorId)
     ) {
       ReactEditor.deselect(editor);
@@ -183,16 +179,6 @@ const RichTextEditor = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Deselect selection if focus is moved to any other element than the toolbar
-  const onBlur = useCallback(
-    (e: FocusEvent<HTMLDivElement>) => {
-      if (e.relatedTarget?.id === BLOCK_PICKER_TRIGGER_ID) return;
-      if (e.relatedTarget?.closest("[data-toolbar]")) return;
-      if (onBlurProp) onBlurProp(e);
-    },
-    [onBlurProp],
-  );
-
   return (
     <article className={noArticleStyling ? undefined : "ndla-article"}>
       <ArticleLanguageProvider language={language}>
@@ -209,7 +195,6 @@ const RichTextEditor = ({
             <SlateDndContext editor={editor}>
               <StyledEditable
                 {...rest}
-                onBlur={onBlur}
                 onKeyDown={editor.onKeyDown}
                 placeholder={placeholder}
                 renderElement={renderElement}

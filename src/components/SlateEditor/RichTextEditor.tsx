@@ -8,15 +8,15 @@
 
 import { useFormikContext } from "formik";
 import { isEqual } from "lodash-es";
-import { FocusEvent, useCallback, useEffect, useMemo, useRef, useState, JSX } from "react";
+import { FocusEvent, useCallback, useEffect, useRef, useState, JSX } from "react";
 import { Descendant, Editor, Range, Transforms } from "slate";
-import { Slate, Editable, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
+import { Slate, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
-import { useFieldContext } from "@ark-ui/react";
 import { createSlate, LoggerManager, SlatePlugin } from "@ndla/editor";
 import { styled } from "@ndla/styled-system/jsx";
 import "../DisplayEmbed/helpers/h5pResizer";
 import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
+import { FieldEditable } from "./FieldEditable";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
 import { FormikStatus } from "../../interfaces";
 import { Action, commonActions } from "./plugins/blockPicker/actions";
@@ -36,7 +36,7 @@ const StyledSlateWrapper = styled("div", {
   },
 });
 
-const StyledEditable = styled(Editable, {}, { baseComponent: true });
+const StyledEditable = styled(FieldEditable, {}, { baseComponent: true });
 
 export interface RichTextEditorProps extends Omit<EditableProps, "value" | "onChange" | "onKeyDown"> {
   value: Descendant[];
@@ -90,23 +90,7 @@ const RichTextEditor = ({
       onInitialNormalized,
     }),
   );
-  const [labelledBy, setLabelledBy] = useState<string | undefined>(undefined);
   const prevSubmitted = useRef(submitted);
-  const field = useFieldContext();
-  // Including ID somehow crashes the editor.
-  const {
-    "aria-labelledby": fieldLabelledBy,
-    //@ts-expect-error - it exists, but not according to the type
-    "data-part": _,
-    ...fieldProps
-  } = useMemo(() => (field?.getTextareaProps() as EditableProps | undefined) ?? {}, [field]);
-
-  useEffect(() => {
-    const labelEl = document.getElementById(field.ids.label);
-    if (labelEl) {
-      setLabelledBy(labelEl.id);
-    }
-  }, [field.ids.label]);
 
   const { status, setStatus } = useFormikContext<ArticleFormType>();
 
@@ -230,8 +214,6 @@ const RichTextEditor = ({
               />
             )}
             <StyledEditable
-              {...fieldProps}
-              aria-labelledby={labelledBy}
               {...rest}
               onBlur={onBlur}
               onKeyDown={editor.onKeyDown}

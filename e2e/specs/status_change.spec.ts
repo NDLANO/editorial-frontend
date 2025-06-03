@@ -38,7 +38,7 @@ test("can change status correctly", async ({ page, harCheckpoint }) => {
 
   await statusSelect.click();
   await harCheckpoint();
-  await page.getByText("Publiser", { exact: true }).click();
+  await page.getByText("Publisert", { exact: true }).click();
   await saveButton.getByText("Lagret").waitFor();
   await expect(statusSelect.locator('[data-part="value-text"]')).toHaveText("Publisert");
 });

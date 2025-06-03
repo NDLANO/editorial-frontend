@@ -22,7 +22,7 @@ import { copyrightPlugin } from "../../../../components/SlateEditor/plugins/copy
 import { detailsPlugin } from "../../../../components/SlateEditor/plugins/details/detailsPlugin";
 import { summaryPlugin } from "../../../../components/SlateEditor/plugins/details/summaryPlugin";
 import { divPlugin } from "../../../../components/SlateEditor/plugins/div";
-import { dndPlugin } from "../../../../components/SlateEditor/plugins/DND";
+import { dndPlugin } from "../../../../components/SlateEditor/plugins/DND/dndPlugin";
 import { externalPlugin, iframePlugin } from "../../../../components/SlateEditor/plugins/external";
 import { filePlugin } from "../../../../components/SlateEditor/plugins/file";
 import { footnotePlugin } from "../../../../components/SlateEditor/plugins/footnote";

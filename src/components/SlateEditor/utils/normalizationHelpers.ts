@@ -32,6 +32,7 @@ import { BLOCK_QUOTE_ELEMENT_TYPE } from "../plugins/blockquote/blockquoteTypes"
 import { REPHRASE_ELEMENT_TYPE } from "../plugins/rephrase/rephraseTypes";
 import { SYMBOL_ELEMENT_TYPE } from "../plugins/symbol/types";
 import { DEFINITION_LIST_ELEMENT_TYPE } from "../plugins/definitionList/definitionListTypes";
+import { IMAGE_ELEMENT_TYPE } from "../plugins/image/types";
 
 export const firstTextBlockElement: Element["type"][] = [TYPE_PARAGRAPH, TYPE_HEADING, BLOCK_QUOTE_ELEMENT_TYPE];
 
@@ -51,6 +52,7 @@ export const textBlockElements: Element["type"][] = [
   ASIDE_ELEMENT_TYPE,
   FRAMED_CONTENT_ELEMENT_TYPE,
   DETAILS_ELEMENT_TYPE,
+  IMAGE_ELEMENT_TYPE,
   DEFINITION_LIST_ELEMENT_TYPE,
   GRID_ELEMENT_TYPE,
   REPHRASE_ELEMENT_TYPE,

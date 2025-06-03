@@ -13,6 +13,7 @@ import { commentInlineRenderer } from "../../../../components/SlateEditor/plugin
 import { inlineConceptRenderer } from "../../../../components/SlateEditor/plugins/concept/inline/render";
 import { definitionListRenderer } from "../../../../components/SlateEditor/plugins/definitionList/render";
 import { divRenderer } from "../../../../components/SlateEditor/plugins/div/render";
+import { dndRenderer } from "../../../../components/SlateEditor/plugins/DND/dndRenderer";
 import { headingRenderer } from "../../../../components/SlateEditor/plugins/heading/render";
 import { linkRenderer } from "../../../../components/SlateEditor/plugins/link/render";
 import { listRenderer } from "../../../../components/SlateEditor/plugins/list/render";
@@ -47,4 +48,5 @@ export const topicArticleRenderers: SlatePlugin[] = [
   rephraseRenderer,
   symbolRenderer,
   unsupportedElementRenderer,
+  dndRenderer,
 ];

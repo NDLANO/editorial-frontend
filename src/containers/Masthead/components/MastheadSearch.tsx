@@ -59,7 +59,7 @@ const shortContextIdRegEx = new RegExp(/^[a-f0-9]{10}/);
 const longContextIdRegEx = new RegExp(/^[a-f0-9]{12}/);
 const slugRegEx = new RegExp(/^[a-z-]+$/);
 const nodeIdRegEx = new RegExp(/#\d+/g);
-const taxonomyIdRegEx = new RegExp(/#urn:(resource|topic)[:\da-fA-F-]+/g);
+const taxonomyIdRegEx = new RegExp(/#urn:(resource|topic|subject)[:\da-fA-F-]+/g);
 
 export const MastheadSearch = () => {
   const [value, setValue] = useState([]);
@@ -101,10 +101,14 @@ export const MastheadSearch = () => {
   const handleTaxonomyId = async (taxId: string) => {
     try {
       const taxElement = await fetchNode({ id: taxId, taxonomyVersion });
-      const arr = taxElement.contentUri?.split(":");
-      if (arr) {
-        const id = arr[arr.length - 1];
-        navigate(routes.editArticle(parseInt(id), "standard"));
+      if (taxElement.nodeType === "SUBJECT") {
+        navigate(routes.structure(taxElement.path));
+      } else {
+        const arr = taxElement.contentUri?.split(":");
+        if (arr) {
+          const id = arr[arr.length - 1];
+          navigate(routes.editArticle(parseInt(id), "standard"));
+        }
       }
     } catch (error) {
       navigate(routes.notFound);

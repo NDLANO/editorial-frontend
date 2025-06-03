@@ -6,7 +6,9 @@
  *
  */
 
+import { Auth0UserProfile } from "auth0-js";
 import { getEnvironmentVariabel, getUniversalConfig } from "../config";
+import { Auth0UserData } from "../interfaces";
 
 const url = `https://${getUniversalConfig().auth0Domain}/oauth/token`;
 const editorialFrontendClientId = getEnvironmentVariabel("NDLA_EDITORIAL_CLIENT_ID");
@@ -46,51 +48,68 @@ export const getBrightcoveToken = () => {
   }).then((res) => res.json());
 };
 
+const mapToUserData = (users: Auth0UserProfile[]): Auth0UserData[] =>
+  users.map(({ name, app_metadata: { ndla_id } }) => ({
+    name,
+    app_metadata: {
+      ndla_id,
+    },
+  }));
+
 type ManagementToken = { access_token: string };
 
-export const fetchAuth0UsersById = (managementToken: ManagementToken, userIds: string) => {
+export const fetchAuth0UsersById = async (
+  managementToken: ManagementToken,
+  userIds: string,
+): Promise<Auth0UserData[]> => {
   const query = userIds
     .split(",")
     .map((userId) => `"${userId}"`)
     .join(" OR ");
-  return fetch(`https://${getUniversalConfig().auth0Domain}/api/v2/users?q=app_metadata.ndla_id:(${query})`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${managementToken.access_token}`,
+  const res = await fetch(
+    `https://${getUniversalConfig().auth0Domain}/api/v2/users?q=app_metadata.ndla_id:(${query})`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${managementToken.access_token}`,
+      },
     },
-  }).then((res) => res.json());
+  );
+  const json = await res.json();
+  return mapToUserData(json);
 };
 
-async function fetchAuth0UsersByQuery(token: string, query: string, page: number) {
-  return fetch(`https://${getUniversalConfig().auth0Domain}/api/v2/users?${query}&page=${page}`, {
+type PaginatedAuth0UserProfiles = {
+  length: number;
+  total: number;
+  users: Auth0UserProfile[];
+};
+
+const fetchAuth0UsersByQuery = (token: string, query: string, page: number): Promise<PaginatedAuth0UserProfiles> =>
+  fetch(`https://${getUniversalConfig().auth0Domain}/api/v2/users?${query}&include_totals=true&page=${page}`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
   }).then((res) => res.json());
-}
 
-export const getEditors = async (managementToken: ManagementToken) => {
-  const query = `include_totals=true&q=app_metadata.isOrWasEdUser:true&sort=name:1`;
-  const firstPage = await fetchAuth0UsersByQuery(managementToken.access_token, query, 0);
+const getUsersByQuery = async (token: string, query: string): Promise<Auth0UserData[]> => {
+  const firstPage = await fetchAuth0UsersByQuery(token, query, 0);
   const numberOfPages = Math.ceil(firstPage.total / firstPage.length);
-  const requests = [firstPage];
+  const requests = [Promise.resolve(firstPage)];
   for (let i = 1; i < numberOfPages; i += 1) {
-    requests.push(fetchAuth0UsersByQuery(managementToken.access_token, query, i));
+    requests.push(fetchAuth0UsersByQuery(token, query, i));
   }
   const results = await Promise.all(requests);
-  return results.reduce((acc, res) => [...acc, ...res.users], []);
+  return results.flatMap((res) => mapToUserData(res.users));
 };
 
-export const getResponsibles = async (managementToken: ManagementToken, permission: string) => {
-  const query = `include_totals=true&q=app_metadata.permissions:"${permission}"&sort=name:1`;
+export const getEditors = (managementToken: ManagementToken): Promise<Auth0UserData[]> => {
+  const query = `q=app_metadata.isOrWasEdUser:true&sort=name:1`;
+  return getUsersByQuery(managementToken.access_token, query);
+};
 
-  const firstPage = await fetchAuth0UsersByQuery(managementToken.access_token, query, 0);
-  const numberOfPages = Math.ceil(firstPage.total / firstPage.length);
-  const requests = [firstPage];
-  for (let i = 1; i < numberOfPages; i += 1) {
-    requests.push(fetchAuth0UsersByQuery(managementToken.access_token, query, i));
-  }
-  const results = await Promise.all(requests);
-  return results.reduce((acc, res) => [...acc, ...res.users], []);
+export const getResponsibles = (managementToken: ManagementToken, permission: string): Promise<Auth0UserData[]> => {
+  const query = `q=app_metadata.permissions:"${permission}"&sort=name:1`;
+  return getUsersByQuery(managementToken.access_token, query);
 };

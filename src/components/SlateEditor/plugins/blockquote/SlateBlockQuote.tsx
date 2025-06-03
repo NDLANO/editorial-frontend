@@ -40,7 +40,7 @@ export const SlateBlockQuote = ({ element, editor, attributes, children }: Props
   };
 
   return (
-    <EmbedWrapper {...attributes} draggable>
+    <EmbedWrapper {...attributes}>
       <ContentTypeBlockQuote variant={element.data?.variant} contentType={contentType}>
         <StyledIconButton
           size="small"

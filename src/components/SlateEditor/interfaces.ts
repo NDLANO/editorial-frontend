@@ -80,6 +80,7 @@ export interface CustomEditor extends _CustomEditor {
   lastSelectedBlock?: Node;
   shouldShowToolbar?: () => boolean;
   shouldHideBlockPicker?: () => boolean | undefined;
+  isDragDisabled?: (element: Element) => boolean | undefined;
 }
 
 type CustomElement =

@@ -22,7 +22,7 @@ import { FormikStatus } from "../../interfaces";
 import { Action, commonActions } from "./plugins/blockPicker/actions";
 import { BlockPickerOptions, createBlockpickerOptions } from "./plugins/blockPicker/options";
 import SlateBlockPicker from "./plugins/blockPicker/SlateBlockPicker";
-import { onDragOver, onDragStart, onDrop } from "./plugins/DND";
+import { SlateDndContext } from "./plugins/DND/SlateDndContext";
 import { SlateToolbar } from "./plugins/toolbar";
 import { AreaFilters, CategoryFilters } from "./plugins/toolbar/toolbarState";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
@@ -174,7 +174,7 @@ const RichTextEditor = ({
   const renderLeaf = useCallback((renderProps: RenderLeafProps) => {
     const { attributes, children } = renderProps;
     if (editor.renderLeaf) {
-      const ret = editor.renderLeaf(renderProps);
+      const ret = editor.renderLeaf?.(renderProps);
       if (ret) {
         return ret;
       }
@@ -182,13 +182,6 @@ const RichTextEditor = ({
     return <span {...attributes}>{children}</span>;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onDragStartCallback = useCallback(onDragStart(editor), []);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onDragOverCallback = useCallback(onDragOver(), []);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onDropCallback = useCallback(onDrop(editor), []);
 
   // Deselect selection if focus is moved to any other element than the toolbar
   const onBlur = useCallback(
@@ -213,18 +206,17 @@ const RichTextEditor = ({
                 {...createBlockpickerOptions(blockpickerOptions)}
               />
             )}
-            <StyledEditable
-              {...rest}
-              onBlur={onBlur}
-              onKeyDown={editor.onKeyDown}
-              placeholder={placeholder}
-              renderElement={renderElement}
-              renderLeaf={renderLeaf}
-              readOnly={submitted}
-              onDragStart={onDragStartCallback}
-              onDragOver={onDragOverCallback}
-              onDrop={onDropCallback}
-            />
+            <SlateDndContext editor={editor}>
+              <StyledEditable
+                {...rest}
+                onBlur={onBlur}
+                onKeyDown={editor.onKeyDown}
+                placeholder={placeholder}
+                renderElement={renderElement}
+                renderLeaf={renderLeaf}
+                readOnly={submitted}
+              />
+            </SlateDndContext>
           </Slate>
         </StyledSlateWrapper>
       </ArticleLanguageProvider>

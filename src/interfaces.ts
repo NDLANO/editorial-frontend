@@ -245,8 +245,7 @@ export interface AltTextVariables {
 
 export interface AlternativePhrasingVariables {
   type: "alternativePhrasing";
-  text: string;
-  excerpt: string;
+  html: string;
 }
 
 export interface MetaDescriptionVariables {
@@ -268,7 +267,7 @@ const promptTypes: PromptType[] = [
   "reflection",
 ] as const;
 
-export const isPromptType = (type: string): type is PromptType => promptTypes.includes(type as PromptType);
+export const isPromptType = (type: any): type is PromptType => promptTypes.includes(type as PromptType);
 
 export type PromptPayload<T extends PromptVariables> = T & {
   language: string;
@@ -280,4 +279,9 @@ export type PromptPayload<T extends PromptVariables> = T & {
 export interface DefaultPrompts {
   role: string;
   instructions: string;
+}
+
+export interface LlmResponse {
+  fullResponse: string;
+  answer: string;
 }

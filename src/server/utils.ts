@@ -6,20 +6,26 @@
  *
  */
 
-import { isPromptType } from "../interfaces";
+import { isPromptType, PromptPayload, PromptVariables } from "../interfaces";
+import { unreachable } from "../util/guards";
 
-export const isValidRequestBody = (body: any) => {
-  const type = body?.type;
-  if (!isPromptType(type)) {
-    return false;
-  } else if ((type === "summary" || type === "metaDescription") && !body.title && !body.text) {
-    return false;
-  } else if (type === "altText" && !body.image?.fileType && !body.image?.base64) {
-    return false;
-  } else if (type === "alternativePhrasing" && !body.text && !body.excerpt) {
-    return false;
-  } else if (type === "reflection" && !body.text) {
-    return false;
+export const isValidRequestBody = (
+  body: Partial<PromptPayload<PromptVariables>>,
+): body is PromptPayload<PromptVariables> => {
+  const type = body.type;
+  if (!isPromptType(type)) return false;
+
+  switch (type) {
+    case "summary":
+    case "metaDescription":
+      return !!body.title && !!body.text;
+    case "altText":
+      return !!body.image?.fileType && !!body.image?.base64;
+    case "alternativePhrasing":
+      return !!body.html;
+    case "reflection":
+      return !!body.text;
+    default:
+      return unreachable(type);
   }
-  return true;
 };

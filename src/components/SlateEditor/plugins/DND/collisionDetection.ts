@@ -16,7 +16,4 @@ import { CollisionDetection, rectIntersection } from "@dnd-kit/core";
 // Again, this is caused by the fact that the draggable element is larger than the drop areas.
 
 export const collisionDetection: CollisionDetection = (args) =>
-  rectIntersection({
-    ...args,
-    collisionRect: { ...args.collisionRect, width: 100, height: args.collisionRect.height * 2 },
-  });
+  rectIntersection({ ...args, collisionRect: { ...args.collisionRect, width: 20, height: 20 } });

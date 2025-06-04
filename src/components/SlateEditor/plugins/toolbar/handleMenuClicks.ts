@@ -38,7 +38,7 @@ const textOptions = (range: BaseRange) => ({
 });
 
 export const handleTextChange = (editor: Editor, type: string) => {
-  const { types: selectionTypes } = getSelectionElementTypes(editor, true);
+  const selectionTypes = getSelectionElementTypes(editor, true);
   const defaultValue = defaultValueState?.[selectionTypes[1]] ??
     defaultValueState?.[selectionTypes[0]] ?? { type: TYPE_PARAGRAPH };
 

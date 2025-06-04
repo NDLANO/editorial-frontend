@@ -33,6 +33,7 @@ import {
   ToolbarValue,
   ToolbarValues,
   getSelectionElementTypes,
+  hasSelectedBlockElement,
 } from "./toolbarState";
 import { ToolbarTableOptions } from "./ToolbarTableOptions";
 import { ToolbarTextOptions } from "./ToolbarTextOptions";
@@ -153,10 +154,9 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
 
   const options = useMemo(() => {
     if (hideToolbar) return;
-    const { types, multipleBlocks } = getSelectionElementTypes(editor);
     return toolbarState({
-      selectionElementTypes: types,
-      multipleBlocksSelected: multipleBlocks,
+      selectionElementTypes: getSelectionElementTypes(editor),
+      hasSelectedBlockElement: hasSelectedBlockElement(editor),
       // TODO: This is not really scalable if we're going to introduce more constraints later-on.
       options: userPermissions?.includes(AI_ACCESS_SCOPE)
         ? toolbarOptions

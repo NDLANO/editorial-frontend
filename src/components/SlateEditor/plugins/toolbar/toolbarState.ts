@@ -7,7 +7,7 @@
  */
 
 import { merge } from "lodash-es";
-import { Editor, Element } from "slate";
+import { Editor, Element, Range } from "slate";
 import { ElementType } from "../../interfaces";
 import { SYMBOL_ELEMENT_TYPE } from "../symbol/types";
 
@@ -243,21 +243,23 @@ export const getSelectionElementTypes = (editor: Editor, reverse?: boolean) => {
   });
 
   const types = new Set<ElementType>();
-  let numBlocks = 0;
   for (const [element] of elementGen) {
     types.add(element.type);
-    if (Editor.isBlock(editor, element)) numBlocks++;
   }
 
-  return {
-    types: Array.from(types),
-    multipleBlocks: numBlocks > 1,
-  };
+  return Array.from(types);
+};
+
+export const hasSelectedBlockElement = (editor: Editor) => {
+  if (!editor.selection || Range.isCollapsed(editor.selection)) return false;
+  const fragments = editor.getFragment();
+  if (fragments.length <= 1) return false;
+  return fragments.filter((fragment) => Element.isElement(fragment) && Editor.isBlock(editor, fragment)).length > 0;
 };
 
 type ToolbarStateProps = {
   selectionElementTypes?: ElementType[];
-  multipleBlocksSelected?: boolean;
+  hasSelectedBlockElement?: boolean;
   options?: CategoryFilters;
   areaOptions?: AreaFilters;
 };
@@ -267,7 +269,7 @@ type ToolbarStateProps = {
  **/
 export const toolbarState = ({
   selectionElementTypes,
-  multipleBlocksSelected,
+  hasSelectedBlockElement,
   options: optionsProp = {},
   areaOptions = {},
 }: ToolbarStateProps): ToolbarType => {
@@ -286,7 +288,7 @@ export const toolbarState = ({
   });
 
   const merged = merge({}, allOptions, options);
-  if (multipleBlocksSelected) {
+  if (hasSelectedBlockElement) {
     Object.keys(merged.inline).forEach((key) => {
       merged.inline[key as InlineType].disabled = true;
     });

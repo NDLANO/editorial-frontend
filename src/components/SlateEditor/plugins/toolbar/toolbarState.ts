@@ -236,19 +236,19 @@ export const createToolbarDefaultValues = (userValues: CategoryFilters = {}): Ca
 };
 
 export const getSelectionElementTypes = (editor: Editor, reverse?: boolean) => {
-  // Finds the current lowest node in the editor and creates an array of its ancestors.
   const elementGen = Editor.nodes(editor, {
     match: (node) => Element.isElement(node) && node.type !== "section",
     at: editor.selection ? Editor.unhangRange(editor, editor.selection) : undefined,
     reverse,
   });
+
   const types = new Set<ElementType>();
   let numBlocks = 0;
-  // ancestorGen is a generator, so we need to iterate over it to get the values.
   for (const [element] of elementGen) {
     types.add(element.type);
     if (Editor.isBlock(editor, element)) numBlocks++;
   }
+
   return {
     types: Array.from(types),
     multipleBlocks: numBlocks > 1,

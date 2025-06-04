@@ -41,9 +41,6 @@ const rules: RulesType<GridFormValues> = {
   columns: {
     required: true,
   },
-  background: {
-    required: true,
-  },
 };
 
 const toInitialValues = (initialData?: GridType): GridFormValues => {
@@ -67,7 +64,6 @@ const StyledCheckboxRoot = styled(CheckboxRoot, {
 });
 
 const columns: GridType["columns"][] = ["2", "4", "2x2"];
-const backgrounds: GridType["background"][] = ["transparent", "white", "gray"];
 
 const GridForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();
@@ -95,15 +91,6 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
     [],
   );
 
-  const backgroundOptions = useMemo(
-    () =>
-      backgrounds.map((value) => ({
-        title: t(`gridForm.background.${value}`),
-        value: value!,
-      })),
-    [t],
-  );
-
   return (
     <Formik
       initialValues={initialValues}
@@ -124,26 +111,6 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
                 >
                   <RadioGroupLabel>{t("form.name.columns")}</RadioGroupLabel>
                   {columnOptions.map((value) => (
-                    <RadioGroupItem value={value.value} key={value.value}>
-                      <RadioGroupItemControl />
-                      <RadioGroupItemText>{value.title}</RadioGroupItemText>
-                      <RadioGroupItemHiddenInput />
-                    </RadioGroupItem>
-                  ))}
-                </RadioGroupRoot>
-              </FieldRoot>
-            )}
-          </FormField>
-          <FormField name="background">
-            {({ field, helpers }) => (
-              <FieldRoot>
-                <RadioGroupRoot
-                  value={field.value}
-                  orientation="horizontal"
-                  onValueChange={(details) => helpers.setValue(details.value, true)}
-                >
-                  <RadioGroupLabel>{t("form.name.background")}</RadioGroupLabel>
-                  {backgroundOptions.map((value) => (
                     <RadioGroupItem value={value.value} key={value.value}>
                       <RadioGroupItemControl />
                       <RadioGroupItemText>{value.title}</RadioGroupItemText>

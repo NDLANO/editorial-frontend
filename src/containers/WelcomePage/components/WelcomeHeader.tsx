@@ -18,13 +18,7 @@ import { fetchImage } from "../../../modules/image/imageApi";
 import { fetchLearningpath } from "../../../modules/learningpath/learningpathApi";
 import { fetchRecentFavorited } from "../../../modules/myndla/myndlaApi";
 import { unreachable } from "../../../util/guards";
-import {
-  toEditArticle,
-  toEditAudio,
-  toEditConcept,
-  toEditImage,
-  toEditLearningResource,
-} from "../../../util/routeHelpers";
+import { toLearningpathFull, toEditArticle, toEditAudio, toEditConcept, toEditImage } from "../../../util/routeHelpers";
 import { useSession } from "../../Session/SessionProvider";
 
 const StyledHeader = styled("div", {
@@ -83,7 +77,7 @@ const getFavoriteResource = async (locale: string): Promise<FavoriteResource | u
     }
     case "learningpath": {
       const learningpath = await fetchLearningpath(id, locale);
-      return { title: learningpath.title.title, path: toEditLearningResource(learningpath.id, locale) };
+      return { title: learningpath.title.title, path: toLearningpathFull(learningpath.id, locale) };
     }
     default:
       return unreachable(recentFavorited.resourceType);

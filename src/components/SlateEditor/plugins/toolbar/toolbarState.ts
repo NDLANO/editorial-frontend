@@ -241,9 +241,10 @@ type SelectionElementTypes = {
   multipleBlocksSelected: boolean;
 };
 
-export const selectionElementTypes = (editor: Editor, selection: Selection): SelectionElementTypes => {
+export const selectionElementTypes = (editor: Editor, rawSelection: Selection): SelectionElementTypes => {
+  const selection = rawSelection && Editor.unhangRange(editor, rawSelection);
   const [parentElement, parentPath] = Editor.above(editor, {
-    at: selection ? Editor.unhangRange(editor, selection) : undefined,
+    at: selection ?? undefined,
     match: (node) => Element.isElement(node),
     voids: true,
   }) ?? [undefined, [] as Path];

@@ -7,9 +7,10 @@
  */
 
 import { merge } from "lodash-es";
-import { Editor, Element, Range } from "slate";
+import { Editor, Element, Node, Path, Range, Selection } from "slate";
 import { ElementType } from "../../interfaces";
 import { SYMBOL_ELEMENT_TYPE } from "../symbol/types";
+import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 export const languages = [
   "no",
@@ -235,31 +236,51 @@ export const createToolbarDefaultValues = (userValues: CategoryFilters = {}): Ca
   }, {});
 };
 
-export const getSelectionElementTypes = (editor: Editor, reverse?: boolean) => {
-  const elementGen = Editor.nodes(editor, {
-    match: (node) => Element.isElement(node) && node.type !== "section",
-    at: editor.selection ? Editor.unhangRange(editor, editor.selection) : undefined,
-    reverse,
-  });
-
-  const types = new Set<ElementType>();
-  for (const [element] of elementGen) {
-    types.add(element.type);
-  }
-
-  return Array.from(types);
+type SelectionElementTypes = {
+  elementTypes: ElementType[] | undefined;
+  multipleBlocksSelected: boolean;
 };
 
-export const hasSelectedBlockElement = (editor: Editor) => {
-  if (!editor.selection || Range.isCollapsed(editor.selection)) return false;
-  const fragments = editor.getFragment();
-  if (fragments.length <= 1) return false;
-  return fragments.filter((fragment) => Element.isElement(fragment) && Editor.isBlock(editor, fragment)).length > 0;
+export const selectionElementTypes = (editor: Editor, selection: Selection): SelectionElementTypes => {
+  const [parentElement, parentPath] = Editor.above(editor, {
+    at: selection ? Editor.unhangRange(editor, selection) : undefined,
+    match: (node) => Element.isElement(node),
+    voids: true,
+  }) ?? [undefined, [] as Path];
+
+  const parentElementType =
+    parentElement?.type === TYPE_PARAGRAPH
+      ? (Editor.parent(editor, parentPath)[0] as Element).type
+      : parentElement?.type;
+
+  if (!selection)
+    return {
+      elementTypes: parentElementType && [parentElementType],
+      multipleBlocksSelected: false,
+    };
+
+  const from = Path.relative(Range.start(selection).path, parentPath);
+  const to = Path.relative(Range.end(selection).path, parentPath);
+  const elementTypes = new Set<ElementType>(parentElementType ? [parentElementType] : []);
+  let numBlocks = 0;
+  let i = 0;
+  for (const [element] of Node.elements(parentElement ?? editor, { from, to })) {
+    if (i !== 0 || !parentElement) {
+      elementTypes.add(element.type);
+      if (Editor.isBlock(editor, element)) numBlocks++;
+    }
+    i++;
+  }
+
+  return {
+    elementTypes: Array.from(elementTypes),
+    multipleBlocksSelected: numBlocks > 1,
+  };
 };
 
 type ToolbarStateProps = {
   selectionElementTypes?: ElementType[];
-  hasSelectedBlockElement?: boolean;
+  multipleBlocksSelected?: boolean;
   options?: CategoryFilters;
   areaOptions?: AreaFilters;
 };
@@ -269,15 +290,15 @@ type ToolbarStateProps = {
  **/
 export const toolbarState = ({
   selectionElementTypes,
-  hasSelectedBlockElement,
+  multipleBlocksSelected,
   options: optionsProp = {},
   areaOptions = {},
 }: ToolbarStateProps): ToolbarType => {
   // Deep clone options to not mutate the original object.
   const options = deepClone(optionsProp);
 
-  selectionElementTypes?.forEach((type) => {
-    const filters = areaOptions[type];
+  selectionElementTypes?.forEach((elementType) => {
+    const filters = areaOptions[elementType];
     if (filters) {
       Object.entries(filters).forEach(([k, v]) => {
         const key = k as ToolbarCategories;
@@ -288,7 +309,7 @@ export const toolbarState = ({
   });
 
   const merged = merge({}, allOptions, options);
-  if (hasSelectedBlockElement) {
+  if (multipleBlocksSelected) {
     Object.keys(merged.inline).forEach((key) => {
       merged.inline[key as InlineType].disabled = true;
     });

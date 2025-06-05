@@ -17,8 +17,7 @@ import {
   ToolbarAction,
   createToolbarAreaOptions,
   createToolbarDefaultValues,
-  getSelectionElementTypes,
-  hasSelectedBlockElement,
+  selectionElementTypes,
   toolbarState,
 } from "./toolbarState";
 
@@ -107,9 +106,10 @@ const toolbarPlugin =
         return;
       }
 
+      const { elementTypes, multipleBlocksSelected } = selectionElementTypes(editor, editor.selection);
       const state = toolbarState({
-        selectionElementTypes: getSelectionElementTypes(editor),
-        hasSelectedBlockElement: hasSelectedBlockElement(editor),
+        selectionElementTypes: elementTypes,
+        multipleBlocksSelected,
         options,
         areaOptions,
       });

@@ -32,8 +32,7 @@ import {
   AreaFilters,
   ToolbarValue,
   ToolbarValues,
-  getSelectionElementTypes,
-  hasSelectedBlockElement,
+  selectionElementTypes,
 } from "./toolbarState";
 import { ToolbarTableOptions } from "./ToolbarTableOptions";
 import { ToolbarTextOptions } from "./ToolbarTextOptions";
@@ -95,6 +94,7 @@ const checkHasSelectionWithin = (el?: Element | null) => {
 };
 
 const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideToolbarProp }: Props) => {
+  const selection = useSlateSelection();
   const editor = useSlate();
   const toolbarRef = useRef<HTMLDivElement>(null);
   const editorWrapperRef = useRef<HTMLDivElement | null>(null);
@@ -154,16 +154,17 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
 
   const options = useMemo(() => {
     if (hideToolbar) return;
+    const { elementTypes, multipleBlocksSelected } = selectionElementTypes(editor, selection);
     return toolbarState({
-      selectionElementTypes: getSelectionElementTypes(editor),
-      hasSelectedBlockElement: hasSelectedBlockElement(editor),
+      selectionElementTypes: elementTypes,
+      multipleBlocksSelected,
       // TODO: This is not really scalable if we're going to introduce more constraints later-on.
       options: userPermissions?.includes(AI_ACCESS_SCOPE)
         ? toolbarOptions
         : merge({ inline: { rephrase: { hidden: true, disabled: true } } } as CategoryFilters, toolbarOptions),
       areaOptions,
     });
-  }, [hideToolbar, editor, userPermissions, toolbarOptions, areaOptions]);
+  }, [hideToolbar, editor, selection, userPermissions, toolbarOptions, areaOptions]);
 
   const positioningOptions = useMemo(() => {
     return {

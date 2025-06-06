@@ -147,7 +147,7 @@ const arrayifyToolbar = (toolbar: OptionsType) => {
 };
 
 describe("toolbarState", () => {
-  test("returns all options if no area options, selection element types and default values are provided", () => {
+  test("returns all options if no area options, selection element and default values are provided", () => {
     const res = toolbarState({ options: {}, areaOptions: {} });
     const expected = arrayifyToolbar(allOptions);
     expect(res).toEqual(expected);
@@ -157,17 +157,20 @@ describe("toolbarState", () => {
     const res = toolbarState({
       options: {},
       areaOptions: {},
-      selectionElementTypes: ["paragraph"],
+      selectionElements: [{ type: "paragraph", children: [{ text: "test" }] }],
     });
     const expected = arrayifyToolbar(allOptions);
     expect(res).toEqual(expected);
   });
 
-  test("filters out options that are disabled or hidden due to selection element types", () => {
+  test("filters out options that are disabled or hidden due to selection element", () => {
     const res = toolbarState({
       options: {},
       areaOptions: createToolbarAreaOptions(),
-      selectionElementTypes: ["heading", "paragraph"],
+      selectionElements: [
+        { type: "heading", children: [], level: 1 },
+        { type: "paragraph", children: [{ text: "test" }] },
+      ],
     });
 
     const opts: OptionsType = {
@@ -204,7 +207,10 @@ describe("toolbarState", () => {
           },
         },
       }),
-      selectionElementTypes: ["heading", "paragraph"],
+      selectionElements: [
+        { type: "heading", children: [], level: 1 },
+        { type: "paragraph", children: [{ text: "test" }] },
+      ],
     });
 
     const opts: OptionsType = {

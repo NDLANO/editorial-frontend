@@ -7,10 +7,11 @@
  */
 
 import { merge } from "lodash-es";
-import { Editor, Element, Node, Path, Range, Selection } from "slate";
+import { Editor, Element, Selection } from "slate";
 import { ElementType } from "../../interfaces";
 import { SYMBOL_ELEMENT_TYPE } from "../symbol/types";
-import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
+import { PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
+import { SPAN_ELEMENT_TYPE } from "../span/types";
 
 export const languages = [
   "no",
@@ -237,45 +238,44 @@ export const createToolbarDefaultValues = (userValues: CategoryFilters = {}): Ca
 };
 
 type SelectionElementTypes = {
-  elementTypes: ElementType[] | undefined;
+  elementTypes?: ElementType[];
   multipleBlocksSelected: boolean;
 };
 
 export const selectionElementTypes = (editor: Editor, rawSelection: Selection): SelectionElementTypes => {
   const selection = rawSelection && Editor.unhangRange(editor, rawSelection);
-  const [parentElement, parentPath] = Editor.above(editor, {
-    at: selection ?? undefined,
-    match: (node) => Element.isElement(node),
-    voids: true,
-  }) ?? [undefined, [] as Path];
-
-  const parentElementType =
-    parentElement?.type === PARAGRAPH_ELEMENT_TYPE
-      ? (Editor.parent(editor, parentPath)[0] as Element).type
-      : parentElement?.type;
+  const [parentElement] =
+    Editor.above(editor, {
+      at: selection ?? undefined,
+      match: (node) =>
+        Element.isElement(node) &&
+        node.type !== SECTION_ELEMENT_TYPE &&
+        node.type !== PARAGRAPH_ELEMENT_TYPE &&
+        node.type !== SPAN_ELEMENT_TYPE,
+      voids: true,
+    }) ?? [];
 
   if (!selection)
     return {
-      elementTypes: parentElementType && [parentElementType],
+      elementTypes: parentElement && [parentElement.type],
       multipleBlocksSelected: false,
     };
 
-  const from = Path.relative(Range.start(selection).path, parentPath);
-  const to = Path.relative(Range.end(selection).path, parentPath);
-  const elementTypes = new Set<ElementType>(parentElementType ? [parentElementType] : []);
-  let numBlocks = 0;
-  let i = 0;
-  for (const [element] of Node.elements(parentElement ?? editor, { from, to })) {
-    if (i !== 0 || !parentElement) {
-      elementTypes.add(element.type);
-      if (Editor.isBlock(editor, element)) numBlocks++;
-    }
-    i++;
+  const fragments = editor.getFragment();
+  const elements: Element[] = parentElement ? [parentElement] : [];
+  let anyBlock = false;
+  for (const fragment of fragments) {
+    if (!Element.isElement(fragment)) continue;
+    elements.push(fragment);
+    if (Editor.isBlock(editor, fragment)) anyBlock = true;
   }
 
+  const elementTypes = elements.map((el) => el.type);
+  const multipleBlocksSelected = anyBlock && elements.length > 1;
+
   return {
-    elementTypes: Array.from(elementTypes),
-    multipleBlocksSelected: numBlocks > 1,
+    elementTypes,
+    multipleBlocksSelected,
   };
 };
 

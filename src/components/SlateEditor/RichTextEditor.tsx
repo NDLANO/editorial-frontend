@@ -8,7 +8,7 @@
 
 import { useFormikContext } from "formik";
 import { isEqual } from "lodash-es";
-import { useCallback, useEffect, useRef, JSX } from "react";
+import { useCallback, useEffect, useRef, JSX, DragEvent } from "react";
 import { Descendant, Editor, Range, Transforms } from "slate";
 import { Slate, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
@@ -21,6 +21,7 @@ import { FormikStatus } from "../../interfaces";
 import { Action, commonActions } from "./plugins/blockPicker/actions";
 import { BlockPickerOptions, createBlockpickerOptions } from "./plugins/blockPicker/options";
 import SlateBlockPicker from "./plugins/blockPicker/SlateBlockPicker";
+import { nativeOnDragOver, nativeOnDragStart, nativeOnDrop } from "./plugins/DND/nativeDnd";
 import { SlateDndContext } from "./plugins/DND/SlateDndContext";
 import { SlateToolbar } from "./plugins/toolbar";
 import { AreaFilters, CategoryFilters } from "./plugins/toolbar/toolbarState";
@@ -179,6 +180,9 @@ const RichTextEditor = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const onDragStart = useCallback((e: DragEvent<HTMLDivElement>) => nativeOnDragStart(editor, e), [editor]);
+  const onDrop = useCallback((e: DragEvent<HTMLDivElement>) => nativeOnDrop(editor, e), [editor]);
+
   return (
     <article className={noArticleStyling ? undefined : "ndla-article"}>
       <ArticleLanguageProvider language={language}>
@@ -200,6 +204,9 @@ const RichTextEditor = ({
                 renderElement={renderElement}
                 renderLeaf={renderLeaf}
                 readOnly={submitted}
+                onDragStart={onDragStart}
+                onDragOver={nativeOnDragOver}
+                onDrop={onDrop}
               />
             </SlateDndContext>
           </Slate>

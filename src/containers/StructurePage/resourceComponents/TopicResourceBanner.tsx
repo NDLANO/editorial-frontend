@@ -189,6 +189,9 @@ const TopicResourceBanner = ({
 
   const contexts = topicNodes?.filter((node) => !!node.contexts.length);
   const isSupplementary = currentNode.relevanceId === RESOURCE_FILTER_SUPPLEMENTARY;
+  const hasPublished =
+    currentNode.contentMeta?.status?.current === PUBLISHED ||
+    currentNode.contentMeta?.status?.other?.includes(PUBLISHED);
 
   return (
     <ResourceGroupBanner>
@@ -287,21 +290,16 @@ const TopicResourceBanner = ({
                 }}
               />
             )}
-            {!!(
-              currentNode.contentMeta?.status?.current === PUBLISHED ||
-              currentNode.contentMeta?.status?.other?.includes(PUBLISHED)
-            ) && (
-              <SafeLinkIconButton
-                target="_blank"
-                to={`${config.ndlaFrontendDomain}${currentNode.url}?versionHash=${taxonomyVersion}`}
-                aria-label={t("taxonomy.publishedVersion")}
-                title={t("taxonomy.publishedVersion")}
-                size="small"
-                variant="success"
-              >
-                <CheckboxCircleLine />
-              </SafeLinkIconButton>
-            )}
+            <SafeLinkIconButton
+              target="_blank"
+              to={`${config.ndlaFrontendDomain}${currentNode.url}?versionHash=${taxonomyVersion}`}
+              aria-label={t("taxonomy.publishedVersion")}
+              title={t("taxonomy.publishedVersion")}
+              size="small"
+              variant={hasPublished ? "success" : "clear"}
+            >
+              <CheckboxCircleLine />
+            </SafeLinkIconButton>
             <GrepCodesDialog
               codes={currentNode.contentMeta?.grepCodes ?? []}
               contentType={"topic-article"}

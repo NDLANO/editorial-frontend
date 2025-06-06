@@ -10,7 +10,7 @@ import { merge } from "lodash-es";
 import { Editor, Element, Node, Path, Range, Selection } from "slate";
 import { ElementType } from "../../interfaces";
 import { SYMBOL_ELEMENT_TYPE } from "../symbol/types";
-import { TYPE_PARAGRAPH } from "../paragraph/types";
+import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 
 export const languages = [
   "no",
@@ -250,7 +250,7 @@ export const selectionElementTypes = (editor: Editor, rawSelection: Selection): 
   }) ?? [undefined, [] as Path];
 
   const parentElementType =
-    parentElement?.type === TYPE_PARAGRAPH
+    parentElement?.type === PARAGRAPH_ELEMENT_TYPE
       ? (Editor.parent(editor, parentPath)[0] as Element).type
       : parentElement?.type;
 

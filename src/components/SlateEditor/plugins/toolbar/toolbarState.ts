@@ -237,12 +237,12 @@ export const createToolbarDefaultValues = (userValues: CategoryFilters = {}): Ca
   }, {});
 };
 
-type SelectionElementTypes = {
-  elementTypes?: ElementType[];
+type SelectionElements = {
+  elements?: Element[];
   multipleBlocksSelected: boolean;
 };
 
-export const selectionElementTypes = (editor: Editor, rawSelection: Selection): SelectionElementTypes => {
+export const selectionElements = (editor: Editor, rawSelection: Selection): SelectionElements => {
   const selection = rawSelection && Editor.unhangRange(editor, rawSelection);
   const [parentElement] =
     Editor.above(editor, {
@@ -257,7 +257,7 @@ export const selectionElementTypes = (editor: Editor, rawSelection: Selection): 
 
   if (!selection)
     return {
-      elementTypes: parentElement && [parentElement.type],
+      elements: parentElement && [parentElement],
       multipleBlocksSelected: false,
     };
 
@@ -270,17 +270,14 @@ export const selectionElementTypes = (editor: Editor, rawSelection: Selection): 
     if (Editor.isBlock(editor, fragment)) anyBlock = true;
   }
 
-  const elementTypes = elements.map((el) => el.type);
-  const multipleBlocksSelected = anyBlock && elements.length > 1;
-
   return {
-    elementTypes,
-    multipleBlocksSelected,
+    elements,
+    multipleBlocksSelected: anyBlock && elements.length > 1,
   };
 };
 
 type ToolbarStateProps = {
-  selectionElementTypes?: ElementType[];
+  selectionElements?: Element[];
   multipleBlocksSelected?: boolean;
   options?: CategoryFilters;
   areaOptions?: AreaFilters;
@@ -290,7 +287,7 @@ type ToolbarStateProps = {
  * Generates the toolbar based on the current selection of the editor.
  **/
 export const toolbarState = ({
-  selectionElementTypes,
+  selectionElements,
   multipleBlocksSelected,
   options: optionsProp = {},
   areaOptions = {},
@@ -298,8 +295,8 @@ export const toolbarState = ({
   // Deep clone options to not mutate the original object.
   const options = deepClone(optionsProp);
 
-  selectionElementTypes?.forEach((elementType) => {
-    const filters = areaOptions[elementType];
+  selectionElements?.forEach((element) => {
+    const filters = areaOptions[element.type];
     if (filters) {
       Object.entries(filters).forEach(([k, v]) => {
         const key = k as ToolbarCategories;

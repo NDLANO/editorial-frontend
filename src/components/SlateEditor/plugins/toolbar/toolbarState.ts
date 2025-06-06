@@ -244,6 +244,7 @@ type SelectionElements = {
 
 export const selectionElements = (editor: Editor, rawSelection: Selection): SelectionElements => {
   const selection = rawSelection && Editor.unhangRange(editor, rawSelection);
+  // Find the first ancestor that is both an Element and relevant for the toolbar state
   const [parentElement] =
     Editor.above(editor, {
       at: selection ?? undefined,
@@ -261,8 +262,9 @@ export const selectionElements = (editor: Editor, rawSelection: Selection): Sele
       multipleBlocksSelected: false,
     };
 
-  const fragments = editor.getFragment();
   const elements: Element[] = parentElement ? [parentElement] : [];
+  // Find all fragments (i.e., children) of the selection that are Elements, while taking note of any blocks
+  const fragments = editor.getFragment();
   let anyBlock = false;
   for (const fragment of fragments) {
     if (!Element.isElement(fragment)) continue;

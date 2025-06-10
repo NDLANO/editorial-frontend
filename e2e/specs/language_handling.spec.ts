@@ -23,7 +23,7 @@ test("Can edit published date", async ({ page }) => {
   await expect(page.locator('[id="editor-save-button"]')).toBeDisabled({ timeout: 10000 });
   const lastUpdatedDate = await page.getByTestId("last-edited").textContent();
   await page.getByTestId("last-edited").click();
-  await page.locator('td[class="rdp-cell"]').first().click();
+  await page.locator('td[data-scope="date-picker"]').first().click();
   const currentSelectedDate = await page.getByTestId("last-edited").textContent();
   expect(lastUpdatedDate === currentSelectedDate).toBeFalsy();
 });

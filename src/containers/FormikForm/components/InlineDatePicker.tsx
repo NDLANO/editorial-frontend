@@ -6,12 +6,21 @@
  *
  */
 
-import { format } from "date-fns";
 import { useCallback, useMemo } from "react";
+import { DatePickerValueChangeDetails } from "@ark-ui/react";
+import { getLocalTimeZone, parseAbsolute } from "@internationalized/date";
 import { CalendarLine } from "@ndla/icons";
-import { Button } from "@ndla/primitives";
-import DatePicker from "../../../components/DatePicker";
+import { Button, DatePickerControl, DatePickerRoot, DatePickerTrigger } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { useDatePickerTranslations } from "@ndla/ui";
+import { DatePickerContent } from "../../../components/abstractions/DatePicker";
 import { formatDateForBackend } from "../../../util/formatDate";
+
+const dateFormatter = new Intl.DateTimeFormat("nb-NO", {
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
+});
 
 export interface DateChangedEvent {
   target: {
@@ -26,6 +35,18 @@ export interface DateChangedEvent {
   };
 }
 
+const StyledDatePickerControl = styled(DatePickerControl, {
+  base: {
+    width: "100%",
+  },
+});
+
+const StyledButton = styled(Button, {
+  base: {
+    width: "100%",
+  },
+});
+
 interface Props {
   name: string;
   onChange: (event: DateChangedEvent) => void;
@@ -35,10 +56,12 @@ interface Props {
 }
 
 const InlineDatePicker = ({ onChange, value, name, placeholder, title }: Props) => {
-  const dateValue = useMemo(() => (value ? new Date(value) : undefined), [value]);
-  const displayValue = useMemo(() => (dateValue ? format(dateValue, "dd/MM/yyyy") : undefined), [dateValue]);
+  const translations = useDatePickerTranslations();
+  const dateValue = useMemo(() => (value ? parseAbsolute(value, getLocalTimeZone()) : undefined), [value]);
+  const displayValue = useMemo(() => (dateValue ? dateFormatter.format(dateValue.toDate()) : undefined), [dateValue]);
   const onValueChange = useCallback(
-    (value?: Date) => {
+    (details: DatePickerValueChangeDetails) => {
+      const value = details.value[0]?.toDate(getLocalTimeZone());
       if (!value) return;
       const target = {
         name,
@@ -54,12 +77,27 @@ const InlineDatePicker = ({ onChange, value, name, placeholder, title }: Props) 
   );
 
   return (
-    <DatePicker onChange={onValueChange} value={dateValue}>
-      <Button variant="secondary" title={title}>
-        {displayValue ?? placeholder}
-        <CalendarLine />
-      </Button>
-    </DatePicker>
+    <DatePickerRoot
+      translations={translations}
+      value={dateValue ? [dateValue] : undefined}
+      onValueChange={onValueChange}
+      locale="nb-NO"
+      fixedWeeks
+      startOfWeek={1}
+      outsideDaySelectable
+      lazyMount
+      unmountOnExit
+    >
+      <StyledDatePickerControl>
+        <DatePickerTrigger asChild>
+          <StyledButton variant="secondary" title={title}>
+            {displayValue ?? placeholder}
+            <CalendarLine />
+          </StyledButton>
+        </DatePickerTrigger>
+      </StyledDatePickerControl>
+      <DatePickerContent />
+    </DatePickerRoot>
   );
 };
 

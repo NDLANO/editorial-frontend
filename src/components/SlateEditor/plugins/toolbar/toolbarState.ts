@@ -7,7 +7,7 @@
  */
 
 import { merge } from "lodash-es";
-import { Editor, Element, Selection } from "slate";
+import { Editor, Element, Node, Path, Range, Selection } from "slate";
 import { ElementType } from "../../interfaces";
 import { SYMBOL_ELEMENT_TYPE } from "../symbol/types";
 import { PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
@@ -237,50 +237,44 @@ export const createToolbarDefaultValues = (userValues: CategoryFilters = {}): Ca
   }, {});
 };
 
+const ignoredElements: ElementType[] = [SECTION_ELEMENT_TYPE, PARAGRAPH_ELEMENT_TYPE, SPAN_ELEMENT_TYPE];
+
 type SelectionElements = {
   elements?: Element[];
-  multipleBlocksSelected: boolean;
+  multipleParagraphsSelected: boolean;
 };
 
 export const selectionElements = (editor: Editor, rawSelection: Selection): SelectionElements => {
-  const selection = rawSelection && Editor.unhangRange(editor, rawSelection);
+  if (!rawSelection) return { multipleParagraphsSelected: false };
+
+  const selection = Editor.unhangRange(editor, rawSelection);
   // Find the first ancestor that is both an Element and relevant for the toolbar state
-  const [parentElement] =
+  const [parentElement, parentPath] =
     Editor.above(editor, {
       at: selection ?? undefined,
-      match: (node) =>
-        Element.isElement(node) &&
-        node.type !== SECTION_ELEMENT_TYPE &&
-        node.type !== PARAGRAPH_ELEMENT_TYPE &&
-        node.type !== SPAN_ELEMENT_TYPE,
+      match: (node) => Element.isElement(node) && !ignoredElements.includes(node.type),
       voids: true,
     }) ?? [];
 
-  if (!selection)
-    return {
-      elements: parentElement && [parentElement],
-      multipleBlocksSelected: false,
-    };
-
-  const elements: Element[] = parentElement ? [parentElement] : [];
-  // Find all fragments (i.e., children) of the selection that are Elements, while taking note of any blocks
-  const fragments = editor.getFragment();
-  let anyBlock = false;
-  for (const fragment of fragments) {
-    if (!Element.isElement(fragment)) continue;
-    elements.push(fragment);
-    if (Editor.isBlock(editor, fragment)) anyBlock = true;
+  // Find all elements inside of the parent element (or editor if parent is `undefined`) that are also inside of the selection range
+  const elements: Element[] = [];
+  const from = Path.relative(Range.start(selection).path, parentPath ?? []);
+  const to = Path.relative(Range.end(selection).path, parentPath ?? []);
+  let numParagraphs = 0;
+  for (const [element] of Node.elements(parentElement ?? editor, { from, to })) {
+    if (!ignoredElements.includes(element.type)) elements.push(element);
+    if (element.type === PARAGRAPH_ELEMENT_TYPE) numParagraphs++;
   }
 
   return {
     elements,
-    multipleBlocksSelected: anyBlock && elements.length > 1,
+    multipleParagraphsSelected: numParagraphs > 1,
   };
 };
 
 type ToolbarStateProps = {
   selectionElements?: Element[];
-  multipleBlocksSelected?: boolean;
+  multipleParagraphsSelected?: boolean;
   options?: CategoryFilters;
   areaOptions?: AreaFilters;
 };
@@ -290,7 +284,7 @@ type ToolbarStateProps = {
  **/
 export const toolbarState = ({
   selectionElements,
-  multipleBlocksSelected,
+  multipleParagraphsSelected,
   options: optionsProp = {},
   areaOptions = {},
 }: ToolbarStateProps): ToolbarType => {
@@ -309,7 +303,7 @@ export const toolbarState = ({
   });
 
   const merged = merge({}, allOptions, options);
-  if (multipleBlocksSelected) {
+  if (multipleParagraphsSelected) {
     Object.keys(merged.inline).forEach((key) => {
       merged.inline[key as InlineType].disabled = true;
     });

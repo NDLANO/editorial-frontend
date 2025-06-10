@@ -106,10 +106,10 @@ const toolbarPlugin =
         return;
       }
 
-      const { elements, multipleBlocksSelected } = selectionElements(editor, editor.selection);
+      const { elements, multipleParagraphsSelected } = selectionElements(editor, editor.selection);
       const state = toolbarState({
         selectionElements: elements,
-        multipleBlocksSelected,
+        multipleParagraphsSelected,
         options,
         areaOptions,
       });

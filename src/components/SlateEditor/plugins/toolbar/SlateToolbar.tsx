@@ -154,10 +154,10 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
 
   const options = useMemo(() => {
     if (hideToolbar) return;
-    const { elements, multipleBlocksSelected } = selectionElements(editor, selection);
+    const { elements, multipleParagraphsSelected } = selectionElements(editor, selection);
     return toolbarState({
       selectionElements: elements,
-      multipleBlocksSelected,
+      multipleParagraphsSelected,
       // TODO: This is not really scalable if we're going to introduce more constraints later-on.
       options: userPermissions?.includes(AI_ACCESS_SCOPE)
         ? toolbarOptions

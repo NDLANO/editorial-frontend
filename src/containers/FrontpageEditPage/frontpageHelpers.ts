@@ -19,7 +19,7 @@ export const extractArticleIds = (menu: MenuWithArticle): number[] => {
 const _addArticlesToMenu = (menu: IMenuDTO, articles: Record<number, IArticleSummaryV2DTO>): MenuWithArticle => {
   const article = articles[menu.articleId];
   const children = menu.menu.map((m) => _addArticlesToMenu(m, articles));
-  return { article: article, articleId: menu.articleId, menu: children, hideLevel: menu.hideLevel ?? false };
+  return { article: article, articleId: menu.articleId, menu: children };
 };
 
 export const addArticlesToAboutMenu = (frontPage: IFrontPageDTO | undefined, articles: ISearchResultV2DTO) => {
@@ -33,9 +33,8 @@ export const addArticlesToAboutMenu = (frontPage: IFrontPageDTO | undefined, art
 };
 
 const _menuWithArticleToIMenu = (menu: MenuWithArticle): IMenuDTO => {
-  const hideLevel = !!menu.hideLevel;
   const children = menu.menu.map((m) => _menuWithArticleToIMenu(m));
-  return { articleId: menu.articleId, menu: children, hideLevel: hideLevel };
+  return { articleId: menu.articleId, menu: children };
 };
 
 export const menuWithArticleToIMenu = (menu: MenuWithArticle): IFrontPageDTO => {

@@ -9,7 +9,7 @@
 import { memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { DatePickerValueChangeDetails } from "@ark-ui/react";
-import { getLocalTimeZone, parseAbsolute, ZonedDateTime } from "@internationalized/date";
+import { getLocalTimeZone, parseAbsoluteToLocal, ZonedDateTime } from "@internationalized/date";
 import { PencilFill } from "@ndla/icons";
 import { Button, DatePickerControl, DatePickerRoot, DatePickerTrigger, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -49,7 +49,7 @@ const LastUpdatedLine = ({ creators, published, onChange, allowEdit = false, con
 
   const dateValue = useMemo(() => {
     if (!published) return [];
-    return (published ? [parseAbsolute(published, getLocalTimeZone())] : []) as ZonedDateTime[];
+    return (published ? [parseAbsoluteToLocal(published)] : []) as ZonedDateTime[];
   }, [published]);
 
   const onValueChange = useCallback(

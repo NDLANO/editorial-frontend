@@ -18,7 +18,7 @@ export const fetchMatomoStats = async (urls: string[]) => {
     const withLang = [`/nb${url}`, `/nn${url}`, `/en${url}`, `/se${url}`, url];
     const bulkRequest = withLang.map(
       (url, index) =>
-        `urls[${index}]=${encodeURIComponent(`method=Actions.getPageUrl&idSite=${config.matomoSiteId}&pageUrl=${url}&period=month&date=previous12&showColumns=nb_visits,nb_hits,avg_time_on_page`)}`,
+        `urls[${index}]=${encodeURIComponent(`method=Actions.getPageUrl&idSite=${config.matomoSiteId}&pageUrl=${url}&period=month&date=last12&showColumns=nb_visits,nb_hits,avg_time_on_page`)}`,
     );
     return limit(() =>
       fetch(

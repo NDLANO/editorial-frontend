@@ -18,7 +18,7 @@ import {
   useState,
 } from "react";
 import { Editor, Range } from "slate";
-import { useSlate, useSlateSelection, useSlateSelector } from "slate-react";
+import { useSlateSelector, useSlateStatic } from "slate-react";
 import { usePopoverContext } from "@ark-ui/react";
 import { PopoverContent, PopoverRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -94,8 +94,7 @@ const checkHasSelectionWithin = (el?: Element | null) => {
 };
 
 const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideToolbarProp }: Props) => {
-  const selection = useSlateSelection();
-  const editor = useSlate();
+  const editor = useSlateStatic();
   const toolbarRef = useRef<HTMLDivElement>(null);
   const editorWrapperRef = useRef<HTMLDivElement | null>(null);
   const [open, setOpen] = useState(false);
@@ -155,14 +154,14 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
   const options = useMemo(() => {
     if (hideToolbar) return;
     return toolbarState({
-      editorAncestors: getSelectionElements(editor, selection),
+      editorAncestors: getSelectionElements(editor, editor.selection),
       // TODO: This is not really scalable if we're going to introduce more constraints later-on.
       options: userPermissions?.includes(AI_ACCESS_SCOPE)
         ? toolbarOptions
         : merge({ inline: { rephrase: { hidden: true, disabled: true } } } as CategoryFilters, toolbarOptions),
       areaOptions,
     });
-  }, [hideToolbar, editor, selection, userPermissions, toolbarOptions, areaOptions]);
+  }, [hideToolbar, editor, userPermissions, toolbarOptions, areaOptions]);
 
   const positioningOptions = useMemo(() => {
     return {
@@ -203,13 +202,12 @@ interface ToolbarRepositionerProps extends ComponentPropsWithRef<"div"> {}
 
 const ToolbarRepositioner = (props: ToolbarRepositionerProps) => {
   const { open, reposition } = usePopoverContext();
-  const selection = useSlateSelection();
 
   useEffect(() => {
     if (open) {
       reposition();
     }
-  }, [open, reposition, selection]);
+  }, [open, reposition]);
 
   return <div {...props} />;
 };

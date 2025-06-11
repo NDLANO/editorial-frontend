@@ -277,14 +277,10 @@ const SlateBlockPicker = ({
   const [type, setType] = useState("");
   const { t } = useTranslation();
 
-  const selectedParagraphEntry = useSlateSelector((editor) => {
-    const [paragraphEntry] = editor.nodes({ match: isParagraphElement, mode: "lowest" });
-    return paragraphEntry || [];
-  });
-
   // Checks are sorted from least expensive to most expensive.
   const shouldShowBlockPicker = useSlateSelector((editor) => {
     if (!editor.selection || Range.isExpanded(editor.selection) || !portalRef.current) return false;
+    const [selectedParagraphEntry] = editor.nodes({ match: isParagraphElement, mode: "lowest" });
     if (!selectedParagraphEntry?.[0]) return false;
     if (editor.shouldHideBlockPicker?.()) return false;
     if (Node.string(selectedParagraphEntry[0])) return false;
@@ -307,7 +303,9 @@ const SlateBlockPicker = ({
   useEffect(() => {
     if (!portalRef.current) return;
     const el = portalRef.current;
-    if (shouldShowBlockPicker && selectedParagraphEntry) {
+    if (shouldShowBlockPicker) {
+      const [selectedParagraphEntry] = editor.nodes({ match: isParagraphElement, mode: "lowest" });
+      if (!selectedParagraphEntry) return;
       const [selectedParagraph, selectedParagraphPath] = selectedParagraphEntry;
       const parent = selectedParagraphPath && Editor.node(editor, Path.parent(selectedParagraphPath))?.[0];
       const leftAdjust = getLeftAdjust(parent);
@@ -320,7 +318,7 @@ const SlateBlockPicker = ({
     } else {
       el.hidden = true;
     }
-  }, [editor, selectedParagraphEntry, shouldShowBlockPicker]);
+  }, [editor, shouldShowBlockPicker]);
 
   const onOpenChange = useCallback(
     (details: PopoverOpenChangeDetails) => {

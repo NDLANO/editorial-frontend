@@ -30,6 +30,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { Action, ActionData } from "./actions";
 import SlateVisualElementPicker from "./SlateVisualElementPicker";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../../../constants";
+import { useSession } from "../../../../containers/Session/SessionProvider";
 import { ASIDE_ELEMENT_TYPE } from "../aside/asideTypes";
 import { defaultAsideBlock } from "../aside/utils";
 import { AUDIO_ELEMENT_TYPE } from "../audio/audioTypes";
@@ -272,19 +273,16 @@ const SlateBlockPicker = ({
   const [blockPickerOpen, setBlockPickerOpen] = useState(false);
   const [actionsForArea, setActionsForArea] = useState<Action[]>([]);
   const portalRef = useRef<HTMLButtonElement | null>(null);
+  const { userPermissions } = useSession();
 
   const [visualElementPickerOpen, setVisualElementPickerOpen] = useState(false);
   const [type, setType] = useState("");
   const { t } = useTranslation();
 
-  const selectedParagraphEntry = useSlateSelector((editor) => {
-    const [paragraphEntry] = editor.nodes({ match: isParagraphElement, mode: "lowest" });
-    return paragraphEntry || [];
-  });
-
   // Checks are sorted from least expensive to most expensive.
   const shouldShowBlockPicker = useSlateSelector((editor) => {
     if (!editor.selection || Range.isExpanded(editor.selection) || !portalRef.current) return false;
+    const [selectedParagraphEntry] = editor.nodes({ match: isParagraphElement, mode: "lowest" });
     if (!selectedParagraphEntry?.[0]) return false;
     if (editor.shouldHideBlockPicker?.()) return false;
     if (Node.string(selectedParagraphEntry[0])) return false;
@@ -307,7 +305,9 @@ const SlateBlockPicker = ({
   useEffect(() => {
     if (!portalRef.current) return;
     const el = portalRef.current;
-    if (shouldShowBlockPicker && selectedParagraphEntry) {
+    if (shouldShowBlockPicker) {
+      const [selectedParagraphEntry] = editor.nodes({ match: isParagraphElement, mode: "lowest" });
+      if (!selectedParagraphEntry) return;
       const [selectedParagraph, selectedParagraphPath] = selectedParagraphEntry;
       const parent = selectedParagraphPath && Editor.node(editor, Path.parent(selectedParagraphPath))?.[0];
       const leftAdjust = getLeftAdjust(parent);
@@ -320,19 +320,22 @@ const SlateBlockPicker = ({
     } else {
       el.hidden = true;
     }
-  }, [editor, selectedParagraphEntry, shouldShowBlockPicker]);
+  }, [editor, shouldShowBlockPicker]);
 
   const onOpenChange = useCallback(
     (details: PopoverOpenChangeDetails) => {
       if (details.open) {
-        setActionsForArea(getAvailableActions(editor, actions, actionsToShowInAreas));
+        const availableActions = getAvailableActions(editor, actions, actionsToShowInAreas).filter(
+          (a) => !a.requiredScope || userPermissions?.includes(a.requiredScope),
+        );
+        setActionsForArea(availableActions);
       }
       setBlockPickerOpen(details.open);
       if (!details.open && !visualElementPickerOpen) {
         ReactEditor.focus(editor);
       }
     },
-    [actions, actionsToShowInAreas, editor, visualElementPickerOpen],
+    [actions, actionsToShowInAreas, editor, userPermissions, visualElementPickerOpen],
   );
 
   const onFocus = useCallback(() => {

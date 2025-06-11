@@ -62,6 +62,7 @@ export interface Action {
   data: ActionData;
   icon: JSX.Element;
   bookmark?: string;
+  requiredScope?: string;
 }
 
 export const commonActions: Action[] = [

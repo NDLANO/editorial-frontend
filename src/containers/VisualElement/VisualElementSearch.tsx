@@ -19,7 +19,7 @@ import { VideoSearch } from "@ndla/video-search";
 import FileUploader from "../../components/FileUploader";
 import { ImagePicker } from "../../components/ImagePicker";
 import config from "../../config";
-import { Embed } from "../../interfaces";
+import { Embed, File } from "../../interfaces";
 import { fetchAudio, postSearchAudio } from "../../modules/audio/audioApi";
 import { searchVideos, VideoSearchQuery } from "../../modules/video/brightcoveApi";
 import { NdlaErrorPayload, onError } from "../../util/resolveJsonOrRejectWithError";
@@ -39,7 +39,7 @@ const titles = (t: TFunction, resource: string) => ({
 
 interface Props {
   selectedResource: string;
-  handleVisualElementChange: (returnType: Embed | DOMStringMap[]) => void;
+  handleVisualElementChange: (returnType: Embed | File[]) => void;
   articleLanguage?: string;
   closeDialog: () => void;
   showCheckbox?: boolean;
@@ -173,7 +173,7 @@ const VisualElementSearch = ({
       return (
         <FileUploader
           onFileSave={(files) => {
-            const preparedFiles = files.map((file) => ({
+            const preparedFiles: File[] = files.map((file) => ({
               url: config.ndlaApiUrl + file.path,
               resource: "file",
               ...file,

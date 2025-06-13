@@ -31,11 +31,11 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IframeEmbedData, OembedEmbedData } from "@ndla/types-embed";
+import UrlAllowList from "./UrlAllowList";
+import { urlTransformers } from "./urlTransformers";
 import { DRAFT_ADMIN_SCOPE, EXTERNAL_WHITELIST_PROVIDERS } from "../../../../constants";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { useSession } from "../../../../containers/Session/SessionProvider";
-import UrlAllowList from "../../../../containers/VisualElement/UrlAllowList";
-import { urlTransformers } from "../../../../containers/VisualElement/urlTransformers";
 import { WhitelistProvider } from "../../../../interfaces";
 import { fetchExternalOembed } from "../../../../util/apiHelpers";
 import { getIframeSrcFromHtmlString, urlDomain } from "../../../../util/htmlHelpers";

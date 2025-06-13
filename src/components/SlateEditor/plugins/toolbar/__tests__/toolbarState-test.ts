@@ -147,27 +147,27 @@ const arrayifyToolbar = (toolbar: OptionsType) => {
 };
 
 describe("toolbarState", () => {
-  test("returns all options if no area options, editorAncestors and default values are provided", () => {
+  test("returns all options if no area options, selection element and default values are provided", () => {
     const res = toolbarState({ options: {}, areaOptions: {} });
     const expected = arrayifyToolbar(allOptions);
     expect(res).toEqual(expected);
   });
 
-  test("is not affected by only providing editorAncestors", () => {
+  test("is not affected by only providing paragraph selection element", () => {
     const res = toolbarState({
       options: {},
       areaOptions: {},
-      editorAncestors: [{ type: "paragraph", children: [{ text: "test" }] }],
+      selectionElements: [{ type: "paragraph", children: [{ text: "test" }] }],
     });
     const expected = arrayifyToolbar(allOptions);
     expect(res).toEqual(expected);
   });
 
-  test("filters out options that are disabled or hidden due to editorAncestors", () => {
+  test("filters out options that are disabled or hidden due to selection element", () => {
     const res = toolbarState({
       options: {},
       areaOptions: createToolbarAreaOptions(),
-      editorAncestors: [
+      selectionElements: [
         { type: "heading", children: [], level: 1 },
         { type: "paragraph", children: [{ text: "test" }] },
       ],
@@ -207,7 +207,7 @@ describe("toolbarState", () => {
           },
         },
       }),
-      editorAncestors: [
+      selectionElements: [
         { type: "heading", children: [], level: 1 },
         { type: "paragraph", children: [{ text: "test" }] },
       ],

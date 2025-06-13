@@ -13,9 +13,10 @@ import {
   TABLE_CELL_HEADER_PLUGIN,
   TABLE_CELL_PLUGIN,
 } from "./types";
-import { Node } from "slate";
+import { Node, Range } from "slate";
 import { HistoryEditor } from "slate-history";
 import { updateCell } from "./slateActions";
+import { isTableCellHeaderElement } from "./queries";
 
 const normalizeNode =
   <T extends typeof TABLE_CELL_ELEMENT_TYPE | typeof TABLE_CELL_HEADER_ELEMENT_TYPE>(
@@ -47,4 +48,16 @@ export const tableCellHeaderPlugin = createPlugin({
   name: TABLE_CELL_HEADER_PLUGIN,
   type: TABLE_CELL_HEADER_ELEMENT_TYPE,
   normalize: normalizeNode(TABLE_CELL_HEADER_ELEMENT_TYPE),
+  transform: (editor) => {
+    const { shouldHideBlockPicker } = editor;
+    editor.shouldHideBlockPicker = () => {
+      if (editor.selection && Range.isCollapsed(editor.selection)) {
+        const [cell] = editor.nodes({ match: isTableCellHeaderElement });
+        return !!cell;
+      }
+      return shouldHideBlockPicker?.();
+    };
+
+    return editor;
+  },
 });

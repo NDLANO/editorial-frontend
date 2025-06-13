@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
@@ -93,7 +93,7 @@ const getAllowedProvider = (embed: OembedMetaData | IframeMetaData | undefined):
 export const SlateExternal = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
   const language = useArticleLanguage();
-  const wrapperRef = useRef<HTMLDivElement>(null);
+  const wrapperId = useId();
   const [isEditing, setIsEditing] = useState(false);
   const metaQuery = useExternalEmbed(element.data!, language, {
     enabled: !!Object.keys(element.data ?? {}).length,
@@ -158,7 +158,7 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
 
   const onMouseDown = useCallback(() => {
     const onMouseMove = (e: MouseEvent) => {
-      const iframe = wrapperRef.current?.querySelector("iframe");
+      const iframe = document.getElementById(wrapperId)?.querySelector("iframe");
       if (iframe && iframe.clientHeight + e.movementY > MIN_EMBED_HEIGHT) {
         iframe.height = `${e.movementY + iframe.clientHeight}px`;
       }
@@ -168,14 +168,14 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
       document.body.removeEventListener("mousemove", onMouseMove);
       const newData = {
         ...element.data,
-        height: `${wrapperRef.current?.querySelector("iframe")?.clientHeight}px`,
+        height: `${document.getElementById(wrapperId)?.querySelector("iframe")?.clientHeight}px`,
       };
       Transforms.setNodes(editor, { data: newData }, { at: ReactEditor.findPath(editor, element) });
     };
 
     document.body.addEventListener("mousemove", onMouseMove);
     document.body.addEventListener("mouseup", onMouseUp, { once: true });
-  }, [editor, element]);
+  }, [editor, element, wrapperId]);
 
   const allowedProvider = getAllowedProvider(embed);
   const editLabel = t("form.external.edit", { type: allowedProvider?.name || t("form.external.title") });
@@ -184,8 +184,8 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
   return (
     <DialogRoot open={isEditing} size="large" onOpenChange={(details) => setIsEditing(details.open)}>
       {!!embed && (
-        <StyledEmbedWrapper {...attributes} data-selected={selected} ref={wrapperRef}>
-          <StyledFigureButtons contentEditable={false}>
+        <StyledEmbedWrapper {...attributes} data-selected={selected} id={wrapperId} contentEditable={false}>
+          <StyledFigureButtons>
             <DialogTrigger asChild>
               <IconButton aria-label={editLabel} title={editLabel} variant="secondary" size="small">
                 <PencilFill />

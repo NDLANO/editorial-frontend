@@ -30,6 +30,7 @@ import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvid
 import { transformMatomoData } from "../utils";
 import { useElementIsVisible } from "./isVisibleHook";
 import { useMatomoStats } from "../../../modules/matomo/matomoQueries";
+import { usePreferences } from "../PreferencesProvider";
 
 const StyledListItemRoot = styled(ListItemRoot, {
   base: {
@@ -96,23 +97,14 @@ interface Props {
   responsible?: string;
   resource: ResourceWithNodeConnectionAndMeta;
   nodeResourcesIsPending: boolean;
-  showQuality: boolean;
   onDelete: (connectionId: string) => void;
-  showMatomoStats: boolean;
 }
 
-const Resource = ({
-  currentNodeId,
-  resource,
-  nodeResourcesIsPending,
-  responsible,
-  showQuality,
-  onDelete,
-  showMatomoStats,
-}: Props) => {
+const Resource = ({ currentNodeId, resource, nodeResourcesIsPending, responsible, onDelete }: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const { taxonomyVersion } = useTaxonomyVersion();
+  const { showQuality, showMatomoStats } = usePreferences();
 
   const ref = useRef(null);
   const isVisible = useElementIsVisible(ref, showMatomoStats);

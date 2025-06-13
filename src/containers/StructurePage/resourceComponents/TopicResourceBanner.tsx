@@ -12,7 +12,7 @@ import { MessageLine, CheckboxCircleLine } from "@ndla/icons";
 import { Skeleton, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node, NodeChild, ResourceType } from "@ndla/types-taxonomy";
+import { Node, ResourceType } from "@ndla/types-taxonomy";
 import ApproachingRevisionDate from "./ApproachingRevisionDate";
 import GrepCodesDialog from "./GrepCodesDialog";
 import JumpToStructureButton from "./JumpToStructureButton";
@@ -32,8 +32,10 @@ import { NodeResourceMeta } from "../../../modules/nodes/nodeQueries";
 import { stripInlineContentHtmlTags } from "../../../util/formHelper";
 import { routes } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import { useCurrentNode } from "../CurrentNodeProvider";
 import GroupTopicResources from "../folderComponents/topicMenuOptions/GroupTopicResources";
 import PlannedResourceDialog from "../plannedResource/PlannedResourceDialog";
+import { usePreferences } from "../PreferencesProvider";
 import { ResourceStats, transformMatomoData } from "../utils";
 
 const ResourceGroupBanner = styled("div", {
@@ -135,32 +137,28 @@ const getWorkflowCount = (contentMeta: Dictionary<NodeResourceMeta>) => {
 interface Props {
   contentMeta: Dictionary<NodeResourceMeta>;
   currentNode: ResourceWithNodeConnectionAndMeta;
-  onCurrentNodeChanged: (changedNode: NodeChild) => void;
   resources: ResourceWithNodeConnectionAndMeta[];
   resourceTypes: ResourceType[];
   articleIds?: number[];
   nodeResourcesIsPending: boolean;
   responsible: string | undefined;
   topicNodes: Node[] | undefined;
-  showQuality: boolean;
-  showMatomoStats: boolean;
 }
 
 const TopicResourceBanner = ({
   contentMeta,
   currentNode,
-  onCurrentNodeChanged,
   resourceTypes,
   resources,
   nodeResourcesIsPending,
   responsible,
   topicNodes,
-  showQuality,
-  showMatomoStats,
 }: Props) => {
   const [resourceStats, setResourceStats] = useState<Record<string, ResourceStats> | undefined>(undefined);
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
+  const { setCurrentNode } = useCurrentNode();
+  const { showQuality, showMatomoStats } = usePreferences();
 
   const elementCount = useMemo(() => Object.values(contentMeta).length, [contentMeta]);
   const workflowCount = useMemo(() => getWorkflowCount(contentMeta), [contentMeta]);
@@ -280,7 +278,7 @@ const TopicResourceBanner = ({
               <GroupTopicResources
                 node={currentNode}
                 onChanged={(partialMeta) => {
-                  onCurrentNodeChanged({
+                  setCurrentNode({
                     ...currentNode,
                     metadata: { ...currentNode.metadata, ...partialMeta },
                   });

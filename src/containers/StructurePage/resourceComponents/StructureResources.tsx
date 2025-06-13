@@ -20,7 +20,6 @@ import {
 } from "../../../modules/nodes/nodeQueries";
 import { useAllResourceTypes } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-import { usePreferences } from "../PreferencesProvider";
 
 export interface ResourceWithNodeConnectionAndMeta extends NodeChild {
   contentMeta?: NodeResourceMeta;
@@ -28,7 +27,6 @@ export interface ResourceWithNodeConnectionAndMeta extends NodeChild {
 
 interface Props {
   currentChildNode: NodeChild;
-  setCurrentNode: (changedNode: NodeChild) => void;
   users: Dictionary<Auth0UserData> | undefined;
 }
 
@@ -54,11 +52,10 @@ const withMissing = (r: NodeChild): NodeChild => ({
   resourceTypes: [missingObject],
 });
 
-const StructureResources = ({ currentChildNode, setCurrentNode, users }: Props) => {
+const StructureResources = ({ currentChildNode, users }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const grouped = currentChildNode?.metadata?.customFields["topic-resources"] ?? "grouped";
-  const { showQuality, showMatomoStats } = usePreferences();
 
   const { data: nodeResources, isPending: nodeResourcesIsPending } = useResourcesWithNodeConnection(
     {
@@ -104,11 +101,8 @@ const StructureResources = ({ currentChildNode, setCurrentNode, users }: Props) 
       currentNode={currentChildNode}
       contentMeta={keyedMetas}
       grouped={grouped === "grouped"}
-      setCurrentNode={setCurrentNode}
       nodeResourcesIsPending={contentMetaIsPending || nodeResourcesIsPending}
-      showQuality={showQuality}
       users={users}
-      showMatomoStats={showMatomoStats}
     />
   );
 };

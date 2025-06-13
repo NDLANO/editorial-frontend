@@ -7,6 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
+import { CurrentNodeProvider } from "./CurrentNodeProvider";
 import StructureContainer from "./StructureContainer";
 import { TaxonomyVersionProvider } from "../StructureVersion/TaxonomyVersionProvider";
 
@@ -15,7 +16,9 @@ const StructurePage = () => {
   return (
     <TaxonomyVersionProvider>
       <title>{t("htmlTitles.structurePage")}</title>
-      <StructureContainer />
+      <CurrentNodeProvider>
+        <StructureContainer />
+      </CurrentNodeProvider>
     </TaxonomyVersionProvider>
   );
 };

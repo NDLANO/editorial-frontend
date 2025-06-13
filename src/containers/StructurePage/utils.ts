@@ -46,3 +46,5 @@ export const transformMatomoData = (data: PromiseSettledResult<MatomoResponse>[]
   }, {});
   return transformed;
 };
+
+export const RESOURCE_SECTION_ID = "resource-section";

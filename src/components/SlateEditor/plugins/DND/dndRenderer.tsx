@@ -87,6 +87,15 @@ const StyledContainer = styled("div", {
       },
     },
   },
+  variants: {
+    isDragging: {
+      true: {
+        "& [data-embed-wrapper]": {
+          pointerEvents: "none",
+        },
+      },
+    },
+  },
 });
 
 interface Props {
@@ -102,7 +111,7 @@ const onMouseDown = (e: MouseEvent<HTMLButtonElement>) => {
 };
 
 const DraggableElement = ({ children, element, accepts, pathRef, dragDisabled }: Props) => {
-  const { attributes, listeners, setNodeRef } = useDraggable({
+  const { attributes, listeners, active, setNodeRef } = useDraggable({
     id: element.id!,
     data: { element, children },
   });
@@ -114,7 +123,7 @@ const DraggableElement = ({ children, element, accepts, pathRef, dragDisabled }:
   }, [pathRef]);
 
   return (
-    <StyledContainer data-embed-wrapper="" data-drag-wrapper="" ref={setNodeRef}>
+    <StyledContainer data-embed-wrapper="" data-drag-wrapper="" ref={setNodeRef} isDragging={!!active}>
       {pathRef?.current?.at(-1) === 0 && <DropArea element={element} accepts={accepts} position="top" />}
       {!dragDisabled && (
         <StyledIconButton

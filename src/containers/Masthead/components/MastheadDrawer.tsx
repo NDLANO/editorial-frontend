@@ -153,15 +153,8 @@ const adminItems: MenuItem[] = [
   { to: config.brightcoveUrl, text: "subNavigation.brightcoveLink", external: true, permission: DRAFT_ADMIN_SCOPE },
   { to: routes.frontpage.create, text: "subNavigation.newFrontpageArticle", permission: FRONTPAGE_ADMIN_SCOPE },
   { to: routes.podcastSeries.create, text: "subNavigation.podcastSeries", permission: AUDIO_ADMIN_SCOPE },
+  { to: routes.updateCodes, text: "subNavigation.updateCodes", permission: DRAFT_ADMIN_SCOPE },
 ];
-
-if (config.enableUpdateGrepCodes) {
-  adminItems.push({
-    to: routes.updateCodes,
-    text: "subNavigation.updateCodes",
-    permission: DRAFT_ADMIN_SCOPE,
-  });
-}
 
 const externalItems: MenuItem[] = [
   { to: `${config.learningpathFrontendDomain}/minside`, text: "subNavigation.learningPathLink", external: true },

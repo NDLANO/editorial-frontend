@@ -9,7 +9,6 @@
 import { useTranslation } from "react-i18next";
 import { Button, Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import config from "../../config";
 import { DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useMigrateCodes } from "../../modules/draft/draftMutations";
 import NotFound from "../NotFoundPage/NotFoundPage";
@@ -35,7 +34,7 @@ const UpdateCodesPage = () => {
   const { userPermissions } = useSession();
   const { mutateAsync: migrateCode, isError, isPending } = useMigrateCodes();
 
-  if (!userPermissions?.includes(DRAFT_ADMIN_SCOPE) || !config.enableUpdateGrepCodes) {
+  if (!userPermissions?.includes(DRAFT_ADMIN_SCOPE)) {
     return <NotFound />;
   }
 

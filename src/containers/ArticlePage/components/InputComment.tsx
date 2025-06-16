@@ -6,7 +6,6 @@
  *
  */
 
-import { format } from "date-fns";
 import { FieldArrayRenderProps } from "formik";
 import { TFunction } from "i18next";
 import { useCallback, useState } from "react";
@@ -71,11 +70,16 @@ const StyledFieldRoot = styled(FieldRoot, {
   },
 });
 
+const timeFormatter = new Intl.DateTimeFormat("nb-NO", {
+  hour: "2-digit",
+  minute: "2-digit",
+});
+
 export const getCommentInfoText = (userName: string | undefined, t: TFunction): string => {
   const currentDate = new Date();
   const dateTime = formatDateForBackend(currentDate);
   const formattedDate = formatDate(dateTime);
-  const formattedTime = format(currentDate, "HH:mm");
+  const formattedTime = timeFormatter.format(currentDate);
 
   return `${t("form.workflow.addComment.createdBy")} ${userName?.split(" ")[0]} (${formattedDate} - ${formattedTime})`;
 };

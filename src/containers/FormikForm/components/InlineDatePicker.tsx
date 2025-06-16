@@ -8,7 +8,7 @@
 
 import { useCallback, useMemo } from "react";
 import { DatePickerValueChangeDetails } from "@ark-ui/react";
-import { getLocalTimeZone, parseAbsolute } from "@internationalized/date";
+import { getLocalTimeZone, parseAbsoluteToLocal } from "@internationalized/date";
 import { CalendarLine } from "@ndla/icons";
 import { Button, DatePickerControl, DatePickerRoot, DatePickerTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -57,7 +57,7 @@ interface Props {
 
 const InlineDatePicker = ({ onChange, value, name, placeholder, title }: Props) => {
   const translations = useDatePickerTranslations();
-  const dateValue = useMemo(() => (value ? parseAbsolute(value, getLocalTimeZone()) : undefined), [value]);
+  const dateValue = useMemo(() => (value ? parseAbsoluteToLocal(value) : undefined), [value]);
   const displayValue = useMemo(() => (dateValue ? dateFormatter.format(dateValue.toDate()) : undefined), [dateValue]);
   const onValueChange = useCallback(
     (details: DatePickerValueChangeDetails) => {

@@ -7,6 +7,7 @@
  */
 
 import queryString from "query-string";
+import config from "../../config";
 import { fetchNrkMedia } from "../../modules/video/nrkApi";
 import { urlAsATag } from "../../util/htmlHelpers";
 
@@ -208,6 +209,29 @@ const gapminderTransformer: UrlTransformer = {
   },
 };
 
+const norgesfilmTransformer: UrlTransformer = {
+  domains: ["ndla.filmiundervisning.no"],
+  shouldTransform: (url, domains) => {
+    const aTag = urlAsATag(url);
+
+    if (!config.norgesfilmNewUrl) {
+      return false;
+    }
+
+    if (!domains.includes(aTag.hostname)) {
+      return false;
+    }
+    if (!aTag.href.includes("ndlafilm.aspx?filmId=")) {
+      return false;
+    }
+    return true;
+  },
+  transform: async (url) => {
+    const parts = url.split("ndlafilm.aspx?filmId=");
+    return parts.join("");
+  },
+};
+
 export const urlTransformers: UrlTransformer[] = [
   nrkTransformer,
   codepenTransformer,
@@ -217,4 +241,5 @@ export const urlTransformers: UrlTransformer[] = [
   sketcfabTransformer,
   jeopardyLabTransformer,
   gapminderTransformer,
+  norgesfilmTransformer,
 ];

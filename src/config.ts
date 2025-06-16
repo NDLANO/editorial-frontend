@@ -190,6 +190,7 @@ export type ConfigType = {
   s3AudioRoot: string;
   enableMatomoData: boolean;
   enableUpdateGrepCodes: boolean;
+  norgesfilmNewUrl: boolean;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -241,6 +242,7 @@ const getServerSideConfig = (): ConfigType => {
     s3AudioRoot: getAudioS3Root(ndlaEnvironment),
     enableMatomoData: getEnvironmentVariabel("ENABLE_MATOMO_DATA", "false") === "true",
     enableUpdateGrepCodes: getEnvironmentVariabel("ENABLE_UPDATE_GREP_CODES", "false") === "true",
+    norgesfilmNewUrl: getEnvironmentVariabel("NORGESFILM_NEW_URL", "false") === "true",
   };
 };
 
@@ -248,7 +250,6 @@ export function getUniversalConfig(): ConfigType {
   if (typeof window === "undefined" || process.env.NODE_ENV === "test") {
     return getServerSideConfig();
   }
-
   return window.config;
 }
 

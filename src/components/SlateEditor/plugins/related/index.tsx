@@ -6,7 +6,7 @@
  *
  */
 
-import { toUnicode } from "punycode";
+import { toUnicode } from "punycode/";
 import { jsx as slatejsx } from "slate-hyperscript";
 import {
   createDataAttributes,

@@ -7,14 +7,13 @@
  */
 
 import { partition, isEqual, sortBy } from "lodash-es";
-import { memo, type RefObject } from "react";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
 import { useQueryClient } from "@tanstack/react-query";
 import { IUserDataDTO } from "@ndla/types-backend/draft-api";
 import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
 import NodeItem from "./NodeItem";
-import { usePreferences } from "./PreferencesProvider";
 import { draftQueryKeys, useUpdateUserDataMutation } from "../../modules/draft/draftQueries";
 import { useUpdateNodeConnectionMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys, useChildNodesWithArticleType } from "../../modules/nodes/nodeQueries";
@@ -25,25 +24,14 @@ interface Props {
   node: Node;
   openedPaths: string[];
   isFavorite: boolean;
-  onNodeSelected: (node?: Node) => void;
-  resourceSectionRef: RefObject<HTMLDivElement | null>;
   childNodeTypes: NodeType[];
   rootPath: string;
 }
 
-const RootNode = ({
-  isFavorite,
-  node,
-  openedPaths,
-  onNodeSelected,
-  resourceSectionRef,
-  childNodeTypes,
-  rootPath,
-}: Props) => {
+const RootNode = ({ isFavorite, node, openedPaths, childNodeTypes, rootPath }: Props) => {
   const { i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const locale = i18n.language;
-  const { showQuality } = usePreferences();
   const childNodesQuery = useChildNodesWithArticleType(
     {
       id: node.id,
@@ -111,16 +99,13 @@ const RootNode = ({
       item={node}
       nodes={childNodesQuery.data}
       openedPaths={openedPaths}
-      onNodeSelected={onNodeSelected}
       toggleFavorite={toggleFavorite}
       rootNodeId={node.id}
-      resourceSectionRef={resourceSectionRef}
       onDragEnd={onDragEnd}
       connectionId={""}
       isRoot={true}
       isFavorite={isFavorite}
       isLoading={childNodesQuery.isLoading}
-      showQuality={showQuality}
       rootPath={rootPath}
     />
   );

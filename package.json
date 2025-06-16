@@ -156,7 +156,7 @@
   "homepage": "https://github.com/NDLANO/editorial-frontend",
   "author": "ndla@knowit.no",
   "license": "GPL-3.0",
-  "packageManager": "yarn@4.1.1",
+  "packageManager": "yarn@4.9.2",
   "browserslist": [
     "> 0.25%",
     "not dead"

@@ -8,7 +8,6 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router-dom";
 import { AddLine } from "@ndla/icons";
 import {
   Button,
@@ -33,7 +32,6 @@ import { NodeType } from "@ndla/types-taxonomy";
 import AddNodeDialogContent from "./AddNodeDialogContent";
 import { usePreferences } from "./PreferencesProvider";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
-import config from "../../config";
 import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { useSession } from "../Session/SessionProvider";
 
@@ -95,8 +93,6 @@ const StructureBanner = ({ nodeType, hasLmaSubjects, hasDaSubjects, hasSaSubject
 
   const { t } = useTranslation();
   const { userPermissions } = useSession();
-  const [params] = useSearchParams();
-  const enableMatomo = params.get("enableMatomo") === "true";
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
@@ -162,18 +158,16 @@ const StructureBanner = ({ nodeType, hasLmaSubjects, hasDaSubjects, hasSaSubject
                     </SwitchControl>
                     <SwitchHiddenInput />
                   </SwitchRoot>
-                  {config.enableMatomoData || enableMatomo ? (
-                    <SwitchRoot
-                      checked={showMatomoStats}
-                      onCheckedChange={(details) => setShowMatomoStats(details.checked)}
-                    >
-                      <SwitchLabel>{t("matomo.switchLabel")}</SwitchLabel>
-                      <SwitchControl>
-                        <SwitchThumb />
-                      </SwitchControl>
-                      <SwitchHiddenInput />
-                    </SwitchRoot>
-                  ) : undefined}
+                  <SwitchRoot
+                    checked={showMatomoStats}
+                    onCheckedChange={(details) => setShowMatomoStats(details.checked)}
+                  >
+                    <SwitchLabel>{t("matomo.switchLabel")}</SwitchLabel>
+                    <SwitchControl>
+                      <SwitchThumb />
+                    </SwitchControl>
+                    <SwitchHiddenInput />
+                  </SwitchRoot>
                 </>
               )}
             </SwitchWrapper>

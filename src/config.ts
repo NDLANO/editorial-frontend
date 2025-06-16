@@ -188,8 +188,6 @@ export type ConfigType = {
   matomoSiteId: string | undefined;
   matomoUrl: string;
   s3AudioRoot: string;
-  enableMatomoData: boolean;
-  enableUpdateGrepCodes: boolean;
   norgesfilmNewUrl: boolean;
 };
 
@@ -240,8 +238,6 @@ const getServerSideConfig = (): ConfigType => {
     matomoSiteId: getEnvironmentVariabel("MATOMO_SITE_ID"),
     matomoUrl: getEnvironmentVariabel("MATOMO_URL", matomoDomain(ndlaEnvironment)),
     s3AudioRoot: getAudioS3Root(ndlaEnvironment),
-    enableMatomoData: getEnvironmentVariabel("ENABLE_MATOMO_DATA", "false") === "true",
-    enableUpdateGrepCodes: getEnvironmentVariabel("ENABLE_UPDATE_GREP_CODES", "false") === "true",
     norgesfilmNewUrl: getEnvironmentVariabel("NORGESFILM_NEW_URL", "false") === "true",
   };
 };

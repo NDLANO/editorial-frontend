@@ -65,6 +65,7 @@ import { definitionDescriptionPlugin } from "../../../../components/SlateEditor/
 import { symbolPlugin } from "../../../../components/SlateEditor/plugins/symbol";
 import { tableHeadPlugin } from "../../../../components/SlateEditor/plugins/table/tableHeadPlugin";
 import { unsupportedPlugin } from "../../../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
+import { pastePlugin } from "../../../../components/SlateEditor/plugins/paste";
 
 // Plugins are checked from last to first
 export const frontpagePlugins: SlatePlugin[] = [
@@ -129,4 +130,5 @@ export const frontpagePlugins: SlatePlugin[] = [
   rephrasePlugin,
   symbolPlugin,
   unsupportedPlugin,
+  pastePlugin,
 ];

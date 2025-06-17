@@ -61,6 +61,7 @@ import { definitionListPlugin } from "../../../../components/SlateEditor/plugins
 import { definitionTermPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionTermPlugin";
 import { definitionDescriptionPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionDescriptionPlugin";
 import { unsupportedPlugin } from "../../../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
+import { pastePlugin } from "../../../../components/SlateEditor/plugins/paste";
 
 export const learningResourcePlugins: SlatePlugin[] = [
   idPlugin,
@@ -120,4 +121,5 @@ export const learningResourcePlugins: SlatePlugin[] = [
   rephrasePlugin,
   symbolPlugin,
   unsupportedPlugin,
+  pastePlugin,
 ];

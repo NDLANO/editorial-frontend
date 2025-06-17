@@ -34,6 +34,7 @@ import { divRenderer } from "../../../components/SlateEditor/plugins/div/render"
 import { divPlugin } from "../../../components/SlateEditor/plugins/div";
 import { unsupportedPlugin } from "../../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
 import { unsupportedElementRenderer } from "../../../components/SlateEditor/plugins/unsupported/unsupportedElementRenderer";
+import { pastePlugin } from "../../../components/SlateEditor/plugins/paste";
 
 export const plugins: SlatePlugin[] = [
   inlineNavigationPlugin,
@@ -51,6 +52,7 @@ export const plugins: SlatePlugin[] = [
   linkPlugin,
   listPlugin,
   unsupportedPlugin,
+  pastePlugin,
   sectionRenderer,
   noopRenderer,
   paragraphRenderer,

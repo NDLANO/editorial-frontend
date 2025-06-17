@@ -26,6 +26,7 @@ import { noopPlugin } from "../noop";
 import { noopRenderer } from "../noop/render";
 import { paragraphPlugin } from "../paragraph";
 import { paragraphRenderer } from "../paragraph/render";
+import { pastePlugin } from "../paste";
 import saveHotkeyPlugin from "../saveHotkey";
 import { spanPlugin } from "../span";
 import { spanRenderer } from "../span/render";
@@ -60,6 +61,7 @@ export const disclaimerPlugins: SlatePlugin[] = [
   markPlugin,
   noopPlugin,
   unsupportedPlugin,
+  pastePlugin,
 ];
 
 const renderers: SlatePlugin[] = [

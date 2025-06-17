@@ -25,6 +25,7 @@ import { noopPlugin } from "../../../components/SlateEditor/plugins/noop";
 import { noopRenderer } from "../../../components/SlateEditor/plugins/noop/render";
 import { paragraphPlugin } from "../../../components/SlateEditor/plugins/paragraph";
 import { paragraphRenderer } from "../../../components/SlateEditor/plugins/paragraph/render";
+import { pastePlugin } from "../../../components/SlateEditor/plugins/paste";
 import saveHotkeyPlugin from "../../../components/SlateEditor/plugins/saveHotkey";
 import { spanPlugin } from "../../../components/SlateEditor/plugins/span";
 import { spanRenderer } from "../../../components/SlateEditor/plugins/span/render";
@@ -77,6 +78,7 @@ const manuscriptPlugins: SlatePlugin[] = [
   markPlugin,
   noopPlugin,
   unsupportedPlugin,
+  pastePlugin,
 ];
 
 const LANGUAGE_MAP: Record<string, string> = {

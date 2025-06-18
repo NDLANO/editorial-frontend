@@ -9,7 +9,9 @@
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms } from "slate";
-import VisualElementMenu, { VisualElementType } from "./VisualElementMenu";
+import { AddLine, CameraFill, CloseLine, H5P, LinkMedium, MovieLine, VoiceprintLine } from "@ndla/icons";
+import { Button } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import SlateVisualElementPicker from "../../components/SlateEditor/plugins/blockPicker/SlateVisualElementPicker";
 import { defaultExternalBlock } from "../../components/SlateEditor/plugins/external/utils";
 import { defaultH5pBlock } from "../../components/SlateEditor/plugins/h5p/utils";
@@ -21,8 +23,55 @@ interface Props {
   types?: VisualElementType[];
 }
 
-const VisualElementPicker = ({ editor, language, types }: Props) => {
+export type VisualElementType = "image" | "video" | "h5p" | "url" | "audio";
+
+const ButtonWrapper = styled("div", {
+  base: {
+    display: "flex",
+    marginBlockStart: "xsmall",
+    flexDirection: "row",
+    gap: "xsmall",
+  },
+});
+
+const visualElementButtons = [
+  {
+    type: "image",
+    component: <CameraFill />,
+  },
+  {
+    type: "video",
+    component: <MovieLine />,
+  },
+  {
+    type: "h5p",
+    component: <H5P />,
+  },
+  {
+    type: "url",
+    component: <LinkMedium />,
+  },
+  {
+    type: "audio",
+    component: <VoiceprintLine />,
+  },
+] as const;
+
+const VisualElementPicker = ({ editor, language, types = ["image", "video", "h5p", "url"] }: Props) => {
   const { t } = useTranslation();
+  const [selectedResource, setSelectedResource] = useState<string | undefined>(undefined);
+  const [isOpen, setOpen] = useState(false);
+
+  const handleSelect = (type: string) => {
+    setOpen(false);
+    onSelect(type);
+  };
+
+  const toggleIsOpen = () => {
+    setOpen(!isOpen);
+  };
+
+  const filteredButtons = visualElementButtons.filter((button) => types.includes(button.type));
   const onInsertBlock = useCallback(
     (block: Element) => {
       Editor.withoutNormalizing(editor, () => {
@@ -31,8 +80,6 @@ const VisualElementPicker = ({ editor, language, types }: Props) => {
     },
     [editor],
   );
-
-  const [selectedResource, setSelectedResource] = useState<string | undefined>(undefined);
 
   const resetSelectedResource = () => {
     setSelectedResource(undefined);
@@ -65,7 +112,19 @@ const VisualElementPicker = ({ editor, language, types }: Props) => {
           onInsertBlock={onInsertBlock}
         />
       )}
-      <VisualElementMenu onSelect={onSelect} types={types} />
+      <ButtonWrapper>
+        {filteredButtons.length > 1 && (
+          <Button variant="secondary" onClick={toggleIsOpen}>
+            {isOpen ? <CloseLine /> : <AddLine />}
+          </Button>
+        )}
+        {!!(isOpen || filteredButtons.length <= 1) &&
+          filteredButtons.map((button) => (
+            <Button key={button.type} variant="secondary" onClick={() => handleSelect(button.type)}>
+              {button.component}
+            </Button>
+          ))}
+      </ButtonWrapper>
     </div>
   );
 };

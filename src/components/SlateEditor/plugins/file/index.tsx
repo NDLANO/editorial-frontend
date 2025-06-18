@@ -15,6 +15,7 @@ import {
   defaultNormalizer,
   NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
+  parseElementAttributes,
 } from "@ndla/editor";
 import { isFileElement } from "./queries";
 import { FILE_ELEMENT_TYPE, FILE_PLUGIN } from "./types";
@@ -45,9 +46,8 @@ export const fileSerializer = createSerializer({
     if (el.tagName.toLowerCase() !== "div") return;
     if (el.dataset.type !== FILE_ELEMENT_TYPE) return;
 
-    const children: DOMStringMap[] = [];
-    el.childNodes.forEach((node) => {
-      children.push((node as HTMLEmbedElement).dataset);
+    const children = Array.from(el.children).map((child) => {
+      return parseElementAttributes(Array.from(child.attributes)) as unknown as File;
     });
     return defaultFileBlock(children);
   },

@@ -91,6 +91,7 @@ const EditRelated = ({ updateArticles, insertExternal, embeds, onInsertBlock }: 
     query: delayedQuery,
     page,
     contextTypes: ["standard"],
+    filterInactive: true,
   });
 
   const blockEmbeds = useMemo(() => {

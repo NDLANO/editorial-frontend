@@ -59,7 +59,7 @@ export const nativeOnDrop = (editor: Editor, event: DragEvent<HTMLDivElement>) =
 
     // We've already asserted that this exists in nativeOnDragStart
     const dndOptions = editor.getPluginOptions<DndPluginOptions>(DND_PLUGIN)!;
-    const [parentNode] = editor.above({ at: targetPath, match: Element.isElement }) ?? [];
+    const [parentNode] = editor.above({ at: targetPath, match: (n) => Element.isElement(n) }) ?? [];
 
     if (!Element.isElement(parentNode)) {
       logger.log("Parent node is not an element");

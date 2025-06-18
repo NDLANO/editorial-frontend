@@ -9,17 +9,17 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
     data-scope="dialog"
     data-state="open"
     dir="ltr"
-    id="dialog::r3::backdrop"
+    id="dialog:«r3»:backdrop"
   />
   <div
     class="pos_fixed d_flex ai_center jc_center ov_hidden left_0 top_0 w_100vw h_100dvh z_alertModal"
     data-part="positioner"
     data-scope="dialog"
     dir="ltr"
-    id="dialog::r3::positioner"
+    id="dialog:«r3»:positioner"
   >
     <div
-      aria-describedby="dialog::r3::description"
+      aria-describedby="dialog:«r3»:description"
       aria-label="Pass på!"
       aria-modal="true"
       class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
@@ -28,7 +28,7 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
       data-state="open"
       data-testid="alert-dialog"
       dir="ltr"
-      id="dialog::r3::content"
+      id="dialog:«r3»:content"
       role="dialog"
       tabindex="-1"
     >
@@ -40,7 +40,7 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
           data-part="title"
           data-scope="dialog"
           dir="ltr"
-          id="dialog::r3::title"
+          id="dialog:«r3»:title"
         >
           Pass på!
         </h1>
@@ -51,7 +51,7 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
           data-scope="dialog"
           data-testid="closeAlert"
           dir="ltr"
-          id="dialog::r3::close"
+          id="dialog:«r3»:close"
           title="Lukk"
           type="button"
         >
@@ -117,17 +117,17 @@ exports[`Messages > A single message renders correctly 1`] = `
     data-scope="dialog"
     data-state="open"
     dir="ltr"
-    id="dialog::r0::backdrop"
+    id="dialog:«r0»:backdrop"
   />
   <div
     class="pos_fixed d_flex ai_center jc_center ov_hidden left_0 top_0 w_100vw h_100dvh z_alertModal"
     data-part="positioner"
     data-scope="dialog"
     dir="ltr"
-    id="dialog::r0::positioner"
+    id="dialog:«r0»:positioner"
   >
     <div
-      aria-describedby="dialog::r0::description"
+      aria-describedby="dialog:«r0»:description"
       aria-label="Pass på!"
       aria-modal="true"
       class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
@@ -136,7 +136,7 @@ exports[`Messages > A single message renders correctly 1`] = `
       data-state="open"
       data-testid="alert-dialog"
       dir="ltr"
-      id="dialog::r0::content"
+      id="dialog:«r0»:content"
       role="dialog"
       tabindex="-1"
     >
@@ -148,7 +148,7 @@ exports[`Messages > A single message renders correctly 1`] = `
           data-part="title"
           data-scope="dialog"
           dir="ltr"
-          id="dialog::r0::title"
+          id="dialog:«r0»:title"
         >
           Pass på!
         </h1>
@@ -159,7 +159,7 @@ exports[`Messages > A single message renders correctly 1`] = `
           data-scope="dialog"
           data-testid="closeAlert"
           dir="ltr"
-          id="dialog::r0::close"
+          id="dialog:«r0»:close"
           title="Lukk"
           type="button"
         >
@@ -223,17 +223,17 @@ exports[`Messages > Several messages renders correctly 1`] = `
     data-scope="dialog"
     data-state="open"
     dir="ltr"
-    id="dialog::r1::backdrop"
+    id="dialog:«r1»:backdrop"
   />
   <div
     class="pos_fixed d_flex ai_center jc_center ov_hidden left_0 top_0 w_100vw h_100dvh z_alertModal"
     data-part="positioner"
     data-scope="dialog"
     dir="ltr"
-    id="dialog::r1::positioner"
+    id="dialog:«r1»:positioner"
   >
     <div
-      aria-describedby="dialog::r1::description"
+      aria-describedby="dialog:«r1»:description"
       aria-label="Pass på!"
       aria-modal="true"
       class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
@@ -242,7 +242,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
       data-state="open"
       data-testid="alert-dialog"
       dir="ltr"
-      id="dialog::r1::content"
+      id="dialog:«r1»:content"
       role="dialog"
       tabindex="-1"
     >
@@ -254,7 +254,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
           data-part="title"
           data-scope="dialog"
           dir="ltr"
-          id="dialog::r1::title"
+          id="dialog:«r1»:title"
         >
           Pass på!
         </h1>
@@ -265,7 +265,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
           data-scope="dialog"
           data-testid="closeAlert"
           dir="ltr"
-          id="dialog::r1::close"
+          id="dialog:«r1»:close"
           title="Lukk"
           type="button"
         >
@@ -323,17 +323,17 @@ exports[`Messages > Several messages renders correctly 1`] = `
     data-scope="dialog"
     data-state="open"
     dir="ltr"
-    id="dialog::r2::backdrop"
+    id="dialog:«r2»:backdrop"
   />
   <div
     class="pos_fixed d_flex ai_center jc_center ov_hidden left_0 top_0 w_100vw h_100dvh z_alertModal"
     data-part="positioner"
     data-scope="dialog"
     dir="ltr"
-    id="dialog::r2::positioner"
+    id="dialog:«r2»:positioner"
   >
     <div
-      aria-describedby="dialog::r2::description"
+      aria-describedby="dialog:«r2»:description"
       aria-label="Pass på!"
       aria-modal="true"
       class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
@@ -342,7 +342,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
       data-state="open"
       data-testid="alert-dialog"
       dir="ltr"
-      id="dialog::r2::content"
+      id="dialog:«r2»:content"
       role="dialog"
       tabindex="-1"
     >
@@ -354,7 +354,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
           data-part="title"
           data-scope="dialog"
           dir="ltr"
-          id="dialog::r2::title"
+          id="dialog:«r2»:title"
         >
           Pass på!
         </h1>
@@ -365,7 +365,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
           data-scope="dialog"
           data-testid="closeAlert"
           dir="ltr"
-          id="dialog::r2::close"
+          id="dialog:«r2»:close"
           title="Lukk"
           type="button"
         >
@@ -429,17 +429,17 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
     data-scope="dialog"
     data-state="open"
     dir="ltr"
-    id="dialog::r4::backdrop"
+    id="dialog:«r4»:backdrop"
   />
   <div
     class="pos_fixed d_flex ai_center jc_center ov_hidden left_0 top_0 w_100vw h_100dvh z_alertModal"
     data-part="positioner"
     data-scope="dialog"
     dir="ltr"
-    id="dialog::r4::positioner"
+    id="dialog:«r4»:positioner"
   >
     <div
-      aria-describedby="dialog::r4::description"
+      aria-describedby="dialog:«r4»:description"
       aria-label="Pass på!"
       aria-modal="true"
       class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
@@ -448,7 +448,7 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
       data-state="open"
       data-testid="alert-dialog"
       dir="ltr"
-      id="dialog::r4::content"
+      id="dialog:«r4»:content"
       role="dialog"
       tabindex="-1"
     >
@@ -460,7 +460,7 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
           data-part="title"
           data-scope="dialog"
           dir="ltr"
-          id="dialog::r4::title"
+          id="dialog:«r4»:title"
         >
           Pass på!
         </h1>
@@ -471,7 +471,7 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
           data-scope="dialog"
           data-testid="closeAlert"
           dir="ltr"
-          id="dialog::r4::close"
+          id="dialog:«r4»:close"
           title="Lukk"
           type="button"
         >

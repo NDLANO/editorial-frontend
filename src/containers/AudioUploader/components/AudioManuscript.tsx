@@ -31,10 +31,7 @@ import { spanPlugin } from "../../../components/SlateEditor/plugins/span";
 import { spanRenderer } from "../../../components/SlateEditor/plugins/span/render";
 import { textTransformPlugin } from "../../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../../components/SlateEditor/plugins/toolbar";
-import {
-  createToolbarAreaOptions,
-  createToolbarDefaultValues,
-} from "../../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { createToolbarDefaultValues } from "../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import { UnsupportedElement } from "../../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
 import { unsupportedElementRenderer } from "../../../components/SlateEditor/plugins/unsupported/unsupportedElementRenderer";
 import { unsupportedPlugin } from "../../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
@@ -55,27 +52,22 @@ const toolbarOptions = createToolbarDefaultValues({
   text: {
     hidden: true,
   },
-  mark: {
-    code: {
-      hidden: true,
-    },
-  },
   block: { hidden: true },
   inline: {
     hidden: true,
   },
 });
 
-const toolbarAreaFilters = createToolbarAreaOptions();
-
 const manuscriptPlugins: SlatePlugin[] = [
   spanPlugin,
   paragraphPlugin,
-  toolbarPlugin(toolbarOptions, toolbarAreaFilters),
+  toolbarPlugin.configure({ options: { options: toolbarOptions } }),
   textTransformPlugin,
   breakPlugin,
   saveHotkeyPlugin,
-  markPlugin,
+  markPlugin.configure({
+    options: { supportedMarks: { value: ["bold", "italic", "sup", "sub"], override: true } },
+  }),
   noopPlugin,
   unsupportedPlugin,
   pastePlugin,
@@ -192,9 +184,7 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
             submitted={isSubmitting}
             plugins={plugins}
             onChange={helpers.setValue}
-            toolbarOptions={toolbarOptions}
             renderInvalidElement={(props) => <UnsupportedElement {...props} />}
-            toolbarAreaFilters={toolbarAreaFilters}
           />
           <FieldErrorMessage>{meta.error}</FieldErrorMessage>
           <FieldWarning name={field.name} />

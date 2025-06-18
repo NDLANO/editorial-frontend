@@ -105,7 +105,7 @@ export const learningResourcePlugins: SlatePlugin[] = [
   codeblockPlugin,
   blockPickerPlugin,
   dndPlugin,
-  toolbarPlugin(),
+  toolbarPlugin,
   textTransformPlugin,
   breakPlugin,
   saveHotkeyPlugin,

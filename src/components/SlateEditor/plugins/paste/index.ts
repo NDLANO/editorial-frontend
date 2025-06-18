@@ -6,9 +6,10 @@
  *
  */
 
-import { createPlugin } from "@ndla/editor";
+import { createPlugin, MarkType } from "@ndla/editor";
 import { PASTE_PLUGIN } from "./types";
-import { Descendant, Element, Node, Transforms } from "slate";
+import { Descendant, Element, Node, Text, Transforms } from "slate";
+import { partition } from "@ndla/util";
 
 export const b64Decode = (data: string | undefined): Descendant[] => {
   try {
@@ -26,10 +27,26 @@ export const pastePlugin = createPlugin({
     editor.insertData = (data) => {
       const slate = b64Decode(data.getData("application/x-slate-fragment"));
       if (!slate) return insertData(data);
-      const allElements = slate.filter((n) => Element.isElement(n)).flatMap((n) => Array.from(Node.elements(n)));
+      const [rootElements, rootTexts] = partition(slate, (n) => Element.isElement(n)) as [Element[], Text[]];
+      const allElements = rootElements.flatMap((n) => Array.from(Node.elements(n)));
       for (const [node] of allElements) {
         if (!editor.supportsElement(node)) {
           logger.log("Unsupported element found during paste");
+          const plainText = data.getData("text/plain");
+          return Transforms.insertText(editor, plainText);
+        }
+      }
+      const textElements = rootTexts.concat(rootElements.flatMap((n) => Array.from(Node.texts(n))).map(([n]) => n));
+      for (const text of textElements) {
+        const { text: _, ...marks } = text;
+        const activeMarks = Object.entries(marks).reduce<MarkType[]>((acc, [mark, value]) => {
+          if (value) {
+            acc.push(mark as MarkType);
+          }
+          return acc;
+        }, []);
+        if (!editor.supportsMark(activeMarks)) {
+          logger.log("Unsupported marks found during paste", activeMarks);
           const plainText = data.getData("text/plain");
           return Transforms.insertText(editor, plainText);
         }

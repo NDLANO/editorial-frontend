@@ -6,7 +6,6 @@
  *
  */
 
-import { merge } from "lodash-es";
 import {
   Children,
   ComponentPropsWithRef,
@@ -26,14 +25,7 @@ import { ToolbarBlockOptions } from "./ToolbarBlockOptions";
 import { ToolbarInlineOptions } from "./ToolbarInlineOptions";
 import { ToolbarLanguageOptions } from "./ToolbarLanguageOptions";
 import { ToolbarMarkOptions } from "./ToolbarMarkOptions";
-import {
-  toolbarState,
-  CategoryFilters,
-  AreaFilters,
-  ToolbarValue,
-  ToolbarValues,
-  selectionElements,
-} from "./toolbarState";
+import { ToolbarValue, ToolbarValues } from "./toolbarState";
 import { ToolbarTableOptions } from "./ToolbarTableOptions";
 import { ToolbarTextOptions } from "./ToolbarTextOptions";
 import { AI_ACCESS_SCOPE } from "../../../../constants";
@@ -79,8 +71,6 @@ export interface ToolbarCategoryProps<T extends ToolbarValues> {
 }
 
 interface Props {
-  options: CategoryFilters;
-  areaOptions: AreaFilters;
   hideToolbar?: boolean;
 }
 const checkHasSelectionWithin = (el?: Element | null) => {
@@ -93,8 +83,7 @@ const checkHasSelectionWithin = (el?: Element | null) => {
   return !range.collapsed && el.contains(range.commonAncestorContainer);
 };
 
-const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideToolbarProp }: Props) => {
-  const selection = useSlateSelection();
+const SlateToolbar = ({ hideToolbar: hideToolbarProp }: Props) => {
   const editor = useSlate();
   const toolbarRef = useRef<HTMLDivElement>(null);
   const editorWrapperRef = useRef<HTMLDivElement | null>(null);
@@ -154,17 +143,13 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
 
   const options = useMemo(() => {
     if (hideToolbar) return;
-    const { elements, multipleParagraphsSelected } = selectionElements(editor, selection);
-    return toolbarState({
-      selectionElements: elements,
-      multipleParagraphsSelected,
+    return editor.toolbarState?.({
       // TODO: This is not really scalable if we're going to introduce more constraints later-on.
       options: userPermissions?.includes(AI_ACCESS_SCOPE)
-        ? toolbarOptions
-        : merge({ inline: { rephrase: { hidden: true, disabled: true } } } as CategoryFilters, toolbarOptions),
-      areaOptions,
+        ? undefined
+        : { inline: { rephrase: { hidden: true, disabled: true } } },
     });
-  }, [hideToolbar, editor, selection, userPermissions, toolbarOptions, areaOptions]);
+  }, [hideToolbar, editor, userPermissions]);
 
   const positioningOptions = useMemo(() => {
     return {

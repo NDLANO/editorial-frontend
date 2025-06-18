@@ -34,10 +34,6 @@ import { GRID_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/gr
 import { H5P_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/h5p/types";
 import { IMAGE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/image/types";
 import { TABLE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/table/types";
-import {
-  createToolbarAreaOptions,
-  createToolbarDefaultValues,
-} from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import { UNSUPPORTED_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/unsupported/types";
 import { UnsupportedElement } from "../../../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/video/types";
@@ -79,9 +75,6 @@ const actionsToShowInAreas = {
   "table-cell": [IMAGE_ELEMENT_TYPE],
   "grid-cell": [IMAGE_ELEMENT_TYPE],
 };
-
-const toolbarOptions = createToolbarDefaultValues();
-const toolbarAreaFilters = createToolbarAreaOptions();
 
 // Plugins are checked from last to first
 interface Props {
@@ -183,8 +176,6 @@ const ContentField = ({ articleId, articleLanguage }: ContentFieldProps) => {
           plugins={editorPlugins}
           data-testid="learning-resource-content"
           onChange={debouncedOnChange}
-          toolbarOptions={toolbarOptions}
-          toolbarAreaFilters={toolbarAreaFilters}
           onInitialNormalized={onInitialNormalized}
           renderInvalidElement={(props) => <UnsupportedElement {...props} />}
         />

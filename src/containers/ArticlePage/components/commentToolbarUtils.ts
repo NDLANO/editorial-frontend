@@ -21,10 +21,6 @@ import { sectionRenderer } from "../../../components/SlateEditor/plugins/section
 import { spanPlugin } from "../../../components/SlateEditor/plugins/span";
 import { textTransformPlugin } from "../../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../../components/SlateEditor/plugins/toolbar";
-import {
-  createToolbarAreaOptions,
-  createToolbarDefaultValues,
-} from "../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import { paragraphPlugin } from "../../../components/SlateEditor/plugins/paragraph";
 import { breakPlugin } from "../../../components/SlateEditor/plugins/break";
 import { markPlugin } from "../../../components/SlateEditor/plugins/mark";
@@ -42,11 +38,25 @@ export const plugins: SlatePlugin[] = [
   spanPlugin,
   paragraphPlugin,
   divPlugin,
-  toolbarPlugin(),
+  toolbarPlugin.configure({
+    options: {
+      options: {
+        text: { hidden: true },
+        languages: { hidden: true },
+        block: { hidden: true, "bulleted-list": { hidden: false } },
+        inline: {
+          hidden: true,
+          "content-link": { hidden: false },
+        },
+      },
+    },
+  }),
   textTransformPlugin,
   breakPlugin,
   saveHotkeyPlugin,
-  markPlugin,
+  markPlugin.configure({
+    options: { supportedMarks: { value: ["bold", "italic"], override: true } },
+  }),
   noopPlugin,
   contentLinkPlugin,
   linkPlugin,
@@ -63,28 +73,3 @@ export const plugins: SlatePlugin[] = [
   divRenderer,
   unsupportedElementRenderer,
 ];
-
-export const toolbarOptions = createToolbarDefaultValues({
-  text: {
-    hidden: true,
-  },
-  languages: { hidden: true },
-  mark: {
-    code: {
-      hidden: true,
-    },
-    italic: { hidden: false },
-    sup: { hidden: true },
-    sub: { hidden: true },
-  },
-
-  block: { hidden: true, "bulleted-list": { hidden: false } },
-  inline: {
-    hidden: true,
-    "content-link": {
-      hidden: false,
-    },
-  },
-});
-
-export const toolbarAreaFilters = createToolbarAreaOptions();

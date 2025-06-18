@@ -7,11 +7,11 @@
  */
 
 import queryString from "query-string";
-import config from "../../config";
-import { fetchNrkMedia } from "../../modules/video/nrkApi";
-import { urlAsATag } from "../../util/htmlHelpers";
+import { urlAsATag } from "../../../../util/htmlHelpers";
+import { fetchNrkMedia } from "../../../../modules/video/nrkApi";
+import config from "../../../../config";
 
-export interface UrlTransformer {
+interface UrlTransformer {
   domains: string[];
   shouldTransform: (url: string, domains: string[]) => boolean;
   transform: (url: string) => Promise<string>;

@@ -14,7 +14,7 @@ import { Descendant } from "slate";
 import { Button, FieldRoot, FieldTextArea } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { uuid } from "@ndla/util";
-import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUtils";
+import { plugins } from "./commentToolbarUtils";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { DIV_ELEMENT_TYPE } from "../../../components/SlateEditor/plugins/div/types";
 import { TYPE_PARAGRAPH } from "../../../components/SlateEditor/plugins/paragraph/types";
@@ -143,8 +143,6 @@ const InputComment = ({ isSubmitting, arrayHelpers }: Props) => {
             submitted={isSubmitting}
             plugins={plugins}
             onChange={setInputValue}
-            toolbarOptions={toolbarOptions}
-            toolbarAreaFilters={toolbarAreaFilters}
             data-comment=""
             receiveInitialFocus
             noArticleStyling

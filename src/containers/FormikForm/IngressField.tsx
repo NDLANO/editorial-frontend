@@ -33,10 +33,7 @@ import { spanPlugin } from "../../components/SlateEditor/plugins/span";
 import { spanRenderer } from "../../components/SlateEditor/plugins/span/render";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../components/SlateEditor/plugins/toolbar";
-import {
-  createToolbarAreaOptions,
-  createToolbarDefaultValues,
-} from "../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { createToolbarDefaultValues } from "../../components/SlateEditor/plugins/toolbar/toolbarState";
 import { UnsupportedElement } from "../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
 import { unsupportedElementRenderer } from "../../components/SlateEditor/plugins/unsupported/unsupportedElementRenderer";
 import { unsupportedPlugin } from "../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
@@ -54,11 +51,6 @@ interface Props {
 const toolbarOptions = createToolbarDefaultValues({
   text: {
     hidden: true,
-  },
-  mark: {
-    code: {
-      hidden: true,
-    },
   },
   block: { hidden: true },
   inline: {
@@ -87,17 +79,19 @@ const MetaWrapper = styled("div", {
   },
 });
 
-const toolbarAreaFilters = createToolbarAreaOptions();
-
 const ingressPlugins: SlatePlugin[] = [
   inlineNavigationPlugin,
   spanPlugin,
   paragraphPlugin,
-  toolbarPlugin(toolbarOptions, toolbarAreaFilters),
+  toolbarPlugin.configure({ options: { options: toolbarOptions } }),
   textTransformPlugin,
   breakPlugin,
   saveHotkeyPlugin,
-  markPlugin,
+  markPlugin.configure({
+    options: {
+      supportedMarks: { value: ["bold", "italic", "sup", "sub"], override: true },
+    },
+  }),
   noopPlugin,
   commentInlinePlugin,
   unsupportedPlugin,
@@ -136,8 +130,6 @@ const IngressField = ({ name = "introduction", maxLength = 300, placeholder }: P
         submitted={isSubmitting}
         plugins={plugins}
         onChange={debouncedOnChange}
-        toolbarOptions={toolbarOptions}
-        toolbarAreaFilters={toolbarAreaFilters}
         renderInvalidElement={(props) => <UnsupportedElement {...props} />}
       />
       <MetaWrapper>

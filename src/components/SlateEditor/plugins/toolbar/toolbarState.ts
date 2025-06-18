@@ -10,7 +10,7 @@ import { merge } from "lodash-es";
 import { Editor, Element, Node, Path, Range, Selection } from "slate";
 import { ElementType } from "../../interfaces";
 import { SYMBOL_ELEMENT_TYPE } from "../symbol/types";
-import { PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
+import { MarkType, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { SPAN_ELEMENT_TYPE } from "../span/types";
 
 export const languages = [
@@ -33,7 +33,6 @@ export const languages = [
 ] as const;
 
 export type TextType = "normal-text" | "heading-2" | "heading-3" | "heading-4";
-export type MarkType = "bold" | "italic" | "code" | "sub" | "sup";
 export type BlockType = "quote" | "definition-list" | "numbered-list" | "bulleted-list" | "letter-list";
 export type InlineType =
   | "content-link"
@@ -69,7 +68,7 @@ export type OptionsType = {
   [Property in ToolbarCategories]: Record<ToolbarMap[Property], ToolbarValue<ToolbarMap[Property]>>;
 };
 
-interface ToolbarOption {
+export interface ToolbarOption {
   disabled?: boolean;
   hidden?: boolean;
 }
@@ -95,6 +94,7 @@ export const allOptions: OptionsType = {
     code: { value: "code" },
     sub: { value: "sub" },
     sup: { value: "sup" },
+    underlined: { value: "underlined" },
   },
   block: {
     quote: { value: "quote" },

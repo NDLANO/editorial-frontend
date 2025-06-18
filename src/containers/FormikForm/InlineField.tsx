@@ -65,11 +65,6 @@ const defaultToolbarOptions = createToolbarDefaultValues({
   text: {
     hidden: true,
   },
-  mark: {
-    code: {
-      hidden: true,
-    },
-  },
   block: { hidden: true },
   inline: {
     hidden: true,
@@ -91,18 +86,22 @@ export const InlineField = ({
   toolbarAreaFilters: toolbarAreaFiltersProp,
   ...rest
 }: Props) => {
-  const { toolbarOptions, toolbarAreaFilters, plugins } = useMemo(() => {
+  const plugins = useMemo(() => {
     const toolbarOptions = merge({}, defaultToolbarOptions, toolbarOptionsProp);
     const toolbarAreaFilters = createToolbarAreaOptions(toolbarAreaFiltersProp);
 
     const inlinePlugins: SlatePlugin[] = [
       spanPlugin,
       paragraphPlugin,
-      toolbarPlugin(toolbarOptions, toolbarAreaFilters),
+      toolbarPlugin.configure({ options: { options: toolbarOptions, areaOptions: toolbarAreaFilters } }),
       textTransformPlugin,
       breakPlugin,
       saveHotkeyPlugin,
-      markPlugin,
+      markPlugin.configure({
+        options: {
+          supportedMarks: { value: ["bold", "italic", "sup", "sub"], override: true },
+        },
+      }),
       inlineNoopPlugin,
       linkPlugin,
       contentLinkPlugin,
@@ -110,7 +109,7 @@ export const InlineField = ({
       pastePlugin,
     ];
 
-    return { toolbarOptions, toolbarAreaFilters, plugins: inlinePlugins.concat(renderers) };
+    return inlinePlugins.concat(renderers);
   }, [toolbarOptionsProp, toolbarAreaFiltersProp]);
 
   return (
@@ -121,8 +120,6 @@ export const InlineField = ({
         {...rest}
         hideBlockPicker
         plugins={plugins}
-        toolbarOptions={toolbarOptions}
-        toolbarAreaFilters={toolbarAreaFilters}
         renderInvalidElement={(props) => <UnsupportedElement {...props} />}
         renderPlaceholder={(placeholder) => (
           <StyledText {...placeholder.attributes} textStyle="body.article" asChild consumeCss>

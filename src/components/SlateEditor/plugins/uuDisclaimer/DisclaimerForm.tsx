@@ -13,7 +13,7 @@ import { Descendant } from "slate";
 import { Button, DialogBody } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { UuDisclaimerEmbedData } from "@ndla/types-embed";
-import { DISCLAIMER_TEMPLATES_URL, DisclaimerField, toolbarAreaFilters } from "./DisclaimerField";
+import { DISCLAIMER_TEMPLATES_URL, DisclaimerField } from "./DisclaimerField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -40,11 +40,6 @@ const toolbarOptions = createToolbarDefaultValues({
   text: {
     hidden: true,
   },
-  mark: {
-    code: {
-      hidden: true,
-    },
-  },
   block: { hidden: true },
   inline: {
     hidden: true,
@@ -54,11 +49,15 @@ const toolbarOptions = createToolbarDefaultValues({
 export const disclaimerPlugins: SlatePlugin[] = [
   spanPlugin,
   paragraphPlugin,
-  toolbarPlugin(toolbarOptions, toolbarAreaFilters),
+  toolbarPlugin.configure({ options: { options: toolbarOptions } }),
   textTransformPlugin,
   breakPlugin,
   saveHotkeyPlugin,
-  markPlugin,
+  markPlugin.configure({
+    options: {
+      supportedMarks: { value: ["bold", "italic", "sup", "sub"], override: true },
+    },
+  }),
   noopPlugin,
   unsupportedPlugin,
   pastePlugin,
@@ -133,7 +132,6 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
                   <SafeLink to={DISCLAIMER_TEMPLATES_URL} target="_blank" />
                 </Trans>
               }
-              toolbarOptions={toolbarOptions}
               plugins={plugins}
             />
             <FormActionsContainer>

@@ -67,6 +67,7 @@ import {
   DefinitionTermElement,
 } from "./plugins/definitionList/definitionListTypes";
 import { UnsupportedElement } from "./plugins/unsupported/types";
+import { AreaFilters, CategoryFilters, ToolbarType } from "./plugins/toolbar/toolbarState";
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -81,6 +82,7 @@ export interface CustomEditor extends _CustomEditor {
   shouldShowToolbar?: () => boolean;
   shouldHideBlockPicker?: () => boolean | undefined;
   isDragDisabled?: (element: Element) => boolean | undefined;
+  toolbarState?: (opts: { options?: CategoryFilters; areaOptions?: AreaFilters }) => ToolbarType;
 }
 
 type CustomElement =

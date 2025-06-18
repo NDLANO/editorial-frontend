@@ -39,10 +39,6 @@ import { KEY_FIGURE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plug
 import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/linkBlockList/types";
 import { PITCH_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/pitch/types";
 import { TABLE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/table/types";
-import {
-  createToolbarAreaOptions,
-  createToolbarDefaultValues,
-} from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import { UNSUPPORTED_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/unsupported/types";
 import { UnsupportedElement } from "../../../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
 import { DISCLAIMER_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/uuDisclaimer/types";
@@ -92,9 +88,6 @@ const actionsToShowInAreas = {
   section: actions,
   "grid-cell": [IMAGE_ELEMENT_TYPE, KEY_FIGURE_ELEMENT_TYPE, PITCH_ELEMENT_TYPE],
 };
-
-const toolbarOptions = createToolbarDefaultValues();
-const toolbarAreaFilters = createToolbarAreaOptions();
 
 interface Props {
   articleLanguage: string;
@@ -182,8 +175,6 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
           <RichTextEditor
             language={articleLanguage}
             actions={frontpageActions}
-            toolbarOptions={toolbarOptions}
-            toolbarAreaFilters={toolbarAreaFilters}
             blockpickerOptions={{
               actionsToShowInAreas,
             }}

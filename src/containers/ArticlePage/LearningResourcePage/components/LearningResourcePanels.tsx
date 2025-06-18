@@ -45,7 +45,6 @@ import { unsupportedPlugin } from "../../../../components/SlateEditor/plugins/un
 import {
   DISCLAIMER_TEMPLATES_URL,
   DisclaimerField,
-  toolbarAreaFilters,
 } from "../../../../components/SlateEditor/plugins/uuDisclaimer/DisclaimerField";
 import config from "../../../../config";
 import { STORED_HIDE_COMMENTS, TAXONOMY_WRITE_SCOPE } from "../../../../constants";
@@ -64,11 +63,6 @@ const toolbarOptions = createToolbarDefaultValues({
   text: {
     hidden: true,
   },
-  mark: {
-    code: {
-      hidden: true,
-    },
-  },
   block: { hidden: true },
   inline: {
     hidden: true,
@@ -80,11 +74,15 @@ export const disclaimerPlugins: SlatePlugin[] = [
   inlineNavigationPlugin,
   spanPlugin,
   paragraphPlugin,
-  toolbarPlugin(toolbarOptions, toolbarAreaFilters),
+  toolbarPlugin.configure({ options: { options: toolbarOptions } }),
   textTransformPlugin,
   breakPlugin,
   saveHotkeyPlugin,
-  markPlugin,
+  markPlugin.configure({
+    options: {
+      supportedMarks: { value: ["bold", "italic", "sub", "sup"], override: true },
+    },
+  }),
   noopPlugin,
   linkPlugin,
   contentLinkPlugin,
@@ -273,7 +271,6 @@ const LearningResourcePanels = ({
                 </Trans>
               }
               plugins={plugins}
-              toolbarOptions={toolbarOptions}
             />
           </FormAccordion>
           {config.ndlaEnvironment === "test" && (

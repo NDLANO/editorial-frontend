@@ -24,7 +24,6 @@ import SlateBlockPicker from "./plugins/blockPicker/SlateBlockPicker";
 import { nativeOnDragOver, nativeOnDragStart, nativeOnDrop } from "./plugins/DND/nativeDnd";
 import { SlateDndContext } from "./plugins/DND/SlateDndContext";
 import { SlateToolbar } from "./plugins/toolbar";
-import { AreaFilters, CategoryFilters } from "./plugins/toolbar/toolbarState";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 
 const StyledSlateWrapper = styled("div", {
@@ -47,8 +46,6 @@ export interface RichTextEditorProps extends Omit<EditableProps, "value" | "onCh
   language?: string;
   actions?: Action[];
   blockpickerOptions?: Partial<BlockPickerOptions>;
-  toolbarOptions: CategoryFilters;
-  toolbarAreaFilters: AreaFilters;
   hideBlockPicker?: boolean;
   testId?: string;
   hideToolbar?: boolean;
@@ -69,8 +66,6 @@ const RichTextEditor = ({
   language,
   testId = "slate-editor",
   blockpickerOptions = {},
-  toolbarOptions,
-  toolbarAreaFilters,
   hideBlockPicker,
   hideToolbar,
   receiveInitialFocus,
@@ -188,7 +183,7 @@ const RichTextEditor = ({
       <ArticleLanguageProvider language={language}>
         <StyledSlateWrapper data-testid={testId} data-slate-wrapper="">
           <Slate editor={editor} initialValue={editor.children} onChange={onChange}>
-            <SlateToolbar options={toolbarOptions} areaOptions={toolbarAreaFilters} hideToolbar={hideToolbar} />
+            <SlateToolbar hideToolbar={hideToolbar} />
             {!hideBlockPicker && (
               <SlateBlockPicker
                 actions={actions}

@@ -24,6 +24,9 @@ const getContextTypes = (resourceType: string[] | undefined, contextTypes: strin
   if (resourceType?.includes("concept")) {
     return { contextTypes: ["concept"], resourceTypes: [] };
   }
+  if (resourceType?.includes("learningpath")) {
+    return { contextTypes: ["learningpath"], resourceTypes: [] };
+  }
 
   return { contextTypes };
 };

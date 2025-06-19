@@ -218,7 +218,6 @@ export const flattenedResourceTypes = [
     typeId: "urn:resourcetype:reviewResource",
     typeName: "Vurderingsressurs",
   },
-  { id: "urn:resourcetype:learningPath", name: "Læringssti" },
   {
     id: "urn:resourcetype:featureFilm",
     name: "Spillefilm",
@@ -255,6 +254,7 @@ export const flattenedResourceTypes = [
     typeId: "urn:resourcetype:concept",
     typeName: "Forklaring",
   },
+  { id: "learningpath", name: "Læringssti" },
   { id: "topic-article", name: "Emne" },
   { id: "frontpage-article", name: "Forsideartikkel" },
   { id: "concept", name: "Forklaring" },

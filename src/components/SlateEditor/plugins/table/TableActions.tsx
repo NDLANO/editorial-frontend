@@ -6,10 +6,10 @@
  *
  */
 
-import { MouseEvent, ReactNode } from "react";
+import { MouseEvent, ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Range } from "slate";
-import { ReactEditor } from "slate-react";
+import { ReactEditor, useSlateSelection } from "slate-react";
 import { SubtractLine, AddLine, AlignCenter, AlignLeft, AlignRight } from "@ndla/icons";
 import { Button, IconButton, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -142,9 +142,12 @@ const TableActions = ({ editor, element }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
 
-  const tablePath = ReactEditor.findPath(editor, element);
+  const tablePath = useMemo(() => ReactEditor.findPath(editor, element), [editor, element]);
+  const selection = useSlateSelection();
+
   const [table] = Editor.node(editor, tablePath);
   const captionEntry = getCurrentBlock(editor, TABLE_CAPTION_ELEMENT_TYPE);
+  const show = Range.isRange(selection) && Range.includes(selection, tablePath) && ReactEditor.isFocused(editor);
 
   if (!isTableElement(table) || captionEntry) {
     return null;
@@ -196,10 +199,6 @@ const TableActions = ({ editor, element }: Props) => {
 
   const showAddHeader = selectedPath && !hasTableHead;
   const showEditColgroups = userPermissions?.includes(DRAFT_HTML_SCOPE);
-  const show =
-    Range.isRange(editor.selection) &&
-    Range.includes(editor.selection, ReactEditor.findPath(editor, element)) &&
-    ReactEditor.isFocused(editor);
 
   return (
     <StyledWrapper contentEditable={false} hidden={!show}>

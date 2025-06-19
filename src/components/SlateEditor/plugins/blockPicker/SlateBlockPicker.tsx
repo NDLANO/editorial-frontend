@@ -10,7 +10,7 @@ import { TFunction } from "i18next";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Node, Range, Path, Transforms } from "slate";
-import { ReactEditor, useSlateSelector, useSlateStatic } from "slate-react";
+import { ReactEditor, useSlateSelection, useSlateSelector, useSlateStatic } from "slate-react";
 import { PopoverOpenChangeDetails, Portal } from "@ark-ui/react";
 import { isElementOfType, isParagraphElement } from "@ndla/editor";
 import { AddLine, ExternalLinkLine } from "@ndla/icons";
@@ -270,6 +270,7 @@ const SlateBlockPicker = ({
   actions,
 }: Props) => {
   const editor = useSlateStatic();
+  const selection = useSlateSelection();
   const [blockPickerOpen, setBlockPickerOpen] = useState(false);
   const [actionsForArea, setActionsForArea] = useState<Action[]>([]);
   const portalRef = useRef<HTMLButtonElement | null>(null);
@@ -320,7 +321,7 @@ const SlateBlockPicker = ({
     } else {
       el.hidden = true;
     }
-  }, [editor, shouldShowBlockPicker]);
+  }, [editor, shouldShowBlockPicker, selection]);
 
   const onOpenChange = useCallback(
     (details: PopoverOpenChangeDetails) => {

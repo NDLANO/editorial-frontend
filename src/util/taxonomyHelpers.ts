@@ -10,6 +10,7 @@ import { groupBy, merge, sortBy, uniqBy } from "lodash-es";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import { getContentTypeFromResourceTypes } from "./resourceHelpers";
 import { ResourceWithNodeConnectionAndMeta } from "../containers/StructurePage/resourceComponents/StructureResources";
+import { RESOURCE_TYPE_LEARNING_PATH } from "../constants";
 import { FlattenedResourceType } from "../interfaces";
 import { NodeChildWithChildren } from "../modules/nodes/nodeQueries";
 
@@ -33,13 +34,14 @@ const flattenResourceTypesAndAddContextTypes = (data: ResourceType[] = [], t: (k
           id: subtype.id,
         }),
       );
-    } else {
+    } else if (type.id !== RESOURCE_TYPE_LEARNING_PATH) {
       resourceTypes.push({
         name: type.name,
         id: type.id,
       });
     }
   });
+  resourceTypes.push({ name: t("contextTypes.learningpath"), id: "learningpath" });
   resourceTypes.push({ name: t("contextTypes.topic"), id: "topic-article" });
   resourceTypes.push({
     name: t("contextTypes.frontpage"),

@@ -1935,6 +1935,7 @@ const phrases = {
     frontpage: "About-NDLA article",
     concept: "Concept",
     gloss: "Gloss",
+    learningpath: "Learningpath",
   },
   ndlaFilm: {
     editor: {

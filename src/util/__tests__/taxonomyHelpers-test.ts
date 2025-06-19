@@ -16,6 +16,7 @@ test("taxonomy/flattenResourceTypesAndAddContextTypes flattening", () => {
     "contextTypes.frontpage": "Forsideartikkel",
     "contextTypes.concept": "Forklaring",
     "contextTypes.gloss": "Glose",
+    "contextTypes.learningpath": "Læringssti",
   };
   const t = (key: string) => types[key];
   expect(flattenResourceTypesAndAddContextTypes(resourceTypesMock as ResourceType[], t)).toEqual(

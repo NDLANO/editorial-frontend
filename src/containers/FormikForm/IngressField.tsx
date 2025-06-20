@@ -27,15 +27,16 @@ import { noopPlugin } from "../../components/SlateEditor/plugins/noop";
 import { noopRenderer } from "../../components/SlateEditor/plugins/noop/render";
 import { paragraphPlugin } from "../../components/SlateEditor/plugins/paragraph";
 import { paragraphRenderer } from "../../components/SlateEditor/plugins/paragraph/render";
+import { pastePlugin } from "../../components/SlateEditor/plugins/paste";
 import saveHotkeyPlugin from "../../components/SlateEditor/plugins/saveHotkey";
 import { spanPlugin } from "../../components/SlateEditor/plugins/span";
 import { spanRenderer } from "../../components/SlateEditor/plugins/span/render";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../components/SlateEditor/plugins/toolbar";
-import {
-  createToolbarAreaOptions,
-  createToolbarDefaultValues,
-} from "../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { createToolbarDefaultValues } from "../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { UnsupportedElement } from "../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
+import { unsupportedElementRenderer } from "../../components/SlateEditor/plugins/unsupported/unsupportedElementRenderer";
+import { unsupportedPlugin } from "../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
 import RichTextEditor from "../../components/SlateEditor/RichTextEditor";
 import { SAVE_DEBOUNCE_MS } from "../../constants";
 import { useDebouncedCallback } from "../../util/useDebouncedCallback";
@@ -50,11 +51,6 @@ interface Props {
 const toolbarOptions = createToolbarDefaultValues({
   text: {
     hidden: true,
-  },
-  mark: {
-    code: {
-      hidden: true,
-    },
   },
   block: { hidden: true },
   inline: {
@@ -83,19 +79,23 @@ const MetaWrapper = styled("div", {
   },
 });
 
-const toolbarAreaFilters = createToolbarAreaOptions();
-
 const ingressPlugins: SlatePlugin[] = [
   inlineNavigationPlugin,
   spanPlugin,
   paragraphPlugin,
-  toolbarPlugin(toolbarOptions, toolbarAreaFilters),
+  toolbarPlugin.configure({ options: { options: toolbarOptions } }),
   textTransformPlugin,
   breakPlugin,
   saveHotkeyPlugin,
-  markPlugin,
+  markPlugin.configure({
+    options: {
+      supportedMarks: { value: ["bold", "italic", "sup", "sub"], override: true },
+    },
+  }),
   noopPlugin,
   commentInlinePlugin,
+  unsupportedPlugin,
+  pastePlugin,
 ];
 
 const ingressRenderers: SlatePlugin[] = [
@@ -105,6 +105,7 @@ const ingressRenderers: SlatePlugin[] = [
   breakRenderer,
   spanRenderer,
   commentInlineRenderer,
+  unsupportedElementRenderer,
 ];
 
 const plugins = ingressPlugins.concat(ingressRenderers);
@@ -129,8 +130,7 @@ const IngressField = ({ name = "introduction", maxLength = 300, placeholder }: P
         submitted={isSubmitting}
         plugins={plugins}
         onChange={debouncedOnChange}
-        toolbarOptions={toolbarOptions}
-        toolbarAreaFilters={toolbarAreaFilters}
+        renderInvalidElement={(props) => <UnsupportedElement {...props} />}
       />
       <MetaWrapper>
         <FieldErrorMessage>{meta.error}</FieldErrorMessage>

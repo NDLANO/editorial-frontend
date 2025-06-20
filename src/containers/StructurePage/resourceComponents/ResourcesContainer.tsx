@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
+import { scrollElementId } from "./isVisibleHook";
 import ResourceItems from "./ResourceItems";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import TopicResourceBanner from "./TopicResourceBanner";
@@ -34,11 +35,8 @@ interface Props {
   currentNode: NodeChild;
   contentMeta: Dictionary<NodeResourceMeta>;
   grouped: boolean;
-  setCurrentNode: (changedNode: NodeChild) => void;
   nodeResourcesIsPending: boolean;
-  showQuality: boolean;
   users: Dictionary<Auth0UserData> | undefined;
-  showMatomoStats: boolean;
 }
 
 const ResourcesContainer = ({
@@ -47,11 +45,8 @@ const ResourcesContainer = ({
   currentNode,
   contentMeta,
   grouped,
-  setCurrentNode,
   nodeResourcesIsPending,
-  showQuality,
   users,
-  showMatomoStats,
 }: Props) => {
   const { t } = useTranslation();
   const resourceTypesWithoutMissing = useMemo(
@@ -91,7 +86,6 @@ const ResourcesContainer = ({
       <TopicResourceBanner
         resources={nodeResourcesWithMeta}
         contentMeta={contentMeta}
-        onCurrentNodeChanged={setCurrentNode}
         resourceTypes={resourceTypesWithoutMissing}
         currentNode={{
           ...currentNode,
@@ -103,10 +97,8 @@ const ResourcesContainer = ({
         nodeResourcesIsPending={nodeResourcesIsPending}
         responsible={currentMeta?.responsible ? users?.[currentMeta.responsible.responsibleId]?.name : undefined}
         topicNodes={data}
-        showQuality={showQuality}
-        showMatomoStats={showMatomoStats}
       />
-      <ResourceWrapper>
+      <ResourceWrapper id={scrollElementId}>
         {nodeResourcesIsPending ? (
           <Spinner aria-label={t("loading")} />
         ) : grouped ? (
@@ -118,8 +110,6 @@ const ResourcesContainer = ({
               contentMeta={contentMeta}
               nodeResourcesIsPending={nodeResourcesIsPending}
               users={users}
-              showQuality={showQuality}
-              showMatomoStats={showMatomoStats}
             />
           ))
         ) : (
@@ -129,8 +119,6 @@ const ResourcesContainer = ({
             contentMeta={contentMeta}
             nodeResourcesIsPending={nodeResourcesIsPending}
             users={users}
-            showQuality={showQuality}
-            showMatomoStats={showMatomoStats}
           />
         )}
       </ResourceWrapper>

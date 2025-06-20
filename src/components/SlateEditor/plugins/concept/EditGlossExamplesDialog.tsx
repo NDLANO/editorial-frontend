@@ -23,9 +23,9 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { IConceptDTO, IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { ConceptMetaData } from "@ndla/types-embed";
-import { ConceptBlockElement } from "./block/interfaces";
+import { ConceptBlockElement } from "./block/types";
 import EditGlossExamplesDialogContent from "./EditGlossExamplesDialogContent";
-import { ConceptInlineElement } from "./inline/interfaces";
+import { ConceptInlineElement } from "./inline/types";
 import { getGlossDataAttributes } from "./utils";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { useIsNewArticleLanguage } from "../../IsNewArticleLanguageProvider";

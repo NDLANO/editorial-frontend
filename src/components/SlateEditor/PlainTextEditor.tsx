@@ -7,7 +7,7 @@
  */
 
 import { FormikHandlers, useFormikContext } from "formik";
-import { useEffect, useCallback, useState, forwardRef, Ref } from "react";
+import { useEffect, useCallback, useState, Ref } from "react";
 import { Descendant } from "slate";
 import { Slate, Editable, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
@@ -39,6 +39,7 @@ const StyledPlaceholder = styled("div", {
 });
 
 interface Props extends Omit<EditableProps & JsxStyleProps, "value"> {
+  ref?: Ref<HTMLDivElement>;
   id: string;
   value: Descendant[];
   onChange: FormikHandlers["handleChange"];
@@ -46,65 +47,73 @@ interface Props extends Omit<EditableProps & JsxStyleProps, "value"> {
   className?: string;
   placeholder?: string;
   plugins?: SlatePlugin[];
+  editorId?: string;
 }
 
 // TODO: Find a way to properly integrate this with `Field`
 
-const PlainTextEditor = forwardRef<HTMLTextAreaElement, Props>(
-  ({ onChange, value, id, submitted, className, placeholder, plugins, ...rest }, ref) => {
-    const [editor] = useState(() => createSlate({ plugins }));
+const PlainTextEditor = ({
+  onChange,
+  value,
+  id,
+  submitted,
+  className,
+  placeholder,
+  plugins,
+  editorId,
+  ...rest
+}: Props) => {
+  const [editor] = useState(() => createSlate({ plugins }));
 
-    const onBlur = useCallback(() => {
+  const onBlur = useCallback(() => {
+    ReactEditor.deselect(editor);
+  }, [editor]);
+
+  const onSlateChange = useCallback(
+    (val: Descendant[]) =>
+      onChange({
+        target: {
+          name: id,
+          value: val,
+          type: "SlateEditorValue",
+        },
+      }),
+    [id, onChange],
+  );
+
+  const { status, setStatus } = useFormikContext<ArticleFormType>();
+
+  useEffect(() => {
+    // TODO: Add better logic for refreshing editors when values are changed/set outside of editor scope
+    if (status?.status === "revertVersion" || (editorId && status?.status === editorId)) {
       ReactEditor.deselect(editor);
-    }, [editor]);
+      editor.reinitialize({ value });
+      setStatus((prevStatus: FormikStatus) => ({
+        ...prevStatus,
+        status: undefined,
+      }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status]);
 
-    const onSlateChange = useCallback(
-      (val: Descendant[]) =>
-        onChange({
-          target: {
-            name: id,
-            value: val,
-            type: "SlateEditorValue",
-          },
-        }),
-      [id, onChange],
-    );
-
-    const { status, setStatus } = useFormikContext<ArticleFormType>();
-
-    useEffect(() => {
-      if (status?.status === "revertVersion") {
-        ReactEditor.deselect(editor);
-        editor.children = value;
-        setStatus((prevStatus: FormikStatus) => ({
-          ...prevStatus,
-          status: undefined,
-        }));
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [status]);
-
-    return (
-      <Slate editor={editor} initialValue={value} onChange={onSlateChange}>
-        <StyledEditable
-          // Forcing slate field to be deselected before selecting new field.
-          // Fixes a problem where slate field is not properly focused on click.
-          onBlur={onBlur}
-          onKeyDown={editor.onKeyDown}
-          className={className}
-          placeholder={placeholder}
-          renderPlaceholder={({ children, attributes }) => {
-            // Remove inline styling to be able to apply styling from StyledPlaceholder
-            const { style, ...remainingAttributes } = attributes;
-            return <StyledPlaceholder {...remainingAttributes}>{children}</StyledPlaceholder>;
-          }}
-          {...rest}
-          // Weird typescript error. Let's just ignore it
-          ref={ref as Ref<never>}
-        />
-      </Slate>
-    );
-  },
-);
+  return (
+    <Slate editor={editor} initialValue={value} onChange={onSlateChange}>
+      <StyledEditable
+        // Forcing slate field to be deselected before selecting new field.
+        // Fixes a problem where slate field is not properly focused on click.
+        onBlur={onBlur}
+        onKeyDown={editor.onKeyDown}
+        className={className}
+        placeholder={placeholder}
+        renderPlaceholder={({ children, attributes }) => {
+          // Remove inline styling to be able to apply styling from StyledPlaceholder
+          const { style, ...remainingAttributes } = attributes;
+          return <StyledPlaceholder {...remainingAttributes}>{children}</StyledPlaceholder>;
+        }}
+        {...rest}
+      />
+    </Slate>
+  );
+};
 
 export default PlainTextEditor;

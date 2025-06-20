@@ -6,14 +6,15 @@
  *
  */
 
-import { Descendant, Editor } from "slate";
+import { Descendant } from "slate";
 import { createSlate } from "@ndla/editor";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 import { TYPE_HEADING } from "../../heading/types";
-import { TYPE_LINK } from "../../link/types";
+import { LINK_ELEMENT_TYPE } from "../../link/types";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContentTypes";
+import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
 
@@ -42,28 +43,31 @@ describe("framedContent normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: TYPE_SECTION,
+        id: anySlateElementId,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: FRAMED_CONTENT_ELEMENT_TYPE,
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
+            id: anySlateElementId,
+            children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "content" }] }],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: FRAMED_CONTENT_ELEMENT_TYPE,
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
+            id: anySlateElementId,
+            children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "content" }] }],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: FRAMED_CONTENT_ELEMENT_TYPE,
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
+            id: anySlateElementId,
+            children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "content" }] }],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
 
@@ -83,18 +87,19 @@ describe("framedContent normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: TYPE_SECTION,
+        id: anySlateElementId,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: FRAMED_CONTENT_ELEMENT_TYPE,
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "" }] }],
+            id: anySlateElementId,
+            children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] }],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
 
@@ -114,21 +119,22 @@ describe("framedContent normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: TYPE_SECTION,
+        id: anySlateElementId,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: FRAMED_CONTENT_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [
-              { type: TYPE_HEADING, level: 1, children: [{ text: "content" }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+              { type: TYPE_HEADING, id: anySlateElementId, level: 1, children: [{ text: "content" }] },
+              { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
 
@@ -141,7 +147,7 @@ describe("framedContent normalizer tests", () => {
             type: FRAMED_CONTENT_ELEMENT_TYPE,
             children: [
               {
-                type: TYPE_LINK,
+                type: LINK_ELEMENT_TYPE,
                 data: {
                   href: "testurl",
                 },
@@ -156,18 +162,19 @@ describe("framedContent normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: TYPE_SECTION,
+        id: anySlateElementId,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: FRAMED_CONTENT_ELEMENT_TYPE,
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
+            id: anySlateElementId,
+            children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "content" }] }],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
 });

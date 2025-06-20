@@ -6,12 +6,13 @@
  *
  */
 
-import { Descendant, Editor } from "slate";
+import { Descendant } from "slate";
 import { createSlate, HEADING_ELEMENT_TYPE, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 import { SPAN_ELEMENT_TYPE } from "../../span/types";
 import { DETAILS_ELEMENT_TYPE } from "../detailsTypes";
 import { SUMMARY_ELEMENT_TYPE } from "../summaryTypes";
+import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
 
@@ -49,37 +50,40 @@ describe("details normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
+        id: anySlateElementId,
         children: [
-          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: DETAILS_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [
-              { type: SUMMARY_ELEMENT_TYPE, children: [{ text: "title" }] },
-              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] },
+              { type: SUMMARY_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "title" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "content" }] },
             ],
           },
-          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: DETAILS_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [
-              { type: SUMMARY_ELEMENT_TYPE, children: [{ text: "title" }] },
-              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] },
+              { type: SUMMARY_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "title" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "content" }] },
             ],
           },
-          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: DETAILS_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [
-              { type: SUMMARY_ELEMENT_TYPE, children: [{ text: "title" }] },
-              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] },
+              { type: SUMMARY_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "title" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "content" }] },
             ],
           },
-          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
 
@@ -101,24 +105,33 @@ describe("details normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
+        id: anySlateElementId,
         children: [
-          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: DETAILS_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [
               {
                 type: SUMMARY_ELEMENT_TYPE,
-                children: [{ type: PARAGRAPH_ELEMENT_TYPE, serializeAsText: true, children: [{ text: "" }] }],
+                id: anySlateElementId,
+                children: [
+                  {
+                    type: PARAGRAPH_ELEMENT_TYPE,
+                    id: anySlateElementId,
+                    serializeAsText: true,
+                    children: [{ text: "" }],
+                  },
+                ],
               },
-              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
             ],
           },
-          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
 
@@ -140,21 +153,22 @@ describe("details normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
+        id: anySlateElementId,
         children: [
-          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: DETAILS_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [
-              { type: SUMMARY_ELEMENT_TYPE, children: [{ text: "title" }] },
-              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
+              { type: SUMMARY_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "title" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
             ],
           },
-          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
 
@@ -179,21 +193,22 @@ describe("details normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
+        id: anySlateElementId,
         children: [
-          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: DETAILS_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [
-              { type: SUMMARY_ELEMENT_TYPE, children: [{ text: "title" }] },
-              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "wrong" }] },
+              { type: SUMMARY_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "title" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "wrong" }] },
             ],
           },
-          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
 
@@ -208,11 +223,11 @@ describe("details normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
-        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "title" }] }],
+        id: anySlateElementId,
+        children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "title" }] }],
       },
     ];
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
 
@@ -240,24 +255,28 @@ describe("details normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
+        id: anySlateElementId,
         children: [
-          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "upper" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "upper" }] },
           {
             type: DETAILS_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [
               {
                 type: SUMMARY_ELEMENT_TYPE,
-                children: [{ type: HEADING_ELEMENT_TYPE, level: 2, children: [{ text: "title" }] }],
+                id: anySlateElementId,
+                children: [
+                  { type: HEADING_ELEMENT_TYPE, id: anySlateElementId, level: 2, children: [{ text: "title" }] },
+                ],
               },
-              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "content" }] },
             ],
           },
-          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "lower" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "lower" }] },
         ],
       },
     ];
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
 
@@ -285,24 +304,33 @@ describe("details normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
+        id: anySlateElementId,
         children: [
-          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "upper" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "upper" }] },
           {
             type: DETAILS_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [
               {
                 type: SUMMARY_ELEMENT_TYPE,
-                children: [{ type: PARAGRAPH_ELEMENT_TYPE, serializeAsText: true, children: [{ text: "title" }] }],
+                id: anySlateElementId,
+                children: [
+                  {
+                    type: PARAGRAPH_ELEMENT_TYPE,
+                    id: anySlateElementId,
+                    serializeAsText: true,
+                    children: [{ text: "title" }],
+                  },
+                ],
               },
-              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "content" }] },
             ],
           },
-          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "lower" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "lower" }] },
         ],
       },
     ];
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
 
@@ -330,28 +358,30 @@ describe("details normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: SECTION_ELEMENT_TYPE,
+        id: anySlateElementId,
         children: [
-          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "upper" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "upper" }] },
           {
             type: DETAILS_ELEMENT_TYPE,
+            id: anySlateElementId,
             children: [
               {
                 type: SUMMARY_ELEMENT_TYPE,
+                id: anySlateElementId,
                 children: [
                   { text: "" },
                   { type: SPAN_ELEMENT_TYPE, data: {}, children: [{ text: "title" }] },
                   { text: "" },
                 ],
               },
-              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "content" }] },
             ],
           },
-          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "lower" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "lower" }] },
         ],
       },
     ];
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
 });

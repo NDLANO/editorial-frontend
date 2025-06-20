@@ -6,12 +6,18 @@
  *
  */
 
-import { Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_CONCEPT_BLOCK } from "./types";
-import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../../util/embedTagHelpers";
-import { SlateSerializer } from "../../../interfaces";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../../utils/defaultNormalizer";
+import {
+  createDataAttributes,
+  createHtmlTag,
+  createPlugin,
+  createSerializer,
+  defaultNormalizer,
+  NormalizerConfig,
+  parseElementAttributes,
+} from "@ndla/editor";
+import { isConceptBlockElement } from "./queries";
+import { CONCEPT_BLOCK_ELEMENT_TYPE, CONCEPT_BLOCK_PLUGIN } from "./types";
 import { afterOrBeforeTextBlockElement } from "../../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../../embed/types";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
@@ -27,15 +33,15 @@ const normalizerConfig: NormalizerConfig = {
   },
 };
 
-export const blockConceptSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement) {
+export const blockConceptSerializer = createSerializer({
+  deserialize(el) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embedAttributes = parseElementAttributes(Array.from(el.attributes));
     if (embedAttributes.resource === "concept" && embedAttributes.type === "block") {
       return slatejsx(
         "element",
         {
-          type: TYPE_CONCEPT_BLOCK,
+          type: CONCEPT_BLOCK_ELEMENT_TYPE,
           data: embedAttributes,
         },
         { text: "" },
@@ -43,32 +49,18 @@ export const blockConceptSerializer: SlateSerializer = {
     }
   },
   serialize(node) {
-    if (!Element.isElement(node) || node.type !== TYPE_CONCEPT_BLOCK) return;
+    if (!isConceptBlockElement(node)) return;
     const data = createDataAttributes(node.data);
     return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
   },
-};
+});
 
-export const blockConceptPlugin = (editor: Editor) => {
-  const { isVoid, normalizeNode } = editor;
-
-  editor.normalizeNode = (entry) => {
-    const [node, path] = entry;
-
-    if (Element.isElement(node) && node.type === TYPE_CONCEPT_BLOCK) {
-      if (defaultBlockNormalizer(editor, node, path, normalizerConfig)) {
-        return;
-      }
-    }
-    normalizeNode(entry);
-  };
-
-  editor.isVoid = (element) => {
-    if (element.type === TYPE_CONCEPT_BLOCK) {
-      return true;
-    }
-    return isVoid(element);
-  };
-
-  return editor;
-};
+export const blockConceptPlugin = createPlugin({
+  name: CONCEPT_BLOCK_PLUGIN,
+  type: CONCEPT_BLOCK_ELEMENT_TYPE,
+  isVoid: true,
+  normalize: (editor, node, path, logger) => {
+    if (!isConceptBlockElement(node)) return false;
+    return defaultNormalizer(editor, node, path, normalizerConfig, logger);
+  },
+});

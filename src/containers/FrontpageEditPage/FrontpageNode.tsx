@@ -9,7 +9,7 @@
 import { ArrayHelpers, FieldArray, useField } from "formik";
 import { CSSProperties, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AddLine, DeleteBinLine, ArrowRightShortLine, EyeFill } from "@ndla/icons";
+import { AddLine, DeleteBinLine, ArrowRightShortLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -75,14 +75,6 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
 
   const onRemove = useCallback(() => remove(index), [index, remove]);
 
-  const onHide = useCallback(() => {
-    const updatedExisting: MenuWithArticle = {
-      ...field.value,
-      hideLevel: !field.value.hideLevel,
-    };
-    replace(index, updatedExisting);
-  }, [field.value, index, replace]);
-
   const onAdd = useCallback(
     (val: IArticleSummaryV2DTO) => {
       const newMenu: MenuWithArticle = {
@@ -129,17 +121,6 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
           </SafeLink>
         </ContentWrapper>
         <ContentWrapper>
-          {level > 0 && (
-            <IconButton
-              aria-label={field.value.hideLevel ? t("frontpageForm.show") : t("frontpageForm.hide")}
-              title={field.value.hideLevel ? t("frontpageForm.show") : t("frontpageForm.hide")}
-              variant={field.value.hideLevel ? "primary" : "tertiary"}
-              size="small"
-              onClick={onHide}
-            >
-              <EyeFill />
-            </IconButton>
-          )}
           {!field.value.menu.length && (
             <IconButton
               aria-label={t("remove")}

@@ -8,12 +8,12 @@
 
 import { Editor } from "slate";
 import Footnote from "./Footnote";
-import { TYPE_FOOTNOTE } from "./types";
+import { FOOTNOTE_ELEMENT_TYPE } from "./types";
 
 export const footnoteRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ element, attributes, children }) => {
-    if (element.type === TYPE_FOOTNOTE) {
+    if (element.type === FOOTNOTE_ELEMENT_TYPE) {
       return (
         <Footnote element={element} attributes={attributes} editor={editor}>
           {children}

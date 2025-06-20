@@ -6,6 +6,7 @@
  *
  */
 
+import { useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { DeleteBinLine, CheckboxCircleLine } from "@ndla/icons";
@@ -26,7 +27,10 @@ import { PUBLISHED, RESOURCE_FILTER_SUPPLEMENTARY } from "../../../constants";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
 import { routes, toLearningpathFull } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-import { ResourceStats } from "../utils";
+import { transformMatomoData } from "../utils";
+import { useElementIsVisible } from "./isVisibleHook";
+import { useMatomoStats } from "../../../modules/matomo/matomoQueries";
+import { usePreferences } from "../PreferencesProvider";
 
 const StyledListItemRoot = styled(ListItemRoot, {
   base: {
@@ -93,29 +97,33 @@ interface Props {
   responsible?: string;
   resource: ResourceWithNodeConnectionAndMeta;
   nodeResourcesIsPending: boolean;
-  showQuality: boolean;
   onDelete: (connectionId: string) => void;
-  matomoStats: ResourceStats | undefined;
-  matomoStatsIsPending: boolean;
-  matomoStatsIsError: boolean;
-  showMatomoStats: boolean;
 }
 
-const Resource = ({
-  currentNodeId,
-  resource,
-  nodeResourcesIsPending,
-  responsible,
-  showQuality,
-  onDelete,
-  matomoStats,
-  matomoStatsIsPending,
-  matomoStatsIsError,
-  showMatomoStats,
-}: Props) => {
+const Resource = ({ currentNodeId, resource, nodeResourcesIsPending, responsible, onDelete }: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const { taxonomyVersion } = useTaxonomyVersion();
+  const { showQuality, showMatomoStats } = usePreferences();
+
+  const ref = useRef(null);
+  const isVisible = useElementIsVisible(ref, showMatomoStats);
+
+  const {
+    data: matomoStatsData,
+    isPending: matomoStatsIsPending,
+    isError: matomoStatsIsError,
+  } = useMatomoStats(
+    { urls: [resource.url ?? ""] },
+    { enabled: isVisible && !!resource.url && showMatomoStats, staleTime: Infinity },
+  );
+
+  const matomoStats = useMemo(() => {
+    if (!matomoStatsData || !showMatomoStats || !resource.contextId) return;
+    const transformed = transformMatomoData(matomoStatsData);
+    if (!transformed) return;
+    return transformed[resource.contextId];
+  }, [matomoStatsData, resource.contextId, showMatomoStats]);
 
   const contentType = getContentTypeFromResourceTypes(resource.resourceTypes);
   const numericId = parseInt(resource.contentUri?.split(":").pop() ?? "");
@@ -132,7 +140,7 @@ const Resource = ({
   const isSupplementary = resource.relevanceId === RESOURCE_FILTER_SUPPLEMENTARY;
 
   return (
-    <StyledListItemRoot context="list" variant="subtle">
+    <StyledListItemRoot context="list" variant="subtle" ref={ref}>
       <StyledListItemContent>
         <ContentRow>
           <TextWrapper>

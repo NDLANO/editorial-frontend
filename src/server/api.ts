@@ -11,13 +11,16 @@ import { GetVerificationKey, expressjwt as jwt, Request } from "express-jwt";
 import jwksRsa from "jwks-rsa";
 import prettier from "prettier";
 import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getResponsibles } from "./auth";
-import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN, BAD_REQUEST } from "./httpCodes";
+import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN, BAD_REQUEST, NOT_FOUND, FOUND } from "./httpCodes";
 import errorLogger from "./logger";
 import { translateDocument } from "./translate";
-import config from "../config";
-import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
-import { NdlaError } from "../interfaces";
+import config, { getEnvironmentVariabel } from "../config";
+import { AI_ACCESS_SCOPE, DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
+import { isPromptType, NdlaError } from "../interfaces";
 import { fetchMatomoStats } from "./matomo";
+import { generateAnswer, getDefaultPrompts, getTranscription, initializeTranscription } from "./llm";
+import { isValidRequestBody } from "./utils";
+import { isLlmLanguageCode } from "./llmTypes";
 
 const router = express.Router();
 
@@ -33,7 +36,7 @@ router.get("*splat", (req, res, next) => {
     next();
   } else {
     res.set("location", `https://ed.ndla.no${req.originalUrl}`);
-    res.status(302).send();
+    res.status(FOUND).send();
   }
 });
 
@@ -160,17 +163,116 @@ router.post("/translate", async (req, res) => {
 
 router.post("/matomo-stats", jwtMiddleware, async (req, res) => {
   const { body } = req;
-  if (body?.contextIds?.length) {
+  if (body?.urls?.length) {
     try {
-      const matomoStats = await fetchMatomoStats(body.contextIds);
+      const matomoStats = await fetchMatomoStats(body.urls);
       res.status(OK).json(matomoStats);
     } catch (err) {
       res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
     }
   } else {
+    res.status(BAD_REQUEST).json({ status: BAD_REQUEST, text: "The 'urls' field is required in the request body." });
+  }
+});
+
+const aiMiddleware = (req: Request, res: express.Response, next: express.NextFunction) => {
+  const { auth } = req;
+  const user = auth as NdlaUser;
+
+  const hasAiAccess = user?.permissions?.includes(AI_ACCESS_SCOPE);
+
+  if (!hasAiAccess) {
+    res.status(FORBIDDEN).send({ error: "Access denied. Missing access" });
+  } else {
+    next();
+  }
+};
+
+router.get("/default-ai-prompts", jwtMiddleware, aiMiddleware, async (req, res) => {
+  const {
+    query: { type, language },
+  } = req;
+
+  const promptType = type as string;
+  const lang = language as string;
+  if (!isPromptType(promptType) || !isLlmLanguageCode(lang)) {
+    res.status(BAD_REQUEST).send({ error: "Invalid parameter types" });
+    return;
+  }
+
+  const defaultPrompts = getDefaultPrompts(promptType, lang);
+  res.status(OK).json(defaultPrompts);
+});
+
+router.post("/generate-ai", jwtMiddleware, aiMiddleware, async (req, res) => {
+  if (!isValidRequestBody(req.body)) {
+    res.status(BAD_REQUEST).send({ error: "Missing required parameters" });
+    return;
+  }
+  try {
+    const llmResponse = await generateAnswer(req.body, req.body.language, req.body.max_tokens);
+    res.status(OK).send(llmResponse);
+  } catch (err) {
     res
-      .status(BAD_REQUEST)
-      .json({ status: BAD_REQUEST, text: "The 'contextIds' field is required in the request body." });
+      .status(INTERNAL_SERVER_ERROR)
+      .send((err as NdlaError)?.message ?? "Answer generation failed to give a proper answer with the given input");
+  }
+});
+
+const transcriptionBucketName = getEnvironmentVariabel("TRANSCRIBE_FILE_S3_BUCKET");
+
+router.post("/transcribe", jwtMiddleware, aiMiddleware, async (req: Request, res) => {
+  if (!transcriptionBucketName) {
+    res.status(INTERNAL_SERVER_ERROR).send({ error: "Missing required environment variables" });
+    return;
+  }
+
+  if (!req.body.languageCode || !req.body.mediaFormat || !req.body.mediaFileUri || !req.body.outputFileName) {
+    res.status(BAD_REQUEST).send({ error: "Missing required parameters" });
+    return;
+  }
+
+  try {
+    const response = await initializeTranscription(req.body, transcriptionBucketName);
+    res.status(OK).json(response);
+  } catch (err) {
+    errorLogger.error(err);
+    res.status(INTERNAL_SERVER_ERROR).send({ error: "An error occured" });
+  }
+});
+
+router.get("/transcribe/:jobName", jwtMiddleware, aiMiddleware, async (req, res) => {
+  if (!transcriptionBucketName) {
+    res.status(INTERNAL_SERVER_ERROR).send({ error: "Missing required environment variables" });
+    return;
+  }
+  const { jobName } = req.params;
+  try {
+    const response = await getTranscription(jobName);
+
+    if (!response.TranscriptionJob) {
+      res.status(NOT_FOUND).send({ error: "Job not found or an error occurred" });
+      return;
+    }
+
+    switch (response.TranscriptionJob.TranscriptionJobStatus) {
+      case "COMPLETED": {
+        const transcriptUri = response.TranscriptionJob.Transcript?.TranscriptFileUri || "";
+        res.status(OK).json({ jobName: jobName, status: "COMPLETED", transcriptUrl: transcriptUri });
+        break;
+      }
+      case "FAILED": {
+        res
+          .status(INTERNAL_SERVER_ERROR)
+          .send({ jobName: jobName, status: "FAILED", reason: response.TranscriptionJob.FailureReason });
+        break;
+      }
+      default:
+        res.status(OK).json({ jobName: jobName, status: response.TranscriptionJob.TranscriptionJobStatus });
+    }
+  } catch (error) {
+    errorLogger.error(error);
+    res.status(INTERNAL_SERVER_ERROR).send({ error: "An error occured" });
   }
 });
 

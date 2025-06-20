@@ -12,13 +12,15 @@ import {
   createHtmlTag,
   createPlugin,
   createSerializer,
+  defaultNormalizer,
+  NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
+  parseElementAttributes,
 } from "@ndla/editor";
 import { isFileElement } from "./queries";
 import { FILE_ELEMENT_TYPE, FILE_PLUGIN } from "./types";
 import { defaultFileBlock } from "./utils";
 import { File } from "../../../../interfaces";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 
@@ -44,9 +46,8 @@ export const fileSerializer = createSerializer({
     if (el.tagName.toLowerCase() !== "div") return;
     if (el.dataset.type !== FILE_ELEMENT_TYPE) return;
 
-    const children: DOMStringMap[] = [];
-    el.childNodes.forEach((node) => {
-      children.push((node as HTMLEmbedElement).dataset);
+    const children = Array.from(el.children).map((child) => {
+      return parseElementAttributes(Array.from(child.attributes)) as unknown as File;
     });
     return defaultFileBlock(children);
   },
@@ -68,7 +69,7 @@ export const filePlugin = createPlugin({
   isVoid: true,
   normalize: (editor, node, path, logger) => {
     if (isFileElement(node)) {
-      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+      return defaultNormalizer(editor, node, path, normalizerConfig, logger);
     }
     return false;
   },

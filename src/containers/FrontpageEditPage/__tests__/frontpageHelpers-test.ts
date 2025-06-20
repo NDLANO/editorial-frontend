@@ -13,7 +13,6 @@ describe("extractArticleIds", () => {
     const menu: IMenuDTO = {
       articleId: 1,
       menu: [],
-      hideLevel: false,
     };
     expect(extractArticleIds(menu)).toEqual([1]);
   });
@@ -24,15 +23,12 @@ describe("extractArticleIds", () => {
         {
           articleId: 2,
           menu: [],
-          hideLevel: false,
         },
         {
           articleId: 3,
           menu: [],
-          hideLevel: false,
         },
       ],
-      hideLevel: false,
     };
     expect(extractArticleIds(menu)).toEqual([1, 2, 3]);
   });
@@ -46,13 +42,11 @@ describe("extractArticleIds", () => {
             {
               articleId: 3,
               menu: [
-                { articleId: 4, menu: [], hideLevel: false },
-                { articleId: 5, menu: [], hideLevel: false },
+                { articleId: 4, menu: [] },
+                { articleId: 5, menu: [] },
               ],
-              hideLevel: false,
             },
           ],
-          hideLevel: false,
         },
         {
           articleId: 6,
@@ -60,22 +54,18 @@ describe("extractArticleIds", () => {
             {
               articleId: 7,
               menu: [],
-              hideLevel: false,
             },
             {
               articleId: 8,
 
               menu: [
-                { articleId: 9, menu: [], hideLevel: false },
-                { articleId: 10, menu: [], hideLevel: false },
+                { articleId: 9, menu: [] },
+                { articleId: 10, menu: [] },
               ],
-              hideLevel: false,
             },
           ],
-          hideLevel: false,
         },
       ],
-      hideLevel: false,
     };
     expect(extractArticleIds(menu)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
   });

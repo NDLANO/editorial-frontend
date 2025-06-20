@@ -111,9 +111,26 @@ const phrases = {
     san: "Sanskrit",
     heb: "Hebrew",
     pli: "Pali",
-    empty: "No languages left",
     change: "Change to {{language}} version",
-    none: "None",
+    none: "Language",
+  },
+  // WARNING: Some of these symbols contain special unicode characters that look like normal characters.
+  // Make sure not to accidentally change them!
+  symbols: {
+    "½": "One half",
+    "¼": "One quarter",
+    "¾": "Three quarters",
+    "²": "Squared",
+    "³": "Cubed",
+    "©": "Copyright",
+    "™": "Trademark",
+    "°": "Degrees",
+    "¥": "Yen",
+    "‑": "Hard hyphen",
+    "–": "N-dash",
+    " ": "Non breaking space",
+    "§": "Section",
+    "¿": "Inverted questionmark",
   },
   welcomePage: {
     lastFavorited: "Last favorited resource: ",
@@ -218,6 +235,13 @@ const phrases = {
       articleStatuses: "Subject types",
     },
   },
+  updateCodesPage: {
+    title: "Update curriculum codes",
+    description:
+      "Convert grep-codes from outdated curricula to the corresponding grep-codes for new curricula. This updates all articles that have associated competency goals and core elements from outdated curricula, in both published and unpublished versions. The articles do not need to be modified afterward for the new grep-codes to become visible.",
+    buttonText: "Update",
+    error: "Something went wrong while updating grep-codes",
+  },
   searchPage: {
     search: "Søk",
     header: {
@@ -292,6 +316,7 @@ const phrases = {
     newSubject: "Create new subject",
     newFrontpageArticle: "About-NDLA article",
     frontpage: "NDLA frontpage",
+    updateCodes: "Update curriculum codes",
   },
   logo: {
     altText: "The Norwegian Digital Learning Arena",
@@ -342,7 +367,7 @@ const phrases = {
       "filter-inactive": "Include archived subjects",
     },
     tagType: {
-      query: "Search: {{value}}",
+      query: "Search:",
       subjects: "Subject: {{value}}",
       language: "Language: $(languages.{{value}})",
       users: "Editor: {{value}}",
@@ -552,8 +577,7 @@ const phrases = {
       },
     },
     validation: {
-      containsContent:
-        "Topic articles should only have title, introduction and visualelement. The content is in most cases not needed.",
+      containsContent: "Only topics in multidisciplinary subjects (case) can have text in the content field.",
       illegalResource: "Topic articles should only have image as visual element.",
     },
   },
@@ -732,6 +756,8 @@ const phrases = {
     left: "Left aligned",
     center: "Center aligned",
     right: "Right aligned",
+    rephrase: "Rephrase",
+    symbol: "Symbol\n({{ctrl}}+alt+y)",
     disabled: {
       "comment-inline": "Comment can only overlap text",
     },
@@ -740,6 +766,7 @@ const phrases = {
     open: "Open menu ({{ctrl}}+Enter)",
     close: "Close menu",
     heading: "Add",
+    tooltip: "Read our guidelines for using {{ type }}",
     actions: {
       block: "Section",
       factAside: "Factbox",
@@ -984,10 +1011,6 @@ const phrases = {
       "not-set": "Not set",
       description: "Whether the image is model released or not:",
     },
-    markdown: {
-      button: "Click to view markdown",
-      helpLabel: "What is markdown?",
-    },
     visualElement: {
       title: "Add visual element",
       label: "Visual element",
@@ -1147,10 +1170,10 @@ const phrases = {
         QUALITY_ASSURED_DELAYED: "Ready for publishing-delayed",
         QUEUED_FOR_PUBLISHING_DELAYED: "Queue for publishing-delayed",
         PUBLISH_DELAYED: "Publish-delayed",
-        PUBLISHED: "Publish",
+        PUBLISHED: "Published",
         AWAITING_UNPUBLISHING: "Queue for unpublishing",
-        UNPUBLISHED: "Unpublish",
-        ARCHIVED: "Delete",
+        UNPUBLISHED: "Unpublished",
+        ARCHIVED: "Deleted",
         AWAITING_ARCHIVING: "Delayed archivation",
         REPUBLISH: "For republishing",
       },
@@ -1260,6 +1283,10 @@ const phrases = {
       },
       normalizedOnLoad:
         "This article contains old html-code, changed by the editor. This means that you will have to republish the resource even if you only have changed metadata or grep-codes.",
+      symbol: {
+        title: "Insert symbol",
+        insert: "Insert",
+      },
     },
     tags: {
       label: "Tags",
@@ -1273,6 +1300,7 @@ const phrases = {
       placeholder: "Type code",
       description:
         "Type in codes using the correct format ({{ codes }}) followed by one or more digits. Non existing codes will not be created. Separate multiple codes with comma. Texts will be displayed in norwegian here but will be shown correct in frontend. You can also filter on learningplan codes.",
+      expired: "This code is no longer active",
     },
     articleDisclaimer: {
       title: "Information about availability for the entire article",
@@ -1300,6 +1328,10 @@ const phrases = {
       label: "Meta description",
       helpLabel: "What is a meta description?",
       description: "The description will be viewable in search.",
+    },
+    articleSummary: {
+      label: "Summary",
+      description: "AI generated summary of the article. Will not be saved.",
     },
     agreement: {
       label: "Connect to agreement",
@@ -1640,6 +1672,7 @@ const phrases = {
   },
   warningMessage: {
     fieldWithWrongLanguage: "This value is fetched from language code: {{language}}",
+    translatedField: "This field is auto-translated from language code: nb",
   },
   notFound: {
     description: "The page cannot be found",
@@ -1902,6 +1935,7 @@ const phrases = {
     frontpage: "About-NDLA article",
     concept: "Concept",
     gloss: "Gloss",
+    learningpath: "Learningpath",
   },
   ndlaFilm: {
     editor: {
@@ -2236,6 +2270,12 @@ const phrases = {
   user: {
     buttonLogOut: "Log out",
   },
+  unsupportedElement: {
+    title: 'Unsupported element: "{{type}}"',
+    description:
+      "This element is not supported here. You can either delete the entire element, or move its contents out",
+    noContent: "The element had no content",
+  },
   matomo: {
     visits: "Visits: {{count}}",
     hits: "Page views: {{count}}",
@@ -2244,7 +2284,37 @@ const phrases = {
     switchLabel: "Show visitor numbers",
     popoverDescription_one: "{{count}} unique page view, click to see more visitor numbers",
     popoverDescription_other: "{{count}} unique page views, click to see more visitor numbers",
-    popoverTitle: "Visitor numbers the last 12 months",
+    noData: "No visitors",
+    popoverTitle: "Visitor numbers since december 2024.",
+  },
+  textGeneration: {
+    error: "Something went wrong when generating text. Message from the service: {{message}}",
+    errorImage: "Something went wrong. Could not process the image.",
+    insert: "Insert",
+    replace: "Replace",
+    append: "Add after",
+    chosenText: "Selected text",
+    suggestedText: "Forslag til $t(textGeneration.types.{{type}})",
+    dialogTitle: "Generer $t(textGeneration.types.{{type}})",
+    generateButton: "Generer $t(textGeneration.types.{{type}})",
+    generateTranscription: "Generate transcription",
+    types: {
+      summary: "summary",
+      altText: "alternative text",
+      alternativePhrasing: "alternative phrasing",
+      metaDescription: "meta description",
+      reflection: "reflection questions",
+    },
+    customPrompts: {
+      switchLabel: "Custom prompts",
+      roleLabel: "Role prompt",
+      roleHelper: 'Describe the role of the AI model. E.g.: "You are a specialist in..."',
+      instructionsLabel: "Instruction prompt",
+      instructionsHelper: 'Describe the instructions for the AI model. E.g.: "Your task is to..."',
+    },
+    failed: "Oops, something went wrong! Could not generate $t(textGeneration.types.{{type}}).\n{{error}}",
+    failedTranscription: "Oops, something went wrong! Could not generate transcription.",
+    responseBox: "Full response from the AI model",
   },
 };
 

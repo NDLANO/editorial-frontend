@@ -12,4 +12,9 @@ export type CustomTextWithMarks = CustomText;
 
 export const markSerializer = _markSerializer;
 
-export const markPlugin = _markPlugin;
+export const markPlugin = _markPlugin.configure({
+  options: {
+    // Omit underline everywhere.
+    supportedMarks: { value: ["bold", "italic", "code", "sup", "sub"], override: true },
+  },
+});

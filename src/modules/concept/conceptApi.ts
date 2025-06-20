@@ -13,65 +13,96 @@ import {
   INewConceptDTO,
   ITagsSearchResultDTO,
   IUpdatedConceptDTO,
+  openapi,
 } from "@ndla/types-backend/concept-api";
 import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
 import { ConceptStatusStateMachineType } from "../../interfaces";
-import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from "../../util/apiHelpers";
+import { createAuthClient } from "../../util/apiHelpers";
+import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 
-const draftConceptUrl: string = apiResourceUrl("/concept-api/v1/drafts");
+const client = createAuthClient<openapi.paths>();
 
-export const fetchSearchTags = async (input: string, language: string): Promise<ITagsSearchResultDTO> => {
-  const response = await fetchAuthorized(
-    `${draftConceptUrl}/tag-search/?language=${language}&query=${input}&fallback=true`,
-  );
-  return resolveJsonOrRejectWithError(response);
-};
+export const fetchSearchTags = async (query: string, language: string): Promise<ITagsSearchResultDTO> =>
+  client
+    .GET("/concept-api/v1/drafts/tag-search", {
+      params: {
+        query: {
+          language,
+          query,
+          fallback: true,
+        },
+      },
+    })
+    .then(resolveJsonOATS);
 
-export const fetchAllTags = async (language: string): Promise<string[]> => {
-  const response = await fetchAuthorized(`${draftConceptUrl}/tags/?language=${language}&fallback=true`);
-  return resolveJsonOrRejectWithError(response);
-};
+export const fetchAllTags = async (language: string): Promise<string[]> =>
+  client
+    .GET("/concept-api/v1/drafts/tags", {
+      params: {
+        query: {
+          language,
+          fallback: true,
+        },
+      },
+    })
+    .then(resolveJsonOATS);
 
-export const fetchConcept = async (conceptId: string | number, locale?: string): Promise<IConceptDTO> => {
-  const languageParam = locale ? `language=${locale}&` : "";
-  return fetchAuthorized(`${draftConceptUrl}/${conceptId}?${languageParam}fallback=true`).then((r) =>
-    resolveJsonOrRejectWithError<IConceptDTO>(r),
-  );
-};
+export const fetchConcept = async (conceptId: number, locale?: string): Promise<IConceptDTO> =>
+  client
+    .GET("/concept-api/v1/drafts/{concept_id}", {
+      params: {
+        path: {
+          concept_id: conceptId,
+        },
+        query: {
+          language: locale,
+          fallback: true,
+        },
+      },
+    })
+    .then(resolveJsonOATS);
 
 export const addConcept = async (concept: INewConceptDTO): Promise<IConceptDTO> =>
-  fetchAuthorized(`${draftConceptUrl}/`, {
-    method: "POST",
-    body: JSON.stringify(concept),
-  }).then((r) => resolveJsonOrRejectWithError<IConceptDTO>(r));
+  client.POST("/concept-api/v1/drafts", { body: concept }).then(resolveJsonOATS);
 
 export const updateConcept = async (id: number, concept: IUpdatedConceptDTO): Promise<IConceptDTO> =>
-  fetchAuthorized(`${draftConceptUrl}/${id}`, {
-    method: "PATCH",
-    body: JSON.stringify(concept),
-  }).then((r) => resolveJsonOrRejectWithError<IConceptDTO>(r));
+  client
+    .PATCH("/concept-api/v1/drafts/{concept_id}", {
+      params: {
+        path: {
+          concept_id: id,
+        },
+      },
+      body: concept,
+    })
+    .then(resolveJsonOATS);
 
 export const deleteLanguageVersionConcept = async (conceptId: number, language: string): Promise<IConceptDTO> =>
-  fetchAuthorized(`${draftConceptUrl}/${conceptId}?language=${language}`, {
-    method: "DELETE",
-  }).then((r) => resolveJsonOrRejectWithError<IConceptDTO>(r));
+  client
+    .DELETE("/concept-api/v1/drafts/{concept_id}", {
+      params: { path: { concept_id: conceptId }, query: { language } },
+    })
+    .then(resolveJsonOATS);
 
 export const fetchStatusStateMachine = async (): Promise<ConceptStatusStateMachineType> =>
-  fetchAuthorized(`${draftConceptUrl}/status-state-machine/`).then((r) =>
-    resolveJsonOrRejectWithError<ConceptStatusStateMachineType>(r),
-  );
+  client.GET("/concept-api/v1/drafts/status-state-machine").then(resolveJsonOATS);
 
 export const updateConceptStatus = async (id: number, status: string): Promise<IConceptDTO> =>
-  fetchAuthorized(`${draftConceptUrl}/${id}/status/${status}`, {
-    method: "PUT",
-  }).then((r) => resolveJsonOrRejectWithError<IConceptDTO>(r));
+  client
+    .PUT("/concept-api/v1/drafts/{concept_id}/status/{STATUS}", {
+      params: { path: { concept_id: id, STATUS: status } },
+    })
+    .then(resolveJsonOATS);
 
 export const postSearchConcepts = async (
   body: StringSort<IDraftConceptSearchParamsDTO>,
-): Promise<IConceptSearchResultDTO> => {
-  const response = await fetchAuthorized(`${draftConceptUrl}/search/`, {
-    method: "POST",
-    body: JSON.stringify(body),
-  });
-  return resolveJsonOrRejectWithError(response);
-};
+): Promise<IConceptSearchResultDTO> =>
+  client
+    .POST("/concept-api/v1/drafts/search", {
+      body: {
+        ...body,
+        // @ts-expect-error TODO: API's use different sorting types and we share them in the frontend
+        sort: body.sort,
+      },
+    })
+    .then(resolveJsonOATS);

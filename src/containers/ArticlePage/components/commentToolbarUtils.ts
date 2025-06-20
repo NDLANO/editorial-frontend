@@ -8,7 +8,7 @@
 
 import { SlatePlugin } from "../../../components/SlateEditor/interfaces";
 import { breakRenderer } from "../../../components/SlateEditor/plugins/break/render";
-import { linkPlugin } from "../../../components/SlateEditor/plugins/link";
+import { contentLinkPlugin, linkPlugin } from "../../../components/SlateEditor/plugins/link";
 import { linkRenderer } from "../../../components/SlateEditor/plugins/link/render";
 import { listRenderer } from "../../../components/SlateEditor/plugins/list/render";
 import { markRenderer } from "../../../components/SlateEditor/plugins/mark/render";
@@ -21,30 +21,48 @@ import { sectionRenderer } from "../../../components/SlateEditor/plugins/section
 import { spanPlugin } from "../../../components/SlateEditor/plugins/span";
 import { textTransformPlugin } from "../../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../../components/SlateEditor/plugins/toolbar";
-import {
-  createToolbarAreaOptions,
-  createToolbarDefaultValues,
-} from "../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import { paragraphPlugin } from "../../../components/SlateEditor/plugins/paragraph";
 import { breakPlugin } from "../../../components/SlateEditor/plugins/break";
 import { markPlugin } from "../../../components/SlateEditor/plugins/mark";
 import { listPlugin } from "../../../components/SlateEditor/plugins/list";
 import { inlineNavigationPlugin } from "@ndla/editor";
 import { divRenderer } from "../../../components/SlateEditor/plugins/div/render";
+import { divPlugin } from "../../../components/SlateEditor/plugins/div";
+import { unsupportedPlugin } from "../../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
+import { unsupportedElementRenderer } from "../../../components/SlateEditor/plugins/unsupported/unsupportedElementRenderer";
+import { pastePlugin } from "../../../components/SlateEditor/plugins/paste";
 
 export const plugins: SlatePlugin[] = [
   inlineNavigationPlugin,
   sectionPlugin,
   spanPlugin,
   paragraphPlugin,
-  toolbarPlugin(),
+  divPlugin,
+  toolbarPlugin.configure({
+    options: {
+      options: {
+        text: { hidden: true },
+        languages: { hidden: true },
+        block: { hidden: true, "bulleted-list": { hidden: false } },
+        inline: {
+          hidden: true,
+          "content-link": { hidden: false },
+        },
+      },
+    },
+  }),
   textTransformPlugin,
   breakPlugin,
   saveHotkeyPlugin,
-  markPlugin,
+  markPlugin.configure({
+    options: { supportedMarks: { value: ["bold", "italic"], override: true } },
+  }),
   noopPlugin,
+  contentLinkPlugin,
   linkPlugin,
   listPlugin,
+  unsupportedPlugin,
+  pastePlugin,
   sectionRenderer,
   noopRenderer,
   paragraphRenderer,
@@ -53,29 +71,5 @@ export const plugins: SlatePlugin[] = [
   linkRenderer,
   listRenderer,
   divRenderer,
+  unsupportedElementRenderer,
 ];
-
-export const toolbarOptions = createToolbarDefaultValues({
-  text: {
-    hidden: true,
-  },
-  languages: { hidden: true },
-  mark: {
-    code: {
-      hidden: true,
-    },
-    italic: { hidden: false },
-    sup: { hidden: true },
-    sub: { hidden: true },
-  },
-
-  block: { hidden: true, "bulleted-list": { hidden: false } },
-  inline: {
-    hidden: true,
-    "content-link": {
-      hidden: false,
-    },
-  },
-});
-
-export const toolbarAreaFilters = createToolbarAreaOptions();

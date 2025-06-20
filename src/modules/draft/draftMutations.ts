@@ -8,7 +8,7 @@
 
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import { IArticleDTO, IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
-import { copyRevisionDates, updateDraft } from "./draftApi";
+import { copyRevisionDates, migrateCodes, updateDraft } from "./draftApi";
 
 export const useUpdateDraftMutation = (
   options?: Partial<UseMutationOptions<IArticleDTO, unknown, { id: number; body: IUpdatedArticleDTO }>>,
@@ -22,6 +22,13 @@ export const useUpdateDraftMutation = (
 export const useCopyRevisionDates = (options?: UseMutationOptions<void, unknown, { nodeId: string }>) => {
   return useMutation<void, unknown, { nodeId: string }>({
     mutationFn: (vars) => copyRevisionDates(vars.nodeId),
+    ...options,
+  });
+};
+
+export const useMigrateCodes = (options?: UseMutationOptions<void>) => {
+  return useMutation<void>({
+    mutationFn: () => migrateCodes(),
     ...options,
   });
 };

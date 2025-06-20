@@ -6,10 +6,10 @@
  *
  */
 
-import { addYears } from "date-fns";
 import { FastField, FieldArray, FieldProps, useField } from "formik";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
+import { getLocalTimeZone, today } from "@internationalized/date";
 import { DeleteBinLine } from "@ndla/icons";
 import {
   Button,
@@ -150,7 +150,9 @@ const RevisionNotes = () => {
             onClick={() =>
               arrayHelpers.push({
                 note: "",
-                revisionDate: formatDateForBackend(addYears(new Date(), 5)),
+                revisionDate: formatDateForBackend(
+                  today(getLocalTimeZone()).add({ years: 5 }).toDate(getLocalTimeZone()),
+                ),
                 status: "needs-revision",
                 new: true,
               })

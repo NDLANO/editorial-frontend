@@ -88,6 +88,7 @@ interface Props {
   revision?: number;
   isNewLanguage?: boolean;
   supportedLanguages: string[];
+  translatedFieldsToNN: string[];
 }
 
 const PodcastSeriesForm = ({
@@ -98,6 +99,7 @@ const PodcastSeriesForm = ({
   language,
   isNewLanguage,
   supportedLanguages,
+  translatedFieldsToNN,
 }: Props) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
@@ -148,7 +150,7 @@ const PodcastSeriesForm = ({
   };
 
   const initialValues = podcastSeriesTypeToFormType(podcastSeries, language);
-  const initialWarnings = getWarnings(initialValues, podcastRules, t, podcastSeries);
+  const initialWarnings = getWarnings(initialValues, podcastRules, t, translatedFieldsToNN, podcastSeries);
 
   return (
     <Formik

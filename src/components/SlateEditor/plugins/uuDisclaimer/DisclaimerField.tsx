@@ -14,9 +14,7 @@ import { FieldWarning } from "../../../Form/FieldWarning";
 import { FormField } from "../../../FormField";
 import { SlatePlugin } from "../../interfaces";
 import RichTextEditor from "../../RichTextEditor";
-import { CategoryFilters, createToolbarAreaOptions } from "../toolbar/toolbarState";
-
-export const toolbarAreaFilters = createToolbarAreaOptions();
+import { UnsupportedElement } from "../unsupported/UnsupportedElement";
 
 export const DISCLAIMER_TEMPLATES_URL =
   "https://docs.google.com/spreadsheets/d/1g8cCqgS4BvaChHX4R6VR5V5Q83fvYcMrgneBJMkLWYs/edit";
@@ -33,10 +31,9 @@ interface Props {
   title: string;
   description: ReactNode;
   plugins: SlatePlugin[];
-  toolbarOptions: CategoryFilters;
 }
 
-export const DisclaimerField = ({ submitted, title, description, plugins, toolbarOptions }: Props) => {
+export const DisclaimerField = ({ submitted, title, description, plugins }: Props) => {
   return (
     <FormField name="disclaimer">
       {({ field, meta, helpers }) => (
@@ -50,8 +47,7 @@ export const DisclaimerField = ({ submitted, title, description, plugins, toolba
               onChange={helpers.setValue}
               hideBlockPicker
               plugins={plugins}
-              toolbarOptions={toolbarOptions}
-              toolbarAreaFilters={toolbarAreaFilters}
+              renderInvalidElement={(props) => <UnsupportedElement {...props} />}
               noArticleStyling
               data-testid="disclaimer-editor"
             />

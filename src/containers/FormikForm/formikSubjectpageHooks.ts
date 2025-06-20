@@ -46,7 +46,7 @@ export function useFetchSubjectpageData(
     return await Promise.all(promises);
   };
 
-  const updateSubjectpage = async (id: string | number, updatedSubjectpage: IUpdatedSubjectPageDTO) => {
+  const updateSubjectpage = async (id: number, updatedSubjectpage: IUpdatedSubjectPageDTO) => {
     const savedSubjectpage = await frontpageApi.updateSubjectpage(updatedSubjectpage, id, selectedLanguage);
     setSubjectpage(savedSubjectpage);
     return savedSubjectpage;
@@ -68,9 +68,10 @@ export function useFetchSubjectpageData(
     (async () => {
       setLoading(true);
       setSubjectpage(undefined);
-      if (subjectpageId) {
+      const numberId = parseInt(subjectpageId ?? "");
+      if (!isNaN(numberId)) {
         try {
-          const subjectpage = await frontpageApi.fetchSubjectpage(subjectpageId, selectedLanguage);
+          const subjectpage = await frontpageApi.fetchSubjectpage(numberId, selectedLanguage);
           setSubjectpage(subjectpage);
         } catch (e) {
           setError(e as Error);

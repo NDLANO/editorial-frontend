@@ -6,7 +6,6 @@
  *
  */
 
-@import "../../node_modules/react-day-picker/dist/style.css";
 @import "../../node_modules/react-image-crop/dist/ReactCrop.css";
 
 @layer reset, base, tokens, recipes, utilities;
@@ -44,15 +43,6 @@ select {
 
 input::placeholder {
   color: rgb(153, 153, 153);
-}
-
-/* DatePicker styling */
-.rdp-months {
-  width: min-content;
-}
-
-.rdp-caption_dropdowns {
-  justify-content: space-between;
 }
 
 .c-audio-search {

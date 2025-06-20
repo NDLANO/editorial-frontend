@@ -8,12 +8,11 @@
 
 import { Editor, Path, Transforms } from "slate";
 import { defaultTableCellBlock } from "./defaultBlocks";
-import { TableBodyElement, TableCellElement, TableElement, TableHeadElement } from "./interfaces";
+import { TableCellElement, TableElement, TableSectionElement } from "./interfaces";
 import { getTableAsMatrix } from "./matrix";
 import { findCellCoordinate, getMatrixColumn } from "./matrixHelpers";
-import { hasCellAlignOfType, isTableCell, isTableRow } from "./slateHelpers";
-import { TYPE_TABLE_CELL } from "./types";
-import getCurrentBlock from "../../utils/getCurrentBlock";
+import { hasCellAlignOfType } from "./slateHelpers";
+import { isAnyTableCellElement, isTableRowElement } from "./queries";
 
 export const insertEmptyCells = (editor: Editor, path: Path, amount: number) => {
   Transforms.insertNodes(
@@ -25,15 +24,10 @@ export const insertEmptyCells = (editor: Editor, path: Path, amount: number) => 
   );
 };
 
-export const increaseTableBodyWidth = (
-  editor: Editor,
-  body: TableBodyElement | TableHeadElement,
-  path: Path,
-  amount: number,
-) => {
+export const increaseTableSectionWidth = (editor: Editor, section: TableSectionElement, path: Path, amount: number) => {
   Editor.withoutNormalizing(editor, () => {
-    for (const [index, row] of body.children.entries()) {
-      if (isTableRow(row)) {
+    for (const [index, row] of section.children.entries()) {
+      if (isTableRowElement(row)) {
         const targetPath = [...path, index, row.children.length];
         insertEmptyCells(editor, targetPath, Math.abs(amount));
       }
@@ -45,9 +39,7 @@ export const toggleCellAlign = (editor: Editor, type: string) => {
   const newAlign = hasCellAlignOfType(editor, type) ? undefined : type;
 
   Editor.withoutNormalizing(editor, () => {
-    for (const [cell] of Editor.nodes<TableCellElement>(editor, {
-      match: (node) => isTableCell(node),
-    })) {
+    for (const [cell] of Editor.nodes<TableCellElement>(editor, { match: isAnyTableCellElement })) {
       updateCell(editor, cell, { align: newAlign });
     }
   });
@@ -78,19 +70,20 @@ export const updateCell = (
 };
 
 export const alignColumn = (editor: Editor, tablePath: Path, align: string) => {
-  const cellElement = getCurrentBlock(editor, TYPE_TABLE_CELL)?.[0];
+  const [entry] = editor.nodes({
+    at: editor.selection?.anchor.path,
+    match: isAnyTableCellElement,
+    mode: "lowest",
+  });
 
-  if (!isTableCell(cellElement)) {
-    return;
-  }
+  if (!entry) return;
 
   const matrix = getTableAsMatrix(editor, tablePath);
 
-  if (!matrix) {
-    return;
-  }
+  if (!matrix) return;
+  const [element, _elementPath] = entry;
 
-  const currentPosition = findCellCoordinate(matrix, cellElement);
+  const currentPosition = findCellCoordinate(matrix, element);
 
   if (currentPosition) {
     const column = getMatrixColumn(matrix, currentPosition[1]);

@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
 import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
-import { GlobalLine } from "@ndla/icons";
 import { SelectContent, SelectRoot, SelectValueText, SelectLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ToolbarCategoryProps } from "./SlateToolbar";
@@ -23,7 +22,13 @@ import { defaultSpanBlock } from "../span/utils";
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   base: {
-    width: "surface.xxsmall",
+    width: "surface.3xsmall",
+  },
+});
+
+const StyledGenericSelectItem = styled(GenericSelectItem, {
+  base: {
+    padding: "3xsmall",
   },
 });
 
@@ -53,11 +58,11 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
       Transforms.select(editor, selection);
       ReactEditor.focus(editor);
       const wrappedInSpan = hasNodeOfType(editor, "span");
-      if (wrappedInSpan && language === "none") {
+      if (wrappedInSpan && language === undefined) {
         Transforms.unwrapNodes(editor, {
           match: (node) => Element.isElement(node) && node.type === "span",
         });
-      } else if (language === "none") {
+      } else if (language === undefined) {
         return;
       } else if (!wrappedInSpan) {
         Transforms.wrapNodes(editor, defaultSpanBlock({ lang: language, dir: language === "ar" ? "rtl" : undefined }), {
@@ -78,7 +83,7 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
     const visibleOptions = options.filter((option) => !option.hidden);
     if (!visibleOptions.length) return undefined;
     return createListCollection({
-      items: [{ value: "none" }].concat(visibleOptions),
+      items: visibleOptions,
       itemToString: (item) => t(`languages.${item.value}`),
       itemToValue: (item) => item.value,
     });
@@ -91,23 +96,28 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
       <SelectRoot
         collection={collection}
         positioning={positioningOptions}
-        value={[currentLanguage ?? "none"]}
+        value={currentLanguage ? [currentLanguage] : []}
         onValueChange={onClick}
       >
         <SelectLabel srOnly>{title}</SelectLabel>
-        <StyledGenericSelectTrigger variant="tertiary" title={title} size="small" data-testid="toolbar-button-language">
-          <GlobalLine />
-          <SelectValueText />
+        <StyledGenericSelectTrigger
+          clearable
+          variant="tertiary"
+          title={title}
+          size="small"
+          data-testid="toolbar-button-language"
+        >
+          <SelectValueText placeholder={t("languages.none")} />
         </StyledGenericSelectTrigger>
         <SelectContent>
           {collection.items.map((option) => (
-            <GenericSelectItem
+            <StyledGenericSelectItem
               key={option.value}
               data-testid={`language-button-${option.value}`}
               item={{ label: option.value, value: option.value }}
             >
               {t(`languages.${option.value}`)}
-            </GenericSelectItem>
+            </StyledGenericSelectItem>
           ))}
         </SelectContent>
       </SelectRoot>

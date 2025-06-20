@@ -13,15 +13,18 @@ import { commentInlineRenderer } from "../../../../components/SlateEditor/plugin
 import { inlineConceptRenderer } from "../../../../components/SlateEditor/plugins/concept/inline/render";
 import { definitionListRenderer } from "../../../../components/SlateEditor/plugins/definitionList/render";
 import { divRenderer } from "../../../../components/SlateEditor/plugins/div/render";
+import { dndRenderer } from "../../../../components/SlateEditor/plugins/DND/dndRenderer";
 import { headingRenderer } from "../../../../components/SlateEditor/plugins/heading/render";
 import { linkRenderer } from "../../../../components/SlateEditor/plugins/link/render";
 import { listRenderer } from "../../../../components/SlateEditor/plugins/list/render";
 import { markRenderer } from "../../../../components/SlateEditor/plugins/mark/render";
 import { mathRenderer } from "../../../../components/SlateEditor/plugins/mathml/mathRenderer";
-import { noEmbedRenderer } from "../../../../components/SlateEditor/plugins/noEmbed/render";
 import { paragraphRenderer } from "../../../../components/SlateEditor/plugins/paragraph/render";
+import { rephraseRenderer } from "../../../../components/SlateEditor/plugins/rephrase/render";
 import { sectionRenderer } from "../../../../components/SlateEditor/plugins/section/render";
 import { spanRenderer } from "../../../../components/SlateEditor/plugins/span/render";
+import { symbolRenderer } from "../../../../components/SlateEditor/plugins/symbol/render";
+import { unsupportedElementRenderer } from "../../../../components/SlateEditor/plugins/unsupported/unsupportedElementRenderer";
 
 // Plugins are checked from last to first
 export const topicArticleRenderers: SlatePlugin[] = [
@@ -29,7 +32,6 @@ export const topicArticleRenderers: SlatePlugin[] = [
   spanRenderer,
   divRenderer,
   paragraphRenderer,
-  noEmbedRenderer,
   linkRenderer,
   headingRenderer,
   // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
@@ -43,4 +45,8 @@ export const topicArticleRenderers: SlatePlugin[] = [
   mathRenderer,
   markRenderer,
   breakRenderer,
+  rephraseRenderer,
+  symbolRenderer,
+  unsupportedElementRenderer,
+  dndRenderer,
 ];

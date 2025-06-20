@@ -35,6 +35,7 @@ const CreateTopicArticle = () => {
         isNewlyCreated={false}
         articleChanged={false}
         supportedLanguages={[i18n.language]}
+        translatedFieldsToNN={[]}
       />
     </>
   );

@@ -12,6 +12,7 @@ import { learningResourcePlugins } from "../../../../../containers/ArticlePage/L
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
 import { TYPE_HEADING } from "../types";
+import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
 
@@ -46,29 +47,33 @@ describe("heading normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: TYPE_SECTION,
+        id: anySlateElementId,
         children: [
           {
             type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
             children: [{ text: "" }],
           },
           {
             type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
             children: [{ text: "" }],
           },
           {
             type: TYPE_HEADING,
+            id: anySlateElementId,
             level: 3,
             children: [{ text: "not empty" }],
           },
           {
             type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
             children: [{ text: "" }],
           },
         ],
       },
     ];
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
 
@@ -97,24 +102,29 @@ describe("heading normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: TYPE_SECTION,
+        id: anySlateElementId,
         children: [
           {
             type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
             children: [{ text: "" }],
           },
           {
             type: TYPE_HEADING,
+            id: anySlateElementId,
             level: 2,
             children: [{ text: "" }],
           },
           {
             type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
             children: [{ text: "" }],
           },
         ],
       },
     ];
-    editor.children = editorValue;
+
+    editor.reinitialize({ value: editorValue });
     Transforms.select(editor, [0, 1, 0]);
     Editor.normalize(editor, { force: true });
     expect(editor.children).toEqual(expectedValue);
@@ -146,24 +156,27 @@ test("remove bold marker on header", () => {
   const expectedValue: Descendant[] = [
     {
       type: TYPE_SECTION,
+      id: anySlateElementId,
       children: [
         {
           type: TYPE_PARAGRAPH,
+          id: anySlateElementId,
           children: [{ text: "" }],
         },
         {
           type: TYPE_HEADING,
+          id: anySlateElementId,
           level: 2,
           children: [{ text: "Test" }],
         },
         {
           type: TYPE_PARAGRAPH,
+          id: anySlateElementId,
           children: [{ text: "" }],
         },
       ],
     },
   ];
-  editor.children = editorValue;
-  Editor.normalize(editor, { force: true });
+  editor.reinitialize({ value: editorValue, shouldNormalize: true });
   expect(editor.children).toEqual(expectedValue);
 });

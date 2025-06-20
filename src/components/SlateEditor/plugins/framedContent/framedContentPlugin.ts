@@ -6,9 +6,8 @@
  *
  */
 
-import { createPlugin, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
+import { createPlugin, defaultNormalizer, NormalizerConfig, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { FRAMED_CONTENT_ELEMENT_TYPE, FRAMED_CONTENT_PLUGIN } from "./framedContentTypes";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { isFramedContentElement } from "./queries/framedContentQueries";
 import {
   afterOrBeforeTextBlockElement,
@@ -46,7 +45,7 @@ export const framedContentPlugin = createPlugin({
   name: FRAMED_CONTENT_PLUGIN,
   normalize: (editor, node, path, logger) => {
     if (isFramedContentElement(node)) {
-      return defaultBlockNormalizer(editor, node, path, config, logger);
+      return defaultNormalizer(editor, node, path, config, logger);
     }
     return false;
   },

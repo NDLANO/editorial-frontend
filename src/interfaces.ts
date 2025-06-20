@@ -8,7 +8,14 @@
 
 import { IAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import { IArticleDTO, IRelatedContentLinkDTO } from "@ndla/types-backend/draft-api";
-import { AudioEmbedData, BrightcoveEmbedData, H5pEmbedData, ImageEmbedData } from "@ndla/types-embed";
+import {
+  AudioEmbedData,
+  BrightcoveEmbedData,
+  H5pEmbedData,
+  IframeEmbedData,
+  ImageEmbedData,
+  OembedEmbedData,
+} from "@ndla/types-embed";
 import { SearchTypeValues, LOCALE_VALUES } from "./constants";
 import { FormEvent } from "react";
 import { DateChangedEvent } from "./containers/FormikForm/components/InlineDatePicker";
@@ -90,7 +97,14 @@ export interface ErrorEmbed {
   message: string;
 }
 
-export type Embed = ImageEmbedData | BrightcoveEmbedData | AudioEmbedData | H5pEmbedData | ErrorEmbed;
+export type Embed =
+  | ImageEmbedData
+  | BrightcoveEmbedData
+  | AudioEmbedData
+  | H5pEmbedData
+  | ErrorEmbed
+  | OembedEmbedData
+  | IframeEmbedData;
 
 export interface FileFormat {
   url: string;
@@ -204,4 +218,70 @@ export interface SearchParams {
   "concept-type"?: string;
   "filter-inactive"?: boolean;
   includeCopyrighted?: boolean;
+}
+
+export type PromptType = PromptVariables["type"];
+
+export type PromptVariables =
+  | SummaryVariables
+  | AltTextVariables
+  | AlternativePhrasingVariables
+  | MetaDescriptionVariables
+  | ReflectionVariables;
+
+export interface SummaryVariables {
+  type: "summary";
+  text: string;
+  title: string;
+}
+
+export interface AltTextVariables {
+  type: "altText";
+  image: {
+    fileType: string;
+    base64: string;
+  };
+}
+
+export interface AlternativePhrasingVariables {
+  type: "alternativePhrasing";
+  html: string;
+}
+
+export interface MetaDescriptionVariables {
+  type: "metaDescription";
+  text: string;
+  title: string;
+}
+
+export interface ReflectionVariables {
+  type: "reflection";
+  text: string;
+}
+
+const promptTypes: PromptType[] = [
+  "summary",
+  "altText",
+  "alternativePhrasing",
+  "metaDescription",
+  "reflection",
+] as const;
+
+export const isPromptType = (type: any): type is PromptType => promptTypes.includes(type as PromptType);
+
+export type PromptPayload<T extends PromptVariables> = T & {
+  language: string;
+  role?: string;
+  instructions?: string;
+  max_tokens?: number;
+};
+
+export interface DefaultPrompts {
+  role: string;
+  instructions: string;
+}
+
+export interface LlmResponse {
+  fullResponse: string;
+  answer: string;
 }

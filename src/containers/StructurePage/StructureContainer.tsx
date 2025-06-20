@@ -11,11 +11,13 @@ import { useEffect, useRef, useState, ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 import { PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
+import { NodeChild, NodeType } from "@ndla/types-taxonomy";
+import { useCurrentNode } from "./CurrentNodeProvider";
 import LeftColumn from "./LeftColumn";
 import { PreferencesProvider } from "./PreferencesProvider";
 import StructureResources from "./resourceComponents/StructureResources";
 import SubjectBanner from "./resourceComponents/SubjectBanner";
+import { RESOURCE_SECTION_ID } from "./utils";
 import VersionSelector from "./VersionSelector";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import { TAXONOMY_ADMIN_SCOPE, DRAFT_RESPONSIBLE } from "../../constants";
@@ -71,12 +73,11 @@ const StructureContainer = ({
   const location = useLocation();
   const paths = location.pathname.replace(rootPath, "").split("/");
   const { taxonomyVersion } = useTaxonomyVersion();
-  const [currentNode, setCurrentNode] = useState<Node | undefined>(undefined);
+  const { currentNode, setCurrentNode } = useCurrentNode();
   const [shouldScroll, setShouldScroll] = useState(!!paths.length);
 
   const { userPermissions } = useSession();
 
-  const resourceSection = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
 
   const { data: users } = useAuth0Responsibles(
@@ -98,7 +99,7 @@ const StructureContainer = ({
       setCurrentNode(undefined);
     }
     setShouldScroll(true);
-  }, [taxonomyVersion]);
+  }, [setCurrentNode, taxonomyVersion]);
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
   return (
@@ -107,25 +108,13 @@ const StructureContainer = ({
         <PreferencesProvider>
           <GridWrapper>
             {!!messageBox && <MessageBoxWrapper>{messageBox}</MessageBoxWrapper>}
-            <LeftColumn
-              rootNodeType={rootNodeType}
-              childNodeTypes={childNodeTypes}
-              rootPath={rootPath}
-              setCurrentNode={setCurrentNode}
-              resourceSectionRef={resourceSection}
-            />
+            <LeftColumn rootNodeType={rootNodeType} childNodeTypes={childNodeTypes} rootPath={rootPath} />
             {!!showResourceColumn && (
               <div>
                 {!!currentNode && (
-                  <StickyContainer ref={resourceSection}>
+                  <StickyContainer id={RESOURCE_SECTION_ID}>
                     {currentNode.nodeType === "SUBJECT" && <SubjectBanner subjectNode={currentNode} users={users} />}
-                    {isChildNode(currentNode) && (
-                      <StructureResources
-                        currentChildNode={currentNode}
-                        setCurrentNode={setCurrentNode}
-                        users={users}
-                      />
-                    )}
+                    {isChildNode(currentNode) && <StructureResources currentChildNode={currentNode} users={users} />}
                   </StickyContainer>
                 )}
               </div>

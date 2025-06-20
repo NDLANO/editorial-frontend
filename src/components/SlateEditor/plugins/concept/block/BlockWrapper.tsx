@@ -8,7 +8,7 @@
 
 import { useState, ReactNode, useCallback, useMemo, useEffect, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Element, Transforms, Path } from "slate";
+import { Editor, Transforms, Path } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { DeleteBinLine, ErrorWarningFill, CheckLine, LinkMedium } from "@ndla/icons";
 import { DialogContent, DialogRoot, IconButton } from "@ndla/primitives";
@@ -17,8 +17,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { IConceptDTO, IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { ConceptEmbedData, ConceptMetaData } from "@ndla/types-embed";
 import { ConceptEmbed, EmbedWrapper } from "@ndla/ui";
-import { ConceptBlockElement } from "./interfaces";
-import { TYPE_CONCEPT_BLOCK } from "./types";
+import { ConceptBlockElement } from "./types";
 import { PUBLISHED } from "../../../../../constants";
 import { ConceptType } from "../../../../../containers/ConceptPage/conceptInterfaces";
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
@@ -27,6 +26,7 @@ import { useArticleLanguage } from "../../../ArticleLanguageProvider";
 import ConceptDialogContent from "../ConceptDialogContent";
 import EditGlossExamplesDialog from "../EditGlossExamplesDialog";
 import { getGlossDataAttributes } from "../utils";
+import { isConceptBlockElement } from "./queries";
 
 const getConceptDataAttributes = (concept: IConceptSummaryDTO | IConceptDTO, locale: string): ConceptEmbedData => ({
   contentId: concept.id.toString(),
@@ -107,7 +107,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
         { data },
         {
           at: path,
-          match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_BLOCK,
+          match: isConceptBlockElement,
         },
       );
     },
@@ -150,7 +150,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
 
   return (
     <DialogRoot size="large" open={isEditing} onOpenChange={({ open }) => onOpenChange(open)}>
-      <StyledEmbedWrapper {...attributes} data-solid-border={isSelected} draggable={true} contentEditable={false}>
+      <StyledEmbedWrapper {...attributes} data-solid-border={isSelected} contentEditable={false}>
         {!!concept && !!embed && (
           <>
             <ConceptButtonContainer

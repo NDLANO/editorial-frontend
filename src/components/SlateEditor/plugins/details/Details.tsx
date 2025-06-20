@@ -25,6 +25,7 @@ const ButtonContainer = styled("div", {
     top: "-xlarge",
     display: "flex",
     gap: "3xsmall",
+    zIndex: "docked",
     justifyContent: "flex-end",
   },
 });
@@ -97,7 +98,7 @@ const Details = ({ children, element, attributes }: RenderElementProps) => {
   const toggleOpenTitle = isOpen ? t("form.close") : t("form.open");
 
   return (
-    <EmbedWrapper {...attributes} draggable>
+    <EmbedWrapper {...attributes}>
       <ButtonContainer contentEditable={false}>
         <StyledIconButton
           {...openAttribute}

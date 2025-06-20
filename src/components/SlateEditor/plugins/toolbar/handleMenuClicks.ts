@@ -10,11 +10,10 @@ import { KeyboardEvent, SyntheticEvent } from "react";
 import { Editor, Transforms, Element, Range, Node, BaseRange } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { HeadingElement, LIST_TYPES, ParagraphElement, toggleHeading, toggleList } from "@ndla/editor";
-import { BlockType, InlineType, TextType, getEditorAncestors } from "./toolbarState";
+import { BlockType, InlineType, TextType, selectionElements } from "./toolbarState";
 import toggleBlock from "../../utils/toggleBlock";
 import { insertComment } from "../comment/inline/utils";
 import { insertInlineConcept } from "../concept/inline/utils";
-import { toggleDefinitionList } from "../definitionList/utils/toggleDefinitionList";
 import { TYPE_HEADING } from "../heading/types";
 import { insertLink, unwrapLink } from "../link/utils";
 import { insertMathml } from "../mathml/utils";
@@ -22,9 +21,13 @@ import { TYPE_PARAGRAPH } from "../paragraph/types";
 import { SpanElement } from "../span";
 import { SPAN_ELEMENT_TYPE } from "../span/types";
 import { toggleCellAlign } from "../table/slateActions";
+import { insertSymbol } from "../symbol/utils";
+import { SYMBOL_ELEMENT_TYPE } from "../symbol/types";
+import { toggleDefinitionList } from "../definitionList/transforms/toggleDefinitionList";
+import { ElementType } from "../../interfaces";
 
 type TextElements = ParagraphElement | HeadingElement | SpanElement;
-const defaultValueState: Partial<Record<Element["type"], Partial<TextElements>>> = {
+const defaultValueState: Partial<Record<ElementType, Partial<TextElements>>> = {
   summary: { type: TYPE_PARAGRAPH, serializeAsText: true },
 };
 
@@ -36,9 +39,8 @@ const textOptions = (range: BaseRange) => ({
 });
 
 export const handleTextChange = (editor: Editor, type: string) => {
-  const ancestors = getEditorAncestors(editor, true);
-  const defaultValue = defaultValueState?.[ancestors[1]?.type] ??
-    defaultValueState?.[ancestors[0]?.type] ?? { type: TYPE_PARAGRAPH };
+  const { elements } = selectionElements(editor, editor.selection);
+  const defaultValue = (elements?.[0] && defaultValueState[elements[0].type]) ?? { type: TYPE_PARAGRAPH };
 
   const props: Partial<TextElements> =
     type === "normal-text" ? defaultValue : { type: TYPE_HEADING, level: parseHeadingLevel(type) };
@@ -109,6 +111,9 @@ export function handleClickInline(event: KeyboardEvent<HTMLDivElement>, editor: 
     }
     if (type === "comment-inline") {
       insertComment(editor);
+    }
+    if (type === SYMBOL_ELEMENT_TYPE) {
+      insertSymbol(editor);
     }
   }
 }

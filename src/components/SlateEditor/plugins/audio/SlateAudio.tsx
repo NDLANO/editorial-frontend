@@ -45,6 +45,7 @@ const ButtonContainer = styled("div", {
     display: "flex",
     gap: "3xsmall",
     justifyContent: "flex-end",
+    zIndex: "docked",
   },
 });
 

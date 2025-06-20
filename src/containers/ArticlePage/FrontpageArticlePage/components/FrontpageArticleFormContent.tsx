@@ -30,25 +30,24 @@ import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/
 import { CODE_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/codeBlock/types";
 import { COMMENT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/comment/block/types";
 import { CONTACT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/contactBlock/types";
-import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
+import { EXTERNAL_ELEMENT_TYPE, IFRAME_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/external/types";
 import { FILE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/file/types";
-import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
+import { GRID_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/grid/types";
 import { H5P_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/h5p/types";
 import { IMAGE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/keyFigure/types";
 import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/linkBlockList/types";
 import { PITCH_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/pitch/types";
-import { TYPE_TABLE } from "../../../../components/SlateEditor/plugins/table/types";
-import {
-  createToolbarAreaOptions,
-  createToolbarDefaultValues,
-} from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { TABLE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/table/types";
+import { UNSUPPORTED_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/unsupported/types";
+import { UnsupportedElement } from "../../../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
 import { DISCLAIMER_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/uuDisclaimer/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/video/types";
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
 import { DRAFT_HTML_SCOPE, SAVE_DEBOUNCE_MS } from "../../../../constants";
 import { isFormikFormDirty } from "../../../../util/formHelper";
 import { toCreateFrontPageArticle, toEditMarkup } from "../../../../util/routeHelpers";
+import { findNodesByType } from "../../../../util/slateHelpers";
 import { useDebouncedCallback } from "../../../../util/useDebouncedCallback";
 import { IngressField, TitleField, SlugField } from "../../../FormikForm";
 import { FrontpageArticleFormType } from "../../../FormikForm/articleFormHooks";
@@ -66,16 +65,17 @@ const visualElements = [
   H5P_ELEMENT_TYPE,
   BRIGHTCOVE_ELEMENT_TYPE,
   AUDIO_ELEMENT_TYPE,
-  TYPE_EXTERNAL,
+  EXTERNAL_ELEMENT_TYPE,
+  IFRAME_ELEMENT_TYPE,
   IMAGE_ELEMENT_TYPE,
 ];
 
 const actions = [
-  TYPE_TABLE,
+  TABLE_ELEMENT_TYPE,
   CODE_BLOCK_ELEMENT_TYPE,
   FILE_ELEMENT_TYPE,
   CONTACT_BLOCK_ELEMENT_TYPE,
-  TYPE_GRID,
+  GRID_ELEMENT_TYPE,
   KEY_FIGURE_ELEMENT_TYPE,
   CAMPAIGN_BLOCK_ELEMENT_TYPE,
   LINK_BLOCK_LIST_ELEMENT_TYPE,
@@ -88,9 +88,6 @@ const actionsToShowInAreas = {
   section: actions,
   "grid-cell": [IMAGE_ELEMENT_TYPE, KEY_FIGURE_ELEMENT_TYPE, PITCH_ELEMENT_TYPE],
 };
-
-const toolbarOptions = createToolbarDefaultValues();
-const toolbarAreaFilters = createToolbarAreaOptions();
 
 interface Props {
   articleLanguage: string;
@@ -111,7 +108,10 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
 
   const onInitialNormalized = useCallback(
     (value: Descendant[]) => {
-      if (isFormikFormDirty({ values: { ...values, content: value }, initialValues, dirty: true })) {
+      if (
+        isFormikFormDirty({ values: { ...values, content: value }, initialValues, dirty: true }) ||
+        findNodesByType(value, UNSUPPORTED_ELEMENT_TYPE).length
+      ) {
         setShowAlert(true);
       }
     },
@@ -175,8 +175,6 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
           <RichTextEditor
             language={articleLanguage}
             actions={frontpageActions}
-            toolbarOptions={toolbarOptions}
-            toolbarAreaFilters={toolbarAreaFilters}
             blockpickerOptions={{
               actionsToShowInAreas,
             }}
@@ -187,6 +185,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
             data-testid="frontpage-article-content"
             onChange={debouncedOnChange}
             onInitialNormalized={onInitialNormalized}
+            renderInvalidElement={(props) => <UnsupportedElement {...props} />}
           />
         </ContentTypeProvider>
         <FieldErrorMessage>{meta.error}</FieldErrorMessage>

@@ -8,9 +8,10 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, type JSX } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Node, Transforms, Element, Path } from "slate";
+import { Editor, Node, Transforms, Path } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
+import { isElementOfType } from "@ndla/editor";
 import {
   Button,
   DialogBody,
@@ -27,7 +28,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ContentLinkEmbedData } from "@ndla/types-embed";
 import { ContentLinkElement, LinkElement } from ".";
 import LinkForm from "./LinkForm";
-import { LinkData, LinkEmbedData, TYPE_CONTENT_LINK, TYPE_LINK } from "./types";
+import { LinkData, LinkEmbedData, LINK_ELEMENT_TYPE, CONTENT_LINK_ELEMENT_TYPE } from "./types";
 import config from "../../../../config";
 import { toEditGenericArticle, toLearningpathFull } from "../../../../util/routeHelpers";
 import { DialogCloseButton } from "../../../DialogCloseButton";
@@ -64,9 +65,16 @@ export interface Model {
 
 const Link = ({ attributes, editor, element, children }: Props) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
+  const editorWrapperRef = useRef<HTMLElement>(null);
   const [editMode, setEditMode] = useState(false);
   const language = useArticleLanguage();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (linkRef.current) {
+      editorWrapperRef.current = linkRef.current.closest("[data-slate-wrapper]");
+    }
+  }, []);
 
   useEffect(() => {
     setEditMode(!!element.isFirstEdit);
@@ -89,7 +97,7 @@ const Link = ({ attributes, editor, element, children }: Props) => {
   const handleRemove = useCallback(() => {
     const path = ReactEditor.findPath(editor, element);
     Transforms.unwrapNodes(editor, {
-      match: (node) => Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
+      match: (node) => isElementOfType(node, [LINK_ELEMENT_TYPE, CONTENT_LINK_ELEMENT_TYPE]),
       at: path,
     });
     ReactEditor.focus(editor);
@@ -113,23 +121,23 @@ const Link = ({ attributes, editor, element, children }: Props) => {
     if ("href" in data) {
       Transforms.setNodes(
         editor,
-        { type: TYPE_LINK, data, isFirstEdit: false },
+        { type: LINK_ELEMENT_TYPE, data, isFirstEdit: false },
         {
           at: path,
-          match: (node) => Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
+          match: (node) => isElementOfType(node, [LINK_ELEMENT_TYPE, CONTENT_LINK_ELEMENT_TYPE]),
         },
       );
     } else {
       Transforms.setNodes(
         editor,
         {
-          type: TYPE_CONTENT_LINK,
+          type: CONTENT_LINK_ELEMENT_TYPE,
           data: { ...data, resource: "content-link" },
           isFirstEdit: false,
         },
         {
           at: path,
-          match: (node) => Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
+          match: (node) => isElementOfType(node, [LINK_ELEMENT_TYPE, CONTENT_LINK_ELEMENT_TYPE]),
         },
       );
     }
@@ -160,7 +168,7 @@ const Link = ({ attributes, editor, element, children }: Props) => {
             <InlineBugfix />
           </a>
         </PopoverTrigger>
-        <Portal>
+        <Portal container={{ current: editorWrapperRef.current }}>
           <StyledPopoverContent>
             <DialogTrigger asChild>
               <Button variant="link">{t("form.content.link.change")}</Button>
@@ -171,7 +179,7 @@ const Link = ({ attributes, editor, element, children }: Props) => {
           </StyledPopoverContent>
         </Portal>
       </PopoverRoot>
-      <Portal>
+      <Portal container={{ current: editorWrapperRef.current }}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t(`form.content.link.${element.data ? "changeTitle" : "addTitle"}`)}</DialogTitle>

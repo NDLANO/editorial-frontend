@@ -9,7 +9,6 @@
 import {
   Children,
   ComponentPropsWithRef,
-  forwardRef,
   isValidElement,
   ReactNode,
   useEffect,
@@ -18,7 +17,7 @@ import {
   useState,
 } from "react";
 import { Editor, Range } from "slate";
-import { useFocused, useSlate, useSlateSelection } from "slate-react";
+import { useSlate, useSlateSelection, useSlateSelector } from "slate-react";
 import { usePopoverContext } from "@ark-ui/react";
 import { PopoverContent, PopoverRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -26,16 +25,11 @@ import { ToolbarBlockOptions } from "./ToolbarBlockOptions";
 import { ToolbarInlineOptions } from "./ToolbarInlineOptions";
 import { ToolbarLanguageOptions } from "./ToolbarLanguageOptions";
 import { ToolbarMarkOptions } from "./ToolbarMarkOptions";
-import {
-  getSelectionElements,
-  toolbarState,
-  CategoryFilters,
-  AreaFilters,
-  ToolbarValue,
-  ToolbarValues,
-} from "./toolbarState";
+import { ToolbarValue, ToolbarValues } from "./toolbarState";
 import { ToolbarTableOptions } from "./ToolbarTableOptions";
 import { ToolbarTextOptions } from "./ToolbarTextOptions";
+import { AI_ACCESS_SCOPE } from "../../../../constants";
+import { useSession } from "../../../../containers/Session/SessionProvider";
 
 const ToolbarContainer = styled(PopoverContent, {
   base: {
@@ -77,8 +71,6 @@ export interface ToolbarCategoryProps<T extends ToolbarValues> {
 }
 
 interface Props {
-  options: CategoryFilters;
-  areaOptions: AreaFilters;
   hideToolbar?: boolean;
 }
 const checkHasSelectionWithin = (el?: Element | null) => {
@@ -91,15 +83,19 @@ const checkHasSelectionWithin = (el?: Element | null) => {
   return !range.collapsed && el.contains(range.commonAncestorContainer);
 };
 
-const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideToolbarProp }: Props) => {
-  const selection = useSlateSelection();
+const SlateToolbar = ({ hideToolbar: hideToolbarProp }: Props) => {
   const editor = useSlate();
   const toolbarRef = useRef<HTMLDivElement>(null);
   const editorWrapperRef = useRef<HTMLDivElement | null>(null);
-  const editorFocused = useFocused();
   const [open, setOpen] = useState(false);
   const [hasSelectionWithin, setHasSelectionWithin] = useState(false);
   const [hasMouseDown, setHasMouseDown] = useState(false);
+  const { userPermissions } = useSession();
+
+  const shouldShowToolbar = useSlateSelector((editor) => {
+    if (!editor.selection || Range.isCollapsed(editor.selection)) return false;
+    return !!editor.shouldShowToolbar?.() && !!Editor.string(editor, editor.selection).length;
+  });
 
   useEffect(() => {
     if (toolbarRef.current) {
@@ -138,35 +134,22 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
   }, []);
 
   useEffect(() => {
-    const nonCollapsed = selection && !Range.isCollapsed(selection);
-    if (nonCollapsed && hasSelectionWithin && !hasMouseDown) {
-      setOpen(true);
-    } else if (!document.activeElement?.closest('[role="dialog"]')) {
-      setOpen(false);
-    }
-  }, [editor, editor.selection, editorFocused, hasMouseDown, hasSelectionWithin, selection]);
+    setOpen(shouldShowToolbar);
+  }, [shouldShowToolbar]);
 
   const hideToolbar = useMemo(() => {
-    return (
-      hasMouseDown ||
-      !open ||
-      !selection ||
-      !hasSelectionWithin ||
-      hideToolbarProp ||
-      Range.isCollapsed(selection) ||
-      Editor.string(editor, selection) === "" ||
-      !editor.shouldShowToolbar()
-    );
-  }, [hasMouseDown, open, selection, hasSelectionWithin, hideToolbarProp, editor]);
+    return hasMouseDown || !open || !hasSelectionWithin || hideToolbarProp || !shouldShowToolbar;
+  }, [hasMouseDown, open, hasSelectionWithin, hideToolbarProp, shouldShowToolbar]);
 
   const options = useMemo(() => {
     if (hideToolbar) return;
-    return toolbarState({
-      editorAncestors: getSelectionElements(editor, selection),
-      options: toolbarOptions,
-      areaOptions,
+    return editor.toolbarState?.({
+      // TODO: This is not really scalable if we're going to introduce more constraints later-on.
+      options: userPermissions?.includes(AI_ACCESS_SCOPE)
+        ? undefined
+        : { inline: { rephrase: { hidden: true, disabled: true } } },
     });
-  }, [hideToolbar, editor, selection, toolbarOptions, areaOptions]);
+  }, [hideToolbar, editor, userPermissions]);
 
   const positioningOptions = useMemo(() => {
     return {
@@ -203,7 +186,9 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
   );
 };
 
-const ToolbarRepositioner = forwardRef<HTMLDivElement, ComponentPropsWithRef<"div">>((props, ref) => {
+interface ToolbarRepositionerProps extends ComponentPropsWithRef<"div"> {}
+
+const ToolbarRepositioner = (props: ToolbarRepositionerProps) => {
   const { open, reposition } = usePopoverContext();
   const selection = useSlateSelection();
 
@@ -213,8 +198,8 @@ const ToolbarRepositioner = forwardRef<HTMLDivElement, ComponentPropsWithRef<"di
     }
   }, [open, reposition, selection]);
 
-  return <div ref={ref} {...props} />;
-});
+  return <div {...props} />;
+};
 
 const ToolbarRow = ({ children }: { children: ReactNode }) => {
   // Do not render categories with only disabled and hidden options

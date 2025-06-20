@@ -138,6 +138,17 @@ const usernamePasswordEnabled = (ndlaEnvironment: string) => {
   }
 };
 
+const getAudioS3Root = (ndlaEnvironment: string) => {
+  switch (ndlaEnvironment) {
+    case "prod":
+    case "staging":
+    case "test":
+      return `s3://${ndlaEnvironment}.audio.2.ndla/`;
+    default:
+      return "s3://test.audio.2.ndla/";
+  }
+};
+
 export type ConfigType = {
   brightcoveAccountId: string | undefined;
   logEnvironment: string | undefined;
@@ -176,7 +187,8 @@ export type ConfigType = {
   licenseAll: string | undefined;
   matomoSiteId: string | undefined;
   matomoUrl: string;
-  enableMatomoData: boolean;
+  s3AudioRoot: string;
+  norgesfilmNewUrl: boolean;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -222,10 +234,11 @@ const getServerSideConfig = (): ConfigType => {
     isVercel: getEnvironmentVariabel("IS_VERCEL", "false") === "true",
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as "test" | "development" | "production",
     enableH5pCopy: getEnvironmentVariabel("ENABLE_H5P_COPY", "true") === "true",
-    licenseAll: getEnvironmentVariabel("LICENSE_ALL"),
+    licenseAll: getEnvironmentVariabel("LICENSE_ALL", "all"),
     matomoSiteId: getEnvironmentVariabel("MATOMO_SITE_ID"),
     matomoUrl: getEnvironmentVariabel("MATOMO_URL", matomoDomain(ndlaEnvironment)),
-    enableMatomoData: getEnvironmentVariabel("ENABLE_MATOMO_DATA", "false") === "true",
+    s3AudioRoot: getAudioS3Root(ndlaEnvironment),
+    norgesfilmNewUrl: getEnvironmentVariabel("NORGESFILM_NEW_URL", "false") === "true",
   };
 };
 
@@ -233,7 +246,6 @@ export function getUniversalConfig(): ConfigType {
   if (typeof window === "undefined" || process.env.NODE_ENV === "test") {
     return getServerSideConfig();
   }
-
   return window.config;
 }
 

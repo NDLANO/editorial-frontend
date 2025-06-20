@@ -6,16 +6,19 @@
  *
  */
 
-import { CSSProperties, RefObject, useEffect } from "react";
+import { CSSProperties, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
 import { Draggable, StarLine, StarFill, SubtractLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
-import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild, Node } from "@ndla/types-taxonomy";
+import { useCurrentNode } from "./CurrentNodeProvider";
 import NodeControls from "./folderComponents/NodeControls";
+import { usePreferences } from "./PreferencesProvider";
 import QualityEvaluationGrade from "./resourceComponents/QualityEvaluationGrade";
+import { SafeLinkWithQuery } from "./SafeLinkWithQuery";
+import { RESOURCE_SECTION_ID } from "./utils";
 import DndList from "../../components/DndList";
 import { DragHandle } from "../../components/DraggableItem";
 import Fade from "../../components/Taxonomy/Fade";
@@ -86,8 +89,6 @@ interface Props {
   id: string;
   item: TaxonomyNodeChild | Node;
   openedPaths: string[];
-  onNodeSelected: (node?: Node) => void;
-  resourceSectionRef: RefObject<HTMLDivElement | null>;
   rootNodeId: string;
   onDragEnd: (result: DragEndEvent, childNodes: NodeChild[]) => Promise<void>;
   connectionId: string;
@@ -96,7 +97,6 @@ interface Props {
   toggleFavorite?: () => void;
   nodes?: NodeChildWithChildren[];
   isLoading?: boolean;
-  showQuality: boolean;
   level?: number;
   rootPath: string;
 }
@@ -104,30 +104,29 @@ interface Props {
 const NodeItem = ({
   item,
   openedPaths,
-  onNodeSelected,
   rootNodeId,
-  resourceSectionRef,
   onDragEnd,
   isRoot,
   isFavorite,
   toggleFavorite,
   isLoading,
   nodes = [],
-  showQuality,
   level = 0,
   rootPath,
 }: Props) => {
   const { t } = useTranslation();
+  const { setCurrentNode } = useCurrentNode();
   const { userPermissions } = useSession();
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) || false;
   const path = nodePathToUrnPath(item.path) ?? "";
   const isOpen = openedPaths.includes(path);
   const isActive = openedPaths[openedPaths.length - 1] === path;
   const hasChildNodes = isRoot ? true : nodes.length > 0;
+  const { showQuality } = usePreferences();
 
   useEffect(() => {
     if (isActive) {
-      onNodeSelected(item);
+      setCurrentNode(item);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item]);
@@ -160,11 +159,11 @@ const NodeItem = ({
           {isFavorite ? <StarFill /> : <StarLine />}
         </StyledIconButton>
         <NodeItemTitle asChild consumeCss>
-          <SafeLink to={newPath} onClick={() => onNodeSelected(item)}>
+          <SafeLinkWithQuery to={newPath} onClick={() => setCurrentNode(item)}>
             <ToggleIcon hasChildNodes={hasChildNodes} isOpen={isOpen} />
             {!hasChildNodes && <SubtractLine css={iconRecipe.raw()} />}
             {item.name}
-          </SafeLink>
+          </SafeLinkWithQuery>
         </NodeItemTitle>
         <StructureErrorIcon node={item} isRoot={!!isRoot} isTaxonomyAdmin={isTaxonomyAdmin} />
         {!!showQuality && (item.nodeType === "TOPIC" || item.nodeType === "SUBJECT") && (
@@ -191,8 +190,8 @@ const NodeItem = ({
             rootNodeId={rootNodeId}
             key={item.id}
             isMainActive={isOpen}
-            onCurrentNodeChanged={(node) => onNodeSelected(node)}
-            jumpToResources={() => resourceSectionRef?.current?.scrollIntoView()}
+            onCurrentNodeChanged={setCurrentNode}
+            jumpToResources={() => document.getElementById(RESOURCE_SECTION_ID)?.scrollIntoView()}
             nodeChildren={nodes}
             isLoading={!!isLoading}
           />
@@ -213,12 +212,9 @@ const NodeItem = ({
                   id={t.id}
                   rootNodeId={rootNodeId}
                   openedPaths={openedPaths}
-                  resourceSectionRef={resourceSectionRef}
-                  onNodeSelected={onNodeSelected}
                   item={t}
                   nodes={t.childNodes}
                   onDragEnd={onDragEnd}
-                  showQuality={showQuality}
                   level={level + 1}
                   rootPath={rootPath}
                 />

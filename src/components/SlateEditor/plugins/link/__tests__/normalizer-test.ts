@@ -6,12 +6,13 @@
  *
  */
 
-import { Descendant, Editor } from "slate";
+import { Descendant } from "slate";
 import { createSlate } from "@ndla/editor";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
-import { TYPE_LINK, TYPE_CONTENT_LINK } from "../types";
+import { LINK_ELEMENT_TYPE, CONTENT_LINK_ELEMENT_TYPE } from "../types";
+import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
 
@@ -26,7 +27,7 @@ describe("link normalizer tests", () => {
             children: [
               { text: "" },
               {
-                type: TYPE_LINK,
+                type: LINK_ELEMENT_TYPE,
                 data: {
                   href: "test-url",
                 },
@@ -47,13 +48,15 @@ describe("link normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: TYPE_SECTION,
+        id: anySlateElementId,
         children: [
           {
             type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
             children: [
               { text: "" },
               {
-                type: TYPE_LINK,
+                type: LINK_ELEMENT_TYPE,
                 data: {
                   href: "test-url",
                 },
@@ -65,8 +68,7 @@ describe("link normalizer tests", () => {
         ],
       },
     ];
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
 
@@ -80,9 +82,9 @@ describe("link normalizer tests", () => {
             children: [
               { text: "" },
               {
-                type: TYPE_CONTENT_LINK,
+                type: CONTENT_LINK_ELEMENT_TYPE,
                 data: {
-                  resource: TYPE_CONTENT_LINK,
+                  resource: CONTENT_LINK_ELEMENT_TYPE,
                   contentId: "123",
                   contentType: "article",
                   openIn: "current-context",
@@ -99,15 +101,17 @@ describe("link normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: TYPE_SECTION,
+        id: anySlateElementId,
         children: [
           {
             type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
             children: [
               { text: "" },
               {
-                type: TYPE_CONTENT_LINK,
+                type: CONTENT_LINK_ELEMENT_TYPE,
                 data: {
-                  resource: TYPE_CONTENT_LINK,
+                  resource: CONTENT_LINK_ELEMENT_TYPE,
                   contentId: "123",
                   contentType: "article",
                   openIn: "current-context",
@@ -120,8 +124,7 @@ describe("link normalizer tests", () => {
         ],
       },
     ];
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
 
@@ -135,7 +138,7 @@ describe("link normalizer tests", () => {
             children: [
               { text: "" },
               {
-                type: TYPE_LINK,
+                type: LINK_ELEMENT_TYPE,
                 data: {
                   href: "test-url",
                 },
@@ -147,9 +150,9 @@ describe("link normalizer tests", () => {
               },
               { text: "" },
               {
-                type: TYPE_CONTENT_LINK,
+                type: CONTENT_LINK_ELEMENT_TYPE,
                 data: {
-                  resource: TYPE_CONTENT_LINK,
+                  resource: CONTENT_LINK_ELEMENT_TYPE,
                   contentType: "test",
                   contentId: "123",
                   openIn: "test",
@@ -170,16 +173,17 @@ describe("link normalizer tests", () => {
     const expectedValue: Descendant[] = [
       {
         type: TYPE_SECTION,
+        id: anySlateElementId,
         children: [
           {
             type: TYPE_PARAGRAPH,
+            id: anySlateElementId,
             children: [{ text: "" }],
           },
         ],
       },
     ];
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });
 });

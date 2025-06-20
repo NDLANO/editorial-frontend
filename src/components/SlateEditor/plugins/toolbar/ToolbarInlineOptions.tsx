@@ -16,6 +16,9 @@ import { insertComment } from "../comment/inline/utils";
 import { insertInlineConcept } from "../concept/inline/utils";
 import { insertLink } from "../link/utils";
 import { insertMathml } from "../mathml/utils";
+import { insertRephrase } from "../rephrase/utils";
+import { SYMBOL_ELEMENT_TYPE } from "../symbol/types";
+import { insertSymbol } from "../symbol/utils";
 
 const getCurrentInlineValues = (editor: Editor): InlineType | undefined => {
   const [currentBlock] =
@@ -25,7 +28,9 @@ const getCurrentInlineValues = (editor: Editor): InlineType | undefined => {
         (n.type === "concept-inline" ||
           n.type === "content-link" ||
           n.type === "mathml" ||
-          n.type === "comment-inline"),
+          n.type === "comment-inline" ||
+          n.type === "rephrase" ||
+          n.type === SYMBOL_ELEMENT_TYPE),
       mode: "lowest",
     }) ?? [];
 
@@ -58,6 +63,12 @@ export const ToolbarInlineOptions = ({ options }: ToolbarCategoryProps<InlineTyp
       }
       if (type === "comment-inline") {
         insertComment(editor);
+      }
+      if (type === "rephrase") {
+        insertRephrase(editor);
+      }
+      if (type === SYMBOL_ELEMENT_TYPE) {
+        insertSymbol(editor);
       }
     },
     [editor, selection],

@@ -19,28 +19,34 @@ import { blockConceptPlugin } from "../../../../components/SlateEditor/plugins/c
 import { inlineConceptPlugin } from "../../../../components/SlateEditor/plugins/concept/inline";
 import { contactBlockPlugin } from "../../../../components/SlateEditor/plugins/contactBlock";
 import { copyrightPlugin } from "../../../../components/SlateEditor/plugins/copyright";
-import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList";
 import { detailsPlugin } from "../../../../components/SlateEditor/plugins/details/detailsPlugin";
 import { summaryPlugin } from "../../../../components/SlateEditor/plugins/details/summaryPlugin";
 import { divPlugin } from "../../../../components/SlateEditor/plugins/div";
-import { dndPlugin } from "../../../../components/SlateEditor/plugins/DND";
-import { embedPlugin } from "../../../../components/SlateEditor/plugins/embed";
-import { externalPlugin } from "../../../../components/SlateEditor/plugins/external";
+import { dndPlugin } from "../../../../components/SlateEditor/plugins/DND/dndPlugin";
+import { externalPlugin, iframePlugin } from "../../../../components/SlateEditor/plugins/external";
 import { filePlugin } from "../../../../components/SlateEditor/plugins/file";
 import { footnotePlugin } from "../../../../components/SlateEditor/plugins/footnote";
 import { framedContentPlugin } from "../../../../components/SlateEditor/plugins/framedContent/framedContentPlugin";
-import { gridPlugin } from "../../../../components/SlateEditor/plugins/grid";
+import { gridPlugin } from "../../../../components/SlateEditor/plugins/grid/gridPlugin";
+import { gridCellPlugin } from "../../../../components/SlateEditor/plugins/grid/gridCellPlugin";
 import { h5pPlugin } from "../../../../components/SlateEditor/plugins/h5p";
 import { imagePlugin } from "../../../../components/SlateEditor/plugins/image";
 import { keyFigurePlugin } from "../../../../components/SlateEditor/plugins/keyFigure";
-import { linkPlugin } from "../../../../components/SlateEditor/plugins/link";
+import { contentLinkPlugin, linkPlugin } from "../../../../components/SlateEditor/plugins/link";
 import { linkBlockListPlugin } from "../../../../components/SlateEditor/plugins/linkBlockList";
 import { mathmlPlugin } from "../../../../components/SlateEditor/plugins/mathml/mathPlugin";
 import { pitchPlugin } from "../../../../components/SlateEditor/plugins/pitch";
 import { relatedPlugin } from "../../../../components/SlateEditor/plugins/related";
 import saveHotkeyPlugin from "../../../../components/SlateEditor/plugins/saveHotkey";
 import { spanPlugin } from "../../../../components/SlateEditor/plugins/span";
-import { tablePlugin } from "../../../../components/SlateEditor/plugins/table";
+import { tablePlugin } from "../../../../components/SlateEditor/plugins/table/tablePlugin";
+import { tableCaptionPlugin } from "../../../../components/SlateEditor/plugins/table/tableCaptionPlugin";
+import {
+  tableCellHeaderPlugin,
+  tableCellPlugin,
+} from "../../../../components/SlateEditor/plugins/table/tableCellPlugins";
+import { tableBodyPlugin } from "../../../../components/SlateEditor/plugins/table/tableBodyPlugin";
+import { tableRowPlugin } from "../../../../components/SlateEditor/plugins/table/tableRowPlugin";
 import { textTransformPlugin } from "../../../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../../../components/SlateEditor/plugins/toolbar";
 import { disclaimerPlugin } from "../../../../components/SlateEditor/plugins/uuDisclaimer";
@@ -51,16 +57,26 @@ import { headingPlugin } from "../../../../components/SlateEditor/plugins/headin
 import { breakPlugin } from "../../../../components/SlateEditor/plugins/break";
 import { markPlugin } from "../../../../components/SlateEditor/plugins/mark";
 import { listPlugin } from "../../../../components/SlateEditor/plugins/list";
+import { idPlugin } from "../../../../components/SlateEditor/plugins/id/idPlugin";
+import { rephrasePlugin } from "../../../../components/SlateEditor/plugins/rephrase/rephrasePlugin";
+import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionListPlugin";
+import { definitionTermPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionTermPlugin";
+import { definitionDescriptionPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionDescriptionPlugin";
+import { symbolPlugin } from "../../../../components/SlateEditor/plugins/symbol";
+import { tableHeadPlugin } from "../../../../components/SlateEditor/plugins/table/tableHeadPlugin";
+import { unsupportedPlugin } from "../../../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
+import { pastePlugin } from "../../../../components/SlateEditor/plugins/paste";
 
 // Plugins are checked from last to first
 export const frontpagePlugins: SlatePlugin[] = [
+  idPlugin,
   sectionPlugin,
   spanPlugin,
   divPlugin,
   paragraphPlugin,
   footnotePlugin,
-  externalPlugin(),
-  embedPlugin(),
+  externalPlugin,
+  iframePlugin,
   audioPlugin,
   imagePlugin,
   h5pPlugin,
@@ -68,6 +84,7 @@ export const frontpagePlugins: SlatePlugin[] = [
   framedContentPlugin,
   blockQuotePlugin,
   linkPlugin,
+  contentLinkPlugin,
   inlineConceptPlugin,
   blockConceptPlugin,
   commentInlinePlugin,
@@ -80,6 +97,12 @@ export const frontpagePlugins: SlatePlugin[] = [
   // // Blockquote and editList actions need to be triggered before paragraph action, else
   // // unwrapping (jumping out of block) will not work.
   tablePlugin,
+  tableCaptionPlugin,
+  tableCellPlugin,
+  tableCellHeaderPlugin,
+  tableBodyPlugin,
+  tableHeadPlugin,
+  tableRowPlugin,
   relatedPlugin,
   filePlugin,
   mathmlPlugin,
@@ -88,17 +111,24 @@ export const frontpagePlugins: SlatePlugin[] = [
   keyFigurePlugin,
   blockPickerPlugin,
   dndPlugin,
-  toolbarPlugin(),
+  toolbarPlugin,
   textTransformPlugin,
   breakPlugin,
   saveHotkeyPlugin,
   markPlugin,
   definitionListPlugin,
+  definitionTermPlugin,
+  definitionDescriptionPlugin,
   listPlugin,
+  gridCellPlugin,
   gridPlugin,
   pitchPlugin,
   campaignBlockPlugin,
   linkBlockListPlugin,
   disclaimerPlugin,
   copyrightPlugin,
+  rephrasePlugin,
+  symbolPlugin,
+  unsupportedPlugin,
+  pastePlugin,
 ];

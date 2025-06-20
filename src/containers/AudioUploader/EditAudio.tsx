@@ -13,7 +13,6 @@ import AudioForm from "./components/AudioForm";
 import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
 import { fetchAudio, updateAudio } from "../../modules/audio/audioApi";
-import { createFormData } from "../../util/formDataHelper";
 import { toEditPodcast } from "../../util/routeHelpers";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
@@ -31,7 +30,7 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
   const params = useParams<"id" | "selectedLanguage">();
   const [audio, setAudio] = useState<IAudioMetaInformationDTO | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
-  const { shouldTranslate, translate, translating } = useTranslateToNN();
+  const { shouldTranslate, translate, translating, translatedFields } = useTranslateToNN();
   const audioId = Number(params.id) || undefined;
   const audioLanguage = params.selectedLanguage!;
 
@@ -70,8 +69,8 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
     newAudio: IUpdatedAudioMetaInformationDTO,
     file: string | Blob | undefined,
   ): Promise<void> => {
-    const formData = await createFormData(file, newAudio);
-    const updatedAudio = await updateAudio(audioId, formData);
+    if (typeof file === "string") return;
+    const updatedAudio = await updateAudio(audioId, newAudio, file);
     setAudio(updatedAudio);
   };
 
@@ -89,6 +88,7 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
       isNewlyCreated={isNewlyCreated}
       isNewLanguage={isNewLanguage}
       supportedLanguages={audio.supportedLanguages}
+      translatedFieldsToNN={translatedFields}
     />
   );
 };

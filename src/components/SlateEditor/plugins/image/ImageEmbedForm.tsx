@@ -7,9 +7,10 @@
  */
 
 import { Formik, useFormikContext } from "formik";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
+import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { CheckLine } from "@ndla/icons";
 import {
   Button,
@@ -34,6 +35,7 @@ import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLab
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
+import { isEmpty } from "../../../validators";
 import { RichTextIndicator } from "../../RichTextIndicator";
 import { useInGrid } from "../grid/GridContext";
 
@@ -146,6 +148,12 @@ const InputWrapper = styled("div", {
   },
 });
 
+const toolbarOptions = {
+  inline: {
+    "content-link": { hidden: false },
+  },
+};
+
 const EmbedForm = ({
   onClose,
   language,
@@ -157,6 +165,8 @@ const EmbedForm = ({
   const { values, initialValues, isValid, setFieldValue, dirty, isSubmitting } =
     useFormikContext<ImageEmbedFormValues>();
 
+  const [captionHasContent, setCaptionHasContent] = useState(!isEmpty(initialValues.caption));
+
   const formIsDirty = isFormikFormDirty({
     values,
     initialValues,
@@ -166,23 +176,25 @@ const EmbedForm = ({
     <FormikForm>
       {!!image && <ImageEditor language={language} image={image} />}
       <InputWrapper>
-        <FormField name="caption">
-          {({ field, helpers }) => (
-            <FieldRoot>
-              <ContentEditableFieldLabel>
-                {t("form.image.caption.label")}
-                <RichTextIndicator />
-              </ContentEditableFieldLabel>
-              <InlineField
-                {...field}
-                placeholder={t("form.image.caption.placeholder")}
-                submitted={isSubmitting}
-                onChange={helpers.setValue}
-              />
-            </FieldRoot>
-          )}
-        </FormField>
-
+        {!values.isDecorative || captionHasContent ? (
+          <FormField name="caption">
+            {({ field, helpers }) => (
+              <FieldRoot>
+                <ContentEditableFieldLabel>
+                  {t("form.image.caption.label")}
+                  <RichTextIndicator />
+                </ContentEditableFieldLabel>
+                <InlineField
+                  {...field}
+                  toolbarOptions={toolbarOptions}
+                  placeholder={t("form.image.caption.placeholder")}
+                  submitted={isSubmitting}
+                  onChange={helpers.setValue}
+                />
+              </FieldRoot>
+            )}
+          </FormField>
+        ) : null}
         {!values.isDecorative && (
           <FormField name="alt">
             {({ field, meta }) => (
@@ -204,6 +216,17 @@ const EmbedForm = ({
                     helpers.setValue(details.checked, false);
                     if (details.checked) {
                       setFieldValue("alt", "", false);
+                      setCaptionHasContent(false);
+                      setFieldValue(
+                        "caption",
+                        [
+                          {
+                            type: PARAGRAPH_ELEMENT_TYPE,
+                            children: [{ text: "" }],
+                          },
+                        ],
+                        false,
+                      );
                     }
                   }}
                 >

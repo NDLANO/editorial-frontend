@@ -28,7 +28,7 @@ export interface TranslateType {
 
 export const NynorskTranslateProvider = ({ children }: Props) => {
   const translateState = useState<boolean>(false);
-  return <TranslateContext.Provider value={translateState}>{children}</TranslateContext.Provider>;
+  return <TranslateContext value={translateState}>{children}</TranslateContext>;
 };
 
 const errorMessage = "useTranslateToNN must be used within a NynorskTranslateProvider";
@@ -37,6 +37,7 @@ export const useTranslateToNN = () => {
   const translateContext = useContext(TranslateContext);
   const { selectedLanguage } = useParams();
   const [translating, setTranslating] = useState(false);
+  const [translatedFields, setTranslatedFields] = useState<string[]>([]);
   const shouldTranslate = useMemo(
     () => (translateContext?.[0] ? selectedLanguage === "nn" : false),
     [translateContext, selectedLanguage],
@@ -83,6 +84,12 @@ export const useTranslateToNN = () => {
       });
       setElement({ ...merge(element, cloned), language: "nn" });
       setTranslating(false);
+      setTranslatedFields(
+        fields.map((field) => {
+          const fieldValue = field.field.split(".");
+          return fieldValue[fieldValue.length - 1];
+        }),
+      );
       translateContext[1](false);
     },
     [translateContext],
@@ -91,6 +98,7 @@ export const useTranslateToNN = () => {
   return {
     translating,
     translate,
+    translatedFields,
     shouldTranslate,
     setShouldTranslate,
   };

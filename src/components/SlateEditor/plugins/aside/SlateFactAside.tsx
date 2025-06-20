@@ -43,7 +43,7 @@ const SlateFactAside = ({ children, onRemoveClick, attributes, onMoveContent }: 
         <MoveContentButton onMouseDown={onMoveContent} aria-label={t("form.moveContent")} />
         <DeleteButton aria-label={t("form.remove")} onMouseDown={onRemoveClick} data-testid="remove-fact-aside" />
       </ButtonContainer>
-      <FactBox open={open} draggable {...attributes} onOpenChange={setIsOpen}>
+      <FactBox open={open} {...attributes} onOpenChange={setIsOpen}>
         {children}
       </FactBox>
     </EmbedWrapper>

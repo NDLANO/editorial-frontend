@@ -11,7 +11,6 @@ import { useNavigate } from "react-router-dom";
 import { INewAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import PodcastForm from "./components/PodcastForm";
 import { postAudio } from "../../modules/audio/audioApi";
-import { createFormData } from "../../util/formDataHelper";
 import { toEditPodcast } from "../../util/routeHelpers";
 
 const CreatePodcast = () => {
@@ -20,9 +19,10 @@ const CreatePodcast = () => {
   const navigate = useNavigate();
 
   const onCreatePodcast = async (newPodcast: INewAudioMetaInformationDTO, podcastFile: string | Blob | undefined) => {
-    const formData = await createFormData(podcastFile, newPodcast);
-    const createdPodcast = await postAudio(formData);
-    navigate(toEditPodcast(createdPodcast.id, newPodcast.language));
+    if (podcastFile instanceof Blob) {
+      const createdPodcast = await postAudio(newPodcast, podcastFile);
+      navigate(toEditPodcast(createdPodcast.id, newPodcast.language));
+    }
   };
 
   return (
@@ -31,6 +31,7 @@ const CreatePodcast = () => {
       supportedLanguages={[locale]}
       isNewlyCreated={false}
       language={locale}
+      translatedFieldsToNN={[]}
     />
   );
 };

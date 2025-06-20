@@ -6,11 +6,16 @@
  *
  */
 
-import { memo } from "react";
+import { memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Text } from "@ndla/primitives";
-import DateEdit from "./DateEdit";
+import { DatePickerValueChangeDetails } from "@ark-ui/react";
+import { getLocalTimeZone, parseAbsoluteToLocal, ZonedDateTime } from "@internationalized/date";
+import { PencilFill } from "@ndla/icons";
+import { Button, DatePickerControl, DatePickerRoot, DatePickerTrigger, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { useDatePickerTranslations } from "@ndla/ui";
 import formatDate from "../../util/formatDate";
+import { DatePickerContent } from "../abstractions/DatePicker";
 
 interface Creator {
   name: string;
@@ -27,15 +32,67 @@ interface Props {
   contentType?: "topicArticle" | "concept";
 }
 
+const StyledDiv = styled("div", {
+  base: {
+    display: "flex",
+    flexWrap: "wrap",
+    color: "text.subtle",
+    alignItems: "center",
+    gap: "5xsmall",
+  },
+});
+
 const LastUpdatedLine = ({ creators, published, onChange, allowEdit = false, contentType = "topicArticle" }: Props) => {
   const { t } = useTranslation();
+  const translations = useDatePickerTranslations();
   const dateLabel = t(`${contentType}Form.info.lastUpdated`);
+
+  const dateValue = useMemo(() => {
+    if (!published) return [];
+    return (published ? [parseAbsoluteToLocal(published)] : []) as ZonedDateTime[];
+  }, [published]);
+
+  const onValueChange = useCallback(
+    (details: DatePickerValueChangeDetails) => {
+      const value = details.value[0];
+      if (value) {
+        const formattedDate = value.toDate(getLocalTimeZone());
+        onChange(formattedDate.toISOString());
+      }
+    },
+    [onChange],
+  );
+
   return (
-    <Text color="text.subtle">
-      {creators.map((creator) => creator.name).join(", ")}
-      {published ? ` - ${dateLabel}: ` : ""}
-      {!!published && (allowEdit ? <DateEdit onChange={onChange} published={published} /> : formatDate(published))}
-    </Text>
+    <StyledDiv>
+      <Text>
+        {creators.map((creator) => creator.name).join(", ")}
+        {!!published && ` - ${dateLabel}: `}
+        {!!published && !allowEdit && formatDate(published)}
+      </Text>
+      {!!published && !!allowEdit && (
+        <DatePickerRoot
+          translations={translations}
+          value={dateValue}
+          onValueChange={onValueChange}
+          locale="nb-NO"
+          fixedWeeks
+          startOfWeek={1}
+          outsideDaySelectable
+          lazyMount
+          unmountOnExit
+        >
+          <DatePickerControl>
+            <DatePickerTrigger asChild>
+              <Button variant="tertiary" size="small" data-testid="last-edited">
+                {formatDate(published)} <PencilFill />
+              </Button>
+            </DatePickerTrigger>
+          </DatePickerControl>
+          <DatePickerContent />
+        </DatePickerRoot>
+      )}
+    </StyledDiv>
   );
 };
 

@@ -6,7 +6,7 @@
  *
  */
 
-import { toUnicode } from "punycode";
+import { toUnicode } from "punycode/";
 import { useEffect, useRef, useState, ReactNode, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
@@ -15,6 +15,7 @@ import { DialogOpenChangeDetails, Portal } from "@ark-ui/react";
 import { PencilFill, DeleteBinLine } from "@ndla/icons";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import { RelatedContentEmbedData, RelatedContentMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, RelatedArticleList, RelatedContentEmbed } from "@ndla/ui";
 import EditRelated from "./EditRelated";
@@ -52,7 +53,12 @@ const internalEmbedToMeta = async (
   language: string,
   taxonomyVersion: string,
 ): Promise<RelatedContentMetaData> => {
-  const article = await fetchDraft(embedData.articleId!, language).catch(() => undefined);
+  const parsedId = parseInt(embedData.articleId ?? "");
+  let article: IArticleDTO | undefined;
+  if (!isNaN(parsedId)) {
+    article = await fetchDraft(parsedId, language).catch(() => undefined);
+  }
+
   const nodes = await fetchNodes({
     taxonomyVersion,
     contentURI: `urn:article:${embedData.articleId}`,

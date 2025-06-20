@@ -11,6 +11,7 @@ import { apiBaseUrl, getAccessToken, isAccessTokenValid, renewAuth } from "./aut
 import { resolveJsonOrRejectWithError, throwErrorPayload } from "./resolveJsonOrRejectWithError";
 import config from "../config";
 import { BrightcoveAccessToken, H5POembed } from "../interfaces";
+import createClient, { Middleware } from "openapi-fetch";
 
 export interface HttpHeadersType {
   "Content-Type": string;
@@ -32,6 +33,41 @@ export function apiResourceUrl(path: string) {
 export function brightcoveApiResourceUrl(path: string) {
   return config.brightcoveApiUrl + path;
 }
+
+/** openapi-fetch middleware to add authentication headers */
+export const OATSAuthMiddleware: Middleware = {
+  async onRequest({ request }) {
+    if (!isAccessTokenValid()) {
+      await renewAuth();
+    }
+
+    if (!request.headers.get("Content-Type")) {
+      request.headers.set("Content-Type", "text/plain");
+    }
+    if (!request.headers.get("VersionHash")) {
+      request.headers.set("VersionHash", "default");
+    }
+
+    request.headers.set("Authorization", `Bearer ${getAccessToken()}`);
+    request.headers.set("Cache-Control", "no-cache");
+
+    return request;
+  },
+};
+
+export const createAuthClient = <T extends {}>() => {
+  const client = createClient<T>({
+    baseUrl: apiBaseUrl,
+    querySerializer: {
+      array: {
+        style: "form",
+        explode: false,
+      },
+    },
+  });
+  client.use(OATSAuthMiddleware);
+  return client;
+};
 
 export const fetchWithAuthorization = async (url: string, config: FetchConfigType = {}, forceAuth: boolean) => {
   if (forceAuth || !isAccessTokenValid()) {

@@ -7,26 +7,26 @@
  */
 
 import { Descendant, Editor, Path } from "slate";
-import { TableCellElement, TableMatrix } from "./interfaces";
+import { TableMatrix } from "./interfaces";
 import { insertCellInMatrix } from "./matrixHelpers";
-import { isTable, isTableHead, isTableRow, isTableCell, isTableBody } from "./slateHelpers";
+import { isAnyTableCellElement, isTableElement, isTableRowElement, isTableSectionElement } from "./queries";
 
-// Expects a perfectly normalized table. Requires path to the table body
-export const getTableBodyAsMatrix = (editor: Editor, path: Path) => {
+// Expects a perfectly normalized table. Requires path to the table section
+export const getTableSectionAsMatrix = (editor: Editor, path: Path) => {
   if (!Editor.hasPath(editor, path)) return;
-  const [tableBody] = Editor.node(editor, path);
-  if (!isTableHead(tableBody) && !isTableBody(tableBody)) return;
-  const matrix: TableCellElement[][] = [];
+  const [tableSection] = Editor.node(editor, path);
+  if (!isTableSectionElement(tableSection)) return;
+  const matrix: TableMatrix = [];
 
   // Build up a matrix one row at a time.
-  tableBody.children.forEach((row, rowIndex) => {
-    if (!isTableRow(row)) return;
+  tableSection.children.forEach((row, rowIndex) => {
+    if (!isTableRowElement(row)) return;
     if (!matrix[rowIndex]) {
       matrix[rowIndex] = [];
     }
 
     for (const cell of row.children) {
-      if (!isTableCell(cell)) return;
+      if (!isAnyTableCellElement(cell)) return;
 
       const colspan = cell.data.colspan;
       const rowspan = cell.data.rowspan;
@@ -41,25 +41,25 @@ export const getTableBodyAsMatrix = (editor: Editor, path: Path) => {
 export const getTableAsMatrix = (editor: Editor, path: Path) => {
   if (!Editor.hasPath(editor, path)) return;
   const [table] = Editor.node(editor, path);
-  if (!isTable(table)) return;
+  if (!isTableElement(table)) return;
   const matrix: TableMatrix = [];
 
   // Merge all rows in head and body. Then build up a matrix one row at a time.
   table.children
     .reduce((acc, cur) => {
-      if (isTableHead(cur) || isTableBody(cur)) {
+      if (isTableSectionElement(cur)) {
         acc.push(...cur.children);
       }
       return acc;
     }, [] as Descendant[])
     .forEach((row, rowIndex) => {
-      if (!isTableRow(row)) return;
+      if (!isTableRowElement(row)) return;
       if (!matrix[rowIndex]) {
         matrix[rowIndex] = [];
       }
 
       for (const cell of row.children) {
-        if (!isTableCell(cell)) return;
+        if (!isAnyTableCellElement(cell)) return;
 
         const colspan = cell.data.colspan;
         const rowspan = cell.data.rowspan;
@@ -69,6 +69,3 @@ export const getTableAsMatrix = (editor: Editor, path: Path) => {
 
   return matrix;
 };
-
-export const tableContainsSpan = (table: TableMatrix) =>
-  table?.filter((row) => row?.filter((cell) => cell.data.colspan > 1 || cell.data.rowspan > 1).length >= 1).length >= 1;

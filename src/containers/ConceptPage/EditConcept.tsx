@@ -49,7 +49,7 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
     selectedLanguage!,
   );
 
-  const { shouldTranslate, translate, translating } = useTranslateToNN();
+  const { shouldTranslate, translate, translating, translatedFields } = useTranslateToNN();
 
   useEffect(() => {
     (async () => {
@@ -81,6 +81,7 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
         }}
         language={selectedLanguage!}
         supportedLanguages={concept.supportedLanguages}
+        translatedFieldsToNN={translatedFields}
       />
     </>
   );

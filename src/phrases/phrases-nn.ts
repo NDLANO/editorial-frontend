@@ -111,9 +111,26 @@ const phrases = {
     san: "Sanskrit",
     heb: "Hebraisk",
     pli: "Pali",
-    empty: "Ingen fleire språk",
     change: "Bytt til {{language}} versjon",
-    none: "Ingen",
+    none: "Språk",
+  },
+  // WARNING: Some of these symbols contain special unicode characters that look like normal characters.
+  // Make sure not to accidentally change them!
+  symbols: {
+    "½": "Ein halv",
+    "¼": "Ein fjerdedel",
+    "¾": "Tre fjerdedelar",
+    "²": "I andre",
+    "³": "I tredje",
+    "©": "Copyright",
+    "™": "Trademark",
+    "°": "Grader",
+    "¥": "Yen",
+    "‑": "Hard bindestrek",
+    "–": "Tankestrek",
+    " ": "Hardt mellomrom",
+    "§": "Paragraf",
+    "¿": "Invertert spørsmålteikn",
   },
   welcomePage: {
     lastFavorited: "Siste hjertemarkerte ressurs: ",
@@ -217,6 +234,13 @@ const phrases = {
       articleStatuses: "Fagtypar",
     },
   },
+  updateCodesPage: {
+    title: "Oppdater læreplankoder",
+    description:
+      "Konverter grep-koder frå utgåtte læreplanar til tilsvarande grep-koder for nye læreplanar. Dette endrar alle artiklar som har tilknytta kompetansemål og kjerneelement frå utgåtte læreplanar, både publiserte og upubliserte versjonar. Artiklane treng ikkje endrast i etterkant for at nye grep-koder skal bli synlege.",
+    buttonText: "Oppdater",
+    error: "Noko gjekk gale ved oppdatering av grep-koder",
+  },
   searchPage: {
     search: "Søk",
     header: {
@@ -291,6 +315,7 @@ const phrases = {
     newSubject: "Opprett fag",
     newFrontpageArticle: "Om-NDLA-artikkel",
     frontpage: "NDLA forside",
+    updateCodes: "Oppdater læreplankoder",
   },
   logo: {
     altText: "Nasjonal digital læringsarena",
@@ -341,7 +366,7 @@ const phrases = {
       "filter-inactive": "Inkluder utgåtte fag",
     },
     tagType: {
-      query: "Søk: {{value}}",
+      query: "Søk:",
       subjects: "Fag: {{value}}",
       language: "Språk: $t(languages.{{value}})",
       users: "Bruker: {{value}}",
@@ -551,8 +576,7 @@ const phrases = {
       },
     },
     validation: {
-      containsContent:
-        "Emneartiklar bør kun ha tittel, ingress og visuelt element. Innhold trengs ikkje i dei fleste tilfeller.",
+      containsContent: "Kun emner i tverrfaglege tema (case) kan ha tekst i innhaldsfeltet.",
       illegalResource: "Emneartiklar bør kun ha bilete som visuelt element.",
     },
   },
@@ -732,6 +756,8 @@ const phrases = {
     left: "Venstrejustert",
     center: "Midtstilt",
     right: "Høgrejustert",
+    rephrase: "Omformulering",
+    symbol: "Symbol\n({{ctrl}}+alt+y)",
     disabled: {
       "comment-inline": "Kommentar kan kun overlappe tekst",
     },
@@ -740,6 +766,7 @@ const phrases = {
     heading: "Legg til",
     open: "Åpne meny ({{ctrl}}+Enter)",
     close: "Lukk meny",
+    tooltip: "Les rettleiinga vår om bruk av {{ type }}",
     actions: {
       block: "Seksjon",
       factAside: "Faktaboks",
@@ -984,10 +1011,6 @@ const phrases = {
       "not-set": "Ikkje valgt",
       description: "Om biletet er modellklarert eller ikkje:",
     },
-    markdown: {
-      button: "Klikk for å se markdown",
-      helpLabel: "Kva er markdown?",
-    },
     visualElement: {
       title: "Legg til visuelt element",
       label: "Visuelt element",
@@ -1147,10 +1170,10 @@ const phrases = {
         QUALITY_ASSURED_DELAYED: "Publ.klar-utsatt",
         QUEUED_FOR_PUBLISHING_DELAYED: "Publ-utsatt",
         PUBLISH_DELAYED: "Publ-utsatt",
-        PUBLISHED: "Publiser",
+        PUBLISHED: "Publisert",
         AWAITING_UNPUBLISHING: "Til avpublisering",
-        UNPUBLISHED: "Avpubliser",
-        ARCHIVED: "Slett",
+        UNPUBLISHED: "Avpublisert",
+        ARCHIVED: "Slettet",
         AWAITING_ARCHIVING: "Utsatt arkivering",
         REPUBLISH: "Til republisering",
       },
@@ -1260,6 +1283,10 @@ const phrases = {
       },
       normalizedOnLoad:
         "Artikkelen inneheld HTML-kode som er endra av editoren. Derfor må ressursen republiserast sjølv om du berre har endra metadata eller læreplankodar.",
+      symbol: {
+        title: "Sett inn symbol",
+        insert: "Sett inn",
+      },
     },
     tags: {
       label: "Nøkkelord",
@@ -1273,6 +1300,7 @@ const phrases = {
       placeholder: "Skriv inn kode",
       description:
         "Skriv inn koder som starter på riktig format ({{ codes }} fulgt av eit eller fleire siffer. Koder som ikkje eksisterer vil ikkje bli oppretta. Separer fleire koder med komma. Tekstene visast på bokmål i ed, men korrekt i artikkelvisning. Du kan også filtrere på læreplankoder.",
+      expired: "Denne koden er ikkje aktiv lenger",
     },
     articleDisclaimer: {
       title: "Informasjon om tilgjengelegheit for heile artikkelen",
@@ -1300,6 +1328,10 @@ const phrases = {
       label: "Metabeskrivelse",
       description: "Beskrivelsen blir synlig i søk.",
       helpLabel: "Kva er metabeskrivelse?",
+    },
+    articleSummary: {
+      label: "Oppsummering",
+      description: "KI-generert oppsummering av artikkelen. Lagrast ikkje.",
     },
     agreement: {
       label: "Koble til avtale",
@@ -1639,6 +1671,7 @@ const phrases = {
   },
   warningMessage: {
     fieldWithWrongLanguage: "Dette feltet er henta frå språkkode: {{language}}",
+    translatedField: "Dette feltet er automatisk omsett frå språkkode: nb",
   },
   notFound: {
     description: "Denne sida finnes ikkje.",
@@ -1902,6 +1935,7 @@ const phrases = {
     frontpage: "Om-NDLA-artikkel",
     concept: "Forklaring",
     gloss: "Glose",
+    learningpath: "Læringssti",
   },
   ndlaFilm: {
     editor: {
@@ -2236,6 +2270,11 @@ const phrases = {
   user: {
     buttonLogOut: "Logg ut",
   },
+  unsupportedElement: {
+    title: 'Ugyldig element: "{{type}}"',
+    description: "Dette elementet er ikkje støtta her. Du kan enten slette heile elementet, eller trekke ut innhaldet.",
+    noContent: "Elementet hadde ikkje noko innhald",
+  },
   matomo: {
     visits: "Besøk: {{count}}",
     hits: "Sidevisningar: {{count}}",
@@ -2244,7 +2283,37 @@ const phrases = {
     switchLabel: "Vis besøkstal",
     popoverDescription_one: "{{count}} unik sidevisning, klikk for å sjå fleire besøkstal",
     popoverDescription_other: "{{count}} unike sidevisningar, klikk for å sjå fleire besøkstal",
-    popoverTitle: "Besøkstal siste 12 md",
+    noData: "Ingen sidevisningar",
+    popoverTitle: "Besøkstal sidan desember 2024.",
+  },
+  textGeneration: {
+    error: "Noko gjekk gale under generering av tekst. Melding frå tenesta: {{message}}",
+    errorImage: "Noko gjekk gale, kunne ikkje prosessere biletet.",
+    insert: "Sett inn",
+    replace: "Erstatt",
+    append: "Legg til etter",
+    chosenText: "Valt tekst",
+    suggestedText: "Forslag til $t(textGeneration.types.{{type}})",
+    dialogTitle: "Generer $t(textGeneration.types.{{type}})",
+    generateButton: "Generer $t(textGeneration.types.{{type}})",
+    generateTranscription: "Generer transkripsjon",
+    types: {
+      summary: "oppsummering",
+      altText: "alternativ tekst",
+      alternativePhrasing: "alternativ formulering",
+      metaDescription: "metabeskriving",
+      reflection: "refleksjonsspørsmål",
+    },
+    customPrompts: {
+      switchLabel: "Eigendefinerte prompter",
+      roleLabel: "Rolle-prompt",
+      roleHelper: 'Beskriv rolla til KI-modellen. T.d.: "Du er ein spesialist innan..."',
+      instructionsLabel: "Instruksjons-prompt",
+      instructionsHelper: 'Beskriv instruksjonane til KI-modellen. T.d.: "Du har fått i oppdrag å..."',
+    },
+    failed: "Her gjekk det gale! Klarte ikkje å generere $t(textGeneration.types.{{type}}).\n{{error}}",
+    failedTranscription: "Her gjekk det gale! Klarte ikkje å generere transkribering.",
+    responseBox: "Full respons fra KI-modellen",
   },
 };
 

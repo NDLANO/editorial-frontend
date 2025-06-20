@@ -11,7 +11,7 @@ import { inlineContentToEditorValue, plainTextToEditorValue } from "./articleCon
 import { DEFAULT_LICENSE } from "./formHelper";
 import { AudioFormikType } from "../containers/AudioUploader/components/AudioForm";
 import { PodcastSeriesFormikType } from "../containers/PodcastSeries/components/PodcastSeriesForm";
-import { PodcastFormValues } from "../modules/audio/audioApiInterfaces";
+import { PodcastFormValues } from "../modules/audio/audioTypes";
 
 export const audioApiTypeToFormType = (
   audio: IAudioMetaInformationDTO | undefined,
@@ -68,6 +68,6 @@ export const podcastSeriesTypeToFormType = (
     description: plainTextToEditorValue(series?.description.description ?? ""),
     episodes: series?.episodes?.map((e) => e.id) ?? [],
     supportedLanguages: series?.supportedLanguages ?? [language],
-    hasRSS: series?.hasRSS,
+    hasRSS: !!series?.hasRSS,
   };
 };

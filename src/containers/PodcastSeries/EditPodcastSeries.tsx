@@ -33,7 +33,7 @@ const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
   const locale = i18n.language;
   const [podcastSeries, setPodcastSeries] = useState<ISeriesDTO | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
-  const { shouldTranslate, translate, translating } = useTranslateToNN();
+  const { shouldTranslate, translate, translating, translatedFields } = useTranslateToNN();
   const seriesId = Number(params.id) || undefined;
   const seriesLanguage = params.selectedLanguage ?? locale;
 
@@ -83,6 +83,7 @@ const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
       isNewlyCreated={!!isNewlyCreated}
       isNewLanguage={isNewLanguage}
       supportedLanguages={podcastSeries.supportedLanguages}
+      translatedFieldsToNN={translatedFields}
     />
   );
 };

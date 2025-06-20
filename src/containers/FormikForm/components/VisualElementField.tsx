@@ -25,7 +25,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { FormField } from "../../../components/FormField";
 import VisualElement from "../../VisualElement/VisualElement";
-import { VisualElementType } from "../../VisualElement/VisualElementMenu";
+import { VisualElementType } from "../../VisualElement/VisualElementPicker";
 
 const UploadVisualElementText = styled("div", {
   base: {
@@ -78,13 +78,7 @@ const VisualElementField = ({ types, inDialog = false }: Props) => {
       <FormField name="visualElement">
         {({ field, meta, helpers }) => (
           <FieldRoot invalid={!!meta.error || !!visualElementCaptionMeta.error || !!visualElementAltMeta.error}>
-            <VisualElement
-              language={languageField.value}
-              types={types}
-              selectedResource={field.value}
-              resetSelectedResource={() => helpers.setValue([])}
-              {...field}
-            />
+            <VisualElement language={languageField.value} types={types} {...field} onChange={helpers.setValue} />
             <FieldErrorMessage asChild consumeCss>
               <div>
                 <p>{meta.error}</p>

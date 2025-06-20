@@ -6,7 +6,6 @@
  *
  */
 
-import { format } from "date-fns";
 import { FieldArrayRenderProps } from "formik";
 import { TFunction } from "i18next";
 import { useCallback, useState } from "react";
@@ -15,10 +14,11 @@ import { Descendant } from "slate";
 import { Button, FieldRoot, FieldTextArea } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { uuid } from "@ndla/util";
-import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUtils";
+import { plugins } from "./commentToolbarUtils";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
-import { TYPE_DIV } from "../../../components/SlateEditor/plugins/div/types";
+import { DIV_ELEMENT_TYPE } from "../../../components/SlateEditor/plugins/div/types";
 import { TYPE_PARAGRAPH } from "../../../components/SlateEditor/plugins/paragraph/types";
+import { UnsupportedElement } from "../../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import formatDate, { formatDateForBackend } from "../../../util/formatDate";
 import { useSession } from "../../Session/SessionProvider";
@@ -70,11 +70,16 @@ const StyledFieldRoot = styled(FieldRoot, {
   },
 });
 
+const timeFormatter = new Intl.DateTimeFormat("nb-NO", {
+  hour: "2-digit",
+  minute: "2-digit",
+});
+
 export const getCommentInfoText = (userName: string | undefined, t: TFunction): string => {
   const currentDate = new Date();
   const dateTime = formatDateForBackend(currentDate);
   const formattedDate = formatDate(dateTime);
-  const formattedTime = format(currentDate, "HH:mm");
+  const formattedTime = timeFormatter.format(currentDate);
 
   return `${t("form.workflow.addComment.createdBy")} ${userName?.split(" ")[0]} (${formattedDate} - ${formattedTime})`;
 };
@@ -106,7 +111,7 @@ const InputComment = ({ isSubmitting, arrayHelpers }: Props) => {
       const comment = getCommentInfoText(userName, t);
 
       const emptyComment: Descendant[] = [
-        { type: TYPE_DIV, children: [...inputValue, { type: TYPE_PARAGRAPH, children: [{ text: comment }] }] },
+        { type: DIV_ELEMENT_TYPE, children: [...inputValue, { type: TYPE_PARAGRAPH, children: [{ text: comment }] }] },
       ];
 
       setInputValue(emptyComment);
@@ -138,11 +143,10 @@ const InputComment = ({ isSubmitting, arrayHelpers }: Props) => {
             submitted={isSubmitting}
             plugins={plugins}
             onChange={setInputValue}
-            toolbarOptions={toolbarOptions}
-            toolbarAreaFilters={toolbarAreaFilters}
             data-comment=""
             receiveInitialFocus
             noArticleStyling
+            renderInvalidElement={(props) => <UnsupportedElement {...props} />}
           />
         ) : (
           <StyledFieldTextArea

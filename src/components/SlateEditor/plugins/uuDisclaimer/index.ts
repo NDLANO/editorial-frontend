@@ -7,12 +7,19 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
+import {
+  createDataAttributes,
+  createHtmlTag,
+  createPlugin,
+  createSerializer,
+  defaultNormalizer,
+  NormalizerConfig,
+  PARAGRAPH_ELEMENT_TYPE,
+  parseElementAttributes,
+} from "@ndla/editor";
 import { DISCLAIMER_ELEMENT_TYPE, DISCLAIMER_PLUGIN } from "./types";
-import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../util/embedTagHelpers";
-import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement, firstTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
-import { createPlugin, createSerializer, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { isDisclaimerElement } from "./queries";
 
 export const disclaimerSerializer = createSerializer({
@@ -50,7 +57,7 @@ export const disclaimerPlugin = createPlugin({
   type: DISCLAIMER_ELEMENT_TYPE,
   normalize: (editor, node, path, logger) => {
     if (isDisclaimerElement(node)) {
-      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+      return defaultNormalizer(editor, node, path, normalizerConfig, logger);
     }
     return false;
   },

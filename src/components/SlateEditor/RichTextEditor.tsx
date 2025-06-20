@@ -8,25 +8,23 @@
 
 import { useFormikContext } from "formik";
 import { isEqual } from "lodash-es";
-import { FocusEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, JSX, DragEvent } from "react";
 import { Descendant, Editor, Range, Transforms } from "slate";
-import { Slate, Editable, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
+import { Slate, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
-import { useFieldContext } from "@ark-ui/react";
-import { createSlate, LoggerManager, SlatePlugin } from "@ndla/editor";
+import { LoggerManager, SlatePlugin, useCreateSlate } from "@ndla/editor";
 import { styled } from "@ndla/styled-system/jsx";
 import "../DisplayEmbed/helpers/h5pResizer";
 import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
+import { FieldEditable } from "./FieldEditable";
+import { FormikStatus } from "../../interfaces";
 import { Action, commonActions } from "./plugins/blockPicker/actions";
 import { BlockPickerOptions, createBlockpickerOptions } from "./plugins/blockPicker/options";
 import SlateBlockPicker from "./plugins/blockPicker/SlateBlockPicker";
-import { onDragOver, onDragStart, onDrop } from "./plugins/DND";
+import { nativeOnDragOver, nativeOnDragStart, nativeOnDrop } from "./plugins/DND/nativeDnd";
+import { SlateDndContext } from "./plugins/DND/SlateDndContext";
 import { SlateToolbar } from "./plugins/toolbar";
-import { AreaFilters, CategoryFilters } from "./plugins/toolbar/toolbarState";
-import { SlateProvider } from "./SlateContext";
-import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
-import { FormikStatus } from "../../interfaces";
 
 const StyledSlateWrapper = styled("div", {
   base: {
@@ -37,7 +35,7 @@ const StyledSlateWrapper = styled("div", {
   },
 });
 
-const StyledEditable = styled(Editable, {}, { baseComponent: true });
+const StyledEditable = styled(FieldEditable, {}, { baseComponent: true });
 
 export interface RichTextEditorProps extends Omit<EditableProps, "value" | "onChange" | "onKeyDown"> {
   value: Descendant[];
@@ -48,15 +46,14 @@ export interface RichTextEditorProps extends Omit<EditableProps, "value" | "onCh
   language?: string;
   actions?: Action[];
   blockpickerOptions?: Partial<BlockPickerOptions>;
-  toolbarOptions: CategoryFilters;
-  toolbarAreaFilters: AreaFilters;
-  additionalOnKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => boolean;
   hideBlockPicker?: boolean;
   testId?: string;
   hideToolbar?: boolean;
   receiveInitialFocus?: boolean;
   noArticleStyling?: boolean;
   onInitialNormalized?: (value: Descendant[]) => void;
+  renderInvalidElement?: (props: RenderElementProps & { editor: Editor }) => JSX.Element;
+  editorId?: string;
 }
 
 const RichTextEditor = ({
@@ -69,43 +66,23 @@ const RichTextEditor = ({
   language,
   testId = "slate-editor",
   blockpickerOptions = {},
-  toolbarOptions,
-  toolbarAreaFilters,
   hideBlockPicker,
-  additionalOnKeyDown,
   hideToolbar,
   receiveInitialFocus,
-  onBlur: onBlurProp,
   noArticleStyling,
+  editorId,
   onInitialNormalized,
+  renderInvalidElement,
   ...rest
 }: RichTextEditorProps) => {
-  const [editor] = useState(() =>
-    createSlate({
-      plugins: plugins,
-      value,
-      logger: new LoggerManager({ debug: true }),
-      shouldNormalize: true,
-      onInitialNormalized,
-    }),
-  );
-  const [labelledBy, setLabelledBy] = useState<string | undefined>(undefined);
+  const editor = useCreateSlate({
+    plugins: plugins,
+    value,
+    logger: new LoggerManager({ debug: true }),
+    shouldNormalize: true,
+    onInitialNormalized,
+  });
   const prevSubmitted = useRef(submitted);
-  const field = useFieldContext();
-  // Including ID somehow crashes the editor.
-  const {
-    "aria-labelledby": fieldLabelledBy,
-    //@ts-expect-error - it exists, but not according to the type
-    "data-part": _,
-    ...fieldProps
-  } = useMemo(() => (field?.getTextareaProps() as EditableProps | undefined) ?? {}, [field]);
-
-  useEffect(() => {
-    const labelEl = document.getElementById(field.ids.label);
-    if (labelEl) {
-      setLabelledBy(labelEl.id);
-    }
-  }, [field.ids.label]);
 
   const { status, setStatus } = useFormikContext<ArticleFormType>();
 
@@ -116,12 +93,15 @@ const RichTextEditor = ({
   }, [editor, receiveInitialFocus]);
 
   useEffect(() => {
+    // TODO: Add better logic for refreshing editors when values are changed/set outside of editor scope
     // When form is submitted or form content has been revert to a previous version, the editor has to be reinitialized.
-    if ((!submitted && prevSubmitted.current) || status === "revertVersion") {
+    if (
+      (!submitted && prevSubmitted.current) ||
+      status?.status === "revertVersion" ||
+      (editorId && status?.status === editorId)
+    ) {
       ReactEditor.deselect(editor);
-      editor.children = value;
-      editor.history = { redos: [], undos: [] };
-      Editor.normalize(editor, { force: true });
+      editor.reinitialize({ value, shouldNormalize: true, onInitialNormalized });
       if (editor.lastSelection || editor.lastSelectedBlock) {
         ReactEditor.focus(editor);
       }
@@ -179,14 +159,14 @@ const RichTextEditor = ({
         return ret;
       }
     }
-    return <p {...attributes}>{children}</p>;
+    return renderInvalidElement?.({ ...renderProps, editor }) ?? <p {...attributes}>{children}</p>;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const renderLeaf = useCallback((renderProps: RenderLeafProps) => {
     const { attributes, children } = renderProps;
     if (editor.renderLeaf) {
-      const ret = editor.renderLeaf(renderProps);
+      const ret = editor.renderLeaf?.(renderProps);
       if (ret) {
         return ret;
       }
@@ -195,67 +175,37 @@ const RichTextEditor = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onDragStartCallback = useCallback(onDragStart(editor), []);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onDragOverCallback = useCallback(onDragOver(), []);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onDropCallback = useCallback(onDrop(editor), []);
-
-  // Deselect selection if focus is moved to any other element than the toolbar
-  const onBlur = useCallback(
-    (e: FocusEvent<HTMLDivElement>) => {
-      if (e.relatedTarget?.id === BLOCK_PICKER_TRIGGER_ID) return;
-      if (e.relatedTarget?.closest("[data-toolbar]")) return;
-      if (onBlurProp) onBlurProp(e);
-    },
-    [onBlurProp],
-  );
-
-  const handleKeyDown = useCallback(
-    (e: KeyboardEvent<HTMLDivElement>) => {
-      let allowEditorKeyDown = true;
-      if (additionalOnKeyDown) {
-        allowEditorKeyDown = additionalOnKeyDown(e);
-      }
-      if (allowEditorKeyDown) {
-        editor.onKeyDown(e);
-      }
-    },
-    [additionalOnKeyDown, editor],
-  );
+  const onDragStart = useCallback((e: DragEvent<HTMLDivElement>) => nativeOnDragStart(editor, e), [editor]);
+  const onDrop = useCallback((e: DragEvent<HTMLDivElement>) => nativeOnDrop(editor, e), [editor]);
 
   return (
     <article className={noArticleStyling ? undefined : "ndla-article"}>
       <ArticleLanguageProvider language={language}>
-        <SlateProvider isSubmitted={submitted}>
-          <StyledSlateWrapper data-testid={testId} data-slate-wrapper="">
-            <Slate editor={editor} initialValue={editor.children} onChange={onChange}>
-              <SlateToolbar options={toolbarOptions} areaOptions={toolbarAreaFilters} hideToolbar={hideToolbar} />
-              {!hideBlockPicker && (
-                <SlateBlockPicker
-                  actions={actions}
-                  articleLanguage={language}
-                  {...createBlockpickerOptions(blockpickerOptions)}
-                />
-              )}
+        <StyledSlateWrapper data-testid={testId} data-slate-wrapper="">
+          <Slate editor={editor} initialValue={editor.children} onChange={onChange}>
+            <SlateToolbar hideToolbar={hideToolbar} />
+            {!hideBlockPicker && (
+              <SlateBlockPicker
+                actions={actions}
+                articleLanguage={language}
+                {...createBlockpickerOptions(blockpickerOptions)}
+              />
+            )}
+            <SlateDndContext editor={editor}>
               <StyledEditable
-                {...fieldProps}
-                aria-labelledby={labelledBy}
                 {...rest}
-                onBlur={onBlur}
-                onKeyDown={handleKeyDown}
+                onKeyDown={editor.onKeyDown}
                 placeholder={placeholder}
                 renderElement={renderElement}
                 renderLeaf={renderLeaf}
                 readOnly={submitted}
-                onDragStart={onDragStartCallback}
-                onDragOver={onDragOverCallback}
-                onDrop={onDropCallback}
+                onDragStart={onDragStart}
+                onDragOver={nativeOnDragOver}
+                onDrop={onDrop}
               />
-            </Slate>
-          </StyledSlateWrapper>
-        </SlateProvider>
+            </SlateDndContext>
+          </Slate>
+        </StyledSlateWrapper>
       </ArticleLanguageProvider>
     </article>
   );

@@ -13,19 +13,23 @@ import {
   createHtmlTag,
   createPlugin,
   createSerializer,
+  defaultNormalizer,
   HEADING_ELEMENT_TYPE,
   LIST_ITEM_ELEMENT_TYPE,
   NOOP_ELEMENT_TYPE,
+  NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
 import { isSpanElement } from "./queries";
 import { SPAN_ELEMENT_TYPE, SPAN_PLUGIN } from "./types";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquote/blockquoteTypes";
-import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_TERM } from "../definitionList/types";
+import {
+  DEFINITION_DESCRIPTION_ELEMENT_TYPE,
+  DEFINITION_TERM_ELEMENT_TYPE,
+} from "../definitionList/definitionListTypes";
 import { SUMMARY_ELEMENT_TYPE } from "../details/summaryTypes";
-import { TYPE_TABLE_CELL } from "../table/types";
+import { TABLE_CELL_ELEMENT_TYPE } from "../table/types";
 
 export interface SpanElement {
   type: "span";
@@ -43,10 +47,10 @@ const normalizerConfig: NormalizerConfig = {
       HEADING_ELEMENT_TYPE,
       PARAGRAPH_ELEMENT_TYPE,
       BLOCK_QUOTE_ELEMENT_TYPE,
-      TYPE_TABLE_CELL,
+      TABLE_CELL_ELEMENT_TYPE,
       LIST_ITEM_ELEMENT_TYPE,
-      TYPE_DEFINITION_TERM,
-      TYPE_DEFINITION_DESCRIPTION,
+      DEFINITION_DESCRIPTION_ELEMENT_TYPE,
+      DEFINITION_TERM_ELEMENT_TYPE,
       SUMMARY_ELEMENT_TYPE,
       SPAN_ELEMENT_TYPE,
       NOOP_ELEMENT_TYPE,
@@ -84,7 +88,7 @@ export const spanPlugin = createPlugin({
         Transforms.removeNodes(editor, { at: path });
         return true;
       }
-      return defaultBlockNormalizer(editor, node, path, normalizerConfig);
+      return defaultNormalizer(editor, node, path, normalizerConfig);
     }
     return false;
   },

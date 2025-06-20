@@ -6,9 +6,9 @@
  *
  */
 
-import addYears from "date-fns/addYears";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { getLocalTimeZone, today } from "@internationalized/date";
 import { NotificationLine } from "@ndla/icons";
 import {
   SwitchControl,
@@ -108,7 +108,9 @@ const Revisions = ({ userData }: Props) => {
     { title: t("welcomePage.revisionDate"), sortableField: "revisionDate" },
   ];
 
-  const currentDateAddYear = formatDateForBackend(addYears(new Date(), 1));
+  const currentDateAddYear = formatDateForBackend(
+    today(getLocalTimeZone()).add({ years: 1 }).toDate(getLocalTimeZone()),
+  );
 
   const { data, isPending, isError } = useSearch(
     {

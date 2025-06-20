@@ -6,20 +6,23 @@
  *
  */
 
-import format from "date-fns/format";
-import parseISO from "date-fns/parseISO";
+import { parseAbsoluteToLocal } from "@internationalized/date";
 
-const NORWEGIAN_FORMAT = "dd.MM.yyyy";
+const dateFormatter = new Intl.DateTimeFormat("nb-NO", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
 
 export default function formatDate(date: string | number | undefined): string {
   if (!date) return "";
 
   if (typeof date === "string") {
-    const parsedDate = parseISO(date);
-    return format(parsedDate, NORWEGIAN_FORMAT);
+    const parsedDate = parseAbsoluteToLocal(date);
+    return dateFormatter.format(parsedDate.toDate());
   }
 
-  return format(date, NORWEGIAN_FORMAT);
+  return dateFormatter.format(date);
 }
 
 export function formatDateForBackend(date: Date): string {

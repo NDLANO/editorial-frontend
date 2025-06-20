@@ -16,3 +16,5 @@ export const noopPlugin = _noopPlugin.configure({
     inlineBlocks: inlineElements,
   },
 });
+
+export const inlineNoopPlugin = _noopPlugin.configure({ options: { inlineBlocks: { value: [], override: true } } });

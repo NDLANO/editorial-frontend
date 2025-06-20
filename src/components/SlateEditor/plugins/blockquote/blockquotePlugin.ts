@@ -6,10 +6,15 @@
  *
  */
 
-import { createPlugin, getCurrentBlock, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
+import {
+  createPlugin,
+  defaultNormalizer,
+  getCurrentBlock,
+  NormalizerConfig,
+  PARAGRAPH_ELEMENT_TYPE,
+} from "@ndla/editor";
 import { BLOCK_QUOTE_ELEMENT_TYPE, BLOCK_QUOTE_PLUGIN } from "./blockquoteTypes";
 import { Element, Node, Range, Transforms } from "slate";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { isBlockQuoteElement } from "./queries/blockquoteQueries";
 
 const normalizerConfig: NormalizerConfig = {
@@ -45,7 +50,7 @@ export const blockQuotePlugin = createPlugin({
   // If you presse enter inside an empty blockquote without this you'll be able to insert a new section
   normalize: (editor, node, path, logger) => {
     if (isBlockQuoteElement(node)) {
-      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+      return defaultNormalizer(editor, node, path, normalizerConfig, logger);
     }
     return false;
   },

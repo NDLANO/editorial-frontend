@@ -7,11 +7,11 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { createHtmlTag, parseElementAttributes, SlateSerializer } from "@ndla/editor";
+import { createHtmlTag, createSerializer, parseElementAttributes } from "@ndla/editor";
 import { MATH_ELEMENT_TYPE } from "./mathTypes";
 import { isMathElement } from "./queries/mathQueries";
 
-export const mathmlSerializer: SlateSerializer = {
+export const mathmlSerializer = createSerializer({
   deserialize(el) {
     if (el.tagName.toLowerCase() !== "math") return;
     const data = parseElementAttributes(Array.from(el.attributes));
@@ -24,4 +24,4 @@ export const mathmlSerializer: SlateSerializer = {
     const { innerHTML, ...mathAttributes } = node.data;
     return createHtmlTag({ tag: "math", data: mathAttributes, children: innerHTML });
   },
-};
+});

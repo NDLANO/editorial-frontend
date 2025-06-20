@@ -6,7 +6,6 @@
  *
  */
 
-import { FormikHandlers } from "formik";
 import { isEqual } from "lodash-es";
 import { useEffect, useState } from "react";
 import { Descendant } from "slate";
@@ -14,22 +13,17 @@ import { Slate, Editable, RenderElementProps } from "slate-react";
 import { createSlate } from "@ndla/editor";
 import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
 import { SlatePlugin } from "./interfaces";
-import { SlateProvider } from "./SlateContext";
-import { VisualElementType } from "../../containers/VisualElement/VisualElementMenu";
-import VisualElementPicker from "../../containers/VisualElement/VisualElementPicker";
+import VisualElementPicker, { VisualElementType } from "../../containers/VisualElement/VisualElementPicker";
 
 interface Props {
-  name: string;
   value: Descendant[];
   plugins: SlatePlugin[];
-  onChange: FormikHandlers["handleChange"];
+  onChange: (value: Descendant[]) => void;
   language: string;
-  selectedResource: string;
-  resetSelectedResource: () => void;
   types?: VisualElementType[];
 }
 
-const VisualElementEditor = ({ name, value, plugins, onChange, types, language }: Props) => {
+const VisualElementEditor = ({ value, plugins, onChange, types, language }: Props) => {
   const [editor] = useState(() => createSlate({ plugins }));
 
   const renderElement = (elementProps: RenderElementProps) => {
@@ -45,39 +39,25 @@ const VisualElementEditor = ({ name, value, plugins, onChange, types, language }
 
   useEffect(() => {
     if (!isEqual(editor.children, value)) {
-      editor.children = value;
-      editor.history = { undos: [], redos: [] };
+      editor.reinitialize({ value });
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   return (
-    <SlateProvider>
-      <ArticleLanguageProvider language={language}>
-        <Slate
-          editor={editor}
-          initialValue={value}
-          onChange={(val: Descendant[]) => {
-            onChange({
-              target: {
-                name,
-                value: val,
-              },
-            });
+    <ArticleLanguageProvider language={language}>
+      <Slate editor={editor} initialValue={value} onChange={onChange}>
+        <VisualElementPicker editor={editor} types={types} language={language} />
+        <Editable
+          readOnly={true}
+          renderElement={renderElement}
+          onDragStart={(e) => {
+            e.stopPropagation();
           }}
-        >
-          <VisualElementPicker editor={editor} types={types} language={language} />
-          <Editable
-            readOnly={true}
-            renderElement={renderElement}
-            onDragStart={(e) => {
-              e.stopPropagation();
-            }}
-          />
-        </Slate>
-      </ArticleLanguageProvider>
-    </SlateProvider>
+        />
+      </Slate>
+    </ArticleLanguageProvider>
   );
 };
 

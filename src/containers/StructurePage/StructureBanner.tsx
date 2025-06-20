@@ -32,7 +32,6 @@ import { NodeType } from "@ndla/types-taxonomy";
 import AddNodeDialogContent from "./AddNodeDialogContent";
 import { usePreferences } from "./PreferencesProvider";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
-import config from "../../config";
 import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { useSession } from "../Session/SessionProvider";
 
@@ -159,18 +158,16 @@ const StructureBanner = ({ nodeType, hasLmaSubjects, hasDaSubjects, hasSaSubject
                     </SwitchControl>
                     <SwitchHiddenInput />
                   </SwitchRoot>
-                  {config.enableMatomoData ? (
-                    <SwitchRoot
-                      checked={showMatomoStats}
-                      onCheckedChange={(details) => setShowMatomoStats(details.checked)}
-                    >
-                      <SwitchLabel>{t("matomo.switchLabel")}</SwitchLabel>
-                      <SwitchControl>
-                        <SwitchThumb />
-                      </SwitchControl>
-                      <SwitchHiddenInput />
-                    </SwitchRoot>
-                  ) : undefined}
+                  <SwitchRoot
+                    checked={showMatomoStats}
+                    onCheckedChange={(details) => setShowMatomoStats(details.checked)}
+                  >
+                    <SwitchLabel>{t("matomo.switchLabel")}</SwitchLabel>
+                    <SwitchControl>
+                      <SwitchThumb />
+                    </SwitchControl>
+                    <SwitchHiddenInput />
+                  </SwitchRoot>
                 </>
               )}
             </SwitchWrapper>

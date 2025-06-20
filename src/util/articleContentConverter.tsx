@@ -8,6 +8,8 @@
 
 import { Descendant } from "slate";
 import {
+  createDataAttributes,
+  createHtmlTag,
   deserializeFromHtml,
   NOOP_ELEMENT_TYPE,
   PARAGRAPH_ELEMENT_TYPE,
@@ -15,9 +17,9 @@ import {
   SlateSerializer,
 } from "@ndla/editor";
 import { AudioEmbedData, BrightcoveEmbedData, H5pEmbedData, ImageEmbedData } from "@ndla/types-embed";
-import { parseEmbedTag, createHtmlTag, createDataAttributes } from "./embedTagHelpers";
+import { parseEmbedTag } from "./embedTagHelpers";
 import { Plain } from "./slatePlainSerializer";
-import { blocks, inlines } from "../components/SlateEditor/helpers";
+import { blocks, inlines, isVisualElementSlateElement } from "../components/SlateEditor/helpers";
 import { asideSerializer } from "../components/SlateEditor/plugins/aside/asideSerializer";
 import { audioSerializer } from "../components/SlateEditor/plugins/audio/audioSerializer";
 import { blockQuoteSerializer } from "../components/SlateEditor/plugins/blockquote/blockquoteSerializer";
@@ -30,23 +32,26 @@ import { blockConceptSerializer } from "../components/SlateEditor/plugins/concep
 import { inlineConceptSerializer } from "../components/SlateEditor/plugins/concept/inline";
 import { contactBlockSerializer } from "../components/SlateEditor/plugins/contactBlock";
 import { copyrightSerializer } from "../components/SlateEditor/plugins/copyright";
-import { definitionListSerializer } from "../components/SlateEditor/plugins/definitionList";
+import { definitionDescriptionSerializer } from "../components/SlateEditor/plugins/definitionList/definitionDescriptionPlugin";
+import { definitionListSerializer } from "../components/SlateEditor/plugins/definitionList/definitionListPlugin";
+import { definitionTermSerializer } from "../components/SlateEditor/plugins/definitionList/definitionTermPlugin";
 import { detailsSerializer } from "../components/SlateEditor/plugins/details/detailsSerializer";
 import { summarySerializer } from "../components/SlateEditor/plugins/details/summarySerializer";
 import { divSerializer } from "../components/SlateEditor/plugins/div";
 import { embedSerializer } from "../components/SlateEditor/plugins/embed";
 import { TYPE_NDLA_EMBED } from "../components/SlateEditor/plugins/embed/types";
-import { defaultEmbedBlock, isSlateEmbed } from "../components/SlateEditor/plugins/embed/utils";
-import { externalSerializer } from "../components/SlateEditor/plugins/external";
+import { defaultEmbedBlock } from "../components/SlateEditor/plugins/embed/utils";
+import { externalSerializer, iframeSerializer } from "../components/SlateEditor/plugins/external";
 import { fileSerializer } from "../components/SlateEditor/plugins/file";
 import { footnoteSerializer } from "../components/SlateEditor/plugins/footnote";
 import { framedContentSerializer } from "../components/SlateEditor/plugins/framedContent/framedContentSerializer";
-import { gridSerializer } from "../components/SlateEditor/plugins/grid";
+import { gridCellSerializer } from "../components/SlateEditor/plugins/grid/gridCellPlugin";
+import { gridSerializer } from "../components/SlateEditor/plugins/grid/gridPlugin";
 import { h5pSerializer } from "../components/SlateEditor/plugins/h5p";
 import { headingSerializer } from "../components/SlateEditor/plugins/heading";
 import { imageSerializer } from "../components/SlateEditor/plugins/image";
 import { keyFigureSerializer } from "../components/SlateEditor/plugins/keyFigure";
-import { linkSerializer } from "../components/SlateEditor/plugins/link";
+import { contentLinkSerializer, linkSerializer } from "../components/SlateEditor/plugins/link";
 import { linkBlockListSerializer } from "../components/SlateEditor/plugins/linkBlockList";
 import { listSerializer } from "../components/SlateEditor/plugins/list";
 import { markSerializer } from "../components/SlateEditor/plugins/mark";
@@ -59,7 +64,17 @@ import { relatedSerializer } from "../components/SlateEditor/plugins/related";
 import { sectionSerializer } from "../components/SlateEditor/plugins/section";
 import { TYPE_SECTION } from "../components/SlateEditor/plugins/section/types";
 import { spanSerializer } from "../components/SlateEditor/plugins/span";
-import { tableSerializer } from "../components/SlateEditor/plugins/table";
+import { symbolSerializer } from "../components/SlateEditor/plugins/symbol/serializer";
+import {
+  tableBodySerializer,
+  tableCaptionSerializer,
+  tableCellSerializer,
+  tableHeaderSerializer,
+  tableHeadSerializer,
+  tableRowSerializer,
+  tableSerializer,
+} from "../components/SlateEditor/plugins/table/tableSerializers";
+import { unsupportedElementSerializer } from "../components/SlateEditor/plugins/unsupported/unsupportedElementSerializer";
 import { disclaimerSerializer } from "../components/SlateEditor/plugins/uuDisclaimer";
 import { brightcoveSerializer } from "../components/SlateEditor/plugins/video";
 import { Embed, ErrorEmbed } from "../interfaces";
@@ -90,10 +105,13 @@ const extendedRules: SlateSerializer<any>[] = [
   breakSerializer,
   markSerializer,
   linkSerializer,
+  contentLinkSerializer,
   blockQuoteSerializer,
   headingSerializer,
   listSerializer,
   definitionListSerializer,
+  definitionDescriptionSerializer,
+  definitionTermSerializer,
   footnoteSerializer,
   mathmlSerializer,
   inlineConceptSerializer,
@@ -106,8 +124,15 @@ const extendedRules: SlateSerializer<any>[] = [
   summarySerializer,
   detailsSerializer,
   tableSerializer,
+  tableRowSerializer,
+  tableCaptionSerializer,
+  tableHeadSerializer,
+  tableBodySerializer,
+  tableCellSerializer,
+  tableHeaderSerializer,
   relatedSerializer,
   gridSerializer,
+  gridCellSerializer,
   pitchSerializer,
   codeblockSerializer,
   keyFigureSerializer,
@@ -119,11 +144,14 @@ const extendedRules: SlateSerializer<any>[] = [
   brightcoveSerializer,
   h5pSerializer,
   externalSerializer,
+  iframeSerializer,
   copyrightSerializer,
+  symbolSerializer,
   embedSerializer,
   framedContentSerializer,
   divSerializer,
   spanSerializer,
+  unsupportedElementSerializer,
 ];
 
 // Rules are checked from first to last
@@ -134,10 +162,13 @@ const commonRules: SlateSerializer<any>[] = [
   breakSerializer,
   markSerializer,
   linkSerializer,
+  contentLinkSerializer,
   blockQuoteSerializer,
   headingSerializer,
   listSerializer,
   definitionListSerializer,
+  definitionDescriptionSerializer,
+  definitionTermSerializer,
   footnoteSerializer,
   mathmlSerializer,
   inlineConceptSerializer,
@@ -145,6 +176,8 @@ const commonRules: SlateSerializer<any>[] = [
   noEmbedSerializer,
   divSerializer,
   spanSerializer,
+  symbolSerializer,
+  unsupportedElementSerializer,
 ];
 
 export const blockContentToEditorValue = (html: string): Descendant[] => {
@@ -182,7 +215,7 @@ export function embedTagToEditorValue(embedTag: string) {
 
 export function editorValueToEmbed(editorValue?: Descendant[]) {
   const embed = editorValue && editorValue[0];
-  if (embed && isSlateEmbed(embed)) return embed.data;
+  if (embed && isVisualElementSlateElement(embed)) return embed.data;
   else return undefined;
 }
 

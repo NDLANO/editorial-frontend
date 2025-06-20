@@ -19,10 +19,7 @@ import { FieldWarning } from "../../../../components/Form/FieldWarning";
 import { SegmentHeader } from "../../../../components/Form/SegmentHeader";
 import { FormField } from "../../../../components/FormField";
 import { FormContent } from "../../../../components/FormikForm";
-import {
-  createToolbarAreaOptions,
-  createToolbarDefaultValues,
-} from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { UnsupportedElement } from "../../../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
 import { DRAFT_HTML_SCOPE, SAVE_DEBOUNCE_MS } from "../../../../constants";
 import { toEditMarkup } from "../../../../util/routeHelpers";
@@ -33,9 +30,6 @@ import VisualElementField from "../../../FormikForm/components/VisualElementFiel
 import { useSession } from "../../../Session/SessionProvider";
 
 const plugins = topicArticlePlugins.concat(topicArticleRenderers);
-
-const toolbarOptions = createToolbarDefaultValues();
-const toolbarAreaFilters = createToolbarAreaOptions();
 
 interface Props {
   values: TopicArticleFormType;
@@ -81,8 +75,7 @@ const TopicArticleContent = ({ values, isSubmitting }: Props) => {
             submitted={isSubmitting}
             plugins={plugins}
             hideBlockPicker
-            toolbarOptions={toolbarOptions}
-            toolbarAreaFilters={toolbarAreaFilters}
+            renderInvalidElement={(props) => <UnsupportedElement {...props} />}
             onChange={debouncedOnChange}
           />
           <FieldErrorMessage>{meta.error}</FieldErrorMessage>

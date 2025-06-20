@@ -6,10 +6,9 @@
  *
  */
 
-import { createPlugin, isParagraphElement } from "@ndla/editor";
+import { createPlugin, defaultNormalizer, isParagraphElement, NormalizerConfig } from "@ndla/editor";
 import { SUMMARY_ELEMENT_TYPE, SUMMARY_PLUGIN } from "./summaryTypes";
 import { isSummaryElement } from "./queries/detailsQueries";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { DETAILS_ELEMENT_TYPE } from "./detailsTypes";
 import { Transforms } from "slate";
 
@@ -29,7 +28,7 @@ export const summaryPlugin = createPlugin({
   type: SUMMARY_ELEMENT_TYPE,
   normalize: (editor, node, path, logger) => {
     if (isSummaryElement(node)) {
-      const normalized = defaultBlockNormalizer(editor, node, path, summaryNormalizerConfig, logger);
+      const normalized = defaultNormalizer(editor, node, path, summaryNormalizerConfig, logger);
       if (normalized) {
         return true;
       }

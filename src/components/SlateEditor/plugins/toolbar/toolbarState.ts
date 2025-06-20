@@ -7,11 +7,11 @@
  */
 
 import { merge } from "lodash-es";
-import { Editor, Element, Node, BaseSelection, Text } from "slate";
-import { NOOP_ELEMENT_TYPE } from "@ndla/editor";
+import { Editor, Element, Node, Path, Range, Selection } from "slate";
 import { ElementType } from "../../interfaces";
-import { TYPE_PARAGRAPH } from "../paragraph/types";
-import { TYPE_SECTION } from "../section/types";
+import { SYMBOL_ELEMENT_TYPE } from "../symbol/types";
+import { MarkType, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
+import { SPAN_ELEMENT_TYPE } from "../span/types";
 
 export const languages = [
   "no",
@@ -33,9 +33,15 @@ export const languages = [
 ] as const;
 
 export type TextType = "normal-text" | "heading-2" | "heading-3" | "heading-4";
-export type MarkType = "bold" | "italic" | "code" | "sub" | "sup";
 export type BlockType = "quote" | "definition-list" | "numbered-list" | "bulleted-list" | "letter-list";
-export type InlineType = "content-link" | "mathml" | "concept-inline" | "gloss-inline" | "comment-inline";
+export type InlineType =
+  | "content-link"
+  | "mathml"
+  | "concept-inline"
+  | "gloss-inline"
+  | "comment-inline"
+  | "rephrase"
+  | typeof SYMBOL_ELEMENT_TYPE;
 export type TableType = "left" | "center" | "right";
 export type LanguageType = (typeof languages)[number];
 
@@ -62,7 +68,7 @@ export type OptionsType = {
   [Property in ToolbarCategories]: Record<ToolbarMap[Property], ToolbarValue<ToolbarMap[Property]>>;
 };
 
-interface ToolbarOption {
+export interface ToolbarOption {
   disabled?: boolean;
   hidden?: boolean;
 }
@@ -88,6 +94,7 @@ export const allOptions: OptionsType = {
     code: { value: "code" },
     sub: { value: "sub" },
     sup: { value: "sup" },
+    underlined: { value: "underlined" },
   },
   block: {
     quote: { value: "quote" },
@@ -102,6 +109,8 @@ export const allOptions: OptionsType = {
     "concept-inline": { value: "concept-inline" },
     "gloss-inline": { value: "gloss-inline" },
     "comment-inline": { value: "comment-inline" },
+    rephrase: { value: "rephrase" },
+    [SYMBOL_ELEMENT_TYPE]: { value: SYMBOL_ELEMENT_TYPE },
   },
   table: {
     left: { value: "left" },
@@ -150,7 +159,7 @@ export const defaultAreaOptions: AreaFilters = {
     table: { hidden: false },
   },
   "concept-inline": {
-    inline: { disabled: true, "concept-inline": { disabled: false } },
+    inline: { disabled: true, "concept-inline": { disabled: false }, rephrase: { disabled: false } },
   },
   "content-link": {
     inline: { disabled: true, "content-link": { disabled: false } },
@@ -159,9 +168,14 @@ export const defaultAreaOptions: AreaFilters = {
     inline: { disabled: true },
   },
   mathml: {
-    inline: { disabled: true, mathml: { disabled: false } },
+    inline: { disabled: true, mathml: { disabled: false }, rephrase: { disabled: false } },
   },
-  "comment-inline": { inline: { disabled: true, "comment-inline": { disabled: false } } },
+  "comment-inline": {
+    inline: { disabled: true, "comment-inline": { disabled: false }, rephrase: { disabled: false } },
+  },
+  [SYMBOL_ELEMENT_TYPE]: {
+    inline: { disabled: true, [SYMBOL_ELEMENT_TYPE]: { disabled: false }, rephrase: { disabled: false } },
+  },
   list: { inline: { disabled: true } },
   "definition-term": {
     block: { quote: { disabled: true } },
@@ -223,95 +237,62 @@ export const createToolbarDefaultValues = (userValues: CategoryFilters = {}): Ca
   }, {});
 };
 
-interface ToolbarStateProps {
+const ignoredElements: ElementType[] = [SECTION_ELEMENT_TYPE, PARAGRAPH_ELEMENT_TYPE, SPAN_ELEMENT_TYPE];
+
+type SelectionElements = {
+  elements?: Element[];
+  multipleParagraphsSelected: boolean;
+};
+
+export const selectionElements = (editor: Editor, rawSelection: Selection): SelectionElements => {
+  if (!rawSelection) return { multipleParagraphsSelected: false };
+
+  const selection = Editor.unhangRange(editor, rawSelection);
+  // Find the first ancestor that is both an Element and relevant for the toolbar state
+  const [parentElement, parentPath] =
+    Editor.above(editor, {
+      at: selection ?? undefined,
+      match: (node) => Element.isElement(node) && !ignoredElements.includes(node.type),
+      voids: true,
+    }) ?? [];
+
+  // Find all elements inside of the parent element (or editor if parent is `undefined`) that are also inside of the selection range
+  const elements: Element[] = [];
+  const from = Path.relative(Range.start(selection).path, parentPath ?? []);
+  const to = Path.relative(Range.end(selection).path, parentPath ?? []);
+  let numParagraphs = 0;
+  for (const [element] of Node.elements(parentElement ?? editor, { from, to })) {
+    if (!ignoredElements.includes(element.type)) elements.push(element);
+    if (element.type === PARAGRAPH_ELEMENT_TYPE) numParagraphs++;
+  }
+
+  return {
+    elements,
+    multipleParagraphsSelected: numParagraphs > 1,
+  };
+};
+
+type ToolbarStateProps = {
+  selectionElements?: Element[];
+  multipleParagraphsSelected?: boolean;
   options?: CategoryFilters;
   areaOptions?: AreaFilters;
-  editorAncestors?: Element[];
-  selection?: BaseSelection;
-}
-
-export const getSelectionElements = (editor: Editor, selection: BaseSelection): Element[] => {
-  // Get elements in the selection only
-  if (selection) {
-    const fragments = editor.getFragment();
-    const elementFragments = fragments.filter(Element.isElement);
-
-    // When a fragment selects multiple blocks it seems to return the blocks in a section,
-    // if it is a section we have to flatten it and find the inline children.
-    // TODO: This logic works for the current nodes we have, further nested might provide a problem and must be solved in a different way.
-    if (elementFragments?.[0]?.type === TYPE_SECTION) {
-      return elementFragments
-        .flatMap((node) => node?.children as Element[])
-        .flatMap((node) => node?.children as Element[]);
-    } else if (elementFragments?.[0]?.type === TYPE_PARAGRAPH) {
-      return elementFragments.flatMap((node) => node?.children as Element[]);
-    }
-
-    return elementFragments;
-  }
-  return [];
-};
-
-export const getEditorAncestors = (editor: Editor, reverse?: boolean): Element[] => {
-  // Finds the current lowest node in the editor and creates an array of its ancestors.
-  const [lowest] = Editor.nodes(editor, { mode: "lowest" });
-  const ancestorGen = Node.ancestors(editor, lowest[1], { reverse });
-  const elementAncestors: Element[] = [];
-  // ancestorGen is a generator, so we need to iterate over it to get the values.
-  for (const ancestor of ancestorGen) {
-    if (Element.isElement(ancestor[0]) && ancestor[0].type !== "section") {
-      elementAncestors.push(ancestor[0]);
-    }
-  }
-  return elementAncestors;
-};
-
-/**
- * Sets all inline types as disabled if multiple element blocks are selected.
- */
-const disableInlineOnMultipleBlocksSelected = (
-  options: OptionsType,
-  editorAncestors?: Element[],
-): OptionsType & CategoryFilters => {
-  const ancestors =
-    editorAncestors?.[0]?.type === NOOP_ELEMENT_TYPE ? (editorAncestors[0].children as Element[]) : editorAncestors;
-
-  // Filter ancestors that contain inline elements or text blocks
-  // We need to handle both flattened text element and paragraph blocks
-  const filteredAncestors =
-    ancestors?.filter(
-      (fragment) =>
-        fragment.children?.length > 1 ||
-        (Text.isText(fragment) && fragment.text !== "") ||
-        (fragment.children?.length === 1 && Text.isText(fragment.children[0]) && fragment.children[0].text !== ""),
-    ) ?? [];
-
-  if (filteredAncestors?.length < 2) return options;
-
-  const disabledInlines = Object.entries(options.inline).reduce(
-    (acc, [key, value]) => {
-      const k = key as InlineType;
-      acc[k] = { ...value, disabled: true };
-      return acc;
-    },
-    {} as OptionsType["inline"],
-  );
-  return { ...options, inline: disabledInlines };
 };
 
 /**
  * Generates the toolbar based on the current selection of the editor.
  **/
 export const toolbarState = ({
+  selectionElements,
+  multipleParagraphsSelected,
   options: optionsProp = {},
   areaOptions = {},
-  editorAncestors,
 }: ToolbarStateProps): ToolbarType => {
   // Deep clone options to not mutate the original object.
   const options = deepClone(optionsProp);
 
-  editorAncestors?.forEach((node) => {
-    const filters = areaOptions[node.type];
+  selectionElements?.forEach((element) => {
+    const filters = areaOptions[element.type];
     if (filters) {
       Object.entries(filters).forEach(([k, v]) => {
         const key = k as ToolbarCategories;
@@ -322,9 +303,13 @@ export const toolbarState = ({
   });
 
   const merged = merge({}, allOptions, options);
-  const maybeDisabledInline = disableInlineOnMultipleBlocksSelected(merged, editorAncestors);
+  if (multipleParagraphsSelected) {
+    Object.keys(merged.inline).forEach((key) => {
+      merged.inline[key as InlineType].disabled = true;
+    });
+  }
 
-  const toolbar = Object.entries(maybeDisabledInline).reduce<ToolbarType>(
+  const toolbar = Object.entries(merged).reduce<ToolbarType>(
     (acc, curr) => {
       acc[curr[0] as ToolbarCategories] = Object.values(curr[1]);
       return acc;

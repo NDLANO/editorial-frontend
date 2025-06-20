@@ -28,7 +28,7 @@ interface BrightcoveQueryParams {
 export const searchBrightcoveVideos = (query: BrightcoveQueryParams) =>
   fetchWithBrightCoveToken(
     `${baseBrightCoveUrlV3}/?${queryString.stringify({
-      q: query.query || "",
+      query: query.query ? `${query.query} +state:ACTIVE` : "+state:ACTIVE",
       offset: query.offset,
       limit: query.limit,
     })}`,

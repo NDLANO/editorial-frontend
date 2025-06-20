@@ -6,14 +6,13 @@
  *
  */
 
-import { KeyboardEvent, memo, useCallback, useMemo } from "react";
+import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentEditableFieldLabel } from "../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../components/Form/FieldWarning";
 import { FormField } from "../../components/FormField";
-
 import { SlatePlugin } from "../../components/SlateEditor/interfaces";
 import { markPlugin } from "../../components/SlateEditor/plugins/mark";
 import { markRenderer } from "../../components/SlateEditor/plugins/mark/render";
@@ -21,16 +20,18 @@ import { noopPlugin } from "../../components/SlateEditor/plugins/noop";
 import { noopRenderer } from "../../components/SlateEditor/plugins/noop/render";
 import { paragraphPlugin } from "../../components/SlateEditor/plugins/paragraph";
 import { paragraphRenderer } from "../../components/SlateEditor/plugins/paragraph/render";
+import { pastePlugin } from "../../components/SlateEditor/plugins/paste";
 import saveHotkeyPlugin from "../../components/SlateEditor/plugins/saveHotkey";
 import { sectionRenderer } from "../../components/SlateEditor/plugins/section/render";
+import { singleLinePlugin } from "../../components/SlateEditor/plugins/singleLine";
 import { spanPlugin } from "../../components/SlateEditor/plugins/span";
 import { spanRenderer } from "../../components/SlateEditor/plugins/span/render";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../components/SlateEditor/plugins/toolbar";
-import {
-  createToolbarAreaOptions,
-  createToolbarDefaultValues,
-} from "../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { createToolbarDefaultValues } from "../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { UnsupportedElement } from "../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
+import { unsupportedElementRenderer } from "../../components/SlateEditor/plugins/unsupported/unsupportedElementRenderer";
+import { unsupportedPlugin } from "../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
 import RichTextEditor from "../../components/SlateEditor/RichTextEditor";
 
 interface Props {
@@ -52,11 +53,23 @@ const titlePlugins: SlatePlugin[] = [
   paragraphPlugin,
   textTransformPlugin,
   saveHotkeyPlugin,
-  markPlugin,
+  markPlugin.configure({
+    options: { supportedMarks: { value: ["italic", "sup", "sub"], override: true } },
+  }),
   noopPlugin,
+  unsupportedPlugin,
+  pastePlugin,
+  singleLinePlugin,
 ];
 
-const titleRenderers: SlatePlugin[] = [sectionRenderer, paragraphRenderer, markRenderer, noopRenderer, spanRenderer];
+const titleRenderers: SlatePlugin[] = [
+  sectionRenderer,
+  paragraphRenderer,
+  markRenderer,
+  noopRenderer,
+  spanRenderer,
+  unsupportedElementRenderer,
+];
 
 const basePlugins = titlePlugins.concat(titleRenderers);
 
@@ -64,33 +77,20 @@ const toolbarOptions = createToolbarDefaultValues({
   text: {
     hidden: true,
   },
-  mark: {
-    bold: {
-      hidden: true,
-    },
-    code: {
-      hidden: true,
-    },
-  },
   block: { hidden: true },
   inline: { hidden: true },
 });
 
-const toolbarAreaFilters = createToolbarAreaOptions();
+const configuredToolbarPlugin = toolbarPlugin.configure({
+  options: { options: toolbarOptions },
+});
 
 const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => {
   const { t } = useTranslation();
   const plugins = useMemo(() => {
     if (hideToolbar) return basePlugins;
-    return basePlugins.concat(toolbarPlugin(toolbarOptions, toolbarAreaFilters));
+    return basePlugins.concat(configuredToolbarPlugin);
   }, [hideToolbar]);
-
-  const onKeyDown = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      return false;
-    } else return true;
-  }, []);
 
   return (
     <FormField name={name}>
@@ -101,7 +101,6 @@ const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => 
             {...field}
             id="title-editor"
             testId="title-editor"
-            additionalOnKeyDown={onKeyDown}
             hideBlockPicker
             submitted={false}
             placeholder={t("form.title.label")}
@@ -109,10 +108,9 @@ const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => 
             data-testid="learning-resource-title"
             plugins={plugins}
             onChange={helpers.setValue}
-            toolbarOptions={toolbarOptions}
-            toolbarAreaFilters={toolbarAreaFilters}
             maxLength={maxLength}
             hideToolbar={hideToolbar}
+            renderInvalidElement={(props) => <UnsupportedElement {...props} />}
           />
           <FieldWarning name={field.name} />
           <FieldErrorMessage>{meta.error}</FieldErrorMessage>

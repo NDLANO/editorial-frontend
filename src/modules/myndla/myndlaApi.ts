@@ -6,40 +6,45 @@
  *
  */
 
-import queryString from "query-string";
-import { IResourceDTO, ISingleResourceStatsDTO, ResourceType } from "@ndla/types-backend/myndla-api";
-import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from "../../util/apiHelpers";
+import { IResourceDTO, ISingleResourceStatsDTO, openapi, ResourceType } from "@ndla/types-backend/myndla-api";
+import { createAuthClient } from "../../util/apiHelpers";
+import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 
-const statsUrl = apiResourceUrl("/myndla-api/v1/stats");
-const foldersUrl = apiResourceUrl("/myndla-api/v1/folders");
+const client = createAuthClient<openapi.paths>();
 
 export const fetchResourceStats = async (
-  resourceTypes: string,
-  resourceIds: string,
-): Promise<ISingleResourceStatsDTO[]> => {
-  const response = await fetchAuthorized(`${statsUrl}/favorites/${resourceTypes}/${resourceIds}`);
-  return resolveJsonOrRejectWithError(response);
-};
+  resourceTypes: string[],
+  resourceIds: string[],
+): Promise<ISingleResourceStatsDTO[]> =>
+  client
+    .GET("/myndla-api/v1/stats/favorites/{resourceType}/{resourceIds}", {
+      params: { path: { resourceType: resourceTypes, resourceIds } },
+    })
+    .then(resolveJsonOATS);
 
 interface ResourceWithFilteredResourceType<T extends ResourceType> extends Omit<IResourceDTO, "resourceType"> {
   resourceType: Exclude<ResourceType, T>;
 }
 
-interface RecentFavoritedParams<T extends ResourceType> {
-  size?: number;
-  exclude: T[];
+function resourceTypeExcludeGuard<Excluded extends ResourceType[]>(
+  input: IResourceDTO,
+  exclude: Excluded,
+): input is ResourceWithFilteredResourceType<Excluded[number]> {
+  return !exclude.includes(input.resourceType as Excluded[number]);
 }
 
-export const fetchRecentFavorited = async <T extends ResourceType>({
+export const fetchRecentFavorited = async <RT extends ResourceType>({
   exclude,
-  ...params
-}: RecentFavoritedParams<T>): Promise<ResourceWithFilteredResourceType<(typeof exclude)[number]>[]> => {
-  const stringifiedParams = queryString.stringify({
-    ...params,
-    ...(exclude.length ? { exclude: exclude.join(",") } : {}),
-  });
-
-  const query = params ? `?${stringifiedParams}` : "";
-  const response = await fetchAuthorized(`${foldersUrl}/resources/recent${query}`);
-  return resolveJsonOrRejectWithError(response);
+  size,
+}: {
+  exclude: RT[];
+  size?: number;
+}): Promise<ResourceWithFilteredResourceType<(typeof exclude)[number]>[]> => {
+  const res = await client
+    .GET("/myndla-api/v1/folders/resources/recent", { params: { query: { size, exclude } } })
+    .then(resolveJsonOATS);
+  // NOTE: We filter out types for typescripts sake
+  //       In theory this will never filter anything since the backend excludes the type we filter out here
+  //       But it is necessary to make typescript happy without casting.
+  return res.filter((r) => resourceTypeExcludeGuard(r, exclude));
 };

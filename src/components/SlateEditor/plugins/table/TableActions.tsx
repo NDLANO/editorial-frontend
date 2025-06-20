@@ -6,19 +6,19 @@
  *
  */
 
-import { MouseEvent, ReactNode } from "react";
+import { MouseEvent, ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Range } from "slate";
-import { ReactEditor } from "slate-react";
+import { ReactEditor, useSlateSelection } from "slate-react";
 import { SubtractLine, AddLine, AlignCenter, AlignLeft, AlignRight } from "@ndla/icons";
 import { Button, IconButton, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import EditColgroupsDialog from "./EditColgroupsDialog";
 import { TableElement } from "./interfaces";
+import { isTableElement, isTableHeadElement } from "./queries";
 import { alignColumn } from "./slateActions";
-import { isTable, isTableHead } from "./slateHelpers";
 import { insertColumn, insertRow, insertTableHead, removeColumn, removeRow, toggleRowHeaders } from "./toolbarActions";
-import { TYPE_TABLE_CAPTION } from "./types";
+import { TABLE_CAPTION_ELEMENT_TYPE } from "./types";
 import { DRAFT_HTML_SCOPE } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
 import getCurrentBlock from "../../utils/getCurrentBlock";
@@ -142,11 +142,14 @@ const TableActions = ({ editor, element }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
 
-  const tablePath = ReactEditor.findPath(editor, element);
-  const [table] = Editor.node(editor, tablePath);
-  const captionEntry = getCurrentBlock(editor, TYPE_TABLE_CAPTION);
+  const tablePath = useMemo(() => ReactEditor.findPath(editor, element), [editor, element]);
+  const selection = useSlateSelection();
 
-  if (!isTable(table) || captionEntry) {
+  const [table] = Editor.node(editor, tablePath);
+  const captionEntry = getCurrentBlock(editor, TABLE_CAPTION_ELEMENT_TYPE);
+  const show = Range.isRange(selection) && Range.includes(selection, tablePath) && ReactEditor.isFocused(editor);
+
+  if (!isTableElement(table) || captionEntry) {
     return null;
   }
 
@@ -191,15 +194,11 @@ const TableActions = ({ editor, element }: Props) => {
   };
 
   const tableHead = table.children[1];
-  const hasTableHead = isTableHead(tableHead);
+  const hasTableHead = isTableHeadElement(tableHead);
   const selectedPath = editor.selection?.anchor.path;
 
   const showAddHeader = selectedPath && !hasTableHead;
   const showEditColgroups = userPermissions?.includes(DRAFT_HTML_SCOPE);
-  const show =
-    Range.isRange(editor.selection) &&
-    Range.includes(editor.selection, ReactEditor.findPath(editor, element)) &&
-    ReactEditor.isFocused(editor);
 
   return (
     <StyledWrapper contentEditable={false} hidden={!show}>
@@ -241,7 +240,7 @@ const TableActions = ({ editor, element }: Props) => {
             data-testid="toggle-row-headers"
             onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, "toggle-row-headers")}
           >
-            {t(`form.content.table.${isTable(table) && table.rowHeaders ? "disable-header" : "enable-header"}`)}
+            {t(`form.content.table.${isTableElement(table) && table.rowHeaders ? "disable-header" : "enable-header"}`)}
           </Button>
         </ActionGrid>
       </StyledTableActions>

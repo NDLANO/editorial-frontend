@@ -35,6 +35,8 @@ export interface TableRowElement {
   children: Descendant[];
 }
 
+export type TableSectionElement = TableHeadElement | TableBodyElement;
+
 export type TableCellElement = TableBodyCellElement | TableHeaderCellElement;
 
 interface TableBodyCellElement {

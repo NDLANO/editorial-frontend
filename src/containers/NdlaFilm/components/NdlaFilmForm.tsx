@@ -21,7 +21,7 @@ import { FormActionsContainer, Form } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
 import SimpleLanguageHeader from "../../../components/HeaderWithLanguage/SimpleLanguageHeader";
 import SaveButton from "../../../components/SaveButton";
-import { isSlateEmbed } from "../../../components/SlateEditor/plugins/embed/utils";
+import { isVisualElementSlateElement } from "../../../components/SlateEditor/helpers";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { useUpdateFilmFrontpageMutation } from "../../../modules/frontpage/filmMutations";
 import { isFormikFormDirty } from "../../../util/formHelper";
@@ -62,7 +62,7 @@ const ndlaFilmRules: RulesType<FilmFormikType> = {
     required: true,
     test: (values: FilmFormikType) => {
       const element = values?.visualElement[0];
-      const data = isSlateEmbed(element) && element.data;
+      const data = isVisualElementSlateElement(element) && element.data;
       const badVisualElementId = data && "resource_id" in data && data.resource_id === "";
       return badVisualElementId ? { translationKey: "subjectpageForm.missingVisualElement" } : undefined;
     },

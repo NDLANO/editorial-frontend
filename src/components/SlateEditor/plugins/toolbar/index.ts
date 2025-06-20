@@ -7,19 +7,19 @@
  */
 
 import { isKeyHotkey, isCodeHotkey } from "is-hotkey";
-import { Editor } from "slate";
-import { toggleMark } from "@ndla/editor";
+import { createPlugin, marks, MarkType, toggleMark } from "@ndla/editor";
 import { handleClickBlock, handleClickInline, handleClickText } from "./handleMenuClicks";
 import SlateToolbar from "./SlateToolbar";
 import {
-  AreaFilters,
-  CategoryFilters,
   ToolbarAction,
+  ToolbarOption,
   createToolbarAreaOptions,
   createToolbarDefaultValues,
-  getEditorAncestors,
+  selectionElements,
   toolbarState,
 } from "./toolbarState";
+import { ToolbarPluginOptions } from "./types";
+import { merge } from "lodash-es";
 
 const isBoldHotkey = isKeyHotkey("mod+b");
 const isCodeHotKey = isKeyHotkey("mod+k");
@@ -34,16 +34,41 @@ const isLetteredListHotKey = isCodeHotkey("mod+alt+a");
 const isLinkHotKey = isCodeHotkey("mod+alt+l");
 const isListHotKey = isKeyHotkey("mod+l");
 const isMathHotKey = isKeyHotkey("mod+m");
+const isSymbolHotKey = isCodeHotkey("mod+alt+y");
 const isNumberedListHotKey = isCodeHotkey("mod+alt+1");
 const isDefinitionListHotkey = isCodeHotkey("mod+alt+d");
 const isQuoteHotKey = isCodeHotkey("mod+alt+b");
 const isSubHotKey = isCodeHotkey("mod+alt+s");
 const isSupHotKey = isCodeHotkey("mod+alt+h");
 
-const toolbarPlugin =
-  (options: CategoryFilters = createToolbarDefaultValues(), areaOptions: AreaFilters = createToolbarAreaOptions()) =>
-  (editor: Editor) => {
+const toolbarPlugin = createPlugin<any, ToolbarPluginOptions>({
+  name: "toolbar",
+  options: {
+    options: createToolbarDefaultValues(),
+    areaOptions: createToolbarAreaOptions(),
+  },
+  transform: (editor, _, opts) => {
     const { onKeyDown: nextOnKeyDown, shouldShowToolbar } = editor;
+
+    editor.toolbarState = ({ options: optionsProp = {}, areaOptions: areaOptionsProp = {} }) => {
+      const unsupportedMarks = Object.values(marks)
+        .filter((mark) => !editor.supportsMark(mark))
+        .reduce(
+          (acc, mark) => {
+            acc[mark] = { hidden: true, disabled: true };
+            return acc;
+          },
+          {} as Record<MarkType, ToolbarOption>,
+        );
+
+      const options = createToolbarDefaultValues(
+        merge({}, opts.options, optionsProp, Object.keys(unsupportedMarks).length ? { mark: unsupportedMarks } : {}),
+      );
+      const areaOptions = createToolbarAreaOptions(merge({}, opts.areaOptions, areaOptionsProp));
+      const { elements, multipleParagraphsSelected } = selectionElements(editor, editor.selection);
+      const state = toolbarState({ selectionElements: elements, multipleParagraphsSelected, options, areaOptions });
+      return state;
+    };
 
     editor.shouldShowToolbar = () => {
       if (shouldShowToolbar) {
@@ -86,6 +111,8 @@ const toolbarPlugin =
         action = { category: "block", value: "bulleted-list" };
       } else if (isMathHotKey(e)) {
         action = { category: "inline", value: "mathml" };
+      } else if (isSymbolHotKey(e)) {
+        action = { category: "inline", value: "symbol" };
       } else if (isNumberedListHotKey(e)) {
         action = { category: "block", value: "numbered-list" };
       } else if (isQuoteHotKey(e)) {
@@ -98,16 +125,14 @@ const toolbarPlugin =
         action = { category: "block", value: "definition-list" };
       }
 
-      if (!action || !editor.shouldShowToolbar()) {
+      if (!action || !editor.shouldShowToolbar?.()) {
         nextOnKeyDown?.(e);
         return;
       }
 
-      const state = toolbarState({
-        editorAncestors: getEditorAncestors(editor),
-        options,
-        areaOptions,
-      });
+      const state = editor.toolbarState?.({ options: opts.options, areaOptions: opts.areaOptions });
+
+      if (!state) return;
 
       const option = state[action.category].find((el) => el.value === action?.value);
 
@@ -131,6 +156,7 @@ const toolbarPlugin =
       }
     };
     return editor;
-  };
+  },
+});
 
 export { SlateToolbar, toolbarPlugin };

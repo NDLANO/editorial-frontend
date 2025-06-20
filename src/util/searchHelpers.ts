@@ -8,22 +8,6 @@
 
 import { SearchParamsBody } from "../containers/SearchPage/components/form/SearchForm";
 
-export const transformQuery = ({ "resource-types": resourceTypes, ...rest }: any) => {
-  const query = { ...rest };
-
-  if (resourceTypes === "topic-article" || resourceTypes === "frontpage-article") {
-    query["article-types"] = resourceTypes;
-  } else if (resourceTypes) {
-    query["resource-types"] = resourceTypes;
-  }
-  if (query.users) {
-    // in case of weird ID's starting with -
-    query["users"] = `"${query["users"]}"`;
-  }
-
-  return query;
-};
-
 const getArticleTypesField = (resourceTypes?: string[]) => {
   if (!resourceTypes?.length) {
     return {};
@@ -39,6 +23,9 @@ const getContextTypes = (resourceType: string[] | undefined, contextTypes: strin
   }
   if (resourceType?.includes("concept")) {
     return { contextTypes: ["concept"], resourceTypes: [] };
+  }
+  if (resourceType?.includes("learningpath")) {
+    return { contextTypes: ["learningpath"], resourceTypes: [] };
   }
 
   return { contextTypes };

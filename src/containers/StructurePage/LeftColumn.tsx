@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo, RefObject } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { Spinner } from "@ndla/primitives";
@@ -44,17 +44,9 @@ interface Props {
   rootNodeType?: NodeType;
   childNodeTypes?: NodeType[];
   rootPath?: string;
-  setCurrentNode: (node: Node | undefined) => void;
-  resourceSectionRef: RefObject<HTMLDivElement | null>;
 }
 
-const LeftColumn = ({
-  rootNodeType = "SUBJECT",
-  childNodeTypes = ["TOPIC"],
-  rootPath = "/structure/",
-  setCurrentNode,
-  resourceSectionRef,
-}: Props) => {
+const LeftColumn = ({ rootNodeType = "SUBJECT", childNodeTypes = ["TOPIC"], rootPath = "/structure/" }: Props) => {
   const location = useLocation();
   const paths = location.pathname.replace(rootPath, "").split("/");
   const [rootId] = paths;
@@ -120,8 +112,6 @@ const LeftColumn = ({
           {nodes.map((node) => (
             <RootNode
               openedPaths={getPathsFromUrl(location.pathname)}
-              resourceSectionRef={resourceSectionRef}
-              onNodeSelected={setCurrentNode}
               isFavorite={!!favoriteNodes[node.id]}
               key={node.id}
               node={node}

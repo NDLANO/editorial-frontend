@@ -7,6 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
+import { Portal } from "@ark-ui/react";
 import { LineChartLine } from "@ndla/icons";
 import {
   Text,
@@ -44,29 +45,31 @@ const MatomoStats = ({ matomoStats, matomoStatsIsPending, matomoStatsIsError }: 
     );
   }
 
-  if (!matomoStats) return;
-
   return (
     <PopoverRoot>
-      <PopoverTrigger asChild>
-        <Button
-          size="small"
-          variant="secondary"
-          aria-label={t("matomo.popoverDescription", { count: matomoStats.nb_visits })}
-          title={t("matomo.popoverDescription", { count: matomoStats.nb_visits })}
-        >
+      <PopoverTrigger
+        asChild
+        disabled={!matomoStats}
+        aria-label={matomoStats ? t("matomo.popoverDescription", { count: matomoStats.nb_hits }) : t("matomo.noData")}
+        title={matomoStats ? t("matomo.popoverDescription", { count: matomoStats.nb_hits }) : t("matomo.noData")}
+      >
+        <Button size="small" variant="secondary">
           <LineChartLine size="small" />
-          <span aria-hidden>{matomoStats.nb_visits}</span>
+          <span aria-hidden>{matomoStats?.nb_hits ?? 0}</span>
         </Button>
       </PopoverTrigger>
-      <PopoverContent>
-        <PopoverTitle>{t("matomo.popoverTitle")}</PopoverTitle>
-        <UnOrderedList>
-          <li>{t("matomo.visits", { count: matomoStats.nb_visits })}</li>
-          <li>{t("matomo.hits", { count: matomoStats.nb_hits })}</li>
-          <li>{t("matomo.avgTime", { time: matomoStats.avg_time_on_page })}</li>
-        </UnOrderedList>
-      </PopoverContent>
+      <Portal>
+        <PopoverContent>
+          <PopoverTitle>{t("matomo.popoverTitle")}</PopoverTitle>
+          {!!matomoStats && (
+            <UnOrderedList>
+              <li>{t("matomo.hits", { count: matomoStats.nb_hits })}</li>
+              <li>{t("matomo.visits", { count: matomoStats.nb_visits })}</li>
+              <li>{t("matomo.avgTime", { time: matomoStats.avg_time_on_page })}</li>
+            </UnOrderedList>
+          )}
+        </PopoverContent>
+      </Portal>
     </PopoverRoot>
   );
 };

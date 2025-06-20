@@ -27,18 +27,15 @@ import { AUDIO_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/a
 import { learningResourceActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
 import { CODE_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/codeBlock/types";
 import { COMMENT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/comment/block/types";
-import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
+import { EXTERNAL_ELEMENT_TYPE, IFRAME_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/external/types";
 import { FILE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/file/types";
-import { FootnoteElement } from "../../../../components/SlateEditor/plugins/footnote";
-import { TYPE_FOOTNOTE } from "../../../../components/SlateEditor/plugins/footnote/types";
-import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
+import { FOOTNOTE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/footnote/types";
+import { GRID_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/grid/types";
 import { H5P_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/h5p/types";
 import { IMAGE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/image/types";
-import { TYPE_TABLE } from "../../../../components/SlateEditor/plugins/table/types";
-import {
-  createToolbarAreaOptions,
-  createToolbarDefaultValues,
-} from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { TABLE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/table/types";
+import { UNSUPPORTED_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/unsupported/types";
+import { UnsupportedElement } from "../../../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/video/types";
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
 import { DRAFT_HTML_SCOPE, SAVE_DEBOUNCE_MS } from "../../../../constants";
@@ -51,8 +48,7 @@ import { HandleSubmitFunc, LearningResourceFormType } from "../../../FormikForm/
 import { useSession } from "../../../Session/SessionProvider";
 
 const findFootnotes = (content: Descendant[]): FootnoteType[] =>
-  findNodesByType(content, TYPE_FOOTNOTE)
-    .map((e) => e as FootnoteElement)
+  findNodesByType(content, FOOTNOTE_ELEMENT_TYPE)
     .filter((footnote) => Object.keys(footnote.data).length > 0)
     .map((footnoteElement) => footnoteElement.data);
 
@@ -60,13 +56,18 @@ const visualElements = [
   H5P_ELEMENT_TYPE,
   BRIGHTCOVE_ELEMENT_TYPE,
   AUDIO_ELEMENT_TYPE,
-  TYPE_EXTERNAL,
+  EXTERNAL_ELEMENT_TYPE,
+  IFRAME_ELEMENT_TYPE,
   IMAGE_ELEMENT_TYPE,
 ];
 
-const actions = [TYPE_TABLE, CODE_BLOCK_ELEMENT_TYPE, FILE_ELEMENT_TYPE, TYPE_GRID, COMMENT_BLOCK_ELEMENT_TYPE].concat(
-  visualElements,
-);
+const actions = [
+  TABLE_ELEMENT_TYPE,
+  CODE_BLOCK_ELEMENT_TYPE,
+  FILE_ELEMENT_TYPE,
+  GRID_ELEMENT_TYPE,
+  COMMENT_BLOCK_ELEMENT_TYPE,
+].concat(visualElements);
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,
@@ -74,9 +75,6 @@ const actionsToShowInAreas = {
   "table-cell": [IMAGE_ELEMENT_TYPE],
   "grid-cell": [IMAGE_ELEMENT_TYPE],
 };
-
-const toolbarOptions = createToolbarDefaultValues();
-const toolbarAreaFilters = createToolbarAreaOptions();
 
 // Plugins are checked from last to first
 interface Props {
@@ -129,7 +127,10 @@ const ContentField = ({ articleId, articleLanguage }: ContentFieldProps) => {
 
   const onInitialNormalized = useCallback(
     (value: Descendant[]) => {
-      if (isFormikFormDirty({ values: { ...values, content: value }, initialValues, dirty: true })) {
+      if (
+        isFormikFormDirty({ values: { ...values, content: value }, initialValues, dirty: true }) ||
+        findNodesByType(value, UNSUPPORTED_ELEMENT_TYPE).length
+      ) {
         setShowAlert(true);
       }
     },
@@ -175,9 +176,8 @@ const ContentField = ({ articleId, articleLanguage }: ContentFieldProps) => {
           plugins={editorPlugins}
           data-testid="learning-resource-content"
           onChange={debouncedOnChange}
-          toolbarOptions={toolbarOptions}
-          toolbarAreaFilters={toolbarAreaFilters}
           onInitialNormalized={onInitialNormalized}
+          renderInvalidElement={(props) => <UnsupportedElement {...props} />}
         />
         {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(field.value)} />}
         <FieldErrorMessage>{meta.error}</FieldErrorMessage>

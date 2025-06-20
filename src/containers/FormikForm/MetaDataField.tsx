@@ -6,12 +6,16 @@
  *
  */
 
+import { FieldHelperProps, useFormikContext } from "formik";
 import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Descendant, Node } from "slate";
 import { createListCollection } from "@ark-ui/react";
 import {
+  Button,
   ComboboxItem,
   ComboboxItemText,
+  DialogTrigger,
   FieldErrorMessage,
   FieldHelper,
   FieldLabel,
@@ -23,12 +27,15 @@ import {
   RadioGroupItemText,
   RadioGroupLabel,
   RadioGroupRoot,
+  Text,
 } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { MetaImageSearch } from ".";
+import { ArticleFormType } from "./articleFormHooks";
 import { GenericComboboxItemIndicator } from "../../components/abstractions/Combobox";
+import { AiPromptDialog } from "../../components/AiPromptDialog";
 import { FieldWarning } from "../../components/Form/FieldWarning";
 import { FormRemainingCharacters } from "../../components/Form/FormRemainingCharacters";
 import { SearchTagsContent } from "../../components/Form/SearchTagsContent";
@@ -37,8 +44,10 @@ import { FormField } from "../../components/FormField";
 import { FormContent } from "../../components/FormikForm";
 import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
-import { DRAFT_ADMIN_SCOPE } from "../../constants";
+import { AI_ACCESS_SCOPE, DRAFT_ADMIN_SCOPE } from "../../constants";
+import { MetaDescriptionVariables, SummaryVariables } from "../../interfaces";
 import { useDraftSearchTags } from "../../modules/draft/draftQueries";
+import { inlineContentToEditorValue } from "../../util/articleContentConverter";
 import useDebounce from "../../util/useDebounce";
 import { useSession } from "../Session/SessionProvider";
 
@@ -55,6 +64,8 @@ interface Props {
 }
 
 const availabilityValues: string[] = ["everyone", "teacher"];
+const SUMMARY_EDITOR = "editor-summary";
+const METADATA_EDITOR = "editor-metadata";
 
 const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props) => {
   const { t } = useTranslation();
@@ -62,7 +73,9 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
   const tagSelectorTranslations = useTagSelectorTranslations();
   const plugins = [textTransformPlugin];
   const [inputQuery, setInputQuery] = useState<string>("");
+  const [summary, setSummary] = useState<Descendant[]>([]);
   const debouncedQuery = useDebounce(inputQuery, 300);
+  const { setStatus, values } = useFormikContext<ArticleFormType>();
   const searchTagsQuery = useDraftSearchTags(
     {
       input: debouncedQuery,
@@ -81,6 +94,36 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
       itemToString: (item) => item,
     });
   }, [searchTagsQuery.data?.results]);
+
+  const getMetaDescriptionPromptVariables = (): MetaDescriptionVariables => {
+    const articleTitle = values.title.map((val) => Node.string(val)).join(" ");
+    const articleContent = values.content.map((val) => Node.string(val)).join(" ");
+    return {
+      type: "metaDescription",
+      text: articleContent,
+      title: articleTitle,
+    };
+  };
+
+  const getSummaryPromptVariables = (): SummaryVariables => {
+    const articleTitle = values.title.map((val) => Node.string(val)).join(" ");
+    const articleContent = values.content.map((val) => Node.string(val)).join(" ");
+    return {
+      type: "summary",
+      text: articleContent,
+      title: articleTitle,
+    };
+  };
+
+  const onInsertMetaDescription = (generatedText: string, helpers: FieldHelperProps<Descendant[]>) => {
+    helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
+    setStatus({ status: METADATA_EDITOR });
+  };
+
+  const onInsertSummary = (generatedText: string) => {
+    setSummary(inlineContentToEditorValue(generatedText, true));
+    setStatus({ status: SUMMARY_EDITOR });
+  };
 
   return (
     <FormContent>
@@ -136,15 +179,29 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         </FormField>
       )}
       <FormField name="metaDescription">
-        {({ field, meta }) => (
+        {({ field, meta, helpers }) => (
           <FieldRoot invalid={!!meta.error}>
-            <FieldLabel>{t("form.metaDescription.label")}</FieldLabel>
+            <HStack justify="space-between">
+              <FieldLabel>{t("form.metaDescription.label")}</FieldLabel>
+              {userPermissions?.includes(AI_ACCESS_SCOPE) ? (
+                <AiPromptDialog
+                  promptVariables={getMetaDescriptionPromptVariables}
+                  language={articleLanguage}
+                  onInsert={(text) => onInsertMetaDescription(text, helpers)}
+                >
+                  <DialogTrigger asChild>
+                    <Button size="small">{t("textGeneration.generateButton", { type: "metaDescription" })}</Button>
+                  </DialogTrigger>
+                </AiPromptDialog>
+              ) : null}
+            </HStack>
             <FieldHelper>{t("form.metaDescription.description")}</FieldHelper>
             <PlainTextEditor
               id={field.name}
               placeholder={t("form.metaDescription.label")}
               {...field}
               plugins={plugins}
+              editorId={METADATA_EDITOR}
             />
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
             <StyledFormRemainingCharacters maxLength={155} value={field.value} />
@@ -152,6 +209,37 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
           </FieldRoot>
         )}
       </FormField>
+      {!!userPermissions?.includes(AI_ACCESS_SCOPE) && (
+        <div>
+          <HStack justify="space-between">
+            <Text textStyle="label.medium">{t("form.articleSummary.label")}</Text>
+            <AiPromptDialog
+              promptVariables={getSummaryPromptVariables}
+              language={articleLanguage}
+              onInsert={onInsertSummary}
+            >
+              <DialogTrigger asChild>
+                <Button size="small">{t("textGeneration.generateButton", { type: "summary" })}</Button>
+              </DialogTrigger>
+            </AiPromptDialog>
+          </HStack>
+          <Text textStyle="label.small">{t("form.articleSummary.description")}</Text>
+          <PlainTextEditor
+            id="summary"
+            placeholder={t("form.articleSummary.label")}
+            plugins={plugins}
+            onChange={(val: {
+              target: {
+                name: number;
+                value: Descendant[];
+                type: "SlateEditorValue";
+              };
+            }) => setSummary(val.target.value)}
+            value={summary}
+            editorId={SUMMARY_EDITOR}
+          />
+        </div>
+      )}
       <FormField name="metaImageId">
         {({ field, meta }) => (
           <FieldRoot invalid={!!meta.error}>

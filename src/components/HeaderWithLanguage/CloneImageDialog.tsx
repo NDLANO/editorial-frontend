@@ -22,6 +22,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { ImageUploadFormElement } from "../../containers/ImageUploader/components/ImageUploadFormElement";
+import { ImageFormikType } from "../../containers/ImageUploader/imageTransformers";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { useCloneImageMutation } from "../../modules/image/imageMutations";
 import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
@@ -35,7 +36,7 @@ interface Props {
   imageId: number;
 }
 
-interface FormikValuesType {
+interface FormikValuesType extends Partial<ImageFormikType> {
   imageFile: Blob | string | undefined;
 }
 
@@ -70,8 +71,10 @@ export const CloneImageDialog = ({ loading, imageId }: Props) => {
   const handleSubmit = useCallback(
     async (values: FormikValuesType) => {
       try {
-        const newImage = await cloneImage.mutateAsync({ imageId, imageFile: values.imageFile });
-        navigate(toEditImage(newImage.id, newImage.title.language));
+        if (values.imageFile instanceof Blob) {
+          const newImage = await cloneImage.mutateAsync({ imageId, imageFile: values.imageFile });
+          navigate(toEditImage(newImage.id, newImage.title.language));
+        }
       } catch (e) {
         const err = e as NdlaErrorPayload;
         applicationError(err);

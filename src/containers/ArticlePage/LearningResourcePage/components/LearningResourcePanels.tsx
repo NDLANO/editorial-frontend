@@ -25,7 +25,7 @@ import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import { IsNewArticleLanguageProvider } from "../../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import { breakPlugin } from "../../../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../../../components/SlateEditor/plugins/break/render";
-import { linkPlugin } from "../../../../components/SlateEditor/plugins/link";
+import { contentLinkPlugin, linkPlugin } from "../../../../components/SlateEditor/plugins/link";
 import { linkRenderer } from "../../../../components/SlateEditor/plugins/link/render";
 import { markPlugin } from "../../../../components/SlateEditor/plugins/mark";
 import { markRenderer } from "../../../../components/SlateEditor/plugins/mark/render";
@@ -33,16 +33,18 @@ import { noopPlugin } from "../../../../components/SlateEditor/plugins/noop";
 import { noopRenderer } from "../../../../components/SlateEditor/plugins/noop/render";
 import { paragraphPlugin } from "../../../../components/SlateEditor/plugins/paragraph";
 import { paragraphRenderer } from "../../../../components/SlateEditor/plugins/paragraph/render";
+import { pastePlugin } from "../../../../components/SlateEditor/plugins/paste";
 import saveHotkeyPlugin from "../../../../components/SlateEditor/plugins/saveHotkey";
 import { spanPlugin } from "../../../../components/SlateEditor/plugins/span";
 import { spanRenderer } from "../../../../components/SlateEditor/plugins/span/render";
 import { textTransformPlugin } from "../../../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../../../components/SlateEditor/plugins/toolbar";
 import { createToolbarDefaultValues } from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { unsupportedElementRenderer } from "../../../../components/SlateEditor/plugins/unsupported/unsupportedElementRenderer";
+import { unsupportedPlugin } from "../../../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
 import {
   DISCLAIMER_TEMPLATES_URL,
   DisclaimerField,
-  toolbarAreaFilters,
 } from "../../../../components/SlateEditor/plugins/uuDisclaimer/DisclaimerField";
 import config from "../../../../config";
 import { STORED_HIDE_COMMENTS, TAXONOMY_WRITE_SCOPE } from "../../../../constants";
@@ -61,11 +63,6 @@ const toolbarOptions = createToolbarDefaultValues({
   text: {
     hidden: true,
   },
-  mark: {
-    code: {
-      hidden: true,
-    },
-  },
   block: { hidden: true },
   inline: {
     hidden: true,
@@ -77,13 +74,20 @@ export const disclaimerPlugins: SlatePlugin[] = [
   inlineNavigationPlugin,
   spanPlugin,
   paragraphPlugin,
-  toolbarPlugin(toolbarOptions, toolbarAreaFilters),
+  toolbarPlugin.configure({ options: { options: toolbarOptions } }),
   textTransformPlugin,
   breakPlugin,
   saveHotkeyPlugin,
-  markPlugin,
+  markPlugin.configure({
+    options: {
+      supportedMarks: { value: ["bold", "italic", "sub", "sup"], override: true },
+    },
+  }),
   noopPlugin,
   linkPlugin,
+  contentLinkPlugin,
+  unsupportedPlugin,
+  pastePlugin,
 ];
 
 const renderers: SlatePlugin[] = [
@@ -93,6 +97,7 @@ const renderers: SlatePlugin[] = [
   breakRenderer,
   spanRenderer,
   linkRenderer,
+  unsupportedElementRenderer,
 ];
 
 const plugins = disclaimerPlugins.concat(renderers);
@@ -219,7 +224,6 @@ const LearningResourcePanels = ({
             >
               <LearningResourceTaxonomy
                 article={article}
-                updateNotes={updateNotes}
                 articleLanguage={articleLanguage}
                 hasTaxEntries={!!contexts?.length}
               />
@@ -267,7 +271,6 @@ const LearningResourcePanels = ({
                 </Trans>
               }
               plugins={plugins}
-              toolbarOptions={toolbarOptions}
             />
           </FormAccordion>
           {config.ndlaEnvironment === "test" && (

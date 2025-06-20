@@ -28,7 +28,7 @@ import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
 import { PageSpinner } from "../../../components/PageSpinner";
 import SaveButton from "../../../components/SaveButton";
 import { SAVE_BUTTON_ID } from "../../../constants";
-import { PodcastFormValues } from "../../../modules/audio/audioApiInterfaces";
+import { PodcastFormValues } from "../../../modules/audio/audioTypes";
 import { useLicenses } from "../../../modules/draft/draftQueries";
 import { editorValueToPlainText, inlineContentToHTML } from "../../../util/articleContentConverter";
 import { audioApiTypeToPodcastFormType } from "../../../util/audioHelpers";
@@ -113,6 +113,7 @@ interface Props {
   onUpdatePodcast?: (updatedPodcast: IUpdatedAudioMetaInformationDTO, file?: string | Blob) => Promise<void>;
   translating?: boolean;
   supportedLanguages: string[];
+  translatedFieldsToNN: string[];
 }
 
 const PodcastForm = ({
@@ -125,6 +126,7 @@ const PodcastForm = ({
   onUpdatePodcast,
   translating,
   supportedLanguages,
+  translatedFieldsToNN,
 }: Props) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const { t } = useTranslation();
@@ -213,7 +215,7 @@ const PodcastForm = ({
   );
 
   const initialValues = audioApiTypeToPodcastFormType(audio, language);
-  const initialWarnings = getWarnings(initialValues, podcastRules, t, audio);
+  const initialWarnings = getWarnings(initialValues, podcastRules, t, translatedFieldsToNN, audio);
   const initialErrors = useMemo(() => validateFunction(initialValues), [initialValues, validateFunction]);
 
   return (
@@ -262,7 +264,7 @@ const PodcastForm = ({
                   title={t("podcastForm.fields.manuscript")}
                   hasError={[].some((field) => field in errors)}
                 >
-                  <AudioManuscript />
+                  <AudioManuscript audioLanguage={language} audio={audio} />
                 </FormAccordion>
                 <FormAccordion
                   id="podcast-upload-podcastmeta"

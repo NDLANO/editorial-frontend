@@ -13,10 +13,11 @@ import { Descendant } from "slate";
 import { CheckLine, DeleteBinLine, ArrowDownShortLine, ArrowRightShortLine } from "@ndla/icons";
 import { Button, FieldRoot, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUtils";
+import { plugins } from "./commentToolbarUtils";
 import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { FormActionsContainer } from "../../../components/FormikForm";
+import { UnsupportedElement } from "../../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import { SlateCommentType } from "../../FormikForm/articleFormHooks";
 
@@ -168,8 +169,7 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
             onChange={setInputValue}
             onClick={() => updateComment("isOpen", true)}
             onBlur={updateContentOnBlur}
-            toolbarOptions={toolbarOptions}
-            toolbarAreaFilters={toolbarAreaFilters}
+            renderInvalidElement={(props) => <UnsupportedElement {...props} />}
             data-comment=""
             noArticleStyling
           />

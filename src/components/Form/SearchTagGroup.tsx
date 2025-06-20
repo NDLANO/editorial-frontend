@@ -47,7 +47,9 @@ const SearchTagGroup = ({ tags, onRemoveTag }: Props) => {
               onClick={() => onRemoveTag(key as keyof SearchParams, value)}
               data-testid="remove-tag-button"
             >
-              {t(`searchForm.tagType.${key}`, { value })}
+              {key === "query"
+                ? `${t(`searchForm.tagType.${key}`)} ${value}`
+                : t(`searchForm.tagType.${key}`, { value })}
               <CloseLine aria-label={t("remove")} title={t("remove")} />
             </Button>
           );

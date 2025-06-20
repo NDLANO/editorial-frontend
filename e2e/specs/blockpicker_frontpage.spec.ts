@@ -28,7 +28,7 @@ test("adds and removes grid", async ({ page }) => {
   await expect(page.getByTestId("create-keyFigure")).toBeVisible();
   await expect(page.getByTestId("create-image")).toBeVisible();
   await expect(page.getByTestId("create-pitch")).toBeVisible();
-  await expect(page.getByTestId("slate-block-picker-menu").getByRole("button")).toHaveCount(6);
+  await expect(page.getByTestId("slate-block-picker-menu").getByRole("button")).toHaveCount(3);
   await expect(page.getByTestId("remove-grid")).toBeVisible();
   await page.getByTestId("remove-grid").click();
   await expect(page.getByTestId("remove-grid")).toHaveCount(0);

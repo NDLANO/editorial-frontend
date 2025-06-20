@@ -7,11 +7,17 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { createPlugin, createSerializer } from "@ndla/editor";
+import {
+  createDataAttributes,
+  createHtmlTag,
+  createPlugin,
+  createSerializer,
+  defaultNormalizer,
+  NormalizerConfig,
+  parseElementAttributes,
+} from "@ndla/editor";
 import { isCommentBlockElement } from "./queries/commentBlockQueries";
 import { COMMENT_BLOCK_ELEMENT_TYPE, COMMENT_BLOCK_PLUGIN } from "./types";
-import { createDataAttributes, createHtmlTag, parseElementAttributes } from "../../../../../util/embedTagHelpers";
-import { NormalizerConfig, defaultBlockNormalizer } from "../../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../../embed/types";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
@@ -49,7 +55,7 @@ export const commentBlockPlugin = createPlugin({
   isVoid: true,
   normalize: (editor, node, path, logger) => {
     if (isCommentBlockElement(node)) {
-      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+      return defaultNormalizer(editor, node, path, normalizerConfig, logger);
     }
     return false;
   },

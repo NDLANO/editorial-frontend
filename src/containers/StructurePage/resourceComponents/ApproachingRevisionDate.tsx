@@ -6,10 +6,9 @@
  *
  */
 
-import addYears from "date-fns/addYears";
-import isBefore from "date-fns/isBefore";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { getLocalTimeZone, parseAbsoluteToLocal, today } from "@internationalized/date";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IRevisionMetaDTO } from "@ndla/types-backend/draft-api";
@@ -42,8 +41,8 @@ export const isApproachingRevision = (revisions?: IRevisionMetaDTO[]) => {
   if (!revisions?.length) return false;
   const expirationDate = getExpirationDate({ revisions: revisions });
   if (!expirationDate) return false;
-  const currentDateAddYear = addYears(new Date(), 1);
-  return isBefore(new Date(expirationDate), currentDateAddYear);
+  const currentDateAddYear = today(getLocalTimeZone()).add({ years: 1 });
+  return parseAbsoluteToLocal(expirationDate).compare(currentDateAddYear) <= 0;
 };
 
 const ApproachingRevisionDate = ({ resources, currentNode, contentMeta }: Props) => {

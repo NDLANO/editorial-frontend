@@ -12,12 +12,13 @@ import {
   createHtmlTag,
   createPlugin,
   createSerializer,
+  defaultNormalizer,
+  NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
 import { isContactBlockElement } from "./queries";
 import { CONTACT_BLOCK_ELEMENT_TYPE, CONTACT_BLOCK_PLUGIN } from "./types";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 
@@ -53,7 +54,7 @@ export const contactBlockPlugin = createPlugin({
   isVoid: true,
   normalize: (editor, node, path, logger) => {
     if (isContactBlockElement(node)) {
-      return defaultBlockNormalizer(editor, node, path, normalizerConfig, logger);
+      return defaultNormalizer(editor, node, path, normalizerConfig, logger);
     }
     return false;
   },

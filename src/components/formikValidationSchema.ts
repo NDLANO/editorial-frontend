@@ -295,6 +295,7 @@ export const getWarnings = <FormikValuesType, ApiType>(
   values: FormikValuesType,
   rules: RulesType<FormikValuesType, ApiType>,
   t: TFunction,
+  translatedFieldsToNN: string[],
   entity?: ApiType,
 ) => {
   let warnings: Record<string, string> = {};
@@ -304,25 +305,26 @@ export const getWarnings = <FormikValuesType, ApiType>(
       if (rule.warnings) {
         const warningRules = rule.warnings;
         if (warningRules?.languageMatch) {
-          const apiField = warningRules.apiField ?? ruleKey;
+          const apiField = (warningRules.apiField as string) ?? ruleKey;
           const entityField = get(entity, [apiField]);
           const fieldLanguage = get(entityField, "language");
           const formikLanguage = get(values, "language");
           if (entity && fieldLanguage && formikLanguage !== fieldLanguage) {
+            const warningMessage = translatedFieldsToNN.includes(apiField)
+              ? t("warningMessage.translatedField")
+              : t("warningMessage.fieldWithWrongLanguage", {
+                  language: [fieldLanguage],
+                });
             const edgeCaseWarning =
               apiField !== ruleKey
                 ? {
-                    [apiField]: t("warningMessage.fieldWithWrongLanguage", {
-                      language: [fieldLanguage],
-                    }),
+                    [apiField]: warningMessage,
                   }
                 : {};
             warnings = {
               ...warnings,
               ...edgeCaseWarning,
-              [ruleKey]: t("warningMessage.fieldWithWrongLanguage", {
-                language: [fieldLanguage],
-              }),
+              [ruleKey]: warningMessage,
             };
           }
         }

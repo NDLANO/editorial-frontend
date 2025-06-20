@@ -8,6 +8,7 @@
 
 import { isEqual } from "lodash-es";
 import { Descendant, Node } from "slate";
+import { isElementOfType } from "@ndla/editor";
 import { licenses } from "@ndla/licenses";
 import { IArticleDTO, ILicenseDTO, IArticleMetaImageDTO } from "@ndla/types-backend/draft-api";
 import { blockContentToHTML, inlineContentToEditorValue } from "./articleContentConverter";
@@ -16,14 +17,15 @@ import { diffHTML } from "./diffHTML";
 import { isUserProvidedEmbedDataValid } from "./embedTagHelpers";
 import { findNodesByType } from "./slateHelpers";
 import { RulesType } from "../components/formikValidationSchema";
-import { EmbedElements } from "../components/SlateEditor/plugins/embed";
-import { isSlateEmbed } from "../components/SlateEditor/plugins/embed/utils";
 import {
   ArticleFormType,
   LearningResourceFormType,
   TopicArticleFormType,
   FrontpageArticleFormType,
 } from "../containers/FormikForm/articleFormHooks";
+import { isImageElement } from "../components/SlateEditor/plugins/image/queries";
+import { IMAGE_ELEMENT_TYPE } from "../components/SlateEditor/plugins/image/types";
+import { BRIGHTCOVE_ELEMENT_TYPE } from "../components/SlateEditor/plugins/video/types";
 
 export const DEFAULT_LICENSE: ILicenseDTO = {
   description: "Creative Commons Attribution-ShareAlike 4.0 International",
@@ -225,13 +227,13 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
       const embeds = findNodesByType(
         values.content ?? [],
         "image",
-        "brightcove-embed",
+        "brightcove",
         "h5p",
         "audio",
         "error-embed",
         "external",
-      ).map((node) => (node as EmbedElements).data);
-      const notValidEmbeds = embeds.filter((embed) => embed && !isUserProvidedEmbedDataValid(embed));
+      );
+      const notValidEmbeds = embeds.filter((embed) => embed.data && !isUserProvidedEmbedDataValid(embed.data));
       const embedsHasErrors = notValidEmbeds.length > 0;
 
       return embedsHasErrors ? { translationKey: "learningResourceForm.validation.missingEmbedData" } : undefined;
@@ -266,14 +268,11 @@ export const topicArticleRules: RulesType<TopicArticleFormType, IArticleDTO> = {
   ...formikCommonArticleRules,
   visualElementAlt: {
     required: false,
-    onlyValidateIf: (values) =>
-      isSlateEmbed(values.visualElement[0]) && values.visualElement[0].data?.resource === "image",
+    onlyValidateIf: (values) => isImageElement(values.visualElement[0]),
   },
   visualElementCaption: {
     required: false,
-    onlyValidateIf: (values) =>
-      isSlateEmbed(values.visualElement[0]) &&
-      (values.visualElement[0].data?.resource === "image" || values.visualElement[0].data?.resource === "brightcove"),
+    onlyValidateIf: (values) => isElementOfType(values.visualElement[0], [IMAGE_ELEMENT_TYPE, BRIGHTCOVE_ELEMENT_TYPE]),
     warnings: {
       languageMatch: true,
       apiField: "visualElement",
@@ -282,7 +281,7 @@ export const topicArticleRules: RulesType<TopicArticleFormType, IArticleDTO> = {
   visualElement: {
     required: false,
     test: (values) =>
-      isSlateEmbed(values.visualElement[0]) && values.visualElement[0].data?.resource !== "image"
+      values.visualElement[0] && !isImageElement(values.visualElement[0])
         ? { translationKey: "topicArticleForm.validation.illegalResource" }
         : undefined,
   },

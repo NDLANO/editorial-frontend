@@ -44,6 +44,7 @@ interface Props {
   isNewlyCreated: boolean;
   supportedLanguages: string[];
   articleLanguage: string;
+  translatedFieldsToNN: string[];
 }
 
 const TopicArticleForm = ({
@@ -56,6 +57,7 @@ const TopicArticleForm = ({
   supportedLanguages,
   articleLanguage,
   articleStatus,
+  translatedFieldsToNN,
 }: Props) => {
   const [showTaxWarning, setShowTaxWarning] = useState(false);
   const { data: licenses } = useLicenses({ placeholderData: [] });
@@ -84,8 +86,8 @@ const TopicArticleForm = ({
   });
 
   const initialWarnings = useMemo(
-    () => getWarnings(initialValues, topicArticleRules, t, article),
-    [article, initialValues, t],
+    () => getWarnings(initialValues, topicArticleRules, t, translatedFieldsToNN, article),
+    [article, initialValues, t, translatedFieldsToNN],
   );
 
   const initialErrors = useMemo(() => validateFormik(initialValues, topicArticleRules, t), [initialValues, t]);
@@ -133,7 +135,6 @@ const TopicArticleForm = ({
           <TopicArticleAccordionPanels
             articleLanguage={articleLanguage}
             articleHistory={articleHistory?.data}
-            updateNotes={updateArticle}
             article={article}
             hasTaxonomyEntries={!!articleTaxonomy?.length}
           />

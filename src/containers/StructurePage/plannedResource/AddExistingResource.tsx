@@ -167,8 +167,10 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     page,
     language: i18n.language,
     fallback: true,
-    resourceTypes: selectedType ? [selectedType.id] : undefined,
-    contextTypes: ["standard", "learningpath"],
+    resourceTypes: selectedType && selectedType.id !== RESOURCE_TYPE_LEARNING_PATH ? [selectedType.id] : undefined,
+    contextTypes:
+      selectedType && selectedType.id === RESOURCE_TYPE_LEARNING_PATH ? ["learningpath"] : ["learningpath", "standard"],
+    resultTypes: ["learningpath", "article"],
   });
 
   const resetPastedUrlStatesWithError = (error?: string) => {

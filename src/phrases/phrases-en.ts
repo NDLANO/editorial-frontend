@@ -1699,7 +1699,7 @@ const phrases = {
       TOPIC: "topic",
     },
     favorite: { add: "Add subject as favorite", remove: "Remove subject as favorite" },
-    publishedVersion: "See published version",
+    publishedVersion: "Public address",
     noValue: "No value",
     previewProgrammes: "Preview programmes in frontend",
     addNode: "Add {{nodeType}}",

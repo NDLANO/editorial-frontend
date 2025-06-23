@@ -17,7 +17,7 @@ test.beforeEach(async ({ page }) => {
 test("Can add a movie to the slideshow", async ({ page }) => {
   const movie = "Brukerstøtte";
   await page.getByTestId("dropdown-input").first().fill(movie);
-  await page.getByTestId("dropdown-item").first().click();
+  await page.getByTestId("dropdown-item").filter({ hasText: movie }).click();
   await expect(page.getByTestId("elementListItem").filter({ hasText: movie }).first()).toBeVisible();
 });
 

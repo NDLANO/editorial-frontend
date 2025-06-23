@@ -45,7 +45,7 @@ export const hasUnpublishedConcepts = async (article: IArticleDTO | undefined) =
   const parsedContent = parser.parseFromString(article.content.content, "text/html");
   const concepts = parsedContent.querySelectorAll('[data-resource="concept"]');
   const conceptIds = Array.from(concepts).map((el) => el.getAttribute("data-content-id"));
-  const convertedIds = conceptIds.filter((id) => !!id).map(Number);
+  const convertedIds = Array.from(new Set(conceptIds.filter((id) => !!id).map(Number)));
 
   if (!convertedIds.length) return false;
 

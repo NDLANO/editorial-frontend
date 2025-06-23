@@ -18,6 +18,7 @@ import {
   IUpdatedUserDataDTO,
   IUploadedFileDTO,
   openapi,
+  ArticleRevisionHistoryDTO,
 } from "@ndla/types-backend/draft-api";
 import { DraftStatusType, DraftStatusStateMachineType } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
@@ -100,9 +101,9 @@ export const cloneDraft = async (
     })
     .then((r) => resolveJsonOATS(r));
 
-export const fetchDraftHistory = async (id: number, language?: string): Promise<IArticleDTO[]> =>
+export const fetchArticleRevisionHistory = async (id: number, language?: string): Promise<ArticleRevisionHistoryDTO> =>
   client
-    .GET("/draft-api/v1/drafts/{article_id}/history", {
+    .GET("/draft-api/v1/drafts/{article_id}/revision-history", {
       params: {
         path: { article_id: id },
         query: { language, fallback: true },

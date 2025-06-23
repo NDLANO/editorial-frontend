@@ -23,7 +23,7 @@ import {
   Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticleDTO, IEditorNoteDTO } from "@ndla/types-backend/draft-api";
+import { ArticleRevisionHistoryDTO, IArticleDTO, IEditorNoteDTO } from "@ndla/types-backend/draft-api";
 import AddNotesField from "./AddNotesField";
 import VersionActionbuttons from "./VersionActionButtons";
 import { FormField } from "../../components/FormField";
@@ -108,27 +108,27 @@ const getUser = (userId: string, allUsers: SimpleUserType[]) => {
 
 interface Props {
   article: IArticleDTO;
-  articleHistory: IArticleDTO[] | undefined;
+  articleRevisionHistory: ArticleRevisionHistoryDTO | undefined;
   type: "standard" | "topic-article";
   currentLanguage: string;
 }
 
-const VersionAndNotesPanel = ({ article, articleHistory, type, currentLanguage }: Props) => {
+const VersionAndNotesPanel = ({ article, articleRevisionHistory, type, currentLanguage }: Props) => {
   const { t } = useTranslation();
   const { ndlaId } = useSession();
   const [users, setUsers] = useState<SimpleUserType[]>([]);
   const { createMessage } = useMessages();
   const { setStatus, setValues, status } = useFormikContext();
 
-  const loading = !articleHistory;
+  const loading = !articleRevisionHistory;
 
   useEffect(() => {
-    if (articleHistory?.length) {
-      const notes = articleHistory.reduce((acc: IEditorNoteDTO[], v) => [...acc, ...v.notes], []);
+    if (articleRevisionHistory?.revisions.length) {
+      const notes = articleRevisionHistory.revisions.reduce((acc: IEditorNoteDTO[], v) => [...acc, ...v.notes], []);
       const userIds = notes.map((note) => note.user).filter((user) => user !== "System");
       fetchAuth0UsersFromUserIds(userIds, setUsers);
     }
-  }, [articleHistory]);
+  }, [articleRevisionHistory]);
 
   const cleanupNotes = (notes: IEditorNoteDTO[]) =>
     notes.map((note, idx) => ({
@@ -195,7 +195,7 @@ const VersionAndNotesPanel = ({ article, articleHistory, type, currentLanguage }
         )}
       </FormField>
       <StyledAccordionRoot multiple defaultValue={["0"]} variant="clean" lazyMount unmountOnExit>
-        {articleHistory.map((version, index) => {
+        {articleRevisionHistory.revisions.map((version, index) => {
           const isLatestVersion = index === 0;
           const published =
             version.status.current === "PUBLISHED" || version.status.other.some((s) => s === "PUBLISHED");
@@ -218,7 +218,7 @@ const VersionAndNotesPanel = ({ article, articleHistory, type, currentLanguage }
                 </HeaderWrapper>
                 <InfoGrouping>
                   <VersionActionbuttons
-                    showFromArticleApi={articleHistory.length === 1 && published}
+                    showFromArticleApi={articleRevisionHistory.revisions.length === 1 && published}
                     current={isLatestVersion}
                     version={version}
                     resetVersion={resetVersion}
@@ -226,7 +226,7 @@ const VersionAndNotesPanel = ({ article, articleHistory, type, currentLanguage }
                     currentLanguage={currentLanguage}
                   />
                   {!!isLatestVersion && <Badge colorTheme="brand2">{t("form.notes.areHere")}</Badge>}
-                  {!!published && (!isLatestVersion || articleHistory.length === 1) && (
+                  {!!published && (!isLatestVersion || articleRevisionHistory.revisions.length === 1) && (
                     <Badge colorTheme="brand3">{t("form.notes.published")}</Badge>
                   )}
                 </InfoGrouping>

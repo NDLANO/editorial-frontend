@@ -10,7 +10,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleRevisionHistoryDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
 import { FlatArticleKeys } from "./types";
 import { hasArticleFieldsChanged } from "../../../components/HeaderWithLanguage/util";
 import { PUBLISHED } from "../../../constants";
@@ -18,7 +18,7 @@ import { PUBLISHED } from "../../../constants";
 interface PanelTitleProps {
   title: string;
   article: IArticleDTO | undefined;
-  articleHistory: IArticleDTO[] | undefined;
+  articleRevisionHistory: ArticleRevisionHistoryDTO | undefined;
   fieldsToIndicatedChangesFor: FlatArticleKeys[];
 }
 
@@ -34,13 +34,13 @@ const PanelTitleWithChangeIndicator = ({
   title,
   fieldsToIndicatedChangesFor,
   article,
-  articleHistory,
+  articleRevisionHistory,
 }: PanelTitleProps) => {
   const { t } = useTranslation();
   const hasChanges = useMemo(() => {
-    const lastPublishedVersion = articleHistory?.find((a) => a.status.current === PUBLISHED);
+    const lastPublishedVersion = articleRevisionHistory?.revisions.find((a) => a.status.current === PUBLISHED);
     return hasArticleFieldsChanged(article, lastPublishedVersion, fieldsToIndicatedChangesFor);
-  }, [article, articleHistory, fieldsToIndicatedChangesFor]);
+  }, [article, articleRevisionHistory, fieldsToIndicatedChangesFor]);
 
   if (hasChanges) {
     return (

@@ -14,7 +14,7 @@ import { inlineNavigationPlugin } from "@ndla/editor";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IUpdatedArticleDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
+import { IUpdatedArticleDTO, IArticleDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
 import { Node, TaxonomyContext } from "@ndla/types-taxonomy";
 import LearningResourceContent from "./LearningResourceContent";
 import LearningResourceTaxonomy from "./LearningResourceTaxonomy";
@@ -128,7 +128,7 @@ const StyledControls = styled("div", {
 
 interface Props {
   article?: IArticleDTO;
-  articleHistory: IArticleDTO[] | undefined;
+  articleRevisionHistory: ArticleRevisionHistoryDTO | undefined;
   taxonomy?: Node[];
   updateNotes: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
@@ -139,7 +139,7 @@ interface Props {
 
 const LearningResourcePanels = ({
   article,
-  articleHistory,
+  articleRevisionHistory,
   taxonomy,
   updateNotes,
   articleLanguage,
@@ -200,7 +200,7 @@ const LearningResourcePanels = ({
               <PanelTitleWithChangeIndicator
                 title={t("form.contentSection")}
                 article={article}
-                articleHistory={articleHistory}
+                articleRevisionHistory={articleRevisionHistory}
                 fieldsToIndicatedChangesFor={contentTitleFields}
               />
             }
@@ -235,7 +235,7 @@ const LearningResourcePanels = ({
               <PanelTitleWithChangeIndicator
                 title={t("form.copyrightSection")}
                 article={article}
-                articleHistory={articleHistory}
+                articleRevisionHistory={articleRevisionHistory}
                 fieldsToIndicatedChangesFor={copyrightFields}
               />
             }
@@ -298,7 +298,7 @@ const LearningResourcePanels = ({
             >
               <VersionAndNotesPanel
                 article={article}
-                articleHistory={articleHistory}
+                articleRevisionHistory={articleRevisionHistory}
                 type="standard"
                 currentLanguage={articleLanguage}
               />

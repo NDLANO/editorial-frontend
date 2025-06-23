@@ -58,7 +58,7 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
   const params = useParams<"selectedLanguage" | "id">();
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const articleId = Number(params.id!) || undefined;
-  const { loading, article, setArticle, articleChanged, updateArticle, articleHistory } = useFetchArticleData(
+  const { loading, article, setArticle, articleChanged, updateArticle } = useFetchArticleData(
     articleId,
     selectedLanguage,
   );
@@ -99,7 +99,6 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
       <FrontpageArticleForm
         articleLanguage={selectedLanguage}
         article={article}
-        articleHistory={articleHistory}
         articleStatus={article.status}
         articleChanged={articleChanged || newLanguage}
         isNewlyCreated={!!isNewlyCreated}

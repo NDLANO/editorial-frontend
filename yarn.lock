@@ -2208,10 +2208,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/types-backend@npm:^1.0.48":
-  version: 1.0.48
-  resolution: "@ndla/types-backend@npm:1.0.48"
-  checksum: 10c0/e3363a1bbe0440a29933a60547dabb5edee52ca21d6bc4136d5b8524a9f8316fd24b5f728b910990c0fc0023f6cd95efbe2c56c5ca94c70917e80cb710dff7a4
+"@ndla/types-backend@npm:^1.0.49":
+  version: 1.0.49
+  resolution: "@ndla/types-backend@npm:1.0.49"
+  checksum: 10c0/06db8ced57f3a195bf973fe56845203de20e8d42a3718e5db8805b190bdb3227c76f4018fe413e889883a3266ae96faaf51660e8dfbdd791c7b25bb39ba33911
   languageName: node
   linkType: hard
 
@@ -3768,16 +3768,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*":
-  version: 19.1.3
-  resolution: "@types/react@npm:19.1.3"
-  dependencies:
-    csstype: "npm:^3.0.2"
-  checksum: 10c0/f158f88871b8df1eeed637942d3e6142abcf505b617e4921ef3763b6d4f22241b9a883d864878dd2b6a2bdc8f4e7f871f24ef88f633d144a63257f4764b9478d
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:^19.1.8":
+"@types/react@npm:*, @types/react@npm:^19.1.8":
   version: 19.1.8
   resolution: "@types/react@npm:19.1.8"
   dependencies:
@@ -6661,7 +6652,7 @@ __metadata:
     "@ndla/safelink": "npm:^7.0.93-alpha.0"
     "@ndla/scripts": "npm:^3.0.2"
     "@ndla/styled-system": "npm:^0.0.35"
-    "@ndla/types-backend": "npm:^1.0.48"
+    "@ndla/types-backend": "npm:^1.0.49"
     "@ndla/types-embed": "npm:^5.0.14-alpha.0"
     "@ndla/types-taxonomy": "npm:^1.0.34"
     "@ndla/ui": "npm:^56.0.125-alpha.0"

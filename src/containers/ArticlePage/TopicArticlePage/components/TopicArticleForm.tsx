@@ -11,7 +11,7 @@ import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult } from "@tanstack/react-query";
 import { Button } from "@ndla/primitives";
-import { IUpdatedArticleDTO, IArticleDTO, IStatusDTO } from "@ndla/types-backend/draft-api";
+import { IUpdatedArticleDTO, IArticleDTO, IStatusDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import TopicArticleAccordionPanels from "./TopicArticleAccordionPanels";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
@@ -35,7 +35,7 @@ import {
 
 interface Props {
   article?: IArticleDTO;
-  articleHistory?: UseQueryResult<IArticleDTO[]>;
+  articleRevisionHistory?: UseQueryResult<ArticleRevisionHistoryDTO>;
   articleTaxonomy?: Node[];
   revision?: number;
   updateArticle: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
@@ -49,7 +49,7 @@ interface Props {
 
 const TopicArticleForm = ({
   article,
-  articleHistory,
+  articleRevisionHistory,
   articleTaxonomy,
   updateArticle,
   articleChanged,
@@ -82,7 +82,7 @@ const TopicArticleForm = ({
     articleLanguage,
     rules: topicArticleRules,
     ndlaId,
-    articleHistory,
+    articleRevisionHistory: articleRevisionHistory,
   });
 
   const initialWarnings = useMemo(
@@ -124,7 +124,7 @@ const TopicArticleForm = ({
           language={articleLanguage}
           taxonomy={contexts}
           article={article}
-          articleHistory={articleHistory?.data}
+          articleRevisionHistory={articleRevisionHistory?.data}
           status={article?.status}
           supportedLanguages={supportedLanguages}
           title={article?.title?.title}
@@ -134,7 +134,7 @@ const TopicArticleForm = ({
         <TaxonomyVersionProvider>
           <TopicArticleAccordionPanels
             articleLanguage={articleLanguage}
-            articleHistory={articleHistory?.data}
+            articleRevisionHistory={articleRevisionHistory?.data}
             article={article}
             hasTaxonomyEntries={!!articleTaxonomy?.length}
           />

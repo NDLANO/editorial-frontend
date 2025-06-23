@@ -10,7 +10,7 @@ import { Formik, useFormikContext } from "formik";
 import { memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult } from "@tanstack/react-query";
-import { IArticleDTO, IUpdatedArticleDTO, IStatusDTO } from "@ndla/types-backend/draft-api";
+import { IArticleDTO, IUpdatedArticleDTO, IStatusDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
 import FrontpageArticlePanels from "./FrontpageArticlePanels";
 import { Form } from "../../../../components/FormikForm";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
@@ -30,7 +30,7 @@ import {
 
 interface Props {
   article?: IArticleDTO;
-  articleHistory?: UseQueryResult<IArticleDTO[]>;
+  articleRevisionHistory?: UseQueryResult<ArticleRevisionHistoryDTO>;
   articleStatus?: IStatusDTO;
   isNewlyCreated: boolean;
   articleChanged: boolean;
@@ -42,7 +42,7 @@ interface Props {
 
 const FrontpageArticleForm = ({
   article,
-  articleHistory,
+  articleRevisionHistory,
   articleStatus,
   isNewlyCreated = false,
   updateArticle,
@@ -56,7 +56,7 @@ const FrontpageArticleForm = ({
   const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks<FrontpageArticleFormType>({
     getInitialValues: draftApiTypeToFrontpageArticleFormType,
     article,
-    articleHistory,
+    articleRevisionHistory,
     t,
     articleStatus,
     updateArticle,
@@ -85,7 +85,7 @@ const FrontpageArticleForm = ({
           id={article?.id}
           title={article?.title?.title}
           article={article}
-          articleHistory={articleHistory?.data}
+          articleRevisionHistory={articleRevisionHistory?.data}
           language={articleLanguage}
           supportedLanguages={supportedLanguages}
           status={article?.status}
@@ -95,7 +95,7 @@ const FrontpageArticleForm = ({
         <FrontpageArticlePanels
           articleLanguage={articleLanguage}
           article={article}
-          articleHistory={articleHistory?.data}
+          articleRevisionHistory={articleRevisionHistory?.data}
         />
         <FormFooter
           articleChanged={!!articleChanged}

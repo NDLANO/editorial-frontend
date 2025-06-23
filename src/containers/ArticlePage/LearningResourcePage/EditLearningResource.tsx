@@ -78,7 +78,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
       enabled: !!params.selectedLanguage && !!params.id,
     },
   );
-  const { loading, article, setArticle, articleChanged, updateArticle, articleHistory } = useFetchArticleData(
+  const { loading, article, setArticle, articleChanged, updateArticle, articleRevisionHistory } = useFetchArticleData(
     articleId,
     selectedLanguage,
   );
@@ -114,7 +114,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
         articleLanguage={selectedLanguage}
         articleTaxonomy={taxonomyQuery.data}
         article={article}
-        articleHistory={articleHistory}
+        articleRevisionHistory={articleRevisionHistory}
         articleStatus={article.status}
         articleChanged={articleChanged || newLanguage}
         isNewlyCreated={!!isNewlyCreated}

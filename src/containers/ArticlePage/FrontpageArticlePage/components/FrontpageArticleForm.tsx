@@ -96,9 +96,10 @@ const FrontpageArticleForm = ({
           articleLanguage={articleLanguage}
           article={article}
           articleRevisionHistory={articleRevisionHistory?.data}
+          articleChanged={articleChanged}
         />
         <FormFooter
-          articleChanged={!!articleChanged}
+          articleChanged={articleChanged}
           isNewlyCreated={isNewlyCreated}
           savedToServer={savedToServer}
           handleSubmit={handleSubmit}

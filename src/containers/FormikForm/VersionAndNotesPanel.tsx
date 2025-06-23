@@ -111,9 +111,10 @@ interface Props {
   articleRevisionHistory: ArticleRevisionHistoryDTO | undefined;
   type: "standard" | "topic-article";
   currentLanguage: string;
+  articleChanged: boolean;
 }
 
-const VersionAndNotesPanel = ({ article, articleRevisionHistory, type, currentLanguage }: Props) => {
+const VersionAndNotesPanel = ({ article, articleRevisionHistory, type, currentLanguage, articleChanged }: Props) => {
   const { t } = useTranslation();
   const { ndlaId } = useSession();
   const [users, setUsers] = useState<SimpleUserType[]>([]);
@@ -224,6 +225,8 @@ const VersionAndNotesPanel = ({ article, articleRevisionHistory, type, currentLa
                     resetVersion={resetVersion}
                     article={article}
                     currentLanguage={currentLanguage}
+                    canDeleteCurrentRevision={articleRevisionHistory.canDeleteCurrentRevision}
+                    articleChanged={articleChanged}
                   />
                   {!!isLatestVersion && <Badge colorTheme="brand2">{t("form.notes.areHere")}</Badge>}
                   {!!published && (!isLatestVersion || articleRevisionHistory.revisions.length === 1) && (

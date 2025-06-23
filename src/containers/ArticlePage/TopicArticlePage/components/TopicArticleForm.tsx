@@ -137,10 +137,11 @@ const TopicArticleForm = ({
             articleRevisionHistory={articleRevisionHistory?.data}
             article={article}
             hasTaxonomyEntries={!!articleTaxonomy?.length}
+            articleChanged={articleChanged}
           />
         </TaxonomyVersionProvider>
         <FormFooter
-          articleChanged={!!articleChanged}
+          articleChanged={articleChanged}
           isNewlyCreated={isNewlyCreated}
           savedToServer={savedToServer}
           handleSubmit={handleSubmit}

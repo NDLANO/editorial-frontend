@@ -53,9 +53,10 @@ interface Props {
   article?: IArticleDTO;
   articleRevisionHistory: ArticleRevisionHistoryDTO | undefined;
   articleLanguage: string;
+  articleChanged: boolean;
 }
 
-const FrontpageArticlePanels = ({ article, articleRevisionHistory, articleLanguage }: Props) => {
+const FrontpageArticlePanels = ({ article, articleRevisionHistory, articleLanguage, articleChanged }: Props) => {
   const [hideComments, setHideComments] = useLocalStorageBooleanState(STORED_HIDE_COMMENTS);
   const { t } = useTranslation();
   const { errors } = useFormikContext<FrontpageArticleFormType>();
@@ -151,6 +152,7 @@ const FrontpageArticlePanels = ({ article, articleRevisionHistory, articleLangua
                 articleRevisionHistory={articleRevisionHistory}
                 type="standard"
                 currentLanguage={articleLanguage}
+                articleChanged={articleChanged}
               />
             </FormAccordion>
           )}

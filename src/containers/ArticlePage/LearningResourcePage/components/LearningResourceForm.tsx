@@ -152,10 +152,11 @@ const LearningResourceForm = ({
               updateNotes={updateArticle}
               contexts={contexts}
               submitted={isSubmitting}
+              articleChanged={articleChanged}
             />
           </TaxonomyVersionProvider>
           <FormFooter
-            articleChanged={!!articleChanged}
+            articleChanged={articleChanged}
             isNewlyCreated={isNewlyCreated}
             savedToServer={savedToServer}
             handleSubmit={handleSubmit}

@@ -75,7 +75,7 @@ const GrepCodeDialogContent = ({ codes, draftId, revision, currentNodeId, conten
   const updateDraft = useUpdateDraftMutation();
   const { t, i18n } = useTranslation();
   const qc = useQueryClient();
-  const key = useMemo(() => draftQueryKeys.draft({ id: draftId, language: i18n.language }), [i18n.language, draftId]);
+  const key = useMemo(() => draftQueryKeys.draftWithLanguage(draftId, i18n.language), [i18n.language, draftId]);
   const nodeKey = useMemo(
     () =>
       nodeQueryKeys.resourceMetas({

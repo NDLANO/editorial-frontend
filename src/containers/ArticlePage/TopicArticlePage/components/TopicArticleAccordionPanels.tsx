@@ -59,6 +59,7 @@ interface Props {
   articleRevisionHistory: ArticleRevisionHistoryDTO | undefined;
   articleLanguage: string;
   hasTaxonomyEntries: boolean;
+  articleChanged: boolean;
 }
 
 const TopicArticleAccordionPanels = ({
@@ -66,6 +67,7 @@ const TopicArticleAccordionPanels = ({
   articleRevisionHistory,
   articleLanguage,
   hasTaxonomyEntries,
+  articleChanged,
 }: Props) => {
   const [hideComments, setHideComments] = useLocalStorageBooleanState(STORED_HIDE_COMMENTS);
   const { t } = useTranslation();
@@ -171,6 +173,7 @@ const TopicArticleAccordionPanels = ({
                 articleRevisionHistory={articleRevisionHistory}
                 type="topic-article"
                 currentLanguage={values.language}
+                articleChanged={articleChanged}
               />
             </FormAccordion>
           )}

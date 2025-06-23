@@ -135,6 +135,7 @@ interface Props {
   articleLanguage: string;
   contexts?: TaxonomyContext[];
   submitted: boolean;
+  articleChanged: boolean;
 }
 
 const LearningResourcePanels = ({
@@ -146,6 +147,7 @@ const LearningResourcePanels = ({
   contexts,
   handleSubmit,
   submitted,
+  articleChanged,
 }: Props) => {
   const [hideComments, setHideComments] = useLocalStorageBooleanState(STORED_HIDE_COMMENTS);
   const [revisionMetaField, , revisionMetaHelpers] = useField<ArticleFormType["revisionMeta"]>("revisionMeta");
@@ -301,6 +303,7 @@ const LearningResourcePanels = ({
                 articleRevisionHistory={articleRevisionHistory}
                 type="standard"
                 currentLanguage={articleLanguage}
+                articleChanged={articleChanged}
               />
             </FormAccordion>
           )}

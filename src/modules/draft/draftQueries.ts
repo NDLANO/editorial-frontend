@@ -50,8 +50,9 @@ export interface UseDraftRevisionHistory {
 }
 
 export const draftQueryKeys = {
-  draft: (params?: Partial<UseDraft>) => [DRAFT, params] as const,
-  useDraftRevisionHistory: (params?: Partial<UseDraftRevisionHistory>) => [DRAFT_HISTORY, params] as const,
+  draft: (articleId: number) => [DRAFT, articleId] as const,
+  draftWithLanguage: (articleId: number, language: string) => [DRAFT, articleId, language] as const,
+  articleRevisionHistory: (articleId: number) => [DRAFT_HISTORY, articleId] as const,
   search: (params?: Partial<IArticleSearchParamsDTO>) => [SEARCH_DRAFTS, params] as const,
   licenses: [LICENSES] as const,
   userData: [USER_DATA] as const,
@@ -59,23 +60,21 @@ export const draftQueryKeys = {
   draftSearchTags: (params?: Partial<UseSearchTags>) => [DRAFT_SEARCH_TAGS, params] as const,
 };
 
-draftQueryKeys.draft({ id: 1 });
-
-export const useDraft = (params: UseDraft, options?: Partial<UseQueryOptions<IArticleDTO>>) => {
+export const useDraft = ({ id, language }: UseDraft, options?: Partial<UseQueryOptions<IArticleDTO>>) => {
   return useQuery<IArticleDTO>({
-    queryKey: draftQueryKeys.draft(params),
-    queryFn: () => fetchDraft(params.id, params.language),
+    queryKey: language ? draftQueryKeys.draftWithLanguage(id, language) : draftQueryKeys.draft(id),
+    queryFn: () => fetchDraft(id, language),
     ...options,
   });
 };
 
 export const useArticleRevisionHistory = (
-  params: UseDraftRevisionHistory,
+  { id, language }: UseDraftRevisionHistory,
   options?: Partial<UseQueryOptions<ArticleRevisionHistoryDTO>>,
 ) => {
   return useQuery<ArticleRevisionHistoryDTO>({
-    queryKey: draftQueryKeys.draft(params),
-    queryFn: () => fetchArticleRevisionHistory(params.id, params.language),
+    queryKey: draftQueryKeys.articleRevisionHistory(id),
+    queryFn: () => fetchArticleRevisionHistory(id, language),
     ...options,
   });
 };

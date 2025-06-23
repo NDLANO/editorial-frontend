@@ -205,3 +205,8 @@ export const deleteFile = async (fileUrl: string): Promise<void> => {
 export const migrateCodes = async (): Promise<void> => {
   return client.POST("/draft-api/v1/drafts/migrate-greps").then((r) => resolveOATS(r));
 };
+
+export const deleteCurrentRevision = async (articleId: number): Promise<void> =>
+  client
+    .DELETE("/draft-api/v1/drafts/{article_id}/current-revision", { params: { path: { article_id: articleId } } })
+    .then((r) => resolveOATS(r));

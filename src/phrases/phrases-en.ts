@@ -1115,6 +1115,10 @@ const phrases = {
         label: "Write down comment",
       },
       updateComment: "Update comment",
+      deleteCurrentRevision: {
+        title: "Delete current revision",
+        dialogText: "Are you sure you want to delete the current revision? It cannot be restored.",
+      },
     },
     status: {
       new: "New - unsaved",
@@ -1690,6 +1694,7 @@ const phrases = {
     disconnect: "Disconnect",
     loginAgain: "Login again",
     watchOut: "Watch out!",
+    cancel: "Cancel",
   },
   environment: { production: "", staging: "Staging", test: "Test" },
   taxonomy: {

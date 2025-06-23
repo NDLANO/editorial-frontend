@@ -1115,6 +1115,10 @@ const phrases = {
         label: "Skriv inn kommentar",
       },
       updateComment: "Oppdater kommentar",
+      deleteCurrentRevision: {
+        title: "Slett gjeldende revisjon",
+        dialogText: "Er du sikker på at du vil slette gjeldene revisjon? Det er ikke mulig å gjenopprette den.",
+      },
     },
     status: {
       new: "Ny - Ikke lagret",
@@ -1688,6 +1692,7 @@ const phrases = {
     disconnect: "Koble fra",
     loginAgain: "Logg inn på nytt",
     watchOut: "Pass på!",
+    cancel: "Avbryt",
   },
   environment: { production: "", staging: "staging", test: "test" },
   taxonomy: {

@@ -57,13 +57,20 @@ const VersionActionButtons = ({
     [values, initialValues, dirty, articleChanged, isSubmitting],
   );
 
+  // TODO: Need to refresh content of Slate editor
   const onDeleteCurrentRevision = () => {
     setDeleteError("");
     deleteCurrentRevision.mutate(
       { articleId: article.id },
-      { onSuccess: () => setDeleteConfirmationOpen(false), onError: () => setDeleteError("Something went wrong!") },
+      {
+        onSuccess: () => setDeleteConfirmationOpen(false),
+        onError: () => setDeleteError(t("errorMessage.genericError")),
+      },
     );
   };
+
+  const deleteDialogTitle = t("form.workflow.deleteCurrentRevision.title");
+  const deleteButtonLabel = t("alertDialog.delete");
 
   if (current && canDeleteCurrentRevision)
     return (
@@ -72,26 +79,26 @@ const VersionActionButtons = ({
           disabled={formIsDirty}
           variant="danger"
           size="small"
-          aria-label="Delete"
-          title="Delete"
+          aria-label={deleteButtonLabel}
+          title={deleteButtonLabel}
           onClick={() => setDeleteConfirmationOpen(true)}
         >
           <DeleteBinLine />
         </IconButton>
         <AlertDialog
-          label="Really delete?"
-          title="Really delete?"
-          text="Sure you want to delete?"
+          label={deleteDialogTitle}
+          title={deleteDialogTitle}
+          text={t("form.workflow.deleteCurrentRevision.dialogText")}
           show={deleteConfirmationOpen}
           onCancel={() => setDeleteConfirmationOpen(false)}
         >
           {!!deleteError && <Text>{deleteError}</Text>}
           <FormActionsContainer>
             <Button variant="secondary" onClick={() => setDeleteConfirmationOpen(false)}>
-              Cancel
+              {t("alertDialog.cancel")}
             </Button>
             <Button variant="danger" loading={deleteCurrentRevision.isPending} onClick={onDeleteCurrentRevision}>
-              Delete
+              {deleteButtonLabel}
             </Button>
           </FormActionsContainer>
         </AlertDialog>

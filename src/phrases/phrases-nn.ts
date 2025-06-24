@@ -1121,7 +1121,7 @@ const phrases = {
       },
     },
     status: {
-      new: "Ny - Ikke lagret",
+      new: "Ny - Ikkje lagra",
       new_language: "Nytt språk - ikke lagret",
       created: "Oppretta",
       planned: "Planlagd",

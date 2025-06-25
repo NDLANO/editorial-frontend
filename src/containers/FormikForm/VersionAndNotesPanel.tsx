@@ -7,7 +7,7 @@
  */
 
 import { useFormikContext } from "formik";
-import { useEffect, useState, memo } from "react";
+import { useEffect, useState, memo, useMemo } from "react";
 
 import { useTranslation } from "react-i18next";
 import { ArrowDownShortLine } from "@ndla/icons";
@@ -25,13 +25,16 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleRevisionHistoryDTO, IArticleDTO, IEditorNoteDTO } from "@ndla/types-backend/draft-api";
 import AddNotesField from "./AddNotesField";
+import { ArticleFormType } from "./articleFormHooks";
 import VersionActionbuttons from "./VersionActionButtons";
 import { FormField } from "../../components/FormField";
 import VersionHistory from "../../components/VersionHistory/VersionHistory";
 import { useSession } from "../../containers/Session/SessionProvider";
 import * as articleApi from "../../modules/article/articleApi";
 import { fetchAuth0UsersFromUserIds, SimpleUserType } from "../../modules/auth0/auth0Api";
+import { fetchDraft } from "../../modules/draft/draftApi";
 import formatDate from "../../util/formatDate";
+import { isFormikFormDirty } from "../../util/formHelper";
 import handleError from "../../util/handleError";
 import {
   draftApiTypeToLearningResourceFormType,
@@ -119,9 +122,21 @@ const VersionAndNotesPanel = ({ article, articleRevisionHistory, type, currentLa
   const { ndlaId } = useSession();
   const [users, setUsers] = useState<SimpleUserType[]>([]);
   const { createMessage } = useMessages();
-  const { setStatus, setValues, status } = useFormikContext();
+  const { initialValues, values, dirty, isSubmitting, status, setStatus, setValues, resetForm } =
+    useFormikContext<ArticleFormType>();
 
   const loading = !articleRevisionHistory;
+
+  const formIsDirty = useMemo(
+    () =>
+      isFormikFormDirty({
+        values,
+        initialValues,
+        dirty,
+        changed: articleChanged,
+      }) || isSubmitting,
+    [values, initialValues, dirty, articleChanged, isSubmitting],
+  );
 
   useEffect(() => {
     if (articleRevisionHistory?.revisions.length) {
@@ -181,6 +196,22 @@ const VersionAndNotesPanel = ({ article, articleRevisionHistory, type, currentLa
     }
   };
 
+  const fetchAndResetFormValues = async () => {
+    try {
+      const language = article.title!.language;
+      const draft = await fetchDraft(article.id, language);
+      const transform =
+        type === "standard" ? draftApiTypeToLearningResourceFormType : draftApiTypeToTopicArticleFormType;
+      const values = transform(draft, language, ndlaId);
+      resetForm({
+        values,
+        status: { ...status, status: "revertVersion" },
+      });
+    } catch (e) {
+      handleError(e);
+    }
+  };
+
   if (loading) return <Spinner />;
 
   return (
@@ -226,7 +257,8 @@ const VersionAndNotesPanel = ({ article, articleRevisionHistory, type, currentLa
                     article={article}
                     currentLanguage={currentLanguage}
                     canDeleteCurrentRevision={articleRevisionHistory.canDeleteCurrentRevision}
-                    articleChanged={articleChanged}
+                    formIsDirty={formIsDirty}
+                    fetchAndResetFormValues={fetchAndResetFormValues}
                   />
                   {!!isLatestVersion && <Badge colorTheme="brand2">{t("form.notes.areHere")}</Badge>}
                   {!!published && (!isLatestVersion || articleRevisionHistory.revisions.length === 1) && (

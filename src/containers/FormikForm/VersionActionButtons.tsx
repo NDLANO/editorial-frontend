@@ -6,18 +6,15 @@
  *
  */
 
-import { useFormikContext } from "formik";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DeleteBinLine, EyeFill, ResetLeft } from "@ndla/icons";
 import { Button, IconButton, Text } from "@ndla/primitives";
 import { IArticleDTO } from "@ndla/types-backend/draft-api";
-import { ArticleFormType } from "./articleFormHooks";
 import { AlertDialog } from "../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../../components/FormikForm";
 import { PreviewResourceDialog } from "../../components/PreviewDraft/PreviewResourceDialog";
 import { useDeleteCurrentRevision } from "../../modules/draft/draftMutations";
-import { isFormikFormDirty } from "../../util/formHelper";
 
 interface Props {
   showFromArticleApi: boolean;
@@ -27,7 +24,8 @@ interface Props {
   current: boolean;
   currentLanguage: string;
   canDeleteCurrentRevision: boolean;
-  articleChanged: boolean;
+  formIsDirty: boolean;
+  fetchAndResetFormValues: () => Promise<void>;
 }
 
 const VersionActionButtons = ({
@@ -38,32 +36,23 @@ const VersionActionButtons = ({
   version,
   currentLanguage,
   canDeleteCurrentRevision,
-  articleChanged,
+  formIsDirty,
+  fetchAndResetFormValues,
 }: Props) => {
   const { t } = useTranslation();
-  const { values, initialValues, dirty, isSubmitting } = useFormikContext<ArticleFormType>();
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const deleteCurrentRevision = useDeleteCurrentRevision();
   const [deleteError, setDeleteError] = useState<string>("");
 
-  const formIsDirty = useMemo(
-    () =>
-      isFormikFormDirty({
-        values,
-        initialValues,
-        dirty,
-        changed: articleChanged,
-      }) || isSubmitting,
-    [values, initialValues, dirty, articleChanged, isSubmitting],
-  );
-
-  // TODO: Need to refresh content of Slate editor
   const onDeleteCurrentRevision = () => {
     setDeleteError("");
     deleteCurrentRevision.mutate(
       { articleId: article.id },
       {
-        onSuccess: () => setDeleteConfirmationOpen(false),
+        onSuccess: () => {
+          setDeleteConfirmationOpen(false);
+          fetchAndResetFormValues();
+        },
         onError: () => setDeleteError(t("errorMessage.genericError")),
       },
     );

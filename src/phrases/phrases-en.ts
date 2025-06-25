@@ -1116,8 +1116,13 @@ const phrases = {
       },
       updateComment: "Update comment",
       deleteCurrentRevision: {
-        title: "Delete current revision",
+        buttonLabel: "Delete",
+        buttonLabelDirty: "Cannot delete revision with unsaved changes",
+        buttonLabelPublished: "Cannot delete revision with (partially) published changes",
+        dialogTitle: "Delete current revision",
         dialogText: "Are you sure you want to delete the current revision? It cannot be restored.",
+        dialogCancel: "Cancel",
+        dialogConfirm: "Delete",
       },
     },
     status: {

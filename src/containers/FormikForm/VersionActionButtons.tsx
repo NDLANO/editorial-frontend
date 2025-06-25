@@ -58,14 +58,17 @@ const VersionActionButtons = ({
     );
   };
 
-  const deleteDialogTitle = t("form.workflow.deleteCurrentRevision.title");
-  const deleteButtonLabel = t("alertDialog.delete");
-
-  if (current && canDeleteCurrentRevision)
+  if (current && !showFromArticleApi) {
+    const deleteDialogTitle = t("form.workflow.deleteCurrentRevision.dialogTitle");
+    const deleteButtonLabel = formIsDirty
+      ? t("form.workflow.deleteCurrentRevision.buttonLabelDirty")
+      : !canDeleteCurrentRevision
+        ? t("form.workflow.deleteCurrentRevision.buttonLabelPublished")
+        : t("form.workflow.deleteCurrentRevision.buttonLabel");
     return (
       <>
         <IconButton
-          disabled={formIsDirty}
+          disabled={formIsDirty || !canDeleteCurrentRevision}
           variant="danger"
           size="small"
           aria-label={deleteButtonLabel}
@@ -84,49 +87,51 @@ const VersionActionButtons = ({
           {!!deleteError && <Text>{deleteError}</Text>}
           <FormActionsContainer>
             <Button variant="secondary" onClick={() => setDeleteConfirmationOpen(false)}>
-              {t("alertDialog.cancel")}
+              {t("form.workflow.deleteCurrentRevision.dialogCancel")}
             </Button>
             <Button variant="danger" loading={deleteCurrentRevision.isPending} onClick={onDeleteCurrentRevision}>
-              {deleteButtonLabel}
+              {t("form.workflow.deleteCurrentRevision.dialogConfirm")}
             </Button>
           </FormActionsContainer>
         </AlertDialog>
       </>
     );
+  }
   // we only show preview and reset for current versions if they are the ONLY version
   // ie. that they were published before versions were introduced
-  else if (current && !showFromArticleApi) return null;
+  else if (!current || showFromArticleApi)
+    return (
+      <>
+        <PreviewResourceDialog
+          type="version"
+          article={version}
+          language={currentLanguage}
+          activateButton={
+            <IconButton
+              variant="tertiary"
+              size="small"
+              title={t("form.previewVersion")}
+              aria-label={t("form.previewVersion")}
+              data-testid="previewVersion"
+            >
+              <EyeFill />
+            </IconButton>
+          }
+        />
+        <IconButton
+          variant="tertiary"
+          size="small"
+          aria-label={t("form.resetToVersion")}
+          title={t("form.resetToVersion")}
+          data-testid="resetToVersion"
+          onClick={() => resetVersion(version, article.title!.language, showFromArticleApi)}
+        >
+          <ResetLeft />
+        </IconButton>
+      </>
+    );
 
-  return (
-    <>
-      <PreviewResourceDialog
-        type="version"
-        article={version}
-        language={currentLanguage}
-        activateButton={
-          <IconButton
-            variant="tertiary"
-            size="small"
-            title={t("form.previewVersion")}
-            aria-label={t("form.previewVersion")}
-            data-testid="previewVersion"
-          >
-            <EyeFill />
-          </IconButton>
-        }
-      />
-      <IconButton
-        variant="tertiary"
-        size="small"
-        aria-label={t("form.resetToVersion")}
-        title={t("form.resetToVersion")}
-        data-testid="resetToVersion"
-        onClick={() => resetVersion(version, article.title!.language, showFromArticleApi)}
-      >
-        <ResetLeft />
-      </IconButton>
-    </>
-  );
+  return null;
 };
 
 export default VersionActionButtons;

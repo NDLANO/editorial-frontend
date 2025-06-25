@@ -1116,8 +1116,13 @@ const phrases = {
       },
       updateComment: "Oppdater kommentar",
       deleteCurrentRevision: {
-        title: "Slett gjeldende revisjon",
+        buttonLabel: "Slett",
+        buttonLabelDirty: "Kan ikke slette revisjon med ulagrede endringer",
+        buttonLabelPublished: "Kan ikke slette revisjon med (del)publiserte endringer",
+        dialogTitle: "Slett gjeldende revisjon",
         dialogText: "Er du sikker på at du vil slette gjeldende revisjon? Det er ikke mulig å gjenopprette den.",
+        dialogCancel: "Avbryt",
+        dialogConfirm: "Slett",
       },
     },
     status: {

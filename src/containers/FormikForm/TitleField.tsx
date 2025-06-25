@@ -6,13 +6,16 @@
  *
  */
 
+import { isKeyHotkey } from "is-hotkey";
 import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { createPlugin } from "@ndla/editor";
 import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentEditableFieldLabel } from "../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../components/Form/FieldWarning";
 import { FormField } from "../../components/FormField";
+
 import { SlatePlugin } from "../../components/SlateEditor/interfaces";
 import { markPlugin } from "../../components/SlateEditor/plugins/mark";
 import { markRenderer } from "../../components/SlateEditor/plugins/mark/render";
@@ -23,7 +26,6 @@ import { paragraphRenderer } from "../../components/SlateEditor/plugins/paragrap
 import { pastePlugin } from "../../components/SlateEditor/plugins/paste";
 import saveHotkeyPlugin from "../../components/SlateEditor/plugins/saveHotkey";
 import { sectionRenderer } from "../../components/SlateEditor/plugins/section/render";
-import { singleLinePlugin } from "../../components/SlateEditor/plugins/singleLine";
 import { spanPlugin } from "../../components/SlateEditor/plugins/span";
 import { spanRenderer } from "../../components/SlateEditor/plugins/span/render";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
@@ -48,7 +50,22 @@ const StyledRichTextEditor = styled(RichTextEditor, {
   },
 });
 
+const noEnterPlugin = createPlugin({
+  name: "no-enter",
+  shortcuts: {
+    enter: {
+      keyCondition: isKeyHotkey("Enter"),
+      handler: (_, event, logger) => {
+        event.preventDefault();
+        logger.log("Enter key pressed in title field, preventing default behavior");
+        return true;
+      },
+    },
+  },
+});
+
 const titlePlugins: SlatePlugin[] = [
+  noEnterPlugin,
   spanPlugin,
   paragraphPlugin,
   textTransformPlugin,
@@ -59,7 +76,6 @@ const titlePlugins: SlatePlugin[] = [
   noopPlugin,
   unsupportedPlugin,
   pastePlugin,
-  singleLinePlugin,
 ];
 
 const titleRenderers: SlatePlugin[] = [

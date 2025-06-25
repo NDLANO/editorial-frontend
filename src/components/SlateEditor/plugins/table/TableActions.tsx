@@ -6,7 +6,7 @@
  *
  */
 
-import { MouseEvent, ReactNode, useMemo } from "react";
+import { MouseEvent, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Range } from "slate";
 import { ReactEditor, useSlateSelection } from "slate-react";

@@ -142,7 +142,7 @@ const TableActions = ({ editor, element }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
 
-  const tablePath = useMemo(() => ReactEditor.findPath(editor, element), [editor, element]);
+  const tablePath = ReactEditor.findPath(editor, element);
   const selection = useSlateSelection();
 
   const [table] = Editor.node(editor, tablePath);

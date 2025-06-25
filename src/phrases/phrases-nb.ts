@@ -1117,7 +1117,7 @@ const phrases = {
       updateComment: "Oppdater kommentar",
       deleteCurrentRevision: {
         title: "Slett gjeldende revisjon",
-        dialogText: "Er du sikker på at du vil slette gjeldene revisjon? Det er ikke mulig å gjenopprette den.",
+        dialogText: "Er du sikker på at du vil slette gjeldende revisjon? Det er ikke mulig å gjenopprette den.",
       },
     },
     status: {

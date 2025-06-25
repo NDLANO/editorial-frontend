@@ -1117,12 +1117,12 @@ const phrases = {
       updateComment: "Oppdater kommentar",
       deleteCurrentRevision: {
         title: "Slett gjeldande revisjon",
-        dialogText: "Er du sikker på at du vil slette gjeldane revisjon? Det er ikkje mogleg å gjenopprette han.",
+        dialogText: "Er du sikker på at du vil slette gjeldande revisjon? Det er ikkje mogleg å gjenopprette han.",
       },
     },
     status: {
       new: "Ny - Ikkje lagra",
-      new_language: "Nytt språk - ikke lagret",
+      new_language: "Nytt språk - ikkje lagra",
       created: "Oppretta",
       planned: "Planlagd",
       in_progress: "I arbeid",

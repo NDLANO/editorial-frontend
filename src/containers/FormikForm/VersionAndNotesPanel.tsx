@@ -7,7 +7,7 @@
  */
 
 import { useFormikContext } from "formik";
-import { useEffect, useState, memo } from "react";
+import { useEffect, useState, memo, useMemo } from "react";
 
 import { useTranslation } from "react-i18next";
 import { ArrowDownShortLine } from "@ndla/icons";
@@ -23,15 +23,18 @@ import {
   Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticleDTO, IEditorNoteDTO } from "@ndla/types-backend/draft-api";
+import { ArticleRevisionHistoryDTO, IArticleDTO, IEditorNoteDTO } from "@ndla/types-backend/draft-api";
 import AddNotesField from "./AddNotesField";
+import { ArticleFormType } from "./articleFormHooks";
 import VersionActionbuttons from "./VersionActionButtons";
 import { FormField } from "../../components/FormField";
 import VersionHistory from "../../components/VersionHistory/VersionHistory";
 import { useSession } from "../../containers/Session/SessionProvider";
 import * as articleApi from "../../modules/article/articleApi";
 import { fetchAuth0UsersFromUserIds, SimpleUserType } from "../../modules/auth0/auth0Api";
+import { fetchDraft } from "../../modules/draft/draftApi";
 import formatDate from "../../util/formatDate";
+import { isFormikFormDirty } from "../../util/formHelper";
 import handleError from "../../util/handleError";
 import {
   draftApiTypeToLearningResourceFormType,
@@ -108,27 +111,40 @@ const getUser = (userId: string, allUsers: SimpleUserType[]) => {
 
 interface Props {
   article: IArticleDTO;
-  articleHistory: IArticleDTO[] | undefined;
+  articleRevisionHistory: ArticleRevisionHistoryDTO | undefined;
   type: "standard" | "topic-article";
   currentLanguage: string;
+  articleChanged: boolean;
 }
 
-const VersionAndNotesPanel = ({ article, articleHistory, type, currentLanguage }: Props) => {
+const VersionAndNotesPanel = ({ article, articleRevisionHistory, type, currentLanguage, articleChanged }: Props) => {
   const { t } = useTranslation();
   const { ndlaId } = useSession();
   const [users, setUsers] = useState<SimpleUserType[]>([]);
   const { createMessage } = useMessages();
-  const { setStatus, setValues, status } = useFormikContext();
+  const { initialValues, values, dirty, isSubmitting, status, setStatus, setValues, resetForm } =
+    useFormikContext<ArticleFormType>();
 
-  const loading = !articleHistory;
+  const loading = !articleRevisionHistory;
+
+  const formIsDirty = useMemo(
+    () =>
+      isFormikFormDirty({
+        values,
+        initialValues,
+        dirty,
+        changed: articleChanged,
+      }) || isSubmitting,
+    [values, initialValues, dirty, articleChanged, isSubmitting],
+  );
 
   useEffect(() => {
-    if (articleHistory?.length) {
-      const notes = articleHistory.reduce((acc: IEditorNoteDTO[], v) => [...acc, ...v.notes], []);
+    if (articleRevisionHistory?.revisions.length) {
+      const notes = articleRevisionHistory.revisions.reduce((acc: IEditorNoteDTO[], v) => [...acc, ...v.notes], []);
       const userIds = notes.map((note) => note.user).filter((user) => user !== "System");
       fetchAuth0UsersFromUserIds(userIds, setUsers);
     }
-  }, [articleHistory]);
+  }, [articleRevisionHistory]);
 
   const cleanupNotes = (notes: IEditorNoteDTO[]) =>
     notes.map((note, idx) => ({
@@ -180,6 +196,22 @@ const VersionAndNotesPanel = ({ article, articleHistory, type, currentLanguage }
     }
   };
 
+  const fetchAndResetFormValues = async () => {
+    try {
+      const language = article.title!.language;
+      const draft = await fetchDraft(article.id, language);
+      const transform =
+        type === "standard" ? draftApiTypeToLearningResourceFormType : draftApiTypeToTopicArticleFormType;
+      const values = transform(draft, language, ndlaId);
+      resetForm({
+        values,
+        status: { ...status, status: "revertVersion" },
+      });
+    } catch (e) {
+      handleError(e);
+    }
+  };
+
   if (loading) return <Spinner />;
 
   return (
@@ -195,7 +227,7 @@ const VersionAndNotesPanel = ({ article, articleHistory, type, currentLanguage }
         )}
       </FormField>
       <StyledAccordionRoot multiple defaultValue={["0"]} variant="clean" lazyMount unmountOnExit>
-        {articleHistory.map((version, index) => {
+        {articleRevisionHistory.revisions.map((version, index) => {
           const isLatestVersion = index === 0;
           const published =
             version.status.current === "PUBLISHED" || version.status.other.some((s) => s === "PUBLISHED");
@@ -218,15 +250,18 @@ const VersionAndNotesPanel = ({ article, articleHistory, type, currentLanguage }
                 </HeaderWrapper>
                 <InfoGrouping>
                   <VersionActionbuttons
-                    showFromArticleApi={articleHistory.length === 1 && published}
+                    showFromArticleApi={articleRevisionHistory.revisions.length === 1 && published}
                     current={isLatestVersion}
                     version={version}
                     resetVersion={resetVersion}
                     article={article}
                     currentLanguage={currentLanguage}
+                    canDeleteCurrentRevision={articleRevisionHistory.canDeleteCurrentRevision}
+                    formIsDirty={formIsDirty}
+                    fetchAndResetFormValues={fetchAndResetFormValues}
                   />
                   {!!isLatestVersion && <Badge colorTheme="brand2">{t("form.notes.areHere")}</Badge>}
-                  {!!published && (!isLatestVersion || articleHistory.length === 1) && (
+                  {!!published && (!isLatestVersion || articleRevisionHistory.revisions.length === 1) && (
                     <Badge colorTheme="brand3">{t("form.notes.published")}</Badge>
                   )}
                 </InfoGrouping>

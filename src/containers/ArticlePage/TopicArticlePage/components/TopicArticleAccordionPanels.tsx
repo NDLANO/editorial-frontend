@@ -11,7 +11,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleRevisionHistoryDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
 import TopicArticleContent from "./TopicArticleContent";
 import TopicArticleTaxonomy from "./TopicArticleTaxonomy";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
@@ -56,12 +56,19 @@ const StyledControls = styled("div", {
 
 interface Props {
   article?: IArticleDTO;
-  articleHistory: IArticleDTO[] | undefined;
+  articleRevisionHistory: ArticleRevisionHistoryDTO | undefined;
   articleLanguage: string;
   hasTaxonomyEntries: boolean;
+  articleChanged: boolean;
 }
 
-const TopicArticleAccordionPanels = ({ article, articleHistory, articleLanguage, hasTaxonomyEntries }: Props) => {
+const TopicArticleAccordionPanels = ({
+  article,
+  articleRevisionHistory,
+  articleLanguage,
+  hasTaxonomyEntries,
+  articleChanged,
+}: Props) => {
   const [hideComments, setHideComments] = useLocalStorageBooleanState(STORED_HIDE_COMMENTS);
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -92,7 +99,7 @@ const TopicArticleAccordionPanels = ({ article, articleHistory, articleLanguage,
               <PanelTitleWithChangeIndicator
                 title={t("form.contentSection")}
                 article={article}
-                articleHistory={articleHistory}
+                articleRevisionHistory={articleRevisionHistory}
                 fieldsToIndicatedChangesFor={contentTitleFields}
               />
             }
@@ -121,7 +128,7 @@ const TopicArticleAccordionPanels = ({ article, articleHistory, articleLanguage,
               <PanelTitleWithChangeIndicator
                 title={t("form.copyrightSection")}
                 article={article}
-                articleHistory={articleHistory}
+                articleRevisionHistory={articleRevisionHistory}
                 fieldsToIndicatedChangesFor={copyrightFields}
               />
             }
@@ -163,9 +170,10 @@ const TopicArticleAccordionPanels = ({ article, articleHistory, articleLanguage,
             <FormAccordion id={"topic-article-workflow"} title={t("form.workflowSection")} hasError={!!errors.notes}>
               <VersionAndNotesPanel
                 article={article}
-                articleHistory={articleHistory}
+                articleRevisionHistory={articleRevisionHistory}
                 type="topic-article"
                 currentLanguage={values.language}
+                articleChanged={articleChanged}
               />
             </FormAccordion>
           )}

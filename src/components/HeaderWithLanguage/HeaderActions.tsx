@@ -14,7 +14,7 @@ import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IConceptDTO } from "@ndla/types-backend/concept-api";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleRevisionHistoryDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
 import DeleteLanguageVersion from "./DeleteLanguageVersion";
 import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
 import { StyledSplitter } from "./HeaderInformation";
@@ -88,7 +88,7 @@ interface Props {
   id: number;
   isNewLanguage: boolean;
   article?: IArticleDTO;
-  articleHistory: IArticleDTO[] | undefined;
+  articleRevisionHistory: ArticleRevisionHistoryDTO | undefined;
   concept?: IConceptDTO;
   noStatus: boolean;
   disableDelete: boolean;
@@ -105,7 +105,7 @@ const HeaderActions = ({
   language,
   disableDelete,
   article,
-  articleHistory,
+  articleRevisionHistory,
   concept,
   supportedLanguages = [],
 }: Props) => {
@@ -121,8 +121,8 @@ const HeaderActions = ({
   );
 
   const lastPublishedVersion = useMemo(
-    () => articleHistory?.find((v) => v.status.current === PUBLISHED),
-    [articleHistory],
+    () => articleRevisionHistory?.revisions.find((v) => v.status.current === PUBLISHED),
+    [articleRevisionHistory],
   );
 
   const hasChanges = useMemo(() => {

@@ -20,7 +20,7 @@ test("can change status correctly", async ({ page, harCheckpoint }) => {
   await statusSelect.click();
   await page.getByText("I arbeid", { exact: true }).first().click();
   await page.getByTestId("responsible-select").click();
-  await page.keyboard.type("Ed test");
+  await page.keyboard.type("Ed Test");
   await page.keyboard.press("ArrowDown");
   await page.keyboard.press("Enter");
 

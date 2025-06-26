@@ -18,6 +18,7 @@ import {
   IUpdatedArticleDTO,
   IAuthorDTO,
   ICommentDTO,
+  ArticleRevisionHistoryDTO,
 } from "@ndla/types-backend/draft-api";
 import { getWarnings, RulesType } from "../../components/formikValidationSchema";
 import { PUBLISHED } from "../../constants";
@@ -107,7 +108,7 @@ type HooksInputObject<T extends ArticleFormType> = {
   articleLanguage: string;
   rules?: RulesType<T, IArticleDTO>;
   ndlaId?: string;
-  articleHistory: UseQueryResult<IArticleDTO[]> | undefined;
+  articleRevisionHistory: UseQueryResult<ArticleRevisionHistoryDTO> | undefined;
 };
 
 export type HandleSubmitFunc<T> = (values: T, formikHelpers: FormikHelpers<T>) => Promise<void>;
@@ -122,7 +123,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
   articleLanguage,
   rules,
   ndlaId,
-  articleHistory,
+  articleRevisionHistory,
 }: HooksInputObject<T>) {
   const { id, revision } = article ?? {};
   const formikRef: any = useRef<any>(null);
@@ -164,7 +165,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
 
         await deleteRemovedFiles(article?.content?.content ?? "", newArticle.content ?? "");
 
-        articleHistory?.refetch();
+        articleRevisionHistory?.refetch();
 
         setSavedToServer(true);
         const newInitialValues = getInitialValues(savedArticle, articleLanguage, ndlaId);
@@ -198,7 +199,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
     [
       applicationError,
       article?.content?.content,
-      articleHistory,
+      articleRevisionHistory,
       articleLanguage,
       articleStatus,
       createMessage,

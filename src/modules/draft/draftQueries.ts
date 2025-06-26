@@ -15,6 +15,7 @@ import {
   IUpdatedUserDataDTO,
   ArticleSearchResultDTO,
   ITagsSearchResultDTO,
+  ArticleRevisionHistoryDTO,
 } from "@ndla/types-backend/draft-api";
 import {
   fetchDraft,
@@ -22,9 +23,9 @@ import {
   fetchStatusStateMachine,
   fetchUserData,
   updateUserData,
-  fetchDraftHistory,
   fetchSearchTags,
   searchDrafts,
+  fetchArticleRevisionHistory,
 } from "./draftApi";
 import { DraftStatusStateMachineType } from "../../interfaces";
 import {
@@ -43,14 +44,15 @@ export interface UseDraft {
   responsibleId?: string;
 }
 
-export interface UseDraftHistory {
+export interface UseDraftRevisionHistory {
   id: number;
   language?: string;
 }
 
 export const draftQueryKeys = {
-  draft: (params?: Partial<UseDraft>) => [DRAFT, params] as const,
-  draftHistory: (params?: Partial<UseDraftHistory>) => [DRAFT_HISTORY, params] as const,
+  draft: (articleId: number) => [DRAFT, articleId] as const,
+  draftWithLanguage: (articleId: number, language: string) => [DRAFT, articleId, language] as const,
+  articleRevisionHistory: (articleId: number) => [DRAFT_HISTORY, articleId] as const,
   search: (params?: Partial<IArticleSearchParamsDTO>) => [SEARCH_DRAFTS, params] as const,
   licenses: [LICENSES] as const,
   userData: [USER_DATA] as const,
@@ -58,20 +60,21 @@ export const draftQueryKeys = {
   draftSearchTags: (params?: Partial<UseSearchTags>) => [DRAFT_SEARCH_TAGS, params] as const,
 };
 
-draftQueryKeys.draft({ id: 1 });
-
-export const useDraft = (params: UseDraft, options?: Partial<UseQueryOptions<IArticleDTO>>) => {
+export const useDraft = ({ id, language }: UseDraft, options?: Partial<UseQueryOptions<IArticleDTO>>) => {
   return useQuery<IArticleDTO>({
-    queryKey: draftQueryKeys.draft(params),
-    queryFn: () => fetchDraft(params.id, params.language),
+    queryKey: language ? draftQueryKeys.draftWithLanguage(id, language) : draftQueryKeys.draft(id),
+    queryFn: () => fetchDraft(id, language),
     ...options,
   });
 };
 
-export const useDraftHistory = (params: UseDraftHistory, options?: Partial<UseQueryOptions<IArticleDTO[]>>) => {
-  return useQuery<IArticleDTO[]>({
-    queryKey: draftQueryKeys.draft(params),
-    queryFn: () => fetchDraftHistory(params.id, params.language),
+export const useArticleRevisionHistory = (
+  { id, language }: UseDraftRevisionHistory,
+  options?: Partial<UseQueryOptions<ArticleRevisionHistoryDTO>>,
+) => {
+  return useQuery<ArticleRevisionHistoryDTO>({
+    queryKey: draftQueryKeys.articleRevisionHistory(id),
+    queryFn: () => fetchArticleRevisionHistory(id, language),
     ...options,
   });
 };

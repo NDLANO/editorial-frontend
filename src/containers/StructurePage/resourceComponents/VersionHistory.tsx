@@ -30,7 +30,7 @@ import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import NotesVersionHistory from "../../../components/VersionHistory/VersionHistory";
 import { Auth0UserData } from "../../../interfaces";
 import { fetchAuth0Users } from "../../../modules/auth0/auth0Api";
-import { fetchDraftHistory } from "../../../modules/draft/draftApi";
+import { fetchArticleRevisionHistory } from "../../../modules/draft/draftApi";
 import formatDate from "../../../util/formatDate";
 import { routes, toLearningpathFull } from "../../../util/routeHelpers";
 import { getIdFromUrn } from "../../../util/taxonomyHelpers";
@@ -124,8 +124,8 @@ const VersionHistoryContent = ({ contentType, resource }: DialogContentProps) =>
       }));
 
     const fetchHistory = async (id: number) => {
-      const versions = await fetchDraftHistory(id);
-      const notes: IEditorNoteDTO[] = versions?.[0]?.notes;
+      const articleRevisionHistory = await fetchArticleRevisionHistory(id);
+      const notes: IEditorNoteDTO[] = articleRevisionHistory?.revisions[0]?.notes;
       if (notes?.length) {
         const userIds = notes.map((note) => note.user).filter((user) => user !== "System");
         const uniqueUserIds = Array.from(new Set(userIds)).join(",");

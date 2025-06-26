@@ -1115,6 +1115,15 @@ const phrases = {
         label: "Skriv inn kommentar",
       },
       updateComment: "Oppdater kommentar",
+      deleteCurrentRevision: {
+        buttonLabel: "Slett",
+        buttonLabelDirty: "Kan ikke slette revisjon med ulagrede endringer",
+        buttonLabelPublished: "Kan ikke slette revisjon med (del)publiserte endringer",
+        dialogTitle: "Slett gjeldende revisjon",
+        dialogText: "Er du sikker på at du vil slette gjeldende revisjon? Det er ikke mulig å gjenopprette den.",
+        dialogCancel: "Avbryt",
+        dialogConfirm: "Slett",
+      },
     },
     status: {
       new: "Ny - Ikke lagret",
@@ -1688,6 +1697,7 @@ const phrases = {
     disconnect: "Koble fra",
     loginAgain: "Logg inn på nytt",
     watchOut: "Pass på!",
+    cancel: "Avbryt",
   },
   environment: { production: "", staging: "staging", test: "test" },
   taxonomy: {

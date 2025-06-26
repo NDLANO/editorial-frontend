@@ -1115,6 +1115,15 @@ const phrases = {
         label: "Write down comment",
       },
       updateComment: "Update comment",
+      deleteCurrentRevision: {
+        buttonLabel: "Delete",
+        buttonLabelDirty: "Cannot delete revision with unsaved changes",
+        buttonLabelPublished: "Cannot delete revision with (partially) published changes",
+        dialogTitle: "Delete current revision",
+        dialogText: "Are you sure you want to delete the current revision? It cannot be restored.",
+        dialogCancel: "Cancel",
+        dialogConfirm: "Delete",
+      },
     },
     status: {
       new: "New - unsaved",
@@ -1690,6 +1699,7 @@ const phrases = {
     disconnect: "Disconnect",
     loginAgain: "Login again",
     watchOut: "Watch out!",
+    cancel: "Cancel",
   },
   environment: { production: "", staging: "Staging", test: "Test" },
   taxonomy: {

@@ -61,7 +61,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const { loading, article, setArticle, articleChanged, updateArticle, articleHistory } = useFetchArticleData(
+  const { loading, article, setArticle, articleChanged, updateArticle, articleRevisionHistory } = useFetchArticleData(
     articleId,
     selectedLanguage,
   );
@@ -110,7 +110,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
         articleLanguage={selectedLanguage}
         articleChanged={articleChanged || newLanguage}
         article={article}
-        articleHistory={articleHistory}
+        articleRevisionHistory={articleRevisionHistory}
         isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
         supportedLanguages={article.supportedLanguages}

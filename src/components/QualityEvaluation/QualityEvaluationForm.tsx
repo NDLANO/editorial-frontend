@@ -178,7 +178,7 @@ const QualityEvaluationForm = ({
           responsibleId: undefined,
         });
         await qc.invalidateQueries({
-          queryKey: draftQueryKeys.draft({ id: article.id }),
+          queryKey: draftQueryKeys.draft(article.id),
         });
       }
 

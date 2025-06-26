@@ -11,7 +11,7 @@ import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult } from "@tanstack/react-query";
 import { Button } from "@ndla/primitives";
-import { IArticleDTO, IUpdatedArticleDTO, IStatusDTO } from "@ndla/types-backend/draft-api";
+import { IArticleDTO, IUpdatedArticleDTO, IStatusDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import LearningResourcePanels from "./LearningResourcePanels";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
@@ -35,7 +35,7 @@ import {
 
 interface Props {
   article?: IArticleDTO;
-  articleHistory?: UseQueryResult<IArticleDTO[]>;
+  articleRevisionHistory?: UseQueryResult<ArticleRevisionHistoryDTO>;
   articleTaxonomy?: Node[];
   articleStatus?: IStatusDTO;
   supportedLanguages: string[];
@@ -55,7 +55,7 @@ const LearningResourceForm = ({
   supportedLanguages,
   articleChanged,
   articleLanguage,
-  articleHistory,
+  articleRevisionHistory,
   translatedFieldsToNN,
 }: Props) => {
   const [showTaxWarning, setShowTaxWarning] = useState(false);
@@ -80,7 +80,7 @@ const LearningResourceForm = ({
     article,
     t,
     articleStatus,
-    articleHistory,
+    articleRevisionHistory,
     updateArticle,
     getArticleFromSlate: learningResourceFormTypeToDraftApiType,
     articleLanguage,
@@ -134,7 +134,7 @@ const LearningResourceForm = ({
             language={articleLanguage}
             article={article}
             status={article?.status}
-            articleHistory={articleHistory?.data}
+            articleRevisionHistory={articleRevisionHistory?.data}
             supportedLanguages={supportedLanguages}
             taxonomy={contexts}
             title={article?.title?.title}
@@ -147,15 +147,16 @@ const LearningResourceForm = ({
               handleSubmit={handleSubmit}
               articleLanguage={articleLanguage}
               article={article}
-              articleHistory={articleHistory?.data}
+              articleRevisionHistory={articleRevisionHistory?.data}
               taxonomy={articleTaxonomy}
               updateNotes={updateArticle}
               contexts={contexts}
               submitted={isSubmitting}
+              articleChanged={articleChanged}
             />
           </TaxonomyVersionProvider>
           <FormFooter
-            articleChanged={!!articleChanged}
+            articleChanged={articleChanged}
             isNewlyCreated={isNewlyCreated}
             savedToServer={savedToServer}
             handleSubmit={handleSubmit}

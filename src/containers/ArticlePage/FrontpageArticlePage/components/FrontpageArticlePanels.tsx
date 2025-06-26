@@ -11,7 +11,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleRevisionHistoryDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
 import FrontpageArticleFormContent from "./FrontpageArticleFormContent";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../../components/Accordion/FormAccordions";
@@ -51,11 +51,12 @@ const StyledControls = styled("div", {
 
 interface Props {
   article?: IArticleDTO;
-  articleHistory: IArticleDTO[] | undefined;
+  articleRevisionHistory: ArticleRevisionHistoryDTO | undefined;
   articleLanguage: string;
+  articleChanged: boolean;
 }
 
-const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Props) => {
+const FrontpageArticlePanels = ({ article, articleRevisionHistory, articleLanguage, articleChanged }: Props) => {
   const [hideComments, setHideComments] = useLocalStorageBooleanState(STORED_HIDE_COMMENTS);
   const { t } = useTranslation();
   const { errors } = useFormikContext<FrontpageArticleFormType>();
@@ -102,7 +103,7 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
               <PanelTitleWithChangeIndicator
                 title={t("form.contentSection")}
                 article={article}
-                articleHistory={articleHistory}
+                articleRevisionHistory={articleRevisionHistory}
                 fieldsToIndicatedChangesFor={contentTitleFields}
               />
             }
@@ -118,7 +119,7 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
               <PanelTitleWithChangeIndicator
                 title={t("form.copyrightSection")}
                 article={article}
-                articleHistory={articleHistory}
+                articleRevisionHistory={articleRevisionHistory}
                 fieldsToIndicatedChangesFor={copyrightFields}
               />
             }
@@ -148,9 +149,10 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
             >
               <VersionAndNotesPanel
                 article={article}
-                articleHistory={articleHistory}
+                articleRevisionHistory={articleRevisionHistory}
                 type="standard"
                 currentLanguage={articleLanguage}
+                articleChanged={articleChanged}
               />
             </FormAccordion>
           )}

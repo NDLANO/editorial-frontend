@@ -9,7 +9,7 @@
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IConceptDTO } from "@ndla/types-backend/concept-api";
-import { IArticleDTO, IStatusDTO } from "@ndla/types-backend/draft-api";
+import { ArticleRevisionHistoryDTO, IArticleDTO, IStatusDTO } from "@ndla/types-backend/draft-api";
 import { TaxonomyContext } from "@ndla/types-taxonomy";
 import HeaderActions from "./HeaderActions";
 import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
@@ -33,7 +33,7 @@ interface Props {
   taxonomy?: TaxonomyContext[];
   noStatus?: boolean;
   article?: IArticleDTO;
-  articleHistory?: IArticleDTO[];
+  articleRevisionHistory?: ArticleRevisionHistoryDTO;
   supportedLanguages: string[];
   concept?: IConceptDTO;
   type: FormHeaderType;
@@ -47,7 +47,7 @@ const HeaderWithLanguage = ({
   type,
   taxonomy = [],
   article,
-  articleHistory,
+  articleRevisionHistory,
   hasRSS,
   id,
   concept,
@@ -89,7 +89,7 @@ const HeaderWithLanguage = ({
       {id ? (
         <HeaderActions
           id={id}
-          articleHistory={articleHistory}
+          articleRevisionHistory={articleRevisionHistory}
           language={language}
           supportedLanguages={supportedLanguages}
           disableDelete={!!(hasConnections || isArticle) && supportedLanguages.length === 1}

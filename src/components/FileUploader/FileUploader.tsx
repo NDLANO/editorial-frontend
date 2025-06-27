@@ -79,7 +79,7 @@ const FileUploader = ({ onFileSave, close }: Props) => {
         newFiles.map((file, i) => ({
           path: file.path,
           type: file.extension.substring(1),
-          title: values.files[i].name.replace(/\..*/, ""),
+          title: values.files[i].name.substring(0, values.files[i].name.lastIndexOf(".")),
         })),
       );
     } catch (err) {

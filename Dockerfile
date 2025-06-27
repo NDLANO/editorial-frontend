@@ -1,5 +1,5 @@
 ### Build stage
-FROM node:22.15.1-alpine3.21 as builder
+FROM node:22.16.0-alpine3.21 AS builder
 
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/editorial-frontend
@@ -26,8 +26,7 @@ COPY public $APP_PATH/public
 RUN yarn run build
 
 ### Run stage
-FROM node:22.15.1-alpine3.21
-
+FROM node:22.16.0-alpine3.21
 
 WORKDIR /home/app/editorial-frontend
 COPY --from=builder /home/app/editorial-frontend/build build

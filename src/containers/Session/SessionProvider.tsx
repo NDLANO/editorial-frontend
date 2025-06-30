@@ -6,7 +6,6 @@
  *
  */
 
-import { Auth0DecodedHash } from "auth0-js";
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -39,6 +38,11 @@ interface SessionState {
   userNotRegistered: boolean;
 }
 
+interface LoginResult {
+  accessToken?: string;
+  state?: string;
+}
+
 export const initialState: SessionState = {
   user: {},
   authenticated: false,
@@ -51,7 +55,7 @@ export interface SessionProps {
   userPermissions?: string[];
   authenticated: boolean;
   userNotRegistered: boolean;
-  login: (authResult: Auth0DecodedHash) => void;
+  login: (authResult: LoginResult) => void;
   logout: (federated: boolean, returnToLogin?: boolean) => void;
 }
 
@@ -90,7 +94,7 @@ export const useSession = (): SessionProps => {
   const setUserNotRegistered = (userNotRegistered: boolean) => setSession((s) => ({ ...s, userNotRegistered }));
   const setUserData = (user: UserData) => setSession((s) => ({ ...s, user }));
 
-  const login = (authResult: Auth0DecodedHash) => {
+  const login = (authResult: LoginResult) => {
     try {
       const decoded = isValid(authResult.accessToken ?? null) ? decodeToken(authResult.accessToken!) : undefined;
       const permissions = decoded?.permissions ?? [];

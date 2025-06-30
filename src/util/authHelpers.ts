@@ -6,7 +6,7 @@
  *
  */
 
-import auth0, { Auth0DecodedHash, Auth0ParseHashError } from "auth0-js";
+import { Auth0Client, AuthenticationError } from "@auth0/auth0-spa-js";
 import { expiresIn, ndlaId, ndlaUserName, ndlaUserEmail } from "./jwtHelper";
 import config from "../config";
 import { NewMessageType } from "../containers/Messages/MessagesProvider";
@@ -56,30 +56,23 @@ const apiBaseUrl = (() => {
 
 export { locationOrigin, apiBaseUrl };
 
-const auth = new auth0.WebAuth({
-  clientID: ndlaPersonalClientId ?? "",
+const auth = new Auth0Client({
+  clientId: ndlaPersonalClientId ?? "",
   domain: auth0Domain || "",
-  responseType: "token",
-  redirectUri: `${locationOrigin}/login/success`,
-  audience: "ndla_system",
+  authorizationParams: {
+    audience: "ndla_system",
+    redirect_uri: `${locationOrigin}/login/success`,
+  },
 });
 
-export function parseHash(hash: string): Promise<Auth0DecodedHash> {
-  return new Promise((resolve, reject) => {
-    auth.parseHash(
-      {
-        hash,
-        _idTokenVerification: false,
-      },
-      (err: Auth0ParseHashError | null, authResult: Auth0DecodedHash | null) => {
-        if (!err && authResult) {
-          resolve(authResult);
-        } else {
-          reject(err);
-        }
-      },
-    );
-  });
+export async function parseHash() {
+  const res = await auth.handleRedirectCallback();
+  const accessToken = await auth.getTokenSilently();
+
+  return {
+    accessToken,
+    state: res.appState?.state,
+  };
 }
 
 export function setAccessTokenInLocalStorage(accessToken: string, personal: boolean) {
@@ -109,31 +102,30 @@ export const getNdlaUserEmail = () => ndlaUserEmail(getAccessToken());
 
 export const isAccessTokenValid = () => new Date().getTime() < getAccessTokenExpiresAt() - 10000; // 10000ms is 10 seconds
 
-export const renewPersonalAuth = () =>
-  new Promise((resolve, reject) => {
-    auth.checkSession(
-      {
+export const renewPersonalAuth = async () => {
+  try {
+    await auth.checkSession({
+      authorizationParams: {
         scope: "openid profile email",
       },
-      (err, authResult) => {
-        if (authResult && authResult.accessToken) {
-          setAccessTokenInLocalStorage(authResult.accessToken, true);
-          resolve(authResult.accessToken);
-        } else {
-          createMessageRef?.({
-            id: "errorMessage.auth0.renewal",
-            type: "auth0",
-            translationKey: "errorMessage.auth0",
-            translationObject: {
-              message: err?.errorDescription || err?.error_description,
-            },
-            timeToLive: 0,
-          });
-          reject();
-        }
+    });
+    const token = await auth.getTokenSilently();
+    setAccessTokenInLocalStorage(token, true);
+    return token;
+  } catch (e) {
+    const err = e as AuthenticationError;
+    createMessageRef?.({
+      id: "errorMessage.auth0.renewal",
+      type: "auth0",
+      translationKey: "errorMessage.auth0",
+      translationObject: {
+        message: err?.error_description,
       },
-    );
-  });
+      timeToLive: 0,
+    });
+    throw e;
+  }
+};
 
 export const renewAuth = async () => {
   if (localStorage.getItem("access_token_personal") === "true") {
@@ -170,10 +162,14 @@ export const scheduleRenewal = async (createMessage?: (newMessage: NewMessageTyp
 
 export function loginPersonalAccessToken(type: string) {
   const connection = config.usernamePasswordEnabled ? undefined : type;
-  auth.authorize({
-    connection,
-    state: localStorage.getItem("lastPath") ?? undefined,
-    prompt: "login", // Tells auth0 to always show account selection screen on authorize.
+  auth.loginWithRedirect({
+    authorizationParams: {
+      connection,
+      prompt: "login", // Tells auth0 to always show account selection screen on authorize.
+    },
+    appState: {
+      state: localStorage.getItem("lastPath") ?? undefined,
+    },
   });
 }
 
@@ -187,10 +183,18 @@ export const personalAuthLogout = (federated: boolean, returnToLogin: boolean) =
 
   if (federated) {
     return auth.logout({
-      ...options,
-      federated, // N.B. federated is parsed  as a flag by auth0. So you are logged out federated even if it is false
+      logoutParams: {
+        returnTo: options.returnTo,
+        client_id: options.clientID,
+        federated, // N.B. federated is parsed  as a flag by auth0. So you are logged out federated even if it is false
+      },
     });
   }
 
-  return auth.logout(options);
+  return auth.logout({
+    logoutParams: {
+      returnTo: options.returnTo,
+      client_id: options.clientID,
+    },
+  });
 };

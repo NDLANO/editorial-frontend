@@ -132,6 +132,11 @@ const InlineWrapper = (props: Props) => {
     };
   }, [concept, element.data, loading, visualElementQuery.data]);
 
+  const parsedTitle = useMemo(
+    () => (embed?.status === "success" ? parse(embed.data.concept.title.htmlTitle) : undefined),
+    [embed],
+  );
+
   const parsedContent = useMemo(() => {
     if (embed?.status === "success" && !!embed.data.concept.content) {
       return parse(embed.data.concept.content.content);
@@ -247,7 +252,7 @@ const InlineWrapper = (props: Props) => {
                   copyright={embed.data.concept.copyright}
                   visualElement={embed.data.visualElement}
                   lang={locale}
-                  title={embed.data.concept.title.title}
+                  title={parsedTitle}
                   source={embed.data.concept.source}
                 >
                   {parsedContent}

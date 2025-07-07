@@ -166,7 +166,7 @@ export const GlossForm = ({
           />
           <FormAccordions defaultOpen={["title", "content"]}>
             <FormAccordion id="title" title={t("form.gloss.titleSection")} hasError={!!formikProps.errors.title}>
-              <TitleField hideToolbar />
+              <TitleField />
             </FormAccordion>
             <FormAccordion
               id="content"

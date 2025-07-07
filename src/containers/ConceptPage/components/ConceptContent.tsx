@@ -32,7 +32,7 @@ const ConceptContent = ({ inDialog = false }: Props) => {
     <ContentTypeProvider value="concept">
       <FormContent>
         <div>
-          <TitleField hideToolbar />
+          <TitleField />
           <LastUpdatedLine onChange={() => {}} creators={creators} published={updated} contentType="concept" />
         </div>
         <VisualElementField types={["image"]} inDialog={inDialog} />

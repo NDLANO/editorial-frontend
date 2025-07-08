@@ -23,15 +23,7 @@ const CreatePodcastSeries = () => {
     navigate(toEditPodcastSeries(createdSeries.id, newSeries.language));
   };
 
-  return (
-    <PodcastSeriesForm
-      language={locale}
-      onUpdate={onUpdate}
-      isNewlyCreated={false}
-      supportedLanguages={[locale]}
-      translatedFieldsToNN={[]}
-    />
-  );
+  return <PodcastSeriesForm language={locale} onUpdate={onUpdate} isNewlyCreated={false} translatedFieldsToNN={[]} />;
 };
 
 export default CreatePodcastSeries;

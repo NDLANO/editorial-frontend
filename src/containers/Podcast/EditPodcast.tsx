@@ -103,7 +103,6 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
   const language = podcastLanguage || locale;
   return (
     <PodcastForm
-      supportedLanguages={podcast.supportedLanguages}
       audio={podcast}
       language={language}
       podcastChanged={podcastChanged || newLanguage}

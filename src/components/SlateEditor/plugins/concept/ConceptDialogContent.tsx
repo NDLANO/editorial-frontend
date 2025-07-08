@@ -183,7 +183,6 @@ const ConceptDialogContent = ({
                   language={locale}
                   concept={concept}
                   initialTitle={selectedText}
-                  supportedLanguages={concept?.supportedLanguages ?? [locale]}
                   translatedFieldsToNN={[]}
                 />
               ) : (
@@ -194,7 +193,6 @@ const ConceptDialogContent = ({
                   language={locale}
                   concept={concept}
                   initialTitle={selectedText}
-                  supportedLanguages={concept?.supportedLanguages ?? [locale]}
                   translatedFieldsToNN={[]}
                 />
               )}

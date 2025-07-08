@@ -48,7 +48,6 @@ const CreateImage = ({ isNewlyCreated, editingArticle, onImageCreated, inDialog,
       licenses={imageLicenses}
       onSubmitFunc={onCreateImage}
       closeDialog={closeDialog}
-      supportedLanguages={[locale]}
       translatedFieldsToNN={[]}
     />
   );

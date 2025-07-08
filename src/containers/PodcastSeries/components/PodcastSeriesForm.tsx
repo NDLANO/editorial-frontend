@@ -15,13 +15,13 @@ import { Button, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { INewSeriesDTO, ISeriesDTO } from "@ndla/types-backend/audio-api";
 import PodcastEpisodes from "./PodcastEpisodes";
+import { PodcastSeriesFormHeader } from "./PodcastSeriesFormHeader";
 import PodcastSeriesMetaData from "./PodcastSeriesMetaData";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
-import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
 import SaveButton from "../../../components/SaveButton";
 import {
   AUDIO_ADMIN_SCOPE,
@@ -87,7 +87,6 @@ interface Props {
   onUpdate: (newPodcastSeries: INewSeriesDTO) => void;
   revision?: number;
   isNewLanguage?: boolean;
-  supportedLanguages: string[];
   translatedFieldsToNN: string[];
 }
 
@@ -98,7 +97,6 @@ const PodcastSeriesForm = ({
   onUpdate,
   language,
   isNewLanguage,
-  supportedLanguages,
   translatedFieldsToNN,
 }: Props) => {
   const { t } = useTranslation();
@@ -176,15 +174,7 @@ const PodcastSeriesForm = ({
 
         return (
           <FormWrapper inDialog={inDialog}>
-            <HeaderWithLanguage
-              id={podcastSeries?.id}
-              language={language}
-              noStatus
-              supportedLanguages={supportedLanguages}
-              type="podcast-series"
-              title={podcastSeries?.title.title}
-              hasRSS={podcastSeries?.hasRSS}
-            />
+            <PodcastSeriesFormHeader series={podcastSeries} language={language} />
             <FormAccordions defaultOpen={["podcast-series-podcastmeta"]}>
               <FormAccordion
                 id="podcast-series-podcastmeta"

@@ -21,13 +21,13 @@ import {
 } from "@ndla/types-backend/audio-api";
 import AudioContent from "./AudioContent";
 import AudioCopyright from "./AudioCopyright";
+import { AudioFormHeader } from "./AudioFormHeader";
 import AudioManuscript from "./AudioManuscript";
 import AudioMetaData from "./AudioMetaData";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { FormActionsContainer, Form } from "../../../components/FormikForm";
 import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
-import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
 import SaveButton from "../../../components/SaveButton";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { useLicenses } from "../../../modules/draft/draftQueries";
@@ -106,7 +106,6 @@ interface Props {
   onUpdateAudio?: (audio: IUpdatedAudioMetaInformationDTO, file?: string | Blob) => Promise<void>;
   audio?: IAudioMetaInformationDTO;
   audioLanguage: string;
-  supportedLanguages: string[];
   isNewlyCreated?: boolean;
   isNewLanguage?: boolean;
   translatedFieldsToNN: string[];
@@ -119,7 +118,6 @@ const AudioForm = ({
   onCreateAudio,
   onUpdateAudio,
   isNewLanguage,
-  supportedLanguages,
   translatedFieldsToNN,
 }: Props) => {
   const { t } = useTranslation();
@@ -201,14 +199,7 @@ const AudioForm = ({
         };
         return (
           <Form>
-            <HeaderWithLanguage
-              id={audio?.id}
-              language={audioLanguage}
-              noStatus
-              supportedLanguages={supportedLanguages}
-              type="audio"
-              title={audio?.title.title}
-            />
+            <AudioFormHeader audio={audio} language={audioLanguage} />
             <FormAccordions defaultOpen={["audio-upload-content"]}>
               <FormAccordion
                 id="audio-upload-content"

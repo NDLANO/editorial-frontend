@@ -17,6 +17,7 @@ import {
   IUpdatedAudioMetaInformationDTO,
   INewAudioMetaInformationDTO,
 } from "@ndla/types-backend/audio-api";
+import { PodcastFormHeader } from "./PodcastFormHeader";
 import PodcastMetaData from "./PodcastMetaData";
 import PodcastSeries from "./PodcastSeries";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
@@ -24,7 +25,6 @@ import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
 import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
-import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
 import { PageSpinner } from "../../../components/PageSpinner";
 import SaveButton from "../../../components/SaveButton";
 import { SAVE_BUTTON_ID } from "../../../constants";
@@ -112,7 +112,6 @@ interface Props {
   onCreatePodcast?: (newPodcast: INewAudioMetaInformationDTO, file?: string | Blob) => Promise<void>;
   onUpdatePodcast?: (updatedPodcast: IUpdatedAudioMetaInformationDTO, file?: string | Blob) => Promise<void>;
   translating?: boolean;
-  supportedLanguages: string[];
   translatedFieldsToNN: string[];
 }
 
@@ -125,7 +124,6 @@ const PodcastForm = ({
   onCreatePodcast,
   onUpdatePodcast,
   translating,
-  supportedLanguages,
   translatedFieldsToNN,
 }: Props) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
@@ -238,14 +236,7 @@ const PodcastForm = ({
         });
         return (
           <FormWrapper inDialog={inDialog}>
-            <HeaderWithLanguage
-              id={audio?.id}
-              language={language}
-              noStatus
-              supportedLanguages={supportedLanguages}
-              type="podcast"
-              title={audio?.title.title}
-            />
+            <PodcastFormHeader audio={audio} language={language} />
             {translating ? (
               <PageSpinner />
             ) : (

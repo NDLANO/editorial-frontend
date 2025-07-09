@@ -87,7 +87,6 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
       audioLanguage={audioLanguage}
       isNewlyCreated={isNewlyCreated}
       isNewLanguage={isNewLanguage}
-      supportedLanguages={audio.supportedLanguages}
       translatedFieldsToNN={translatedFields}
     />
   );

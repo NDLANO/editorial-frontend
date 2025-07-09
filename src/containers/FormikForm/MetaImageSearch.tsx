@@ -198,7 +198,6 @@ const MetaImageSearch = ({
                     onSubmitFunc={onImageUpdate}
                     closeDialog={onImageSelectClose}
                     licenses={imageLicenses}
-                    supportedLanguages={image?.supportedLanguages ?? [i18n.language]}
                     translatedFieldsToNN={[]}
                   />
                 ) : (

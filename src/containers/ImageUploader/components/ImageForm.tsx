@@ -26,7 +26,6 @@ import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import validateFormik, { RulesType, getWarnings } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
-import HeaderWithLanguage from "../../../components/HeaderWithLanguage/HeaderWithLanguage";
 import SaveButton from "../../../components/SaveButton";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { editorValueToPlainText } from "../../../util/articleContentConverter";
@@ -34,6 +33,7 @@ import { isFormikFormDirty } from "../../../util/formHelper";
 import { AlertDialogWrapper } from "../../FormikForm";
 import SimpleVersionPanel from "../../FormikForm/SimpleVersionPanel";
 import { imageApiTypeToFormType, ImageFormikType } from "../imageTransformers";
+import { ImageFormHeader } from "./ImageFormHeader";
 
 const StyledFormActionsContainer = styled(FormActionsContainer, {
   base: {
@@ -106,7 +106,6 @@ interface Props {
   isSaving?: boolean;
   isNewLanguage?: boolean;
   language: string;
-  supportedLanguages: string[];
   translatedFieldsToNN: string[];
 }
 
@@ -131,7 +130,6 @@ const ImageForm = ({
   isNewlyCreated,
   isSaving,
   isNewLanguage,
-  supportedLanguages,
   translatedFieldsToNN,
 }: Props) => {
   const { t } = useTranslation();
@@ -206,14 +204,7 @@ const ImageForm = ({
         const hasError = (errorFields: ImageFormErrorFields[]): boolean => errorFields.some((field) => !!errors[field]);
         return (
           <FormWrapper inDialog={inDialog} onSubmit={handleSubmit}>
-            <HeaderWithLanguage
-              id={image?.id ? parseInt(image.id) : undefined}
-              language={language}
-              noStatus
-              supportedLanguages={supportedLanguages}
-              type="image"
-              title={image?.title.title}
-            />
+            <ImageFormHeader image={image} language={language} />
             <FormAccordions defaultOpen={["content"]}>
               <FormAccordion
                 id="content"

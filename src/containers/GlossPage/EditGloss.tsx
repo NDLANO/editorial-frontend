@@ -82,7 +82,6 @@ const EditGloss = ({ isNewlyCreated }: Props) => {
         isNewlyCreated={isNewlyCreated}
         upsertProps={{ onUpdate }}
         language={selectedLanguage!}
-        supportedLanguages={concept.supportedLanguages}
         translatedFieldsToNN={translatedFields}
       />
     </>

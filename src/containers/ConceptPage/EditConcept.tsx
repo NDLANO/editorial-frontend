@@ -80,7 +80,6 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
           onUpdate: (concept) => updateConcept(conceptId, concept),
         }}
         language={selectedLanguage!}
-        supportedLanguages={concept.supportedLanguages}
         translatedFieldsToNN={translatedFields}
       />
     </>

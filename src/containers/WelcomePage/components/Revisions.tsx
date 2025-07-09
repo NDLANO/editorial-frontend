@@ -32,7 +32,6 @@ import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
 import PageSizeSelect from "./worklist/PageSizeSelect";
 import SubjectCombobox from "./worklist/SubjectCombobox";
 import Pagination from "../../../components/abstractions/Pagination";
-import { getWarnStatus } from "../../../components/HeaderWithLanguage/HeaderStatusInformation";
 import { StatusTimeFill } from "../../../components/StatusTimeFill";
 import {
   FAVOURITES_SUBJECT_ID,
@@ -45,6 +44,7 @@ import {
 } from "../../../constants";
 import { useSearch } from "../../../modules/search/searchQueries";
 import formatDate, { formatDateForBackend } from "../../../util/formatDate";
+import { getExpirationStatus } from "../../../util/getExpirationStatus";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { getExpirationDate } from "../../ArticlePage/articleTransformers";
 import {
@@ -187,7 +187,7 @@ const Revisions = ({ userData }: Props) => {
           .map((revision) => `${formatDate(revision.revisionDate)}: ${revision.note}`)
           .join("\n");
 
-        const warnStatus = getWarnStatus(expirationDate);
+        const warnStatus = getExpirationStatus(expirationDate);
 
         return [
           {

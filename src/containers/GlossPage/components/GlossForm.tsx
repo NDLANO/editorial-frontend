@@ -16,10 +16,10 @@ import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import validateFormik, { RulesType, getWarnings } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
-import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
 import { useLicenses } from "../../../modules/draft/draftQueries";
 import { conceptFormBaseRules } from "../../ConceptPage/ConceptForm/ConceptForm";
 import ConceptFormFooter from "../../ConceptPage/ConceptForm/ConceptFormFooter";
+import { ConceptFormHeader } from "../../ConceptPage/ConceptForm/ConceptFormHeader";
 import { ConceptFormValues } from "../../ConceptPage/conceptInterfaces";
 import {
   conceptApiTypeToFormType,
@@ -49,7 +49,6 @@ interface Props {
   language: string;
   initialTitle?: string;
   onUpserted?: (concept: IConceptSummaryDTO | IConceptDTO) => void;
-  supportedLanguages: string[];
   translatedFieldsToNN: string[];
 }
 
@@ -90,7 +89,6 @@ export const GlossForm = ({
   upsertProps,
   initialTitle,
   onUpserted,
-  supportedLanguages,
   translatedFieldsToNN,
 }: Props) => {
   const [savedToServer, setSavedToServer] = useState(false);
@@ -155,15 +153,7 @@ export const GlossForm = ({
     >
       {(formikProps) => (
         <FormWrapper inDialog={inDialog}>
-          <HeaderWithLanguage
-            id={concept?.id}
-            language={language}
-            concept={concept}
-            status={concept?.status}
-            title={concept?.title.title ?? initialTitle}
-            type={"gloss"}
-            supportedLanguages={supportedLanguages}
-          />
+          <ConceptFormHeader concept={concept} language={language} initialTitle={initialTitle} type="gloss" />
           <FormAccordions defaultOpen={["title", "content"]}>
             <FormAccordion id="title" title={t("form.gloss.titleSection")} hasError={!!formikProps.errors.title}>
               <TitleField hideToolbar />

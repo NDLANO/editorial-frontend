@@ -106,7 +106,6 @@ const EditImage = ({ isNewlyCreated }: Props) => {
       isNewlyCreated={isNewlyCreated}
       licenses={imageLicenses}
       isNewLanguage={isNewLanguage}
-      supportedLanguages={image.supportedLanguages}
       translatedFieldsToNN={translatedFields}
     />
   );

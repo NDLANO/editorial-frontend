@@ -26,13 +26,7 @@ const CreatePodcast = () => {
   };
 
   return (
-    <PodcastForm
-      onCreatePodcast={onCreatePodcast}
-      supportedLanguages={[locale]}
-      isNewlyCreated={false}
-      language={locale}
-      translatedFieldsToNN={[]}
-    />
+    <PodcastForm onCreatePodcast={onCreatePodcast} isNewlyCreated={false} language={locale} translatedFieldsToNN={[]} />
   );
 };
 

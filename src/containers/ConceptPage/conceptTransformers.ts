@@ -17,6 +17,7 @@ import {
   editorValueToEmbedTag,
   blockContentToHTML,
   inlineContentToEditorValue,
+  inlineContentToHTML,
 } from "../../util/articleContentConverter";
 
 export const conceptApiTypeToFormType = (
@@ -127,6 +128,7 @@ export const conceptFormTypeToApiType = (
     tags: { tags: values.tags, language: values.language },
     title: {
       title: editorValueToPlainText(values.title),
+      htmlTitle: inlineContentToHTML(values.title),
       language: values.language,
     },
     content: {

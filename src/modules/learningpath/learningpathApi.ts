@@ -9,7 +9,9 @@
 import {
   ILearningPathSummaryV2DTO,
   ILearningPathV2DTO,
+  INewLearningPathV2DTO,
   ISearchResultV2DTO,
+  IUpdatedLearningPathV2DTO,
   openapi,
 } from "@ndla/types-backend/learningpath-api";
 import { CopyLearningPathBody, SearchBody } from "./learningpathApiInterfaces";
@@ -81,3 +83,21 @@ export const learningpathCopy = (id: number, query: CopyLearningPathBody): Promi
       params: { path: { learningpath_id: id } },
     })
     .then(resolveJsonOATS);
+
+export const postLearningpath = async (learningpath: INewLearningPathV2DTO): Promise<ILearningPathV2DTO> => {
+  const res = await client.POST("/learningpath-api/v2/learningpaths", {
+    body: learningpath,
+  });
+  return resolveJsonOATS(res);
+};
+
+export const patchLearningpath = async (
+  id: number,
+  learningpath: IUpdatedLearningPathV2DTO,
+): Promise<ILearningPathV2DTO> => {
+  const res = await client.PATCH("/learningpath-api/v2/learningpaths/{learningpath_id}", {
+    body: learningpath,
+    params: { path: { learningpath_id: id } },
+  });
+  return resolveJsonOATS(res);
+};

@@ -38,13 +38,8 @@ import EditGlossExamplesDialog from "../EditGlossExamplesDialog";
 import { getGlossDataAttributes } from "../utils";
 import { isConceptInlineElement } from "./queries";
 
-const getConceptDataAttributes = (
-  concept: IConceptDTO | IConceptSummaryDTO,
-  title: string,
-  locale: string,
-): ConceptEmbedData => ({
+const getConceptDataAttributes = (concept: IConceptDTO | IConceptSummaryDTO, locale: string): ConceptEmbedData => ({
   contentId: concept.id.toString(),
-  linkText: title,
   resource: "concept",
   type: "inline",
   ...(concept.conceptType === "gloss" && concept.glossData?.examples.length
@@ -156,7 +151,7 @@ const InlineWrapper = (props: Props) => {
   const addConcept = (addedConcept: IConceptSummaryDTO | IConceptDTO) => {
     setIsEditing(false);
     handleSelectionChange(true);
-    const data = getConceptDataAttributes(addedConcept, nodeText, locale);
+    const data = getConceptDataAttributes(addedConcept, locale);
     if (element) {
       const path = ReactEditor.findPath(editor, element);
       Transforms.setNodes<ConceptInlineElement>(
@@ -198,7 +193,7 @@ const InlineWrapper = (props: Props) => {
       {!embed ? (
         children
       ) : embed.status === "error" ? (
-        <ConceptEmbed embed={embed} />
+        <ConceptEmbed embed={embed}>{children}</ConceptEmbed>
       ) : (
         <PopoverRoot>
           <PopoverTrigger asChild {...attributes}>

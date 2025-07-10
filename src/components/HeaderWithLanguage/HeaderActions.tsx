@@ -110,7 +110,7 @@ const HeaderActions = ({
   supportedLanguages = [],
 }: Props) => {
   const { t } = useTranslation();
-  const { isSubmitting } = useFormikContext();
+  // const { isSubmitting } = useFormikContext();
   const showTranslate = useIsTranslatableToNN();
 
   const editUrl = useCallback(
@@ -162,7 +162,7 @@ const HeaderActions = ({
           editUrl={editUrl}
           language={language}
           supportedLanguages={supportedLanguages}
-          isSubmitting={isSubmitting}
+          // isSubmitting={isSubmitting}
         />
         {!!isNewLanguage && (
           <HeaderCurrentLanguagePill key={`types_${language}`}>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>

@@ -2324,6 +2324,34 @@ const phrases = {
     failedTranscription: "Her gikk det galt! Klarte ikke å generere transkripsjon.",
     responseBox: "Full respons fra KI-modellen",
   },
+  learningpathForm: {
+    stepper: {
+      navigation: "Skjemanavigering",
+      next: "Gå videre",
+      titles: {
+        metadata: "Metadata",
+        steps: "Læringssteg",
+        preview: "Forhåndsvis",
+        status: "Endre status",
+      },
+    },
+    steps: {
+      enableDnd: "Sorter læringssteg",
+      disableDnd: "Avbryt sortering",
+      typeTitle: "Legg til innhold",
+      formTypes: {
+        text: "Tekst jeg har skrevet selv",
+        resource: "Innhold fra NDLA",
+        external: "Innhold fra et annet nettsted",
+        folder: "Innhold fra en av mine mapper i Min NDLA",
+      },
+      textForm: {
+        titleLabel: "Tittel",
+        introductionLabel: "Ingress",
+        descriptionLabel: "Beskrivelse",
+      },
+    },
+  },
 };
 
 export default phrases;

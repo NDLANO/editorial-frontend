@@ -30,7 +30,7 @@ import { FormActionsContainer } from "../../../components/FormikForm";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../util/articleContentConverter";
 import { unreachable } from "../../../util/guards";
 import { routes } from "../../../util/routeHelpers";
-import { getFormTypeFromStep } from "../learningpathUtils";
+import { getFormTypeFromStep, learningpathStepEditButtonId } from "../learningpathUtils";
 import { TextStepForm } from "./TextStepForm";
 import { LearningpathStepFormValues } from "./types";
 import {
@@ -213,7 +213,7 @@ export const LearningpathStepForm = ({ step }: Props) => {
           <FormActionsContainer>
             <SafeLinkButton
               to={routes.learningpath.edit(parseInt(id), language, "steps")}
-              // state={{ focusStepId: step ? learningpathStepEditButtonId(step.id) : undefined }}
+              state={{ focusStepId: step ? learningpathStepEditButtonId(step.id) : undefined }}
               variant="secondary"
             >
               {t("cancel")}

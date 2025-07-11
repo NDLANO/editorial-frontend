@@ -9,9 +9,12 @@
 import {
   ILearningPathSummaryV2DTO,
   ILearningPathV2DTO,
+  ILearningStepV2DTO,
   INewLearningPathV2DTO,
+  INewLearningStepV2DTO,
   ISearchResultV2DTO,
   IUpdatedLearningPathV2DTO,
+  IUpdatedLearningStepV2DTO,
   openapi,
 } from "@ndla/types-backend/learningpath-api";
 import { CopyLearningPathBody, SearchBody } from "./learningpathApiInterfaces";
@@ -99,5 +102,28 @@ export const patchLearningpath = async (
     body: learningpath,
     params: { path: { learningpath_id: id } },
   });
+  return resolveJsonOATS(res);
+};
+
+export const postLearningStep = async (id: number, step: INewLearningStepV2DTO): Promise<ILearningStepV2DTO> => {
+  const res = await client.POST("/learningpath-api/v2/learningpaths/{learningpath_id}/learningsteps", {
+    body: step,
+    params: { path: { learningpath_id: id } },
+  });
+  return resolveJsonOATS(res);
+};
+
+export const patchLearningStep = async (
+  learningpathId: number,
+  stepId: number,
+  step: IUpdatedLearningStepV2DTO,
+): Promise<ILearningStepV2DTO> => {
+  const res = await client.PATCH(
+    "/learningpath-api/v2/learningpaths/{learningpath_id}/learningsteps/{learningstep_id}",
+    {
+      body: step,
+      params: { path: { learningpath_id: learningpathId, learningstep_id: stepId } },
+    },
+  );
   return resolveJsonOATS(res);
 };

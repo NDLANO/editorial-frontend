@@ -9,20 +9,99 @@
 import { useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FieldHelper, FieldLabel, FieldRoot } from "@ndla/primitives";
-import { ResourcePicker } from "./ResourcePicker";
-import { LearningpathStepFormValues } from "./types";
+import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
+import { FieldHelper, FieldLabel, FieldRoot, IconButton, Text } from "@ndla/primitives";
+import { HStack, styled } from "@ndla/styled-system/jsx";
+import { linkOverlay } from "@ndla/styled-system/patterns";
+import { ContentTypeBadge } from "@ndla/ui";
+import { contentTypeMapping, ResourcePicker } from "./ResourcePicker";
+import { LearningpathStepFormValues, ResourceData, ResourceFormValues } from "./types";
+import { fetchNode } from "../../../modules/nodes/nodeApi";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import { StepSafeLink } from "../components/StepSafeLink";
+import { getNodeIdFromEmbedUrl } from "../learningpathUtils";
 
 interface Props {
-  // TODO: Yeah...
-  resource: any | undefined;
+  language: string;
 }
 
-export const ResourceStepForm = ({ resource }: Props) => {
+const ResourceContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+  },
+});
+
+const TextWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "4xsmall",
+    flex: "1",
+  },
+});
+
+const ResourceWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexWrap: "wrap",
+    borderBottom: "1px solid",
+    borderColor: "stroke.default",
+    padding: "xsmall",
+    gap: "medium",
+    justifyContent: "space-between",
+    boxShadow: "xsmall",
+    backgroundColor: "background.default",
+    position: "relative",
+  },
+});
+
+const StyledHStack = styled(HStack, {
+  base: {
+    flexWrap: "wrap",
+  },
+});
+
+const CrumbText = styled(Text, {
+  base: {
+    overflowWrap: "anywhere",
+  },
+});
+
+const StyledIconButton = styled(IconButton, {
+  base: {
+    position: "relative",
+  },
+});
+
+export const ResourceStepForm = ({ language }: Props) => {
   const { t } = useTranslation();
-  const [selectedResource, setSelectedResource] = useState<ResourceData | undefined>(resource);
+  const [selectedResource, setSelectedResource] = useState<ResourceData | undefined>(undefined);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
   const { setFieldValue } = useFormikContext<LearningpathStepFormValues>();
+  const { taxonomyVersion } = useTaxonomyVersion();
+  const { values } = useFormikContext<ResourceFormValues>();
+  // const resource = useNode({}, { enabled: !!step && selectedResource });
+
+  useEffect(() => {
+    (async () => {
+      if (values.embedUrl && !selectedResource) {
+        const nodeId = getNodeIdFromEmbedUrl(values.embedUrl);
+        if (!nodeId) return;
+        const node = await fetchNode({ id: `urn:${nodeId}`, language: language, taxonomyVersion });
+        setSelectedResource({
+          title: node.name,
+          url: node.url ?? "",
+          breadcrumbs: node.breadcrumbs,
+          resourceTypes: node.resourceTypes,
+        });
+      }
+    })();
+  }, [language, selectedResource, taxonomyVersion, values.embedUrl]);
+
+  const contentType = selectedResource?.resourceTypes?.map((type) => contentTypeMapping[type.id]).filter(Boolean)[0];
 
   const onSelectResource = (resource: ResourceData) => {
     setSelectedResource(resource);
@@ -47,20 +126,53 @@ export const ResourceStepForm = ({ resource }: Props) => {
   if (!selectedResource) {
     return (
       <FieldRoot>
-        <FieldLabel fontWeight="bold">{t("myNdla.learningpath.form.content.resource.label")}</FieldLabel>
-        <FieldHelper>{t("myNdla.learningpath.form.content.resource.labelHelper")}</FieldHelper>
+        <FieldLabel fontWeight="bold">{t("learningpathForm.steps.resourceForm.label")}</FieldLabel>
+        <FieldHelper>{t("learningpathForm.steps.resourceForm.labelHelper")}</FieldHelper>
         {/* TODO: Label and Helper should be connected to combobox... */}
         <ResourcePicker setResource={onSelectResource} />
       </FieldRoot>
     );
   }
 
-  // TODO: This should not be a field
   return (
-    <FieldRoot>
-      <FieldLabel fontWeight="bold">{t("myNdla.learningpath.form.content.resource.label")}</FieldLabel>
-      <FieldHelper>{t("myNdla.learningpath.form.content.resource.labelHelper")}</FieldHelper>
-      {/* <ResourceContent selectedResource={selectedResource} onRemove={onRemove} /> */}
-    </FieldRoot>
+    <ResourceContainer>
+      <Text textStyle="label.medium" fontWeight="bold">
+        {t("learningpathForm.steps.resourceForm.label")}
+      </Text>
+      <Text textStyle="label.small">{t("learningpathForm.steps.resourceForm.labelHelper")}</Text>
+
+      <ResourceWrapper>
+        <TextWrapper>
+          <StepSafeLink to={selectedResource.url} target="_blank" css={linkOverlay.raw()}>
+            <Text fontWeight="bold">
+              {selectedResource.title}
+              <ExternalLinkLine size="small" />
+            </Text>
+          </StepSafeLink>
+          {!!selectedResource.breadcrumbs && (
+            <CrumbText
+              textStyle="label.small"
+              color="text.subtle"
+              css={{ textAlign: "start" }}
+              aria-label={`${t("breadcrumb.breadcrumb")}: ${selectedResource.breadcrumbs.join(", ")}`}
+            >
+              {selectedResource.breadcrumbs.join(" > ")}
+            </CrumbText>
+          )}
+        </TextWrapper>
+        <StyledHStack gap="medium">
+          {!!contentType && <ContentTypeBadge contentType={contentType} />}
+          <StyledIconButton
+            id="remove-resource"
+            aria-label={t("myNdla.learningpath.form.delete")}
+            title={t("myNdla.learningpath.form.delete")}
+            variant="tertiary"
+            onClick={onRemove}
+          >
+            <DeleteBinLine />
+          </StyledIconButton>
+        </StyledHStack>
+      </ResourceWrapper>
+    </ResourceContainer>
   );
 };

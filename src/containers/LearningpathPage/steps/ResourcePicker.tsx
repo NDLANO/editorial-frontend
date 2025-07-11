@@ -9,33 +9,13 @@
 import parse from "html-react-parser";
 import { t } from "i18next";
 import { debounce } from "lodash-es";
-import { useState, useMemo, RefObject, useRef } from "react";
-import { createListCollection } from "@ark-ui/react";
-import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
-import {
-  ComboboxContentStandalone,
-  ComboboxControl,
-  ComboboxInput,
-  ComboboxItem,
-  ComboboxItemText,
-  ComboboxList,
-  ComboboxRoot,
-  IconButton,
-  Input,
-  InputContainer,
-  ListItemContent,
-  ListItemRoot,
-  PaginationContext,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationNextTrigger,
-  PaginationPrevTrigger,
-  PaginationRoot,
-  Spinner,
-  Text,
-} from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
-import { ContentTypeBadge, constants, useComboboxTranslations, usePaginationTranslations } from "@ndla/ui";
+import { useState, useMemo } from "react";
+import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { constants, ContentTypeBadge } from "@ndla/ui";
+import { ResourceData } from "./types";
+import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
+import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
+import config from "../../../config";
 import {
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
   RESOURCE_TYPE_CONCEPT,
@@ -44,7 +24,11 @@ import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
 } from "../../../constants";
+import { OembedResponse } from "../../../interfaces";
 import { useSearch } from "../../../modules/search/searchQueries";
+import { fetchExternalOembed } from "../../../util/apiHelpers";
+import { isNDLAFrontendUrl } from "../../../util/htmlHelpers";
+import { resolveJsonOrRejectWithError } from "../../../util/resolveJsonOrRejectWithError";
 
 const { contentTypes } = constants;
 
@@ -64,69 +48,7 @@ export const contentTypeMapping: Record<string, string> = {
   default: contentTypes.SUBJECT_MATERIAL,
 };
 
-const HitsWrapper = styled("div", {
-  base: {
-    marginBlockStart: "3xsmall",
-    textAlign: "start",
-  },
-});
-
-const StyledListItemContent = styled(ListItemContent, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    gap: "4xsmall",
-    flex: "1",
-  },
-});
-
-const StyledListItemRoot = styled(ListItemRoot, {
-  base: {
-    minHeight: "unset",
-    textAlign: "start",
-  },
-});
-
-const StyledComboboxContent = styled(ComboboxContentStandalone, {
-  base: {
-    overflowY: "unset",
-    maxHeight: "surface.medium",
-  },
-});
-
-const StyledComboboxList = styled(ComboboxList, {
-  base: {
-    overflowY: "auto",
-  },
-});
-
-const StyledPaginationRoot = styled(PaginationRoot, {
-  base: {
-    marginBlockStart: "medium",
-    flexWrap: "wrap",
-  },
-});
-
-const StyledComboboxItem = styled(ComboboxItem, {
-  base: {
-    flexWrap: "wrap",
-  },
-});
-
 const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250);
-
-/**
-  Copied from Editorial
-
- keyboard scrolling does not work properly when items are not nested directly within
- ComboboxContent, so we need to provide a custom scroll function
- TODO: Check if ark provides a better fix for this.
- */
-const scrollToIndexFn = (contentRef: RefObject<HTMLDivElement | null>, index: number) => {
-  const el = contentRef.current?.querySelectorAll(`[role='option']`)[index];
-  el?.scrollIntoView({ behavior: "auto", block: "nearest" });
-};
 
 interface Props {
   setResource: (data: ResourceData) => void;
@@ -136,14 +58,13 @@ const DEFAULT_SEARCH_OBJECT = { page: 1, pageSize: 10, query: "" };
 
 export const ResourcePicker = ({ setResource }: Props) => {
   const [searchObject, setSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
-  const [highlightedValue, setHighlightedValue] = useState<string | null>(null);
   const [delayedSearchObject, setDelayedSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
-  const contentRef = useRef<HTMLDivElement>(null);
 
   const searchQuery = useSearch({
     query: delayedSearchObject.query,
     page: delayedSearchObject.page,
     pageSize: delayedSearchObject.pageSize,
+    // TODO: Double check resource types
     resourceTypes: [
       RESOURCE_TYPE_SUBJECT_MATERIAL,
       RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
@@ -152,11 +73,6 @@ export const ResourcePicker = ({ setResource }: Props) => {
       RESOURCE_TYPE_SOURCE_MATERIAL,
     ],
   });
-
-  // const { refetch } = useFetchOembed({ skip: true });
-
-  const paginationTranslations = usePaginationTranslations();
-  const comboboxTranslations = useComboboxTranslations();
 
   const searchHits = useMemo(() => {
     return (
@@ -174,178 +90,73 @@ export const ResourcePicker = ({ setResource }: Props) => {
     );
   }, [searchQuery.data?.results]);
 
-  const collection = useMemo(
-    () =>
-      createListCollection({
-        items: searchHits,
-        itemToValue: (item) => item.id,
-        itemToString: (item) => item.title.title,
-      }),
-    [searchHits],
-  );
-
   const setResourceFromNdlaUrl = async (url: string) => {
-    // const res = await fetch(`/oembed?url=${url}`);
-    // const oembedData = await resolveJsonOrRejectWithError<OembedResponse>(res);
-    // if (oembedData) {
-    //   const { title, iframeSrc: url } = oembedData;
-    //   setResource({
-    //     title,
-    //     url,
-    //   });
-    // }
+    const res = await fetch(`${config.ndlaFrontendDomain}/oembed?url=${url}`);
+    const oembedData = await resolveJsonOrRejectWithError<OembedResponse>(res);
+    if (oembedData) {
+      const { title, iframeSrc: url } = oembedData;
+      setResource({
+        title,
+        url: url ?? "",
+      });
+    }
   };
 
   const onQueryChange = (val: string) => {
-    // if (urlIsNDLAUrl(val)) {
-    //   setResourceFromNdlaUrl(val);
-    //   return;
-    // }
+    // TODO: Not sure about this check compared to the one in ndla-frontend.
+    if (isNDLAFrontendUrl(val)) {
+      setResourceFromNdlaUrl(val);
+      return;
+    }
 
     setSearchObject({ query: val, page: 1, pageSize: 10 });
     debounceCall(() => setDelayedSearchObject({ query: val, page: 1, pageSize: 10 }));
   };
 
-  const onResourceSelect = async (resource: Omit<GQLSearchResourceFragment, "__typename" | "id">) => {
-    console.log(resource);
-    // const path = resource.contexts?.[0]?.url;
-    // const data = await refetch({ url: `${config.ndlaFrontendDomain}${path}` });
-    // const iframe = data.data?.learningpathStepOembed.html;
-    // const url = new DOMParser().parseFromString(iframe, "text/html").getElementsByTagName("iframe")[0]?.src ?? "";
-    //
-    // setResource({
-    //   title: resource.title,
-    //   url: url,
-    //   resourceTypes: resource.contexts?.[0]?.resourceTypes,
-    //   breadcrumbs: resource.contexts?.[0]?.breadcrumbs,
-    // });
+  const onResourceSelect = async (resource: Omit<IMultiSearchSummaryDTO, "id">) => {
+    const path = resource.contexts?.[0]?.url;
+    const data = await fetchExternalOembed(`${config.ndlaFrontendDomain}${path}`);
+    const iframe = data?.html;
+    const url = new DOMParser().parseFromString(iframe, "text/html").getElementsByTagName("iframe")[0]?.src ?? "";
+
+    setResource({
+      title: resource.title.title,
+      url: url,
+      resourceTypes: resource.contexts?.[0]?.resourceTypes,
+      breadcrumbs: resource.contexts?.[0]?.breadcrumbs,
+    });
   };
 
   return (
-    <ComboboxRoot
-      highlightedValue={highlightedValue}
-      onHighlightChange={(details) => setHighlightedValue(details.highlightedValue)}
-      collection={collection}
-      translations={comboboxTranslations}
-      scrollToIndexFn={(details) => scrollToIndexFn(contentRef, details.index)}
-      onInputValueChange={(details) => onQueryChange(details.inputValue)}
-      inputValue={searchObject.query}
-      positioning={{ strategy: "fixed" }}
-      selectionBehavior="preserve"
-      closeOnSelect={false}
-      context="standalone"
-      variant="complex"
+    <GenericSearchCombobox
+      items={searchHits}
+      itemToString={(item) => item.title.title}
+      itemToValue={(item) => item.id}
       onValueChange={(details) => {
         if (details.items[0]) {
           onResourceSelect(details.items[0]);
         }
       }}
+      paginationData={searchQuery.data}
+      inputValue={searchObject.query}
+      isSuccess={searchQuery.isSuccess}
+      onInputValueChange={(details) => onQueryChange(details.inputValue)}
+      onPageChange={(details) => {
+        setSearchObject((prev) => ({ ...prev, page: details.page }));
+        setDelayedSearchObject((prev) => ({ ...prev, page: details.page }));
+      }}
+      closeOnSelect={false}
+      selectionBehavior="preserve"
+      renderItem={(item) => (
+        <GenericComboboxItemContent
+          title={parse(item.title.htmlTitle)}
+          description={item.contexts[0]?.breadcrumbs.join(" > ")}
+          child={<ContentTypeBadge contentType={item.contentType} />}
+        />
+      )}
+      positioning={{ strategy: "fixed" }}
     >
-      <ComboboxControl>
-        <InputContainer>
-          <ComboboxInput
-            asChild
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !highlightedValue) {
-                e.preventDefault();
-              }
-            }}
-          >
-            <Input placeholder={t("searchPage.searchFieldPlaceholderShort")} />
-          </ComboboxInput>
-        </InputContainer>
-      </ComboboxControl>
-      <StyledComboboxContent ref={contentRef} tabIndex={-1}>
-        <HitsWrapper aria-live="assertive">
-          <div>
-            {!(searchHits.length >= 1) && !searchQuery.isPending ? (
-              <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: searchObject.query })}</Text>
-            ) : (
-              <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${searchObject.query}"`}</Text>
-            )}
-          </div>
-        </HitsWrapper>
-        {searchQuery.isPending ? (
-          <Spinner />
-        ) : (
-          <StyledComboboxList tabIndex={-1}>
-            {collection.items.map((resource) => (
-              <StyledComboboxItem key={collection.getItemValue(resource)} item={resource} className="peer" asChild>
-                <StyledListItemRoot context="list">
-                  <StyledListItemContent>
-                    <ComboboxItemText>
-                      {resource.title.title}
-                      {/* {resource.__typename === "ArticleSearchResult" || */}
-                      {/* resource.__typename === "LearningpathSearchResult" */}
-                      {/*   ? parse(resource.htmlTitle) */}
-                      {/*   : resource.title} */}
-                    </ComboboxItemText>
-                    {!!resource.contexts[0] && (
-                      <Text
-                        textStyle="label.small"
-                        color="text.subtle"
-                        css={{ textAlign: "start" }}
-                        aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
-                      >
-                        {resource.contexts[0].breadcrumbs.join(" > ")}
-                      </Text>
-                    )}
-                  </StyledListItemContent>
-                  <ContentTypeBadge contentType={resource.contentType} />
-                </StyledListItemRoot>
-              </StyledComboboxItem>
-            ))}
-          </StyledComboboxList>
-        )}
-        {searchQuery.data && searchQuery.data.totalCount > searchQuery.data.pageSize ? (
-          <StyledPaginationRoot
-            page={searchObject.page}
-            onPageChange={(details) => {
-              setSearchObject((prev) => ({ ...prev, page: details.page }));
-              setDelayedSearchObject((prev) => ({ ...prev, page: details.page }));
-            }}
-            count={Math.min(searchQuery.data.totalCount ?? 0, 1000)}
-            pageSize={searchObject.pageSize}
-            translations={paginationTranslations}
-            siblingCount={2}
-          >
-            <PaginationPrevTrigger asChild>
-              <IconButton
-                variant="tertiary"
-                aria-label={t("pagination.prev")}
-                title={t("pagination.prev")}
-                size="small"
-              >
-                <ArrowLeftShortLine />
-              </IconButton>
-            </PaginationPrevTrigger>
-            <PaginationContext>
-              {(pagination) =>
-                pagination.pages.map((page, index) =>
-                  page.type === "page" ? (
-                    <PaginationItem key={index} {...page} asChild>
-                      <IconButton size="small" variant={page.value === pagination.page ? "primary" : "tertiary"}>
-                        {page.value}
-                      </IconButton>
-                    </PaginationItem>
-                  ) : (
-                    <PaginationEllipsis key={index} index={index} asChild>
-                      <Text asChild consumeCss>
-                        <div>&#8230;</div>
-                      </Text>
-                    </PaginationEllipsis>
-                  ),
-                )
-              }
-            </PaginationContext>
-            <PaginationNextTrigger asChild>
-              <IconButton size="small" variant="tertiary" aria-label={t("pagination.ext")} title={t("pagination.next")}>
-                <ArrowRightShortLine />
-              </IconButton>
-            </PaginationNextTrigger>
-          </StyledPaginationRoot>
-        ) : null}
-      </StyledComboboxContent>
-    </ComboboxRoot>
+      <GenericComboboxInput placeholder={t("searchPage.search")} isFetching={searchQuery.isFetching} />
+    </GenericSearchCombobox>
   );
 };

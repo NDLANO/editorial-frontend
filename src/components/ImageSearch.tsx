@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { ImageSearch, ImageSearchProps } from "@ndla/image-search";
+import { ImageSearch as BaseImageSearch, ImageSearchProps } from "@ndla/image-search";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ISearchParamsDTO } from "@ndla/types-backend/image-api";
@@ -26,11 +26,11 @@ interface Props extends Partial<ImageSearchProps> {
   searchParams?: ISearchParamsDTO;
 }
 
-export const ImagePicker = ({ searchParams = {}, locale, ...props }: Props) => {
+export const ImageSearch = ({ searchParams = {}, locale, ...props }: Props) => {
   const { t, i18n } = useTranslation();
   const translations = useImageSearchTranslations();
   return (
-    <ImageSearch
+    <BaseImageSearch
       searchImages={(query?: string, page?: number) =>
         postSearchImages({
           query,

@@ -7,7 +7,7 @@
  */
 
 import { Form, Formik } from "formik";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import {
@@ -136,11 +136,22 @@ const formValuesToStep = (values: LearningpathStepFormValues) => {
 };
 
 export const LearningpathStepForm = ({ step }: Props) => {
+  const wrapperRef = useRef<HTMLFormElement>(null);
   const { id, language } = useParams<"id" | "language">();
   const { t } = useTranslation();
   const initialValues = useMemo(() => toFormValues(getFormTypeFromStep(step), step), [step]);
   const postLearningStepMutation = usePostLearningStepMutation();
   const patchLearningStepMutation = usePatchLearningStepMutation();
+
+  useEffect(() => {
+    wrapperRef.current?.parentElement?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, []);
+
+  useEffect(() => {
+    if (!step) {
+      setTimeout(() => wrapperRef.current?.querySelector("input")?.focus(), 0);
+    }
+  }, [step]);
 
   const handleSubmit = useCallback(
     async (values: LearningpathStepFormValues) => {
@@ -176,7 +187,7 @@ export const LearningpathStepForm = ({ step }: Props) => {
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {(formikProps) => (
-        <StyledForm>
+        <StyledForm ref={wrapperRef}>
           <FormField name="type">
             {({ field, meta, helpers }) => (
               <FieldRoot required invalid={!!meta.error}>

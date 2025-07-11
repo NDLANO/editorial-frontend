@@ -127,9 +127,7 @@ const Content = ({ learningpath, language }: Props) => {
                   <PencilLine />
                 </SafeLinkButton>
               </StyledListItemContent>
-              {!!stepId && parseInt(stepId) === item.id && (
-                <LearningpathStepForm learningpathId={learningpath.id} step={item} language={language} />
-              )}
+              {!!stepId && parseInt(stepId) === item.id && <LearningpathStepForm step={item} />}
             </StyledListItemRoot>
           )}
         />

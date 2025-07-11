@@ -24,7 +24,6 @@ const editor: Descendant[] = [
             type: CONCEPT_INLINE_ELEMENT_TYPE,
             data: {
               contentId: "123",
-              linkText: "my concept",
               resource: "concept",
               type: "inline",
             },
@@ -38,7 +37,7 @@ const editor: Descendant[] = [
 ];
 
 const html =
-  '<section><p><ndlaembed data-content-id="123" data-link-text="my concept" data-resource="concept" data-type="inline"></ndlaembed></p></section>';
+  '<section><p><ndlaembed data-content-id="123" data-resource="concept" data-type="inline">my concept</ndlaembed></p></section>';
 
 describe("concept serializing tests", () => {
   test("serializing", () => {

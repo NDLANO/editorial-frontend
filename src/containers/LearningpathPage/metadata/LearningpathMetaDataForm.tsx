@@ -6,7 +6,7 @@
  *
  */
 
-import { Formik, FormikHelpers, FormikProps } from "formik";
+import { Formik, FormikProps } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
@@ -99,7 +99,7 @@ export const LearningpathMetaDataForm = ({ learningpath, language }: Props) => {
   );
 
   const handleSubmit = useCallback(
-    async (values: LearningpathMetaDataFormValues, helpers: FormikHelpers<LearningpathMetaDataFormValues>) => {
+    async (values: LearningpathMetaDataFormValues) => {
       if (learningpath) {
         const apiValue = learningpathFormTypeToApiType(learningpath, values, language);
         await patchLearningpathMutation.mutateAsync({ id: learningpath.id, learningpath: apiValue });

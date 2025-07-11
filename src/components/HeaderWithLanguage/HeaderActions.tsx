@@ -6,7 +6,7 @@
  *
  */
 
-import { useFormikContext } from "formik";
+// import { useFormikContext } from "formik";
 import { memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ArrowRightShortLine, ShareBoxLine, EyeFill } from "@ndla/icons";

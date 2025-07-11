@@ -2350,6 +2350,10 @@ const phrases = {
         introductionLabel: "Ingress",
         descriptionLabel: "Beskrivelse",
       },
+      resourceForm: {
+        label: "Artikkel fra NDLA",
+        labelHelper: "Søk etter artikkel",
+      },
     },
   },
 };

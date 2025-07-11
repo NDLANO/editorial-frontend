@@ -27,12 +27,16 @@ import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ResourceStepForm } from "./ResourceStepForm";
 import { FormField } from "../../../components/FormField";
 import { FormActionsContainer } from "../../../components/FormikForm";
-import { blockContentToEditorValue } from "../../../util/articleContentConverter";
+import { blockContentToEditorValue, blockContentToHTML } from "../../../util/articleContentConverter";
 import { unreachable } from "../../../util/guards";
 import { routes } from "../../../util/routeHelpers";
 import { getFormTypeFromStep } from "../learningpathUtils";
 import { TextStepForm } from "./TextStepForm";
 import { LearningpathStepFormValues } from "./types";
+import {
+  usePatchLearningStepMutation,
+  usePostLearningStepMutation,
+} from "../../../modules/learningpath/learningpathMutations";
 
 const RADIO_GROUP_OPTIONS = ["text", "resource", "external", "folder"] as const;
 
@@ -101,12 +105,75 @@ interface Props {
   language: string;
 }
 
+const formValuesToStep = (values: LearningpathStepFormValues) => {
+  if (values.type === "text") {
+    return {
+      type: "TEXT",
+      title: values.title,
+      introduction: values.introduction,
+      description: blockContentToHTML(values.description),
+    };
+  }
+
+  if (values.type === "external") {
+    return {
+      type: "TEXT",
+      title: values.title,
+      introduction: values.introduction,
+      embedUrl: {
+        url: values.url,
+        embedType: "external",
+      },
+    };
+  }
+
+  return {
+    type: "TEXT",
+    title: values.title,
+    embedUrl: {
+      url: values.embedUrl,
+      embedType: "iframe",
+    },
+  };
+};
+
 export const LearningpathStepForm = ({ step }: Props) => {
   const { id, language } = useParams<"id" | "language">();
   const { t } = useTranslation();
   const initialValues = useMemo(() => toFormValues(getFormTypeFromStep(step), step), [step]);
+  const postLearningStepMutation = usePostLearningStepMutation();
+  const patchLearningStepMutation = usePatchLearningStepMutation();
 
-  const handleSubmit = useCallback(() => {}, []);
+  const handleSubmit = useCallback(
+    async (values: LearningpathStepFormValues) => {
+      const numericId = id ? parseInt(id) : undefined;
+      if (!numericId || !language) return;
+      if (step) {
+        const input = formValuesToStep(values);
+        await patchLearningStepMutation.mutateAsync({
+          learningpathId: numericId,
+          stepId: step.id,
+          step: {
+            ...input,
+            revision: step.revision,
+            language,
+          },
+        });
+      } else {
+        const step = formValuesToStep(values);
+        await postLearningStepMutation.mutateAsync({
+          learningpathId: numericId,
+          step: {
+            ...step,
+            language,
+            showTitle: false,
+          },
+        });
+      }
+    },
+    [id, language, patchLearningStepMutation, postLearningStepMutation, step],
+  );
+
   if (!id || !language) return;
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
@@ -143,7 +210,7 @@ export const LearningpathStepForm = ({ step }: Props) => {
           {formikProps.values.type === "text" ? (
             <TextStepForm language={language} />
           ) : formikProps.values.type === "resource" ? (
-            <ResourceStepForm resource={undefined} />
+            <ResourceStepForm language={language} />
           ) : null}
           <FormActionsContainer>
             <SafeLinkButton

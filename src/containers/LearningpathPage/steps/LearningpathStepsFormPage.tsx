@@ -8,8 +8,8 @@
 
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Outlet, useParams } from "react-router-dom";
-import { AddLine, CloseLine, Draggable, PencilLine } from "@ndla/icons";
+import { Outlet, useLocation, useParams } from "react-router-dom";
+import { AddLine, CloseLine, Draggable, ExpandUpDownLine, PencilLine } from "@ndla/icons";
 import { Button, ListItemContent, ListItemRoot, PageContent, Spinner, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
@@ -81,6 +81,7 @@ const Content = ({ learningpath, language }: Props) => {
   const [dndEnabled, setDndEnabled] = useState(false);
   const { t } = useTranslation();
   const { stepId } = useParams<"stepId">();
+  const location = useLocation();
   const [sortedLearningpathSteps, setSortedLearningpathSteps] = useState(learningpath.learningsteps ?? []);
 
   useEffect(() => {
@@ -88,16 +89,24 @@ const Content = ({ learningpath, language }: Props) => {
     setSortedLearningpathSteps(learningpath.learningsteps);
   }, [learningpath.learningsteps]);
 
+  // const onCancelSort = useCallback(() => {
+  //   setSortedLearningpathSteps(learningpath.learningsteps ?? []);
+  //   setDndEnabled(false);
+  // }, [learningpath.learningsteps]);
+
   return (
     <>
       <LearningpathFormHeader learningpath={learningpath} language={language} />
       <LearningpathFormStepper id={learningpath.id} language={language} currentStep="steps" />
-      <FormActionsContainer>
-        <Button onClick={() => setDndEnabled((s) => !s)} variant={dndEnabled ? "secondary" : "primary"}>
-          {dndEnabled ? t("learningpathForm.steps.disableDnd") : t("learningpathForm.steps.enableDnd")}
-        </Button>
-        {!!dndEnabled && <Button>{t("save")}</Button>}
-      </FormActionsContainer>
+      {!stepId && !location.pathname.includes("new") && (
+        <FormActionsContainer>
+          <Button onClick={() => setDndEnabled((s) => !s)} variant={dndEnabled ? "secondary" : "primary"}>
+            <ExpandUpDownLine />
+            {dndEnabled ? t("learningpathForm.steps.disableDnd") : t("learningpathForm.steps.enableDnd")}
+          </Button>
+          {!!dndEnabled && <Button>{t("save")}</Button>}
+        </FormActionsContainer>
+      )}
       <ul>
         <DndList
           items={sortedLearningpathSteps}

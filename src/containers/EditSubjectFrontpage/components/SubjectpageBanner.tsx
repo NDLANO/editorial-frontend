@@ -28,7 +28,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { ImageEmbedData } from "@ndla/types-embed";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
-import { ImagePicker } from "../../../components/ImagePicker";
+import { ImageSearch } from "../../../components/ImageSearch";
 import MetaInformation from "../../../components/MetaInformation";
 import config from "../../../config";
 import { fetchImage } from "../../../modules/image/imageApi";
@@ -127,7 +127,7 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
                 <TabsIndicator />
               </TabsList>
               <StyledTabsContent value="image">
-                <ImagePicker onImageSelect={onImageChange} locale={values.language} />
+                <ImageSearch onImageSelect={onImageChange} locale={values.language} />
               </StyledTabsContent>
               <StyledTabsContent value="upload">
                 <CreateImage

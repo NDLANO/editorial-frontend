@@ -35,7 +35,7 @@ import {
 } from "@ndla/types-backend/image-api";
 import MetaImageField from "./components/MetaImageField";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
-import { ImagePicker } from "../../components/ImagePicker";
+import { ImageSearch } from "../../components/ImageSearch";
 import { draftLicensesToImageLicenses } from "../../modules/draft/draftApiUtils";
 import { useLicenses } from "../../modules/draft/draftQueries";
 import { postImage, updateImage, fetchImage } from "../../modules/image/imageApi";
@@ -181,7 +181,7 @@ const MetaImageSearch = ({
                 <TabsIndicator />
               </TabsList>
               <StyledTabsContent value="image">
-                <ImagePicker
+                <ImageSearch
                   onImageSelect={onImageSet}
                   locale={language}
                   showCheckbox={showCheckbox}

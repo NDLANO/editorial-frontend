@@ -15,7 +15,6 @@ import { styled } from "@ndla/styled-system/jsx";
 import {
   IImageMetaInformationV3DTO,
   INewImageMetaInformationV2DTO,
-  ILicenseDTO,
   IUpdateImageMetaInformationDTO,
 } from "@ndla/types-backend/image-api";
 import ImageContent from "./ImageContent";
@@ -34,6 +33,7 @@ import { AlertDialogWrapper } from "../../FormikForm";
 import SimpleVersionPanel from "../../FormikForm/SimpleVersionPanel";
 import { imageApiTypeToFormType, ImageFormikType } from "../imageTransformers";
 import { ImageFormHeader } from "./ImageFormHeader";
+import { useLicenses } from "../../../modules/draft/draftQueries";
 
 const StyledFormActionsContainer = styled(FormActionsContainer, {
   base: {
@@ -93,11 +93,10 @@ const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3DTO> = {
   },
 };
 
-interface Props {
-  image?: IImageMetaInformationV3DTO;
-  licenses: ILicenseDTO[];
+interface Props<TImage extends IImageMetaInformationV3DTO | undefined = undefined> {
+  image?: TImage;
   onSubmitFunc: (
-    imageMetadata: INewImageMetaInformationV2DTO & IUpdateImageMetaInformationDTO,
+    imageMetadata: TImage extends undefined ? INewImageMetaInformationV2DTO : IUpdateImageMetaInformationDTO,
     image: string | Blob,
   ) => void;
   inDialog?: boolean;
@@ -120,8 +119,7 @@ export type ImageFormErrorFields =
   | "tags"
   | "title";
 
-const ImageForm = ({
-  licenses,
+const ImageForm = <TImage extends IImageMetaInformationV3DTO | undefined = undefined>({
   onSubmitFunc,
   image,
   inDialog,
@@ -131,13 +129,18 @@ const ImageForm = ({
   isSaving,
   isNewLanguage,
   translatedFieldsToNN,
-}: Props) => {
+}: Props<TImage>) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
   const navigate = useNavigate();
 
+  const { data: licenses } = useLicenses({
+    placeholderData: [],
+    select: (data) => data.map((lic) => ({ ...lic, description: lic.description ?? "" })) ?? [],
+  });
+
   const handleSubmit = async (values: ImageFormikType, actions: FormikHelpers<ImageFormikType>) => {
-    const license = licenses.find((license) => license.license === values.license);
+    const license = licenses?.find((license) => license.license === values.license);
 
     if (
       license === undefined ||

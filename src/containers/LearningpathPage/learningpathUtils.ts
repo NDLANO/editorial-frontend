@@ -14,13 +14,25 @@ export function isNDLAEmbedUrl(url: string) {
   return /^https:\/(.*).ndla.no/.test(url) || /^http:\/\/localhost/.test(url);
 }
 
-export const getFormTypeFromStep = (step?: ILearningStepV2DTO): "text" | "resource" | "external" => {
+export const getNodeIdFromEmbedUrl = (embedUrl: string | undefined): string | undefined => {
+  const resourceId = embedUrl?.match(/(resource:[:\da-fA-F-]+)/g)?.pop();
+  return resourceId;
+};
+
+export const isResourceStep = (step?: ILearningStepV2DTO): boolean => {
   if (
-    step?.embedUrl?.url &&
-    EXTERNAL_EMBED_TYPES.includes(step.embedUrl.embedType) &&
-    isNDLAEmbedUrl(step.embedUrl.url) &&
-    step.embedUrl.url.match(/(resource:[:\da-fA-F-]+)/g)?.pop()
+    !step?.embedUrl?.url ||
+    !isNDLAEmbedUrl(step.embedUrl.url) ||
+    !EXTERNAL_EMBED_TYPES.includes(step.embedUrl.embedType)
   ) {
+    return false;
+  }
+  const resourceId = step.embedUrl.url.match(/(resource:[:\da-fA-F-]+)/g)?.pop();
+  return !!resourceId;
+};
+
+export const getFormTypeFromStep = (step?: ILearningStepV2DTO): "text" | "resource" | "external" => {
+  if (isResourceStep(step)) {
     return "resource";
   }
   if (step?.embedUrl?.url && step.embedUrl.embedType === "iframe") return "external";

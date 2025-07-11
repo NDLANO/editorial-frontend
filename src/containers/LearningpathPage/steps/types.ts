@@ -6,6 +6,7 @@
  *
  */
 
+import { ResourceType } from "@ndla/types-taxonomy";
 import { Descendant } from "slate";
 
 export interface ExternalFormValues {
@@ -36,3 +37,14 @@ export interface ResourceFormValues {
 }
 
 export type LearningpathStepFormValues = TextFormValues | ExternalFormValues | ResourceFormValues | FolderFormValues;
+
+export interface ResourceData {
+  title: string;
+  breadcrumbs?: string[];
+  resourceTypes?: Pick<ResourceType, "id" | "name">[];
+  url: string;
+}
+export interface FolderResource {
+  title: string;
+  path: string;
+}

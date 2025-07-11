@@ -43,3 +43,7 @@ export const getFormTypeFromStep = (step?: ILearningStepV2DTO): "text" | "resour
   // if (step?.embedUrl?.embedType === "external") return "external";
   return "text";
 };
+
+export const learningpathListItemId = (id: number) => `learningpath-${id}`;
+export const learningpathStepEditButtonId = (id: number) => `edit-button-${id}`;
+export const learningpathStepCloseButtonId = (id: number) => `close-button-${id}`;

@@ -9,7 +9,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Outlet, useParams } from "react-router-dom";
-import { AddLine, Draggable, PencilLine } from "@ndla/icons";
+import { AddLine, CloseLine, Draggable, PencilLine } from "@ndla/icons";
 import { Button, ListItemContent, ListItemRoot, PageContent, Spinner, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
@@ -23,7 +23,7 @@ import { routes } from "../../../util/routeHelpers";
 import NotFound from "../../NotFoundPage/NotFoundPage";
 import { LearningpathFormHeader } from "../components/LearningpathFormHeader";
 import { LearningpathFormStepper } from "../components/LearningpathFormStepper";
-import { getFormTypeFromStep } from "../learningpathUtils";
+import { getFormTypeFromStep, learningpathStepCloseButtonId, learningpathStepEditButtonId } from "../learningpathUtils";
 
 export const LearningpathStepsFormPage = () => {
   const { id, language } = useParams<"id" | "language">();
@@ -119,13 +119,27 @@ const Content = ({ learningpath, language }: Props) => {
                     {t(`learningpathForm.steps.formTypes.${getFormTypeFromStep(item)}`)}
                   </Text>
                 </Stack>
-                <SafeLinkButton
-                  to={routes.learningpath.editStep(learningpath.id, item.id, language)}
-                  variant="tertiary"
-                >
-                  Rediger test
-                  <PencilLine />
-                </SafeLinkButton>
+                {!!stepId && parseInt(stepId) === item.id ? (
+                  <SafeLinkButton
+                    variant="tertiary"
+                    id={learningpathStepCloseButtonId(item.id)}
+                    to={routes.learningpath.edit(learningpath.id, language, "steps")}
+                    state={{ focusStepId: learningpathStepEditButtonId(item.id) }}
+                  >
+                    <CloseLine />
+                    {t("close")}
+                  </SafeLinkButton>
+                ) : (
+                  <SafeLinkButton
+                    variant="tertiary"
+                    id={learningpathStepCloseButtonId(item.id)}
+                    to={routes.learningpath.editStep(learningpath.id, item.id, language)}
+                    state={{ focusStepId: learningpathStepEditButtonId(item.id) }}
+                  >
+                    Rediger steg
+                    <PencilLine />
+                  </SafeLinkButton>
+                )}
               </StyledListItemContent>
               {!!stepId && parseInt(stepId) === item.id && <LearningpathStepForm step={item} />}
             </StyledListItemRoot>

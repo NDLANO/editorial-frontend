@@ -100,9 +100,7 @@ export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
 };
 
 interface Props {
-  learningpathId: number;
   step?: ILearningStepV2DTO;
-  language: string;
 }
 
 const formValuesToStep = (values: LearningpathStepFormValues) => {

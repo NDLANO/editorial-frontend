@@ -10,8 +10,6 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { IImageMetaInformationV3DTO, INewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
 import ImageForm from "./components/ImageForm";
-import { draftLicensesToImageLicenses } from "../../modules/draft/draftApiUtils";
-import { useLicenses } from "../../modules/draft/draftQueries";
 import { postImage } from "../../modules/image/imageApi";
 import { toEditImage } from "../../util/routeHelpers";
 
@@ -26,8 +24,6 @@ interface Props {
 const CreateImage = ({ isNewlyCreated, editingArticle, onImageCreated, inDialog, closeDialog }: Props) => {
   const { i18n } = useTranslation();
   const locale = i18n.language;
-  const { data: licenses } = useLicenses({ placeholderData: [] });
-  const imageLicenses = draftLicensesToImageLicenses(licenses!);
   const navigate = useNavigate();
 
   const onCreateImage = async (imageMetadata: INewImageMetaInformationV2DTO, image: string | Blob) => {
@@ -45,7 +41,6 @@ const CreateImage = ({ isNewlyCreated, editingArticle, onImageCreated, inDialog,
       language={locale}
       inDialog={inDialog}
       isNewlyCreated={isNewlyCreated}
-      licenses={imageLicenses}
       onSubmitFunc={onCreateImage}
       closeDialog={closeDialog}
       translatedFieldsToNN={[]}

@@ -13,8 +13,6 @@ import { IImageMetaInformationV3DTO, IUpdateImageMetaInformationDTO } from "@ndl
 import ImageForm from "./components/ImageForm";
 import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
-import { draftLicensesToImageLicenses } from "../../modules/draft/draftApiUtils";
-import { useLicenses } from "../../modules/draft/draftQueries";
 import { fetchImage, updateImage } from "../../modules/image/imageApi";
 import { useMessages } from "../Messages/MessagesProvider";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
@@ -47,12 +45,10 @@ const translateFields: TranslateType[] = [
 const EditImage = ({ isNewlyCreated }: Props) => {
   const { i18n } = useTranslation();
   const { id: imageId, selectedLanguage: imageLanguage } = useParams<"id" | "selectedLanguage">();
-  const { data: licenses } = useLicenses({ placeholderData: [] });
   const [loading, setLoading] = useState(true);
   const { applicationError, createMessage } = useMessages();
   const [image, setImage] = useState<IImageMetaInformationV3DTO | undefined>(undefined);
   const { shouldTranslate, translate, translating, translatedFields } = useTranslateToNN();
-  const imageLicenses = draftLicensesToImageLicenses(licenses ?? []);
 
   useEffect(() => {
     (async () => {
@@ -104,7 +100,6 @@ const EditImage = ({ isNewlyCreated }: Props) => {
       image={image}
       onSubmitFunc={onUpdate}
       isNewlyCreated={isNewlyCreated}
-      licenses={imageLicenses}
       isNewLanguage={isNewLanguage}
       translatedFieldsToNN={translatedFields}
     />

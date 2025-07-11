@@ -18,7 +18,7 @@ import { cloneDraft } from "../../../../modules/draft/draftApi";
 import { learningpathCopy } from "../../../../modules/learningpath/learningpathApi";
 import { cloneNode, fetchNodeResources, postResourceForNode } from "../../../../modules/nodes/nodeApi";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
-import { routes, toLearningpathFull } from "../../../../util/routeHelpers";
+import { routes } from "../../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { linkRecipe } from "../../resourceComponents/Resource";
 import NodeSearchDropdown from "../sharedMenuOptions/components/NodeSearchDropdown";
@@ -195,7 +195,7 @@ const CopyNodeResources = ({ currentNode, nodeType, type }: Props) => {
                       <SafeLink
                         to={
                           res.contentUri?.includes("learningpath")
-                            ? toLearningpathFull(numericId, language)
+                            ? routes.learningpath.edit(numericId, language)
                             : routes.editArticle(numericId, "standard")
                         }
                         target="_blank"

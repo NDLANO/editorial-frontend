@@ -9,7 +9,7 @@
 import { Form, Formik } from "formik";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { DeleteBinLine } from "@ndla/icons";
 import {
   Button,
@@ -146,6 +146,7 @@ export const LearningpathStepForm = ({ step }: Props) => {
   const postLearningStepMutation = usePostLearningStepMutation();
   const patchLearningStepMutation = usePatchLearningStepMutation();
   const deleteLearningStepMutation = useDeleteLearningStepMutation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     wrapperRef.current?.parentElement?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -161,9 +162,10 @@ export const LearningpathStepForm = ({ step }: Props) => {
     async (values: LearningpathStepFormValues) => {
       const numericId = id ? parseInt(id) : undefined;
       if (!numericId || !language) return;
+      let newLearningpath: ILearningStepV2DTO;
       if (step) {
         const input = formValuesToStep(values);
-        await patchLearningStepMutation.mutateAsync({
+        newLearningpath = await patchLearningStepMutation.mutateAsync({
           learningpathId: numericId,
           stepId: step.id,
           step: {
@@ -174,7 +176,7 @@ export const LearningpathStepForm = ({ step }: Props) => {
         });
       } else {
         const step = formValuesToStep(values);
-        await postLearningStepMutation.mutateAsync({
+        newLearningpath = await postLearningStepMutation.mutateAsync({
           learningpathId: numericId,
           step: {
             ...step,
@@ -183,8 +185,11 @@ export const LearningpathStepForm = ({ step }: Props) => {
           },
         });
       }
+      navigate(routes.learningpath.edit(numericId, language, "steps"), {
+        state: learningpathStepEditButtonId(newLearningpath.id),
+      });
     },
-    [id, language, patchLearningStepMutation, postLearningStepMutation, step],
+    [id, language, navigate, patchLearningStepMutation, postLearningStepMutation, step],
   );
 
   if (!id || !language) return;

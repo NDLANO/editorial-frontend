@@ -24,6 +24,7 @@ import {
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import { ExternalStepForm } from "./ExternalStepForm";
 import { ResourceStepForm } from "./ResourceStepForm";
 import { FormField } from "../../../components/FormField";
 import { FormActionsContainer } from "../../../components/FormikForm";
@@ -220,6 +221,8 @@ export const LearningpathStepForm = ({ step }: Props) => {
             <TextStepForm language={language} />
           ) : formikProps.values.type === "resource" ? (
             <ResourceStepForm language={language} />
+          ) : formikProps.values.type === "external" ? (
+            <ExternalStepForm />
           ) : null}
           <FormActionsContainer>
             <SafeLinkButton

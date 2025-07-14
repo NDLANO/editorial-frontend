@@ -10,6 +10,7 @@ import { Form, Formik } from "formik";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { DeleteBinLine } from "@ndla/icons";
 import {
   Button,
   FieldErrorMessage,
@@ -35,6 +36,7 @@ import { getFormTypeFromStep, learningpathStepEditButtonId } from "../learningpa
 import { TextStepForm } from "./TextStepForm";
 import { LearningpathStepFormValues } from "./types";
 import {
+  useDeleteLearningStepMutation,
   usePatchLearningStepMutation,
   usePostLearningStepMutation,
 } from "../../../modules/learningpath/learningpathMutations";
@@ -143,6 +145,7 @@ export const LearningpathStepForm = ({ step }: Props) => {
   const initialValues = useMemo(() => toFormValues(getFormTypeFromStep(step), step), [step]);
   const postLearningStepMutation = usePostLearningStepMutation();
   const patchLearningStepMutation = usePatchLearningStepMutation();
+  const deleteLearningStepMutation = useDeleteLearningStepMutation();
 
   useEffect(() => {
     wrapperRef.current?.parentElement?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -225,6 +228,17 @@ export const LearningpathStepForm = ({ step }: Props) => {
             <ExternalStepForm />
           ) : null}
           <FormActionsContainer>
+            {!!step && (
+              <Button
+                variant="danger"
+                onClick={async () =>
+                  await deleteLearningStepMutation.mutateAsync({ learningpathId: parseInt(id), stepId: step.id })
+                }
+              >
+                <DeleteBinLine />
+                {t("delete")}
+              </Button>
+            )}
             <SafeLinkButton
               to={routes.learningpath.edit(parseInt(id), language, "steps")}
               state={{ focusStepId: step ? learningpathStepEditButtonId(step.id) : undefined }}

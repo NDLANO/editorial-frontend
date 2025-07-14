@@ -127,3 +127,11 @@ export const patchLearningStep = async (
   );
   return resolveJsonOATS(res);
 };
+
+export const deleteLearningStep = async (learningpathId: number, stepId: number): Promise<boolean> => {
+  const res = await client.DELETE(
+    "/learningpath-api/v2/learningpaths/{learningpath_id}/learningsteps/{learningstep_id}",
+    { params: { path: { learningpath_id: learningpathId, learningstep_id: stepId } } },
+  );
+  return res.response.ok;
+};

@@ -15,7 +15,13 @@ import {
   IUpdatedLearningPathV2DTO,
   IUpdatedLearningStepV2DTO,
 } from "@ndla/types-backend/learningpath-api";
-import { patchLearningpath, patchLearningStep, postLearningpath, postLearningStep } from "./learningpathApi";
+import {
+  deleteLearningStep,
+  patchLearningpath,
+  patchLearningStep,
+  postLearningpath,
+  postLearningStep,
+} from "./learningpathApi";
 
 export const usePostLearningpathMutation = (
   options?: Partial<UseMutationOptions<ILearningPathV2DTO, unknown, INewLearningPathV2DTO>>,
@@ -65,6 +71,20 @@ export const usePatchLearningStepMutation = (
 ) => {
   return useMutation<ILearningStepV2DTO, unknown, UsePatchLearningStepMutation>({
     mutationFn: (vars) => patchLearningStep(vars.learningpathId, vars.stepId, vars.step),
+    ...options,
+  });
+};
+
+interface UseDeleteLearningStepMutation {
+  learningpathId: number;
+  stepId: number;
+}
+
+export const useDeleteLearningStepMutation = (
+  options?: Partial<UseMutationOptions<boolean, unknown, UseDeleteLearningStepMutation>>,
+) => {
+  return useMutation<boolean, unknown, UseDeleteLearningStepMutation>({
+    mutationFn: (vars) => deleteLearningStep(vars.learningpathId, vars.stepId),
     ...options,
   });
 };

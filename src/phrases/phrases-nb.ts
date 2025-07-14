@@ -2354,6 +2354,11 @@ const phrases = {
         label: "Artikkel fra NDLA",
         labelHelper: "Søk etter artikkel",
       },
+      externalForm: {
+        urlLabel: "URL",
+        titleLabel: "Tittel",
+        introductionLabel: "Ingress",
+      },
     },
   },
 };

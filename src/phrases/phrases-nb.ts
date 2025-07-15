@@ -2336,6 +2336,9 @@ const phrases = {
       },
     },
     metadata: {
+      titleLabel: "Tittel",
+      descriptionLabel: "Beskrivelse",
+      metaImageTitle: "Metabilde",
       descriptionPlaceholder: "Beskrivelse av læringsstien",
     },
     steps: {

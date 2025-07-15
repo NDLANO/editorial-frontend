@@ -21,6 +21,7 @@ import {
   patchLearningStep,
   postLearningpath,
   postLearningStep,
+  putLearningStepOrder,
 } from "./learningpathApi";
 import { learningpathQueryKeys } from "./learningpathQueries";
 
@@ -107,6 +108,42 @@ export const useDeleteLearningStepMutation = (
         ...previousData,
         learningsteps: previousData.learningsteps.filter((step) => step.id !== vars.stepId),
       });
+      return previousData;
+    },
+    onError: (_, vars, context) => {
+      qc.setQueryData<ILearningPathV2DTO>(learningpathQueryKeys.learningpath(vars.learningpathId), context);
+    },
+    onSettled: (_, __, vars) =>
+      qc.invalidateQueries({ queryKey: learningpathQueryKeys.learningpath(vars.learningpathId) }),
+    ...options,
+  });
+};
+
+interface UsePutLearningStepOrderMutation {
+  learningpathId: number;
+  stepId: number;
+  seqNo: number;
+}
+
+export const usePutLearningStepOrderMutation = (
+  options?: Partial<UseMutationOptions<boolean, unknown, UsePutLearningStepOrderMutation, ILearningPathV2DTO>>,
+) => {
+  const qc = useQueryClient();
+  return useMutation<boolean, unknown, UsePutLearningStepOrderMutation, ILearningPathV2DTO>({
+    mutationFn: (vars) => putLearningStepOrder(vars.learningpathId, vars.stepId, vars.seqNo),
+    onMutate: (vars) => {
+      qc.cancelQueries({ queryKey: learningpathQueryKeys.learningpath(vars.learningpathId) });
+      const previousData = qc.getQueryData<ILearningPathV2DTO>(
+        learningpathQueryKeys.learningpath(vars.learningpathId),
+      )!;
+      const updatedSteps = [...previousData.learningsteps];
+      const fromIndex = updatedSteps.findIndex((step) => step.id === vars.stepId)!;
+      const movedElement = updatedSteps[fromIndex];
+      // Remove from old position
+      updatedSteps.splice(fromIndex, 1);
+      // Add to new position
+      updatedSteps.splice(vars.seqNo, 0, movedElement);
+
       return previousData;
     },
     onError: (_, vars, context) => {

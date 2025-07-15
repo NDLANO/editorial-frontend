@@ -2335,6 +2335,9 @@ const phrases = {
         status: "Endre status",
       },
     },
+    metadata: {
+      descriptionPlaceholder: "Beskrivelse av læringsstien",
+    },
     steps: {
       enableDnd: "Sorter læringssteg",
       disableDnd: "Avbryt sortering",
@@ -2345,6 +2348,7 @@ const phrases = {
         external: "Innhold fra et annet nettsted",
         folder: "Innhold fra en av mine mapper i Min NDLA",
       },
+      editStep: "Rediger steg",
       textForm: {
         titleLabel: "Tittel",
         introductionLabel: "Ingress",

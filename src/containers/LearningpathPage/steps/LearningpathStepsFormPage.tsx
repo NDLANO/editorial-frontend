@@ -6,18 +6,24 @@
  *
  */
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Outlet, useLocation, useParams } from "react-router-dom";
-import { AddLine, CloseLine, Draggable, ExpandUpDownLine, PencilLine } from "@ndla/icons";
-import { Button, ListItemContent, ListItemRoot, PageContent, Spinner, Text } from "@ndla/primitives";
-import { SafeLinkButton } from "@ndla/safelink";
+import { Outlet, useParams } from "react-router-dom";
+import { DragEndEvent } from "@dnd-kit/core";
+import { arrayMove } from "@dnd-kit/sortable";
+import { AddLine, CloseLine, DeleteBinLine, Draggable, PencilLine } from "@ndla/icons";
+import { IconButton, ListItemContent, ListItemRoot, PageContent, Spinner, Text } from "@ndla/primitives";
+import { SafeLinkButton, SafeLinkIconButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { LearningpathStepForm } from "./LearningpathStepForm";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
-import { FormActionsContainer } from "../../../components/FormikForm";
+import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
+import {
+  useDeleteLearningStepMutation,
+  usePutLearningStepOrderMutation,
+} from "../../../modules/learningpath/learningpathMutations";
 import { useLearningpath } from "../../../modules/learningpath/learningpathQueries";
 import { routes } from "../../../util/routeHelpers";
 import NotFound from "../../NotFoundPage/NotFoundPage";
@@ -35,8 +41,12 @@ export const LearningpathStepsFormPage = () => {
     return <NotFound />;
   }
 
-  if (learningpathQuery.isPending) {
+  if (learningpathQuery.isLoading) {
     return <Spinner />;
+  }
+
+  if (!learningpathQuery.data) {
+    return <NotFound />;
   }
 
   return (
@@ -58,6 +68,7 @@ const StyledListItemRoot = styled(ListItemRoot, {
     flexDirection: "column",
     alignItems: "flex-start",
     gap: "0",
+    padding: "0",
   },
 });
 
@@ -78,40 +89,61 @@ const StyledListItemContent = styled(ListItemContent, {
 });
 
 const Content = ({ learningpath, language }: Props) => {
-  const [dndEnabled, setDndEnabled] = useState(false);
   const { t } = useTranslation();
   const { stepId } = useParams<"stepId">();
-  const location = useLocation();
   const [sortedLearningpathSteps, setSortedLearningpathSteps] = useState(learningpath.learningsteps ?? []);
+  const deleteStepMutation = useDeleteLearningStepMutation();
+  const putLearningStepOrderMutation = usePutLearningStepOrderMutation();
 
   useEffect(() => {
     if (!learningpath.learningsteps) return;
     setSortedLearningpathSteps(learningpath.learningsteps);
   }, [learningpath.learningsteps]);
 
-  // const onCancelSort = useCallback(() => {
-  //   setSortedLearningpathSteps(learningpath.learningsteps ?? []);
-  //   setDndEnabled(false);
-  // }, [learningpath.learningsteps]);
+  const onDeleteStep = useCallback(
+    async (stepId: number) => {
+      await deleteStepMutation.mutateAsync({ learningpathId: learningpath.id, stepId });
+    },
+    [deleteStepMutation, learningpath.id],
+  );
+
+  const onDragEnd = useCallback(
+    async (event: DragEndEvent) => {
+      // TODO: Error handling
+      try {
+        const { active, over } = event;
+        if (over?.data.current && active.data.current) {
+          const oldIndex = learningpath.learningsteps.findIndex((step) => step.id === Number(active.id));
+          const newIndex = learningpath.learningsteps.findIndex((step) => step.id === Number(over.id));
+
+          if (newIndex === undefined || newIndex === oldIndex) return;
+
+          const sortedArr = arrayMove(sortedLearningpathSteps, oldIndex, newIndex);
+          const dropped = sortedLearningpathSteps.find((step) => step.id === Number(active.id));
+
+          setSortedLearningpathSteps(sortedArr);
+          await putLearningStepOrderMutation.mutateAsync({
+            learningpathId: learningpath.id,
+            stepId: dropped?.id ?? -1,
+            seqNo: newIndex,
+          });
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [learningpath.id, learningpath.learningsteps, putLearningStepOrderMutation, sortedLearningpathSteps],
+  );
 
   return (
-    <>
+    <FormContent>
       <LearningpathFormHeader learningpath={learningpath} language={language} />
       <LearningpathFormStepper id={learningpath.id} language={language} currentStep="steps" />
-      {!stepId && !location.pathname.includes("new") && (
-        <FormActionsContainer>
-          <Button onClick={() => setDndEnabled((s) => !s)} variant={dndEnabled ? "secondary" : "primary"}>
-            <ExpandUpDownLine />
-            {dndEnabled ? t("learningpathForm.steps.disableDnd") : t("learningpathForm.steps.enableDnd")}
-          </Button>
-          {!!dndEnabled && <Button>{t("save")}</Button>}
-        </FormActionsContainer>
-      )}
       <ul>
         <DndList
           items={sortedLearningpathSteps}
-          onDragEnd={(_, newArray) => setSortedLearningpathSteps(newArray)}
-          disabled={!dndEnabled}
+          onDragEnd={onDragEnd}
+          disabled={!!stepId}
           dragHandle={
             <DragHandle>
               <Draggable />
@@ -139,15 +171,26 @@ const Content = ({ learningpath, language }: Props) => {
                     {t("close")}
                   </SafeLinkButton>
                 ) : (
-                  <SafeLinkButton
-                    variant="tertiary"
-                    id={learningpathStepCloseButtonId(item.id)}
-                    to={routes.learningpath.editStep(learningpath.id, item.id, language)}
-                    state={{ focusStepId: learningpathStepEditButtonId(item.id) }}
-                  >
-                    Rediger steg
-                    <PencilLine />
-                  </SafeLinkButton>
+                  <FormActionsContainer>
+                    <IconButton
+                      variant="danger"
+                      onClick={() => onDeleteStep(item.id)}
+                      aria-label={t("delete")}
+                      title={t("delete")}
+                    >
+                      <DeleteBinLine />
+                    </IconButton>
+                    <SafeLinkIconButton
+                      variant="tertiary"
+                      id={learningpathStepCloseButtonId(item.id)}
+                      to={routes.learningpath.editStep(learningpath.id, item.id, language)}
+                      state={{ focusStepId: learningpathStepEditButtonId(item.id) }}
+                      aria-label={t("learningpathForm.steps.editStep")}
+                      title={t("learningpathForm.steps.editStep")}
+                    >
+                      <PencilLine />
+                    </SafeLinkIconButton>
+                  </FormActionsContainer>
                 )}
               </StyledListItemContent>
               {!!stepId && parseInt(stepId) === item.id && <LearningpathStepForm step={item} />}
@@ -162,6 +205,6 @@ const Content = ({ learningpath, language }: Props) => {
           Legg til steg
         </SafeLinkButton>
       )}
-    </>
+    </FormContent>
   );
 };

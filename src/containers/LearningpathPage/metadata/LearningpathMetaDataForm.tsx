@@ -9,6 +9,7 @@
 import { Formik, FormikProps } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, FieldTextArea } from "@ndla/primitives";
 import {
   ILearningPathV2DTO,
@@ -25,6 +26,7 @@ import {
   usePatchLearningpathMutation,
   usePostLearningpathMutation,
 } from "../../../modules/learningpath/learningpathMutations";
+import { routes } from "../../../util/routeHelpers";
 import { LearningpathFormHeader } from "../components/LearningpathFormHeader";
 import { LearningpathFormStepper } from "../components/LearningpathFormStepper";
 
@@ -97,6 +99,7 @@ export const LearningpathMetaDataForm = ({ learningpath, language }: Props) => {
   const patchLearningpathMutation = usePatchLearningpathMutation();
   const initialValues = learningpathApiTypeToFormType(learningpath);
   const initialErrors = useMemo(() => validateFormik(initialValues, metaDataRules, t), [initialValues, t]);
+  const navigate = useNavigate();
 
   const validate = useCallback(
     (values: LearningpathMetaDataFormValues) => validateFormik(values, metaDataRules, t),
@@ -110,10 +113,11 @@ export const LearningpathMetaDataForm = ({ learningpath, language }: Props) => {
         await patchLearningpathMutation.mutateAsync({ id: learningpath.id, learningpath: apiValue });
       } else {
         const apiValue = learningpathFormTypeToNewApiType(values, language);
-        await postLearningpathMutation.mutateAsync(apiValue);
+        const res = await postLearningpathMutation.mutateAsync(apiValue);
+        navigate(routes.learningpath.edit(res.id, language, "steps"));
       }
     },
-    [language, learningpath, patchLearningpathMutation, postLearningpathMutation],
+    [language, learningpath, navigate, patchLearningpathMutation, postLearningpathMutation],
   );
 
   return (

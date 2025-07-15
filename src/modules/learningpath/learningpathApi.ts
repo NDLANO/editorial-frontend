@@ -135,3 +135,14 @@ export const deleteLearningStep = async (learningpathId: number, stepId: number)
   );
   return res.response.ok;
 };
+
+export const putLearningStepOrder = async (learningpathId: number, stepId: number, seqNo: number): Promise<boolean> => {
+  const res = await client.PUT(
+    "/learningpath-api/v2/learningpaths/{learningpath_id}/learningsteps/{learningstep_id}/seqNo",
+    {
+      params: { path: { learningpath_id: learningpathId, learningstep_id: stepId } },
+      body: { seqNo },
+    },
+  );
+  return res.response.ok;
+};

@@ -9,12 +9,15 @@
 import { Formik, FormikProps } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
+import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, FieldTextArea } from "@ndla/primitives";
 import {
   ILearningPathV2DTO,
   INewLearningPathV2DTO,
   IUpdatedLearningPathV2DTO,
 } from "@ndla/types-backend/learningpath-api";
+import { LearningpathMetaImageField } from "./LearningpathMetaImageField";
+import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
+import { FormField } from "../../../components/FormField";
 import { Form, FormActionsContainer, FormContent } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
 import SaveMultiButton from "../../../components/SaveMultiButton";
@@ -22,14 +25,13 @@ import {
   usePatchLearningpathMutation,
   usePostLearningpathMutation,
 } from "../../../modules/learningpath/learningpathMutations";
-import { editorValueToPlainText, plainTextToEditorValue } from "../../../util/articleContentConverter";
-import { IngressField, TitleField } from "../../FormikForm";
 import { LearningpathFormHeader } from "../components/LearningpathFormHeader";
 import { LearningpathFormStepper } from "../components/LearningpathFormStepper";
 
 interface LearningpathMetaDataFormValues {
-  title: Descendant[];
-  description: Descendant[];
+  title: string;
+  description: string;
+  coverPhotoUrl?: string;
 }
 
 interface Props {
@@ -41,8 +43,9 @@ const learningpathApiTypeToFormType = (
   learningpath: ILearningPathV2DTO | undefined,
 ): LearningpathMetaDataFormValues => {
   return {
-    title: plainTextToEditorValue(learningpath?.title.title ?? ""),
-    description: plainTextToEditorValue(learningpath?.description.description ?? ""),
+    title: learningpath?.title.title ?? "",
+    description: learningpath?.description.description ?? "",
+    coverPhotoUrl: learningpath?.coverPhoto?.url,
   };
 };
 
@@ -52,8 +55,9 @@ const learningpathFormTypeToNewApiType = (
 ): INewLearningPathV2DTO => {
   return {
     language,
-    title: editorValueToPlainText(values.title),
-    description: editorValueToPlainText(values.description),
+    title: values.title,
+    description: values.description,
+    coverPhotoMetaUrl: values.coverPhotoUrl,
   };
 };
 
@@ -65,8 +69,9 @@ const learningpathFormTypeToApiType = (
   return {
     revision: learningpath.revision,
     language,
-    title: editorValueToPlainText(values.title),
-    description: editorValueToPlainText(values.description),
+    title: values.title,
+    description: values.description,
+    coverPhotoMetaUrl: values.coverPhotoUrl,
   };
 };
 
@@ -127,8 +132,27 @@ export const LearningpathMetaDataForm = ({ learningpath, language }: Props) => {
             <LearningpathFormStepper id={learningpath.id} language={language} currentStep="metadata" />
           )}
           <FormContent>
-            <TitleField hideToolbar />
-            <IngressField name="description" maxLength={150} placeholder="temp" />
+            <FormField name="title">
+              {({ field, meta }) => (
+                <FieldRoot required invalid={!!meta.error}>
+                  <FieldLabel>{t("learningpathForm.metadata.titleLabel")}</FieldLabel>
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                  <FieldInput {...field} />
+                  <FormRemainingCharacters value={field.value} maxLength={75} />
+                </FieldRoot>
+              )}
+            </FormField>
+            <FormField name="description">
+              {({ field, meta }) => (
+                <FieldRoot required invalid={!!meta.error}>
+                  <FieldLabel>{t("learningpathForm.metadata.descriptionLabel")}</FieldLabel>
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                  <FieldTextArea {...field} />
+                  <FormRemainingCharacters value={field.value} maxLength={150} />
+                </FieldRoot>
+              )}
+            </FormField>
+            <LearningpathMetaImageField language={language} />
           </FormContent>
           <FormActionsContainer>
             <SaveMultiButton

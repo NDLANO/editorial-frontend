@@ -109,7 +109,7 @@ const App = () => {
                       </Route>
                       <Route
                         path="/learningpath/:id/preview/:language"
-                        element={<PrivateRoute component={<LearningpathPreviewPage />} />}
+                        element={<PrivateRoute component={<PrivateRoute component={<LearningpathPreviewPage />} />} />}
                       >
                         <Route path=":stepId" element={null} />
                       </Route>

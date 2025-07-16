@@ -34,7 +34,12 @@ export const ExternalStepForm = ({ step, language }: Props) => {
   const { values, initialValues, setFieldValue } = useFormikContext<ExternalFormValues>();
 
   useEffect(() => {
-    if (values.url.length && (!values.title || !values.introduction) && URL_REGEX.test(values.url)) {
+    if (
+      values.url.length &&
+      values.url !== initialValues.url &&
+      (!values.title || !values.introduction) &&
+      URL_REGEX.test(values.url)
+    ) {
       fetchOpenGraphData(values.url).then((data) => {
         if (!values.title) {
           setFieldValue("title", data.title);
@@ -44,7 +49,7 @@ export const ExternalStepForm = ({ step, language }: Props) => {
         }
       });
     }
-  }, [values.url, values.title, values.introduction, setFieldValue]);
+  }, [values.url, values.title, values.introduction, setFieldValue, initialValues.url]);
 
   return (
     <>

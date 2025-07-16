@@ -15,7 +15,7 @@ import { LearningpathMetaDataForm } from "./metadata/LearningpathMetaDataForm";
 export const EditLearningpathPage = () => {
   const { id, language } = useParams<"id" | "language">();
   const parsedId = parseInt(id ?? "");
-  const learningpathQuery = useLearningpath({ id: parsedId }, { enabled: !!parsedId });
+  const learningpathQuery = useLearningpath({ id: parsedId, language }, { enabled: !!parsedId });
 
   if (!parsedId || learningpathQuery.isError) {
     return <NotFound />;

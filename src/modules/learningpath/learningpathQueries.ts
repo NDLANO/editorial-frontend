@@ -12,7 +12,7 @@ import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { fetchLearningpath } from "./learningpathApi";
 
 export const learningpathQueryKeys = {
-  learningpath: (id: number) => [LEARNINGPATH, id],
+  learningpath: (params: UseLearningpath) => [LEARNINGPATH, params],
 };
 
 interface UseLearningpath {
@@ -20,13 +20,10 @@ interface UseLearningpath {
   language?: string;
 }
 
-export const useLearningpath = (
-  { id, language }: UseLearningpath,
-  options?: Partial<UseQueryOptions<ILearningPathV2DTO>>,
-) => {
+export const useLearningpath = (params: UseLearningpath, options?: Partial<UseQueryOptions<ILearningPathV2DTO>>) => {
   return useQuery<ILearningPathV2DTO>({
-    queryKey: learningpathQueryKeys.learningpath(id),
-    queryFn: () => fetchLearningpath(id, language),
+    queryKey: learningpathQueryKeys.learningpath(params),
+    queryFn: () => fetchLearningpath(params.id, params.language),
     ...options,
   });
 };

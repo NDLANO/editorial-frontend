@@ -34,7 +34,7 @@ import { getFormTypeFromStep, learningpathStepCloseButtonId, learningpathStepEdi
 export const LearningpathStepsFormPage = () => {
   const { id, language } = useParams<"id" | "language">();
   const parsedId = parseInt(id ?? "");
-  const learningpathQuery = useLearningpath({ id: parsedId }, { enabled: !!parsedId });
+  const learningpathQuery = useLearningpath({ id: parsedId, language }, { enabled: !!parsedId });
 
   // TODO: Error should not return NotFound
   if (!parsedId || !language || learningpathQuery.isError) {

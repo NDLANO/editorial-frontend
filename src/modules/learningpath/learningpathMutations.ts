@@ -21,6 +21,7 @@ import {
   patchLearningStep,
   postLearningpath,
   postLearningStep,
+  putLearningpathStatus,
   putLearningStepOrder,
 } from "./learningpathApi";
 import { learningpathQueryKeys } from "./learningpathQueries";
@@ -45,8 +46,8 @@ export const usePatchLearningpathMutation = (
   const qc = useQueryClient();
   return useMutation<ILearningPathV2DTO, unknown, UsePatchLearningpathMutation>({
     mutationFn: (vars) => patchLearningpath(vars.id, vars.learningpath),
-    onMutate: (vars) => qc.cancelQueries({ queryKey: learningpathQueryKeys.learningpath(vars.id) }),
-    onSettled: (_, __, vars) => qc.invalidateQueries({ queryKey: learningpathQueryKeys.learningpath(vars.id) }),
+    onMutate: (vars) => qc.cancelQueries({ queryKey: learningpathQueryKeys.learningpath(vars) }),
+    onSettled: (_, __, vars) => qc.invalidateQueries({ queryKey: learningpathQueryKeys.learningpath(vars) }),
     ...options,
   });
 };
@@ -59,12 +60,8 @@ interface UsePostLearningStepMutation {
 export const usePostLearningStepMutation = (
   options?: Partial<UseMutationOptions<ILearningStepV2DTO, unknown, UsePostLearningStepMutation>>,
 ) => {
-  const qc = useQueryClient();
   return useMutation<ILearningStepV2DTO, unknown, UsePostLearningStepMutation>({
     mutationFn: (vars) => postLearningStep(vars.learningpathId, vars.step),
-    onMutate: (vars) => qc.cancelQueries({ queryKey: learningpathQueryKeys.learningpath(vars.learningpathId) }),
-    onSettled: (_, __, vars) =>
-      qc.invalidateQueries({ queryKey: learningpathQueryKeys.learningpath(vars.learningpathId) }),
     ...options,
   });
 };
@@ -81,9 +78,14 @@ export const usePatchLearningStepMutation = (
   const qc = useQueryClient();
   return useMutation<ILearningStepV2DTO, unknown, UsePatchLearningStepMutation>({
     mutationFn: (vars) => patchLearningStep(vars.learningpathId, vars.stepId, vars.step),
-    onMutate: (vars) => qc.cancelQueries({ queryKey: learningpathQueryKeys.learningpath(vars.learningpathId) }),
+    onMutate: (vars) =>
+      qc.cancelQueries({
+        queryKey: learningpathQueryKeys.learningpath({ id: vars.learningpathId, language: vars.step.language }),
+      }),
     onSettled: (_, __, vars) =>
-      qc.invalidateQueries({ queryKey: learningpathQueryKeys.learningpath(vars.learningpathId) }),
+      qc.invalidateQueries({
+        queryKey: learningpathQueryKeys.learningpath({ id: vars.learningpathId, language: vars.step.language }),
+      }),
     ...options,
   });
 };
@@ -100,21 +102,21 @@ export const useDeleteLearningStepMutation = (
   return useMutation<boolean, unknown, UseDeleteLearningStepMutation, ILearningPathV2DTO>({
     mutationFn: (vars) => deleteLearningStep(vars.learningpathId, vars.stepId),
     onMutate: (vars) => {
-      qc.cancelQueries({ queryKey: learningpathQueryKeys.learningpath(vars.learningpathId) });
+      qc.cancelQueries({ queryKey: learningpathQueryKeys.learningpath({ id: vars.learningpathId }) });
       const previousData = qc.getQueryData<ILearningPathV2DTO>(
-        learningpathQueryKeys.learningpath(vars.learningpathId),
+        learningpathQueryKeys.learningpath({ id: vars.learningpathId }),
       )!;
-      qc.setQueryData<ILearningPathV2DTO>(learningpathQueryKeys.learningpath(vars.learningpathId), {
+      qc.setQueryData<ILearningPathV2DTO>(learningpathQueryKeys.learningpath({ id: vars.learningpathId }), {
         ...previousData,
         learningsteps: previousData.learningsteps.filter((step) => step.id !== vars.stepId),
       });
       return previousData;
     },
     onError: (_, vars, context) => {
-      qc.setQueryData<ILearningPathV2DTO>(learningpathQueryKeys.learningpath(vars.learningpathId), context);
+      qc.setQueryData<ILearningPathV2DTO>(learningpathQueryKeys.learningpath({ id: vars.learningpathId }), context);
     },
     onSettled: (_, __, vars) =>
-      qc.invalidateQueries({ queryKey: learningpathQueryKeys.learningpath(vars.learningpathId) }),
+      qc.invalidateQueries({ queryKey: learningpathQueryKeys.learningpath({ id: vars.learningpathId }) }),
     ...options,
   });
 };
@@ -132,9 +134,9 @@ export const usePutLearningStepOrderMutation = (
   return useMutation<boolean, unknown, UsePutLearningStepOrderMutation, ILearningPathV2DTO>({
     mutationFn: (vars) => putLearningStepOrder(vars.learningpathId, vars.stepId, vars.seqNo),
     onMutate: (vars) => {
-      qc.cancelQueries({ queryKey: learningpathQueryKeys.learningpath(vars.learningpathId) });
+      qc.cancelQueries({ queryKey: learningpathQueryKeys.learningpath({ id: vars.learningpathId }) });
       const previousData = qc.getQueryData<ILearningPathV2DTO>(
-        learningpathQueryKeys.learningpath(vars.learningpathId),
+        learningpathQueryKeys.learningpath({ id: vars.learningpathId }),
       )!;
       const updatedSteps = [...previousData.learningsteps];
       const fromIndex = updatedSteps.findIndex((step) => step.id === vars.stepId)!;
@@ -147,10 +149,10 @@ export const usePutLearningStepOrderMutation = (
       return previousData;
     },
     onError: (_, vars, context) => {
-      qc.setQueryData<ILearningPathV2DTO>(learningpathQueryKeys.learningpath(vars.learningpathId), context);
+      qc.setQueryData<ILearningPathV2DTO>(learningpathQueryKeys.learningpath({ id: vars.learningpathId }), context);
     },
     onSettled: (_, __, vars) =>
-      qc.invalidateQueries({ queryKey: learningpathQueryKeys.learningpath(vars.learningpathId) }),
+      qc.invalidateQueries({ queryKey: learningpathQueryKeys.learningpath({ id: vars.learningpathId }) }),
     ...options,
   });
 };

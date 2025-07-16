@@ -89,6 +89,7 @@ export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
         introduction: step?.introduction?.introduction ?? "",
         url: step?.embedUrl?.url ?? "",
         shareable: !!step?.embedUrl?.url,
+        description: blockContentToEditorValue(step?.description?.description ?? ""),
       };
     case "resource":
     case "folder":
@@ -96,6 +97,7 @@ export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
         type: type,
         title: step?.title.title ?? "",
         embedUrl: step?.embedUrl?.url ?? "",
+        description: blockContentToEditorValue(step?.description?.description ?? ""),
       };
     default:
       return unreachable(type);
@@ -228,9 +230,9 @@ export const LearningpathStepForm = ({ step }: Props) => {
           {formikProps.values.type === "text" ? (
             <TextStepForm language={language} />
           ) : formikProps.values.type === "resource" ? (
-            <ResourceStepForm language={language} />
+            <ResourceStepForm step={step} language={language} />
           ) : formikProps.values.type === "external" ? (
-            <ExternalStepForm />
+            <ExternalStepForm step={step} language={language} />
           ) : null}
           <FormActionsContainer>
             {!!step && (

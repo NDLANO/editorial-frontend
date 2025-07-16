@@ -9,19 +9,24 @@
 import { useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
-import { FieldHelper, FieldLabel, FieldRoot, IconButton, Text } from "@ndla/primitives";
+import { FieldErrorMessage, FieldHelper, FieldLabel, FieldRoot, IconButton, Text } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
+import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ContentTypeBadge } from "@ndla/ui";
 import { contentTypeMapping, ResourcePicker } from "./ResourcePicker";
 import { LearningpathStepFormValues, ResourceData, ResourceFormValues } from "./types";
+import { FormField } from "../../../components/FormField";
 import { fetchNode } from "../../../modules/nodes/nodeApi";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { StepSafeLink } from "../components/StepSafeLink";
 import { getNodeIdFromEmbedUrl } from "../learningpathUtils";
+import { DescriptionEditor } from "./DescriptionEditor";
 
 interface Props {
+  step: ILearningStepV2DTO | undefined;
   language: string;
 }
 
@@ -76,7 +81,7 @@ const StyledIconButton = styled(IconButton, {
   },
 });
 
-export const ResourceStepForm = ({ language }: Props) => {
+export const ResourceStepForm = ({ language, step }: Props) => {
   const { t } = useTranslation();
   const [selectedResource, setSelectedResource] = useState<ResourceData | undefined>(undefined);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
@@ -123,56 +128,71 @@ export const ResourceStepForm = ({ language }: Props) => {
       setFocusId(undefined);
     }
   }, [focusId]);
-  if (!selectedResource) {
-    return (
-      <FieldRoot>
-        <FieldLabel fontWeight="bold">{t("learningpathForm.steps.resourceForm.label")}</FieldLabel>
-        <FieldHelper>{t("learningpathForm.steps.resourceForm.labelHelper")}</FieldHelper>
-        {/* TODO: Label and Helper should be connected to combobox... */}
-        <ResourcePicker setResource={onSelectResource} />
-      </FieldRoot>
-    );
-  }
 
   return (
-    <ResourceContainer>
-      <Text textStyle="label.medium" fontWeight="bold">
-        {t("learningpathForm.steps.resourceForm.label")}
-      </Text>
-      <Text textStyle="label.small">{t("learningpathForm.steps.resourceForm.labelHelper")}</Text>
-
-      <ResourceWrapper>
-        <TextWrapper>
-          <StepSafeLink to={selectedResource.url} target="_blank" css={linkOverlay.raw()}>
-            <Text fontWeight="bold">
-              {selectedResource.title}
-              <ExternalLinkLine size="small" />
-            </Text>
-          </StepSafeLink>
-          {!!selectedResource.breadcrumbs && (
-            <CrumbText
-              textStyle="label.small"
-              color="text.subtle"
-              css={{ textAlign: "start" }}
-              aria-label={`${t("breadcrumb.breadcrumb")}: ${selectedResource.breadcrumbs.join(", ")}`}
-            >
-              {selectedResource.breadcrumbs.join(" > ")}
-            </CrumbText>
+    <>
+      {!!step?.description?.description.length && (
+        <FormField name="description">
+          {({ field, meta, helpers }) => (
+            <FieldRoot invalid={!!meta.error}>
+              <ContentEditableFieldLabel>
+                {t("learningpathForm.steps.resourceForm.descriptionLabel")}
+              </ContentEditableFieldLabel>
+              <FieldHelper>{t("learningpathForm.steps.resourceForm.descriptionHelper")}</FieldHelper>
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              <DescriptionEditor value={field.value} onChange={helpers.setValue} language={language} />
+            </FieldRoot>
           )}
-        </TextWrapper>
-        <StyledHStack gap="medium">
-          {!!contentType && <ContentTypeBadge contentType={contentType} />}
-          <StyledIconButton
-            id="remove-resource"
-            aria-label={t("myNdla.learningpath.form.delete")}
-            title={t("myNdla.learningpath.form.delete")}
-            variant="tertiary"
-            onClick={onRemove}
-          >
-            <DeleteBinLine />
-          </StyledIconButton>
-        </StyledHStack>
-      </ResourceWrapper>
-    </ResourceContainer>
+        </FormField>
+      )}
+      {!selectedResource ? (
+        <FieldRoot>
+          <FieldLabel fontWeight="bold">{t("learningpathForm.steps.resourceForm.label")}</FieldLabel>
+          <FieldHelper>{t("learningpathForm.steps.resourceForm.labelHelper")}</FieldHelper>
+          {/* TODO: Label and Helper should be connected to combobox... */}
+          <ResourcePicker setResource={onSelectResource} />
+        </FieldRoot>
+      ) : (
+        <ResourceContainer>
+          <Text textStyle="label.medium" fontWeight="bold">
+            {t("learningpathForm.steps.resourceForm.label")}
+          </Text>
+          <Text textStyle="label.small">{t("learningpathForm.steps.resourceForm.labelHelper")}</Text>
+
+          <ResourceWrapper>
+            <TextWrapper>
+              <StepSafeLink to={selectedResource.url} target="_blank" css={linkOverlay.raw()}>
+                <Text fontWeight="bold">
+                  {selectedResource.title}
+                  <ExternalLinkLine size="small" />
+                </Text>
+              </StepSafeLink>
+              {!!selectedResource.breadcrumbs && (
+                <CrumbText
+                  textStyle="label.small"
+                  color="text.subtle"
+                  css={{ textAlign: "start" }}
+                  aria-label={`${t("breadcrumb.breadcrumb")}: ${selectedResource.breadcrumbs.join(", ")}`}
+                >
+                  {selectedResource.breadcrumbs.join(" > ")}
+                </CrumbText>
+              )}
+            </TextWrapper>
+            <StyledHStack gap="medium">
+              {!!contentType && <ContentTypeBadge contentType={contentType} />}
+              <StyledIconButton
+                id="remove-resource"
+                aria-label={t("myNdla.learningpath.form.delete")}
+                title={t("myNdla.learningpath.form.delete")}
+                variant="tertiary"
+                onClick={onRemove}
+              >
+                <DeleteBinLine />
+              </StyledIconButton>
+            </StyledHStack>
+          </ResourceWrapper>
+        </ResourceContainer>
+      )}
+    </>
   );
 };

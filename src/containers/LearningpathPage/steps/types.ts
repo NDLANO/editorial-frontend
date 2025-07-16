@@ -15,6 +15,7 @@ export interface ExternalFormValues {
   introduction: string;
   url: string;
   shareable: boolean;
+  description: Descendant[];
 }
 
 export interface FolderFormValues {
@@ -34,6 +35,7 @@ export interface ResourceFormValues {
   type: "resource";
   embedUrl: string;
   title: string;
+  description: Descendant[];
 }
 
 export type LearningpathStepFormValues = TextFormValues | ExternalFormValues | ResourceFormValues | FolderFormValues;

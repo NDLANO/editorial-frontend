@@ -9,7 +9,10 @@
 import { useFormikContext } from "formik";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { ContentEditableFieldLabel } from "@ndla/editor-components";
+import { FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import { DescriptionEditor } from "./DescriptionEditor";
 import { ExternalFormValues } from "./types";
 import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
 import { FormField } from "../../../components/FormField";
@@ -21,9 +24,14 @@ const INTRODUCTION_MAX_LENGTH = 250;
 export const URL_REGEX =
   /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zæøåA-ZÆØÅ0-9()@:%_\\+.~#?&\\/=]*)$/;
 
-export const ExternalStepForm = () => {
+interface Props {
+  step: ILearningStepV2DTO | undefined;
+  language: string | undefined;
+}
+
+export const ExternalStepForm = ({ step, language }: Props) => {
   const { t } = useTranslation();
-  const { values, setFieldValue } = useFormikContext<ExternalFormValues>();
+  const { values, initialValues, setFieldValue } = useFormikContext<ExternalFormValues>();
 
   useEffect(() => {
     if (values.url.length && (!values.title || !values.introduction) && URL_REGEX.test(values.url)) {
@@ -69,6 +77,20 @@ export const ExternalStepForm = () => {
           </FieldRoot>
         )}
       </FormField>
+      {!!step?.description?.description.length && (
+        <FormField name="description">
+          {({ field, meta, helpers }) => (
+            <FieldRoot invalid={!!meta.error}>
+              <ContentEditableFieldLabel>
+                {t("learningpathForm.steps.externalForm.descriptionLabel")}
+              </ContentEditableFieldLabel>
+              <FieldHelper>{t("learningpathForm.steps.externalForm.descriptionHelper")}</FieldHelper>
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              <DescriptionEditor value={field.value} onChange={helpers.setValue} language={language} />
+            </FieldRoot>
+          )}
+        </FormField>
+      )}
     </>
   );
 };

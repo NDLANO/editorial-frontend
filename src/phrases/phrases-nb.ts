@@ -2375,6 +2375,7 @@ const phrases = {
     },
     preview: {
       openExternalLink: "Åpne i nytt vindu",
+      learningpathMenu: "Innhold i læringssti",
     },
   },
 };

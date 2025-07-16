@@ -35,6 +35,14 @@ const StyledPageContainer = styled(PageContainer, {
   },
 });
 
+const StepWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
+
 export const LearningpathPreview = ({ learningpath, language }: Props) => {
   const { stepId } = useParams<"stepId">();
 
@@ -42,13 +50,17 @@ export const LearningpathPreview = ({ learningpath, language }: Props) => {
     ? learningpath.learningsteps.find((step) => step.id === parseInt(stepId))
     : learningpath.learningsteps[0];
 
+  if (!currentStep) return null;
+
   return (
     <StyledPageContainer padding="none">
       <LearningpathFormHeader learningpath={learningpath} language={language} />
       <LearningpathFormStepper id={learningpath.id} language={language} currentStep="preview" />
       <Heading>Forhåndsvis</Heading>
-      <LearningpathMenu learningpath={learningpath} language={language} />
-      {!!currentStep && <LearningStepPreview step={currentStep} learningpath={learningpath} language={language} />}
+      <StepWrapper>
+        <LearningpathMenu learningpath={learningpath} language={language} step={currentStep} />
+        {!!currentStep && <LearningStepPreview step={currentStep} learningpath={learningpath} language={language} />}
+      </StepWrapper>
     </StyledPageContainer>
   );
 };

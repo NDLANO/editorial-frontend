@@ -133,7 +133,14 @@ export function toEditLearningpath(
   locale: string,
   type: "metadata" | "steps" | "preview" | "status" = "metadata",
 ) {
+  if (type === "preview") {
+    return `/learningpath/${id}/preview/${locale}`;
+  }
   return `/learningpath/${id}/edit/${locale}/${type}`;
+}
+
+export function toPreviewLearningpath(id: number, locale: string, stepId?: number | string) {
+  return `/learningpath/${id}/preview/${locale}${stepId ? `/${stepId}` : ""}`;
 }
 
 export function toCreateLearningpathStep(id: number, locale: string) {

@@ -18,7 +18,7 @@ import formatDate from "../../util/formatDate";
 export const getUpdatedLanguage = (language: string | undefined) => (language === "nb" ? "no" : language);
 
 export type UseTranslationOptions = {
-  draft: FormArticle;
+  draft: FormArticle | undefined;
   language: string;
   previewAlt: boolean;
   useDraftConcepts: boolean;
@@ -32,13 +32,21 @@ export const useTransformedArticle = ({
   useDraftConcepts,
   contentType,
 }: UseTranslationOptions) => {
-  const transformedContent = usePreviewArticle(draft.content!, language, draft.visualElement, useDraftConcepts);
+  const transformedContent = usePreviewArticle(
+    draft?.content ?? "",
+    language,
+    draft?.visualElement ?? "",
+    useDraftConcepts,
+    {
+      enabled: !!draft,
+    },
+  );
   const disclaimerContent = usePreviewArticle(draft?.disclaimer ?? "", language, undefined, false, {
-    enabled: !!draft.disclaimer,
+    enabled: !!draft?.disclaimer,
   });
 
   const article: undefined | ArticleType = useMemo(() => {
-    if (!transformedContent.data) return;
+    if (!transformedContent.data || !draft) return;
     const content = transform(transformedContent.data, {
       previewAlt,
       frontendDomain: config.ndlaFrontendDomain,

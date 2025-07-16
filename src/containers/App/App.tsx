@@ -57,6 +57,8 @@ import StructurePage from "../StructurePage/StructurePage";
 import TaxonomyVersionsPage from "../TaxonomyVersions/TaxonomyVersionsPage";
 import UpdateCodesPage from "../UpdateCodes/UpdateCodesPage";
 import WelcomePage from "../WelcomePage/WelcomePage";
+import { LearningpathPreviewPage } from "../LearningpathPage/preview/LearningpathPreviewPage";
+import { LearningStepPreview } from "../LearningpathPage/preview/LearningStepPreview";
 
 const App = () => {
   return (
@@ -104,6 +106,12 @@ const App = () => {
                           <Route path="new" element={<PrivateRoute component={<LearningpathStepForm />} />} />
                           <Route path=":stepId" element={null} />
                         </Route>
+                      </Route>
+                      <Route
+                        path="/learningpath/:id/preview/:language"
+                        element={<PrivateRoute component={<LearningpathPreviewPage />} />}
+                      >
+                        <Route path=":stepId" element={null} />
                       </Route>
                     </>
                   )}

@@ -2367,6 +2367,9 @@ const phrases = {
         introductionLabel: "Ingress",
       },
     },
+    preview: {
+      openExternalLink: "Åpne i nytt vindu",
+    },
   },
 };
 

@@ -32,16 +32,11 @@ export const isResourceStep = (step?: ILearningStepV2DTO): boolean => {
 };
 
 export const getFormTypeFromStep = (step?: ILearningStepV2DTO): "text" | "resource" | "external" => {
+  if (!step?.embedUrl) return "text";
   if (isResourceStep(step)) {
     return "resource";
   }
-  if (step?.embedUrl?.url && step.embedUrl.embedType === "iframe") return "external";
-  if (step?.embedUrl?.url && step.embedUrl.embedType === "oembed" && step.embedUrl.url !== "https://ndla.no")
-    return "external";
-  // if (!step?.resource && !step?.oembed && !step?.embedUrl) return "text";
-  // if (step?.resource || step.embedUrl?.url.includes("resource")) return "resource";
-  // if (step?.embedUrl?.embedType === "external") return "external";
-  return "text";
+  return "external";
 };
 
 export const learningpathListItemId = (id: number) => `learningpath-${id}`;

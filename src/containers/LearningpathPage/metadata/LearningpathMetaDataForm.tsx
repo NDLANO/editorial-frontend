@@ -7,7 +7,7 @@
  */
 
 import { Formik, FormikProps } from "formik";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, FieldTextArea } from "@ndla/primitives";
@@ -94,6 +94,7 @@ const metaDataRules: RulesType<LearningpathMetaDataFormValues, ILearningPathV2DT
 };
 
 export const LearningpathMetaDataForm = ({ learningpath, language }: Props) => {
+  const [savedToServer, setSavedToServer] = useState(false);
   const { t } = useTranslation();
   const postLearningpathMutation = usePostLearningpathMutation();
   const patchLearningpathMutation = usePatchLearningpathMutation();
@@ -111,6 +112,7 @@ export const LearningpathMetaDataForm = ({ learningpath, language }: Props) => {
       if (learningpath) {
         const apiValue = learningpathFormTypeToApiType(learningpath, values, language);
         await patchLearningpathMutation.mutateAsync({ id: learningpath.id, learningpath: apiValue });
+        setSavedToServer(true);
       } else {
         const apiValue = learningpathFormTypeToNewApiType(values, language);
         const res = await postLearningpathMutation.mutateAsync(apiValue);
@@ -161,9 +163,9 @@ export const LearningpathMetaDataForm = ({ learningpath, language }: Props) => {
           <FormActionsContainer>
             <SaveMultiButton
               isSaving={formikProps.isSubmitting}
-              formIsDirty={formikProps.dirty}
+              formIsDirty={formikProps.dirty || !!(learningpath && !learningpath.supportedLanguages.includes(language))}
               // TODO: Update this
-              showSaved={false}
+              showSaved={!!savedToServer && !formikProps.dirty}
               hasErrors={!!Object.keys(errors).length}
               hideSecondaryButton
               onClick={formikProps.submitForm}

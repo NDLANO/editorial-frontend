@@ -131,6 +131,8 @@ export function toEditLearningpath(
 ) {
   if (type === "preview") {
     return `/learningpath/${id}/preview/${locale}`;
+  } else if (type === "status") {
+    return `/learningpath/${id}/status/${locale}`;
   }
   return `/learningpath/${id}/edit/${locale}/${type}`;
 }

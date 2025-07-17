@@ -17,21 +17,21 @@ import formatDate from "../../util/formatDate";
 
 export const getUpdatedLanguage = (language: string | undefined) => (language === "nb" ? "no" : language);
 
-export type UseTranslationOptions = {
-  draft: FormArticle | undefined;
+export type UseTranslationOptions<T extends FormArticle | undefined> = {
+  draft: T;
   language: string;
   previewAlt: boolean;
   useDraftConcepts: boolean;
   contentType?: ContentType;
 };
 
-export const useTransformedArticle = ({
+export const useTransformedArticle = <T extends FormArticle | undefined>({
   draft,
   language,
   previewAlt,
   useDraftConcepts,
   contentType,
-}: UseTranslationOptions) => {
+}: UseTranslationOptions<T>): { draft: T; article: ArticleType | undefined } => {
   const transformedContent = usePreviewArticle(
     draft?.content ?? "",
     language,

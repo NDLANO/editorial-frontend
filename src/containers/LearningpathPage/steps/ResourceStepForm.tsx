@@ -24,6 +24,7 @@ import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvid
 import { StepSafeLink } from "../components/StepSafeLink";
 import { getFormTypeFromStep, getNodeIdFromEmbedUrl } from "../learningpathUtils";
 import { DescriptionEditor } from "./DescriptionEditor";
+import { LicenseField } from "../../FormikForm";
 
 interface Props {
   step: ILearningStepV2DTO | undefined;
@@ -193,6 +194,7 @@ export const ResourceStepForm = ({ language, step }: Props) => {
           </ResourceWrapper>
         </ResourceContainer>
       )}
+      {!!step?.license?.license.length && <LicenseField />}
     </>
   );
 };

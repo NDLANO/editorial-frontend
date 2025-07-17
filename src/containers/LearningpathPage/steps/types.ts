@@ -16,12 +16,14 @@ export interface ExternalFormValues {
   url: string;
   shareable: boolean;
   description: Descendant[];
+  license?: string;
 }
 
 export interface FolderFormValues {
   type: "folder";
   embedUrl: string;
   title: string;
+  license?: string;
 }
 
 export interface TextFormValues {
@@ -29,6 +31,7 @@ export interface TextFormValues {
   title: string;
   introduction: string;
   description: Descendant[];
+  license?: string;
 }
 
 export interface ResourceFormValues {
@@ -36,6 +39,7 @@ export interface ResourceFormValues {
   embedUrl: string;
   title: string;
   description: Descendant[];
+  license?: string;
 }
 
 export type LearningpathStepFormValues = TextFormValues | ExternalFormValues | ResourceFormValues | FolderFormValues;

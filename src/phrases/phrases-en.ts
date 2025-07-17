@@ -2387,6 +2387,13 @@ const phrases = {
       learningpathMenu: "Learning path content",
       noSteps: "This learning path has no steps.",
     },
+    status: {
+      heading: "Change learning path status",
+      unpublishedText:
+        "A learning path can only be published once. When published, all future changes will be immediately visible on ndla.no Every new language version of a learning path must be published separately.",
+      publishedText: "This learning path is already published. All changes will be immediately visible on ndla.no.",
+      publish: "Publish",
+    },
   },
 };
 

@@ -2385,6 +2385,14 @@ const phrases = {
       learningpathMenu: "Innhold i læringssti",
       noSteps: "Læringsstien har ingen steg.",
     },
+    status: {
+      heading: "Endre status på læringssti",
+      unpublishedText:
+        "En læringssti kan bare publiseres en gang. Når den først er publisert vil alle fremtidige endringer ende opp direkte på ndla.no. Hver nye språkversjon av en læringssti må publiseres separat.",
+      publishedText:
+        "Denne læringsstien er allerede publisert. Alle endringer vil være umiddelbart synlige på ndla.no.",
+      publish: "Publiser",
+    },
   },
 };
 

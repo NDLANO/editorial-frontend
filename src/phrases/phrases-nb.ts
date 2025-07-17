@@ -2380,8 +2380,10 @@ const phrases = {
       },
     },
     preview: {
+      heading: "Forhåndsvis læringssti",
       openExternalLink: "Åpne i nytt vindu",
       learningpathMenu: "Innhold i læringssti",
+      noSteps: "Læringsstien har ingen steg.",
     },
   },
 };

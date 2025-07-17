@@ -6,8 +6,9 @@
  *
  */
 
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { Heading, PageContainer } from "@ndla/primitives";
+import { Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { LearningpathMenu } from "./LearningpathMenu";
@@ -44,22 +45,29 @@ const StepWrapper = styled("div", {
 });
 
 export const LearningpathPreview = ({ learningpath, language }: Props) => {
+  const { t } = useTranslation();
   const { stepId } = useParams<"stepId">();
 
   const currentStep = stepId
     ? learningpath.learningsteps.find((step) => step.id === parseInt(stepId))
     : learningpath.learningsteps[0];
 
-  if (!currentStep) return null;
-
   return (
     <StyledPageContainer padding="none">
       <LearningpathFormHeader learningpath={learningpath} language={language} />
       <LearningpathFormStepper id={learningpath.id} language={language} currentStep="preview" />
-      <Heading>Forhåndsvis</Heading>
+      <Heading>{t("learningpathForm.preview.heading")}</Heading>
       <StepWrapper>
-        <LearningpathMenu learningpath={learningpath} language={language} step={currentStep} />
-        {!!currentStep && <LearningStepPreview step={currentStep} learningpath={learningpath} language={language} />}
+        {currentStep ? (
+          <>
+            <LearningpathMenu learningpath={learningpath} language={language} step={currentStep} />
+            {!!currentStep && (
+              <LearningStepPreview step={currentStep} learningpath={learningpath} language={language} />
+            )}
+          </>
+        ) : (
+          <Text>{t("learningpathForm.preview.noSteps")}</Text>
+        )}
       </StepWrapper>
     </StyledPageContainer>
   );

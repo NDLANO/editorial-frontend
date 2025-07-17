@@ -2382,8 +2382,10 @@ const phrases = {
       },
     },
     preview: {
+      heading: "Preview learning path",
       openExternalLink: "Open in new tab",
       learningpathMenu: "Learning path content",
+      noSteps: "This learning path has no steps.",
     },
   },
 };

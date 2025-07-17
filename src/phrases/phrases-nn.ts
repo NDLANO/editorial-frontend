@@ -2353,6 +2353,7 @@ const phrases = {
     steps: {
       typeTitle: "Legg til innhald",
       addStep: "Legg til steg",
+      noSteps: "Læringsstien har ingen steg enno.",
       formTypes: {
         text: "Tekst eg har skrive sjølv",
         resource: "Innhald frå NDLA",

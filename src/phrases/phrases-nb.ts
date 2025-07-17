@@ -2351,6 +2351,7 @@ const phrases = {
     steps: {
       typeTitle: "Legg til innhold",
       addStep: "Legg til steg",
+      noSteps: "Læringsstien har ingen steg ennå.",
       formTypes: {
         text: "Tekst jeg har skrevet selv",
         resource: "Innhold fra NDLA",

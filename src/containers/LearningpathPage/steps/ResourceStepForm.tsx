@@ -19,6 +19,7 @@ import { ContentTypeBadge } from "@ndla/ui";
 import { contentTypeMapping, ResourcePicker } from "./ResourcePicker";
 import { LearningpathStepFormValues, ResourceData, ResourceFormValues } from "./types";
 import { FormField } from "../../../components/FormField";
+import config from "../../../config";
 import { fetchNode } from "../../../modules/nodes/nodeApi";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { StepSafeLink } from "../components/StepSafeLink";
@@ -162,7 +163,11 @@ export const ResourceStepForm = ({ language, step }: Props) => {
 
           <ResourceWrapper>
             <TextWrapper>
-              <StepSafeLink to={selectedResource.url} target="_blank" css={linkOverlay.raw()}>
+              <StepSafeLink
+                to={`${config.ndlaFrontendDomain}${selectedResource.url}`}
+                target="_blank"
+                css={linkOverlay.raw()}
+              >
                 <Text fontWeight="bold">
                   {selectedResource.title}
                   <ExternalLinkLine size="small" />

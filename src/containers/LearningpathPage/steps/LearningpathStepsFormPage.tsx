@@ -32,6 +32,7 @@ import { LearningpathFormStepper } from "../components/LearningpathFormStepper";
 import { getFormTypeFromStep, learningpathStepCloseButtonId, learningpathStepEditButtonId } from "../learningpathUtils";
 
 export const LearningpathStepsFormPage = () => {
+  const { t } = useTranslation();
   const { id, language } = useParams<"id" | "language">();
   const parsedId = parseInt(id ?? "");
   const learningpathQuery = useLearningpath({ id: parsedId, language }, { enabled: !!parsedId });
@@ -51,7 +52,7 @@ export const LearningpathStepsFormPage = () => {
 
   return (
     <PageContent>
-      <title>Edit learning path</title>
+      <title>{t("htmlTitles.learningpathForm.editSteps")}</title>
       <Content learningpath={learningpathQuery.data} language={language} />
     </PageContent>
   );
@@ -202,7 +203,7 @@ const Content = ({ learningpath, language }: Props) => {
       {!stepId && (
         <SafeLinkButton to={routes.learningpath.createStep(learningpath.id, language)} variant="secondary">
           <AddLine />
-          Legg til steg
+          {t("learningpathForm.steps.addStep")}
         </SafeLinkButton>
       )}
     </FormContent>

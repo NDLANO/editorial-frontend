@@ -11,10 +11,10 @@ import { PageContent } from "@ndla/primitives";
 import { LearningpathMetaDataForm } from "./metadata/LearningpathMetaDataForm";
 
 export const CreateLearningpathPage = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   return (
     <PageContent>
-      <title>Create Learning path</title>
+      <title>{t("htmlTitles.learningpathForm.new")}</title>
       <LearningpathMetaDataForm language={i18n.language} />
     </PageContent>
   );

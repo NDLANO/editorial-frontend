@@ -6,6 +6,7 @@
  *
  */
 
+import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import { Button, Heading, PageContent, Text } from "@ndla/primitives";
 import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
@@ -19,6 +20,7 @@ import { LearningpathFormHeader } from "../components/LearningpathFormHeader";
 import { LearningpathFormStepper } from "../components/LearningpathFormStepper";
 
 export const LearningpathStatusPage = () => {
+  const { t } = useTranslation();
   const { id, language } = useParams<"id" | "language">();
   const numericId = parseInt(id || "");
   const learningpathQuery = useLearningpath({ id: numericId, language }, { enabled: !!numericId });
@@ -38,6 +40,7 @@ export const LearningpathStatusPage = () => {
 
   return (
     <PageContent>
+      <title>{t("htmlTitles.learningpathForm.status")}</title>
       <LearningpathFormHeader learningpath={learningpathQuery.data} language={language} />
       <LearningpathFormStepper id={numericId} language={language} currentStep="status" />
       <FormContent>

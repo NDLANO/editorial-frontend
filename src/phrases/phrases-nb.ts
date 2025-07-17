@@ -38,6 +38,13 @@ const phrases = {
       content: `Søk innhold ${titleTemplate}`,
       image: `Søk bilder ${titleTemplate}`,
     },
+    learningpathForm: {
+      new: `Opprett læringssti ${titleTemplate}`,
+      editMetadata: `Rediger læringssti ${titleTemplate}`,
+      editSteps: `Rediger læringssteg ${titleTemplate}`,
+      preview: `Forhåndsvis læringssti ${titleTemplate}`,
+      status: `Endre læringsstistatus ${titleTemplate}`,
+    },
   },
   dropdown: {
     numberHits: `Søket gav {{hits}} treff`,
@@ -2342,9 +2349,8 @@ const phrases = {
       descriptionPlaceholder: "Beskrivelse av læringsstien",
     },
     steps: {
-      enableDnd: "Sorter læringssteg",
-      disableDnd: "Avbryt sortering",
       typeTitle: "Legg til innhold",
+      addStep: "Legg til steg",
       formTypes: {
         text: "Tekst jeg har skrevet selv",
         resource: "Innhold fra NDLA",

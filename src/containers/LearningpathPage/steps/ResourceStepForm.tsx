@@ -22,7 +22,7 @@ import { FormField } from "../../../components/FormField";
 import { fetchNode } from "../../../modules/nodes/nodeApi";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { StepSafeLink } from "../components/StepSafeLink";
-import { getNodeIdFromEmbedUrl } from "../learningpathUtils";
+import { getFormTypeFromStep, getNodeIdFromEmbedUrl } from "../learningpathUtils";
 import { DescriptionEditor } from "./DescriptionEditor";
 
 interface Props {
@@ -131,7 +131,7 @@ export const ResourceStepForm = ({ language, step }: Props) => {
 
   return (
     <>
-      {!!step?.description?.description.length && (
+      {!!step?.description?.description.length && getFormTypeFromStep(step) === "resource" && (
         <FormField name="description">
           {({ field, meta, helpers }) => (
             <FieldRoot invalid={!!meta.error}>

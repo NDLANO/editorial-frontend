@@ -41,6 +41,8 @@ import FrontpageEditPage from "../FrontpageEditPage/FrontpageEditPage";
 import GlossPage from "../GlossPage/GlossPage";
 import { CreateLearningpathPage } from "../LearningpathPage/CreateLearningpathPage";
 import { LearningpathMetaDataPage } from "../LearningpathPage/metadata/LearningpathMetaDataPage";
+import { LearningpathPreviewPage } from "../LearningpathPage/preview/LearningpathPreviewPage";
+import { LearningpathStatusPage } from "../LearningpathPage/status/LearningpathStatusPage";
 import { LearningpathStepForm } from "../LearningpathPage/steps/LearningpathStepForm";
 import { LearningpathStepsFormPage } from "../LearningpathPage/steps/LearningpathStepsFormPage";
 import Login from "../Login/Login";
@@ -57,8 +59,6 @@ import StructurePage from "../StructurePage/StructurePage";
 import TaxonomyVersionsPage from "../TaxonomyVersions/TaxonomyVersionsPage";
 import UpdateCodesPage from "../UpdateCodes/UpdateCodesPage";
 import WelcomePage from "../WelcomePage/WelcomePage";
-import { LearningpathPreviewPage } from "../LearningpathPage/preview/LearningpathPreviewPage";
-import { LearningStepPreview } from "../LearningpathPage/preview/LearningStepPreview";
 
 const App = () => {
   return (
@@ -113,6 +113,10 @@ const App = () => {
                       >
                         <Route path=":stepId" element={null} />
                       </Route>
+                      <Route
+                        path="/learningpath/:id/status/:language"
+                        element={<PrivateRoute component={<PrivateRoute component={<LearningpathStatusPage />} />} />}
+                      />
                     </>
                   )}
                 </Route>

@@ -157,3 +157,11 @@ export const putLearningStepOrder = async (learningpathId: number, stepId: numbe
   );
   return res.response.ok;
 };
+
+export const putLearningpathStatus = async (learningpathId: number, status: string): Promise<boolean> => {
+  const res = await client.PUT("/learningpath-api/v2/learningpaths/{learningpath_id}/status", {
+    params: { path: { learningpath_id: learningpathId } },
+    body: { status },
+  });
+  return res.response.ok;
+};

@@ -156,3 +156,21 @@ export const usePutLearningStepOrderMutation = (
     ...options,
   });
 };
+
+interface UsePutLearningpathStatusMutation {
+  learningpathId: number;
+  status: string;
+}
+
+export const usePutLearningpathStatusMutation = (
+  options?: Partial<UseMutationOptions<boolean, unknown, UsePutLearningpathStatusMutation>>,
+) => {
+  const qc = useQueryClient();
+  return useMutation<boolean, unknown, UsePutLearningpathStatusMutation>({
+    mutationFn: (vars) => putLearningpathStatus(vars.learningpathId, vars.status),
+    onMutate: (vars) => qc.cancelQueries({ queryKey: learningpathQueryKeys.learningpath({ id: vars.learningpathId }) }),
+    onSettled: (_, __, vars) =>
+      qc.invalidateQueries({ queryKey: learningpathQueryKeys.learningpath({ id: vars.learningpathId }) }),
+    ...options,
+  });
+};

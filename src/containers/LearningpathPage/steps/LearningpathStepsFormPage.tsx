@@ -129,7 +129,7 @@ const Content = ({ learningpath, language }: Props) => {
           });
         }
       } catch (err) {
-        console.log(err);
+        // TODO: Error handling
       }
     },
     [learningpath.id, learningpath.learningsteps, putLearningStepOrderMutation, sortedLearningpathSteps],

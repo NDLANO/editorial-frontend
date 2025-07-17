@@ -6,6 +6,7 @@
  *
  */
 
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { PageContent, Spinner } from "@ndla/primitives";
 import { LearningpathMetaDataForm } from "./LearningpathMetaDataForm";
@@ -13,6 +14,7 @@ import { useLearningpath } from "../../../modules/learningpath/learningpathQueri
 import NotFound from "../../NotFoundPage/NotFoundPage";
 
 export const LearningpathMetaDataPage = () => {
+  const { t } = useTranslation();
   const { id, language } = useParams<"id" | "language">();
   const parsedId = parseInt(id ?? "");
   const learningpathQuery = useLearningpath({ id: parsedId, language }, { enabled: !!parsedId });
@@ -27,7 +29,7 @@ export const LearningpathMetaDataPage = () => {
 
   return (
     <PageContent>
-      <title>Edit learning path</title>
+      <title>{t("htmlTitles.learningpathForm.editMetadata")}</title>
       <LearningpathMetaDataForm learningpath={learningpathQuery.data} language={language ?? ""} />
     </PageContent>
   );

@@ -38,6 +38,13 @@ const phrases = {
       content: `Søk innhold ${titleTemplate}`,
       image: `Søk bilete ${titleTemplate}`,
     },
+    learningpathForm: {
+      new: `Opprett læringssti ${titleTemplate}`,
+      editMetadata: `Rediger læringssti ${titleTemplate}`,
+      editSteps: `Rediger læringssteg ${titleTemplate}`,
+      preview: `Førehandsvis læringssti ${titleTemplate}`,
+      status: `Endre læringsstistatus ${titleTemplate}`,
+    },
   },
   dropdown: {
     numberHits: `Søket gav {{hits}} treff`,
@@ -2324,6 +2331,60 @@ const phrases = {
     failed: "Her gjekk det gale! Klarte ikkje å generere $t(textGeneration.types.{{type}}).\n{{error}}",
     failedTranscription: "Her gjekk det gale! Klarte ikkje å generere transkribering.",
     responseBox: "Full respons fra KI-modellen",
+  },
+
+  learningpathForm: {
+    stepper: {
+      navigation: "Skjemanavigering",
+      next: "Gå vidare",
+      titles: {
+        metadata: "Metadata",
+        steps: "Læringssteg",
+        preview: "Førehandsvis",
+        status: "Endre status",
+      },
+    },
+    metadata: {
+      titleLabel: "Tittel",
+      descriptionLabel: "Beskriving",
+      metaImageTitle: "Metabilete",
+      descriptionPlaceholder: "Beskriving av læringsstien",
+    },
+    steps: {
+      typeTitle: "Legg til innhald",
+      addStep: "Legg til steg",
+      formTypes: {
+        text: "Tekst eg har skrive sjølv",
+        resource: "Innhald frå NDLA",
+        external: "Innhald frå ein annan nettsted",
+        folder: "Innhald frå ein av mine mappar i Min NDLA",
+      },
+      editStep: "Rediger steg",
+      textForm: {
+        titleLabel: "Tittel",
+        introductionLabel: "Ingress",
+        descriptionLabel: "Beskriving",
+      },
+      resourceForm: {
+        label: "Artikkel frå NDLA",
+        labelHelper: "Søk etter artikkel",
+        descriptionLabel: "Beskriving",
+        descriptionHelper:
+          "Beskrivingar er ikkje lenger støtta på ressurssteg. Dette feltet dukkar kun opp fordi du redigerar eit eksisterande steg med beskriving. Vi anbefaler å fjerne beskrivinga.",
+      },
+      externalForm: {
+        urlLabel: "URL",
+        titleLabel: "Tittel",
+        introductionLabel: "Ingress",
+        descriptionLabel: "Beskriving",
+        descriptionHelper:
+          "Beskrivingar er ikkje lenger støtta på eksterne ressursar. Dette feltet dukkar kun opp fordi du redigerar eit eksisterande steg med beskriving. Vi anbefaler å fjerne beskrivinga.",
+      },
+    },
+    preview: {
+      openExternalLink: "Åpne i nytt vindauge",
+      learningpathMenu: "Innhald i læringssti",
+    },
   },
 };
 

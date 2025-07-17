@@ -6,6 +6,7 @@
  *
  */
 
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { LearningpathPreview } from "./LearningpathPreview";
 import { PageSpinner } from "../../../components/PageSpinner";
@@ -13,6 +14,7 @@ import { useLearningpath } from "../../../modules/learningpath/learningpathQueri
 import NotFound from "../../NotFoundPage/NotFoundPage";
 
 export const LearningpathPreviewPage = () => {
+  const { t } = useTranslation();
   const { id = "", language } = useParams<"id" | "language">();
   const learningpathQuery = useLearningpath({ id: parseInt(id), language }, { enabled: !!parseInt(id) });
   if (!parseInt(id) || !language) {
@@ -28,5 +30,10 @@ export const LearningpathPreviewPage = () => {
     return <NotFound />;
   }
 
-  return <LearningpathPreview learningpath={learningpathQuery.data} language={language} />;
+  return (
+    <>
+      <title>{t("htmlTitles.learningpathForm.preview")}</title>
+      <LearningpathPreview learningpath={learningpathQuery.data} language={language} />
+    </>
+  );
 };

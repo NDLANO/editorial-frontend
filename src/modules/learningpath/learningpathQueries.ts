@@ -7,12 +7,13 @@
  */
 
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { LEARNINGPATH } from "../../queryKeys";
-import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { fetchLearningpath } from "./learningpathApi";
+import { LEARNINGPATH, LEARNINGPATH_TAGS } from "../../queryKeys";
+import { ILearningPathTagsSummaryDTO, ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { fetchLearningpath, fetchLearningpathTags } from "./learningpathApi";
 
 export const learningpathQueryKeys = {
   learningpath: (params: UseLearningpath) => [LEARNINGPATH, params],
+  learningpathTags: (params: UseLearningpathTags) => [LEARNINGPATH_TAGS, params],
 };
 
 interface UseLearningpath {
@@ -24,6 +25,19 @@ export const useLearningpath = (params: UseLearningpath, options?: Partial<UseQu
   return useQuery<ILearningPathV2DTO>({
     queryKey: learningpathQueryKeys.learningpath(params),
     queryFn: () => fetchLearningpath(params.id, params.language),
+    ...options,
+  });
+};
+
+interface UseLearningpathTags {
+  language?: string;
+  fallback?: boolean;
+}
+
+export const useLearningpathTags = (params: UseLearningpathTags = {}, options?: Partial<UseQueryOptions<any>>) => {
+  return useQuery<ILearningPathTagsSummaryDTO>({
+    queryKey: learningpathQueryKeys.learningpathTags(params),
+    queryFn: () => fetchLearningpathTags(params.language, params.fallback),
     ...options,
   });
 };

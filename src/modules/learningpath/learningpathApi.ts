@@ -8,6 +8,7 @@
 
 import {
   ILearningPathSummaryV2DTO,
+  ILearningPathTagsSummaryDTO,
   ILearningPathV2DTO,
   ILearningStepV2DTO,
   INewLearningPathV2DTO,
@@ -29,6 +30,16 @@ export const fetchLearningpath = (id: number, locale?: string): Promise<ILearnin
       params: { path: { learningpath_id: id }, query: { language: locale, fallback: true } },
     })
     .then(resolveJsonOATS);
+
+export const fetchLearningpathTags = async (
+  language?: string,
+  fallback?: boolean,
+): Promise<ILearningPathTagsSummaryDTO> => {
+  const res = await client.GET("/learningpath-api/v2/learningpaths/tags", {
+    params: { query: { language, fallback } },
+  });
+  return resolveJsonOATS(res);
+};
 
 export const fetchLearningpaths = (ids: number[], language?: string): Promise<ILearningPathV2DTO[]> =>
   client

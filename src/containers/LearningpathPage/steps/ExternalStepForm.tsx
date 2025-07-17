@@ -17,6 +17,7 @@ import { ExternalFormValues } from "./types";
 import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
 import { FormField } from "../../../components/FormField";
 import { fetchOpenGraphData } from "../../../modules/opengraph/openGraphApi";
+import { getFormTypeFromStep } from "../learningpathUtils";
 
 const TITLE_MAX_LENGTH = 64;
 const INTRODUCTION_MAX_LENGTH = 250;
@@ -82,7 +83,7 @@ export const ExternalStepForm = ({ step, language }: Props) => {
           </FieldRoot>
         )}
       </FormField>
-      {!!step?.description?.description.length && (
+      {!!step?.description?.description.length && getFormTypeFromStep(step) === "external" && (
         <FormField name="description">
           {({ field, meta, helpers }) => (
             <FieldRoot invalid={!!meta.error}>

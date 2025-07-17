@@ -81,6 +81,7 @@ export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
         title: step?.title.title ?? "",
         introduction: step?.introduction?.introduction ?? "",
         description: blockContentToEditorValue(step?.description?.description ?? ""),
+        license: step?.license?.license ?? "",
       };
     case "external":
       return {
@@ -90,6 +91,7 @@ export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
         url: step?.embedUrl?.url ?? "",
         shareable: !!step?.embedUrl?.url,
         description: blockContentToEditorValue(step?.description?.description ?? ""),
+        license: step?.license?.license ?? "",
       };
     case "resource":
     case "folder":
@@ -98,6 +100,7 @@ export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
         title: step?.title.title ?? "",
         embedUrl: step?.embedUrl?.url ?? "",
         description: blockContentToEditorValue(step?.description?.description ?? ""),
+        license: step?.license?.license ?? "",
       };
     default:
       return unreachable(type);
@@ -115,6 +118,7 @@ const formValuesToStep = (values: LearningpathStepFormValues) => {
       title: values.title,
       introduction: values.introduction,
       description: blockContentToHTML(values.description),
+      license: values.license,
     };
   }
 
@@ -123,6 +127,7 @@ const formValuesToStep = (values: LearningpathStepFormValues) => {
       type: "TEXT",
       title: values.title,
       introduction: values.introduction,
+      license: values.license,
       embedUrl: {
         url: values.url,
         embedType: "external",
@@ -133,6 +138,7 @@ const formValuesToStep = (values: LearningpathStepFormValues) => {
   return {
     type: "TEXT",
     title: values.title,
+    license: values.license,
     embedUrl: {
       url: values.embedUrl,
       embedType: "iframe",
@@ -228,7 +234,7 @@ export const LearningpathStepForm = ({ step }: Props) => {
             )}
           </FormField>
           {formikProps.values.type === "text" ? (
-            <TextStepForm language={language} />
+            <TextStepForm step={step} language={language} />
           ) : formikProps.values.type === "resource" ? (
             <ResourceStepForm step={step} language={language} />
           ) : formikProps.values.type === "external" ? (

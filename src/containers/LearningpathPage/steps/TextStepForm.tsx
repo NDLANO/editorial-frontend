@@ -9,18 +9,21 @@
 import { useTranslation } from "react-i18next";
 import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { DescriptionEditor } from "./DescriptionEditor";
 import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
 import { FormField } from "../../../components/FormField";
+import { LicenseField } from "../../FormikForm";
 
 const TITLE_MAX_LENGTH = 64;
 const INTRODUCTION_MAX_LENGTH = 250;
 
 interface Props {
   language: string | undefined;
+  step: ILearningStepV2DTO | undefined;
 }
 
-export const TextStepForm = ({ language }: Props) => {
+export const TextStepForm = ({ language, step }: Props) => {
   const { t } = useTranslation();
   return (
     <>
@@ -44,6 +47,7 @@ export const TextStepForm = ({ language }: Props) => {
           </FieldRoot>
         )}
       </FormField>
+      {!!step?.license?.license.length && <LicenseField />}
       <FormField name="description">
         {({ field, meta, helpers }) => (
           <FieldRoot required invalid={!!meta.error}>

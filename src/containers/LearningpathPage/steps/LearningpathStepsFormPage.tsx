@@ -140,6 +140,7 @@ const Content = ({ learningpath, language }: Props) => {
     <FormContent>
       <LearningpathFormHeader learningpath={learningpath} language={language} />
       <LearningpathFormStepper id={learningpath.id} language={language} currentStep="steps" />
+      {!learningpath.learningsteps.length && <Text>{t("learningpathForm.steps.noSteps")}</Text>}
       <ul>
         <DndList
           items={sortedLearningpathSteps}

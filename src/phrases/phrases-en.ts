@@ -2353,6 +2353,7 @@ const phrases = {
     steps: {
       typeTitle: "Add content",
       addStep: "Add step",
+      noSteps: "This learning path doesn't have any steps yet.",
       formTypes: {
         text: "Text written by myself",
         resource: "Content from NDLA",

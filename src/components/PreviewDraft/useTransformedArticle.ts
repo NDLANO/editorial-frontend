@@ -32,15 +32,9 @@ export const useTransformedArticle = <T extends FormArticle | undefined>({
   useDraftConcepts,
   contentType,
 }: UseTranslationOptions<T>): { draft: T; article: ArticleType | undefined } => {
-  const transformedContent = usePreviewArticle(
-    draft?.content ?? "",
-    language,
-    draft?.visualElement ?? "",
-    useDraftConcepts,
-    {
-      enabled: !!draft,
-    },
-  );
+  const transformedContent = usePreviewArticle(draft?.content ?? "", language, draft?.visualElement, useDraftConcepts, {
+    enabled: !!draft,
+  });
   const disclaimerContent = usePreviewArticle(draft?.disclaimer ?? "", language, undefined, false, {
     enabled: !!draft?.disclaimer,
   });

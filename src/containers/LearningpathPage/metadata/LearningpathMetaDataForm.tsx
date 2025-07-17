@@ -10,14 +10,29 @@ import { Formik, FormikProps } from "formik";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, FieldTextArea } from "@ndla/primitives";
+import { createListCollection } from "@ark-ui/react";
+import { CheckLine } from "@ndla/icons";
+import {
+  ComboboxItem,
+  ComboboxItemIndicator,
+  ComboboxItemText,
+  FieldErrorMessage,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  FieldTextArea,
+  Input,
+} from "@ndla/primitives";
 import {
   ILearningPathV2DTO,
   INewLearningPathV2DTO,
   IUpdatedLearningPathV2DTO,
 } from "@ndla/types-backend/learningpath-api";
+import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { LearningpathMetaImageField } from "./LearningpathMetaImageField";
 import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
+import { SearchTagsContent } from "../../../components/Form/SearchTagsContent";
+import { SearchTagsTagSelectorInput } from "../../../components/Form/SearchTagsTagSelectorInput";
 import { FormField } from "../../../components/FormField";
 import { Form, FormActionsContainer, FormContent } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
@@ -26,7 +41,9 @@ import {
   usePatchLearningpathMutation,
   usePostLearningpathMutation,
 } from "../../../modules/learningpath/learningpathMutations";
+import { useLearningpathTags } from "../../../modules/learningpath/learningpathQueries";
 import { routes } from "../../../util/routeHelpers";
+import useDebounce from "../../../util/useDebounce";
 import { LearningpathFormHeader } from "../components/LearningpathFormHeader";
 import { LearningpathFormStepper } from "../components/LearningpathFormStepper";
 
@@ -34,6 +51,7 @@ interface LearningpathMetaDataFormValues {
   title: string;
   description: string;
   coverPhotoUrl?: string;
+  tags: string[];
 }
 
 interface Props {
@@ -48,6 +66,7 @@ const learningpathApiTypeToFormType = (
     title: learningpath?.title.title ?? "",
     description: learningpath?.description.description ?? "",
     coverPhotoUrl: learningpath?.coverPhoto?.url,
+    tags: learningpath?.tags.tags ?? [],
   };
 };
 
@@ -60,6 +79,7 @@ const learningpathFormTypeToNewApiType = (
     title: values.title,
     description: values.description,
     coverPhotoMetaUrl: values.coverPhotoUrl,
+    tags: values.tags,
   };
 };
 
@@ -74,6 +94,7 @@ const learningpathFormTypeToApiType = (
     title: values.title,
     description: values.description,
     coverPhotoMetaUrl: values.coverPhotoUrl,
+    tags: values.tags,
   };
 };
 
@@ -95,12 +116,25 @@ const metaDataRules: RulesType<LearningpathMetaDataFormValues, ILearningPathV2DT
 
 export const LearningpathMetaDataForm = ({ learningpath, language }: Props) => {
   const [savedToServer, setSavedToServer] = useState(false);
+  const [inputQuery, setInputQuery] = useState<string>("");
+  const debouncedQuery = useDebounce(inputQuery, 200);
   const { t } = useTranslation();
   const postLearningpathMutation = usePostLearningpathMutation();
   const patchLearningpathMutation = usePatchLearningpathMutation();
   const initialValues = learningpathApiTypeToFormType(learningpath);
   const initialErrors = useMemo(() => validateFormik(initialValues, metaDataRules, t), [initialValues, t]);
   const navigate = useNavigate();
+  const tagSelectorTranslations = useTagSelectorTranslations();
+
+  const tagsQuery = useLearningpathTags();
+
+  const collection = useMemo(() => {
+    return createListCollection({
+      items: tagsQuery.data?.tags.filter((item) => item.includes(debouncedQuery)).slice(0, 50) ?? [],
+      itemToValue: (item) => item,
+      itemToString: (item) => item,
+    });
+  }, [debouncedQuery, tagsQuery.data?.tags]);
 
   const validate = useCallback(
     (values: LearningpathMetaDataFormValues) => validateFormik(values, metaDataRules, t),
@@ -155,6 +189,36 @@ export const LearningpathMetaDataForm = ({ learningpath, language }: Props) => {
                   <FieldErrorMessage>{meta.error}</FieldErrorMessage>
                   <FieldTextArea {...field} />
                   <FormRemainingCharacters value={field.value} maxLength={150} />
+                </FieldRoot>
+              )}
+            </FormField>
+            <FormField name="tags">
+              {({ field, meta, helpers }) => (
+                <FieldRoot invalid={!!meta.error}>
+                  <TagSelectorRoot
+                    collection={collection}
+                    value={field.value}
+                    onValueChange={(details) => helpers.setValue(details.value)}
+                    translations={tagSelectorTranslations}
+                    inputValue={inputQuery}
+                    onInputValueChange={(details) => setInputQuery(details.inputValue)}
+                  >
+                    <TagSelectorLabel>{t("form.tags.label")}</TagSelectorLabel>
+                    <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                    <SearchTagsTagSelectorInput asChild>
+                      <Input placeholder={t("form.tags.searchPlaceholder")} />
+                    </SearchTagsTagSelectorInput>
+                    <SearchTagsContent isFetching={tagsQuery.isFetching} hits={collection.items.length}>
+                      {collection.items.map((item) => (
+                        <ComboboxItem key={item} item={item}>
+                          <ComboboxItemText>{item}</ComboboxItemText>
+                          <ComboboxItemIndicator asChild>
+                            <CheckLine />
+                          </ComboboxItemIndicator>
+                        </ComboboxItem>
+                      ))}
+                    </SearchTagsContent>
+                  </TagSelectorRoot>
                 </FieldRoot>
               )}
             </FormField>

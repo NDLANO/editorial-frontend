@@ -40,6 +40,8 @@ import {
   usePatchLearningStepMutation,
   usePostLearningStepMutation,
 } from "../../../modules/learningpath/learningpathMutations";
+import { AlertDialogWrapper } from "../../FormikForm";
+import { PreventWindowUnload } from "../../FormikForm/PreventWindowUnload";
 
 const RADIO_GROUP_OPTIONS = ["text", "resource", "external", "folder"] as const;
 
@@ -205,6 +207,7 @@ export const LearningpathStepForm = ({ step }: Props) => {
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {(formikProps) => (
         <StyledForm ref={wrapperRef}>
+          <PreventWindowUnload preventUnload={formikProps.dirty} />
           <FormField name="type">
             {({ field, meta, helpers }) => (
               <FieldRoot required invalid={!!meta.error}>
@@ -263,6 +266,12 @@ export const LearningpathStepForm = ({ step }: Props) => {
               {t("save")}
             </Button>
           </FormActionsContainer>
+          <AlertDialogWrapper
+            isSubmitting={formikProps.isSubmitting}
+            formIsDirty={formikProps.dirty}
+            severity="danger"
+            text={t("alertDialog.notSaved")}
+          />
         </StyledForm>
       )}
     </Formik>

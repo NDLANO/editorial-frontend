@@ -44,6 +44,8 @@ import {
 import { useLearningpathTags } from "../../../modules/learningpath/learningpathQueries";
 import { routes } from "../../../util/routeHelpers";
 import useDebounce from "../../../util/useDebounce";
+import { AlertDialogWrapper } from "../../FormikForm";
+import { PreventWindowUnload } from "../../FormikForm/PreventWindowUnload";
 import { LearningpathFormHeader } from "../components/LearningpathFormHeader";
 import { LearningpathFormStepper } from "../components/LearningpathFormStepper";
 
@@ -165,78 +167,89 @@ export const LearningpathMetaDataForm = ({ learningpath, language }: Props) => {
       enableReinitialize
       validateOnMount
     >
-      {({ errors, ...formikProps }: FormikProps<LearningpathMetaDataFormValues>) => (
-        <Form>
-          <LearningpathFormHeader learningpath={learningpath} language={language} />
-          {!!learningpath?.id && (
-            <LearningpathFormStepper id={learningpath.id} language={language} currentStep="metadata" />
-          )}
-          <FormContent>
-            <FormField name="title">
-              {({ field, meta }) => (
-                <FieldRoot required invalid={!!meta.error}>
-                  <FieldLabel>{t("learningpathForm.metadata.titleLabel")}</FieldLabel>
-                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                  <FieldInput {...field} />
-                  <FormRemainingCharacters value={field.value} maxLength={75} />
-                </FieldRoot>
-              )}
-            </FormField>
-            <FormField name="description">
-              {({ field, meta }) => (
-                <FieldRoot required invalid={!!meta.error}>
-                  <FieldLabel>{t("learningpathForm.metadata.descriptionLabel")}</FieldLabel>
-                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                  <FieldTextArea {...field} />
-                  <FormRemainingCharacters value={field.value} maxLength={150} />
-                </FieldRoot>
-              )}
-            </FormField>
-            <FormField name="tags">
-              {({ field, meta, helpers }) => (
-                <FieldRoot invalid={!!meta.error}>
-                  <TagSelectorRoot
-                    collection={collection}
-                    value={field.value}
-                    onValueChange={(details) => helpers.setValue(details.value)}
-                    translations={tagSelectorTranslations}
-                    inputValue={inputQuery}
-                    onInputValueChange={(details) => setInputQuery(details.inputValue)}
-                  >
-                    <TagSelectorLabel>{t("form.tags.label")}</TagSelectorLabel>
+      {({ errors, ...formikProps }: FormikProps<LearningpathMetaDataFormValues>) => {
+        const formIsDirty =
+          formikProps.dirty || !!(learningpath && !learningpath.supportedLanguages.includes(language));
+        return (
+          <Form>
+            <PreventWindowUnload preventUnload={formIsDirty} />
+            <LearningpathFormHeader learningpath={learningpath} language={language} />
+            {!!learningpath?.id && (
+              <LearningpathFormStepper id={learningpath.id} language={language} currentStep="metadata" />
+            )}
+            <FormContent>
+              <FormField name="title">
+                {({ field, meta }) => (
+                  <FieldRoot required invalid={!!meta.error}>
+                    <FieldLabel>{t("learningpathForm.metadata.titleLabel")}</FieldLabel>
                     <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                    <SearchTagsTagSelectorInput asChild>
-                      <Input placeholder={t("form.tags.searchPlaceholder")} />
-                    </SearchTagsTagSelectorInput>
-                    <SearchTagsContent isFetching={tagsQuery.isFetching} hits={collection.items.length}>
-                      {collection.items.map((item) => (
-                        <ComboboxItem key={item} item={item}>
-                          <ComboboxItemText>{item}</ComboboxItemText>
-                          <ComboboxItemIndicator asChild>
-                            <CheckLine />
-                          </ComboboxItemIndicator>
-                        </ComboboxItem>
-                      ))}
-                    </SearchTagsContent>
-                  </TagSelectorRoot>
-                </FieldRoot>
-              )}
-            </FormField>
-            <LearningpathMetaImageField language={language} />
-          </FormContent>
-          <FormActionsContainer>
-            <SaveMultiButton
-              isSaving={formikProps.isSubmitting}
-              formIsDirty={formikProps.dirty || !!(learningpath && !learningpath.supportedLanguages.includes(language))}
-              // TODO: Update this
-              showSaved={!!savedToServer && !formikProps.dirty}
-              hasErrors={!!Object.keys(errors).length}
-              hideSecondaryButton
-              onClick={formikProps.submitForm}
+                    <FieldInput {...field} />
+                    <FormRemainingCharacters value={field.value} maxLength={75} />
+                  </FieldRoot>
+                )}
+              </FormField>
+              <FormField name="description">
+                {({ field, meta }) => (
+                  <FieldRoot required invalid={!!meta.error}>
+                    <FieldLabel>{t("learningpathForm.metadata.descriptionLabel")}</FieldLabel>
+                    <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                    <FieldTextArea {...field} />
+                    <FormRemainingCharacters value={field.value} maxLength={150} />
+                  </FieldRoot>
+                )}
+              </FormField>
+              <FormField name="tags">
+                {({ field, meta, helpers }) => (
+                  <FieldRoot invalid={!!meta.error}>
+                    <TagSelectorRoot
+                      collection={collection}
+                      value={field.value}
+                      onValueChange={(details) => helpers.setValue(details.value)}
+                      translations={tagSelectorTranslations}
+                      inputValue={inputQuery}
+                      onInputValueChange={(details) => setInputQuery(details.inputValue)}
+                    >
+                      <TagSelectorLabel>{t("form.tags.label")}</TagSelectorLabel>
+                      <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                      <SearchTagsTagSelectorInput asChild>
+                        <Input placeholder={t("form.tags.searchPlaceholder")} />
+                      </SearchTagsTagSelectorInput>
+                      <SearchTagsContent isFetching={tagsQuery.isFetching} hits={collection.items.length}>
+                        {collection.items.map((item) => (
+                          <ComboboxItem key={item} item={item}>
+                            <ComboboxItemText>{item}</ComboboxItemText>
+                            <ComboboxItemIndicator asChild>
+                              <CheckLine />
+                            </ComboboxItemIndicator>
+                          </ComboboxItem>
+                        ))}
+                      </SearchTagsContent>
+                    </TagSelectorRoot>
+                  </FieldRoot>
+                )}
+              </FormField>
+              <LearningpathMetaImageField language={language} />
+            </FormContent>
+            <FormActionsContainer>
+              <SaveMultiButton
+                isSaving={formikProps.isSubmitting}
+                formIsDirty={formIsDirty}
+                // TODO: Update this
+                showSaved={!!savedToServer && !formikProps.dirty}
+                hasErrors={!!Object.keys(errors).length}
+                hideSecondaryButton
+                onClick={formikProps.submitForm}
+              />
+            </FormActionsContainer>
+            <AlertDialogWrapper
+              isSubmitting={formikProps.isSubmitting}
+              formIsDirty={formIsDirty}
+              severity="danger"
+              text={t("alertDialog.notSaved")}
             />
-          </FormActionsContainer>
-        </Form>
-      )}
+          </Form>
+        );
+      }}
     </Formik>
   );
 };

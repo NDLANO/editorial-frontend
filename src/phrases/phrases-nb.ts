@@ -2333,6 +2333,9 @@ const phrases = {
   },
   learningpathForm: {
     genericError: "Noe gikk galt under henting av læringsstien",
+    header: {
+      clone: "Kopier læringssti",
+    },
     stepper: {
       navigation: "Skjemanavigering",
       next: "Gå videre",

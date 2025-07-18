@@ -11,6 +11,7 @@ import {
   ILearningPathTagsSummaryDTO,
   ILearningPathV2DTO,
   ILearningStepV2DTO,
+  INewCopyLearningPathV2DTO,
   INewLearningPathV2DTO,
   INewLearningStepV2DTO,
   ISearchResultV2DTO,
@@ -164,4 +165,16 @@ export const putLearningpathStatus = async (learningpathId: number, status: stri
     body: { status },
   });
   return res.response.ok;
+};
+
+export const postCopyLearningpath = async (
+  learningpathId: number,
+  learningpath: INewCopyLearningPathV2DTO,
+): Promise<ILearningPathV2DTO> => {
+  const res = await client.POST("/learningpath-api/v2/learningpaths/{learningpath_id}/copy", {
+    params: { path: { learningpath_id: learningpathId } },
+    body: learningpath,
+  });
+
+  return resolveJsonOATS(res);
 };

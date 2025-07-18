@@ -2335,6 +2335,9 @@ const phrases = {
   },
   learningpathForm: {
     genericError: "Something went wrong while retrieving the learning path",
+    header: {
+      clone: "Copy learning path",
+    },
     stepper: {
       navigation: "Form navigation",
       next: "Next",

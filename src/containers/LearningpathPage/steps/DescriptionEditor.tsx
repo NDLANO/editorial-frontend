@@ -102,7 +102,7 @@ export const DescriptionEditor = ({ language, value, onChange }: Props) => {
         hideBlockPicker
         submitted={isSubmitting}
         plugins={EDITOR_PLUGINS}
-        data-testid="text-step-content"
+        data-testid="description-editor"
         onChange={onChange}
         renderInvalidElement={(props) => <UnsupportedElement {...props} />}
       />

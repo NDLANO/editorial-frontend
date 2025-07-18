@@ -34,7 +34,6 @@ export const TextStep = ({ learningpathStep, learningpath }: TextStepProps) => {
             <section>{transform(learningpathStep.description.description, {})}</section>
           ) : null}
         </ArticleContent>
-        {/* TODO: This used to be styled */}
         <ArticleFooter>
           <ArticleByline authors={learningpath.copyright.contributors} />
         </ArticleFooter>

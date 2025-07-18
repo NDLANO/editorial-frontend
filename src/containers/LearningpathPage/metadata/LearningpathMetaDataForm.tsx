@@ -238,7 +238,6 @@ export const LearningpathMetaDataForm = ({ learningpath, language }: Props) => {
               <SaveMultiButton
                 isSaving={formikProps.isSubmitting}
                 formIsDirty={formIsDirty}
-                // TODO: Update this
                 showSaved={!!savedToServer && !formikProps.dirty}
                 hasErrors={!!Object.keys(errors).length}
                 hideSecondaryButton

@@ -12,7 +12,7 @@ import { Outlet, useParams } from "react-router-dom";
 import { DragEndEvent } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import { AddLine, CloseLine, DeleteBinLine, Draggable, PencilLine } from "@ndla/icons";
-import { IconButton, ListItemContent, ListItemRoot, PageContent, Spinner, Text } from "@ndla/primitives";
+import { Heading, IconButton, ListItemContent, ListItemRoot, PageContent, Spinner, Text } from "@ndla/primitives";
 import { SafeLinkButton, SafeLinkIconButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
@@ -140,6 +140,9 @@ const Content = ({ learningpath, language }: Props) => {
     <FormContent>
       <LearningpathFormHeader learningpath={learningpath} language={language} />
       <LearningpathFormStepper id={learningpath.id} language={language} currentStep="steps" />
+      <Heading asChild consumeCss>
+        <h2>{t("learningpathForm.steps.heading")}</h2>
+      </Heading>
       {!learningpath.learningsteps.length && <Text>{t("learningpathForm.steps.noSteps")}</Text>}
       <ul>
         <DndList

@@ -9,7 +9,7 @@
 import parse from "html-react-parser";
 import { t } from "i18next";
 import { debounce } from "lodash-es";
-import { useState, useMemo } from "react";
+import { useState, useMemo, ReactNode } from "react";
 import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { constants, ContentTypeBadge } from "@ndla/ui";
 import { ResourceData } from "./types";
@@ -52,11 +52,12 @@ const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250
 
 interface Props {
   setResource: (data: ResourceData) => void;
+  children?: ReactNode;
 }
 
 const DEFAULT_SEARCH_OBJECT = { page: 1, pageSize: 10, query: "" };
 
-export const ResourcePicker = ({ setResource }: Props) => {
+export const ResourcePicker = ({ setResource, children }: Props) => {
   const [searchObject, setSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
   const [delayedSearchObject, setDelayedSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
 
@@ -156,6 +157,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
       )}
       positioning={{ strategy: "fixed" }}
     >
+      {children}
       <GenericComboboxInput placeholder={t("searchPage.search")} isFetching={searchQuery.isFetching} />
     </GenericSearchCombobox>
   );

@@ -8,13 +8,15 @@
 
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { Button, Heading, PageContent, Text } from "@ndla/primitives";
+import { Button, Heading, PageContainer, PageContent, Text } from "@ndla/primitives";
 import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { PUBLISHED } from "../../../constants";
 import { usePutLearningpathStatusMutation } from "../../../modules/learningpath/learningpathMutations";
 import { useLearningpath } from "../../../modules/learningpath/learningpathQueries";
+import { isNotFoundError } from "../../../util/resolveJsonOrRejectWithError";
 import NotFound from "../../NotFoundPage/NotFoundPage";
+import { LearningpathErrorMessage } from "../components/LearningpathErrorMessage";
 import { LearningpathFormHeader } from "../components/LearningpathFormHeader";
 import { LearningpathFormStepper } from "../components/LearningpathFormStepper";
 
@@ -31,6 +33,18 @@ export const LearningpathStatusPage = () => {
 
   if (learningpathQuery.isPending) {
     return <PageSpinner />;
+  }
+
+  if (learningpathQuery.isError && isNotFoundError(learningpathQuery.error)) {
+    return <NotFound />;
+  }
+
+  if (learningpathQuery.isError || !learningpathQuery.data) {
+    return (
+      <PageContainer>
+        <LearningpathErrorMessage />
+      </PageContainer>
+    );
   }
 
   const isPublished = learningpathQuery.data?.status === PUBLISHED;

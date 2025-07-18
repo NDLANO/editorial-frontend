@@ -2334,6 +2334,7 @@ const phrases = {
     responseBox: "Full response from the AI model",
   },
   learningpathForm: {
+    genericError: "Something went wrong while retrieving the learning path",
     stepper: {
       navigation: "Form navigation",
       next: "Next",

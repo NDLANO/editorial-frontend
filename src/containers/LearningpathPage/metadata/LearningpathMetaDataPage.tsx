@@ -8,29 +8,44 @@
 
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { PageContent, Spinner } from "@ndla/primitives";
+import { PageContainer, PageContent } from "@ndla/primitives";
 import { LearningpathMetaDataForm } from "./LearningpathMetaDataForm";
+import { PageSpinner } from "../../../components/PageSpinner";
 import { useLearningpath } from "../../../modules/learningpath/learningpathQueries";
+import { isNotFoundError } from "../../../util/resolveJsonOrRejectWithError";
 import NotFound from "../../NotFoundPage/NotFoundPage";
+import { LearningpathErrorMessage } from "../components/LearningpathErrorMessage";
 
 export const LearningpathMetaDataPage = () => {
   const { t } = useTranslation();
   const { id, language } = useParams<"id" | "language">();
-  const parsedId = parseInt(id ?? "");
-  const learningpathQuery = useLearningpath({ id: parsedId, language }, { enabled: !!parsedId });
+  const numericId = parseInt(id ?? "");
+  const learningpathQuery = useLearningpath({ id: numericId, language }, { enabled: !!numericId });
 
-  if (!parsedId || learningpathQuery.isError) {
+  if (!numericId || !language) {
     return <NotFound />;
   }
 
   if (learningpathQuery.isPending) {
-    return <Spinner />;
+    return <PageSpinner />;
+  }
+
+  if (learningpathQuery.isError && isNotFoundError(learningpathQuery.error)) {
+    return <NotFound />;
+  }
+
+  if (learningpathQuery.isError || !learningpathQuery.data) {
+    return (
+      <PageContainer>
+        <LearningpathErrorMessage />
+      </PageContainer>
+    );
   }
 
   return (
     <PageContent>
       <title>{t("htmlTitles.learningpathForm.editMetadata")}</title>
-      <LearningpathMetaDataForm learningpath={learningpathQuery.data} language={language ?? ""} />
+      <LearningpathMetaDataForm learningpath={learningpathQuery.data} language={language} />
     </PageContent>
   );
 };

@@ -2332,6 +2332,7 @@ const phrases = {
     responseBox: "Full respons fra KI-modellen",
   },
   learningpathForm: {
+    genericError: "Noe gikk galt under henting av læringsstien",
     stepper: {
       navigation: "Skjemanavigering",
       next: "Gå videre",

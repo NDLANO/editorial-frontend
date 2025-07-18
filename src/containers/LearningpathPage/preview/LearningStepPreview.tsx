@@ -20,10 +20,9 @@ interface Props {
 
 export const LearningStepPreview = ({ step, learningpath, language }: Props) => {
   const type = getFormTypeFromStep(step);
-  // TODO: skip id
 
   if (type === "text") {
-    return <TextStep learningpathStep={step} learningpath={learningpath} skipToContentId={undefined} />;
+    return <TextStep learningpathStep={step} learningpath={learningpath} />;
   }
 
   if (type === "resource") {

@@ -2334,6 +2334,7 @@ const phrases = {
   },
 
   learningpathForm: {
+    genericError: "Noko gjekk gale under henting av læringsstien.",
     stepper: {
       navigation: "Skjemanavigering",
       next: "Gå vidare",

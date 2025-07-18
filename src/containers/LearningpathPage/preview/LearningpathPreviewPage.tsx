@@ -8,26 +8,38 @@
 
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { PageContainer } from "@ndla/primitives";
 import { LearningpathPreview } from "./LearningpathPreview";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { useLearningpath } from "../../../modules/learningpath/learningpathQueries";
+import { isNotFoundError } from "../../../util/resolveJsonOrRejectWithError";
 import NotFound from "../../NotFoundPage/NotFoundPage";
+import { LearningpathErrorMessage } from "../components/LearningpathErrorMessage";
 
 export const LearningpathPreviewPage = () => {
   const { t } = useTranslation();
   const { id = "", language } = useParams<"id" | "language">();
-  const learningpathQuery = useLearningpath({ id: parseInt(id), language }, { enabled: !!parseInt(id) });
-  if (!parseInt(id) || !language) {
+  const numericId = parseInt(id);
+  const learningpathQuery = useLearningpath({ id: numericId, language }, { enabled: !!numericId });
+
+  if (!numericId || !language) {
     return <NotFound />;
   }
 
-  if (learningpathQuery.isPending) {
+  if (learningpathQuery.isLoading) {
     return <PageSpinner />;
   }
 
-  if (learningpathQuery.isError) {
-    // TODO: Should probably be an error. Should also account for NotFound
+  if (learningpathQuery.isError && isNotFoundError(learningpathQuery.error)) {
     return <NotFound />;
+  }
+
+  if (learningpathQuery.isError || !learningpathQuery.data) {
+    return (
+      <PageContainer>
+        <LearningpathErrorMessage />
+      </PageContainer>
+    );
   }
 
   return (

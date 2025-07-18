@@ -35,7 +35,7 @@ import { useSession } from "../../containers/Session/SessionProvider";
 import { UnsavedFile } from "../../interfaces";
 import { uploadFile } from "../../modules/draft/draftApi";
 import handleError from "../../util/handleError";
-import { isNdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
+import { isNdlaApiError } from "../../util/resolveJsonOrRejectWithError";
 import { FormField } from "../FormField";
 import { FormActionsContainer, FormikForm } from "../FormikForm";
 import validateFormik, { RulesType } from "../formikValidationSchema";
@@ -83,7 +83,7 @@ const FileUploader = ({ onFileSave, close }: Props) => {
         })),
       );
     } catch (err) {
-      if (isNdlaErrorPayload(err) && err.json && err.json.messages) {
+      if (isNdlaApiError(err) && err.json && err.json.messages) {
         setErrorMessage(err.json.messages.map((message: { message: string }) => message.message).join(", "));
       }
       handleError(err);

@@ -25,7 +25,7 @@ import { fetchDraft } from "../../../modules/draft/draftApi";
 import { fetchLearningpath } from "../../../modules/learningpath/learningpathApi";
 import { useSearchResources } from "../../../modules/search/searchQueries";
 import handleError from "../../../util/handleError";
-import { routes, toLearningpathFull } from "../../../util/routeHelpers";
+import { routes } from "../../../util/routeHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 
 const StyledList = styled("ul", {
@@ -148,7 +148,7 @@ const SubjectpageArticles = ({ editorsChoices, elementId, fieldName }: Props) =>
               url={
                 "articleType" in item
                   ? routes.editArticle(item.id, item.articleType ?? "standard", i18n.language)
-                  : toLearningpathFull(item.id, i18n.language)
+                  : routes.learningpath.edit(item.id, i18n.language)
               }
               isExternal={!("articleType" in item)}
               onDelete={() => onDeleteElement(resources, index)}

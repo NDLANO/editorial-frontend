@@ -1,0 +1,69 @@
+/**
+ * Copyright (c) 2025-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { ReactNode } from "react";
+import { Spinner } from "@ndla/primitives";
+import { Article } from "@ndla/ui";
+import { EmbedPageContent } from "./EmbedPageContent";
+import { BaseStepProps } from "./types";
+import { toFormArticle } from "../../../components/PreviewDraft/PreviewDraft";
+import { useTransformedArticle } from "../../../components/PreviewDraft/useTransformedArticle";
+import { useDraft } from "../../../modules/draft/draftQueries";
+import { useNode } from "../../../modules/nodes/nodeQueries";
+import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+
+interface ArticleStepProps extends BaseStepProps {
+  language: string;
+  children?: ReactNode;
+}
+
+const extractIdsFromUrl = (url: string) => {
+  const parts = url.split("/");
+  const [taxId, articleId] = parts.slice(-2);
+  return { taxId, articleId: Number.isNaN(articleId) ? undefined : parseInt(articleId) };
+};
+
+// TODO: License info, competence goals. Consider just using an iframe?
+export const ArticleStep = ({ learningpathStep, children, language }: ArticleStepProps) => {
+  const { articleId, taxId } = extractIdsFromUrl(learningpathStep.embedUrl?.url ?? "");
+  const { taxonomyVersion } = useTaxonomyVersion();
+
+  const nodeQuery = useNode({ id: taxId ?? "", taxonomyVersion, language }, { enabled: !!taxId });
+  const draftQuery = useDraft({ id: articleId ?? 0, language }, { enabled: !!articleId });
+  const { article } = useTransformedArticle({
+    language,
+    draft: draftQuery.data ? toFormArticle(draftQuery.data, language) : undefined,
+    previewAlt: false,
+    useDraftConcepts: false,
+  });
+
+  if (draftQuery.isPending || nodeQuery.isPending) return <Spinner />;
+
+  if (!draftQuery.data || !article) return null;
+
+  return (
+    <EmbedPageContent variant="content">
+      {!!draftQuery.data?.metaDescription?.metaDescription && (
+        <meta name="description" content={draftQuery.data.metaDescription.metaDescription} />
+      )}
+      <Article
+        id={draftQuery.data.id.toString()}
+        article={article}
+        contentTypeLabel={nodeQuery.data?.resourceTypes?.[0]?.name}
+        contentType={
+          draftQuery.data?.articleType === "topic-article"
+            ? "topic-article"
+            : getContentTypeFromResourceTypes(nodeQuery.data?.resourceTypes ?? [])
+        }
+      >
+        {children}
+      </Article>
+    </EmbedPageContent>
+  );
+};

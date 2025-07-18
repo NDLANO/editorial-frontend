@@ -174,7 +174,7 @@ export const MastheadSearch = () => {
         const arr = node?.contentUri?.split(":") ?? [];
         const id = arr[arr.length - 1];
         if (arr.at(-2) === "learningpath") {
-          window.location.href = routes.learningpath(id, i18n.language);
+          window.location.href = routes.learningpath.full(id, i18n.language);
         } else {
           const articleType = node.nodeType === "TOPIC" ? "topic-article" : "standard";
           navigate(routes.editArticle(parseInt(id), articleType));
@@ -198,7 +198,7 @@ export const MastheadSearch = () => {
       const splittedUri = newArticle.contentUri.split(":");
       const id = splittedUri[splittedUri.length - 1];
       if (splittedUri.at(-2) === "learningpath") {
-        window.location.href = routes.learningpath(id, i18n.language);
+        window.location.href = routes.learningpath.full(id, i18n.language);
       } else {
         navigate(routes.editArticle(parseInt(id), "standard"));
       }

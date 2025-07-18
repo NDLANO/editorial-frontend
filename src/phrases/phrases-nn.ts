@@ -2345,12 +2345,14 @@ const phrases = {
       },
     },
     metadata: {
+      heading: "Rediger metadata",
       titleLabel: "Tittel",
       descriptionLabel: "Beskriving",
       metaImageTitle: "Metabilete",
       descriptionPlaceholder: "Beskriving av læringsstien",
     },
     steps: {
+      heading: "Rediger læringssteg",
       typeTitle: "Legg til innhald",
       addStep: "Legg til steg",
       noSteps: "Læringsstien har ingen steg enno.",

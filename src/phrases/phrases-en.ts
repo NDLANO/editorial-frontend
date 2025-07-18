@@ -2345,12 +2345,14 @@ const phrases = {
       },
     },
     metadata: {
+      heading: "Edit metadata",
       titleLabel: "Title",
       descriptionLabel: "Description",
       metaImageTitle: "Meta image",
       descriptionPlaceholder: "Description of the learning path",
     },
     steps: {
+      heading: "Edit learning steps",
       typeTitle: "Add content",
       addStep: "Add step",
       noSteps: "This learning path doesn't have any steps yet.",

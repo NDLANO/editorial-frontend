@@ -41,7 +41,9 @@ export const LearningpathStatusPage = () => {
       <FormContent>
         <LearningpathFormHeader learningpath={learningpathQuery.data} language={language} />
         <LearningpathFormStepper id={numericId} language={language} currentStep="status" />
-        <Heading>{t("learningpathForm.status.heading")}</Heading>
+        <Heading asChild consumeCss>
+          <h2>{t("learningpathForm.status.heading")}</h2>
+        </Heading>
         <Text>{t(`learningpathForm.status.${isPublished ? "publishedText" : "unpublishedText"}`)}</Text>
         <FormActionsContainer>
           <Button

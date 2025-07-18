@@ -56,7 +56,9 @@ export const LearningpathPreview = ({ learningpath, language }: Props) => {
     <StyledPageContainer padding="none">
       <LearningpathFormHeader learningpath={learningpath} language={language} />
       <LearningpathFormStepper id={learningpath.id} language={language} currentStep="preview" />
-      <Heading>{t("learningpathForm.preview.heading")}</Heading>
+      <Heading asChild consumeCss>
+        <h2>{t("learningpathForm.preview.heading")}</h2>
+      </Heading>
       <StepWrapper>
         {currentStep ? (
           <>

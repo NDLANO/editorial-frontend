@@ -21,6 +21,7 @@ import {
   FieldLabel,
   FieldRoot,
   FieldTextArea,
+  Heading,
   Input,
 } from "@ndla/primitives";
 import {
@@ -177,6 +178,9 @@ export const LearningpathMetaDataForm = ({ learningpath, language }: Props) => {
             {!!learningpath?.id && (
               <LearningpathFormStepper id={learningpath.id} language={language} currentStep="metadata" />
             )}
+            <Heading asChild consumeCss>
+              <h2>{t("learningpathForm.metadata.heading")}</h2>
+            </Heading>
             <FormContent>
               <FormField name="title">
                 {({ field, meta }) => (

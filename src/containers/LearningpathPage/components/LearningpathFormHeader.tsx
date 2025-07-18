@@ -6,12 +6,23 @@
  *
  */
 
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@ndla/primitives";
 import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ContentTypeBadge } from "@ndla/ui";
 import HeaderActions from "../../../components/HeaderWithLanguage/HeaderActions";
 import { HeaderCurrentLanguagePill } from "../../../components/HeaderWithLanguage/HeaderCurrentLanguagePill";
-import { FormHeaderHeading, FormHeaderHeadingContainer, FormHeaderSegment } from "../../FormHeader/FormHeader";
+import HeaderFavoriteStatus from "../../../components/HeaderWithLanguage/HeaderFavoriteStatus";
+import { usePostCopyLearningpathMutation } from "../../../modules/learningpath/learningpathMutations";
+import { routes } from "../../../util/routeHelpers";
+import {
+  FormHeaderHeading,
+  FormHeaderHeadingContainer,
+  FormHeaderSegment,
+  FormHeaderStatusWrapper,
+} from "../../FormHeader/FormHeader";
 
 interface Props {
   learningpath: ILearningPathV2DTO | undefined;
@@ -21,14 +32,34 @@ interface Props {
 export const LearningpathFormHeader = ({ learningpath, language }: Props) => {
   const { t } = useTranslation();
   const isNewLanguage = !!learningpath?.id && !learningpath.supportedLanguages.includes(language);
+  const cloneLearningpathMutation = usePostCopyLearningpathMutation();
+  const navigate = useNavigate();
+
+  const onClone = useCallback(async () => {
+    if (!learningpath) return;
+    const res = await cloneLearningpathMutation.mutateAsync({
+      learningpathId: learningpath.id,
+      learningpath: { title: `${learningpath.title.title}_Kopi`, language: language },
+    });
+
+    navigate(routes.learningpath.edit(res.id, language));
+  }, [cloneLearningpathMutation, language, learningpath, navigate]);
+
   return (
     <header>
       <FormHeaderSegment>
         <FormHeaderHeadingContainer>
           <ContentTypeBadge contentType="learning-path" />
           <FormHeaderHeading contentType="learning-path">{learningpath?.title.title}</FormHeaderHeading>
-          {/* TODO: Cloning */}
+          {!!learningpath && (
+            <Button loading={cloneLearningpathMutation.isPending} variant="tertiary" size="small" onClick={onClone}>
+              {t("learningpathForm.header.clone")}
+            </Button>
+          )}
         </FormHeaderHeadingContainer>
+        <FormHeaderStatusWrapper>
+          <HeaderFavoriteStatus id={learningpath?.id} type="learningpath" />
+        </FormHeaderStatusWrapper>
         {/* TODO: Published status, taxonomy, favorite count, responsible and status */}
       </FormHeaderSegment>
       {learningpath?.id ? (

@@ -10,6 +10,7 @@ import { useMutation, UseMutationOptions, useQueryClient } from "@tanstack/react
 import {
   ILearningPathV2DTO,
   ILearningStepV2DTO,
+  INewCopyLearningPathV2DTO,
   INewLearningPathV2DTO,
   INewLearningStepV2DTO,
   IUpdatedLearningPathV2DTO,
@@ -19,6 +20,7 @@ import {
   deleteLearningStep,
   patchLearningpath,
   patchLearningStep,
+  postCopyLearningpath,
   postLearningpath,
   postLearningStep,
   putLearningpathStatus,
@@ -199,6 +201,20 @@ export const usePutLearningpathStatusMutation = (
       qc.cancelQueries({ queryKey: learningpathQueryKeys.learningpath({ id: vars.learningpathId, language }) }),
     onSettled: (_, __, vars) =>
       qc.invalidateQueries({ queryKey: learningpathQueryKeys.learningpath({ id: vars.learningpathId, language }) }),
+    ...options,
+  });
+};
+
+interface UsePostCopyLearningpathMutation {
+  learningpathId: number;
+  learningpath: INewCopyLearningPathV2DTO;
+}
+
+export const usePostCopyLearningpathMutation = (
+  options?: Partial<UseMutationOptions<ILearningPathV2DTO, unknown, UsePostCopyLearningpathMutation>>,
+) => {
+  return useMutation<ILearningPathV2DTO, unknown, UsePostCopyLearningpathMutation>({
+    mutationFn: (vars) => postCopyLearningpath(vars.learningpathId, vars.learningpath),
     ...options,
   });
 };

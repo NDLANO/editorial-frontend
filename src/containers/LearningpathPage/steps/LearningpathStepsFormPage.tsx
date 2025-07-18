@@ -113,7 +113,6 @@ const Content = ({ learningpath, language }: Props) => {
 
   const onDragEnd = useCallback(
     async (event: DragEndEvent) => {
-      // TODO: Error handling
       const { active, over } = event;
       const overIndex = over?.data.current?.index;
       const activeIndex = active.data.current?.index;

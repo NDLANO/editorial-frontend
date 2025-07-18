@@ -68,11 +68,7 @@ export const LearningpathFormHeader = ({ learningpath, language }: Props) => {
           articleRevisionHistory={undefined}
           language={language}
           supportedLanguages={learningpath.supportedLanguages}
-          // TODO: Can this have connections?
           disableDelete={learningpath.supportedLanguages.length === 1}
-          // TODO: should this be replaced with a standalone "learningpath" type?
-          // article={article}
-          // TODO: Should this be enabled?
           noStatus
           isNewLanguage={isNewLanguage}
           type="learningpath"

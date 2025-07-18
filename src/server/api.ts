@@ -282,7 +282,6 @@ router.get("/transcribe/:jobName", jwtMiddleware, aiMiddleware, async (req, res)
 
 const youtubeApi = youtube({ version: "v3", auth: googleApiKey });
 
-// TODO: Consider adding specific YouTube handling like we do in GraphQL.
 router.get("/opengraph", jwtMiddleware, async (req, res) => {
   const { url } = req.query;
   if (!url || typeof url !== "string") {

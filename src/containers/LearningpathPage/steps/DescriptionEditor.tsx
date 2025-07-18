@@ -33,6 +33,7 @@ import { spanPlugin } from "../../../components/SlateEditor/plugins/span";
 import { spanRenderer } from "../../../components/SlateEditor/plugins/span/render";
 import { textTransformPlugin } from "../../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../../components/SlateEditor/plugins/toolbar";
+import { createToolbarDefaultValues } from "../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import { UnsupportedElement } from "../../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
 import { unsupportedElementRenderer } from "../../../components/SlateEditor/plugins/unsupported/unsupportedElementRenderer";
 import { unsupportedPlugin } from "../../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
@@ -57,6 +58,27 @@ const StyledTextArea = styled(TextArea, {
   },
 });
 
+const toolbarOptions = createToolbarDefaultValues({
+  text: {
+    "heading-3": { hidden: true },
+    "heading-4": { hidden: true },
+  },
+  block: {
+    hidden: true,
+    "bulleted-list": { hidden: false },
+    "numbered-list": { hidden: false },
+  },
+  mark: {
+    sub: { hidden: true },
+    sup: { hidden: true },
+    code: { hidden: true },
+  },
+  inline: {
+    hidden: true,
+    "content-link": { hidden: false },
+  },
+});
+
 const PLUGINS: SlatePlugin[] = [
   idPlugin,
   inlineNavigationPlugin,
@@ -69,7 +91,7 @@ const PLUGINS: SlatePlugin[] = [
   breakPlugin,
   linkPlugin,
   spanPlugin,
-  toolbarPlugin,
+  toolbarPlugin.configure({ options: { options: toolbarOptions } }),
   textTransformPlugin,
   saveHotkeyPlugin,
   unsupportedPlugin,

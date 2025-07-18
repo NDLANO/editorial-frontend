@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
-import { FieldErrorMessage, FieldHelper, FieldLabel, FieldRoot, IconButton, Text } from "@ndla/primitives";
+import { ComboboxLabel, FieldErrorMessage, FieldHelper, FieldRoot, IconButton, Text } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
@@ -149,10 +149,10 @@ export const ResourceStepForm = ({ language, step }: Props) => {
       )}
       {!selectedResource ? (
         <FieldRoot>
-          <FieldLabel fontWeight="bold">{t("learningpathForm.steps.resourceForm.label")}</FieldLabel>
-          <FieldHelper>{t("learningpathForm.steps.resourceForm.labelHelper")}</FieldHelper>
-          {/* TODO: Label and Helper should be connected to combobox... */}
-          <ResourcePicker setResource={onSelectResource} />
+          <ResourcePicker setResource={onSelectResource}>
+            <ComboboxLabel fontWeight="bold">{t("learningpathForm.steps.resourceForm.label")}</ComboboxLabel>
+            <FieldHelper>{t("learningpathForm.steps.resourceForm.labelHelper")}</FieldHelper>
+          </ResourcePicker>
         </FieldRoot>
       ) : (
         <ResourceContainer>

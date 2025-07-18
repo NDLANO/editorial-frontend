@@ -76,7 +76,6 @@ export const LearningpathFormHeader = ({ learningpath, language }: Props) => {
             <FormHeaderStatusInfo isNewLanguage={isNewLanguage} statusText={statusText} />
           </div>
         </FormHeaderStatusWrapper>
-        {/* TODO: Published status, taxonomy, favorite count, responsible and status */}
       </FormHeaderSegment>
       {learningpath?.id ? (
         <HeaderActions

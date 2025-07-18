@@ -23,7 +23,7 @@ export const LearningpathStatusPage = () => {
   const { id, language } = useParams<"id" | "language">();
   const numericId = parseInt(id || "");
   const learningpathQuery = useLearningpath({ id: numericId, language }, { enabled: !!numericId });
-  const putLearningpathStatusMutation = usePutLearningpathStatusMutation();
+  const putLearningpathStatusMutation = usePutLearningpathStatusMutation(language ?? "");
 
   if (!numericId || !language) {
     return <NotFound />;

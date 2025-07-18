@@ -6,11 +6,10 @@
  *
  */
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Outlet, useParams } from "react-router-dom";
 import { DragEndEvent } from "@dnd-kit/core";
-import { arrayMove } from "@dnd-kit/sortable";
 import { AddLine, CloseLine, DeleteBinLine, Draggable, PencilLine } from "@ndla/icons";
 import { Heading, IconButton, ListItemContent, ListItemRoot, PageContent, Spinner, Text } from "@ndla/primitives";
 import { SafeLinkButton, SafeLinkIconButton } from "@ndla/safelink";
@@ -92,14 +91,8 @@ const StyledListItemContent = styled(ListItemContent, {
 const Content = ({ learningpath, language }: Props) => {
   const { t } = useTranslation();
   const { stepId } = useParams<"stepId">();
-  const [sortedLearningpathSteps, setSortedLearningpathSteps] = useState(learningpath.learningsteps ?? []);
-  const deleteStepMutation = useDeleteLearningStepMutation();
-  const putLearningStepOrderMutation = usePutLearningStepOrderMutation();
-
-  useEffect(() => {
-    if (!learningpath.learningsteps) return;
-    setSortedLearningpathSteps(learningpath.learningsteps);
-  }, [learningpath.learningsteps]);
+  const deleteStepMutation = useDeleteLearningStepMutation(language);
+  const putLearningStepOrderMutation = usePutLearningStepOrderMutation(language);
 
   const onDeleteStep = useCallback(
     async (stepId: number) => {
@@ -111,29 +104,21 @@ const Content = ({ learningpath, language }: Props) => {
   const onDragEnd = useCallback(
     async (event: DragEndEvent) => {
       // TODO: Error handling
+      const { active, over } = event;
+      const overIndex = over?.data.current?.index;
+      const activeIndex = active.data.current?.index;
+      if (!Number.isInteger(overIndex) || !Number.isInteger(activeIndex) || overIndex === activeIndex) return;
       try {
-        const { active, over } = event;
-        if (over?.data.current && active.data.current) {
-          const oldIndex = learningpath.learningsteps.findIndex((step) => step.id === Number(active.id));
-          const newIndex = learningpath.learningsteps.findIndex((step) => step.id === Number(over.id));
-
-          if (newIndex === undefined || newIndex === oldIndex) return;
-
-          const sortedArr = arrayMove(sortedLearningpathSteps, oldIndex, newIndex);
-          const dropped = sortedLearningpathSteps.find((step) => step.id === Number(active.id));
-
-          setSortedLearningpathSteps(sortedArr);
-          await putLearningStepOrderMutation.mutateAsync({
-            learningpathId: learningpath.id,
-            stepId: dropped?.id ?? -1,
-            seqNo: newIndex,
-          });
-        }
+        await putLearningStepOrderMutation.mutateAsync({
+          learningpathId: learningpath.id,
+          stepId: Number(active.id) || -1,
+          seqNo: overIndex,
+        });
       } catch (err) {
         // TODO: Error handling
       }
     },
-    [learningpath.id, learningpath.learningsteps, putLearningStepOrderMutation, sortedLearningpathSteps],
+    [learningpath.id, putLearningStepOrderMutation],
   );
 
   return (
@@ -146,7 +131,7 @@ const Content = ({ learningpath, language }: Props) => {
       {!learningpath.learningsteps.length && <Text>{t("learningpathForm.steps.noSteps")}</Text>}
       <ul>
         <DndList
-          items={sortedLearningpathSteps}
+          items={learningpath.learningsteps}
           onDragEnd={onDragEnd}
           disabled={!!stepId}
           dragHandle={

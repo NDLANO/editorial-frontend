@@ -153,9 +153,9 @@ export const LearningpathStepForm = ({ step }: Props) => {
   const { id, language } = useParams<"id" | "language">();
   const { t } = useTranslation();
   const initialValues = useMemo(() => toFormValues(getFormTypeFromStep(step), step), [step]);
-  const postLearningStepMutation = usePostLearningStepMutation();
-  const patchLearningStepMutation = usePatchLearningStepMutation();
-  const deleteLearningStepMutation = useDeleteLearningStepMutation();
+  const postLearningStepMutation = usePostLearningStepMutation(language ?? "");
+  const patchLearningStepMutation = usePatchLearningStepMutation(language ?? "");
+  const deleteLearningStepMutation = useDeleteLearningStepMutation(language ?? "");
   const navigate = useNavigate();
 
   useEffect(() => {

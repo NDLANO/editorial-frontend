@@ -65,7 +65,6 @@ export const ResourcePicker = ({ setResource, children }: Props) => {
     query: delayedSearchObject.query,
     page: delayedSearchObject.page,
     pageSize: delayedSearchObject.pageSize,
-    // TODO: Double check resource types
     resourceTypes: [
       RESOURCE_TYPE_SUBJECT_MATERIAL,
       RESOURCE_TYPE_TASKS_AND_ACTIVITIES,

@@ -30,7 +30,7 @@ const extractIdsFromUrl = (url: string) => {
 };
 
 // TODO: License info, competence goals. Consider just using an iframe?
-export const ArticleStep = ({ learningpathStep, skipToContentId, children, language }: ArticleStepProps) => {
+export const ArticleStep = ({ learningpathStep, children, language }: ArticleStepProps) => {
   const { articleId, taxId } = extractIdsFromUrl(learningpathStep.embedUrl?.url ?? "");
   const { taxonomyVersion } = useTaxonomyVersion();
 
@@ -53,7 +53,7 @@ export const ArticleStep = ({ learningpathStep, skipToContentId, children, langu
         <meta name="description" content={draftQuery.data.metaDescription.metaDescription} />
       )}
       <Article
-        id={skipToContentId ?? draftQuery.data.id.toString()}
+        id={draftQuery.data.id.toString()}
         article={article}
         contentTypeLabel={nodeQuery.data?.resourceTypes?.[0]?.name}
         contentType={

@@ -28,9 +28,9 @@ interface Props extends BaseStepProps {
   learningpath: ILearningPathV2DTO;
 }
 
-export const ExternalStep = ({ learningpathStep, skipToContentId, learningpath }: Props) => {
+export const ExternalStep = ({ learningpathStep, learningpath }: Props) => {
   const { t } = useTranslation();
-  const fallbackId = useId();
+  const id = useId();
   const openGraphQuery = useFetchOpenGraph(learningpathStep.embedUrl?.url ?? "", {
     enabled: !!learningpathStep.embedUrl?.url,
   });
@@ -45,7 +45,7 @@ export const ExternalStep = ({ learningpathStep, skipToContentId, learningpath }
         <ArticleTitle
           title={learningpathStep.title.title}
           introduction={learningpathStep.introduction?.introduction}
-          id={skipToContentId ?? fallbackId}
+          id={id}
           contentType="external"
         />
         <ArticleContent>

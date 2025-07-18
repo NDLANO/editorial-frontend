@@ -17,14 +17,14 @@ interface TextStepProps extends BaseStepProps {
   learningpath: ILearningPathV2DTO;
 }
 
-export const TextStep = ({ learningpathStep, learningpath, skipToContentId }: TextStepProps) => {
-  const fallbackId = useId();
+export const TextStep = ({ learningpathStep, learningpath }: TextStepProps) => {
+  const id = useId();
 
   return (
     <EmbedPageContent variant="content">
       <ArticleWrapper>
         <ArticleTitle
-          id={skipToContentId ?? fallbackId}
+          id={id}
           title={learningpathStep.title.title}
           contentType="external"
           introduction={learningpathStep.introduction?.introduction}

@@ -10,5 +10,4 @@ import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 
 export interface BaseStepProps {
   learningpathStep: ILearningStepV2DTO;
-  skipToContentId?: string;
 }

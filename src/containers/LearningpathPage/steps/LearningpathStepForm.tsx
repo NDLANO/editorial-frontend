@@ -10,6 +10,7 @@ import { Form, Formik } from "formik";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
+import { isSectionElement } from "@ndla/editor";
 import { DeleteBinLine } from "@ndla/icons";
 import {
   Button,
@@ -62,15 +63,11 @@ const StyledForm = styled(
   { baseComponent: true },
 );
 
-// export const deserializeToRichText = (html: string) => {
-//   const opts = {
-//     blocks: [],
-//     inlines: [LINK_ELEMENT_TYPE],
-//   };
-//   const res = deserializeFromHtml(html, cextendedRules, opts);
-//   // TODO: Workaround for plain-text content. If the first block is not a section element, it is not created by our RichTextEditor. It is probably plain text imported from stier.
-//   return isSectionElement(res[0]) ? res : deserializeFromHtml(`<section>${html}</section>`, serializers, opts);
-// };
+const learningpathBlockContentToEditorValue = (html: string) => {
+  const res = blockContentToEditorValue(html);
+  // HACK: Workaround for plain-text content. If the first block is not a section element, it is not created by our RichTextEditor. It is probably plain text imported from stier.
+  return isSectionElement(res[0]) ? res : blockContentToEditorValue(`<section>${html}</section>`);
+};
 
 export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
   type: T,
@@ -82,7 +79,7 @@ export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
         type: "text",
         title: step?.title.title ?? "",
         introduction: step?.introduction?.introduction ?? "",
-        description: blockContentToEditorValue(step?.description?.description ?? ""),
+        description: learningpathBlockContentToEditorValue(step?.description?.description ?? ""),
         license: step?.license?.license ?? "",
       };
     case "external":
@@ -92,7 +89,7 @@ export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
         introduction: step?.introduction?.introduction ?? "",
         url: step?.embedUrl?.url ?? "",
         shareable: !!step?.embedUrl?.url,
-        description: blockContentToEditorValue(step?.description?.description ?? ""),
+        description: learningpathBlockContentToEditorValue(step?.description?.description ?? ""),
         license: step?.license?.license ?? "",
       };
     case "resource":
@@ -101,7 +98,7 @@ export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
         type: type,
         title: step?.title.title ?? "",
         embedUrl: step?.embedUrl?.url ?? "",
-        description: blockContentToEditorValue(step?.description?.description ?? ""),
+        description: learningpathBlockContentToEditorValue(step?.description?.description ?? ""),
         license: step?.license?.license ?? "",
       };
     default:

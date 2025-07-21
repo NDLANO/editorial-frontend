@@ -77,7 +77,7 @@ export const resourceToLinkProps = (
   }
   if (isLearningPathResourceType(contentType)) {
     return {
-      href: routes.learningpath.edit(typeof content.id === "number" ? content.id : parseInt(content.id), locale),
+      href: routes.learningpath.edit(Number(content.id), locale),
       target: "_blank",
       rel: "noopener noreferrer",
     };

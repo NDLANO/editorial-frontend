@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
 import { ComboboxLabel, FieldErrorMessage, FieldHelper, FieldRoot, IconButton, Text } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
@@ -22,7 +23,6 @@ import { FormField } from "../../../components/FormField";
 import config from "../../../config";
 import { fetchNode } from "../../../modules/nodes/nodeApi";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-import { StepSafeLink } from "../components/StepSafeLink";
 import { getFormTypeFromStep, getNodeIdFromEmbedUrl } from "../learningpathUtils";
 import { DescriptionEditor } from "./DescriptionEditor";
 import { LicenseField } from "../../FormikForm";
@@ -80,6 +80,20 @@ const CrumbText = styled(Text, {
 const StyledIconButton = styled(IconButton, {
   base: {
     position: "relative",
+  },
+});
+
+const StyledSafeLink = styled(SafeLink, {
+  base: {
+    display: "inline",
+    color: "text.default",
+    textDecoration: "underline",
+    _hover: {
+      textDecoration: "none",
+    },
+    _focusVisible: {
+      textDecoration: "none",
+    },
   },
 });
 
@@ -162,7 +176,7 @@ export const ResourceStepForm = ({ language, step }: Props) => {
 
           <ResourceWrapper>
             <TextWrapper>
-              <StepSafeLink
+              <StyledSafeLink
                 to={`${config.ndlaFrontendDomain}${selectedResource.url}`}
                 target="_blank"
                 css={linkOverlay.raw()}
@@ -171,7 +185,7 @@ export const ResourceStepForm = ({ language, step }: Props) => {
                   {selectedResource.title}
                   <ExternalLinkLine size="small" />
                 </Text>
-              </StepSafeLink>
+              </StyledSafeLink>
               {!!selectedResource.breadcrumbs && (
                 <CrumbText
                   textStyle="label.small"

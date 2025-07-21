@@ -9,19 +9,10 @@
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
 import { Spinner } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import { ILearningPathV2DTO, ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper, ResourceBox } from "@ndla/ui";
 import { EmbedPageContent } from "./EmbedPageContent";
 import { useFetchOpenGraph } from "../../../modules/opengraph/opengraphQueries";
-
-const StyledArticleFooter = styled(ArticleFooter, {
-  base: {
-    "& > :is(:last-child)": {
-      paddingBlockEnd: "xxlarge",
-    },
-  },
-});
 
 interface Props {
   learningpath: ILearningPathV2DTO;
@@ -58,9 +49,9 @@ export const ExternalStep = ({ step, learningpath }: Props) => {
             />
           </section>
         </ArticleContent>
-        <StyledArticleFooter>
+        <ArticleFooter>
           <ArticleByline authors={learningpath.copyright.contributors} bylineType="external" />
-        </StyledArticleFooter>
+        </ArticleFooter>
       </ArticleWrapper>
     </EmbedPageContent>
   );

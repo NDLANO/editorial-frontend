@@ -27,29 +27,36 @@ import {
   FormHeaderStatusInfo,
   FormHeaderStatusWrapper,
 } from "../../FormHeader/FormHeader";
+import { useMessages } from "../../Messages/MessagesProvider";
 
 interface Props {
   learningpath: ILearningPathV2DTO | undefined;
   language: string;
+  formIsDirty?: boolean;
 }
 
-export const LearningpathFormHeader = ({ learningpath, language }: Props) => {
+export const LearningpathFormHeader = ({ learningpath, language, formIsDirty }: Props) => {
   const { t } = useTranslation();
   const isNewLanguage = !!learningpath?.id && !learningpath.supportedLanguages.includes(language);
   const cloneLearningpathMutation = usePostCopyLearningpathMutation();
   const navigate = useNavigate();
+  const { createMessage } = useMessages();
   // TODO: I don't know all of the learningpath statuses. We need to ensure we have translations for all of them.
   const statusText = learningpath?.status ? t(`form.status.${learningpath.status.toLowerCase()}`) : "";
 
   const onClone = useCallback(async () => {
     if (!learningpath) return;
+    if (formIsDirty) {
+      createMessage({ translationKey: "form.mustSaveFirst", severity: "danger", timeToLive: 0 });
+      return;
+    }
     const res = await cloneLearningpathMutation.mutateAsync({
       learningpathId: learningpath.id,
       learningpath: { title: `${learningpath.title.title}_Kopi`, language: language },
     });
 
     navigate(routes.learningpath.edit(res.id, language));
-  }, [cloneLearningpathMutation, language, learningpath, navigate]);
+  }, [cloneLearningpathMutation, createMessage, formIsDirty, language, learningpath, navigate]);
 
   return (
     <header>

@@ -174,7 +174,7 @@ export const LearningpathMetaDataForm = ({ learningpath, language }: Props) => {
         return (
           <Form>
             <PreventWindowUnload preventUnload={formIsDirty} />
-            <LearningpathFormHeader learningpath={learningpath} language={language} />
+            <LearningpathFormHeader learningpath={learningpath} language={language} formIsDirty={formIsDirty} />
             {!!learningpath?.id && (
               <LearningpathFormStepper id={learningpath.id} language={language} currentStep="metadata" />
             )}

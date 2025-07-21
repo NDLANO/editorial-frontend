@@ -10,10 +10,9 @@ import { useId } from "react";
 import { useTranslation } from "react-i18next";
 import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { ILearningPathV2DTO, ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper, ResourceBox } from "@ndla/ui";
 import { EmbedPageContent } from "./EmbedPageContent";
-import { BaseStepProps } from "./types";
 import { useFetchOpenGraph } from "../../../modules/opengraph/opengraphQueries";
 
 const StyledArticleFooter = styled(ArticleFooter, {
@@ -24,15 +23,16 @@ const StyledArticleFooter = styled(ArticleFooter, {
   },
 });
 
-interface Props extends BaseStepProps {
+interface Props {
   learningpath: ILearningPathV2DTO;
+  step: ILearningStepV2DTO;
 }
 
-export const ExternalStep = ({ learningpathStep, learningpath }: Props) => {
+export const ExternalStep = ({ step, learningpath }: Props) => {
   const { t } = useTranslation();
   const id = useId();
-  const openGraphQuery = useFetchOpenGraph(learningpathStep.embedUrl?.url ?? "", {
-    enabled: !!learningpathStep.embedUrl?.url,
+  const openGraphQuery = useFetchOpenGraph(step.embedUrl?.url ?? "", {
+    enabled: !!step.embedUrl?.url,
   });
 
   if (openGraphQuery.isPending) {
@@ -43,8 +43,8 @@ export const ExternalStep = ({ learningpathStep, learningpath }: Props) => {
     <EmbedPageContent variant="content" css={{ paddingBlock: "medium" }}>
       <ArticleWrapper>
         <ArticleTitle
-          title={learningpathStep.title.title}
-          introduction={learningpathStep.introduction?.introduction}
+          title={step.title.title}
+          introduction={step.introduction?.introduction}
           id={id}
           contentType="external"
         />
@@ -53,7 +53,7 @@ export const ExternalStep = ({ learningpathStep, learningpath }: Props) => {
             <ResourceBox
               title={openGraphQuery.data?.title ?? ""}
               caption={openGraphQuery.data?.description ?? ""}
-              url={openGraphQuery.data?.url ?? learningpathStep.embedUrl?.url ?? ""}
+              url={openGraphQuery.data?.url ?? step.embedUrl?.url ?? ""}
               buttonText={t("learningpathForm.preview.openExternalLink")}
             />
           </section>

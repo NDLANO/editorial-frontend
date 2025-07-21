@@ -11,10 +11,13 @@ import { useParams } from "react-router-dom";
 import { Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { ArticleStep } from "./ArticleStep";
+import { ExternalStep } from "./ExternalStep";
 import { LearningpathMenu } from "./LearningpathMenu";
-import { LearningStepPreview } from "./LearningStepPreview";
 import { LearningpathFormHeader } from "../components/LearningpathFormHeader";
 import { LearningpathFormStepper } from "../components/LearningpathFormStepper";
+import { getFormTypeFromStep } from "../learningpathUtils";
+import { TextStep } from "./TextStep";
 
 interface Props {
   learningpath: ILearningPathV2DTO;
@@ -52,6 +55,8 @@ export const LearningpathPreview = ({ learningpath, language }: Props) => {
     ? learningpath.learningsteps.find((step) => step.id === parseInt(stepId))
     : learningpath.learningsteps[0];
 
+  const stepType = currentStep ? getFormTypeFromStep(currentStep) : null;
+
   return (
     <StyledPageContainer padding="none">
       <LearningpathFormHeader learningpath={learningpath} language={language} />
@@ -60,12 +65,16 @@ export const LearningpathPreview = ({ learningpath, language }: Props) => {
         <h2>{t("learningpathForm.preview.heading")}</h2>
       </Heading>
       <StepWrapper>
-        {currentStep ? (
+        {currentStep && stepType ? (
           <>
             <LearningpathMenu learningpath={learningpath} language={language} step={currentStep} />
-            {!!currentStep && (
-              <LearningStepPreview step={currentStep} learningpath={learningpath} language={language} />
-            )}
+            {stepType === "text" ? (
+              <TextStep step={currentStep} learningpath={learningpath} />
+            ) : stepType === "resource" ? (
+              <ArticleStep step={currentStep} language={language} />
+            ) : stepType === "external" ? (
+              <ExternalStep step={currentStep} learningpath={learningpath} />
+            ) : null}
           </>
         ) : (
           <Text>{t("learningpathForm.preview.noSteps")}</Text>

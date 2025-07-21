@@ -60,7 +60,7 @@ const LinksWrapper = styled("div", {
   },
 });
 
-export const EditorFooterContainer = styled("div", {
+const StyledPageContent = styled("div", {
   base: {
     position: "sticky",
     bottom: "4xsmall",
@@ -99,7 +99,7 @@ const LanguageButton = ({ article }: LanguageButtonProps) => {
   }
 };
 
-export const EditorFooterContent = styled("div", {
+const ContentWrapper = styled("div", {
   base: {
     display: "grid",
     gridTemplateColumns: "1fr repeat(3, minmax(150px, max-content)) min-content",
@@ -186,8 +186,8 @@ function EditorFooter<T extends FormValues>({
   );
 
   return (
-    <EditorFooterContainer>
-      <EditorFooterContent>
+    <StyledPageContent>
+      <ContentWrapper>
         {!showSimpleFooter && (
           <LinksWrapper>
             {!!values.id && !!isConcept && (
@@ -249,8 +249,8 @@ function EditorFooter<T extends FormValues>({
           hideSecondaryButton={hideSecondaryButton}
           hasErrors={!!hasErrors}
         />
-      </EditorFooterContent>
-    </EditorFooterContainer>
+      </ContentWrapper>
+    </StyledPageContent>
   );
 }
 

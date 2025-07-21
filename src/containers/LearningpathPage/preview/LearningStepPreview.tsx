@@ -22,15 +22,15 @@ export const LearningStepPreview = ({ step, learningpath, language }: Props) => 
   const type = getFormTypeFromStep(step);
 
   if (type === "text") {
-    return <TextStep learningpathStep={step} learningpath={learningpath} />;
+    return <TextStep step={step} learningpath={learningpath} />;
   }
 
   if (type === "resource") {
-    return <ArticleStep learningpathStep={step} language={language} />;
+    return <ArticleStep step={step} language={language} />;
   }
 
   if (type === "external") {
-    return <ExternalStep learningpathStep={step} learningpath={learningpath} />;
+    return <ExternalStep step={step} learningpath={learningpath} />;
   }
 
   return null;

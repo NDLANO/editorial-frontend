@@ -8,16 +8,16 @@
 
 import { useId } from "react";
 import { transform } from "@ndla/article-converter";
-import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { ILearningPathV2DTO, ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper } from "@ndla/ui";
 import { EmbedPageContent } from "./EmbedPageContent";
-import { BaseStepProps } from "./types";
 
-interface TextStepProps extends BaseStepProps {
+interface TextStepProps {
   learningpath: ILearningPathV2DTO;
+  step: ILearningStepV2DTO;
 }
 
-export const TextStep = ({ learningpathStep, learningpath }: TextStepProps) => {
+export const TextStep = ({ step, learningpath }: TextStepProps) => {
   const id = useId();
 
   return (
@@ -25,14 +25,12 @@ export const TextStep = ({ learningpathStep, learningpath }: TextStepProps) => {
       <ArticleWrapper>
         <ArticleTitle
           id={id}
-          title={learningpathStep.title.title}
+          title={step.title.title}
           contentType="external"
-          introduction={learningpathStep.introduction?.introduction}
+          introduction={step.introduction?.introduction}
         />
         <ArticleContent>
-          {learningpathStep.description ? (
-            <section>{transform(learningpathStep.description.description, {})}</section>
-          ) : null}
+          {step.description ? <section>{transform(step.description.description, {})}</section> : null}
         </ArticleContent>
         <ArticleFooter>
           <ArticleByline authors={learningpath.copyright.contributors} />

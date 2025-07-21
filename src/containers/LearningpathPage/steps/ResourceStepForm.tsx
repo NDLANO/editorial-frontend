@@ -17,7 +17,7 @@ import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ContentTypeBadge } from "@ndla/ui";
 import { contentTypeMapping, ResourcePicker } from "./ResourcePicker";
-import { LearningpathStepFormValues, ResourceData, ResourceFormValues } from "./types";
+import { ResourceData, ResourceFormValues } from "./types";
 import { FormField } from "../../../components/FormField";
 import config from "../../../config";
 import { fetchNode } from "../../../modules/nodes/nodeApi";
@@ -87,9 +87,8 @@ export const ResourceStepForm = ({ language, step }: Props) => {
   const { t } = useTranslation();
   const [selectedResource, setSelectedResource] = useState<ResourceData | undefined>(undefined);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
-  const { setFieldValue } = useFormikContext<LearningpathStepFormValues>();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const { values } = useFormikContext<ResourceFormValues>();
+  const { values, setFieldValue } = useFormikContext<ResourceFormValues>();
   // const resource = useNode({}, { enabled: !!step && selectedResource });
 
   useEffect(() => {

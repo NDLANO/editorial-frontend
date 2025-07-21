@@ -12,8 +12,10 @@ import { Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ArticleStep } from "./ArticleStep";
+import { EmbedStep } from "./EmbedStep";
 import { ExternalStep } from "./ExternalStep";
 import { LearningpathMenu } from "./LearningpathMenu";
+import { StepTitle } from "./StepTitle";
 import { LearningpathFormHeader } from "../components/LearningpathFormHeader";
 import { LearningpathFormStepper } from "../components/LearningpathFormStepper";
 import { getFormTypeFromStep } from "../learningpathUtils";
@@ -68,12 +70,15 @@ export const LearningpathPreview = ({ learningpath, language }: Props) => {
         {currentStep && stepType ? (
           <>
             <LearningpathMenu learningpath={learningpath} language={language} step={currentStep} />
+            {stepType !== "text" && <StepTitle step={currentStep} />}
             {stepType === "text" ? (
               <TextStep step={currentStep} learningpath={learningpath} />
             ) : stepType === "resource" ? (
               <ArticleStep step={currentStep} language={language} />
-            ) : stepType === "external" ? (
+            ) : stepType === "external" && currentStep.embedUrl?.embedType === "external" ? (
               <ExternalStep step={currentStep} learningpath={learningpath} />
+            ) : stepType === "external" ? (
+              <EmbedStep step={currentStep} />
             ) : null}
           </>
         ) : (

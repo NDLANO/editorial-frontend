@@ -6,10 +6,12 @@
  *
  */
 
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { ErrorWarningFill } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ContentTypeBadge } from "@ndla/ui";
 import HeaderActions from "../../../components/HeaderWithLanguage/HeaderActions";
@@ -18,6 +20,7 @@ import HeaderFavoriteStatus from "../../../components/HeaderWithLanguage/HeaderF
 import { ResourcePublishedLink } from "../../../components/HeaderWithLanguage/ResourcePublishedLink";
 import { PUBLISHED } from "../../../constants";
 import { usePostCopyLearningpathMutation } from "../../../modules/learningpath/learningpathMutations";
+import { useNodes } from "../../../modules/nodes/nodeQueries";
 import { routes } from "../../../util/routeHelpers";
 import {
   FormHeaderHeading,
@@ -28,6 +31,7 @@ import {
   FormHeaderStatusWrapper,
 } from "../../FormHeader/FormHeader";
 import { useMessages } from "../../Messages/MessagesProvider";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
   learningpath: ILearningPathV2DTO | undefined;
@@ -35,14 +39,39 @@ interface Props {
   enableClone?: boolean;
 }
 
+const StyledErrorWarningFill = styled(ErrorWarningFill, {
+  base: {
+    fill: "icon.subtle",
+  },
+});
+
 export const LearningpathFormHeader = ({ learningpath, language, enableClone }: Props) => {
   const { t } = useTranslation();
   const isNewLanguage = !!learningpath?.id && !learningpath.supportedLanguages.includes(language);
   const cloneLearningpathMutation = usePostCopyLearningpathMutation();
   const navigate = useNavigate();
   const { createMessage } = useMessages();
+  const { taxonomyVersion } = useTaxonomyVersion();
   // TODO: I don't know all of the learningpath statuses. We need to ensure we have translations for all of them.
   const statusText = learningpath?.status ? t(`form.status.${learningpath.status.toLowerCase()}`) : "";
+
+  const taxonomyQuery = useNodes(
+    {
+      contentURI: `urn:learningpath:${learningpath?.id}`,
+      taxonomyVersion,
+      language,
+      includeContexts: true,
+      filterProgrammes: true,
+    },
+    { enabled: !!learningpath },
+  );
+
+  const contexts = useMemo(() => {
+    return (
+      taxonomyQuery.data?.flatMap((node) => node.contexts).filter((context) => !context.rootId.includes("programme")) ??
+      []
+    );
+  }, [taxonomyQuery.data]);
 
   const onClone = useCallback(async () => {
     if (!learningpath) return;
@@ -75,7 +104,13 @@ export const LearningpathFormHeader = ({ learningpath, language, enableClone }: 
             <ResourcePublishedLink type="learningpath" slugOrId={learningpath.id} />
           )}
           {/* TODO: Revision */}
-          {/* TODO:  taxonomy */}
+          {contexts.length > 1 && (
+            <StyledErrorWarningFill
+              aria-label={t("form.workflow.multipleTaxonomy")}
+              title={t("form.workflow.multipleTaxonomy")}
+              aria-hidden={false}
+            />
+          )}
           <HeaderFavoriteStatus id={learningpath?.id} type="learningpath" />
           <div>
             {/* TODO: Add responsible here when supported */}

@@ -32,13 +32,6 @@ const StyledPageContainer = styled(PageContainer, {
     minHeight: "100vh",
     gap: "medium",
   },
-  variants: {
-    rounded: {
-      true: {
-        borderRadius: "xsmall",
-      },
-    },
-  },
 });
 
 const StepWrapper = styled("div", {
@@ -60,7 +53,7 @@ export const LearningpathPreview = ({ learningpath, language }: Props) => {
   const stepType = currentStep ? getFormTypeFromStep(currentStep) : null;
 
   return (
-    <StyledPageContainer padding="none">
+    <StyledPageContainer>
       <LearningpathFormHeader learningpath={learningpath} language={language} />
       <LearningpathFormStepper id={learningpath.id} language={language} currentStep="preview" />
       <Heading asChild consumeCss>

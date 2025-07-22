@@ -14,7 +14,6 @@ import { AddLine, CloseLine, DeleteBinLine, Draggable, PencilLine } from "@ndla/
 import { Heading, IconButton, ListItemContent, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLinkButton, SafeLinkIconButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
-import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { LearningpathStepForm } from "./LearningpathStepForm";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
@@ -26,23 +25,6 @@ import {
 import { routes } from "../../../util/routeHelpers";
 import { useLearningpathContext } from "../LearningpathLayout";
 import { getFormTypeFromStep, learningpathStepCloseButtonId, learningpathStepEditButtonId } from "../learningpathUtils";
-
-export const LearningpathStepsFormPage = () => {
-  const { t } = useTranslation();
-  const { learningpath, language } = useLearningpathContext();
-
-  return (
-    <>
-      <title>{t("htmlTitles.learningpathForm.editSteps")}</title>
-      <Content learningpath={learningpath} language={language} />
-    </>
-  );
-};
-
-interface Props {
-  learningpath: ILearningPathV2DTO;
-  language: string;
-}
 
 const StyledListItemRoot = styled(ListItemRoot, {
   base: {
@@ -70,8 +52,9 @@ const StyledListItemContent = styled(ListItemContent, {
   },
 });
 
-const Content = ({ learningpath, language }: Props) => {
+export const LearningpathStepsFormPage = () => {
   const { t } = useTranslation();
+  const { learningpath, language } = useLearningpathContext();
   const { stepId } = useParams<"stepId">();
   const deleteStepMutation = useDeleteLearningStepMutation(language);
   const putLearningStepOrderMutation = usePutLearningStepOrderMutation(language);
@@ -104,6 +87,7 @@ const Content = ({ learningpath, language }: Props) => {
 
   return (
     <FormContent>
+      <title>{t("htmlTitles.learningpathForm.editSteps")}</title>
       <Heading asChild consumeCss>
         <h2>{t("learningpathForm.steps.heading")}</h2>
       </Heading>

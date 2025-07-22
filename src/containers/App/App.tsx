@@ -44,7 +44,6 @@ import { LearningpathLayout } from "../LearningpathPage/LearningpathLayout";
 import { LearningpathMetaDataPage } from "../LearningpathPage/metadata/LearningpathMetaDataPage";
 import { LearningpathPreviewPage } from "../LearningpathPage/preview/LearningpathPreviewPage";
 import { LearningpathStatusPage } from "../LearningpathPage/status/LearningpathStatusPage";
-import { LearningpathStepForm } from "../LearningpathPage/steps/LearningpathStepForm";
 import { LearningpathStepsFormPage } from "../LearningpathPage/steps/LearningpathStepsFormPage";
 import Login from "../Login/Login";
 import Logout from "../Logout/Logout";
@@ -105,7 +104,6 @@ const App = () => {
                           <Route index element={<PrivateRoute component={<LearningpathMetaDataPage />} />} />
                           <Route path="metadata" element={<PrivateRoute component={<LearningpathMetaDataPage />} />} />
                           <Route path="steps" element={<PrivateRoute component={<LearningpathStepsFormPage />} />}>
-                            <Route path="new" element={<PrivateRoute component={<LearningpathStepForm />} />} />
                             <Route path=":stepId" element={null} />
                           </Route>
                         </Route>

@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Outlet, useParams } from "react-router-dom";
 import { DragEndEvent } from "@dnd-kit/core";
 import { AddLine, CloseLine, DeleteBinLine, Draggable, PencilLine } from "@ndla/icons";
-import { Heading, IconButton, ListItemContent, ListItemRoot, PageContainer, PageContent, Text } from "@ndla/primitives";
+import { Heading, IconButton, ListItemContent, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLinkButton, SafeLinkIconButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
@@ -19,51 +19,23 @@ import { LearningpathStepForm } from "./LearningpathStepForm";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
 import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
-import { PageSpinner } from "../../../components/PageSpinner";
 import {
   useDeleteLearningStepMutation,
   usePutLearningStepOrderMutation,
 } from "../../../modules/learningpath/learningpathMutations";
-import { useLearningpath } from "../../../modules/learningpath/learningpathQueries";
-import { isNotFoundError } from "../../../util/resolveJsonOrRejectWithError";
 import { routes } from "../../../util/routeHelpers";
-import NotFound from "../../NotFoundPage/NotFoundPage";
-import { LearningpathErrorMessage } from "../components/LearningpathErrorMessage";
-import { LearningpathFormHeader } from "../components/LearningpathFormHeader";
-import { LearningpathFormStepper } from "../components/LearningpathFormStepper";
+import { useLearningpathContext } from "../LearningpathLayout";
 import { getFormTypeFromStep, learningpathStepCloseButtonId, learningpathStepEditButtonId } from "../learningpathUtils";
 
 export const LearningpathStepsFormPage = () => {
   const { t } = useTranslation();
-  const { id, language } = useParams<"id" | "language">();
-  const numericId = parseInt(id ?? "");
-  const learningpathQuery = useLearningpath({ id: numericId, language }, { enabled: !!numericId });
-
-  if (!numericId || !language) {
-    return <NotFound />;
-  }
-
-  if (learningpathQuery.isLoading) {
-    return <PageSpinner />;
-  }
-
-  if (learningpathQuery.isError && isNotFoundError(learningpathQuery.error)) {
-    return <NotFound />;
-  }
-
-  if (learningpathQuery.isError || !learningpathQuery.data) {
-    return (
-      <PageContainer>
-        <LearningpathErrorMessage />
-      </PageContainer>
-    );
-  }
+  const { learningpath, language } = useLearningpathContext();
 
   return (
-    <PageContent>
+    <>
       <title>{t("htmlTitles.learningpathForm.editSteps")}</title>
-      <Content learningpath={learningpathQuery.data} language={language} />
-    </PageContent>
+      <Content learningpath={learningpath} language={language} />
+    </>
   );
 };
 
@@ -132,8 +104,6 @@ const Content = ({ learningpath, language }: Props) => {
 
   return (
     <FormContent>
-      <LearningpathFormHeader learningpath={learningpath} language={language} />
-      <LearningpathFormStepper id={learningpath.id} language={language} currentStep="steps" />
       <Heading asChild consumeCss>
         <h2>{t("learningpathForm.steps.heading")}</h2>
       </Heading>

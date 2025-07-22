@@ -43,6 +43,7 @@ import {
 } from "../../../modules/learningpath/learningpathMutations";
 import { AlertDialogWrapper } from "../../FormikForm";
 import { PreventWindowUnload } from "../../FormikForm/PreventWindowUnload";
+import { LearningpathEnableClone } from "../components/LearningpathEnableClone";
 
 const RADIO_GROUP_OPTIONS = ["text", "resource", "external", "folder"] as const;
 
@@ -204,6 +205,7 @@ export const LearningpathStepForm = ({ step }: Props) => {
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {(formikProps) => (
         <StyledForm ref={wrapperRef}>
+          <LearningpathEnableClone />
           <PreventWindowUnload preventUnload={formikProps.dirty} />
           <FormField name="type">
             {({ field, meta, helpers }) => (

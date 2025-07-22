@@ -32,10 +32,10 @@ import { useMessages } from "../../Messages/MessagesProvider";
 interface Props {
   learningpath: ILearningPathV2DTO | undefined;
   language: string;
-  formIsDirty?: boolean;
+  enableClone?: boolean;
 }
 
-export const LearningpathFormHeader = ({ learningpath, language, formIsDirty }: Props) => {
+export const LearningpathFormHeader = ({ learningpath, language, enableClone }: Props) => {
   const { t } = useTranslation();
   const isNewLanguage = !!learningpath?.id && !learningpath.supportedLanguages.includes(language);
   const cloneLearningpathMutation = usePostCopyLearningpathMutation();
@@ -46,7 +46,7 @@ export const LearningpathFormHeader = ({ learningpath, language, formIsDirty }: 
 
   const onClone = useCallback(async () => {
     if (!learningpath) return;
-    if (formIsDirty) {
+    if (!enableClone) {
       createMessage({ translationKey: "form.mustSaveFirst", severity: "danger", timeToLive: 0 });
       return;
     }
@@ -56,7 +56,7 @@ export const LearningpathFormHeader = ({ learningpath, language, formIsDirty }: 
     });
 
     navigate(routes.learningpath.edit(res.id, language));
-  }, [cloneLearningpathMutation, createMessage, formIsDirty, language, learningpath, navigate]);
+  }, [cloneLearningpathMutation, createMessage, enableClone, language, learningpath, navigate]);
 
   return (
     <header>

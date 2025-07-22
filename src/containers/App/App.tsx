@@ -40,6 +40,7 @@ import ForbiddenPage from "../ForbiddenPage/ForbiddenPage";
 import FrontpageEditPage from "../FrontpageEditPage/FrontpageEditPage";
 import GlossPage from "../GlossPage/GlossPage";
 import { CreateLearningpathPage } from "../LearningpathPage/CreateLearningpathPage";
+import { LearningpathLayout } from "../LearningpathPage/LearningpathLayout";
 import { LearningpathMetaDataPage } from "../LearningpathPage/metadata/LearningpathMetaDataPage";
 import { LearningpathPreviewPage } from "../LearningpathPage/preview/LearningpathPreviewPage";
 import { LearningpathStatusPage } from "../LearningpathPage/status/LearningpathStatusPage";
@@ -99,24 +100,28 @@ const App = () => {
                         path="/learningpath/new"
                         element={<PrivateRoute component={<CreateLearningpathPage />} />}
                       />
-                      <Route path="/learningpath/:id/edit/:language">
-                        <Route index element={<PrivateRoute component={<LearningpathMetaDataPage />} />} />
-                        <Route path="metadata" element={<PrivateRoute component={<LearningpathMetaDataPage />} />} />
-                        <Route path="steps" element={<PrivateRoute component={<LearningpathStepsFormPage />} />}>
-                          <Route path="new" element={<PrivateRoute component={<LearningpathStepForm />} />} />
+                      <Route path="/learningpath/:id" element={<PrivateRoute component={<LearningpathLayout />} />}>
+                        <Route path="/learningpath/:id/edit/:language">
+                          <Route index element={<PrivateRoute component={<LearningpathMetaDataPage />} />} />
+                          <Route path="metadata" element={<PrivateRoute component={<LearningpathMetaDataPage />} />} />
+                          <Route path="steps" element={<PrivateRoute component={<LearningpathStepsFormPage />} />}>
+                            <Route path="new" element={<PrivateRoute component={<LearningpathStepForm />} />} />
+                            <Route path=":stepId" element={null} />
+                          </Route>
+                        </Route>
+                        <Route
+                          path="/learningpath/:id/preview/:language"
+                          element={
+                            <PrivateRoute component={<PrivateRoute component={<LearningpathPreviewPage />} />} />
+                          }
+                        >
                           <Route path=":stepId" element={null} />
                         </Route>
+                        <Route
+                          path="/learningpath/:id/status/:language"
+                          element={<PrivateRoute component={<PrivateRoute component={<LearningpathStatusPage />} />} />}
+                        />
                       </Route>
-                      <Route
-                        path="/learningpath/:id/preview/:language"
-                        element={<PrivateRoute component={<PrivateRoute component={<LearningpathPreviewPage />} />} />}
-                      >
-                        <Route path=":stepId" element={null} />
-                      </Route>
-                      <Route
-                        path="/learningpath/:id/status/:language"
-                        element={<PrivateRoute component={<PrivateRoute component={<LearningpathStatusPage />} />} />}
-                      />
                     </>
                   )}
                 </Route>

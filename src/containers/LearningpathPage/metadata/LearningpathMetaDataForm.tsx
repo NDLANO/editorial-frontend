@@ -47,8 +47,8 @@ import { routes } from "../../../util/routeHelpers";
 import useDebounce from "../../../util/useDebounce";
 import { AlertDialogWrapper } from "../../FormikForm";
 import { PreventWindowUnload } from "../../FormikForm/PreventWindowUnload";
+import { LearningpathEnableClone } from "../components/LearningpathEnableClone";
 import { LearningpathFormHeader } from "../components/LearningpathFormHeader";
-import { LearningpathFormStepper } from "../components/LearningpathFormStepper";
 
 interface LearningpathMetaDataFormValues {
   title: string;
@@ -173,11 +173,9 @@ export const LearningpathMetaDataForm = ({ learningpath, language }: Props) => {
           formikProps.dirty || !!(learningpath && !learningpath.supportedLanguages.includes(language));
         return (
           <Form>
+            {!!learningpath && <LearningpathEnableClone />}
             <PreventWindowUnload preventUnload={formIsDirty} />
-            <LearningpathFormHeader learningpath={learningpath} language={language} formIsDirty={formIsDirty} />
-            {!!learningpath?.id && (
-              <LearningpathFormStepper id={learningpath.id} language={language} currentStep="metadata" />
-            )}
+            {!learningpath && <LearningpathFormHeader learningpath={learningpath} language={language} />}
             <Heading asChild consumeCss>
               <h2>{t("learningpathForm.metadata.heading")}</h2>
             </Heading>

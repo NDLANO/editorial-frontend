@@ -8,7 +8,7 @@
 
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { Outlet, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { DragEndEvent } from "@dnd-kit/core";
 import { AddLine, CloseLine, DeleteBinLine, Draggable, PencilLine } from "@ndla/icons";
 import { Heading, IconButton, ListItemContent, ListItemRoot, Text } from "@ndla/primitives";
@@ -151,7 +151,7 @@ export const LearningpathStepsFormPage = () => {
           )}
         />
       </ul>
-      <Outlet />
+      {stepId === "new" && <LearningpathStepForm step={undefined} />}
       {!stepId && (
         <SafeLinkButton to={routes.learningpath.createStep(learningpath.id, language)} variant="secondary">
           <AddLine />

@@ -10,16 +10,16 @@ import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 
 const EXTERNAL_EMBED_TYPES = ["oembed", "iframe"];
 
-export function isNDLAEmbedUrl(url: string) {
+function isNDLAEmbedUrl(url: string) {
   return /^https:\/(.*).ndla.no/.test(url) || /^http:\/\/localhost/.test(url);
 }
 
+const EMBED_URL_NODE_ID_REGEX = /(resource:[:\da-fA-F-]+)/g;
 export const getNodeIdFromEmbedUrl = (embedUrl: string | undefined): string | undefined => {
-  const resourceId = embedUrl?.match(/(resource:[:\da-fA-F-]+)/g)?.pop();
-  return resourceId;
+  return embedUrl?.match(EMBED_URL_NODE_ID_REGEX)?.pop();
 };
 
-export const isResourceStep = (step?: ILearningStepV2DTO): boolean => {
+const isResourceStep = (step?: ILearningStepV2DTO): boolean => {
   if (
     !step?.embedUrl?.url ||
     !isNDLAEmbedUrl(step.embedUrl.url) ||
@@ -27,7 +27,7 @@ export const isResourceStep = (step?: ILearningStepV2DTO): boolean => {
   ) {
     return false;
   }
-  const resourceId = step.embedUrl.url.match(/(resource:[:\da-fA-F-]+)/g)?.pop();
+  const resourceId = getNodeIdFromEmbedUrl(step.embedUrl.url);
   return !!resourceId;
 };
 
@@ -39,6 +39,5 @@ export const getFormTypeFromStep = (step?: ILearningStepV2DTO): "text" | "resour
   return "external";
 };
 
-export const learningpathListItemId = (id: number) => `learningpath-${id}`;
 export const learningpathStepEditButtonId = (id: number) => `edit-button-${id}`;
 export const learningpathStepCloseButtonId = (id: number) => `close-button-${id}`;

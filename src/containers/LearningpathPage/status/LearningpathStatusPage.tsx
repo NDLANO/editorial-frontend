@@ -21,23 +21,21 @@ export const LearningpathStatusPage = () => {
   const isPublished = learningpath.status === PUBLISHED;
 
   return (
-    <>
+    <FormContent>
       <title>{t("htmlTitles.learningpathForm.status")}</title>
-      <FormContent>
-        <Heading asChild consumeCss>
-          <h2>{t("learningpathForm.status.heading")}</h2>
-        </Heading>
-        <Text>{t(`learningpathForm.status.${isPublished ? "publishedText" : "unpublishedText"}`)}</Text>
-        <FormActionsContainer>
-          <Button
-            disabled={learningpath.status === PUBLISHED}
-            loading={putLearningpathStatusMutation.isPending}
-            onClick={() => putLearningpathStatusMutation.mutate({ learningpathId: learningpath.id, status: PUBLISHED })}
-          >
-            {t("learningpathForm.status.publish")}
-          </Button>
-        </FormActionsContainer>
-      </FormContent>
-    </>
+      <Heading asChild consumeCss>
+        <h2>{t("learningpathForm.status.heading")}</h2>
+      </Heading>
+      <Text>{t(`learningpathForm.status.${isPublished ? "publishedText" : "unpublishedText"}`)}</Text>
+      <FormActionsContainer>
+        <Button
+          disabled={learningpath.status === PUBLISHED}
+          loading={putLearningpathStatusMutation.isPending}
+          onClick={() => putLearningpathStatusMutation.mutate({ learningpathId: learningpath.id, status: PUBLISHED })}
+        >
+          {t("learningpathForm.status.publish")}
+        </Button>
+      </FormActionsContainer>
+    </FormContent>
   );
 };

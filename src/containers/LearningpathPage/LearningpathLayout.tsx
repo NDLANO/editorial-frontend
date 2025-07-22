@@ -7,7 +7,7 @@
  */
 
 import { useState } from "react";
-import { Outlet, useLocation, useOutletContext, useParams } from "react-router-dom";
+import { Navigate, Outlet, useLocation, useOutletContext, useParams } from "react-router-dom";
 import { PageContainer, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
@@ -18,6 +18,7 @@ import { isNotFoundError } from "../../util/resolveJsonOrRejectWithError";
 import NotFound from "../NotFoundPage/NotFoundPage";
 import { LearningpathFormHeader } from "./components/LearningpathFormHeader";
 import { LearningpathFormStepper } from "./components/LearningpathFormStepper";
+import { routes } from "../../util/routeHelpers";
 
 const getCurrentStep = (pathname: string): "metadata" | "steps" | "preview" | "status" => {
   if (pathname.includes("metadata")) {
@@ -39,6 +40,10 @@ const Container = styled("div", {
     gap: "medium",
   },
 });
+
+interface LocationState {
+  createNewLanguage?: boolean;
+}
 
 export const LearningpathLayout = () => {
   const { id, language } = useParams<"id" | "language">();
@@ -67,15 +72,25 @@ export const LearningpathLayout = () => {
     );
   }
 
+  const currentStep = getCurrentStep(location.pathname);
+
+  if (
+    !learningpathQuery.data.supportedLanguages.includes(language) &&
+    !(location.state as LocationState | undefined)?.createNewLanguage
+  ) {
+    return (
+      <Navigate
+        replace
+        to={routes.learningpath.edit(numericId, learningpathQuery.data.supportedLanguages[0], currentStep)}
+      />
+    );
+  }
+
   return (
     <PageContent>
       <Container>
         <LearningpathFormHeader learningpath={learningpathQuery.data} language={language} enableClone={enableClone} />
-        <LearningpathFormStepper
-          id={learningpathQuery.data.id}
-          language={language}
-          currentStep={getCurrentStep(location.pathname)}
-        />
+        <LearningpathFormStepper id={learningpathQuery.data.id} language={language} currentStep={currentStep} />
         <Outlet context={{ learningpath: learningpathQuery.data, enableClone, setEnableClone, language }} />
       </Container>
     </PageContent>

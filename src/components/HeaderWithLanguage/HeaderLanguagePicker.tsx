@@ -23,7 +23,9 @@ const LanguagePicker = ({ id, emptyLanguages, editUrl }: Props) => {
       <MenuContent>
         {emptyLanguages.map((language) => (
           <MenuItem key={language.key} value={language.key} asChild consumeCss>
-            <SafeLink to={editUrl(id, language.key)}>{language.title}</SafeLink>
+            <SafeLink to={editUrl(id, language.key)} state={{ createNewLanguage: true }}>
+              {language.title}
+            </SafeLink>
           </MenuItem>
         ))}
       </MenuContent>

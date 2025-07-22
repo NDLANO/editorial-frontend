@@ -6,9 +6,9 @@
  *
  */
 
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { DragEndEvent } from "@dnd-kit/core";
 import { AddLine, CloseLine, DeleteBinLine, Draggable, PencilLine } from "@ndla/icons";
 import { Heading, IconButton, ListItemContent, ListItemRoot, Text } from "@ndla/primitives";
@@ -52,12 +52,25 @@ const StyledListItemContent = styled(ListItemContent, {
   },
 });
 
+interface LocationState {
+  focusStepId?: string;
+}
+
 export const LearningpathStepsFormPage = () => {
   const { t } = useTranslation();
   const { learningpath, language } = useLearningpathContext();
   const { stepId } = useParams<"stepId">();
   const deleteStepMutation = useDeleteLearningStepMutation(language);
   const putLearningStepOrderMutation = usePutLearningStepOrderMutation(language);
+  const location = useLocation();
+
+  useEffect(() => {
+    const locationState = location.state as LocationState;
+    const focusId = locationState?.focusStepId;
+    if (!focusId) return;
+    const focusElement = document.getElementById(focusId.toString());
+    setTimeout(() => focusElement?.focus(), 0);
+  }, [location]);
 
   const onDeleteStep = useCallback(
     async (stepId: number) => {
@@ -135,9 +148,9 @@ export const LearningpathStepsFormPage = () => {
                     </IconButton>
                     <SafeLinkIconButton
                       variant="tertiary"
-                      id={learningpathStepCloseButtonId(item.id)}
+                      id={learningpathStepEditButtonId(item.id)}
                       to={routes.learningpath.editStep(learningpath.id, item.id, language)}
-                      state={{ focusStepId: learningpathStepEditButtonId(item.id) }}
+                      state={{ focusStepId: learningpathStepCloseButtonId(item.id) }}
                       aria-label={t("learningpathForm.steps.editStep")}
                       title={t("learningpathForm.steps.editStep")}
                     >

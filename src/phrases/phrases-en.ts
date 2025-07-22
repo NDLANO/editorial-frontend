@@ -2392,6 +2392,7 @@ const phrases = {
       heading: "Preview learning path",
       openExternalLink: "Open in new tab",
       learningpathMenu: "Learning path content",
+      learningpathMenuTitle: "Learning steps",
       noSteps: "This learning path has no steps.",
     },
     status: {

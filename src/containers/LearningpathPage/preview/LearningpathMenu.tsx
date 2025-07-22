@@ -88,7 +88,7 @@ export const LearningpathMenu = ({ learningpath, language, step }: Props) => {
         <StyledAccordionItemContent>
           <nav aria-labelledby={id}>
             <Heading id={id} textStyle="title.medium" asChild consumeCss>
-              <h2>Læringssteg</h2>
+              <h2>{t("learningpathForm.preview.learningpathMenuTitle")}</h2>
             </Heading>
             <OrderedList>
               {learningpath.learningsteps.map((step) => (

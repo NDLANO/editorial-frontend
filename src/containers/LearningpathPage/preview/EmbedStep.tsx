@@ -22,14 +22,14 @@ interface Props {
   step: ILearningStepV2DTO;
 }
 
-// TODO: title
-const buildOembedFromIframeUrl = (url: string): Omit<OembedResponse, "title"> => {
+const buildOembedFromIframeUrl = (url: string, title: string): OembedResponse => {
   return {
     type: "rich",
     version: "1.0",
     height: 800,
     width: 800,
     html: `<iframe src="${url}" frameborder="0" allowFullscreen="" />`,
+    title,
   };
 };
 
@@ -38,7 +38,7 @@ const getOembed = async (learningpathStep: ILearningStepV2DTO): Promise<Omit<Oem
     return null;
   }
   if (learningpathStep.embedUrl && learningpathStep.embedUrl.embedType === "iframe") {
-    return buildOembedFromIframeUrl(learningpathStep.embedUrl.url);
+    return buildOembedFromIframeUrl(learningpathStep.embedUrl.url, learningpathStep.title.title);
   }
   if (
     learningpathStep.embedUrl &&
@@ -64,7 +64,7 @@ export const EmbedStep = ({ step }: Props) => {
   if (!step.embedUrl?.url || !query.data) return null;
 
   if (isNDLAFrontendUrl(step.embedUrl.url) && query.data.html) {
-    return <LearningpathIframe url={step.embedUrl.url} html={query.data.html} />;
+    return <LearningpathIframe url={step.embedUrl.url} html={query.data.html} title={step.title.title} />;
   }
 
   return (
@@ -80,6 +80,7 @@ export const EmbedStep = ({ step }: Props) => {
                 embedData: {
                   resource: "external",
                   url: step.embedUrl?.url ?? "",
+                  title: step.title.title,
                 },
                 data: {
                   oembed: query.data,
@@ -113,9 +114,10 @@ const IframeWrapper = styled("div", {
 interface LearningpathIframeProps {
   html: string;
   url: string;
+  title: string;
 }
 
-const LearningpathIframe = ({ html, url }: LearningpathIframeProps) => {
+const LearningpathIframe = ({ html, url, title }: LearningpathIframeProps) => {
   const iframeRef = useRef<HTMLInputElement>(null);
   const [listeningToMessages, setListeningToMessages] = useState(true);
 
@@ -190,5 +192,9 @@ const LearningpathIframe = ({ html, url }: LearningpathIframeProps) => {
     }
   };
 
-  return <IframeWrapper ref={iframeRef}>{parse(html)}</IframeWrapper>;
+  return (
+    <IframeWrapper ref={iframeRef} title={title}>
+      {parse(html)}
+    </IframeWrapper>
+  );
 };

@@ -238,7 +238,7 @@ export const LearningpathStepForm = ({ step }: Props) => {
           <LearningpathEnableClone />
           <PreventWindowUnload preventUnload={formikProps.dirty} />
           <FormField name="type">
-            {({ field, meta, helpers }) => (
+            {({ field, meta }) => (
               <FieldRoot required invalid={!!meta.error}>
                 <FieldLabel>{t("learningpathForm.steps.typeTitle")}</FieldLabel>
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>
@@ -247,7 +247,6 @@ export const LearningpathStepForm = ({ step }: Props) => {
                     formikProps.resetForm({
                       values: toFormValues(details.value as LearningpathStepFormValues["type"]),
                     });
-                    helpers.setValue(details.value);
                   }}
                   value={field.value}
                   onBlur={field.onBlur}

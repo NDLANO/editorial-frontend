@@ -166,6 +166,20 @@ export const LearningpathStepForm = ({ step }: Props) => {
     }
   }, [step]);
 
+  const onDelete = useCallback(
+    async (stepId: number) => {
+      const numericId = parseInt(id ?? "");
+      const el = wrapperRef.current?.closest("li");
+      const focusEl = [el?.nextElementSibling, el?.previousElementSibling].find(
+        (el) => el?.tagName === "LI",
+      ) as HTMLElement | null;
+      if (!numericId) return;
+      await deleteLearningStepMutation.mutateAsync({ learningpathId: numericId, stepId: stepId });
+      navigate(routes.learningpath.edit(numericId, language ?? "", "steps"), { state: { focusStepId: focusEl?.id } });
+    },
+    [deleteLearningStepMutation, id, language, navigate],
+  );
+
   const handleSubmit = useCallback(
     async (values: LearningpathStepFormValues) => {
       const numericId = id ? parseInt(id) : undefined;
@@ -194,7 +208,7 @@ export const LearningpathStepForm = ({ step }: Props) => {
         });
       }
       navigate(routes.learningpath.edit(numericId, language, "steps"), {
-        state: learningpathStepEditButtonId(newLearningpath.id),
+        state: { focusStepId: learningpathStepEditButtonId(newLearningpath.id) },
       });
     },
     [id, language, navigate, patchLearningStepMutation, postLearningStepMutation, step],
@@ -244,12 +258,7 @@ export const LearningpathStepForm = ({ step }: Props) => {
           ) : null}
           <FormActionsContainer>
             {!!step && (
-              <Button
-                variant="danger"
-                onClick={async () =>
-                  await deleteLearningStepMutation.mutateAsync({ learningpathId: parseInt(id), stepId: step.id })
-                }
-              >
+              <Button variant="danger" onClick={() => onDelete(step.id)}>
                 <DeleteBinLine />
                 {t("delete")}
               </Button>

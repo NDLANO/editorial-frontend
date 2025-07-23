@@ -68,13 +68,20 @@ export const LearningpathStepsFormPage = () => {
     const locationState = location.state as LocationState;
     const focusId = locationState?.focusStepId;
     if (!focusId) return;
-    const focusElement = document.getElementById(focusId.toString());
-    setTimeout(() => focusElement?.focus(), 0);
-  }, [location]);
+    setTimeout(() => {
+      const focusElement = document.getElementById(focusId.toString());
+      focusElement?.focus();
+    }, 0);
+  }, [location, stepId]);
 
   const onDeleteStep = useCallback(
     async (stepId: number) => {
+      const el = document.getElementById(stepId.toString())?.closest("li");
+      const focusEl = [el?.nextElementSibling, el?.previousElementSibling].find(
+        (el) => el?.tagName === "LI",
+      ) as HTMLElement | null;
       await deleteStepMutation.mutateAsync({ learningpathId: learningpath.id, stepId });
+      focusEl?.focus();
     },
     [deleteStepMutation, learningpath.id],
   );

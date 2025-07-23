@@ -118,13 +118,16 @@ interface Props {
 }
 
 const formValuesToStep = (values: LearningpathStepFormValues) => {
+  const htmlDescription = blockContentToHTML(values.description);
+  const description = htmlDescription === "<section></section>" ? undefined : htmlDescription;
   if (values.type === "text") {
     return {
       type: "TEXT",
       title: values.title,
       introduction: values.introduction,
-      description: blockContentToHTML(values.description),
+      description,
       license: values.license,
+      embedUrl: undefined,
     };
   }
 
@@ -133,6 +136,7 @@ const formValuesToStep = (values: LearningpathStepFormValues) => {
       type: "TEXT",
       title: values.title,
       introduction: values.introduction,
+      description,
       license: values.license,
       embedUrl: {
         url: values.url,
@@ -145,6 +149,7 @@ const formValuesToStep = (values: LearningpathStepFormValues) => {
     type: "TEXT",
     title: values.title,
     license: values.license,
+    description,
     embedUrl: {
       url: values.embedUrl,
       embedType: "iframe",

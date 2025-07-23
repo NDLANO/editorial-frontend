@@ -17,15 +17,13 @@ import { ExternalFormValues } from "./types";
 import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
 import { FormField } from "../../../components/FormField";
 import { RulesType } from "../../../components/formikValidationSchema";
+import { isUrl } from "../../../components/validators";
 import { fetchOpenGraphData } from "../../../modules/opengraph/openGraphApi";
 import { LicenseField } from "../../FormikForm";
 import { getFormTypeFromStep } from "../learningpathUtils";
 
 const TITLE_MAX_LENGTH = 64;
 const INTRODUCTION_MAX_LENGTH = 250;
-
-export const URL_REGEX =
-  /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zæøåA-ZÆØÅ0-9()@:%_\\+.~#?&\\/=]*)$/;
 
 interface Props {
   step: ILearningStepV2DTO | undefined;
@@ -56,7 +54,7 @@ export const ExternalStepForm = ({ step, language }: Props) => {
       values.url.length &&
       values.url !== initialValues.url &&
       (!values.title || !values.introduction) &&
-      URL_REGEX.test(values.url)
+      isUrl(values.url)
     ) {
       fetchOpenGraphData(values.url).then((data) => {
         if (!values.title) {

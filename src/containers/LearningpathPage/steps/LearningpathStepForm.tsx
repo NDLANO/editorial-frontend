@@ -26,15 +26,16 @@ import {
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
-import { ExternalStepForm } from "./ExternalStepForm";
-import { ResourceStepForm } from "./ResourceStepForm";
+import { ExternalStepForm, externalStepRules } from "./ExternalStepForm";
+import { ResourceStepForm, resourceStepRules } from "./ResourceStepForm";
 import { FormField } from "../../../components/FormField";
 import { FormActionsContainer } from "../../../components/FormikForm";
+import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../util/articleContentConverter";
 import { unreachable } from "../../../util/guards";
 import { routes } from "../../../util/routeHelpers";
 import { getFormTypeFromStep, learningpathStepEditButtonId } from "../learningpathUtils";
-import { TextStepForm } from "./TextStepForm";
+import { TextStepForm, textStepRules } from "./TextStepForm";
 import { LearningpathStepFormValues } from "./types";
 import {
   useDeleteLearningStepMutation,
@@ -45,7 +46,7 @@ import { AlertDialogWrapper } from "../../FormikForm";
 import { PreventWindowUnload } from "../../FormikForm/PreventWindowUnload";
 import { LearningpathEnableClone } from "../components/LearningpathEnableClone";
 
-const RADIO_GROUP_OPTIONS = ["text", "resource", "external", "folder"] as const;
+const RADIO_GROUP_OPTIONS = ["text", "resource", "external"] as const;
 
 const StyledForm = styled(
   Form,
@@ -69,6 +70,12 @@ const learningpathBlockContentToEditorValue = (html: string) => {
   // HACK: Workaround for plain-text content. If the first block is not a section element, it is not created by our RichTextEditor. It is probably plain text imported from stier.
   return isSectionElement(res[0]) ? res : blockContentToEditorValue(`<section>${html}</section>`);
 };
+
+const rules = {
+  external: externalStepRules,
+  text: textStepRules,
+  resource: resourceStepRules,
+} as const;
 
 export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
   type: T,
@@ -94,7 +101,6 @@ export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
         license: step?.license?.license ?? "",
       };
     case "resource":
-    case "folder":
       return {
         type: type,
         title: step?.title.title ?? "",
@@ -216,7 +222,17 @@ export const LearningpathStepForm = ({ step }: Props) => {
 
   if (!id || !language) return;
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+    <Formik
+      initialValues={initialValues}
+      validate={(values) =>
+        validateFormik<LearningpathStepFormValues>(
+          values,
+          rules[values.type] as RulesType<LearningpathStepFormValues>,
+          t,
+        )
+      }
+      onSubmit={handleSubmit}
+    >
       {(formikProps) => (
         <StyledForm ref={wrapperRef}>
           <LearningpathEnableClone />

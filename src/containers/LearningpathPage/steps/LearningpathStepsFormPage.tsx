@@ -92,15 +92,11 @@ export const LearningpathStepsFormPage = () => {
       const overIndex = over?.data.current?.index;
       const activeIndex = active.data.current?.index;
       if (!Number.isInteger(overIndex) || !Number.isInteger(activeIndex) || overIndex === activeIndex) return;
-      try {
-        await putLearningStepOrderMutation.mutateAsync({
-          learningpathId: learningpath.id,
-          stepId: Number(active.id) || -1,
-          seqNo: overIndex,
-        });
-      } catch (err) {
-        // TODO: Error handling
-      }
+      await putLearningStepOrderMutation.mutateAsync({
+        learningpathId: learningpath.id,
+        stepId: Number(active.id) || -1,
+        seqNo: overIndex,
+      });
     },
     [learningpath.id, putLearningStepOrderMutation],
   );

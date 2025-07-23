@@ -107,67 +107,70 @@ export const LearningpathStepsFormPage = () => {
       <Heading asChild consumeCss>
         <h2>{t("learningpathForm.steps.heading")}</h2>
       </Heading>
-      {!learningpath.learningsteps.length && <Text>{t("learningpathForm.steps.noSteps")}</Text>}
-      <ul>
-        <DndList
-          items={learningpath.learningsteps}
-          onDragEnd={onDragEnd}
-          disabled={!!stepId}
-          dragHandle={
-            <DragHandle>
-              <Draggable />
-            </DragHandle>
-          }
-          renderItem={(item) => (
-            <StyledListItemRoot context="list" key={item.id} variant="subtle" nonInteractive>
-              <StyledListItemContent active={!!stepId && parseInt(stepId) === item.id}>
-                <Stack gap="xxsmall">
-                  <Text fontWeight="bold" textStyle="label.medium">
-                    {item.title.title}
-                  </Text>
-                  <Text textStyle="label.small">
-                    {t(`learningpathForm.steps.formTypes.${getFormTypeFromStep(item)}`)}
-                  </Text>
-                </Stack>
-                {!!stepId && parseInt(stepId) === item.id ? (
-                  <SafeLinkButton
-                    variant="tertiary"
-                    id={learningpathStepCloseButtonId(item.id)}
-                    to={routes.learningpath.edit(learningpath.id, language, "steps")}
-                    state={{ focusStepId: learningpathStepEditButtonId(item.id) }}
-                  >
-                    <CloseLine />
-                    {t("close")}
-                  </SafeLinkButton>
-                ) : (
-                  <FormActionsContainer>
-                    <IconButton
-                      variant="danger"
-                      onClick={() => onDeleteStep(item.id)}
-                      aria-label={t("delete")}
-                      title={t("delete")}
-                    >
-                      <DeleteBinLine />
-                    </IconButton>
-                    <SafeLinkIconButton
+      {!learningpath.learningsteps.length ? (
+        <Text>{t("learningpathForm.steps.noSteps")}</Text>
+      ) : (
+        <ul>
+          <DndList
+            items={learningpath.learningsteps}
+            onDragEnd={onDragEnd}
+            disabled={!!stepId}
+            dragHandle={
+              <DragHandle>
+                <Draggable />
+              </DragHandle>
+            }
+            renderItem={(item) => (
+              <StyledListItemRoot context="list" key={item.id} variant="subtle" nonInteractive>
+                <StyledListItemContent active={!!stepId && parseInt(stepId) === item.id}>
+                  <Stack gap="xxsmall">
+                    <Text fontWeight="bold" textStyle="label.medium">
+                      {item.title.title}
+                    </Text>
+                    <Text textStyle="label.small">
+                      {t(`learningpathForm.steps.formTypes.${getFormTypeFromStep(item)}`)}
+                    </Text>
+                  </Stack>
+                  {!!stepId && parseInt(stepId) === item.id ? (
+                    <SafeLinkButton
                       variant="tertiary"
-                      id={learningpathStepEditButtonId(item.id)}
-                      to={routes.learningpath.editStep(learningpath.id, item.id, language)}
-                      state={{ focusStepId: learningpathStepCloseButtonId(item.id) }}
-                      aria-label={t("learningpathForm.steps.editStep")}
-                      title={t("learningpathForm.steps.editStep")}
+                      id={learningpathStepCloseButtonId(item.id)}
+                      to={routes.learningpath.edit(learningpath.id, language, "steps")}
+                      state={{ focusStepId: learningpathStepEditButtonId(item.id) }}
                     >
-                      <PencilLine />
-                    </SafeLinkIconButton>
-                  </FormActionsContainer>
-                )}
-              </StyledListItemContent>
-              {!!stepId && parseInt(stepId) === item.id && <LearningpathStepForm step={item} />}
-            </StyledListItemRoot>
-          )}
-        />
-      </ul>
-      {stepId === "new" && <LearningpathStepForm step={undefined} />}
+                      <CloseLine />
+                      {t("close")}
+                    </SafeLinkButton>
+                  ) : (
+                    <FormActionsContainer>
+                      <IconButton
+                        variant="danger"
+                        onClick={() => onDeleteStep(item.id)}
+                        aria-label={t("delete")}
+                        title={t("delete")}
+                      >
+                        <DeleteBinLine />
+                      </IconButton>
+                      <SafeLinkIconButton
+                        variant="tertiary"
+                        id={learningpathStepEditButtonId(item.id)}
+                        to={routes.learningpath.editStep(learningpath.id, item.id, language)}
+                        state={{ focusStepId: learningpathStepCloseButtonId(item.id) }}
+                        aria-label={t("learningpathForm.steps.editStep")}
+                        title={t("learningpathForm.steps.editStep")}
+                      >
+                        <PencilLine />
+                      </SafeLinkIconButton>
+                    </FormActionsContainer>
+                  )}
+                </StyledListItemContent>
+                {!!stepId && parseInt(stepId) === item.id && <LearningpathStepForm step={item} />}
+              </StyledListItemRoot>
+            )}
+          />
+        </ul>
+      )}
+      {stepId === "new" && <LearningpathStepForm />}
       {!stepId && (
         <SafeLinkButton to={routes.learningpath.createStep(learningpath.id, language)} variant="secondary">
           <AddLine />

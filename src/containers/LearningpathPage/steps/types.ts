@@ -19,13 +19,6 @@ export interface ExternalFormValues {
   license?: string;
 }
 
-export interface FolderFormValues {
-  type: "folder";
-  embedUrl: string;
-  title: string;
-  license?: string;
-}
-
 export interface TextFormValues {
   type: "text";
   title: string;
@@ -42,15 +35,11 @@ export interface ResourceFormValues {
   license?: string;
 }
 
-export type LearningpathStepFormValues = TextFormValues | ExternalFormValues | ResourceFormValues | FolderFormValues;
+export type LearningpathStepFormValues = TextFormValues | ExternalFormValues | ResourceFormValues;
 
 export interface ResourceData {
   title: string;
   breadcrumbs?: string[];
   resourceTypes?: Pick<ResourceType, "id" | "name">[];
   url: string;
-}
-export interface FolderResource {
-  title: string;
-  path: string;
 }

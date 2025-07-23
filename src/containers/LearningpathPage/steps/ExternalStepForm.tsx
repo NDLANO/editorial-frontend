@@ -16,6 +16,7 @@ import { DescriptionEditor } from "./DescriptionEditor";
 import { ExternalFormValues } from "./types";
 import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
 import { FormField } from "../../../components/FormField";
+import { RulesType } from "../../../components/formikValidationSchema";
 import { fetchOpenGraphData } from "../../../modules/opengraph/openGraphApi";
 import { LicenseField } from "../../FormikForm";
 import { getFormTypeFromStep } from "../learningpathUtils";
@@ -30,6 +31,21 @@ interface Props {
   step: ILearningStepV2DTO | undefined;
   language: string | undefined;
 }
+
+export const externalStepRules: RulesType<ExternalFormValues> = {
+  title: {
+    required: true,
+    maxLength: TITLE_MAX_LENGTH,
+  },
+  introduction: {
+    required: true,
+    maxLength: INTRODUCTION_MAX_LENGTH,
+  },
+  url: {
+    required: true,
+    url: true,
+  },
+};
 
 export const ExternalStepForm = ({ step, language }: Props) => {
   const { t } = useTranslation();

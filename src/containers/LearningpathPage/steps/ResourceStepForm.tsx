@@ -20,6 +20,7 @@ import { ContentTypeBadge } from "@ndla/ui";
 import { contentTypeMapping, ResourcePicker } from "./ResourcePicker";
 import { ResourceData, ResourceFormValues } from "./types";
 import { FormField } from "../../../components/FormField";
+import { RulesType } from "../../../components/formikValidationSchema";
 import config from "../../../config";
 import { fetchNode } from "../../../modules/nodes/nodeApi";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -97,13 +98,14 @@ const StyledSafeLink = styled(SafeLink, {
   },
 });
 
+export const resourceStepRules: RulesType<ResourceFormValues> = {};
+
 export const ResourceStepForm = ({ language, step }: Props) => {
   const { t } = useTranslation();
   const [selectedResource, setSelectedResource] = useState<ResourceData | undefined>(undefined);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
   const { taxonomyVersion } = useTaxonomyVersion();
   const { values, setFieldValue } = useFormikContext<ResourceFormValues>();
-  // const resource = useNode({}, { enabled: !!step && selectedResource });
 
   useEffect(() => {
     (async () => {

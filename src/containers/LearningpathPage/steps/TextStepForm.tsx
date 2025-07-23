@@ -11,8 +11,10 @@ import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { DescriptionEditor } from "./DescriptionEditor";
+import { TextFormValues } from "./types";
 import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
 import { FormField } from "../../../components/FormField";
+import { RulesType } from "../../../components/formikValidationSchema";
 import { LicenseField } from "../../FormikForm";
 
 const TITLE_MAX_LENGTH = 64;
@@ -22,6 +24,20 @@ interface Props {
   language: string | undefined;
   step: ILearningStepV2DTO | undefined;
 }
+
+export const textStepRules: RulesType<TextFormValues> = {
+  title: {
+    required: true,
+    maxLength: TITLE_MAX_LENGTH,
+  },
+  introduction: {
+    required: true,
+    maxLength: INTRODUCTION_MAX_LENGTH,
+  },
+  description: {
+    required: true,
+  },
+};
 
 export const TextStepForm = ({ language, step }: Props) => {
   const { t } = useTranslation();

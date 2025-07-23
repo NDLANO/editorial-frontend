@@ -94,7 +94,7 @@ const EditVideo = ({ onSave, setHasError, embed, onClose }: Props) => {
       </DialogHeader>
       <DialogBody>
         <VideoWrapper>
-          <StyledVideo title={`Video: ${embed?.title}`} src={activeSrc(embed)} allowFullScreen />
+          <StyledVideo title={`Video: ${embed?.title}`} src={activeSrc(embed)} allow="fullscreen" />
         </VideoWrapper>
         <Formik
           initialValues={initialValues}

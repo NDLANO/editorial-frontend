@@ -30,7 +30,6 @@ const extractIdsFromUrl = (url: string) => {
   return { taxId, articleId: Number.isNaN(articleId) ? undefined : parseInt(articleId) };
 };
 
-// TODO: License info, competence goals. Consider just using an iframe?
 export const ArticleStep = ({ step, children, language }: ArticleStepProps) => {
   const { articleId, taxId } = extractIdsFromUrl(step.embedUrl?.url ?? "");
   const { taxonomyVersion } = useTaxonomyVersion();

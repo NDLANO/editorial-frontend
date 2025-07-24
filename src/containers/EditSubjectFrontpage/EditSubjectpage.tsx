@@ -15,11 +15,7 @@ import { LocaleType } from "../../interfaces";
 import { useFetchSubjectpageData } from "../FormikForm/formikSubjectpageHooks";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
-interface Props {
-  isNewlyCreated: boolean;
-}
-
-const EditSubjectpage = ({ isNewlyCreated }: Props) => {
+const EditSubjectpage = () => {
   const { t } = useTranslation();
   const { elementId, subjectpageId, selectedLanguage } = useParams<
     "elementId" | "subjectpageId" | "selectedLanguage"
@@ -48,7 +44,6 @@ const EditSubjectpage = ({ isNewlyCreated }: Props) => {
           subjectpage={subjectpage}
           selectedLanguage={selectedLanguage!}
           updateSubjectpage={updateSubjectpage}
-          isNewlyCreated={isNewlyCreated}
         />
       </main>
     </PageContainer>

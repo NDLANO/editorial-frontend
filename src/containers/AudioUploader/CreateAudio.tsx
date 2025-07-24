@@ -19,7 +19,7 @@ const CreateAudio = () => {
   const onCreateAudio = async (newAudio: INewAudioMetaInformationDTO, file?: string | Blob): Promise<void> => {
     if (file instanceof Blob) {
       const createdAudio = await postAudio(newAudio, file);
-      navigate(toEditAudio(createdAudio.id, newAudio.language));
+      navigate(toEditAudio(createdAudio.id, newAudio.language), { state: { isNewlyCreated: true } });
     }
   };
 

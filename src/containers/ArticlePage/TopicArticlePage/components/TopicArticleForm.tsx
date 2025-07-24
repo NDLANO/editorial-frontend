@@ -41,7 +41,6 @@ interface Props {
   updateArticle: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
   articleStatus?: IStatusDTO;
   articleChanged: boolean;
-  isNewlyCreated: boolean;
   supportedLanguages: string[];
   articleLanguage: string;
   translatedFieldsToNN: string[];
@@ -53,7 +52,6 @@ const TopicArticleForm = ({
   articleTaxonomy,
   updateArticle,
   articleChanged,
-  isNewlyCreated,
   supportedLanguages,
   articleLanguage,
   articleStatus,
@@ -142,7 +140,6 @@ const TopicArticleForm = ({
         </TaxonomyVersionProvider>
         <FormFooter
           articleChanged={articleChanged}
-          isNewlyCreated={isNewlyCreated}
           savedToServer={savedToServer}
           handleSubmit={handleSubmit}
           article={article}
@@ -169,18 +166,11 @@ const TopicArticleForm = ({
 interface FormFooterProps {
   articleChanged: boolean;
   article?: IArticleDTO;
-  isNewlyCreated: boolean;
   savedToServer: boolean;
   handleSubmit: (values: TopicArticleFormType, formikHelpers: FormikHelpers<TopicArticleFormType>) => Promise<void>;
 }
 
-const InternalFormFooter = ({
-  articleChanged,
-  article,
-  isNewlyCreated,
-  savedToServer,
-  handleSubmit,
-}: FormFooterProps) => {
+const InternalFormFooter = ({ articleChanged, article, savedToServer, handleSubmit }: FormFooterProps) => {
   const { t } = useTranslation();
   const statusStateMachine = useDraftStatusStateMachine({
     articleId: article?.id,
@@ -213,7 +203,6 @@ const InternalFormFooter = ({
         entityStatus={article?.status}
         statusStateMachine={statusStateMachine.data}
         isArticle
-        isNewlyCreated={isNewlyCreated}
         isConcept={false}
         hideSecondaryButton={false}
         article={article}

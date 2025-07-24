@@ -16,7 +16,6 @@ const LearningResourcePage = () => (
     CreateComponent={CreateLearningResource}
     EditComponent={EditLearningResource}
     useHook={useDraft}
-    createUrl="/subject-matter/learning-resource/new"
     isArticle
   />
 );

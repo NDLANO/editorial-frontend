@@ -22,10 +22,6 @@ import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 import NotFound from "../../NotFoundPage/NotFoundPage";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
-interface Props {
-  isNewlyCreated?: boolean;
-}
-
 const translateFields: TranslateType[] = [
   {
     field: "title.title",
@@ -61,7 +57,7 @@ const translateFields: TranslateType[] = [
   },
 ];
 
-const EditLearningResource = ({ isNewlyCreated }: Props) => {
+const EditLearningResource = () => {
   const { t } = useTranslation();
   const params = useParams<"selectedLanguage" | "id">();
   const selectedLanguage = params.selectedLanguage as LocaleType;
@@ -117,7 +113,6 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
         articleRevisionHistory={articleRevisionHistory}
         articleStatus={article.status}
         articleChanged={articleChanged || newLanguage}
-        isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
         supportedLanguages={article.supportedLanguages}
         translatedFieldsToNN={translatedFields}

@@ -20,10 +20,6 @@ import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 import NotFound from "../../NotFoundPage/NotFoundPage";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
-interface Props {
-  isNewlyCreated?: boolean;
-}
-
 const translateFields: TranslateType[] = [
   {
     field: "title.title",
@@ -55,7 +51,7 @@ const translateFields: TranslateType[] = [
   },
 ];
 
-const EditTopicArticle = ({ isNewlyCreated }: Props) => {
+const EditTopicArticle = () => {
   const params = useParams<"id" | "selectedLanguage">();
   const articleId = Number(params.id!) || undefined;
   const selectedLanguage = params.selectedLanguage as LocaleType;
@@ -111,7 +107,6 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
         articleChanged={articleChanged || newLanguage}
         article={article}
         articleRevisionHistory={articleRevisionHistory}
-        isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
         supportedLanguages={article.supportedLanguages}
         translatedFieldsToNN={translatedFields}

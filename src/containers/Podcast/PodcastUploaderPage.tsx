@@ -16,7 +16,6 @@ const PodcastUploderPage = () => (
     CreateComponent={CreatePodcast}
     EditComponent={EditPodcast}
     useHook={useAudio}
-    createUrl="/media/podcast-upload/new"
     titleTranslationKey="htmlTitles.podcastUploaderPage"
   />
 );

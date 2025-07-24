@@ -17,12 +17,6 @@ import { fetchImage, updateImage } from "../../modules/image/imageApi";
 import { useMessages } from "../Messages/MessagesProvider";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
-interface Props {
-  imageId?: string;
-  imageLanguage?: string;
-  isNewlyCreated?: boolean;
-}
-
 const translateFields: TranslateType[] = [
   {
     field: "title.title",
@@ -42,7 +36,7 @@ const translateFields: TranslateType[] = [
   },
 ];
 
-const EditImage = ({ isNewlyCreated }: Props) => {
+const EditImage = () => {
   const { i18n } = useTranslation();
   const { id: imageId, selectedLanguage: imageLanguage } = useParams<"id" | "selectedLanguage">();
   const [loading, setLoading] = useState(true);
@@ -99,7 +93,6 @@ const EditImage = ({ isNewlyCreated }: Props) => {
       language={imageLanguage ?? i18n.language}
       image={image}
       onSubmitFunc={onUpdate}
-      isNewlyCreated={isNewlyCreated}
       isNewLanguage={isNewLanguage}
       translatedFieldsToNN={translatedFields}
     />

@@ -9,6 +9,7 @@
 import { useFormikContext } from "formik";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 import { ShareBoxLine } from "@ndla/icons";
 import { Button, FieldRoot } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
@@ -22,7 +23,7 @@ import StatusSelect from "../../containers/FormikForm/components/StatusSelect";
 import { hasUnpublishedConcepts } from "../../containers/FormikForm/utils";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../interfaces";
-import { toPreviewDraft } from "../../util/routeHelpers";
+import { NewlyCreatedLocationState, toPreviewDraft } from "../../util/routeHelpers";
 import { FormField } from "../FormField";
 import { createEditUrl, TranslatableType, translatableTypes } from "../HeaderWithLanguage/util";
 import { PreviewResourceDialog } from "../PreviewDraft/PreviewResourceDialog";
@@ -39,7 +40,6 @@ interface Props {
   isArticle?: boolean;
   isConcept: boolean;
   hideSecondaryButton: boolean;
-  isNewlyCreated: boolean;
   hasErrors?: boolean;
 }
 
@@ -134,12 +134,12 @@ function EditorFooter<T extends FormValues>({
   isArticle,
   isConcept,
   hideSecondaryButton,
-  isNewlyCreated,
   hasErrors,
 }: Props) {
   const { t } = useTranslation();
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
   const { createMessage } = useMessages();
+  const location = useLocation();
 
   // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
   const [newStatus, setNewStatus] = useState<string | undefined>(undefined);
@@ -241,7 +241,7 @@ function EditorFooter<T extends FormValues>({
         <SaveMultiButton
           isSaving={isSubmitting}
           formIsDirty={formIsDirty}
-          showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
+          showSaved={!formIsDirty && (savedToServer || !!(location.state as NewlyCreatedLocationState)?.isNewlyCreated)}
           onClick={(saveAsNew) => {
             setFieldValue("saveAsNew", saveAsNew);
             setTimeout(() => setShouldSave(true), SAVE_DEBOUNCE_MS);

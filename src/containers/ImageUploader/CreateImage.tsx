@@ -14,14 +14,13 @@ import { postImage } from "../../modules/image/imageApi";
 import { toEditImage } from "../../util/routeHelpers";
 
 interface Props {
-  isNewlyCreated?: boolean;
   editingArticle?: boolean;
   onImageCreated?: (image: IImageMetaInformationV3DTO) => void;
   closeDialog?: () => void;
   inDialog?: boolean;
 }
 
-const CreateImage = ({ isNewlyCreated, editingArticle, onImageCreated, inDialog, closeDialog }: Props) => {
+const CreateImage = ({ editingArticle, onImageCreated, inDialog, closeDialog }: Props) => {
   const { i18n } = useTranslation();
   const locale = i18n.language;
   const navigate = useNavigate();
@@ -31,7 +30,7 @@ const CreateImage = ({ isNewlyCreated, editingArticle, onImageCreated, inDialog,
       const createdImage = await postImage(imageMetadata, image);
       onImageCreated?.(createdImage);
       if (!editingArticle && createdImage.id) {
-        navigate(toEditImage(createdImage.id, imageMetadata.language));
+        navigate(toEditImage(createdImage.id, imageMetadata.language), { state: { isNewlyCreated: true } });
       }
     }
   };
@@ -40,7 +39,6 @@ const CreateImage = ({ isNewlyCreated, editingArticle, onImageCreated, inDialog,
     <ImageForm
       language={locale}
       inDialog={inDialog}
-      isNewlyCreated={isNewlyCreated}
       onSubmitFunc={onCreateImage}
       closeDialog={closeDialog}
       translatedFieldsToNN={[]}

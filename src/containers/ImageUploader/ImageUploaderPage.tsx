@@ -16,7 +16,6 @@ const ImageUploaderPage = () => (
     CreateComponent={CreateImage}
     EditComponent={EditImage}
     useHook={useImage}
-    createUrl="/media/image-upload/new"
     titleTranslationKey="htmlTitles.imageUploaderPage"
   />
 );

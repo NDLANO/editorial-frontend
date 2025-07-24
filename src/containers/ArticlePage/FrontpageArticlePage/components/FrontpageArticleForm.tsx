@@ -32,7 +32,6 @@ interface Props {
   article?: IArticleDTO;
   articleRevisionHistory?: UseQueryResult<ArticleRevisionHistoryDTO>;
   articleStatus?: IStatusDTO;
-  isNewlyCreated: boolean;
   articleChanged: boolean;
   supportedLanguages: string[];
   updateArticle: (updatedArticle: IUpdatedArticleDTO) => Promise<IArticleDTO>;
@@ -44,7 +43,6 @@ const FrontpageArticleForm = ({
   article,
   articleRevisionHistory,
   articleStatus,
-  isNewlyCreated = false,
   updateArticle,
   articleChanged,
   articleLanguage,
@@ -100,7 +98,6 @@ const FrontpageArticleForm = ({
         />
         <FormFooter
           articleChanged={articleChanged}
-          isNewlyCreated={isNewlyCreated}
           savedToServer={savedToServer}
           handleSubmit={handleSubmit}
           article={article}
@@ -113,18 +110,11 @@ const FrontpageArticleForm = ({
 interface FormFooterProps {
   articleChanged: boolean;
   article?: IArticleDTO;
-  isNewlyCreated: boolean;
   savedToServer: boolean;
   handleSubmit: HandleSubmitFunc<FrontpageArticleFormType>;
 }
 
-const InternalFormFooter = ({
-  articleChanged,
-  article,
-  isNewlyCreated,
-  savedToServer,
-  handleSubmit,
-}: FormFooterProps) => {
+const InternalFormFooter = ({ articleChanged, article, savedToServer, handleSubmit }: FormFooterProps) => {
   const { t } = useTranslation();
   const statusStateMachine = useDraftStatusStateMachine({
     articleId: article?.id,
@@ -157,7 +147,6 @@ const InternalFormFooter = ({
         entityStatus={article?.status}
         statusStateMachine={statusStateMachine.data}
         isArticle
-        isNewlyCreated={isNewlyCreated}
         isConcept={false}
         hideSecondaryButton={false}
         article={article}

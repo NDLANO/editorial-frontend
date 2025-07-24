@@ -9,7 +9,7 @@
 import { Formik, FormikHelpers } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import {
@@ -34,6 +34,7 @@ import SimpleVersionPanel from "../../FormikForm/SimpleVersionPanel";
 import { imageApiTypeToFormType, ImageFormikType } from "../imageTransformers";
 import { ImageFormHeader } from "./ImageFormHeader";
 import { useLicenses } from "../../../modules/draft/draftQueries";
+import { NewlyCreatedLocationState } from "../../../util/routeHelpers";
 
 const StyledFormActionsContainer = styled(FormActionsContainer, {
   base: {
@@ -100,7 +101,6 @@ interface Props<TImage extends IImageMetaInformationV3DTO | undefined = undefine
     image: string | Blob,
   ) => void;
   inDialog?: boolean;
-  isNewlyCreated?: boolean;
   closeDialog?: () => void;
   isSaving?: boolean;
   isNewLanguage?: boolean;
@@ -125,7 +125,6 @@ const ImageForm = <TImage extends IImageMetaInformationV3DTO | undefined = undef
   inDialog,
   language,
   closeDialog,
-  isNewlyCreated,
   isSaving,
   isNewLanguage,
   translatedFieldsToNN,
@@ -133,6 +132,7 @@ const ImageForm = <TImage extends IImageMetaInformationV3DTO | undefined = undef
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { data: licenses } = useLicenses({
     placeholderData: [],
@@ -247,7 +247,7 @@ const ImageForm = <TImage extends IImageMetaInformationV3DTO | undefined = undef
                 type={!inDialog ? "submit" : "button"}
                 loading={isSubmitting || isSaving}
                 disabled={!isValid}
-                showSaved={!dirty && (isNewlyCreated || savedToServer)}
+                showSaved={!dirty && ((location.state as NewlyCreatedLocationState)?.isNewlyCreated || savedToServer)}
                 formIsDirty={formIsDirty}
                 onClick={(evt) => {
                   if (inDialog) {

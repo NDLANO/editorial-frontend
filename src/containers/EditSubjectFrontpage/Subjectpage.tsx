@@ -10,18 +10,12 @@ import { Route, Routes } from "react-router-dom";
 
 import CreateSubjectpage from "./CreateSubjectpage";
 import EditSubjectpage from "./EditSubjectpage";
-import { usePreviousLocation } from "../../util/routeHelpers";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
 const Subjectpage = () => {
-  const previousLocation = usePreviousLocation();
-
   return (
     <Routes>
-      <Route
-        path=":elementId/:subjectpageId/edit/:selectedLanguage"
-        element={<EditSubjectpage isNewlyCreated={/\/subjectpage\/(.*)\/new/.test(previousLocation ?? "")} />}
-      />
+      <Route path=":elementId/:subjectpageId/edit/:selectedLanguage" element={<EditSubjectpage />} />
       <Route path=":elementId/new/:selectedLanguage" element={<CreateSubjectpage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

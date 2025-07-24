@@ -28,7 +28,6 @@ interface Props {
   conceptChanged: boolean;
   inDialog?: boolean;
   savedToServer: boolean;
-  isNewlyCreated: boolean;
   showSimpleFooter: boolean;
 }
 
@@ -38,14 +37,7 @@ const StyledFormActionsContainer = styled(FormActionsContainer, {
   },
 });
 
-const ConceptFormFooter = ({
-  entityStatus,
-  conceptChanged,
-  inDialog,
-  savedToServer,
-  isNewlyCreated,
-  showSimpleFooter,
-}: Props) => {
+const ConceptFormFooter = ({ entityStatus, conceptChanged, inDialog, savedToServer, showSimpleFooter }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
   const conceptStateMachine = useConceptStateMachine();
@@ -111,7 +103,6 @@ const ConceptFormFooter = ({
         onSaveClick={submitForm}
         hideSecondaryButton
         isConcept
-        isNewlyCreated={isNewlyCreated}
         hasErrors={isSubmitting || !formIsDirty || disableSave}
       />
       <AlertDialogWrapper

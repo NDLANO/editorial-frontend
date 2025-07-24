@@ -20,10 +20,10 @@ const CreatePodcastSeries = () => {
 
   const onUpdate = async (newSeries: INewSeriesDTO): Promise<void> => {
     const createdSeries = await postSeries(newSeries);
-    navigate(toEditPodcastSeries(createdSeries.id, newSeries.language));
+    navigate(toEditPodcastSeries(createdSeries.id, newSeries.language), { state: { isNewlyCreated: true } });
   };
 
-  return <PodcastSeriesForm language={locale} onUpdate={onUpdate} isNewlyCreated={false} translatedFieldsToNN={[]} />;
+  return <PodcastSeriesForm language={locale} onUpdate={onUpdate} translatedFieldsToNN={[]} />;
 };
 
 export default CreatePodcastSeries;

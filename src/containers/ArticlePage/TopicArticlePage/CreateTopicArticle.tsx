@@ -22,7 +22,9 @@ const CreateTopicArticle = () => {
 
   const createArticleAndPushRoute = async (createdArticle: IUpdatedArticleDTO): Promise<IArticleDTO> => {
     const savedArticle = await createArticle(convertUpdateToNewDraft(createdArticle));
-    navigate(toEditArticle(savedArticle.id, savedArticle.articleType, createdArticle.language));
+    navigate(toEditArticle(savedArticle.id, savedArticle.articleType, createdArticle.language), {
+      state: { isNewlyCreated: true },
+    });
     return savedArticle;
   };
 
@@ -32,7 +34,6 @@ const CreateTopicArticle = () => {
       <TopicArticleForm
         articleLanguage={i18n.language}
         updateArticle={createArticleAndPushRoute}
-        isNewlyCreated={false}
         articleChanged={false}
         supportedLanguages={[i18n.language]}
         translatedFieldsToNN={[]}

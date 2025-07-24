@@ -6,115 +6,23 @@
  *
  */
 
-import queryString from "query-string";
-import { ReactElement } from "react";
-import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router-dom";
-import { UseQueryResult } from "@tanstack/react-query";
-import { SearchMedia, SearchContent, VoiceprintLine, ListCheck } from "@ndla/icons";
-import { SearchParams, SearchType } from "../../interfaces";
-import { useSearchAudio, useSearchSeries } from "../../modules/audio/audioQueries";
-import { useSearchImages } from "../../modules/image/imageQueries";
-import { useSearchWithCustomSubjectsFiltering } from "../../modules/search/searchQueries";
-import { toSearch } from "../../util/routeHelpers";
-import SubNavigation from "../Masthead/components/SubNavigation";
-import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
-import { SearchParamsBody, parseSearchParams } from "../SearchPage/components/form/SearchForm";
-import SearchContainer, { ResultType } from "../SearchPage/SearchContainer";
+import { AudioSearch } from "../SearchPage/AudioSearch";
+import { ContentSearch } from "../SearchPage/ContentSearch";
+import { ImageSearch } from "../SearchPage/ImageSearch";
+import { PodcastSeriesSearch } from "../SearchPage/PodcastSeriesSearch";
+import { SearchPageHeader } from "../SearchPage/SearchPageHeader";
 
 const SearchPage = () => {
-  const { t } = useTranslation();
-  const supportedTypes: {
-    title: string;
-    type: SearchType;
-    url: string;
-    icon: ReactElement;
-    path: string;
-    searchHook: (query: SearchParamsBody) => UseQueryResult<ResultType>;
-  }[] = [
-    {
-      title: t("subNavigation.searchContent"),
-      type: "content",
-      url: toSearch(
-        {
-          page: "1",
-          sort: "-lastUpdated",
-          "page-size": 10,
-        },
-        "content",
-      ),
-      icon: <SearchContent />,
-      path: "content",
-      searchHook: useSearchWithCustomSubjectsFiltering,
-    },
-    {
-      title: t("subNavigation.searchAudio"),
-      type: "audio",
-      url: toSearch(
-        {
-          page: "1",
-          sort: "-relevance",
-          "page-size": 10,
-        },
-        "audio",
-      ),
-      icon: <VoiceprintLine />,
-      path: "audio",
-      searchHook: useSearchAudio,
-    },
-    {
-      title: t("subNavigation.searchImage"),
-      type: "image",
-      url: toSearch(
-        {
-          page: "1",
-          sort: "-relevance",
-          "page-size": 10,
-        },
-        "image",
-      ),
-      icon: <SearchMedia />,
-      path: "image",
-      searchHook: useSearchImages,
-    },
-    {
-      title: t("subNavigation.searchPodcastSeries"),
-      type: "podcast-series",
-      url: toSearch({ page: "1", sort: "-relevance", "page-size": 10 }, "podcast-series"),
-      icon: <ListCheck />,
-      path: "podcast-series",
-      searchHook: useSearchSeries,
-    },
-  ];
-
   return (
     <>
-      <SubNavigation subtypes={supportedTypes} />
+      <SearchPageHeader />
       <Routes>
-        {supportedTypes.map((type) => {
-          return (
-            <Route
-              key={type.type}
-              path={`${type.path}/*`}
-              element={
-                <PrivateRoute
-                  key={type.type}
-                  component={
-                    <SearchContainer
-                      searchHook={(query: SearchParams) => {
-                        const toBody = parseSearchParams(queryString.stringify(query), true);
-                        return type.searchHook(toBody);
-                      }}
-                      type={type.type}
-                    />
-                  }
-                />
-              }
-            />
-          );
-        })}
-        <Route path="*" element={<NotFoundPage />} />
+        <Route path="content/*" element={<PrivateRoute component={<ContentSearch />} />} />
+        <Route path="audio/*" element={<PrivateRoute component={<AudioSearch />} />} />
+        <Route path="image/*" element={<PrivateRoute component={<ImageSearch />} />} />
+        <Route path="podcast-series/*" element={<PrivateRoute component={<PodcastSeriesSearch />} />} />
       </Routes>
     </>
   );

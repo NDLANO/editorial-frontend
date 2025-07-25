@@ -16,17 +16,13 @@ import { fetchAudio, updateAudio } from "../../modules/audio/audioApi";
 import { toEditPodcast } from "../../util/routeHelpers";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
-interface Props {
-  isNewlyCreated?: boolean;
-}
-
 const translateFields: TranslateType[] = [
   { field: "manuscript.manuscript", type: "text" },
   { field: "title.title", type: "text" },
   { field: "tags.tags", type: "text" },
 ];
 
-const EditAudio = ({ isNewlyCreated }: Props) => {
+const EditAudio = () => {
   const params = useParams<"id" | "selectedLanguage">();
   const [audio, setAudio] = useState<IAudioMetaInformationDTO | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
@@ -85,7 +81,6 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
       audio={audio}
       onUpdateAudio={onUpdate}
       audioLanguage={audioLanguage}
-      isNewlyCreated={isNewlyCreated}
       isNewLanguage={isNewLanguage}
       translatedFieldsToNN={translatedFields}
     />

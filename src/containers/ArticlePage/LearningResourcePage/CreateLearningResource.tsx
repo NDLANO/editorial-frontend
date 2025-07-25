@@ -22,7 +22,9 @@ const CreateLearningResource = () => {
 
   const createArticleAndPushRoute = async (createdArticle: IUpdatedArticleDTO) => {
     const savedArticle = await createArticle(convertUpdateToNewDraft(createdArticle));
-    navigate(toEditArticle(savedArticle.id, savedArticle.articleType, createdArticle.language));
+    navigate(toEditArticle(savedArticle.id, savedArticle.articleType, createdArticle.language), {
+      state: { isNewlyCreated: true },
+    });
     return savedArticle;
   };
 
@@ -32,7 +34,6 @@ const CreateLearningResource = () => {
       <LearningResourceForm
         updateArticle={createArticleAndPushRoute}
         articleChanged={false}
-        isNewlyCreated={false}
         articleLanguage={i18n.language}
         supportedLanguages={[i18n.language]}
         translatedFieldsToNN={[]}

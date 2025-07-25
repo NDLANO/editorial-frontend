@@ -45,7 +45,6 @@ interface Props {
   concept?: IConceptDTO;
   conceptChanged?: boolean;
   inDialog: boolean;
-  isNewlyCreated?: boolean;
   language: string;
   initialTitle?: string;
   onUpserted?: (concept: IConceptSummaryDTO | IConceptDTO) => void;
@@ -84,7 +83,6 @@ export const GlossForm = ({
   concept,
   conceptChanged,
   inDialog,
-  isNewlyCreated = false,
   language,
   upsertProps,
   initialTitle,
@@ -180,7 +178,6 @@ export const GlossForm = ({
             conceptChanged={!!conceptChanged}
             inDialog={inDialog}
             savedToServer={savedToServer}
-            isNewlyCreated={isNewlyCreated}
             showSimpleFooter={!concept?.id}
           />
         </FormWrapper>

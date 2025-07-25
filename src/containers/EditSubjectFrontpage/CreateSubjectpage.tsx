@@ -34,7 +34,7 @@ const CreateSubjectpage = () => {
     const savedSubjectpage = await createSubjectpage(createdSubjectpage);
     const savedId = savedSubjectpage?.id;
     if (savedId) {
-      navigate(toEditSubjectpage(elementId, selectedLanguage, savedId));
+      navigate(toEditSubjectpage(elementId, selectedLanguage, savedId), { state: { isNewlyCreated: true } });
     }
     return savedSubjectpage;
   };
@@ -48,7 +48,6 @@ const CreateSubjectpage = () => {
           elementName={elementName}
           createSubjectpage={createSubjectpageAndPushRoute}
           elementId={elementId}
-          isNewlyCreated={false}
         />
       </main>
     </PageContainer>

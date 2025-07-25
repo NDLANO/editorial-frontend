@@ -49,11 +49,8 @@ const translateFields: TranslateType[] = [
     type: "text",
   },
 ];
-interface Props {
-  isNewlyCreated?: boolean;
-}
 
-const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
+const EditFrontpageArticle = () => {
   const { t } = useTranslation();
   const params = useParams<"selectedLanguage" | "id">();
   const selectedLanguage = params.selectedLanguage as LocaleType;
@@ -102,7 +99,6 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
         articleRevisionHistory={articleRevisionHistory}
         articleStatus={article.status}
         articleChanged={articleChanged || newLanguage}
-        isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
         supportedLanguages={article.supportedLanguages}
         translatedFieldsToNN={translatedFields}

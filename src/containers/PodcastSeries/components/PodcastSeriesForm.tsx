@@ -9,7 +9,7 @@
 import { Formik, FormikProps, FormikHelpers, FormikErrors } from "formik";
 import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Descendant } from "slate";
 import { Button, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -32,6 +32,7 @@ import {
 import { editorValueToPlainText } from "../../../util/articleContentConverter";
 import { podcastSeriesTypeToFormType } from "../../../util/audioHelpers";
 import { isFormikFormDirty } from "../../../util/formHelper";
+import { NewlyCreatedLocationState } from "../../../util/routeHelpers";
 import { AlertDialogWrapper } from "../../FormikForm";
 import { useSession } from "../../Session/SessionProvider";
 
@@ -82,7 +83,6 @@ interface Props {
   podcastSeries?: ISeriesDTO;
   language: string;
   inDialog?: boolean;
-  isNewlyCreated: boolean;
   formikProps?: FormikProps<PodcastSeriesFormikType>;
   onUpdate: (newPodcastSeries: INewSeriesDTO) => void;
   revision?: number;
@@ -93,7 +93,6 @@ interface Props {
 const PodcastSeriesForm = ({
   podcastSeries,
   inDialog,
-  isNewlyCreated,
   onUpdate,
   language,
   isNewLanguage,
@@ -104,6 +103,7 @@ const PodcastSeriesForm = ({
   const { userPermissions } = useSession();
   const navigate = useNavigate();
   const size = useRef<[number, number] | undefined>(undefined);
+  const location = useLocation();
 
   const isAudioAdmin = !!userPermissions?.includes(AUDIO_ADMIN_SCOPE);
 
@@ -207,7 +207,9 @@ const PodcastSeriesForm = ({
                 id={SAVE_BUTTON_ID}
                 disabled={!isAudioAdmin}
                 loading={isSubmitting}
-                showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
+                showSaved={
+                  !formIsDirty && (savedToServer || (location.state as NewlyCreatedLocationState)?.isNewlyCreated)
+                }
                 formIsDirty={formIsDirty}
                 type={!inDialog ? "submit" : "button"}
                 onClick={(evt) => {

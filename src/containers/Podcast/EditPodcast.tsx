@@ -17,10 +17,6 @@ import { updateAudio, fetchAudio } from "../../modules/audio/audioApi";
 import { toEditAudio } from "../../util/routeHelpers";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
-interface Props {
-  isNewlyCreated?: boolean;
-}
-
 const translateFields: TranslateType[] = [
   {
     field: "manuscript.manuscript",
@@ -44,7 +40,7 @@ const translateFields: TranslateType[] = [
   },
 ];
 
-const EditPodcast = ({ isNewlyCreated }: Props) => {
+const EditPodcast = () => {
   const params = useParams<"id" | "selectedLanguage">();
   const podcastId = Number(params.id);
   const podcastLanguage = params.selectedLanguage!;
@@ -107,7 +103,6 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
       language={language}
       podcastChanged={podcastChanged || newLanguage}
       onUpdatePodcast={onUpdate}
-      isNewlyCreated={isNewlyCreated}
       translating={translating}
       translatedFieldsToNN={translatedFields}
     />

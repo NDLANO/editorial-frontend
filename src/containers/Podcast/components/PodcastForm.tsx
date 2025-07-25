@@ -9,7 +9,7 @@
 import { Formik, FormikHelpers, FormikErrors } from "formik";
 import { useState, useRef, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import {
@@ -34,6 +34,7 @@ import { editorValueToPlainText, inlineContentToHTML } from "../../../util/artic
 import { audioApiTypeToPodcastFormType } from "../../../util/audioHelpers";
 import { isFormikFormDirty } from "../../../util/formHelper";
 import handleError from "../../../util/handleError";
+import { NewlyCreatedLocationState } from "../../../util/routeHelpers";
 import AudioContent from "../../AudioUploader/components/AudioContent";
 import AudioCopyright from "../../AudioUploader/components/AudioCopyright";
 import AudioManuscript from "../../AudioUploader/components/AudioManuscript";
@@ -107,7 +108,6 @@ interface Props {
   audio?: IAudioMetaInformationDTO;
   podcastChanged?: boolean;
   inDialog?: boolean;
-  isNewlyCreated?: boolean;
   language: string;
   onCreatePodcast?: (newPodcast: INewAudioMetaInformationDTO, file?: string | Blob) => Promise<void>;
   onUpdatePodcast?: (updatedPodcast: IUpdatedAudioMetaInformationDTO, file?: string | Blob) => Promise<void>;
@@ -119,7 +119,6 @@ const PodcastForm = ({
   audio,
   podcastChanged,
   inDialog,
-  isNewlyCreated,
   language,
   onCreatePodcast,
   onUpdatePodcast,
@@ -131,6 +130,7 @@ const PodcastForm = ({
   const [savedToServer, setSavedToServer] = useState(false);
   const size = useRef<[number, number] | undefined>(undefined);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = async (values: PodcastFormValues, actions: FormikHelpers<PodcastFormValues>) => {
     const license = licenses!.find((license) => license.license === values.license);
@@ -298,7 +298,9 @@ const PodcastForm = ({
                 id={SAVE_BUTTON_ID}
                 type={!inDialog ? "submit" : "button"}
                 loading={isSubmitting}
-                showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
+                showSaved={
+                  !formIsDirty && (savedToServer || (location.state as NewlyCreatedLocationState)?.isNewlyCreated)
+                }
                 formIsDirty={formIsDirty}
                 onClick={(evt) => {
                   evt.preventDefault();

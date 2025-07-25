@@ -39,7 +39,6 @@ interface Props {
   articleTaxonomy?: Node[];
   articleStatus?: IStatusDTO;
   supportedLanguages: string[];
-  isNewlyCreated: boolean;
   articleChanged: boolean;
   updateArticle: (updatedArticle: IUpdatedArticleDTO) => Promise<IArticleDTO>;
   articleLanguage: string;
@@ -50,7 +49,6 @@ const LearningResourceForm = ({
   article,
   articleTaxonomy,
   articleStatus,
-  isNewlyCreated = false,
   updateArticle,
   supportedLanguages,
   articleChanged,
@@ -157,7 +155,6 @@ const LearningResourceForm = ({
           </TaxonomyVersionProvider>
           <FormFooter
             articleChanged={articleChanged}
-            isNewlyCreated={isNewlyCreated}
             savedToServer={savedToServer}
             handleSubmit={handleSubmit}
             article={article}
@@ -185,18 +182,11 @@ const LearningResourceForm = ({
 interface FormFooterProps {
   articleChanged: boolean;
   article?: IArticleDTO;
-  isNewlyCreated: boolean;
   savedToServer: boolean;
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
 }
 
-const InternalFormFooter = ({
-  articleChanged,
-  article,
-  isNewlyCreated,
-  savedToServer,
-  handleSubmit,
-}: FormFooterProps) => {
+const InternalFormFooter = ({ articleChanged, article, savedToServer, handleSubmit }: FormFooterProps) => {
   const { t } = useTranslation();
   const statusStateMachine = useDraftStatusStateMachine({
     articleId: article?.id,
@@ -231,7 +221,6 @@ const InternalFormFooter = ({
         entityStatus={article?.status}
         statusStateMachine={statusStateMachine.data}
         isArticle
-        isNewlyCreated={isNewlyCreated}
         isConcept={false}
         hideSecondaryButton={false}
         article={article}

@@ -12,6 +12,10 @@ import { useLocation } from "react-router-dom";
 import config from "../config";
 import { NDLA_FILM_SUBJECT } from "../constants";
 
+export interface NewlyCreatedLocationState {
+  isNewlyCreated?: boolean;
+}
+
 const articleTypes: Record<string, string> = {
   "topic-article": "topic-article",
   standard: "learning-resource",

@@ -21,13 +21,11 @@ const CreatePodcast = () => {
   const onCreatePodcast = async (newPodcast: INewAudioMetaInformationDTO, podcastFile: string | Blob | undefined) => {
     if (podcastFile instanceof Blob) {
       const createdPodcast = await postAudio(newPodcast, podcastFile);
-      navigate(toEditPodcast(createdPodcast.id, newPodcast.language));
+      navigate(toEditPodcast(createdPodcast.id, newPodcast.language), { state: { isNewlyCreated: true } });
     }
   };
 
-  return (
-    <PodcastForm onCreatePodcast={onCreatePodcast} isNewlyCreated={false} language={locale} translatedFieldsToNN={[]} />
-  );
+  return <PodcastForm onCreatePodcast={onCreatePodcast} language={locale} translatedFieldsToNN={[]} />;
 };
 
 export default CreatePodcast;

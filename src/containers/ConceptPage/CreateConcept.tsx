@@ -30,7 +30,7 @@ const CreateConcept = ({ inDialog = false, addConceptInDialog }: Props) => {
       if (inDialog && addConceptInDialog) {
         addConceptInDialog(savedConcept);
       } else {
-        navigate(toEditConcept(savedConcept.id, createdConcept.language));
+        navigate(toEditConcept(savedConcept.id, createdConcept.language), { state: { isNewlyCreated: true } });
       }
       return savedConcept;
     },

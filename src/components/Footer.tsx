@@ -8,11 +8,11 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useHref, useLocation } from "react-router-dom";
 import { createListCollection } from "@ark-ui/react";
 import { PageContent, SelectContent, SelectLabel, SelectRoot, SelectValueText, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { supportedLanguages } from "../i18n";
-import { LocaleType } from "../interfaces";
 import { GenericSelectItem, GenericSelectTrigger } from "./abstractions/Select";
 
 export const FooterBlock = styled("footer", {
@@ -60,8 +60,19 @@ const FooterContent = styled("div", {
   },
 });
 
+const LANGUAGE_REGEXP = new RegExp(`^\\/(${supportedLanguages.join("|")})($|\\/)`, "");
+
+const constructNewPath = (pathname: string, newLocale?: string) => {
+  const path = pathname.replace(LANGUAGE_REGEXP, "");
+  const fullPath = path.startsWith("/") ? path : `/${path}`;
+  const localePrefix = newLocale ? `/${newLocale}` : "";
+  return `${localePrefix}${fullPath}`;
+};
+
 export const Footer = () => {
   const { t, i18n } = useTranslation();
+  const location = useLocation();
+  const href = useHref(location);
 
   const supportedLanguagesCollection = useMemo(
     () =>
@@ -80,7 +91,9 @@ export const Footer = () => {
             <LanguageSelectorWrapper>
               <SelectRoot
                 collection={supportedLanguagesCollection}
-                onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
+                onValueChange={(details) => {
+                  window.location.replace(constructNewPath(href, details.value[0]));
+                }}
                 value={[i18n.language]}
               >
                 <SelectLabel srOnly>{t("languages.prefixChangeLanguage")}</SelectLabel>

@@ -6,26 +6,16 @@
  *
  */
 
-import { ReactElement } from "react";
+import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import { UseQueryResult } from "@tanstack/react-query";
+import { ListCheck, SearchContent, SearchMedia, VoiceprintLine } from "@ndla/icons";
 import { PageContent } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { SearchType } from "../../../interfaces";
-import { SearchParamsBody } from "../../SearchPage/components/form/SearchForm";
-import { ResultType } from "../../SearchPage/SearchContainer";
-
-interface SubType {
-  title: string;
-  type: SearchType;
-  url: string;
-  icon: ReactElement;
-  path: string;
-  searchHook: (query: SearchParamsBody) => UseQueryResult<ResultType>;
-}
+import { SearchType } from "../../interfaces";
+import { toSearch } from "../../util/routeHelpers";
 
 const StyledList = styled("ul", {
   base: {
@@ -64,29 +54,59 @@ const StyledPageContent = styled(PageContent, {
   },
 });
 
-interface Props {
-  subtypes: SubType[];
+interface SearchObject {
+  type: SearchType;
+  title: string;
+  url: string;
+  icon: ReactNode;
 }
 
-const SubNavigation = ({ subtypes }: Props) => {
+const searchTypes: SearchObject[] = [
+  {
+    type: "content",
+    title: "subNavigation.searchContent",
+    url: toSearch({ page: "1", sort: "-lastUpdated", "page-size": 10 }, "content"),
+    icon: <SearchContent />,
+  },
+  {
+    type: "audio",
+    title: "subNavigation.searchAudio",
+    url: toSearch({ page: "1", sort: "-relevance", "page-size": 10 }, "audio"),
+    icon: <VoiceprintLine />,
+  },
+  {
+    type: "image",
+    title: "subNavigation.searchImage",
+    url: toSearch({ page: "1", sort: "-relevance", "page-size": 10 }, "image"),
+    icon: <SearchMedia />,
+  },
+  {
+    type: "podcast-series",
+    title: "subNavigation.searchPodcastSeries",
+    url: toSearch({ page: "1", sort: "-relevance", "page-size": 10 }, "podcast-series"),
+    icon: <ListCheck />,
+  },
+];
+
+export const SearchPageHeader = () => {
   const location = useLocation();
   const { t } = useTranslation();
   return (
     <StyledPageContent variant="page" asChild consumeCss aria-label={t("searchForm.searchTypes")}>
       <nav>
         <StyledList>
-          {subtypes.map((subtype) => {
-            const currentPage = subtype.url.startsWith(location.pathname);
+          {searchTypes.map((type) => {
+            const currentPage = type.url.startsWith(location.pathname);
             return (
-              <ItemWrapper key={subtype.type}>
-                {subtype.icon}
+              <ItemWrapper key={type.type}>
+                {type.icon}
                 <SafeLinkButton
-                  to={subtype.url}
+                  to={type.url}
                   variant={currentPage ? "primary" : "secondary"}
                   aria-current={currentPage}
                   css={linkOverlay.raw()}
                 >
-                  {subtype.title}
+                  {t(type.title)}
                 </SafeLinkButton>
               </ItemWrapper>
             );
@@ -96,5 +116,3 @@ const SubNavigation = ({ subtypes }: Props) => {
     </StyledPageContent>
   );
 };
-
-export default SubNavigation;

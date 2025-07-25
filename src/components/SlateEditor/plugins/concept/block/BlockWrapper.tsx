@@ -32,7 +32,6 @@ const getConceptDataAttributes = (concept: IConceptSummaryDTO | IConceptDTO, loc
   contentId: concept.id.toString(),
   resource: "concept",
   type: "block",
-  linkText: "",
   ...(concept.conceptType === "gloss" && concept.glossData?.examples.length
     ? getGlossDataAttributes(concept.glossData, locale)
     : {}),

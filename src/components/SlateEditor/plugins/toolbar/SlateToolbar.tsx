@@ -17,7 +17,7 @@ import {
   useState,
 } from "react";
 import { Editor, Range } from "slate";
-import { useSlate, useSlateSelection, useSlateSelector } from "slate-react";
+import { useSlateSelector, useSlateStatic } from "slate-react";
 import { usePopoverContext } from "@ark-ui/react";
 import { PopoverContent, PopoverRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -84,7 +84,7 @@ const checkHasSelectionWithin = (el?: Element | null) => {
 };
 
 const SlateToolbar = ({ hideToolbar: hideToolbarProp }: Props) => {
-  const editor = useSlate();
+  const editor = useSlateStatic();
   const toolbarRef = useRef<HTMLDivElement>(null);
   const editorWrapperRef = useRef<HTMLDivElement | null>(null);
   const [open, setOpen] = useState(false);
@@ -190,13 +190,12 @@ interface ToolbarRepositionerProps extends ComponentPropsWithRef<"div"> {}
 
 const ToolbarRepositioner = (props: ToolbarRepositionerProps) => {
   const { open, reposition } = usePopoverContext();
-  const selection = useSlateSelection();
 
   useEffect(() => {
     if (open) {
       reposition();
     }
-  }, [open, reposition, selection]);
+  }, [open, reposition]);
 
   return <div {...props} />;
 };

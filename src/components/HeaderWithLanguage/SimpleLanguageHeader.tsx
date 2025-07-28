@@ -38,7 +38,6 @@ interface Props {
   articleType: string | undefined;
   editUrl: (id: number, lang: string) => string;
   id: number;
-  isSubmitting: boolean;
   language: string;
   supportedLanguages: string[];
   title: string;
@@ -58,7 +57,6 @@ const SimpleLanguageHeader = ({
   articleType = constants.contentTypes.SUBJECT_MATERIAL,
   editUrl,
   id,
-  isSubmitting,
   language,
   supportedLanguages,
   title,
@@ -88,7 +86,6 @@ const SimpleLanguageHeader = ({
             editUrl={editUrl}
             language={language}
             supportedLanguages={supportedLanguages}
-            isSubmitting={isSubmitting}
           />
           {!!isNewLanguage && (
             <HeaderCurrentLanguagePill key={`types_${language}`}>

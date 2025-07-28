@@ -17,7 +17,7 @@ import { BrightcoveApiType } from "@ndla/types-embed";
 import { useAudioSearchTranslations, useVideoSearchTranslations } from "@ndla/ui";
 import { VideoSearch } from "@ndla/video-search";
 import FileUploader from "../../components/FileUploader";
-import { ImagePicker } from "../../components/ImagePicker";
+import { ImageSearch } from "../../components/ImageSearch";
 import config from "../../config";
 import { Embed, File } from "../../interfaces";
 import { fetchAudio, postSearchAudio } from "../../modules/audio/audioApi";
@@ -97,7 +97,7 @@ const VisualElementSearch = ({
             <TabsIndicator />
           </TabsList>
           <StyledTabsContent value="image">
-            <ImagePicker
+            <ImageSearch
               onImageSelect={onImageChange}
               locale={articleLanguage}
               showCheckbox={showMetaImageCheckbox}

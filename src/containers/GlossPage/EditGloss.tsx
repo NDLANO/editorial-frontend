@@ -32,11 +32,7 @@ const translateFields: TranslateType[] = [
   },
 ];
 
-interface Props {
-  isNewlyCreated?: boolean;
-}
-
-const EditGloss = ({ isNewlyCreated }: Props) => {
+const EditGloss = () => {
   const params = useParams<"id" | "selectedLanguage">();
   const conceptId = Number(params.id);
   const selectedLanguage = params.selectedLanguage as LocaleType;
@@ -79,10 +75,8 @@ const EditGloss = ({ isNewlyCreated }: Props) => {
         inDialog={false}
         concept={concept}
         conceptChanged={conceptChanged || newLanguage}
-        isNewlyCreated={isNewlyCreated}
         upsertProps={{ onUpdate }}
         language={selectedLanguage!}
-        supportedLanguages={concept.supportedLanguages}
         translatedFieldsToNN={translatedFields}
       />
     </>

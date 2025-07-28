@@ -10,24 +10,19 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { IImageMetaInformationV3DTO, INewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
 import ImageForm from "./components/ImageForm";
-import { draftLicensesToImageLicenses } from "../../modules/draft/draftApiUtils";
-import { useLicenses } from "../../modules/draft/draftQueries";
 import { postImage } from "../../modules/image/imageApi";
 import { toEditImage } from "../../util/routeHelpers";
 
 interface Props {
-  isNewlyCreated?: boolean;
   editingArticle?: boolean;
   onImageCreated?: (image: IImageMetaInformationV3DTO) => void;
   closeDialog?: () => void;
   inDialog?: boolean;
 }
 
-const CreateImage = ({ isNewlyCreated, editingArticle, onImageCreated, inDialog, closeDialog }: Props) => {
+const CreateImage = ({ editingArticle, onImageCreated, inDialog, closeDialog }: Props) => {
   const { i18n } = useTranslation();
   const locale = i18n.language;
-  const { data: licenses } = useLicenses({ placeholderData: [] });
-  const imageLicenses = draftLicensesToImageLicenses(licenses!);
   const navigate = useNavigate();
 
   const onCreateImage = async (imageMetadata: INewImageMetaInformationV2DTO, image: string | Blob) => {
@@ -35,7 +30,7 @@ const CreateImage = ({ isNewlyCreated, editingArticle, onImageCreated, inDialog,
       const createdImage = await postImage(imageMetadata, image);
       onImageCreated?.(createdImage);
       if (!editingArticle && createdImage.id) {
-        navigate(toEditImage(createdImage.id, imageMetadata.language));
+        navigate(toEditImage(createdImage.id, imageMetadata.language), { state: { isNewlyCreated: true } });
       }
     }
   };
@@ -44,11 +39,8 @@ const CreateImage = ({ isNewlyCreated, editingArticle, onImageCreated, inDialog,
     <ImageForm
       language={locale}
       inDialog={inDialog}
-      isNewlyCreated={isNewlyCreated}
-      licenses={imageLicenses}
       onSubmitFunc={onCreateImage}
       closeDialog={closeDialog}
-      supportedLanguages={[locale]}
       translatedFieldsToNN={[]}
     />
   );

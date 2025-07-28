@@ -16,7 +16,6 @@ import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
-import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
 import { isEmpty } from "../../../components/validators";
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../constants";
 import { useLicenses } from "../../../modules/draft/draftQueries";
@@ -27,6 +26,7 @@ import { useSession } from "../../Session/SessionProvider";
 import { ConceptContent, ConceptMetaData } from "../components";
 import { ConceptFormValues } from "../conceptInterfaces";
 import { conceptApiTypeToFormType, getNewConceptType, getUpdatedConceptType } from "../conceptTransformers";
+import { ConceptFormHeader } from "./ConceptFormHeader";
 
 const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 
@@ -44,11 +44,9 @@ interface Props {
   concept?: IConceptDTO;
   conceptChanged?: boolean;
   inDialog: boolean;
-  isNewlyCreated?: boolean;
   language: string;
   initialTitle?: string;
   onUpserted?: (concept: IConceptSummaryDTO | IConceptDTO) => void;
-  supportedLanguages: string[];
   translatedFieldsToNN: string[];
 }
 
@@ -102,12 +100,10 @@ const ConceptForm = ({
   concept,
   conceptChanged,
   inDialog,
-  isNewlyCreated = false,
   language,
   upsertProps,
   initialTitle,
   onUpserted,
-  supportedLanguages,
   translatedFieldsToNN,
 }: Props) => {
   const [savedToServer, setSavedToServer] = useState(false);
@@ -174,15 +170,7 @@ const ConceptForm = ({
         const { errors }: FormikProps<ConceptFormValues> = formikProps;
         return (
           <FormWrapper inDialog={inDialog}>
-            <HeaderWithLanguage
-              id={concept?.id}
-              language={language}
-              concept={concept}
-              status={concept?.status}
-              title={concept?.title.title ?? initialTitle}
-              type={"concept"}
-              supportedLanguages={supportedLanguages}
-            />
+            <ConceptFormHeader concept={concept} language={language} initialTitle={initialTitle} type="concept" />
             <FormAccordions defaultOpen={["content"]}>
               <FormAccordion
                 id="content"
@@ -216,7 +204,6 @@ const ConceptForm = ({
               conceptChanged={!!conceptChanged}
               inDialog={inDialog}
               savedToServer={savedToServer}
-              isNewlyCreated={isNewlyCreated}
               showSimpleFooter={!concept?.id}
             />
           </FormWrapper>

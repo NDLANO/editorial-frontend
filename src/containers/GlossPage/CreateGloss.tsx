@@ -30,7 +30,7 @@ const CreateGloss = ({ inDialog = false, addConceptInDialog }: Props) => {
       if (inDialog && addConceptInDialog) {
         addConceptInDialog(savedConcept);
       } else {
-        navigate(toEditGloss(savedConcept.id, createdConcept.language));
+        navigate(toEditGloss(savedConcept.id, createdConcept.language), { state: { isNewlyCreated: true } });
       }
       return savedConcept;
     },
@@ -44,7 +44,6 @@ const CreateGloss = ({ inDialog = false, addConceptInDialog }: Props) => {
         language={i18n.language}
         upsertProps={{ onCreate, onUpdateStatus: updateConceptStatus }}
         inDialog={inDialog}
-        supportedLanguages={[i18n.language]}
         translatedFieldsToNN={[]}
       />
     </>

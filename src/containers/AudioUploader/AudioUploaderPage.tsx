@@ -16,7 +16,6 @@ const AudioUploaderPage = () => (
     CreateComponent={CreateAudio}
     EditComponent={EditAudio}
     useHook={useAudio}
-    createUrl="/media/audio-upload/new"
     titleTranslationKey="htmlTitles.audioUploaderPage"
   />
 );

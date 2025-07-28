@@ -12,8 +12,6 @@ import EditGloss from "./EditGloss";
 import ResourcePage from "../../components/ResourcePage";
 import { useConcept } from "../../modules/concept/conceptQueries";
 
-const GlossPage = () => (
-  <ResourcePage CreateComponent={CreateGloss} EditComponent={EditGloss} useHook={useConcept} createUrl="/gloss/new" />
-);
+const GlossPage = () => <ResourcePage CreateComponent={CreateGloss} EditComponent={EditGloss} useHook={useConcept} />;
 
 export default memo(GlossPage);

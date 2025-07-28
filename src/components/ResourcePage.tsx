@@ -13,11 +13,6 @@ import { UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
 import { PageContent, Spinner } from "@ndla/primitives";
 import { NynorskTranslateProvider } from "./NynorskTranslateProvider";
 import NotFoundPage from "../containers/NotFoundPage/NotFoundPage";
-import { usePreviousLocation } from "../util/routeHelpers";
-
-interface ResourceComponentProps {
-  isNewlyCreated?: boolean;
-}
 
 interface BaseResource {
   supportedLanguages: string[];
@@ -25,9 +20,8 @@ interface BaseResource {
 
 interface Props<T extends BaseResource> {
   CreateComponent: ComponentType;
-  EditComponent: ComponentType<ResourceComponentProps>;
+  EditComponent: ComponentType;
   useHook: (params: { id: number; language?: string }, options?: Partial<UseQueryOptions<T>>) => UseQueryResult<T>;
-  createUrl: string;
   titleTranslationKey?: string;
   isArticle?: boolean;
 }
@@ -36,27 +30,16 @@ const ResourcePage = <T extends BaseResource>({
   CreateComponent,
   EditComponent,
   useHook,
-  createUrl,
   titleTranslationKey,
   isArticle,
 }: Props<T>) => {
   const { t } = useTranslation();
-  const previousLocation = usePreviousLocation();
   return (
     <PageContent variant={isArticle ? "wide" : "page"}>
       {!!titleTranslationKey && <title>{t(titleTranslationKey)}</title>}
       <Routes>
         <Route path="new" element={<CreateComponent />} />
-        <Route
-          path=":id/edit/*"
-          element={
-            <EditResourceRedirect
-              Component={EditComponent}
-              useHook={useHook}
-              isNewlyCreated={previousLocation === createUrl}
-            />
-          }
-        />
+        <Route path=":id/edit/*" element={<EditResourceRedirect Component={EditComponent} useHook={useHook} />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </PageContent>
@@ -64,16 +47,11 @@ const ResourcePage = <T extends BaseResource>({
 };
 
 interface EditResourceRedirectProps<T extends BaseResource> {
-  isNewlyCreated: boolean;
   useHook: (params: { id: number; language?: string }, options?: Partial<UseQueryOptions<T>>) => UseQueryResult<T>;
-  Component: ComponentType<ResourceComponentProps>;
+  Component: ComponentType;
 }
 
-const EditResourceRedirect = <T extends BaseResource>({
-  isNewlyCreated,
-  useHook,
-  Component,
-}: EditResourceRedirectProps<T>) => {
+const EditResourceRedirect = <T extends BaseResource>({ useHook, Component }: EditResourceRedirectProps<T>) => {
   const { i18n } = useTranslation();
   const { pathname } = useLocation();
   const locale = i18n.language;
@@ -86,10 +64,7 @@ const EditResourceRedirect = <T extends BaseResource>({
 
   return (
     <Routes>
-      <Route
-        path="/:selectedLanguage/"
-        element={<EditComponentWrapper isNewlyCreated={isNewlyCreated} Component={Component} />}
-      />
+      <Route path="/:selectedLanguage/" element={<EditComponentWrapper Component={Component} />} />
       <Route path="/" element={<Navigate replace state={{ from: pathname }} to={supportedLanguage} />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
@@ -97,16 +72,15 @@ const EditResourceRedirect = <T extends BaseResource>({
 };
 
 interface EditComponentWrapperProps {
-  isNewlyCreated?: boolean;
-  Component: ComponentType<ResourceComponentProps>;
+  Component: ComponentType;
 }
 
-const EditComponentWrapper = ({ isNewlyCreated, Component }: EditComponentWrapperProps) => {
+const EditComponentWrapper = ({ Component }: EditComponentWrapperProps) => {
   const { selectedLanguage } = useParams<"selectedLanguage">();
 
   return (
     <NynorskTranslateProvider>
-      <Component key={selectedLanguage} isNewlyCreated={isNewlyCreated} />
+      <Component key={selectedLanguage} />
     </NynorskTranslateProvider>
   );
 };

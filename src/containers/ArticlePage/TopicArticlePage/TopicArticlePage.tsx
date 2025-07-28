@@ -12,13 +12,7 @@ import ResourcePage from "../../../components/ResourcePage";
 import { useDraft } from "../../../modules/draft/draftQueries";
 
 const TopicArticlePage = () => (
-  <ResourcePage
-    CreateComponent={CreateTopicArticle}
-    EditComponent={EditTopicArticle}
-    useHook={useDraft}
-    createUrl="/subject-matter/topic-article/new"
-    isArticle
-  />
+  <ResourcePage CreateComponent={CreateTopicArticle} EditComponent={EditTopicArticle} useHook={useDraft} isArticle />
 );
 
 export default TopicArticlePage;

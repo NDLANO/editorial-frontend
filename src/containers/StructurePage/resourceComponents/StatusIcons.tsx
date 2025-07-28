@@ -13,9 +13,9 @@ import { styled } from "@ndla/styled-system/jsx";
 import { isApproachingRevision } from "./ApproachingRevisionDate";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import WrongTypeError from "./WrongTypeError";
-import { getWarnStatus } from "../../../components/HeaderWithLanguage/HeaderStatusInformation";
 import { StatusTimeFill } from "../../../components/StatusTimeFill";
 import formatDate from "../../../util/formatDate";
+import { getExpirationStatus } from "../../../util/getExpirationStatus";
 import { getExpirationDate } from "../../ArticlePage/articleTransformers";
 
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
@@ -39,7 +39,7 @@ const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy }: Pro
   const expirationDate = getExpirationDate({
     revisions: resource.contentMeta?.revisions?.filter((r) => !!r) ?? [],
   });
-  const warnStatus = getWarnStatus(expirationDate);
+  const warnStatus = getExpirationStatus(expirationDate);
 
   const expirationText = useMemo(() => {
     if (expirationDate && warnStatus) {

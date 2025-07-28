@@ -32,7 +32,6 @@ import { Form, FormActionsContainer } from "../FormikForm";
 import validateFormik from "../formikValidationSchema";
 
 interface Props {
-  loading: boolean;
   imageId: number;
 }
 
@@ -45,7 +44,7 @@ const initialValues: FormikValuesType = {
   imageFile: undefined,
 };
 
-export const CloneImageDialog = ({ loading, imageId }: Props) => {
+export const CloneImageDialog = ({ imageId }: Props) => {
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
   const { createMessage, applicationError } = useMessages();
@@ -86,7 +85,7 @@ export const CloneImageDialog = ({ loading, imageId }: Props) => {
   return (
     <DialogRoot open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button size="small" variant="tertiary" loading={loading}>
+        <Button size="small" variant="tertiary" loading={cloneImage.isPending}>
           {t("form.workflow.saveAsNew")}
         </Button>
       </DialogTrigger>
@@ -108,11 +107,7 @@ export const CloneImageDialog = ({ loading, imageId }: Props) => {
                     <Text>{t("imageForm.copyDescription")}</Text>
                     <ImageUploadFormElement language={i18n.language} />
                     <FormActionsContainer>
-                      <Button
-                        disabled={!dirty || !isValid}
-                        loading={loading || cloneImage.isPending}
-                        onClick={submitForm}
-                      >
+                      <Button disabled={!dirty || !isValid} loading={cloneImage.isPending} onClick={submitForm}>
                         {t("save")}
                       </Button>
                     </FormActionsContainer>

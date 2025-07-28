@@ -30,7 +30,7 @@ const CreateConcept = ({ inDialog = false, addConceptInDialog }: Props) => {
       if (inDialog && addConceptInDialog) {
         addConceptInDialog(savedConcept);
       } else {
-        navigate(toEditConcept(savedConcept.id, createdConcept.language));
+        navigate(toEditConcept(savedConcept.id, createdConcept.language), { state: { isNewlyCreated: true } });
       }
       return savedConcept;
     },
@@ -44,7 +44,6 @@ const CreateConcept = ({ inDialog = false, addConceptInDialog }: Props) => {
         language={i18n.language}
         upsertProps={{ onCreate, onUpdateStatus: updateConceptStatus }}
         inDialog={inDialog}
-        supportedLanguages={[i18n.language]}
         translatedFieldsToNN={[]}
       />
     </>

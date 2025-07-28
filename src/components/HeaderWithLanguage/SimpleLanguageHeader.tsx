@@ -8,11 +8,17 @@
 
 import { useTranslation } from "react-i18next";
 import { styled } from "@ndla/styled-system/jsx";
+import { ContentTypeBadge, constants } from "@ndla/ui";
 import DeleteLanguageVersion from "./DeleteLanguageVersion";
 import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
-import HeaderInformation, { StyledSplitter } from "./HeaderInformation";
+import { StyledSplitter } from "./HeaderInformation";
 import HeaderLanguagePicker from "./HeaderLanguagePicker";
 import HeaderSupportedLanguages from "./HeaderSupportedLanguages";
+import {
+  FormHeaderHeading,
+  FormHeaderHeadingContainer,
+  FormHeaderSegment,
+} from "../../containers/FormHeader/FormHeader";
 
 const Wrapper = styled("div", {
   base: {
@@ -29,7 +35,7 @@ const DeleteLanguageVersionWrapper = styled("div", {
 });
 
 interface Props {
-  articleType: string;
+  articleType: string | undefined;
   editUrl: (id: number, lang: string) => string;
   id: number;
   isSubmitting: boolean;
@@ -39,34 +45,42 @@ interface Props {
   availableLanguages?: string[];
 }
 
+const AVAILABLE_LANGUAGES = ["nn", "en", "nb", "sma", "se", "de", "es"];
+const { contentTypes } = constants;
+
+const contentTypeMapping: Record<string, string> = {
+  subjectpage: contentTypes.SUBJECT,
+  filmfrontpage: contentTypes.SUBJECT,
+  programme: "programme",
+};
+
 const SimpleLanguageHeader = ({
-  articleType,
+  articleType = constants.contentTypes.SUBJECT_MATERIAL,
   editUrl,
   id,
   isSubmitting,
   language,
   supportedLanguages,
   title,
-  availableLanguages,
+  availableLanguages = AVAILABLE_LANGUAGES,
 }: Props) => {
   const { t } = useTranslation();
   const isNewLanguage = !!id && !supportedLanguages.includes(language);
 
-  const languages = availableLanguages ?? ["nn", "en", "nb", "sma", "se", "de", "es"];
-  const emptyLanguages = languages
+  const contentType = contentTypeMapping[articleType] ?? articleType;
+
+  const emptyLanguages = availableLanguages
     .filter((lang) => lang !== language && !supportedLanguages.includes(lang))
     .map((lang) => ({ key: lang, title: t(`languages.${lang}`) }));
 
   return (
     <div>
-      <HeaderInformation
-        type={articleType}
-        noStatus
-        title={title}
-        isNewLanguage={isNewLanguage}
-        id={id}
-        language={language}
-      />
+      <FormHeaderSegment>
+        <FormHeaderHeadingContainer>
+          <ContentTypeBadge contentType={contentType} />
+          <FormHeaderHeading contentType={contentType}>{title}</FormHeaderHeading>
+        </FormHeaderHeadingContainer>
+      </FormHeaderSegment>
       {id ? (
         <Wrapper>
           <HeaderSupportedLanguages

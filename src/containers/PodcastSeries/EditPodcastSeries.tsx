@@ -17,17 +17,13 @@ import { TranslateType, useTranslateToNN } from "../../components/NynorskTransla
 import { fetchSeries, updateSeries } from "../../modules/audio/audioApi";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
-interface Props {
-  isNewlyCreated?: boolean;
-}
-
 const translateFields: TranslateType[] = [
   { field: "title.title", type: "text" },
   { field: "description.description", type: "text" },
   { field: "coverPhoto.altText", type: "text" },
 ];
 
-const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
+const EditPodcastSeries = () => {
   const params = useParams<"id" | "selectedLanguage">();
   const { i18n } = useTranslation();
   const locale = i18n.language;
@@ -80,9 +76,7 @@ const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
       podcastSeries={podcastSeries}
       language={seriesLanguage}
       onUpdate={onUpdate}
-      isNewlyCreated={!!isNewlyCreated}
       isNewLanguage={isNewLanguage}
-      supportedLanguages={podcastSeries.supportedLanguages}
       translatedFieldsToNN={translatedFields}
     />
   );

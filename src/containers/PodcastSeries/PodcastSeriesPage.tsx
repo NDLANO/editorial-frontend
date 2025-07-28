@@ -16,7 +16,6 @@ const PodcastSeriesPage = () => (
     CreateComponent={CreatePodcastSeries}
     EditComponent={EditPodcastSeries}
     useHook={useSeries}
-    createUrl="/media/podcast-series/new"
     titleTranslationKey="htmlTitles.podcastSeriesPage"
   />
 );

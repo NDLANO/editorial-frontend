@@ -48,6 +48,8 @@ const useBlocker = (blocker: Blocker, when = true): void => {
   }, [navigator, blocker, when]);
 };
 
+const LANGUAGE_REGEX = new RegExp(supportedLanguages.map((l) => `^/${l}/`).join("|"));
+
 export const AlertDialogWrapper = ({ text, severity, isSubmitting, formIsDirty, onContinue }: Props) => {
   const [open, setOpen] = useState(false);
   const [discardChanges, setDiscardChanges] = useState(false);
@@ -65,8 +67,7 @@ export const AlertDialogWrapper = ({ text, severity, isSubmitting, formIsDirty, 
   useBlocker((transition) => {
     if (shouldBlock) {
       // transition does not respect basename. Filter out basename until it is fixed.
-      const pathRegex = new RegExp(supportedLanguages.map((l) => `/${l}/`).join("|"));
-      const pathname = transition.location.pathname.replace(pathRegex, "/");
+      const pathname = transition.location.pathname.replace(LANGUAGE_REGEX, "/");
       setOpen(true);
       setNextLocation({ ...transition.location, pathname });
     } else {

@@ -8,7 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ErrorWarningFill, CheckLine, CodeView, ChatLine, GlobalLine } from "@ndla/icons";
+import { ErrorWarningFill, CheckLine, CodeView, GlobalLine, InfoI } from "@ndla/icons";
 import { ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -159,7 +159,7 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
     if (content.learningResourceType === "gloss") {
       return { icon: <GlobalLine />, imageUrl: "" };
     } else if (content.learningResourceType === "concept") {
-      return { icon: <ChatLine />, imageUrl: "" };
+      return { icon: <InfoI />, imageUrl: "" };
     } else {
       return { icon: undefined, imageUrl: content.metaImage?.url ?? "/placeholder.png" };
     }

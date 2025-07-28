@@ -13,12 +13,7 @@ import ResourcePage from "../../components/ResourcePage";
 import { useConcept } from "../../modules/concept/conceptQueries";
 
 const ConceptPage = () => (
-  <ResourcePage
-    CreateComponent={CreateConcept}
-    EditComponent={EditConcept}
-    useHook={useConcept}
-    createUrl="/concept/new"
-  />
+  <ResourcePage CreateComponent={CreateConcept} EditComponent={EditConcept} useHook={useConcept} />
 );
 
 export default memo(ConceptPage);

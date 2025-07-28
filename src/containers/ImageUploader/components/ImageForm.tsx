@@ -9,13 +9,12 @@
 import { Formik, FormikHelpers } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import {
   IImageMetaInformationV3DTO,
   INewImageMetaInformationV2DTO,
-  ILicenseDTO,
   IUpdateImageMetaInformationDTO,
 } from "@ndla/types-backend/image-api";
 import ImageContent from "./ImageContent";
@@ -26,7 +25,6 @@ import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import validateFormik, { RulesType, getWarnings } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
-import HeaderWithLanguage from "../../../components/HeaderWithLanguage/HeaderWithLanguage";
 import SaveButton from "../../../components/SaveButton";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { editorValueToPlainText } from "../../../util/articleContentConverter";
@@ -34,6 +32,9 @@ import { isFormikFormDirty } from "../../../util/formHelper";
 import { AlertDialogWrapper } from "../../FormikForm";
 import SimpleVersionPanel from "../../FormikForm/SimpleVersionPanel";
 import { imageApiTypeToFormType, ImageFormikType } from "../imageTransformers";
+import { ImageFormHeader } from "./ImageFormHeader";
+import { useLicenses } from "../../../modules/draft/draftQueries";
+import { NewlyCreatedLocationState } from "../../../util/routeHelpers";
 
 const StyledFormActionsContainer = styled(FormActionsContainer, {
   base: {
@@ -93,20 +94,17 @@ const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3DTO> = {
   },
 };
 
-interface Props {
-  image?: IImageMetaInformationV3DTO;
-  licenses: ILicenseDTO[];
+interface Props<TImage extends IImageMetaInformationV3DTO | undefined = undefined> {
+  image?: TImage;
   onSubmitFunc: (
-    imageMetadata: INewImageMetaInformationV2DTO & IUpdateImageMetaInformationDTO,
+    imageMetadata: TImage extends undefined ? INewImageMetaInformationV2DTO : IUpdateImageMetaInformationDTO,
     image: string | Blob,
   ) => void;
   inDialog?: boolean;
-  isNewlyCreated?: boolean;
   closeDialog?: () => void;
   isSaving?: boolean;
   isNewLanguage?: boolean;
   language: string;
-  supportedLanguages: string[];
   translatedFieldsToNN: string[];
 }
 
@@ -121,25 +119,28 @@ export type ImageFormErrorFields =
   | "tags"
   | "title";
 
-const ImageForm = ({
-  licenses,
+const ImageForm = <TImage extends IImageMetaInformationV3DTO | undefined = undefined>({
   onSubmitFunc,
   image,
   inDialog,
   language,
   closeDialog,
-  isNewlyCreated,
   isSaving,
   isNewLanguage,
-  supportedLanguages,
   translatedFieldsToNN,
-}: Props) => {
+}: Props<TImage>) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const { data: licenses } = useLicenses({
+    placeholderData: [],
+    select: (data) => data.map((lic) => ({ ...lic, description: lic.description ?? "" })) ?? [],
+  });
 
   const handleSubmit = async (values: ImageFormikType, actions: FormikHelpers<ImageFormikType>) => {
-    const license = licenses.find((license) => license.license === values.license);
+    const license = licenses?.find((license) => license.license === values.license);
 
     if (
       license === undefined ||
@@ -206,14 +207,7 @@ const ImageForm = ({
         const hasError = (errorFields: ImageFormErrorFields[]): boolean => errorFields.some((field) => !!errors[field]);
         return (
           <FormWrapper inDialog={inDialog} onSubmit={handleSubmit}>
-            <HeaderWithLanguage
-              id={image?.id ? parseInt(image.id) : undefined}
-              language={language}
-              noStatus
-              supportedLanguages={supportedLanguages}
-              type="image"
-              title={image?.title.title}
-            />
+            <ImageFormHeader image={image} language={language} />
             <FormAccordions defaultOpen={["content"]}>
               <FormAccordion
                 id="content"
@@ -253,7 +247,7 @@ const ImageForm = ({
                 type={!inDialog ? "submit" : "button"}
                 loading={isSubmitting || isSaving}
                 disabled={!isValid}
-                showSaved={!dirty && (isNewlyCreated || savedToServer)}
+                showSaved={!dirty && ((location.state as NewlyCreatedLocationState)?.isNewlyCreated || savedToServer)}
                 formIsDirty={formIsDirty}
                 onClick={(evt) => {
                   if (inDialog) {

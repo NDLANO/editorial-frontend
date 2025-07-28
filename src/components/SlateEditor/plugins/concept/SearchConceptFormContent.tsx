@@ -22,7 +22,7 @@ import SearchTagGroup, { Filters } from "../../../Form/SearchTagGroup";
 import { SelectElement, SelectRenderer } from "../../../Form/SelectRenderer";
 import { getTagName } from "../../../Form/utils";
 
-const StyledForm = styled("form", {
+const SearchFieldsWrapper = styled("div", {
   base: {
     display: "grid",
     gridTemplateColumns: "repeat(4, 1fr)",
@@ -41,7 +41,7 @@ interface Props {
   userData: IUserDataDTO | undefined;
 }
 
-const SearchConceptForm = ({ search, searchObject, userData }: Props) => {
+const SearchConceptFormContent = ({ search, searchObject, userData }: Props) => {
   const { t } = useTranslation();
   const [queryInput, setQueryInput] = useState(searchObject.query ?? "");
   const { data: users } = useAuth0Editors({
@@ -140,7 +140,7 @@ const SearchConceptForm = ({ search, searchObject, userData }: Props) => {
   return (
     <>
       <SearchHeader type="concept" userData={userData} />
-      <StyledForm>
+      <SearchFieldsWrapper>
         <FieldRoot>
           <FieldLabel srOnly>{t("searchForm.types.contentQuery")}</FieldLabel>
           <FieldInput
@@ -158,10 +158,10 @@ const SearchConceptForm = ({ search, searchObject, userData }: Props) => {
         </FieldRoot>
         <SelectRenderer selectElements={selectElements} searchObject={searchObject} onFieldChange={onFieldChange} />
         <SearchControlButtons reset={emptySearch} search={handleSearch} />
-      </StyledForm>
+      </SearchFieldsWrapper>
       <SearchTagGroup onRemoveTag={removeTagItem} tags={filters} />
     </>
   );
 };
 
-export default SearchConceptForm;
+export default SearchConceptFormContent;

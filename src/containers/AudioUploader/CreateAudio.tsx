@@ -19,18 +19,11 @@ const CreateAudio = () => {
   const onCreateAudio = async (newAudio: INewAudioMetaInformationDTO, file?: string | Blob): Promise<void> => {
     if (file instanceof Blob) {
       const createdAudio = await postAudio(newAudio, file);
-      navigate(toEditAudio(createdAudio.id, newAudio.language));
+      navigate(toEditAudio(createdAudio.id, newAudio.language), { state: { isNewlyCreated: true } });
     }
   };
 
-  return (
-    <AudioForm
-      onCreateAudio={onCreateAudio}
-      audioLanguage={i18n.language}
-      supportedLanguages={[i18n.language]}
-      translatedFieldsToNN={[]}
-    />
-  );
+  return <AudioForm onCreateAudio={onCreateAudio} audioLanguage={i18n.language} translatedFieldsToNN={[]} />;
 };
 
 export default CreateAudio;

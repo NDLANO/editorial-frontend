@@ -20,6 +20,7 @@ import { STORED_LANGUAGE_KEY } from "./constants";
 import App from "./containers/App/App";
 import { isValidLocale, initializeI18n, supportedLanguages } from "./i18n";
 import { LocaleType } from "./interfaces";
+import { isNdlaApiError } from "./util/resolveJsonOrRejectWithError";
 
 declare global {
   interface Window {
@@ -102,10 +103,23 @@ const RouterComponent = ({ base }: { base: string }) => {
   );
 };
 
+const MAX_RETRIES = 2;
+const HTTP_STATUS_TO_NOT_RETRY = [400, 401, 403, 404];
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
+      retry: (failureCount, error) => {
+        if (failureCount > MAX_RETRIES) {
+          return false;
+        }
+        if (isNdlaApiError(error) && HTTP_STATUS_TO_NOT_RETRY.includes(error.status)) {
+          return false;
+        }
+
+        return true;
+      },
     },
   },
 });

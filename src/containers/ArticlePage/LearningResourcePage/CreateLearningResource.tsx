@@ -8,6 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import { IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import LearningResourceForm from "./components/LearningResourceForm";
 import { convertUpdateToNewDraft } from "../../../util/articleUtil";
@@ -29,7 +30,7 @@ const CreateLearningResource = () => {
   };
 
   return (
-    <>
+    <PageContent variant="wide">
       <title>{t("htmlTitles.createLearningResourcePage")}</title>
       <LearningResourceForm
         updateArticle={createArticleAndPushRoute}
@@ -38,7 +39,7 @@ const CreateLearningResource = () => {
         supportedLanguages={[i18n.language]}
         translatedFieldsToNN={[]}
       />
-    </>
+    </PageContent>
   );
 };
 

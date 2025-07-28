@@ -6,34 +6,42 @@
  *
  */
 
-import { Navigate, Route, Routes, useParams } from "react-router-dom";
-import { Spinner } from "@ndla/primitives";
-import { useDraft } from "../../modules/draft/draftQueries";
-import { toEditArticle } from "../../util/routeHelpers";
-import FrontPageArticlePage from "../ArticlePage/FrontpageArticlePage/FrontpageArticlePage";
-import LearningResourcePage from "../ArticlePage/LearningResourcePage/LearningResourcePage";
-import TopicArticlePage from "../ArticlePage/TopicArticlePage/TopicArticlePage";
-import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import { Route, Routes } from "react-router-dom";
+import { ArticleRedirect } from "../ArticlePage/ArticleRedirect";
+import CreateFrontpageArticle from "../ArticlePage/FrontpageArticlePage/CreateFrontpageArticle";
+import { EditFrontpageArticlePage } from "../ArticlePage/FrontpageArticlePage/EditFrontpageArticle";
+import { GenericArticleRedirect } from "../ArticlePage/GenericArticleRedirect";
+import CreateLearningResource from "../ArticlePage/LearningResourcePage/CreateLearningResource";
+import { EditLearningResourcePage } from "../ArticlePage/LearningResourcePage/EditLearningResource";
+import CreateTopicArticle from "../ArticlePage/TopicArticlePage/CreateTopicArticle";
+import { EditTopicArticlePage } from "../ArticlePage/TopicArticlePage/EditTopicArticle";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const SubjectMatterPage = () => (
   <Routes>
-    <Route path="topic-article/*" element={<PrivateRoute component={<TopicArticlePage />} />} />
-    <Route path="learning-resource/*" element={<PrivateRoute component={<LearningResourcePage />} />} />
-    <Route path="frontpage-article/*" element={<PrivateRoute component={<FrontPageArticlePage />} />} />
+    <Route path="topic-article">
+      <Route path="new" element={<PrivateRoute component={<CreateTopicArticle />} />} />
+      <Route path=":id/edit" element={<PrivateRoute component={<ArticleRedirect />} />}>
+        <Route index element={<PrivateRoute component={<EditTopicArticlePage />} />} />
+        <Route path=":selectedLanguage" element={<PrivateRoute component={<EditTopicArticlePage />} />} />
+      </Route>
+    </Route>
+    <Route path="learning-resource">
+      <Route path="new" element={<PrivateRoute component={<CreateLearningResource />} />} />
+      <Route path=":id/edit" element={<PrivateRoute component={<ArticleRedirect />} />}>
+        <Route index element={<PrivateRoute component={<EditLearningResourcePage />} />} />
+        <Route path=":selectedLanguage" element={<PrivateRoute component={<EditLearningResourcePage />} />} />
+      </Route>
+    </Route>
+    <Route path="frontpage-article">
+      <Route path="new" element={<PrivateRoute component={<CreateFrontpageArticle />} />} />
+      <Route path=":id/edit" element={<PrivateRoute component={<ArticleRedirect />} />}>
+        <Route index element={<PrivateRoute component={<EditFrontpageArticlePage />} />} />
+        <Route path=":selectedLanguage" element={<PrivateRoute component={<EditFrontpageArticlePage />} />} />
+      </Route>
+    </Route>
     <Route path="article/:id" element={<PrivateRoute component={<GenericArticleRedirect />} />} />
-    <Route path="*" element={<NotFoundPage />} />
   </Routes>
 );
-
-const GenericArticleRedirect = () => {
-  const parsedId = Number(useParams<"id">().id);
-  const { data: article, error, isLoading } = useDraft({ id: parsedId }, { enabled: !!parsedId });
-  if (isLoading) return <Spinner />;
-  if (error || !article || !parsedId) return <NotFoundPage />;
-
-  const replaceUrl = toEditArticle(article.id, article.articleType);
-  return <Navigate replace to={replaceUrl} />;
-};
 
 export default SubjectMatterPage;

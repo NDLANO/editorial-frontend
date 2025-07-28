@@ -7,7 +7,7 @@
  */
 
 import { Formik, useFormikContext } from "formik";
-import { memo, useCallback, useMemo } from "react";
+import { memo, useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult } from "@tanstack/react-query";
 import { IArticleDTO, IUpdatedArticleDTO, IStatusDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
@@ -16,6 +16,7 @@ import { Form } from "../../../../components/FormikForm";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
+import { articleIsWide, useWideArticle } from "../../../../components/WideArticleEditorProvider";
 import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { frontPageArticleRules, isFormikFormDirty } from "../../../../util/formHelper";
 import { AlertDialogWrapper } from "../../../FormikForm";
@@ -63,6 +64,14 @@ const FrontpageArticleForm = ({
     rules: frontPageArticleRules,
     ndlaId,
   });
+
+  const { setWideArticle } = useWideArticle();
+
+  useEffect(() => {
+    if (article && articleIsWide(article.id)) {
+      setWideArticle(true);
+    }
+  }, [article, setWideArticle]);
 
   const initialWarnings = getWarnings(initialValues, frontPageArticleRules, t, translatedFieldsToNN, article);
   const initialErrors = useMemo(() => validateFormik(initialValues, frontPageArticleRules, t), [initialValues, t]);

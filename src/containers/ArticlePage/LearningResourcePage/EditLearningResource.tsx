@@ -9,9 +9,14 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import LearningResourceForm from "./components/LearningResourceForm";
 import { ContentTypeProvider } from "../../../components/ContentTypeProvider";
-import { TranslateType, useTranslateToNN } from "../../../components/NynorskTranslateProvider";
+import {
+  NynorskTranslateProvider,
+  TranslateType,
+  useTranslateToNN,
+} from "../../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { isNewArticleLanguage } from "../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import { LocaleType } from "../../../interfaces";
@@ -56,6 +61,16 @@ const translateFields: TranslateType[] = [
     type: "html",
   },
 ];
+
+export const EditLearningResourcePage = () => {
+  return (
+    <PageContent variant="wide">
+      <NynorskTranslateProvider>
+        <EditLearningResource />
+      </NynorskTranslateProvider>
+    </PageContent>
+  );
+};
 
 const EditLearningResource = () => {
   const { t } = useTranslation();

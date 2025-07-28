@@ -9,8 +9,13 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import TopicArticleForm from "./components/TopicArticleForm";
-import { TranslateType, useTranslateToNN } from "../../../components/NynorskTranslateProvider";
+import {
+  NynorskTranslateProvider,
+  TranslateType,
+  useTranslateToNN,
+} from "../../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { isNewArticleLanguage } from "../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import { LocaleType } from "../../../interfaces";
@@ -50,6 +55,16 @@ const translateFields: TranslateType[] = [
     type: "text",
   },
 ];
+
+export const EditTopicArticlePage = () => {
+  return (
+    <PageContent variant="wide">
+      <NynorskTranslateProvider>
+        <EditTopicArticle />
+      </NynorskTranslateProvider>
+    </PageContent>
+  );
+};
 
 const EditTopicArticle = () => {
   const params = useParams<"id" | "selectedLanguage">();

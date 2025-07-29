@@ -11,7 +11,6 @@ import { IConceptDTO, ILicenseDTO, INewConceptDTO, IUpdatedConceptDTO } from "@n
 import { ConceptFormValues, ConceptType } from "./conceptInterfaces";
 import { IN_PROGRESS } from "../../constants";
 import {
-  plainTextToEditorValue,
   editorValueToPlainText,
   embedTagToEditorValue,
   editorValueToEmbedTag,
@@ -37,7 +36,7 @@ export const conceptApiTypeToFormType = (
     status: concept?.status ?? { current: IN_PROGRESS, other: [] },
     created: concept?.created,
     updated: concept?.updated,
-    title: plainTextToEditorValue(concept?.title?.title || initialTitle),
+    title: inlineContentToEditorValue(concept?.title?.htmlTitle || initialTitle, true),
     language,
     conceptContent: inlineContentToEditorValue(concept?.content?.htmlContent || "", true),
     supportedLanguages: concept?.supportedLanguages ?? [language],
@@ -72,7 +71,7 @@ export const getNewConceptType = (
   conceptType: ConceptType,
 ): INewConceptDTO => ({
   language: values.language,
-  title: editorValueToPlainText(values.title),
+  title: inlineContentToHTML(values.title),
   content: blockContentToHTML(values.conceptContent),
   copyright: {
     license: licenses.find((license) => license.license === values.license),

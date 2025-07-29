@@ -154,7 +154,7 @@ export const GlossForm = ({
           <ConceptFormHeader concept={concept} language={language} initialTitle={initialTitle} type="gloss" />
           <FormAccordions defaultOpen={["title", "content"]}>
             <FormAccordion id="title" title={t("form.gloss.titleSection")} hasError={!!formikProps.errors.title}>
-              <TitleField hideToolbar />
+              <TitleField />
             </FormAccordion>
             <FormAccordion
               id="content"

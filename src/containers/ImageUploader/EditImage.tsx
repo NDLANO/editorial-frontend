@@ -9,9 +9,10 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import { IImageMetaInformationV3DTO, IUpdateImageMetaInformationDTO } from "@ndla/types-backend/image-api";
 import ImageForm from "./components/ImageForm";
-import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
+import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
 import { fetchImage, updateImage } from "../../modules/image/imageApi";
 import { useMessages } from "../Messages/MessagesProvider";
@@ -35,6 +36,16 @@ const translateFields: TranslateType[] = [
     type: "text",
   },
 ];
+
+export const EditImagePage = () => {
+  return (
+    <NynorskTranslateProvider>
+      <PageContent>
+        <EditImage />
+      </PageContent>
+    </NynorskTranslateProvider>
+  );
+};
 
 const EditImage = () => {
   const { i18n } = useTranslation();
@@ -98,5 +109,3 @@ const EditImage = () => {
     />
   );
 };
-
-export default EditImage;

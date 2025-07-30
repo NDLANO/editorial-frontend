@@ -6,18 +6,22 @@
  *
  */
 
-import CreateImage from "./CreateImage";
-import EditImage from "./EditImage";
-import ResourcePage from "../../components/ResourcePage";
-import { useImage } from "../../modules/image/imageQueries";
+import { Route, Routes } from "react-router-dom";
+import { CreateImagePage } from "./CreateImage";
+import { EditImagePage } from "./EditImage";
+import { ImageRedirect } from "./ImageRedirect";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
-const ImageUploaderPage = () => (
-  <ResourcePage
-    CreateComponent={CreateImage}
-    EditComponent={EditImage}
-    useHook={useImage}
-    titleTranslationKey="htmlTitles.imageUploaderPage"
-  />
-);
+const ImageUploaderPage = () => {
+  return (
+    <Routes>
+      <Route path="new" element={<PrivateRoute component={<CreateImagePage />} />} />
+      <Route path=":id/edit" element={<PrivateRoute component={<ImageRedirect />} />}>
+        <Route index element={<PrivateRoute component={<EditImagePage />} />} />
+        <Route path=":selectedLanguage" element={<PrivateRoute component={<EditImagePage />} />} />
+      </Route>
+    </Routes>
+  );
+};
 
 export default ImageUploaderPage;

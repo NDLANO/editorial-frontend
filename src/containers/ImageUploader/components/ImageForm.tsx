@@ -207,6 +207,7 @@ const ImageForm = <TImage extends IImageMetaInformationV3DTO | undefined = undef
         const hasError = (errorFields: ImageFormErrorFields[]): boolean => errorFields.some((field) => !!errors[field]);
         return (
           <FormWrapper inDialog={inDialog} onSubmit={handleSubmit}>
+            <title>{t("htmlTitles.imageUploaderPage")}</title>
             <ImageFormHeader image={image} language={language} />
             <FormAccordions defaultOpen={["content"]}>
               <FormAccordion

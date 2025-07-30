@@ -8,8 +8,10 @@
 
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import { IImageMetaInformationV3DTO, INewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
 import ImageForm from "./components/ImageForm";
+import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { postImage } from "../../modules/image/imageApi";
 import { toEditImage } from "../../util/routeHelpers";
 
@@ -19,6 +21,16 @@ interface Props {
   closeDialog?: () => void;
   inDialog?: boolean;
 }
+
+export const CreateImagePage = () => {
+  return (
+    <NynorskTranslateProvider>
+      <PageContent>
+        <CreateImage />
+      </PageContent>
+    </NynorskTranslateProvider>
+  );
+};
 
 const CreateImage = ({ editingArticle, onImageCreated, inDialog, closeDialog }: Props) => {
   const { i18n } = useTranslation();

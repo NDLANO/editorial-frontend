@@ -9,8 +9,9 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import ConceptForm from "./ConceptForm/ConceptForm";
-import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
+import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
 import { LocaleType } from "../../interfaces";
 import { useFetchConceptData } from "../FormikForm/formikConceptHooks";
@@ -34,6 +35,16 @@ const translateFields: TranslateType[] = [
     type: "text",
   },
 ];
+
+export const EditConceptPage = () => {
+  return (
+    <NynorskTranslateProvider>
+      <PageContent>
+        <EditConcept />
+      </PageContent>
+    </NynorskTranslateProvider>
+  );
+};
 
 const EditConcept = () => {
   const params = useParams<"id" | "selectedLanguage">();

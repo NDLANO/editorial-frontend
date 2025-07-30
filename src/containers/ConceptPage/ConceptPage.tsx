@@ -7,13 +7,20 @@
  */
 
 import { memo } from "react";
-import CreateConcept from "./CreateConcept";
-import EditConcept from "./EditConcept";
-import ResourcePage from "../../components/ResourcePage";
-import { useConcept } from "../../modules/concept/conceptQueries";
+import { Route, Routes } from "react-router-dom";
+import { ConceptRedirect } from "./ConceptRedirect";
+import { CreateConceptPage } from "./CreateConcept";
+import { EditConceptPage } from "./EditConcept";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const ConceptPage = () => (
-  <ResourcePage CreateComponent={CreateConcept} EditComponent={EditConcept} useHook={useConcept} />
+  <Routes>
+    <Route path="new" element={<PrivateRoute component={<CreateConceptPage />} />} />
+    <Route path=":id/edit" element={<PrivateRoute component={<ConceptRedirect />} />}>
+      <Route index element={<PrivateRoute component={<EditConceptPage />} />} />
+      <Route path=":selectedLanguage" element={<PrivateRoute component={<EditConceptPage />} />} />
+    </Route>
+  </Routes>
 );
 
 export default memo(ConceptPage);

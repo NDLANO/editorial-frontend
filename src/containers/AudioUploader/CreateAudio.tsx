@@ -8,10 +8,22 @@
 
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import { INewAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import AudioForm from "./components/AudioForm";
+import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { postAudio } from "../../modules/audio/audioApi";
 import { toEditAudio } from "../../util/routeHelpers";
+
+export const CreateAudioPage = () => {
+  return (
+    <NynorskTranslateProvider>
+      <PageContent>
+        <CreateAudio />
+      </PageContent>
+    </NynorskTranslateProvider>
+  );
+};
 
 const CreateAudio = () => {
   const { i18n } = useTranslation();
@@ -25,5 +37,3 @@ const CreateAudio = () => {
 
   return <AudioForm onCreateAudio={onCreateAudio} audioLanguage={i18n.language} translatedFieldsToNN={[]} />;
 };
-
-export default CreateAudio;

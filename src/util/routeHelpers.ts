@@ -16,6 +16,10 @@ export interface NewlyCreatedLocationState {
   isNewlyCreated?: boolean;
 }
 
+export interface CreatingLanguageLocationState {
+  isCreatingLanguage?: boolean;
+}
+
 const articleTypes: Record<string, string> = {
   "topic-article": "topic-article",
   standard: "learning-resource",

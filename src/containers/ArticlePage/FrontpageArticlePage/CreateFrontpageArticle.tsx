@@ -8,8 +8,10 @@
 
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import { IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import FrontpageArticleForm from "./components/FrontpageArticleForm";
+import { WideArticleEditorProvider } from "../../../components/WideArticleEditorProvider";
 import { convertUpdateToNewDraft } from "../../../util/articleUtil";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
@@ -29,16 +31,18 @@ const CreateFrontpageArticle = () => {
   };
 
   return (
-    <>
-      <title>{t("htmlTitles.createFrontPageArticePage")}</title>
-      <FrontpageArticleForm
-        updateArticle={createArticleAndPushRoute}
-        articleChanged={false}
-        articleLanguage={i18n.language}
-        supportedLanguages={[i18n.language]}
-        translatedFieldsToNN={[]}
-      />
-    </>
+    <WideArticleEditorProvider initialValue={false}>
+      <PageContent variant="wide">
+        <title>{t("htmlTitles.createFrontPageArticePage")}</title>
+        <FrontpageArticleForm
+          updateArticle={createArticleAndPushRoute}
+          articleChanged={false}
+          articleLanguage={i18n.language}
+          supportedLanguages={[i18n.language]}
+          translatedFieldsToNN={[]}
+        />
+      </PageContent>
+    </WideArticleEditorProvider>
   );
 };
 

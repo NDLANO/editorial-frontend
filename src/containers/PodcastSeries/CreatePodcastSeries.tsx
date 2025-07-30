@@ -8,10 +8,22 @@
 
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import { INewSeriesDTO } from "@ndla/types-backend/audio-api";
 import PodcastSeriesForm from "./components/PodcastSeriesForm";
+import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { postSeries } from "../../modules/audio/audioApi";
 import { toEditPodcastSeries } from "../../util/routeHelpers";
+
+export const CreatePodcastSeriesPage = () => {
+  return (
+    <NynorskTranslateProvider>
+      <PageContent>
+        <CreatePodcastSeries />
+      </PageContent>
+    </NynorskTranslateProvider>
+  );
+};
 
 const CreatePodcastSeries = () => {
   const { i18n } = useTranslation();
@@ -25,5 +37,3 @@ const CreatePodcastSeries = () => {
 
   return <PodcastSeriesForm language={locale} onUpdate={onUpdate} translatedFieldsToNN={[]} />;
 };
-
-export default CreatePodcastSeries;

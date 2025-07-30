@@ -174,6 +174,7 @@ const PodcastSeriesForm = ({
 
         return (
           <FormWrapper inDialog={inDialog}>
+            <title>{t("htmlTitles.podcastSeriesPage")}</title>
             <PodcastSeriesFormHeader series={podcastSeries} language={language} />
             <FormAccordions defaultOpen={["podcast-series-podcastmeta"]}>
               <FormAccordion

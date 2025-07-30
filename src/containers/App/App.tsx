@@ -30,6 +30,7 @@ import ErrorBoundary from "../../components/ErrorBoundary";
 import H5pRedirect from "../../components/H5pRedirect";
 import { MastheadLayout } from "../../components/Layout/MastheadLayout";
 import { Layout } from "../../components/Page/Layout";
+import config from "../../config";
 import { scheduleRenewal } from "../../util/authHelpers";
 import ComparePage from "../ComparePage/ComparePage";
 import ConceptPage from "../ConceptPage/ConceptPage";
@@ -38,6 +39,12 @@ import Subjectpage from "../EditSubjectFrontpage/Subjectpage";
 import ForbiddenPage from "../ForbiddenPage/ForbiddenPage";
 import FrontpageEditPage from "../FrontpageEditPage/FrontpageEditPage";
 import GlossPage from "../GlossPage/GlossPage";
+import { CreateLearningpathPage } from "../LearningpathPage/CreateLearningpathPage";
+import { LearningpathLayout } from "../LearningpathPage/LearningpathLayout";
+import { LearningpathMetaDataPage } from "../LearningpathPage/metadata/LearningpathMetaDataPage";
+import { LearningpathPreviewPage } from "../LearningpathPage/preview/LearningpathPreviewPage";
+import { LearningpathStatusPage } from "../LearningpathPage/status/LearningpathStatusPage";
+import { LearningpathStepsFormPage } from "../LearningpathPage/steps/LearningpathStepsFormPage";
 import Login from "../Login/Login";
 import Logout from "../Logout/Logout";
 import { MessagesProvider, useMessages } from "../Messages/MessagesProvider";
@@ -86,6 +93,35 @@ const App = () => {
                   <Route path="/updateCodes/" element={<PrivateRoute component={<UpdateCodesPage />} />} />
                   <Route path="/forbidden" element={<ForbiddenPage />} />
                   <Route path="*" element={<NotFoundPage />} />
+                  {!!config.enableLearningpath && (
+                    <>
+                      <Route
+                        path="/learningpath/new"
+                        element={<PrivateRoute component={<CreateLearningpathPage />} />}
+                      />
+                      <Route path="/learningpath/:id" element={<PrivateRoute component={<LearningpathLayout />} />}>
+                        <Route path="/learningpath/:id/edit/:language">
+                          <Route index element={<PrivateRoute component={<LearningpathMetaDataPage />} />} />
+                          <Route path="metadata" element={<PrivateRoute component={<LearningpathMetaDataPage />} />} />
+                          <Route path="steps" element={<PrivateRoute component={<LearningpathStepsFormPage />} />}>
+                            <Route path=":stepId" element={null} />
+                          </Route>
+                        </Route>
+                        <Route
+                          path="/learningpath/:id/preview/:language"
+                          element={
+                            <PrivateRoute component={<PrivateRoute component={<LearningpathPreviewPage />} />} />
+                          }
+                        >
+                          <Route path=":stepId" element={null} />
+                        </Route>
+                        <Route
+                          path="/learningpath/:id/status/:language"
+                          element={<PrivateRoute component={<PrivateRoute component={<LearningpathStatusPage />} />} />}
+                        />
+                      </Route>
+                    </>
+                  )}
                 </Route>
               </Route>
               <Route path="/h5p" element={<PrivateRoute component={<H5pRedirect />} />} />

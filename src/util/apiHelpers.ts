@@ -10,7 +10,7 @@ import queryString from "query-string";
 import { apiBaseUrl, getAccessToken, isAccessTokenValid, renewAuth } from "./authHelpers";
 import { resolveJsonOrRejectWithError, throwErrorPayload } from "./resolveJsonOrRejectWithError";
 import config from "../config";
-import { BrightcoveAccessToken, H5POembed } from "../interfaces";
+import { BrightcoveAccessToken, OembedResponse } from "../interfaces";
 import createClient, { Middleware } from "openapi-fetch";
 
 export interface HttpHeadersType {
@@ -170,7 +170,7 @@ export const fetchWithBrightCoveToken = (url: string) => {
   });
 };
 
-export const fetchOembed = async (url: string, options?: FetchConfigType): Promise<H5POembed> => {
+export const fetchOembed = async (url: string, options?: FetchConfigType): Promise<OembedResponse> => {
   const data = await fetchAuthorized(url, options);
   return resolveJsonOrRejectWithError(data);
 };

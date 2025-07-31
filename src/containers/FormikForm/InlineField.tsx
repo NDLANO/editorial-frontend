@@ -118,7 +118,6 @@ export const InlineField = ({
         testId="caption-editor"
         data-testid={"caption-field"}
         {...rest}
-        hideBlockPicker
         plugins={plugins}
         renderInvalidElement={(props) => <UnsupportedElement {...props} />}
         renderPlaceholder={(placeholder) => (

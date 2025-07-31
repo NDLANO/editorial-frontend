@@ -101,7 +101,6 @@ const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => 
             {...field}
             id="title-editor"
             testId="title-editor"
-            hideBlockPicker
             submitted={false}
             placeholder={t("form.title.label")}
             data-title=""

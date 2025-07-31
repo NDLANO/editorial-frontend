@@ -236,6 +236,7 @@ const PodcastForm = ({
         });
         return (
           <FormWrapper inDialog={inDialog}>
+            <title>{t("htmlTitles.podcastUploaderPage")}</title>
             <PodcastFormHeader audio={audio} language={language} />
             {translating ? (
               <PageSpinner />

@@ -9,9 +9,10 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import { IAudioMetaInformationDTO, IUpdatedAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import PodcastForm from "./components/PodcastForm";
-import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
+import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
 import { updateAudio, fetchAudio } from "../../modules/audio/audioApi";
 import { toEditAudio } from "../../util/routeHelpers";
@@ -39,6 +40,16 @@ const translateFields: TranslateType[] = [
     type: "text",
   },
 ];
+
+export const EditPodcastPage = () => {
+  return (
+    <NynorskTranslateProvider>
+      <PageContent>
+        <EditPodcast />
+      </PageContent>
+    </NynorskTranslateProvider>
+  );
+};
 
 const EditPodcast = () => {
   const params = useParams<"id" | "selectedLanguage">();
@@ -108,5 +119,3 @@ const EditPodcast = () => {
     />
   );
 };
-
-export default EditPodcast;

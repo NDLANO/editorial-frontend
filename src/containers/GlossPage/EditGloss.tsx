@@ -9,9 +9,10 @@
 import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import { IUpdatedConceptDTO } from "@ndla/types-backend/concept-api";
 import { GlossForm } from "./components/GlossForm";
-import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
+import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
 import { LocaleType } from "../../interfaces";
 import { useFetchConceptData } from "../FormikForm/formikConceptHooks";
@@ -31,6 +32,16 @@ const translateFields: TranslateType[] = [
     type: "text",
   },
 ];
+
+export const EditGlossPage = () => {
+  return (
+    <NynorskTranslateProvider>
+      <PageContent>
+        <EditGloss />
+      </PageContent>
+    </NynorskTranslateProvider>
+  );
+};
 
 const EditGloss = () => {
   const params = useParams<"id" | "selectedLanguage">();
@@ -82,5 +93,3 @@ const EditGloss = () => {
     </>
   );
 };
-
-export default EditGloss;

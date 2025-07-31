@@ -6,18 +6,20 @@
  *
  */
 
-import CreatePodcast from "./CreatePodcast";
-import EditPodcast from "./EditPodcast";
-import ResourcePage from "../../components/ResourcePage";
-import { useAudio } from "../../modules/audio/audioQueries";
+import { Route, Routes } from "react-router-dom";
+import { CreatePodcastPage } from "./CreatePodcast";
+import { EditPodcastPage } from "./EditPodcast";
+import { PodcastRedirect } from "./PodcastRedirect";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const PodcastUploderPage = () => (
-  <ResourcePage
-    CreateComponent={CreatePodcast}
-    EditComponent={EditPodcast}
-    useHook={useAudio}
-    titleTranslationKey="htmlTitles.podcastUploaderPage"
-  />
+  <Routes>
+    <Route path="new" element={<PrivateRoute component={<CreatePodcastPage />} />} />
+    <Route path=":id/edit" element={<PrivateRoute component={<PodcastRedirect />} />}>
+      <Route index element={<PrivateRoute component={<EditPodcastPage />} />} />
+      <Route path=":selectedLanguage" element={<PrivateRoute component={<EditPodcastPage />} />} />
+    </Route>
+  </Routes>
 );
 
 export default PodcastUploderPage;

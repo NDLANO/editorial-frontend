@@ -9,11 +9,11 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { Spinner } from "@ndla/primitives";
+import { PageContent, Spinner } from "@ndla/primitives";
 import { ISeriesDTO, INewSeriesDTO } from "@ndla/types-backend/audio-api";
 
 import PodcastSeriesForm from "./components/PodcastSeriesForm";
-import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
+import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { fetchSeries, updateSeries } from "../../modules/audio/audioApi";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
@@ -22,6 +22,16 @@ const translateFields: TranslateType[] = [
   { field: "description.description", type: "text" },
   { field: "coverPhoto.altText", type: "text" },
 ];
+
+export const EditPodcastSeriesPage = () => {
+  return (
+    <NynorskTranslateProvider>
+      <PageContent>
+        <EditPodcastSeries />
+      </PageContent>
+    </NynorskTranslateProvider>
+  );
+};
 
 const EditPodcastSeries = () => {
   const params = useParams<"id" | "selectedLanguage">();
@@ -81,5 +91,3 @@ const EditPodcastSeries = () => {
     />
   );
 };
-
-export default EditPodcastSeries;

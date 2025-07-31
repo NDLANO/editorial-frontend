@@ -6,18 +6,22 @@
  *
  */
 
-import CreateAudio from "./CreateAudio";
-import EditAudio from "./EditAudio";
-import ResourcePage from "../../components/ResourcePage";
-import { useAudio } from "../../modules/audio/audioQueries";
+import { Route, Routes } from "react-router-dom";
+import { AudioRedirect } from "./AudioRedirect";
+import { CreateAudioPage } from "./CreateAudio";
+import { EditAudioPage } from "./EditAudio";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
-const AudioUploaderPage = () => (
-  <ResourcePage
-    CreateComponent={CreateAudio}
-    EditComponent={EditAudio}
-    useHook={useAudio}
-    titleTranslationKey="htmlTitles.audioUploaderPage"
-  />
-);
+const AudioUploaderPage = () => {
+  return (
+    <Routes>
+      <Route path="new" element={<PrivateRoute component={<CreateAudioPage />} />} />
+      <Route path=":id/edit" element={<PrivateRoute component={<AudioRedirect />} />}>
+        <Route index element={<PrivateRoute component={<EditAudioPage />} />} />
+        <Route path=":selectedLanguage" element={<PrivateRoute component={<EditAudioPage />} />} />
+      </Route>
+    </Routes>
+  );
+};
 
 export default AudioUploaderPage;

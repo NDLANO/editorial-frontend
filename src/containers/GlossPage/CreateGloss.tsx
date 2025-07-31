@@ -9,8 +9,10 @@
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import { IConceptDTO, INewConceptDTO } from "@ndla/types-backend/concept-api";
 import { GlossForm } from "./components/GlossForm";
+import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { toEditGloss } from "../../util/routeHelpers";
 import { useFetchConceptData } from "../FormikForm/formikConceptHooks";
 
@@ -18,6 +20,16 @@ interface Props {
   inDialog?: boolean;
   addConceptInDialog?: (concept: IConceptDTO) => void;
 }
+
+export const CreateGlossPage = () => {
+  return (
+    <NynorskTranslateProvider>
+      <PageContent>
+        <CreateGloss />
+      </PageContent>
+    </NynorskTranslateProvider>
+  );
+};
 
 const CreateGloss = ({ inDialog = false, addConceptInDialog }: Props) => {
   const { t, i18n } = useTranslation();
@@ -49,5 +61,3 @@ const CreateGloss = ({ inDialog = false, addConceptInDialog }: Props) => {
     </>
   );
 };
-
-export default CreateGloss;

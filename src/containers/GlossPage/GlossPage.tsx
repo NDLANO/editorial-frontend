@@ -7,11 +7,20 @@
  */
 
 import { memo } from "react";
-import CreateGloss from "./CreateGloss";
-import EditGloss from "./EditGloss";
-import ResourcePage from "../../components/ResourcePage";
-import { useConcept } from "../../modules/concept/conceptQueries";
+import { Route, Routes } from "react-router-dom";
+import { CreateGlossPage } from "./CreateGloss";
+import { EditGlossPage } from "./EditGloss";
+import { GlossRedirect } from "./GlossRedirect";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
-const GlossPage = () => <ResourcePage CreateComponent={CreateGloss} EditComponent={EditGloss} useHook={useConcept} />;
+const GlossPage = () => (
+  <Routes>
+    <Route path="new" element={<PrivateRoute component={<CreateGlossPage />} />} />
+    <Route path=":id/edit" element={<PrivateRoute component={<GlossRedirect />} />}>
+      <Route index element={<PrivateRoute component={<EditGlossPage />} />} />
+      <Route path=":selectedLanguage" element={<PrivateRoute component={<EditGlossPage />} />} />
+    </Route>
+  </Routes>
+);
 
 export default memo(GlossPage);

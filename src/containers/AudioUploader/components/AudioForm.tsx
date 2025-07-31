@@ -199,6 +199,7 @@ const AudioForm = ({
         };
         return (
           <Form>
+            <title>{t("htmlTitles.audioUploaderPage")}</title>
             <AudioFormHeader audio={audio} language={audioLanguage} />
             <FormAccordions defaultOpen={["audio-upload-content"]}>
               <FormAccordion

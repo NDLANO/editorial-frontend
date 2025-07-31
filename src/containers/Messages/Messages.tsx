@@ -10,24 +10,9 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@ndla/primitives";
 import { useMessages } from "./MessagesProvider";
+import { MessageType } from "./types";
 import { AlertDialog } from "../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../../components/FormikForm";
-
-type MessageSeverity = "danger" | "info" | "success" | "warning";
-
-export interface MessageType {
-  id: string;
-  message?: string;
-  translationKey?: string;
-  translationObject?: {
-    message?: string;
-  };
-  severity?: MessageSeverity;
-  action?: string;
-  timeToLive?: number;
-  statusCode?: number;
-  type?: string;
-}
 
 interface MessageProps {
   message: MessageType;

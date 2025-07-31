@@ -18,7 +18,6 @@ import {
 } from "@ndla/types-backend/search-api";
 import { postSearch, searchGrepCodes, searchResources, searchSubjectStats } from "./searchApi";
 import { DA_SUBJECT_ID, SA_SUBJECT_ID, LMA_SUBJECT_ID } from "../../constants";
-import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import {
   customFieldsBody,
@@ -38,6 +37,7 @@ import { isValid } from "../../util/jwtHelper";
 import { useUserData } from "../draft/draftQueries";
 import { usePostSearchNodes } from "../nodes/nodeQueries";
 import { MultiSummarySearchResults, NoNodeDraftSearchParams, NoNodeSearchParams } from "./searchApiInterfaces";
+import { StringSort } from "../../interfaces";
 
 export const searchQueryKeys = {
   search: (params?: Partial<StringSort<IDraftSearchParamsDTO>>) => [SEARCH, params] as const,

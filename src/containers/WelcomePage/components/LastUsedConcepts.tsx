@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import { PencilFill } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
-import { SortOptionLastUsed } from "./LastUsedItems";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import PageSizeSelect from "./worklist/PageSizeSelect";
@@ -20,7 +19,7 @@ import Pagination from "../../../components/abstractions/Pagination";
 import formatDate from "../../../util/formatDate";
 import { routes } from "../../../util/routeHelpers";
 import { StyledTopRowDashboardInfo } from "../styles";
-import { SelectItem } from "../types";
+import { SelectItem, SortOptionLastUsed } from "../types";
 
 interface Props {
   data: IConceptSummaryDTO[];

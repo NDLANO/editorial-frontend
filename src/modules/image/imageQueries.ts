@@ -15,8 +15,8 @@ import {
   ITagsSearchResultDTO,
 } from "@ndla/types-backend/image-api";
 import { fetchImage, fetchSearchTags, postSearchImages } from "./imageApi";
-import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
 import { IMAGE, IMAGE_SEARCH_TAGS, SEARCH_IMAGES } from "../../queryKeys";
+import { StringSort } from "../../interfaces";
 
 export interface UseImage {
   id: number;

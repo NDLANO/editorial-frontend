@@ -10,7 +10,6 @@ import { Formik, FormikProps, FormikHelpers, FormikErrors } from "formik";
 import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Descendant } from "slate";
 import { Button, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { INewSeriesDTO, ISeriesDTO } from "@ndla/types-backend/audio-api";
@@ -29,6 +28,7 @@ import {
   ITUNES_STANDARD_MINIMUM_WIDTH,
   SAVE_BUTTON_ID,
 } from "../../../constants";
+import { PodcastSeriesFormikType } from "../../../modules/audio/audioTypes";
 import { editorValueToPlainText } from "../../../util/articleContentConverter";
 import { podcastSeriesTypeToFormType } from "../../../util/audioHelpers";
 import { isFormikFormDirty } from "../../../util/formHelper";
@@ -65,19 +65,6 @@ const podcastRules: RulesType<PodcastSeriesFormikType, ISeriesDTO> = {
     required: true,
   },
 };
-
-export interface PodcastSeriesFormikType {
-  id?: number;
-  revision?: number;
-  title: Descendant[];
-  description: Descendant[];
-  language: string;
-  coverPhotoId?: string;
-  metaImageAlt?: string;
-  episodes: number[];
-  supportedLanguages: string[];
-  hasRSS?: boolean;
-}
 
 interface Props {
   podcastSeries?: ISeriesDTO;

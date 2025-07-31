@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { TaxNode } from "./TaxonomyBlock";
+import { TaxNode } from "../../../../../components/Taxonomy/types";
 
 const StyledText = styled(Text, {
   variants: {

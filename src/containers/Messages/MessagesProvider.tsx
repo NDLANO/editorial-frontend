@@ -10,7 +10,7 @@ import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useCon
 
 import { useTranslation } from "react-i18next";
 import { uuid } from "@ndla/util";
-import { MessageType } from "./Messages";
+import { MessageType } from "./types";
 
 interface Props {
   children?: ReactNode;

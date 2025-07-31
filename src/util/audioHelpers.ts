@@ -9,9 +9,7 @@
 import { IAudioMetaInformationDTO, ISeriesDTO, ICopyrightDTO } from "@ndla/types-backend/audio-api";
 import { inlineContentToEditorValue, plainTextToEditorValue } from "./articleContentConverter";
 import { DEFAULT_LICENSE } from "./formHelper";
-import { AudioFormikType } from "../containers/AudioUploader/components/AudioForm";
-import { PodcastSeriesFormikType } from "../containers/PodcastSeries/components/PodcastSeriesForm";
-import { PodcastFormValues } from "../modules/audio/audioTypes";
+import { AudioFormikType, PodcastFormValues, PodcastSeriesFormikType } from "../modules/audio/audioTypes";
 
 export const audioApiTypeToFormType = (
   audio: IAudioMetaInformationDTO | undefined,

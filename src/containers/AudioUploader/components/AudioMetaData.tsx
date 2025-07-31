@@ -21,11 +21,11 @@ import {
   Input,
 } from "@ndla/primitives";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
-import { AudioFormikType } from "./AudioForm";
 import { SearchTagsContent } from "../../../components/Form/SearchTagsContent";
 import { SearchTagsTagSelectorInput } from "../../../components/Form/SearchTagsTagSelectorInput";
 import { FormField } from "../../../components/FormField";
 import { useAudioSearchTags } from "../../../modules/audio/audioQueries";
+import { AudioFormikType } from "../../../modules/audio/audioTypes";
 import useDebounce from "../../../util/useDebounce";
 
 const AudioMetaData = () => {

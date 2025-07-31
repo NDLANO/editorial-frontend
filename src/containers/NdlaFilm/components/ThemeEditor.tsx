@@ -16,8 +16,8 @@ import { IMovieThemeDTO } from "@ndla/types-backend/frontpage-api";
 import { ThemeMovies } from "./ThemeMovies";
 import ThemeNameDialog from "./ThemeNameDialog";
 import { FormContent } from "../../../components/FormikForm";
-import { LocaleType } from "../../../interfaces";
-import { findName, convertThemeNames, changeThemeNames } from "../../../util/ndlaFilmHelpers";
+import { changeThemeNames, convertThemeNames, findName } from "../ndlaFilmHelpers";
+import { ThemeNames } from "../types";
 
 const TitleActionRow = styled("div", {
   base: {
@@ -35,8 +35,6 @@ const StyledButton = styled(Button, {
 interface Props {
   selectedLanguage: string;
 }
-
-export type ThemeNames = Partial<Record<LocaleType, string>>;
 
 const ThemeEditor = ({ selectedLanguage }: Props) => {
   const { t } = useTranslation();

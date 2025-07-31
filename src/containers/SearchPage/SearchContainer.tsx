@@ -13,18 +13,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { UseQueryResult } from "@tanstack/react-query";
 import { PageContainer } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IAudioSummarySearchResultDTO, ISeriesSummarySearchResultDTO } from "@ndla/types-backend/audio-api";
-import { IConceptSearchResultDTO } from "@ndla/types-backend/concept-api";
-import { ISearchResultV3DTO } from "@ndla/types-backend/image-api";
 import SearchForm, { parseSearchParams, SearchParamsBody } from "./components/form/SearchForm";
-import SearchList from "./components/results/SearchList";
+import SearchList, { ResultType } from "./components/results/SearchList";
 import SearchListOptions from "./components/results/SearchListOptions";
 import SearchSort from "./components/sort/SearchSort";
 import Pagination from "../../components/abstractions/Pagination";
 import { SearchParams, SearchType } from "../../interfaces";
 import { useUserData } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
-import { MultiSummarySearchResults } from "../../modules/search/searchApiInterfaces";
 import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
 import { isValid } from "../../util/jwtHelper";
 import { toSearch } from "../../util/routeHelpers";
@@ -36,13 +32,6 @@ const StyledPageContainer = styled(PageContainer, {
     gap: "xsmall",
   },
 });
-
-export type ResultType =
-  | ISearchResultV3DTO
-  | IConceptSearchResultDTO
-  | ISeriesSummarySearchResultDTO
-  | IAudioSummarySearchResultDTO
-  | MultiSummarySearchResults;
 
 interface Props {
   type: SearchType;

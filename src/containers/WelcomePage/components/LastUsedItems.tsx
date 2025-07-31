@@ -25,8 +25,7 @@ import {
 import { useSearchConcepts } from "../../../modules/concept/conceptQueries";
 import { useSearchDrafts } from "../../../modules/draft/draftQueries";
 import { useLocalStoragePageSizeState, useLocalStorageSortOptionState } from "../hooks/storedFilterHooks";
-
-export type SortOptionLastUsed = "title" | "status" | "lastUpdated";
+import { SortOptionLastUsed } from "../types";
 
 type SortOptionType = Prefix<"-", SortOptionLastUsed>;
 

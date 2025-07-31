@@ -39,7 +39,7 @@ import { detailsSerializer } from "../components/SlateEditor/plugins/details/det
 import { summarySerializer } from "../components/SlateEditor/plugins/details/summarySerializer";
 import { divSerializer } from "../components/SlateEditor/plugins/div";
 import { embedSerializer } from "../components/SlateEditor/plugins/embed";
-import { TYPE_NDLA_EMBED } from "../components/SlateEditor/plugins/embed/types";
+import { ErrorEmbed, TYPE_NDLA_EMBED } from "../components/SlateEditor/plugins/embed/types";
 import { defaultEmbedBlock } from "../components/SlateEditor/plugins/embed/utils";
 import { externalSerializer, iframeSerializer } from "../components/SlateEditor/plugins/external";
 import { fileSerializer } from "../components/SlateEditor/plugins/file";
@@ -77,7 +77,7 @@ import {
 import { unsupportedElementSerializer } from "../components/SlateEditor/plugins/unsupported/unsupportedElementSerializer";
 import { disclaimerSerializer } from "../components/SlateEditor/plugins/uuDisclaimer";
 import { brightcoveSerializer } from "../components/SlateEditor/plugins/video";
-import { Embed, ErrorEmbed } from "../interfaces";
+import { Embed } from "../interfaces";
 
 export const createEmptyValue = (): Descendant[] => [
   {

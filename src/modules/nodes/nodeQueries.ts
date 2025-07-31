@@ -8,10 +8,16 @@
 
 import { chunk, uniqBy } from "lodash-es";
 import { useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
-import { ICommentDTO, IDraftResponsibleDTO, IEditorNoteDTO, IRevisionMetaDTO } from "@ndla/types-backend/draft-api";
 import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
 import { fetchChildNodes, fetchNode, fetchNodeResources, fetchNodes, postSearchNodes, searchNodes } from "./nodeApi";
-import { GetNodeParams, GetNodeResourcesParams, RESOURCE_NODE, TOPIC_NODE } from "./nodeApiTypes";
+import {
+  GetNodeParams,
+  GetNodeResourcesParams,
+  NodeChildWithChildren,
+  NodeResourceMeta,
+  RESOURCE_NODE,
+  TOPIC_NODE,
+} from "./nodeApiTypes";
 import { PUBLISHED } from "../../constants";
 import { NodeTree } from "../../containers/NodeDiff/diffUtils";
 import { SearchResultBase, WithTaxonomyVersion } from "../../interfaces";
@@ -76,19 +82,6 @@ interface UseNodeResourceMetas {
   nodeId: string;
   ids: string[];
   language?: string;
-}
-
-export interface NodeResourceMeta {
-  contentUri: string;
-  grepCodes?: string[];
-  status?: { current: string; other: string[] };
-  articleType?: string;
-  revision?: number;
-  notes?: IEditorNoteDTO[];
-  revisions?: IRevisionMetaDTO[];
-  responsible?: IDraftResponsibleDTO;
-  started?: boolean;
-  comments?: ICommentDTO[];
 }
 
 export const useNodeResourceMetas = (
@@ -160,10 +153,6 @@ interface ChildNodesWithArticleTypeParams extends WithTaxonomyVersion {
   id: string;
   language: string;
   nodeType?: NodeType[];
-}
-
-export interface NodeChildWithChildren extends NodeChild {
-  childNodes?: NodeChildWithChildren[];
 }
 
 const fetchChildNodesWithArticleType = async ({

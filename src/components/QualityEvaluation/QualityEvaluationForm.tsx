@@ -28,7 +28,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { IArticleDTO, IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import { Grade, Node } from "@ndla/types-taxonomy";
-import { qualityEvaluationOptionColors } from "./qualityEvaluationOptions";
+import { qualityEvaluationOptionColors, QualityEvaluationValue } from "./qualityEvaluationOptions";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import { draftQueryKeys } from "../../modules/draft/draftQueries";
@@ -39,8 +39,6 @@ import handleError from "../../util/handleError";
 import { FormField } from "../FormField";
 import { FormActionsContainer, FormikForm } from "../FormikForm";
 import validateFormik, { RulesType } from "../formikValidationSchema";
-
-export type QualityEvaluationValue = "1" | "2" | "3" | "4" | "5";
 
 const StyledRadioGroupRoot = styled(RadioGroupRoot, {
   base: {

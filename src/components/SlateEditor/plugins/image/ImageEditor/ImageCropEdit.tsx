@@ -10,8 +10,8 @@ import { useFormikContext } from "formik";
 import { useState } from "react";
 import ReactCrop, { Crop, PercentCrop } from "react-image-crop";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import { ImageEmbedFormValues } from "../../components/SlateEditor/plugins/image/ImageEmbedForm";
-import config from "../../config";
+import config from "../../../../../config";
+import { ImageEmbedFormValues } from "../types";
 
 interface Props {
   language: string;

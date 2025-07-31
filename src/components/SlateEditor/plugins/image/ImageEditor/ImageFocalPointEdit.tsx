@@ -10,8 +10,8 @@ import { useFormikContext } from "formik";
 import { MouseEvent, ReactEventHandler, useRef, useState } from "react";
 import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import { ImageEmbedFormValues } from "../../components/SlateEditor/plugins/image/ImageEmbedForm";
-import { getElementOffset, getClientPos, getImageDimensions, getSrcSets } from "../../util/imageEditorUtil";
+import { getClientPos, getElementOffset, getImageDimensions, getSrcSets } from "../imageEditorUtil";
+import { ImageEmbedFormValues } from "../types";
 
 const StyledFocalPointButton = styled("button", {
   base: {

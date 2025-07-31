@@ -19,9 +19,9 @@ import {
   DialogTrigger,
 } from "@ndla/primitives";
 import { ArticleType, ArticleTitle, ArticleContent, ArticleFooter, ArticleByline } from "@ndla/ui";
-import { FormArticle } from "./PreviewDraft";
 import { getUpdatedLanguage } from "./useTransformedArticle";
 import { DialogCloseButton } from "../DialogCloseButton";
+import { FormArticle } from "./types";
 
 interface Props {
   article: ArticleType;

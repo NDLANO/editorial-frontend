@@ -29,7 +29,7 @@ import SaveButton from "../../../components/SaveButton";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { editorValueToPlainText } from "../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../util/formHelper";
-import { AlertDialogWrapper } from "../../FormikForm";
+import { AlertDialogWrapper } from "../../FormikForm/AlertDialogWrapper";
 import SimpleVersionPanel from "../../FormikForm/SimpleVersionPanel";
 import { imageApiTypeToFormType, ImageFormikType } from "../imageTransformers";
 import { ImageFormHeader } from "./ImageFormHeader";

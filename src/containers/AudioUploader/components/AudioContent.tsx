@@ -30,12 +30,11 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { AudioCopyInfo } from "./AudioCopyInfo";
-import { AudioFormikType } from "./AudioForm";
 import AudioPlayer from "./AudioPlayer";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
-import { PodcastFormValues } from "../../../modules/audio/audioTypes";
+import { AudioFormikType, PodcastFormValues } from "../../../modules/audio/audioTypes";
 import { TitleField } from "../../FormikForm";
 
 const ContentWrapper = styled("div", {

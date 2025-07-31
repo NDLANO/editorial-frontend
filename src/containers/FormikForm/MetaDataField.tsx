@@ -32,8 +32,8 @@ import {
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
-import { MetaImageSearch } from ".";
 import { ArticleFormType } from "./articleFormHooks";
+import MetaImageSearch from "./MetaImageSearch";
 import { GenericComboboxItemIndicator } from "../../components/abstractions/Combobox";
 import { AiPromptDialog } from "../../components/AiPromptDialog";
 import { FieldWarning } from "../../components/Form/FieldWarning";

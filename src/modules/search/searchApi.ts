@@ -14,11 +14,11 @@ import {
   ISubjectAggsInputDTO,
   openapi,
 } from "@ndla/types-backend/search-api";
-import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
 import { createAuthClient } from "../../util/apiHelpers";
 import { transformSearchBody } from "../../util/searchHelpers";
 import { MultiSummarySearchResults, NoNodeDraftSearchParams, NoNodeSearchParams } from "./searchApiInterfaces";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
+import { StringSort } from "../../interfaces";
 
 const client = createAuthClient<openapi.paths>();
 

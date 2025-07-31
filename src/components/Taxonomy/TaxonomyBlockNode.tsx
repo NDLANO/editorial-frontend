@@ -14,8 +14,8 @@ import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
 import Fade from "./Fade";
 import { iconRecipe, NodeItemRoot, NodeItemTitle, ToggleIcon } from "./NodeItem";
-import { MinimalNodeChild } from "../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy";
-import { NodeChildWithChildren } from "../../modules/nodes/nodeQueries";
+import { MinimalNodeChild } from "./types";
+import { NodeChildWithChildren, NodeWithChildren } from "../../modules/nodes/nodeApiTypes";
 
 const StyledStructureItem = styled("div", {
   base: {
@@ -62,9 +62,6 @@ const StyledNodeItemRoot = styled(NodeItemRoot, {
   },
 });
 
-export interface NodeWithChildren extends Node {
-  childNodes?: NodeChildWithChildren[];
-}
 interface Props {
   node: NodeWithChildren;
   onSelect: (node: NodeChild) => void;

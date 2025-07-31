@@ -10,7 +10,6 @@ import { orderBy } from "lodash-es";
 import { ResolvedUrl, Node } from "@ndla/types-taxonomy";
 import { createResourceResourceType, deleteResourceResourceType } from "./resourcetypes";
 import { taxonomyApi } from "../../config";
-import { TaxNode } from "../../containers/ArticlePage/LearningResourcePage/components/taxonomy/TaxonomyBlock";
 import { doDiff } from "../../containers/NodeDiff/diffUtils";
 import { WithTaxonomyVersion } from "../../interfaces";
 import { apiResourceUrl, httpFunctions } from "../../util/apiHelpers";
@@ -21,6 +20,7 @@ import {
   putNodeConnection,
   putNodeMetadata,
 } from "../nodes/nodeApi";
+import { TaxNode } from "../../components/Taxonomy/types";
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 

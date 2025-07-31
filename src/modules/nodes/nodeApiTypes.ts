@@ -6,7 +6,8 @@
  *
  */
 
-import { NodeType } from "@ndla/types-taxonomy";
+import { ICommentDTO, IDraftResponsibleDTO, IEditorNoteDTO, IRevisionMetaDTO } from "@ndla/types-backend/draft-api";
+import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
 
 export const PROGRAMME = "PROGRAMME";
 export const SUBJECT_NODE = "SUBJECT";
@@ -44,4 +45,29 @@ export interface GetNodeResourcesParams {
   includeContexts?: boolean;
   filterProgrammes?: boolean;
   isVisible?: boolean;
+}
+
+export interface NodeResourceMeta {
+  contentUri: string;
+  grepCodes?: string[];
+  status?: { current: string; other: string[] };
+  articleType?: string;
+  revision?: number;
+  notes?: IEditorNoteDTO[];
+  revisions?: IRevisionMetaDTO[];
+  responsible?: IDraftResponsibleDTO;
+  started?: boolean;
+  comments?: ICommentDTO[];
+}
+
+export interface ResourceWithNodeConnectionAndMeta extends NodeChild {
+  contentMeta?: NodeResourceMeta;
+}
+
+export interface NodeWithChildren extends Node {
+  childNodes?: NodeChildWithChildren[];
+}
+
+export interface NodeChildWithChildren extends NodeChild {
+  childNodes?: NodeChildWithChildren[];
 }

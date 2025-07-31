@@ -12,8 +12,9 @@ import { findByTestId, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { uuid } from "@ndla/util";
 import IntlWrapper from "../../../util/__tests__/IntlWrapper";
-import Messages, { MessageType } from "../Messages";
+import Messages from "../Messages";
 import { MessagesProvider } from "../MessagesProvider";
+import { MessageType } from "../types";
 
 const history = createMemoryHistory();
 

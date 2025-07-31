@@ -7,7 +7,7 @@
  */
 
 import { memo } from "react";
-import { ContributorsField } from ".";
+import ContributorsField from "./components/ContributorsField";
 import LicenseField from "./components/LicenseField";
 import OriginField from "./components/OriginField";
 import ProcessedField from "./components/ProcessedField";

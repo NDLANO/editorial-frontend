@@ -13,9 +13,9 @@ import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slat
 import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
 import { SelectContent, SelectRoot, SelectValueText, SelectLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ToolbarCategoryProps } from "./SlateToolbar";
 import { LanguageType } from "./toolbarState";
 import { getTitle } from "./ToolbarToggle";
+import { ToolbarCategoryProps } from "./types";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../abstractions/Select";
 import hasNodeOfType from "../../utils/hasNodeOfType";
 import { defaultSpanBlock } from "../span/utils";

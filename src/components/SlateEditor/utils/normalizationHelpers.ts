@@ -6,9 +6,8 @@
  *
  */
 
-import { Element } from "slate";
+import { Element, ElementType } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { ElementType } from "../interfaces";
 import { ASIDE_ELEMENT_TYPE } from "../plugins/aside/asideTypes";
 import { AUDIO_ELEMENT_TYPE } from "../plugins/audio/audioTypes";
 import { CODE_BLOCK_ELEMENT_TYPE } from "../plugins/codeBlock/types";

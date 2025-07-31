@@ -13,10 +13,10 @@ import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import { scrollElementId } from "./isVisibleHook";
 import ResourceItems from "./ResourceItems";
-import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import TopicResourceBanner from "./TopicResourceBanner";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
-import { NodeResourceMeta, useNodes } from "../../../modules/nodes/nodeQueries";
+import { NodeResourceMeta, ResourceWithNodeConnectionAndMeta } from "../../../modules/nodes/nodeApiTypes";
+import { useNodes } from "../../../modules/nodes/nodeQueries";
 import { groupResourcesByType } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 

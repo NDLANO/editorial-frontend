@@ -9,9 +9,9 @@
 import { Editor, Element } from "slate";
 import { useSlate, useSlateSelector } from "slate-react";
 import { handleClickTable } from "./handleMenuClicks";
-import { ToolbarCategoryProps } from "./SlateToolbar";
 import { TableType } from "./toolbarState";
 import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
+import { ToolbarCategoryProps } from "./types";
 
 const getCurrentBlockValues = (editor: Editor) => {
   const [currentTableCell] =

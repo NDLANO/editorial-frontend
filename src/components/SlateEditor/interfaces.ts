@@ -33,7 +33,7 @@ import { CopyrightElement } from "./plugins/copyright/types";
 import { DetailsElement } from "./plugins/details/detailsTypes";
 import { SummaryElement } from "./plugins/details/summaryTypes";
 import { DivElement } from "./plugins/div/types";
-import { ErrorEmbedElement } from "./plugins/embed";
+import { ErrorEmbedElement } from "./plugins/embed/types";
 import { ExternalElement, IframeElement } from "./plugins/external/types";
 import { FileElement } from "./plugins/file";
 import { FootnoteElement } from "./plugins/footnote/types";

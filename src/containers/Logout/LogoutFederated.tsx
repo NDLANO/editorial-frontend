@@ -18,4 +18,4 @@ export const LogoutFederated = () => {
   return null;
 };
 
-export default LogoutFederated;
+export const Component = LogoutFederated;

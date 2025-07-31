@@ -9,6 +9,9 @@
 import { useParams } from "react-router-dom";
 import { GenericResourceRedirect } from "../../components/GenericResourceRedirect";
 import { useAudio } from "../../modules/audio/audioQueries";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+
+export const Component = () => <PrivateRoute component={<PodcastRedirect />} />;
 
 export const PodcastRedirect = () => {
   const { id, selectedLanguage } = useParams<"id" | "selectedLanguage">();

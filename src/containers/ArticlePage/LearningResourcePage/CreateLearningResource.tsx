@@ -14,6 +14,9 @@ import LearningResourceForm from "./components/LearningResourceForm";
 import { convertUpdateToNewDraft } from "../../../util/articleUtil";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
+
+export const Component = () => <PrivateRoute component={<CreateLearningResource />} />;
 
 const CreateLearningResource = () => {
   const { t, i18n } = useTranslation();
@@ -42,5 +45,3 @@ const CreateLearningResource = () => {
     </PageContent>
   );
 };
-
-export default CreateLearningResource;

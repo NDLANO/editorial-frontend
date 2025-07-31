@@ -15,11 +15,14 @@ import { GlossForm } from "./components/GlossForm";
 import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { toEditGloss } from "../../util/routeHelpers";
 import { useFetchConceptData } from "../FormikForm/formikConceptHooks";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 interface Props {
   inDialog?: boolean;
   addConceptInDialog?: (concept: IConceptDTO) => void;
 }
+
+export const Component = () => <PrivateRoute component={<CreateGlossPage />} />;
 
 export const CreateGlossPage = () => {
   return (

@@ -18,4 +18,4 @@ const LogoutProviders = () => {
   return null;
 };
 
-export default LogoutProviders;
+export const Component = LogoutProviders;

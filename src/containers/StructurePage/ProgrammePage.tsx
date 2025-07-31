@@ -12,7 +12,10 @@ import { MessageBox } from "@ndla/primitives";
 import { CurrentNodeProvider } from "./CurrentNodeProvider";
 import StructureContainer from "./StructureContainer";
 import config from "../../config";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import { TaxonomyVersionProvider } from "../StructureVersion/TaxonomyVersionProvider";
+
+export const Component = () => <PrivateRoute component={<ProgrammePage />} />;
 
 const ProgrammePage = () => {
   const { t } = useTranslation();
@@ -42,5 +45,3 @@ const ProgrammePage = () => {
     </TaxonomyVersionProvider>
   );
 };
-
-export default ProgrammePage;

@@ -8,6 +8,9 @@
 
 import SearchContainer from "./SearchContainer";
 import { useSearchImages } from "../../modules/image/imageQueries";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+
+export const Component = () => <PrivateRoute component={<ImageSearch />} />;
 
 export const ImageSearch = () => {
   return <SearchContainer type="image" searchHook={useSearchImages} />;

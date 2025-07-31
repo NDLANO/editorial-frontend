@@ -8,6 +8,9 @@
 
 import SearchContainer from "./SearchContainer";
 import { useSearchWithCustomSubjectsFiltering } from "../../modules/search/searchQueries";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+
+export const Component = () => <PrivateRoute component={<ContentSearch />} />;
 
 export const ContentSearch = () => {
   return <SearchContainer type="content" searchHook={useSearchWithCustomSubjectsFiltering} />;

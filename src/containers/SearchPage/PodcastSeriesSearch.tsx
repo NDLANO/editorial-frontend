@@ -8,6 +8,9 @@
 
 import SearchContainer from "./SearchContainer";
 import { useSearchSeries } from "../../modules/audio/audioQueries";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+
+export const Component = () => <PrivateRoute component={<PodcastSeriesSearch />} />;
 
 export const PodcastSeriesSearch = () => {
   return <SearchContainer type="podcast-series" searchHook={useSearchSeries} />;

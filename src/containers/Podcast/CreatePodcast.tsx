@@ -14,6 +14,9 @@ import PodcastForm from "./components/PodcastForm";
 import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { postAudio } from "../../modules/audio/audioApi";
 import { toEditPodcast } from "../../util/routeHelpers";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+
+export const Component = () => <PrivateRoute component={<CreatePodcastPage />} />;
 
 export const CreatePodcastPage = () => {
   return (

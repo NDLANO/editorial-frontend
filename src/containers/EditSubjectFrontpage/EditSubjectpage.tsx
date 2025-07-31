@@ -14,6 +14,9 @@ import { PageSpinner } from "../../components/PageSpinner";
 import { LocaleType } from "../../interfaces";
 import { useFetchSubjectpageData } from "../FormikForm/formikSubjectpageHooks";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+
+export const Component = () => <PrivateRoute component={<EditSubjectpage />} />;
 
 const EditSubjectpage = () => {
   const { t } = useTranslation();
@@ -49,5 +52,3 @@ const EditSubjectpage = () => {
     </PageContainer>
   );
 };
-
-export default EditSubjectpage;

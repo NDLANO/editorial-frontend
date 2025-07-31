@@ -8,6 +8,9 @@
 
 import SearchContainer from "./SearchContainer";
 import { useSearchAudio } from "../../modules/audio/audioQueries";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+
+export const Component = () => <PrivateRoute component={<AudioSearch />} />;
 
 export const AudioSearch = () => {
   return <SearchContainer type="audio" searchHook={useSearchAudio} />;

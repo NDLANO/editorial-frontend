@@ -17,6 +17,7 @@ import { PageSpinner } from "../../components/PageSpinner";
 import { fetchImage, updateImage } from "../../modules/image/imageApi";
 import { useMessages } from "../Messages/MessagesProvider";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const translateFields: TranslateType[] = [
   {
@@ -36,6 +37,8 @@ const translateFields: TranslateType[] = [
     type: "text",
   },
 ];
+
+export const Component = () => <PrivateRoute component={<EditImagePage />} />;
 
 export const EditImagePage = () => {
   return (

@@ -16,12 +16,15 @@ import PodcastSeriesForm from "./components/PodcastSeriesForm";
 import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { fetchSeries, updateSeries } from "../../modules/audio/audioApi";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const translateFields: TranslateType[] = [
   { field: "title.title", type: "text" },
   { field: "description.description", type: "text" },
   { field: "coverPhoto.altText", type: "text" },
 ];
+
+export const Component = () => <PrivateRoute component={<EditPodcastSeriesPage />} />;
 
 export const EditPodcastSeriesPage = () => {
   return (

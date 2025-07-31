@@ -7,8 +7,7 @@
  */
 
 import { merge } from "lodash-es";
-import { Editor, Element, Node, Path, Range, Selection } from "slate";
-import { ElementType } from "../../interfaces";
+import { Editor, Element, ElementType, Node, Path, Range, Selection } from "slate";
 import { SYMBOL_ELEMENT_TYPE } from "../symbol/types";
 import { MarkType, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { SPAN_ELEMENT_TYPE } from "../span/types";

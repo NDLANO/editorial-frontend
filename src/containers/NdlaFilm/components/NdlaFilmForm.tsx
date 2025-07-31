@@ -9,9 +9,8 @@
 import { Formik, FormikHelpers } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
 import { PageContent } from "@ndla/primitives";
-import { IFilmFrontPageDTO, IMovieThemeDTO } from "@ndla/types-backend/frontpage-api";
+import { IFilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
 import NdlaFilmArticle from "./NdlaFilmArticle";
 import SlideshowEditor from "./SlideshowEditor";
 import ThemeEditor from "./ThemeEditor";
@@ -25,29 +24,18 @@ import { isVisualElementSlateElement } from "../../../components/SlateEditor/hel
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { useUpdateFilmFrontpageMutation } from "../../../modules/frontpage/filmMutations";
 import { isFormikFormDirty } from "../../../util/formHelper";
-import { getInitialValues, getNdlaFilmFromSlate } from "../../../util/ndlaFilmHelpers";
 import { NdlaErrorPayload } from "../../../util/resolveJsonOrRejectWithError";
 import { toEditNdlaFilm } from "../../../util/routeHelpers";
 import SubjectpageAbout from "../../EditSubjectFrontpage/components/SubjectpageAbout";
-import { AlertDialogWrapper } from "../../FormikForm";
+import { AlertDialogWrapper } from "../../FormikForm/AlertDialogWrapper";
 import usePreventWindowUnload from "../../FormikForm/preventWindowUnloadHook";
 import { useMessages } from "../../Messages/MessagesProvider";
+import { getInitialValues, getNdlaFilmFromSlate } from "../ndlaFilmHelpers";
+import { FilmFormikType } from "../types";
 
 interface Props {
   filmFrontpage: IFilmFrontPageDTO;
   selectedLanguage: string;
-}
-
-export interface FilmFormikType {
-  name: string;
-  title: Descendant[];
-  description: Descendant[];
-  visualElement: Descendant[];
-  language: string;
-  supportedLanguages: string[];
-  slideShow: string[];
-  themes: IMovieThemeDTO[];
-  article?: string;
 }
 
 const ndlaFilmRules: RulesType<FilmFormikType> = {

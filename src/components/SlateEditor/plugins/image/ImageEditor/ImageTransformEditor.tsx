@@ -12,8 +12,8 @@ import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import ImageCropEdit from "./ImageCropEdit";
 import ImageFocalPointEdit from "./ImageFocalPointEdit";
-import { ImageEmbedFormValues } from "../../components/SlateEditor/plugins/image/ImageEmbedForm";
-import { getSrcSets } from "../../util/imageEditorUtil";
+import { getSrcSets } from "../imageEditorUtil";
+import { ImageEmbedFormValues } from "../types";
 
 const StyledImg = styled("img", {
   base: {

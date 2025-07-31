@@ -15,8 +15,8 @@ import { Button, IconButton, ToggleGroupItem, ToggleGroupRoot } from "@ndla/prim
 import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import ImageTransformEditor from "./ImageTransformEditor";
-import { FormField } from "../../components/FormField";
-import { ImageEmbedFormValues } from "../../components/SlateEditor/plugins/image/ImageEmbedForm";
+import { FormField } from "../../../../FormField";
+import { ImageEmbedFormValues } from "../types";
 
 const StyledImageEditorMenu = styled("div", {
   base: {

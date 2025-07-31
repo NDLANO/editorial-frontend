@@ -22,7 +22,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { BrightcoveEmbedData } from "@ndla/types-embed";
-import { VideoWrapper } from "./SlateVideo";
+import { VideoWrapper } from "./VideoWrapper";
 import config from "../../../../config";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue } from "../../../../util/articleContentConverter";

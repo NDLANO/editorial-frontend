@@ -139,7 +139,6 @@ const InputComment = ({ isSubmitting, arrayHelpers }: Props) => {
         {isFocused ? (
           <RichTextEditor
             value={inputValue ?? []}
-            hideBlockPicker
             submitted={isSubmitting}
             plugins={plugins}
             onChange={setInputValue}

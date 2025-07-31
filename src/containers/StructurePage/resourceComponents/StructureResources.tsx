@@ -13,17 +13,9 @@ import { useTranslation } from "react-i18next";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import ResourcesContainer from "./ResourcesContainer";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
-import {
-  NodeResourceMeta,
-  useNodeResourceMetas,
-  useResourcesWithNodeConnection,
-} from "../../../modules/nodes/nodeQueries";
+import { useNodeResourceMetas, useResourcesWithNodeConnection } from "../../../modules/nodes/nodeQueries";
 import { useAllResourceTypes } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-
-export interface ResourceWithNodeConnectionAndMeta extends NodeChild {
-  contentMeta?: NodeResourceMeta;
-}
 
 interface Props {
   currentChildNode: NodeChild;

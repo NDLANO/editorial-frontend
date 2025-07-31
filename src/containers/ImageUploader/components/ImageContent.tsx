@@ -19,7 +19,7 @@ import { FormContent } from "../../../components/FormikForm";
 import { AI_ACCESS_SCOPE } from "../../../constants";
 import { useSession } from "../../../containers/Session/SessionProvider";
 import { AltTextVariables } from "../../../interfaces";
-import { TitleField } from "../../FormikForm";
+import TitleField from "../../FormikForm/TitleField";
 import { ImageFormikType } from "../imageTransformers";
 
 const ALLOWED_IMAGE_TYPES = "(jpe?g|png|gif)";

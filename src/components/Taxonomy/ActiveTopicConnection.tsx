@@ -13,7 +13,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import Breadcrumb from "./Breadcrumb";
 import RelevanceOptionSwitch from "./RelevanceOptionSwitch";
-import { MinimalNodeChild } from "../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy";
+import { MinimalNodeChild } from "./types";
 
 const StyledWrapper = styled("div", {
   base: {

@@ -7,8 +7,8 @@
  */
 
 import { MouseEvent } from "react";
-import { ImageEmbedFormValues } from "../components/SlateEditor/plugins/image/ImageEmbedForm";
-import config from "../config";
+import { ImageEmbedFormValues } from "./types";
+import config from "../../../../config";
 
 type Transform = Pick<
   ImageEmbedFormValues,

@@ -29,8 +29,7 @@ import SwapTopicArticle from "./topicMenuOptions/SwapTopicArticle";
 import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
 import { TaxonomyNodeChild } from "../../../components/Taxonomy/types";
 import { TAXONOMY_ADMIN_SCOPE } from "../../../constants";
-import { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../modules/nodes/nodeApiTypes";
-import { NodeChildWithChildren } from "../../../modules/nodes/nodeQueries";
+import { NodeChildWithChildren, PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../modules/nodes/nodeApiTypes";
 import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
 import { useSession } from "../../Session/SessionProvider";
 

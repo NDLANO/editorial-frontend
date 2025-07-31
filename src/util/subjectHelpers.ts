@@ -12,7 +12,7 @@ import { ISubjectPageDTO, INewSubjectPageDTO, IUpdatedSubjectPageDTO } from "@nd
 import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { BrightcoveEmbedData, ImageEmbedData } from "@ndla/types-embed";
 import { editorValueToEmbed, editorValueToPlainText, plainTextToEditorValue } from "./articleContentConverter";
-import { convertVisualElement } from "./ndlaFilmHelpers";
+import { convertVisualElement } from "./convertVisualElement";
 
 export const getIdFromUrn = (urnId: string | undefined) => urnId?.replace("urn:frontpage:", "");
 

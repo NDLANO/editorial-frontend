@@ -20,9 +20,9 @@ import {
   FieldLabel,
   FieldRoot,
 } from "@ndla/primitives";
-import { ThemeNames } from "./ThemeEditor";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { FormActionsContainer } from "../../../components/FormikForm";
+import { ThemeNames } from "../types";
 
 const blankTheme = {
   nb: "",

@@ -8,7 +8,7 @@
 
 import { useFormikContext } from "formik";
 import { isEqual } from "lodash-es";
-import { useCallback, useEffect, useRef, JSX, DragEvent } from "react";
+import { useCallback, useEffect, useRef, JSX, DragEvent, ReactNode } from "react";
 import { Descendant, Editor, Range, Transforms } from "slate";
 import { Slate, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
@@ -18,9 +18,6 @@ import "../DisplayEmbed/helpers/h5pResizer";
 import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
 import { FieldEditable } from "./FieldEditable";
 import { FormikStatus } from "../../interfaces";
-import { Action, commonActions } from "./plugins/blockPicker/actions";
-import { BlockPickerOptions, createBlockpickerOptions } from "./plugins/blockPicker/options";
-import SlateBlockPicker from "./plugins/blockPicker/SlateBlockPicker";
 import { nativeOnDragOver, nativeOnDragStart, nativeOnDrop } from "./plugins/DND/nativeDnd";
 import { SlateDndContext } from "./plugins/DND/SlateDndContext";
 import { SlateToolbar } from "./plugins/toolbar";
@@ -44,9 +41,7 @@ export interface RichTextEditorProps extends Omit<EditableProps, "value" | "onCh
   plugins?: SlatePlugin[];
   submitted: boolean;
   language?: string;
-  actions?: Action[];
-  blockpickerOptions?: Partial<BlockPickerOptions>;
-  hideBlockPicker?: boolean;
+  blockPicker?: ReactNode;
   testId?: string;
   hideToolbar?: boolean;
   receiveInitialFocus?: boolean;
@@ -61,12 +56,10 @@ const RichTextEditor = ({
   plugins,
   value,
   onChange,
-  actions = commonActions,
   submitted,
   language,
+  blockPicker,
   testId = "slate-editor",
-  blockpickerOptions = {},
-  hideBlockPicker,
   hideToolbar,
   receiveInitialFocus,
   noArticleStyling,
@@ -184,13 +177,7 @@ const RichTextEditor = ({
         <StyledSlateWrapper data-testid={testId} data-slate-wrapper="">
           <Slate editor={editor} initialValue={editor.children} onChange={onChange}>
             <SlateToolbar hideToolbar={hideToolbar} />
-            {!hideBlockPicker && (
-              <SlateBlockPicker
-                actions={actions}
-                articleLanguage={language}
-                {...createBlockpickerOptions(blockpickerOptions)}
-              />
-            )}
+            {blockPicker}
             <SlateDndContext editor={editor}>
               <StyledEditable
                 {...rest}

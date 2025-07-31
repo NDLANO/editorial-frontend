@@ -6,21 +6,13 @@
  *
  */
 
-import { Descendant } from "slate";
-import { jsx as slatejsx } from "slate-hyperscript";
-import {
-  IFilmFrontPageDTO,
-  IMovieThemeDTO,
-  INewOrUpdatedFilmFrontPageDTO,
-  IVisualElementDTO,
-} from "@ndla/types-backend/frontpage-api";
-import { editorValueToPlainText, plainTextToEditorValue } from "./articleContentConverter";
-import { BRIGHTCOVE_ELEMENT_TYPE } from "../components/SlateEditor/plugins/video/types";
-import { LOCALE_VALUES } from "../constants";
-import { FilmFormikType } from "../containers/NdlaFilm/components/NdlaFilmForm";
-import { ThemeNames } from "../containers/NdlaFilm/components/ThemeEditor";
-import { LocaleType } from "../interfaces";
-import { isVisualElementSlateElement } from "../components/SlateEditor/helpers";
+import { IFilmFrontPageDTO, IMovieThemeDTO, INewOrUpdatedFilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
+import { LocaleType } from "../../interfaces";
+import { FilmFormikType, ThemeNames } from "./types";
+import { convertVisualElement, getVisualElementId } from "../../util/convertVisualElement";
+import { editorValueToPlainText, plainTextToEditorValue } from "../../util/articleContentConverter";
+import { isVisualElementSlateElement } from "../../components/SlateEditor/helpers";
+import { LOCALE_VALUES } from "../../constants";
 
 export const getInitialValues = (filmFrontpage: IFilmFrontPageDTO, selectedLanguage: string): FilmFormikType => {
   const supportedLanguages = filmFrontpage.about.map((about) => about.language);
@@ -40,63 +32,6 @@ export const getInitialValues = (filmFrontpage: IFilmFrontPageDTO, selectedLangu
     themes: filmFrontpage.movieThemes,
     article: filmFrontpage.article,
   };
-};
-
-export const convertVisualElement = (visualElement: IVisualElementDTO): Descendant[] => {
-  const id = getVisualElementId(visualElement);
-  if (visualElement.type !== "brightcove") {
-    return [
-      slatejsx(
-        "element",
-        {
-          type: visualElement.type,
-          data: {
-            url: visualElement.url,
-            resource: visualElement.type,
-            resourceId: id,
-            alt: visualElement.alt,
-            metaData: {
-              id: id,
-            },
-          },
-        },
-        { text: "" },
-      ),
-    ];
-  }
-
-  const splittedUrl = visualElement.url.split("/");
-  const account = splittedUrl[3];
-  const player = splittedUrl[4].split("_")[0];
-
-  return [
-    slatejsx(
-      "element",
-      {
-        type: BRIGHTCOVE_ELEMENT_TYPE,
-        data: {
-          url: visualElement.url,
-          resource: visualElement.type,
-          resourceId: id,
-          caption: visualElement.alt,
-          metaData: {
-            id: id,
-          },
-          videoid: id,
-          account: account,
-          player: player,
-        },
-      },
-      { text: "" },
-    ),
-  ];
-};
-
-const getVisualElementId = (visualElement: IVisualElementDTO): string => {
-  const splitter = visualElement.type === "brightcove" ? "=" : "/";
-  const splittedUrl = visualElement.url.split(splitter);
-  const id = splittedUrl.pop() ?? "";
-  return id;
 };
 
 export const getNdlaFilmFromSlate = (

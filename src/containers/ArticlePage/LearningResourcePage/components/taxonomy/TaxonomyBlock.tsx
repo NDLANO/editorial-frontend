@@ -25,10 +25,11 @@ import TaxonomyInfo from "./TaxonomyInfo";
 import { FormActionsContainer, FormContent } from "../../../../../components/FormikForm";
 import SaveButton from "../../../../../components/SaveButton";
 import OptGroupVersionSelector from "../../../../../components/Taxonomy/OptGroupVersionSelector";
-import { NodeWithChildren } from "../../../../../components/Taxonomy/TaxonomyBlockNode";
 import TopicConnections from "../../../../../components/Taxonomy/TopicConnections";
+import { MinimalNodeChild, TaxNode } from "../../../../../components/Taxonomy/types";
 import { RESOURCE_TYPE_LEARNING_PATH, TAXONOMY_ADMIN_SCOPE } from "../../../../../constants";
 import { fetchChildNodes, postNode } from "../../../../../modules/nodes/nodeApi";
+import { NodeWithChildren } from "../../../../../modules/nodes/nodeApiTypes";
 import { nodeQueryKeys } from "../../../../../modules/nodes/nodeQueries";
 import { useUpdateTaxonomyMutation } from "../../../../../modules/taxonomy/taxonomyMutations";
 import handleError from "../../../../../util/handleError";
@@ -37,7 +38,6 @@ import { useSession } from "../../../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../../../StructureVersion/TaxonomyVersionProvider";
 import ResourceTypeSelect, { ResourceTypeWithParent } from "../../../components/ResourceTypeSelect";
 import TaxonomyConnectionErrors from "../../../components/TaxonomyConnectionErrors";
-import { MinimalNodeChild } from "../LearningResourceTaxonomy";
 
 interface Props {
   nodes: Node[];
@@ -47,10 +47,6 @@ interface Props {
   article: IArticleDTO;
   versions: Version[];
   articleLanguage: string;
-}
-
-export interface TaxNode extends Pick<Node, "resourceTypes" | "metadata" | "id" | "context"> {
-  placements: MinimalNodeChild[];
 }
 
 const contextToMinimalNodeChild = (

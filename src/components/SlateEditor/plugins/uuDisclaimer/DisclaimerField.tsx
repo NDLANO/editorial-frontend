@@ -45,7 +45,6 @@ export const DisclaimerField = ({ submitted, title, description, plugins }: Prop
               {...field}
               submitted={submitted}
               onChange={helpers.setValue}
-              hideBlockPicker
               plugins={plugins}
               renderInvalidElement={(props) => <UnsupportedElement {...props} />}
               noArticleStyling

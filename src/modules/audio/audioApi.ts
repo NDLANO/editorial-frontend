@@ -20,10 +20,10 @@ import {
   INewAudioMetaInformationDTO,
   UpdatedAudioMetaInformationDTO,
 } from "@ndla/types-backend/audio-api";
-import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 import { createFormData } from "../../util/formDataHelper";
+import { StringSort } from "../../interfaces";
 
 const client = createAuthClient<openapi.paths>();
 

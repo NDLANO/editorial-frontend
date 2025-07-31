@@ -16,7 +16,7 @@ import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { deleteLanguageVersionAudio, deleteLanguageVersionSeries } from "../../modules/audio/audioApi";
 import { deleteLanguageVersionConcept } from "../../modules/concept/conceptApi";
 import { deleteLanguageVersion as deleteLanguageVersionDraft } from "../../modules/draft/draftApi";
-import { filmQueryKeys } from "../../modules/frontpage/filmQueries";
+import { filmQueryKeys } from "../../modules/frontpage/filmQueryKeys";
 import {
   deleteFilmFrontPageLanguageVersion,
   deleteSubectPageLanguageVersion,

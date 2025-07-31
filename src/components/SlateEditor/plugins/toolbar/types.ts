@@ -6,11 +6,15 @@
  *
  */
 
-import { AreaFilters, CategoryFilters } from "./toolbarState";
+import { AreaFilters, CategoryFilters, ToolbarValue, ToolbarValues } from "./toolbarState";
 
 export const TOOLBAR_PLUGIN = "toolbar";
 
 export interface ToolbarPluginOptions {
   options?: CategoryFilters;
   areaOptions?: AreaFilters;
+}
+
+export interface ToolbarCategoryProps<T extends ToolbarValues> {
+  options: ToolbarValue<T>[];
 }

@@ -10,11 +10,8 @@ import { Formik, FormikHelpers } from "formik";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Descendant } from "slate";
 import { Button, PageContent } from "@ndla/primitives";
 import {
-  IAudioDTO,
-  IAuthorDTO,
   IAudioMetaInformationDTO,
   INewAudioMetaInformationDTO,
   IUpdatedAudioMetaInformationDTO,
@@ -30,6 +27,7 @@ import { FormActionsContainer, Form } from "../../../components/FormikForm";
 import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
 import SaveButton from "../../../components/SaveButton";
 import { SAVE_BUTTON_ID } from "../../../constants";
+import { AudioFormikType } from "../../../modules/audio/audioTypes";
 import { useLicenses } from "../../../modules/draft/draftQueries";
 import { editorValueToPlainText, inlineContentToHTML } from "../../../util/articleContentConverter";
 import { audioApiTypeToFormType } from "../../../util/audioHelpers";
@@ -37,29 +35,6 @@ import { DEFAULT_LICENSE, isFormikFormDirty } from "../../../util/formHelper";
 import { NewlyCreatedLocationState } from "../../../util/routeHelpers";
 import { AlertDialogWrapper } from "../../FormikForm";
 import { MessageError, useMessages } from "../../Messages/MessagesProvider";
-
-export interface AudioFormikType {
-  id?: number;
-  revision?: number;
-  language: string;
-  supportedLanguages: string[];
-  title: Descendant[];
-  manuscript: Descendant[];
-  audioFile: {
-    storedFile?: IAudioDTO;
-    newFile?: {
-      filepath: string;
-      file: File;
-    };
-  };
-  tags: string[];
-  creators: IAuthorDTO[];
-  processors: IAuthorDTO[];
-  rightsholders: IAuthorDTO[];
-  processed: boolean;
-  origin: string;
-  license: string;
-}
 
 const rules: RulesType<AudioFormikType, IAudioMetaInformationDTO> = {
   title: {

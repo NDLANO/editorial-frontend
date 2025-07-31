@@ -163,7 +163,6 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
           <ContentEditableFieldLabel srOnly>{t("form.comment.commentField")}</ContentEditableFieldLabel>
           <RichTextEditor
             value={field.value.content ?? []}
-            hideBlockPicker
             submitted={isSubmitting}
             plugins={plugins}
             onChange={setInputValue}

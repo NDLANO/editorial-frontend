@@ -16,9 +16,9 @@ import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCom
 import ListResource from "../../../components/Form/ListResource";
 import { getArticle } from "../../../modules/article/articleApi";
 import { useSearchResources } from "../../../modules/search/searchQueries";
-import { getUrnFromId, getIdFromUrn } from "../../../util/ndlaFilmHelpers";
 import { routes } from "../../../util/routeHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
+import { getIdFromUrn, getUrnFromId } from "../ndlaFilmHelpers";
 
 interface Props {
   fieldName: string;

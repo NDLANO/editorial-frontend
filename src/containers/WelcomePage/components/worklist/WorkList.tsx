@@ -30,20 +30,12 @@ import {
   useLocalStorageSubjectFilterState,
   useLocalStorageBooleanState,
 } from "../../hooks/storedFilterHooks";
+import { SortOptionConceptList, SortOptionWorkList } from "../../types";
 import { WelcomePageTabsContent } from "../WelcomePageTabsContent";
 
 interface Props {
   ndlaId: string;
 }
-export type SortOptionWorkList =
-  | "title"
-  | "responsibleLastUpdated"
-  | "status"
-  | "resourceType"
-  | "parentTopicName"
-  | "primaryRoot";
-
-export type SortOptionConceptList = "title" | "responsibleLastUpdated" | "status" | "subject" | "conceptType";
 
 const StyledTabsRoot = styled(TabsRoot, {
   base: {

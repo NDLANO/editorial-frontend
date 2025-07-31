@@ -12,7 +12,6 @@ import { useTranslation } from "react-i18next";
 import { FileListLine } from "@ndla/icons";
 import { Button, FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { IAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
-import { AudioFormikType } from "./AudioForm";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../components/Form/FieldWarning";
 import { FormField } from "../../../components/FormField";
@@ -40,6 +39,7 @@ import { AI_ACCESS_SCOPE } from "../../../constants";
 import { useSession } from "../../../containers/Session/SessionProvider";
 import { usePostAudioTranscriptionMutation } from "../../../modules/audio/audioMutations";
 import { useAudioTranscription } from "../../../modules/audio/audioQueries";
+import { AudioFormikType } from "../../../modules/audio/audioTypes";
 import { inlineContentToEditorValue } from "../../../util/articleContentConverter";
 import { useMessages } from "../../Messages/MessagesProvider";
 
@@ -179,7 +179,6 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
           <RichTextEditor
             {...field}
             editorId={MANUSCRIPT_EDITOR}
-            hideBlockPicker
             placeholder={t("podcastForm.fields.manuscript")}
             submitted={isSubmitting}
             plugins={plugins}

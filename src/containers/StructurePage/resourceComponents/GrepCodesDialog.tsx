@@ -25,7 +25,8 @@ import GrepCodesForm from "./GrepCodesForm";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { useUpdateDraftMutation } from "../../../modules/draft/draftMutations";
 import { draftQueryKeys } from "../../../modules/draft/draftQueries";
-import { NodeResourceMeta, nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
+import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
+import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 
 const { contentTypes } = constants;

@@ -26,9 +26,9 @@ import {
 } from "@ndla/primitives";
 import { ResourceType } from "@ndla/types-taxonomy";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
+import { ResourceWithNodeConnectionAndMeta } from "../../../modules/nodes/nodeApiTypes";
 import AddExistingResource from "../plannedResource/AddExistingResource";
 import PlannedResourceForm from "../plannedResource/PlannedResourceForm";
-import { ResourceWithNodeConnectionAndMeta } from "../resourceComponents/StructureResources";
 
 interface Props {
   currentNode: ResourceWithNodeConnectionAndMeta;

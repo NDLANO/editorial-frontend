@@ -12,9 +12,8 @@ import { getLocalTimeZone, parseAbsoluteToLocal, today } from "@internationalize
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IRevisionMetaDTO } from "@ndla/types-backend/draft-api";
-import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import { Dictionary } from "../../../interfaces";
-import { NodeResourceMeta } from "../../../modules/nodes/nodeQueries";
+import { NodeResourceMeta, ResourceWithNodeConnectionAndMeta } from "../../../modules/nodes/nodeApiTypes";
 import { getExpirationDate } from "../../ArticlePage/articleTransformers";
 
 const StyledIcon = styled("div", {

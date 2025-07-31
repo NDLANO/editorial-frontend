@@ -25,7 +25,7 @@ import Fade from "../../components/Taxonomy/Fade";
 import { iconRecipe, NodeItemRoot, NodeItemTitle, ToggleIcon } from "../../components/Taxonomy/NodeItem";
 import { TaxonomyNodeChild } from "../../components/Taxonomy/types";
 import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
-import { NodeChildWithChildren } from "../../modules/nodes/nodeQueries";
+import { NodeChildWithChildren } from "../../modules/nodes/nodeApiTypes";
 import { nodePathToUrnPath } from "../../util/taxonomyHelpers";
 import { useSession } from "../Session/SessionProvider";
 import StructureErrorIcon from "./folderComponents/StructureErrorIcon";

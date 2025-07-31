@@ -10,10 +10,10 @@ import parse from "html-react-parser";
 import { useMemo } from "react";
 import { transform } from "@ndla/article-converter";
 import { ArticleType, ContentType } from "@ndla/ui";
-import { FormArticle } from "./PreviewDraft";
 import config from "../../config";
 import { usePreviewArticle } from "../../modules/article/articleGqlQueries";
 import formatDate from "../../util/formatDate";
+import { FormArticle } from "./types";
 
 export const getUpdatedLanguage = (language: string | undefined) => (language === "nb" ? "no" : language);
 

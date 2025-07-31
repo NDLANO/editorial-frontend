@@ -10,8 +10,10 @@ import { CSSProperties } from "react";
 import { HTMLArkProps } from "@ark-ui/react";
 import { Text, TextProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { QualityEvaluationValue } from "../../../components/QualityEvaluation/QualityEvaluationForm";
-import { qualityEvaluationOptionColors } from "../../../components/QualityEvaluation/qualityEvaluationOptions";
+import {
+  qualityEvaluationOptionColors,
+  QualityEvaluationValue,
+} from "../../../components/QualityEvaluation/qualityEvaluationOptions";
 
 const GradeItem = styled(Text, {
   base: {

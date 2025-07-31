@@ -21,9 +21,9 @@ import ListResource from "../../../components/Form/ListResource";
 import { NDLA_FILM_SUBJECT } from "../../../constants";
 import { useMoviesQuery } from "../../../modules/frontpage/filmQueries";
 import { useSearchResources } from "../../../modules/search/searchQueries";
-import { getUrnFromId } from "../../../util/ndlaFilmHelpers";
 import { routes } from "../../../util/routeHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
+import { getUrnFromId } from "../ndlaFilmHelpers";
 
 const StyledList = styled("ul", {
   base: {

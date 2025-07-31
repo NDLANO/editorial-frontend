@@ -14,8 +14,7 @@ import {
   ITagsSearchResultDTO,
 } from "@ndla/types-backend/concept-api";
 import { fetchConcept, fetchSearchTags, fetchStatusStateMachine, postSearchConcepts } from "./conceptApi";
-import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
-import { ConceptStatusStateMachineType } from "../../interfaces";
+import { ConceptStatusStateMachineType, StringSort } from "../../interfaces";
 import { CONCEPT, CONCEPT_SEARCH_TAGS, CONCEPT_STATE_MACHINE, SEARCH_CONCEPTS } from "../../queryKeys";
 
 export interface UseConcept {

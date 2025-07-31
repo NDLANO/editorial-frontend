@@ -8,7 +8,7 @@
 
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { ListCheck, SearchContent, SearchMedia, VoiceprintLine } from "@ndla/icons";
 import { PageContent } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
@@ -92,27 +92,30 @@ export const SearchPageHeader = () => {
   const location = useLocation();
   const { t } = useTranslation();
   return (
-    <StyledPageContent variant="page" asChild consumeCss aria-label={t("searchForm.searchTypes")}>
-      <nav>
-        <StyledList>
-          {searchTypes.map((type) => {
-            const currentPage = type.url.startsWith(location.pathname);
-            return (
-              <ItemWrapper key={type.type}>
-                {type.icon}
-                <SafeLinkButton
-                  to={type.url}
-                  variant={currentPage ? "primary" : "secondary"}
-                  aria-current={currentPage}
-                  css={linkOverlay.raw()}
-                >
-                  {t(type.title)}
-                </SafeLinkButton>
-              </ItemWrapper>
-            );
-          })}
-        </StyledList>
-      </nav>
-    </StyledPageContent>
+    <>
+      <StyledPageContent variant="page" asChild consumeCss aria-label={t("searchForm.searchTypes")}>
+        <nav>
+          <StyledList>
+            {searchTypes.map((type) => {
+              const currentPage = type.url.startsWith(location.pathname);
+              return (
+                <ItemWrapper key={type.type}>
+                  {type.icon}
+                  <SafeLinkButton
+                    to={type.url}
+                    variant={currentPage ? "primary" : "secondary"}
+                    aria-current={currentPage}
+                    css={linkOverlay.raw()}
+                  >
+                    {t(type.title)}
+                  </SafeLinkButton>
+                </ItemWrapper>
+              );
+            })}
+          </StyledList>
+        </nav>
+      </StyledPageContent>
+      <Outlet />
+    </>
   );
 };

@@ -6,11 +6,19 @@
  *
  */
 
-import { createMemoryHistory } from "history";
 import { ElementType, ReactNode } from "react";
-import { Router } from "react-router-dom";
+import { MemoryRouter } from "react-router-dom";
 import { act, renderHook } from "@testing-library/react";
 import { getSessionStateFromLocalStorage, SessionProvider, useSession } from "../SessionProvider";
+
+const navigateMock = vi.fn();
+vi.mock("react-router-dom", async (original) => {
+  const actual: object = await original(); // get actual module
+  return {
+    ...actual,
+    useNavigate: () => navigateMock,
+  };
+});
 
 const authResult = {
   accessToken:
@@ -21,17 +29,15 @@ afterEach(() => {
   localStorage.clear();
 });
 
-const history = createMemoryHistory();
-
 interface Props {
   initialValue?: any;
 }
 
 const createWrapper = (Wrapper: ElementType, props: Props) => {
   return ({ children }: { children?: ReactNode }) => (
-    <Router location={history.location} navigator={history}>
+    <MemoryRouter>
       <Wrapper {...props}>{children}</Wrapper>
-    </Router>
+    </MemoryRouter>
   );
 };
 
@@ -57,17 +63,22 @@ describe("getSessionStateFromLocalStorage", () => {
 });
 
 describe("useSession", () => {
+  afterEach(() => {
+    navigateMock.mockClear();
+  });
+
+  afterAll(() => {
+    vi.clearAllMocks();
+  });
   test("correctly sets access token and access_token_personal on successful login", async () => {
-    const replaceSpy = vi.spyOn(history, "replace");
-    const expected = { hash: "", pathname: "/", search: "" };
     const { result } = renderHook(() => useSession(), {
       wrapper: createWrapper(SessionProvider, {}),
     });
     act(() => {
       result.current.login(authResult);
     });
-    expect(replaceSpy).toHaveBeenCalledTimes(1);
-    expect(replaceSpy).toHaveBeenCalledWith(expected, undefined);
+    expect(navigateMock).toHaveBeenCalledTimes(1);
+    expect(navigateMock).toHaveBeenCalledWith("/", { replace: true });
     expect(localStorage.getItem("access_token")).toEqual(authResult.accessToken);
     expect(localStorage.getItem("access_token_personal")).toEqual("true");
   });

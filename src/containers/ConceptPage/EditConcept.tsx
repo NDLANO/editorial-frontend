@@ -16,6 +16,7 @@ import { PageSpinner } from "../../components/PageSpinner";
 import { LocaleType } from "../../interfaces";
 import { useFetchConceptData } from "../FormikForm/formikConceptHooks";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const translateFields: TranslateType[] = [
   {
@@ -35,6 +36,8 @@ const translateFields: TranslateType[] = [
     type: "text",
   },
 ];
+
+export const Component = () => <PrivateRoute component={<EditConceptPage />} />;
 
 export const EditConceptPage = () => {
   return (
@@ -91,5 +94,3 @@ const EditConcept = () => {
     </>
   );
 };
-
-export default EditConcept;

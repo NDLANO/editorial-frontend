@@ -23,6 +23,7 @@ import { LocaleType } from "../../../interfaces";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 import NotFound from "../../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 
 const translateFields: TranslateType[] = [
   {
@@ -54,6 +55,8 @@ const translateFields: TranslateType[] = [
     type: "text",
   },
 ];
+
+export const Component = () => <PrivateRoute component={<EditFrontpageArticlePage />} />;
 
 export const EditFrontpageArticlePage = () => {
   return (
@@ -114,5 +117,3 @@ const EditFrontpageArticle = () => {
     </WideArticleEditorProvider>
   );
 };
-
-export default EditFrontpageArticle;

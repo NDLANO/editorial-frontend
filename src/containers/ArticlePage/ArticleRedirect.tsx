@@ -9,6 +9,9 @@
 import { useParams } from "react-router-dom";
 import { GenericResourceRedirect } from "../../components/GenericResourceRedirect";
 import { useDraft } from "../../modules/draft/draftQueries";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+
+export const Component = () => <PrivateRoute component={<ArticleRedirect />} />;
 
 export const ArticleRedirect = () => {
   const { id, selectedLanguage } = useParams<"id" | "selectedLanguage">();

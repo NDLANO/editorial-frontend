@@ -14,6 +14,9 @@ import TopicArticleForm from "./components/TopicArticleForm";
 import { convertUpdateToNewDraft } from "../../../util/articleUtil";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
+
+export const Component = () => <PrivateRoute component={<CreateTopicArticle />} />;
 
 const CreateTopicArticle = () => {
   const { t, i18n } = useTranslation();
@@ -42,5 +45,3 @@ const CreateTopicArticle = () => {
     </PageContent>
   );
 };
-
-export default CreateTopicArticle;

@@ -16,6 +16,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { SearchType } from "../../interfaces";
 import { toSearch } from "../../util/routeHelpers";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const StyledList = styled("ul", {
   base: {
@@ -87,6 +88,8 @@ const searchTypes: SearchObject[] = [
     icon: <ListCheck />,
   },
 ];
+
+export const Component = () => <PrivateRoute component={<SearchPageHeader />} />;
 
 export const SearchPageHeader = () => {
   const location = useLocation();

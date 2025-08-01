@@ -116,4 +116,4 @@ export const WelcomePage = () => {
   );
 };
 
-export default WelcomePage;
+export const Component = WelcomePage;

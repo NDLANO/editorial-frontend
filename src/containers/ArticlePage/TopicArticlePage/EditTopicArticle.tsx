@@ -23,6 +23,7 @@ import { useNodes } from "../../../modules/nodes/nodeQueries";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 import NotFound from "../../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 const translateFields: TranslateType[] = [
@@ -55,6 +56,8 @@ const translateFields: TranslateType[] = [
     type: "text",
   },
 ];
+
+export const Component = () => <PrivateRoute component={<EditTopicArticlePage />} />;
 
 export const EditTopicArticlePage = () => {
   return (
@@ -129,5 +132,3 @@ const EditTopicArticle = () => {
     </>
   );
 };
-
-export default EditTopicArticle;

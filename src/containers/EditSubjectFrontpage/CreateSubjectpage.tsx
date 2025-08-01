@@ -14,10 +14,13 @@ import SubjectpageForm from "./components/SubjectpageForm";
 import { LocaleType } from "../../interfaces";
 import { toEditSubjectpage } from "../../util/routeHelpers";
 import { useFetchSubjectpageData } from "../FormikForm/formikSubjectpageHooks";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 interface LocationState {
   elementName?: string;
 }
+
+export const Component = () => <PrivateRoute component={<CreateSubjectpage />} />;
 
 const CreateSubjectpage = () => {
   const { t } = useTranslation();
@@ -53,5 +56,3 @@ const CreateSubjectpage = () => {
     </PageContainer>
   );
 };
-
-export default CreateSubjectpage;

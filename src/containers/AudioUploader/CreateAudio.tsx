@@ -14,6 +14,9 @@ import AudioForm from "./components/AudioForm";
 import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { postAudio } from "../../modules/audio/audioApi";
 import { toEditAudio } from "../../util/routeHelpers";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+
+export const Component = () => <PrivateRoute component={<CreateAudioPage />} />;
 
 export const CreateAudioPage = () => {
   return (

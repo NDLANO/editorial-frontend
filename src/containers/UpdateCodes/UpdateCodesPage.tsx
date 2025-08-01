@@ -12,6 +12,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useMigrateCodes } from "../../modules/draft/draftMutations";
 import NotFound from "../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import { useSession } from "../Session/SessionProvider";
 
 const StyledPageContainer = styled(PageContainer, {
@@ -28,6 +29,8 @@ const Wrapper = styled("div", {
     gap: "small",
   },
 });
+
+export const Component = () => <PrivateRoute component={<UpdateCodesPage />} />;
 
 const UpdateCodesPage = () => {
   const { t } = useTranslation();
@@ -58,4 +61,3 @@ const UpdateCodesPage = () => {
     </StyledPageContainer>
   );
 };
-export default UpdateCodesPage;

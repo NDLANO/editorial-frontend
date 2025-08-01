@@ -41,6 +41,7 @@ import { toEditMarkup } from "../../util/routeHelpers";
 import { AlertDialogWrapper } from "../FormikForm";
 import { useMessages } from "../Messages/MessagesProvider";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import { getSessionStateFromLocalStorage } from "../Session/SessionProvider";
 
 const MonacoEditor = lazy(() => import("../../components/MonacoEditor"));
@@ -127,6 +128,8 @@ interface LocationState {
 }
 
 type Status = "initial" | "edit" | "fetch-error" | "access-error" | "saving" | "saved";
+
+export const Component = () => <PrivateRoute component={<EditMarkupPage />} />;
 
 const EditMarkupPage = () => {
   const { t } = useTranslation();
@@ -280,5 +283,3 @@ const EditMarkupPage = () => {
     </StyledPageContainer>
   );
 };
-
-export default EditMarkupPage;

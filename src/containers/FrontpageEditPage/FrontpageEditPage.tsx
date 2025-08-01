@@ -28,6 +28,7 @@ import { useFrontpage } from "../../modules/frontpage/frontpageQueries";
 import { toEditFrontPageArticle } from "../../util/routeHelpers";
 import { AlertDialogWrapper } from "../FormikForm";
 import NotFound from "../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import { useSession } from "../Session/SessionProvider";
 
 const FrontpageArticleWrapper = styled("div", {
@@ -63,6 +64,8 @@ const frontpageRules: RulesType<MenuWithArticle> = {
     required: true,
   },
 };
+
+export const Component = () => <PrivateRoute component={<FrontpageEditPage />} />;
 
 const FrontpageEditPage = () => {
   const { t } = useTranslation();
@@ -208,5 +211,3 @@ const RootFields = () => {
     </FrontpageArticleWrapper>
   );
 };
-
-export default FrontpageEditPage;

@@ -9,7 +9,10 @@
 import { useTranslation } from "react-i18next";
 import { CurrentNodeProvider } from "./CurrentNodeProvider";
 import StructureContainer from "./StructureContainer";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import { TaxonomyVersionProvider } from "../StructureVersion/TaxonomyVersionProvider";
+
+export const Component = () => <PrivateRoute component={<StructurePage />} />;
 
 const StructurePage = () => {
   const { t } = useTranslation();
@@ -22,5 +25,3 @@ const StructurePage = () => {
     </TaxonomyVersionProvider>
   );
 };
-
-export default StructurePage;

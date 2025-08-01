@@ -15,11 +15,14 @@ import ConceptForm from "./ConceptForm/ConceptForm";
 import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { toEditConcept } from "../../util/routeHelpers";
 import { useFetchConceptData } from "../FormikForm/formikConceptHooks";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 interface Props {
   inDialog?: boolean;
   addConceptInDialog?: (concept: IConceptDTO) => void;
 }
+
+export const Component = () => <PrivateRoute component={<CreateConceptPage />} />;
 
 export const CreateConceptPage = () => {
   return (
@@ -61,5 +64,3 @@ const CreateConcept = ({ inDialog = false, addConceptInDialog }: Props) => {
     </>
   );
 };
-
-export default CreateConcept;

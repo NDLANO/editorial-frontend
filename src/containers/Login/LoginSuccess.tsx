@@ -20,4 +20,5 @@ export const LoginSuccess = () => {
 
   return null;
 };
-export default LoginSuccess;
+
+export const Component = LoginSuccess;

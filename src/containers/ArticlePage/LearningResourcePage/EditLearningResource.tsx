@@ -25,6 +25,7 @@ import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 import NotFound from "../../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 const translateFields: TranslateType[] = [
@@ -61,6 +62,8 @@ const translateFields: TranslateType[] = [
     type: "html",
   },
 ];
+
+export const Component = () => <PrivateRoute component={<EditLearningResourcePage />} />;
 
 export const EditLearningResourcePage = () => {
   return (
@@ -135,5 +138,3 @@ const EditLearningResource = () => {
     </ContentTypeProvider>
   );
 };
-
-export default EditLearningResource;

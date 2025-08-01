@@ -14,6 +14,7 @@ import ImageForm from "./components/ImageForm";
 import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { postImage } from "../../modules/image/imageApi";
 import { toEditImage } from "../../util/routeHelpers";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 interface Props {
   editingArticle?: boolean;
@@ -21,6 +22,8 @@ interface Props {
   closeDialog?: () => void;
   inDialog?: boolean;
 }
+
+export const Component = () => <PrivateRoute component={<CreateImagePage />} />;
 
 export const CreateImagePage = () => {
   return (

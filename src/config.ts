@@ -88,11 +88,11 @@ const h5pApiUrl = (ndlaEnvironment: string) => {
 const getAuth0Hostname = (ndlaEnvironment: string) => {
   switch (ndlaEnvironment) {
     case "prod":
-      return "ndla.eu.auth0.com";
+      return "login.ndla.no";
     case "staging":
-      return "ndla-staging.eu.auth0.com";
+      return "login.staging.ndla.no";
     default:
-      return "ndla-test.eu.auth0.com";
+      return "login.test.ndla.no";
   }
 };
 
@@ -155,7 +155,6 @@ export type ConfigType = {
   ndlaApiUrl: string | undefined;
   ndlaBaseUrl: string;
   editorialFrontendDomain: string;
-  googleTagManagerId: string | undefined;
   ndlaFrontendDomain: string;
   auth0Domain: string;
   redirectPort: string | undefined;
@@ -223,7 +222,6 @@ const getServerSideConfig = (): ConfigType => {
     brightcoveUrl: "https://studio.brightcove.com/products/videocloud/home",
     h5pApiUrl: getEnvironmentVariabel("H5P_API_URL", h5pApiUrl(ndlaEnvironment)),
     localConverter: getEnvironmentVariabel("LOCAL_CONVERTER", "false") === "true",
-    googleTagManagerId: getEnvironmentVariabel("NDLA_GOOGLE_TAG_MANAGER_ID"),
     disableCSP: getEnvironmentVariabel("DISABLE_CSP", "false"),
     usernamePasswordEnabled: getEnvironmentVariabel(
       "USERNAME_PASSWORD_ENABLED",

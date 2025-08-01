@@ -165,6 +165,7 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
             {!!publishedTransformed.article && (
               <TransformedPreviewDraft
                 {...publishedTransformed}
+                key={`published-${diffEnable}`}
                 article={publishedTransformed.article}
                 draft={publishedTransformed.draft}
               />
@@ -177,6 +178,7 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
             {!!transformedWithDiff.article && (
               <TransformedPreviewDraft
                 {...transformedWithDiff}
+                key={`draft-${diffEnable}`}
                 article={transformedWithDiff.article}
                 draft={transformedWithDiff.draft}
               />

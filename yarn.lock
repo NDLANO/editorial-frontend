@@ -2009,13 +2009,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/article-converter@npm:^10.0.133-alpha.0":
-  version: 10.0.133-alpha.0
-  resolution: "@ndla/article-converter@npm:10.0.133-alpha.0"
+"@ndla/article-converter@npm:^10.0.134-alpha.0":
+  version: 10.0.134-alpha.0
+  resolution: "@ndla/article-converter@npm:10.0.134-alpha.0"
   dependencies:
     "@ndla/primitives": "npm:^1.0.93-alpha.0"
     "@ndla/safelink": "npm:^7.0.95-alpha.0"
-    "@ndla/ui": "npm:^56.0.130-alpha.0"
+    "@ndla/ui": "npm:^56.0.131-alpha.0"
     html-react-parser: "npm:^5.1.19"
   peerDependencies:
     i18next: ">= 24.2.2"
@@ -2023,7 +2023,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^15.4.1
     react-router-dom: ">= 6.0.0"
-  checksum: 10c0/9d58ddfac26a255f89fd0fc67dafe28223b0615ded74bc25f16aa4e5f77f4d8cbbec4bc9c5d2bdc435e90d6c1841939deb48b46ec5c4888d2ab655275116b83a
+  checksum: 10c0/51c1c7da526f573b1f744e54ec91d9c616fdc109cb1f4c3b9ea73e32c411ba9aaad8d81ce5d9d1718a207f685f6816ea803b21a451c0718c66d3f4ebeac4a01f
   languageName: node
   linkType: hard
 
@@ -2208,17 +2208,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/types-backend@npm:^1.0.54":
-  version: 1.0.54
-  resolution: "@ndla/types-backend@npm:1.0.54"
-  checksum: 10c0/fc1eb263c52f0aab81e16c755f89db6dfd3ec65bb166a2c87a4c956f2f0fb9f324a69847bc1e785715938ab0fe7b1c71a777cf0d70f12136453e6cf29f4851fa
+"@ndla/types-backend@npm:^1.0.55":
+  version: 1.0.55
+  resolution: "@ndla/types-backend@npm:1.0.55"
+  checksum: 10c0/6ab6f96035c2b8e88a42a28f066829e640304de6d4cd842e76ca698ca7c13c5b8fda5463969f8806d9335639dfdb6a1498b49d4ec7e25f4cc17fde891e9ea23c
   languageName: node
   linkType: hard
 
-"@ndla/types-embed@npm:^5.0.15-alpha.0":
-  version: 5.0.15-alpha.0
-  resolution: "@ndla/types-embed@npm:5.0.15-alpha.0"
-  checksum: 10c0/9a8d12024a896706f081d1bd8e13a040377df7681f5ff5eb87780bed5baec19aaef9c2c126c110ac88c79a0fd9bc129d4210402551e1afb72e32e6201361a9a7
+"@ndla/types-embed@npm:^5.0.16-alpha.0":
+  version: 5.0.16-alpha.0
+  resolution: "@ndla/types-embed@npm:5.0.16-alpha.0"
+  checksum: 10c0/6dc8bc46a15c83c519e98272124fd9710e30d30c7a438b6a954642251f77295df1e7ee75ca9a25c122d8870c3d8816a61b0e4e6c0c9ed7109761593022e058f9
   languageName: node
   linkType: hard
 
@@ -2229,9 +2229,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/ui@npm:^56.0.130-alpha.0":
-  version: 56.0.130-alpha.0
-  resolution: "@ndla/ui@npm:56.0.130-alpha.0"
+"@ndla/ui@npm:^56.0.131-alpha.0":
+  version: 56.0.131-alpha.0
+  resolution: "@ndla/ui@npm:56.0.131-alpha.0"
   dependencies:
     "@ark-ui/react": "npm:^5.14.1"
     "@ndla/core": "npm:^6.0.1-alpha.0"
@@ -2248,7 +2248,7 @@ __metadata:
     react-dom: ">= 18"
     react-i18next: ^15.4.1
     react-router-dom: ">= 6.0.0"
-  checksum: 10c0/3c1a220ada20c27e9449bf44f791b0404e3cc111c8f66d918ff6016c94f40674321a1810572918bb974f00fdb5fe685d36d27c27b6ee8b9a638af0f2e191b291
+  checksum: 10c0/7525dc96b9d411c997d890956d0da123a21f32238fa3dfa9d5b4cd26b40233d89da8c7ec6a8885cd16570b489ea98f8e19205854669b8d6f4afd247fd56cc2b7
   languageName: node
   linkType: hard
 
@@ -2261,9 +2261,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/video-search@npm:^8.0.107-alpha.0":
-  version: 8.0.107-alpha.0
-  resolution: "@ndla/video-search@npm:8.0.107-alpha.0"
+"@ndla/video-search@npm:^8.0.108-alpha.0":
+  version: 8.0.108-alpha.0
+  resolution: "@ndla/video-search@npm:8.0.108-alpha.0"
   dependencies:
     "@ndla/icons": "npm:^8.0.61-alpha.0"
     "@ndla/licenses": "npm:^9.0.3"
@@ -2272,7 +2272,7 @@ __metadata:
   peerDependencies:
     react: ">= 18"
     react-dom: ">= 18"
-  checksum: 10c0/9de9a31bd696562ee4665566ff3600969e3fd9e1b3c763f6fa597e89281b7f29ee8c315867a7f99e935401224d3eba787665e49c540837daf830040a15021a62
+  checksum: 10c0/d2f41f08e704a7f58281bee531acba5b555778d689748b7432960d76d62f1160e6d558256d862c6a900261d7921873a100fb86e7932cf1b790a5c9ebfadb04c0
   languageName: node
   linkType: hard
 
@@ -6647,7 +6647,7 @@ __metadata:
     "@fontsource/source-sans-pro": "npm:^4.5.9"
     "@fontsource/source-serif-pro": "npm:^4.5.7"
     "@internationalized/date": "npm:3.8.2"
-    "@ndla/article-converter": "npm:^10.0.133-alpha.0"
+    "@ndla/article-converter": "npm:^10.0.134-alpha.0"
     "@ndla/audio-search": "npm:^7.0.105-alpha.0"
     "@ndla/editor": "npm:^0.0.29"
     "@ndla/editor-components": "npm:^0.0.41"
@@ -6661,12 +6661,12 @@ __metadata:
     "@ndla/safelink": "npm:^7.0.95-alpha.0"
     "@ndla/scripts": "npm:^3.0.3"
     "@ndla/styled-system": "npm:^0.0.35"
-    "@ndla/types-backend": "npm:^1.0.54"
-    "@ndla/types-embed": "npm:^5.0.15-alpha.0"
+    "@ndla/types-backend": "npm:^1.0.55"
+    "@ndla/types-embed": "npm:^5.0.16-alpha.0"
     "@ndla/types-taxonomy": "npm:^1.0.34"
-    "@ndla/ui": "npm:^56.0.130-alpha.0"
+    "@ndla/ui": "npm:^56.0.131-alpha.0"
     "@ndla/util": "npm:^5.0.9-alpha.0"
-    "@ndla/video-search": "npm:^8.0.107-alpha.0"
+    "@ndla/video-search": "npm:^8.0.108-alpha.0"
     "@pandacss/dev": "npm:^0.53.6"
     "@playwright/test": "npm:^1.49.1"
     "@tanstack/react-query": "npm:5.79.0"

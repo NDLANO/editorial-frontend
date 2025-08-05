@@ -6,7 +6,7 @@
  *
  */
 
-import { useField } from "formik";
+import { useField, useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IConceptDTO } from "@ndla/types-backend/concept-api";
@@ -42,6 +42,7 @@ export const ConceptFormHeader = ({ concept, language, initialTitle, type }: Pro
   // true by default to disable language deletions until connections are retrieved.
   const [hasConnections, setHasConnections] = useState(true);
   const [articles, setArticles] = useState<IMultiSearchSummaryDTO[]>([]);
+  const { isSubmitting } = useFormikContext();
 
   const statusText = concept?.status?.current ? t(`form.status.${concept?.status.current.toLowerCase()}`) : "";
   const published = concept?.status?.current === "PUBLISHED" || concept?.status?.other?.includes("PUBLISHED");
@@ -89,6 +90,7 @@ export const ConceptFormHeader = ({ concept, language, initialTitle, type }: Pro
           noStatus={false}
           concept={concept}
           isNewLanguage={isNewLanguage}
+          isSubmitting={isSubmitting}
           type={type}
         />
       ) : (

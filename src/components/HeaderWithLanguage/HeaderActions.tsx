@@ -6,7 +6,6 @@
  *
  */
 
-import { useFormikContext } from "formik";
 import { memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ArrowRightShortLine, ShareBoxLine, EyeFill } from "@ndla/icons";
@@ -94,6 +93,7 @@ interface Props {
   disableDelete: boolean;
   language: string;
   type: keyof typeof toMapping;
+  isSubmitting?: boolean;
   supportedLanguages?: string[];
 }
 
@@ -107,10 +107,10 @@ const HeaderActions = ({
   article,
   articleRevisionHistory,
   concept,
+  isSubmitting,
   supportedLanguages = [],
 }: Props) => {
   const { t } = useTranslation();
-  const { isSubmitting } = useFormikContext();
   const showTranslate = useIsTranslatableToNN();
 
   const editUrl = useCallback(

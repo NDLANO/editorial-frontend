@@ -6,6 +6,7 @@
  *
  */
 
+import { useFormikContext } from "formik";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { ArticleRevisionHistoryDTO, IArticleDTO, IStatusDTO } from "@ndla/types-backend/draft-api";
@@ -44,6 +45,7 @@ const HeaderWithLanguage = ({
   title,
 }: Props) => {
   const { t } = useTranslation();
+  const { isSubmitting } = useFormikContext();
 
   const isNewLanguage = !!id && !supportedLanguages.includes(language);
   const statusText = status?.current ? t(`form.status.${status.current.toLowerCase()}`) : "";
@@ -73,6 +75,7 @@ const HeaderWithLanguage = ({
           disableDelete={supportedLanguages.length === 1}
           article={article}
           noStatus={noStatus}
+          isSubmitting={isSubmitting}
           isNewLanguage={isNewLanguage}
           type={type}
         />

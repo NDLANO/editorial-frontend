@@ -6,6 +6,7 @@
  *
  */
 
+import { useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
@@ -33,6 +34,7 @@ export const ImageFormHeader = ({ image, language }: Props) => {
   const { t } = useTranslation();
   const isNewLanguage = !!image?.id && !image.supportedLanguages.includes(language);
   const parsedId = image?.id ? parseInt(image.id) : undefined;
+  const { isSubmitting } = useFormikContext();
 
   // true by default to disable language deletions until connections are retrieved.
   const [hasConnections, setHasConnections] = useState(true);
@@ -74,6 +76,7 @@ export const ImageFormHeader = ({ image, language }: Props) => {
           disableDelete={!!hasConnections && image.supportedLanguages.length === 1}
           noStatus
           isNewLanguage={isNewLanguage}
+          isSubmitting={isSubmitting}
           type="image"
         />
       ) : (

@@ -6,6 +6,7 @@
  *
  */
 
+import { useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
@@ -35,6 +36,7 @@ export const AudioFormHeader = ({ audio, language }: Props) => {
   const [articles, setArticles] = useState<IMultiSearchSummaryDTO[]>([]);
   const [concepts, setConcepts] = useState<IConceptSummaryDTO[]>([]);
   const isNewLanguage = !!audio?.id && !audio?.supportedLanguages.includes(language);
+  const { isSubmitting } = useFormikContext();
 
   useEffect(() => {
     setHasConnections(!!articles.length || !!concepts.length);
@@ -68,6 +70,7 @@ export const AudioFormHeader = ({ audio, language }: Props) => {
           disableDelete={!!hasConnections && audio.supportedLanguages.length === 1}
           noStatus
           isNewLanguage={isNewLanguage}
+          isSubmitting={isSubmitting}
           type="audio"
         />
       ) : (

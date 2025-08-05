@@ -6,6 +6,7 @@
  *
  */
 
+import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 import { RssLine } from "@ndla/icons";
 import { SafeLinkIconButton } from "@ndla/safelink";
@@ -23,6 +24,7 @@ interface Props {
 
 export const PodcastSeriesFormHeader = ({ series, language }: Props) => {
   const { t } = useTranslation();
+  const { isSubmitting } = useFormikContext();
   const isNewLanguage = !!series?.id && !series.supportedLanguages.includes(language);
   return (
     <header>
@@ -53,6 +55,7 @@ export const PodcastSeriesFormHeader = ({ series, language }: Props) => {
           disableDelete={false}
           noStatus
           isNewLanguage={isNewLanguage}
+          isSubmitting={isSubmitting}
           type="podcast-series"
         />
       ) : (

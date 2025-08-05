@@ -14,14 +14,16 @@ import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ContentTypeBadge } from "@ndla/ui";
-import HeaderActions from "../../../components/HeaderWithLanguage/HeaderActions";
+import DeleteLanguageVersion from "../../../components/HeaderWithLanguage/DeleteLanguageVersion";
 import { HeaderCurrentLanguagePill } from "../../../components/HeaderWithLanguage/HeaderCurrentLanguagePill";
 import HeaderFavoriteStatus from "../../../components/HeaderWithLanguage/HeaderFavoriteStatus";
+import HeaderSupportedLanguages from "../../../components/HeaderWithLanguage/HeaderSupportedLanguages";
 import { ResourcePublishedLink } from "../../../components/HeaderWithLanguage/ResourcePublishedLink";
 import { PUBLISHED } from "../../../constants";
+import { useAuth0Users } from "../../../modules/auth0/auth0Queries";
 import { usePostCopyLearningpathMutation } from "../../../modules/learningpath/learningpathMutations";
 import { useNodes } from "../../../modules/nodes/nodeQueries";
-import { routes } from "../../../util/routeHelpers";
+import { routes, toLearningpath } from "../../../util/routeHelpers";
 import {
   FormHeaderHeading,
   FormHeaderHeadingContainer,
@@ -45,6 +47,26 @@ const StyledErrorWarningFill = styled(ErrorWarningFill, {
   },
 });
 
+const StyledWrapper = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    width: "100%",
+    flexWrap: "wrap",
+    alignItems: "center",
+    gap: "3xsmall",
+  },
+});
+
+const StyledGroup = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    flexWrap: "wrap",
+    gap: "3xsmall",
+  },
+});
+
 export const LearningpathFormHeader = ({ learningpath, language, enableClone }: Props) => {
   const { t } = useTranslation();
   const isNewLanguage = !!learningpath?.id && !learningpath.supportedLanguages.includes(language);
@@ -52,6 +74,10 @@ export const LearningpathFormHeader = ({ learningpath, language, enableClone }: 
   const navigate = useNavigate();
   const { createMessage } = useMessages();
   const { taxonomyVersion } = useTaxonomyVersion();
+  const responsibleQuery = useAuth0Users(
+    { uniqueUserIds: learningpath?.responsible?.responsibleId ?? "" },
+    { enabled: !!learningpath?.responsible?.responsibleId },
+  );
   // TODO: I don't know all of the learningpath statuses. We need to ensure we have translations for all of them.
   const statusText = learningpath?.status ? t(`form.status.${learningpath.status.toLowerCase()}`) : "";
 
@@ -113,26 +139,34 @@ export const LearningpathFormHeader = ({ learningpath, language, enableClone }: 
           )}
           <HeaderFavoriteStatus id={learningpath?.id} type="learningpath" />
           <div>
-            {/* TODO: Add responsible here when supported */}
-            <FormHeaderResponsibleInfo responsibleName={undefined} />
+            <FormHeaderResponsibleInfo responsibleName={responsibleQuery.data?.[0]?.name} />
             <FormHeaderStatusInfo isNewLanguage={isNewLanguage} statusText={statusText} />
           </div>
         </FormHeaderStatusWrapper>
       </FormHeaderSegment>
-      {learningpath?.id ? (
-        <HeaderActions
-          id={learningpath.id}
-          articleRevisionHistory={undefined}
-          language={language}
-          supportedLanguages={learningpath.supportedLanguages}
-          disableDelete={learningpath.supportedLanguages.length === 1}
-          noStatus
-          isNewLanguage={isNewLanguage}
-          type="learningpath"
-        />
-      ) : (
-        <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
-      )}
+      <StyledWrapper>
+        {learningpath?.id ? (
+          <StyledGroup>
+            <HeaderSupportedLanguages
+              id={learningpath.id}
+              editUrl={toLearningpath}
+              language={language}
+              supportedLanguages={learningpath.supportedLanguages}
+            />
+          </StyledGroup>
+        ) : (
+          <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
+        )}
+        {!!learningpath?.id && (
+          <DeleteLanguageVersion
+            id={learningpath.id}
+            language={language}
+            supportedLanguages={learningpath.supportedLanguages}
+            type="learningpath"
+            disabled={learningpath.supportedLanguages.length === 1}
+          />
+        )}
+      </StyledWrapper>
     </header>
   );
 };

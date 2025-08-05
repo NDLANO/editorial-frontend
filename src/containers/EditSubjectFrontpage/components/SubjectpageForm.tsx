@@ -180,6 +180,7 @@ const SubjectpageForm = ({
               articleType={values.articleType!}
               editUrl={(_, lang: string) => toEditSubjectpage(values.elementId!, lang, values.id)}
               id={values.id!}
+              isSubmitting={isSubmitting}
               language={values.language}
               supportedLanguages={values.supportedLanguages!}
               title={values.name ?? ""}

@@ -14,6 +14,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ArticleWrapper } from "@ndla/ui";
 import PreviewDraft from "../../components/PreviewDraft/PreviewDraft";
 import { useDraft } from "../../modules/draft/draftQueries";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const TwoArticleWrapper = styled("div", {
   base: {
@@ -38,6 +39,8 @@ const PreviewTitleWrapper = styled("div", {
     position: "relative",
   },
 });
+
+export const Component = () => <PrivateRoute component={<ComparePage />} />;
 
 const ComparePage = () => {
   const { t } = useTranslation();
@@ -107,5 +110,3 @@ const ComparePage = () => {
     </>
   );
 };
-
-export default ComparePage;

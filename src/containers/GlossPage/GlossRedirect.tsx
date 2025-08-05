@@ -9,6 +9,9 @@
 import { useParams } from "react-router-dom";
 import { GenericResourceRedirect } from "../../components/GenericResourceRedirect";
 import { useConcept } from "../../modules/concept/conceptQueries";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+
+export const Component = () => <PrivateRoute component={<GlossRedirect />} />;
 
 export const GlossRedirect = () => {
   const { id, selectedLanguage } = useParams<"id" | "selectedLanguage">();

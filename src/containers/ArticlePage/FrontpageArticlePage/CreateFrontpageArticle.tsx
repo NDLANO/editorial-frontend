@@ -15,6 +15,9 @@ import { WideArticleEditorProvider } from "../../../components/WideArticleEditor
 import { convertUpdateToNewDraft } from "../../../util/articleUtil";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
+
+export const Component = () => <PrivateRoute component={<CreateFrontpageArticle />} />;
 
 const CreateFrontpageArticle = () => {
   const { t, i18n } = useTranslation();
@@ -45,5 +48,3 @@ const CreateFrontpageArticle = () => {
     </WideArticleEditorProvider>
   );
 };
-
-export default CreateFrontpageArticle;

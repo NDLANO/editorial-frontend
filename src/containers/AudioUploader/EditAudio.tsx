@@ -16,12 +16,15 @@ import { PageSpinner } from "../../components/PageSpinner";
 import { fetchAudio, updateAudio } from "../../modules/audio/audioApi";
 import { toEditPodcast } from "../../util/routeHelpers";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const translateFields: TranslateType[] = [
   { field: "manuscript.manuscript", type: "text" },
   { field: "title.title", type: "text" },
   { field: "tags.tags", type: "text" },
 ];
+
+export const Component = () => <PrivateRoute component={<EditAudioPage />} />;
 
 export const EditAudioPage = () => {
   return (

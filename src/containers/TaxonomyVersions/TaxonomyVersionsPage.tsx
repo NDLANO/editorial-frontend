@@ -15,6 +15,7 @@ import { Version } from "@ndla/types-taxonomy";
 import UIVersion from "./components/Version";
 import VersionForm from "./components/VersionForm";
 import { useVersions } from "../../modules/taxonomy/versions/versionQueries";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const NewFormWrapper = styled("div", {
   base: {
@@ -66,6 +67,8 @@ const getPublishedAndOther = (versions: Version[]): { published: Version | undef
   };
 };
 
+export const Component = () => <PrivateRoute component={<TaxonomyVersionsPage />} />;
+
 const TaxonomyVersionsPage = () => {
   const [showNewForm, setShowNewForm] = useState(false);
   const { data } = useVersions();
@@ -109,5 +112,3 @@ const TaxonomyVersionsPage = () => {
     </StyledPageContainer>
   );
 };
-
-export default TaxonomyVersionsPage;

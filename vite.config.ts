@@ -6,7 +6,7 @@
  *
  */
 
-import { defineConfig, splitVendorChunkPlugin } from "vite";
+import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig(() => {
@@ -17,7 +17,7 @@ export default defineConfig(() => {
       globals: true,
       setupFiles: "./src/__tests__/vitest.setup.ts",
     },
-    plugins: [react(), splitVendorChunkPlugin()],
+    plugins: [react()],
     resolve: {
       dedupe: ["react-router", "react-router-dom", "react-helmet-async", "i18next", "react-i18next"],
     },

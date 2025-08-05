@@ -11,6 +11,9 @@ import { Spinner } from "@ndla/primitives";
 import { useDraft } from "../../modules/draft/draftQueries";
 import { toEditArticle } from "../../util/routeHelpers";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+
+export const Component = () => <PrivateRoute component={<GenericArticleRedirect />} />;
 
 export const GenericArticleRedirect = () => {
   const { id } = useParams<"id">();

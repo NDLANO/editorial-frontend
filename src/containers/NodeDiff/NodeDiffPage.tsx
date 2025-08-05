@@ -12,12 +12,15 @@ import { Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import DiffOptions from "./DiffOptions";
 import NodeDiffcontainer from "./NodeDiffContainer";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const StyledPageContainer = styled(PageContainer, {
   base: {
     gap: "medium",
   },
 });
+
+export const Component = () => <PrivateRoute component={<NodeDiffPage />} />;
 
 const NodeDiffPage = () => {
   const { nodeId } = useParams();
@@ -43,4 +46,3 @@ const NodeDiffPage = () => {
     </StyledPageContainer>
   );
 };
-export default NodeDiffPage;

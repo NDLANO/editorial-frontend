@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { fetchH5PiframeUrl } from "./H5PElement/h5pApi";
+import PrivateRoute from "../containers/PrivateRoute/PrivateRoute";
 import { routes } from "../util/routeHelpers";
 
 const PageLayout = styled("div", {
@@ -22,6 +23,8 @@ const PageLayout = styled("div", {
     justifyContent: "center",
   },
 });
+
+export const Component = () => <PrivateRoute component={<H5pRedirect />} />;
 
 const H5pRedirect = () => {
   const {
@@ -41,5 +44,3 @@ const H5pRedirect = () => {
     </PageLayout>
   );
 };
-
-export default H5pRedirect;

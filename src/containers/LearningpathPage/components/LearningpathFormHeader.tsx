@@ -8,7 +8,7 @@
 
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ErrorWarningFill } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -23,7 +23,7 @@ import { PUBLISHED } from "../../../constants";
 import { useAuth0Users } from "../../../modules/auth0/auth0Queries";
 import { usePostCopyLearningpathMutation } from "../../../modules/learningpath/learningpathMutations";
 import { useNodes } from "../../../modules/nodes/nodeQueries";
-import { routes, toLearningpath } from "../../../util/routeHelpers";
+import { CreatingLanguageLocationState, routes, toLearningpath } from "../../../util/routeHelpers";
 import {
   FormHeaderHeading,
   FormHeaderHeadingContainer,
@@ -72,6 +72,7 @@ export const LearningpathFormHeader = ({ learningpath, language, enableClone }: 
   const isNewLanguage = !!learningpath?.id && !learningpath.supportedLanguages.includes(language);
   const cloneLearningpathMutation = usePostCopyLearningpathMutation();
   const navigate = useNavigate();
+  const location = useLocation();
   const { createMessage } = useMessages();
   const { taxonomyVersion } = useTaxonomyVersion();
   const responsibleQuery = useAuth0Users(
@@ -145,7 +146,7 @@ export const LearningpathFormHeader = ({ learningpath, language, enableClone }: 
         </FormHeaderStatusWrapper>
       </FormHeaderSegment>
       <StyledWrapper>
-        {learningpath?.id ? (
+        {!!learningpath?.id && (
           <StyledGroup>
             <HeaderSupportedLanguages
               id={learningpath.id}
@@ -153,9 +154,10 @@ export const LearningpathFormHeader = ({ learningpath, language, enableClone }: 
               language={language}
               supportedLanguages={learningpath.supportedLanguages}
             />
+            {!!(location.state as CreatingLanguageLocationState)?.isCreatingLanguage && (
+              <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
+            )}
           </StyledGroup>
-        ) : (
-          <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
         )}
         {!!learningpath?.id && (
           <DeleteLanguageVersion

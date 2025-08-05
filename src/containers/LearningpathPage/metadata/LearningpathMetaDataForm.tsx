@@ -24,6 +24,7 @@ import {
   Heading,
   Input,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import {
   ILearningPathV2DTO,
   INewLearningPathV2DTO,
@@ -37,13 +38,14 @@ import { SearchTagsTagSelectorInput } from "../../../components/Form/SearchTagsT
 import { FormField } from "../../../components/FormField";
 import { Form, FormActionsContainer, FormContent } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
+import LanguagePicker from "../../../components/HeaderWithLanguage/HeaderLanguagePicker";
 import SaveMultiButton from "../../../components/SaveMultiButton";
 import {
   usePatchLearningpathMutation,
   usePostLearningpathMutation,
 } from "../../../modules/learningpath/learningpathMutations";
 import { useLearningpathTags } from "../../../modules/learningpath/learningpathQueries";
-import { routes } from "../../../util/routeHelpers";
+import { routes, toLearningpath } from "../../../util/routeHelpers";
 import useDebounce from "../../../util/useDebounce";
 import { AlertDialogWrapper } from "../../FormikForm";
 import { PreventWindowUnload } from "../../FormikForm/PreventWindowUnload";
@@ -117,6 +119,14 @@ const metaDataRules: RulesType<LearningpathMetaDataFormValues, ILearningPathV2DT
   },
 };
 
+const HeadingWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    justifyContent: "space-between",
+  },
+});
+
 export const LearningpathMetaDataForm = ({ learningpath, language }: Props) => {
   const [savedToServer, setSavedToServer] = useState(false);
   const [inputQuery, setInputQuery] = useState<string>("");
@@ -128,6 +138,29 @@ export const LearningpathMetaDataForm = ({ learningpath, language }: Props) => {
   const initialErrors = useMemo(() => validateFormik(initialValues, metaDataRules, t), [initialValues, t]);
   const navigate = useNavigate();
   const tagSelectorTranslations = useTagSelectorTranslations();
+
+  const languages = useMemo(() => {
+    return [
+      { key: "nn", title: t("languages.nn"), include: true },
+      { key: "en", title: t("languages.en"), include: true },
+      { key: "nb", title: t("languages.nb"), include: true },
+      { key: "sma", title: t("languages.sma"), include: true },
+      { key: "se", title: t("languages.se"), include: true },
+      { key: "und", title: t("languages.und"), include: false },
+      { key: "de", title: t("languages.de"), include: true },
+      { key: "es", title: t("languages.es"), include: true },
+      { key: "zh", title: t("languages.zh"), include: true },
+      { key: "ukr", title: t("languages.ukr"), include: true },
+    ];
+  }, [t]);
+
+  const emptyLanguages = useMemo(
+    () =>
+      languages.filter(
+        (lang) => lang.key !== language && !learningpath?.supportedLanguages.includes(lang.key) && lang.include,
+      ),
+    [language, languages, learningpath],
+  );
 
   const tagsQuery = useLearningpathTags();
 
@@ -176,9 +209,14 @@ export const LearningpathMetaDataForm = ({ learningpath, language }: Props) => {
             {!!learningpath && <LearningpathEnableClone />}
             <PreventWindowUnload preventUnload={formIsDirty} />
             {!learningpath && <LearningpathFormHeader learningpath={learningpath} language={language} />}
-            <Heading asChild consumeCss>
-              <h2>{t("learningpathForm.metadata.heading")}</h2>
-            </Heading>
+            <HeadingWrapper>
+              <Heading asChild consumeCss>
+                <h2>{t("learningpathForm.metadata.heading")}</h2>
+              </Heading>
+              {!!learningpath && (
+                <LanguagePicker id={learningpath.id} editUrl={toLearningpath} emptyLanguages={emptyLanguages} />
+              )}
+            </HeadingWrapper>
             <FormContent>
               <FormField name="title">
                 {({ field, meta }) => (

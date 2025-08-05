@@ -34,7 +34,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
+import { IUpdatedArticleDTO, Priority } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import PlannedResourceSelect from "./PlannedResourceSelect";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
@@ -74,7 +74,7 @@ interface PlannedResourceFormikType {
   responsible: string;
   articleType: string;
   relevance: string;
-  priority: string;
+  priority: Priority;
 }
 
 const StyledFormikForm = styled(FormikForm, {

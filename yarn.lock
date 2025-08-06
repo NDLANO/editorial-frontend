@@ -2009,13 +2009,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/article-converter@npm:^10.0.134-alpha.0":
-  version: 10.0.134-alpha.0
-  resolution: "@ndla/article-converter@npm:10.0.134-alpha.0"
+"@ndla/article-converter@npm:^10.0.135-alpha.0":
+  version: 10.0.135-alpha.0
+  resolution: "@ndla/article-converter@npm:10.0.135-alpha.0"
   dependencies:
     "@ndla/primitives": "npm:^1.0.93-alpha.0"
     "@ndla/safelink": "npm:^7.0.95-alpha.0"
-    "@ndla/ui": "npm:^56.0.131-alpha.0"
+    "@ndla/ui": "npm:^56.0.132-alpha.0"
     html-react-parser: "npm:^5.1.19"
   peerDependencies:
     i18next: ">= 24.2.2"
@@ -2023,7 +2023,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^15.4.1
     react-router-dom: ">= 6.0.0"
-  checksum: 10c0/51c1c7da526f573b1f744e54ec91d9c616fdc109cb1f4c3b9ea73e32c411ba9aaad8d81ce5d9d1718a207f685f6816ea803b21a451c0718c66d3f4ebeac4a01f
+  checksum: 10c0/77e0ff1a7b17214ea70c0c484ca8bbb5dae66dcb865476b44470e988037eae3d5a919ea2b8479254d388485b6250ad408d1c9d1eb9750a12dfe7db5e2d3891df
   languageName: node
   linkType: hard
 
@@ -2229,9 +2229,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/ui@npm:^56.0.131-alpha.0":
-  version: 56.0.131-alpha.0
-  resolution: "@ndla/ui@npm:56.0.131-alpha.0"
+"@ndla/ui@npm:^56.0.132-alpha.0":
+  version: 56.0.132-alpha.0
+  resolution: "@ndla/ui@npm:56.0.132-alpha.0"
   dependencies:
     "@ark-ui/react": "npm:^5.14.1"
     "@ndla/core": "npm:^6.0.1-alpha.0"
@@ -2248,7 +2248,7 @@ __metadata:
     react-dom: ">= 18"
     react-i18next: ^15.4.1
     react-router-dom: ">= 6.0.0"
-  checksum: 10c0/7525dc96b9d411c997d890956d0da123a21f32238fa3dfa9d5b4cd26b40233d89da8c7ec6a8885cd16570b489ea98f8e19205854669b8d6f4afd247fd56cc2b7
+  checksum: 10c0/1abff15177a15c097b704a8725dd149358ea8074fcd2df03888f09adcd805e32674ee45f4727e9ecd21866cfe20962f444fd29497899d0155f6b96e86714b8b5
   languageName: node
   linkType: hard
 
@@ -6647,7 +6647,7 @@ __metadata:
     "@fontsource/source-sans-pro": "npm:^4.5.9"
     "@fontsource/source-serif-pro": "npm:^4.5.7"
     "@internationalized/date": "npm:3.8.2"
-    "@ndla/article-converter": "npm:^10.0.134-alpha.0"
+    "@ndla/article-converter": "npm:^10.0.135-alpha.0"
     "@ndla/audio-search": "npm:^7.0.105-alpha.0"
     "@ndla/editor": "npm:^0.0.29"
     "@ndla/editor-components": "npm:^0.0.41"
@@ -6664,7 +6664,7 @@ __metadata:
     "@ndla/types-backend": "npm:^1.0.59"
     "@ndla/types-embed": "npm:^5.0.16-alpha.0"
     "@ndla/types-taxonomy": "npm:^1.0.34"
-    "@ndla/ui": "npm:^56.0.131-alpha.0"
+    "@ndla/ui": "npm:^56.0.132-alpha.0"
     "@ndla/util": "npm:^5.0.9-alpha.0"
     "@ndla/video-search": "npm:^8.0.108-alpha.0"
     "@pandacss/dev": "npm:^0.53.6"

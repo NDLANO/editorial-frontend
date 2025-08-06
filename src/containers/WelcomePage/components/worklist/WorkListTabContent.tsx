@@ -106,8 +106,8 @@ const WorkListTabContent = ({
               data: (
                 <CellWrapper>
                   <ArrowUpDoubleLine
-                    aria-hidden={!res?.prioritized}
-                    visibility={!res?.prioritized ? "hidden" : "visible"}
+                    aria-hidden={res?.priority !== "prioritized"}
+                    visibility={res?.priority !== "prioritized" ? "hidden" : "visible"}
                     aria-label={t("editorFooter.prioritized")}
                     title={t("editorFooter.prioritized")}
                     size="small"

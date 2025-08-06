@@ -2208,10 +2208,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/types-backend@npm:^1.0.55":
-  version: 1.0.55
-  resolution: "@ndla/types-backend@npm:1.0.55"
-  checksum: 10c0/6ab6f96035c2b8e88a42a28f066829e640304de6d4cd842e76ca698ca7c13c5b8fda5463969f8806d9335639dfdb6a1498b49d4ec7e25f4cc17fde891e9ea23c
+"@ndla/types-backend@npm:^1.0.59":
+  version: 1.0.59
+  resolution: "@ndla/types-backend@npm:1.0.59"
+  checksum: 10c0/9e492bd7773242bbabcfb6828fdc798a735b758c7f2faef1b1754ab731545e8e09c5d08416f9c225f9c7b35c3fbd0e78b3b5257dd84d0492dd08a73095b18f63
   languageName: node
   linkType: hard
 
@@ -6661,7 +6661,7 @@ __metadata:
     "@ndla/safelink": "npm:^7.0.95-alpha.0"
     "@ndla/scripts": "npm:^3.0.3"
     "@ndla/styled-system": "npm:^0.0.35"
-    "@ndla/types-backend": "npm:^1.0.55"
+    "@ndla/types-backend": "npm:^1.0.59"
     "@ndla/types-embed": "npm:^5.0.16-alpha.0"
     "@ndla/types-taxonomy": "npm:^1.0.34"
     "@ndla/ui": "npm:^56.0.131-alpha.0"

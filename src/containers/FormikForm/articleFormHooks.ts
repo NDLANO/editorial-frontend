@@ -19,6 +19,7 @@ import {
   IAuthorDTO,
   ICommentDTO,
   ArticleRevisionHistoryDTO,
+  Priority,
 } from "@ndla/types-backend/draft-api";
 import { getWarnings, RulesType } from "../../components/formikValidationSchema";
 import { PUBLISHED } from "../../constants";
@@ -82,7 +83,7 @@ export interface ArticleFormType {
   revisionError?: string;
   slug?: string;
   comments?: (Omit<ICommentDTO, "content"> & { content: Descendant[] })[];
-  priority: string;
+  priority: Priority;
   processed: boolean;
   origin?: string;
   disclaimer?: Descendant[];

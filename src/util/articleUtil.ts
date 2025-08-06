@@ -29,7 +29,6 @@ export const convertUpdateToNewDraft = (article: IUpdatedArticleDTO): INewArticl
     relatedContent: article.relatedContent ?? [],
     responsibleId: article.responsibleId ?? undefined,
     comments: article.comments ?? [],
-    prioritized: article.prioritized ?? false,
   };
 };
 

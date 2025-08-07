@@ -137,6 +137,9 @@ export function toEditLearningpath(
   locale: string,
   type: "metadata" | "steps" | "preview" | "status" = "metadata",
 ) {
+  if (!config.enableLearningpath) {
+    return toLearningpathFull(id, locale);
+  }
   if (type === "preview") {
     return `/learningpath/${id}/preview/${locale}`;
   } else if (type === "status") {
@@ -298,6 +301,9 @@ export function isLearningpath(path: string | string[]): boolean {
 }
 
 export const toLearningpath = (id: number | string, locale: string) => {
+  if (!config.enableLearningpath) {
+    return toLearningpathFull(id, locale);
+  }
   return `/learningpath/${id}/edit/${locale}`;
 };
 

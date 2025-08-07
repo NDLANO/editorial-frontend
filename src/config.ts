@@ -85,15 +85,11 @@ const h5pApiUrl = (ndlaEnvironment: string) => {
   }
 };
 
-const getAuth0Hostname = (ndlaEnvironment: string) => {
-  switch (ndlaEnvironment) {
-    case "prod":
-      return "login.ndla.no";
-    case "staging":
-      return "login.staging.ndla.no";
-    default:
-      return "login.test.ndla.no";
+const getAuth0Hostname = (ndlaEnvironment: string, prettyUrl = false) => {
+  if (prettyUrl) {
+    return `login.${ndlaEnvironment}.ndla.no`.replace(".prod", "");
   }
+  return `ndla-${ndlaEnvironment}.eu.auth0.com`.replace("-prod", "");
 };
 
 const getTranslateServiceUrl = (ndlaEnvironment: string) => {
@@ -157,6 +153,7 @@ export type ConfigType = {
   editorialFrontendDomain: string;
   ndlaFrontendDomain: string;
   auth0Domain: string;
+  auth0BrowserDomain: string;
   redirectPort: string | undefined;
   host: string | undefined;
   componentName: string | undefined;
@@ -213,6 +210,7 @@ const getServerSideConfig = (): ConfigType => {
     defaultLanguage: getDefaultLanguage(),
     ndlaPersonalClientId: getEnvironmentVariabel("NDLA_PERSONAL_CLIENT_ID", ""),
     auth0Domain: getEnvironmentVariabel("AUTH0_DOMAIN", getAuth0Hostname(ndlaEnvironment)),
+    auth0BrowserDomain: getEnvironmentVariabel("AUTH0_BROWSER_DOMAIN", getAuth0Hostname(ndlaEnvironment, true)),
     brightcoveAccountId: getEnvironmentVariabel("BRIGHTCOVE_ACCOUNT_ID", "4806596774001"),
     brightcoveEdPlayerId: getEnvironmentVariabel("BRIGHTCOVE_PLAYER_ED_ID", "Ab1234"),
     brightcovePlayerId: getEnvironmentVariabel("BRIGHTCOVE_PLAYER_ID", "Ab1234"),

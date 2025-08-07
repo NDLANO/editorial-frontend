@@ -18,30 +18,21 @@ import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCom
 import config from "../../../config";
 import {
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
-  RESOURCE_TYPE_CONCEPT,
-  RESOURCE_TYPE_LEARNING_PATH,
   RESOURCE_TYPE_SOURCE_MATERIAL,
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
 } from "../../../constants";
-import { OembedResponse } from "../../../interfaces";
 import { useSearch } from "../../../modules/search/searchQueries";
 import { fetchExternalOembed } from "../../../util/apiHelpers";
-import { isNDLAFrontendUrl } from "../../../util/htmlHelpers";
-import { resolveJsonOrRejectWithError } from "../../../util/resolveJsonOrRejectWithError";
 
 const { contentTypes } = constants;
 
 export const contentTypeMapping: Record<string, string> = {
-  [RESOURCE_TYPE_LEARNING_PATH]: contentTypes.LEARNING_PATH,
-
   [RESOURCE_TYPE_SUBJECT_MATERIAL]: contentTypes.SUBJECT_MATERIAL,
 
   [RESOURCE_TYPE_TASKS_AND_ACTIVITIES]: contentTypes.TASKS_AND_ACTIVITIES,
 
   [RESOURCE_TYPE_ASSESSMENT_RESOURCES]: contentTypes.ASSESSMENT_RESOURCES,
-
-  [RESOURCE_TYPE_CONCEPT]: contentTypes.CONCEPT,
 
   [RESOURCE_TYPE_SOURCE_MATERIAL]: contentTypes.SOURCE_MATERIAL,
 
@@ -69,7 +60,6 @@ export const ResourcePicker = ({ setResource, children }: Props) => {
       RESOURCE_TYPE_SUBJECT_MATERIAL,
       RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
       RESOURCE_TYPE_ASSESSMENT_RESOURCES,
-      RESOURCE_TYPE_CONCEPT,
       RESOURCE_TYPE_SOURCE_MATERIAL,
     ],
   });
@@ -90,25 +80,7 @@ export const ResourcePicker = ({ setResource, children }: Props) => {
     );
   }, [searchQuery.data?.results]);
 
-  const setResourceFromNdlaUrl = async (url: string) => {
-    const res = await fetch(`${config.ndlaFrontendDomain}/oembed?url=${url}`);
-    const oembedData = await resolveJsonOrRejectWithError<OembedResponse>(res);
-    if (oembedData) {
-      const { title, iframeSrc: url } = oembedData;
-      setResource({
-        title,
-        url: url ?? "",
-      });
-    }
-  };
-
   const onQueryChange = (val: string) => {
-    // TODO: Not sure about this check compared to the one in ndla-frontend.
-    if (isNDLAFrontendUrl(val)) {
-      setResourceFromNdlaUrl(val);
-      return;
-    }
-
     setSearchObject({ query: val, page: 1, pageSize: 10 });
     debounceCall(() => setDelayedSearchObject({ query: val, page: 1, pageSize: 10 }));
   };

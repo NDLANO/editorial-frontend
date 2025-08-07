@@ -231,10 +231,10 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
         if (values.contentType === RESOURCE_TYPE_LEARNING_PATH) {
           createdResource = await postLearningpath({
             title: values.title,
-            // TODO: comment
+            comments: slateComment.length ? [{ content: inlineContentToHTML(slateComment), isOpen: true }] : [],
             language: i18n.language,
-            // TODO: responsibleId
-            // TODO: priority
+            responsibleId: values.responsible,
+            priority: values.priority,
           });
         } else {
           const plannedResource: IUpdatedArticleDTO = {

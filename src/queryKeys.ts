@@ -86,3 +86,6 @@ export const VERSION = "version";
 export const VERSIONS = "versions";
 
 export const TRANFSFORM_ARTICLE = "transformArticle";
+
+export const LEARNINGPATH = "learningpath";
+export const LEARNINGPATH_TAGS = "learningpathTags";

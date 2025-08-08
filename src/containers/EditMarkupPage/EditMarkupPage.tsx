@@ -237,7 +237,6 @@ const EditMarkupPage = () => {
           language={language}
           editUrl={toEditMarkup}
           id={draftId}
-          isSubmitting={isSubmitting}
           replace={true}
         />
       </LanguageWrapper>

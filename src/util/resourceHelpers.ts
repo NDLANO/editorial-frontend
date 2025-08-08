@@ -9,14 +9,7 @@
 import { TFunction } from "i18next";
 import { ResourceType } from "@ndla/types-taxonomy";
 import { constants } from "@ndla/ui";
-import {
-  toEditArticle,
-  toEditAudio,
-  toEditConcept,
-  toEditGloss,
-  toEditPodcastSeries,
-  toLearningpathFull,
-} from "./routeHelpers";
+import { routes, toEditArticle, toEditAudio, toEditConcept, toEditGloss, toEditPodcastSeries } from "./routeHelpers";
 
 const { contentTypes, contentTypeMapping } = constants;
 
@@ -84,7 +77,7 @@ export const resourceToLinkProps = (
   }
   if (isLearningPathResourceType(contentType)) {
     return {
-      href: toLearningpathFull(content.id, locale),
+      href: routes.learningpath.edit(Number(content.id), locale),
       target: "_blank",
       rel: "noopener noreferrer",
     };

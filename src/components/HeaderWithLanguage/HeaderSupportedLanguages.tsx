@@ -15,11 +15,10 @@ interface Props {
   language: string;
   editUrl: (id: number, url: string) => string;
   supportedLanguages?: string[];
-  isSubmitting?: boolean;
   replace?: boolean;
 }
 
-const HeaderSupportedLanguages = ({ supportedLanguages = [], id, editUrl, isSubmitting, language, replace }: Props) => {
+const HeaderSupportedLanguages = ({ supportedLanguages = [], id, editUrl, language, replace }: Props) => {
   const { t } = useTranslation();
   return (
     <>
@@ -40,7 +39,6 @@ const HeaderSupportedLanguages = ({ supportedLanguages = [], id, editUrl, isSubm
             variant="tertiary"
             to={editUrl(id, supportedLanguage)}
             replace={replace}
-            disabled={isSubmitting}
             key={`types_${supportedLanguage}`}
           >
             {t(`languages.${supportedLanguage}`)}

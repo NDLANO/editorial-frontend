@@ -105,8 +105,8 @@ const StyledImageLine = styled(ImageLine, {
 });
 
 interface GenericComboboxItemCustomProps {
-  title: string;
-  description?: string;
+  title: ReactNode;
+  description?: ReactNode;
   fallbackImageElement?: ReactNode;
   useFallbackImage?: boolean;
   child?: ReactNode;
@@ -116,7 +116,8 @@ interface GenericComboboxItemCustomProps {
   };
 }
 
-type GenericComboboxItemProps = GenericComboboxItemCustomProps & ListItemProps & { ref?: Ref<HTMLDivElement> };
+type GenericComboboxItemProps = GenericComboboxItemCustomProps &
+  Omit<ListItemProps, "title"> & { ref?: Ref<HTMLDivElement> };
 
 export const GenericComboboxItemContent = ({
   title,

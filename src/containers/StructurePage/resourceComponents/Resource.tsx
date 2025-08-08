@@ -25,7 +25,7 @@ import config from "../../../config";
 import { PUBLISHED, RESOURCE_FILTER_SUPPLEMENTARY } from "../../../constants";
 import { ResourceWithNodeConnectionAndMeta } from "../../../modules/nodes/nodeApiTypes";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
-import { routes, toLearningpathFull } from "../../../util/routeHelpers";
+import { routes } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { transformMatomoData } from "../utils";
 import { useElementIsVisible } from "./isVisibleHook";
@@ -149,7 +149,7 @@ const Resource = ({ currentNodeId, resource, nodeResourcesIsPending, responsible
                 <SafeLink
                   to={
                     contentType === "learning-path"
-                      ? toLearningpathFull(numericId, i18n.language)
+                      ? routes.learningpath.edit(numericId, i18n.language)
                       : routes.editArticle(numericId, contentType)
                   }
                   target="_blank"

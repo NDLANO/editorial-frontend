@@ -32,7 +32,6 @@ import {
 } from "@ndla/types-backend/learningpath-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { LearningpathMetaImageField } from "./LearningpathMetaImageField";
-import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
 import { SearchTagsContent } from "../../../components/Form/SearchTagsContent";
 import { SearchTagsTagSelectorInput } from "../../../components/Form/SearchTagsTagSelectorInput";
 import { FormField } from "../../../components/FormField";
@@ -106,13 +105,11 @@ const learningpathFormTypeToApiType = (
 const metaDataRules: RulesType<LearningpathMetaDataFormValues, ILearningPathV2DTO> = {
   title: {
     required: true,
-    maxLength: 75,
     warnings: {
       languageMatch: true,
     },
   },
   introduction: {
-    maxLength: 150,
     warnings: {
       languageMatch: true,
     },
@@ -224,7 +221,6 @@ export const LearningpathMetaDataForm = ({ learningpath, language }: Props) => {
                     <FieldLabel>{t("learningpathForm.metadata.titleLabel")}</FieldLabel>
                     <FieldErrorMessage>{meta.error}</FieldErrorMessage>
                     <FieldInput {...field} />
-                    <FormRemainingCharacters value={field.value} maxLength={75} />
                   </FieldRoot>
                 )}
               </FormField>
@@ -234,7 +230,6 @@ export const LearningpathMetaDataForm = ({ learningpath, language }: Props) => {
                     <FieldLabel>{t("learningpathForm.metadata.descriptionLabel")}</FieldLabel>
                     <FieldErrorMessage>{meta.error}</FieldErrorMessage>
                     <FieldTextArea {...field} />
-                    <FormRemainingCharacters value={field.value} maxLength={150} />
                   </FieldRoot>
                 )}
               </FormField>

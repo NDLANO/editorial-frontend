@@ -72,7 +72,7 @@ const jwtMiddleware = async (req: express.Request, res: express.Response, next: 
       jwksUri: `https://${config.auth0Domain}/.well-known/jwks.json`,
     }) as GetVerificationKey,
     audience: "ndla_system",
-    issuer: `https://${config.auth0Domain}/`,
+    issuer: `https://${config.auth0BrowserDomain}/`,
     algorithms: ["RS256"],
   })(req, res, next);
 };

@@ -43,6 +43,7 @@ import { FormField } from "../../../components/FormField";
 import { FormActionsContainer, FormikForm } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
 import { DIV_ELEMENT_TYPE } from "../../../components/SlateEditor/plugins/div/types";
+import config from "../../../config";
 import {
   DRAFT_RESPONSIBLE,
   LAST_UPDATED_SIZE,
@@ -207,8 +208,8 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
   const { data: contentTypes } = useAllResourceTypes(
     { language: i18n.language, taxonomyVersion },
     {
-      select: (res) =>
-        res
+      select: (res) => {
+        const types = res
           .flatMap(
             (parent) =>
               parent.subtypes?.map((s) => ({
@@ -216,8 +217,13 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
                 value: `${s.id},${parent.id}`,
               })) ?? [],
           )
-          .filter((r) => !!r)
-          .concat({ label: t("contentTypes.learningpath"), value: RESOURCE_TYPE_LEARNING_PATH }),
+          .filter((r) => !!r);
+
+        if (config.enableLearningpath) {
+          types.push({ label: t("contentTypes.learningpath"), value: RESOURCE_TYPE_LEARNING_PATH });
+        }
+        return types;
+      },
       placeholderData: [],
       enabled: !isTopicArticle,
     },

@@ -210,7 +210,10 @@ const getServerSideConfig = (): ConfigType => {
     defaultLanguage: getDefaultLanguage(),
     ndlaPersonalClientId: getEnvironmentVariabel("NDLA_PERSONAL_CLIENT_ID", ""),
     auth0Domain: getEnvironmentVariabel("AUTH0_DOMAIN", getAuth0Hostname(ndlaEnvironment)),
-    auth0BrowserDomain: getEnvironmentVariabel("AUTH0_BROWSER_DOMAIN", getAuth0Hostname(ndlaEnvironment, true)),
+    auth0BrowserDomain: getEnvironmentVariabel(
+      "AUTH0_BROWSER_DOMAIN",
+      getAuth0Hostname(ndlaEnvironment, getEnvironmentVariabel("AUTH0_CUSTOM_DOMAIN_ENABLED", "false") === "true"),
+    ),
     brightcoveAccountId: getEnvironmentVariabel("BRIGHTCOVE_ACCOUNT_ID", "4806596774001"),
     brightcoveEdPlayerId: getEnvironmentVariabel("BRIGHTCOVE_PLAYER_ED_ID", "Ab1234"),
     brightcovePlayerId: getEnvironmentVariabel("BRIGHTCOVE_PLAYER_ID", "Ab1234"),

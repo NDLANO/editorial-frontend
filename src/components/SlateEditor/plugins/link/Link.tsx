@@ -30,7 +30,7 @@ import { ContentLinkElement, LinkElement } from ".";
 import LinkForm from "./LinkForm";
 import { LinkData, LinkEmbedData, LINK_ELEMENT_TYPE, CONTENT_LINK_ELEMENT_TYPE } from "./types";
 import config from "../../../../config";
-import { toEditGenericArticle, toLearningpathFull } from "../../../../util/routeHelpers";
+import { routes, toEditGenericArticle } from "../../../../util/routeHelpers";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { InlineBugfix } from "../../utils/InlineBugFix";
@@ -46,7 +46,7 @@ const StyledPopoverContent = styled(PopoverContent, {
 const getResourcePath = (node: ContentLinkElement, language: string, contentType: string) => {
   const id = node.data.contentId;
   return contentType === "learningpath"
-    ? toLearningpathFull(id, language)
+    ? `${config.editorialFrontendDomain}${routes.learningpath.edit(parseInt(id), language)}`
     : `${config.editorialFrontendDomain}${toEditGenericArticle(id)}`;
 };
 

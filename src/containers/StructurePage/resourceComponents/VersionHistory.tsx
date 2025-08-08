@@ -32,7 +32,7 @@ import { fetchAuth0Users } from "../../../modules/auth0/auth0Api";
 import { fetchArticleRevisionHistory } from "../../../modules/draft/draftApi";
 import { ResourceWithNodeConnectionAndMeta } from "../../../modules/nodes/nodeApiTypes";
 import formatDate from "../../../util/formatDate";
-import { routes, toLearningpathFull } from "../../../util/routeHelpers";
+import { routes } from "../../../util/routeHelpers";
 import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 
 const { contentTypes } = constants;
@@ -154,7 +154,7 @@ const VersionHistoryContent = ({ contentType, resource }: DialogContentProps) =>
             <SafeLink
               to={
                 contentType === "learning-path"
-                  ? toLearningpathFull(numericId, i18n.language)
+                  ? routes.learningpath.edit(numericId, i18n.language)
                   : routes.editArticle(numericId, contentType)
               }
               target="_blank"

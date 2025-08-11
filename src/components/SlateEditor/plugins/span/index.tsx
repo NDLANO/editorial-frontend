@@ -24,6 +24,7 @@ import {
 import { isSpanElement } from "./queries";
 import { SPAN_ELEMENT_TYPE, SPAN_PLUGIN } from "./types";
 import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquote/blockquoteTypes";
+import { CONCEPT_INLINE_ELEMENT_TYPE } from "../concept/inline/types";
 import {
   DEFINITION_DESCRIPTION_ELEMENT_TYPE,
   DEFINITION_TERM_ELEMENT_TYPE,
@@ -52,6 +53,7 @@ const normalizerConfig: NormalizerConfig = {
       DEFINITION_DESCRIPTION_ELEMENT_TYPE,
       DEFINITION_TERM_ELEMENT_TYPE,
       SUMMARY_ELEMENT_TYPE,
+      CONCEPT_INLINE_ELEMENT_TYPE,
       SPAN_ELEMENT_TYPE,
       NOOP_ELEMENT_TYPE,
     ],
@@ -88,7 +90,7 @@ export const spanPlugin = createPlugin({
         Transforms.removeNodes(editor, { at: path });
         return true;
       }
-      return defaultNormalizer(editor, node, path, normalizerConfig);
+      return defaultNormalizer(editor, node, path, normalizerConfig, logger);
     }
     return false;
   },

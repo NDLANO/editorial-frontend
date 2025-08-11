@@ -194,14 +194,6 @@ export const uploadFile = async (file: Blob): Promise<IUploadedFileDTO> =>
     })
     .then((r) => resolveJsonOATS(r));
 
-export const deleteFile = async (fileUrl: string): Promise<void> => {
-  return client
-    .DELETE("/draft-api/v1/files", {
-      params: { query: { path: fileUrl } },
-    })
-    .then((r) => resolveOATS(r));
-};
-
 export const migrateCodes = async (): Promise<void> => {
   return client.POST("/draft-api/v1/drafts/migrate-greps").then((r) => resolveOATS(r));
 };

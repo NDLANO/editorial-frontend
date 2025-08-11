@@ -24,25 +24,9 @@ import {
 import { getWarnings, RulesType } from "../../components/formikValidationSchema";
 import { PUBLISHED } from "../../constants";
 import { RelatedContent } from "../../interfaces";
-import { deleteFile } from "../../modules/draft/draftApi";
 import { useLicenses } from "../../modules/draft/draftQueries";
 import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import { useMessages } from "../Messages/MessagesProvider";
-
-const getFilePathsFromHtml = (htmlString: string): string[] => {
-  const parsed = new DOMParser().parseFromString(htmlString, "text/html");
-  const fileNodesArr = Array.from(parsed.querySelectorAll("ndlaembed[data-resource=file]"));
-  const paths = fileNodesArr.map((e) => e.getAttribute("data-path"));
-  return paths.filter((x): x is string => x !== null);
-};
-
-const deleteRemovedFiles = async (oldArticleContent: string, newArticleContent: string) => {
-  const oldFilePaths = getFilePathsFromHtml(oldArticleContent);
-  const newFilePaths = getFilePathsFromHtml(newArticleContent);
-
-  const pathsToDelete = oldFilePaths.filter((op) => !newFilePaths.some((np) => op === np));
-  return Promise.all(pathsToDelete.map((path) => deleteFile(path)));
-};
 
 export type SlateCommentType = Omit<ICommentDTO, "content"> & { content: Descendant[] };
 
@@ -163,8 +147,6 @@ export function useArticleFormHooks<T extends ArticleFormType>({
           revision: revision || newArticle.revision,
           ...(statusChange ? { status: newStatus } : {}),
         });
-
-        await deleteRemovedFiles(article?.content?.content ?? "", newArticle.content ?? "");
 
         articleRevisionHistory?.refetch();
 

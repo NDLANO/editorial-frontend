@@ -17,28 +17,30 @@ import { FormArticle } from "./types";
 
 export const getUpdatedLanguage = (language: string | undefined) => (language === "nb" ? "no" : language);
 
-export type UseTranslationOptions = {
-  draft: FormArticle;
+export type UseTranslationOptions<T extends FormArticle | undefined> = {
+  draft: T;
   language: string;
   previewAlt: boolean;
   useDraftConcepts: boolean;
   contentType?: ContentType;
 };
 
-export const useTransformedArticle = ({
+export const useTransformedArticle = <T extends FormArticle | undefined>({
   draft,
   language,
   previewAlt,
   useDraftConcepts,
   contentType,
-}: UseTranslationOptions) => {
-  const transformedContent = usePreviewArticle(draft.content!, language, draft.visualElement, useDraftConcepts);
+}: UseTranslationOptions<T>): { draft: T; article: ArticleType | undefined } => {
+  const transformedContent = usePreviewArticle(draft?.content ?? "", language, draft?.visualElement, useDraftConcepts, {
+    enabled: !!draft,
+  });
   const disclaimerContent = usePreviewArticle(draft?.disclaimer ?? "", language, undefined, false, {
-    enabled: !!draft.disclaimer,
+    enabled: !!draft?.disclaimer,
   });
 
   const article: undefined | ArticleType = useMemo(() => {
-    if (!transformedContent.data) return;
+    if (!transformedContent.data || !draft) return;
     const content = transform(transformedContent.data, {
       previewAlt,
       frontendDomain: config.ndlaFrontendDomain,

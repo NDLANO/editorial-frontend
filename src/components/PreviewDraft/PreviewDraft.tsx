@@ -7,6 +7,7 @@
  */
 
 import { useMemo } from "react";
+import { IArticleV2DTO } from "@ndla/types-backend/article-api";
 import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import { TransformedPreviewDraft } from "./TransformedPreviewDraft";
 import "../DisplayEmbed/helpers/h5pResizer";
@@ -32,7 +33,7 @@ interface PreviewFormArticleV2Props extends BaseProps {
 
 type Props = PreviewArticleV2Props | PreviewFormArticleV2Props;
 
-export const toFormArticle = (article: IArticleDTO, language: string): FormArticle => {
+export const toFormArticle = (article: IArticleDTO | IArticleV2DTO, language: string): FormArticle => {
   return {
     id: article.id,
     articleType: article.articleType,

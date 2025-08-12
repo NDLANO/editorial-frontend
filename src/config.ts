@@ -185,6 +185,7 @@ export type ConfigType = {
   matomoUrl: string;
   s3AudioRoot: string;
   norgesfilmNewUrl: boolean;
+  enableLearningpath: boolean;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -238,6 +239,7 @@ const getServerSideConfig = (): ConfigType => {
     matomoUrl: getEnvironmentVariabel("MATOMO_URL", matomoDomain(ndlaEnvironment)),
     s3AudioRoot: getAudioS3Root(ndlaEnvironment),
     norgesfilmNewUrl: getEnvironmentVariabel("NORGESFILM_NEW_URL", "false") === "true",
+    enableLearningpath: getEnvironmentVariabel("ENABLE_LEARNINGPATH", "true") === "true",
   };
 };
 

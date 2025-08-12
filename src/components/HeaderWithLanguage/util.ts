@@ -21,6 +21,7 @@ import {
   toEditPodcast,
   toEditPodcastSeries,
   toEditTopicArticle,
+  toLearningpath,
 } from "../../util/routeHelpers";
 
 export const getTaxonomyPathsFromTaxonomy = (taxonomy?: Pick<Node, "paths">[], articleId?: number): string[] => {
@@ -40,6 +41,7 @@ export const toMapping = {
   "frontpage-article": toEditFrontPageArticle,
   standard: toEditLearningResource,
   "topic-article": toEditTopicArticle,
+  learningpath: toLearningpath,
 };
 
 export type TranslatableType = keyof typeof toMapping;

@@ -108,6 +108,7 @@ export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
         embedUrl: step?.embedUrl?.url ?? "",
         description: learningpathBlockContentToEditorValue(step?.description?.description ?? ""),
         license: step?.license?.license ?? "",
+        articleId: step?.articleId,
       };
     default:
       return unreachable(type);
@@ -129,6 +130,7 @@ const formValuesToStep = (values: LearningpathStepFormValues) => {
       description,
       license: values.license,
       embedUrl: undefined,
+      articleId: undefined,
     };
   }
 
@@ -139,6 +141,7 @@ const formValuesToStep = (values: LearningpathStepFormValues) => {
       introduction: values.introduction,
       description,
       license: values.license,
+      articleId: undefined,
       embedUrl: {
         url: values.url,
         embedType: "external",
@@ -151,10 +154,13 @@ const formValuesToStep = (values: LearningpathStepFormValues) => {
     title: values.title,
     license: values.license,
     description,
-    embedUrl: {
-      url: values.embedUrl,
-      embedType: "iframe",
-    },
+    articleId: values.articleId,
+    embedUrl: values.articleId
+      ? undefined
+      : {
+          url: values.embedUrl,
+          embedType: "iframe",
+        },
   };
 };
 
@@ -201,8 +207,8 @@ export const LearningpathStepForm = ({ step }: Props) => {
       const numericId = id ? parseInt(id) : undefined;
       if (!numericId || !language) return;
       let newLearningpath: ILearningStepV2DTO;
+      const input = formValuesToStep(values);
       if (step) {
-        const input = formValuesToStep(values);
         newLearningpath = await patchLearningStepMutation.mutateAsync({
           learningpathId: numericId,
           stepId: step.id,
@@ -213,11 +219,10 @@ export const LearningpathStepForm = ({ step }: Props) => {
           },
         });
       } else {
-        const step = formValuesToStep(values);
         newLearningpath = await postLearningStepMutation.mutateAsync({
           learningpathId: numericId,
           step: {
-            ...step,
+            ...input,
             language,
             showTitle: false,
           },

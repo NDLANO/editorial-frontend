@@ -31,7 +31,9 @@ const extractIdsFromUrl = (url: string) => {
 };
 
 export const ArticleStep = ({ step, children, language }: ArticleStepProps) => {
-  const { articleId, taxId } = extractIdsFromUrl(step.embedUrl?.url ?? "");
+  const { articleId, taxId } = step.articleId
+    ? { articleId: step.articleId }
+    : extractIdsFromUrl(step.embedUrl?.url ?? "");
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const nodeQuery = useNode({ id: taxId ?? "", taxonomyVersion, language }, { enabled: !!taxId });
@@ -43,7 +45,7 @@ export const ArticleStep = ({ step, children, language }: ArticleStepProps) => {
     useDraftConcepts: false,
   });
 
-  if (draftQuery.isPending || nodeQuery.isPending) return <Spinner />;
+  if (draftQuery.isLoading || nodeQuery.isLoading) return <Spinner />;
 
   if (!draftQuery.data || !article) return null;
 

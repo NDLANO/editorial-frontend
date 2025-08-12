@@ -15,7 +15,6 @@ import { constants, ContentTypeBadge } from "@ndla/ui";
 import { ResourceData } from "./types";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
-import config from "../../../config";
 import {
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
   RESOURCE_TYPE_SOURCE_MATERIAL,
@@ -23,7 +22,6 @@ import {
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
 } from "../../../constants";
 import { useSearch } from "../../../modules/search/searchQueries";
-import { fetchExternalOembed } from "../../../util/apiHelpers";
 
 const { contentTypes } = constants;
 
@@ -85,15 +83,11 @@ export const ResourcePicker = ({ setResource, children }: Props) => {
     debounceCall(() => setDelayedSearchObject({ query: val, page: 1, pageSize: 10 }));
   };
 
-  const onResourceSelect = async (resource: Omit<IMultiSearchSummaryDTO, "id">) => {
-    const path = resource.contexts?.[0]?.url;
-    const data = await fetchExternalOembed(`${config.ndlaFrontendDomain}${path}`);
-    const iframe = data?.html;
-    const url = new DOMParser().parseFromString(iframe, "text/html").getElementsByTagName("iframe")[0]?.src ?? "";
-
+  const onResourceSelect = async (resource: Omit<IMultiSearchSummaryDTO, "id"> & { id: string }) => {
     setResource({
+      articleId: parseInt(resource.id),
+      articleType: resource.learningResourceType,
       title: resource.title.title,
-      url: url,
       resourceTypes: resource.contexts?.[0]?.resourceTypes,
       breadcrumbs: resource.contexts?.[0]?.breadcrumbs,
     });

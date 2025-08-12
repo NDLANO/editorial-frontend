@@ -20,6 +20,7 @@ export const getNodeIdFromEmbedUrl = (embedUrl: string | undefined): string | un
 };
 
 const isResourceStep = (step?: ILearningStepV2DTO): boolean => {
+  if (step?.articleId) return true;
   if (
     !step?.embedUrl?.url ||
     !isNDLAEmbedUrl(step.embedUrl.url) ||
@@ -32,10 +33,10 @@ const isResourceStep = (step?: ILearningStepV2DTO): boolean => {
 };
 
 export const getFormTypeFromStep = (step?: ILearningStepV2DTO): "text" | "resource" | "external" => {
-  if (!step?.embedUrl) return "text";
   if (isResourceStep(step)) {
     return "resource";
   }
+  if (!step?.embedUrl) return "text";
   return "external";
 };
 

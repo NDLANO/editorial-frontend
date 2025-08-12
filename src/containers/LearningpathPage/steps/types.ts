@@ -31,6 +31,7 @@ export interface ResourceFormValues {
   type: "resource";
   embedUrl: string;
   title: string;
+  articleId?: number;
   description: Descendant[];
   license?: string;
 }
@@ -38,8 +39,9 @@ export interface ResourceFormValues {
 export type LearningpathStepFormValues = TextFormValues | ExternalFormValues | ResourceFormValues;
 
 export interface ResourceData {
+  articleId: number;
+  articleType: string;
   title: string;
   breadcrumbs?: string[];
   resourceTypes?: Pick<ResourceType, "id" | "name">[];
-  url: string;
 }

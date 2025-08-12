@@ -21,11 +21,13 @@ import { contentTypeMapping, ResourcePicker } from "./ResourcePicker";
 import { ResourceData, ResourceFormValues } from "./types";
 import { FormField } from "../../../components/FormField";
 import { RulesType } from "../../../components/formikValidationSchema";
-import config from "../../../config";
-import { fetchNode } from "../../../modules/nodes/nodeApi";
+import { fetchNode, fetchNodes } from "../../../modules/nodes/nodeApi";
+import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
+import { toEditArticle } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { getFormTypeFromStep, getNodeIdFromEmbedUrl } from "../learningpathUtils";
 import { DescriptionEditor } from "./DescriptionEditor";
+import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 import { LicenseField } from "../../FormikForm";
 
 interface Props {
@@ -113,29 +115,47 @@ export const ResourceStepForm = ({ language, step }: Props) => {
         const nodeId = getNodeIdFromEmbedUrl(values.embedUrl);
         if (!nodeId) return;
         const node = await fetchNode({ id: `urn:${nodeId}`, language: language, taxonomyVersion });
+        const articleId = getIdFromUrn(node.id);
+        const articleType = getContentTypeFromResourceTypes(node.resourceTypes);
+        if (!articleId) return;
         setSelectedResource({
+          articleId,
           title: node.name,
-          url: node.url ?? "",
+          articleType: articleType,
           breadcrumbs: node.breadcrumbs,
           resourceTypes: node.resourceTypes,
         });
+      } else if (values.articleId && !selectedResource) {
+        const nodes = await fetchNodes({ contentURI: `urn:article:${values.articleId}`, language, taxonomyVersion });
+        const node = nodes[0];
+        if (node) {
+          const articleType = getContentTypeFromResourceTypes(node.resourceTypes);
+          setSelectedResource({
+            articleId: values.articleId,
+            articleType: articleType,
+            title: node.name,
+            breadcrumbs: node.breadcrumbs,
+            resourceTypes: node.resourceTypes,
+          });
+        }
       }
     })();
-  }, [language, selectedResource, taxonomyVersion, values.embedUrl]);
+  }, [language, selectedResource, taxonomyVersion, values.articleId, values.embedUrl]);
 
   const contentType = selectedResource?.resourceTypes?.map((type) => contentTypeMapping[type.id]).filter(Boolean)[0];
 
   const onSelectResource = (resource: ResourceData) => {
     setSelectedResource(resource);
-    setFieldValue("embedUrl", resource.url, true);
+    setFieldValue("articleId", resource.articleId, true);
     setFieldValue("title", resource.title, true);
     setFocusId("remove-resource");
   };
 
   const onRemove = () => {
     setSelectedResource(undefined);
-    setFieldValue("embedUrl", "", true);
-    setFieldValue("title", "", true);
+    setFieldValue("embedUrl", null, true);
+    setFieldValue("articleId", null, true);
+    setFieldValue("title", null, true);
     setFocusId("resource-input");
   };
 
@@ -179,7 +199,7 @@ export const ResourceStepForm = ({ language, step }: Props) => {
           <ResourceWrapper>
             <TextWrapper>
               <StyledSafeLink
-                to={`${config.ndlaFrontendDomain}${selectedResource.url}`}
+                to={toEditArticle(selectedResource.articleId, selectedResource.articleType, language)}
                 target="_blank"
                 css={linkOverlay.raw()}
               >

@@ -27,7 +27,6 @@ import { toEditArticle } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { getFormTypeFromStep, getNodeIdFromEmbedUrl } from "../learningpathUtils";
 import { DescriptionEditor } from "./DescriptionEditor";
-import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 import { LicenseField } from "../../FormikForm";
 
 interface Props {
@@ -115,7 +114,7 @@ export const ResourceStepForm = ({ language, step }: Props) => {
         const nodeId = getNodeIdFromEmbedUrl(values.embedUrl);
         if (!nodeId) return;
         const node = await fetchNode({ id: `urn:${nodeId}`, language: language, taxonomyVersion });
-        const articleId = getIdFromUrn(node.id);
+        const articleId = parseInt(node.contentUri?.split(":")?.pop() ?? "");
         const articleType = getContentTypeFromResourceTypes(node.resourceTypes);
         if (!articleId) return;
         setSelectedResource({

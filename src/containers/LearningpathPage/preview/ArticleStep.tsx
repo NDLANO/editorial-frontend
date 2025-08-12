@@ -6,13 +6,16 @@
  *
  */
 
-import { ReactNode } from "react";
-import { Spinner } from "@ndla/primitives";
+import { ReactNode, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Spinner, SwitchRoot, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchThumb } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { Article } from "@ndla/ui";
 import { EmbedPageContent } from "./EmbedPageContent";
 import { toFormArticle } from "../../../components/PreviewDraft/PreviewDraft";
 import { useTransformedArticle } from "../../../components/PreviewDraft/useTransformedArticle";
+import { useArticle } from "../../../modules/article/articleQueries";
 import { useDraft } from "../../../modules/draft/draftQueries";
 import { useNode } from "../../../modules/nodes/nodeQueries";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
@@ -24,6 +27,14 @@ interface ArticleStepProps {
   children?: ReactNode;
 }
 
+const StyledSwitchRoot = styled(SwitchRoot, {
+  base: {
+    marginBlock: "xsmall",
+    alignSelf: "flex-end",
+    justifySelf: "flex-end",
+  },
+});
+
 const extractIdsFromUrl = (url: string) => {
   const parts = url.split("/");
   const [taxId, articleId] = parts.slice(-2);
@@ -31,6 +42,8 @@ const extractIdsFromUrl = (url: string) => {
 };
 
 export const ArticleStep = ({ step, children, language }: ArticleStepProps) => {
+  const [showPublished, setShowPublished] = useState(false);
+  const { t } = useTranslation();
   const { articleId, taxId } = step.articleId
     ? { articleId: step.articleId }
     : extractIdsFromUrl(step.embedUrl?.url ?? "");
@@ -38,9 +51,15 @@ export const ArticleStep = ({ step, children, language }: ArticleStepProps) => {
 
   const nodeQuery = useNode({ id: taxId ?? "", taxonomyVersion, language }, { enabled: !!taxId });
   const draftQuery = useDraft({ id: articleId ?? 0, language }, { enabled: !!articleId });
+  const articleQuery = useArticle({ id: articleId ?? 0, language }, { enabled: !!articleId });
   const { article } = useTransformedArticle({
     language,
-    draft: draftQuery.data ? toFormArticle(draftQuery.data, language) : undefined,
+    draft:
+      showPublished && articleQuery.data
+        ? toFormArticle(articleQuery.data, language)
+        : draftQuery.data
+          ? toFormArticle(draftQuery.data, language)
+          : undefined,
     previewAlt: false,
     useDraftConcepts: false,
   });
@@ -51,6 +70,17 @@ export const ArticleStep = ({ step, children, language }: ArticleStepProps) => {
 
   return (
     <EmbedPageContent variant="content">
+      <StyledSwitchRoot
+        checked={showPublished}
+        onCheckedChange={(details) => setShowPublished(details.checked)}
+        disabled={!articleQuery.data}
+      >
+        <SwitchLabel>{t("learningpathForm.preview.showPublished")}</SwitchLabel>
+        <SwitchControl>
+          <SwitchThumb />
+        </SwitchControl>
+        <SwitchHiddenInput />
+      </StyledSwitchRoot>
       {!!draftQuery.data?.metaDescription?.metaDescription && (
         <meta name="description" content={draftQuery.data.metaDescription.metaDescription} />
       )}

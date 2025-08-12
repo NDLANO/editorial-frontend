@@ -2395,6 +2395,7 @@ const phrases = {
       learningpathMenu: "Innhald i læringssti",
       learningpathMenuTitle: "Læringssteg",
       noSteps: "Læringsstien har ingen steg.",
+      showPublished: "Vis publisert versjon",
     },
     status: {
       heading: "Endre status på læringssti",

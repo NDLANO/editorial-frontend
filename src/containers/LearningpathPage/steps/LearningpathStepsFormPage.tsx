@@ -10,14 +10,13 @@ import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useParams } from "react-router-dom";
 import { DragEndEvent } from "@dnd-kit/core";
-import { AddLine, CloseLine, DeleteBinLine, Draggable, PencilLine } from "@ndla/icons";
-import { Heading, IconButton, ListItemContent, ListItemRoot, Text } from "@ndla/primitives";
-import { SafeLinkButton, SafeLinkIconButton } from "@ndla/safelink";
-import { Stack, styled } from "@ndla/styled-system/jsx";
+import { AddLine, Draggable } from "@ndla/icons";
+import { Heading, Text } from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
 import { LearningpathStepForm } from "./LearningpathStepForm";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
-import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
+import { FormContent } from "../../../components/FormikForm";
 import {
   useDeleteLearningStepMutation,
   usePutLearningStepOrderMutation,
@@ -25,33 +24,7 @@ import {
 import { routes } from "../../../util/routeHelpers";
 import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import { useLearningpathContext } from "../LearningpathLayout";
-import { getFormTypeFromStep, learningpathStepCloseButtonId, learningpathStepEditButtonId } from "../learningpathUtils";
-
-const StyledListItemRoot = styled(ListItemRoot, {
-  base: {
-    width: "100%",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    gap: "0",
-    padding: "0",
-  },
-});
-
-const StyledListItemContent = styled(ListItemContent, {
-  base: {
-    padding: "xsmall",
-  },
-  variants: {
-    active: {
-      true: {
-        background: "surface.subtle",
-        border: "1px solid",
-        borderBottom: "0",
-        borderColor: "stroke.discrete",
-      },
-    },
-  },
-});
+import { LearningStepListItem } from "./LearningStepListItem";
 
 interface LocationState {
   focusStepId?: string;
@@ -126,51 +99,14 @@ export const LearningpathStepsFormPage = () => {
               </DragHandle>
             }
             renderItem={(item) => (
-              <StyledListItemRoot context="list" key={item.id} variant="subtle" nonInteractive>
-                <StyledListItemContent active={!!stepId && parseInt(stepId) === item.id}>
-                  <Stack gap="xxsmall">
-                    <Text fontWeight="bold" textStyle="label.medium">
-                      {item.title.title}
-                    </Text>
-                    <Text textStyle="label.small">
-                      {t(`learningpathForm.steps.formTypes.${getFormTypeFromStep(item)}`)}
-                    </Text>
-                  </Stack>
-                  {!!stepId && parseInt(stepId) === item.id ? (
-                    <SafeLinkButton
-                      variant="tertiary"
-                      id={learningpathStepCloseButtonId(item.id)}
-                      to={routes.learningpath.edit(learningpath.id, language, "steps")}
-                      state={{ focusStepId: learningpathStepEditButtonId(item.id) }}
-                    >
-                      <CloseLine />
-                      {t("close")}
-                    </SafeLinkButton>
-                  ) : (
-                    <FormActionsContainer>
-                      <IconButton
-                        variant="danger"
-                        onClick={() => onDeleteStep(item.id)}
-                        aria-label={t("delete")}
-                        title={t("delete")}
-                      >
-                        <DeleteBinLine />
-                      </IconButton>
-                      <SafeLinkIconButton
-                        variant="tertiary"
-                        id={learningpathStepEditButtonId(item.id)}
-                        to={routes.learningpath.editStep(learningpath.id, item.id, language)}
-                        state={{ focusStepId: learningpathStepCloseButtonId(item.id) }}
-                        aria-label={t("learningpathForm.steps.editStep")}
-                        title={t("learningpathForm.steps.editStep")}
-                      >
-                        <PencilLine />
-                      </SafeLinkIconButton>
-                    </FormActionsContainer>
-                  )}
-                </StyledListItemContent>
-                {!!stepId && parseInt(stepId) === item.id && <LearningpathStepForm step={item} />}
-              </StyledListItemRoot>
+              <LearningStepListItem
+                key={item.id}
+                item={item}
+                stepId={stepId}
+                onDeleteStep={onDeleteStep}
+                learningpathId={learningpath.id}
+                language={language}
+              />
             )}
           />
         </ul>

@@ -2360,6 +2360,7 @@ const phrases = {
       typeTitle: "Add content",
       addStep: "Add step",
       noSteps: "This learning path doesn't have any steps yet.",
+      noPublishedVersion: "This resource does not have a published version.",
       formTypes: {
         text: "Text written by myself",
         resource: "Content from NDLA",

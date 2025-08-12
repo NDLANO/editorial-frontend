@@ -2360,6 +2360,7 @@ const phrases = {
       typeTitle: "Legg til innhald",
       addStep: "Legg til steg",
       noSteps: "Læringsstien har ingen steg enno.",
+      noPublishedVersion: "Denne ressursen har ingen publisert versjon",
       formTypes: {
         text: "Tekst eg har skrive sjølv",
         resource: "Innhald frå NDLA",

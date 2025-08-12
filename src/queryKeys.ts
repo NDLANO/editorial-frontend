@@ -62,6 +62,7 @@ export const FILM_SEARCH = "filmSearch";
 export const FRONTPAGE = "frontpage";
 
 export const ARTICLE = "article";
+export const ARTICLES = "articles";
 
 export const ARTICLE_SEARCH = "articleSearch";
 

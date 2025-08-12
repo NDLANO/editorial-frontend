@@ -2395,6 +2395,7 @@ const phrases = {
       learningpathMenu: "Learning path content",
       learningpathMenuTitle: "Learning steps",
       noSteps: "This learning path has no steps.",
+      showPublished: "Show published version",
     },
     status: {
       heading: "Change learning path status",

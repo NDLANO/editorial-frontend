@@ -15,7 +15,7 @@ export interface ExternalFormValues {
   introduction: string;
   url: string;
   shareable: boolean;
-  description: Descendant[];
+  description?: Descendant[];
   license?: string;
 }
 
@@ -23,7 +23,7 @@ export interface TextFormValues {
   type: "text";
   title: string;
   introduction: string;
-  description: Descendant[];
+  description?: Descendant[];
   license?: string;
 }
 
@@ -32,7 +32,7 @@ export interface ResourceFormValues {
   embedUrl: string;
   title: string;
   articleId?: number;
-  description: Descendant[];
+  description?: Descendant[];
   license?: string;
 }
 

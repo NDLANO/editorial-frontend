@@ -89,7 +89,7 @@ export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
         title: step?.title.title ?? "",
         introduction: step?.introduction?.introduction ?? "",
         description: learningpathBlockContentToEditorValue(step?.description?.description ?? ""),
-        license: step?.license?.license ?? "",
+        license: step?.license?.license,
       };
     case "external":
       return {
@@ -98,16 +98,20 @@ export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
         introduction: step?.introduction?.introduction ?? "",
         url: step?.embedUrl?.url ?? "",
         shareable: !!step?.embedUrl?.url,
-        description: learningpathBlockContentToEditorValue(step?.description?.description ?? ""),
-        license: step?.license?.license ?? "",
+        description: step?.description?.description
+          ? learningpathBlockContentToEditorValue(step?.description?.description ?? "")
+          : undefined,
+        license: step?.license?.license,
       };
     case "resource":
       return {
         type: type,
         title: step?.title.title ?? "",
         embedUrl: step?.embedUrl?.url ?? "",
-        description: learningpathBlockContentToEditorValue(step?.description?.description ?? ""),
-        license: step?.license?.license ?? "",
+        description: step?.description?.description
+          ? learningpathBlockContentToEditorValue(step.description.description)
+          : undefined,
+        license: step?.license?.license,
         articleId: step?.articleId,
       };
     default:
@@ -120,8 +124,8 @@ interface Props {
 }
 
 const formValuesToStep = (values: LearningpathStepFormValues) => {
-  const htmlDescription = blockContentToHTML(values.description);
-  const description = htmlDescription === "<section></section>" ? undefined : htmlDescription;
+  const htmlDescription = blockContentToHTML(values.description ?? []);
+  const description = htmlDescription === "<section></section>" ? null : htmlDescription;
   if (values.type === "text") {
     return {
       type: "TEXT",
@@ -129,8 +133,8 @@ const formValuesToStep = (values: LearningpathStepFormValues) => {
       introduction: values.introduction,
       description,
       license: values.license,
-      embedUrl: undefined,
-      articleId: undefined,
+      embedUrl: null,
+      articleId: null,
     };
   }
 
@@ -139,9 +143,9 @@ const formValuesToStep = (values: LearningpathStepFormValues) => {
       type: "TEXT",
       title: values.title,
       introduction: values.introduction,
-      description,
+      description: description?.length ? description : null,
       license: values.license,
-      articleId: undefined,
+      articleId: null,
       embedUrl: {
         url: values.url,
         embedType: "external",
@@ -153,10 +157,11 @@ const formValuesToStep = (values: LearningpathStepFormValues) => {
     type: "TEXT",
     title: values.title,
     license: values.license,
-    description,
+    introduction: null,
+    description: description?.length ? description : null,
     articleId: values.articleId,
     embedUrl: values.articleId
-      ? undefined
+      ? null
       : {
           url: values.embedUrl,
           embedType: "iframe",
@@ -221,6 +226,7 @@ export const LearningpathStepForm = ({ step }: Props) => {
       } else {
         newLearningpath = await postLearningStepMutation.mutateAsync({
           learningpathId: numericId,
+          //@ts-expect-error - Null should not occur when POSTing, but we can't really prove that to TS.
           step: {
             ...input,
             language,

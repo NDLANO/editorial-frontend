@@ -23,5 +23,6 @@ export const paragraphPlugin = _paragraphPlugin.configure({
       override: true,
       value: [TABLE_CELL_ELEMENT_TYPE, LIST_ITEM_ELEMENT_TYPE, SUMMARY_ELEMENT_TYPE, NOOP_ELEMENT_TYPE],
     },
+    enableWhitespaceStrip: false,
   },
 });

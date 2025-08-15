@@ -2052,11 +2052,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/editor-components@npm:^0.0.41":
-  version: 0.0.41
-  resolution: "@ndla/editor-components@npm:0.0.41"
+"@ndla/editor-components@npm:^0.0.42":
+  version: 0.0.42
+  resolution: "@ndla/editor-components@npm:0.0.42"
   dependencies:
-    "@ndla/editor": "npm:^0.0.29"
+    "@ndla/editor": "npm:^0.0.30"
     "@ndla/primitives": "npm:^1.0.93-alpha.0"
     "@ndla/styled-system": "npm:^0.0.35"
     "@zag-js/react": "npm:^1.0.0"
@@ -2067,13 +2067,13 @@ __metadata:
     slate-dom: ">= 0.112.0"
     slate-history: ">= 0.110.3"
     slate-react: ">= 0.112.0"
-  checksum: 10c0/1b8db8610cbdc95912b932593946c8c5f311c849a1d4fafee34335b1f228c80dd2eb5b8ee37f5508c4e86a65df6225c2987c56710f3c23ee59f426db5764d1bc
+  checksum: 10c0/a44c2de7253dd78aa168b210bc1122bb862c850edb3bcf895eb1507b443436d332108fdae9f3b80ebb48960fa9c9cd4509876ea7d512a273f865f5a275d6d812
   languageName: node
   linkType: hard
 
-"@ndla/editor@npm:^0.0.29":
-  version: 0.0.29
-  resolution: "@ndla/editor@npm:0.0.29"
+"@ndla/editor@npm:^0.0.30":
+  version: 0.0.30
+  resolution: "@ndla/editor@npm:0.0.30"
   dependencies:
     escape-html: "npm:^1.0.3"
     he: "npm:^1.2.0"
@@ -2088,17 +2088,17 @@ __metadata:
     slate-dom: ">= 0.112.0"
     slate-history: ">= 0.110.3"
     slate-react: ">= 0.112.0"
-  checksum: 10c0/b9a16a855a251da56658abce55f4926f683dfb721820b29fdf4f35fc5e2b5f5a799c4d103cc890eec4ad557c6b01b05f333e6f812fd1cd0b481a33ce58f3b971
+  checksum: 10c0/a0f6b8fb5908bd8db3d873a9d9548f328b3a21c00ec20fc6b14d3529246a128c6bf34a9dfaa199fe64b584b4849db9d3d6d90484ea090ea4781eb36a0687546a
   languageName: node
   linkType: hard
 
-"@ndla/error-reporter@npm:^2.0.16":
-  version: 2.0.16
-  resolution: "@ndla/error-reporter@npm:2.0.16"
+"@ndla/error-reporter@npm:^2.0.17":
+  version: 2.0.17
+  resolution: "@ndla/error-reporter@npm:2.0.17"
   dependencies:
     "@ndla/util": "npm:^5.0.9-alpha.0"
     raven-js: "npm:^3.22.3"
-  checksum: 10c0/9b50cb33a9c90e9039fc95cbe0d50b3d61a2645f0a0fc9b57478ce122fe505bb46209c8a462fd7d86b1865b97e633a98c75436b1ee6a29d8fec83d126ab48ff8
+  checksum: 10c0/642f4bdfe21feb4c28fd80c6d3b0e8757dca2bf2e50e5bcf28b9cf9578a1bc51f55261a2e2faa16955520d81662e1332f56fc11c9b1597af27c07ce98f600481
   languageName: node
   linkType: hard
 
@@ -6683,9 +6683,9 @@ __metadata:
     "@internationalized/date": "npm:3.8.2"
     "@ndla/article-converter": "npm:^10.0.136-alpha.0"
     "@ndla/audio-search": "npm:^7.0.106-alpha.0"
-    "@ndla/editor": "npm:^0.0.29"
-    "@ndla/editor-components": "npm:^0.0.41"
-    "@ndla/error-reporter": "npm:^2.0.16"
+    "@ndla/editor": "npm:^0.0.30"
+    "@ndla/editor-components": "npm:^0.0.42"
+    "@ndla/error-reporter": "npm:^2.0.17"
     "@ndla/hooks": "npm:^2.1.12"
     "@ndla/icons": "npm:^8.0.61-alpha.0"
     "@ndla/image-search": "npm:^11.0.110-alpha.0"

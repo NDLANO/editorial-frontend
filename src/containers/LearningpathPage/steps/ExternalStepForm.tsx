@@ -14,16 +14,12 @@ import { FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot } fro
 import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { DescriptionEditor } from "./DescriptionEditor";
 import { ExternalFormValues } from "./types";
-import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
 import { FormField } from "../../../components/FormField";
 import { RulesType } from "../../../components/formikValidationSchema";
 import { isUrl } from "../../../components/validators";
 import { fetchOpenGraphData } from "../../../modules/opengraph/openGraphApi";
 import { LicenseField } from "../../FormikForm";
 import { getFormTypeFromStep } from "../learningpathUtils";
-
-const TITLE_MAX_LENGTH = 64;
-const INTRODUCTION_MAX_LENGTH = 250;
 
 interface Props {
   step: ILearningStepV2DTO | undefined;
@@ -33,11 +29,9 @@ interface Props {
 export const externalStepRules: RulesType<ExternalFormValues> = {
   title: {
     required: true,
-    maxLength: TITLE_MAX_LENGTH,
   },
   introduction: {
     required: true,
-    maxLength: INTRODUCTION_MAX_LENGTH,
   },
   url: {
     required: true,
@@ -84,7 +78,6 @@ export const ExternalStepForm = ({ step, language }: Props) => {
             <FieldLabel>{t("learningpathForm.steps.externalForm.titleLabel")}</FieldLabel>
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
             <FieldInput {...field} />
-            <FormRemainingCharacters value={field.value ?? ""} maxLength={TITLE_MAX_LENGTH} />
           </FieldRoot>
         )}
       </FormField>
@@ -94,7 +87,6 @@ export const ExternalStepForm = ({ step, language }: Props) => {
             <FieldLabel>{t("learningpathForm.steps.externalForm.introductionLabel")}</FieldLabel>
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
             <FieldInput {...field} />
-            <FormRemainingCharacters value={field.value ?? 0} maxLength={INTRODUCTION_MAX_LENGTH} />
           </FieldRoot>
         )}
       </FormField>

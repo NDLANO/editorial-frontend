@@ -12,13 +12,9 @@ import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/prim
 import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { DescriptionEditor } from "./DescriptionEditor";
 import { TextFormValues } from "./types";
-import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
 import { FormField } from "../../../components/FormField";
 import { RulesType } from "../../../components/formikValidationSchema";
 import { LicenseField } from "../../FormikForm";
-
-const TITLE_MAX_LENGTH = 64;
-const INTRODUCTION_MAX_LENGTH = 250;
 
 interface Props {
   language: string | undefined;
@@ -28,11 +24,9 @@ interface Props {
 export const textStepRules: RulesType<TextFormValues> = {
   title: {
     required: true,
-    maxLength: TITLE_MAX_LENGTH,
   },
   introduction: {
     required: true,
-    maxLength: INTRODUCTION_MAX_LENGTH,
   },
   description: {
     required: true,
@@ -49,7 +43,6 @@ export const TextStepForm = ({ language, step }: Props) => {
             <FieldLabel>{t("learningpathForm.steps.textForm.titleLabel")}</FieldLabel>
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
             <FieldInput {...field} />
-            <FormRemainingCharacters value={field.value ?? ""} maxLength={TITLE_MAX_LENGTH} />
           </FieldRoot>
         )}
       </FormField>
@@ -59,7 +52,6 @@ export const TextStepForm = ({ language, step }: Props) => {
             <FieldLabel>{t("learningpathForm.steps.textForm.introductionLabel")}</FieldLabel>
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
             <FieldInput {...field} />
-            <FormRemainingCharacters value={field.value ?? 0} maxLength={INTRODUCTION_MAX_LENGTH} />
           </FieldRoot>
         )}
       </FormField>

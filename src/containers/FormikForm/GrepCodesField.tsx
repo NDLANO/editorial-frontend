@@ -133,11 +133,15 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
 
     const grepCodesWithName = await fetchGrepCodeTitles(addedGrepCodes);
 
+    const newValues: string[] = [];
+
     const updatedGrepCodes = grepCodesWithName.success.reduce<Record<string, GrepObject>>((acc, v) => {
-      helpers.setValue([...field.value, v.code]);
+      newValues.push(v.code);
       acc[v.code] = v;
       return acc;
     }, grepCodes);
+
+    helpers.setValue([...field.value, ...newValues]);
     setGrepCodes(updatedGrepCodes);
 
     if (grepCodesWithName.failed.length) {

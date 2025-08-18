@@ -177,7 +177,7 @@ export const LearningpathStepForm = ({ step }: Props) => {
   const wrapperRef = useRef<HTMLFormElement>(null);
   const { id, language } = useParams<"id" | "language">();
   const { t } = useTranslation();
-  const initialValues = useMemo(() => toFormValues(getFormTypeFromStep(step), step), [step]);
+  const initialValues = useMemo(() => toFormValues(step ? getFormTypeFromStep(step) : "resource", step), [step]);
   const postLearningStepMutation = usePostLearningStepMutation(language ?? "");
   const patchLearningStepMutation = usePatchLearningStepMutation(language ?? "");
   const deleteLearningStepMutation = useDeleteLearningStepMutation(language ?? "");
@@ -258,33 +258,35 @@ export const LearningpathStepForm = ({ step }: Props) => {
         <StyledForm ref={wrapperRef}>
           <LearningpathEnableClone />
           <PreventWindowUnload preventUnload={formikProps.dirty} />
-          <FormField name="type">
-            {({ field, meta }) => (
-              <FieldRoot required invalid={!!meta.error}>
-                <FieldLabel>{t("learningpathForm.steps.typeTitle")}</FieldLabel>
-                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                <RadioGroupRoot
-                  onValueChange={(details) => {
-                    formikProps.resetForm({
-                      values: toFormValues(details.value as LearningpathStepFormValues["type"]),
-                    });
-                  }}
-                  value={field.value}
-                  onBlur={field.onBlur}
-                  name={field.name}
-                  orientation="vertical"
-                >
-                  {RADIO_GROUP_OPTIONS.map((val) => (
-                    <RadioGroupItem value={val} key={val}>
-                      <RadioGroupItemControl />
-                      <RadioGroupItemText>{t(`learningpathForm.steps.formTypes.${val}`)}</RadioGroupItemText>
-                      <RadioGroupItemHiddenInput />
-                    </RadioGroupItem>
-                  ))}
-                </RadioGroupRoot>
-              </FieldRoot>
-            )}
-          </FormField>
+          {!!step && getFormTypeFromStep(step) !== "resource" && (
+            <FormField name="type">
+              {({ field, meta }) => (
+                <FieldRoot required invalid={!!meta.error}>
+                  <FieldLabel>{t("learningpathForm.steps.typeTitle")}</FieldLabel>
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                  <RadioGroupRoot
+                    onValueChange={(details) => {
+                      formikProps.resetForm({
+                        values: toFormValues(details.value as LearningpathStepFormValues["type"]),
+                      });
+                    }}
+                    value={field.value}
+                    onBlur={field.onBlur}
+                    name={field.name}
+                    orientation="vertical"
+                  >
+                    {RADIO_GROUP_OPTIONS.map((val) => (
+                      <RadioGroupItem value={val} key={val}>
+                        <RadioGroupItemControl />
+                        <RadioGroupItemText>{t(`learningpathForm.steps.formTypes.${val}`)}</RadioGroupItemText>
+                        <RadioGroupItemHiddenInput />
+                      </RadioGroupItem>
+                    ))}
+                  </RadioGroupRoot>
+                </FieldRoot>
+              )}
+            </FormField>
+          )}
           {formikProps.values.type === "text" ? (
             <TextStepForm step={step} language={language} />
           ) : formikProps.values.type === "resource" ? (

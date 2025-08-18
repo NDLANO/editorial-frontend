@@ -15,6 +15,7 @@ import { DeleteBinLine } from "@ndla/icons";
 import {
   Button,
   FieldErrorMessage,
+  FieldHelper,
   FieldLabel,
   FieldRoot,
   RadioGroupItem,
@@ -264,6 +265,7 @@ export const LearningpathStepForm = ({ step }: Props) => {
                 <FieldRoot required invalid={!!meta.error}>
                   <FieldLabel>{t("learningpathForm.steps.typeTitle")}</FieldLabel>
                   <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                  <FieldHelper>{t("learningpathForm.steps.typeDisabledExplanation")}</FieldHelper>
                   <RadioGroupRoot
                     onValueChange={(details) => {
                       formikProps.resetForm({
@@ -276,7 +278,7 @@ export const LearningpathStepForm = ({ step }: Props) => {
                     orientation="vertical"
                   >
                     {RADIO_GROUP_OPTIONS.map((val) => (
-                      <RadioGroupItem value={val} key={val}>
+                      <RadioGroupItem value={val} key={val} disabled={val !== "resource"}>
                         <RadioGroupItemControl />
                         <RadioGroupItemText>{t(`learningpathForm.steps.formTypes.${val}`)}</RadioGroupItemText>
                         <RadioGroupItemHiddenInput />

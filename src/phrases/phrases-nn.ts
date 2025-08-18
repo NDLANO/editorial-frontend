@@ -2358,6 +2358,7 @@ const phrases = {
     steps: {
       heading: "Rediger læringssteg",
       typeTitle: "Legg til innhald",
+      typeDisabledExplanation: "Stiar som opprettast i ED støtter kun ressurs-steg",
       addStep: "Legg til steg",
       noSteps: "Læringsstien har ingen steg enno.",
       noPublishedVersion: "Denne ressursen har ingen publisert versjon",

@@ -2358,6 +2358,7 @@ const phrases = {
     steps: {
       heading: "Edit learning steps",
       typeTitle: "Add content",
+      typeDisabledExplanation: "Learning paths created in ED only support resource steps",
       addStep: "Add step",
       noSteps: "This learning path doesn't have any steps yet.",
       noPublishedVersion: "This resource does not have a published version.",

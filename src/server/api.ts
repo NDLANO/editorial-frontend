@@ -295,7 +295,7 @@ router.get("/opengraph", jwtMiddleware, async (req, res) => {
     res.status(BAD_REQUEST).send({ error: "Invalid 'url' query parameter" });
     return;
   }
-  if (url.includes("youtu")) {
+  if (urlObj.host.includes("youtu")) {
     const videoId = urlObj.pathname.startsWith("/watch")
       ? urlObj.searchParams.get("v")
       : urlObj.pathname.split("/")?.[1]?.split("?")[0];

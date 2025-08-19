@@ -79,7 +79,6 @@ export const LearningpathFormHeader = ({ learningpath, language, enableClone }: 
     { uniqueUserIds: learningpath?.responsible?.responsibleId ?? "" },
     { enabled: !!learningpath?.responsible?.responsibleId },
   );
-  // TODO: I don't know all of the learningpath statuses. We need to ensure we have translations for all of them.
   const statusText = learningpath?.status ? t(`form.status.${learningpath.status.toLowerCase()}`) : "";
 
   const taxonomyQuery = useNodes(

@@ -11,7 +11,7 @@ import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 const EXTERNAL_EMBED_TYPES = ["oembed", "iframe"];
 
 function isNDLAEmbedUrl(url: string) {
-  return /^https:\/(.*).ndla.no/.test(url) || /^http:\/\/localhost/.test(url);
+  return /^https:\/\/(.*).ndla.no/.test(url) || /^http:\/\/localhost/.test(url);
 }
 
 const EMBED_URL_NODE_ID_REGEX = /(resource:[:\da-fA-F-]+)/g;

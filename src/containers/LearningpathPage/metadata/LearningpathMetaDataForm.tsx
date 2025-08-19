@@ -32,6 +32,8 @@ import {
 } from "@ndla/types-backend/learningpath-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { LearningpathMetaImageField } from "./LearningpathMetaImageField";
+import FormAccordion from "../../../components/Accordion/FormAccordion";
+import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { SearchTagsContent } from "../../../components/Form/SearchTagsContent";
 import { SearchTagsTagSelectorInput } from "../../../components/Form/SearchTagsTagSelectorInput";
 import { FormField } from "../../../components/FormField";
@@ -46,6 +48,7 @@ import {
 import { useLearningpathTags } from "../../../modules/learningpath/learningpathQueries";
 import { routes, toLearningpath } from "../../../util/routeHelpers";
 import useDebounce from "../../../util/useDebounce";
+import RevisionNotes from "../../ArticlePage/components/RevisionNotes";
 import { AlertDialogWrapper } from "../../FormikForm";
 import { PreventWindowUnload } from "../../FormikForm/PreventWindowUnload";
 import { LearningpathEnableClone } from "../components/LearningpathEnableClone";
@@ -56,6 +59,14 @@ interface LearningpathMetaDataFormValues {
   description: string;
   coverPhotoUrl?: string;
   tags: string[];
+  // This field is only used for error checking in revisions
+  revisionError?: string;
+  revisionMeta: {
+    note: string;
+    revisionDate: string;
+    status: string;
+    new?: boolean;
+  }[];
 }
 
 interface Props {
@@ -71,6 +82,7 @@ const learningpathApiTypeToFormType = (
     description: learningpath?.description.description ?? "",
     coverPhotoUrl: learningpath?.coverPhoto?.url,
     tags: learningpath?.tags.tags ?? [],
+    revisionMeta: learningpath?.revisions ?? [],
   };
 };
 
@@ -94,6 +106,7 @@ const learningpathFormTypeToApiType = (
 ): IUpdatedLearningPathV2DTO => {
   return {
     revision: learningpath.revision,
+    revisionMeta: values.revisionMeta,
     language,
     title: values.title,
     description: values.description,
@@ -112,6 +125,28 @@ const metaDataRules: RulesType<LearningpathMetaDataFormValues, ILearningPathV2DT
   introduction: {
     warnings: {
       languageMatch: true,
+    },
+  },
+  revisionMeta: {
+    test: (values) => {
+      const emptyNote = values.revisionMeta?.find((meta) => meta.note.length === 0);
+      if (emptyNote !== undefined) {
+        return { translationKey: "validation.noEmptyRevision" };
+      }
+      return undefined;
+    },
+  },
+  revisionError: {
+    test: (values) => {
+      const revisionItems = values.revisionMeta.length ?? 0;
+      if (!revisionItems) {
+        return { translationKey: "validation.missingRevision" };
+      }
+      const unfinishedRevision = values.revisionMeta.some((rev) => rev.status === "needs-revision");
+      if (!unfinishedRevision) {
+        return { translationKey: "validation.unfinishedRevision" };
+      }
+      return undefined;
     },
   },
 };
@@ -265,6 +300,15 @@ export const LearningpathMetaDataForm = ({ learningpath, language }: Props) => {
               </FormField>
               <LearningpathMetaImageField language={language} />
             </FormContent>
+            <FormAccordions defaultOpen={[]}>
+              <FormAccordion
+                id="revision"
+                title={t("form.name.revisions")}
+                hasError={!!errors.revisionMeta || !!errors.revisionError}
+              >
+                <RevisionNotes />
+              </FormAccordion>
+            </FormAccordions>
             <FormActionsContainer>
               <SaveMultiButton
                 isSaving={formikProps.isSubmitting}

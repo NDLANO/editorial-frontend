@@ -14,7 +14,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { IRevisionMetaDTO } from "@ndla/types-backend/draft-api";
 import { Dictionary } from "../../../interfaces";
 import { NodeResourceMeta, ResourceWithNodeConnectionAndMeta } from "../../../modules/nodes/nodeApiTypes";
-import { getExpirationDate } from "../../ArticlePage/articleTransformers";
+import { getExpirationDate } from "../../../util/revisionHelpers";
 
 const StyledIcon = styled("div", {
   base: {
@@ -38,7 +38,7 @@ interface Props {
 
 export const isApproachingRevision = (revisions?: IRevisionMetaDTO[]) => {
   if (!revisions?.length) return false;
-  const expirationDate = getExpirationDate({ revisions: revisions });
+  const expirationDate = getExpirationDate(revisions);
   if (!expirationDate) return false;
   const currentDateAddYear = today(getLocalTimeZone()).add({ years: 1 });
   return parseAbsoluteToLocal(expirationDate).compare(currentDateAddYear) <= 0;

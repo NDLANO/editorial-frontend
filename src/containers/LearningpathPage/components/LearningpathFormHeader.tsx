@@ -19,10 +19,12 @@ import { HeaderCurrentLanguagePill } from "../../../components/HeaderWithLanguag
 import HeaderFavoriteStatus from "../../../components/HeaderWithLanguage/HeaderFavoriteStatus";
 import HeaderSupportedLanguages from "../../../components/HeaderWithLanguage/HeaderSupportedLanguages";
 import { ResourcePublishedLink } from "../../../components/HeaderWithLanguage/ResourcePublishedLink";
+import { ResourceStatus } from "../../../components/HeaderWithLanguage/ResourceStatus";
 import { PUBLISHED } from "../../../constants";
 import { useAuth0Users } from "../../../modules/auth0/auth0Queries";
 import { usePostCopyLearningpathMutation } from "../../../modules/learningpath/learningpathMutations";
 import { useNodes } from "../../../modules/nodes/nodeQueries";
+import { getExpirationDate } from "../../../util/revisionHelpers";
 import { CreatingLanguageLocationState, routes, toLearningpath } from "../../../util/routeHelpers";
 import {
   FormHeaderHeading,
@@ -80,6 +82,7 @@ export const LearningpathFormHeader = ({ learningpath, language, enableClone }: 
     { enabled: !!learningpath?.responsible?.responsibleId },
   );
   const statusText = learningpath?.status ? t(`form.status.${learningpath.status.toLowerCase()}`) : "";
+  const expirationDate = getExpirationDate(learningpath?.revisions);
 
   const taxonomyQuery = useNodes(
     {
@@ -129,7 +132,7 @@ export const LearningpathFormHeader = ({ learningpath, language, enableClone }: 
           {learningpath?.status === PUBLISHED && (
             <ResourcePublishedLink type="learningpath" slugOrId={learningpath.id} />
           )}
-          {/* TODO: Revision */}
+          {!!expirationDate && <ResourceStatus expirationDate={expirationDate} />}
           {contexts.length > 1 && (
             <StyledErrorWarningFill
               aria-label={t("form.workflow.multipleTaxonomy")}

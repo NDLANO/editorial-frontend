@@ -19,6 +19,7 @@ import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
 import { articleIsWide, useWideArticle } from "../../../../components/WideArticleEditorProvider";
 import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { frontPageArticleRules, isFormikFormDirty } from "../../../../util/formHelper";
+import { getExpirationDate } from "../../../../util/revisionHelpers";
 import { AlertDialogWrapper } from "../../../FormikForm";
 import { FrontpageArticleFormType, HandleSubmitFunc, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
@@ -26,7 +27,6 @@ import { useSession } from "../../../Session/SessionProvider";
 import {
   draftApiTypeToFrontpageArticleFormType,
   frontpageArticleFormTypeToDraftApiType,
-  getExpirationDate,
 } from "../../articleTransformers";
 
 interface Props {
@@ -97,7 +97,7 @@ const FrontpageArticleForm = ({
           supportedLanguages={supportedLanguages}
           status={article?.status}
           type="frontpage-article"
-          expirationDate={getExpirationDate(article)}
+          expirationDate={getExpirationDate(article?.revisions)}
         />
         <FrontpageArticlePanels
           articleLanguage={articleLanguage}

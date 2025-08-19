@@ -22,16 +22,13 @@ import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
 import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
 import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { isFormikFormDirty, topicArticleRules } from "../../../../util/formHelper";
+import { getExpirationDate } from "../../../../util/revisionHelpers";
 import { AlertDialogWrapper } from "../../../FormikForm";
 import { HandleSubmitFunc, TopicArticleFormType, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
 import { useSession } from "../../../Session/SessionProvider";
 import { TaxonomyVersionProvider } from "../../../StructureVersion/TaxonomyVersionProvider";
-import {
-  draftApiTypeToTopicArticleFormType,
-  getExpirationDate,
-  topicArticleFormTypeToDraftApiType,
-} from "../../articleTransformers";
+import { draftApiTypeToTopicArticleFormType, topicArticleFormTypeToDraftApiType } from "../../articleTransformers";
 
 interface Props {
   article?: IArticleDTO;
@@ -127,7 +124,7 @@ const TopicArticleForm = ({
           supportedLanguages={supportedLanguages}
           title={article?.title?.title}
           type="topic-article"
-          expirationDate={getExpirationDate(article)}
+          expirationDate={getExpirationDate(article?.revisions)}
         />
         <TaxonomyVersionProvider>
           <TopicArticleAccordionPanels

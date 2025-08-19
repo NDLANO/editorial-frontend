@@ -22,6 +22,7 @@ import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
 import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
 import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { isFormikFormDirty, learningResourceRules } from "../../../../util/formHelper";
+import { getExpirationDate } from "../../../../util/revisionHelpers";
 import { AlertDialogWrapper } from "../../../FormikForm";
 import { HandleSubmitFunc, LearningResourceFormType, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
@@ -29,7 +30,6 @@ import { useSession } from "../../../Session/SessionProvider";
 import { TaxonomyVersionProvider } from "../../../StructureVersion/TaxonomyVersionProvider";
 import {
   draftApiTypeToLearningResourceFormType,
-  getExpirationDate,
   learningResourceFormTypeToDraftApiType,
 } from "../../articleTransformers";
 
@@ -137,7 +137,7 @@ const LearningResourceForm = ({
             taxonomy={contexts}
             title={article?.title?.title}
             type="standard"
-            expirationDate={getExpirationDate(article)}
+            expirationDate={getExpirationDate(article?.revisions)}
           />
           <TaxonomyVersionProvider>
             <LearningResourcePanels

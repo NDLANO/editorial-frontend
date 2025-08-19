@@ -45,8 +45,8 @@ import {
 import { useSearch } from "../../../modules/search/searchQueries";
 import formatDate, { formatDateForBackend } from "../../../util/formatDate";
 import { getExpirationStatus } from "../../../util/getExpirationStatus";
+import { getExpirationDate } from "../../../util/revisionHelpers";
 import { toEditArticle } from "../../../util/routeHelpers";
-import { getExpirationDate } from "../../ArticlePage/articleTransformers";
 import {
   useLocalStoragePageSizeState,
   useLocalStorageSortOptionState,
@@ -180,7 +180,7 @@ const Revisions = ({ userData }: Props) => {
   const tableData: FieldElement[][] = useMemo(
     () =>
       filteredData.results?.map((resource) => {
-        const expirationDate = resource.revisions.length ? getExpirationDate({ revisions: resource.revisions })! : "";
+        const expirationDate = resource.revisions.length ? getExpirationDate(resource.revisions)! : "";
         const revisions = resource.revisions
           .filter((revision) => revision.status !== Revision.revised)
           .sort((a, b) => (a.revisionDate > b.revisionDate ? 1 : -1))

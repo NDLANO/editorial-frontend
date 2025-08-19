@@ -10,6 +10,8 @@ import express from "express";
 import { GetVerificationKey, expressjwt as jwt, Request } from "express-jwt";
 import jwksRsa from "jwks-rsa";
 import prettier from "prettier";
+import openGraph from "open-graph-scraper";
+import { youtube } from "@googleapis/youtube";
 import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getResponsibles } from "./auth";
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN, BAD_REQUEST, NOT_FOUND, FOUND } from "./httpCodes";
 import errorLogger from "./logger";
@@ -21,6 +23,8 @@ import { fetchMatomoStats } from "./matomo";
 import { generateAnswer, getDefaultPrompts, getTranscription, initializeTranscription } from "./llm";
 import { isValidRequestBody } from "./utils";
 import { isLlmLanguageCode } from "./llmTypes";
+
+const googleApiKey = getEnvironmentVariabel("NDLA_GOOGLE_API_KEY");
 
 const router = express.Router();
 
@@ -274,6 +278,53 @@ router.get("/transcribe/:jobName", jwtMiddleware, aiMiddleware, async (req, res)
     errorLogger.error(error);
     res.status(INTERNAL_SERVER_ERROR).send({ error: "An error occured" });
   }
+});
+
+const youtubeApi = youtube({ version: "v3", auth: googleApiKey });
+
+router.get("/opengraph", jwtMiddleware, async (req, res) => {
+  const { url } = req.query;
+  if (!url || typeof url !== "string") {
+    res.status(BAD_REQUEST).send({ error: "Missing 'url' query parameter" });
+    return;
+  }
+  let urlObj: URL;
+  try {
+    urlObj = new URL(url);
+  } catch (e) {
+    res.status(BAD_REQUEST).send({ error: "Invalid 'url' query parameter" });
+    return;
+  }
+  if (urlObj.host.includes("youtu")) {
+    const videoId = urlObj.pathname.startsWith("/watch")
+      ? urlObj.searchParams.get("v")
+      : urlObj.pathname.split("/")?.[1]?.split("?")[0];
+    const yt_metadata = await youtubeApi.videos.list({ id: [videoId ?? ""], part: ["snippet"] });
+    const data = yt_metadata.data.items?.[0]?.snippet;
+    const json = {
+      title: data?.title ?? undefined,
+      description: data?.description ?? undefined,
+      imageUrl: data?.thumbnails?.default?.url ?? undefined,
+      imageAlt: data?.title ?? undefined,
+      url,
+    };
+    res.status(OK).json(json);
+    return;
+  }
+  const ogs = await openGraph({ url });
+  if (ogs.error) {
+    res.status(INTERNAL_SERVER_ERROR).send({ error: `Failed to fetch opengraph for url ${url}` });
+    return;
+  }
+  const response = {
+    title: ogs.result.ogTitle,
+    description: ogs.result.ogDescription,
+    imageUrl: ogs.result.ogImage?.[0]?.url,
+    imageAlt: ogs.result.ogImage?.[0]?.alt,
+    url: ogs.result.ogUrl,
+  };
+
+  res.status(OK).json(response);
 });
 
 export default router;

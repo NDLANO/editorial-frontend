@@ -134,12 +134,13 @@ export interface BrightcoveAccessToken {
   expires_in: number;
 }
 
-export interface H5POembed {
+export interface OembedResponse {
   height: number;
   width: number;
   html: string;
   type: string;
   providerName?: string;
+  iframeSrc?: string;
   version: string;
   title: string;
 }

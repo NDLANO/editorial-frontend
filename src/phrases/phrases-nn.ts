@@ -38,6 +38,13 @@ const phrases = {
       content: `Søk innhold ${titleTemplate}`,
       image: `Søk bilete ${titleTemplate}`,
     },
+    learningpathForm: {
+      new: `Opprett læringssti ${titleTemplate}`,
+      editMetadata: `Rediger læringssti ${titleTemplate}`,
+      editSteps: `Rediger læringssteg ${titleTemplate}`,
+      preview: `Førehandsvis læringssti ${titleTemplate}`,
+      status: `Endre læringsstistatus ${titleTemplate}`,
+    },
   },
   dropdown: {
     numberHits: `Søket gav {{hits}} treff`,
@@ -1159,6 +1166,8 @@ const phrases = {
       republish: "Til republisering",
       sum: "Totalt",
       private: "Privat",
+      ready_for_sharing: "Klar for deling",
+      deleted: "Slettet",
       actions: {
         PLANNED: "Planlagd",
         IN_PROGRESS: "I arbeid",
@@ -2324,6 +2333,81 @@ const phrases = {
     failed: "Her gjekk det gale! Klarte ikkje å generere $t(textGeneration.types.{{type}}).\n{{error}}",
     failedTranscription: "Her gjekk det gale! Klarte ikkje å generere transkribering.",
     responseBox: "Full respons fra KI-modellen",
+  },
+
+  learningpathForm: {
+    genericError: "Noko gjekk gale under henting av læringsstien.",
+    header: {
+      clone: "Kopier læringssti",
+    },
+    stepper: {
+      navigation: "Skjemanavigering",
+      next: "Gå vidare",
+      titles: {
+        metadata: "Metadata",
+        steps: "Læringssteg",
+        preview: "Førehandsvis",
+        status: "Endre status",
+      },
+    },
+    metadata: {
+      heading: "Rediger metadata",
+      titleLabel: "Tittel",
+      descriptionLabel: "Beskriving",
+      metaImageTitle: "Metabilete",
+      descriptionPlaceholder: "Beskriving av læringsstien",
+    },
+    steps: {
+      heading: "Rediger læringssteg",
+      typeTitle: "Legg til innhald",
+      typeDisabledExplanation: "Stiar som opprettast i ED støtter kun ressurs-steg",
+      addStep: "Legg til steg",
+      noSteps: "Læringsstien har ingen steg enno.",
+      noPublishedVersion: "Denne ressursen har ingen publisert versjon",
+      formTypes: {
+        text: "Tekst eg har skrive sjølv",
+        resource: "Innhald frå NDLA",
+        external: "Innhald frå ein annan nettsted",
+        folder: "Innhald frå ein av mine mappar i Min NDLA",
+      },
+      editStep: "Rediger steg",
+      textForm: {
+        titleLabel: "Tittel",
+        introductionLabel: "Ingress",
+        descriptionLabel: "Beskriving",
+      },
+      resourceForm: {
+        label: "Artikkel frå NDLA",
+        labelHelper: "Søk etter artikkel",
+        descriptionLabel: "Beskriving",
+        descriptionHelper:
+          "Beskrivingar er ikkje lenger støtta på ressurssteg. Dette feltet dukkar kun opp fordi du redigerar eit eksisterande steg med beskriving. Vi anbefaler å fjerne beskrivinga.",
+      },
+      externalForm: {
+        urlLabel: "URL",
+        titleLabel: "Tittel",
+        introductionLabel: "Ingress",
+        descriptionLabel: "Beskriving",
+        descriptionHelper:
+          "Beskrivingar er ikkje lenger støtta på eksterne ressursar. Dette feltet dukkar kun opp fordi du redigerar eit eksisterande steg med beskriving. Vi anbefaler å fjerne beskrivinga.",
+      },
+    },
+    preview: {
+      heading: "Førehandsvis læringssti",
+      openExternalLink: "Åpne i nytt vindauge",
+      learningpathMenu: "Innhald i læringssti",
+      learningpathMenuTitle: "Læringssteg",
+      noSteps: "Læringsstien har ingen steg.",
+      showPublished: "Vis publisert versjon",
+    },
+    status: {
+      heading: "Endre status på læringssti",
+      unpublishedText:
+        "Ein læringssti kan berre publiserast ein gong. Når den først er publisert vil alle fremtidige endringar ende opp direkte på ndla.no. Kvar nye språkversjon av ein læringssti må publiserast separat.",
+      publishedText:
+        "Denne læringsstien er allereie publisert. Alle endringar vil være umiddelbart synlege på ndla.no.",
+      publish: "Publiser",
+    },
   },
 };
 

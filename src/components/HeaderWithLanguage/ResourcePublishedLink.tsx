@@ -12,7 +12,7 @@ import { SafeLinkIconButton } from "@ndla/safelink";
 import config from "../../config";
 
 interface Props {
-  type: "concept" | "article";
+  type: "concept" | "article" | "learningpath";
   slugOrId: string | number;
 }
 
@@ -25,7 +25,7 @@ export const ResourcePublishedLink = ({ type, slugOrId }: Props) => {
       target="_blank"
       aria-label={t("form.workflow.published")}
       title={t("form.workflow.published")}
-      to={`${config.ndlaFrontendDomain}/${type === "concept" ? "concept" : "article"}/${slugOrId}`}
+      to={`${config.ndlaFrontendDomain}/${type === "concept" ? "concept" : type === "learningpath" ? "learningpaths" : "article"}/${slugOrId}`}
     >
       <CheckboxCircleFill />
     </SafeLinkIconButton>

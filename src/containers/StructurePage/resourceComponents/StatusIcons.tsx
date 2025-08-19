@@ -16,7 +16,7 @@ import { StatusTimeFill } from "../../../components/StatusTimeFill";
 import { ResourceWithNodeConnectionAndMeta } from "../../../modules/nodes/nodeApiTypes";
 import formatDate from "../../../util/formatDate";
 import { getExpirationStatus } from "../../../util/getExpirationStatus";
-import { getExpirationDate } from "../../ArticlePage/articleTransformers";
+import { getExpirationDate } from "../../../util/revisionHelpers";
 
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
   base: {
@@ -36,9 +36,7 @@ const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy }: Pro
     () => isApproachingRevision(resource.contentMeta?.revisions),
     [resource.contentMeta?.revisions],
   );
-  const expirationDate = getExpirationDate({
-    revisions: resource.contentMeta?.revisions?.filter((r) => !!r) ?? [],
-  });
+  const expirationDate = getExpirationDate(resource.contentMeta?.revisions?.filter((r) => !!r) ?? []);
   const warnStatus = getExpirationStatus(expirationDate);
 
   const expirationText = useMemo(() => {

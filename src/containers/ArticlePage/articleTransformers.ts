@@ -8,8 +8,8 @@
 
 import { isEmpty } from "lodash-es";
 import { Descendant } from "slate";
-import { ILicenseDTO, IUpdatedArticleDTO, IArticleDTO, IRevisionMetaDTO } from "@ndla/types-backend/draft-api";
-import { ARCHIVED, PUBLISHED, UNPUBLISHED, Revision } from "../../constants";
+import { ILicenseDTO, IUpdatedArticleDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
+import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../constants";
 import {
   editorValueToEmbedTag,
   editorValueToPlainText,
@@ -263,15 +263,4 @@ export const topicArticleFormTypeToDraftApiType = (
     comments: article.comments?.map((c) => ({ ...c, content: inlineContentToHTML(c.content) })),
     priority: article.priority ?? "unspecified",
   };
-};
-
-export const getExpirationDate = (article?: { revisions: IRevisionMetaDTO[] }): string | undefined => {
-  if (!article) return undefined;
-
-  const withParsed =
-    article.revisions?.map((r) => {
-      return { parsed: new Date(r.revisionDate), ...r };
-    }) ?? [];
-  const sorted = withParsed.sort((a, b) => a.parsed.getTime() - b.parsed.getTime());
-  return sorted.find((r) => r.status !== Revision.revised)?.revisionDate;
 };

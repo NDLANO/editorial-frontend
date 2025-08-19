@@ -38,6 +38,13 @@ const phrases = {
       content: `Search content ${titleTemplate}`,
       image: `Search images ${titleTemplate}`,
     },
+    learningpathForm: {
+      new: `Create learning path ${titleTemplate}`,
+      editMetadata: `Edit learning path ${titleTemplate}`,
+      editSteps: `Edit learning steps ${titleTemplate}`,
+      preview: `Preview learning path ${titleTemplate}`,
+      status: `Edit learning path status ${titleTemplate}`,
+    },
   },
   meta: {
     description: "Norwegian Digital Learning Arena, Open Educational Resources",
@@ -1159,6 +1166,8 @@ const phrases = {
       republish: "For republishing",
       sum: "Total",
       private: "Private",
+      ready_for_sharing: "Ready for sharing",
+      deleted: "Deleted",
       actions: {
         PLANNED: "Planned",
         IN_PROGRESS: "In progress",
@@ -2325,6 +2334,79 @@ const phrases = {
     failed: "Oops, something went wrong! Could not generate $t(textGeneration.types.{{type}}).\n{{error}}",
     failedTranscription: "Oops, something went wrong! Could not generate transcription.",
     responseBox: "Full response from the AI model",
+  },
+  learningpathForm: {
+    genericError: "Something went wrong while retrieving the learning path",
+    header: {
+      clone: "Copy learning path",
+    },
+    stepper: {
+      navigation: "Form navigation",
+      next: "Next",
+      titles: {
+        metadata: "Metadata",
+        steps: "Learning step",
+        preview: "Preview",
+        status: "Change status",
+      },
+    },
+    metadata: {
+      heading: "Edit metadata",
+      titleLabel: "Title",
+      descriptionLabel: "Description",
+      metaImageTitle: "Meta image",
+      descriptionPlaceholder: "Description of the learning path",
+    },
+    steps: {
+      heading: "Edit learning steps",
+      typeTitle: "Add content",
+      typeDisabledExplanation: "Learning paths created in ED only support resource steps",
+      addStep: "Add step",
+      noSteps: "This learning path doesn't have any steps yet.",
+      noPublishedVersion: "This resource does not have a published version.",
+      formTypes: {
+        text: "Text written by myself",
+        resource: "Content from NDLA",
+        external: "Content from a external website",
+        folder: "Content from one of my folder in My NDLA",
+      },
+      editStep: "Edit step",
+      textForm: {
+        titleLabel: "Title",
+        introductionLabel: "Ingress",
+        descriptionLabel: "Description",
+      },
+      resourceForm: {
+        label: "Article from NDLA",
+        labelHelper: "Search for article",
+        descriptionLabel: "Description",
+        descriptionHelper:
+          "Descriptions are no longer supported on resource steps. This field only appears because you are editing an existing step with a description. We recommend removing the description.",
+      },
+      externalForm: {
+        urlLabel: "URL",
+        titleLabel: "Title",
+        introductionLabel: "Ingress",
+        descriptionLabel: "Description",
+        descriptionHelper:
+          "Descriptions are no longer supported on external resources. This field only appears because you are editing an existing step with a description. We recommend removing the description.",
+      },
+    },
+    preview: {
+      heading: "Preview learning path",
+      openExternalLink: "Open in new tab",
+      learningpathMenu: "Learning path content",
+      learningpathMenuTitle: "Learning steps",
+      noSteps: "This learning path has no steps.",
+      showPublished: "Show published version",
+    },
+    status: {
+      heading: "Change learning path status",
+      unpublishedText:
+        "A learning path can only be published once. When published, all future changes will be immediately visible on ndla.no Every new language version of a learning path must be published separately.",
+      publishedText: "This learning path is already published. All changes will be immediately visible on ndla.no.",
+      publish: "Publish",
+    },
   },
 };
 

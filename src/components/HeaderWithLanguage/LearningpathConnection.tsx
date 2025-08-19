@@ -20,7 +20,7 @@ import {
 } from "@ndla/primitives";
 import { ILearningPathSummaryV2DTO } from "@ndla/types-backend/learningpath-api";
 import { fetchLearningpathsWithArticle } from "../../modules/learningpath/learningpathApi";
-import { toLearningpathFull } from "../../util/routeHelpers";
+import { routes } from "../../util/routeHelpers";
 import { DialogCloseButton } from "../DialogCloseButton";
 import ListResource from "../Form/ListResource";
 
@@ -65,7 +65,7 @@ const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) 
             <ListResource
               key={element.id}
               title={element.title.title}
-              url={toLearningpathFull(element.id, i18n.language)}
+              url={routes.learningpath.edit(element.id, i18n.language)}
               isExternal
             />
           ))}

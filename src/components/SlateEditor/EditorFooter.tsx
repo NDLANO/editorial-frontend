@@ -16,7 +16,7 @@ import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IStatusDTO as ConceptStatus } from "@ndla/types-backend/concept-api";
 import { IStatusDTO as DraftStatus, IArticleDTO } from "@ndla/types-backend/draft-api";
-import { ARCHIVED, PUBLISHED, SAVE_DEBOUNCE_MS, UNPUBLISHED } from "../../constants";
+import { PUBLISHED, SAVE_DEBOUNCE_MS } from "../../constants";
 import PrioritySelect from "../../containers/FormikForm/components/PrioritySelect";
 import ResponsibleSelect from "../../containers/FormikForm/components/ResponsibleSelect";
 import StatusSelect from "../../containers/FormikForm/components/StatusSelect";
@@ -121,8 +121,6 @@ const ContentWrapper = styled("div", {
   },
 });
 
-const STATUSES_RESET_RESPONSIBLE = [ARCHIVED, UNPUBLISHED];
-
 function EditorFooter<T extends FormValues>({
   article,
   formIsDirty,
@@ -140,47 +138,29 @@ function EditorFooter<T extends FormValues>({
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
   const { createMessage } = useMessages();
   const location = useLocation();
-
-  // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
-  const [newStatus, setNewStatus] = useState<string | undefined>(undefined);
   const [shouldSave, setShouldSave] = useState(false);
 
   const articleOrConcept = isArticle || isConcept;
 
-  const onSave = useCallback(() => {
-    if (STATUSES_RESET_RESPONSIBLE.find((s) => s === values.status?.current)) {
-      setFieldValue("responsibleId", null);
-    }
+  useEffect(() => {
+    if (!shouldSave) return;
     onSaveClick();
-  }, [onSaveClick, setFieldValue, values.status]);
-
-  useEffect(() => {
-    if (shouldSave) {
-      onSave();
-      setShouldSave(false);
-    }
-  }, [onSave, shouldSave]);
-
-  useEffect(() => {
-    (async () => {
-      if (newStatus === PUBLISHED) {
-        setTimeout(() => setShouldSave(true), SAVE_DEBOUNCE_MS);
-        setNewStatus(undefined);
-        if (article?.responsible?.responsibleId) {
-          const unpublishedConcepts = await hasUnpublishedConcepts(article);
-          if (unpublishedConcepts) {
-            createMessage({ message: t("form.unpublishedConcepts"), timeToLive: 0, severity: "warning" });
-          }
+    setShouldSave(false);
+    if (article && values.status.current === PUBLISHED && article.status.current !== PUBLISHED) {
+      hasUnpublishedConcepts(article).then((unpublished) => {
+        if (unpublished) {
+          createMessage({ message: t("form.unpublishedConcepts"), timeToLive: 0, severity: "warning" });
         }
-      }
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newStatus]);
+      });
+    }
+  }, [article, createMessage, onSaveClick, shouldSave, t, values.status]);
 
   const onUpdateStatus = useCallback(
     (value: string | undefined) => {
       setFieldValue("status", { current: value });
-      setNewStatus(value);
+      if (value === PUBLISHED) {
+        setTimeout(() => setShouldSave(true), SAVE_DEBOUNCE_MS);
+      }
     },
     [setFieldValue],
   );

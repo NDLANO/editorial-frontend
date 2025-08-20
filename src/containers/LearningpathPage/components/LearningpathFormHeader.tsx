@@ -156,9 +156,10 @@ export const LearningpathFormHeader = ({ learningpath, language, enableClone }: 
               language={language}
               supportedLanguages={learningpath.supportedLanguages}
             />
-            {!!(location.state as CreatingLanguageLocationState)?.isCreatingLanguage && (
-              <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
-            )}
+            {!!(location.state as CreatingLanguageLocationState)?.isCreatingLanguage &&
+              !learningpath.supportedLanguages.includes(language) && (
+                <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
+              )}
           </StyledGroup>
         )}
         {!!learningpath?.id && (

@@ -17,10 +17,9 @@ import { articleIsWide } from "../../components/WideArticleEditorProvider";
 import { useDraft } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
 import { getContentTypeFromResourceTypes } from "../../util/resourceHelpers";
-import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
-export const Component = () => <PrivateRoute component={<PreviewDraftPage />} />;
+export const Component = () => <PreviewDraftPage />;
 
 const PreviewDraftPage = () => {
   const params = useParams<"draftId" | "language">();

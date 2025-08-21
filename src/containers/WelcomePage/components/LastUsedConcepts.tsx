@@ -23,7 +23,7 @@ import { SelectItem, SortOptionLastUsed } from "../types";
 
 interface Props {
   data: IConceptSummaryDTO[];
-  isPending: boolean;
+  isLoading: boolean;
   page: number;
   setPage: (page: number) => void;
   sortOption: string;
@@ -37,7 +37,7 @@ interface Props {
 
 const LastUsedConcepts = ({
   data,
-  isPending,
+  isLoading,
   page,
   setPage,
   sortOption,
@@ -81,7 +81,7 @@ const LastUsedConcepts = ({
         <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
       </StyledTopRowDashboardInfo>
       <TableComponent
-        isPending={isPending}
+        isLoading={isLoading}
         tableTitleList={titles}
         tableData={tableData}
         setSortOption={setSortOption}

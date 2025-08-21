@@ -8,7 +8,7 @@
 
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Element, Transforms } from "slate";
+import { Editor, Element, Range, Transforms } from "slate";
 import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
 import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
 import { SelectContent, SelectRoot, SelectValueText, SelectLabel, FieldRoot } from "@ndla/primitives";
@@ -17,7 +17,6 @@ import { LanguageType } from "./toolbarState";
 import { getTitle } from "./ToolbarToggle";
 import { ToolbarCategoryProps } from "./types";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../abstractions/Select";
-import hasNodeOfType from "../../utils/hasNodeOfType";
 import { defaultSpanBlock } from "../span/utils";
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
@@ -55,24 +54,53 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
     (details: SelectValueChangeDetails) => {
       if (!selection) return;
       const language = details.value[0];
-      Transforms.select(editor, selection);
-      ReactEditor.focus(editor);
-      const wrappedInSpan = hasNodeOfType(editor, "span");
-      if (wrappedInSpan && language === undefined) {
-        Transforms.unwrapNodes(editor, {
-          match: (node) => Element.isElement(node) && node.type === "span",
-        });
-      } else if (language === undefined) {
-        return;
-      } else if (!wrappedInSpan) {
+      const unhangedSelection = Editor.unhangRange(editor, selection);
+
+      const [match] =
+        Editor.nodes(editor, {
+          match: (n) => Element.isElement(n) && n.type === "span",
+          mode: "lowest",
+          at: unhangedSelection,
+        }) ?? [];
+
+      if (match) {
+        const [_, path] = match;
+        if (language === undefined) {
+          Transforms.unwrapNodes(editor, {
+            match: (n) => Element.isElement(n) && n.type === "span",
+            mode: "lowest",
+            at: unhangedSelection,
+          });
+        } else if (
+          Range.isExpanded(unhangedSelection) &&
+          !Range.includes(Editor.range(editor, path), unhangedSelection)
+        ) {
+          Transforms.unwrapNodes(editor, {
+            match: (n) => Element.isElement(n) && n.type === "span",
+            mode: "lowest",
+            at: path,
+          });
+
+          const newSelection = editor.selection ? Editor.unhangRange(editor, editor.selection) : undefined;
+          Transforms.wrapNodes(
+            editor,
+            defaultSpanBlock({ lang: language, dir: language === "ar" ? "rtl" : undefined }),
+            {
+              at: newSelection,
+              split: true,
+            },
+          );
+        } else {
+          const data = { dir: language === "ar" ? "rtl" : undefined, lang: language };
+          Transforms.setNodes(editor, { data }, { match: (n) => Element.isElement(n) && n.type === "span" });
+        }
+      } else if (Range.isExpanded(unhangedSelection)) {
         Transforms.wrapNodes(editor, defaultSpanBlock({ lang: language, dir: language === "ar" ? "rtl" : undefined }), {
-          at: Editor.unhangRange(editor, selection),
+          at: unhangedSelection,
           split: true,
         });
-      } else {
-        const data = { dir: language === "ar" ? "rtl" : undefined, lang: language };
-        Transforms.setNodes(editor, { data }, { match: (n) => Element.isElement(n) && n.type === "span" });
       }
+      ReactEditor.focus(editor);
     },
     [editor, selection],
   );

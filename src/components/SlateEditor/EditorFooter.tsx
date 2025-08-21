@@ -9,36 +9,28 @@
 import { useFormikContext } from "formik";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { useHref, useLocation } from "react-router-dom";
 import { ShareBoxLine } from "@ndla/icons";
 import { Button, FieldRoot } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IStatusDTO as ConceptStatus } from "@ndla/types-backend/concept-api";
-import { IStatusDTO as DraftStatus, IArticleDTO } from "@ndla/types-backend/draft-api";
 import { PUBLISHED, SAVE_DEBOUNCE_MS } from "../../constants";
 import PrioritySelect from "../../containers/FormikForm/components/PrioritySelect";
 import ResponsibleSelect from "../../containers/FormikForm/components/ResponsibleSelect";
 import StatusSelect from "../../containers/FormikForm/components/StatusSelect";
-import { hasUnpublishedConcepts } from "../../containers/FormikForm/utils";
-import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../interfaces";
 import { NewlyCreatedLocationState, toPreviewDraft } from "../../util/routeHelpers";
 import { FormField } from "../FormField";
-import { createEditUrl, TranslatableType, translatableTypes } from "../HeaderWithLanguage/util";
 import { PreviewResourceDialog } from "../PreviewDraft/PreviewResourceDialog";
 import SaveMultiButton from "../SaveMultiButton";
 
 interface Props {
-  article?: IArticleDTO | undefined;
+  type: "article" | "concept" | "learningpath";
   formIsDirty: boolean;
   savedToServer: boolean;
-  entityStatus?: DraftStatus;
-  showSimpleFooter: boolean;
   onSaveClick: () => void;
   statusStateMachine?: ConceptStatusStateMachineType | DraftStatusStateMachineType;
-  isArticle?: boolean;
-  isConcept: boolean;
   hideSecondaryButton: boolean;
   hasErrors?: boolean;
 }
@@ -49,6 +41,7 @@ interface FormValues {
   revision?: number;
   status: ConceptStatus;
   priority?: string;
+  supportedLanguages: string[];
 }
 
 const LinksWrapper = styled("div", {
@@ -60,47 +53,11 @@ const LinksWrapper = styled("div", {
   },
 });
 
-const StyledPageContent = styled("div", {
+const FooterWrapper = styled("div", {
   base: {
     position: "sticky",
     bottom: "4xsmall",
     zIndex: "docked",
-  },
-});
-
-const StyledSafeLinkButton = styled(SafeLinkButton, {
-  base: {
-    whiteSpace: "nowrap",
-  },
-});
-
-interface LanguageButtonProps {
-  article: IArticleDTO | undefined;
-}
-
-const LanguageButton = ({ article }: LanguageButtonProps) => {
-  const { t } = useTranslation();
-
-  if (!article) return;
-
-  const articleType = article.articleType as TranslatableType;
-  if (
-    ((article.content?.language === "nb" && article.supportedLanguages.includes("nn")) ||
-      (article.content?.language === "nn" && article.supportedLanguages.includes("nb"))) &&
-    translatableTypes.includes(articleType)
-  ) {
-    const targetLanguage = article.content.language === "nb" ? "nn" : "nb";
-
-    return (
-      <StyledSafeLinkButton variant="link" to={createEditUrl(article.id, targetLanguage, articleType)}>
-        {t(`languages.${targetLanguage}`)}
-      </StyledSafeLinkButton>
-    );
-  }
-};
-
-const ContentWrapper = styled("div", {
-  base: {
     display: "grid",
     gridTemplateColumns: "1fr repeat(3, minmax(150px, max-content)) min-content",
     justifyContent: "space-between",
@@ -121,39 +78,58 @@ const ContentWrapper = styled("div", {
   },
 });
 
+const StyledSafeLinkButton = styled(SafeLinkButton, {
+  base: {
+    whiteSpace: "nowrap",
+  },
+});
+
+interface LanguageButtonProps {
+  supportedLanguages: string[] | undefined;
+  language: string | undefined;
+}
+
+const REQUIRED_LANGUAGES = ["nb", "nn"];
+
+const LanguageButton = ({ supportedLanguages, language }: LanguageButtonProps) => {
+  const { t } = useTranslation();
+  const location = useLocation();
+  const href = useHref(location);
+
+  if (
+    language &&
+    REQUIRED_LANGUAGES.every((lang) => supportedLanguages?.includes(lang)) &&
+    REQUIRED_LANGUAGES.includes(language)
+  ) {
+    const targetLanguage = language === "nb" ? "nn" : "nb";
+
+    return (
+      <StyledSafeLinkButton variant="link" to={href.split("/").slice(0, -1).concat(targetLanguage).join("/")}>
+        {t(`languages.${targetLanguage}`)}
+      </StyledSafeLinkButton>
+    );
+  }
+};
+
 function EditorFooter<T extends FormValues>({
-  article,
   formIsDirty,
   savedToServer,
-  entityStatus,
-  showSimpleFooter,
   onSaveClick,
   statusStateMachine,
-  isArticle,
-  isConcept,
   hideSecondaryButton,
   hasErrors,
+  type,
 }: Props) {
   const { t } = useTranslation();
-  const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
-  const { createMessage } = useMessages();
+  const { values, initialValues, setFieldValue, isSubmitting } = useFormikContext<T>();
   const location = useLocation();
   const [shouldSave, setShouldSave] = useState(false);
-
-  const articleOrConcept = isArticle || isConcept;
 
   useEffect(() => {
     if (!shouldSave) return;
     onSaveClick();
     setShouldSave(false);
-    if (article && values.status.current === PUBLISHED && article.status.current !== PUBLISHED) {
-      hasUnpublishedConcepts(article).then((unpublished) => {
-        if (unpublished) {
-          createMessage({ message: t("form.unpublishedConcepts"), timeToLive: 0, severity: "warning" });
-        }
-      });
-    }
-  }, [article, createMessage, onSaveClick, shouldSave, t, values.status]);
+  }, [onSaveClick, shouldSave]);
 
   const onUpdateStatus = useCallback(
     (value: string | undefined) => {
@@ -166,71 +142,67 @@ function EditorFooter<T extends FormValues>({
   );
 
   return (
-    <StyledPageContent>
-      <ContentWrapper>
-        {!showSimpleFooter && (
-          <LinksWrapper>
-            {!!values.id && !!isConcept && (
-              <PreviewResourceDialog
-                type="concept"
-                language={values.language}
-                activateButton={<Button variant="link">{t("form.preview.button")}</Button>}
+    <FooterWrapper>
+      {!!values.id && (
+        <LinksWrapper>
+          {!!values.id && type === "concept" && (
+            <PreviewResourceDialog
+              type="concept"
+              language={values.language}
+              activateButton={<Button variant="link">{t("form.preview.button")}</Button>}
+            />
+          )}
+          {!!values.id && type === "article" && (
+            <SafeLinkButton variant="link" to={toPreviewDraft(values.id, values.language)} target="_blank">
+              {t("form.preview.button")}
+              <ShareBoxLine size="small" />
+            </SafeLinkButton>
+          )}
+          <LanguageButton language={values.language} supportedLanguages={values.supportedLanguages} />
+        </LinksWrapper>
+      )}
+      {type !== "concept" && (
+        <FormField name="priority">
+          {({ field, helpers }) => (
+            <FieldRoot>
+              <PrioritySelect priority={field.value} updatePriority={helpers.setValue} />
+            </FieldRoot>
+          )}
+        </FormField>
+      )}
+      <FormField name="responsibleId">
+        {({ field, helpers }) => (
+          <FieldRoot>
+            <ResponsibleSelect responsible={field.value} onSave={helpers.setValue} />
+          </FieldRoot>
+        )}
+      </FormField>
+      {!!values.id && (
+        <FormField name="status">
+          {({ field }) => (
+            <FieldRoot>
+              <StatusSelect
+                status={field.value}
+                updateStatus={onUpdateStatus}
+                statusStateMachine={statusStateMachine}
+                initialStatus={initialValues.status.current}
               />
-            )}
-            {!!values.id && !!isArticle && (
-              <SafeLinkButton variant="link" to={toPreviewDraft(values.id, values.language)} target="_blank">
-                {t("form.preview.button")}
-                <ShareBoxLine size="small" />
-              </SafeLinkButton>
-            )}
-            <LanguageButton article={article} />
-          </LinksWrapper>
-        )}
-        {!!isArticle && (
-          <FormField name="priority">
-            {({ field, helpers }) => (
-              <FieldRoot>
-                <PrioritySelect priority={field.value} updatePriority={helpers.setValue} />
-              </FieldRoot>
-            )}
-          </FormField>
-        )}
-        {!!articleOrConcept && (
-          <FormField name="responsibleId">
-            {({ field, helpers }) => (
-              <FieldRoot>
-                <ResponsibleSelect responsible={field.value} onSave={helpers.setValue} />
-              </FieldRoot>
-            )}
-          </FormField>
-        )}
-        {!showSimpleFooter && (
-          <FormField name="status">
-            {({ field }) => (
-              <FieldRoot>
-                <StatusSelect
-                  status={field.value}
-                  updateStatus={onUpdateStatus}
-                  statusStateMachine={statusStateMachine}
-                  entityStatus={entityStatus}
-                />
-              </FieldRoot>
-            )}
-          </FormField>
-        )}
-        <SaveMultiButton
-          isSaving={isSubmitting}
-          formIsDirty={formIsDirty}
-          showSaved={!formIsDirty && (savedToServer || !!(location.state as NewlyCreatedLocationState)?.isNewlyCreated)}
-          onClick={(saveAsNew) => {
-            setFieldValue("saveAsNew", saveAsNew);
-            setTimeout(() => setShouldSave(true), SAVE_DEBOUNCE_MS);
-          }}
-          hideSecondaryButton={hideSecondaryButton}
-          hasErrors={!!hasErrors}
-        />
-      </ContentWrapper>
-    </StyledPageContent>
+            </FieldRoot>
+          )}
+        </FormField>
+      )}
+      <SaveMultiButton
+        isSaving={isSubmitting}
+        formIsDirty={formIsDirty}
+        showSaved={!formIsDirty && (savedToServer || !!(location.state as NewlyCreatedLocationState)?.isNewlyCreated)}
+        onClick={(saveAsNew) => {
+          setFieldValue("saveAsNew", saveAsNew);
+          setTimeout(() => setShouldSave(true), SAVE_DEBOUNCE_MS);
+        }}
+        hideSecondaryButton={hideSecondaryButton}
+        hasErrors={!!hasErrors}
+      />
+    </FooterWrapper>
   );
 }
 

@@ -193,16 +193,12 @@ const InternalFormFooter = ({ articleChanged, article, savedToServer, handleSubm
   return (
     <>
       <EditorFooter
-        showSimpleFooter={!article?.id}
+        type="article"
         formIsDirty={formIsDirty}
         savedToServer={savedToServer}
         onSaveClick={onSave}
-        entityStatus={article?.status}
         statusStateMachine={statusStateMachine.data}
-        isArticle
-        isConcept={false}
         hideSecondaryButton={false}
-        article={article}
       />
       <AlertDialogWrapper
         isSubmitting={isSubmitting}

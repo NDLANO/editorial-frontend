@@ -199,13 +199,7 @@ const ConceptForm = ({
                 </FormAccordion>
               )}
             </FormAccordions>
-            <ConceptFormFooter
-              entityStatus={concept?.status}
-              conceptChanged={!!conceptChanged}
-              inDialog={inDialog}
-              savedToServer={savedToServer}
-              showSimpleFooter={!concept?.id}
-            />
+            <ConceptFormFooter conceptChanged={!!conceptChanged} inDialog={inDialog} savedToServer={savedToServer} />
           </FormWrapper>
         );
       }}

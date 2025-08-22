@@ -57,7 +57,7 @@ import { LearningpathFormHeader } from "../components/LearningpathFormHeader";
 interface LearningpathMetaDataFormValues {
   title: string;
   description: string;
-  coverPhotoUrl?: string;
+  coverPhotoMetaUrl?: string;
   tags: string[];
   // This field is only used for error checking in revisions
   revisionError?: string;
@@ -80,7 +80,7 @@ const learningpathApiTypeToFormType = (
   return {
     title: learningpath?.title.title ?? "",
     description: learningpath?.description.description ?? "",
-    coverPhotoUrl: learningpath?.coverPhoto?.url,
+    coverPhotoMetaUrl: learningpath?.coverPhoto?.metaUrl,
     tags: learningpath?.tags.tags ?? [],
     revisionMeta: learningpath?.revisions ?? [],
   };
@@ -94,7 +94,7 @@ const learningpathFormTypeToNewApiType = (
     language,
     title: values.title,
     description: values.description,
-    coverPhotoMetaUrl: values.coverPhotoUrl,
+    coverPhotoMetaUrl: values.coverPhotoMetaUrl,
     tags: values.tags,
   };
 };
@@ -110,7 +110,7 @@ const learningpathFormTypeToApiType = (
     language,
     title: values.title,
     description: values.description,
-    coverPhotoMetaUrl: values.coverPhotoUrl,
+    coverPhotoMetaUrl: values.coverPhotoMetaUrl,
     tags: values.tags,
   };
 };

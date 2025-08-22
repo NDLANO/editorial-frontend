@@ -57,7 +57,7 @@ const MetaImageWrapper = styled("div", {
 
 export const LearningpathMetaImageField = ({ language }: Props) => {
   const [image, setImage] = useState<IImageMetaInformationV3DTO | undefined>(undefined);
-  const [field, , helpers] = useField("coverPhotoUrl");
+  const [field, , helpers] = useField("coverPhotoMetaUrl");
   const { t } = useTranslation();
   const imageId = field.value?.split("/").pop() ?? "";
 

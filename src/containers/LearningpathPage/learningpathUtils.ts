@@ -40,5 +40,4 @@ export const getFormTypeFromStep = (step?: ILearningStepV2DTO): "text" | "resour
   return "external";
 };
 
-export const learningpathStepEditButtonId = (id: number) => `edit-button-${id}`;
-export const learningpathStepCloseButtonId = (id: number) => `close-button-${id}`;
+export const learningStepEditId = (id: number | string) => `learningstep-edit-${id}`;

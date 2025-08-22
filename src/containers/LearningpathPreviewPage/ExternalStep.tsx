@@ -12,7 +12,7 @@ import { Spinner } from "@ndla/primitives";
 import { ILearningPathV2DTO, ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper, ResourceBox } from "@ndla/ui";
 import { EmbedPageContent } from "./EmbedPageContent";
-import { useFetchOpenGraph } from "../../../modules/opengraph/opengraphQueries";
+import { useFetchOpenGraph } from "../../modules/opengraph/opengraphQueries";
 
 interface Props {
   learningpath: ILearningPathV2DTO;

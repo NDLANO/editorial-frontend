@@ -20,7 +20,8 @@ import PrioritySelect from "../../containers/FormikForm/components/PrioritySelec
 import ResponsibleSelect from "../../containers/FormikForm/components/ResponsibleSelect";
 import StatusSelect from "../../containers/FormikForm/components/StatusSelect";
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../interfaces";
-import { NewlyCreatedLocationState, toPreviewDraft } from "../../util/routeHelpers";
+import { usePutLearningpathStatusMutation } from "../../modules/learningpath/learningpathMutations";
+import { NewlyCreatedLocationState, routes, toPreviewDraft } from "../../util/routeHelpers";
 import { FormField } from "../FormField";
 import { PreviewResourceDialog } from "../PreviewDraft/PreviewResourceDialog";
 import SaveMultiButton from "../SaveMultiButton";
@@ -124,6 +125,7 @@ function EditorFooter<T extends FormValues>({
   const { values, initialValues, setFieldValue, isSubmitting } = useFormikContext<T>();
   const location = useLocation();
   const [shouldSave, setShouldSave] = useState(false);
+  const putLearningpathStatusMutation = usePutLearningpathStatusMutation(values.language);
 
   useEffect(() => {
     if (!shouldSave) return;
@@ -145,15 +147,21 @@ function EditorFooter<T extends FormValues>({
     <FooterWrapper>
       {!!values.id && (
         <LinksWrapper>
-          {!!values.id && type === "concept" && (
+          {type === "concept" && (
             <PreviewResourceDialog
               type="concept"
               language={values.language}
               activateButton={<Button variant="link">{t("form.preview.button")}</Button>}
             />
           )}
-          {!!values.id && type === "article" && (
+          {type === "article" && (
             <SafeLinkButton variant="link" to={toPreviewDraft(values.id, values.language)} target="_blank">
+              {t("form.preview.button")}
+              <ShareBoxLine size="small" />
+            </SafeLinkButton>
+          )}
+          {type === "learningpath" && (
+            <SafeLinkButton variant="link" to={routes.learningpath.preview(values.id, values.language)} target="_blank">
               {t("form.preview.button")}
               <ShareBoxLine size="small" />
             </SafeLinkButton>
@@ -177,7 +185,7 @@ function EditorFooter<T extends FormValues>({
           </FieldRoot>
         )}
       </FormField>
-      {!!values.id && (
+      {!!values.id && type !== "learningpath" && (
         <FormField name="status">
           {({ field }) => (
             <FieldRoot>
@@ -190,6 +198,22 @@ function EditorFooter<T extends FormValues>({
             </FieldRoot>
           )}
         </FormField>
+      )}
+      {!!values.status && type === "learningpath" && values.status.current !== PUBLISHED && (
+        <Button
+          disabled={
+            formIsDirty || isSubmitting || !!location.state?.isNewlyCreated || values.status.current === PUBLISHED
+          }
+          loading={putLearningpathStatusMutation.isPending}
+          onClick={async () => {
+            await putLearningpathStatusMutation.mutateAsync({
+              learningpathId: values.id,
+              status: PUBLISHED,
+            });
+          }}
+        >
+          {t("form.publish")}
+        </Button>
       )}
       <SaveMultiButton
         isSaving={isSubmitting}

@@ -13,39 +13,16 @@ import config from "./config";
 
 const learningpathRoutes: RouteObject[] = [
   {
+    path: "/learningpath/:id/edit/:language",
+    lazy: () => import("./containers/LearningpathPage/EditLearningpathPage"),
+  },
+  {
     path: "/learningpath/new",
     lazy: () => import("./containers/LearningpathPage/CreateLearningpathPage"),
   },
   {
-    path: "/learningpath/:id",
-    lazy: () => import("./containers/LearningpathPage/LearningpathLayout"),
-    children: [
-      {
-        path: "edit/:language",
-        children: [
-          {
-            index: true,
-            lazy: () => import("./containers/LearningpathPage/metadata/LearningpathMetaDataPage"),
-          },
-          {
-            path: "metadata",
-            lazy: () => import("./containers/LearningpathPage/metadata/LearningpathMetaDataPage"),
-          },
-          {
-            path: "steps/:stepId?",
-            lazy: () => import("./containers/LearningpathPage/steps/LearningpathStepsFormPage"),
-          },
-        ],
-      },
-      {
-        path: "preview/:language/:stepId?",
-        lazy: () => import("./containers/LearningpathPage/preview/LearningpathPreviewPage"),
-      },
-      {
-        path: "status/:language",
-        lazy: () => import("./containers/LearningpathPage/status/LearningpathStatusPage"),
-      },
-    ],
+    path: "/learningpath/:id/preview/:language/:stepId?",
+    lazy: () => import("./containers/LearningpathPreviewPage/LearningpathPreviewPage"),
   },
 ];
 

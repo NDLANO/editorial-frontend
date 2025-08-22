@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { PageContent } from "@ndla/primitives";
-import { LearningpathMetaDataForm } from "./metadata/LearningpathMetaDataForm";
+import { LearningpathForm } from "./LearningpathForm";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 export const Component = () => {
@@ -19,8 +19,8 @@ export const CreateLearningpathPage = () => {
   const { t, i18n } = useTranslation();
   return (
     <PageContent>
-      <title>{t("htmlTitles.learningpathForm.new")}</title>
-      <LearningpathMetaDataForm language={i18n.language} />
+      <title>{t("htmlTitles.learningpath.new")}</title>
+      <LearningpathForm learningpath={undefined} language={i18n.language} />
     </PageContent>
   );
 };

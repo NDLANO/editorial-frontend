@@ -6,14 +6,16 @@
  *
  */
 
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useParams } from "react-router-dom";
+import { Portal } from "@ark-ui/react";
 import { DragEndEvent } from "@dnd-kit/core";
 import { AddLine, Draggable } from "@ndla/icons";
-import { Heading, Text } from "@ndla/primitives";
-import { SafeLinkButton } from "@ndla/safelink";
+import { Button, DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, Text } from "@ndla/primitives";
+import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { LearningpathStepForm } from "./LearningpathStepForm";
+import { LearningStepListItem } from "./LearningStepListItem";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
 import { FormContent } from "../../../components/FormikForm";
@@ -21,47 +23,37 @@ import {
   useDeleteLearningStepMutation,
   usePutLearningStepOrderMutation,
 } from "../../../modules/learningpath/learningpathMutations";
-import { routes } from "../../../util/routeHelpers";
-import PrivateRoute from "../../PrivateRoute/PrivateRoute";
-import { useLearningpathContext } from "../LearningpathLayout";
-import { LearningStepListItem } from "./LearningStepListItem";
+import { learningStepEditId } from "../learningpathUtils";
 
-interface LocationState {
-  focusStepId?: string;
+interface Props {
+  learningpath: ILearningPathV2DTO;
+  language: string;
 }
 
-export const Component = () => {
-  return <PrivateRoute component={<LearningpathStepsFormPage />} />;
-};
-
-export const LearningpathStepsFormPage = () => {
+export const LearningpathStepsFormPart = ({ learningpath, language }: Props) => {
+  const [open, setOpen] = useState(false);
+  const [focusId, setFocusId] = useState<string | undefined>(undefined);
   const { t } = useTranslation();
-  const { learningpath, language } = useLearningpathContext();
-  const { stepId } = useParams<"stepId">();
   const deleteStepMutation = useDeleteLearningStepMutation(language);
   const putLearningStepOrderMutation = usePutLearningStepOrderMutation(language);
-  const location = useLocation();
 
   useEffect(() => {
-    const locationState = location.state as LocationState;
-    const focusId = locationState?.focusStepId;
-    if (!focusId) return;
-    setTimeout(() => {
-      const focusElement = document.getElementById(focusId.toString());
-      focusElement?.focus();
-    }, 0);
-  }, [location, stepId]);
+    if (focusId && !open) {
+      document.getElementById(focusId)?.focus();
+      setFocusId(undefined);
+    }
+  }, [focusId, open]);
 
   const onDeleteStep = useCallback(
     async (stepId: number) => {
-      const el = document.getElementById(stepId.toString())?.closest("li");
-      const focusEl = [el?.nextElementSibling, el?.previousElementSibling].find(
-        (el) => el?.tagName === "LI",
-      ) as HTMLElement | null;
+      const index = learningpath.learningsteps.findIndex((step) => step.id === stepId);
+      const focusId = learningpath.learningsteps[index + 1]?.id || learningpath.learningsteps[index - 1]?.id;
       await deleteStepMutation.mutateAsync({ learningpathId: learningpath.id, stepId });
-      focusEl?.focus();
+      if (focusId) {
+        setFocusId(learningStepEditId(focusId));
+      }
     },
-    [deleteStepMutation, learningpath.id],
+    [deleteStepMutation, learningpath.id, learningpath.learningsteps],
   );
 
   const onDragEnd = useCallback(
@@ -78,21 +70,13 @@ export const LearningpathStepsFormPage = () => {
     },
     [learningpath.id, putLearningStepOrderMutation],
   );
-
   return (
     <FormContent>
-      <title>{t("htmlTitles.learningpathForm.editSteps")}</title>
-      <Heading asChild consumeCss>
-        <h2>{t("learningpathForm.steps.heading")}</h2>
-      </Heading>
-      {!learningpath.learningsteps.length ? (
-        <Text>{t("learningpathForm.steps.noSteps")}</Text>
-      ) : (
+      {learningpath.learningsteps.length ? (
         <ul>
           <DndList
             items={learningpath.learningsteps}
             onDragEnd={onDragEnd}
-            disabled={!!stepId}
             dragHandle={
               <DragHandle>
                 <Draggable />
@@ -102,7 +86,6 @@ export const LearningpathStepsFormPage = () => {
               <LearningStepListItem
                 key={item.id}
                 item={item}
-                stepId={stepId}
                 onDeleteStep={onDeleteStep}
                 learningpathId={learningpath.id}
                 language={language}
@@ -110,14 +93,33 @@ export const LearningpathStepsFormPage = () => {
             )}
           />
         </ul>
+      ) : (
+        <Text>{t("learningpathForm.steps.noSteps")}</Text>
       )}
-      {stepId === "new" && <LearningpathStepForm />}
-      {!stepId && (
-        <SafeLinkButton to={routes.learningpath.createStep(learningpath.id, language)} variant="secondary">
-          <AddLine />
-          {t("learningpathForm.steps.addStep")}
-        </SafeLinkButton>
-      )}
+      <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
+        <DialogTrigger asChild>
+          <Button variant="secondary">
+            <AddLine />
+            {t("learningpathForm.steps.addStep")}
+          </Button>
+        </DialogTrigger>
+        <Portal>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{t("learningpathForm.steps.addStep")}</DialogTitle>
+              <DialogCloseButton />
+            </DialogHeader>
+            <LearningpathStepForm
+              onClose={(focusId) => {
+                setOpen(false);
+                if (focusId) {
+                  setTimeout(() => setFocusId(learningStepEditId(focusId)), 0);
+                }
+              }}
+            />
+          </DialogContent>
+        </Portal>
+      </DialogRoot>
     </FormContent>
   );
 };

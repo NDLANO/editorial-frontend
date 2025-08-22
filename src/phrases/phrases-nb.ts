@@ -38,12 +38,10 @@ const phrases = {
       content: `Søk innhold ${titleTemplate}`,
       image: `Søk bilder ${titleTemplate}`,
     },
-    learningpathForm: {
+    learningpath: {
       new: `Opprett læringssti ${titleTemplate}`,
-      editMetadata: `Rediger læringssti ${titleTemplate}`,
-      editSteps: `Rediger læringssteg ${titleTemplate}`,
+      edit: `Rediger læringssti ${titleTemplate}`,
       preview: `Forhåndsvis læringssti ${titleTemplate}`,
-      status: `Endre læringsstistatus ${titleTemplate}`,
     },
   },
   dropdown: {
@@ -2338,25 +2336,15 @@ const phrases = {
     header: {
       clone: "Kopier læringssti",
     },
-    stepper: {
-      navigation: "Skjemanavigering",
-      next: "Gå videre",
-      titles: {
-        metadata: "Metadata",
-        steps: "Læringssteg",
-        preview: "Forhåndsvis",
-        status: "Endre status",
-      },
-    },
     metadata: {
-      heading: "Rediger metadata",
+      title: "Metadata/Innhold",
       titleLabel: "Tittel",
       descriptionLabel: "Beskrivelse",
       metaImageTitle: "Metabilde",
       descriptionPlaceholder: "Beskrivelse av læringsstien",
     },
     steps: {
-      heading: "Rediger læringssteg",
+      title: "Læringssteg",
       typeTitle: "Legg til innhold",
       typeDisabledExplanation: "Stier som opprettes i ED støtter kun ressurs-steg",
       addStep: "Legg til steg",
@@ -2366,7 +2354,6 @@ const phrases = {
         text: "Tekst jeg har skrevet selv",
         resource: "Innhold fra NDLA",
         external: "Innhold fra et annet nettsted",
-        folder: "Innhold fra en av mine mapper i Min NDLA",
       },
       editStep: "Rediger steg",
       textForm: {
@@ -2397,14 +2384,6 @@ const phrases = {
       learningpathMenuTitle: "Læringssteg",
       noSteps: "Læringsstien har ingen steg.",
       showPublished: "Vis publisert versjon",
-    },
-    status: {
-      heading: "Endre status på læringssti",
-      unpublishedText:
-        "En læringssti kan bare publiseres en gang. Når den først er publisert vil alle fremtidige endringer ende opp direkte på ndla.no. Hver nye språkversjon av en læringssti må publiseres separat.",
-      publishedText:
-        "Denne læringsstien er allerede publisert. Alle endringer vil være umiddelbart synlige på ndla.no.",
-      publish: "Publiser",
     },
   },
 };

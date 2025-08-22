@@ -6,6 +6,7 @@
  *
  */
 
+import { useFormikContext } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -17,6 +18,7 @@ import { ContentTypeBadge } from "@ndla/ui";
 import DeleteLanguageVersion from "../../../components/HeaderWithLanguage/DeleteLanguageVersion";
 import { HeaderCurrentLanguagePill } from "../../../components/HeaderWithLanguage/HeaderCurrentLanguagePill";
 import HeaderFavoriteStatus from "../../../components/HeaderWithLanguage/HeaderFavoriteStatus";
+import LanguagePicker from "../../../components/HeaderWithLanguage/HeaderLanguagePicker";
 import HeaderSupportedLanguages from "../../../components/HeaderWithLanguage/HeaderSupportedLanguages";
 import { ResourcePublishedLink } from "../../../components/HeaderWithLanguage/ResourcePublishedLink";
 import { ResourceStatus } from "../../../components/HeaderWithLanguage/ResourceStatus";
@@ -40,7 +42,6 @@ import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvid
 interface Props {
   learningpath: ILearningPathV2DTO | undefined;
   language: string;
-  enableClone?: boolean;
 }
 
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
@@ -69,10 +70,11 @@ const StyledGroup = styled("div", {
   },
 });
 
-export const LearningpathFormHeader = ({ learningpath, language, enableClone }: Props) => {
+export const LearningpathFormHeader = ({ learningpath, language }: Props) => {
   const { t } = useTranslation();
   const isNewLanguage = !!learningpath?.id && !learningpath.supportedLanguages.includes(language);
   const cloneLearningpathMutation = usePostCopyLearningpathMutation();
+  const { dirty } = useFormikContext();
   const navigate = useNavigate();
   const location = useLocation();
   const { createMessage } = useMessages();
@@ -95,6 +97,29 @@ export const LearningpathFormHeader = ({ learningpath, language, enableClone }: 
     { enabled: !!learningpath },
   );
 
+  const languages = useMemo(() => {
+    return [
+      { key: "nn", title: t("languages.nn"), include: true },
+      { key: "en", title: t("languages.en"), include: true },
+      { key: "nb", title: t("languages.nb"), include: true },
+      { key: "sma", title: t("languages.sma"), include: true },
+      { key: "se", title: t("languages.se"), include: true },
+      { key: "und", title: t("languages.und"), include: false },
+      { key: "de", title: t("languages.de"), include: true },
+      { key: "es", title: t("languages.es"), include: true },
+      { key: "zh", title: t("languages.zh"), include: true },
+      { key: "ukr", title: t("languages.ukr"), include: true },
+    ];
+  }, [t]);
+
+  const emptyLanguages = useMemo(
+    () =>
+      languages.filter(
+        (lang) => lang.key !== language && !learningpath?.supportedLanguages.includes(lang.key) && lang.include,
+      ),
+    [language, languages, learningpath],
+  );
+
   const contexts = useMemo(() => {
     return (
       taxonomyQuery.data?.flatMap((node) => node.contexts).filter((context) => !context.rootId.includes("programme")) ??
@@ -104,7 +129,7 @@ export const LearningpathFormHeader = ({ learningpath, language, enableClone }: 
 
   const onClone = useCallback(async () => {
     if (!learningpath) return;
-    if (!enableClone) {
+    if (dirty || !learningpath.supportedLanguages.includes(language)) {
       createMessage({ translationKey: "form.mustSaveFirst", severity: "danger", timeToLive: 0 });
       return;
     }
@@ -114,7 +139,7 @@ export const LearningpathFormHeader = ({ learningpath, language, enableClone }: 
     });
 
     navigate(routes.learningpath.edit(res.id, language));
-  }, [cloneLearningpathMutation, createMessage, enableClone, language, learningpath, navigate]);
+  }, [cloneLearningpathMutation, createMessage, dirty, language, learningpath, navigate]);
 
   return (
     <header>
@@ -160,6 +185,9 @@ export const LearningpathFormHeader = ({ learningpath, language, enableClone }: 
               !learningpath.supportedLanguages.includes(language) && (
                 <HeaderCurrentLanguagePill>{t(`languages.${language}`)}</HeaderCurrentLanguagePill>
               )}
+            {!!learningpath && (
+              <LanguagePicker id={learningpath.id} editUrl={toLearningpath} emptyLanguages={emptyLanguages} />
+            )}
           </StyledGroup>
         )}
         {!!learningpath?.id && (

@@ -13,13 +13,13 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { Article } from "@ndla/ui";
 import { EmbedPageContent } from "./EmbedPageContent";
-import { toFormArticle } from "../../../components/PreviewDraft/PreviewDraft";
-import { useTransformedArticle } from "../../../components/PreviewDraft/useTransformedArticle";
-import { useArticle } from "../../../modules/article/articleQueries";
-import { useDraft } from "../../../modules/draft/draftQueries";
-import { useNode } from "../../../modules/nodes/nodeQueries";
-import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
-import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import { toFormArticle } from "../../components/PreviewDraft/PreviewDraft";
+import { useTransformedArticle } from "../../components/PreviewDraft/useTransformedArticle";
+import { useArticle } from "../../modules/article/articleQueries";
+import { useDraft } from "../../modules/draft/draftQueries";
+import { useNode } from "../../modules/nodes/nodeQueries";
+import { getContentTypeFromResourceTypes } from "../../util/resourceHelpers";
+import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
 interface ArticleStepProps {
   step: ILearningStepV2DTO;

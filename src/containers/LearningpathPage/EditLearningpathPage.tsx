@@ -6,32 +6,21 @@
  *
  */
 
-import { useState } from "react";
-import { Navigate, Outlet, useLocation, useOutletContext, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { Navigate, useLocation, useParams } from "react-router-dom";
 import { PageContainer, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { LearningpathErrorMessage } from "./components/LearningpathErrorMessage";
+import { LearningpathForm } from "./LearningpathForm";
 import { PageSpinner } from "../../components/PageSpinner";
 import { useLearningpath } from "../../modules/learningpath/learningpathQueries";
 import { isNotFoundError } from "../../util/resolveJsonOrRejectWithError";
-import NotFound from "../NotFoundPage/NotFoundPage";
-import { LearningpathFormHeader } from "./components/LearningpathFormHeader";
-import { LearningpathFormStepper } from "./components/LearningpathFormStepper";
 import { CreatingLanguageLocationState, routes } from "../../util/routeHelpers";
+import NotFound from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
-const getCurrentStep = (pathname: string): "metadata" | "steps" | "preview" | "status" => {
-  if (pathname.includes("metadata")) {
-    return "metadata";
-  } else if (pathname.includes("steps")) {
-    return "steps";
-  } else if (pathname.includes("preview")) {
-    return "preview";
-  } else if (pathname.includes("status")) {
-    return "status";
-  }
-  return "metadata"; // Default step
+export const Component = () => {
+  return <PrivateRoute component={<EditLearningpathPage />} />;
 };
 
 const Container = styled("div", {
@@ -42,13 +31,10 @@ const Container = styled("div", {
   },
 });
 
-export const Component = () => {
-  return <PrivateRoute component={<LearningpathLayout />} />;
-};
-
-export const LearningpathLayout = () => {
+const EditLearningpathPage = () => {
   const { id, language } = useParams<"id" | "language">();
-  const [enableClone, setEnableClone] = useState(true);
+  const { t } = useTranslation();
+
   const numericId = parseInt(id ?? "");
   const learningpathQuery = useLearningpath({ id: numericId, language }, { enabled: !!numericId });
   const location = useLocation();
@@ -73,8 +59,6 @@ export const LearningpathLayout = () => {
     );
   }
 
-  const currentStep = getCurrentStep(location.pathname);
-
   if (
     !learningpathQuery.data.supportedLanguages.includes(language) &&
     !(location.state as CreatingLanguageLocationState | undefined)?.isCreatingLanguage
@@ -82,7 +66,7 @@ export const LearningpathLayout = () => {
     return (
       <Navigate
         replace
-        to={routes.learningpath.edit(numericId, learningpathQuery.data.supportedLanguages[0], currentStep)}
+        to={routes.learningpath.edit(learningpathQuery.data.id, learningpathQuery.data.supportedLanguages[0])}
       />
     );
   }
@@ -90,21 +74,9 @@ export const LearningpathLayout = () => {
   return (
     <PageContent>
       <Container>
-        <LearningpathFormHeader learningpath={learningpathQuery.data} language={language} enableClone={enableClone} />
-        <LearningpathFormStepper id={learningpathQuery.data.id} language={language} currentStep={currentStep} />
-        <Outlet context={{ learningpath: learningpathQuery.data, enableClone, setEnableClone, language }} />
+        <title>{t("htmlTitles.learningpath.edit")}</title>
+        <LearningpathForm learningpath={learningpathQuery.data} language={language} />
       </Container>
     </PageContent>
   );
-};
-
-interface LearningpathContext {
-  learningpath: ILearningPathV2DTO;
-  language: string;
-  enableClone: boolean;
-  setEnableClone: (enable: boolean) => void;
-}
-
-export const useLearningpathContext = () => {
-  return useOutletContext<LearningpathContext>();
 };

@@ -22,7 +22,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ILearningPathV2DTO, ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { contains } from "@ndla/util";
-import { toPreviewLearningpath } from "../../../util/routeHelpers";
+import { toPreviewLearningpath } from "../../util/routeHelpers";
 
 interface Props {
   learningpath: ILearningPathV2DTO;

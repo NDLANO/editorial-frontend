@@ -38,8 +38,7 @@ export const routes = {
     full: toLearningpathFull,
     create: "/learningpath/new",
     edit: toEditLearningpath,
-    createStep: toCreateLearningpathStep,
-    editStep: toEditLearningpathStep,
+    preview: toPreviewLearningpath,
   },
   updateCodes: "/updateCodes",
   taxonomy: {
@@ -132,32 +131,15 @@ export function toEditGenericArticle(articleId: number | string) {
   return `/subject-matter/article/${articleId}`;
 }
 
-export function toEditLearningpath(
-  id: number,
-  locale: string,
-  type: "metadata" | "steps" | "preview" | "status" = "metadata",
-) {
+export function toEditLearningpath(id: number, locale: string) {
   if (!config.enableLearningpath) {
     return toLearningpathFull(id, locale);
   }
-  if (type === "preview") {
-    return `/learningpath/${id}/preview/${locale}`;
-  } else if (type === "status") {
-    return `/learningpath/${id}/status/${locale}`;
-  }
-  return `/learningpath/${id}/edit/${locale}/${type}`;
+  return `/learningpath/${id}/edit/${locale}`;
 }
 
 export function toPreviewLearningpath(id: number, locale: string, stepId?: number | string) {
   return `/learningpath/${id}/preview/${locale}${stepId ? `/${stepId}` : ""}`;
-}
-
-export function toCreateLearningpathStep(id: number, locale: string) {
-  return `/learningpath/${id}/edit/${locale}/steps/new`;
-}
-
-export function toEditLearningpathStep(id: number, stepId: number, locale: string) {
-  return `/learningpath/${id}/edit/${locale}/steps/${stepId}`;
 }
 
 export function toEditSubjectpage(subjectId: string, locale: string, subjectpageId?: number | string) {

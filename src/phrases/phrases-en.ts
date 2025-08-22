@@ -38,12 +38,10 @@ const phrases = {
       content: `Search content ${titleTemplate}`,
       image: `Search images ${titleTemplate}`,
     },
-    learningpathForm: {
+    learningpath: {
       new: `Create learning path ${titleTemplate}`,
-      editMetadata: `Edit learning path ${titleTemplate}`,
-      editSteps: `Edit learning steps ${titleTemplate}`,
+      edit: `Edit learning path ${titleTemplate}`,
       preview: `Preview learning path ${titleTemplate}`,
-      status: `Edit learning path status ${titleTemplate}`,
     },
   },
   meta: {
@@ -2340,25 +2338,15 @@ const phrases = {
     header: {
       clone: "Copy learning path",
     },
-    stepper: {
-      navigation: "Form navigation",
-      next: "Next",
-      titles: {
-        metadata: "Metadata",
-        steps: "Learning step",
-        preview: "Preview",
-        status: "Change status",
-      },
-    },
     metadata: {
-      heading: "Edit metadata",
+      title: "Metadata/Content",
       titleLabel: "Title",
       descriptionLabel: "Description",
       metaImageTitle: "Meta image",
       descriptionPlaceholder: "Description of the learning path",
     },
     steps: {
-      heading: "Edit learning steps",
+      title: "Learning steps",
       typeTitle: "Add content",
       typeDisabledExplanation: "Learning paths created in ED only support resource steps",
       addStep: "Add step",
@@ -2368,7 +2356,6 @@ const phrases = {
         text: "Text written by myself",
         resource: "Content from NDLA",
         external: "Content from a external website",
-        folder: "Content from one of my folder in My NDLA",
       },
       editStep: "Edit step",
       textForm: {
@@ -2399,13 +2386,6 @@ const phrases = {
       learningpathMenuTitle: "Learning steps",
       noSteps: "This learning path has no steps.",
       showPublished: "Show published version",
-    },
-    status: {
-      heading: "Change learning path status",
-      unpublishedText:
-        "A learning path can only be published once. When published, all future changes will be immediately visible on ndla.no Every new language version of a learning path must be published separately.",
-      publishedText: "This learning path is already published. All changes will be immediately visible on ndla.no.",
-      publish: "Publish",
     },
   },
 };

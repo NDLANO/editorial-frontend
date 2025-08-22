@@ -14,9 +14,9 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ArticleContent, ArticleTitle, ArticleWrapper, ExternalEmbed } from "@ndla/ui";
 import { EmbedPageContent } from "./EmbedPageContent";
-import { OembedResponse } from "../../../interfaces";
-import { fetchExternalOembed } from "../../../util/apiHelpers";
-import { isNDLAFrontendUrl } from "../../../util/htmlHelpers";
+import { OembedResponse } from "../../interfaces";
+import { fetchExternalOembed } from "../../util/apiHelpers";
+import { isNDLAFrontendUrl } from "../../util/htmlHelpers";
 
 interface Props {
   step: ILearningStepV2DTO;

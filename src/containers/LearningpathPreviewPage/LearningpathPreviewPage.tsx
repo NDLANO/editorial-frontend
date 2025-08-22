@@ -7,19 +7,24 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
-import { Heading, Text } from "@ndla/primitives";
+import { Navigate, useParams } from "react-router-dom";
+import { Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useLearningpathContext } from "../LearningpathLayout";
-import { getFormTypeFromStep } from "../learningpathUtils";
 import { ArticleStep } from "./ArticleStep";
 import { EmbedStep } from "./EmbedStep";
 import { ExternalStep } from "./ExternalStep";
 import { LearningpathMenu } from "./LearningpathMenu";
 import { StepTitle } from "./StepTitle";
 import { TextStep } from "./TextStep";
-import { FormContent } from "../../../components/FormikForm";
-import PrivateRoute from "../../PrivateRoute/PrivateRoute";
+import { FormContent } from "../../components/FormikForm";
+import { PageSpinner } from "../../components/PageSpinner";
+import { useLearningpath } from "../../modules/learningpath/learningpathQueries";
+import { isNotFoundError } from "../../util/resolveJsonOrRejectWithError";
+import { routes } from "../../util/routeHelpers";
+import { LearningpathErrorMessage } from "../LearningpathPage/components/LearningpathErrorMessage";
+import { getFormTypeFromStep } from "../LearningpathPage/learningpathUtils";
+import NotFound from "../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const StepWrapper = styled("div", {
   base: {
@@ -33,10 +38,47 @@ export const Component = () => {
   return <PrivateRoute component={<LearningpathPreviewPage />} />;
 };
 
-export const LearningpathPreviewPage = () => {
+const LearningpathPreviewPage = () => {
   const { t } = useTranslation();
-  const { learningpath, language } = useLearningpathContext();
-  const { stepId } = useParams<"stepId">();
+  const { id, language, stepId } = useParams<"stepId" | "id" | "language">();
+
+  const numericId = parseInt(id ?? "");
+  const learningpathQuery = useLearningpath({ id: numericId, language }, { enabled: !!numericId });
+
+  if (!numericId || !language) {
+    return <NotFound />;
+  }
+
+  if (learningpathQuery.isLoading) {
+    return <PageSpinner />;
+  }
+
+  if (learningpathQuery.isError && isNotFoundError(learningpathQuery.error)) {
+    return <NotFound />;
+  }
+
+  if (learningpathQuery.isError || !learningpathQuery.data) {
+    return (
+      <PageContainer>
+        <LearningpathErrorMessage />
+      </PageContainer>
+    );
+  }
+
+  if (!learningpathQuery.data.supportedLanguages.includes(language)) {
+    return (
+      <Navigate
+        replace
+        to={routes.learningpath.preview(
+          learningpathQuery.data.id,
+          learningpathQuery.data.supportedLanguages[0],
+          stepId,
+        )}
+      />
+    );
+  }
+
+  const learningpath = learningpathQuery.data;
 
   const currentStep = stepId
     ? learningpath.learningsteps.find((step) => step.id === parseInt(stepId))
@@ -45,12 +87,10 @@ export const LearningpathPreviewPage = () => {
   const stepType = currentStep ? getFormTypeFromStep(currentStep) : null;
 
   return (
-    <>
-      <title>{t("htmlTitles.learningpathForm.preview")}</title>
+    <PageContainer>
+      <title>{t("htmlTitles.learningpath.preview")}</title>
       <FormContent>
-        <Heading asChild consumeCss>
-          <h2>{t("learningpathForm.preview.heading")}</h2>
-        </Heading>
+        <Heading>{t("learningpathForm.preview.heading")}</Heading>
         <StepWrapper>
           {currentStep && stepType ? (
             <>
@@ -71,6 +111,6 @@ export const LearningpathPreviewPage = () => {
           )}
         </StepWrapper>
       </FormContent>
-    </>
+    </PageContainer>
   );
 };

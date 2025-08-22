@@ -9,11 +9,12 @@
 import { Form, Formik } from "formik";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { isSectionElement } from "@ndla/editor";
-import { DeleteBinLine } from "@ndla/icons";
 import {
   Button,
+  DialogBody,
+  DialogFooter,
   FieldErrorMessage,
   FieldHelper,
   FieldLabel,
@@ -24,48 +25,29 @@ import {
   RadioGroupItemText,
   RadioGroupRoot,
 } from "@ndla/primitives";
-import { SafeLinkButton } from "@ndla/safelink";
-import { styled } from "@ndla/styled-system/jsx";
-import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import {
+  ILearningStepV2DTO,
+  INewLearningStepV2DTO,
+  IUpdatedLearningStepV2DTO,
+} from "@ndla/types-backend/learningpath-api";
 import { ExternalStepForm, externalStepRules } from "./ExternalStepForm";
 import { ResourceStepForm, resourceStepRules } from "./ResourceStepForm";
 import { FormField } from "../../../components/FormField";
-import { FormActionsContainer } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../util/articleContentConverter";
 import { unreachable } from "../../../util/guards";
-import { routes } from "../../../util/routeHelpers";
-import { getFormTypeFromStep, learningpathStepEditButtonId } from "../learningpathUtils";
+import { getFormTypeFromStep } from "../learningpathUtils";
 import { TextStepForm, textStepRules } from "./TextStepForm";
 import { LearningpathStepFormValues } from "./types";
 import {
-  useDeleteLearningStepMutation,
   usePatchLearningStepMutation,
   usePostLearningStepMutation,
 } from "../../../modules/learningpath/learningpathMutations";
 import { AlertDialogWrapper } from "../../FormikForm";
 import { PreventWindowUnload } from "../../FormikForm/PreventWindowUnload";
 import PrivateRoute from "../../PrivateRoute/PrivateRoute";
-import { LearningpathEnableClone } from "../components/LearningpathEnableClone";
 
 const RADIO_GROUP_OPTIONS = ["text", "resource", "external"] as const;
-
-const StyledForm = styled(
-  Form,
-  {
-    base: {
-      width: "100%",
-      display: "flex",
-      flexDirection: "column",
-      gap: "medium",
-      padding: "medium",
-      border: "1px solid",
-      borderColor: "stroke.discrete",
-      background: "surface.subtle",
-    },
-  },
-  { baseComponent: true },
-);
 
 const learningpathBlockContentToEditorValue = (html: string) => {
   const res = blockContentToEditorValue(html);
@@ -124,7 +106,9 @@ interface Props {
   step?: ILearningStepV2DTO;
 }
 
-const formValuesToStep = (values: LearningpathStepFormValues) => {
+const formValuesToStep = (
+  values: LearningpathStepFormValues,
+): Omit<INewLearningStepV2DTO | IUpdatedLearningStepV2DTO, "language" | "revision"> => {
   const htmlDescription = blockContentToHTML(values.description ?? []);
   const description = htmlDescription === "<section></section>" ? null : htmlDescription;
   if (values.type === "text") {
@@ -174,15 +158,17 @@ export const Component = () => {
   return <PrivateRoute component={<LearningpathStepForm />} />;
 };
 
-export const LearningpathStepForm = ({ step }: Props) => {
+interface Props {
+  onClose?: (focusId?: number) => void;
+}
+
+export const LearningpathStepForm = ({ step, onClose }: Props) => {
   const wrapperRef = useRef<HTMLFormElement>(null);
   const { id, language } = useParams<"id" | "language">();
   const { t } = useTranslation();
   const initialValues = useMemo(() => toFormValues(step ? getFormTypeFromStep(step) : "resource", step), [step]);
   const postLearningStepMutation = usePostLearningStepMutation(language ?? "");
   const patchLearningStepMutation = usePatchLearningStepMutation(language ?? "");
-  const deleteLearningStepMutation = useDeleteLearningStepMutation(language ?? "");
-  const navigate = useNavigate();
 
   useEffect(() => {
     wrapperRef.current?.parentElement?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -194,28 +180,14 @@ export const LearningpathStepForm = ({ step }: Props) => {
     }
   }, [step]);
 
-  const onDelete = useCallback(
-    async (stepId: number) => {
-      const numericId = parseInt(id ?? "");
-      const el = wrapperRef.current?.closest("li");
-      const focusEl = [el?.nextElementSibling, el?.previousElementSibling].find(
-        (el) => el?.tagName === "LI",
-      ) as HTMLElement | null;
-      if (!numericId) return;
-      await deleteLearningStepMutation.mutateAsync({ learningpathId: numericId, stepId: stepId });
-      navigate(routes.learningpath.edit(numericId, language ?? "", "steps"), { state: { focusStepId: focusEl?.id } });
-    },
-    [deleteLearningStepMutation, id, language, navigate],
-  );
-
   const handleSubmit = useCallback(
     async (values: LearningpathStepFormValues) => {
       const numericId = id ? parseInt(id) : undefined;
       if (!numericId || !language) return;
-      let newLearningpath: ILearningStepV2DTO;
+      let newStep: ILearningStepV2DTO | undefined = undefined;
       const input = formValuesToStep(values);
       if (step) {
-        newLearningpath = await patchLearningStepMutation.mutateAsync({
+        await patchLearningStepMutation.mutateAsync({
           learningpathId: numericId,
           stepId: step.id,
           step: {
@@ -225,7 +197,7 @@ export const LearningpathStepForm = ({ step }: Props) => {
           },
         });
       } else {
-        newLearningpath = await postLearningStepMutation.mutateAsync({
+        newStep = await postLearningStepMutation.mutateAsync({
           learningpathId: numericId,
           //@ts-expect-error - Null should not occur when POSTing, but we can't really prove that to TS.
           step: {
@@ -235,11 +207,9 @@ export const LearningpathStepForm = ({ step }: Props) => {
           },
         });
       }
-      navigate(routes.learningpath.edit(numericId, language, "steps"), {
-        state: { focusStepId: learningpathStepEditButtonId(newLearningpath.id) },
-      });
+      onClose?.(newStep?.id);
     },
-    [id, language, navigate, patchLearningStepMutation, postLearningStepMutation, step],
+    [id, language, onClose, patchLearningStepMutation, postLearningStepMutation, step],
   );
 
   if (!id || !language) return;
@@ -256,71 +226,62 @@ export const LearningpathStepForm = ({ step }: Props) => {
       onSubmit={handleSubmit}
     >
       {(formikProps) => (
-        <StyledForm ref={wrapperRef}>
-          <LearningpathEnableClone />
+        <Form ref={wrapperRef} onSubmit={formikProps.handleSubmit}>
           <PreventWindowUnload preventUnload={formikProps.dirty} />
-          {!!step && getFormTypeFromStep(step) !== "resource" && (
-            <FormField name="type">
-              {({ field, meta }) => (
-                <FieldRoot required invalid={!!meta.error}>
-                  <FieldLabel>{t("learningpathForm.steps.typeTitle")}</FieldLabel>
-                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                  <FieldHelper>{t("learningpathForm.steps.typeDisabledExplanation")}</FieldHelper>
-                  <RadioGroupRoot
-                    onValueChange={(details) => {
-                      formikProps.resetForm({
-                        values: toFormValues(details.value as LearningpathStepFormValues["type"]),
-                      });
-                    }}
-                    value={field.value}
-                    onBlur={field.onBlur}
-                    name={field.name}
-                    orientation="vertical"
-                  >
-                    {RADIO_GROUP_OPTIONS.map((val) => (
-                      <RadioGroupItem value={val} key={val} disabled={val !== "resource"}>
-                        <RadioGroupItemControl />
-                        <RadioGroupItemText>{t(`learningpathForm.steps.formTypes.${val}`)}</RadioGroupItemText>
-                        <RadioGroupItemHiddenInput />
-                      </RadioGroupItem>
-                    ))}
-                  </RadioGroupRoot>
-                </FieldRoot>
-              )}
-            </FormField>
-          )}
-          {formikProps.values.type === "text" ? (
-            <TextStepForm step={step} language={language} />
-          ) : formikProps.values.type === "resource" ? (
-            <ResourceStepForm step={step} language={language} />
-          ) : formikProps.values.type === "external" ? (
-            <ExternalStepForm step={step} language={language} />
-          ) : null}
-          <FormActionsContainer>
-            {!!step && (
-              <Button variant="danger" onClick={() => onDelete(step.id)}>
-                <DeleteBinLine />
-                {t("delete")}
-              </Button>
+          <DialogBody>
+            {!!step && getFormTypeFromStep(step) !== "resource" && (
+              <FormField name="type">
+                {({ field, meta }) => (
+                  <FieldRoot required invalid={!!meta.error}>
+                    <FieldLabel>{t("learningpathForm.steps.typeTitle")}</FieldLabel>
+                    <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                    <FieldHelper>{t("learningpathForm.steps.typeDisabledExplanation")}</FieldHelper>
+                    <RadioGroupRoot
+                      onValueChange={(details) => {
+                        formikProps.resetForm({
+                          values: toFormValues(details.value as LearningpathStepFormValues["type"]),
+                        });
+                      }}
+                      value={field.value}
+                      onBlur={field.onBlur}
+                      name={field.name}
+                      orientation="vertical"
+                    >
+                      {RADIO_GROUP_OPTIONS.map((val) => (
+                        <RadioGroupItem value={val} key={val} disabled={val !== "resource"}>
+                          <RadioGroupItemControl />
+                          <RadioGroupItemText>{t(`learningpathForm.steps.formTypes.${val}`)}</RadioGroupItemText>
+                          <RadioGroupItemHiddenInput />
+                        </RadioGroupItem>
+                      ))}
+                    </RadioGroupRoot>
+                  </FieldRoot>
+                )}
+              </FormField>
             )}
-            <SafeLinkButton
-              to={routes.learningpath.edit(parseInt(id), language, "steps")}
-              state={{ focusStepId: step ? learningpathStepEditButtonId(step.id) : undefined }}
-              variant="secondary"
-            >
+            {formikProps.values.type === "text" ? (
+              <TextStepForm step={step} language={language} />
+            ) : formikProps.values.type === "resource" ? (
+              <ResourceStepForm step={step} language={language} />
+            ) : formikProps.values.type === "external" ? (
+              <ExternalStepForm step={step} language={language} />
+            ) : null}
+          </DialogBody>
+          <DialogFooter>
+            <Button onClick={() => onClose?.()} variant="secondary">
               {t("cancel")}
-            </SafeLinkButton>
+            </Button>
             <Button type="submit" disabled={!formikProps.dirty || formikProps.isSubmitting}>
               {t("save")}
             </Button>
-          </FormActionsContainer>
+          </DialogFooter>
           <AlertDialogWrapper
             isSubmitting={formikProps.isSubmitting}
             formIsDirty={formikProps.dirty}
             severity="danger"
             text={t("alertDialog.notSaved")}
           />
-        </StyledForm>
+        </Form>
       )}
     </Formik>
   );

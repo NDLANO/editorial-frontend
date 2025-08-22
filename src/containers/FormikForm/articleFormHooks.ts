@@ -27,6 +27,7 @@ import { RelatedContent } from "../../interfaces";
 import { useLicenses } from "../../modules/draft/draftQueries";
 import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import { useMessages } from "../Messages/MessagesProvider";
+import { hasUnpublishedConcepts } from "./utils";
 
 export type SlateCommentType = Omit<ICommentDTO, "content"> & { content: Descendant[] };
 
@@ -153,6 +154,14 @@ export function useArticleFormHooks<T extends ArticleFormType>({
         setSavedToServer(true);
         const newInitialValues = getInitialValues(savedArticle, articleLanguage, ndlaId);
         formikHelpers.resetForm({ values: newInitialValues });
+
+        if (newStatus === PUBLISHED && newStatus !== initialStatus) {
+          const unpublishedConcepts = await hasUnpublishedConcepts(savedArticle);
+          if (unpublishedConcepts) {
+            createMessage({ message: t("form.unpublishedConcepts"), timeToLive: 0, severity: "warning" });
+          }
+        }
+
         if (rules) {
           const newInitialWarnings = getWarnings(newInitialValues, rules, t, [], savedArticle);
           formikHelpers.setStatus({ warnings: newInitialWarnings });

@@ -198,7 +198,7 @@ const ArticleStatusContent = ({
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
       <TableComponent
-        isPending={searchQuery.isPending}
+        isLoading={searchQuery.isLoading}
         tableTitleList={tableTitles}
         tableData={tableData}
         error={error}

@@ -175,7 +175,7 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
       <WelcomePageTabsContent value="articles">
         <LastUsedResources
           data={sortedData}
-          isPending={searchDraftsQuery.isPending}
+          isLoading={searchDraftsQuery.isLoading}
           page={page}
           setPage={setPage}
           sortOption={sortOption}
@@ -190,7 +190,7 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
       <WelcomePageTabsContent value="concepts">
         <LastUsedConcepts
           data={sortedConceptsData}
-          isPending={searchConceptsQuery.isPending}
+          isLoading={searchConceptsQuery.isLoading}
           page={pageConcept}
           setPage={setPageConcept}
           sortOption={sortOptionConcept}

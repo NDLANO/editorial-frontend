@@ -112,7 +112,7 @@ const Revisions = ({ userData }: Props) => {
     today(getLocalTimeZone()).add({ years: 1 }).toDate(getLocalTimeZone()),
   );
 
-  const { data, isPending, isError } = useSearch(
+  const { data, isLoading, isError } = useSearch(
     {
       subjects: filterSubject ? [filterSubject.value] : userData?.favoriteSubjects,
       revisionDateTo: currentDateAddYear,
@@ -271,7 +271,7 @@ const Revisions = ({ userData }: Props) => {
           </ControlWrapperDashboard>
         </StyledTopRowDashboardInfo>
         <TableComponent
-          isPending={isPending}
+          isLoading={isLoading}
           tableTitleList={tableTitles}
           tableData={tableData}
           setSortOption={setSortOption}

@@ -57,7 +57,6 @@ interface Props {
 const StyledConceptInlineTriggerButton = styled(ConceptInlineTriggerButton, {
   base: {
     background: "surface.actionSubtle.hover",
-    position: "static",
     _hover: {
       background: "surface.actionSubtle.hover.strong",
     },

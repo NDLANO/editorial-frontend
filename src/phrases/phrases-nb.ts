@@ -1034,8 +1034,8 @@ const phrases = {
     resetToProd: {
       success: "Innhold er tilbakestilt, trykk lagre for å lagre endringene",
     },
-    resetToVersion: "Tilbakestill til versjon",
-    previewVersion: "Sammenlign med publisert",
+    resetToVersion: "Tilbakestill språkvariant fra versjon",
+    previewVersion: "Sammenlign artikkel med versjon",
     variant: {
       create: "Legg til språk",
       translate: "Oversett til nynorsk",

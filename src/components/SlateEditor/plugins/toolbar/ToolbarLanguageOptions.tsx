@@ -65,16 +65,15 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
 
       if (match) {
         const [_, path] = match;
+        const spanRange = Editor.range(editor, path);
+
         if (language === undefined) {
           Transforms.unwrapNodes(editor, {
             match: (n) => Element.isElement(n) && n.type === "span",
             mode: "lowest",
             at: unhangedSelection,
           });
-        } else if (
-          Range.isExpanded(unhangedSelection) &&
-          !Range.includes(Editor.range(editor, path), unhangedSelection)
-        ) {
+        } else if (Range.isExpanded(unhangedSelection) && !Range.includes(spanRange, unhangedSelection)) {
           Transforms.unwrapNodes(editor, {
             match: (n) => Element.isElement(n) && n.type === "span",
             mode: "lowest",
@@ -87,6 +86,19 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
             defaultSpanBlock({ lang: language, dir: language === "ar" ? "rtl" : undefined }),
             {
               at: newSelection,
+              split: true,
+            },
+          );
+        } else if (
+          Range.isExpanded(unhangedSelection) &&
+          Range.includes(spanRange, unhangedSelection) &&
+          !Range.equals(spanRange, unhangedSelection)
+        ) {
+          Transforms.wrapNodes(
+            editor,
+            defaultSpanBlock({ lang: language, dir: language === "ar" ? "rtl" : undefined }),
+            {
+              at: unhangedSelection,
               split: true,
             },
           );

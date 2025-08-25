@@ -33,7 +33,8 @@ const StyledAlertLine = styled(AlertLine, {
 
 const grepCodeTitle = (grepResult: GrepResultDTO) => {
   const laereplan = "laereplan" in grepResult ? ` (${grepResult.laereplan.code})` : "";
-  return `${grepResult.code}${laereplan} - ${grepResult.title.title}`;
+  const kompetansesett = "kompetansemaalSett" in grepResult ? ` (${grepResult.kompetansemaalSett.code})` : "";
+  return `${grepResult.code}${laereplan}${kompetansesett} - ${grepResult.title.title}`;
 };
 
 export const convertGrepCodesToObject = async (grepCodes: string[]): Promise<Record<string, GrepObject>> => {

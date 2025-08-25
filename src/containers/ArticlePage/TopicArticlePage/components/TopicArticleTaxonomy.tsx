@@ -9,13 +9,17 @@
 import { sortBy } from "lodash-es";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Spinner } from "@ndla/primitives";
+import { ExpandableBox, ExpandableBoxSummary, Spinner, UnOrderedList } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IArticleDTO } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-taxonomy";
 import { ErrorMessage } from "@ndla/ui";
-import TopicTaxonomyBlock from "./TopicTaxonomyBlock";
+import { partition } from "@ndla/util";
+import { TaxonomyBlock } from "../../../../components/Taxonomy/TaxonomyBlock";
+import { TaxonomyConnections } from "../../../../components/Taxonomy/TaxonomyConnections";
+import { TAXONOMY_ADMIN_SCOPE } from "../../../../constants";
 import { useNodes } from "../../../../modules/nodes/nodeQueries";
 import { useVersions } from "../../../../modules/taxonomy/versions/versionQueries";
+import { useSession } from "../../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 
 type Props = {
@@ -24,26 +28,18 @@ type Props = {
   hasTaxEntries: boolean;
 };
 
-const partitionByValidity = (nodes: Node[]) => {
-  const [validPlacements, invalidPlacements] = nodes.reduce<[Node[], Node[]]>(
-    (acc, curr) => {
-      if (curr.breadcrumbs?.length) {
-        acc[0].push(curr);
-      } else {
-        acc[1].push(curr);
-      }
-      return acc;
-    },
-    [[], []],
-  );
-
-  return [validPlacements, invalidPlacements];
-};
+const StyledLi = styled("li", {
+  base: {
+    color: "text.error",
+  },
+});
 
 const TopicArticleTaxonomy = ({ article, articleLanguage, hasTaxEntries }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion, changeVersion } = useTaxonomyVersion();
   const versionsQuery = useVersions();
+  const { userPermissions } = useSession();
+  const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
   const subjectsQuery = useNodes(
     { language: articleLanguage, taxonomyVersion, nodeType: "SUBJECT" },
@@ -64,7 +60,7 @@ const TopicArticleTaxonomy = ({ article, articleLanguage, hasTaxEntries }: Props
   });
 
   const [validPlacements, invalidPlacements] = useMemo(() => {
-    return partitionByValidity(nodesQuery.data ?? []);
+    return partition(nodesQuery.data ?? [], (node) => !!node.breadcrumbs.length);
   }, [nodesQuery.data]);
 
   if (nodesQuery.isError || subjectsQuery.isError || versionsQuery.isError) {
@@ -87,18 +83,40 @@ const TopicArticleTaxonomy = ({ article, articleLanguage, hasTaxEntries }: Props
     return <Spinner />;
   }
 
+  const node = nodesQuery.data?.[0];
+
+  if (!node) return;
+
   return (
-    <TopicTaxonomyBlock
-      key={taxonomyVersion}
-      article={article}
-      subjects={subjectsQuery.data ?? []}
+    <TaxonomyBlock
       nodes={nodesQuery.data ?? []}
-      validPlacements={validPlacements}
-      invalidPlacements={invalidPlacements}
-      versions={versionsQuery.data ?? []}
       hasTaxEntries={hasTaxEntries}
-      articleLanguage={articleLanguage}
-    />
+      nodeType="topic"
+      versions={versionsQuery.data ?? []}
+      resourceId={article.id}
+      resourceTitle={article.title?.title ?? ""}
+      resourceLanguage={articleLanguage}
+    >
+      <TaxonomyConnections
+        subjects={subjectsQuery.data ?? []}
+        taxonomyVersion={taxonomyVersion}
+        type="topic"
+        article={article}
+        language={articleLanguage}
+        placements={validPlacements}
+        node={node}
+      />
+      {!!invalidPlacements.length && !!isTaxonomyAdmin && (
+        <ExpandableBox>
+          <ExpandableBoxSummary>{t("errorMessage.invalidTopicPlacements")}</ExpandableBoxSummary>
+          <UnOrderedList>
+            {invalidPlacements.map((placement) => (
+              <StyledLi key={placement.id}>{placement.id}</StyledLi>
+            ))}
+          </UnOrderedList>
+        </ExpandableBox>
+      )}
+    </TaxonomyBlock>
   );
 };
 

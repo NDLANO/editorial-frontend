@@ -38,7 +38,12 @@ import {
 import { nodeQueryKeys } from "./nodeQueries";
 import { WithTaxonomyVersion } from "../../interfaces";
 import handleError from "../../util/handleError";
-import { createResourceResourceType, ResourceResourceTypePostParams } from "../taxonomy/resourcetypes";
+import {
+  createResourceResourceType,
+  deleteResourceResourceType,
+  ResourceResourceTypeDeleteParams,
+  ResourceResourceTypePostParams,
+} from "../taxonomy/resourcetypes";
 
 interface UseAddNodeMutation extends WithTaxonomyVersion {
   body: NodePostPut;
@@ -250,6 +255,15 @@ export const useCreateResourceResourceTypeMutation = (
 ) => {
   return useMutation<string, unknown, ResourceResourceTypePostParams>({
     mutationFn: ({ body, taxonomyVersion }) => createResourceResourceType({ body, taxonomyVersion }),
+    ...options,
+  });
+};
+
+export const useDeleteResourceResourceTypeMutation = (
+  options?: Partial<UseMutationOptions<void, unknown, ResourceResourceTypeDeleteParams>>,
+) => {
+  return useMutation<void, unknown, ResourceResourceTypeDeleteParams>({
+    mutationFn: ({ id, taxonomyVersion }) => deleteResourceResourceType({ id, taxonomyVersion }),
     ...options,
   });
 };

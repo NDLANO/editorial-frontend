@@ -62,7 +62,7 @@ export const createResourceResourceType = ({
   });
 };
 
-interface ResourceResourceTypeDeleteParams extends WithTaxonomyVersion {
+export interface ResourceResourceTypeDeleteParams extends WithTaxonomyVersion {
   id: string;
 }
 

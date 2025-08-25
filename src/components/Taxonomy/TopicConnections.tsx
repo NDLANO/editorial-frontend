@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Button,
@@ -24,11 +24,9 @@ import {
   SwitchThumb,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { NodeChild } from "@ndla/types-taxonomy";
+import { Node, NodeChild } from "@ndla/types-taxonomy";
 import ActiveTopicConnections from "./ActiveTopicConnections";
 import TaxonomyBlockNode from "./TaxonomyBlockNode";
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
-import { fetchUserData } from "../../modules/draft/draftApi";
 import { NodeWithChildren } from "../../modules/nodes/nodeApiTypes";
 import { DialogCloseButton } from "../DialogCloseButton";
 import { MinimalNodeChild } from "./types";
@@ -47,14 +45,32 @@ const StyledButton = styled(Button, {
   },
 });
 interface Props {
+  type: "topic" | "resource";
   structure: NodeWithChildren[];
-  selectedNodes: MinimalNodeChild[];
-  addConnection: (node: NodeChild) => void;
+  selectedNodes: MinimalNodeChild[] | Node[];
+  addConnection: (node: Node | NodeChild) => void;
   removeConnection: (id: string) => void;
   setPrimaryConnection: (connectionId: string) => void;
   getSubjectTopics: (subjectId: string) => Promise<void>;
   setRelevance: (topicId: string, relevanceId: string) => void;
 }
+
+const useTopicConnectionTranslations = (type: "topic" | "resource") => {
+  const { t } = useTranslation();
+  if (type === "topic") {
+    return {
+      title: t("taxonomy.topics.topicPlacement"),
+      description: t("taxonomy.topics.description"),
+      trigger: t("taxonomy.topics.chooseTaxonomyPlacement"),
+    };
+  } else {
+    return {
+      title: t("taxonomy.topics.title"),
+      description: t("taxonomy.topics.taxonomySubjectConnections"),
+      trigger: t("taxonomy.topics.filestructureButton"),
+    };
+  }
+};
 
 const TopicConnections = ({
   structure,
@@ -64,34 +80,15 @@ const TopicConnections = ({
   setPrimaryConnection,
   getSubjectTopics,
   setRelevance,
+  type,
 }: Props) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [showFavorites, setShowFavorites] = useState(true);
-  const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
-
-  const filtered = structure.filter(
-    (node) => node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== "true",
-  );
-
-  const nodes = useMemo(
-    () => (showFavorites ? filtered.filter((node) => favoriteSubjectIds.includes(node.id)) : filtered),
-    [favoriteSubjectIds, showFavorites, filtered],
-  );
-
-  useEffect(() => {
-    fetchFavoriteSubjects();
-  }, []);
-
-  const fetchFavoriteSubjects = async () => {
-    const result = await fetchUserData();
-    const favoriteSubjects = result.favoriteSubjects || [];
-    setFavoriteSubjectIds(favoriteSubjects);
-    setShowFavorites(favoriteSubjects.length > 0);
-  };
+  const connectionTranslations = useTopicConnectionTranslations(type);
 
   const addNode = useCallback(
-    (node: NodeChild) => {
+    (node: NodeChild | Node) => {
       addConnection(node);
       setOpen(false);
     },
@@ -101,19 +98,19 @@ const TopicConnections = ({
   return (
     <Wrapper>
       <Text textStyle="label.medium" fontWeight="bold">
-        {t("taxonomy.topics.title")}
+        {connectionTranslations.title}
       </Text>
-      <Text>{t("taxonomy.topics.taxonomySubjectConnections")}</Text>
+      <Text>{connectionTranslations.description}</Text>
       <ActiveTopicConnections
         activeTopics={selectedNodes}
         setRelevance={setRelevance}
         removeConnection={removeConnection}
         setPrimaryConnection={setPrimaryConnection}
-        type="topicarticle"
+        type={type}
       />
       <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)} size="large">
         <DialogTrigger asChild>
-          <StyledButton>{t("taxonomy.topics.filestructureButton")}</StyledButton>
+          <StyledButton>{connectionTranslations.trigger}</StyledButton>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
@@ -128,12 +125,13 @@ const TopicConnections = ({
               </SwitchControl>
               <SwitchHiddenInput />
             </SwitchRoot>
-            {nodes.map((node) => (
+            {structure.map((node) => (
               <TaxonomyBlockNode
                 key={node.id}
                 node={node}
                 selectedNodes={selectedNodes}
                 onSelect={addNode}
+                onRootSelected={type === "topic" ? addNode : undefined}
                 getSubjectTopics={getSubjectTopics}
               />
             ))}

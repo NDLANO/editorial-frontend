@@ -282,6 +282,10 @@ const phrases = {
       other: "Søk feilet.",
     },
   },
+  taxonomyResourceType: {
+    resource: "Ressurs",
+    topic: "Emne",
+  },
   articleType: {
     "topic-article": "Emne",
     "frontpage-article": "Om-NDLA-artikkel",
@@ -1848,6 +1852,8 @@ const phrases = {
     info: {
       title: "Informasjon",
       subTitle: "Id og synlighet for elementet",
+      wrongResourceType: "Noden er plassert som {{placedAs}} i taksonomien, men er av typen {{isType}}.",
+      missingResourceType: "Node med ID {{id}} mangler ressurstype. Den er sannsynligvis slettet.",
       wrongArticleType:
         'Artikkelen er plassert som "{{placedAs}}" i taksonomien, men artikkelen er av typen "{{isType}}".',
       missingArticleType: "Artikkelen med ID {{id}} mangler artikkeltype. Den er sannsynligvis slettet.",

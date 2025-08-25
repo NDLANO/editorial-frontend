@@ -40,14 +40,14 @@ interface Props {
   removeConnection?: (id: string) => void;
   setPrimaryConnection?: (connectionId: string) => void;
   node: MinimalNodeChild | Node;
-  type: string;
+  type: "resource" | "topic";
   setRelevance?: (topicId: string, relevanceId: string) => void;
 }
 
 const ActiveTopicConnection = ({ removeConnection, setPrimaryConnection, setRelevance, type, node }: Props) => {
   const { t } = useTranslation();
 
-  if (type === "topic-article") {
+  if (type === "topic" || !("connectionId" in node)) {
     return (
       <ListItemRoot context="list" variant="subtle" asChild consumeCss>
         <li>
@@ -63,7 +63,7 @@ const ActiveTopicConnection = ({ removeConnection, setPrimaryConnection, setRele
           size="small"
           primary={"isPrimary" in node ? node.isPrimary : false}
           variant="success"
-          onClick={() => setPrimaryConnection?.(node.id)}
+          onClick={() => setPrimaryConnection?.(node.connectionId)}
         >
           {t("form.topics.primaryTopic")}
         </StyledPrimaryConnectionButton>
@@ -74,14 +74,14 @@ const ActiveTopicConnection = ({ removeConnection, setPrimaryConnection, setRele
           <StyledWrapper>
             <RelevanceOptionSwitch
               relevanceId={node.relevanceId}
-              onChange={(relevanceId) => setRelevance?.(node.id, relevanceId)}
+              onChange={(relevanceId) => setRelevance?.(node.connectionId, relevanceId)}
             />
             <IconButton
               aria-label={t("taxonomy.removeResource")}
               title={t("taxonomy.removeResource")}
               variant="danger"
               size="small"
-              onClick={() => removeConnection?.(node.id)}
+              onClick={() => removeConnection?.(node.connectionId)}
             >
               <DeleteBinLine />
             </IconButton>

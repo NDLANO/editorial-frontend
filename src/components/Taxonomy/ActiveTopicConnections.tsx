@@ -15,7 +15,7 @@ interface Props {
   removeConnection?: (id: string) => void;
   setPrimaryConnection?: (id: string) => void;
   activeTopics: MinimalNodeChild[] | Node[];
-  type: string;
+  type: "topic" | "resource";
   setRelevance?: (topicId: string, relevanceId: string) => void;
 }
 

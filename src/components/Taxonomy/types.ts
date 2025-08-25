@@ -11,7 +11,7 @@ import { Metadata, Node, NodeChild } from "@ndla/types-taxonomy";
 export type TaxonomyNodeChild = NodeChild & { articleType?: string; isPublished?: boolean };
 
 export interface TaxNode extends Pick<Node, "resourceTypes" | "metadata" | "id" | "context"> {
-  placements: MinimalNodeChild[];
+  placements: MinimalNodeChild[] | Node[];
 }
 
 export interface MinimalNodeChild

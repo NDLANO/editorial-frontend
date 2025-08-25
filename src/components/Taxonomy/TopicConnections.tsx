@@ -25,10 +25,10 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
-import ActiveTopicConnections from "./ActiveTopicConnections";
 import TaxonomyBlockNode from "./TaxonomyBlockNode";
 import { NodeWithChildren } from "../../modules/nodes/nodeApiTypes";
 import { DialogCloseButton } from "../DialogCloseButton";
+import ActiveTopicConnection from "./ActiveTopicConnection";
 import { MinimalNodeChild } from "./types";
 
 const Wrapper = styled("div", {
@@ -44,6 +44,14 @@ const StyledButton = styled(Button, {
     alignSelf: "flex-start",
   },
 });
+
+const StyledConnectionsList = styled("ul", {
+  base: {
+    listStyle: "none",
+    marginBottom: "small",
+  },
+});
+
 interface Props {
   type: "topic" | "resource";
   structure: NodeWithChildren[];
@@ -101,13 +109,18 @@ const TopicConnections = ({
         {connectionTranslations.title}
       </Text>
       <Text>{connectionTranslations.description}</Text>
-      <ActiveTopicConnections
-        activeTopics={selectedNodes}
-        setRelevance={setRelevance}
-        removeConnection={removeConnection}
-        setPrimaryConnection={setPrimaryConnection}
-        type={type}
-      />
+      <StyledConnectionsList>
+        {selectedNodes.map((node) => (
+          <ActiveTopicConnection
+            key={node.id}
+            node={node}
+            setRelevance={setRelevance}
+            removeConnection={removeConnection}
+            setPrimaryConnection={setPrimaryConnection}
+            type={type}
+          />
+        ))}
+      </StyledConnectionsList>
       <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)} size="large">
         <DialogTrigger asChild>
           <StyledButton>{connectionTranslations.trigger}</StyledButton>

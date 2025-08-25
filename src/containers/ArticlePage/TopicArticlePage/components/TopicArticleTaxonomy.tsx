@@ -118,20 +118,6 @@ const TopicArticleTaxonomy = ({ article, articleLanguage, hasTaxEntries }: Props
       )}
     </TaxonomyBlock>
   );
-
-  // return (
-  //   <TopicTaxonomyBlock
-  //     key={taxonomyVersion}
-  //     article={article}
-  //     subjects={subjectsQuery.data ?? []}
-  //     nodes={nodesQuery.data ?? []}
-  //     validPlacements={validPlacements}
-  //     invalidPlacements={invalidPlacements}
-  //     versions={versionsQuery.data ?? []}
-  //     hasTaxEntries={hasTaxEntries}
-  //     articleLanguage={articleLanguage}
-  //   />
-  // );
 };
 
 export default TopicArticleTaxonomy;

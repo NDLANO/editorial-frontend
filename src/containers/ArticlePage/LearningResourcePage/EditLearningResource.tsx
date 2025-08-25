@@ -9,9 +9,14 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import LearningResourceForm from "./components/LearningResourceForm";
 import { ContentTypeProvider } from "../../../components/ContentTypeProvider";
-import { TranslateType, useTranslateToNN } from "../../../components/NynorskTranslateProvider";
+import {
+  NynorskTranslateProvider,
+  TranslateType,
+  useTranslateToNN,
+} from "../../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { isNewArticleLanguage } from "../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import { LocaleType } from "../../../interfaces";
@@ -20,11 +25,8 @@ import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 import NotFound from "../../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-
-interface Props {
-  isNewlyCreated?: boolean;
-}
 
 const translateFields: TranslateType[] = [
   {
@@ -61,7 +63,19 @@ const translateFields: TranslateType[] = [
   },
 ];
 
-const EditLearningResource = ({ isNewlyCreated }: Props) => {
+export const Component = () => <PrivateRoute component={<EditLearningResourcePage />} />;
+
+export const EditLearningResourcePage = () => {
+  return (
+    <PageContent variant="wide">
+      <NynorskTranslateProvider>
+        <EditLearningResource />
+      </NynorskTranslateProvider>
+    </PageContent>
+  );
+};
+
+const EditLearningResource = () => {
   const { t } = useTranslation();
   const params = useParams<"selectedLanguage" | "id">();
   const selectedLanguage = params.selectedLanguage as LocaleType;
@@ -117,7 +131,6 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
         articleRevisionHistory={articleRevisionHistory}
         articleStatus={article.status}
         articleChanged={articleChanged || newLanguage}
-        isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
         supportedLanguages={article.supportedLanguages}
         translatedFieldsToNN={translatedFields}
@@ -125,5 +138,3 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
     </ContentTypeProvider>
   );
 };
-
-export default EditLearningResource;

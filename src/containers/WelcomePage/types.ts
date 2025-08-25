@@ -10,3 +10,15 @@ export interface SelectItem {
   label: string;
   value: string;
 }
+
+export type SortOptionWorkList =
+  | "title"
+  | "responsibleLastUpdated"
+  | "status"
+  | "resourceType"
+  | "parentTopicName"
+  | "primaryRoot";
+
+export type SortOptionConceptList = "title" | "responsibleLastUpdated" | "status" | "subject" | "conceptType";
+
+export type SortOptionLastUsed = "title" | "status" | "lastUpdated";

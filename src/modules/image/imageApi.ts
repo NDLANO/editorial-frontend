@@ -15,10 +15,10 @@ import {
   INewImageMetaInformationV2DTO,
   openapi,
 } from "@ndla/types-backend/image-api";
-import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
 import { throwErrorPayload, createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 import { createFormData } from "../../util/formDataHelper";
+import { StringSort } from "../../interfaces";
 
 const client = createAuthClient<openapi.paths>();
 

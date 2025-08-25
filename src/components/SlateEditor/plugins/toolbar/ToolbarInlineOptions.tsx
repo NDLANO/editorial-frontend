@@ -9,9 +9,9 @@
 import { useCallback } from "react";
 import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
-import { ToolbarCategoryProps } from "./SlateToolbar";
 import { InlineType } from "./toolbarState";
 import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
+import { ToolbarCategoryProps } from "./types";
 import { insertComment } from "../comment/inline/utils";
 import { insertInlineConcept } from "../concept/inline/utils";
 import { insertLink } from "../link/utils";

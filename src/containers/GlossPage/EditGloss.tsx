@@ -9,13 +9,15 @@
 import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import { IUpdatedConceptDTO } from "@ndla/types-backend/concept-api";
 import { GlossForm } from "./components/GlossForm";
-import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
+import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
 import { LocaleType } from "../../interfaces";
 import { useFetchConceptData } from "../FormikForm/formikConceptHooks";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const translateFields: TranslateType[] = [
   {
@@ -32,11 +34,19 @@ const translateFields: TranslateType[] = [
   },
 ];
 
-interface Props {
-  isNewlyCreated?: boolean;
-}
+export const Component = () => <PrivateRoute component={<EditGlossPage />} />;
 
-const EditGloss = ({ isNewlyCreated }: Props) => {
+export const EditGlossPage = () => {
+  return (
+    <NynorskTranslateProvider>
+      <PageContent>
+        <EditGloss />
+      </PageContent>
+    </NynorskTranslateProvider>
+  );
+};
+
+const EditGloss = () => {
   const params = useParams<"id" | "selectedLanguage">();
   const conceptId = Number(params.id);
   const selectedLanguage = params.selectedLanguage as LocaleType;
@@ -79,14 +89,10 @@ const EditGloss = ({ isNewlyCreated }: Props) => {
         inDialog={false}
         concept={concept}
         conceptChanged={conceptChanged || newLanguage}
-        isNewlyCreated={isNewlyCreated}
         upsertProps={{ onUpdate }}
         language={selectedLanguage!}
-        supportedLanguages={concept.supportedLanguages}
         translatedFieldsToNN={translatedFields}
       />
     </>
   );
 };
-
-export default EditGloss;

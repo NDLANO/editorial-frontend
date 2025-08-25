@@ -25,14 +25,14 @@ import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { IEditorNoteDTO } from "@ndla/types-backend/draft-api";
 import { constants, ContentTypeBadge } from "@ndla/ui";
-import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import NotesVersionHistory from "../../../components/VersionHistory/VersionHistory";
 import { Auth0UserData } from "../../../interfaces";
 import { fetchAuth0Users } from "../../../modules/auth0/auth0Api";
 import { fetchArticleRevisionHistory } from "../../../modules/draft/draftApi";
+import { ResourceWithNodeConnectionAndMeta } from "../../../modules/nodes/nodeApiTypes";
 import formatDate from "../../../util/formatDate";
-import { routes, toLearningpathFull } from "../../../util/routeHelpers";
+import { routes } from "../../../util/routeHelpers";
 import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 
 const { contentTypes } = constants;
@@ -154,7 +154,7 @@ const VersionHistoryContent = ({ contentType, resource }: DialogContentProps) =>
             <SafeLink
               to={
                 contentType === "learning-path"
-                  ? toLearningpathFull(numericId, i18n.language)
+                  ? routes.learningpath.edit(numericId, i18n.language)
                   : routes.editArticle(numericId, contentType)
               }
               target="_blank"

@@ -14,7 +14,7 @@ import { NewMessageType } from "../containers/Messages/MessagesProvider";
 let createMessageRef: (newMessage: NewMessageType) => void | undefined;
 
 const NDLA_API_URL = config.ndlaApiUrl;
-const AUTH0_DOMAIN = config.auth0Domain;
+const AUTH0_DOMAIN = config.auth0BrowserDomain;
 const NDLA_PERSONAL_CLIENT_ID = config.ndlaPersonalClientId;
 
 const locationOrigin = (() => {

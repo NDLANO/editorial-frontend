@@ -22,4 +22,4 @@ export const LogoutSession = () => {
   return null;
 };
 
-export default LogoutSession;
+export const Component = LogoutSession;

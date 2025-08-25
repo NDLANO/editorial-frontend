@@ -38,13 +38,8 @@ import EditGlossExamplesDialog from "../EditGlossExamplesDialog";
 import { getGlossDataAttributes } from "../utils";
 import { isConceptInlineElement } from "./queries";
 
-const getConceptDataAttributes = (
-  concept: IConceptDTO | IConceptSummaryDTO,
-  title: string,
-  locale: string,
-): ConceptEmbedData => ({
+const getConceptDataAttributes = (concept: IConceptDTO | IConceptSummaryDTO, locale: string): ConceptEmbedData => ({
   contentId: concept.id.toString(),
-  linkText: title,
   resource: "concept",
   type: "inline",
   ...(concept.conceptType === "gloss" && concept.glossData?.examples.length
@@ -62,7 +57,6 @@ interface Props {
 const StyledConceptInlineTriggerButton = styled(ConceptInlineTriggerButton, {
   base: {
     background: "surface.actionSubtle.hover",
-    position: "static",
     _hover: {
       background: "surface.actionSubtle.hover.strong",
     },
@@ -132,6 +126,11 @@ const InlineWrapper = (props: Props) => {
     };
   }, [concept, element.data, loading, visualElementQuery.data]);
 
+  const parsedTitle = useMemo(
+    () => (embed?.status === "success" ? parse(embed.data.concept.title.htmlTitle) : undefined),
+    [embed],
+  );
+
   const parsedContent = useMemo(() => {
     if (embed?.status === "success" && !!embed.data.concept.content) {
       return parse(embed.data.concept.content.content);
@@ -151,7 +150,7 @@ const InlineWrapper = (props: Props) => {
   const addConcept = (addedConcept: IConceptSummaryDTO | IConceptDTO) => {
     setIsEditing(false);
     handleSelectionChange(true);
-    const data = getConceptDataAttributes(addedConcept, nodeText, locale);
+    const data = getConceptDataAttributes(addedConcept, locale);
     if (element) {
       const path = ReactEditor.findPath(editor, element);
       Transforms.setNodes<ConceptInlineElement>(
@@ -193,7 +192,7 @@ const InlineWrapper = (props: Props) => {
       {!embed ? (
         children
       ) : embed.status === "error" ? (
-        <ConceptEmbed embed={embed} />
+        <ConceptEmbed embed={embed}>{children}</ConceptEmbed>
       ) : (
         <PopoverRoot>
           <PopoverTrigger asChild {...attributes}>
@@ -247,7 +246,7 @@ const InlineWrapper = (props: Props) => {
                   copyright={embed.data.concept.copyright}
                   visualElement={embed.data.visualElement}
                   lang={locale}
-                  title={embed.data.concept.title.title}
+                  title={parsedTitle}
                   source={embed.data.concept.source}
                 >
                   {parsedContent}

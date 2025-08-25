@@ -8,11 +8,15 @@
 
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import { IUpdatedArticleDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
 import TopicArticleForm from "./components/TopicArticleForm";
 import { convertUpdateToNewDraft } from "../../../util/articleUtil";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
+
+export const Component = () => <PrivateRoute component={<CreateTopicArticle />} />;
 
 const CreateTopicArticle = () => {
   const { t, i18n } = useTranslation();
@@ -22,23 +26,22 @@ const CreateTopicArticle = () => {
 
   const createArticleAndPushRoute = async (createdArticle: IUpdatedArticleDTO): Promise<IArticleDTO> => {
     const savedArticle = await createArticle(convertUpdateToNewDraft(createdArticle));
-    navigate(toEditArticle(savedArticle.id, savedArticle.articleType, createdArticle.language));
+    navigate(toEditArticle(savedArticle.id, savedArticle.articleType, createdArticle.language), {
+      state: { isNewlyCreated: true },
+    });
     return savedArticle;
   };
 
   return (
-    <>
+    <PageContent variant="wide">
       <title>{t("htmlTitles.createTopicArticlePage")}</title>
       <TopicArticleForm
         articleLanguage={i18n.language}
         updateArticle={createArticleAndPushRoute}
-        isNewlyCreated={false}
         articleChanged={false}
         supportedLanguages={[i18n.language]}
         translatedFieldsToNN={[]}
       />
-    </>
+    </PageContent>
   );
 };
-
-export default CreateTopicArticle;

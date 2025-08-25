@@ -9,6 +9,7 @@
 import { Formik, FormikProps } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import { ISubjectPageDTO, INewSubjectPageDTO, IUpdatedSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
 import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
@@ -22,7 +23,7 @@ import { SAVE_BUTTON_ID } from "../../../constants";
 import { fetchNodes } from "../../../modules/nodes/nodeApi";
 import { isFormikFormDirty } from "../../../util/formHelper";
 import { NdlaErrorPayload } from "../../../util/resolveJsonOrRejectWithError";
-import { toEditSubjectpage } from "../../../util/routeHelpers";
+import { NewlyCreatedLocationState, toEditSubjectpage } from "../../../util/routeHelpers";
 import {
   subjectpageApiTypeToFormikType,
   SubjectPageFormikType,
@@ -42,7 +43,6 @@ interface Props {
   updateSubjectpage?: (id: number, subjectpage: IUpdatedSubjectPageDTO) => Promise<ISubjectPageDTO>;
   selectedLanguage: string;
   elementId: string;
-  isNewlyCreated: boolean;
 }
 
 const subjectpageRules: RulesType<SubjectPageFormikType> = {
@@ -81,7 +81,6 @@ const SubjectpageForm = ({
   selectedLanguage,
   updateSubjectpage,
   createSubjectpage,
-  isNewlyCreated,
   editorsChoices,
 }: Props) => {
   const { t } = useTranslation();
@@ -96,6 +95,7 @@ const SubjectpageForm = ({
     editorsChoices,
   );
   const [unsaved, setUnsaved] = useState(false);
+  const location = useLocation();
   usePreventWindowUnload(unsaved);
 
   const fetchTaxonomyUrns = async (choices: (IArticleDTO | ILearningPathV2DTO)[], language: string) => {
@@ -198,7 +198,9 @@ const SubjectpageForm = ({
               <SaveButton
                 id={SAVE_BUTTON_ID}
                 loading={isSubmitting}
-                showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
+                showSaved={
+                  !formIsDirty && (savedToServer || (location.state as NewlyCreatedLocationState)?.isNewlyCreated)
+                }
                 formIsDirty={formIsDirty}
                 onClick={() => handleSubmit(formik)}
                 disabled={!isValid}

@@ -17,11 +17,8 @@ import SearchContentForm from "./SearchContentForm";
 import SearchImageForm from "./SearchImageForm";
 import SearchPodcastSeriesForm from "./SearchPodcastSeriesForm";
 import config from "../../../../config";
-import { SearchParams, SearchType } from "../../../../interfaces";
+import { SearchParams, SearchType, StringSort } from "../../../../interfaces";
 import { NoNodeDraftSearchParams } from "../../../../modules/search/searchApiInterfaces";
-
-/** Used to wraps backend types and replaces their `sort` with `sort?: string` */
-export type StringSort<T> = Omit<T, "sort"> & { sort?: string };
 
 export type SearchParamsBody = StringSort<
   IDraftConceptSearchParamsDTO &

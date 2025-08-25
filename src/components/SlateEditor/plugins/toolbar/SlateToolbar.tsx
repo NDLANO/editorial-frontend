@@ -25,9 +25,10 @@ import { ToolbarBlockOptions } from "./ToolbarBlockOptions";
 import { ToolbarInlineOptions } from "./ToolbarInlineOptions";
 import { ToolbarLanguageOptions } from "./ToolbarLanguageOptions";
 import { ToolbarMarkOptions } from "./ToolbarMarkOptions";
-import { ToolbarValue, ToolbarValues } from "./toolbarState";
+import { ToolbarValues } from "./toolbarState";
 import { ToolbarTableOptions } from "./ToolbarTableOptions";
 import { ToolbarTextOptions } from "./ToolbarTextOptions";
+import { ToolbarCategoryProps } from "./types";
 import { AI_ACCESS_SCOPE } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
 
@@ -65,10 +66,6 @@ const ToolbarContainer = styled(PopoverContent, {
     },
   },
 });
-
-export interface ToolbarCategoryProps<T extends ToolbarValues> {
-  options: ToolbarValue<T>[];
-}
 
 interface Props {
   hideToolbar?: boolean;

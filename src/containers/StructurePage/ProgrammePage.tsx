@@ -9,9 +9,13 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { MessageBox } from "@ndla/primitives";
+import { CurrentNodeProvider } from "./CurrentNodeProvider";
 import StructureContainer from "./StructureContainer";
 import config from "../../config";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import { TaxonomyVersionProvider } from "../StructureVersion/TaxonomyVersionProvider";
+
+export const Component = () => <PrivateRoute component={<ProgrammePage />} />;
 
 const ProgrammePage = () => {
   const { t } = useTranslation();
@@ -29,15 +33,15 @@ const ProgrammePage = () => {
   return (
     <TaxonomyVersionProvider>
       <title>{t("htmlTitles.programmePage")}</title>
-      <StructureContainer
-        rootNodeType="PROGRAMME"
-        childNodeTypes={["PROGRAMME", "SUBJECT"]}
-        rootPath="/programme/"
-        showResourceColumn={false}
-        messageBox={messageBox}
-      />
+      <CurrentNodeProvider>
+        <StructureContainer
+          rootNodeType="PROGRAMME"
+          childNodeTypes={["PROGRAMME", "SUBJECT"]}
+          rootPath="/programme/"
+          showResourceColumn={false}
+          messageBox={messageBox}
+        />
+      </CurrentNodeProvider>
     </TaxonomyVersionProvider>
   );
 };
-
-export default ProgrammePage;

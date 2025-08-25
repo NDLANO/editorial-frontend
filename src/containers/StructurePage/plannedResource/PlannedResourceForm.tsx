@@ -34,7 +34,8 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
+import { IArticleDTO, IUpdatedArticleDTO, Priority } from "@ndla/types-backend/draft-api";
+import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { Node } from "@ndla/types-taxonomy";
 import PlannedResourceSelect from "./PlannedResourceSelect";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
@@ -42,16 +43,19 @@ import { FormField } from "../../../components/FormField";
 import { FormActionsContainer, FormikForm } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
 import { DIV_ELEMENT_TYPE } from "../../../components/SlateEditor/plugins/div/types";
+import config from "../../../config";
 import {
   DRAFT_RESPONSIBLE,
   LAST_UPDATED_SIZE,
   RESOURCE_FILTER_CORE,
   RESOURCE_FILTER_SUPPLEMENTARY,
+  RESOURCE_TYPE_LEARNING_PATH,
 } from "../../../constants";
 import { Auth0UserData } from "../../../interfaces";
 import { useAuth0Responsibles } from "../../../modules/auth0/auth0Queries";
 import { createDraft, updateUserData } from "../../../modules/draft/draftApi";
 import { useUserData } from "../../../modules/draft/draftQueries";
+import { postLearningpath } from "../../../modules/learningpath/learningpathApi";
 import { RESOURCE_NODE, TOPIC_NODE } from "../../../modules/nodes/nodeApiTypes";
 import {
   useAddNodeMutation,
@@ -74,7 +78,7 @@ interface PlannedResourceFormikType {
   responsible: string;
   articleType: string;
   relevance: string;
-  priority: string;
+  priority: Priority;
 }
 
 const StyledFormikForm = styled(FormikForm, {
@@ -204,8 +208,8 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
   const { data: contentTypes } = useAllResourceTypes(
     { language: i18n.language, taxonomyVersion },
     {
-      select: (res) =>
-        res
+      select: (res) => {
+        const types = res
           .flatMap(
             (parent) =>
               parent.subtypes?.map((s) => ({
@@ -213,7 +217,13 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
                 value: `${s.id},${parent.id}`,
               })) ?? [],
           )
-          .filter((r) => !!r),
+          .filter((r) => !!r);
+
+        if (config.enableLearningpath) {
+          types.push({ label: t("contentTypes.learningpath"), value: RESOURCE_TYPE_LEARNING_PATH });
+        }
+        return types;
+      },
       placeholderData: [],
       enabled: !isTopicArticle,
     },
@@ -223,27 +233,41 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
       try {
         setError(undefined);
         const slateComment = getSlateComment(userName, t, values.comments);
-        const plannedResource: IUpdatedArticleDTO = {
-          title: values.title,
-          comments: slateComment.length ? [{ content: inlineContentToHTML(slateComment), isOpen: true }] : [],
-          language: i18n.language,
-          articleType: values.articleType,
-          responsibleId: values.responsible,
-          revision: 0,
-          priority: values.priority,
-          metaImage: undefined,
-        };
-        const createdArticle = await createDraft(convertUpdateToNewDraft(plannedResource));
+        let createdResource: IArticleDTO | ILearningPathV2DTO;
+        if (values.contentType === RESOURCE_TYPE_LEARNING_PATH) {
+          createdResource = await postLearningpath({
+            title: values.title,
+            comments: slateComment.length ? [{ content: inlineContentToHTML(slateComment), isOpen: true }] : [],
+            language: i18n.language,
+            responsibleId: values.responsible,
+            priority: values.priority,
+          });
+        } else {
+          const plannedResource: IUpdatedArticleDTO = {
+            title: values.title,
+            comments: slateComment.length ? [{ content: inlineContentToHTML(slateComment), isOpen: true }] : [],
+            language: i18n.language,
+            articleType: values.articleType,
+            responsibleId: values.responsible,
+            revision: 0,
+            priority: values.priority,
+            metaImage: undefined,
+          };
+          createdResource = await createDraft(convertUpdateToNewDraft(plannedResource));
+        }
 
         // Add created article to latest edited
-        const latestEdited = uniq([createdArticle.id.toString()].concat(userData?.latestEditedArticles ?? []));
+        const latestEdited = uniq([createdResource.id.toString()].concat(userData?.latestEditedArticles ?? []));
         await updateUserData({ latestEditedArticles: latestEdited.slice(0, LAST_UPDATED_SIZE) });
 
         // Create node in taxonomy
         const resourceUrl = await addNodeMutation({
           body: {
             name: values.title,
-            contentUri: `urn:article:${createdArticle.id}`,
+            contentUri:
+              values.contentType === RESOURCE_TYPE_LEARNING_PATH
+                ? `urn:learningpath:${createdResource.id}`
+                : `urn:article:${createdResource.id}`,
             nodeType: isTopicArticle ? TOPIC_NODE : RESOURCE_NODE,
             root: false,
             ...(isTopicArticle ? { visible: false } : {}),

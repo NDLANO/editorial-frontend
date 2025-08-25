@@ -22,16 +22,13 @@ import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
 import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
 import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { isFormikFormDirty, topicArticleRules } from "../../../../util/formHelper";
+import { getExpirationDate } from "../../../../util/revisionHelpers";
 import { AlertDialogWrapper } from "../../../FormikForm";
 import { HandleSubmitFunc, TopicArticleFormType, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
 import { useSession } from "../../../Session/SessionProvider";
 import { TaxonomyVersionProvider } from "../../../StructureVersion/TaxonomyVersionProvider";
-import {
-  draftApiTypeToTopicArticleFormType,
-  getExpirationDate,
-  topicArticleFormTypeToDraftApiType,
-} from "../../articleTransformers";
+import { draftApiTypeToTopicArticleFormType, topicArticleFormTypeToDraftApiType } from "../../articleTransformers";
 
 interface Props {
   article?: IArticleDTO;
@@ -41,7 +38,6 @@ interface Props {
   updateArticle: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
   articleStatus?: IStatusDTO;
   articleChanged: boolean;
-  isNewlyCreated: boolean;
   supportedLanguages: string[];
   articleLanguage: string;
   translatedFieldsToNN: string[];
@@ -53,7 +49,6 @@ const TopicArticleForm = ({
   articleTaxonomy,
   updateArticle,
   articleChanged,
-  isNewlyCreated,
   supportedLanguages,
   articleLanguage,
   articleStatus,
@@ -129,7 +124,7 @@ const TopicArticleForm = ({
           supportedLanguages={supportedLanguages}
           title={article?.title?.title}
           type="topic-article"
-          expirationDate={getExpirationDate(article)}
+          expirationDate={getExpirationDate(article?.revisions)}
         />
         <TaxonomyVersionProvider>
           <TopicArticleAccordionPanels
@@ -142,7 +137,6 @@ const TopicArticleForm = ({
         </TaxonomyVersionProvider>
         <FormFooter
           articleChanged={articleChanged}
-          isNewlyCreated={isNewlyCreated}
           savedToServer={savedToServer}
           handleSubmit={handleSubmit}
           article={article}
@@ -169,18 +163,11 @@ const TopicArticleForm = ({
 interface FormFooterProps {
   articleChanged: boolean;
   article?: IArticleDTO;
-  isNewlyCreated: boolean;
   savedToServer: boolean;
   handleSubmit: (values: TopicArticleFormType, formikHelpers: FormikHelpers<TopicArticleFormType>) => Promise<void>;
 }
 
-const InternalFormFooter = ({
-  articleChanged,
-  article,
-  isNewlyCreated,
-  savedToServer,
-  handleSubmit,
-}: FormFooterProps) => {
+const InternalFormFooter = ({ articleChanged, article, savedToServer, handleSubmit }: FormFooterProps) => {
   const { t } = useTranslation();
   const statusStateMachine = useDraftStatusStateMachine({
     articleId: article?.id,
@@ -206,17 +193,12 @@ const InternalFormFooter = ({
   return (
     <>
       <EditorFooter
-        showSimpleFooter={!article?.id}
+        type="article"
         formIsDirty={formIsDirty}
         savedToServer={savedToServer}
         onSaveClick={onSave}
-        entityStatus={article?.status}
         statusStateMachine={statusStateMachine.data}
-        isArticle
-        isNewlyCreated={isNewlyCreated}
-        isConcept={false}
         hideSecondaryButton={false}
-        article={article}
       />
       <AlertDialogWrapper
         isSubmitting={isSubmitting}

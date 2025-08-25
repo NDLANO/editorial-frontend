@@ -9,15 +9,21 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import FrontpageArticleForm from "./components/FrontpageArticleForm";
-import { TranslateType, useTranslateToNN } from "../../../components/NynorskTranslateProvider";
+import {
+  NynorskTranslateProvider,
+  TranslateType,
+  useTranslateToNN,
+} from "../../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { isNewArticleLanguage } from "../../../components/SlateEditor/IsNewArticleLanguageProvider";
-import { useWideArticle, articleIsWide } from "../../../components/WideArticleEditorProvider";
+import { WideArticleEditorProvider } from "../../../components/WideArticleEditorProvider";
 import { LocaleType } from "../../../interfaces";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 import NotFound from "../../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 
 const translateFields: TranslateType[] = [
   {
@@ -49,11 +55,20 @@ const translateFields: TranslateType[] = [
     type: "text",
   },
 ];
-interface Props {
-  isNewlyCreated?: boolean;
-}
 
-const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
+export const Component = () => <PrivateRoute component={<EditFrontpageArticlePage />} />;
+
+export const EditFrontpageArticlePage = () => {
+  return (
+    <PageContent variant="wide">
+      <NynorskTranslateProvider>
+        <EditFrontpageArticle />
+      </NynorskTranslateProvider>
+    </PageContent>
+  );
+};
+
+const EditFrontpageArticle = () => {
   const { t } = useTranslation();
   const params = useParams<"selectedLanguage" | "id">();
   const selectedLanguage = params.selectedLanguage as LocaleType;
@@ -63,7 +78,6 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
     selectedLanguage,
   );
   const { translate, shouldTranslate, translating, translatedFields } = useTranslateToNN();
-  const { setWideArticle } = useWideArticle();
 
   useEffect(() => {
     (async () => {
@@ -72,12 +86,6 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
       }
     })();
   }, [article, loading, setArticle, shouldTranslate, translate]);
-
-  useEffect(() => {
-    if (article && articleIsWide(article.id)) {
-      setWideArticle(true);
-    }
-  }, [article, setWideArticle]);
 
   if (loading || translating) {
     return <PageSpinner />;
@@ -94,7 +102,7 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
   const newLanguage = isNewArticleLanguage(selectedLanguage, article);
 
   return (
-    <>
+    <WideArticleEditorProvider initialValue={false}>
       <title>{`${article.title?.title} ${t("htmlTitles.titleTemplate")}`}</title>
       <FrontpageArticleForm
         articleLanguage={selectedLanguage}
@@ -102,13 +110,10 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
         articleRevisionHistory={articleRevisionHistory}
         articleStatus={article.status}
         articleChanged={articleChanged || newLanguage}
-        isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
         supportedLanguages={article.supportedLanguages}
         translatedFieldsToNN={translatedFields}
       />
-    </>
+    </WideArticleEditorProvider>
   );
 };
-
-export default EditFrontpageArticle;

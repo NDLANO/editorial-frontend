@@ -26,11 +26,12 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild } from "@ndla/types-taxonomy";
 import ActiveTopicConnections from "./ActiveTopicConnections";
-import TaxonomyBlockNode, { NodeWithChildren } from "./TaxonomyBlockNode";
+import TaxonomyBlockNode from "./TaxonomyBlockNode";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
-import { MinimalNodeChild } from "../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy";
 import { fetchUserData } from "../../modules/draft/draftApi";
+import { NodeWithChildren } from "../../modules/nodes/nodeApiTypes";
 import { DialogCloseButton } from "../DialogCloseButton";
+import { MinimalNodeChild } from "./types";
 
 const Wrapper = styled("div", {
   base: {

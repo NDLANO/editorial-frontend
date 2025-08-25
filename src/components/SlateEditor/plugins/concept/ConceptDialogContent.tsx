@@ -28,7 +28,7 @@ import {
   IUpdatedConceptDTO,
   IConceptSummaryDTO,
 } from "@ndla/types-backend/concept-api";
-import SearchConceptForm from "./SearchConceptForm";
+import SearchConceptFormContent from "./SearchConceptFormContent";
 import SearchConceptResults from "./SearchConceptResults";
 import ConceptForm from "../../../../containers/ConceptPage/ConceptForm/ConceptForm";
 import { ConceptType } from "../../../../containers/ConceptPage/conceptInterfaces";
@@ -149,7 +149,7 @@ const ConceptDialogContent = ({
           </TabsList>
           <TabsContent value="concepts">
             <FormWrapper inDialog>
-              <SearchConceptForm
+              <SearchConceptFormContent
                 search={(params: SearchParams) => {
                   updateSearchObject(params);
                   debouncedSearchConcept(params);
@@ -183,7 +183,6 @@ const ConceptDialogContent = ({
                   language={locale}
                   concept={concept}
                   initialTitle={selectedText}
-                  supportedLanguages={concept?.supportedLanguages ?? [locale]}
                   translatedFieldsToNN={[]}
                 />
               ) : (
@@ -194,7 +193,6 @@ const ConceptDialogContent = ({
                   language={locale}
                   concept={concept}
                   initialTitle={selectedText}
-                  supportedLanguages={concept?.supportedLanguages ?? [locale]}
                   translatedFieldsToNN={[]}
                 />
               )}

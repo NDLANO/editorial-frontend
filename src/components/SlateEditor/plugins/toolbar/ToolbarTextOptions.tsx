@@ -22,9 +22,9 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { handleTextChange } from "./handleMenuClicks";
-import { ToolbarCategoryProps } from "./SlateToolbar";
 import { TextType } from "./toolbarState";
 import { getTitle, iconMapping } from "./ToolbarToggle";
+import { ToolbarCategoryProps } from "./types";
 import { GenericSelectItemIndicator, GenericSelectTrigger } from "../../../abstractions/Select";
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {

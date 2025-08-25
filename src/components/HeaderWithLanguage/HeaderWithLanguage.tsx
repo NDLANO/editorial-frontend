@@ -6,25 +6,15 @@
  *
  */
 
-import { memo, useState } from "react";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { IConceptDTO } from "@ndla/types-backend/concept-api";
 import { ArticleRevisionHistoryDTO, IArticleDTO, IStatusDTO } from "@ndla/types-backend/draft-api";
 import { TaxonomyContext } from "@ndla/types-taxonomy";
 import HeaderActions from "./HeaderActions";
 import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
 import HeaderInformation from "./HeaderInformation";
 
-export type FormHeaderType =
-  | "image"
-  | "audio"
-  | "topic-article"
-  | "standard"
-  | "concept"
-  | "gloss"
-  | "podcast"
-  | "podcast-series"
-  | "frontpage-article";
+export type FormHeaderType = "topic-article" | "standard" | "frontpage-article";
 
 interface Props {
   title?: string;
@@ -35,9 +25,7 @@ interface Props {
   article?: IArticleDTO;
   articleRevisionHistory?: ArticleRevisionHistoryDTO;
   supportedLanguages: string[];
-  concept?: IConceptDTO;
   type: FormHeaderType;
-  hasRSS?: boolean;
   status?: IStatusDTO;
   expirationDate?: string;
 }
@@ -48,9 +36,7 @@ const HeaderWithLanguage = ({
   taxonomy = [],
   article,
   articleRevisionHistory,
-  hasRSS,
   id,
-  concept,
   language,
   status,
   expirationDate,
@@ -59,29 +45,21 @@ const HeaderWithLanguage = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  // true by default to disable language deletions until connections are retrieved.
-  const [hasConnections, setHasConnections] = useState(true);
-
   const isNewLanguage = !!id && !supportedLanguages.includes(language);
   const statusText = status?.current ? t(`form.status.${status.current.toLowerCase()}`) : "";
   const published = status?.current === "PUBLISHED" || status?.other?.includes("PUBLISHED");
-  const isArticle = type === "standard" || type === "topic-article" || type === "frontpage-article";
-  const responsible = isArticle ? article?.responsible?.responsibleId : concept?.responsible?.responsibleId;
 
   return (
     <header>
       <HeaderInformation
         type={type}
-        noStatus={noStatus}
         statusText={statusText}
         isNewLanguage={isNewLanguage}
         title={title}
         id={id}
         published={published}
-        setHasConnections={setHasConnections}
         expirationDate={expirationDate}
-        responsibleId={responsible}
-        hasRSS={hasRSS}
+        responsibleId={article?.responsible?.responsibleId}
         language={language}
         slug={article?.slug}
         taxonomy={taxonomy}
@@ -92,9 +70,8 @@ const HeaderWithLanguage = ({
           articleRevisionHistory={articleRevisionHistory}
           language={language}
           supportedLanguages={supportedLanguages}
-          disableDelete={!!(hasConnections || isArticle) && supportedLanguages.length === 1}
+          disableDelete={supportedLanguages.length === 1}
           article={article}
-          concept={concept}
           noStatus={noStatus}
           isNewLanguage={isNewLanguage}
           type={type}

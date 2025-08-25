@@ -15,6 +15,9 @@ import config from "../../config";
 import { isValidLocale } from "../../i18n";
 import { useFilmFrontpageQuery } from "../../modules/frontpage/filmQueries";
 import NotFound from "../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+
+export const Component = () => <PrivateRoute component={<NdlaFilmEditor />} />;
 
 const NdlaFilmEditor = () => {
   const filmFrontpageQuery = useFilmFrontpageQuery();
@@ -39,5 +42,3 @@ const NdlaFilmEditor = () => {
     </PageContainer>
   );
 };
-
-export default NdlaFilmEditor;

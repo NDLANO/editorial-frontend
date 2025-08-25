@@ -6,7 +6,7 @@
  *
  */
 
-import { QualityEvaluationValue } from "./QualityEvaluationForm";
+export type QualityEvaluationValue = "1" | "2" | "3" | "4" | "5";
 
 // TODO: We should change these colors
 export const qualityEvaluationOptionColors: Record<QualityEvaluationValue, string> = {

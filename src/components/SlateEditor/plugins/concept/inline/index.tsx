@@ -20,7 +20,7 @@ import { CONCEPT_INLINE_ELEMENT_TYPE, CONCEPT_INLINE_PLUGIN } from "./types";
 import { TYPE_NDLA_EMBED } from "../../embed/types";
 
 export const inlineConceptSerializer = createSerializer({
-  deserialize(el) {
+  deserialize(el, children) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = parseElementAttributes(Array.from(embed.attributes));
@@ -31,18 +31,14 @@ export const inlineConceptSerializer = createSerializer({
           type: CONCEPT_INLINE_ELEMENT_TYPE,
           data: embedAttributes,
         },
-        [
-          {
-            text: embedAttributes.linkText ? embedAttributes.linkText : "Ukjent forklaringstekst",
-          },
-        ],
+        children,
       );
     }
   },
-  serialize(node) {
+  serialize(node, children) {
     if (!isConceptInlineElement(node)) return;
-    const data = createDataAttributes({ ...node.data, linkText: Node.string(node) });
-    return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true });
+    const data = createDataAttributes(node.data);
+    return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, bailOnEmpty: true, children });
   },
 });
 

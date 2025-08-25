@@ -9,17 +9,15 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import { IAudioMetaInformationDTO, IUpdatedAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import PodcastForm from "./components/PodcastForm";
-import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
+import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
 import { updateAudio, fetchAudio } from "../../modules/audio/audioApi";
 import { toEditAudio } from "../../util/routeHelpers";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
-
-interface Props {
-  isNewlyCreated?: boolean;
-}
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const translateFields: TranslateType[] = [
   {
@@ -44,7 +42,19 @@ const translateFields: TranslateType[] = [
   },
 ];
 
-const EditPodcast = ({ isNewlyCreated }: Props) => {
+export const Component = () => <PrivateRoute component={<EditPodcastPage />} />;
+
+export const EditPodcastPage = () => {
+  return (
+    <NynorskTranslateProvider>
+      <PageContent>
+        <EditPodcast />
+      </PageContent>
+    </NynorskTranslateProvider>
+  );
+};
+
+const EditPodcast = () => {
   const params = useParams<"id" | "selectedLanguage">();
   const podcastId = Number(params.id);
   const podcastLanguage = params.selectedLanguage!;
@@ -103,16 +113,12 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
   const language = podcastLanguage || locale;
   return (
     <PodcastForm
-      supportedLanguages={podcast.supportedLanguages}
       audio={podcast}
       language={language}
       podcastChanged={podcastChanged || newLanguage}
       onUpdatePodcast={onUpdate}
-      isNewlyCreated={isNewlyCreated}
       translating={translating}
       translatedFieldsToNN={translatedFields}
     />
   );
 };
-
-export default EditPodcast;

@@ -6,14 +6,36 @@
  *
  */
 
-import { ISeriesDTO } from "@ndla/types-backend/audio-api";
+import { IAudioDTO, IAuthorDTO, ISeriesDTO } from "@ndla/types-backend/audio-api";
 import { Descendant } from "slate";
-import { AudioFormikType } from "../../containers/AudioUploader/components/AudioForm";
 
 export interface PostAudioTranscription {
   id: number;
   name: string;
   language: string;
+}
+
+export interface AudioFormikType {
+  id?: number;
+  revision?: number;
+  language: string;
+  supportedLanguages: string[];
+  title: Descendant[];
+  manuscript: Descendant[];
+  audioFile: {
+    storedFile?: IAudioDTO;
+    newFile?: {
+      filepath: string;
+      file: File;
+    };
+  };
+  tags: string[];
+  creators: IAuthorDTO[];
+  processors: IAuthorDTO[];
+  rightsholders: IAuthorDTO[];
+  processed: boolean;
+  origin: string;
+  license: string;
 }
 
 export interface PodcastFormValues extends AudioFormikType {
@@ -25,6 +47,19 @@ export interface PodcastFormValues extends AudioFormikType {
   metaImageUrl?: string;
   series: ISeriesDTO | null;
   seriesId?: number;
+}
+
+export interface PodcastSeriesFormikType {
+  id?: number;
+  revision?: number;
+  title: Descendant[];
+  description: Descendant[];
+  language: string;
+  coverPhotoId?: string;
+  metaImageAlt?: string;
+  episodes: number[];
+  supportedLanguages: string[];
+  hasRSS?: boolean;
 }
 
 export interface UseSeries {

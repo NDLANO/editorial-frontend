@@ -15,7 +15,6 @@ import { styled } from "@ndla/styled-system/jsx";
 import PageSizeSelect from "./PageSizeSelect";
 import StatusCell from "./StatusCell";
 import SubjectCombobox from "./SubjectCombobox";
-import { SortOptionWorkList } from "./WorkList";
 import Pagination from "../../../../components/abstractions/Pagination";
 import { MultiSummarySearchResults } from "../../../../modules/search/searchApiInterfaces";
 import { useSearch } from "../../../../modules/search/searchQueries";
@@ -23,7 +22,7 @@ import formatDate from "../../../../util/formatDate";
 import { stripInlineContentHtmlTags } from "../../../../util/formHelper";
 import { toEditArticle } from "../../../../util/routeHelpers";
 import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../../styles";
-import { SelectItem } from "../../types";
+import { SelectItem, SortOptionWorkList } from "../../types";
 import GoToSearch from "../GoToSearch";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "../TableComponent";
 import TableTitle from "../TableTitle";
@@ -107,8 +106,8 @@ const WorkListTabContent = ({
               data: (
                 <CellWrapper>
                   <ArrowUpDoubleLine
-                    aria-hidden={!res?.prioritized}
-                    visibility={!res?.prioritized ? "hidden" : "visible"}
+                    aria-hidden={res?.priority !== "prioritized"}
+                    visibility={res?.priority !== "prioritized" ? "hidden" : "visible"}
                     aria-label={t("editorFooter.prioritized")}
                     title={t("editorFooter.prioritized")}
                     size="small"
@@ -215,7 +214,7 @@ const WorkListTabContent = ({
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
       <TableComponent
-        isPending={isPending}
+        isLoading={isPending}
         tableTitleList={tableTitles}
         tableData={tableData}
         setSortOption={setSortOption}

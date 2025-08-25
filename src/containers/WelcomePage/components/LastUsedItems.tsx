@@ -25,8 +25,7 @@ import {
 import { useSearchConcepts } from "../../../modules/concept/conceptQueries";
 import { useSearchDrafts } from "../../../modules/draft/draftQueries";
 import { useLocalStoragePageSizeState, useLocalStorageSortOptionState } from "../hooks/storedFilterHooks";
-
-export type SortOptionLastUsed = "title" | "status" | "lastUpdated";
+import { SortOptionLastUsed } from "../types";
 
 type SortOptionType = Prefix<"-", SortOptionLastUsed>;
 
@@ -176,7 +175,7 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
       <WelcomePageTabsContent value="articles">
         <LastUsedResources
           data={sortedData}
-          isPending={searchDraftsQuery.isPending}
+          isLoading={searchDraftsQuery.isLoading}
           page={page}
           setPage={setPage}
           sortOption={sortOption}
@@ -191,7 +190,7 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
       <WelcomePageTabsContent value="concepts">
         <LastUsedConcepts
           data={sortedConceptsData}
-          isPending={searchConceptsQuery.isPending}
+          isLoading={searchConceptsQuery.isLoading}
           page={pageConcept}
           setPage={setPageConcept}
           sortOption={sortOptionConcept}

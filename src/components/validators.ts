@@ -6,12 +6,8 @@
  *
  */
 
-import { Descendant, Node, Element } from "slate";
-import { NOOP_ELEMENT_TYPE } from "@ndla/editor";
-import { TYPE_PARAGRAPH } from "./SlateEditor/plugins/paragraph/types";
-import { TYPE_SECTION } from "./SlateEditor/plugins/section/types";
-import { Dictionary } from "../interfaces";
-import { ElementType } from "./SlateEditor/interfaces";
+import { Descendant, Node, Element, ElementType } from "slate";
+import { NOOP_ELEMENT_TYPE, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 
 const rUrl =
   /^((https?|ftp):\/\/|mailto:)(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i; //eslint-disable-line
@@ -28,7 +24,7 @@ export const getLength = (value?: Descendant[] | Descendant | string | null) => 
   return value.length;
 };
 
-const ROOT_NODES: ElementType[] = [TYPE_PARAGRAPH, TYPE_SECTION, NOOP_ELEMENT_TYPE];
+const ROOT_NODES: ElementType[] = [PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE, NOOP_ELEMENT_TYPE];
 
 export const isEmpty = (value?: Descendant[] | Descendant | string | null) => {
   if (!value) {
@@ -52,7 +48,7 @@ export const isEmpty = (value?: Descendant[] | Descendant | string | null) => {
       // iii. If one descendant of root is not paragraph => nonEmpty
       for (const el of [...Node.elements(node)]) {
         const [element] = el;
-        if (Element.isElement(element) && element.type !== TYPE_PARAGRAPH) {
+        if (Element.isElement(element) && element.type !== PARAGRAPH_ELEMENT_TYPE) {
           return false;
         }
       }
@@ -64,7 +60,7 @@ export const isEmpty = (value?: Descendant[] | Descendant | string | null) => {
     // i. If one descendant of root is not paragraph => nonEmpty
     for (const el of [...Node.elements(value)]) {
       const [element] = el;
-      if (Element.isElement(element) && element.type !== TYPE_PARAGRAPH) {
+      if (Element.isElement(element) && element.type !== PARAGRAPH_ELEMENT_TYPE) {
         return false;
       }
       // ii. If the generated text string is '' => empty
@@ -103,5 +99,5 @@ export const minItems = <T>(value: Descendant[] | Descendant | T[] | undefined, 
 //  https://stackoverflow.com/a/1830844
 export const isNumeric = (value: any) => !Number.isNaN(value - parseFloat(value));
 
-export const objectHasBothField = (obj: Dictionary<any>) =>
+export const objectHasBothField = (obj: Record<string, any>) =>
   Object.keys(obj).filter((key) => isEmpty(obj[key])).length === 0;

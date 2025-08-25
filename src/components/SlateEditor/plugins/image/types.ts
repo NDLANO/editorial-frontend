@@ -19,5 +19,23 @@ export interface ImagePluginOptions {
   disableNormalization?: boolean;
 }
 
+export interface ImageEmbedFormValues {
+  size?: string;
+  align?: string;
+  alt: string;
+  caption: Descendant[];
+  url?: string;
+  focalX?: string;
+  focalY?: string;
+  lowerRightY?: string;
+  lowerRightX?: string;
+  upperLeftY?: string;
+  upperLeftX?: string;
+  metaData?: any;
+  border?: boolean;
+  isDecorative: boolean;
+  hideByline?: boolean;
+}
+
 export const IMAGE_ELEMENT_TYPE = "image";
 export const IMAGE_PLUGIN = "image";

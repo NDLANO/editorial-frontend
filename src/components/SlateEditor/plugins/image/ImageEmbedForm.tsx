@@ -9,7 +9,6 @@
 import { Formik, useFormikContext } from "formik";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
 import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { CheckLine } from "@ndla/icons";
 import {
@@ -27,8 +26,8 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { ImageEmbedData } from "@ndla/types-embed";
+import { ImageEmbedFormValues } from "./types";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
-import ImageEditor from "../../../../containers/ImageEditor/ImageEditor";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../../util/formHelper";
 import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLabel";
@@ -38,6 +37,7 @@ import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import { isEmpty } from "../../../validators";
 import { RichTextIndicator } from "../../RichTextIndicator";
 import { useInGrid } from "../grid/GridContext";
+import ImageEditor from "./ImageEditor/ImageEditor";
 
 interface Props {
   embed: ImageEmbedData;
@@ -46,24 +46,6 @@ interface Props {
   onClose: () => void;
   language: string;
   allowDecorative: boolean;
-}
-
-export interface ImageEmbedFormValues {
-  size?: string;
-  align?: string;
-  alt: string;
-  caption: Descendant[];
-  url?: string;
-  focalX?: string;
-  focalY?: string;
-  lowerRightY?: string;
-  lowerRightX?: string;
-  upperLeftY?: string;
-  upperLeftX?: string;
-  metaData?: any;
-  border?: boolean;
-  isDecorative: boolean;
-  hideByline?: boolean;
 }
 
 const formRules: RulesType<ImageEmbedFormValues> = {

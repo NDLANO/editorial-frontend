@@ -9,15 +9,30 @@
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import { IConceptDTO, INewConceptDTO } from "@ndla/types-backend/concept-api";
 import { GlossForm } from "./components/GlossForm";
+import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { toEditGloss } from "../../util/routeHelpers";
 import { useFetchConceptData } from "../FormikForm/formikConceptHooks";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 interface Props {
   inDialog?: boolean;
   addConceptInDialog?: (concept: IConceptDTO) => void;
 }
+
+export const Component = () => <PrivateRoute component={<CreateGlossPage />} />;
+
+export const CreateGlossPage = () => {
+  return (
+    <NynorskTranslateProvider>
+      <PageContent>
+        <CreateGloss />
+      </PageContent>
+    </NynorskTranslateProvider>
+  );
+};
 
 const CreateGloss = ({ inDialog = false, addConceptInDialog }: Props) => {
   const { t, i18n } = useTranslation();
@@ -30,7 +45,7 @@ const CreateGloss = ({ inDialog = false, addConceptInDialog }: Props) => {
       if (inDialog && addConceptInDialog) {
         addConceptInDialog(savedConcept);
       } else {
-        navigate(toEditGloss(savedConcept.id, createdConcept.language));
+        navigate(toEditGloss(savedConcept.id, createdConcept.language), { state: { isNewlyCreated: true } });
       }
       return savedConcept;
     },
@@ -44,11 +59,8 @@ const CreateGloss = ({ inDialog = false, addConceptInDialog }: Props) => {
         language={i18n.language}
         upsertProps={{ onCreate, onUpdateStatus: updateConceptStatus }}
         inDialog={inDialog}
-        supportedLanguages={[i18n.language]}
         translatedFieldsToNN={[]}
       />
     </>
   );
 };
-
-export default CreateGloss;

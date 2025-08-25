@@ -25,7 +25,6 @@ import {
   postSearchAudio,
   postSearchSeries,
 } from "./audioApi";
-import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
 import {
   AUDIO,
   PODCAST_SERIES,
@@ -35,6 +34,7 @@ import {
   AUDIO_TRANSCRIPTION,
 } from "../../queryKeys";
 import { UseAudio, UseSearchTags, UseSeries, UseTranscription } from "./audioTypes";
+import { StringSort } from "../../interfaces";
 
 export const audioQueryKeys = {
   audio: (params?: Partial<UseAudio>) => [AUDIO, params] as const,

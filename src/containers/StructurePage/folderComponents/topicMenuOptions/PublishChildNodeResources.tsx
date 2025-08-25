@@ -22,7 +22,7 @@ import { fetchDrafts, updateStatusDraft } from "../../../../modules/draft/draftA
 import { fetchLearningpaths, updateStatusLearningpath } from "../../../../modules/learningpath/learningpathApi";
 import { fetchNodeResources } from "../../../../modules/nodes/nodeApi";
 import { RESOURCE_META } from "../../../../queryKeys";
-import { routes, toLearningpathFull } from "../../../../util/routeHelpers";
+import { routes } from "../../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { linkRecipe } from "../../resourceComponents/Resource";
 
@@ -174,7 +174,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
                       <SafeLink
                         to={
                           res.contentUri?.includes("learningpath")
-                            ? toLearningpathFull(numericId, language)
+                            ? routes.learningpath.edit(numericId, language)
                             : routes.editArticle(numericId, "standard")
                         }
                         target="_blank"

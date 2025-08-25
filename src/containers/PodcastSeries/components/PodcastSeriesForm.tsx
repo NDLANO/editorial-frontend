@@ -9,19 +9,18 @@
 import { Formik, FormikProps, FormikHelpers, FormikErrors } from "formik";
 import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import { Descendant } from "slate";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { INewSeriesDTO, ISeriesDTO } from "@ndla/types-backend/audio-api";
 import PodcastEpisodes from "./PodcastEpisodes";
+import { PodcastSeriesFormHeader } from "./PodcastSeriesFormHeader";
 import PodcastSeriesMetaData from "./PodcastSeriesMetaData";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
-import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
 import SaveButton from "../../../components/SaveButton";
 import {
   AUDIO_ADMIN_SCOPE,
@@ -29,9 +28,11 @@ import {
   ITUNES_STANDARD_MINIMUM_WIDTH,
   SAVE_BUTTON_ID,
 } from "../../../constants";
+import { PodcastSeriesFormikType } from "../../../modules/audio/audioTypes";
 import { editorValueToPlainText } from "../../../util/articleContentConverter";
 import { podcastSeriesTypeToFormType } from "../../../util/audioHelpers";
 import { isFormikFormDirty } from "../../../util/formHelper";
+import { NewlyCreatedLocationState } from "../../../util/routeHelpers";
 import { AlertDialogWrapper } from "../../FormikForm";
 import { useSession } from "../../Session/SessionProvider";
 
@@ -65,40 +66,23 @@ const podcastRules: RulesType<PodcastSeriesFormikType, ISeriesDTO> = {
   },
 };
 
-export interface PodcastSeriesFormikType {
-  id?: number;
-  revision?: number;
-  title: Descendant[];
-  description: Descendant[];
-  language: string;
-  coverPhotoId?: string;
-  metaImageAlt?: string;
-  episodes: number[];
-  supportedLanguages: string[];
-  hasRSS?: boolean;
-}
-
 interface Props {
   podcastSeries?: ISeriesDTO;
   language: string;
   inDialog?: boolean;
-  isNewlyCreated: boolean;
   formikProps?: FormikProps<PodcastSeriesFormikType>;
   onUpdate: (newPodcastSeries: INewSeriesDTO) => void;
   revision?: number;
   isNewLanguage?: boolean;
-  supportedLanguages: string[];
   translatedFieldsToNN: string[];
 }
 
 const PodcastSeriesForm = ({
   podcastSeries,
   inDialog,
-  isNewlyCreated,
   onUpdate,
   language,
   isNewLanguage,
-  supportedLanguages,
   translatedFieldsToNN,
 }: Props) => {
   const { t } = useTranslation();
@@ -106,6 +90,7 @@ const PodcastSeriesForm = ({
   const { userPermissions } = useSession();
   const navigate = useNavigate();
   const size = useRef<[number, number] | undefined>(undefined);
+  const location = useLocation();
 
   const isAudioAdmin = !!userPermissions?.includes(AUDIO_ADMIN_SCOPE);
 
@@ -176,15 +161,8 @@ const PodcastSeriesForm = ({
 
         return (
           <FormWrapper inDialog={inDialog}>
-            <HeaderWithLanguage
-              id={podcastSeries?.id}
-              language={language}
-              noStatus
-              supportedLanguages={supportedLanguages}
-              type="podcast-series"
-              title={podcastSeries?.title.title}
-              hasRSS={podcastSeries?.hasRSS}
-            />
+            <title>{t("htmlTitles.podcastSeriesPage")}</title>
+            <PodcastSeriesFormHeader series={podcastSeries} language={language} />
             <FormAccordions defaultOpen={["podcast-series-podcastmeta"]}>
               <FormAccordion
                 id="podcast-series-podcastmeta"
@@ -217,7 +195,9 @@ const PodcastSeriesForm = ({
                 id={SAVE_BUTTON_ID}
                 disabled={!isAudioAdmin}
                 loading={isSubmitting}
-                showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
+                showSaved={
+                  !formIsDirty && (savedToServer || (location.state as NewlyCreatedLocationState)?.isNewlyCreated)
+                }
                 formIsDirty={formIsDirty}
                 type={!inDialog ? "submit" : "button"}
                 onClick={(evt) => {

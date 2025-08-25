@@ -13,12 +13,11 @@ import { SafeLink } from "@ndla/safelink";
 import { IConceptSearchResultDTO } from "@ndla/types-backend/concept-api";
 import PageSizeSelect from "./PageSizeSelect";
 import StatusCell from "./StatusCell";
-import { SortOptionConceptList } from "./WorkList";
 import Pagination from "../../../../components/abstractions/Pagination";
 import formatDate from "../../../../util/formatDate";
 import { toEditConcept, toEditGloss } from "../../../../util/routeHelpers";
 import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../../styles";
-import { SelectItem } from "../../types";
+import { SelectItem, SortOptionConceptList } from "../../types";
 import GoToSearch from "../GoToSearch";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "../TableComponent";
 import TableTitle from "../TableTitle";
@@ -117,7 +116,7 @@ const ConceptListTabContent = ({
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
       <TableComponent
-        isPending={isPending}
+        isLoading={isPending}
         tableTitleList={tableTitles}
         tableData={tableData}
         setSortOption={setSortOption}

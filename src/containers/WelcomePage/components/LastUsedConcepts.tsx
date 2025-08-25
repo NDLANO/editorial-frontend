@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import { PencilFill } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
-import { SortOptionLastUsed } from "./LastUsedItems";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import PageSizeSelect from "./worklist/PageSizeSelect";
@@ -20,11 +19,11 @@ import Pagination from "../../../components/abstractions/Pagination";
 import formatDate from "../../../util/formatDate";
 import { routes } from "../../../util/routeHelpers";
 import { StyledTopRowDashboardInfo } from "../styles";
-import { SelectItem } from "../types";
+import { SelectItem, SortOptionLastUsed } from "../types";
 
 interface Props {
   data: IConceptSummaryDTO[];
-  isPending: boolean;
+  isLoading: boolean;
   page: number;
   setPage: (page: number) => void;
   sortOption: string;
@@ -38,7 +37,7 @@ interface Props {
 
 const LastUsedConcepts = ({
   data,
-  isPending,
+  isLoading,
   page,
   setPage,
   sortOption,
@@ -82,7 +81,7 @@ const LastUsedConcepts = ({
         <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
       </StyledTopRowDashboardInfo>
       <TableComponent
-        isPending={isPending}
+        isLoading={isLoading}
         tableTitleList={titles}
         tableData={tableData}
         setSortOption={setSortOption}

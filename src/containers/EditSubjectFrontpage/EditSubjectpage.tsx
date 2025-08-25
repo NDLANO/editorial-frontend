@@ -14,12 +14,11 @@ import { PageSpinner } from "../../components/PageSpinner";
 import { LocaleType } from "../../interfaces";
 import { useFetchSubjectpageData } from "../FormikForm/formikSubjectpageHooks";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
-interface Props {
-  isNewlyCreated: boolean;
-}
+export const Component = () => <PrivateRoute component={<EditSubjectpage />} />;
 
-const EditSubjectpage = ({ isNewlyCreated }: Props) => {
+const EditSubjectpage = () => {
   const { t } = useTranslation();
   const { elementId, subjectpageId, selectedLanguage } = useParams<
     "elementId" | "subjectpageId" | "selectedLanguage"
@@ -48,11 +47,8 @@ const EditSubjectpage = ({ isNewlyCreated }: Props) => {
           subjectpage={subjectpage}
           selectedLanguage={selectedLanguage!}
           updateSubjectpage={updateSubjectpage}
-          isNewlyCreated={isNewlyCreated}
         />
       </main>
     </PageContainer>
   );
 };
-
-export default EditSubjectpage;

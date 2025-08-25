@@ -26,6 +26,8 @@ import { FormActionsContainer, FormContent } from "../../../../components/Formik
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
 import { AUDIO_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/audio/audioTypes";
 import { frontpageActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
+import { createBlockpickerOptions } from "../../../../components/SlateEditor/plugins/blockPicker/options";
+import SlateBlockPicker from "../../../../components/SlateEditor/plugins/blockPicker/SlateBlockPicker";
 import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/campaignBlock/types";
 import { CODE_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/codeBlock/types";
 import { COMMENT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/comment/block/types";
@@ -174,10 +176,13 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
           </SegmentHeader>
           <RichTextEditor
             language={articleLanguage}
-            actions={frontpageActions}
-            blockpickerOptions={{
-              actionsToShowInAreas,
-            }}
+            blockPicker={
+              <SlateBlockPicker
+                actions={frontpageActions}
+                articleLanguage={articleLanguage}
+                {...createBlockpickerOptions({ actionsToShowInAreas })}
+              />
+            }
             placeholder={t("form.content.placeholder")}
             value={field.value}
             submitted={isSubmitting}

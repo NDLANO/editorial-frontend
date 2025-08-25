@@ -16,14 +16,14 @@ import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild } from "@ndla/types-taxonomy";
 import Resource from "./Resource";
-import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
+import { NodeResourceMeta, ResourceWithNodeConnectionAndMeta } from "../../../modules/nodes/nodeApiTypes";
 import { useDeleteResourceForNodeMutation, usePutResourceForNodeMutation } from "../../../modules/nodes/nodeMutations";
-import { NodeResourceMeta, nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
+import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import handleError from "../../../util/handleError";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 

@@ -6,24 +6,21 @@
  *
  */
 
+import queryString from "query-string";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { UseQueryResult } from "@tanstack/react-query";
 import { PageContainer } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IAudioSummarySearchResultDTO, ISeriesSummarySearchResultDTO } from "@ndla/types-backend/audio-api";
-import { IConceptSearchResultDTO } from "@ndla/types-backend/concept-api";
-import { ISearchResultV3DTO } from "@ndla/types-backend/image-api";
-import SearchForm, { parseSearchParams } from "./components/form/SearchForm";
-import SearchList from "./components/results/SearchList";
+import SearchForm, { parseSearchParams, SearchParamsBody } from "./components/form/SearchForm";
+import SearchList, { ResultType } from "./components/results/SearchList";
 import SearchListOptions from "./components/results/SearchListOptions";
 import SearchSort from "./components/sort/SearchSort";
 import Pagination from "../../components/abstractions/Pagination";
 import { SearchParams, SearchType } from "../../interfaces";
 import { useUserData } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
-import { MultiSummarySearchResults } from "../../modules/search/searchApiInterfaces";
 import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
 import { isValid } from "../../util/jwtHelper";
 import { toSearch } from "../../util/routeHelpers";
@@ -36,16 +33,9 @@ const StyledPageContainer = styled(PageContainer, {
   },
 });
 
-export type ResultType =
-  | ISearchResultV3DTO
-  | IConceptSearchResultDTO
-  | ISeriesSummarySearchResultDTO
-  | IAudioSummarySearchResultDTO
-  | MultiSummarySearchResults;
-
 interface Props {
   type: SearchType;
-  searchHook: (query: SearchParams) => UseQueryResult<ResultType>;
+  searchHook: (query: SearchParamsBody) => UseQueryResult<ResultType>;
 }
 
 const SearchContainer = ({ searchHook, type }: Props) => {
@@ -65,10 +55,14 @@ const SearchContainer = ({ searchHook, type }: Props) => {
   });
 
   const [searchObject, setSearchObject] = useState(parseSearchParams(location.search, false));
-  const { data: results, isLoading: isSearching, error: searchError } = searchHook(searchObject);
+  const {
+    data: results,
+    isLoading: isSearching,
+    error: searchError,
+  } = searchHook(parseSearchParams(queryString.stringify(searchObject), true));
   const nextPage = (searchObject?.page ?? 1) + 1;
   // preload next page.
-  searchHook({ ...searchObject, page: nextPage });
+  searchHook(parseSearchParams(queryString.stringify({ ...searchObject, page: nextPage }), true));
   useEffect(() => {
     setSearchObject(parseSearchParams(location.search, false));
   }, [location.search]);

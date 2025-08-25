@@ -9,12 +9,14 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import ConceptForm from "./ConceptForm/ConceptForm";
-import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
+import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
 import { LocaleType } from "../../interfaces";
 import { useFetchConceptData } from "../FormikForm/formikConceptHooks";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const translateFields: TranslateType[] = [
   {
@@ -35,11 +37,19 @@ const translateFields: TranslateType[] = [
   },
 ];
 
-interface Props {
-  isNewlyCreated?: boolean;
-}
+export const Component = () => <PrivateRoute component={<EditConceptPage />} />;
 
-const EditConcept = ({ isNewlyCreated }: Props) => {
+export const EditConceptPage = () => {
+  return (
+    <NynorskTranslateProvider>
+      <PageContent>
+        <EditConcept />
+      </PageContent>
+    </NynorskTranslateProvider>
+  );
+};
+
+const EditConcept = () => {
   const params = useParams<"id" | "selectedLanguage">();
   const conceptId = Number(params.id) || undefined;
   const selectedLanguage = params.selectedLanguage as LocaleType;
@@ -75,16 +85,12 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
         inDialog={false}
         concept={concept}
         conceptChanged={conceptChanged || newLanguage}
-        isNewlyCreated={isNewlyCreated}
         upsertProps={{
           onUpdate: (concept) => updateConcept(conceptId, concept),
         }}
         language={selectedLanguage!}
-        supportedLanguages={concept.supportedLanguages}
         translatedFieldsToNN={translatedFields}
       />
     </>
   );
 };
-
-export default EditConcept;

@@ -15,8 +15,7 @@ import {
   IUpdatedConceptDTO,
   openapi,
 } from "@ndla/types-backend/concept-api";
-import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
-import { ConceptStatusStateMachineType } from "../../interfaces";
+import { ConceptStatusStateMachineType, StringSort } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 

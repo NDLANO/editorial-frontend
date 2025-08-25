@@ -20,4 +20,4 @@ const Forbidden = () => {
   );
 };
 
-export default Forbidden;
+export const Component = Forbidden;

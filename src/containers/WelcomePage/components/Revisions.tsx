@@ -32,7 +32,6 @@ import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
 import PageSizeSelect from "./worklist/PageSizeSelect";
 import SubjectCombobox from "./worklist/SubjectCombobox";
 import Pagination from "../../../components/abstractions/Pagination";
-import { getWarnStatus } from "../../../components/HeaderWithLanguage/HeaderStatusInformation";
 import { StatusTimeFill } from "../../../components/StatusTimeFill";
 import {
   FAVOURITES_SUBJECT_ID,
@@ -45,8 +44,9 @@ import {
 } from "../../../constants";
 import { useSearch } from "../../../modules/search/searchQueries";
 import formatDate, { formatDateForBackend } from "../../../util/formatDate";
+import { getExpirationStatus } from "../../../util/getExpirationStatus";
+import { getExpirationDate } from "../../../util/revisionHelpers";
 import { toEditArticle } from "../../../util/routeHelpers";
-import { getExpirationDate } from "../../ArticlePage/articleTransformers";
 import {
   useLocalStoragePageSizeState,
   useLocalStorageSortOptionState,
@@ -112,7 +112,7 @@ const Revisions = ({ userData }: Props) => {
     today(getLocalTimeZone()).add({ years: 1 }).toDate(getLocalTimeZone()),
   );
 
-  const { data, isPending, isError } = useSearch(
+  const { data, isLoading, isError } = useSearch(
     {
       subjects: filterSubject ? [filterSubject.value] : userData?.favoriteSubjects,
       revisionDateTo: currentDateAddYear,
@@ -180,14 +180,14 @@ const Revisions = ({ userData }: Props) => {
   const tableData: FieldElement[][] = useMemo(
     () =>
       filteredData.results?.map((resource) => {
-        const expirationDate = resource.revisions.length ? getExpirationDate({ revisions: resource.revisions })! : "";
+        const expirationDate = resource.revisions.length ? getExpirationDate(resource.revisions)! : "";
         const revisions = resource.revisions
           .filter((revision) => revision.status !== Revision.revised)
           .sort((a, b) => (a.revisionDate > b.revisionDate ? 1 : -1))
           .map((revision) => `${formatDate(revision.revisionDate)}: ${revision.note}`)
           .join("\n");
 
-        const warnStatus = getWarnStatus(expirationDate);
+        const warnStatus = getExpirationStatus(expirationDate);
 
         return [
           {
@@ -271,7 +271,7 @@ const Revisions = ({ userData }: Props) => {
           </ControlWrapperDashboard>
         </StyledTopRowDashboardInfo>
         <TableComponent
-          isPending={isPending}
+          isLoading={isLoading}
           tableTitleList={tableTitles}
           tableData={tableData}
           setSortOption={setSortOption}

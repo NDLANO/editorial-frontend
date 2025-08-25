@@ -169,7 +169,6 @@ const VersionAndNotesPanel = ({ article, articleRevisionHistory, type, currentLa
           status: { current: "PUBLISHED", other: [] },
           comments: [],
           priority: "unspecified",
-          prioritized: false,
           started: false,
         };
       }

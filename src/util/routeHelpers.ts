@@ -12,6 +12,14 @@ import { useLocation } from "react-router-dom";
 import config from "../config";
 import { NDLA_FILM_SUBJECT } from "../constants";
 
+export interface NewlyCreatedLocationState {
+  isNewlyCreated?: boolean;
+}
+
+export interface CreatingLanguageLocationState {
+  isCreatingLanguage?: boolean;
+}
+
 const articleTypes: Record<string, string> = {
   "topic-article": "topic-article",
   standard: "learning-resource",
@@ -26,7 +34,12 @@ export const routes = {
   structure: toStructure,
   programme: toProgramme,
   nodeDiff: toNodeDiff,
-  learningpath: toLearningpathFull,
+  learningpath: {
+    full: toLearningpathFull,
+    create: "/learningpath/new",
+    edit: toEditLearningpath,
+    preview: toPreviewLearningpath,
+  },
   updateCodes: "/updateCodes",
   taxonomy: {
     structure: toStructure,
@@ -116,6 +129,17 @@ export function toEditLearningResource(id: number, locale: string) {
 
 export function toEditGenericArticle(articleId: number | string) {
   return `/subject-matter/article/${articleId}`;
+}
+
+export function toEditLearningpath(id: number, locale: string) {
+  if (!config.enableLearningpath) {
+    return toLearningpathFull(id, locale);
+  }
+  return `/learningpath/${id}/edit/${locale}`;
+}
+
+export function toPreviewLearningpath(id: number, locale: string, stepId?: number | string) {
+  return `/learningpath/${id}/preview/${locale}${stepId ? `/${stepId}` : ""}`;
 }
 
 export function toEditSubjectpage(subjectId: string, locale: string, subjectpageId?: number | string) {
@@ -257,6 +281,13 @@ export function isLearningpath(path: string | string[]): boolean {
   if (typeof path !== "string") return false;
   return path.includes("learningpath-api");
 }
+
+export const toLearningpath = (id: number | string, locale: string) => {
+  if (!config.enableLearningpath) {
+    return toLearningpathFull(id, locale);
+  }
+  return `/learningpath/${id}/edit/${locale}`;
+};
 
 export function toLearningpathFull(id: number | string, locale: string) {
   return `${config.learningpathFrontendDomain}/${locale}/learningpaths/${id}/first-step`;

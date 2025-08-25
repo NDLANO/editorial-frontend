@@ -10,8 +10,8 @@ import { isEqual } from "lodash-es";
 import { Editor } from "slate";
 import { useSlate, useSlateSelector } from "slate-react";
 import { MarkType, toggleMark } from "@ndla/editor";
-import { ToolbarCategoryProps } from "./SlateToolbar";
 import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
+import { ToolbarCategoryProps } from "./types";
 
 const getMarks = (editor: Editor) => {
   return Object.entries(editor.getMarks() ?? {}).reduce<string[]>((acc, [key, value]) => {

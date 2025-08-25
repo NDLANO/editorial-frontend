@@ -17,17 +17,28 @@ type NdlaErrorFields = {
 
 export type NdlaErrorPayload = NdlaErrorFields & Error;
 
-export function isNdlaErrorPayload(err: any): err is NdlaErrorPayload {
-  if (typeof err.status === "number" && typeof err.messages === "string") {
-    if (err instanceof Error) {
-      return true;
-    }
+export class NdlaApiError extends Error {
+  status: number;
+  messages: string;
+  json: any;
+  constructor({ status, messages, json }: NdlaErrorFields) {
+    super("");
+    this.status = status;
+    this.messages = messages;
+    this.json = json;
   }
-  return false;
+}
+
+export function isNotFoundError(err: any): err is NdlaApiError {
+  return err instanceof NdlaApiError && err.status === 404;
+}
+
+export function isNdlaApiError(err: any): err is NdlaErrorPayload {
+  return err instanceof NdlaApiError;
 }
 
 function buildErrorPayload(status: number, messages: string, json: any): NdlaErrorPayload {
-  return Object.assign({}, { status, json, messages }, new Error(""));
+  return new NdlaApiError({ status, json, messages });
 }
 
 export function throwErrorPayload(status: number, messages: string, json: any) {

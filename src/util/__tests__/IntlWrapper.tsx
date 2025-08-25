@@ -13,8 +13,7 @@ import { initializeI18n } from "../../i18n";
 
 const InitI18nWrapper = ({ children }: { children: ReactNode }) => {
   const { i18n } = useTranslation();
-  initializeI18n(i18n);
-  i18n.language = "nb";
+  initializeI18n(i18n, "nb");
   return children;
 };
 

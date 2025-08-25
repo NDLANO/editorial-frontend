@@ -8,10 +8,25 @@
 
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import { INewSeriesDTO } from "@ndla/types-backend/audio-api";
 import PodcastSeriesForm from "./components/PodcastSeriesForm";
+import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { postSeries } from "../../modules/audio/audioApi";
 import { toEditPodcastSeries } from "../../util/routeHelpers";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+
+export const Component = () => <PrivateRoute component={<CreatePodcastSeriesPage />} />;
+
+export const CreatePodcastSeriesPage = () => {
+  return (
+    <NynorskTranslateProvider>
+      <PageContent>
+        <CreatePodcastSeries />
+      </PageContent>
+    </NynorskTranslateProvider>
+  );
+};
 
 const CreatePodcastSeries = () => {
   const { i18n } = useTranslation();
@@ -20,18 +35,8 @@ const CreatePodcastSeries = () => {
 
   const onUpdate = async (newSeries: INewSeriesDTO): Promise<void> => {
     const createdSeries = await postSeries(newSeries);
-    navigate(toEditPodcastSeries(createdSeries.id, newSeries.language));
+    navigate(toEditPodcastSeries(createdSeries.id, newSeries.language), { state: { isNewlyCreated: true } });
   };
 
-  return (
-    <PodcastSeriesForm
-      language={locale}
-      onUpdate={onUpdate}
-      isNewlyCreated={false}
-      supportedLanguages={[locale]}
-      translatedFieldsToNN={[]}
-    />
-  );
+  return <PodcastSeriesForm language={locale} onUpdate={onUpdate} translatedFieldsToNN={[]} />;
 };
-
-export default CreatePodcastSeries;

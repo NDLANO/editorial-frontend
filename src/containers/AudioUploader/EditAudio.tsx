@@ -8,17 +8,15 @@
 
 import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import { IAudioMetaInformationDTO, IUpdatedAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import AudioForm from "./components/AudioForm";
-import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
+import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
 import { fetchAudio, updateAudio } from "../../modules/audio/audioApi";
 import { toEditPodcast } from "../../util/routeHelpers";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
-
-interface Props {
-  isNewlyCreated?: boolean;
-}
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const translateFields: TranslateType[] = [
   { field: "manuscript.manuscript", type: "text" },
@@ -26,7 +24,19 @@ const translateFields: TranslateType[] = [
   { field: "tags.tags", type: "text" },
 ];
 
-const EditAudio = ({ isNewlyCreated }: Props) => {
+export const Component = () => <PrivateRoute component={<EditAudioPage />} />;
+
+export const EditAudioPage = () => {
+  return (
+    <NynorskTranslateProvider>
+      <PageContent>
+        <EditAudio />
+      </PageContent>
+    </NynorskTranslateProvider>
+  );
+};
+
+const EditAudio = () => {
   const params = useParams<"id" | "selectedLanguage">();
   const [audio, setAudio] = useState<IAudioMetaInformationDTO | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
@@ -85,12 +95,8 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
       audio={audio}
       onUpdateAudio={onUpdate}
       audioLanguage={audioLanguage}
-      isNewlyCreated={isNewlyCreated}
       isNewLanguage={isNewLanguage}
-      supportedLanguages={audio.supportedLanguages}
       translatedFieldsToNN={translatedFields}
     />
   );
 };
-
-export default EditAudio;

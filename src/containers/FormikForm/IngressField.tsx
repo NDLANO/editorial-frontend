@@ -124,7 +124,6 @@ const IngressField = ({ name = "introduction", maxLength = 300, placeholder }: P
         {...field}
         id="ingress-editor"
         testId="ingress-editor"
-        hideBlockPicker
         placeholder={placeholder || t("form.introduction.label")}
         data-testid="learning-resource-ingress"
         submitted={isSubmitting}

@@ -19,6 +19,8 @@ import { useNodes } from "../../modules/nodes/nodeQueries";
 import { getContentTypeFromResourceTypes } from "../../util/resourceHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
+export const Component = () => <PreviewDraftPage />;
+
 const PreviewDraftPage = () => {
   const params = useParams<"draftId" | "language">();
   const draftId = Number(params.draftId!);
@@ -87,5 +89,3 @@ const PreviewDraftPage = () => {
     </ContentTypeHero>
   );
 };
-
-export default PreviewDraftPage;

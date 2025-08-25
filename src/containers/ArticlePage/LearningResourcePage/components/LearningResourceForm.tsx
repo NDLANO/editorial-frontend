@@ -22,6 +22,7 @@ import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
 import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
 import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { isFormikFormDirty, learningResourceRules } from "../../../../util/formHelper";
+import { getExpirationDate } from "../../../../util/revisionHelpers";
 import { AlertDialogWrapper } from "../../../FormikForm";
 import { HandleSubmitFunc, LearningResourceFormType, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
@@ -29,7 +30,6 @@ import { useSession } from "../../../Session/SessionProvider";
 import { TaxonomyVersionProvider } from "../../../StructureVersion/TaxonomyVersionProvider";
 import {
   draftApiTypeToLearningResourceFormType,
-  getExpirationDate,
   learningResourceFormTypeToDraftApiType,
 } from "../../articleTransformers";
 
@@ -39,7 +39,6 @@ interface Props {
   articleTaxonomy?: Node[];
   articleStatus?: IStatusDTO;
   supportedLanguages: string[];
-  isNewlyCreated: boolean;
   articleChanged: boolean;
   updateArticle: (updatedArticle: IUpdatedArticleDTO) => Promise<IArticleDTO>;
   articleLanguage: string;
@@ -50,7 +49,6 @@ const LearningResourceForm = ({
   article,
   articleTaxonomy,
   articleStatus,
-  isNewlyCreated = false,
   updateArticle,
   supportedLanguages,
   articleChanged,
@@ -139,7 +137,7 @@ const LearningResourceForm = ({
             taxonomy={contexts}
             title={article?.title?.title}
             type="standard"
-            expirationDate={getExpirationDate(article)}
+            expirationDate={getExpirationDate(article?.revisions)}
           />
           <TaxonomyVersionProvider>
             <LearningResourcePanels
@@ -157,7 +155,6 @@ const LearningResourceForm = ({
           </TaxonomyVersionProvider>
           <FormFooter
             articleChanged={articleChanged}
-            isNewlyCreated={isNewlyCreated}
             savedToServer={savedToServer}
             handleSubmit={handleSubmit}
             article={article}
@@ -185,18 +182,11 @@ const LearningResourceForm = ({
 interface FormFooterProps {
   articleChanged: boolean;
   article?: IArticleDTO;
-  isNewlyCreated: boolean;
   savedToServer: boolean;
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
 }
 
-const InternalFormFooter = ({
-  articleChanged,
-  article,
-  isNewlyCreated,
-  savedToServer,
-  handleSubmit,
-}: FormFooterProps) => {
+const InternalFormFooter = ({ articleChanged, article, savedToServer, handleSubmit }: FormFooterProps) => {
   const { t } = useTranslation();
   const statusStateMachine = useDraftStatusStateMachine({
     articleId: article?.id,
@@ -224,17 +214,12 @@ const InternalFormFooter = ({
   return (
     <>
       <EditorFooter
-        showSimpleFooter={!article?.id}
+        type="article"
         formIsDirty={formIsDirty}
         savedToServer={savedToServer}
         onSaveClick={onSave}
-        entityStatus={article?.status}
         statusStateMachine={statusStateMachine.data}
-        isArticle
-        isNewlyCreated={isNewlyCreated}
-        isConcept={false}
         hideSecondaryButton={false}
-        article={article}
       />
       <AlertDialogWrapper
         isSubmitting={isSubmitting}

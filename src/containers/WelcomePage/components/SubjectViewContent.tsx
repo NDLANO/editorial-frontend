@@ -201,7 +201,7 @@ const SubjectViewContent = ({
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
       <TableComponent
-        isPending={isPending}
+        isLoading={isPending}
         tableTitleList={tableTitles}
         tableData={tableData.filter((el) => el.length > 0)}
         error={error}

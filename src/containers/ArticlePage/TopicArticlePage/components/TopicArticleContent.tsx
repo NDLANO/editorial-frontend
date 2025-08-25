@@ -74,7 +74,6 @@ const TopicArticleContent = ({ values, isSubmitting }: Props) => {
             value={field.value}
             submitted={isSubmitting}
             plugins={plugins}
-            hideBlockPicker
             renderInvalidElement={(props) => <UnsupportedElement {...props} />}
             onChange={debouncedOnChange}
           />

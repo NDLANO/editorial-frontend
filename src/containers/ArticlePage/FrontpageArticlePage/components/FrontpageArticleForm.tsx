@@ -7,7 +7,7 @@
  */
 
 import { Formik, useFormikContext } from "formik";
-import { memo, useCallback, useMemo } from "react";
+import { memo, useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult } from "@tanstack/react-query";
 import { IArticleDTO, IUpdatedArticleDTO, IStatusDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
@@ -16,8 +16,10 @@ import { Form } from "../../../../components/FormikForm";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
+import { articleIsWide, useWideArticle } from "../../../../components/WideArticleEditorProvider";
 import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { frontPageArticleRules, isFormikFormDirty } from "../../../../util/formHelper";
+import { getExpirationDate } from "../../../../util/revisionHelpers";
 import { AlertDialogWrapper } from "../../../FormikForm";
 import { FrontpageArticleFormType, HandleSubmitFunc, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
@@ -25,14 +27,12 @@ import { useSession } from "../../../Session/SessionProvider";
 import {
   draftApiTypeToFrontpageArticleFormType,
   frontpageArticleFormTypeToDraftApiType,
-  getExpirationDate,
 } from "../../articleTransformers";
 
 interface Props {
   article?: IArticleDTO;
   articleRevisionHistory?: UseQueryResult<ArticleRevisionHistoryDTO>;
   articleStatus?: IStatusDTO;
-  isNewlyCreated: boolean;
   articleChanged: boolean;
   supportedLanguages: string[];
   updateArticle: (updatedArticle: IUpdatedArticleDTO) => Promise<IArticleDTO>;
@@ -44,7 +44,6 @@ const FrontpageArticleForm = ({
   article,
   articleRevisionHistory,
   articleStatus,
-  isNewlyCreated = false,
   updateArticle,
   articleChanged,
   articleLanguage,
@@ -65,6 +64,14 @@ const FrontpageArticleForm = ({
     rules: frontPageArticleRules,
     ndlaId,
   });
+
+  const { setWideArticle } = useWideArticle();
+
+  useEffect(() => {
+    if (article && articleIsWide(article.id)) {
+      setWideArticle(true);
+    }
+  }, [article, setWideArticle]);
 
   const initialWarnings = getWarnings(initialValues, frontPageArticleRules, t, translatedFieldsToNN, article);
   const initialErrors = useMemo(() => validateFormik(initialValues, frontPageArticleRules, t), [initialValues, t]);
@@ -90,7 +97,7 @@ const FrontpageArticleForm = ({
           supportedLanguages={supportedLanguages}
           status={article?.status}
           type="frontpage-article"
-          expirationDate={getExpirationDate(article)}
+          expirationDate={getExpirationDate(article?.revisions)}
         />
         <FrontpageArticlePanels
           articleLanguage={articleLanguage}
@@ -100,7 +107,6 @@ const FrontpageArticleForm = ({
         />
         <FormFooter
           articleChanged={articleChanged}
-          isNewlyCreated={isNewlyCreated}
           savedToServer={savedToServer}
           handleSubmit={handleSubmit}
           article={article}
@@ -113,18 +119,11 @@ const FrontpageArticleForm = ({
 interface FormFooterProps {
   articleChanged: boolean;
   article?: IArticleDTO;
-  isNewlyCreated: boolean;
   savedToServer: boolean;
   handleSubmit: HandleSubmitFunc<FrontpageArticleFormType>;
 }
 
-const InternalFormFooter = ({
-  articleChanged,
-  article,
-  isNewlyCreated,
-  savedToServer,
-  handleSubmit,
-}: FormFooterProps) => {
+const InternalFormFooter = ({ articleChanged, article, savedToServer, handleSubmit }: FormFooterProps) => {
   const { t } = useTranslation();
   const statusStateMachine = useDraftStatusStateMachine({
     articleId: article?.id,
@@ -150,17 +149,12 @@ const InternalFormFooter = ({
   return (
     <>
       <EditorFooter
-        showSimpleFooter={!article?.id}
+        type="article"
         formIsDirty={formIsDirty}
         savedToServer={savedToServer}
         onSaveClick={onSave}
-        entityStatus={article?.status}
         statusStateMachine={statusStateMachine.data}
-        isArticle
-        isNewlyCreated={isNewlyCreated}
-        isConcept={false}
         hideSecondaryButton={false}
-        article={article}
       />
       <AlertDialogWrapper
         isSubmitting={isSubmitting}

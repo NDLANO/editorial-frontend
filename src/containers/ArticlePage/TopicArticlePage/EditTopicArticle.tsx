@@ -9,8 +9,13 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import TopicArticleForm from "./components/TopicArticleForm";
-import { TranslateType, useTranslateToNN } from "../../../components/NynorskTranslateProvider";
+import {
+  NynorskTranslateProvider,
+  TranslateType,
+  useTranslateToNN,
+} from "../../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { isNewArticleLanguage } from "../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import { LocaleType } from "../../../interfaces";
@@ -18,11 +23,8 @@ import { useNodes } from "../../../modules/nodes/nodeQueries";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 import NotFound from "../../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-
-interface Props {
-  isNewlyCreated?: boolean;
-}
 
 const translateFields: TranslateType[] = [
   {
@@ -55,7 +57,19 @@ const translateFields: TranslateType[] = [
   },
 ];
 
-const EditTopicArticle = ({ isNewlyCreated }: Props) => {
+export const Component = () => <PrivateRoute component={<EditTopicArticlePage />} />;
+
+export const EditTopicArticlePage = () => {
+  return (
+    <PageContent variant="wide">
+      <NynorskTranslateProvider>
+        <EditTopicArticle />
+      </NynorskTranslateProvider>
+    </PageContent>
+  );
+};
+
+const EditTopicArticle = () => {
   const params = useParams<"id" | "selectedLanguage">();
   const articleId = Number(params.id!) || undefined;
   const selectedLanguage = params.selectedLanguage as LocaleType;
@@ -111,7 +125,6 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
         articleChanged={articleChanged || newLanguage}
         article={article}
         articleRevisionHistory={articleRevisionHistory}
-        isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
         supportedLanguages={article.supportedLanguages}
         translatedFieldsToNN={translatedFields}
@@ -119,5 +132,3 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
     </>
   );
 };
-
-export default EditTopicArticle;

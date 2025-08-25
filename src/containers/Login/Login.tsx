@@ -6,35 +6,18 @@
  *
  */
 
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { Route, useNavigate, useLocation, Routes } from "react-router-dom";
-import LoginFailure from "./LoginFailure";
-import LoginProviders from "./LoginProviders";
-import LoginSuccess from "./LoginSuccess";
+import { useLocation, Navigate } from "react-router-dom";
 import { useSession } from "../Session/SessionProvider";
 
 export const Login = () => {
-  const { t } = useTranslation();
   const location = useLocation();
-  const navigate = useNavigate();
   const { authenticated } = useSession();
-  useEffect(() => {
-    if (authenticated && location.hash === "" && location.pathname.startsWith("/login/")) {
-      navigate("/");
-    }
-  }, [authenticated, location.hash, location.pathname, navigate]);
 
-  return (
-    <>
-      <title>{t("htmlTitles.loginPage")}</title>
-      <Routes>
-        <Route path="success/*" element={<LoginSuccess />} />
-        <Route path="failure" element={<LoginFailure />} />
-        <Route path="/" element={<LoginProviders />} />
-      </Routes>
-    </>
-  );
+  if (authenticated && location.hash === "" && location.pathname.startsWith("/login/")) {
+    return <Navigate to="/" replace />;
+  }
+  // TODO: This can probably be replaced with an error
+  return null;
 };
 
-export default Login;
+export const Component = Login;

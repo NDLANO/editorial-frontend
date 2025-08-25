@@ -22,7 +22,7 @@ import { Node } from "@ndla/types-taxonomy";
 import SettingsMenuDropdownType from "./SettingsMenuDropdownType";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { TaxonomyNodeChild } from "../../../components/Taxonomy/types";
-import { NodeChildWithChildren } from "../../../modules/nodes/nodeQueries";
+import { NodeChildWithChildren } from "../../../modules/nodes/nodeApiTypes";
 import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
 
 const StyledDialogBody = styled(DialogBody, {

@@ -85,15 +85,11 @@ const h5pApiUrl = (ndlaEnvironment: string) => {
   }
 };
 
-const getAuth0Hostname = (ndlaEnvironment: string) => {
-  switch (ndlaEnvironment) {
-    case "prod":
-      return "ndla.eu.auth0.com";
-    case "staging":
-      return "ndla-staging.eu.auth0.com";
-    default:
-      return "ndla-test.eu.auth0.com";
+const getAuth0Hostname = (ndlaEnvironment: string, prettyUrl = false) => {
+  if (prettyUrl) {
+    return `login.${ndlaEnvironment}.ndla.no`.replace(".prod", "");
   }
+  return `ndla-${ndlaEnvironment}.eu.auth0.com`.replace("-prod", "");
 };
 
 const getTranslateServiceUrl = (ndlaEnvironment: string) => {
@@ -155,9 +151,9 @@ export type ConfigType = {
   ndlaApiUrl: string | undefined;
   ndlaBaseUrl: string;
   editorialFrontendDomain: string;
-  googleTagManagerId: string | undefined;
   ndlaFrontendDomain: string;
   auth0Domain: string;
+  auth0BrowserDomain: string;
   redirectPort: string | undefined;
   host: string | undefined;
   componentName: string | undefined;
@@ -189,6 +185,7 @@ export type ConfigType = {
   matomoUrl: string;
   s3AudioRoot: string;
   norgesfilmNewUrl: boolean;
+  enableLearningpath: boolean;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -214,6 +211,10 @@ const getServerSideConfig = (): ConfigType => {
     defaultLanguage: getDefaultLanguage(),
     ndlaPersonalClientId: getEnvironmentVariabel("NDLA_PERSONAL_CLIENT_ID", ""),
     auth0Domain: getEnvironmentVariabel("AUTH0_DOMAIN", getAuth0Hostname(ndlaEnvironment)),
+    auth0BrowserDomain: getEnvironmentVariabel(
+      "AUTH0_BROWSER_DOMAIN",
+      getAuth0Hostname(ndlaEnvironment, getEnvironmentVariabel("AUTH0_CUSTOM_DOMAIN_ENABLED", "false") === "true"),
+    ),
     brightcoveAccountId: getEnvironmentVariabel("BRIGHTCOVE_ACCOUNT_ID", "4806596774001"),
     brightcoveEdPlayerId: getEnvironmentVariabel("BRIGHTCOVE_PLAYER_ED_ID", "Ab1234"),
     brightcovePlayerId: getEnvironmentVariabel("BRIGHTCOVE_PLAYER_ID", "Ab1234"),
@@ -223,7 +224,6 @@ const getServerSideConfig = (): ConfigType => {
     brightcoveUrl: "https://studio.brightcove.com/products/videocloud/home",
     h5pApiUrl: getEnvironmentVariabel("H5P_API_URL", h5pApiUrl(ndlaEnvironment)),
     localConverter: getEnvironmentVariabel("LOCAL_CONVERTER", "false") === "true",
-    googleTagManagerId: getEnvironmentVariabel("NDLA_GOOGLE_TAG_MANAGER_ID"),
     disableCSP: getEnvironmentVariabel("DISABLE_CSP", "false"),
     usernamePasswordEnabled: getEnvironmentVariabel(
       "USERNAME_PASSWORD_ENABLED",
@@ -239,6 +239,7 @@ const getServerSideConfig = (): ConfigType => {
     matomoUrl: getEnvironmentVariabel("MATOMO_URL", matomoDomain(ndlaEnvironment)),
     s3AudioRoot: getAudioS3Root(ndlaEnvironment),
     norgesfilmNewUrl: getEnvironmentVariabel("NORGESFILM_NEW_URL", "false") === "true",
+    enableLearningpath: getEnvironmentVariabel("ENABLE_LEARNINGPATH", "true") === "true",
   };
 };
 

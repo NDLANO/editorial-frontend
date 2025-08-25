@@ -19,6 +19,7 @@ import {
 import { SearchTypeValues, LOCALE_VALUES } from "./constants";
 import { FormEvent } from "react";
 import { DateChangedEvent } from "./containers/FormikForm/components/InlineDatePicker";
+import { ErrorEmbed } from "./components/SlateEditor/plugins/embed/types";
 
 export interface FormikStatus {
   status?: string;
@@ -92,11 +93,6 @@ export interface H5pEmbed {
   title?: string;
 }
 
-export interface ErrorEmbed {
-  resource: "error";
-  message: string;
-}
-
 export type Embed =
   | ImageEmbedData
   | BrightcoveEmbedData
@@ -138,12 +134,13 @@ export interface BrightcoveAccessToken {
   expires_in: number;
 }
 
-export interface H5POembed {
+export interface OembedResponse {
   height: number;
   width: number;
   html: string;
   type: string;
   providerName?: string;
+  iframeSrc?: string;
   version: string;
   title: string;
 }
@@ -285,3 +282,6 @@ export interface LlmResponse {
   fullResponse: string;
   answer: string;
 }
+
+/** Used to wraps backend types and replaces their `sort` with `sort?: string` */
+export type StringSort<T> = Omit<T, "sort"> & { sort?: string };

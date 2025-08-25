@@ -9,56 +9,32 @@
 import { Formik, FormikHelpers } from "formik";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import { Descendant } from "slate";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button, PageContent } from "@ndla/primitives";
 import {
-  IAudioDTO,
-  IAuthorDTO,
   IAudioMetaInformationDTO,
   INewAudioMetaInformationDTO,
   IUpdatedAudioMetaInformationDTO,
 } from "@ndla/types-backend/audio-api";
 import AudioContent from "./AudioContent";
 import AudioCopyright from "./AudioCopyright";
+import { AudioFormHeader } from "./AudioFormHeader";
 import AudioManuscript from "./AudioManuscript";
 import AudioMetaData from "./AudioMetaData";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { FormActionsContainer, Form } from "../../../components/FormikForm";
 import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
-import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
 import SaveButton from "../../../components/SaveButton";
 import { SAVE_BUTTON_ID } from "../../../constants";
+import { AudioFormikType } from "../../../modules/audio/audioTypes";
 import { useLicenses } from "../../../modules/draft/draftQueries";
 import { editorValueToPlainText, inlineContentToHTML } from "../../../util/articleContentConverter";
 import { audioApiTypeToFormType } from "../../../util/audioHelpers";
 import { DEFAULT_LICENSE, isFormikFormDirty } from "../../../util/formHelper";
+import { NewlyCreatedLocationState } from "../../../util/routeHelpers";
 import { AlertDialogWrapper } from "../../FormikForm";
 import { MessageError, useMessages } from "../../Messages/MessagesProvider";
-
-export interface AudioFormikType {
-  id?: number;
-  revision?: number;
-  language: string;
-  supportedLanguages: string[];
-  title: Descendant[];
-  manuscript: Descendant[];
-  audioFile: {
-    storedFile?: IAudioDTO;
-    newFile?: {
-      filepath: string;
-      file: File;
-    };
-  };
-  tags: string[];
-  creators: IAuthorDTO[];
-  processors: IAuthorDTO[];
-  rightsholders: IAuthorDTO[];
-  processed: boolean;
-  origin: string;
-  license: string;
-}
 
 const rules: RulesType<AudioFormikType, IAudioMetaInformationDTO> = {
   title: {
@@ -106,8 +82,6 @@ interface Props {
   onUpdateAudio?: (audio: IUpdatedAudioMetaInformationDTO, file?: string | Blob) => Promise<void>;
   audio?: IAudioMetaInformationDTO;
   audioLanguage: string;
-  supportedLanguages: string[];
-  isNewlyCreated?: boolean;
   isNewLanguage?: boolean;
   translatedFieldsToNN: string[];
 }
@@ -115,11 +89,9 @@ interface Props {
 const AudioForm = ({
   audioLanguage,
   audio,
-  isNewlyCreated,
   onCreateAudio,
   onUpdateAudio,
   isNewLanguage,
-  supportedLanguages,
   translatedFieldsToNN,
 }: Props) => {
   const { t } = useTranslation();
@@ -128,6 +100,7 @@ const AudioForm = ({
   const { applicationError } = useMessages();
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const navigate = useNavigate();
+  const location = useLocation();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -201,14 +174,8 @@ const AudioForm = ({
         };
         return (
           <Form>
-            <HeaderWithLanguage
-              id={audio?.id}
-              language={audioLanguage}
-              noStatus
-              supportedLanguages={supportedLanguages}
-              type="audio"
-              title={audio?.title.title}
-            />
+            <title>{t("htmlTitles.audioUploaderPage")}</title>
+            <AudioFormHeader audio={audio} language={audioLanguage} />
             <FormAccordions defaultOpen={["audio-upload-content"]}>
               <FormAccordion
                 id="audio-upload-content"
@@ -249,7 +216,9 @@ const AudioForm = ({
                 id={SAVE_BUTTON_ID}
                 loading={isSubmitting}
                 formIsDirty={formIsDirty}
-                showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
+                showSaved={
+                  !formIsDirty && (savedToServer || (location.state as NewlyCreatedLocationState)?.isNewlyCreated)
+                }
                 onClick={(evt) => {
                   evt.preventDefault();
                   submitForm();

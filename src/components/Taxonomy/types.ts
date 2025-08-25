@@ -6,6 +6,18 @@
  *
  */
 
-import { NodeChild } from "@ndla/types-taxonomy";
+import { Metadata, Node, NodeChild } from "@ndla/types-taxonomy";
 
 export type TaxonomyNodeChild = NodeChild & { articleType?: string; isPublished?: boolean };
+
+export interface TaxNode extends Pick<Node, "resourceTypes" | "metadata" | "id" | "context"> {
+  placements: MinimalNodeChild[];
+}
+
+export interface MinimalNodeChild
+  extends Pick<
+    NodeChild,
+    "id" | "relevanceId" | "isPrimary" | "path" | "name" | "connectionId" | "breadcrumbs" | "context" | "nodeType"
+  > {
+  metadata: Pick<Metadata, "visible">;
+}

@@ -11,12 +11,12 @@ import { useTranslation } from "react-i18next";
 import { ErrorWarningFill, FileEditLine } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { isApproachingRevision } from "./ApproachingRevisionDate";
-import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import WrongTypeError from "./WrongTypeError";
-import { getWarnStatus } from "../../../components/HeaderWithLanguage/HeaderStatusInformation";
 import { StatusTimeFill } from "../../../components/StatusTimeFill";
+import { ResourceWithNodeConnectionAndMeta } from "../../../modules/nodes/nodeApiTypes";
 import formatDate from "../../../util/formatDate";
-import { getExpirationDate } from "../../ArticlePage/articleTransformers";
+import { getExpirationStatus } from "../../../util/getExpirationStatus";
+import { getExpirationDate } from "../../../util/revisionHelpers";
 
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
   base: {
@@ -36,10 +36,8 @@ const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy }: Pro
     () => isApproachingRevision(resource.contentMeta?.revisions),
     [resource.contentMeta?.revisions],
   );
-  const expirationDate = getExpirationDate({
-    revisions: resource.contentMeta?.revisions?.filter((r) => !!r) ?? [],
-  });
-  const warnStatus = getWarnStatus(expirationDate);
+  const expirationDate = getExpirationDate(resource.contentMeta?.revisions?.filter((r) => !!r) ?? []);
+  const warnStatus = getExpirationStatus(expirationDate);
 
   const expirationText = useMemo(() => {
     if (expirationDate && warnStatus) {

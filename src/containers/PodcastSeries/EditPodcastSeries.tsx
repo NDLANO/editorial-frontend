@@ -9,17 +9,14 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { Spinner } from "@ndla/primitives";
+import { PageContent, Spinner } from "@ndla/primitives";
 import { ISeriesDTO, INewSeriesDTO } from "@ndla/types-backend/audio-api";
 
 import PodcastSeriesForm from "./components/PodcastSeriesForm";
-import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
+import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { fetchSeries, updateSeries } from "../../modules/audio/audioApi";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
-
-interface Props {
-  isNewlyCreated?: boolean;
-}
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const translateFields: TranslateType[] = [
   { field: "title.title", type: "text" },
@@ -27,7 +24,19 @@ const translateFields: TranslateType[] = [
   { field: "coverPhoto.altText", type: "text" },
 ];
 
-const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
+export const Component = () => <PrivateRoute component={<EditPodcastSeriesPage />} />;
+
+export const EditPodcastSeriesPage = () => {
+  return (
+    <NynorskTranslateProvider>
+      <PageContent>
+        <EditPodcastSeries />
+      </PageContent>
+    </NynorskTranslateProvider>
+  );
+};
+
+const EditPodcastSeries = () => {
   const params = useParams<"id" | "selectedLanguage">();
   const { i18n } = useTranslation();
   const locale = i18n.language;
@@ -80,12 +89,8 @@ const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
       podcastSeries={podcastSeries}
       language={seriesLanguage}
       onUpdate={onUpdate}
-      isNewlyCreated={!!isNewlyCreated}
       isNewLanguage={isNewLanguage}
-      supportedLanguages={podcastSeries.supportedLanguages}
       translatedFieldsToNN={translatedFields}
     />
   );
 };
-
-export default EditPodcastSeries;

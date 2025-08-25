@@ -9,10 +9,9 @@
 import { groupBy, merge, sortBy, uniqBy } from "lodash-es";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import { getContentTypeFromResourceTypes } from "./resourceHelpers";
-import { ResourceWithNodeConnectionAndMeta } from "../containers/StructurePage/resourceComponents/StructureResources";
 import { RESOURCE_TYPE_LEARNING_PATH } from "../constants";
 import { FlattenedResourceType } from "../interfaces";
-import { NodeChildWithChildren } from "../modules/nodes/nodeQueries";
+import { NodeChildWithChildren, ResourceWithNodeConnectionAndMeta } from "../modules/nodes/nodeApiTypes";
 
 // Kan hende at id i contentUri fra taxonomy inneholder '#xxx' (revision)
 export const getIdFromUrn = (urn?: string) => {

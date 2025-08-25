@@ -15,8 +15,8 @@ import { FormRemainingCharacters } from "../../../components/Form/FormRemainingC
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import PlainTextEditor from "../../../components/SlateEditor/PlainTextEditor";
-import { TitleField } from "../../FormikForm";
 import VisualElementField from "../../FormikForm/components/VisualElementField";
+import TitleField from "../../FormikForm/TitleField";
 
 const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
   base: {

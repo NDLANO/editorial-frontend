@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldsetLegend, FieldsetRoot } from "@ndla/primitives";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import { ImagePicker } from "../../../components/ImagePicker";
+import { ImageSearch } from "../../../components/ImageSearch";
 import { LocaleType } from "../../../interfaces";
 import { fetchImage } from "../../../modules/image/imageApi";
 import MetaImageField from "../../FormikForm/components/MetaImageField";
@@ -62,7 +62,7 @@ const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
   return (
     <FieldsetRoot>
       <FieldsetLegend textStyle="label.medium">{t("form.metaImage.title")}</FieldsetLegend>
-      <ImagePicker
+      <ImageSearch
         onImageSelect={(image) => {
           setFieldValue(name, image.id);
           setFieldValue("metaImageAlt", image.alttext.alttext.trim(), true);

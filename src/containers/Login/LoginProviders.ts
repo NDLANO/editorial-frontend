@@ -16,4 +16,4 @@ export const LoginProviders = () => {
   return null;
 };
 
-export default LoginProviders;
+export const Component = LoginProviders;

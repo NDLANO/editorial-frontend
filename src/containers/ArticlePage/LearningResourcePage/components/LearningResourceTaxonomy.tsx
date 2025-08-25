@@ -11,7 +11,6 @@ import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { Spinner } from "@ndla/primitives";
 import { IArticleDTO } from "@ndla/types-backend/draft-api";
-import { Metadata, NodeChild } from "@ndla/types-taxonomy";
 import TaxonomyBlock from "./taxonomy/TaxonomyBlock";
 import { useNodes } from "../../../../modules/nodes/nodeQueries";
 import { useAllResourceTypes } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
@@ -22,14 +21,6 @@ interface Props {
   article: IArticleDTO;
   articleLanguage: string;
   hasTaxEntries: boolean;
-}
-
-export interface MinimalNodeChild
-  extends Pick<
-    NodeChild,
-    "id" | "relevanceId" | "isPrimary" | "path" | "name" | "connectionId" | "breadcrumbs" | "context" | "nodeType"
-  > {
-  metadata: Pick<Metadata, "visible">;
 }
 
 const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: Props) => {

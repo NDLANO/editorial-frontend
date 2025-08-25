@@ -10,7 +10,6 @@ import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 import { Button, DialogCloseTrigger, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IStatusDTO } from "@ndla/types-backend/concept-api";
 import { FormField } from "../../../components/FormField";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import SaveButton from "../../../components/SaveButton";
@@ -24,12 +23,9 @@ import { AlertDialogWrapper } from "../../FormikForm";
 import { ConceptFormValues } from "../conceptInterfaces";
 
 interface Props {
-  entityStatus?: IStatusDTO;
   conceptChanged: boolean;
   inDialog?: boolean;
   savedToServer: boolean;
-  isNewlyCreated: boolean;
-  showSimpleFooter: boolean;
 }
 
 const StyledFormActionsContainer = styled(FormActionsContainer, {
@@ -38,14 +34,7 @@ const StyledFormActionsContainer = styled(FormActionsContainer, {
   },
 });
 
-const ConceptFormFooter = ({
-  entityStatus,
-  conceptChanged,
-  inDialog,
-  savedToServer,
-  isNewlyCreated,
-  showSimpleFooter,
-}: Props) => {
+const ConceptFormFooter = ({ conceptChanged, inDialog, savedToServer }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
   const conceptStateMachine = useConceptStateMachine();
@@ -69,7 +58,7 @@ const ConceptFormFooter = ({
                 status={field.value}
                 updateStatus={(value) => helpers.setValue({ current: value })}
                 statusStateMachine={conceptStateMachine.data}
-                entityStatus={entityStatus ?? field.value}
+                initialStatus={initialValues.status?.current ?? field.value?.current}
               />
             </FieldRoot>
           )}
@@ -103,15 +92,12 @@ const ConceptFormFooter = ({
   return (
     <>
       <EditorFooter
+        type="concept"
         formIsDirty={formIsDirty}
         savedToServer={savedToServer}
-        entityStatus={entityStatus}
         statusStateMachine={conceptStateMachine.data}
-        showSimpleFooter={showSimpleFooter}
         onSaveClick={submitForm}
         hideSecondaryButton
-        isConcept
-        isNewlyCreated={isNewlyCreated}
         hasErrors={isSubmitting || !formIsDirty || disableSave}
       />
       <AlertDialogWrapper

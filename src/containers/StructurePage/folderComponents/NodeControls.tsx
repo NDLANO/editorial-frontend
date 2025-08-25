@@ -12,7 +12,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import SettingsMenu from "./SettingsMenu";
 import { TaxonomyNodeChild } from "../../../components/Taxonomy/types";
-import { NodeChildWithChildren } from "../../../modules/nodes/nodeQueries";
+import { NodeChildWithChildren } from "../../../modules/nodes/nodeApiTypes";
 
 const StyledButton = styled(Button, {
   base: {

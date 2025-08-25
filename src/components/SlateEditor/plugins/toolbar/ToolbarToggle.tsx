@@ -14,7 +14,6 @@ import {
   MessageLine,
   Bold,
   CodeView,
-  ChatLine,
   Italic,
   LinkMedium,
   ListUnordered,
@@ -32,6 +31,7 @@ import {
   CalculatorLine,
   FileListLine,
   Omega,
+  InfoI,
 } from "@ndla/icons";
 import { IconButton, Text, ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -90,7 +90,7 @@ export const iconMapping: Record<string, ElementType> = {
   "definition-list": ListCheckFormat,
   "comment-inline": MessageLine,
   mathml: CalculatorLine,
-  "concept-inline": ChatLine,
+  "concept-inline": InfoI,
   "gloss-inline": GlobalLine,
   code: CodeView,
   "code-block": CodeView,

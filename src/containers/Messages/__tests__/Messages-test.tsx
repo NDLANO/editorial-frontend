@@ -6,16 +6,16 @@
  *
  */
 
-import { createMemoryHistory } from "history";
-import { Router } from "react-router-dom";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { findByTestId, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { uuid } from "@ndla/util";
 import IntlWrapper from "../../../util/__tests__/IntlWrapper";
-import Messages, { MessageType } from "../Messages";
+import Messages from "../Messages";
 import { MessagesProvider } from "../MessagesProvider";
+import { MessageType } from "../types";
 
-const history = createMemoryHistory();
+const router = createMemoryRouter([{ path: "*", element: <Messages /> }]);
 
 beforeEach(() => {
   const reload = vi.fn();
@@ -24,13 +24,11 @@ beforeEach(() => {
 });
 
 const wrapper = (messages: MessageType[]) => (
-  <Router location={history.location} navigator={history}>
-    <IntlWrapper>
-      <MessagesProvider initialValues={messages}>
-        <Messages />
-      </MessagesProvider>
-    </IntlWrapper>
-  </Router>
+  <IntlWrapper>
+    <MessagesProvider initialValues={messages}>
+      <RouterProvider router={router} />
+    </MessagesProvider>
+  </IntlWrapper>
 );
 
 describe("Messages", () => {
@@ -77,6 +75,8 @@ describe("Messages", () => {
     const { findByText } = render(wrapper(messages));
     const loginButton = await findByText("Logg inn på nytt");
     await userEvent.click(loginButton);
-    expect(`${history.location.pathname}${history.location.search}`).toEqual("/logout/session?returnToLogin=true");
+    expect(`${router.state.location.pathname}${router.state.location.search}`).toEqual(
+      "/logout/session?returnToLogin=true",
+    );
   });
 });

@@ -282,6 +282,10 @@ const phrases = {
       other: "Søk feilet.",
     },
   },
+  taxonomyResourceType: {
+    resource: "Ressurs",
+    topic: "Emne",
+  },
   articleType: {
     "topic-article": "Emne",
     "frontpage-article": "Om-NDLA-artikkel",
@@ -1683,6 +1687,10 @@ const phrases = {
     missingTax:
       "Artikler og emner kan ikke lagres uten å plasseres i taksonomien. Oppdater taksonomi-blokken og lagre på nytt.",
     invalidTopicPlacements: "Emner uten plassering i taksonomi",
+    invalidTopicPlacementsDescription:
+      "Nodene som har endt opp her kan ha barn. De har endt opp her fordi de har blitt frakoblet forelder.",
+    noTaxNode: "Denne ressursen har ingen plassering i taksonomien. Den må knyttes til en node for å bli tilgjengelig.",
+    createNode: "Knytt ressursen til en node",
   },
   warningMessage: {
     fieldWithWrongLanguage: "Dette feltet er hentet fra språkkode: {{language}}",
@@ -1848,6 +1856,8 @@ const phrases = {
     info: {
       title: "Informasjon",
       subTitle: "Id og synlighet for elementet",
+      wrongResourceType: 'Noden er plassert som "{{placedAs}}" i taksonomien, men er av typen "{{isType}}".',
+      missingResourceType: "Node med ID {{id}} mangler ressurstype. Den er sannsynligvis slettet.",
       wrongArticleType:
         'Artikkelen er plassert som "{{placedAs}}" i taksonomien, men artikkelen er av typen "{{isType}}".',
       missingArticleType: "Artikkelen med ID {{id}} mangler artikkeltype. Den er sannsynligvis slettet.",
@@ -1939,6 +1949,11 @@ const phrases = {
         sa: "Velg SA",
         da: "Velg DA",
       },
+    },
+    errors: {
+      failedToDeleteConnection: "En feil oppstod ved sletting av noden",
+      failedToUpdateConnection: "En feil oppstod ved oppdatering av noden",
+      failedToCreateConnection: "En feil oppstod ved opprettelse av noden",
     },
   },
   notions: {

@@ -65,7 +65,7 @@ const StyledNodeItemRoot = styled(NodeItemRoot, {
 interface Props {
   node: NodeWithChildren;
   onSelect: (node: NodeChild) => void;
-  onRootSelected?: (node: NodeWithChildren) => void;
+  onRootSelected?: (node: Node) => void;
   selectedNodes: MinimalNodeChild[] | Node[];
   getSubjectTopics: (subjectId: string) => Promise<void>;
 }

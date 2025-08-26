@@ -94,12 +94,23 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
           Range.includes(spanRange, unhangedSelection) &&
           !Range.equals(spanRange, unhangedSelection)
         ) {
-          Transforms.wrapNodes(
+          Range.edges(unhangedSelection)
+            .reverse()
+            .forEach((point) => {
+              Transforms.splitNodes(editor, {
+                match: (n) => Element.isElement(n) && n.type === "span",
+                mode: "lowest",
+                at: point,
+              });
+            });
+
+          Transforms.setNodes(
             editor,
-            defaultSpanBlock({ lang: language, dir: language === "ar" ? "rtl" : undefined }),
+            { data: { dir: language === "ar" ? "rtl" : undefined, lang: language } },
             {
-              at: unhangedSelection,
-              split: true,
+              match: (n) => Element.isElement(n) && n.type === "span",
+              mode: "lowest",
+              at: editor.selection ?? undefined,
             },
           );
         } else {

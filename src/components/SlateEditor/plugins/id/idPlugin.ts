@@ -35,6 +35,9 @@ const getAllIds = (children: Descendant[], set = new Set<string>()): Set<string>
   return set;
 };
 
+const isBlockType = (editor: Editor, node: Partial<Node>): node is Partial<Element> =>
+  "type" in node && !!node.type && editor.isBlock({ type: node.type, children: [] } as Element);
+
 const TRANSFORM_OPS = ["insert_node", "remove_node", "merge_node", "split_node"];
 
 export const idPlugin = createPlugin({
@@ -79,7 +82,7 @@ export const idPlugin = createPlugin({
         }
       } else if (operation.type === "insert_node") {
         assignIdRecursively(operation.node);
-      } else if (operation.type === "split_node" && "type" in operation.properties) {
+      } else if (operation.type === "split_node" && isBlockType(editor, operation.properties)) {
         let nodeId = makeNodeId();
         while (idsSet.has(nodeId)) {
           nodeId = makeNodeId();

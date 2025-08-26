@@ -86,10 +86,16 @@ const h5pApiUrl = (ndlaEnvironment: string) => {
 };
 
 const getAuth0Hostname = (ndlaEnvironment: string, prettyUrl = false) => {
-  if (prettyUrl) {
-    return `login.${ndlaEnvironment}.ndla.no`.replace(".prod", "");
+  switch (ndlaEnvironment) {
+    case "test":
+    case "staging":
+    case "prod":
+      return prettyUrl
+        ? `login.${ndlaEnvironment}.ndla.no`.replace(".prod", "")
+        : `ndla-${ndlaEnvironment}.eu.auth0.com`.replace("-prod", "");
+    default:
+      return prettyUrl ? `login.test.ndla.no` : `ndla-test.eu.auth0.com`;
   }
-  return `ndla-${ndlaEnvironment}.eu.auth0.com`.replace("-prod", "");
 };
 
 const getTranslateServiceUrl = (ndlaEnvironment: string) => {
@@ -107,10 +113,6 @@ const getTranslateServiceUrl = (ndlaEnvironment: string) => {
 
 const matomoDomain = (ndlaEnvironment: string): string => {
   switch (ndlaEnvironment) {
-    case "dev":
-    case "local":
-    case "test":
-      return "tall.test.ndla.no";
     case "staging":
     case "prod":
       return "tall.ndla.no";

@@ -89,30 +89,6 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
               split: true,
             },
           );
-        } else if (
-          Range.isExpanded(unhangedSelection) &&
-          Range.includes(spanRange, unhangedSelection) &&
-          !Range.equals(spanRange, unhangedSelection)
-        ) {
-          Range.edges(unhangedSelection)
-            .reverse()
-            .forEach((point) => {
-              Transforms.splitNodes(editor, {
-                match: (n) => Element.isElement(n) && n.type === "span",
-                mode: "lowest",
-                at: point,
-              });
-            });
-
-          Transforms.setNodes(
-            editor,
-            { data: { dir: language === "ar" ? "rtl" : undefined, lang: language } },
-            {
-              match: (n) => Element.isElement(n) && n.type === "span",
-              mode: "lowest",
-              at: editor.selection ?? undefined,
-            },
-          );
         } else {
           const data = { dir: language === "ar" ? "rtl" : undefined, lang: language };
           Transforms.setNodes(editor, { data }, { match: (n) => Element.isElement(n) && n.type === "span" });

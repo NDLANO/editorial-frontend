@@ -92,6 +92,7 @@ export const LANGUAGE = "LANGUAGE";
 export const FOR_APPROVAL = "FOR_APPROVAL";
 export const PUBLISH_DELAYED = "PUBLISH_DELAYED";
 export const REPUBLISH = "REPUBLISH";
+export const UNLISTED = "UNLISTED";
 
 export const STATUS_ORDER = [
   PLANNED,

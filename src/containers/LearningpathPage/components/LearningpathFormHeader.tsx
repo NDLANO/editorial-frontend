@@ -22,7 +22,7 @@ import LanguagePicker from "../../../components/HeaderWithLanguage/HeaderLanguag
 import HeaderSupportedLanguages from "../../../components/HeaderWithLanguage/HeaderSupportedLanguages";
 import { ResourcePublishedLink } from "../../../components/HeaderWithLanguage/ResourcePublishedLink";
 import { ResourceStatus } from "../../../components/HeaderWithLanguage/ResourceStatus";
-import { PUBLISHED } from "../../../constants";
+import { PUBLISHED, UNLISTED } from "../../../constants";
 import { useAuth0Users } from "../../../modules/auth0/auth0Queries";
 import { usePostCopyLearningpathMutation } from "../../../modules/learningpath/learningpathMutations";
 import { useNodes } from "../../../modules/nodes/nodeQueries";
@@ -154,7 +154,7 @@ export const LearningpathFormHeader = ({ learningpath, language }: Props) => {
           )}
         </FormHeaderHeadingContainer>
         <FormHeaderStatusWrapper>
-          {learningpath?.status === PUBLISHED && (
+          {(learningpath?.status === PUBLISHED || learningpath?.status === UNLISTED) && (
             <ResourcePublishedLink type="learningpath" slugOrId={learningpath.id} />
           )}
           {!!expirationDate && <ResourceStatus expirationDate={expirationDate} />}

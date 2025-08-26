@@ -7,16 +7,14 @@
  */
 
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import { parseHash } from "../../util/authHelpers";
 import { useSession } from "../Session/SessionProvider";
 
 export const LoginSuccess = () => {
-  const location = useLocation();
   const { login } = useSession();
   useEffect(() => {
-    parseHash(location.hash).then((authResult) => login(authResult));
-  }, []); //  eslint-disable-line
+    parseHash().then((res) => login(res));
+  }, [login]);
 
   return null;
 };

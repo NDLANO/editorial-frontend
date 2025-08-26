@@ -6,9 +6,9 @@
  *
  */
 
-import { Auth0UserProfile } from "auth0-js";
 import { getEnvironmentVariabel, getUniversalConfig } from "../config";
 import { Auth0UserData } from "../interfaces";
+import { User } from "@auth0/auth0-spa-js";
 
 const url = `https://${getUniversalConfig().auth0Domain}/oauth/token`;
 const editorialFrontendClientId = getEnvironmentVariabel("NDLA_EDITORIAL_CLIENT_ID");
@@ -48,11 +48,11 @@ export const getBrightcoveToken = () => {
   }).then((res) => res.json());
 };
 
-const mapToUserData = (users: Auth0UserProfile[]): Auth0UserData[] =>
+const mapToUserData = (users: User[]): Auth0UserData[] =>
   users.map(({ name, app_metadata: { ndla_id } }) => ({
-    name,
+    name: name ?? "",
     app_metadata: {
-      ndla_id,
+      ndla_id: ndla_id ?? "",
     },
   }));
 
@@ -82,7 +82,7 @@ export const fetchAuth0UsersById = async (
 type PaginatedAuth0UserProfiles = {
   length: number;
   total: number;
-  users: Auth0UserProfile[];
+  users: User[];
 };
 
 const fetchAuth0UsersByQuery = (token: string, query: string, page: number): Promise<PaginatedAuth0UserProfiles> =>

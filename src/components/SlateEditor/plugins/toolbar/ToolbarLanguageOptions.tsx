@@ -10,7 +10,7 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Range, Transforms } from "slate";
 import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
-import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
+import { createListCollection } from "@ark-ui/react";
 import { SelectContent, SelectRoot, SelectValueText, SelectLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LanguageType } from "./toolbarState";
@@ -50,10 +50,9 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
   const currentLanguage = useSlateSelector(getCurrentLanguage);
   const selection = useSlateSelection();
 
-  const onClick = useCallback(
-    (details: SelectValueChangeDetails) => {
+  const onSelect = useCallback(
+    (language: string | undefined) => {
       if (!selection) return;
-      const language = details.value[0];
       const unhangedSelection = Editor.unhangRange(editor, selection);
 
       const [match] =
@@ -124,7 +123,8 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
         collection={collection}
         positioning={positioningOptions}
         value={currentLanguage ? [currentLanguage] : []}
-        onValueChange={onClick}
+        onSelect={({ value }) => onSelect(value)}
+        onValueChange={({ value }) => value.length === 0 && onSelect(undefined)}
       >
         <SelectLabel srOnly>{title}</SelectLabel>
         <StyledGenericSelectTrigger

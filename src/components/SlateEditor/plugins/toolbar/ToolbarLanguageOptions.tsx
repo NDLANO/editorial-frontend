@@ -59,7 +59,6 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
       const [match] =
         Editor.nodes(editor, {
           match: isSpanElement,
-          mode: "lowest",
           at: unhungSelection,
         }) ?? [];
 
@@ -71,14 +70,12 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
           // Remove language span
           Transforms.unwrapNodes(editor, {
             match: isSpanElement,
-            mode: "lowest",
             at: unhungSelection,
           });
         } else if (Range.isExpanded(unhungSelection) && !Range.includes(spanRange, unhungSelection)) {
           // The selection surrounds the current span, so we unwrap and wrap again to increase the size of the span
           Transforms.unwrapNodes(editor, {
             match: isSpanElement,
-            mode: "lowest",
             at: path,
           });
 

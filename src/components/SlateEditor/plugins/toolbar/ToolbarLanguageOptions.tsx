@@ -79,6 +79,7 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
             at: path,
           });
 
+          // Unwrapping modifies the selection, need to re-unhang the new selection
           const newSelection = editor.selection ? Editor.unhangRange(editor, editor.selection) : undefined;
           Transforms.wrapNodes(
             editor,
@@ -94,6 +95,7 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
           Transforms.setNodes(editor, { data }, { match: isSpanElement });
         }
       } else if (Range.isExpanded(unhungSelection)) {
+        // No existing span, wrap selection in new span
         Transforms.wrapNodes(editor, defaultSpanBlock({ lang: language, dir: language === "ar" ? "rtl" : undefined }), {
           at: unhungSelection,
           split: true,

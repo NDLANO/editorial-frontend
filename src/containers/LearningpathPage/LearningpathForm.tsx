@@ -34,6 +34,8 @@ import { LearningpathMetaFormPart } from "./metadata/LearningpathMetaFormPart";
 import { LearningpathStepsFormPart } from "./steps/LearningpathStepsFormPart";
 import EditorFooter from "../../components/SlateEditor/EditorFooter";
 import { useSession } from "../Session/SessionProvider";
+import { LearningpathTaxonomyPart } from "./taxonomy/LearningpathTaxonomyPart";
+import { TaxonomyVersionProvider } from "../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
   learningpath: ILearningPathV2DTO | undefined;
@@ -122,9 +124,14 @@ export const LearningpathForm = ({ learningpath, language }: Props) => {
             <FormAccordions defaultOpen={["learningpath-meta"]}>
               <LearningpathMetaFormPart language={language} />
               {!!learningpath && (
-                <FormAccordion id="steps" title={t("learningpathForm.steps.title")} hasError={false}>
-                  <LearningpathStepsFormPart learningpath={learningpath} language={language} />
-                </FormAccordion>
+                <>
+                  <FormAccordion id="steps" title={t("learningpathForm.steps.title")} hasError={false}>
+                    <LearningpathStepsFormPart learningpath={learningpath} language={language} />
+                  </FormAccordion>
+                  <TaxonomyVersionProvider>
+                    <LearningpathTaxonomyPart learningpath={learningpath} language={language} />
+                  </TaxonomyVersionProvider>
+                </>
               )}
               <FormAccordion
                 id="revision"

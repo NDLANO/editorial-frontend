@@ -283,6 +283,10 @@ const phrases = {
       other: "Save failed.",
     },
   },
+  taxonomyResourceType: {
+    resource: "Resource",
+    topic: "Topic",
+  },
   articleType: {
     "topic-article": "Topic",
     "frontpage-article": "About-NDLA article",
@@ -1685,6 +1689,11 @@ const phrases = {
     missingTax:
       "Articles and topics cannot be saved without being placed in the taxonomy. Update the taxonomy block and save again.",
     invalidTopicPlacements: "Topics without placement in taxonomy",
+    invalidTopicPlacementsDescription:
+      "The nodes that end up here could have children. They have ended up here because they have been detached from their parent.",
+    noTaxNode:
+      "This resource does not have a placement in the taxonomy. You have to connect it to a node to make it available.",
+    createNode: "Connect the resource to a node",
   },
   warningMessage: {
     fieldWithWrongLanguage: "This value is fetched from language code: {{language}}",
@@ -1850,6 +1859,8 @@ const phrases = {
     info: {
       title: "Information",
       subTitle: "Id and visibility for the element",
+      wrongResourceType: 'The node is placed as "{{placedAs}}" in the taxonomy, but is of type "{{isType}}".',
+      missingResourceType: "The node with ID {{id}} does not have a resource type. It is probably deleted.",
       wrongArticleType:
         'The article is placed as "{{placedAs}}" in the taxonomy, but the article is of "{{isType}}" type.',
       missingArticleType: "The article with ID {{id}} does not have an article type. It most likely does not exist.",
@@ -1941,6 +1952,11 @@ const phrases = {
         sa: "Choose language responsible",
         da: "Choose desk responsible",
       },
+    },
+    errors: {
+      failedToDeleteConnection: "An error occurred when deleting the node",
+      failedToUpdateConnection: "An error occurred when updating the node",
+      failedToCreateConnection: "An error occurred when creating the node",
     },
   },
   notions: {

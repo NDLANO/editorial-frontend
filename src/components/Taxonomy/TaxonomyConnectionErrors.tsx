@@ -1,19 +1,25 @@
 /**
- * Copyright (c) 2021-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
 
-import { ReactNode, useMemo } from "react";
+import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { InformationLine } from "@ndla/icons";
 import { MessageBox, Text, UnOrderedList } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
-import { routes } from "../../../util/routeHelpers";
+import { partition } from "@ndla/util";
+import { routes } from "../../util/routeHelpers";
+
+interface Props {
+  nodes: Node[];
+  type: "resource" | "topic";
+}
 
 const StyledSafeLink = styled(SafeLink, {
   variants: {
@@ -54,16 +60,6 @@ const StyledWrapper = styled("div", {
   },
 });
 
-interface Props {
-  articleType: string;
-  topics: Node[];
-  resources: Node[];
-}
-
-const getOtherArticleType = (articleType: string): string => {
-  return articleType === "standard" ? "topic-article" : "standard";
-};
-
 const SafeLinkWrapper = ({ children, visible, path }: { children: ReactNode; visible: boolean; path?: string }) => {
   if (!path) {
     return <StyledText visible={visible}>{children}</StyledText>;
@@ -75,19 +71,18 @@ const SafeLinkWrapper = ({ children, visible, path }: { children: ReactNode; vis
   );
 };
 
-const TaxonomyConnectionErrors = ({ topics, resources, articleType }: Props) => {
+export const TaxonomyConnectionErrors = ({ nodes, type }: Props) => {
   const { t } = useTranslation();
 
-  const wrongConnections = useMemo(
-    () => (articleType === "standard" ? topics : articleType === "topic-article" ? resources : []),
-    [articleType, resources, topics],
-  );
+  const [resources, topics] = partition(nodes, (node) => node.nodeType === "RESOURCE");
+
+  const wrongConnections = type === "resource" ? topics : resources;
 
   if (!wrongConnections.length) return null;
 
-  const title = t("taxonomy.info.wrongArticleType", {
-    placedAs: t(`articleType.${getOtherArticleType(articleType)}`),
-    isType: t(`articleType.${articleType}`),
+  const title = t("taxonomy.info.wrongResourceType", {
+    placedAs: t(`taxonomyResourceType.${type === "resource" ? "topic" : "resource"}`),
+    isType: t(`taxonomyResourceType.${type}`),
   });
 
   return (
@@ -114,5 +109,3 @@ const TaxonomyConnectionErrors = ({ topics, resources, articleType }: Props) => 
     </StyledMessageBox>
   );
 };
-
-export default TaxonomyConnectionErrors;

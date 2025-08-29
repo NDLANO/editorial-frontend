@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { DeleteBinLine } from "@ndla/icons";
 import { Button, IconButton, ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node } from "@ndla/types-taxonomy";
+import { Node, NodeConnection } from "@ndla/types-taxonomy";
 import Breadcrumb from "./Breadcrumb";
 import RelevanceOptionSwitch from "./RelevanceOptionSwitch";
 import { MinimalNodeChild } from "./types";
@@ -38,16 +38,15 @@ const StyledPrimaryConnectionButton = styled(Button, {
 
 interface Props {
   removeConnection?: (id: string) => void;
-  setPrimaryConnection?: (connectionId: string) => void;
+  updateConnection?: (params: Pick<NodeConnection, "id" | "relevanceId" | "primary">) => void;
   node: MinimalNodeChild | Node;
-  type: string;
-  setRelevance?: (topicId: string, relevanceId: string) => void;
+  type: "resource" | "topic";
 }
 
-const ActiveTopicConnection = ({ removeConnection, setPrimaryConnection, setRelevance, type, node }: Props) => {
+const ActiveTopicConnection = ({ removeConnection, type, node, updateConnection }: Props) => {
   const { t } = useTranslation();
 
-  if (type === "topic-article") {
+  if (type === "topic" || !("connectionId" in node)) {
     return (
       <ListItemRoot context="list" variant="subtle" asChild consumeCss>
         <li>
@@ -61,9 +60,9 @@ const ActiveTopicConnection = ({ removeConnection, setPrimaryConnection, setRele
       <li>
         <StyledPrimaryConnectionButton
           size="small"
-          primary={"isPrimary" in node ? node.isPrimary : false}
+          primary={node.isPrimary}
           variant="success"
-          onClick={() => setPrimaryConnection?.(node.id)}
+          onClick={() => updateConnection?.({ id: node.connectionId, relevanceId: node.relevanceId, primary: true })}
         >
           {t("form.topics.primaryTopic")}
         </StyledPrimaryConnectionButton>
@@ -74,14 +73,16 @@ const ActiveTopicConnection = ({ removeConnection, setPrimaryConnection, setRele
           <StyledWrapper>
             <RelevanceOptionSwitch
               relevanceId={node.relevanceId}
-              onChange={(relevanceId) => setRelevance?.(node.id, relevanceId)}
+              onChange={(relevanceId) =>
+                updateConnection?.({ id: node.connectionId, relevanceId, primary: node.isPrimary })
+              }
             />
             <IconButton
               aria-label={t("taxonomy.removeResource")}
               title={t("taxonomy.removeResource")}
               variant="danger"
               size="small"
-              onClick={() => removeConnection?.(node.id)}
+              onClick={() => removeConnection?.(node.connectionId)}
             >
               <DeleteBinLine />
             </IconButton>

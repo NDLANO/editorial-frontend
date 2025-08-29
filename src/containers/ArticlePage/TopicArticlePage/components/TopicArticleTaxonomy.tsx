@@ -89,7 +89,9 @@ const TopicArticleTaxonomy = ({ article, articleLanguage, hasTaxEntries }: Props
       <TaxonomyConnections
         taxonomyVersion={taxonomyVersion}
         type="topic"
-        article={article}
+        resourceType="article"
+        resourceId={article.id}
+        resourceTitle={article.title?.title ?? ""}
         language={articleLanguage}
         placements={validPlacements}
         node={node}

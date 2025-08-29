@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node, NodeChild, NodeConnection } from "@ndla/types-taxonomy";
 import { sortBy } from "@ndla/util";
 import ActiveTopicConnection from "./ActiveTopicConnection";
@@ -34,8 +33,10 @@ import { MinimalNodeChild } from "../Taxonomy/types";
 interface Props {
   taxonomyVersion: string;
   type: "topic" | "resource";
+  resourceType: "article" | "learningpath";
   language: string;
-  article: IArticleDTO;
+  resourceId: number;
+  resourceTitle: string;
   placements: Node[] | MinimalNodeChild[];
   node: Node | undefined;
 }
@@ -55,14 +56,23 @@ const StyledConnectionsList = styled("ul", {
   },
 });
 
-export const TaxonomyConnections = ({ taxonomyVersion, type, article, language, placements, node }: Props) => {
+export const TaxonomyConnections = ({
+  taxonomyVersion,
+  type,
+  resourceType,
+  resourceId,
+  resourceTitle,
+  language,
+  placements,
+  node,
+}: Props) => {
   const { t, i18n } = useTranslation();
   const [structure, setStructure] = useState<NodeWithChildren[]>([]);
   const userDataQuery = useUserData();
   const qc = useQueryClient();
   const queryKey = nodeQueryKeys.nodes({
     taxonomyVersion,
-    contentURI: `urn:article:${article.id}`,
+    contentURI: `urn:${resourceType}:${resourceId}`,
     language,
     includeContexts: true,
   });
@@ -111,8 +121,8 @@ export const TaxonomyConnections = ({ taxonomyVersion, type, article, language, 
       if (type === "topic") {
         const location = await postNodeMutation.mutateAsync({
           body: {
-            contentUri: `urn:article:${article.id}`,
-            name: article.title?.title ?? "",
+            contentUri: `urn:${resourceType}:${resourceId}`,
+            name: resourceTitle,
             nodeType: "TOPIC",
           },
           taxonomyVersion,
@@ -131,12 +141,13 @@ export const TaxonomyConnections = ({ taxonomyVersion, type, article, language, 
       });
     },
     [
-      article.id,
-      article.title?.title,
       node?.id,
       placements.length,
       postNodeConnectionMutation,
       postNodeMutation,
+      resourceId,
+      resourceTitle,
+      resourceType,
       taxonomyVersion,
       type,
     ],

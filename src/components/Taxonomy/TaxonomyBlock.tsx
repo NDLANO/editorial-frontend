@@ -11,10 +11,11 @@ import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button, SelectLabel, Text } from "@ndla/primitives";
 import { Node, Version } from "@ndla/types-taxonomy";
-import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
+import { RESOURCE_TYPE_LEARNING_PATH, TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { useSession } from "../../containers/Session/SessionProvider";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import { postNode } from "../../modules/nodes/nodeApi";
+import { createResourceResourceType } from "../../modules/taxonomy";
 import { FormContent } from "../FormikForm";
 import { TaxonomyConnectionErrors } from "./TaxonomyConnectionErrors";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
@@ -71,7 +72,7 @@ export const TaxonomyBlock = ({
 
   const createNodeConnection = useCallback(async () => {
     const contentType = nodeType === "resource" ? resourceType : "article";
-    await postNode({
+    const nodeLocation = await postNode({
       body: {
         contentUri: `urn:${contentType}:${resourceId}`,
         name: resourceTitle ?? "",
@@ -79,6 +80,15 @@ export const TaxonomyBlock = ({
       },
       taxonomyVersion,
     });
+    if (resourceType === "learningpath") {
+      await createResourceResourceType({
+        body: {
+          resourceId: nodeLocation.replace("/v1/nodes/", ""),
+          resourceTypeId: RESOURCE_TYPE_LEARNING_PATH,
+        },
+        taxonomyVersion,
+      });
+    }
     await qc.invalidateQueries({
       queryKey: nodeQueryKeys.nodes({
         contentURI: `urn:${contentType}:${resourceId}`,

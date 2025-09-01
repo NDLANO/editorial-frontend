@@ -272,7 +272,7 @@ export const LearningpathStepForm = ({ step, onClose }: Props) => {
               {t("cancel")}
             </Button>
             <Button type="submit" disabled={!formikProps.dirty || formikProps.isSubmitting}>
-              {t("save")}
+              {step ? t("save") : t("taxonomy.add")}
             </Button>
           </DialogFooter>
           <AlertDialogWrapper

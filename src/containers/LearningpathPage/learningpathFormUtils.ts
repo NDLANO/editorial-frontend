@@ -19,6 +19,7 @@ export interface LearningpathFormValues {
   coverPhotoMetaUrl?: string;
   tags: string[];
   language: string | undefined;
+  grepCodes: string[];
   supportedLanguages: string[];
   // This field is only used for error checking in revisions
   responsibleId?: string;
@@ -46,6 +47,7 @@ export const learningpathApiTypeToFormType = (
     language: learningpath?.title.language,
     supportedLanguages: learningpath?.supportedLanguages ?? [],
     title: learningpath?.title.title ?? "",
+    grepCodes: learningpath?.grepCodes ?? [],
     description: learningpath?.description.description ?? "",
     coverPhotoMetaUrl: learningpath?.coverPhoto?.metaUrl,
     tags: learningpath?.tags.tags ?? [],
@@ -71,6 +73,7 @@ export const learningpathFormTypeToNewApiType = (
     coverPhotoMetaUrl: values.coverPhotoMetaUrl,
     tags: values.tags,
     responsibleId: values.responsibleId,
+    grepCodes: values.grepCodes,
   };
 };
 
@@ -89,5 +92,6 @@ export const learningpathFormTypeToApiType = (
     tags: values.tags,
     responsibleId: values.responsibleId,
     priority: values.priority,
+    grepCodes: values.grepCodes,
   };
 };

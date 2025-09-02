@@ -20,7 +20,7 @@ import { MultiSummarySearchResults } from "../../../../modules/search/searchApiI
 import { useSearch } from "../../../../modules/search/searchQueries";
 import formatDate from "../../../../util/formatDate";
 import { stripInlineContentHtmlTags } from "../../../../util/formHelper";
-import { toEditArticle } from "../../../../util/routeHelpers";
+import { toEditArticle, toEditLearningpath } from "../../../../util/routeHelpers";
 import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../../styles";
 import { SelectItem, SortOptionWorkList } from "../../types";
 import GoToSearch from "../GoToSearch";
@@ -113,7 +113,14 @@ const WorkListTabContent = ({
                     size="small"
                   />
                   <TextWrapper>
-                    <SafeLink to={toEditArticle(res.id, res.learningResourceType)} title={res.title?.title}>
+                    <SafeLink
+                      to={
+                        res.resultType === "learningpath"
+                          ? toEditLearningpath(res.id, i18n.language)
+                          : toEditArticle(res.id, res.learningResourceType)
+                      }
+                      title={res.title?.title}
+                    >
                       {res.title?.title}
                     </SafeLink>
                   </TextWrapper>
@@ -152,7 +159,7 @@ const WorkListTabContent = ({
             },
           ])
         : [[]],
-    [data, t],
+    [data, t, i18n],
   );
 
   const tableTitles: TitleElement<SortOptionWorkList>[] = [

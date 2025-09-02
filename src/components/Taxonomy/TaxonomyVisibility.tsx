@@ -42,11 +42,12 @@ const StyledSwitchRoot = styled(SwitchRoot, {
 interface Props {
   node: Node;
   taxonomyVersion: string;
-  articleId: number;
-  articleLanguage: string;
+  resourceId: number;
+  resourceType: "article" | "learningpath";
+  resourceLanguage: string;
 }
 
-export const TaxonomyVisibility = ({ node, taxonomyVersion, articleId, articleLanguage }: Props) => {
+export const TaxonomyVisibility = ({ node, taxonomyVersion, resourceId, resourceType, resourceLanguage }: Props) => {
   const { t } = useTranslation();
   const updateNodeMetadataMutation = useUpdateNodeMetadataMutation();
   const qc = useQueryClient();
@@ -55,8 +56,8 @@ export const TaxonomyVisibility = ({ node, taxonomyVersion, articleId, articleLa
     await updateNodeMetadataMutation.mutateAsync({ id: node.id, taxonomyVersion, metadata: { visible } });
     await qc.invalidateQueries({
       queryKey: nodeQueryKeys.nodes({
-        contentURI: `urn:article:${articleId}`,
-        language: articleLanguage,
+        contentURI: `urn:${resourceType}:${resourceId}`,
+        language: resourceLanguage,
         taxonomyVersion,
         includeContexts: true,
       }),

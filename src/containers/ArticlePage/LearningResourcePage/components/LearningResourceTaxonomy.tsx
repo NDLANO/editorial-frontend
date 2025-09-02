@@ -97,9 +97,10 @@ const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: P
         <>
           {!!isTaxonomyAdmin && (
             <TaxonomyVisibility
+              resourceType="article"
               taxonomyVersion={taxonomyVersion}
-              articleId={article.id}
-              articleLanguage={articleLanguage}
+              resourceId={article.id}
+              resourceLanguage={articleLanguage}
               node={node}
             />
           )}
@@ -113,8 +114,10 @@ const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: P
           <TaxonomyConnections
             taxonomyVersion={taxonomyVersion}
             type="resource"
+            resourceType="article"
             language={articleLanguage}
-            article={article}
+            resourceId={article.id}
+            resourceTitle={article.title?.title ?? ""}
             node={node}
             placements={placements ?? []}
           />

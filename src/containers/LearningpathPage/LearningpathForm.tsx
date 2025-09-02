@@ -26,6 +26,7 @@ import {
   usePatchLearningpathMutation,
   usePostLearningpathMutation,
 } from "../../modules/learningpath/learningpathMutations";
+import { isGrepCodeValid } from "../../util/articleUtil";
 import { routes } from "../../util/routeHelpers";
 import RevisionNotes from "../ArticlePage/components/RevisionNotes";
 import { AlertDialogWrapper } from "../FormikForm/AlertDialogWrapper";
@@ -33,6 +34,7 @@ import { PreventWindowUnload } from "../FormikForm/PreventWindowUnload";
 import { LearningpathMetaFormPart } from "./metadata/LearningpathMetaFormPart";
 import { LearningpathStepsFormPart } from "./steps/LearningpathStepsFormPart";
 import EditorFooter from "../../components/SlateEditor/EditorFooter";
+import GrepCodesField from "../FormikForm/GrepCodesField";
 import { useSession } from "../Session/SessionProvider";
 import { LearningpathTaxonomyPart } from "./taxonomy/LearningpathTaxonomyPart";
 import { TaxonomyVersionProvider } from "../StructureVersion/TaxonomyVersionProvider";
@@ -52,6 +54,13 @@ const metaDataRules: RulesType<LearningpathFormValues, ILearningPathV2DTO> = {
   introduction: {
     warnings: {
       languageMatch: true,
+    },
+  },
+  grepCodes: {
+    required: false,
+    test: (values) => {
+      const wrongFormat = !!values?.grepCodes?.find((value) => !isGrepCodeValid(value, ["KE", "KM", "TT"]));
+      return wrongFormat ? { translationKey: "validation.grepCodes" } : undefined;
     },
   },
   revisionMeta: {
@@ -139,6 +148,9 @@ export const LearningpathForm = ({ learningpath, language }: Props) => {
                 hasError={!!errors.revisionMeta || !!errors.revisionError}
               >
                 <RevisionNotes />
+              </FormAccordion>
+              <FormAccordion id="grepCodes" title={t("form.name.grepCodes")} hasError={!!errors.grepCodes}>
+                <GrepCodesField prefixFilter={["KE", "KM", "TT"]} />
               </FormAccordion>
             </FormAccordions>
             <EditorFooter

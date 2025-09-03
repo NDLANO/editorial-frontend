@@ -206,6 +206,8 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
         return { id: s, name: t(`form.status.${s.toLowerCase()}`) };
       }),
       { id: "HAS_PUBLISHED", name: t(`form.status.has_published`) },
+      { id: "UNLISTED", name: t(`form.status.unlisted`) },
+      { id: "PRIVATE", name: t(`form.status.private`) },
     ];
   };
 

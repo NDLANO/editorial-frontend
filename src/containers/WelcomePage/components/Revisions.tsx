@@ -46,7 +46,7 @@ import { useSearch } from "../../../modules/search/searchQueries";
 import formatDate, { formatDateForBackend } from "../../../util/formatDate";
 import { getExpirationStatus } from "../../../util/getExpirationStatus";
 import { getExpirationDate } from "../../../util/revisionHelpers";
-import { toEditArticle } from "../../../util/routeHelpers";
+import { toEditArticle, toEditLearningpath } from "../../../util/routeHelpers";
 import {
   useLocalStoragePageSizeState,
   useLocalStorageSortOptionState,
@@ -197,7 +197,11 @@ const Revisions = ({ userData }: Props) => {
                 <StatusTimeFill variant={warnStatus} size="small" title={revisions} aria-label={revisions} />
                 <TextWrapper>
                   <SafeLink
-                    to={toEditArticle(resource.id, resource.learningResourceType)}
+                    to={
+                      resource.learningResourceType === "learningpath"
+                        ? toEditLearningpath(resource.id, language)
+                        : toEditArticle(resource.id, resource.learningResourceType)
+                    }
                     title={resource.title?.title}
                   >
                     {resource.title?.title}
@@ -220,7 +224,7 @@ const Revisions = ({ userData }: Props) => {
           },
         ];
       }) ?? [[]],
-    [filteredData, t],
+    [filteredData, t, language],
   );
 
   return (

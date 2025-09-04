@@ -19,6 +19,7 @@ import SearchHeader from "../../../../components/Form/SearchHeader";
 import SearchTagGroup, { Filters } from "../../../../components/Form/SearchTagGroup";
 import { SelectElement, SelectRenderer } from "../../../../components/Form/SelectRenderer";
 import { getTagName } from "../../../../components/Form/utils";
+import config from "../../../../config";
 import {
   DA_SUBJECT_ID,
   DRAFT_RESPONSIBLE,
@@ -201,14 +202,19 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
   const { data: statuses } = useDraftStatusStateMachine();
 
   const getDraftStatuses = (): { id: string; name: string }[] => {
-    return [
+    const draftStatuses = [
       ...Object.keys(statuses || []).map((s) => {
         return { id: s, name: t(`form.status.${s.toLowerCase()}`) };
       }),
       { id: "HAS_PUBLISHED", name: t(`form.status.has_published`) },
-      { id: "UNLISTED", name: t(`form.status.unlisted`) },
-      { id: "PRIVATE", name: t(`form.status.private`) },
     ];
+    if (config.enableLearningpath) {
+      draftStatuses.push(
+        { id: "UNLISTED", name: t(`form.status.unlisted`) },
+        { id: "PRIVATE", name: t(`form.status.private`) },
+      );
+    }
+    return draftStatuses;
   };
 
   const sortByProperty = (property: string) => {

@@ -1199,7 +1199,7 @@ const phrases = {
       },
       learningpath_statuses: {
         private: "Kladd",
-        published: "Offentlig",
+        published: "Publisert",
         unlisted: "Lenkedelt",
         submitted: "Bedt om offentliggjøring",
       },

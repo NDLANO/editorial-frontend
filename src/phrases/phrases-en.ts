@@ -1199,7 +1199,7 @@ const phrases = {
       },
       learningpath_statuses: {
         private: "Draft",
-        published: "Public",
+        published: "Published",
         unlisted: "Link shared",
         submitted: "Requested publication",
       },

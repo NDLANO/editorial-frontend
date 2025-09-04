@@ -8,16 +8,16 @@
 
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Element, Transforms } from "slate";
+import { Editor, Element, Range, Transforms } from "slate";
 import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
-import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
+import { createListCollection } from "@ark-ui/react";
 import { SelectContent, SelectRoot, SelectValueText, SelectLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LanguageType } from "./toolbarState";
 import { getTitle } from "./ToolbarToggle";
 import { ToolbarCategoryProps } from "./types";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../abstractions/Select";
-import hasNodeOfType from "../../utils/hasNodeOfType";
+import { isSpanElement } from "../span/queries";
 import { defaultSpanBlock } from "../span/utils";
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
@@ -35,7 +35,7 @@ const StyledGenericSelectItem = styled(GenericSelectItem, {
 const getCurrentLanguage = (editor: Editor) => {
   const [currentBlock] =
     Editor.nodes(editor, {
-      match: (n) => Element.isElement(n) && n.type === "span",
+      match: isSpanElement,
       mode: "lowest",
     }) ?? [];
   const node = currentBlock?.[0];
@@ -51,28 +51,57 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
   const currentLanguage = useSlateSelector(getCurrentLanguage);
   const selection = useSlateSelection();
 
-  const onClick = useCallback(
-    (details: SelectValueChangeDetails) => {
+  const onSelect = useCallback(
+    (language: string | undefined) => {
       if (!selection) return;
-      const language = details.value[0];
-      Transforms.select(editor, selection);
-      ReactEditor.focus(editor);
-      const wrappedInSpan = hasNodeOfType(editor, "span");
-      if (wrappedInSpan && language === undefined) {
-        Transforms.unwrapNodes(editor, {
-          match: (node) => Element.isElement(node) && node.type === "span",
-        });
-      } else if (language === undefined) {
-        return;
-      } else if (!wrappedInSpan) {
+      const unhungSelection = Editor.unhangRange(editor, selection);
+
+      const [match] =
+        Editor.nodes(editor, {
+          match: isSpanElement,
+          at: unhungSelection,
+        }) ?? [];
+
+      if (match) {
+        const [_, path] = match;
+        const spanRange = Editor.range(editor, path);
+
+        if (language === undefined) {
+          // Remove language span
+          Transforms.unwrapNodes(editor, {
+            match: isSpanElement,
+            at: unhungSelection,
+          });
+        } else if (Range.isExpanded(unhungSelection) && !Range.includes(spanRange, unhungSelection)) {
+          // The selection surrounds the current span, so we unwrap and wrap again to increase the size of the span
+          Transforms.unwrapNodes(editor, {
+            match: isSpanElement,
+            at: path,
+          });
+
+          // Unwrapping modifies the selection, need to re-unhang the new selection
+          const newSelection = editor.selection ? Editor.unhangRange(editor, editor.selection) : undefined;
+          Transforms.wrapNodes(
+            editor,
+            defaultSpanBlock({ lang: language, dir: language === "ar" ? "rtl" : undefined }),
+            {
+              at: newSelection,
+              split: true,
+            },
+          );
+        } else {
+          // The selection is inside the current span, so we just update the lang attribute
+          const data = { dir: language === "ar" ? "rtl" : undefined, lang: language };
+          Transforms.setNodes(editor, { data }, { match: isSpanElement });
+        }
+      } else if (Range.isExpanded(unhungSelection)) {
+        // No existing span, wrap selection in new span
         Transforms.wrapNodes(editor, defaultSpanBlock({ lang: language, dir: language === "ar" ? "rtl" : undefined }), {
-          at: Editor.unhangRange(editor, selection),
+          at: unhungSelection,
           split: true,
         });
-      } else {
-        const data = { dir: language === "ar" ? "rtl" : undefined, lang: language };
-        Transforms.setNodes(editor, { data }, { match: (n) => Element.isElement(n) && n.type === "span" });
       }
+      ReactEditor.focus(editor);
     },
     [editor, selection],
   );
@@ -97,7 +126,8 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
         collection={collection}
         positioning={positioningOptions}
         value={currentLanguage ? [currentLanguage] : []}
-        onValueChange={onClick}
+        onSelect={({ value }) => onSelect(value)}
+        onValueChange={({ value }) => value.length === 0 && onSelect(undefined)}
       >
         <SelectLabel srOnly>{title}</SelectLabel>
         <StyledGenericSelectTrigger

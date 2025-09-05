@@ -103,6 +103,7 @@ export const LearningpathForm = ({ learningpath, language }: Props) => {
     async (values: LearningpathFormValues) => {
       if (learningpath) {
         const apiValue = learningpathFormTypeToApiType(learningpath, values, language);
+        console.log(apiValue, values.introduction);
         await patchLearningpathMutation.mutateAsync({ id: learningpath.id, learningpath: apiValue });
         setSavedToServer(true);
       } else {

@@ -27,6 +27,7 @@ import {
   usePostLearningpathMutation,
 } from "../../modules/learningpath/learningpathMutations";
 import { isGrepCodeValid } from "../../util/articleUtil";
+import { isFormikFormDirty } from "../../util/formHelper";
 import { routes } from "../../util/routeHelpers";
 import RevisionNotes from "../ArticlePage/components/RevisionNotes";
 import { AlertDialogWrapper } from "../FormikForm/AlertDialogWrapper";
@@ -125,7 +126,11 @@ export const LearningpathForm = ({ learningpath, language }: Props) => {
     >
       {({ errors, ...formikProps }) => {
         const formIsDirty =
-          formikProps.dirty || !!(learningpath && !learningpath.supportedLanguages.includes(language));
+          isFormikFormDirty({
+            values: formikProps.values,
+            initialValues: formikProps.initialValues,
+            dirty: formikProps.dirty,
+          }) || !!(learningpath && !learningpath.supportedLanguages.includes(language));
         return (
           <Form>
             <LearningpathFormHeader learningpath={learningpath} language={language} />

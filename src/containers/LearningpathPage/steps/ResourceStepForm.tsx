@@ -24,10 +24,10 @@ import { RulesType } from "../../../components/formikValidationSchema";
 import { fetchNode, fetchNodes } from "../../../modules/nodes/nodeApi";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
 import { toEditArticle } from "../../../util/routeHelpers";
-import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-import { getFormTypeFromStep, getNodeIdFromEmbedUrl } from "../learningpathUtils";
-import { DescriptionEditor } from "./DescriptionEditor";
 import { LicenseField } from "../../FormikForm";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import { LearningpathTextEditor } from "../components/LearningpathTextEditor";
+import { getFormTypeFromStep, getNodeIdFromEmbedUrl } from "../learningpathUtils";
 
 interface Props {
   step: ILearningStepV2DTO | undefined;
@@ -176,7 +176,7 @@ export const ResourceStepForm = ({ language, step }: Props) => {
               </ContentEditableFieldLabel>
               <FieldHelper>{t("learningpathForm.steps.resourceForm.descriptionHelper")}</FieldHelper>
               <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              <DescriptionEditor value={field.value} onChange={helpers.setValue} language={language} />
+              <LearningpathTextEditor value={field.value} onChange={helpers.setValue} language={language} />
             </FieldRoot>
           )}
         </FormField>

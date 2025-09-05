@@ -6,11 +6,13 @@
  *
  */
 
+import { Descendant } from "slate";
 import {
   ILearningPathV2DTO,
   INewLearningPathV2DTO,
   IUpdatedLearningPathV2DTO,
 } from "@ndla/types-backend/learningpath-api";
+import { blockContentToEditorValue, blockContentToHTML } from "../../util/articleContentConverter";
 
 export interface LearningpathFormValues {
   id: number | undefined;
@@ -19,6 +21,7 @@ export interface LearningpathFormValues {
   coverPhotoMetaUrl?: string;
   tags: string[];
   language: string | undefined;
+  introduction: Descendant[];
   grepCodes: string[];
   supportedLanguages: string[];
   // This field is only used for error checking in revisions
@@ -45,6 +48,7 @@ export const learningpathApiTypeToFormType = (
   return {
     id: learningpath?.id,
     language: learningpath?.title.language,
+    introduction: blockContentToEditorValue(learningpath?.introduction.introduction ?? ""),
     supportedLanguages: learningpath?.supportedLanguages ?? [],
     title: learningpath?.title.title ?? "",
     grepCodes: learningpath?.grepCodes ?? [],
@@ -66,9 +70,11 @@ export const learningpathFormTypeToNewApiType = (
   values: LearningpathFormValues,
   language: string,
 ): INewLearningPathV2DTO => {
+  const introduction = blockContentToHTML(values.introduction);
   return {
     language,
     title: values.title,
+    introduction: introduction === "<section></section>" ? undefined : introduction,
     description: values.description,
     coverPhotoMetaUrl: values.coverPhotoMetaUrl,
     tags: values.tags,
@@ -82,9 +88,11 @@ export const learningpathFormTypeToApiType = (
   values: LearningpathFormValues,
   language: string,
 ): IUpdatedLearningPathV2DTO => {
+  const introduction = blockContentToHTML(values.introduction);
   return {
     revision: learningpath.revision,
     revisionMeta: values.revisionMeta,
+    introduction: introduction === "<section></section>" ? null : introduction,
     language,
     title: values.title,
     description: values.description,

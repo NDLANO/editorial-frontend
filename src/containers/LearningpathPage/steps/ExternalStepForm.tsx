@@ -12,13 +12,13 @@ import { useTranslation } from "react-i18next";
 import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
-import { DescriptionEditor } from "./DescriptionEditor";
 import { ExternalFormValues } from "./types";
 import { FormField } from "../../../components/FormField";
 import { RulesType } from "../../../components/formikValidationSchema";
 import { isUrl } from "../../../components/validators";
 import { fetchOpenGraphData } from "../../../modules/opengraph/openGraphApi";
 import { LicenseField } from "../../FormikForm";
+import { LearningpathTextEditor } from "../components/LearningpathTextEditor";
 import { getFormTypeFromStep } from "../learningpathUtils";
 
 interface Props {
@@ -100,7 +100,7 @@ export const ExternalStepForm = ({ step, language }: Props) => {
               </ContentEditableFieldLabel>
               <FieldHelper>{t("learningpathForm.steps.externalForm.descriptionHelper")}</FieldHelper>
               <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              <DescriptionEditor value={field.value} onChange={helpers.setValue} language={language} />
+              <LearningpathTextEditor value={field.value} onChange={helpers.setValue} language={language} />
             </FieldRoot>
           )}
         </FormField>

@@ -40,14 +40,6 @@ const checkIfContentHasChanged = (currentValue: Descendant[], initialContent: De
 };
 
 interface FormikFields {
-  description?: Descendant[];
-  introduction?: Descendant[];
-  title?: Descendant[];
-  metaDescription?: Descendant[];
-  content?: Descendant[];
-  conceptContent?: Descendant[];
-  manuscript?: Descendant[];
-  articleType?: string;
   [x: string]: any;
 }
 

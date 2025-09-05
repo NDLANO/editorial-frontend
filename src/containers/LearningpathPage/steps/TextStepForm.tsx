@@ -10,11 +10,11 @@ import { useTranslation } from "react-i18next";
 import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
-import { DescriptionEditor } from "./DescriptionEditor";
 import { TextFormValues } from "./types";
 import { FormField } from "../../../components/FormField";
 import { RulesType } from "../../../components/formikValidationSchema";
 import { LicenseField } from "../../FormikForm";
+import { LearningpathTextEditor } from "../components/LearningpathTextEditor";
 
 interface Props {
   language: string | undefined;
@@ -63,7 +63,7 @@ export const TextStepForm = ({ language, step }: Props) => {
               {t("learningpathForm.steps.textForm.descriptionLabel")}
             </ContentEditableFieldLabel>
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-            <DescriptionEditor value={field.value} onChange={helpers.setValue} language={language} />
+            <LearningpathTextEditor value={field.value} onChange={helpers.setValue} language={language} />
           </FieldRoot>
         )}
       </FormField>

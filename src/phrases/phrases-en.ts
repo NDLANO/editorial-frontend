@@ -1198,7 +1198,7 @@ const phrases = {
         REPUBLISH: "For republishing",
       },
       learningpath_statuses: {
-        private: "Draft",
+        private: "In progress",
         published: "Published",
         unlisted: "Link shared",
         submitted: "Requested publication",

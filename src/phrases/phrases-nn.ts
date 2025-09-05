@@ -1198,7 +1198,7 @@ const phrases = {
         REPUBLISH: "Til republisering",
       },
       learningpath_statuses: {
-        private: "Kladd",
+        private: "I arbeid",
         published: "Publisert",
         unlisted: "Lenkedelt",
         submitted: "Bedt om offentleggjering",

@@ -8,7 +8,7 @@
 
 import queryString from "query-string";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { useSession } from "../Session/SessionProvider";
 
 export const LogoutSession = () => {

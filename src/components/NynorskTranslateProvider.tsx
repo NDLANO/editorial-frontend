@@ -8,7 +8,7 @@
 
 import { get, merge, set } from "lodash-es";
 import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { ApiTranslateType } from "../interfaces";
 import { fetchNnTranslation } from "../modules/translate/translateApi";
 

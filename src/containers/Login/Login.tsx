@@ -6,7 +6,7 @@
  *
  */
 
-import { useLocation, Navigate } from "react-router-dom";
+import { useLocation, Navigate } from "react-router";
 import { useSession } from "../Session/SessionProvider";
 
 export const Login = () => {

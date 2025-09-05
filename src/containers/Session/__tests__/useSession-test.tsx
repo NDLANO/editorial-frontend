@@ -7,12 +7,12 @@
  */
 
 import { ElementType, ReactNode } from "react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router";
 import { act, renderHook } from "@testing-library/react";
 import { getSessionStateFromLocalStorage, SessionProvider, useSession } from "../SessionProvider";
 
 const navigateMock = vi.fn();
-vi.mock("react-router-dom", async (original) => {
+vi.mock("react-router", async (original) => {
   const actual: object = await original(); // get actual module
   return {
     ...actual,

@@ -6,7 +6,7 @@
  *
  */
 
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { GenericResourceRedirect } from "../../components/GenericResourceRedirect";
 import { useSeries } from "../../modules/audio/audioQueries";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";

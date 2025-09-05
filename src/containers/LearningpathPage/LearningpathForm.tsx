@@ -9,7 +9,7 @@
 import { Formik } from "formik";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { LearningpathFormHeader } from "./components/LearningpathFormHeader";
 import {

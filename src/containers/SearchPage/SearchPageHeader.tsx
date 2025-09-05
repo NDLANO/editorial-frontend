@@ -8,7 +8,7 @@
 
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router";
 import { ListCheck, SearchContent, SearchMedia, VoiceprintLine } from "@ndla/icons";
 import { PageContent } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";

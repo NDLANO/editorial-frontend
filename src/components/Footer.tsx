@@ -8,11 +8,11 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useHref, useLocation } from "react-router-dom";
+import { useHref, useLocation } from "react-router";
 import { createListCollection } from "@ark-ui/react";
 import { PageContent, SelectContent, SelectLabel, SelectRoot, SelectValueText, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { supportedLanguages } from "../i18n";
+import { SUPPORTED_LANGUAGES } from "../constants";
 import { GenericSelectItem, GenericSelectTrigger } from "./abstractions/Select";
 
 export const FooterBlock = styled("footer", {
@@ -60,7 +60,7 @@ const FooterContent = styled("div", {
   },
 });
 
-const LANGUAGE_REGEXP = new RegExp(`^\\/(${supportedLanguages.join("|")})($|\\/)`, "");
+const LANGUAGE_REGEXP = new RegExp(`^\\/(${SUPPORTED_LANGUAGES.join("|")})($|\\/)`, "");
 
 const constructNewPath = (pathname: string, newLocale?: string) => {
   const path = pathname.replace(LANGUAGE_REGEXP, "");
@@ -77,7 +77,7 @@ export const Footer = () => {
   const supportedLanguagesCollection = useMemo(
     () =>
       createListCollection({
-        items: supportedLanguages,
+        items: SUPPORTED_LANGUAGES,
         itemToString: (item) => t(`languages.${item}`),
       }),
     [t],
@@ -101,7 +101,7 @@ export const Footer = () => {
                   <SelectValueText>{t("languages.prefixChangeLanguage")}</SelectValueText>
                 </StyledGenericSelectTrigger>
                 <SelectContent>
-                  {supportedLanguages.map((lang) => (
+                  {SUPPORTED_LANGUAGES.map((lang) => (
                     <GenericSelectItem key={lang} item={lang}>
                       {t(`languages.${lang}`)}
                     </GenericSelectItem>

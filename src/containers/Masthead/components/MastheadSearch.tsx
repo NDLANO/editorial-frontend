@@ -9,7 +9,7 @@
 import queryString from "query-string";
 import { useEffect, useId, useMemo, useState, FormEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 import { createListCollection } from "@ark-ui/react";
 import { SearchLine } from "@ndla/icons";
 import {

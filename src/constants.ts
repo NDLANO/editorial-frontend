@@ -7,7 +7,9 @@
  */
 
 import config from "./config";
-import { WhitelistProvider } from "./interfaces";
+import { LocaleType, WhitelistProvider } from "./interfaces";
+
+export const SUPPORTED_LANGUAGES: LocaleType[] = ["nb", "nn", "en"];
 
 export const SAVE_DEBOUNCE_MS = 200;
 

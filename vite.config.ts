@@ -19,7 +19,7 @@ export default defineConfig(() => {
     },
     plugins: [react()],
     resolve: {
-      dedupe: ["react-router", "react-router-dom", "react-helmet-async", "i18next", "react-i18next"],
+      dedupe: ["react-router", "react-helmet-async", "i18next", "react-i18next"],
     },
     build: {
       assetsDir: "static",

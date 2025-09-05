@@ -6,20 +6,12 @@
  *
  */
 
+import { i18n } from "i18next";
 import { ReactNode } from "react";
-import { I18nextProvider, useTranslation } from "react-i18next";
-import { i18nInstance } from "@ndla/ui";
+import { I18nextProvider } from "react-i18next";
 import { initializeI18n } from "../../i18n";
 
-const InitI18nWrapper = ({ children }: { children: ReactNode }) => {
-  const { i18n } = useTranslation();
-  initializeI18n(i18n, "nb");
-  return children;
-};
-
 const IntlWrapper = ({ children }: { children: ReactNode }) => (
-  <I18nextProvider i18n={i18nInstance}>
-    <InitI18nWrapper>{children}</InitI18nWrapper>
-  </I18nextProvider>
+  <I18nextProvider i18n={initializeI18n("nb") as i18n}>{children}</I18nextProvider>
 );
 export default IntlWrapper;

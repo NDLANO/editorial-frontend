@@ -8,7 +8,7 @@
 
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { PageContent, Spinner } from "@ndla/primitives";
 import { ISeriesDTO, INewSeriesDTO } from "@ndla/types-backend/audio-api";
 

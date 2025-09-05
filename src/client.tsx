@@ -21,13 +21,13 @@ import "@fontsource/source-serif-pro/400-italic.css";
 import "@fontsource/source-serif-pro/700.css";
 import "./style/index.css";
 
+import type { i18n } from "i18next";
 import { createRoot } from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ErrorReporter } from "@ndla/error-reporter";
-import { i18nInstance } from "@ndla/ui";
 import { AuthInitializer } from "./components/AuthInitializer";
 import config, { ConfigType } from "./config";
 import { MessagesProvider } from "./containers/Messages/MessagesProvider";
@@ -55,7 +55,7 @@ window.errorReporter = ErrorReporter.getInstance({
   componentName,
 });
 
-const i18n = initializeI18n(i18nInstance, basename ?? config.defaultLanguage);
+const i18n = initializeI18n(basename ?? config.defaultLanguage);
 
 const MAX_RETRIES = 2;
 const HTTP_STATUS_TO_NOT_RETRY = [400, 401, 403, 404];
@@ -84,7 +84,7 @@ const container = document.getElementById("root")!;
 const root = createRoot(container);
 root.render(
   <QueryClientProvider client={queryClient}>
-    <I18nextProvider i18n={i18n}>
+    <I18nextProvider i18n={i18n as i18n}>
       <MessagesProvider>
         <SessionProvider initialValue={getSessionStateFromLocalStorage()}>
           <AuthInitializer>

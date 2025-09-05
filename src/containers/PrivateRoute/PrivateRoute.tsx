@@ -7,7 +7,7 @@
  */
 
 import type { JSX } from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router";
 import { loginPersonalAccessToken } from "../../util/authHelpers";
 import { toLogin } from "../../util/routeHelpers";
 import { useSession } from "../Session/SessionProvider";

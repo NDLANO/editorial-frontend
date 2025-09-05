@@ -6,7 +6,7 @@
  *
  */
 
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { createMemoryRouter, RouterProvider } from "react-router";
 import { findByTestId, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { uuid } from "@ndla/util";

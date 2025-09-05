@@ -6,9 +6,9 @@
  *
  */
 
-import { TFunction } from "i18next";
+import { i18n, TFunction } from "i18next";
 import { ElementType, ReactNode, type Ref, useMemo } from "react";
-import { CustomI18n, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { ToggleGroupItemProps } from "@ark-ui/react";
 import {
   MessageLine,
@@ -103,7 +103,7 @@ export const iconMapping: Record<string, ElementType> = {
 };
 
 export const getTitle = (
-  i18n: CustomI18n,
+  i18n: i18n,
   t: TFunction,
   type?: string,
   noTitle?: boolean,

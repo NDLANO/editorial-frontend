@@ -6,7 +6,7 @@
  *
  */
 
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { CodeView } from "@ndla/icons";
 import { SafeLinkIconButton } from "@ndla/safelink";
 

@@ -8,7 +8,7 @@
 
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router";
 import { PageContent } from "@ndla/primitives";
 import FrontpageArticleForm from "./components/FrontpageArticleForm";
 import {

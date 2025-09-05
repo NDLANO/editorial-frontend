@@ -8,7 +8,7 @@
 
 import queryString from "query-string";
 import { useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import config from "../config";
 import { NDLA_FILM_SUBJECT } from "../constants";
 

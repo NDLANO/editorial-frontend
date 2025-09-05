@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { PageContent } from "@ndla/primitives";
 import { IUpdatedArticleDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
 import TopicArticleForm from "./components/TopicArticleForm";

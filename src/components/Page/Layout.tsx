@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 import { Masthead } from "../../containers/Masthead/Masthead";
 import Messages from "../../containers/Messages/Messages";
 import { Footer } from "../Footer";

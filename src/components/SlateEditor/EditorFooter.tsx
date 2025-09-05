@@ -9,7 +9,7 @@
 import { useFormikContext } from "formik";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useHref, useLocation } from "react-router";
+import { createPath, useLocation } from "react-router";
 import { ShareBoxLine } from "@ndla/icons";
 import { Button, FieldRoot } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
@@ -94,18 +94,20 @@ const REQUIRED_LANGUAGES = ["nb", "nn"];
 
 const LanguageButton = ({ supportedLanguages, language }: LanguageButtonProps) => {
   const { t } = useTranslation();
+  const targetLanguage = language === "nb" ? "nn" : "nb";
   const location = useLocation();
-  const href = useHref(location);
+  const href = createPath({
+    ...location,
+    pathname: location.pathname.split("/").slice(0, -1).concat(targetLanguage).join("/"),
+  });
 
   if (
     language &&
     REQUIRED_LANGUAGES.every((lang) => supportedLanguages?.includes(lang)) &&
     REQUIRED_LANGUAGES.includes(language)
   ) {
-    const targetLanguage = language === "nb" ? "nn" : "nb";
-
     return (
-      <StyledSafeLinkButton variant="link" to={href.split("/").slice(0, -1).concat(targetLanguage).join("/")}>
+      <StyledSafeLinkButton variant="link" to={href}>
         {t(`languages.${targetLanguage}`)}
       </StyledSafeLinkButton>
     );

@@ -9,7 +9,7 @@
 import { isEqual } from "lodash-es";
 import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { ArrowRightShortLine } from "@ndla/icons";
 import { MessageBox, Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";

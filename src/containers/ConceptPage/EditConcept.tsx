@@ -8,7 +8,7 @@
 
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { PageContent } from "@ndla/primitives";
 import ConceptForm from "./ConceptForm/ConceptForm";
 import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";

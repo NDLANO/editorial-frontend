@@ -7,7 +7,7 @@
  */
 
 import { ReactNode } from "react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router";
 import { act, renderHook } from "@testing-library/react";
 import IntlWrapper from "../../../util/__tests__/IntlWrapper";
 import { MessagesProvider, useMessages } from "../MessagesProvider";

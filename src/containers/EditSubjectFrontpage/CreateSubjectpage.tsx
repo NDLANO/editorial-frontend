@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { PageContainer } from "@ndla/primitives";
 import { INewSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
 import SubjectpageForm from "./components/SubjectpageForm";

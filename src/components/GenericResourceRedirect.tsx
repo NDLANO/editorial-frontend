@@ -6,7 +6,7 @@
  *
  */
 
-import { Navigate, Outlet, useLocation, useParams } from "react-router-dom";
+import { Navigate, Outlet, useLocation, useParams } from "react-router";
 import { UseQueryResult } from "@tanstack/react-query";
 import { Spinner } from "@ndla/primitives";
 import NotFound from "../containers/NotFoundPage/NotFoundPage";

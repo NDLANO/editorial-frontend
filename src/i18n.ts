@@ -6,24 +6,24 @@
  *
  */
 
-import { i18n } from "i18next";
 import { LocaleType } from "./interfaces";
 import en from "./phrases/phrases-en";
 import nb from "./phrases/phrases-nb";
 import nn from "./phrases/phrases-nn";
+import { i18nInstanceWithTranslations } from "./i18nInstanceWithTranslations";
+import { SUPPORTED_LANGUAGES } from "./constants";
 
-export const supportedLanguages: LocaleType[] = ["nb", "nn", "en"];
 export const subjectLanguages: LocaleType[] = ["nb", "nn", "en", "se", "sma"];
 export const collectionLanguages: LocaleType[] = ["nb", "nn", "en", "se", "sma", "ukr"];
 
 export const isValidLocale = (localeAbbreviation: string): boolean => {
-  return supportedLanguages.includes(localeAbbreviation as LocaleType);
+  return SUPPORTED_LANGUAGES.includes(localeAbbreviation as LocaleType);
 };
 
-export const initializeI18n = (i18n: i18n, language: string) => {
-  const instance = i18n.cloneInstance({
+export const initializeI18n = (language: string) => {
+  const instance = i18nInstanceWithTranslations.cloneInstance({
     lng: language,
-    supportedLngs: supportedLanguages,
+    supportedLngs: SUPPORTED_LANGUAGES,
   });
   instance.addResourceBundle("en", "translation", en, true, true);
   instance.addResourceBundle("nb", "translation", nb, true, true);

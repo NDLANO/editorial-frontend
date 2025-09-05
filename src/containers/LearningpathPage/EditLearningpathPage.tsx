@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Navigate, useLocation, useParams } from "react-router-dom";
+import { Navigate, useLocation, useParams } from "react-router";
 import { PageContainer, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LearningpathErrorMessage } from "./components/LearningpathErrorMessage";

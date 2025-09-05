@@ -9,7 +9,7 @@
 import { useFormikContext } from "formik";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useHref, useLocation } from "react-router-dom";
+import { useHref, useLocation } from "react-router";
 import { ShareBoxLine } from "@ndla/icons";
 import { Button, FieldRoot } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";

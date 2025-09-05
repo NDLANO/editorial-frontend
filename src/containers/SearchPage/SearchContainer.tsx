@@ -9,7 +9,7 @@
 import queryString from "query-string";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 import { UseQueryResult } from "@tanstack/react-query";
 import { PageContainer } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";

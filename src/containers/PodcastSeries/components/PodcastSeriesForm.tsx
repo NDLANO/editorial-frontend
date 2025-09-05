@@ -9,7 +9,7 @@
 import { Formik, FormikProps, FormikHelpers, FormikErrors } from "formik";
 import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 import { Button, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { INewSeriesDTO, ISeriesDTO } from "@ndla/types-backend/audio-api";

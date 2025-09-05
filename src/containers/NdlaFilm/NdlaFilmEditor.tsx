@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { PageContainer } from "@ndla/primitives";
 import NdlaFilmForm from "./components/NdlaFilmForm";
 import { PageSpinner } from "../../components/PageSpinner";

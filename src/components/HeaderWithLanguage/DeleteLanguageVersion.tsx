@@ -8,7 +8,7 @@
 
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { DeleteBinLine } from "@ndla/icons";
 import { Button } from "@ndla/primitives";

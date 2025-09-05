@@ -9,7 +9,7 @@
 import { Form, Formik } from "formik";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { isSectionElement } from "@ndla/editor";
 import {
   Button,

@@ -6,7 +6,7 @@
  *
  */
 
-import { RouteObject } from "react-router-dom";
+import { RouteObject } from "react-router";
 import { Layout } from "./components/Page/Layout";
 import { ErrorElement } from "./components/RouteErrorElement";
 import config from "./config";

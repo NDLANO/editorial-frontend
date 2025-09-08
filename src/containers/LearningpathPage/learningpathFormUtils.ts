@@ -43,11 +43,12 @@ export interface LearningpathFormValues {
 
 export const learningpathApiTypeToFormType = (
   learningpath: ILearningPathV2DTO | undefined,
+  language: string,
   ndlaId: string | undefined,
 ): LearningpathFormValues => {
   return {
     id: learningpath?.id,
-    language: learningpath?.title.language,
+    language: language,
     introduction: blockContentToEditorValue(learningpath?.introduction.introduction ?? ""),
     supportedLanguages: learningpath?.supportedLanguages ?? [],
     title: learningpath?.title.title ?? "",

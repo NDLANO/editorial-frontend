@@ -22,6 +22,8 @@ import {
   deleteSubectPageLanguageVersion,
 } from "../../modules/frontpage/frontpageApi";
 import { deleteLanguageVersionImage } from "../../modules/image/imageApi";
+import { deleteLearningpathLanguage } from "../../modules/learningpath/learningpathApi";
+import { learningpathQueryKeys } from "../../modules/learningpath/learningpathQueries";
 import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import {
   toCreateAudioFile,
@@ -43,6 +45,7 @@ import {
   toCreateSubjectpage,
   toEditNdlaFilm,
   toStructure,
+  toEditLearningpath,
 } from "../../util/routeHelpers";
 import { AlertDialog } from "../AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../FormikForm";
@@ -130,6 +133,11 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
             await deleteFilmFrontPageLanguageVersion(language);
             await queryClient.invalidateQueries({ queryKey: filmQueryKeys.filmFrontpage });
             navigate(toEditNdlaFilm(otherSupportedLanguage));
+            break;
+          case "learningpath":
+            await deleteLearningpathLanguage(id, language);
+            await queryClient.invalidateQueries({ queryKey: learningpathQueryKeys.learningpath({ id, language }) });
+            navigate(toEditLearningpath(id, otherSupportedLanguage!));
             break;
           default:
             createMessage({ message: t("embed.unsupported", { type }) });

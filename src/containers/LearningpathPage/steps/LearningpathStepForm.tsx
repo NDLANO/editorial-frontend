@@ -142,7 +142,7 @@ const formValuesToStep = (
 
   return {
     type: "TEXT",
-    title: values.title,
+    title: values.title.length ? values.title : null,
     license: values.license,
     introduction: null,
     description: description?.length ? description : null,

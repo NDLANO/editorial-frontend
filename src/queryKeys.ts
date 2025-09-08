@@ -90,3 +90,4 @@ export const TRANFSFORM_ARTICLE = "transformArticle";
 
 export const LEARNINGPATH = "learningpath";
 export const LEARNINGPATH_TAGS = "learningpathTags";
+export const LEARNINGPATH_SEARCH = "learningpathSearch";

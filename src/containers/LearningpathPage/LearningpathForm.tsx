@@ -11,6 +11,7 @@ import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { uniq } from "@ndla/util";
 import { LearningpathFormHeader } from "./components/LearningpathFormHeader";
 import {
   learningpathApiTypeToFormType,
@@ -22,6 +23,8 @@ import FormAccordion from "../../components/Accordion/FormAccordion";
 import FormAccordions from "../../components/Accordion/FormAccordions";
 import { Form } from "../../components/FormikForm";
 import validateFormik, { getWarnings, RulesType } from "../../components/formikValidationSchema";
+import { LAST_UPDATED_SIZE } from "../../constants";
+import { fetchUserData, updateUserData } from "../../modules/draft/draftApi";
 import {
   usePatchLearningpathMutation,
   usePostLearningpathMutation,
@@ -98,6 +101,14 @@ const metaDataRules: RulesType<LearningpathFormValues, ILearningPathV2DTO> = {
   },
 };
 
+const _updateUserData = async (learningpathId: number) => {
+  const stringId = learningpathId.toString();
+  const userData = await fetchUserData();
+  const latest = uniq([stringId].concat(userData.latestEditedLearningpaths ?? []));
+  const latestEditedLearningpaths = latest.slice(0, LAST_UPDATED_SIZE);
+  await updateUserData({ latestEditedLearningpaths });
+};
+
 export const LearningpathForm = ({ learningpath, language }: Props) => {
   const [savedToServer, setSavedToServer] = useState(false);
   const { t } = useTranslation();
@@ -120,10 +131,12 @@ export const LearningpathForm = ({ learningpath, language }: Props) => {
       if (learningpath) {
         const apiValue = learningpathFormTypeToApiType(learningpath, values, language);
         await patchLearningpathMutation.mutateAsync({ id: learningpath.id, learningpath: apiValue });
+        await _updateUserData(learningpath.id);
         setSavedToServer(true);
       } else {
         const apiValue = learningpathFormTypeToNewApiType(values, language);
         const res = await postLearningpathMutation.mutateAsync(apiValue);
+        await _updateUserData(res.id);
         navigate(routes.learningpath.edit(res.id, language));
       }
     },

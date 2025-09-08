@@ -83,6 +83,11 @@ export const WelcomePage = () => {
     [data?.latestEditedConcepts],
   );
 
+  const lastUsedLearningpaths = useMemo(
+    () => data?.latestEditedLearningpaths?.map((a) => Number(a)) ?? [],
+    [data?.latestEditedLearningpaths],
+  );
+
   localStorage.setItem("lastPath", "");
 
   return (
@@ -93,7 +98,11 @@ export const WelcomePage = () => {
         <GridWrapper>
           <WorkList ndlaId={ndlaId} />
           <GridColumn>
-            <LastUsedItems lastUsedResources={lastUsedResources} lastUsedConcepts={lastUsedConcepts} />
+            <LastUsedItems
+              lastUsedResources={lastUsedResources}
+              lastUsedConcepts={lastUsedConcepts}
+              lastUsedLearningpaths={lastUsedLearningpaths}
+            />
             <ArticleStatuses
               ndlaId={ndlaId}
               favoriteSubjects={data?.favoriteSubjects}

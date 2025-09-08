@@ -25,12 +25,15 @@ import {
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { LearningpathMetaImageField } from "./LearningpathMetaImageField";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
+import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
+import { FieldWarning } from "../../../components/Form/FieldWarning";
 import { SearchTagsContent } from "../../../components/Form/SearchTagsContent";
 import { SearchTagsTagSelectorInput } from "../../../components/Form/SearchTagsTagSelectorInput";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import { useLearningpathTags } from "../../../modules/learningpath/learningpathQueries";
 import useDebounce from "../../../util/useDebounce";
+import { LearningpathTextEditor } from "../components/LearningpathTextEditor";
 import { LearningpathFormValues } from "../learningpathFormUtils";
 
 interface Props {
@@ -64,6 +67,7 @@ export const LearningpathMetaFormPart = ({ language }: Props) => {
             <FieldRoot required invalid={!!meta.error}>
               <FieldLabel>{t("learningpathForm.metadata.titleLabel")}</FieldLabel>
               <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              <FieldWarning name={field.name} />
               <FieldInput {...field} />
             </FieldRoot>
           )}
@@ -73,7 +77,18 @@ export const LearningpathMetaFormPart = ({ language }: Props) => {
             <FieldRoot required invalid={!!meta.error}>
               <FieldLabel>{t("learningpathForm.metadata.descriptionLabel")}</FieldLabel>
               <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              <FieldWarning name={field.name} />
               <FieldTextArea {...field} />
+            </FieldRoot>
+          )}
+        </FormField>
+        <FormField name="introduction">
+          {({ field, meta, helpers }) => (
+            <FieldRoot required invalid={!!meta.error}>
+              <ContentEditableFieldLabel>{t("learningpathForm.metadata.introductionLabel")}</ContentEditableFieldLabel>
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              <FieldWarning name={field.name} />
+              <LearningpathTextEditor value={field.value} onChange={helpers.setValue} language={language} />
             </FieldRoot>
           )}
         </FormField>
@@ -90,6 +105,7 @@ export const LearningpathMetaFormPart = ({ language }: Props) => {
               >
                 <TagSelectorLabel>{t("form.tags.label")}</TagSelectorLabel>
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                <FieldWarning name={field.name} />
                 <SearchTagsTagSelectorInput asChild>
                   <Input placeholder={t("form.tags.searchPlaceholder")} />
                 </SearchTagsTagSelectorInput>

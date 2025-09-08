@@ -2354,6 +2354,7 @@ const phrases = {
     metadata: {
       title: "Metadata/Innhold",
       titleLabel: "Tittel",
+      introductionLabel: "Introduksjon",
       descriptionLabel: "Beskrivelse",
       metaImageTitle: "Metabilde",
       descriptionPlaceholder: "Beskrivelse av læringsstien",

@@ -112,7 +112,7 @@ const RENDERERS: SlatePlugin[] = [
 
 const EDITOR_PLUGINS: SlatePlugin[] = PLUGINS.concat(RENDERERS);
 
-export const DescriptionEditor = ({ language, value, onChange }: Props) => {
+export const LearningpathTextEditor = ({ language, value, onChange }: Props) => {
   const { t } = useTranslation();
   const { isSubmitting } = useFormikContext();
   return (

@@ -21,12 +21,13 @@ import {
 import FormAccordion from "../../components/Accordion/FormAccordion";
 import FormAccordions from "../../components/Accordion/FormAccordions";
 import { Form } from "../../components/FormikForm";
-import validateFormik, { RulesType } from "../../components/formikValidationSchema";
+import validateFormik, { getWarnings, RulesType } from "../../components/formikValidationSchema";
 import {
   usePatchLearningpathMutation,
   usePostLearningpathMutation,
 } from "../../modules/learningpath/learningpathMutations";
 import { isGrepCodeValid } from "../../util/articleUtil";
+import { isFormikFormDirty } from "../../util/formHelper";
 import { routes } from "../../util/routeHelpers";
 import RevisionNotes from "../ArticlePage/components/RevisionNotes";
 import { AlertDialogWrapper } from "../FormikForm/AlertDialogWrapper";
@@ -51,7 +52,17 @@ const metaDataRules: RulesType<LearningpathFormValues, ILearningPathV2DTO> = {
       languageMatch: true,
     },
   },
+  description: {
+    warnings: {
+      languageMatch: true,
+    },
+  },
   introduction: {
+    warnings: {
+      languageMatch: true,
+    },
+  },
+  tags: {
     warnings: {
       languageMatch: true,
     },
@@ -91,8 +102,13 @@ export const LearningpathForm = ({ learningpath, language }: Props) => {
   const [savedToServer, setSavedToServer] = useState(false);
   const { t } = useTranslation();
   const { ndlaId } = useSession();
-  const initialValues = learningpathApiTypeToFormType(learningpath, ndlaId);
+  const initialValues = learningpathApiTypeToFormType(learningpath, language, ndlaId);
   const initialErrors = useMemo(() => validateFormik(initialValues, metaDataRules, t), [initialValues, t]);
+  const initialWarnings = useMemo(() => {
+    return {
+      warnings: getWarnings(initialValues, metaDataRules, t, [], learningpath),
+    };
+  }, [initialValues, t, learningpath]);
   const navigate = useNavigate();
   const postLearningpathMutation = usePostLearningpathMutation();
   const patchLearningpathMutation = usePatchLearningpathMutation();
@@ -120,12 +136,17 @@ export const LearningpathForm = ({ learningpath, language }: Props) => {
       initialErrors={initialErrors}
       validate={validate}
       onSubmit={handleSubmit}
+      initialStatus={initialWarnings}
       enableReinitialize
       validateOnMount
     >
       {({ errors, ...formikProps }) => {
         const formIsDirty =
-          formikProps.dirty || !!(learningpath && !learningpath.supportedLanguages.includes(language));
+          isFormikFormDirty({
+            values: formikProps.values,
+            initialValues: formikProps.initialValues,
+            dirty: formikProps.dirty,
+          }) || !!(learningpath && !learningpath.supportedLanguages.includes(language));
         return (
           <Form>
             <LearningpathFormHeader learningpath={learningpath} language={language} />

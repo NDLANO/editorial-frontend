@@ -98,9 +98,17 @@ interface Props {
   resource: ResourceWithNodeConnectionAndMeta;
   nodeResourcesIsPending: boolean;
   onDelete: (connectionId: string) => void;
+  rootGrepCodesString: string | undefined;
 }
 
-const Resource = ({ currentNodeId, resource, nodeResourcesIsPending, responsible, onDelete }: Props) => {
+const Resource = ({
+  currentNodeId,
+  resource,
+  nodeResourcesIsPending,
+  responsible,
+  onDelete,
+  rootGrepCodesString,
+}: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -225,6 +233,7 @@ const Resource = ({ currentNodeId, resource, nodeResourcesIsPending, responsible
               contentUri={resource.contentUri}
               revision={resource.contentMeta?.revision}
               currentNodeId={currentNodeId}
+              rootGrepCodesString={rootGrepCodesString}
             />
             <VersionHistory resource={resource} contentType={contentType} />
             <IconButton

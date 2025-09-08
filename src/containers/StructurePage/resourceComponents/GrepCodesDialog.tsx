@@ -37,9 +37,10 @@ interface Props {
   contentUri?: string;
   revision?: number;
   currentNodeId: string;
+  rootGrepCodesString: string | undefined;
 }
 
-const GrepCodesDialog = ({ codes, contentType, contentUri, revision, currentNodeId }: Props) => {
+const GrepCodesDialog = ({ codes, contentType, contentUri, revision, currentNodeId, rootGrepCodesString }: Props) => {
   const [open, setOpen] = useState(false);
   const draftId = Number(getIdFromUrn(contentUri));
   if (contentType === contentTypes.LEARNING_PATH || !draftId || !revision) return null;
@@ -56,6 +57,7 @@ const GrepCodesDialog = ({ codes, contentType, contentUri, revision, currentNode
           draftId={draftId}
           currentNodeId={currentNodeId}
           contentUri={contentUri!}
+          rootGrepCodesString={rootGrepCodesString}
           close={() => setOpen(false)}
         />
       </Portal>
@@ -70,9 +72,18 @@ interface DialogContentProps {
   currentNodeId: string;
   contentUri: string;
   close: () => void;
+  rootGrepCodesString: string | undefined;
 }
 
-const GrepCodeDialogContent = ({ codes, draftId, revision, currentNodeId, contentUri, close }: DialogContentProps) => {
+const GrepCodeDialogContent = ({
+  codes,
+  draftId,
+  revision,
+  currentNodeId,
+  contentUri,
+  close,
+  rootGrepCodesString,
+}: DialogContentProps) => {
   const updateDraft = useUpdateDraftMutation();
   const { t, i18n } = useTranslation();
   const qc = useQueryClient();
@@ -112,6 +123,7 @@ const GrepCodeDialogContent = ({ codes, draftId, revision, currentNodeId, conten
         <DialogCloseButton />
       </DialogHeader>
       <DialogBody>
+        {rootGrepCodesString}
         <GrepCodesForm codes={codes} onUpdate={onUpdateGrepCodes} close={close} prefixFilter={["KE", "KM", "TT"]} />
       </DialogBody>
     </DialogContent>

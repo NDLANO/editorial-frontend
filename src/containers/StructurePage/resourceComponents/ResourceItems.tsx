@@ -37,11 +37,19 @@ interface Props {
   contentMeta: Dictionary<NodeResourceMeta>;
   nodeResourcesIsPending: boolean;
   users?: Dictionary<Auth0UserData>;
+  rootGrepCodesString: string | undefined;
 }
 
 const isError = (error: unknown): error is Error => (error as Error).message !== undefined;
 
-const ResourceItems = ({ resources, currentNodeId, contentMeta, nodeResourcesIsPending, users }: Props) => {
+const ResourceItems = ({
+  resources,
+  currentNodeId,
+  contentMeta,
+  nodeResourcesIsPending,
+  users,
+  rootGrepCodesString,
+}: Props) => {
   const { t, i18n } = useTranslation();
   const [deleteId, setDeleteId] = useState<string>("");
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -127,6 +135,7 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, nodeResourcesIsP
           <Resource
             currentNodeId={currentNodeId}
             responsible={users?.[contentMeta[resource.contentUri ?? ""]?.responsible?.responsibleId ?? ""]?.name}
+            rootGrepCodesString={rootGrepCodesString}
             resource={{
               ...resource,
               contentMeta: resource.contentUri ? contentMeta[resource.contentUri] : undefined,

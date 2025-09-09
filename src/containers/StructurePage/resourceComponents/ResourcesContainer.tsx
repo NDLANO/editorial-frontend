@@ -16,7 +16,8 @@ import ResourceItems from "./ResourceItems";
 import TopicResourceBanner from "./TopicResourceBanner";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
 import { NodeResourceMeta, ResourceWithNodeConnectionAndMeta } from "../../../modules/nodes/nodeApiTypes";
-import { useNodes } from "../../../modules/nodes/nodeQueries";
+import { useNode, useNodes } from "../../../modules/nodes/nodeQueries";
+import { useSearchGrepCodes } from "../../../modules/search/searchQueries";
 import { groupResourcesByType } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
@@ -62,6 +63,17 @@ const ResourcesContainer = ({
   const { taxonomyVersion } = useTaxonomyVersion();
   const currentNodeId = currentNode.id;
 
+  const rootNodeQuery = useNode(
+    { id: currentNode?.context?.rootId ?? "", language: "nb", taxonomyVersion },
+    { enabled: !!currentNode?.context },
+  );
+
+  const rootGrepCodes = rootNodeQuery.data?.metadata.grepCodes.filter((code) => code.startsWith("KV"));
+
+  const rootGrepCodesQuery = useSearchGrepCodes({ codes: rootGrepCodes ?? [] }, { enabled: !!rootGrepCodes?.length });
+
+  const rootGrepCodesString = rootGrepCodesQuery.data?.results?.map((c) => `${c.code} - ${c.title.title}`).join(", ");
+
   const { data } = useNodes(
     { contentURI: currentNode.contentUri, taxonomyVersion, includeContexts: true, filterProgrammes: true },
     { enabled: !!currentNode.contentUri },
@@ -87,6 +99,7 @@ const ResourcesContainer = ({
         resources={nodeResourcesWithMeta}
         contentMeta={contentMeta}
         resourceTypes={resourceTypesWithoutMissing}
+        rootGrepCodesString={rootGrepCodesString}
         currentNode={{
           ...currentNode,
           paths,
@@ -110,6 +123,7 @@ const ResourcesContainer = ({
               contentMeta={contentMeta}
               nodeResourcesIsPending={nodeResourcesIsPending}
               users={users}
+              rootGrepCodesString={rootGrepCodesString}
             />
           ))
         ) : (
@@ -119,6 +133,7 @@ const ResourcesContainer = ({
             contentMeta={contentMeta}
             nodeResourcesIsPending={nodeResourcesIsPending}
             users={users}
+            rootGrepCodesString={rootGrepCodesString}
           />
         )}
       </ResourceWrapper>

@@ -140,6 +140,7 @@ interface Props {
   resourceTypes: ResourceType[];
   articleIds?: number[];
   nodeResourcesIsPending: boolean;
+  rootGrepCodesString: string | undefined;
   responsible: string | undefined;
   topicNodes: Node[] | undefined;
 }
@@ -152,6 +153,7 @@ const TopicResourceBanner = ({
   nodeResourcesIsPending,
   responsible,
   topicNodes,
+  rootGrepCodesString,
 }: Props) => {
   const [resourceStats, setResourceStats] = useState<Record<string, ResourceStats> | undefined>(undefined);
   const { t, i18n } = useTranslation();
@@ -305,6 +307,7 @@ const TopicResourceBanner = ({
               contentUri={currentNode.contentUri}
               revision={currentNode.contentMeta?.revision}
               currentNodeId={currentNode.id}
+              rootGrepCodesString={rootGrepCodesString}
             />
             <VersionHistory resource={currentNode} contentType="topic-article" />
           </ControlButtonGroup>

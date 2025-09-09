@@ -149,7 +149,7 @@ export const learningResourceFormTypeToDraftApiType = (
     ? { id: article.metaImageId, alt: article.metaImageAlt ?? "" }
     : nullOrUndefined(article.metaImageId);
   return {
-    revision: 0,
+    revision: article.revision ?? 0,
     articleType: "standard",
     content: blockContentToHTML(article.content),
     copyright: {

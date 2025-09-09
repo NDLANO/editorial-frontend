@@ -6,6 +6,7 @@
  *
  */
 
+import { useFormikContext } from "formik";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
@@ -16,7 +17,9 @@ import { sortBy } from "@ndla/util";
 import ActiveTopicConnection from "./ActiveTopicConnection";
 import { AddConnectionDialog } from "./AddConnectionDialog";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
+import { fetchDraft } from "../../modules/draft/draftApi";
 import { useUserData } from "../../modules/draft/draftQueries";
+import { fetchLearningpath } from "../../modules/learningpath/learningpathApi";
 import { fetchChildNodes } from "../../modules/nodes/nodeApi";
 import { NodeWithChildren } from "../../modules/nodes/nodeApiTypes";
 import {
@@ -76,6 +79,7 @@ export const TaxonomyConnections = ({
     language,
     includeContexts: true,
   });
+  const { setFieldValue } = useFormikContext();
   const deleteNodeConnectionMutation = useDeleteNodeConnectionMutation({
     onSettled: () => qc.invalidateQueries({ queryKey }),
   });
@@ -139,8 +143,17 @@ export const TaxonomyConnections = ({
           relevanceId: type === "topic" ? undefined : parent.relevanceId,
         },
       });
+
+      if (resourceType === "article") {
+        const newDraft = await fetchDraft(resourceId, language);
+        await setFieldValue("revision", newDraft.revision);
+      } else {
+        const newLp = await fetchLearningpath(resourceId, language);
+        setFieldValue("revision", newLp.revision);
+      }
     },
     [
+      language,
       node?.id,
       placements.length,
       postNodeConnectionMutation,
@@ -148,6 +161,7 @@ export const TaxonomyConnections = ({
       resourceId,
       resourceTitle,
       resourceType,
+      setFieldValue,
       taxonomyVersion,
       type,
     ],

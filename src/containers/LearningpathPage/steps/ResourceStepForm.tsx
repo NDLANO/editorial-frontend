@@ -30,6 +30,7 @@ import { LearningpathTextEditor } from "../components/LearningpathTextEditor";
 import { getFormTypeFromStep, getNodeIdFromEmbedUrl } from "../learningpathUtils";
 
 interface Props {
+  onlyPublishedResources: boolean;
   step: ILearningStepV2DTO | undefined;
   language: string;
 }
@@ -101,7 +102,7 @@ const StyledSafeLink = styled(SafeLink, {
 
 export const resourceStepRules: RulesType<ResourceFormValues> = {};
 
-export const ResourceStepForm = ({ language, step }: Props) => {
+export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Props) => {
   const { t } = useTranslation();
   const [selectedResource, setSelectedResource] = useState<ResourceData | undefined>(undefined);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
@@ -183,7 +184,7 @@ export const ResourceStepForm = ({ language, step }: Props) => {
       )}
       {!selectedResource ? (
         <FieldRoot>
-          <ResourcePicker setResource={onSelectResource}>
+          <ResourcePicker onlyPublishedResources={onlyPublishedResources} setResource={onSelectResource}>
             <ComboboxLabel fontWeight="bold">{t("learningpathForm.steps.resourceForm.label")}</ComboboxLabel>
             <FieldHelper>{t("learningpathForm.steps.resourceForm.labelHelper")}</FieldHelper>
           </ResourcePicker>

@@ -21,7 +21,7 @@ import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
 } from "../../../constants";
-import { useSearch } from "../../../modules/search/searchQueries";
+import { useSearch, useSearchResources } from "../../../modules/search/searchQueries";
 
 const { contentTypes } = constants;
 
@@ -41,16 +41,19 @@ const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250
 
 interface Props {
   setResource: (data: ResourceData) => void;
+  onlyPublishedResources: boolean;
   children?: ReactNode;
 }
 
 const DEFAULT_SEARCH_OBJECT = { page: 1, pageSize: 10, query: "" };
 
-export const ResourcePicker = ({ setResource, children }: Props) => {
+export const ResourcePicker = ({ setResource, children, onlyPublishedResources }: Props) => {
   const [searchObject, setSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
   const [delayedSearchObject, setDelayedSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
 
-  const searchQuery = useSearch({
+  const searchFunc = onlyPublishedResources ? useSearchResources : useSearch;
+
+  const searchQuery = searchFunc({
     query: delayedSearchObject.query,
     page: delayedSearchObject.page,
     pageSize: delayedSearchObject.pageSize,

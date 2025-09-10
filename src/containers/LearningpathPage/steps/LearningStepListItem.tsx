@@ -35,6 +35,7 @@ interface Props {
   language: string;
   learningpathId: number;
   onDeleteStep: (stepId: number) => void;
+  onlyPublishedResources: boolean;
 }
 
 const StyledListItemRoot = styled(ListItemRoot, {
@@ -61,7 +62,7 @@ const StyledErrorWarningFill = styled(ErrorWarningFill, {
 
 const ARTICLE_ID_REGEX = /\/article-iframe\/?.*?\/(\d+)/gm;
 
-export const LearningStepListItem = ({ item, onDeleteStep, language }: Props) => {
+export const LearningStepListItem = ({ item, onDeleteStep, language, onlyPublishedResources = false }: Props) => {
   const [open, setOpen] = useState(false);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
   const { t } = useTranslation();
@@ -139,6 +140,7 @@ export const LearningStepListItem = ({ item, onDeleteStep, language }: Props) =>
                   <DialogCloseButton />
                 </DialogHeader>
                 <LearningpathStepForm
+                  onlyPublishedResources={onlyPublishedResources}
                   step={item}
                   onClose={(focusId) => {
                     setOpen(false);

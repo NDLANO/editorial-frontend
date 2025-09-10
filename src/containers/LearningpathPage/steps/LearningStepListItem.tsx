@@ -62,7 +62,7 @@ const StyledErrorWarningFill = styled(ErrorWarningFill, {
 
 const ARTICLE_ID_REGEX = /\/article-iframe\/?.*?\/(\d+)/gm;
 
-export const LearningStepListItem = ({ item, onDeleteStep, language, onlyPublishedResources = false }: Props) => {
+export const LearningStepListItem = ({ item, onDeleteStep, language, onlyPublishedResources }: Props) => {
   const [open, setOpen] = useState(false);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
   const { t } = useTranslation();

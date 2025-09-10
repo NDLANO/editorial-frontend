@@ -130,7 +130,9 @@ const ContentField = ({ articleId, articleLanguage }: ContentFieldProps) => {
   const onInitialNormalized = useCallback(
     (value: Descendant[]) => {
       if (
-        isFormikFormDirty({ values: { ...values, content: value }, initialValues, dirty: true }) ||
+        (!!values &&
+          !!initialValues &&
+          isFormikFormDirty({ values: { ...values, content: value }, initialValues, dirty: true })) ||
         findNodesByType(value, UNSUPPORTED_ELEMENT_TYPE).length
       ) {
         setShowAlert(true);

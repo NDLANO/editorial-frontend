@@ -16,7 +16,7 @@ import { TaxonomyConnections } from "../../../../components/Taxonomy/TaxonomyCon
 import { TaxonomyResourceTypeSelect } from "../../../../components/Taxonomy/TaxonomyResourceTypeSelect";
 import { TaxonomyVisibility } from "../../../../components/Taxonomy/TaxonomyVisibility";
 import { MinimalNodeChild } from "../../../../components/Taxonomy/types";
-import { TAXONOMY_ADMIN_SCOPE } from "../../../../constants";
+import { RESOURCE_TYPE_LEARNING_PATH, TAXONOMY_ADMIN_SCOPE } from "../../../../constants";
 import { useNodes } from "../../../../modules/nodes/nodeQueries";
 import { useAllResourceTypes } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import { useVersions } from "../../../../modules/taxonomy/versions/versionQueries";
@@ -105,7 +105,7 @@ const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: P
             />
           )}
           <TaxonomyResourceTypeSelect
-            blacklistedResourceTypes={["learningpath"]}
+            blacklistedResourceTypes={[RESOURCE_TYPE_LEARNING_PATH]}
             resourceTypes={allResourceTypesQuery.data ?? []}
             articleId={article.id}
             articleLanguage={articleLanguage}

@@ -7,7 +7,9 @@
  */
 
 import { Descendant } from "slate";
+import { licenses } from "@ndla/licenses";
 import {
+  AuthorDTO,
   ILearningPathV2DTO,
   INewLearningPathV2DTO,
   IUpdatedLearningPathV2DTO,
@@ -23,6 +25,8 @@ export interface LearningpathFormValues {
   language: string | undefined;
   introduction: Descendant[];
   grepCodes: string[];
+  license: string;
+  contributors: AuthorDTO[];
   supportedLanguages: string[];
   // This field is only used for error checking in revisions
   responsibleId?: string;
@@ -59,6 +63,8 @@ export const learningpathApiTypeToFormType = (
     revisionMeta: learningpath?.revisions ?? [],
     responsibleId: learningpath ? learningpath.responsible?.responsibleId : ndlaId,
     priority: learningpath?.priority ?? "unspecified",
+    license: learningpath?.copyright.license.license ?? licenses.CC_BY_4,
+    contributors: learningpath?.copyright.contributors ?? [],
     status: learningpath?.status
       ? {
           current: learningpath.status,
@@ -81,6 +87,14 @@ export const learningpathFormTypeToNewApiType = (
     tags: values.tags,
     responsibleId: values.responsibleId,
     grepCodes: values.grepCodes,
+    copyright: values.license
+      ? {
+          license: {
+            license: values.license,
+          },
+          contributors: values.contributors,
+        }
+      : undefined,
   };
 };
 
@@ -102,5 +116,11 @@ export const learningpathFormTypeToApiType = (
     responsibleId: values.responsibleId,
     priority: values.priority,
     grepCodes: values.grepCodes,
+    copyright: {
+      license: {
+        license: values.license,
+      },
+      contributors: values.contributors,
+    },
   };
 };

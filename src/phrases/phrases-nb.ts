@@ -864,6 +864,7 @@ const phrases = {
       creators: "Opphavsperson",
       rightsholders: "Rettighetshaver",
       processors: "Bearbeider",
+      contributors: "Bidragsyter",
       tags: "Nøkkelord",
       license: "Lisens",
       origin: "Opphav",
@@ -2358,6 +2359,7 @@ const phrases = {
       descriptionLabel: "Beskrivelse",
       metaImageTitle: "Metabilde",
       descriptionPlaceholder: "Beskrivelse av læringsstien",
+      writersLabel: "Forfattere",
     },
     steps: {
       title: "Læringssteg",

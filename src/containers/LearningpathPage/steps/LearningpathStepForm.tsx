@@ -105,6 +105,7 @@ export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
 interface Props {
   onlyPublishedResources?: boolean;
   step?: ILearningStepV2DTO;
+  onClose?: (focusId?: number) => void;
 }
 
 const formValuesToStep = (
@@ -159,11 +160,7 @@ export const Component = () => {
   return <PrivateRoute component={<LearningpathStepForm />} />;
 };
 
-interface Props {
-  onClose?: (focusId?: number) => void;
-}
-
-export const LearningpathStepForm = ({ step, onClose, onlyPublishedResources = false }: Props) => {
+export const LearningpathStepForm = ({ step, onClose, onlyPublishedResources }: Props) => {
   const wrapperRef = useRef<HTMLFormElement>(null);
   const { id, language } = useParams<"id" | "language">();
   const { t } = useTranslation();

@@ -30,7 +30,7 @@ import { LearningpathTextEditor } from "../components/LearningpathTextEditor";
 import { getFormTypeFromStep, getNodeIdFromEmbedUrl } from "../learningpathUtils";
 
 interface Props {
-  onlyPublishedResources: boolean;
+  onlyPublishedResources?: boolean;
   step: ILearningStepV2DTO | undefined;
   language: string;
 }

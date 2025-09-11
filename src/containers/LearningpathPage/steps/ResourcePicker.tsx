@@ -42,7 +42,7 @@ const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250
 
 interface Props {
   setResource: (data: ResourceData) => void;
-  onlyPublishedResources: boolean;
+  onlyPublishedResources?: boolean;
   children?: ReactNode;
 }
 
@@ -50,14 +50,8 @@ const DEFAULT_SEARCH_OBJECT = { page: 1, pageSize: 10, query: "" };
 
 export const ResourcePicker = ({ setResource, children, onlyPublishedResources }: Props) => {
   const draftStatus = onlyPublishedResources ? [PUBLISHED] : undefined;
-  const [searchObject, setSearchObject] = useState({
-    ...DEFAULT_SEARCH_OBJECT,
-    draftStatus,
-  });
-  const [delayedSearchObject, setDelayedSearchObject] = useState({
-    ...DEFAULT_SEARCH_OBJECT,
-    draftStatus,
-  });
+  const [searchObject, setSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
+  const [delayedSearchObject, setDelayedSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
 
   const searchQuery = useSearch({
     query: delayedSearchObject.query,
@@ -89,9 +83,9 @@ export const ResourcePicker = ({ setResource, children, onlyPublishedResources }
     );
   }, [searchQuery.data?.results]);
 
-  const onQueryChange = (val: string, draftStatus: string[] | undefined) => {
-    setSearchObject({ query: val, page: 1, pageSize: 10, draftStatus });
-    debounceCall(() => setDelayedSearchObject({ query: val, page: 1, pageSize: 10, draftStatus }));
+  const onQueryChange = (val: string) => {
+    setSearchObject({ query: val, page: 1, pageSize: 10 });
+    debounceCall(() => setDelayedSearchObject({ query: val, page: 1, pageSize: 10 }));
   };
 
   const onResourceSelect = async (resource: Omit<IMultiSearchSummaryDTO, "id"> & { id: string }) => {
@@ -117,7 +111,7 @@ export const ResourcePicker = ({ setResource, children, onlyPublishedResources }
       paginationData={searchQuery.data}
       inputValue={searchObject.query}
       isSuccess={searchQuery.isSuccess}
-      onInputValueChange={(details) => onQueryChange(details.inputValue, draftStatus)}
+      onInputValueChange={(details) => onQueryChange(details.inputValue)}
       onPageChange={(details) => {
         setSearchObject((prev) => ({ ...prev, page: details.page }));
         setDelayedSearchObject((prev) => ({ ...prev, page: details.page }));

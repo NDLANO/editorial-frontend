@@ -93,6 +93,7 @@ const WorkListTabContent = ({
       fallback: true,
       aggregatePaths: ["contexts.rootId"],
       language: i18n.language,
+      resultTypes: ["draft", "concept", "learningpath"],
     },
     { enabled: !!ndlaId },
   );

@@ -123,6 +123,7 @@ const Revisions = ({ userData }: Props) => {
       fallback: true,
       draftStatus: [PUBLISHED],
       includeOtherStatuses: true,
+      resultTypes: ["draft", "concept", "learningpath"],
     },
     {
       enabled: !!userData?.favoriteSubjects?.length,

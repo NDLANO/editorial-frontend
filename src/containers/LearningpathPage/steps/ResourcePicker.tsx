@@ -59,6 +59,7 @@ export const ResourcePicker = ({ setResource, children, onlyPublishedResources }
     includeOtherStatuses: true,
     page: delayedSearchObject.page,
     pageSize: delayedSearchObject.pageSize,
+    resultTypes: ["draft", "concept", "learningpath"],
     resourceTypes: [
       RESOURCE_TYPE_SUBJECT_MATERIAL,
       RESOURCE_TYPE_TASKS_AND_ACTIVITIES,

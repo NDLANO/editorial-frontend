@@ -26,7 +26,7 @@ export const postSearch = async (body: StringSort<NoNodeDraftSearchParams>): Pro
   const response = await client
     .POST("/search-api/v1/search/editorial", {
       body: {
-        ...transformSearchBody(body, true),
+        ...transformSearchBody(body),
         // @ts-expect-error TODO: API's use different sorting types and we share them in the frontend
         sort: body.sort,
       },

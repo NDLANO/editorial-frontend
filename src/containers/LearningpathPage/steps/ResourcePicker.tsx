@@ -49,14 +49,11 @@ interface Props {
 const DEFAULT_SEARCH_OBJECT = { page: 1, pageSize: 10, query: "" };
 
 export const ResourcePicker = ({ setResource, children, onlyPublishedResources }: Props) => {
-  const draftStatus = onlyPublishedResources ? [PUBLISHED] : undefined;
   const [searchObject, setSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
   const [delayedSearchObject, setDelayedSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
 
   const searchQuery = useSearch({
     query: delayedSearchObject.query,
-    draftStatus,
-    includeOtherStatuses: true,
     page: delayedSearchObject.page,
     pageSize: delayedSearchObject.pageSize,
     resourceTypes: [
@@ -101,6 +98,9 @@ export const ResourcePicker = ({ setResource, children, onlyPublishedResources }
   return (
     <GenericSearchCombobox
       items={searchHits}
+      isItemDisabled={(item) =>
+        onlyPublishedResources ? item.status?.current !== PUBLISHED || item.status.other.includes(PUBLISHED) : false
+      }
       itemToString={(item) => item.title.title}
       itemToValue={(item) => item.id}
       onValueChange={(details) => {

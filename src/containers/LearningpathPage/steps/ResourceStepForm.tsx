@@ -186,7 +186,11 @@ export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Pro
         <FieldRoot>
           <ResourcePicker onlyPublishedResources={onlyPublishedResources} setResource={onSelectResource}>
             <ComboboxLabel fontWeight="bold">{t("learningpathForm.steps.resourceForm.label")}</ComboboxLabel>
-            <FieldHelper>{t("learningpathForm.steps.resourceForm.labelHelper")}</FieldHelper>
+            <FieldHelper>
+              {onlyPublishedResources
+                ? t("learningpathForm.steps.resourceForm.labelHelperPublished")
+                : t("learningpathForm.steps.resourceForm.labelHelper")}
+            </FieldHelper>
           </ResourcePicker>
         </FieldRoot>
       ) : (

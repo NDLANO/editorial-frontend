@@ -2383,6 +2383,8 @@ const phrases = {
       resourceForm: {
         label: "Artikkel frå NDLA",
         labelHelper: "Søk etter artikkel",
+        labelHelperPublished:
+          "Søk etter artikkel. Denne læringsstien er allereie publisert. Du kan derfor kun velje artiklar som har ein publisert versjon.",
         descriptionLabel: "Beskriving",
         descriptionHelper:
           "Beskrivingar er ikkje lenger støtta på ressurssteg. Dette feltet dukkar kun opp fordi du redigerar eit eksisterande steg med beskriving. Vi anbefaler å fjerne beskrivinga.",

@@ -2383,6 +2383,8 @@ const phrases = {
       resourceForm: {
         label: "Article from NDLA",
         labelHelper: "Search for article",
+        labelHelperPublished:
+          "Search for an article. This learning path is already published, so you can only add articles that have a published version",
         descriptionLabel: "Description",
         descriptionHelper:
           "Descriptions are no longer supported on resource steps. This field only appears because you are editing an existing step with a description. We recommend removing the description.",

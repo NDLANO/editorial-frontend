@@ -17,7 +17,7 @@ setup("authenticate", async ({ page, request }) => {
   let token = mockTokenAllPermissions;
   let expAt = "";
   if (process.env.RECORD_FIXTURES) {
-    const res = await request.post("https://ndla-test.eu.auth0.com/oauth/token", {
+    const res = await request.post("https://login.test.ndla.no/oauth/token", {
       headers: { "Content-Type": "application/json" },
       data: JSON.stringify({
         client_id: process.env.CYPRESS_NDLA_END_TO_END_TESTING_CLIENT_ID,

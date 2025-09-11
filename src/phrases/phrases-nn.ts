@@ -863,6 +863,7 @@ const phrases = {
       creators: "Opphavsperson",
       rightsholders: "Rettighetshaver",
       processors: "Bearbeider",
+      contributors: "Bidragsyter",
       tags: "Nøkkelord",
       license: "Lisens",
       origin: "Opphav",
@@ -1376,6 +1377,9 @@ const phrases = {
       placeholder: "Skriv namn til opphavsperson",
       createOption: "Opprett ny opphavsperson",
       description: "Obligatorisk med minst 1 opphavsperson.",
+    },
+    contributors: {
+      label: "Bidragsytere",
     },
     license: {
       label: "Lisens",

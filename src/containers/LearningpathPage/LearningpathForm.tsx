@@ -67,6 +67,9 @@ const metaDataRules: RulesType<LearningpathFormValues, ILearningPathV2DTO> = {
       languageMatch: true,
     },
   },
+  license: {
+    required: true,
+  },
   grepCodes: {
     required: false,
     test: (values) => {

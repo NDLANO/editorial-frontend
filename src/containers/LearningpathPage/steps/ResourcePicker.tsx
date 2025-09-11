@@ -16,6 +16,7 @@ import { ResourceData } from "./types";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import {
+  PUBLISHED,
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
   RESOURCE_TYPE_SOURCE_MATERIAL,
   RESOURCE_TYPE_SUBJECT_MATERIAL,
@@ -41,17 +42,21 @@ const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250
 
 interface Props {
   setResource: (data: ResourceData) => void;
+  onlyPublishedResources?: boolean;
   children?: ReactNode;
 }
 
 const DEFAULT_SEARCH_OBJECT = { page: 1, pageSize: 10, query: "" };
 
-export const ResourcePicker = ({ setResource, children }: Props) => {
+export const ResourcePicker = ({ setResource, children, onlyPublishedResources }: Props) => {
+  const draftStatus = onlyPublishedResources ? [PUBLISHED] : undefined;
   const [searchObject, setSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
   const [delayedSearchObject, setDelayedSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
 
   const searchQuery = useSearch({
     query: delayedSearchObject.query,
+    draftStatus,
+    includeOtherStatuses: true,
     page: delayedSearchObject.page,
     pageSize: delayedSearchObject.pageSize,
     resourceTypes: [

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -10,30 +10,30 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PencilFill } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
-import { IArticleSummaryDTO } from "@ndla/types-backend/draft-api";
-import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
-import TableTitle from "./TableTitle";
-import PageSizeSelect from "./worklist/PageSizeSelect";
-import StatusCell from "./worklist/StatusCell";
-import Pagination from "../../../components/abstractions/Pagination";
+import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { STORED_PAGE_SIZE_LAST_UPDATED, STORED_SORT_OPTION_LAST_USED } from "../../../constants";
+import { useLocalStoragePageSizeState, useLocalStorageSortOptionState } from "../hooks/storedFilterHooks";
+import { SortOptionLastUsed } from "../types";
+import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
+import { getSortedPaginationData } from "./utils";
+import StatusCell from "./worklist/StatusCell";
 import formatDate from "../../../util/formatDate";
 import { routes } from "../../../util/routeHelpers";
-import { useLocalStoragePageSizeState, useLocalStorageSortOptionState } from "../hooks/storedFilterHooks";
 import { StyledTopRowDashboardInfo } from "../styles";
-import { SortOptionLastUsed } from "../types";
-import { getSortedPaginationData } from "./utils";
+import TableTitle from "./TableTitle";
+import PageSizeSelect from "./worklist/PageSizeSelect";
+import Pagination from "../../../components/abstractions/Pagination";
 
 interface Props {
-  data: IArticleSummaryDTO[];
+  data: IMultiSearchSummaryDTO[];
   isLoading: boolean;
   error: string | undefined;
   titles: TitleElement<SortOptionLastUsed>[];
   totalCount: number | undefined;
 }
 
-const LastUsedResources = ({ data: propData = [], isLoading, error, titles, totalCount }: Props) => {
-  const { t } = useTranslation();
+export const LastUsedLearningpaths = ({ data: propData, isLoading, error, titles, totalCount }: Props) => {
+  const { t, i18n } = useTranslation();
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useLocalStoragePageSizeState(STORED_PAGE_SIZE_LAST_UPDATED);
   const [sortOption, setSortOption] = useLocalStorageSortOptionState<SortOptionLastUsed>(
@@ -56,15 +56,15 @@ const LastUsedResources = ({ data: propData = [], isLoading, error, titles, tota
         {
           id: `title_${a.id}`,
           data: (
-            <SafeLink to={routes.editArticle(a.id, a.articleType)} title={a.title?.title}>
+            <SafeLink to={routes.learningpath.edit(a.id, i18n.language)} title={a.title?.title}>
               {a.title?.title}
             </SafeLink>
           ),
         },
         { id: `status_${a.id}`, data: <StatusCell status={a.status} /> },
-        { id: `lastUpdated_${a.id}`, data: formatDate(a.updated) },
+        { id: `lastUpdated_${a.id}`, data: formatDate(a.lastUpdated) },
       ]) ?? [[]],
-    [data],
+    [data, i18n.language],
   );
 
   return (
@@ -98,5 +98,3 @@ const LastUsedResources = ({ data: propData = [], isLoading, error, titles, tota
     </>
   );
 };
-
-export default LastUsedResources;

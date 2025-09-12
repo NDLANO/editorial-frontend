@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import { BookOpenLine, InformationLine } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { getCurrentPageData } from "./LastUsedItems";
 import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import PageSizeSelect from "./worklist/PageSizeSelect";
@@ -24,6 +23,7 @@ import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvid
 import { useLocalStoragePageSizeState } from "../hooks/storedFilterHooks";
 import { ControlWrapperDashboard, StyledTopRowDashboardInfo } from "../styles";
 import { SubjectData } from "../utils";
+import { getCurrentPageData } from "./utils";
 
 const StyledTableHeader = styled("span", {
   base: {

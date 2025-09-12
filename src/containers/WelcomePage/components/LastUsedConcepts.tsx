@@ -6,49 +6,49 @@
  *
  */
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PencilFill } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
-import TableComponent, { FieldElement, Prefix, TitleElement } from "./TableComponent";
+import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import PageSizeSelect from "./worklist/PageSizeSelect";
 import StatusCell from "./worklist/StatusCell";
 import Pagination from "../../../components/abstractions/Pagination";
+import { STORED_PAGE_SIZE_LAST_UPDATED_CONCEPT, STORED_SORT_OPTION_LAST_USED_CONCEPT } from "../../../constants";
 import formatDate from "../../../util/formatDate";
 import { routes } from "../../../util/routeHelpers";
+import { useLocalStoragePageSizeState, useLocalStorageSortOptionState } from "../hooks/storedFilterHooks";
 import { StyledTopRowDashboardInfo } from "../styles";
-import { SelectItem, SortOptionLastUsed } from "../types";
+import { SortOptionLastUsed } from "../types";
+import { getSortedPaginationData } from "./utils";
 
 interface Props {
   data: IConceptSummaryDTO[];
   isLoading: boolean;
-  page: number;
-  setPage: (page: number) => void;
-  sortOption: string;
-  setSortOption: (o: Prefix<"-", SortOptionLastUsed>) => void;
   error: string | undefined;
   titles: TitleElement<SortOptionLastUsed>[];
-  pageSize: SelectItem;
-  setPageSize: (p: SelectItem) => void;
   totalCount: number | undefined;
 }
 
-const LastUsedConcepts = ({
-  data,
-  isLoading,
-  page,
-  setPage,
-  sortOption,
-  setSortOption,
-  error,
-  titles,
-  pageSize,
-  setPageSize,
-  totalCount,
-}: Props) => {
+const LastUsedConcepts = ({ data: propData, isLoading, error, titles, totalCount }: Props) => {
   const { t } = useTranslation();
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useLocalStoragePageSizeState(STORED_PAGE_SIZE_LAST_UPDATED_CONCEPT);
+  const [sortOption, setSortOption] = useLocalStorageSortOptionState<SortOptionLastUsed>(
+    STORED_SORT_OPTION_LAST_USED_CONCEPT,
+    "-lastUpdated",
+  );
+
+  const data = useMemo(
+    () => getSortedPaginationData(page, sortOption, propData, Number(pageSize.value)),
+    [propData, page, sortOption, pageSize],
+  );
+
+  useEffect(() => {
+    setPage(1);
+  }, [pageSize]);
 
   const tableData: FieldElement[][] = useMemo(
     () =>

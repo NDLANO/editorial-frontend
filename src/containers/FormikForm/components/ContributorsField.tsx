@@ -87,7 +87,7 @@ interface ContributorProps {
 
 const Contributor = ({ type, onAddNew, onRemove }: ContributorProps) => {
   const { t, i18n } = useTranslation();
-  const { values } = useFormikContext<ContributorTypes>();
+  const { values, initialValues } = useFormikContext<ContributorTypes>();
 
   const collection = useMemo(() => {
     const contributorTypeItems = contributorGroups[type].map((item: string) => ({
@@ -118,7 +118,7 @@ const Contributor = ({ type, onAddNew, onRemove }: ContributorProps) => {
                 <FieldInput
                   {...field}
                   // eslint-disable-next-line jsx-a11y/no-autofocus
-                  autoFocus={!meta.touched}
+                  autoFocus={!meta.touched && values[type] !== initialValues[type]}
                 />
               </FieldRoot>
             )}

@@ -863,6 +863,7 @@ const phrases = {
       creators: "Creators",
       rightsholders: "Rightsholders",
       processors: "Processors",
+      contributors: "Contributor",
       tags: "Tags",
       license: "License",
       origin: "Origin",
@@ -2361,6 +2362,7 @@ const phrases = {
       descriptionLabel: "Description",
       metaImageTitle: "Meta image",
       descriptionPlaceholder: "Description of the learning path",
+      writersLabel: "Authors",
     },
     steps: {
       title: "Learning steps",

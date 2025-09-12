@@ -53,7 +53,7 @@ const SwapTopicArticle = ({ node, rootNodeId }: Props) => {
   const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
 
   const searchQuery = useSearch(
-    { query: delayedQuery, language: i18n.language, page, resultTypes: ["draft", "concept", "learningpath"] },
+    { query: delayedQuery, language: i18n.language, page, resultTypes: ["draft"], articleTypes: ["topic-article"] },
     { placeholderData: (prev) => prev },
   );
 

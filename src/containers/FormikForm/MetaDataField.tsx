@@ -21,12 +21,6 @@ import {
   FieldLabel,
   FieldRoot,
   Input,
-  RadioGroupItem,
-  RadioGroupItemControl,
-  RadioGroupItemHiddenInput,
-  RadioGroupItemText,
-  RadioGroupLabel,
-  RadioGroupRoot,
   Text,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
@@ -44,7 +38,7 @@ import { FormField } from "../../components/FormField";
 import { FormContent } from "../../components/FormikForm";
 import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
-import { AI_ACCESS_SCOPE, DRAFT_ADMIN_SCOPE } from "../../constants";
+import { AI_ACCESS_SCOPE } from "../../constants";
 import { MetaDescriptionVariables, SummaryVariables } from "../../interfaces";
 import { useDraftSearchTags } from "../../modules/draft/draftQueries";
 import { inlineContentToEditorValue } from "../../util/articleContentConverter";
@@ -63,7 +57,6 @@ interface Props {
   checkboxAction?: (image: IImageMetaInformationV3DTO) => void;
 }
 
-const availabilityValues: string[] = ["everyone", "teacher"];
 const SUMMARY_EDITOR = "editor-summary";
 const METADATA_EDITOR = "editor-metadata";
 
@@ -156,28 +149,6 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
           </FieldRoot>
         )}
       </FormField>
-      {!!userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
-        <FormField name="availability">
-          {({ field, helpers }) => (
-            <FieldRoot>
-              <RadioGroupRoot
-                orientation="horizontal"
-                value={field.value}
-                onValueChange={(details) => helpers.setValue(details.value)}
-              >
-                <RadioGroupLabel>{t("form.availability.description")}</RadioGroupLabel>
-                {availabilityValues.map((value) => (
-                  <RadioGroupItem key={value} value={value}>
-                    <RadioGroupItemControl />
-                    <RadioGroupItemText>{t(`form.availability.${value}`)}</RadioGroupItemText>
-                    <RadioGroupItemHiddenInput />
-                  </RadioGroupItem>
-                ))}
-              </RadioGroupRoot>
-            </FieldRoot>
-          )}
-        </FormField>
-      )}
       <FormField name="metaDescription">
         {({ field, meta, helpers }) => (
           <FieldRoot invalid={!!meta.error}>

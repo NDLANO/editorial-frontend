@@ -91,6 +91,7 @@ const ArticleStatusContent = ({
       aggregatePaths: ["draftStatus.current"],
       subjects: filteredSubjectIds,
       filterInactive: true,
+      resultTypes: ["draft", "concept", "learningpath"],
       ...(hideOnHold ? { priority: ["prioritized", "unspecified"] } : {}),
     },
     {
@@ -105,6 +106,7 @@ const ArticleStatusContent = ({
       aggregatePaths: ["draftStatus.current"],
       subjects: filteredSubjectIds,
       filterInactive: true,
+      resultTypes: ["draft", "concept", "learningpath"],
     },
     {
       enabled: !!subjectIds.length,

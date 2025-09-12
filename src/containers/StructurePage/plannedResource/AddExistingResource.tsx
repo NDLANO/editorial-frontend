@@ -170,7 +170,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     resourceTypes: selectedType && selectedType.id !== RESOURCE_TYPE_LEARNING_PATH ? [selectedType.id] : undefined,
     contextTypes:
       selectedType && selectedType.id === RESOURCE_TYPE_LEARNING_PATH ? ["learningpath"] : ["learningpath", "standard"],
-    resultTypes: ["learningpath", "article"],
+    resultTypes: ["draft", "concept", "learningpath"],
   });
 
   const resetPastedUrlStatesWithError = (error?: string) => {

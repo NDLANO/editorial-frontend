@@ -86,6 +86,7 @@ const WorkList = ({ ndlaId }: Props) => {
       pageSize: Number(pageSize!.value),
       language: i18n.language,
       fallback: true,
+      resultTypes: ["draft", "concept", "learningpath"],
     },
     { enabled: !!ndlaId },
   );
@@ -111,6 +112,7 @@ const WorkList = ({ ndlaId }: Props) => {
       pageSize: Number(pageSizeOnHold!.value),
       language: i18n.language,
       fallback: true,
+      resultTypes: ["draft", "concept", "learningpath"],
     },
     { enabled: !!ndlaId },
   );

@@ -92,7 +92,7 @@ export const useSearchWithCustomSubjectsFiltering = (
 
   return useQuery<MultiSummarySearchResults>({
     queryKey: searchQueryKeys.searchWithCustomSubjectsFiltering(actualQuery),
-    queryFn: () => postSearch(actualQuery),
+    queryFn: () => postSearch({ ...actualQuery, resultTypes: ["draft", "concept", "learningpath"] }),
     ...options,
     enabled: options?.enabled && !isLoading && !searchNodesQuery.isLoading,
   });

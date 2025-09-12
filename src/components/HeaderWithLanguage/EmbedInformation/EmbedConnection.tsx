@@ -21,6 +21,7 @@ import {
 } from "@ndla/primitives";
 import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { SearchParamsBody } from "../../../containers/SearchPage/components/form/SearchForm";
 import { postSearchConcepts } from "../../../modules/concept/conceptApi";
 import { postSearch } from "../../../modules/search/searchApi";
 import { routes } from "../../../util/routeHelpers";
@@ -51,10 +52,11 @@ const convertToSearchEmbedTypes = (embedType: EmbedType): SearchEmbedTypes[] => 
   }
 };
 
-const searchObjects = (embedId: number, embedType: EmbedType) => ({
+const searchObjects = (embedId: number, embedType: EmbedType): SearchParamsBody => ({
   embedId: embedId.toString(),
   embedResource: convertToSearchEmbedTypes(embedType),
   pageSize: 50,
+  resultTypes: ["draft", "concept", "learningpath"],
 });
 
 const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcepts }: Props) => {

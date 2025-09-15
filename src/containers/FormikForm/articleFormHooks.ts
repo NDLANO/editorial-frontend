@@ -111,7 +111,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
   ndlaId,
   articleRevisionHistory,
 }: HooksInputObject<T>) {
-  const { id, revision } = article ?? {};
+  const { id } = article ?? {};
   const formikRef: any = useRef<any>(null);
   const { createMessage, applicationError } = useMessages();
   const { data: licenses } = useLicenses({ placeholderData: [] });
@@ -145,7 +145,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
       try {
         savedArticle = await updateArticle({
           ...newArticle,
-          revision: revision || newArticle.revision,
+          revision: values.revision || article?.revision || newArticle.revision,
           ...(statusChange ? { status: newStatus } : {}),
         });
 
@@ -200,7 +200,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
       initialValues,
       licenses,
       ndlaId,
-      revision,
+      article?.revision,
       rules,
       t,
       updateArticle,

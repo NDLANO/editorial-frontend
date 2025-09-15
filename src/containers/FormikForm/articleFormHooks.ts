@@ -33,7 +33,6 @@ export type SlateCommentType = Omit<ICommentDTO, "content"> & { content: Descend
 
 export interface ArticleFormType {
   articleType: string;
-  availability: string;
   conceptIds: number[];
   content: Descendant[];
   creators: IAuthorDTO[];

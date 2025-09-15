@@ -8,8 +8,6 @@
 
 import { Formik, FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
-import { TagsInputContext } from "@ark-ui/react";
-import { CloseLine } from "@ndla/icons";
 import {
   Button,
   FieldErrorMessage,
@@ -17,19 +15,12 @@ import {
   FieldLabel,
   FieldRoot,
   Input,
-  InputContainer,
-  TagsInputControl,
-  TagsInputInput,
-  TagsInputItem,
-  TagsInputItemDeleteTrigger,
-  TagsInputItemInput,
-  TagsInputItemPreview,
-  TagsInputItemText,
   TagsInputLabel,
   TagsInputRoot,
 } from "@ndla/primitives";
 import { useTagsInputTranslations } from "@ndla/ui";
 import { FootnoteElement } from "./types";
+import { GenericTagsInputInput } from "../../../abstractions/TagsInput";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik from "../../../formikValidationSchema";
@@ -117,28 +108,9 @@ const FootnoteForm = ({ isEdit, footnote, onRemove, onClose, onSave }: Props) =>
               >
                 <TagsInputLabel>{t("form.content.footnote.authors.label")}</TagsInputLabel>
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                <TagsInputContext>
-                  {(api) => (
-                    <TagsInputControl asChild>
-                      <InputContainer>
-                        {api.value.map((value, index) => (
-                          <TagsInputItem key={index} index={index} value={value}>
-                            <TagsInputItemPreview>
-                              <TagsInputItemText>{value}</TagsInputItemText>
-                              <TagsInputItemDeleteTrigger>
-                                <CloseLine />
-                              </TagsInputItemDeleteTrigger>
-                            </TagsInputItemPreview>
-                            <TagsInputItemInput />
-                          </TagsInputItem>
-                        ))}
-                        <TagsInputInput asChild>
-                          <Input />
-                        </TagsInputInput>
-                      </InputContainer>
-                    </TagsInputControl>
-                  )}
-                </TagsInputContext>
+                <GenericTagsInputInput asChild>
+                  <Input />
+                </GenericTagsInputInput>
               </TagsInputRoot>
             </FieldRoot>
           )}

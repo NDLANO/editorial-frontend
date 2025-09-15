@@ -30,7 +30,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { FormField } from "../../../components/FormField";
 
-type ContributorType = keyof typeof contributorGroups;
+type ContributorType = keyof typeof contributorGroups | "contributors";
 
 interface Props {
   contributorTypes: readonly ContributorType[];
@@ -46,6 +46,7 @@ interface ContributorTypes {
   creators: StringAuthor[];
   processors: StringAuthor[];
   rightsholders: StringAuthor[];
+  contributors: StringAuthor[];
 }
 
 const StyledFieldsetRoot = styled(FieldsetRoot, {
@@ -87,10 +88,11 @@ interface ContributorProps {
 
 const Contributor = ({ type, onAddNew, onRemove }: ContributorProps) => {
   const { t, i18n } = useTranslation();
-  const { values } = useFormikContext<ContributorTypes>();
+  const { values, initialValues } = useFormikContext<ContributorTypes>();
 
   const collection = useMemo(() => {
-    const contributorTypeItems = contributorGroups[type].map((item: string) => ({
+    const items = type === "contributors" ? Object.values(contributorGroups).flat() : contributorGroups[type];
+    const contributorTypeItems = items.map((item: string) => ({
       type: item,
       translation: contributorTypes[i18n.language] ? contributorTypes[i18n.language][item] : contributorTypes.nb[item],
     }));
@@ -118,7 +120,7 @@ const Contributor = ({ type, onAddNew, onRemove }: ContributorProps) => {
                 <FieldInput
                   {...field}
                   // eslint-disable-next-line jsx-a11y/no-autofocus
-                  autoFocus={!meta.touched}
+                  autoFocus={!meta.touched && values[type] !== initialValues[type]}
                 />
               </FieldRoot>
             )}

@@ -863,6 +863,7 @@ const phrases = {
       creators: "Creators",
       rightsholders: "Rightsholders",
       processors: "Processors",
+      contributors: "Contributor",
       tags: "Tags",
       license: "License",
       origin: "Origin",
@@ -1376,6 +1377,9 @@ const phrases = {
       placeholder: "Type name of creator",
       createOption: "Add new creator",
       description: "Required with at least one creator.",
+    },
+    contributors: {
+      label: "Contributors",
     },
     license: {
       label: "License",

@@ -88,13 +88,11 @@ const metaDataRules: RulesType<LearningpathFormValues, ILearningPathV2DTO> = {
   },
   revisionError: {
     test: (values) => {
-      const revisionItems = values.revisionMeta.length ?? 0;
-      if (!revisionItems) {
-        return { translationKey: "validation.missingRevision" };
-      }
-      const unfinishedRevision = values.revisionMeta.some((rev) => rev.status === "needs-revision");
-      if (!unfinishedRevision) {
-        return { translationKey: "validation.unfinishedRevision" };
+      if (values.revisionMeta.length > 0) {
+        const unfinishedRevision = values.revisionMeta.some((rev) => rev.status === "needs-revision");
+        if (!unfinishedRevision) {
+          return { translationKey: "validation.unfinishedRevision" };
+        }
       }
       return undefined;
     },

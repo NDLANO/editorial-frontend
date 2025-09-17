@@ -117,6 +117,13 @@ export const patchLearningpath = async (
   return resolveJsonOATS(res);
 };
 
+export const deleteLearningpathLanguage = async (id: number, language: string): Promise<boolean> => {
+  const res = await client.DELETE("/learningpath-api/v2/learningpaths/{learningpath_id}/language/{p1}", {
+    params: { path: { learningpath_id: id, p1: language } },
+  });
+  return res.response.ok;
+};
+
 export const postLearningStep = async (id: number, step: INewLearningStepV2DTO): Promise<ILearningStepV2DTO> => {
   const res = await client.POST("/learningpath-api/v2/learningpaths/{learningpath_id}/learningsteps", {
     body: step,

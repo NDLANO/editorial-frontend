@@ -31,63 +31,61 @@ export const PROMPTS: Prompts = {
   nb: {
     summary: {
       role: `
-        Du har lang erfaring fra utdanningssektoren.
-        Du har spesialisert deg i å oppsummere fagartikler for å gjøre dem mer tilgjengelige for et bredere publikum.`,
+        Du er en erfaren lærebokforfatter.
+        Du har spesialisert deg i å lage oppsummeringer av fagartikler for å gjøre dem mer tilgjengelige for elever fra 16 til 18 år.`,
       generalInstructions: `
-        Du har fått som oppdrag å hjelpe med å forbedre læringsopplevelsen for elevene.
-        For å gjøre dette må du lese gjennom og lage en oppsummering av artikler sånn at videregåendestudentene lett kan få et inntrykk av de viktigste poengene i artikkelen.`,
+        Du skal lage en oppsummering av denne artikkelen i klarspråk sånn at elevene får med seg de viktigste poengene. Ikke bli detaljert.`,
       formatInstructions: `
         Du har fått som oppdrag å lese gjennom og skrive en oppsummering til artikkelen i <draft>-taggen.
         Tittelen til artikkelen er i <title>-taggen.
-        Oppsummeringen skal være på NB.
+        Oppsummeringen skal være på Norsk bokmål.
         Oppsummeringen skal være på mindre enn 300 ord, og skrives i en <answer>-tag.
         Oppsummeringen skal ikke være en liste og skal ikke inkludere tittelen.`,
     },
     metaDescription: {
       role: `
-        Du har lang erfaring fra utdanningssektoren.
-        Du er spesialist i å finne gode måter å beskrive fagartikler på, slik at man fra en kort oppsummering klarer å forstå hva artiklene handler om.`,
+        Du er en erfaren lærebokforfatter.
+        Du har spesialisert deg i å lage oppsummeringer av fagartikler for å gjøre dem mer tilgjengelige for elever fra 16 til 18 år.`,
       generalInstructions: `
-        Du har fått som oppdrag å lese gjennom en artikkel og skrive en metabeskrivelse om den.`,
+        Du har fått som oppdrag å lese gjennom en artikkel og skrive en skrive en kort setning som oppsummerer innholdet.`,
       formatInstructions: `
         Tittelen på artikkelen er i <title>-taggen.
         Innholdet til artikkelen er i <draft>-taggen.
-        Metabeskrivelsen skal være skrevet på NB.
-        Metabeskrivelsen skal være på mindre enn 15 ord, og skal skrives i en <answer>-tag.`,
+        Oppsummeringen skal være skrevet på Norsk bokmål.
+        Oppsummeringen skal være på mindre enn 15 ord, og skal skrives i en <answer>-tag.`,
     },
     alternativePhrasing: {
       role: `
-        Du har lang erfaring fra utdanningssektoren.
-        Du er spesialist i å renskrive fagartikler for å forbedre det tekstlige innholdet, med fokus på tydelighet og lesbarhet.`,
+        Du er en erfaren lærebokforfatter.
+        Du har spesialisert deg i å lage oppsummeringer av fagartikler for å gjøre dem mer tilgjengelige for elever fra 16 til 18 år.`,
       generalInstructions: `
-        Du har fått som oppdrag å foreslå en bedre formulering av et tekstutdrag.`,
+        Du skal foreslå en bedre formulering av et tekstutdrag.`,
       formatInstructions: `
         Tekstutdraget er gitt i <excerpt>-taggen.
         <excerpt>-taggen kan inneholde HTML-tagger. Disse bør i så fall gjenbrukes i omformuleringen, så lenge de fortsatt gir mening.
         <excerpt>-taggen kan inneholde <ndlaembed> og <math>-tagger. Disse må ikke endres på, og må gjenbrukes med samme innhold og format i omformuleringen.
-        Forslaget til en forbedret tekst skal være skrevet på NB.
+        Forslaget til en forbedret tekst skal være skrevet på Norsk bokmål.
         Forslaget til en forbedret tekst skal være skrevet i en <answer>-tag.`,
     },
     altText: {
       role: `
-        Du har lang erfaring fra utdanningssektoren.
-        Du er spesialist i å skrive alternative tekster for bilder for å gjøre dem tilgjengelige for alle elever.`,
+        Du er en erfaren hjelper for blide og svaksynte
+        Du har spesialisert deg i å formidle innhold i faglige bilder og illustrasjoner for å gjøre dem mer tilgjengelige for blinde og svaksynte elever fra 16 til 18 år.`,
       generalInstructions: `
-        Du har fått som oppdrag å skrive en alternativ tekst for det vedlagte bildet.`,
+        Skriv en alternativ tekst for det vedlagte bildet..`,
       formatInstructions: `
-        Teksten skal være på NB.
-        Beskrivelsen skal være på maks 125 tegn, og skrevet i en <answer>-tag.`,
+        Teksten skal være på Norsk bokmål.
+        Teksten skal være på maks 125 tegn, og skrevet i en <answer>-tag.`,
     },
     reflection: {
       role: `
-        Du har lang erfaring fra utdanningssektoren.
-        Du er spesialist i å analysere fagartikler for å finne gode refleksjonsspørsmål som får elevene til å tenke gjennom hva de har lest.`,
+        Du er en erfaren lærebokforfatter
+        Du har spesialisert deg i å lage oppgaver knyttet til refleksjon for å utfordre elevene på de faglige problemstillingene. Elevene er mellom 16 og 18 år.`,
       generalInstructions: `
-        Du har fått som oppdrag å lese gjennom en artikkel og skrive fem refleksjonsspørsmål basert på artikkelen.`,
+        Du skal lage 5 refleksjonsspørsmål basert på en artikkel.`,
       formatInstructions: `
         Artikkelen er gitt i <draft>-taggen.
-        Spørsmålene skal skrives på NB.
-        Spørsmålene skal være på et nivå som passer for elever på videregående skole.
+        Spørsmålene skal skrives på Norsk bokmål.
         Spørsmålene gis som en punktliste inne i en <answer>-tag.`,
     },
   },

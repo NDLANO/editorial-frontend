@@ -9,9 +9,9 @@
 import { type Ref } from "react";
 import { ark, HTMLArkProps } from "@ark-ui/react";
 import { ArrowRightShortLine } from "@ndla/icons";
-import { createStyleContext, Heading, TextProps } from "@ndla/primitives";
+import { Heading, TextProps } from "@ndla/primitives";
 import { cva, sva } from "@ndla/styled-system/css";
-import { JsxStyleProps, RecipeVariantProps } from "@ndla/styled-system/types";
+import { createStyleContext, StyledProps } from "@ndla/styled-system/jsx";
 
 const nodeItemRecipe = sva({
   slots: ["root", "title", "toggleIcon"],
@@ -81,15 +81,9 @@ const nodeItemRecipe = sva({
 
 const { withProvider, withContext } = createStyleContext(nodeItemRecipe);
 
-type NodeItemVariantProps = RecipeVariantProps<typeof nodeItemRecipe>;
+export const NodeItemRoot = withProvider(ark.div, "root", { baseComponent: true });
 
-export const NodeItemRoot = withProvider<HTMLDivElement, HTMLArkProps<"div"> & JsxStyleProps & NodeItemVariantProps>(
-  ark.div,
-  "root",
-  { baseComponent: true },
-);
-
-interface InternalNodeItemTitleProps extends TextProps {
+interface InternalNodeItemTitleProps extends Omit<HTMLArkProps<"h1">, "color">, TextProps, StyledProps {
   ref?: Ref<HTMLHeadingElement>;
 }
 
@@ -97,10 +91,7 @@ const InternalNodeItemTitle = ({ textStyle = "label.medium", ...props }: Interna
   <Heading textStyle={textStyle} {...props} />
 );
 
-export const NodeItemTitle = withContext<HTMLHeadingElement, TextProps & HTMLArkProps<"h1"> & JsxStyleProps>(
-  InternalNodeItemTitle,
-  "title",
-);
+export const NodeItemTitle = withContext(InternalNodeItemTitle, "title");
 
 const InternalToggleIcon = withContext(ArrowRightShortLine, "toggleIcon");
 

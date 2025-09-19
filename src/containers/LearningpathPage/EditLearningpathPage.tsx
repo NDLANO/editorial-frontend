@@ -75,7 +75,7 @@ const EditLearningpathPage = () => {
     <PageContent>
       <Container>
         <title>{t("htmlTitles.learningpath.edit")}</title>
-        <LearningpathForm learningpath={learningpathQuery.data} language={language} />
+        <LearningpathForm learningpath={learningpathQuery.data} language={language} key={language} />
       </Container>
     </PageContent>
   );

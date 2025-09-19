@@ -33,7 +33,7 @@ import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import { useLearningpathTags } from "../../../modules/learningpath/learningpathQueries";
 import useDebounce from "../../../util/useDebounce";
-import { ContributorsField, LicenseField } from "../../FormikForm";
+import { ContributorsField } from "../../FormikForm";
 import { LearningpathTextEditor } from "../components/LearningpathTextEditor";
 import { LearningpathFormValues } from "../learningpathFormUtils";
 
@@ -124,7 +124,6 @@ export const LearningpathMetaFormPart = ({ language }: Props) => {
             </FieldRoot>
           )}
         </FormField>
-        <LicenseField />
         <ContributorsField contributorTypes={["contributors"]} />
         <LearningpathMetaImageField language={language} />
       </FormContent>

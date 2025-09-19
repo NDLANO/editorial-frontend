@@ -886,6 +886,7 @@ const phrases = {
       desktopBannerId: "Wide subject page image",
       mobileBannerId: "Narrow subject page image",
       concepts: "Concepts",
+      learningpaths: "Learning paths",
       relatedContent: "Related content",
       subjects: "Subject",
       header: "Header",

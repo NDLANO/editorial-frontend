@@ -886,6 +886,7 @@ const phrases = {
       desktopBannerId: "Breitt fagsidebilete",
       mobileBannerId: "Smalt fagsidebilete",
       concepts: "Forklaringar",
+      learningpaths: "Læringsstiar",
       relatedContent: "Relaterte forklaringar",
       subjects: "Fag",
       header: "Overskrift",

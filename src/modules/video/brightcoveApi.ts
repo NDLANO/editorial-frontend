@@ -99,19 +99,23 @@ const brightcoveFallbacks: Record<string, string> = {
   Opphavsmann: "Opphaver",
 };
 
-const keyedContributorTypes = Object.keys(contributorTypes.nb);
+const keyedContributorTypes = Object.keys(contributorTypes);
+
+type ContributorType = keyof typeof contributorTypes;
 
 const parseContributorsString = (contributorString: string) => {
   const fields = contributorString.split(/: */);
   if (fields.length !== 2) return { type: "", name: fields[0] };
   const [type, name] = [brightcoveFallbacks[fields[0].trim()] ?? fields[0].trim(), fields[1]];
-  const contributorType = keyedContributorTypes.find((key) => contributorTypes.nb[key] === type);
+  const contributorType = keyedContributorTypes.find((key) => contributorTypes[key as ContributorType].nb === type);
   return { type: contributorType || "", name };
 };
 
 type CopyrightType = Pick<ICopyrightDTO, "creators" | "processors" | "rightsholders">;
 
 const objectKeys = Object.keys(contributorGroups) as Array<keyof typeof contributorGroups>;
+
+type ContributorGroupType = Exclude<keyof typeof contributorGroups, "contributors">;
 
 export const getContributorGroups = (fields: Record<string, string>) => {
   const licenseInfoKeys = Object.keys(fields).filter((key) => key.startsWith("licenseinfo"));
@@ -121,7 +125,7 @@ export const getContributorGroups = (fields: Record<string, string>) => {
   return contributors.reduce<CopyrightType>(
     (groups, c) => {
       const group = objectKeys.find((key) => contributorGroups[key].find((t) => t === c.type));
-      groups[group ?? "creators"].push(c as AuthorDTO);
+      groups[(group as ContributorGroupType | undefined) ?? "creators"].push(c as AuthorDTO);
       return groups;
     },
     { creators: [], processors: [], rightsholders: [] },

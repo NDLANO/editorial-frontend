@@ -64,6 +64,7 @@ export const PROMPTS: Prompts = {
         Tekstutdraget er gitt i <excerpt>-taggen.
         <excerpt>-taggen kan inneholde HTML-tagger. Disse bør i så fall gjenbrukes i omformuleringen, så lenge de fortsatt gir mening.
         <excerpt>-taggen kan inneholde <ndlaembed> og <math>-tagger. Disse må ikke endres på, og må gjenbrukes med samme innhold og format i omformuleringen.
+        Innholdet i <draft>-taggen kan brukes som kontekst, men skal ikke gjenbrukes som del av den foreslåtte omformuleringen.
         Forslaget til en forbedret tekst skal være skrevet på Norsk bokmål.
         Forslaget til en forbedret tekst skal være skrevet i en <answer>-tag.`,
     },

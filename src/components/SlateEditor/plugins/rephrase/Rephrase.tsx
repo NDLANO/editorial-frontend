@@ -25,6 +25,7 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
   const language = useArticleLanguage();
 
   const html = useMemo(() => blockContentToHTML(element.children), [element.children]);
+  const text = useMemo(() => blockContentToHTML(editor.children), [editor.children]);
 
   const onClose = useCallback(
     (generatedHtml?: string, shouldReplace?: boolean) => {
@@ -58,6 +59,7 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
       promptVariables={{
         type: "alternativePhrasing",
         html,
+        text,
       }}
       language={language}
       onExitComplete={onClose}

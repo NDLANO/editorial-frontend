@@ -243,6 +243,7 @@ export interface AltTextVariables {
 export interface AlternativePhrasingVariables {
   type: "alternativePhrasing";
   html: string;
+  text: string;
 }
 
 export interface MetaDescriptionVariables {

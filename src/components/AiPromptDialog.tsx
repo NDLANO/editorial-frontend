@@ -174,7 +174,7 @@ const PromptDialogContent = ({
             )
           ) : null}
         </CustomPromptsContainer>
-        {promptVariables.type === "alternativePhrasing" && <StyledText>{promptVariables.html}</StyledText>}
+        {promptVariables.type === "alternativePhrasing" && <StyledText>{promptVariables.selection}</StyledText>}
         <Button size="small" onClick={fetchAiGeneratedText} loading={generateAiMutation.isPending}>
           {t("textGeneration.generateButton", { type: promptVariables.type })}
           <FileListLine />

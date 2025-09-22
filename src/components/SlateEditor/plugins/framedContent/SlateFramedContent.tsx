@@ -90,7 +90,7 @@ const SlateFramedContent = (props: Props) => {
     const articleText = editorValueToPlainText(editor.children);
     return {
       type: "reflection",
-      text: articleText,
+      content: articleText,
     };
   };
 

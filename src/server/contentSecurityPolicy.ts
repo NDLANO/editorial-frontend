@@ -29,6 +29,7 @@ const connectSrc = (() => {
     "https://cors-anywhere.herokuapp.com",
     "https://trinket.io",
     "https://*.clarity.ms",
+    "https://app.formbricks.com",
   ];
   if (process.env.NODE_ENV === "development") {
     return [
@@ -96,6 +97,7 @@ const scriptSrc = (() => {
     "https://zendesk-eu.my.sentry.io",
     "widget-mediator.zopim.com",
     "https://*.clarity.ms",
+    "https://app.formbricks.com",
   ];
   if (process.env.NODE_ENV === "development") {
     return [...defaultScriptSrc, "http://localhost:3001", "ws://localhost:3001", "http://localhost:3000"];

@@ -210,7 +210,7 @@ const gapminderTransformer: UrlTransformer = {
 };
 
 const norgesfilmTransformer: UrlTransformer = {
-  domains: ["ndla.filmiundervisning.no"],
+  domains: ["ndla.filmiundervisning.no", "ndla2.filmiundervisning.no"],
   shouldTransform: (url, domains) => {
     const aTag = urlAsATag(url);
 

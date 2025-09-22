@@ -145,7 +145,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "H5P", url: ["h5p"] },
   { name: "NRK", url: ["static.nrk.no"], height: "398px" },
   { name: "Vimeo", url: ["player.vimeo.com", "vimeo.com", "vimeopro.com"], height: "486px" },
-  { name: "Norgesfilm", url: ["ndla.filmiundervisning.no"] },
+  { name: "Norgesfilm", url: ["ndla.filmiundervisning.no", "ndla2.filmiundervisning.no"] },
   { name: "TED", url: ["ted.com", "embed.ted.com"] },
   {
     name: "TV2 Skole",

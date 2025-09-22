@@ -20,6 +20,10 @@ export interface CreatingLanguageLocationState {
   isCreatingLanguage?: boolean;
 }
 
+export interface ShouldTranslateLocationState {
+  shouldTranslate?: boolean;
+}
+
 const articleTypes: Record<string, string> = {
   "topic-article": "topic-article",
   standard: "learning-resource",

@@ -6,10 +6,8 @@
  *
  */
 
-import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { SafeLinkButton } from "@ndla/safelink";
-import { useTranslateToNN } from "../NynorskTranslateProvider";
 
 interface Props {
   id: number;
@@ -17,20 +15,13 @@ interface Props {
 }
 
 const TranslateNbToNn = ({ id, editUrl }: Props) => {
-  const { setShouldTranslate } = useTranslateToNN();
-
-  const onClick = useCallback(() => {
-    setShouldTranslate(true);
-  }, [setShouldTranslate]);
-
   const { t } = useTranslation();
   return (
     <SafeLinkButton
       size="small"
       variant="tertiary"
       to={editUrl(id, "nn")}
-      state={{ isCreatingLanguage: true }}
-      onClick={onClick}
+      state={{ isCreatingLanguage: true, shouldTranslate: true }}
     >
       {t("form.variant.translate")}
     </SafeLinkButton>

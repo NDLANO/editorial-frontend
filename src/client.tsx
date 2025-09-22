@@ -34,6 +34,7 @@ import { MessagesProvider } from "./containers/Messages/MessagesProvider";
 import { getSessionStateFromLocalStorage, SessionProvider } from "./containers/Session/SessionProvider";
 import { isValidLocale, initializeI18n } from "./i18n";
 import { routes } from "./routes";
+import Formbricks from "./scripts/Formbricks";
 import { isNdlaApiError } from "./util/resolveJsonOrRejectWithError";
 
 declare global {
@@ -93,6 +94,7 @@ root.render(
         </SessionProvider>
       </MessagesProvider>
     </I18nextProvider>
+    <Formbricks />
     <ReactQueryDevtools />
   </QueryClientProvider>,
 );

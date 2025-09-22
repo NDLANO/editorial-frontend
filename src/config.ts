@@ -188,6 +188,7 @@ export type ConfigType = {
   s3AudioRoot: string;
   norgesfilmNewUrl: boolean;
   enableLearningpath: boolean;
+  formbricksId: string | undefined;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -239,6 +240,7 @@ const getServerSideConfig = (): ConfigType => {
     s3AudioRoot: getAudioS3Root(ndlaEnvironment),
     norgesfilmNewUrl: getEnvironmentVariabel("NORGESFILM_NEW_URL", "false") === "true",
     enableLearningpath: getEnvironmentVariabel("ENABLE_LEARNINGPATH", "true") === "true",
+    formbricksId: getEnvironmentVariabel("FORMBRICKS_ID", ""),
   };
 };
 

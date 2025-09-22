@@ -228,7 +228,7 @@ export type PromptVariables =
 
 export interface SummaryVariables {
   type: "summary";
-  text: string;
+  content: string;
   title: string;
 }
 
@@ -242,18 +242,19 @@ export interface AltTextVariables {
 
 export interface AlternativePhrasingVariables {
   type: "alternativePhrasing";
-  html: string;
+  selection: string;
+  content: string;
 }
 
 export interface MetaDescriptionVariables {
   type: "metaDescription";
-  text: string;
+  content: string;
   title: string;
 }
 
 export interface ReflectionVariables {
   type: "reflection";
-  text: string;
+  content: string;
 }
 
 const promptTypes: PromptType[] = [

@@ -18,13 +18,13 @@ export const isValidRequestBody = (
   switch (type) {
     case "summary":
     case "metaDescription":
-      return !!body.title && !!body.text;
+      return !!body.title && !!body.content;
     case "altText":
       return !!body.image?.fileType && !!body.image?.base64;
     case "alternativePhrasing":
-      return !!body.html;
+      return !!body.selection && !!body.content;
     case "reflection":
-      return !!body.text;
+      return !!body.content;
     default:
       return unreachable(type);
   }

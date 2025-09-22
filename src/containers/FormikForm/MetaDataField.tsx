@@ -93,7 +93,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
     const articleContent = values.content.map((val) => Node.string(val)).join(" ");
     return {
       type: "metaDescription",
-      text: articleContent,
+      content: articleContent,
       title: articleTitle,
     };
   };
@@ -103,7 +103,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
     const articleContent = values.content.map((val) => Node.string(val)).join(" ");
     return {
       type: "summary",
-      text: articleContent,
+      content: articleContent,
       title: articleTitle,
     };
   };

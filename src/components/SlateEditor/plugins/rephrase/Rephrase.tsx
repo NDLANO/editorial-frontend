@@ -24,7 +24,8 @@ interface Props extends RenderElementProps {
 export const Rephrase = ({ attributes, editor, element, children }: Props) => {
   const language = useArticleLanguage();
 
-  const html = useMemo(() => blockContentToHTML(element.children), [element.children]);
+  const selection = useMemo(() => blockContentToHTML(element.children), [element.children]);
+  const content = useMemo(() => blockContentToHTML(editor.children), [editor.children]);
 
   const onClose = useCallback(
     (generatedHtml?: string, shouldReplace?: boolean) => {
@@ -57,7 +58,8 @@ export const Rephrase = ({ attributes, editor, element, children }: Props) => {
       defaultOpen
       promptVariables={{
         type: "alternativePhrasing",
-        html,
+        selection,
+        content,
       }}
       language={language}
       onExitComplete={onClose}

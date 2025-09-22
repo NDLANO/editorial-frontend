@@ -36,22 +36,23 @@ const createQuery = <T extends PromptType>(
 };
 
 const ARTICLE_SUMMARY_QUERY = createQuery("summary", {
-  draft: "text",
+  draft: "content",
   title: "title",
 });
 
 const META_DESCRIPTION_QUERY = createQuery("metaDescription", {
-  draft: "text",
+  draft: "content",
 });
 
 const ALTERNATIVE_PRHASING_QUERY = createQuery("alternativePhrasing", {
-  excerpt: "html",
+  excerpt: "selection",
+  draft: "content",
 });
 
 const ALT_TEXT_QUERY = createQuery("altText");
 
 const REFLECTION_QUESTION_QUERY = createQuery("reflection", {
-  draft: "text",
+  draft: "content",
 });
 
 const getLlmQuery = <T extends PromptVariables>(type: T["type"]): LlmQuery<T> => {

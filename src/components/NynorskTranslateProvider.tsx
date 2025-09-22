@@ -8,9 +8,10 @@
 
 import { get, merge, set } from "lodash-es";
 import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useMemo, useState } from "react";
-import { useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { ApiTranslateType } from "../interfaces";
 import { fetchNnTranslation } from "../modules/translate/translateApi";
+import { ShouldTranslateLocationState } from "../util/routeHelpers";
 
 const TranslateContext = createContext<[boolean, Dispatch<SetStateAction<boolean>>] | undefined>(undefined);
 
@@ -31,33 +32,19 @@ export const NynorskTranslateProvider = ({ children }: Props) => {
   return <TranslateContext value={translateState}>{children}</TranslateContext>;
 };
 
-const errorMessage = "useTranslateToNN must be used within a NynorskTranslateProvider";
-
 export const useTranslateToNN = () => {
-  const translateContext = useContext(TranslateContext);
   const { selectedLanguage } = useParams();
   const [translating, setTranslating] = useState(false);
   const [translatedFields, setTranslatedFields] = useState<string[]>([]);
+  const location = useLocation();
+  const navigate = useNavigate();
   const shouldTranslate = useMemo(
-    () => (translateContext?.[0] ? selectedLanguage === "nn" : false),
-    [translateContext, selectedLanguage],
-  );
-
-  const setShouldTranslate = useCallback(
-    (shouldTranslate: boolean) => {
-      if (translateContext === undefined) {
-        throw new Error(errorMessage);
-      }
-      translateContext[1](shouldTranslate);
-    },
-    [translateContext],
+    () => (location.state as ShouldTranslateLocationState | undefined)?.shouldTranslate && selectedLanguage === "nn",
+    [location.state, selectedLanguage],
   );
 
   const translate = useCallback(
     async (element: any, fields: TranslateType[], setElement: (element: any) => void) => {
-      if (translateContext === undefined) {
-        throw new Error("translate must be used within a NynorskTranslateProvider");
-      }
       setTranslating(true);
       const payload = fields.reduce<Record<string, ApiTranslateType>>((acc, { field, type }) => {
         const content = get(element, field);
@@ -96,9 +83,10 @@ export const useTranslateToNN = () => {
           return fieldValue[fieldValue.length - 1];
         }),
       );
-      translateContext[1](false);
+      const { shouldTranslate, ...newState } = location.state as ShouldTranslateLocationState;
+      navigate(".", { replace: true, state: newState });
     },
-    [translateContext],
+    [location.state, navigate],
   );
 
   return {
@@ -106,7 +94,6 @@ export const useTranslateToNN = () => {
     translate,
     translatedFields,
     shouldTranslate,
-    setShouldTranslate,
   };
 };
 

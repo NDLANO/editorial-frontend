@@ -53,6 +53,8 @@ export const CONCEPT_ADMIN_SCOPE = "concept:admin";
 export const CONCEPT_WRITE_SCOPE = "concept:write";
 export const CONCEPT_RESPONSIBLE = "concept:responsible";
 
+export const LEARNING_PATH_PUBLISH_SCOPE = "learningpath:publish";
+
 export const TAXONOMY_WRITE_SCOPE = "taxonomy:write";
 export const TAXONOMY_ADMIN_SCOPE = "taxonomy:admin";
 

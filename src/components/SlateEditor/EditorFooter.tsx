@@ -15,10 +15,11 @@ import { Button, FieldRoot } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IStatusDTO as ConceptStatus } from "@ndla/types-backend/concept-api";
-import { PUBLISHED, SAVE_DEBOUNCE_MS } from "../../constants";
+import { LEARNING_PATH_PUBLISH_SCOPE, PUBLISHED, SAVE_DEBOUNCE_MS } from "../../constants";
 import PrioritySelect from "../../containers/FormikForm/components/PrioritySelect";
 import ResponsibleSelect from "../../containers/FormikForm/components/ResponsibleSelect";
 import StatusSelect from "../../containers/FormikForm/components/StatusSelect";
+import { useSession } from "../../containers/Session/SessionProvider";
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../interfaces";
 import { usePutLearningpathStatusMutation } from "../../modules/learningpath/learningpathMutations";
 import { NewlyCreatedLocationState, routes, toPreviewDraft } from "../../util/routeHelpers";
@@ -124,6 +125,7 @@ function EditorFooter<T extends FormValues>({
   type,
 }: Props) {
   const { t } = useTranslation();
+  const { userPermissions } = useSession();
   const { values, initialValues, setFieldValue, isSubmitting } = useFormikContext<T>();
   const location = useLocation();
   const [shouldSave, setShouldSave] = useState(false);
@@ -201,22 +203,25 @@ function EditorFooter<T extends FormValues>({
           )}
         </FormField>
       )}
-      {!!values.status && type === "learningpath" && values.status.current !== PUBLISHED && (
-        <Button
-          disabled={
-            formIsDirty || isSubmitting || !!location.state?.isNewlyCreated || values.status.current === PUBLISHED
-          }
-          loading={putLearningpathStatusMutation.isPending}
-          onClick={async () => {
-            await putLearningpathStatusMutation.mutateAsync({
-              learningpathId: values.id,
-              status: PUBLISHED,
-            });
-          }}
-        >
-          {t("form.publish")}
-        </Button>
-      )}
+      {!!values.status &&
+        type === "learningpath" &&
+        values.status.current !== PUBLISHED &&
+        !!userPermissions?.includes(LEARNING_PATH_PUBLISH_SCOPE) && (
+          <Button
+            disabled={
+              formIsDirty || isSubmitting || !!location.state?.isNewlyCreated || values.status.current === PUBLISHED
+            }
+            loading={putLearningpathStatusMutation.isPending}
+            onClick={async () => {
+              await putLearningpathStatusMutation.mutateAsync({
+                learningpathId: values.id,
+                status: PUBLISHED,
+              });
+            }}
+          >
+            {t("form.publish")}
+          </Button>
+        )}
       <SaveMultiButton
         isSaving={isSubmitting}
         formIsDirty={formIsDirty}

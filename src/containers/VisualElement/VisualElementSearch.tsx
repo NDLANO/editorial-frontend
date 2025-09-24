@@ -59,6 +59,7 @@ const searchAudios = (query: LocalAudioSearchParams) => {
     sort: query.sort,
     pageSize: 16,
     audioType: query.audioType,
+    license: "all",
     fallback: true,
   };
   return postSearchAudio(correctedQuery);
@@ -148,6 +149,7 @@ const VisualElementSearch = ({
         pageSize: 16,
         locale,
         fallback: true,
+        license: "all",
         audioType,
       };
 

@@ -96,11 +96,11 @@ const EditTopicArticle = () => {
 
   useEffect(() => {
     (async () => {
-      if (article && !loading && shouldTranslate) {
+      if (article && !loading && shouldTranslate && !translating) {
         await translate(article, translateFields, setArticle);
       }
     })();
-  }, [article, loading, setArticle, shouldTranslate, translate]);
+  }, [article, loading, setArticle, shouldTranslate, translate, translating]);
 
   if (loading || translating || shouldTranslate) {
     return <PageSpinner />;

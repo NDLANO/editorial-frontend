@@ -7,13 +7,12 @@
  */
 
 import { get, merge, set } from "lodash-es";
-import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useMemo, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router";
+import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from "react";
+import { useLocation, useParams, useSearchParams } from "react-router";
 import { ApiTranslateType } from "../interfaces";
 import { fetchNnTranslation } from "../modules/translate/translateApi";
-import { ShouldTranslateLocationState } from "../util/routeHelpers";
 
-const TranslateContext = createContext<[boolean, Dispatch<SetStateAction<boolean>>] | undefined>(undefined);
+const TranslateContext = createContext<boolean>(false);
 
 interface Props {
   children: ReactNode;
@@ -28,20 +27,24 @@ const domParser = new DOMParser();
 const xmlSerializer = new XMLSerializer();
 
 export const NynorskTranslateProvider = ({ children }: Props) => {
-  const translateState = useState<boolean>(false);
-  return <TranslateContext value={translateState}>{children}</TranslateContext>;
+  return <TranslateContext value={true}>{children}</TranslateContext>;
 };
 
 export const useTranslateToNN = () => {
   const { selectedLanguage } = useParams();
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [translating, setTranslating] = useState(false);
   const [translatedFields, setTranslatedFields] = useState<string[]>([]);
-  const location = useLocation();
-  const navigate = useNavigate();
-  const shouldTranslate = useMemo(
-    () => (location.state as ShouldTranslateLocationState | undefined)?.shouldTranslate && selectedLanguage === "nn",
-    [location.state, selectedLanguage],
+  const [shouldTranslate, setShouldTranslate] = useState(
+    searchParams.get("translate") === "true" && selectedLanguage === "nn",
   );
+
+  useEffect(() => {
+    if (searchParams.get("translate") === "true" && selectedLanguage === "nn") {
+      setShouldTranslate(true);
+    }
+  }, [searchParams, selectedLanguage]);
 
   const translate = useCallback(
     async (element: any, fields: TranslateType[], setElement: (element: any) => void) => {
@@ -75,18 +78,24 @@ export const useTranslateToNN = () => {
             : value;
         set(cloned, key, parsed);
       });
-      setElement({ ...merge(element, cloned), language: "nn" });
+      setShouldTranslate(false);
       setTranslating(false);
+      setElement({ ...merge(element, cloned), language: "nn" });
       setTranslatedFields(
         fields.map((field) => {
           const fieldValue = field.field.split(".");
           return fieldValue[fieldValue.length - 1];
         }),
       );
-      const { shouldTranslate, ...newState } = location.state as ShouldTranslateLocationState;
-      navigate(".", { replace: true, state: newState });
+      setSearchParams(
+        (params) => {
+          params.delete("translate");
+          return params;
+        },
+        { state: location.state, replace: true },
+      );
     },
-    [location.state, navigate],
+    [location.state, setSearchParams],
   );
 
   return {

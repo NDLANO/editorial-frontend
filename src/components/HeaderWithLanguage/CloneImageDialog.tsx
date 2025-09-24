@@ -83,7 +83,7 @@ export const CloneImageDialog = ({ imageId }: Props) => {
   );
 
   return (
-    <DialogRoot open={open} onOpenChange={onOpenChange}>
+    <DialogRoot context="alert" role="alertdialog" open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button size="small" variant="tertiary" loading={cloneImage.isPending}>
           {t("form.workflow.saveAsNew")}

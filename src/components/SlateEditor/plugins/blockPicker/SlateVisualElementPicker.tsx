@@ -113,6 +113,8 @@ const SlateVisualElementPicker = ({
 
   return (
     <DialogRoot
+      context="alert"
+      role="alertdialog"
       size="large"
       open={isOpen}
       onOpenChange={(details) => {

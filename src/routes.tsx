@@ -9,22 +9,6 @@
 import { RouteObject } from "react-router";
 import { Layout } from "./components/Page/Layout";
 import { ErrorElement } from "./components/RouteErrorElement";
-import config from "./config";
-
-const learningpathRoutes: RouteObject[] = [
-  {
-    path: "/learningpath/:id/edit/:language",
-    lazy: () => import("./containers/LearningpathPage/EditLearningpathPage"),
-  },
-  {
-    path: "/learningpath/new",
-    lazy: () => import("./containers/LearningpathPage/CreateLearningpathPage"),
-  },
-  {
-    path: "/learningpath/:id/preview/:language/:stepId?",
-    lazy: () => import("./containers/LearningpathPreviewPage/LearningpathPreviewPage"),
-  },
-];
 
 export const routes: RouteObject[] = [
   {
@@ -307,7 +291,18 @@ export const routes: RouteObject[] = [
           },
         ],
       },
-      ...(config.enableLearningpath ? learningpathRoutes : []),
+      {
+        path: "/learningpath/:id/edit/:language",
+        lazy: () => import("./containers/LearningpathPage/EditLearningpathPage"),
+      },
+      {
+        path: "/learningpath/new",
+        lazy: () => import("./containers/LearningpathPage/CreateLearningpathPage"),
+      },
+      {
+        path: "/learningpath/:id/preview/:language/:stepId?",
+        lazy: () => import("./containers/LearningpathPreviewPage/LearningpathPreviewPage"),
+      },
       {
         path: "film/:selectedLanguage?",
         lazy: () => import("./containers/NdlaFilm/NdlaFilmEditor"),

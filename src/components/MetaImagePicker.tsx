@@ -43,7 +43,7 @@ export const MetaImagePicker = ({ imageSearch, imageForm, children }: Props) => 
 
   const onClose = useCallback(() => setOpen(false), []);
   return (
-    <DialogRoot size="large" open={open} onOpenChange={(details) => setOpen(details.open)}>
+    <DialogRoot role="alertdialog" size="large" open={open} onOpenChange={(details) => setOpen(details.open)}>
       {children}
       <DialogContent>
         <DialogHeader>

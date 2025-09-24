@@ -107,10 +107,10 @@ test("opens and closes audio", async ({ page }) => {
 test("opens and closes file", async ({ page }) => {
   await page.getByTestId("create-file").click();
   await expect(
-    page.getByRole("dialog").filter({ hasText: "Dra og slipp eller trykk for å laste opp fil(er)" }),
+    page.getByRole("alertdialog").filter({ hasText: "Dra og slipp eller trykk for å laste opp fil(er)" }),
   ).toBeVisible();
-  await page.getByRole("dialog").getByRole("button", { name: "Avbryt" }).click();
-  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await page.getByRole("alertdialog").getByRole("button", { name: "Avbryt" }).click();
+  await expect(page.getByRole("alertdialog")).toHaveCount(0);
 });
 
 test("opens and closes url", async ({ page }) => {

@@ -67,11 +67,11 @@ const EditGloss = () => {
 
   useEffect(() => {
     (async () => {
-      if (concept && !loading && shouldTranslate) {
+      if (concept && !loading && shouldTranslate && !translating) {
         await translate(concept, translateFields, setConcept);
       }
     })();
-  }, [concept, loading, setConcept, shouldTranslate, translate]);
+  }, [concept, loading, setConcept, shouldTranslate, translate, translating]);
 
   if (loading || translating) {
     return <PageSpinner />;

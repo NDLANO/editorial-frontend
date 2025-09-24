@@ -20,8 +20,8 @@ const TranslateNbToNn = ({ id, editUrl }: Props) => {
     <SafeLinkButton
       size="small"
       variant="tertiary"
-      to={editUrl(id, "nn")}
-      state={{ isCreatingLanguage: true, shouldTranslate: true }}
+      to={{ pathname: editUrl(id, "nn"), search: "?translate=true" }}
+      state={{ isCreatingLanguage: true }}
     >
       {t("form.variant.translate")}
     </SafeLinkButton>

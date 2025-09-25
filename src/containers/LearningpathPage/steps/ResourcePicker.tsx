@@ -100,7 +100,7 @@ export const ResourcePicker = ({ setResource, children, onlyPublishedResources }
     <GenericSearchCombobox
       items={searchHits}
       isItemDisabled={(item) =>
-        onlyPublishedResources ? item.status?.current !== PUBLISHED || item.status.other.includes(PUBLISHED) : false
+        onlyPublishedResources ? item.status?.current !== PUBLISHED || !item.status?.other.includes(PUBLISHED) : false
       }
       itemToString={(item) => item.title.title}
       itemToValue={(item) => item.id}

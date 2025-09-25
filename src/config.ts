@@ -61,17 +61,6 @@ const editorialFrontendDomain = (ndlaEnvironment: string) => {
   }
 };
 
-const learningpathFrontendDomain = (ndlaEnvironment: string) => {
-  switch (ndlaEnvironment) {
-    case "local":
-      return "http://localhost:30007";
-    case "prod":
-      return "https://stier.ndla.no";
-    default:
-      return `https://stier.${ndlaEnvironment}.ndla.no`;
-  }
-};
-
 const h5pApiUrl = (ndlaEnvironment: string) => {
   switch (ndlaEnvironment) {
     case "local":
@@ -161,7 +150,6 @@ export type ConfigType = {
   componentName: string | undefined;
   isNdlaProdEnvironment: boolean;
   ndlaEnvironment: string;
-  learningpathFrontendDomain: string;
   localConverter: boolean;
   brightcoveApiUrl: string;
   brightcoveUrl: string;
@@ -187,7 +175,6 @@ export type ConfigType = {
   matomoUrl: string;
   s3AudioRoot: string;
   norgesfilmNewUrl: boolean;
-  enableLearningpath: boolean;
   formbricksId: string | undefined;
 };
 
@@ -207,10 +194,6 @@ const getServerSideConfig = (): ConfigType => {
     ndlaBaseUrl: ndlaBaseUrl(ndlaEnvironment),
     ndlaFrontendDomain: getEnvironmentVariabel("FRONTEND_DOMAIN", ndlaFrontendDomain(ndlaEnvironment)),
     editorialFrontendDomain: getEnvironmentVariabel("EDITORIAL_DOMAIN", editorialFrontendDomain(ndlaEnvironment)),
-    learningpathFrontendDomain: getEnvironmentVariabel(
-      "LEARNINGPATH_DOMAIN",
-      learningpathFrontendDomain(ndlaEnvironment),
-    ),
     defaultLanguage: getDefaultLanguage(),
     ndlaPersonalClientId: getEnvironmentVariabel("NDLA_PERSONAL_CLIENT_ID", ""),
     auth0Domain: getEnvironmentVariabel("AUTH0_DOMAIN", getAuth0Hostname(ndlaEnvironment)),
@@ -239,7 +222,6 @@ const getServerSideConfig = (): ConfigType => {
     matomoUrl: getEnvironmentVariabel("MATOMO_URL", matomoDomain(ndlaEnvironment)),
     s3AudioRoot: getAudioS3Root(ndlaEnvironment),
     norgesfilmNewUrl: getEnvironmentVariabel("NORGESFILM_NEW_URL", "false") === "true",
-    enableLearningpath: getEnvironmentVariabel("ENABLE_LEARNINGPATH", "true") === "true",
     formbricksId: getEnvironmentVariabel("FORMBRICKS_ID", ""),
   };
 };

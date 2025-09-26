@@ -136,6 +136,11 @@ const phrases = {
     " ": "Hardt mellomrom",
     "§": "Paragraf",
     "¿": "Invertert spørsmåltegn",
+    α: "Alfa",
+    β: "Beta",
+    γ: "Gamma",
+    "±": "Pluss/minus",
+    "→": "Høyrepil",
   },
   welcomePage: {
     lastFavorited: "Siste hjertemarkerte ressurs: ",

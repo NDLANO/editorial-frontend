@@ -30,10 +30,10 @@ import { styled } from "@ndla/styled-system/jsx";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { FormField } from "../../../components/FormField";
 
-type ContributorType = keyof typeof contributorGroups | "contributors";
+type ContributorGroupType = keyof typeof contributorGroups | "contributors";
 
 interface Props {
-  contributorTypes: readonly ContributorType[];
+  contributorTypes: readonly ContributorGroupType[];
   width?: number;
 }
 
@@ -81,10 +81,12 @@ const ContributorsField = ({ contributorTypes }: Props) => {
 };
 
 interface ContributorProps {
-  type: ContributorType;
+  type: ContributorGroupType;
   onAddNew: (val: StringAuthor) => void;
   onRemove: (index: number) => void;
 }
+
+type ContributorType = keyof typeof contributorTypes;
 
 const Contributor = ({ type, onAddNew, onRemove }: ContributorProps) => {
   const { t, i18n } = useTranslation();
@@ -94,7 +96,9 @@ const Contributor = ({ type, onAddNew, onRemove }: ContributorProps) => {
     const items = type === "contributors" ? Object.values(contributorGroups).flat() : contributorGroups[type];
     const contributorTypeItems = items.map((item: string) => ({
       type: item,
-      translation: contributorTypes[i18n.language] ? contributorTypes[i18n.language][item] : contributorTypes.nb[item],
+      translation:
+        contributorTypes[item as ContributorType][i18n.language as "nb" | "nn" | "en"] ??
+        contributorTypes[item as ContributorType].nb,
     }));
 
     return createListCollection({

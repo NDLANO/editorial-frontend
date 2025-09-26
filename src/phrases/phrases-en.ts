@@ -136,6 +136,11 @@ const phrases = {
     " ": "Non breaking space",
     "§": "Section",
     "¿": "Inverted questionmark",
+    α: "Alpha",
+    β: "Beta",
+    γ: "Gamma",
+    "±": "Plus/minus",
+    "→": "Right arrow",
   },
   welcomePage: {
     lastFavorited: "Last favorited resource: ",

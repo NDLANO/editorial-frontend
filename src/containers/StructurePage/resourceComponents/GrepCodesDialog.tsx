@@ -20,30 +20,29 @@ import {
   DialogContent,
 } from "@ndla/primitives";
 import { IArticleDTO } from "@ndla/types-backend/draft-api";
-import { constants } from "@ndla/ui";
+import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import GrepCodesForm from "./GrepCodesForm";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { useUpdateDraftMutation } from "../../../modules/draft/draftMutations";
 import { draftQueryKeys } from "../../../modules/draft/draftQueries";
+import { usePatchLearningpathMutation } from "../../../modules/learningpath/learningpathMutations";
+import { learningpathQueryKeys } from "../../../modules/learningpath/learningpathQueries";
 import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 
-const { contentTypes } = constants;
-
 interface Props {
   codes: string[];
-  contentType: string;
   contentUri?: string;
   revision?: number;
   currentNodeId: string;
   rootGrepCodesString: string | undefined;
 }
 
-const GrepCodesDialog = ({ codes, contentType, contentUri, revision, currentNodeId, rootGrepCodesString }: Props) => {
+const GrepCodesDialog = ({ codes, contentUri, revision, currentNodeId, rootGrepCodesString }: Props) => {
   const [open, setOpen] = useState(false);
-  const draftId = Number(getIdFromUrn(contentUri));
-  if (contentType === contentTypes.LEARNING_PATH || !draftId || !revision) return null;
+  const resourceId = Number(getIdFromUrn(contentUri));
+  if (!resourceId || !revision) return null;
 
   return (
     <DialogRoot size="large" position="top" open={open} onOpenChange={(details) => setOpen(details.open)}>
@@ -54,7 +53,7 @@ const GrepCodesDialog = ({ codes, contentType, contentUri, revision, currentNode
         <GrepCodeDialogContent
           codes={codes}
           revision={revision}
-          draftId={draftId}
+          resourceId={resourceId}
           currentNodeId={currentNodeId}
           contentUri={contentUri!}
           rootGrepCodesString={rootGrepCodesString}
@@ -67,7 +66,7 @@ const GrepCodesDialog = ({ codes, contentType, contentUri, revision, currentNode
 
 interface DialogContentProps {
   codes: string[];
-  draftId: number;
+  resourceId: number;
   revision: number;
   currentNodeId: string;
   contentUri: string;
@@ -77,7 +76,7 @@ interface DialogContentProps {
 
 const GrepCodeDialogContent = ({
   codes,
-  draftId,
+  resourceId,
   revision,
   currentNodeId,
   contentUri,
@@ -85,9 +84,9 @@ const GrepCodeDialogContent = ({
   rootGrepCodesString,
 }: DialogContentProps) => {
   const updateDraft = useUpdateDraftMutation();
+  const updateLearningpath = usePatchLearningpathMutation();
   const { t, i18n } = useTranslation();
   const qc = useQueryClient();
-  const key = useMemo(() => draftQueryKeys.draftWithLanguage(draftId, i18n.language), [i18n.language, draftId]);
   const nodeKey = useMemo(
     () =>
       nodeQueryKeys.resourceMetas({
@@ -99,22 +98,33 @@ const GrepCodeDialogContent = ({
 
   const onUpdateGrepCodes = useCallback(
     async (grepCodes: string[]) => {
-      const updatedRevision = updateDraft.data?.revision ?? revision;
-      await updateDraft.mutateAsync(
-        { id: draftId, body: { grepCodes, revision: updatedRevision, metaImage: undefined, responsibleId: undefined } },
-        {
-          onSuccess: (data) => {
-            qc.cancelQueries({ queryKey: key });
-            qc.setQueryData<IArticleDTO>(key, data);
-            qc.invalidateQueries({ queryKey: key });
-            qc.setQueriesData<NodeResourceMeta[]>({ queryKey: nodeKey }, (data) =>
-              data?.map((meta) => (meta.contentUri === contentUri ? { ...meta, grepCodes } : meta)),
-            );
-          },
-        },
-      );
+      if (contentUri.includes("learningpath")) {
+        const queryKey = learningpathQueryKeys.learningpath({ id: resourceId, language: i18n.language });
+        const data = await updateLearningpath.mutateAsync({
+          id: resourceId,
+          learningpath: { revision: updateLearningpath.data?.revision ?? revision, grepCodes, language: i18n.language },
+        });
+        qc.cancelQueries({ queryKey });
+        qc.setQueryData<ILearningPathV2DTO>(queryKey, data);
+        qc.invalidateQueries({ queryKey });
+        qc.setQueriesData<NodeResourceMeta[]>({ queryKey: nodeKey }, (data) =>
+          data?.map((meta) => (meta.contentUri === contentUri ? { ...meta, grepCodes } : meta)),
+        );
+      } else {
+        const queryKey = draftQueryKeys.draftWithLanguage(resourceId, i18n.language);
+        const data = await updateDraft.mutateAsync({
+          id: resourceId,
+          body: { grepCodes, revision: updateDraft.data?.revision ?? revision },
+        });
+        qc.cancelQueries({ queryKey });
+        qc.setQueryData<IArticleDTO>(queryKey, data);
+        qc.invalidateQueries({ queryKey });
+        qc.setQueriesData<NodeResourceMeta[]>({ queryKey: nodeKey }, (data) =>
+          data?.map((meta) => (meta.contentUri === contentUri ? { ...meta, grepCodes } : meta)),
+        );
+      }
     },
-    [updateDraft, draftId, revision, qc, key, nodeKey, contentUri],
+    [contentUri, resourceId, i18n.language, updateLearningpath, revision, qc, nodeKey, updateDraft],
   );
   return (
     <DialogContent>

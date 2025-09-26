@@ -9,7 +9,7 @@
 import { ReactNode, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { CollectionItem, createListCollection } from "@ark-ui/react";
-import { CollectionOptions } from "@zag-js/collection";
+import { CollectionOptions } from "@ark-ui/react/collection";
 import {
   ComboboxContent,
   ComboboxItem,

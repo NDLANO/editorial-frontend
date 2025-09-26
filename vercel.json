@@ -1,27 +1,28 @@
 {
-  "version": 2,
-  "builds": [
+  "regions": ["dub1"],
+  "installCommand": "",
+  "buildCommand": "",
+  "outputDirectory": "build",
+  "rewrites": [
+    { "source": "/static/(.*)", "destination": "/public/static/$1" },
+    { "source": "/(.*)", "destination": "/api" }
+  ],
+  "headers": [
     {
-      "src": "build/public/**",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "build/server.mjs",
-      "use": "@vercel/node"
+      "source": "/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=86400"
+        }
+      ]
     }
   ],
-  "routes": [
-    {
-      "src": "/static/(.*)",
-      "headers": { "cache-control": "s-maxage=86400" },
-      "dest": "build/public/static/$1"
-    },
-    {
-      "src": "/(.*.(png|jpg|svg|gif))",
-      "dest": "build/public/$1"
-    },
-    { "src": "/(.*)", "dest": "/build/server.mjs" }
-  ],
+  "functions": {
+    "api/index.mjs": {
+      "includeFiles": "build/server.mjs"
+    }
+  },
   "env": {
     "IS_VERCEL": "true",
     "NODE_ENV": "production"

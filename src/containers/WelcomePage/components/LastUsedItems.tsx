@@ -44,14 +44,17 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [], lastUsed
     { enabled: !!lastUsedConcepts.length },
   );
 
-  const searchLearningpathsQuery = useSearch({
-    ids: lastUsedLearningpaths,
-    resultTypes: ["learningpath"],
-    license: "all",
-    filterInactive: false,
-    language: i18n.language,
-    sort: "-lastUpdated",
-  });
+  const searchLearningpathsQuery = useSearch(
+    {
+      ids: lastUsedLearningpaths,
+      resultTypes: ["learningpath"],
+      license: "all",
+      filterInactive: false,
+      language: i18n.language,
+      sort: "-lastUpdated",
+    },
+    { enabled: !!lastUsedLearningpaths.length },
+  );
 
   const draftsError = useMemo(() => {
     if (searchDraftsQuery.isError) {

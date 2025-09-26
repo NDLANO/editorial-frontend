@@ -31,6 +31,7 @@ const phrases = {
     nodeDiffPage: `Sammenlign noder ${titleTemplate}`,
     editFrontpage: "Rediger forside",
     comparePage: `Sammenlign versjoner ${titleTemplate}`,
+    notFoundPage: `Siden finnes ikke ${titleTemplate}`,
     search: {
       "podcast-series": `Søk podkastserier ${titleTemplate}`,
       audio: `Søk lydfiler ${titleTemplate}`,

@@ -8,8 +8,9 @@
 
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { InformationLine } from "@ndla/icons";
+import { MessageBox, PageContainer, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ErrorMessage } from "@ndla/ui";
 import { fetchH5PiframeUrl, editH5PiframeUrl, fetchH5PInfo } from "./h5pApi";
 import handleError from "../../util/handleError";
 
@@ -102,21 +103,18 @@ const H5PElement = ({ h5pUrl, onSelect, onClose, locale, canReturnResources }: P
 
   return (
     <FlexWrapper data-testid="h5p-editor">
-      {!!fetchFailed && (
-        <ErrorMessage
-          illustration={{
-            url: "/Oops.gif",
-            altText: t("errorMessage.title"),
-          }}
-          messages={{
-            title: t("errorMessage.title"),
-            description: t("h5pElement.fetchError"),
-            back: t("errorMessage.back"),
-            goToFrontPage: t("errorMessage.goToFrontPage"),
-          }}
-        />
+      {fetchFailed ? (
+        <PageContainer>
+          <MessageBox variant="error">
+            <InformationLine />
+            {t("h5pElement.fetchError")}
+          </MessageBox>
+        </PageContainer>
+      ) : url ? (
+        <StyledIFrame src={url} title="H5P" frameBorder="0" />
+      ) : (
+        <Spinner />
       )}
-      {!!url && <StyledIFrame src={url} title="H5P" frameBorder="0" />}
     </FlexWrapper>
   );
 };

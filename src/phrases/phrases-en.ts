@@ -31,6 +31,7 @@ const phrases = {
     nodeDiffPage: `Compare Nodes ${titleTemplate}`,
     editFrontpage: "Edit front page",
     comparePage: `Compare versions ${titleTemplate}`,
+    notFoundPage: `Not found ${titleTemplate}`,
     search: {
       "podcast-series": `Search podcast series ${titleTemplate}`,
       audio: `Search audio files ${titleTemplate}`,

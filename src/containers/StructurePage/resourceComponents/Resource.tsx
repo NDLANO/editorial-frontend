@@ -146,6 +146,8 @@ const Resource = ({
   });
 
   const isSupplementary = resource.relevanceId === RESOURCE_FILTER_SUPPLEMENTARY;
+  const hasPublished =
+    resource.contentMeta?.status?.current === PUBLISHED || resource.contentMeta?.status?.other?.includes(PUBLISHED);
 
   return (
     <StyledListItemRoot context="list" variant="subtle" ref={ref}>
@@ -212,21 +214,16 @@ const Resource = ({
             </Text>
           </TextWrapper>
           <ControlButtonGroup>
-            {!!(
-              resource.contentMeta?.status?.current === PUBLISHED ||
-              resource.contentMeta?.status?.other?.includes(PUBLISHED)
-            ) && (
-              <SafeLinkIconButton
-                target="_blank"
-                to={`${config.ndlaFrontendDomain}${context?.url}?versionHash=${taxonomyVersion}`}
-                aria-label={t("taxonomy.publishedVersion")}
-                title={t("taxonomy.publishedVersion")}
-                size="small"
-                variant="success"
-              >
-                <CheckboxCircleLine />
-              </SafeLinkIconButton>
-            )}
+            <SafeLinkIconButton
+              target="_blank"
+              to={`${config.ndlaFrontendDomain}${context?.url}?versionHash=${taxonomyVersion}`}
+              aria-label={t("taxonomy.publishedVersion")}
+              title={t("taxonomy.publishedVersion")}
+              size="small"
+              variant={hasPublished ? "success" : "clear"}
+            >
+              <CheckboxCircleLine />
+            </SafeLinkIconButton>
             <GrepCodesDialog
               codes={resource.contentMeta?.grepCodes ?? []}
               contentType={contentType}

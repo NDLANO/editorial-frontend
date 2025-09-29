@@ -7,26 +7,32 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { PageContainer } from "@ndla/primitives";
-import { ErrorMessage } from "@ndla/ui";
+import {
+  ErrorMessageActions,
+  ErrorMessageContent,
+  ErrorMessageDescription,
+  ErrorMessageRoot,
+  ErrorMessageTitle,
+  PageContainer,
+} from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 
 const NotFound = () => {
   const { t } = useTranslation();
   return (
     <PageContainer asChild consumeCss>
       <main>
-        <ErrorMessage
-          illustration={{
-            url: "/not-exist.gif",
-            altText: t("errorMessage.title"),
-          }}
-          messages={{
-            title: t("errorMessage.title"),
-            description: t("notFound.description"),
-            back: t("errorMessage.back"),
-            goToFrontPage: t("errorMessage.goToFrontPage"),
-          }}
-        />
+        <ErrorMessageRoot>
+          <title>{t("htmlTitles.notFoundPage")}</title>
+          <img src={"not-exist.gif"} alt={t("errorMessage.title")} />
+          <ErrorMessageContent>
+            <ErrorMessageTitle>{t("errorMessage.title")}</ErrorMessageTitle>
+            <ErrorMessageDescription>{t("notFound.description")}</ErrorMessageDescription>
+          </ErrorMessageContent>
+          <ErrorMessageActions>
+            <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
+          </ErrorMessageActions>
+        </ErrorMessageRoot>
       </main>
     </PageContainer>
   );

@@ -8,10 +8,10 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ExpandableBox, ExpandableBoxSummary, Spinner, Text, UnOrderedList } from "@ndla/primitives";
+import { InformationLine } from "@ndla/icons";
+import { ExpandableBox, ExpandableBoxSummary, MessageBox, Spinner, Text, UnOrderedList } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IArticleDTO } from "@ndla/types-backend/draft-api";
-import { ErrorMessage } from "@ndla/ui";
 import { partition, sortBy } from "@ndla/util";
 import { TaxonomyBlock } from "../../../../components/Taxonomy/TaxonomyBlock";
 import { TaxonomyConnections } from "../../../../components/Taxonomy/TaxonomyConnections";
@@ -57,18 +57,10 @@ const TopicArticleTaxonomy = ({ article, articleLanguage, hasTaxEntries }: Props
   if (nodesQuery.isError || versionsQuery.isError) {
     changeVersion("");
     return (
-      <ErrorMessage
-        illustration={{
-          url: "/Oops.gif",
-          altText: t("errorMessage.title"),
-        }}
-        messages={{
-          title: t("errorMessage.title"),
-          description: t("errorMessage.taxonomy"),
-          back: t("errorMessage.back"),
-          goToFrontPage: t("errorMessage.goToFrontPage"),
-        }}
-      />
+      <MessageBox variant="error">
+        <InformationLine />
+        {t("errorMessage.taxonomy")}
+      </MessageBox>
     );
   } else if (nodesQuery.isLoading || versionsQuery.isLoading) {
     return <Spinner />;

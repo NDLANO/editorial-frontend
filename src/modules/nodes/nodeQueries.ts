@@ -143,7 +143,12 @@ const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<Nod
   );
   const transformedLearningpaths: NodeResourceMeta[] = learningpaths.map((lp) => ({
     status: { current: lp.status, other: [] },
+    grepCodes: lp.grepCodes,
     contentUri: `urn:learningpath:${lp.id}`,
+    revision: lp.revision,
+    responsible: lp.responsible,
+    revisions: lp.revisions,
+    comments: lp.comments,
   }));
 
   return transformedArticles.concat(transformedLearningpaths);

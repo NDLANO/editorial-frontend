@@ -229,7 +229,6 @@ const Resource = ({
             )}
             <GrepCodesDialog
               codes={resource.contentMeta?.grepCodes ?? []}
-              contentType={contentType}
               contentUri={resource.contentUri}
               revision={resource.contentMeta?.revision}
               currentNodeId={currentNodeId}

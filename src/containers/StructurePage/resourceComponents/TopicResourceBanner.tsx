@@ -303,7 +303,6 @@ const TopicResourceBanner = ({
             )}
             <GrepCodesDialog
               codes={currentNode.contentMeta?.grepCodes ?? []}
-              contentType={"topic-article"}
               contentUri={currentNode.contentUri}
               revision={currentNode.contentMeta?.revision}
               currentNodeId={currentNode.id}

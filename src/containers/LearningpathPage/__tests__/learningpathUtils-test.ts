@@ -16,6 +16,7 @@ test("isNDLAEmbedUrl should return true for NDLA embed URLs", () => {
 
 test("isNDLAEmbedUrl should return false for non-NDLA embed URLs", () => {
   expect(isNDLAEmbedUrl("https://evilndla.no/embed/123#hash")).toBe(false);
+  expect(isNDLAEmbedUrl("https://ndla.no.evil.com/embed/123")).toBe(false);
   expect(isNDLAEmbedUrl("https://www.example.com/embed/123")).toBe(false);
   expect(isNDLAEmbedUrl("https://www.example.com/embed/123?param=value")).toBe(false);
   expect(isNDLAEmbedUrl("https://www.example.com/embed/123#hash")).toBe(false);

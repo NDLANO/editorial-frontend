@@ -9,7 +9,6 @@
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 
-import { ContentTypeProvider } from "../../../components/ContentTypeProvider";
 import { FormContent } from "../../../components/FormikForm";
 import LastUpdatedLine from "../../../components/LastUpdatedLine/LastUpdatedLine";
 import { IngressField, TitleField } from "../../FormikForm";
@@ -29,16 +28,14 @@ const ConceptContent = ({ inDialog = false }: Props) => {
   } = formikContext;
 
   return (
-    <ContentTypeProvider value="concept">
-      <FormContent>
-        <div>
-          <TitleField />
-          <LastUpdatedLine onChange={() => {}} creators={creators} published={updated} contentType="concept" />
-        </div>
-        <VisualElementField types={["image"]} inDialog={inDialog} />
-        <IngressField name="conceptContent" maxLength={800} placeholder={t("form.name.conceptContent")} />
-      </FormContent>
-    </ContentTypeProvider>
+    <FormContent>
+      <div>
+        <TitleField />
+        <LastUpdatedLine onChange={() => {}} creators={creators} published={updated} contentType="concept" />
+      </div>
+      <VisualElementField types={["image"]} inDialog={inDialog} />
+      <IngressField name="conceptContent" maxLength={800} placeholder={t("form.name.conceptContent")} />
+    </FormContent>
   );
 };
 

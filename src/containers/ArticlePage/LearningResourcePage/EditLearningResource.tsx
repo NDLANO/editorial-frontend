@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router";
 import { PageContent } from "@ndla/primitives";
 import LearningResourceForm from "./components/LearningResourceForm";
-import { ContentTypeProvider } from "../../../components/ContentTypeProvider";
 import {
   NynorskTranslateProvider,
   TranslateType,
@@ -21,7 +20,6 @@ import { PageSpinner } from "../../../components/PageSpinner";
 import { isNewArticleLanguage } from "../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import { LocaleType } from "../../../interfaces";
 import { useNodes } from "../../../modules/nodes/nodeQueries";
-import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 import NotFound from "../../NotFoundPage/NotFoundPage";
@@ -122,7 +120,7 @@ const EditLearningResource = () => {
   const newLanguage = isNewArticleLanguage(selectedLanguage, article);
 
   return (
-    <ContentTypeProvider value={getContentTypeFromResourceTypes(taxonomyQuery.data?.[0]?.resourceTypes ?? [])}>
+    <>
       <title>{`${article.title?.title} ${t("htmlTitles.titleTemplate")}`}</title>
       <LearningResourceForm
         articleLanguage={selectedLanguage}
@@ -135,6 +133,6 @@ const EditLearningResource = () => {
         supportedLanguages={article.supportedLanguages}
         translatedFieldsToNN={translatedFields}
       />
-    </ContentTypeProvider>
+    </>
   );
 };

@@ -10,11 +10,10 @@ import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { BrushLine } from "@ndla/icons";
-import { IconButton } from "@ndla/primitives";
+import { BlockQuote, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ContentTypeBlockQuote, EmbedWrapper } from "@ndla/ui";
+import { EmbedWrapper } from "@ndla/ui";
 import { BlockQuoteElement } from "./blockquoteTypes";
-import { useArticleContentType } from "../../../ContentTypeProvider";
 
 interface Props extends RenderElementProps {
   editor: Editor;
@@ -31,7 +30,6 @@ const StyledIconButton = styled(IconButton, {
 
 export const SlateBlockQuote = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
-  const contentType = useArticleContentType();
   const variant = element.data?.variant ?? "neutral";
 
   const changeVariant = () => {
@@ -41,7 +39,7 @@ export const SlateBlockQuote = ({ element, editor, attributes, children }: Props
 
   return (
     <EmbedWrapper {...attributes}>
-      <ContentTypeBlockQuote variant={element.data?.variant} contentType={contentType}>
+      <BlockQuote variant={element.data?.variant === "colored" ? "brand1" : undefined}>
         <StyledIconButton
           size="small"
           onClick={changeVariant}
@@ -52,7 +50,7 @@ export const SlateBlockQuote = ({ element, editor, attributes, children }: Props
           <BrushLine />
         </StyledIconButton>
         {children}
-      </ContentTypeBlockQuote>
+      </BlockQuote>
     </EmbedWrapper>
   );
 };

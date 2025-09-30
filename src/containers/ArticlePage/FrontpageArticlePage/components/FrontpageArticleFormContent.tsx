@@ -16,7 +16,6 @@ import { styled } from "@ndla/styled-system/jsx";
 import { frontpagePlugins } from "./frontpagePlugins";
 import { frontpageRenderers } from "./frontpageRenderers";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
-import { ContentTypeProvider } from "../../../../components/ContentTypeProvider";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
 import { ContentEditableFieldLabel } from "../../../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../../components/Form/FieldWarning";
@@ -167,32 +166,31 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
         </FormActionsContainer>
       </AlertDialog>
       <FieldRoot invalid={!!meta.error}>
-        <ContentTypeProvider value="frontpage-article">
-          <SegmentHeader>
-            <ContentEditableFieldLabel>{t("form.content.label")}</ContentEditableFieldLabel>
-            {!!id && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (
-              <EditMarkupLink to={toEditMarkup(id, language ?? "")} title={t("editMarkup.linkTitle")} />
-            )}
-          </SegmentHeader>
-          <RichTextEditor
-            language={articleLanguage}
-            blockPicker={
-              <SlateBlockPicker
-                actions={frontpageActions}
-                articleLanguage={articleLanguage}
-                {...createBlockpickerOptions({ actionsToShowInAreas })}
-              />
-            }
-            placeholder={t("form.content.placeholder")}
-            value={field.value}
-            submitted={isSubmitting}
-            plugins={editorPlugins}
-            data-testid="frontpage-article-content"
-            onChange={debouncedOnChange}
-            onInitialNormalized={onInitialNormalized}
-            renderInvalidElement={(props) => <UnsupportedElement {...props} />}
-          />
-        </ContentTypeProvider>
+        <SegmentHeader>
+          <ContentEditableFieldLabel>{t("form.content.label")}</ContentEditableFieldLabel>
+          {!!id && !!userPermissions?.includes(DRAFT_HTML_SCOPE) && (
+            <EditMarkupLink to={toEditMarkup(id, language ?? "")} title={t("editMarkup.linkTitle")} />
+          )}
+        </SegmentHeader>
+        <RichTextEditor
+          language={articleLanguage}
+          blockPicker={
+            <SlateBlockPicker
+              actions={frontpageActions}
+              articleLanguage={articleLanguage}
+              {...createBlockpickerOptions({ actionsToShowInAreas })}
+            />
+          }
+          placeholder={t("form.content.placeholder")}
+          value={field.value}
+          submitted={isSubmitting}
+          plugins={editorPlugins}
+          data-testid="frontpage-article-content"
+          onChange={debouncedOnChange}
+          onInitialNormalized={onInitialNormalized}
+          renderInvalidElement={(props) => <UnsupportedElement {...props} />}
+        />
+
         <FieldErrorMessage>{meta.error}</FieldErrorMessage>
         <FieldWarning name={field.name} />
       </FieldRoot>

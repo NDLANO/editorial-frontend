@@ -9,7 +9,6 @@
 import queryString from "query-string";
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router";
-import config from "../config";
 import { NDLA_FILM_SUBJECT } from "../constants";
 
 export interface NewlyCreatedLocationState {
@@ -35,7 +34,6 @@ export const routes = {
   programme: toProgramme,
   nodeDiff: toNodeDiff,
   learningpath: {
-    full: toLearningpathFull,
     create: "/learningpath/new",
     edit: toEditLearningpath,
     preview: toPreviewLearningpath,
@@ -132,9 +130,6 @@ export function toEditGenericArticle(articleId: number | string) {
 }
 
 export function toEditLearningpath(id: number, locale: string) {
-  if (!config.enableLearningpath) {
-    return toLearningpathFull(id, locale);
-  }
   return `/learningpath/${id}/edit/${locale}`;
 }
 
@@ -283,15 +278,8 @@ export function isLearningpath(path: string | string[]): boolean {
 }
 
 export const toLearningpath = (id: number | string, locale: string) => {
-  if (!config.enableLearningpath) {
-    return toLearningpathFull(id, locale);
-  }
   return `/learningpath/${id}/edit/${locale}`;
 };
-
-export function toLearningpathFull(id: number | string, locale: string) {
-  return `${config.learningpathFrontendDomain}/${locale}/learningpaths/${id}/first-step`;
-}
 
 export const removeLastItemFromUrl = (url: string) =>
   url

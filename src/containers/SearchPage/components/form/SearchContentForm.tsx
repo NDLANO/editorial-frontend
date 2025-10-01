@@ -19,7 +19,6 @@ import SearchHeader from "../../../../components/Form/SearchHeader";
 import SearchTagGroup, { Filters } from "../../../../components/Form/SearchTagGroup";
 import { SelectElement, SelectRenderer } from "../../../../components/Form/SelectRenderer";
 import { getTagName } from "../../../../components/Form/utils";
-import config from "../../../../config";
 import {
   DA_SUBJECT_ID,
   DRAFT_RESPONSIBLE,
@@ -208,12 +207,10 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
       }),
       { id: "HAS_PUBLISHED", name: t(`form.status.has_published`) },
     ];
-    if (config.enableLearningpath) {
-      draftStatuses.push(
-        { id: "UNLISTED", name: t(`form.status.unlisted`) },
-        { id: "PRIVATE", name: t(`form.status.private`) },
-      );
-    }
+    draftStatuses.push(
+      { id: "UNLISTED", name: t(`form.status.unlisted`) },
+      { id: "PRIVATE", name: t(`form.status.private`) },
+    );
     return draftStatuses;
   };
 

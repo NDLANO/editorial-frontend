@@ -9,8 +9,8 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
-import { HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
-import { ArticleWrapper, ContentTypeHero } from "@ndla/ui";
+import { Hero, HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
+import { ArticleWrapper } from "@ndla/ui";
 import LanguageSelector from "./LanguageSelector";
 import PreviewDraft from "../../components/PreviewDraft/PreviewDraft";
 import { articleIsWide } from "../../components/WideArticleEditorProvider";
@@ -44,8 +44,6 @@ const PreviewDraftPage = () => {
     ? getContentTypeFromResourceTypes(resources.data[0].resourceTypes)
     : undefined;
 
-  const isFrontpage = draft.data?.articleType === "frontpage-article";
-
   if (isWide) {
     return (
       <PageContent variant="page">
@@ -65,7 +63,7 @@ const PreviewDraftPage = () => {
   }
 
   return (
-    <ContentTypeHero contentType={isFrontpage ? "subject-material" : contentType}>
+    <Hero variant="primary">
       <HeroBackground />
       <PageContent variant="article" asChild>
         <HeroContent>
@@ -86,6 +84,6 @@ const PreviewDraftPage = () => {
         </PageContent>
       </PageContent>
       <title>{`${draft.data?.title?.title} ${t("htmlTitles.titleTemplate")}`}</title>
-    </ContentTypeHero>
+    </Hero>
   );
 };

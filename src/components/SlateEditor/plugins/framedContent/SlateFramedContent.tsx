@@ -12,9 +12,9 @@ import { Editor, NodeEntry, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { BrushLine, CopyrightLine, FileListLine } from "@ndla/icons";
-import { DialogTrigger, IconButton } from "@ndla/primitives";
+import { DialogTrigger, FramedContent, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ContentTypeFramedContent, EmbedWrapper } from "@ndla/ui";
+import { EmbedWrapper } from "@ndla/ui";
 import { FramedContentElement } from "./framedContentTypes";
 import { isFramedContentElement } from "./queries/framedContentQueries";
 import { AI_ACCESS_SCOPE } from "../../../../constants";
@@ -22,7 +22,6 @@ import { useSession } from "../../../../containers/Session/SessionProvider";
 import { ReflectionVariables } from "../../../../interfaces";
 import { editorValueToPlainText } from "../../../../util/articleContentConverter";
 import { AiPromptDialog } from "../../../AiPromptDialog";
-import { useArticleContentType } from "../../../ContentTypeProvider";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
@@ -48,7 +47,6 @@ const SlateFramedContent = (props: Props) => {
   const { userPermissions } = useSession();
   const language = useArticleLanguage();
   const variant = element.data?.variant ?? "neutral";
-  const contentType = useArticleContentType();
   const hasAIAccess = userPermissions?.includes(AI_ACCESS_SCOPE);
 
   const hasSlateCopyright = useMemo(() => {
@@ -153,9 +151,7 @@ const SlateFramedContent = (props: Props) => {
           onMouseDown={onRemoveClick}
         />
       </FigureButtons>
-      <ContentTypeFramedContent variant={variant} contentType={contentType}>
-        {children}
-      </ContentTypeFramedContent>
+      <FramedContent colorTheme={variant === "colored" ? "brand1" : undefined}>{children}</FramedContent>
     </EmbedWrapper>
   );
 };

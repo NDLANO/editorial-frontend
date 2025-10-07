@@ -87,10 +87,10 @@ test("Can use content type dropdown", async ({ page }) => {
 });
 
 test("Can use inactive checkbox", async ({ page }) => {
-  await page.locator("label", { hasText: "Inkluder utgåtte fag" }).click();
+  await page.locator("label", { hasText: "Inkluder inaktive plasseringer" }).click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(40000);
-  await page.locator("label", { hasText: "Inkluder utgåtte fag" }).click();
+  await page.locator("label", { hasText: "Inkluder inaktive plasseringer" }).click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(searchTotalCount);
 });

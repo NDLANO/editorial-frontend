@@ -238,7 +238,7 @@ const kartiskolenTransformer: UrlTransformer = {
   },
   transform: async (url) => {
     const urlObj = new URL(url);
-    urlObj.pathname = urlObj.pathname.replace(/\/$/, "/embed.html");
+    urlObj.pathname = urlObj.pathname.replace(/\/?$/, "/embed.html");
     return urlObj.href;
   },
 };

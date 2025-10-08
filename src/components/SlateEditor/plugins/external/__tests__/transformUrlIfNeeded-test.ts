@@ -103,3 +103,12 @@ test("transformUrlIfNeeded adds ?embeddable=true for gapminder", async () => {
     "https://www.gapminder.org/tools/?embedded=true#$model$markers$line$data$filter$dimensions$geo$",
   );
 });
+
+test("transformUrlIfNeeded adds embed.html for kartiskolen", async () => {
+  const url1 = await transformUrlIfNeeded(
+    "https://kartiskolen.no/?topic=generelt&lang=nb&bgLayer=vanlig_grunnkart&layers=hoydekurver",
+  );
+  expect(url1).toMatch(
+    "https://kartiskolen.no/embed.html?topic=generelt&lang=nb&bgLayer=vanlig_grunnkart&layers=hoydekurver",
+  );
+});

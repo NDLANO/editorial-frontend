@@ -110,7 +110,7 @@ const flourishTransformer: UrlTransformer = {
   },
   transform: async (url) => {
     const obj = new URL(url);
-    obj.pathname = obj.pathname + "/embed";
+    obj.pathname = obj.pathname.replace(/\/+$/, "") + "/embed";
     return obj.href;
   },
 };

@@ -9,6 +9,15 @@
 import nock from "nock";
 import { urlTransformers } from "../urlTransformers";
 
+vi.mock("../../../../../config", () => {
+  return {
+    default: {
+      norgesfilmNewUrl: true,
+      runtimeType: "test",
+    },
+  };
+});
+
 const transformUrlIfNeeded = async (url: string) => {
   for (const rule of urlTransformers) {
     if (rule.shouldTransform(url, rule.domains)) {
@@ -78,7 +87,7 @@ test("transformUrlIfNeeded returns original for flourish", async () => {
 });
 
 test("transformUrlIfNeeded adds /embed for flourish", async () => {
-  const url1 = await transformUrlIfNeeded("https://public.flourish.studio/visualisation/8515737/");
+  const url1 = await transformUrlIfNeeded("https://public.flourish.studio/visualisation/8515737");
   expect(url1).toMatch("https://public.flourish.studio/visualisation/8515737/embed");
   const url2 = await transformUrlIfNeeded("https://flo.uri.sh/visualisation/8515737");
   expect(url2).toMatch("https://flo.uri.sh/visualisation/8515737/embed");
@@ -95,13 +104,23 @@ test("transformUrlIfNeeded creates embed-url for sketchup model if needed", asyn
   expect(url2).toMatch("https://3dwarehouse.sketchup.com/embed/eb498ef3-3de5-42ca-a621-34ea29cc08c4");
 });
 
+test("transformUrlIfNeeded transforms url for sketchfab", async () => {
+  const url1 = await transformUrlIfNeeded(
+    "https://sketchfab.com/3d-models/bombardier-learjet-60-7573f836dd3a46bdbce8b90b5a40f104",
+  );
+  expect(url1).toMatch("https://sketchfab.com/models/7573f836dd3a46bdbce8b90b5a40f104/embed");
+});
+
 test("transformUrlIfNeeded adds ?embeddable=true for gapminder", async () => {
   const url1 = await transformUrlIfNeeded(
-    "https://www.gapminder.org/tools/#$model$markers$line$data$filter$dimensions$geo$",
+    "https://www.gapminder.org/tools/#$model$markers$line$data$filter$dimensions$geo",
   ); // abbreviated
-  expect(url1).toMatch(
-    "https://www.gapminder.org/tools/?embedded=true#$model$markers$line$data$filter$dimensions$geo$",
-  );
+  expect(url1).toMatch("https://www.gapminder.org/tools/?embedded=true#$model$markers$line$data$filter$dimensions$geo");
+});
+
+test("transformUrlIfNeeded strips ndlafilm for filmiundervisning.no", async () => {
+  const url1 = await transformUrlIfNeeded("https://ndla.filmiundervisning.no/film/ndlafilm.aspx?filmId=400199");
+  expect(url1).toMatch("https://ndla.filmiundervisning.no/film/400199");
 });
 
 test("transformUrlIfNeeded adds embed.html for kartiskolen", async () => {

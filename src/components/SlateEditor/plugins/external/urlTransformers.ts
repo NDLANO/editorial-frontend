@@ -232,6 +232,25 @@ const norgesfilmTransformer: UrlTransformer = {
   },
 };
 
+const kartiskolenTransformer: UrlTransformer = {
+  domains: ["kartiskolen.no"],
+  shouldTransform: (url, domains) => {
+    const aTag = urlAsATag(url);
+
+    if (!domains.includes(aTag.hostname)) {
+      return false;
+    }
+    if (aTag.href.includes("embed.html")) {
+      return false;
+    }
+    return true;
+  },
+  transform: async (url) => {
+    const parts = url.split("/?");
+    return parts.join("/embed.html?");
+  },
+};
+
 export const urlTransformers: UrlTransformer[] = [
   nrkTransformer,
   codepenTransformer,
@@ -242,4 +261,5 @@ export const urlTransformers: UrlTransformer[] = [
   jeopardyLabTransformer,
   gapminderTransformer,
   norgesfilmTransformer,
+  kartiskolenTransformer,
 ];

@@ -14,15 +14,9 @@ export const getIframeSrcFromHtmlString = (html: string) => {
   return iframe.getAttribute("src");
 };
 
-export const urlAsATag = (url: string) => {
-  const a = document.createElement("a");
-  a.href = url;
-  return a;
-};
-
 export const urlDomain = (url: string) => {
-  const a = urlAsATag(url);
-  return a.hostname;
+  const urlObj = new URL(url);
+  return urlObj.hostname;
 };
 
 export const urlOrigin = (url: string) => {

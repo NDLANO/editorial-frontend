@@ -20,9 +20,8 @@ interface UrlTransformer {
 const nrkTransformer: UrlTransformer = {
   domains: ["nrk.no", "www.nrk.no"],
   shouldTransform: (url, domains) => {
-    const aTag = urlAsATag(url);
-
-    if (!domains.includes(aTag.hostname)) {
+    const urlObj = new URL(url);
+    if (!domains.includes(urlObj.hostname)) {
       return false;
     }
 
@@ -35,9 +34,9 @@ const nrkTransformer: UrlTransformer = {
     return false;
   },
   transform: async (url) => {
-    const aTag = urlAsATag(url);
-    const oldMediaId = new URLSearchParams(aTag.search).get("mediaId");
-    const newMediaId = Number(aTag.pathname.split("/skole-deling/")[1]);
+    const urlObj = new URL(url);
+    const oldMediaId = new URLSearchParams(urlObj.search).get("mediaId");
+    const newMediaId = Number(urlObj.pathname.split("/skole-deling/")[1]);
     const mediaId = newMediaId ? newMediaId : oldMediaId;
     if (!mediaId) {
       return url;
@@ -58,9 +57,8 @@ const nrkTransformer: UrlTransformer = {
 const tedTransformer: UrlTransformer = {
   domains: ["www.ted.com"],
   shouldTransform: (url, domains) => {
-    const aTag = urlAsATag(url);
-
-    if (!domains.includes(aTag.hostname)) {
+    const urlObj = new URL(url);
+    if (!domains.includes(urlObj.hostname)) {
       return false;
     }
     return true;
@@ -76,12 +74,12 @@ const tedTransformer: UrlTransformer = {
 const codepenTransformer: UrlTransformer = {
   domains: ["codepen.io"],
   shouldTransform: (url, domains) => {
-    const aTag = urlAsATag(url);
+    const urlObj = new URL(url);
 
-    if (!domains.includes(aTag.hostname)) {
+    if (!domains.includes(urlObj.hostname)) {
       return false;
     }
-    if (!aTag.href.includes("/pen/")) {
+    if (!urlObj.href.includes("/pen/")) {
       return false;
     }
     return true;
@@ -101,21 +99,18 @@ const codepenTransformer: UrlTransformer = {
 const flourishTransformer: UrlTransformer = {
   domains: ["public.flourish.studio", "flo.uri.sh"],
   shouldTransform: (url, domains) => {
-    const aTag = urlAsATag(url);
-
-    if (!domains.includes(aTag.hostname)) {
+    const urlObj = new URL(url);
+    if (!domains.includes(urlObj.hostname)) {
       return false;
     }
-    if (aTag.href.endsWith("/embed")) {
+    if (urlObj.href.endsWith("/embed")) {
       return false;
     }
     return true;
   },
   transform: async (url) => {
     const obj = new URL(url);
-    const parts = obj.pathname.split("/").filter((n) => n);
-    parts.push("embed");
-    obj.pathname = parts.join("/");
+    obj.pathname = obj.pathname + "/embed";
     return obj.href;
   },
 };
@@ -124,12 +119,11 @@ const flourishTransformer: UrlTransformer = {
 const sketchupTransformer: UrlTransformer = {
   domains: ["3dwarehouse.sketchup.com"],
   shouldTransform: (url, domains) => {
-    const aTag = urlAsATag(url);
-
-    if (!domains.includes(aTag.hostname)) {
+    const urlObj = new URL(url);
+    if (!domains.includes(urlObj.hostname)) {
       return false;
     }
-    if (!aTag.href.includes("/model/")) {
+    if (!urlObj.href.includes("/model/")) {
       return false;
     }
     return true;
@@ -149,34 +143,33 @@ const sketchupTransformer: UrlTransformer = {
 const sketcfabTransformer: UrlTransformer = {
   domains: ["sketchfab.com"],
   shouldTransform: (url, domains) => {
-    const aTag = urlAsATag(url);
-
-    if (!domains.includes(aTag.hostname)) {
+    const urlObj = new URL(url);
+    if (!domains.includes(urlObj.hostname)) {
       return false;
     }
-    if (!aTag.href.includes("/3d-models/")) {
+    if (!urlObj.href.includes("/3d-models/")) {
       return false;
     }
     return true;
   },
   transform: async (url) => {
-    const embedId = url.split("-").pop();
+    const urlObj = new URL(url);
+    const embedId = urlObj.href.split("-").pop();
     if (embedId?.match(/\b[0-9a-f]{32}/)) {
-      return `https://sketchfab.com/models/${embedId}/embed`;
+      urlObj.pathname = `/models/${embedId}/embed`;
     }
-    return url;
+    return urlObj.href;
   },
 };
 
 const jeopardyLabTransformer: UrlTransformer = {
   domains: ["jeopardylabs.com"],
   shouldTransform: (url, domains) => {
-    const aTag = urlAsATag(url);
-
-    if (!domains.includes(aTag.hostname)) {
+    const urlObj = new URL(url);
+    if (!domains.includes(urlObj.hostname)) {
       return false;
     }
-    if (!aTag.href.includes("/play/")) {
+    if (!urlObj.href.includes("/play/")) {
       return false;
     }
     return true;
@@ -192,61 +185,61 @@ const jeopardyLabTransformer: UrlTransformer = {
 const gapminderTransformer: UrlTransformer = {
   domains: ["www.gapminder.org"],
   shouldTransform: (url, domains) => {
-    const aTag = urlAsATag(url);
-
-    if (!domains.includes(aTag.hostname)) {
+    const urlObj = new URL(url);
+    if (!domains.includes(urlObj.hostname)) {
       return false;
     }
-    if (aTag.href.includes("?embedded=true")) {
+    if (urlObj.href.includes("?embedded=true")) {
       return false;
     }
     return true;
   },
   transform: async (url) => {
-    const parts = url.split("/tools/");
-    return parts.join("/tools/?embedded=true");
+    const urlObj = new URL(url);
+    urlObj.href = urlObj.href.replace("tools/", "tools/?embedded=true");
+    return urlObj.href;
   },
 };
 
 const norgesfilmTransformer: UrlTransformer = {
   domains: ["ndla.filmiundervisning.no", "ndla2.filmiundervisning.no"],
   shouldTransform: (url, domains) => {
-    const aTag = urlAsATag(url);
-
+    const urlObj = new URL(url);
     if (!config.norgesfilmNewUrl) {
       return false;
     }
-
-    if (!domains.includes(aTag.hostname)) {
+    if (!domains.includes(urlObj.hostname)) {
       return false;
     }
-    if (!aTag.href.includes("ndlafilm.aspx?filmId=")) {
+    if (!urlObj.href.includes("ndlafilm.aspx?filmId=")) {
       return false;
     }
     return true;
   },
   transform: async (url) => {
-    const parts = url.split("ndlafilm.aspx?filmId=");
-    return parts.join("");
+    const urlObj = new URL(url);
+    urlObj.href = urlObj.href.replace("ndlafilm.aspx?filmId=", "");
+    return urlObj.href;
   },
 };
 
 const kartiskolenTransformer: UrlTransformer = {
   domains: ["kartiskolen.no"],
   shouldTransform: (url, domains) => {
-    const aTag = urlAsATag(url);
+    const urlObj = new URL(url);
 
-    if (!domains.includes(aTag.hostname)) {
+    if (!domains.includes(urlObj.hostname)) {
       return false;
     }
-    if (aTag.href.includes("embed.html")) {
+    if (urlObj.pathname.startsWith("/embed.html")) {
       return false;
     }
     return true;
   },
   transform: async (url) => {
-    const parts = url.split("/?");
-    return parts.join("/embed.html?");
+    const urlObj = new URL(url);
+    urlObj.pathname = urlObj.pathname.replace(/\/$/, "/embed.html");
+    return urlObj.href;
   },
 };
 

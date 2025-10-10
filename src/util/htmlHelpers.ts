@@ -14,14 +14,20 @@ export const getIframeSrcFromHtmlString = (html: string) => {
   return iframe.getAttribute("src");
 };
 
+export const urlAsATag = (url: string) => {
+  const a = document.createElement("a");
+  a.href = url;
+  return a;
+};
+
 export const urlDomain = (url: string) => {
-  const urlObj = new URL(url);
-  return urlObj.hostname;
+  const a = urlAsATag(url);
+  return a.hostname;
 };
 
 export const urlOrigin = (url: string) => {
-  const urlObj = new URL(url);
-  return urlObj.origin;
+  const a = urlAsATag(url);
+  return a.origin;
 };
 
 export const isValidURL = (string: string) =>

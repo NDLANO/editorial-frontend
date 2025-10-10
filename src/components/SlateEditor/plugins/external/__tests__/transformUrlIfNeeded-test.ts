@@ -131,3 +131,8 @@ test("transformUrlIfNeeded adds embed.html for kartiskolen", async () => {
     "https://kartiskolen.no/embed.html?topic=generelt&lang=nb&bgLayer=vanlig_grunnkart&layers=hoydekurver",
   );
 });
+
+test("transformUrlIfNeeded returns input for invalid urls", async () => {
+  const url1 = await transformUrlIfNeeded("certanlynotanurl");
+  expect(url1).toMatch("certanlynotanurl");
+});

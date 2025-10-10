@@ -20,7 +20,7 @@ interface UrlTransformer {
 const nrkTransformer: UrlTransformer = {
   domains: ["nrk.no", "www.nrk.no"],
   shouldTransform: (url, domains) => {
-    const urlObj = new URL(url);
+    const urlObj = urlAsATag(url);
     if (!domains.includes(urlObj.hostname)) {
       return false;
     }
@@ -57,7 +57,7 @@ const nrkTransformer: UrlTransformer = {
 const tedTransformer: UrlTransformer = {
   domains: ["www.ted.com"],
   shouldTransform: (url, domains) => {
-    const urlObj = new URL(url);
+    const urlObj = urlAsATag(url);
     if (!domains.includes(urlObj.hostname)) {
       return false;
     }
@@ -74,7 +74,7 @@ const tedTransformer: UrlTransformer = {
 const codepenTransformer: UrlTransformer = {
   domains: ["codepen.io"],
   shouldTransform: (url, domains) => {
-    const urlObj = new URL(url);
+    const urlObj = urlAsATag(url);
 
     if (!domains.includes(urlObj.hostname)) {
       return false;
@@ -99,7 +99,7 @@ const codepenTransformer: UrlTransformer = {
 const flourishTransformer: UrlTransformer = {
   domains: ["public.flourish.studio", "flo.uri.sh"],
   shouldTransform: (url, domains) => {
-    const urlObj = new URL(url);
+    const urlObj = urlAsATag(url);
     if (!domains.includes(urlObj.hostname)) {
       return false;
     }
@@ -119,7 +119,7 @@ const flourishTransformer: UrlTransformer = {
 const sketchupTransformer: UrlTransformer = {
   domains: ["3dwarehouse.sketchup.com"],
   shouldTransform: (url, domains) => {
-    const urlObj = new URL(url);
+    const urlObj = urlAsATag(url);
     if (!domains.includes(urlObj.hostname)) {
       return false;
     }
@@ -143,7 +143,7 @@ const sketchupTransformer: UrlTransformer = {
 const sketcfabTransformer: UrlTransformer = {
   domains: ["sketchfab.com"],
   shouldTransform: (url, domains) => {
-    const urlObj = new URL(url);
+    const urlObj = urlAsATag(url);
     if (!domains.includes(urlObj.hostname)) {
       return false;
     }
@@ -165,7 +165,7 @@ const sketcfabTransformer: UrlTransformer = {
 const jeopardyLabTransformer: UrlTransformer = {
   domains: ["jeopardylabs.com"],
   shouldTransform: (url, domains) => {
-    const urlObj = new URL(url);
+    const urlObj = urlAsATag(url);
     if (!domains.includes(urlObj.hostname)) {
       return false;
     }
@@ -185,7 +185,7 @@ const jeopardyLabTransformer: UrlTransformer = {
 const gapminderTransformer: UrlTransformer = {
   domains: ["www.gapminder.org"],
   shouldTransform: (url, domains) => {
-    const urlObj = new URL(url);
+    const urlObj = urlAsATag(url);
     if (!domains.includes(urlObj.hostname)) {
       return false;
     }
@@ -204,7 +204,7 @@ const gapminderTransformer: UrlTransformer = {
 const norgesfilmTransformer: UrlTransformer = {
   domains: ["ndla.filmiundervisning.no", "ndla2.filmiundervisning.no"],
   shouldTransform: (url, domains) => {
-    const urlObj = new URL(url);
+    const urlObj = urlAsATag(url);
     if (!config.norgesfilmNewUrl) {
       return false;
     }
@@ -226,7 +226,7 @@ const norgesfilmTransformer: UrlTransformer = {
 const kartiskolenTransformer: UrlTransformer = {
   domains: ["kartiskolen.no"],
   shouldTransform: (url, domains) => {
-    const urlObj = new URL(url);
+    const urlObj = urlAsATag(url);
 
     if (!domains.includes(urlObj.hostname)) {
       return false;

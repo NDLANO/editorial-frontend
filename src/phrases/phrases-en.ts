@@ -1696,6 +1696,7 @@ const phrases = {
     grepCodes: "The following codes have wrong format or does not exist, and will not be added: ",
     errorOnSave: "Something went wrong when saving the article.",
     genericError: "Something went wrong, the action could not be completed.",
+    missingResourceType: "The resource must have at least one resource type.",
     missingTaxTitle: "Not in taxonomy!",
     missingTax:
       "Articles and topics cannot be saved without being placed in the taxonomy. Update the taxonomy block and save again.",

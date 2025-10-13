@@ -222,7 +222,7 @@ const LearningResourcePanels = ({
             <FormAccordion
               id={"learning-resource-taxonomy"}
               title={t("form.taxonomySection")}
-              hasError={!contexts?.length}
+              hasError={!contexts?.length || taxonomy.some((node) => !node.resourceTypes.length)}
             >
               <LearningResourceTaxonomy
                 article={article}

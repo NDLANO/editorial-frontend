@@ -8,7 +8,7 @@
 
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { Spinner } from "@ndla/primitives";
+import { Spinner, Text } from "@ndla/primitives";
 import { IArticleDTO } from "@ndla/types-backend/draft-api";
 import { NodeType, TaxonomyContext } from "@ndla/types-taxonomy";
 import { TaxonomyBlock } from "../../../../components/Taxonomy/TaxonomyBlock";
@@ -52,7 +52,7 @@ const contextToPlacement = (
 };
 
 const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: Props) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const { userPermissions } = useSession();
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
@@ -104,6 +104,7 @@ const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: P
               node={node}
             />
           )}
+          {!node.resourceTypes.length && <Text color="text.error">{t("errorMessage.missingResourceType")}</Text>}
           <TaxonomyResourceTypeSelect
             blacklistedResourceTypes={[RESOURCE_TYPE_LEARNING_PATH]}
             resourceTypes={allResourceTypesQuery.data ?? []}

@@ -7,13 +7,13 @@
  */
 
 import { Editor } from "slate";
+import { LIST_ELEMENT_TYPE, LIST_ITEM_ELEMENT_TYPE } from "@ndla/editor";
 import { OrderedList, UnOrderedList } from "@ndla/primitives";
-import { TYPE_LIST, TYPE_LIST_ITEM } from "./types";
 
 export const listRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_LIST) {
+    if (element.type === LIST_ELEMENT_TYPE) {
       if (element.listType === "bulleted-list") {
         return <UnOrderedList {...attributes}>{children}</UnOrderedList>;
       } else if (element.listType === "numbered-list") {
@@ -31,7 +31,7 @@ export const listRenderer = (editor: Editor) => {
           </OrderedList>
         );
       }
-    } else if (element.type === TYPE_LIST_ITEM) {
+    } else if (element.type === LIST_ITEM_ELEMENT_TYPE) {
       return <li {...attributes}>{children}</li>;
     } else return renderElement?.({ attributes, children, element });
   };

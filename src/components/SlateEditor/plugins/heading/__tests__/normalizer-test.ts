@@ -7,11 +7,8 @@
  */
 
 import { Descendant, Editor, Transforms } from "slate";
-import { createSlate } from "@ndla/editor";
+import { createSlate, HEADING_ELEMENT_TYPE, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
-import { TYPE_PARAGRAPH } from "../../paragraph/types";
-import { TYPE_SECTION } from "../../section/types";
-import { TYPE_HEADING } from "../types";
 import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
@@ -20,24 +17,24 @@ describe("heading normalizer tests", () => {
   test("unwrap empty header if not selected", () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
           {
-            type: TYPE_PARAGRAPH,
+            type: PARAGRAPH_ELEMENT_TYPE,
             children: [{ text: "" }],
           },
           {
-            type: TYPE_HEADING,
+            type: HEADING_ELEMENT_TYPE,
             level: 2,
             children: [{ text: "" }],
           },
           {
-            type: TYPE_HEADING,
+            type: HEADING_ELEMENT_TYPE,
             level: 3,
             children: [{ text: "not empty" }],
           },
           {
-            type: TYPE_PARAGRAPH,
+            type: PARAGRAPH_ELEMENT_TYPE,
             children: [{ text: "" }],
           },
         ],
@@ -46,27 +43,27 @@ describe("heading normalizer tests", () => {
 
     const expectedValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
         children: [
           {
-            type: TYPE_PARAGRAPH,
+            type: PARAGRAPH_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [{ text: "" }],
           },
           {
-            type: TYPE_PARAGRAPH,
+            type: PARAGRAPH_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [{ text: "" }],
           },
           {
-            type: TYPE_HEADING,
+            type: HEADING_ELEMENT_TYPE,
             id: anySlateElementId,
             level: 3,
             children: [{ text: "not empty" }],
           },
           {
-            type: TYPE_PARAGRAPH,
+            type: PARAGRAPH_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [{ text: "" }],
           },
@@ -80,19 +77,19 @@ describe("heading normalizer tests", () => {
   test("dont remove empty header if selected", () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
           {
-            type: TYPE_PARAGRAPH,
+            type: PARAGRAPH_ELEMENT_TYPE,
             children: [{ text: "" }],
           },
           {
-            type: TYPE_HEADING,
+            type: HEADING_ELEMENT_TYPE,
             level: 2,
             children: [{ text: "" }],
           },
           {
-            type: TYPE_PARAGRAPH,
+            type: PARAGRAPH_ELEMENT_TYPE,
             children: [{ text: "" }],
           },
         ],
@@ -101,22 +98,22 @@ describe("heading normalizer tests", () => {
 
     const expectedValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
         children: [
           {
-            type: TYPE_PARAGRAPH,
+            type: PARAGRAPH_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [{ text: "" }],
           },
           {
-            type: TYPE_HEADING,
+            type: HEADING_ELEMENT_TYPE,
             id: anySlateElementId,
             level: 2,
             children: [{ text: "" }],
           },
           {
-            type: TYPE_PARAGRAPH,
+            type: PARAGRAPH_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [{ text: "" }],
           },
@@ -134,19 +131,19 @@ describe("heading normalizer tests", () => {
 test("remove bold marker on header", () => {
   const editorValue: Descendant[] = [
     {
-      type: TYPE_SECTION,
+      type: SECTION_ELEMENT_TYPE,
       children: [
         {
-          type: TYPE_PARAGRAPH,
+          type: PARAGRAPH_ELEMENT_TYPE,
           children: [{ text: "" }],
         },
         {
-          type: TYPE_HEADING,
+          type: HEADING_ELEMENT_TYPE,
           level: 2,
           children: [{ text: "Test", bold: true }],
         },
         {
-          type: TYPE_PARAGRAPH,
+          type: PARAGRAPH_ELEMENT_TYPE,
           children: [{ text: "" }],
         },
       ],
@@ -155,22 +152,22 @@ test("remove bold marker on header", () => {
 
   const expectedValue: Descendant[] = [
     {
-      type: TYPE_SECTION,
+      type: SECTION_ELEMENT_TYPE,
       id: anySlateElementId,
       children: [
         {
-          type: TYPE_PARAGRAPH,
+          type: PARAGRAPH_ELEMENT_TYPE,
           id: anySlateElementId,
           children: [{ text: "" }],
         },
         {
-          type: TYPE_HEADING,
+          type: HEADING_ELEMENT_TYPE,
           id: anySlateElementId,
           level: 2,
           children: [{ text: "Test" }],
         },
         {
-          type: TYPE_PARAGRAPH,
+          type: PARAGRAPH_ELEMENT_TYPE,
           id: anySlateElementId,
           children: [{ text: "" }],
         },

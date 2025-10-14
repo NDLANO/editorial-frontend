@@ -7,13 +7,13 @@
  */
 
 import { Descendant } from "slate";
+import { SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
-import { TYPE_SECTION } from "../../section/types";
 import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquoteTypes";
 
 const editor: Descendant[] = [
   {
-    type: TYPE_SECTION,
+    type: SECTION_ELEMENT_TYPE,
     children: [
       {
         type: BLOCK_QUOTE_ELEMENT_TYPE,

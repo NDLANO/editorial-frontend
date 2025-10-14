@@ -7,12 +7,12 @@
  */
 
 import { Editor } from "slate";
-import { TYPE_HEADING } from "./types";
+import { HEADING_ELEMENT_TYPE } from "@ndla/editor";
 
 export const headingRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_HEADING) {
+    if (element.type === HEADING_ELEMENT_TYPE) {
       switch (element.level) {
         case 1:
           return <h1 {...attributes}>{children}</h1>;

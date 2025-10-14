@@ -7,20 +7,19 @@
  */
 
 import { Descendant } from "slate";
+import { HEADING_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
-import { TYPE_SECTION } from "../../section/types";
-import { TYPE_HEADING } from "../types";
 
 const editor: Descendant[] = [
   {
-    type: TYPE_SECTION,
+    type: SECTION_ELEMENT_TYPE,
     children: [
-      { type: TYPE_HEADING, level: 1, children: [{ text: "title1" }] },
-      { type: TYPE_HEADING, level: 2, children: [{ text: "title2" }] },
-      { type: TYPE_HEADING, level: 3, children: [{ text: "title3" }] },
-      { type: TYPE_HEADING, level: 4, children: [{ text: "title4" }] },
-      { type: TYPE_HEADING, level: 5, children: [{ text: "title5" }] },
-      { type: TYPE_HEADING, level: 6, children: [{ text: "title6" }] },
+      { type: HEADING_ELEMENT_TYPE, level: 1, children: [{ text: "title1" }] },
+      { type: HEADING_ELEMENT_TYPE, level: 2, children: [{ text: "title2" }] },
+      { type: HEADING_ELEMENT_TYPE, level: 3, children: [{ text: "title3" }] },
+      { type: HEADING_ELEMENT_TYPE, level: 4, children: [{ text: "title4" }] },
+      { type: HEADING_ELEMENT_TYPE, level: 5, children: [{ text: "title5" }] },
+      { type: HEADING_ELEMENT_TYPE, level: 6, children: [{ text: "title6" }] },
     ],
   },
 ];
@@ -37,14 +36,14 @@ describe("heading serializing tests", () => {
   test("deserializing", () => {
     const expected: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
-          { type: TYPE_HEADING, level: 2, children: [{ text: "title1" }] },
-          { type: TYPE_HEADING, level: 2, children: [{ text: "title2" }] },
-          { type: TYPE_HEADING, level: 3, children: [{ text: "title3" }] },
-          { type: TYPE_HEADING, level: 4, children: [{ text: "title4" }] },
-          { type: TYPE_HEADING, level: 4, children: [{ text: "title5" }] },
-          { type: TYPE_HEADING, level: 4, children: [{ text: "title6" }] },
+          { type: HEADING_ELEMENT_TYPE, level: 2, children: [{ text: "title1" }] },
+          { type: HEADING_ELEMENT_TYPE, level: 2, children: [{ text: "title2" }] },
+          { type: HEADING_ELEMENT_TYPE, level: 3, children: [{ text: "title3" }] },
+          { type: HEADING_ELEMENT_TYPE, level: 4, children: [{ text: "title4" }] },
+          { type: HEADING_ELEMENT_TYPE, level: 4, children: [{ text: "title5" }] },
+          { type: HEADING_ELEMENT_TYPE, level: 4, children: [{ text: "title6" }] },
         ],
       },
     ];

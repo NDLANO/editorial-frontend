@@ -7,16 +7,15 @@
  */
 
 import { Descendant } from "slate";
+import { BREAK_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
-import { TYPE_SECTION } from "../../section/types";
-import { TYPE_BREAK } from "../types";
 
 const editor: Descendant[] = [
   {
-    type: TYPE_SECTION,
+    type: SECTION_ELEMENT_TYPE,
     children: [
       {
-        type: TYPE_BREAK,
+        type: BREAK_ELEMENT_TYPE,
         children: [{ text: "" }],
       },
     ],

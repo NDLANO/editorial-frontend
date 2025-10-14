@@ -14,22 +14,22 @@ import {
   createSerializer,
   defaultNormalizer,
   NormalizerConfig,
+  PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
 import { isConceptBlockElement } from "./queries";
 import { CONCEPT_BLOCK_ELEMENT_TYPE, CONCEPT_BLOCK_PLUGIN } from "./types";
 import { afterOrBeforeTextBlockElement } from "../../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../../embed/types";
-import { TYPE_PARAGRAPH } from "../../paragraph/types";
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
     allowed: afterOrBeforeTextBlockElement,
-    defaultType: TYPE_PARAGRAPH,
+    defaultType: PARAGRAPH_ELEMENT_TYPE,
   },
   next: {
     allowed: afterOrBeforeTextBlockElement,
-    defaultType: TYPE_PARAGRAPH,
+    defaultType: PARAGRAPH_ELEMENT_TYPE,
   },
 };
 

@@ -7,10 +7,8 @@
  */
 
 import { Descendant } from "slate";
-import { createSlate } from "@ndla/editor";
+import { createSlate, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
-import { TYPE_PARAGRAPH } from "../../paragraph/types";
-import { TYPE_SECTION } from "../../section/types";
 import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 import {
   DEFINITION_DESCRIPTION_ELEMENT_TYPE,
@@ -63,7 +61,7 @@ describe("definition normalizing tests", () => {
         children: [
           { type: DEFINITION_TERM_ELEMENT_TYPE, children: [{ text: "" }] },
           { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE, children: [{ text: "" }] },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           { type: DEFINITION_DESCRIPTION_ELEMENT_TYPE, children: [{ text: "" }] },
           { type: DEFINITION_TERM_ELEMENT_TYPE, children: [{ text: "" }] },
           { type: DEFINITION_TERM_ELEMENT_TYPE, children: [{ text: "" }] },
@@ -95,10 +93,10 @@ describe("definition normalizing tests", () => {
   test("should merge definition lists that comes after eachother", () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
           {
-            type: TYPE_PARAGRAPH,
+            type: PARAGRAPH_ELEMENT_TYPE,
             children: [{ text: "" }],
           },
           {
@@ -116,7 +114,7 @@ describe("definition normalizing tests", () => {
             ],
           },
           {
-            type: TYPE_PARAGRAPH,
+            type: PARAGRAPH_ELEMENT_TYPE,
             children: [{ text: "" }],
           },
         ],
@@ -125,11 +123,11 @@ describe("definition normalizing tests", () => {
     editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual([
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
         children: [
           {
-            type: TYPE_PARAGRAPH,
+            type: PARAGRAPH_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [{ text: "" }],
           },
@@ -144,7 +142,7 @@ describe("definition normalizing tests", () => {
             ],
           },
           {
-            type: TYPE_PARAGRAPH,
+            type: PARAGRAPH_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [{ text: "" }],
           },

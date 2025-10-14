@@ -8,6 +8,7 @@
 
 import { Element, ElementType } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
+import { HEADING_ELEMENT_TYPE, LIST_ELEMENT_TYPE, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { ASIDE_ELEMENT_TYPE } from "../plugins/aside/asideTypes";
 import { AUDIO_ELEMENT_TYPE } from "../plugins/audio/audioTypes";
 import { CODE_BLOCK_ELEMENT_TYPE } from "../plugins/codeBlock/types";
@@ -17,9 +18,6 @@ import { EXTERNAL_ELEMENT_TYPE, IFRAME_ELEMENT_TYPE } from "../plugins/external/
 import { FILE_ELEMENT_TYPE } from "../plugins/file/types";
 import { GRID_ELEMENT_TYPE } from "../plugins/grid/types";
 import { H5P_ELEMENT_TYPE } from "../plugins/h5p/types";
-import { TYPE_HEADING } from "../plugins/heading/types";
-import { TYPE_LIST } from "../plugins/list/types";
-import { TYPE_PARAGRAPH } from "../plugins/paragraph/types";
 import { SPAN_ELEMENT_TYPE } from "../plugins/span/types";
 import { TABLE_ELEMENT_TYPE } from "../plugins/table/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../plugins/video/types";
@@ -33,12 +31,16 @@ import { SYMBOL_ELEMENT_TYPE } from "../plugins/symbol/types";
 import { DEFINITION_LIST_ELEMENT_TYPE } from "../plugins/definitionList/definitionListTypes";
 import { IMAGE_ELEMENT_TYPE } from "../plugins/image/types";
 
-export const firstTextBlockElement: Element["type"][] = [TYPE_PARAGRAPH, TYPE_HEADING, BLOCK_QUOTE_ELEMENT_TYPE];
+export const firstTextBlockElement: Element["type"][] = [
+  PARAGRAPH_ELEMENT_TYPE,
+  HEADING_ELEMENT_TYPE,
+  BLOCK_QUOTE_ELEMENT_TYPE,
+];
 
 export const textBlockElements: Element["type"][] = [
-  TYPE_PARAGRAPH,
-  TYPE_HEADING,
-  TYPE_LIST,
+  PARAGRAPH_ELEMENT_TYPE,
+  HEADING_ELEMENT_TYPE,
+  LIST_ELEMENT_TYPE,
   BLOCK_QUOTE_ELEMENT_TYPE,
   TABLE_ELEMENT_TYPE,
   AUDIO_ELEMENT_TYPE,
@@ -67,11 +69,11 @@ export const inlineElements: Element["type"][] = [
   SYMBOL_ELEMENT_TYPE,
 ];
 
-export const lastTextBlockElement: Element["type"][] = [TYPE_PARAGRAPH];
+export const lastTextBlockElement: Element["type"][] = [PARAGRAPH_ELEMENT_TYPE];
 
 export const afterOrBeforeTextBlockElement: Element["type"][] = [
-  TYPE_PARAGRAPH,
-  TYPE_HEADING,
+  PARAGRAPH_ELEMENT_TYPE,
+  HEADING_ELEMENT_TYPE,
   COMMENT_BLOCK_ELEMENT_TYPE,
 ];
 

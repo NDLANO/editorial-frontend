@@ -7,12 +7,12 @@
  */
 
 import { Editor } from "slate";
-import { TYPE_BREAK } from "./types";
+import { BREAK_ELEMENT_TYPE } from "@ndla/editor";
 
 export const breakRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_BREAK) {
+    if (element.type === BREAK_ELEMENT_TYPE) {
       return (
         <div {...attributes} contentEditable={false}>
           <br />

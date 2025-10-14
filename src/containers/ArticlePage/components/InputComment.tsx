@@ -11,13 +11,13 @@ import { TFunction } from "i18next";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
+import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { Button, FieldRoot, FieldTextArea } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { uuid } from "@ndla/util";
 import { plugins } from "./commentToolbarUtils";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { DIV_ELEMENT_TYPE } from "../../../components/SlateEditor/plugins/div/types";
-import { TYPE_PARAGRAPH } from "../../../components/SlateEditor/plugins/paragraph/types";
 import { UnsupportedElement } from "../../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import formatDate, { formatDateForBackend } from "../../../util/formatDate";
@@ -85,7 +85,7 @@ export const getCommentInfoText = (userName: string | undefined, t: TFunction): 
 };
 
 const emptyParagraph: Descendant = {
-  type: TYPE_PARAGRAPH,
+  type: PARAGRAPH_ELEMENT_TYPE,
   children: [{ text: "" }],
 };
 
@@ -111,7 +111,10 @@ const InputComment = ({ isSubmitting, arrayHelpers }: Props) => {
       const comment = getCommentInfoText(userName, t);
 
       const emptyComment: Descendant[] = [
-        { type: DIV_ELEMENT_TYPE, children: [...inputValue, { type: TYPE_PARAGRAPH, children: [{ text: comment }] }] },
+        {
+          type: DIV_ELEMENT_TYPE,
+          children: [...inputValue, { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: comment }] }],
+        },
       ];
 
       setInputValue(emptyComment);

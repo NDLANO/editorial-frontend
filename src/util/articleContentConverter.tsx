@@ -13,6 +13,7 @@ import {
   deserializeFromHtml,
   NOOP_ELEMENT_TYPE,
   PARAGRAPH_ELEMENT_TYPE,
+  SECTION_ELEMENT_TYPE,
   serializeToHtml,
   SlateSerializer,
 } from "@ndla/editor";
@@ -62,7 +63,6 @@ import { paragraphSerializer } from "../components/SlateEditor/plugins/paragraph
 import { pitchSerializer } from "../components/SlateEditor/plugins/pitch";
 import { relatedSerializer } from "../components/SlateEditor/plugins/related";
 import { sectionSerializer } from "../components/SlateEditor/plugins/section";
-import { TYPE_SECTION } from "../components/SlateEditor/plugins/section/types";
 import { spanSerializer } from "../components/SlateEditor/plugins/span";
 import { symbolSerializer } from "../components/SlateEditor/plugins/symbol/serializer";
 import {
@@ -81,7 +81,7 @@ import { Embed } from "../interfaces";
 
 export const createEmptyValue = (): Descendant[] => [
   {
-    type: TYPE_SECTION,
+    type: SECTION_ELEMENT_TYPE,
     children: [
       {
         type: PARAGRAPH_ELEMENT_TYPE,

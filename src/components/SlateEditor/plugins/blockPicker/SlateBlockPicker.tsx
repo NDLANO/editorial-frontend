@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Node, Range, Path, Transforms } from "slate";
 import { ReactEditor, useSlateSelection, useSlateSelector, useSlateStatic } from "slate-react";
 import { PopoverOpenChangeDetails, Portal } from "@ark-ui/react";
-import { isElementOfType, isParagraphElement } from "@ndla/editor";
+import { isElementOfType, isParagraphElement, LIST_ITEM_ELEMENT_TYPE } from "@ndla/editor";
 import { AddLine, ExternalLinkLine } from "@ndla/icons";
 import {
   PopoverRoot,
@@ -61,7 +61,6 @@ import { KEY_FIGURE_ELEMENT_TYPE } from "../keyFigure/types";
 import { defaultKeyFigureBlock } from "../keyFigure/utils";
 import { defaultLinkBlockList } from "../linkBlockList";
 import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "../linkBlockList/types";
-import { TYPE_LIST_ITEM } from "../list/types";
 import { PITCH_ELEMENT_TYPE } from "../pitch/types";
 import { defaultPitchBlock } from "../pitch/utils";
 import { defaultRelatedBlock } from "../related";
@@ -226,7 +225,7 @@ const StyledPopoverContent = styled(PopoverContent, {
 });
 
 const getLeftAdjust = (parent?: Node) => {
-  if (Element.isElement(parent) && parent.type === TYPE_LIST_ITEM) {
+  if (Element.isElement(parent) && parent.type === LIST_ITEM_ELEMENT_TYPE) {
     return 110;
   }
   if (isAnyTableCellElement(parent)) {

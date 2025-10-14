@@ -7,18 +7,17 @@
  */
 
 import { Descendant } from "slate";
+import { PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
-import { TYPE_PARAGRAPH } from "../../paragraph/types";
-import { TYPE_SECTION } from "../types";
 
 const editor: Descendant[] = [
   {
-    type: TYPE_SECTION,
-    children: [{ type: TYPE_PARAGRAPH, children: [{ text: "123" }] }],
+    type: SECTION_ELEMENT_TYPE,
+    children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "123" }] }],
   },
   {
-    type: TYPE_SECTION,
-    children: [{ type: TYPE_PARAGRAPH, children: [{ text: "abc" }] }],
+    type: SECTION_ELEMENT_TYPE,
+    children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "abc" }] }],
   },
 ];
 
@@ -38,8 +37,8 @@ describe("section serializing tests", () => {
   test("create empty <section> if html is undefined or empty string", () => {
     const expected = [
       {
-        type: TYPE_SECTION,
-        children: [{ type: TYPE_PARAGRAPH, children: [{ text: "" }] }],
+        type: SECTION_ELEMENT_TYPE,
+        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] }],
       },
     ];
 

@@ -13,11 +13,10 @@ export const StatusTimeFill = styled(TimeFill, {
   variants: {
     variant: {
       warn: {
-        fill: "surface.warning",
+        fill: "icon.warning",
       },
       expired: {
-        // TODO: update this color once icon error color is added to semantic tokens
-        fill: "surface.danger",
+        fill: "icon.danger",
       },
     },
   },

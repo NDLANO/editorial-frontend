@@ -23,7 +23,7 @@ import {
   SelectValueText,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { languageOptions } from "./codeBlockOptions";
+import { codeLanguageOptions } from "@ndla/ui";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../abstractions/Select";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
@@ -96,8 +96,8 @@ const rules: RulesType<CodeBlockFormValues> = {
 const toInitialValues = (initialData?: CodeBlockFormValues): CodeBlockFormValues => {
   return {
     code: initialData?.code ?? "",
-    title: initialData?.title ?? languageOptions[0].title,
-    format: initialData?.format ?? languageOptions[0].format,
+    title: initialData?.title ?? codeLanguageOptions[0].title,
+    format: initialData?.format ?? codeLanguageOptions[0].format,
   };
 };
 
@@ -109,7 +109,7 @@ const CodeBlockEditor = ({ onSave, onAbort, highlight, content, setShowWarning }
   const collection = useMemo(
     () =>
       createListCollection({
-        items: languageOptions,
+        items: codeLanguageOptions,
         itemToValue: (item) => item.format,
         itemToString: (item) => item.title,
       }),
@@ -160,7 +160,7 @@ const CodeBlockEditor = ({ onSave, onAbort, highlight, content, setShowWarning }
                       <SelectValueText />
                     </GenericSelectTrigger>
                     <SelectContent>
-                      {languageOptions.map((item) => (
+                      {codeLanguageOptions.map((item) => (
                         <GenericSelectItem key={item.format} item={item}>
                           {item.title}
                         </GenericSelectItem>

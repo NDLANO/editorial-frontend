@@ -1695,6 +1695,7 @@ const phrases = {
     grepCodes: "Følgande koder har feil format eller eksisterer ikkje, og blir ikkje lagt til: ",
     errorOnSave: "Noko gjekk gale under lagring av artikkelen.",
     genericError: "Noko gjekk gale, handlinga kunne ikkje utførast.",
+    missingResourceType: "Ressursen må ha minst ein ressurstype.",
     missingTaxTitle: "Ikkje i taksonomi!",
     missingTax:
       "Artiklar og emner kan ikkje lagrast uten å plasserast i taksonomien. Oppdater taksonomi-blokka og lagre på nytt.",

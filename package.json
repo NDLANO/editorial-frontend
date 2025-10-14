@@ -13,7 +13,7 @@
     "lint-es": "eslint --cache --cache-location '.eslintcache/' --max-warnings=0 src",
     "format-check": "prettier '{src,scripts}/**/*.{js,jsx,ts,tsx}' --check --experimental-cli",
     "format": "prettier '{src,scripts}/**/*.{js,jsx,ts,tsx}' --write --experimental-cli",
-    "start:tsc": "tsc -b -w --preserveWatchOutput",
+    "start:tsc": "tsc -w",
     "start": "cross-env NODE_ENV=development NODE_OPTIONS='--max-old-space-size=3072 --preserve-symlinks' concurrently \"yarn start:tsc\" \"tsx src/index.ts\"",
     "start-with-local-converter": "LOCAL_CONVERTER=true NODE_OPTIONS='--preserve-symlinks' yarn start",
     "start-prod": "cross-env NODE_ENV=production node build/server.mjs",

@@ -7,25 +7,23 @@
  */
 
 import { Descendant } from "slate";
+import { LIST_ELEMENT_TYPE, LIST_ITEM_ELEMENT_TYPE, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
-import { TYPE_PARAGRAPH } from "../../paragraph/types";
-import { TYPE_SECTION } from "../../section/types";
-import { TYPE_LIST, TYPE_LIST_ITEM } from "../types";
 
 const editor: Descendant[] = [
   {
-    type: TYPE_SECTION,
+    type: SECTION_ELEMENT_TYPE,
     children: [
       {
-        type: TYPE_LIST,
+        type: LIST_ELEMENT_TYPE,
         listType: "letter-list",
         data: {},
         children: [
           {
-            type: TYPE_LIST_ITEM,
+            type: LIST_ITEM_ELEMENT_TYPE,
             children: [
               {
-                type: TYPE_PARAGRAPH,
+                type: PARAGRAPH_ELEMENT_TYPE,
                 children: [
                   {
                     text: "abc",
@@ -33,15 +31,15 @@ const editor: Descendant[] = [
                 ],
               },
               {
-                type: TYPE_LIST,
+                type: LIST_ELEMENT_TYPE,
                 listType: "numbered-list",
                 data: {},
                 children: [
                   {
-                    type: TYPE_LIST_ITEM,
+                    type: LIST_ITEM_ELEMENT_TYPE,
                     children: [
                       {
-                        type: TYPE_PARAGRAPH,
+                        type: PARAGRAPH_ELEMENT_TYPE,
                         children: [
                           {
                             text: "123",
@@ -53,15 +51,15 @@ const editor: Descendant[] = [
                 ],
               },
               {
-                type: TYPE_LIST,
+                type: LIST_ELEMENT_TYPE,
                 listType: "bulleted-list",
                 data: {},
                 children: [
                   {
-                    type: TYPE_LIST_ITEM,
+                    type: LIST_ITEM_ELEMENT_TYPE,
                     children: [
                       {
-                        type: TYPE_PARAGRAPH,
+                        type: PARAGRAPH_ELEMENT_TYPE,
                         children: [
                           {
                             text: "def",
@@ -75,10 +73,10 @@ const editor: Descendant[] = [
             ],
           },
           {
-            type: TYPE_LIST_ITEM,
+            type: LIST_ITEM_ELEMENT_TYPE,
             children: [
               {
-                type: TYPE_PARAGRAPH,
+                type: PARAGRAPH_ELEMENT_TYPE,
                 children: [
                   {
                     text: "ghi",

@@ -7,17 +7,16 @@
  */
 
 import { Descendant } from "slate";
+import { PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
-import { TYPE_PARAGRAPH } from "../../paragraph/types";
-import { TYPE_SECTION } from "../../section/types";
 import { EXTERNAL_ELEMENT_TYPE } from "../types";
 
 describe("external serializer", () => {
   const editorWithYoutube: Descendant[] = [
     {
-      type: TYPE_SECTION,
+      type: SECTION_ELEMENT_TYPE,
       children: [
-        { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+        { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         {
           type: EXTERNAL_ELEMENT_TYPE,
           children: [
@@ -30,7 +29,7 @@ describe("external serializer", () => {
             url: "https://www.youtube.com/watch?v=123",
           },
         },
-        { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+        { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       ],
     },
   ];

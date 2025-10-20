@@ -7,16 +7,15 @@
  */
 
 import { Descendant } from "slate";
+import { PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
-import { TYPE_PARAGRAPH } from "../../paragraph/types";
-import { TYPE_SECTION } from "../../section/types";
 import { GRID_ELEMENT_TYPE, GRID_CELL_ELEMENT_TYPE } from "../types";
 
 const editor2: Descendant[] = [
   {
-    type: TYPE_SECTION,
+    type: SECTION_ELEMENT_TYPE,
     children: [
-      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+      { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       {
         type: GRID_ELEMENT_TYPE,
         data: {
@@ -27,16 +26,16 @@ const editor2: Descendant[] = [
           {
             type: GRID_CELL_ELEMENT_TYPE,
             data: { parallaxCell: "false" },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
+            children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
           },
           {
             type: GRID_CELL_ELEMENT_TYPE,
             data: { parallaxCell: "false" },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
+            children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
           },
         ],
       },
-      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+      { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
     ],
   },
 ];
@@ -46,9 +45,9 @@ const html2 =
 
 const editor4: Descendant[] = [
   {
-    type: TYPE_SECTION,
+    type: SECTION_ELEMENT_TYPE,
     children: [
-      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+      { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       {
         type: GRID_ELEMENT_TYPE,
         data: {
@@ -59,26 +58,26 @@ const editor4: Descendant[] = [
           {
             type: GRID_CELL_ELEMENT_TYPE,
             data: { parallaxCell: "false" },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
+            children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
           },
           {
             type: GRID_CELL_ELEMENT_TYPE,
             data: { parallaxCell: "false" },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
+            children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
           },
           {
             type: GRID_CELL_ELEMENT_TYPE,
             data: { parallaxCell: "false" },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
+            children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
           },
           {
             type: GRID_CELL_ELEMENT_TYPE,
             data: { parallaxCell: "false" },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
+            children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
           },
         ],
       },
-      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+      { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
     ],
   },
 ];
@@ -88,9 +87,9 @@ const html4 =
 
 const editorMultipleChildrenGridCell: Descendant[] = [
   {
-    type: TYPE_SECTION,
+    type: SECTION_ELEMENT_TYPE,
     children: [
-      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+      { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
       {
         type: GRID_ELEMENT_TYPE,
         data: {
@@ -102,39 +101,39 @@ const editorMultipleChildrenGridCell: Descendant[] = [
             type: GRID_CELL_ELEMENT_TYPE,
             data: { parallaxCell: "false" },
             children: [
-              { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] },
             ],
           },
           {
             type: GRID_CELL_ELEMENT_TYPE,
             data: { parallaxCell: "false" },
             children: [
-              { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] },
             ],
           },
           {
             type: GRID_CELL_ELEMENT_TYPE,
             data: { parallaxCell: "false" },
             children: [
-              { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] },
             ],
           },
           {
             type: GRID_CELL_ELEMENT_TYPE,
             data: { parallaxCell: "false" },
             children: [
-              { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] },
             ],
           },
         ],
       },
-      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+      { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
     ],
   },
 ];

@@ -9,15 +9,21 @@
 import { KeyboardEvent, SyntheticEvent } from "react";
 import { Editor, Transforms, Element, Range, Node, BaseRange } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { HeadingElement, LIST_TYPES, ParagraphElement, toggleHeading, toggleList } from "@ndla/editor";
+import {
+  HEADING_ELEMENT_TYPE,
+  HeadingElement,
+  LIST_TYPES,
+  PARAGRAPH_ELEMENT_TYPE,
+  ParagraphElement,
+  toggleHeading,
+  toggleList,
+} from "@ndla/editor";
 import { BlockType, InlineType, TextType, selectionElements } from "./toolbarState";
 import toggleBlock from "../../utils/toggleBlock";
 import { insertComment } from "../comment/inline/utils";
 import { insertInlineConcept } from "../concept/inline/utils";
-import { TYPE_HEADING } from "../heading/types";
 import { insertLink, unwrapLink } from "../link/utils";
 import { insertMathml } from "../mathml/utils";
-import { TYPE_PARAGRAPH } from "../paragraph/types";
 import { SpanElement } from "../span";
 import { SPAN_ELEMENT_TYPE } from "../span/types";
 import { toggleCellAlign } from "../table/slateActions";
@@ -28,7 +34,7 @@ import { ElementType } from "../../interfaces";
 
 type TextElements = ParagraphElement | HeadingElement | SpanElement;
 const defaultValueState: Partial<Record<ElementType, Partial<TextElements>>> = {
-  summary: { type: TYPE_PARAGRAPH, serializeAsText: true },
+  summary: { type: PARAGRAPH_ELEMENT_TYPE, serializeAsText: true },
 };
 
 const parseHeadingLevel = (type: string) => parseInt(type.replace("heading-", "")) as 1 | 2 | 3 | 4 | 5 | 6;
@@ -40,10 +46,10 @@ const textOptions = (range: BaseRange) => ({
 
 export const handleTextChange = (editor: Editor, type: string) => {
   const { elements } = selectionElements(editor, editor.selection);
-  const defaultValue = (elements?.[0] && defaultValueState[elements[0].type]) ?? { type: TYPE_PARAGRAPH };
+  const defaultValue = (elements?.[0] && defaultValueState[elements[0].type]) ?? { type: PARAGRAPH_ELEMENT_TYPE };
 
   const props: Partial<TextElements> =
-    type === "normal-text" ? defaultValue : { type: TYPE_HEADING, level: parseHeadingLevel(type) };
+    type === "normal-text" ? defaultValue : { type: HEADING_ELEMENT_TYPE, level: parseHeadingLevel(type) };
 
   Editor.withoutNormalizing(editor, () => {
     if (!Range.isRange(editor.selection)) {
@@ -60,7 +66,7 @@ export const handleTextChange = (editor: Editor, type: string) => {
     // Find the current node in use
     const [node] = Editor.nodes(editor, options);
     if (node) {
-      if (props.type === TYPE_HEADING && props.level === 2) unwrapLink(editor);
+      if (props.type === HEADING_ELEMENT_TYPE && props.level === 2) unwrapLink(editor);
       Transforms.setNodes(editor, props, options);
     } else {
       // If there is no heading or paragraph nodes its a filtered span node

@@ -7,10 +7,8 @@
  */
 
 import { Descendant } from "slate";
-import { createSlate } from "@ndla/editor";
+import { createSlate, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
-import { TYPE_PARAGRAPH } from "../../paragraph/types";
-import { TYPE_SECTION } from "../../section/types";
 import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
@@ -19,10 +17,10 @@ describe("mark normalizer tests", () => {
   test("Remove marks from empty text nodes", () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
           {
-            type: TYPE_PARAGRAPH,
+            type: PARAGRAPH_ELEMENT_TYPE,
             children: [{ bold: true, italic: true, text: "" }],
           },
         ],
@@ -31,11 +29,11 @@ describe("mark normalizer tests", () => {
 
     const expectedValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
         children: [
           {
-            type: TYPE_PARAGRAPH,
+            type: PARAGRAPH_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [{ text: "" }],
           },

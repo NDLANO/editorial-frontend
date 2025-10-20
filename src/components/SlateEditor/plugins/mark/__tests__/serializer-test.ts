@@ -8,11 +8,11 @@
 
 import { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
-import { TYPE_SECTION } from "../../section/types";
+import { SECTION_ELEMENT_TYPE } from "@ndla/editor";
 
 const editor: Descendant[] = [
   {
-    type: TYPE_SECTION,
+    type: SECTION_ELEMENT_TYPE,
     children: [
       {
         type: "paragraph",

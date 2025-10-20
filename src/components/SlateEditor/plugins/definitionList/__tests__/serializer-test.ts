@@ -8,16 +8,16 @@
 
 import { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
-import { TYPE_SECTION } from "../../section/types";
 import {
   DEFINITION_DESCRIPTION_ELEMENT_TYPE,
   DEFINITION_LIST_ELEMENT_TYPE,
   DEFINITION_TERM_ELEMENT_TYPE,
 } from "../definitionListTypes";
+import { SECTION_ELEMENT_TYPE } from "@ndla/editor";
 
 const editor: Descendant[] = [
   {
-    type: TYPE_SECTION,
+    type: SECTION_ELEMENT_TYPE,
     children: [
       {
         type: DEFINITION_LIST_ELEMENT_TYPE,

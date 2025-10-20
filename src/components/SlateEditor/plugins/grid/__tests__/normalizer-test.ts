@@ -7,10 +7,8 @@
  */
 
 import { Descendant } from "slate";
-import { createSlate } from "@ndla/editor";
+import { createSlate, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { frontpagePlugins } from "../../../../../containers/ArticlePage/FrontpageArticlePage/components/frontpagePlugins";
-import { TYPE_PARAGRAPH } from "../../paragraph/types";
-import { TYPE_SECTION } from "../../section/types";
 import { GRID_ELEMENT_TYPE, GRID_CELL_ELEMENT_TYPE } from "../types";
 import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 
@@ -20,9 +18,9 @@ describe("normalizing grid tests", () => {
   test("column of two should have only two cells", () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
             type: GRID_ELEMENT_TYPE,
             data: {
@@ -33,36 +31,36 @@ describe("normalizing grid tests", () => {
               {
                 type: GRID_CELL_ELEMENT_TYPE,
                 data: { parallaxCell: "false" },
-                children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
               },
               {
                 type: GRID_CELL_ELEMENT_TYPE,
                 data: { parallaxCell: "false" },
-                children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
               },
               {
                 type: GRID_CELL_ELEMENT_TYPE,
                 data: { parallaxCell: "false" },
-                children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
               },
               {
                 type: GRID_CELL_ELEMENT_TYPE,
                 data: { parallaxCell: "false" },
-                children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
               },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
 
     const expectedValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
         children: [
-          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: GRID_ELEMENT_TYPE,
             id: anySlateElementId,
@@ -75,17 +73,17 @@ describe("normalizing grid tests", () => {
                 type: GRID_CELL_ELEMENT_TYPE,
                 id: anySlateElementId,
                 data: { parallaxCell: "false" },
-                children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "a" }] }],
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "a" }] }],
               },
               {
                 type: GRID_CELL_ELEMENT_TYPE,
                 id: anySlateElementId,
                 data: { parallaxCell: "false" },
-                children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "a" }] }],
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "a" }] }],
               },
             ],
           },
-          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];
@@ -97,9 +95,9 @@ describe("normalizing grid tests", () => {
   test("four cell column should have four cells", () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
           {
             type: GRID_ELEMENT_TYPE,
             data: {
@@ -110,26 +108,26 @@ describe("normalizing grid tests", () => {
               {
                 type: GRID_CELL_ELEMENT_TYPE,
                 data: { parallaxCell: "false" },
-                children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
               },
               {
                 type: GRID_CELL_ELEMENT_TYPE,
                 data: { parallaxCell: "false" },
-                children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
               },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
         ],
       },
     ];
 
     const expectedValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
         children: [
-          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: GRID_ELEMENT_TYPE,
             id: anySlateElementId,
@@ -142,29 +140,29 @@ describe("normalizing grid tests", () => {
                 type: GRID_CELL_ELEMENT_TYPE,
                 id: anySlateElementId,
                 data: { parallaxCell: "false" },
-                children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "a" }] }],
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "a" }] }],
               },
               {
                 type: GRID_CELL_ELEMENT_TYPE,
                 id: anySlateElementId,
                 data: { parallaxCell: "false" },
-                children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "a" }] }],
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "a" }] }],
               },
               {
                 type: GRID_CELL_ELEMENT_TYPE,
                 id: anySlateElementId,
                 data: { parallaxCell: "false" },
-                children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] }],
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] }],
               },
               {
                 type: GRID_CELL_ELEMENT_TYPE,
                 id: anySlateElementId,
                 data: { parallaxCell: "false" },
-                children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] }],
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] }],
               },
             ],
           },
-          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];

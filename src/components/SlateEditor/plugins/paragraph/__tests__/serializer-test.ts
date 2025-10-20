@@ -7,16 +7,15 @@
  */
 
 import { Descendant } from "slate";
+import { PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
-import { TYPE_SECTION } from "../../section/types";
-import { TYPE_PARAGRAPH } from "../types";
 
 const editor: Descendant[] = [
   {
-    type: TYPE_SECTION,
+    type: SECTION_ELEMENT_TYPE,
     children: [
-      { type: TYPE_PARAGRAPH, children: [{ text: "123" }] },
-      { type: TYPE_PARAGRAPH, children: [{ text: "abc" }] },
+      { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "123" }] },
+      { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "abc" }] },
     ],
   },
 ];
@@ -32,11 +31,11 @@ describe("paragraph serializing tests", () => {
   test("serializing handles empty paragraphs", () => {
     const editorWithEmptyParagraph: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: "123" }] },
-          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
-          { type: TYPE_PARAGRAPH, children: [{ text: "abc" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "123" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "abc" }] },
         ],
       },
     ];

@@ -7,12 +7,9 @@
  */
 
 import { Descendant } from "slate";
-import { createSlate } from "@ndla/editor";
+import { createSlate, HEADING_ELEMENT_TYPE, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
-import { TYPE_HEADING } from "../../heading/types";
 import { LINK_ELEMENT_TYPE } from "../../link/types";
-import { TYPE_PARAGRAPH } from "../../paragraph/types";
-import { TYPE_SECTION } from "../../section/types";
 import { ASIDE_ELEMENT_TYPE } from "../asideTypes";
 import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 
@@ -22,22 +19,22 @@ describe("aside normalizer tests", () => {
   test("adds paragraphs around aside element", () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
           {
             type: ASIDE_ELEMENT_TYPE,
             data: { type: "factAside" },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
+            children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] }],
           },
           {
             type: ASIDE_ELEMENT_TYPE,
             data: { type: "factAside" },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
+            children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] }],
           },
           {
             type: ASIDE_ELEMENT_TYPE,
             data: { type: "factAside" },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
+            children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] }],
           },
         ],
       },
@@ -45,31 +42,31 @@ describe("aside normalizer tests", () => {
 
     const expectedValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
         children: [
-          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: ASIDE_ELEMENT_TYPE,
             id: anySlateElementId,
             data: { type: "factAside" },
-            children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "content" }] }],
+            children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "content" }] }],
           },
-          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: ASIDE_ELEMENT_TYPE,
             id: anySlateElementId,
             data: { type: "factAside" },
-            children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "content" }] }],
+            children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "content" }] }],
           },
-          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: ASIDE_ELEMENT_TYPE,
             id: anySlateElementId,
             data: { type: "factAside" },
-            children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "content" }] }],
+            children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "content" }] }],
           },
-          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];
@@ -80,7 +77,7 @@ describe("aside normalizer tests", () => {
   test("adds paragraphs to empty aside element", () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
           {
             type: ASIDE_ELEMENT_TYPE,
@@ -93,17 +90,17 @@ describe("aside normalizer tests", () => {
 
     const expectedValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
         children: [
-          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: ASIDE_ELEMENT_TYPE,
             id: anySlateElementId,
             data: { type: "factAside" },
-            children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] }],
+            children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] }],
           },
-          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];
@@ -114,12 +111,12 @@ describe("aside normalizer tests", () => {
   test("adds paragraph at the end of aside with only heading", () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
           {
             type: ASIDE_ELEMENT_TYPE,
             data: { type: "factAside" },
-            children: [{ type: TYPE_HEADING, level: 1, children: [{ text: "content" }] }],
+            children: [{ type: HEADING_ELEMENT_TYPE, level: 1, children: [{ text: "content" }] }],
           },
         ],
       },
@@ -127,20 +124,20 @@ describe("aside normalizer tests", () => {
 
     const expectedValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
         children: [
-          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: ASIDE_ELEMENT_TYPE,
             id: anySlateElementId,
             data: { type: "factAside" },
             children: [
-              { type: TYPE_HEADING, id: anySlateElementId, level: 1, children: [{ text: "content" }] },
-              { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
+              { type: HEADING_ELEMENT_TYPE, id: anySlateElementId, level: 1, children: [{ text: "content" }] },
+              { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
             ],
           },
-          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];
@@ -151,7 +148,7 @@ describe("aside normalizer tests", () => {
   test("unwraps content of wrong type", () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         children: [
           {
             type: ASIDE_ELEMENT_TYPE,
@@ -162,7 +159,7 @@ describe("aside normalizer tests", () => {
                 data: {
                   href: "testurl",
                 },
-                children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
+                children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "content" }] }],
               },
             ],
           },
@@ -172,17 +169,17 @@ describe("aside normalizer tests", () => {
 
     const expectedValue: Descendant[] = [
       {
-        type: TYPE_SECTION,
+        type: SECTION_ELEMENT_TYPE,
         id: anySlateElementId,
         children: [
-          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
           {
             type: ASIDE_ELEMENT_TYPE,
             id: anySlateElementId,
             data: { type: "factAside" },
-            children: [{ type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "content" }] }],
+            children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "content" }] }],
           },
-          { type: TYPE_PARAGRAPH, id: anySlateElementId, children: [{ text: "" }] },
+          { type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] },
         ],
       },
     ];

@@ -14,8 +14,7 @@ import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
   base: {
-    // TODO: update this color once icon error color is added to semantic tokens
-    fill: "surface.danger",
+    fill: "icon.danger",
   },
 });
 

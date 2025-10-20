@@ -20,8 +20,7 @@ const StyledErrorWarningFill = styled(ErrorWarningFill, {
   variants: {
     variant: {
       warning: { fill: "icon.subtle" },
-      // TODO: update this color once icon error color is added to semantic tokens
-      error: { fill: "surface.danger" },
+      error: { fill: "icon.danger" },
     },
   },
 });

@@ -6,7 +6,7 @@
  *
  */
 
-import { MouseEventHandler, ReactNode, useState } from "react";
+import { MouseEventHandler, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { RenderElementProps } from "slate-react";
 import { styled } from "@ndla/styled-system/jsx";
@@ -34,7 +34,6 @@ interface Props {
 }
 
 const SlateFactAside = ({ children, onRemoveClick, attributes, onMoveContent }: Props) => {
-  const [open, setIsOpen] = useState(true);
   const { t } = useTranslation();
 
   return (
@@ -43,7 +42,7 @@ const SlateFactAside = ({ children, onRemoveClick, attributes, onMoveContent }: 
         <MoveContentButton onMouseDown={onMoveContent} aria-label={t("form.moveContent")} />
         <DeleteButton aria-label={t("form.remove")} onMouseDown={onRemoveClick} data-testid="remove-fact-aside" />
       </ButtonContainer>
-      <FactBox open={open} {...attributes} onOpenChange={setIsOpen}>
+      <FactBox defaultOpen {...attributes}>
         {children}
       </FactBox>
     </EmbedWrapper>

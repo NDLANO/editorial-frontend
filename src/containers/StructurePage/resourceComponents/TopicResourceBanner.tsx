@@ -169,7 +169,7 @@ const TopicResourceBanner = ({
     isPending: matomoStatsIsPending,
     isError: matomoStatsIsError,
   } = useMatomoStats(
-    { urls: currentNode.url ? [currentNode.url] : [] },
+    { urls: currentNode ? currentNode.contexts.map((context) => context.url) : [] },
     { enabled: !!currentNode.url && showMatomoStats },
   );
 
@@ -250,9 +250,10 @@ const TopicResourceBanner = ({
           <InfoItems>
             {showMatomoStats ? (
               <MatomoStats
-                matomoStats={currentNode.contextId ? resourceStats?.[currentNode.contextId] : undefined}
-                matomoStatsIsPending={matomoStatsIsPending}
-                matomoStatsIsError={matomoStatsIsError}
+                stats={currentNode.contextId ? resourceStats?.[currentNode.contextId] : undefined}
+                allStats={currentNode.contextids.map((cId) => resourceStats?.[cId])}
+                isPending={matomoStatsIsPending}
+                isError={matomoStatsIsError}
               />
             ) : null}
             <StatusIcons

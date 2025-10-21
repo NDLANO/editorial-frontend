@@ -22,14 +22,15 @@ import {
 import { ResourceStats } from "../utils";
 
 interface Props {
-  matomoStats: ResourceStats | undefined;
-  matomoStatsIsPending: boolean;
-  matomoStatsIsError: boolean;
+  stats: ResourceStats | undefined;
+  allStats: (ResourceStats | undefined)[];
+  isPending: boolean;
+  isError: boolean;
 }
-const MatomoStats = ({ matomoStats, matomoStatsIsPending, matomoStatsIsError }: Props) => {
+const MatomoStats = ({ stats, allStats, isPending, isError }: Props) => {
   const { t } = useTranslation();
 
-  if (matomoStatsIsError) {
+  if (isError) {
     return (
       <Text textStyle="body.small" color="text.error">
         {t("matomo.error")}
@@ -37,7 +38,7 @@ const MatomoStats = ({ matomoStats, matomoStatsIsPending, matomoStatsIsError }: 
     );
   }
 
-  if (matomoStatsIsPending) {
+  if (isPending) {
     return (
       <Skeleton css={{ width: "xxlarge" }}>
         <Text textStyle="body.small">&nbsp;</Text>
@@ -45,27 +46,30 @@ const MatomoStats = ({ matomoStats, matomoStatsIsPending, matomoStatsIsError }: 
     );
   }
 
+  const totalHits = allStats?.reduce((acc, curr) => acc + (curr?.nb_hits ?? 0), 0);
+
   return (
     <PopoverRoot>
       <PopoverTrigger
         asChild
-        disabled={!matomoStats}
-        aria-label={matomoStats ? t("matomo.popoverDescription", { count: matomoStats.nb_hits }) : t("matomo.noData")}
-        title={matomoStats ? t("matomo.popoverDescription", { count: matomoStats.nb_hits }) : t("matomo.noData")}
+        disabled={!stats}
+        aria-label={stats ? t("matomo.popoverDescription", { count: stats.nb_hits }) : t("matomo.noData")}
+        title={stats ? t("matomo.popoverDescription", { count: stats.nb_hits }) : t("matomo.noData")}
       >
         <Button size="small" variant="secondary">
           <LineChartLine size="small" />
-          <span aria-hidden>{matomoStats?.nb_hits ?? 0}</span>
+          <span aria-hidden>{stats?.nb_hits ?? 0}</span>
         </Button>
       </PopoverTrigger>
       <Portal>
         <PopoverContent>
           <PopoverTitle>{t("matomo.popoverTitle")}</PopoverTitle>
-          {!!matomoStats && (
+          {!!stats && (
             <UnOrderedList>
-              <li>{t("matomo.hits", { count: matomoStats.nb_hits })}</li>
-              <li>{t("matomo.visits", { count: matomoStats.nb_visits })}</li>
-              <li>{t("matomo.avgTime", { time: matomoStats.avg_time_on_page })}</li>
+              <li>{t("matomo.hits", { count: stats.nb_hits })}</li>
+              <li>{t("matomo.visits", { count: stats.nb_visits })}</li>
+              <li>{t("matomo.avgTime", { time: stats.avg_time_on_page })}</li>
+              <li>{t("matomo.totalHits", { count: totalHits, contexts: allStats?.length })}</li>
             </UnOrderedList>
           )}
         </PopoverContent>

@@ -2325,6 +2325,7 @@ const phrases = {
     visits: "Visits: {{count}}",
     hits: "Page views: {{count}}",
     avgTime: "Avg. time spent by visitors: {{time}} seconds",
+    totalHits: "Total page views: {{count}} ({{contexts}} contexts)",
     error: "Something went wrong while fetching visitor data",
     switchLabel: "Show visitor numbers",
     popoverDescription_one: "{{count}} unique page view, click to see more visitor numbers",

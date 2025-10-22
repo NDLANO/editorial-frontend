@@ -7,12 +7,9 @@
  */
 
 import type { JSX } from "react";
-import { Navigate, useLocation } from "react-router";
-import { loginPersonalAccessToken } from "../../util/authHelpers";
+import { useHref, useLocation } from "react-router";
 import { toLogin } from "../../util/routeHelpers";
 import { useSession } from "../Session/SessionProvider";
-
-const okPaths = ["/login", "/logout"];
 
 interface Props {
   component: JSX.Element;
@@ -21,20 +18,11 @@ interface Props {
 const PrivateRoute = ({ component }: Props) => {
   const { authenticated } = useSession();
   const location = useLocation();
-
-  if (
-    !authenticated &&
-    window.location.pathname &&
-    !okPaths.find((okPath) => window.location.pathname.includes(okPath))
-  ) {
-    const lastPath = `${window.location.pathname}${window.location.search ?? ""}`;
-    localStorage.setItem("lastPath", lastPath);
-    loginPersonalAccessToken("google-oauth2");
-    return <div />;
-  }
+  const href = useHref(location);
 
   if (!authenticated) {
-    return <Navigate to={{ pathname: toLogin() }} state={{ from: location }} />;
+    window.location.href = toLogin(encodeURIComponent(href));
+    return;
   }
   return component;
 };

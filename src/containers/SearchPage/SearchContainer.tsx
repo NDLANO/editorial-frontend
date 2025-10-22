@@ -21,8 +21,7 @@ import Pagination from "../../components/abstractions/Pagination";
 import { SearchParams, SearchType } from "../../interfaces";
 import { useUserData } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
-import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
-import { isValid } from "../../util/jwtHelper";
+import { getAccessToken, isActiveToken } from "../../util/authHelpers";
 import { toSearch } from "../../util/routeHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
@@ -51,7 +50,7 @@ const SearchContainer = ({ searchHook, type }: Props) => {
   });
 
   const { data: userData } = useUserData({
-    enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
+    enabled: isActiveToken(getAccessToken()),
   });
 
   const [searchObject, setSearchObject] = useState(parseSearchParams(location.search, false));

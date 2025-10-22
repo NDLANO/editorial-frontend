@@ -14,6 +14,7 @@ import { PageContent, SelectContent, SelectLabel, SelectRoot, SelectValueText, T
 import { styled } from "@ndla/styled-system/jsx";
 import { SUPPORTED_LANGUAGES } from "../constants";
 import { GenericSelectItem, GenericSelectTrigger } from "./abstractions/Select";
+import { constructNewPath } from "../util/urlHelpers";
 
 export const FooterBlock = styled("footer", {
   base: {
@@ -59,15 +60,6 @@ const FooterContent = styled("div", {
     justifyContent: "flex-end",
   },
 });
-
-const LANGUAGE_REGEXP = new RegExp(`^\\/(${SUPPORTED_LANGUAGES.join("|")})($|\\/)`, "");
-
-const constructNewPath = (pathname: string, newLocale?: string) => {
-  const path = pathname.replace(LANGUAGE_REGEXP, "");
-  const fullPath = path.startsWith("/") ? path : `/${path}`;
-  const localePrefix = newLocale ? `/${newLocale}` : "";
-  return `${localePrefix}${fullPath}`;
-};
 
 export const Footer = () => {
   const { t, i18n } = useTranslation();

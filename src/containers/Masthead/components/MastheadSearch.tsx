@@ -35,9 +35,8 @@ import { fetchBySlug, fetchNewArticleId } from "../../../modules/draft/draftApi"
 import { useUserData } from "../../../modules/draft/draftQueries";
 import { fetchNode, fetchNodes } from "../../../modules/nodes/nodeApi";
 import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
-import { getAccessToken, getAccessTokenPersonal } from "../../../util/authHelpers";
+import { getAccessToken, isActiveToken } from "../../../util/authHelpers";
 import { isNDLAFrontendUrl } from "../../../util/htmlHelpers";
-import { isValid } from "../../../util/jwtHelper";
 import { routes } from "../../../util/routeHelpers";
 import { parseSearchParams } from "../../SearchPage/components/form/SearchForm";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -72,7 +71,7 @@ export const MastheadSearch = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const userDataQuery = useUserData({
-    enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
+    enabled: isActiveToken(getAccessToken()),
   });
 
   useEffect(() => {

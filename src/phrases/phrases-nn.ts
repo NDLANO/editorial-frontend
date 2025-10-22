@@ -1689,7 +1689,7 @@ const phrases = {
     errorWhenFetchingTaxonomyArticle: "Det var eit problem ved lasting av den underliggande artikkelen",
     unsavedTaxonomy: "Du har ulagra endringar. Trykk tilbakestill igjen viss du ønsker å fortsette.",
     auth0:
-      "Autentiseringsfeil. Trykk avbryt for å ta vare på eventuelle endringer du har gjort før du logger inn på nytt. Følgende feilmelding kom fra auth0: {{message}}",
+      "Autentiseringsfeil. Trykk avbryt for å ta vare på eventuelle endringer du har gjort før du logger inn på nytt.",
     statusCode: {
       409: "Denne artikkelen har allerede blitt oppdatert. Ta vare på det du har endra og last sida på nytt for å kunne lagre.",
     },

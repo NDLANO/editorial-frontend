@@ -7,7 +7,7 @@
  */
 
 import queryString from "query-string";
-import { apiBaseUrl, getAccessToken, isAccessTokenValid, renewAuth } from "./authHelpers";
+import { getAccessToken, isActiveToken, renewAuth } from "./authHelpers";
 import { resolveJsonOrRejectWithError, throwErrorPayload } from "./resolveJsonOrRejectWithError";
 import config from "../config";
 import { BrightcoveAccessToken, OembedResponse } from "../interfaces";
@@ -26,6 +26,31 @@ export interface FetchConfigType {
   signal?: AbortSignal;
 }
 
+const NDLA_API_URL = config.ndlaApiUrl;
+
+const locationOrigin = (() => {
+  if (config.runtimeType === "test") {
+    return "http://ndla-frontend";
+  }
+
+  if (typeof window === "undefined") {
+    return "";
+  }
+  if (typeof window.location.origin === "undefined") {
+    return [window.location.protocol, "//", window.location.host, ":", window.location.port].join("");
+  }
+
+  return window.location.origin;
+})();
+
+const apiBaseUrl = (() => {
+  if (config.runtimeType === "test") {
+    return "http://ndla-api";
+  }
+
+  return NDLA_API_URL ?? locationOrigin;
+})();
+
 export function apiResourceUrl(path: string) {
   return apiBaseUrl + path;
 }
@@ -37,7 +62,7 @@ export function brightcoveApiResourceUrl(path: string) {
 /** openapi-fetch middleware to add authentication headers */
 export const OATSAuthMiddleware: Middleware = {
   async onRequest({ request }) {
-    if (!isAccessTokenValid()) {
+    if (!isActiveToken(getAccessToken())) {
       await renewAuth();
     }
 
@@ -70,7 +95,7 @@ export const createAuthClient = <T extends {}>() => {
 };
 
 export const fetchWithAuthorization = async (url: string, config: FetchConfigType = {}, forceAuth: boolean) => {
-  if (forceAuth || !isAccessTokenValid()) {
+  if (forceAuth || !isActiveToken(getAccessToken())) {
     await renewAuth();
   }
 

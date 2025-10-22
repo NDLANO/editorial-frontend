@@ -75,8 +75,6 @@ describe("Messages", () => {
     const { findByText } = render(wrapper(messages));
     const loginButton = await findByText("Logg inn på nytt");
     await userEvent.click(loginButton);
-    expect(`${router.state.location.pathname}${router.state.location.search}`).toEqual(
-      "/logout/session?returnToLogin=true",
-    );
+    expect(`${router.state.location.pathname}${router.state.location.search}`).toEqual("/logout?relog=true");
   });
 });

@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 import { UserLine } from "@ndla/icons";
 import { SafeLinkButton, SafeLinkButtonProps } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { getAccessTokenPersonal } from "../../../util/authHelpers";
 import { routes } from "../../../util/routeHelpers";
 import { useSession } from "../../Session/SessionProvider";
 
@@ -23,19 +22,17 @@ const StyledSafeLinkButton = styled(SafeLinkButton, {
 export const MastheadSessionLink = (props: Omit<SafeLinkButtonProps, "to" | "children">) => {
   const { t } = useTranslation();
   const { authenticated } = useSession();
-  const isAccessTokenPersonal = getAccessTokenPersonal();
-
-  const loggedIn = authenticated && isAccessTokenPersonal;
 
   return (
     <StyledSafeLinkButton
+      asAnchor
       variant="tertiary"
       size="small"
-      to={loggedIn ? routes.logout.logoutSession : routes.login}
+      to={authenticated ? routes.logout : routes.login}
       {...props}
     >
       <UserLine />
-      {loggedIn ? t("user.buttonLogOut") : t("siteNav.login")}
+      {authenticated ? t("user.buttonLogOut") : t("siteNav.login")}
     </StyledSafeLinkButton>
   );
 };

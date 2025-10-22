@@ -32,7 +32,7 @@ import {
   SEARCH_SUBJECT_STATS,
   SEARCH_WITH_CUSTOM_SUBJECTS_FILTERING,
 } from "../../queryKeys";
-import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
+import { getAccessToken } from "../../util/authHelpers";
 import { isValid } from "../../util/jwtHelper";
 import { useUserData } from "../draft/draftQueries";
 import { usePostSearchNodes } from "../nodes/nodeQueries";
@@ -71,7 +71,7 @@ export const useSearchWithCustomSubjectsFiltering = (
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const { data, isLoading } = useUserData({
-    enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
+    enabled: isValid(getAccessToken()),
   });
 
   const isLMASubjects = query.subjects?.join("") === LMA_SUBJECT_ID;

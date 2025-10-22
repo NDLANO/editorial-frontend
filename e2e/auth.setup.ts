@@ -35,15 +35,14 @@ setup("authenticate", async ({ page, request }) => {
   await page.addInitScript(
     async ({ recordFixtures, token, expAt }) => {
       if (recordFixtures) {
+        // TODO: Update these to fix e2e tests
         localStorage.setItem("access_token", token);
         localStorage.setItem("access_token_expires_at", expAt);
-        localStorage.setItem("access_token_personal", "true");
       } else {
         // This number must match exp in the mockTokenAllPermissions above
         const expAt = (32518706430 - 1687564890 - 60) * 1000 + new Date().getTime();
         localStorage.setItem("access_token", token);
         localStorage.setItem("access_token_expires_at", expAt.toString());
-        localStorage.setItem("access_token_personal", "true");
       }
     },
     { token, expAt, recordFixtures: process.env.RECORD_FIXTURES === "true" },

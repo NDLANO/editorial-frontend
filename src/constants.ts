@@ -111,6 +111,10 @@ export const STATUS_ORDER = [
   REPUBLISH,
 ];
 
+export const ACCESS_TOKEN_EXPIRES_COOKIE = "access_token_expires_at";
+export const ACCESS_TOKEN_COOKIE = "access_token";
+export const REFRESH_TOKEN_COOKIE = "refresh_token";
+
 export const STORED_PAGE_SIZE = "STORED_PAGE_SIZE";
 export const STORED_PAGE_SIZE_CONCEPT = "STORED_PAGE_SIZE_CONCEPT";
 export const STORED_PAGE_SIZE_ON_HOLD = "STORED_PAGE_SIZE_ON_HOLD";

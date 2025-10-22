@@ -19,7 +19,7 @@ import WorkList from "./components/worklist/WorkList";
 import { customFieldsBody, defaultSubjectIdObject, getResultSubjectIdObject } from "./utils";
 import { useUserData } from "../../modules/draft/draftQueries";
 import { usePostSearchNodes } from "../../modules/nodes/nodeQueries";
-import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
+import { getAccessToken } from "../../util/authHelpers";
 import { isValid } from "../../util/jwtHelper";
 import { useSession } from "../Session/SessionProvider";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
@@ -70,7 +70,7 @@ export const WelcomePage = () => {
   const { t } = useTranslation();
 
   const { data, isPending } = useUserData({
-    enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
+    enabled: isValid(getAccessToken()),
   });
 
   const lastUsedResources = useMemo(
@@ -87,8 +87,6 @@ export const WelcomePage = () => {
     () => data?.latestEditedLearningpaths?.map((a) => Number(a)) ?? [],
     [data?.latestEditedLearningpaths],
   );
-
-  localStorage.setItem("lastPath", "");
 
   return (
     <StyledPageContent variant="wide">

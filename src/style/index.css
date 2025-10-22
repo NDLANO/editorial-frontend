@@ -6,6 +6,8 @@
  *
  */
 
+@import "@fontsource-variable/source-serif-4";
+@import "@fontsource-variable/source-code-pro";
 @import "../../node_modules/react-image-crop/dist/ReactCrop.css";
 
 @layer reset, base, tokens, recipes, utilities;

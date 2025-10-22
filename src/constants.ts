@@ -111,9 +111,12 @@ export const STATUS_ORDER = [
   REPUBLISH,
 ];
 
-export const ACCESS_TOKEN_EXPIRES_COOKIE = "access_token_expires_at";
-export const ACCESS_TOKEN_COOKIE = "access_token";
-export const REFRESH_TOKEN_COOKIE = "refresh_token";
+export const NONCE_COOKIE = "ndla_ed_nonce";
+export const STATE_COOKIE = "ndla_ed_auth_state";
+export const PKCE_CODE_COOKIE = "ndla_ed_PKCE_code";
+export const ACCESS_TOKEN_COOKIE = "ndla_ed_access_token";
+export const REFRESH_TOKEN_COOKIE = "ndla_ed_refresh_token";
+export const RETURN_TO_COOKIE = "ndla_ed_return_to";
 
 export const STORED_PAGE_SIZE = "STORED_PAGE_SIZE";
 export const STORED_PAGE_SIZE_CONCEPT = "STORED_PAGE_SIZE_CONCEPT";

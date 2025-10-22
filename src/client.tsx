@@ -18,10 +18,11 @@ import { ErrorReporter } from "@ndla/error-reporter";
 import { AuthInitializer } from "./components/AuthInitializer";
 import config, { ConfigType } from "./config";
 import { MessagesProvider } from "./containers/Messages/MessagesProvider";
-import { getSessionStateFromLocalStorage, SessionProvider } from "./containers/Session/SessionProvider";
+import { getSessionStateFromCookie, SessionProvider } from "./containers/Session/SessionProvider";
 import { isValidLocale, initializeI18n } from "./i18n";
 import { routes } from "./routes";
 import Formbricks from "./scripts/Formbricks";
+import { getAccessToken } from "./util/authHelpers";
 import { isNdlaApiError } from "./util/resolveJsonOrRejectWithError";
 
 declare global {
@@ -74,7 +75,7 @@ root.render(
   <QueryClientProvider client={queryClient}>
     <I18nextProvider i18n={i18n as i18n}>
       <MessagesProvider>
-        <SessionProvider initialValue={getSessionStateFromLocalStorage()}>
+        <SessionProvider initialValue={getSessionStateFromCookie(getAccessToken())}>
           <AuthInitializer>
             <RouterProvider router={router} />
           </AuthInitializer>

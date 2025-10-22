@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`getSessionStateFromLocalStorage > returns a decoded access token if everything is ok 1`] = `
+exports[`getSessionStateFromCookie > returns a decoded access token if everything is ok 1`] = `
 {
   "authenticated": true,
   "user": {
@@ -14,53 +14,17 @@ exports[`getSessionStateFromLocalStorage > returns a decoded access token if eve
 }
 `;
 
-exports[`getSessionStateFromLocalStorage > returns a default initial state if accessToken is not personal 1`] = `
+exports[`getSessionStateFromCookie > returns a default initial state if token is not available in cookie 1`] = `
 {
   "authenticated": false,
   "user": {},
   "userNotRegistered": true,
-}
-`;
-
-exports[`getSessionStateFromLocalStorage > returns a default initial state if token is not available in localStorage 1`] = `
-{
-  "authenticated": false,
-  "user": {},
-  "userNotRegistered": true,
-}
-`;
-
-exports[`useSession > nulls all values when logout is called 1`] = `
-{
-  "authenticated": true,
-  "login": [Function],
-  "logout": [Function],
-  "ndlaId": undefined,
-  "userName": "Test user",
-  "userNotRegistered": true,
-  "userPermissions": [
-    "some:permission",
-  ],
-}
-`;
-
-exports[`useSession > nulls all values when logout is called 2`] = `
-{
-  "authenticated": false,
-  "login": [Function],
-  "logout": [Function],
-  "ndlaId": undefined,
-  "userName": undefined,
-  "userNotRegistered": true,
-  "userPermissions": undefined,
 }
 `;
 
 exports[`useSession > returns initial state when called with initial values 1`] = `
 {
   "authenticated": true,
-  "login": [Function],
-  "logout": [Function],
   "ndlaId": "mNmru7YoSIjPepOrkN4MMhlU",
   "userName": "Test user",
   "userNotRegistered": false,
@@ -73,8 +37,6 @@ exports[`useSession > returns initial state when called with initial values 1`] 
 exports[`useSession > returns initial state when called without initial values 1`] = `
 {
   "authenticated": false,
-  "login": [Function],
-  "logout": [Function],
   "ndlaId": undefined,
   "userName": undefined,
   "userNotRegistered": true,

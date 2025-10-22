@@ -37,6 +37,7 @@ import { getCookie } from "@ndla/util";
 
 const IS_PROD_ENVIRONMENT = process.env.IS_VERCEL === "true" || process.env.NDLA_IS_KUBERNETES !== undefined;
 const SAME_SITE: CookieOptions["sameSite"] = IS_PROD_ENVIRONMENT ? "strict" : undefined;
+const PROTOCOL = IS_PROD_ENVIRONMENT ? "https" : "http";
 
 const stateCookieOptions: CookieOptions = { httpOnly: true, sameSite: SAME_SITE, secure: IS_PROD_ENVIRONMENT };
 const pkceCookieOptions: CookieOptions = { httpOnly: true, sameSite: SAME_SITE, secure: IS_PROD_ENVIRONMENT };
@@ -105,8 +106,8 @@ router.get(["/login", "/:lang/login"], async (req, res) => {
   const code_challenge = await calculatePKCECodeChallenge(codeVerifier);
   const oidcConfig = await getConfig();
 
-  const port = req.protocol === "http" ? `:${config.port}` : "";
-  const redirect_uri = `${req.protocol}://${req.hostname}${port}/login/success`;
+  const port = PROTOCOL === "http" ? `:${config.port}` : "";
+  const redirect_uri = `${PROTOCOL}://${req.hostname}${port}/login/success`;
   const state = randomState();
   const nonce = randomNonce();
 
@@ -150,7 +151,7 @@ router.get("/login/success", async (req, res) => {
   const oidcConfig = await getConfig();
 
   const port = config.host === "localhost" ? `:${config.port}` : "";
-  const url = new URL(`${req.protocol}://${req.hostname}${port}${req.url}`);
+  const url = new URL(`${PROTOCOL}://${req.hostname}${port}${req.url}`);
   try {
     const tokens = await authorizationCodeGrant(oidcConfig, url, {
       pkceCodeVerifier: verifier,
@@ -201,7 +202,7 @@ router.get(["/logout", "/:lang/logout"], async (req, res) => {
   res.setHeader("Cache-Control", "private");
 
   const port = config.host === "localhost" ? `:${config.port}` : "";
-  const post_logout_redirect_uri = `${req.protocol}://${req.hostname}${port}${redirect}`;
+  const post_logout_redirect_uri = `${PROTOCOL}://${req.hostname}${port}${redirect}`;
   const oidcConfig = await getConfig();
 
   res.clearCookie(ACCESS_TOKEN_COOKIE, accessTokenCookieOptions);

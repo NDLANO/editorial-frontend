@@ -48,7 +48,7 @@ export const scheduleRenewal = async (createMessage?: (newMessage: NewMessageTyp
     return;
   }
 
-  const token = decodeToken(getCookie(ACCESS_TOKEN_COOKIE, document.cookie));
+  const token = decodeToken(getAccessToken());
   const timeout = token?.exp ? new Date(token.exp * 1000).getTime() - new Date().getTime() : 0;
 
   if (timeout > 0) {

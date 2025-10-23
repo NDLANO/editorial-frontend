@@ -193,8 +193,15 @@ export function toLogin(returnTo?: string) {
   return returnTo ? `/login?returnTo=${returnTo}` : "/login";
 }
 
-export function toLogout(relog?: boolean) {
-  return relog ? `/logout?relog=true` : "/logout";
+export function toLogout(relog?: boolean, returnTo?: string) {
+  const params = new URLSearchParams();
+  if (relog) {
+    params.append("relog", "true");
+  }
+  if (returnTo) {
+    params.append("returnTo", returnTo);
+  }
+  return params.size ? `/logout?${params.toString()}` : "/logout";
 }
 
 export function toCreateAudioFile() {

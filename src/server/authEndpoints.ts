@@ -84,8 +84,15 @@ const getConfig = async (): Promise<Configuration> => {
 router.get(["/login", "/:lang/login"], async (req, res) => {
   const auth0Cookie = getCookie(ACCESS_TOKEN_COOKIE, req.headers.cookie ?? "") ?? "";
   const auth0Token = decodeToken(auth0Cookie);
-  const returnTo =
-    typeof req.query.returnTo === "string" && isSafeRedirect(req.query.returnTo) ? req.query.returnTo : "/";
+  let returnTo = "/";
+  if (typeof req.query.returnTo === "string" && isSafeRedirect(req.query.returnTo)) {
+    returnTo = req.query.returnTo;
+  } else {
+    const returnToCookie = getCookie(RETURN_TO_COOKIE, req.headers.cookie ?? "");
+    if (returnToCookie && isSafeRedirect(returnToCookie)) {
+      returnTo = decodeURIComponent(returnToCookie);
+    }
+  }
   res.setHeader("Cache-Control", "private");
   const lang = req.params.lang
     ? isValidLocale(req.params.lang)
@@ -140,11 +147,19 @@ router.get("/login/success", async (req, res) => {
   const returnTo = returnToCookie && isSafeRedirect(returnToCookie) ? returnToCookie : "/";
 
   if (!code || !verifier || !state || !nonce) {
+    res.clearCookie(PKCE_CODE_COOKIE, pkceOptions);
+    res.clearCookie(STATE_COOKIE, stateOptions);
+    res.clearCookie(NONCE_COOKIE, nonceOptions);
+    res.clearCookie(RETURN_TO_COOKIE, returnToOptions);
     res.status(BAD_REQUEST).send({ error: "Missing code, state, nonce or verifier" });
     return;
   }
 
   if (req.query.state !== state) {
+    res.clearCookie(PKCE_CODE_COOKIE, pkceOptions);
+    res.clearCookie(STATE_COOKIE, stateOptions);
+    res.clearCookie(NONCE_COOKIE, nonceOptions);
+    res.clearCookie(RETURN_TO_COOKIE, returnToOptions);
     res.status(BAD_REQUEST).send({ error: "State does not match" });
     return;
   }
@@ -220,6 +235,9 @@ router.get(["/logout", "/:lang/logout"], async (req, res) => {
   const idToken = getCookie(ID_TOKEN_COOKIE, req.headers.cookie ?? "") ?? "";
 
   const relog = req.query.relog === "true";
+  if (req.query.returnTo && typeof req.query.returnTo === "string" && isSafeRedirect(req.query.returnTo)) {
+    res.cookie(RETURN_TO_COOKIE, req.query.returnTo, returnToOptions);
+  }
   const redirect = relog ? constructNewPath("/login", req.params.lang) : "/";
   res.setHeader("Cache-Control", "private");
 

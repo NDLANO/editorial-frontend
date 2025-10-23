@@ -7,6 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
+import { useHref, useLocation } from "react-router";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { useMessages } from "./MessagesProvider";
@@ -22,6 +23,8 @@ interface MessageProps {
 const Message = ({ message }: MessageProps) => {
   const { t } = useTranslation();
   const { clearMessage } = useMessages();
+  const location = useLocation();
+  const href = useHref(location);
 
   return (
     <AlertDialog
@@ -37,7 +40,11 @@ const Message = ({ message }: MessageProps) => {
           <Button variant="danger" onClick={() => clearMessage(message.id)}>
             {t("form.abort")}
           </Button>
-          <SafeLinkButton variant="secondary" to={toLogout(true)} asAnchor>
+          <SafeLinkButton
+            variant="secondary"
+            to={toLogout(true, location.pathname !== "/" ? href : undefined)}
+            asAnchor
+          >
             {t("alertDialog.loginAgain")}
           </SafeLinkButton>
         </FormActionsContainer>

@@ -35,19 +35,20 @@ import {
 import { decodeToken } from "../util/jwtHelper";
 import { getCookie } from "@ndla/util";
 
-const IS_PROD_ENVIRONMENT = process.env.IS_VERCEL === "true" || process.env.NDLA_IS_KUBERNETES !== undefined;
-const SAME_SITE: CookieOptions["sameSite"] = IS_PROD_ENVIRONMENT ? "strict" : undefined;
-const PROTOCOL = IS_PROD_ENVIRONMENT ? "https" : "http";
+const DEPLOYED = process.env.IS_VERCEL === "true" || process.env.NDLA_IS_KUBERNETES !== undefined;
+const SAME_SITE: CookieOptions["sameSite"] = DEPLOYED ? "strict" : undefined;
+const PROTOCOL = DEPLOYED ? "https" : "http";
+const PORT = DEPLOYED ? "" : `:${config.port}`;
 
-const stateCookieOptions: CookieOptions = { httpOnly: true, sameSite: "none", secure: IS_PROD_ENVIRONMENT };
-const pkceCookieOptions: CookieOptions = { httpOnly: true, sameSite: "none", secure: IS_PROD_ENVIRONMENT };
-const nonceCookieOptions: CookieOptions = { httpOnly: true, sameSite: "none", secure: IS_PROD_ENVIRONMENT };
-const returnToCookieOptions: CookieOptions = { httpOnly: true, sameSite: "none", secure: IS_PROD_ENVIRONMENT };
-const accessTokenCookieOptions: CookieOptions = { sameSite: SAME_SITE, secure: IS_PROD_ENVIRONMENT };
-const refreshTokenCookieOptions: CookieOptions = {
+const stateOptions: CookieOptions = { httpOnly: true, sameSite: DEPLOYED ? "none" : undefined, secure: DEPLOYED };
+const pkceOptions: CookieOptions = { httpOnly: true, sameSite: DEPLOYED ? "none" : undefined, secure: DEPLOYED };
+const nonceOptions: CookieOptions = { httpOnly: true, sameSite: DEPLOYED ? "none" : undefined, secure: DEPLOYED };
+const returnToOptions: CookieOptions = { httpOnly: true, sameSite: DEPLOYED ? "none" : undefined, secure: DEPLOYED };
+const accessTokenOptions: CookieOptions = { sameSite: SAME_SITE, secure: DEPLOYED };
+const refreshTokenOptions: CookieOptions = {
   httpOnly: true,
   sameSite: SAME_SITE,
-  secure: IS_PROD_ENVIRONMENT,
+  secure: DEPLOYED,
   path: "/auth/refresh",
 };
 
@@ -56,12 +57,7 @@ const router = express.Router();
 const isSafeRedirect = (url: string) => {
   try {
     const decodedUrl = decodeURIComponent(url);
-
-    if (!decodedUrl.startsWith("/") || decodedUrl.startsWith("//")) {
-      return false;
-    }
-
-    return true;
+    return decodedUrl.startsWith("/") && !decodedUrl.startsWith("//");
   } catch (e) {
     return false;
   }
@@ -106,8 +102,7 @@ router.get(["/login", "/:lang/login"], async (req, res) => {
   const code_challenge = await calculatePKCECodeChallenge(codeVerifier);
   const oidcConfig = await getConfig();
 
-  const port = PROTOCOL === "http" ? `:${config.port}` : "";
-  const redirect_uri = `${PROTOCOL}://${req.hostname}${port}/login/success`;
+  const redirect_uri = `${PROTOCOL}://${req.hostname}${PORT}/login/success`;
   const state = randomState();
   const nonce = randomNonce();
 
@@ -128,10 +123,10 @@ router.get(["/login", "/:lang/login"], async (req, res) => {
 
   const redirectUrl = buildAuthorizationUrl(oidcConfig, parameters);
 
-  res.cookie(STATE_COOKIE, state, stateCookieOptions);
-  res.cookie(PKCE_CODE_COOKIE, codeVerifier, pkceCookieOptions);
-  res.cookie(NONCE_COOKIE, nonce, nonceCookieOptions);
-  res.cookie(RETURN_TO_COOKIE, redirect, returnToCookieOptions);
+  res.cookie(STATE_COOKIE, state, stateOptions);
+  res.cookie(PKCE_CODE_COOKIE, codeVerifier, pkceOptions);
+  res.cookie(NONCE_COOKIE, nonce, nonceOptions);
+  res.cookie(RETURN_TO_COOKIE, redirect, returnToOptions);
   return res.redirect(redirectUrl.toString());
 });
 
@@ -145,13 +140,18 @@ router.get("/login/success", async (req, res) => {
   const returnTo = returnToCookie && isSafeRedirect(returnToCookie) ? returnToCookie : "/";
 
   if (!code || !verifier || !state || !nonce) {
-    throw new Error("Missing code, state, nonce or verifier");
+    res.status(INTERNAL_SERVER_ERROR).send({ error: "Missing code, state, nonce or verifier" });
+    return;
+  }
+
+  if (req.query.state !== state) {
+    res.status(INTERNAL_SERVER_ERROR).send({ error: "State does not match" });
+    return;
   }
 
   const oidcConfig = await getConfig();
 
-  const port = IS_PROD_ENVIRONMENT ? "" : `:${config.port}`;
-  const url = new URL(`${PROTOCOL}://${req.hostname}${port}${req.url}`);
+  const url = new URL(`${PROTOCOL}://${req.hostname}${PORT}${req.url}`);
   try {
     const tokens = await authorizationCodeGrant(oidcConfig, url, {
       pkceCodeVerifier: verifier,
@@ -160,15 +160,17 @@ router.get("/login/success", async (req, res) => {
       expectedNonce: nonce,
     });
 
-    // TODO: Maybe add expiration?
-    res.cookie(ACCESS_TOKEN_COOKIE, tokens.access_token, accessTokenCookieOptions);
+    res.cookie(ACCESS_TOKEN_COOKIE, tokens.access_token, {
+      ...accessTokenOptions,
+      maxAge: tokens.expires_in ? tokens.expires_in * 1000 : undefined,
+    });
     // TODO: How do we handle expiration for this? What happens if it expires?
-    res.cookie(REFRESH_TOKEN_COOKIE, tokens.refresh_token, refreshTokenCookieOptions);
+    res.cookie(REFRESH_TOKEN_COOKIE, tokens.refresh_token, refreshTokenOptions);
 
-    res.clearCookie(PKCE_CODE_COOKIE, pkceCookieOptions);
-    res.clearCookie(STATE_COOKIE, stateCookieOptions);
-    res.clearCookie(NONCE_COOKIE, nonceCookieOptions);
-    res.clearCookie(RETURN_TO_COOKIE, returnToCookieOptions);
+    res.clearCookie(PKCE_CODE_COOKIE, pkceOptions);
+    res.clearCookie(STATE_COOKIE, stateOptions);
+    res.clearCookie(NONCE_COOKIE, nonceOptions);
+    res.clearCookie(RETURN_TO_COOKIE, returnToOptions);
 
     return res.redirect(decodeURIComponent(returnTo));
   } catch (e) {
@@ -176,7 +178,6 @@ router.get("/login/success", async (req, res) => {
   }
 });
 
-// TODO: Fix and test
 router.get("/auth/refresh", async (req, res) => {
   const refreshToken = getCookie(REFRESH_TOKEN_COOKIE, req.headers.cookie ?? "");
   res.setHeader("Cache-Control", "private");
@@ -188,8 +189,8 @@ router.get("/auth/refresh", async (req, res) => {
 
   try {
     const tokens = await refreshTokenGrant(oidcConfig, refreshToken);
-    res.cookie(ACCESS_TOKEN_COOKIE, tokens.access_token, accessTokenCookieOptions);
-    res.cookie(REFRESH_TOKEN_COOKIE, tokens.refresh_token, refreshTokenCookieOptions);
+    res.cookie(ACCESS_TOKEN_COOKIE, tokens.access_token, accessTokenOptions);
+    res.cookie(REFRESH_TOKEN_COOKIE, tokens.refresh_token, refreshTokenOptions);
     res.status(OK).json(tokens.access_token);
   } catch (e) {
     res.status(INTERNAL_SERVER_ERROR).send({ error: "Failed to refresh token" });
@@ -201,12 +202,11 @@ router.get(["/logout", "/:lang/logout"], async (req, res) => {
   const redirect = relog ? constructNewPath("/login", req.params.lang) : "/";
   res.setHeader("Cache-Control", "private");
 
-  const port = config.host === "localhost" ? `:${config.port}` : "";
-  const post_logout_redirect_uri = `${PROTOCOL}://${req.hostname}${port}${redirect}`;
+  const post_logout_redirect_uri = `${PROTOCOL}://${req.hostname}${PORT}${redirect}`;
   const oidcConfig = await getConfig();
 
-  res.clearCookie(ACCESS_TOKEN_COOKIE, accessTokenCookieOptions);
-  res.clearCookie(REFRESH_TOKEN_COOKIE, refreshTokenCookieOptions);
+  res.clearCookie(ACCESS_TOKEN_COOKIE, accessTokenOptions);
+  res.clearCookie(REFRESH_TOKEN_COOKIE, refreshTokenOptions);
 
   // TODO: Do we need something more here?
   const redirectUrl = buildEndSessionUrl(oidcConfig, {

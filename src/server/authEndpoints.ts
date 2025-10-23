@@ -39,10 +39,10 @@ const IS_PROD_ENVIRONMENT = process.env.IS_VERCEL === "true" || process.env.NDLA
 const SAME_SITE: CookieOptions["sameSite"] = IS_PROD_ENVIRONMENT ? "strict" : undefined;
 const PROTOCOL = IS_PROD_ENVIRONMENT ? "https" : "http";
 
-const stateCookieOptions: CookieOptions = { httpOnly: true, sameSite: SAME_SITE, secure: IS_PROD_ENVIRONMENT };
-const pkceCookieOptions: CookieOptions = { httpOnly: true, sameSite: SAME_SITE, secure: IS_PROD_ENVIRONMENT };
-const nonceCookieOptions: CookieOptions = { httpOnly: true, sameSite: SAME_SITE, secure: IS_PROD_ENVIRONMENT };
-const returnToCookieOptions: CookieOptions = { httpOnly: true, sameSite: SAME_SITE, secure: IS_PROD_ENVIRONMENT };
+const stateCookieOptions: CookieOptions = { httpOnly: true, sameSite: "none", secure: IS_PROD_ENVIRONMENT };
+const pkceCookieOptions: CookieOptions = { httpOnly: true, sameSite: "none", secure: IS_PROD_ENVIRONMENT };
+const nonceCookieOptions: CookieOptions = { httpOnly: true, sameSite: "none", secure: IS_PROD_ENVIRONMENT };
+const returnToCookieOptions: CookieOptions = { httpOnly: true, sameSite: "none", secure: IS_PROD_ENVIRONMENT };
 const accessTokenCookieOptions: CookieOptions = { sameSite: SAME_SITE, secure: IS_PROD_ENVIRONMENT };
 const refreshTokenCookieOptions: CookieOptions = {
   httpOnly: true,

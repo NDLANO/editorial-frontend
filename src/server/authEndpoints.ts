@@ -65,9 +65,6 @@ const isSafeRedirect = (url: string) => {
 
 let storedOidcConfig: Configuration | undefined = undefined;
 
-// TODO: Should we error out if this doesn't exist?
-const AUTH0_CLIENT_SECRET = process.env.AUTH0_CLIENT_SECRET;
-
 const getConfig = async (): Promise<Configuration> => {
   if (storedOidcConfig) {
     return storedOidcConfig;
@@ -75,7 +72,6 @@ const getConfig = async (): Promise<Configuration> => {
   const oidcConfig = await discovery(
     new URL(`https://${config.auth0BrowserDomain}/.well-known/openid-configuration`),
     config.ndlaPersonalClientId!,
-    AUTH0_CLIENT_SECRET,
   );
   storedOidcConfig = oidcConfig;
   return oidcConfig;

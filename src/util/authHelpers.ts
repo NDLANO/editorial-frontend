@@ -27,7 +27,7 @@ export const isActiveToken = (maybeToken: JwtPayload | string | null | undefined
 
 export const renewAuth = async (): Promise<string> => {
   try {
-    const res = await fetch("auth/refresh", { credentials: "include" });
+    const res = await fetch("/auth/refresh", { credentials: "include" });
     return await res.json();
   } catch (err) {
     createMessageRef({

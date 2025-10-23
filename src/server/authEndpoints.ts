@@ -218,7 +218,6 @@ router.get("/auth/refresh", async (req, res) => {
 
 router.get(["/logout", "/:lang/logout"], async (req, res) => {
   const idToken = getCookie(ID_TOKEN_COOKIE, req.headers.cookie ?? "") ?? "";
-  const decodedIdToken = decodeToken(idToken);
 
   const relog = req.query.relog === "true";
   const redirect = relog ? constructNewPath("/login", req.params.lang) : "/";
@@ -243,11 +242,6 @@ router.get(["/logout", "/:lang/logout"], async (req, res) => {
 
   if (idToken) {
     parameters.id_token_hint = idToken;
-  }
-
-  if (config.ndlaPersonalClientId && decodedIdToken?.sub && isTokenValid(idToken)) {
-    parameters.client_id = config.ndlaPersonalClientId;
-    parameters.logout_hint = decodedIdToken.sub;
   }
 
   const redirectUrl = buildEndSessionUrl(oidcConfig, parameters);

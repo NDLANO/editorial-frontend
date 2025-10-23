@@ -37,7 +37,6 @@ const Message = ({ message }: MessageProps) => {
           <Button variant="danger" onClick={() => clearMessage(message.id)}>
             {t("form.abort")}
           </Button>
-          {/* TODO: Test this */}
           <SafeLinkButton variant="secondary" to={toLogout(true)} asAnchor>
             {t("alertDialog.loginAgain")}
           </SafeLinkButton>

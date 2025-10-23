@@ -42,57 +42,34 @@ const apiBaseUrl = (() => {
 
 export { locationOrigin, apiBaseUrl };
 
-const tokenExpiryDate = (maybeToken: JwtPayload | string | undefined | null) => {
+export const getAccessToken = () => getCookie(ACCESS_TOKEN_COOKIE, document.cookie);
+
+const tokenExpiryDate = (maybeToken: JwtPayload | string | undefined | null, buffer: number = 0) => {
   if (!maybeToken) return undefined;
   const token = typeof maybeToken === "string" ? decodeToken(maybeToken) : maybeToken;
   if (!token?.exp) return undefined;
-  return new Date(token.exp * 1000);
+  return new Date((token.exp - buffer) * 1000);
 };
-
-export const getMilisecondsUntilAccessTokenExpires = (tokenString: string | undefined) => {
-  const token = decodeToken(tokenString);
-  return token?.exp ? new Date(token.exp * 1000).getTime() - new Date().getTime() : 0;
-};
-
-export const getAccessToken = () => getCookie(ACCESS_TOKEN_COOKIE, document.cookie);
 
 export const isTokenValid = (maybeToken: JwtPayload | string | null | undefined) => {
-  const expiryDate = tokenExpiryDate(maybeToken);
+  const expiryDate = tokenExpiryDate(maybeToken, 60);
   if (!expiryDate) return false;
-  // TODO: Consider adding a buffer here
   return new Date().getTime() < expiryDate.getTime();
-  // const token = typeof maybeToken === "string" ? decodeToken(maybeToken) : maybeToken;
-  // if (!token?.exp) return false;
-  // // return new Date().getTime() < (token.exp - 60) * 1000; // Add 60 second buffer
-  // const expiresIn = !(token?.exp && token?.iat) ? 0 : (token.exp - token.iat - 60) * 1000; // Add 60 second buffer
-  // return new Date().getTime() < expiresIn;
 };
 
-// export const isAccessTokenValid = (expiresCookie: string | undefined) =>
-//   new Date().getTime() < getAccessTokenExpiresAt(expiresCookie) - 10000; // 10000ms is 10 seconds
-
 export const renewAuth = async (): Promise<string> => {
-  // TODO: Do something here with errors
-  const res = await fetch("auth/refresh", { credentials: "include" });
-  return await res.json();
-  // if (localStorage.getItem("access_token_personal") !== "true") return;
-  // return new Promise((resolve, reject) => {
-  //   auth.checkSession({ scope: "openid profile email" }, (err, authResult) => {
-  //     if (authResult && authResult.accessToken) {
-  //       setAccessTokenInLocalStorage(authResult.accessToken, true);
-  //       resolve(authResult.accessToken);
-  //     } else {
-  //       createMessageRef?.({
-  //         id: "errorMessage.auth0.renewal",
-  //         type: "auth0",
-  //         translationKey: "errorMessage.auth0",
-  //         translationObject: { message: err?.errorDescription || err?.error_description },
-  //         timeToLive: 0,
-  //       });
-  //       reject();
-  //     }
-  //   });
-  // });
+  try {
+    const res = await fetch("auth/refresh", { credentials: "include" });
+    return await res.json();
+  } catch (err) {
+    createMessageRef({
+      id: "errorMessage.auth0.renewal",
+      type: "auth0",
+      translationKey: "errorMessage.auth0",
+      timeToLive: 0,
+    });
+    return Promise.reject(err);
+  }
 };
 
 let tokenRenewalTimeout: ReturnType<typeof setTimeout>;
@@ -104,7 +81,9 @@ export const scheduleRenewal = async (createMessage?: (newMessage: NewMessageTyp
   if (ignoreRenew) {
     return;
   }
-  const timeout = getMilisecondsUntilAccessTokenExpires(getCookie(ACCESS_TOKEN_COOKIE, document.cookie));
+
+  const token = decodeToken(getCookie(ACCESS_TOKEN_COOKIE, document.cookie));
+  const timeout = token?.exp ? new Date(token.exp * 1000).getTime() - new Date().getTime() : 0;
 
   if (timeout > 0) {
     tokenRenewalTimeout.close();

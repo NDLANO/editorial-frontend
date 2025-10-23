@@ -16,10 +16,12 @@ let createMessageRef: (newMessage: NewMessageType) => void | undefined;
 
 export const getAccessToken = () => getCookie(ACCESS_TOKEN_COOKIE, document.cookie);
 
+const EXPIRY_BUFFER_SECS = 60;
+
 export const isActiveToken = (maybeToken: JwtPayload | string | null | undefined) => {
   const token = typeof maybeToken === "string" ? decodeToken(maybeToken) : maybeToken;
   if (!token?.exp) return false;
-  const expiryDate = new Date((token.exp - 60) * 1000); // add 60 second buffer
+  const expiryDate = new Date((token.exp - EXPIRY_BUFFER_SECS) * 1000); // add 60 second buffer
   return new Date().getTime() < expiryDate.getTime();
 };
 
@@ -49,7 +51,9 @@ export const scheduleRenewal = async (createMessage?: (newMessage: NewMessageTyp
   }
 
   const token = decodeToken(getAccessToken());
-  const timeout = token?.exp ? new Date(token.exp * 1000).getTime() - new Date().getTime() : 0;
+  const timeout = token?.exp
+    ? new Date((token.exp - (EXPIRY_BUFFER_SECS + 10)) * 1000).getTime() - new Date().getTime() // schedule renewal 10 seconds before buffer
+    : 0;
 
   if (timeout > 0) {
     tokenRenewalTimeout.close();

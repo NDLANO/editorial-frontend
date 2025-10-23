@@ -8,7 +8,7 @@
 
 import queryString from "query-string";
 import { getCookie } from "@ndla/util";
-import { apiBaseUrl, getAccessToken, isAccessTokenValid, renewAuth } from "./authHelpers";
+import { apiBaseUrl, getAccessToken, isTokenValid, renewAuth } from "./authHelpers";
 import { resolveJsonOrRejectWithError, throwErrorPayload } from "./resolveJsonOrRejectWithError";
 import config from "../config";
 import { BrightcoveAccessToken, OembedResponse } from "../interfaces";
@@ -39,7 +39,7 @@ export function brightcoveApiResourceUrl(path: string) {
 /** openapi-fetch middleware to add authentication headers */
 export const OATSAuthMiddleware: Middleware = {
   async onRequest({ request }) {
-    if (!isAccessTokenValid(getCookie(ACCESS_TOKEN_COOKIE, document.cookie))) {
+    if (!isTokenValid(getCookie(ACCESS_TOKEN_COOKIE, document.cookie))) {
       await renewAuth();
     }
 
@@ -72,7 +72,7 @@ export const createAuthClient = <T extends {}>() => {
 };
 
 export const fetchWithAuthorization = async (url: string, config: FetchConfigType = {}, forceAuth: boolean) => {
-  if (forceAuth || !isAccessTokenValid(getCookie(ACCESS_TOKEN_COOKIE, document.cookie))) {
+  if (forceAuth || !isTokenValid(getCookie(ACCESS_TOKEN_COOKIE, document.cookie))) {
     await renewAuth();
   }
 

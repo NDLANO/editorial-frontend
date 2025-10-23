@@ -56,7 +56,7 @@ export const getMilisecondsUntilAccessTokenExpires = (tokenString: string | unde
 
 export const getAccessToken = () => getCookie(ACCESS_TOKEN_COOKIE, document.cookie);
 
-export const isAccessTokenValid = (maybeToken: JwtPayload | string | null | undefined) => {
+export const isTokenValid = (maybeToken: JwtPayload | string | null | undefined) => {
   const expiryDate = tokenExpiryDate(maybeToken);
   if (!expiryDate) return false;
   // TODO: Consider adding a buffer here

@@ -122,7 +122,7 @@ const Resource = ({
     isPending: matomoStatsIsPending,
     isError: matomoStatsIsError,
   } = useMatomoStats(
-    { urls: [resource.url ?? ""] },
+    { urls: resource.contexts.map((context) => context.url) },
     { enabled: isVisible && !!resource.url && showMatomoStats, staleTime: Infinity },
   );
 
@@ -130,7 +130,7 @@ const Resource = ({
     if (!matomoStatsData || !showMatomoStats || !resource.contextId) return;
     const transformed = transformMatomoData(matomoStatsData);
     if (!transformed) return;
-    return transformed[resource.contextId];
+    return transformed;
   }, [matomoStatsData, resource.contextId, showMatomoStats]);
 
   const contentType = getContentTypeFromResourceTypes(resource.resourceTypes);
@@ -177,9 +177,10 @@ const Resource = ({
           <InfoItems>
             {showMatomoStats ? (
               <MatomoStats
-                matomoStats={matomoStats}
-                matomoStatsIsPending={matomoStatsIsPending}
-                matomoStatsIsError={matomoStatsIsError}
+                stats={resource.contextId ? matomoStats?.[resource.contextId] : undefined}
+                allStats={resource.contextids.map((cId) => matomoStats?.[cId])}
+                isPending={matomoStatsIsPending}
+                isError={matomoStatsIsError}
               />
             ) : null}
             {!!showQuality && (

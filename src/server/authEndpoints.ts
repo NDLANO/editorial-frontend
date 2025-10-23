@@ -150,7 +150,7 @@ router.get("/login/success", async (req, res) => {
 
   const oidcConfig = await getConfig();
 
-  const port = config.host === "localhost" ? `:${config.port}` : "";
+  const port = IS_PROD_ENVIRONMENT ? "" : `:${config.port}`;
   const url = new URL(`${PROTOCOL}://${req.hostname}${port}${req.url}`);
   try {
     const tokens = await authorizationCodeGrant(oidcConfig, url, {

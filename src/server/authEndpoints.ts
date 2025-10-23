@@ -23,7 +23,7 @@ import { constructNewPath } from "../util/urlHelpers";
 import { isValidLocale } from "../i18n";
 import config from "../config";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR, OK, UNAUTHORIZED } from "./httpCodes";
-import { isTokenValid } from "../util/authHelpers";
+import { isActiveToken } from "../util/authHelpers";
 import {
   ACCESS_TOKEN_COOKIE,
   ID_TOKEN_COOKIE,
@@ -94,7 +94,7 @@ router.get(["/login", "/:lang/login"], async (req, res) => {
     : undefined;
   const redirect = constructNewPath(returnTo, lang);
 
-  if (auth0Token && isTokenValid(auth0Token)) {
+  if (auth0Token && isActiveToken(auth0Token)) {
     return res.redirect(redirect);
   }
 

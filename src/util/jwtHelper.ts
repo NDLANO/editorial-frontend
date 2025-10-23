@@ -24,13 +24,3 @@ export const decodeToken = (accessToken: string | undefined | null): NDLAToken |
     return null;
   }
 };
-
-export const isValid = (accessToken: string | undefined | null) => {
-  if (!accessToken) return false;
-  try {
-    decode<NDLAToken>(accessToken);
-    return true;
-  } catch (e) {
-    return false;
-  }
-};

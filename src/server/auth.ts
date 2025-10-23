@@ -78,10 +78,10 @@ export const fetchAuth0UsersById = async (
   return mapToUserData(json);
 };
 
-type Auth0UserProfile = {
+interface Auth0UserProfile {
   name: string;
   app_metadata?: any;
-};
+}
 
 type PaginatedAuth0UserProfiles = {
   length: number;

@@ -7,7 +7,7 @@
  */
 
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react";
-import { decodeToken, isValid } from "../../util/jwtHelper";
+import { decodeToken } from "../../util/jwtHelper";
 
 const SessionContext = createContext<[SessionState, Dispatch<SetStateAction<SessionState>>] | undefined>(undefined);
 
@@ -43,13 +43,13 @@ export interface SessionProps {
 }
 
 export const getSessionStateFromCookie = (cookie: string | undefined): SessionState => {
-  if (isValid(cookie)) {
-    const decodedToken = decodeToken(cookie);
+  const decodedToken = decodeToken(cookie);
+  if (decodedToken) {
     return {
       user: {
-        name: decodedToken?.["https://ndla.no/user_name"],
-        ndlaId: decodedToken?.["https://ndla.no/ndla_id"],
-        permissions: decodedToken?.permissions,
+        name: decodedToken["https://ndla.no/user_name"],
+        ndlaId: decodedToken["https://ndla.no/ndla_id"],
+        permissions: decodedToken.permissions,
       },
       authenticated: true,
       userNotRegistered: false,

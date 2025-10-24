@@ -21,6 +21,10 @@ export const routes: RouteObject[] = [
         lazy: () => import("./containers/WelcomePage/WelcomePage"),
       },
       {
+        path: "login/failure",
+        lazy: () => import("./containers/Login/LoginFailure"),
+      },
+      {
         path: "subjectpage",
         children: [
           {

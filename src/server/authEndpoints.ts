@@ -175,6 +175,16 @@ router.get("/login/success", async (req, res) => {
       expectedNonce: nonce,
     });
 
+    const token = decodeToken(tokens.access_token);
+    if (!token?.permissions?.length) {
+      res.clearCookie(PKCE_CODE_COOKIE, pkceOptions);
+      res.clearCookie(STATE_COOKIE, stateOptions);
+      res.clearCookie(NONCE_COOKIE, nonceOptions);
+      res.clearCookie(RETURN_TO_COOKIE, returnToOptions);
+      res.redirect("/login/failure");
+      return;
+    }
+
     res.cookie(ACCESS_TOKEN_COOKIE, tokens.access_token, {
       ...accessTokenOptions,
       maxAge: tokens.expires_in ? tokens.expires_in * 1000 : undefined,

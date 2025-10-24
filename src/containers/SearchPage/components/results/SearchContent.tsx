@@ -9,11 +9,11 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ErrorWarningFill, CheckLine, CodeView, GlobalLine, InfoI } from "@ndla/icons";
-import { ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
+import { Badge, ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { ContentTypeBadge, constants } from "@ndla/ui";
+import { constants } from "@ndla/ui";
 import SearchHighlight from "./SearchHighlight";
 import { SearchListItemImage } from "./SearchListItemImage";
 import HeaderFavoriteStatus from "../../../../components/HeaderWithLanguage/HeaderFavoriteStatus";
@@ -196,7 +196,7 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
             {content.contexts.length > 1 && (
               <StyledErrorWarningFill title={t("searchForm.multiTaxonomy", { count: content.contexts.length })} />
             )}
-            {!!contentType && <ContentTypeBadge contentType={contentType} />}
+            {!!contentType && <Badge>{t(`contentTypes.${contentType}`)}</Badge>}
             {content.learningResourceType !== "frontpage-article" && (
               <HeaderFavoriteStatus
                 id={content.id}

@@ -9,10 +9,10 @@
 import { memo, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import { Button } from "@ndla/primitives";
+import { Badge, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { TaxonomyContext } from "@ndla/types-taxonomy";
-import { ContentTypeBadge, constants } from "@ndla/ui";
+import { constants } from "@ndla/ui";
 import HeaderStatusInformation from "./HeaderStatusInformation";
 import {
   FormHeaderHeading,
@@ -109,7 +109,7 @@ const HeaderInformation = ({
   return (
     <FormHeaderSegment>
       <FormHeaderHeadingContainer>
-        <ContentTypeBadge contentType={contentType ?? contentTypes.SUBJECT_MATERIAL} />
+        <Badge>{t(`contentTypes.${contentType ?? contentTypes.SUBJECT_MATERIAL}`)}</Badge>
         <FormHeaderHeading contentType={contentType ?? contentTypes.SUBJECT_MATERIAL}>{title}</FormHeaderHeading>
         {(type === "standard" || type === "topic-article") && id ? (
           <Button size="small" variant="tertiary" onClick={onSaveAsNew} data-testid="saveAsNew" loading={loading}>

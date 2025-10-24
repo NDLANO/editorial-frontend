@@ -73,10 +73,7 @@ describe("Messages", () => {
     const messages: MessageType[] = [{ id: uuid(), message: "Testmessage", timeToLive: 10000, type: "auth0" }];
 
     const { findByText } = render(wrapper(messages));
-    const loginButton = await findByText("Logg inn på nytt");
-    await userEvent.click(loginButton);
-    expect(`${router.state.location.pathname}${router.state.location.search}`).toEqual(
-      "/logout/session?returnToLogin=true",
-    );
+    const loginLink = await findByText("Logg inn på nytt");
+    expect(loginLink).toHaveAttribute("href", "/logout?relog=true");
   });
 });

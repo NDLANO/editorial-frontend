@@ -6,7 +6,6 @@
  *
  */
 
-import { JwtPayload, jwtDecode as decode } from "jwt-decode";
 import { test as setup } from "@playwright/test";
 import { STORAGE_STATE } from "../playwright.config";
 
@@ -15,7 +14,6 @@ const mockTokenAllPermissions =
 
 setup("authenticate", async ({ page, request }) => {
   let token = mockTokenAllPermissions;
-  let expAt = "";
   if (process.env.RECORD_FIXTURES) {
     const res = await request.post("https://login.test.ndla.no/oauth/token", {
       headers: { "Content-Type": "application/json" },
@@ -27,26 +25,13 @@ setup("authenticate", async ({ page, request }) => {
       }),
     });
     const data = await res.json();
-    const decoded = decode<JwtPayload>(data.access_token);
     token = data.access_token;
-    const exp = (decoded.exp! - decoded.iat! - 60) * 1000 + new Date().getTime();
-    expAt = exp.toString();
   }
   await page.addInitScript(
-    async ({ recordFixtures, token, expAt }) => {
-      if (recordFixtures) {
-        localStorage.setItem("access_token", token);
-        localStorage.setItem("access_token_expires_at", expAt);
-        localStorage.setItem("access_token_personal", "true");
-      } else {
-        // This number must match exp in the mockTokenAllPermissions above
-        const expAt = (32518706430 - 1687564890 - 60) * 1000 + new Date().getTime();
-        localStorage.setItem("access_token", token);
-        localStorage.setItem("access_token_expires_at", expAt.toString());
-        localStorage.setItem("access_token_personal", "true");
-      }
+    async ({ token }) => {
+      window.cookieStore.set("ndla_ed_access_token", token);
     },
-    { token, expAt, recordFixtures: process.env.RECORD_FIXTURES === "true" },
+    { token },
   );
   await page.goto("/");
   await page.context().storageState({ path: STORAGE_STATE });

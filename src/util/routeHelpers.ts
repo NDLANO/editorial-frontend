@@ -46,11 +46,7 @@ export const routes = {
   notFound: "/404",
   home: "/",
   login: "/login",
-  logout: {
-    logout: "/logout",
-    logoutSession: "/logout/session",
-    logoutFederated: "/logout/federated",
-  },
+  logout: "/logout",
   h5p: {
     edit: "/h5p",
   },
@@ -193,20 +189,19 @@ export function toCreateGloss() {
   return "/gloss/new";
 }
 
-export function toLogin() {
-  return "/login";
+export function toLogin(returnTo?: string) {
+  return returnTo ? `/login?returnTo=${returnTo}` : "/login";
 }
 
-export function toLogout() {
-  return "/logout";
-}
-
-export function toLogoutSession() {
-  return "/logout/session";
-}
-
-export function toLogoutFederated() {
-  return "/logout/federated";
+export function toLogout(relog?: boolean, returnTo?: string) {
+  const params = new URLSearchParams();
+  if (relog) {
+    params.append("relog", "true");
+  }
+  if (returnTo) {
+    params.append("returnTo", returnTo);
+  }
+  return params.size ? `/logout?${params.toString()}` : "/logout";
 }
 
 export function toCreateAudioFile() {

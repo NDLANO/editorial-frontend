@@ -32,7 +32,7 @@ interface Props {
 }
 
 const AddNodeDialogContent = ({ onClose, nodeType, rootId, parentNode }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const addNodeMutation = useAddNodeMutation();
   const compkey = nodeQueryKeys.childNodes({ id: rootId });
   const addNodeToParentMutation = usePostNodeConnectionMutation({
@@ -50,6 +50,7 @@ const AddNodeDialogContent = ({ onClose, nodeType, rootId, parentNode }: Props) 
     return await addNodeMutation.mutateAsync({
       body: {
         name,
+        language: i18n.language,
         nodeType: nodeType,
         root: !rootId,
       },

@@ -121,6 +121,7 @@ export const TaxonomyConnections = ({
       if (type === "topic") {
         const location = await postNodeMutation.mutateAsync({
           body: {
+            language: i18n.language,
             contentUri: `urn:${resourceType}:${resourceId}`,
             name: resourceTitle,
             nodeType: "TOPIC",
@@ -141,6 +142,7 @@ export const TaxonomyConnections = ({
       });
     },
     [
+      i18n.language,
       node?.id,
       placements.length,
       postNodeConnectionMutation,

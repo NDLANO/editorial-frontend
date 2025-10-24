@@ -105,6 +105,7 @@ const ChangeNodeName = ({ node }: Props) => {
       promises.push(() =>
         putNodeMutation.mutateAsync({
           id,
+          language: node.language,
           taxonomyVersion,
           name: formik.values.name,
         }),

@@ -260,6 +260,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
         // Create node in taxonomy
         const resourceUrl = await addNodeMutation({
           body: {
+            language: i18n.language,
             name: values.title,
             contentUri:
               values.contentType === RESOURCE_TYPE_LEARNING_PATH

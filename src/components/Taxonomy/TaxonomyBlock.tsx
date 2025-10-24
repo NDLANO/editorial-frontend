@@ -55,7 +55,7 @@ export const TaxonomyBlock = ({
   resourceId,
   resourceTitle,
 }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { userPermissions } = useSession();
   const { taxonomyVersion, changeVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
@@ -75,6 +75,7 @@ export const TaxonomyBlock = ({
     const nodeLocation = await postNode({
       body: {
         contentUri: `urn:${contentType}:${resourceId}`,
+        language: i18n.language,
         name: resourceTitle ?? "",
         nodeType: nodeType === "resource" ? "RESOURCE" : "TOPIC",
       },
@@ -97,7 +98,7 @@ export const TaxonomyBlock = ({
         includeContexts: true,
       }),
     });
-  }, [nodeType, qc, resourceId, resourceLanguage, resourceTitle, resourceType, taxonomyVersion]);
+  }, [i18n.language, nodeType, qc, resourceId, resourceLanguage, resourceTitle, resourceType, taxonomyVersion]);
 
   return (
     <FormContent>

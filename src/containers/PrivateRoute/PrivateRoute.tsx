@@ -21,7 +21,7 @@ const PrivateRoute = ({ component }: Props) => {
   const href = useHref(location);
 
   if (!authenticated) {
-    window.location.href = toLogin(href);
+    window.location.href = toLogin(encodeURIComponent(href));
     return;
   }
   return component;

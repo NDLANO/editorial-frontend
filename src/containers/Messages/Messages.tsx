@@ -42,7 +42,7 @@ const Message = ({ message }: MessageProps) => {
           </Button>
           <SafeLinkButton
             variant="secondary"
-            to={toLogout(true, location.pathname !== "/" ? href : undefined)}
+            to={toLogout(true, location.pathname !== "/" ? encodeURIComponent(href) : undefined)}
             asAnchor
           >
             {t("alertDialog.loginAgain")}

@@ -8,7 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Spinner } from "@ndla/primitives";
+import { Heading, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import { scrollElementId } from "./isVisibleHook";
@@ -114,27 +114,34 @@ const ResourcesContainer = ({
       <ResourceWrapper id={scrollElementId}>
         {nodeResourcesIsPending ? (
           <Spinner aria-label={t("loading")} />
-        ) : grouped ? (
-          mapping?.map((resource) => (
-            <ResourceItems
-              key={resource.id}
-              resources={resource.resources}
-              currentNodeId={currentNodeId}
-              contentMeta={contentMeta}
-              nodeResourcesIsPending={nodeResourcesIsPending}
-              users={users}
-              rootGrepCodesString={rootGrepCodesString}
-            />
-          ))
         ) : (
-          <ResourceItems
-            resources={nodeResources}
-            currentNodeId={currentNodeId}
-            contentMeta={contentMeta}
-            nodeResourcesIsPending={nodeResourcesIsPending}
-            users={users}
-            rootGrepCodesString={rootGrepCodesString}
-          />
+          <>
+            <Heading asChild consumeCss textStyle="label.medium" fontWeight="bold">
+              <h2>{t("taxonomy.learningResources")}</h2>
+            </Heading>
+            {grouped ? (
+              mapping?.map((resource) => (
+                <ResourceItems
+                  key={resource.id}
+                  resources={resource.resources}
+                  currentNodeId={currentNodeId}
+                  contentMeta={contentMeta}
+                  nodeResourcesIsPending={nodeResourcesIsPending}
+                  users={users}
+                  rootGrepCodesString={rootGrepCodesString}
+                />
+              ))
+            ) : (
+              <ResourceItems
+                resources={nodeResources}
+                currentNodeId={currentNodeId}
+                contentMeta={contentMeta}
+                nodeResourcesIsPending={nodeResourcesIsPending}
+                users={users}
+                rootGrepCodesString={rootGrepCodesString}
+              />
+            )}
+          </>
         )}
       </ResourceWrapper>
     </>

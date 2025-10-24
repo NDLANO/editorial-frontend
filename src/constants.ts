@@ -23,6 +23,10 @@ export const RESOURCE_TYPE_ASSESSMENT_RESOURCES = "urn:resourcetype:reviewResour
 export const RESOURCE_TYPE_SOURCE_MATERIAL = "urn:resourcetype:SourceMaterial";
 export const RESOURCE_TYPE_CONCEPT = "urn:resourcetype:concept";
 
+export const MULTIDISCIPLINARY_SUBJECT_ID = "urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7";
+
+export const VALID_CONTEXT_ID_REGEXP = new RegExp(/^[a-f0-9]{10,12}/);
+
 export const ITUNES_STANDARD_MINIMUM_WIDTH = 1400;
 export const ITUNES_STANDARD_MAXIMUM_WIDTH = 3000;
 

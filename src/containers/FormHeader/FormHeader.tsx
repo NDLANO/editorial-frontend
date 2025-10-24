@@ -11,7 +11,6 @@ import { HTMLArkProps } from "@ark-ui/react";
 import { Heading, Text, TextProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { WithCss } from "@ndla/styled-system/types";
-import { ContentType } from "@ndla/ui";
 import { SegmentHeader } from "../../components/Form/SegmentHeader";
 
 export const FormHeaderSegment = styled(SegmentHeader, {
@@ -31,7 +30,7 @@ export const FormHeaderHeadingContainer = styled("div", {
 });
 
 interface FormHeaderHeadingProps extends TextProps, Omit<HTMLArkProps<"h1">, "color">, WithCss {
-  contentType: ContentType;
+  contentType: string;
 }
 
 export const FormHeaderHeading = ({ contentType, children, ...props }: FormHeaderHeadingProps) => {

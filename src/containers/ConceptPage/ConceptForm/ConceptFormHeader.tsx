@@ -9,9 +9,9 @@
 import { useField } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Badge } from "@ndla/primitives";
 import { IConceptDTO } from "@ndla/types-backend/concept-api";
 import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { ContentTypeBadge } from "@ndla/ui";
 import EmbedConnection from "../../../components/HeaderWithLanguage/EmbedInformation/EmbedConnection";
 import HeaderActions from "../../../components/HeaderWithLanguage/HeaderActions";
 import { HeaderCurrentLanguagePill } from "../../../components/HeaderWithLanguage/HeaderCurrentLanguagePill";
@@ -60,7 +60,7 @@ export const ConceptFormHeader = ({ concept, language, initialTitle, type }: Pro
     <header>
       <FormHeaderSegment>
         <FormHeaderHeadingContainer>
-          <ContentTypeBadge contentType={type} />
+          <Badge>{t(`contentTypes.${type}`)}</Badge>
           <FormHeaderHeading contentType={type}>
             {!!(concept?.title.title ?? initialTitle) && type === "gloss"
               ? `${t("glossform.title")}: ${Plain.serialize(titleField.value)}${

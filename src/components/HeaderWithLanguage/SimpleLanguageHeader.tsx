@@ -7,8 +7,9 @@
  */
 
 import { useTranslation } from "react-i18next";
+import { Badge } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ContentTypeBadge, constants } from "@ndla/ui";
+import { constants } from "@ndla/ui";
 import DeleteLanguageVersion from "./DeleteLanguageVersion";
 import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
 import { StyledSplitter } from "./HeaderInformation";
@@ -67,7 +68,7 @@ const SimpleLanguageHeader = ({
   const { t } = useTranslation();
   const isNewLanguage = !!id && !supportedLanguages.includes(language);
 
-  const contentType = contentTypeMapping[articleType] ?? articleType;
+  const contentType = contentTypeMapping[articleType];
 
   const emptyLanguages = availableLanguages
     .filter((lang) => lang !== language && !supportedLanguages.includes(lang))
@@ -77,7 +78,7 @@ const SimpleLanguageHeader = ({
     <div>
       <FormHeaderSegment>
         <FormHeaderHeadingContainer>
-          <ContentTypeBadge contentType={contentType} />
+          {!!contentType && <Badge>{t("contentTypes.contentType")}</Badge>}
           <FormHeaderHeading contentType={contentType}>{title}</FormHeaderHeading>
         </FormHeaderHeadingContainer>
       </FormHeaderSegment>

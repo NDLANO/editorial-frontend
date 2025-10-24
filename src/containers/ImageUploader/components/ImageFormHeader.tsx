@@ -8,10 +8,10 @@
 
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Badge } from "@ndla/primitives";
 import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { ContentTypeBadge } from "@ndla/ui";
 import { CloneImageDialog } from "../../../components/HeaderWithLanguage/CloneImageDialog";
 import EmbedConnection from "../../../components/HeaderWithLanguage/EmbedInformation/EmbedConnection";
 import HeaderActions from "../../../components/HeaderWithLanguage/HeaderActions";
@@ -47,7 +47,7 @@ export const ImageFormHeader = ({ image, language }: Props) => {
     <header>
       <FormHeaderSegment>
         <FormHeaderHeadingContainer>
-          <ContentTypeBadge contentType="image" />
+          <Badge>{t("contentTypes.image")}</Badge>
           <FormHeaderHeading contentType="image">{image?.title.title}</FormHeaderHeading>
           {!!parsedId && <CloneImageDialog imageId={parsedId} />}
         </FormHeaderHeadingContainer>

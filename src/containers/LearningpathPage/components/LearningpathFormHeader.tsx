@@ -11,10 +11,9 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
 import { ErrorWarningFill } from "@ndla/icons";
-import { Button } from "@ndla/primitives";
+import { Badge, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { ContentTypeBadge } from "@ndla/ui";
 import DeleteLanguageVersion from "../../../components/HeaderWithLanguage/DeleteLanguageVersion";
 import { HeaderCurrentLanguagePill } from "../../../components/HeaderWithLanguage/HeaderCurrentLanguagePill";
 import HeaderFavoriteStatus from "../../../components/HeaderWithLanguage/HeaderFavoriteStatus";
@@ -145,7 +144,7 @@ export const LearningpathFormHeader = ({ learningpath, language }: Props) => {
     <header>
       <FormHeaderSegment>
         <FormHeaderHeadingContainer>
-          <ContentTypeBadge contentType="learning-path" />
+          <Badge>{t("contentTypes.learning-path")}</Badge>
           <FormHeaderHeading contentType="learning-path">{learningpath?.title.title}</FormHeaderHeading>
           {!!learningpath && (
             <Button loading={cloneLearningpathMutation.isPending} variant="tertiary" size="small" onClick={onClone}>

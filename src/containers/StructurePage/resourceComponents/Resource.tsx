@@ -10,11 +10,10 @@ import { useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { DeleteBinLine, CheckboxCircleLine } from "@ndla/icons";
-import { Text, ListItemContent, ListItemHeading, ListItemRoot, IconButton } from "@ndla/primitives";
+import { Text, ListItemContent, ListItemHeading, ListItemRoot, IconButton, Badge } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
-import { ContentTypeBadge } from "@ndla/ui";
 import GrepCodesDialog from "./GrepCodesDialog";
 import MatomoStats from "./MatomoStats";
 import QualityEvaluationGrade from "./QualityEvaluationGrade";
@@ -201,9 +200,7 @@ const Resource = ({
         </ContentRow>
         <ContentRow>
           <TextWrapper>
-            <ContentTypeBadge contentType={contentType} size="small">
-              {t(`contentTypes.${contentType}`)}
-            </ContentTypeBadge>
+            <Badge size="small">{t(`contentTypes.${contentType}`)}</Badge>
             <Text color="text.subtle" aria-hidden>
               |
             </Text>

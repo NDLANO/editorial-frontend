@@ -21,13 +21,13 @@ import {
   ListItemRoot,
   Text,
   Spinner,
+  Badge,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IArticleV2DTO } from "@ndla/types-backend/article-api";
 import { ILearningPathSummaryV2DTO, ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { IApiTaxonomyContextDTO, IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { ResourceType } from "@ndla/types-taxonomy";
-import { ContentTypeBadge } from "@ndla/ui";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
@@ -300,7 +300,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
               image={item.metaImage}
               child={
                 item.learningResourceType === "learningpath" ? (
-                  <ContentTypeBadge contentType={item.learningResourceType} />
+                  <Badge>{t("contentTypes.learningpath")}</Badge>
                 ) : undefined
               }
               useFallbackImage
@@ -324,9 +324,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
               <ListItemHeading>{preview.title.title}</ListItemHeading>
               <Text textStyle="body.small">{preview.metaDescription?.metaDescription}</Text>
             </StyledListItemContent>
-            {preview.learningResourceType === "learningpath" && (
-              <ContentTypeBadge contentType={preview.learningResourceType} />
-            )}
+            {preview.learningResourceType === "learningpath" && <Badge>{t("contentTypes.learningpath")}</Badge>}
           </ListItemRoot>
         )
       )}

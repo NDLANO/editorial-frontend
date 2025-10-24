@@ -8,9 +8,9 @@
 
 import { useTranslation } from "react-i18next";
 import { RssLine } from "@ndla/icons";
+import { Badge } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { ISeriesDTO } from "@ndla/types-backend/audio-api";
-import { ContentTypeBadge } from "@ndla/ui";
 import HeaderActions from "../../../components/HeaderWithLanguage/HeaderActions";
 import { HeaderCurrentLanguagePill } from "../../../components/HeaderWithLanguage/HeaderCurrentLanguagePill";
 import config from "../../../config";
@@ -28,7 +28,7 @@ export const PodcastSeriesFormHeader = ({ series, language }: Props) => {
     <header>
       <FormHeaderSegment>
         <FormHeaderHeadingContainer>
-          <ContentTypeBadge contentType="podcast-series" />
+          <Badge>{t("contentTypes.podcast-series")}</Badge>
           <FormHeaderHeading contentType="podcast-series">{series?.title.title}</FormHeaderHeading>
         </FormHeaderHeadingContainer>
         {!!series?.id && !!series?.hasRSS && (

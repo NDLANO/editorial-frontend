@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
 import {
+  Badge,
   Button,
   DialogBody,
   DialogContent,
@@ -24,7 +25,7 @@ import { SafeLink } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { IEditorNoteDTO } from "@ndla/types-backend/draft-api";
-import { constants, ContentTypeBadge } from "@ndla/ui";
+import { constants } from "@ndla/ui";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import NotesVersionHistory from "../../../components/VersionHistory/VersionHistory";
 import { Auth0UserData } from "../../../interfaces";
@@ -149,7 +150,7 @@ const VersionHistoryContent = ({ contentType, resource }: DialogContentProps) =>
       </DialogHeader>
       <DialogBody>
         <LinkWrapper>
-          <ContentTypeBadge contentType={contentType === "topic-article" ? "topic" : contentType} />
+          <Badge>{t(`contentTypes.${contentType}`)}</Badge>
           {numericId ? (
             <SafeLink
               to={

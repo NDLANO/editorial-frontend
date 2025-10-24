@@ -19,6 +19,7 @@ import QualityEvaluation from "../../../components/QualityEvaluation/QualityEval
 import config from "../../../config";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import { MultidisciplinaryDialog } from "../multidisciplinary/MultidisciplinaryDialog";
 import { usePreferences } from "../PreferencesProvider";
 
 const ResourceGroupBanner = styled("div", {
@@ -89,12 +90,15 @@ const SubjectBanner = ({ subjectNode, users }: Props) => {
   return (
     <ResourceGroupBanner>
       <TopRow>
-        {!!showQuality && (
-          <ContentWrapper>
-            <AverageQualityEvaluation gradeAverage={subjectNode.gradeAverage} nodeType="SUBJECT" />
-            <QualityEvaluation articleType="subject" taxonomy={[subjectNode]} />
-          </ContentWrapper>
-        )}
+        <ContentWrapper>
+          <MultidisciplinaryDialog currentNode={subjectNode} />
+          {!!showQuality && (
+            <>
+              <AverageQualityEvaluation gradeAverage={subjectNode.gradeAverage} nodeType="SUBJECT" />
+              <QualityEvaluation articleType="subject" taxonomy={[subjectNode]} />
+            </>
+          )}
+        </ContentWrapper>
         <JumpToStructureButton nodeId={subjectNode.id} />
       </TopRow>
       <div>

@@ -9,7 +9,7 @@
 import parse from "html-react-parser";
 import { useMemo } from "react";
 import { transform } from "@ndla/article-converter";
-import { ArticleType, ContentType } from "@ndla/ui";
+import { ArticleType } from "@ndla/ui";
 import config from "../../config";
 import { usePreviewArticle } from "../../modules/article/articleGqlQueries";
 import formatDate from "../../util/formatDate";
@@ -22,7 +22,6 @@ export type UseTranslationOptions<T extends FormArticle | undefined> = {
   language: string;
   previewAlt: boolean;
   useDraftConcepts: boolean;
-  contentType?: ContentType;
 };
 
 export const useTransformedArticle = <T extends FormArticle | undefined>({
@@ -30,7 +29,6 @@ export const useTransformedArticle = <T extends FormArticle | undefined>({
   language,
   previewAlt,
   useDraftConcepts,
-  contentType,
 }: UseTranslationOptions<T>): { draft: T; article: ArticleType | undefined } => {
   const transformedContent = usePreviewArticle(draft?.content ?? "", language, draft?.visualElement, useDraftConcepts, {
     enabled: !!draft,
@@ -45,7 +43,6 @@ export const useTransformedArticle = <T extends FormArticle | undefined>({
       previewAlt,
       frontendDomain: config.ndlaFrontendDomain,
       articleLanguage: getUpdatedLanguage(draft.language),
-      contentType,
     });
 
     const disclaimer = transform(disclaimerContent?.data ?? "", {});

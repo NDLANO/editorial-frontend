@@ -56,6 +56,7 @@ export function useFetchSubjectpageData(
     const savedSubjectpage = await frontpageApi.createSubjectpage(subjectPage);
     await putNode({
       id: elementId,
+      language: selectedLanguage,
       name: savedSubjectpage.name,
       contentUri: getUrnFromId(savedSubjectpage.id),
       taxonomyVersion,

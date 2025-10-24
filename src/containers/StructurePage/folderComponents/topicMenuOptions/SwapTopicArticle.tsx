@@ -63,6 +63,7 @@ const SwapTopicArticle = ({ node, rootNodeId }: Props) => {
       await putNodeMutation.mutateAsync({
         id: node.id,
         nodeType: TOPIC_NODE,
+        language: node.language,
         contentUri: `urn:article:${topic.id}`,
         taxonomyVersion,
       });

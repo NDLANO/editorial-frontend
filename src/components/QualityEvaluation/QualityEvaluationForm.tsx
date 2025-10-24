@@ -143,6 +143,7 @@ const QualityEvaluationForm = ({
       const promises = taxonomy.map((n) =>
         updateTaxMutation.mutateAsync({
           id: n.id,
+          language: n.language,
           qualityEvaluation: { ...values, grade: Number(values.grade) as Grade },
           taxonomyVersion,
         }),
@@ -199,6 +200,7 @@ const QualityEvaluationForm = ({
       const promises = taxonomy.map((n) =>
         updateTaxMutation.mutateAsync({
           id: n.id,
+          language: n.language,
           qualityEvaluation: null,
           taxonomyVersion,
         }),

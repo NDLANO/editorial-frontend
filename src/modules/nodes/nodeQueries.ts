@@ -8,7 +8,7 @@
 
 import { chunk, uniqBy } from "lodash-es";
 import { useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
-import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
+import { Node, NodeChild, NodeConnectionType, NodeSearchBody, NodeType } from "@ndla/types-taxonomy";
 import { fetchChildNodes, fetchNode, fetchNodeResources, fetchNodes, postSearchNodes, searchNodes } from "./nodeApi";
 import {
   GetNodeParams,
@@ -38,7 +38,7 @@ export const nodeQueryKeys = {
   nodes: (params?: Partial<UseNodesParams>) => [NODES, params] as const,
   node: (params?: Partial<UseNodeParams>) => [NODE, params] as const,
   search: (params?: Partial<UseSearchNodes>) => [SEARCH_NODES, params] as const,
-  postSearch: (params?: Partial<UseSearchNodes>) => [POST_SEARCH_NODES, params] as const,
+  postSearch: (params?: Partial<UsePostSearchNodes>) => [POST_SEARCH_NODES, params] as const,
   tree: (params?: Partial<UseNodeTree>) => [ROOT_NODE_WITH_CHILDREN, params] as const,
   resources: (params?: Partial<UseResourcesWithNodeConnectionParams>) =>
     [RESOURCES_WITH_NODE_CONNECTION, params] as const,
@@ -158,6 +158,8 @@ interface ChildNodesWithArticleTypeParams extends WithTaxonomyVersion {
   id: string;
   language: string;
   nodeType?: NodeType[];
+  connectionTypes?: NodeConnectionType[];
+  recursive?: boolean;
 }
 
 const fetchChildNodesWithArticleType = async ({
@@ -165,6 +167,8 @@ const fetchChildNodesWithArticleType = async ({
   language,
   nodeType,
   taxonomyVersion,
+  connectionTypes,
+  recursive = true,
 }: ChildNodesWithArticleTypeParams): Promise<
   (NodeChildWithChildren & {
     articleType?: string;
@@ -175,9 +179,10 @@ const fetchChildNodesWithArticleType = async ({
     id,
     taxonomyVersion,
     language,
-    recursive: true,
+    recursive,
     nodeType,
     isVisible: false,
+    connectionTypes,
   });
   if (childNodes.length === 0) return [];
 
@@ -270,6 +275,8 @@ const fetchNodeTree = async ({ id, language, taxonomyVersion }: NodeTreeGetParam
 interface UseChildNodesWithArticleTypeParams extends WithTaxonomyVersion {
   id: string;
   language: string;
+  connectionTypes: NodeConnectionType[];
+  recursive?: boolean;
   nodeType?: NodeType[];
 }
 
@@ -305,6 +312,7 @@ interface UseSearchNodes extends WithTaxonomyVersion {
   nodeType?: NodeType;
   page?: number;
   pageSize?: number;
+  rootId?: string;
   query?: string;
 }
 
@@ -316,10 +324,7 @@ export const useSearchNodes = (params: UseSearchNodes, options?: Partial<UseQuer
   });
 };
 
-interface UsePostSearchNodes extends WithTaxonomyVersion {
-  pageSize?: number;
-  customFields?: Record<string, string>;
-}
+interface UsePostSearchNodes extends WithTaxonomyVersion, NodeSearchBody {}
 export const usePostSearchNodes = (
   body: UsePostSearchNodes,
   options?: Partial<UseQueryOptions<SearchResultBase<Node>>>,

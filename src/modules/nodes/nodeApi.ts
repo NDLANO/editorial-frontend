@@ -19,6 +19,7 @@ import {
   NodeType,
   Connection,
   Metadata,
+  NodeSearchBody,
 } from "@ndla/types-taxonomy";
 import { GetChildNodesParams, GetNodeParams, GetNodeResourcesParams } from "./nodeApiTypes";
 import { taxonomyApi } from "../../config";
@@ -104,11 +105,12 @@ export const fetchChildNodes = ({
   taxonomyVersion,
   includeContexts,
   isVisible,
+  connectionTypes,
 }: ChildNodesGetParams): Promise<NodeChild[]> =>
   fetchAndResolve({
     url: `${baseUrl}/${id}/nodes`,
     taxonomyVersion,
-    queryParams: { recursive, nodeType, language, includeContexts, isVisible },
+    queryParams: { recursive, nodeType, language, includeContexts, isVisible, connectionTypes },
   });
 
 interface NodeTranslationsGetParams extends WithTaxonomyVersion {
@@ -241,6 +243,7 @@ interface SearchNodes extends WithTaxonomyVersion {
   language?: string;
   nodeType?: NodeType;
   page?: number;
+  rootId?: string;
   pageSize?: number;
   query?: string;
 }
@@ -253,10 +256,7 @@ export const searchNodes = ({ taxonomyVersion, ...queryParams }: SearchNodes): P
   });
 };
 
-interface PostSearchNodes extends WithTaxonomyVersion {
-  pageSize?: number;
-  customFields?: Record<string, string>;
-}
+interface PostSearchNodes extends WithTaxonomyVersion, NodeSearchBody {}
 
 export const postSearchNodes = ({ taxonomyVersion, ...body }: PostSearchNodes): Promise<SearchResultBase<Node>> => {
   return postAndResolve({

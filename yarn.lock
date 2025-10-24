@@ -2118,10 +2118,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/types-taxonomy@npm:^1.0.34":
-  version: 1.0.34
-  resolution: "@ndla/types-taxonomy@npm:1.0.34"
-  checksum: 10c0/66f00f6544efe13d6bcf69b3c9942bff09611519d08c5c22c62f9d384e7b91f1e8c5aa59703e1649ccfab472612941076f79c3a9549c4b5f295460a6e20bcbd0
+"@ndla/types-taxonomy@npm:^1.0.36":
+  version: 1.0.36
+  resolution: "@ndla/types-taxonomy@npm:1.0.36"
+  checksum: 10c0/e0c67d9c8101fd995c075e44db94c06e80736afa301f72d971f8e29d19a8c3edd82bd35e5a3f8d6a0fc61e0b523f12d69464145c5e31c8840a7cbe7d8eb98a9f
   languageName: node
   linkType: hard
 
@@ -6185,7 +6185,7 @@ __metadata:
     "@ndla/styled-system": "npm:^0.0.41"
     "@ndla/types-backend": "npm:^1.0.72"
     "@ndla/types-embed": "npm:^5.0.16-alpha.0"
-    "@ndla/types-taxonomy": "npm:^1.0.34"
+    "@ndla/types-taxonomy": "npm:^1.0.36"
     "@ndla/ui": "npm:^56.0.148-alpha.0"
     "@ndla/util": "npm:^5.0.13-alpha.0"
     "@ndla/video-search": "npm:^8.0.122-alpha.0"

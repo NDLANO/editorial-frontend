@@ -1676,6 +1676,7 @@ const phrases = {
     unfinishedRevision: "You must have at least one planned revision.",
     missingRevision: "There must be at least one revision.",
     email: "The email address is not valid.",
+    learningpathMustBeStandalone: "The learning path content type cannot be combined with other content types.",
   },
   errorMessage: {
     title: "Oops, something went wrong",

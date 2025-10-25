@@ -7,36 +7,33 @@
  */
 
 import { useMemo } from "react";
-import { useQueryClient } from "@tanstack/react-query";
-import { Node, ResourceType } from "@ndla/types-taxonomy";
-import { partition } from "@ndla/util";
-import ResourceTypeSelect, { ResourceTypeWithParent } from "../../containers/ArticlePage/components/ResourceTypeSelect";
-import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
-import {
-  useCreateResourceResourceTypeMutation,
-  useDeleteResourceResourceTypeMutation,
-} from "../../modules/nodes/nodeMutations";
-import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
+import { useTranslation } from "react-i18next";
+import { createListCollection } from "@ark-ui/react";
+import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
+import { ResourceType } from "@ndla/types-taxonomy";
+import { GenericSelectItem, GenericSelectTrigger } from "../abstractions/Select";
 
 interface Props {
   resourceTypes: ResourceType[];
   blacklistedResourceTypes: string[];
-  articleId: number;
-  node: Node;
-  articleLanguage: string;
+  onResourceTypeChanged: (resourceTypes: ResourceType[]) => void;
+  value: ResourceType[];
 }
+
+interface ResourceTypeWithParent extends ResourceType {
+  parentType?: ResourceType;
+}
+
+const itemToString = (item: ResourceTypeWithParent) =>
+  item.parentType ? `${item.parentType.name} - ${item.name}` : item.name;
 
 export const TaxonomyResourceTypeSelect = ({
   blacklistedResourceTypes,
   resourceTypes,
-  articleLanguage,
-  node,
-  articleId,
+  onResourceTypeChanged,
+  value,
 }: Props) => {
-  const { taxonomyVersion } = useTaxonomyVersion();
-  const createResourceResourceTypeMutation = useCreateResourceResourceTypeMutation();
-  const deleteResourceResourceTypeMutation = useDeleteResourceResourceTypeMutation();
-  const qc = useQueryClient();
+  const { t } = useTranslation();
 
   const filteredResourceTypes = useMemo(
     () =>
@@ -49,54 +46,45 @@ export const TaxonomyResourceTypeSelect = ({
     [blacklistedResourceTypes, resourceTypes],
   );
 
-  const onChangeSelectedResource = async (resourceType: ResourceTypeWithParent) => {
-    const [persistedResourceTypes, deletableResourceTypes] = partition(
-      node.resourceTypes,
-      (rt) => resourceType.id === rt.id || resourceType.parentType?.id === rt.id,
-    );
-
-    if (deletableResourceTypes.length) {
-      await Promise.all(
-        deletableResourceTypes.map((rt) =>
-          deleteResourceResourceTypeMutation.mutateAsync({ id: rt.connectionId, taxonomyVersion }),
-        ),
-      );
-    }
-
-    const newResourceTypes = [];
-
-    if (!persistedResourceTypes.some((rt) => rt.id === resourceType.id)) {
-      newResourceTypes.push(resourceType);
-    }
-
-    if (resourceType.parentType && !persistedResourceTypes.some((rt) => rt.id === resourceType.parentType?.id)) {
-      newResourceTypes.push(resourceType.parentType);
-    }
-
-    await Promise.all(
-      newResourceTypes.map((rt) =>
-        createResourceResourceTypeMutation.mutateAsync({
-          taxonomyVersion,
-          body: { resourceId: node.id, resourceTypeId: rt.id },
-        }),
-      ),
-    );
-
-    await qc.invalidateQueries({
-      queryKey: nodeQueryKeys.nodes({
-        contentURI: `urn:article:${articleId}`,
-        language: articleLanguage,
-        taxonomyVersion,
-        includeContexts: true,
-      }),
+  const items = useMemo(() => {
+    return filteredResourceTypes.flatMap<ResourceTypeWithParent>((rt) => {
+      if (!rt.subtypes) return [rt];
+      return rt.subtypes.map((st) => ({ ...st, parentType: rt }));
     });
-  };
+  }, [filteredResourceTypes]);
+
+  const collection = useMemo(() => {
+    return createListCollection({ items, itemToValue: (item) => item.id, itemToString });
+  }, [items]);
 
   return (
-    <ResourceTypeSelect
-      availableResourceTypes={filteredResourceTypes}
-      selectedResourceType={node.resourceTypes.find((rt) => !!rt.parentId) ?? node.resourceTypes[0]}
-      onChangeSelectedResource={onChangeSelectedResource}
-    />
+    <SelectRoot
+      multiple
+      collection={collection}
+      positioning={{ sameWidth: true }}
+      value={value.filter((rt) => collection.has(rt.id)).map((rt) => rt.id)}
+      onValueChange={(details) => {
+        const uniq = new Set<ResourceType>();
+        details.items.forEach((rt) => {
+          uniq.add(rt);
+          if (rt.parentType) {
+            uniq.add(rt.parentType);
+          }
+        });
+        onResourceTypeChanged(Array.from(uniq));
+      }}
+    >
+      <SelectLabel>{t("taxonomy.contentType")}</SelectLabel>
+      <GenericSelectTrigger asChild>
+        <SelectValueText placeholder={t("taxonomy.resourceTypes.placeholder")} />
+      </GenericSelectTrigger>
+      <SelectContent>
+        {collection.items.map((item) => (
+          <GenericSelectItem key={item.id} item={item}>
+            {itemToString(item)}
+          </GenericSelectItem>
+        ))}
+      </SelectContent>
+    </SelectRoot>
   );
 };

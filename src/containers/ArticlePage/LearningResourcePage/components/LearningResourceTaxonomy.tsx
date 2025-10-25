@@ -8,16 +8,21 @@
 
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
+import { useQueryClient } from "@tanstack/react-query";
 import { Spinner, Text } from "@ndla/primitives";
 import { IArticleDTO } from "@ndla/types-backend/draft-api";
-import { NodeType, TaxonomyContext } from "@ndla/types-taxonomy";
+import { NodeType, ResourceType, TaxonomyContext } from "@ndla/types-taxonomy";
 import { TaxonomyBlock } from "../../../../components/Taxonomy/TaxonomyBlock";
 import { TaxonomyConnections } from "../../../../components/Taxonomy/TaxonomyConnections";
 import { TaxonomyResourceTypeSelect } from "../../../../components/Taxonomy/TaxonomyResourceTypeSelect";
 import { TaxonomyVisibility } from "../../../../components/Taxonomy/TaxonomyVisibility";
 import { MinimalNodeChild } from "../../../../components/Taxonomy/types";
 import { RESOURCE_TYPE_LEARNING_PATH, TAXONOMY_ADMIN_SCOPE } from "../../../../constants";
-import { useNodes } from "../../../../modules/nodes/nodeQueries";
+import {
+  useCreateResourceResourceTypeMutation,
+  useDeleteResourceResourceTypeMutation,
+} from "../../../../modules/nodes/nodeMutations";
+import { nodeQueryKeys, useNodes } from "../../../../modules/nodes/nodeQueries";
 import { useAllResourceTypes } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import { useVersions } from "../../../../modules/taxonomy/versions/versionQueries";
 import { useSession } from "../../../Session/SessionProvider";
@@ -56,6 +61,9 @@ const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: P
   const { taxonomyVersion } = useTaxonomyVersion();
   const { userPermissions } = useSession();
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
+  const createResourceResourceTypeMutation = useCreateResourceResourceTypeMutation();
+  const deleteResourceResourceTypeMutation = useDeleteResourceResourceTypeMutation();
+  const qc = useQueryClient();
 
   const nodesQuery = useNodes({
     contentURI: `urn:article:${article.id}`,
@@ -69,13 +77,56 @@ const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: P
     { select: (rts) => rts },
   );
 
+  const node = nodesQuery.data?.[0];
+
+  const onResourceTypeChanged = async (resourceTypes: ResourceType[]) => {
+    if (!node) return;
+
+    // If we update taxonomy-api we can simply send in these IDs.
+
+    const deletedResourceTypes = node.resourceTypes.filter(
+      (resourceType) => !resourceTypes.some((rt) => rt.id === resourceType.id),
+    );
+
+    const addedResourceTypes = resourceTypes.filter(
+      (resourceType) => !node.resourceTypes.some((rt) => rt.id === resourceType.id),
+    );
+
+    if (deletedResourceTypes.length) {
+      await Promise.all(
+        deletedResourceTypes.map((rt) =>
+          deleteResourceResourceTypeMutation.mutateAsync({ id: rt.connectionId, taxonomyVersion }),
+        ),
+      );
+    }
+
+    if (addedResourceTypes.length) {
+      await Promise.all(
+        addedResourceTypes.map((rt) =>
+          createResourceResourceTypeMutation.mutateAsync({
+            taxonomyVersion,
+            body: { resourceId: node.id, resourceTypeId: rt.id },
+          }),
+        ),
+      );
+    }
+
+    await qc.invalidateQueries({
+      queryKey: nodeQueryKeys.nodes({
+        contentURI: `urn:article:${article.id}`,
+        language: articleLanguage,
+        taxonomyVersion,
+        includeContexts: true,
+      }),
+    });
+  };
+
   const versionsQuery = useVersions();
 
   if (nodesQuery.isLoading || allResourceTypesQuery.isLoading || versionsQuery.isLoading) {
     return <Spinner />;
   }
 
-  const node = nodesQuery.data?.[0];
   const placements = node?.contexts
     .filter((c) => c.rootId.includes("subject"))
     .map((c) => contextToPlacement(node.nodeType, c, articleLanguage))
@@ -107,10 +158,9 @@ const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: P
           {!node.resourceTypes.length && <Text color="text.error">{t("errorMessage.missingResourceType")}</Text>}
           <TaxonomyResourceTypeSelect
             blacklistedResourceTypes={[RESOURCE_TYPE_LEARNING_PATH]}
+            onResourceTypeChanged={onResourceTypeChanged}
             resourceTypes={allResourceTypesQuery.data ?? []}
-            articleId={article.id}
-            articleLanguage={articleLanguage}
-            node={node}
+            value={node.resourceTypes}
           />
           <TaxonomyConnections
             taxonomyVersion={taxonomyVersion}

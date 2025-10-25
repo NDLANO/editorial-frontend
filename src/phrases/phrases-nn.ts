@@ -1675,6 +1675,7 @@ const phrases = {
     unfinishedRevision: "Det må være minst ein planlagd revisjon.",
     missingRevision: "Det må være minst ein revisjon.",
     email: "E-postadressa er ikkje gyldig.",
+    learningpathMustBeStandalone: 'Innholdstypen "læringssti" kan ikkje kombinerast med andre innholdstypar.',
   },
   errorMessage: {
     title: "Oops, noko gjekk gale",

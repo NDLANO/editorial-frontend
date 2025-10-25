@@ -6,8 +6,9 @@
  *
  */
 
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { createListCollection } from "@ark-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   Button,
@@ -21,6 +22,10 @@ import {
   ListItemRoot,
   Text,
   Spinner,
+  SelectRoot,
+  SelectLabel,
+  SelectValueText,
+  SelectContent,
   Badge,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -29,6 +34,7 @@ import { ILearningPathSummaryV2DTO, ILearningPathV2DTO } from "@ndla/types-backe
 import { IApiTaxonomyContextDTO, IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { ResourceType } from "@ndla/types-taxonomy";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
+import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
 import { RESOURCE_TYPE_LEARNING_PATH } from "../../../constants";
@@ -41,7 +47,6 @@ import { useSearch } from "../../../modules/search/searchQueries";
 import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
 import handleError from "../../../util/handleError";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
-import ResourceTypeSelect from "../../ArticlePage/components/ResourceTypeSelect";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 const StyledText = styled(Text, {
@@ -104,6 +109,14 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     nodeType: "RESOURCE",
     taxonomyVersion,
   });
+
+  const collection = useMemo(() => {
+    return createListCollection({
+      items: resourceTypes ?? [],
+      itemToValue: (item) => item.id,
+      itemToString: (item) => item.name,
+    });
+  }, [resourceTypes]);
 
   useEffect(() => {
     if (articleSearchData && articleSearchData.length) {
@@ -274,12 +287,23 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
       </FieldRoot>
       {!pastedUrl && <StyledText>{t("taxonomy.or")}</StyledText>}
       {!pastedUrl && (
-        <ResourceTypeSelect
-          availableResourceTypes={resourceTypes ?? []}
-          onChangeSelectedResource={setSelectedType}
-          selectedResourceType={selectedType}
-          clearable
-        />
+        <SelectRoot
+          collection={collection}
+          value={selectedType ? [selectedType.id] : []}
+          onValueChange={(details) => setSelectedType(details.items[0])}
+        >
+          <SelectLabel>{t("taxonomy.contentType")}</SelectLabel>
+          <GenericSelectTrigger clearable>
+            <SelectValueText placeholder={t("taxonomy.resourceTypes.placeholder")} />
+          </GenericSelectTrigger>
+          <SelectContent>
+            {collection.items.map((item) => (
+              <GenericSelectItem item={item} key={item.id}>
+                {item.name}
+              </GenericSelectItem>
+            ))}
+          </SelectContent>
+        </SelectRoot>
       )}
       {!pastedUrl && (
         <GenericSearchCombobox

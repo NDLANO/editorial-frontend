@@ -69,7 +69,7 @@ const MatomoStats = ({ stats, allStats, isPending, isError }: Props) => {
               <li>{t("matomo.hits", { count: stats.nb_hits })}</li>
               <li>{t("matomo.visits", { count: stats.nb_visits })}</li>
               <li>{t("matomo.avgTime", { time: stats.avg_time_on_page })}</li>
-              <li>{t("matomo.totalHits", { count: totalHits, contexts: allStats?.length })}</li>
+              <li>{t("matomo.totalHits", { count: totalHits, contexts: allStats?.filter(Boolean).length })}</li>
             </UnOrderedList>
           )}
         </PopoverContent>

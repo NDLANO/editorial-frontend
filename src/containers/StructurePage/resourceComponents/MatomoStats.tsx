@@ -52,7 +52,7 @@ const MatomoStats = ({ stats, allStats, isPending, isError }: Props) => {
     <PopoverRoot>
       <PopoverTrigger
         asChild
-        disabled={!stats}
+        disabled={!totalHits}
         aria-label={stats ? t("matomo.popoverDescription", { count: stats.nb_hits }) : t("matomo.noData")}
         title={stats ? t("matomo.popoverDescription", { count: stats.nb_hits }) : t("matomo.noData")}
       >
@@ -64,14 +64,12 @@ const MatomoStats = ({ stats, allStats, isPending, isError }: Props) => {
       <Portal>
         <PopoverContent>
           <PopoverTitle>{t("matomo.popoverTitle")}</PopoverTitle>
-          {!!stats && (
-            <UnOrderedList>
-              <li>{t("matomo.hits", { count: stats.nb_hits })}</li>
-              <li>{t("matomo.visits", { count: stats.nb_visits })}</li>
-              <li>{t("matomo.avgTime", { time: stats.avg_time_on_page })}</li>
-              <li>{t("matomo.totalHits", { count: totalHits, contexts: allStats?.filter(Boolean).length })}</li>
-            </UnOrderedList>
-          )}
+          <UnOrderedList>
+            <li>{t("matomo.hits", { count: stats?.nb_hits ?? 0 })}</li>
+            <li>{t("matomo.visits", { count: stats?.nb_visits ?? 0 })}</li>
+            <li>{t("matomo.avgTime", { time: stats?.avg_time_on_page ?? 0 })}</li>
+            <li>{t("matomo.totalHits", { count: totalHits, contexts: allStats?.filter(Boolean).length })}</li>
+          </UnOrderedList>
         </PopoverContent>
       </Portal>
     </PopoverRoot>

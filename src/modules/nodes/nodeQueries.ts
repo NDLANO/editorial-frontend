@@ -8,7 +8,7 @@
 
 import { chunk, uniqBy } from "lodash-es";
 import { useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
-import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
+import { Node, NodeChild, NodeConnectionType, NodeType } from "@ndla/types-taxonomy";
 import { fetchChildNodes, fetchNode, fetchNodeResources, fetchNodes, postSearchNodes, searchNodes } from "./nodeApi";
 import {
   GetNodeParams,
@@ -158,6 +158,8 @@ interface ChildNodesWithArticleTypeParams extends WithTaxonomyVersion {
   id: string;
   language: string;
   nodeType?: NodeType[];
+  connectionTypes?: NodeConnectionType[];
+  recursive?: boolean;
 }
 
 const fetchChildNodesWithArticleType = async ({
@@ -165,6 +167,8 @@ const fetchChildNodesWithArticleType = async ({
   language,
   nodeType,
   taxonomyVersion,
+  connectionTypes,
+  recursive = true,
 }: ChildNodesWithArticleTypeParams): Promise<
   (NodeChildWithChildren & {
     articleType?: string;
@@ -175,9 +179,10 @@ const fetchChildNodesWithArticleType = async ({
     id,
     taxonomyVersion,
     language,
-    recursive: true,
+    recursive,
     nodeType,
     isVisible: false,
+    connectionTypes,
   });
   if (childNodes.length === 0) return [];
 
@@ -270,6 +275,8 @@ const fetchNodeTree = async ({ id, language, taxonomyVersion }: NodeTreeGetParam
 interface UseChildNodesWithArticleTypeParams extends WithTaxonomyVersion {
   id: string;
   language: string;
+  connectionTypes?: NodeConnectionType[];
+  recursive?: boolean;
   nodeType?: NodeType[];
 }
 

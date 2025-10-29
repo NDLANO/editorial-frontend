@@ -16,41 +16,11 @@ interface NDLAToken extends JwtPayload {
   permissions?: string[];
 }
 
-export function expiresIn(token: string): number {
-  const decoded = decode<JwtPayload>(token);
-  if (!(decoded.exp && decoded.iat)) return 0;
-  return decoded.exp - decoded.iat - 60; // Add 60 second buffer
-}
-
-export function ndlaId(token?: string | null) {
-  if (!token) return null;
-  const decoded = decode<NDLAToken>(token);
-  return decoded["https://ndla.no/ndla_id"];
-}
-
-export function ndlaUserName(token?: string | null) {
-  if (!token) return null;
-  const decoded = decode<NDLAToken>(token);
-  return decoded["https://ndla.no/user_name"];
-}
-
-export function ndlaUserEmail(token?: string | null) {
-  if (!token) return null;
-  const decoded = decode<NDLAToken>(token);
-  return decoded["https://ndla.no/user_email"];
-}
-
-export const decodeToken = (accessToken: string | null): NDLAToken | null => {
+export const decodeToken = (accessToken: string | undefined | null): NDLAToken | null => {
   if (!accessToken) return null;
-  return decode<NDLAToken>(accessToken);
-};
-
-export const isValid = (accessToken: string | null) => {
-  if (!accessToken) return false;
   try {
-    decode<NDLAToken>(accessToken);
-    return true;
+    return decode<NDLAToken>(accessToken);
   } catch (e) {
-    return false;
+    return null;
   }
 };

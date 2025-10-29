@@ -6,7 +6,7 @@
  *
  */
 
-import express, { CookieOptions } from "express";
+import express, { CookieOptions, Response } from "express";
 import {
   authorizationCodeGrant,
   buildAuthorizationUrl,
@@ -65,6 +65,13 @@ const isSafeRedirect = (url: string) => {
   } catch (e) {
     return false;
   }
+};
+
+const clearTemporaryCookies = (res: Response) => {
+  res.clearCookie(PKCE_CODE_COOKIE, pkceOptions);
+  res.clearCookie(STATE_COOKIE, stateOptions);
+  res.clearCookie(NONCE_COOKIE, nonceOptions);
+  res.clearCookie(RETURN_TO_COOKIE, returnToOptions);
 };
 
 let storedOidcConfig: Configuration | undefined = undefined;
@@ -147,19 +154,13 @@ router.get("/login/success", async (req, res) => {
   const returnTo = returnToCookie && isSafeRedirect(returnToCookie) ? returnToCookie : "/";
 
   if (!code || !verifier || !state || !nonce) {
-    res.clearCookie(PKCE_CODE_COOKIE, pkceOptions);
-    res.clearCookie(STATE_COOKIE, stateOptions);
-    res.clearCookie(NONCE_COOKIE, nonceOptions);
-    res.clearCookie(RETURN_TO_COOKIE, returnToOptions);
+    clearTemporaryCookies(res);
     res.status(BAD_REQUEST).send({ error: "Missing code, state, nonce or verifier" });
     return;
   }
 
   if (req.query.state !== state) {
-    res.clearCookie(PKCE_CODE_COOKIE, pkceOptions);
-    res.clearCookie(STATE_COOKIE, stateOptions);
-    res.clearCookie(NONCE_COOKIE, nonceOptions);
-    res.clearCookie(RETURN_TO_COOKIE, returnToOptions);
+    clearTemporaryCookies(res);
     res.status(BAD_REQUEST).send({ error: "State does not match" });
     return;
   }
@@ -177,10 +178,7 @@ router.get("/login/success", async (req, res) => {
 
     const token = decodeToken(tokens.access_token);
     if (!token?.permissions?.length) {
-      res.clearCookie(PKCE_CODE_COOKIE, pkceOptions);
-      res.clearCookie(STATE_COOKIE, stateOptions);
-      res.clearCookie(NONCE_COOKIE, nonceOptions);
-      res.clearCookie(RETURN_TO_COOKIE, returnToOptions);
+      clearTemporaryCookies(res);
       res.redirect("/login/failure");
       return;
     }
@@ -195,18 +193,10 @@ router.get("/login/success", async (req, res) => {
       maxAge: tokens.expires_in ? tokens.expires_in * 1000 : undefined,
     });
 
-    res.clearCookie(PKCE_CODE_COOKIE, pkceOptions);
-    res.clearCookie(STATE_COOKIE, stateOptions);
-    res.clearCookie(NONCE_COOKIE, nonceOptions);
-    res.clearCookie(RETURN_TO_COOKIE, returnToOptions);
-
+    clearTemporaryCookies(res);
     return res.redirect(decodeURIComponent(returnTo));
   } catch (e) {
-    res.clearCookie(PKCE_CODE_COOKIE, pkceOptions);
-    res.clearCookie(STATE_COOKIE, stateOptions);
-    res.clearCookie(NONCE_COOKIE, nonceOptions);
-    res.clearCookie(RETURN_TO_COOKIE, returnToOptions);
-
+    clearTemporaryCookies(res);
     res.status(INTERNAL_SERVER_ERROR).send({ error: "Login failed" });
   }
 });

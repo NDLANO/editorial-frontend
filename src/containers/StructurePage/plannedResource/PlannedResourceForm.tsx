@@ -36,13 +36,14 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { IArticleDTO, IUpdatedArticleDTO, Priority } from "@ndla/types-backend/draft-api";
 import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { Node } from "@ndla/types-taxonomy";
+import { Node, ResourceType } from "@ndla/types-taxonomy";
 import PlannedResourceSelect from "./PlannedResourceSelect";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { FormField } from "../../../components/FormField";
 import { FormActionsContainer, FormikForm } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
 import { DIV_ELEMENT_TYPE } from "../../../components/SlateEditor/plugins/div/types";
+import { TaxonomyResourceTypeSelect } from "../../../components/Taxonomy/TaxonomyResourceTypeSelect";
 import {
   DRAFT_RESPONSIBLE,
   LAST_UPDATED_SIZE,
@@ -73,7 +74,7 @@ import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvid
 interface PlannedResourceFormikType {
   title: string;
   comments: string;
-  contentType: string;
+  contentType: ResourceType[];
   responsible: string;
   articleType: string;
   relevance: string;
@@ -119,6 +120,11 @@ const plannedResourceRules: RulesType<PlannedResourceFormikType> = {
   contentType: {
     required: true,
     onlyValidateIf: (values: PlannedResourceFormikType) => values.articleType !== "topic-article",
+    test: (values) => {
+      if (values.contentType.some((rt) => rt.id === RESOURCE_TYPE_LEARNING_PATH) && values.contentType.length > 1) {
+        return { translationKey: "validation.learningpathMustBeStandalone" };
+      }
+    },
   },
   responsible: { required: true },
   relevance: { required: true },
@@ -129,7 +135,7 @@ const toInitialValues = (responsible?: string, articleType?: string): PlannedRes
   return {
     title: "",
     comments: "",
-    contentType: "",
+    contentType: [],
     responsible: responsible ?? "",
     articleType: articleType ?? "standard",
     relevance: RESOURCE_FILTER_CORE,
@@ -204,34 +210,20 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
     },
   );
 
-  const { data: contentTypes } = useAllResourceTypes(
+  const resourceTypesQuery = useAllResourceTypes<ResourceType[]>(
     { language: i18n.language, taxonomyVersion },
-    {
-      select: (res) => {
-        const types = res
-          .flatMap(
-            (parent) =>
-              parent.subtypes?.map((s) => ({
-                label: `${parent.name} - ${s.name}`,
-                value: `${s.id},${parent.id}`,
-              })) ?? [],
-          )
-          .filter((r) => !!r);
-
-        types.push({ label: t("contentTypes.learningpath"), value: RESOURCE_TYPE_LEARNING_PATH });
-        return types;
-      },
-      placeholderData: [],
-      enabled: !isTopicArticle,
-    },
+    { placeholderData: [], enabled: !isTopicArticle },
   );
+
   const onSubmit = useCallback(
     async (values: PlannedResourceFormikType) => {
       try {
         setError(undefined);
         const slateComment = getSlateComment(userName, t, values.comments);
         let createdResource: IArticleDTO | ILearningPathV2DTO;
-        if (values.contentType === RESOURCE_TYPE_LEARNING_PATH) {
+        const isLearningpath =
+          values.contentType.length === 1 && values.contentType[0].id === RESOURCE_TYPE_LEARNING_PATH;
+        if (isLearningpath) {
           createdResource = await postLearningpath({
             title: values.title,
             comments: slateComment.length ? [{ content: inlineContentToHTML(slateComment), isOpen: true }] : [],
@@ -262,10 +254,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
           body: {
             language: i18n.language,
             name: values.title,
-            contentUri:
-              values.contentType === RESOURCE_TYPE_LEARNING_PATH
-                ? `urn:learningpath:${createdResource.id}`
-                : `urn:article:${createdResource.id}`,
+            contentUri: isLearningpath ? `urn:learningpath:${createdResource.id}` : `urn:article:${createdResource.id}`,
             nodeType: isTopicArticle ? TOPIC_NODE : RESOURCE_NODE,
             root: false,
             ...(isTopicArticle ? { visible: false } : {}),
@@ -285,24 +274,10 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
         });
 
         if (!isTopicArticle) {
-          const [childContentType, parentContentType] = values.contentType.split(",");
-          await createResourceResourceType({
-            body: {
-              resourceId: resourceId,
-              resourceTypeId: childContentType,
-            },
-            taxonomyVersion,
-          });
-
-          if (parentContentType) {
-            await createResourceResourceType({
-              body: {
-                resourceId: resourceId,
-                resourceTypeId: parentContentType,
-              },
-              taxonomyVersion,
-            });
-          }
+          const promises = values.contentType.map((rt) =>
+            createResourceResourceType({ body: { resourceId, resourceTypeId: rt.id }, taxonomyVersion }),
+          );
+          await Promise.all(promises);
         }
         if (!(addNodeMutationLoading || postResourceLoading || createResourceTypeLoading)) {
           onClose?.();
@@ -368,12 +343,19 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
             )}
           </FormField>
           {!isTopicArticle && (
-            <PlannedResourceSelect
-              label="taxonomy.contentType"
-              fieldName="contentType"
-              placeholder="taxonomy.contentTypePlaceholder"
-              options={contentTypes?.length ? contentTypes : []}
-            />
+            <FormField name="contentType">
+              {({ field, meta, helpers }) => (
+                <FieldRoot invalid={!!meta.error}>
+                  <TaxonomyResourceTypeSelect
+                    blacklistedResourceTypes={[RESOURCE_TYPE_LEARNING_PATH]}
+                    resourceTypes={resourceTypesQuery.data ?? []}
+                    value={field.value}
+                    onResourceTypeChanged={helpers.setValue}
+                  />
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                </FieldRoot>
+              )}
+            </FormField>
           )}
           <PlannedResourceSelect
             label="form.responsible.label"

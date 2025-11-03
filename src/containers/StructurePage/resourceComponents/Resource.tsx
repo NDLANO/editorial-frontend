@@ -121,7 +121,11 @@ const Resource = ({
     isPending: matomoStatsIsPending,
     isError: matomoStatsIsError,
   } = useMatomoStats(
-    { urls: resource.contexts.map((context) => context.url) },
+    {
+      urls: resource.contexts
+        .filter((context) => context.rootId.startsWith("urn:subject"))
+        .map((context) => context.url),
+    },
     { enabled: isVisible && !!resource.url && showMatomoStats, staleTime: Infinity },
   );
 

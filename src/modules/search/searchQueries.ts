@@ -9,12 +9,12 @@
 import { useMemo } from "react";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import {
-  IDraftSearchParamsDTO,
-  IGrepSearchInputDTO,
-  IGrepSearchResultsDTO,
-  ISearchParamsDTO,
-  ISubjectAggregationsDTO,
-  ISubjectAggsInputDTO,
+  DraftSearchParamsDTO,
+  GrepSearchInputDTO,
+  GrepSearchResultsDTO,
+  SearchParamsDTO,
+  SubjectAggregationsDTO,
+  SubjectAggsInputDTO,
 } from "@ndla/types-backend/search-api";
 import { postSearch, searchGrepCodes, searchResources, searchSubjectStats } from "./searchApi";
 import { DA_SUBJECT_ID, SA_SUBJECT_ID, LMA_SUBJECT_ID } from "../../constants";
@@ -40,12 +40,12 @@ import { MultiSummarySearchResults, NoNodeDraftSearchParams, NoNodeSearchParams 
 import { StringSort } from "../../interfaces";
 
 export const searchQueryKeys = {
-  search: (params?: Partial<StringSort<IDraftSearchParamsDTO>>) => [SEARCH, params] as const,
-  searchWithCustomSubjectsFiltering: (params?: Partial<StringSort<IDraftSearchParamsDTO>>) =>
+  search: (params?: Partial<StringSort<DraftSearchParamsDTO>>) => [SEARCH, params] as const,
+  searchWithCustomSubjectsFiltering: (params?: Partial<StringSort<DraftSearchParamsDTO>>) =>
     [SEARCH_WITH_CUSTOM_SUBJECTS_FILTERING, params] as const,
-  searchSubjectStats: (params?: Partial<ISubjectAggsInputDTO>) => [SEARCH_SUBJECT_STATS, params] as const,
-  searchResources: (params: Partial<ISearchParamsDTO>) => [SEARCH_RESOURCES, params] as const,
-  searchGrepCodes: (params: Partial<IGrepSearchResultsDTO>) => [SEARCH_GREP_CODES, params] as const,
+  searchSubjectStats: (params?: Partial<SubjectAggsInputDTO>) => [SEARCH_SUBJECT_STATS, params] as const,
+  searchResources: (params: Partial<SearchParamsDTO>) => [SEARCH_RESOURCES, params] as const,
+  searchGrepCodes: (params: Partial<GrepSearchResultsDTO>) => [SEARCH_GREP_CODES, params] as const,
 };
 
 export const useSearch = (
@@ -99,10 +99,10 @@ export const useSearchWithCustomSubjectsFiltering = (
 };
 
 export const useSearchSubjectStats = (
-  body: ISubjectAggsInputDTO,
-  options?: Partial<UseQueryOptions<ISubjectAggregationsDTO>>,
+  body: SubjectAggsInputDTO,
+  options?: Partial<UseQueryOptions<SubjectAggregationsDTO>>,
 ) => {
-  return useQuery<ISubjectAggregationsDTO>({
+  return useQuery<SubjectAggregationsDTO>({
     queryKey: searchQueryKeys.searchSubjectStats(body),
     queryFn: () => searchSubjectStats(body),
     ...options,
@@ -120,10 +120,10 @@ export const useSearchResources = (
   });
 
 export const useSearchGrepCodes = (
-  body: IGrepSearchInputDTO,
-  options?: Partial<UseQueryOptions<IGrepSearchResultsDTO>>,
+  body: GrepSearchInputDTO,
+  options?: Partial<UseQueryOptions<GrepSearchResultsDTO>>,
 ) =>
-  useQuery<IGrepSearchResultsDTO>({
+  useQuery<GrepSearchResultsDTO>({
     queryKey: searchQueryKeys.searchGrepCodes(body),
     queryFn: () => searchGrepCodes(body),
     ...options,

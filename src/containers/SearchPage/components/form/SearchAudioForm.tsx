@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldRoot, FieldInput, FieldLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IUserDataDTO } from "@ndla/types-backend/draft-api";
+import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
 import SearchHeader from "../../../../components/Form/SearchHeader";
@@ -36,7 +36,7 @@ interface Props {
   subjects: Node[];
   searchObject: SearchParams;
   locale: string;
-  userData: IUserDataDTO | undefined;
+  userData: UserDataDTO | undefined;
 }
 
 const SearchAudioForm = ({

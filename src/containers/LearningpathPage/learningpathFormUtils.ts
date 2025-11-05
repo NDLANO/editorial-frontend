@@ -10,9 +10,9 @@ import { Descendant } from "slate";
 import { licenses } from "@ndla/licenses";
 import {
   AuthorDTO,
-  ILearningPathV2DTO,
-  INewLearningPathV2DTO,
-  IUpdatedLearningPathV2DTO,
+  LearningPathV2DTO,
+  NewLearningPathV2DTO,
+  UpdatedLearningPathV2DTO,
 } from "@ndla/types-backend/learningpath-api";
 import { blockContentToEditorValue, blockContentToHTML } from "../../util/articleContentConverter";
 
@@ -36,7 +36,7 @@ export interface LearningpathFormValues {
         current: string;
       }
     | undefined;
-  priority?: ILearningPathV2DTO["priority"];
+  priority?: LearningPathV2DTO["priority"];
   revisionMeta: {
     note: string;
     revisionDate: string;
@@ -46,7 +46,7 @@ export interface LearningpathFormValues {
 }
 
 export const learningpathApiTypeToFormType = (
-  learningpath: ILearningPathV2DTO | undefined,
+  learningpath: LearningPathV2DTO | undefined,
   language: string,
   ndlaId: string | undefined,
 ): LearningpathFormValues => {
@@ -76,7 +76,7 @@ export const learningpathApiTypeToFormType = (
 export const learningpathFormTypeToNewApiType = (
   values: LearningpathFormValues,
   language: string,
-): INewLearningPathV2DTO => {
+): NewLearningPathV2DTO => {
   const introduction = blockContentToHTML(values.introduction);
   return {
     language,
@@ -99,10 +99,10 @@ export const learningpathFormTypeToNewApiType = (
 };
 
 export const learningpathFormTypeToApiType = (
-  learningpath: ILearningPathV2DTO,
+  learningpath: LearningPathV2DTO,
   values: LearningpathFormValues,
   language: string,
-): IUpdatedLearningPathV2DTO => {
+): UpdatedLearningPathV2DTO => {
   const introduction = blockContentToHTML(values.introduction);
   return {
     revision: learningpath.revision,

@@ -8,17 +8,17 @@
 
 import { Descendant } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { IVisualElementDTO } from "@ndla/types-backend/frontpage-api";
+import { VisualElementDTO } from "@ndla/types-backend/frontpage-api";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../components/SlateEditor/plugins/video/types";
 
-export const getVisualElementId = (visualElement: IVisualElementDTO): string => {
+export const getVisualElementId = (visualElement: VisualElementDTO): string => {
   const splitter = visualElement.type === "brightcove" ? "=" : "/";
   const splittedUrl = visualElement.url.split(splitter);
   const id = splittedUrl.pop() ?? "";
   return id;
 };
 
-export const convertVisualElement = (visualElement: IVisualElementDTO): Descendant[] => {
+export const convertVisualElement = (visualElement: VisualElementDTO): Descendant[] => {
   const id = getVisualElementId(visualElement);
   if (visualElement.type !== "brightcove") {
     return [

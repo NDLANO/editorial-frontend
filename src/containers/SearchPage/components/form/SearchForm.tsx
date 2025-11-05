@@ -7,10 +7,10 @@
  */
 
 import queryString from "query-string";
-import { ISearchParamsDTO as IAudioSearchParams, ISeriesSearchParamsDTO } from "@ndla/types-backend/audio-api";
-import { IDraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
-import { IUserDataDTO } from "@ndla/types-backend/draft-api";
-import { ISearchParamsDTO as IImageSearchParams } from "@ndla/types-backend/image-api";
+import { SearchParamsDTO as AudioSearchParams, SeriesSearchParamsDTO } from "@ndla/types-backend/audio-api";
+import { DraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
+import { UserDataDTO } from "@ndla/types-backend/draft-api";
+import { SearchParamsDTO as ImageSearchParams } from "@ndla/types-backend/image-api";
 import { Node } from "@ndla/types-taxonomy";
 import SearchAudioForm from "./SearchAudioForm";
 import SearchContentForm from "./SearchContentForm";
@@ -21,11 +21,7 @@ import { SearchParams, SearchType, StringSort } from "../../../../interfaces";
 import { NoNodeDraftSearchParams } from "../../../../modules/search/searchApiInterfaces";
 
 export type SearchParamsBody = StringSort<
-  IDraftConceptSearchParamsDTO &
-    NoNodeDraftSearchParams &
-    IImageSearchParams &
-    IAudioSearchParams &
-    ISeriesSearchParamsDTO
+  DraftConceptSearchParamsDTO & NoNodeDraftSearchParams & ImageSearchParams & AudioSearchParams & SeriesSearchParamsDTO
 >;
 
 type ReturnType<T> = T extends true ? SearchParamsBody : SearchParams;
@@ -100,7 +96,7 @@ interface Props {
   search: (o: SearchParams) => void;
   subjects: Node[];
   locale: string;
-  userData: IUserDataDTO | undefined;
+  userData: UserDataDTO | undefined;
 }
 
 const SearchForm = ({ type, searchObject, ...rest }: Props) => {

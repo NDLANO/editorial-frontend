@@ -10,7 +10,7 @@ import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { PageContent } from "@ndla/primitives";
-import { IConceptDTO, INewConceptDTO } from "@ndla/types-backend/concept-api";
+import { ConceptDTO, NewConceptDTO } from "@ndla/types-backend/concept-api";
 import { GlossForm } from "./components/GlossForm";
 import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { toEditGloss } from "../../util/routeHelpers";
@@ -19,7 +19,7 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 interface Props {
   inDialog?: boolean;
-  addConceptInDialog?: (concept: IConceptDTO) => void;
+  addConceptInDialog?: (concept: ConceptDTO) => void;
 }
 
 export const Component = () => <PrivateRoute component={<CreateGlossPage />} />;
@@ -40,7 +40,7 @@ const CreateGloss = ({ inDialog = false, addConceptInDialog }: Props) => {
   const { createConcept, updateConceptStatus } = useFetchConceptData(undefined, i18n.language);
 
   const onCreate = useCallback(
-    async (createdConcept: INewConceptDTO) => {
+    async (createdConcept: NewConceptDTO) => {
       const savedConcept = await createConcept(createdConcept);
       if (inDialog && addConceptInDialog) {
         addConceptInDialog(savedConcept);

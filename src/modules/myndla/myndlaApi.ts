@@ -6,7 +6,7 @@
  *
  */
 
-import { IResourceDTO, ISingleResourceStatsDTO, openapi, ResourceType } from "@ndla/types-backend/myndla-api";
+import { ResourceDTO, SingleResourceStatsDTO, openapi, ResourceType } from "@ndla/types-backend/myndla-api";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 
@@ -15,19 +15,19 @@ const client = createAuthClient<openapi.paths>();
 export const fetchResourceStats = async (
   resourceTypes: string[],
   resourceIds: string[],
-): Promise<ISingleResourceStatsDTO[]> =>
+): Promise<SingleResourceStatsDTO[]> =>
   client
     .GET("/myndla-api/v1/stats/favorites/{resourceType}/{resourceIds}", {
       params: { path: { resourceType: resourceTypes, resourceIds } },
     })
     .then(resolveJsonOATS);
 
-interface ResourceWithFilteredResourceType<T extends ResourceType> extends Omit<IResourceDTO, "resourceType"> {
+interface ResourceWithFilteredResourceType<T extends ResourceType> extends Omit<ResourceDTO, "resourceType"> {
   resourceType: Exclude<ResourceType, T>;
 }
 
 function resourceTypeExcludeGuard<Excluded extends ResourceType[]>(
-  input: IResourceDTO,
+  input: ResourceDTO,
   exclude: Excluded,
 ): input is ResourceWithFilteredResourceType<Excluded[number]> {
   return !exclude.includes(input.resourceType as Excluded[number]);

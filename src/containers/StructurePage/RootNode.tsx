@@ -11,7 +11,7 @@ import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
 import { useQueryClient } from "@tanstack/react-query";
-import { IUserDataDTO } from "@ndla/types-backend/draft-api";
+import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
 import NodeItem from "./NodeItem";
 import { draftQueryKeys, useUpdateUserDataMutation } from "../../modules/draft/draftQueries";
@@ -85,7 +85,7 @@ const RootNode = ({ isFavorite, node, openedPaths, childNodeTypes, rootPath }: P
   };
 
   const toggleFavorite = () => {
-    const favorites = qc.getQueryData<IUserDataDTO>(draftQueryKeys.userData)?.favoriteSubjects ?? [];
+    const favorites = qc.getQueryData<UserDataDTO>(draftQueryKeys.userData)?.favoriteSubjects ?? [];
     const updatedFavs = favorites.includes(node.id)
       ? favorites.filter((s) => s !== node.id)
       : favorites.concat(node.id);

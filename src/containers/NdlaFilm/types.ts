@@ -7,7 +7,7 @@
  */
 
 import { Descendant } from "slate";
-import { IMovieThemeDTO } from "@ndla/types-backend/frontpage-api";
+import { MovieThemeDTO } from "@ndla/types-backend/frontpage-api";
 import { LocaleType } from "../../interfaces";
 
 export type ThemeNames = Partial<Record<LocaleType, string>>;
@@ -20,6 +20,6 @@ export interface FilmFormikType {
   language: string;
   supportedLanguages: string[];
   slideShow: string[];
-  themes: IMovieThemeDTO[];
+  themes: MovieThemeDTO[];
   article?: string;
 }

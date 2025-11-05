@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { PageContent } from "@ndla/primitives";
-import { IImageMetaInformationV3DTO, IUpdateImageMetaInformationDTO } from "@ndla/types-backend/image-api";
+import { ImageMetaInformationV3DTO, UpdateImageMetaInformationDTO } from "@ndla/types-backend/image-api";
 import ImageForm from "./components/ImageForm";
 import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
@@ -55,7 +55,7 @@ const EditImage = () => {
   const { id: imageId, selectedLanguage: imageLanguage } = useParams<"id" | "selectedLanguage">();
   const [loading, setLoading] = useState(true);
   const { applicationError, createMessage } = useMessages();
-  const [image, setImage] = useState<IImageMetaInformationV3DTO | undefined>(undefined);
+  const [image, setImage] = useState<ImageMetaInformationV3DTO | undefined>(undefined);
   const { shouldTranslate, translate, translating, translatedFields } = useTranslateToNN();
 
   useEffect(() => {
@@ -81,7 +81,7 @@ const EditImage = () => {
     })();
   }, [shouldTranslate, translate, image, loading]);
 
-  const onUpdate = async (updatedImage: IUpdateImageMetaInformationDTO, image: Blob | string) => {
+  const onUpdate = async (updatedImage: UpdateImageMetaInformationDTO, image: Blob | string) => {
     try {
       const res = await updateImage(Number(imageId), updatedImage, image);
       setImage(res);

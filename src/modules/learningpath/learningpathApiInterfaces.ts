@@ -6,7 +6,7 @@
  *
  */
 
-import { ICopyrightDTO } from "@ndla/types-backend/learningpath-api";
+import { CopyrightDTO } from "@ndla/types-backend/learningpath-api";
 
 export interface SearchBody {
   query?: string;
@@ -24,5 +24,5 @@ export interface CopyLearningPathBody {
   coverPhotoMetaUrl?: string;
   duration?: number;
   tags?: string[];
-  copyright?: ICopyrightDTO;
+  copyright?: CopyrightDTO;
 }

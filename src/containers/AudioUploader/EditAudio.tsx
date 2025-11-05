@@ -9,7 +9,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router";
 import { PageContent } from "@ndla/primitives";
-import { IAudioMetaInformationDTO, IUpdatedAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
+import { AudioMetaInformationDTO, UpdatedAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import AudioForm from "./components/AudioForm";
 import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
@@ -38,7 +38,7 @@ export const EditAudioPage = () => {
 
 const EditAudio = () => {
   const params = useParams<"id" | "selectedLanguage">();
-  const [audio, setAudio] = useState<IAudioMetaInformationDTO | undefined>(undefined);
+  const [audio, setAudio] = useState<AudioMetaInformationDTO | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
   const { shouldTranslate, translate, translating, translatedFields } = useTranslateToNN();
   const audioId = Number(params.id) || undefined;
@@ -75,10 +75,7 @@ const EditAudio = () => {
     return <NotFoundPage />;
   }
 
-  const onUpdate = async (
-    newAudio: IUpdatedAudioMetaInformationDTO,
-    file: string | Blob | undefined,
-  ): Promise<void> => {
+  const onUpdate = async (newAudio: UpdatedAudioMetaInformationDTO, file: string | Blob | undefined): Promise<void> => {
     if (typeof file === "string") return;
     const updatedAudio = await updateAudio(audioId, newAudio, file);
     setAudio(updatedAudio);

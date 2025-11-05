@@ -26,13 +26,13 @@ import {
   SelectValueText,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IGlossExampleDTO } from "@ndla/types-backend/concept-api";
+import { GlossExampleDTO } from "@ndla/types-backend/concept-api";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { FormField } from "../../../components/FormField";
 import { LANGUAGES } from "../glossData";
 
 interface Props {
-  example: IGlossExampleDTO;
+  example: GlossExampleDTO;
   name: string;
   index: number;
   exampleIndex: number;

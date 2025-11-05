@@ -13,9 +13,9 @@ import { useLocation, useNavigate } from "react-router";
 import { Button, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import {
-  IAudioMetaInformationDTO,
-  IUpdatedAudioMetaInformationDTO,
-  INewAudioMetaInformationDTO,
+  AudioMetaInformationDTO,
+  UpdatedAudioMetaInformationDTO,
+  NewAudioMetaInformationDTO,
 } from "@ndla/types-backend/audio-api";
 import { PodcastFormHeader } from "./PodcastFormHeader";
 import PodcastMetaData from "./PodcastMetaData";
@@ -47,7 +47,7 @@ const StyledFormActionsContainer = styled(FormActionsContainer, {
   },
 });
 
-const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformationDTO> = {
+const podcastRules: RulesType<PodcastFormValues, AudioMetaInformationDTO> = {
   title: {
     required: true,
     warnings: {
@@ -105,12 +105,12 @@ const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformationDTO> = {
 };
 
 interface Props {
-  audio?: IAudioMetaInformationDTO;
+  audio?: AudioMetaInformationDTO;
   podcastChanged?: boolean;
   inDialog?: boolean;
   language: string;
-  onCreatePodcast?: (newPodcast: INewAudioMetaInformationDTO, file?: string | Blob) => Promise<void>;
-  onUpdatePodcast?: (updatedPodcast: IUpdatedAudioMetaInformationDTO, file?: string | Blob) => Promise<void>;
+  onCreatePodcast?: (newPodcast: NewAudioMetaInformationDTO, file?: string | Blob) => Promise<void>;
+  onUpdatePodcast?: (updatedPodcast: UpdatedAudioMetaInformationDTO, file?: string | Blob) => Promise<void>;
   translating?: boolean;
   translatedFieldsToNN: string[];
 }
@@ -155,7 +155,7 @@ const PodcastForm = ({
     }
 
     actions.setSubmitting(true);
-    const podcastMetaData: INewAudioMetaInformationDTO = {
+    const podcastMetaData: NewAudioMetaInformationDTO = {
       title: values.title ? editorValueToPlainText(values.title) : "",
       manuscript: values.manuscript ? inlineContentToHTML(values.manuscript) : "",
       tags: values.tags,

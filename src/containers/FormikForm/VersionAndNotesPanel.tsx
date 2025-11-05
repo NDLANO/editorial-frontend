@@ -23,7 +23,7 @@ import {
   Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticleRevisionHistoryDTO, IArticleDTO, IEditorNoteDTO } from "@ndla/types-backend/draft-api";
+import { ArticleRevisionHistoryDTO, ArticleDTO, EditorNoteDTO } from "@ndla/types-backend/draft-api";
 import AddNotesField from "./AddNotesField";
 import { ArticleFormType } from "./articleFormHooks";
 import VersionActionbuttons from "./VersionActionButtons";
@@ -110,7 +110,7 @@ const getUser = (userId: string, allUsers: SimpleUserType[]) => {
 };
 
 interface Props {
-  article: IArticleDTO;
+  article: ArticleDTO;
   articleRevisionHistory: ArticleRevisionHistoryDTO | undefined;
   type: "standard" | "topic-article";
   currentLanguage: string;
@@ -140,13 +140,13 @@ const VersionAndNotesPanel = ({ article, articleRevisionHistory, type, currentLa
 
   useEffect(() => {
     if (articleRevisionHistory?.revisions.length) {
-      const notes = articleRevisionHistory.revisions.reduce((acc: IEditorNoteDTO[], v) => [...acc, ...v.notes], []);
+      const notes = articleRevisionHistory.revisions.reduce((acc: EditorNoteDTO[], v) => [...acc, ...v.notes], []);
       const userIds = notes.map((note) => note.user).filter((user) => user !== "System");
       fetchAuth0UsersFromUserIds(userIds, setUsers);
     }
   }, [articleRevisionHistory]);
 
-  const cleanupNotes = (notes: IEditorNoteDTO[]) =>
+  const cleanupNotes = (notes: EditorNoteDTO[]) =>
     notes.map((note, idx) => ({
       ...note,
       id: idx,
@@ -155,9 +155,9 @@ const VersionAndNotesPanel = ({ article, articleRevisionHistory, type, currentLa
       status: t(`form.status.${note.status.current.toLowerCase()}`),
     }));
 
-  const resetVersion = async (version: IArticleDTO, language: string, showFromArticleApi: boolean) => {
+  const resetVersion = async (version: ArticleDTO, language: string, showFromArticleApi: boolean) => {
     try {
-      let newArticle: IArticleDTO = version;
+      let newArticle: ArticleDTO = version;
       if (showFromArticleApi) {
         const articleApiArticle = await articleApi.getArticle(article.id, language);
         newArticle = {

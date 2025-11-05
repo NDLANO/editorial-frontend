@@ -11,32 +11,32 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Spinner, Text } from "@ndla/primitives";
 import {
-  IAudioSummaryDTO,
-  IAudioSummarySearchResultDTO,
-  ISeriesSummaryDTO,
-  ISeriesSummarySearchResultDTO,
+  AudioSummaryDTO,
+  AudioSummarySearchResultDTO,
+  SeriesSummaryDTO,
+  SeriesSummarySearchResultDTO,
 } from "@ndla/types-backend/audio-api";
-import { IConceptSearchResultDTO, IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
-import { IImageMetaInformationV3DTO, ISearchResultV3DTO } from "@ndla/types-backend/image-api";
-import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { ConceptSearchResultDTO, ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import { ImageMetaInformationV3DTO, SearchResultV3DTO } from "@ndla/types-backend/image-api";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import SearchResult, { SearchResultReturnType } from "./SearchResult";
 import { LocaleType, SearchParams, SearchType } from "../../../../interfaces";
 import { useAuth0Users } from "../../../../modules/auth0/auth0Queries";
 import { MultiSummarySearchResults } from "../../../../modules/search/searchApiInterfaces";
 
 export type ResultType =
-  | ISearchResultV3DTO
-  | IConceptSearchResultDTO
-  | ISeriesSummarySearchResultDTO
-  | IAudioSummarySearchResultDTO
+  | SearchResultV3DTO
+  | ConceptSearchResultDTO
+  | SeriesSummarySearchResultDTO
+  | AudioSummarySearchResultDTO
   | MultiSummarySearchResults;
 
 export type ResultSummaryType =
-  | IImageMetaInformationV3DTO
-  | IConceptSummaryDTO
-  | ISeriesSummaryDTO
-  | IAudioSummaryDTO
-  | IMultiSearchSummaryDTO;
+  | ImageMetaInformationV3DTO
+  | ConceptSummaryDTO
+  | SeriesSummaryDTO
+  | AudioSummaryDTO
+  | MultiSearchSummaryDTO;
 
 interface Props {
   results: ResultType["results"];

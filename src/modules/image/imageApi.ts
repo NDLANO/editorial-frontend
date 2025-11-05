@@ -7,12 +7,12 @@
  */
 
 import {
-  IImageMetaInformationV3DTO,
-  IUpdateImageMetaInformationDTO,
-  ISearchResultV3DTO,
-  ITagsSearchResultDTO,
-  ISearchParamsDTO,
-  INewImageMetaInformationV2DTO,
+  ImageMetaInformationV3DTO,
+  UpdateImageMetaInformationDTO,
+  SearchResultV3DTO,
+  TagsSearchResultDTO,
+  SearchParamsDTO,
+  NewImageMetaInformationV2DTO,
   openapi,
 } from "@ndla/types-backend/image-api";
 import { throwErrorPayload, createAuthClient } from "../../util/apiHelpers";
@@ -23,9 +23,9 @@ import { StringSort } from "../../interfaces";
 const client = createAuthClient<openapi.paths>();
 
 export const postImage = async (
-  metadata: INewImageMetaInformationV2DTO,
+  metadata: NewImageMetaInformationV2DTO,
   file: Blob,
-): Promise<IImageMetaInformationV3DTO> => {
+): Promise<ImageMetaInformationV3DTO> => {
   const res = await client.POST("/image-api/v3/images", {
     body: {
       metadata,
@@ -39,7 +39,7 @@ export const postImage = async (
   return resolveJsonOATS(res);
 };
 
-export const fetchImage = (id: number | string, language?: string): Promise<IImageMetaInformationV3DTO> =>
+export const fetchImage = (id: number | string, language?: string): Promise<ImageMetaInformationV3DTO> =>
   client
     .GET("/image-api/v3/images/{image_id}", {
       params: {
@@ -55,9 +55,9 @@ export const fetchImage = (id: number | string, language?: string): Promise<IIma
 
 export const updateImage = async (
   id: number,
-  metadata: IUpdateImageMetaInformationDTO,
+  metadata: UpdateImageMetaInformationDTO,
   file?: Blob | string,
-): Promise<IImageMetaInformationV3DTO> =>
+): Promise<ImageMetaInformationV3DTO> =>
   client
     .PATCH("/image-api/v3/images/{image_id}", {
       params: {
@@ -75,7 +75,7 @@ export const updateImage = async (
     })
     .then((r) => resolveJsonOATS(r));
 
-export const postSearchImages = async (body: StringSort<ISearchParamsDTO>): Promise<ISearchResultV3DTO> =>
+export const postSearchImages = async (body: StringSort<SearchParamsDTO>): Promise<SearchResultV3DTO> =>
   client
     .POST("/image-api/v3/images/search", {
       body: {
@@ -93,7 +93,7 @@ export const onError = (err: Response & Error) => {
 export const deleteLanguageVersionImage = async (
   imageId: number,
   locale: string,
-): Promise<IImageMetaInformationV3DTO | void> => {
+): Promise<ImageMetaInformationV3DTO | void> => {
   return client
     .DELETE("/image-api/v3/images/{image_id}/language/{language}", {
       params: {
@@ -106,7 +106,7 @@ export const deleteLanguageVersionImage = async (
     .then((r) => resolveOATS(r));
 };
 
-export const fetchSearchTags = async (input: string, language: string): Promise<ITagsSearchResultDTO> =>
+export const fetchSearchTags = async (input: string, language: string): Promise<TagsSearchResultDTO> =>
   client
     .GET("/image-api/v3/images/tag-search", {
       params: {
@@ -118,7 +118,7 @@ export const fetchSearchTags = async (input: string, language: string): Promise<
     })
     .then((r) => resolveJsonOATS(r));
 
-export const cloneImage = async (imageId: number, file: Blob): Promise<IImageMetaInformationV3DTO> =>
+export const cloneImage = async (imageId: number, file: Blob): Promise<ImageMetaInformationV3DTO> =>
   client
     .POST("/image-api/v3/images/{image_id}/copy", {
       body: {

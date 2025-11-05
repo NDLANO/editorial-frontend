@@ -10,12 +10,12 @@ import { useTranslation } from "react-i18next";
 import { transform } from "@ndla/article-converter";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
 import { Heading } from "@ndla/primitives";
-import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ArticleWrapper, ArticleContent, ArticleHeader, LicenseLink } from "@ndla/ui";
 import { EmbedPageContent } from "./EmbedPageContent";
 
 interface Props {
-  step: ILearningStepV2DTO;
+  step: LearningStepV2DTO;
 }
 
 export const StepTitle = ({ step }: Props) => {

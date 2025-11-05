@@ -14,7 +14,7 @@ import { inlineNavigationPlugin } from "@ndla/editor";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IUpdatedArticleDTO, IArticleDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
+import { UpdatedArticleDTO, ArticleDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
 import { Node, TaxonomyContext } from "@ndla/types-taxonomy";
 import LearningResourceContent from "./LearningResourceContent";
 import LearningResourceTaxonomy from "./LearningResourceTaxonomy";
@@ -127,10 +127,10 @@ const StyledControls = styled("div", {
 });
 
 interface Props {
-  article?: IArticleDTO;
+  article?: ArticleDTO;
   articleRevisionHistory: ArticleRevisionHistoryDTO | undefined;
   taxonomy?: Node[];
-  updateNotes: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
+  updateNotes: (art: UpdatedArticleDTO) => Promise<ArticleDTO>;
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
   articleLanguage: string;
   contexts?: TaxonomyContext[];

@@ -9,8 +9,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Spinner } from "@ndla/primitives";
-import { IEditorNoteDTO as IEditorNoteConcept } from "@ndla/types-backend/concept-api";
-import { IEditorNoteDTO } from "@ndla/types-backend/image-api";
+import { EditorNoteDTO as EditorNoteConcept } from "@ndla/types-backend/concept-api";
+import { EditorNoteDTO } from "@ndla/types-backend/image-api";
 import VersionHistory from "../../components/VersionHistory/VersionHistory";
 import { fetchAuth0UsersFromUserIds, SimpleUserType } from "../../modules/auth0/auth0Api";
 import formatDate from "../../util/formatDate";
@@ -21,7 +21,7 @@ const getUser = (userId: string, allUsers: SimpleUserType[]): string => {
 };
 
 interface Props {
-  editorNotes: IEditorNoteDTO[] | IEditorNoteConcept[] | undefined;
+  editorNotes: EditorNoteDTO[] | EditorNoteConcept[] | undefined;
 }
 
 const SimpleVersionPanel = ({ editorNotes }: Props) => {
@@ -32,7 +32,7 @@ const SimpleVersionPanel = ({ editorNotes }: Props) => {
   const [loading, setLoading] = useState(numNotes > 0);
 
   const cleanupNotes = useCallback(
-    (notes: IEditorNoteDTO[] | IEditorNoteConcept[]) =>
+    (notes: EditorNoteDTO[] | EditorNoteConcept[]) =>
       notes.map((note, idx) => {
         const commonFields = {
           author: getUser(note.updatedBy, users),

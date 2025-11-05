@@ -11,7 +11,7 @@ import { t } from "i18next";
 import { debounce } from "lodash-es";
 import { useState, useMemo, ReactNode } from "react";
 import { Badge } from "@ndla/primitives";
-import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { constants } from "@ndla/ui";
 import { ResourceData } from "./types";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
@@ -87,7 +87,7 @@ export const ResourcePicker = ({ setResource, children, onlyPublishedResources }
     debounceCall(() => setDelayedSearchObject({ query: val, page: 1, pageSize: 10 }));
   };
 
-  const onResourceSelect = async (resource: Omit<IMultiSearchSummaryDTO, "id"> & { id: string }) => {
+  const onResourceSelect = async (resource: Omit<MultiSearchSummaryDTO, "id"> & { id: string }) => {
     setResource({
       articleId: parseInt(resource.id),
       articleType: resource.learningResourceType,

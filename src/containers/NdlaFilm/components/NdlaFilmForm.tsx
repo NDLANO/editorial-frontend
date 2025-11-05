@@ -10,7 +10,7 @@ import { Formik, FormikHelpers } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PageContent } from "@ndla/primitives";
-import { IFilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
+import { FilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
 import NdlaFilmArticle from "./NdlaFilmArticle";
 import SlideshowEditor from "./SlideshowEditor";
 import ThemeEditor from "./ThemeEditor";
@@ -34,7 +34,7 @@ import { getInitialValues, getNdlaFilmFromSlate } from "../ndlaFilmHelpers";
 import { FilmFormikType } from "../types";
 
 interface Props {
-  filmFrontpage: IFilmFrontPageDTO;
+  filmFrontpage: FilmFrontPageDTO;
   selectedLanguage: string;
 }
 

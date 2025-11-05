@@ -11,7 +11,7 @@ import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult } from "@tanstack/react-query";
 import { Button } from "@ndla/primitives";
-import { IUpdatedArticleDTO, IArticleDTO, IStatusDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
+import { UpdatedArticleDTO, ArticleDTO, StatusDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import TopicArticleAccordionPanels from "./TopicArticleAccordionPanels";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
@@ -31,12 +31,12 @@ import { TaxonomyVersionProvider } from "../../../StructureVersion/TaxonomyVersi
 import { draftApiTypeToTopicArticleFormType, topicArticleFormTypeToDraftApiType } from "../../articleTransformers";
 
 interface Props {
-  article?: IArticleDTO;
+  article?: ArticleDTO;
   articleRevisionHistory?: UseQueryResult<ArticleRevisionHistoryDTO>;
   articleTaxonomy?: Node[];
   revision?: number;
-  updateArticle: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
-  articleStatus?: IStatusDTO;
+  updateArticle: (art: UpdatedArticleDTO) => Promise<ArticleDTO>;
+  articleStatus?: StatusDTO;
   articleChanged: boolean;
   supportedLanguages: string[];
   articleLanguage: string;
@@ -162,7 +162,7 @@ const TopicArticleForm = ({
 
 interface FormFooterProps {
   articleChanged: boolean;
-  article?: IArticleDTO;
+  article?: ArticleDTO;
   savedToServer: boolean;
   handleSubmit: (values: TopicArticleFormType, formikHelpers: FormikHelpers<TopicArticleFormType>) => Promise<void>;
 }

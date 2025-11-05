@@ -21,7 +21,7 @@ import {
   DialogTrigger,
   IconButton,
 } from "@ndla/primitives";
-import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { CampaignBlockEmbedData } from "@ndla/types-embed";
 import { CampaignBlock, EmbedWrapper } from "@ndla/ui";
 import CampaignBlockForm from "./CampaignBlockForm";
@@ -39,7 +39,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const campaignBlock = element.data;
-  const [image, setImage] = useState<IImageMetaInformationV3DTO | undefined>(undefined);
+  const [image, setImage] = useState<ImageMetaInformationV3DTO | undefined>(undefined);
 
   useEffect(() => {
     setIsEditing(!!element.isFirstEdit);

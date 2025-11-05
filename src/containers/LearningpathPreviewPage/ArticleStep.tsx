@@ -10,7 +10,7 @@ import { ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Spinner, SwitchRoot, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchThumb } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { Article } from "@ndla/ui";
 import { EmbedPageContent } from "./EmbedPageContent";
 import { toFormArticle } from "../../components/PreviewDraft/PreviewDraft";
@@ -22,7 +22,7 @@ import { getContentTypeFromResourceTypes } from "../../util/resourceHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
 interface ArticleStepProps {
-  step: ILearningStepV2DTO;
+  step: LearningStepV2DTO;
   language: string;
   children?: ReactNode;
 }

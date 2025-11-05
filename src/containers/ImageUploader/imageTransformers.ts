@@ -7,7 +7,7 @@
  */
 
 import { Descendant } from "slate";
-import { IImageMetaInformationV3DTO, IAuthorDTO, IImageDimensionsDTO } from "@ndla/types-backend/image-api";
+import { ImageMetaInformationV3DTO, AuthorDTO, ImageDimensionsDTO } from "@ndla/types-backend/image-api";
 import { plainTextToEditorValue } from "../../util/articleContentConverter";
 
 export interface ImageFormikType {
@@ -19,9 +19,9 @@ export interface ImageFormikType {
   caption: string;
   imageFile?: string | Blob;
   tags: string[];
-  creators: IAuthorDTO[];
-  processors: IAuthorDTO[];
-  rightsholders: IAuthorDTO[];
+  creators: AuthorDTO[];
+  processors: AuthorDTO[];
+  rightsholders: AuthorDTO[];
   processed: boolean;
   origin: string;
   license?: string;
@@ -29,11 +29,11 @@ export interface ImageFormikType {
   filepath?: string;
   contentType?: string;
   fileSize?: number;
-  imageDimensions?: IImageDimensionsDTO;
+  imageDimensions?: ImageDimensionsDTO;
 }
 
 export const imageApiTypeToFormType = (
-  image: IImageMetaInformationV3DTO | undefined,
+  image: ImageMetaInformationV3DTO | undefined,
   language: string,
 ): ImageFormikType => {
   return {

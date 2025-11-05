@@ -11,7 +11,7 @@ import { useState, memo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import { Button, FieldErrorMessage, FieldRoot } from "@ndla/primitives";
-import { IAuthorDTO } from "@ndla/types-backend/draft-api";
+import { AuthorDTO } from "@ndla/types-backend/draft-api";
 import LearningResourceFootnotes, { FootnoteType } from "./LearningResourceFootnotes";
 import { learningResourcePlugins } from "./learningResourcePlugins";
 import { learningResourceRenderers } from "./learningResourceRenderers";
@@ -86,7 +86,7 @@ interface Props {
 }
 
 const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _handleSubmit }: Props) => {
-  const [creatorsField] = useField<IAuthorDTO[]>("creators");
+  const [creatorsField] = useField<AuthorDTO[]>("creators");
 
   return (
     <FormContent>

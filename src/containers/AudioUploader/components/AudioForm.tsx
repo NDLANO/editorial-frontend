@@ -12,9 +12,9 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
 import { Button, PageContent } from "@ndla/primitives";
 import {
-  IAudioMetaInformationDTO,
-  INewAudioMetaInformationDTO,
-  IUpdatedAudioMetaInformationDTO,
+  AudioMetaInformationDTO,
+  NewAudioMetaInformationDTO,
+  UpdatedAudioMetaInformationDTO,
 } from "@ndla/types-backend/audio-api";
 import AudioContent from "./AudioContent";
 import AudioCopyright from "./AudioCopyright";
@@ -36,7 +36,7 @@ import { NewlyCreatedLocationState } from "../../../util/routeHelpers";
 import { AlertDialogWrapper } from "../../FormikForm";
 import { MessageError, useMessages } from "../../Messages/MessagesProvider";
 
-const rules: RulesType<AudioFormikType, IAudioMetaInformationDTO> = {
+const rules: RulesType<AudioFormikType, AudioMetaInformationDTO> = {
   title: {
     required: true,
     warnings: {
@@ -78,9 +78,9 @@ const rules: RulesType<AudioFormikType, IAudioMetaInformationDTO> = {
 };
 
 interface Props {
-  onCreateAudio?: (audio: INewAudioMetaInformationDTO, file?: string | Blob) => Promise<void>;
-  onUpdateAudio?: (audio: IUpdatedAudioMetaInformationDTO, file?: string | Blob) => Promise<void>;
-  audio?: IAudioMetaInformationDTO;
+  onCreateAudio?: (audio: NewAudioMetaInformationDTO, file?: string | Blob) => Promise<void>;
+  onUpdateAudio?: (audio: UpdatedAudioMetaInformationDTO, file?: string | Blob) => Promise<void>;
+  audio?: AudioMetaInformationDTO;
   audioLanguage: string;
   isNewLanguage?: boolean;
   translatedFieldsToNN: string[];
@@ -116,7 +116,7 @@ const AudioForm = ({
   const handleSubmit = async (values: AudioFormikType, actions: FormikHelpers<AudioFormikType>) => {
     try {
       actions.setSubmitting(true);
-      const audioMetaData: INewAudioMetaInformationDTO = {
+      const audioMetaData: NewAudioMetaInformationDTO = {
         title: editorValueToPlainText(values.title),
         manuscript: inlineContentToHTML(values.manuscript),
         language: values.language,

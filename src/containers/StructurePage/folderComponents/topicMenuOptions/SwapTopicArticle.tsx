@@ -12,7 +12,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { CheckLine } from "@ndla/icons";
 import { Text, ComboboxLabel, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../../components/Form/GenericSearchCombobox";
@@ -57,7 +57,7 @@ const SwapTopicArticle = ({ node, rootNodeId }: Props) => {
     { placeholderData: (prev) => prev },
   );
 
-  const handleSubmit = async (topic: IMultiSearchSummaryDTO) => {
+  const handleSubmit = async (topic: MultiSearchSummaryDTO) => {
     setError(undefined);
     try {
       await putNodeMutation.mutateAsync({

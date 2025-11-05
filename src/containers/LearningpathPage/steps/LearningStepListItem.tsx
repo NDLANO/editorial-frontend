@@ -22,7 +22,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { Stack, styled } from "@ndla/styled-system/jsx";
-import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import { PUBLISHED } from "../../../constants";
@@ -31,7 +31,7 @@ import { LearningpathStepForm } from "./LearningpathStepForm";
 import { useDraft } from "../../../modules/draft/draftQueries";
 
 interface Props {
-  item: ILearningStepV2DTO;
+  item: LearningStepV2DTO;
   language: string;
   learningpathId: number;
   onDeleteStep: (stepId: number) => void;

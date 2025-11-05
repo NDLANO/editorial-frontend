@@ -13,8 +13,8 @@ import { ArrowRightShortLine, ShareBoxLine, EyeFill } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IConceptDTO } from "@ndla/types-backend/concept-api";
-import { ArticleRevisionHistoryDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
+import { ConceptDTO } from "@ndla/types-backend/concept-api";
+import { ArticleRevisionHistoryDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
 import DeleteLanguageVersion from "./DeleteLanguageVersion";
 import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
 import { StyledSplitter } from "./HeaderInformation";
@@ -28,8 +28,8 @@ import { useIsTranslatableToNN } from "../NynorskTranslateProvider";
 import { PreviewResourceDialog } from "../PreviewDraft/PreviewResourceDialog";
 
 interface PreviewLightBoxProps {
-  article?: IArticleDTO;
-  concept?: IConceptDTO;
+  article?: ArticleDTO;
+  concept?: ConceptDTO;
   type: string;
   currentLanguage: string;
 }
@@ -87,9 +87,9 @@ const PreviewLightBox = memo(({ type, currentLanguage, article, concept }: Previ
 interface Props {
   id: number;
   isNewLanguage: boolean;
-  article?: IArticleDTO;
+  article?: ArticleDTO;
   articleRevisionHistory: ArticleRevisionHistoryDTO | undefined;
-  concept?: IConceptDTO;
+  concept?: ConceptDTO;
   noStatus: boolean;
   disableDelete: boolean;
   language: string;

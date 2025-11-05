@@ -11,7 +11,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticleRevisionHistoryDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleRevisionHistoryDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
 import TopicArticleContent from "./TopicArticleContent";
 import TopicArticleTaxonomy from "./TopicArticleTaxonomy";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
@@ -55,7 +55,7 @@ const StyledControls = styled("div", {
 });
 
 interface Props {
-  article?: IArticleDTO;
+  article?: ArticleDTO;
   articleRevisionHistory: ArticleRevisionHistoryDTO | undefined;
   articleLanguage: string;
   hasTaxonomyEntries: boolean;

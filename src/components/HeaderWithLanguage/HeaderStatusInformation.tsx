@@ -10,8 +10,8 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ErrorWarningFill } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
-import { ILearningPathSummaryV2DTO } from "@ndla/types-backend/learningpath-api";
-import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { LearningPathSummaryV2DTO } from "@ndla/types-backend/learningpath-api";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import EmbedConnection from "./EmbedInformation/EmbedConnection";
 import HeaderFavoriteStatus from "./HeaderFavoriteStatus";
 import LearningpathConnection from "./LearningpathConnection";
@@ -55,8 +55,8 @@ const HeaderStatusInformation = ({
   favoriteCount,
 }: Props) => {
   const { t } = useTranslation();
-  const [learningpaths, setLearningpaths] = useState<ILearningPathSummaryV2DTO[]>([]);
-  const [articles, setArticles] = useState<IMultiSearchSummaryDTO[]>([]);
+  const [learningpaths, setLearningpaths] = useState<LearningPathSummaryV2DTO[]>([]);
+  const [articles, setArticles] = useState<MultiSearchSummaryDTO[]>([]);
 
   const hideFavoritedIcon = type === "frontpage-article";
   return (

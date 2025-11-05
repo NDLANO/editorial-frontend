@@ -24,7 +24,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IConceptDTO, IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import { ConceptDTO, ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { ConceptEmbedData, ConceptMetaData } from "@ndla/types-embed";
 import { ConceptEmbed, Concept, Gloss, ConceptInlineTriggerButton } from "@ndla/ui";
 import { ConceptInlineElement } from "./types";
@@ -38,7 +38,7 @@ import EditGlossExamplesDialog from "../EditGlossExamplesDialog";
 import { getGlossDataAttributes } from "../utils";
 import { isConceptInlineElement } from "./queries";
 
-const getConceptDataAttributes = (concept: IConceptDTO | IConceptSummaryDTO, locale: string): ConceptEmbedData => ({
+const getConceptDataAttributes = (concept: ConceptDTO | ConceptSummaryDTO, locale: string): ConceptEmbedData => ({
   contentId: concept.id.toString(),
   resource: "concept",
   type: "inline",
@@ -147,7 +147,7 @@ const InlineWrapper = (props: Props) => {
     }
   };
 
-  const addConcept = (addedConcept: IConceptSummaryDTO | IConceptDTO) => {
+  const addConcept = (addedConcept: ConceptSummaryDTO | ConceptDTO) => {
     setIsEditing(false);
     handleSelectionChange(true);
     const data = getConceptDataAttributes(addedConcept, locale);

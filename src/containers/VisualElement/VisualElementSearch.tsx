@@ -11,8 +11,8 @@ import { useTranslation } from "react-i18next";
 import { AudioSearch } from "@ndla/audio-search";
 import { Heading, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IAudioSummaryDTO, ISearchParamsDTO } from "@ndla/types-backend/audio-api";
-import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { AudioSummaryDTO, SearchParamsDTO } from "@ndla/types-backend/audio-api";
+import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { BrightcoveApiType } from "@ndla/types-embed";
 import { useAudioSearchTranslations, useVideoSearchTranslations } from "@ndla/ui";
 import { VideoSearch } from "@ndla/video-search";
@@ -43,16 +43,16 @@ interface Props {
   articleLanguage?: string;
   closeDialog: () => void;
   showCheckbox?: boolean;
-  checkboxAction?: (image: IImageMetaInformationV3DTO) => void;
+  checkboxAction?: (image: ImageMetaInformationV3DTO) => void;
 }
 
-interface LocalAudioSearchParams extends ISearchParamsDTO {
+interface LocalAudioSearchParams extends SearchParamsDTO {
   locale?: string;
 }
 
 const searchAudios = (query: LocalAudioSearchParams) => {
   // AudioSearch passes values that are not accepted by the API. They must be altered to have the correct key.
-  const correctedQuery: ISearchParamsDTO = {
+  const correctedQuery: SearchParamsDTO = {
     language: query.language ?? query.locale,
     page: query.page,
     query: query.query,
@@ -79,7 +79,7 @@ const VisualElementSearch = ({
   const locale = i18n.language;
   switch (selectedResource) {
     case "image": {
-      const onImageChange = (image: IImageMetaInformationV3DTO) =>
+      const onImageChange = (image: ImageMetaInformationV3DTO) =>
         handleVisualElementChange({
           resource: selectedResource,
           resourceId: image.id,
@@ -158,7 +158,7 @@ const VisualElementSearch = ({
           translations={audioSearchTranslations}
           fetchAudio={(id: number) => fetchAudio(id, articleLanguage ?? locale)}
           searchAudios={searchAudios}
-          onAudioSelect={(audio: IAudioSummaryDTO) =>
+          onAudioSelect={(audio: AudioSummaryDTO) =>
             handleVisualElementChange({
               resource: "audio",
               resourceId: audio.id.toString(),

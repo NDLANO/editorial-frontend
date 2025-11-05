@@ -7,21 +7,21 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { IAudioSummaryDTO, ISeriesSummaryDTO } from "@ndla/types-backend/audio-api";
-import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
-import { IImageMetaSummaryDTO } from "@ndla/types-backend/image-api";
-import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { AudioSummaryDTO, SeriesSummaryDTO } from "@ndla/types-backend/audio-api";
+import { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import { ImageMetaSummaryDTO } from "@ndla/types-backend/image-api";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import SearchAudio from "./SearchAudio";
 import SearchContent from "./SearchContent";
 import SearchImage from "./SearchImage";
 import SearchPodcastSeries from "./SearchPodcastSeries";
 import { ReturnType } from "../../../../interfaces";
 
-type ContentReturnType = ReturnType<"content", IMultiSearchSummaryDTO>;
-type ConceptReturnType = ReturnType<"concept", IConceptSummaryDTO>;
-type ImageReturnType = ReturnType<"image", IImageMetaSummaryDTO>;
-type AudioReturnType = ReturnType<"audio", IAudioSummaryDTO>;
-type PodcastReturnType = ReturnType<"podcast-series", ISeriesSummaryDTO>;
+type ContentReturnType = ReturnType<"content", MultiSearchSummaryDTO>;
+type ConceptReturnType = ReturnType<"concept", ConceptSummaryDTO>;
+type ImageReturnType = ReturnType<"image", ImageMetaSummaryDTO>;
+type AudioReturnType = ReturnType<"audio", AudioSummaryDTO>;
+type PodcastReturnType = ReturnType<"podcast-series", SeriesSummaryDTO>;
 type MissingReturnType = ReturnType<string, any>;
 export type SearchResultReturnType =
   | MissingReturnType

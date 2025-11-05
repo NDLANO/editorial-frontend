@@ -6,7 +6,7 @@
  *
  */
 
-import { ICommentDTO, IEditorNoteDTO, IResponsibleDTO, IRevisionMetaDTO } from "@ndla/types-backend/draft-api";
+import { CommentDTO, EditorNoteDTO, ResponsibleDTO, RevisionMetaDTO } from "@ndla/types-backend/draft-api";
 import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
 
 export const PROGRAMME = "PROGRAMME";
@@ -53,11 +53,11 @@ export interface NodeResourceMeta {
   status?: { current: string; other: string[] };
   articleType?: string;
   revision?: number;
-  notes?: IEditorNoteDTO[];
-  revisions?: IRevisionMetaDTO[];
-  responsible?: IResponsibleDTO;
+  notes?: EditorNoteDTO[];
+  revisions?: RevisionMetaDTO[];
+  responsible?: ResponsibleDTO;
   started?: boolean;
-  comments?: ICommentDTO[];
+  comments?: CommentDTO[];
 }
 
 export interface ResourceWithNodeConnectionAndMeta extends NodeChild {

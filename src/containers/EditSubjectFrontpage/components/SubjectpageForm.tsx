@@ -10,9 +10,9 @@ import { Formik, FormikProps } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
-import { ISubjectPageDTO, INewSubjectPageDTO, IUpdatedSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
-import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { ArticleDTO } from "@ndla/types-backend/draft-api";
+import { SubjectPageDTO, NewSubjectPageDTO, UpdatedSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
+import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import SubjectpageAccordionPanels from "./SubjectpageAccordionPanels";
 import { FormActionsContainer, Form } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
@@ -36,11 +36,11 @@ import { useMessages } from "../../Messages/MessagesProvider";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
-  subjectpage?: ISubjectPageDTO;
-  editorsChoices?: (IArticleDTO | ILearningPathV2DTO)[];
+  subjectpage?: SubjectPageDTO;
+  editorsChoices?: (ArticleDTO | LearningPathV2DTO)[];
   elementName?: string;
-  createSubjectpage?: (subjectpage: INewSubjectPageDTO) => Promise<ISubjectPageDTO>;
-  updateSubjectpage?: (id: number, subjectpage: IUpdatedSubjectPageDTO) => Promise<ISubjectPageDTO>;
+  createSubjectpage?: (subjectpage: NewSubjectPageDTO) => Promise<SubjectPageDTO>;
+  updateSubjectpage?: (id: number, subjectpage: UpdatedSubjectPageDTO) => Promise<SubjectPageDTO>;
   selectedLanguage: string;
   elementId: string;
 }
@@ -98,7 +98,7 @@ const SubjectpageForm = ({
   const location = useLocation();
   usePreventWindowUnload(unsaved);
 
-  const fetchTaxonomyUrns = async (choices: (IArticleDTO | ILearningPathV2DTO)[], language: string) => {
+  const fetchTaxonomyUrns = async (choices: (ArticleDTO | LearningPathV2DTO)[], language: string) => {
     const fetched = await Promise.all(
       choices.map((choice) => {
         if ("articleType" in choice && choice.articleType === "topic-article") {

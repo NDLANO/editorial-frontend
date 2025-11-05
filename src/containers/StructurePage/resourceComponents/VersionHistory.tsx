@@ -24,7 +24,7 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
-import { IEditorNoteDTO } from "@ndla/types-backend/draft-api";
+import { EditorNoteDTO } from "@ndla/types-backend/draft-api";
 import { constants } from "@ndla/ui";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import NotesVersionHistory from "../../../components/VersionHistory/VersionHistory";
@@ -115,7 +115,7 @@ const VersionHistoryContent = ({ contentType, resource }: DialogContentProps) =>
   const numericId = parseInt(resource.contentUri?.split(":").pop() ?? "");
 
   useEffect(() => {
-    const cleanupNotes = (notes: IEditorNoteDTO[], users: Auth0UserData[]) =>
+    const cleanupNotes = (notes: EditorNoteDTO[], users: Auth0UserData[]) =>
       notes.map((note, index) => ({
         id: index,
         note: note.note,
@@ -126,7 +126,7 @@ const VersionHistoryContent = ({ contentType, resource }: DialogContentProps) =>
 
     const fetchHistory = async (id: number) => {
       const articleRevisionHistory = await fetchArticleRevisionHistory(id);
-      const notes: IEditorNoteDTO[] = articleRevisionHistory?.revisions[0]?.notes;
+      const notes: EditorNoteDTO[] = articleRevisionHistory?.revisions[0]?.notes;
       if (notes?.length) {
         const userIds = notes.map((note) => note.user).filter((user) => user !== "System");
         const uniqueUserIds = Array.from(new Set(userIds)).join(",");

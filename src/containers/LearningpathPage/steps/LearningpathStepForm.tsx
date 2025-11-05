@@ -26,9 +26,9 @@ import {
   RadioGroupRoot,
 } from "@ndla/primitives";
 import {
-  ILearningStepV2DTO,
-  INewLearningStepV2DTO,
-  IUpdatedLearningStepV2DTO,
+  LearningStepV2DTO,
+  NewLearningStepV2DTO,
+  UpdatedLearningStepV2DTO,
 } from "@ndla/types-backend/learningpath-api";
 import { ExternalStepForm, externalStepRules } from "./ExternalStepForm";
 import { ResourceStepForm, resourceStepRules } from "./ResourceStepForm";
@@ -63,7 +63,7 @@ const rules = {
 
 export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
   type: T,
-  step?: ILearningStepV2DTO,
+  step?: LearningStepV2DTO,
 ): LearningpathStepFormValues => {
   switch (type) {
     case "text":
@@ -104,13 +104,13 @@ export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
 
 interface Props {
   onlyPublishedResources?: boolean;
-  step?: ILearningStepV2DTO;
+  step?: LearningStepV2DTO;
   onClose?: (focusId?: number) => void;
 }
 
 const formValuesToStep = (
   values: LearningpathStepFormValues,
-): Omit<INewLearningStepV2DTO | IUpdatedLearningStepV2DTO, "language" | "revision"> => {
+): Omit<NewLearningStepV2DTO | UpdatedLearningStepV2DTO, "language" | "revision"> => {
   const htmlDescription = blockContentToHTML(values.description ?? []);
   const description = htmlDescription === "<section></section>" ? null : htmlDescription;
   if (values.type === "text") {
@@ -182,7 +182,7 @@ export const LearningpathStepForm = ({ step, onClose, onlyPublishedResources }: 
     async (values: LearningpathStepFormValues) => {
       const numericId = id ? parseInt(id) : undefined;
       if (!numericId || !language) return;
-      let newStep: ILearningStepV2DTO | undefined = undefined;
+      let newStep: LearningStepV2DTO | undefined = undefined;
       const input = formValuesToStep(values);
       if (step) {
         await patchLearningStepMutation.mutateAsync({

@@ -9,7 +9,7 @@
 import { sortBy } from "lodash-es";
 import { useTranslation } from "react-i18next";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { IFilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
+import { FilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
 import { fetchFilmFrontpage } from "./frontpageApi";
 import { sortMoviesByIdList } from "../../containers/NdlaFilm/filmUtil";
 import { searchResources } from "../search/searchApi";
@@ -17,8 +17,8 @@ import { MultiSummarySearchResults, NoNodeSearchParams } from "../search/searchA
 import { filmQueryKeys } from "./filmQueryKeys";
 import { UseMovies } from "./filmTypes";
 
-export const useFilmFrontpageQuery = (options?: Partial<UseQueryOptions<IFilmFrontPageDTO>>) => {
-  return useQuery<IFilmFrontPageDTO>({
+export const useFilmFrontpageQuery = (options?: Partial<UseQueryOptions<FilmFrontPageDTO>>) => {
+  return useQuery<FilmFrontPageDTO>({
     queryKey: filmQueryKeys.filmFrontpage,
     queryFn: () => fetchFilmFrontpage(),
     ...options,

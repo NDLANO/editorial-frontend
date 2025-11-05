@@ -7,17 +7,17 @@
  */
 
 import {
-  IAudioMetaInformationDTO,
-  IAudioSummarySearchResultDTO,
-  ISeriesSummarySearchResultDTO,
-  ISeriesDTO,
-  INewSeriesDTO,
-  ITagsSearchResultDTO,
-  ISeriesSearchParamsDTO,
-  ISearchParamsDTO,
-  ITranscriptionResultDTO,
+  AudioMetaInformationDTO,
+  AudioSummarySearchResultDTO,
+  SeriesSummarySearchResultDTO,
+  SeriesDTO,
+  NewSeriesDTO,
+  TagsSearchResultDTO,
+  SeriesSearchParamsDTO,
+  SearchParamsDTO,
+  TranscriptionResultDTO,
   openapi,
-  INewAudioMetaInformationDTO,
+  NewAudioMetaInformationDTO,
   UpdatedAudioMetaInformationDTO,
 } from "@ndla/types-backend/audio-api";
 import { createAuthClient } from "../../util/apiHelpers";
@@ -27,7 +27,7 @@ import { StringSort } from "../../interfaces";
 
 const client = createAuthClient<openapi.paths>();
 
-export const postAudio = (metadata: INewAudioMetaInformationDTO, file: Blob): Promise<IAudioMetaInformationDTO> =>
+export const postAudio = (metadata: NewAudioMetaInformationDTO, file: Blob): Promise<AudioMetaInformationDTO> =>
   client
     .POST("/audio-api/v1/audio", {
       body: {
@@ -40,7 +40,7 @@ export const postAudio = (metadata: INewAudioMetaInformationDTO, file: Blob): Pr
     })
     .then((r) => resolveJsonOATS(r));
 
-export const fetchAudio = async (id: number, locale?: string): Promise<IAudioMetaInformationDTO> =>
+export const fetchAudio = async (id: number, locale?: string): Promise<AudioMetaInformationDTO> =>
   client
     .GET("/audio-api/v1/audio/{audio-id}", {
       params: {
@@ -59,7 +59,7 @@ export const updateAudio = async (
   id: number,
   metadata: UpdatedAudioMetaInformationDTO,
   file: Blob | undefined,
-): Promise<IAudioMetaInformationDTO> =>
+): Promise<AudioMetaInformationDTO> =>
   client
     .PUT("/audio-api/v1/audio/{audio-id}", {
       params: {
@@ -77,7 +77,7 @@ export const updateAudio = async (
     })
     .then((r) => resolveJsonOATS(r));
 
-export const postSearchAudio = async (body: StringSort<ISearchParamsDTO>): Promise<IAudioSummarySearchResultDTO> =>
+export const postSearchAudio = async (body: StringSort<SearchParamsDTO>): Promise<AudioSummarySearchResultDTO> =>
   client
     .POST("/audio-api/v1/audio/search", {
       body: {
@@ -91,38 +91,38 @@ export const postSearchAudio = async (body: StringSort<ISearchParamsDTO>): Promi
 export const deleteLanguageVersionAudio = async (
   audioId: number,
   locale: string,
-): Promise<IAudioMetaInformationDTO | void> =>
+): Promise<AudioMetaInformationDTO | void> =>
   client
     .DELETE("/audio-api/v1/audio/{audio-id}/language/{language}", {
       params: { path: { "audio-id": audioId, language: locale } },
     })
     .then((r) => resolveOATS(r));
 
-export const deleteLanguageVersionSeries = async (seriesId: number, language: string): Promise<ISeriesDTO | void> =>
+export const deleteLanguageVersionSeries = async (seriesId: number, language: string): Promise<SeriesDTO | void> =>
   client
     .DELETE("/audio-api/v1/series/{series-id}/language/{language}", {
       params: { path: { "series-id": seriesId, language } },
     })
     .then((r) => resolveOATS(r));
 
-export const fetchSearchTags = async (query: string, language: string): Promise<ITagsSearchResultDTO> =>
+export const fetchSearchTags = async (query: string, language: string): Promise<TagsSearchResultDTO> =>
   client
     .GET("/audio-api/v1/audio/tag-search", {
       params: { query: { language, query } },
     })
     .then((r) => resolveJsonOATS(r));
 
-export const fetchSeries = async (id: number, language?: string): Promise<ISeriesDTO> =>
+export const fetchSeries = async (id: number, language?: string): Promise<SeriesDTO> =>
   client
     .GET("/audio-api/v1/series/{series-id}", {
       params: { path: { "series-id": id }, query: { language } },
     })
     .then((r) => resolveJsonOATS(r));
 
-export const postSeries = async (newSeries: INewSeriesDTO): Promise<ISeriesDTO> =>
+export const postSeries = async (newSeries: NewSeriesDTO): Promise<SeriesDTO> =>
   client.POST("/audio-api/v1/series", { body: newSeries }).then((r) => resolveJsonOATS(r));
 
-export const updateSeries = (id: number, newSeries: INewSeriesDTO): Promise<ISeriesDTO> =>
+export const updateSeries = (id: number, newSeries: NewSeriesDTO): Promise<SeriesDTO> =>
   client
     .PUT("/audio-api/v1/series/{series-id}", {
       params: { path: { "series-id": id } },
@@ -131,8 +131,8 @@ export const updateSeries = (id: number, newSeries: INewSeriesDTO): Promise<ISer
     .then((r) => resolveJsonOATS(r));
 
 export const postSearchSeries = async (
-  body: StringSort<ISeriesSearchParamsDTO>,
-): Promise<ISeriesSummarySearchResultDTO> =>
+  body: StringSort<SeriesSearchParamsDTO>,
+): Promise<SeriesSummarySearchResultDTO> =>
   client
     .POST("/audio-api/v1/series/search", {
       body: {
@@ -150,7 +150,7 @@ export const postAudioTranscription = async (audioName: string, audioId: number,
     })
     .then((r) => resolveJsonOATS(r));
 
-export const fetchAudioTranscription = async (audioId: number, language: string): Promise<ITranscriptionResultDTO> =>
+export const fetchAudioTranscription = async (audioId: number, language: string): Promise<TranscriptionResultDTO> =>
   client
     .GET("/audio-api/v1/transcription/audio/{audioId}/{language}", {
       params: { path: { audioId, language } },

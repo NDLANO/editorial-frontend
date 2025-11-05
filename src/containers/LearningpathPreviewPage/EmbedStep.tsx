@@ -11,7 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ArticleContent, ArticleTitle, ArticleWrapper, ExternalEmbed } from "@ndla/ui";
 import { EmbedPageContent } from "./EmbedPageContent";
 import { OembedResponse } from "../../interfaces";
@@ -19,7 +19,7 @@ import { fetchExternalOembed } from "../../util/apiHelpers";
 import { isNDLAFrontendUrl } from "../../util/htmlHelpers";
 
 interface Props {
-  step: ILearningStepV2DTO;
+  step: LearningStepV2DTO;
 }
 
 const buildOembedFromIframeUrl = (url: string, title: string): OembedResponse => {
@@ -33,7 +33,7 @@ const buildOembedFromIframeUrl = (url: string, title: string): OembedResponse =>
   };
 };
 
-const getOembed = async (learningpathStep: ILearningStepV2DTO): Promise<Omit<OembedResponse, "title"> | null> => {
+const getOembed = async (learningpathStep: LearningStepV2DTO): Promise<Omit<OembedResponse, "title"> | null> => {
   if (!learningpathStep.embedUrl || !learningpathStep.embedUrl.url) {
     return null;
   }

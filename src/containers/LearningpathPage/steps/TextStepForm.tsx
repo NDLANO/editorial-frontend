@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
-import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { TextFormValues } from "./types";
 import { FormField } from "../../../components/FormField";
 import { RulesType } from "../../../components/formikValidationSchema";
@@ -18,7 +18,7 @@ import { LearningpathTextEditor } from "../components/LearningpathTextEditor";
 
 interface Props {
   language: string | undefined;
-  step: ILearningStepV2DTO | undefined;
+  step: LearningStepV2DTO | undefined;
 }
 
 export const textStepRules: RulesType<TextFormValues> = {

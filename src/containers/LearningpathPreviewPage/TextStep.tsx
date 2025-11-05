@@ -8,13 +8,13 @@
 
 import { useId } from "react";
 import { transform } from "@ndla/article-converter";
-import { ILearningPathV2DTO, ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import { LearningPathV2DTO, LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper } from "@ndla/ui";
 import { EmbedPageContent } from "./EmbedPageContent";
 
 interface TextStepProps {
-  learningpath: ILearningPathV2DTO;
-  step: ILearningStepV2DTO;
+  learningpath: LearningPathV2DTO;
+  step: LearningStepV2DTO;
 }
 
 export const TextStep = ({ step, learningpath }: TextStepProps) => {

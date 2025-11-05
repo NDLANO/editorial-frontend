@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { PageContent } from "@ndla/primitives";
-import { IImageMetaInformationV3DTO, INewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
+import { ImageMetaInformationV3DTO, NewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
 import ImageForm from "./components/ImageForm";
 import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { postImage } from "../../modules/image/imageApi";
@@ -18,7 +18,7 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 interface Props {
   editingArticle?: boolean;
-  onImageCreated?: (image: IImageMetaInformationV3DTO) => void;
+  onImageCreated?: (image: ImageMetaInformationV3DTO) => void;
   closeDialog?: () => void;
   inDialog?: boolean;
 }
@@ -40,7 +40,7 @@ const CreateImage = ({ editingArticle, onImageCreated, inDialog, closeDialog }: 
   const locale = i18n.language;
   const navigate = useNavigate();
 
-  const onCreateImage = async (imageMetadata: INewImageMetaInformationV2DTO, image: string | Blob) => {
+  const onCreateImage = async (imageMetadata: NewImageMetaInformationV2DTO, image: string | Blob) => {
     if (image instanceof Blob) {
       const createdImage = await postImage(imageMetadata, image);
       onImageCreated?.(createdImage);

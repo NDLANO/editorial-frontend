@@ -23,8 +23,8 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IUserDataDTO } from "@ndla/types-backend/draft-api";
-import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { UserDataDTO } from "@ndla/types-backend/draft-api";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import GoToSearch from "./GoToSearch";
 import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
@@ -72,7 +72,7 @@ const CellWrapper = styled("div", {
 });
 
 interface Props {
-  userData: IUserDataDTO | undefined;
+  userData: UserDataDTO | undefined;
 }
 
 type SortOptionRevision = "title" | "revisionDate" | "status" | "primaryRoot";
@@ -137,14 +137,14 @@ const Revisions = ({ userData }: Props) => {
   }, [t, isError]);
 
   const getDataPrimaryConnectionToFavorite = useCallback(
-    (results: IMultiSearchSummaryDTO[] | undefined) => {
+    (results: MultiSearchSummaryDTO[] | undefined) => {
       const filteredResult = results
         ?.map((r) => {
           const primarySubject = r.contexts.find((c) => c.isPrimary);
           const isFavorite = userData?.favoriteSubjects?.some((fs) => fs === primarySubject?.rootId);
           return isFavorite ? r : undefined;
         })
-        .filter((fd): fd is IMultiSearchSummaryDTO => !!fd);
+        .filter((fd): fd is MultiSearchSummaryDTO => !!fd);
 
       return {
         results: filteredResult,

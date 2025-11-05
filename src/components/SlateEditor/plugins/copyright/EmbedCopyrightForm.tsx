@@ -10,7 +10,7 @@ import { Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
-import { IAuthorDTO } from "@ndla/types-backend/article-api";
+import { AuthorDTO } from "@ndla/types-backend/article-api";
 import { CopyrightEmbedData } from "@ndla/types-embed";
 import { CopyrightFieldGroup } from "../../../../containers/FormikForm";
 import { useLicenses } from "../../../../modules/draft/draftQueries";
@@ -28,9 +28,9 @@ interface Props {
 interface FormValues {
   title: string;
   license: string;
-  creators: IAuthorDTO[];
-  processors: IAuthorDTO[];
-  rightsholders: IAuthorDTO[];
+  creators: AuthorDTO[];
+  processors: AuthorDTO[];
+  rightsholders: AuthorDTO[];
   processed: boolean;
   origin?: string;
 }

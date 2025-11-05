@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { DeleteBinLine, PencilFill, ArrowUpShortLine, ArrowDownShortLine } from "@ndla/icons";
 import { Button, Heading, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IMovieThemeDTO } from "@ndla/types-backend/frontpage-api";
+import { MovieThemeDTO } from "@ndla/types-backend/frontpage-api";
 import { ThemeMovies } from "./ThemeMovies";
 import ThemeNameDialog from "./ThemeNameDialog";
 import { FormContent } from "../../../components/FormikForm";
@@ -38,7 +38,7 @@ interface Props {
 
 const ThemeEditor = ({ selectedLanguage }: Props) => {
   const { t } = useTranslation();
-  const [field, , helpers] = useField<IMovieThemeDTO[]>("themes");
+  const [field, , helpers] = useField<MovieThemeDTO[]>("themes");
 
   const onAddMovieToTheme = (movies: string[], index: number) => {
     const newThemes = field.value.map((theme, i) => (i === index ? { ...theme, movies } : theme));
@@ -63,7 +63,7 @@ const ThemeEditor = ({ selectedLanguage }: Props) => {
     }
   };
 
-  const rearrangeTheme = (themes: IMovieThemeDTO[], index: number, desiredNewIndex: number) => {
+  const rearrangeTheme = (themes: MovieThemeDTO[], index: number, desiredNewIndex: number) => {
     return themes.map((theme, i) => {
       if (i === index) {
         return themes[desiredNewIndex];

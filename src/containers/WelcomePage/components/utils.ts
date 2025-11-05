@@ -7,8 +7,8 @@
  */
 
 import { orderBy } from "lodash-es";
-import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
-import { IArticleSummaryDTO } from "@ndla/types-backend/draft-api";
+import { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import { ArticleSummaryDTO } from "@ndla/types-backend/draft-api";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { Prefix } from "./TableComponent";
 import { SortOptionLastUsed } from "../types";
@@ -23,7 +23,7 @@ export const getCurrentPageData = <T>(page: number, data: T[], pageSize: number)
   return currentPageElements ?? [];
 };
 
-export const getSortedPaginationData = <T extends IConceptSummaryDTO | IArticleSummaryDTO | MultiSearchSummaryDTO>(
+export const getSortedPaginationData = <T extends ConceptSummaryDTO | ArticleSummaryDTO | MultiSearchSummaryDTO>(
   page: number,
   sortOption: SortOptionType,
   data: T[],

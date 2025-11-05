@@ -7,14 +7,14 @@
  */
 
 import { useMutation, UseMutationOptions, useQueryClient } from "@tanstack/react-query";
-import { IArticleDTO, IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import { copyRevisionDates, deleteCurrentRevision, migrateCodes, updateDraft } from "./draftApi";
 import { draftQueryKeys } from "./draftQueries";
 
 export const useUpdateDraftMutation = (
-  options?: Partial<UseMutationOptions<IArticleDTO, unknown, { id: number; body: IUpdatedArticleDTO }>>,
+  options?: Partial<UseMutationOptions<ArticleDTO, unknown, { id: number; body: UpdatedArticleDTO }>>,
 ) => {
-  return useMutation<IArticleDTO, undefined, { id: number; body: IUpdatedArticleDTO }>({
+  return useMutation<ArticleDTO, undefined, { id: number; body: UpdatedArticleDTO }>({
     mutationFn: (vars) => updateDraft(vars.id, vars.body),
     ...options,
   });

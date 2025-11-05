@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
 import { Button, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { INewSeriesDTO, ISeriesDTO } from "@ndla/types-backend/audio-api";
+import { NewSeriesDTO, SeriesDTO } from "@ndla/types-backend/audio-api";
 import PodcastEpisodes from "./PodcastEpisodes";
 import { PodcastSeriesFormHeader } from "./PodcastSeriesFormHeader";
 import PodcastSeriesMetaData from "./PodcastSeriesMetaData";
@@ -48,7 +48,7 @@ const StyledText = styled(Text, {
   },
 });
 
-const podcastRules: RulesType<PodcastSeriesFormikType, ISeriesDTO> = {
+const podcastRules: RulesType<PodcastSeriesFormikType, SeriesDTO> = {
   title: {
     required: true,
     warnings: {
@@ -67,11 +67,11 @@ const podcastRules: RulesType<PodcastSeriesFormikType, ISeriesDTO> = {
 };
 
 interface Props {
-  podcastSeries?: ISeriesDTO;
+  podcastSeries?: SeriesDTO;
   language: string;
   inDialog?: boolean;
   formikProps?: FormikProps<PodcastSeriesFormikType>;
-  onUpdate: (newPodcastSeries: INewSeriesDTO) => void;
+  onUpdate: (newPodcastSeries: NewSeriesDTO) => void;
   revision?: number;
   isNewLanguage?: boolean;
   translatedFieldsToNN: string[];
@@ -110,7 +110,7 @@ const PodcastSeriesForm = ({
     actions.setSubmitting(true);
     const title: string = editorValueToPlainText(values.title);
     const description: string = editorValueToPlainText(values.description);
-    const newPodcastSeries: INewSeriesDTO = {
+    const newPodcastSeries: NewSeriesDTO = {
       revision: values.revision,
       title,
       description,

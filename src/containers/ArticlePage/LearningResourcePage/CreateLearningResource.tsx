@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { PageContent } from "@ndla/primitives";
-import { IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
+import { UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import LearningResourceForm from "./components/LearningResourceForm";
 import { convertUpdateToNewDraft } from "../../../util/articleUtil";
 import { toEditArticle } from "../../../util/routeHelpers";
@@ -24,7 +24,7 @@ const CreateLearningResource = () => {
   const locale = i18n.language;
   const { createArticle } = useFetchArticleData(undefined, locale);
 
-  const createArticleAndPushRoute = async (createdArticle: IUpdatedArticleDTO) => {
+  const createArticleAndPushRoute = async (createdArticle: UpdatedArticleDTO) => {
     const savedArticle = await createArticle(convertUpdateToNewDraft(createdArticle));
     navigate(toEditArticle(savedArticle.id, savedArticle.articleType, createdArticle.language), {
       state: { isNewlyCreated: true },

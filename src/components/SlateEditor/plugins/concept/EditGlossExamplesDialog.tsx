@@ -21,7 +21,7 @@ import {
   IconButton,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IConceptDTO, IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import { ConceptDTO, ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { ConceptMetaData } from "@ndla/types-embed";
 import { ConceptBlockElement } from "./block/types";
 import EditGlossExamplesDialogContent from "./EditGlossExamplesDialogContent";
@@ -31,7 +31,7 @@ import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { useIsNewArticleLanguage } from "../../IsNewArticleLanguageProvider";
 
 interface Props {
-  concept: IConceptDTO | IConceptSummaryDTO;
+  concept: ConceptDTO | ConceptSummaryDTO;
   editor: Editor;
   element: ConceptBlockElement | ConceptInlineElement;
   embed: ConceptMetaData;

@@ -34,8 +34,8 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticleDTO, IUpdatedArticleDTO, Priority } from "@ndla/types-backend/draft-api";
-import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { ArticleDTO, UpdatedArticleDTO, Priority } from "@ndla/types-backend/draft-api";
+import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { Node, ResourceType } from "@ndla/types-taxonomy";
 import PlannedResourceSelect from "./PlannedResourceSelect";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
@@ -220,7 +220,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
       try {
         setError(undefined);
         const slateComment = getSlateComment(userName, t, values.comments);
-        let createdResource: IArticleDTO | ILearningPathV2DTO;
+        let createdResource: ArticleDTO | LearningPathV2DTO;
         const isLearningpath =
           values.contentType.length === 1 && values.contentType[0].id === RESOURCE_TYPE_LEARNING_PATH;
         if (isLearningpath) {
@@ -232,7 +232,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
             priority: values.priority,
           });
         } else {
-          const plannedResource: IUpdatedArticleDTO = {
+          const plannedResource: UpdatedArticleDTO = {
             title: values.title,
             comments: slateComment.length ? [{ content: inlineContentToHTML(slateComment), isOpen: true }] : [],
             language: i18n.language,

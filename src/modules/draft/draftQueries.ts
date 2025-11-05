@@ -7,14 +7,14 @@
  */
 
 import { useMutation, useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
-import { IArticleSearchParamsDTO } from "@ndla/types-backend/article-api";
+import { ArticleSearchParamsDTO } from "@ndla/types-backend/article-api";
 import {
-  ILicenseDTO,
-  IArticleDTO,
-  IUserDataDTO,
-  IUpdatedUserDataDTO,
+  LicenseDTO,
+  ArticleDTO,
+  UserDataDTO,
+  UpdatedUserDataDTO,
   ArticleSearchResultDTO,
-  ITagsSearchResultDTO,
+  TagsSearchResultDTO,
   ArticleRevisionHistoryDTO,
 } from "@ndla/types-backend/draft-api";
 import {
@@ -53,15 +53,15 @@ export const draftQueryKeys = {
   draft: (articleId: number) => [DRAFT, articleId] as const,
   draftWithLanguage: (articleId: number, language: string) => [DRAFT, articleId, language] as const,
   articleRevisionHistory: (articleId: number) => [DRAFT_HISTORY, articleId] as const,
-  search: (params?: Partial<IArticleSearchParamsDTO>) => [SEARCH_DRAFTS, params] as const,
+  search: (params?: Partial<ArticleSearchParamsDTO>) => [SEARCH_DRAFTS, params] as const,
   licenses: [LICENSES] as const,
   userData: [USER_DATA] as const,
   statusStateMachine: (params?: Partial<StatusStateMachineParams>) => [DRAFT_STATUS_STATE_MACHINE, params] as const,
   draftSearchTags: (params?: Partial<UseSearchTags>) => [DRAFT_SEARCH_TAGS, params] as const,
 };
 
-export const useDraft = ({ id, language }: UseDraft, options?: Partial<UseQueryOptions<IArticleDTO>>) => {
-  return useQuery<IArticleDTO>({
+export const useDraft = ({ id, language }: UseDraft, options?: Partial<UseQueryOptions<ArticleDTO>>) => {
+  return useQuery<ArticleDTO>({
     queryKey: language ? draftQueryKeys.draftWithLanguage(id, language) : draftQueryKeys.draft(id),
     queryFn: () => fetchDraft(id, language),
     ...options,
@@ -80,7 +80,7 @@ export const useArticleRevisionHistory = (
 };
 
 export const useSearchDrafts = (
-  params: IArticleSearchParamsDTO,
+  params: ArticleSearchParamsDTO,
   options?: Partial<UseQueryOptions<ArticleSearchResultDTO>>,
 ) => {
   return useQuery<ArticleSearchResultDTO>({
@@ -90,10 +90,10 @@ export const useSearchDrafts = (
   });
 };
 
-export const useLicenses = <ReturnType = ILicenseDTO[]>(
-  options?: Partial<UseQueryOptions<ILicenseDTO[], unknown, ReturnType>>,
+export const useLicenses = <ReturnType = LicenseDTO[]>(
+  options?: Partial<UseQueryOptions<LicenseDTO[], unknown, ReturnType>>,
 ) =>
-  useQuery<ILicenseDTO[], unknown, ReturnType>({
+  useQuery<LicenseDTO[], unknown, ReturnType>({
     queryKey: draftQueryKeys.licenses,
     queryFn: fetchLicenses,
     refetchOnWindowFocus: false,
@@ -104,8 +104,8 @@ export const useLicenses = <ReturnType = ILicenseDTO[]>(
     ...options,
   });
 
-export const useUserData = (options?: Partial<UseQueryOptions<IUserDataDTO | undefined>>) =>
-  useQuery<IUserDataDTO | undefined>({
+export const useUserData = (options?: Partial<UseQueryOptions<UserDataDTO | undefined>>) =>
+  useQuery<UserDataDTO | undefined>({
     queryKey: draftQueryKeys.userData,
     queryFn: fetchUserData,
     ...options,
@@ -113,14 +113,14 @@ export const useUserData = (options?: Partial<UseQueryOptions<IUserDataDTO | und
 
 export const useUpdateUserDataMutation = () => {
   const queryClient = useQueryClient();
-  return useMutation<IUserDataDTO, unknown, IUpdatedUserDataDTO, IUserDataDTO>({
+  return useMutation<UserDataDTO, unknown, UpdatedUserDataDTO, UserDataDTO>({
     mutationFn: (data) => updateUserData(data),
     onMutate: async (newUserData) => {
       const key = draftQueryKeys.userData;
       await queryClient.cancelQueries({ queryKey: key });
-      const previousUserData = queryClient.getQueryData<IUserDataDTO>(key);
+      const previousUserData = queryClient.getQueryData<UserDataDTO>(key);
       if (previousUserData) {
-        queryClient.setQueryData<IUserDataDTO>(key, {
+        queryClient.setQueryData<UserDataDTO>(key, {
           ...previousUserData,
           ...newUserData,
         });
@@ -156,8 +156,8 @@ export interface UseSearchTags {
   language: string;
 }
 
-export const useDraftSearchTags = (params: UseSearchTags, options?: Partial<UseQueryOptions<ITagsSearchResultDTO>>) => {
-  return useQuery<ITagsSearchResultDTO>({
+export const useDraftSearchTags = (params: UseSearchTags, options?: Partial<UseQueryOptions<TagsSearchResultDTO>>) => {
+  return useQuery<TagsSearchResultDTO>({
     queryKey: draftQueryKeys.draftSearchTags(params),
     queryFn: () => fetchSearchTags(params.input, params.language),
     ...options,

@@ -9,13 +9,13 @@
 import { useFormikContext } from "formik";
 import { useState } from "react";
 import ReactCrop, { Crop, PercentCrop } from "react-image-crop";
-import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import config from "../../../../../config";
 import { ImageEmbedFormValues } from "../types";
 
 interface Props {
   language: string;
-  image: IImageMetaInformationV3DTO;
+  image: ImageMetaInformationV3DTO;
   onCropComplete: (crop: PercentCrop) => void;
   aspect?: number;
 }

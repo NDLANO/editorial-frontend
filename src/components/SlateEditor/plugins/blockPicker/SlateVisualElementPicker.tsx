@@ -13,7 +13,7 @@ import { useSlateStatic } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { DialogBody, DialogContent, DialogHeader, DialogRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import VisualElementSearch from "../../../../containers/VisualElement/VisualElementSearch";
 import { Embed, File } from "../../../../interfaces";
 import { DialogCloseButton } from "../../../DialogCloseButton";
@@ -39,7 +39,7 @@ const StyledDialogHeader = styled(DialogHeader, {
 });
 
 const checkboxAction = (
-  image: IImageMetaInformationV3DTO,
+  image: ImageMetaInformationV3DTO,
   formikContext: FormikContextType<{
     metaImageId?: string;
     metaImageAlt?: string;

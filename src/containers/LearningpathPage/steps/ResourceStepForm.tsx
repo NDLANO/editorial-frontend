@@ -15,7 +15,7 @@ import { Badge, ComboboxLabel, FieldErrorMessage, FieldHelper, FieldRoot, IconBu
 import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { contentTypeMapping, ResourcePicker } from "./ResourcePicker";
 import { ResourceData, ResourceFormValues } from "./types";
 import { FormField } from "../../../components/FormField";
@@ -30,7 +30,7 @@ import { getFormTypeFromStep, getNodeIdFromEmbedUrl } from "../learningpathUtils
 
 interface Props {
   onlyPublishedResources?: boolean;
-  step: ILearningStepV2DTO | undefined;
+  step: LearningStepV2DTO | undefined;
   language: string;
 }
 

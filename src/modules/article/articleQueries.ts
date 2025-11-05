@@ -7,7 +7,7 @@
  */
 
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
-import { IArticleV2DTO, ISearchResultV2DTO } from "@ndla/types-backend/article-api";
+import { ArticleV2DTO, SearchResultV2DTO } from "@ndla/types-backend/article-api";
 import { ArticleSearchParams, getArticle, searchArticles } from "./articleApi";
 import { ARTICLE, ARTICLES } from "../../queryKeys";
 
@@ -18,9 +18,9 @@ export const articleQueryKeys = {
 
 export const useArticleSearch = (
   params: ArticleSearchParams,
-  options?: Partial<UseQueryOptions<ISearchResultV2DTO>>,
+  options?: Partial<UseQueryOptions<SearchResultV2DTO>>,
 ) => {
-  return useQuery<ISearchResultV2DTO>({
+  return useQuery<SearchResultV2DTO>({
     queryKey: articleQueryKeys.search(params),
     queryFn: () => searchArticles(params),
     ...options,
@@ -32,8 +32,8 @@ export interface UseArticle {
   language?: string;
 }
 
-export const useArticle = (params: UseArticle, options?: Partial<UseQueryOptions<IArticleV2DTO>>) => {
-  return useQuery<IArticleV2DTO>({
+export const useArticle = (params: UseArticle, options?: Partial<UseQueryOptions<ArticleV2DTO>>) => {
+  return useQuery<ArticleV2DTO>({
     queryKey: articleQueryKeys.article(params),
     queryFn: () => getArticle(params.id, params.language),
     ...options,

@@ -6,7 +6,7 @@
  *
  */
 
-import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 
 const EXTERNAL_EMBED_TYPES = ["oembed", "iframe"];
 
@@ -25,7 +25,7 @@ export const getNodeIdFromEmbedUrl = (embedUrl: string | undefined): string | un
   return embedUrl?.match(EMBED_URL_NODE_ID_REGEX)?.pop();
 };
 
-const isResourceStep = (step?: ILearningStepV2DTO): boolean => {
+const isResourceStep = (step?: LearningStepV2DTO): boolean => {
   if (step?.articleId) return true;
   if (
     !step?.embedUrl?.url ||
@@ -38,7 +38,7 @@ const isResourceStep = (step?: ILearningStepV2DTO): boolean => {
   return !!resourceId;
 };
 
-export const getFormTypeFromStep = (step?: ILearningStepV2DTO): "text" | "resource" | "external" => {
+export const getFormTypeFromStep = (step?: LearningStepV2DTO): "text" | "resource" | "external" => {
   if (isResourceStep(step)) {
     return "resource";
   }

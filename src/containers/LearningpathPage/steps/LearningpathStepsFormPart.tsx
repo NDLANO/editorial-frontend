@@ -12,7 +12,7 @@ import { Portal } from "@ark-ui/react";
 import { DragEndEvent } from "@dnd-kit/core";
 import { AddLine, Draggable } from "@ndla/icons";
 import { Button, DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, Text } from "@ndla/primitives";
-import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { LearningpathStepForm } from "./LearningpathStepForm";
 import { LearningStepListItem } from "./LearningStepListItem";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
@@ -27,7 +27,7 @@ import {
 import { learningStepEditId } from "../learningpathUtils";
 
 interface Props {
-  learningpath: ILearningPathV2DTO;
+  learningpath: LearningPathV2DTO;
   language: string;
 }
 

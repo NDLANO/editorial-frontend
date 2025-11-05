@@ -10,7 +10,7 @@ import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import { Spinner, Text } from "@ndla/primitives";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { NodeType, ResourceType, TaxonomyContext } from "@ndla/types-taxonomy";
 import { TaxonomyBlock } from "../../../../components/Taxonomy/TaxonomyBlock";
 import { TaxonomyConnections } from "../../../../components/Taxonomy/TaxonomyConnections";
@@ -29,7 +29,7 @@ import { useSession } from "../../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
-  article: IArticleDTO;
+  article: ArticleDTO;
   articleLanguage: string;
   hasTaxEntries: boolean;
 }

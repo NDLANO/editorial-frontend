@@ -10,7 +10,7 @@ import { Formik } from "formik";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { uniq } from "@ndla/util";
 import { LearningpathFormHeader } from "./components/LearningpathFormHeader";
 import {
@@ -44,11 +44,11 @@ import { LearningpathTaxonomyPart } from "./taxonomy/LearningpathTaxonomyPart";
 import { TaxonomyVersionProvider } from "../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
-  learningpath: ILearningPathV2DTO | undefined;
+  learningpath: LearningPathV2DTO | undefined;
   language: string;
 }
 
-const metaDataRules: RulesType<LearningpathFormValues, ILearningPathV2DTO> = {
+const metaDataRules: RulesType<LearningpathFormValues, LearningPathV2DTO> = {
   title: {
     required: true,
     warnings: {

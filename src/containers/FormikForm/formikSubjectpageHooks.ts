@@ -7,9 +7,9 @@
  */
 
 import { useEffect, useState } from "react";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
-import { ISubjectPageDTO, IUpdatedSubjectPageDTO, INewSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
-import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { ArticleDTO } from "@ndla/types-backend/draft-api";
+import { SubjectPageDTO, UpdatedSubjectPageDTO, NewSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
+import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { Node } from "@ndla/types-taxonomy";
 import { LocaleType } from "../../interfaces";
 import { fetchDraft } from "../../modules/draft/draftApi";
@@ -24,8 +24,8 @@ export function useFetchSubjectpageData(
   selectedLanguage: LocaleType,
   subjectpageId: string | undefined,
 ) {
-  const [subjectpage, setSubjectpage] = useState<ISubjectPageDTO>();
-  const [editorsChoices, setEditorsChoices] = useState<(IArticleDTO | ILearningPathV2DTO)[]>([]);
+  const [subjectpage, setSubjectpage] = useState<SubjectPageDTO>();
+  const [editorsChoices, setEditorsChoices] = useState<(ArticleDTO | LearningPathV2DTO)[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | undefined>(undefined);
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -46,13 +46,13 @@ export function useFetchSubjectpageData(
     return await Promise.all(promises);
   };
 
-  const updateSubjectpage = async (id: number, updatedSubjectpage: IUpdatedSubjectPageDTO) => {
+  const updateSubjectpage = async (id: number, updatedSubjectpage: UpdatedSubjectPageDTO) => {
     const savedSubjectpage = await frontpageApi.updateSubjectpage(updatedSubjectpage, id, selectedLanguage);
     setSubjectpage(savedSubjectpage);
     return savedSubjectpage;
   };
 
-  const createSubjectpage = async (subjectPage: INewSubjectPageDTO) => {
+  const createSubjectpage = async (subjectPage: NewSubjectPageDTO) => {
     const savedSubjectpage = await frontpageApi.createSubjectpage(subjectPage);
     await putNode({
       id: elementId,

@@ -8,7 +8,7 @@
 
 import { isEmpty } from "lodash-es";
 import { Descendant } from "slate";
-import { ILicenseDTO, IUpdatedArticleDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
+import { LicenseDTO, UpdatedArticleDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../constants";
 import {
   editorValueToEmbedTag,
@@ -48,7 +48,7 @@ const getPublishedDate = (values: ArticleFormType, initialValues: ArticleFormTyp
 export const RESET_COMMENTS_STATUSES = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 
 const getCommentsDraftApiToArticleFormType = (
-  article: IArticleDTO | undefined,
+  article: ArticleDTO | undefined,
   articleType: string,
 ): SlateCommentType[] => {
   if (!article?.comments) return [];
@@ -62,7 +62,7 @@ const getCommentsDraftApiToArticleFormType = (
 };
 
 const draftApiTypeToArticleFormType = (
-  article: IArticleDTO | undefined,
+  article: ArticleDTO | undefined,
   language: string,
   articleType: string,
   ndlaId: string | undefined,
@@ -108,7 +108,7 @@ const draftApiTypeToArticleFormType = (
 };
 
 export const draftApiTypeToLearningResourceFormType = (
-  article: IArticleDTO | undefined,
+  article: ArticleDTO | undefined,
   language: string,
   ndlaId: string | undefined,
 ): LearningResourceFormType => {
@@ -118,7 +118,7 @@ export const draftApiTypeToLearningResourceFormType = (
 };
 
 export const draftApiTypeToFrontpageArticleFormType = (
-  article: IArticleDTO | undefined,
+  article: ArticleDTO | undefined,
   language: string,
   ndlaId: string | undefined,
 ): FrontpageArticleFormType => {
@@ -128,7 +128,7 @@ export const draftApiTypeToFrontpageArticleFormType = (
 };
 
 export const draftApiTypeToTopicArticleFormType = (
-  article: IArticleDTO | undefined,
+  article: ArticleDTO | undefined,
   language: string,
   ndlaId: string | undefined,
 ): TopicArticleFormType => {
@@ -141,9 +141,9 @@ export const draftApiTypeToTopicArticleFormType = (
 export const learningResourceFormTypeToDraftApiType = (
   article: LearningResourceFormType,
   initialValues: LearningResourceFormType,
-  licenses: ILicenseDTO[],
+  licenses: LicenseDTO[],
   preview = false,
-): IUpdatedArticleDTO => {
+): UpdatedArticleDTO => {
   const metaImage = article.metaImageId
     ? { id: article.metaImageId, alt: article.metaImageAlt ?? "" }
     : nullOrUndefined(article.metaImageId);
@@ -181,9 +181,9 @@ export const learningResourceFormTypeToDraftApiType = (
 export const frontpageArticleFormTypeToDraftApiType = (
   article: FrontpageArticleFormType,
   initialValues: FrontpageArticleFormType,
-  licenses: ILicenseDTO[],
+  licenses: LicenseDTO[],
   preview = false,
-): IUpdatedArticleDTO => {
+): UpdatedArticleDTO => {
   const metaImage = article.metaImageId
     ? { id: article.metaImageId, alt: article.metaImageAlt ?? "" }
     : nullOrUndefined(article.metaImageId);
@@ -221,9 +221,9 @@ export const frontpageArticleFormTypeToDraftApiType = (
 export const topicArticleFormTypeToDraftApiType = (
   article: TopicArticleFormType,
   initialValues: TopicArticleFormType,
-  licenses: ILicenseDTO[],
+  licenses: LicenseDTO[],
   preview = false,
-): IUpdatedArticleDTO => {
+): UpdatedArticleDTO => {
   const metaImage = article.metaImageId
     ? { id: article.metaImageId, alt: article.metaImageAlt ?? "" }
     : nullOrUndefined(article.metaImageId);

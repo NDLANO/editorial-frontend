@@ -15,7 +15,7 @@ import { DialogOpenChangeDetails, Portal } from "@ark-ui/react";
 import { PencilFill, DeleteBinLine } from "@ndla/icons";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { RelatedContentEmbedData, RelatedContentMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, RelatedArticleList, RelatedContentEmbed } from "@ndla/ui";
 import EditRelated from "./EditRelated";
@@ -54,7 +54,7 @@ const internalEmbedToMeta = async (
   taxonomyVersion: string,
 ): Promise<RelatedContentMetaData> => {
   const parsedId = parseInt(embedData.articleId ?? "");
-  let article: IArticleDTO | undefined;
+  let article: ArticleDTO | undefined;
   if (!isNaN(parsedId)) {
     article = await fetchDraft(parsedId, language).catch(() => undefined);
   }

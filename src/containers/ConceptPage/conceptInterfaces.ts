@@ -7,7 +7,7 @@
  */
 
 import { Descendant } from "slate";
-import { IStatusDTO, IAuthorDTO, IGlossExampleDTO, IGlossDataDTO } from "@ndla/types-backend/concept-api";
+import { StatusDTO, AuthorDTO, GlossExampleDTO, GlossDataDTO } from "@ndla/types-backend/concept-api";
 
 export type ConceptType = "concept" | "gloss";
 
@@ -15,17 +15,17 @@ export interface ConceptFormValues {
   id?: number;
   language: string;
   revision?: number;
-  status?: IStatusDTO;
+  status?: StatusDTO;
   visualElement: Descendant[];
   source?: string;
   tags: string[];
   title: Descendant[];
   conceptContent: Descendant[];
   created?: string;
-  creators: IAuthorDTO[];
+  creators: AuthorDTO[];
   license?: string;
-  processors: IAuthorDTO[];
-  rightsholders: IAuthorDTO[];
+  processors: AuthorDTO[];
+  rightsholders: AuthorDTO[];
   processed: boolean;
   supportedLanguages: string[];
   updated?: string;
@@ -37,6 +37,6 @@ export interface ConceptFormValues {
     wordClass: string;
     originalLanguage: string;
   };
-  examples?: IGlossExampleDTO[][];
-  transcriptions?: IGlossDataDTO["transcriptions"];
+  examples?: GlossExampleDTO[][];
+  transcriptions?: GlossDataDTO["transcriptions"];
 }

@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { getLocalTimeZone, parseAbsoluteToLocal, today } from "@internationalized/date";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IRevisionMetaDTO } from "@ndla/types-backend/draft-api";
+import { RevisionMetaDTO } from "@ndla/types-backend/draft-api";
 import { Dictionary } from "../../../interfaces";
 import { NodeResourceMeta, ResourceWithNodeConnectionAndMeta } from "../../../modules/nodes/nodeApiTypes";
 import { getExpirationDate } from "../../../util/revisionHelpers";
@@ -36,7 +36,7 @@ interface Props {
   currentNode: ResourceWithNodeConnectionAndMeta;
 }
 
-export const isApproachingRevision = (revisions?: IRevisionMetaDTO[]) => {
+export const isApproachingRevision = (revisions?: RevisionMetaDTO[]) => {
   if (!revisions?.length) return false;
   const expirationDate = getExpirationDate(revisions);
   if (!expirationDate) return false;

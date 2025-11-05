@@ -10,7 +10,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PencilFill } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
-import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import PageSizeSelect from "./worklist/PageSizeSelect";
@@ -25,7 +25,7 @@ import { SortOptionLastUsed } from "../types";
 import { getSortedPaginationData } from "./utils";
 
 interface Props {
-  data: IConceptSummaryDTO[];
+  data: ConceptSummaryDTO[];
   isLoading: boolean;
   error: string | undefined;
   titles: TitleElement<SortOptionLastUsed>[];

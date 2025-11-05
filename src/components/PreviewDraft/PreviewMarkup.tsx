@@ -7,13 +7,13 @@
  */
 
 import { PageContent } from "@ndla/primitives";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { ArticleWrapper } from "@ndla/ui";
 import PreviewDraft from "./PreviewDraft";
 
 export interface MarkupPreviewProps {
   type: "markup";
-  article: IArticleDTO;
+  article: ArticleDTO;
   language: string;
 }
 

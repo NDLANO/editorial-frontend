@@ -24,7 +24,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { ArticleFormType } from "./articleFormHooks";
 import MetaImageSearch from "./MetaImageSearch";
@@ -54,7 +54,7 @@ const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
 interface Props {
   articleLanguage: string;
   showCheckbox?: boolean;
-  checkboxAction?: (image: IImageMetaInformationV3DTO) => void;
+  checkboxAction?: (image: ImageMetaInformationV3DTO) => void;
 }
 
 const SUMMARY_EDITOR = "editor-summary";

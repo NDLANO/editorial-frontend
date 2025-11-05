@@ -6,7 +6,7 @@
  *
  */
 
-import { IAudioDTO, IAuthorDTO, ISeriesDTO } from "@ndla/types-backend/audio-api";
+import { AudioDTO, AuthorDTO, SeriesDTO } from "@ndla/types-backend/audio-api";
 import { Descendant } from "slate";
 
 export interface PostAudioTranscription {
@@ -23,16 +23,16 @@ export interface AudioFormikType {
   title: Descendant[];
   manuscript: Descendant[];
   audioFile: {
-    storedFile?: IAudioDTO;
+    storedFile?: AudioDTO;
     newFile?: {
       filepath: string;
       file: File;
     };
   };
   tags: string[];
-  creators: IAuthorDTO[];
-  processors: IAuthorDTO[];
-  rightsholders: IAuthorDTO[];
+  creators: AuthorDTO[];
+  processors: AuthorDTO[];
+  rightsholders: AuthorDTO[];
   processed: boolean;
   origin: string;
   license: string;
@@ -45,7 +45,7 @@ export interface PodcastFormValues extends AudioFormikType {
   coverPhotoId?: string;
   metaImageAlt?: string;
   metaImageUrl?: string;
-  series: ISeriesDTO | null;
+  series: SeriesDTO | null;
   seriesId?: number;
 }
 

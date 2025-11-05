@@ -8,13 +8,13 @@
 
 import { useMutation, UseMutationOptions, useQueryClient } from "@tanstack/react-query";
 import {
-  ILearningPathV2DTO,
-  ILearningStepV2DTO,
-  INewCopyLearningPathV2DTO,
-  INewLearningPathV2DTO,
-  INewLearningStepV2DTO,
-  IUpdatedLearningPathV2DTO,
-  IUpdatedLearningStepV2DTO,
+  LearningPathV2DTO,
+  LearningStepV2DTO,
+  NewCopyLearningPathV2DTO,
+  NewLearningPathV2DTO,
+  NewLearningStepV2DTO,
+  UpdatedLearningPathV2DTO,
+  UpdatedLearningStepV2DTO,
 } from "@ndla/types-backend/learningpath-api";
 import {
   deleteLearningStep,
@@ -29,9 +29,9 @@ import {
 import { learningpathQueryKeys } from "./learningpathQueries";
 
 export const usePostLearningpathMutation = (
-  options?: Partial<UseMutationOptions<ILearningPathV2DTO, unknown, INewLearningPathV2DTO>>,
+  options?: Partial<UseMutationOptions<LearningPathV2DTO, unknown, NewLearningPathV2DTO>>,
 ) => {
-  return useMutation<ILearningPathV2DTO, unknown, INewLearningPathV2DTO>({
+  return useMutation<LearningPathV2DTO, unknown, NewLearningPathV2DTO>({
     mutationFn: (vars) => postLearningpath(vars),
     ...options,
   });
@@ -39,14 +39,14 @@ export const usePostLearningpathMutation = (
 
 interface UsePatchLearningpathMutation {
   id: number;
-  learningpath: IUpdatedLearningPathV2DTO;
+  learningpath: UpdatedLearningPathV2DTO;
 }
 
 export const usePatchLearningpathMutation = (
-  options?: Partial<UseMutationOptions<ILearningPathV2DTO, unknown, UsePatchLearningpathMutation>>,
+  options?: Partial<UseMutationOptions<LearningPathV2DTO, unknown, UsePatchLearningpathMutation>>,
 ) => {
   const qc = useQueryClient();
-  return useMutation<ILearningPathV2DTO, unknown, UsePatchLearningpathMutation>({
+  return useMutation<LearningPathV2DTO, unknown, UsePatchLearningpathMutation>({
     mutationFn: (vars) => patchLearningpath(vars.id, vars.learningpath),
     onMutate: (vars) =>
       qc.cancelQueries({
@@ -62,15 +62,15 @@ export const usePatchLearningpathMutation = (
 
 interface UsePostLearningStepMutation {
   learningpathId: number;
-  step: INewLearningStepV2DTO;
+  step: NewLearningStepV2DTO;
 }
 
 export const usePostLearningStepMutation = (
   language: string,
-  options?: Partial<UseMutationOptions<ILearningStepV2DTO, unknown, UsePostLearningStepMutation>>,
+  options?: Partial<UseMutationOptions<LearningStepV2DTO, unknown, UsePostLearningStepMutation>>,
 ) => {
   const qc = useQueryClient();
-  return useMutation<ILearningStepV2DTO, unknown, UsePostLearningStepMutation>({
+  return useMutation<LearningStepV2DTO, unknown, UsePostLearningStepMutation>({
     mutationFn: (vars) => postLearningStep(vars.learningpathId, vars.step),
     onMutate: (vars) =>
       qc.cancelQueries({
@@ -87,15 +87,15 @@ export const usePostLearningStepMutation = (
 interface UsePatchLearningStepMutation {
   learningpathId: number;
   stepId: number;
-  step: IUpdatedLearningStepV2DTO;
+  step: UpdatedLearningStepV2DTO;
 }
 
 export const usePatchLearningStepMutation = (
   language: string,
-  options?: Partial<UseMutationOptions<ILearningStepV2DTO, unknown, UsePatchLearningStepMutation>>,
+  options?: Partial<UseMutationOptions<LearningStepV2DTO, unknown, UsePatchLearningStepMutation>>,
 ) => {
   const qc = useQueryClient();
-  return useMutation<ILearningStepV2DTO, unknown, UsePatchLearningStepMutation>({
+  return useMutation<LearningStepV2DTO, unknown, UsePatchLearningStepMutation>({
     mutationFn: (vars) => patchLearningStep(vars.learningpathId, vars.stepId, vars.step),
     onMutate: (vars) =>
       qc.cancelQueries({ queryKey: learningpathQueryKeys.learningpath({ id: vars.learningpathId, language }) }),
@@ -112,24 +112,24 @@ interface UseDeleteLearningStepMutation {
 
 export const useDeleteLearningStepMutation = (
   language: string,
-  options?: Partial<UseMutationOptions<boolean, unknown, UseDeleteLearningStepMutation, ILearningPathV2DTO>>,
+  options?: Partial<UseMutationOptions<boolean, unknown, UseDeleteLearningStepMutation, LearningPathV2DTO>>,
 ) => {
   const qc = useQueryClient();
-  return useMutation<boolean, unknown, UseDeleteLearningStepMutation, ILearningPathV2DTO>({
+  return useMutation<boolean, unknown, UseDeleteLearningStepMutation, LearningPathV2DTO>({
     mutationFn: (vars) => deleteLearningStep(vars.learningpathId, vars.stepId),
     onMutate: (vars) => {
       qc.cancelQueries({ queryKey: learningpathQueryKeys.learningpath({ id: vars.learningpathId, language }) });
-      const previousData = qc.getQueryData<ILearningPathV2DTO>(
+      const previousData = qc.getQueryData<LearningPathV2DTO>(
         learningpathQueryKeys.learningpath({ id: vars.learningpathId, language }),
       )!;
-      qc.setQueryData<ILearningPathV2DTO>(learningpathQueryKeys.learningpath({ id: vars.learningpathId, language }), {
+      qc.setQueryData<LearningPathV2DTO>(learningpathQueryKeys.learningpath({ id: vars.learningpathId, language }), {
         ...previousData,
         learningsteps: previousData.learningsteps.filter((step) => step.id !== vars.stepId),
       });
       return previousData;
     },
     onError: (_, vars, context) => {
-      qc.setQueryData<ILearningPathV2DTO>(
+      qc.setQueryData<LearningPathV2DTO>(
         learningpathQueryKeys.learningpath({ id: vars.learningpathId, language }),
         context,
       );
@@ -148,14 +148,14 @@ interface UsePutLearningStepOrderMutation {
 
 export const usePutLearningStepOrderMutation = (
   language: string,
-  options?: Partial<UseMutationOptions<boolean, unknown, UsePutLearningStepOrderMutation, ILearningPathV2DTO>>,
+  options?: Partial<UseMutationOptions<boolean, unknown, UsePutLearningStepOrderMutation, LearningPathV2DTO>>,
 ) => {
   const qc = useQueryClient();
-  return useMutation<boolean, unknown, UsePutLearningStepOrderMutation, ILearningPathV2DTO>({
+  return useMutation<boolean, unknown, UsePutLearningStepOrderMutation, LearningPathV2DTO>({
     mutationFn: (vars) => putLearningStepOrder(vars.learningpathId, vars.stepId, vars.seqNo),
     onMutate: (vars) => {
       qc.cancelQueries({ queryKey: learningpathQueryKeys.learningpath({ id: vars.learningpathId, language }) });
-      const previousData = qc.getQueryData<ILearningPathV2DTO>(
+      const previousData = qc.getQueryData<LearningPathV2DTO>(
         learningpathQueryKeys.learningpath({ id: vars.learningpathId, language }),
       )!;
       const updatedSteps = [...previousData.learningsteps];
@@ -166,7 +166,7 @@ export const usePutLearningStepOrderMutation = (
       // Add to new position
       updatedSteps.splice(vars.seqNo, 0, movedElement);
 
-      qc.setQueryData<ILearningPathV2DTO>(learningpathQueryKeys.learningpath({ id: vars.learningpathId, language }), {
+      qc.setQueryData<LearningPathV2DTO>(learningpathQueryKeys.learningpath({ id: vars.learningpathId, language }), {
         ...previousData,
         learningsteps: updatedSteps,
       });
@@ -174,7 +174,7 @@ export const usePutLearningStepOrderMutation = (
       return previousData;
     },
     onError: (_, vars, context) => {
-      qc.setQueryData<ILearningPathV2DTO>(
+      qc.setQueryData<LearningPathV2DTO>(
         learningpathQueryKeys.learningpath({ id: vars.learningpathId, language }),
         context,
       );
@@ -207,13 +207,13 @@ export const usePutLearningpathStatusMutation = (
 
 interface UsePostCopyLearningpathMutation {
   learningpathId: number;
-  learningpath: INewCopyLearningPathV2DTO;
+  learningpath: NewCopyLearningPathV2DTO;
 }
 
 export const usePostCopyLearningpathMutation = (
-  options?: Partial<UseMutationOptions<ILearningPathV2DTO, unknown, UsePostCopyLearningpathMutation>>,
+  options?: Partial<UseMutationOptions<LearningPathV2DTO, unknown, UsePostCopyLearningpathMutation>>,
 ) => {
-  return useMutation<ILearningPathV2DTO, unknown, UsePostCopyLearningpathMutation>({
+  return useMutation<LearningPathV2DTO, unknown, UsePostCopyLearningpathMutation>({
     mutationFn: (vars) => postCopyLearningpath(vars.learningpathId, vars.learningpath),
     ...options,
   });

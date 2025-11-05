@@ -9,14 +9,14 @@
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
 import { Spinner } from "@ndla/primitives";
-import { ILearningPathV2DTO, ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import { LearningPathV2DTO, LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper, ResourceBox } from "@ndla/ui";
 import { EmbedPageContent } from "./EmbedPageContent";
 import { useFetchOpenGraph } from "../../modules/opengraph/opengraphQueries";
 
 interface Props {
-  learningpath: ILearningPathV2DTO;
-  step: ILearningStepV2DTO;
+  learningpath: LearningPathV2DTO;
+  step: LearningStepV2DTO;
 }
 
 export const ExternalStep = ({ step, learningpath }: Props) => {

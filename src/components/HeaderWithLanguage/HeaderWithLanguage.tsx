@@ -8,7 +8,7 @@
 
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { ArticleRevisionHistoryDTO, IArticleDTO, IStatusDTO } from "@ndla/types-backend/draft-api";
+import { ArticleRevisionHistoryDTO, ArticleDTO, StatusDTO } from "@ndla/types-backend/draft-api";
 import { TaxonomyContext } from "@ndla/types-taxonomy";
 import HeaderActions from "./HeaderActions";
 import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
@@ -22,11 +22,11 @@ interface Props {
   id?: number;
   taxonomy?: TaxonomyContext[];
   noStatus?: boolean;
-  article?: IArticleDTO;
+  article?: ArticleDTO;
   articleRevisionHistory?: ArticleRevisionHistoryDTO;
   supportedLanguages: string[];
   type: FormHeaderType;
-  status?: IStatusDTO;
+  status?: StatusDTO;
   expirationDate?: string;
 }
 

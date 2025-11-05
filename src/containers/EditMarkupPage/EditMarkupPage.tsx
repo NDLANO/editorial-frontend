@@ -26,7 +26,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { FormActionsContainer } from "../../components/FormikForm";
 import HeaderSupportedLanguages from "../../components/HeaderWithLanguage/HeaderSupportedLanguages";
@@ -58,7 +58,7 @@ function standardizeContent(content: string): string {
   return blockContentToHTML(converted);
 }
 
-function updateContentInDraft(draft: IArticleDTO | undefined, content: string): IArticleDTO | undefined {
+function updateContentInDraft(draft: ArticleDTO | undefined, content: string): ArticleDTO | undefined {
   if (draft === undefined || draft.content === undefined) {
     return undefined;
   }
@@ -137,7 +137,7 @@ const EditMarkupPage = () => {
   const draftId = Number(params.draftId) || undefined;
   const language = params.language!;
   const [status, setStatus] = useState<Status>("initial");
-  const [draft, setDraft] = useState<IArticleDTO | undefined>(undefined);
+  const [draft, setDraft] = useState<ArticleDTO | undefined>(undefined);
   const location = useLocation();
   const locationState = location.state as LocationState | undefined;
   const { createMessage, formatErrorMessage } = useMessages();

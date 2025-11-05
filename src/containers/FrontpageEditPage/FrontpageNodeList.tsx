@@ -14,7 +14,7 @@ import { AddLine, ArrowRightShortLine, DeleteBinLine, Draggable } from "@ndla/ic
 import { IconButton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticleSummaryV2DTO } from "@ndla/types-backend/article-api";
+import { ArticleSummaryV2DTO } from "@ndla/types-backend/article-api";
 import FrontpageArticleSearch from "./FrontpageArticleSearch";
 import { MenuWithArticle } from "./types";
 import DndList from "../../components/DndList";
@@ -155,7 +155,7 @@ const FrontpageNode = ({ name, remove, index, level, replace }: FrontpageNodePro
   const onRemove = useCallback(() => remove(index), [index, remove]);
 
   const onAdd = useCallback(
-    (val: IArticleSummaryV2DTO) => {
+    (val: ArticleSummaryV2DTO) => {
       const newMenu: MenuWithArticle = {
         articleId: val.id,
         article: val,

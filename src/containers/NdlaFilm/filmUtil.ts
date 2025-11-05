@@ -7,14 +7,14 @@
  */
 
 import { i18n } from "i18next";
-import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 
 export const sortMoviesByIdList = (
   idList: number[],
-  movieList: IMultiSearchSummaryDTO[],
+  movieList: MultiSearchSummaryDTO[],
   i18n: i18n,
-): IMultiSearchSummaryDTO[] => {
-  const notFoundMovie: IMultiSearchSummaryDTO = {
+): MultiSearchSummaryDTO[] => {
+  const notFoundMovie: MultiSearchSummaryDTO = {
     id: -1,
     typename: "MultiSearchSummaryDTO",
     title: {

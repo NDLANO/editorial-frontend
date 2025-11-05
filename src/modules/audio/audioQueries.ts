@@ -8,14 +8,14 @@
 
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import {
-  IAudioMetaInformationDTO,
-  IAudioSummarySearchResultDTO,
-  ISeriesSummarySearchResultDTO,
-  ISeriesDTO,
-  ISeriesSearchParamsDTO,
-  ISearchParamsDTO as IAudioSearchParams,
-  ITagsSearchResultDTO,
-  ITranscriptionResultDTO,
+  AudioMetaInformationDTO,
+  AudioSummarySearchResultDTO,
+  SeriesSummarySearchResultDTO,
+  SeriesDTO,
+  SeriesSearchParamsDTO,
+  SearchParamsDTO as AudioSearchParams,
+  TagsSearchResultDTO,
+  TranscriptionResultDTO,
 } from "@ndla/types-backend/audio-api";
 import {
   fetchAudio,
@@ -38,32 +38,32 @@ import { StringSort } from "../../interfaces";
 
 export const audioQueryKeys = {
   audio: (params?: Partial<UseAudio>) => [AUDIO, params] as const,
-  search: (params?: Partial<StringSort<IAudioSearchParams>>) => [SEARCH_AUDIO, params] as const,
+  search: (params?: Partial<StringSort<AudioSearchParams>>) => [SEARCH_AUDIO, params] as const,
   podcastSeries: (params?: Partial<UseSeries>) => [PODCAST_SERIES, params] as const,
-  podcastSeriesSearch: (params?: Partial<StringSort<ISeriesSearchParamsDTO>>) => [SEARCH_SERIES, params] as const,
+  podcastSeriesSearch: (params?: Partial<StringSort<SeriesSearchParamsDTO>>) => [SEARCH_SERIES, params] as const,
   audioSearchTags: (params?: Partial<UseSearchTags>) => [AUDIO_SEARCH_TAGS, params] as const,
   audioTranscription: (params?: Partial<UseTranscription>) => [AUDIO_TRANSCRIPTION, params] as const,
 };
 
-export const useAudio = (params: UseAudio, options?: Partial<UseQueryOptions<IAudioMetaInformationDTO>>) =>
-  useQuery<IAudioMetaInformationDTO>({
+export const useAudio = (params: UseAudio, options?: Partial<UseQueryOptions<AudioMetaInformationDTO>>) =>
+  useQuery<AudioMetaInformationDTO>({
     queryKey: audioQueryKeys.audio(params),
     queryFn: () => fetchAudio(params.id, params.language),
     ...options,
   });
 
-export const useSeries = (params: UseSeries, options?: Partial<UseQueryOptions<ISeriesDTO>>) =>
-  useQuery<ISeriesDTO>({
+export const useSeries = (params: UseSeries, options?: Partial<UseQueryOptions<SeriesDTO>>) =>
+  useQuery<SeriesDTO>({
     queryKey: audioQueryKeys.podcastSeries(params),
     queryFn: () => fetchSeries(params.id, params.language),
     ...options,
   });
 
 export const useSearchSeries = (
-  query: StringSort<ISeriesSearchParamsDTO>,
-  options?: Partial<UseQueryOptions<ISeriesSummarySearchResultDTO>>,
+  query: StringSort<SeriesSearchParamsDTO>,
+  options?: Partial<UseQueryOptions<SeriesSummarySearchResultDTO>>,
 ) => {
-  return useQuery<ISeriesSummarySearchResultDTO>({
+  return useQuery<SeriesSummarySearchResultDTO>({
     queryKey: audioQueryKeys.podcastSeriesSearch(query),
     queryFn: () => postSearchSeries(query),
     ...options,
@@ -71,18 +71,18 @@ export const useSearchSeries = (
 };
 
 export const useSearchAudio = (
-  query: StringSort<IAudioSearchParams>,
-  options?: Partial<UseQueryOptions<IAudioSummarySearchResultDTO>>,
+  query: StringSort<AudioSearchParams>,
+  options?: Partial<UseQueryOptions<AudioSummarySearchResultDTO>>,
 ) => {
-  return useQuery<IAudioSummarySearchResultDTO>({
+  return useQuery<AudioSummarySearchResultDTO>({
     queryKey: audioQueryKeys.search(query),
     queryFn: () => postSearchAudio(query),
     ...options,
   });
 };
 
-export const useAudioSearchTags = (params: UseSearchTags, options?: Partial<UseQueryOptions<ITagsSearchResultDTO>>) => {
-  return useQuery<ITagsSearchResultDTO>({
+export const useAudioSearchTags = (params: UseSearchTags, options?: Partial<UseQueryOptions<TagsSearchResultDTO>>) => {
+  return useQuery<TagsSearchResultDTO>({
     queryKey: audioQueryKeys.audioSearchTags(params),
     queryFn: () => fetchSearchTags(params.input, params.language),
     ...options,
@@ -91,9 +91,9 @@ export const useAudioSearchTags = (params: UseSearchTags, options?: Partial<UseQ
 
 export const useAudioTranscription = (
   params: UseTranscription,
-  options?: Partial<UseQueryOptions<ITranscriptionResultDTO>>,
+  options?: Partial<UseQueryOptions<TranscriptionResultDTO>>,
 ) => {
-  return useQuery<ITranscriptionResultDTO>({
+  return useQuery<TranscriptionResultDTO>({
     queryKey: audioQueryKeys.audioTranscription(params),
     queryFn: () => fetchAudioTranscription(params.audioId, params.language),
     ...options,

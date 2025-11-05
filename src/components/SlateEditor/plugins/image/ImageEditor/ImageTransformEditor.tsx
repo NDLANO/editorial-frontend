@@ -9,7 +9,7 @@
 import { useFormikContext } from "formik";
 import { PercentCrop } from "react-image-crop";
 import { styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import ImageCropEdit from "./ImageCropEdit";
 import ImageFocalPointEdit from "./ImageFocalPointEdit";
 import { getSrcSets } from "../imageEditorUtil";
@@ -27,7 +27,7 @@ interface Props {
   onFocalPointChange: (focalPoint: { x: number; y: number }) => void;
   onCropComplete: (crop: PercentCrop) => void;
   aspect?: number;
-  image: IImageMetaInformationV3DTO;
+  image: ImageMetaInformationV3DTO;
 }
 
 const ImageTransformEditor = ({ language, editType, image, onFocalPointChange, onCropComplete, aspect }: Props) => {

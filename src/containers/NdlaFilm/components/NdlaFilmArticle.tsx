@@ -10,7 +10,7 @@ import { useField } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ComboboxLabel, FieldRoot } from "@ndla/primitives";
-import { IArticleV2DTO } from "@ndla/types-backend/article-api";
+import { ArticleV2DTO } from "@ndla/types-backend/article-api";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import ListResource from "../../../components/Form/ListResource";
@@ -27,7 +27,7 @@ interface Props {
 const NdlaFilmArticle = ({ fieldName }: Props) => {
   const { t } = useTranslation();
   const [field, , helpers] = useField<string | undefined>(fieldName);
-  const [selectedArticle, setSelectedArticle] = useState<undefined | IArticleV2DTO>(undefined);
+  const [selectedArticle, setSelectedArticle] = useState<undefined | ArticleV2DTO>(undefined);
   const { query, page, setPage, delayedQuery, setQuery } = usePaginatedQuery();
 
   const searchQuery = useSearchResources(

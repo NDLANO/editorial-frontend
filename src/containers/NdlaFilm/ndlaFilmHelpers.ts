@@ -6,7 +6,7 @@
  *
  */
 
-import { IFilmFrontPageDTO, IMovieThemeDTO, INewOrUpdatedFilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
+import { FilmFrontPageDTO, MovieThemeDTO, NewOrUpdatedFilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
 import { LocaleType } from "../../interfaces";
 import { FilmFormikType, ThemeNames } from "./types";
 import { convertVisualElement, getVisualElementId } from "../../util/convertVisualElement";
@@ -14,7 +14,7 @@ import { editorValueToPlainText, plainTextToEditorValue } from "../../util/artic
 import { isVisualElementSlateElement } from "../../components/SlateEditor/helpers";
 import { LOCALE_VALUES } from "../../constants";
 
-export const getInitialValues = (filmFrontpage: IFilmFrontPageDTO, selectedLanguage: string): FilmFormikType => {
+export const getInitialValues = (filmFrontpage: FilmFrontPageDTO, selectedLanguage: string): FilmFormikType => {
   const supportedLanguages = filmFrontpage.about.map((about) => about.language);
   const languageAbout = filmFrontpage.about.find((about) => about.language === selectedLanguage);
   const about = languageAbout ?? filmFrontpage.about?.[0];
@@ -35,10 +35,10 @@ export const getInitialValues = (filmFrontpage: IFilmFrontPageDTO, selectedLangu
 };
 
 export const getNdlaFilmFromSlate = (
-  initialFrontpage: IFilmFrontPageDTO,
+  initialFrontpage: FilmFrontPageDTO,
   newFrontpage: FilmFormikType,
   selectedLanguage: string,
-): INewOrUpdatedFilmFrontPageDTO => {
+): NewOrUpdatedFilmFrontPageDTO => {
   const slateVisualElement = newFrontpage.visualElement?.[0];
   const data = isVisualElementSlateElement(slateVisualElement) ? slateVisualElement.data : undefined;
 
@@ -97,7 +97,7 @@ export const getUrnFromId = (id: string | number) => {
   return `urn:article:${id}`;
 };
 
-export const changeThemeNames = (themes: IMovieThemeDTO[], names: ConvertedThemeName[], index: number) => {
+export const changeThemeNames = (themes: MovieThemeDTO[], names: ConvertedThemeName[], index: number) => {
   return themes.map((theme, i) => (i === index ? { ...theme, name: names } : theme));
 };
 

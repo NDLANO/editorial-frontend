@@ -20,14 +20,14 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { ILearningPathV2DTO, ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import { LearningPathV2DTO, LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { contains } from "@ndla/util";
 import { toPreviewLearningpath } from "../../util/routeHelpers";
 
 interface Props {
-  learningpath: ILearningPathV2DTO;
+  learningpath: LearningPathV2DTO;
   language: string;
-  step: ILearningStepV2DTO;
+  step: LearningStepV2DTO;
 }
 
 const StyledAccordionRoot = styled(AccordionRoot, {

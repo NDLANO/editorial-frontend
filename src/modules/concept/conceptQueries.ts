@@ -8,10 +8,10 @@
 
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import {
-  IConceptDTO,
-  IDraftConceptSearchParamsDTO,
-  IConceptSearchResultDTO,
-  ITagsSearchResultDTO,
+  ConceptDTO,
+  DraftConceptSearchParamsDTO,
+  ConceptSearchResultDTO,
+  TagsSearchResultDTO,
 } from "@ndla/types-backend/concept-api";
 import { fetchConcept, fetchSearchTags, fetchStatusStateMachine, postSearchConcepts } from "./conceptApi";
 import { ConceptStatusStateMachineType, StringSort } from "../../interfaces";
@@ -24,13 +24,13 @@ export interface UseConcept {
 
 export const conceptQueryKeys = {
   concept: (params?: Partial<UseConcept>) => [CONCEPT, params] as const,
-  searchConcepts: (params?: Partial<StringSort<IDraftConceptSearchParamsDTO>>) => [SEARCH_CONCEPTS, params] as const,
+  searchConcepts: (params?: Partial<StringSort<DraftConceptSearchParamsDTO>>) => [SEARCH_CONCEPTS, params] as const,
   statusStateMachine: [CONCEPT_STATE_MACHINE] as const,
   conceptSearchTags: (params?: Partial<UseSearchTags>) => [CONCEPT_SEARCH_TAGS, params] as const,
 };
 
-export const useConcept = (params: UseConcept, options?: Partial<UseQueryOptions<IConceptDTO>>) => {
-  return useQuery<IConceptDTO>({
+export const useConcept = (params: UseConcept, options?: Partial<UseQueryOptions<ConceptDTO>>) => {
+  return useQuery<ConceptDTO>({
     queryKey: conceptQueryKeys.concept(params),
     queryFn: () => fetchConcept(params.id, params.language),
     ...options,
@@ -38,10 +38,10 @@ export const useConcept = (params: UseConcept, options?: Partial<UseQueryOptions
 };
 
 export const useSearchConcepts = (
-  query: StringSort<IDraftConceptSearchParamsDTO>,
-  options?: Partial<UseQueryOptions<IConceptSearchResultDTO>>,
+  query: StringSort<DraftConceptSearchParamsDTO>,
+  options?: Partial<UseQueryOptions<ConceptSearchResultDTO>>,
 ) => {
-  return useQuery<IConceptSearchResultDTO>({
+  return useQuery<ConceptSearchResultDTO>({
     queryKey: conceptQueryKeys.searchConcepts(query),
     queryFn: () => postSearchConcepts(query),
     ...options,
@@ -63,9 +63,9 @@ interface UseSearchTags {
 
 export const useConceptSearchTags = (
   params: UseSearchTags,
-  options?: Partial<UseQueryOptions<ITagsSearchResultDTO>>,
+  options?: Partial<UseQueryOptions<TagsSearchResultDTO>>,
 ) => {
-  return useQuery<ITagsSearchResultDTO>({
+  return useQuery<TagsSearchResultDTO>({
     queryKey: conceptQueryKeys.conceptSearchTags(params),
     queryFn: () => fetchSearchTags(params.input, params.language),
     ...options,

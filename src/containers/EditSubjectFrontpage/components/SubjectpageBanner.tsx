@@ -25,7 +25,7 @@ import {
   TabsTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { ImageEmbedData } from "@ndla/types-embed";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { ImageSearch } from "../../../components/ImageSearch";
@@ -60,7 +60,7 @@ interface Props {
 const SubjectpageBanner = ({ title, fieldName }: Props) => {
   const { t } = useTranslation();
   const { setFieldTouched } = useFormikContext();
-  const [image, setImage] = useState<IImageMetaInformationV3DTO | undefined>(undefined);
+  const [image, setImage] = useState<ImageMetaInformationV3DTO | undefined>(undefined);
   const [FieldInputProps] = useField<ImageEmbedData>(fieldName);
   const { onChange } = FieldInputProps;
   const [showImageSelect, setShowImageSelect] = useState(false);
@@ -75,7 +75,7 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
     })();
   }, [image, values, fieldName]);
 
-  const onImageChange = (image: IImageMetaInformationV3DTO) => {
+  const onImageChange = (image: ImageMetaInformationV3DTO) => {
     setImage(image);
     updateFormik(parseInt(image.id));
     setShowImageSelect(false);

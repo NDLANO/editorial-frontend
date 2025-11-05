@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { InformationLine } from "@ndla/icons";
 import { ExpandableBox, ExpandableBoxSummary, MessageBox, Spinner, Text, UnOrderedList } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { partition, sortBy } from "@ndla/util";
 import { TaxonomyBlock } from "../../../../components/Taxonomy/TaxonomyBlock";
 import { TaxonomyConnections } from "../../../../components/Taxonomy/TaxonomyConnections";
@@ -22,7 +22,7 @@ import { useSession } from "../../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 
 type Props = {
-  article: IArticleDTO;
+  article: ArticleDTO;
   articleLanguage: string;
   hasTaxEntries: boolean;
 };

@@ -7,7 +7,7 @@
  */
 
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
-import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { cloneImage } from "./imageApi";
 
 interface CloneImageInput {
@@ -16,9 +16,9 @@ interface CloneImageInput {
 }
 
 export const useCloneImageMutation = (
-  options?: Partial<UseMutationOptions<IImageMetaInformationV3DTO, unknown, CloneImageInput>>,
+  options?: Partial<UseMutationOptions<ImageMetaInformationV3DTO, unknown, CloneImageInput>>,
 ) => {
-  return useMutation<IImageMetaInformationV3DTO, unknown, CloneImageInput>({
+  return useMutation<ImageMetaInformationV3DTO, unknown, CloneImageInput>({
     mutationFn: (vars) => cloneImage(vars.imageId, vars.imageFile),
     ...options,
   });

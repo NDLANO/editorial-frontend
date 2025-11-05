@@ -22,11 +22,11 @@ import {
   TabsTrigger,
 } from "@ndla/primitives";
 import {
-  IConceptDTO,
-  IConceptSearchResultDTO,
-  INewConceptDTO,
-  IUpdatedConceptDTO,
-  IConceptSummaryDTO,
+  ConceptDTO,
+  ConceptSearchResultDTO,
+  NewConceptDTO,
+  UpdatedConceptDTO,
+  ConceptSummaryDTO,
 } from "@ndla/types-backend/concept-api";
 import SearchConceptFormContent from "./SearchConceptFormContent";
 import SearchConceptResults from "./SearchConceptResults";
@@ -41,14 +41,14 @@ import { DialogCloseButton } from "../../../DialogCloseButton";
 import FormWrapper from "../../../FormWrapper";
 
 interface Props {
-  addConcept: (concept: IConceptSummaryDTO | IConceptDTO) => void;
-  concept?: IConceptDTO;
-  createConcept: (createdConcept: INewConceptDTO) => Promise<IConceptDTO>;
+  addConcept: (concept: ConceptSummaryDTO | ConceptDTO) => void;
+  concept?: ConceptDTO;
+  createConcept: (createdConcept: NewConceptDTO) => Promise<ConceptDTO>;
   handleRemove: () => void;
   locale: string;
   selectedText?: string;
-  updateConcept: (id: number, updatedConcept: IUpdatedConceptDTO) => Promise<IConceptDTO>;
-  updateConceptStatus: (id: number, status: string) => Promise<IConceptDTO>;
+  updateConcept: (id: number, updatedConcept: UpdatedConceptDTO) => Promise<ConceptDTO>;
+  updateConceptStatus: (id: number, status: string) => Promise<ConceptDTO>;
   conceptType: ConceptType;
 }
 
@@ -72,7 +72,7 @@ const ConceptDialogContent = ({
     query: `${selectedText}`,
     "concept-type": conceptType,
   });
-  const [results, setConcepts] = useState<IConceptSearchResultDTO>({
+  const [results, setConcepts] = useState<ConceptSearchResultDTO>({
     language: locale,
     page: 1,
     pageSize: 10,
@@ -107,7 +107,7 @@ const ConceptDialogContent = ({
 
   const upsertProps = concept
     ? {
-        onUpdate: (updatedConcept: IUpdatedConceptDTO) => updateConcept(concept.id, updatedConcept),
+        onUpdate: (updatedConcept: UpdatedConceptDTO) => updateConcept(concept.id, updatedConcept),
       }
     : {
         onCreate: createConcept,

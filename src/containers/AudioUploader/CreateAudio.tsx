@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { PageContent } from "@ndla/primitives";
-import { INewAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
+import { NewAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import AudioForm from "./components/AudioForm";
 import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { postAudio } from "../../modules/audio/audioApi";
@@ -31,7 +31,7 @@ export const CreateAudioPage = () => {
 const CreateAudio = () => {
   const { i18n } = useTranslation();
   const navigate = useNavigate();
-  const onCreateAudio = async (newAudio: INewAudioMetaInformationDTO, file?: string | Blob): Promise<void> => {
+  const onCreateAudio = async (newAudio: NewAudioMetaInformationDTO, file?: string | Blob): Promise<void> => {
     if (file instanceof Blob) {
       const createdAudio = await postAudio(newAudio, file);
       navigate(toEditAudio(createdAudio.id, newAudio.language), { state: { isNewlyCreated: true } });

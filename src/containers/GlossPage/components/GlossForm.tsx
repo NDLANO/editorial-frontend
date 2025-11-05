@@ -10,7 +10,7 @@ import { Formik, FormikHelpers } from "formik";
 import { isEmpty } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { IConceptDTO, IConceptSummaryDTO, INewConceptDTO, IUpdatedConceptDTO } from "@ndla/types-backend/concept-api";
+import { ConceptDTO, ConceptSummaryDTO, NewConceptDTO, UpdatedConceptDTO } from "@ndla/types-backend/concept-api";
 import GlossDataSection from "./GlossDataSection";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
@@ -32,26 +32,26 @@ import { MessageError, useMessages } from "../../Messages/MessagesProvider";
 import { useSession } from "../../Session/SessionProvider";
 
 interface UpdateProps {
-  onUpdate: (updatedConcept: IUpdatedConceptDTO, revision?: number) => Promise<IConceptDTO>;
+  onUpdate: (updatedConcept: UpdatedConceptDTO, revision?: number) => Promise<ConceptDTO>;
 }
 
 interface CreateProps {
-  onCreate: (newConcept: INewConceptDTO) => Promise<IConceptDTO>;
-  onUpdateStatus: (id: number, status: string) => Promise<IConceptDTO>;
+  onCreate: (newConcept: NewConceptDTO) => Promise<ConceptDTO>;
+  onUpdateStatus: (id: number, status: string) => Promise<ConceptDTO>;
 }
 
 interface Props {
   upsertProps: CreateProps | UpdateProps;
-  concept?: IConceptDTO;
+  concept?: ConceptDTO;
   conceptChanged?: boolean;
   inDialog: boolean;
   language: string;
   initialTitle?: string;
-  onUpserted?: (concept: IConceptSummaryDTO | IConceptDTO) => void;
+  onUpserted?: (concept: ConceptSummaryDTO | ConceptDTO) => void;
   translatedFieldsToNN: string[];
 }
 
-const glossRules: RulesType<ConceptFormValues, IConceptDTO> = {
+const glossRules: RulesType<ConceptFormValues, ConceptDTO> = {
   ...conceptFormBaseRules,
   "gloss.gloss": {
     required: true,
@@ -105,7 +105,7 @@ export const GlossForm = ({
     const statusChange = initialStatus !== newStatus;
 
     try {
-      let savedConcept: IConceptDTO;
+      let savedConcept: ConceptDTO;
       if ("onCreate" in upsertProps) {
         savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses, "gloss"));
         savedConcept = newStatus ? await upsertProps.onUpdateStatus(savedConcept.id, newStatus) : savedConcept;

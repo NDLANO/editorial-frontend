@@ -7,11 +7,11 @@
  */
 
 import {
-  IGrepSearchInputDTO,
-  IGrepSearchResultsDTO,
-  IMultiSearchResultDTO,
-  ISubjectAggregationsDTO,
-  ISubjectAggsInputDTO,
+  GrepSearchInputDTO,
+  GrepSearchResultsDTO,
+  MultiSearchResultDTO,
+  SubjectAggregationsDTO,
+  SubjectAggsInputDTO,
   openapi,
 } from "@ndla/types-backend/search-api";
 import { createAuthClient } from "../../util/apiHelpers";
@@ -35,7 +35,7 @@ export const postSearch = async (body: StringSort<NoNodeDraftSearchParams>): Pro
   return convertSearchTypeOrThrowError(response);
 };
 
-export const convertSearchTypeOrThrowError = (result: IMultiSearchResultDTO): MultiSummarySearchResults => {
+export const convertSearchTypeOrThrowError = (result: MultiSearchResultDTO): MultiSummarySearchResults => {
   const wrongType = result.results.find((result) => {
     return result.typename !== "MultiSearchSummaryDTO";
   });
@@ -65,12 +65,12 @@ export const searchResources = async (body: NoNodeSearchParams): Promise<MultiSu
   return convertSearchTypeOrThrowError(response);
 };
 
-export const searchSubjectStats = async (body: ISubjectAggsInputDTO): Promise<ISubjectAggregationsDTO> =>
+export const searchSubjectStats = async (body: SubjectAggsInputDTO): Promise<SubjectAggregationsDTO> =>
   client
     .POST("/search-api/v1/search/subjects", {
       body: transformSearchBody(body),
     })
     .then(resolveJsonOATS);
 
-export const searchGrepCodes = async (body: IGrepSearchInputDTO): Promise<IGrepSearchResultsDTO> =>
+export const searchGrepCodes = async (body: GrepSearchInputDTO): Promise<GrepSearchResultsDTO> =>
   client.POST("/search-api/v1/search/grep", { body }).then(resolveJsonOATS);

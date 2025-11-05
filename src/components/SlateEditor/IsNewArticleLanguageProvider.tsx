@@ -7,13 +7,13 @@
  */
 
 import { ReactNode, createContext, useContext } from "react";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleDTO } from "@ndla/types-backend/draft-api";
 
 const IsNewArticleLanguageContext = createContext<boolean>(false);
 
 interface Props {
   locale: string;
-  article?: IArticleDTO;
+  article?: ArticleDTO;
   children?: ReactNode;
 }
 
@@ -27,6 +27,6 @@ export const useIsNewArticleLanguage = () => {
   return context;
 };
 
-export const isNewArticleLanguage = (locale: string, article?: IArticleDTO) => {
+export const isNewArticleLanguage = (locale: string, article?: ArticleDTO) => {
   return !article?.supportedLanguages.includes(locale);
 };

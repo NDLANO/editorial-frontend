@@ -10,7 +10,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PencilFill } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
-import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { STORED_PAGE_SIZE_LAST_UPDATED, STORED_SORT_OPTION_LAST_USED } from "../../../constants";
 import { useLocalStoragePageSizeState, useLocalStorageSortOptionState } from "../hooks/storedFilterHooks";
 import { SortOptionLastUsed } from "../types";
@@ -25,7 +25,7 @@ import PageSizeSelect from "./worklist/PageSizeSelect";
 import Pagination from "../../../components/abstractions/Pagination";
 
 interface Props {
-  data: IMultiSearchSummaryDTO[];
+  data: MultiSearchSummaryDTO[];
   isLoading: boolean;
   error: string | undefined;
   titles: TitleElement<SortOptionLastUsed>[];

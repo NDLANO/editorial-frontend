@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { ImageSearch as BaseImageSearch, ImageSearchProps } from "@ndla/image-search";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ISearchParamsDTO } from "@ndla/types-backend/image-api";
+import { SearchParamsDTO } from "@ndla/types-backend/image-api";
 import { useImageSearchTranslations } from "@ndla/ui";
 import config from "../config";
 import { onError, postSearchImages } from "../modules/image/imageApi";
@@ -23,7 +23,7 @@ const StyledText = styled(Text, {
 
 interface Props extends Partial<ImageSearchProps> {
   onImageSelect: ImageSearchProps["onImageSelect"];
-  searchParams?: ISearchParamsDTO;
+  searchParams?: SearchParamsDTO;
 }
 
 export const ImageSearch = ({ searchParams = {}, locale, ...props }: Props) => {

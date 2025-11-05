@@ -7,7 +7,7 @@
  */
 
 import { FormikContextType } from "formik";
-import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { ImageEmbedData } from "@ndla/types-embed";
 import { ArticleFormType } from "./articleFormHooks";
 import { defaultEmbedBlock } from "../../components/SlateEditor/plugins/embed/utils";
@@ -17,7 +17,7 @@ import { postSearchConcepts } from "../../modules/concept/conceptApi";
 import { PUBLISHED } from "../../constants";
 
 export const onSaveAsVisualElement = <T extends ArticleFormType>(
-  image: IImageMetaInformationV3DTO,
+  image: ImageMetaInformationV3DTO,
   formikContext: FormikContextType<ConceptFormValues> | FormikContextType<T>,
 ) => {
   const { setFieldValue, setFieldTouched } = formikContext;

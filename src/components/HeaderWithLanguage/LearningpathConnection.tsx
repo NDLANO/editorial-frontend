@@ -18,7 +18,7 @@ import {
   DialogTrigger,
   IconButton,
 } from "@ndla/primitives";
-import { ILearningPathSummaryV2DTO } from "@ndla/types-backend/learningpath-api";
+import { LearningPathSummaryV2DTO } from "@ndla/types-backend/learningpath-api";
 import { fetchLearningpathsWithArticle } from "../../modules/learningpath/learningpathApi";
 import { routes } from "../../util/routeHelpers";
 import { DialogCloseButton } from "../DialogCloseButton";
@@ -26,8 +26,8 @@ import ListResource from "../Form/ListResource";
 
 interface Props {
   id?: number;
-  learningpaths: ILearningPathSummaryV2DTO[];
-  setLearningpaths: (lps: ILearningPathSummaryV2DTO[]) => void;
+  learningpaths: LearningPathSummaryV2DTO[];
+  setLearningpaths: (lps: LearningPathSummaryV2DTO[]) => void;
 }
 
 const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) => {

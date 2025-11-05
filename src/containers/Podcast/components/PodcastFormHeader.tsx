@@ -9,9 +9,9 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Badge } from "@ndla/primitives";
-import { IAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
-import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
-import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
+import { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import EmbedConnection from "../../../components/HeaderWithLanguage/EmbedInformation/EmbedConnection";
 import HeaderActions from "../../../components/HeaderWithLanguage/HeaderActions";
 import { HeaderCurrentLanguagePill } from "../../../components/HeaderWithLanguage/HeaderCurrentLanguagePill";
@@ -24,7 +24,7 @@ import {
 } from "../../FormHeader/FormHeader";
 
 interface Props {
-  audio: IAudioMetaInformationDTO | undefined;
+  audio: AudioMetaInformationDTO | undefined;
   language: string;
 }
 
@@ -32,8 +32,8 @@ export const PodcastFormHeader = ({ audio, language }: Props) => {
   const { t } = useTranslation();
   // true by default to disable language deletions until connections are retrieved.
   const [hasConnections, setHasConnections] = useState(true);
-  const [articles, setArticles] = useState<IMultiSearchSummaryDTO[]>([]);
-  const [concepts, setConcepts] = useState<IConceptSummaryDTO[]>([]);
+  const [articles, setArticles] = useState<MultiSearchSummaryDTO[]>([]);
+  const [concepts, setConcepts] = useState<ConceptSummaryDTO[]>([]);
 
   useEffect(() => {
     setHasConnections(!!articles.length || !!concepts.length);

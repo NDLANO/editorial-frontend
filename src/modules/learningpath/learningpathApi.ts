@@ -7,16 +7,16 @@
  */
 
 import {
-  ILearningPathSummaryV2DTO,
-  ILearningPathTagsSummaryDTO,
-  ILearningPathV2DTO,
-  ILearningStepV2DTO,
-  INewCopyLearningPathV2DTO,
-  INewLearningPathV2DTO,
-  INewLearningStepV2DTO,
-  ISearchResultV2DTO,
-  IUpdatedLearningPathV2DTO,
-  IUpdatedLearningStepV2DTO,
+  LearningPathSummaryV2DTO,
+  LearningPathTagsSummaryDTO,
+  LearningPathV2DTO,
+  LearningStepV2DTO,
+  NewCopyLearningPathV2DTO,
+  NewLearningPathV2DTO,
+  NewLearningStepV2DTO,
+  SearchResultV2DTO,
+  UpdatedLearningPathV2DTO,
+  UpdatedLearningStepV2DTO,
   openapi,
 } from "@ndla/types-backend/learningpath-api";
 import { CopyLearningPathBody, SearchBody } from "./learningpathApiInterfaces";
@@ -25,7 +25,7 @@ import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 
 const client = createAuthClient<openapi.paths>();
 
-export const fetchLearningpath = (id: number, locale?: string): Promise<ILearningPathV2DTO> =>
+export const fetchLearningpath = (id: number, locale?: string): Promise<LearningPathV2DTO> =>
   client
     .GET("/learningpath-api/v2/learningpaths/{learningpath_id}", {
       params: { path: { learningpath_id: id }, query: { language: locale, fallback: true } },
@@ -35,14 +35,14 @@ export const fetchLearningpath = (id: number, locale?: string): Promise<ILearnin
 export const fetchLearningpathTags = async (
   language?: string,
   fallback?: boolean,
-): Promise<ILearningPathTagsSummaryDTO> => {
+): Promise<LearningPathTagsSummaryDTO> => {
   const res = await client.GET("/learningpath-api/v2/learningpaths/tags", {
     params: { query: { language, fallback } },
   });
   return resolveJsonOATS(res);
 };
 
-export const fetchLearningpaths = (ids: number[], language?: string): Promise<ILearningPathV2DTO[]> =>
+export const fetchLearningpaths = (ids: number[], language?: string): Promise<LearningPathV2DTO[]> =>
   client
     .GET("/learningpath-api/v2/learningpaths/ids", {
       params: {
@@ -57,12 +57,12 @@ export const fetchLearningpaths = (ids: number[], language?: string): Promise<IL
     })
     .then(resolveJsonOATS);
 
-export const fetchLearningpathsWithArticle = (id: number): Promise<ILearningPathSummaryV2DTO[]> =>
+export const fetchLearningpathsWithArticle = (id: number): Promise<LearningPathSummaryV2DTO[]> =>
   client
     .GET("/learningpath-api/v2/learningpaths/contains-article/{article_id}", { params: { path: { article_id: id } } })
     .then(resolveJsonOATS);
 
-export const updateStatusLearningpath = (id: number, status: string, message?: string): Promise<ILearningPathV2DTO> =>
+export const updateStatusLearningpath = (id: number, status: string, message?: string): Promise<LearningPathV2DTO> =>
   client
     .PUT("/learningpath-api/v2/learningpaths/{learningpath_id}/status", {
       params: { path: { learningpath_id: id } },
@@ -70,14 +70,14 @@ export const updateStatusLearningpath = (id: number, status: string, message?: s
     })
     .then(resolveJsonOATS);
 
-export const updateLearningPathTaxonomy = (id: number, createIfMissing: boolean = false): Promise<ILearningPathV2DTO> =>
+export const updateLearningPathTaxonomy = (id: number, createIfMissing: boolean = false): Promise<LearningPathV2DTO> =>
   client
     .POST("/learningpath-api/v2/learningpaths/{learningpath_id}/update-taxonomy", {
       params: { path: { learningpath_id: id }, query: { "create-if-missing": createIfMissing } },
     })
     .then(resolveJsonOATS);
 
-export const learningpathSearch = async (query: SearchBody & { ids?: number[] }): Promise<ISearchResultV2DTO> => {
+export const learningpathSearch = async (query: SearchBody & { ids?: number[] }): Promise<SearchResultV2DTO> => {
   if (query.ids && query.ids.length === 0) {
     return {
       totalCount: 0,
@@ -91,7 +91,7 @@ export const learningpathSearch = async (query: SearchBody & { ids?: number[] })
   return client.POST("/learningpath-api/v2/learningpaths/search", { body: query }).then(resolveJsonOATS);
 };
 
-export const learningpathCopy = (id: number, query: CopyLearningPathBody): Promise<ILearningPathV2DTO> =>
+export const learningpathCopy = (id: number, query: CopyLearningPathBody): Promise<LearningPathV2DTO> =>
   client
     .POST("/learningpath-api/v2/learningpaths/{learningpath_id}/copy", {
       body: query,
@@ -99,7 +99,7 @@ export const learningpathCopy = (id: number, query: CopyLearningPathBody): Promi
     })
     .then(resolveJsonOATS);
 
-export const postLearningpath = async (learningpath: INewLearningPathV2DTO): Promise<ILearningPathV2DTO> => {
+export const postLearningpath = async (learningpath: NewLearningPathV2DTO): Promise<LearningPathV2DTO> => {
   const res = await client.POST("/learningpath-api/v2/learningpaths", {
     body: learningpath,
   });
@@ -108,8 +108,8 @@ export const postLearningpath = async (learningpath: INewLearningPathV2DTO): Pro
 
 export const patchLearningpath = async (
   id: number,
-  learningpath: IUpdatedLearningPathV2DTO,
-): Promise<ILearningPathV2DTO> => {
+  learningpath: UpdatedLearningPathV2DTO,
+): Promise<LearningPathV2DTO> => {
   const res = await client.PATCH("/learningpath-api/v2/learningpaths/{learningpath_id}", {
     body: learningpath,
     params: { path: { learningpath_id: id } },
@@ -124,7 +124,7 @@ export const deleteLearningpathLanguage = async (id: number, language: string): 
   return res.response.ok;
 };
 
-export const postLearningStep = async (id: number, step: INewLearningStepV2DTO): Promise<ILearningStepV2DTO> => {
+export const postLearningStep = async (id: number, step: NewLearningStepV2DTO): Promise<LearningStepV2DTO> => {
   const res = await client.POST("/learningpath-api/v2/learningpaths/{learningpath_id}/learningsteps", {
     body: step,
     params: { path: { learningpath_id: id } },
@@ -135,8 +135,8 @@ export const postLearningStep = async (id: number, step: INewLearningStepV2DTO):
 export const patchLearningStep = async (
   learningpathId: number,
   stepId: number,
-  step: IUpdatedLearningStepV2DTO,
-): Promise<ILearningStepV2DTO> => {
+  step: UpdatedLearningStepV2DTO,
+): Promise<LearningStepV2DTO> => {
   const res = await client.PATCH(
     "/learningpath-api/v2/learningpaths/{learningpath_id}/learningsteps/{learningstep_id}",
     {
@@ -176,8 +176,8 @@ export const putLearningpathStatus = async (learningpathId: number, status: stri
 
 export const postCopyLearningpath = async (
   learningpathId: number,
-  learningpath: INewCopyLearningPathV2DTO,
-): Promise<ILearningPathV2DTO> => {
+  learningpath: NewCopyLearningPathV2DTO,
+): Promise<LearningPathV2DTO> => {
   const res = await client.POST("/learningpath-api/v2/learningpaths/{learningpath_id}/copy", {
     params: { path: { learningpath_id: learningpathId } },
     body: learningpath,

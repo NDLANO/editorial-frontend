@@ -10,14 +10,14 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticleRevisionHistoryDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleRevisionHistoryDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
 import { FlatArticleKeys } from "./types";
 import { hasArticleFieldsChanged } from "../../../components/HeaderWithLanguage/util";
 import { PUBLISHED } from "../../../constants";
 
 interface PanelTitleProps {
   title: string;
-  article: IArticleDTO | undefined;
+  article: ArticleDTO | undefined;
   articleRevisionHistory: ArticleRevisionHistoryDTO | undefined;
   fieldsToIndicatedChangesFor: FlatArticleKeys[];
 }

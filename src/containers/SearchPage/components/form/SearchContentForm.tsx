@@ -11,7 +11,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldLabel, FieldRoot, FieldInput } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IUserDataDTO } from "@ndla/types-backend/draft-api";
+import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import CheckboxSelector from "./CheckboxSelector";
 import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
@@ -94,7 +94,7 @@ interface Props {
   subjects: Node[];
   searchObject: SearchParams;
   locale: string;
-  userData: IUserDataDTO | undefined;
+  userData: UserDataDTO | undefined;
 }
 
 const SearchContentForm = ({ search, searchObject, subjects, locale, userData }: Props) => {

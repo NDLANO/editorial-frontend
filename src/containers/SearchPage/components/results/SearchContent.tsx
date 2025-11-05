@@ -12,7 +12,7 @@ import { ErrorWarningFill, CheckLine, CodeView, GlobalLine, InfoI } from "@ndla/
 import { Badge, ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { constants } from "@ndla/ui";
 import SearchHighlight from "./SearchHighlight";
 import { SearchListItemImage } from "./SearchListItemImage";
@@ -24,12 +24,12 @@ import { isLearningpath, routes } from "../../../../util/routeHelpers";
 import { useSession } from "../../../Session/SessionProvider";
 
 interface Props {
-  content: IMultiSearchSummaryDTO;
+  content: MultiSearchSummaryDTO;
   locale: string;
   responsibleName?: string;
 }
 
-const SubjectBreadcrumb = ({ content }: { content: IMultiSearchSummaryDTO }) => {
+const SubjectBreadcrumb = ({ content }: { content: MultiSearchSummaryDTO }) => {
   const breadcrumbs = useMemo(() => {
     return content.contexts?.[0]?.breadcrumbs ?? [];
   }, [content.contexts]);

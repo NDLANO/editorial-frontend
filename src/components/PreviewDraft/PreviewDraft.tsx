@@ -7,8 +7,8 @@
  */
 
 import { useMemo } from "react";
-import { IArticleV2DTO } from "@ndla/types-backend/article-api";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleV2DTO } from "@ndla/types-backend/article-api";
+import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { TransformedPreviewDraft } from "./TransformedPreviewDraft";
 import "../DisplayEmbed/helpers/h5pResizer";
 import { FormArticle } from "./types";
@@ -23,7 +23,7 @@ interface BaseProps {
 
 interface PreviewArticleV2Props extends BaseProps {
   type: "article";
-  draft: IArticleDTO;
+  draft: ArticleDTO;
 }
 
 interface PreviewFormArticleV2Props extends BaseProps {
@@ -33,7 +33,7 @@ interface PreviewFormArticleV2Props extends BaseProps {
 
 type Props = PreviewArticleV2Props | PreviewFormArticleV2Props;
 
-export const toFormArticle = (article: IArticleDTO | IArticleV2DTO, language: string): FormArticle => {
+export const toFormArticle = (article: ArticleDTO | ArticleV2DTO, language: string): FormArticle => {
   return {
     id: article.id,
     articleType: article.articleType,

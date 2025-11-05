@@ -19,8 +19,8 @@ import {
   DialogTrigger,
   DialogContent,
 } from "@ndla/primitives";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
-import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { ArticleDTO } from "@ndla/types-backend/draft-api";
+import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import GrepCodesForm from "./GrepCodesForm";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { useUpdateDraftMutation } from "../../../modules/draft/draftMutations";
@@ -105,7 +105,7 @@ const GrepCodeDialogContent = ({
           learningpath: { revision: updateLearningpath.data?.revision ?? revision, grepCodes, language: i18n.language },
         });
         qc.cancelQueries({ queryKey });
-        qc.setQueryData<ILearningPathV2DTO>(queryKey, data);
+        qc.setQueryData<LearningPathV2DTO>(queryKey, data);
         qc.invalidateQueries({ queryKey });
         qc.setQueriesData<NodeResourceMeta[]>({ queryKey: nodeKey }, (data) =>
           data?.map((meta) => (meta.contentUri === contentUri ? { ...meta, grepCodes } : meta)),
@@ -117,7 +117,7 @@ const GrepCodeDialogContent = ({
           body: { grepCodes, revision: updateDraft.data?.revision ?? revision },
         });
         qc.cancelQueries({ queryKey });
-        qc.setQueryData<IArticleDTO>(queryKey, data);
+        qc.setQueryData<ArticleDTO>(queryKey, data);
         qc.invalidateQueries({ queryKey });
         qc.setQueriesData<NodeResourceMeta[]>({ queryKey: nodeKey }, (data) =>
           data?.map((meta) => (meta.contentUri === contentUri ? { ...meta, grepCodes } : meta)),

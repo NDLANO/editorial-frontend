@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FileListLine } from "@ndla/icons";
 import { Button, FieldErrorMessage, FieldRoot } from "@ndla/primitives";
-import { IAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
+import { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../components/Form/FieldWarning";
 import { FormField } from "../../../components/FormField";
@@ -44,7 +44,7 @@ import { inlineContentToEditorValue } from "../../../util/articleContentConverte
 import { useMessages } from "../../Messages/MessagesProvider";
 
 interface AudioManuscriptProps {
-  audio?: IAudioMetaInformationDTO;
+  audio?: AudioMetaInformationDTO;
   audioLanguage?: string;
 }
 

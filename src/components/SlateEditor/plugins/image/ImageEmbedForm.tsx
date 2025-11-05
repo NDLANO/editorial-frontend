@@ -24,7 +24,7 @@ import {
   FieldTextArea,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { ImageEmbedData } from "@ndla/types-embed";
 import { ImageEmbedFormValues } from "./types";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
@@ -41,7 +41,7 @@ import ImageEditor from "./ImageEditor/ImageEditor";
 
 interface Props {
   embed: ImageEmbedData;
-  image?: IImageMetaInformationV3DTO;
+  image?: ImageMetaInformationV3DTO;
   onSave: (data: ImageEmbedData) => void;
   onClose: () => void;
   language: string;

@@ -6,7 +6,7 @@
  *
  */
 
-import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { Node, NodeType, TaxonomyContext, Version } from "@ndla/types-taxonomy";
 import { TaxonomyBlock } from "../../../components/Taxonomy/TaxonomyBlock";
 import { TaxonomyConnections } from "../../../components/Taxonomy/TaxonomyConnections";
@@ -17,7 +17,7 @@ import { useSession } from "../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
-  learningpath: ILearningPathV2DTO;
+  learningpath: LearningPathV2DTO;
   nodes: Node[] | undefined;
   versions: Version[] | undefined;
   resourceLanguage: string;

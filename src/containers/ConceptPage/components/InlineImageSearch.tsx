@@ -10,7 +10,7 @@ import { useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldsetLegend, FieldsetRoot } from "@ndla/primitives";
-import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { ImageSearch } from "../../../components/ImageSearch";
 import { LocaleType } from "../../../interfaces";
 import { fetchImage } from "../../../modules/image/imageApi";
@@ -30,7 +30,7 @@ interface Props {
 const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
   const { t, i18n } = useTranslation();
   const { setFieldValue, values, setFieldTouched } = useFormikContext<MetaImageFormValues>();
-  const [image, setImage] = useState<IImageMetaInformationV3DTO | undefined>();
+  const [image, setImage] = useState<ImageMetaInformationV3DTO | undefined>();
   const locale: LocaleType = i18n.language;
   const fetchImageWithLocale = (id: number) => fetchImage(id, locale);
 

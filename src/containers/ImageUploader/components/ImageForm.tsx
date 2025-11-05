@@ -13,9 +13,9 @@ import { useLocation, useNavigate } from "react-router";
 import { Button, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import {
-  IImageMetaInformationV3DTO,
-  INewImageMetaInformationV2DTO,
-  IUpdateImageMetaInformationDTO,
+  ImageMetaInformationV3DTO,
+  NewImageMetaInformationV2DTO,
+  UpdateImageMetaInformationDTO,
 } from "@ndla/types-backend/image-api";
 import ImageContent from "./ImageContent";
 import ImageCopyright from "./ImageCopyright";
@@ -48,7 +48,7 @@ const StyledPageContent = styled(PageContent, {
   },
 });
 
-const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3DTO> = {
+const imageRules: RulesType<ImageFormikType, ImageMetaInformationV3DTO> = {
   title: {
     required: true,
     warnings: {
@@ -94,10 +94,10 @@ const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3DTO> = {
   },
 };
 
-interface Props<TImage extends IImageMetaInformationV3DTO | undefined = undefined> {
+interface Props<TImage extends ImageMetaInformationV3DTO | undefined = undefined> {
   image?: TImage;
   onSubmitFunc: (
-    imageMetadata: TImage extends undefined ? INewImageMetaInformationV2DTO : IUpdateImageMetaInformationDTO,
+    imageMetadata: TImage extends undefined ? NewImageMetaInformationV2DTO : UpdateImageMetaInformationDTO,
     image: string | Blob,
   ) => void;
   inDialog?: boolean;
@@ -119,7 +119,7 @@ export type ImageFormErrorFields =
   | "tags"
   | "title";
 
-const ImageForm = <TImage extends IImageMetaInformationV3DTO | undefined = undefined>({
+const ImageForm = <TImage extends ImageMetaInformationV3DTO | undefined = undefined>({
   onSubmitFunc,
   image,
   inDialog,
@@ -162,7 +162,7 @@ const ImageForm = <TImage extends IImageMetaInformationV3DTO | undefined = undef
     }
 
     actions.setSubmitting(true);
-    const imageMetaData: INewImageMetaInformationV2DTO & IUpdateImageMetaInformationDTO = {
+    const imageMetaData: NewImageMetaInformationV2DTO & UpdateImageMetaInformationDTO = {
       title: editorValueToPlainText(values.title),
       alttext: values.alttext,
       caption: values.caption,

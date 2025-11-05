@@ -10,14 +10,14 @@ import { useTranslation } from "react-i18next";
 import { RssLine } from "@ndla/icons";
 import { Badge } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
-import { ISeriesDTO } from "@ndla/types-backend/audio-api";
+import { SeriesDTO } from "@ndla/types-backend/audio-api";
 import HeaderActions from "../../../components/HeaderWithLanguage/HeaderActions";
 import { HeaderCurrentLanguagePill } from "../../../components/HeaderWithLanguage/HeaderCurrentLanguagePill";
 import config from "../../../config";
 import { FormHeaderHeading, FormHeaderHeadingContainer, FormHeaderSegment } from "../../FormHeader/FormHeader";
 
 interface Props {
-  series: ISeriesDTO | undefined;
+  series: SeriesDTO | undefined;
   language: string;
 }
 

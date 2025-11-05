@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
-import { ILearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ExternalFormValues } from "./types";
 import { FormField } from "../../../components/FormField";
 import { RulesType } from "../../../components/formikValidationSchema";
@@ -22,7 +22,7 @@ import { LearningpathTextEditor } from "../components/LearningpathTextEditor";
 import { getFormTypeFromStep } from "../learningpathUtils";
 
 interface Props {
-  step: ILearningStepV2DTO | undefined;
+  step: LearningStepV2DTO | undefined;
   language: string | undefined;
 }
 

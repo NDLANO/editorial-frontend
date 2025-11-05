@@ -7,7 +7,7 @@
  */
 
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
-import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import {
   AudioMeta,
   BrightcoveData,
@@ -51,9 +51,9 @@ export const useAudioMeta = (resourceId: string, language: string, options?: Par
 export const useImageMeta = (
   resourceId: string,
   language: string,
-  options?: Partial<UseQueryOptions<IImageMetaInformationV3DTO>>,
+  options?: Partial<UseQueryOptions<ImageMetaInformationV3DTO>>,
 ) => {
-  return useQuery<IImageMetaInformationV3DTO>({
+  return useQuery<ImageMetaInformationV3DTO>({
     queryKey: [IMAGE_EMBED, resourceId, language],
     queryFn: () => fetchImage(resourceId, language),
     ...options,

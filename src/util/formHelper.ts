@@ -10,7 +10,7 @@ import { isEqual } from "lodash-es";
 import { Descendant, Node } from "slate";
 import { isElementOfType } from "@ndla/editor";
 import { licenses } from "@ndla/licenses";
-import { IArticleDTO, ILicenseDTO, IArticleMetaImageDTO } from "@ndla/types-backend/draft-api";
+import { ArticleDTO, LicenseDTO, ArticleMetaImageDTO } from "@ndla/types-backend/draft-api";
 import { blockContentToHTML, inlineContentToEditorValue } from "./articleContentConverter";
 import { isGrepCodeValid } from "./articleUtil";
 import { diffHTML } from "./diffHTML";
@@ -27,7 +27,7 @@ import { isImageElement } from "../components/SlateEditor/plugins/image/queries"
 import { IMAGE_ELEMENT_TYPE } from "../components/SlateEditor/plugins/image/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../components/SlateEditor/plugins/video/types";
 
-export const DEFAULT_LICENSE: ILicenseDTO = {
+export const DEFAULT_LICENSE: LicenseDTO = {
   description: "Creative Commons Attribution-ShareAlike 4.0 International",
   license: licenses.CC_BY_SA_4,
   url: "https://creativecommons.org/licenses/by-sa/4.0/",
@@ -82,7 +82,7 @@ export const isFormikFormDirty = <T extends FormikFields>({
   return dirtyFields.length > 0 || changed;
 };
 
-export const formikCommonArticleRules: RulesType<ArticleFormType, IArticleDTO> = {
+export const formikCommonArticleRules: RulesType<ArticleFormType, ArticleDTO> = {
   title: {
     required: true,
     maxLength: 256,
@@ -203,7 +203,7 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticleDTO> =
   },
 };
 
-export const learningResourceRules: RulesType<LearningResourceFormType, IArticleDTO> = {
+export const learningResourceRules: RulesType<LearningResourceFormType, ArticleDTO> = {
   ...formikCommonArticleRules,
   metaImageAlt: {
     required: true,
@@ -241,7 +241,7 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
   },
 };
 
-export const frontPageArticleRules: RulesType<FrontpageArticleFormType, IArticleDTO> = {
+export const frontPageArticleRules: RulesType<FrontpageArticleFormType, ArticleDTO> = {
   ...learningResourceRules,
   slug: {
     required: true,
@@ -256,7 +256,7 @@ export const frontPageArticleRules: RulesType<FrontpageArticleFormType, IArticle
   },
 };
 
-export const topicArticleRules: RulesType<TopicArticleFormType, IArticleDTO> = {
+export const topicArticleRules: RulesType<TopicArticleFormType, ArticleDTO> = {
   ...formikCommonArticleRules,
   visualElementAlt: {
     required: false,
@@ -295,7 +295,7 @@ export const topicArticleRules: RulesType<TopicArticleFormType, IArticleDTO> = {
   },
 };
 
-export const parseImageUrl = (metaImage?: IArticleMetaImageDTO) => {
+export const parseImageUrl = (metaImage?: ArticleMetaImageDTO) => {
   if (!metaImage || !metaImage.url || metaImage.url.length === 0) {
     return "";
   }

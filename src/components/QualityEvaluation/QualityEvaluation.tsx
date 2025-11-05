@@ -10,7 +10,7 @@ import { FieldHelperProps, FieldInputProps } from "formik";
 import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticleDTO, IUpdatedArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import QualityEvaluationDialog from "./QualityEvaluationDialog";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
@@ -26,11 +26,11 @@ const FlexWrapper = styled("div", {
 
 interface Props {
   articleType?: string;
-  article?: IArticleDTO;
+  article?: ArticleDTO;
   taxonomy?: Node[];
   revisionMetaField?: FieldInputProps<ArticleFormType["revisionMeta"]>;
   revisionMetaHelpers?: FieldHelperProps<ArticleFormType["revisionMeta"]>;
-  updateNotes?: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
+  updateNotes?: (art: UpdatedArticleDTO) => Promise<ArticleDTO>;
 }
 
 const QualityEvaluation = ({

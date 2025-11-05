@@ -10,7 +10,7 @@ import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { PageContent } from "@ndla/primitives";
-import { IUpdatedConceptDTO } from "@ndla/types-backend/concept-api";
+import { UpdatedConceptDTO } from "@ndla/types-backend/concept-api";
 import { GlossForm } from "./components/GlossForm";
 import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
@@ -59,7 +59,7 @@ const EditGloss = () => {
   const { shouldTranslate, translate, translating, translatedFields } = useTranslateToNN();
 
   const onUpdate = useCallback(
-    (concept: IUpdatedConceptDTO) => {
+    (concept: UpdatedConceptDTO) => {
       return updateConcept(conceptId, concept);
     },
     [conceptId, updateConcept],

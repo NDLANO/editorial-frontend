@@ -6,17 +6,17 @@
  *
  */
 
-import { IArticleSearchParamsDTO } from "@ndla/types-backend/article-api";
+import { ArticleSearchParamsDTO } from "@ndla/types-backend/article-api";
 import {
-  ILicenseDTO,
-  INewArticleDTO,
-  IUpdatedArticleDTO,
-  IArticleDTO,
-  ITagsSearchResultDTO,
-  IUserDataDTO,
+  LicenseDTO,
+  NewArticleDTO,
+  UpdatedArticleDTO,
+  ArticleDTO,
+  TagsSearchResultDTO,
+  UserDataDTO,
   ArticleSearchResultDTO,
-  IUpdatedUserDataDTO,
-  IUploadedFileDTO,
+  UpdatedUserDataDTO,
+  UploadedFileDTO,
   openapi,
   ArticleRevisionHistoryDTO,
 } from "@ndla/types-backend/draft-api";
@@ -27,7 +27,7 @@ import { createFormData } from "../../util/formDataHelper";
 
 const client = createAuthClient<openapi.paths>();
 
-export const fetchDraft = async (id: number, language?: string): Promise<IArticleDTO> => {
+export const fetchDraft = async (id: number, language?: string): Promise<ArticleDTO> => {
   return client
     .GET("/draft-api/v1/drafts/{article_id}", {
       params: {
@@ -38,7 +38,7 @@ export const fetchDraft = async (id: number, language?: string): Promise<IArticl
     .then((r) => resolveJsonOATS(r));
 };
 
-export const fetchBySlug = async (slug: string, language?: string): Promise<IArticleDTO> => {
+export const fetchBySlug = async (slug: string, language?: string): Promise<ArticleDTO> => {
   return client
     .GET("/draft-api/v1/drafts/slug/{slug}", {
       params: {
@@ -49,7 +49,7 @@ export const fetchBySlug = async (slug: string, language?: string): Promise<IArt
     .then((r) => resolveJsonOATS(r));
 };
 
-export const fetchDrafts = async (ids: number[], language?: string): Promise<IArticleDTO[]> =>
+export const fetchDrafts = async (ids: number[], language?: string): Promise<ArticleDTO[]> =>
   client
     .GET("/draft-api/v1/drafts/ids", {
       params: {
@@ -64,11 +64,7 @@ export const fetchDrafts = async (ids: number[], language?: string): Promise<IAr
     })
     .then((r) => resolveJsonOATS(r));
 
-export const updateDraft = async (
-  id: number,
-  draft: IUpdatedArticleDTO,
-  versionHash = "default",
-): Promise<IArticleDTO> =>
+export const updateDraft = async (id: number, draft: UpdatedArticleDTO, versionHash = "default"): Promise<ArticleDTO> =>
   client
     .PATCH("/draft-api/v1/drafts/{article_id}", {
       params: { path: { article_id: id } },
@@ -77,17 +73,17 @@ export const updateDraft = async (
     })
     .then((r) => resolveJsonOATS(r));
 
-export const createDraft = async (draft: INewArticleDTO): Promise<IArticleDTO> =>
+export const createDraft = async (draft: NewArticleDTO): Promise<ArticleDTO> =>
   client.POST("/draft-api/v1/drafts", { body: draft }).then((r) => resolveJsonOATS(r));
 
-export const searchDrafts = async (query: IArticleSearchParamsDTO): Promise<ArticleSearchResultDTO> =>
+export const searchDrafts = async (query: ArticleSearchParamsDTO): Promise<ArticleSearchResultDTO> =>
   client.POST("/draft-api/v1/drafts/search", { body: query }).then((r) => resolveJsonOATS(r));
 
 export const cloneDraft = async (
   id: number,
   language?: string,
   addCopyPostfixToArticleTitle: boolean = true,
-): Promise<IArticleDTO> =>
+): Promise<ArticleDTO> =>
   client
     .POST("/draft-api/v1/drafts/clone/{article_id}", {
       params: {
@@ -111,7 +107,7 @@ export const fetchArticleRevisionHistory = async (id: number, language?: string)
     })
     .then((r) => resolveJsonOATS(r));
 
-export const deleteLanguageVersion = async (id: number, language: string): Promise<IArticleDTO> =>
+export const deleteLanguageVersion = async (id: number, language: string): Promise<ArticleDTO> =>
   client
     .DELETE("/draft-api/v1/drafts/{article_id}/language/{language}", {
       params: { path: { article_id: id, language } },
@@ -126,7 +122,7 @@ export const fetchNewArticleId = async (id: number): Promise<{ id: number }> => 
     .then((r) => resolveJsonOATS(r));
 };
 
-export const validateDraft = async (id: number, draft: IUpdatedArticleDTO): Promise<{ id: number }> =>
+export const validateDraft = async (id: number, draft: UpdatedArticleDTO): Promise<{ id: number }> =>
   client
     .PUT("/draft-api/v1/drafts/{article_id}/validate", {
       body: draft,
@@ -134,14 +130,14 @@ export const validateDraft = async (id: number, draft: IUpdatedArticleDTO): Prom
     })
     .then((r) => resolveJsonOATS(r));
 
-export const updateStatusDraft = async (id: number, status: DraftStatusType): Promise<IArticleDTO> =>
+export const updateStatusDraft = async (id: number, status: DraftStatusType): Promise<ArticleDTO> =>
   client
     .PUT("/draft-api/v1/drafts/{article_id}/status/{STATUS}", {
       params: { path: { article_id: id, STATUS: status } },
     })
     .then((r) => resolveJsonOATS(r));
 
-export const fetchSearchTags = async (input: string, language: string): Promise<ITagsSearchResultDTO> =>
+export const fetchSearchTags = async (input: string, language: string): Promise<TagsSearchResultDTO> =>
   client
     .GET("/draft-api/v1/drafts/tag-search", {
       params: {
@@ -154,13 +150,13 @@ export const fetchSearchTags = async (input: string, language: string): Promise<
     })
     .then((r) => resolveJsonOATS(r));
 
-export const fetchLicenses = async (): Promise<ILicenseDTO[]> =>
+export const fetchLicenses = async (): Promise<LicenseDTO[]> =>
   client.GET("/draft-api/v1/drafts/licenses").then((r) => resolveJsonOATS(r));
 
-export const fetchUserData = async (): Promise<IUserDataDTO> =>
+export const fetchUserData = async (): Promise<UserDataDTO> =>
   client.GET("/draft-api/v1/user-data").then((r) => resolveJsonOATS(r));
 
-export const updateUserData = async (userData: IUpdatedUserDataDTO): Promise<IUserDataDTO> =>
+export const updateUserData = async (userData: UpdatedUserDataDTO): Promise<UserDataDTO> =>
   client.PATCH("/draft-api/v1/user-data", { body: userData }).then((r) => resolveJsonOATS(r));
 
 export const fetchStatusStateMachine = async (id?: number): Promise<DraftStatusStateMachineType> =>
@@ -184,7 +180,7 @@ export const headFileAtRemote = async (fileUrl: string): Promise<boolean> => {
   return res.status === 200;
 };
 
-export const uploadFile = async (file: Blob): Promise<IUploadedFileDTO> =>
+export const uploadFile = async (file: Blob): Promise<UploadedFileDTO> =>
   client
     .POST("/draft-api/v1/files", {
       body: { file },

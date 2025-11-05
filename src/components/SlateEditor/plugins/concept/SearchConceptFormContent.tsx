@@ -10,7 +10,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IUserDataDTO } from "@ndla/types-backend/draft-api";
+import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { CONCEPT_RESPONSIBLE } from "../../../../constants";
 import { OnFieldChangeFunction, SearchParams } from "../../../../interfaces";
 import { useAuth0Editors, useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
@@ -38,7 +38,7 @@ interface Props {
   search: (o: SearchParams) => void;
   searchObject: SearchParams;
   locale: string;
-  userData: IUserDataDTO | undefined;
+  userData: UserDataDTO | undefined;
 }
 
 const SearchConceptFormContent = ({ search, searchObject, userData }: Props) => {

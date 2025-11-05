@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DeleteBinLine, EyeFill, ResetLeft } from "@ndla/icons";
 import { Button, IconButton, Text } from "@ndla/primitives";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { AlertDialog } from "../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../../components/FormikForm";
 import { PreviewResourceDialog } from "../../components/PreviewDraft/PreviewResourceDialog";
@@ -18,9 +18,9 @@ import { useDeleteCurrentRevision } from "../../modules/draft/draftMutations";
 
 interface Props {
   showFromArticleApi: boolean;
-  article: IArticleDTO;
-  resetVersion: (version: IArticleDTO, language: string, showFromArticleApi: boolean) => Promise<void>;
-  version: IArticleDTO;
+  article: ArticleDTO;
+  resetVersion: (version: ArticleDTO, language: string, showFromArticleApi: boolean) => Promise<void>;
+  version: ArticleDTO;
   current: boolean;
   currentLanguage: string;
   canDeleteCurrentRevision: boolean;

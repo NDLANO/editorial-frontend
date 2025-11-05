@@ -8,7 +8,7 @@
 
 import queryString from "query-string";
 import { licenses, contributorGroups, contributorTypes, getLicenseByNBTitle } from "@ndla/licenses";
-import { ICopyrightDTO, AuthorDTO } from "@ndla/types-backend/article-api";
+import { CopyrightDTO, AuthorDTO } from "@ndla/types-backend/article-api";
 import { BrightcoveApiType, BrightcoveCopyright, BrightcoveVideoSource } from "@ndla/types-embed";
 import config from "../../config";
 import {
@@ -111,7 +111,7 @@ const parseContributorsString = (contributorString: string) => {
   return { type: contributorType || "", name };
 };
 
-type CopyrightType = Pick<ICopyrightDTO, "creators" | "processors" | "rightsholders">;
+type CopyrightType = Pick<CopyrightDTO, "creators" | "processors" | "rightsholders">;
 
 const objectKeys = Object.keys(contributorGroups) as Array<keyof typeof contributorGroups>;
 

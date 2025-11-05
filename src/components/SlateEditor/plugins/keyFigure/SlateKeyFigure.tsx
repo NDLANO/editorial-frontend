@@ -21,7 +21,7 @@ import {
   DialogTrigger,
   IconButton,
 } from "@ndla/primitives";
-import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { KeyFigureEmbedData } from "@ndla/types-embed";
 import { EmbedWrapper, KeyFigure } from "@ndla/ui";
 import KeyFigureForm from "./KeyFigureForm";
@@ -37,7 +37,7 @@ interface Props extends RenderElementProps {
 
 const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
   const [isEditing, setIsEditing] = useState<boolean | undefined>(false);
-  const [image, setImage] = useState<IImageMetaInformationV3DTO | undefined>(undefined);
+  const [image, setImage] = useState<ImageMetaInformationV3DTO | undefined>(undefined);
   const { t } = useTranslation();
 
   useEffect(() => {

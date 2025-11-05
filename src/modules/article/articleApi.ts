@@ -6,7 +6,7 @@
  *
  */
 
-import { IArticleV2DTO, ISearchResultV2DTO, openapi } from "@ndla/types-backend/article-api";
+import { ArticleV2DTO, SearchResultV2DTO, openapi } from "@ndla/types-backend/article-api";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 
@@ -23,7 +23,7 @@ export interface ArticleSearchParams {
   sort?: string;
 }
 
-export const searchArticles = (params?: ArticleSearchParams): Promise<ISearchResultV2DTO> =>
+export const searchArticles = (params?: ArticleSearchParams): Promise<SearchResultV2DTO> =>
   client
     .GET("/article-api/v2/articles", {
       params: {
@@ -32,7 +32,7 @@ export const searchArticles = (params?: ArticleSearchParams): Promise<ISearchRes
     })
     .then((r) => resolveJsonOATS(r));
 
-export const getArticle = (id: number, locale: string = "nb"): Promise<IArticleV2DTO> =>
+export const getArticle = (id: number, locale: string = "nb"): Promise<ArticleV2DTO> =>
   client
     .GET("/article-api/v2/articles/{article_id}", {
       params: {

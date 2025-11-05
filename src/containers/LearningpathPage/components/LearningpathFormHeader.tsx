@@ -13,7 +13,7 @@ import { useLocation, useNavigate } from "react-router";
 import { ErrorWarningFill } from "@ndla/icons";
 import { Badge, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import DeleteLanguageVersion from "../../../components/HeaderWithLanguage/DeleteLanguageVersion";
 import { HeaderCurrentLanguagePill } from "../../../components/HeaderWithLanguage/HeaderCurrentLanguagePill";
 import HeaderFavoriteStatus from "../../../components/HeaderWithLanguage/HeaderFavoriteStatus";
@@ -39,7 +39,7 @@ import { useMessages } from "../../Messages/MessagesProvider";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
-  learningpath: ILearningPathV2DTO | undefined;
+  learningpath: LearningPathV2DTO | undefined;
   language: string;
 }
 

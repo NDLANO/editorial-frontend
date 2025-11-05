@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { PageContent } from "@ndla/primitives";
-import { INewAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
+import { NewAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import PodcastForm from "./components/PodcastForm";
 import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { postAudio } from "../../modules/audio/audioApi";
@@ -33,7 +33,7 @@ const CreatePodcast = () => {
   const locale = i18n.language;
   const navigate = useNavigate();
 
-  const onCreatePodcast = async (newPodcast: INewAudioMetaInformationDTO, podcastFile: string | Blob | undefined) => {
+  const onCreatePodcast = async (newPodcast: NewAudioMetaInformationDTO, podcastFile: string | Blob | undefined) => {
     if (podcastFile instanceof Blob) {
       const createdPodcast = await postAudio(newPodcast, podcastFile);
       navigate(toEditPodcast(createdPodcast.id, newPodcast.language), { state: { isNewlyCreated: true } });

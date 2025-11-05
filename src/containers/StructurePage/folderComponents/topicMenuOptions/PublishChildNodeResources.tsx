@@ -14,7 +14,7 @@ import { ErrorWarningLine, CheckLine } from "@ndla/icons";
 import { Button, Heading, MessageBox, Spinner, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { Node } from "@ndla/types-taxonomy";
 import { PUBLISHED } from "../../../../constants";
@@ -101,7 +101,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
     });
     const draftIds = draftResources.map((res) => Number(res.contentUri!.split(":")[2]));
     const learningpathIds = learningpathResources.map((res) => Number(res.contentUri!.split(":")[2]));
-    const [drafts, learningpaths]: [IArticleDTO[], ILearningPathV2DTO[]] = await Promise.all([
+    const [drafts, learningpaths]: [ArticleDTO[], ILearningPathV2DTO[]] = await Promise.all([
       fetchDrafts(draftIds),
       fetchLearningpaths(learningpathIds),
     ]);

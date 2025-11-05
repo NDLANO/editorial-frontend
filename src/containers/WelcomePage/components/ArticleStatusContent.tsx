@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { BookOpenLine } from "@ndla/icons";
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { IMultiSearchResultDTO } from "@ndla/types-backend/search-api";
+import { MultiSearchResultDTO } from "@ndla/types-backend/search-api";
 import TableComponent, { FieldElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import SubjectCombobox from "./worklist/SubjectCombobox";
@@ -25,8 +25,8 @@ const EXCLUDE_STATUSES = [PUBLISHED, UNPUBLISHED, ARCHIVED];
 
 // Function to combine results from two aggregations into one sorted result array
 const getResultAggregationList = (
-  searchResult: IMultiSearchResultDTO | undefined,
-  responibleSearchResult: IMultiSearchResultDTO | undefined,
+  searchResult: MultiSearchResultDTO | undefined,
+  responibleSearchResult: MultiSearchResultDTO | undefined,
 ) => {
   const aggData = searchResult?.aggregations.find((a) => a.field === "draftStatus.current");
   const aggDataExcludeStatuses = aggData?.values.filter((v) => !EXCLUDE_STATUSES.includes(v.value)) ?? [];

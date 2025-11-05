@@ -12,9 +12,9 @@ import { useTranslation } from "react-i18next";
 import { Draggable } from "@ndla/icons";
 import { ComboboxLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
-import { ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { ArticleDTO } from "@ndla/types-backend/draft-api";
+import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
@@ -35,7 +35,7 @@ const StyledList = styled("ul", {
 });
 
 interface Props {
-  editorsChoices: (IArticleDTO | ILearningPathV2DTO)[];
+  editorsChoices: (ArticleDTO | LearningPathV2DTO)[];
   elementId: string;
   fieldName: string;
 }
@@ -50,9 +50,9 @@ const getSubject = (elementId: string) => {
 const SubjectpageArticles = ({ editorsChoices, elementId, fieldName }: Props) => {
   const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
   const { i18n, t } = useTranslation();
-  const [resources, setResources] = useState<(IArticleDTO | ILearningPathV2DTO)[]>(editorsChoices);
+  const [resources, setResources] = useState<(ArticleDTO | LearningPathV2DTO)[]>(editorsChoices);
   const { setFieldTouched } = useFormikContext();
-  const [fieldInputProps] = useField<(IArticleDTO | ILearningPathV2DTO)[]>(fieldName);
+  const [fieldInputProps] = useField<(ArticleDTO | LearningPathV2DTO)[]>(fieldName);
   const subjectId = getSubject(elementId);
 
   const searchQuery = useSearchResources(
@@ -66,7 +66,7 @@ const SubjectpageArticles = ({ editorsChoices, elementId, fieldName }: Props) =>
     { placeholderData: (prev) => prev, enabled: !!subjectId },
   );
 
-  const onAddResultToList = async (result: IMultiSearchSummaryDTO) => {
+  const onAddResultToList = async (result: MultiSearchSummaryDTO) => {
     try {
       if (resources.some((r) => r.id === result.id)) {
         const newResources = resources.filter((r) => r.id !== result.id);
@@ -84,17 +84,17 @@ const SubjectpageArticles = ({ editorsChoices, elementId, fieldName }: Props) =>
     }
   };
 
-  const onUpdateElements = (articleList: (IArticleDTO | ILearningPathV2DTO)[]) => {
+  const onUpdateElements = (articleList: (ArticleDTO | LearningPathV2DTO)[]) => {
     setResources(articleList);
     updateFormik(articleList);
   };
 
-  const onDeleteElement = (elements: (IArticleDTO | ILearningPathV2DTO)[], deleteIndex: number) => {
+  const onDeleteElement = (elements: (ArticleDTO | LearningPathV2DTO)[], deleteIndex: number) => {
     const newElements = elements.filter((_, i) => i !== deleteIndex);
     onUpdateElements(newElements);
   };
 
-  const updateFormik = (newData: (IArticleDTO | ILearningPathV2DTO)[]) => {
+  const updateFormik = (newData: (ArticleDTO | LearningPathV2DTO)[]) => {
     setFieldTouched(fieldName, true, false);
     fieldInputProps.onChange({
       target: {

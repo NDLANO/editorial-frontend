@@ -11,7 +11,7 @@ import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult } from "@tanstack/react-query";
 import { Button } from "@ndla/primitives";
-import { IArticleDTO, IUpdatedArticleDTO, IStatusDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
+import { ArticleDTO, UpdatedArticleDTO, StatusDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import LearningResourcePanels from "./LearningResourcePanels";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
@@ -34,13 +34,13 @@ import {
 } from "../../articleTransformers";
 
 interface Props {
-  article?: IArticleDTO;
+  article?: ArticleDTO;
   articleRevisionHistory?: UseQueryResult<ArticleRevisionHistoryDTO>;
   articleTaxonomy?: Node[];
-  articleStatus?: IStatusDTO;
+  articleStatus?: StatusDTO;
   supportedLanguages: string[];
   articleChanged: boolean;
-  updateArticle: (updatedArticle: IUpdatedArticleDTO) => Promise<IArticleDTO>;
+  updateArticle: (updatedArticle: UpdatedArticleDTO) => Promise<ArticleDTO>;
   articleLanguage: string;
   translatedFieldsToNN: string[];
 }
@@ -181,7 +181,7 @@ const LearningResourceForm = ({
 
 interface FormFooterProps {
   articleChanged: boolean;
-  article?: IArticleDTO;
+  article?: ArticleDTO;
   savedToServer: boolean;
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
 }

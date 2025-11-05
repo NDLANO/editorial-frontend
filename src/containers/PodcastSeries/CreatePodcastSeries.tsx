@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { PageContent } from "@ndla/primitives";
-import { INewSeriesDTO } from "@ndla/types-backend/audio-api";
+import { NewSeriesDTO } from "@ndla/types-backend/audio-api";
 import PodcastSeriesForm from "./components/PodcastSeriesForm";
 import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { postSeries } from "../../modules/audio/audioApi";
@@ -33,7 +33,7 @@ const CreatePodcastSeries = () => {
   const navigate = useNavigate();
   const locale = i18n.language;
 
-  const onUpdate = async (newSeries: INewSeriesDTO): Promise<void> => {
+  const onUpdate = async (newSeries: NewSeriesDTO): Promise<void> => {
     const createdSeries = await postSeries(newSeries);
     navigate(toEditPodcastSeries(createdSeries.id, newSeries.language), { state: { isNewlyCreated: true } });
   };

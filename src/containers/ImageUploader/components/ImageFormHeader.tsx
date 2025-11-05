@@ -9,9 +9,9 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Badge } from "@ndla/primitives";
-import { IConceptSummaryDTO } from "@ndla/types-backend/concept-api";
-import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { CloneImageDialog } from "../../../components/HeaderWithLanguage/CloneImageDialog";
 import EmbedConnection from "../../../components/HeaderWithLanguage/EmbedInformation/EmbedConnection";
 import HeaderActions from "../../../components/HeaderWithLanguage/HeaderActions";
@@ -25,7 +25,7 @@ import {
 } from "../../FormHeader/FormHeader";
 
 interface Props {
-  image: IImageMetaInformationV3DTO | undefined;
+  image: ImageMetaInformationV3DTO | undefined;
   language: string;
 }
 
@@ -36,8 +36,8 @@ export const ImageFormHeader = ({ image, language }: Props) => {
 
   // true by default to disable language deletions until connections are retrieved.
   const [hasConnections, setHasConnections] = useState(true);
-  const [articles, setArticles] = useState<IMultiSearchSummaryDTO[]>([]);
-  const [concepts, setConcepts] = useState<IConceptSummaryDTO[]>([]);
+  const [articles, setArticles] = useState<MultiSearchSummaryDTO[]>([]);
+  const [concepts, setConcepts] = useState<ConceptSummaryDTO[]>([]);
 
   useEffect(() => {
     setHasConnections(!!articles.length || !!concepts.length);

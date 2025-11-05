@@ -13,7 +13,7 @@ import { PercentCrop } from "react-image-crop";
 import { AlignCenter, AlignLeft, AlignRight, CropLine, FocusMode } from "@ndla/icons";
 import { Button, IconButton, ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import ImageTransformEditor from "./ImageTransformEditor";
 import { FormField } from "../../../../FormField";
 import { ImageEmbedFormValues } from "../types";
@@ -72,7 +72,7 @@ const defaultData: Record<string, Partial<ImageEmbedFormValues>> = {
 
 interface Props {
   language: string;
-  image: IImageMetaInformationV3DTO;
+  image: ImageMetaInformationV3DTO;
 }
 
 type StateProp = "crop" | "focalPoint" | "none";

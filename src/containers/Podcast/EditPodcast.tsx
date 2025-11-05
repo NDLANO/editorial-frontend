@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router";
 import { PageContent } from "@ndla/primitives";
-import { IAudioMetaInformationDTO, IUpdatedAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
+import { AudioMetaInformationDTO, UpdatedAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import PodcastForm from "./components/PodcastForm";
 import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
@@ -60,9 +60,9 @@ const EditPodcast = () => {
   const podcastLanguage = params.selectedLanguage!;
   const { i18n } = useTranslation();
   const locale = i18n.language;
-  const [podcast, setPodcast] = useState<IAudioMetaInformationDTO | undefined>(undefined);
+  const [podcast, setPodcast] = useState<AudioMetaInformationDTO | undefined>(undefined);
   const [podcastChanged, setPodcastChanged] = useState(false);
-  const setPodcastWithFlag = (podcast: IAudioMetaInformationDTO | undefined, changed: boolean) => {
+  const setPodcastWithFlag = (podcast: AudioMetaInformationDTO | undefined, changed: boolean) => {
     setPodcast(podcast);
     setPodcastChanged(changed);
   };
@@ -88,7 +88,7 @@ const EditPodcast = () => {
     })();
   }, [podcast, shouldTranslate, translate]);
 
-  const onUpdate = async (newPodcast: IUpdatedAudioMetaInformationDTO, podcastFile: string | Blob | undefined) => {
+  const onUpdate = async (newPodcast: UpdatedAudioMetaInformationDTO, podcastFile: string | Blob | undefined) => {
     if (typeof podcastFile === "string") return;
     const updatedPodcast = await updateAudio(Number(podcastId!), newPodcast, podcastFile);
     setPodcastWithFlag(updatedPodcast, false);

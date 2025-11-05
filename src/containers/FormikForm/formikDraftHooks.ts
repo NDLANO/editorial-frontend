@@ -8,7 +8,7 @@
 
 import { uniq } from "lodash-es";
 import { useState, useEffect, useCallback } from "react";
-import { INewArticleDTO, IUpdatedArticleDTO, IArticleDTO } from "@ndla/types-backend/draft-api";
+import { NewArticleDTO, UpdatedArticleDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
 import { LAST_UPDATED_SIZE } from "../../constants";
 import {
   fetchDraft,
@@ -28,7 +28,7 @@ const updateUserData = async (articleId: number) => {
   apiUpdateUserData({ latestEditedArticles });
 };
 
-const checkArticleChanged = (old: IArticleDTO | undefined, upd: IUpdatedArticleDTO): boolean => {
+const checkArticleChanged = (old: ArticleDTO | undefined, upd: UpdatedArticleDTO): boolean => {
   if (!old) throw new Error("Did not get old article when checking for changes");
   return (
     (old.title?.title ?? "") !== (upd.title ?? "") ||
@@ -38,7 +38,7 @@ const checkArticleChanged = (old: IArticleDTO | undefined, upd: IUpdatedArticleD
 };
 
 export function useFetchArticleData(articleId: number | undefined, language: string) {
-  const [article, _setArticle] = useState<IArticleDTO | undefined>(undefined);
+  const [article, _setArticle] = useState<ArticleDTO | undefined>(undefined);
   const [articleChanged, setArticleChanged] = useState(false);
   const [loading, setLoading] = useState(true);
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -61,7 +61,7 @@ export function useFetchArticleData(articleId: number | undefined, language: str
   }, [articleId, language, taxonomyVersion]);
 
   const updateArticle = useCallback(
-    async (updatedArticle: IUpdatedArticleDTO): Promise<IArticleDTO> => {
+    async (updatedArticle: UpdatedArticleDTO): Promise<ArticleDTO> => {
       if (!articleId) throw new Error("Received article without id when updating");
       const savedArticle = await updateDraft(articleId, updatedArticle);
       const articleContentChanged = checkArticleChanged(article, updatedArticle);
@@ -73,7 +73,7 @@ export function useFetchArticleData(articleId: number | undefined, language: str
     [article, articleId],
   );
 
-  const createArticle = useCallback(async (createdArticle: INewArticleDTO) => {
+  const createArticle = useCallback(async (createdArticle: NewArticleDTO) => {
     const savedArticle = await createDraft(createdArticle);
     _setArticle(savedArticle);
     setArticleChanged(false);
@@ -81,7 +81,7 @@ export function useFetchArticleData(articleId: number | undefined, language: str
     return savedArticle;
   }, []);
 
-  const setArticle = useCallback((article: IArticleDTO) => {
+  const setArticle = useCallback((article: ArticleDTO) => {
     _setArticle(article);
     setArticleChanged(true);
   }, []);

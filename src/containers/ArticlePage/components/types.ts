@@ -6,7 +6,7 @@
  *
  */
 
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleDTO } from "@ndla/types-backend/draft-api";
 
 // https://stackoverflow.com/a/68404823
 // Creates a string union type based on all nested keys in T with dot notation. E.g. NestedKeys<{a: {b: string}; b: number}> = "b" | "a.b"
@@ -22,4 +22,4 @@ type NestedKeys<InputObject> = (
   ? Extract<Result, string>
   : never;
 
-export type FlatArticleKeys = NestedKeys<IArticleDTO>;
+export type FlatArticleKeys = NestedKeys<ArticleDTO>;

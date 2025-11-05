@@ -7,7 +7,7 @@
  */
 
 import { Node as SlateNode } from "slate";
-import { IConceptDTO, ILicenseDTO, INewConceptDTO, IUpdatedConceptDTO } from "@ndla/types-backend/concept-api";
+import { ConceptDTO, LicenseDTO, NewConceptDTO, UpdatedConceptDTO } from "@ndla/types-backend/concept-api";
 import { ConceptFormValues, ConceptType } from "./conceptInterfaces";
 import { IN_PROGRESS } from "../../constants";
 import {
@@ -20,7 +20,7 @@ import {
 } from "../../util/articleContentConverter";
 
 export const conceptApiTypeToFormType = (
-  concept: IConceptDTO | undefined,
+  concept: ConceptDTO | undefined,
   language: string,
   ndlaId: string | undefined,
   initialTitle = "",
@@ -67,9 +67,9 @@ export const conceptApiTypeToFormType = (
 
 export const getNewConceptType = (
   values: ConceptFormValues,
-  licenses: ILicenseDTO[],
+  licenses: LicenseDTO[],
   conceptType: ConceptType,
-): INewConceptDTO => ({
+): NewConceptDTO => ({
   language: values.language,
   title: inlineContentToHTML(values.title),
   content: blockContentToHTML(values.conceptContent),
@@ -99,9 +99,9 @@ export const getNewConceptType = (
 
 export const getUpdatedConceptType = (
   values: ConceptFormValues,
-  licenses: ILicenseDTO[],
+  licenses: LicenseDTO[],
   conceptType: ConceptType,
-): IUpdatedConceptDTO => {
+): UpdatedConceptDTO => {
   const newConcept = getNewConceptType(values, licenses, conceptType);
   return {
     ...newConcept,
@@ -111,10 +111,10 @@ export const getUpdatedConceptType = (
 
 export const conceptFormTypeToApiType = (
   values: ConceptFormValues,
-  licenses: ILicenseDTO[],
+  licenses: LicenseDTO[],
   conceptType: ConceptType,
   updatedBy?: string[],
-): IConceptDTO => {
+): ConceptDTO => {
   return {
     id: values.id ?? -1,
     revision: values.revision ?? -1,

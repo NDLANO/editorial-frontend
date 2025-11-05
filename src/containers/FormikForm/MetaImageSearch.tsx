@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, DialogTrigger, FieldsetLegend, FieldsetRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3DTO, INewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
+import { ImageMetaInformationV3DTO, NewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
 import MetaImageField from "./components/MetaImageField";
 import { ImageSearch } from "../../components/ImageSearch";
 import { MetaImagePicker } from "../../components/MetaImagePicker";
@@ -30,7 +30,7 @@ interface Props {
   onImageLoad?: (width: number, height: number) => void;
   showRemoveButton: boolean;
   showCheckbox: boolean;
-  checkboxAction?: (image: IImageMetaInformationV3DTO) => void;
+  checkboxAction?: (image: ImageMetaInformationV3DTO) => void;
   language?: string;
   podcastFriendly?: boolean;
   disableAltEditing?: boolean;
@@ -47,7 +47,7 @@ const MetaImageSearch = ({
   podcastFriendly,
   disableAltEditing,
 }: Props) => {
-  const [image, setImage] = useState<IImageMetaInformationV3DTO | undefined>(undefined);
+  const [image, setImage] = useState<ImageMetaInformationV3DTO | undefined>(undefined);
 
   const { t, i18n } = useTranslation();
   const { setFieldValue } = useFormikContext();
@@ -60,7 +60,7 @@ const MetaImageSearch = ({
     }
   }, [metaImageId, language]);
 
-  const onImageSet = (image: IImageMetaInformationV3DTO) => {
+  const onImageSet = (image: ImageMetaInformationV3DTO) => {
     setImage(image);
     setFieldValue(name, image.id);
     setFieldValue("metaImageAlt", disableAltEditing ? "" : image.alttext.alttext.trim(), true);
@@ -72,11 +72,11 @@ const MetaImageSearch = ({
   };
 
   const onCreateImage = async (
-    image: INewImageMetaInformationV2DTO,
+    image: NewImageMetaInformationV2DTO,
     file: string | Blob | undefined,
     close: VoidFunction,
   ) => {
-    let apiImage: IImageMetaInformationV3DTO;
+    let apiImage: ImageMetaInformationV3DTO;
     if (file instanceof Blob) {
       apiImage = await postImage(image, file);
     } else {

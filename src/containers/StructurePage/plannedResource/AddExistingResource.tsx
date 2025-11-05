@@ -29,9 +29,9 @@ import {
   Badge,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IArticleV2DTO } from "@ndla/types-backend/article-api";
-import { ILearningPathSummaryV2DTO, ILearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { IApiTaxonomyContextDTO, IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { ArticleV2DTO } from "@ndla/types-backend/article-api";
+import { LearningPathSummaryV2DTO, LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { ApiTaxonomyContextDTO, MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { ResourceType } from "@ndla/types-taxonomy";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
@@ -76,12 +76,12 @@ interface Props {
   existingResourceIds: string[];
 }
 
-interface Preview extends Pick<IMultiSearchSummaryDTO, "id" | "title" | "metaDescription" | "learningResourceType"> {
+interface Preview extends Pick<MultiSearchSummaryDTO, "id" | "title" | "metaDescription" | "learningResourceType"> {
   metaUrl?: string;
-  contexts?: IApiTaxonomyContextDTO[];
+  contexts?: ApiTaxonomyContextDTO[];
 }
 
-type PossibleResources = IMultiSearchSummaryDTO | ILearningPathSummaryV2DTO | ILearningPathV2DTO | IArticleV2DTO;
+type PossibleResources = MultiSearchSummaryDTO | LearningPathSummaryV2DTO | LearningPathV2DTO | ArticleV2DTO;
 
 const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, nodeId }: Props) => {
   const { t, i18n } = useTranslation();

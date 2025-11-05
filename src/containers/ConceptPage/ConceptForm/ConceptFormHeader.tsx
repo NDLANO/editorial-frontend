@@ -10,8 +10,8 @@ import { useField } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Badge } from "@ndla/primitives";
-import { IConceptDTO } from "@ndla/types-backend/concept-api";
-import { IMultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { ConceptDTO } from "@ndla/types-backend/concept-api";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import EmbedConnection from "../../../components/HeaderWithLanguage/EmbedInformation/EmbedConnection";
 import HeaderActions from "../../../components/HeaderWithLanguage/HeaderActions";
 import { HeaderCurrentLanguagePill } from "../../../components/HeaderWithLanguage/HeaderCurrentLanguagePill";
@@ -29,7 +29,7 @@ import {
 } from "../../FormHeader/FormHeader";
 
 interface Props {
-  concept: IConceptDTO | undefined;
+  concept: ConceptDTO | undefined;
   language: string;
   initialTitle: string | undefined;
   type: "gloss" | "concept";
@@ -41,7 +41,7 @@ export const ConceptFormHeader = ({ concept, language, initialTitle, type }: Pro
   const [, targetLanguageField] = useField("gloss.gloss");
   // true by default to disable language deletions until connections are retrieved.
   const [hasConnections, setHasConnections] = useState(true);
-  const [articles, setArticles] = useState<IMultiSearchSummaryDTO[]>([]);
+  const [articles, setArticles] = useState<MultiSearchSummaryDTO[]>([]);
 
   const statusText = concept?.status?.current ? t(`form.status.${concept?.status.current.toLowerCase()}`) : "";
   const published = concept?.status?.current === "PUBLISHED" || concept?.status?.other?.includes("PUBLISHED");

@@ -13,7 +13,7 @@ import { DeleteBinLine, LinkMedium } from "@ndla/icons";
 import { Button, DialogTrigger, Figure, IconButton, Image, Text } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3DTO, INewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
+import { ImageMetaInformationV3DTO, NewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
 import { ImageSearch } from "../../../components/ImageSearch";
 import { MetaImagePicker } from "../../../components/MetaImagePicker";
 import MetaInformation from "../../../components/MetaInformation";
@@ -56,7 +56,7 @@ const MetaImageWrapper = styled("div", {
 });
 
 export const LearningpathMetaImageField = ({ language }: Props) => {
-  const [image, setImage] = useState<IImageMetaInformationV3DTO | undefined>(undefined);
+  const [image, setImage] = useState<ImageMetaInformationV3DTO | undefined>(undefined);
   const [field, , helpers] = useField("coverPhotoMetaUrl");
   const { t } = useTranslation();
   const imageId = field.value?.split("/").pop() ?? "";
@@ -70,11 +70,11 @@ export const LearningpathMetaImageField = ({ language }: Props) => {
   }, [image, imageQuery.data]);
 
   const onCreateImage = async (
-    image: INewImageMetaInformationV2DTO,
+    image: NewImageMetaInformationV2DTO,
     file: string | Blob | undefined,
     close: VoidFunction,
   ) => {
-    let apiImage: IImageMetaInformationV3DTO;
+    let apiImage: ImageMetaInformationV3DTO;
     if (file instanceof Blob) {
       apiImage = await postImage(image, file);
     } else {

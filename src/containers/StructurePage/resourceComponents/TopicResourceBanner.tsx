@@ -169,7 +169,13 @@ const TopicResourceBanner = ({
     isPending: matomoStatsIsPending,
     isError: matomoStatsIsError,
   } = useMatomoStats(
-    { urls: currentNode ? currentNode.contexts.map((context) => context.url) : [] },
+    {
+      urls: currentNode
+        ? currentNode.contexts
+            .filter((context) => context.rootId.startsWith("urn:subject"))
+            .map((context) => context.url)
+        : [],
+    },
     { enabled: !!currentNode.url && showMatomoStats },
   );
 

@@ -180,7 +180,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
   const nodeId = useMemo(() => node && getRootIdForNode(node), [node]);
-  const compKey = nodeQueryKeys.resources({
+  const compKey = nodeQueryKeys.childNodes({
     id: node?.id,
     language: i18n.language,
   });

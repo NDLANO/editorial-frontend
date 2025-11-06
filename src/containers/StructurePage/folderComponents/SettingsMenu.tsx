@@ -18,10 +18,9 @@ import {
   DialogBody,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node } from "@ndla/types-taxonomy";
+import { Node, NodeChild } from "@ndla/types-taxonomy";
 import SettingsMenuDropdownType from "./SettingsMenuDropdownType";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
-import { TaxonomyNodeChild } from "../../../components/Taxonomy/types";
 import { NodeChildWithChildren } from "../../../modules/nodes/nodeApiTypes";
 import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
 
@@ -32,7 +31,7 @@ const StyledDialogBody = styled(DialogBody, {
 });
 
 interface Props {
-  node: TaxonomyNodeChild | Node;
+  node: NodeChild | Node;
   rootNodeId: string;
   nodeChildren: NodeChildWithChildren[];
   onCurrentNodeChanged: (node?: Node) => void;

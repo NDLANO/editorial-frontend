@@ -55,9 +55,10 @@ const ResourceItems = ({
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const qc = useQueryClient();
-  const compKey = nodeQueryKeys.resources({
+  const compKey = nodeQueryKeys.childNodes({
     id: currentNodeId,
     language: i18n.language,
+    nodeType: ["RESOURCE"],
     taxonomyVersion,
   });
 

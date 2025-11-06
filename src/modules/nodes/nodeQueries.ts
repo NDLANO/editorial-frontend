@@ -6,28 +6,25 @@
  *
  */
 
-import { chunk, uniqBy } from "lodash-es";
 import { useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
 import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
-import { fetchChildNodes, fetchNode, fetchNodeResources, fetchNodes, postSearchNodes, searchNodes } from "./nodeApi";
+import { fetchChildNodes, fetchNode, fetchNodes, postSearchNodes, searchNodes } from "./nodeApi";
 import {
+  GetChildNodesParams,
   GetNodeParams,
-  GetNodeResourcesParams,
   NodeChildWithChildren,
   NodeResourceMeta,
   RESOURCE_NODE,
   TOPIC_NODE,
 } from "./nodeApiTypes";
-import { PUBLISHED } from "../../constants";
 import { NodeTree } from "../../containers/NodeDiff/diffUtils";
 import { SearchResultBase, WithTaxonomyVersion } from "../../interfaces";
 import {
-  CHILD_NODES_WITH_ARTICLE_TYPE,
+  CHILD_NODES,
   NODE,
   NODE_RESOURCES,
   NODES,
   POST_SEARCH_NODES,
-  RESOURCES_WITH_NODE_CONNECTION,
   ROOT_NODE_WITH_CHILDREN,
   SEARCH_NODES,
 } from "../../queryKeys";
@@ -40,11 +37,8 @@ export const nodeQueryKeys = {
   search: (params?: Partial<UseSearchNodes>) => [SEARCH_NODES, params] as const,
   postSearch: (params?: Partial<UseSearchNodes>) => [POST_SEARCH_NODES, params] as const,
   tree: (params?: Partial<UseNodeTree>) => [ROOT_NODE_WITH_CHILDREN, params] as const,
-  resources: (params?: Partial<UseResourcesWithNodeConnectionParams>) =>
-    [RESOURCES_WITH_NODE_CONNECTION, params] as const,
   resourceMetas: (params?: Partial<UseNodeResourceMetas>) => [NODE_RESOURCES, params] as const,
-  childNodes: (params?: Partial<UseChildNodesWithArticleTypeParams>) =>
-    [CHILD_NODES_WITH_ARTICLE_TYPE, params] as const,
+  childNodes: (params?: Partial<UseChildNodesParams>) => [CHILD_NODES, params] as const,
 };
 
 interface UseNodesParams extends WithTaxonomyVersion, GetNodeParams {}
@@ -154,60 +148,6 @@ const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<Nod
   return transformedArticles.concat(transformedLearningpaths);
 };
 
-interface ChildNodesWithArticleTypeParams extends WithTaxonomyVersion {
-  id: string;
-  language: string;
-  nodeType?: NodeType[];
-}
-
-const fetchChildNodesWithArticleType = async ({
-  id,
-  language,
-  nodeType,
-  taxonomyVersion,
-}: ChildNodesWithArticleTypeParams): Promise<
-  (NodeChildWithChildren & {
-    articleType?: string;
-    isPublished?: boolean;
-  })[]
-> => {
-  const childNodes = await fetchChildNodes({
-    id,
-    taxonomyVersion,
-    language,
-    recursive: true,
-    nodeType,
-    isVisible: false,
-  });
-  if (childNodes.length === 0) return [];
-
-  const childIds = childNodes
-    .filter((n) => n.contentUri?.includes("urn:article"))
-    .map((n) => Number(n.contentUri?.split(":").pop()))
-    .filter((id) => !!id);
-
-  const chunks = chunk(childIds, 250);
-  const searchRes = await Promise.all(chunks.map((chunk) => fetchDrafts(chunk)));
-
-  const flattenedUniqueSeachRes = uniqBy(searchRes.flat(), (s) => s.id);
-  const articleTypeMap = flattenedUniqueSeachRes.reduce<Record<number, string>>((acc, curr) => {
-    acc[curr.id] = curr.articleType;
-    return acc;
-  }, {});
-
-  const isPublishedMap = flattenedUniqueSeachRes.reduce<Record<number, boolean>>((acc, curr) => {
-    acc[curr.id] = curr.status.current === PUBLISHED || curr.status.other.includes(PUBLISHED);
-    return acc;
-  }, {});
-
-  return childNodes.map((node) => {
-    const draftId = Number(node.contentUri?.split(":").pop());
-    const articleType = articleTypeMap[draftId];
-    const isPublished = isPublishedMap[draftId];
-    return { ...node, articleType, isPublished };
-  });
-};
-
 interface UseNodeTree extends WithTaxonomyVersion {
   id: string;
   language: string;
@@ -229,11 +169,13 @@ interface NodeTreeGetParams extends WithTaxonomyVersion {
 const fetchNodeTree = async ({ id, language, taxonomyVersion }: NodeTreeGetParams): Promise<NodeTree> => {
   const [root, children] = await Promise.all([
     fetchNode({ id, language, taxonomyVersion }),
-    fetchChildNodesWithArticleType({
+    fetchChildNodes({
       id,
       language,
       nodeType: [TOPIC_NODE, RESOURCE_NODE],
       taxonomyVersion,
+      recursive: true,
+      isVisible: false,
     }),
   ]);
 
@@ -267,35 +209,18 @@ const fetchNodeTree = async ({ id, language, taxonomyVersion }: NodeTreeGetParam
   };
 };
 
-interface UseChildNodesWithArticleTypeParams extends WithTaxonomyVersion {
+interface UseChildNodesParams extends WithTaxonomyVersion, GetChildNodesParams {
   id: string;
-  language: string;
-  nodeType?: NodeType[];
 }
 
-export const useChildNodesWithArticleType = (
-  params: UseChildNodesWithArticleTypeParams,
-  options?: Partial<UseQueryOptions<(NodeChildWithChildren & { articleType?: string })[]>>,
+export const useChildNodes = (
+  params: UseChildNodesParams,
+  options?: Partial<UseQueryOptions<NodeChildWithChildren[]>>,
 ) => {
   return useQuery<NodeChildWithChildren[]>({
     queryKey: nodeQueryKeys.childNodes(params),
-    queryFn: () => fetchChildNodesWithArticleType(params),
+    queryFn: () => fetchChildNodes(params),
     ...options,
-  });
-};
-
-interface UseResourcesWithNodeConnectionParams extends WithTaxonomyVersion, GetNodeResourcesParams {
-  id: string;
-}
-
-export const useResourcesWithNodeConnection = (
-  params: UseResourcesWithNodeConnectionParams,
-  options?: Partial<UseQueryOptions<NodeChild[]>>,
-) => {
-  return useQuery<NodeChild[]>({
-    ...options,
-    queryKey: nodeQueryKeys.resources(params),
-    queryFn: () => fetchNodeResources(params),
   });
 };
 

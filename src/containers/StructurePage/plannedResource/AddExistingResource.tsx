@@ -97,7 +97,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   const [articleInputId, setArticleInputId] = useState<string | undefined>();
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const compKey = nodeQueryKeys.resources({
+  const compKey = nodeQueryKeys.childNodes({
     id: nodeId,
     language: i18n.language,
   });

@@ -27,7 +27,6 @@ import PublishChildNodeResources from "./topicMenuOptions/PublishChildNodeResour
 import SetResourcesPrimary from "./topicMenuOptions/SetResourcesPrimary";
 import SwapTopicArticle from "./topicMenuOptions/SwapTopicArticle";
 import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
-import { TaxonomyNodeChild } from "../../../components/Taxonomy/types";
 import { TAXONOMY_ADMIN_SCOPE } from "../../../constants";
 import { NodeChildWithChildren, PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../modules/nodes/nodeApiTypes";
 import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
@@ -51,7 +50,7 @@ const StyledTabsList = styled(TabsList, {
 
 interface Props {
   rootNodeId: string;
-  node: TaxonomyNodeChild | Node;
+  node: NodeChild | Node;
   nodeChildren: NodeChildWithChildren[];
   onCurrentNodeChanged: (node?: Node | NodeChild) => void;
 }

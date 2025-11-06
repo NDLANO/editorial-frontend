@@ -25,13 +25,14 @@ import { SafeLink } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { EditorNoteDTO } from "@ndla/types-backend/draft-api";
+import { NodeChild } from "@ndla/types-taxonomy";
 import { constants } from "@ndla/ui";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import NotesVersionHistory from "../../../components/VersionHistory/VersionHistory";
 import { Auth0UserData } from "../../../interfaces";
 import { fetchAuth0Users } from "../../../modules/auth0/auth0Api";
 import { fetchArticleRevisionHistory } from "../../../modules/draft/draftApi";
-import { ResourceWithNodeConnectionAndMeta } from "../../../modules/nodes/nodeApiTypes";
+import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
 import formatDate from "../../../util/formatDate";
 import { routes } from "../../../util/routeHelpers";
 import { getIdFromUrn } from "../../../util/taxonomyHelpers";
@@ -39,7 +40,8 @@ import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 const { contentTypes } = constants;
 
 interface Props {
-  resource: ResourceWithNodeConnectionAndMeta;
+  resource: NodeChild;
+  contentMeta: NodeResourceMeta | undefined;
   contentType: string;
 }
 
@@ -75,16 +77,16 @@ const linkRecipe = cva({
 
 const StyledButton = styled(Button, { base: { whiteSpace: "nowrap" } });
 
-const VersionHistory = ({ resource, contentType }: Props) => {
+const VersionHistory = ({ resource, contentMeta, contentType }: Props) => {
   const { t } = useTranslation();
-  if (!resource.contentMeta?.status) {
+  if (!contentMeta?.status) {
     return null;
   }
   return (
     <DialogRoot position="top">
       <DialogTrigger asChild>
         <StyledButton variant="secondary" size="small" disabled={contentType === contentTypes.LEARNING_PATH}>
-          {t(`form.status.${resource.contentMeta.status.current.toLowerCase()}`)}
+          {t(`form.status.${contentMeta.status.current.toLowerCase()}`)}
         </StyledButton>
       </DialogTrigger>
       <Portal>
@@ -98,7 +100,7 @@ const VersionHistory = ({ resource, contentType }: Props) => {
 
 interface DialogContentProps {
   contentType: string;
-  resource: ResourceWithNodeConnectionAndMeta;
+  resource: NodeChild;
 }
 
 interface VersionHistoryNotes {

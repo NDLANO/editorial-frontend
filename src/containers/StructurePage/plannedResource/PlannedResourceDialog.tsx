@@ -24,16 +24,15 @@ import {
   TabsRoot,
   TabsTrigger,
 } from "@ndla/primitives";
-import { ResourceType } from "@ndla/types-taxonomy";
+import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
-import { ResourceWithNodeConnectionAndMeta } from "../../../modules/nodes/nodeApiTypes";
 import AddExistingResource from "../plannedResource/AddExistingResource";
 import PlannedResourceForm from "../plannedResource/PlannedResourceForm";
 
 interface Props {
-  currentNode: ResourceWithNodeConnectionAndMeta;
+  currentNode: NodeChild;
   resourceTypes: ResourceType[];
-  resources: ResourceWithNodeConnectionAndMeta[];
+  resources: NodeChild[];
 }
 
 const PlannedResourceDialog = ({ currentNode, resourceTypes, resources }: Props) => {

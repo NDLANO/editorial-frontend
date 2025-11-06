@@ -10,10 +10,11 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ErrorWarningFill, FileEditLine } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
+import { NodeChild } from "@ndla/types-taxonomy";
 import { isApproachingRevision } from "./ApproachingRevisionDate";
 import WrongTypeError from "./WrongTypeError";
 import { StatusTimeFill } from "../../../components/StatusTimeFill";
-import { ResourceWithNodeConnectionAndMeta } from "../../../modules/nodes/nodeApiTypes";
+import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
 import formatDate from "../../../util/formatDate";
 import { getExpirationStatus } from "../../../util/getExpirationStatus";
 import { getExpirationDate } from "../../../util/revisionHelpers";
@@ -26,17 +27,15 @@ const StyledErrorWarningFill = styled(ErrorWarningFill, {
 
 interface Props {
   nodeResourcesIsPending: boolean;
-  resource: ResourceWithNodeConnectionAndMeta;
+  resource: NodeChild;
+  contentMeta: NodeResourceMeta | undefined;
   multipleTaxonomy: boolean;
 }
 
-const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy }: Props) => {
+const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy, contentMeta }: Props) => {
   const { t } = useTranslation();
-  const approachingRevision = useMemo(
-    () => isApproachingRevision(resource.contentMeta?.revisions),
-    [resource.contentMeta?.revisions],
-  );
-  const expirationDate = getExpirationDate(resource.contentMeta?.revisions?.filter((r) => !!r) ?? []);
+  const approachingRevision = useMemo(() => isApproachingRevision(contentMeta?.revisions), [contentMeta?.revisions]);
+  const expirationDate = getExpirationDate(contentMeta?.revisions?.filter((r) => !!r) ?? []);
   const warnStatus = getExpirationStatus(expirationDate);
 
   const expirationText = useMemo(() => {
@@ -50,15 +49,13 @@ const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy }: Pro
 
   return (
     <>
-      {!!resource.contentMeta?.started && (
+      {!!contentMeta?.started && (
         <FileEditLine aria-label={t("taxonomy.inProgress")} title={t("taxonomy.inProgress")} />
       )}
       {!!approachingRevision && !!warnStatus && !!expirationDate && (
         <StatusTimeFill variant={warnStatus} aria-label={expirationText} title={expirationText} />
       )}
-      {!nodeResourcesIsPending && (
-        <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />
-      )}
+      {!nodeResourcesIsPending && <WrongTypeError resource={resource} articleType={contentMeta?.articleType} />}
       {!!multipleTaxonomy && (
         <StyledErrorWarningFill
           aria-label={t("form.workflow.multipleTaxonomy")}

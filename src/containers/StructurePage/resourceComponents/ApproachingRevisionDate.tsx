@@ -12,8 +12,9 @@ import { getLocalTimeZone, parseAbsoluteToLocal, today } from "@internationalize
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { RevisionMetaDTO } from "@ndla/types-backend/draft-api";
+import { NodeChild } from "@ndla/types-taxonomy";
 import { Dictionary } from "../../../interfaces";
-import { NodeResourceMeta, ResourceWithNodeConnectionAndMeta } from "../../../modules/nodes/nodeApiTypes";
+import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
 import { getExpirationDate } from "../../../util/revisionHelpers";
 
 const StyledIcon = styled("div", {
@@ -31,9 +32,9 @@ const StyledIcon = styled("div", {
 });
 
 interface Props {
-  resources: ResourceWithNodeConnectionAndMeta[];
+  resources: NodeChild[];
   contentMeta: Dictionary<NodeResourceMeta>;
-  currentNode: ResourceWithNodeConnectionAndMeta;
+  currentNode: NodeChild;
 }
 
 export const isApproachingRevision = (revisions?: RevisionMetaDTO[]) => {
@@ -48,7 +49,7 @@ const ApproachingRevisionDate = ({ resources, currentNode, contentMeta }: Props)
   const { t } = useTranslation();
 
   const allRevisions = useMemo(() => {
-    const resourceRevisions = resources.map((r) => r.contentMeta?.revisions).filter((r) => !!r);
+    const resourceRevisions = resources.map((r) => contentMeta[r.contentUri ?? ""]?.revisions).filter((r) => !!r);
     const currentNodeRevision = currentNode.contentUri ? contentMeta[currentNode.contentUri]?.revisions : undefined;
     if (!currentNodeRevision) return resourceRevisions;
     return resourceRevisions.concat([currentNodeRevision]);

@@ -92,7 +92,7 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
       nodeResources={nodeResources ?? []}
       resourceTypes={resourceTypes ?? []}
       currentNode={currentChildNode}
-      contentMeta={keyedMetas}
+      contentMetas={keyedMetas}
       grouped={grouped === "grouped"}
       nodeResourcesIsPending={contentMetaIsPending || nodeResourcesIsPending}
       users={users}

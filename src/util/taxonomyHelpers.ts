@@ -11,7 +11,7 @@ import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import { getContentTypeFromResourceTypes } from "./resourceHelpers";
 import { RESOURCE_TYPE_LEARNING_PATH } from "../constants";
 import { FlattenedResourceType } from "../interfaces";
-import { NodeChildWithChildren, ResourceWithNodeConnectionAndMeta } from "../modules/nodes/nodeApiTypes";
+import { NodeChildWithChildren } from "../modules/nodes/nodeApiTypes";
 
 // Kan hende at id i contentUri fra taxonomy inneholder '#xxx' (revision)
 export const getIdFromUrn = (urn?: string) => {
@@ -51,7 +51,7 @@ const flattenResourceTypesAndAddContextTypes = (data: ResourceType[] = [], t: (k
   return resourceTypes;
 };
 
-export const groupResourcesByType = (resources: ResourceWithNodeConnectionAndMeta[], resourceTypes: ResourceType[]) => {
+export const groupResourcesByType = (resources: NodeChild[], resourceTypes: ResourceType[]) => {
   const types = resourceTypes.reduce<Record<string, string>>((types, rt) => {
     const reversedMapping =
       rt.subtypes?.reduce<Record<string, string>>((acc, curr) => {
@@ -63,13 +63,13 @@ export const groupResourcesByType = (resources: ResourceWithNodeConnectionAndMet
   }, {});
 
   const typeToResourcesMapping = resources
-    .flatMap((res) => res.resourceTypes.map<[string, ResourceWithNodeConnectionAndMeta]>((rt) => [rt.id, res]))
+    .flatMap((res) => res.resourceTypes.map<[string, NodeChild]>((rt) => [rt.id, res]))
     .reduce<
       Record<
         string,
         {
           parentId: string;
-          resources: ResourceWithNodeConnectionAndMeta[];
+          resources: NodeChild[];
         }
       >
     >((acc, [id, curr]) => {
@@ -86,18 +86,15 @@ export const groupResourcesByType = (resources: ResourceWithNodeConnectionAndMet
 
   const groupedValues = groupBy(Object.values(typeToResourcesMapping), (t) => t.parentId);
 
-  const unique = Object.entries(groupedValues).reduce<Record<string, ResourceWithNodeConnectionAndMeta[]>>(
-    (acc, [id, val]) => {
-      const uniqueValues = uniqBy(
-        val.flatMap((v) => v.resources),
-        (r) => r.id,
-      );
+  const unique = Object.entries(groupedValues).reduce<Record<string, NodeChild[]>>((acc, [id, val]) => {
+    const uniqueValues = uniqBy(
+      val.flatMap((v) => v.resources),
+      (r) => r.id,
+    );
 
-      acc[id] = uniqueValues;
-      return acc;
-    },
-    {},
-  );
+    acc[id] = uniqueValues;
+    return acc;
+  }, {});
 
   return resourceTypes
     .map((rt) => ({

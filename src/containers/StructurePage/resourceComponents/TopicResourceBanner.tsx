@@ -12,7 +12,7 @@ import { MessageLine, CheckboxCircleLine } from "@ndla/icons";
 import { Skeleton, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node, ResourceType } from "@ndla/types-taxonomy";
+import { Node, NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import ApproachingRevisionDate from "./ApproachingRevisionDate";
 import GrepCodesDialog from "./GrepCodesDialog";
 import JumpToStructureButton from "./JumpToStructureButton";
@@ -27,7 +27,7 @@ import config from "../../../config";
 import { PUBLISHED, RESOURCE_FILTER_SUPPLEMENTARY } from "../../../constants";
 import { Dictionary } from "../../../interfaces";
 import { useMatomoStats } from "../../../modules/matomo/matomoQueries";
-import { NodeResourceMeta, ResourceWithNodeConnectionAndMeta } from "../../../modules/nodes/nodeApiTypes";
+import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
 import { stripInlineContentHtmlTags } from "../../../util/formHelper";
 import { routes } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -134,9 +134,10 @@ const getWorkflowCount = (contentMeta: Dictionary<NodeResourceMeta>) => {
 };
 
 interface Props {
-  contentMeta: Dictionary<NodeResourceMeta>;
-  currentNode: ResourceWithNodeConnectionAndMeta;
-  resources: ResourceWithNodeConnectionAndMeta[];
+  contentMetas: Dictionary<NodeResourceMeta>;
+  currentNode: NodeChild;
+  currentContentMeta: NodeResourceMeta | undefined;
+  resources: NodeChild[];
   resourceTypes: ResourceType[];
   articleIds?: number[];
   nodeResourcesIsPending: boolean;
@@ -146,7 +147,7 @@ interface Props {
 }
 
 const TopicResourceBanner = ({
-  contentMeta,
+  contentMetas,
   currentNode,
   resourceTypes,
   resources,
@@ -161,8 +162,9 @@ const TopicResourceBanner = ({
   const { setCurrentNode } = useCurrentNode();
   const { showQuality, showMatomoStats } = usePreferences();
 
-  const elementCount = useMemo(() => Object.values(contentMeta).length, [contentMeta]);
-  const workflowCount = useMemo(() => getWorkflowCount(contentMeta), [contentMeta]);
+  const elementCount = useMemo(() => Object.values(contentMetas).length, [contentMetas]);
+  const workflowCount = useMemo(() => getWorkflowCount(contentMetas), [contentMetas]);
+  const currentContentMeta = contentMetas[currentNode.contentUri ?? ""];
 
   const {
     data: matomoStatsData,
@@ -188,8 +190,8 @@ const TopicResourceBanner = ({
   const numericId = parseInt(currentNode.contentUri?.split(":").pop() ?? "");
 
   const lastCommentTopicArticle = useMemo(
-    () => Object.values(contentMeta).find((el) => el.articleType === "topic-article")?.comments?.[0]?.content,
-    [contentMeta],
+    () => Object.values(contentMetas).find((el) => el.articleType === "topic-article")?.comments?.[0]?.content,
+    [contentMetas],
   );
 
   const contexts = topicNodes?.filter((node) => !!node.contexts.length);
@@ -222,7 +224,7 @@ const TopicResourceBanner = ({
               aria-label={stripInlineContentHtmlTags(lastCommentTopicArticle)}
             />
           )}
-          <ApproachingRevisionDate resources={resources} contentMeta={contentMeta} currentNode={currentNode} />
+          <ApproachingRevisionDate resources={resources} contentMeta={contentMetas} currentNode={currentNode} />
         </ContentWrapper>
         <ControlButtonGroup>
           <JumpToStructureButton nodeId={currentNode.id} />
@@ -265,6 +267,7 @@ const TopicResourceBanner = ({
             ) : null}
             <StatusIcons
               nodeResourcesIsPending={nodeResourcesIsPending}
+              contentMeta={currentContentMeta}
               resource={currentNode}
               multipleTaxonomy={contexts?.length ? contexts.length > 1 : false}
             />
@@ -295,8 +298,8 @@ const TopicResourceBanner = ({
               />
             )}
             {!!(
-              currentNode.contentMeta?.status?.current === PUBLISHED ||
-              currentNode.contentMeta?.status?.other?.includes(PUBLISHED)
+              currentContentMeta?.status?.current === PUBLISHED ||
+              currentContentMeta?.status?.other?.includes(PUBLISHED)
             ) && (
               <SafeLinkIconButton
                 target="_blank"
@@ -310,13 +313,13 @@ const TopicResourceBanner = ({
               </SafeLinkIconButton>
             )}
             <GrepCodesDialog
-              codes={currentNode.contentMeta?.grepCodes ?? []}
+              codes={currentContentMeta?.grepCodes ?? []}
               contentUri={currentNode.contentUri}
-              revision={currentNode.contentMeta?.revision}
+              revision={currentContentMeta?.revision}
               currentNodeId={currentNode.id}
               rootGrepCodesString={rootGrepCodesString}
             />
-            <VersionHistory resource={currentNode} contentType="topic-article" />
+            <VersionHistory resource={currentNode} contentMeta={currentContentMeta} contentType="topic-article" />
           </ControlButtonGroup>
         </ContentRow>
       </StyledResource>

@@ -21,7 +21,7 @@ import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
-import { NodeResourceMeta, ResourceWithNodeConnectionAndMeta } from "../../../modules/nodes/nodeApiTypes";
+import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
 import { useDeleteResourceForNodeMutation, usePutResourceForNodeMutation } from "../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import handleError from "../../../util/handleError";
@@ -33,9 +33,9 @@ const StyledResourceItems = styled("ul", {
 
 interface Props {
   type: "resource" | "link";
-  resources: ResourceWithNodeConnectionAndMeta[];
+  resources: NodeChild[];
   currentNodeId: string;
-  contentMeta: Dictionary<NodeResourceMeta>;
+  contentMetas: Dictionary<NodeResourceMeta>;
   nodeResourcesIsPending: boolean;
   users?: Dictionary<Auth0UserData>;
   rootGrepCodesString: string | undefined;
@@ -46,7 +46,7 @@ const isError = (error: unknown): error is Error => (error as Error).message !==
 const ResourceItems = ({
   resources,
   currentNodeId,
-  contentMeta,
+  contentMetas,
   nodeResourcesIsPending,
   users,
   rootGrepCodesString,
@@ -139,12 +139,10 @@ const ResourceItems = ({
         renderItem={(resource) => (
           <Resource
             currentNodeId={currentNodeId}
-            responsible={users?.[contentMeta[resource.contentUri ?? ""]?.responsible?.responsibleId ?? ""]?.name}
+            responsible={users?.[contentMetas[resource.contentUri ?? ""]?.responsible?.responsibleId ?? ""]?.name}
             rootGrepCodesString={rootGrepCodesString}
-            resource={{
-              ...resource,
-              contentMeta: resource.contentUri ? contentMeta[resource.contentUri] : undefined,
-            }}
+            contentMeta={resource.contentUri ? contentMetas[resource.contentUri] : undefined}
+            resource={resource}
             key={resource.id}
             nodeResourcesIsPending={nodeResourcesIsPending}
             onDelete={toggleDelete}

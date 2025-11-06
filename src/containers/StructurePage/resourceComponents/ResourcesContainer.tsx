@@ -15,7 +15,7 @@ import { scrollElementId } from "./isVisibleHook";
 import ResourceItems from "./ResourceItems";
 import TopicResourceBanner from "./TopicResourceBanner";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
-import { NodeResourceMeta, ResourceWithNodeConnectionAndMeta } from "../../../modules/nodes/nodeApiTypes";
+import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
 import { useNode, useNodes } from "../../../modules/nodes/nodeQueries";
 import { useSearchGrepCodes } from "../../../modules/search/searchQueries";
 import { groupResourcesByType } from "../../../util/taxonomyHelpers";
@@ -39,10 +39,10 @@ const ListContainer = styled("div", {
 });
 
 interface Props {
-  nodeResources: ResourceWithNodeConnectionAndMeta[];
+  nodeResources: NodeChild[];
   resourceTypes: ResourceType[];
   currentNode: NodeChild;
-  contentMeta: Dictionary<NodeResourceMeta>;
+  contentMetas: Dictionary<NodeResourceMeta>;
   grouped: boolean;
   nodeResourcesIsPending: boolean;
   users: Dictionary<Auth0UserData> | undefined;
@@ -52,7 +52,7 @@ const ResourcesContainer = ({
   resourceTypes,
   nodeResources,
   currentNode,
-  contentMeta,
+  contentMetas,
   grouped,
   nodeResourcesIsPending,
   users,
@@ -89,32 +89,18 @@ const ResourcesContainer = ({
 
   const paths = useMemo(() => data?.map((d) => d.path ?? "").filter((d) => !!d) ?? [], [data]);
 
-  const nodeResourcesWithMeta: ResourceWithNodeConnectionAndMeta[] =
-    useMemo(
-      () =>
-        nodeResources?.map((res) => ({
-          ...res,
-          contentMeta: res.contentUri ? contentMeta[res.contentUri] : undefined,
-        })),
-      [contentMeta, nodeResources],
-    ) ?? [];
-  const mapping = groupResourcesByType(nodeResourcesWithMeta ?? [], resourceTypes ?? []);
-  const currentMeta = currentNode.contentUri ? contentMeta[currentNode.contentUri] : undefined;
+  const mapping = groupResourcesByType(nodeResources ?? [], resourceTypes ?? []);
+  const currentMeta = currentNode.contentUri ? contentMetas[currentNode.contentUri] : undefined;
 
   return (
     <>
       <TopicResourceBanner
-        resources={nodeResourcesWithMeta}
-        contentMeta={contentMeta}
+        resources={nodeResources}
+        contentMetas={contentMetas}
         resourceTypes={resourceTypesWithoutMissing}
         rootGrepCodesString={rootGrepCodesString}
-        currentNode={{
-          ...currentNode,
-          paths,
-          contentMeta: currentMeta,
-          resourceTypes: [],
-          relevanceId: currentNode.relevanceId,
-        }}
+        currentContentMeta={currentMeta}
+        currentNode={{ ...currentNode, paths, resourceTypes: [] }}
         nodeResourcesIsPending={nodeResourcesIsPending}
         responsible={currentMeta?.responsible ? users?.[currentMeta.responsible.responsibleId]?.name : undefined}
         topicNodes={data}
@@ -134,7 +120,7 @@ const ResourcesContainer = ({
                   key={resource.id}
                   resources={resource.resources}
                   currentNodeId={currentNodeId}
-                  contentMeta={contentMeta}
+                  contentMetas={contentMetas}
                   nodeResourcesIsPending={nodeResourcesIsPending}
                   users={users}
                   rootGrepCodesString={rootGrepCodesString}
@@ -145,7 +131,7 @@ const ResourcesContainer = ({
                 type="resource"
                 resources={nodeResources}
                 currentNodeId={currentNodeId}
-                contentMeta={contentMeta}
+                contentMetas={contentMetas}
                 nodeResourcesIsPending={nodeResourcesIsPending}
                 users={users}
                 rootGrepCodesString={rootGrepCodesString}

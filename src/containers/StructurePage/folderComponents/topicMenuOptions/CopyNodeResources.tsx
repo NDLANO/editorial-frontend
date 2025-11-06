@@ -92,7 +92,7 @@ const CopyNodeResources = ({ currentNode, nodeType, type }: Props) => {
     await Promise.all(resources.map(async (res) => await doAction(res, action)));
     setDone(true);
     qc.invalidateQueries({
-      queryKey: nodeQueryKeys.resources({
+      queryKey: nodeQueryKeys.childNodes({
         id: currentNode.id,
         taxonomyVersion,
       }),

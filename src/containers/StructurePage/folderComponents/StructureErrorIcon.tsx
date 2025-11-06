@@ -10,7 +10,8 @@ import { useTranslation } from "react-i18next";
 import { ErrorWarningFill } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
-import { TaxonomyNodeChild } from "../../../components/Taxonomy/types";
+import { PUBLISHED } from "../../../constants";
+import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
 import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
@@ -25,20 +26,19 @@ const StyledErrorWarningFill = styled(ErrorWarningFill, {
   },
 });
 
-const isChildNode = (node: Node): node is TaxonomyNodeChild => "connectionId" in node;
-
 interface Props {
   node: Node;
+  meta: NodeResourceMeta | undefined;
   isRoot: boolean;
   isTaxonomyAdmin: boolean;
 }
 
-const StructureErrorIcon = ({ node, isRoot, isTaxonomyAdmin }: Props) => {
+const StructureErrorIcon = ({ node, meta, isRoot, isTaxonomyAdmin }: Props) => {
   const { t } = useTranslation();
   if (isRoot || node.nodeType !== "TOPIC") return null;
-  const articleType = isChildNode(node) ? node.articleType : undefined;
+  const articleType = meta?.articleType;
   if (articleType === "topic-article") {
-    const isPublished = isChildNode(node) ? node.isPublished : undefined;
+    const isPublished = meta?.status?.current === PUBLISHED || meta?.status?.other.includes(PUBLISHED);
     if (!isPublished) {
       const notPublishedWarning = t("taxonomy.info.notPublished");
 

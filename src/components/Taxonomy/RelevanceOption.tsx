@@ -20,7 +20,6 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild, NodeConnectionPUT } from "@ndla/types-taxonomy";
-import { TaxonomyNodeChild } from "./types";
 import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY } from "../../constants";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import { useUpdateNodeConnectionMutation } from "../../modules/nodes/nodeMutations";
@@ -35,7 +34,7 @@ const TitleWrapper = styled("div", {
 });
 
 interface Props {
-  node: TaxonomyNodeChild;
+  node: NodeChild;
   currentNodeId: string;
 }
 

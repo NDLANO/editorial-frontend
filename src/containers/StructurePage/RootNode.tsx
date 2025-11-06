@@ -7,16 +7,17 @@
  */
 
 import { partition, isEqual, sortBy } from "lodash-es";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
 import { useQueryClient } from "@tanstack/react-query";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
+import { keyBy } from "@ndla/util";
 import NodeItem from "./NodeItem";
 import { draftQueryKeys, useUpdateUserDataMutation } from "../../modules/draft/draftQueries";
 import { useUpdateNodeConnectionMutation } from "../../modules/nodes/nodeMutations";
-import { nodeQueryKeys, useChildNodesWithArticleType } from "../../modules/nodes/nodeQueries";
+import { nodeQueryKeys, useChildNodes, useNodeResourceMetas } from "../../modules/nodes/nodeQueries";
 import { groupChildNodes } from "../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
@@ -32,18 +33,35 @@ const RootNode = ({ isFavorite, node, openedPaths, childNodeTypes, rootPath }: P
   const { i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const locale = i18n.language;
-  const childNodesQuery = useChildNodesWithArticleType(
+  const childNodesQuery = useChildNodes(
     {
       id: node.id,
       language: locale,
       nodeType: childNodeTypes,
       taxonomyVersion,
     },
+    { enabled: openedPaths[0] === node.id },
+  );
+
+  const resourceMetasQuery = useNodeResourceMetas(
     {
-      enabled: openedPaths[0] === node.id,
-      select: (childNodes) => groupChildNodes(childNodes),
+      nodeId: node.id,
+      ids:
+        childNodesQuery.data
+          ?.map((r) => r.contentUri)
+          .concat(node.contentUri)
+          .filter((uri): uri is string => !!uri) ?? [],
+      language: i18n.language,
+    },
+    {
+      enabled: !!node.contentUri || !!childNodesQuery.data?.length,
     },
   );
+
+  const keyedMetas = useMemo(() => keyBy(resourceMetasQuery.data, (m) => m.contentUri), [resourceMetasQuery.data]);
+
+  const groupedChildNodes = useMemo(() => groupChildNodes(childNodesQuery.data ?? []), [childNodesQuery.data]);
+
   const compKey = nodeQueryKeys.childNodes({
     taxonomyVersion,
     id: node.id,
@@ -97,7 +115,8 @@ const RootNode = ({ isFavorite, node, openedPaths, childNodeTypes, rootPath }: P
       id={node.id}
       key={node.id}
       item={node}
-      nodes={childNodesQuery.data}
+      nodes={groupedChildNodes}
+      keyedMetas={keyedMetas}
       openedPaths={openedPaths}
       toggleFavorite={toggleFavorite}
       rootNodeId={node.id}

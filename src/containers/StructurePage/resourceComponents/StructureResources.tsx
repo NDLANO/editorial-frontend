@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import ResourcesContainer from "./ResourcesContainer";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
-import { useNodeResourceMetas, useResourcesWithNodeConnection } from "../../../modules/nodes/nodeQueries";
+import { useChildNodes, useNodeResourceMetas } from "../../../modules/nodes/nodeQueries";
 import { useAllResourceTypes } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
@@ -49,10 +49,11 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const grouped = currentChildNode?.metadata?.customFields["topic-resources"] ?? "grouped";
 
-  const { data: nodeResources, isPending: nodeResourcesIsPending } = useResourcesWithNodeConnection(
+  const { data: nodeResources, isPending: nodeResourcesIsPending } = useChildNodes(
     {
       id: currentChildNode.id,
       language: i18n.language,
+      nodeType: ["RESOURCE"],
       includeContexts: true,
       filterProgrammes: true,
       isVisible: false,

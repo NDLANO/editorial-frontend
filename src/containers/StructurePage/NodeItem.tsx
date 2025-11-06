@@ -23,9 +23,8 @@ import DndList from "../../components/DndList";
 import { DragHandle } from "../../components/DraggableItem";
 import Fade from "../../components/Taxonomy/Fade";
 import { iconRecipe, NodeItemRoot, NodeItemTitle, ToggleIcon } from "../../components/Taxonomy/NodeItem";
-import { TaxonomyNodeChild } from "../../components/Taxonomy/types";
 import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
-import { NodeChildWithChildren } from "../../modules/nodes/nodeApiTypes";
+import { NodeChildWithChildren, NodeResourceMeta } from "../../modules/nodes/nodeApiTypes";
 import { nodePathToUrnPath } from "../../util/taxonomyHelpers";
 import { useSession } from "../Session/SessionProvider";
 import StructureErrorIcon from "./folderComponents/StructureErrorIcon";
@@ -87,7 +86,8 @@ const getPath = (path: string, rootPath: string): string => {
 
 interface Props {
   id: string;
-  item: TaxonomyNodeChild | Node;
+  item: Node | NodeChild;
+  keyedMetas?: Record<string, NodeResourceMeta>;
   openedPaths: string[];
   rootNodeId: string;
   onDragEnd: (result: DragEndEvent, childNodes: NodeChild[]) => Promise<void>;
@@ -106,6 +106,7 @@ const NodeItem = ({
   openedPaths,
   rootNodeId,
   onDragEnd,
+  keyedMetas,
   isRoot,
   isFavorite,
   toggleFavorite,
@@ -165,7 +166,12 @@ const NodeItem = ({
             {item.name}
           </SafeLinkWithQuery>
         </NodeItemTitle>
-        <StructureErrorIcon node={item} isRoot={!!isRoot} isTaxonomyAdmin={isTaxonomyAdmin} />
+        <StructureErrorIcon
+          node={item}
+          meta={keyedMetas?.[item.contentUri ?? ""]}
+          isRoot={!!isRoot}
+          isTaxonomyAdmin={isTaxonomyAdmin}
+        />
         {!!showQuality && (item.nodeType === "TOPIC" || item.nodeType === "SUBJECT") && (
           <QualityEvaluationWrapper>
             <QualityEvaluationGrade
@@ -207,6 +213,7 @@ const NodeItem = ({
               renderItem={(t) => (
                 <NodeItem
                   isFavorite={false}
+                  keyedMetas={keyedMetas}
                   key={`${path}/${t.id}`}
                   connectionId={t.connectionId}
                   id={t.id}

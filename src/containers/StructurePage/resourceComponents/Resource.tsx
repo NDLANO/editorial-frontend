@@ -8,7 +8,6 @@
 
 import { useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { DeleteBinLine, CheckboxCircleLine } from "@ndla/icons";
 import { Text, ListItemContent, ListItemHeading, ListItemRoot, IconButton, Badge } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
@@ -109,7 +108,6 @@ const Resource = ({
   rootGrepCodesString,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const location = useLocation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const { showQuality, showMatomoStats } = usePreferences();
 
@@ -138,15 +136,6 @@ const Resource = ({
 
   const contentType = getContentTypeFromResourceTypes(resource.resourceTypes);
   const numericId = parseInt(resource.contentUri?.split(":").pop() ?? "");
-
-  const structurePaths: string[] = location.pathname.replace("/structure", "").split("/");
-  const currentPath = structurePaths.map((p) => p.replace("urn:", "")).join("/");
-  const context = resource.contexts.find((ctx) => {
-    const pArr = ctx.path.split("/");
-    const isResource = pArr[pArr.length - 1].startsWith("resource");
-    const pathWithoutResource = pArr.slice(0, pArr.length - (isResource ? 1 : 0)).join("/");
-    return pathWithoutResource === currentPath;
-  });
 
   const isSupplementary = resource.relevanceId === RESOURCE_FILTER_SUPPLEMENTARY;
 
@@ -220,7 +209,7 @@ const Resource = ({
             ) && (
               <SafeLinkIconButton
                 target="_blank"
-                to={`${config.ndlaFrontendDomain}${context?.url}?versionHash=${taxonomyVersion}`}
+                to={`${config.ndlaFrontendDomain}${resource.context?.url}?versionHash=${taxonomyVersion}`}
                 aria-label={t("taxonomy.publishedVersion")}
                 title={t("taxonomy.publishedVersion")}
                 size="small"

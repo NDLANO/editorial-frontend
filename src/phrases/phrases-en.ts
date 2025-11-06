@@ -1971,6 +1971,19 @@ const phrases = {
       failedToUpdateConnection: "An error occurred when updating the node",
       failedToCreateConnection: "An error occurred when creating the node",
     },
+    learningResources: "Learning resources",
+    multidisciplinaryResources: "Multidisciplinary resources",
+    multidisciplinary: {
+      title: "Multidisciplinary resources",
+      dialogTrigger: "Add multidisciplinary resource",
+      dialogTitle: "Add multidisciplinary resource",
+      errors: {
+        notCase: "The URL points to a multidisciplinary topic, but not a multidisciplinary case.",
+        notMultidisciplinary: "The URL does not point to a multidisciplinary topic.",
+        failedToFetch: "Failed to fetch resource from URL.",
+        invalidUrl: "Invalid URL.",
+      },
+    },
   },
   notions: {
     edit: "Edit notions",

@@ -9,14 +9,7 @@
 import { useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
 import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
 import { fetchChildNodes, fetchNode, fetchNodes, postSearchNodes, searchNodes } from "./nodeApi";
-import {
-  GetChildNodesParams,
-  GetNodeParams,
-  NodeChildWithChildren,
-  NodeResourceMeta,
-  RESOURCE_NODE,
-  TOPIC_NODE,
-} from "./nodeApiTypes";
+import { GetChildNodesParams, GetNodeParams, NodeResourceMeta, RESOURCE_NODE, TOPIC_NODE } from "./nodeApiTypes";
 import { NodeTree } from "../../containers/NodeDiff/diffUtils";
 import { SearchResultBase, WithTaxonomyVersion } from "../../interfaces";
 import {
@@ -213,11 +206,8 @@ interface UseChildNodesParams extends WithTaxonomyVersion, GetChildNodesParams {
   id: string;
 }
 
-export const useChildNodes = (
-  params: UseChildNodesParams,
-  options?: Partial<UseQueryOptions<NodeChildWithChildren[]>>,
-) => {
-  return useQuery<NodeChildWithChildren[]>({
+export const useChildNodes = (params: UseChildNodesParams, options?: Partial<UseQueryOptions<NodeChild[]>>) => {
+  return useQuery<NodeChild[]>({
     queryKey: nodeQueryKeys.childNodes(params),
     queryFn: () => fetchChildNodes(params),
     ...options,

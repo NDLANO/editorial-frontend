@@ -127,7 +127,7 @@ const insertChild = (
 
 const parentIsRoot = (node: NodeChild) => node.path?.startsWith(node.parentId.replace("urn:", "/"));
 
-const groupChildNodes = (childNodes: NodeChild[]) =>
+const groupChildNodes = (childNodes: NodeChild[]): NodeChildWithChildren[] =>
   childNodes.reduce((acc, curr) => {
     if (parentIsRoot(curr)) return acc;
     const withoutCurrent = acc.filter((node) => node.id !== curr.id);

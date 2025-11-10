@@ -32,6 +32,7 @@ const StyledResourceItems = styled("ul", {
 });
 
 interface Props {
+  type: "resource" | "link";
   resources: ResourceWithNodeConnectionAndMeta[];
   currentNodeId: string;
   contentMeta: Dictionary<NodeResourceMeta>;
@@ -49,6 +50,7 @@ const ResourceItems = ({
   nodeResourcesIsPending,
   users,
   rootGrepCodesString,
+  type,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const [deleteId, setDeleteId] = useState<string>("");
@@ -58,7 +60,9 @@ const ResourceItems = ({
   const compKey = nodeQueryKeys.childNodes({
     id: currentNodeId,
     language: i18n.language,
-    nodeType: ["RESOURCE"],
+    nodeType: type === "resource" ? ["RESOURCE"] : undefined,
+    connectionTypes: type === "link" ? ["LINK"] : undefined,
+    recursive: type === "link" ? false : undefined,
     taxonomyVersion,
   });
 

@@ -33,6 +33,7 @@ import { routes } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { useCurrentNode } from "../CurrentNodeProvider";
 import GroupTopicResources from "../folderComponents/topicMenuOptions/GroupTopicResources";
+import { MultidisciplinaryDialog } from "../multidisciplinary/MultidisciplinaryDialog";
 import PlannedResourceDialog from "../plannedResource/PlannedResourceDialog";
 import { usePreferences } from "../PreferencesProvider";
 import { ResourceStats, transformMatomoData } from "../utils";
@@ -47,7 +48,6 @@ const ResourceGroupBanner = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
-    marginBlockEnd: "xsmall",
   },
 });
 
@@ -227,6 +227,7 @@ const TopicResourceBanner = ({
         <ControlButtonGroup>
           <JumpToStructureButton nodeId={currentNode.id} />
           <PlannedResourceDialog currentNode={currentNode} resourceTypes={resourceTypes} resources={resources} />
+          <MultidisciplinaryDialog currentNode={currentNode} />
         </ControlButtonGroup>
       </TopRow>
       <StyledResource>

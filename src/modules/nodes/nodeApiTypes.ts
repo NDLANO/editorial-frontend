@@ -7,7 +7,7 @@
  */
 
 import { CommentDTO, EditorNoteDTO, ResponsibleDTO, RevisionMetaDTO } from "@ndla/types-backend/draft-api";
-import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
+import { Node, NodeChild, NodeConnectionType, NodeType } from "@ndla/types-taxonomy";
 
 export const PROGRAMME = "PROGRAMME";
 export const SUBJECT_NODE = "SUBJECT";
@@ -36,6 +36,7 @@ export interface GetChildNodesParams {
   includeContexts?: boolean;
   filterProgrammes?: boolean;
   isVisible?: boolean;
+  connectionTypes?: NodeConnectionType[];
 }
 
 export interface GetNodeResourcesParams {

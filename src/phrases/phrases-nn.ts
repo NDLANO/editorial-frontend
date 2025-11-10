@@ -1971,6 +1971,19 @@ const phrases = {
       failedToUpdateConnection: "Ein feil oppstod ved oppdatering av noden",
       failedToCreateConnection: "Ein feil oppstod ved oppretting av noden",
     },
+    learningResources: "Læringsressursar",
+    multidisciplinaryResources: "Tverrfaglege tema",
+    multidisciplinary: {
+      title: "Tverrfaglege tema",
+      dialogTrigger: "Legg til tverrfagleg tema",
+      dialogTitle: "Legg til tverrfagleg tema",
+      errors: {
+        notCase: "URL peker til eit tverrfagleg emne, men ikkje eit tverrfagleg case.",
+        notMultidisciplinary: "URL peker ikkje til eit tverrfagleg emne.",
+        failedToFetch: "Klarte ikkje hente ressurs frå URL.",
+        invalidUrl: "Ugyldig URL.",
+      },
+    },
   },
   notions: {
     edit: "Rediger forklaring",

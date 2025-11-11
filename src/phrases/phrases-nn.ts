@@ -378,7 +378,7 @@ const phrases = {
       "revision-date-to": "Revisjonsdato til",
       "exclude-revision-log": "Ekskluder endringslogg",
       "responsible-ids": "Velg ansvarleg",
-      "filter-inactive": "Inkluder utgåtte fag",
+      "filter-inactive": "Inkluder inaktive plasseringer",
     },
     tagType: {
       query: "Søk:",
@@ -396,7 +396,7 @@ const phrases = {
       "revision-date-to": "Revisjonsdato til: {{value}}",
       "exclude-revision-log": "Endringslogg ekskludert",
       "responsible-ids": "Ansvarleg: {{value}}",
-      "filter-inactive": "Utgåtte fag inkludert",
+      "filter-inactive": "Inaktive plasseringer inkludert",
     },
     btn: "Søk",
     empty: "Tøm",

@@ -199,6 +199,7 @@ const allowedFiletypes = [
   ".ppt",
   ".pptx",
   ".pub",
+  ".py",
   ".rtf",
   ".skp",
   ".stl",

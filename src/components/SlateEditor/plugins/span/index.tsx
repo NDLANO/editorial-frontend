@@ -29,7 +29,6 @@ import {
   DEFINITION_DESCRIPTION_ELEMENT_TYPE,
   DEFINITION_TERM_ELEMENT_TYPE,
 } from "../definitionList/definitionListTypes";
-import { SUMMARY_ELEMENT_TYPE } from "../details/summaryTypes";
 import { TABLE_CELL_ELEMENT_TYPE } from "../table/types";
 
 export interface SpanElement {
@@ -52,7 +51,6 @@ const normalizerConfig: NormalizerConfig = {
       LIST_ITEM_ELEMENT_TYPE,
       DEFINITION_DESCRIPTION_ELEMENT_TYPE,
       DEFINITION_TERM_ELEMENT_TYPE,
-      SUMMARY_ELEMENT_TYPE,
       CONCEPT_INLINE_ELEMENT_TYPE,
       SPAN_ELEMENT_TYPE,
       NOOP_ELEMENT_TYPE,

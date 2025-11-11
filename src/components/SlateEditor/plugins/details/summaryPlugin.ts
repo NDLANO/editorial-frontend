@@ -10,7 +10,7 @@ import { createPlugin, defaultNormalizer, isParagraphElement, NormalizerConfig }
 import { SUMMARY_ELEMENT_TYPE, SUMMARY_PLUGIN } from "./summaryTypes";
 import { isSummaryElement } from "./queries/detailsQueries";
 import { DETAILS_ELEMENT_TYPE } from "./detailsTypes";
-import { Transforms } from "slate";
+import { Path, Transforms } from "slate";
 
 const summaryNormalizerConfig: NormalizerConfig = {
   parent: {
@@ -34,14 +34,21 @@ export const summaryPlugin = createPlugin({
       }
       const firstChild = node.children[0];
       if (isParagraphElement(firstChild) && !firstChild.serializeAsText) {
+        logger.log("Setting serializeAsText to true on first element");
         Transforms.setNodes(editor, { serializeAsText: true }, { at: path.concat(0) });
+        return true;
+      }
+      const secondChild = node.children[1];
+      if (secondChild) {
+        logger.log("Moving extra child out of summary element", node.children);
+        Transforms.moveNodes(editor, { at: path.concat(1), to: Path.parent(path).concat(1) });
         return true;
       }
     }
     return false;
   },
   transform: (editor, logger) => {
-    const { shouldHideBlockPicker, insertBreak } = editor;
+    const { shouldHideBlockPicker } = editor;
     editor.shouldHideBlockPicker = () => {
       const [entry] = editor.nodes({ match: isSummaryElement });
       if (isSummaryElement(entry?.[0])) {
@@ -49,16 +56,6 @@ export const summaryPlugin = createPlugin({
         return true;
       }
       return shouldHideBlockPicker?.();
-    };
-
-    editor.insertBreak = () => {
-      const [entry] = editor.nodes({ match: isSummaryElement });
-      if (entry) {
-        logger.log("Tried to insert break in summary, splitting node instead");
-        Transforms.splitNodes(editor, { match: isSummaryElement, always: true });
-        return;
-      }
-      return insertBreak();
     };
 
     return editor;

@@ -2434,6 +2434,12 @@ const phrases = {
       showPublished: "Show published version",
     },
   },
+  articleTraits: {
+    VIDEO: "Video",
+    AUDIO: "Audio",
+    H5P: "Interactive content",
+    PODCAST: "Podcast",
+  },
 };
 
 export default phrases;

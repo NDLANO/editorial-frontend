@@ -93,7 +93,7 @@ export const LearningStepListItem = ({ item, onDeleteStep, language, onlyPublish
   }, [draftQuery.data?.status, stepType]);
 
   return (
-    <StyledListItemRoot id={item.id.toString()} context="list" key={item.id} variant="subtle" nonInteractive>
+    <StyledListItemRoot id={item.id.toString()} key={item.id} nonInteractive>
       <StyledListItemContent>
         <Stack gap="xxsmall">
           <Text fontWeight="bold" textStyle="label.medium">

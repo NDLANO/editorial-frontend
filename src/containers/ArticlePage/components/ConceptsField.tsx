@@ -26,7 +26,12 @@ import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 import { ArticleFormType } from "../../FormikForm/articleFormHooks";
 
 const StyledList = styled("ul", {
-  base: { listStyle: "none" },
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
+    listStyle: "none",
+  },
 });
 
 interface Props {

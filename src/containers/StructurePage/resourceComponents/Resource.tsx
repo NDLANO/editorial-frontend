@@ -140,7 +140,7 @@ const Resource = ({
   const isSupplementary = resource.relevanceId === RESOURCE_FILTER_SUPPLEMENTARY;
 
   return (
-    <StyledListItemRoot context="list" variant="subtle" ref={ref}>
+    <StyledListItemRoot ref={ref}>
       <StyledListItemContent>
         <ContentRow>
           <TextWrapper>

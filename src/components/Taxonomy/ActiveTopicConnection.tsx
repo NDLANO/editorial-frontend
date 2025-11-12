@@ -48,7 +48,7 @@ const ActiveTopicConnection = ({ removeConnection, type, node, updateConnection 
 
   if (type === "topic" || !("connectionId" in node)) {
     return (
-      <ListItemRoot context="list" variant="subtle" asChild consumeCss>
+      <ListItemRoot asChild consumeCss>
         <li>
           <Breadcrumb node={node} />
         </li>
@@ -56,7 +56,7 @@ const ActiveTopicConnection = ({ removeConnection, type, node, updateConnection 
     );
   }
   return (
-    <ListItemRoot context="list" variant="subtle" asChild consumeCss>
+    <ListItemRoot asChild consumeCss>
       <li>
         <StyledPrimaryConnectionButton
           size="small"

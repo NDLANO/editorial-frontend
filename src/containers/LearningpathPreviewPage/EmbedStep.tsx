@@ -8,8 +8,9 @@
 
 import parse from "html-react-parser";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
-import { Spinner } from "@ndla/primitives";
+import { Badge, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ArticleContent, ArticleTitle, ArticleWrapper, ExternalEmbed } from "@ndla/ui";
@@ -51,6 +52,7 @@ const getOembed = async (learningpathStep: LearningStepV2DTO): Promise<Omit<Oemb
 };
 
 export const EmbedStep = ({ step }: Props) => {
+  const { t } = useTranslation();
   const query = useQuery({
     queryKey: ["learningpathOembed", step.embedUrl?.url],
     queryFn: () => getOembed(step),
@@ -70,7 +72,11 @@ export const EmbedStep = ({ step }: Props) => {
   return (
     <EmbedPageContent variant="content">
       <ArticleWrapper>
-        <ArticleTitle id={step.id.toString()} contentType="external" title={step.title.title} />
+        <ArticleTitle
+          id={step.id.toString()}
+          badges={<Badge>{t("contentTypes.external")}</Badge>}
+          title={step.title.title}
+        />
         <ArticleContent>
           <section>
             <ExternalEmbed

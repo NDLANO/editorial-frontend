@@ -22,7 +22,12 @@ import handleError from "../../util/handleError";
 import { usePaginatedQuery } from "../../util/usePaginatedQuery";
 
 const StyledList = styled("ul", {
-  base: { listStyle: "none" },
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+    listStyle: "none",
+  },
 });
 
 const StyledAlertLine = styled(AlertLine, {
@@ -200,7 +205,7 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
       </GenericSearchCombobox>
       <StyledList>
         {Object.entries(grepCodes).map(([code, object]) => (
-          <ListItemRoot key={code} context="list" variant="subtle" asChild consumeCss id="list-item">
+          <ListItemRoot key={code} asChild consumeCss id="list-item">
             <li>
               <ListItemContent>{object.title}</ListItemContent>
               {object.isExpired ? <StyledAlertLine title={t("form.grepCodes.expired")} /> : undefined}

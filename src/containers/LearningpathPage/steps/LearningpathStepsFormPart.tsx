@@ -12,6 +12,7 @@ import { Portal } from "@ark-ui/react";
 import { DragEndEvent } from "@dnd-kit/core";
 import { AddLine, Draggable } from "@ndla/icons";
 import { Button, DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { LearningpathStepForm } from "./LearningpathStepForm";
 import { LearningStepListItem } from "./LearningStepListItem";
@@ -30,6 +31,14 @@ interface Props {
   learningpath: LearningPathV2DTO;
   language: string;
 }
+
+const StyledList = styled("ul", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
+  },
+});
 
 export const LearningpathStepsFormPart = ({ learningpath, language }: Props) => {
   const [open, setOpen] = useState(false);
@@ -74,7 +83,7 @@ export const LearningpathStepsFormPart = ({ learningpath, language }: Props) => 
   return (
     <FormContent>
       {learningpath.learningsteps.length ? (
-        <ul>
+        <StyledList>
           <DndList
             items={learningpath.learningsteps}
             onDragEnd={onDragEnd}
@@ -94,7 +103,7 @@ export const LearningpathStepsFormPart = ({ learningpath, language }: Props) => 
               />
             )}
           />
-        </ul>
+        </StyledList>
       ) : (
         <Text>{t("learningpathForm.steps.noSteps")}</Text>
       )}

@@ -8,7 +8,7 @@
 
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import { Spinner } from "@ndla/primitives";
+import { Badge, Spinner } from "@ndla/primitives";
 import { LearningPathV2DTO, LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper, ResourceBox } from "@ndla/ui";
 import { EmbedPageContent } from "./EmbedPageContent";
@@ -37,7 +37,7 @@ export const ExternalStep = ({ step, learningpath }: Props) => {
           title={step.title.title}
           introduction={step.introduction?.introduction}
           id={id}
-          contentType="external"
+          badges={<Badge>{t("contentTypes.external")}</Badge>}
         />
         <ArticleContent>
           <section>

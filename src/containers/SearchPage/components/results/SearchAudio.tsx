@@ -28,7 +28,7 @@ const SearchAudio = ({ audio, locale }: Props) => {
   const license = licenses && licenses.find((l) => audio.license === l.license);
 
   return (
-    <ListItemRoot context="list" variant="subtle" data-testid="audio-search-result">
+    <ListItemRoot data-testid="audio-search-result">
       <ListItemImage
         fallbackElement={audio.audioType === "podcast" ? <BroadcastLine /> : <VoiceprintLine />}
         src=""

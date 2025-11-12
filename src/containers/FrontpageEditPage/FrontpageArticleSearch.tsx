@@ -21,6 +21,7 @@ import {
   Text,
   ComboboxList,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { ArticleSummaryV2DTO } from "@ndla/types-backend/article-api";
 import { useComboboxTranslations } from "@ndla/ui";
 import { extractArticleIds } from "./frontpageHelpers";
@@ -35,6 +36,14 @@ interface Props {
   children?: ReactNode;
   onChange: (article: ArticleSummaryV2DTO) => void;
 }
+
+const StyledComboboxList = styled(ComboboxList, {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
+  },
+});
 
 const FrontpageArticleSearch = ({ articleId, children, onChange }: Props) => {
   const { t } = useTranslation();
@@ -90,7 +99,7 @@ const FrontpageArticleSearch = ({ articleId, children, onChange }: Props) => {
           <GenericComboboxInput isFetching={articleQuery.isFetching} />
           <ComboboxContent>
             {!!articleQuery.data?.results.length && (
-              <ComboboxList>
+              <StyledComboboxList>
                 {articleQuery.data.results.map((article) => (
                   <ComboboxItem key={article.id} item={article} asChild>
                     <GenericComboboxItemContent
@@ -102,7 +111,7 @@ const FrontpageArticleSearch = ({ articleId, children, onChange }: Props) => {
                     />
                   </ComboboxItem>
                 ))}
-              </ComboboxList>
+              </StyledComboboxList>
             )}
             {!!articleQuery.isSuccess && (
               <Text>{t("dropdown.numberHits", { hits: articleQuery.data.totalCount })}</Text>

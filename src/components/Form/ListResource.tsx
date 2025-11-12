@@ -54,7 +54,7 @@ const ListResource = ({
 }: Props) => {
   const { t } = useTranslation();
   return (
-    <StyledListItemRoot context="list" variant="subtle" data-testid="elementListItem">
+    <StyledListItemRoot data-testid="elementListItem">
       <BigListItemImage
         src={metaImage?.url ?? ""}
         alt={metaImage?.alt ?? ""}

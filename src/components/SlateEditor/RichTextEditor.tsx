@@ -93,8 +93,6 @@ const RichTextEditor = ({
       (editorId && status?.status === editorId)
     ) {
       editor.reinitialize({ value, shouldNormalize: true, onInitialNormalized });
-      editor.onChange();
-      ReactEditor.focus(editor);
       if (status?.status === "revertVersion") {
         setStatus((prevStatus: FormikStatus) => ({
           ...prevStatus,

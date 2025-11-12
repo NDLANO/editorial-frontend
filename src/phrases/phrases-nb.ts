@@ -2431,6 +2431,12 @@ const phrases = {
       showPublished: "Vis publisert versjon",
     },
   },
+  articleTraits: {
+    VIDEO: "Video",
+    AUDIO: "Lyd",
+    H5P: "Interaktivt innhold",
+    PODCAST: "Podkast",
+  },
 };
 
 export default phrases;

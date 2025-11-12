@@ -40,6 +40,9 @@ import { ArticleFormType } from "../../FormikForm/articleFormHooks";
 
 const StyledList = styled("ul", {
   base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
     listStyle: "none",
   },
 });

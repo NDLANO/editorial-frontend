@@ -28,7 +28,12 @@ import handleError from "../../../util/handleError";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 const StyledResourceItems = styled("ul", {
-  base: { listStyle: "none" },
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
+    listStyle: "none",
+  },
 });
 
 interface Props {

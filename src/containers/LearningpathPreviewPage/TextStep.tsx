@@ -7,7 +7,9 @@
  */
 
 import { useId } from "react";
+import { useTranslation } from "react-i18next";
 import { transform } from "@ndla/article-converter";
+import { Badge } from "@ndla/primitives";
 import { LearningPathV2DTO, LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper } from "@ndla/ui";
 import { EmbedPageContent } from "./EmbedPageContent";
@@ -18,6 +20,7 @@ interface TextStepProps {
 }
 
 export const TextStep = ({ step, learningpath }: TextStepProps) => {
+  const { t } = useTranslation();
   const id = useId();
 
   return (
@@ -26,7 +29,7 @@ export const TextStep = ({ step, learningpath }: TextStepProps) => {
         <ArticleTitle
           id={id}
           title={step.title.title}
-          contentType="external"
+          badges={<Badge>{t("contentTypes.external")}</Badge>}
           introduction={step.introduction?.introduction}
         />
         <ArticleContent>

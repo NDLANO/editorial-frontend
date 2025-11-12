@@ -10,6 +10,7 @@ import { keyBy } from "lodash-es";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Spinner, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import {
   AudioSummaryDTO,
   AudioSummarySearchResultDTO,
@@ -47,6 +48,14 @@ interface Props {
   error: boolean;
 }
 
+const StyledUl = styled("ul", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
+  },
+});
+
 const toResultReturnType = (results: ResultType["results"], type: SearchType): SearchResultReturnType[] =>
   results.map((result: ResultSummaryType) => ({ type: type, value: result }));
 
@@ -74,7 +83,7 @@ const SearchList = ({ results, searchObject, type, searching = true, locale, err
   if (error) return <Text color="text.error">{t("searchForm.error")}</Text>;
   if (results.length === 0) return <Text>{t(`searchPage.${type}NoHits`, { query: searchObject.query ?? "" })}</Text>;
   return (
-    <div>
+    <StyledUl>
       {toResultReturnType(results, type).map((result) => {
         const learningResourceType = "learningResourceType" in result.value ? result.value.learningResourceType : "";
         const responsibleName =
@@ -89,7 +98,7 @@ const SearchList = ({ results, searchObject, type, searching = true, locale, err
           />
         );
       })}
-    </div>
+    </StyledUl>
   );
 };
 

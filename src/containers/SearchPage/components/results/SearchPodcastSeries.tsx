@@ -23,7 +23,7 @@ const SearchPodcastSeries = ({ series }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <ListItemRoot context="list" variant="subtle">
+    <ListItemRoot>
       <SearchListItemImage
         src={series.coverPhoto.url}
         alt={series.coverPhoto.altText}

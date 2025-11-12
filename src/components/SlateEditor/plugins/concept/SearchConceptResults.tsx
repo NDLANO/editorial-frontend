@@ -45,6 +45,9 @@ const StyledText = styled(Text, {
 
 const StyledList = styled("ul", {
   base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
     listStyle: "none",
   },
 });
@@ -80,7 +83,7 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching = t
   return (
     <StyledList>
       {results.map((result) => (
-        <ListItemRoot key={result.id} context="list" nonInteractive asChild consumeCss>
+        <ListItemRoot key={result.id} nonInteractive asChild consumeCss>
           <li>
             <StyledListItemImage src="" alt="" fallbackElement={result.glossData ? <GlobalLine /> : <InfoI />} />
             <StyledListItemContent>

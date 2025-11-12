@@ -8,7 +8,15 @@
 
 import { ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Spinner, SwitchRoot, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchThumb } from "@ndla/primitives";
+import {
+  Spinner,
+  SwitchRoot,
+  SwitchControl,
+  SwitchHiddenInput,
+  SwitchLabel,
+  SwitchThumb,
+  Badge,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { Article } from "@ndla/ui";
@@ -68,6 +76,11 @@ export const ArticleStep = ({ step, children, language }: ArticleStepProps) => {
 
   if (!draftQuery.data || !article) return null;
 
+  const contentType =
+    draftQuery.data?.articleType === "topic-article"
+      ? "topic-article"
+      : getContentTypeFromResourceTypes(nodeQuery.data?.resourceTypes ?? []);
+
   return (
     <EmbedPageContent variant="content">
       <StyledSwitchRoot
@@ -87,12 +100,7 @@ export const ArticleStep = ({ step, children, language }: ArticleStepProps) => {
       <Article
         id={draftQuery.data.id.toString()}
         article={article}
-        contentTypeLabel={nodeQuery.data?.resourceTypes?.[0]?.name}
-        contentType={
-          draftQuery.data?.articleType === "topic-article"
-            ? "topic-article"
-            : getContentTypeFromResourceTypes(nodeQuery.data?.resourceTypes ?? [])
-        }
+        badges={!!contentType?.length && <Badge>{t(`contentTypes.${contentType}`)}</Badge>}
       >
         {children}
       </Article>

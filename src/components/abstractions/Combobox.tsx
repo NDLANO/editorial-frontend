@@ -128,7 +128,7 @@ export const GenericComboboxItemContent = ({
   useFallbackImage,
   ...props
 }: GenericComboboxItemProps) => (
-  <StyledListItemRoot context="list" {...props}>
+  <StyledListItemRoot {...props}>
     {!!(!!image || useFallbackImage) && (
       <ListItemImage
         src={image?.url ?? ""}

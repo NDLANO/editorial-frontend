@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { AccessibilityFill } from "@ndla/icons";
 import {
+  Badge,
   Button,
   DialogBody,
   DialogContent,
@@ -48,7 +49,7 @@ export const TransformedPreviewDraft = ({ article, draft, contentType }: Props) 
     <>
       <ArticleTitle
         id={draft.id.toString()}
-        contentType={contentType}
+        badges={!!contentType?.length && <Badge>{t(`contentTypes.${contentType}`)}</Badge>}
         title={article.title}
         introduction={article.introduction}
         lang={getUpdatedLanguage(draft.language)}

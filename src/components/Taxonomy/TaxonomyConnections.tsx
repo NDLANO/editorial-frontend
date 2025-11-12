@@ -51,6 +51,9 @@ const Wrapper = styled("div", {
 
 const StyledConnectionsList = styled("ul", {
   base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
     listStyle: "none",
     marginBottom: "small",
   },

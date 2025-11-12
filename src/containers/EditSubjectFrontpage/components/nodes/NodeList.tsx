@@ -18,6 +18,9 @@ import { routes } from "../../../../util/routeHelpers";
 
 const StyledList = styled("ul", {
   base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
     listStyle: "none",
   },
 });
@@ -49,7 +52,7 @@ const NodeList = ({ nodes, onUpdate }: Props) => {
         }
         renderItem={(item) => {
           return (
-            <StyledListItemRoot context="list" variant="subtle" data-testid="elementListItem">
+            <StyledListItemRoot data-testid="elementListItem">
               <ListItemContent>
                 <ListItemHeading asChild consumeCss>
                   <SafeLink to={routes.structure(item.url)} unstyled>

@@ -38,6 +38,9 @@ const StyledComboboxContent = styled(ComboboxContent, {
 
 const StyledComboboxList = styled(ComboboxList, {
   base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
     overflowY: "auto",
   },
 });

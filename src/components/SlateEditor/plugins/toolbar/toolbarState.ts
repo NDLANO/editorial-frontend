@@ -7,7 +7,7 @@
  */
 
 import { merge } from "lodash-es";
-import { Editor, Element, ElementType, Node, Path, Range, Selection } from "slate";
+import { Editor, Element, ElementType, Node, NodeEntry, Path, Range, Selection } from "slate";
 import { SYMBOL_ELEMENT_TYPE } from "../symbol/types";
 import { MarkType, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { SPAN_ELEMENT_TYPE } from "../span/types";
@@ -243,17 +243,49 @@ type SelectionElements = {
   multipleParagraphsSelected: boolean;
 };
 
+function getRelevantAncestor(
+  editor: Editor,
+  rawSelection: Selection,
+  ignoredElements: ElementType[] = [],
+): NodeEntry | null {
+  if (!rawSelection) return null;
+  const selection = Editor.unhangRange(editor, rawSelection);
+
+  // start with the closest relevant ancestor
+  let [ancestor, path] =
+    Editor.above(editor, {
+      at: selection,
+      // TODO: Is ignoredElements dumb here?
+      match: (node) => Element.isElement(node) && !ignoredElements.includes(node.type),
+      voids: true,
+    }) ?? [];
+
+  if (!ancestor || !path) return null;
+
+  // keep going until the parent element stops existing, or if it contains other children.
+  while (true) {
+    const parentEntry = Editor.parent(editor, path);
+    if (!parentEntry) break;
+
+    const [parent, parentPath] = parentEntry;
+
+    // TODO: Is ignoredElements dumb here?
+    if (!Element.isElement(parent) || ignoredElements.includes(parent.type)) break;
+
+    if (parent.children.length !== 1) break;
+
+    ancestor = parent;
+    path = parentPath;
+  }
+
+  return [ancestor, path];
+}
+
 export const selectionElements = (editor: Editor, rawSelection: Selection): SelectionElements => {
   if (!rawSelection) return { multipleParagraphsSelected: false };
 
   const selection = Editor.unhangRange(editor, rawSelection);
-  // Find the first ancestor that is both an Element and relevant for the toolbar state
-  const [parentElement, parentPath] =
-    Editor.above(editor, {
-      at: selection ?? undefined,
-      match: (node) => Element.isElement(node) && !ignoredElements.includes(node.type),
-      voids: true,
-    }) ?? [];
+  const [parentElement, parentPath] = getRelevantAncestor(editor, selection, ignoredElements) ?? [];
 
   // Find all elements inside of the parent element (or editor if parent is `undefined`) that are also inside of the selection range
   const elements: Element[] = [];

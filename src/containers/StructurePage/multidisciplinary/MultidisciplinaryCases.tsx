@@ -83,7 +83,7 @@ export const MultidisciplinaryCases = ({ currentNode }: Props) => {
         type="link"
         resources={childrenQuery.data}
         currentNodeId={currentNode.id}
-        contentMeta={keyedMetas}
+        contentMetas={keyedMetas}
         nodeResourcesIsPending={childrenQuery.isPending}
         rootGrepCodesString={rootGrepCodesString}
       />

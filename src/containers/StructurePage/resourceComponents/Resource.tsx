@@ -13,6 +13,7 @@ import { Text, ListItemContent, ListItemHeading, ListItemRoot, IconButton, Badge
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
+import { NodeChild } from "@ndla/types-taxonomy";
 import GrepCodesDialog from "./GrepCodesDialog";
 import MatomoStats from "./MatomoStats";
 import QualityEvaluationGrade from "./QualityEvaluationGrade";
@@ -21,7 +22,7 @@ import VersionHistory from "./VersionHistory";
 import { SupplementaryIndicator } from "../../../components/Taxonomy/SupplementaryIndicator";
 import config from "../../../config";
 import { PUBLISHED, RESOURCE_FILTER_SUPPLEMENTARY } from "../../../constants";
-import { ResourceWithNodeConnectionAndMeta } from "../../../modules/nodes/nodeApiTypes";
+import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
 import { routes } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -93,7 +94,8 @@ const TextWrapper = styled("div", {
 interface Props {
   currentNodeId: string;
   responsible?: string;
-  resource: ResourceWithNodeConnectionAndMeta;
+  resource: NodeChild;
+  contentMeta: NodeResourceMeta | undefined;
   nodeResourcesIsPending: boolean;
   onDelete: (connectionId: string) => void;
   rootGrepCodesString: string | undefined;
@@ -106,6 +108,7 @@ const Resource = ({
   responsible,
   onDelete,
   rootGrepCodesString,
+  contentMeta,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -187,6 +190,7 @@ const Resource = ({
             )}
             <StatusIcons
               nodeResourcesIsPending={nodeResourcesIsPending}
+              contentMeta={contentMeta}
               resource={resource}
               multipleTaxonomy={resource.contexts?.length > 1}
             />
@@ -203,10 +207,7 @@ const Resource = ({
             </Text>
           </TextWrapper>
           <ControlButtonGroup>
-            {!!(
-              resource.contentMeta?.status?.current === PUBLISHED ||
-              resource.contentMeta?.status?.other?.includes(PUBLISHED)
-            ) && (
+            {!!(contentMeta?.status?.current === PUBLISHED || contentMeta?.status?.other?.includes(PUBLISHED)) && (
               <SafeLinkIconButton
                 target="_blank"
                 to={`${config.ndlaFrontendDomain}${resource.context?.url}?versionHash=${taxonomyVersion}`}
@@ -219,13 +220,13 @@ const Resource = ({
               </SafeLinkIconButton>
             )}
             <GrepCodesDialog
-              codes={resource.contentMeta?.grepCodes ?? []}
+              codes={contentMeta?.grepCodes ?? []}
               contentUri={resource.contentUri}
-              revision={resource.contentMeta?.revision}
+              revision={contentMeta?.revision}
               currentNodeId={currentNodeId}
               rootGrepCodesString={rootGrepCodesString}
             />
-            <VersionHistory resource={resource} contentType={contentType} />
+            <VersionHistory resource={resource} contentMeta={contentMeta} contentType={contentType} />
             <IconButton
               aria-label={t("form.remove")}
               title={t("form.remove")}

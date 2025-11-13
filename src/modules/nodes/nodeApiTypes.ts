@@ -62,10 +62,6 @@ export interface NodeResourceMeta {
   comments?: CommentDTO[];
 }
 
-export interface ResourceWithNodeConnectionAndMeta extends NodeChild {
-  contentMeta?: NodeResourceMeta;
-}
-
 export interface NodeWithChildren extends Node {
   childNodes?: NodeChildWithChildren[];
 }

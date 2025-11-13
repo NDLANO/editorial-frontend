@@ -7,9 +7,8 @@
  */
 
 import { useFormikContext } from "formik";
-import { isEqual } from "lodash-es";
 import { useCallback, useEffect, useRef, JSX, DragEvent, ReactNode } from "react";
-import { Descendant, Editor, Range, Transforms } from "slate";
+import { Descendant, Editor } from "slate";
 import { Slate, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
 import { LoggerManager, SlatePlugin, useCreateSlate } from "@ndla/editor";
@@ -93,52 +92,13 @@ const RichTextEditor = ({
       status?.status === "revertVersion" ||
       (editorId && status?.status === editorId)
     ) {
-      ReactEditor.deselect(editor);
       editor.reinitialize({ value, shouldNormalize: true, onInitialNormalized });
-      if (editor.lastSelection || editor.lastSelectedBlock) {
-        ReactEditor.focus(editor);
-      }
-      // Try to select previous selection if it exists
-      if (editor.lastSelection) {
-        const edges = Range.edges(editor.lastSelection);
-        if (Editor.hasPath(editor, edges[0].path) && Editor.hasPath(editor, edges[1].path)) {
-          const start = Editor.start(editor, edges[0].path);
-          const end = Editor.end(editor, edges[1].path);
-
-          const existingRange = { anchor: start, focus: end };
-
-          if (Range.includes(existingRange, edges[0]) && Range.includes(existingRange, edges[1])) {
-            Transforms.select(editor, editor.lastSelection);
-            editor.lastSelection = undefined;
-            editor.lastSelectedBlock = undefined;
-            prevSubmitted.current = submitted;
-            return;
-          }
-        }
-        // Else: Try to find previous block element and select it.
-      }
-      if (editor.lastSelectedBlock) {
-        const [target] = Editor.nodes(editor, {
-          at: Editor.range(editor, [0]),
-          match: (node) => {
-            return isEqual(node, editor.lastSelectedBlock);
-          },
-        });
-        if (target) {
-          Transforms.select(editor, target[1]);
-          Transforms.collapse(editor, { edge: "end" });
-        }
-      }
-      editor.lastSelection = undefined;
-      editor.lastSelectedBlock = undefined;
       if (status?.status === "revertVersion") {
         setStatus((prevStatus: FormikStatus) => ({
           ...prevStatus,
           status: undefined,
         }));
       }
-    } else if (submitted && !prevSubmitted.current) {
-      ReactEditor.deselect(editor);
     }
     prevSubmitted.current = submitted;
     // eslint-disable-next-line react-hooks/exhaustive-deps

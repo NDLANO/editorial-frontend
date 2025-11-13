@@ -7,12 +7,14 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
+import { useHref, useLocation } from "react-router";
 import { Button } from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
 import { useMessages } from "./MessagesProvider";
 import { MessageType } from "./types";
 import { AlertDialog } from "../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../../components/FormikForm";
+import { toLogout } from "../../util/routeHelpers";
 
 interface MessageProps {
   message: MessageType;
@@ -20,8 +22,9 @@ interface MessageProps {
 
 const Message = ({ message }: MessageProps) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const { clearMessage } = useMessages();
+  const location = useLocation();
+  const href = useHref(location);
 
   return (
     <AlertDialog
@@ -37,18 +40,13 @@ const Message = ({ message }: MessageProps) => {
           <Button variant="danger" onClick={() => clearMessage(message.id)}>
             {t("form.abort")}
           </Button>
-          <Button
+          <SafeLinkButton
             variant="secondary"
-            onClick={(e) => {
-              e.preventDefault();
-              const lastPath = `${window.location.pathname}${window.location.search ? window.location.search : ""}`;
-              localStorage.setItem("lastPath", lastPath);
-              navigate("/logout/session?returnToLogin=true"); // Push to logoutPath
-              window.location.reload();
-            }}
+            to={toLogout(true, location.pathname !== "/" ? encodeURIComponent(href) : undefined)}
+            asAnchor
           >
             {t("alertDialog.loginAgain")}
-          </Button>
+          </SafeLinkButton>
         </FormActionsContainer>
       ) : null}
     </AlertDialog>

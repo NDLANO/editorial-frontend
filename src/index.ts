@@ -18,6 +18,7 @@ import { ViteDevServer } from "vite";
 import config from "./config";
 import contentSecurityPolicy from "./server/contentSecurityPolicy";
 import api from "./server/api";
+import authEndpoints from "./server/authEndpoints";
 
 const isProduction = config.runtimeType === "production";
 const base = "/";
@@ -93,6 +94,7 @@ app.use(
 const serializedConfig = serialize(config);
 
 app.use(api);
+app.use(authEndpoints);
 
 app.get("*splat", async (req, res) => {
   try {

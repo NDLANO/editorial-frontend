@@ -42,7 +42,7 @@ import { AlertDialogWrapper } from "../FormikForm";
 import { useMessages } from "../Messages/MessagesProvider";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
-import { getSessionStateFromLocalStorage } from "../Session/SessionProvider";
+import { useSession } from "../Session/SessionProvider";
 
 const MonacoEditor = lazy(() => import("../../components/MonacoEditor"));
 
@@ -141,10 +141,10 @@ const EditMarkupPage = () => {
   const location = useLocation();
   const locationState = location.state as LocationState | undefined;
   const { createMessage, formatErrorMessage } = useMessages();
+  const { userPermissions } = useSession();
 
   useEffect(() => {
-    const session = getSessionStateFromLocalStorage();
-    if (!session.user.permissions?.includes(DRAFT_HTML_SCOPE)) {
+    if (!userPermissions?.includes(DRAFT_HTML_SCOPE)) {
       setStatus("access-error");
       return;
     }
@@ -161,7 +161,7 @@ const EditMarkupPage = () => {
         setStatus("fetch-error");
       }
     })();
-  }, [draftId, language]);
+  }, [draftId, language, userPermissions]);
 
   if (!draftId) {
     return <NotFoundPage />;

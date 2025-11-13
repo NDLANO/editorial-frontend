@@ -21,42 +21,8 @@ export const routes: RouteObject[] = [
         lazy: () => import("./containers/WelcomePage/WelcomePage"),
       },
       {
-        path: "login",
-        children: [
-          {
-            index: true,
-            lazy: () => import("./containers/Login/LoginProviders"),
-          },
-          {
-            path: "*",
-            lazy: () => import("./containers/Login/Login"),
-          },
-          {
-            path: "success/*",
-            lazy: () => import("./containers/Login/LoginSuccess"),
-          },
-          {
-            path: "failure",
-            lazy: () => import("./containers/Login/LoginFailure"),
-          },
-        ],
-      },
-      {
-        path: "logout",
-        children: [
-          {
-            index: true,
-            lazy: () => import("./containers/Logout/LogoutProviders"),
-          },
-          {
-            path: "federated",
-            lazy: () => import("./containers/Logout/LogoutFederated"),
-          },
-          {
-            path: "session",
-            lazy: () => import("./containers/Logout/LogoutSession"),
-          },
-        ],
+        path: "login/failure",
+        lazy: () => import("./containers/Login/LoginFailure"),
       },
       {
         path: "subjectpage",

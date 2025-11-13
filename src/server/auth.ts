@@ -6,7 +6,6 @@
  *
  */
 
-import { Auth0UserProfile } from "auth0-js";
 import { getEnvironmentVariabel, getUniversalConfig } from "../config";
 import { Auth0UserData } from "../interfaces";
 
@@ -78,6 +77,11 @@ export const fetchAuth0UsersById = async (
   const json = await res.json();
   return mapToUserData(json);
 };
+
+interface Auth0UserProfile {
+  name: string;
+  app_metadata?: any;
+}
 
 type PaginatedAuth0UserProfiles = {
   length: number;

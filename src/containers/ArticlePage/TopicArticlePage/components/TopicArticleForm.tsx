@@ -98,10 +98,6 @@ const TopicArticleForm = ({
     [_handleSubmit, articleTaxonomy?.length],
   );
 
-  const contexts = articleTaxonomy
-    ?.flatMap((node) => node.contexts)
-    .filter((context) => !context.rootId.includes("programme"));
-
   return (
     <Formik
       validateOnMount
@@ -117,7 +113,7 @@ const TopicArticleForm = ({
         <HeaderWithLanguage
           id={article?.id}
           language={articleLanguage}
-          taxonomy={contexts}
+          nodes={articleTaxonomy}
           article={article}
           articleRevisionHistory={articleRevisionHistory?.data}
           status={article?.status}

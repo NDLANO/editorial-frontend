@@ -6,12 +6,12 @@
  *
  */
 
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { Badge, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { TaxonomyContext } from "@ndla/types-taxonomy";
+import { Node } from "@ndla/types-taxonomy";
 import { constants } from "@ndla/ui";
 import HeaderStatusInformation from "./HeaderStatusInformation";
 import {
@@ -58,7 +58,7 @@ interface Props {
   expirationDate?: string;
   responsibleId?: string;
   slug?: string;
-  taxonomy?: TaxonomyContext[];
+  nodes: Node[] | undefined;
 }
 
 const HeaderInformation = ({
@@ -73,7 +73,7 @@ const HeaderInformation = ({
   responsibleId,
   language,
   slug,
-  taxonomy = [],
+  nodes,
 }: Props) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
@@ -81,9 +81,13 @@ const HeaderInformation = ({
   const navigate = useNavigate();
   const responsibleQuery = useAuth0Users({ uniqueUserIds: responsibleId ?? "" }, { enabled: !!responsibleId });
 
-  const contentType = taxonomy[0]?.resourceTypes.length
-    ? getContentTypeFromResourceTypes(taxonomy[0].resourceTypes)
-    : contentTypeMapping[type];
+  const contentType = useMemo(() => {
+    const taxonomy = nodes?.flatMap((node) => node.contexts) ?? [];
+    if (taxonomy[0]?.resourceTypes.length) {
+      return getContentTypeFromResourceTypes(taxonomy[0].resourceTypes);
+    }
+    return contentTypeMapping[type];
+  }, [nodes, type]);
 
   const onSaveAsNew = useCallback(async () => {
     if (!id) return;
@@ -122,7 +126,7 @@ const HeaderInformation = ({
         isNewLanguage={isNewLanguage}
         published={published}
         slug={slug}
-        multipleTaxonomy={taxonomy.length > 1}
+        nodes={nodes}
         type={type}
         id={id}
         expirationDate={expirationDate}

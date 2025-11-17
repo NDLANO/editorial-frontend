@@ -85,6 +85,7 @@ const EditLearningResource = () => {
       taxonomyVersion,
       language: selectedLanguage,
       includeContexts: true,
+      filterProgrammes: true,
     },
     {
       enabled: !!params.selectedLanguage && !!params.id,

@@ -86,6 +86,7 @@ const EditTopicArticle = () => {
     {
       contentURI: `urn:article:${params.id}`,
       taxonomyVersion,
+      filterProgrammes: true,
       language: selectedLanguage,
       includeContexts: true,
     },

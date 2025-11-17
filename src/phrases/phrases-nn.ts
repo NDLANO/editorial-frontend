@@ -1576,6 +1576,9 @@ const phrases = {
       sectionTitle: "Bruk av artikkelen i læringsstiar",
       title: "Læringsstiar som inneheld denne artikkelen",
     },
+    linkConnections: {
+      title: "Noder som lenker til denne artikkelen",
+    },
     myNdla: {
       noFavorites: "Ingen har favorittmerka ressursen.",
       numFavorites: "Ressursen har vorte favorittmerka {{num}} gonger.",

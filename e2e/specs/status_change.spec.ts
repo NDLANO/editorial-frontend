@@ -19,12 +19,12 @@ test("can change status correctly", async ({ page, harCheckpoint }) => {
 
   await statusSelect.click();
   await page.getByText("I arbeid", { exact: true }).first().click();
-  await page.getByTestId("responsible-select").click();
+  expect(page.getByTestId("responsible-select").locator("input").inputValue).not.toBeFalsy();
+  await page.getByTestId("responsible-select").locator("[data-part='clear-trigger']").click();
   await page.keyboard.type("Ed Test");
   await page.keyboard.press("ArrowDown");
   await page.keyboard.press("Enter");
 
-  await harCheckpoint();
   await saveButton.click();
   await saveButton.getByText("Lagret").waitFor();
   await expect(statusSelect.locator('[data-part="value-text"]')).toHaveText("I arbeid");

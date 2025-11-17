@@ -95,6 +95,7 @@ const FrontpageArticleForm = ({
           articleRevisionHistory={articleRevisionHistory?.data}
           language={articleLanguage}
           supportedLanguages={supportedLanguages}
+          nodes={undefined}
           status={article?.status}
           type="frontpage-article"
           expirationDate={getExpirationDate(article?.revisions)}

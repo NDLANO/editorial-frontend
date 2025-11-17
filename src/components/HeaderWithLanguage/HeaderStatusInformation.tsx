@@ -12,9 +12,11 @@ import { ErrorWarningFill } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { LearningPathSummaryV2DTO } from "@ndla/types-backend/learningpath-api";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { Node } from "@ndla/types-taxonomy";
 import EmbedConnection from "./EmbedInformation/EmbedConnection";
 import HeaderFavoriteStatus from "./HeaderFavoriteStatus";
 import LearningpathConnection from "./LearningpathConnection";
+import { LinkConnections } from "./LinkConnections";
 import { ResourcePublishedLink } from "./ResourcePublishedLink";
 import { ResourceStatus } from "./ResourceStatus";
 import {
@@ -27,13 +29,13 @@ interface Props {
   statusText?: string;
   isNewLanguage?: boolean;
   published: boolean;
-  multipleTaxonomy?: boolean;
   type?: string;
   id?: number;
   expirationDate?: string;
   responsibleName?: string;
   slug?: string;
   favoriteCount?: number;
+  nodes: Node[] | undefined;
 }
 
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
@@ -46,7 +48,7 @@ const HeaderStatusInformation = ({
   statusText,
   isNewLanguage,
   published,
-  multipleTaxonomy,
+  nodes,
   type,
   id,
   expirationDate,
@@ -65,11 +67,12 @@ const HeaderStatusInformation = ({
         <>
           <EmbedConnection id={id} type="article" articles={articles} setArticles={setArticles} />
           <LearningpathConnection id={id} learningpaths={learningpaths} setLearningpaths={setLearningpaths} />
+          <LinkConnections nodes={nodes} />
           {!!expirationDate && <ResourceStatus expirationDate={expirationDate} />}
         </>
       ) : null}
       {!!published && (!!slug || !!id) && <ResourcePublishedLink type="article" slugOrId={slug ?? id!} />}
-      {!!multipleTaxonomy && (
+      {(nodes?.flatMap((node) => node.contexts) ?? []).length > 1 && (
         <StyledErrorWarningFill
           aria-label={t("form.workflow.multipleTaxonomy")}
           title={t("form.workflow.multipleTaxonomy")}

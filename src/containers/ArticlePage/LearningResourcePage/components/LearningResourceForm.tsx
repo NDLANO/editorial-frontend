@@ -85,10 +85,7 @@ const LearningResourceForm = ({
     rules: learningResourceRules,
     ndlaId,
   });
-  const contexts = useMemo(
-    () => articleTaxonomy?.flatMap((node) => node.contexts).filter((context) => !context.rootId.includes("programme")),
-    [articleTaxonomy],
-  );
+  const contexts = useMemo(() => articleTaxonomy?.flatMap((node) => node.contexts), [articleTaxonomy]);
 
   const handleSubmit: HandleSubmitFunc<LearningResourceFormType> = useCallback(
     async (values, helpers) => {
@@ -132,9 +129,9 @@ const LearningResourceForm = ({
             language={articleLanguage}
             article={article}
             status={article?.status}
+            nodes={articleTaxonomy}
             articleRevisionHistory={articleRevisionHistory?.data}
             supportedLanguages={supportedLanguages}
-            taxonomy={contexts}
             title={article?.title?.title}
             type="standard"
             expirationDate={getExpirationDate(article?.revisions)}

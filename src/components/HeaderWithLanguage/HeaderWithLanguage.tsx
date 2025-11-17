@@ -9,7 +9,7 @@
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { ArticleRevisionHistoryDTO, ArticleDTO, StatusDTO } from "@ndla/types-backend/draft-api";
-import { TaxonomyContext } from "@ndla/types-taxonomy";
+import { Node } from "@ndla/types-taxonomy";
 import HeaderActions from "./HeaderActions";
 import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
 import HeaderInformation from "./HeaderInformation";
@@ -20,7 +20,6 @@ interface Props {
   title?: string;
   language: string;
   id?: number;
-  taxonomy?: TaxonomyContext[];
   noStatus?: boolean;
   article?: ArticleDTO;
   articleRevisionHistory?: ArticleRevisionHistoryDTO;
@@ -28,12 +27,12 @@ interface Props {
   type: FormHeaderType;
   status?: StatusDTO;
   expirationDate?: string;
+  nodes: Node[] | undefined;
 }
 
 const HeaderWithLanguage = ({
   noStatus = false,
   type,
-  taxonomy = [],
   article,
   articleRevisionHistory,
   id,
@@ -42,6 +41,7 @@ const HeaderWithLanguage = ({
   expirationDate,
   supportedLanguages,
   title,
+  nodes,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -62,7 +62,7 @@ const HeaderWithLanguage = ({
         responsibleId={article?.responsible?.responsibleId}
         language={language}
         slug={article?.slug}
-        taxonomy={taxonomy}
+        nodes={nodes}
       />
       {id ? (
         <HeaderActions

@@ -45,6 +45,8 @@ const getCurrentLanguage = (editor: Editor) => {
 
 const positioningOptions = { sameWidth: true };
 
+const RTL_LANGUAGES = ["ar"];
+
 export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<LanguageType>) => {
   const { t, i18n } = useTranslation();
   const editor = useSlate();
@@ -52,54 +54,33 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
   const selection = useSlateSelection();
 
   const onSelect = useCallback(
-    (language: string | undefined) => {
+    (lang: string | undefined) => {
       if (!selection) return;
       const unhungSelection = Editor.unhangRange(editor, selection);
+      if (!Range.isExpanded(unhungSelection)) return;
 
-      const [match] =
-        Editor.nodes(editor, {
-          match: isSpanElement,
-          at: unhungSelection,
-        }) ?? [];
+      const [match] = Editor.nodes(editor, { match: isSpanElement, at: unhungSelection }) ?? [];
+      const dir = RTL_LANGUAGES.includes(lang ?? "") ? "rtl" : undefined;
 
-      if (match) {
+      if (match && !lang) {
+        Transforms.unwrapNodes(editor, { match: isSpanElement, at: unhungSelection });
+      } else if (!match && lang) {
+        // No existing span, wrap selection in new span
+        Transforms.wrapNodes(editor, defaultSpanBlock({ lang, dir }), { at: unhungSelection, split: true });
+      } else {
         const [_, path] = match;
         const spanRange = Editor.range(editor, path);
-
-        if (language === undefined) {
-          // Remove language span
-          Transforms.unwrapNodes(editor, {
-            match: isSpanElement,
-            at: unhungSelection,
-          });
-        } else if (Range.isExpanded(unhungSelection) && !Range.includes(spanRange, unhungSelection)) {
+        if (Range.isExpanded(unhungSelection) && !Range.includes(spanRange, unhungSelection)) {
           // The selection surrounds the current span, so we unwrap and wrap again to increase the size of the span
-          Transforms.unwrapNodes(editor, {
-            match: isSpanElement,
-            at: path,
-          });
+          Transforms.unwrapNodes(editor, { match: isSpanElement, at: path });
 
           // Unwrapping modifies the selection, need to re-unhang the new selection
           const newSelection = editor.selection ? Editor.unhangRange(editor, editor.selection) : undefined;
-          Transforms.wrapNodes(
-            editor,
-            defaultSpanBlock({ lang: language, dir: language === "ar" ? "rtl" : undefined }),
-            {
-              at: newSelection,
-              split: true,
-            },
-          );
+          Transforms.wrapNodes(editor, defaultSpanBlock({ lang, dir }), { at: newSelection, split: true });
         } else {
           // The selection is inside the current span, so we just update the lang attribute
-          const data = { dir: language === "ar" ? "rtl" : undefined, lang: language };
-          Transforms.setNodes(editor, { data }, { match: isSpanElement });
+          Transforms.setNodes(editor, { data: { dir, lang } }, { match: isSpanElement });
         }
-      } else if (Range.isExpanded(unhungSelection)) {
-        // No existing span, wrap selection in new span
-        Transforms.wrapNodes(editor, defaultSpanBlock({ lang: language, dir: language === "ar" ? "rtl" : undefined }), {
-          at: unhungSelection,
-          split: true,
-        });
       }
       ReactEditor.focus(editor);
     },

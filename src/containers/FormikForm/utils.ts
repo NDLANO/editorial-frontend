@@ -12,7 +12,7 @@ import { ImageEmbedData } from "@ndla/types-embed";
 import { ArticleFormType } from "./articleFormHooks";
 import { defaultEmbedBlock } from "../../components/SlateEditor/plugins/embed/utils";
 import { ConceptFormValues } from "../ConceptPage/conceptInterfaces";
-import { IArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { postSearchConcepts } from "../../modules/concept/conceptApi";
 import { PUBLISHED } from "../../constants";
 
@@ -38,7 +38,7 @@ export const onSaveAsVisualElement = <T extends ArticleFormType>(
   }
 };
 
-export const hasUnpublishedConcepts = async (article: IArticleDTO | undefined) => {
+export const hasUnpublishedConcepts = async (article: ArticleDTO | undefined) => {
   if (!article?.content?.content) return false;
 
   const parser = new DOMParser();

@@ -9,8 +9,7 @@
 import { merge } from "lodash-es";
 import { Editor, Element, ElementType, Node, NodeEntry, Path, Range, Selection } from "slate";
 import { SYMBOL_ELEMENT_TYPE } from "../symbol/types";
-import { MarkType, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
-import { SPAN_ELEMENT_TYPE } from "../span/types";
+import { MarkType } from "@ndla/editor";
 
 export const languages = [
   "no",
@@ -236,18 +235,12 @@ export const createToolbarDefaultValues = (userValues: CategoryFilters = {}): Ca
   }, {});
 };
 
-const ignoredElements: ElementType[] = [SECTION_ELEMENT_TYPE, PARAGRAPH_ELEMENT_TYPE, SPAN_ELEMENT_TYPE];
-
 type SelectionElements = {
   elements?: Element[];
   multipleBlocksOnSameLevel: boolean;
 };
 
-function getRelevantAncestor(
-  editor: Editor,
-  rawSelection: Selection,
-  ignoredElements: ElementType[] = [],
-): NodeEntry | null {
+function getRelevantAncestor(editor: Editor, rawSelection: Selection): NodeEntry | null {
   if (!rawSelection) return null;
   const selection = Editor.unhangRange(editor, rawSelection);
 
@@ -255,8 +248,7 @@ function getRelevantAncestor(
   let [ancestor, path] =
     Editor.above(editor, {
       at: selection,
-      // TODO: Is ignoredElements dumb here?
-      match: (node) => Element.isElement(node) && !ignoredElements.includes(node.type),
+      match: (node) => Element.isElement(node),
       voids: true,
     }) ?? [];
 
@@ -269,8 +261,7 @@ function getRelevantAncestor(
 
     const [parent, parentPath] = parentEntry;
 
-    // TODO: Is ignoredElements dumb here?
-    if (!Element.isElement(parent) || ignoredElements.includes(parent.type)) break;
+    if (!Element.isElement(parent)) break;
 
     if (parent.children.length !== 1) break;
 
@@ -285,7 +276,7 @@ export const selectionElements = (editor: Editor, rawSelection: Selection): Sele
   if (!rawSelection) return { multipleBlocksOnSameLevel: false };
 
   const selection = Editor.unhangRange(editor, rawSelection);
-  const [parentElement, parentPath] = getRelevantAncestor(editor, selection, ignoredElements) ?? [];
+  const [parentElement, parentPath] = getRelevantAncestor(editor, selection) ?? [];
 
   // Find all elements inside of the parent element (or editor if parent is `undefined`) that are also inside of the selection range
   const elements: Element[] = [];
@@ -294,7 +285,7 @@ export const selectionElements = (editor: Editor, rawSelection: Selection): Sele
   const blockCounts = new Map<number, number>();
 
   for (const [element, path] of Node.elements(parentElement ?? editor, { from, to })) {
-    if (!ignoredElements.includes(element.type)) elements.push(element);
+    elements.push(element);
     if (editor.isBlock(element)) {
       const level = path.length;
       blockCounts.set(level, (blockCounts.get(level) || 0) + 1);

@@ -7,8 +7,7 @@
  */
 
 import { Editor, Transforms, Range, Element } from "slate";
-import { firstTextBlockElement } from "../../../utils/normalizationHelpers";
-import { DEFINITION_LIST_ELEMENT_TYPE } from "../definitionListTypes";
+import { DEFINITION_LIST_ELEMENT_TYPE, DEFINITION_TERM_ELEMENT_TYPE } from "../definitionListTypes";
 import {
   isDefinitionDescriptionElement,
   isDefinitionTermElement,
@@ -43,14 +42,23 @@ export const toggleDefinitionList = (editor: Editor) => {
       mode: "all",
     });
   } else {
-    Transforms.setNodes(
-      editor,
-      { type: DEFINITION_LIST_ELEMENT_TYPE },
-      {
-        match: (node) => Element.isElement(node) && firstTextBlockElement.includes(node.type),
-        at: Editor.unhangRange(editor, editor.selection),
-        mode: "lowest",
-      },
-    );
+    const nodes = editor.nodes({
+      match: (n) => Element.isElement(n) && editor.isBlock(n),
+      at: editor.selection,
+      mode: "lowest",
+    });
+
+    editor.withoutNormalizing(() => {
+      if (!editor.selection) return;
+      for (const [_, path] of nodes) {
+        Transforms.wrapNodes(editor, { type: DEFINITION_TERM_ELEMENT_TYPE, children: [] }, { at: path });
+      }
+
+      Transforms.wrapNodes(
+        editor,
+        { type: DEFINITION_LIST_ELEMENT_TYPE, children: [] },
+        { at: editor.selection, match: (n) => isDefinitionTermElement(n) },
+      );
+    });
   }
 };

@@ -2215,10 +2215,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/types-taxonomy@npm:^1.0.36":
-  version: 1.0.36
-  resolution: "@ndla/types-taxonomy@npm:1.0.36"
-  checksum: 10c0/e0c67d9c8101fd995c075e44db94c06e80736afa301f72d971f8e29d19a8c3edd82bd35e5a3f8d6a0fc61e0b523f12d69464145c5e31c8840a7cbe7d8eb98a9f
+"@ndla/types-taxonomy@npm:^1.0.39":
+  version: 1.0.39
+  resolution: "@ndla/types-taxonomy@npm:1.0.39"
+  checksum: 10c0/128622b8a93a961e12e257f39ba085d7aad6ac16ec5380a2266af487debe9d3f244e7545f2092938d9942c85b2b5f136a6d5231cc0edf3c96e7b948abe8574db
   languageName: node
   linkType: hard
 
@@ -6169,7 +6169,7 @@ __metadata:
     "@ndla/styled-system": "npm:^0.0.42"
     "@ndla/types-backend": "npm:^1.0.80"
     "@ndla/types-embed": "npm:^5.0.17-alpha.0"
-    "@ndla/types-taxonomy": "npm:^1.0.36"
+    "@ndla/types-taxonomy": "npm:^1.0.39"
     "@ndla/ui": "npm:^56.0.155-alpha.0"
     "@ndla/util": "npm:^5.0.15-alpha.0"
     "@ndla/video-search": "npm:^8.0.126-alpha.0"

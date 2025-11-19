@@ -9,8 +9,8 @@
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { LEARNINGPATH, LEARNINGPATH_SEARCH, LEARNINGPATH_TAGS } from "../../queryKeys";
 import {
-  ILearningPathTagsSummaryDTO,
-  ILearningPathV2DTO,
+  LearningPathTagsSummaryDTO,
+  LearningPathV2DTO,
   SearchParamsDTO,
   SearchResultV2DTO,
 } from "@ndla/types-backend/learningpath-api";
@@ -27,8 +27,8 @@ interface UseLearningpath {
   language?: string;
 }
 
-export const useLearningpath = (params: UseLearningpath, options?: Partial<UseQueryOptions<ILearningPathV2DTO>>) => {
-  return useQuery<ILearningPathV2DTO>({
+export const useLearningpath = (params: UseLearningpath, options?: Partial<UseQueryOptions<LearningPathV2DTO>>) => {
+  return useQuery<LearningPathV2DTO>({
     queryKey: learningpathQueryKeys.learningpath(params),
     queryFn: () => fetchLearningpath(params.id, params.language),
     ...options,
@@ -41,7 +41,7 @@ interface UseLearningpathTags {
 }
 
 export const useLearningpathTags = (params: UseLearningpathTags = {}, options?: Partial<UseQueryOptions<any>>) => {
-  return useQuery<ILearningPathTagsSummaryDTO>({
+  return useQuery<LearningPathTagsSummaryDTO>({
     queryKey: learningpathQueryKeys.learningpathTags(params),
     queryFn: () => fetchLearningpathTags(params.language, params.fallback),
     ...options,

@@ -12,12 +12,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Descendant } from "slate";
 import { UseQueryResult } from "@tanstack/react-query";
 import {
-  IArticleDTO,
-  ILicenseDTO,
-  IStatusDTO,
-  IUpdatedArticleDTO,
-  IAuthorDTO,
-  ICommentDTO,
+  ArticleDTO,
+  LicenseDTO,
+  StatusDTO,
+  UpdatedArticleDTO,
+  AuthorDTO,
+  CommentDTO,
   ArticleRevisionHistoryDTO,
   Priority,
 } from "@ndla/types-backend/draft-api";
@@ -29,13 +29,13 @@ import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import { useMessages } from "../Messages/MessagesProvider";
 import { hasUnpublishedConcepts } from "./utils";
 
-export type SlateCommentType = Omit<ICommentDTO, "content"> & { content: Descendant[] };
+export type SlateCommentType = Omit<CommentDTO, "content"> & { content: Descendant[] };
 
 export interface ArticleFormType {
   articleType: string;
   conceptIds: number[];
   content: Descendant[];
-  creators: IAuthorDTO[];
+  creators: AuthorDTO[];
   grepCodes: string[];
   id?: number;
   introduction: Descendant[];
@@ -45,12 +45,12 @@ export interface ArticleFormType {
   metaImageAlt: string;
   metaImageId: string;
   notes: string[];
-  processors: IAuthorDTO[];
+  processors: AuthorDTO[];
   published?: string;
   relatedContent: RelatedContent[];
   revision?: number;
-  rightsholders: IAuthorDTO[];
-  status?: IStatusDTO;
+  rightsholders: AuthorDTO[];
+  status?: StatusDTO;
   supportedLanguages: string[];
   tags: string[];
   title: Descendant[];
@@ -66,7 +66,7 @@ export interface ArticleFormType {
   // This field is only used for error checking in revisions
   revisionError?: string;
   slug?: string;
-  comments?: (Omit<ICommentDTO, "content"> & { content: Descendant[] })[];
+  comments?: (Omit<CommentDTO, "content"> & { content: Descendant[] })[];
   priority: Priority;
   processed: boolean;
   origin?: string;
@@ -83,15 +83,15 @@ export interface TopicArticleFormType extends ArticleFormType {
 export interface FrontpageArticleFormType extends ArticleFormType {}
 
 type HooksInputObject<T extends ArticleFormType> = {
-  getInitialValues: (article: IArticleDTO | undefined, language: string, ndlaId: string | undefined) => T;
-  article?: IArticleDTO;
+  getInitialValues: (article: ArticleDTO | undefined, language: string, ndlaId: string | undefined) => T;
+  article?: ArticleDTO;
   t: TFunction;
-  articleStatus?: IStatusDTO;
-  updateArticle: (art: IUpdatedArticleDTO) => Promise<IArticleDTO>;
-  licenses?: ILicenseDTO[];
-  getArticleFromSlate: (values: T, initialValues: T, licenses: ILicenseDTO[], preview?: boolean) => IUpdatedArticleDTO;
+  articleStatus?: StatusDTO;
+  updateArticle: (art: UpdatedArticleDTO) => Promise<ArticleDTO>;
+  licenses?: LicenseDTO[];
+  getArticleFromSlate: (values: T, initialValues: T, licenses: LicenseDTO[], preview?: boolean) => UpdatedArticleDTO;
   articleLanguage: string;
-  rules?: RulesType<T, IArticleDTO>;
+  rules?: RulesType<T, ArticleDTO>;
   ndlaId?: string;
   articleRevisionHistory: UseQueryResult<ArticleRevisionHistoryDTO> | undefined;
 };
@@ -140,7 +140,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
 
       const newArticle = values.saveAsNew ? { ...slateArticle, createNewVersion: true } : slateArticle;
 
-      let savedArticle: IArticleDTO;
+      let savedArticle: ArticleDTO;
       try {
         savedArticle = await updateArticle({
           ...newArticle,

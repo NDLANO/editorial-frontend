@@ -91,7 +91,6 @@ const SubjectBanner = ({ subjectNode, users }: Props) => {
     <ResourceGroupBanner>
       <TopRow>
         <ContentWrapper>
-          <MultidisciplinaryDialog currentNode={subjectNode} />
           {!!showQuality && (
             <>
               <AverageQualityEvaluation gradeAverage={subjectNode.gradeAverage} nodeType="SUBJECT" />
@@ -99,6 +98,7 @@ const SubjectBanner = ({ subjectNode, users }: Props) => {
             </>
           )}
         </ContentWrapper>
+        <MultidisciplinaryDialog currentNode={subjectNode} />
         <JumpToStructureButton nodeId={subjectNode.id} />
       </TopRow>
       <div>

@@ -137,7 +137,7 @@ const Resource = ({
     return transformed;
   }, [matomoStatsData, resource.contextId, showMatomoStats]);
 
-  const contentType = getContentTypeFromResourceTypes(resource.resourceTypes);
+  const contentType = getContentTypeFromResourceTypes(resource.resourceTypes, resource.nodeType);
   const numericId = parseInt(resource.contentUri?.split(":").pop() ?? "");
 
   const isSupplementary = resource.relevanceId === RESOURCE_FILTER_SUPPLEMENTARY;

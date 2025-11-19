@@ -7,7 +7,7 @@
  */
 
 import { TFunction } from "i18next";
-import { ResourceType } from "@ndla/types-taxonomy";
+import { NodeType, ResourceType } from "@ndla/types-taxonomy";
 import { constants } from "@ndla/ui";
 import { routes, toEditArticle, toEditAudio, toEditConcept, toEditGloss, toEditPodcastSeries } from "./routeHelpers";
 
@@ -26,10 +26,16 @@ export const getResourceLanguages = (t: TFunction) => [
   { id: "zh", name: t("languages.zh") },
 ];
 
-export const getContentTypeFromResourceTypes = (resourceTypes: Pick<ResourceType, "id">[]): string => {
+export const getContentTypeFromResourceTypes = (
+  resourceTypes: Pick<ResourceType, "id">[],
+  nodeType?: NodeType,
+): string => {
   const resourceType = resourceTypes.find((type) => !!contentTypeMapping[type.id]);
   if (resourceType) {
     return contentTypeMapping[resourceType.id];
+  }
+  if (nodeType === "TOPIC") {
+    return contentTypeMapping["multidisciplinary"];
   }
   return contentTypeMapping.default;
 };

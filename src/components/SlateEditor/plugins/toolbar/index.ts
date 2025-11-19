@@ -65,8 +65,8 @@ const toolbarPlugin = createPlugin<any, ToolbarPluginOptions>({
         merge({}, opts.options, optionsProp, Object.keys(unsupportedMarks).length ? { mark: unsupportedMarks } : {}),
       );
       const areaOptions = createToolbarAreaOptions(merge({}, opts.areaOptions, areaOptionsProp));
-      const { elements, multipleParagraphsSelected } = selectionElements(editor, editor.selection);
-      const state = toolbarState({ selectionElements: elements, multipleParagraphsSelected, options, areaOptions });
+      const { elements, multipleBlocksOnSameLevel } = selectionElements(editor, editor.selection);
+      const state = toolbarState({ selectionElements: elements, multipleBlocksOnSameLevel, options, areaOptions });
       return state;
     };
 

@@ -240,7 +240,7 @@ const ignoredElements: ElementType[] = [SECTION_ELEMENT_TYPE, PARAGRAPH_ELEMENT_
 
 type SelectionElements = {
   elements?: Element[];
-  multipleParagraphsSelected: boolean;
+  multipleBlocksOnSameLevel: boolean;
 };
 
 function getRelevantAncestor(
@@ -282,7 +282,7 @@ function getRelevantAncestor(
 }
 
 export const selectionElements = (editor: Editor, rawSelection: Selection): SelectionElements => {
-  if (!rawSelection) return { multipleParagraphsSelected: false };
+  if (!rawSelection) return { multipleBlocksOnSameLevel: false };
 
   const selection = Editor.unhangRange(editor, rawSelection);
   const [parentElement, parentPath] = getRelevantAncestor(editor, selection, ignoredElements) ?? [];
@@ -291,21 +291,25 @@ export const selectionElements = (editor: Editor, rawSelection: Selection): Sele
   const elements: Element[] = [];
   const from = Path.relative(Range.start(selection).path, parentPath ?? []);
   const to = Path.relative(Range.end(selection).path, parentPath ?? []);
-  let numParagraphs = 0;
-  for (const [element] of Node.elements(parentElement ?? editor, { from, to })) {
+  const blockCounts = new Map<number, number>();
+
+  for (const [element, path] of Node.elements(parentElement ?? editor, { from, to })) {
     if (!ignoredElements.includes(element.type)) elements.push(element);
-    if (element.type === PARAGRAPH_ELEMENT_TYPE) numParagraphs++;
+    if (editor.isBlock(element)) {
+      const level = path.length;
+      blockCounts.set(level, (blockCounts.get(level) || 0) + 1);
+    }
   }
 
   return {
     elements,
-    multipleParagraphsSelected: numParagraphs > 1,
+    multipleBlocksOnSameLevel: Array.from(blockCounts.values()).some((count) => count > 1),
   };
 };
 
 type ToolbarStateProps = {
   selectionElements?: Element[];
-  multipleParagraphsSelected?: boolean;
+  multipleBlocksOnSameLevel?: boolean;
   options?: CategoryFilters;
   areaOptions?: AreaFilters;
 };
@@ -315,7 +319,7 @@ type ToolbarStateProps = {
  **/
 export const toolbarState = ({
   selectionElements,
-  multipleParagraphsSelected,
+  multipleBlocksOnSameLevel,
   options: optionsProp = {},
   areaOptions = {},
 }: ToolbarStateProps): ToolbarType => {
@@ -334,7 +338,7 @@ export const toolbarState = ({
   });
 
   const merged = merge({}, allOptions, options);
-  if (multipleParagraphsSelected) {
+  if (multipleBlocksOnSameLevel) {
     Object.keys(merged.inline).forEach((key) => {
       merged.inline[key as InlineType].disabled = true;
     });

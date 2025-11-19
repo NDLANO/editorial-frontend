@@ -7,19 +7,16 @@
  */
 
 import { sortBy } from "lodash-es";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
 import { useQueryClient } from "@tanstack/react-query";
 import { Draggable } from "@ndla/icons";
-import { Button, Text } from "@ndla/primitives";
+import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild } from "@ndla/types-taxonomy";
 import Resource from "./Resource";
-import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
-import { FormActionsContainer } from "../../../components/FormikForm";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
 import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
 import { useDeleteResourceForNodeMutation, usePutResourceForNodeMutation } from "../../../modules/nodes/nodeMutations";
@@ -58,7 +55,6 @@ const ResourceItems = ({
   type,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const [deleteId, setDeleteId] = useState<string>("");
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const qc = useQueryClient();
@@ -103,12 +99,8 @@ const ResourceItems = ({
     onSettled: () => qc.invalidateQueries({ queryKey: compKey }),
   });
 
-  const onDelete = async (deleteId: string) => {
-    setDeleteId("");
-    await deleteNodeResource.mutateAsync(
-      { id: deleteId, taxonomyVersion },
-      { onSuccess: () => qc.invalidateQueries({ queryKey: compKey }) },
-    );
+  const onDeleted = async () => {
+    qc.invalidateQueries({ queryKey: compKey });
   };
 
   const onDragEnd = async ({ active, over }: DragEndEvent) => {
@@ -124,10 +116,6 @@ const ResourceItems = ({
       },
       taxonomyVersion,
     });
-  };
-
-  const toggleDelete = (newDeleteId: string) => {
-    setDeleteId(newDeleteId);
   };
 
   return (
@@ -151,29 +139,13 @@ const ResourceItems = ({
             resource={resource}
             key={resource.id}
             nodeResourcesIsPending={nodeResourcesIsPending}
-            onDelete={toggleDelete}
+            invalidate={onDeleted}
           />
         )}
       />
       {deleteNodeResource.error && isError(deleteNodeResource.error) ? (
         <Text color="text.error">{`${t("taxonomy.errorMessage")}: ${deleteNodeResource.error.message}`}</Text>
       ) : null}
-      <AlertDialog
-        title={t("taxonomy.delete.deleteResource")}
-        label={t("taxonomy.delete.deleteResource")}
-        show={!!deleteId}
-        text={t("taxonomy.resource.confirmDelete")}
-        onCancel={() => toggleDelete("")}
-      >
-        <FormActionsContainer>
-          <Button onClick={() => toggleDelete("")} variant="secondary">
-            {t("form.abort")}
-          </Button>
-          <Button onClick={() => onDelete(deleteId)} variant="danger">
-            {t("alertDialog.delete")}
-          </Button>
-        </FormActionsContainer>
-      </AlertDialog>
     </StyledResourceItems>
   );
 };

@@ -9,7 +9,16 @@
 import { useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { DeleteBinLine, CheckboxCircleLine } from "@ndla/icons";
-import { Text, ListItemContent, ListItemHeading, ListItemRoot, IconButton, Badge } from "@ndla/primitives";
+import {
+  Text,
+  ListItemContent,
+  ListItemHeading,
+  ListItemRoot,
+  IconButton,
+  Badge,
+  DialogRoot,
+  DialogTrigger,
+} from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
@@ -31,6 +40,7 @@ import { transformMatomoData } from "../utils";
 import { useElementIsVisible } from "./isVisibleHook";
 import { useMatomoStats } from "../../../modules/matomo/matomoQueries";
 import { usePreferences } from "../PreferencesProvider";
+import { DeleteResourceDialogContent } from "./DeleteResourceDialogContent";
 
 const StyledListItemRoot = styled(ListItemRoot, {
   base: {
@@ -98,7 +108,7 @@ interface Props {
   resource: NodeChild;
   contentMeta: NodeResourceMeta | undefined;
   nodeResourcesIsPending: boolean;
-  onDelete: (connectionId: string) => void;
+  invalidate: () => void;
   rootGrepCodesString: string | undefined;
   type: "resource" | "link";
 }
@@ -108,7 +118,7 @@ const Resource = ({
   resource,
   nodeResourcesIsPending,
   responsible,
-  onDelete,
+  invalidate,
   rootGrepCodesString,
   contentMeta,
   type,
@@ -237,15 +247,14 @@ const Resource = ({
               rootGrepCodesString={rootGrepCodesString}
             />
             <VersionHistory resource={resource} contentMeta={contentMeta} contentType={contentType} />
-            <IconButton
-              aria-label={t("form.remove")}
-              title={t("form.remove")}
-              onClick={() => onDelete(resource.connectionId)}
-              size="small"
-              variant="danger"
-            >
-              <DeleteBinLine />
-            </IconButton>
+            <DialogRoot>
+              <DialogTrigger asChild>
+                <IconButton aria-label={t("form.remove")} title={t("form.remove")} size="small" variant="danger">
+                  <DeleteBinLine />
+                </IconButton>
+              </DialogTrigger>
+              <DeleteResourceDialogContent resource={resource} contentMeta={contentMeta} invalidate={invalidate} />
+            </DialogRoot>
           </ControlButtonGroup>
         </ContentRow>
       </StyledListItemContent>

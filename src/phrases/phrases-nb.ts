@@ -1784,6 +1784,15 @@ const phrases = {
       subTopic: "underemner",
       topic: "emner",
       confirmDelete: "Er du sikker på at du vil slette dette {{ nodeType }}?",
+      deletionType: {
+        unpublish: "Denne ressursen brukes kun her, og vil bli avpublisert.",
+        delete: "Denne ressursen brukes kun her, og vil få status slettet.",
+        deleteConnection: "Dette vil ikke påvirke plasseringen andre steder.",
+      },
+      deletionError: {
+        articleError: "Klarte ikke å endre status på ressursen.",
+        connectionError: "Klarte ikke å fjerne kobling mellom node og ressurs.",
+      },
     },
     version: "Versjon",
     createResource: "Opprett ny ressurs",
@@ -1883,7 +1892,7 @@ const phrases = {
       notPublished: "Artikkelen har ingen publisert versjon.",
     },
     resource: {
-      confirmDelete: "Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder",
+      confirmDelete: "Vil du fjerne ressursen fra denne mappen?",
       copyError:
         "Det oppsto en feil ved kopiering av ressurser. Dobbeltsjekk de kopierte ressursene og prøv å fikse mangler manuelt, eller slett de kopierte ressursene og prøv å kopiere på nytt",
       addResourceConflict: "Ressursen du forsøkte å legge til finnes allerede på emnet.",

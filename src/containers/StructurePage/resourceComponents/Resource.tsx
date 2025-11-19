@@ -14,15 +14,16 @@ import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild } from "@ndla/types-taxonomy";
+import { BadgesContainer } from "@ndla/ui";
 import GrepCodesDialog from "./GrepCodesDialog";
 import MatomoStats from "./MatomoStats";
 import QualityEvaluationGrade from "./QualityEvaluationGrade";
 import StatusIcons from "./StatusIcons";
 import VersionHistory from "./VersionHistory";
-import { SupplementaryIndicator } from "../../../components/Taxonomy/SupplementaryIndicator";
 import config from "../../../config";
-import { PUBLISHED, RESOURCE_FILTER_SUPPLEMENTARY } from "../../../constants";
+import { PUBLISHED } from "../../../constants";
 import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
+import { useBadges } from "../../../util/getBadges";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
 import { routes } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -137,10 +138,14 @@ const Resource = ({
     return transformed;
   }, [matomoStatsData, resource.contextId, showMatomoStats]);
 
-  const contentType = getContentTypeFromResourceTypes(resource.resourceTypes, resource.nodeType);
-  const numericId = parseInt(resource.contentUri?.split(":").pop() ?? "");
+  const badges = useBadges({
+    resourceTypes: resource.resourceTypes,
+    relevanceId: resource.relevanceId,
+    resourceType: resource.nodeType,
+  });
 
-  const isSupplementary = resource.relevanceId === RESOURCE_FILTER_SUPPLEMENTARY;
+  const contentType = getContentTypeFromResourceTypes(resource.resourceTypes);
+  const numericId = parseInt(resource.contentUri?.split(":").pop() ?? "");
 
   return (
     <StyledListItemRoot ref={ref}>
@@ -167,7 +172,6 @@ const Resource = ({
                 </Text>
               )}
             </ListItemHeading>
-            {!!isSupplementary && <SupplementaryIndicator />}
           </TextWrapper>
           <InfoItems>
             {showMatomoStats ? (
@@ -198,7 +202,11 @@ const Resource = ({
         </ContentRow>
         <ContentRow>
           <TextWrapper>
-            <Badge size="small">{t(`contentTypes.${contentType}`)}</Badge>
+            <BadgesContainer>
+              {badges.map((badge) => (
+                <Badge key={badge}>{badge}</Badge>
+              ))}
+            </BadgesContainer>
             <Text color="text.subtle" aria-hidden>
               |
             </Text>

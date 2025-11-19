@@ -108,7 +108,7 @@ const rules: RulesType<QualityEvaluationFormValues> = {
   note: { required: false },
 };
 
-const toInitialValues = (initialData: QualityEvaluationFormValues | undefined): QualityEvaluationFormValues => {
+const toInitialValues = (initialData: QualityEvaluationFormValues | undefined | null): QualityEvaluationFormValues => {
   return {
     grade: initialData?.grade,
     note: initialData?.note ?? "",

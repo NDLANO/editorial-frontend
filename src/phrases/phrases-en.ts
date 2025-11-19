@@ -1579,7 +1579,7 @@ const phrases = {
       title: "Learningpaths containing this article",
     },
     linkConnections: {
-      title: "Nodes linking to this article",
+      title: "Subjects/topics linking to this article",
     },
     myNdla: {
       noFavorites: "No one has favorited the resource.",
@@ -1974,11 +1974,11 @@ const phrases = {
       failedToCreateConnection: "An error occurred when creating the node",
     },
     learningResources: "Learning resources",
-    multidisciplinaryResources: "Multidisciplinary resources",
+    multidisciplinaryResources: "Multidisciplinary cases",
     multidisciplinary: {
-      title: "Multidisciplinary resources",
-      dialogTrigger: "Add multidisciplinary resource",
-      dialogTitle: "Add multidisciplinary resource",
+      title: "Multidisciplinary cases",
+      dialogTrigger: "Add multidisciplinary case",
+      dialogTitle: "Add multidisciplinary case",
       errors: {
         notCase: "The URL points to a multidisciplinary topic, but not a multidisciplinary case.",
         notMultidisciplinary: "The URL does not point to a multidisciplinary topic.",

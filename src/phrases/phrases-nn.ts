@@ -1577,7 +1577,7 @@ const phrases = {
       title: "Læringsstiar som inneheld denne artikkelen",
     },
     linkConnections: {
-      title: "Noder som lenker til denne artikkelen",
+      title: "Fag/emner som lenker til denne artikkelen",
     },
     myNdla: {
       noFavorites: "Ingen har favorittmerka ressursen.",
@@ -1975,11 +1975,11 @@ const phrases = {
       failedToCreateConnection: "Ein feil oppstod ved oppretting av noden",
     },
     learningResources: "Læringsressursar",
-    multidisciplinaryResources: "Tverrfaglege tema",
+    multidisciplinaryResources: "Tverrfaglege caser",
     multidisciplinary: {
-      title: "Tverrfaglege tema",
-      dialogTrigger: "Legg til tverrfagleg tema",
-      dialogTitle: "Legg til tverrfagleg tema",
+      title: "Tverrfaglege caser",
+      dialogTrigger: "Legg til tverrfagleg case",
+      dialogTitle: "Legg til tverrfagleg case",
       errors: {
         notCase: "URL peker til eit tverrfagleg emne, men ikkje eit tverrfagleg case.",
         notMultidisciplinary: "URL peker ikkje til eit tverrfagleg emne.",

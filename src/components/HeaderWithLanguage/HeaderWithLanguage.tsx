@@ -62,6 +62,7 @@ const HeaderWithLanguage = ({
         responsibleId={article?.responsible?.responsibleId}
         language={language}
         slug={article?.slug}
+        traits={article?.traits}
         nodes={nodes}
       />
       {id ? (

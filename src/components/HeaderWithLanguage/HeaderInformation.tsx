@@ -12,7 +12,7 @@ import { useNavigate } from "react-router";
 import { Badge, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
-import { constants } from "@ndla/ui";
+import { BadgesContainer, constants } from "@ndla/ui";
 import HeaderStatusInformation from "./HeaderStatusInformation";
 import {
   FormHeaderHeading,
@@ -22,6 +22,7 @@ import {
 import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { useAuth0Users } from "../../modules/auth0/auth0Queries";
 import * as draftApi from "../../modules/draft/draftApi";
+import { useBadges } from "../../util/getBadges";
 import handleError from "../../util/handleError";
 import { getContentTypeFromResourceTypes } from "../../util/resourceHelpers";
 import { toEditArticle } from "../../util/routeHelpers";
@@ -58,6 +59,7 @@ interface Props {
   expirationDate?: string;
   responsibleId?: string;
   slug?: string;
+  traits: string[] | undefined;
   nodes: Node[] | undefined;
 }
 
@@ -74,12 +76,22 @@ const HeaderInformation = ({
   language,
   slug,
   nodes,
+  traits,
 }: Props) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const { createMessage } = useMessages();
   const navigate = useNavigate();
   const responsibleQuery = useAuth0Users({ uniqueUserIds: responsibleId ?? "" }, { enabled: !!responsibleId });
+
+  const node = nodes?.[0];
+
+  const badges = useBadges({
+    resourceTypes: node?.resourceTypes,
+    traits: traits,
+    relevanceId: node?.relevanceId,
+    resourceType: type,
+  });
 
   const contentType = useMemo(() => {
     const taxonomy = nodes?.flatMap((node) => node.contexts) ?? [];
@@ -113,7 +125,11 @@ const HeaderInformation = ({
   return (
     <FormHeaderSegment>
       <FormHeaderHeadingContainer>
-        <Badge>{t(`contentTypes.${contentType ?? contentTypes.SUBJECT_MATERIAL}`)}</Badge>
+        <BadgesContainer>
+          {badges.map((badge) => (
+            <Badge key={badge}>{badge}</Badge>
+          ))}
+        </BadgesContainer>
         <FormHeaderHeading contentType={contentType ?? contentTypes.SUBJECT_MATERIAL}>{title}</FormHeaderHeading>
         {(type === "standard" || type === "topic-article") && id ? (
           <Button size="small" variant="tertiary" onClick={onSaveAsNew} data-testid="saveAsNew" loading={loading}>

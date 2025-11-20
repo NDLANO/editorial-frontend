@@ -13,14 +13,15 @@ import { Badge, ListItemContent, ListItemHeading, ListItemRoot, Text } from "@nd
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { constants } from "@ndla/ui";
+import { BadgesContainer } from "@ndla/ui";
 import SearchHighlight from "./SearchHighlight";
 import { SearchListItemImage } from "./SearchListItemImage";
 import HeaderFavoriteStatus from "../../../../components/HeaderWithLanguage/HeaderFavoriteStatus";
 import config from "../../../../config";
-import { DRAFT_HTML_SCOPE, PUBLISHED, RESOURCE_TYPE_LEARNING_PATH } from "../../../../constants";
-import { getContentTypeFromResourceTypes, resourceToLinkProps } from "../../../../util/resourceHelpers";
-import { isLearningpath, routes } from "../../../../util/routeHelpers";
+import { DRAFT_HTML_SCOPE, PUBLISHED } from "../../../../constants";
+import { useBadges } from "../../../../util/getBadges";
+import { resourceToLinkProps } from "../../../../util/resourceHelpers";
+import { routes } from "../../../../util/routeHelpers";
 import { useSession } from "../../../Session/SessionProvider";
 
 interface Props {
@@ -143,17 +144,12 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
 
-  const contentType = useMemo(() => {
-    const resourceTypes = content.contexts[0]?.resourceTypes;
-    if (resourceTypes?.length) {
-      return getContentTypeFromResourceTypes(resourceTypes);
-    } else if (isLearningpath(content.url)) {
-      return getContentTypeFromResourceTypes([{ id: RESOURCE_TYPE_LEARNING_PATH }]);
-    } else if (["concept", "gloss"].includes(content.learningResourceType)) {
-      return content.learningResourceType;
-    }
-    return undefined;
-  }, [content.url, content.contexts, content.learningResourceType]);
+  const badges = useBadges({
+    resourceTypes: content.contexts?.[0]?.resourceTypes,
+    traits: content.traits,
+    relevanceId: content.contexts?.[0]?.relevanceId,
+    resourceType: content.learningResourceType !== "standard" ? content.learningResourceType : undefined,
+  });
 
   const imageData = useMemo(() => {
     if (content.learningResourceType === "gloss") {
@@ -169,8 +165,7 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
 
   const statusType = () => {
     const status = content.status?.current.toLowerCase();
-    const isLearningpath = contentType === constants.contentTypes.LEARNING_PATH;
-    return t(`form.status.${isLearningpath ? "learningpath_statuses." + status : status}`);
+    return t(`form.status.${content.learningResourceType === "learningpath" ? "learningpath_statuses." : ""}${status}`);
   };
 
   const metaDescription = content.metaDescription.metaDescription ?? "";
@@ -196,7 +191,11 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
             {content.contexts.length > 1 && (
               <StyledErrorWarningFill title={t("searchForm.multiTaxonomy", { count: content.contexts.length })} />
             )}
-            {!!contentType && <Badge>{t(`contentTypes.${contentType}`)}</Badge>}
+            <BadgesContainer>
+              {badges.map((badge) => (
+                <Badge key={badge}>{badge}</Badge>
+              ))}
+            </BadgesContainer>
             {content.learningResourceType !== "frontpage-article" && (
               <HeaderFavoriteStatus
                 id={content.id}
@@ -212,7 +211,7 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
             {!!metaDescription.length && <StyledText textStyle="body.small">{metaDescription}</StyledText>}
           </ContentWrapper>
           <InfoWrapper>
-            {!conceptTypes.includes(contentType ?? "") &&
+            {!conceptTypes.includes(content.learningResourceType) &&
             content.id &&
             content.resultType === "draft" &&
             userPermissions?.includes(DRAFT_HTML_SCOPE) ? (

@@ -143,6 +143,7 @@ const ResourceItems = ({
         }
         renderItem={(resource) => (
           <Resource
+            type={type}
             currentNodeId={currentNodeId}
             responsible={users?.[contentMetas[resource.contentUri ?? ""]?.responsible?.responsibleId ?? ""]?.name}
             rootGrepCodesString={rootGrepCodesString}

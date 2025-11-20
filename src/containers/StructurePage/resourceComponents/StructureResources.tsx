@@ -93,7 +93,7 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
       resourceTypes={resourceTypes ?? []}
       currentNode={currentChildNode}
       contentMetas={keyedMetas}
-      grouped={grouped === "grouped"}
+      unsorted={grouped === "grouped"}
       nodeResourcesIsPending={contentMetaIsPending || nodeResourcesIsPending}
       users={users}
     />

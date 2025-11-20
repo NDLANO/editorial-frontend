@@ -1949,8 +1949,8 @@ const phrases = {
         oldSubjectId: "ID for videresending",
         subjectCategory: "Fagkategori",
         subjectType: "Fagtype",
-        resourceGroupPlaceholder: "Gruppering",
-        RGTooltip: "Vis ressurser Gruppert eller Ugruppert",
+        resourceGroupPlaceholder: "Sortering",
+        RGTooltip: "Vis ressurser Sortert eller Usortert",
         subjectLMA: "LMA for faget",
         subjectSA: "SA for faget",
         subjectDA: "DA for faget",
@@ -2186,9 +2186,9 @@ const phrases = {
         isOff: "Usynlig",
       },
       "topic-resources": {
-        title: "Gruppering av ressurser",
-        isOn: "Gruppert",
-        isOff: "Ugruppert",
+        title: "Sortering av ressurser",
+        isOn: "Usortert",
+        isOff: "Sortert",
       },
       requestPublish: {
         title: "Forespurt publisering",

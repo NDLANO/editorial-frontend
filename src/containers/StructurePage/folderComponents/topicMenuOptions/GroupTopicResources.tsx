@@ -70,7 +70,7 @@ const GroupTopicResources = ({ node, onChanged }: Props) => {
     >
       <SwitchLabel>{t("taxonomy.metadata.customFields.resourceGroupPlaceholder")}</SwitchLabel>
       <SwitchControl>
-        <SwitchThumb>{isGrouped ? "G" : "U"}</SwitchThumb>
+        <SwitchThumb>{isGrouped ? "U" : "S"}</SwitchThumb>
       </SwitchControl>
       <SwitchHiddenInput />
     </SwitchRoot>

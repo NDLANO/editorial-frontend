@@ -18,7 +18,7 @@ import { Auth0UserData, Dictionary } from "../../../interfaces";
 import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
 import { useNode, useNodes } from "../../../modules/nodes/nodeQueries";
 import { useSearchGrepCodes } from "../../../modules/search/searchQueries";
-import { groupResourcesByType } from "../../../util/taxonomyHelpers";
+import { sortResources } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 const ResourceWrapper = styled("div", {
@@ -43,7 +43,7 @@ interface Props {
   resourceTypes: ResourceType[];
   currentNode: NodeChild;
   contentMetas: Dictionary<NodeResourceMeta>;
-  grouped: boolean;
+  unsorted: boolean;
   nodeResourcesIsPending: boolean;
   users: Dictionary<Auth0UserData> | undefined;
 }
@@ -53,7 +53,7 @@ const ResourcesContainer = ({
   nodeResources,
   currentNode,
   contentMetas,
-  grouped,
+  unsorted,
   nodeResourcesIsPending,
   users,
 }: Props) => {
@@ -88,8 +88,7 @@ const ResourcesContainer = ({
   );
 
   const paths = useMemo(() => data?.map((d) => d.path ?? "").filter((d) => !!d) ?? [], [data]);
-
-  const mapping = groupResourcesByType(nodeResources ?? [], resourceTypes ?? []);
+  const sortedResources = sortResources(nodeResources ?? [], resourceTypes ?? [], unsorted);
   const currentMeta = currentNode.contentUri ? contentMetas[currentNode.contentUri] : undefined;
 
   return (
@@ -113,30 +112,15 @@ const ResourcesContainer = ({
             <Heading asChild consumeCss textStyle="label.medium" fontWeight="bold">
               <h2>{t("taxonomy.learningResources")}</h2>
             </Heading>
-            {grouped ? (
-              mapping?.map((resource) => (
-                <ResourceItems
-                  type="resource"
-                  key={resource.id}
-                  resources={resource.resources}
-                  currentNodeId={currentNodeId}
-                  contentMetas={contentMetas}
-                  nodeResourcesIsPending={nodeResourcesIsPending}
-                  users={users}
-                  rootGrepCodesString={rootGrepCodesString}
-                />
-              ))
-            ) : (
-              <ResourceItems
-                type="resource"
-                resources={nodeResources}
-                currentNodeId={currentNodeId}
-                contentMetas={contentMetas}
-                nodeResourcesIsPending={nodeResourcesIsPending}
-                users={users}
-                rootGrepCodesString={rootGrepCodesString}
-              />
-            )}
+            <ResourceItems
+              type="resource"
+              resources={sortedResources}
+              currentNodeId={currentNodeId}
+              contentMetas={contentMetas}
+              nodeResourcesIsPending={nodeResourcesIsPending}
+              users={users}
+              rootGrepCodesString={rootGrepCodesString}
+            />
           </ListContainer>
         )}
       </ResourceWrapper>

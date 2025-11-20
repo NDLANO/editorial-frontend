@@ -19,6 +19,7 @@ import QualityEvaluation from "../../../components/QualityEvaluation/QualityEval
 import config from "../../../config";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import { MultidisciplinaryCases } from "../multidisciplinary/MultidisciplinaryCases";
 import { MultidisciplinaryDialog } from "../multidisciplinary/MultidisciplinaryDialog";
 import { usePreferences } from "../PreferencesProvider";
 
@@ -88,34 +89,37 @@ const SubjectBanner = ({ subjectNode, users }: Props) => {
   );
 
   return (
-    <ResourceGroupBanner>
-      <TopRow>
-        <ContentWrapper>
-          {!!showQuality && (
-            <>
-              <AverageQualityEvaluation gradeAverage={subjectNode.gradeAverage} nodeType="SUBJECT" />
-              <QualityEvaluation articleType="subject" taxonomy={[subjectNode]} />
-            </>
-          )}
-        </ContentWrapper>
-        <MultidisciplinaryDialog currentNode={subjectNode} />
-        <JumpToStructureButton nodeId={subjectNode.id} />
-      </TopRow>
-      <div>
-        <SafeLink
-          to={`${config.ndlaFrontendDomain}${subjectNode.url}?versionHash=${taxonomyVersion}`}
-          target="_blank"
-          css={linkRecipe.raw()}
-        >
-          {subjectNode.name}
-        </SafeLink>
-        {Object.entries(subjectResponsibles).map(([key, value]) => (
-          <Text key={key}>
-            {key}: {value ? value.name : t("taxonomy.noValue")}
-          </Text>
-        ))}
-      </div>
-    </ResourceGroupBanner>
+    <>
+      <ResourceGroupBanner>
+        <TopRow>
+          <ContentWrapper>
+            {!!showQuality && (
+              <>
+                <AverageQualityEvaluation gradeAverage={subjectNode.gradeAverage} nodeType="SUBJECT" />
+                <QualityEvaluation articleType="subject" taxonomy={[subjectNode]} />
+              </>
+            )}
+          </ContentWrapper>
+          <MultidisciplinaryDialog currentNode={subjectNode} />
+          <JumpToStructureButton nodeId={subjectNode.id} />
+        </TopRow>
+        <div>
+          <SafeLink
+            to={`${config.ndlaFrontendDomain}${subjectNode.url}?versionHash=${taxonomyVersion}`}
+            target="_blank"
+            css={linkRecipe.raw()}
+          >
+            {subjectNode.name}
+          </SafeLink>
+          {Object.entries(subjectResponsibles).map(([key, value]) => (
+            <Text key={key}>
+              {key}: {value ? value.name : t("taxonomy.noValue")}
+            </Text>
+          ))}
+        </div>
+      </ResourceGroupBanner>
+      <MultidisciplinaryCases currentNode={subjectNode} />
+    </>
   );
 };
 

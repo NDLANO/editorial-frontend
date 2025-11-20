@@ -20,9 +20,13 @@ import { useNode, useNodes } from "../../../modules/nodes/nodeQueries";
 import { useSearchGrepCodes } from "../../../modules/search/searchQueries";
 import { sortResources } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import { MultidisciplinaryCases } from "../multidisciplinary/MultidisciplinaryCases";
 
 const ResourceWrapper = styled("div", {
   base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
     overflowY: "auto",
     desktop: {
       maxHeight: "80vh",
@@ -123,6 +127,7 @@ const ResourcesContainer = ({
             />
           </ListContainer>
         )}
+        <MultidisciplinaryCases currentNode={currentNode} />
       </ResourceWrapper>
     </>
   );

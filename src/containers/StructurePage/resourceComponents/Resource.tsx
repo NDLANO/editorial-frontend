@@ -100,6 +100,7 @@ interface Props {
   nodeResourcesIsPending: boolean;
   onDelete: (connectionId: string) => void;
   rootGrepCodesString: string | undefined;
+  type: "resource" | "link";
 }
 
 const Resource = ({
@@ -110,6 +111,7 @@ const Resource = ({
   onDelete,
   rootGrepCodesString,
   contentMeta,
+  type,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -141,7 +143,7 @@ const Resource = ({
   const badges = useBadges({
     resourceTypes: resource.resourceTypes,
     relevanceId: resource.relevanceId,
-    resourceType: resource.nodeType,
+    resourceType: type === "link" ? "multidisciplinary" : resource.nodeType.toLowerCase(),
   });
 
   const contentType = getContentTypeFromResourceTypes(resource.resourceTypes);

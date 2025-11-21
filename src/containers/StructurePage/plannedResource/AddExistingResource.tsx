@@ -46,6 +46,7 @@ import { nodeQueryKeys, useNodes } from "../../../modules/nodes/nodeQueries";
 import { useSearch } from "../../../modules/search/searchQueries";
 import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
 import handleError from "../../../util/handleError";
+import { isValidContextId } from "../../../util/urlHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
@@ -203,6 +204,23 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     const pastedIsNumber = /^-?\d+$/.test(input);
     const articleIdInPathMatch = input.match(/article\/(\d+)/);
     const articleIdInInput = articleIdInPathMatch ? articleIdInPathMatch[1] : pastedIsNumber && input;
+
+    const urlId = input.split("/").pop();
+
+    if (urlId && isValidContextId(urlId)) {
+      try {
+        const resource = await fetchNodes({
+          contextId: urlId,
+          nodeType: "RESOURCE",
+          taxonomyVersion,
+        });
+
+        setArticleInputId(resource[0].contentUri?.split(":").at(-1));
+        return;
+      } catch (e) {
+        resetPastedUrlStatesWithError(t("taxonomy.noResources"));
+      }
+    }
 
     if (articleIdInInput === articleInputId) return;
     resetPastedUrlStatesWithError();

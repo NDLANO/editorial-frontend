@@ -15,12 +15,6 @@ export type Prompts = {
   };
 };
 
-export const DEBUG_INSTRUCTION = {
-  nb: "Utenfor <answer>-taggen skal du levere refleksjoner på hvorfor du har valgt å inkludere de punktene du har valgt først.",
-  nn: "Utanfor <answer>-taggen skal du levere refleksjonar på kvifor du har valt å inkludere dei punkta du har valt først.",
-  en: "Outside of the <answer> tag you are to write reflections as to why you have chosen to include the selected points first.",
-};
-
 export const ERROR_INSTRUCTION = {
   nb: "Om du ikke klarer å levere svaret på det spesifiserte <answer>-formatet skal grunnen skrives i en <ERROR>-tag.",
   nn: "Om du ikkje klarar å levere svaret på det spesifiserte <answer>-formatet skal grunnen skrivast i ein <ERROR>-tag.",

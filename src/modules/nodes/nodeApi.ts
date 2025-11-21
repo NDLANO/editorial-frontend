@@ -103,13 +103,14 @@ export const fetchChildNodes = ({
   language,
   taxonomyVersion,
   includeContexts,
+  filterProgrammes,
   isVisible,
   connectionTypes,
 }: ChildNodesGetParams): Promise<NodeChild[]> =>
   fetchAndResolve({
     url: `${baseUrl}/${id}/nodes`,
     taxonomyVersion,
-    queryParams: { recursive, nodeType, language, includeContexts, isVisible, connectionTypes },
+    queryParams: { recursive, nodeType, language, includeContexts, filterProgrammes, isVisible, connectionTypes },
   });
 
 interface NodeTranslationsGetParams extends WithTaxonomyVersion {

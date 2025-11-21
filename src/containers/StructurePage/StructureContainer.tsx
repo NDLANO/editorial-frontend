@@ -25,7 +25,6 @@ import { useAuth0Responsibles } from "../../modules/auth0/auth0Queries";
 import { createGuard } from "../../util/guards";
 import { useSession } from "../Session/SessionProvider";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
-import { MultidisciplinaryCases } from "./multidisciplinary/MultidisciplinaryCases";
 
 const StickyContainer = styled("div", {
   base: {
@@ -119,7 +118,6 @@ const StructureContainer = ({
                   <StickyContainer id={RESOURCE_SECTION_ID}>
                     {currentNode.nodeType === "SUBJECT" && <SubjectBanner subjectNode={currentNode} users={users} />}
                     {isChildNode(currentNode) && <StructureResources currentChildNode={currentNode} users={users} />}
-                    <MultidisciplinaryCases currentNode={currentNode} />
                   </StickyContainer>
                 )}
               </div>

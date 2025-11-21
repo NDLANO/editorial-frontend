@@ -39,7 +39,7 @@ const GroupTopicResources = ({ node, onChanged }: Props) => {
   const updateMetadata = async () => {
     const customFields = {
       ...node.metadata.customFields,
-      [TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES]: isGrouped
+      [TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES]: isUnsorted
         ? TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE
         : TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
     };
@@ -58,19 +58,19 @@ const GroupTopicResources = ({ node, onChanged }: Props) => {
   };
 
   const nodeResources = node.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES];
-  const isGrouped =
+  const isUnsorted =
     (nodeResources ?? TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE) === TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE;
 
   return (
     <SwitchRoot
-      checked={isGrouped}
+      checked={isUnsorted}
       onCheckedChange={updateMetadata}
       title={t("taxonomy.metadata.customFields.RGTooltip")}
       aria-label={t("taxonomy.metadata.customFields.RGTooltip")}
     >
       <SwitchLabel>{t("taxonomy.metadata.customFields.resourceGroupPlaceholder")}</SwitchLabel>
       <SwitchControl>
-        <SwitchThumb>{isGrouped ? "G" : "U"}</SwitchThumb>
+        <SwitchThumb>{isUnsorted ? "U" : "S"}</SwitchThumb>
       </SwitchControl>
       <SwitchHiddenInput />
     </SwitchRoot>

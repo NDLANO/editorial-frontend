@@ -6,9 +6,8 @@
  *
  */
 
-import { groupBy, merge, sortBy, uniqBy } from "lodash-es";
+import { sortBy, uniqBy } from "lodash-es";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
-import { getContentTypeFromResourceTypes } from "./resourceHelpers";
 import { RESOURCE_TYPE_LEARNING_PATH } from "../constants";
 import { FlattenedResourceType } from "../interfaces";
 import { NodeChildWithChildren } from "../modules/nodes/nodeApiTypes";
@@ -51,58 +50,27 @@ const flattenResourceTypesAndAddContextTypes = (data: ResourceType[] = [], t: (k
   return resourceTypes;
 };
 
-export const groupResourcesByType = (resources: NodeChild[], resourceTypes: ResourceType[]) => {
-  const types = resourceTypes.reduce<Record<string, string>>((types, rt) => {
-    const reversedMapping =
-      rt.subtypes?.reduce<Record<string, string>>((acc, curr) => {
-        acc[curr.id] = rt.id;
-        return acc;
-      }, {}) ?? {};
-    reversedMapping[rt.id] = rt.id;
-    return merge(types, reversedMapping);
+type ResourceLike = Pick<NodeChild, "id" | "resourceTypes" | "rank" | "relevanceId">;
+export const sortResources = <T extends ResourceLike>(
+  resources: T[],
+  resourceTypes: ResourceType[],
+  unsorted?: boolean,
+) => {
+  const uniq = uniqBy(resources, (res) => res.id);
+  const sortedByRank = sortBy(uniq, (res) => res.rank ?? res.id);
+  if (!unsorted) {
+    return sortedByRank;
+  }
+  const resourceTypeOrder = resourceTypes.reduce<Record<string, number>>((order, rt, index) => {
+    order[rt.id] = index;
+    return order;
   }, {});
 
-  const typeToResourcesMapping = resources
-    .flatMap((res) => res.resourceTypes.map<[string, NodeChild]>((rt) => [rt.id, res]))
-    .reduce<
-      Record<
-        string,
-        {
-          parentId: string;
-          resources: NodeChild[];
-        }
-      >
-    >((acc, [id, curr]) => {
-      if (acc[id]) {
-        acc[id]["resources"] = acc[id]["resources"].concat(curr);
-      } else {
-        acc[id] = {
-          parentId: types[id],
-          resources: [curr],
-        };
-      }
-      return acc;
-    }, {});
-
-  const groupedValues = groupBy(Object.values(typeToResourcesMapping), (t) => t.parentId);
-
-  const unique = Object.entries(groupedValues).reduce<Record<string, NodeChild[]>>((acc, [id, val]) => {
-    const uniqueValues = uniqBy(
-      val.flatMap((v) => v.resources),
-      (r) => r.id,
-    );
-
-    acc[id] = uniqueValues;
-    return acc;
-  }, {});
-
-  return resourceTypes
-    .map((rt) => ({
-      ...rt,
-      resources: sortBy(unique[rt.id], (res) => res.rank) ?? [],
-      contentType: getContentTypeFromResourceTypes([rt]),
-    }))
-    .filter((rt) => rt.resources.length > 0);
+  const withOrder = uniq.map((res) => {
+    const firstResourceTypeOrder = resourceTypeOrder[res.resourceTypes?.[0]?.id];
+    return { ...res, order: firstResourceTypeOrder };
+  });
+  return sortBy(withOrder, (res) => res.order);
 };
 
 export const safeConcat = <T>(toAdd: T, existing?: T[]) => (existing ? existing.concat(toAdd) : [toAdd]);

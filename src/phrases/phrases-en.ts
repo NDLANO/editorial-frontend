@@ -1786,6 +1786,15 @@ const phrases = {
       subTopic: "sub topics",
       topic: "topics",
       confirmDelete: "Are you sure you want to delete this {{ nodeType }}?",
+      deletionType: {
+        unpublish: "This resource is only used here, and will be unpublished.",
+        delete: "This resource is only used here, and will be deleted.",
+        deleteConnection: "Deleting this resource will not affect it elsewhere.",
+      },
+      deletionError: {
+        articleError: "Failed to change the status of the resource.",
+        connectionError: "Failed to delete the connection between then ode and the resource.",
+      },
     },
     version: "Version",
     createResource: "Create new resource",

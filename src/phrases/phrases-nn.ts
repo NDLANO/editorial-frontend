@@ -1786,6 +1786,15 @@ const phrases = {
       subTopic: "underemner",
       topic: "emner",
       confirmDelete: "Er du sikker på at du vil slette dette {{ nodeType }}?",
+      deletionType: {
+        unpublish: "Denne ressursen brukast kun her, og vil bli avpublisert.",
+        delete: "Denne ressursen brukast kun her, og vil få status sletta.",
+        deleteConnection: "Dette vil ikkje påverke plasseringa andre steder.",
+      },
+      deletionError: {
+        articleError: "Klarte ikkje å endre status på ressursen.",
+        connectionError: "Klarte ikkje å fjerne kobling mellom node og ressurs.",
+      },
     },
 
     version: "Versjon",

@@ -7,19 +7,26 @@
  */
 
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { LEARNINGPATH, LEARNINGPATH_SEARCH, LEARNINGPATH_TAGS } from "../../queryKeys";
+import { LEARNINGPATH, LEARNINGPATH_SEARCH, LEARNINGPATH_TAGS, LEARNINGPATHS_WITH_ARTICLE } from "../../queryKeys";
 import {
+  LearningPathSummaryV2DTO,
   LearningPathTagsSummaryDTO,
   LearningPathV2DTO,
   SearchParamsDTO,
   SearchResultV2DTO,
 } from "@ndla/types-backend/learningpath-api";
-import { fetchLearningpath, fetchLearningpathTags, learningpathSearch } from "./learningpathApi";
+import {
+  fetchLearningpath,
+  fetchLearningpathsWithArticle,
+  fetchLearningpathTags,
+  learningpathSearch,
+} from "./learningpathApi";
 
 export const learningpathQueryKeys = {
   learningpath: (params: UseLearningpath) => [LEARNINGPATH, params],
   learningpathTags: (params: UseLearningpathTags) => [LEARNINGPATH_TAGS, params],
   search: (params: SearchParamsDTO) => [LEARNINGPATH_SEARCH, params],
+  containingArticle: (id: number) => [LEARNINGPATHS_WITH_ARTICLE, id],
 };
 
 interface UseLearningpath {
@@ -55,6 +62,17 @@ export const useSearchLearningpaths = (
   return useQuery<SearchResultV2DTO>({
     queryKey: learningpathQueryKeys.search(params),
     queryFn: () => learningpathSearch(params),
+    ...options,
+  });
+};
+
+export const useLearningpathsWithArticle = (
+  id: number,
+  options?: Partial<UseQueryOptions<LearningPathSummaryV2DTO[]>>,
+) => {
+  return useQuery<LearningPathSummaryV2DTO[]>({
+    queryKey: learningpathQueryKeys.containingArticle(id),
+    queryFn: () => fetchLearningpathsWithArticle(id),
     ...options,
   });
 };

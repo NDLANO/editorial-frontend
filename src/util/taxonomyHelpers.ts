@@ -53,7 +53,7 @@ const flattenResourceTypesAndAddContextTypes = (data: ResourceType[] = [], t: (k
 type ResourceLike = Pick<NodeChild, "id" | "resourceTypes" | "rank" | "relevanceId">;
 export const sortResources = <T extends ResourceLike>(
   resources: T[],
-  resourceTypes: ResourceType[],
+  resourceTypeOrder: Record<string, number>,
   unsorted?: boolean,
 ) => {
   const uniq = uniqBy(resources, (res) => res.id);
@@ -61,11 +61,6 @@ export const sortResources = <T extends ResourceLike>(
   if (!unsorted) {
     return sortedByRank;
   }
-  const resourceTypeOrder = resourceTypes.reduce<Record<string, number>>((order, rt, index) => {
-    order[rt.id] = index;
-    return order;
-  }, {});
-
   const withOrder = uniq.map((res) => {
     const firstResourceTypeOrder = resourceTypeOrder[res.resourceTypes?.[0]?.id];
     return { ...res, order: firstResourceTypeOrder };

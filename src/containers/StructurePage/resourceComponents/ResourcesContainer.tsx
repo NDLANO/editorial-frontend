@@ -92,7 +92,13 @@ const ResourcesContainer = ({
   );
 
   const paths = useMemo(() => data?.map((d) => d.path ?? "").filter((d) => !!d) ?? [], [data]);
-  const sortedResources = sortResources(nodeResources ?? [], resourceTypes ?? [], unsorted);
+  const resourceTypeOrder = useMemo(() => {
+    return resourceTypes.reduce<Record<string, number>>((order, rt, index) => {
+      order[rt.id] = index;
+      return order;
+    }, {});
+  }, [resourceTypes]);
+  const sortedResources = sortResources(nodeResources ?? [], resourceTypeOrder, unsorted);
   const currentMeta = currentNode.contentUri ? contentMetas[currentNode.contentUri] : undefined;
 
   return (

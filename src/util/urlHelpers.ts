@@ -16,3 +16,9 @@ export const constructNewPath = (pathname: string, newLocale?: string) => {
   const localePrefix = newLocale ? `/${newLocale}` : "";
   return `${localePrefix}${fullPath}`;
 };
+
+export const validContextIdRegExp = new RegExp(/^[a-f0-9]{10,12}/);
+
+export const isValidContextId = (contextId: string): boolean => {
+  return validContextIdRegExp.test(contextId);
+};

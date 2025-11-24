@@ -6,7 +6,7 @@
  *
  */
 
-import express, { CookieOptions, Response } from "express";
+import express, { CookieOptions, Request, Response } from "express";
 import {
   authorizationCodeGrant,
   buildAuthorizationUrl,
@@ -26,6 +26,7 @@ import { BAD_REQUEST, INTERNAL_SERVER_ERROR, OK, UNAUTHORIZED } from "./httpCode
 import { isActiveToken } from "../util/authHelpers";
 import {
   ACCESS_TOKEN_COOKIE,
+  HAS_REFRESH_TOKEN_COOKIE,
   ID_TOKEN_COOKIE,
   NONCE_COOKIE,
   PKCE_CODE_COOKIE,
@@ -38,7 +39,7 @@ import { decodeToken } from "../util/jwtHelper";
 import { getCookie } from "@ndla/util";
 
 const DEPLOYED = process.env.IS_VERCEL === "true" || process.env.NDLA_IS_KUBERNETES !== undefined;
-const SAME_SITE: CookieOptions["sameSite"] = DEPLOYED ? "strict" : undefined;
+const SAME_SITE: CookieOptions["sameSite"] = DEPLOYED ? "lax" : undefined;
 const PROTOCOL = DEPLOYED ? "https" : "http";
 const PORT = DEPLOYED ? "" : `:${config.port}`;
 
@@ -48,12 +49,16 @@ const nonceOptions: CookieOptions = { httpOnly: true, sameSite: DEPLOYED ? "none
 const returnToOptions: CookieOptions = { httpOnly: true, sameSite: DEPLOYED ? "none" : undefined, secure: DEPLOYED };
 const accessTokenOptions: CookieOptions = { sameSite: SAME_SITE, secure: DEPLOYED };
 const idTokenOptions: CookieOptions = { httpOnly: true, sameSite: SAME_SITE, secure: DEPLOYED };
+const hasRefreshTokenOptions: CookieOptions = {
+  sameSite: SAME_SITE,
+  secure: DEPLOYED,
+  maxAge: REFRESH_TOKEN_MAX_AGE * 1000,
+};
 const refreshTokenOptions: CookieOptions = {
   httpOnly: true,
   sameSite: SAME_SITE,
   maxAge: REFRESH_TOKEN_MAX_AGE * 1000,
   secure: DEPLOYED,
-  path: "/auth/refresh",
 };
 
 const router = express.Router();
@@ -187,6 +192,7 @@ router.get("/login/success", async (req, res) => {
       ...accessTokenOptions,
       maxAge: tokens.expires_in ? tokens.expires_in * 1000 : undefined,
     });
+    res.cookie(HAS_REFRESH_TOKEN_COOKIE, "true", hasRefreshTokenOptions);
     res.cookie(REFRESH_TOKEN_COOKIE, tokens.refresh_token, refreshTokenOptions);
     res.cookie(ID_TOKEN_COOKIE, tokens.id_token, {
       ...idTokenOptions,
@@ -201,12 +207,10 @@ router.get("/login/success", async (req, res) => {
   }
 });
 
-router.get("/auth/refresh", async (req, res) => {
+export const refreshAccessToken = async (req: Request, res: Response) => {
   const refreshToken = getCookie(REFRESH_TOKEN_COOKIE, req.headers.cookie ?? "");
-  res.setHeader("Cache-Control", "no-store");
   if (!refreshToken?.length) {
-    res.status(BAD_REQUEST).send({ error: "Missing refresh token" });
-    return;
+    throw new Error("Missing refresh token");
   }
 
   const oidcConfig = await getConfig();
@@ -218,15 +222,32 @@ router.get("/auth/refresh", async (req, res) => {
       maxAge: tokens.expires_in ? tokens.expires_in * 1000 : undefined,
     });
     res.cookie(REFRESH_TOKEN_COOKIE, tokens.refresh_token, refreshTokenOptions);
+    res.cookie(HAS_REFRESH_TOKEN_COOKIE, "true", hasRefreshTokenOptions);
     res.cookie(ID_TOKEN_COOKIE, tokens.id_token, {
       ...idTokenOptions,
       maxAge: tokens.expires_in ? tokens.expires_in * 1000 : undefined,
     });
-    res.status(OK).json(tokens.access_token);
+    return tokens.access_token;
   } catch (e) {
     res.clearCookie(ACCESS_TOKEN_COOKIE, accessTokenOptions);
+    res.clearCookie(HAS_REFRESH_TOKEN_COOKIE, hasRefreshTokenOptions);
     res.clearCookie(REFRESH_TOKEN_COOKIE, refreshTokenOptions);
     res.clearCookie(ID_TOKEN_COOKIE, idTokenOptions);
+    throw e;
+  }
+};
+
+router.get("/auth/refresh", async (req, res) => {
+  res.setHeader("Cache-Control", "no-store");
+  const refreshToken = getCookie(REFRESH_TOKEN_COOKIE, req.headers.cookie ?? "");
+  if (!refreshToken?.length) {
+    res.status(BAD_REQUEST).send({ error: "Missing refresh token" });
+    return;
+  }
+  try {
+    const accessToken = await refreshAccessToken(req, res);
+    res.status(OK).json(accessToken);
+  } catch (e) {
     res.status(UNAUTHORIZED).send({ error: "Failed to refresh token" });
   }
 });
@@ -252,6 +273,7 @@ router.get(["/logout", "/:lang/logout"], async (req, res) => {
 
   res.clearCookie(ACCESS_TOKEN_COOKIE, accessTokenOptions);
   res.clearCookie(REFRESH_TOKEN_COOKIE, refreshTokenOptions);
+  res.clearCookie(HAS_REFRESH_TOKEN_COOKIE, hasRefreshTokenOptions);
   res.clearCookie(ID_TOKEN_COOKIE, idTokenOptions);
 
   const parameters: Record<string, string> = {

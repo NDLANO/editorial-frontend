@@ -26,6 +26,7 @@ const StyledIFrame = styled("iframe", {
   base: {
     flex: "1",
     overflow: "hidden",
+    border: "none",
   },
 });
 
@@ -111,7 +112,7 @@ const H5PElement = ({ h5pUrl, onSelect, onClose, locale, canReturnResources }: P
           </MessageBox>
         </PageContainer>
       ) : url ? (
-        <StyledIFrame src={url} title="H5P" frameBorder="0" />
+        <StyledIFrame src={url} title="H5P" />
       ) : (
         <Spinner />
       )}

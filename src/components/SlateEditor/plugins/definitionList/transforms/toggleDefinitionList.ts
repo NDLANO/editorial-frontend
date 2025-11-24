@@ -7,13 +7,14 @@
  */
 
 import { Editor, Transforms, Range, Element } from "slate";
-import { firstTextBlockElement } from "../../../utils/normalizationHelpers";
-import { DEFINITION_LIST_ELEMENT_TYPE } from "../definitionListTypes";
+import { DEFINITION_LIST_ELEMENT_TYPE, DEFINITION_TERM_ELEMENT_TYPE } from "../definitionListTypes";
 import {
   isDefinitionDescriptionElement,
   isDefinitionTermElement,
   isDefinitionListElement,
 } from "../queries/definitionListQueries";
+import { firstTextBlockElement } from "../../../utils/normalizationHelpers";
+import { isParagraphElement, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 
 const isOnlySelectionOfDefinitionList = (editor: Editor) => {
   let hasListItems = false;
@@ -36,21 +37,40 @@ export const toggleDefinitionList = (editor: Editor) => {
     return;
   }
   const isSelected = isOnlySelectionOfDefinitionList(editor);
+  const selection = editor.unhangRange(editor.selection);
 
   if (isSelected) {
-    Transforms.liftNodes(editor, {
-      match: (node) => isDefinitionDescriptionElement(node) || isDefinitionTermElement(node),
-      mode: "all",
+    editor.withoutNormalizing(() => {
+      const nodes = editor.nodes({
+        match: (n) => isDefinitionDescriptionElement(n) || isDefinitionTermElement(n),
+        mode: "all",
+      });
+      for (const [, path] of Array.from(nodes)) {
+        Transforms.setNodes(editor, { type: PARAGRAPH_ELEMENT_TYPE }, { at: path });
+      }
+      Transforms.liftNodes(editor, {
+        match: isParagraphElement,
+        at: selection,
+      });
     });
   } else {
-    Transforms.setNodes(
-      editor,
-      { type: DEFINITION_LIST_ELEMENT_TYPE },
-      {
-        match: (node) => Element.isElement(node) && firstTextBlockElement.includes(node.type),
-        at: Editor.unhangRange(editor, editor.selection),
-        mode: "lowest",
-      },
-    );
+    const nodes = editor.nodes({
+      match: (node) => Element.isElement(node) && firstTextBlockElement.includes(node.type),
+      at: selection,
+      mode: "lowest",
+    });
+
+    editor.withoutNormalizing(() => {
+      if (!editor.selection) return;
+      for (const [, path] of nodes) {
+        Transforms.setNodes(editor, { type: DEFINITION_TERM_ELEMENT_TYPE }, { at: path });
+      }
+
+      Transforms.wrapNodes(
+        editor,
+        { type: DEFINITION_LIST_ELEMENT_TYPE, children: [] },
+        { at: selection, match: (n) => isDefinitionTermElement(n) },
+      );
+    });
   }
 };

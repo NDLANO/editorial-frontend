@@ -54,11 +54,11 @@ type ResourceLike = Pick<NodeChild, "id" | "resourceTypes" | "rank" | "relevance
 export const sortResources = <T extends ResourceLike>(
   resources: T[],
   resourceTypes: ResourceType[],
-  unsorted?: boolean,
+  grouped?: boolean,
 ) => {
   const uniq = uniqBy(resources, (res) => res.id);
   const sortedByRank = sortBy(uniq, (res) => res.rank ?? res.id);
-  if (!unsorted) {
+  if (!grouped) {
     return sortedByRank;
   }
   const resourceTypeOrder = resourceTypes.reduce<Record<string, number>>((order, rt, index) => {

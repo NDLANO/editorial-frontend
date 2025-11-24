@@ -47,7 +47,7 @@ interface Props {
   resourceTypes: ResourceType[];
   currentNode: NodeChild;
   contentMetas: Dictionary<NodeResourceMeta>;
-  unsorted: boolean;
+  grouped: boolean;
   nodeResourcesIsPending: boolean;
   users: Dictionary<Auth0UserData> | undefined;
 }
@@ -57,7 +57,7 @@ const ResourcesContainer = ({
   nodeResources,
   currentNode,
   contentMetas,
-  unsorted,
+  grouped,
   nodeResourcesIsPending,
   users,
 }: Props) => {
@@ -93,8 +93,8 @@ const ResourcesContainer = ({
 
   const paths = useMemo(() => data?.map((d) => d.path ?? "").filter((d) => !!d) ?? [], [data]);
   const sortedResources = useMemo(() => {
-    return sortResources(nodeResources ?? [], resourceTypes ?? [], unsorted);
-  }, [nodeResources, resourceTypes, unsorted]);
+    return sortResources(nodeResources ?? [], resourceTypes ?? [], grouped);
+  }, [nodeResources, resourceTypes, grouped]);
   const currentMeta = currentNode.contentUri ? contentMetas[currentNode.contentUri] : undefined;
 
   return (

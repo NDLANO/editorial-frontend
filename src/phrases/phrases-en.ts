@@ -1960,8 +1960,8 @@ const phrases = {
         oldSubjectId: "Old ID for redirecting",
         subjectCategory: "Subject category",
         subjectType: "Subject type",
-        resourceGroupPlaceholder: "Sorting",
-        RGTooltip: "Show resources Sorted or Unsorted",
+        resourceGroupPlaceholder: "Grouping",
+        RGTooltip: "Show resources Grouped or Ungrouped",
         subjectLMA: "Responsible for the subject",
         subjectSA: "Language responsible for the subject",
         subjectDA: "Desk responsible for the subject",
@@ -2197,9 +2197,9 @@ const phrases = {
         isOff: "Not visible",
       },
       "topic-resources": {
-        title: "Resource Sorting",
-        isOn: "Unsorted",
-        isOff: "Sorted",
+        title: "Resource Grouping",
+        isOn: "Grouped",
+        isOff: "Ungrouped",
       },
       requestPublish: {
         title: "Publish requested",

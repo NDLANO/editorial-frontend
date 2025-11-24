@@ -20,7 +20,7 @@ export const LearningpathErrorMessage = () => {
   const { t } = useTranslation();
   return (
     <ErrorMessageRoot>
-      <img src="/oops.gif" alt={t("errorMessage.title")} />
+      <img src="/static/oops.gif" alt={t("errorMessage.title")} />
       <ErrorMessageContent>
         <ErrorMessageTitle>{t("errorMessage.title")}</ErrorMessageTitle>
         <ErrorMessageDescription>{t("learningpathForm.genericError")}</ErrorMessageDescription>

@@ -343,7 +343,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
       ) : (
         preview && (
           <ListItemRoot data-testid="articlePreview" nonInteractive>
-            <ListItemImage src={preview.metaUrl ?? "/placeholder.png"} alt="" width={200} />
+            <ListItemImage src={preview.metaUrl ?? "/static/placeholder.png"} alt="" width={200} />
             <StyledListItemContent>
               <ListItemHeading>{preview.title.title}</ListItemHeading>
               <Text textStyle="body.small">{preview.metaDescription?.metaDescription}</Text>

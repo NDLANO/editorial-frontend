@@ -24,7 +24,7 @@ const NotFound = () => {
       <main>
         <ErrorMessageRoot>
           <title>{t("htmlTitles.notFoundPage")}</title>
-          <img src={"not-exist.gif"} alt={t("errorMessage.title")} />
+          <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
           <ErrorMessageContent>
             <ErrorMessageTitle>{t("errorMessage.title")}</ErrorMessageTitle>
             <ErrorMessageDescription>{t("notFound.description")}</ErrorMessageDescription>

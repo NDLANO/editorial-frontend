@@ -157,7 +157,7 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
     } else if (content.learningResourceType === "concept") {
       return { icon: <InfoI />, imageUrl: "" };
     } else {
-      return { icon: undefined, imageUrl: content.metaImage?.url ?? "/placeholder.png" };
+      return { icon: undefined, imageUrl: content.metaImage?.url ?? "/static/placeholder.png" };
     }
   }, [content.learningResourceType, content.metaImage?.url]);
 

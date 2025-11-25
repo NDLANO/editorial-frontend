@@ -18,7 +18,10 @@ import { ViteDevServer } from "vite";
 import config from "./config";
 import contentSecurityPolicy from "./server/contentSecurityPolicy";
 import api from "./server/api";
-import authEndpoints from "./server/authEndpoints";
+import authEndpoints, { refreshAccessToken } from "./server/authEndpoints";
+import { getCookie } from "@ndla/util";
+import { ACCESS_TOKEN_COOKIE, HAS_REFRESH_TOKEN_COOKIE } from "./constants";
+import log from "./server/logger";
 
 const isProduction = config.runtimeType === "production";
 const base = "/";
@@ -98,6 +101,8 @@ app.use(authEndpoints);
 
 app.get("*splat", async (req, res) => {
   try {
+    // We automatically refresh access tokens on ssr requests, so we need to ensure that the initial response is not cached.
+    res.setHeader("Cache-Control", "no-store");
     const url = req.originalUrl.replace(base, "");
 
     let template: string;
@@ -107,6 +112,16 @@ app.get("*splat", async (req, res) => {
       template = await vite!.transformIndexHtml(url, template);
     } else {
       template = templateHtml;
+    }
+
+    const token = getCookie(ACCESS_TOKEN_COOKIE, req.headers.cookie ?? "");
+
+    if (!token && getCookie(HAS_REFRESH_TOKEN_COOKIE, req.headers.cookie ?? "") === "true") {
+      try {
+        await refreshAccessToken(req, res);
+      } catch (e) {
+        log.error("Failed to refresh token on SSR request");
+      }
     }
 
     const html = template

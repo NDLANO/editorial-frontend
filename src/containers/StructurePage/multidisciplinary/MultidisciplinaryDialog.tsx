@@ -243,7 +243,7 @@ export const MultidisciplinaryDialog = ({ currentNode }: Props) => {
 
           {!!previewNode && (
             <ListItemRoot nonInteractive>
-              <ListItemImage src={previewNode.metaImage?.url ?? "/placeholder.png"} alt="" width={200} />
+              <ListItemImage src={previewNode.metaImage?.url ?? "/static/placeholder.png"} alt="" width={200} />
               <StyledListItemContent>
                 <ListItemHeading>{previewNode.title?.title}</ListItemHeading>
                 <Text textStyle="body.small">{previewNode.metaDescription?.metaDescription}</Text>

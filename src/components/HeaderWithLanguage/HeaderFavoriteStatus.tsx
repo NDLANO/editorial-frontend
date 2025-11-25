@@ -31,8 +31,7 @@ const getResourceType = (type: string | undefined) => {
       return [];
     case "standard":
     case "topic-article":
-    case "frontpage-article":
-      return ["article", "multidiciplinary", "topic"];
+      return ["article", "multidisciplinary", "topic"];
     default:
       return [type];
   }
@@ -55,7 +54,10 @@ const HeaderFavoriteStatus = ({ id, type, favoriteCount }: Props) => {
   if (!favoriteMakesSense || isError || isLoading || (!data?.length && favoriteCount === undefined)) return null;
 
   const resourceFavorites =
-    favoriteCount !== undefined ? favoriteCount : data?.find((d) => d.id === id.toString())?.favourites;
+    favoriteCount !== undefined
+      ? favoriteCount
+      : (data?.find((d) => d.id === id.toString() && resourceType.includes(d.resourceType) && d.favourites > 0)
+          ?.favourites ?? 0);
   const tooltipText =
     resourceFavorites === 0 ? t("form.myNdla.noFavorites") : t("form.myNdla.numFavorites", { num: resourceFavorites });
 

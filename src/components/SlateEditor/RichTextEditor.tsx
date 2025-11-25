@@ -8,7 +8,7 @@
 
 import { useFormikContext } from "formik";
 import { useCallback, useEffect, useRef, JSX, DragEvent, ReactNode } from "react";
-import { Descendant, Editor } from "slate";
+import { Descendant, Editor, Transforms } from "slate";
 import { Slate, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
 import { LoggerManager, SlatePlugin, useCreateSlate } from "@ndla/editor";
@@ -92,7 +92,13 @@ const RichTextEditor = ({
       status?.status === "revertVersion" ||
       (editorId && status?.status === editorId)
     ) {
+      const storedSelection = editor.selection ? { ...editor.selection } : null;
+      Transforms.deselect(editor);
       editor.reinitialize({ value, shouldNormalize: true, onInitialNormalized });
+      if (storedSelection) {
+        Transforms.select(editor, storedSelection);
+        ReactEditor.focus(editor);
+      }
       if (status?.status === "revertVersion") {
         setStatus((prevStatus: FormikStatus) => ({
           ...prevStatus,

@@ -10,6 +10,7 @@ import isHotkey from "is-hotkey";
 import { SAVE_BUTTON_ID } from "../../../../constants";
 import { createPlugin } from "@ndla/editor";
 import { SAVE_HOTKEY_PLUGIN } from "./types";
+import { ReactEditor } from "slate-react";
 
 const isSaveHotkey = isHotkey("mod+s");
 
@@ -18,9 +19,12 @@ export const saveHotkeyPlugin = createPlugin({
   shortcuts: {
     onSave: {
       keyCondition: isSaveHotkey,
-      handler: (_, event, logger) => {
+      handler: (editor, event, logger) => {
         event.preventDefault();
         logger.log("Saving document");
+        if (editor.selection) {
+          ReactEditor.deselect(editor);
+        }
         document.getElementById(SAVE_BUTTON_ID)?.click();
         return true;
       },

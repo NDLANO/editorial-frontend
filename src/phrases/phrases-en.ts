@@ -1873,6 +1873,7 @@ const phrases = {
     },
     favorites: "Show favorites",
     quality: "Show quality",
+    hearts: "Show hearts",
     publish: {
       button: "Publish all resources",
       waiting: "Publishing resourses",

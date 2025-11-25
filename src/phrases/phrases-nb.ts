@@ -1871,6 +1871,7 @@ const phrases = {
     },
     favorites: "Vis favoritter",
     quality: "Vis kvalitet",
+    hearts: "Vis hjertemarkeringer",
     publish: {
       button: "Publiser alle ressurser",
       waiting: "Publiserer ressurser",

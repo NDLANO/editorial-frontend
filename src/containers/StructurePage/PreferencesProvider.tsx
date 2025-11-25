@@ -13,6 +13,7 @@ import {
   REMEMBER_LMA_SUBJECTS,
   REMEMBER_QUALITY,
   REMEMBER_SA_SUBJECTS,
+  REMEMBER_HEARTS,
 } from "../../constants";
 import { useLocalStorageBooleanState } from "../WelcomePage/hooks/storedFilterHooks";
 
@@ -29,6 +30,8 @@ interface Preferences {
   setShowQuality: (v: boolean) => void;
   showMatomoStats: boolean;
   setShowMatomoStats: (v: boolean) => void;
+  showHearts: boolean;
+  setShowHearts: (v: boolean) => void;
 }
 
 const PreferencesContext = createContext<Preferences | undefined>(undefined);
@@ -44,6 +47,7 @@ export const PreferencesProvider = ({ children }: Props) => {
   const [showSaSubjects, setShowSaSubjects] = useLocalStorageBooleanState(REMEMBER_SA_SUBJECTS);
   const [showQuality, setShowQuality] = useLocalStorageBooleanState(REMEMBER_QUALITY);
   const [showMatomoStats, setShowMatomoStats] = useState(false);
+  const [showHearts, setShowHearts] = useLocalStorageBooleanState(REMEMBER_HEARTS);
 
   return (
     <PreferencesContext
@@ -60,6 +64,8 @@ export const PreferencesProvider = ({ children }: Props) => {
         setShowQuality,
         showMatomoStats,
         setShowMatomoStats,
+        showHearts,
+        setShowHearts,
       }}
     >
       {children}

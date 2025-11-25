@@ -50,6 +50,7 @@ export interface GetNodeResourcesParams {
 }
 
 export interface NodeResourceMeta {
+  id: number;
   contentUri: string;
   grepCodes?: string[];
   status?: { current: string; other: string[] };

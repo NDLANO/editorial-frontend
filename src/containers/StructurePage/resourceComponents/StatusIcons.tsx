@@ -13,11 +13,13 @@ import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild } from "@ndla/types-taxonomy";
 import { isApproachingRevision } from "./ApproachingRevisionDate";
 import WrongTypeError from "./WrongTypeError";
+import HeaderFavoriteStatus from "../../../components/HeaderWithLanguage/HeaderFavoriteStatus";
 import { StatusTimeFill } from "../../../components/StatusTimeFill";
 import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
 import formatDate from "../../../util/formatDate";
 import { getExpirationStatus } from "../../../util/getExpirationStatus";
 import { getExpirationDate } from "../../../util/revisionHelpers";
+import { usePreferences } from "../PreferencesProvider";
 
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
   base: {
@@ -34,6 +36,7 @@ interface Props {
 
 const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy, contentMeta }: Props) => {
   const { t } = useTranslation();
+  const { showHearts } = usePreferences();
   const approachingRevision = useMemo(() => isApproachingRevision(contentMeta?.revisions), [contentMeta?.revisions]);
   const expirationDate = getExpirationDate(contentMeta?.revisions?.filter((r) => !!r) ?? []);
   const warnStatus = getExpirationStatus(expirationDate);
@@ -62,6 +65,7 @@ const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy, conte
           title={t("form.workflow.multipleTaxonomy")}
         />
       )}
+      {!!showHearts && <HeaderFavoriteStatus id={contentMeta?.id} type={contentMeta?.articleType ?? "learningpath"} />}
     </>
   );
 };

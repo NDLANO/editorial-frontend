@@ -89,6 +89,8 @@ const StructureBanner = ({ nodeType, hasLmaSubjects, hasDaSubjects, hasSaSubject
     setShowQuality,
     showMatomoStats,
     setShowMatomoStats,
+    showHearts,
+    setShowHearts,
   } = usePreferences();
 
   const { t } = useTranslation();
@@ -163,6 +165,13 @@ const StructureBanner = ({ nodeType, hasLmaSubjects, hasDaSubjects, hasSaSubject
                     onCheckedChange={(details) => setShowMatomoStats(details.checked)}
                   >
                     <SwitchLabel>{t("matomo.switchLabel")}</SwitchLabel>
+                    <SwitchControl>
+                      <SwitchThumb />
+                    </SwitchControl>
+                    <SwitchHiddenInput />
+                  </SwitchRoot>
+                  <SwitchRoot checked={showHearts} onCheckedChange={(details) => setShowHearts(details.checked)}>
+                    <SwitchLabel>{t("taxonomy.hearts")}</SwitchLabel>
                     <SwitchControl>
                       <SwitchThumb />
                     </SwitchControl>

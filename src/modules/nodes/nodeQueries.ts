@@ -116,6 +116,7 @@ const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<Nod
   const [articles, learningpaths] = await Promise.all([articlesPromise, learningpathsPromise]);
   const transformedArticles: NodeResourceMeta[] = articles.map(
     ({ status, grepCodes, articleType, id, revision, revisions, notes, responsible, started, comments }) => ({
+      id,
       status,
       grepCodes,
       articleType,
@@ -129,6 +130,7 @@ const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<Nod
     }),
   );
   const transformedLearningpaths: NodeResourceMeta[] = learningpaths.map((lp) => ({
+    id: lp.id,
     status: { current: lp.status, other: [] },
     grepCodes: lp.grepCodes,
     contentUri: `urn:learningpath:${lp.id}`,

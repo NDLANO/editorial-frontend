@@ -108,7 +108,7 @@ export const WelcomePage = () => {
             />
           </GridColumn>
           <GridColumn>
-            <Revisions userData={data} />
+            <Revisions userData={data} subjectIdObject={subjectIdObject} isPending={searchQuery.isPending} />
             <SubjectView
               userDataPending={isPending}
               favoriteSubjects={data?.favoriteSubjects}

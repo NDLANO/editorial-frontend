@@ -192,6 +192,7 @@ const Resource = ({
                 allStats={resource.contextids.map((cId) => matomoStats?.[cId])}
                 isPending={matomoStatsIsPending}
                 isError={matomoStatsIsError}
+                contentMeta={contentMeta}
               />
             ) : null}
             {!!showQuality && (

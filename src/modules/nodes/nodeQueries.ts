@@ -23,6 +23,7 @@ import {
 } from "../../queryKeys";
 import { fetchDrafts } from "../draft/draftApi";
 import { fetchLearningpaths } from "../learningpath/learningpathApi";
+import { fetchResourceStats } from "../myndla/myndlaApi";
 
 export const nodeQueryKeys = {
   nodes: (params?: Partial<UseNodesParams>) => [NODES, params] as const,
@@ -67,7 +68,7 @@ export const useNode = (params: UseNodeParams, options?: Partial<UseQueryOptions
 
 interface UseNodeResourceMetas {
   nodeId: string;
-  ids: string[];
+  ids: { id: string | undefined; type: string }[];
   language?: string;
 }
 
@@ -85,10 +86,12 @@ export const useNodeResourceMetas = (
 interface ContentUriPartition {
   articleIds: number[];
   learningpathIds: number[];
+  all: string[];
 }
 
-const partitionByContentUri = (contentUris: (string | undefined)[]) => {
-  return contentUris
+const partitionByContentUri = (nodes: { id: string | undefined; type: string }[]) => {
+  return nodes
+    .map((node) => node.id)
     .filter((uri) => !!uri)
     .reduce<ContentUriPartition>(
       (acc, curr) => {
@@ -98,47 +101,74 @@ const partitionByContentUri = (contentUris: (string | undefined)[]) => {
         if (!id) return acc;
         if (type === "article") {
           acc.articleIds = acc.articleIds.concat(id);
+          acc.all = acc.all.concat(`${id}`);
         } else if (type === "learningpath") {
           acc.learningpathIds = acc.learningpathIds.concat(id);
+          acc.all = acc.all.concat(`${id}`);
         }
         return acc;
       },
-      { articleIds: [], learningpathIds: [] },
+      { articleIds: [], learningpathIds: [], all: [] },
     );
 };
 
 const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<NodeResourceMeta[]> => {
-  const { articleIds, learningpathIds } = partitionByContentUri(params.ids);
+  if (!params.ids.length) return [];
+  const { articleIds, learningpathIds, all } = partitionByContentUri(params.ids);
   const articlesPromise = articleIds.length ? fetchDrafts(articleIds, params.language) : Promise.resolve([]);
   const learningpathsPromise = learningpathIds.length
     ? fetchLearningpaths(learningpathIds, params.language)
     : Promise.resolve([]);
-  const [articles, learningpaths] = await Promise.all([articlesPromise, learningpathsPromise]);
-  const transformedArticles: NodeResourceMeta[] = articles.map(
-    ({ status, grepCodes, articleType, id, revision, revisions, notes, responsible, started, comments }) => ({
-      status,
-      grepCodes,
-      articleType,
-      contentUri: `urn:article:${id}`,
-      revision,
-      responsible,
-      revisions,
-      notes,
-      started,
-      comments,
-    }),
-  );
-  const transformedLearningpaths: NodeResourceMeta[] = learningpaths.map((lp) => ({
-    status: { current: lp.status, other: [] },
-    grepCodes: lp.grepCodes,
-    contentUri: `urn:learningpath:${lp.id}`,
-    revision: lp.revision,
-    responsible: lp.responsible,
-    revisions: lp.revisions,
-    comments: lp.comments,
-  }));
+  const resourceStatsPromise = fetchResourceStats(["article", "learningpath", "topic", "multidisciplinary"], all);
+  const [articles, learningpaths, resourceStats] = await Promise.all([
+    articlesPromise,
+    learningpathsPromise,
+    resourceStatsPromise,
+  ]);
 
-  return transformedArticles.concat(transformedLearningpaths);
+  const resourceMetas = params.ids.map((idObj) => {
+    const id = idObj.id?.split(":")[2];
+    const isLearningpath = idObj.type.includes("learningpath");
+    if (isLearningpath) {
+      const lp = learningpaths.find((lp) => `${lp.id}` === id);
+      if (lp) {
+        return {
+          id: lp.id,
+          status: { current: lp.status, other: [] },
+          grepCodes: lp.grepCodes,
+          contentUri: `urn:learningpath:${lp.id}`,
+          revision: lp.revision,
+          responsible: lp.responsible,
+          revisions: lp.revisions,
+          comments: lp.comments,
+          hearts: resourceStats.find((stat) => stat.id === id && stat.resourceType === "learningpath")?.favourites || 0,
+        };
+      }
+      return undefined;
+    } else {
+      const a = articles.find((article) => `${article.id}` === id);
+      if (a) {
+        return {
+          id: a.id,
+          status: a.status,
+          grepCodes: a.grepCodes,
+          contentUri: `urn:article:${a.id}`,
+          revision: a.revision,
+          responsible: a.responsible,
+          revisions: a.revisions,
+          notes: a.notes,
+          started: a.started,
+          comments: a.comments,
+          hearts:
+            resourceStats.find((stat) => stat.id === id && stat.resourceType === idObj.type && stat.favourites > 0)
+              ?.favourites || 0,
+        };
+      }
+      return undefined;
+    }
+  });
+
+  return resourceMetas.filter((rm) => rm !== undefined);
 };
 
 interface UseNodeTree extends WithTaxonomyVersion {

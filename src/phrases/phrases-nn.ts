@@ -2357,6 +2357,7 @@ const phrases = {
     hits: "Sidevisningar: {{count}}",
     avgTime: "Gj.snitt tid på sida: {{time}} sekund",
     totalHits: "Totalt antall sidevisningar: {{count}} ({{contexts}} kontekster)",
+    totalHearts: "Totalt antall favorittmarkeringar: {{count}}",
     error: "Noko gjekk gale ved henting av besøkstal",
     switchLabel: "Vis besøkstal",
     popoverDescription_one: "{{count}} unik sidevisning, klikk for å sjå fleire besøkstal",

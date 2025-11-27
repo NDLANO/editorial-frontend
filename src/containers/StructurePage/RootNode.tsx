@@ -49,9 +49,19 @@ const RootNode = ({ isFavorite, node, openedPaths, childNodeTypes, rootPath }: P
       nodeId: node.id,
       ids:
         childNodesQuery.data
-          ?.map((r) => r.contentUri)
-          .concat(node.contentUri)
-          .filter((uri): uri is string => !!uri) ?? [],
+          ?.map((node) => ({
+            id: node.contentUri,
+            type: "article",
+          }))
+          .concat({
+            id: node.contentUri,
+            type:
+              node.nodeType === "TOPIC"
+                ? node.context?.parentIds.length === 3
+                  ? "multidisciplinary"
+                  : "topic"
+                : "article",
+          }) ?? [],
       language: i18n.language,
     },
     {

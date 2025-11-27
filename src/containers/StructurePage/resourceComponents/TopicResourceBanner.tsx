@@ -263,6 +263,7 @@ const TopicResourceBanner = ({
                 allStats={currentNode.contextids.map((cId) => resourceStats?.[cId])}
                 isPending={matomoStatsIsPending}
                 isError={matomoStatsIsError}
+                contentMeta={currentContentMeta}
               />
             ) : null}
             <StatusIcons

@@ -44,7 +44,7 @@ export const MultidisciplinaryCases = ({ currentNode }: Props) => {
   const nodeResourceMetasQuery = useNodeResourceMetas(
     {
       nodeId: currentNode.id,
-      ids: childrenQuery.data?.map((r) => r.contentUri).filter<string>((uri): uri is string => !!uri) ?? [],
+      ids: childrenQuery.data?.map((node) => ({ id: node.contentUri, type: "article" })) ?? [],
       language: i18n.language,
     },
     { enabled: !!childrenQuery.data?.length },

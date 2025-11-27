@@ -20,6 +20,12 @@ export const getIdFromUrn = (urn?: string) => {
   return idWithoutRevision;
 };
 
+export const getTypeFromUrn = (urn?: string) => {
+  if (!urn) return;
+  const [, type] = urn.split(":");
+  return type;
+};
+
 const flattenResourceTypesAndAddContextTypes = (data: ResourceType[] = [], t: (key: string) => string) => {
   const resourceTypes: FlattenedResourceType[] = [];
   data.forEach((type) => {

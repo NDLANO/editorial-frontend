@@ -18,7 +18,7 @@ import NodeItem from "./NodeItem";
 import { draftQueryKeys, useUpdateUserDataMutation } from "../../modules/draft/draftQueries";
 import { useUpdateNodeConnectionMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys, useChildNodes, useNodeResourceMetas } from "../../modules/nodes/nodeQueries";
-import { groupChildNodes } from "../../util/taxonomyHelpers";
+import { groupChildNodes, getTypeFromUrn } from "../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
@@ -51,7 +51,7 @@ const RootNode = ({ isFavorite, node, openedPaths, childNodeTypes, rootPath }: P
         childNodesQuery.data
           ?.map((node) => ({
             id: node.contentUri ?? "",
-            type: node.contentUri?.split(":")[1] ?? "article",
+            type: getTypeFromUrn(node.contentUri) ?? "article",
           }))
           .concat({
             id: node.contentUri ?? "",

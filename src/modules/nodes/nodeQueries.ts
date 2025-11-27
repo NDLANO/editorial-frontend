@@ -21,6 +21,7 @@ import {
   ROOT_NODE_WITH_CHILDREN,
   SEARCH_NODES,
 } from "../../queryKeys";
+import { getIdFromUrn, getTypeFromUrn } from "../../util/taxonomyHelpers";
 import { fetchDrafts } from "../draft/draftApi";
 import { fetchLearningpaths } from "../learningpath/learningpathApi";
 import { fetchResourceStats } from "../myndla/myndlaApi";
@@ -88,15 +89,13 @@ interface ContentUriPartition {
   learningpathIds: number[];
 }
 
-const partitionById = (nodes: { id: string; type: string }[]) => {
-  return nodes
-    .map((node) => node.id)
+const partitionById = (ids: string[]) => {
+  return ids
     .filter((uri) => !!uri)
     .reduce<ContentUriPartition>(
       (acc, curr) => {
-        const split = curr!.split(":");
-        const type = split[1];
-        const id = parseInt(split[2]);
+        const type = getTypeFromUrn(curr!);
+        const id = getIdFromUrn(curr!);
         if (!id) return acc;
         if (type === "article") {
           acc.articleIds = acc.articleIds.concat(id);
@@ -111,14 +110,14 @@ const partitionById = (nodes: { id: string; type: string }[]) => {
 
 const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<NodeResourceMeta[]> => {
   if (!params.ids.length) return [];
-  const { articleIds, learningpathIds } = partitionById(params.ids);
+  const { articleIds, learningpathIds } = partitionById(params.ids.map((id) => id.id));
   const articlesPromise = articleIds.length ? fetchDrafts(articleIds, params.language) : Promise.resolve([]);
   const learningpathsPromise = learningpathIds.length
     ? fetchLearningpaths(learningpathIds, params.language)
     : Promise.resolve([]);
   const resourceStatsPromise = fetchResourceStats(
     ["article", "learningpath", "topic", "multidisciplinary"],
-    params.ids.map((id) => id.id.split(":")[2]),
+    params.ids.map((id) => `${getIdFromUrn(id.id)}`),
   );
   const [articles, learningpaths, resourceStats] = await Promise.all([
     articlesPromise,
@@ -127,10 +126,10 @@ const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<Nod
   ]);
 
   const resourceMetas = params.ids.map((idObj) => {
-    const id = idObj.id.split(":")[2];
+    const id = getIdFromUrn(idObj.id);
     const isLearningpath = idObj.type.includes("learningpath");
     if (isLearningpath) {
-      const lp = learningpaths.find((lp) => `${lp.id}` === id);
+      const lp = learningpaths.find((lp) => lp.id === id);
       if (lp) {
         return {
           id: lp.id,
@@ -141,12 +140,14 @@ const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<Nod
           responsible: lp.responsible,
           revisions: lp.revisions,
           comments: lp.comments,
-          hearts: resourceStats.find((stat) => stat.id === id && stat.resourceType === "learningpath")?.favourites || 0,
+          hearts:
+            resourceStats.find((stat) => stat.id === `${lp.id}` && stat.resourceType === "learningpath")?.favourites ||
+            0,
         };
       }
       return undefined;
     } else {
-      const a = articles.find((article) => `${article.id}` === id);
+      const a = articles.find((article) => article.id === id);
       if (a) {
         return {
           id: a.id,
@@ -160,7 +161,8 @@ const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<Nod
           notes: a.notes,
           started: a.started,
           comments: a.comments,
-          hearts: resourceStats.find((stat) => stat.id === id && stat.resourceType === idObj.type)?.favourites || 0,
+          hearts:
+            resourceStats.find((stat) => stat.id === `${a.id}` && stat.resourceType === idObj.type)?.favourites || 0,
         };
       }
       return undefined;

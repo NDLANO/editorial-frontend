@@ -69,9 +69,9 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
       nodeId: currentChildNode.id,
       ids:
         nodeResources
-          ?.map((node) => ({ id: node.contentUri, type: "article" }))
+          ?.map((node) => ({ id: node.contentUri ?? "", type: node.contentUri?.split(":")[1] ?? "article" }))
           .concat({
-            id: currentChildNode.contentUri,
+            id: currentChildNode.contentUri ?? "",
             type:
               currentChildNode.nodeType === "TOPIC"
                 ? currentChildNode.context?.parentIds.length === 3

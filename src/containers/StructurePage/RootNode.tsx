@@ -50,11 +50,11 @@ const RootNode = ({ isFavorite, node, openedPaths, childNodeTypes, rootPath }: P
       ids:
         childNodesQuery.data
           ?.map((node) => ({
-            id: node.contentUri,
-            type: "article",
+            id: node.contentUri ?? "",
+            type: node.contentUri?.split(":")[1] ?? "article",
           }))
           .concat({
-            id: node.contentUri,
+            id: node.contentUri ?? "",
             type:
               node.nodeType === "TOPIC"
                 ? node.context?.parentIds.length === 3

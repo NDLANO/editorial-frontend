@@ -68,7 +68,7 @@ export const useNode = (params: UseNodeParams, options?: Partial<UseQueryOptions
 
 interface UseNodeResourceMetas {
   nodeId: string;
-  ids: { id: string | undefined; type: string }[];
+  ids: { id: string; type: string }[];
   language?: string;
 }
 
@@ -86,10 +86,9 @@ export const useNodeResourceMetas = (
 interface ContentUriPartition {
   articleIds: number[];
   learningpathIds: number[];
-  all: string[];
 }
 
-const partitionByContentUri = (nodes: { id: string | undefined; type: string }[]) => {
+const partitionById = (nodes: { id: string; type: string }[]) => {
   return nodes
     .map((node) => node.id)
     .filter((uri) => !!uri)
@@ -101,25 +100,26 @@ const partitionByContentUri = (nodes: { id: string | undefined; type: string }[]
         if (!id) return acc;
         if (type === "article") {
           acc.articleIds = acc.articleIds.concat(id);
-          acc.all = acc.all.concat(`${id}`);
         } else if (type === "learningpath") {
           acc.learningpathIds = acc.learningpathIds.concat(id);
-          acc.all = acc.all.concat(`${id}`);
         }
         return acc;
       },
-      { articleIds: [], learningpathIds: [], all: [] },
+      { articleIds: [], learningpathIds: [] },
     );
 };
 
 const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<NodeResourceMeta[]> => {
   if (!params.ids.length) return [];
-  const { articleIds, learningpathIds, all } = partitionByContentUri(params.ids);
+  const { articleIds, learningpathIds } = partitionById(params.ids);
   const articlesPromise = articleIds.length ? fetchDrafts(articleIds, params.language) : Promise.resolve([]);
   const learningpathsPromise = learningpathIds.length
     ? fetchLearningpaths(learningpathIds, params.language)
     : Promise.resolve([]);
-  const resourceStatsPromise = fetchResourceStats(["article", "learningpath", "topic", "multidisciplinary"], all);
+  const resourceStatsPromise = fetchResourceStats(
+    ["article", "learningpath", "topic", "multidisciplinary"],
+    params.ids.map((id) => id.id.split(":")[2]),
+  );
   const [articles, learningpaths, resourceStats] = await Promise.all([
     articlesPromise,
     learningpathsPromise,
@@ -127,7 +127,7 @@ const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<Nod
   ]);
 
   const resourceMetas = params.ids.map((idObj) => {
-    const id = idObj.id?.split(":")[2];
+    const id = idObj.id.split(":")[2];
     const isLearningpath = idObj.type.includes("learningpath");
     if (isLearningpath) {
       const lp = learningpaths.find((lp) => `${lp.id}` === id);
@@ -152,6 +152,7 @@ const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<Nod
           id: a.id,
           status: a.status,
           grepCodes: a.grepCodes,
+          articleType: a.articleType,
           contentUri: `urn:article:${a.id}`,
           revision: a.revision,
           responsible: a.responsible,
@@ -159,9 +160,7 @@ const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<Nod
           notes: a.notes,
           started: a.started,
           comments: a.comments,
-          hearts:
-            resourceStats.find((stat) => stat.id === id && stat.resourceType === idObj.type && stat.favourites > 0)
-              ?.favourites || 0,
+          hearts: resourceStats.find((stat) => stat.id === id && stat.resourceType === idObj.type)?.favourites || 0,
         };
       }
       return undefined;

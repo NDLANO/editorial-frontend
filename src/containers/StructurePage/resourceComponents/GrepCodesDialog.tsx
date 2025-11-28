@@ -29,7 +29,7 @@ import { usePatchLearningpathMutation } from "../../../modules/learningpath/lear
 import { learningpathQueryKeys } from "../../../modules/learningpath/learningpathQueries";
 import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
-import { getIdFromUrn } from "../../../util/taxonomyHelpers";
+import { getIdFromContentURI } from "../../../util/taxonomyHelpers";
 
 interface Props {
   codes: string[];
@@ -41,7 +41,7 @@ interface Props {
 
 const GrepCodesDialog = ({ codes, contentUri, revision, currentNodeId, rootGrepCodesString }: Props) => {
   const [open, setOpen] = useState(false);
-  const resourceId = Number(getIdFromUrn(contentUri));
+  const resourceId = Number(getIdFromContentURI(contentUri));
   if (!resourceId || !revision) return null;
 
   return (

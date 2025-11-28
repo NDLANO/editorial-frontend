@@ -12,7 +12,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import { PUBLISHED } from "../../../constants";
 import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
-import { getIdFromUrn } from "../../../util/taxonomyHelpers";
+import { getIdFromContentURI } from "../../../util/taxonomyHelpers";
 
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
   defaultVariants: {
@@ -49,7 +49,7 @@ const StructureErrorIcon = ({ node, meta, isRoot, isTaxonomyAdmin }: Props) => {
 
   if (isTaxonomyAdmin) {
     const missingArticleTypeError = t("taxonomy.info.missingArticleType", {
-      id: getIdFromUrn(node.contentUri),
+      id: getIdFromContentURI(node.contentUri),
     });
 
     const wrongArticleTypeError = t("taxonomy.info.wrongArticleType", {

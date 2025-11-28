@@ -15,7 +15,7 @@ import ResourcesContainer from "./ResourcesContainer";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
 import { useChildNodes, useNodeResourceMetas } from "../../../modules/nodes/nodeQueries";
 import { useAllResourceTypes } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
-import { getTypeFromUrn } from "../../../util/taxonomyHelpers";
+import { getTypeFromContentURI } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
@@ -72,7 +72,7 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
         nodeResources
           ?.map((node) => ({
             id: node.contentUri ?? "",
-            type: getTypeFromUrn(node.contentUri ?? "") ?? "article",
+            type: getTypeFromContentURI(node.contentUri ?? "") ?? "article",
           }))
           .concat({
             id: currentChildNode.contentUri ?? "",

@@ -21,7 +21,7 @@ import {
   ROOT_NODE_WITH_CHILDREN,
   SEARCH_NODES,
 } from "../../queryKeys";
-import { getIdFromUrn, getTypeFromUrn } from "../../util/taxonomyHelpers";
+import { getIdFromContentURI, getTypeFromContentURI } from "../../util/taxonomyHelpers";
 import { fetchDrafts } from "../draft/draftApi";
 import { fetchLearningpaths } from "../learningpath/learningpathApi";
 import { fetchResourceStats } from "../myndla/myndlaApi";
@@ -94,8 +94,8 @@ const partitionById = (ids: string[]) => {
     .filter((uri) => !!uri)
     .reduce<ContentUriPartition>(
       (acc, curr) => {
-        const type = getTypeFromUrn(curr!);
-        const id = getIdFromUrn(curr!);
+        const type = getTypeFromContentURI(curr!);
+        const id = getIdFromContentURI(curr!);
         if (!id) return acc;
         if (type === "article") {
           acc.articleIds = acc.articleIds.concat(id);
@@ -117,7 +117,7 @@ const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<Nod
     : Promise.resolve([]);
   const resourceStatsPromise = fetchResourceStats(
     Array.from(new Set(params.ids.map((id) => id.type))),
-    params.ids.map((id) => `${getIdFromUrn(id.id)}`),
+    params.ids.map((id) => `${getIdFromContentURI(id.id)}`),
   );
   const [articles, learningpaths, resourceStats] = await Promise.all([
     articlesPromise,
@@ -126,7 +126,7 @@ const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<Nod
   ]);
 
   const resourceMetas = params.ids.map((idObj) => {
-    const id = getIdFromUrn(idObj.id);
+    const id = getIdFromContentURI(idObj.id);
     const isLearningpath = idObj.type.includes("learningpath");
     if (isLearningpath) {
       const learningpath = learningpaths.find((lp) => lp.id === id);

@@ -14,7 +14,7 @@ import { Node } from "@ndla/types-taxonomy";
 import { keyBy } from "@ndla/util";
 import { useChildNodes, useNode, useNodeResourceMetas } from "../../../modules/nodes/nodeQueries";
 import { useSearchGrepCodes } from "../../../modules/search/searchQueries";
-import { getTypeFromUrn } from "../../../util/taxonomyHelpers";
+import { getTypeFromContentURI } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import ResourceItems from "../resourceComponents/ResourceItems";
 
@@ -48,7 +48,7 @@ export const MultidisciplinaryCases = ({ currentNode }: Props) => {
       ids:
         childrenQuery.data?.map((node) => ({
           id: node.contentUri ?? "",
-          type: getTypeFromUrn(node.contentUri) ?? "article",
+          type: getTypeFromContentURI(node.contentUri) ?? "article",
         })) ?? [],
       language: i18n.language,
     },

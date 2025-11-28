@@ -35,7 +35,7 @@ import { fetchArticleRevisionHistory } from "../../../modules/draft/draftApi";
 import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
 import formatDate from "../../../util/formatDate";
 import { routes } from "../../../util/routeHelpers";
-import { getIdFromUrn } from "../../../util/taxonomyHelpers";
+import { getIdFromContentURI } from "../../../util/taxonomyHelpers";
 
 const { contentTypes } = constants;
 
@@ -138,7 +138,7 @@ const VersionHistoryContent = ({ contentType, resource }: DialogContentProps) =>
         setNotes([]);
       }
     };
-    const id = getIdFromUrn(resource.contentUri);
+    const id = getIdFromContentURI(resource.contentUri);
     if (id) {
       fetchHistory(id);
     }

@@ -13,15 +13,15 @@ import { FlattenedResourceType } from "../interfaces";
 import { NodeChildWithChildren } from "../modules/nodes/nodeApiTypes";
 
 // Kan hende at id i contentUri fra taxonomy inneholder '#xxx' (revision)
-export const getIdFromUrn = (urn?: string) => {
-  return getTypeAndIdFromUrn(urn)?.id;
+export const getIdFromContentURI = (urn?: string) => {
+  return getTypeAndIdFromContentURI(urn)?.id;
 };
 
-export const getTypeFromUrn = (urn?: string) => {
-  return getTypeAndIdFromUrn(urn)?.type;
+export const getTypeFromContentURI = (urn?: string) => {
+  return getTypeAndIdFromContentURI(urn)?.type;
 };
 
-const getTypeAndIdFromUrn = (urn?: string) => {
+const getTypeAndIdFromContentURI = (urn?: string) => {
   if (!urn) return;
   const [, type, id] = urn.split(":");
   const idWithoutRevision = parseInt(id.split("#")[0]);

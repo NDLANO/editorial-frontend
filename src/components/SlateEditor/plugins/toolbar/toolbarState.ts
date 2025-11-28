@@ -174,7 +174,7 @@ export const defaultAreaOptions: AreaFilters = {
   [SYMBOL_ELEMENT_TYPE]: {
     inline: { disabled: true, [SYMBOL_ELEMENT_TYPE]: { disabled: false }, rephrase: { disabled: false } },
   },
-  list: { inline: { disabled: true } },
+  list: { inline: { disabled: true }, block: { "definition-list": { disabled: true }, quote: { disabled: true } } },
   "definition-term": {
     block: { quote: { disabled: true } },
     inline: { disabled: true, "comment-inline": { disabled: false } },
@@ -184,7 +184,12 @@ export const defaultAreaOptions: AreaFilters = {
     inline: { disabled: true, "comment-inline": { disabled: false } },
   },
   "definition-list": {
-    block: { quote: { disabled: true } },
+    block: {
+      quote: { disabled: true },
+      "numbered-list": { disabled: true },
+      "bulleted-list": { disabled: true },
+      "letter-list": { disabled: true },
+    },
     inline: { disabled: true, "comment-inline": { disabled: false } },
   },
   quote: { inline: { disabled: true } },

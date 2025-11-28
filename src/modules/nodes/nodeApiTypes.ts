@@ -60,6 +60,7 @@ export interface NodeResourceMeta {
   responsible?: ResponsibleDTO;
   started?: boolean;
   comments?: CommentDTO[];
+  hearts?: number;
 }
 
 export interface NodeWithChildren extends Node {

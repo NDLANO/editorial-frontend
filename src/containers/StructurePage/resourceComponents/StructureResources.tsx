@@ -15,6 +15,7 @@ import ResourcesContainer from "./ResourcesContainer";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
 import { useChildNodes, useNodeResourceMetas } from "../../../modules/nodes/nodeQueries";
 import { useAllResourceTypes } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
+import { getTypeFromContentURI } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
@@ -69,9 +70,19 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
       nodeId: currentChildNode.id,
       ids:
         nodeResources
-          ?.map((r) => r.contentUri)
-          .concat(currentChildNode.contentUri)
-          .filter<string>((uri): uri is string => !!uri) ?? [],
+          ?.map((node) => ({
+            id: node.contentUri ?? "",
+            type: getTypeFromContentURI(node.contentUri ?? "") ?? "article",
+          }))
+          .concat({
+            id: currentChildNode.contentUri ?? "",
+            type:
+              currentChildNode.nodeType === "TOPIC"
+                ? currentChildNode.context?.parentIds.length === 3
+                  ? "multidisciplinary"
+                  : "topic"
+                : "article",
+          }) ?? [],
       language: i18n.language,
     },
     { enabled: !!currentChildNode.contentUri || (!!nodeResources && !!nodeResources?.length) },

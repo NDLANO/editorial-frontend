@@ -18,7 +18,7 @@ import NodeItem from "./NodeItem";
 import { draftQueryKeys, useUpdateUserDataMutation } from "../../modules/draft/draftQueries";
 import { useUpdateNodeConnectionMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys, useChildNodes, useNodeResourceMetas } from "../../modules/nodes/nodeQueries";
-import { groupChildNodes } from "../../util/taxonomyHelpers";
+import { groupChildNodes, getTypeFromContentURI } from "../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
@@ -49,9 +49,19 @@ const RootNode = ({ isFavorite, node, openedPaths, childNodeTypes, rootPath }: P
       nodeId: node.id,
       ids:
         childNodesQuery.data
-          ?.map((r) => r.contentUri)
-          .concat(node.contentUri)
-          .filter((uri): uri is string => !!uri) ?? [],
+          ?.map((node) => ({
+            id: node.contentUri ?? "",
+            type: getTypeFromContentURI(node.contentUri) ?? "article",
+          }))
+          .concat({
+            id: node.contentUri ?? "",
+            type:
+              node.nodeType === "TOPIC"
+                ? node.context?.parentIds.length === 3
+                  ? "multidisciplinary"
+                  : "topic"
+                : "article",
+          }) ?? [],
       language: i18n.language,
     },
     {

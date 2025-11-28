@@ -17,7 +17,7 @@ import { useUpdateDraftStatusMutation } from "../../../modules/draft/draftMutati
 import { useLearningpathsWithArticle } from "../../../modules/learningpath/learningpathQueries";
 import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
 import { useDeleteResourceForNodeMutation } from "../../../modules/nodes/nodeMutations";
-import { getIdFromUrn } from "../../../util/taxonomyHelpers";
+import { getIdFromContentURI } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
@@ -35,7 +35,7 @@ export const DeleteResourceDialogContent = ({ resource, contentMeta, invalidate 
 
   const articleId = useMemo(() => {
     if (resource.contentUri?.startsWith("urn:article")) {
-      return getIdFromUrn(resource.contentUri);
+      return getIdFromContentURI(resource.contentUri);
     }
     return undefined;
   }, [resource.contentUri]);

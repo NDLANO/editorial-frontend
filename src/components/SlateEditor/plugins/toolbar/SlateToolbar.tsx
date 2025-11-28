@@ -146,7 +146,9 @@ const SlateToolbar = ({ hideToolbar: hideToolbarProp }: Props) => {
         ? undefined
         : { inline: { rephrase: { hidden: true, disabled: true } } },
     });
-  }, [hideToolbar, editor, userPermissions]);
+    // This is somewhat unfortunate, but we need to reculculate toolbar options whenever `editor.children` changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hideToolbar, editor, editor.children, userPermissions]);
 
   const positioningOptions = useMemo(() => {
     return {

@@ -116,7 +116,7 @@ const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<Nod
     ? fetchLearningpaths(learningpathIds, params.language)
     : Promise.resolve([]);
   const resourceStatsPromise = fetchResourceStats(
-    ["article", "learningpath", "topic", "multidisciplinary"],
+    Array.from(new Set(params.ids.map((id) => id.type))),
     params.ids.map((id) => `${getIdFromUrn(id.id)}`),
   );
   const [articles, learningpaths, resourceStats] = await Promise.all([
@@ -129,40 +129,27 @@ const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<Nod
     const id = getIdFromUrn(idObj.id);
     const isLearningpath = idObj.type.includes("learningpath");
     if (isLearningpath) {
-      const lp = learningpaths.find((lp) => lp.id === id);
-      if (lp) {
+      const learningpath = learningpaths.find((lp) => lp.id === id);
+      if (learningpath) {
         return {
-          id: lp.id,
-          status: { current: lp.status, other: [] },
-          grepCodes: lp.grepCodes,
-          contentUri: `urn:learningpath:${lp.id}`,
-          revision: lp.revision,
-          responsible: lp.responsible,
-          revisions: lp.revisions,
-          comments: lp.comments,
+          ...learningpath,
+          status: { current: learningpath.status, other: [] },
+          contentUri: `urn:learningpath:${learningpath.id}`,
           hearts:
-            resourceStats.find((stat) => stat.id === `${lp.id}` && stat.resourceType === "learningpath")?.favourites ||
-            0,
+            resourceStats.find((stat) => stat.id === `${learningpath.id}` && stat.resourceType === "learningpath")
+              ?.favourites || 0,
         };
       }
       return undefined;
     } else {
-      const a = articles.find((article) => article.id === id);
-      if (a) {
+      const article = articles.find((article) => article.id === id);
+      if (article) {
         return {
-          id: a.id,
-          status: a.status,
-          grepCodes: a.grepCodes,
-          articleType: a.articleType,
-          contentUri: `urn:article:${a.id}`,
-          revision: a.revision,
-          responsible: a.responsible,
-          revisions: a.revisions,
-          notes: a.notes,
-          started: a.started,
-          comments: a.comments,
+          ...article,
+          contentUri: `urn:article:${article.id}`,
           hearts:
-            resourceStats.find((stat) => stat.id === `${a.id}` && stat.resourceType === idObj.type)?.favourites || 0,
+            resourceStats.find((stat) => stat.id === `${article.id}` && stat.resourceType === idObj.type)?.favourites ||
+            0,
         };
       }
       return undefined;

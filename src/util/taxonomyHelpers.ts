@@ -14,16 +14,18 @@ import { NodeChildWithChildren } from "../modules/nodes/nodeApiTypes";
 
 // Kan hende at id i contentUri fra taxonomy inneholder '#xxx' (revision)
 export const getIdFromUrn = (urn?: string) => {
-  if (!urn) return;
-  const [, , id] = urn.split(":");
-  const idWithoutRevision = parseInt(id.split("#")[0]);
-  return idWithoutRevision;
+  return getTypeAndIdFromUrn(urn)?.id;
 };
 
 export const getTypeFromUrn = (urn?: string) => {
+  return getTypeAndIdFromUrn(urn)?.type;
+};
+
+const getTypeAndIdFromUrn = (urn?: string) => {
   if (!urn) return;
-  const [, type] = urn.split(":");
-  return type;
+  const [, type, id] = urn.split(":");
+  const idWithoutRevision = parseInt(id.split("#")[0]);
+  return { type, id: idWithoutRevision };
 };
 
 const flattenResourceTypesAndAddContextTypes = (data: ResourceType[] = [], t: (key: string) => string) => {

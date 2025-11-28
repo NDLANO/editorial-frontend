@@ -55,10 +55,20 @@ interface Props {
 }
 
 const StyledConceptInlineTriggerButton = styled(ConceptInlineTriggerButton, {
-  base: {
-    background: "surface.actionSubtle.hover",
-    _hover: {
-      background: "surface.actionSubtle.hover.strong",
+  variants: {
+    published: {
+      true: {
+        background: "surface.brand.3.subtle",
+        _hover: {
+          background: "surface.brand.3.moderate",
+        },
+      },
+      false: {
+        background: "surface.actionSubtle.hover",
+        _hover: {
+          background: "surface.actionSubtle.hover.strong",
+        },
+      },
     },
   },
 });
@@ -187,6 +197,8 @@ const InlineWrapper = (props: Props) => {
         }
       : undefined;
 
+  const isPublished = concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED);
+
   return (
     <>
       {!embed ? (
@@ -196,12 +208,12 @@ const InlineWrapper = (props: Props) => {
       ) : (
         <PopoverRoot>
           <PopoverTrigger asChild {...attributes}>
-            <StyledConceptInlineTriggerButton>{children}</StyledConceptInlineTriggerButton>
+            <StyledConceptInlineTriggerButton published={!!isPublished}>{children}</StyledConceptInlineTriggerButton>
           </PopoverTrigger>
           <Portal>
             <StyledPopoverContent>
               <ButtonWrapper>
-                {!!(concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED)) && (
+                {!!isPublished && (
                   <StyledCheckLine aria-label={t("form.workflow.published")} title={t("form.workflow.published")} />
                 )}
                 {concept?.status.current !== PUBLISHED && (

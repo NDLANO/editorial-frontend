@@ -19,6 +19,7 @@ import {
   fetchLearningpath,
   fetchLearningpathsWithArticle,
   fetchLearningpathTags,
+  fetchLearningStepSamples,
   learningpathSearch,
 } from "./learningpathApi";
 
@@ -73,6 +74,14 @@ export const useLearningpathsWithArticle = (
   return useQuery<LearningPathSummaryV2DTO[]>({
     queryKey: learningpathQueryKeys.containingArticle(id),
     queryFn: () => fetchLearningpathsWithArticle(id),
+    ...options,
+  });
+};
+
+export const useLearningStepSamples = (options?: Partial<UseQueryOptions<LearningPathV2DTO[]>>) => {
+  return useQuery<LearningPathV2DTO[]>({
+    queryKey: ["learningpath-step-samples"],
+    queryFn: () => fetchLearningStepSamples(),
     ...options,
   });
 };

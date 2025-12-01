@@ -37,6 +37,7 @@ export const routes = {
     create: "/learningpath/new",
     edit: toEditLearningpath,
     preview: toPreviewLearningpath,
+    samples: "/learningpath/step-samples",
   },
   updateCodes: "/updateCodes",
   taxonomy: {

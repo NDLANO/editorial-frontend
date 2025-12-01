@@ -15,7 +15,7 @@ import {
   ToolbarOption,
   createToolbarAreaOptions,
   createToolbarDefaultValues,
-  selectionElements,
+  getSelectionElements,
   toolbarState,
 } from "./toolbarState";
 import { ToolbarPluginOptions } from "./types";
@@ -48,7 +48,14 @@ const toolbarPlugin = createPlugin<any, ToolbarPluginOptions>({
     areaOptions: createToolbarAreaOptions(),
   },
   transform: (editor, _, opts) => {
-    const { onKeyDown: nextOnKeyDown, shouldShowToolbar } = editor;
+    const { onKeyDown: nextOnKeyDown, shouldShowToolbar, apply } = editor;
+
+    editor.selectionElements = getSelectionElements(editor, editor.selection);
+
+    editor.apply = (op) => {
+      apply(op);
+      editor.selectionElements = getSelectionElements(editor, editor.selection);
+    };
 
     editor.toolbarState = ({ options: optionsProp = {}, areaOptions: areaOptionsProp = {} }) => {
       const unsupportedMarks = Object.values(marks)
@@ -65,8 +72,12 @@ const toolbarPlugin = createPlugin<any, ToolbarPluginOptions>({
         merge({}, opts.options, optionsProp, Object.keys(unsupportedMarks).length ? { mark: unsupportedMarks } : {}),
       );
       const areaOptions = createToolbarAreaOptions(merge({}, opts.areaOptions, areaOptionsProp));
-      const { elements, multipleBlocksOnSameLevel } = selectionElements(editor, editor.selection);
-      const state = toolbarState({ selectionElements: elements, multipleBlocksOnSameLevel, options, areaOptions });
+      const state = toolbarState({
+        selectionElements: editor.selectionElements.elements,
+        multipleBlocksOnSameLevel: editor.selectionElements.multipleBlocksOnSameLevel,
+        options,
+        areaOptions,
+      });
       return state;
     };
 

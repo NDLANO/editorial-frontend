@@ -8,7 +8,7 @@
 
 import { isEqual } from "lodash-es";
 import { Editor } from "slate";
-import { useSlate, useSlateSelector } from "slate-react";
+import { useSlateSelector, useSlateStatic } from "slate-react";
 import { MarkType, toggleMark } from "@ndla/editor";
 import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
 import { ToolbarCategoryProps } from "./types";
@@ -23,10 +23,10 @@ const getMarks = (editor: Editor) => {
 };
 
 export const ToolbarMarkOptions = ({ options }: ToolbarCategoryProps<MarkType>) => {
-  const editor = useSlate();
+  const editor = useSlateStatic();
   const marks = useSlateSelector(getMarks, isEqual);
-  const visibleOptions = options.filter((option) => !option.hidden);
-  if (!visibleOptions.length) return null;
+  const visibleOptions = options?.filter((option) => !option.hidden);
+  if (!visibleOptions?.length) return null;
   return (
     <ToolbarToggleGroupRoot multiple value={marks}>
       {visibleOptions.map((type) => (

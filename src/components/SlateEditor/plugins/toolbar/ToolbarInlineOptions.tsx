@@ -8,7 +8,7 @@
 
 import { useCallback } from "react";
 import { Editor, Element, Transforms } from "slate";
-import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
+import { ReactEditor, useSlateSelector, useSlateStatic } from "slate-react";
 import { InlineType } from "./toolbarState";
 import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
 import { ToolbarCategoryProps } from "./types";
@@ -40,14 +40,13 @@ const getCurrentInlineValues = (editor: Editor): InlineType | undefined => {
 };
 
 export const ToolbarInlineOptions = ({ options }: ToolbarCategoryProps<InlineType>) => {
-  const editor = useSlate();
+  const editor = useSlateStatic();
   const value = useSlateSelector(getCurrentInlineValues);
-  const selection = useSlateSelection();
 
   const onClick = useCallback(
     (type: InlineType) => {
-      if (!selection) return;
-      Transforms.select(editor, selection);
+      if (!editor.selection) return;
+      Transforms.select(editor, editor.selection);
       ReactEditor.focus(editor);
       if (type === "content-link") {
         insertLink(editor);
@@ -71,11 +70,11 @@ export const ToolbarInlineOptions = ({ options }: ToolbarCategoryProps<InlineTyp
         insertSymbol(editor);
       }
     },
-    [editor, selection],
+    [editor],
   );
 
-  const visibleOptions = options.filter((option) => !option.hidden);
-  if (!visibleOptions.length) return null;
+  const visibleOptions = options?.filter((option) => !option.hidden);
+  if (!visibleOptions?.length) return null;
 
   return (
     <ToolbarToggleGroupRoot value={value ? [value] : []}>

@@ -241,7 +241,7 @@ export const createToolbarDefaultValues = (userValues: CategoryFilters = {}): Ca
 };
 
 type SelectionElements = {
-  elements?: Element[];
+  elements: Element[];
   multipleBlocksOnSameLevel: boolean;
 };
 
@@ -277,8 +277,8 @@ function getRelevantAncestor(editor: Editor, rawSelection: Selection): NodeEntry
   return [ancestor, path];
 }
 
-export const selectionElements = (editor: Editor, rawSelection: Selection): SelectionElements => {
-  if (!rawSelection) return { multipleBlocksOnSameLevel: false };
+export const getSelectionElements = (editor: Editor, rawSelection: Selection): SelectionElements => {
+  if (!rawSelection) return { elements: [], multipleBlocksOnSameLevel: false };
 
   const selection = Editor.unhangRange(editor, rawSelection);
   const [parentElement, parentPath] = getRelevantAncestor(editor, selection) ?? [];

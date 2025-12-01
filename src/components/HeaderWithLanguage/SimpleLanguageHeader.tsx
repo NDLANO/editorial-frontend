@@ -78,7 +78,7 @@ const SimpleLanguageHeader = ({
     <div>
       <FormHeaderSegment>
         <FormHeaderHeadingContainer>
-          {!!contentType && <Badge>{t("contentTypes.contentType")}</Badge>}
+          {!!contentType && <Badge>{t("contentTypes.subject")}</Badge>}
           <FormHeaderHeading contentType={contentType}>{title}</FormHeaderHeading>
         </FormHeaderHeadingContainer>
       </FormHeaderSegment>

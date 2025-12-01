@@ -59,6 +59,7 @@ const glossRules: RulesType<ConceptFormValues, ConceptDTO> = {
   },
   "gloss.wordClass": {
     required: true,
+    minLength: 1,
     translationKey: "form.gloss.wordClass",
   },
   "gloss.originalLanguage": {

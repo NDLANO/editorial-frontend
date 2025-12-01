@@ -55,7 +55,7 @@ export const conceptApiTypeToFormType = (
       ? {
           gloss: {
             gloss: concept?.glossData?.gloss ?? "",
-            wordClass: concept?.glossData?.wordClass ?? "",
+            wordClass: concept?.glossData?.wordClass ?? [],
             originalLanguage: concept?.glossData?.originalLanguage ?? "",
           },
           examples: concept?.glossData?.examples ?? [],
@@ -89,7 +89,7 @@ export const getNewConceptType = (
     conceptType === "gloss"
       ? {
           gloss: values.gloss?.gloss ?? "",
-          wordClass: values.gloss?.wordClass ?? "",
+          wordClass: values.gloss?.wordClass ?? [],
           originalLanguage: values.gloss?.originalLanguage ?? "",
           examples: values.examples ?? [],
           transcriptions: values.transcriptions ?? {},
@@ -148,7 +148,7 @@ export const conceptFormTypeToApiType = (
       conceptType === "gloss"
         ? {
             gloss: values.gloss?.gloss ?? "",
-            wordClass: values.gloss?.wordClass ?? "",
+            wordClass: values.gloss?.wordClass ?? [],
             originalLanguage: values.gloss?.originalLanguage ?? "",
             examples: values.examples ?? [],
             transcriptions: values.transcriptions ?? {},

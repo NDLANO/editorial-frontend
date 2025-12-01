@@ -110,8 +110,9 @@ const GlossDataSection = ({ glossLanguage }: Props) => {
             <FieldRoot required invalid={!!meta.error}>
               <SelectRoot
                 collection={wordClassCollection}
-                value={[field.value]}
-                onValueChange={(details) => helpers.setValue(details.value[0])}
+                value={field.value}
+                multiple
+                onValueChange={(details) => helpers.setValue(details.value)}
                 positioning={{ sameWidth: true }}
               >
                 <SelectLabel>{t("form.gloss.wordClass")}</SelectLabel>

@@ -34,7 +34,7 @@ export interface ConceptFormValues {
   conceptType: ConceptType;
   gloss?: {
     gloss: string;
-    wordClass: string;
+    wordClass: string[];
     originalLanguage: string;
   };
   examples?: GlossExampleDTO[][];

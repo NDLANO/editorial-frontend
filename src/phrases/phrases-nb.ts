@@ -43,6 +43,7 @@ const phrases = {
       new: `Opprett læringssti ${titleTemplate}`,
       edit: `Rediger læringssti ${titleTemplate}`,
       preview: `Forhåndsvis læringssti ${titleTemplate}`,
+      stepSamples: `Stikkprøver av eksterne læringssteg ${titleTemplate}`,
     },
   },
   dropdown: {
@@ -337,6 +338,7 @@ const phrases = {
     newFrontpageArticle: "Om-NDLA-artikkel",
     frontpage: "NDLA forside",
     updateCodes: "Oppdater læreplankoder",
+    learningStepSamples: "Stikkprøver av eksterne læringssteg",
   },
   logo: {
     altText: "Nasjonal digital læringsarena",
@@ -2455,6 +2457,13 @@ const phrases = {
     AUDIO: "Lyd",
     H5P: "Interaktivt innhold",
     PODCAST: "Podkast",
+  },
+  learningstepSamplePage: {
+    title: "Stikkprøver av eksterne læringssteg",
+    introduction:
+      "Denne siden lister opp fem tilfeldige læringsstier med eksterne læringssteg som har blitt opprettet i Min NDLA. Hver gang du laster siden vil du få et nytt utvalg.",
+    linksTo: "Lenker til ",
+    inPath: 'I læringsstien "{{title}}"',
   },
 };
 

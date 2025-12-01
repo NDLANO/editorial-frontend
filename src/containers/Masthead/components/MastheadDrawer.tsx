@@ -26,7 +26,13 @@ import { styled } from "@ndla/styled-system/jsx";
 import { MastheadLinks } from "./MastheadLinks";
 import { MastheadSessionLink } from "./MastheadSessionLink";
 import config from "../../../config";
-import { AUDIO_ADMIN_SCOPE, DRAFT_ADMIN_SCOPE, FRONTPAGE_ADMIN_SCOPE, TAXONOMY_ADMIN_SCOPE } from "../../../constants";
+import {
+  AUDIO_ADMIN_SCOPE,
+  DRAFT_ADMIN_SCOPE,
+  FRONTPAGE_ADMIN_SCOPE,
+  LEARNING_PATH_ADMIN_SCOPE,
+  TAXONOMY_ADMIN_SCOPE,
+} from "../../../constants";
 import { routes } from "../../../util/routeHelpers";
 import { useSession } from "../../Session/SessionProvider";
 
@@ -154,6 +160,7 @@ const adminItems: MenuItem[] = [
   { to: routes.frontpage.create, text: "subNavigation.newFrontpageArticle", permission: FRONTPAGE_ADMIN_SCOPE },
   { to: routes.podcastSeries.create, text: "subNavigation.podcastSeries", permission: AUDIO_ADMIN_SCOPE },
   { to: routes.updateCodes, text: "subNavigation.updateCodes", permission: DRAFT_ADMIN_SCOPE },
+  { to: routes.learningpath.samples, text: "subNavigation.learningStepSamples", permission: LEARNING_PATH_ADMIN_SCOPE },
 ];
 
 const externalItems: MenuItem[] = [{ to: routes.h5p.edit, text: "subNavigation.h5p", external: true }];

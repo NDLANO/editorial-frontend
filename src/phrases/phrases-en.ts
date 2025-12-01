@@ -43,6 +43,7 @@ const phrases = {
       new: `Create learning path ${titleTemplate}`,
       edit: `Edit learning path ${titleTemplate}`,
       preview: `Preview learning path ${titleTemplate}`,
+      stepSamples: `External learning step samples ${titleTemplate}`,
     },
   },
   meta: {
@@ -338,6 +339,7 @@ const phrases = {
     newFrontpageArticle: "About-NDLA article",
     frontpage: "NDLA frontpage",
     updateCodes: "Update curriculum codes",
+    learningStepSamples: "External learning step samples",
   },
   logo: {
     altText: "The Norwegian Digital Learning Arena",
@@ -2457,6 +2459,13 @@ const phrases = {
     AUDIO: "Audio",
     H5P: "Interactive content",
     PODCAST: "Podcast",
+  },
+  learningstepSamplePage: {
+    title: "External learning step samples",
+    introduction:
+      "This page lists five random learning paths containing external learning steps created in My NDLA. Every time you load the page a new set of samples will appear.",
+    linksTo: "Links to ",
+    inPath: 'In learning path "{{title}}"',
   },
 };
 

@@ -185,3 +185,8 @@ export const postCopyLearningpath = async (
 
   return resolveJsonOATS(res);
 };
+
+export const fetchLearningStepSamples = async (): Promise<LearningPathV2DTO[]> => {
+  const res = await client.GET("/learningpath-api/v2/learningpaths/external-samples");
+  return resolveJsonOATS(res);
+};

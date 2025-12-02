@@ -6,21 +6,18 @@
  *
  */
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../../components/abstractions/Select";
-import { SearchParams } from "../../../../interfaces";
+import { useStableSearchPageParams } from "../../useStableSearchPageParams";
 
 const pageSizeOptions = ["5", "10", "20", "50", "100"];
 
 interface Props {
-  searchObject?: SearchParams;
-  search: (params: SearchParams, type: string) => void;
   totalCount?: number;
-  type: string;
 }
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
@@ -37,13 +34,12 @@ const SearchListOptionsWrapper = styled("div", {
   },
 });
 
-const SearchListOptions = ({ searchObject = { "page-size": 10 }, search, type, totalCount }: Props) => {
+const SearchListOptions = ({ totalCount }: Props) => {
   const { t } = useTranslation();
-  const [pageSize, setPageSize] = useState(searchObject["page-size"]?.toString() ?? "10");
+  const [params, setParams] = useStableSearchPageParams();
 
   const handlePageSizeChange = (value: string) => {
-    setPageSize(value);
-    search({ "page-size": parseInt(value), page: 1 }, type);
+    setParams({ "page-size": value });
   };
 
   const collection = useMemo(() => {
@@ -60,7 +56,7 @@ const SearchListOptions = ({ searchObject = { "page-size": 10 }, search, type, t
       </Text>
       <SelectRoot
         collection={collection}
-        value={[pageSize.toString()]}
+        value={[params.get("page-size")?.toString() ?? "10"]}
         onValueChange={(details) => handlePageSizeChange(details.value[0])}
         positioning={{ sameWidth: true }}
       >

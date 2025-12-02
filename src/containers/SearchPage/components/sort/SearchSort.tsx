@@ -6,14 +6,13 @@
  *
  */
 
-import queryString from "query-string";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { createListCollection } from "@ark-ui/react";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../../components/abstractions/Select";
+import { useStableSearchPageParams } from "../../useStableSearchPageParams";
 
 const customSortOptions: Record<string, string[]> = {
   content: ["revisionDate", "favorited", "published"],
@@ -42,29 +41,23 @@ interface Props {
 }
 
 const SearchSort = ({ sort: sortProp = "relevance", order: orderProp = "desc", onSortOrderChange, type }: Props) => {
-  const [sort, setSort] = useState(sortProp);
-  const [order, setOrder] = useState(orderProp);
-  const location = useLocation();
+  const [params] = useStableSearchPageParams();
   const { t } = useTranslation();
 
-  useEffect(() => {
-    const { sort: sortOrder } = queryString.parse(location.search);
-    const splitSortOrder = sortOrder ? sortOrder.split("-") : "-";
-    const sort = splitSortOrder.length > 1 ? splitSortOrder[1] : splitSortOrder[0];
-    const order = splitSortOrder.length > 1 ? "desc" : "asc";
-    setSort(sort);
-    setOrder(order);
-  }, [location]);
+  const [sort, order] = useMemo(() => {
+    const sortOrder = params.get("sort");
+    if (!sortOrder) return [sortProp, orderProp];
+    const split = sortOrder.split("-");
+    return split.length > 1 ? [split[1], "desc"] : [split[0], "asc"];
+  }, [orderProp, params, sortProp]);
 
   const handleSortChange = (value: string) => {
     const _order = order === "desc" ? "-" : "";
-    setSort(value);
     onSortOrderChange(`${_order + value}`);
   };
 
   const handleOrderChange = (value: string) => {
     const newOrder = value === "desc" ? "-" : "";
-    setOrder(value);
     onSortOrderChange(`${newOrder + sort}`);
   };
 

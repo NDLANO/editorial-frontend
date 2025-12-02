@@ -20,6 +20,7 @@ import { SearchTypeValues, LOCALE_VALUES } from "./constants";
 import { FormEvent } from "react";
 import { DateChangedEvent } from "./containers/FormikForm/components/InlineDatePicker";
 import { ErrorEmbed } from "./components/SlateEditor/plugins/embed/types";
+import { SelectOption } from "./components/ObjectSelector";
 
 export interface FormikStatus {
   status?: string;
@@ -187,14 +188,13 @@ type FieldChangedEvent = FormEvents | DateChangedEvent;
 
 export type OnFieldChangeFunction = <T extends keyof SearchParams>(
   name: T,
-  value: SearchParams[T],
+  value: string | null | undefined,
   event?: FieldChangedEvent,
 ) => void;
 
 export interface SearchParams {
   query?: string;
   "draft-status"?: string;
-  "include-other-statuses"?: boolean;
   "resource-types"?: string;
   "article-types"?: string;
   "audio-type"?: string;
@@ -216,6 +216,11 @@ export interface SearchParams {
   "filter-inactive"?: boolean;
   includeCopyrighted?: boolean;
 }
+
+export type SelectElement = {
+  name: keyof SearchParams;
+  options: SelectOption[];
+};
 
 export type PromptType = PromptVariables["type"];
 

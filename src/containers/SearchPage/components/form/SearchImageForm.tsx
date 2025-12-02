@@ -12,17 +12,17 @@ import { useTranslation } from "react-i18next";
 import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-taxonomy";
 import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
 import SearchHeader from "../../../../components/Form/SearchHeader";
 import SearchTagGroup, { Filters } from "../../../../components/Form/SearchTagGroup";
 import { getTagName } from "../../../../components/Form/utils";
 import ObjectSelector from "../../../../components/ObjectSelector";
-import { OnFieldChangeFunction, SearchParams } from "../../../../interfaces";
+import { SearchParams } from "../../../../interfaces";
 import { useAuth0Editors } from "../../../../modules/auth0/auth0Queries";
 import { useLicenses } from "../../../../modules/draft/draftQueries";
 import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
+import { useStableSearchPageParams } from "../../useStableSearchPageParams";
 
 const StyledForm = styled("form", {
   base: {
@@ -34,9 +34,6 @@ const StyledForm = styled("form", {
 });
 
 interface Props {
-  search: (o: SearchParams) => void;
-  subjects: Node[];
-  searchObject: SearchParams;
   locale: string;
   userData: UserDataDTO | undefined;
 }
@@ -48,17 +45,11 @@ const getModelReleasedValues = (t: TFunction) => [
   { id: "not-set", name: t("imageSearch.modelReleased.not-set") },
 ];
 
-const SearchImageForm = ({
-  locale,
-  search,
-  searchObject = {
-    query: "",
-    language: "",
-  },
-  userData,
-}: Props) => {
+const SearchImageForm = ({ locale, userData }: Props) => {
+  const [params, setParams] = useStableSearchPageParams();
   const { t } = useTranslation();
-  const [queryInput, setQueryInput] = useState(searchObject.query ?? "");
+  const [input, setInput] = useState(params.get("query") ?? "");
+  const queryInput = params.get("query");
   const { data: licenses } = useLicenses({
     select: (licenses) =>
       getLicensesWithTranslations(licenses, locale).map((license) => ({
@@ -74,35 +65,26 @@ const SearchImageForm = ({
   });
 
   useEffect(() => {
-    if (searchObject.query !== queryInput) {
-      setQueryInput(searchObject.query ?? "");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchObject.query]);
-
-  const onFieldChange: OnFieldChangeFunction = (name, value, evt) => {
-    if (name === "query" && evt) setQueryInput(evt.currentTarget.value);
-    else search({ ...searchObject, [name]: value });
-  };
-
-  const handleSearch = () => search({ ...searchObject, page: 1, query: queryInput });
+    setInput(queryInput ?? "");
+  }, [queryInput]);
 
   const removeTagItem = (parameterName: keyof SearchParams) => {
-    if (parameterName === "query") setQueryInput("");
-    search({ ...searchObject, [parameterName]: "" });
+    if (parameterName === "query") setInput("");
+    setParams({ [parameterName]: null });
   };
 
   const emptySearch = () => {
-    setQueryInput("");
-    search({ query: "", language: "", license: "", "model-released": "", users: undefined });
+    setInput("");
+    setParams({ query: null, language: null, license: null, "model-released": null, users: null });
   };
 
   const filters: Filters = {
-    query: searchObject.query,
-    license: getTagName(searchObject["license"], licenses),
-    "model-released": getTagName(searchObject["model-released"], getModelReleasedValues(t)),
-    language: searchObject.language,
-    users: getTagName(searchObject.users, users),
+    query: queryInput,
+    license: getTagName(params.get("license"), licenses),
+    "model-released": getTagName(params.get("model-released"), getModelReleasedValues(t)),
+    language: params.get("language"),
+    // TODO: This is ugly
+    users: getTagName(params.get("users")?.split(",")?.[0], users),
   };
 
   return (
@@ -110,7 +92,7 @@ const SearchImageForm = ({
       <SearchHeader type="image" filters={filters} userData={userData} />
       <StyledForm
         onSubmit={(e) => {
-          handleSearch();
+          setParams({ query: input });
           e.preventDefault();
         }}
       >
@@ -119,36 +101,36 @@ const SearchImageForm = ({
           <FieldInput
             name="query"
             placeholder={t("searchForm.types.imageQuery")}
-            value={queryInput}
-            onChange={(e) => setQueryInput(e.currentTarget.value)}
+            value={input}
+            onChange={(e) => setInput(e.currentTarget.value)}
           />
         </FieldRoot>
         <ObjectSelector
           name="license"
-          value={searchObject.license ?? ""}
+          value={params.get("license") ?? ""}
           options={licenses ?? []}
-          onChange={(value) => onFieldChange("license", value)}
+          onChange={(value) => setParams({ license: value })}
           placeholder={t("searchForm.types.license")}
         />
         <ObjectSelector
           name="model-released"
-          value={searchObject["model-released"] ?? ""}
+          value={params.get("model-released") ?? ""}
           options={getModelReleasedValues(t)}
-          onChange={(value) => onFieldChange("model-released", value)}
+          onChange={(value) => setParams({ "model-released": value })}
           placeholder={t("searchForm.types.model-released")}
         />
         <ObjectSelector
           name="language"
-          value={searchObject.language ?? ""}
+          value={params.get("language") ?? ""}
           options={getResourceLanguages(t)}
-          onChange={(value) => onFieldChange("language", value)}
+          onChange={(value) => setParams({ language: value })}
           placeholder={t("searchForm.types.language")}
         />
         <ObjectSelector
           name="users"
-          value={searchObject.users ?? ""}
+          value={params.get("users") ?? ""}
           options={users ?? []}
-          onChange={(value) => onFieldChange("users", value)}
+          onChange={(value) => setParams({ users: value })}
           placeholder={t("searchForm.types.users")}
         />
         <SearchControlButtons reset={emptySearch} />

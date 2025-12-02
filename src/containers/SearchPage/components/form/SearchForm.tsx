@@ -54,7 +54,6 @@ export const parseSearchParams = <T extends boolean>(locationSearch: string, par
 
   const searchBodyKeyMapping: SearchBodyKeyMapping = {
     "draft-status": { key: "draftStatus", data: queryStringObject["draft-status"]?.split(",") },
-    "include-other-statuses": { key: "includeOtherStatuses", data: parseBooleanParam("include-other-statuses") },
     "resource-types": { key: "resourceTypes", data: queryStringObject["resource-types"]?.split(",") },
     "audio-type": { key: "audioType", data: queryStringObject["audio-type"] },
     "concept-type": { key: "conceptType", data: queryStringObject["concept-type"] },
@@ -92,23 +91,21 @@ export const parseSearchParams = <T extends boolean>(locationSearch: string, par
 
 interface Props {
   type: SearchType;
-  searchObject: SearchParams;
-  search: (o: SearchParams) => void;
   subjects: Node[];
   locale: string;
   userData: UserDataDTO | undefined;
 }
 
-const SearchForm = ({ type, searchObject, ...rest }: Props) => {
+const SearchForm = ({ type, ...rest }: Props) => {
   switch (type) {
     case "content":
-      return <SearchContentForm searchObject={searchObject} {...rest} />;
+      return <SearchContentForm {...rest} />;
     case "audio":
-      return <SearchAudioForm searchObject={searchObject} {...rest} />;
+      return <SearchAudioForm {...rest} />;
     case "image":
-      return <SearchImageForm searchObject={searchObject} {...rest} />;
+      return <SearchImageForm {...rest} />;
     case "podcast-series":
-      return <SearchPodcastSeriesForm searchObject={searchObject} {...rest} />;
+      return <SearchPodcastSeriesForm {...rest} />;
     default:
       return <p>{`This type: ${type} is not supported`}</p>;
   }

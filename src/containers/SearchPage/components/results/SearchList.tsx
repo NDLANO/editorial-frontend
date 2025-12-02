@@ -21,7 +21,7 @@ import { ConceptSearchResultDTO, ConceptSummaryDTO } from "@ndla/types-backend/c
 import { ImageMetaInformationV3DTO, SearchResultV3DTO } from "@ndla/types-backend/image-api";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import SearchResult, { SearchResultReturnType } from "./SearchResult";
-import { LocaleType, SearchParams, SearchType } from "../../../../interfaces";
+import { LocaleType, SearchType } from "../../../../interfaces";
 import { useAuth0Users } from "../../../../modules/auth0/auth0Queries";
 import { MultiSummarySearchResults } from "../../../../modules/search/searchApiInterfaces";
 
@@ -42,7 +42,7 @@ export type ResultSummaryType =
 interface Props {
   results: ResultType["results"];
   searching: boolean;
-  searchObject: SearchParams;
+  query: string | null;
   type: SearchType;
   locale: LocaleType;
   error: boolean;
@@ -59,7 +59,7 @@ const StyledUl = styled("ul", {
 const toResultReturnType = (results: ResultType["results"], type: SearchType): SearchResultReturnType[] =>
   results.map((result: ResultSummaryType) => ({ type: type, value: result }));
 
-const SearchList = ({ results, searchObject, type, searching = true, locale, error }: Props) => {
+const SearchList = ({ results, query, type, searching = true, locale, error }: Props) => {
   const { t } = useTranslation();
 
   const responsibleIds = useMemo(() => {
@@ -81,7 +81,7 @@ const SearchList = ({ results, searchObject, type, searching = true, locale, err
 
   if (searching) return <Spinner />;
   if (error) return <Text color="text.error">{t("searchForm.error")}</Text>;
-  if (results.length === 0) return <Text>{t(`searchPage.${type}NoHits`, { query: searchObject.query ?? "" })}</Text>;
+  if (results.length === 0) return <Text>{t(`searchPage.${type}NoHits`, { query: query ?? "" })}</Text>;
   return (
     <StyledUl>
       {toResultReturnType(results, type).map((result) => {

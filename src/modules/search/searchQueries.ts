@@ -17,7 +17,7 @@ import {
   SubjectAggsInputDTO,
 } from "@ndla/types-backend/search-api";
 import { postSearch, searchGrepCodes, searchResources, searchSubjectStats } from "./searchApi";
-import { DA_SUBJECT_ID, SA_SUBJECT_ID, LMA_SUBJECT_ID } from "../../constants";
+import { DA_SUBJECT_ID, SA_SUBJECT_ID, LMA_SUBJECT_ID, PUBLISHED } from "../../constants";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import {
   customFieldsBody,
@@ -89,9 +89,19 @@ export const useSearchWithCustomSubjectsFiltering = (
 
   const actualQuery = getSubjectsIdsQuery(query, data?.favoriteSubjects, subjectIdObject);
 
+  const actualStatuses = actualQuery.draftStatus?.map((status) => (status === "HAS_PUBLISHED" ? PUBLISHED : status));
+  const includeOtherStatuses =
+    query.includeOtherStatuses ?? actualQuery.draftStatus?.some((s) => s === "HAS_PUBLISHED");
+
   return useQuery<MultiSummarySearchResults>({
     queryKey: searchQueryKeys.searchWithCustomSubjectsFiltering(actualQuery),
-    queryFn: () => postSearch({ ...actualQuery, resultTypes: ["draft", "concept", "learningpath"] }),
+    queryFn: () =>
+      postSearch({
+        ...actualQuery,
+        resultTypes: ["draft", "concept", "learningpath"],
+        draftStatus: actualStatuses,
+        includeOtherStatuses,
+      }),
     ...options,
     enabled: options?.enabled && !isLoading && !searchNodesQuery.isLoading,
   });

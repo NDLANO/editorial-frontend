@@ -22,7 +22,7 @@ const TagsWrapper = styled("div", {
   },
 });
 
-export type Filters = { [key in keyof SearchParams]: string | undefined };
+export type Filters = { [key in keyof SearchParams]: string | undefined | null };
 interface Props {
   tags: Filters;
   onRemoveTag: (parameterName: keyof SearchParams, value?: string) => void;

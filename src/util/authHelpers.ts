@@ -68,7 +68,7 @@ export const scheduleRenewal = async (createMessage?: (newMessage: NewMessageTyp
     : 0;
 
   if (timeout > 0) {
-    tokenRenewalTimeout.close();
+    clearTimeout(tokenRenewalTimeout);
     tokenRenewalTimeout = setTimeout(async () => {
       await renewAuth();
       scheduleRenewal();

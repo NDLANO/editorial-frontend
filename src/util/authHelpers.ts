@@ -25,19 +25,31 @@ export const isActiveToken = (maybeToken: JwtPayload | string | null | undefined
   return new Date().getTime() < expiryDate.getTime();
 };
 
+let inFlightRenewal: Promise<string> | null = null;
+
 export const renewAuth = async (): Promise<string> => {
-  try {
-    const res = await fetch("/auth/refresh", { credentials: "include" });
-    return await res.json();
-  } catch (err) {
-    createMessageRef({
-      id: "errorMessage.auth0.renewal",
-      type: "auth0",
-      translationKey: "errorMessage.auth0",
-      timeToLive: 0,
-    });
-    return Promise.reject(err);
+  if (inFlightRenewal) {
+    return inFlightRenewal;
   }
+
+  inFlightRenewal = (async () => {
+    try {
+      const res = await fetch("/auth/refresh", { credentials: "include" });
+      return await res.json();
+    } catch (err) {
+      createMessageRef({
+        id: "errorMessage.auth0.renewal",
+        type: "auth0",
+        translationKey: "errorMessage.auth0",
+        timeToLive: 0,
+      });
+      return Promise.reject(err);
+    } finally {
+      inFlightRenewal = null;
+    }
+  })();
+
+  return inFlightRenewal;
 };
 
 let tokenRenewalTimeout: ReturnType<typeof setTimeout>;

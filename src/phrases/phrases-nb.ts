@@ -666,6 +666,11 @@ const phrases = {
     title: "Bilde",
     copyImageTitle: "Last opp bilde som kopi",
     copyDescription: "Last opp et bilde med samme informasjon som dette bildet",
+    fields: {
+      inactive: {
+        label: "Inaktiv",
+      },
+    },
   },
   contactBlockForm: {
     title: "Kontaktblokk",

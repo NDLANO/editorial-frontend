@@ -168,6 +168,7 @@ const ImageForm = <TImage extends ImageMetaInformationV3DTO | undefined = undefi
       caption: values.caption,
       language: values.language,
       tags: values.tags,
+      inactive: values.inactive,
       copyright: {
         license,
         origin: values.origin,

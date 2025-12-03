@@ -6,6 +6,7 @@
  *
  */
 
+import { isEqual } from "lodash-es";
 import {
   Children,
   ComponentPropsWithRef,
@@ -17,7 +18,7 @@ import {
   useState,
 } from "react";
 import { Editor, Range } from "slate";
-import { useSlate, useSlateSelection, useSlateSelector } from "slate-react";
+import { useSlateSelection, useSlateSelector } from "slate-react";
 import { usePopoverContext } from "@ark-ui/react";
 import { PopoverContent, PopoverRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -81,7 +82,6 @@ const checkHasSelectionWithin = (el?: Element | null) => {
 };
 
 const SlateToolbar = ({ hideToolbar: hideToolbarProp }: Props) => {
-  const editor = useSlate();
   const toolbarRef = useRef<HTMLDivElement>(null);
   const editorWrapperRef = useRef<HTMLDivElement | null>(null);
   const [open, setOpen] = useState(false);
@@ -138,15 +138,15 @@ const SlateToolbar = ({ hideToolbar: hideToolbarProp }: Props) => {
     return hasMouseDown || !open || !hasSelectionWithin || hideToolbarProp || !shouldShowToolbar;
   }, [hasMouseDown, open, hasSelectionWithin, hideToolbarProp, shouldShowToolbar]);
 
-  const options = useMemo(() => {
-    if (hideToolbar) return;
+  const options = useSlateSelector((editor) => {
+    if (hideToolbar) return undefined;
     return editor.toolbarState?.({
       // TODO: This is not really scalable if we're going to introduce more constraints later-on.
       options: userPermissions?.includes(AI_ACCESS_SCOPE)
         ? undefined
         : { inline: { rephrase: { hidden: true, disabled: true } } },
     });
-  }, [hideToolbar, editor, userPermissions]);
+  }, isEqual);
 
   const positioningOptions = useMemo(() => {
     return {

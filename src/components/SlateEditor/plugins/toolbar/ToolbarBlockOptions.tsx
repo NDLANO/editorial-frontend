@@ -9,7 +9,7 @@
 import { isEqual } from "lodash-es";
 import { useCallback } from "react";
 import { Editor, Element, Transforms } from "slate";
-import { ReactEditor, useSlate, useSlateSelector } from "slate-react";
+import { ReactEditor, useSlateSelector, useSlateStatic } from "slate-react";
 import { toggleList } from "@ndla/editor";
 import { BlockType } from "./toolbarState";
 import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
@@ -47,7 +47,7 @@ const getCurrentBlockValues = (editor: Editor) => {
 };
 
 export const ToolbarBlockOptions = ({ options }: ToolbarCategoryProps<BlockType>) => {
-  const editor = useSlate();
+  const editor = useSlateStatic();
   const value = useSlateSelector(getCurrentBlockValues, isEqual);
 
   const onClick = useCallback(
@@ -64,8 +64,8 @@ export const ToolbarBlockOptions = ({ options }: ToolbarCategoryProps<BlockType>
     [editor],
   );
 
-  const visibleOptions = options.filter((option) => !option.hidden);
-  if (!visibleOptions.length) return null;
+  const visibleOptions = options?.filter((option) => !option.hidden);
+  if (!visibleOptions?.length) return null;
 
   return (
     <ToolbarToggleGroupRoot multiple value={value}>

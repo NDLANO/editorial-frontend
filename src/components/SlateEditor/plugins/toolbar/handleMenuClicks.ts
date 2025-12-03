@@ -18,7 +18,7 @@ import {
   toggleHeading,
   toggleList,
 } from "@ndla/editor";
-import { BlockType, InlineType, TextType, selectionElements } from "./toolbarState";
+import { BlockType, InlineType, TextType } from "./toolbarState";
 import toggleBlock from "../../utils/toggleBlock";
 import { insertComment } from "../comment/inline/utils";
 import { insertInlineConcept } from "../concept/inline/utils";
@@ -45,7 +45,7 @@ const textOptions = (range: BaseRange) => ({
 });
 
 export const handleTextChange = (editor: Editor, type: string) => {
-  const { elements } = selectionElements(editor, editor.selection);
+  const { elements } = editor.selectionElements;
   const defaultValue = (elements?.[0] && defaultValueState[elements[0].type]) ?? { type: PARAGRAPH_ELEMENT_TYPE };
 
   const props: Partial<TextElements> =

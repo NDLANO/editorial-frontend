@@ -8,8 +8,8 @@
 
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Element, Editor, Transforms } from "slate";
-import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
+import { Editor, Transforms } from "slate";
+import { ReactEditor, useSlateSelector, useSlateStatic } from "slate-react";
 import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
 import {
   FieldRoot,
@@ -43,40 +43,32 @@ const TextWrapper = styled("div", {
 });
 
 const getTextValue = (editor: Editor): TextType => {
-  const [match] = editor.selection
-    ? Editor.nodes(editor, {
-        at: editor.selection,
-        match: (n) => Element.isElement(n) && Editor.isBlock(editor, n),
-        mode: "lowest",
-      })
-    : [];
-  const node = match?.[0];
-  if (!node || !Element.isElement(node)) {
-    return "normal-text";
+  const el = editor.selectionElements.elements[0];
+  if (el?.type === "heading") {
+    return `heading-${el.level}` as TextType;
   }
-  return node.type === "heading" ? (`heading-${node.level}` as TextType) : "normal-text";
+  return "normal-text";
 };
 
 const positioning = { sameWidth: true };
 
 export const ToolbarTextOptions = ({ options }: ToolbarCategoryProps<TextType>) => {
   const { t, i18n } = useTranslation();
-  const editor = useSlate();
-  const selection = useSlateSelection();
+  const editor = useSlateStatic();
   const type = useSlateSelector(getTextValue);
 
   const onTextOptionClick = useCallback(
     (details: SelectValueChangeDetails) => {
-      if (!selection) return;
-      Transforms.select(editor, selection);
+      if (!editor.selection) return;
+      Transforms.select(editor, editor.selection);
       ReactEditor.focus(editor);
       handleTextChange(editor, details.value[0]);
     },
-    [editor, selection],
+    [editor],
   );
 
   const collection = useMemo(() => {
-    const visibleOptions = options.filter((option) => !option.hidden);
+    const visibleOptions = options?.filter((option) => !option.hidden) ?? [];
     if (!visibleOptions.length) return undefined;
     return createListCollection({
       items: visibleOptions,

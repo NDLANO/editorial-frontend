@@ -9,7 +9,7 @@
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Range, Transforms } from "slate";
-import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
+import { ReactEditor, useSlateSelector, useSlateStatic } from "slate-react";
 import { createListCollection } from "@ark-ui/react";
 import { SelectContent, SelectRoot, SelectValueText, SelectLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -49,14 +49,13 @@ const RTL_LANGUAGES = ["ar"];
 
 export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<LanguageType>) => {
   const { t, i18n } = useTranslation();
-  const editor = useSlate();
+  const editor = useSlateStatic();
   const currentLanguage = useSlateSelector(getCurrentLanguage);
-  const selection = useSlateSelection();
 
   const onSelect = useCallback(
     (lang: string | undefined) => {
-      if (!selection) return;
-      const unhungSelection = Editor.unhangRange(editor, selection);
+      if (!editor.selection) return;
+      const unhungSelection = editor.unhangRange(editor.selection);
       if (!Range.isExpanded(unhungSelection)) return;
 
       const [match] = Editor.nodes(editor, { match: isSpanElement, at: unhungSelection }) ?? [];
@@ -84,13 +83,13 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
       }
       ReactEditor.focus(editor);
     },
-    [editor, selection],
+    [editor],
   );
 
   const title = useMemo(() => getTitle(i18n, t, "language", false, false), [i18n, t]);
 
   const collection = useMemo(() => {
-    const visibleOptions = options.filter((option) => !option.hidden);
+    const visibleOptions = options?.filter((option) => !option.hidden) ?? [];
     if (!visibleOptions.length) return undefined;
     return createListCollection({
       items: visibleOptions,

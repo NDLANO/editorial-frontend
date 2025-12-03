@@ -7,7 +7,7 @@
  */
 
 import { Editor, Element } from "slate";
-import { useSlate, useSlateSelector } from "slate-react";
+import { useSlateSelector, useSlateStatic } from "slate-react";
 import { handleClickTable } from "./handleMenuClicks";
 import { TableType } from "./toolbarState";
 import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
@@ -27,11 +27,11 @@ const getCurrentBlockValues = (editor: Editor) => {
 };
 
 export const ToolbarTableOptions = ({ options }: ToolbarCategoryProps<TableType>) => {
-  const editor = useSlate();
-  const visibleOptions = options.filter((option) => !option.hidden);
+  const editor = useSlateStatic();
+  const visibleOptions = options?.filter((option) => !option.hidden);
   const value = useSlateSelector(getCurrentBlockValues);
 
-  if (!visibleOptions.length) return null;
+  if (!visibleOptions?.length) return null;
 
   return (
     <ToolbarToggleGroupRoot value={[value]}>

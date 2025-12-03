@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "baseUrl": "src",
-    "target": "ES2018",
-    "module": "ES2022",
+    "target": "es2022",
+    "module": "es2022",
     "esModuleInterop": true,
     "jsx": "react-jsx",
     "isolatedModules": true,
@@ -18,11 +17,7 @@
     "skipLibCheck": true,
     "preserveSymlinks": true,
     "lib": ["es2023", "esnext.asynciterable", "dom"],
-    "types": ["vitest/globals", "node", "@testing-library/jest-dom"],
-    "paths": {
-      "*": ["node_modules/*", "src/types/*"]
-    },
-    "downlevelIteration": true
+    "types": ["vitest/globals", "node", "@testing-library/jest-dom"]
   },
-  "include": ["src/**/*", "custom-typings/*"]
+  "include": ["./src/**/*", "./custom-typings/*"]
 }

@@ -7,7 +7,8 @@
  */
 
 import { readFile, writeFile } from "fs/promises";
-import { test as Ptest, TestInfo } from "@playwright/test";
+import { test as Ptest } from "@playwright/test";
+import type { TestInfo } from "@playwright/test";
 import {
   brightcoveTokenMock,
   copyrightMock,

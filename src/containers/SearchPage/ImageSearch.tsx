@@ -6,6 +6,7 @@
  *
  */
 
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { useSearchImages } from "../../modules/image/imageQueries";
@@ -33,7 +34,10 @@ export const ImageSearch = () => {
     enabled: isActiveToken(getAccessToken()),
   });
 
-  const parsedParams = parseSearchParams(location.search, true);
+  const parsedParams = useMemo(() => {
+    const parsed = parseSearchParams(location.search, true);
+    return { ...parsed, includeCopyrighted: true };
+  }, [location.search]);
 
   const searchQuery = useSearchImages(parsedParams);
   useSearchImages({ ...parsedParams, page: parsedParams.page ? parsedParams.page + 1 : 2 }); // preload next page.

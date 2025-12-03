@@ -133,11 +133,11 @@
     "react-simple-code-editor": "^0.13.1",
     "serialize-javascript": "^6.0.2",
     "sirv": "^3.0.1",
-    "slate": "^0.118.1",
+    "slate": "^0.120.0",
     "slate-dom": "^0.119.0",
     "slate-history": "^0.113.1",
     "slate-hyperscript": "^0.100.0",
-    "slate-react": "^0.119.0",
+    "slate-react": "^0.120.0",
     "source-map-support": "^0.5.13",
     "winston": "^3.13.0"
   },

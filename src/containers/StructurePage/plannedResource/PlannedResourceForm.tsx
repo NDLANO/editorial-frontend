@@ -347,7 +347,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
               {({ field, meta, helpers }) => (
                 <FieldRoot invalid={!!meta.error}>
                   <TaxonomyResourceTypeSelect
-                    blacklistedResourceTypes={[RESOURCE_TYPE_LEARNING_PATH]}
+                    blacklistedResourceTypes={[]}
                     resourceTypes={resourceTypesQuery.data ?? []}
                     value={field.value}
                     onResourceTypeChanged={helpers.setValue}

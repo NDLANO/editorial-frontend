@@ -32,18 +32,17 @@ const StyledForm = styled("form", {
 });
 
 interface Props {
-  locale: string;
   userData: UserDataDTO | undefined;
 }
 
-const SearchAudioForm = ({ locale, userData }: Props) => {
+const SearchAudioForm = ({ userData }: Props) => {
   const [params, setParams] = useStableSearchPageParams();
   const queryParam = useMemo(() => params.get("query") || "", [params]);
   const [input, setInput] = useState(queryParam);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data: licenses } = useLicenses({
     select: (licenses) =>
-      getLicensesWithTranslations(licenses, locale).map((license) => ({
+      getLicensesWithTranslations(licenses, i18n.language).map((license) => ({
         id: license.license,
         name: license.title,
       })),

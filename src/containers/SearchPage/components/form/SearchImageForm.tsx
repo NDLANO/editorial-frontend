@@ -34,7 +34,6 @@ const StyledForm = styled("form", {
 });
 
 interface Props {
-  locale: string;
   userData: UserDataDTO | undefined;
 }
 
@@ -45,14 +44,14 @@ const getModelReleasedValues = (t: TFunction) => [
   { id: "not-set", name: t("imageSearch.modelReleased.not-set") },
 ];
 
-const SearchImageForm = ({ locale, userData }: Props) => {
+const SearchImageForm = ({ userData }: Props) => {
   const [params, setParams] = useStableSearchPageParams();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [input, setInput] = useState(params.get("query") ?? "");
   const queryInput = params.get("query");
   const { data: licenses } = useLicenses({
     select: (licenses) =>
-      getLicensesWithTranslations(licenses, locale).map((license) => ({
+      getLicensesWithTranslations(licenses, i18n.language).map((license) => ({
         id: license.license,
         name: license.title,
       })),

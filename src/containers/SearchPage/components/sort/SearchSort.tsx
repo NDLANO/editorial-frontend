@@ -36,12 +36,11 @@ const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
 interface Props {
   sort?: string;
   order?: string;
-  onSortOrderChange: (sort: string) => void;
   type: string;
 }
 
-const SearchSort = ({ sort: sortProp = "relevance", order: orderProp = "desc", onSortOrderChange, type }: Props) => {
-  const [params] = useStableSearchPageParams();
+const SearchSort = ({ sort: sortProp = "relevance", order: orderProp = "desc", type }: Props) => {
+  const [params, setParams] = useStableSearchPageParams();
   const { t } = useTranslation();
 
   const [sort, order] = useMemo(() => {
@@ -53,12 +52,12 @@ const SearchSort = ({ sort: sortProp = "relevance", order: orderProp = "desc", o
 
   const handleSortChange = (value: string) => {
     const _order = order === "desc" ? "-" : "";
-    onSortOrderChange(`${_order + value}`);
+    setParams({ order: _order + value });
   };
 
   const handleOrderChange = (value: string) => {
     const newOrder = value === "desc" ? "-" : "";
-    onSortOrderChange(`${newOrder + sort}`);
+    setParams({ order: newOrder + sort });
   };
 
   const sortCollection = useMemo(() => {

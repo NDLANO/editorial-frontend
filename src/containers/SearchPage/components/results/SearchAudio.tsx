@@ -19,11 +19,10 @@ import { routes } from "../../../../util/routeHelpers";
 
 interface Props {
   audio: AudioSummaryDTO;
-  locale: string;
 }
 
-const SearchAudio = ({ audio, locale }: Props) => {
-  const { t } = useTranslation();
+const SearchAudio = ({ audio }: Props) => {
+  const { t, i18n } = useTranslation();
   const { data: licenses } = useLicenses();
   const license = licenses && licenses.find((l) => audio.license === l.license);
 
@@ -49,7 +48,7 @@ const SearchAudio = ({ audio, locale }: Props) => {
             </SafeLink>
           </ListItemHeading>
         </SearchContentWrapper>
-        {!!license && <LicenseLink license={getLicenseByAbbreviation(license?.license, locale)} />}
+        {!!license && <LicenseLink license={getLicenseByAbbreviation(license?.license, i18n.language)} />}
       </ListItemContent>
     </ListItemRoot>
   );

@@ -56,7 +56,7 @@ const SearchAudioForm = ({ userData }: Props) => {
       <SearchHeader type="podcast-series" filters={filters} userData={userData} />
       <StyledForm
         onSubmit={(e) => {
-          setParams({ qyery: input });
+          setParams({ query: input });
           e.preventDefault();
         }}
       >

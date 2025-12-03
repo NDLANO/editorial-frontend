@@ -9,15 +9,9 @@
 import queryString from "query-string";
 import { SearchParamsDTO as AudioSearchParams, SeriesSearchParamsDTO } from "@ndla/types-backend/audio-api";
 import { DraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
-import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { SearchParamsDTO as ImageSearchParams } from "@ndla/types-backend/image-api";
-import { Node } from "@ndla/types-taxonomy";
-import SearchAudioForm from "./SearchAudioForm";
-import SearchContentForm from "./SearchContentForm";
-import SearchImageForm from "./SearchImageForm";
-import SearchPodcastSeriesForm from "./SearchPodcastSeriesForm";
 import config from "../../../../config";
-import { SearchParams, SearchType, StringSort } from "../../../../interfaces";
+import { SearchParams, StringSort } from "../../../../interfaces";
 import { NoNodeDraftSearchParams } from "../../../../modules/search/searchApiInterfaces";
 
 export type SearchParamsBody = StringSort<
@@ -88,27 +82,3 @@ export const parseSearchParams = <T extends boolean>(locationSearch: string, par
     {} as Record<string, any>,
   ) as SearchParamsBody;
 };
-
-interface Props {
-  type: SearchType;
-  subjects: Node[];
-  locale: string;
-  userData: UserDataDTO | undefined;
-}
-
-const SearchForm = ({ type, ...rest }: Props) => {
-  switch (type) {
-    case "content":
-      return <SearchContentForm {...rest} />;
-    case "audio":
-      return <SearchAudioForm {...rest} />;
-    case "image":
-      return <SearchImageForm {...rest} />;
-    case "podcast-series":
-      return <SearchPodcastSeriesForm {...rest} />;
-    default:
-      return <p>{`This type: ${type} is not supported`}</p>;
-  }
-};
-
-export default SearchForm;

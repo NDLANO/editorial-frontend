@@ -70,12 +70,11 @@ const userHasCustomField = (subjects: Node[], ndlaId: string | undefined, custom
 
 interface Props {
   subjects: Node[];
-  locale: string;
   userData: UserDataDTO | undefined;
 }
 
-const SearchContentForm = ({ subjects, locale, userData }: Props) => {
-  const { t } = useTranslation();
+const SearchContentForm = ({ subjects, userData }: Props) => {
+  const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [params, setParams] = useStableSearchPageParams();
   const [queryInput, setQueryInput] = useState(params.get("query") ?? "");
@@ -98,7 +97,7 @@ const SearchContentForm = ({ subjects, locale, userData }: Props) => {
   );
 
   const { data: resourceTypes } = useAllResourceTypes(
-    { language: locale, taxonomyVersion },
+    { language: i18n.language, taxonomyVersion },
     {
       select: (resourceTypes) => flattenResourceTypesAndAddContextTypes(resourceTypes, t),
       placeholderData: [],
@@ -107,7 +106,7 @@ const SearchContentForm = ({ subjects, locale, userData }: Props) => {
 
   const { data: licenses } = useLicenses({
     select: (licenses) =>
-      getLicensesWithTranslations(licenses, locale, true).map((license) => ({
+      getLicensesWithTranslations(licenses, i18n.language, true).map((license) => ({
         id: license.license,
         name: license.title,
       })),

@@ -50,6 +50,12 @@ const StyledAccordionItemTrigger = styled(AccordionItemTrigger, {
 const StyledAccordionItemContent = styled(AccordionItemContent, {
   base: {
     overflowX: "visible",
+    // We need to keep overflow unset for our sticky toolbar.
+    // Ark has a bug where data-state is removed when the accordion is open, so we have to check
+    // whether it doesn't exist to know if the accordion is open.
+    "&:not([data-state])": {
+      overflow: "unset",
+    },
   },
   variants: {
     invalid: {

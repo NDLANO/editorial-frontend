@@ -8,7 +8,7 @@
 
 import { unreachable } from "../util/guards";
 import { PromptVariables, PromptType, PromptPayload } from "../interfaces";
-import { DEBUG_INSTRUCTION, ERROR_INSTRUCTION, PROMPTS } from "./llmPrompts";
+import { ERROR_INSTRUCTION, PROMPTS } from "./llmPrompts";
 import { isLlmLanguageCode, LlmLanguageCode, Prompt } from "./llmTypes";
 
 type LlmQuery<T extends PromptVariables> = {
@@ -86,7 +86,6 @@ export const llmQueryText = (payload: PromptPayload<PromptVariables>, language: 
       <instructions>
       ${generalInstructions}
       ${prompt.formatInstructions}
-      ${DEBUG_INSTRUCTION[lang]}
       ${ERROR_INSTRUCTION[lang]}
       </instructions>`,
   };

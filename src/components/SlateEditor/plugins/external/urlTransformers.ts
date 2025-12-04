@@ -202,7 +202,7 @@ const gapminderTransformer: UrlTransformer = {
 };
 
 const norgesfilmTransformer: UrlTransformer = {
-  domains: ["ndla.filmiundervisning.no", "ndla2.filmiundervisning.no"],
+  domains: ["ndla.filmiundervisning.no"],
   shouldTransform: (url, domains) => {
     const urlObj = urlAsATag(url);
     if (!config.norgesfilmNewUrl) {
@@ -218,6 +218,7 @@ const norgesfilmTransformer: UrlTransformer = {
   },
   transform: async (url) => {
     const urlObj = new URL(url);
+    urlObj.href = urlObj.href.replace("ndla.", "ndla2.");
     urlObj.href = urlObj.href.replace("ndlafilm.aspx?filmId=", "");
     return urlObj.href;
   },

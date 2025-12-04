@@ -121,7 +121,7 @@ test("transformUrlIfNeeded adds ?embeddable=true for gapminder", async () => {
 
 test("transformUrlIfNeeded strips ndlafilm for filmiundervisning.no", async () => {
   const url1 = await transformUrlIfNeeded("https://ndla.filmiundervisning.no/film/ndlafilm.aspx?filmId=400199");
-  expect(url1).toMatch("https://ndla.filmiundervisning.no/film/400199");
+  expect(url1).toMatch("https://ndla2.filmiundervisning.no/film/400199");
 });
 
 test("transformUrlIfNeeded adds embed.html for kartiskolen", async () => {

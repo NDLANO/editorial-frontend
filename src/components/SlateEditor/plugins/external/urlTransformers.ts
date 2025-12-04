@@ -227,6 +227,9 @@ const kartiskolenTransformer: UrlTransformer = {
   domains: ["kartiskolen.no"],
   shouldTransform: (url, domains) => {
     const urlObj = urlAsATag(url);
+    if (!config.kartiskolenEnabled) {
+      return false;
+    }
 
     if (!domains.includes(urlObj.hostname)) {
       return false;

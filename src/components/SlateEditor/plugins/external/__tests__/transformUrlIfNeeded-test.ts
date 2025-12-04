@@ -14,6 +14,7 @@ vi.mock("../../../../../config", () => {
     default: {
       norgesfilmNewUrl: true,
       runtimeType: "test",
+      kartiskolenEnabled: true,
     },
   };
 });

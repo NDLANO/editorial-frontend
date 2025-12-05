@@ -11,7 +11,17 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
-import { Badge, ComboboxLabel, FieldErrorMessage, FieldHelper, FieldRoot, IconButton, Text } from "@ndla/primitives";
+import {
+  Badge,
+  ComboboxLabel,
+  FieldErrorMessage,
+  FieldHelper,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  IconButton,
+  Text,
+} from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
@@ -167,6 +177,17 @@ export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Pro
 
   return (
     <>
+      {!!step?.title.title.length && getFormTypeFromStep(step) === "resource" && (
+        <FormField name="title">
+          {({ field, meta }) => (
+            <FieldRoot invalid={!!meta.error}>
+              <FieldLabel>{t("learningpathForm.steps.textForm.titleLabel")}</FieldLabel>
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              <FieldInput {...field} />
+            </FieldRoot>
+          )}
+        </FormField>
+      )}
       {!!step?.description?.description.length && getFormTypeFromStep(step) === "resource" && (
         <FormField name="description">
           {({ field, meta, helpers }) => (

@@ -72,7 +72,7 @@ export const ContentSearch = () => {
         <title>{t("htmlTitles.search.content")}</title>
         <SearchContentForm userData={userDataQuery.data} subjects={subjectsQuery.data ?? []} />
         <SearchSort type="content" />
-        <SearchListOptions totalCount={searchQuery.data?.totalCount ?? 0} />
+        <SearchListOptions totalCount={searchQuery.data?.totalCount} />
         <GenericSearchList
           type="content"
           loading={searchQuery.isLoading}

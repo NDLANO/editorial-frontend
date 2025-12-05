@@ -31,7 +31,7 @@ const StyledUl = styled("ul", {
 export const GenericSearchList = ({ type, loading, error, resultLength, children }: Props) => {
   const { t } = useTranslation();
   const [params] = useStableSearchPageParams();
-  if (loading) return <Spinner />;
+  if (loading) return <Spinner data-testid="loading-spinner" />;
   if (error) return <Text color="text.error">{t("searchForm.error")}</Text>;
   if (resultLength === 0) return <Text>{t(`searchPage.${type}NoHits`, { query: params.get("query") ?? "" })}</Text>;
   return <StyledUl>{children}</StyledUl>;

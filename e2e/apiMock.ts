@@ -9,14 +9,7 @@
 import { readFile, writeFile } from "fs/promises";
 import { test as Ptest } from "@playwright/test";
 import type { TestInfo } from "@playwright/test";
-import {
-  brightcoveTokenMock,
-  copyrightMock,
-  editorMock,
-  getNoteUsersMock,
-  responsiblesMock,
-  userDataMock,
-} from "./mockResponses";
+import { brightcoveTokenMock, copyrightMock, getNoteUsersMock, responsiblesMock, userDataMock } from "./mockResponses";
 
 const mockDir = "e2e/apiMocks/";
 
@@ -120,7 +113,7 @@ const urlsToReplace = [
   },
   {
     url: "get_editors",
-    value: editorMock,
+    value: responsiblesMock,
   },
 ];
 

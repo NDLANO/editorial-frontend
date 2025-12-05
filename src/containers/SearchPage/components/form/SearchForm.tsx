@@ -9,15 +9,9 @@
 import queryString from "query-string";
 import { SearchParamsDTO as AudioSearchParams, SeriesSearchParamsDTO } from "@ndla/types-backend/audio-api";
 import { DraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
-import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { SearchParamsDTO as ImageSearchParams } from "@ndla/types-backend/image-api";
-import { Node } from "@ndla/types-taxonomy";
-import SearchAudioForm from "./SearchAudioForm";
-import SearchContentForm from "./SearchContentForm";
-import SearchImageForm from "./SearchImageForm";
-import SearchPodcastSeriesForm from "./SearchPodcastSeriesForm";
 import config from "../../../../config";
-import { SearchParams, SearchType, StringSort } from "../../../../interfaces";
+import { SearchParams, StringSort } from "../../../../interfaces";
 import { NoNodeDraftSearchParams } from "../../../../modules/search/searchApiInterfaces";
 
 export type SearchParamsBody = StringSort<
@@ -54,7 +48,6 @@ export const parseSearchParams = <T extends boolean>(locationSearch: string, par
 
   const searchBodyKeyMapping: SearchBodyKeyMapping = {
     "draft-status": { key: "draftStatus", data: queryStringObject["draft-status"]?.split(",") },
-    "include-other-statuses": { key: "includeOtherStatuses", data: parseBooleanParam("include-other-statuses") },
     "resource-types": { key: "resourceTypes", data: queryStringObject["resource-types"]?.split(",") },
     "audio-type": { key: "audioType", data: queryStringObject["audio-type"] },
     "concept-type": { key: "conceptType", data: queryStringObject["concept-type"] },
@@ -75,7 +68,6 @@ export const parseSearchParams = <T extends boolean>(locationSearch: string, par
     subjects: { key: "subjects", data: queryStringObject.subjects?.split(",") },
     users: { key: "users", data: queryStringObject.users?.split(",") },
     license: { key: "license", data: queryStringObject.license ?? config.licenseAll },
-    includeCopyrighted: { key: "includeCopyrighted", data: true },
   } as const;
 
   return Object.entries(searchBodyKeyMapping).reduce(
@@ -89,29 +81,3 @@ export const parseSearchParams = <T extends boolean>(locationSearch: string, par
     {} as Record<string, any>,
   ) as SearchParamsBody;
 };
-
-interface Props {
-  type: SearchType;
-  searchObject: SearchParams;
-  search: (o: SearchParams) => void;
-  subjects: Node[];
-  locale: string;
-  userData: UserDataDTO | undefined;
-}
-
-const SearchForm = ({ type, searchObject, ...rest }: Props) => {
-  switch (type) {
-    case "content":
-      return <SearchContentForm searchObject={searchObject} {...rest} />;
-    case "audio":
-      return <SearchAudioForm searchObject={searchObject} {...rest} />;
-    case "image":
-      return <SearchImageForm searchObject={searchObject} {...rest} />;
-    case "podcast-series":
-      return <SearchPodcastSeriesForm searchObject={searchObject} {...rest} />;
-    default:
-      return <p>{`This type: ${type} is not supported`}</p>;
-  }
-};
-
-export default SearchForm;

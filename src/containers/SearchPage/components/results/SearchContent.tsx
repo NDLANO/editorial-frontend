@@ -26,7 +26,6 @@ import { useSession } from "../../../Session/SessionProvider";
 
 interface Props {
   content: MultiSearchSummaryDTO;
-  locale: string;
   responsibleName?: string;
 }
 
@@ -140,8 +139,8 @@ const StyledErrorWarningFill = styled(ErrorWarningFill, {
 
 const conceptTypes = ["concept", "gloss"];
 
-const SearchContent = ({ content, locale, responsibleName }: Props) => {
-  const { t } = useTranslation();
+const SearchContent = ({ content, responsibleName }: Props) => {
+  const { t, i18n } = useTranslation();
   const { userPermissions } = useSession();
 
   const badges = useBadges({
@@ -161,7 +160,7 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
     }
   }, [content.learningResourceType, content.metaImage?.url]);
 
-  const linkProps = resourceToLinkProps(content, content.resultType, locale);
+  const linkProps = resourceToLinkProps(content, content.resultType, i18n.language);
 
   const statusType = () => {
     const status = content.status?.current.toLowerCase();
@@ -174,7 +173,7 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
     <StyledListItemRoot data-testid="content-search-result">
       <StyledSearchListItemImage
         src={imageData.imageUrl}
-        imageLanguage={locale}
+        imageLanguage={i18n.language}
         alt={content.metaImage?.alt ?? ""}
         fallbackElement={imageData.icon}
         sizes="56px"
@@ -207,7 +206,7 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
         </ListItemHeadingContent>
         <ListItemMainContent>
           <ContentWrapper>
-            <SearchHighlight content={content} locale={locale} />
+            <SearchHighlight content={content} locale={i18n.language} />
             {!!metaDescription.length && <StyledText textStyle="body.small">{metaDescription}</StyledText>}
           </ContentWrapper>
           <InfoWrapper>
@@ -222,7 +221,7 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
                 aria-label={t("editMarkup.linkTitle")}
                 to={routes.editMarkup(
                   content.id,
-                  content.supportedLanguages.includes(locale) ? locale : content.supportedLanguages[0],
+                  content.supportedLanguages.includes(i18n.language) ? i18n.language : content.supportedLanguages[0],
                 )}
               >
                 <CodeView />

@@ -12,15 +12,15 @@ import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { CONCEPT_RESPONSIBLE } from "../../../../constants";
-import { OnFieldChangeFunction, SearchParams } from "../../../../interfaces";
+import { OnFieldChangeFunction, SearchParams, SelectElement } from "../../../../interfaces";
 import { useAuth0Editors, useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
 import { useConceptStateMachine } from "../../../../modules/concept/conceptQueries";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import SearchControlButtons from "../../../Form/SearchControlButtons";
 import SearchHeader from "../../../Form/SearchHeader";
 import SearchTagGroup, { Filters } from "../../../Form/SearchTagGroup";
-import { SelectElement, SelectRenderer } from "../../../Form/SelectRenderer";
 import { getTagName } from "../../../Form/utils";
+import ObjectSelector from "../../../ObjectSelector";
 
 const SearchFieldsWrapper = styled("div", {
   base: {
@@ -156,7 +156,17 @@ const SearchConceptFormContent = ({ search, searchObject, userData }: Props) => 
             }}
           />
         </FieldRoot>
-        <SelectRenderer selectElements={selectElements} searchObject={searchObject} onFieldChange={onFieldChange} />
+        {selectElements.map((selectElement) => (
+          <FieldRoot key={selectElement.name}>
+            <ObjectSelector
+              name={selectElement.name}
+              placeholder={t(`searchForm.types.${selectElement.name}`)}
+              value={(searchObject[selectElement.name] as string) ?? ""}
+              options={selectElement.options}
+              onChange={(val) => onFieldChange(selectElement.name, val)}
+            />
+          </FieldRoot>
+        ))}
         <SearchControlButtons reset={emptySearch} search={handleSearch} />
       </SearchFieldsWrapper>
       <SearchTagGroup onRemoveTag={removeTagItem} tags={filters} />

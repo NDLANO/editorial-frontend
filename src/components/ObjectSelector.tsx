@@ -31,6 +31,11 @@ const StyledGenericSelectItem = styled(GenericSelectItem, {
   },
 });
 
+export interface SelectElement<T> {
+  name: keyof T;
+  options: SelectOption[];
+}
+
 export interface SelectOption {
   id: string;
   name: string;
@@ -39,7 +44,7 @@ export interface SelectOption {
 interface Props {
   options: SelectOption[];
   value: string;
-  onChange: (value: string) => void;
+  onChange: (value: string[]) => void;
   placeholder: string;
   name: string;
 }
@@ -60,7 +65,7 @@ const ObjectSelector = ({ options, onChange, value, placeholder, name }: Props) 
       collection={collection}
       positioning={{ sameWidth: true, strategy: "fixed" }}
       value={value ? [value] : []}
-      onValueChange={(details) => onChange(details.value[0])}
+      onValueChange={(details) => onChange(details.value)}
     >
       <SelectLabel srOnly>{placeholder}</SelectLabel>
       <StyledGenericSelectTrigger>

@@ -10,17 +10,19 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { DraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
+import { sortBy } from "@ndla/util";
 import { CONCEPT_RESPONSIBLE } from "../../../../constants";
-import { OnFieldChangeFunction, SearchParams } from "../../../../interfaces";
+import { CamelToKebab } from "../../../../interfaces";
 import { useAuth0Editors, useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
 import { useConceptStateMachine } from "../../../../modules/concept/conceptQueries";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import SearchControlButtons from "../../../Form/SearchControlButtons";
 import SearchHeader from "../../../Form/SearchHeader";
-import SearchTagGroup, { Filters } from "../../../Form/SearchTagGroup";
-import { SelectElement, SelectRenderer } from "../../../Form/SelectRenderer";
+import SearchTagGroup from "../../../Form/SearchTagGroup";
 import { getTagName } from "../../../Form/utils";
+import ObjectSelector, { SelectElement } from "../../../ObjectSelector";
 
 const SearchFieldsWrapper = styled("div", {
   base: {
@@ -34,58 +36,54 @@ const SearchFieldsWrapper = styled("div", {
   },
 });
 
+export type ConceptSearchParams = {
+  [k in keyof DraftConceptSearchParamsDTO as CamelToKebab<k>]: DraftConceptSearchParamsDTO[k];
+};
+
+export type UpdateSearchParamFn = <Param extends keyof ConceptSearchParams>(
+  param: Param,
+  value: ConceptSearchParams[Param] | null,
+) => void;
+
 interface Props {
-  search: (o: SearchParams) => void;
-  searchObject: SearchParams;
+  onUpdateSearchParam: UpdateSearchParamFn;
+  searchObject: ConceptSearchParams;
+  onClearSearch: () => void;
   locale: string;
   userData: UserDataDTO | undefined;
 }
 
-const SearchConceptFormContent = ({ search, searchObject, userData }: Props) => {
+const SearchConceptFormContent = ({ onUpdateSearchParam, searchObject, userData, onClearSearch }: Props) => {
   const { t } = useTranslation();
   const [queryInput, setQueryInput] = useState(searchObject.query ?? "");
-  const { data: users } = useAuth0Editors({
-    select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
-    placeholderData: [],
-  });
-
-  const { data: responsibles } = useAuth0Responsibles(
-    { permission: CONCEPT_RESPONSIBLE },
-    {
-      select: (users) =>
-        users.map((u) => ({
-          id: `${u.app_metadata.ndla_id}`,
-          name: u.name,
-        })),
-      placeholderData: [],
-    },
-  );
-
-  const onFieldChange: OnFieldChangeFunction = (name, value, evt) => {
-    if (name === "query" && evt) setQueryInput(evt.currentTarget.value);
-    else search({ ...searchObject, [name]: value });
-  };
+  const usersQuery = useAuth0Editors();
 
   useEffect(() => {
-    if (searchObject.query !== queryInput) {
-      setQueryInput(searchObject.query ?? "");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setQueryInput(searchObject.query ?? "");
   }, [searchObject.query]);
 
-  const { data: statuses } = useConceptStateMachine();
+  const users = useMemo(() => {
+    const mapped = usersQuery.data?.map((u) => ({ id: u.app_metadata.ndla_id, name: u.name })) ?? [];
+    return sortBy(mapped, (u) => u.name);
+  }, [usersQuery.data]);
 
-  const getConceptStatuses = () => {
-    return Object.keys(statuses || []).map((s) => {
-      return { id: s, name: t(`form.status.${s.toLowerCase()}`) };
-    });
-  };
+  const responsiblesQuery = useAuth0Responsibles({ permission: CONCEPT_RESPONSIBLE });
 
-  const handleSearch = () => search({ ...searchObject, page: 1, query: queryInput });
+  const responsibles = useMemo(() => {
+    const mapped = responsiblesQuery.data?.map((u) => ({ id: u.app_metadata.ndla_id, name: u.name })) ?? [];
+    return sortBy(mapped, (u) => u.name);
+  }, [responsiblesQuery.data]);
 
-  const removeTagItem = (parameterName: keyof SearchParams) => {
-    if (parameterName === "query") setQueryInput("");
-    search({ ...searchObject, [parameterName]: "" });
+  const statusQuery = useConceptStateMachine();
+
+  const conceptStatuses = useMemo(() => {
+    return Object.keys(statusQuery.data ?? []).map((s) => ({ id: s, name: t(`form.status.${s.toLowerCase()}`) }));
+  }, [statusQuery.data, t]);
+
+  const handleSearch = () => onUpdateSearchParam("query", queryInput);
+
+  const removeTagItem = (parameterName: keyof ConceptSearchParams) => {
+    onUpdateSearchParam(parameterName, null);
   };
 
   const conceptTypes = useMemo(
@@ -96,45 +94,21 @@ const SearchConceptFormContent = ({ search, searchObject, userData }: Props) => 
     [t],
   );
 
-  const emptySearch = () => {
-    setQueryInput("");
-    search({
-      query: "",
-      language: "",
-      "concept-type": "",
-      subjects: "",
-      users: "",
-      status: "",
-      "responsible-ids": "",
-    });
-  };
-
-  const sortByProperty = (property: string) => {
-    type Sortable = { [key: string]: any };
-
-    return function (a: Sortable, b: Sortable) {
-      return a[property]?.localeCompare(b[property]);
-    };
-  };
-
-  const filters: Filters = {
+  const filters: Partial<Record<keyof ConceptSearchParams, string | undefined>> = {
     query: searchObject.query,
     "concept-type": getTagName(searchObject["concept-type"], conceptTypes),
-    "responsible-ids": getTagName(searchObject["responsible-ids"], responsibles),
-    status: searchObject.status?.toLowerCase(),
+    "responsible-ids": getTagName(searchObject["responsible-ids"]?.[0], responsibles),
+    status: searchObject.status?.[0]?.toLowerCase(),
     language: searchObject.language,
-    users: getTagName(searchObject.users, users!.sort(sortByProperty("name"))),
+    users: getTagName(searchObject.users?.[0], users),
   };
 
-  const selectElements: SelectElement[] = [
-    {
-      name: "concept-type",
-      options: conceptTypes,
-    },
-    { name: "responsible-ids", options: responsibles ?? [] },
-    { name: "status", options: getConceptStatuses() },
+  const selectElements: SelectElement<ConceptSearchParams>[] = [
+    { name: "concept-type", options: conceptTypes },
+    { name: "responsible-ids", options: responsibles },
+    { name: "status", options: conceptStatuses },
     { name: "language", options: getResourceLanguages(t) },
-    { name: "users", options: users!.sort(sortByProperty("name")) },
+    { name: "users", options: users },
   ];
 
   return (
@@ -156,8 +130,18 @@ const SearchConceptFormContent = ({ search, searchObject, userData }: Props) => 
             }}
           />
         </FieldRoot>
-        <SelectRenderer selectElements={selectElements} searchObject={searchObject} onFieldChange={onFieldChange} />
-        <SearchControlButtons reset={emptySearch} search={handleSearch} />
+        {selectElements.map((selectElement) => (
+          <FieldRoot key={selectElement.name}>
+            <ObjectSelector
+              name={selectElement.name}
+              placeholder={t(`searchForm.types.${selectElement.name}`)}
+              value={(searchObject[selectElement.name] as string) ?? ""}
+              options={selectElement.options}
+              onChange={(val) => onUpdateSearchParam(selectElement.name, val.join(","))}
+            />
+          </FieldRoot>
+        ))}
+        <SearchControlButtons reset={onClearSearch} search={handleSearch} />
       </SearchFieldsWrapper>
       <SearchTagGroup onRemoveTag={removeTagItem} tags={filters} />
     </>

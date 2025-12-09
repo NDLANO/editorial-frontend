@@ -16,6 +16,6 @@ export const scrollToIndexFn = (contentRef: RefObject<HTMLDivElement | null>, in
   el?.scrollIntoView({ behavior: "auto", block: "nearest" });
 };
 
-export const getTagName = (id: string | undefined, data: { id: string; name: string }[] = []) => {
+export const getTagName = (id: string | undefined | null, data: { id: string; name: string }[] = []) => {
   return id ? data.find((entry) => entry.id === id)?.name : undefined;
 };

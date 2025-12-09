@@ -17,7 +17,7 @@ import {
   SubjectAggsInputDTO,
 } from "@ndla/types-backend/search-api";
 import { postSearch, searchGrepCodes, searchResources, searchSubjectStats } from "./searchApi";
-import { DA_SUBJECT_ID, SA_SUBJECT_ID, LMA_SUBJECT_ID } from "../../constants";
+import { DA_SUBJECT_ID, SA_SUBJECT_ID, LMA_SUBJECT_ID, PUBLISHED } from "../../constants";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import {
   customFieldsBody,
@@ -48,7 +48,7 @@ export const searchQueryKeys = {
 };
 
 export const useSearch = (
-  query: StringSort<NoNodeDraftSearchParams>,
+  query: NoNodeDraftSearchParams,
   options?: Partial<UseQueryOptions<MultiSummarySearchResults>>,
 ) =>
   useQuery<MultiSummarySearchResults>({
@@ -57,14 +57,10 @@ export const useSearch = (
     ...options,
   });
 
-interface UseSearchWithCustomSubjectsFiltering extends StringSort<NoNodeDraftSearchParams> {
-  favoriteSubjects?: string[];
-}
-
 /** Search hook for filtering grouped custom subjects(urn:favourites, urn:lmaSubjects, urn:daSubjects, urn:saSubjects).
  These custom subjects represent multiple related subjects, requiring this custom search hook to correctly transform them */
 export const useSearchWithCustomSubjectsFiltering = (
-  query: UseSearchWithCustomSubjectsFiltering,
+  query: DraftSearchParamsDTO,
   options?: Partial<UseQueryOptions<MultiSummarySearchResults>>,
 ) => {
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -87,11 +83,17 @@ export const useSearchWithCustomSubjectsFiltering = (
     return getResultSubjectIdObject(data.userId, searchNodesQuery.data.results);
   }, [data?.userId, searchNodesQuery.data]);
 
-  const actualQuery = getSubjectsIdsQuery(query, data?.favoriteSubjects, subjectIdObject);
+  const actualQuery: NoNodeDraftSearchParams = {
+    ...query,
+    resultTypes: ["draft", "concept", "learningpath"],
+    subjects: getSubjectsIdsQuery(query.subjects, data?.favoriteSubjects, subjectIdObject),
+    draftStatus: query.draftStatus?.map((s) => (s === "HAS_PUBLISHED" ? PUBLISHED : s)),
+    includeOtherStatuses: !!(query.includeOtherStatuses ?? query.draftStatus?.some((s) => s === "HAS_PUBLISHED")),
+  };
 
   return useQuery<MultiSummarySearchResults>({
     queryKey: searchQueryKeys.searchWithCustomSubjectsFiltering(actualQuery),
-    queryFn: () => postSearch({ ...actualQuery, resultTypes: ["draft", "concept", "learningpath"] }),
+    queryFn: () => postSearch(actualQuery),
     ...options,
     enabled: options?.enabled && !isLoading && !searchNodesQuery.isLoading,
   });

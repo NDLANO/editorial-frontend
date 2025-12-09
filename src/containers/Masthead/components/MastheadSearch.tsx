@@ -6,7 +6,6 @@
  *
  */
 
-import queryString from "query-string";
 import { useEffect, useId, useMemo, useState, FormEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
@@ -38,7 +37,7 @@ import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
 import { getAccessToken, isActiveToken } from "../../../util/authHelpers";
 import { isNDLAFrontendUrl } from "../../../util/htmlHelpers";
 import { routes } from "../../../util/routeHelpers";
-import { parseSearchParams } from "../../SearchPage/components/form/SearchForm";
+import { useStableSearchPageParams } from "../../SearchPage/useStableSearchPageParams";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 const pathToTypeMapping: Record<string, string> = {
@@ -61,6 +60,7 @@ const nodeIdRegEx = new RegExp(/#\d+/g);
 const taxonomyIdRegEx = new RegExp(/#urn:(resource|topic|subject)[:\da-fA-F-]+/g);
 
 export const MastheadSearch = () => {
+  const [params, setParams] = useStableSearchPageParams();
   const [value, setValue] = useState([]);
   const [query, setQuery] = useState("");
   const [highlightedValue, setHighlightedValue] = useState<string | null>(null);
@@ -224,21 +224,13 @@ export const MastheadSearch = () => {
   };
 
   const handleQuerySubmit = () => {
-    const matched = location.pathname.split("/").find((v) => !!pathToTypeMapping[v]);
-    const type = matched ? pathToTypeMapping[matched] : pathToTypeMapping.default;
-    const oldParams =
-      type === "content" ? parseSearchParams(location.search, false) : queryString.parse(location.search);
-    const sort = type === "content" || type === "concept" ? "-lastUpdated" : "-relevance";
-
-    const newParams = {
-      ...oldParams,
-      query: query || undefined,
-      page: 1,
-      sort,
-      "page-size": 10,
-    };
-
-    navigate(routes.search(newParams, type));
+    if (location.pathname.startsWith("/search") && params.get("query") !== query) {
+      setParams({ query: query });
+    } else {
+      const matched = location.pathname.split("/").find((v) => !!pathToTypeMapping[v]);
+      const type = matched ? pathToTypeMapping[matched] : pathToTypeMapping.default;
+      navigate(routes.search({ query: query.length ? query : undefined }, type));
+    }
   };
 
   const collection = useMemo(() => {

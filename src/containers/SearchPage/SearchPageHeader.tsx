@@ -66,25 +66,25 @@ const searchTypes: SearchObject[] = [
   {
     type: "content",
     title: "subNavigation.searchContent",
-    url: toSearch({ page: "1", sort: "-lastUpdated", "page-size": 10 }, "content"),
+    url: toSearch({}, "content"),
     icon: <SearchContent />,
   },
   {
     type: "audio",
     title: "subNavigation.searchAudio",
-    url: toSearch({ page: "1", sort: "-relevance", "page-size": 10 }, "audio"),
+    url: toSearch({}, "audio"),
     icon: <VoiceprintLine />,
   },
   {
     type: "image",
     title: "subNavigation.searchImage",
-    url: toSearch({ page: "1", sort: "-relevance", "page-size": 10 }, "image"),
+    url: toSearch({}, "image"),
     icon: <SearchMedia />,
   },
   {
     type: "podcast-series",
     title: "subNavigation.searchPodcastSeries",
-    url: toSearch({ page: "1", sort: "-relevance", "page-size": 10 }, "podcast-series"),
+    url: toSearch({}, "podcast-series"),
     icon: <ListCheck />,
   },
 ];

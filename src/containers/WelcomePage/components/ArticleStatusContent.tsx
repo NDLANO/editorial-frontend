@@ -153,9 +153,6 @@ const ArticleStatusContent = ({
                   <SafeLink
                     to={toSearch(
                       {
-                        page: "1",
-                        sort: "-relevance",
-                        "page-size": 10,
                         subjects: filterSubject ? filterSubject.value : searchPageSubjectFilter,
                         "draft-status": statusData.value,
                       },

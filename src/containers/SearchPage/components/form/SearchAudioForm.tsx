@@ -6,21 +6,24 @@
  *
  */
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldRoot, FieldInput, FieldLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { SearchParamsDTO } from "@ndla/types-backend/audio-api";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-taxonomy";
 import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
 import SearchHeader from "../../../../components/Form/SearchHeader";
-import SearchTagGroup, { Filters } from "../../../../components/Form/SearchTagGroup";
-import { SelectElement, SelectRenderer } from "../../../../components/Form/SelectRenderer";
+import SearchTagGroup from "../../../../components/Form/SearchTagGroup";
 import { getTagName } from "../../../../components/Form/utils";
-import { OnFieldChangeFunction, SearchParams } from "../../../../interfaces";
+import ObjectSelector, { SelectElement } from "../../../../components/ObjectSelector";
+import { CamelToKebab } from "../../../../interfaces";
 import { useLicenses } from "../../../../modules/draft/draftQueries";
 import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
+import { useStableSearchPageParams } from "../../useStableSearchPageParams";
+
+type SearchParams = { [k in keyof SearchParamsDTO as CamelToKebab<k>]: SearchParamsDTO[k] };
 
 const StyledForm = styled("form", {
   base: {
@@ -32,28 +35,17 @@ const StyledForm = styled("form", {
 });
 
 interface Props {
-  search: (o: SearchParams) => void;
-  subjects: Node[];
-  searchObject: SearchParams;
-  locale: string;
   userData: UserDataDTO | undefined;
 }
 
-const SearchAudioForm = ({
-  locale,
-  search,
-  searchObject = {
-    query: "",
-    language: "",
-    "audio-type": "",
-  },
-  userData,
-}: Props) => {
-  const [queryInput, setQueryInput] = useState(searchObject.query ?? "");
-  const { t } = useTranslation();
+const SearchAudioForm = ({ userData }: Props) => {
+  const [params, setParams] = useStableSearchPageParams();
+  const queryParam = useMemo(() => params.get("query") || "", [params]);
+  const [input, setInput] = useState(queryParam);
+  const { t, i18n } = useTranslation();
   const { data: licenses } = useLicenses({
     select: (licenses) =>
-      getLicensesWithTranslations(licenses, locale).map((license) => ({
+      getLicensesWithTranslations(licenses, i18n.language).map((license) => ({
         id: license.license,
         name: license.title,
       })),
@@ -61,27 +53,23 @@ const SearchAudioForm = ({
   });
 
   useEffect(() => {
-    if (searchObject.query !== queryInput) {
-      setQueryInput(searchObject.query ?? "");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchObject.query]);
-
-  const onFieldChange: OnFieldChangeFunction = (name, value, evt) => {
-    if (name === "query" && evt) setQueryInput(evt.currentTarget.value);
-    else search({ ...searchObject, [name]: value });
-  };
-
-  const handleSearch = () => search({ ...searchObject, page: 1, query: queryInput });
+    setInput(queryParam);
+  }, [queryParam]);
 
   const removeTagItem = (parameterName: keyof SearchParams) => {
-    if (parameterName === "query") setQueryInput("");
-    search({ ...searchObject, [parameterName]: "" });
+    setParams({ [parameterName]: null });
   };
 
   const emptySearch = () => {
-    setQueryInput("");
-    search({ query: "", language: "", "audio-type": "", license: "" });
+    setParams({
+      "audio-type": null,
+      page: null,
+      "page-size": null,
+      query: null,
+      language: null,
+      sort: null,
+      license: null,
+    });
   };
 
   const getAudioTypes = () => [
@@ -89,14 +77,14 @@ const SearchAudioForm = ({
     { id: "podcast", name: t("searchForm.audioType.podcast") },
   ];
 
-  const filters: Filters = {
-    query: searchObject.query,
-    "audio-type": getTagName(searchObject["audio-type"], getAudioTypes()),
-    license: getTagName(searchObject.license, licenses),
-    language: searchObject.language,
+  const filters = {
+    query: queryParam,
+    "audio-type": getTagName(params.get("audio-type"), getAudioTypes()),
+    license: getTagName(params.get("license"), licenses),
+    language: params.get("language"),
   };
 
-  const selectElements: SelectElement[] = [
+  const selectElements: SelectElement<SearchParams>[] = [
     { name: "audio-type", options: getAudioTypes() },
     { name: "license", options: licenses ?? [] },
     { name: "language", options: getResourceLanguages(t) },
@@ -107,8 +95,8 @@ const SearchAudioForm = ({
       <SearchHeader type="audio" filters={filters} userData={userData} />
       <StyledForm
         onSubmit={(e) => {
-          handleSearch();
           e.preventDefault();
+          setParams({ query: input });
         }}
       >
         <FieldRoot>
@@ -116,11 +104,21 @@ const SearchAudioForm = ({
           <FieldInput
             name="query"
             placeholder={t("searchForm.types.audioQuery")}
-            value={queryInput}
-            onChange={(e) => setQueryInput(e.currentTarget.value)}
+            value={input}
+            onChange={(e) => setInput(e.currentTarget.value)}
           />
         </FieldRoot>
-        <SelectRenderer selectElements={selectElements} searchObject={searchObject} onFieldChange={onFieldChange} />
+        {selectElements.map((selectElement) => (
+          <FieldRoot key={selectElement.name}>
+            <ObjectSelector
+              name={selectElement.name}
+              placeholder={t(`searchForm.types.${selectElement.name}`)}
+              value={params.get(selectElement.name) ?? ""}
+              options={selectElement.options}
+              onChange={(value) => setParams({ [selectElement.name]: value.join(",") })}
+            />
+          </FieldRoot>
+        ))}
         <SearchControlButtons reset={emptySearch} />
       </StyledForm>
       <SearchTagGroup onRemoveTag={removeTagItem} tags={filters} />

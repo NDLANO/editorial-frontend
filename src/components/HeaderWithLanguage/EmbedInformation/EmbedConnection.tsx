@@ -21,9 +21,9 @@ import {
 } from "@ndla/primitives";
 import { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { SearchParamsBody } from "../../../containers/SearchPage/components/form/SearchForm";
 import { postSearchConcepts } from "../../../modules/concept/conceptApi";
 import { postSearch } from "../../../modules/search/searchApi";
+import { NoNodeDraftSearchParams } from "../../../modules/search/searchApiInterfaces";
 import { routes } from "../../../util/routeHelpers";
 import { DialogCloseButton } from "../../DialogCloseButton";
 import ListResource from "../../Form/ListResource";
@@ -52,7 +52,7 @@ const convertToSearchEmbedTypes = (embedType: EmbedType): SearchEmbedTypes[] => 
   }
 };
 
-const searchObjects = (embedId: number, embedType: EmbedType): SearchParamsBody => ({
+const searchObjects = (embedId: number, embedType: EmbedType): NoNodeDraftSearchParams => ({
   embedId: embedId.toString(),
   embedResource: convertToSearchEmbedTypes(embedType),
   pageSize: 50,

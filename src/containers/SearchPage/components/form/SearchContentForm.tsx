@@ -6,19 +6,20 @@
  *
  */
 
-import { TFunction } from "i18next";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldLabel, FieldRoot, FieldInput } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
+import { DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
+import { partition, sortBy } from "@ndla/util";
 import CheckboxSelector from "./CheckboxSelector";
 import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
 import SearchHeader from "../../../../components/Form/SearchHeader";
-import SearchTagGroup, { Filters } from "../../../../components/Form/SearchTagGroup";
-import { SelectElement, SelectRenderer } from "../../../../components/Form/SelectRenderer";
+import SearchTagGroup from "../../../../components/Form/SearchTagGroup";
 import { getTagName } from "../../../../components/Form/utils";
+import ObjectSelector, { SelectElement, SelectOption } from "../../../../components/ObjectSelector";
 import {
   DA_SUBJECT_ID,
   DRAFT_RESPONSIBLE,
@@ -30,7 +31,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from "../../../../constants";
-import { OnFieldChangeFunction, SearchParams } from "../../../../interfaces";
+import { CamelToKebab } from "../../../../interfaces";
 import { useAuth0Editors, useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
 import { useDraftStatusStateMachine, useLicenses } from "../../../../modules/draft/draftQueries";
 import { useAllResourceTypes } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
@@ -40,6 +41,7 @@ import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import { flattenResourceTypesAndAddContextTypes } from "../../../../util/taxonomyHelpers";
 import InlineDatePicker from "../../../FormikForm/components/InlineDatePicker";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
+import { useStableSearchPageParams } from "../../useStableSearchPageParams";
 
 const StyledForm = styled("form", {
   base: {
@@ -64,46 +66,21 @@ const StyledFieldRoot = styled(FieldRoot, {
   },
 });
 
-const generateSubjectNode = (id: string, name: string, t: TFunction): Node => ({
-  id: id,
-  breadcrumbs: [],
-  contexts: [],
-  contextids: [],
-  paths: [],
-  resourceTypes: [],
-  supportedLanguages: [],
-  translations: [],
-  nodeType: "SUBJECT",
-  baseName: t(name),
-  name: t(name),
-  contentUri: "",
-  path: "",
-  language: "",
-  metadata: {
-    customFields: {},
-    grepCodes: [],
-    visible: true,
-  },
-});
-
 const userHasCustomField = (subjects: Node[], ndlaId: string | undefined, customField: string) =>
   subjects.some((s) => s.metadata.customFields?.[customField] === ndlaId);
 
 interface Props {
-  search: (o: SearchParams) => void;
   subjects: Node[];
-  searchObject: SearchParams;
-  locale: string;
   userData: UserDataDTO | undefined;
 }
 
-const SearchContentForm = ({ search, searchObject, subjects, locale, userData }: Props) => {
-  const { t } = useTranslation();
+export type DraftSearchParams = { [k in keyof DraftSearchParamsDTO as CamelToKebab<k>]: DraftSearchParamsDTO[k] };
+
+const SearchContentForm = ({ subjects, userData }: Props) => {
+  const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const [queryInput, setQueryInput] = useState(searchObject.query ?? "");
-  const [isHasPublished, setIsHasPublished] = useState(
-    searchObject["include-other-statuses"] === true && searchObject["draft-status"] === "PUBLISHED",
-  );
+  const [params, setParams] = useStableSearchPageParams();
+  const [queryInput, setQueryInput] = useState(params.get("query") ?? "");
 
   const { data: users } = useAuth0Editors({
     select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
@@ -123,7 +100,7 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
   );
 
   const { data: resourceTypes } = useAllResourceTypes(
-    { language: locale, taxonomyVersion },
+    { language: i18n.language, taxonomyVersion },
     {
       select: (resourceTypes) => flattenResourceTypesAndAddContextTypes(resourceTypes, t),
       placeholderData: [],
@@ -132,7 +109,7 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
 
   const { data: licenses } = useLicenses({
     select: (licenses) =>
-      getLicensesWithTranslations(licenses, locale, true).map((license) => ({
+      getLicensesWithTranslations(licenses, i18n.language, true).map((license) => ({
         id: license.license,
         name: license.title,
       })),
@@ -140,140 +117,93 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
   });
 
   useEffect(() => {
-    if (searchObject.query !== queryInput) {
-      setQueryInput(searchObject.query ?? "");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchObject.query]);
-
-  const onFieldChange: OnFieldChangeFunction = (name, value, evt) => {
-    let includeOtherStatuses: boolean | undefined;
-    let status: string | undefined;
-    if (name === "query" && evt) setQueryInput(evt.currentTarget.value);
-    if (name === "draft-status" && typeof value === "string") {
-      const isHasPublished = value === "HAS_PUBLISHED";
-      includeOtherStatuses = isHasPublished;
-      setIsHasPublished(isHasPublished);
-      status = isHasPublished ? "PUBLISHED" : value;
-    } else {
-      includeOtherStatuses = searchObject["include-other-statuses"];
-      status = searchObject.status;
-    }
-    const searchObj = {
-      ...searchObject,
-      "include-other-statuses": includeOtherStatuses,
-      [name]: value,
-    };
-    if (name !== "query") {
-      search(name !== "draft-status" ? searchObj : { ...searchObj, "draft-status": status, fallback: false });
-    }
-  };
-
-  const handleSearch = () => {
-    search({ ...searchObject, fallback: false, page: 1, query: queryInput });
-  };
-
-  const removeTagItem = (parameterName: keyof SearchParams, value?: string) => {
-    if (parameterName === "query") setQueryInput("");
-    if (parameterName === "draft-status") setIsHasPublished(value === "HAS_PUBLISHED");
-    search({ ...searchObject, [parameterName]: "" });
-  };
+    setQueryInput(params.get("query") ?? "");
+  }, [params]);
 
   const emptySearch = () => {
-    setIsHasPublished(false);
-    setQueryInput("");
-    search({
-      query: "",
-      subjects: "",
-      "resource-types": "",
-      "draft-status": "",
-      users: "",
-      language: "",
-      license: "",
-      "revision-date-from": "",
-      "revision-date-to": "",
-      "exclude-revision-log": false,
-      "responsible-ids": "",
-      "filter-inactive": true,
+    setParams({
+      "draft-status": null,
+      "resource-types": null,
+      page: null,
+      "page-size": null,
+      sort: null,
+      "revision-date-from": null,
+      "revision-date-to": null,
+      "exclude-revision-log": null,
+      "responsible-ids": null,
+      "filter-inactive": null,
+      query: null,
+      language: null,
+      "article-types": null,
+      subjects: null,
+      users: null,
+      license: null,
     });
   };
 
   const { data: statuses } = useDraftStatusStateMachine();
 
-  const getDraftStatuses = (): { id: string; name: string }[] => {
-    const draftStatuses = [
-      ...Object.keys(statuses || []).map((s) => {
-        return { id: s, name: t(`form.status.${s.toLowerCase()}`) };
-      }),
-      { id: "HAS_PUBLISHED", name: t(`form.status.has_published`) },
-    ];
-    draftStatuses.push(
-      { id: "UNLISTED", name: t(`form.status.unlisted`) },
-      { id: "PRIVATE", name: t(`form.status.private`) },
+  const draftStatuses: SelectOption[] = useMemo(() => {
+    const arr = Object.keys(statuses ?? []) ?? [];
+    arr.push("HAS_PUBLISHED", "UNLISTED", "PRIVATE");
+    return sortBy(
+      arr.map((s) => ({ id: s, name: t(`form.status.${s.toLowerCase()}`) })),
+      (s) => s.name,
     );
-    return draftStatuses;
-  };
+  }, [statuses, t]);
 
-  const sortByProperty = (property: string) => {
-    type Sortable = { [key: string]: any };
-    return (a: Sortable, b: Sortable) => a[property]?.localeCompare(b[property]);
-  };
+  const sortedSubjects: SelectOption[] = useMemo(() => {
+    const [regularSubjects, conceptSubjects] = partition(
+      sortBy(subjects, (s) => s.name),
+      (s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== "true",
+    );
 
-  const sortedSubjects = useMemo(() => {
-    const favoriteSubject: Node = generateSubjectNode(FAVOURITES_SUBJECT_ID, "searchForm.favourites", t);
+    const finalSubjects: SelectOption[] = [{ id: FAVOURITES_SUBJECT_ID, name: t("searchForm.favourites") }];
 
-    const userHasLMASubjects = userHasCustomField(subjects, userData?.userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA);
-    const userHasSASubjects = userHasCustomField(subjects, userData?.userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_SA);
-    const userHasDASubjects = userHasCustomField(subjects, userData?.userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_DA);
+    if (userHasCustomField(subjects, userData?.userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA)) {
+      finalSubjects.push({ id: LMA_SUBJECT_ID, name: t("searchForm.LMASubjects") });
+    }
+    if (userHasCustomField(subjects, userData?.userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_SA)) {
+      finalSubjects.push({ id: SA_SUBJECT_ID, name: t("searchForm.SASubjects") });
+    }
+    if (userHasCustomField(subjects, userData?.userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_DA)) {
+      finalSubjects.push({ id: DA_SUBJECT_ID, name: t("searchForm.DASubjects") });
+    }
+    finalSubjects.push(...regularSubjects);
 
-    const LMAsubjects: Node = generateSubjectNode(LMA_SUBJECT_ID, "searchForm.LMASubjects", t);
-    const SASubjects: Node = generateSubjectNode(SA_SUBJECT_ID, "searchForm.SASubjects", t);
-    const DASubjects: Node = generateSubjectNode(DA_SUBJECT_ID, "searchForm.DASubjects", t);
+    conceptSubjects.forEach((s) => {
+      finalSubjects.push({
+        ...s,
+        name: t("searchForm.conceptSubject", { name: s.name }),
+      });
+    });
 
-    const filteredAndSortedSubjects = subjects
-      .filter((s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== "true")
-      .sort(sortByProperty("name"));
-    const filteredAndSortedConceptSubjects = subjects
-      .filter((s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true")
-      .sort(sortByProperty("name"))
-      .map((s: Node) => ({ ...s, name: t("searchForm.conceptSubject", { name: s.name }) }));
-    return [
-      favoriteSubject,
-      ...(userHasLMASubjects ? [LMAsubjects] : []),
-      ...(userHasSASubjects ? [SASubjects] : []),
-      ...(userHasDASubjects ? [DASubjects] : []),
-    ]
-      .concat(filteredAndSortedSubjects)
-      .concat(filteredAndSortedConceptSubjects);
+    return finalSubjects;
   }, [subjects, t, userData]);
 
-  const filters: Filters = {
-    query: searchObject.query,
-    subjects: getTagName(searchObject.subjects, sortedSubjects),
-    "resource-types": getTagName(searchObject["resource-types"], resourceTypes),
-    "responsible-ids": getTagName(searchObject["responsible-ids"], responsibles),
-    "draft-status": (isHasPublished ? "HAS_PUBLISHED" : searchObject["draft-status"])?.toLowerCase(),
-    users: getTagName(searchObject.users, users),
-    language: searchObject.language,
-    license: getTagName(searchObject["license"], licenses),
-    "filter-inactive": !searchObject["filter-inactive"] ? "false" : undefined,
-    "exclude-revision-log": searchObject["exclude-revision-log"] ? "true" : undefined,
-    "revision-date-from": formatDate(searchObject["revision-date-from"]) || undefined,
-    "revision-date-to": formatDate(searchObject["revision-date-to"]) || undefined,
+  const filters = {
+    query: params.get("query"),
+    subjects: getTagName(params.get("subjects"), sortedSubjects),
+    "resource-types": getTagName(params.get("resource-types"), resourceTypes),
+    "responsible-ids": getTagName(params.get("responsible-ids"), responsibles),
+    "draft-status": params.get("draft-status")?.toLowerCase(),
+    users: getTagName(params.get("users"), users),
+    language: params.get("language"),
+    license: getTagName(params.get("license"), licenses),
+    "filter-inactive": params.get("filter-inactive") === "false" ? "false" : undefined,
+    "exclude-revision-log": params.get("exclude-revision-log") === "true" ? "true" : undefined,
+    "revision-date-from": formatDate(params.get("revision-date-from")) || undefined,
+    "revision-date-to": formatDate(params.get("revision-date-to")) || undefined,
   };
 
-  const selectElements: SelectElement[] = [
+  const selectElements: SelectElement<DraftSearchParams>[] = [
     { name: "subjects", options: sortedSubjects },
-    { name: "resource-types", options: resourceTypes!.sort(sortByProperty("name")) ?? [] },
+    { name: "resource-types", options: sortBy(resourceTypes, (rt) => rt.name) },
     { name: "responsible-ids", options: responsibles ?? [] },
-    {
-      name: "draft-status",
-      options: getDraftStatuses().sort(sortByProperty("name")),
-      value: isHasPublished ? "HAS_PUBLISHED" : searchObject["draft-status"],
-    },
+    { name: "draft-status", options: draftStatuses },
     { name: "users", options: users ?? [] },
     { name: "language", options: getResourceLanguages(t) },
-    { name: "license", options: licenses!.sort(sortByProperty("name")) },
+    { name: "license", options: sortBy(licenses, (lic) => lic.name) },
   ];
 
   return (
@@ -281,7 +211,7 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
       <SearchHeader type="content" filters={filters} userData={userData} />
       <StyledForm
         onSubmit={(e) => {
-          handleSearch();
+          setParams({ query: queryInput });
           e.preventDefault();
         }}
       >
@@ -294,32 +224,42 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
             onChange={(e) => setQueryInput(e.currentTarget.value)}
           />
         </StyledFieldRoot>
-        <SelectRenderer selectElements={selectElements} searchObject={searchObject} onFieldChange={onFieldChange} />
+        {selectElements.map((selectElement) => (
+          <FieldRoot key={selectElement.name}>
+            <ObjectSelector
+              name={selectElement.name}
+              placeholder={t(`searchForm.types.${selectElement.name}`)}
+              value={params.get(selectElement.name) ?? ""}
+              options={selectElement.options}
+              onChange={(value) => setParams({ [selectElement.name]: value.join(",") })}
+            />
+          </FieldRoot>
+        ))}
         <CheckboxSelector
           name="filter-inactive"
-          checked={!(searchObject["filter-inactive"] ?? false)}
-          onCheckedChange={(value) => onFieldChange("filter-inactive", !value)}
+          checked={params.get("filter-inactive") === "false"}
+          onCheckedChange={(value) => setParams({ "filter-inactive": value ? "false" : null })}
         />
         <CheckboxSelector
           name="exclude-revision-log"
-          checked={searchObject["exclude-revision-log"] ?? false}
-          onCheckedChange={(value) => onFieldChange("exclude-revision-log", value)}
+          checked={params.get("exclude-revision-log") === "true"}
+          onCheckedChange={(value) => setParams({ "exclude-revision-log": value ? "true" : null })}
         />
         <InlineDatePicker
           name="revision-date-from"
-          onChange={(e) => onFieldChange("revision-date-from", e.currentTarget.value, e)}
+          onChange={(e) => setParams({ "revision-date-from": e.currentTarget.value })}
           placeholder={t("searchForm.types.revision-date-from")}
-          value={searchObject["revision-date-from"] ?? ""}
+          value={params.get("revision-date-from") ?? ""}
         />
         <InlineDatePicker
           name="revision-date-to"
-          onChange={(e) => onFieldChange("revision-date-to", e.currentTarget.value, e)}
+          onChange={(e) => setParams({ "revision-date-to": e.currentTarget.value })}
           placeholder={t("searchForm.types.revision-date-to")}
-          value={searchObject["revision-date-to"] ?? ""}
+          value={params.get("revision-date-to") ?? ""}
         />
         <SearchControlButtons reset={emptySearch} />
       </StyledForm>
-      <SearchTagGroup onRemoveTag={removeTagItem} tags={filters} />
+      <SearchTagGroup onRemoveTag={(name) => setParams({ [name]: null })} tags={filters} />
     </>
   );
 };

@@ -6,9 +6,7 @@
  *
  */
 
-import { debounce } from "lodash-es";
-import queryString from "query-string";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Button,
@@ -23,19 +21,18 @@ import {
 } from "@ndla/primitives";
 import {
   ConceptDTO,
-  ConceptSearchResultDTO,
   NewConceptDTO,
   UpdatedConceptDTO,
   ConceptSummaryDTO,
+  DraftConceptSearchParamsDTO,
 } from "@ndla/types-backend/concept-api";
-import SearchConceptFormContent from "./SearchConceptFormContent";
-import SearchConceptResults from "./SearchConceptResults";
+import SearchConceptFormContent, { ConceptSearchParams, UpdateSearchParamFn } from "./SearchConceptFormContent";
+import SearchConceptResult from "./SearchConceptResult";
 import ConceptForm from "../../../../containers/ConceptPage/ConceptForm/ConceptForm";
 import { ConceptType } from "../../../../containers/ConceptPage/conceptInterfaces";
 import { GlossForm } from "../../../../containers/GlossPage/components/GlossForm";
-import { parseSearchParams } from "../../../../containers/SearchPage/components/form/SearchForm";
-import { SearchParams } from "../../../../interfaces";
-import { postSearchConcepts } from "../../../../modules/concept/conceptApi";
+import { GenericSearchList } from "../../../../containers/SearchPage/components/GenericSearchList";
+import { useSearchConcepts } from "../../../../modules/concept/conceptQueries";
 import Pagination from "../../../abstractions/Pagination";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import FormWrapper from "../../../FormWrapper";
@@ -52,6 +49,12 @@ interface Props {
   conceptType: ConceptType;
 }
 
+const DEFAULT_PARAMS: ConceptSearchParams = {
+  page: 1,
+  "page-size": 10,
+  sort: "-relevance",
+};
+
 const ConceptDialogContent = ({
   locale,
   handleRemove,
@@ -64,46 +67,29 @@ const ConceptDialogContent = ({
   conceptType,
 }: Props) => {
   const { t } = useTranslation();
-  const [searchObject, updateSearchObject] = useState<SearchParams>({
-    page: 1,
-    sort: "-relevance",
-    "page-size": 10,
-    language: locale,
-    query: `${selectedText}`,
+  const [searchObject, setSearchObject] = useState<ConceptSearchParams>({
     "concept-type": conceptType,
-  });
-  const [results, setConcepts] = useState<ConceptSearchResultDTO>({
+    query: selectedText,
     language: locale,
-    page: 1,
-    pageSize: 10,
-    results: [],
-    totalCount: 0,
-    aggregations: [],
   });
-  const [searching, setSearching] = useState(false);
+
+  const parsedSearchParams: DraftConceptSearchParamsDTO = useMemo(() => {
+    return {
+      page: searchObject.page ?? DEFAULT_PARAMS.page,
+      sort: searchObject.sort ?? DEFAULT_PARAMS.sort,
+      pageSize: searchObject["page-size"] ?? DEFAULT_PARAMS["page-size"],
+      language: searchObject.language,
+      query: searchObject.query,
+      conceptType: searchObject["concept-type"],
+      responsibleIds: searchObject["responsible-ids"],
+      status: searchObject.status,
+      users: searchObject.users,
+    };
+  }, [searchObject]);
+
+  const conceptsQuery = useSearchConcepts(parsedSearchParams);
 
   const conceptTypeTabs: ConceptType[] = [conceptType];
-
-  const searchConcept = useCallback(async (newSearchObject: SearchParams) => {
-    if (!searching) {
-      setSearching(true);
-
-      const searchQuery = {
-        ...searchObject,
-        ...newSearchObject,
-      };
-      // Remove unused/empty query params
-      const newQuery = Object.entries(searchQuery).reduce((prev, [currKey, currVal]) => {
-        const validValue = currVal !== "" && currVal !== undefined;
-        return validValue ? { ...prev, [currKey]: currVal } : prev;
-      }, {});
-      const searchBody = parseSearchParams(queryString.stringify(newQuery), true);
-      const concepts = await postSearchConcepts(searchBody);
-      setConcepts(concepts);
-      setSearching(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const upsertProps = concept
     ? {
@@ -114,14 +100,14 @@ const ConceptDialogContent = ({
         onUpdateStatus: updateConceptStatus,
       };
 
-  useEffect(() => {
-    searchConcept(searchObject);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const debouncedSearchConcept = useMemo(
-    () => debounce((params: SearchParams) => searchConcept(params), 400),
-    [searchConcept],
-  );
+  const onUpdateSearchParam: UpdateSearchParamFn = (param, value) => {
+    setSearchObject((prev) => {
+      return {
+        ...prev,
+        [param]: value == null && DEFAULT_PARAMS[param] ? DEFAULT_PARAMS[param] : value,
+      };
+    });
+  };
 
   return (
     <div>
@@ -150,25 +136,28 @@ const ConceptDialogContent = ({
           <TabsContent value="concepts">
             <FormWrapper inDialog>
               <SearchConceptFormContent
-                search={(params: SearchParams) => {
-                  updateSearchObject(params);
-                  debouncedSearchConcept(params);
-                }}
+                onUpdateSearchParam={onUpdateSearchParam}
                 searchObject={searchObject}
+                onClearSearch={() => setSearchObject(DEFAULT_PARAMS)}
                 locale={locale}
                 userData={undefined}
               />
-              <SearchConceptResults
-                searchObject={searchObject}
-                results={results.results}
-                searching={searching}
-                addConcept={addConcept}
-              />
+              <GenericSearchList
+                type="concept"
+                loading={conceptsQuery.isLoading}
+                error={conceptsQuery.error}
+                query={searchObject.query}
+                resultLength={conceptsQuery.data?.totalCount ?? 0}
+              >
+                {conceptsQuery.data?.results.map((concept) => (
+                  <SearchConceptResult key={concept.id} result={concept} addConcept={addConcept} />
+                ))}
+              </GenericSearchList>
               <Pagination
-                page={results.page}
-                onPageChange={(details) => searchConcept({ ...searchObject, page: details.page })}
-                count={results?.totalCount ?? 0}
-                pageSize={results?.pageSize}
+                page={conceptsQuery.data?.page}
+                onPageChange={(details) => setSearchObject({ ...searchObject, page: details.page })}
+                count={conceptsQuery.data?.totalCount ?? 0}
+                pageSize={conceptsQuery.data?.pageSize}
                 siblingCount={1}
               />
             </FormWrapper>

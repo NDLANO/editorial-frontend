@@ -14,7 +14,7 @@ const dateFormatter = new Intl.DateTimeFormat("nb-NO", {
   day: "2-digit",
 });
 
-export default function formatDate(date: string | number | undefined): string {
+export default function formatDate(date: string | number | undefined | null): string {
   if (!date) return "";
 
   if (typeof date === "string") {

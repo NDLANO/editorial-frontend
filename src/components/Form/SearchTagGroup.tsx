@@ -12,7 +12,6 @@ import { CloseLine } from "@ndla/icons";
 import { Text, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { visuallyHidden } from "@ndla/styled-system/patterns";
-import { SearchParams } from "../../interfaces";
 
 const TagsWrapper = styled("div", {
   base: {
@@ -22,13 +21,12 @@ const TagsWrapper = styled("div", {
   },
 });
 
-export type Filters = { [key in keyof SearchParams]: string | undefined };
-interface Props {
-  tags: Filters;
-  onRemoveTag: (parameterName: keyof SearchParams, value?: string) => void;
+interface Props<Tags extends {}> {
+  tags: Tags;
+  onRemoveTag: (parameterName: keyof Tags) => void;
 }
 
-const SearchTagGroup = ({ tags, onRemoveTag }: Props) => {
+const SearchTagGroup = <Tags extends {}>({ tags, onRemoveTag }: Props<Tags>) => {
   const { t } = useTranslation();
   const activeFiltersId = useId();
   return (
@@ -44,7 +42,7 @@ const SearchTagGroup = ({ tags, onRemoveTag }: Props) => {
               key={`searchtag_${key}`}
               size="small"
               variant="primary"
-              onClick={() => onRemoveTag(key as keyof SearchParams, value)}
+              onClick={() => onRemoveTag(key as keyof Tags)}
               data-testid="remove-tag-button"
             >
               {key === "query"

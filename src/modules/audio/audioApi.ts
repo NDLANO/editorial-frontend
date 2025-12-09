@@ -23,7 +23,6 @@ import {
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 import { createFormData } from "../../util/formDataHelper";
-import { StringSort } from "../../interfaces";
 
 const client = createAuthClient<openapi.paths>();
 
@@ -77,14 +76,10 @@ export const updateAudio = async (
     })
     .then((r) => resolveJsonOATS(r));
 
-export const postSearchAudio = async (body: StringSort<SearchParamsDTO>): Promise<AudioSummarySearchResultDTO> =>
+export const postSearchAudio = async (body: SearchParamsDTO): Promise<AudioSummarySearchResultDTO> =>
   client
     .POST("/audio-api/v1/audio/search", {
-      body: {
-        ...body,
-        // @ts-expect-error TODO: API's use different sorting types and we share them in the frontend
-        sort: body.sort,
-      },
+      body,
     })
     .then((r) => resolveJsonOATS(r));
 
@@ -130,16 +125,10 @@ export const updateSeries = (id: number, newSeries: NewSeriesDTO): Promise<Serie
     })
     .then((r) => resolveJsonOATS(r));
 
-export const postSearchSeries = async (
-  body: StringSort<SeriesSearchParamsDTO>,
-): Promise<SeriesSummarySearchResultDTO> =>
+export const postSearchSeries = async (body: SeriesSearchParamsDTO): Promise<SeriesSummarySearchResultDTO> =>
   client
     .POST("/audio-api/v1/series/search", {
-      body: {
-        ...body,
-        // @ts-expect-error TODO: API's use different sorting types and we share them in the frontend
-        sort: body.sort,
-      },
+      body: body,
     })
     .then((r) => resolveJsonOATS(r));
 

@@ -14,7 +14,7 @@ import {
   TagsSearchResultDTO,
 } from "@ndla/types-backend/concept-api";
 import { fetchConcept, fetchSearchTags, fetchStatusStateMachine, postSearchConcepts } from "./conceptApi";
-import { ConceptStatusStateMachineType, StringSort } from "../../interfaces";
+import { ConceptStatusStateMachineType } from "../../interfaces";
 import { CONCEPT, CONCEPT_SEARCH_TAGS, CONCEPT_STATE_MACHINE, SEARCH_CONCEPTS } from "../../queryKeys";
 
 export interface UseConcept {
@@ -24,7 +24,7 @@ export interface UseConcept {
 
 export const conceptQueryKeys = {
   concept: (params?: Partial<UseConcept>) => [CONCEPT, params] as const,
-  searchConcepts: (params?: Partial<StringSort<DraftConceptSearchParamsDTO>>) => [SEARCH_CONCEPTS, params] as const,
+  searchConcepts: (params?: Partial<DraftConceptSearchParamsDTO>) => [SEARCH_CONCEPTS, params] as const,
   statusStateMachine: [CONCEPT_STATE_MACHINE] as const,
   conceptSearchTags: (params?: Partial<UseSearchTags>) => [CONCEPT_SEARCH_TAGS, params] as const,
 };
@@ -38,7 +38,7 @@ export const useConcept = (params: UseConcept, options?: Partial<UseQueryOptions
 };
 
 export const useSearchConcepts = (
-  query: StringSort<DraftConceptSearchParamsDTO>,
+  query: DraftConceptSearchParamsDTO,
   options?: Partial<UseQueryOptions<ConceptSearchResultDTO>>,
 ) => {
   return useQuery<ConceptSearchResultDTO>({

@@ -23,7 +23,6 @@ import { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { postSearchConcepts } from "../../../modules/concept/conceptApi";
 import { postSearch } from "../../../modules/search/searchApi";
-import { NoNodeDraftSearchParams } from "../../../modules/search/searchApiInterfaces";
 import { routes } from "../../../util/routeHelpers";
 import { DialogCloseButton } from "../../DialogCloseButton";
 import ListResource from "../../Form/ListResource";
@@ -52,24 +51,26 @@ const convertToSearchEmbedTypes = (embedType: EmbedType): SearchEmbedTypes[] => 
   }
 };
 
-const searchObjects = (embedId: number, embedType: EmbedType): NoNodeDraftSearchParams => ({
-  embedId: embedId.toString(),
-  embedResource: convertToSearchEmbedTypes(embedType),
-  pageSize: 50,
-  resultTypes: ["draft", "concept", "learningpath"],
-});
-
 const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcepts }: Props) => {
   const { i18n, t } = useTranslation();
 
   useEffect(() => {
     let shouldUpdateState = true;
     if (id) {
-      postSearch(searchObjects(id, type)).then((result) => {
+      postSearch({
+        embedId: id.toString(),
+        embedResource: convertToSearchEmbedTypes(type),
+        pageSize: 50,
+        resultTypes: ["draft", "concept", "learningpath"],
+      }).then((result) => {
         if (shouldUpdateState) setArticles(result.results);
       });
       if (type === "image" || type === "audio") {
-        postSearchConcepts(searchObjects(id, type)).then((result) => {
+        postSearchConcepts({
+          embedId: id.toString(),
+          embedResource: convertToSearchEmbedTypes(type),
+          pageSize: 50,
+        }).then((result) => {
           if (shouldUpdateState) setConcepts?.(result.results);
         });
       }

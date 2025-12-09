@@ -247,9 +247,6 @@ export interface LlmResponse {
   answer: string;
 }
 
-/** Used to wraps backend types and replaces their `sort` with `sort?: string` */
-export type StringSort<T> = Omit<T, "sort"> & { sort?: string };
-
 export type CamelToKebab<S extends string> = S extends `${infer T}${infer U}`
   ? U extends Uncapitalize<U>
     ? `${Uncapitalize<T>}${CamelToKebab<U>}`

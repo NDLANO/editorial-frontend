@@ -34,13 +34,12 @@ import {
   AUDIO_TRANSCRIPTION,
 } from "../../queryKeys";
 import { UseAudio, UseSearchTags, UseSeries, UseTranscription } from "./audioTypes";
-import { StringSort } from "../../interfaces";
 
 export const audioQueryKeys = {
   audio: (params?: Partial<UseAudio>) => [AUDIO, params] as const,
-  search: (params?: Partial<StringSort<AudioSearchParams>>) => [SEARCH_AUDIO, params] as const,
+  search: (params?: Partial<AudioSearchParams>) => [SEARCH_AUDIO, params] as const,
   podcastSeries: (params?: Partial<UseSeries>) => [PODCAST_SERIES, params] as const,
-  podcastSeriesSearch: (params?: Partial<StringSort<SeriesSearchParamsDTO>>) => [SEARCH_SERIES, params] as const,
+  podcastSeriesSearch: (params?: Partial<SeriesSearchParamsDTO>) => [SEARCH_SERIES, params] as const,
   audioSearchTags: (params?: Partial<UseSearchTags>) => [AUDIO_SEARCH_TAGS, params] as const,
   audioTranscription: (params?: Partial<UseTranscription>) => [AUDIO_TRANSCRIPTION, params] as const,
 };
@@ -60,7 +59,7 @@ export const useSeries = (params: UseSeries, options?: Partial<UseQueryOptions<S
   });
 
 export const useSearchSeries = (
-  query: StringSort<SeriesSearchParamsDTO>,
+  query: SeriesSearchParamsDTO,
   options?: Partial<UseQueryOptions<SeriesSummarySearchResultDTO>>,
 ) => {
   return useQuery<SeriesSummarySearchResultDTO>({
@@ -71,7 +70,7 @@ export const useSearchSeries = (
 };
 
 export const useSearchAudio = (
-  query: StringSort<AudioSearchParams>,
+  query: AudioSearchParams,
   options?: Partial<UseQueryOptions<AudioSummarySearchResultDTO>>,
 ) => {
   return useQuery<AudioSummarySearchResultDTO>({

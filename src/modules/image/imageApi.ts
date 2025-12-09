@@ -18,7 +18,6 @@ import {
 import { throwErrorPayload, createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 import { createFormData } from "../../util/formDataHelper";
-import { StringSort } from "../../interfaces";
 
 const client = createAuthClient<openapi.paths>();
 
@@ -75,14 +74,10 @@ export const updateImage = async (
     })
     .then((r) => resolveJsonOATS(r));
 
-export const postSearchImages = async (body: StringSort<SearchParamsDTO>): Promise<SearchResultV3DTO> =>
+export const postSearchImages = async (body: SearchParamsDTO): Promise<SearchResultV3DTO> =>
   client
     .POST("/image-api/v3/images/search", {
-      body: {
-        ...body,
-        // @ts-expect-error TODO: API's use different sorting types and we share them in the frontend
-        sort: body.sort,
-      },
+      body: body,
     })
     .then((r) => resolveJsonOATS(r));
 

@@ -36,11 +36,10 @@ import { getAccessToken, isActiveToken } from "../../util/authHelpers";
 import { useUserData } from "../draft/draftQueries";
 import { usePostSearchNodes } from "../nodes/nodeQueries";
 import { MultiSummarySearchResults, NoNodeDraftSearchParams, NoNodeSearchParams } from "./searchApiInterfaces";
-import { StringSort } from "../../interfaces";
 
 export const searchQueryKeys = {
-  search: (params?: Partial<StringSort<DraftSearchParamsDTO>>) => [SEARCH, params] as const,
-  searchWithCustomSubjectsFiltering: (params?: Partial<StringSort<DraftSearchParamsDTO>>) =>
+  search: (params?: Partial<DraftSearchParamsDTO>) => [SEARCH, params] as const,
+  searchWithCustomSubjectsFiltering: (params?: Partial<DraftSearchParamsDTO>) =>
     [SEARCH_WITH_CUSTOM_SUBJECTS_FILTERING, params] as const,
   searchSubjectStats: (params?: Partial<SubjectAggsInputDTO>) => [SEARCH_SUBJECT_STATS, params] as const,
   searchResources: (params: Partial<SearchParamsDTO>) => [SEARCH_RESOURCES, params] as const,

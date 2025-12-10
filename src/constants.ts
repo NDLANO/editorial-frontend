@@ -221,6 +221,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "Qbrick", url: ["video.qbrick.com"] },
   { name: "Norsk petroleum", url: ["www.norskpetroleum.no"], height: "486px" },
   { name: "NDLA Nyhetsbrev", url: ["pub.dialogapi.no"], height: "486px" },
+  { name: "Nasjonalt senter for flerkulturell opplæring", url: ["nafoki.no"] },
 ];
 
 export const SearchTypeValues = [

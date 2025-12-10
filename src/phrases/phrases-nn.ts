@@ -2459,6 +2459,7 @@ const phrases = {
     VIDEO: "Video",
     AUDIO: "Lyd",
     H5P: "Interaktivt innhald",
+    INTERACTIVE: "Interaktivt innhold",
     PODCAST: "Podkast",
   },
   learningstepSamplePage: {

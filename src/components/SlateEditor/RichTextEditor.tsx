@@ -92,12 +92,13 @@ const RichTextEditor = ({
       status?.status === "revertVersion" ||
       (editorId && status?.status === editorId)
     ) {
-      const storedSelection = editor.selection ? { ...editor.selection } : null;
+      const rangeRef = editor.selection ? editor.rangeRef(editor.selection) : null;
       Transforms.deselect(editor);
       editor.reinitialize({ value, shouldNormalize: true, onInitialNormalized });
-      if (storedSelection) {
-        Transforms.select(editor, storedSelection);
+      if (rangeRef?.current && ReactEditor.hasRange(editor, rangeRef.current)) {
         ReactEditor.focus(editor);
+        Transforms.select(editor, rangeRef.current);
+        rangeRef.unref();
       }
       if (status?.status === "revertVersion") {
         setStatus((prevStatus: FormikStatus) => ({

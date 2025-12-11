@@ -6,7 +6,7 @@
  *
  */
 
-import { SearchParamsBody } from "../containers/SearchPage/components/form/SearchForm";
+import { NoNodeDraftSearchParams } from "../modules/search/searchApiInterfaces";
 
 const getArticleTypesField = (resourceTypes?: string[]) => {
   if (!resourceTypes?.length) {
@@ -31,7 +31,7 @@ const getContextTypes = (resourceType: string[] | undefined, contextTypes: strin
   return { contextTypes };
 };
 
-export const transformSearchBody = (searchBody: SearchParamsBody) => {
+export const transformSearchBody = (searchBody: NoNodeDraftSearchParams) => {
   const articleTypes = getArticleTypesField(searchBody.resourceTypes);
   const contextTypes = getContextTypes(searchBody.resourceTypes, searchBody.contextTypes || []);
 

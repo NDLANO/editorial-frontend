@@ -12,13 +12,25 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { SearchParamsDTO as AudioSearchParamsDTO } from "@ndla/types-backend/audio-api";
+import { DraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
-import { Filters } from "../../components/Form/SearchTagGroup";
+import { SearchParamsDTO as ImageSearchparamsDTO } from "@ndla/types-backend/image-api";
+import { DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
 import SaveButton from "../../components/SaveButton";
-import { SearchType } from "../../interfaces";
+import { CamelToKebab, SearchType } from "../../interfaces";
 import { useUpdateUserDataMutation } from "../../modules/draft/draftQueries";
 
 type Error = "alreadyExist" | "other" | "fetchFailed" | "";
+
+type ValidSaveSearchKeys = CamelToKebab<
+  | keyof DraftSearchParamsDTO
+  | keyof DraftConceptSearchParamsDTO
+  | keyof AudioSearchParamsDTO
+  | keyof ImageSearchparamsDTO
+>;
+
+export type SearchSaveParams = { [k in ValidSaveSearchKeys]?: string | undefined | null };
 
 const ButtonWrapper = styled("div", {
   base: {
@@ -41,9 +53,9 @@ const getSavedSearchRelativeUrl = (inputValue: string) => {
   return "/search".concat(relativeUrl);
 };
 
-const createSearchPhrase = (filters: Filters, searchContentType: SearchType, t: TFunction): string => {
+const createSearchPhrase = (filters: SearchSaveParams, searchContentType: SearchType, t: TFunction): string => {
   const activeFilters = Object.entries(filters)
-    .filter(([, value]) => value !== undefined)
+    .filter(([, value]) => !!value)
     .map(([key, value]) =>
       key === "query" ? `${t(`searchForm.tagType.${key}`)} ${value}` : t(`searchForm.tagType.${key}`, { value }),
     );
@@ -61,7 +73,7 @@ const createSearchString = (location: Location) => {
 };
 
 interface Props {
-  filters: Filters;
+  filters: SearchSaveParams;
   searchContentType: SearchType;
   userData?: UserDataDTO | undefined;
 }
@@ -70,9 +82,8 @@ const SearchSaveButton = ({ filters, searchContentType, userData }: Props) => {
   const { t } = useTranslation();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<Error>("");
-  const [loading, setLoading] = useState(false);
 
-  const { mutateAsync } = useUpdateUserDataMutation();
+  const userDataMutation = useUpdateUserDataMutation();
 
   const savedSearches = userData?.savedSearches ?? [];
 
@@ -83,24 +94,21 @@ const SearchSaveButton = ({ filters, searchContentType, userData }: Props) => {
 
   const handleSuccess = () => {
     setSuccess(true);
-    setLoading(false);
     setTimeout(() => setSuccess(false), 2500);
   };
 
   const deleteSearch = (index: number) => {
     const reduced_array = userData?.savedSearches?.filter((_, idx) => idx !== index);
-    mutateAsync({ savedSearches: reduced_array });
+    userDataMutation.mutateAsync({ savedSearches: reduced_array });
   };
 
   const handleFailure = (type: Error) => {
-    setLoading(false);
     setError(type);
     setSuccess(false);
   };
 
   const saveSearch = async () => {
     setError("");
-    setLoading(true);
     const oldSearchList = savedSearches;
     if (!oldSearchList) {
       handleFailure("fetchFailed");
@@ -112,7 +120,8 @@ const SearchSaveButton = ({ filters, searchContentType, userData }: Props) => {
     const newSearchList = [{ searchUrl: newSearch, searchPhrase: newSearchPhrase }, ...oldSearchList];
 
     if (!oldSearchList.find((s) => s.searchUrl === newSearch)) {
-      mutateAsync({ savedSearches: newSearchList })
+      userDataMutation
+        .mutateAsync({ savedSearches: newSearchList })
         .then(() => handleSuccess())
         .catch(() => handleFailure("other"));
     } else {
@@ -121,22 +130,19 @@ const SearchSaveButton = ({ filters, searchContentType, userData }: Props) => {
   };
 
   const currentSearch = getSavedSearchRelativeUrl(createSearchString(window.location));
-  const isSaved = savedSearches.some((s) => s.searchUrl === getSavedSearchRelativeUrl(currentSearch));
+  const savedIndex = savedSearches.findIndex((s) => s.searchUrl === currentSearch);
+  const isSaved = savedIndex !== -1;
 
   return (
     <ButtonWrapper>
       {!!isSaved && (
-        <Button
-          size="small"
-          variant="danger"
-          onClick={() => deleteSearch(savedSearches.findIndex((s) => s.searchUrl === currentSearch))}
-        >
+        <Button size="small" variant="danger" onClick={() => deleteSearch(savedIndex)}>
           {t("welcomePage.deleteSavedSearch")}
         </Button>
       )}
       <StyledWrapper>
         <SaveButton
-          loading={loading}
+          loading={userDataMutation.isPending}
           showSaved={success}
           defaultText={isSaved ? "alreadySaved" : "saveSearch"}
           onClick={saveSearch}

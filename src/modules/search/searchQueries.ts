@@ -17,7 +17,7 @@ import {
   SubjectAggsInputDTO,
 } from "@ndla/types-backend/search-api";
 import { postSearch, searchGrepCodes, searchResources, searchSubjectStats } from "./searchApi";
-import { DA_SUBJECT_ID, SA_SUBJECT_ID, LMA_SUBJECT_ID } from "../../constants";
+import { DA_SUBJECT_ID, SA_SUBJECT_ID, LMA_SUBJECT_ID, PUBLISHED } from "../../constants";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import {
   customFieldsBody,
@@ -36,11 +36,10 @@ import { getAccessToken, isActiveToken } from "../../util/authHelpers";
 import { useUserData } from "../draft/draftQueries";
 import { usePostSearchNodes } from "../nodes/nodeQueries";
 import { MultiSummarySearchResults, NoNodeDraftSearchParams, NoNodeSearchParams } from "./searchApiInterfaces";
-import { StringSort } from "../../interfaces";
 
 export const searchQueryKeys = {
-  search: (params?: Partial<StringSort<DraftSearchParamsDTO>>) => [SEARCH, params] as const,
-  searchWithCustomSubjectsFiltering: (params?: Partial<StringSort<DraftSearchParamsDTO>>) =>
+  search: (params?: Partial<DraftSearchParamsDTO>) => [SEARCH, params] as const,
+  searchWithCustomSubjectsFiltering: (params?: Partial<DraftSearchParamsDTO>) =>
     [SEARCH_WITH_CUSTOM_SUBJECTS_FILTERING, params] as const,
   searchSubjectStats: (params?: Partial<SubjectAggsInputDTO>) => [SEARCH_SUBJECT_STATS, params] as const,
   searchResources: (params: Partial<SearchParamsDTO>) => [SEARCH_RESOURCES, params] as const,
@@ -48,7 +47,7 @@ export const searchQueryKeys = {
 };
 
 export const useSearch = (
-  query: StringSort<NoNodeDraftSearchParams>,
+  query: NoNodeDraftSearchParams,
   options?: Partial<UseQueryOptions<MultiSummarySearchResults>>,
 ) =>
   useQuery<MultiSummarySearchResults>({
@@ -57,14 +56,10 @@ export const useSearch = (
     ...options,
   });
 
-interface UseSearchWithCustomSubjectsFiltering extends StringSort<NoNodeDraftSearchParams> {
-  favoriteSubjects?: string[];
-}
-
 /** Search hook for filtering grouped custom subjects(urn:favourites, urn:lmaSubjects, urn:daSubjects, urn:saSubjects).
  These custom subjects represent multiple related subjects, requiring this custom search hook to correctly transform them */
 export const useSearchWithCustomSubjectsFiltering = (
-  query: UseSearchWithCustomSubjectsFiltering,
+  query: DraftSearchParamsDTO,
   options?: Partial<UseQueryOptions<MultiSummarySearchResults>>,
 ) => {
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -87,11 +82,17 @@ export const useSearchWithCustomSubjectsFiltering = (
     return getResultSubjectIdObject(data.userId, searchNodesQuery.data.results);
   }, [data?.userId, searchNodesQuery.data]);
 
-  const actualQuery = getSubjectsIdsQuery(query, data?.favoriteSubjects, subjectIdObject);
+  const actualQuery: NoNodeDraftSearchParams = {
+    ...query,
+    resultTypes: ["draft", "concept", "learningpath"],
+    subjects: getSubjectsIdsQuery(query.subjects, data?.favoriteSubjects, subjectIdObject),
+    draftStatus: query.draftStatus?.map((s) => (s === "HAS_PUBLISHED" ? PUBLISHED : s)),
+    includeOtherStatuses: !!(query.includeOtherStatuses ?? query.draftStatus?.some((s) => s === "HAS_PUBLISHED")),
+  };
 
   return useQuery<MultiSummarySearchResults>({
     queryKey: searchQueryKeys.searchWithCustomSubjectsFiltering(actualQuery),
-    queryFn: () => postSearch({ ...actualQuery, resultTypes: ["draft", "concept", "learningpath"] }),
+    queryFn: () => postSearch(actualQuery),
     ...options,
     enabled: options?.enabled && !isLoading && !searchNodesQuery.isLoading,
   });

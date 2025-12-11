@@ -16,7 +16,6 @@ import {
   SA_SUBJECT_ID,
   DA_SUBJECT_ID,
 } from "../../constants";
-import { SearchParamsBody } from "../SearchPage/components/form/SearchForm";
 
 export interface SubjectData {
   id: string;
@@ -76,26 +75,24 @@ export const customFieldsBody = (ndlaId: string) => ({
 
 // Translate filter to correct subject ids for search
 export const getSubjectsIdsQuery = (
-  query: SearchParamsBody,
+  querySubjects: string[] | undefined,
   favoriteSubjects: string[] | undefined = [],
   subjectIdObject: SubjectIdObject,
-): SearchParamsBody => {
-  if (!query.subjects) return query;
+): string[] | undefined => {
+  if (!querySubjects?.length) return undefined;
   let subjects;
 
-  if (query.subjects.join("") === FAVOURITES_SUBJECT_ID) {
+  if (querySubjects.join("") === FAVOURITES_SUBJECT_ID) {
     subjects = favoriteSubjects;
-  } else if (query.subjects.join("") === LMA_SUBJECT_ID) {
+  } else if (querySubjects.join("") === LMA_SUBJECT_ID) {
     subjects = subjectIdObject[TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA].map((s) => s.id);
-  } else if (query.subjects.join("") === SA_SUBJECT_ID) {
+  } else if (querySubjects.join("") === SA_SUBJECT_ID) {
     subjects = subjectIdObject[TAXONOMY_CUSTOM_FIELD_SUBJECT_SA].map((s) => s.id);
-  } else if (query.subjects.join("") === DA_SUBJECT_ID) {
+  } else if (querySubjects.join("") === DA_SUBJECT_ID) {
     subjects = subjectIdObject[TAXONOMY_CUSTOM_FIELD_SUBJECT_DA].map((s) => s.id);
   } else {
-    subjects = query.subjects;
+    subjects = querySubjects;
   }
-  return {
-    ...query,
-    subjects: subjects,
-  };
+
+  return subjects;
 };

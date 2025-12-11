@@ -167,21 +167,7 @@ const SubjectViewContent = ({
       return [
         {
           id: `title_${stats.subjectId}`,
-          data: (
-            <SafeLink
-              to={toSearch(
-                {
-                  page: "1",
-                  sort: "-relevance",
-                  "page-size": 10,
-                  subjects: stats.subjectId,
-                },
-                "content",
-              )}
-            >
-              {subjectName}
-            </SafeLink>
-          ),
+          data: <SafeLink to={toSearch({ subjects: stats.subjectId }, "content")}>{subjectName}</SafeLink>,
         },
         { id: `favorites_${stats.subjectId}`, data: stats.favoritedCount },
         { id: `flow_${stats.subjectId}`, data: stats.flowCount },

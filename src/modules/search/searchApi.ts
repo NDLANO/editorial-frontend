@@ -18,19 +18,12 @@ import { createAuthClient } from "../../util/apiHelpers";
 import { transformSearchBody } from "../../util/searchHelpers";
 import { MultiSummarySearchResults, NoNodeDraftSearchParams, NoNodeSearchParams } from "./searchApiInterfaces";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
-import { StringSort } from "../../interfaces";
 
 const client = createAuthClient<openapi.paths>();
 
-export const postSearch = async (body: StringSort<NoNodeDraftSearchParams>): Promise<MultiSummarySearchResults> => {
+export const postSearch = async (body: NoNodeDraftSearchParams): Promise<MultiSummarySearchResults> => {
   const response = await client
-    .POST("/search-api/v1/search/editorial", {
-      body: {
-        ...transformSearchBody(body),
-        // @ts-expect-error TODO: API's use different sorting types and we share them in the frontend
-        sort: body.sort,
-      },
-    })
+    .POST("/search-api/v1/search/editorial", { body: transformSearchBody(body) })
     .then(resolveJsonOATS);
   return convertSearchTypeOrThrowError(response);
 };

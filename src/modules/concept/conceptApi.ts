@@ -15,7 +15,7 @@ import {
   UpdatedConceptDTO,
   openapi,
 } from "@ndla/types-backend/concept-api";
-import { ConceptStatusStateMachineType, StringSort } from "../../interfaces";
+import { ConceptStatusStateMachineType } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 
@@ -93,15 +93,9 @@ export const updateConceptStatus = async (id: number, status: string): Promise<C
     })
     .then(resolveJsonOATS);
 
-export const postSearchConcepts = async (
-  body: StringSort<DraftConceptSearchParamsDTO>,
-): Promise<ConceptSearchResultDTO> =>
+export const postSearchConcepts = async (body: DraftConceptSearchParamsDTO): Promise<ConceptSearchResultDTO> =>
   client
     .POST("/concept-api/v1/drafts/search", {
-      body: {
-        ...body,
-        // @ts-expect-error TODO: API's use different sorting types and we share them in the frontend
-        sort: body.sort,
-      },
+      body,
     })
     .then(resolveJsonOATS);

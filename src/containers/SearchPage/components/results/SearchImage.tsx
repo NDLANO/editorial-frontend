@@ -21,11 +21,10 @@ import { routes } from "../../../../util/routeHelpers";
 
 interface Props {
   image: ImageMetaInformationV3DTO;
-  locale: string;
 }
 
-const SearchImage = ({ image, locale }: Props) => {
-  const { t } = useTranslation();
+const SearchImage = ({ image }: Props) => {
+  const { t, i18n } = useTranslation();
   const { data: licenses } = useLicenses();
   const license = licenses && licenses.find((l) => image.copyright.license.license === l.license);
 
@@ -49,10 +48,10 @@ const SearchImage = ({ image, locale }: Props) => {
             contentType={image.image.contentType}
             fileSize={image.image.size}
             imageDimensions={image.image.dimensions}
-            locale={locale}
+            locale={i18n.language}
           />
         </SearchContentWrapper>
-        {!!license && <LicenseLink license={getLicenseByAbbreviation(license.license, locale)} />}
+        {!!license && <LicenseLink license={getLicenseByAbbreviation(license.license, i18n.language)} />}
       </ListItemContent>
     </ListItemRoot>
   );

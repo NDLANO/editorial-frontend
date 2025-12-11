@@ -11,13 +11,12 @@ import { useTranslation } from "react-i18next";
 import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-taxonomy";
 import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
 import SearchHeader from "../../../../components/Form/SearchHeader";
-import SearchTagGroup, { Filters } from "../../../../components/Form/SearchTagGroup";
+import SearchTagGroup from "../../../../components/Form/SearchTagGroup";
 import ObjectSelector from "../../../../components/ObjectSelector";
-import { OnFieldChangeFunction, SearchParams } from "../../../../interfaces";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
+import { useStableSearchPageParams } from "../../useStableSearchPageParams";
 
 const StyledForm = styled("form", {
   base: {
@@ -29,52 +28,32 @@ const StyledForm = styled("form", {
 });
 
 interface Props {
-  search: (o: SearchParams) => void;
-  subjects: Node[];
-  searchObject: SearchParams;
-  locale: string;
   userData: UserDataDTO | undefined;
 }
 
-const SearchAudioForm = ({
-  search: doSearch,
-  searchObject = {
-    query: "",
-    language: "",
-    "audio-type": "",
-  },
-  userData,
-}: Props) => {
+const SearchAudioForm = ({ userData }: Props) => {
   const { t } = useTranslation();
-  const [queryInput, setQueryInput] = useState(searchObject.query ?? "");
+  const [params, setParams] = useStableSearchPageParams();
+  const [input, setInput] = useState(params.get("query") ?? "");
+  const queryInput = params.get("query");
 
   useEffect(() => {
-    if (searchObject.query !== queryInput) {
-      setQueryInput(searchObject.query ?? "");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchObject.query]);
-
-  const onFieldChange: OnFieldChangeFunction = (name, value, evt) => {
-    if (name === "query" && evt) setQueryInput(evt.currentTarget.value);
-    else doSearch({ ...searchObject, [name]: value });
-  };
-
-  const handleSearch = () => doSearch({ ...searchObject, page: 1, query: queryInput });
-
-  const removeTagItem = (parameterName: keyof SearchParams) => {
-    if (parameterName === "query") setQueryInput("");
-    doSearch({ ...searchObject, [parameterName]: "" });
-  };
+    setInput(queryInput ?? "");
+  }, [queryInput]);
 
   const emptySearch = () => {
-    setQueryInput("");
-    doSearch({ query: "", language: "" });
+    setParams({
+      page: null,
+      "page-size": null,
+      sort: null,
+      query: null,
+      language: null,
+    });
   };
 
-  const filters: Filters = {
-    query: searchObject.query,
-    language: searchObject.language,
+  const filters = {
+    query: params.get("query"),
+    language: params.get("language"),
   };
 
   return (
@@ -82,7 +61,7 @@ const SearchAudioForm = ({
       <SearchHeader type="podcast-series" filters={filters} userData={userData} />
       <StyledForm
         onSubmit={(e) => {
-          handleSearch();
+          setParams({ query: input });
           e.preventDefault();
         }}
       >
@@ -91,20 +70,20 @@ const SearchAudioForm = ({
           <FieldInput
             name="query"
             placeholder={t("searchForm.types.audioQuery")}
-            value={queryInput}
-            onChange={(e) => setQueryInput(e.currentTarget.value)}
+            value={input}
+            onChange={(e) => setInput(e.currentTarget.value)}
           />
         </FieldRoot>
         <ObjectSelector
           name="language"
-          value={searchObject.language ?? ""}
+          value={params.get("language") ?? ""}
           options={getResourceLanguages(t)}
-          onChange={(value) => onFieldChange("language", value)}
+          onChange={(value) => setParams({ language: value[0] })}
           placeholder={t("searchForm.types.language")}
         />
         <SearchControlButtons reset={emptySearch} />
       </StyledForm>
-      <SearchTagGroup onRemoveTag={removeTagItem} tags={filters} />
+      <SearchTagGroup onRemoveTag={(tag) => setParams({ [tag]: null })} tags={filters} />
     </>
   );
 };

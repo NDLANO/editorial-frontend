@@ -6,18 +6,12 @@
  *
  */
 
-import queryString from "query-string";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { createListCollection } from "@ark-ui/react";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../../components/abstractions/Select";
-
-const customSortOptions: Record<string, string[]> = {
-  content: ["revisionDate", "favorited", "published"],
-};
 
 const StyledSortContainer = styled("div", {
   base: {
@@ -34,46 +28,40 @@ const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   },
 });
 
+export type SortType = "id" | "relevance" | "title" | "lastUpdated" | "revisionDate" | "favorited" | "published";
+
 interface Props {
-  sort?: string;
-  order?: string;
-  onSortOrderChange: (sort: string) => void;
-  type: string;
+  sortTypes?: SortType[];
+  value: string;
+  onValueChange: (value: string) => void;
 }
 
-const SearchSort = ({ sort: sortProp = "relevance", order: orderProp = "desc", onSortOrderChange, type }: Props) => {
-  const [sort, setSort] = useState(sortProp);
-  const [order, setOrder] = useState(orderProp);
-  const location = useLocation();
+const DEFAULT_SORT_TYPES: SortType[] = ["id", "relevance", "title", "lastUpdated"];
+
+const SearchSort = ({ sortTypes = DEFAULT_SORT_TYPES, value, onValueChange }: Props) => {
   const { t } = useTranslation();
 
-  useEffect(() => {
-    const { sort: sortOrder } = queryString.parse(location.search);
-    const splitSortOrder = sortOrder ? sortOrder.split("-") : "-";
-    const sort = splitSortOrder.length > 1 ? splitSortOrder[1] : splitSortOrder[0];
-    const order = splitSortOrder.length > 1 ? "desc" : "asc";
-    setSort(sort);
-    setOrder(order);
-  }, [location]);
+  const [sort, order] = useMemo(() => {
+    const split = value.split("-");
+    return split.length > 1 ? [split[1], "desc"] : [split[0], "asc"];
+  }, [value]);
 
   const handleSortChange = (value: string) => {
     const _order = order === "desc" ? "-" : "";
-    setSort(value);
-    onSortOrderChange(`${_order + value}`);
+    onValueChange(_order + value);
   };
 
   const handleOrderChange = (value: string) => {
     const newOrder = value === "desc" ? "-" : "";
-    setOrder(value);
-    onSortOrderChange(`${newOrder + sort}`);
+    onValueChange(newOrder + sort);
   };
 
   const sortCollection = useMemo(() => {
     return createListCollection({
-      items: ["id", "relevance", "title", "lastUpdated", ...(customSortOptions[type] ?? [])],
+      items: sortTypes,
       itemToString: (item) => t(`searchForm.sort.${item}`),
     });
-  }, [t, type]);
+  }, [sortTypes, t]);
 
   const orderCollection = useMemo(() => {
     return createListCollection({

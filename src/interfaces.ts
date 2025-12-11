@@ -17,8 +17,6 @@ import {
   OembedEmbedData,
 } from "@ndla/types-embed";
 import { SearchTypeValues, LOCALE_VALUES } from "./constants";
-import { FormEvent } from "react";
-import { DateChangedEvent } from "./containers/FormikForm/components/InlineDatePicker";
 import { ErrorEmbed } from "./components/SlateEditor/plugins/embed/types";
 
 export interface FormikStatus {
@@ -182,41 +180,6 @@ interface ApiTranslateTypeArray extends BaseApiTranslateType {
 
 export type ApiTranslateType = ApiTranslateTypeSingle | ApiTranslateTypeArray;
 
-type FormEvents = FormEvent<HTMLInputElement> | FormEvent<HTMLSelectElement>;
-type FieldChangedEvent = FormEvents | DateChangedEvent;
-
-export type OnFieldChangeFunction = <T extends keyof SearchParams>(
-  name: T,
-  value: SearchParams[T],
-  event?: FieldChangedEvent,
-) => void;
-
-export interface SearchParams {
-  query?: string;
-  "draft-status"?: string;
-  "include-other-statuses"?: boolean;
-  "resource-types"?: string;
-  "article-types"?: string;
-  "audio-type"?: string;
-  fallback?: boolean;
-  language?: string;
-  page?: number;
-  "page-size"?: number;
-  status?: string;
-  subjects?: string;
-  users?: string;
-  sort?: string;
-  license?: string;
-  "model-released"?: string;
-  "revision-date-from"?: string;
-  "revision-date-to"?: string;
-  "exclude-revision-log"?: boolean | undefined;
-  "responsible-ids"?: string;
-  "concept-type"?: string;
-  "filter-inactive"?: boolean;
-  includeCopyrighted?: boolean;
-}
-
 export type PromptType = PromptVariables["type"];
 
 export type PromptVariables =
@@ -284,5 +247,8 @@ export interface LlmResponse {
   answer: string;
 }
 
-/** Used to wraps backend types and replaces their `sort` with `sort?: string` */
-export type StringSort<T> = Omit<T, "sort"> & { sort?: string };
+export type CamelToKebab<S extends string> = S extends `${infer T}${infer U}`
+  ? U extends Uncapitalize<U>
+    ? `${Uncapitalize<T>}${CamelToKebab<U>}`
+    : `${Uncapitalize<T>}-${CamelToKebab<U>}`
+  : "";

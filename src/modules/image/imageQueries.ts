@@ -16,7 +16,6 @@ import {
 } from "@ndla/types-backend/image-api";
 import { fetchImage, fetchSearchTags, postSearchImages } from "./imageApi";
 import { IMAGE, IMAGE_SEARCH_TAGS, SEARCH_IMAGES } from "../../queryKeys";
-import { StringSort } from "../../interfaces";
 
 export interface UseImage {
   id: number;
@@ -25,7 +24,7 @@ export interface UseImage {
 
 export const imageQueryKeys = {
   image: (params?: Partial<UseImage>) => [IMAGE, params] as const,
-  search: (params?: Partial<StringSort<SearchParamsDTO>>) => [SEARCH_IMAGES, params] as const,
+  search: (params?: Partial<SearchParamsDTO>) => [SEARCH_IMAGES, params] as const,
   imageSearchTags: (params?: Partial<UseSearchTags>) => [IMAGE_SEARCH_TAGS, params] as const,
 };
 
@@ -36,10 +35,7 @@ export const useImage = (params: UseImage, options?: Partial<UseQueryOptions<Ima
     ...options,
   });
 
-export const useSearchImages = (
-  query: StringSort<IImageSearchParams>,
-  options?: Partial<UseQueryOptions<SearchResultV3DTO>>,
-) => {
+export const useSearchImages = (query: IImageSearchParams, options?: Partial<UseQueryOptions<SearchResultV3DTO>>) => {
   return useQuery<SearchResultV3DTO>({
     queryKey: imageQueryKeys.search(query),
     queryFn: () => postSearchImages(query),

@@ -35,7 +35,6 @@ export const gridSerializer = createSerializer({
         data: {
           columns: attributes["columns"],
           border: attributes["border"],
-          background: attributes["background"],
         },
       },
       children,
@@ -47,7 +46,6 @@ export const gridSerializer = createSerializer({
       type: GRID_ELEMENT_TYPE,
       columns: node.data.columns,
       border: node.data.border,
-      background: node.data.background,
     });
     return createHtmlTag({ tag: "div", data, children });
   },

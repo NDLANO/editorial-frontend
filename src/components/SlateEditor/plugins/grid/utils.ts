@@ -15,7 +15,7 @@ export const defaultGridCellBlock = () => {
     "element",
     {
       type: GRID_CELL_ELEMENT_TYPE,
-      data: { parallaxCell: "false" },
+      data: {},
     },
     defaultParagraphBlock(),
   );

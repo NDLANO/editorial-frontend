@@ -106,7 +106,7 @@ export const SlateGrid = ({ element, editor, children, attributes }: Props) => {
           </Portal>
         </ButtonContainer>
         <GridProvider value={true}>
-          <Grid border="none" columns={element.data.columns} background={element.data.background} {...attributes}>
+          <Grid border={element.data.border} columns={element.data.columns} {...attributes}>
             {children}
           </Grid>
         </GridProvider>

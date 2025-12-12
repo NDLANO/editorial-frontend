@@ -25,27 +25,26 @@ describe("normalizing grid tests", () => {
             type: GRID_ELEMENT_TYPE,
             data: {
               columns: "2",
-              border: "none",
             },
             children: [
               {
                 type: GRID_CELL_ELEMENT_TYPE,
-                data: { parallaxCell: "false" },
+                data: {},
                 children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
               },
               {
                 type: GRID_CELL_ELEMENT_TYPE,
-                data: { parallaxCell: "false" },
+                data: {},
                 children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
               },
               {
                 type: GRID_CELL_ELEMENT_TYPE,
-                data: { parallaxCell: "false" },
+                data: {},
                 children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
               },
               {
                 type: GRID_CELL_ELEMENT_TYPE,
-                data: { parallaxCell: "false" },
+                data: {},
                 children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
               },
             ],
@@ -66,19 +65,18 @@ describe("normalizing grid tests", () => {
             id: anySlateElementId,
             data: {
               columns: "2",
-              border: "none",
             },
             children: [
               {
                 type: GRID_CELL_ELEMENT_TYPE,
                 id: anySlateElementId,
-                data: { parallaxCell: "false" },
+                data: {},
                 children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "a" }] }],
               },
               {
                 type: GRID_CELL_ELEMENT_TYPE,
                 id: anySlateElementId,
-                data: { parallaxCell: "false" },
+                data: {},
                 children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "a" }] }],
               },
             ],
@@ -102,17 +100,16 @@ describe("normalizing grid tests", () => {
             type: GRID_ELEMENT_TYPE,
             data: {
               columns: "4",
-              border: "none",
             },
             children: [
               {
                 type: GRID_CELL_ELEMENT_TYPE,
-                data: { parallaxCell: "false" },
+                data: {},
                 children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
               },
               {
                 type: GRID_CELL_ELEMENT_TYPE,
-                data: { parallaxCell: "false" },
+                data: {},
                 children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
               },
             ],
@@ -133,31 +130,30 @@ describe("normalizing grid tests", () => {
             id: anySlateElementId,
             data: {
               columns: "4",
-              border: "none",
             },
             children: [
               {
                 type: GRID_CELL_ELEMENT_TYPE,
                 id: anySlateElementId,
-                data: { parallaxCell: "false" },
+                data: {},
                 children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "a" }] }],
               },
               {
                 type: GRID_CELL_ELEMENT_TYPE,
                 id: anySlateElementId,
-                data: { parallaxCell: "false" },
+                data: {},
                 children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "a" }] }],
               },
               {
                 type: GRID_CELL_ELEMENT_TYPE,
                 id: anySlateElementId,
-                data: { parallaxCell: "false" },
+                data: {},
                 children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] }],
               },
               {
                 type: GRID_CELL_ELEMENT_TYPE,
                 id: anySlateElementId,
-                data: { parallaxCell: "false" },
+                data: {},
                 children: [{ type: PARAGRAPH_ELEMENT_TYPE, id: anySlateElementId, children: [{ text: "" }] }],
               },
             ],

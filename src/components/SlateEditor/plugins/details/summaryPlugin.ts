@@ -32,16 +32,16 @@ export const summaryPlugin = createPlugin({
       if (normalized) {
         return true;
       }
-      const firstChild = node.children[0];
-      if (isParagraphElement(firstChild) && !firstChild.serializeAsText) {
-        logger.log("Setting serializeAsText to true on first element");
-        Transforms.setNodes(editor, { serializeAsText: true }, { at: path.concat(0) });
-        return true;
-      }
       const secondChild = node.children[1];
       if (secondChild) {
         logger.log("Moving extra child out of summary element", node.children);
         Transforms.moveNodes(editor, { at: path.concat(1), to: Path.parent(path).concat(1) });
+        return true;
+      }
+      const firstChild = node.children[0];
+      if (isParagraphElement(firstChild) && !firstChild.serializeAsText) {
+        logger.log("Setting serializeAsText to true on first element");
+        Transforms.setNodes(editor, { serializeAsText: true }, { at: path.concat(0) });
         return true;
       }
     }

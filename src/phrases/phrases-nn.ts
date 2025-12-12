@@ -405,6 +405,7 @@ const phrases = {
       "exclude-revision-log": "Endringslogg ekskludert",
       "responsible-ids": "Ansvarleg: {{value}}",
       "filter-inactive": "Utgåtte fag inkludert",
+      inactive: "Viser {{value}} bilder",
     },
     btn: "Søk",
     empty: "Tøm",
@@ -483,6 +484,10 @@ const phrases = {
       no: "Ikkje modellklarert",
       "not-applicable": "Ikkje relevant",
       "not-set": "Ikkje valgt",
+    },
+    inactive: {
+      false: "Aktive",
+      true: "Inaktive",
     },
   },
   videoSearch: {
@@ -666,6 +671,11 @@ const phrases = {
     title: "Bilete ",
     copyImageTitle: "Last opp bilete som kopi",
     copyDescription: "Last opp eit bilete med same informasjon som dette biletet",
+    fields: {
+      inactive: {
+        label: "Inaktiv",
+      },
+    },
   },
   contactBlockForm: {
     title: "Kontaktblokk",

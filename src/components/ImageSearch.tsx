@@ -38,6 +38,7 @@ export const ImageSearch = ({ searchParams = {}, locale, ...props }: Props) => {
           pageSize: 16,
           language: locale,
           fallback: true,
+          inactive: false,
           includeCopyrighted: true,
           license: config.licenseAll,
           ...searchParams,

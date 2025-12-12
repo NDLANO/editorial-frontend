@@ -49,6 +49,7 @@ export const ImageSearch = () => {
       query: params.get("query") ?? undefined,
       language: params.get("language") ?? undefined,
       license: params.get("license") ?? DEFAULT_PARAMS.license,
+      inactive: params.get("inactive") ? params.get("inactive") === "true" : undefined,
       modelReleased: params.get("model-released")?.split(",") ?? undefined,
       page: Number(params.get("page")),
       sort: (params.get("sort") ?? DEFAULT_PARAMS.sort) as SearchParamsDTO["sort"],

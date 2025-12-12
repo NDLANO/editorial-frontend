@@ -47,6 +47,11 @@ const getModelReleasedValues = (t: TFunction) => [
   { id: "not-set", name: t("imageSearch.modelReleased.not-set") },
 ];
 
+export const getInactiveOptions = (t: TFunction) => [
+  { id: "true", name: t("imageSearch.inactive.true") },
+  { id: "false", name: t("imageSearch.inactive.false") },
+];
+
 const SearchImageForm = ({ userData }: Props) => {
   const [params, setParams] = useStableSearchPageParams();
   const { t, i18n } = useTranslation();
@@ -81,6 +86,7 @@ const SearchImageForm = ({ userData }: Props) => {
       language: null,
       license: null,
       "model-released": null,
+      inactive: null,
       page: null,
       sort: null,
       "page-size": null,
@@ -93,6 +99,7 @@ const SearchImageForm = ({ userData }: Props) => {
     license: getTagName(params.get("license"), licenses),
     "model-released": getTagName(params.get("model-released"), getModelReleasedValues(t)),
     language: params.get("language"),
+    inactive: getTagName(params.get("inactive"), getInactiveOptions(t)),
     // TODO: This is ugly
     users: getTagName(params.get("users")?.split(",")?.[0], users),
   };
@@ -143,6 +150,14 @@ const SearchImageForm = ({ userData }: Props) => {
           onChange={(value) => setParams({ users: value[0] })}
           placeholder={t("searchForm.types.users")}
         />
+        <ObjectSelector
+          name="inactive"
+          value={params.get("inactive") ?? "unspecified"}
+          options={getInactiveOptions(t)}
+          onChange={(value) => setParams({ inactive: value[0] })}
+          placeholder={t("searchForm.types.status")}
+        />
+
         <SearchControlButtons reset={emptySearch} />
       </StyledForm>
       <SearchTagGroup onRemoveTag={removeTagItem} tags={filters} />

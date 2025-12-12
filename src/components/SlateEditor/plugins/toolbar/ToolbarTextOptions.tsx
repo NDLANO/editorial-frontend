@@ -43,9 +43,17 @@ const TextWrapper = styled("div", {
 });
 
 const getTextValue = (editor: Editor): TextType => {
-  const el = editor.selectionElements.elements[0];
-  if (el?.type === "heading") {
-    return `heading-${el.level}` as TextType;
+  const textTypes = editor.selectionElements.elements.reduce((acc, curr) => {
+    if (curr.type === "paragraph") {
+      acc.add("normal-text");
+    } else if (curr.type === "heading") {
+      acc.add(`heading-${curr.level}` as TextType);
+    }
+    return acc;
+  }, new Set<TextType>());
+
+  if (textTypes.size === 1) {
+    return textTypes.values().next().value!;
   }
   return "normal-text";
 };

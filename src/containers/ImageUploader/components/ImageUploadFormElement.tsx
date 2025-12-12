@@ -78,6 +78,7 @@ export const ImageUploadFormElement = ({ language }: Props) => {
                     imageFile: file,
                     contentType: file.type,
                     fileSize: file.size,
+                    inactive: false,
                     filepath: URL.createObjectURL(file),
                   }));
                   Promise.resolve(

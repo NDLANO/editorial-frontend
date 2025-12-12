@@ -12,7 +12,7 @@ export type QualityEvaluationValue = "1" | "2" | "3" | "4" | "5";
 export const qualityEvaluationOptionColors: Record<QualityEvaluationValue, string> = {
   "1": "#5cbc80",
   "2": "#90C670",
-  "3": "#C3D060",
-  "4": "#ead854",
+  "3": "#ffcc00",
+  "4": "#ff9900",
   "5": "#d1372e",
 };

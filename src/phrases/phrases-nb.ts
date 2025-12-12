@@ -741,7 +741,7 @@ const phrases = {
     unavailable: "Ikke satt",
     dialogTitle: "Oppdater kvalitetsvurdering",
     description:
-      "Legg inn en kvalitetsvurdering av {{ resource }} med en beskrivelse av den valgte graderingen. Skalaen er som følger: 1 = enestående, 2 = veldig bra, 3 = OK, 4 = bør fikses, 5 = må fikses.",
+      "Legg inn en kvalitetsvurdering av {{ resource }} med en beskrivelse av den valgte graderingen. Skalaen er som følger: 1 = enestående, 2 = bra, 3 = kan forbedres, 4 = bør forbedres, 5 = må forbedres.",
     edit: "Rediger kvalitetsvurdering",
     delete: "Slett",
     note: "Notat",
@@ -859,6 +859,8 @@ const phrases = {
     hideAll: "Lukk alle",
     unpublishedChanges: "(Endret siden siste publisering)",
     unpublishedConcepts: "Artikkelen inneholder upubliserte forklaringer",
+    lowQualityEvaluation:
+      "Du har republisert en ressurs som har en kvalitetsvurdering mellom 3-5. Vurder om republiseringen medfører en bedre karakter",
     moveContent: "Flytt innhold inn i teksten",
     open: "Åpne",
     close: "Lukk",

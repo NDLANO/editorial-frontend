@@ -84,6 +84,7 @@ const LearningResourceForm = ({
     articleLanguage,
     rules: learningResourceRules,
     ndlaId,
+    node: articleTaxonomy?.[0],
   });
   const contexts = useMemo(() => articleTaxonomy?.flatMap((node) => node.contexts), [articleTaxonomy]);
 

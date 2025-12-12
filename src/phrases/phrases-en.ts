@@ -848,6 +848,8 @@ const phrases = {
     hideAll: "Hide all",
     unpublishedChanges: "(Changed since last publish)",
     unpublishedConcepts: "The article contains unpublished concepts",
+    lowQualityEvaluation:
+      "You have published a resource with a quality rating between 3-5. Evaluate whether the republishing leads to a better grade.",
     moveContent: "Move content into the text",
     open: "Open",
     close: "Close",

@@ -21,6 +21,7 @@ import {
   ArticleRevisionHistoryDTO,
   Priority,
 } from "@ndla/types-backend/draft-api";
+import { Node } from "@ndla/types-taxonomy";
 import { getWarnings, RulesType } from "../../components/formikValidationSchema";
 import { PUBLISHED } from "../../constants";
 import { RelatedContent } from "../../interfaces";
@@ -93,6 +94,7 @@ type HooksInputObject<T extends ArticleFormType> = {
   articleLanguage: string;
   rules?: RulesType<T, ArticleDTO>;
   ndlaId?: string;
+  node?: Node;
   articleRevisionHistory: UseQueryResult<ArticleRevisionHistoryDTO> | undefined;
 };
 
@@ -108,6 +110,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
   articleLanguage,
   rules,
   ndlaId,
+  node,
   articleRevisionHistory,
 }: HooksInputObject<T>) {
   const { id, revision } = article ?? {};
@@ -158,6 +161,10 @@ export function useArticleFormHooks<T extends ArticleFormType>({
           const unpublishedConcepts = await hasUnpublishedConcepts(savedArticle);
           if (unpublishedConcepts) {
             createMessage({ message: t("form.unpublishedConcepts"), timeToLive: 0, severity: "warning" });
+          }
+          const lowQualityEvaluation = [3, 4, 5].includes(node?.qualityEvaluation?.grade ?? 0);
+          if (lowQualityEvaluation) {
+            createMessage({ message: t("form.lowQualityEvaluation"), timeToLive: 0, severity: "warning" });
           }
         }
 

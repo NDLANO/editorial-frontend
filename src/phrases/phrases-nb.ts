@@ -849,6 +849,8 @@ const phrases = {
     hideAll: "Lukk alle",
     unpublishedChanges: "(Endret siden siste publisering)",
     unpublishedConcepts: "Artikkelen inneholder upubliserte forklaringer",
+    lowQualityEvaluation:
+      "Du har republisert en ressurs som har en kvalitetsvurdering mellom 3-5. Vurder om republiseringen medfører en bedre karakter",
     moveContent: "Flytt innhold inn i teksten",
     open: "Åpne",
     close: "Lukk",

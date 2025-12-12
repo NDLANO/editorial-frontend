@@ -731,7 +731,7 @@ const phrases = {
     unavailable: "Ikkje satt",
     dialogTitle: "Oppdater kvalitetsvurdering",
     description:
-      "Legg inn ei kvalitetsvurdering av {{ resource }} med ei beskriving av den valde graderinga. Skalaen er som følgjer: 1 = eineståande, 2 = veldig bra, 3 = kan forbetrast, 4 = bør forbetrast, 5 = må forbetrast.",
+      "Legg inn ei kvalitetsvurdering av {{ resource }} med ei beskriving av den valde graderinga. Skalaen er som følgjer: 1 = eineståande, 2 = bra, 3 = kan forbetrast, 4 = bør forbetrast, 5 = må forbetrast.",
     edit: "Rediger kvalitetsvurdering",
     delete: "Slett",
     note: "Notat",

@@ -406,6 +406,7 @@ const phrases = {
       "exclude-revision-log": "Revision log excluded",
       "responsible-ids": "Responsible: {{value}}",
       "filter-inactive": "Archived subjects included",
+      inactive: "Showing {{value}} images",
     },
     btn: "Search",
     empty: "Empty",
@@ -476,6 +477,10 @@ const phrases = {
       no: "Not model released",
       "not-applicable": "Not applicable",
       "not-set": "Not set",
+    },
+    inactive: {
+      false: "Active",
+      true: "Inactive",
     },
     placeholder: "Search images",
     buttonTitle: "Search",
@@ -667,6 +672,11 @@ const phrases = {
     title: "Image",
     copyImageTitle: "Upload image as copy",
     copyDescription: "Upload an image with the same information as the current image",
+    fields: {
+      inactive: {
+        label: "Inactive",
+      },
+    },
   },
   contactBlockForm: {
     title: "Contact block",

@@ -405,6 +405,7 @@ const phrases = {
       "exclude-revision-log": "Endringslogg ekskludert",
       "responsible-ids": "Ansvarlig: {{value}}",
       "filter-inactive": "Utgåtte fag inkludert",
+      inactive: "Viser {{value}} bilder",
     },
     btn: "Søk",
     empty: "Tøm",
@@ -475,6 +476,10 @@ const phrases = {
       no: "Ikke modellklarert",
       "not-applicable": "Ikke relevant",
       "not-set": "Ikke valgt",
+    },
+    inactive: {
+      false: "Aktive",
+      true: "Inaktive",
     },
     placeholder: "Søk i bilder",
     buttonTitle: "Søk",
@@ -666,6 +671,11 @@ const phrases = {
     title: "Bilde",
     copyImageTitle: "Last opp bilde som kopi",
     copyDescription: "Last opp et bilde med samme informasjon som dette bildet",
+    fields: {
+      inactive: {
+        label: "Inaktiv",
+      },
+    },
   },
   contactBlockForm: {
     title: "Kontaktblokk",

@@ -11,6 +11,11 @@ import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import { CheckLine } from "@ndla/icons";
 import {
+  CheckboxControl,
+  CheckboxHiddenInput,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxRoot,
   ComboboxItem,
   ComboboxItemIndicator,
   ComboboxItemText,
@@ -129,6 +134,24 @@ const ImageMetaData = ({ imageLanguage }: Props) => {
             </FieldRoot>
           );
         }}
+      </FormField>
+      <FormField name="inactive">
+        {({ field, helpers }) => (
+          <FieldRoot>
+            <CheckboxRoot
+              checked={field.value ?? false}
+              onCheckedChange={(details) => helpers.setValue(details.checked)}
+            >
+              <CheckboxControl>
+                <CheckboxIndicator asChild>
+                  <CheckLine />
+                </CheckboxIndicator>
+              </CheckboxControl>
+              <CheckboxLabel>{t("imageForm.fields.inactive.label")}</CheckboxLabel>
+              <CheckboxHiddenInput />
+            </CheckboxRoot>
+          </FieldRoot>
+        )}
       </FormField>
     </FormContent>
   );

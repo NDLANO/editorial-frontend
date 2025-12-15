@@ -6445,7 +6445,7 @@ __metadata:
     react-i18next: "npm:^15.7.3"
     react-image-crop: "npm:^11.0.2"
     react-router: "npm:^7.8.2"
-    react-simple-code-editor: "npm:^0.13.1"
+    react-simple-code-editor: "npm:^0.14.1"
     serialize-javascript: "npm:^6.0.2"
     sirv: "npm:^3.0.1"
     slate: "npm:^0.120.0"
@@ -10697,13 +10697,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-simple-code-editor@npm:^0.13.1":
-  version: 0.13.1
-  resolution: "react-simple-code-editor@npm:0.13.1"
+"react-simple-code-editor@npm:^0.14.1":
+  version: 0.14.1
+  resolution: "react-simple-code-editor@npm:0.14.1"
   peerDependencies:
-    react: "*"
-    react-dom: "*"
-  checksum: 10c0/3d5346b43bd2bf32618f265cc36fb10702b543d0b9eee4600e68483c2c83205fdf6f18b1a665fbe8581ed84bb9e55ee379870e280801eec81b52bb5722c2d485
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 10c0/63264fce03315c80de4fc65b9e0a30b359cb0a6c269a90ad67ccff36c21d0f3ba1f9ac9bdfbe76477fc9a6d7033182debc64a58345f4914f0bc0b416eb686e61
   languageName: node
   linkType: hard
 

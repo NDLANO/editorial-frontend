@@ -706,6 +706,9 @@ const phrases = {
     setSticky: "Lås innhold til cellen ved siden av",
     unsetSticky: "Frigjør innhold fra cellen ved siden av",
   },
+  gridCellForm: {
+    edit: "Rediger grid-celle",
+  },
   pitchForm: {
     title: "Rediger pitch",
     languageExplanation: "Velg språk for skjermleser",

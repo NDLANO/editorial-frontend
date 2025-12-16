@@ -6443,7 +6443,7 @@ __metadata:
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
     react-i18next: "npm:^15.7.3"
-    react-image-crop: "npm:^11.0.2"
+    react-image-crop: "npm:^11.0.10"
     react-router: "npm:^7.8.2"
     react-simple-code-editor: "npm:^0.14.1"
     serialize-javascript: "npm:^6.0.2"
@@ -10644,12 +10644,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-image-crop@npm:^11.0.2":
-  version: 11.0.4
-  resolution: "react-image-crop@npm:11.0.4"
+"react-image-crop@npm:^11.0.10":
+  version: 11.0.10
+  resolution: "react-image-crop@npm:11.0.10"
   peerDependencies:
     react: ">=16.13.1"
-  checksum: 10c0/26dae489b4401838df617d7d5076c58766aaa7cf7656a5cf4bf704d4027f092edb798c6bfc4eceb60f872c88bc0527bb4a13733310fe90e60530a6f6eb8dc563
+  checksum: 10c0/2c2c7066c3a51838fc074a4a125ee2063170e01c26e3b1c8fc8b66155cf7ef576b5747089b4f365ce9dd2728794c39f57643b37eb78116e9db3f4b6299d3f682
   languageName: node
   linkType: hard
 

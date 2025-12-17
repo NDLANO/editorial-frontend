@@ -707,6 +707,9 @@ const phrases = {
     setSticky: "Lock content to adjacent grid cell",
     unsetSticky: "Unlock content from adjacent grid cell",
   },
+  gridCellForm: {
+    edit: "Edit grid cell",
+  },
   pitchForm: {
     title: "Edit pitch",
     languageExplanation: "Choose language for screen readers",

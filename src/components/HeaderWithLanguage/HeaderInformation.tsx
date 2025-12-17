@@ -86,13 +86,6 @@ const HeaderInformation = ({
 
   const node = nodes?.[0];
 
-  const badges = useBadges({
-    resourceTypes: node?.resourceTypes,
-    traits: traits,
-    relevanceId: node?.relevanceId,
-    resourceType: type,
-  });
-
   const contentType = useMemo(() => {
     const taxonomy = nodes?.flatMap((node) => node.contexts) ?? [];
     if (taxonomy[0]?.resourceTypes.length) {
@@ -100,6 +93,13 @@ const HeaderInformation = ({
     }
     return contentTypeMapping[type];
   }, [nodes, type]);
+
+  const badges = useBadges({
+    resourceTypes: node?.resourceTypes,
+    traits: traits,
+    relevanceId: node?.relevanceId,
+    resourceType: contentType,
+  });
 
   const onSaveAsNew = useCallback(async () => {
     if (!id) return;

@@ -176,6 +176,7 @@ export type ConfigType = {
   s3AudioRoot: string;
   norgesfilmNewUrl: boolean;
   formbricksId: string | undefined;
+  kartiskolenEnabled: boolean;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -223,6 +224,7 @@ const getServerSideConfig = (): ConfigType => {
     s3AudioRoot: getAudioS3Root(ndlaEnvironment),
     norgesfilmNewUrl: getEnvironmentVariabel("NORGESFILM_NEW_URL", "false") === "true",
     formbricksId: getEnvironmentVariabel("FORMBRICKS_ID", ""),
+    kartiskolenEnabled: getEnvironmentVariabel("KARTISKOLEN_ENABLED", "false") === "true",
   };
 };
 

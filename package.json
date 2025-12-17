@@ -37,7 +37,7 @@
     "@ndla/types-embed": "^5.0.20-alpha.0",
     "@ndla/types-taxonomy": "^1.0.41",
     "@pandacss/dev": "^1.7.0",
-    "@playwright/test": "^1.49.1",
+    "@playwright/test": "^1.57.0",
     "@tanstack/react-query-devtools": "^5.79.0",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",

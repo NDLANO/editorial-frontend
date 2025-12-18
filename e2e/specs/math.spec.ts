@@ -45,7 +45,7 @@ test("can change text and save", async ({ page }) => {
   await page.keyboard.type("=112");
   await page.getByTestId("save-math").click();
   await expect(page.getByRole("dialog")).not.toBeVisible();
-  expect(await page.getByTestId("math").textContent()).toEqual("111+1=112");
+  expect(await page.getByTestId("math").textContent()).toEqual("111+1 =112");
 });
 
 test("can change preview when preview button pressed", async ({ page }) => {
@@ -59,7 +59,7 @@ test("can change preview when preview button pressed", async ({ page }) => {
   await expect(mathInput).toBeFocused();
   await page.keyboard.type("=112");
   await page.getByTestId("preview-math").click();
-  expect(await page.getByTestId("math-preview").textContent()).toEqual("111+1=112");
+  expect(await page.getByTestId("math-preview").textContent()).toEqual("111+1 =112");
   await page.getByTestId("save-math").click();
   await expect(page.getByRole("dialog")).not.toBeVisible();
 });

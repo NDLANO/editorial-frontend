@@ -7,11 +7,10 @@
  */
 
 import express from "express";
-import { GetVerificationKey, expressjwt as jwt, Request } from "express-jwt";
-import jwksRsa from "jwks-rsa";
 import prettier from "prettier";
 import openGraph from "open-graph-scraper";
 import { youtube } from "@googleapis/youtube";
+import { auth } from "express-oauth2-jwt-bearer";
 import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getResponsibles } from "./auth";
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN, BAD_REQUEST, NOT_FOUND, FOUND } from "./httpCodes";
 import errorLogger from "./logger";
@@ -69,25 +68,13 @@ router.get("/get_brightcove_token", (_, res) => {
     .catch((err) => res.status(INTERNAL_SERVER_ERROR).send(err.message));
 });
 
-const jwtMiddleware = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  await jwt({
-    secret: jwksRsa.expressJwtSecret({
-      cache: true,
-      jwksUri: `https://${config.auth0Domain}/.well-known/jwks.json`,
-    }) as GetVerificationKey,
-    audience: "ndla_system",
-    issuer: `https://${config.auth0BrowserDomain}/`,
-    algorithms: ["RS256"],
-  })(req, res, next);
-};
+const jwtMiddleware = auth({
+  audience: "ndla_system",
+  issuerBaseURL: `https://${config.auth0BrowserDomain}/`,
+});
 
-router.get("/get_note_users", jwtMiddleware, async (req: Request, res) => {
-  const {
-    auth: untypedUser,
-    query: { userIds },
-  } = req;
-
-  const user = untypedUser as NdlaUser;
+router.get("/get_note_users", jwtMiddleware, async (req, res) => {
+  const user = req.auth?.payload as NdlaUser | undefined;
 
   const hasWriteAccess =
     user &&
@@ -99,7 +86,7 @@ router.get("/get_note_users", jwtMiddleware, async (req: Request, res) => {
   } else {
     try {
       const managementToken = await getToken(`https://${config.auth0Domain}/api/v2/`);
-      const users = await fetchAuth0UsersById(managementToken, userIds as string);
+      const users = await fetchAuth0UsersById(managementToken, req.query.userIds as string);
       res.status(OK).json(users);
     } catch (err) {
       res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
@@ -179,9 +166,8 @@ router.post("/matomo-stats", jwtMiddleware, async (req, res) => {
   }
 });
 
-const aiMiddleware = (req: Request, res: express.Response, next: express.NextFunction) => {
-  const { auth } = req;
-  const user = auth as NdlaUser;
+const aiMiddleware = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  const user = req.auth?.payload as NdlaUser | undefined;
 
   const hasAiAccess = user?.permissions?.includes(AI_ACCESS_SCOPE);
 
@@ -225,7 +211,7 @@ router.post("/generate-ai", jwtMiddleware, aiMiddleware, async (req, res) => {
 
 const transcriptionBucketName = getEnvironmentVariabel("TRANSCRIBE_FILE_S3_BUCKET");
 
-router.post("/transcribe", jwtMiddleware, aiMiddleware, async (req: Request, res) => {
+router.post("/transcribe", jwtMiddleware, aiMiddleware, async (req, res) => {
   if (!transcriptionBucketName) {
     res.status(INTERNAL_SERVER_ERROR).send({ error: "Missing required environment variables" });
     return;

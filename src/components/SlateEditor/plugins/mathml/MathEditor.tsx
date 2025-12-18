@@ -65,6 +65,9 @@ const StyledFormActionsContainer = styled(FormActionsContainer, {
 const StyledSpan = styled("span", {
   base: {
     display: "inline-block",
+    "& mjx-container": {
+      pointerEvents: "none",
+    },
     _open: {
       outline: "1px solid",
       outlineColor: "stroke.default",

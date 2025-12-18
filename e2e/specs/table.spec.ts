@@ -60,14 +60,22 @@ test("can move around and place text in table", async ({ page }) => {
 });
 
 test("can add rows and columns", async ({ page }) => {
-  await page.locator("thead > tr > th").last().click();
+  await page.keyboard.type("Caption");
+  await expect(page.locator("caption")).toHaveText("Caption");
+  const locator = page.locator("thead > tr > th").last();
+  await locator.click();
+  await page.waitForTimeout(1000);
   await page.keyboard.type("Test new header");
+  await expect(locator).toHaveText("Test new header");
   await page.keyboard.press("ArrowDown");
   await page.getByTestId("row-add").click();
-  await page.locator("tbody > tr > td").last().click();
   expect(await page.locator("tr").count()).toEqual(3);
   expect(await page.locator("td").count()).toEqual(4);
+  const lastRowLocator = page.locator("tbody > tr > td").last();
+  await lastRowLocator.click();
+  await page.waitForTimeout(1000);
   await page.keyboard.type("Test new row");
+  await expect(lastRowLocator).toHaveText("Test new row");
   await page.getByTestId("toggle-row-headers").click();
   expect(await page.locator("th").count()).toEqual(4);
   expect(await page.locator("td").count()).toEqual(2);

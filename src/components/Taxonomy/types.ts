@@ -8,10 +8,9 @@
 
 import { Metadata, NodeChild } from "@ndla/types-taxonomy";
 
-export interface MinimalNodeChild
-  extends Pick<
-    NodeChild,
-    "id" | "relevanceId" | "isPrimary" | "path" | "name" | "connectionId" | "breadcrumbs" | "context" | "nodeType"
-  > {
+export interface MinimalNodeChild extends Pick<
+  NodeChild,
+  "id" | "relevanceId" | "isPrimary" | "path" | "name" | "connectionId" | "breadcrumbs" | "context" | "nodeType"
+> {
   metadata: Pick<Metadata, "visible">;
 }

@@ -38,11 +38,10 @@ import { unsupportedElementRenderer } from "../../components/SlateEditor/plugins
 import { unsupportedPlugin } from "../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
 import RichTextEditor, { RichTextEditorProps } from "../../components/SlateEditor/RichTextEditor";
 
-interface Props
-  extends Omit<
-    RichTextEditorProps,
-    "hideBlockPicker" | "plugins" | "toolbarOptions" | "toolbarAreaFilters" | "renderPlaceholder"
-  > {
+interface Props extends Omit<
+  RichTextEditorProps,
+  "hideBlockPicker" | "plugins" | "toolbarOptions" | "toolbarAreaFilters" | "renderPlaceholder"
+> {
   toolbarOptions?: CategoryFilters;
   toolbarAreaFilters?: AreaFilters;
 }

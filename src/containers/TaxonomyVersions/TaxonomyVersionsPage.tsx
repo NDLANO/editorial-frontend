@@ -6,12 +6,12 @@
  *
  */
 
-import { partition, sortBy } from "lodash-es";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Version } from "@ndla/types-taxonomy";
+import { partition, sortBy } from "@ndla/util";
 import UIVersion from "./components/Version";
 import VersionForm from "./components/VersionForm";
 import { useVersions } from "../../modules/taxonomy/versions/versionQueries";
@@ -63,7 +63,7 @@ const getPublishedAndOther = (versions: Version[]): { published: Version | undef
   const [published, other] = partition(versions, (v) => v.versionType === "PUBLISHED");
   return {
     published: published[0],
-    other: sortBy(other, "created").reverse(),
+    other: sortBy(other, (o) => o.created).reverse(),
   };
 };
 

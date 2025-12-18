@@ -6,7 +6,6 @@
  *
  */
 
-import { compact } from "lodash-es";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 import { defaultTableRowBlock } from "./defaultBlocks";
@@ -149,7 +148,7 @@ const normalizeRow = (
 
   // D. Compare width of previous and current row and insert empty cells if they are of unequal length.
   if (rowIndex > 0) {
-    const lengthDiff = compact(matrix[rowIndex]).length - matrix[rowIndex - 1].length;
+    const lengthDiff = matrix[rowIndex].filter(Boolean).length - matrix[rowIndex - 1].length;
 
     // Previous row is shorter
     if (lengthDiff > 0) {

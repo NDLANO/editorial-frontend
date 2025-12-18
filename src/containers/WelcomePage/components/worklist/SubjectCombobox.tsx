@@ -6,7 +6,6 @@
  *
  */
 
-import { sortBy } from "lodash-es";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Combobox, createListCollection } from "@ark-ui/react";
@@ -30,6 +29,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";
+import { sortBy } from "@ndla/util";
 import { SUBJECT_NODE } from "../../../../modules/nodes/nodeApiTypes";
 import { useSearchNodes } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";

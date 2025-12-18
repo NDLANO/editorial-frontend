@@ -46,8 +46,7 @@ const StyledComboboxList = styled(ComboboxList, {
 });
 
 interface Props<T extends CollectionItem>
-  extends Omit<ComboboxRootProps<T>, "translations" | "collection">,
-    CollectionOptions<T> {
+  extends Omit<ComboboxRootProps<T>, "translations" | "collection">, CollectionOptions<T> {
   children: ReactNode;
   renderItem: (item: T) => ReactNode;
   isSuccess: boolean;

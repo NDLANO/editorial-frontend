@@ -7,11 +7,10 @@
  */
 
 import { ResolvedUrl } from "@ndla/types-taxonomy";
-import { taxonomyApi } from "../../config";
 import { WithTaxonomyVersion } from "../../interfaces";
 import { apiResourceUrl, httpFunctions } from "../../util/apiHelpers";
 
-const baseUrl = apiResourceUrl(taxonomyApi);
+const baseUrl = apiResourceUrl("/taxonomy/v1");
 
 const { fetchAndResolve } = httpFunctions;
 

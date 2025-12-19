@@ -8,13 +8,12 @@
 
 import { ResourceType } from "@ndla/types-taxonomy";
 import { ResourceResourceTypePostBody } from "./resourceTypesApiInterfaces";
-import { taxonomyApi } from "../../../config";
 import { WithTaxonomyVersion } from "../../../interfaces";
 import { apiResourceUrl, httpFunctions } from "../../../util/apiHelpers";
 import { resolveLocation, resolveVoidOrRejectWithError } from "../../../util/resolveJsonOrRejectWithError";
 
-const resourceTypesUrl = apiResourceUrl(`${taxonomyApi}/resource-types`);
-const resourceResourceTypesUrl = apiResourceUrl(`${taxonomyApi}/resource-resourcetypes`);
+const resourceTypesUrl = apiResourceUrl("/taxonomy/v1/resource-types");
+const resourceResourceTypesUrl = apiResourceUrl("/taxonomy/v1/resource-resourcetypes");
 
 const { fetchAndResolve, postAndResolve, deleteAndResolve } = httpFunctions;
 

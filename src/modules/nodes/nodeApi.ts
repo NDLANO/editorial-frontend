@@ -21,14 +21,13 @@ import {
   Metadata,
 } from "@ndla/types-taxonomy";
 import { GetChildNodesParams, GetNodeParams, GetNodeResourcesParams } from "./nodeApiTypes";
-import { taxonomyApi } from "../../config";
 import { SearchResultBase, WithTaxonomyVersion } from "../../interfaces";
 import { apiResourceUrl, httpFunctions, stringifyQuery } from "../../util/apiHelpers";
 import { resolveLocation, resolveVoidOrRejectWithError } from "../../util/resolveJsonOrRejectWithError";
 
-const baseUrl = apiResourceUrl(`${taxonomyApi}/nodes`);
-const connUrl = apiResourceUrl(`${taxonomyApi}/node-connections`);
-const resUrl = apiResourceUrl(`${taxonomyApi}/node-resources`);
+const baseUrl = apiResourceUrl("/taxonomy/v1/nodes");
+const connUrl = apiResourceUrl("/taxonomy/v1/node-connections");
+const resUrl = apiResourceUrl("/taxonomy/v1/node-resources");
 
 const { postAndResolve, fetchAndResolve, putAndResolve, deleteAndResolve } = httpFunctions;
 

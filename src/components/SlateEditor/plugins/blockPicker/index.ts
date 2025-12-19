@@ -6,7 +6,7 @@
  *
  */
 
-import isHotkey from "is-hotkey";
+import { isHotkey } from "is-hotkey";
 import { Editor } from "slate";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../../../constants";
 

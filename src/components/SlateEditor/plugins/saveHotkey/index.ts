@@ -6,7 +6,7 @@
  *
  */
 
-import isHotkey from "is-hotkey";
+import { isHotkey } from "is-hotkey";
 import { SAVE_BUTTON_ID } from "../../../../constants";
 import { createPlugin } from "@ndla/editor";
 import { SAVE_HOTKEY_PLUGIN } from "./types";

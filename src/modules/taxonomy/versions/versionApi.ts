@@ -6,73 +6,89 @@
  *
  */
 
-import { VersionPostPut, Version } from "@ndla/types-taxonomy";
+import { openapi, Version, VersionPostPut } from "@ndla/types-taxonomy";
 import { GetVersionsParams } from "./versionApiTypes";
-import { apiResourceUrl, httpFunctions, stringifyQuery } from "../../../util/apiHelpers";
-import { resolveLocation, resolveVoidOrRejectWithError } from "../../../util/resolveJsonOrRejectWithError";
+import { createAuthClient } from "../../../util/apiHelpers";
+import { resolveJsonOATS, resolveLocation, resolveOATS } from "../../../util/resolveJsonOrRejectWithError";
 
-const baseUrl = apiResourceUrl("/taxonomy/v1/versions");
-
-const { fetchAndResolve, postAndResolve, putAndResolve, deleteAndResolve } = httpFunctions;
+const client = createAuthClient<openapi.paths>("/taxonomy");
 
 interface VersionGetParams extends GetVersionsParams {}
 
-export const fetchVersions = ({ type, hash }: VersionGetParams): Promise<Version[]> => {
-  return fetchAndResolve({ url: baseUrl, queryParams: { type, hash } });
-};
+export const fetchVersions = (params: VersionGetParams): Promise<Version[]> =>
+  client
+    .GET("/v1/versions", {
+      params: {
+        query: params,
+      },
+    })
+    .then((response) => resolveJsonOATS(response));
 
 interface VersionGetParam {
   id: string;
 }
 
-export const fetchVersion = ({ id }: VersionGetParam): Promise<Version> => {
-  return fetchAndResolve({ url: `${baseUrl}/${id}` });
-};
+export const fetchVersion = (params: VersionGetParam): Promise<Version> =>
+  client
+    .GET("/v1/versions/{id}", {
+      params: {
+        path: params,
+      },
+    })
+    .then((response) => resolveJsonOATS(response));
 
 interface VersionPostParams {
   body: VersionPostPut;
   sourceId?: string;
 }
 
-export const postVersion = ({ body, sourceId }: VersionPostParams): Promise<string> => {
-  return postAndResolve({
-    url: `${baseUrl}${stringifyQuery({ sourceId })}`,
-    body: JSON.stringify(body),
-    alternateResolve: resolveLocation,
-  });
-};
+export const postVersion = (params: VersionPostParams): Promise<string> =>
+  client
+    .POST("/v1/versions", {
+      params: {
+        query: { sourceId: params.sourceId },
+      },
+      body: params.body,
+    })
+    .then((response) => resolveLocation(response.response));
 
 interface VersionPutParams {
   id: string;
   body: VersionPostPut;
 }
 
-export const putVersion = ({ id, body }: VersionPutParams): Promise<void> => {
-  return putAndResolve({
-    url: `${baseUrl}/${id}`,
-    body: JSON.stringify(body),
-    alternateResolve: resolveVoidOrRejectWithError,
-  });
-};
+export const putVersion = (params: VersionPutParams): Promise<void> =>
+  client
+    .PUT("/v1/versions/{id}", {
+      params: {
+        path: { id: params.id },
+      },
+      body: params.body,
+    })
+    .then((response) => resolveOATS(response));
 
 interface VersionDeleteParams {
   id: string;
 }
 
-export const deleteVersion = ({ id }: VersionDeleteParams): Promise<void> => {
-  return deleteAndResolve({
-    url: `${baseUrl}/${id}`,
-    alternateResolve: resolveVoidOrRejectWithError,
-  });
-};
+export const deleteVersion = (params: VersionDeleteParams): Promise<void> =>
+  client
+    .DELETE("/v1/versions/{id}", {
+      params: {
+        path: { id: params.id },
+      },
+    })
+    .then((response) => resolveOATS(response));
 
 interface PublishVersionParams {
   id: string;
 }
 
-export const publishVersion = ({ id }: PublishVersionParams): Promise<void> => {
-  return putAndResolve({
-    url: `${baseUrl}/${id}/publish`,
-    alternateResolve: resolveVoidOrRejectWithError,
-  });
-};
+export const publishVersion = (params: PublishVersionParams): Promise<void> =>
+  client
+    .PUT("/v1/versions/{id}/publish", {
+      params: {
+        path: { id: params.id },
+      },
+    })
+    .then((response) => resolveOATS(response));

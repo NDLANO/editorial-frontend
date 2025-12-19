@@ -73,12 +73,7 @@ export const sortResources = <T extends ResourceLike>(
     order[rt.id] = index;
     return order;
   }, {});
-
-  const withOrder = uniq.map((res) => {
-    const firstResourceTypeOrder = resourceTypeOrder[res.resourceTypes?.[0]?.id];
-    return { ...res, order: firstResourceTypeOrder };
-  });
-  return sortBy(withOrder, (res) => res.order);
+  return sortBy(uniq, (res) => resourceTypeOrder[res.resourceTypes?.[0]?.id ?? ""] ?? Number.MAX_SAFE_INTEGER);
 };
 
 export const safeConcat = <T>(toAdd: T, existing?: T[]) => (existing ? existing.concat(toAdd) : [toAdd]);

@@ -25,12 +25,12 @@ const editor2: Descendant[] = [
         children: [
           {
             type: GRID_CELL_ELEMENT_TYPE,
-            data: { parallaxCell: "false" },
+            data: {},
             children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
           },
           {
             type: GRID_CELL_ELEMENT_TYPE,
-            data: { parallaxCell: "false" },
+            data: {},
             children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
           },
         ],
@@ -41,7 +41,7 @@ const editor2: Descendant[] = [
 ];
 
 const html2 =
-  '<section><div data-type="grid" data-columns="2" data-border="none"><div data-type="grid-cell" data-parallax-cell="false"><p>a</p></div><div data-type="grid-cell" data-parallax-cell="false"><p>a</p></div></div></section>';
+  '<section><div data-type="grid" data-columns="2" data-border="none"><div data-type="grid-cell"><p>a</p></div><div data-type="grid-cell"><p>a</p></div></div></section>';
 
 const editor4: Descendant[] = [
   {
@@ -57,22 +57,22 @@ const editor4: Descendant[] = [
         children: [
           {
             type: GRID_CELL_ELEMENT_TYPE,
-            data: { parallaxCell: "false" },
+            data: {},
             children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
           },
           {
             type: GRID_CELL_ELEMENT_TYPE,
-            data: { parallaxCell: "false" },
+            data: {},
             children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
           },
           {
             type: GRID_CELL_ELEMENT_TYPE,
-            data: { parallaxCell: "false" },
+            data: {},
             children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
           },
           {
             type: GRID_CELL_ELEMENT_TYPE,
-            data: { parallaxCell: "false" },
+            data: {},
             children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] }],
           },
         ],
@@ -83,7 +83,7 @@ const editor4: Descendant[] = [
 ];
 
 const html4 =
-  '<section><div data-type="grid" data-columns="4" data-border="none"><div data-type="grid-cell" data-parallax-cell="false"><p>a</p></div><div data-type="grid-cell" data-parallax-cell="false"><p>a</p></div><div data-type="grid-cell" data-parallax-cell="false"><p>a</p></div><div data-type="grid-cell" data-parallax-cell="false"><p>a</p></div></div></section>';
+  '<section><div data-type="grid" data-columns="4" data-border="none"><div data-type="grid-cell"><p>a</p></div><div data-type="grid-cell"><p>a</p></div><div data-type="grid-cell"><p>a</p></div><div data-type="grid-cell"><p>a</p></div></div></section>';
 
 const editorMultipleChildrenGridCell: Descendant[] = [
   {
@@ -99,7 +99,7 @@ const editorMultipleChildrenGridCell: Descendant[] = [
         children: [
           {
             type: GRID_CELL_ELEMENT_TYPE,
-            data: { parallaxCell: "false" },
+            data: {},
             children: [
               { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] },
               { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] },
@@ -107,7 +107,7 @@ const editorMultipleChildrenGridCell: Descendant[] = [
           },
           {
             type: GRID_CELL_ELEMENT_TYPE,
-            data: { parallaxCell: "false" },
+            data: {},
             children: [
               { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] },
               { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] },
@@ -116,7 +116,7 @@ const editorMultipleChildrenGridCell: Descendant[] = [
           },
           {
             type: GRID_CELL_ELEMENT_TYPE,
-            data: { parallaxCell: "false" },
+            data: {},
             children: [
               { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] },
               { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] },
@@ -124,7 +124,7 @@ const editorMultipleChildrenGridCell: Descendant[] = [
           },
           {
             type: GRID_CELL_ELEMENT_TYPE,
-            data: { parallaxCell: "false" },
+            data: {},
             children: [
               { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] },
               { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "a" }] },
@@ -139,7 +139,7 @@ const editorMultipleChildrenGridCell: Descendant[] = [
 ];
 
 const htmlMultipleChildrenGridCell =
-  '<section><div data-type="grid" data-columns="4" data-border="none"><div data-type="grid-cell" data-parallax-cell="false"><p>a</p><p>a</p></div><div data-type="grid-cell" data-parallax-cell="false"><p>a</p><p>a</p><p>a</p></div><div data-type="grid-cell" data-parallax-cell="false"><p>a</p><p>a</p></div><div data-type="grid-cell" data-parallax-cell="false"><p>a</p><p>a</p><p>a</p></div></div></section>';
+  '<section><div data-type="grid" data-columns="4" data-border="none"><div data-type="grid-cell"><p>a</p><p>a</p></div><div data-type="grid-cell"><p>a</p><p>a</p><p>a</p></div><div data-type="grid-cell"><p>a</p><p>a</p></div><div data-type="grid-cell"><p>a</p><p>a</p><p>a</p></div></div></section>';
 
 describe("grid serializing tests", () => {
   test("serializing 2x1 grid", () => {

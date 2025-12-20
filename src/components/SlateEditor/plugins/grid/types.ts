@@ -23,8 +23,6 @@ export interface GridElement {
 
 export interface GridCellElement {
   type: "grid-cell";
-  data: {
-    parallaxCell: string;
-  };
+  data: {};
   children: Descendant[];
 }

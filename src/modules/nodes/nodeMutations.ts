@@ -13,8 +13,6 @@ import {
   NodeConnectionPOST,
   NodeConnectionPUT,
   NodePostPut,
-  NodeResourcePOST,
-  NodeResourcePUT,
   TranslationPUT,
   Metadata,
 } from "@ndla/types-taxonomy";
@@ -22,16 +20,13 @@ import {
   deleteNode,
   deleteNodeConnection,
   deleteNodeTranslation,
-  deleteResourceForNode,
   postNode,
   postNodeConnection,
-  postResourceForNode,
   putNode,
   putNodeConnection,
   putNodeMetadata,
   PutNodeParams,
   putNodeTranslation,
-  putResourceForNode,
   putResourcesPrimary,
   PutResourcesPrimaryParams,
 } from "./nodeApi";
@@ -244,19 +239,6 @@ export const usePostNodeConnectionMutation = (
   });
 };
 
-interface UsePostResourceForNodeMutation extends WithTaxonomyVersion {
-  body: NodeResourcePOST;
-}
-
-export const usePostResourceForNodeMutation = (
-  options?: Partial<UseMutationOptions<string, unknown, UsePostResourceForNodeMutation>>,
-) => {
-  return useMutation<string, unknown, UsePostResourceForNodeMutation>({
-    mutationFn: ({ body, taxonomyVersion }) => postResourceForNode({ body, taxonomyVersion }),
-    ...options,
-  });
-};
-
 export const useCreateResourceResourceTypeMutation = (
   options?: Partial<UseMutationOptions<string, unknown, ResourceResourceTypePostParams>>,
 ) => {
@@ -271,33 +253,6 @@ export const useDeleteResourceResourceTypeMutation = (
 ) => {
   return useMutation<void, unknown, ResourceResourceTypeDeleteParams>({
     mutationFn: ({ id, taxonomyVersion }) => deleteResourceResourceType({ id, taxonomyVersion }),
-    ...options,
-  });
-};
-
-interface UseDeleteResourceForNodeMutation extends WithTaxonomyVersion {
-  id: string;
-}
-
-export const useDeleteResourceForNodeMutation = (
-  options?: Partial<UseMutationOptions<void, unknown, UseDeleteResourceForNodeMutation>>,
-) => {
-  return useMutation<void, unknown, UseDeleteResourceForNodeMutation>({
-    mutationFn: ({ id, taxonomyVersion }) => deleteResourceForNode({ id, taxonomyVersion }),
-    ...options,
-  });
-};
-
-interface UsePutResourceForNodeMutation extends WithTaxonomyVersion {
-  id: string;
-  body: NodeResourcePUT;
-}
-
-export const usePutResourceForNodeMutation = (
-  options?: Partial<UseMutationOptions<void, unknown, UsePutResourceForNodeMutation>>,
-) => {
-  return useMutation<void, unknown, UsePutResourceForNodeMutation>({
-    mutationFn: ({ id, body, taxonomyVersion }) => putResourceForNode({ id, body, taxonomyVersion }),
     ...options,
   });
 };

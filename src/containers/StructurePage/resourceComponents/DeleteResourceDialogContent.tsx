@@ -16,7 +16,7 @@ import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../constants";
 import { useUpdateDraftStatusMutation } from "../../../modules/draft/draftMutations";
 import { useLearningpathsWithArticle } from "../../../modules/learningpath/learningpathQueries";
 import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
-import { useDeleteResourceForNodeMutation } from "../../../modules/nodes/nodeMutations";
+import { useDeleteNodeConnectionMutation } from "../../../modules/nodes/nodeMutations";
 import { getIdFromContentURI } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
@@ -29,7 +29,7 @@ interface Props {
 export const DeleteResourceDialogContent = ({ resource, contentMeta, invalidate }: Props) => {
   const { t } = useTranslation();
   const { setOpen } = useDialogContext();
-  const deleteNodeConnectionMutation = useDeleteResourceForNodeMutation();
+  const deleteNodeConnectionMutation = useDeleteNodeConnectionMutation();
   const updateArticleMutation = useUpdateDraftStatusMutation();
   const { taxonomyVersion } = useTaxonomyVersion();
 

@@ -60,7 +60,7 @@ import { RESOURCE_NODE, TOPIC_NODE } from "../../../modules/nodes/nodeApiTypes";
 import {
   useAddNodeMutation,
   useCreateResourceResourceTypeMutation,
-  usePostResourceForNodeMutation,
+  usePostNodeConnectionMutation,
 } from "../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import { getRootIdForNode } from "../../../modules/nodes/nodeUtil";
@@ -189,7 +189,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
     id: nodeId,
     language: i18n.language,
   });
-  const { mutateAsync: createNodeResource, isPending: postResourceLoading } = usePostResourceForNodeMutation({
+  const { mutateAsync: createNodeResource, isPending: postResourceLoading } = usePostNodeConnectionMutation({
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: compKey });
       qc.invalidateQueries({ queryKey: compKeyChildNodes });
@@ -266,8 +266,8 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
         const resourceId = resourceUrl.replace("/v1/nodes/", "");
         await createNodeResource({
           body: {
-            resourceId: resourceId,
-            nodeId: node?.id ?? "",
+            childId: resourceId,
+            parentId: node?.id ?? "",
             relevanceId: values.relevance,
           },
           taxonomyVersion,

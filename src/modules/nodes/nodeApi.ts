@@ -15,8 +15,6 @@ import {
   TranslationPUT,
   NodeConnectionPUT,
   NodeConnectionPOST,
-  NodeResourcePOST,
-  NodeResourcePUT,
   NodeType,
   Connection,
   Metadata,
@@ -280,54 +278,6 @@ export const postNodeConnection = (params: NodeConnectionPostParams): Promise<st
       body: params.body,
     })
     .then((response) => resolveLocation(response.response));
-
-interface NodeResourcePostParams extends WithTaxonomyVersion {
-  body: NodeResourcePOST;
-}
-
-export const postResourceForNode = (params: NodeResourcePostParams) =>
-  client
-    .POST("/v1/node-resources", {
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
-      body: params.body,
-    })
-    .then((response) => resolveLocation(response.response));
-
-interface NodeResourceDeleteParams extends WithTaxonomyVersion {
-  id: string;
-}
-
-export const deleteResourceForNode = (params: NodeResourceDeleteParams): Promise<void> =>
-  client
-    .DELETE("/v1/node-resources/{id}", {
-      params: {
-        path: { id: params.id },
-      },
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
-    })
-    .then((response) => resolveVoidOrRejectWithError(response.response));
-
-interface NodeResourcePutParams extends WithTaxonomyVersion {
-  id: string;
-  body: NodeResourcePUT;
-}
-
-export const putResourceForNode = (params: NodeResourcePutParams): Promise<void> =>
-  client
-    .PUT("/v1/node-resources/{id}", {
-      params: {
-        path: { id: params.id },
-      },
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
-      body: params.body,
-    })
-    .then((response) => resolveVoidOrRejectWithError(response.response));
 
 interface SearchNodes extends WithTaxonomyVersion {
   ids?: string[];

@@ -41,7 +41,7 @@ import { RESOURCE_TYPE_LEARNING_PATH } from "../../../constants";
 import { getArticle } from "../../../modules/article/articleApi";
 import { fetchLearningpaths, updateLearningPathTaxonomy } from "../../../modules/learningpath/learningpathApi";
 import { fetchNodes } from "../../../modules/nodes/nodeApi";
-import { usePostResourceForNodeMutation } from "../../../modules/nodes/nodeMutations";
+import { usePostNodeConnectionMutation } from "../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys, useNodes } from "../../../modules/nodes/nodeQueries";
 import { useSearch } from "../../../modules/search/searchQueries";
 import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
@@ -102,7 +102,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     id: nodeId,
     language: i18n.language,
   });
-  const { mutateAsync: createNodeResource } = usePostResourceForNodeMutation({
+  const { mutateAsync: createNodeResource } = usePostNodeConnectionMutation({
     onSuccess: () => qc.invalidateQueries({ queryKey: compKey }),
   });
   const { data: articleSearchData } = useNodes({
@@ -289,7 +289,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     }
 
     await createNodeResource({
-      body: { resourceId: id, nodeId },
+      body: { childId: id, parentId: nodeId },
       taxonomyVersion,
     })
       .then(() => onClose())

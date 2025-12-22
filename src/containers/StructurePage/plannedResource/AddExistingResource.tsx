@@ -107,7 +107,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   });
   const { data: articleSearchData } = useNodes({
     contentURI: `urn:article:${articleInputId}`,
-    nodeType: "RESOURCE",
+    nodeType: ["RESOURCE"],
     taxonomyVersion,
   });
 
@@ -211,7 +211,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
       try {
         const resource = await fetchNodes({
           contextId: urlId,
-          nodeType: "RESOURCE",
+          nodeType: ["RESOURCE"],
           taxonomyVersion,
         });
 

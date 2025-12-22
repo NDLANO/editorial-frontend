@@ -69,7 +69,7 @@ export const useAddNodeMutation = () => {
         name: newNode.name ?? "",
         contentUri: newNode.contentUri ?? "",
         id: newNode.nodeId ?? "",
-        nodeType: newNode.nodeType,
+        nodeType: newNode.nodeType ?? "NODE",
         path: "",
         paths: [],
         translations: [],
@@ -114,7 +114,7 @@ export const useUpdateNodeMetadataMutation = () => {
           })
         : nodeQueryKeys.nodes({
             isContext: true,
-            nodeType: "SUBJECT",
+            nodeType: ["SUBJECT"],
             language: i18n.language,
             taxonomyVersion,
           });
@@ -136,7 +136,7 @@ export const useUpdateNodeMetadataMutation = () => {
           })
         : nodeQueryKeys.nodes({
             language: i18n.language,
-            nodeType: "SUBJECT",
+            nodeType: ["SUBJECT"],
             isContext: true,
             taxonomyVersion,
           });

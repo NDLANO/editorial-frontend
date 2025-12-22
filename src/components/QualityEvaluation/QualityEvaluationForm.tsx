@@ -143,8 +143,10 @@ const QualityEvaluationForm = ({
       const promises = taxonomy.map((n) =>
         updateTaxMutation.mutateAsync({
           id: n.id,
-          language: n.language,
-          qualityEvaluation: { ...values, grade: Number(values.grade) as Grade },
+          body: {
+            language: n.language,
+            qualityEvaluation: { ...values, grade: Number(values.grade) as Grade },
+          },
           taxonomyVersion,
         }),
       );
@@ -200,8 +202,10 @@ const QualityEvaluationForm = ({
       const promises = taxonomy.map((n) =>
         updateTaxMutation.mutateAsync({
           id: n.id,
-          language: n.language,
-          qualityEvaluation: null,
+          body: {
+            language: n.language,
+            qualityEvaluation: null as unknown as undefined, // TODO Change to null later https://github.com/swagger-api/swagger-core/pull/5018,
+          },
           taxonomyVersion,
         }),
       );

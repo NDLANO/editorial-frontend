@@ -73,7 +73,7 @@ export const useSearchWithCustomSubjectsFiltering = (
   const isSASubjects = query.subjects?.join("") === SA_SUBJECT_ID;
 
   const searchNodesQuery = usePostSearchNodes(
-    { ...customFieldsBody(data?.userId ?? ""), taxonomyVersion },
+    { body: customFieldsBody(data?.userId ?? ""), taxonomyVersion },
     { enabled: !!data?.userId && (isLMASubjects || isDASubjects || isSASubjects) },
   );
 

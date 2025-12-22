@@ -79,7 +79,7 @@ const SubjectCombobox = ({
     {
       ids: subjectIds,
       taxonomyVersion,
-      nodeType: SUBJECT_NODE,
+      nodeType: [SUBJECT_NODE],
       pageSize: subjectIds.length,
       language: i18n.language,
     },

@@ -32,7 +32,7 @@ export const NodeSearchDropdown = ({ onChange, selectedItems, label }: Props) =>
       taxonomyVersion,
       query: delayedQuery,
       page,
-      nodeType: "SUBJECT",
+      nodeType: ["SUBJECT"],
     },
     { placeholderData: (prev) => prev },
   );

@@ -32,7 +32,7 @@ const PreviewDraftPage = () => {
     contentURI: `urn:article:${draftId}`,
     taxonomyVersion,
     language,
-    nodeType: "RESOURCE",
+    nodeType: ["RESOURCE"],
   });
   const isWide = useMemo(() => articleIsWide(draftId), [draftId]);
 

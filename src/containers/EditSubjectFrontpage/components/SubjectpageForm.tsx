@@ -104,20 +104,20 @@ const SubjectpageForm = ({
         if ("articleType" in choice && choice.articleType === "topic-article") {
           return fetchNodes({
             contentURI: `urn:article:${choice.id}`,
-            nodeType: "TOPIC",
+            nodeType: ["TOPIC"],
             language,
             taxonomyVersion,
           });
         } else if ("learningsteps" in choice && typeof choice.id === "number") {
           return fetchNodes({
             contentURI: `urn:learningpath:${choice.id}`,
-            nodeType: "RESOURCE",
+            nodeType: ["RESOURCE"],
             taxonomyVersion,
           });
         }
         return fetchNodes({
           contentURI: `urn:article:${choice.id}`,
-          nodeType: "RESOURCE",
+          nodeType: ["RESOURCE"],
           language,
           taxonomyVersion,
         });

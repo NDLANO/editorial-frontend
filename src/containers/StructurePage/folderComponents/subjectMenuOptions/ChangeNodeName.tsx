@@ -105,9 +105,11 @@ const ChangeNodeName = ({ node }: Props) => {
       promises.push(() =>
         putNodeMutation.mutateAsync({
           id,
-          language: node.language,
+          body: {
+            language: node.language,
+            name: formik.values.name,
+          },
           taxonomyVersion,
-          name: formik.values.name,
         }),
       );
     }
@@ -134,7 +136,7 @@ const ChangeNodeName = ({ node }: Props) => {
       handleError(e);
       setUpdateError(t("taxonomy.changeName.updateError"));
       await qc.invalidateQueries({
-        queryKey: nodeQueryKeys.nodes({ nodeType: "SUBJECT", taxonomyVersion }),
+        queryKey: nodeQueryKeys.nodes({ nodeType: ["SUBJECT"], taxonomyVersion }),
       });
 
       await qc.invalidateQueries({
@@ -146,7 +148,7 @@ const ChangeNodeName = ({ node }: Props) => {
 
     if (promises.length > 0) {
       await qc.invalidateQueries({
-        queryKey: nodeQueryKeys.nodes({ nodeType: "SUBJECT", taxonomyVersion }),
+        queryKey: nodeQueryKeys.nodes({ nodeType: ["SUBJECT"], taxonomyVersion }),
       });
 
       await qc.invalidateQueries({

@@ -8,7 +8,6 @@
 
 import { Formik } from "formik";
 import { TFunction } from "i18next";
-import { uniq } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
@@ -246,8 +245,8 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
         }
 
         // Add created article to latest edited
-        const latestEdited = uniq([createdResource.id.toString()].concat(userData?.latestEditedArticles ?? []));
-        await updateUserData({ latestEditedArticles: latestEdited.slice(0, LAST_UPDATED_SIZE) });
+        const uniq = new Set([createdResource.id.toString()].concat(userData?.latestEditedArticles ?? []));
+        await updateUserData({ latestEditedArticles: Array.from(uniq).slice(0, LAST_UPDATED_SIZE) });
 
         // Create node in taxonomy
         const resourceUrl = await addNodeMutation({

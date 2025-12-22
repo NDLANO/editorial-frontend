@@ -6,7 +6,6 @@
  *
  */
 
-import { uniq } from "lodash-es";
 import { useState, useEffect } from "react";
 import { ConceptDTO, NewConceptDTO, UpdatedConceptDTO } from "@ndla/types-backend/concept-api";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
@@ -42,8 +41,8 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
 
   const updateUserData = async (userData?: UserDataDTO) => {
     if (!userData || !conceptId) return;
-    const latestEdited = uniq([conceptId?.toString()].concat(userData?.latestEditedConcepts ?? []));
-    const latestEditedConcepts = latestEdited.slice(0, LAST_UPDATED_SIZE);
+    const uniq = new Set([conceptId?.toString()].concat(userData?.latestEditedConcepts ?? []));
+    const latestEditedConcepts = Array.from(uniq).slice(0, LAST_UPDATED_SIZE);
     mutateAsync({ latestEditedConcepts });
   };
 

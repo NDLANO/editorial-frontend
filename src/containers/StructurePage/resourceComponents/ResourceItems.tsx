@@ -6,7 +6,6 @@
  *
  */
 
-import { sortBy } from "lodash-es";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
 import { useQueryClient } from "@tanstack/react-query";
@@ -14,6 +13,7 @@ import { Draggable } from "@ndla/icons";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild } from "@ndla/types-taxonomy";
+import { sortBy } from "@ndla/util";
 import Resource from "./Resource";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
@@ -89,7 +89,10 @@ const ResourceItems = ({
       } else return { ...r, rank: r.rank + 1 };
     });
 
-    qc.setQueryData<NodeChild[]>(compKey, sortBy(updated, ["rank"]));
+    qc.setQueryData<NodeChild[]>(
+      compKey,
+      sortBy(updated, (r) => r.rank),
+    );
     return resources;
   };
 

@@ -6,7 +6,6 @@
  *
  */
 
-import { uniq } from "lodash-es";
 import { useState, useEffect, useCallback } from "react";
 import { NewArticleDTO, UpdatedArticleDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
 import { LAST_UPDATED_SIZE } from "../../constants";
@@ -23,8 +22,8 @@ import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider"
 const updateUserData = async (articleId: number) => {
   const stringId = articleId.toString();
   const result = await fetchUserData();
-  const latest = uniq([stringId].concat(result.latestEditedArticles ?? []));
-  const latestEditedArticles = latest.slice(0, LAST_UPDATED_SIZE);
+  const latest = new Set([stringId].concat(result.latestEditedArticles ?? []));
+  const latestEditedArticles = Array.from(latest).slice(0, LAST_UPDATED_SIZE);
   apiUpdateUserData({ latestEditedArticles });
 };
 

@@ -6,7 +6,7 @@
  *
  */
 
-import { compact, isEqual, uniq } from "lodash-es";
+import { isEqual } from "lodash-es";
 import { TableCellElement, TableMatrix } from "./interfaces";
 import { TABLE_CELL_HEADER_ELEMENT_TYPE } from "./types";
 import { isTableCellHeaderElement } from "./queries";
@@ -27,15 +27,23 @@ export const findCellCoordinate = (matrix: TableMatrix, targetCell: TableCellEle
 };
 
 export const getMatrixColumn = (matrix: TableMatrix, index: number) => {
-  const column = matrix.map((row) => row[index]);
-  return uniq(column);
+  const uniq = matrix.reduce((acc, row) => {
+    acc.add(row[index]);
+    return acc;
+  }, new Set<TableCellElement>());
+
+  return Array.from(uniq);
 };
 
 // Find the amount of cells in a matrix row.
 export const countMatrixRowCells = (matrix: TableMatrix, rowIndex: number): number => {
-  return compact([...new Set(matrix[rowIndex])]).filter((cell) =>
-    rowIndex > 0 ? !matrix[rowIndex - 1].includes(cell) : true,
-  ).length;
+  return matrix[rowIndex].reduce((acc, cell) => {
+    if (!cell) return acc;
+    if (rowIndex === 0 || !matrix[rowIndex - 1].includes(cell)) {
+      acc.add(cell);
+    }
+    return acc;
+  }, new Set<TableCellElement>()).size;
 };
 
 const insertCellHelper = (
@@ -132,9 +140,13 @@ export const getHeader = (matrix: TableMatrix, rowIndex: number, columnIndex: nu
     }
 
     // Creating a header string of all the header cells which is targeting the cell
-    const header = uniq(headers.filter((cell) => !!cell).map((cell) => cell?.data?.id))
-      .join(" ")
-      .trim();
+    const uniq = headers.reduce((acc, curr) => {
+      if (!curr) return acc;
+      acc.add(curr.data?.id);
+      return acc;
+    }, new Set<string | undefined>());
+
+    const header = Array.from(uniq).join(" ").trim();
 
     return header.length > 0 ? header : undefined;
   }

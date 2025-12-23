@@ -164,9 +164,9 @@ export const fetchNodeTranslations = (params: NodeTranslationsGetParams): Promis
     .GET("/v1/nodes/{id}/translations", {
       params: {
         path: { id: params.id },
-        headers: {
-          VersionHash: params.taxonomyVersion,
-        },
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
       },
     })
     .then((response) => resolveJsonOATS(response));
@@ -181,9 +181,9 @@ export const deleteNodeTranslation = (params: NodeTranslationDeleteParams): Prom
     .DELETE("/v1/nodes/{id}/translations/{language}", {
       params: {
         path: { id: params.id, language: params.language },
-        headers: {
-          VersionHash: params.taxonomyVersion,
-        },
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
       },
     })
     .then((response) => resolveJsonOATS(response));
@@ -199,9 +199,9 @@ export const putNodeTranslation = (params: NodeTranslationPutParams): Promise<vo
     .PUT("/v1/nodes/{id}/translations/{language}", {
       params: {
         path: { id: params.id, language: params.language },
-        headers: {
-          VersionHash: params.taxonomyVersion,
-        },
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
       },
       body: params.body,
     })
@@ -224,9 +224,9 @@ export const fetchNodeResources = (params: NodeResourcesGetParams): Promise<Node
           filterProgrammes: params.filterProgrammes,
           isVisible: params.isVisible,
         },
-        headers: {
-          VersionHash: params.taxonomyVersion,
-        },
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
       },
     })
     .then((response) => resolveJsonOATS(response));

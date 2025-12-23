@@ -6396,7 +6396,7 @@ __metadata:
     nanoid: "npm:^5.1.2"
     nock: "npm:^14.0.10"
     open-graph-scraper: "npm:^6.10.0"
-    openapi-fetch: "npm:^0.13.5"
+    openapi-fetch: "npm:^0.15.0"
     openid-client: "npm:^6.8.1"
     p-limit: "npm:^6.2.0"
     postcss: "npm:^8.5.6"
@@ -9528,12 +9528,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"openapi-fetch@npm:^0.13.5":
-  version: 0.13.5
-  resolution: "openapi-fetch@npm:0.13.5"
+"openapi-fetch@npm:^0.15.0":
+  version: 0.15.0
+  resolution: "openapi-fetch@npm:0.15.0"
   dependencies:
     openapi-typescript-helpers: "npm:^0.0.15"
-  checksum: 10c0/57736d9d4310d7bc7fa5e4e37e80d28893a7fefee88ee6e0327600de893e0638479445bf0c9f5bd7b1a2429f409425d3945d6e942b23b37b8081630ac52244fb
+  checksum: 10c0/f6b90276569fbe33c8eac3f235617e5c5cbf99d5ac1bb49deecb279babb3ae411b5c7a39262416154e9a7d3c332f215cab410f28e94ecad6390e09c4a70d96dd
   languageName: node
   linkType: hard
 

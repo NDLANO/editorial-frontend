@@ -68,7 +68,7 @@ const LeftColumn = ({ rootNodeType = "SUBJECT", childNodeTypes = ["TOPIC"], root
   const nodesQuery = useNodes(
     {
       language: i18n.language,
-      nodeType: rootNodeType,
+      nodeType: [rootNodeType],
       ...rootOrContext,
       taxonomyVersion,
     },

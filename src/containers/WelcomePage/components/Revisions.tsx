@@ -253,7 +253,7 @@ const RevisionViewContent = ({ title, tabTitle, type, subjects, pageSizeKey }: S
     {
       ids: type === "favorites" ? subjects : [],
       taxonomyVersion,
-      nodeType: SUBJECT_NODE,
+      nodeType: [SUBJECT_NODE],
       pageSize: subjects.length,
       language: i18n.language,
     },

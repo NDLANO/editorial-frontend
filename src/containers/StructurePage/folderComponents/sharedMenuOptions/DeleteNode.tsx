@@ -76,7 +76,7 @@ const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNo
       if ("parentId" in node && articleId) {
         const topicPlacements = await fetchNodes({
           contentURI: `urn:article:${articleId}`,
-          nodeType: "TOPIC",
+          nodeType: ["TOPIC"],
           language: i18n.language,
           taxonomyVersion,
         });

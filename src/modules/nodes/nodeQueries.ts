@@ -7,9 +7,9 @@
  */
 
 import { useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
-import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
+import { Node, NodeChild, NodeType, NodeSearchBody } from "@ndla/types-taxonomy";
 import { fetchChildNodes, fetchNode, fetchNodes, postSearchNodes, searchNodes } from "./nodeApi";
-import { GetChildNodesParams, GetNodeParams, NodeResourceMeta, RESOURCE_NODE, TOPIC_NODE } from "./nodeApiTypes";
+import { GetChildNodesParams, GetNodesParams, NodeResourceMeta, RESOURCE_NODE, TOPIC_NODE } from "./nodeApiTypes";
 import { NodeTree } from "../../containers/NodeDiff/diffUtils";
 import { SearchResultBase, WithTaxonomyVersion } from "../../interfaces";
 import {
@@ -36,7 +36,7 @@ export const nodeQueryKeys = {
   childNodes: (params?: Partial<UseChildNodesParams>) => [CHILD_NODES, params] as const,
 };
 
-interface UseNodesParams extends WithTaxonomyVersion, GetNodeParams {}
+interface UseNodesParams extends WithTaxonomyVersion, GetNodesParams {}
 export const useNodes = (params: UseNodesParams, options?: Partial<UseQueryOptions<Node[]>>) => {
   return useQuery<Node[]>({
     queryKey: nodeQueryKeys.nodes(params),
@@ -235,7 +235,7 @@ export const useChildNodes = (params: UseChildNodesParams, options?: Partial<Use
 interface UseSearchNodes extends WithTaxonomyVersion {
   ids?: string[];
   language?: string;
-  nodeType?: NodeType;
+  nodeType?: NodeType[];
   page?: number;
   pageSize?: number;
   query?: string;
@@ -250,8 +250,7 @@ export const useSearchNodes = (params: UseSearchNodes, options?: Partial<UseQuer
 };
 
 interface UsePostSearchNodes extends WithTaxonomyVersion {
-  pageSize?: number;
-  customFields?: Record<string, string>;
+  body: NodeSearchBody;
 }
 export const usePostSearchNodes = (
   body: UsePostSearchNodes,

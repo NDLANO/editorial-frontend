@@ -91,7 +91,7 @@ export const TaxonomyConnections = ({
   });
 
   const subjectsQuery = useNodes(
-    { language: i18n.language, taxonomyVersion, nodeType: "SUBJECT" },
+    { language: i18n.language, taxonomyVersion, nodeType: ["SUBJECT"] },
     {
       select: (subject) =>
         sortBy(

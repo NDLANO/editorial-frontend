@@ -77,7 +77,7 @@ const SubjectViewContent = ({
     {
       ids: isFavoriteTab ? subjects : [],
       taxonomyVersion,
-      nodeType: SUBJECT_NODE,
+      nodeType: [SUBJECT_NODE],
       pageSize: subjects.length,
       language: i18n.language,
     },

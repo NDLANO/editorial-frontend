@@ -40,7 +40,7 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataPending, subjectIdO
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const searchQuery = usePostSearchNodes({ ...customFieldsBody(ndlaId), taxonomyVersion });
+  const searchQuery = usePostSearchNodes({ body: customFieldsBody(ndlaId), taxonomyVersion });
 
   const tabs = useMemo(() => {
     if (searchQuery.isPending) return [];

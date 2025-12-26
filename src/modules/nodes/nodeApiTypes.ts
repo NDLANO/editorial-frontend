@@ -15,13 +15,13 @@ export const NODE = "NODE";
 export const TOPIC_NODE = "TOPIC";
 export const RESOURCE_NODE = "RESOURCE";
 
-export interface GetNodeParams {
+export interface GetNodesParams {
   contentURI?: string;
   isRoot?: boolean;
   isContext?: boolean;
   key?: string;
   language?: string;
-  nodeType?: NodeType;
+  nodeType?: NodeType[];
   value?: string;
   contextId?: string;
   includeContexts?: boolean;
@@ -43,7 +43,6 @@ export interface GetNodeResourcesParams {
   language?: string;
   recursive?: boolean;
   relevance?: string;
-  type?: string;
   includeContexts?: boolean;
   filterProgrammes?: boolean;
   isVisible?: boolean;

@@ -80,9 +80,9 @@ export const OATSAuthMiddleware: Middleware = {
   },
 };
 
-export const createAuthClient = <T extends {}>() => {
+export const createAuthClient = <T extends {}>(prefix?: string) => {
   const client = createClient<T>({
-    baseUrl: apiBaseUrl,
+    baseUrl: `${apiBaseUrl}${prefix ?? ""}`,
     querySerializer: {
       array: {
         style: "form",

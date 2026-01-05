@@ -11,7 +11,7 @@ import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult } from "@tanstack/react-query";
 import { Button } from "@ndla/primitives";
-import { UpdatedArticleDTO, ArticleDTO, StatusDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
+import { UpdatedArticleDTO, ArticleDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import TopicArticleAccordionPanels from "./TopicArticleAccordionPanels";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
@@ -20,13 +20,12 @@ import validateFormik, { getWarnings } from "../../../../components/formikValida
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
 import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
-import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
+import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { isFormikFormDirty, topicArticleRules } from "../../../../util/formHelper";
 import { getExpirationDate } from "../../../../util/revisionHelpers";
 import { AlertDialogWrapper } from "../../../FormikForm";
 import { HandleSubmitFunc, TopicArticleFormType, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
-import { useSession } from "../../../Session/SessionProvider";
 import { TaxonomyVersionProvider } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { draftApiTypeToTopicArticleFormType, topicArticleFormTypeToDraftApiType } from "../../articleTransformers";
 
@@ -36,7 +35,6 @@ interface Props {
   articleTaxonomy?: Node[];
   revision?: number;
   updateArticle: (art: UpdatedArticleDTO) => Promise<ArticleDTO>;
-  articleStatus?: StatusDTO;
   articleChanged: boolean;
   supportedLanguages: string[];
   articleLanguage: string;
@@ -51,13 +49,10 @@ const TopicArticleForm = ({
   articleChanged,
   supportedLanguages,
   articleLanguage,
-  articleStatus,
   translatedFieldsToNN,
 }: Props) => {
   const [showTaxWarning, setShowTaxWarning] = useState(false);
-  const { data: licenses } = useLicenses({ placeholderData: [] });
   const { t } = useTranslation();
-  const { ndlaId } = useSession();
 
   const validate = useCallback((values: TopicArticleFormType) => validateFormik(values, topicArticleRules, t), [t]);
 
@@ -69,14 +64,10 @@ const TopicArticleForm = ({
   } = useArticleFormHooks<TopicArticleFormType>({
     getInitialValues: draftApiTypeToTopicArticleFormType,
     article,
-    t,
-    articleStatus,
     updateArticle,
-    licenses,
     getArticleFromSlate: topicArticleFormTypeToDraftApiType,
     articleLanguage,
     rules: topicArticleRules,
-    ndlaId,
     articleRevisionHistory: articleRevisionHistory,
   });
 

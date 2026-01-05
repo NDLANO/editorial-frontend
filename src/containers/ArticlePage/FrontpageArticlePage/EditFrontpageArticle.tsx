@@ -108,7 +108,6 @@ const EditFrontpageArticle = () => {
         articleLanguage={selectedLanguage}
         article={article}
         articleRevisionHistory={articleRevisionHistory}
-        articleStatus={article.status}
         articleChanged={articleChanged || newLanguage}
         updateArticle={updateArticle}
         supportedLanguages={article.supportedLanguages}

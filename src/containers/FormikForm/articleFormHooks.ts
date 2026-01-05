@@ -7,7 +7,6 @@
  */
 
 import { FormikHelpers } from "formik";
-import { TFunction } from "i18next";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Descendant } from "slate";
 import { UseQueryResult } from "@tanstack/react-query";
@@ -29,6 +28,8 @@ import { useLicenses } from "../../modules/draft/draftQueries";
 import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import { useMessages } from "../Messages/MessagesProvider";
 import { hasUnpublishedConcepts } from "./utils";
+import { useSession } from "../Session/SessionProvider";
+import { useTranslation } from "react-i18next";
 
 export type SlateCommentType = Omit<CommentDTO, "content"> & { content: Descendant[] };
 
@@ -86,14 +87,10 @@ export interface FrontpageArticleFormType extends ArticleFormType {}
 type HooksInputObject<T extends ArticleFormType> = {
   getInitialValues: (article: ArticleDTO | undefined, language: string, ndlaId: string | undefined) => T;
   article?: ArticleDTO;
-  t: TFunction;
-  articleStatus?: StatusDTO;
   updateArticle: (art: UpdatedArticleDTO) => Promise<ArticleDTO>;
-  licenses?: LicenseDTO[];
   getArticleFromSlate: (values: T, initialValues: T, licenses: LicenseDTO[], preview?: boolean) => UpdatedArticleDTO;
   articleLanguage: string;
   rules?: RulesType<T, ArticleDTO>;
-  ndlaId?: string;
   node?: Node;
   articleRevisionHistory: UseQueryResult<ArticleRevisionHistoryDTO> | undefined;
 };
@@ -103,18 +100,17 @@ export type HandleSubmitFunc<T> = (values: T, formikHelpers: FormikHelpers<T>) =
 export function useArticleFormHooks<T extends ArticleFormType>({
   getInitialValues,
   article,
-  t,
-  articleStatus,
   updateArticle,
   getArticleFromSlate,
   articleLanguage,
   rules,
-  ndlaId,
   node,
   articleRevisionHistory,
 }: HooksInputObject<T>) {
   const { id, revision } = article ?? {};
   const formikRef: any = useRef<any>(null);
+  const { ndlaId } = useSession();
+  const { t } = useTranslation();
   const { createMessage, applicationError } = useMessages();
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const [savedToServer, setSavedToServer] = useState(false);
@@ -136,7 +132,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
     async (values, formikHelpers) => {
       if (formikRef?.current?.isSubmitting) return;
       formikHelpers.setSubmitting(true);
-      const initialStatus = articleStatus?.current;
+      const initialStatus = article?.status?.current;
       const newStatus = values.status?.current;
       const statusChange = initialStatus !== newStatus;
       const slateArticle = getArticleFromSlate(values, initialValues, licenses!, false);
@@ -196,10 +192,9 @@ export function useArticleFormHooks<T extends ArticleFormType>({
     },
     [
       applicationError,
-      article?.content?.content,
+      article,
       articleRevisionHistory,
       articleLanguage,
-      articleStatus,
       createMessage,
       getArticleFromSlate,
       getInitialValues,

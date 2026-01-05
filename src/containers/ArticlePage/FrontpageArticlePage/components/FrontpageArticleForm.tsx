@@ -10,7 +10,7 @@ import { Formik, useFormikContext } from "formik";
 import { memo, useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult } from "@tanstack/react-query";
-import { ArticleDTO, UpdatedArticleDTO, StatusDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
+import { ArticleDTO, UpdatedArticleDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
 import FrontpageArticlePanels from "./FrontpageArticlePanels";
 import { Form } from "../../../../components/FormikForm";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
@@ -23,7 +23,6 @@ import { getExpirationDate } from "../../../../util/revisionHelpers";
 import { AlertDialogWrapper } from "../../../FormikForm";
 import { FrontpageArticleFormType, HandleSubmitFunc, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
-import { useSession } from "../../../Session/SessionProvider";
 import {
   draftApiTypeToFrontpageArticleFormType,
   frontpageArticleFormTypeToDraftApiType,
@@ -32,7 +31,6 @@ import {
 interface Props {
   article?: ArticleDTO;
   articleRevisionHistory?: UseQueryResult<ArticleRevisionHistoryDTO>;
-  articleStatus?: StatusDTO;
   articleChanged: boolean;
   supportedLanguages: string[];
   updateArticle: (updatedArticle: UpdatedArticleDTO) => Promise<ArticleDTO>;
@@ -43,7 +41,6 @@ interface Props {
 const FrontpageArticleForm = ({
   article,
   articleRevisionHistory,
-  articleStatus,
   updateArticle,
   articleChanged,
   articleLanguage,
@@ -51,18 +48,14 @@ const FrontpageArticleForm = ({
   translatedFieldsToNN,
 }: Props) => {
   const { t } = useTranslation();
-  const { ndlaId } = useSession();
   const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks<FrontpageArticleFormType>({
     getInitialValues: draftApiTypeToFrontpageArticleFormType,
     article,
     articleRevisionHistory,
-    t,
-    articleStatus,
     updateArticle,
     getArticleFromSlate: frontpageArticleFormTypeToDraftApiType,
     articleLanguage,
     rules: frontPageArticleRules,
-    ndlaId,
   });
 
   const { setWideArticle } = useWideArticle();

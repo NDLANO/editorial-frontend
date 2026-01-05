@@ -20,7 +20,7 @@ interface ResolveUrlsParams extends WithTaxonomyVersion {
 const resolveUrls = (params: ResolveUrlsParams): Promise<ResolvedUrl> =>
   client
     .GET("/v1/url/resolve", {
-      params: { query: params },
+      params: { query: { path: params.path } },
       headers: { VersionHash: params.taxonomyVersion },
     })
     .then((response) => resolveJsonOATS(response));

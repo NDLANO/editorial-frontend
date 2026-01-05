@@ -67,7 +67,7 @@ const ResourceItems = ({
     taxonomyVersion,
   });
 
-  const deleteNodeResource = useDeleteNodeConnectionMutation({
+  const deleteNodeConnection = useDeleteNodeConnectionMutation({
     onMutate: async ({ id }) => {
       await qc.cancelQueries({ queryKey: compKey });
       const prevData = qc.getQueryData<NodeChild[]>(compKey) ?? [];
@@ -143,8 +143,8 @@ const ResourceItems = ({
           />
         )}
       />
-      {deleteNodeResource.error && isError(deleteNodeResource.error) ? (
-        <Text color="text.error">{`${t("taxonomy.errorMessage")}: ${deleteNodeResource.error.message}`}</Text>
+      {deleteNodeConnection.error && isError(deleteNodeConnection.error) ? (
+        <Text color="text.error">{`${t("taxonomy.errorMessage")}: ${deleteNodeConnection.error.message}`}</Text>
       ) : null}
     </StyledResourceItems>
   );

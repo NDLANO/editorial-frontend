@@ -150,10 +150,6 @@ export const stringifyQuery = (object: Record<string, any> = {}) => {
 };
 
 export const httpFunctions = {
-  postAndResolve: <T>(conf: HttpConfig<T>) => httpResolve<T>({ ...conf, method: "POST" }),
-  putAndResolve: <T>(conf: HttpConfig<T>) => httpResolve<T>({ ...conf, method: "PUT" }),
-  patchAndResolve: <T>(conf: HttpConfig<T>) => httpResolve<T>({ ...conf, method: "PATCH" }),
-  deleteAndResolve: <T>(conf: HttpConfig<T>) => httpResolve<T>({ ...conf, method: "DELETE" }),
   fetchAndResolve: <T>(conf: FetchConfig<T>) =>
     httpResolve<T>({
       ...conf,

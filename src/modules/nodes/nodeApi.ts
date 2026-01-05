@@ -24,11 +24,7 @@ import {
 import { GetChildNodesParams, GetNodesParams, GetNodeResourcesParams } from "./nodeApiTypes";
 import { SearchResultBase, WithTaxonomyVersion } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
-import {
-  resolveLocation,
-  resolveVoidOrRejectWithError,
-  resolveJsonOATS,
-} from "../../util/resolveJsonOrRejectWithError";
+import { resolveLocation, resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 
 const client = createAuthClient<openapi.paths>("/taxonomy");
 
@@ -110,7 +106,7 @@ export const deleteNode = (params: NodeDeleteParams): Promise<void> =>
         VersionHash: params.taxonomyVersion,
       },
     })
-    .then((response) => resolveVoidOrRejectWithError(response.response));
+    .then((response) => resolveOATS(response));
 
 interface NodeMetadataPutParams extends WithTaxonomyVersion {
   id: string;
@@ -186,7 +182,7 @@ export const deleteNodeTranslation = (params: NodeTranslationDeleteParams): Prom
         VersionHash: params.taxonomyVersion,
       },
     })
-    .then((response) => resolveJsonOATS(response));
+    .then((response) => resolveOATS(response));
 
 interface NodeTranslationPutParams extends WithTaxonomyVersion {
   id: string;
@@ -205,7 +201,7 @@ export const putNodeTranslation = (params: NodeTranslationPutParams): Promise<vo
       },
       body: params.body,
     })
-    .then((response) => resolveVoidOrRejectWithError(response.response));
+    .then((response) => resolveJsonOATS(response));
 
 interface NodeResourcesGetParams extends WithTaxonomyVersion, GetNodeResourcesParams {
   id: string;
@@ -245,7 +241,7 @@ export const deleteNodeConnection = (params: NodeConnectionDeleteParams): Promis
         VersionHash: params.taxonomyVersion,
       },
     })
-    .then((response) => resolveVoidOrRejectWithError(response.response));
+    .then((response) => resolveOATS(response));
 
 interface NodeConnectionPutParams extends WithTaxonomyVersion {
   id: string;
@@ -263,7 +259,7 @@ export const putNodeConnection = (params: NodeConnectionPutParams): Promise<void
       },
       body: params.body,
     })
-    .then((response) => resolveVoidOrRejectWithError(response.response));
+    .then((response) => resolveJsonOATS(response));
 
 interface NodeConnectionPostParams extends WithTaxonomyVersion {
   body: NodeConnectionPOST;
@@ -337,14 +333,14 @@ export const putNode = (params: PutNodeParams): Promise<void> =>
       },
       body: params.body,
     })
-    .then((response) => resolveVoidOrRejectWithError(response.response));
+    .then((response) => resolveJsonOATS(response));
 
 export interface PutResourcesPrimaryParams extends WithTaxonomyVersion {
   id: string;
   recursive: boolean;
 }
 
-export const putResourcesPrimary = (params: PutResourcesPrimaryParams): Promise<void> =>
+export const putResourcesPrimary = (params: PutResourcesPrimaryParams): Promise<boolean> =>
   client
     .PUT("/v1/nodes/{id}/makeResourcesPrimary", {
       params: {
@@ -355,7 +351,7 @@ export const putResourcesPrimary = (params: PutResourcesPrimaryParams): Promise<
         VersionHash: params.taxonomyVersion,
       },
     })
-    .then((response) => resolveVoidOrRejectWithError(response.response));
+    .then((response) => resolveJsonOATS(response));
 
 export interface CloneNodeParams extends WithTaxonomyVersion {
   id: string;

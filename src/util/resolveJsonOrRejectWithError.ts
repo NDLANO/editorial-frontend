@@ -63,25 +63,6 @@ export interface ResolveOptions<T> {
   alternateResolve?: (res: Response, resolve: (value: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => T;
 }
 
-export const resolveVoidOrRejectWithError = (res: Response): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    if (res.ok) {
-      return resolve();
-    }
-    return res
-      .json()
-      .then((json) => {
-        reject(throwErrorPayload(res.status, json.messages ?? res.statusText, json));
-      })
-      .catch(reject);
-  });
-};
-
-export const resolveJsonOrVoidOrRejectWithError = <T>(res: Response): Promise<T | void> =>
-  res.headers.get("content-type")?.includes("application/json")
-    ? resolveJsonOrRejectWithError<T>(res)
-    : resolveVoidOrRejectWithError(res);
-
 const getErrorMessages = (err: unknown): string | undefined => {
   if (!err || typeof err !== "object") return;
   if ("messages" in err && typeof err.messages === "string") return err.messages;
@@ -125,19 +106,6 @@ export const resolveJsonOrRejectWithError = <T>(
       .then((json) => {
         reject(throwErrorPayload(res.status, json.messages ?? json.description ?? res.statusText, json));
       })
-      .catch(reject);
-  });
-};
-
-export const resolveTextOrRejectWithError = (res: Response): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    if (res.ok) {
-      return resolve(res.text());
-    }
-
-    return res
-      .text()
-      .then((txt) => reject(throwErrorPayload(res.status, txt, undefined)))
       .catch(reject);
   });
 };

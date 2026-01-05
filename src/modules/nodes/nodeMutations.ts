@@ -267,9 +267,9 @@ export const usePutNodeMutation = (options?: Partial<UseMutationOptions<void, un
 };
 
 export const usePutResourcesPrimaryMutation = (
-  options?: Partial<UseMutationOptions<void, unknown, PutResourcesPrimaryParams>>,
+  options?: Partial<UseMutationOptions<boolean, unknown, PutResourcesPrimaryParams>>,
 ) => {
-  return useMutation<void, unknown, PutResourcesPrimaryParams>({
+  return useMutation<boolean, unknown, PutResourcesPrimaryParams>({
     mutationFn: (params) => putResourcesPrimary(params),
     ...options,
   });

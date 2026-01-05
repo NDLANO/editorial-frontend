@@ -10,11 +10,7 @@ import { openapi, ResourceType } from "@ndla/types-taxonomy";
 import { ResourceResourceTypePostBody } from "./resourceTypesApiInterfaces";
 import { WithTaxonomyVersion } from "../../../interfaces";
 import { createAuthClient } from "../../../util/apiHelpers";
-import {
-  resolveJsonOATS,
-  resolveLocation,
-  resolveVoidOrRejectWithError,
-} from "../../../util/resolveJsonOrRejectWithError";
+import { resolveOATS, resolveJsonOATS, resolveLocation } from "../../../util/resolveJsonOrRejectWithError";
 
 const client = createAuthClient<openapi.paths>("/taxonomy");
 
@@ -82,4 +78,4 @@ export const deleteResourceResourceType = (params: ResourceResourceTypeDeletePar
         VersionHash: params.taxonomyVersion,
       },
     })
-    .then((response) => resolveVoidOrRejectWithError(response.response));
+    .then((response) => resolveOATS(response));

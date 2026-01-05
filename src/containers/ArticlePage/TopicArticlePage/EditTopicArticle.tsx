@@ -121,7 +121,6 @@ const EditTopicArticle = () => {
       <title>{`${article.title?.title} ${t("htmlTitles.titleTemplate")}`}</title>
       <TopicArticleForm
         articleTaxonomy={taxonomyQuery.data}
-        articleStatus={article.status}
         articleLanguage={selectedLanguage}
         articleChanged={articleChanged || newLanguage}
         article={article}

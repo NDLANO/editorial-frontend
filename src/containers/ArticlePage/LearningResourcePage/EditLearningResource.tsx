@@ -128,7 +128,6 @@ const EditLearningResource = () => {
         articleTaxonomy={taxonomyQuery.data}
         article={article}
         articleRevisionHistory={articleRevisionHistory}
-        articleStatus={article.status}
         articleChanged={articleChanged || newLanguage}
         updateArticle={updateArticle}
         supportedLanguages={article.supportedLanguages}

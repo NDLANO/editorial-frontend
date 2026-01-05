@@ -11,7 +11,7 @@ import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult } from "@tanstack/react-query";
 import { Button } from "@ndla/primitives";
-import { ArticleDTO, UpdatedArticleDTO, StatusDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
+import { ArticleDTO, UpdatedArticleDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import LearningResourcePanels from "./LearningResourcePanels";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
@@ -26,7 +26,6 @@ import { getExpirationDate } from "../../../../util/revisionHelpers";
 import { AlertDialogWrapper } from "../../../FormikForm";
 import { HandleSubmitFunc, LearningResourceFormType, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
-import { useSession } from "../../../Session/SessionProvider";
 import { TaxonomyVersionProvider } from "../../../StructureVersion/TaxonomyVersionProvider";
 import {
   draftApiTypeToLearningResourceFormType,
@@ -37,7 +36,6 @@ interface Props {
   article?: ArticleDTO;
   articleRevisionHistory?: UseQueryResult<ArticleRevisionHistoryDTO>;
   articleTaxonomy?: Node[];
-  articleStatus?: StatusDTO;
   supportedLanguages: string[];
   articleChanged: boolean;
   updateArticle: (updatedArticle: UpdatedArticleDTO) => Promise<ArticleDTO>;
@@ -48,7 +46,6 @@ interface Props {
 const LearningResourceForm = ({
   article,
   articleTaxonomy,
-  articleStatus,
   updateArticle,
   supportedLanguages,
   articleChanged,
@@ -58,7 +55,6 @@ const LearningResourceForm = ({
 }: Props) => {
   const [showTaxWarning, setShowTaxWarning] = useState(false);
   const { t } = useTranslation();
-  const { ndlaId } = useSession();
 
   const validate = useCallback(
     (values: LearningResourceFormType) => {
@@ -76,14 +72,11 @@ const LearningResourceForm = ({
   } = useArticleFormHooks<LearningResourceFormType>({
     getInitialValues: draftApiTypeToLearningResourceFormType,
     article,
-    t,
-    articleStatus,
     articleRevisionHistory,
     updateArticle,
     getArticleFromSlate: learningResourceFormTypeToDraftApiType,
     articleLanguage,
     rules: learningResourceRules,
-    ndlaId,
     node: articleTaxonomy?.[0],
   });
   const contexts = useMemo(() => articleTaxonomy?.flatMap((node) => node.contexts), [articleTaxonomy]);

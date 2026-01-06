@@ -13,7 +13,8 @@ import errorLogger from "./logger";
 import { getEnvironmentVariabel } from "../config";
 import { ApiTranslateType } from "../interfaces";
 import { EmbedData } from "@ndla/types-embed";
-import { createDataAttributes } from "@ndla/editor";
+import { nanoid } from "nanoid";
+import { keyBy } from "@ndla/util";
 
 type KeysWithoutResource<U extends { resource: PropertyKey }> = {
   [R in U["resource"]]: Array<Exclude<keyof Extract<U, { resource: R }>, "resource">>;
@@ -33,7 +34,7 @@ const fetchTranslation = async <T extends string | string[] | object | object[]>
     method: "POST",
     body: JSON.stringify({
       token,
-      fileType: translatableFields ? `json:${translatableFields.join(",")}` : undefined,
+      fileType: translatableFields ? `json:${translatableFields.join(",")}` : "html",
       document: doc,
       lang_parameter_translate: "none",
     }),
@@ -79,6 +80,7 @@ interface ResponseType {
 }
 
 export interface CheerioEmbed {
+  id: string;
   embed: Cheerio<any>;
   data: EmbedData;
 }
@@ -89,6 +91,7 @@ export const getEmbedsFromContent = (html: CheerioAPI): CheerioEmbed[] => {
   })
     .toArray()
     .map((embed) => ({
+      id: nanoid(16),
       embed: html(embed),
       // Cheerio automatically converts number-like strings to numbers, which in turn can break html-react-parser.
       // Seeing as article-converter expects to only receive strings for embed data, we need to convert all numbers to strings (again).
@@ -100,6 +103,30 @@ export const getEmbedsFromContent = (html: CheerioAPI): CheerioEmbed[] => {
     }));
 };
 
+type TranslatableEmbedData = { id: string } & Record<string, any>;
+
+const constructPayload = (embeds: CheerioEmbed[]) => {
+  const jsonFields: string[] = [];
+  const payload: TranslatableEmbedData[] = [];
+  embeds.forEach((embed) => {
+    const fields = translatableFields[embed.data.resource];
+    if (fields.length) {
+      const transObject = fields.reduce<TranslatableEmbedData>(
+        (acc, curr) => {
+          const key = `${embed.data.resource}-${curr}`;
+          jsonFields.push(key);
+          acc[key] = embed.data[curr as keyof EmbedData];
+          return acc;
+        },
+        { id: embed.id },
+      );
+      payload.push(transObject);
+    }
+  });
+
+  return { payload, jsonFields };
+};
+
 const doFetch = async (name: string, element: ApiTranslateType): Promise<ResponseType> => {
   if (element.type === "text") {
     const result = await fetchTranslation(element.content);
@@ -108,47 +135,26 @@ const doFetch = async (name: string, element: ApiTranslateType): Promise<Respons
   } else {
     const initialTranslation = await fetchTranslation(element.content);
 
-    const html = load(initialTranslation, {}, false);
+    const html = load(initialTranslation, null, false);
     const ndlaEmbeds = getEmbedsFromContent(html);
 
-    const embedsByResource = ndlaEmbeds.reduce<Record<EmbedData["resource"], CheerioEmbed[]>>(
-      (acc, curr) => {
-        if (translatableFields[curr.data.resource].length) {
-          if (!acc[curr.data.resource]) {
-            acc[curr.data.resource] = [curr];
-          } else {
-            acc[curr.data.resource].push(curr);
-          }
+    const { payload, jsonFields } = constructPayload(ndlaEmbeds);
+
+    const translatedEmbeds = await fetchTranslation(payload, jsonFields);
+
+    const keyedEmbeds = keyBy(translatedEmbeds, (embed) => embed.id);
+
+    ndlaEmbeds.forEach((embed) => {
+      if (!keyedEmbeds[embed.id]) return;
+      const { id: _id, ...translatedData } = keyedEmbeds[embed.id];
+      Object.entries(translatedData).forEach(([key, value]) => {
+        const oldKey = key.replace(`${embed.data.resource}-`, "");
+        const newKey = `data-${oldKey}`;
+        if (embed.embed.attr(newKey)) {
+          embed.embed.attr(newKey, he.encode(value));
         }
-        return acc;
-      },
-      {} as Record<EmbedData["resource"], CheerioEmbed[]>,
-    );
-
-    const promises = Object.entries(embedsByResource).map(async ([embed, embeds]) => {
-      const fields = embed in translatableFields ? translatableFields[embed as EmbedData["resource"]] : [];
-      if (!fields.length) return;
-      const data = await fetchTranslation(
-        embeds.map((e) => e.data),
-        fields,
-      );
-
-      embeds.forEach((embed, index) => {
-        const newValues = translatableFields[embed.data.resource].reduce<Record<string, string>>((acc, curr) => {
-          const dataResult = data?.[index]?.[curr as keyof EmbedData];
-          acc[curr] = dataResult;
-          return acc;
-        }, {});
-
-        const dataAttributes = createDataAttributes(newValues);
-        Object.entries(dataAttributes).forEach(([key, value]) => {
-          // embed.embed.opt = false;
-          embed.embed.attr(key, value);
-        });
       });
     });
-
-    await Promise.all(promises);
 
     return {
       key: name,

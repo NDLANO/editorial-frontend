@@ -104,7 +104,7 @@ export const getEmbedsFromContent = (html: CheerioAPI): CheerioEmbed[] => {
 type TranslatableEmbedData = { id: string } & Record<string, any>;
 
 const constructPayload = (embeds: CheerioEmbed[]) => {
-  const jsonFields: string[] = [];
+  const jsonFields = new Set<string>();
   const payload: TranslatableEmbedData[] = [];
   embeds.forEach((embed) => {
     const fields = translatableFields[embed.data.resource];
@@ -112,7 +112,7 @@ const constructPayload = (embeds: CheerioEmbed[]) => {
       const transObject = fields.reduce<TranslatableEmbedData>(
         (acc, curr) => {
           const key = `${embed.data.resource}-${curr}`;
-          jsonFields.push(key);
+          jsonFields.add(key);
           acc[key] = embed.data[curr as keyof EmbedData];
           return acc;
         },
@@ -122,7 +122,7 @@ const constructPayload = (embeds: CheerioEmbed[]) => {
     }
   });
 
-  return { payload, jsonFields };
+  return { payload, jsonFields: Array.from(jsonFields) };
 };
 
 const doFetch = async (name: string, element: ApiTranslateType): Promise<ResponseType> => {

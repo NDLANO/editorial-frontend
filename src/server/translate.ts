@@ -6,76 +6,154 @@
  *
  */
 
-import FormData from "form-data";
+import { Cheerio, CheerioAPI, load } from "cheerio";
+import he from "he";
 import fetch from "node-fetch";
-import queryString from "query-string";
 import errorLogger from "./logger";
-import config, { getEnvironmentVariabel } from "../config";
+import { getEnvironmentVariabel } from "../config";
 import { ApiTranslateType } from "../interfaces";
+import { EmbedData } from "@ndla/types-embed";
+import { createDataAttributes } from "@ndla/editor";
 
-const baseUrl = config.translateServiceUrl;
-const user = getEnvironmentVariabel("NDKM_USER", "");
-const token = getEnvironmentVariabel("NDKM_TOKEN", "");
-const textUrl = `${baseUrl}/translateText`;
-const htmlUrl = `${baseUrl}/translateNHtml`;
+type KeysWithoutResource<U extends { resource: PropertyKey }> = {
+  [R in U["resource"]]: Array<Exclude<keyof Extract<U, { resource: R }>, "resource">>;
+};
 
-interface TextResponse {
-  responseData: {
-    translatedText: string;
-  };
-  responseDetails: null;
-  responseStatus: number;
+// TODO: We're doing something wrong when receiving responses including a code block. See http://localhost:3000/subject-matter/learning-resource/42563/edit/nb
+
+const TRANSLATE_URL = "https://nynorsk.cloud/translate";
+
+interface TranslationResponse<T extends string | string[] | object | object[]> {
+  document: T;
 }
+
+const fetchTranslation = async <T extends string | string[] | object | object[]>(
+  doc: T,
+  translatableFields?: string[],
+) => {
+  const response = await fetch(TRANSLATE_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      token,
+      fileType: translatableFields ? `json:${translatableFields.join(",")}` : undefined,
+      document: doc,
+      lang_parameter_translate: "none",
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((res) => res.json() as Promise<TranslationResponse<T>>);
+
+  return response.document;
+};
+
+const translatableFields: KeysWithoutResource<EmbedData> = {
+  symbol: [],
+  audio: [],
+  brightcove: ["caption", "alt", "title"],
+  "content-link": [],
+  h5p: ["title", "alt"],
+  image: ["alt", "caption"],
+  "related-content": ["title"],
+  concept: [],
+  nrk: [],
+  iframe: ["title", "caption", "alt"],
+  external: ["title", "caption", "alt"],
+  // footnote: ["title"],
+  footnote: [],
+  "code-block": ["title"],
+  file: ["title"],
+  pitch: ["title", "alt", "description"],
+  "key-figure": ["title", "alt", "subtitle"],
+  "contact-block": ["alt", "description", "jobTitle", "name"],
+  "campaign-block": ["description", "alt", "title", "urlText"],
+  "link-block": ["title"],
+  "uu-disclaimer": ["disclaimer"],
+  copyright: ["title"],
+  comment: [],
+};
+
+const token = getEnvironmentVariabel("NTB_TOKEN", "");
 
 interface ResponseType {
   key: string;
   value: string | string[];
 }
 
-const stilmal = "Intern nynorsk 4";
-// Only header if props available
-const headers = user
-  ? {
-      "x-user": user,
-      "x-api-key": token,
-    }
-  : undefined;
+export interface CheerioEmbed {
+  embed: Cheerio<any>;
+  data: EmbedData;
+}
 
-const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType> => {
+export const getEmbedsFromContent = (html: CheerioAPI): CheerioEmbed[] => {
+  return html("ndlaembed", null, undefined, { xml: { encodeEntities: false, decodeEntities: true } })
+    .toArray()
+    .map((embed) => ({
+      embed: html(embed),
+      // Cheerio automatically converts number-like strings to numbers, which in turn can break html-react-parser.
+      // Seeing as article-converter expects to only receive strings for embed data, we need to convert all numbers to strings (again).
+      data: Object.entries(html(embed).data()).reduce((acc, [key, value]) => {
+        //@ts-expect-error - this is hard to type
+        acc[key] = typeof value === "number" || typeof value === "boolean" ? `${value}` : value;
+        return acc;
+      }, {}) as EmbedData,
+    }));
+};
+
+const doFetch = async (name: string, element: ApiTranslateType): Promise<ResponseType> => {
   if (element.type === "text") {
-    const parsedContent = element.isArray ? element.content.join("|") : element.content;
-    const params = {
-      stilmal,
-      q: parsedContent,
-    };
-    return fetch(`${textUrl}?${queryString.stringify(params)}`, {
-      method: "POST",
-      headers,
-    })
-      .then((res) => res.json())
-      .then((json: TextResponse) => {
-        const translated = json.responseData.translatedText;
-        const content = element.isArray ? translated.split("|") : translated;
-        return { key: name, value: content };
-      });
-  } else {
-    const formData = new FormData();
-    const wrappedContent = `<html>${element.content}</html>`;
-    const buffer = Buffer.from(wrappedContent);
-    const params = { stilmal };
+    const result = await fetchTranslation(element.content);
 
-    formData.append("file", buffer, { filename: `${name}.html` });
-    return fetch(`${htmlUrl}?${queryString.stringify(params)}`, {
-      method: "POST",
-      body: formData,
-      headers,
-    })
-      .then((res) => res.blob())
-      .then((res) => res.text())
-      .then(async (res) => {
-        const strippedResponse = res.replace("<html>", "").replace("</html>", "");
-        return { key: name, value: strippedResponse };
+    return { key: name, value: result };
+  } else {
+    const initialTranslation = await fetchTranslation(element.content);
+
+    const html = load(initialTranslation, {}, false);
+    const ndlaEmbeds = getEmbedsFromContent(html);
+
+    const embedsByResource = ndlaEmbeds.reduce<Record<EmbedData["resource"], CheerioEmbed[]>>(
+      (acc, curr) => {
+        if (translatableFields[curr.data.resource].length) {
+          if (!acc[curr.data.resource]) {
+            acc[curr.data.resource] = [curr];
+          } else {
+            acc[curr.data.resource].push(curr);
+          }
+        }
+        return acc;
+      },
+      {} as Record<EmbedData["resource"], CheerioEmbed[]>,
+    );
+
+    const promises = Object.entries(embedsByResource).map(async ([embed, embeds]) => {
+      const fields = embed in translatableFields ? translatableFields[embed as EmbedData["resource"]] : [];
+      if (!fields.length) return;
+      const data = await fetchTranslation(
+        embeds.map((e) => e.data),
+        fields,
+      );
+
+      embeds.forEach((embed, index) => {
+        const newValues = translatableFields[embed.data.resource].reduce<Record<string, string>>((acc, curr) => {
+          const dataResult = data?.[index]?.[curr as keyof EmbedData];
+          acc[curr] = dataResult;
+          return acc;
+        }, {});
+
+        const dataAttributes = createDataAttributes(newValues);
+        Object.entries(dataAttributes).forEach(([key, value]) => {
+          // embed.embed.opt = false;
+          embed.embed.attr(key, value);
+        });
       });
+    });
+
+    await Promise.all(promises);
+
+    return {
+      key: name,
+      value: he.decode(html.html({ xml: { decodeEntities: true } })),
+    };
   }
 };
 

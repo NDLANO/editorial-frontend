@@ -23,9 +23,6 @@ export interface TranslateType {
   type: "text" | "html";
 }
 
-const domParser = new DOMParser();
-const xmlSerializer = new XMLSerializer();
-
 export const NynorskTranslateProvider = ({ children }: Props) => {
   return <TranslateContext value={true}>{children}</TranslateContext>;
 };
@@ -52,31 +49,16 @@ export const useTranslateToNN = () => {
       const payload = fields.reduce<Record<string, ApiTranslateType>>((acc, { field, type }) => {
         const content = get(element, field);
         if (content) {
-          const isArray = Array.isArray(content);
           // Our backend uses Jsoup to encode html. However, > is not encoded, and nynodata expects it to be. As such, we have to parse
           // the entire html string and reencode it using an xmlSerializer.
-          const parsed =
-            type === "html" && !isArray
-              ? xmlSerializer.serializeToString(domParser.parseFromString(content, "text/html").body!)
-              : content;
-          acc[field] = { content: parsed, type, isArray };
+          acc[field] = { content: content, type };
         }
         return acc;
       }, {});
       const document = await fetchNnTranslation(payload);
       const cloned = JSON.parse(JSON.stringify(element));
       Object.entries(document).forEach(([key, value]) => {
-        const isHtml = fields.find((field) => field.field === key && field.type === "html");
-        // Remove XML traces for html fields
-        const parsed =
-          isHtml && !Array.isArray(value)
-            ? value
-                .replace(/\sxmlns=".*?"/g, "")
-                .replace(/&?lt;/g, "<")
-                .replace(/&?gt;/g, ">")
-                .replace(/<\/?body>/g, "")
-            : value;
-        set(cloned, key, parsed);
+        set(cloned, key, value);
       });
       setShouldTranslate(false);
       setTranslating(false);

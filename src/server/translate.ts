@@ -86,9 +86,7 @@ export interface CheerioEmbed {
 }
 
 export const getEmbedsFromContent = (html: CheerioAPI): CheerioEmbed[] => {
-  return html("ndlaembed", null, undefined, {
-    xml: { encodeEntities: false, decodeEntities: true, selfClosingTags: false },
-  })
+  return html("ndlaembed", null, undefined)
     .toArray()
     .map((embed) => ({
       id: nanoid(16),
@@ -158,7 +156,7 @@ const doFetch = async (name: string, element: ApiTranslateType): Promise<Respons
 
     return {
       key: name,
-      value: he.decode(html.html({ xml: { decodeEntities: true, selfClosingTags: false } })),
+      value: he.decode(html.html()),
     };
   }
 };

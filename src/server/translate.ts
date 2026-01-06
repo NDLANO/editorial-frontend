@@ -95,7 +95,7 @@ const translatableFields: KeysWithoutResource<EmbedData> = {
   file: ["title"],
   pitch: ["title", "alt", "description"],
   "key-figure": ["title", "alt", "subtitle"],
-  "contact-block": ["alt", "description", "jobTitle", "name"],
+  "contact-block": ["alt", "description", "jobTitle"],
   "campaign-block": ["description", "alt", "title", "urlText"],
   "link-block": ["title"],
   "uu-disclaimer": ["disclaimer"],

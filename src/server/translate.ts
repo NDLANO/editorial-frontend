@@ -19,8 +19,6 @@ type KeysWithoutResource<U extends { resource: PropertyKey }> = {
   [R in U["resource"]]: Array<Exclude<keyof Extract<U, { resource: R }>, "resource">>;
 };
 
-// TODO: We're doing something wrong when receiving responses including a code block. See http://localhost:3000/subject-matter/learning-resource/42563/edit/nb
-
 const TRANSLATE_URL = "https://nynorsk.cloud/translate";
 
 interface TranslationResponse<T extends string | string[] | object | object[]> {
@@ -40,7 +38,7 @@ const fetchTranslation = async <T extends string | string[] | object | object[]>
       lang_parameter_translate: "none",
     }),
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json; charset=utf-8",
     },
   }).then((res) => res.json() as Promise<TranslationResponse<T>>);
 
@@ -86,7 +84,9 @@ export interface CheerioEmbed {
 }
 
 export const getEmbedsFromContent = (html: CheerioAPI): CheerioEmbed[] => {
-  return html("ndlaembed", null, undefined, { xml: { encodeEntities: false, decodeEntities: true } })
+  return html("ndlaembed", null, undefined, {
+    xml: { encodeEntities: false, decodeEntities: true, selfClosingTags: false },
+  })
     .toArray()
     .map((embed) => ({
       embed: html(embed),
@@ -152,7 +152,7 @@ const doFetch = async (name: string, element: ApiTranslateType): Promise<Respons
 
     return {
       key: name,
-      value: he.decode(html.html({ xml: { decodeEntities: true } })),
+      value: he.decode(html.html({ xml: { decodeEntities: true, selfClosingTags: false } })),
     };
   }
 };

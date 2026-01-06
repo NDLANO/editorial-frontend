@@ -80,9 +80,9 @@ export const OATSAuthMiddleware: Middleware = {
   },
 };
 
-export const createAuthClient = <T extends {}>() => {
+export const createAuthClient = <T extends {}>(prefix?: string) => {
   const client = createClient<T>({
-    baseUrl: apiBaseUrl,
+    baseUrl: `${apiBaseUrl}${prefix ?? ""}`,
     querySerializer: {
       array: {
         style: "form",
@@ -113,53 +113,6 @@ export const fetchWithAuthorization = async (url: string, config: FetchConfigTyp
     ...config,
     headers,
   });
-};
-
-const defaultHeaders = { "Content-Type": "application/json" };
-
-interface DoAndResolveType<Type> extends FetchConfigType {
-  url: string;
-  alternateResolve?: (res: Response) => Promise<Type>;
-  taxonomyVersion?: string;
-}
-
-interface HttpConfig<T> extends Omit<DoAndResolveType<T>, "method"> {}
-
-interface FetchConfig<T> extends HttpConfig<T> {
-  queryParams?: Record<string, any>;
-}
-
-const httpResolve = <Type>({
-  url,
-  headers,
-  alternateResolve,
-  taxonomyVersion,
-  ...config
-}: DoAndResolveType<Type>): Promise<Type> => {
-  return fetchAuthorized(url, {
-    ...config,
-    headers: { ...defaultHeaders, VersionHash: taxonomyVersion, ...headers },
-  }).then((r) => {
-    return alternateResolve?.(r) ?? resolveJsonOrRejectWithError(r);
-  });
-};
-
-export const stringifyQuery = (object: Record<string, any> = {}) => {
-  const stringified = `?${queryString.stringify(object)}`;
-  return stringified === "?" ? "" : stringified;
-};
-
-export const httpFunctions = {
-  postAndResolve: <T>(conf: HttpConfig<T>) => httpResolve<T>({ ...conf, method: "POST" }),
-  putAndResolve: <T>(conf: HttpConfig<T>) => httpResolve<T>({ ...conf, method: "PUT" }),
-  patchAndResolve: <T>(conf: HttpConfig<T>) => httpResolve<T>({ ...conf, method: "PATCH" }),
-  deleteAndResolve: <T>(conf: HttpConfig<T>) => httpResolve<T>({ ...conf, method: "DELETE" }),
-  fetchAndResolve: <T>(conf: FetchConfig<T>) =>
-    httpResolve<T>({
-      ...conf,
-      method: "GET",
-      url: `${conf.url}${stringifyQuery(conf.queryParams)}`,
-    }),
 };
 
 export const fetchAuthorized = (url: string, config: FetchConfigType = {}) =>

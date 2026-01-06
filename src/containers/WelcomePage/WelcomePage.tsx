@@ -55,7 +55,7 @@ export const WelcomePage = () => {
   const { ndlaId } = useSession();
   const searchQuery = usePostSearchNodes(
     {
-      ...customFieldsBody(ndlaId ?? ""),
+      body: customFieldsBody(ndlaId ?? ""),
       taxonomyVersion,
     },
     { enabled: !!ndlaId },

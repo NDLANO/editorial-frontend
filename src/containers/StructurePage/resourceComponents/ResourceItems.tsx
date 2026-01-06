@@ -19,7 +19,7 @@ import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
 import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
-import { useDeleteResourceForNodeMutation, usePutResourceForNodeMutation } from "../../../modules/nodes/nodeMutations";
+import { useDeleteNodeConnectionMutation, useUpdateNodeConnectionMutation } from "../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import handleError from "../../../util/handleError";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -67,7 +67,7 @@ const ResourceItems = ({
     taxonomyVersion,
   });
 
-  const deleteNodeResource = useDeleteResourceForNodeMutation({
+  const deleteNodeConnection = useDeleteNodeConnectionMutation({
     onMutate: async ({ id }) => {
       await qc.cancelQueries({ queryKey: compKey });
       const prevData = qc.getQueryData<NodeChild[]>(compKey) ?? [];
@@ -93,7 +93,7 @@ const ResourceItems = ({
     return resources;
   };
 
-  const { mutateAsync: updateNodeResource } = usePutResourceForNodeMutation({
+  const { mutateAsync: updateNodeConnection } = useUpdateNodeConnectionMutation({
     onMutate: ({ id, body }) => onUpdateRank(id, body.rank as number),
     onError: (e) => handleError(e),
     onSettled: () => qc.invalidateQueries({ queryKey: compKey }),
@@ -107,7 +107,7 @@ const ResourceItems = ({
     const [source, dest] = [resources[active.data.current?.index], resources[over?.data.current?.index]];
     if (!dest || !source || source.rank === dest.rank) return;
 
-    await updateNodeResource({
+    await updateNodeConnection({
       id: source.connectionId,
       body: {
         primary: source.isPrimary,
@@ -143,8 +143,8 @@ const ResourceItems = ({
           />
         )}
       />
-      {deleteNodeResource.error && isError(deleteNodeResource.error) ? (
-        <Text color="text.error">{`${t("taxonomy.errorMessage")}: ${deleteNodeResource.error.message}`}</Text>
+      {deleteNodeConnection.error && isError(deleteNodeConnection.error) ? (
+        <Text color="text.error">{`${t("taxonomy.errorMessage")}: ${deleteNodeConnection.error.message}`}</Text>
       ) : null}
     </StyledResourceItems>
   );

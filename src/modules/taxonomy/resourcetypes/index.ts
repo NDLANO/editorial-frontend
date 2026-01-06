@@ -6,73 +6,76 @@
  *
  */
 
-import { ResourceType } from "@ndla/types-taxonomy";
+import { openapi, ResourceType } from "@ndla/types-taxonomy";
 import { ResourceResourceTypePostBody } from "./resourceTypesApiInterfaces";
-import { taxonomyApi } from "../../../config";
 import { WithTaxonomyVersion } from "../../../interfaces";
-import { apiResourceUrl, httpFunctions } from "../../../util/apiHelpers";
-import { resolveLocation, resolveVoidOrRejectWithError } from "../../../util/resolveJsonOrRejectWithError";
+import { createAuthClient } from "../../../util/apiHelpers";
+import { resolveOATS, resolveJsonOATS, resolveLocation } from "../../../util/resolveJsonOrRejectWithError";
 
-const resourceTypesUrl = apiResourceUrl(`${taxonomyApi}/resource-types`);
-const resourceResourceTypesUrl = apiResourceUrl(`${taxonomyApi}/resource-resourcetypes`);
-
-const { fetchAndResolve, postAndResolve, deleteAndResolve } = httpFunctions;
+const client = createAuthClient<openapi.paths>("/taxonomy");
 
 interface ResourceTypesGetParams extends WithTaxonomyVersion {
   language: string;
 }
 
-export const fetchAllResourceTypes = ({
-  language,
-  taxonomyVersion,
-}: ResourceTypesGetParams): Promise<ResourceType[]> => {
-  return fetchAndResolve({
-    url: resourceTypesUrl,
-    taxonomyVersion,
-    queryParams: { language },
-  });
-};
+export const fetchAllResourceTypes = (params: ResourceTypesGetParams): Promise<ResourceType[]> =>
+  client
+    .GET("/v1/resource-types", {
+      params: {
+        query: params,
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+    })
+    .then((response) => resolveJsonOATS(response));
 
 interface ResourceTypeGetParams extends WithTaxonomyVersion {
   id: string;
   language: string;
 }
 
-export const fetchResourceType = ({ id, language, taxonomyVersion }: ResourceTypeGetParams): Promise<ResourceType> => {
-  return fetchAndResolve({
-    url: `${resourceTypesUrl}/${id}`,
-    queryParams: { language },
-    taxonomyVersion,
-  });
-};
+export const fetchResourceType = (params: ResourceTypeGetParams): Promise<ResourceType> =>
+  client
+    .GET("/v1/resource-types/{id}", {
+      params: {
+        path: { id: params.id },
+        query: {
+          language: params.language,
+        },
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+    })
+    .then((response) => resolveJsonOATS(response));
 
 export interface ResourceResourceTypePostParams extends WithTaxonomyVersion {
   body: ResourceResourceTypePostBody;
 }
 
-export const createResourceResourceType = ({
-  body,
-  taxonomyVersion,
-}: ResourceResourceTypePostParams): Promise<string> => {
-  return postAndResolve({
-    url: resourceResourceTypesUrl,
-    body: JSON.stringify(body),
-    taxonomyVersion,
-    alternateResolve: resolveLocation,
-  });
-};
+export const createResourceResourceType = (params: ResourceResourceTypePostParams): Promise<string> =>
+  client
+    .POST("/v1/resource-resourcetypes", {
+      body: params.body,
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+    })
+    .then((response) => resolveLocation(response.response));
 
 export interface ResourceResourceTypeDeleteParams extends WithTaxonomyVersion {
   id: string;
 }
 
-export const deleteResourceResourceType = ({
-  id,
-  taxonomyVersion,
-}: ResourceResourceTypeDeleteParams): Promise<void> => {
-  return deleteAndResolve({
-    url: `${resourceResourceTypesUrl}/${id}`,
-    taxonomyVersion,
-    alternateResolve: resolveVoidOrRejectWithError,
-  });
-};
+export const deleteResourceResourceType = (params: ResourceResourceTypeDeleteParams): Promise<void> =>
+  client
+    .DELETE("/v1/resource-resourcetypes/{id}", {
+      params: {
+        path: { id: params.id },
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+    })
+    .then((response) => resolveOATS(response));

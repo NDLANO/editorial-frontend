@@ -47,7 +47,7 @@ const ToggleVisibility = ({ node, rootNodeId, rootNodeType = "SUBJECT" }: Props)
   const qc = useQueryClient();
   const compKey = nodeQueryKeys.nodes({
     language: i18n.language,
-    nodeType: rootNodeType,
+    nodeType: [rootNodeType],
     taxonomyVersion,
   });
 

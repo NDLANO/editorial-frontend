@@ -48,7 +48,7 @@ export const ContentSearch = () => {
 
   const subjectsQuery = useNodes({
     language: i18n.language,
-    nodeType: "SUBJECT",
+    nodeType: ["SUBJECT"],
     taxonomyVersion,
   });
 

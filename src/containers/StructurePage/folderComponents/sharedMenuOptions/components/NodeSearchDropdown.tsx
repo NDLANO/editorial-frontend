@@ -28,7 +28,7 @@ const NodeSearchDropdown = ({ placeholder, filter, onChange, searchNodeType = "T
 
   const searchQuery = useSearchNodes({
     taxonomyVersion,
-    nodeType: searchNodeType,
+    nodeType: [searchNodeType],
     page,
     query: delayedQuery,
   });

@@ -16,7 +16,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
 import { cloneDraft } from "../../../../modules/draft/draftApi";
 import { learningpathCopy } from "../../../../modules/learningpath/learningpathApi";
-import { cloneNode, fetchNodeResources, postResourceForNode } from "../../../../modules/nodes/nodeApi";
+import { cloneNode, fetchNodeResources, postNodeConnection } from "../../../../modules/nodes/nodeApi";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { routes } from "../../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
@@ -111,13 +111,13 @@ const CopyNodeResources = ({ currentNode, nodeType, type }: Props) => {
   };
 
   const copy = async ({ isPrimary, id, rank }: NodeChild): Promise<string> =>
-    await postResourceForNode({
+    await postNodeConnection({
       taxonomyVersion,
       body: {
         primary: isPrimary,
         rank,
-        resourceId: id,
-        nodeId: currentNode.id,
+        childId: id,
+        parentId: currentNode.id,
       },
     });
 

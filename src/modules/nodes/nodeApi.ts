@@ -7,6 +7,7 @@
  */
 
 import {
+  openapi,
   Node,
   NodePostPut,
   NodeChild,
@@ -14,128 +15,174 @@ import {
   TranslationPUT,
   NodeConnectionPUT,
   NodeConnectionPOST,
-  NodeResourcePOST,
-  NodeResourcePUT,
   NodeType,
   Connection,
   Metadata,
+  MetadataPUT,
+  NodeSearchBody,
 } from "@ndla/types-taxonomy";
-import { GetChildNodesParams, GetNodeParams, GetNodeResourcesParams } from "./nodeApiTypes";
-import { taxonomyApi } from "../../config";
+import { GetChildNodesParams, GetNodesParams, GetNodeResourcesParams } from "./nodeApiTypes";
 import { SearchResultBase, WithTaxonomyVersion } from "../../interfaces";
-import { apiResourceUrl, httpFunctions, stringifyQuery } from "../../util/apiHelpers";
-import { resolveLocation, resolveVoidOrRejectWithError } from "../../util/resolveJsonOrRejectWithError";
+import { createAuthClient } from "../../util/apiHelpers";
+import { resolveLocation, resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 
-const baseUrl = apiResourceUrl(`${taxonomyApi}/nodes`);
-const connUrl = apiResourceUrl(`${taxonomyApi}/node-connections`);
-const resUrl = apiResourceUrl(`${taxonomyApi}/node-resources`);
-
-const { postAndResolve, fetchAndResolve, putAndResolve, deleteAndResolve } = httpFunctions;
+const client = createAuthClient<openapi.paths>("/taxonomy");
 
 interface NodeGetParams extends WithTaxonomyVersion {
   id: string;
   language?: string;
 }
 
-export const fetchNode = ({ id, language, taxonomyVersion }: NodeGetParams): Promise<Node> => {
-  return fetchAndResolve({
-    url: `${baseUrl}/${id}`,
-    taxonomyVersion,
-    queryParams: { language },
-  });
-};
+export const fetchNode = (params: NodeGetParams): Promise<Node> =>
+  client
+    .GET("/v1/nodes/{id}", {
+      params: {
+        path: { id: params.id },
+        query: {
+          language: params.language,
+        },
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+    })
+    .then((response) => resolveJsonOATS(response));
 
-interface NodesGetParams extends WithTaxonomyVersion, GetNodeParams {}
+interface NodesGetParams extends WithTaxonomyVersion, GetNodesParams {}
 
-export const fetchNodes = ({ taxonomyVersion, ...queryParams }: NodesGetParams): Promise<Node[]> =>
-  fetchAndResolve({ url: baseUrl, taxonomyVersion, queryParams });
+export const fetchNodes = (params: NodesGetParams): Promise<Node[]> =>
+  client
+    .GET("/v1/nodes", {
+      params: {
+        query: params,
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+    })
+    .then((response) => resolveJsonOATS(response));
 
 interface NodePostParams extends WithTaxonomyVersion {
   body: NodePostPut;
 }
 
-export const postNode = ({ body, taxonomyVersion }: NodePostParams): Promise<string> =>
-  postAndResolve({
-    url: baseUrl,
-    body: JSON.stringify(body),
-    alternateResolve: resolveLocation,
-    taxonomyVersion,
-  });
+export const postNode = (params: NodePostParams): Promise<string> =>
+  client
+    .POST("/v1/nodes", {
+      body: params.body,
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+    })
+    .then((response) => resolveLocation(response.response));
 
 interface ConnectionsForNodeGetParams extends WithTaxonomyVersion {
   id: string;
 }
 
-export const fetchConnectionsForNode = ({ id, taxonomyVersion }: ConnectionsForNodeGetParams): Promise<Connection[]> =>
-  fetchAndResolve({
-    url: `${baseUrl}/${id}/connections`,
-    taxonomyVersion,
-  });
+export const fetchConnectionsForNode = (params: ConnectionsForNodeGetParams): Promise<Connection[]> =>
+  client
+    .GET("/v1/nodes/{id}/connections", {
+      params: {
+        path: { id: params.id },
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+    })
+    .then((response) => resolveJsonOATS(response));
 
 interface NodeDeleteParams extends WithTaxonomyVersion {
   id: string;
 }
-export const deleteNode = ({ id, taxonomyVersion }: NodeDeleteParams): Promise<void> =>
-  deleteAndResolve({
-    url: `${baseUrl}/${id}`,
-    taxonomyVersion,
-    alternateResolve: resolveVoidOrRejectWithError,
-  });
+
+export const deleteNode = (params: NodeDeleteParams): Promise<void> =>
+  client
+    .DELETE("/v1/nodes/{id}", {
+      params: {
+        path: { id: params.id },
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+    })
+    .then((response) => resolveOATS(response));
 
 interface NodeMetadataPutParams extends WithTaxonomyVersion {
   id: string;
-  meta: Partial<Metadata>;
+  meta: MetadataPUT;
 }
-export const putNodeMetadata = ({ id, meta, taxonomyVersion }: NodeMetadataPutParams): Promise<Metadata> =>
-  putAndResolve({
-    body: JSON.stringify(meta),
-    url: `${baseUrl}/${id}/metadata`,
-    taxonomyVersion,
-  });
+
+export const putNodeMetadata = (params: NodeMetadataPutParams): Promise<Metadata> =>
+  client
+    .PUT("/v1/nodes/{id}/metadata", {
+      params: {
+        path: { id: params.id },
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+      body: params.meta,
+    })
+    .then((response) => resolveJsonOATS(response));
 
 interface ChildNodesGetParams extends WithTaxonomyVersion, GetChildNodesParams {
   id: string;
 }
-export const fetchChildNodes = ({
-  id,
-  recursive,
-  nodeType,
-  language,
-  taxonomyVersion,
-  includeContexts,
-  filterProgrammes,
-  isVisible,
-  connectionTypes,
-}: ChildNodesGetParams): Promise<NodeChild[]> =>
-  fetchAndResolve({
-    url: `${baseUrl}/${id}/nodes`,
-    taxonomyVersion,
-    queryParams: { recursive, nodeType, language, includeContexts, filterProgrammes, isVisible, connectionTypes },
-  });
+
+export const fetchChildNodes = (params: ChildNodesGetParams): Promise<NodeChild[]> =>
+  client
+    .GET("/v1/nodes/{id}/nodes", {
+      params: {
+        path: { id: params.id },
+        query: {
+          recursive: params.recursive,
+          nodeType: params.nodeType,
+          language: params.language,
+          includeContexts: params.includeContexts,
+          filterProgrammes: params.filterProgrammes,
+          isVisible: params.isVisible,
+          connectionTypes: params.connectionTypes,
+        },
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+    })
+    .then((response) => resolveJsonOATS(response));
 
 interface NodeTranslationsGetParams extends WithTaxonomyVersion {
   id: string;
 }
 
-export const fetchNodeTranslations = ({ id, taxonomyVersion }: NodeTranslationsGetParams): Promise<Translation[]> =>
-  fetchAndResolve({ url: `${baseUrl}/${id}/translations`, taxonomyVersion });
+export const fetchNodeTranslations = (params: NodeTranslationsGetParams): Promise<Translation[]> =>
+  client
+    .GET("/v1/nodes/{id}/translations", {
+      params: {
+        path: { id: params.id },
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+    })
+    .then((response) => resolveJsonOATS(response));
 
 interface NodeTranslationDeleteParams extends WithTaxonomyVersion {
   id: string;
   language: string;
 }
 
-export const deleteNodeTranslation = ({
-  id,
-  language,
-  taxonomyVersion,
-}: NodeTranslationDeleteParams): Promise<void> => {
-  return deleteAndResolve({
-    url: `${baseUrl}/${id}/translations/${language}`,
-    alternateResolve: resolveVoidOrRejectWithError,
-    taxonomyVersion,
-  });
-};
+export const deleteNodeTranslation = (params: NodeTranslationDeleteParams): Promise<void> =>
+  client
+    .DELETE("/v1/nodes/{id}/translations/{language}", {
+      params: {
+        path: { id: params.id, language: params.language },
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+    })
+    .then((response) => resolveOATS(response));
 
 interface NodeTranslationPutParams extends WithTaxonomyVersion {
   id: string;
@@ -143,158 +190,168 @@ interface NodeTranslationPutParams extends WithTaxonomyVersion {
   body: TranslationPUT;
 }
 
-export const putNodeTranslation = ({ id, language, body, taxonomyVersion }: NodeTranslationPutParams): Promise<void> =>
-  putAndResolve({
-    url: `${baseUrl}/${id}/translations/${language}`,
-    body: JSON.stringify(body),
-    alternateResolve: resolveVoidOrRejectWithError,
-    taxonomyVersion,
-  });
+export const putNodeTranslation = (params: NodeTranslationPutParams): Promise<void> =>
+  client
+    .PUT("/v1/nodes/{id}/translations/{language}", {
+      params: {
+        path: { id: params.id, language: params.language },
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+      body: params.body,
+    })
+    .then((response) => resolveJsonOATS(response));
 
 interface NodeResourcesGetParams extends WithTaxonomyVersion, GetNodeResourcesParams {
   id: string;
 }
 
-export const fetchNodeResources = ({
-  id,
-  taxonomyVersion,
-  ...queryParams
-}: NodeResourcesGetParams): Promise<NodeChild[]> => {
-  return fetchAndResolve({
-    url: `${baseUrl}/${id}/resources`,
-    taxonomyVersion,
-    queryParams,
-  });
-};
+export const fetchNodeResources = (params: NodeResourcesGetParams): Promise<NodeChild[]> =>
+  client
+    .GET("/v1/nodes/{id}/resources", {
+      params: {
+        path: { id: params.id },
+        query: {
+          language: params.language,
+          recursive: params.recursive,
+          relevance: params.relevance,
+          includeContexts: params.includeContexts,
+          filterProgrammes: params.filterProgrammes,
+          isVisible: params.isVisible,
+        },
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+    })
+    .then((response) => resolveJsonOATS(response));
 
 interface NodeConnectionDeleteParams extends WithTaxonomyVersion {
   id: string;
 }
 
-export const deleteNodeConnection = ({ id, taxonomyVersion }: NodeConnectionDeleteParams): Promise<void> =>
-  deleteAndResolve({
-    url: `${connUrl}/${id}`,
-    alternateResolve: resolveVoidOrRejectWithError,
-    taxonomyVersion,
-  });
+export const deleteNodeConnection = (params: NodeConnectionDeleteParams): Promise<void> =>
+  client
+    .DELETE("/v1/node-connections/{id}", {
+      params: {
+        path: { id: params.id },
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+    })
+    .then((response) => resolveOATS(response));
 
 interface NodeConnectionPutParams extends WithTaxonomyVersion {
   id: string;
   body: NodeConnectionPUT;
 }
 
-export const putNodeConnection = ({ id, body, taxonomyVersion }: NodeConnectionPutParams): Promise<void> =>
-  putAndResolve({
-    url: `${connUrl}/${id}`,
-    body: JSON.stringify(body),
-    alternateResolve: resolveVoidOrRejectWithError,
-    taxonomyVersion,
-  });
+export const putNodeConnection = (params: NodeConnectionPutParams): Promise<void> =>
+  client
+    .PUT("/v1/node-connections/{id}", {
+      params: {
+        path: { id: params.id },
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+      body: params.body,
+    })
+    .then((response) => resolveJsonOATS(response));
 
 interface NodeConnectionPostParams extends WithTaxonomyVersion {
   body: NodeConnectionPOST;
 }
 
-export const postNodeConnection = ({ body, taxonomyVersion }: NodeConnectionPostParams): Promise<string> =>
-  postAndResolve({
-    url: `${connUrl}`,
-    body: JSON.stringify(body),
-    alternateResolve: resolveLocation,
-    taxonomyVersion,
-  });
-
-interface NodeResourcePostParams extends WithTaxonomyVersion {
-  body: NodeResourcePOST;
-}
-
-export const postResourceForNode = ({ body, taxonomyVersion }: NodeResourcePostParams): Promise<string> =>
-  postAndResolve({
-    url: resUrl,
-    body: JSON.stringify(body),
-    alternateResolve: resolveLocation,
-    taxonomyVersion,
-  });
-
-interface NodeResourceDeleteParams extends WithTaxonomyVersion {
-  id: string;
-}
-export const deleteResourceForNode = ({ id, taxonomyVersion }: NodeResourceDeleteParams): Promise<void> =>
-  deleteAndResolve({
-    url: `${resUrl}/${id}`,
-    alternateResolve: resolveVoidOrRejectWithError,
-    taxonomyVersion,
-  });
-
-interface NodeResourcePutParams extends WithTaxonomyVersion {
-  id: string;
-  body: NodeResourcePUT;
-}
-
-export const putResourceForNode = ({ id, body, taxonomyVersion }: NodeResourcePutParams): Promise<void> =>
-  putAndResolve({
-    url: `${resUrl}/${id}`,
-    body: JSON.stringify(body),
-    alternateResolve: resolveVoidOrRejectWithError,
-    taxonomyVersion,
-  });
+export const postNodeConnection = (params: NodeConnectionPostParams): Promise<string> =>
+  client
+    .POST("/v1/node-connections", {
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+      body: params.body,
+    })
+    .then((response) => resolveLocation(response.response));
 
 interface SearchNodes extends WithTaxonomyVersion {
   ids?: string[];
   language?: string;
-  nodeType?: NodeType;
+  nodeType?: NodeType[];
   page?: number;
   pageSize?: number;
   query?: string;
 }
 
-export const searchNodes = ({ taxonomyVersion, ...queryParams }: SearchNodes): Promise<SearchResultBase<Node>> => {
-  return fetchAndResolve({
-    url: `${baseUrl}/search`,
-    taxonomyVersion,
-    queryParams,
-  });
-};
+export const searchNodes = (params: SearchNodes): Promise<SearchResultBase<Node>> =>
+  client
+    .GET("/v1/nodes/search", {
+      params: {
+        query: {
+          ids: params.ids,
+          language: params.language,
+          nodeType: params.nodeType,
+          page: params.page,
+          pageSize: params.pageSize,
+          query: params.query,
+        },
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+    })
+    .then((response) => resolveJsonOATS(response));
 
 interface PostSearchNodes extends WithTaxonomyVersion {
-  pageSize?: number;
-  customFields?: Record<string, string>;
+  body: NodeSearchBody;
 }
 
-export const postSearchNodes = ({ taxonomyVersion, ...body }: PostSearchNodes): Promise<SearchResultBase<Node>> => {
-  return postAndResolve({
-    url: `${baseUrl}/search`,
-    body: JSON.stringify(body),
-    taxonomyVersion,
-  });
-};
+export const postSearchNodes = (params: PostSearchNodes): Promise<SearchResultBase<Node>> =>
+  client
+    .POST("/v1/nodes/search", {
+      body: params.body,
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+    })
+    .then((response) => resolveJsonOATS(response));
 
-export interface PutNodeParams extends WithTaxonomyVersion, Omit<NodePostPut, "nodeType"> {
+export interface PutNodeParams extends WithTaxonomyVersion {
   id: string;
-  nodeType?: string;
+  body: NodePostPut;
 }
 
-export const putNode = ({ taxonomyVersion, id, ...params }: PutNodeParams): Promise<void> => {
-  return putAndResolve({
-    url: `${baseUrl}/${id}`,
-    taxonomyVersion,
-    body: JSON.stringify(params),
-    alternateResolve: resolveVoidOrRejectWithError,
-  });
-};
+export const putNode = (params: PutNodeParams): Promise<void> =>
+  client
+    .PUT("/v1/nodes/{id}", {
+      params: {
+        path: { id: params.id },
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+      body: params.body,
+    })
+    .then((response) => resolveJsonOATS(response));
 
 export interface PutResourcesPrimaryParams extends WithTaxonomyVersion {
   id: string;
   recursive: boolean;
 }
 
-export const putResourcesPrimary = ({ id, recursive, taxonomyVersion }: PutResourcesPrimaryParams): Promise<void> => {
-  const queryParams = stringifyQuery({ recursive });
-  return putAndResolve({
-    url: `${baseUrl}/${id}/makeResourcesPrimary${queryParams}`,
-    alternateResolve: resolveVoidOrRejectWithError,
-    taxonomyVersion,
-  });
-};
+export const putResourcesPrimary = (params: PutResourcesPrimaryParams): Promise<boolean> =>
+  client
+    .PUT("/v1/nodes/{id}/makeResourcesPrimary", {
+      params: {
+        path: { id: params.id },
+        query: { recursive: params.recursive },
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+    })
+    .then((response) => resolveJsonOATS(response));
 
 export interface CloneNodeParams extends WithTaxonomyVersion {
   id: string;
@@ -305,11 +362,15 @@ export interface CloneNodeParams extends WithTaxonomyVersion {
   };
 }
 
-export const cloneNode = ({ id, body, taxonomyVersion }: CloneNodeParams): Promise<string> => {
-  return postAndResolve({
-    url: `${baseUrl}/${id}/clone`,
-    taxonomyVersion,
-    body: JSON.stringify(body),
-    alternateResolve: resolveLocation,
-  });
-};
+export const cloneNode = (params: CloneNodeParams): Promise<string> =>
+  client
+    .POST("/v1/nodes/{id}/clone", {
+      params: {
+        path: { id: params.id },
+      },
+      headers: {
+        VersionHash: params.taxonomyVersion,
+      },
+      body: params.body,
+    })
+    .then((response) => resolveLocation(response.response));

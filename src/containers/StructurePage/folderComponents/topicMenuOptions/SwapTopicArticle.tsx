@@ -62,9 +62,11 @@ const SwapTopicArticle = ({ node, rootNodeId }: Props) => {
     try {
       await putNodeMutation.mutateAsync({
         id: node.id,
-        nodeType: TOPIC_NODE,
-        language: node.language,
-        contentUri: `urn:article:${topic.id}`,
+        body: {
+          nodeType: TOPIC_NODE,
+          language: node.language,
+          contentUri: `urn:article:${topic.id}`,
+        },
         taxonomyVersion,
       });
       qc.invalidateQueries({

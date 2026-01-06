@@ -97,8 +97,6 @@ const matomoDomain = (ndlaEnvironment: string): string => {
   }
 };
 
-export const taxonomyApi = `/taxonomy/v1`;
-
 const getDefaultLanguage = () => getEnvironmentVariabel("NDLA_DEFAULT_LANGUAGE", "nb") as LocaleType;
 
 const usernamePasswordEnabled = (ndlaEnvironment: string) => {
@@ -141,7 +139,6 @@ export type ConfigType = {
   brightcoveApiUrl: string;
   brightcoveUrl: string;
   logglyApiKey: string | undefined;
-  taxonomyApi: string;
   h5pApiUrl: string | undefined;
   port: string | undefined;
   ndlaPersonalClientId: string | undefined;
@@ -168,7 +165,6 @@ const getServerSideConfig = (): ConfigType => {
   const ndlaEnvironment = getEnvironmentVariabel("NDLA_ENVIRONMENT", "test");
   return {
     ndlaEnvironment,
-    taxonomyApi,
     componentName: getEnvironmentVariabel("npm_package_name", "editorial-frontend"),
     host: getEnvironmentVariabel("EDITORIAL_FRONTEND_HOST", "localhost"),
     port: getEnvironmentVariabel("EDITORIAL_FRONTEND_PORT", "3000"),

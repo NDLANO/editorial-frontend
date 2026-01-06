@@ -117,6 +117,7 @@ export interface CheerioEmbed {
   data: EmbedData;
 }
 
+// this is taken directly from graphql-api. The only difference is that we add an ID.
 export const getEmbedsFromContent = (html: CheerioAPI): CheerioEmbed[] => {
   return html("ndlaembed", null, undefined)
     .toArray()
@@ -135,6 +136,14 @@ export const getEmbedsFromContent = (html: CheerioAPI): CheerioEmbed[] => {
 
 type TranslatableEmbedData = { id: string } & Record<string, any>;
 
+/**
+ * NTB does not permit querying for nested fields when translating, e.g `foo.bar`. This leaves us with two options:
+ * 1. Partition embed datas by type and send multiple requests to NTB.
+ * 2. Guarantee that fields belonging to different embed types have unique names, and send everything in a single request.
+ *
+ * We chose to go with option 2, as NTB claims that the startup time for a request is significant. This function strips redundant information
+ * from the embed, and renmames fields to ensure uniqueness.
+ */
 const constructPayload = (embeds: CheerioEmbed[]) => {
   const jsonFields = new Set<string>();
   const payload: TranslatableEmbedData[] = [];
@@ -163,8 +172,8 @@ const doFetch = async (name: string, element: ApiTranslateType): Promise<Respons
 
     return { key: name, value: result };
   } else {
+    // First, translate the entire document. This takes care of everything but attributes.
     const initialTranslation = await fetchTranslation(element.content);
-
     const html = load(initialTranslation, null, false);
     const ndlaEmbeds = getEmbedsFromContent(html);
 
@@ -176,8 +185,10 @@ const doFetch = async (name: string, element: ApiTranslateType): Promise<Respons
 
     ndlaEmbeds.forEach((embed) => {
       if (!keyedEmbeds[embed.id]) return;
+      // Make sure to omit the ID!
       const { id: _id, ...translatedData } = keyedEmbeds[embed.id];
       Object.entries(translatedData).forEach(([key, value]) => {
+        // Map the key back to its original name
         const oldKey = key.replace(`${embed.data.resource}-`, "");
         const newKey = `data-${oldKey}`;
         if (embed.embed.attr(newKey)) {

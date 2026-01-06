@@ -49,8 +49,6 @@ export const useTranslateToNN = () => {
       const payload = fields.reduce<Record<string, ApiTranslateType>>((acc, { field, type }) => {
         const content = get(element, field);
         if (content) {
-          // Our backend uses Jsoup to encode html. However, > is not encoded, and nynodata expects it to be. As such, we have to parse
-          // the entire html string and reencode it using an xmlSerializer.
           acc[field] = { content: content, type };
         }
         return acc;

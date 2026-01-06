@@ -6,76 +6,200 @@
  *
  */
 
-import FormData from "form-data";
+import { Cheerio, CheerioAPI, load } from "cheerio";
+import he from "he";
 import fetch from "node-fetch";
-import queryString from "query-string";
 import errorLogger from "./logger";
-import config, { getEnvironmentVariabel } from "../config";
+import { getEnvironmentVariabel } from "../config";
 import { ApiTranslateType } from "../interfaces";
+import { EmbedData } from "@ndla/types-embed";
+import { nanoid } from "nanoid";
+import { keyBy } from "@ndla/util";
 
-const baseUrl = config.translateServiceUrl;
-const user = getEnvironmentVariabel("NDKM_USER", "");
-const token = getEnvironmentVariabel("NDKM_TOKEN", "");
-const textUrl = `${baseUrl}/translateText`;
-const htmlUrl = `${baseUrl}/translateNHtml`;
+type KeysWithoutResource<U extends { resource: PropertyKey }> = {
+  [R in U["resource"]]: Array<Exclude<keyof Extract<U, { resource: R }>, "resource">>;
+};
 
-interface TextResponse {
-  responseData: {
-    translatedText: string;
-  };
-  responseDetails: null;
-  responseStatus: number;
+const TRANSLATE_URL = "https://nynorsk.cloud/translate";
+
+interface TranslationResponse<T extends string | string[] | object | object[]> {
+  document: T;
 }
+
+const fetchTranslation = async <T extends string | string[] | object | object[]>(
+  doc: T,
+  translatableFields?: string[],
+) => {
+  const response = await fetch(TRANSLATE_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      token,
+      fileType: translatableFields ? `json:${translatableFields.join(",")}` : "html",
+      document: doc,
+      lang_parameter_translate: "none",
+      // NTB suggestions based on our old style guide
+      prefs: {
+        language: "nob-nno",
+        "tenkje-leggje.kons-kj2k_gj2g": true,
+        infa_infe: true,
+        me_vi: true,
+        "vart-vorte_blei-blitt.vb-bli2verte": true,
+        "blæs_blåser.vb": true,
+        "symje_svømme.stav": true,
+        "augne_auge.stav": true,
+        "stove_stue.vok-u2o": true,
+        "voks_vaks.vok-o2a": true,
+        "samd_einig.syn": true,
+        "førebels_foreløpig.syn": true,
+        "etterspurnad_etterspørsel.syn": true,
+        "tryggleik_sikkerheit.syn": true,
+        "mengd_mengde.vok-2e": true,
+        "banen_bana.n-m2f": [
+          "bygning",
+          "frysning",
+          "kledning",
+          "krusning",
+          "ladning",
+          "ledning",
+          "munning",
+          "spenning",
+          "strekning",
+          "demning",
+          "festning",
+        ],
+        "håpa_håpte.vb-e2a": ["peike"],
+      },
+    }),
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+  }).then((res) => res.json() as Promise<TranslationResponse<T>>);
+
+  return response.document;
+};
+
+const translatableFields: KeysWithoutResource<EmbedData> = {
+  symbol: [],
+  audio: [],
+  brightcove: ["caption", "alt", "title"],
+  "content-link": [],
+  h5p: ["title", "alt"],
+  image: ["alt", "caption"],
+  "related-content": ["title"],
+  concept: [],
+  nrk: [],
+  iframe: ["title", "caption", "alt"],
+  external: ["title", "caption", "alt"],
+  footnote: [],
+  "code-block": ["title"],
+  file: ["title"],
+  pitch: ["title", "alt", "description"],
+  "key-figure": ["title", "alt", "subtitle"],
+  "contact-block": ["alt", "description", "jobTitle"],
+  "campaign-block": ["description", "alt", "title", "urlText"],
+  "link-block": ["title"],
+  "uu-disclaimer": ["disclaimer"],
+  copyright: ["title"],
+  comment: [],
+};
+
+const token = getEnvironmentVariabel("NTB_TOKEN", "");
 
 interface ResponseType {
   key: string;
   value: string | string[];
 }
 
-const stilmal = "Intern nynorsk 4";
-// Only header if props available
-const headers = user
-  ? {
-      "x-user": user,
-      "x-api-key": token,
+export interface CheerioEmbed {
+  id: string;
+  embed: Cheerio<any>;
+  data: EmbedData;
+}
+
+// this is taken directly from graphql-api. The only difference is that we add an ID.
+export const getEmbedsFromContent = (html: CheerioAPI): CheerioEmbed[] => {
+  return html("ndlaembed", null, undefined)
+    .toArray()
+    .map((embed) => ({
+      id: nanoid(16),
+      embed: html(embed),
+      // Cheerio automatically converts number-like strings to numbers, which in turn can break html-react-parser.
+      // Seeing as article-converter expects to only receive strings for embed data, we need to convert all numbers to strings (again).
+      data: Object.entries(html(embed).data()).reduce((acc, [key, value]) => {
+        //@ts-expect-error - this is hard to type
+        acc[key] = typeof value === "number" || typeof value === "boolean" ? `${value}` : value;
+        return acc;
+      }, {}) as EmbedData,
+    }));
+};
+
+type TranslatableEmbedData = { id: string } & Record<string, any>;
+
+/**
+ * NTB does not permit querying for nested fields when translating, e.g `foo.bar`. This leaves us with two options:
+ * 1. Partition embed datas by type and send multiple requests to NTB.
+ * 2. Guarantee that fields belonging to different embed types have unique names, and send everything in a single request.
+ *
+ * We chose to go with option 2, as NTB claims that the startup time for a request is significant. This function strips redundant information
+ * from the embed, and renmames fields to ensure uniqueness.
+ */
+const constructPayload = (embeds: CheerioEmbed[]) => {
+  const jsonFields = new Set<string>();
+  const payload: TranslatableEmbedData[] = [];
+  embeds.forEach((embed) => {
+    const fields = translatableFields[embed.data.resource];
+    if (fields.length) {
+      const transObject = fields.reduce<TranslatableEmbedData>(
+        (acc, curr) => {
+          const key = `${embed.data.resource}-${curr}`;
+          jsonFields.add(key);
+          acc[key] = embed.data[curr as keyof EmbedData];
+          return acc;
+        },
+        { id: embed.id },
+      );
+      payload.push(transObject);
     }
-  : undefined;
+  });
 
-const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType> => {
+  return { payload, jsonFields: Array.from(jsonFields) };
+};
+
+const doFetch = async (name: string, element: ApiTranslateType): Promise<ResponseType> => {
   if (element.type === "text") {
-    const parsedContent = element.isArray ? element.content.join("|") : element.content;
-    const params = {
-      stilmal,
-      q: parsedContent,
-    };
-    return fetch(`${textUrl}?${queryString.stringify(params)}`, {
-      method: "POST",
-      headers,
-    })
-      .then((res) => res.json())
-      .then((json: TextResponse) => {
-        const translated = json.responseData.translatedText;
-        const content = element.isArray ? translated.split("|") : translated;
-        return { key: name, value: content };
-      });
-  } else {
-    const formData = new FormData();
-    const wrappedContent = `<html>${element.content}</html>`;
-    const buffer = Buffer.from(wrappedContent);
-    const params = { stilmal };
+    const result = await fetchTranslation(element.content);
 
-    formData.append("file", buffer, { filename: `${name}.html` });
-    return fetch(`${htmlUrl}?${queryString.stringify(params)}`, {
-      method: "POST",
-      body: formData,
-      headers,
-    })
-      .then((res) => res.blob())
-      .then((res) => res.text())
-      .then(async (res) => {
-        const strippedResponse = res.replace("<html>", "").replace("</html>", "");
-        return { key: name, value: strippedResponse };
+    return { key: name, value: result };
+  } else {
+    // First, translate the entire document. This takes care of everything but attributes.
+    const initialTranslation = await fetchTranslation(element.content);
+    const html = load(initialTranslation, null, false);
+    const ndlaEmbeds = getEmbedsFromContent(html);
+
+    const { payload, jsonFields } = constructPayload(ndlaEmbeds);
+
+    const translatedEmbeds = await fetchTranslation(payload, jsonFields);
+
+    const keyedEmbeds = keyBy(translatedEmbeds, (embed) => embed.id);
+
+    ndlaEmbeds.forEach((embed) => {
+      if (!keyedEmbeds[embed.id]) return;
+      // Make sure to omit the ID!
+      const { id: _id, ...translatedData } = keyedEmbeds[embed.id];
+      Object.entries(translatedData).forEach(([key, value]) => {
+        // Map the key back to its original name
+        const oldKey = key.replace(`${embed.data.resource}-`, "");
+        const newKey = `data-${oldKey}`;
+        if (embed.embed.attr(newKey)) {
+          embed.embed.attr(newKey, he.encode(value));
+        }
       });
+    });
+
+    return {
+      key: name,
+      value: he.decode(html.html()),
+    };
   }
 };
 

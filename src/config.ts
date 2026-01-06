@@ -87,19 +87,6 @@ const getAuth0Hostname = (ndlaEnvironment: string, prettyUrl = false) => {
   }
 };
 
-const getTranslateServiceUrl = (ndlaEnvironment: string) => {
-  switch (ndlaEnvironment) {
-    case "test":
-    case "local":
-    case "dev":
-      return "https://preprod.norskrobot.no:4443";
-    case "staging":
-      return "https://ndla.norskrobot.no:6443";
-    default:
-      return "https://ndla.norskrobot.no:4443";
-  }
-};
-
 const matomoDomain = (ndlaEnvironment: string): string => {
   switch (ndlaEnvironment) {
     case "staging":
@@ -165,7 +152,6 @@ export type ConfigType = {
   disableCSP: string | undefined;
   usernamePasswordEnabled: boolean;
   h5pMetaEnabled: boolean;
-  translateServiceUrl: string;
   isVercel: boolean;
   defaultLanguage: LocaleType;
   runtimeType: RuntimeType;
@@ -213,7 +199,6 @@ const getServerSideConfig = (): ConfigType => {
       usernamePasswordEnabled(ndlaEnvironment),
     ),
     h5pMetaEnabled: getEnvironmentVariabel("H5PMETA_ENABLED", "false") === "true",
-    translateServiceUrl: getEnvironmentVariabel("NDKM_URL", getTranslateServiceUrl(ndlaEnvironment)),
     isVercel: getEnvironmentVariabel("IS_VERCEL", "false") === "true",
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as "test" | "development" | "production",
     enableH5pCopy: getEnvironmentVariabel("ENABLE_H5P_COPY", "true") === "true",

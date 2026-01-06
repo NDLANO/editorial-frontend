@@ -162,23 +162,17 @@ export interface WhitelistProvider {
 
 export type Dictionary<T> = Record<string, T>;
 
-interface BaseApiTranslateType {
-  content: string | string[];
-  type: "text" | "html";
-  isArray: true | false;
-}
-
-interface ApiTranslateTypeSingle extends BaseApiTranslateType {
+interface HtmlTranslateType {
+  type: "html";
   content: string;
-  isArray: false;
 }
 
-interface ApiTranslateTypeArray extends BaseApiTranslateType {
-  content: string[];
-  isArray: true;
+interface TextTranslateType {
+  type: "text";
+  content: string | string[];
 }
 
-export type ApiTranslateType = ApiTranslateTypeSingle | ApiTranslateTypeArray;
+export type ApiTranslateType = HtmlTranslateType | TextTranslateType;
 
 export type PromptType = PromptVariables["type"];
 

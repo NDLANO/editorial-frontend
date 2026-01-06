@@ -5651,22 +5651,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cheerio@npm:^1.0.0-rc.12":
-  version: 1.1.0
-  resolution: "cheerio@npm:1.1.0"
+"cheerio@npm:^1.0.0-rc.12, cheerio@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "cheerio@npm:1.1.2"
   dependencies:
     cheerio-select: "npm:^2.1.0"
     dom-serializer: "npm:^2.0.0"
     domhandler: "npm:^5.0.3"
     domutils: "npm:^3.2.2"
-    encoding-sniffer: "npm:^0.2.0"
+    encoding-sniffer: "npm:^0.2.1"
     htmlparser2: "npm:^10.0.0"
     parse5: "npm:^7.3.0"
     parse5-htmlparser2-tree-adapter: "npm:^7.1.0"
     parse5-parser-stream: "npm:^7.1.2"
-    undici: "npm:^7.10.0"
+    undici: "npm:^7.12.0"
     whatwg-mimetype: "npm:^4.0.0"
-  checksum: 10c0/f7b940a89e1fe77bf6b4fe3b993f17b02a358942cc0b9d3b55ea235a0bc322829dbc47151763ef9986fd237494c00380909af759e46582c72470a10643b85abd
+  checksum: 10c0/2c6d2274666fe122f54fdca457ee76453e1a993b19563acaa23eb565bf7776f0f01e4c3800092f00e84aa13c83a161f0cf000ac0a8332d1d7f2b2387d6ecc5fc
   languageName: node
   linkType: hard
 
@@ -6368,6 +6368,7 @@ __metadata:
     "@types/react": "npm:^19.2.7"
     "@types/react-dom": "npm:^19.2.3"
     "@vitejs/plugin-react": "npm:^5.1.2"
+    cheerio: "npm:^1.1.2"
     compression: "npm:^1.8.1"
     concurrently: "npm:^9.2.1"
     cross-env: "npm:^10.1.0"
@@ -6379,7 +6380,6 @@ __metadata:
     express: "npm:^5.2.1"
     express-oauth2-jwt-bearer: "npm:^1.7.2"
     filter-console: "npm:^0.1.1"
-    form-data: "npm:^4.0.5"
     formik: "npm:^2.4.5"
     graphql: "npm:^16.8.1"
     graphql-request: "npm:^6.0.0"
@@ -6470,7 +6470,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"encoding-sniffer@npm:^0.2.0":
+"encoding-sniffer@npm:^0.2.1":
   version: 0.2.1
   resolution: "encoding-sniffer@npm:0.2.1"
   dependencies:
@@ -7411,7 +7411,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"form-data@npm:^4.0.4, form-data@npm:^4.0.5":
+"form-data@npm:^4.0.4":
   version: 4.0.5
   resolution: "form-data@npm:4.0.5"
   dependencies:
@@ -11912,10 +11912,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:^7.10.0":
-  version: 7.11.0
-  resolution: "undici@npm:7.11.0"
-  checksum: 10c0/e5dd3cc2acae9c8333f97a78d4e91108957367fa7e69918e3a5cbd84702cb453cf7de3f8c2a33bcf808850d78ead70f3bd62900a70d969912e9fed8842bbfc11
+"undici@npm:^7.12.0":
+  version: 7.17.0
+  resolution: "undici@npm:7.17.0"
+  checksum: 10c0/b647e8ea01baa24badc1e631f444a1e109542341bd60ae60d85d90d0319f142acecc9f597e981d1b4050f654856c146b81f1ffed36b4f67eb1b7de55263f1244
   languageName: node
   linkType: hard
 

@@ -115,49 +115,6 @@ export const fetchWithAuthorization = async (url: string, config: FetchConfigTyp
   });
 };
 
-const defaultHeaders = { "Content-Type": "application/json" };
-
-interface DoAndResolveType<Type> extends FetchConfigType {
-  url: string;
-  alternateResolve?: (res: Response) => Promise<Type>;
-  taxonomyVersion?: string;
-}
-
-interface HttpConfig<T> extends Omit<DoAndResolveType<T>, "method"> {}
-
-interface FetchConfig<T> extends HttpConfig<T> {
-  queryParams?: Record<string, any>;
-}
-
-const httpResolve = <Type>({
-  url,
-  headers,
-  alternateResolve,
-  taxonomyVersion,
-  ...config
-}: DoAndResolveType<Type>): Promise<Type> => {
-  return fetchAuthorized(url, {
-    ...config,
-    headers: { ...defaultHeaders, VersionHash: taxonomyVersion, ...headers },
-  }).then((r) => {
-    return alternateResolve?.(r) ?? resolveJsonOrRejectWithError(r);
-  });
-};
-
-export const stringifyQuery = (object: Record<string, any> = {}) => {
-  const stringified = `?${queryString.stringify(object)}`;
-  return stringified === "?" ? "" : stringified;
-};
-
-export const httpFunctions = {
-  fetchAndResolve: <T>(conf: FetchConfig<T>) =>
-    httpResolve<T>({
-      ...conf,
-      method: "GET",
-      url: `${conf.url}${stringifyQuery(conf.queryParams)}`,
-    }),
-};
-
 export const fetchAuthorized = (url: string, config: FetchConfigType = {}) =>
   fetchWithAuthorization(url, config, false);
 

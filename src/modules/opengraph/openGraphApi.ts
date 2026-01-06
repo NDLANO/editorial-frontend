@@ -6,14 +6,15 @@
  *
  */
 
-import { httpFunctions } from "../../util/apiHelpers";
+import queryString from "query-string";
 import { OpenGraphData } from "./opengraphTypes";
-
-const { fetchAndResolve } = httpFunctions;
+import { getAccessToken } from "../../util/authHelpers";
 
 export const fetchOpenGraphData = async (url: string): Promise<OpenGraphData> => {
-  return await fetchAndResolve<OpenGraphData>({
-    url: "/opengraph",
-    queryParams: { url },
+  const response = await fetch(`/opengraph?${queryString.stringify({ url })}`, {
+    headers: {
+      Authorization: `Bearer ${getAccessToken()}`,
+    },
   });
+  return response.json();
 };

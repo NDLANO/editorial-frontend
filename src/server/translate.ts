@@ -90,7 +90,6 @@ const translatableFields: KeysWithoutResource<EmbedData> = {
   nrk: [],
   iframe: ["title", "caption", "alt"],
   external: ["title", "caption", "alt"],
-  // footnote: ["title"],
   footnote: [],
   "code-block": ["title"],
   file: ["title"],

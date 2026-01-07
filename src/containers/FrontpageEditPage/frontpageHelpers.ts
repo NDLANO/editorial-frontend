@@ -6,9 +6,9 @@
  *
  */
 
-import { keyBy } from "lodash-es";
 import { ArticleSummaryV2DTO, SearchResultV2DTO } from "@ndla/types-backend/article-api";
 import { FrontPageDTO, MenuDTO } from "@ndla/types-backend/frontpage-api";
+import { keyBy } from "@ndla/util";
 import { MenuWithArticle } from "./types";
 
 export const extractArticleIds = (menu: MenuWithArticle): number[] => {

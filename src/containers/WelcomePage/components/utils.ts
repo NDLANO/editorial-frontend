@@ -6,10 +6,10 @@
  *
  */
 
-import { orderBy } from "lodash-es";
 import { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { ArticleSummaryDTO } from "@ndla/types-backend/draft-api";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { sortBy } from "@ndla/util";
 import { Prefix } from "./TableComponent";
 import { SortOptionLastUsed } from "../types";
 
@@ -31,17 +31,14 @@ export const getSortedPaginationData = <T extends ConceptSummaryDTO | ArticleSum
 ): T[] => {
   const sortDesc = sortOption.charAt(0) === "-";
   const currentPageElements = getCurrentPageData(page, data, pageSize);
-
-  return orderBy(
-    currentPageElements,
-    (e) =>
-      sortOption.includes("title")
-        ? e.title?.title
-        : sortOption.includes("status")
-          ? e.status?.current
-          : "updated" in e
-            ? e.updated
-            : e.lastUpdated,
-    [sortDesc ? "desc" : "asc"],
+  const sorted = sortBy(currentPageElements, (e) =>
+    sortOption.includes("title")
+      ? e.title?.title
+      : sortOption.includes("status")
+        ? e.status?.current
+        : "updated" in e
+          ? e.updated
+          : e.lastUpdated,
   );
+  return sortDesc ? sorted.reverse() : sorted;
 };

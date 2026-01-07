@@ -6,12 +6,12 @@
  *
  */
 
-import { keyBy } from "lodash-es";
 import { useEffect, useRef, useState, ReactNode } from "react";
 import { useLocation } from "react-router";
 import { PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild, NodeType } from "@ndla/types-taxonomy";
+import { keyBy } from "@ndla/util";
 import { useCurrentNode } from "./CurrentNodeProvider";
 import LeftColumn from "./LeftColumn";
 import { PreferencesProvider } from "./PreferencesProvider";

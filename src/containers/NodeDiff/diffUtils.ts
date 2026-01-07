@@ -6,8 +6,9 @@
  *
  */
 
-import { isObjectLike, isEqual, partition } from "lodash-es";
+import { isObjectLike, isEqual } from "lodash-es";
 import { NodeChild, Node } from "@ndla/types-taxonomy";
+import { partition } from "@ndla/util";
 
 export type DiffResultType = "NONE" | "MODIFIED" | "ADDED" | "DELETED";
 export interface DiffResult<TType> {

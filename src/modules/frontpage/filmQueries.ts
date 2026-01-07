@@ -6,10 +6,10 @@
  *
  */
 
-import { sortBy } from "lodash-es";
 import { useTranslation } from "react-i18next";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { FilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
+import { sortBy } from "@ndla/util";
 import { fetchFilmFrontpage } from "./frontpageApi";
 import { sortMoviesByIdList } from "../../containers/NdlaFilm/filmUtil";
 import { searchResources } from "../search/searchApi";
@@ -40,7 +40,7 @@ export const useMoviesQuery = (
   const movieIds = params.movieUrns
     .map((urn) => Number(parseInt(urn.replace("urn:article:", ""))))
     .filter((id) => !isNaN(id));
-  const ids = sortBy(movieIds);
+  const ids = sortBy(movieIds, (id) => id);
 
   return useQuery<MultiSummarySearchResults>({
     queryKey: filmQueryKeys.movies(params),

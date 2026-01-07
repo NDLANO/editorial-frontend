@@ -7,10 +7,10 @@
  */
 
 import { TFunction } from "i18next";
-import { keyBy } from "lodash-es";
 import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
+import { keyBy } from "@ndla/util";
 import ResourcesContainer from "./ResourcesContainer";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
 import { useChildNodes, useNodeResourceMetas } from "../../../modules/nodes/nodeQueries";

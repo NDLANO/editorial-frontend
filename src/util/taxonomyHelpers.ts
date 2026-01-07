@@ -6,8 +6,8 @@
  *
  */
 
-import { sortBy, uniqBy } from "lodash-es";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
+import { sortBy, uniqBy } from "@ndla/util";
 import { RESOURCE_TYPE_LEARNING_PATH } from "../constants";
 import { FlattenedResourceType } from "../interfaces";
 import { NodeChildWithChildren } from "../modules/nodes/nodeApiTypes";

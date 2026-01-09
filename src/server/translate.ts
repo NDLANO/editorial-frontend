@@ -54,6 +54,9 @@ const fetchTranslation = async <T extends string | string[] | object | object[]>
         "etterspurnad_etterspørsel.syn": true,
         "tryggleik_sikkerheit.syn": true,
         "mengd_mengde.vok-2e": true,
+        "medan_mens.syn": true,
+        "enkje_enke.kons-kj2k_gj2g": true,
+        "fremje_fremme.kons-mj2mm": true,
         "banen_bana.n-m2f": [
           "bygning",
           "frysning",

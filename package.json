@@ -103,7 +103,7 @@
     "escape-html": "^1.0.3",
     "express": "^5.2.1",
     "express-oauth2-jwt-bearer": "^1.7.2",
-    "formik": "^2.4.5",
+    "formik": "^2.4.9",
     "graphql": "^16.8.1",
     "graphql-request": "^6.0.0",
     "he": "^1.2.0",

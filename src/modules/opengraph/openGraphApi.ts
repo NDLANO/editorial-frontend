@@ -6,12 +6,11 @@
  *
  */
 
-import queryString from "query-string";
 import { OpenGraphData } from "./opengraphTypes";
 import { getAccessToken } from "../../util/authHelpers";
 
 export const fetchOpenGraphData = async (url: string): Promise<OpenGraphData> => {
-  const response = await fetch(`/opengraph?${queryString.stringify({ url })}`, {
+  const response = await fetch(`/opengraph?${new URLSearchParams({ url }).toString()}`, {
     headers: {
       Authorization: `Bearer ${getAccessToken()}`,
     },

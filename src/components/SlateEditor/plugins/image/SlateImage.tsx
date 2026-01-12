@@ -6,7 +6,6 @@
  *
  */
 
-import queryString from "query-string";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
@@ -69,9 +68,9 @@ const FigureButtons = styled(StyledFigureButtons, {
 const disableImageCache = (embed: ImageMetaData | undefined): ImageMetaData | undefined => {
   if (embed?.status !== "success") return embed;
   // NOTE: We add a query parameter to the imageUrl to avoid cache
-  const parsed = queryString.parseUrl(embed.data.image.imageUrl);
-  const newQuery = queryString.stringify({ ...parsed.query, ts: Date.now() });
-  const newUrl = `${parsed.url}?${newQuery}`;
+  const urlObj = new URL(embed.data.image.imageUrl);
+  urlObj.searchParams.set("ts", Date.now().toString());
+  const newUrl = urlObj.toString();
   return {
     ...embed,
     data: {

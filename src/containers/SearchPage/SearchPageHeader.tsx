@@ -66,25 +66,25 @@ const searchTypes: SearchObject[] = [
   {
     type: "content",
     title: "subNavigation.searchContent",
-    url: toSearch({}, "content"),
+    url: toSearch("content"),
     icon: <SearchContent />,
   },
   {
     type: "audio",
     title: "subNavigation.searchAudio",
-    url: toSearch({}, "audio"),
+    url: toSearch("audio"),
     icon: <VoiceprintLine />,
   },
   {
     type: "image",
     title: "subNavigation.searchImage",
-    url: toSearch({}, "image"),
+    url: toSearch("image"),
     icon: <SearchMedia />,
   },
   {
     type: "podcast-series",
     title: "subNavigation.searchPodcastSeries",
-    url: toSearch({}, "podcast-series"),
+    url: toSearch("podcast-series"),
     icon: <ListCheck />,
   },
 ];

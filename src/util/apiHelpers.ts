@@ -6,7 +6,6 @@
  *
  */
 
-import queryString from "query-string";
 import { getAccessToken, isActiveToken, renewAuth } from "./authHelpers";
 import { resolveJsonOrRejectWithError, throwErrorPayload } from "./resolveJsonOrRejectWithError";
 import config from "../config";
@@ -154,10 +153,10 @@ export const fetchOembed = async (url: string, options?: FetchConfigType): Promi
 };
 
 const setH5pOembedUrl = (query: { url: string }) =>
-  `${config.h5pApiUrl}/oembed/preview?${queryString.stringify(query)}`;
+  `${config.h5pApiUrl}/oembed/preview?${new URLSearchParams({ url: query.url }).toString()}`;
 
 const setOembedUrl = (query: { url: string }) =>
-  `${apiResourceUrl("/oembed-proxy/v1/oembed")}?${queryString.stringify(query)}`;
+  `${apiResourceUrl("/oembed-proxy/v1/oembed")}?${new URLSearchParams({ url: query.url }).toString()}`;
 
 export const fetchExternalOembed = (url: string, options?: FetchConfigType) => {
   let setOembed = setOembedUrl({ url });

@@ -63,7 +63,7 @@ test("util/addYoutubeTimeStamps return youtube url with timestamp", () => {
   const start = "10";
   const stop = "20";
   const url = `https://www.youtube.com/embed/kFzViYkZAz4`;
-  expect(addYoutubeTimeStamps(url, start, stop)).toBe(`${url}?end=${stop}&start=${start}`);
+  expect(addYoutubeTimeStamps(url, start, stop)).toBe(`${url}?start=${start}&end=${stop}`);
   expect(addYoutubeTimeStamps(url, start)).toBe(`${url}?start=${start}`);
   expect(addYoutubeTimeStamps(url, "0", stop)).toBe(`${url}?end=${stop}`);
 });

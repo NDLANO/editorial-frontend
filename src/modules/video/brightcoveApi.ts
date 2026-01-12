@@ -6,7 +6,6 @@
  *
  */
 
-import queryString from "query-string";
 import { licenses, contributorGroups, contributorTypes, getLicenseByNBTitle } from "@ndla/licenses";
 import { CopyrightDTO, AuthorDTO } from "@ndla/types-backend/article-api";
 import { BrightcoveApiType, BrightcoveCopyright, BrightcoveVideoSource } from "@ndla/types-embed";
@@ -25,14 +24,19 @@ interface BrightcoveQueryParams {
   limit?: number;
 }
 
-export const searchBrightcoveVideos = (query: BrightcoveQueryParams) =>
-  fetchWithBrightCoveToken(
-    `${baseBrightCoveUrlV3}/?${queryString.stringify({
-      query: query.query ? `${query.query} +state:ACTIVE` : "+state:ACTIVE",
-      offset: query.offset,
-      limit: query.limit,
-    })}`,
-  ).then((r) => resolveJsonOrRejectWithError<BrightcoveApiType[]>(r));
+export const searchBrightcoveVideos = async (query: BrightcoveQueryParams) => {
+  const searchParams = new URLSearchParams({ query: query.query ? `${query.query} +state:ACTIVE` : "+state:ACTIVE" });
+  if (query.offset != null) {
+    searchParams.set("offset", query.offset.toString());
+  }
+  if (query.limit != null) {
+    searchParams.set("limit", query.limit.toString());
+  }
+
+  return fetchWithBrightCoveToken(`${baseBrightCoveUrlV3}/?$\{searchParams.toString()}`).then((r) =>
+    resolveJsonOrRejectWithError<BrightcoveApiType[]>(r),
+  );
+};
 
 export const fetchBrightcoveVideo = (videoId: string) =>
   fetchWithBrightCoveToken(`${baseBrightCoveUrlV3}/${videoId}`).then((r) =>

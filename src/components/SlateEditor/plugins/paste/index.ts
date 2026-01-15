@@ -27,7 +27,7 @@ export const pastePlugin = createPlugin({
     editor.insertData = (data) => {
       const slate = b64Decode(data.getData("application/x-slate-fragment"));
       if (!slate) return insertData(data);
-      const [rootElements, rootTexts] = partition(slate, (n) => Element.isElement(n)) as [Element[], Text[]];
+      const [rootElements, rootTexts] = partition(slate, (n) => Node.isElement(n)) as [Element[], Text[]];
       const allElements = rootElements.flatMap((n) => Array.from(Node.elements(n)));
       for (const [node] of allElements) {
         if (!editor.supportsElement(node)) {

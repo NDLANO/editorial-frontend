@@ -253,7 +253,7 @@ function getRelevantAncestor(editor: Editor, rawSelection: Selection): NodeEntry
   let [ancestor, path] =
     Editor.above(editor, {
       at: selection,
-      match: (node) => Element.isElement(node),
+      match: (node) => Node.isElement(node),
       voids: true,
     }) ?? [];
 
@@ -266,7 +266,7 @@ function getRelevantAncestor(editor: Editor, rawSelection: Selection): NodeEntry
 
     const [parent, parentPath] = parentEntry;
 
-    if (!Element.isElement(parent)) break;
+    if (!Node.isElement(parent)) break;
 
     if (parent.children.length !== 1) break;
 

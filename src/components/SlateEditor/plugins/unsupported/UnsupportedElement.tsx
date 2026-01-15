@@ -8,7 +8,7 @@
 
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Element, Transforms, Text } from "slate";
+import { Editor, Node, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
@@ -90,12 +90,12 @@ export const UnsupportedElement = ({ editor, attributes, element, children }: Pr
     if (editor.isInline(element)) return true;
     const path = ReactEditor.findPath(editor, element);
     const [parent] = editor.parent(path);
-    return Element.isElement(parent) && (editor.isInline(parent) || parent.type === PARAGRAPH_ELEMENT_TYPE);
+    return Node.isElement(parent) && (editor.isInline(parent) || parent.type === PARAGRAPH_ELEMENT_TYPE);
   }, [editor, element]);
 
   const onLiftContent = useCallback(() => {
     const path = ReactEditor.findPath(editor, element);
-    if (element.children.every((child) => Text.isText(child) || editor.isInline(child))) {
+    if (element.children.every((child) => Node.isText(child) || editor.isInline(child))) {
       Transforms.setNodes(editor, { type: PARAGRAPH_ELEMENT_TYPE }, { at: path });
     } else {
       Transforms.unwrapNodes(editor, { at: path, voids: true });

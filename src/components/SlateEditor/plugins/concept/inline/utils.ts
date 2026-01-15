@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor, Transforms, Range } from "slate";
+import { Editor, Transforms, Range, Location } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { CONCEPT_INLINE_ELEMENT_TYPE } from "./types";
 import { ConceptType } from "../../../../../containers/ConceptPage/conceptInterfaces";
@@ -21,7 +21,7 @@ export const insertInlineConcept = (editor: Editor, conceptType: ConceptType) =>
     });
     return;
   }
-  if (Range.isRange(editor.selection) && !Range.isCollapsed(editor.selection)) {
+  if (editor.selection && Location.isRange(editor.selection) && !Range.isCollapsed(editor.selection)) {
     const unhangedRange = Editor.unhangRange(editor, editor.selection);
     Transforms.select(editor, unhangedRange);
 

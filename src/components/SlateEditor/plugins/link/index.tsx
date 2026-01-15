@@ -6,7 +6,7 @@
  *
  */
 
-import { Descendant, Element, Text, Node, Transforms, ElementType } from "slate";
+import { Descendant, Node, Transforms, ElementType } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import {
   createDataAttributes,
@@ -98,14 +98,14 @@ export const contentLinkSerializer = createSerializer({
 const normalizeNode =
   <T extends ElementType>(type: T): PluginConfiguration<T, undefined>["normalize"] =>
   (editor, node, path, logger) => {
-    if (!Element.isElement(node) || node.type !== type) return false;
+    if (!Node.isElement(node) || node.type !== type) return false;
     if (Node.string(node) === "") {
       // we unwrap instead of remove here to keep the cursor position in the new paragraph
       logger.log("Link element is empty, unwrapping it");
       Transforms.unwrapNodes(editor, { at: path });
       return true;
     }
-    const nonTextEntries = Array.from(node.children.entries()).filter(([_, child]) => !Text.isText(child));
+    const nonTextEntries = Array.from(node.children.entries()).filter(([_, child]) => !Node.isText(child));
     if (nonTextEntries.length) {
       logger.log("Link element contains non-text children, unwrapping them");
       editor.withoutNormalizing(() => {

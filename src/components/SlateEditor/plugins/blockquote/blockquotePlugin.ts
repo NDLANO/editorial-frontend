@@ -14,7 +14,7 @@ import {
   PARAGRAPH_ELEMENT_TYPE,
 } from "@ndla/editor";
 import { BLOCK_QUOTE_ELEMENT_TYPE, BLOCK_QUOTE_PLUGIN } from "./blockquoteTypes";
-import { Element, Node, Range, Transforms } from "slate";
+import { Element, Location, Node, Transforms } from "slate";
 import { isBlockQuoteElement } from "./queries/blockquoteQueries";
 
 const normalizerConfig: NormalizerConfig = {
@@ -31,7 +31,7 @@ export const blockQuotePlugin = createPlugin({
     const { insertBreak } = editor;
 
     editor.insertBreak = () => {
-      if (!editor.selection || !Range.isRange(editor.selection)) return insertBreak();
+      if (!editor.selection || !Location.isRange(editor.selection)) return insertBreak();
       const entry = getCurrentBlock<Element["type"]>(editor, BLOCK_QUOTE_ELEMENT_TYPE);
       if (!entry) {
         return insertBreak();

@@ -6,22 +6,22 @@
  *
  */
 
-import { Range, Editor, Element, Path } from "slate";
+import { Editor, Node, Path, Location } from "slate";
 
 const hasNodeOfType = (editor: Editor, type: string, path?: Path) => {
   if (path) {
     const [match] = Editor.nodes(editor, {
-      match: (node) => Element.isElement(node) && node.type === type,
+      match: (node) => Node.isElement(node) && node.type === type,
       at: path,
     });
     return !!match;
   }
 
-  if (!Range.isRange(editor.selection)) {
+  if (!editor.selection || !Location.isRange(editor.selection)) {
     return false;
   }
   const [match] = Editor.nodes(editor, {
-    match: (node) => Element.isElement(node) && node.type === type,
+    match: (node) => Node.isElement(node) && node.type === type,
     at: Editor.unhangRange(editor, editor.selection),
   });
   return !!match;

@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor, Element } from "slate";
+import { Editor, Node } from "slate";
 import { useSlateSelector, useSlateStatic } from "slate-react";
 import { handleClickTable } from "./handleMenuClicks";
 import { TableType } from "./toolbarState";
@@ -16,12 +16,12 @@ import { ToolbarCategoryProps } from "./types";
 const getCurrentBlockValues = (editor: Editor) => {
   const [currentTableCell] =
     Editor.nodes(editor, {
-      match: (n) => Element.isElement(n) && n.type === "table-cell",
+      match: (n) => Node.isElement(n) && n.type === "table-cell",
       mode: "highest",
     }) ?? [];
 
   const node = currentTableCell?.[0];
-  if (!Element.isElement(node) || node.type !== "table-cell") return "";
+  if (!Node.isElement(node) || node.type !== "table-cell") return "";
 
   return node.data.align ?? "";
 };

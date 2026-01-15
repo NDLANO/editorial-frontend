@@ -5729,10 +5729,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chardet@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "chardet@npm:2.1.0"
-  checksum: 10c0/d1b03e47371851ed72741a898281d58f8a9b577aeea6fdfa75a86832898b36c550b3ad057e66d50d774a9cebd9f56c66b6880e4fe75e387794538ba7565b0b6f
+"chardet@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "chardet@npm:2.1.1"
+  checksum: 10c0/d8391dd412338442b3de0d3a488aa9327f8bcf74b62b8723d6bd0b85c4084d50b731320e0a7c710edb1d44de75969995d2784b80e4c13b004a6c7a0db4c6e793
   languageName: node
   linkType: hard
 
@@ -5750,7 +5750,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cheerio@npm:^1.0.0-rc.12, cheerio@npm:^1.1.2":
+"cheerio@npm:^1.1.2":
   version: 1.1.2
   resolution: "cheerio@npm:1.1.2"
   dependencies:
@@ -6487,7 +6487,7 @@ __metadata:
     monaco-editor: "npm:0.47.0"
     nanoid: "npm:^5.1.2"
     nock: "npm:^14.0.10"
-    open-graph-scraper: "npm:^6.10.0"
+    open-graph-scraper: "npm:^6.11.0"
     openapi-fetch: "npm:^0.15.0"
     openid-client: "npm:^6.8.1"
     p-limit: "npm:^7.2.0"
@@ -9577,15 +9577,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"open-graph-scraper@npm:^6.10.0":
-  version: 6.10.0
-  resolution: "open-graph-scraper@npm:6.10.0"
+"open-graph-scraper@npm:^6.11.0":
+  version: 6.11.0
+  resolution: "open-graph-scraper@npm:6.11.0"
   dependencies:
-    chardet: "npm:^2.1.0"
-    cheerio: "npm:^1.0.0-rc.12"
-    iconv-lite: "npm:^0.6.3"
-    undici: "npm:^6.21.2"
-  checksum: 10c0/4d07d9a7e66d003be2bceb15caea78dc2f938ab101974104aa09dc256f1bcf0399a73f1896920ade780578a1a13465ae2228d744f113534ab3266b582e6058a4
+    chardet: "npm:^2.1.1"
+    cheerio: "npm:^1.1.2"
+    iconv-lite: "npm:^0.7.0"
+    undici: "npm:^7.16.0"
+  checksum: 10c0/7265928f6b70bd720359ff7bad75b2eee48fda9e5fd6cd0135611c2a05263858c1941c663e79ab3f91221aa9f34fa49e0a69dfdcdd82a7b218556ab1d42783d3
   languageName: node
   linkType: hard
 
@@ -11934,17 +11934,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:^6.21.2":
-  version: 6.23.0
-  resolution: "undici@npm:6.23.0"
-  checksum: 10c0/d846b3fdfd05aa6081ba1eab5db6bbc21b283042c7a43722b86d1ee2bf749d7c990ceac0c809f9a07ffd88b1b0f4c0f548a8362c035088cb1997d63abdda499c
-  languageName: node
-  linkType: hard
-
-"undici@npm:^7.12.0":
-  version: 7.17.0
-  resolution: "undici@npm:7.17.0"
-  checksum: 10c0/b647e8ea01baa24badc1e631f444a1e109542341bd60ae60d85d90d0319f142acecc9f597e981d1b4050f654856c146b81f1ffed36b4f67eb1b7de55263f1244
+"undici@npm:^7.12.0, undici@npm:^7.16.0":
+  version: 7.18.2
+  resolution: "undici@npm:7.18.2"
+  checksum: 10c0/4ff0722799f5e06fde5d1e58d318b1d78ba9a477836ad3e7374e9ac30ca20d1ab3282952d341635bf69b8e74b5c1cf366e595b3a96810e0dbf74e622dad7b5f9
   languageName: node
   linkType: hard
 

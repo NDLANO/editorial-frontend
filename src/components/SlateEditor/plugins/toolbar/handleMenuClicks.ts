@@ -7,7 +7,7 @@
  */
 
 import { KeyboardEvent, SyntheticEvent } from "react";
-import { Editor, Transforms, Element, Range, Node, BaseRange } from "slate";
+import { Editor, Transforms, Node, BaseRange, Location } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import {
   HEADING_ELEMENT_TYPE,
@@ -41,7 +41,7 @@ const parseHeadingLevel = (type: string) => parseInt(type.replace("heading-", ""
 
 const textOptions = (range: BaseRange) => ({
   at: range,
-  match: (node: Node) => Element.isElement(node) && (node.type === "heading" || node.type === "paragraph"),
+  match: (node: Node) => Node.isElement(node) && (node.type === "heading" || node.type === "paragraph"),
 });
 
 export const handleTextChange = (editor: Editor, type: string) => {
@@ -52,7 +52,7 @@ export const handleTextChange = (editor: Editor, type: string) => {
     type === "normal-text" ? defaultValue : { type: HEADING_ELEMENT_TYPE, level: parseHeadingLevel(type) };
 
   Editor.withoutNormalizing(editor, () => {
-    if (!Range.isRange(editor.selection)) {
+    if (!editor.selection || !Location.isRange(editor.selection)) {
       return;
     }
 

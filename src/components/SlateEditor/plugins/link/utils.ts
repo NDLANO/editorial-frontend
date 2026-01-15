@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor, Element, Range, Transforms } from "slate";
+import { Editor, Node, Range, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { isValidLocale } from "../../../../i18n";
 import { fetchNodes } from "../../../../modules/nodes/nodeApi";
@@ -20,14 +20,14 @@ export const insertLink = (editor: Editor) => {
 
 const isLinkActive = (editor: Editor) => {
   const [link] = Editor.nodes(editor, {
-    match: (n) => !Editor.isEditor(n) && Element.isElement(n) && (n.type === "link" || n.type === "content-link"),
+    match: (n) => !Node.isEditor(n) && Node.isElement(n) && (n.type === "link" || n.type === "content-link"),
   });
   return !!link;
 };
 
 export const unwrapLink = (editor: Editor) => {
   Transforms.unwrapNodes(editor, {
-    match: (n) => !Editor.isEditor(n) && Element.isElement(n) && (n.type === "link" || n.type === "content-link"),
+    match: (n) => !Node.isEditor(n) && Node.isElement(n) && (n.type === "link" || n.type === "content-link"),
   });
 };
 

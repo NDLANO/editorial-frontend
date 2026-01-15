@@ -6,7 +6,7 @@
  *
  */
 
-import { Descendant, Node, Element, ElementType } from "slate";
+import { Descendant, Node, ElementType } from "slate";
 import { NOOP_ELEMENT_TYPE, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 
 const rUrl =
@@ -35,12 +35,12 @@ export const isEmpty = (value?: Descendant[] | Descendant | string | null) => {
   if (Node.isNodeList(value)) {
     for (const node of value) {
       // i. If one root node is not paragraph or section => nonEmpty
-      if (Element.isElement(node) && !ROOT_NODES.includes(node.type)) {
+      if (Node.isElement(node) && !ROOT_NODES.includes(node.type)) {
         return false;
       }
 
       // ii. If root node is NOOP => we need to check if children are empty
-      if (Element.isElement(node) && node.type === NOOP_ELEMENT_TYPE) {
+      if (Node.isElement(node) && node.type === NOOP_ELEMENT_TYPE) {
         const containsText = node.children.reduce((acc, child) => acc || !!Node.string(child), false);
         return !containsText;
       }
@@ -48,7 +48,7 @@ export const isEmpty = (value?: Descendant[] | Descendant | string | null) => {
       // iii. If one descendant of root is not paragraph => nonEmpty
       for (const el of [...Node.elements(node)]) {
         const [element] = el;
-        if (Element.isElement(element) && element.type !== PARAGRAPH_ELEMENT_TYPE) {
+        if (Node.isElement(element) && element.type !== PARAGRAPH_ELEMENT_TYPE) {
           return false;
         }
       }
@@ -60,7 +60,7 @@ export const isEmpty = (value?: Descendant[] | Descendant | string | null) => {
     // i. If one descendant of root is not paragraph => nonEmpty
     for (const el of [...Node.elements(value)]) {
       const [element] = el;
-      if (Element.isElement(element) && element.type !== PARAGRAPH_ELEMENT_TYPE) {
+      if (Node.isElement(element) && element.type !== PARAGRAPH_ELEMENT_TYPE) {
         return false;
       }
       // ii. If the generated text string is '' => empty

@@ -7,7 +7,7 @@
  */
 
 import { DragEvent, DragEventHandler } from "react";
-import { Editor, Element, Node, ElementEntry, Transforms, Path } from "slate";
+import { Editor, Node, ElementEntry, Transforms, Path } from "slate";
 import { ReactEditor } from "slate-react";
 import { DND_PLUGIN, DndPluginOptions } from "./dndTypes";
 import { SECTION_ELEMENT_TYPE } from "@ndla/editor";
@@ -17,7 +17,7 @@ export const nativeOnDragStart = (editor: Editor, event: DragEvent<HTMLDivElemen
 
   const node = ReactEditor.toSlateNode(editor, event.target as globalThis.Node);
   // We only want to alter element dragging, not text nodes
-  if (!Element.isElement(node)) return;
+  if (!Node.isElement(node)) return;
 
   const path = ReactEditor.findPath(editor, node);
   const dndOptions = editor.getPluginOptions<DndPluginOptions>(DND_PLUGIN);
@@ -42,26 +42,26 @@ export const nativeOnDrop = (editor: Editor, event: DragEvent<HTMLDivElement>) =
     let targetPath: Path | undefined = ReactEditor.findPath(editor, targetNode);
 
     // If the target is text we need to find the closest parent element
-    if (!Element.isElement(targetNode)) {
+    if (!Node.isElement(targetNode)) {
       const [el, elPath] =
         editor.above({
           at: targetPath,
-          match: (n) => Element.isElement(n) && n.type !== SECTION_ELEMENT_TYPE,
+          match: (n) => Node.isElement(n) && n.type !== SECTION_ELEMENT_TYPE,
         }) ?? [];
       targetNode = el;
       targetPath = elPath;
     }
 
-    if (!Element.isElement(targetNode) || !targetPath) {
+    if (!targetNode || !Node.isElement(targetNode) || !targetPath) {
       logger.log("Failed to resolve target node for drop");
       return;
     }
 
     // We've already asserted that this exists in nativeOnDragStart
     const dndOptions = editor.getPluginOptions<DndPluginOptions>(DND_PLUGIN)!;
-    const [parentNode] = editor.above({ at: targetPath, match: (n) => Element.isElement(n) }) ?? [];
+    const [parentNode] = editor.above({ at: targetPath, match: (n) => Node.isElement(n) }) ?? [];
 
-    if (!Element.isElement(parentNode)) {
+    if (!parentNode || !Node.isElement(parentNode)) {
       logger.log("Parent node is not an element");
       return;
     }

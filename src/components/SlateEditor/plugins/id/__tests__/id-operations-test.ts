@@ -8,7 +8,7 @@
 
 import { createSlate, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
-import { Descendant, Element, NodeEntry, Transforms } from "slate";
+import { Descendant, Element, NodeEntry, Node, Transforms } from "slate";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
 
@@ -33,7 +33,7 @@ describe("idPlugin", () => {
     editor.reinitialize({ value: editorValue, shouldNormalize: true });
 
     const nodes: NodeEntry<Element>[] = Array.from(
-      editor.nodes({ match: (node) => Element.isElement(node) && !!node.id, at: [] }),
+      editor.nodes({ match: (node) => Node.isElement(node) && !!node.id, at: [] }),
     );
 
     expect(nodes.length).toBe(3); // 2 paragraphs + 1 section
@@ -61,7 +61,7 @@ describe("idPlugin", () => {
     Transforms.splitNodes(editor, { at: { path: [0, 0], offset: 6 } });
 
     const nodes: NodeEntry<Element>[] = Array.from(
-      editor.nodes({ match: (node) => Element.isElement(node) && node.type === "paragraph", at: [] }),
+      editor.nodes({ match: (node) => Node.isElement(node) && node.type === "paragraph", at: [] }),
     );
 
     expect(nodes.length).toBe(3);
@@ -92,7 +92,7 @@ describe("idPlugin", () => {
     editor.reinitialize({ value: editorValue, shouldNormalize: true });
 
     const paragraphNodes = Array.from(
-      editor.nodes({ at: [], match: (n) => Element.isElement(n) && n.type === "paragraph" }),
+      editor.nodes({ at: [], match: (n) => Node.isElement(n) && n.type === "paragraph" }),
     );
 
     const [id1, id2] = paragraphNodes.map(([node]) => node.id);
@@ -107,7 +107,7 @@ describe("idPlugin", () => {
     );
 
     const allParagraphNodes = Array.from(
-      editor.nodes({ at: [], match: (n) => Element.isElement(n) && n.type === "paragraph" }),
+      editor.nodes({ at: [], match: (n) => Node.isElement(n) && n.type === "paragraph" }),
     );
 
     const paragraphIds = new Set(allParagraphNodes.filter(([node]) => node.id).map(([node]) => node.id!));

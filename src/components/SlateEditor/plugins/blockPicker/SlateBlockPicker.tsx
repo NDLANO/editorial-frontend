@@ -146,7 +146,7 @@ const getAvailableActions = (
   }
 
   const nodes = Editor.levels<Element>(editor, {
-    match: (node) => Element.isElement(node) && !editor.isInline(node),
+    match: (node) => Node.isElement(node) && !editor.isInline(node),
     at: Editor.unhangRange(editor, editor.selection),
     reverse: true,
   });
@@ -156,7 +156,7 @@ const getAvailableActions = (
       return actions;
     }
     const [parent] = Editor.parent(editor, path);
-    if (Element.isElement(parent) && actionsToShowInAreas[parent.type]) {
+    if (Node.isElement(parent) && actionsToShowInAreas[parent.type]) {
       return actions.filter(
         (action) =>
           actionsToShowInAreas[parent.type].includes(action.data.type) ||
@@ -225,7 +225,7 @@ const StyledPopoverContent = styled(PopoverContent, {
 });
 
 const getLeftAdjust = (parent?: Node) => {
-  if (Element.isElement(parent) && parent.type === LIST_ITEM_ELEMENT_TYPE) {
+  if (parent && Node.isElement(parent) && parent.type === LIST_ITEM_ELEMENT_TYPE) {
     return 110;
   }
   if (isAnyTableCellElement(parent)) {
@@ -289,7 +289,7 @@ const SlateBlockPicker = ({
     const [illegalBlock] = editor.nodes({ match: (n) => isElementOfType(n, illegalAreas) });
     if (illegalBlock) return false;
     const [lowestBlock] = editor.nodes<Element>({
-      match: (n) => Element.isElement(n) && !editor.isInline(n),
+      match: (n) => Node.isElement(n) && !editor.isInline(n),
       mode: "lowest",
     });
     if (!lowestBlock) return false;

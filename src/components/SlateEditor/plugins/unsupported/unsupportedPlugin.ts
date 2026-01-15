@@ -8,14 +8,14 @@
 
 import { createPlugin, isElementOfType, PARAGRAPH_ELEMENT_TYPE, SPAN_ELEMENT_TYPE } from "@ndla/editor";
 import { UNSUPPORTED_ELEMENT_TYPE, UNSUPPORTED_PLUGIN } from "./types";
-import { Editor, Element, Node, Transforms } from "slate";
+import { Editor, Node, Transforms } from "slate";
 import { blockContentToHTML } from "../../../../util/articleContentConverter";
 
 export const unsupportedPlugin = createPlugin({
   name: UNSUPPORTED_PLUGIN,
   type: UNSUPPORTED_ELEMENT_TYPE,
   normalize: (editor, node, path, logger) => {
-    if (!Element.isElement(node) || node.type === UNSUPPORTED_ELEMENT_TYPE) return false;
+    if (!Node.isElement(node) || node.type === UNSUPPORTED_ELEMENT_TYPE) return false;
     if (editor.supportsElement(node)) return false;
     logger.log(`Encountered an element that no plugin supports, converting to unsupported element, ${node.type}`);
     const serializedOriginalElement = blockContentToHTML([node]);
@@ -26,7 +26,7 @@ export const unsupportedPlugin = createPlugin({
         children: node.children,
         data: { originalElement: node, serializedOriginalElement },
       },
-      { at: path, match: (n) => Element.isElement(n) && n.type === node.type },
+      { at: path, match: (n) => Node.isElement(n) && n.type === node.type },
     );
     return true;
   },
@@ -43,7 +43,7 @@ export const unsupportedPlugin = createPlugin({
       if (node.type === UNSUPPORTED_ELEMENT_TYPE) {
         // This is kind of dumb. `ReactEditor.findPath` crashes and I don't really know why.
         // We should try to find a better way of doing this, as this is kind of slow. Seeing as unsupported elements are (hopefully) temporary, this shouldn't be too big of an issue.
-        const [entry] = Editor.nodes(editor, { at: [], match: (n) => Element.isElement(n) && n.id === node.id });
+        const [entry] = Editor.nodes(editor, { at: [], match: (n) => Node.isElement(n) && n.id === node.id });
         if (entry) {
           const parent = Node.parent(editor, entry[1]);
           if (isElementOfType(parent, [PARAGRAPH_ELEMENT_TYPE, SPAN_ELEMENT_TYPE])) {

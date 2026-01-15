@@ -7,11 +7,11 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { Range, Editor, Transforms } from "slate";
+import { Range, Editor, Transforms, Location } from "slate";
 import { REPHRASE_ELEMENT_TYPE } from "./rephraseTypes";
 
 export const insertRephrase = (editor: Editor) => {
-  if (Range.isRange(editor.selection) && !Range.isCollapsed(editor.selection)) {
+  if (editor.selection && Location.isRange(editor.selection) && !Range.isCollapsed(editor.selection)) {
     Transforms.wrapNodes(editor, slatejsx("element", { type: REPHRASE_ELEMENT_TYPE }, []), {
       at: Editor.unhangRange(editor, editor.selection),
       split: true,

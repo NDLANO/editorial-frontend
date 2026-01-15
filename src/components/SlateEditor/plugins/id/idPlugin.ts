@@ -13,7 +13,7 @@ import { makeNodeId } from "../../utils/makeNodeId";
 
 const assignIdToInitialValue = (editor: Editor, idsSet: Set<string>, nodeEntry: NodeEntry) => {
   const [node, path] = nodeEntry;
-  if (Element.isElement(node) && editor.isBlock(node)) {
+  if (Node.isElement(node) && editor.isBlock(node)) {
     if (!node.id && editor.hasPath(path)) {
       let nodeId = makeNodeId();
       while (idsSet.has(nodeId)) {
@@ -51,7 +51,7 @@ export const idPlugin = createPlugin({
     const { apply } = editor;
 
     const assignIdRecursively = (node: Node) => {
-      if (Element.isElement(node) && editor.isBlock(node)) {
+      if (Node.isElement(node) && editor.isBlock(node)) {
         if (!node.id || idsSet.has(node.id)) {
           let nodeId = makeNodeId();
           while (idsSet.has(nodeId)) {

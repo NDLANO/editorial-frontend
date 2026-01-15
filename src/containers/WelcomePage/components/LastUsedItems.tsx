@@ -9,6 +9,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
+import { keyBy } from "@ndla/util";
 import LastUsedConcepts from "./LastUsedConcepts";
 import LastUsedResources from "./LastUsedResources";
 import { TitleElement } from "./TableComponent";
@@ -25,6 +26,17 @@ interface Props {
   lastUsedLearningpaths?: number[];
 }
 
+const getSortedResults = <T extends { id: number }>(data: T[], ids: number[]) => {
+  const keyed = keyBy(data, (item) => item.id);
+  return ids.reduce<T[]>((acc, curr) => {
+    const maybeItem = keyed[curr];
+    if (maybeItem) {
+      acc.push(maybeItem);
+    }
+    return acc;
+  }, []);
+};
+
 const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [], lastUsedLearningpaths = [] }: Props) => {
   const { t, i18n } = useTranslation();
 
@@ -39,10 +51,18 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [], lastUsed
     { enabled: !!lastUsedResources.length },
   );
 
+  const draftData = useMemo(() => {
+    return getSortedResults(searchDraftsQuery.data?.results || [], lastUsedResources);
+  }, [lastUsedResources, searchDraftsQuery.data?.results]);
+
   const searchConceptsQuery = useSearchConcepts(
     { ids: lastUsedConcepts, sort: "-lastUpdated", language: i18n.language, pageSize: lastUsedConcepts.length },
     { enabled: !!lastUsedConcepts.length },
   );
+
+  const conceptData = useMemo(() => {
+    return getSortedResults(searchConceptsQuery.data?.results || [], lastUsedConcepts);
+  }, [lastUsedConcepts, searchConceptsQuery.data?.results]);
 
   const searchLearningpathsQuery = useSearch(
     {
@@ -55,6 +75,10 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [], lastUsed
     },
     { enabled: !!lastUsedLearningpaths.length },
   );
+
+  const learningpathData = useMemo(() => {
+    return getSortedResults(searchLearningpathsQuery.data?.results || [], lastUsedLearningpaths);
+  }, [lastUsedLearningpaths, searchLearningpathsQuery.data?.results]);
 
   const draftsError = useMemo(() => {
     if (searchDraftsQuery.isError) {
@@ -75,13 +99,9 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [], lastUsed
   }, [searchLearningpathsQuery.isError, t]);
 
   const tableTitles: TitleElement<SortOptionLastUsed>[] = [
-    { title: t("form.name.title"), sortableField: "title" },
-    { title: t("welcomePage.workList.status"), sortableField: "status", width: "20%" },
-    {
-      title: t("welcomePage.updated"),
-      sortableField: "lastUpdated",
-      width: "20%",
-    },
+    { title: t("form.name.title") },
+    { title: t("welcomePage.workList.status"), width: "20%" },
+    { title: t("welcomePage.updated"), width: "20%" },
   ];
 
   return (
@@ -106,7 +126,7 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [], lastUsed
       </TabsList>
       <WelcomePageTabsContent value="articles">
         <LastUsedResources
-          data={searchDraftsQuery.data?.results ?? []}
+          data={draftData}
           isLoading={searchDraftsQuery.isLoading}
           error={draftsError}
           titles={tableTitles}
@@ -115,7 +135,7 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [], lastUsed
       </WelcomePageTabsContent>
       <WelcomePageTabsContent value="concepts">
         <LastUsedConcepts
-          data={searchConceptsQuery.data?.results ?? []}
+          data={conceptData}
           isLoading={searchConceptsQuery.isLoading}
           error={conceptsError}
           titles={tableTitles}
@@ -124,7 +144,7 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [], lastUsed
       </WelcomePageTabsContent>
       <WelcomePageTabsContent value="learningpaths">
         <LastUsedLearningpaths
-          data={searchLearningpathsQuery.data?.results ?? []}
+          data={learningpathData}
           isLoading={searchLearningpathsQuery.isLoading}
           error={learningpathsError}
           titles={tableTitles}

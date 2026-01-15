@@ -21,4 +21,4 @@ export type SortOptionWorkList =
 
 export type SortOptionConceptList = "title" | "responsibleLastUpdated" | "status" | "subject" | "conceptType";
 
-export type SortOptionLastUsed = "title" | "status" | "lastUpdated";
+export type SortOptionLastUsed = "title" | "status" | "lastUpdated" | "";

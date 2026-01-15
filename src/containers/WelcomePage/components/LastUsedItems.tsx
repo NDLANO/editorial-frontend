@@ -14,7 +14,7 @@ import LastUsedResources from "./LastUsedResources";
 import { TitleElement } from "./TableComponent";
 import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
 import { useSearchConcepts } from "../../../modules/concept/conceptQueries";
-import { useSearchDrafts } from "../../../modules/draft/draftQueries";
+import { useDraftIds } from "../../../modules/draft/draftQueries";
 import { SortOptionLastUsed } from "../types";
 import { LastUsedLearningpaths } from "./LastUsedLearningpaths";
 import { useSearch } from "../../../modules/search/searchQueries";
@@ -28,13 +28,10 @@ interface Props {
 const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [], lastUsedLearningpaths = [] }: Props) => {
   const { t, i18n } = useTranslation();
 
-  const searchDraftsQuery = useSearchDrafts(
+  const searchDraftsQuery = useDraftIds(
     {
       ids: lastUsedResources!,
-      sort: "-lastUpdated",
       language: i18n.language,
-      pageSize: lastUsedResources.length,
-      fallback: true,
     },
     { enabled: !!lastUsedResources.length },
   );
@@ -51,7 +48,6 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [], lastUsed
       license: "all",
       filterInactive: false,
       language: i18n.language,
-      sort: "-lastUpdated",
     },
     { enabled: !!lastUsedLearningpaths.length },
   );
@@ -94,7 +90,7 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [], lastUsed
     >
       <TabsList>
         <TabsTrigger value="articles">
-          {`${t("taxonomy.resources")} (${searchDraftsQuery.data?.totalCount ?? 0})`}
+          {`${t("taxonomy.resources")} (${searchDraftsQuery.data?.length ?? 0})`}
         </TabsTrigger>
         <TabsTrigger value="concepts">
           {`${t("form.name.concepts")} (${searchConceptsQuery.data?.totalCount ?? 0})`}
@@ -106,11 +102,11 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [], lastUsed
       </TabsList>
       <WelcomePageTabsContent value="articles">
         <LastUsedResources
-          data={searchDraftsQuery.data?.results ?? []}
+          data={searchDraftsQuery.data ?? []}
           isLoading={searchDraftsQuery.isLoading}
           error={draftsError}
           titles={tableTitles}
-          totalCount={searchDraftsQuery.data?.totalCount}
+          totalCount={searchDraftsQuery.data?.length ?? 0}
         />
       </WelcomePageTabsContent>
       <WelcomePageTabsContent value="concepts">

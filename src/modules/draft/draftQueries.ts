@@ -19,6 +19,7 @@ import {
 } from "@ndla/types-backend/draft-api";
 import {
   fetchDraft,
+  fetchDrafts,
   fetchLicenses,
   fetchStatusStateMachine,
   fetchUserData,
@@ -30,6 +31,7 @@ import {
 import { DraftStatusStateMachineType } from "../../interfaces";
 import {
   DRAFT,
+  DRAFT_IDS,
   DRAFT_STATUS_STATE_MACHINE,
   LICENSES,
   USER_DATA,
@@ -49,10 +51,16 @@ export interface UseDraftRevisionHistory {
   language?: string;
 }
 
+export interface UseDraftIds {
+  ids: number[];
+  language?: string;
+}
+
 export const draftQueryKeys = {
   draft: (articleId: number) => [DRAFT, articleId] as const,
   draftWithLanguage: (articleId: number, language: string) => [DRAFT, articleId, language] as const,
   articleRevisionHistory: (articleId: number) => [DRAFT_HISTORY, articleId] as const,
+  draftIds: ({ ids, language }: UseDraftIds) => [DRAFT_IDS, ids, language] as const,
   search: (params?: Partial<ArticleSearchParamsDTO>) => [SEARCH_DRAFTS, params] as const,
   licenses: [LICENSES] as const,
   userData: [USER_DATA] as const,
@@ -86,6 +94,14 @@ export const useSearchDrafts = (
   return useQuery<ArticleSearchResultDTO>({
     queryKey: draftQueryKeys.search(params),
     queryFn: () => searchDrafts(params),
+    ...options,
+  });
+};
+
+export const useDraftIds = ({ ids, language }: UseDraftIds, options?: Partial<UseQueryOptions<ArticleDTO[]>>) => {
+  return useQuery<ArticleDTO[]>({
+    queryKey: draftQueryKeys.draftIds({ ids, language }),
+    queryFn: () => fetchDrafts(ids, language),
     ...options,
   });
 };

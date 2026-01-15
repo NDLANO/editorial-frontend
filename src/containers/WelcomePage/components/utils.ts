@@ -7,7 +7,7 @@
  */
 
 import { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
-import { ArticleSummaryDTO } from "@ndla/types-backend/draft-api";
+import { ArticleDTO, ArticleSummaryDTO } from "@ndla/types-backend/draft-api";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { sortBy } from "@ndla/util";
 import { Prefix } from "./TableComponent";
@@ -23,7 +23,9 @@ export const getCurrentPageData = <T>(page: number, data: T[], pageSize: number)
   return currentPageElements ?? [];
 };
 
-export const getSortedPaginationData = <T extends ConceptSummaryDTO | ArticleSummaryDTO | MultiSearchSummaryDTO>(
+export const getSortedPaginationData = <
+  T extends ConceptSummaryDTO | ArticleSummaryDTO | MultiSearchSummaryDTO | ArticleDTO,
+>(
   page: number,
   sortOption: SortOptionType,
   data: T[],

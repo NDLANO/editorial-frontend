@@ -152,11 +152,11 @@ const ArticleStatusContent = ({
                 data: (
                   <SafeLink
                     to={toSearch(
-                      {
+                      "content",
+                      new URLSearchParams({
                         subjects: filterSubject ? filterSubject.value : searchPageSubjectFilter,
                         "draft-status": statusData.value,
-                      },
-                      "content",
+                      }).toString(),
                     )}
                     title={statusTitle}
                   >

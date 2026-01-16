@@ -6,7 +6,6 @@
  *
  */
 
-import qs from "query-string";
 import { H5pLicenseInformation, H5pPreviewResponse } from "@ndla/types-embed";
 import config from "../../config";
 import { fetchReAuthorized, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
@@ -54,7 +53,9 @@ export const getH5pLocale = (language: string) => {
 };
 
 export const fetchH5pPreviewOembed = async (url: string): Promise<H5pPreviewResponse> =>
-  fetch(`${config.h5pApiUrl}/oembed/preview?${qs.stringify({ url })}`).then((r) => resolveJsonOrRejectWithError(r));
+  fetch(`${config.h5pApiUrl}/oembed/preview?${new URLSearchParams({ url }).toString()}`).then((r) =>
+    resolveJsonOrRejectWithError(r),
+  );
 
 export const fetchH5pLicenseInformation = async (resourceId: string): Promise<H5pLicenseInformation | undefined> => {
   const url = `${config.h5pApiUrl}/v2/resource/${resourceId}/copyright`;

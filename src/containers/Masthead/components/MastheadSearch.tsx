@@ -229,7 +229,7 @@ export const MastheadSearch = () => {
     } else {
       const matched = location.pathname.split("/").find((v) => !!pathToTypeMapping[v]);
       const type = matched ? pathToTypeMapping[matched] : pathToTypeMapping.default;
-      navigate(routes.search({ query: query.length ? query : undefined }, type));
+      navigate(routes.search(type, query.length ? new URLSearchParams({ query }).toString() : undefined));
     }
   };
 

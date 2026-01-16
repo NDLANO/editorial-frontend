@@ -6,7 +6,6 @@
  *
  */
 
-import queryString from "query-string";
 import { useTranslation } from "react-i18next";
 import { SafeLinkButton } from "@ndla/safelink";
 
@@ -21,13 +20,18 @@ const GoToSearch = ({ ndlaId, filterSubject, searchEnv, revisionDateTo }: Props)
   const { t } = useTranslation();
 
   const onSearch = () => {
-    const query = queryString.stringify({
-      subjects: filterSubject,
-      ...(ndlaId ? { "responsible-ids": ndlaId } : {}),
-      ...(revisionDateTo ? { "revision-date-to": revisionDateTo } : {}),
-    });
+    const searchParams = new URLSearchParams();
+    if (filterSubject) {
+      searchParams.set("subjects", filterSubject);
+    }
+    if (ndlaId) {
+      searchParams.set("responsible-ids", ndlaId);
+    }
+    if (revisionDateTo) {
+      searchParams.set("revision-date-to", revisionDateTo);
+    }
 
-    return `/search/${searchEnv}?${query}`;
+    return `/search/${searchEnv}?${searchParams.toString()}`;
   };
 
   return (

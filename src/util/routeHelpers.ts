@@ -6,7 +6,6 @@
  *
  */
 
-import queryString from "query-string";
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router";
 import { NDLA_FILM_SUBJECT } from "../constants";
@@ -101,9 +100,9 @@ export const routes = {
   },
 };
 
-export function toSearch(query: object, type = "content") {
+export function toSearch(type = "content", query?: string) {
   if (query) {
-    return `/search/${type}?${queryString.stringify(query)}`;
+    return `/search/${type}?${query}`;
   }
   return `/search/${type}`;
 }

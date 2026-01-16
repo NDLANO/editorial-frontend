@@ -6,8 +6,6 @@
  *
  */
 
-import queryString from "query-string";
-
 export const toHMS = (time: number) => {
   const seconds = time < 0 ? time * -1 : time;
   const minute = Math.floor(seconds / 60) % 60;
@@ -36,29 +34,28 @@ export const getYoutubeEmbedUrl = (url: string, start?: string, stop?: string) =
 };
 
 export const addYoutubeTimeStamps = (url: string, start?: string, stop?: string) => {
-  const [baseUrl, ...queries] = url.split("?");
-  const query = queryString.parse(queries.join("?"));
-
+  const urlObj = new URL(url);
   const startSeconds = start ? calcSecondsFromHMS(start) : undefined;
   const stopSeconds = stop ? calcSecondsFromHMS(stop) : undefined;
 
-  const startStopObj = {
-    ...(startSeconds && { start: startSeconds }),
-    ...(stopSeconds && { end: stopSeconds }),
-  };
+  if (startSeconds) {
+    urlObj.searchParams.set("start", startSeconds.toString());
+  }
+  if (stopSeconds) {
+    urlObj.searchParams.set("end", stopSeconds.toString());
+  }
 
-  const updatedQuery = queryString.stringify({ ...query, ...startStopObj });
-  return `${baseUrl}?${updatedQuery}`;
+  return urlObj.toString();
 };
 
 export const getStartTime = (url: string) => {
-  const params = queryString.parse(url.split("?")[1]);
-  return toHMS(params.start);
+  const urlObj = new URL(url);
+  return toHMS(Number(urlObj.searchParams.get("start")));
 };
 
 export const getStopTime = (url: string) => {
-  const params = queryString.parse(url.split("?")[1]);
-  return toHMS(params.end);
+  const urlObj = new URL(url);
+  return toHMS(Number(urlObj.searchParams.get("end")));
 };
 
 export const removeYoutubeTimeStamps = (url: string) => {

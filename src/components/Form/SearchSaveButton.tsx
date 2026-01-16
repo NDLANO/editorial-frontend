@@ -7,7 +7,6 @@
  */
 
 import { TFunction } from "i18next";
-import { parse, stringify } from "query-string";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Text } from "@ndla/primitives";
@@ -65,11 +64,9 @@ const createSearchPhrase = (filters: SearchSaveParams, searchContentType: Search
 };
 
 const createSearchString = (location: Location) => {
-  const searchObject = parse(location.search);
-  if (searchObject.page) {
-    delete searchObject.page;
-  }
-  return location.pathname + "?" + stringify(searchObject);
+  const searchParams = new URLSearchParams(location.search);
+  searchParams.delete("page");
+  return location.pathname + "?" + searchParams.toString();
 };
 
 interface Props {

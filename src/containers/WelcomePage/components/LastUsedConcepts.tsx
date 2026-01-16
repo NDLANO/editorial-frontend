@@ -16,13 +16,13 @@ import TableTitle from "./TableTitle";
 import PageSizeSelect from "./worklist/PageSizeSelect";
 import StatusCell from "./worklist/StatusCell";
 import Pagination from "../../../components/abstractions/Pagination";
-import { STORED_PAGE_SIZE_LAST_UPDATED_CONCEPT, STORED_SORT_OPTION_LAST_USED_CONCEPT } from "../../../constants";
+import { STORED_PAGE_SIZE_LAST_UPDATED_CONCEPT } from "../../../constants";
 import formatDate from "../../../util/formatDate";
 import { routes } from "../../../util/routeHelpers";
-import { useLocalStoragePageSizeState, useLocalStorageSortOptionState } from "../hooks/storedFilterHooks";
+import { useLocalStoragePageSizeState } from "../hooks/storedFilterHooks";
 import { StyledTopRowDashboardInfo } from "../styles";
 import { SortOptionLastUsed } from "../types";
-import { getSortedPaginationData } from "./utils";
+import { getCurrentPageData } from "./utils";
 
 interface Props {
   data: ConceptSummaryDTO[];
@@ -36,15 +36,8 @@ const LastUsedConcepts = ({ data: propData, isLoading, error, titles, totalCount
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useLocalStoragePageSizeState(STORED_PAGE_SIZE_LAST_UPDATED_CONCEPT);
-  const [sortOption, setSortOption] = useLocalStorageSortOptionState<SortOptionLastUsed>(
-    STORED_SORT_OPTION_LAST_USED_CONCEPT,
-    "-lastUpdated",
-  );
 
-  const data = useMemo(
-    () => getSortedPaginationData(page, sortOption, propData, Number(pageSize.value)),
-    [propData, page, sortOption, pageSize],
-  );
+  const data = useMemo(() => getCurrentPageData(page, propData, Number(pageSize.value)), [propData, page, pageSize]);
 
   useEffect(() => {
     setPage(1);
@@ -84,8 +77,6 @@ const LastUsedConcepts = ({ data: propData, isLoading, error, titles, totalCount
         isLoading={isLoading}
         tableTitleList={titles}
         tableData={tableData}
-        setSortOption={setSortOption}
-        sortOption={sortOption}
         error={error}
         noResultsText={t("welcomePage.emptyLastUsed")}
         minWidth="500px"

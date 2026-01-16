@@ -82,7 +82,9 @@ export interface TopicArticleFormType extends ArticleFormType {
   visualElement: Descendant[];
 }
 
-export interface FrontpageArticleFormType extends ArticleFormType {}
+export interface FrontpageArticleFormType extends ArticleFormType {
+  visualElement: Descendant[];
+}
 
 type HooksInputObject<T extends ArticleFormType> = {
   getInitialValues: (article: ArticleDTO | undefined, language: string, ndlaId: string | undefined) => T;

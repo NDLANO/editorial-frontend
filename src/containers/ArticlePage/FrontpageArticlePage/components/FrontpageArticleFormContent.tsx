@@ -52,6 +52,7 @@ import { findNodesByType } from "../../../../util/slateHelpers";
 import { useDebouncedCallback } from "../../../../util/useDebouncedCallback";
 import { IngressField, TitleField, SlugField } from "../../../FormikForm";
 import { FrontpageArticleFormType } from "../../../FormikForm/articleFormHooks";
+import VisualElementField from "../../../FormikForm/components/VisualElementField";
 import { useSession } from "../../../Session/SessionProvider";
 
 const StyledDiv = styled("div", {
@@ -151,6 +152,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
         </StyledDiv>
       </div>
       <IngressField />
+      <VisualElementField types={["image"]} />
       <AlertDialog
         title={t("editorFooter.changeHeader")}
         label={t("editorFooter.changeHeader")}

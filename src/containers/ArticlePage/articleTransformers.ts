@@ -124,6 +124,7 @@ export const draftApiTypeToFrontpageArticleFormType = (
 ): FrontpageArticleFormType => {
   return {
     ...draftApiTypeToArticleFormType(article, language, "frontpage-article", ndlaId, blockContentToEditorValue),
+    visualElement: embedTagToEditorValue(article?.visualElement?.visualElement ?? ""),
   };
 };
 
@@ -203,6 +204,7 @@ export const frontpageArticleFormTypeToDraftApiType = (
     introduction: inlineContentToHTML(article.introduction),
     language: article.language,
     metaImage,
+    visualElement: editorValueToEmbedTag(article.visualElement),
     metaDescription: editorValueToPlainText(article.metaDescription),
     notes: article.notes,
     published: getPublishedDate(article, initialValues, preview) ?? "",

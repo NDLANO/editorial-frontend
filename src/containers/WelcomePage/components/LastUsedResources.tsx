@@ -16,13 +16,13 @@ import TableTitle from "./TableTitle";
 import PageSizeSelect from "./worklist/PageSizeSelect";
 import StatusCell from "./worklist/StatusCell";
 import Pagination from "../../../components/abstractions/Pagination";
-import { STORED_PAGE_SIZE_LAST_UPDATED, STORED_SORT_OPTION_LAST_USED } from "../../../constants";
+import { STORED_PAGE_SIZE_LAST_UPDATED } from "../../../constants";
 import formatDate from "../../../util/formatDate";
 import { routes } from "../../../util/routeHelpers";
-import { useLocalStoragePageSizeState, useLocalStorageSortOptionState } from "../hooks/storedFilterHooks";
+import { useLocalStoragePageSizeState } from "../hooks/storedFilterHooks";
 import { StyledTopRowDashboardInfo } from "../styles";
 import { SortOptionLastUsed } from "../types";
-import { getSortedPaginationData } from "./utils";
+import { getCurrentPageData } from "./utils";
 
 interface Props {
   data: ArticleSummaryDTO[];
@@ -36,18 +36,14 @@ const LastUsedResources = ({ data: propData = [], isLoading, error, titles, tota
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useLocalStoragePageSizeState(STORED_PAGE_SIZE_LAST_UPDATED);
-  const [sortOption, setSortOption] = useLocalStorageSortOptionState<SortOptionLastUsed>(
-    STORED_SORT_OPTION_LAST_USED,
-    "-lastUpdated",
-  );
 
   useEffect(() => {
     setPage(1);
   }, [pageSize]);
 
   const data = useMemo(
-    () => (propData ? getSortedPaginationData(page, sortOption, propData, Number(pageSize!.value)) : []),
-    [propData, page, sortOption, pageSize],
+    () => (propData ? getCurrentPageData(page, propData, Number(pageSize!.value)) : []),
+    [propData, page, pageSize],
   );
 
   const tableData: FieldElement[][] = useMemo(
@@ -81,8 +77,6 @@ const LastUsedResources = ({ data: propData = [], isLoading, error, titles, tota
         isLoading={isLoading}
         tableTitleList={titles}
         tableData={tableData}
-        setSortOption={setSortOption}
-        sortOption={sortOption}
         error={error}
         noResultsText={t("welcomePage.emptyLastUsed")}
         minWidth="500px"

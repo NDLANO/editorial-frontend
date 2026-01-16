@@ -8,7 +8,7 @@
 
 import { MouseEvent, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Path, Range } from "slate";
+import { Editor, Location, Path, Range } from "slate";
 import { ReactEditor, useSlateSelection } from "slate-react";
 import { SubtractLine, AddLine, AlignCenter, AlignLeft, AlignRight } from "@ndla/icons";
 import { Button, IconButton, Text } from "@ndla/primitives";
@@ -147,7 +147,8 @@ const TableActions = ({ editor, element }: Props) => {
 
   const [table] = Editor.node(editor, tablePath);
   const captionEntry = getCurrentBlock(editor, TABLE_CAPTION_ELEMENT_TYPE);
-  const show = Range.isRange(selection) && Range.includes(selection, tablePath) && ReactEditor.isFocused(editor);
+  const show =
+    selection && Location.isRange(selection) && Range.includes(selection, tablePath) && ReactEditor.isFocused(editor);
 
   if (!isTableElement(table) || captionEntry) {
     return null;

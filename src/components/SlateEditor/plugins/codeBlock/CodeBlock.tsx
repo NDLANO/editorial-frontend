@@ -7,7 +7,7 @@
  */
 
 import he from "he";
-import { highlight, languages } from "prismjs";
+import * as Prism from "prismjs";
 import "prismjs/components/prism-clike";
 import "prismjs/components/prism-markup";
 import "prismjs/components/prism-markup-templating";
@@ -73,7 +73,7 @@ const StyledFigure = styled(Figure, {
 });
 
 const highlightCode = (code: string, language: string): string => {
-  const highlighted = highlight(code, languages[language], language);
+  const highlighted = Prism.highlight(code, Prism.languages[language], language);
   return highlighted;
 };
 

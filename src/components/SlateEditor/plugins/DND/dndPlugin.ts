@@ -15,7 +15,7 @@ import {
   SECTION_ELEMENT_TYPE,
 } from "@ndla/editor";
 import { DND_PLUGIN, DndPluginOptions } from "./dndTypes";
-import { Element, Node } from "slate";
+import { Node } from "slate";
 import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquote/blockquoteTypes";
 import { TABLE_CAPTION_ELEMENT_TYPE } from "../table/types";
 import { textBlockElements } from "../../utils/normalizationHelpers";
@@ -75,10 +75,10 @@ export const dndPlugin = createPlugin<any, DndPluginOptions>({
         const fragment = Node.fragment(editor, selection);
         const section = fragment[0];
 
-        if (Element.isElement(section) && section.type === SECTION_ELEMENT_TYPE) {
+        if (Node.isElement(section) && section.type === SECTION_ELEMENT_TYPE) {
           const lowestCommonAncestor = [...Node.nodes(section)].find(([element]) => {
             return (
-              Element.isElement(element) &&
+              Node.isElement(element) &&
               (element.children.length > 1 ||
                 [
                   HEADING_ELEMENT_TYPE,
@@ -88,7 +88,7 @@ export const dndPlugin = createPlugin<any, DndPluginOptions>({
                 ].includes(element.type))
             );
           })?.[0];
-          if (Element.isElement(lowestCommonAncestor)) {
+          if (lowestCommonAncestor && Node.isElement(lowestCommonAncestor)) {
             if (lowestCommonAncestor.type === HEADING_ELEMENT_TYPE) {
               return [lowestCommonAncestor];
             }
@@ -100,9 +100,9 @@ export const dndPlugin = createPlugin<any, DndPluginOptions>({
             }
             if (lowestCommonAncestor.type === LIST_ITEM_ELEMENT_TYPE) {
               const lowestCommonList = [...Node.nodes(section)].find(([element]) => {
-                return Element.isElement(element) && element.children.includes(lowestCommonAncestor);
+                return Node.isElement(element) && element.children.includes(lowestCommonAncestor);
               })?.[0];
-              if (Element.isElement(lowestCommonList)) {
+              if (lowestCommonList && Node.isElement(lowestCommonList)) {
                 return [lowestCommonList];
               }
             }

@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor, Element, Path, Transforms } from "slate";
+import { Editor, Node, Path, Transforms } from "slate";
 import { DragEndEvent } from "@dnd-kit/core";
 import { DndPluginOptions } from "./dndTypes";
 
@@ -19,7 +19,7 @@ export const onDragEnd = (dragEvent: DragEndEvent, editor: Editor, dndOptions: D
   if (!(dropAreaPosition === "top" || dropAreaPosition === "bottom")) return;
 
   const [entry1, entry2] = editor.nodes({
-    match: (n) => Element.isElement(n) && (n.id === activeId || n.id === overId),
+    match: (n) => Node.isElement(n) && (n.id === activeId || n.id === overId),
     mode: "all",
     at: [],
   });
@@ -33,7 +33,7 @@ export const onDragEnd = (dragEvent: DragEndEvent, editor: Editor, dndOptions: D
 
   const [parent] = editor.parent(overPath);
 
-  const legalChildren = Element.isElement(parent) && dndOptions?.legalChildren?.[parent.type];
+  const legalChildren = Node.isElement(parent) && dndOptions?.legalChildren?.[parent.type];
 
   if (legalChildren && activeElement && !legalChildren.includes(activeElement.type)) return;
 

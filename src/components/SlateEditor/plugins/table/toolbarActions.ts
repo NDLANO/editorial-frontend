@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor, Element, Path, Transforms } from "slate";
+import { Editor, Node, Path, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { ReactEditor } from "slate-react";
 import { getCurrentBlock } from "@ndla/editor";
@@ -277,7 +277,7 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
           });
         }
         const maybeTableHead = Editor.parent(editor, currentRowPath)[0];
-        const isInTableHead = Element.isElement(maybeTableHead) && maybeTableHead.type === TABLE_HEAD_ELEMENT_TYPE;
+        const isInTableHead = Node.isElement(maybeTableHead) && maybeTableHead.type === TABLE_HEAD_ELEMENT_TYPE;
 
         // D. Insert new cell with matching colspan.
         Transforms.insertNodes(

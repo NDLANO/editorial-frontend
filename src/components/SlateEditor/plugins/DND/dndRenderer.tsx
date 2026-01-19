@@ -7,7 +7,7 @@
  */
 
 import { MouseEvent, ReactNode, useEffect } from "react";
-import { Editor, Element, ElementType, PathRef } from "slate";
+import { Editor, Element, Node, ElementType, PathRef } from "slate";
 import { ReactEditor } from "slate-react";
 import { useDraggable } from "@dnd-kit/core";
 import { Draggable } from "@ndla/icons";
@@ -19,7 +19,7 @@ import { DropArea } from "./DropArea";
 const getAccepts = (editor: Editor, element: Element, options?: DndPluginOptions) => {
   const path = ReactEditor.findPath(editor, element);
   const [parent] = editor.parent(path);
-  if (!parent || !Element.isElement(parent)) {
+  if (!parent || !Node.isElement(parent)) {
     return {
       accepts: undefined,
       pathRef: null,

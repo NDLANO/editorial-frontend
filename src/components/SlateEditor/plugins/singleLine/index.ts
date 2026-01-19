@@ -8,7 +8,7 @@
 
 import { createPlugin } from "@ndla/editor";
 import { SINGLE_LINE_PLUGIN } from "./types";
-import { Element, Transforms } from "slate";
+import { Node, Transforms } from "slate";
 import { defaultParagraphBlock } from "../paragraph/utils";
 
 export const singleLinePlugin = createPlugin({
@@ -20,9 +20,9 @@ export const singleLinePlugin = createPlugin({
       return true;
     }
 
-    if (!Element.isElement(node) || path.length !== 1 || path[0] !== 0 || node.children.length <= 1) return false;
+    if (!Node.isElement(node) || path.length !== 1 || path[0] !== 0 || node.children.length <= 1) return false;
 
-    const blockNodes = node.children.filter((child) => Element.isElement(child) && editor.isBlock(child));
+    const blockNodes = node.children.filter((child) => Node.isElement(child) && editor.isBlock(child));
     if (blockNodes.length === node.children.length) {
       logger.log("Single line node has more than one child, merging with previous");
       Transforms.mergeNodes(editor, { at: path.concat([1]) });

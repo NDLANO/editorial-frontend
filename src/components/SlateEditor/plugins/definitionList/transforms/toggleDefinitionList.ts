@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor, Transforms, Range, Element } from "slate";
+import { Editor, Transforms, Node, Location } from "slate";
 import { DEFINITION_LIST_ELEMENT_TYPE, DEFINITION_TERM_ELEMENT_TYPE } from "../definitionListTypes";
 import {
   isDefinitionDescriptionElement,
@@ -33,7 +33,7 @@ const isOnlySelectionOfDefinitionList = (editor: Editor) => {
 
 // TODO: This doesn't work perfectly when combined with regular lists.
 export const toggleDefinitionList = (editor: Editor) => {
-  if (!Range.isRange(editor.selection)) {
+  if (!editor.selection || !Location.isRange(editor.selection)) {
     return;
   }
   const isSelected = isOnlySelectionOfDefinitionList(editor);
@@ -55,7 +55,7 @@ export const toggleDefinitionList = (editor: Editor) => {
     });
   } else {
     const nodes = editor.nodes({
-      match: (node) => Element.isElement(node) && firstTextBlockElement.includes(node.type),
+      match: (node) => Node.isElement(node) && firstTextBlockElement.includes(node.type),
       at: selection,
       mode: "lowest",
     });

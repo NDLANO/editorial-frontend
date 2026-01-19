@@ -8,7 +8,7 @@
 
 import { isEqual } from "lodash-es";
 import { useCallback } from "react";
-import { Editor, Element, Transforms } from "slate";
+import { Editor, Node, Transforms } from "slate";
 import { ReactEditor, useSlateSelector, useSlateStatic } from "slate-react";
 import { toggleList } from "@ndla/editor";
 import { BlockType } from "./toolbarState";
@@ -20,13 +20,13 @@ import { toggleDefinitionList } from "../definitionList/transforms/toggleDefinit
 const getCurrentBlockValues = (editor: Editor) => {
   const [currentListBlock] =
     Editor.nodes(editor, {
-      match: (n) => Element.isElement(n) && (n.type === "list" || n.type === "definition-list"),
+      match: (n) => Node.isElement(n) && (n.type === "list" || n.type === "definition-list"),
       mode: "highest",
     }) ?? [];
 
   const [currentQuote] =
     Editor.nodes(editor, {
-      match: (n) => Element.isElement(n) && n.type === "quote",
+      match: (n) => Node.isElement(n) && n.type === "quote",
     }) ?? [];
   const values: BlockType[] = [];
 
@@ -36,7 +36,7 @@ const getCurrentBlockValues = (editor: Editor) => {
 
   const node = currentListBlock?.[0];
 
-  if (!Element.isElement(node)) return values;
+  if (!node || !Node.isElement(node)) return values;
 
   if (node.type === "definition-list") {
     values.push("definition-list");

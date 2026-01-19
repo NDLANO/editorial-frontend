@@ -84,9 +84,11 @@ export const getCommentInfoText = (userName: string | undefined, t: TFunction): 
   return `${t("form.workflow.addComment.createdBy")} ${userName?.split(" ")[0]} (${formattedDate} - ${formattedTime})`;
 };
 
-const emptyParagraph: Descendant = {
-  type: PARAGRAPH_ELEMENT_TYPE,
-  children: [{ text: "" }],
+const createEmptyParagraph = (): Descendant => {
+  return {
+    type: PARAGRAPH_ELEMENT_TYPE,
+    children: [{ text: "" }],
+  };
 };
 
 interface Props {
@@ -97,7 +99,7 @@ interface Props {
 const InputComment = ({ isSubmitting, arrayHelpers }: Props) => {
   const { t } = useTranslation();
   const { userName } = useSession();
-  const [inputValue, setInputValue] = useState<Descendant[]>([emptyParagraph]);
+  const [inputValue, setInputValue] = useState<Descendant[]>([createEmptyParagraph()]);
   const [isFocused, setIsFocused] = useState(false);
 
   const addComment = useCallback(() => {
@@ -124,13 +126,13 @@ const InputComment = ({ isSubmitting, arrayHelpers }: Props) => {
   }, [inputValue, isFocused, t, userName]);
 
   const onCancel = useCallback(() => {
-    setInputValue([emptyParagraph]);
+    setInputValue([createEmptyParagraph()]);
     setIsFocused(false);
   }, []);
 
   const onSubmit = useCallback(() => {
     addComment();
-    setInputValue([emptyParagraph]);
+    setInputValue([createEmptyParagraph()]);
 
     setIsFocused(false);
   }, [addComment]);

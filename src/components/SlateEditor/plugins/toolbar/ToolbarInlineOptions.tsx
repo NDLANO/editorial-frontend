@@ -7,7 +7,7 @@
  */
 
 import { useCallback } from "react";
-import { Editor, Element, Transforms } from "slate";
+import { Editor, Node, Transforms } from "slate";
 import { ReactEditor, useSlateSelector, useSlateStatic } from "slate-react";
 import { InlineType } from "./toolbarState";
 import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
@@ -24,7 +24,7 @@ const getCurrentInlineValues = (editor: Editor): InlineType | undefined => {
   const [currentBlock] =
     Editor.nodes(editor, {
       match: (n) =>
-        Element.isElement(n) &&
+        Node.isElement(n) &&
         (n.type === "concept-inline" ||
           n.type === "content-link" ||
           n.type === "mathml" ||
@@ -35,7 +35,7 @@ const getCurrentInlineValues = (editor: Editor): InlineType | undefined => {
     }) ?? [];
 
   const node = currentBlock?.[0];
-  if (!Element.isElement(node)) return;
+  if (!node || !Node.isElement(node)) return;
   return node.type as InlineType;
 };
 

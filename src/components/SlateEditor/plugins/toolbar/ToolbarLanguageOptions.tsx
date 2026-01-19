@@ -8,7 +8,7 @@
 
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Element, Range, Transforms } from "slate";
+import { Editor, Node, Range, Transforms } from "slate";
 import { ReactEditor, useSlateSelector, useSlateStatic } from "slate-react";
 import { createListCollection } from "@ark-ui/react";
 import { SelectContent, SelectRoot, SelectValueText, SelectLabel, FieldRoot } from "@ndla/primitives";
@@ -39,7 +39,7 @@ const getCurrentLanguage = (editor: Editor) => {
       mode: "lowest",
     }) ?? [];
   const node = currentBlock?.[0];
-  if (!Element.isElement(node) || node.type !== "span") return;
+  if (!node || !Node.isElement(node) || node.type !== "span") return;
   return node.data.lang;
 };
 

@@ -9,7 +9,7 @@
 import { createPlugin } from "@ndla/editor";
 import { TABLE_CAPTION_ELEMENT_TYPE, TABLE_CAPTION_PLUGIN } from "./types";
 import { isTableCaptionElement, isTableElement } from "./queries";
-import { Text, Transforms } from "slate";
+import { Node, Transforms } from "slate";
 import { isKeyHotkey } from "is-hotkey";
 
 export const tableCaptionPlugin = createPlugin({
@@ -39,7 +39,7 @@ export const tableCaptionPlugin = createPlugin({
     }
 
     for (const [index, child] of node.children.entries()) {
-      if (!Text.isText(child)) {
+      if (!Node.isText(child)) {
         Transforms.unwrapNodes(editor, { at: path.concat(index) });
         return true;
       } else if (child.bold || child.code || child.italic || child.sub || child.sup || child.underlined) {

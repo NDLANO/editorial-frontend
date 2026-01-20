@@ -333,7 +333,7 @@ export const putNode = (params: PutNodeParams): Promise<void> =>
       },
       body: params.body,
     })
-    .then((response) => resolveJsonOATS(response));
+    .then((response) => resolveOATS(response));
 
 export interface PutResourcesPrimaryParams extends WithTaxonomyVersion {
   id: string;

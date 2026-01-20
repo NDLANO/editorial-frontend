@@ -9,7 +9,7 @@
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useDialogContext } from "@ark-ui/react";
-import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
+import { Button, DialogBody, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
 import { NodeChild } from "@ndla/types-taxonomy";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../constants";
@@ -80,7 +80,7 @@ export const DeleteResourceDialogContent = ({ resource, contentMeta, invalidate 
   ]);
 
   return (
-    <DialogContent>
+    <>
       <DialogHeader>
         <DialogTitle>{t("taxonomy.delete.deleteResource")}</DialogTitle>
         <DialogCloseButton />
@@ -114,6 +114,6 @@ export const DeleteResourceDialogContent = ({ resource, contentMeta, invalidate 
           {t("alertDialog.delete")}
         </Button>
       </DialogFooter>
-    </DialogContent>
+    </>
   );
 };

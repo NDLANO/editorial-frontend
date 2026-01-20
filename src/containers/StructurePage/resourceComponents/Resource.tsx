@@ -18,6 +18,7 @@ import {
   Badge,
   DialogRoot,
   DialogTrigger,
+  DialogContent,
 } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
@@ -254,7 +255,9 @@ const Resource = ({
                   <DeleteBinLine />
                 </IconButton>
               </DialogTrigger>
-              <DeleteResourceDialogContent resource={resource} contentMeta={contentMeta} invalidate={invalidate} />
+              <DialogContent>
+                <DeleteResourceDialogContent resource={resource} contentMeta={contentMeta} invalidate={invalidate} />
+              </DialogContent>
             </DialogRoot>
           </ControlButtonGroup>
         </ContentRow>

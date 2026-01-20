@@ -12,6 +12,7 @@ import { DragEndEvent } from "@dnd-kit/core";
 import { Draggable, StarLine, StarFill, SubtractLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { NodeChild, Node } from "@ndla/types-taxonomy";
 import { useCurrentNode } from "./CurrentNodeProvider";
 import NodeControls from "./folderComponents/NodeControls";
@@ -24,7 +25,7 @@ import { DragHandle } from "../../components/DraggableItem";
 import Fade from "../../components/Taxonomy/Fade";
 import { iconRecipe, NodeItemRoot, NodeItemTitle, ToggleIcon } from "../../components/Taxonomy/NodeItem";
 import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
-import { NodeChildWithChildren, NodeResourceMeta } from "../../modules/nodes/nodeApiTypes";
+import { NodeChildWithChildren } from "../../modules/nodes/nodeApiTypes";
 import { nodePathToUrnPath } from "../../util/taxonomyHelpers";
 import { useSession } from "../Session/SessionProvider";
 import StructureErrorIcon from "./folderComponents/StructureErrorIcon";
@@ -87,7 +88,7 @@ const getPath = (path: string, rootPath: string): string => {
 interface Props {
   id: string;
   item: Node | NodeChild;
-  keyedMetas?: Record<string, NodeResourceMeta>;
+  keyedMetas?: Record<string, MultiSearchSummaryDTO>;
   openedPaths: string[];
   rootNodeId: string;
   onDragEnd: (result: DragEndEvent, childNodes: NodeChild[]) => Promise<void>;

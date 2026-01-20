@@ -19,7 +19,7 @@ import {
   PopoverTitle,
   UnOrderedList,
 } from "@ndla/primitives";
-import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { ResourceStats } from "../utils";
 
 interface Props {
@@ -27,7 +27,7 @@ interface Props {
   allStats: (ResourceStats | undefined)[];
   isPending: boolean;
   isError: boolean;
-  contentMeta: NodeResourceMeta | undefined;
+  contentMeta: MultiSearchSummaryDTO | undefined;
 }
 const MatomoStats = ({ stats, allStats, isPending, isError, contentMeta }: Props) => {
   const { t } = useTranslation();
@@ -71,7 +71,7 @@ const MatomoStats = ({ stats, allStats, isPending, isError, contentMeta }: Props
             <li>{t("matomo.visits", { count: stats?.nb_visits ?? 0 })}</li>
             <li>{t("matomo.avgTime", { time: stats?.avg_time_on_page ?? 0 })}</li>
             <li>{t("matomo.totalHits", { count: totalHits, contexts: allStats?.filter(Boolean).length })}</li>
-            <li>{t("matomo.totalHearts", { count: contentMeta?.hearts ?? 0 })}</li>
+            <li>{t("matomo.totalHearts", { count: contentMeta?.favorited ?? 0 })}</li>
           </UnOrderedList>
         </PopoverContent>
       </Portal>

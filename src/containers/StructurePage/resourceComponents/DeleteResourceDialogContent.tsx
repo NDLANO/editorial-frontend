@@ -10,19 +10,19 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useDialogContext } from "@ark-ui/react";
 import { Button, DialogBody, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { NodeChild } from "@ndla/types-taxonomy";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../constants";
 import { useUpdateDraftStatusMutation } from "../../../modules/draft/draftMutations";
 import { useLearningpathsWithArticle } from "../../../modules/learningpath/learningpathQueries";
-import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
 import { useDeleteNodeConnectionMutation } from "../../../modules/nodes/nodeMutations";
-import { getIdFromContentURI } from "../../../util/taxonomyHelpers";
+import { getContentUriInfo } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
   resource: NodeChild;
-  contentMeta: NodeResourceMeta | undefined;
+  contentMeta: MultiSearchSummaryDTO | undefined;
   invalidate: () => void;
 }
 
@@ -34,10 +34,8 @@ export const DeleteResourceDialogContent = ({ resource, contentMeta, invalidate 
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const articleId = useMemo(() => {
-    if (resource.contentUri?.startsWith("urn:article")) {
-      return getIdFromContentURI(resource.contentUri);
-    }
-    return undefined;
+    const uriInfo = getContentUriInfo(resource.contentUri);
+    return uriInfo?.type === "article" ? uriInfo.id : undefined;
   }, [resource.contentUri]);
 
   const lpsWithArticleQuery = useLearningpathsWithArticle(articleId!, {

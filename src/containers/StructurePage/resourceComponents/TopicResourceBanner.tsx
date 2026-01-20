@@ -12,6 +12,7 @@ import { MessageLine, CheckboxCircleLine } from "@ndla/icons";
 import { Skeleton, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { Node, NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import ApproachingRevisionDate from "./ApproachingRevisionDate";
 import GrepCodesDialog from "./GrepCodesDialog";
@@ -27,7 +28,6 @@ import config from "../../../config";
 import { PUBLISHED, RESOURCE_FILTER_SUPPLEMENTARY } from "../../../constants";
 import { Dictionary } from "../../../interfaces";
 import { useMatomoStats } from "../../../modules/matomo/matomoQueries";
-import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
 import { stripInlineContentHtmlTags } from "../../../util/formHelper";
 import { routes } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -127,16 +127,16 @@ const InfoItems = styled("div", {
   },
 });
 
-const getWorkflowCount = (contentMeta: Dictionary<NodeResourceMeta>) => {
+const getWorkflowCount = (contentMeta: Dictionary<MultiSearchSummaryDTO>) => {
   const contentMetaList = Object.values(contentMeta);
   const workflowCount = contentMetaList.filter((c) => c.status?.current !== PUBLISHED).length;
   return workflowCount;
 };
 
 interface Props {
-  contentMetas: Dictionary<NodeResourceMeta>;
+  contentMetas: Dictionary<MultiSearchSummaryDTO>;
   currentNode: NodeChild;
-  currentContentMeta: NodeResourceMeta | undefined;
+  currentContentMeta: MultiSearchSummaryDTO | undefined;
   resources: NodeChild[];
   resourceTypes: ResourceType[];
   articleIds?: number[];
@@ -190,7 +190,7 @@ const TopicResourceBanner = ({
   const numericId = parseInt(currentNode.contentUri?.split(":").pop() ?? "");
 
   const lastCommentTopicArticle = useMemo(
-    () => Object.values(contentMetas).find((el) => el.articleType === "topic-article")?.comments?.[0]?.content,
+    () => Object.values(contentMetas).find((el) => el.learningResourceType === "topic-article")?.comments?.[0]?.content,
     [contentMetas],
   );
 

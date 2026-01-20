@@ -14,7 +14,7 @@ import { Node } from "@ndla/types-taxonomy";
 import { keyBy } from "@ndla/util";
 import { useChildNodes, useNode, useNodeResourceMetas } from "../../../modules/nodes/nodeQueries";
 import { useSearchGrepCodes } from "../../../modules/search/searchQueries";
-import { getTypeFromContentURI } from "../../../util/taxonomyHelpers";
+import { getContentUriFromSearchSummary } from "../../../util/searchHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import ResourceItems from "../resourceComponents/ResourceItems";
 
@@ -45,11 +45,7 @@ export const MultidisciplinaryCases = ({ currentNode }: Props) => {
   const nodeResourceMetasQuery = useNodeResourceMetas(
     {
       nodeId: currentNode.id,
-      ids:
-        childrenQuery.data?.map((node) => ({
-          id: node.contentUri ?? "",
-          type: getTypeFromContentURI(node.contentUri) ?? "article",
-        })) ?? [],
+      contentUris: childrenQuery.data?.map((node) => node.contentUri).filter((uri): uri is string => !!uri) ?? [],
       language: i18n.language,
     },
     { enabled: !!childrenQuery.data?.length },
@@ -67,7 +63,7 @@ export const MultidisciplinaryCases = ({ currentNode }: Props) => {
   const rootGrepCodesString = rootGrepCodesQuery.data?.results?.map((c) => `${c.code} - ${c.title.title}`).join(", ");
 
   const keyedMetas = useMemo(
-    () => keyBy(nodeResourceMetasQuery.data, (m) => m.contentUri),
+    () => keyBy(nodeResourceMetasQuery.data, (m) => getContentUriFromSearchSummary(m)),
     [nodeResourceMetasQuery.data],
   );
 

@@ -21,15 +21,16 @@ import {
 } from "@ndla/primitives";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import GrepCodesForm from "./GrepCodesForm";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { useUpdateDraftMutation } from "../../../modules/draft/draftMutations";
 import { draftQueryKeys } from "../../../modules/draft/draftQueries";
 import { usePatchLearningpathMutation } from "../../../modules/learningpath/learningpathMutations";
 import { learningpathQueryKeys } from "../../../modules/learningpath/learningpathQueries";
-import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
-import { getIdFromContentURI } from "../../../util/taxonomyHelpers";
+import { getContentUriFromSearchSummary } from "../../../util/searchHelpers";
+import { getContentUriInfo } from "../../../util/taxonomyHelpers";
 
 interface Props {
   codes: string[];
@@ -41,8 +42,8 @@ interface Props {
 
 const GrepCodesDialog = ({ codes, contentUri, revision, currentNodeId, rootGrepCodesString }: Props) => {
   const [open, setOpen] = useState(false);
-  const resourceId = Number(getIdFromContentURI(contentUri));
-  if (!resourceId || !revision) return null;
+  const uriInfo = getContentUriInfo(contentUri);
+  if (!uriInfo || !revision) return null;
 
   return (
     <DialogRoot size="large" position="top" open={open} onOpenChange={(details) => setOpen(details.open)}>
@@ -53,7 +54,7 @@ const GrepCodesDialog = ({ codes, contentUri, revision, currentNodeId, rootGrepC
         <GrepCodeDialogContent
           codes={codes}
           revision={revision}
-          resourceId={resourceId}
+          resourceId={uriInfo.id}
           currentNodeId={currentNodeId}
           contentUri={contentUri!}
           rootGrepCodesString={rootGrepCodesString}
@@ -107,8 +108,8 @@ const GrepCodeDialogContent = ({
         qc.cancelQueries({ queryKey });
         qc.setQueryData<LearningPathV2DTO>(queryKey, data);
         qc.invalidateQueries({ queryKey });
-        qc.setQueriesData<NodeResourceMeta[]>({ queryKey: nodeKey }, (data) =>
-          data?.map((meta) => (meta.contentUri === contentUri ? { ...meta, grepCodes } : meta)),
+        qc.setQueriesData<MultiSearchSummaryDTO[]>({ queryKey: nodeKey }, (data) =>
+          data?.map((meta) => (getContentUriFromSearchSummary(meta) === contentUri ? { ...meta, grepCodes } : meta)),
         );
       } else {
         const queryKey = draftQueryKeys.draftWithLanguage(resourceId, i18n.language);
@@ -119,8 +120,8 @@ const GrepCodeDialogContent = ({
         qc.cancelQueries({ queryKey });
         qc.setQueryData<ArticleDTO>(queryKey, data);
         qc.invalidateQueries({ queryKey });
-        qc.setQueriesData<NodeResourceMeta[]>({ queryKey: nodeKey }, (data) =>
-          data?.map((meta) => (meta.contentUri === contentUri ? { ...meta, grepCodes } : meta)),
+        qc.setQueriesData<MultiSearchSummaryDTO[]>({ queryKey: nodeKey }, (data) =>
+          data?.map((meta) => (getContentUriFromSearchSummary(meta) === contentUri ? { ...meta, grepCodes } : meta)),
         );
       }
     },

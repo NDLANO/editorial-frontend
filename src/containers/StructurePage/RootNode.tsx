@@ -18,7 +18,8 @@ import NodeItem from "./NodeItem";
 import { draftQueryKeys, useUpdateUserDataMutation } from "../../modules/draft/draftQueries";
 import { useUpdateNodeConnectionMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys, useChildNodes, useNodeResourceMetas } from "../../modules/nodes/nodeQueries";
-import { groupChildNodes, getTypeFromContentURI } from "../../util/taxonomyHelpers";
+import { getContentUriFromSearchSummary } from "../../util/searchHelpers";
+import { groupChildNodes } from "../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
@@ -47,21 +48,11 @@ const RootNode = ({ isFavorite, node, openedPaths, childNodeTypes, rootPath }: P
   const resourceMetasQuery = useNodeResourceMetas(
     {
       nodeId: node.id,
-      ids:
+      contentUris:
         childNodesQuery.data
-          ?.map((node) => ({
-            id: node.contentUri ?? "",
-            type: getTypeFromContentURI(node.contentUri) ?? "article",
-          }))
-          .concat({
-            id: node.contentUri ?? "",
-            type:
-              node.nodeType === "TOPIC"
-                ? node.context?.parentIds.length === 3
-                  ? "multidisciplinary"
-                  : "topic"
-                : "article",
-          }) ?? [],
+          ?.map((n) => n.contentUri)
+          .concat(node.contentUri)
+          .filter((contentUri): contentUri is string => !!contentUri) ?? [],
       language: i18n.language,
     },
     {
@@ -69,7 +60,10 @@ const RootNode = ({ isFavorite, node, openedPaths, childNodeTypes, rootPath }: P
     },
   );
 
-  const keyedMetas = useMemo(() => keyBy(resourceMetasQuery.data, (m) => m.contentUri), [resourceMetasQuery.data]);
+  const keyedMetas = useMemo(
+    () => keyBy(resourceMetasQuery.data, (m) => getContentUriFromSearchSummary(m)),
+    [resourceMetasQuery.data],
+  );
 
   const groupedChildNodes = useMemo(() => groupChildNodes(childNodesQuery.data ?? []), [childNodesQuery.data]);
 

@@ -9,23 +9,15 @@
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import { sortBy, uniqBy } from "@ndla/util";
 import { RESOURCE_TYPE_LEARNING_PATH } from "../constants";
-import { FlattenedResourceType } from "../interfaces";
+import { ContentUriInfo, FlattenedResourceType } from "../interfaces";
 import { NodeChildWithChildren } from "../modules/nodes/nodeApiTypes";
 
 // Kan hende at id i contentUri fra taxonomy inneholder '#xxx' (revision)
-export const getIdFromContentURI = (urn?: string) => {
-  return getTypeAndIdFromContentURI(urn)?.id;
-};
-
-export const getTypeFromContentURI = (urn?: string) => {
-  return getTypeAndIdFromContentURI(urn)?.type;
-};
-
-const getTypeAndIdFromContentURI = (urn?: string) => {
-  if (!urn) return;
+export const getContentUriInfo = (urn?: string): ContentUriInfo | undefined => {
+  if (!urn) return undefined;
   const [, type, id] = urn.split(":");
   const idWithoutRevision = parseInt(id.split("#")[0]);
-  return { type, id: idWithoutRevision };
+  return { type, id: idWithoutRevision, contentUri: urn };
 };
 
 const flattenResourceTypesAndAddContextTypes = (data: ResourceType[] = [], t: (key: string) => string) => {

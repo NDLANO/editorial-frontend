@@ -6,7 +6,6 @@
  *
  */
 
-import { CommentDTO, EditorNoteDTO, ResponsibleDTO, RevisionMetaDTO } from "@ndla/types-backend/draft-api";
 import { Node, NodeChild, NodeConnectionType, NodeType } from "@ndla/types-taxonomy";
 
 export const PROGRAMME = "PROGRAMME";
@@ -46,20 +45,6 @@ export interface GetNodeResourcesParams {
   includeContexts?: boolean;
   filterProgrammes?: boolean;
   isVisible?: boolean;
-}
-
-export interface NodeResourceMeta {
-  contentUri: string;
-  grepCodes?: string[];
-  status?: { current: string; other: string[] };
-  articleType?: string;
-  revision?: number;
-  notes?: EditorNoteDTO[];
-  revisions?: RevisionMetaDTO[];
-  responsible?: ResponsibleDTO;
-  started?: boolean;
-  comments?: CommentDTO[];
-  hearts?: number;
 }
 
 export interface NodeWithChildren extends Node {

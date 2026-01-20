@@ -33,9 +33,9 @@
   "devDependencies": {
     "@babel/core": "^7.28.5",
     "@ndla/preset-panda": "^0.0.70",
-    "@ndla/types-backend": "^1.0.89",
+    "@ndla/types-backend": "^1.0.92",
     "@ndla/types-embed": "^5.0.20-alpha.0",
-    "@ndla/types-taxonomy": "^1.0.44",
+    "@ndla/types-taxonomy": "^1.0.46",
     "@pandacss/dev": "^1.7.0",
     "@playwright/test": "^1.57.0",
     "@tanstack/react-query-devtools": "^5.79.0",

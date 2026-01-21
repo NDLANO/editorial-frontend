@@ -10,11 +10,11 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ErrorWarningFill, FileEditLine } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { NodeChild } from "@ndla/types-taxonomy";
 import { isApproachingRevision } from "./ApproachingRevisionDate";
 import WrongTypeError from "./WrongTypeError";
 import { StatusTimeFill } from "../../../components/StatusTimeFill";
-import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
 import formatDate from "../../../util/formatDate";
 import { getExpirationStatus } from "../../../util/getExpirationStatus";
 import { getExpirationDate } from "../../../util/revisionHelpers";
@@ -28,7 +28,7 @@ const StyledErrorWarningFill = styled(ErrorWarningFill, {
 interface Props {
   nodeResourcesIsPending: boolean;
   resource: NodeChild;
-  contentMeta: NodeResourceMeta | undefined;
+  contentMeta: MultiSearchSummaryDTO | undefined;
   multipleTaxonomy: boolean;
 }
 
@@ -55,7 +55,9 @@ const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy, conte
       {!!approachingRevision && !!warnStatus && !!expirationDate && (
         <StatusTimeFill variant={warnStatus} aria-label={expirationText} title={expirationText} />
       )}
-      {!nodeResourcesIsPending && <WrongTypeError resource={resource} articleType={contentMeta?.articleType} />}
+      {!nodeResourcesIsPending && (
+        <WrongTypeError resource={resource} articleType={contentMeta?.learningResourceType} />
+      )}
       {!!multipleTaxonomy && (
         <StyledErrorWarningFill
           aria-label={t("form.workflow.multipleTaxonomy")}

@@ -23,6 +23,7 @@ import {
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { NodeChild } from "@ndla/types-taxonomy";
 import { BadgesContainer } from "@ndla/ui";
 import GrepCodesDialog from "./GrepCodesDialog";
@@ -32,7 +33,6 @@ import StatusIcons from "./StatusIcons";
 import VersionHistory from "./VersionHistory";
 import config from "../../../config";
 import { PUBLISHED } from "../../../constants";
-import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
 import { useBadges } from "../../../util/getBadges";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
 import { routes } from "../../../util/routeHelpers";
@@ -107,7 +107,7 @@ interface Props {
   currentNodeId: string;
   responsible?: string;
   resource: NodeChild;
-  contentMeta: NodeResourceMeta | undefined;
+  contentMeta: MultiSearchSummaryDTO | undefined;
   nodeResourcesIsPending: boolean;
   invalidate: () => void;
   rootGrepCodesString: string | undefined;

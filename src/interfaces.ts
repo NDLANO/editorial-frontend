@@ -246,3 +246,9 @@ export type CamelToKebab<S extends string> = S extends `${infer T}${infer U}`
     ? `${Uncapitalize<T>}${CamelToKebab<U>}`
     : `${Uncapitalize<T>}-${CamelToKebab<U>}`
   : "";
+
+export interface ContentUriInfo {
+  contentUri: string;
+  id: number;
+  type: string;
+}

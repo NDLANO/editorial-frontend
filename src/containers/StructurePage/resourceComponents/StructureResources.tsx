@@ -15,7 +15,7 @@ import ResourcesContainer from "./ResourcesContainer";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
 import { useChildNodes, useNodeResourceMetas } from "../../../modules/nodes/nodeQueries";
 import { useAllResourceTypes } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
-import { getTypeFromContentURI } from "../../../util/taxonomyHelpers";
+import { getContentUriFromSearchSummary } from "../../../util/searchHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
@@ -68,27 +68,20 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
   const { data: nodeResourceMetas, isPending: contentMetaIsPending } = useNodeResourceMetas(
     {
       nodeId: currentChildNode.id,
-      ids:
+      contentUris:
         nodeResources
-          ?.map((node) => ({
-            id: node.contentUri ?? "",
-            type: getTypeFromContentURI(node.contentUri ?? "") ?? "article",
-          }))
-          .concat({
-            id: currentChildNode.contentUri ?? "",
-            type:
-              currentChildNode.nodeType === "TOPIC"
-                ? currentChildNode.context?.parentIds.length === 3
-                  ? "multidisciplinary"
-                  : "topic"
-                : "article",
-          }) ?? [],
+          ?.map((n) => n.contentUri)
+          .concat(currentChildNode.contentUri)
+          .filter((uri): uri is string => !!uri) ?? [],
       language: i18n.language,
     },
     { enabled: !!currentChildNode.contentUri || (!!nodeResources && !!nodeResources?.length) },
   );
 
-  const keyedMetas = useMemo(() => keyBy(nodeResourceMetas, (m) => m.contentUri), [nodeResourceMetas]);
+  const keyedMetas = useMemo(
+    () => keyBy(nodeResourceMetas, (m) => getContentUriFromSearchSummary(m)),
+    [nodeResourceMetas],
+  );
 
   const { data: resourceTypes } = useAllResourceTypes(
     { language: i18n.language, taxonomyVersion },

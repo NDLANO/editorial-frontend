@@ -25,6 +25,7 @@ import { SafeLink } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { EditorNoteDTO } from "@ndla/types-backend/draft-api";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { NodeChild } from "@ndla/types-taxonomy";
 import { constants } from "@ndla/ui";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
@@ -32,16 +33,15 @@ import NotesVersionHistory from "../../../components/VersionHistory/VersionHisto
 import { Auth0UserData } from "../../../interfaces";
 import { fetchAuth0Users } from "../../../modules/auth0/auth0Api";
 import { fetchArticleRevisionHistory } from "../../../modules/draft/draftApi";
-import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
 import formatDate from "../../../util/formatDate";
 import { routes } from "../../../util/routeHelpers";
-import { getIdFromContentURI } from "../../../util/taxonomyHelpers";
+import { getContentUriInfo } from "../../../util/taxonomyHelpers";
 
 const { contentTypes } = constants;
 
 interface Props {
   resource: NodeChild;
-  contentMeta: NodeResourceMeta | undefined;
+  contentMeta: MultiSearchSummaryDTO | undefined;
   contentType: string;
 }
 
@@ -138,9 +138,9 @@ const VersionHistoryContent = ({ contentType, resource }: DialogContentProps) =>
         setNotes([]);
       }
     };
-    const id = getIdFromContentURI(resource.contentUri);
-    if (id) {
-      fetchHistory(id);
+    const uriInfo = getContentUriInfo(resource.contentUri);
+    if (uriInfo?.id) {
+      fetchHistory(uriInfo.id);
     }
   }, [resource.contentUri, t]);
 

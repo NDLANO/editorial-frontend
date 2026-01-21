@@ -8,8 +8,9 @@
 
 import { useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
 import { Node, NodeChild, NodeType, NodeSearchBody } from "@ndla/types-taxonomy";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { fetchChildNodes, fetchNode, fetchNodes, postSearchNodes, searchNodes } from "./nodeApi";
-import { GetChildNodesParams, GetNodesParams, NodeResourceMeta, RESOURCE_NODE, TOPIC_NODE } from "./nodeApiTypes";
+import { GetChildNodesParams, GetNodesParams, RESOURCE_NODE, TOPIC_NODE } from "./nodeApiTypes";
 import { NodeTree } from "../../containers/NodeDiff/diffUtils";
 import { SearchResultBase, WithTaxonomyVersion } from "../../interfaces";
 import {
@@ -21,10 +22,9 @@ import {
   ROOT_NODE_WITH_CHILDREN,
   SEARCH_NODES,
 } from "../../queryKeys";
-import { getIdFromContentURI, getTypeFromContentURI } from "../../util/taxonomyHelpers";
-import { fetchDrafts } from "../draft/draftApi";
-import { fetchLearningpaths } from "../learningpath/learningpathApi";
-import { fetchResourceStats } from "../myndla/myndlaApi";
+import { getContentUriInfo } from "../../util/taxonomyHelpers";
+import { postSearch } from "../search/searchApi";
+import { NoNodeResultTypes } from "../search/searchApiInterfaces";
 
 export const nodeQueryKeys = {
   nodes: (params?: Partial<UseNodesParams>) => [NODES, params] as const,
@@ -69,94 +69,57 @@ export const useNode = (params: UseNodeParams, options?: Partial<UseQueryOptions
 
 interface UseNodeResourceMetas {
   nodeId: string;
-  ids: { id: string; type: string }[];
+  contentUris: string[];
   language?: string;
 }
 
 export const useNodeResourceMetas = (
   params: UseNodeResourceMetas,
-  options?: Partial<UseQueryOptions<NodeResourceMeta[]>>,
+  options?: Partial<UseQueryOptions<MultiSearchSummaryDTO[]>>,
 ) => {
-  return useQuery<NodeResourceMeta[]>({
+  return useQuery<MultiSearchSummaryDTO[]>({
     queryKey: nodeQueryKeys.resourceMetas(params),
     queryFn: () => fetchNodeResourceMetas(params),
     ...options,
   });
 };
 
-interface ContentUriPartition {
-  articleIds: number[];
-  learningpathIds: number[];
-}
-
-const partitionById = (ids: string[]) => {
-  return ids
-    .filter((uri) => !!uri)
-    .reduce<ContentUriPartition>(
-      (acc, curr) => {
-        const type = getTypeFromContentURI(curr!);
-        const id = getIdFromContentURI(curr!);
-        if (!id) return acc;
-        if (type === "article") {
-          acc.articleIds = acc.articleIds.concat(id);
-        } else if (type === "learningpath") {
-          acc.learningpathIds = acc.learningpathIds.concat(id);
-        }
-        return acc;
-      },
-      { articleIds: [], learningpathIds: [] },
-    );
+const getIdsAndResultTypes = (contentUris: string[]) => {
+  return contentUris.reduce<{ ids: Set<number>; resultTypes: Set<NoNodeResultTypes> }>(
+    (acc, curr) => {
+      const info = getContentUriInfo(curr);
+      if (!info) return acc;
+      acc.ids.add(info.id);
+      acc.resultTypes.add(info.type === "learningpath" ? "learningpath" : "draft");
+      return acc;
+    },
+    { ids: new Set<number>(), resultTypes: new Set<NoNodeResultTypes>() },
+  );
 };
 
-const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<NodeResourceMeta[]> => {
-  if (!params.ids.length) return [];
-  const { articleIds, learningpathIds } = partitionById(params.ids.map((id) => id.id));
-  const articlesPromise = articleIds.length ? fetchDrafts(articleIds, params.language) : Promise.resolve([]);
-  const learningpathsPromise = learningpathIds.length
-    ? fetchLearningpaths(learningpathIds, params.language)
-    : Promise.resolve([]);
-  const resourceStatsPromise = fetchResourceStats(
-    Array.from(new Set(params.ids.map((id) => id.type))),
-    params.ids.map((id) => `${getIdFromContentURI(id.id)}`),
-  );
-  const [articles, learningpaths, resourceStats] = await Promise.all([
-    articlesPromise,
-    learningpathsPromise,
-    resourceStatsPromise,
-  ]);
+const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<MultiSearchSummaryDTO[]> => {
+  if (!params.contentUris.length) {
+    return [];
+  }
+  const { ids, resultTypes } = getIdsAndResultTypes(params.contentUris);
 
-  const resourceMetas = params.ids.map((idObj) => {
-    const id = getIdFromContentURI(idObj.id);
-    const isLearningpath = idObj.type.includes("learningpath");
-    if (isLearningpath) {
-      const learningpath = learningpaths.find((lp) => lp.id === id);
-      if (learningpath) {
-        return {
-          ...learningpath,
-          status: { current: learningpath.status, other: [] },
-          contentUri: `urn:learningpath:${learningpath.id}`,
-          hearts:
-            resourceStats.find((stat) => stat.id === `${learningpath.id}` && stat.resourceType === "learningpath")
-              ?.favourites || 0,
-        };
-      }
-      return undefined;
-    } else {
-      const article = articles.find((article) => article.id === id);
-      if (article) {
-        return {
-          ...article,
-          contentUri: `urn:article:${article.id}`,
-          hearts:
-            resourceStats.find((stat) => stat.id === `${article.id}` && stat.resourceType === idObj.type)?.favourites ||
-            0,
-        };
-      }
-      return undefined;
-    }
+  const search = await postSearch({
+    resultTypes: Array.from(resultTypes),
+    ids: Array.from(ids),
+    pageSize: ids.size * resultTypes.size,
   });
 
-  return resourceMetas.filter((rm) => rm !== undefined);
+  const keyedByContentUri = search.results.reduce<Record<string, MultiSearchSummaryDTO>>((acc, curr) => {
+    acc[`urn:${curr.learningResourceType === "learningpath" ? "learningpath" : "article"}:${curr.id}`] = curr;
+    return acc;
+  }, {});
+
+  return params.contentUris.reduce<MultiSearchSummaryDTO[]>((acc, curr) => {
+    const res = keyedByContentUri[curr];
+    if (!res) return acc;
+    acc.push(res);
+    return acc;
+  }, []);
 };
 
 interface UseNodeTree extends WithTaxonomyVersion {

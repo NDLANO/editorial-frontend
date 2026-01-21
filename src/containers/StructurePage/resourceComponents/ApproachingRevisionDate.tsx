@@ -12,9 +12,9 @@ import { getLocalTimeZone, parseAbsoluteToLocal, today } from "@internationalize
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { RevisionMetaDTO } from "@ndla/types-backend/draft-api";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { NodeChild } from "@ndla/types-taxonomy";
 import { Dictionary } from "../../../interfaces";
-import { NodeResourceMeta } from "../../../modules/nodes/nodeApiTypes";
 import { getExpirationDate } from "../../../util/revisionHelpers";
 
 const StyledIcon = styled("div", {
@@ -33,7 +33,7 @@ const StyledIcon = styled("div", {
 
 interface Props {
   resources: NodeChild[];
-  contentMeta: Dictionary<NodeResourceMeta>;
+  contentMeta: Dictionary<MultiSearchSummaryDTO>;
   currentNode: NodeChild;
 }
 

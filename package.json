@@ -79,7 +79,7 @@
     "@dnd-kit/utilities": "^3.2.1",
     "@fontsource-variable/source-code-pro": "^5.2.7",
     "@fontsource-variable/source-serif-4": "^5.2.9",
-    "@googleapis/youtube": "^24.0.0",
+    "@googleapis/youtube": "^30.3.0",
     "@internationalized/date": "3.9.0",
     "@ndla/article-converter": "^10.0.174-alpha.0",
     "@ndla/audio-search": "^7.0.134-alpha.0",

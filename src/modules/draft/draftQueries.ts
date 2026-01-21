@@ -113,7 +113,7 @@ export const useUserData = (options?: Partial<UseQueryOptions<UserDataDTO | unde
 
 export const useUpdateUserDataMutation = () => {
   const queryClient = useQueryClient();
-  return useMutation<UserDataDTO, unknown, UpdatedUserDataDTO, UserDataDTO>({
+  return useMutation<UserDataDTO, unknown, UpdatedUserDataDTO, UserDataDTO | undefined>({
     mutationFn: (data) => updateUserData(data),
     onMutate: async (newUserData) => {
       const key = draftQueryKeys.userData;

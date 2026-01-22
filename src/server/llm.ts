@@ -22,8 +22,6 @@ import { LlmLanguageCode } from "./llmTypes";
 
 const aiModelId = getEnvironmentVariabel("NDLA_AI_MODEL_ID", "test");
 const aiRegion = getEnvironmentVariabel("NDLA_AI_MODEL_REGION", "eu-west-1");
-const aiSecretKey = getEnvironmentVariabel("NDLA_AI_SECRET_KEY", "test");
-const aiSecretID = getEnvironmentVariabel("NDLA_AI_SECRET_ID", "test");
 
 const LLM_ANSWER_REGEX = /(?<=<answer>\s*).*?(?=\s*<\/answer>)/gs;
 const LLM_ERROR_REGEX = /(?<=<ERROR>\s*).*?(?=\s*<\/ERROR>)/gs;
@@ -32,7 +30,6 @@ const TRANSCRIBE_REGION = "eu-west-1";
 
 const bedRockClient = new BedrockRuntimeClient({
   region: aiRegion, //As of now this is the closest aws-region, with the service
-  credentials: { accessKeyId: aiSecretID, secretAccessKey: aiSecretKey },
 });
 const textDecoder = new TextDecoder();
 

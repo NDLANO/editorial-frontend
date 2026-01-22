@@ -28,19 +28,21 @@ import { useUpdateDraftMutation } from "../../../modules/draft/draftMutations";
 import { draftQueryKeys } from "../../../modules/draft/draftQueries";
 import { usePatchLearningpathMutation } from "../../../modules/learningpath/learningpathMutations";
 import { learningpathQueryKeys } from "../../../modules/learningpath/learningpathQueries";
-import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
+import { nodeQueryKeys, useNode } from "../../../modules/nodes/nodeQueries";
+import { useSearchGrepCodes } from "../../../modules/search/searchQueries";
 import { getContentUriFromSearchSummary } from "../../../util/searchHelpers";
 import { getContentUriInfo } from "../../../util/taxonomyHelpers";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import { useCurrentNode } from "../CurrentNodeProvider";
 
 interface Props {
   codes: string[];
   contentUri?: string;
   revision?: number;
   currentNodeId: string;
-  rootGrepCodesString: string | undefined;
 }
 
-const GrepCodesDialog = ({ codes, contentUri, revision, currentNodeId, rootGrepCodesString }: Props) => {
+const GrepCodesDialog = ({ codes, contentUri, revision, currentNodeId }: Props) => {
   const [open, setOpen] = useState(false);
   const uriInfo = getContentUriInfo(contentUri);
   if (!uriInfo || !revision) return null;
@@ -51,15 +53,16 @@ const GrepCodesDialog = ({ codes, contentUri, revision, currentNodeId, rootGrepC
         <Button size="small" variant="secondary">{`GREP (${codes.length})`}</Button>
       </DialogTrigger>
       <Portal>
-        <GrepCodeDialogContent
-          codes={codes}
-          revision={revision}
-          resourceId={uriInfo.id}
-          currentNodeId={currentNodeId}
-          contentUri={contentUri!}
-          rootGrepCodesString={rootGrepCodesString}
-          close={() => setOpen(false)}
-        />
+        <DialogContent>
+          <GrepCodeDialogContent
+            codes={codes}
+            revision={revision}
+            resourceId={uriInfo.id}
+            currentNodeId={currentNodeId}
+            contentUri={contentUri!}
+            close={() => setOpen(false)}
+          />
+        </DialogContent>
       </Portal>
     </DialogRoot>
   );
@@ -72,7 +75,6 @@ interface DialogContentProps {
   currentNodeId: string;
   contentUri: string;
   close: () => void;
-  rootGrepCodesString: string | undefined;
 }
 
 const GrepCodeDialogContent = ({
@@ -82,12 +84,24 @@ const GrepCodeDialogContent = ({
   currentNodeId,
   contentUri,
   close,
-  rootGrepCodesString,
 }: DialogContentProps) => {
   const updateDraft = useUpdateDraftMutation();
   const updateLearningpath = usePatchLearningpathMutation();
   const { t, i18n } = useTranslation();
   const qc = useQueryClient();
+  const { taxonomyVersion } = useTaxonomyVersion();
+  const { currentNode } = useCurrentNode();
+
+  const rootNodeQuery = useNode(
+    { id: currentNode?.context?.rootId ?? "", language: "nb", taxonomyVersion },
+    { enabled: !!currentNode?.context },
+  );
+
+  const rootGrepCodes = rootNodeQuery.data?.metadata.grepCodes.filter((code) => code.startsWith("KV"));
+
+  const rootGrepCodesQuery = useSearchGrepCodes({ codes: rootGrepCodes ?? [] }, { enabled: !!rootGrepCodes?.length });
+
+  const rootGrepCodesString = rootGrepCodesQuery.data?.results?.map((c) => `${c.code} - ${c.title.title}`).join(", ");
   const nodeKey = useMemo(
     () =>
       nodeQueryKeys.resourceMetas({
@@ -128,7 +142,7 @@ const GrepCodeDialogContent = ({
     [contentUri, resourceId, i18n.language, updateLearningpath, revision, qc, nodeKey, updateDraft],
   );
   return (
-    <DialogContent>
+    <>
       <DialogHeader>
         <DialogTitle>{t("form.name.grepCodes")}</DialogTitle>
         <DialogCloseButton />
@@ -137,7 +151,7 @@ const GrepCodeDialogContent = ({
         {rootGrepCodesString}
         <GrepCodesForm codes={codes} onUpdate={onUpdateGrepCodes} close={close} prefixFilter={["KE", "KM", "TT"]} />
       </DialogBody>
-    </DialogContent>
+    </>
   );
 };
 

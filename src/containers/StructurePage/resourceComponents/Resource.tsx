@@ -110,7 +110,6 @@ interface Props {
   contentMeta: MultiSearchSummaryDTO | undefined;
   nodeResourcesIsPending: boolean;
   invalidate: () => void;
-  rootGrepCodesString: string | undefined;
   type: "resource" | "link";
 }
 
@@ -120,7 +119,6 @@ const Resource = ({
   nodeResourcesIsPending,
   responsible,
   invalidate,
-  rootGrepCodesString,
   contentMeta,
   type,
 }: Props) => {
@@ -246,7 +244,6 @@ const Resource = ({
               contentUri={resource.contentUri}
               revision={contentMeta?.revision}
               currentNodeId={currentNodeId}
-              rootGrepCodesString={rootGrepCodesString}
             />
             <VersionHistory resource={resource} contentMeta={contentMeta} contentType={contentType} />
             <DialogRoot>

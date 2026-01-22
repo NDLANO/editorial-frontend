@@ -12,8 +12,7 @@ import { Heading, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import { keyBy } from "@ndla/util";
-import { useChildNodes, useNode, useNodeResourceMetas } from "../../../modules/nodes/nodeQueries";
-import { useSearchGrepCodes } from "../../../modules/search/searchQueries";
+import { useChildNodes, useNodeResourceMetas } from "../../../modules/nodes/nodeQueries";
 import { getContentUriFromSearchSummary } from "../../../util/searchHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import ResourceItems from "../resourceComponents/ResourceItems";
@@ -51,17 +50,6 @@ export const MultidisciplinaryCases = ({ currentNode }: Props) => {
     { enabled: !!childrenQuery.data?.length },
   );
 
-  const rootNodeQuery = useNode(
-    { id: currentNode?.context?.rootId ?? "", language: "nb", taxonomyVersion },
-    { enabled: !!currentNode?.context },
-  );
-
-  const rootGrepCodes = rootNodeQuery.data?.metadata.grepCodes.filter((code) => code.startsWith("KV"));
-
-  const rootGrepCodesQuery = useSearchGrepCodes({ codes: rootGrepCodes ?? [] }, { enabled: !!rootGrepCodes?.length });
-
-  const rootGrepCodesString = rootGrepCodesQuery.data?.results?.map((c) => `${c.code} - ${c.title.title}`).join(", ");
-
   const keyedMetas = useMemo(
     () => keyBy(nodeResourceMetasQuery.data, (m) => getContentUriFromSearchSummary(m)),
     [nodeResourceMetasQuery.data],
@@ -86,7 +74,6 @@ export const MultidisciplinaryCases = ({ currentNode }: Props) => {
         currentNodeId={currentNode.id}
         contentMetas={keyedMetas}
         nodeResourcesIsPending={childrenQuery.isPending}
-        rootGrepCodesString={rootGrepCodesString}
       />
     </ListContainer>
   );

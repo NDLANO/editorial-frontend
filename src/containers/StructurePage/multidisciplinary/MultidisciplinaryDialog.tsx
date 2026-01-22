@@ -8,6 +8,7 @@
 
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDialogContext } from "@ark-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { AddLine } from "@ndla/icons";
 import {
@@ -96,11 +97,30 @@ const getMultidisciplinaryContext = (item: MultiSearchSummaryDTO) => {
 };
 
 export const MultidisciplinaryDialog = ({ currentNode }: Props) => {
+  const { t } = useTranslation();
+
+  return (
+    <DialogRoot>
+      <DialogTrigger asChild>
+        <Button size="small" variant="secondary">
+          <AddLine />
+          {t("taxonomy.multidisciplinary.dialogTrigger")}
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <MultidisciplinaryDialogContent currentNode={currentNode} />
+      </DialogContent>
+    </DialogRoot>
+  );
+};
+
+const MultidisciplinaryDialogContent = ({ currentNode }: Props) => {
   const { t, i18n } = useTranslation();
-  const [open, setOpen] = useState(false);
   const [pasteUrl, setPasteUrl] = useState("");
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
+  const { setOpen } = useDialogContext();
+
   const [error, setError] = useState<string | undefined>(undefined);
   const [previewNode, setPreviewNode] = useState<MultiSearchSummaryDTO | undefined>(undefined);
   const debouncedSearchQuery = useDebounce(query);
@@ -185,81 +205,71 @@ export const MultidisciplinaryDialog = ({ currentNode }: Props) => {
     page: page,
     pageSize: 10,
   });
-
   return (
-    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
-      <DialogTrigger asChild>
-        <Button size="small" variant="secondary">
-          <AddLine />
-          {t("taxonomy.multidisciplinary.dialogTrigger")}
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t("taxonomy.multidisciplinary.dialogTitle")}</DialogTitle>
-          <DialogCloseButton />
-        </DialogHeader>
-        <DialogBody>
-          <InputWrapper>
-            <StyledFieldRoot invalid={!!error}>
-              <FieldLabel>{t("taxonomy.urlPlaceholder")}</FieldLabel>
-              <FieldInput onChange={(e) => setPasteUrl(e.target.value)} placeholder={t("taxonomy.urlPlaceholder")} />
-              <FieldErrorMessage>{error}</FieldErrorMessage>
-            </StyledFieldRoot>
-            <StyledButton disabled={!isValidPasteUrl} onClick={() => onSearchUrl(pasteUrl)}>
-              {t("taxonomy.add")}
-            </StyledButton>
-          </InputWrapper>
-          {!pasteUrl && <StyledText>{t("taxonomy.or")}</StyledText>}
-          {!pasteUrl.length && (
-            <GenericSearchCombobox
-              value={previewNode ? [previewNode.id.toString()] : undefined}
-              onValueChange={(details) => setPreviewNode(details.items[0])}
-              items={searchQuery.data?.results ?? []}
-              itemToString={(item) => item.title.title}
-              itemToValue={(item) => item.id.toString()}
-              inputValue={query}
-              onInputValueChange={(details) => setQuery(details.inputValue)}
-              isSuccess={searchQuery.isSuccess}
-              paginationData={searchQuery.data}
-              onPageChange={(details) => setPage(details.page)}
-              isItemDisabled={(item) => !getMultidisciplinaryContext(item)}
-              renderItem={(item) => (
-                <GenericComboboxItemContent
-                  title={item.title.title}
-                  description={item.metaDescription.metaDescription}
-                  image={item.metaImage}
-                  useFallbackImage
-                />
-              )}
-            >
-              <ComboboxLabel>{t("form.content.relatedArticle.placeholder")}</ComboboxLabel>
-              <GenericComboboxInput
-                placeholder={t("form.content.relatedArticle.placeholder")}
-                isFetching={searchQuery.isFetching}
+    <>
+      <DialogHeader>
+        <DialogTitle>{t("taxonomy.multidisciplinary.dialogTitle")}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <DialogBody>
+        <InputWrapper>
+          <StyledFieldRoot invalid={!!error}>
+            <FieldLabel>{t("taxonomy.urlPlaceholder")}</FieldLabel>
+            <FieldInput onChange={(e) => setPasteUrl(e.target.value)} placeholder={t("taxonomy.urlPlaceholder")} />
+            <FieldErrorMessage>{error}</FieldErrorMessage>
+          </StyledFieldRoot>
+          <StyledButton disabled={!isValidPasteUrl} onClick={() => onSearchUrl(pasteUrl)}>
+            {t("taxonomy.add")}
+          </StyledButton>
+        </InputWrapper>
+        {!pasteUrl && <StyledText>{t("taxonomy.or")}</StyledText>}
+        {!pasteUrl.length && (
+          <GenericSearchCombobox
+            value={previewNode ? [previewNode.id.toString()] : undefined}
+            onValueChange={(details) => setPreviewNode(details.items[0])}
+            items={searchQuery.data?.results ?? []}
+            itemToString={(item) => item.title.title}
+            itemToValue={(item) => item.id.toString()}
+            inputValue={query}
+            onInputValueChange={(details) => setQuery(details.inputValue)}
+            isSuccess={searchQuery.isSuccess}
+            paginationData={searchQuery.data}
+            onPageChange={(details) => setPage(details.page)}
+            isItemDisabled={(item) => !getMultidisciplinaryContext(item)}
+            renderItem={(item) => (
+              <GenericComboboxItemContent
+                title={item.title.title}
+                description={item.metaDescription.metaDescription}
+                image={item.metaImage}
+                useFallbackImage
               />
-            </GenericSearchCombobox>
-          )}
-
-          {!!previewNode && (
-            <ListItemRoot nonInteractive>
-              <ListItemImage src={previewNode.metaImage?.url ?? "/static/placeholder.png"} alt="" width={200} />
-              <StyledListItemContent>
-                <ListItemHeading>{previewNode.title?.title}</ListItemHeading>
-                <Text textStyle="body.small">{previewNode.metaDescription?.metaDescription}</Text>
-              </StyledListItemContent>
-            </ListItemRoot>
-          )}
-        </DialogBody>
-        <DialogFooter>
-          <DialogCloseTrigger asChild>
-            <Button variant="secondary">{t("cancel")}</Button>
-          </DialogCloseTrigger>
-          <Button disabled={!previewNode} onClick={onSave} loading={postNodeConnectionMutation.isPending}>
-            {t("save")}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </DialogRoot>
+            )}
+          >
+            <ComboboxLabel>{t("form.content.relatedArticle.placeholder")}</ComboboxLabel>
+            <GenericComboboxInput
+              placeholder={t("form.content.relatedArticle.placeholder")}
+              isFetching={searchQuery.isFetching}
+            />
+          </GenericSearchCombobox>
+        )}
+        {!!previewNode && (
+          <ListItemRoot nonInteractive>
+            <ListItemImage src={previewNode.metaImage?.url ?? "/static/placeholder.png"} alt="" width={200} />
+            <StyledListItemContent>
+              <ListItemHeading>{previewNode.title?.title}</ListItemHeading>
+              <Text textStyle="body.small">{previewNode.metaDescription?.metaDescription}</Text>
+            </StyledListItemContent>
+          </ListItemRoot>
+        )}
+      </DialogBody>
+      <DialogFooter>
+        <DialogCloseTrigger asChild>
+          <Button variant="secondary">{t("cancel")}</Button>
+        </DialogCloseTrigger>
+        <Button disabled={!previewNode} onClick={onSave} loading={postNodeConnectionMutation.isPending}>
+          {t("save")}
+        </Button>
+      </DialogFooter>
+    </>
   );
 };

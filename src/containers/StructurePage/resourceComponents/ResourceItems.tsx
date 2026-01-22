@@ -40,20 +40,11 @@ interface Props {
   contentMetas: Dictionary<MultiSearchSummaryDTO>;
   nodeResourcesIsPending: boolean;
   users?: Dictionary<Auth0UserData>;
-  rootGrepCodesString: string | undefined;
 }
 
 const isError = (error: unknown): error is Error => (error as Error).message !== undefined;
 
-const ResourceItems = ({
-  resources,
-  currentNodeId,
-  contentMetas,
-  nodeResourcesIsPending,
-  users,
-  rootGrepCodesString,
-  type,
-}: Props) => {
+const ResourceItems = ({ resources, currentNodeId, contentMetas, nodeResourcesIsPending, users, type }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
@@ -137,7 +128,6 @@ const ResourceItems = ({
             type={type}
             currentNodeId={currentNodeId}
             responsible={users?.[contentMetas[resource.contentUri ?? ""]?.responsible?.responsibleId ?? ""]?.name}
-            rootGrepCodesString={rootGrepCodesString}
             contentMeta={resource.contentUri ? contentMetas[resource.contentUri] : undefined}
             resource={resource}
             key={resource.id}

@@ -16,8 +16,7 @@ import { scrollElementId } from "./isVisibleHook";
 import ResourceItems from "./ResourceItems";
 import TopicResourceBanner from "./TopicResourceBanner";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
-import { useNode, useNodes } from "../../../modules/nodes/nodeQueries";
-import { useSearchGrepCodes } from "../../../modules/search/searchQueries";
+import { useNodes } from "../../../modules/nodes/nodeQueries";
 import { sortResources } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { MultidisciplinaryCases } from "../multidisciplinary/MultidisciplinaryCases";
@@ -75,17 +74,6 @@ const ResourcesContainer = ({
   const { taxonomyVersion } = useTaxonomyVersion();
   const currentNodeId = currentNode.id;
 
-  const rootNodeQuery = useNode(
-    { id: currentNode?.context?.rootId ?? "", language: "nb", taxonomyVersion },
-    { enabled: !!currentNode?.context },
-  );
-
-  const rootGrepCodes = rootNodeQuery.data?.metadata.grepCodes.filter((code) => code.startsWith("KV"));
-
-  const rootGrepCodesQuery = useSearchGrepCodes({ codes: rootGrepCodes ?? [] }, { enabled: !!rootGrepCodes?.length });
-
-  const rootGrepCodesString = rootGrepCodesQuery.data?.results?.map((c) => `${c.code} - ${c.title.title}`).join(", ");
-
   const { data } = useNodes(
     { contentURI: currentNode.contentUri, taxonomyVersion, includeContexts: true, filterProgrammes: true },
     { enabled: !!currentNode.contentUri },
@@ -103,7 +91,6 @@ const ResourcesContainer = ({
         resources={nodeResources}
         contentMetas={contentMetas}
         resourceTypes={resourceTypesWithoutMissing}
-        rootGrepCodesString={rootGrepCodesString}
         currentContentMeta={currentMeta}
         currentNode={{ ...currentNode, paths, resourceTypes: [] }}
         nodeResourcesIsPending={nodeResourcesIsPending}
@@ -125,7 +112,6 @@ const ResourcesContainer = ({
               contentMetas={contentMetas}
               nodeResourcesIsPending={nodeResourcesIsPending}
               users={users}
-              rootGrepCodesString={rootGrepCodesString}
             />
           </ListContainer>
         )}

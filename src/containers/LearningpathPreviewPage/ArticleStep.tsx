@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Spinner,
@@ -19,7 +19,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
-import { Article } from "@ndla/ui";
+import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper } from "@ndla/ui";
 import { EmbedPageContent } from "./EmbedPageContent";
 import { toFormArticle } from "../../components/PreviewDraft/PreviewDraft";
 import { useTransformedArticle } from "../../components/PreviewDraft/useTransformedArticle";
@@ -32,7 +32,6 @@ import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider"
 interface ArticleStepProps {
   step: LearningStepV2DTO;
   language: string;
-  children?: ReactNode;
 }
 
 const StyledSwitchRoot = styled(SwitchRoot, {
@@ -49,7 +48,7 @@ const extractIdsFromUrl = (url: string) => {
   return { taxId, articleId: Number.isNaN(articleId) ? undefined : parseInt(articleId) };
 };
 
-export const ArticleStep = ({ step, children, language }: ArticleStepProps) => {
+export const ArticleStep = ({ step, language }: ArticleStepProps) => {
   const [showPublished, setShowPublished] = useState(false);
   const { t } = useTranslation();
   const { articleId, taxId } = step.articleId
@@ -97,13 +96,27 @@ export const ArticleStep = ({ step, children, language }: ArticleStepProps) => {
       {!!draftQuery.data?.metaDescription?.metaDescription && (
         <meta name="description" content={draftQuery.data.metaDescription.metaDescription} />
       )}
-      <Article
-        id={draftQuery.data.id.toString()}
-        article={article}
-        badges={!!contentType?.length && <Badge>{t(`contentTypes.${contentType}`)}</Badge>}
-      >
-        {children}
-      </Article>
+      <ArticleWrapper>
+        <ArticleTitle
+          id={draftQuery.data.id.toString()}
+          title={article.title}
+          introduction={article.introduction}
+          badges={!!contentType?.length && <Badge>{t(`contentTypes.${contentType}`)}</Badge>}
+        />
+        <ArticleContent>{article.content}</ArticleContent>
+        <ArticleFooter>
+          <ArticleByline
+            footnotes={article.footNotes}
+            authors={
+              article.copyright?.creators.length || article.copyright?.rightsholders.length
+                ? article.copyright.creators
+                : article.copyright?.processors
+            }
+            suppliers={article.copyright?.rightsholders}
+            published={article.published}
+          />
+        </ArticleFooter>
+      </ArticleWrapper>
     </EmbedPageContent>
   );
 };

@@ -6,6 +6,7 @@
  *
  */
 
+import { useFormikContext } from "formik";
 import { ReactNode } from "react";
 import { TextArea, FieldRoot, FieldHelper, FieldErrorMessage } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -27,13 +28,13 @@ const StyledTextArea = styled(TextArea, {
 });
 
 interface Props {
-  submitted: boolean;
   title: string;
   description: ReactNode;
   plugins: SlatePlugin[];
 }
 
-export const DisclaimerField = ({ submitted, title, description, plugins }: Props) => {
+export const DisclaimerField = ({ title, description, plugins }: Props) => {
+  const { isSubmitting } = useFormikContext();
   return (
     <FormField name="disclaimer">
       {({ field, meta, helpers }) => (
@@ -43,7 +44,7 @@ export const DisclaimerField = ({ submitted, title, description, plugins }: Prop
           <StyledTextArea asChild>
             <RichTextEditor
               {...field}
-              submitted={submitted}
+              submitted={isSubmitting}
               onChange={helpers.setValue}
               plugins={plugins}
               renderInvalidElement={(props) => <UnsupportedElement {...props} />}

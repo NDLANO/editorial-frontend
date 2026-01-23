@@ -110,7 +110,6 @@ const EditFrontpageArticle = () => {
         articleRevisionHistory={articleRevisionHistory}
         articleChanged={articleChanged || newLanguage}
         updateArticle={updateArticle}
-        supportedLanguages={article.supportedLanguages}
         translatedFieldsToNN={translatedFields}
       />
     </WideArticleEditorProvider>

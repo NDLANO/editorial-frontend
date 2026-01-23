@@ -134,7 +134,6 @@ interface Props {
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
   articleLanguage: string;
   contexts?: TaxonomyContext[];
-  submitted: boolean;
   articleChanged: boolean;
 }
 
@@ -146,7 +145,6 @@ const LearningResourcePanels = ({
   articleLanguage,
   contexts,
   handleSubmit,
-  submitted,
   articleChanged,
 }: Props) => {
   const [hideComments, setHideComments] = useLocalStorageBooleanState(STORED_HIDE_COMMENTS);
@@ -265,7 +263,6 @@ const LearningResourcePanels = ({
             hasError={!!errors.disclaimer}
           >
             <DisclaimerField
-              submitted={submitted}
               title={t("form.articleDisclaimer.title")}
               description={
                 <Trans i18nKey={"form.articleDisclaimer.description"}>

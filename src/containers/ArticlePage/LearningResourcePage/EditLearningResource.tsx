@@ -130,7 +130,6 @@ const EditLearningResource = () => {
         articleRevisionHistory={articleRevisionHistory}
         articleChanged={articleChanged || newLanguage}
         updateArticle={updateArticle}
-        supportedLanguages={article.supportedLanguages}
         translatedFieldsToNN={translatedFields}
       />
     </>

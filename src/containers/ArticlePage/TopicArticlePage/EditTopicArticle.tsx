@@ -126,7 +126,6 @@ const EditTopicArticle = () => {
         article={article}
         articleRevisionHistory={articleRevisionHistory}
         updateArticle={updateArticle}
-        supportedLanguages={article.supportedLanguages}
         translatedFieldsToNN={translatedFields}
       />
     </>

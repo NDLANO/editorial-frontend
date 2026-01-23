@@ -8,46 +8,29 @@
 
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { ArticleRevisionHistoryDTO, ArticleDTO, StatusDTO } from "@ndla/types-backend/draft-api";
+import { ArticleRevisionHistoryDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import HeaderActions from "./HeaderActions";
 import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
 import HeaderInformation from "./HeaderInformation";
+import { getExpirationDate } from "../../util/revisionHelpers";
 
 export type FormHeaderType = "topic-article" | "standard" | "frontpage-article";
 
 interface Props {
-  title?: string;
   language: string;
-  id?: number;
-  noStatus?: boolean;
   article?: ArticleDTO;
   articleRevisionHistory?: ArticleRevisionHistoryDTO;
-  supportedLanguages: string[];
   type: FormHeaderType;
-  status?: StatusDTO;
-  expirationDate?: string;
   nodes: Node[] | undefined;
 }
 
-const HeaderWithLanguage = ({
-  noStatus = false,
-  type,
-  article,
-  articleRevisionHistory,
-  id,
-  language,
-  status,
-  expirationDate,
-  supportedLanguages,
-  title,
-  nodes,
-}: Props) => {
+const HeaderWithLanguage = ({ type, article, articleRevisionHistory, language, nodes }: Props) => {
   const { t } = useTranslation();
 
-  const isNewLanguage = !!id && !supportedLanguages.includes(language);
-  const statusText = status?.current ? t(`form.status.${status.current.toLowerCase()}`) : "";
-  const published = status?.current === "PUBLISHED" || status?.other?.includes("PUBLISHED");
+  const isNewLanguage = !!article && !article.supportedLanguages.includes(language);
+  const statusText = article?.status?.current ? t(`form.status.${article.status.current.toLowerCase()}`) : "";
+  const published = article?.status?.current === "PUBLISHED" || article?.status?.other?.includes("PUBLISHED");
 
   return (
     <header>
@@ -55,25 +38,25 @@ const HeaderWithLanguage = ({
         type={type}
         statusText={statusText}
         isNewLanguage={isNewLanguage}
-        title={title}
-        id={id}
+        title={article?.title?.title}
+        id={article?.id}
         published={published}
-        expirationDate={expirationDate}
+        expirationDate={getExpirationDate(article?.revisions)}
         responsibleId={article?.responsible?.responsibleId}
         language={language}
         slug={article?.slug}
         traits={article?.traits}
         nodes={nodes}
       />
-      {id ? (
+      {article ? (
         <HeaderActions
-          id={id}
+          id={article.id}
           articleRevisionHistory={articleRevisionHistory}
           language={language}
-          supportedLanguages={supportedLanguages}
-          disableDelete={supportedLanguages.length === 1}
+          supportedLanguages={article.supportedLanguages}
+          disableDelete={article.supportedLanguages.length === 1}
           article={article}
-          noStatus={noStatus}
+          noStatus={false}
           isNewLanguage={isNewLanguage}
           type={type}
         />

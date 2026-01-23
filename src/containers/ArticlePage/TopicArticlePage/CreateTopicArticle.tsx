@@ -39,7 +39,6 @@ const CreateTopicArticle = () => {
         articleLanguage={i18n.language}
         updateArticle={createArticleAndPushRoute}
         articleChanged={false}
-        supportedLanguages={[i18n.language]}
         translatedFieldsToNN={[]}
       />
     </PageContent>

@@ -22,7 +22,6 @@ import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
 import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
 import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { isFormikFormDirty, learningResourceRules } from "../../../../util/formHelper";
-import { getExpirationDate } from "../../../../util/revisionHelpers";
 import { AlertDialogWrapper } from "../../../FormikForm";
 import { HandleSubmitFunc, LearningResourceFormType, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
@@ -36,7 +35,6 @@ interface Props {
   article?: ArticleDTO;
   articleRevisionHistory?: UseQueryResult<ArticleRevisionHistoryDTO>;
   articleTaxonomy?: Node[];
-  supportedLanguages: string[];
   articleChanged: boolean;
   updateArticle: (updatedArticle: UpdatedArticleDTO) => Promise<ArticleDTO>;
   articleLanguage: string;
@@ -47,7 +45,6 @@ const LearningResourceForm = ({
   article,
   articleTaxonomy,
   updateArticle,
-  supportedLanguages,
   articleChanged,
   articleLanguage,
   articleRevisionHistory,
@@ -119,16 +116,11 @@ const LearningResourceForm = ({
       {({ isSubmitting }) => (
         <Form>
           <HeaderWithLanguage
-            id={article?.id}
             language={articleLanguage}
             article={article}
-            status={article?.status}
             nodes={articleTaxonomy}
             articleRevisionHistory={articleRevisionHistory?.data}
-            supportedLanguages={supportedLanguages}
-            title={article?.title?.title}
             type="standard"
-            expirationDate={getExpirationDate(article?.revisions)}
           />
           <TaxonomyVersionProvider>
             <LearningResourcePanels

@@ -19,7 +19,6 @@ import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
 import { articleIsWide, useWideArticle } from "../../../../components/WideArticleEditorProvider";
 import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { frontPageArticleRules, isFormikFormDirty } from "../../../../util/formHelper";
-import { getExpirationDate } from "../../../../util/revisionHelpers";
 import { AlertDialogWrapper } from "../../../FormikForm";
 import { FrontpageArticleFormType, HandleSubmitFunc, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
@@ -32,7 +31,6 @@ interface Props {
   article?: ArticleDTO;
   articleRevisionHistory?: UseQueryResult<ArticleRevisionHistoryDTO>;
   articleChanged: boolean;
-  supportedLanguages: string[];
   updateArticle: (updatedArticle: UpdatedArticleDTO) => Promise<ArticleDTO>;
   articleLanguage: string;
   translatedFieldsToNN: string[];
@@ -44,7 +42,6 @@ const FrontpageArticleForm = ({
   updateArticle,
   articleChanged,
   articleLanguage,
-  supportedLanguages,
   translatedFieldsToNN,
 }: Props) => {
   const { t } = useTranslation();
@@ -82,16 +79,11 @@ const FrontpageArticleForm = ({
     >
       <Form>
         <HeaderWithLanguage
-          id={article?.id}
-          title={article?.title?.title}
           article={article}
           articleRevisionHistory={articleRevisionHistory?.data}
           language={articleLanguage}
-          supportedLanguages={supportedLanguages}
           nodes={undefined}
-          status={article?.status}
           type="frontpage-article"
-          expirationDate={getExpirationDate(article?.revisions)}
         />
         <FrontpageArticlePanels
           articleLanguage={articleLanguage}

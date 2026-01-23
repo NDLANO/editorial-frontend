@@ -22,7 +22,6 @@ import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
 import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
 import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { isFormikFormDirty, topicArticleRules } from "../../../../util/formHelper";
-import { getExpirationDate } from "../../../../util/revisionHelpers";
 import { AlertDialogWrapper } from "../../../FormikForm";
 import { HandleSubmitFunc, TopicArticleFormType, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
@@ -36,7 +35,6 @@ interface Props {
   revision?: number;
   updateArticle: (art: UpdatedArticleDTO) => Promise<ArticleDTO>;
   articleChanged: boolean;
-  supportedLanguages: string[];
   articleLanguage: string;
   translatedFieldsToNN: string[];
 }
@@ -47,7 +45,6 @@ const TopicArticleForm = ({
   articleTaxonomy,
   updateArticle,
   articleChanged,
-  supportedLanguages,
   articleLanguage,
   translatedFieldsToNN,
 }: Props) => {
@@ -102,16 +99,11 @@ const TopicArticleForm = ({
     >
       <Form>
         <HeaderWithLanguage
-          id={article?.id}
           language={articleLanguage}
           nodes={articleTaxonomy}
           article={article}
           articleRevisionHistory={articleRevisionHistory?.data}
-          status={article?.status}
-          supportedLanguages={supportedLanguages}
-          title={article?.title?.title}
           type="topic-article"
-          expirationDate={getExpirationDate(article?.revisions)}
         />
         <TaxonomyVersionProvider>
           <TopicArticleAccordionPanels

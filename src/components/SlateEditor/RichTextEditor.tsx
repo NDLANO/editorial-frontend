@@ -20,6 +20,7 @@ import { FormikStatus } from "../../interfaces";
 import { nativeOnDragOver, nativeOnDragStart, nativeOnDrop } from "./plugins/DND/nativeDnd";
 import { SlateDndContext } from "./plugins/DND/SlateDndContext";
 import { SlateToolbar } from "./plugins/toolbar";
+import { NewSlateToolbar } from "./plugins/toolbar/NewSlateToolbar";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 
 const StyledSlateWrapper = styled("div", {
@@ -143,7 +144,8 @@ const RichTextEditor = ({
       <ArticleLanguageProvider language={language}>
         <StyledSlateWrapper data-testid={testId} data-slate-wrapper="">
           <Slate editor={editor} initialValue={editor.children} onChange={onChange}>
-            <SlateToolbar hideToolbar={hideToolbar} />
+            {/* <SlateToolbar hideToolbar={hideToolbar} /> */}
+            <NewSlateToolbar />
             {blockPicker}
             <SlateDndContext editor={editor}>
               <StyledEditable

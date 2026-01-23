@@ -121,30 +121,27 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
       validateOnMount
       validate={(values) => validateFormik(values, rules, t)}
     >
-      {({ isSubmitting }) => (
-        <DialogBody>
-          <FormikForm>
-            <DisclaimerField
-              submitted={isSubmitting}
-              title={t("form.disclaimer.editorHeader")}
-              description={
-                <Trans i18nKey={"form.disclaimer.description"}>
-                  <SafeLink to={DISCLAIMER_TEMPLATES_URL} target="_blank" />
-                </Trans>
-              }
-              plugins={plugins}
-            />
-            <FormActionsContainer>
-              <Button onClick={() => onOpenChange(false)} variant="secondary">
-                {t("form.abort")}
-              </Button>
-              <Button type="submit" data-testid="disclaimer-save">
-                {t("form.save")}
-              </Button>
-            </FormActionsContainer>
-          </FormikForm>
-        </DialogBody>
-      )}
+      <DialogBody>
+        <FormikForm>
+          <DisclaimerField
+            title={t("form.disclaimer.editorHeader")}
+            description={
+              <Trans i18nKey={"form.disclaimer.description"}>
+                <SafeLink to={DISCLAIMER_TEMPLATES_URL} target="_blank" />
+              </Trans>
+            }
+            plugins={plugins}
+          />
+          <FormActionsContainer>
+            <Button onClick={() => onOpenChange(false)} variant="secondary">
+              {t("form.abort")}
+            </Button>
+            <Button type="submit" data-testid="disclaimer-save">
+              {t("form.save")}
+            </Button>
+          </FormActionsContainer>
+        </FormikForm>
+      </DialogBody>
     </Formik>
   );
 };

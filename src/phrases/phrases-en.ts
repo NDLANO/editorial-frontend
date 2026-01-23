@@ -859,6 +859,8 @@ const phrases = {
     saveAsCopySuccess: "New article saved",
     openAll: "Open all",
     hideAll: "Hide all",
+    lastPublishedDiscrepancy:
+      'You have republished a resource without changing the "last updated" date. Consider if the resource should be updated with a new date (editorial assessment).',
     unpublishedChanges: "(Changed since last publish)",
     unpublishedConcepts: "The article contains unpublished concepts",
     lowQualityEvaluation:

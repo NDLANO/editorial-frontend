@@ -388,6 +388,7 @@ const phrases = {
       "exclude-revision-log": "Exclude revision log",
       "responsible-ids": "Select responsible",
       "filter-inactive": "Include archived subjects",
+      traits: "Select trait",
     },
     tagType: {
       query: "Search:",
@@ -407,6 +408,7 @@ const phrases = {
       "responsible-ids": "Responsible: {{value}}",
       "filter-inactive": "Archived subjects included",
       inactive: "Showing {{value}} images",
+      traits: "Trait: {{value}}",
     },
     btn: "Search",
     empty: "Empty",

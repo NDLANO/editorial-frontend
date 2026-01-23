@@ -29,7 +29,7 @@ type ValidSaveSearchKeys = CamelToKebab<
   | keyof ImageSearchparamsDTO
 >;
 
-export type SearchSaveParams = { [k in ValidSaveSearchKeys]?: string | undefined | null };
+export type SearchSaveParams = { [k in ValidSaveSearchKeys]?: string | string[] | undefined | null };
 
 const ButtonWrapper = styled("div", {
   base: {
@@ -56,7 +56,9 @@ const createSearchPhrase = (filters: SearchSaveParams, searchContentType: Search
   const activeFilters = Object.entries(filters)
     .filter(([, value]) => !!value)
     .map(([key, value]) =>
-      key === "query" ? `${t(`searchForm.tagType.${key}`)} ${value}` : t(`searchForm.tagType.${key}`, { value }),
+      key === "query"
+        ? `${t(`searchForm.tagType.${key}`)} ${value}`
+        : t(`searchForm.tagType.${key}`, { value: Array.isArray(value) ? value.join(", ") : value }),
     );
   const contentTypePhrase = t(`searchTypes.${searchContentType}`);
   if (!activeFilters.length) return contentTypePhrase;

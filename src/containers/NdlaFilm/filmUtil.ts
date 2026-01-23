@@ -8,6 +8,7 @@
 
 import { i18n } from "i18next";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { keyBy } from "@ndla/util";
 
 export const sortMoviesByIdList = (
   idList: number[],
@@ -42,12 +43,6 @@ export const sortMoviesByIdList = (
     revisions: [],
     resultType: "article",
   };
-
-  return idList.map(
-    (id) =>
-      movieList.find((movie) => movie.id === id) || {
-        ...notFoundMovie,
-        id: id,
-      },
-  );
+  const keyed = keyBy(movieList, (movie) => movie.id);
+  return idList.map((id) => keyed[id] || { ...notFoundMovie, id: id });
 };

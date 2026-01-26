@@ -387,6 +387,7 @@ const phrases = {
       "exclude-revision-log": "Ekskluder endringslogg",
       "responsible-ids": "Velg ansvarlig",
       "filter-inactive": "Inkluder utgåtte fag",
+      traits: "Velg egenskap",
     },
     tagType: {
       query: "Søk:",
@@ -406,6 +407,7 @@ const phrases = {
       "responsible-ids": "Ansvarlig: {{value}}",
       "filter-inactive": "Utgåtte fag inkludert",
       inactive: "Viser {{value}} bilder",
+      traits: "Egenskap: {{value}}",
     },
     btn: "Søk",
     empty: "Tøm",

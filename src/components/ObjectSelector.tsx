@@ -33,6 +33,7 @@ const StyledGenericSelectItem = styled(GenericSelectItem, {
 
 export interface SelectElement<T> {
   name: keyof T;
+  multiple?: boolean;
   options: SelectOption[];
 }
 
@@ -46,9 +47,10 @@ interface Props {
   value: string;
   onChange: (value: string[]) => void;
   placeholder: string;
+  multiple?: boolean;
   name: string;
 }
-const ObjectSelector = ({ options, onChange, value, placeholder, name }: Props) => {
+const ObjectSelector = ({ options, multiple, onChange, value, placeholder, name }: Props) => {
   const collection = useMemo(
     () =>
       createListCollection({
@@ -63,8 +65,9 @@ const ObjectSelector = ({ options, onChange, value, placeholder, name }: Props) 
     <SelectRoot
       data-testid={`${name}-select`}
       collection={collection}
+      multiple={multiple}
       positioning={{ sameWidth: true, strategy: "fixed" }}
-      value={value ? [value] : []}
+      value={multiple && value ? value.split(",") : value ? [value] : []}
       onValueChange={(details) => onChange(details.value)}
     >
       <SelectLabel srOnly>{placeholder}</SelectLabel>

@@ -6,6 +6,7 @@
  *
  */
 
+import { TFunction } from "i18next";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldLabel, FieldRoot, FieldInput } from "@ndla/primitives";
@@ -65,6 +66,13 @@ const StyledFieldRoot = styled(FieldRoot, {
     },
   },
 });
+
+const getArticleTraits = (t: TFunction) => [
+  { id: "VIDEO", name: t("articleTraits.VIDEO") },
+  { id: "AUDIO", name: t("articleTraits.AUDIO") },
+  { id: "INTERACTIVE", name: t("articleTraits.INTERACTIVE") },
+  { id: "PODCAST", name: t("articleTraits.PODCAST") },
+];
 
 const userHasCustomField = (subjects: Node[], ndlaId: string | undefined, customField: string) =>
   subjects.some((s) => s.metadata.customFields?.[customField] === ndlaId);
@@ -138,6 +146,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
       subjects: null,
       users: null,
       license: null,
+      traits: null,
     });
   };
 
@@ -194,6 +203,11 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
     "exclude-revision-log": params.get("exclude-revision-log") === "true" ? "true" : undefined,
     "revision-date-from": formatDate(params.get("revision-date-from")) || undefined,
     "revision-date-to": formatDate(params.get("revision-date-to")) || undefined,
+    traits:
+      params
+        .get("traits")
+        ?.split(",")
+        .map((trait) => t(`articleTraits.${trait}`)) ?? [],
   };
 
   const selectElements: SelectElement<DraftSearchParams>[] = [
@@ -204,6 +218,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
     { name: "users", options: users ?? [] },
     { name: "language", options: getResourceLanguages(t) },
     { name: "license", options: sortBy(licenses, (lic) => lic.name) },
+    { name: "traits", multiple: true, options: getArticleTraits(t) },
   ];
 
   return (
@@ -230,6 +245,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
               name={selectElement.name}
               placeholder={t(`searchForm.types.${selectElement.name}`)}
               value={params.get(selectElement.name) ?? ""}
+              multiple={selectElement.multiple}
               options={selectElement.options}
               onChange={(value) => setParams({ [selectElement.name]: value.join(",") })}
             />
@@ -259,7 +275,17 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
         />
         <SearchControlButtons reset={emptySearch} />
       </StyledForm>
-      <SearchTagGroup onRemoveTag={(name) => setParams({ [name]: null })} tags={filters} />
+      <SearchTagGroup
+        onRemoveTag={(name, index) => {
+          const val = params.get(name)?.split(",");
+          if (val && val.length > 1 && index != null) {
+            setParams({ [name]: val.filter((_, idx) => idx !== index).join(",") });
+          } else {
+            setParams({ [name]: null });
+          }
+        }}
+        tags={filters}
+      />
     </>
   );
 };

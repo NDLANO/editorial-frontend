@@ -22,6 +22,17 @@ export const RESOURCE_TYPE_TASKS_AND_ACTIVITIES = "urn:resourcetype:tasksAndActi
 export const RESOURCE_TYPE_ASSESSMENT_RESOURCES = "urn:resourcetype:reviewResource";
 export const RESOURCE_TYPE_SOURCE_MATERIAL = "urn:resourcetype:SourceMaterial";
 export const RESOURCE_TYPE_CONCEPT = "urn:resourcetype:concept";
+export const RESOURCE_TYPE_SHORT_FILM = "urn:resourcetype:shortFilm";
+export const RESOURCE_TYPE_SERIES = "urn:resourcetype:series";
+export const RESOURCE_TYPE_DOCUMENTARY = "urn:resourcetype:documentary";
+export const RESOURCE_TYPE_FEATURE_FILM = "urn:resourcetype:featureFilm";
+
+export const FILM_RESOURCE_TYPES = [
+  RESOURCE_TYPE_SHORT_FILM,
+  RESOURCE_TYPE_SERIES,
+  RESOURCE_TYPE_DOCUMENTARY,
+  RESOURCE_TYPE_FEATURE_FILM,
+];
 
 export const MULTIDISCIPLINARY_SUBJECT_ID = "urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7";
 

@@ -26,6 +26,7 @@ export const RESOURCE_TYPE_SHORT_FILM = "urn:resourcetype:shortFilm";
 export const RESOURCE_TYPE_SERIES = "urn:resourcetype:series";
 export const RESOURCE_TYPE_DOCUMENTARY = "urn:resourcetype:documentary";
 export const RESOURCE_TYPE_FEATURE_FILM = "urn:resourcetype:featureFilm";
+export const RESOURCE_TYPE_GAME = "urn:resourcetype:game";
 
 export const FILM_RESOURCE_TYPES = [
   RESOURCE_TYPE_SHORT_FILM,

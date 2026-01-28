@@ -23,6 +23,7 @@ import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import { BadgesContainer } from "@ndla/ui";
 import { useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -151,8 +152,6 @@ export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Pro
     })();
   }, [language, selectedResource, taxonomyVersion, values.articleId, values.embedUrl]);
 
-  const contentType = selectedResource?.resourceTypes?.map((type) => contentTypeMapping[type.id]).filter(Boolean)[0];
-
   const onSelectResource = (resource: ResourceData) => {
     setSelectedResource(resource);
     setFieldValue("articleId", resource.articleId, true);
@@ -244,7 +243,11 @@ export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Pro
               )}
             </TextWrapper>
             <StyledHStack gap="medium">
-              {!!contentType && <Badge>{t(`contentTypes.${contentType}`)}</Badge>}
+              <BadgesContainer>
+                {selectedResource?.resourceTypes?.map((type) => (
+                  <Badge key={type.id}>{type.name}</Badge>
+                ))}
+              </BadgesContainer>
               <StyledIconButton
                 id="remove-resource"
                 aria-label={t("myNdla.learningpath.form.delete")}
@@ -258,7 +261,7 @@ export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Pro
           </ResourceWrapper>
         </ResourceContainer>
       )}
-      {!!step?.license?.license.length && <LicenseField />}
+      {!!step?.copyright?.license?.license.length && <LicenseField />}
     </>
   );
 };

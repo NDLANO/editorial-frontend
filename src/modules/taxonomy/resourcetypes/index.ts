@@ -7,6 +7,7 @@
  */
 
 import { openapi, ResourceType } from "@ndla/types-taxonomy";
+import { FILM_RESOURCE_TYPES } from "../../../constants";
 import { WithTaxonomyVersion } from "../../../interfaces";
 import { createAuthClient } from "../../../util/apiHelpers";
 import { resolveOATS, resolveJsonOATS, resolveLocation } from "../../../util/resolveJsonOrRejectWithError";
@@ -28,7 +29,12 @@ export const fetchAllResourceTypes = (params: ResourceTypesGetParams): Promise<R
         VersionHash: params.taxonomyVersion,
       },
     })
-    .then((response) => resolveJsonOATS(response));
+    .then((response) => resolveJsonOATS(response))
+    .then((types) =>
+      types.map((type) =>
+        FILM_RESOURCE_TYPES.includes(type.id) ? { ...type, name: `NDLA Film: ${type.name}` } : type,
+      ),
+    );
 
 interface ResourceTypeGetParams extends WithTaxonomyVersion {
   id: string;

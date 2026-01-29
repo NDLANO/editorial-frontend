@@ -11,6 +11,7 @@ import { learningResourcePlugins } from "../../../../../containers/ArticlePage/L
 import { Descendant } from "slate";
 import { SYMBOL_ELEMENT_TYPE } from "../types";
 import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
+import { symbols } from "../constants";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
 
@@ -51,7 +52,7 @@ describe("symbol normalizer tests", () => {
           { text: "foo" },
           {
             type: SYMBOL_ELEMENT_TYPE,
-            symbol: "$",
+            symbol: symbols[0],
             children: [],
           },
           { text: "bar" },
@@ -67,7 +68,7 @@ describe("symbol normalizer tests", () => {
           { text: "foo" },
           {
             type: SYMBOL_ELEMENT_TYPE,
-            symbol: "$",
+            symbol: symbols[0],
             children: [{ text: "" }],
           },
           { text: "bar" },

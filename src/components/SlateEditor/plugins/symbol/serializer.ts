@@ -19,14 +19,14 @@ export const symbolSerializer = createSerializer({
     if (attributes.resource !== SYMBOL_ELEMENT_TYPE) return;
 
     if (!el.hasChildNodes()) return;
-    const symbol = el.firstChild?.textContent;
-    if (!symbol) return;
+    const symbolText = el.firstChild?.textContent;
+    if (!symbolText) return;
 
-    return defaultSymbol(symbol);
+    return defaultSymbol(symbolText);
   },
   serialize(node) {
     if (!isSymbolElement(node) || !node.symbol) return;
     const data = createDataAttributes({ resource: SYMBOL_ELEMENT_TYPE });
-    return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, children: node.symbol });
+    return createHtmlTag({ tag: TYPE_NDLA_EMBED, data, children: node.symbol.text });
   },
 });

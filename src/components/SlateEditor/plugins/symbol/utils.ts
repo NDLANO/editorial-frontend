@@ -8,12 +8,22 @@
 
 import { Editor, Transforms, Range } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { SYMBOL_ELEMENT_TYPE } from "./types";
+import { SYMBOL_ELEMENT_TYPE, SymbolData, SymbolElement } from "./types";
 import hasNodeOfType from "../../utils/hasNodeOfType";
 import { isSymbolElement } from "./queries";
+import { symbols } from "./constants";
 
-export const defaultSymbol = (symbol?: string) =>
-  slatejsx("element", { type: SYMBOL_ELEMENT_TYPE, symbol, isFirstEdit: !symbol }, [{ text: "" }]);
+export const defaultSymbol = (symbolText?: string) => {
+  let symbol: SymbolData | undefined;
+  if (symbolText) {
+    const symbolData = symbols.find(({ text }) => text === symbolText);
+    symbol = symbolData ?? { name: "unknown", text: symbolText };
+  }
+
+  const attributes: Omit<SymbolElement, "children"> = { type: SYMBOL_ELEMENT_TYPE, symbol, isFirstEdit: !symbol };
+
+  return slatejsx("element", attributes, [{ text: "" }]);
+};
 
 export const insertSymbol = (editor: Editor) => {
   if (hasNodeOfType(editor, SYMBOL_ELEMENT_TYPE)) {

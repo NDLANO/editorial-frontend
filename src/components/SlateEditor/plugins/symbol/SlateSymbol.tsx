@@ -15,19 +15,21 @@ import { CloseLine, DeleteBinLine } from "@ndla/icons";
 import {
   Button,
   IconButton,
+  MessageBox,
   PopoverContent,
   PopoverDescription,
   PopoverRoot,
   PopoverTitle,
   PopoverTrigger,
+  Text,
   TooltipContent,
   TooltipRoot,
   TooltipTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { symbols } from "./constants";
 import { isSymbolElement } from "./queries";
-import { SymbolElement } from "./types";
-import { useDebouncedCallback } from "../../../../util/useDebouncedCallback";
+import { SymbolData, SymbolElement } from "./types";
 import { InlineBugfix } from "../../utils/InlineBugFix";
 import mergeLastUndos from "../../utils/mergeLastUndos";
 
@@ -49,6 +51,11 @@ const SymbolWrapper = styled("span", {
         outlineColor: "stroke.default",
         outlineOffset: "1px",
         borderRadius: "xsmall",
+      },
+    },
+    isUnknown: {
+      true: {
+        backgroundColor: "surface.error",
       },
     },
   },
@@ -99,7 +106,8 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
   const isSelected = useSelected();
   const { t } = useTranslation();
 
-  const symbols = t("symbols", { returnObjects: true }) as Record<string, string>;
+  const symbolTooltip = element.symbol ? t(`symbols.${element.symbol.name}`) : undefined;
+  const isUnknownSymbol = element.symbol?.name === "unknown";
 
   useEffect(() => {
     if (element.isFirstEdit) {
@@ -109,27 +117,28 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
     }
   }, [editor, element]);
 
-  // TODO: Remove this workaround
-  // This handler is called twice on interaction outside the popover due to a bug, see https://github.com/chakra-ui/ark/issues/3463
-  const handleOpenChange = useDebouncedCallback((value: boolean, shouldDelete?: boolean) => {
-    setOpen(value);
-    if (!value) {
-      if (shouldDelete ?? !!element.isFirstEdit) {
-        const path = ReactEditor.findPath(editor, element);
-        Transforms.removeNodes(editor, { match: isSymbolElement, at: path, voids: true });
-      }
+  const handleOpenChange = useCallback(
+    (value: boolean, shouldDelete?: boolean) => {
+      setOpen(value);
+      if (!value) {
+        if (shouldDelete ?? !!element.isFirstEdit) {
+          const path = ReactEditor.findPath(editor, element);
+          Transforms.removeNodes(editor, { match: isSymbolElement, at: path, voids: true });
+        }
 
-      ReactEditor.focus(editor);
-    }
-  }, 10);
+        ReactEditor.focus(editor);
+      }
+    },
+    [editor, element],
+  );
 
   const handleSymbolClick = useCallback(
-    (symbol: string) => {
+    (symbolData: SymbolData) => {
       setOpen(false);
       const path = ReactEditor.findPath(editor, element);
       Transforms.setNodes(
         editor,
-        { ...element, isFirstEdit: false, symbol },
+        { ...element, isFirstEdit: false, symbol: symbolData },
         { match: isSymbolElement, at: path, voids: true },
       );
       mergeLastUndos(editor);
@@ -141,9 +150,15 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
   return (
     <PopoverRoot open={open} onOpenChange={(details) => handleOpenChange(details.open)}>
       <PopoverTrigger asChild type={undefined}>
-        <SymbolWrapper {...attributes} contentEditable={false} isSelected={isSelected}>
+        <SymbolWrapper
+          {...attributes}
+          contentEditable={false}
+          title={symbolTooltip}
+          isSelected={isSelected}
+          isUnknown={isUnknownSymbol}
+        >
           <InlineBugfix />
-          {element.symbol}
+          {element.symbol?.icon ?? element.symbol?.text}
           {children}
           <InlineBugfix />
         </SymbolWrapper>
@@ -174,21 +189,32 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
             </PopoverHeaderButtons>
           </PopoverHeader>
           <StyledPopoverDescription>
-            {Object.entries(symbols).map(([symbol, label]) => (
-              <TooltipRoot key={symbol} openDelay={0}>
-                <TooltipTrigger asChild>
-                  <StyledButton
-                    variant="secondary"
-                    onClick={() => handleSymbolClick(symbol)}
-                    aria-label={label}
-                    data-testid={`button-${symbol}`}
-                  >
-                    {symbol}
-                  </StyledButton>
-                </TooltipTrigger>
-                <TooltipContent>{label}</TooltipContent>
-              </TooltipRoot>
-            ))}
+            {isUnknownSymbol ? (
+              <MessageBox variant="error">
+                <Text>{t("form.content.symbol.unknown")}</Text>
+              </MessageBox>
+            ) : null}
+            {symbols.map((symbol) => {
+              const label = t(`symbols.${symbol.name}`);
+              const isSelectedSymbol = element.symbol?.name === symbol.name;
+
+              return (
+                <TooltipRoot key={symbol.name} openDelay={0}>
+                  <TooltipTrigger asChild>
+                    <StyledButton
+                      variant="secondary"
+                      onClick={() => handleSymbolClick(symbol)}
+                      aria-label={label}
+                      data-state={isSelectedSymbol ? "on" : undefined}
+                      data-testid={`button-${symbol.name}`}
+                    >
+                      {symbol.icon ?? symbol.text}
+                    </StyledButton>
+                  </TooltipTrigger>
+                  <TooltipContent>{label}</TooltipContent>
+                </TooltipRoot>
+              );
+            })}
           </StyledPopoverDescription>
         </StyledPopoverContent>
       </Portal>

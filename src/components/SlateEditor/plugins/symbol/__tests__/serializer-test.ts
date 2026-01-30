@@ -7,17 +7,26 @@
  */
 
 import { Descendant } from "slate";
-import { SYMBOL_ELEMENT_TYPE } from "../types";
+import { SYMBOL_ELEMENT_TYPE, SymbolData } from "../types";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
+import { symbols } from "../constants";
 
-const editor: Descendant[] = [{ type: SYMBOL_ELEMENT_TYPE, symbol: "$", isFirstEdit: false, children: [{ text: "" }] }];
+const knownSymbol = symbols[0];
+const editorWithKnownSymbol: Descendant[] = [
+  { type: SYMBOL_ELEMENT_TYPE, symbol: knownSymbol, isFirstEdit: false, children: [{ text: "" }] },
+];
+const htmlWithKnownSymbol = `<ndlaembed data-resource="symbol">${knownSymbol.text}</ndlaembed>`;
 
-const html = '<ndlaembed data-resource="symbol">$</ndlaembed>';
+const unknownSymbol: SymbolData = { name: "unknown", text: "æ" };
+const editorWithUnknownSymbol: Descendant[] = [
+  { type: SYMBOL_ELEMENT_TYPE, symbol: unknownSymbol, isFirstEdit: false, children: [{ text: "" }] },
+];
+const htmlWithUnknownSymbol = `<ndlaembed data-resource="symbol">${unknownSymbol.text}</ndlaembed>`;
 
 describe("symbol serializing tests", () => {
   test("serializing", () => {
-    const res = blockContentToHTML(editor);
-    expect(res).toMatch(html);
+    const res = blockContentToHTML(editorWithKnownSymbol);
+    expect(res).toMatch(htmlWithKnownSymbol);
   });
 
   test("serializing without symbol removes symbol node", () => {
@@ -32,8 +41,13 @@ describe("symbol serializing tests", () => {
     expect(res).toEqual("");
   });
 
-  test("deserializing", () => {
-    const res = blockContentToEditorValue(html);
-    expect(res).toEqual(editor);
+  test("deserializing known symbol", () => {
+    const res = blockContentToEditorValue(htmlWithKnownSymbol);
+    expect(res).toEqual(editorWithKnownSymbol);
+  });
+
+  test("deserializing unknown symbol", () => {
+    const res = blockContentToEditorValue(htmlWithUnknownSymbol);
+    expect(res).toEqual(editorWithUnknownSymbol);
   });
 });

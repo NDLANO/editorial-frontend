@@ -26,7 +26,7 @@ test("can insert symbol from toolbar", async ({ page }) => {
   const toolbarButton = page.getByTestId("toolbar-button-symbol");
   await toolbarButton.waitFor({ state: "visible" });
   await toolbarButton.click();
-  const symbol = page.getByTestId("button-½");
+  const symbol = page.getByTestId("button-half");
   await symbol.waitFor({ state: "visible" });
   await symbol.click();
   await expect(page.getByRole("dialog")).not.toBeVisible();
@@ -36,7 +36,7 @@ test("can insert symbol from toolbar", async ({ page }) => {
 test("can insert symbol using keybind", async ({ page }) => {
   const el = page.getByTestId("slate-editor");
   el.press("ControlOrMeta+Alt+y");
-  const symbol = page.getByTestId("button-½");
+  const symbol = page.getByTestId("button-half");
   await symbol.waitFor({ state: "visible" });
   await symbol.click();
   await expect(page.getByRole("dialog")).not.toBeVisible();

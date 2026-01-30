@@ -7,6 +7,7 @@
  */
 
 import { Descendant, ElementType } from "slate";
+import { SymbolName } from "./constants";
 
 export const SYMBOL_ELEMENT_TYPE = "symbol";
 export const SYMBOL_PLUGIN = "symbol";
@@ -15,7 +16,13 @@ export interface SymbolElement {
   type: typeof SYMBOL_ELEMENT_TYPE;
   children: Descendant[];
   isFirstEdit?: boolean;
-  symbol?: string;
+  symbol?: SymbolData;
+}
+
+export interface SymbolData {
+  name: SymbolName;
+  text: string;
+  icon?: string;
 }
 
 export interface SymbolPluginOptions {

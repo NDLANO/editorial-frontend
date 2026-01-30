@@ -1337,6 +1337,8 @@ const phrases = {
       symbol: {
         title: "Insert symbol",
         insert: "Insert",
+        unknown:
+          "The current symbol does not exist in the list of available symbols. The symbol cannot be inserted again if it is removed.",
       },
     },
     tags: {

@@ -1337,6 +1337,8 @@ const phrases = {
       symbol: {
         title: "Sett inn symbol",
         insert: "Sett inn",
+        unknown:
+          "Nåværende symbol finnes ikke i listen over tilgjengelige symboler. Symbolet vil ikke kunne settes inn igjen dersom det fjernes.",
       },
     },
     tags: {

@@ -15,11 +15,13 @@ import { CloseLine, DeleteBinLine } from "@ndla/icons";
 import {
   Button,
   IconButton,
+  MessageBox,
   PopoverContent,
   PopoverDescription,
   PopoverRoot,
   PopoverTitle,
   PopoverTrigger,
+  Text,
   TooltipContent,
   TooltipRoot,
   TooltipTrigger,
@@ -50,6 +52,11 @@ const SymbolWrapper = styled("span", {
         outlineColor: "stroke.default",
         outlineOffset: "1px",
         borderRadius: "xsmall",
+      },
+    },
+    isUnknown: {
+      true: {
+        backgroundColor: "surface.error",
       },
     },
   },
@@ -100,6 +107,9 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
   const isSelected = useSelected();
   const { t } = useTranslation();
 
+  const symbolTooltip = element.symbol ? t(`symbols.${element.symbol.name}`) : undefined;
+  const isUnknownSymbol = element.symbol?.name === "unknown";
+
   useEffect(() => {
     if (element.isFirstEdit) {
       setOpen(true);
@@ -140,7 +150,13 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
   return (
     <PopoverRoot open={open} onOpenChange={(details) => handleOpenChange(details.open)}>
       <PopoverTrigger asChild type={undefined}>
-        <SymbolWrapper {...attributes} contentEditable={false} isSelected={isSelected}>
+        <SymbolWrapper
+          {...attributes}
+          contentEditable={false}
+          title={symbolTooltip}
+          isSelected={isSelected}
+          isUnknown={isUnknownSymbol}
+        >
           <InlineBugfix />
           {element.symbol?.icon ?? element.symbol?.text}
           {children}
@@ -173,8 +189,14 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
             </PopoverHeaderButtons>
           </PopoverHeader>
           <StyledPopoverDescription>
+            {isUnknownSymbol ? (
+              <MessageBox variant="error">
+                <Text>{t("form.content.symbol.unknown")}</Text>
+              </MessageBox>
+            ) : null}
             {symbols.map((symbol) => {
               const label = t(`symbols.${symbol.name}`);
+              const isSelectedSymbol = element.symbol?.name === symbol.name;
 
               return (
                 <TooltipRoot key={symbol.name} openDelay={0}>
@@ -183,6 +205,7 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
                       variant="secondary"
                       onClick={() => handleSymbolClick(symbol)}
                       aria-label={label}
+                      data-state={isSelectedSymbol ? "on" : undefined}
                       data-testid={`button-${symbol.name}`}
                     >
                       {symbol.icon ?? symbol.text}

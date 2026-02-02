@@ -17,7 +17,7 @@ import { TaxonomyConnections } from "../../../../components/Taxonomy/TaxonomyCon
 import { TaxonomyResourceTypeSelect } from "../../../../components/Taxonomy/TaxonomyResourceTypeSelect";
 import { TaxonomyVisibility } from "../../../../components/Taxonomy/TaxonomyVisibility";
 import { MinimalNodeChild } from "../../../../components/Taxonomy/types";
-import { RESOURCE_TYPE_LEARNING_PATH, TAXONOMY_ADMIN_SCOPE } from "../../../../constants";
+import { RESOURCE_TYPE_LEARNING_PATH } from "../../../../constants";
 import {
   useCreateResourceResourceTypeMutation,
   useDeleteResourceResourceTypeMutation,
@@ -25,7 +25,6 @@ import {
 import { nodeQueryKeys, useNodes } from "../../../../modules/nodes/nodeQueries";
 import { useAllResourceTypes } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import { useVersions } from "../../../../modules/taxonomy/versions/versionQueries";
-import { useSession } from "../../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
@@ -59,8 +58,6 @@ const contextToPlacement = (
 const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const { userPermissions } = useSession();
-  const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
   const createResourceResourceTypeMutation = useCreateResourceResourceTypeMutation();
   const deleteResourceResourceTypeMutation = useDeleteResourceResourceTypeMutation();
   const qc = useQueryClient();
@@ -146,15 +143,13 @@ const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: P
     >
       {!!node && (
         <>
-          {!!isTaxonomyAdmin && (
-            <TaxonomyVisibility
-              resourceType="article"
-              taxonomyVersion={taxonomyVersion}
-              resourceId={article.id}
-              resourceLanguage={articleLanguage}
-              node={node}
-            />
-          )}
+          <TaxonomyVisibility
+            resourceType="article"
+            taxonomyVersion={taxonomyVersion}
+            resourceId={article.id}
+            resourceLanguage={articleLanguage}
+            node={node}
+          />
           {!node.resourceTypes.length && <Text color="text.error">{t("errorMessage.missingResourceType")}</Text>}
           <TaxonomyResourceTypeSelect
             blacklistedResourceTypes={[RESOURCE_TYPE_LEARNING_PATH]}

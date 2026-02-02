@@ -28,6 +28,7 @@ import {
 } from "../../../constants";
 import { useSearch } from "../../../modules/search/searchQueries";
 import { ResourceData } from "./types";
+import { getBadges } from "../../../util/getBadges";
 
 const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250);
 
@@ -112,14 +113,15 @@ export const ResourcePicker = ({ setResource, children, onlyPublishedResources }
       closeOnSelect={false}
       selectionBehavior="preserve"
       renderItem={(item) => {
+        const badges = getBadges({ resourceTypes: item.resourceTypes }, t);
         return (
           <GenericComboboxItemContent
             title={parse(item.title.htmlTitle)}
             description={item.contexts[0]?.breadcrumbs.join(" > ")}
             child={
               <BadgesContainer>
-                {item.resourceTypes.map((type) => (
-                  <Badge key={type.id}>{type.name}</Badge>
+                {badges.map((badge) => (
+                  <Badge key={badge}>{badge}</Badge>
                 ))}
               </BadgesContainer>
             }

@@ -30,6 +30,7 @@ import { useTranslation } from "react-i18next";
 import { FormField } from "../../../components/FormField";
 import { RulesType } from "../../../components/formikValidationSchema";
 import { fetchNode, fetchNodes } from "../../../modules/nodes/nodeApi";
+import { useBadges } from "../../../util/getBadges";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { LicenseField } from "../../FormikForm";
@@ -152,6 +153,10 @@ export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Pro
     })();
   }, [language, selectedResource, taxonomyVersion, values.articleId, values.embedUrl]);
 
+  const badges = useBadges({
+    resourceTypes: selectedResource?.resourceTypes,
+  });
+
   const onSelectResource = (resource: ResourceData) => {
     setSelectedResource(resource);
     setFieldValue("articleId", resource.articleId, true);
@@ -244,8 +249,8 @@ export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Pro
             </TextWrapper>
             <StyledHStack gap="medium">
               <BadgesContainer>
-                {selectedResource?.resourceTypes?.map((type) => (
-                  <Badge key={type.id}>{type.name}</Badge>
+                {badges.map((badge) => (
+                  <Badge key={badge}>{badge}</Badge>
                 ))}
               </BadgesContainer>
               <StyledIconButton

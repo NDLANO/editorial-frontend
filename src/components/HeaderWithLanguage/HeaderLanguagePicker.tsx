@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { AddLine } from "@ndla/icons";
 import { Button, MenuContent, MenuItem, MenuRoot, MenuTrigger } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { useTranslation } from "react-i18next";
 
 const LanguagePicker = ({ id, emptyLanguages, editUrl }: Props) => {
   const { t } = useTranslation();

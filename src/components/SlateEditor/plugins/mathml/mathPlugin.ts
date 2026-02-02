@@ -6,13 +6,13 @@
  *
  */
 
+import { createPlugin, getCurrentBlock } from "@ndla/editor";
+import { isKeyHotkey } from "is-hotkey";
 import { Range, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
-import { createPlugin, getCurrentBlock } from "@ndla/editor";
-import { MATH_ELEMENT_TYPE, MATH_PLUGIN } from "./mathTypes";
-import { isKeyHotkey } from "is-hotkey";
-import { isMathElement } from "./queries/mathQueries";
 import { KEY_ARROW_UP } from "../../utils/keys";
+import { MATH_ELEMENT_TYPE, MATH_PLUGIN } from "./mathTypes";
+import { isMathElement } from "./queries/mathQueries";
 
 export const mathmlPlugin = createPlugin({
   name: MATH_PLUGIN,

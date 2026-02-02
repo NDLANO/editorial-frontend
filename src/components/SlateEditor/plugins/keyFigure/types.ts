@@ -6,8 +6,8 @@
  *
  */
 
-import { Descendant } from "slate";
 import { KeyFigureEmbedData } from "@ndla/types-embed";
+import { Descendant } from "slate";
 
 export interface KeyFigureElement {
   type: "key-figure";

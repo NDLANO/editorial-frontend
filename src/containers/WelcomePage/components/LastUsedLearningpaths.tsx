@@ -6,23 +6,23 @@
  *
  */
 
-import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { PencilFill } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import Pagination from "../../../components/abstractions/Pagination";
 import { STORED_PAGE_SIZE_LAST_UPDATED } from "../../../constants";
-import { useLocalStoragePageSizeState } from "../hooks/storedFilterHooks";
-import { SortOptionLastUsed } from "../types";
-import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
-import { getCurrentPageData } from "./utils";
-import StatusCell from "./worklist/StatusCell";
 import formatDate from "../../../util/formatDate";
 import { routes } from "../../../util/routeHelpers";
+import { useLocalStoragePageSizeState } from "../hooks/storedFilterHooks";
 import { StyledTopRowDashboardInfo } from "../styles";
+import { SortOptionLastUsed } from "../types";
+import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
+import { getCurrentPageData } from "./utils";
 import PageSizeSelect from "./worklist/PageSizeSelect";
-import Pagination from "../../../components/abstractions/Pagination";
+import StatusCell from "./worklist/StatusCell";
 
 interface Props {
   data: MultiSearchSummaryDTO[];

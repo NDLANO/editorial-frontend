@@ -6,10 +6,10 @@
  *
  */
 
-import { ComponentPropsWithoutRef, ReactNode } from "react";
 import { CheckboxCircleFill } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { ComponentPropsWithoutRef, ReactNode } from "react";
 
 interface Props extends ComponentPropsWithoutRef<"button"> {
   children: ReactNode;

@@ -6,8 +6,6 @@
  *
  */
 
-import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Combobox, createListCollection } from "@ark-ui/react";
 import { CloseLine, ArrowDownShortLine, CheckLine } from "@ndla/icons";
 import {
@@ -30,6 +28,8 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";
 import { sortBy } from "@ndla/util";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { SUBJECT_NODE } from "../../../../modules/nodes/nodeApiTypes";
 import { useSearchNodes } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";

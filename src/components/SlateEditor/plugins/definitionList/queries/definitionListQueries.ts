@@ -6,8 +6,8 @@
  *
  */
 
-import { Node } from "slate";
 import { isElementOfType } from "@ndla/editor";
+import { Node } from "slate";
 import {
   DEFINITION_DESCRIPTION_ELEMENT_TYPE,
   DEFINITION_LIST_ELEMENT_TYPE,

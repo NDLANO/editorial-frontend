@@ -6,8 +6,6 @@
  *
  */
 
-import { useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import {
   ComboboxContent,
@@ -20,6 +18,8 @@ import {
   Text,
 } from "@ndla/primitives";
 import { useComboboxTranslations } from "@ndla/ui";
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemIndicator } from "../../../components/abstractions/Combobox";
 import { FormField } from "../../../components/FormField";
 

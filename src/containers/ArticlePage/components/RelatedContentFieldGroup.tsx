@@ -6,13 +6,13 @@
  *
  */
 
-import { memo } from "react";
 import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
-import ConceptsField from "./ConceptsField";
-import ContentField from "./ContentField";
+import { memo } from "react";
 import { FormField } from "../../../components/FormField";
 import { DRAFT_ADMIN_SCOPE } from "../../../constants";
 import { useSession } from "../../Session/SessionProvider";
+import ConceptsField from "./ConceptsField";
+import ContentField from "./ContentField";
 
 const RelatedContentFieldGroup = () => {
   const { userPermissions } = useSession();

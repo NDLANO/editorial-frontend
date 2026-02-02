@@ -6,10 +6,6 @@
  *
  */
 
-import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { PencilFill } from "@ndla/icons";
 import {
@@ -24,13 +20,17 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { CopyrightEmbedData, CopyrightMetaData } from "@ndla/types-embed";
 import { CopyrightEmbed, EmbedWrapper } from "@ndla/ui";
-import { EmbedCopyrightForm } from "./EmbedCopyrightForm";
-import { isCopyrightElement } from "./queries";
-import { CopyrightElement } from "./types";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Path, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
 import DeleteButton from "../../../DeleteButton";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import MoveContentButton from "../../../MoveContentButton";
 import { StyledFigureButtons } from "../embed/FigureButtons";
+import { EmbedCopyrightForm } from "./EmbedCopyrightForm";
+import { isCopyrightElement } from "./queries";
+import { CopyrightElement } from "./types";
 
 interface Props {
   attributes: RenderElementProps["attributes"];

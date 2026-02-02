@@ -6,12 +6,12 @@
  *
  */
 
-import { Formik } from "formik";
-import { useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { Button, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { AuthorDTO } from "@ndla/types-backend/article-api";
 import { CopyrightEmbedData } from "@ndla/types-embed";
+import { Formik } from "formik";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { CopyrightFieldGroup } from "../../../../containers/FormikForm";
 import { useLicenses } from "../../../../modules/draft/draftQueries";
 import { DEFAULT_LICENSE } from "../../../../util/formHelper";

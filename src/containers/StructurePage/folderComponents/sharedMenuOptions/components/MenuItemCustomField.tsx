@@ -6,14 +6,12 @@
  *
  */
 
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { AddLine } from "@ndla/icons";
 import { Button, Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, Metadata } from "@ndla/types-taxonomy";
-import CustomFieldComponent from "./CustomFieldComponent";
-import SubjectForwardField from "./SubjectForwardField";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   TAXONOMY_CUSTOM_FIELD_LANGUAGE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
@@ -39,6 +37,8 @@ import TaxonomyMetadataLanguageSelector from "../../subjectMenuOptions/TaxonomyM
 import ToggleExplanationSubject from "../../subjectMenuOptions/ToggleExplanationSubject";
 import ToggleProgrammeSubject from "../../subjectMenuOptions/ToggleProgrammeSubject";
 import GroupTopicResources from "../../topicMenuOptions/GroupTopicResources";
+import CustomFieldComponent from "./CustomFieldComponent";
+import SubjectForwardField from "./SubjectForwardField";
 
 const ContentWrapper = styled("div", {
   base: {

@@ -6,13 +6,12 @@
  *
  */
 
-import { useField, useFormikContext } from "formik";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { FileListLine } from "@ndla/icons";
 import { Button, FieldLabel, FieldRoot, FieldErrorMessage, FieldTextArea, DialogTrigger } from "@ndla/primitives";
 import { HStack } from "@ndla/styled-system/jsx";
-import { ImageUploadFormElement } from "./ImageUploadFormElement";
+import { useField, useFormikContext } from "formik";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { AiPromptDialog } from "../../../components/AiPromptDialog";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
@@ -21,6 +20,7 @@ import { useSession } from "../../../containers/Session/SessionProvider";
 import { AltTextVariables } from "../../../interfaces";
 import TitleField from "../../FormikForm/TitleField";
 import { ImageFormikType } from "../imageTransformers";
+import { ImageUploadFormElement } from "./ImageUploadFormElement";
 
 const ALLOWED_IMAGE_TYPES = "(jpe?g|png|gif)";
 const IMAGE_TYPE_REGEX = new RegExp(ALLOWED_IMAGE_TYPES);

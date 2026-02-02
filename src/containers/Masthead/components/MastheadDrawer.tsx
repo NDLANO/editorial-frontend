@@ -6,9 +6,6 @@
  *
  */
 
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { CloseLine, MenuLine, ExternalLinkLine } from "@ndla/icons";
 import {
   Button,
@@ -23,8 +20,9 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { MastheadLinks } from "./MastheadLinks";
-import { MastheadSessionLink } from "./MastheadSessionLink";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router";
 import config from "../../../config";
 import {
   AUDIO_ADMIN_SCOPE,
@@ -35,6 +33,8 @@ import {
 } from "../../../constants";
 import { routes } from "../../../util/routeHelpers";
 import { useSession } from "../../Session/SessionProvider";
+import { MastheadLinks } from "./MastheadLinks";
+import { MastheadSessionLink } from "./MastheadSessionLink";
 
 const StyledNav = styled("nav", {
   base: {

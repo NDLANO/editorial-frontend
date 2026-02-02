@@ -6,15 +6,12 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { ArrowUpDoubleLine, MessageLine, CalendarLine } from "@ndla/icons";
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import PageSizeSelect from "./PageSizeSelect";
-import StatusCell from "./StatusCell";
-import SubjectCombobox from "./SubjectCombobox";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import Pagination from "../../../../components/abstractions/Pagination";
 import { MultiSummarySearchResults } from "../../../../modules/search/searchApiInterfaces";
 import { useSearch } from "../../../../modules/search/searchQueries";
@@ -26,6 +23,9 @@ import { SelectItem, SortOptionWorkList } from "../../types";
 import GoToSearch from "../GoToSearch";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "../TableComponent";
 import TableTitle from "../TableTitle";
+import PageSizeSelect from "./PageSizeSelect";
+import StatusCell from "./StatusCell";
+import SubjectCombobox from "./SubjectCombobox";
 
 const CellWrapper = styled("div", {
   base: {

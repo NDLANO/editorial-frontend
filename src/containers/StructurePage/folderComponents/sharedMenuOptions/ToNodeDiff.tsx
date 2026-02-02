@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { ExternalLinkLine } from "@ndla/icons";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Node } from "@ndla/types-taxonomy";
+import { useTranslation } from "react-i18next";
 import { useTaxonomyVersion } from "../../../../containers/StructureVersion/TaxonomyVersionProvider";
 import { toNodeDiff } from "../../../../util/routeHelpers";
 

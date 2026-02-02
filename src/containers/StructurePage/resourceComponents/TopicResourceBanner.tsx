@@ -6,21 +6,14 @@
  *
  */
 
-import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { MessageLine, CheckboxCircleLine } from "@ndla/icons";
 import { Skeleton, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { Node, NodeChild, ResourceType } from "@ndla/types-taxonomy";
-import ApproachingRevisionDate from "./ApproachingRevisionDate";
-import GrepCodesDialog from "./GrepCodesDialog";
-import JumpToStructureButton from "./JumpToStructureButton";
-import MatomoStats from "./MatomoStats";
-import { linkRecipe } from "./Resource";
-import StatusIcons from "./StatusIcons";
-import VersionHistory from "./VersionHistory";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import AverageQualityEvaluation from "../../../components/QualityEvaluation/AverageQualityEvaluation";
 import QualityEvaluation from "../../../components/QualityEvaluation/QualityEvaluation";
 import { SupplementaryIndicator } from "../../../components/Taxonomy/SupplementaryIndicator";
@@ -37,6 +30,13 @@ import { MultidisciplinaryDialog } from "../multidisciplinary/MultidisciplinaryD
 import PlannedResourceDialog from "../plannedResource/PlannedResourceDialog";
 import { usePreferences } from "../PreferencesProvider";
 import { ResourceStats, transformMatomoData } from "../utils";
+import ApproachingRevisionDate from "./ApproachingRevisionDate";
+import GrepCodesDialog from "./GrepCodesDialog";
+import JumpToStructureButton from "./JumpToStructureButton";
+import MatomoStats from "./MatomoStats";
+import { linkRecipe } from "./Resource";
+import StatusIcons from "./StatusIcons";
+import VersionHistory from "./VersionHistory";
 
 const ResourceGroupBanner = styled("div", {
   base: {

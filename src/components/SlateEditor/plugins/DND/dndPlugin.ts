@@ -14,15 +14,15 @@ import {
   PARAGRAPH_ELEMENT_TYPE,
   SECTION_ELEMENT_TYPE,
 } from "@ndla/editor";
-import { DND_PLUGIN, DndPluginOptions } from "./dndTypes";
 import { Node } from "slate";
-import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquote/blockquoteTypes";
-import { TABLE_CAPTION_ELEMENT_TYPE } from "../table/types";
 import { textBlockElements } from "../../utils/normalizationHelpers";
+import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquote/blockquoteTypes";
 import { COPYRIGHT_ELEMENT_TYPE } from "../copyright/types";
+import { IMAGE_ELEMENT_TYPE } from "../image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "../keyFigure/types";
 import { PITCH_ELEMENT_TYPE } from "../pitch/types";
-import { IMAGE_ELEMENT_TYPE } from "../image/types";
+import { TABLE_CAPTION_ELEMENT_TYPE } from "../table/types";
+import { DND_PLUGIN, DndPluginOptions } from "./dndTypes";
 
 export const dndPlugin = createPlugin<any, DndPluginOptions>({
   name: DND_PLUGIN,

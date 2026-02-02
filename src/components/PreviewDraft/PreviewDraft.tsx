@@ -6,9 +6,9 @@
  *
  */
 
-import { useMemo } from "react";
 import { ArticleV2DTO } from "@ndla/types-backend/article-api";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
+import { useMemo } from "react";
 import { TransformedPreviewDraft } from "./TransformedPreviewDraft";
 import "../DisplayEmbed/helpers/h5pResizer";
 import { FormArticle } from "./types";

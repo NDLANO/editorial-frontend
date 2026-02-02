@@ -6,12 +6,12 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { ImageSearch as BaseImageSearch, ImageSearchProps } from "@ndla/image-search";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { SearchParamsDTO } from "@ndla/types-backend/image-api";
 import { useImageSearchTranslations } from "@ndla/ui";
+import { useTranslation } from "react-i18next";
 import config from "../config";
 import { onError, postSearchImages } from "../modules/image/imageApi";
 

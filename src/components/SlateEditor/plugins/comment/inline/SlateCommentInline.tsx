@@ -6,17 +6,17 @@
  *
  */
 
-import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
 import { PopoverRoot, PopoverTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
-import { CommentInlineElement } from "./types";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { Editor, Path, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
+import { useDebouncedCallback } from "../../../../../util/useDebouncedCallback";
 import { InlineBugfix } from "../../../utils/InlineBugFix";
 import CommentPopoverPortal from "../CommentPopoverPortal";
 import { isCommentInlineElement } from "./queries/commentInlineQueries";
-import { useDebouncedCallback } from "../../../../../util/useDebouncedCallback";
+import { CommentInlineElement } from "./types";
 
 const InlineComment = styled("span", {
   base: {

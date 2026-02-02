@@ -6,10 +6,6 @@
  *
  */
 
-import { Form, Formik } from "formik";
-import { useCallback, useEffect, useMemo, useRef } from "react";
-import { useTranslation } from "react-i18next";
-import { useParams } from "react-router";
 import { isSectionElement } from "@ndla/editor";
 import {
   Button,
@@ -30,22 +26,26 @@ import {
   NewLearningStepV2DTO,
   UpdatedLearningStepV2DTO,
 } from "@ndla/types-backend/learningpath-api";
-import { ExternalStepForm, externalStepRules } from "./ExternalStepForm";
-import { ResourceStepForm, resourceStepRules } from "./ResourceStepForm";
+import { Form, Formik } from "formik";
+import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
 import { FormField } from "../../../components/FormField";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
-import { blockContentToEditorValue, blockContentToHTML } from "../../../util/articleContentConverter";
-import { unreachable } from "../../../util/guards";
-import { getFormTypeFromStep } from "../learningpathUtils";
-import { TextStepForm, textStepRules } from "./TextStepForm";
-import { LearningpathStepFormValues } from "./types";
 import {
   usePatchLearningStepMutation,
   usePostLearningStepMutation,
 } from "../../../modules/learningpath/learningpathMutations";
+import { blockContentToEditorValue, blockContentToHTML } from "../../../util/articleContentConverter";
+import { unreachable } from "../../../util/guards";
 import { AlertDialogWrapper } from "../../FormikForm";
 import { PreventWindowUnload } from "../../FormikForm/PreventWindowUnload";
 import PrivateRoute from "../../PrivateRoute/PrivateRoute";
+import { getFormTypeFromStep } from "../learningpathUtils";
+import { ExternalStepForm, externalStepRules } from "./ExternalStepForm";
+import { ResourceStepForm, resourceStepRules } from "./ResourceStepForm";
+import { TextStepForm, textStepRules } from "./TextStepForm";
+import { LearningpathStepFormValues } from "./types";
 
 const RADIO_GROUP_OPTIONS = ["text", "resource", "external"] as const;
 

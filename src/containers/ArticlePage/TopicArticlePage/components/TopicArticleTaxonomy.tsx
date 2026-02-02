@@ -6,13 +6,13 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { InformationLine } from "@ndla/icons";
 import { ExpandableBox, ExpandableBoxSummary, MessageBox, Spinner, Text, UnOrderedList } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { partition, sortBy } from "@ndla/util";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { TaxonomyBlock } from "../../../../components/Taxonomy/TaxonomyBlock";
 import { TaxonomyConnections } from "../../../../components/Taxonomy/TaxonomyConnections";
 import { TAXONOMY_ADMIN_SCOPE } from "../../../../constants";

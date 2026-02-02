@@ -6,15 +6,15 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import { PageContent } from "@ndla/primitives";
 import { ImageMetaInformationV3DTO, NewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
-import ImageForm from "./components/ImageForm";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { postImage } from "../../modules/image/imageApi";
 import { toEditImage } from "../../util/routeHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import ImageForm from "./components/ImageForm";
 
 interface Props {
   editingArticle?: boolean;

@@ -6,10 +6,6 @@
  *
  */
 
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Transforms } from "slate";
-import { ReactEditor } from "slate-react";
 import { CloseLine, CheckLine } from "@ndla/icons";
 import {
   Button,
@@ -33,10 +29,14 @@ import { styled } from "@ndla/styled-system/jsx";
 import { GlossExampleDTO } from "@ndla/types-backend/concept-api";
 import { ConceptMetaData } from "@ndla/types-embed";
 import { GlossExample } from "@ndla/ui";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Transforms } from "slate";
+import { ReactEditor } from "slate-react";
+import { Form, FormActionsContainer } from "../../../FormikForm";
 import { ConceptBlockElement } from "./block/types";
 import { ConceptInlineElement } from "./inline/types";
 import { generateNumbersArray, generateUniqueGlossLanguageArray } from "./utils";
-import { Form, FormActionsContainer } from "../../../FormikForm";
 
 interface Props {
   originalLanguage: string | undefined;

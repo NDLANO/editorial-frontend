@@ -7,10 +7,10 @@
  */
 
 import { openapi, ResourceType } from "@ndla/types-taxonomy";
-import { ResourceResourceTypePostBody } from "./resourceTypesApiInterfaces";
 import { WithTaxonomyVersion } from "../../../interfaces";
 import { createAuthClient } from "../../../util/apiHelpers";
 import { resolveOATS, resolveJsonOATS, resolveLocation } from "../../../util/resolveJsonOrRejectWithError";
+import { ResourceResourceTypePostBody } from "./resourceTypesApiInterfaces";
 
 const client = createAuthClient<openapi.paths>("/taxonomy");
 

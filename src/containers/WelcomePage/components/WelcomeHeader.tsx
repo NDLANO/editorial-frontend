@@ -6,11 +6,11 @@
  *
  */
 
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { getArticle } from "../../../modules/article/articleApi";
 import { fetchAudio } from "../../../modules/audio/audioApi";
 import { fetchConcept } from "../../../modules/concept/conceptApi";

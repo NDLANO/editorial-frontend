@@ -6,17 +6,15 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, NodeEntry, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
 import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { BrushLine, CopyrightLine, FileListLine } from "@ndla/icons";
 import { DialogTrigger, FramedContent, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { EmbedWrapper } from "@ndla/ui";
-import { FramedContentElement } from "./framedContentTypes";
-import { isFramedContentElement } from "./queries/framedContentQueries";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, NodeEntry, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
 import { AI_ACCESS_SCOPE } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
 import { ReflectionVariables } from "../../../../interfaces";
@@ -28,6 +26,8 @@ import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { isCopyrightElement } from "../copyright/queries";
 import { defaultCopyrightBlock } from "../copyright/utils";
 import { StyledFigureButtons } from "../embed/FigureButtons";
+import { FramedContentElement } from "./framedContentTypes";
+import { isFramedContentElement } from "./queries/framedContentQueries";
 
 const FigureButtons = styled(StyledFigureButtons, {
   base: {

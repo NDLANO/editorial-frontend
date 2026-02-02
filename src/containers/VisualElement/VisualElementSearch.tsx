@@ -6,8 +6,6 @@
  *
  */
 
-import { TFunction } from "i18next";
-import { useTranslation } from "react-i18next";
 import { AudioSearch } from "@ndla/audio-search";
 import { Heading, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -16,6 +14,8 @@ import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { BrightcoveApiType } from "@ndla/types-embed";
 import { useAudioSearchTranslations, useVideoSearchTranslations } from "@ndla/ui";
 import { VideoSearch } from "@ndla/video-search";
+import { TFunction } from "i18next";
+import { useTranslation } from "react-i18next";
 import FileUploader from "../../components/FileUploader";
 import { ImageSearch } from "../../components/ImageSearch";
 import config from "../../config";

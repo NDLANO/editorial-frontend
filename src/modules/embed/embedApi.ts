@@ -6,7 +6,6 @@
  *
  */
 
-import parse from "html-react-parser";
 import { parseElementAttributes } from "@ndla/editor";
 import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import {
@@ -27,6 +26,7 @@ import {
   OembedData,
   OembedEmbedData,
 } from "@ndla/types-embed";
+import parse from "html-react-parser";
 import { fetchH5PInfo, fetchH5pLicenseInformation, fetchH5pPreviewOembed } from "../../components/H5PElement/h5pApi";
 import { fetchExternalOembed } from "../../util/apiHelpers";
 import { fetchAudio } from "../audio/audioApi";

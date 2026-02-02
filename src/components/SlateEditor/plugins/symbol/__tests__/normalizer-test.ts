@@ -7,11 +7,11 @@
  */
 
 import { createSlate, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
-import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 import { Descendant } from "slate";
-import { SYMBOL_ELEMENT_TYPE } from "../types";
 import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
+import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 import { symbols } from "../constants";
+import { SYMBOL_ELEMENT_TYPE } from "../types";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
 

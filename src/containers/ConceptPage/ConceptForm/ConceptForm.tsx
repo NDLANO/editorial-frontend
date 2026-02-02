@@ -6,12 +6,11 @@
  *
  */
 
+import { PageContent } from "@ndla/primitives";
+import { ConceptDTO, NewConceptDTO, UpdatedConceptDTO, ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { Formik, FormikProps, FormikHelpers } from "formik";
 import { useState, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { PageContent } from "@ndla/primitives";
-import { ConceptDTO, NewConceptDTO, UpdatedConceptDTO, ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
-import ConceptFormFooter from "./ConceptFormFooter";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
@@ -26,6 +25,7 @@ import { useSession } from "../../Session/SessionProvider";
 import { ConceptContent, ConceptMetaData } from "../components";
 import { ConceptFormValues } from "../conceptInterfaces";
 import { conceptApiTypeToFormType, getNewConceptType, getUpdatedConceptType } from "../conceptTransformers";
+import ConceptFormFooter from "./ConceptFormFooter";
 import { ConceptFormHeader } from "./ConceptFormHeader";
 
 const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];

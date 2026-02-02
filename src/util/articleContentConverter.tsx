@@ -6,7 +6,6 @@
  *
  */
 
-import { Descendant } from "slate";
 import {
   createDataAttributes,
   createHtmlTag,
@@ -18,8 +17,7 @@ import {
   SlateSerializer,
 } from "@ndla/editor";
 import { AudioEmbedData, BrightcoveEmbedData, H5pEmbedData, ImageEmbedData } from "@ndla/types-embed";
-import { parseEmbedTag } from "./embedTagHelpers";
-import { Plain } from "./slatePlainSerializer";
+import { Descendant } from "slate";
 import { blocks, inlines, isVisualElementSlateElement } from "../components/SlateEditor/helpers";
 import { asideSerializer } from "../components/SlateEditor/plugins/aside/asideSerializer";
 import { audioSerializer } from "../components/SlateEditor/plugins/audio/audioSerializer";
@@ -78,6 +76,8 @@ import { unsupportedElementSerializer } from "../components/SlateEditor/plugins/
 import { disclaimerSerializer } from "../components/SlateEditor/plugins/uuDisclaimer";
 import { brightcoveSerializer } from "../components/SlateEditor/plugins/video";
 import { Embed } from "../interfaces";
+import { parseEmbedTag } from "./embedTagHelpers";
+import { Plain } from "./slatePlainSerializer";
 
 export const createEmptyValue = (): Descendant[] => [
   {

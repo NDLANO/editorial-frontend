@@ -6,10 +6,7 @@
  *
  */
 
-import { ChangeEvent, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
-import { useQueryClient } from "@tanstack/react-query";
 import {
   Button,
   ComboboxLabel,
@@ -33,6 +30,9 @@ import { ArticleV2DTO } from "@ndla/types-backend/article-api";
 import { LearningPathSummaryV2DTO, LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ApiTaxonomyContextDTO, MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { ResourceType } from "@ndla/types-taxonomy";
+import { useQueryClient } from "@tanstack/react-query";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";

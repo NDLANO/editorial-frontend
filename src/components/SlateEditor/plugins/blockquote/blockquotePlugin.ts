@@ -13,8 +13,8 @@ import {
   NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
 } from "@ndla/editor";
-import { BLOCK_QUOTE_ELEMENT_TYPE, BLOCK_QUOTE_PLUGIN } from "./blockquoteTypes";
 import { Element, Location, Node, Transforms } from "slate";
+import { BLOCK_QUOTE_ELEMENT_TYPE, BLOCK_QUOTE_PLUGIN } from "./blockquoteTypes";
 import { isBlockQuoteElement } from "./queries/blockquoteQueries";
 
 const normalizerConfig: NormalizerConfig = {

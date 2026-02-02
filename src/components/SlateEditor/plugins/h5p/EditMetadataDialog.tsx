@@ -6,10 +6,6 @@
  *
  */
 
-import { useCallback, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor } from "slate-react";
 import { PencilFill } from "@ndla/icons";
 import {
   Button,
@@ -26,8 +22,12 @@ import {
   Text,
 } from "@ndla/primitives";
 import { H5pEmbedData, H5pMetaData } from "@ndla/types-embed";
-import { H5pElement } from "./types";
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Path, Transforms } from "slate";
+import { ReactEditor } from "slate-react";
 import { FormActionsContainer } from "../../../FormikForm";
+import { H5pElement } from "./types";
 
 // TODO: This has never been enabled. Will it be?
 

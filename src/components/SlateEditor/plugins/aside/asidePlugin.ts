@@ -7,14 +7,14 @@
  */
 
 import { createPlugin, defaultNormalizer, NormalizerConfig, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
-import { ASIDE_ELEMENT_TYPE, ASIDE_PLUGIN } from "./asideTypes";
-import { isAsideElement } from "./queries/asideQueries";
 import {
   afterOrBeforeTextBlockElement,
   firstTextBlockElement,
   lastTextBlockElement,
   textBlockElements,
 } from "../../utils/normalizationHelpers";
+import { ASIDE_ELEMENT_TYPE, ASIDE_PLUGIN } from "./asideTypes";
+import { isAsideElement } from "./queries/asideQueries";
 
 const normalizerConfig: NormalizerConfig = {
   nodes: {

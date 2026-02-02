@@ -6,10 +6,6 @@
  *
  */
 
-import { lazy, Suspense, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Transforms } from "slate";
-import { useSlateStatic } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { PencilLine } from "@ndla/icons";
 import {
@@ -23,9 +19,13 @@ import {
   Spinner,
   Text,
 } from "@ndla/primitives";
-import { TableElement } from "./interfaces";
+import { lazy, Suspense, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Transforms } from "slate";
+import { useSlateStatic } from "slate-react";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormActionsContainer } from "../../../FormikForm";
+import { TableElement } from "./interfaces";
 
 const MonacoEditor = lazy(() => import("../../../MonacoEditor"));
 

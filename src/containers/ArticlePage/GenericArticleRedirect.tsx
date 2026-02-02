@@ -6,8 +6,8 @@
  *
  */
 
-import { Navigate, useParams } from "react-router";
 import { Spinner } from "@ndla/primitives";
+import { Navigate, useParams } from "react-router";
 import { useDraft } from "../../modules/draft/draftQueries";
 import { toEditArticle } from "../../util/routeHelpers";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";

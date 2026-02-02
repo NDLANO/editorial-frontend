@@ -6,10 +6,10 @@
  *
  */
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FilmFrontPageDTO, NewOrUpdatedFilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
-import { updateFilmFrontpage } from "./frontpageApi";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { filmQueryKeys } from "./filmQueryKeys";
+import { updateFilmFrontpage } from "./frontpageApi";
 
 export const useUpdateFilmFrontpageMutation = () => {
   const queryClient = useQueryClient();

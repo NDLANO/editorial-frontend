@@ -6,9 +6,9 @@
  *
  */
 
+import { DndContext, DragEndEvent, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { ReactNode, useCallback, useMemo } from "react";
 import { Editor } from "slate";
-import { DndContext, DragEndEvent, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { collisionDetection } from "./collisionDetection";
 import { DND_PLUGIN, DndPluginOptions } from "./dndTypes";
 import { onDragEnd } from "./onDragEnd";

@@ -6,8 +6,8 @@
  *
  */
 
-import { Descendant } from "slate";
 import { ConceptEmbedData } from "@ndla/types-embed";
+import { Descendant } from "slate";
 
 export const CONCEPT_INLINE_ELEMENT_TYPE = "concept-inline" as const;
 export const CONCEPT_INLINE_PLUGIN = "concept-inline" as const;

@@ -6,9 +6,9 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { styled } from "@ndla/styled-system/jsx";
 import { uuid } from "@ndla/util";
+import { useTranslation } from "react-i18next";
 
 const FootnoteId = styled("sup", {
   base: {

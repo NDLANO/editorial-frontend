@@ -6,11 +6,11 @@
  *
  */
 
-import { Descendant } from "slate";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { SubjectPageDTO, NewSubjectPageDTO, UpdatedSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { BrightcoveEmbedData, ImageEmbedData } from "@ndla/types-embed";
+import { Descendant } from "slate";
 import { editorValueToEmbed, editorValueToPlainText, plainTextToEditorValue } from "./articleContentConverter";
 import { convertVisualElement } from "./convertVisualElement";
 

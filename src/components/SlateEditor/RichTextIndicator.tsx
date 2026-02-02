@@ -6,9 +6,9 @@
  *
  */
 
-import { ComponentPropsWithRef } from "react";
 import { Text, TextProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { ComponentPropsWithRef } from "react";
 
 const StyledText = styled(Text, {
   base: {

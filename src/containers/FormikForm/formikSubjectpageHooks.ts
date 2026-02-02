@@ -6,11 +6,11 @@
  *
  */
 
-import { useEffect, useState } from "react";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { SubjectPageDTO, UpdatedSubjectPageDTO, NewSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { Node } from "@ndla/types-taxonomy";
+import { useEffect, useState } from "react";
 import { LocaleType } from "../../interfaces";
 import { fetchDraft } from "../../modules/draft/draftApi";
 import * as frontpageApi from "../../modules/frontpage/frontpageApi";

@@ -6,9 +6,9 @@
  *
  */
 
+import { SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
-import { SECTION_ELEMENT_TYPE } from "@ndla/editor";
 
 const editor: Descendant[] = [
   {

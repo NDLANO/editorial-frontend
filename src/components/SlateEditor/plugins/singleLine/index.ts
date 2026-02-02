@@ -7,9 +7,9 @@
  */
 
 import { createPlugin } from "@ndla/editor";
-import { SINGLE_LINE_PLUGIN } from "./types";
 import { Node, Transforms } from "slate";
 import { defaultParagraphBlock } from "../paragraph/utils";
+import { SINGLE_LINE_PLUGIN } from "./types";
 
 export const singleLinePlugin = createPlugin({
   name: SINGLE_LINE_PLUGIN,

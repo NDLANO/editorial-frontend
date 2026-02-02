@@ -6,16 +6,16 @@
  *
  */
 
-import { CSSProperties, useCallback, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { CheckLine, SubtractLine } from "@ndla/icons";
 import { Text, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
+import { CSSProperties, useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { NodeChildWithChildren, NodeWithChildren } from "../../modules/nodes/nodeApiTypes";
 import Fade from "./Fade";
 import { iconRecipe, NodeItemRoot, NodeItemTitle, ToggleIcon } from "./NodeItem";
 import { MinimalNodeChild } from "./types";
-import { NodeChildWithChildren, NodeWithChildren } from "../../modules/nodes/nodeApiTypes";
 
 const StyledStructureItem = styled("div", {
   base: {

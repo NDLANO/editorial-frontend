@@ -6,8 +6,6 @@
  *
  */
 
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
 import { AudioSearch } from "@ndla/audio-search";
 import { CloseLine, VoiceprintLine } from "@ndla/icons";
 import {
@@ -25,6 +23,8 @@ import { styled } from "@ndla/styled-system/jsx";
 import { SearchParamsDTO } from "@ndla/types-backend/audio-api";
 import { AudioEmbedData } from "@ndla/types-embed";
 import { AudioPlayer, useAudioSearchTranslations } from "@ndla/ui";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { fetchAudio, postSearchAudio } from "../../../modules/audio/audioApi";
 import { useAudio } from "../../../modules/audio/audioQueries";

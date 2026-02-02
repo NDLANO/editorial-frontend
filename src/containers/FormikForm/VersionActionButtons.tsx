@@ -6,11 +6,11 @@
  *
  */
 
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
 import { DeleteBinLine, EyeFill, ResetLeft } from "@ndla/icons";
 import { Button, IconButton, Text } from "@ndla/primitives";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { AlertDialog } from "../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../../components/FormikForm";
 import { PreviewResourceDialog } from "../../components/PreviewDraft/PreviewResourceDialog";

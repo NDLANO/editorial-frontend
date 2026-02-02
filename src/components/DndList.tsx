@@ -6,7 +6,6 @@
  *
  */
 
-import { ComponentProps, ReactElement, useCallback, useEffect, useState } from "react";
 import {
   DndContext,
   DragEndEvent,
@@ -25,6 +24,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { IconButton } from "@ndla/primitives";
+import { ComponentProps, ReactElement, useCallback, useEffect, useState } from "react";
 import DraggableItem from "./DraggableItem";
 
 interface Props<T extends { id: UniqueIdentifier }> {

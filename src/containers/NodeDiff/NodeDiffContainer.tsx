@@ -6,18 +6,18 @@
  *
  */
 
-import { isEqual } from "lodash-es";
-import { Fragment, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router";
 import { ArrowRightShortLine } from "@ndla/icons";
 import { MessageBox, Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild } from "@ndla/types-taxonomy";
+import { isEqual } from "lodash-es";
+import { Fragment, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router";
+import { useNodeTree } from "../../modules/nodes/nodeQueries";
 import { diffTrees, DiffType, DiffTypeWithChildren, RootDiffType } from "./diffUtils";
 import NodeDiff from "./NodeDiff";
 import { RootNode } from "./TreeNode";
-import { useNodeTree } from "../../modules/nodes/nodeQueries";
 
 interface Props {
   originalHash: string;

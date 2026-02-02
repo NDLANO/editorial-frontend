@@ -6,12 +6,12 @@
  *
  */
 
+import { DeleteBinLine } from "@ndla/icons";
+import { Button } from "@ndla/primitives";
+import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router";
-import { useQueryClient } from "@tanstack/react-query";
-import { DeleteBinLine } from "@ndla/icons";
-import { Button } from "@ndla/primitives";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { deleteLanguageVersionAudio, deleteLanguageVersionSeries } from "../../modules/audio/audioApi";
 import { deleteLanguageVersionConcept } from "../../modules/concept/conceptApi";

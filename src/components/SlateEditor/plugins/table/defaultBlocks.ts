@@ -7,6 +7,7 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
+import { defaultParagraphBlock } from "../paragraph/utils";
 import { TableElement, TableCaptionElement, TableCellElement } from "./interfaces";
 import {
   TABLE_BODY_ELEMENT_TYPE,
@@ -17,7 +18,6 @@ import {
   TABLE_HEAD_ELEMENT_TYPE,
   TABLE_ROW_ELEMENT_TYPE,
 } from "./types";
-import { defaultParagraphBlock } from "../paragraph/utils";
 
 export const defaultTableBlock = (height: number, width: number) => {
   return slatejsx("element", { type: TABLE_ELEMENT_TYPE, colgroups: "" }, [

@@ -6,14 +6,14 @@
  *
  */
 
-import { useField } from "formik";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { DeleteBinLine, LinkMedium } from "@ndla/icons";
 import { Button, DialogTrigger, Figure, IconButton, Image, Text } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ImageMetaInformationV3DTO, NewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
+import { useField } from "formik";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ImageSearch } from "../../../components/ImageSearch";
 import { MetaImagePicker } from "../../../components/MetaImagePicker";
 import MetaInformation from "../../../components/MetaInformation";

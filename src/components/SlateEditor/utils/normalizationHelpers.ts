@@ -6,30 +6,30 @@
  *
  */
 
+import { HEADING_ELEMENT_TYPE, LIST_ELEMENT_TYPE, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { Element, ElementType } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { HEADING_ELEMENT_TYPE, LIST_ELEMENT_TYPE, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { ASIDE_ELEMENT_TYPE } from "../plugins/aside/asideTypes";
 import { AUDIO_ELEMENT_TYPE } from "../plugins/audio/audioTypes";
+import { BLOCK_QUOTE_ELEMENT_TYPE } from "../plugins/blockquote/blockquoteTypes";
 import { CODE_BLOCK_ELEMENT_TYPE } from "../plugins/codeBlock/types";
 import { COMMENT_BLOCK_ELEMENT_TYPE } from "../plugins/comment/block/types";
+import { COMMENT_INLINE_ELEMENT_TYPE } from "../plugins/comment/inline/types";
+import { CONCEPT_INLINE_ELEMENT_TYPE } from "../plugins/concept/inline/types";
+import { DEFINITION_LIST_ELEMENT_TYPE } from "../plugins/definitionList/definitionListTypes";
 import { DETAILS_ELEMENT_TYPE } from "../plugins/details/detailsTypes";
 import { EXTERNAL_ELEMENT_TYPE, IFRAME_ELEMENT_TYPE } from "../plugins/external/types";
 import { FILE_ELEMENT_TYPE } from "../plugins/file/types";
+import { FRAMED_CONTENT_ELEMENT_TYPE } from "../plugins/framedContent/framedContentTypes";
 import { GRID_ELEMENT_TYPE } from "../plugins/grid/types";
 import { H5P_ELEMENT_TYPE } from "../plugins/h5p/types";
+import { IMAGE_ELEMENT_TYPE } from "../plugins/image/types";
+import { CONTENT_LINK_ELEMENT_TYPE, LINK_ELEMENT_TYPE } from "../plugins/link/types";
+import { REPHRASE_ELEMENT_TYPE } from "../plugins/rephrase/rephraseTypes";
 import { SPAN_ELEMENT_TYPE } from "../plugins/span/types";
+import { SYMBOL_ELEMENT_TYPE } from "../plugins/symbol/types";
 import { TABLE_ELEMENT_TYPE } from "../plugins/table/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../plugins/video/types";
-import { CONCEPT_INLINE_ELEMENT_TYPE } from "../plugins/concept/inline/types";
-import { COMMENT_INLINE_ELEMENT_TYPE } from "../plugins/comment/inline/types";
-import { CONTENT_LINK_ELEMENT_TYPE, LINK_ELEMENT_TYPE } from "../plugins/link/types";
-import { FRAMED_CONTENT_ELEMENT_TYPE } from "../plugins/framedContent/framedContentTypes";
-import { BLOCK_QUOTE_ELEMENT_TYPE } from "../plugins/blockquote/blockquoteTypes";
-import { REPHRASE_ELEMENT_TYPE } from "../plugins/rephrase/rephraseTypes";
-import { SYMBOL_ELEMENT_TYPE } from "../plugins/symbol/types";
-import { DEFINITION_LIST_ELEMENT_TYPE } from "../plugins/definitionList/definitionListTypes";
-import { IMAGE_ELEMENT_TYPE } from "../plugins/image/types";
 
 export const firstTextBlockElement: Element["type"][] = [
   PARAGRAPH_ELEMENT_TYPE,

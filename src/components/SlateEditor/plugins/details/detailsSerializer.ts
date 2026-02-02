@@ -6,8 +6,8 @@
  *
  */
 
-import { jsx as slatejsx } from "slate-hyperscript";
 import { createHtmlTag, createSerializer } from "@ndla/editor";
+import { jsx as slatejsx } from "slate-hyperscript";
 import { DETAILS_ELEMENT_TYPE } from "./detailsTypes";
 import { isDetailsElement } from "./queries/detailsQueries";
 

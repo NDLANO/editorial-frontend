@@ -6,12 +6,12 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { transform } from "@ndla/article-converter";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
 import { Heading } from "@ndla/primitives";
 import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ArticleWrapper, ArticleContent, ArticleHeader, LicenseLink } from "@ndla/ui";
+import { useTranslation } from "react-i18next";
 import { EmbedPageContent } from "./EmbedPageContent";
 
 interface Props {

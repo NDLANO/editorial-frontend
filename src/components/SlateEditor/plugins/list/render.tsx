@@ -6,9 +6,9 @@
  *
  */
 
-import { Editor } from "slate";
 import { LIST_ELEMENT_TYPE, LIST_ITEM_ELEMENT_TYPE } from "@ndla/editor";
 import { OrderedList, UnOrderedList } from "@ndla/primitives";
+import { Editor } from "slate";
 
 export const listRenderer = (editor: Editor) => {
   const { renderElement } = editor;

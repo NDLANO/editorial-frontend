@@ -8,7 +8,6 @@
 
 import { useMemo } from "react";
 import { Descendant } from "slate";
-import { VisualElementType } from "./VisualElementPicker";
 import { audioPlugin } from "../../components/SlateEditor/plugins/audio/audioPlugin";
 import { AudioElement } from "../../components/SlateEditor/plugins/audio/audioTypes";
 import { audioRenderer } from "../../components/SlateEditor/plugins/audio/render";
@@ -25,6 +24,7 @@ import { videoPlugin } from "../../components/SlateEditor/plugins/video";
 import { videoRenderer } from "../../components/SlateEditor/plugins/video/render";
 import { BrightcoveEmbedElement } from "../../components/SlateEditor/plugins/video/types";
 import VisualElementEditor from "../../components/SlateEditor/VisualElementEditor";
+import { VisualElementType } from "./VisualElementPicker";
 
 interface Props {
   onChange: (value: Descendant[]) => void;

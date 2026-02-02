@@ -6,17 +6,17 @@
  *
  */
 
-import { CSSProperties } from "react";
-import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router";
 import { ArrowDownShortLine, SubtractLine } from "@ndla/icons";
 import { Badge, BadgeVariant } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
-import { DiffResultType, DiffTree, DiffType, DiffTypeWithChildren, removeUnchangedFromTree } from "./diffUtils";
+import { CSSProperties } from "react";
+import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router";
 import Fade from "../../components/Taxonomy/Fade";
 import { NodeItemRoot, NodeItemTitle } from "../../components/Taxonomy/NodeItem";
 import { nodePathToUrnPath } from "../../util/taxonomyHelpers";
+import { DiffResultType, DiffTree, DiffType, DiffTypeWithChildren, removeUnchangedFromTree } from "./diffUtils";
 
 const StyledStructureItem = styled("div", {
   base: {

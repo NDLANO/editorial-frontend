@@ -6,18 +6,18 @@
  *
  */
 
-import { useField } from "formik";
-import { MouseEvent } from "react";
-import { useTranslation } from "react-i18next";
 import { DeleteBinLine, PencilFill, ArrowUpShortLine, ArrowDownShortLine } from "@ndla/icons";
 import { Button, Heading, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MovieThemeDTO } from "@ndla/types-backend/frontpage-api";
-import { ThemeMovies } from "./ThemeMovies";
-import ThemeNameDialog from "./ThemeNameDialog";
+import { useField } from "formik";
+import { MouseEvent } from "react";
+import { useTranslation } from "react-i18next";
 import { FormContent } from "../../../components/FormikForm";
 import { changeThemeNames, convertThemeNames, findName } from "../ndlaFilmHelpers";
 import { ThemeNames } from "../types";
+import { ThemeMovies } from "./ThemeMovies";
+import ThemeNameDialog from "./ThemeNameDialog";
 
 const TitleActionRow = styled("div", {
   base: {

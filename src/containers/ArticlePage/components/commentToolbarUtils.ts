@@ -6,31 +6,31 @@
  *
  */
 
+import { inlineNavigationPlugin } from "@ndla/editor";
 import { SlatePlugin } from "../../../components/SlateEditor/interfaces";
+import { breakPlugin } from "../../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../../components/SlateEditor/plugins/break/render";
+import { divPlugin } from "../../../components/SlateEditor/plugins/div";
+import { divRenderer } from "../../../components/SlateEditor/plugins/div/render";
 import { contentLinkPlugin, linkPlugin } from "../../../components/SlateEditor/plugins/link";
 import { linkRenderer } from "../../../components/SlateEditor/plugins/link/render";
+import { listPlugin } from "../../../components/SlateEditor/plugins/list";
 import { listRenderer } from "../../../components/SlateEditor/plugins/list/render";
+import { markPlugin } from "../../../components/SlateEditor/plugins/mark";
 import { markRenderer } from "../../../components/SlateEditor/plugins/mark/render";
 import { noopPlugin } from "../../../components/SlateEditor/plugins/noop";
 import { noopRenderer } from "../../../components/SlateEditor/plugins/noop/render";
+import { paragraphPlugin } from "../../../components/SlateEditor/plugins/paragraph";
 import { paragraphRenderer } from "../../../components/SlateEditor/plugins/paragraph/render";
+import { pastePlugin } from "../../../components/SlateEditor/plugins/paste";
 import saveHotkeyPlugin from "../../../components/SlateEditor/plugins/saveHotkey";
 import { sectionPlugin } from "../../../components/SlateEditor/plugins/section";
 import { sectionRenderer } from "../../../components/SlateEditor/plugins/section/render";
 import { spanPlugin } from "../../../components/SlateEditor/plugins/span";
 import { textTransformPlugin } from "../../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../../components/SlateEditor/plugins/toolbar";
-import { paragraphPlugin } from "../../../components/SlateEditor/plugins/paragraph";
-import { breakPlugin } from "../../../components/SlateEditor/plugins/break";
-import { markPlugin } from "../../../components/SlateEditor/plugins/mark";
-import { listPlugin } from "../../../components/SlateEditor/plugins/list";
-import { inlineNavigationPlugin } from "@ndla/editor";
-import { divRenderer } from "../../../components/SlateEditor/plugins/div/render";
-import { divPlugin } from "../../../components/SlateEditor/plugins/div";
-import { unsupportedPlugin } from "../../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
 import { unsupportedElementRenderer } from "../../../components/SlateEditor/plugins/unsupported/unsupportedElementRenderer";
-import { pastePlugin } from "../../../components/SlateEditor/plugins/paste";
+import { unsupportedPlugin } from "../../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
 
 export const plugins: SlatePlugin[] = [
   inlineNavigationPlugin,

@@ -6,10 +6,10 @@
  *
  */
 
-import { ComponentPropsWithRef, CSSProperties, useMemo } from "react";
 import { useComponentSize } from "@ndla/hooks";
 import { styled } from "@ndla/styled-system/jsx";
 import { JsxStyleProps } from "@ndla/styled-system/types";
+import { ComponentPropsWithRef, CSSProperties, useMemo } from "react";
 
 const StyledPageLayout = styled("div", {
   base: {

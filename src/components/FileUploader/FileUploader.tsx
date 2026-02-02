@@ -6,9 +6,6 @@
  *
  */
 
-import { Formik } from "formik";
-import { useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { DeleteBinLine, FileTextLine, UploadCloudLine } from "@ndla/icons";
 import {
   Button,
@@ -30,6 +27,9 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { Formik } from "formik";
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useSession } from "../../containers/Session/SessionProvider";
 import { UnsavedFile } from "../../interfaces";

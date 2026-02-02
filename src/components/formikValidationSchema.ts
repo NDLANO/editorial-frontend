@@ -8,6 +8,8 @@
 
 import { TFunction } from "i18next";
 import { get, set } from "lodash-es";
+import { bytesToSensibleFormat } from "../util/fileSizeUtil";
+import handleError from "../util/handleError";
 import {
   isUrl,
   isEmpty,
@@ -18,8 +20,6 @@ import {
   objectHasBothField,
   validDateRange,
 } from "./validators";
-import { bytesToSensibleFormat } from "../util/fileSizeUtil";
-import handleError from "../util/handleError";
 
 // Taken directly from https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address
 // We don't really need spec compliance, but why not include it?

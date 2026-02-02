@@ -6,11 +6,6 @@
  *
  */
 
-import he from "he";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Node, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps, useSelected, useSlateStatic } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { DeleteBinLine, PencilLine } from "@ndla/icons";
 import {
@@ -28,14 +23,19 @@ import {
   PopoverTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import EditMath, { MathMLType } from "./EditMath";
-import MathML from "./MathML";
-import { MathmlElement } from "./mathTypes";
-import { isMathElement } from "./queries/mathQueries";
+import he from "he";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Node, Path, Transforms } from "slate";
+import { ReactEditor, RenderElementProps, useSelected, useSlateStatic } from "slate-react";
 import { AlertDialog } from "../../../AlertDialog/AlertDialog";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormActionsContainer } from "../../../FormikForm";
 import mergeLastUndos from "../../utils/mergeLastUndos";
+import EditMath, { MathMLType } from "./EditMath";
+import MathML from "./MathML";
+import { MathmlElement } from "./mathTypes";
+import { isMathElement } from "./queries/mathQueries";
 
 const getInfoFromNode = (node: MathmlElement) => {
   const data = node.data ? node.data : {};

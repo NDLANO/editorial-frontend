@@ -6,15 +6,15 @@
  *
  */
 
+import { isParagraphElement, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { Editor, Transforms, Node, Location } from "slate";
+import { firstTextBlockElement } from "../../../utils/normalizationHelpers";
 import { DEFINITION_LIST_ELEMENT_TYPE, DEFINITION_TERM_ELEMENT_TYPE } from "../definitionListTypes";
 import {
   isDefinitionDescriptionElement,
   isDefinitionTermElement,
   isDefinitionListElement,
 } from "../queries/definitionListQueries";
-import { firstTextBlockElement } from "../../../utils/normalizationHelpers";
-import { isParagraphElement, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 
 const isOnlySelectionOfDefinitionList = (editor: Editor) => {
   let hasListItems = false;

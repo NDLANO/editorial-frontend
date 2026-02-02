@@ -7,6 +7,7 @@
  */
 
 import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
+import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 import {
   TABLE_BODY_ELEMENT_TYPE,
   TABLE_CAPTION_ELEMENT_TYPE,
@@ -16,7 +17,6 @@ import {
   TABLE_CELL_HEADER_ELEMENT_TYPE,
 } from "../types";
 import { defaultTable, tableEditor } from "./tableTestHelpers";
-import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 
 describe("Table cell normalizer", () => {
   it("should automatically right-align cells that only contain numbers", () => {

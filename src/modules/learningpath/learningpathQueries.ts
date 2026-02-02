@@ -6,8 +6,6 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { LEARNINGPATH, LEARNINGPATH_SEARCH, LEARNINGPATH_TAGS, LEARNINGPATHS_WITH_ARTICLE } from "../../queryKeys";
 import {
   LearningPathSummaryV2DTO,
   LearningPathTagsSummaryDTO,
@@ -15,6 +13,8 @@ import {
   SearchParamsDTO,
   SearchResultV2DTO,
 } from "@ndla/types-backend/learningpath-api";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { LEARNINGPATH, LEARNINGPATH_SEARCH, LEARNINGPATH_TAGS, LEARNINGPATHS_WITH_ARTICLE } from "../../queryKeys";
 import {
   fetchLearningpath,
   fetchLearningpathsWithArticle,

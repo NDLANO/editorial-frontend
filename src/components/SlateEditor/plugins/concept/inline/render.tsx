@@ -7,9 +7,9 @@
  */
 
 import { Editor } from "slate";
+import { InlineBugfix } from "../../../utils/InlineBugFix";
 import InlineConcept from "./InlineWrapper";
 import { CONCEPT_INLINE_ELEMENT_TYPE } from "./types";
-import { InlineBugfix } from "../../../utils/InlineBugFix";
 
 export const inlineConceptRenderer = (editor: Editor) => {
   const { renderElement } = editor;

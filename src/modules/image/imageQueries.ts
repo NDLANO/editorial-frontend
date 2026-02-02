@@ -6,7 +6,6 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import {
   SearchResultV3DTO,
   SearchParamsDTO,
@@ -14,8 +13,9 @@ import {
   SearchParamsDTO as IImageSearchParams,
   TagsSearchResultDTO,
 } from "@ndla/types-backend/image-api";
-import { fetchImage, fetchSearchTags, postSearchImages } from "./imageApi";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { IMAGE, IMAGE_SEARCH_TAGS, SEARCH_IMAGES } from "../../queryKeys";
+import { fetchImage, fetchSearchTags, postSearchImages } from "./imageApi";
 
 export interface UseImage {
   id: number;

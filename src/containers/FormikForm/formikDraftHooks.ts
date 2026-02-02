@@ -6,8 +6,8 @@
  *
  */
 
-import { useState, useEffect, useCallback } from "react";
 import { NewArticleDTO, UpdatedArticleDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
+import { useState, useEffect, useCallback } from "react";
 import { LAST_UPDATED_SIZE } from "../../constants";
 import {
   fetchDraft,

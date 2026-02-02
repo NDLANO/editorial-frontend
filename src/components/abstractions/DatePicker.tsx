@@ -6,7 +6,6 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { getLocalTimeZone, today } from "@internationalized/date";
 import { ArrowLeftLine, ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import {
@@ -28,6 +27,7 @@ import {
   DatePickerViewTrigger,
   IconButton,
 } from "@ndla/primitives";
+import { useTranslation } from "react-i18next";
 
 export const DatePickerContent = () => {
   const { t } = useTranslation();

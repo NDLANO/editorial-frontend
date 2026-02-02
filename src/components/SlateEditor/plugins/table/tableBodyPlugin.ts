@@ -7,10 +7,10 @@
  */
 
 import { createPlugin, isElementOfType } from "@ndla/editor";
-import { TABLE_BODY_ELEMENT_TYPE, TABLE_BODY_PLUGIN } from "./types";
-import { isTableRowElement } from "./queries";
 import { Transforms } from "slate";
 import { defaultTableRowBlock } from "./defaultBlocks";
+import { isTableRowElement } from "./queries";
+import { TABLE_BODY_ELEMENT_TYPE, TABLE_BODY_PLUGIN } from "./types";
 
 export const tableBodyPlugin = createPlugin({
   name: TABLE_BODY_PLUGIN,

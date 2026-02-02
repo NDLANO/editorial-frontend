@@ -6,11 +6,11 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { Version } from "@ndla/types-taxonomy";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { VERSION, VERSIONS } from "../../../queryKeys";
 import { fetchVersion, fetchVersions } from "./versionApi";
 import { GetVersionsParams } from "./versionApiTypes";
-import { VERSION, VERSIONS } from "../../../queryKeys";
 
 export const versionQueryKeys = {
   version: (params?: Partial<UseVersionParams>) => [VERSION, params] as const,

@@ -8,9 +8,9 @@
 
 import { Editor } from "slate";
 import { RenderElementProps } from "slate-react";
+import { InlineBugfix } from "../../utils/InlineBugFix";
 import { Span } from "./Span";
 import { SPAN_ELEMENT_TYPE } from "./types";
-import { InlineBugfix } from "../../utils/InlineBugFix";
 
 export const spanRenderer = (editor: Editor) => {
   const { renderElement } = editor;

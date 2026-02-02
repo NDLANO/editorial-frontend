@@ -7,8 +7,8 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { GRID_CELL_ELEMENT_TYPE, GRID_ELEMENT_TYPE } from "./types";
 import { defaultParagraphBlock } from "../paragraph/utils";
+import { GRID_CELL_ELEMENT_TYPE, GRID_ELEMENT_TYPE } from "./types";
 
 export const defaultGridCellBlock = () => {
   return slatejsx(

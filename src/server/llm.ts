@@ -7,7 +7,6 @@
  */
 
 import { BedrockRuntimeClient, InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
-import { getEnvironmentVariabel } from "../config";
 import {
   GetTranscriptionJobCommand,
   LanguageCode,
@@ -15,9 +14,10 @@ import {
   StartTranscriptionJobCommand,
   TranscribeClient,
 } from "@aws-sdk/client-transcribe";
-import { llmQueryText } from "./llmQueries";
-import { PROMPTS } from "./llmPrompts";
+import { getEnvironmentVariabel } from "../config";
 import { PromptType, DefaultPrompts, PromptPayload, PromptVariables, LlmResponse } from "../interfaces";
+import { PROMPTS } from "./llmPrompts";
+import { llmQueryText } from "./llmQueries";
 import { LlmLanguageCode } from "./llmTypes";
 
 const aiModelId = getEnvironmentVariabel("NDLA_AI_MODEL_ID", "test");

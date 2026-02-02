@@ -6,14 +6,14 @@
  *
  */
 
-import { useFormikContext } from "formik";
-import { useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router";
 import { ErrorWarningFill } from "@ndla/icons";
 import { Badge, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { useFormikContext } from "formik";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate } from "react-router";
 import DeleteLanguageVersion from "../../../components/HeaderWithLanguage/DeleteLanguageVersion";
 import { HeaderCurrentLanguagePill } from "../../../components/HeaderWithLanguage/HeaderCurrentLanguagePill";
 import HeaderFavoriteStatus from "../../../components/HeaderWithLanguage/HeaderFavoriteStatus";

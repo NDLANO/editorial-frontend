@@ -6,8 +6,8 @@
  *
  */
 
-import { Node } from "slate";
 import { isElementOfType } from "@ndla/editor";
+import { Node } from "slate";
 import { KEY_FIGURE_ELEMENT_TYPE } from "./types";
 
 export const isKeyFigureElement = (node: Node | undefined) => isElementOfType(node, KEY_FIGURE_ELEMENT_TYPE);

@@ -6,14 +6,12 @@
  *
  */
 
-import { useFormikContext } from "formik";
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleRevisionHistoryDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
-import TopicArticleContent from "./TopicArticleContent";
-import TopicArticleTaxonomy from "./TopicArticleTaxonomy";
+import { useFormikContext } from "formik";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../../components/Accordion/FormAccordions";
 import config from "../../../../config";
@@ -29,6 +27,8 @@ import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChange
 import RelatedContentFieldGroup from "../../components/RelatedContentFieldGroup";
 import RevisionNotes from "../../components/RevisionNotes";
 import { FlatArticleKeys } from "../../components/types";
+import TopicArticleContent from "./TopicArticleContent";
+import TopicArticleTaxonomy from "./TopicArticleTaxonomy";
 
 const StyledWrapper = styled("div", {
   base: {

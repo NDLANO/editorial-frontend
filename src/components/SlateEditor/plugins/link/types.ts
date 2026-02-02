@@ -6,8 +6,8 @@
  *
  */
 
-import { Descendant } from "slate";
 import { ContentLinkEmbedData } from "@ndla/types-embed";
+import { Descendant } from "slate";
 
 export const LINK_ELEMENT_TYPE = "link";
 export const LINK_PLUGIN = "link";

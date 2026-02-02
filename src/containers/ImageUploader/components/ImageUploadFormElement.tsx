@@ -6,8 +6,6 @@
  *
  */
 
-import { useFormikContext } from "formik";
-import { useTranslation } from "react-i18next";
 import { DeleteBinLine, UploadCloudLine } from "@ndla/icons";
 import { ImageMeta } from "@ndla/image-search";
 import {
@@ -23,6 +21,8 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { useFormikContext } from "formik";
+import { useTranslation } from "react-i18next";
 import { FormField } from "../../../components/FormField";
 import { MAX_IMAGE_UPLOAD_SIZE } from "../../../constants";
 import { ImageFormikType } from "../imageTransformers";

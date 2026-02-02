@@ -6,8 +6,6 @@
  *
  */
 
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
 import { AddLine } from "@ndla/icons";
 import {
   Button,
@@ -29,11 +27,13 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeType } from "@ndla/types-taxonomy";
-import AddNodeDialogContent from "./AddNodeDialogContent";
-import { usePreferences } from "./PreferencesProvider";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { useSession } from "../Session/SessionProvider";
+import AddNodeDialogContent from "./AddNodeDialogContent";
+import { usePreferences } from "./PreferencesProvider";
 
 const SwitchWrapper = styled("div", {
   base: {

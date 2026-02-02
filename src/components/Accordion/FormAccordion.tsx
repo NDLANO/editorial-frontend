@@ -6,7 +6,6 @@
  *
  */
 
-import { ReactNode, memo } from "react";
 import { ArrowDownShortLine } from "@ndla/icons";
 import {
   AccordionItem,
@@ -16,6 +15,7 @@ import {
   Heading,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { ReactNode, memo } from "react";
 
 export interface FormAccordionProps {
   children: ReactNode;

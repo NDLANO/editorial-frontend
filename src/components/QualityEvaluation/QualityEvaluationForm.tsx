@@ -6,10 +6,6 @@
  *
  */
 
-import { FieldHelperProps, FieldInputProps, Formik } from "formik";
-import { CSSProperties, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useQueryClient } from "@tanstack/react-query";
 import {
   Button,
   FieldErrorMessage,
@@ -28,7 +24,10 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import { Grade, Node } from "@ndla/types-taxonomy";
-import { qualityEvaluationOptionColors, QualityEvaluationValue } from "./qualityEvaluationOptions";
+import { useQueryClient } from "@tanstack/react-query";
+import { FieldHelperProps, FieldInputProps, Formik } from "formik";
+import { CSSProperties, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import { draftQueryKeys } from "../../modules/draft/draftQueries";
@@ -39,6 +38,7 @@ import handleError from "../../util/handleError";
 import { FormField } from "../FormField";
 import { FormActionsContainer, FormikForm } from "../FormikForm";
 import validateFormik, { RulesType } from "../formikValidationSchema";
+import { qualityEvaluationOptionColors, QualityEvaluationValue } from "./qualityEvaluationOptions";
 
 const StyledRadioGroupRoot = styled(RadioGroupRoot, {
   base: {

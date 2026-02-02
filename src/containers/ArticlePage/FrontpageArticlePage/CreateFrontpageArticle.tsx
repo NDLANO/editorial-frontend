@@ -6,16 +6,16 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import { PageContent } from "@ndla/primitives";
 import { UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
-import FrontpageArticleForm from "./components/FrontpageArticleForm";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 import { WideArticleEditorProvider } from "../../../components/WideArticleEditorProvider";
 import { convertUpdateToNewDraft } from "../../../util/articleUtil";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 import PrivateRoute from "../../PrivateRoute/PrivateRoute";
+import FrontpageArticleForm from "./components/FrontpageArticleForm";
 
 export const Component = () => <PrivateRoute component={<CreateFrontpageArticle />} />;
 

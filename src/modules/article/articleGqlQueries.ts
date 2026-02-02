@@ -6,8 +6,8 @@
  *
  */
 
-import { request, gql, Variables } from "graphql-request";
 import { useQuery, UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
+import { request, gql, Variables } from "graphql-request";
 import config from "../../config";
 import { TRANFSFORM_ARTICLE } from "../../queryKeys";
 import { apiResourceUrl } from "../../util/apiHelpers";

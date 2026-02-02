@@ -6,8 +6,8 @@
  *
  */
 
-import config, { getEnvironmentVariabel } from "../config";
 import pLimit from "p-limit";
+import config, { getEnvironmentVariabel } from "../config";
 
 const limit = pLimit(8);
 

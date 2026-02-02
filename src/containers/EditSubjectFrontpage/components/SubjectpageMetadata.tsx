@@ -6,16 +6,16 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { FieldErrorMessage, FieldHelper, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import SubjectpageBanner from "./SubjectpageBanner";
+import { useTranslation } from "react-i18next";
 import { FieldWarning } from "../../../components/Form/FieldWarning";
 import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import PlainTextEditor from "../../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../../components/SlateEditor/plugins/textTransform";
+import SubjectpageBanner from "./SubjectpageBanner";
 
 const ImageWrapper = styled("div", {
   base: {

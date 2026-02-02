@@ -6,11 +6,9 @@
  *
  */
 
+import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
-import SubjectViewContent from "./SubjectViewContent";
-import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
 import {
   STORED_PAGE_SIZE_SUBJECT_VIEW_DA,
   STORED_PAGE_SIZE_SUBJECT_VIEW_FAVORITES,
@@ -18,6 +16,8 @@ import {
   STORED_PAGE_SIZE_SUBJECT_VIEW_SA,
 } from "../../../constants";
 import { SubjectIdObject } from "../utils";
+import SubjectViewContent from "./SubjectViewContent";
+import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
 
 interface Props {
   favoriteSubjects: string[] | undefined;

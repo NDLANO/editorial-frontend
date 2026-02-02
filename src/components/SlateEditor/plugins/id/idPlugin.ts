@@ -7,9 +7,9 @@
  */
 
 import { createPlugin } from "@ndla/editor";
-import { ID_PLUGIN } from "./idTypes";
 import { Descendant, Editor, Element, Node, NodeEntry } from "slate";
 import { makeNodeId } from "../../utils/makeNodeId";
+import { ID_PLUGIN } from "./idTypes";
 
 const assignIdToInitialValue = (editor: Editor, idsSet: Set<string>, nodeEntry: NodeEntry) => {
   const [node, path] = nodeEntry;

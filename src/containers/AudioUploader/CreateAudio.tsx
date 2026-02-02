@@ -6,15 +6,15 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import { PageContent } from "@ndla/primitives";
 import { NewAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
-import AudioForm from "./components/AudioForm";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { postAudio } from "../../modules/audio/audioApi";
 import { toEditAudio } from "../../util/routeHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import AudioForm from "./components/AudioForm";
 
 export const Component = () => <PrivateRoute component={<CreateAudioPage />} />;
 

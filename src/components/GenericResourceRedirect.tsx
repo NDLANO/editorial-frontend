@@ -6,9 +6,9 @@
  *
  */
 
-import { Navigate, Outlet, useLocation, useParams } from "react-router";
-import { UseQueryResult } from "@tanstack/react-query";
 import { Spinner } from "@ndla/primitives";
+import { UseQueryResult } from "@tanstack/react-query";
+import { Navigate, Outlet, useLocation, useParams } from "react-router";
 import NotFound from "../containers/NotFoundPage/NotFoundPage";
 import { isNotFoundError } from "../util/resolveJsonOrRejectWithError";
 import { CreatingLanguageLocationState } from "../util/routeHelpers";

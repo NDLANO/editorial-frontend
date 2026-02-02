@@ -6,9 +6,6 @@
  *
  */
 
-import { useField, useFormikContext } from "formik";
-import { memo, useCallback, useMemo } from "react";
-import { Trans, useTranslation } from "react-i18next";
 import { SwitchCheckedChangeDetails } from "@ark-ui/react";
 import { inlineNavigationPlugin } from "@ndla/editor";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
@@ -16,8 +13,9 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { UpdatedArticleDTO, ArticleDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
 import { Node, TaxonomyContext } from "@ndla/types-taxonomy";
-import LearningResourceContent from "./LearningResourceContent";
-import LearningResourceTaxonomy from "./LearningResourceTaxonomy";
+import { useField, useFormikContext } from "formik";
+import { memo, useCallback, useMemo } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../../components/Accordion/FormAccordions";
 import QualityEvaluation from "../../../../components/QualityEvaluation/QualityEvaluation";
@@ -58,6 +56,8 @@ import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChange
 import RelatedContentFieldGroup from "../../components/RelatedContentFieldGroup";
 import RevisionNotes from "../../components/RevisionNotes";
 import { FlatArticleKeys } from "../../components/types";
+import LearningResourceContent from "./LearningResourceContent";
+import LearningResourceTaxonomy from "./LearningResourceTaxonomy";
 
 const toolbarOptions = createToolbarDefaultValues({
   text: {

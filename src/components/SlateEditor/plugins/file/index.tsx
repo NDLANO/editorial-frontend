@@ -6,7 +6,6 @@
  *
  */
 
-import { Descendant } from "slate";
 import {
   createDataAttributes,
   createHtmlTag,
@@ -17,12 +16,13 @@ import {
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
-import { isFileElement } from "./queries";
-import { FILE_ELEMENT_TYPE, FILE_PLUGIN } from "./types";
-import { defaultFileBlock } from "./utils";
+import { Descendant } from "slate";
 import { File } from "../../../../interfaces";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
+import { isFileElement } from "./queries";
+import { FILE_ELEMENT_TYPE, FILE_PLUGIN } from "./types";
+import { defaultFileBlock } from "./utils";
 
 export interface FileElement {
   type: "file";

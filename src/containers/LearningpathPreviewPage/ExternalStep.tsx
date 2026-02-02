@@ -6,13 +6,13 @@
  *
  */
 
-import { useId } from "react";
-import { useTranslation } from "react-i18next";
 import { Badge, Spinner } from "@ndla/primitives";
 import { LearningPathV2DTO, LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper, ResourceBox } from "@ndla/ui";
-import { EmbedPageContent } from "./EmbedPageContent";
+import { useId } from "react";
+import { useTranslation } from "react-i18next";
 import { useFetchOpenGraph } from "../../modules/opengraph/opengraphQueries";
+import { EmbedPageContent } from "./EmbedPageContent";
 
 interface Props {
   learningpath: LearningPathV2DTO;

@@ -6,13 +6,13 @@
  *
  */
 
-import { isEqual } from "lodash-es";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Draggable } from "@ndla/icons";
 import { ComboboxLabel, FieldRoot, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { isEqual } from "lodash-es";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";

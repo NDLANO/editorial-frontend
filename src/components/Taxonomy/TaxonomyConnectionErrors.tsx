@@ -6,14 +6,14 @@
  *
  */
 
-import { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
 import { InformationLine } from "@ndla/icons";
 import { MessageBox, Text, UnOrderedList } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import { partition } from "@ndla/util";
+import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { routes } from "../../util/routeHelpers";
 
 interface Props {

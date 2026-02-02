@@ -6,12 +6,12 @@
  *
  */
 
-import { useCallback, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Element, Transforms } from "slate";
 import { AddLine, CameraFill, CloseLine, H5P, LinkMedium, MovieLine, VoiceprintLine } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Element, Transforms } from "slate";
 import SlateVisualElementPicker from "../../components/SlateEditor/plugins/blockPicker/SlateVisualElementPicker";
 import { defaultExternalBlock } from "../../components/SlateEditor/plugins/external/utils";
 import { defaultH5pBlock } from "../../components/SlateEditor/plugins/h5p/utils";

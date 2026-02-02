@@ -6,11 +6,11 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { DeleteBinLine } from "@ndla/icons";
 import { Button, IconButton, ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeConnection } from "@ndla/types-taxonomy";
+import { useTranslation } from "react-i18next";
 import Breadcrumb from "./Breadcrumb";
 import RelevanceOptionSwitch from "./RelevanceOptionSwitch";
 import { MinimalNodeChild } from "./types";

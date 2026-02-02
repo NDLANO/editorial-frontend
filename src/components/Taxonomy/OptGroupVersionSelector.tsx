@@ -6,12 +6,12 @@
  *
  */
 
-import { TFunction } from "i18next";
-import { ReactNode, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import { SelectContent, SelectItemGroup, SelectItemGroupLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { Version, VersionType } from "@ndla/types-taxonomy";
+import { TFunction } from "i18next";
+import { ReactNode, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../abstractions/Select";
 
 interface Props {

@@ -6,8 +6,6 @@
  *
  */
 
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { TextWrap } from "@ndla/icons";
 import {
   DialogBody,
@@ -19,6 +17,8 @@ import {
   IconButton,
 } from "@ndla/primitives";
 import { LearningPathSummaryV2DTO } from "@ndla/types-backend/learningpath-api";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { fetchLearningpathsWithArticle } from "../../modules/learningpath/learningpathApi";
 import { routes } from "../../util/routeHelpers";
 import { DialogCloseButton } from "../DialogCloseButton";

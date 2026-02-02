@@ -6,18 +6,18 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import { Navigate, useLocation, useParams } from "react-router";
 import { PageContainer, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { LearningpathErrorMessage } from "./components/LearningpathErrorMessage";
-import { LearningpathForm } from "./LearningpathForm";
+import { useTranslation } from "react-i18next";
+import { Navigate, useLocation, useParams } from "react-router";
 import { PageSpinner } from "../../components/PageSpinner";
 import { useLearningpath } from "../../modules/learningpath/learningpathQueries";
 import { isNotFoundError } from "../../util/resolveJsonOrRejectWithError";
 import { CreatingLanguageLocationState, routes } from "../../util/routeHelpers";
 import NotFound from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import { LearningpathErrorMessage } from "./components/LearningpathErrorMessage";
+import { LearningpathForm } from "./LearningpathForm";
 
 export const Component = () => {
   return <PrivateRoute component={<EditLearningpathPage />} />;

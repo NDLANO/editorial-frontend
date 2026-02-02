@@ -16,8 +16,8 @@ import {
   ImageEmbedData,
   OembedEmbedData,
 } from "@ndla/types-embed";
-import { SearchTypeValues, LOCALE_VALUES } from "./constants";
 import { ErrorEmbed } from "./components/SlateEditor/plugins/embed/types";
+import { SearchTypeValues, LOCALE_VALUES } from "./constants";
 
 export interface FormikStatus {
   status?: string;

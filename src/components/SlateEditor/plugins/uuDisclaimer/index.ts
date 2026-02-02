@@ -6,7 +6,6 @@
  *
  */
 
-import { jsx as slatejsx } from "slate-hyperscript";
 import {
   createDataAttributes,
   createHtmlTag,
@@ -17,10 +16,11 @@ import {
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
-import { DISCLAIMER_ELEMENT_TYPE, DISCLAIMER_PLUGIN } from "./types";
+import { jsx as slatejsx } from "slate-hyperscript";
 import { afterOrBeforeTextBlockElement, firstTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 import { isDisclaimerElement } from "./queries";
+import { DISCLAIMER_ELEMENT_TYPE, DISCLAIMER_PLUGIN } from "./types";
 
 export const disclaimerSerializer = createSerializer({
   deserialize(el, children) {

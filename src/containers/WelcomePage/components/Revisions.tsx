@@ -6,8 +6,6 @@
  *
  */
 
-import { memo, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { getLocalTimeZone, today } from "@internationalized/date";
 import { NotificationLine } from "@ndla/icons";
 import {
@@ -25,12 +23,8 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import GoToSearch from "./GoToSearch";
-import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
-import TableTitle from "./TableTitle";
-import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
-import PageSizeSelect from "./worklist/PageSizeSelect";
-import SubjectCombobox from "./worklist/SubjectCombobox";
+import { memo, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import Pagination from "../../../components/abstractions/Pagination";
 import { StatusTimeFill } from "../../../components/StatusTimeFill";
 import {
@@ -65,6 +59,12 @@ import {
 import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
 import { SelectItem } from "../types";
 import { SubjectData, SubjectIdObject } from "../utils";
+import GoToSearch from "./GoToSearch";
+import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
+import TableTitle from "./TableTitle";
+import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
+import PageSizeSelect from "./worklist/PageSizeSelect";
+import SubjectCombobox from "./worklist/SubjectCombobox";
 
 const TextWrapper = styled("div", {
   base: {

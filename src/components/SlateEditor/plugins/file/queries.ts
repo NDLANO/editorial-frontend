@@ -6,8 +6,8 @@
  *
  */
 
-import { Node } from "slate";
 import { isElementOfType } from "@ndla/editor";
+import { Node } from "slate";
 import { FILE_ELEMENT_TYPE } from "./types";
 
 export const isFileElement = (node: Node | undefined) => isElementOfType(node, FILE_ELEMENT_TYPE);

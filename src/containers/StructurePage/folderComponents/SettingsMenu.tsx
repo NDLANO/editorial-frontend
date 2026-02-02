@@ -6,7 +6,6 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { MoreFill } from "@ndla/icons";
 import {
   DialogContent,
@@ -19,10 +18,11 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
-import SettingsMenuDropdownType from "./SettingsMenuDropdownType";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { NodeChildWithChildren } from "../../../modules/nodes/nodeApiTypes";
 import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
+import SettingsMenuDropdownType from "./SettingsMenuDropdownType";
 
 const StyledDialogBody = styled(DialogBody, {
   base: {

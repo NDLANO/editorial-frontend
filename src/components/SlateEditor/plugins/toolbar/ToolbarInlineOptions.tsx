@@ -9,9 +9,6 @@
 import { useCallback } from "react";
 import { Editor, Node, Transforms } from "slate";
 import { ReactEditor, useSlateSelector, useSlateStatic } from "slate-react";
-import { InlineType } from "./toolbarState";
-import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
-import { ToolbarCategoryProps } from "./types";
 import { insertComment } from "../comment/inline/utils";
 import { insertInlineConcept } from "../concept/inline/utils";
 import { insertLink } from "../link/utils";
@@ -19,6 +16,9 @@ import { insertMathml } from "../mathml/utils";
 import { insertRephrase } from "../rephrase/utils";
 import { SYMBOL_ELEMENT_TYPE } from "../symbol/types";
 import { insertSymbol } from "../symbol/utils";
+import { InlineType } from "./toolbarState";
+import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
+import { ToolbarCategoryProps } from "./types";
 
 const getCurrentInlineValues = (editor: Editor): InlineType | undefined => {
   const [currentBlock] =

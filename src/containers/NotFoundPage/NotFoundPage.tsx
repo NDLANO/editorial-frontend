@@ -6,7 +6,6 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import {
   ErrorMessageActions,
   ErrorMessageContent,
@@ -16,6 +15,7 @@ import {
   PageContainer,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { useTranslation } from "react-i18next";
 
 const NotFound = () => {
   const { t } = useTranslation();

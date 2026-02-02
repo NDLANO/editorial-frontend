@@ -6,17 +6,14 @@
  *
  */
 
-import { Formik, FormikHelpers } from "formik";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useQueryClient } from "@tanstack/react-query";
 import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Version } from "@ndla/types-taxonomy";
 import { HeadingLevel } from "@ndla/ui";
-import VersionLockedField from "./VersionLockedField";
-import VersionNameField from "./VersionNameField";
-import VersionSourceField from "./VersionSourceField";
+import { useQueryClient } from "@tanstack/react-query";
+import { Formik, FormikHelpers } from "formik";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer, FormikForm } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
@@ -34,6 +31,9 @@ import {
   versionFormTypeToVersionPutType,
   versionTypeToVersionFormType,
 } from "../versionTransformers";
+import VersionLockedField from "./VersionLockedField";
+import VersionNameField from "./VersionNameField";
+import VersionSourceField from "./VersionSourceField";
 
 interface Props {
   version?: Version;

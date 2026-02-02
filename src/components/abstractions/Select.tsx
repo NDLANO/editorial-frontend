@@ -6,7 +6,6 @@
  *
  */
 
-import { type Ref } from "react";
 import {
   SelectIndicatorProps,
   SelectItemIndicator,
@@ -27,6 +26,7 @@ import {
   SelectTrigger,
 } from "@ndla/primitives";
 import { JsxStyleProps } from "@ndla/styled-system/types";
+import { type Ref } from "react";
 
 interface GenericSelectTriggerProps extends SelectTriggerProps, ButtonProps {
   ref?: Ref<HTMLButtonElement>;

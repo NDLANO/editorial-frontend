@@ -6,10 +6,9 @@
  *
  */
 
-import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
-
-import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 import { createSlate } from "@ndla/editor";
+import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
+import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
 

@@ -6,15 +6,19 @@
  *
  */
 
-import { useFormikContext } from "formik";
-import { memo, useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { ArrowRightShortLine, ShareBoxLine, EyeFill } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ConceptDTO } from "@ndla/types-backend/concept-api";
 import { ArticleRevisionHistoryDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
+import { useFormikContext } from "formik";
+import { memo, useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { PUBLISHED } from "../../constants";
+import { toCompareLanguage } from "../../util/routeHelpers";
+import { useIsTranslatableToNN } from "../NynorskTranslateProvider";
+import { PreviewResourceDialog } from "../PreviewDraft/PreviewResourceDialog";
 import DeleteLanguageVersion from "./DeleteLanguageVersion";
 import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
 import { StyledSplitter } from "./HeaderInformation";
@@ -22,10 +26,6 @@ import HeaderLanguagePicker from "./HeaderLanguagePicker";
 import HeaderSupportedLanguages from "./HeaderSupportedLanguages";
 import TranslateNbToNn from "./TranslateNbToNn";
 import { createEditUrl, hasArticleFieldsChanged, toMapping, translatableTypes } from "./util";
-import { PUBLISHED } from "../../constants";
-import { toCompareLanguage } from "../../util/routeHelpers";
-import { useIsTranslatableToNN } from "../NynorskTranslateProvider";
-import { PreviewResourceDialog } from "../PreviewDraft/PreviewResourceDialog";
 
 interface PreviewLightBoxProps {
   article?: ArticleDTO;

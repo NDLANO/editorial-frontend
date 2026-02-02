@@ -7,14 +7,13 @@
  */
 
 import "./style/index.css";
-
 import type { i18n } from "i18next";
+import { ErrorReporter } from "@ndla/error-reporter";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createRoot } from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
 import { createBrowserRouter, RouterProvider } from "react-router";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { ErrorReporter } from "@ndla/error-reporter";
 import { AuthInitializer } from "./components/AuthInitializer";
 import config, { ConfigType } from "./config";
 import { MessagesProvider } from "./containers/Messages/MessagesProvider";

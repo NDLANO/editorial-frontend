@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import { useQueryClient } from "@tanstack/react-query";
 import { SelectLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { OptGroupVersionSelector } from "../../components/Taxonomy/OptGroupVersionSelector";
 import { useVersions } from "../../modules/taxonomy/versions/versionQueries";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";

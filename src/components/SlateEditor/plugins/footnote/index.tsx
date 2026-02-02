@@ -6,8 +6,6 @@
  *
  */
 
-import { Descendant } from "slate";
-import { jsx as slatejsx } from "slate-hyperscript";
 import {
   createDataAttributes,
   createHtmlTag,
@@ -15,9 +13,11 @@ import {
   createSerializer,
   parseElementAttributes,
 } from "@ndla/editor";
+import { Descendant } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_NDLA_EMBED } from "../embed/types";
 import { isFootnoteElement } from "./queries";
 import { FOOTNOTE_ELEMENT_TYPE, FOOTNOTE_PLUGIN } from "./types";
-import { TYPE_NDLA_EMBED } from "../embed/types";
 
 export const footnoteSerializer = createSerializer({
   deserialize(el) {

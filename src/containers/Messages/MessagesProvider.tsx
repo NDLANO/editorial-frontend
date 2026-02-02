@@ -6,10 +6,9 @@
  *
  */
 
-import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useState } from "react";
-
-import { useTranslation } from "react-i18next";
 import { uuid } from "@ndla/util";
+import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { MessageType } from "./types";
 
 interface Props {

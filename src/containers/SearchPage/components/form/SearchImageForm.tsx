@@ -6,13 +6,13 @@
  *
  */
 
-import { TFunction } from "i18next";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { SearchParamsDTO } from "@ndla/types-backend/image-api";
+import { TFunction } from "i18next";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
 import SearchHeader from "../../../../components/Form/SearchHeader";
 import SearchTagGroup from "../../../../components/Form/SearchTagGroup";

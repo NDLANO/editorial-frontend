@@ -7,8 +7,8 @@
  */
 
 import { Descendant } from "slate";
-import { valueWithTwoImageEmbeds, valueWithInlineFootnotesAndContentLinks } from "./slateMockValues";
 import { isFormikFormDirty } from "../formHelper";
+import { valueWithTwoImageEmbeds, valueWithInlineFootnotesAndContentLinks } from "./slateMockValues";
 
 test("util/formHelper isFormikFormDirty is true", () => {
   const initialValues = {

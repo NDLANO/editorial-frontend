@@ -6,10 +6,10 @@
  *
  */
 
-import parse from "html-react-parser";
-import { useMemo } from "react";
 import { transform } from "@ndla/article-converter";
 import { ArticleType } from "@ndla/ui";
+import parse from "html-react-parser";
+import { useMemo } from "react";
 import config from "../../config";
 import { usePreviewArticle } from "../../modules/article/articleGqlQueries";
 import formatDate from "../../util/formatDate";

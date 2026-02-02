@@ -6,8 +6,6 @@
  *
  */
 
-import { ReactElement, useState } from "react";
-import { useTranslation } from "react-i18next";
 import {
   Button,
   DialogBody,
@@ -20,6 +18,8 @@ import {
   FieldLabel,
   FieldRoot,
 } from "@ndla/primitives";
+import { ReactElement, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import { ThemeNames } from "../types";

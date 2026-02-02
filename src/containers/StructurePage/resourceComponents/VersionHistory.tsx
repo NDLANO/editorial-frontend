@@ -6,8 +6,6 @@
  *
  */
 
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
 import {
   Badge,
@@ -28,6 +26,8 @@ import { EditorNoteDTO } from "@ndla/types-backend/draft-api";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { NodeChild } from "@ndla/types-taxonomy";
 import { constants } from "@ndla/ui";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import NotesVersionHistory from "../../../components/VersionHistory/VersionHistory";
 import { Auth0UserData } from "../../../interfaces";

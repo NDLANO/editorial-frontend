@@ -6,19 +6,19 @@
  *
  */
 
+import { createListCollection } from "@ark-ui/react";
+import { SelectContent, SelectRoot, SelectValueText, SelectLabel, FieldRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Node, Range, Transforms } from "slate";
 import { ReactEditor, useSlateSelector, useSlateStatic } from "slate-react";
-import { createListCollection } from "@ark-ui/react";
-import { SelectContent, SelectRoot, SelectValueText, SelectLabel, FieldRoot } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
-import { LanguageType } from "./toolbarState";
-import { getTitle } from "./ToolbarToggle";
-import { ToolbarCategoryProps } from "./types";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../abstractions/Select";
 import { isSpanElement } from "../span/queries";
 import { defaultSpanBlock } from "../span/utils";
+import { LanguageType } from "./toolbarState";
+import { getTitle } from "./ToolbarToggle";
+import { ToolbarCategoryProps } from "./types";
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   base: {

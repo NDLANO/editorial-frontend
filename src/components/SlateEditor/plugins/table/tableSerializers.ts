@@ -6,16 +6,10 @@
  *
  */
 
-import { jsx as slatejsx } from "slate-hyperscript";
 import { createHtmlTag, createSerializer, isElementOfType, parseElementAttributes } from "@ndla/editor";
-import {
-  TABLE_BODY_ELEMENT_TYPE,
-  TABLE_CAPTION_ELEMENT_TYPE,
-  TABLE_ELEMENT_TYPE,
-  TABLE_HEAD_ELEMENT_TYPE,
-  TABLE_ROW_ELEMENT_TYPE,
-} from "./types";
 import { isEqual } from "lodash-es";
+import { Node } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
 import { defaultParagraphBlock } from "../paragraph/utils";
 import {
   isTableBodyElement,
@@ -26,7 +20,13 @@ import {
   isTableHeadElement,
   isTableRowElement,
 } from "./queries";
-import { Node } from "slate";
+import {
+  TABLE_BODY_ELEMENT_TYPE,
+  TABLE_CAPTION_ELEMENT_TYPE,
+  TABLE_ELEMENT_TYPE,
+  TABLE_HEAD_ELEMENT_TYPE,
+  TABLE_ROW_ELEMENT_TYPE,
+} from "./types";
 
 const TABLE_TAGS = {
   th: "table-cell-header",

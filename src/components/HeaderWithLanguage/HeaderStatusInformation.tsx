@@ -6,24 +6,24 @@
  *
  */
 
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
 import { ErrorWarningFill } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { LearningPathSummaryV2DTO } from "@ndla/types-backend/learningpath-api";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import {
+  FormHeaderResponsibleInfo,
+  FormHeaderStatusInfo,
+  FormHeaderStatusWrapper,
+} from "../../containers/FormHeader/FormHeader";
 import EmbedConnection from "./EmbedInformation/EmbedConnection";
 import HeaderFavoriteStatus from "./HeaderFavoriteStatus";
 import LearningpathConnection from "./LearningpathConnection";
 import { LinkConnections } from "./LinkConnections";
 import { ResourcePublishedLink } from "./ResourcePublishedLink";
 import { ResourceStatus } from "./ResourceStatus";
-import {
-  FormHeaderResponsibleInfo,
-  FormHeaderStatusInfo,
-  FormHeaderStatusWrapper,
-} from "../../containers/FormHeader/FormHeader";
 
 interface Props {
   statusText?: string;

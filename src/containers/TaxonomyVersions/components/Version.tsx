@@ -6,20 +6,20 @@
  *
  */
 
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useQueryClient } from "@tanstack/react-query";
 import { PencilFill, DeleteBinLine, ExternalLinkLine, DoorLockLine } from "@ndla/icons";
 import { Text, Button, IconButton, Badge, BadgeVariant } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Version as TaxVersion, VersionType } from "@ndla/types-taxonomy";
-import VersionForm from "./VersionForm";
+import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import config from "../../../config";
 import { useDeleteVersionMutation } from "../../../modules/taxonomy/versions/versionMutations";
 import { versionQueryKeys } from "../../../modules/taxonomy/versions/versionQueries";
+import VersionForm from "./VersionForm";
 
 const versionTypeMap: Record<VersionType, BadgeVariant> = {
   PUBLISHED: "brand3",

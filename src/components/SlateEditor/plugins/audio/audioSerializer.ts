@@ -6,7 +6,6 @@
  *
  */
 
-import { jsx as slatejsx } from "slate-hyperscript";
 import {
   createDataAttributes,
   createHtmlTag,
@@ -14,6 +13,7 @@ import {
   isElementOfType,
   parseElementAttributes,
 } from "@ndla/editor";
+import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 import { AUDIO_ELEMENT_TYPE } from "./audioTypes";
 

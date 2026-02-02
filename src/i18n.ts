@@ -6,12 +6,12 @@
  *
  */
 
+import { SUPPORTED_LANGUAGES } from "./constants";
+import { i18nInstanceWithTranslations } from "./i18nInstanceWithTranslations";
 import { LocaleType } from "./interfaces";
 import en from "./phrases/phrases-en";
 import nb from "./phrases/phrases-nb";
 import nn from "./phrases/phrases-nn";
-import { i18nInstanceWithTranslations } from "./i18nInstanceWithTranslations";
-import { SUPPORTED_LANGUAGES } from "./constants";
 
 export const subjectLanguages: LocaleType[] = ["nb", "nn", "en", "se", "sma"];
 export const collectionLanguages: LocaleType[] = ["nb", "nn", "en", "se", "sma", "ukr"];

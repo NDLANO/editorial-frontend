@@ -6,8 +6,6 @@
  *
  */
 
-import { useMemo, useRef } from "react";
-import { useTranslation } from "react-i18next";
 import { DeleteBinLine, CheckboxCircleLine } from "@ndla/icons";
 import {
   Text,
@@ -26,22 +24,24 @@ import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { NodeChild } from "@ndla/types-taxonomy";
 import { BadgesContainer } from "@ndla/ui";
-import GrepCodesDialog from "./GrepCodesDialog";
-import MatomoStats from "./MatomoStats";
-import QualityEvaluationGrade from "./QualityEvaluationGrade";
-import StatusIcons from "./StatusIcons";
-import VersionHistory from "./VersionHistory";
+import { useMemo, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import config from "../../../config";
 import { PUBLISHED } from "../../../constants";
+import { useMatomoStats } from "../../../modules/matomo/matomoQueries";
 import { useBadges } from "../../../util/getBadges";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
 import { routes } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-import { transformMatomoData } from "../utils";
-import { useElementIsVisible } from "./isVisibleHook";
-import { useMatomoStats } from "../../../modules/matomo/matomoQueries";
 import { usePreferences } from "../PreferencesProvider";
+import { transformMatomoData } from "../utils";
 import { DeleteResourceDialogContent } from "./DeleteResourceDialogContent";
+import GrepCodesDialog from "./GrepCodesDialog";
+import { useElementIsVisible } from "./isVisibleHook";
+import MatomoStats from "./MatomoStats";
+import QualityEvaluationGrade from "./QualityEvaluationGrade";
+import StatusIcons from "./StatusIcons";
+import VersionHistory from "./VersionHistory";
 
 const StyledListItemRoot = styled(ListItemRoot, {
   base: {

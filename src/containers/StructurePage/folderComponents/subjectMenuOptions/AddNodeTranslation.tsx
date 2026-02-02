@@ -6,8 +6,6 @@
  *
  */
 
-import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import {
   Button,
@@ -20,6 +18,8 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Translation } from "@ndla/types-taxonomy";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../../components/abstractions/Select";
 import { FormContent } from "../../../../components/FormikForm";
 import { LocaleType } from "../../../../interfaces";

@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { ErrorWarningFill } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild } from "@ndla/types-taxonomy";
+import { useTranslation } from "react-i18next";
 import { getContentUriInfo } from "../../../util/taxonomyHelpers";
 
 const StyledErrorWarningFill = styled(ErrorWarningFill, {

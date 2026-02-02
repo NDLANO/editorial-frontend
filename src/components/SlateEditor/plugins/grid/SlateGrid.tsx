@@ -6,10 +6,6 @@
  *
  */
 
-import { useCallback, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { PencilFill } from "@ndla/icons";
 import {
@@ -23,11 +19,15 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { EmbedWrapper, Grid, GridType } from "@ndla/ui";
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
+import DeleteButton from "../../../DeleteButton";
+import { DialogCloseButton } from "../../../DialogCloseButton";
 import { GridProvider } from "./GridContext";
 import GridForm from "./GridForm";
 import { GridElement } from "./types";
-import DeleteButton from "../../../DeleteButton";
-import { DialogCloseButton } from "../../../DialogCloseButton";
 
 interface Props extends RenderElementProps {
   element: GridElement;

@@ -6,21 +6,21 @@
  *
  */
 
+import { LoggerManager, SlatePlugin, useCreateSlate } from "@ndla/editor";
+import { styled } from "@ndla/styled-system/jsx";
 import { useFormikContext } from "formik";
 import { useCallback, useEffect, useRef, JSX, DragEvent, ReactNode } from "react";
 import { Descendant, Editor, Transforms } from "slate";
 import { Slate, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
-import { LoggerManager, SlatePlugin, useCreateSlate } from "@ndla/editor";
-import { styled } from "@ndla/styled-system/jsx";
 import "../DisplayEmbed/helpers/h5pResizer";
+import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
+import { FormikStatus } from "../../interfaces";
 import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
 import { FieldEditable } from "./FieldEditable";
-import { FormikStatus } from "../../interfaces";
 import { nativeOnDragOver, nativeOnDragStart, nativeOnDrop } from "./plugins/DND/nativeDnd";
 import { SlateDndContext } from "./plugins/DND/SlateDndContext";
 import { SlateToolbar } from "./plugins/toolbar";
-import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 
 const StyledSlateWrapper = styled("div", {
   base: {

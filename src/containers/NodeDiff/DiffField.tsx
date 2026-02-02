@@ -6,8 +6,8 @@
  *
  */
 
-import { ReactNode } from "react";
 import { styled } from "@ndla/styled-system/jsx";
+import { ReactNode } from "react";
 import DiffSeparator from "./DiffSeparator";
 import { DiffResultType } from "./diffUtils";
 

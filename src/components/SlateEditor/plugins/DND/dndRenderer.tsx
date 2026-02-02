@@ -6,13 +6,13 @@
  *
  */
 
-import { MouseEvent, ReactNode, useEffect } from "react";
-import { Editor, Element, Node, ElementType, PathRef } from "slate";
-import { ReactEditor } from "slate-react";
 import { useDraggable } from "@dnd-kit/core";
 import { Draggable } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { MouseEvent, ReactNode, useEffect } from "react";
+import { Editor, Element, Node, ElementType, PathRef } from "slate";
+import { ReactEditor } from "slate-react";
 import { DND_PLUGIN, DndPluginOptions } from "./dndTypes";
 import { DropArea } from "./DropArea";
 

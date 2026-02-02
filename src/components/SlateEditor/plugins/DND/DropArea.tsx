@@ -6,10 +6,10 @@
  *
  */
 
-import { memo } from "react";
-import { Element } from "slate";
 import { useDroppable } from "@dnd-kit/core";
 import { styled } from "@ndla/styled-system/jsx";
+import { memo } from "react";
+import { Element } from "slate";
 
 const StyledDropArea = styled("div", {
   base: {

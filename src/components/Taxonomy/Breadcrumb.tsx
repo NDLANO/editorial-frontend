@@ -6,11 +6,11 @@
  *
  */
 
-import { useMemo } from "react";
 import { ArrowRightShortLine } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
+import { useMemo } from "react";
 import { MinimalNodeChild } from "./types";
 
 const StyledSafeLink = styled(SafeLink, {

@@ -6,14 +6,13 @@
  *
  */
 
+import { ArticleDTO } from "@ndla/types-backend/draft-api";
+import { SubjectPageDTO, NewSubjectPageDTO, UpdatedSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
+import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { Formik, FormikProps } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
-import { ArticleDTO } from "@ndla/types-backend/draft-api";
-import { SubjectPageDTO, NewSubjectPageDTO, UpdatedSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
-import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import SubjectpageAccordionPanels from "./SubjectpageAccordionPanels";
 import { FormActionsContainer, Form } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
 import SimpleLanguageHeader from "../../../components/HeaderWithLanguage/SimpleLanguageHeader";
@@ -34,6 +33,7 @@ import { AlertDialogWrapper } from "../../FormikForm";
 import usePreventWindowUnload from "../../FormikForm/preventWindowUnloadHook";
 import { useMessages } from "../../Messages/MessagesProvider";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import SubjectpageAccordionPanels from "./SubjectpageAccordionPanels";
 
 interface Props {
   subjectpage?: SubjectPageDTO;

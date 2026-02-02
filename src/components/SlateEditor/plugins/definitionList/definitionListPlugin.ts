@@ -6,10 +6,10 @@
  *
  */
 
+import { createHtmlTag, createPlugin, createSerializer, defaultNormalizer, NormalizerConfig } from "@ndla/editor";
 import { isKeyHotkey } from "is-hotkey";
 import { Editor, Node, Path, Range, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { createHtmlTag, createPlugin, createSerializer, defaultNormalizer, NormalizerConfig } from "@ndla/editor";
 import {
   DEFINITION_DESCRIPTION_ELEMENT_TYPE,
   DEFINITION_LIST_ELEMENT_TYPE,

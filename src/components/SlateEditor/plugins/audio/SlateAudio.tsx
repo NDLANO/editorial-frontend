@@ -6,10 +6,6 @@
  *
  */
 
-import { useCallback, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { PencilFill, DeleteBinLine, LinkMedium } from "@ndla/icons";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@ndla/primitives";
@@ -17,10 +13,14 @@ import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { AudioEmbedData, AudioMetaData } from "@ndla/types-embed";
 import { AudioEmbed, EmbedWrapper } from "@ndla/ui";
-import AudioEmbedForm from "./AudioEmbedForm";
-import { AudioElement } from "./audioTypes";
+import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Path, Transforms } from "slate";
+import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { useAudioMeta } from "../../../../modules/embed/queries";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
+import AudioEmbedForm from "./AudioEmbedForm";
+import { AudioElement } from "./audioTypes";
 
 interface Props extends RenderElementProps {
   element: AudioElement;

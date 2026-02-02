@@ -6,20 +6,20 @@
  *
  */
 
-import { ArrayHelpers, FieldArray, FieldArrayRenderProps, useField } from "formik";
-import { ComponentType, CSSProperties, useCallback, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
 import { AddLine, ArrowRightShortLine, DeleteBinLine, Draggable } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleSummaryV2DTO } from "@ndla/types-backend/article-api";
-import FrontpageArticleSearch from "./FrontpageArticleSearch";
-import { MenuWithArticle } from "./types";
+import { ArrayHelpers, FieldArray, FieldArrayRenderProps, useField } from "formik";
+import { ComponentType, CSSProperties, useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import DndList from "../../components/DndList";
 import { DragHandle } from "../../components/DraggableItem";
 import { toEditFrontPageArticle } from "../../util/routeHelpers";
+import FrontpageArticleSearch from "./FrontpageArticleSearch";
+import { MenuWithArticle } from "./types";
 
 interface Props extends FieldArrayRenderProps {
   level: number;

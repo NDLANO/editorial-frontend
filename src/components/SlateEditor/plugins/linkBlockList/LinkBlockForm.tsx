@@ -6,10 +6,6 @@
  *
  */
 
-import { Formik } from "formik";
-import { useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
 import {
   Button,
   DialogBody,
@@ -23,6 +19,10 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LinkBlockEmbedData } from "@ndla/types-embed";
+import { Formik } from "formik";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Descendant } from "slate";
 import InlineDatePicker from "../../../../containers/FormikForm/components/InlineDatePicker";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";

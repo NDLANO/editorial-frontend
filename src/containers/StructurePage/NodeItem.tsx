@@ -6,30 +6,30 @@
  *
  */
 
-import { CSSProperties, useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
 import { Draggable, StarLine, StarFill, SubtractLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { NodeChild, Node } from "@ndla/types-taxonomy";
-import { useCurrentNode } from "./CurrentNodeProvider";
-import NodeControls from "./folderComponents/NodeControls";
-import { usePreferences } from "./PreferencesProvider";
-import QualityEvaluationGrade from "./resourceComponents/QualityEvaluationGrade";
-import { SafeLinkWithQuery } from "./SafeLinkWithQuery";
-import { RESOURCE_SECTION_ID } from "./utils";
+import { CSSProperties, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import DndList from "../../components/DndList";
 import { DragHandle } from "../../components/DraggableItem";
 import Fade from "../../components/Taxonomy/Fade";
 import { iconRecipe, NodeItemRoot, NodeItemTitle, ToggleIcon } from "../../components/Taxonomy/NodeItem";
 import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { NodeChildWithChildren } from "../../modules/nodes/nodeApiTypes";
+import { removeLastItemFromUrl } from "../../util/routeHelpers";
 import { nodePathToUrnPath } from "../../util/taxonomyHelpers";
 import { useSession } from "../Session/SessionProvider";
+import { useCurrentNode } from "./CurrentNodeProvider";
+import NodeControls from "./folderComponents/NodeControls";
 import StructureErrorIcon from "./folderComponents/StructureErrorIcon";
-import { removeLastItemFromUrl } from "../../util/routeHelpers";
+import { usePreferences } from "./PreferencesProvider";
+import QualityEvaluationGrade from "./resourceComponents/QualityEvaluationGrade";
+import { SafeLinkWithQuery } from "./SafeLinkWithQuery";
+import { RESOURCE_SECTION_ID } from "./utils";
 
 const QualityEvaluationWrapper = styled("div", {
   base: {

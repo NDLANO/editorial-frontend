@@ -6,8 +6,8 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { Heading, PageContainer } from "@ndla/primitives";
+import { useTranslation } from "react-i18next";
 
 const Forbidden = () => {
   const { t } = useTranslation();

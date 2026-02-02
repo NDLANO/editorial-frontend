@@ -6,9 +6,9 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { CheckboxCircleFill } from "@ndla/icons";
 import { SafeLinkIconButton } from "@ndla/safelink";
+import { useTranslation } from "react-i18next";
 import config from "../../config";
 
 interface Props {

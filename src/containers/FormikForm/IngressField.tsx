@@ -6,17 +6,15 @@
  *
  */
 
-import { useField, useFormikContext } from "formik";
-import { useTranslation } from "react-i18next";
 import { inlineNavigationPlugin } from "@ndla/editor";
 import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-
+import { useField, useFormikContext } from "formik";
+import { useTranslation } from "react-i18next";
 import { ContentEditableFieldLabel } from "../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../components/Form/FieldWarning";
 import { FormRemainingCharacters } from "../../components/Form/FormRemainingCharacters";
 import { SlatePlugin } from "../../components/SlateEditor/interfaces";
-
 import { breakPlugin } from "../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../components/SlateEditor/plugins/break/render";
 import { commentInlinePlugin } from "../../components/SlateEditor/plugins/comment/inline";

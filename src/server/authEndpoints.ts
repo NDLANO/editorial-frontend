@@ -6,6 +6,7 @@
  *
  */
 
+import { getCookie } from "@ndla/util";
 import express, { CookieOptions, Request, Response } from "express";
 import {
   authorizationCodeGrant,
@@ -19,11 +20,7 @@ import {
   randomState,
   refreshTokenGrant,
 } from "openid-client";
-import { constructNewPath } from "../util/urlHelpers";
-import { isValidLocale } from "../i18n";
 import config from "../config";
-import { BAD_REQUEST, INTERNAL_SERVER_ERROR, OK, UNAUTHORIZED } from "./httpCodes";
-import { isActiveToken } from "../util/authHelpers";
 import {
   ACCESS_TOKEN_COOKIE,
   HAS_REFRESH_TOKEN_COOKIE,
@@ -35,8 +32,11 @@ import {
   RETURN_TO_COOKIE,
   STATE_COOKIE,
 } from "../constants";
+import { isValidLocale } from "../i18n";
+import { isActiveToken } from "../util/authHelpers";
 import { decodeToken } from "../util/jwtHelper";
-import { getCookie } from "@ndla/util";
+import { constructNewPath } from "../util/urlHelpers";
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR, OK, UNAUTHORIZED } from "./httpCodes";
 
 const DEPLOYED = process.env.IS_VERCEL === "true" || process.env.NDLA_IS_KUBERNETES !== undefined;
 const SAME_SITE: CookieOptions["sameSite"] = DEPLOYED ? "lax" : undefined;

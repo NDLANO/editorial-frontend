@@ -6,8 +6,6 @@
  *
  */
 
-import { useFormikContext } from "formik";
-import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
 import { DeleteBinLine, InformationLine, UploadCloudLine } from "@ndla/icons";
 import {
@@ -29,13 +27,15 @@ import {
   UnOrderedList,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { AudioCopyInfo } from "./AudioCopyInfo";
-import AudioPlayer from "./AudioPlayer";
+import { useFormikContext } from "formik";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import { AudioFormikType, PodcastFormValues } from "../../../modules/audio/audioTypes";
 import { TitleField } from "../../FormikForm";
+import { AudioCopyInfo } from "./AudioCopyInfo";
+import AudioPlayer from "./AudioPlayer";
 
 const ContentWrapper = styled("div", {
   base: {

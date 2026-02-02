@@ -6,14 +6,11 @@
  *
  */
 
-import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { BookOpenLine, InformationLine } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
-import TableTitle from "./TableTitle";
-import PageSizeSelect from "./worklist/PageSizeSelect";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import Pagination from "../../../components/abstractions/Pagination";
 import { SUBJECT_NODE } from "../../../modules/nodes/nodeApiTypes";
 import { useSearchNodes } from "../../../modules/nodes/nodeQueries";
@@ -23,7 +20,10 @@ import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvid
 import { useLocalStoragePageSizeState } from "../hooks/storedFilterHooks";
 import { ControlWrapperDashboard, StyledTopRowDashboardInfo } from "../styles";
 import { SubjectData } from "../utils";
+import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
+import TableTitle from "./TableTitle";
 import { getCurrentPageData } from "./utils";
+import PageSizeSelect from "./worklist/PageSizeSelect";
 
 const StyledTableHeader = styled("span", {
   base: {

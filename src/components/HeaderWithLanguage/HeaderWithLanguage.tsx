@@ -6,14 +6,14 @@
  *
  */
 
-import { memo } from "react";
-import { useTranslation } from "react-i18next";
 import { ArticleRevisionHistoryDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
+import { memo } from "react";
+import { useTranslation } from "react-i18next";
+import { getExpirationDate } from "../../util/revisionHelpers";
 import HeaderActions from "./HeaderActions";
 import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
 import HeaderInformation from "./HeaderInformation";
-import { getExpirationDate } from "../../util/revisionHelpers";
 
 export type FormHeaderType = "topic-article" | "standard" | "frontpage-article";
 

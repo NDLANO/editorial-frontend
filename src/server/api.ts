@@ -6,22 +6,22 @@
  *
  */
 
-import express from "express";
-import prettier from "prettier";
-import openGraph from "open-graph-scraper";
 import { youtube } from "@googleapis/youtube";
+import express from "express";
 import { auth } from "express-oauth2-jwt-bearer";
-import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getResponsibles } from "./auth";
-import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN, BAD_REQUEST, NOT_FOUND, FOUND } from "./httpCodes";
-import errorLogger from "./logger";
-import { translateDocument } from "./translate";
+import openGraph from "open-graph-scraper";
+import prettier from "prettier";
 import config, { getEnvironmentVariabel } from "../config";
 import { AI_ACCESS_SCOPE, DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
 import { isPromptType, NdlaError } from "../interfaces";
-import { fetchMatomoStats } from "./matomo";
+import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getResponsibles } from "./auth";
+import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN, BAD_REQUEST, NOT_FOUND, FOUND } from "./httpCodes";
 import { generateAnswer, getDefaultPrompts, getTranscription, initializeTranscription } from "./llm";
-import { isValidRequestBody } from "./utils";
 import { isLlmLanguageCode } from "./llmTypes";
+import errorLogger from "./logger";
+import { fetchMatomoStats } from "./matomo";
+import { translateDocument } from "./translate";
+import { isValidRequestBody } from "./utils";
 
 const googleApiKey = getEnvironmentVariabel("NDLA_GOOGLE_API_KEY");
 

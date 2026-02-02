@@ -6,8 +6,8 @@
  *
  */
 
-import { Descendant } from "slate";
 import { LinkBlockEmbedData } from "@ndla/types-embed";
+import { Descendant } from "slate";
 
 export interface LinkBlockListElement {
   type: "link-block-list";

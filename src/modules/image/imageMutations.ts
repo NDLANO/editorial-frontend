@@ -6,8 +6,8 @@
  *
  */
 
-import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import { cloneImage } from "./imageApi";
 
 interface CloneImageInput {

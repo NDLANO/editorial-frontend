@@ -6,12 +6,18 @@
  *
  */
 
-import { useEffect, useRef, useState, ReactNode } from "react";
-import { useLocation } from "react-router";
 import { PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild, NodeType } from "@ndla/types-taxonomy";
 import { keyBy } from "@ndla/util";
+import { useEffect, useRef, useState, ReactNode } from "react";
+import { useLocation } from "react-router";
+import ErrorBoundary from "../../components/ErrorBoundary";
+import { TAXONOMY_ADMIN_SCOPE, DRAFT_RESPONSIBLE } from "../../constants";
+import { useAuth0Responsibles } from "../../modules/auth0/auth0Queries";
+import { createGuard } from "../../util/guards";
+import { useSession } from "../Session/SessionProvider";
+import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 import { useCurrentNode } from "./CurrentNodeProvider";
 import LeftColumn from "./LeftColumn";
 import { PreferencesProvider } from "./PreferencesProvider";
@@ -19,12 +25,6 @@ import StructureResources from "./resourceComponents/StructureResources";
 import SubjectBanner from "./resourceComponents/SubjectBanner";
 import { RESOURCE_SECTION_ID } from "./utils";
 import VersionSelector from "./VersionSelector";
-import ErrorBoundary from "../../components/ErrorBoundary";
-import { TAXONOMY_ADMIN_SCOPE, DRAFT_RESPONSIBLE } from "../../constants";
-import { useAuth0Responsibles } from "../../modules/auth0/auth0Queries";
-import { createGuard } from "../../util/guards";
-import { useSession } from "../Session/SessionProvider";
-import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
 const StickyContainer = styled("div", {
   base: {

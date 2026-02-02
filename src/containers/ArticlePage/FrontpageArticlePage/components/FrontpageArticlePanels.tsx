@@ -6,13 +6,12 @@
  *
  */
 
-import { useFormikContext } from "formik";
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleRevisionHistoryDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
-import FrontpageArticleFormContent from "./FrontpageArticleFormContent";
+import { useFormikContext } from "formik";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../../components/Accordion/FormAccordions";
 import { useWideArticle } from "../../../../components/WideArticleEditorProvider";
@@ -24,6 +23,7 @@ import CommentSection, { RESET_COMMENTS_STATUSES } from "../../components/Commen
 import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChangeIndicator";
 import RevisionNotes from "../../components/RevisionNotes";
 import { FlatArticleKeys } from "../../components/types";
+import FrontpageArticleFormContent from "./FrontpageArticleFormContent";
 
 const StyledWrapper = styled("div", {
   base: {

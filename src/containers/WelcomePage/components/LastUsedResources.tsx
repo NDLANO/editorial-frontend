@@ -6,15 +6,11 @@
  *
  */
 
-import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { PencilFill } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import { ArticleSummaryDTO } from "@ndla/types-backend/draft-api";
-import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
-import TableTitle from "./TableTitle";
-import PageSizeSelect from "./worklist/PageSizeSelect";
-import StatusCell from "./worklist/StatusCell";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import Pagination from "../../../components/abstractions/Pagination";
 import { STORED_PAGE_SIZE_LAST_UPDATED } from "../../../constants";
 import formatDate from "../../../util/formatDate";
@@ -22,7 +18,11 @@ import { routes } from "../../../util/routeHelpers";
 import { useLocalStoragePageSizeState } from "../hooks/storedFilterHooks";
 import { StyledTopRowDashboardInfo } from "../styles";
 import { SortOptionLastUsed } from "../types";
+import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
+import TableTitle from "./TableTitle";
 import { getCurrentPageData } from "./utils";
+import PageSizeSelect from "./worklist/PageSizeSelect";
+import StatusCell from "./worklist/StatusCell";
 
 interface Props {
   data: ArticleSummaryDTO[];

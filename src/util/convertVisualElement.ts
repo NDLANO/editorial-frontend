@@ -6,9 +6,9 @@
  *
  */
 
+import { VisualElementDTO } from "@ndla/types-backend/frontpage-api";
 import { Descendant } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { VisualElementDTO } from "@ndla/types-backend/frontpage-api";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../components/SlateEditor/plugins/video/types";
 
 export const getVisualElementId = (visualElement: VisualElementDTO): string => {

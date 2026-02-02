@@ -6,13 +6,13 @@
  *
  */
 
+import { styled } from "@ndla/styled-system/jsx";
 import { useFormikContext } from "formik";
 import { useMemo } from "react";
-import { styled } from "@ndla/styled-system/jsx";
-import PreviewConceptComponent from "./PreviewConceptComponent";
 import { ConceptFormValues } from "../../containers/ConceptPage/conceptInterfaces";
 import { conceptFormTypeToApiType } from "../../containers/ConceptPage/conceptTransformers";
 import { useLicenses } from "../../modules/draft/draftQueries";
+import PreviewConceptComponent from "./PreviewConceptComponent";
 
 const ConceptWrapper = styled("div", {
   base: {

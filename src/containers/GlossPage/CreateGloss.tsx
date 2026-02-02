@@ -6,16 +6,16 @@
  *
  */
 
+import { PageContent } from "@ndla/primitives";
+import { ConceptDTO, NewConceptDTO } from "@ndla/types-backend/concept-api";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import { PageContent } from "@ndla/primitives";
-import { ConceptDTO, NewConceptDTO } from "@ndla/types-backend/concept-api";
-import { GlossForm } from "./components/GlossForm";
 import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { toEditGloss } from "../../util/routeHelpers";
 import { useFetchConceptData } from "../FormikForm/formikConceptHooks";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import { GlossForm } from "./components/GlossForm";
 
 interface Props {
   inDialog?: boolean;

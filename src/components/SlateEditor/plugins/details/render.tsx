@@ -6,14 +6,14 @@
  *
  */
 
+import { ExpandableBoxSummary } from "@ndla/primitives";
 import { Editor, Path, Node } from "slate";
 import { ReactEditor, RenderLeafProps } from "slate-react";
-import { ExpandableBoxSummary } from "@ndla/primitives";
+import WithPlaceHolder from "../../common/WithPlaceHolder";
 import Details from "./Details";
 import { DETAILS_ELEMENT_TYPE } from "./detailsTypes";
 import { isSummaryElement } from "./queries/detailsQueries";
 import { SUMMARY_ELEMENT_TYPE } from "./summaryTypes";
-import WithPlaceHolder from "../../common/WithPlaceHolder";
 
 export const detailsRenderer = (editor: Editor) => {
   const { renderElement, renderLeaf } = editor;

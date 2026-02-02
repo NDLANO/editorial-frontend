@@ -6,10 +6,6 @@
  *
  */
 
-import { jsx as slatejsx } from "slate-hyperscript";
-import { BRIGHTCOVE_ELEMENT_TYPE, BRIGHTCOVE_PLUGIN, BrightcovePluginOptions } from "./types";
-import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
-import { TYPE_NDLA_EMBED } from "../embed/types";
 import {
   createDataAttributes,
   createHtmlTag,
@@ -20,7 +16,11 @@ import {
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
+import { TYPE_NDLA_EMBED } from "../embed/types";
 import { isBrightcoveElement } from "./queries";
+import { BRIGHTCOVE_ELEMENT_TYPE, BRIGHTCOVE_PLUGIN, BrightcovePluginOptions } from "./types";
 
 const normalizerConfig: NormalizerConfig = {
   previous: {

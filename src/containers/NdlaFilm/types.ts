@@ -6,8 +6,8 @@
  *
  */
 
-import { Descendant } from "slate";
 import { MovieThemeDTO } from "@ndla/types-backend/frontpage-api";
+import { Descendant } from "slate";
 import { LocaleType } from "../../interfaces";
 
 export type ThemeNames = Partial<Record<LocaleType, string>>;

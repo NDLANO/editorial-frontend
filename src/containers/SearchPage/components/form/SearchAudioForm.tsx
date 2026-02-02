@@ -6,12 +6,12 @@
  *
  */
 
-import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { FieldRoot, FieldInput, FieldLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { SearchParamsDTO } from "@ndla/types-backend/audio-api";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
 import SearchHeader from "../../../../components/Form/SearchHeader";
 import SearchTagGroup from "../../../../components/Form/SearchTagGroup";

@@ -6,11 +6,11 @@
  *
  */
 
-import { useState } from "react";
-import { ReactEditor, useSlateStatic } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { DragOverlay, useDndMonitor } from "@dnd-kit/core";
 import { styled } from "@ndla/styled-system/jsx";
+import { useState } from "react";
+import { ReactEditor, useSlateStatic } from "slate-react";
 
 const StyledDragOverlay = styled(
   DragOverlay,

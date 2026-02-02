@@ -6,12 +6,12 @@
  *
  */
 
-import { useFormikContext } from "formik";
-import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
 import { inlineNavigationPlugin, SlatePlugin, softBreakPlugin } from "@ndla/editor";
 import { TextArea } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useFormikContext } from "formik";
+import { useTranslation } from "react-i18next";
+import { Descendant } from "slate";
 import { breakPlugin } from "../../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../../components/SlateEditor/plugins/break/render";
 import { headingPlugin } from "../../../components/SlateEditor/plugins/heading";

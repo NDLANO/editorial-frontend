@@ -7,8 +7,8 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { FILE_ELEMENT_TYPE } from "./types";
 import { File } from "../../../../interfaces";
+import { FILE_ELEMENT_TYPE } from "./types";
 
 export const defaultFileBlock = (data: File[]) => {
   return slatejsx("element", { type: FILE_ELEMENT_TYPE, data }, [{ text: "" }]);

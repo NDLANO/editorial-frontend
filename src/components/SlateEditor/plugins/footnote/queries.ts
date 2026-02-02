@@ -6,8 +6,8 @@
  *
  */
 
-import { Descendant } from "slate";
 import { isElementOfType } from "@ndla/editor";
+import { Descendant } from "slate";
 import { FOOTNOTE_ELEMENT_TYPE } from "./types";
 
 export const isFootnoteElement = (node: Descendant | undefined) => isElementOfType(node, FOOTNOTE_ELEMENT_TYPE);

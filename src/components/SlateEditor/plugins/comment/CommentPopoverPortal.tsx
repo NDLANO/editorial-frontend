@@ -6,13 +6,13 @@
  *
  */
 
-import { MouseEvent } from "react";
-import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
 import { CloseLine, DeleteBinLine } from "@ndla/icons";
 import { IconButton, PopoverContent, PopoverTitle } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
+import { MouseEvent } from "react";
+import { useTranslation } from "react-i18next";
 import CommentForm from "./CommentForm";
 
 const StyledPopoverContent = styled(PopoverContent, {

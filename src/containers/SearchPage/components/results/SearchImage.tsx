@@ -6,7 +6,6 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { ImageLine } from "@ndla/icons";
 import { ImageMeta } from "@ndla/image-search";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
@@ -14,10 +13,11 @@ import { ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives
 import { SafeLink } from "@ndla/safelink";
 import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { LicenseLink } from "@ndla/ui";
-import { SearchContentWrapper } from "./SearchContentWrapper";
-import { SearchListItemImage } from "./SearchListItemImage";
+import { useTranslation } from "react-i18next";
 import { useLicenses } from "../../../../modules/draft/draftQueries";
 import { routes } from "../../../../util/routeHelpers";
+import { SearchContentWrapper } from "./SearchContentWrapper";
+import { SearchListItemImage } from "./SearchListItemImage";
 
 interface Props {
   image: ImageMetaInformationV3DTO;

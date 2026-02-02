@@ -6,7 +6,6 @@
  *
  */
 
-import { useMutation, UseMutationOptions, useQueryClient } from "@tanstack/react-query";
 import {
   LearningPathV2DTO,
   LearningStepV2DTO,
@@ -16,6 +15,7 @@ import {
   UpdatedLearningPathV2DTO,
   UpdatedLearningStepV2DTO,
 } from "@ndla/types-backend/learningpath-api";
+import { useMutation, UseMutationOptions, useQueryClient } from "@tanstack/react-query";
 import {
   deleteLearningStep,
   patchLearningpath,

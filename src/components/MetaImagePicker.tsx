@@ -6,8 +6,6 @@
  *
  */
 
-import { ReactNode, useCallback, useState } from "react";
-import { useTranslation } from "react-i18next";
 import {
   DialogBody,
   DialogContent,
@@ -21,6 +19,8 @@ import {
   TabsTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { ReactNode, useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "./DialogCloseButton";
 
 interface Props {

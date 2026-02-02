@@ -6,21 +6,21 @@
  *
  */
 
-import { isEqual } from "lodash-es";
-import { memo, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
-import { useQueryClient } from "@tanstack/react-query";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
 import { keyBy, partition, sortBy } from "@ndla/util";
-import NodeItem from "./NodeItem";
+import { useQueryClient } from "@tanstack/react-query";
+import { isEqual } from "lodash-es";
+import { memo, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { draftQueryKeys, useUpdateUserDataMutation } from "../../modules/draft/draftQueries";
 import { useUpdateNodeConnectionMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys, useChildNodes, useNodeResourceMetas } from "../../modules/nodes/nodeQueries";
 import { getContentUriFromSearchSummary } from "../../util/searchHelpers";
 import { groupChildNodes } from "../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
+import NodeItem from "./NodeItem";
 
 interface Props {
   node: Node;

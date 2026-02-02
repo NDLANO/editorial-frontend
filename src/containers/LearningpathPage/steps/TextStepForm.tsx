@@ -6,15 +6,15 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
-import { TextFormValues } from "./types";
+import { useTranslation } from "react-i18next";
 import { FormField } from "../../../components/FormField";
 import { RulesType } from "../../../components/formikValidationSchema";
 import { LicenseField } from "../../FormikForm";
 import { LearningpathTextEditor } from "../components/LearningpathTextEditor";
+import { TextFormValues } from "./types";
 
 interface Props {
   language: string | undefined;

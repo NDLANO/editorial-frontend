@@ -6,10 +6,6 @@
  *
  */
 
-import { Formik, FormikProps, useFormikContext } from "formik";
-import { useEffect, useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
 import {
   Button,
   FieldInput,
@@ -22,7 +18,10 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { BrightcoveEmbedData } from "@ndla/types-embed";
-import { VideoWrapper } from "./VideoWrapper";
+import { Formik, FormikProps, useFormikContext } from "formik";
+import { useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Descendant } from "slate";
 import config from "../../../../config";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue } from "../../../../util/articleContentConverter";
@@ -34,6 +33,7 @@ import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import { RichTextIndicator } from "../../RichTextIndicator";
+import { VideoWrapper } from "./VideoWrapper";
 
 interface Props {
   embed: BrightcoveEmbedData;

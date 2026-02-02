@@ -6,22 +6,20 @@
  *
  */
 
-import { FormikErrors } from "formik";
-import { useTranslation } from "react-i18next";
-
 import { FieldErrorMessage, FieldRoot, PageContent } from "@ndla/primitives";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-
-import SubjectpageAbout from "./SubjectpageAbout";
-import SubjectpageArticles from "./SubjectpageArticles";
-import SubjectpageMetadata from "./SubjectpageMetadata";
-import SubjectpageSubjectlinks from "./SubjectpageSubjectlinks";
+import { FormikErrors } from "formik";
+import { useTranslation } from "react-i18next";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import { SubjectPageFormikType } from "../../../util/subjectHelpers";
+import SubjectpageAbout from "./SubjectpageAbout";
+import SubjectpageArticles from "./SubjectpageArticles";
+import SubjectpageMetadata from "./SubjectpageMetadata";
+import SubjectpageSubjectlinks from "./SubjectpageSubjectlinks";
 
 interface Props {
   buildsOn: string[];

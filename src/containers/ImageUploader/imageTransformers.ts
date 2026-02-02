@@ -6,8 +6,8 @@
  *
  */
 
-import { Descendant } from "slate";
 import { ImageMetaInformationV3DTO, AuthorDTO, ImageDimensionsDTO } from "@ndla/types-backend/image-api";
+import { Descendant } from "slate";
 import { plainTextToEditorValue } from "../../util/articleContentConverter";
 
 export interface ImageFormikType {

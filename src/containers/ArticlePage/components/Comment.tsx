@@ -6,20 +6,20 @@
  *
  */
 
+import { CheckLine, DeleteBinLine, ArrowDownShortLine, ArrowRightShortLine } from "@ndla/icons";
+import { Button, FieldRoot, IconButton } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { FieldArrayRenderProps, FieldInputProps } from "formik";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { CheckLine, DeleteBinLine, ArrowDownShortLine, ArrowRightShortLine } from "@ndla/icons";
-import { Button, FieldRoot, IconButton } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
-import { plugins } from "./commentToolbarUtils";
 import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import { UnsupportedElement } from "../../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import { SlateCommentType } from "../../FormikForm/articleFormHooks";
+import { plugins } from "./commentToolbarUtils";
 
 const StyledFieldRoot = styled(FieldRoot, {
   base: {

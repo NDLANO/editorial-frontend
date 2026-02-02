@@ -6,14 +6,14 @@
  *
  */
 
-import { Fragment, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useQueryClient } from "@tanstack/react-query";
 import { ErrorWarningLine, CheckLine } from "@ndla/icons";
 import { Text, Spinner, MessageBox } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
+import { useQueryClient } from "@tanstack/react-query";
+import { Fragment, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { cloneDraft } from "../../../../modules/draft/draftApi";
 import { learningpathCopy } from "../../../../modules/learningpath/learningpathApi";
 import { cloneNode, fetchNodeResources, postNodeConnection } from "../../../../modules/nodes/nodeApi";

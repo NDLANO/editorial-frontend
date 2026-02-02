@@ -6,8 +6,8 @@
  *
  */
 
-import { Descendant } from "slate";
 import { CopyrightEmbedData } from "@ndla/types-embed";
+import { Descendant } from "slate";
 
 export interface CopyrightElement {
   type: "copyright";

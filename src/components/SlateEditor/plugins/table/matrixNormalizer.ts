@@ -11,9 +11,6 @@ import { ReactEditor } from "slate-react";
 import { defaultTableRowBlock } from "./defaultBlocks";
 import { TableMatrix, TableSectionElement } from "./interfaces";
 import { getPrevCell, countMatrixRowCells, insertCellInMatrix } from "./matrixHelpers";
-import { insertEmptyCells, updateCell, increaseTableSectionWidth } from "./slateActions";
-import { getTableSectionWidth } from "./slateHelpers";
-import { TABLE_CELL_ELEMENT_TYPE, TABLE_CELL_HEADER_ELEMENT_TYPE } from "./types";
 import {
   isAnyTableCellElement,
   isTableElement,
@@ -21,6 +18,9 @@ import {
   isTableRowElement,
   isTableSectionElement,
 } from "./queries";
+import { insertEmptyCells, updateCell, increaseTableSectionWidth } from "./slateActions";
+import { getTableSectionWidth } from "./slateHelpers";
+import { TABLE_CELL_ELEMENT_TYPE, TABLE_CELL_HEADER_ELEMENT_TYPE } from "./types";
 
 // Before placing a cell in the table matrix, make sure the cell has the required space
 // If not, add the required space by inserting empty cells.

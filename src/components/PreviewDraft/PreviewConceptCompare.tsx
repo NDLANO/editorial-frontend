@@ -6,18 +6,18 @@
  *
  */
 
-import { useFormikContext } from "formik";
-import { useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ConceptDTO } from "@ndla/types-backend/concept-api";
-import PreviewConceptComponent from "./PreviewConceptComponent";
-import { TwoArticleWrapper } from "./styles";
+import { useFormikContext } from "formik";
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ConceptFormValues } from "../../containers/ConceptPage/conceptInterfaces";
 import { conceptFormTypeToApiType } from "../../containers/ConceptPage/conceptTransformers";
 import { useConcept } from "../../modules/concept/conceptQueries";
 import { useLicenses } from "../../modules/draft/draftQueries";
+import PreviewConceptComponent from "./PreviewConceptComponent";
+import { TwoArticleWrapper } from "./styles";
 
 const ConceptWrapper = styled("div", {
   base: {

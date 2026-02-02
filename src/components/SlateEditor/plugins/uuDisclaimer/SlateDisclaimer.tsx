@@ -6,23 +6,23 @@
  *
  */
 
-import parse from "html-react-parser";
-import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { PencilFill } from "@ndla/icons";
 import { DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { UuDisclaimerEmbedData, UuDisclaimerMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, UuDisclaimerEmbed } from "@ndla/ui";
-import DisclaimerForm from "./DisclaimerForm";
-import { isDisclaimerElement } from "./queries";
-import { DisclaimerElement } from "./types";
+import parse from "html-react-parser";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
 import DeleteButton from "../../../DeleteButton";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import MoveContentButton from "../../../MoveContentButton";
+import DisclaimerForm from "./DisclaimerForm";
+import { isDisclaimerElement } from "./queries";
+import { DisclaimerElement } from "./types";
 
 interface Props {
   attributes: RenderElementProps["attributes"];

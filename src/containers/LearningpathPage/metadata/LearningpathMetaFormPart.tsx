@@ -6,9 +6,6 @@
  *
  */
 
-import { useFormikContext } from "formik";
-import { useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import { CheckLine } from "@ndla/icons";
 import {
@@ -23,7 +20,9 @@ import {
   Input,
 } from "@ndla/primitives";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
-import { LearningpathMetaImageField } from "./LearningpathMetaImageField";
+import { useFormikContext } from "formik";
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../components/Form/FieldWarning";
@@ -36,6 +35,7 @@ import useDebounce from "../../../util/useDebounce";
 import { ContributorsField } from "../../FormikForm";
 import { LearningpathTextEditor } from "../components/LearningpathTextEditor";
 import { LearningpathFormValues } from "../learningpathFormUtils";
+import { LearningpathMetaImageField } from "./LearningpathMetaImageField";
 
 interface Props {
   language: string;

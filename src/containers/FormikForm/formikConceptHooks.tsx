@@ -6,9 +6,9 @@
  *
  */
 
-import { useState, useEffect } from "react";
 import { ConceptDTO, NewConceptDTO, UpdatedConceptDTO } from "@ndla/types-backend/concept-api";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
+import { useState, useEffect } from "react";
 import { LAST_UPDATED_SIZE } from "../../constants";
 import * as conceptApi from "../../modules/concept/conceptApi";
 import { useUpdateUserDataMutation, useUserData } from "../../modules/draft/draftQueries";

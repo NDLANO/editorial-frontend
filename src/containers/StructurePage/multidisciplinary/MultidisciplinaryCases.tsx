@@ -6,12 +6,12 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { Heading, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import { keyBy } from "@ndla/util";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useChildNodes, useNodeResourceMetas } from "../../../modules/nodes/nodeQueries";
 import { getContentUriFromSearchSummary } from "../../../util/searchHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";

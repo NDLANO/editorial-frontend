@@ -6,8 +6,8 @@
  *
  */
 
-import { Node } from "slate";
 import { isElementOfType } from "@ndla/editor";
+import { Node } from "slate";
 import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../types";
 
 export const isCampaignBlockElement = (node: Node | undefined) => isElementOfType(node, CAMPAIGN_BLOCK_ELEMENT_TYPE);

@@ -6,7 +6,6 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import {
   AudioMetaInformationDTO,
   AudioSummarySearchResultDTO,
@@ -17,14 +16,7 @@ import {
   TagsSearchResultDTO,
   TranscriptionResultDTO,
 } from "@ndla/types-backend/audio-api";
-import {
-  fetchAudio,
-  fetchAudioTranscription,
-  fetchSearchTags,
-  fetchSeries,
-  postSearchAudio,
-  postSearchSeries,
-} from "./audioApi";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import {
   AUDIO,
   PODCAST_SERIES,
@@ -33,6 +25,14 @@ import {
   SEARCH_SERIES,
   AUDIO_TRANSCRIPTION,
 } from "../../queryKeys";
+import {
+  fetchAudio,
+  fetchAudioTranscription,
+  fetchSearchTags,
+  fetchSeries,
+  postSearchAudio,
+  postSearchSeries,
+} from "./audioApi";
 import { UseAudio, UseSearchTags, UseSeries, UseTranscription } from "./audioTypes";
 
 export const audioQueryKeys = {

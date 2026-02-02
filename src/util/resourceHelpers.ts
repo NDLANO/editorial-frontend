@@ -6,9 +6,9 @@
  *
  */
 
-import { TFunction } from "i18next";
 import { NodeType, ResourceType } from "@ndla/types-taxonomy";
 import { constants } from "@ndla/ui";
+import { TFunction } from "i18next";
 import { routes, toEditArticle, toEditAudio, toEditConcept, toEditGloss, toEditPodcastSeries } from "./routeHelpers";
 
 const { contentTypes, contentTypeMapping } = constants;

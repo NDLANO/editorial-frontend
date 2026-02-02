@@ -7,9 +7,9 @@
  */
 
 import { createPlugin, isElementOfType, PARAGRAPH_ELEMENT_TYPE, SPAN_ELEMENT_TYPE } from "@ndla/editor";
-import { UNSUPPORTED_ELEMENT_TYPE, UNSUPPORTED_PLUGIN } from "./types";
 import { Editor, Node, Transforms } from "slate";
 import { blockContentToHTML } from "../../../../util/articleContentConverter";
+import { UNSUPPORTED_ELEMENT_TYPE, UNSUPPORTED_PLUGIN } from "./types";
 
 export const unsupportedPlugin = createPlugin({
   name: UNSUPPORTED_PLUGIN,

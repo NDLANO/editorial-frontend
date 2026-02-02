@@ -6,7 +6,6 @@
  *
  */
 
-import { jsx as slatejsx } from "slate-hyperscript";
 import {
   createDataAttributes,
   createHtmlTag,
@@ -17,6 +16,10 @@ import {
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
+import { TYPE_NDLA_EMBED } from "../embed/types";
+import { isExternalElement, isIframeElement } from "./queries";
 import {
   EXTERNAL_ELEMENT_TYPE,
   EXTERNAL_PLUGIN,
@@ -25,9 +28,6 @@ import {
   IFRAME_PLUGIN,
   IframePluginOptions,
 } from "./types";
-import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
-import { TYPE_NDLA_EMBED } from "../embed/types";
-import { isExternalElement, isIframeElement } from "./queries";
 
 const normalizerConfig: NormalizerConfig = {
   previous: {

@@ -6,8 +6,6 @@
  *
  */
 
-import { ReactNode, useMemo, useRef } from "react";
-import { useTranslation } from "react-i18next";
 import { CollectionItem, createListCollection } from "@ark-ui/react";
 import { CollectionOptions } from "@ark-ui/react/collection";
 import {
@@ -21,8 +19,10 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";
-import { scrollToIndexFn } from "./utils";
+import { ReactNode, useMemo, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import Pagination from "../abstractions/Pagination";
+import { scrollToIndexFn } from "./utils";
 
 interface PaginationData {
   totalCount: number;

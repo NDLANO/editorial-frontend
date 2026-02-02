@@ -6,9 +6,6 @@
  *
  */
 
-import { Formik, useFormikContext } from "formik";
-import { useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import {
   Button,
@@ -25,6 +22,9 @@ import {
 import { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import { AudioEmbedData } from "@ndla/types-embed";
 import { AudioPlayer } from "@ndla/ui";
+import { Formik, useFormikContext } from "formik";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../abstractions/Select";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";

@@ -7,10 +7,10 @@
  */
 
 import { createPlugin, defaultNormalizer, isParagraphElement, NormalizerConfig } from "@ndla/editor";
-import { SUMMARY_ELEMENT_TYPE, SUMMARY_PLUGIN } from "./summaryTypes";
-import { isSummaryElement } from "./queries/detailsQueries";
-import { DETAILS_ELEMENT_TYPE } from "./detailsTypes";
 import { Path, Transforms } from "slate";
+import { DETAILS_ELEMENT_TYPE } from "./detailsTypes";
+import { isSummaryElement } from "./queries/detailsQueries";
+import { SUMMARY_ELEMENT_TYPE, SUMMARY_PLUGIN } from "./summaryTypes";
 
 const summaryNormalizerConfig: NormalizerConfig = {
   parent: {

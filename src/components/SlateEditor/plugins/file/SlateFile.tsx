@@ -6,8 +6,6 @@
  *
  */
 
-import { KeyboardEvent, MouseEvent, useCallback, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { CloseLine, PencilFill, DeleteBinLine, CheckboxCircleFill, CheckLine } from "@ndla/icons";
 import {
   CheckboxControl,
@@ -23,6 +21,8 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { File as FileComponent, FileListItem } from "@ndla/ui";
+import { KeyboardEvent, MouseEvent, useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { File as FileType } from "../../../../interfaces";
 
 const ButtonWrapper = styled("div", {

@@ -6,25 +6,25 @@
  *
  */
 
-import { useFormikContext } from "formik";
-import parse from "html-react-parser";
-import { ReactNode, useMemo, useState } from "react";
-import { renderToString } from "react-dom/server";
-import { useTranslation } from "react-i18next";
 import { InformationLine } from "@ndla/icons";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { MissingRouterContext } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { ArticleWrapper } from "@ndla/ui";
-import { toFormArticle } from "./PreviewDraft";
-import { TwoArticleWrapper } from "./styles";
-import { TransformedPreviewDraft } from "./TransformedPreviewDraft";
-import { useTransformedArticle } from "./useTransformedArticle";
+import { useFormikContext } from "formik";
+import parse from "html-react-parser";
+import { ReactNode, useMemo, useState } from "react";
+import { renderToString } from "react-dom/server";
+import { useTranslation } from "react-i18next";
 import { learningResourceFormTypeToDraftApiType } from "../../containers/ArticlePage/articleTransformers";
 import { LearningResourceFormType } from "../../containers/FormikForm/articleFormHooks";
 import { useLicenses } from "../../modules/draft/draftQueries";
 import { getDiff } from "../../util/diffHTML";
+import { toFormArticle } from "./PreviewDraft";
+import { TwoArticleWrapper } from "./styles";
+import { TransformedPreviewDraft } from "./TransformedPreviewDraft";
+import { useTransformedArticle } from "./useTransformedArticle";
 
 export interface VersionPreviewProps {
   type: "version";

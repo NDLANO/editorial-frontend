@@ -6,17 +6,17 @@
  *
  */
 
-import { memo, useCallback, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Transforms } from "slate";
-import { ReactEditor, RenderElementProps, useSlateStatic } from "slate-react";
 import { ArrowDownShortLine } from "@ndla/icons";
 import { ExpandableBox, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { EmbedWrapper } from "@ndla/ui";
-import { isDetailsElement } from "./queries/detailsQueries";
+import { memo, useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Transforms } from "slate";
+import { ReactEditor, RenderElementProps, useSlateStatic } from "slate-react";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
+import { isDetailsElement } from "./queries/detailsQueries";
 
 const ButtonContainer = styled("div", {
   base: {

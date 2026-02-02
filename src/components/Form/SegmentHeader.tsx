@@ -6,8 +6,8 @@
  *
  */
 
-import { ComponentPropsWithoutRef } from "react";
 import { styled } from "@ndla/styled-system/jsx";
+import { ComponentPropsWithoutRef } from "react";
 
 const StyledSegmentHeader = styled("div", {
   base: {

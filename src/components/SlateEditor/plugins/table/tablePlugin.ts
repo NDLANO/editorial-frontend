@@ -13,7 +13,17 @@ import {
   NormalizerConfig,
   PARAGRAPH_ELEMENT_TYPE,
 } from "@ndla/editor";
-import { TABLE_CELL_HEADER_ELEMENT_TYPE, TABLE_ELEMENT_TYPE, TABLE_PLUGIN } from "./types";
+import { isKeyHotkey } from "is-hotkey";
+import isEqual from "lodash-es/isEqual";
+import { Editor, NodeEntry, Path, Point, Range, Transforms } from "slate";
+import { KEY_ARROW_DOWN, KEY_ARROW_UP, KEY_BACKSPACE, KEY_DELETE } from "../../utils/keys";
+import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
+import { defaultTableCaptionBlock, defaultTableHeadBlock } from "./defaultBlocks";
+import { moveDown, moveLeft, moveRight, moveUp } from "./handleKeyDown";
+import { TableElement } from "./interfaces";
+import { getTableAsMatrix } from "./matrix";
+import { getHeader, getId, previousMatrixCellIsEqualCurrent } from "./matrixHelpers";
+import { normalizeTableSectionAsMatrix } from "./matrixNormalizer";
 import {
   isAnyTableCellElement,
   isTableBodyElement,
@@ -23,18 +33,8 @@ import {
   isTableRowElement,
   isTableSectionElement,
 } from "./queries";
-import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
-import { Editor, NodeEntry, Path, Point, Range, Transforms } from "slate";
-import { defaultTableCaptionBlock, defaultTableHeadBlock } from "./defaultBlocks";
-import { getTableAsMatrix } from "./matrix";
-import isEqual from "lodash-es/isEqual";
-import { getHeader, getId, previousMatrixCellIsEqualCurrent } from "./matrixHelpers";
-import { TableElement } from "./interfaces";
 import { updateCell } from "./slateActions";
-import { normalizeTableSectionAsMatrix } from "./matrixNormalizer";
-import { isKeyHotkey } from "is-hotkey";
-import { KEY_ARROW_DOWN, KEY_ARROW_UP, KEY_BACKSPACE, KEY_DELETE } from "../../utils/keys";
-import { moveDown, moveLeft, moveRight, moveUp } from "./handleKeyDown";
+import { TABLE_CELL_HEADER_ELEMENT_TYPE, TABLE_ELEMENT_TYPE, TABLE_PLUGIN } from "./types";
 
 const normalizerConfig: NormalizerConfig = {
   previous: {

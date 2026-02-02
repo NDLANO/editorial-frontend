@@ -7,8 +7,8 @@
  */
 
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { OpenGraphData } from "./opengraphTypes";
 import { fetchOpenGraphData } from "./openGraphApi";
+import { OpenGraphData } from "./opengraphTypes";
 
 export const openGraphQueryKeys = {
   openGraph: (url: string) => ["openGraph", url] as const,

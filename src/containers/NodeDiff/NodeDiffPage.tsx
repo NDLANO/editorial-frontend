@@ -6,13 +6,13 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import { useParams, useSearchParams } from "react-router";
 import { Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useTranslation } from "react-i18next";
+import { useParams, useSearchParams } from "react-router";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import DiffOptions from "./DiffOptions";
 import NodeDiffcontainer from "./NodeDiffContainer";
-import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const StyledPageContainer = styled(PageContainer, {
   base: {

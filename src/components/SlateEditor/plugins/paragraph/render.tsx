@@ -6,8 +6,8 @@
  *
  */
 
-import { Editor } from "slate";
 import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
+import { Editor } from "slate";
 import Paragraph from "./Paragraph";
 
 // TODO: This can be replaced

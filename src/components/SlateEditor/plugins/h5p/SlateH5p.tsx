@@ -6,19 +6,16 @@
  *
  */
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { DeleteBinLine, FileCopyLine, LinkMedium } from "@ndla/icons";
 import { DialogBody, DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { H5pEmbedData, H5pMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, H5pEmbed } from "@ndla/ui";
-import EditMetadataDialog from "./EditMetadataDialog";
-import { isH5pElement } from "./queries";
-import { H5pElement } from "./types";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Path, Transforms } from "slate";
+import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import config from "../../../../config";
 import { useMessages } from "../../../../containers/Messages/MessagesProvider";
 import { useH5pMeta } from "../../../../modules/embed/queries";
@@ -27,6 +24,9 @@ import { getH5pLocale } from "../../../H5PElement/h5pApi";
 import H5PElement, { OnSelectObject } from "../../../H5PElement/H5PElement";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { StyledFigureButtons } from "../embed/FigureButtons";
+import EditMetadataDialog from "./EditMetadataDialog";
+import { isH5pElement } from "./queries";
+import { H5pElement } from "./types";
 
 interface Props extends RenderElementProps {
   element: H5pElement;

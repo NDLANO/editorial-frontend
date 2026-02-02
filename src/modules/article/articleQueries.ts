@@ -6,10 +6,10 @@
  *
  */
 
-import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { ArticleV2DTO, SearchResultV2DTO } from "@ndla/types-backend/article-api";
-import { ArticleSearchParams, getArticle, searchArticles } from "./articleApi";
+import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { ARTICLE, ARTICLES } from "../../queryKeys";
+import { ArticleSearchParams, getArticle, searchArticles } from "./articleApi";
 
 export const articleQueryKeys = {
   search: (params?: Partial<ArticleSearchParams>) => [ARTICLES, params] as const,

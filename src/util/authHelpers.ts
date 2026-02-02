@@ -6,8 +6,8 @@
  *
  */
 
-import { JwtPayload } from "jwt-decode";
 import { getCookie } from "@ndla/util";
+import { JwtPayload } from "jwt-decode";
 import { ACCESS_TOKEN_COOKIE } from "../constants";
 import { NewMessageType } from "../containers/Messages/MessagesProvider";
 import { decodeToken } from "./jwtHelper";

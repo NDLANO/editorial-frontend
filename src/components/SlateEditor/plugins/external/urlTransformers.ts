@@ -6,9 +6,9 @@
  *
  */
 
-import { urlAsATag } from "../../../../util/htmlHelpers";
-import { fetchNrkMedia } from "../../../../modules/video/nrkApi";
 import config from "../../../../config";
+import { fetchNrkMedia } from "../../../../modules/video/nrkApi";
+import { urlAsATag } from "../../../../util/htmlHelpers";
 
 interface UrlTransformer {
   domains: string[];

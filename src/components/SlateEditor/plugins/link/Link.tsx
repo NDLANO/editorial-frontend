@@ -6,10 +6,6 @@
  *
  */
 
-import { useCallback, useEffect, useMemo, useRef, useState, type JSX } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Node, Transforms, Path } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { isElementOfType } from "@ndla/editor";
 import {
@@ -26,14 +22,18 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentLinkEmbedData } from "@ndla/types-embed";
+import { useCallback, useEffect, useMemo, useRef, useState, type JSX } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Node, Transforms, Path } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
 import { ContentLinkElement, LinkElement } from ".";
-import LinkForm from "./LinkForm";
-import { LinkData, LinkEmbedData, LINK_ELEMENT_TYPE, CONTENT_LINK_ELEMENT_TYPE } from "./types";
 import config from "../../../../config";
 import { routes, toEditGenericArticle } from "../../../../util/routeHelpers";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { InlineBugfix } from "../../utils/InlineBugFix";
+import LinkForm from "./LinkForm";
+import { LinkData, LinkEmbedData, LINK_ELEMENT_TYPE, CONTENT_LINK_ELEMENT_TYPE } from "./types";
 
 const StyledPopoverContent = styled(PopoverContent, {
   base: {

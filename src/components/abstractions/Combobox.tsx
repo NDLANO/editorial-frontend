@@ -6,7 +6,6 @@
  *
  */
 
-import { ReactNode, type Ref } from "react";
 import { CloseLine, ArrowDownShortLine, CheckLine, ImageLine } from "@ndla/icons";
 import {
   ComboboxClearTrigger,
@@ -29,6 +28,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { Flex, styled } from "@ndla/styled-system/jsx";
+import { ReactNode, type Ref } from "react";
 
 interface GenericComboboxItemIndicatorProps extends ComboboxItemIndicatorProps {
   ref?: Ref<HTMLDivElement>;

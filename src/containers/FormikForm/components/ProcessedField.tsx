@@ -6,9 +6,6 @@
  *
  */
 
-import { useField } from "formik";
-import { useCallback } from "react";
-import { useTranslation } from "react-i18next";
 import { CheckboxCheckedChangeDetails } from "@ark-ui/react";
 import { CheckLine } from "@ndla/icons";
 import {
@@ -20,6 +17,9 @@ import {
   FieldHelper,
   FieldRoot,
 } from "@ndla/primitives";
+import { useField } from "formik";
+import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 
 const ProcessedField = () => {
   const { t } = useTranslation();

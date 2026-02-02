@@ -6,8 +6,8 @@
  *
  */
 
-import { Node } from "slate";
 import { isElementOfType } from "@ndla/editor";
+import { Node } from "slate";
 import { DISCLAIMER_ELEMENT_TYPE } from "./types";
 
 export const isDisclaimerElement = (node: Node) => isElementOfType(node, DISCLAIMER_ELEMENT_TYPE);

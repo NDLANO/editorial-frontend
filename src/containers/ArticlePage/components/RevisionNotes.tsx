@@ -6,9 +6,6 @@
  *
  */
 
-import { FastField, FieldArray, FieldProps, useField } from "formik";
-import { memo } from "react";
-import { useTranslation } from "react-i18next";
 import { getLocalTimeZone, today } from "@internationalized/date";
 import { DeleteBinLine } from "@ndla/icons";
 import {
@@ -28,6 +25,9 @@ import {
   SwitchThumb,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { FastField, FieldArray, FieldProps, useField } from "formik";
+import { memo } from "react";
+import { useTranslation } from "react-i18next";
 import { Revision } from "../../../constants";
 import { formatDateForBackend } from "../../../util/formatDate";
 import { ArticleFormType } from "../../FormikForm/articleFormHooks";

@@ -6,13 +6,13 @@
  *
  */
 
-import { useCallback, useMemo } from "react";
 import { DatePickerValueChangeDetails } from "@ark-ui/react";
 import { getLocalTimeZone, parseAbsoluteToLocal } from "@internationalized/date";
 import { CalendarLine } from "@ndla/icons";
 import { Button, DatePickerControl, DatePickerRoot, DatePickerTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useDatePickerTranslations } from "@ndla/ui";
+import { useCallback, useMemo } from "react";
 import { DatePickerContent } from "../../../components/abstractions/DatePicker";
 import { formatDateForBackend } from "../../../util/formatDate";
 

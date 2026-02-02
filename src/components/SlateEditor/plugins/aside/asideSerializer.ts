@@ -6,8 +6,8 @@
  *
  */
 
-import { jsx as slatejsx } from "slate-hyperscript";
 import { createDataAttributes, createHtmlTag, createSerializer } from "@ndla/editor";
+import { jsx as slatejsx } from "slate-hyperscript";
 import { ASIDE_ELEMENT_TYPE } from "./asideTypes";
 import { isAsideElement } from "./queries/asideQueries";
 

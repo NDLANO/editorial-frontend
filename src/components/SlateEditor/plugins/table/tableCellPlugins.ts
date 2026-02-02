@@ -7,16 +7,16 @@
  */
 
 import { createPlugin, isElementOfType, PluginConfiguration } from "@ndla/editor";
+import { Node, Range } from "slate";
+import { HistoryEditor } from "slate-history";
+import { isTableCellHeaderElement } from "./queries";
+import { updateCell } from "./slateActions";
 import {
   TABLE_CELL_ELEMENT_TYPE,
   TABLE_CELL_HEADER_ELEMENT_TYPE,
   TABLE_CELL_HEADER_PLUGIN,
   TABLE_CELL_PLUGIN,
 } from "./types";
-import { Node, Range } from "slate";
-import { HistoryEditor } from "slate-history";
-import { updateCell } from "./slateActions";
-import { isTableCellHeaderElement } from "./queries";
 
 const normalizeNode =
   <T extends typeof TABLE_CELL_ELEMENT_TYPE | typeof TABLE_CELL_HEADER_ELEMENT_TYPE>(

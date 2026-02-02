@@ -6,21 +6,16 @@
  *
  */
 
-import { Formik, FormikHelpers } from "formik";
-import { useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router";
 import { Button, PageContent } from "@ndla/primitives";
 import {
   AudioMetaInformationDTO,
   NewAudioMetaInformationDTO,
   UpdatedAudioMetaInformationDTO,
 } from "@ndla/types-backend/audio-api";
-import AudioContent from "./AudioContent";
-import AudioCopyright from "./AudioCopyright";
-import { AudioFormHeader } from "./AudioFormHeader";
-import AudioManuscript from "./AudioManuscript";
-import AudioMetaData from "./AudioMetaData";
+import { Formik, FormikHelpers } from "formik";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate } from "react-router";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { FormActionsContainer, Form } from "../../../components/FormikForm";
@@ -35,6 +30,11 @@ import { DEFAULT_LICENSE, isFormikFormDirty } from "../../../util/formHelper";
 import { NewlyCreatedLocationState } from "../../../util/routeHelpers";
 import { AlertDialogWrapper } from "../../FormikForm";
 import { MessageError, useMessages } from "../../Messages/MessagesProvider";
+import AudioContent from "./AudioContent";
+import AudioCopyright from "./AudioCopyright";
+import { AudioFormHeader } from "./AudioFormHeader";
+import AudioManuscript from "./AudioManuscript";
+import AudioMetaData from "./AudioMetaData";
 
 const rules: RulesType<AudioFormikType, AudioMetaInformationDTO> = {
   title: {

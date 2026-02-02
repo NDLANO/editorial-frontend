@@ -6,14 +6,14 @@
  *
  */
 
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useQueryClient } from "@tanstack/react-query";
 import { CheckLine } from "@ndla/icons";
 import { Text, ComboboxLabel, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
+import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../../components/Form/GenericSearchCombobox";
 import { fetchDraft, updateDraft } from "../../../../modules/draft/draftApi";

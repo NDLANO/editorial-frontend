@@ -11,8 +11,8 @@ import { defaultTableCellBlock } from "./defaultBlocks";
 import { TableCellElement, TableElement, TableSectionElement } from "./interfaces";
 import { getTableAsMatrix } from "./matrix";
 import { findCellCoordinate, getMatrixColumn } from "./matrixHelpers";
-import { hasCellAlignOfType } from "./slateHelpers";
 import { isAnyTableCellElement, isTableRowElement } from "./queries";
+import { hasCellAlignOfType } from "./slateHelpers";
 
 export const insertEmptyCells = (editor: Editor, path: Path, amount: number) => {
   Transforms.insertNodes(

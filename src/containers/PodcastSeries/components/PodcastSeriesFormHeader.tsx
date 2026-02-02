@@ -6,11 +6,11 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { RssLine } from "@ndla/icons";
 import { Badge } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { SeriesDTO } from "@ndla/types-backend/audio-api";
+import { useTranslation } from "react-i18next";
 import HeaderActions from "../../../components/HeaderWithLanguage/HeaderActions";
 import { HeaderCurrentLanguagePill } from "../../../components/HeaderWithLanguage/HeaderCurrentLanguagePill";
 import config from "../../../config";

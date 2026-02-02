@@ -6,9 +6,6 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { useQueries } from "@tanstack/react-query";
 import { LinkMedium } from "@ndla/icons";
 import {
   DialogBody,
@@ -22,6 +19,9 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
+import { useQueries } from "@tanstack/react-query";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import { fetchConnectionsForNode } from "../../modules/nodes/nodeApi";
 import { useSearchNodes } from "../../modules/nodes/nodeQueries";

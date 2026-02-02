@@ -6,10 +6,6 @@
  *
  */
 
-import { useFormikContext } from "formik";
-import { useEffect, useState, memo, useMemo } from "react";
-
-import { useTranslation } from "react-i18next";
 import { ArrowDownShortLine } from "@ndla/icons";
 import {
   AccordionItem,
@@ -24,9 +20,9 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleRevisionHistoryDTO, ArticleDTO, EditorNoteDTO } from "@ndla/types-backend/draft-api";
-import AddNotesField from "./AddNotesField";
-import { ArticleFormType } from "./articleFormHooks";
-import VersionActionbuttons from "./VersionActionButtons";
+import { useFormikContext } from "formik";
+import { useEffect, useState, memo, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { FormField } from "../../components/FormField";
 import VersionHistory from "../../components/VersionHistory/VersionHistory";
 import { useSession } from "../../containers/Session/SessionProvider";
@@ -41,6 +37,9 @@ import {
   draftApiTypeToTopicArticleFormType,
 } from "../ArticlePage/articleTransformers";
 import { useMessages } from "../Messages/MessagesProvider";
+import AddNotesField from "./AddNotesField";
+import { ArticleFormType } from "./articleFormHooks";
+import VersionActionbuttons from "./VersionActionButtons";
 
 const Wrapper = styled("div", {
   base: {

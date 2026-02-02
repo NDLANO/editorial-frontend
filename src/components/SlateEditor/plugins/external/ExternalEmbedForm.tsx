@@ -6,9 +6,6 @@
  *
  */
 
-import { Formik, useFormikContext } from "formik";
-import { useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { CloseLine, InformationFill, CheckLine } from "@ndla/icons";
 import {
   Button,
@@ -31,8 +28,9 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IframeEmbedData, OembedEmbedData } from "@ndla/types-embed";
-import UrlAllowList from "./UrlAllowList";
-import { urlTransformers } from "./urlTransformers";
+import { Formik, useFormikContext } from "formik";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { DRAFT_ADMIN_SCOPE, EXTERNAL_WHITELIST_PROVIDERS } from "../../../../constants";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { useSession } from "../../../../containers/Session/SessionProvider";
@@ -43,6 +41,8 @@ import { getStartTime, getStopTime, getYoutubeEmbedUrl, removeYoutubeTimeStamps 
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
+import UrlAllowList from "./UrlAllowList";
+import { urlTransformers } from "./urlTransformers";
 
 const LinkInputWrapper = styled("div", {
   base: {

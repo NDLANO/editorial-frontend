@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router";
 import { Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router";
 import { useSession } from "../Session/SessionProvider";
 
 const StyledPageContainer = styled(PageContainer, {

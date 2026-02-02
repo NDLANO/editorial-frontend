@@ -6,15 +6,15 @@
  *
  */
 
+import { PageContainer } from "@ndla/primitives";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
-import { PageContainer } from "@ndla/primitives";
-import SubjectpageForm from "./components/SubjectpageForm";
 import { PageSpinner } from "../../components/PageSpinner";
 import { LocaleType } from "../../interfaces";
 import { useFetchSubjectpageData } from "../FormikForm/formikSubjectpageHooks";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import SubjectpageForm from "./components/SubjectpageForm";
 
 export const Component = () => <PrivateRoute component={<EditSubjectpage />} />;
 

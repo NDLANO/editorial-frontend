@@ -6,14 +6,13 @@
  *
  */
 
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useQueryClient } from "@tanstack/react-query";
 import { CheckLine } from "@ndla/icons";
 import { Text, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeType } from "@ndla/types-taxonomy";
-import NodeSearchDropdown from "./components/NodeSearchDropdown";
+import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { fetchConnectionsForNode } from "../../../../modules/nodes/nodeApi";
 import {
   useDeleteNodeConnectionMutation,
@@ -21,6 +20,7 @@ import {
 } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
+import NodeSearchDropdown from "./components/NodeSearchDropdown";
 
 const Wrapper = styled("div", {
   base: {

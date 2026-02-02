@@ -6,11 +6,18 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router";
 import { Badge, ExpandableBox, ExpandableBoxSummary } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild } from "@ndla/types-taxonomy";
+import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router";
+import NodeIconType from "../../components/NodeIconType";
+import {
+  TAXONOMY_CUSTOM_FIELD_LANGUAGE,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
+} from "../../constants";
 import ArrayDiffField from "./ArrayDiffField";
 import {
   diffField,
@@ -23,13 +30,6 @@ import {
 import FieldDiff from "./FieldDiff";
 import TranslationsDiff from "./TranslationsDiff";
 import { DiffTypePill } from "./TreeNode";
-import NodeIconType from "../../components/NodeIconType";
-import {
-  TAXONOMY_CUSTOM_FIELD_LANGUAGE,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
-} from "../../constants";
 
 interface Props {
   node: RootDiffType | DiffTypeWithChildren;

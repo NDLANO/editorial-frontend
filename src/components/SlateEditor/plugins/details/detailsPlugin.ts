@@ -7,15 +7,15 @@
  */
 
 import { createPlugin, defaultNormalizer, Logger, NormalizerConfig, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
-import { DETAILS_ELEMENT_TYPE, DETAILS_PLUGIN } from "./detailsTypes";
-import { isDetailsElement, isSummaryElement } from "./queries/detailsQueries";
-import { SUMMARY_ELEMENT_TYPE } from "./summaryTypes";
+import { Editor, Node, Range, Transforms } from "slate";
 import {
   afterOrBeforeTextBlockElement,
   lastTextBlockElement,
   textBlockElements,
 } from "../../utils/normalizationHelpers";
-import { Editor, Node, Range, Transforms } from "slate";
+import { DETAILS_ELEMENT_TYPE, DETAILS_PLUGIN } from "./detailsTypes";
+import { isDetailsElement, isSummaryElement } from "./queries/detailsQueries";
+import { SUMMARY_ELEMENT_TYPE } from "./summaryTypes";
 
 const normalizerConfig: NormalizerConfig = {
   firstNode: {

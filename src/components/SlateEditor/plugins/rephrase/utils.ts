@@ -6,8 +6,8 @@
  *
  */
 
-import { jsx as slatejsx } from "slate-hyperscript";
 import { Range, Editor, Transforms, Location } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
 import { REPHRASE_ELEMENT_TYPE } from "./rephraseTypes";
 
 export const insertRephrase = (editor: Editor) => {

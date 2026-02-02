@@ -6,10 +6,6 @@
  *
  */
 
-import { useCallback, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Transforms } from "slate";
-import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { PencilFill, DeleteBinLine, LinkMedium } from "@ndla/icons";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@ndla/primitives";
@@ -17,12 +13,16 @@ import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ImageEmbedData, ImageMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, ImageEmbed } from "@ndla/ui";
-import ImageEmbedForm from "./ImageEmbedForm";
-import { ImageElement } from "./types";
+import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Transforms } from "slate";
+import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { useImageMeta } from "../../../../modules/embed/queries";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { restoreFocusOnPopperExit } from "../../utils/restoreFocusOnPopperExit";
 import { StyledFigureButtons } from "../embed/FigureButtons";
+import ImageEmbedForm from "./ImageEmbedForm";
+import { ImageElement } from "./types";
 
 interface Props extends RenderElementProps {
   element: ImageElement;

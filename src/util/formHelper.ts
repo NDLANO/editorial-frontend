@@ -6,26 +6,26 @@
  *
  */
 
-import { isEqual } from "lodash-es";
-import { Descendant, Node } from "slate";
 import { isElementOfType } from "@ndla/editor";
 import { licenses } from "@ndla/licenses";
 import { ArticleDTO, LicenseDTO, ArticleMetaImageDTO } from "@ndla/types-backend/draft-api";
-import { blockContentToHTML, inlineContentToEditorValue } from "./articleContentConverter";
-import { isGrepCodeValid } from "./articleUtil";
-import { diffHTML } from "./diffHTML";
-import { isUserProvidedEmbedDataValid } from "./embedTagHelpers";
-import { findNodesByType } from "./slateHelpers";
+import { isEqual } from "lodash-es";
+import { Descendant, Node } from "slate";
 import { RulesType } from "../components/formikValidationSchema";
+import { isImageElement } from "../components/SlateEditor/plugins/image/queries";
+import { IMAGE_ELEMENT_TYPE } from "../components/SlateEditor/plugins/image/types";
+import { BRIGHTCOVE_ELEMENT_TYPE } from "../components/SlateEditor/plugins/video/types";
 import {
   ArticleFormType,
   LearningResourceFormType,
   TopicArticleFormType,
   FrontpageArticleFormType,
 } from "../containers/FormikForm/articleFormHooks";
-import { isImageElement } from "../components/SlateEditor/plugins/image/queries";
-import { IMAGE_ELEMENT_TYPE } from "../components/SlateEditor/plugins/image/types";
-import { BRIGHTCOVE_ELEMENT_TYPE } from "../components/SlateEditor/plugins/video/types";
+import { blockContentToHTML, inlineContentToEditorValue } from "./articleContentConverter";
+import { isGrepCodeValid } from "./articleUtil";
+import { diffHTML } from "./diffHTML";
+import { isUserProvidedEmbedDataValid } from "./embedTagHelpers";
+import { findNodesByType } from "./slateHelpers";
 
 export const DEFAULT_LICENSE: LicenseDTO = {
   description: "Creative Commons Attribution-ShareAlike 4.0 International",

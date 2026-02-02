@@ -6,9 +6,6 @@
  *
  */
 
-import { Formik, useFormikContext } from "formik";
-import { useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { CheckLine } from "@ndla/icons";
 import {
@@ -26,7 +23,9 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { ImageEmbedData } from "@ndla/types-embed";
-import { ImageEmbedFormValues } from "./types";
+import { Formik, useFormikContext } from "formik";
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../../util/formHelper";
@@ -38,6 +37,7 @@ import { isEmpty } from "../../../validators";
 import { RichTextIndicator } from "../../RichTextIndicator";
 import { useInGrid } from "../grid/GridContext";
 import ImageEditor from "./ImageEditor/ImageEditor";
+import { ImageEmbedFormValues } from "./types";
 
 interface Props {
   embed: ImageEmbedData;

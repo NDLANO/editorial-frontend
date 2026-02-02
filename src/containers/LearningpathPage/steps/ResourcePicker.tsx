@@ -113,7 +113,7 @@ export const ResourcePicker = ({ setResource, children, onlyPublishedResources }
       closeOnSelect={false}
       selectionBehavior="preserve"
       renderItem={(item) => {
-        const badges = getBadges({ resourceTypes: item.resourceTypes }, t);
+        const badges = getBadges({ resourceTypes: item.resourceTypes, relevanceId: item.context?.relevanceId }, t);
         return (
           <GenericComboboxItemContent
             title={parse(item.title.htmlTitle)}

@@ -135,6 +135,7 @@ export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Pro
           articleType: articleType,
           breadcrumbs: node.breadcrumbs,
           resourceTypes: node.resourceTypes,
+          relevanceId: node.relevanceId,
         });
       } else if (values.articleId && !selectedResource) {
         const nodes = await fetchNodes({ contentURI: `urn:article:${values.articleId}`, language, taxonomyVersion });
@@ -147,6 +148,7 @@ export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Pro
             title: node.name,
             breadcrumbs: node.breadcrumbs,
             resourceTypes: node.resourceTypes,
+            relevanceId: node.relevanceId,
           });
         }
       }
@@ -155,6 +157,7 @@ export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Pro
 
   const badges = useBadges({
     resourceTypes: selectedResource?.resourceTypes,
+    relevanceId: selectedResource?.relevanceId,
   });
 
   const onSelectResource = (resource: ResourceData) => {

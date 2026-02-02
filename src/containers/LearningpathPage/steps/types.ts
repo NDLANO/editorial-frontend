@@ -44,4 +44,5 @@ export interface ResourceData {
   title: string;
   breadcrumbs?: string[];
   resourceTypes?: Pick<ResourceType, "id" | "name">[];
+  relevanceId?: string;
 }

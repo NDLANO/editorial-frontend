@@ -7,6 +7,7 @@
  */
 
 import he from "he";
+// oxfmt-ignore
 import * as Prism from "prismjs";
 import "prismjs/components/prism-clike";
 import "prismjs/components/prism-markup";

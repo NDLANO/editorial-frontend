@@ -68,9 +68,9 @@ $ yarn e2e:headless
 
 ### Code style
 
-_tl;dr_: Use prettier and eslint!
+_tl;dr_: Use oxfmt and eslint!
 
-Format code with prettier to get uniform codestyle:
+Format code with oxfmt to get uniform codestyle:
 
 ```
 $ yarn format

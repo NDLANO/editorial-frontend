@@ -10,7 +10,7 @@ import { editor, KeyMod, KeyCode } from "monaco-editor/esm/vs/editor/editor.api"
 
 export const createFormatAction = (): editor.IActionDescriptor => {
   return {
-    id: "prettier-format",
+    id: "oxfmt",
     label: "Format",
 
     keybindings: [KeyMod.CtrlCmd | KeyMod.Shift | KeyCode.KeyF],

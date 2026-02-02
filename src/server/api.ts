@@ -53,6 +53,8 @@ router.get("/health", (_, res) => {
 });
 
 router.post("/format-html", async (req, res) => {
+  // We don't use oxfmt for this. The large printWidth is more or less a happy coincidence that's not ported over.
+  // We could swap this out with oxfmt if we are willing to parse the HTML and process text nodes differently.
   const html = await prettier.format(req.body.html, {
     parser: "html",
     printWidth: 1000000, // Avoid inserting linebreaks for long inline texts i.e. <p>Lorem ......... ipsum</p>

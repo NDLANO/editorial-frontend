@@ -103,6 +103,18 @@ const TextWrapper = styled("div", {
   },
 });
 
+const StyledListItemHeading = styled(ListItemHeading, {
+  variants: {
+    isVisible: {
+      true: {},
+      false: {
+        fontStyle: "italic",
+        fontWeight: "normal",
+      },
+    },
+  },
+});
+
 interface Props {
   currentNodeId: string;
   responsible?: string;
@@ -163,7 +175,7 @@ const Resource = ({
       <StyledListItemContent>
         <ContentRow>
           <TextWrapper>
-            <ListItemHeading>
+            <StyledListItemHeading isVisible={resource.metadata.visible}>
               {numericId ? (
                 <SafeLink
                   to={
@@ -182,7 +194,7 @@ const Resource = ({
                   {resource.name}
                 </Text>
               )}
-            </ListItemHeading>
+            </StyledListItemHeading>
           </TextWrapper>
           <InfoItems>
             {showMatomoStats ? (

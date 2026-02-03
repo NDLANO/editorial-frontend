@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { PageContent } from "@ndla/primitives";
-import { LearningpathForm } from "./LearningpathForm";
+import { useTranslation } from "react-i18next";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import { LearningpathForm } from "./LearningpathForm";
 
 export const Component = () => {
   return <PrivateRoute component={<CreateLearningpathPage />} />;

@@ -6,17 +6,17 @@
  *
  */
 
+import { createSlate } from "@ndla/editor";
+import { styled } from "@ndla/styled-system/jsx";
+import { JsxStyleProps } from "@ndla/styled-system/types";
 import { FormikHandlers, useFormikContext } from "formik";
 import { useEffect, useCallback, useState, Ref } from "react";
 import { Descendant } from "slate";
 import { Slate, Editable, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
-import { createSlate } from "@ndla/editor";
-import { styled } from "@ndla/styled-system/jsx";
-import { JsxStyleProps } from "@ndla/styled-system/types";
-import { SlatePlugin } from "./interfaces";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { FormikStatus } from "../../interfaces";
+import { SlatePlugin } from "./interfaces";
 
 const StyledEditable = styled(
   Editable,

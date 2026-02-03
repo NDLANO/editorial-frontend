@@ -6,10 +6,10 @@
  *
  */
 
-import { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 
 const StyledMetaInformation = styled("div", {
   base: {

@@ -6,9 +6,9 @@
  *
  */
 
-import { i18n } from "i18next";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { keyBy } from "@ndla/util";
+import { i18n } from "i18next";
 
 export const sortMoviesByIdList = (
   idList: number[],

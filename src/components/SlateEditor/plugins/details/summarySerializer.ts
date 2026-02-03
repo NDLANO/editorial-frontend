@@ -6,9 +6,9 @@
  *
  */
 
+import { createHtmlTag, createSerializer, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { Node } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { createHtmlTag, createSerializer, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { SPAN_ELEMENT_TYPE } from "../span/types";
 import { isSummaryElement } from "./queries/detailsQueries";
 import { SUMMARY_ELEMENT_TYPE } from "./summaryTypes";

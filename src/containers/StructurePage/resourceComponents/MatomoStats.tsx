@@ -6,7 +6,6 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
 import { LineChartLine } from "@ndla/icons";
 import {
@@ -20,6 +19,7 @@ import {
   UnOrderedList,
 } from "@ndla/primitives";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { useTranslation } from "react-i18next";
 import { ResourceStats } from "../utils";
 
 interface Props {

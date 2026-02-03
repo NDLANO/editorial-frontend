@@ -10,8 +10,8 @@ import { Editor, Path } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { defaultTableCellBlock } from "./defaultBlocks";
 import { TableRowElement, TableSectionElement } from "./interfaces";
-import { TABLE_ROW_ELEMENT_TYPE } from "./types";
 import { isAnyTableCellElement, isTableCellHeaderElement, isTableRowElement } from "./queries";
+import { TABLE_ROW_ELEMENT_TYPE } from "./types";
 
 export const hasCellAlignOfType = (editor: Editor, type: string) => {
   const [cell] = Editor.nodes(editor, { match: (n) => isAnyTableCellElement(n) && n.data.align === type });

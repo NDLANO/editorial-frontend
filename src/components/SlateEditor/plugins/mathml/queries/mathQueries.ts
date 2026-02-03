@@ -6,8 +6,8 @@
  *
  */
 
-import { Node } from "slate";
 import { isElementOfType } from "@ndla/editor";
+import { Node } from "slate";
 import { MATH_ELEMENT_TYPE } from "../mathTypes";
 
 export const isMathElement = (node: Node | undefined) => isElementOfType(node, MATH_ELEMENT_TYPE);

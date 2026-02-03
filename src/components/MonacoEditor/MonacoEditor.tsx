@@ -6,7 +6,7 @@
  *
  */
 
-import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
+import { styled } from "@ndla/styled-system/jsx";
 import "monaco-editor/esm/vs/editor/browser/coreCommands";
 import "monaco-editor/esm/vs/editor/contrib/find/browser/findController";
 import "monaco-editor/esm/vs/language/html/monaco.contribution";
@@ -19,14 +19,11 @@ import "monaco-editor/esm/vs/editor/standalone/browser/quickAccess/standaloneCom
 import "monaco-editor/esm/vs/editor/contrib/fontZoom/browser/fontZoom";
 import "monaco-editor/esm/vs/editor/contrib/linesOperations/browser/linesOperations";
 import "monaco-editor/esm/vs/editor/contrib/multicursor/browser/multicursor";
-
+import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 import htmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
-import { useEffect, useRef, useState } from "react";
-
 // Uncomment the following line to test all monaco-editor features
 // import * as monaco from "monaco-editor";
-
-import { styled } from "@ndla/styled-system/jsx";
+import { useEffect, useRef, useState } from "react";
 import { createFormatAction, createSaveAction } from "./editorActions";
 
 const StyledDiv = styled("div", {

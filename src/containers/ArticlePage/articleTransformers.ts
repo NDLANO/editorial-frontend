@@ -6,9 +6,9 @@
  *
  */
 
+import { LicenseDTO, UpdatedArticleDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
 import { isEmpty } from "lodash-es";
 import { Descendant } from "slate";
-import { LicenseDTO, UpdatedArticleDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../constants";
 import {
   editorValueToEmbedTag,

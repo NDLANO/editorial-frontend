@@ -6,16 +6,15 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
-import { useQueryClient } from "@tanstack/react-query";
 import { Draggable } from "@ndla/icons";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { NodeChild } from "@ndla/types-taxonomy";
 import { sortBy } from "@ndla/util";
-import Resource from "./Resource";
+import { useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
@@ -23,6 +22,7 @@ import { useDeleteNodeConnectionMutation, useUpdateNodeConnectionMutation } from
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import handleError from "../../../util/handleError";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import Resource from "./Resource";
 
 const StyledResourceItems = styled("ul", {
   base: {

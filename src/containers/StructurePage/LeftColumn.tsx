@@ -6,14 +6,11 @@
  *
  */
 
+import { Spinner } from "@ndla/primitives";
+import { Node, NodeType } from "@ndla/types-taxonomy";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
-import { Spinner } from "@ndla/primitives";
-import { Node, NodeType } from "@ndla/types-taxonomy";
-import { usePreferences } from "./PreferencesProvider";
-import RootNode from "./RootNode";
-import StructureBanner from "./StructureBanner";
 import { TAXONOMY_ADMIN_SCOPE, TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
 import { useUserData } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
@@ -21,6 +18,9 @@ import { getPathsFromUrl } from "../../util/routeHelpers";
 import { useSession } from "../Session/SessionProvider";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 import { getResultSubjectIdObject } from "../WelcomePage/utils";
+import { usePreferences } from "./PreferencesProvider";
+import RootNode from "./RootNode";
+import StructureBanner from "./StructureBanner";
 
 const getNodes = (
   allNodes: Node[] | undefined = [],

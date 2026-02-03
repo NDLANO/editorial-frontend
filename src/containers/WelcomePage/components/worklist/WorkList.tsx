@@ -6,12 +6,10 @@
  *
  */
 
-import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import ConceptListTabContent from "./ConceptListTabContent";
-import WorkListTabContent from "./WorkListTabContent";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   STORED_FILTER_WORKLIST,
   STORED_PAGE_SIZE,
@@ -32,6 +30,8 @@ import {
 } from "../../hooks/storedFilterHooks";
 import { SortOptionConceptList, SortOptionWorkList } from "../../types";
 import { WelcomePageTabsContent } from "../WelcomePageTabsContent";
+import ConceptListTabContent from "./ConceptListTabContent";
+import WorkListTabContent from "./WorkListTabContent";
 
 interface Props {
   ndlaId: string;

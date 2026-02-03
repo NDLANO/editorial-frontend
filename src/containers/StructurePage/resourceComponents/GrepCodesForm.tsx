@@ -6,11 +6,11 @@
  *
  */
 
+import { Button, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Formik, FormikHelpers } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Text } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
 import FormWrapper from "../../../components/FormWrapper";
 import handleError from "../../../util/handleError";

@@ -6,23 +6,17 @@
  *
  */
 
+import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { uniq } from "@ndla/util";
 import { Formik } from "formik";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { uniq } from "@ndla/util";
-import { LearningpathFormHeader } from "./components/LearningpathFormHeader";
-import {
-  learningpathApiTypeToFormType,
-  learningpathFormTypeToApiType,
-  learningpathFormTypeToNewApiType,
-  LearningpathFormValues,
-} from "./learningpathFormUtils";
 import FormAccordion from "../../components/Accordion/FormAccordion";
 import FormAccordions from "../../components/Accordion/FormAccordions";
 import { Form } from "../../components/FormikForm";
 import validateFormik, { getWarnings, RulesType } from "../../components/formikValidationSchema";
+import EditorFooter from "../../components/SlateEditor/EditorFooter";
 import { LAST_UPDATED_SIZE } from "../../constants";
 import { fetchUserData, updateUserData } from "../../modules/draft/draftApi";
 import {
@@ -34,14 +28,20 @@ import { isFormikFormDirty } from "../../util/formHelper";
 import { routes } from "../../util/routeHelpers";
 import RevisionNotes from "../ArticlePage/components/RevisionNotes";
 import { AlertDialogWrapper } from "../FormikForm/AlertDialogWrapper";
+import GrepCodesField from "../FormikForm/GrepCodesField";
 import { PreventWindowUnload } from "../FormikForm/PreventWindowUnload";
+import { useSession } from "../Session/SessionProvider";
+import { TaxonomyVersionProvider } from "../StructureVersion/TaxonomyVersionProvider";
+import { LearningpathFormHeader } from "./components/LearningpathFormHeader";
+import {
+  learningpathApiTypeToFormType,
+  learningpathFormTypeToApiType,
+  learningpathFormTypeToNewApiType,
+  LearningpathFormValues,
+} from "./learningpathFormUtils";
 import { LearningpathMetaFormPart } from "./metadata/LearningpathMetaFormPart";
 import { LearningpathStepsFormPart } from "./steps/LearningpathStepsFormPart";
-import EditorFooter from "../../components/SlateEditor/EditorFooter";
-import GrepCodesField from "../FormikForm/GrepCodesField";
-import { useSession } from "../Session/SessionProvider";
 import { LearningpathTaxonomyPart } from "./taxonomy/LearningpathTaxonomyPart";
-import { TaxonomyVersionProvider } from "../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
   learningpath: LearningPathV2DTO | undefined;

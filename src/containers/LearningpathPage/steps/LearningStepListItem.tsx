@@ -6,8 +6,6 @@
  *
  */
 
-import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
 import { DeleteBinLine, ErrorWarningFill, PencilLine } from "@ndla/icons";
 import {
@@ -23,12 +21,14 @@ import {
 } from "@ndla/primitives";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import { PUBLISHED } from "../../../constants";
+import { useDraft } from "../../../modules/draft/draftQueries";
 import { getFormTypeFromStep, learningStepEditId } from "../learningpathUtils";
 import { LearningpathStepForm } from "./LearningpathStepForm";
-import { useDraft } from "../../../modules/draft/draftQueries";
 
 interface Props {
   item: LearningStepV2DTO;

@@ -6,9 +6,6 @@
  *
  */
 
-import { i18n, TFunction } from "i18next";
-import { ElementType, ReactNode, type Ref, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { ToggleGroupItemProps } from "@ark-ui/react";
 import {
   MessageLine,
@@ -36,6 +33,9 @@ import {
 import { IconButton, Text, ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { FontWeightToken } from "@ndla/styled-system/tokens";
+import { i18n, TFunction } from "i18next";
+import { ElementType, ReactNode, type Ref, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 interface HeadingProps {
   title: string;

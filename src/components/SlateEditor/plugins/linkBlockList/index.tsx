@@ -6,7 +6,6 @@
  *
  */
 
-import { jsx as slatejsx } from "slate-hyperscript";
 import {
   createDataAttributes,
   createHtmlTag,
@@ -17,10 +16,11 @@ import {
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
-import { isLinkBlockListElement } from "./queries";
-import { LINK_BLOCK_LIST_ELEMENT_TYPE, LINK_BLOCK_LIST_PLUGIN } from "./types";
+import { jsx as slatejsx } from "slate-hyperscript";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
+import { isLinkBlockListElement } from "./queries";
+import { LINK_BLOCK_LIST_ELEMENT_TYPE, LINK_BLOCK_LIST_PLUGIN } from "./types";
 
 const normalizerConfig: NormalizerConfig = {
   previous: {

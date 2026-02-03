@@ -7,8 +7,8 @@
  */
 
 import { ResourceType } from "@ndla/types-taxonomy";
-import { resourceTypesMock, flattenedResourceTypes } from "./taxonomyMocks";
 import { flattenResourceTypesAndAddContextTypes } from "../taxonomyHelpers";
+import { resourceTypesMock, flattenedResourceTypes } from "./taxonomyMocks";
 
 test("taxonomy/flattenResourceTypesAndAddContextTypes flattening", () => {
   const types: Record<string, string> = {

@@ -6,10 +6,6 @@
  *
  */
 
-import { useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Node, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { ArrowLeftShortLine, DeleteBinLine, InformationLine } from "@ndla/icons";
@@ -24,9 +20,13 @@ import {
   Text as TextPrimitive,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { UNSUPPORTED_ELEMENT_TYPE } from "./types";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Node, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
 import { FormActionsContainer } from "../../../FormikForm";
 import { InlineBugfix } from "../../utils/InlineBugFix";
+import { UNSUPPORTED_ELEMENT_TYPE } from "./types";
 
 interface Props extends RenderElementProps {
   editor: Editor;

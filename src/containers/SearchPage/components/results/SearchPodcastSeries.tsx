@@ -6,14 +6,14 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { BroadcastLine } from "@ndla/icons";
 import { ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { SeriesSummaryDTO } from "@ndla/types-backend/audio-api";
+import { useTranslation } from "react-i18next";
+import { routes } from "../../../../util/routeHelpers";
 import { SearchContentWrapper } from "./SearchContentWrapper";
 import { SearchListItemImage } from "./SearchListItemImage";
-import { routes } from "../../../../util/routeHelpers";
 
 interface Props {
   series: SeriesSummaryDTO;

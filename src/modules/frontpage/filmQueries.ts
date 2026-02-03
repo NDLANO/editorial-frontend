@@ -6,16 +6,16 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { FilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
 import { sortBy } from "@ndla/util";
-import { fetchFilmFrontpage } from "./frontpageApi";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { sortMoviesByIdList } from "../../containers/NdlaFilm/filmUtil";
 import { searchResources } from "../search/searchApi";
 import { MultiSummarySearchResults, NoNodeSearchParams } from "../search/searchApiInterfaces";
 import { filmQueryKeys } from "./filmQueryKeys";
 import { UseMovies } from "./filmTypes";
+import { fetchFilmFrontpage } from "./frontpageApi";
 
 export const useFilmFrontpageQuery = (options?: Partial<UseQueryOptions<FilmFrontPageDTO>>) => {
   return useQuery<FilmFrontPageDTO>({

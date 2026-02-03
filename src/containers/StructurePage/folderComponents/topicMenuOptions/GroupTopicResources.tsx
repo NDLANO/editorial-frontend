@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import { useQueryClient } from "@tanstack/react-query";
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { Node, Metadata } from "@ndla/types-taxonomy";
+import { useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import {
   TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,

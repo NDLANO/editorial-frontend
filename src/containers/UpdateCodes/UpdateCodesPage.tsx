@@ -6,9 +6,9 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { Button, Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useTranslation } from "react-i18next";
 import { DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useMigrateCodes } from "../../modules/draft/draftMutations";
 import NotFound from "../NotFoundPage/NotFoundPage";

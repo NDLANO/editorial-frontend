@@ -6,15 +6,13 @@
  *
  */
 
+import { LinkMedium } from "@ndla/icons";
+import { Button, FieldErrorMessage, FieldRoot, IconButton } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { useField, useFormikContext } from "formik";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { LinkMedium } from "@ndla/icons";
-import { Button, FieldErrorMessage, FieldRoot, IconButton } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
-import { frontpagePlugins } from "./frontpagePlugins";
-import { frontpageRenderers } from "./frontpageRenderers";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
 import { ContentEditableFieldLabel } from "../../../../components/Form/ContentEditableFieldLabel";
@@ -54,6 +52,8 @@ import { IngressField, TitleField, SlugField } from "../../../FormikForm";
 import { FrontpageArticleFormType } from "../../../FormikForm/articleFormHooks";
 import VisualElementField from "../../../FormikForm/components/VisualElementField";
 import { useSession } from "../../../Session/SessionProvider";
+import { frontpagePlugins } from "./frontpagePlugins";
+import { frontpageRenderers } from "./frontpageRenderers";
 
 const StyledDiv = styled("div", {
   base: {

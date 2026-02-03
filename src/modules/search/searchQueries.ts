@@ -6,8 +6,6 @@
  *
  */
 
-import { useMemo } from "react";
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import {
   DraftSearchParamsDTO,
   GrepSearchInputDTO,
@@ -16,7 +14,8 @@ import {
   SubjectAggregationsDTO,
   SubjectAggsInputDTO,
 } from "@ndla/types-backend/search-api";
-import { postSearch, searchGrepCodes, searchResources, searchSubjectStats } from "./searchApi";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { DA_SUBJECT_ID, SA_SUBJECT_ID, LMA_SUBJECT_ID, PUBLISHED } from "../../constants";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import {
@@ -35,6 +34,7 @@ import {
 import { getAccessToken, isActiveToken } from "../../util/authHelpers";
 import { useUserData } from "../draft/draftQueries";
 import { usePostSearchNodes } from "../nodes/nodeQueries";
+import { postSearch, searchGrepCodes, searchResources, searchSubjectStats } from "./searchApi";
 import { MultiSummarySearchResults, NoNodeDraftSearchParams, NoNodeSearchParams } from "./searchApiInterfaces";
 
 export const searchQueryKeys = {

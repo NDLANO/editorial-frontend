@@ -6,6 +6,7 @@
  *
  */
 
+import { SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 import {
@@ -13,7 +14,6 @@ import {
   DEFINITION_LIST_ELEMENT_TYPE,
   DEFINITION_TERM_ELEMENT_TYPE,
 } from "../definitionListTypes";
-import { SECTION_ELEMENT_TYPE } from "@ndla/editor";
 
 const editor: Descendant[] = [
   {

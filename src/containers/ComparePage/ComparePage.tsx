@@ -6,12 +6,12 @@
  *
  */
 
-import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useParams } from "react-router";
 import { PageContent, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleWrapper } from "@ndla/ui";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
 import PreviewDraft from "../../components/PreviewDraft/PreviewDraft";
 import { useDraft } from "../../modules/draft/draftQueries";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";

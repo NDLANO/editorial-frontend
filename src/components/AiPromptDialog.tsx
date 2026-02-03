@@ -6,8 +6,6 @@
  *
  */
 
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
 import { FileListLine } from "@ndla/icons";
 import {
@@ -35,12 +33,14 @@ import {
   Text,
 } from "@ndla/primitives";
 import { HStack, Stack, styled } from "@ndla/styled-system/jsx";
-import { DialogCloseButton } from "./DialogCloseButton";
-import { FormActionsContainer } from "./FormikForm";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { PromptVariables } from "../interfaces";
 import { useGenerateAIMutation } from "../modules/llm/llmMutations";
 import { useDefaultAiPrompts } from "../modules/llm/llmQueries";
 import { NdlaErrorPayload } from "../util/resolveJsonOrRejectWithError";
+import { DialogCloseButton } from "./DialogCloseButton";
+import { FormActionsContainer } from "./FormikForm";
 
 const CustomPromptsContainer = styled(Stack, {
   base: {

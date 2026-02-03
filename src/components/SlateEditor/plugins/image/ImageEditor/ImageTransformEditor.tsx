@@ -6,14 +6,14 @@
  *
  */
 
-import { useFormikContext } from "formik";
-import { PercentCrop } from "react-image-crop";
 import { styled } from "@ndla/styled-system/jsx";
 import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import ImageCropEdit from "./ImageCropEdit";
-import ImageFocalPointEdit from "./ImageFocalPointEdit";
+import { useFormikContext } from "formik";
+import { PercentCrop } from "react-image-crop";
 import { getSrcSets } from "../imageEditorUtil";
 import { ImageEmbedFormValues } from "../types";
+import ImageCropEdit from "./ImageCropEdit";
+import ImageFocalPointEdit from "./ImageFocalPointEdit";
 
 const StyledImg = styled("img", {
   base: {

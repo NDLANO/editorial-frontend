@@ -6,10 +6,10 @@
  *
  */
 
-import { merge } from "lodash-es";
-import { useMemo } from "react";
 import { Text, TextArea } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { merge } from "lodash-es";
+import { useMemo } from "react";
 import { SlatePlugin } from "../../components/SlateEditor/interfaces";
 import { breakPlugin } from "../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../components/SlateEditor/plugins/break/render";

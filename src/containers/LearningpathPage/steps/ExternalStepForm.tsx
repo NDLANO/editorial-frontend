@@ -6,13 +6,12 @@
  *
  */
 
-import { useFormikContext } from "formik";
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
-import { ExternalFormValues } from "./types";
+import { useFormikContext } from "formik";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { FormField } from "../../../components/FormField";
 import { RulesType } from "../../../components/formikValidationSchema";
 import { isUrl } from "../../../components/validators";
@@ -20,6 +19,7 @@ import { fetchOpenGraphData } from "../../../modules/opengraph/openGraphApi";
 import { LicenseField } from "../../FormikForm";
 import { LearningpathTextEditor } from "../components/LearningpathTextEditor";
 import { getFormTypeFromStep } from "../learningpathUtils";
+import { ExternalFormValues } from "./types";
 
 interface Props {
   step: LearningStepV2DTO | undefined;

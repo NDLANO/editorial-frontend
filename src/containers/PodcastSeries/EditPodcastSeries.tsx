@@ -6,17 +6,16 @@
  *
  */
 
+import { PageContent, Spinner } from "@ndla/primitives";
+import { SeriesDTO, NewSeriesDTO } from "@ndla/types-backend/audio-api";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
-import { PageContent, Spinner } from "@ndla/primitives";
-import { SeriesDTO, NewSeriesDTO } from "@ndla/types-backend/audio-api";
-
-import PodcastSeriesForm from "./components/PodcastSeriesForm";
 import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { fetchSeries, updateSeries } from "../../modules/audio/audioApi";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import PodcastSeriesForm from "./components/PodcastSeriesForm";
 
 const translateFields: TranslateType[] = [
   { field: "title.title", type: "text" },

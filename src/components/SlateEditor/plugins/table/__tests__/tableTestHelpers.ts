@@ -7,11 +7,11 @@
  */
 
 import { createSlate, PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
-import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 import { Descendant } from "slate";
+import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
+import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 import { TableElement } from "../interfaces";
 import { TABLE_ELEMENT_TYPE } from "../types";
-import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 
 export const tableEditor = createSlate({ plugins: learningResourcePlugins });
 

@@ -6,9 +6,6 @@
  *
  */
 
-import { Fragment, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useQueryClient } from "@tanstack/react-query";
 import { ErrorWarningLine, CheckLine } from "@ndla/icons";
 import { Button, Heading, MessageBox, Spinner, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
@@ -17,6 +14,9 @@ import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { Node } from "@ndla/types-taxonomy";
 import { partition } from "@ndla/util";
+import { useQueryClient } from "@tanstack/react-query";
+import { Fragment, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { PUBLISHED } from "../../../../constants";
 import { fetchDrafts, updateStatusDraft } from "../../../../modules/draft/draftApi";
 import { fetchLearningpaths, updateStatusLearningpath } from "../../../../modules/learningpath/learningpathApi";

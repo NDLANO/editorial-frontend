@@ -6,6 +6,9 @@
  *
  */
 
+import { usePopoverContext } from "@ark-ui/react";
+import { PopoverContent, PopoverRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { isEqual } from "lodash-es";
 import {
   Children,
@@ -19,9 +22,8 @@ import {
 } from "react";
 import { Editor, Range } from "slate";
 import { useSlateSelection, useSlateSelector } from "slate-react";
-import { usePopoverContext } from "@ark-ui/react";
-import { PopoverContent, PopoverRoot } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { AI_ACCESS_SCOPE } from "../../../../constants";
+import { useSession } from "../../../../containers/Session/SessionProvider";
 import { ToolbarBlockOptions } from "./ToolbarBlockOptions";
 import { ToolbarInlineOptions } from "./ToolbarInlineOptions";
 import { ToolbarLanguageOptions } from "./ToolbarLanguageOptions";
@@ -30,8 +32,6 @@ import { ToolbarValues } from "./toolbarState";
 import { ToolbarTableOptions } from "./ToolbarTableOptions";
 import { ToolbarTextOptions } from "./ToolbarTextOptions";
 import { ToolbarCategoryProps } from "./types";
-import { AI_ACCESS_SCOPE } from "../../../../constants";
-import { useSession } from "../../../../containers/Session/SessionProvider";
 
 const ToolbarContainer = styled(PopoverContent, {
   base: {

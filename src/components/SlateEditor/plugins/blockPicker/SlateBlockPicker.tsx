@@ -6,11 +6,6 @@
  *
  */
 
-import { TFunction } from "i18next";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Element, Node, Range, Path, Transforms } from "slate";
-import { ReactEditor, useSlateSelection, useSlateSelector, useSlateStatic } from "slate-react";
 import { PopoverOpenChangeDetails, Portal } from "@ark-ui/react";
 import { isElementOfType, isParagraphElement, LIST_ITEM_ELEMENT_TYPE } from "@ndla/editor";
 import { AddLine, ExternalLinkLine } from "@ndla/icons";
@@ -27,8 +22,11 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { Action, ActionData } from "./actions";
-import SlateVisualElementPicker from "./SlateVisualElementPicker";
+import { TFunction } from "i18next";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Element, Node, Range, Path, Transforms } from "slate";
+import { ReactEditor, useSlateSelection, useSlateSelector, useSlateStatic } from "slate-react";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
 import { ASIDE_ELEMENT_TYPE } from "../aside/asideTypes";
@@ -72,6 +70,8 @@ import { IS_MAC } from "../toolbar/ToolbarToggle";
 import { DISCLAIMER_ELEMENT_TYPE } from "../uuDisclaimer/types";
 import { defaultDisclaimerBlock } from "../uuDisclaimer/utils";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../video/types";
+import { Action, ActionData } from "./actions";
+import SlateVisualElementPicker from "./SlateVisualElementPicker";
 
 interface BlockReturnType {
   type: "block";

@@ -6,8 +6,8 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { useTranslation } from "react-i18next";
 import { FormField } from "../../../components/FormField";
 
 const VersionNameField = () => {

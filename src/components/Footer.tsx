@@ -6,15 +6,15 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { useHref, useLocation } from "react-router";
 import { createListCollection } from "@ark-ui/react";
 import { PageContent, SelectContent, SelectLabel, SelectRoot, SelectValueText, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useHref, useLocation } from "react-router";
 import { SUPPORTED_LANGUAGES } from "../constants";
-import { GenericSelectItem, GenericSelectTrigger } from "./abstractions/Select";
 import { constructNewPath } from "../util/urlHelpers";
+import { GenericSelectItem, GenericSelectTrigger } from "./abstractions/Select";
 
 export const FooterBlock = styled("footer", {
   base: {

@@ -1,0 +1,9 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 120,
+  "experimentalSortPackageJson": false,
+  "experimentalSortImports": {
+    "newlinesBetween": false
+  },
+  "ignorePatterns": ["public/**/*", "e2e/apiMocks/**"]
+}

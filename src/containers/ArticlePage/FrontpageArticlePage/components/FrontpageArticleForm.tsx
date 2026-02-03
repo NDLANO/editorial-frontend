@@ -6,12 +6,11 @@
  *
  */
 
+import { ArticleDTO, UpdatedArticleDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
+import { UseQueryResult } from "@tanstack/react-query";
 import { Formik, useFormikContext } from "formik";
 import { memo, useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { UseQueryResult } from "@tanstack/react-query";
-import { ArticleDTO, UpdatedArticleDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
-import FrontpageArticlePanels from "./FrontpageArticlePanels";
 import { Form } from "../../../../components/FormikForm";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
@@ -26,6 +25,7 @@ import {
   draftApiTypeToFrontpageArticleFormType,
   frontpageArticleFormTypeToDraftApiType,
 } from "../../articleTransformers";
+import FrontpageArticlePanels from "./FrontpageArticlePanels";
 
 interface Props {
   article?: ArticleDTO;

@@ -6,11 +6,11 @@
  *
  */
 
+import { ComboboxLabel, FieldRoot } from "@ndla/primitives";
+import { ArticleV2DTO } from "@ndla/types-backend/article-api";
 import { useField } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ComboboxLabel, FieldRoot } from "@ndla/primitives";
-import { ArticleV2DTO } from "@ndla/types-backend/article-api";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import ListResource from "../../../components/Form/ListResource";

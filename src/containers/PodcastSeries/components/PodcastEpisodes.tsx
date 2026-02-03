@@ -6,12 +6,12 @@
  *
  */
 
-import { useField } from "formik";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
 import { ComboboxLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
+import { useField } from "formik";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import ListResource from "../../../components/Form/ListResource";

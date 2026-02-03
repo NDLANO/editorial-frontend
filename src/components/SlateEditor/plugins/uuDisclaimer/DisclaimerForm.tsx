@@ -6,14 +6,13 @@
  *
  */
 
+import { Button, DialogBody } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { UuDisclaimerEmbedData } from "@ndla/types-embed";
 import { Formik, FormikValues } from "formik";
 import { useCallback, useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { Button, DialogBody } from "@ndla/primitives";
-import { SafeLink } from "@ndla/safelink";
-import { UuDisclaimerEmbedData } from "@ndla/types-embed";
-import { DISCLAIMER_TEMPLATES_URL, DisclaimerField } from "./DisclaimerField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -35,6 +34,7 @@ import { toolbarPlugin } from "../toolbar";
 import { createToolbarDefaultValues } from "../toolbar/toolbarState";
 import { unsupportedElementRenderer } from "../unsupported/unsupportedElementRenderer";
 import { unsupportedPlugin } from "../unsupported/unsupportedPlugin";
+import { DISCLAIMER_TEMPLATES_URL, DisclaimerField } from "./DisclaimerField";
 
 const toolbarOptions = createToolbarDefaultValues({
   text: {

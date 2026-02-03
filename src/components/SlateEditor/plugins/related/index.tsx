@@ -6,8 +6,6 @@
  *
  */
 
-import { toUnicode } from "punycode/";
-import { jsx as slatejsx } from "slate-hyperscript";
 import {
   createDataAttributes,
   createHtmlTag,
@@ -18,10 +16,12 @@ import {
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
-import { isRelatedElement } from "./queries";
-import { RELATED_ELEMENT_TYPE, RELATED_PLUGIN } from "./types";
+import { toUnicode } from "punycode/";
+import { jsx as slatejsx } from "slate-hyperscript";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
+import { isRelatedElement } from "./queries";
+import { RELATED_ELEMENT_TYPE, RELATED_PLUGIN } from "./types";
 
 export const defaultRelatedBlock = () => slatejsx("element", { type: RELATED_ELEMENT_TYPE, data: [] }, [{ text: "" }]);
 

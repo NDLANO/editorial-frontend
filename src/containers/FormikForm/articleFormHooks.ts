@@ -6,10 +6,6 @@
  *
  */
 
-import { FormikHelpers } from "formik";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Descendant } from "slate";
-import { UseQueryResult } from "@tanstack/react-query";
 import {
   ArticleDTO,
   LicenseDTO,
@@ -21,15 +17,19 @@ import {
   Priority,
 } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
+import { UseQueryResult } from "@tanstack/react-query";
+import { FormikHelpers } from "formik";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Descendant } from "slate";
 import { getWarnings, RulesType } from "../../components/formikValidationSchema";
 import { PUBLISHED } from "../../constants";
 import { RelatedContent } from "../../interfaces";
 import { useLicenses } from "../../modules/draft/draftQueries";
 import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import { useMessages } from "../Messages/MessagesProvider";
-import { hasUnpublishedConcepts } from "./utils";
 import { useSession } from "../Session/SessionProvider";
-import { useTranslation } from "react-i18next";
+import { hasUnpublishedConcepts } from "./utils";
 
 export type SlateCommentType = Omit<CommentDTO, "content"> & { content: Descendant[] };
 

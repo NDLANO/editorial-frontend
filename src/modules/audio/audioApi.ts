@@ -21,8 +21,8 @@ import {
   UpdatedAudioMetaInformationDTO,
 } from "@ndla/types-backend/audio-api";
 import { createAuthClient } from "../../util/apiHelpers";
-import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 import { createFormData } from "../../util/formDataHelper";
+import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 
 const client = createAuthClient<openapi.paths>();
 

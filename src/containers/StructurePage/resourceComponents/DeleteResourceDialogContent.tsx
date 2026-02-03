@@ -6,12 +6,12 @@
  *
  */
 
-import { useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { useDialogContext } from "@ark-ui/react";
 import { Button, DialogBody, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { NodeChild } from "@ndla/types-taxonomy";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../constants";
 import { useUpdateDraftStatusMutation } from "../../../modules/draft/draftMutations";

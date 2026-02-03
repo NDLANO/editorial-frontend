@@ -6,8 +6,9 @@
  *
  */
 
-import { isKeyHotkey, isCodeHotkey } from "is-hotkey";
 import { createPlugin, marks, MarkType, toggleMark } from "@ndla/editor";
+import { isKeyHotkey, isCodeHotkey } from "is-hotkey";
+import { merge } from "lodash-es";
 import { handleClickBlock, handleClickInline, handleClickText } from "./handleMenuClicks";
 import SlateToolbar from "./SlateToolbar";
 import {
@@ -19,7 +20,6 @@ import {
   toolbarState,
 } from "./toolbarState";
 import { ToolbarPluginOptions } from "./types";
-import { merge } from "lodash-es";
 
 const isBoldHotkey = isKeyHotkey("mod+b");
 const isCodeHotKey = isKeyHotkey("mod+k");

@@ -6,14 +6,14 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { Spinner } from "@ndla/primitives";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { LearningpathTaxonomy } from "./LearningpathTaxonomy";
+import { useTranslation } from "react-i18next";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import { useNodes } from "../../../modules/nodes/nodeQueries";
 import { useVersions } from "../../../modules/taxonomy/versions/versionQueries";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import { LearningpathTaxonomy } from "./LearningpathTaxonomy";
 
 interface Props {
   learningpath: LearningPathV2DTO;

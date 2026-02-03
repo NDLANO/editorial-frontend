@@ -6,14 +6,14 @@
  *
  */
 
+import { createSlate } from "@ndla/editor";
 import { isEqual } from "lodash-es";
 import { useEffect, useState } from "react";
 import { Descendant } from "slate";
 import { Slate, Editable, RenderElementProps } from "slate-react";
-import { createSlate } from "@ndla/editor";
+import VisualElementPicker, { VisualElementType } from "../../containers/VisualElement/VisualElementPicker";
 import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
 import { SlatePlugin } from "./interfaces";
-import VisualElementPicker, { VisualElementType } from "../../containers/VisualElement/VisualElementPicker";
 
 interface Props {
   value: Descendant[];

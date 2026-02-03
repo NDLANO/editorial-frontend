@@ -6,19 +6,19 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { keyBy } from "@ndla/util";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useSearchConcepts } from "../../../modules/concept/conceptQueries";
+import { useSearchDrafts } from "../../../modules/draft/draftQueries";
+import { useSearch } from "../../../modules/search/searchQueries";
+import { SortOptionLastUsed } from "../types";
 import LastUsedConcepts from "./LastUsedConcepts";
+import { LastUsedLearningpaths } from "./LastUsedLearningpaths";
 import LastUsedResources from "./LastUsedResources";
 import { TitleElement } from "./TableComponent";
 import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
-import { useSearchConcepts } from "../../../modules/concept/conceptQueries";
-import { useSearchDrafts } from "../../../modules/draft/draftQueries";
-import { SortOptionLastUsed } from "../types";
-import { LastUsedLearningpaths } from "./LastUsedLearningpaths";
-import { useSearch } from "../../../modules/search/searchQueries";
 
 interface Props {
   lastUsedResources?: number[];

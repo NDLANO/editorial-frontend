@@ -6,8 +6,6 @@
  *
  */
 
-import { ReactNode, useCallback, useRef } from "react";
-import { useTranslation } from "react-i18next";
 import { DialogOpenChangeDetails, Portal } from "@ark-ui/react";
 import { ErrorWarningLine } from "@ndla/icons";
 import {
@@ -20,6 +18,8 @@ import {
   DialogHeader,
   DialogFooter,
 } from "@ndla/primitives";
+import { ReactNode, useCallback, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { MessageSeverity } from "../../interfaces";
 import { DialogCloseButton } from "../DialogCloseButton";
 

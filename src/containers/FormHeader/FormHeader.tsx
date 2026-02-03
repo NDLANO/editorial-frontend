@@ -6,11 +6,11 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { HTMLArkProps } from "@ark-ui/react";
 import { Heading, Text, TextProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { WithCss } from "@ndla/styled-system/types";
+import { useTranslation } from "react-i18next";
 import { SegmentHeader } from "../../components/Form/SegmentHeader";
 
 export const FormHeaderSegment = styled(SegmentHeader, {

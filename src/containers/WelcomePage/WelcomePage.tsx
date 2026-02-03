@@ -6,10 +6,15 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useUserData } from "../../modules/draft/draftQueries";
+import { usePostSearchNodes } from "../../modules/nodes/nodeQueries";
+import { getAccessToken, isActiveToken } from "../../util/authHelpers";
+import { useSession } from "../Session/SessionProvider";
+import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 import ArticleStatuses from "./components/ArticleStatuses";
 import LastUsedItems from "./components/LastUsedItems";
 import Revisions from "./components/Revisions";
@@ -17,11 +22,6 @@ import SubjectView from "./components/SubjectView";
 import WelcomeHeader from "./components/WelcomeHeader";
 import WorkList from "./components/worklist/WorkList";
 import { customFieldsBody, defaultSubjectIdObject, getResultSubjectIdObject } from "./utils";
-import { useUserData } from "../../modules/draft/draftQueries";
-import { usePostSearchNodes } from "../../modules/nodes/nodeQueries";
-import { getAccessToken, isActiveToken } from "../../util/authHelpers";
-import { useSession } from "../Session/SessionProvider";
-import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
 const StyledPageContent = styled(PageContent, {
   base: {

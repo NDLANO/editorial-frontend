@@ -6,24 +6,24 @@
  *
  */
 
-import { useCallback, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { DeleteBinLine, PencilFill, LinkMedium } from "@ndla/icons";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { BrightcoveMetaData } from "@ndla/types-embed";
 import { BrightcoveEmbed } from "@ndla/ui";
-import EditVideo, { FormValues } from "./EditVideo";
-import { isBrightcoveElement } from "./queries";
-import { BrightcoveEmbedElement } from "./types";
-import { VideoWrapper } from "./VideoWrapper";
+import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Path, Transforms } from "slate";
+import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { useBrightcoveMeta } from "../../../../modules/embed/queries";
 import { inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { addBrightCoveTimeStampVideoid } from "../../../../util/videoUtil";
 import { StyledFigureButtons } from "../embed/FigureButtons";
+import EditVideo, { FormValues } from "./EditVideo";
+import { isBrightcoveElement } from "./queries";
+import { BrightcoveEmbedElement } from "./types";
+import { VideoWrapper } from "./VideoWrapper";
 
 interface Props extends RenderElementProps {
   element: BrightcoveEmbedElement;

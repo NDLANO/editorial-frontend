@@ -6,12 +6,12 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { DeleteBinLine, LinkMedium } from "@ndla/icons";
 import { FieldErrorMessage, FieldInput, FieldRoot, IconButton, FieldLabel, Image } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { useTranslation } from "react-i18next";
 import { FieldWarning } from "../../../components/Form/FieldWarning";
 import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
 import { FormField } from "../../../components/FormField";

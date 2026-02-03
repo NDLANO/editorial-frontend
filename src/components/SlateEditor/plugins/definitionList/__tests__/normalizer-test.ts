@@ -6,10 +6,10 @@
  *
  */
 
-import { Descendant } from "slate";
 import { createSlate, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
-import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
+import { Descendant } from "slate";
 import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
+import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 import {
   DEFINITION_DESCRIPTION_ELEMENT_TYPE,
   DEFINITION_LIST_ELEMENT_TYPE,

@@ -6,7 +6,6 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { createListCollection, SelectHiddenSelect } from "@ark-ui/react";
 import { ArrowDownShortLine, CheckLine } from "@ndla/icons";
 import {
@@ -23,6 +22,7 @@ import {
   SelectValueText,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useTranslation } from "react-i18next";
 import { SelectItem as SelectItemType } from "../../types";
 
 const StyledButtonContent = styled("span", {

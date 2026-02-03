@@ -6,9 +6,9 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useTranslation } from "react-i18next";
 import { FormField } from "../../../components/FormField";
 
 interface Props {

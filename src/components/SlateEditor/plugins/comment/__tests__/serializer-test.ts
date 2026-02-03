@@ -6,11 +6,11 @@
  *
  */
 
+import { PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 import { COMMENT_BLOCK_ELEMENT_TYPE } from "../block/types";
 import { COMMENT_INLINE_ELEMENT_TYPE } from "../inline/types";
-import { PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 
 describe("inline comment serializing tests", () => {
   const editor: Descendant[] = [

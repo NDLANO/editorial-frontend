@@ -6,14 +6,13 @@
  *
  */
 
-import { Formik, useFormikContext } from "formik";
-import { memo, useCallback, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { UseQueryResult } from "@tanstack/react-query";
 import { Button } from "@ndla/primitives";
 import { ArticleDTO, UpdatedArticleDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
-import LearningResourcePanels from "./LearningResourcePanels";
+import { UseQueryResult } from "@tanstack/react-query";
+import { Formik, useFormikContext } from "formik";
+import { memo, useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { Form, FormActionsContainer } from "../../../../components/FormikForm";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
@@ -30,6 +29,7 @@ import {
   draftApiTypeToLearningResourceFormType,
   learningResourceFormTypeToDraftApiType,
 } from "../../articleTransformers";
+import LearningResourcePanels from "./LearningResourcePanels";
 
 interface Props {
   article?: ArticleDTO;

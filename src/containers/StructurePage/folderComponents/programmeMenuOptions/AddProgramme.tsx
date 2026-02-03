@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
+import { useTranslation } from "react-i18next";
 import { getNodeTypeFromNodeId } from "../../../../modules/nodes/nodeUtil";
 import AddNodeDialogContent from "../../AddNodeDialogContent";
 

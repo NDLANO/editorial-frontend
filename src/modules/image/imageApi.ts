@@ -16,8 +16,8 @@ import {
   openapi,
 } from "@ndla/types-backend/image-api";
 import { throwErrorPayload, createAuthClient } from "../../util/apiHelpers";
-import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 import { createFormData } from "../../util/formDataHelper";
+import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 
 const client = createAuthClient<openapi.paths>();
 

@@ -6,6 +6,7 @@
  *
  */
 
+import { diffField, DiffResult, diffTrees } from "../diffUtils";
 import {
   nodeTreeInOriginalVersionDiff,
   nodeTreeInOtherVersionDiff,
@@ -22,7 +23,6 @@ import {
   nodeTreeWithNestedChildrenAndResourcesDiff,
   nodeTreeWithNestedChildrenAndResourcesUpdated,
 } from "./diffTestData";
-import { diffField, DiffResult, diffTrees } from "../diffUtils";
 
 describe("diffField", () => {
   test("considers two equal fields to be equal", () => {

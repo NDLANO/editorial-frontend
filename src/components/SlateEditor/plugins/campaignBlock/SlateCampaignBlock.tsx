@@ -6,10 +6,6 @@
  *
  */
 
-import { useCallback, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { DeleteBinLine, PencilFill } from "@ndla/icons";
 import {
@@ -24,11 +20,15 @@ import {
 import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { CampaignBlockEmbedData } from "@ndla/types-embed";
 import { CampaignBlock, EmbedWrapper } from "@ndla/ui";
-import CampaignBlockForm from "./CampaignBlockForm";
-import { CampaignBlockElement } from "./types";
+import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Path, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
 import { fetchImage } from "../../../../modules/image/imageApi";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { StyledFigureButtons } from "../embed/FigureButtons";
+import CampaignBlockForm from "./CampaignBlockForm";
+import { CampaignBlockElement } from "./types";
 
 interface Props extends RenderElementProps {
   element: CampaignBlockElement;

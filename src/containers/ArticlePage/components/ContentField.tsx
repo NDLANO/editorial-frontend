@@ -6,9 +6,6 @@
  *
  */
 
-import { FieldInputProps } from "formik";
-import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Draggable, LinkMedium } from "@ndla/icons";
 import {
   Button,
@@ -22,7 +19,9 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleDTO, ArticleSummaryDTO, RelatedContentLinkDTO } from "@ndla/types-backend/draft-api";
-import ContentLink from "./ContentLink";
+import { FieldInputProps } from "formik";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import DndList from "../../../components/DndList";
@@ -37,6 +36,7 @@ import handleError from "../../../util/handleError";
 import { routes } from "../../../util/routeHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 import { ArticleFormType } from "../../FormikForm/articleFormHooks";
+import ContentLink from "./ContentLink";
 
 const StyledList = styled("ul", {
   base: {

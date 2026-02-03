@@ -6,12 +6,12 @@
  *
  */
 
-import { useId } from "react";
-import { useTranslation } from "react-i18next";
 import { CloseLine } from "@ndla/icons";
 import { Text, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { visuallyHidden } from "@ndla/styled-system/patterns";
+import { useId } from "react";
+import { useTranslation } from "react-i18next";
 
 const TagsWrapper = styled("div", {
   base: {

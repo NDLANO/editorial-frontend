@@ -6,15 +6,15 @@
  *
  */
 
+import { EmbedData } from "@ndla/types-embed";
+import { keyBy } from "@ndla/util";
 import { Cheerio, CheerioAPI, load } from "cheerio";
 import he from "he";
+import { nanoid } from "nanoid";
 import fetch from "node-fetch";
-import errorLogger from "./logger";
 import { getEnvironmentVariabel } from "../config";
 import { ApiTranslateType } from "../interfaces";
-import { EmbedData } from "@ndla/types-embed";
-import { nanoid } from "nanoid";
-import { keyBy } from "@ndla/util";
+import errorLogger from "./logger";
 
 type KeysWithoutResource<U extends { resource: PropertyKey }> = {
   [R in U["resource"]]: Array<Exclude<keyof Extract<U, { resource: R }>, "resource">>;

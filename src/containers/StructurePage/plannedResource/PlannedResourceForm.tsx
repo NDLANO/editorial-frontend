@@ -6,13 +6,7 @@
  *
  */
 
-import { Formik } from "formik";
-import { TFunction } from "i18next";
-import { useCallback, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
 import { createListCollection } from "@ark-ui/react";
-import { useQueryClient } from "@tanstack/react-query";
 import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { CheckLine } from "@ndla/icons";
 import {
@@ -36,7 +30,12 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ArticleDTO, UpdatedArticleDTO, Priority } from "@ndla/types-backend/draft-api";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { Node, ResourceType } from "@ndla/types-taxonomy";
-import PlannedResourceSelect from "./PlannedResourceSelect";
+import { useQueryClient } from "@tanstack/react-query";
+import { Formik } from "formik";
+import { TFunction } from "i18next";
+import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Descendant } from "slate";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { FormField } from "../../../components/FormField";
 import { FormActionsContainer, FormikForm } from "../../../components/FormikForm";
@@ -69,6 +68,7 @@ import { convertUpdateToNewDraft } from "../../../util/articleUtil";
 import { getCommentInfoText } from "../../ArticlePage/components/InputComment";
 import { useSession } from "../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import PlannedResourceSelect from "./PlannedResourceSelect";
 
 interface PlannedResourceFormikType {
   title: string;

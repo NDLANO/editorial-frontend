@@ -6,9 +6,6 @@
  *
  */
 
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useQueryClient } from "@tanstack/react-query";
 import {
   Heading,
   Spinner,
@@ -20,6 +17,9 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeType } from "@ndla/types-taxonomy";
+import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useUpdateNodeMetadataMutation } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";

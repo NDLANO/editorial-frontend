@@ -6,8 +6,6 @@
  *
  */
 
-import { useField } from "formik";
-import { useTranslation } from "react-i18next";
 import { InformationLine } from "@ndla/icons";
 import {
   DialogTrigger,
@@ -22,6 +20,8 @@ import {
   FieldErrorMessage,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useField } from "formik";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { FormField } from "../../../components/FormField";
 import VisualElement from "../../VisualElement/VisualElement";

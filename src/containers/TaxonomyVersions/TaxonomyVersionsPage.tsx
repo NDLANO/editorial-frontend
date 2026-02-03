@@ -6,16 +6,16 @@
  *
  */
 
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Button, Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Version } from "@ndla/types-taxonomy";
 import { partition, sortBy } from "@ndla/util";
-import UIVersion from "./components/Version";
-import VersionForm from "./components/VersionForm";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useVersions } from "../../modules/taxonomy/versions/versionQueries";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import UIVersion from "./components/Version";
+import VersionForm from "./components/VersionForm";
 
 const NewFormWrapper = styled("div", {
   base: {

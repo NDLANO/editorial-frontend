@@ -6,7 +6,6 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import {
   FieldRoot,
   RadioGroupItem,
@@ -16,6 +15,7 @@ import {
   RadioGroupLabel,
   RadioGroupRoot,
 } from "@ndla/primitives";
+import { useTranslation } from "react-i18next";
 import { FormField } from "../../../components/FormField";
 
 const VersionLockedField = () => {

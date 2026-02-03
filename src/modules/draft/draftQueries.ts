@@ -6,7 +6,6 @@
  *
  */
 
-import { useMutation, useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
 import { ArticleSearchParamsDTO } from "@ndla/types-backend/article-api";
 import {
   LicenseDTO,
@@ -17,16 +16,7 @@ import {
   TagsSearchResultDTO,
   ArticleRevisionHistoryDTO,
 } from "@ndla/types-backend/draft-api";
-import {
-  fetchDraft,
-  fetchLicenses,
-  fetchStatusStateMachine,
-  fetchUserData,
-  updateUserData,
-  fetchSearchTags,
-  searchDrafts,
-  fetchArticleRevisionHistory,
-} from "./draftApi";
+import { useMutation, useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
 import { DraftStatusStateMachineType } from "../../interfaces";
 import {
   DRAFT,
@@ -37,6 +27,16 @@ import {
   DRAFT_HISTORY,
   DRAFT_SEARCH_TAGS,
 } from "../../queryKeys";
+import {
+  fetchDraft,
+  fetchLicenses,
+  fetchStatusStateMachine,
+  fetchUserData,
+  updateUserData,
+  fetchSearchTags,
+  searchDrafts,
+  fetchArticleRevisionHistory,
+} from "./draftApi";
 
 export interface UseDraft {
   id: number;

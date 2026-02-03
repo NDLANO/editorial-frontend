@@ -6,8 +6,8 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { ComboboxLabel, Text } from "@ndla/primitives";
+import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import ListResource from "../../../components/Form/ListResource";

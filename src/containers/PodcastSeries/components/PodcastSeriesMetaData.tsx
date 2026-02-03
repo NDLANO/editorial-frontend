@@ -6,7 +6,6 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { CheckLine } from "@ndla/icons";
 import {
   CheckboxControl,
@@ -18,6 +17,7 @@ import {
   FieldLabel,
   FieldRoot,
 } from "@ndla/primitives";
+import { useTranslation } from "react-i18next";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import PlainTextEditor from "../../../components/SlateEditor/PlainTextEditor";

@@ -6,8 +6,6 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import {
   FieldErrorMessage,
@@ -25,13 +23,15 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { constants } from "@ndla/ui";
-import ExamplesFieldArray from "./ExamplesFieldArray";
-import { GlossAudioField } from "./GlossAudioField";
-import TranscriptionsField from "./TranscriptionsField";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import { LANGUAGES } from "../glossData";
+import ExamplesFieldArray from "./ExamplesFieldArray";
+import { GlossAudioField } from "./GlossAudioField";
+import TranscriptionsField from "./TranscriptionsField";
 
 const {
   wordClass: { wordClass },

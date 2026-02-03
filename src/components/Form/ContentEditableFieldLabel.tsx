@@ -6,10 +6,10 @@
  *
  */
 
-import { useCallback } from "react";
 import { useFieldContext, mergeProps } from "@ark-ui/react";
 import { Label, LabelProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useCallback } from "react";
 
 interface Props extends LabelProps {}
 

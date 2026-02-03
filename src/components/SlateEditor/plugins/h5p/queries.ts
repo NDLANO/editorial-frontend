@@ -6,8 +6,8 @@
  *
  */
 
-import { Node } from "slate";
 import { isElementOfType } from "@ndla/editor";
+import { Node } from "slate";
 import { H5P_ELEMENT_TYPE } from "./types";
 
 export const isH5pElement = (node: Node | undefined) => isElementOfType(node, H5P_ELEMENT_TYPE);

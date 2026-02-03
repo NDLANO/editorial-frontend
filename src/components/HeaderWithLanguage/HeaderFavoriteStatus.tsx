@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { HeartFill } from "@ndla/icons";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useTranslation } from "react-i18next";
 import { useResourceStats } from "../../modules/myndla/myndlaQueries";
 
 const Wrapper = styled("div", {

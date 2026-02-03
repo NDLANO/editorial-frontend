@@ -21,10 +21,10 @@ import {
   MetadataPUT,
   NodeSearchBody,
 } from "@ndla/types-taxonomy";
-import { GetChildNodesParams, GetNodesParams, GetNodeResourcesParams } from "./nodeApiTypes";
 import { SearchResultBase, WithTaxonomyVersion } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveLocation, resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
+import { GetChildNodesParams, GetNodesParams, GetNodeResourcesParams } from "./nodeApiTypes";
 
 const client = createAuthClient<openapi.paths>("/taxonomy");
 

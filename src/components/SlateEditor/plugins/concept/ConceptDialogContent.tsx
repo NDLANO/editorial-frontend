@@ -6,8 +6,6 @@
  *
  */
 
-import { useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import {
   Button,
   DialogBody,
@@ -26,8 +24,8 @@ import {
   ConceptSummaryDTO,
   DraftConceptSearchParamsDTO,
 } from "@ndla/types-backend/concept-api";
-import SearchConceptFormContent, { ConceptSearchParams, UpdateSearchParamFn } from "./SearchConceptFormContent";
-import SearchConceptResult from "./SearchConceptResult";
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import ConceptForm from "../../../../containers/ConceptPage/ConceptForm/ConceptForm";
 import { ConceptType } from "../../../../containers/ConceptPage/conceptInterfaces";
 import { GlossForm } from "../../../../containers/GlossPage/components/GlossForm";
@@ -36,6 +34,8 @@ import { useSearchConcepts } from "../../../../modules/concept/conceptQueries";
 import Pagination from "../../../abstractions/Pagination";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import FormWrapper from "../../../FormWrapper";
+import SearchConceptFormContent, { ConceptSearchParams, UpdateSearchParamFn } from "./SearchConceptFormContent";
+import SearchConceptResult from "./SearchConceptResult";
 
 interface Props {
   addConcept: (concept: ConceptSummaryDTO | ConceptDTO) => void;

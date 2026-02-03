@@ -6,8 +6,8 @@
  *
  */
 
-import { Descendant } from "slate";
 import { ImageEmbedData } from "@ndla/types-embed";
+import { Descendant } from "slate";
 
 export interface ImageElement {
   type: "image";

@@ -6,22 +6,22 @@
  *
  */
 
+import { SearchParamsDTO } from "@ndla/types-backend/audio-api";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { SearchParamsDTO } from "@ndla/types-backend/audio-api";
+import Pagination from "../../components/abstractions/Pagination";
+import config from "../../config";
+import { useSearchSeries } from "../../modules/audio/audioQueries";
+import { useUserData } from "../../modules/draft/draftQueries";
+import { getAccessToken, isActiveToken } from "../../util/authHelpers";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import SearchPodcastSeriesForm from "./components/form/SearchPodcastSeriesForm";
 import { GenericSearchList } from "./components/GenericSearchList";
 import SearchListOptions from "./components/results/SearchListOptions";
-import { SearchPageContainer } from "./components/SearchPageContainer";
-import config from "../../config";
-import { useUserData } from "../../modules/draft/draftQueries";
-import { getAccessToken, isActiveToken } from "../../util/authHelpers";
 import SearchPodcastSeries from "./components/results/SearchPodcastSeries";
+import { SearchPageContainer } from "./components/SearchPageContainer";
 import SearchSort from "./components/sort/SearchSort";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
-import Pagination from "../../components/abstractions/Pagination";
-import { useSearchSeries } from "../../modules/audio/audioQueries";
-import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 export const Component = () => <PrivateRoute component={<PodcastSeriesSearch />} />;
 

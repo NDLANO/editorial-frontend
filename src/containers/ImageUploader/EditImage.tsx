@@ -6,18 +6,18 @@
  *
  */
 
+import { PageContent } from "@ndla/primitives";
+import { ImageMetaInformationV3DTO, UpdateImageMetaInformationDTO } from "@ndla/types-backend/image-api";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
-import { PageContent } from "@ndla/primitives";
-import { ImageMetaInformationV3DTO, UpdateImageMetaInformationDTO } from "@ndla/types-backend/image-api";
-import ImageForm from "./components/ImageForm";
 import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
 import { fetchImage, updateImage } from "../../modules/image/imageApi";
 import { useMessages } from "../Messages/MessagesProvider";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import ImageForm from "./components/ImageForm";
 
 const translateFields: TranslateType[] = [
   {

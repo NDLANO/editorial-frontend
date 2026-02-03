@@ -6,12 +6,12 @@
  *
  */
 
-import { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
 import { DeleteBinLine, ImageLine } from "@ndla/icons";
 import { IconButton, ListItemContent, ListItemHeading, ListItemImage, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 
 const StyledListItemRoot = styled(ListItemRoot, {
   base: {

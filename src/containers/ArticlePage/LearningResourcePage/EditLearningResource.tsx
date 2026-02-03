@@ -6,11 +6,10 @@
  *
  */
 
+import { PageContent } from "@ndla/primitives";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router";
-import { PageContent } from "@ndla/primitives";
-import LearningResourceForm from "./components/LearningResourceForm";
 import {
   NynorskTranslateProvider,
   TranslateType,
@@ -25,6 +24,7 @@ import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 import NotFound from "../../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import LearningResourceForm from "./components/LearningResourceForm";
 
 const translateFields: TranslateType[] = [
   {

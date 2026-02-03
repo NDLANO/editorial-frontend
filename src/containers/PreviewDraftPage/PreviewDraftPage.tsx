@@ -6,18 +6,18 @@
  *
  */
 
+import { Hero, HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
+import { ArticleWrapper } from "@ndla/ui";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
-import { Hero, HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
-import { ArticleWrapper } from "@ndla/ui";
-import LanguageSelector from "./LanguageSelector";
 import PreviewDraft from "../../components/PreviewDraft/PreviewDraft";
 import { articleIsWide } from "../../components/WideArticleEditorProvider";
 import { useDraft } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
 import { getContentTypeFromResourceTypes } from "../../util/resourceHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
+import LanguageSelector from "./LanguageSelector";
 
 export const Component = () => <PreviewDraftPage />;
 

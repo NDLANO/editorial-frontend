@@ -6,9 +6,6 @@
  *
  */
 
-import { FieldHelperProps, FieldInputProps } from "formik";
-import { useCallback, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { DialogOpenChangeDetails, Portal } from "@ark-ui/react";
 import { PencilLine } from "@ndla/icons";
 import {
@@ -23,9 +20,12 @@ import {
 } from "@ndla/primitives";
 import { ArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
-import QualityEvaluationForm from "./QualityEvaluationForm";
+import { FieldHelperProps, FieldInputProps } from "formik";
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { DialogCloseButton } from "../DialogCloseButton";
+import QualityEvaluationForm from "./QualityEvaluationForm";
 
 interface Props {
   articleType?: string;

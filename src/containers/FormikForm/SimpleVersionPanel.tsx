@@ -6,11 +6,11 @@
  *
  */
 
-import { useCallback, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Spinner } from "@ndla/primitives";
 import { EditorNoteDTO as EditorNoteConcept } from "@ndla/types-backend/concept-api";
 import { EditorNoteDTO } from "@ndla/types-backend/image-api";
+import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import VersionHistory from "../../components/VersionHistory/VersionHistory";
 import { fetchAuth0UsersFromUserIds, SimpleUserType } from "../../modules/auth0/auth0Api";
 import formatDate from "../../util/formatDate";

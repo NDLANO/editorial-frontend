@@ -7,9 +7,9 @@
  */
 
 import { useTranslation } from "react-i18next";
-import TaxonomyMetadataDropdown from "./TaxonomyMetadataDropdown";
 import { TAXONOMY_CUSTOM_FIELD_LANGUAGE } from "../../../../constants";
 import { collectionLanguages } from "../../../../i18n";
+import TaxonomyMetadataDropdown from "./TaxonomyMetadataDropdown";
 
 interface Props {
   customFields: Record<string, string>;

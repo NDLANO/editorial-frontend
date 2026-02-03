@@ -6,8 +6,8 @@
  *
  */
 
-import { useLocation } from "react-router";
 import { SafeLink, SafeLinkProps } from "@ndla/safelink";
+import { useLocation } from "react-router";
 
 export const SafeLinkWithQuery = ({ children, to, ...props }: SafeLinkProps) => {
   const { search } = useLocation();

@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   content: MultiSearchSummaryDTO;

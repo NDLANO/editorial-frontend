@@ -6,9 +6,6 @@
  *
  */
 
-import { TFunction } from "i18next";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { SearchParamsDTO as AudioSearchParamsDTO } from "@ndla/types-backend/audio-api";
@@ -16,6 +13,9 @@ import { DraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { SearchParamsDTO as ImageSearchparamsDTO } from "@ndla/types-backend/image-api";
 import { DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
+import { TFunction } from "i18next";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import SaveButton from "../../components/SaveButton";
 import { CamelToKebab, SearchType } from "../../interfaces";
 import { useUpdateUserDataMutation } from "../../modules/draft/draftQueries";

@@ -6,22 +6,22 @@
  *
  */
 
+import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
+import { Button, FieldRoot, FieldTextArea } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { uuid } from "@ndla/util";
 import { FieldArrayRenderProps } from "formik";
 import { TFunction } from "i18next";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
-import { Button, FieldRoot, FieldTextArea } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
-import { uuid } from "@ndla/util";
-import { plugins } from "./commentToolbarUtils";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { DIV_ELEMENT_TYPE } from "../../../components/SlateEditor/plugins/div/types";
 import { UnsupportedElement } from "../../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import formatDate, { formatDateForBackend } from "../../../util/formatDate";
 import { useSession } from "../../Session/SessionProvider";
+import { plugins } from "./commentToolbarUtils";
 
 const CommentCard = styled("div", {
   base: {

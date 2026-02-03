@@ -14,7 +14,7 @@ interface FormFieldProps<T = any> {
   children: (values: { field: FieldInputProps<T>; meta: FieldMetaProps<T>; helpers: FieldHelperProps<T> }) => ReactNode;
 }
 
-export const FormField = <T = any,>({ name, children }: FormFieldProps<T>) => {
+export const FormField = <T = any>({ name, children }: FormFieldProps<T>) => {
   const [field, meta, helpers] = useField(name);
   return children({ field, meta, helpers });
 };

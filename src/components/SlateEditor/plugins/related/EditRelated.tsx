@@ -6,8 +6,6 @@
  *
  */
 
-import { MouseEvent, useCallback, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
 import { PencilFill, DeleteBinLine } from "@ndla/icons";
 import {
@@ -27,6 +25,8 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { RelatedContentEmbedData, RelatedContentMetaData } from "@ndla/types-embed";
 import { RelatedContentEmbed } from "@ndla/ui";
+import { MouseEvent, useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import ContentLink from "../../../../containers/ArticlePage/components/ContentLink";
 import { useSearch } from "../../../../modules/search/searchQueries";
 import { usePaginatedQuery } from "../../../../util/usePaginatedQuery";

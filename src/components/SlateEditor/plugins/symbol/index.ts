@@ -13,15 +13,15 @@ import {
   NOOP_ELEMENT_TYPE,
   PARAGRAPH_ELEMENT_TYPE,
 } from "@ndla/editor";
-import { SYMBOL_ELEMENT_TYPE, SYMBOL_PLUGIN, SymbolPluginOptions } from "./types";
-import { isSymbolElement } from "./queries";
-import { SPAN_ELEMENT_TYPE } from "../span/types";
 import { Transforms } from "slate";
-import { SUMMARY_ELEMENT_TYPE } from "../details/summaryTypes";
 import {
   DEFINITION_DESCRIPTION_ELEMENT_TYPE,
   DEFINITION_TERM_ELEMENT_TYPE,
 } from "../definitionList/definitionListTypes";
+import { SUMMARY_ELEMENT_TYPE } from "../details/summaryTypes";
+import { SPAN_ELEMENT_TYPE } from "../span/types";
+import { isSymbolElement } from "./queries";
+import { SYMBOL_ELEMENT_TYPE, SYMBOL_PLUGIN, SymbolPluginOptions } from "./types";
 
 export const symbolPlugin = createPlugin<typeof SYMBOL_ELEMENT_TYPE, SymbolPluginOptions>({
   name: SYMBOL_PLUGIN,

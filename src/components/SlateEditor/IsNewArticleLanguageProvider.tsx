@@ -6,8 +6,8 @@
  *
  */
 
-import { ReactNode, createContext, useContext } from "react";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
+import { ReactNode, createContext, useContext } from "react";
 
 const IsNewArticleLanguageContext = createContext<boolean>(false);
 

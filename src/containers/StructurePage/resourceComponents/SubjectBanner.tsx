@@ -6,14 +6,12 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
-import JumpToStructureButton from "./JumpToStructureButton";
-import { linkRecipe } from "./Resource";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import AverageQualityEvaluation from "../../../components/QualityEvaluation/AverageQualityEvaluation";
 import QualityEvaluation from "../../../components/QualityEvaluation/QualityEvaluation";
 import config from "../../../config";
@@ -22,6 +20,8 @@ import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvid
 import { MultidisciplinaryCases } from "../multidisciplinary/MultidisciplinaryCases";
 import { MultidisciplinaryDialog } from "../multidisciplinary/MultidisciplinaryDialog";
 import { usePreferences } from "../PreferencesProvider";
+import JumpToStructureButton from "./JumpToStructureButton";
+import { linkRecipe } from "./Resource";
 
 const ResourceGroupBanner = styled("div", {
   base: {

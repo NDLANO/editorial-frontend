@@ -15,9 +15,9 @@ import {
   openapi,
 } from "@ndla/types-backend/search-api";
 import { createAuthClient } from "../../util/apiHelpers";
+import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 import { transformSearchBody } from "../../util/searchHelpers";
 import { MultiSummarySearchResults, NoNodeDraftSearchParams, NoNodeSearchParams } from "./searchApiInterfaces";
-import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 
 const client = createAuthClient<openapi.paths>();
 

@@ -6,8 +6,6 @@
  *
  */
 
-import { FormEvent, MouseEvent } from "react";
-import { useTranslation } from "react-i18next";
 import { DeleteBinLine } from "@ndla/icons";
 import {
   Button,
@@ -20,6 +18,8 @@ import {
   IconButton,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { FormEvent, MouseEvent } from "react";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   name: string;

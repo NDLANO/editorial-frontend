@@ -6,11 +6,9 @@
  *
  */
 
-import { useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
-import { Node, NodeChild, NodeType, NodeSearchBody } from "@ndla/types-taxonomy";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { fetchChildNodes, fetchNode, fetchNodes, postSearchNodes, searchNodes } from "./nodeApi";
-import { GetChildNodesParams, GetNodesParams, RESOURCE_NODE, TOPIC_NODE } from "./nodeApiTypes";
+import { Node, NodeChild, NodeType, NodeSearchBody } from "@ndla/types-taxonomy";
+import { useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
 import { NodeTree } from "../../containers/NodeDiff/diffUtils";
 import { SearchResultBase, WithTaxonomyVersion } from "../../interfaces";
 import {
@@ -25,6 +23,8 @@ import {
 import { getContentUriInfo } from "../../util/taxonomyHelpers";
 import { postSearch } from "../search/searchApi";
 import { NoNodeResultTypes } from "../search/searchApiInterfaces";
+import { fetchChildNodes, fetchNode, fetchNodes, postSearchNodes, searchNodes } from "./nodeApi";
+import { GetChildNodesParams, GetNodesParams, RESOURCE_NODE, TOPIC_NODE } from "./nodeApiTypes";
 
 export const nodeQueryKeys = {
   nodes: (params?: Partial<UseNodesParams>) => [NODES, params] as const,

@@ -6,7 +6,6 @@
  *
  */
 
-import { Descendant } from "slate";
 import {
   createSlate,
   HEADING_ELEMENT_TYPE,
@@ -14,10 +13,11 @@ import {
   PARAGRAPH_ELEMENT_TYPE,
   SECTION_ELEMENT_TYPE,
 } from "@ndla/editor";
+import { Descendant } from "slate";
+import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 import { DETAILS_ELEMENT_TYPE } from "../detailsTypes";
 import { SUMMARY_ELEMENT_TYPE } from "../summaryTypes";
-import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 
 const editor = createSlate({ plugins: learningResourcePlugins, logger: new LoggerManager({ debug: true }) });
 

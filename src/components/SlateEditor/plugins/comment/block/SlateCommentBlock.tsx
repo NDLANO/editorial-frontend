@@ -6,10 +6,6 @@
  *
  */
 
-import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { MessageLine } from "@ndla/icons";
 import {
@@ -24,11 +20,15 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
-import { CommentBlockElement } from "./types";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Path, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
 import { DialogCloseButton } from "../../../../DialogCloseButton";
 import CommentForm from "../CommentForm";
 import CommentPopoverPortal from "../CommentPopoverPortal";
 import { isCommentBlockElement } from "./queries/commentBlockQueries";
+import { CommentBlockElement } from "./types";
 
 const BlockCommentButton = styled("button", {
   base: {

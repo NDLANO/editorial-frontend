@@ -6,10 +6,15 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
+import { useTranslation } from "react-i18next";
+import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
+import { TAXONOMY_ADMIN_SCOPE } from "../../../constants";
+import { NodeChildWithChildren, PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../modules/nodes/nodeApiTypes";
+import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
+import { useSession } from "../../Session/SessionProvider";
 import AddProgramme from "./programmeMenuOptions/AddProgramme";
 import AddTopicNode from "./sharedMenuOptions/AddTopicNode";
 import MenuItemCustomField from "./sharedMenuOptions/components/MenuItemCustomField";
@@ -26,11 +31,6 @@ import CopyNodeResources from "./topicMenuOptions/CopyNodeResources";
 import PublishChildNodeResources from "./topicMenuOptions/PublishChildNodeResources";
 import SetResourcesPrimary from "./topicMenuOptions/SetResourcesPrimary";
 import SwapTopicArticle from "./topicMenuOptions/SwapTopicArticle";
-import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
-import { TAXONOMY_ADMIN_SCOPE } from "../../../constants";
-import { NodeChildWithChildren, PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../modules/nodes/nodeApiTypes";
-import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
-import { useSession } from "../../Session/SessionProvider";
 
 const StyledTabsContent = styled(TabsContent, {
   base: {

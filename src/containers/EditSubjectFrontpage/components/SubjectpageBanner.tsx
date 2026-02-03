@@ -6,9 +6,6 @@
  *
  */
 
-import { useField, useFormikContext } from "formik";
-import { useCallback, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import {
   Button,
   DialogBody,
@@ -27,6 +24,9 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { ImageEmbedData } from "@ndla/types-embed";
+import { useField, useFormikContext } from "formik";
+import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { ImageSearch } from "../../../components/ImageSearch";
 import MetaInformation from "../../../components/MetaInformation";

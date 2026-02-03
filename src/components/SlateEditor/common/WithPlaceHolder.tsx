@@ -6,10 +6,10 @@
  *
  */
 
+import { styled } from "@ndla/styled-system/jsx";
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { RenderLeafProps } from "slate-react";
-import { styled } from "@ndla/styled-system/jsx";
 
 interface Props {
   attributes: RenderLeafProps["attributes"];

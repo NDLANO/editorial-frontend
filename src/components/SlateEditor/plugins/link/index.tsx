@@ -6,8 +6,6 @@
  *
  */
 
-import { Descendant, Node, Transforms, ElementType } from "slate";
-import { jsx as slatejsx } from "slate-hyperscript";
 import {
   createDataAttributes,
   createHtmlTag,
@@ -17,9 +15,11 @@ import {
   PluginConfiguration,
 } from "@ndla/editor";
 import { ContentLinkEmbedData } from "@ndla/types-embed";
+import { Descendant, Node, Transforms, ElementType } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_NDLA_EMBED } from "../embed/types";
 import { isContentLinkElement, isLinkElement } from "./queries";
 import { CONTENT_LINK_ELEMENT_TYPE, CONTENT_LINK_PLUGIN, LINK_ELEMENT_TYPE, LINK_PLUGIN, LinkEmbedData } from "./types";
-import { TYPE_NDLA_EMBED } from "../embed/types";
 
 export interface LinkElement {
   type: "link";

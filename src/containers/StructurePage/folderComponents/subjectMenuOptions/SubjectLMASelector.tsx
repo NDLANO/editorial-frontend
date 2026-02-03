@@ -7,8 +7,8 @@
  */
 
 import { useTranslation } from "react-i18next";
-import SubjectCustomFieldSelector from "./SubjectCustomFieldSelector";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA } from "../../../../constants";
+import SubjectCustomFieldSelector from "./SubjectCustomFieldSelector";
 
 interface Props {
   customFields: Record<string, string>;

@@ -6,15 +6,15 @@
  *
  */
 
-import { useField, useFormikContext } from "formik";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Draggable } from "@ndla/icons";
 import { ComboboxLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { useField, useFormikContext } from "formik";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";

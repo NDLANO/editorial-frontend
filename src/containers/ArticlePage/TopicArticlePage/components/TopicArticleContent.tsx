@@ -6,12 +6,9 @@
  *
  */
 
+import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { useField } from "formik";
 import { useTranslation } from "react-i18next";
-import { FieldErrorMessage, FieldRoot } from "@ndla/primitives";
-import LastUpdatedLine from "./../../../../components/LastUpdatedLine/LastUpdatedLine";
-import { topicArticlePlugins } from "./topicArticlePlugins";
-import { topicArticleRenderers } from "./topicArticleRenderers";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
 import { ContentEditableFieldLabel } from "../../../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../../components/Form/FieldWarning";
@@ -27,6 +24,9 @@ import { IngressField, TitleField } from "../../../FormikForm";
 import { TopicArticleFormType } from "../../../FormikForm/articleFormHooks";
 import VisualElementField from "../../../FormikForm/components/VisualElementField";
 import { useSession } from "../../../Session/SessionProvider";
+import LastUpdatedLine from "./../../../../components/LastUpdatedLine/LastUpdatedLine";
+import { topicArticlePlugins } from "./topicArticlePlugins";
+import { topicArticleRenderers } from "./topicArticleRenderers";
 
 const plugins = topicArticlePlugins.concat(topicArticleRenderers);
 

@@ -6,10 +6,10 @@
  *
  */
 
+import { getCurrentBlock } from "@ndla/editor";
 import { Editor, Node, Path, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { ReactEditor } from "slate-react";
-import { getCurrentBlock } from "@ndla/editor";
 import {
   defaultTableCellBlock,
   defaultTableHeadBlock,
@@ -20,8 +20,6 @@ import {
 import { TableElement } from "./interfaces";
 import { getTableAsMatrix, getTableSectionAsMatrix } from "./matrix";
 import { findCellCoordinate } from "./matrixHelpers";
-import { updateCell } from "./slateActions";
-import { TABLE_BODY_ELEMENT_TYPE, TABLE_HEAD_ELEMENT_TYPE, TABLE_ROW_ELEMENT_TYPE } from "./types";
 import {
   isAnyTableCellElement,
   isTableBodyElement,
@@ -31,7 +29,9 @@ import {
   isTableRowElement,
   isTableSectionElement,
 } from "./queries";
+import { updateCell } from "./slateActions";
 import { getTableSectionWidth } from "./slateHelpers";
+import { TABLE_BODY_ELEMENT_TYPE, TABLE_HEAD_ELEMENT_TYPE, TABLE_ROW_ELEMENT_TYPE } from "./types";
 
 export const toggleRowHeaders = (editor: Editor, path: Path) => {
   const [table] = Editor.node(editor, path);

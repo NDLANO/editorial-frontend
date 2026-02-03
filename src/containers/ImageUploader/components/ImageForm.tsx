@@ -6,10 +6,6 @@
  *
  */
 
-import { Formik, FormikHelpers } from "formik";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router";
 import { Button, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import {
@@ -17,9 +13,10 @@ import {
   NewImageMetaInformationV2DTO,
   UpdateImageMetaInformationDTO,
 } from "@ndla/types-backend/image-api";
-import ImageContent from "./ImageContent";
-import ImageCopyright from "./ImageCopyright";
-import ImageMetaData from "./ImageMetaData";
+import { Formik, FormikHelpers } from "formik";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate } from "react-router";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { FormActionsContainer } from "../../../components/FormikForm";
@@ -27,14 +24,17 @@ import validateFormik, { RulesType, getWarnings } from "../../../components/form
 import FormWrapper from "../../../components/FormWrapper";
 import SaveButton from "../../../components/SaveButton";
 import { SAVE_BUTTON_ID } from "../../../constants";
+import { useLicenses } from "../../../modules/draft/draftQueries";
 import { editorValueToPlainText } from "../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../util/formHelper";
+import { NewlyCreatedLocationState } from "../../../util/routeHelpers";
 import { AlertDialogWrapper } from "../../FormikForm/AlertDialogWrapper";
 import SimpleVersionPanel from "../../FormikForm/SimpleVersionPanel";
 import { imageApiTypeToFormType, ImageFormikType } from "../imageTransformers";
+import ImageContent from "./ImageContent";
+import ImageCopyright from "./ImageCopyright";
 import { ImageFormHeader } from "./ImageFormHeader";
-import { useLicenses } from "../../../modules/draft/draftQueries";
-import { NewlyCreatedLocationState } from "../../../util/routeHelpers";
+import ImageMetaData from "./ImageMetaData";
 
 const StyledFormActionsContainer = styled(FormActionsContainer, {
   base: {

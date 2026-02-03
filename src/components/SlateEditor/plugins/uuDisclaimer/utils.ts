@@ -7,8 +7,8 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { DISCLAIMER_ELEMENT_TYPE } from "./types";
 import { defaultParagraphBlock } from "../paragraph/utils";
+import { DISCLAIMER_ELEMENT_TYPE } from "./types";
 
 export const defaultDisclaimerBlock = () => {
   return slatejsx("element", { type: DISCLAIMER_ELEMENT_TYPE, isFirstEdit: true }, defaultParagraphBlock());

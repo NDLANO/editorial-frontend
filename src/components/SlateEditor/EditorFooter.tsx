@@ -6,15 +6,15 @@
  *
  */
 
-import { useFormikContext } from "formik";
-import { memo, useCallback, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { createPath, useLocation } from "react-router";
 import { ShareBoxLine } from "@ndla/icons";
 import { Button, FieldRoot } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { StatusDTO as ConceptStatus } from "@ndla/types-backend/concept-api";
+import { useFormikContext } from "formik";
+import { memo, useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { createPath, useLocation } from "react-router";
 import { LEARNING_PATH_PUBLISH_SCOPE, PUBLISHED, SAVE_DEBOUNCE_MS } from "../../constants";
 import PrioritySelect from "../../containers/FormikForm/components/PrioritySelect";
 import ResponsibleSelect from "../../containers/FormikForm/components/ResponsibleSelect";

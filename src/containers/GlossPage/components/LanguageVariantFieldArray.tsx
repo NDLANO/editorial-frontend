@@ -6,14 +6,14 @@
  *
  */
 
-import { FieldArray } from "formik";
-import { useTranslation } from "react-i18next";
 import { DeleteBinLine } from "@ndla/icons";
 import { Button, FieldsetLegend, FieldsetRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { GlossExampleDTO } from "@ndla/types-backend/concept-api";
-import ExampleField from "./ExampleField";
+import { FieldArray } from "formik";
+import { useTranslation } from "react-i18next";
 import { emptyGlossExample } from "../glossData";
+import ExampleField from "./ExampleField";
 
 const StyledFieldsetRoot = styled(FieldsetRoot, {
   base: {

@@ -6,9 +6,9 @@
  *
  */
 
-import TaxonomyMetadataDropdown from "./TaxonomyMetadataDropdown";
 import { DRAFT_RESPONSIBLE } from "../../../../constants";
 import { useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
+import TaxonomyMetadataDropdown from "./TaxonomyMetadataDropdown";
 
 interface Props {
   customFields: Record<string, string>;

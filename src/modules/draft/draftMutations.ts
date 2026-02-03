@@ -6,11 +6,11 @@
  *
  */
 
-import { useMutation, UseMutationOptions, useQueryClient } from "@tanstack/react-query";
 import { ArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
+import { useMutation, UseMutationOptions, useQueryClient } from "@tanstack/react-query";
+import { DraftStatusType } from "../../interfaces";
 import { copyRevisionDates, deleteCurrentRevision, migrateCodes, updateDraft, updateStatusDraft } from "./draftApi";
 import { draftQueryKeys } from "./draftQueries";
-import { DraftStatusType } from "../../interfaces";
 
 export const useUpdateDraftMutation = (
   options?: Partial<UseMutationOptions<ArticleDTO, unknown, { id: number; body: UpdatedArticleDTO }>>,

@@ -6,7 +6,6 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import {
   ErrorMessageActions,
   ErrorMessageContent,
@@ -15,6 +14,7 @@ import {
   ErrorMessageTitle,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { useTranslation } from "react-i18next";
 
 export const LearningpathErrorMessage = () => {
   const { t } = useTranslation();

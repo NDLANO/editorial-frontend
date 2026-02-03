@@ -6,10 +6,10 @@
  *
  */
 
-import { TYPE_NDLA_EMBED } from "./types";
-import { defaultEmbedBlock } from "./utils";
 import { parseEmbedTag } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
+import { TYPE_NDLA_EMBED } from "./types";
+import { defaultEmbedBlock } from "./utils";
 
 export const embedSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {

@@ -6,16 +6,16 @@
  *
  */
 
-import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { PencilFill, AddLine, DeleteBinLine } from "@ndla/icons";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LinkBlockEmbedData } from "@ndla/types-embed";
 import { EmbedWrapper, LinkBlock, LinkBlockSection } from "@ndla/ui";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Path, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
 import LinkBlockForm from "./LinkBlockForm";
 import { LinkBlockListElement } from "./types";
 

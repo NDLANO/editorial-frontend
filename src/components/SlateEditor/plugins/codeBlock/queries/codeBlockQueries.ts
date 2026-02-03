@@ -7,7 +7,7 @@
  */
 
 import { isElementOfType } from "@ndla/editor";
-import { CODE_BLOCK_ELEMENT_TYPE } from "../types";
 import { Node } from "slate";
+import { CODE_BLOCK_ELEMENT_TYPE } from "../types";
 
 export const isCodeBlockElement = (node: Node | undefined) => isElementOfType(node, CODE_BLOCK_ELEMENT_TYPE);

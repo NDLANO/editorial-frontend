@@ -6,14 +6,14 @@
  *
  */
 
-import { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor } from "slate";
-import { RenderElementProps } from "slate-react";
 import { DeleteBinLine } from "@ndla/icons";
 import { IconButton, Table } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { EmbedWrapper } from "@ndla/ui";
+import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor } from "slate";
+import { RenderElementProps } from "slate-react";
 import { TableElement } from "./interfaces";
 import { removeTable } from "./slateActions";
 

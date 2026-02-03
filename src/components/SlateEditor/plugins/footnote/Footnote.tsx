@@ -6,10 +6,6 @@
  *
  */
 
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import {
   Button,
@@ -20,9 +16,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@ndla/primitives";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
+import { DialogCloseButton } from "../../../DialogCloseButton";
 import FootnoteForm from "./FootnoteForm";
 import { FootnoteElement } from "./types";
-import { DialogCloseButton } from "../../../DialogCloseButton";
 
 interface Props extends RenderElementProps {
   editor: Editor;

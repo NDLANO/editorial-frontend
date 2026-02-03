@@ -6,9 +6,6 @@
  *
  */
 
-import { Editor, Descendant, BaseEditor, BaseSelection, Node, Element } from "slate";
-import { HistoryEditor } from "slate-history";
-import { ReactEditor } from "slate-react";
 import {
   CustomEditor as _CustomEditor,
   BreakElement,
@@ -19,6 +16,9 @@ import {
   ParagraphElement,
   SectionElement,
 } from "@ndla/editor";
+import { Editor, Descendant, BaseEditor, BaseSelection, Node, Element } from "slate";
+import { HistoryEditor } from "slate-history";
+import { ReactEditor } from "slate-react";
 import { AsideElement } from "./plugins/aside/asideTypes";
 import { AudioElement } from "./plugins/audio/audioTypes";
 import { BlockQuoteElement } from "./plugins/blockquote/blockquoteTypes";
@@ -30,6 +30,11 @@ import { ConceptBlockElement } from "./plugins/concept/block/types";
 import { ConceptInlineElement } from "./plugins/concept/inline/types";
 import { ContactBlockElement } from "./plugins/contactBlock/types";
 import { CopyrightElement } from "./plugins/copyright/types";
+import {
+  DefinitionListElement,
+  DefinitionDescriptionElement,
+  DefinitionTermElement,
+} from "./plugins/definitionList/definitionListTypes";
 import { DetailsElement } from "./plugins/details/detailsTypes";
 import { SummaryElement } from "./plugins/details/summaryTypes";
 import { DivElement } from "./plugins/div/types";
@@ -48,7 +53,9 @@ import { CustomTextWithMarks } from "./plugins/mark";
 import { MathmlElement } from "./plugins/mathml/mathTypes";
 import { PitchElement } from "./plugins/pitch/types";
 import { RelatedElement } from "./plugins/related/types";
+import { RephraseElement } from "./plugins/rephrase/rephraseTypes";
 import { SpanElement } from "./plugins/span/types";
+import { SymbolElement } from "./plugins/symbol/types";
 import {
   TableBodyElement,
   TableCaptionElement,
@@ -57,17 +64,10 @@ import {
   TableHeadElement,
   TableRowElement,
 } from "./plugins/table/interfaces";
+import { AreaFilters, CategoryFilters, ToolbarType } from "./plugins/toolbar/toolbarState";
+import { UnsupportedElement } from "./plugins/unsupported/types";
 import { DisclaimerElement } from "./plugins/uuDisclaimer/types";
 import { BrightcoveEmbedElement } from "./plugins/video/types";
-import { RephraseElement } from "./plugins/rephrase/rephraseTypes";
-import { SymbolElement } from "./plugins/symbol/types";
-import {
-  DefinitionListElement,
-  DefinitionDescriptionElement,
-  DefinitionTermElement,
-} from "./plugins/definitionList/definitionListTypes";
-import { UnsupportedElement } from "./plugins/unsupported/types";
-import { AreaFilters, CategoryFilters, ToolbarType } from "./plugins/toolbar/toolbarState";
 
 export type SlatePlugin = (editor: Editor) => Editor;
 

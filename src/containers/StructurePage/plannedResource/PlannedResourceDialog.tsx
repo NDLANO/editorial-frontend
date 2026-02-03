@@ -6,8 +6,6 @@
  *
  */
 
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
 import { AddLine } from "@ndla/icons";
 import {
@@ -25,6 +23,8 @@ import {
   TabsTrigger,
 } from "@ndla/primitives";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import AddExistingResource from "../plannedResource/AddExistingResource";
 import PlannedResourceForm from "../plannedResource/PlannedResourceForm";

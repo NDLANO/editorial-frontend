@@ -6,6 +6,7 @@
  *
  */
 
+import LearningpathConnection from "../../components/HeaderWithLanguage/LearningpathConnection";
 import AddNotesField from "./AddNotesField";
 import { AlertDialogWrapper } from "./AlertDialogWrapper";
 import ContributorsField from "./components/ContributorsField";
@@ -17,7 +18,6 @@ import MetaImageSearch from "./MetaImageSearch";
 import SlugField from "./SlugField";
 import TitleField from "./TitleField";
 import VersionAndNotesPanel from "./VersionAndNotesPanel";
-import LearningpathConnection from "../../components/HeaderWithLanguage/LearningpathConnection";
 
 export {
   CopyrightFieldGroup,

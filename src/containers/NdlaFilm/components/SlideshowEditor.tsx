@@ -7,8 +7,8 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { ThemeMovies } from "./ThemeMovies";
 import { FormField } from "../../../components/FormField";
+import { ThemeMovies } from "./ThemeMovies";
 
 const SlideshowEditor = () => {
   const { t } = useTranslation();

@@ -6,8 +6,8 @@
  *
  */
 
-import { useField } from "formik";
 import { styled } from "@ndla/styled-system/jsx";
+import { useField } from "formik";
 import { TranscriptionField } from "./TranscriptionField";
 
 const StyledFieldWrapper = styled("div", {

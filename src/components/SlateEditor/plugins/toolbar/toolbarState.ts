@@ -6,10 +6,10 @@
  *
  */
 
+import { MarkType } from "@ndla/editor";
 import { merge } from "lodash-es";
 import { Editor, Element, ElementType, Node, NodeEntry, Path, Range, Selection } from "slate";
 import { SYMBOL_ELEMENT_TYPE } from "../symbol/types";
-import { MarkType } from "@ndla/editor";
 
 export const languages = [
   "no",

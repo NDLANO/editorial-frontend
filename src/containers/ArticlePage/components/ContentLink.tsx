@@ -6,10 +6,10 @@
  *
  */
 
-import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
 
 interface Props {

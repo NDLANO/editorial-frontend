@@ -6,18 +6,18 @@
  *
  */
 
+import { PageContent } from "@ndla/primitives";
+import { UpdatedConceptDTO } from "@ndla/types-backend/concept-api";
 import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
-import { PageContent } from "@ndla/primitives";
-import { UpdatedConceptDTO } from "@ndla/types-backend/concept-api";
-import { GlossForm } from "./components/GlossForm";
 import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
 import { LocaleType } from "../../interfaces";
 import { useFetchConceptData } from "../FormikForm/formikConceptHooks";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import { GlossForm } from "./components/GlossForm";
 
 const translateFields: TranslateType[] = [
   {

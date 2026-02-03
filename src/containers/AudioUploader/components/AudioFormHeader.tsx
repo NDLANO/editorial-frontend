@@ -6,12 +6,12 @@
  *
  */
 
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Badge } from "@ndla/primitives";
 import { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import EmbedConnection from "../../../components/HeaderWithLanguage/EmbedInformation/EmbedConnection";
 import HeaderActions from "../../../components/HeaderWithLanguage/HeaderActions";
 import { HeaderCurrentLanguagePill } from "../../../components/HeaderWithLanguage/HeaderCurrentLanguagePill";

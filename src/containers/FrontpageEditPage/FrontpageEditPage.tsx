@@ -6,18 +6,14 @@
  *
  */
 
-import { FieldArray, Formik, useField, useFormikContext } from "formik";
-import { useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { AddLine, PencilFill } from "@ndla/icons";
 import { Heading, IconButton, PageContainer, Spinner, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleSummaryV2DTO } from "@ndla/types-backend/article-api";
-import FrontpageArticleSearch from "./FrontpageArticleSearch";
-import { addArticlesToAboutMenu, extractArticleIds, menuWithArticleToIMenu } from "./frontpageHelpers";
-import FrontpageNodeList from "./FrontpageNodeList";
-import { MenuWithArticle } from "./types";
+import { FieldArray, Formik, useField, useFormikContext } from "formik";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { FormActionsContainer } from "../../components/FormikForm";
 import validateFormik, { RulesType } from "../../components/formikValidationSchema";
 import SaveButton from "../../components/SaveButton";
@@ -30,6 +26,10 @@ import { AlertDialogWrapper } from "../FormikForm";
 import NotFound from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import { useSession } from "../Session/SessionProvider";
+import FrontpageArticleSearch from "./FrontpageArticleSearch";
+import { addArticlesToAboutMenu, extractArticleIds, menuWithArticleToIMenu } from "./frontpageHelpers";
+import FrontpageNodeList from "./FrontpageNodeList";
+import { MenuWithArticle } from "./types";
 
 const FrontpageArticleWrapper = styled("div", {
   base: {

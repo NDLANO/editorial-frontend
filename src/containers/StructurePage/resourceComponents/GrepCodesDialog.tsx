@@ -6,10 +6,7 @@
  *
  */
 
-import { useCallback, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
-import { useQueryClient } from "@tanstack/react-query";
 import {
   Button,
   DialogBody,
@@ -22,7 +19,9 @@ import {
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import GrepCodesForm from "./GrepCodesForm";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { useUpdateDraftMutation } from "../../../modules/draft/draftMutations";
 import { draftQueryKeys } from "../../../modules/draft/draftQueries";
@@ -34,6 +33,7 @@ import { getContentUriFromSearchSummary } from "../../../util/searchHelpers";
 import { getContentUriInfo } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { useCurrentNode } from "../CurrentNodeProvider";
+import GrepCodesForm from "./GrepCodesForm";
 
 interface Props {
   codes: string[];

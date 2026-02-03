@@ -6,12 +6,11 @@
  *
  */
 
+import { ConceptDTO, ConceptSummaryDTO, NewConceptDTO, UpdatedConceptDTO } from "@ndla/types-backend/concept-api";
 import { Formik, FormikHelpers } from "formik";
 import { isEmpty } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ConceptDTO, ConceptSummaryDTO, NewConceptDTO, UpdatedConceptDTO } from "@ndla/types-backend/concept-api";
-import GlossDataSection from "./GlossDataSection";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import validateFormik, { RulesType, getWarnings } from "../../../components/formikValidationSchema";
@@ -30,6 +29,7 @@ import { TitleField } from "../../FormikForm";
 import CopyrightFieldGroup from "../../FormikForm/CopyrightFieldGroup";
 import { MessageError, useMessages } from "../../Messages/MessagesProvider";
 import { useSession } from "../../Session/SessionProvider";
+import GlossDataSection from "./GlossDataSection";
 
 interface UpdateProps {
   onUpdate: (updatedConcept: UpdatedConceptDTO, revision?: number) => Promise<ConceptDTO>;

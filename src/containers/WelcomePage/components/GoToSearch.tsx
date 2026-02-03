@@ -6,8 +6,8 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { SafeLinkButton } from "@ndla/safelink";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   ndlaId?: string;

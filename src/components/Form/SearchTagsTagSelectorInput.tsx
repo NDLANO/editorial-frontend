@@ -6,7 +6,6 @@
  *
  */
 
-import { type Ref } from "react";
 import { CloseLine, ArrowDownShortLine } from "@ndla/icons";
 import { IconButton, InputContainer } from "@ndla/primitives";
 import { HStack } from "@ndla/styled-system/jsx";
@@ -17,6 +16,7 @@ import {
   TagSelectorTrigger,
   TagSelectorInputProps,
 } from "@ndla/ui";
+import { type Ref } from "react";
 
 interface Props extends TagSelectorInputProps {
   ref?: Ref<HTMLInputElement>;

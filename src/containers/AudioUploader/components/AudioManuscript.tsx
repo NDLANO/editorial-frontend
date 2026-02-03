@@ -6,12 +6,12 @@
  *
  */
 
-import { connect, useField, useFormikContext } from "formik";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { FileListLine } from "@ndla/icons";
 import { Button, FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
+import { connect, useField, useFormikContext } from "formik";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ContentEditableFieldLabel } from "../../../components/Form/ContentEditableFieldLabel";
 import { FieldWarning } from "../../../components/Form/FieldWarning";
 import { FormField } from "../../../components/FormField";

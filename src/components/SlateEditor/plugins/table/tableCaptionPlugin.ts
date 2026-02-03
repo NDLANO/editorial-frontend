@@ -7,10 +7,10 @@
  */
 
 import { createPlugin } from "@ndla/editor";
-import { TABLE_CAPTION_ELEMENT_TYPE, TABLE_CAPTION_PLUGIN } from "./types";
-import { isTableCaptionElement, isTableElement } from "./queries";
-import { Node, Transforms } from "slate";
 import { isKeyHotkey } from "is-hotkey";
+import { Node, Transforms } from "slate";
+import { isTableCaptionElement, isTableElement } from "./queries";
+import { TABLE_CAPTION_ELEMENT_TYPE, TABLE_CAPTION_PLUGIN } from "./types";
 
 export const tableCaptionPlugin = createPlugin({
   name: TABLE_CAPTION_PLUGIN,

@@ -8,9 +8,9 @@
 
 import { Editor, Transforms, Range, Location } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { COMMENT_INLINE_ELEMENT_TYPE } from "./types";
 import hasNodeOfType from "../../../utils/hasNodeOfType";
 import { isCommentInlineElement } from "./queries/commentInlineQueries";
+import { COMMENT_INLINE_ELEMENT_TYPE } from "./types";
 
 export const insertComment = (editor: Editor) => {
   if (hasNodeOfType(editor, COMMENT_INLINE_ELEMENT_TYPE)) {

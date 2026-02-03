@@ -7,6 +7,7 @@
  */
 
 import he from "he";
+// oxfmt-ignore
 import * as Prism from "prismjs";
 import "prismjs/components/prism-clike";
 import "prismjs/components/prism-markup";
@@ -34,10 +35,6 @@ import "prismjs/components/prism-sql";
 import "prismjs/components/prism-powershell";
 import "prismjs/components/prism-vhdl";
 import "prismjs/components/prism-bash";
-import { useCallback, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { DeleteBinLine, PencilFill, CodeView } from "@ndla/icons";
 import {
@@ -54,12 +51,16 @@ import {
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { CodeEmbedData } from "@ndla/types-embed";
 import { CodeBlock as UICodeBlock } from "@ndla/ui";
-import CodeBlockEditor from "./CodeBlockEditor";
-import { CodeBlockElement } from "./types";
+import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Path, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
 import { CodeBlockType } from "../../../../interfaces";
 import { AlertDialog } from "../../../AlertDialog/AlertDialog";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormActionsContainer } from "../../../FormikForm";
+import CodeBlockEditor from "./CodeBlockEditor";
+import { CodeBlockElement } from "./types";
 
 interface Props extends RenderElementProps {
   element: CodeBlockElement;

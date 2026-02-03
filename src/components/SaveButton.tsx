@@ -6,10 +6,10 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { CheckboxCircleFill } from "@ndla/icons";
 import { Button, ButtonProps } from "@ndla/primitives";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 interface Props extends ButtonProps {
   showSaved?: boolean;

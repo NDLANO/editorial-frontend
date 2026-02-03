@@ -7,7 +7,7 @@
  */
 
 import { isElementOfType } from "@ndla/editor";
-import { CONCEPT_INLINE_ELEMENT_TYPE } from "./types";
 import { Node } from "slate";
+import { CONCEPT_INLINE_ELEMENT_TYPE } from "./types";
 
 export const isConceptInlineElement = (node: Node | undefined) => isElementOfType(node, CONCEPT_INLINE_ELEMENT_TYPE);

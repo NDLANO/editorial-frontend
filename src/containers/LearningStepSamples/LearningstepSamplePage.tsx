@@ -6,7 +6,6 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import {
   Button,
   Heading,
@@ -19,6 +18,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { useTranslation } from "react-i18next";
 import config from "../../config";
 import { useLearningStepSamples } from "../../modules/learningpath/learningpathQueries";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";

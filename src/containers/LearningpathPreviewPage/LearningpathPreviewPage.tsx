@@ -6,16 +6,10 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import { Navigate, useParams } from "react-router";
 import { Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticleStep } from "./ArticleStep";
-import { EmbedStep } from "./EmbedStep";
-import { ExternalStep } from "./ExternalStep";
-import { LearningpathMenu } from "./LearningpathMenu";
-import { StepTitle } from "./StepTitle";
-import { TextStep } from "./TextStep";
+import { useTranslation } from "react-i18next";
+import { Navigate, useParams } from "react-router";
 import { FormContent } from "../../components/FormikForm";
 import { PageSpinner } from "../../components/PageSpinner";
 import { useLearningpath } from "../../modules/learningpath/learningpathQueries";
@@ -25,6 +19,12 @@ import { LearningpathErrorMessage } from "../LearningpathPage/components/Learnin
 import { getFormTypeFromStep } from "../LearningpathPage/learningpathUtils";
 import NotFound from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import { ArticleStep } from "./ArticleStep";
+import { EmbedStep } from "./EmbedStep";
+import { ExternalStep } from "./ExternalStep";
+import { LearningpathMenu } from "./LearningpathMenu";
+import { StepTitle } from "./StepTitle";
+import { TextStep } from "./TextStep";
 
 const StepWrapper = styled("div", {
   base: {

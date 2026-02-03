@@ -6,9 +6,6 @@
  *
  */
 
-import { Formik } from "formik";
-import { useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { CheckLine } from "@ndla/icons";
 import {
   Button,
@@ -32,11 +29,14 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContactBlockEmbedData } from "@ndla/types-embed";
-import { CONTACT_BLOCK_ELEMENT_TYPE } from "./types";
+import { Formik } from "formik";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
+import { CONTACT_BLOCK_ELEMENT_TYPE } from "./types";
 
 interface ContactBlockFormValues {
   resource: "contact-block";

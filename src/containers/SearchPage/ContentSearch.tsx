@@ -6,26 +6,26 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
 import { keyBy } from "@ndla/util";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import Pagination from "../../components/abstractions/Pagination";
+import config from "../../config";
+import { useAuth0Users } from "../../modules/auth0/auth0Queries";
+import { useUserData } from "../../modules/draft/draftQueries";
+import { useNodes } from "../../modules/nodes/nodeQueries";
 import { useSearchWithCustomSubjectsFiltering } from "../../modules/search/searchQueries";
+import { getAccessToken, isActiveToken } from "../../util/authHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 import SearchContentForm from "./components/form/SearchContentForm";
 import { GenericSearchList } from "./components/GenericSearchList";
 import SearchContent from "./components/results/SearchContent";
 import SearchListOptions from "./components/results/SearchListOptions";
 import { SearchPageContainer } from "./components/SearchPageContainer";
-import { useStableSearchPageParams } from "./useStableSearchPageParams";
-import config from "../../config";
-import { useUserData } from "../../modules/draft/draftQueries";
-import { useNodes } from "../../modules/nodes/nodeQueries";
-import { getAccessToken, isActiveToken } from "../../util/authHelpers";
-import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 import SearchSort, { SortType } from "./components/sort/SearchSort";
-import Pagination from "../../components/abstractions/Pagination";
-import { useAuth0Users } from "../../modules/auth0/auth0Queries";
+import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
 export const Component = () => <PrivateRoute component={<ContentSearch />} />;
 

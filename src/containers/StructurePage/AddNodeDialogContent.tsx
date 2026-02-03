@@ -6,12 +6,12 @@
  *
  */
 
-import { ChangeEvent, useState, SyntheticEvent } from "react";
-import { useTranslation } from "react-i18next";
-import { useQueryClient } from "@tanstack/react-query";
 import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeType } from "@ndla/types-taxonomy";
+import { useQueryClient } from "@tanstack/react-query";
+import { ChangeEvent, useState, SyntheticEvent } from "react";
+import { useTranslation } from "react-i18next";
 import { Form, FormActionsContainer } from "../../components/FormikForm";
 import { useAddNodeMutation, usePostNodeConnectionMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";

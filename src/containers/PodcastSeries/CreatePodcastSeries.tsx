@@ -6,15 +6,15 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import { PageContent } from "@ndla/primitives";
 import { NewSeriesDTO } from "@ndla/types-backend/audio-api";
-import PodcastSeriesForm from "./components/PodcastSeriesForm";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 import { NynorskTranslateProvider } from "../../components/NynorskTranslateProvider";
 import { postSeries } from "../../modules/audio/audioApi";
 import { toEditPodcastSeries } from "../../util/routeHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import PodcastSeriesForm from "./components/PodcastSeriesForm";
 
 export const Component = () => <PrivateRoute component={<CreatePodcastSeriesPage />} />;
 

@@ -6,12 +6,12 @@
  *
  */
 
-import { Descendant } from "slate";
 import { createSlate, HEADING_ELEMENT_TYPE, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
+import { Descendant } from "slate";
+import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 import { LINK_ELEMENT_TYPE } from "../../link/types";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "../framedContentTypes";
-import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 
 const editor = createSlate({ plugins: learningResourcePlugins });
 

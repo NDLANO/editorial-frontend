@@ -6,15 +6,15 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate, useParams } from "react-router";
 import { PageContainer } from "@ndla/primitives";
 import { NewSubjectPageDTO } from "@ndla/types-backend/frontpage-api";
-import SubjectpageForm from "./components/SubjectpageForm";
+import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { LocaleType } from "../../interfaces";
 import { toEditSubjectpage } from "../../util/routeHelpers";
 import { useFetchSubjectpageData } from "../FormikForm/formikSubjectpageHooks";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import SubjectpageForm from "./components/SubjectpageForm";
 
 interface LocationState {
   elementName?: string;

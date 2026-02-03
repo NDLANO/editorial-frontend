@@ -6,10 +6,6 @@
  *
  */
 
-import { Formik, useFormikContext } from "formik";
-import { useCallback, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import { DialogOpenChangeDetails, Portal } from "@ark-ui/react";
 import {
   DialogContent,
@@ -21,6 +17,10 @@ import {
   DialogTrigger,
   Text,
 } from "@ndla/primitives";
+import { Formik, useFormikContext } from "formik";
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 import { ImageUploadFormElement } from "../../containers/ImageUploader/components/ImageUploadFormElement";
 import { ImageFormikType } from "../../containers/ImageUploader/imageTransformers";
 import { useMessages } from "../../containers/Messages/MessagesProvider";

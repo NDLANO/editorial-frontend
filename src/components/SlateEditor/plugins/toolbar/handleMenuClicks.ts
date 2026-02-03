@@ -6,9 +6,6 @@
  *
  */
 
-import { KeyboardEvent, SyntheticEvent } from "react";
-import { Editor, Transforms, Node, BaseRange, Location } from "slate";
-import { jsx as slatejsx } from "slate-hyperscript";
 import {
   HEADING_ELEMENT_TYPE,
   HeadingElement,
@@ -18,19 +15,22 @@ import {
   toggleHeading,
   toggleList,
 } from "@ndla/editor";
-import { BlockType, InlineType, TextType } from "./toolbarState";
+import { KeyboardEvent, SyntheticEvent } from "react";
+import { Editor, Transforms, Node, BaseRange, Location } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { ElementType } from "../../interfaces";
 import toggleBlock from "../../utils/toggleBlock";
 import { insertComment } from "../comment/inline/utils";
 import { insertInlineConcept } from "../concept/inline/utils";
+import { toggleDefinitionList } from "../definitionList/transforms/toggleDefinitionList";
 import { insertLink, unwrapLink } from "../link/utils";
 import { insertMathml } from "../mathml/utils";
 import { SpanElement } from "../span";
 import { SPAN_ELEMENT_TYPE } from "../span/types";
-import { toggleCellAlign } from "../table/slateActions";
-import { insertSymbol } from "../symbol/utils";
 import { SYMBOL_ELEMENT_TYPE } from "../symbol/types";
-import { toggleDefinitionList } from "../definitionList/transforms/toggleDefinitionList";
-import { ElementType } from "../../interfaces";
+import { insertSymbol } from "../symbol/utils";
+import { toggleCellAlign } from "../table/slateActions";
+import { BlockType, InlineType, TextType } from "./toolbarState";
 
 type TextElements = ParagraphElement | HeadingElement | SpanElement;
 const defaultValueState: Partial<Record<ElementType, Partial<TextElements>>> = {

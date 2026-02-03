@@ -6,20 +6,20 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { BookOpenLine } from "@ndla/icons";
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { MultiSearchResultDTO } from "@ndla/types-backend/search-api";
-import TableComponent, { FieldElement } from "./TableComponent";
-import TableTitle from "./TableTitle";
-import SubjectCombobox from "./worklist/SubjectCombobox";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { ARCHIVED, PUBLISHED, STATUS_ORDER, UNPUBLISHED } from "../../../constants";
 import { useSearch } from "../../../modules/search/searchQueries";
 import { toSearch } from "../../../util/routeHelpers";
 import { useLocalStorageSubjectFilterState, useLocalStorageBooleanState } from "../hooks/storedFilterHooks";
 import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
+import TableComponent, { FieldElement } from "./TableComponent";
+import TableTitle from "./TableTitle";
+import SubjectCombobox from "./worklist/SubjectCombobox";
 
 const EXCLUDE_STATUSES = [PUBLISHED, UNPUBLISHED, ARCHIVED];
 

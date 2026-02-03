@@ -6,18 +6,18 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { NdlaLogoText, PageContent, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router";
+import config from "../../config";
+import { routes } from "../../util/routeHelpers";
 import { MastheadDrawer } from "./components/MastheadDrawer";
 import { MastheadLinks } from "./components/MastheadLinks";
 import { MastheadSearch } from "./components/MastheadSearch";
 import { MastheadSessionLink } from "./components/MastheadSessionLink";
-import config from "../../config";
-import { routes } from "../../util/routeHelpers";
 
 const MastheadContainer = styled("div", {
   base: {

@@ -6,22 +6,22 @@
  *
  */
 
+import { SearchParamsDTO } from "@ndla/types-backend/audio-api";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { SearchParamsDTO } from "@ndla/types-backend/audio-api";
+import Pagination from "../../components/abstractions/Pagination";
+import config from "../../config";
+import { useSearchAudio } from "../../modules/audio/audioQueries";
+import { useUserData } from "../../modules/draft/draftQueries";
+import { getAccessToken, isActiveToken } from "../../util/authHelpers";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import SearchAudioForm from "./components/form/SearchAudioForm";
 import { GenericSearchList } from "./components/GenericSearchList";
 import SearchAudio from "./components/results/SearchAudio";
-import { useSearchAudio } from "../../modules/audio/audioQueries";
-import { useUserData } from "../../modules/draft/draftQueries";
-import PrivateRoute from "../PrivateRoute/PrivateRoute";
-import { SearchPageContainer } from "./components/SearchPageContainer";
-import { getAccessToken, isActiveToken } from "../../util/authHelpers";
 import SearchListOptions from "./components/results/SearchListOptions";
+import { SearchPageContainer } from "./components/SearchPageContainer";
 import SearchSort from "./components/sort/SearchSort";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
-import Pagination from "../../components/abstractions/Pagination";
-import config from "../../config";
 
 export const Component = () => <PrivateRoute component={<AudioSearch />} />;
 

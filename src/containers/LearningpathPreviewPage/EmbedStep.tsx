@@ -6,18 +6,18 @@
  *
  */
 
-import parse from "html-react-parser";
-import { useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useQuery } from "@tanstack/react-query";
 import { Badge, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ArticleContent, ArticleTitle, ArticleWrapper, ExternalEmbed } from "@ndla/ui";
-import { EmbedPageContent } from "./EmbedPageContent";
+import { useQuery } from "@tanstack/react-query";
+import parse from "html-react-parser";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { OembedResponse } from "../../interfaces";
 import { fetchExternalOembed } from "../../util/apiHelpers";
 import { isNDLAFrontendUrl } from "../../util/htmlHelpers";
+import { EmbedPageContent } from "./EmbedPageContent";
 
 interface Props {
   step: LearningStepV2DTO;

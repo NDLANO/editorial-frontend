@@ -6,10 +6,10 @@
  *
  */
 
-import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { FrontPageDTO } from "@ndla/types-backend/frontpage-api";
-import { fetchFrontpage } from "./frontpageApi";
+import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { FRONTPAGE } from "../../queryKeys";
+import { fetchFrontpage } from "./frontpageApi";
 
 export const frontpageQueryKeys = {
   frontpage: [FRONTPAGE] as const,

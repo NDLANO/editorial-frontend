@@ -6,10 +6,6 @@
  *
  */
 
-import { useCallback, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { PencilFill, DeleteBinLine } from "@ndla/icons";
 import {
@@ -24,11 +20,15 @@ import {
 import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { ContactBlockEmbedData } from "@ndla/types-embed";
 import { ContactBlock, ContactBlockBackground, EmbedWrapper } from "@ndla/ui";
-import ContactBlockForm from "./ContactBlockForm";
-import { ContactBlockElement } from "./types";
+import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Path, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
 import { fetchImage } from "../../../../modules/image/imageApi";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { StyledFigureButtons } from "../embed/FigureButtons";
+import ContactBlockForm from "./ContactBlockForm";
+import { ContactBlockElement } from "./types";
 
 interface Props extends RenderElementProps {
   element: ContactBlockElement;

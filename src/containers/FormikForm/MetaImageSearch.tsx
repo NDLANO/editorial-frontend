@@ -6,17 +6,17 @@
  *
  */
 
-import { useFormikContext } from "formik";
-import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { Button, DialogTrigger, FieldsetLegend, FieldsetRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ImageMetaInformationV3DTO, NewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
-import MetaImageField from "./components/MetaImageField";
+import { useFormikContext } from "formik";
+import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { ImageSearch } from "../../components/ImageSearch";
 import { MetaImagePicker } from "../../components/MetaImagePicker";
 import { postImage, fetchImage } from "../../modules/image/imageApi";
 import ImageForm from "../ImageUploader/components/ImageForm";
+import MetaImageField from "./components/MetaImageField";
 
 const StyledButton = styled(Button, {
   base: {

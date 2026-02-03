@@ -6,9 +6,9 @@
  *
  */
 
-import { useLocation } from "react-router";
 import { CodeView } from "@ndla/icons";
 import { SafeLinkIconButton } from "@ndla/safelink";
+import { useLocation } from "react-router";
 
 interface Props {
   to: string;

@@ -22,8 +22,8 @@ import {
 } from "@ndla/types-backend/draft-api";
 import { DraftStatusType, DraftStatusStateMachineType } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
-import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 import { createFormData } from "../../util/formDataHelper";
+import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 
 const client = createAuthClient<openapi.paths>();
 

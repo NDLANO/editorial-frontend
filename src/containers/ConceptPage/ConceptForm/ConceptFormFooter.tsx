@@ -6,10 +6,10 @@
  *
  */
 
-import { useFormikContext } from "formik";
-import { useTranslation } from "react-i18next";
 import { Button, DialogCloseTrigger, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useFormikContext } from "formik";
+import { useTranslation } from "react-i18next";
 import { FormField } from "../../../components/FormField";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import SaveButton from "../../../components/SaveButton";

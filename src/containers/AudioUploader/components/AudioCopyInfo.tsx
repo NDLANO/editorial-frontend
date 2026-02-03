@@ -6,9 +6,9 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { InformationLine } from "@ndla/icons";
 import { MessageBox } from "@ndla/primitives";
+import { useTranslation } from "react-i18next";
 import { AudioFormikType } from "../../../modules/audio/audioTypes";
 
 interface Props {

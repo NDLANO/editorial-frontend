@@ -6,9 +6,6 @@
  *
  */
 
-import { lazy, Suspense, useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { Link, useLocation, useParams } from "react-router";
 import { InformationLine } from "@ndla/icons";
 import {
   DialogBody,
@@ -27,6 +24,9 @@ import {
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
+import { lazy, Suspense, useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { Link, useLocation, useParams } from "react-router";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { FormActionsContainer } from "../../components/FormikForm";
 import HeaderSupportedLanguages from "../../components/HeaderWithLanguage/HeaderSupportedLanguages";

@@ -6,16 +6,16 @@
  *
  */
 
+import { PageContainer } from "@ndla/primitives";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
-import { PageContainer } from "@ndla/primitives";
-import NdlaFilmForm from "./components/NdlaFilmForm";
 import { PageSpinner } from "../../components/PageSpinner";
 import config from "../../config";
 import { isValidLocale } from "../../i18n";
 import { useFilmFrontpageQuery } from "../../modules/frontpage/filmQueries";
 import NotFound from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import NdlaFilmForm from "./components/NdlaFilmForm";
 
 export const Component = () => <PrivateRoute component={<NdlaFilmEditor />} />;
 

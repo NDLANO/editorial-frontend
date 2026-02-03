@@ -6,9 +6,6 @@
  *
  */
 
-import { useField } from "formik";
-import { useEffect, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import { DeleteBinLine } from "@ndla/icons";
 import {
@@ -27,6 +24,9 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { GlossExampleDTO } from "@ndla/types-backend/concept-api";
+import { useField } from "formik";
+import { useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { FormField } from "../../../components/FormField";
 import { LANGUAGES } from "../glossData";

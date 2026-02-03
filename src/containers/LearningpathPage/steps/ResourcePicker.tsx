@@ -6,14 +6,13 @@
  *
  */
 
+import { Badge } from "@ndla/primitives";
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { constants } from "@ndla/ui";
 import parse from "html-react-parser";
 import { t } from "i18next";
 import { debounce } from "lodash-es";
 import { useState, useMemo, ReactNode } from "react";
-import { Badge } from "@ndla/primitives";
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { constants } from "@ndla/ui";
-import { ResourceData } from "./types";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import {
@@ -24,6 +23,7 @@ import {
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
 } from "../../../constants";
 import { useSearch } from "../../../modules/search/searchQueries";
+import { ResourceData } from "./types";
 
 const { contentTypes } = constants;
 

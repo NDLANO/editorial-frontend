@@ -6,16 +6,14 @@
  *
  */
 
-import { useCallback, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
 import { DragEndEvent } from "@dnd-kit/core";
 import { AddLine, Draggable } from "@ndla/icons";
 import { Button, DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { LearningpathStepForm } from "./LearningpathStepForm";
-import { LearningStepListItem } from "./LearningStepListItem";
+import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
@@ -26,6 +24,8 @@ import {
   usePutLearningStepOrderMutation,
 } from "../../../modules/learningpath/learningpathMutations";
 import { learningStepEditId } from "../learningpathUtils";
+import { LearningpathStepForm } from "./LearningpathStepForm";
+import { LearningStepListItem } from "./LearningStepListItem";
 
 interface Props {
   learningpath: LearningPathV2DTO;

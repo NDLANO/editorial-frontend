@@ -8,8 +8,8 @@
 
 import { createDataAttributes, createHtmlTag, createSerializer, parseElementAttributes } from "@ndla/editor";
 import { TYPE_NDLA_EMBED } from "../embed/types";
-import { SYMBOL_ELEMENT_TYPE } from "./types";
 import { isSymbolElement } from "./queries";
+import { SYMBOL_ELEMENT_TYPE } from "./types";
 import { defaultSymbol } from "./utils";
 
 export const symbolSerializer = createSerializer({

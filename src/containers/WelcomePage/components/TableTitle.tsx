@@ -6,10 +6,10 @@
  *
  */
 
-import { ElementType } from "react";
 import { Heading, Text } from "@ndla/primitives";
 import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
+import { ElementType } from "react";
 
 const ComponentWrapper = styled("div", {
   base: {

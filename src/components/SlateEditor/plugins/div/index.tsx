@@ -6,8 +6,8 @@
  *
  */
 
-import { jsx as slatejsx } from "slate-hyperscript";
 import { createHtmlTag, createPlugin, createSerializer } from "@ndla/editor";
+import { jsx as slatejsx } from "slate-hyperscript";
 import { isDivElement } from "./queries";
 import { DIV_ELEMENT_TYPE, DIV_PLUGIN } from "./types";
 

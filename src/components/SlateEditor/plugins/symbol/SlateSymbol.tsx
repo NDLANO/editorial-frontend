@@ -6,10 +6,6 @@
  *
  */
 
-import { ReactNode, useCallback, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { CloseLine, DeleteBinLine } from "@ndla/icons";
 import {
@@ -27,11 +23,15 @@ import {
   TooltipTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { ReactNode, useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Path, Transforms } from "slate";
+import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
+import { InlineBugfix } from "../../utils/InlineBugFix";
+import mergeLastUndos from "../../utils/mergeLastUndos";
 import { symbols } from "./constants";
 import { isSymbolElement } from "./queries";
 import { SymbolData, SymbolElement } from "./types";
-import { InlineBugfix } from "../../utils/InlineBugFix";
-import mergeLastUndos from "../../utils/mergeLastUndos";
 
 interface Props extends RenderElementProps {
   element: SymbolElement;

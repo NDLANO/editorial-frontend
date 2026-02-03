@@ -6,14 +6,13 @@
  *
  */
 
-import { Formik, FormikHelpers, useFormikContext } from "formik";
-import { memo, useCallback, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { UseQueryResult } from "@tanstack/react-query";
 import { Button } from "@ndla/primitives";
 import { UpdatedArticleDTO, ArticleDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
-import TopicArticleAccordionPanels from "./TopicArticleAccordionPanels";
+import { UseQueryResult } from "@tanstack/react-query";
+import { Formik, FormikHelpers, useFormikContext } from "formik";
+import { memo, useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { Form, FormActionsContainer } from "../../../../components/FormikForm";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
@@ -27,6 +26,7 @@ import { HandleSubmitFunc, TopicArticleFormType, useArticleFormHooks } from "../
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
 import { TaxonomyVersionProvider } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { draftApiTypeToTopicArticleFormType, topicArticleFormTypeToDraftApiType } from "../../articleTransformers";
+import TopicArticleAccordionPanels from "./TopicArticleAccordionPanels";
 
 interface Props {
   article?: ArticleDTO;

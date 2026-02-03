@@ -6,10 +6,10 @@
  *
  */
 
-import { useMemo } from "react";
 import { createListCollection } from "@ark-ui/react";
 import { SelectContent, SelectHiddenSelect, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useMemo } from "react";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../../components/abstractions/Select";
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {

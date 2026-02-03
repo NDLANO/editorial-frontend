@@ -8,10 +8,10 @@
 
 import { Editor, Transforms, Range } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { SYMBOL_ELEMENT_TYPE, SymbolData, SymbolElement } from "./types";
 import hasNodeOfType from "../../utils/hasNodeOfType";
-import { isSymbolElement } from "./queries";
 import { symbols } from "./constants";
+import { isSymbolElement } from "./queries";
+import { SYMBOL_ELEMENT_TYPE, SymbolData, SymbolElement } from "./types";
 
 export const defaultSymbol = (symbolText?: string) => {
   let symbol: SymbolData | undefined;

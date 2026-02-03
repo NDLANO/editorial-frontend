@@ -6,10 +6,6 @@
  *
  */
 
-import { Formik } from "formik";
-import { useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
 import { CheckboxIndicator } from "@ark-ui/react";
 import { CheckLine } from "@ndla/icons";
 import {
@@ -33,7 +29,10 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { CampaignBlockEmbedData } from "@ndla/types-embed";
 import { HeadingLevel } from "@ndla/ui";
-import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "./types";
+import { Formik } from "formik";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Descendant } from "slate";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
@@ -44,6 +43,7 @@ import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import { RichTextIndicator } from "../../RichTextIndicator";
+import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "./types";
 
 interface Props {
   initialData?: CampaignBlockEmbedData;

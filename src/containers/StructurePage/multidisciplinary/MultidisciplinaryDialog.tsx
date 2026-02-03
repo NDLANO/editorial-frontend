@@ -6,10 +6,7 @@
  *
  */
 
-import { useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { useDialogContext } from "@ark-ui/react";
-import { useQueryClient } from "@tanstack/react-query";
 import { AddLine } from "@ndla/icons";
 import {
   Button,
@@ -35,6 +32,9 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
+import { useQueryClient } from "@tanstack/react-query";
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";

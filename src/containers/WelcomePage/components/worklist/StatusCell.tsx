@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { CheckboxCircleFill } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { StatusDTO } from "@ndla/types-backend/search-api";
+import { useTranslation } from "react-i18next";
 
 const TextWrapper = styled("div", {
   base: {

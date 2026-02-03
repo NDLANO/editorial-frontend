@@ -6,15 +6,15 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import { PageContent } from "@ndla/primitives";
 import { UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
-import LearningResourceForm from "./components/LearningResourceForm";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 import { convertUpdateToNewDraft } from "../../../util/articleUtil";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 import PrivateRoute from "../../PrivateRoute/PrivateRoute";
+import LearningResourceForm from "./components/LearningResourceForm";
 
 export const Component = () => <PrivateRoute component={<CreateLearningResource />} />;
 

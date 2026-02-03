@@ -6,8 +6,6 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import { useMutation, UseMutationOptions, useQueryClient } from "@tanstack/react-query";
 import {
   Node,
   NodeConnectionPOST,
@@ -16,6 +14,16 @@ import {
   TranslationPUT,
   Metadata,
 } from "@ndla/types-taxonomy";
+import { useMutation, UseMutationOptions, useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
+import { WithTaxonomyVersion } from "../../interfaces";
+import handleError from "../../util/handleError";
+import {
+  createResourceResourceType,
+  deleteResourceResourceType,
+  ResourceResourceTypeDeleteParams,
+  ResourceResourceTypePostParams,
+} from "../taxonomy/resourcetypes";
 import {
   deleteNode,
   deleteNodeConnection,
@@ -31,14 +39,6 @@ import {
   PutResourcesPrimaryParams,
 } from "./nodeApi";
 import { nodeQueryKeys } from "./nodeQueries";
-import { WithTaxonomyVersion } from "../../interfaces";
-import handleError from "../../util/handleError";
-import {
-  createResourceResourceType,
-  deleteResourceResourceType,
-  ResourceResourceTypeDeleteParams,
-  ResourceResourceTypePostParams,
-} from "../taxonomy/resourcetypes";
 
 interface UseAddNodeMutation extends WithTaxonomyVersion {
   body: NodePostPut;

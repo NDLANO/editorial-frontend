@@ -6,11 +6,6 @@
  *
  */
 
-import { toUnicode } from "punycode/";
-import { useEffect, useRef, useState, ReactNode, useCallback } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
 import { DialogOpenChangeDetails, Portal } from "@ark-ui/react";
 import { PencilFill, DeleteBinLine } from "@ndla/icons";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
@@ -18,12 +13,17 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { RelatedContentEmbedData, RelatedContentMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, RelatedArticleList, RelatedContentEmbed } from "@ndla/ui";
-import EditRelated from "./EditRelated";
-import { RelatedElement } from "./types";
+import { toUnicode } from "punycode/";
+import { useEffect, useRef, useState, ReactNode, useCallback } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
 import { useTaxonomyVersion } from "../../../../containers/StructureVersion/TaxonomyVersionProvider";
 import { fetchDraft } from "../../../../modules/draft/draftApi";
 import { fetchNodes } from "../../../../modules/nodes/nodeApi";
 import { toEditFrontPageArticle, toEditLearningResource, toEditTopicArticle } from "../../../../util/routeHelpers";
+import EditRelated from "./EditRelated";
+import { RelatedElement } from "./types";
 
 interface Props {
   attributes: RenderElementProps["attributes"];

@@ -6,11 +6,11 @@
  *
  */
 
+import { styled } from "@ndla/styled-system/jsx";
+import { EmbedWrapper, FactBox } from "@ndla/ui";
 import { MouseEventHandler, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { RenderElementProps } from "slate-react";
-import { styled } from "@ndla/styled-system/jsx";
-import { EmbedWrapper, FactBox } from "@ndla/ui";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
 

@@ -6,11 +6,9 @@
  *
  */
 
+import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
-import ArticleStatusContent from "./ArticleStatusContent";
-import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
 import {
   DA_SUBJECT_ID,
   FAVOURITES_SUBJECT_ID,
@@ -28,6 +26,8 @@ import {
 import { usePostSearchNodes } from "../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { SubjectIdObject, customFieldsBody } from "../utils";
+import ArticleStatusContent from "./ArticleStatusContent";
+import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
 
 interface Props {
   ndlaId: string;

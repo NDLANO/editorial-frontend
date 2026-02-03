@@ -6,8 +6,8 @@
  *
  */
 
-import { Editor } from "slate";
 import { BREAK_ELEMENT_TYPE } from "@ndla/editor";
+import { Editor } from "slate";
 
 export const breakRenderer = (editor: Editor) => {
   const { renderElement } = editor;

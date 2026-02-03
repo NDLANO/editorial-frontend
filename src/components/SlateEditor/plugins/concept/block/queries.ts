@@ -6,8 +6,8 @@
  *
  */
 
-import { Node } from "slate";
 import { isElementOfType } from "@ndla/editor";
+import { Node } from "slate";
 import { CONCEPT_BLOCK_ELEMENT_TYPE, ConceptBlockElement } from "./types";
 
 export const isConceptBlockElement = (element: Node | undefined): element is ConceptBlockElement =>

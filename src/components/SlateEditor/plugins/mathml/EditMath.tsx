@@ -6,12 +6,12 @@
  *
  */
 
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Button, Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import MathML from "./MathML";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FormActionsContainer } from "../../../FormikForm";
+import MathML from "./MathML";
 
 declare global {
   interface Window {

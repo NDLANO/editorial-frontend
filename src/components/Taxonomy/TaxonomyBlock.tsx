@@ -6,20 +6,20 @@
  *
  */
 
-import { ReactNode, useCallback } from "react";
-import { useTranslation } from "react-i18next";
-import { useQueryClient } from "@tanstack/react-query";
 import { Button, SelectLabel, Text } from "@ndla/primitives";
 import { Node, Version } from "@ndla/types-taxonomy";
+import { useQueryClient } from "@tanstack/react-query";
+import { ReactNode, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { RESOURCE_TYPE_LEARNING_PATH, TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { useSession } from "../../containers/Session/SessionProvider";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import { postNode } from "../../modules/nodes/nodeApi";
+import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
 import { createResourceResourceType } from "../../modules/taxonomy";
 import { FormContent } from "../FormikForm";
-import { TaxonomyConnectionErrors } from "./TaxonomyConnectionErrors";
-import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
 import OptGroupVersionSelector from "../Taxonomy/OptGroupVersionSelector";
+import { TaxonomyConnectionErrors } from "./TaxonomyConnectionErrors";
 
 interface BaseProps {
   nodes: Node[];

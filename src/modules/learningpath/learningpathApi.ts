@@ -19,9 +19,9 @@ import {
   UpdatedLearningStepV2DTO,
   openapi,
 } from "@ndla/types-backend/learningpath-api";
-import { CopyLearningPathBody, SearchBody } from "./learningpathApiInterfaces";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
+import { CopyLearningPathBody, SearchBody } from "./learningpathApiInterfaces";
 
 const client = createAuthClient<openapi.paths>();
 

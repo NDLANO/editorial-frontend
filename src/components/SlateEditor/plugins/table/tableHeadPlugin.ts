@@ -7,12 +7,12 @@
  */
 
 import { createPlugin } from "@ndla/editor";
-import { TABLE_CELL_HEADER_ELEMENT_TYPE, TABLE_HEAD_ELEMENT_TYPE, TABLE_HEAD_PLUGIN } from "./types";
-import { isTableCellElement, isTableHeadElement, isTableRowElement } from "./queries";
 import { Editor, Transforms } from "slate";
-import { updateCell } from "./slateActions";
 import { HistoryEditor } from "slate-history";
 import { defaultTableRowBlock } from "./defaultBlocks";
+import { isTableCellElement, isTableHeadElement, isTableRowElement } from "./queries";
+import { updateCell } from "./slateActions";
+import { TABLE_CELL_HEADER_ELEMENT_TYPE, TABLE_HEAD_ELEMENT_TYPE, TABLE_HEAD_PLUGIN } from "./types";
 
 export const tableHeadPlugin = createPlugin({
   name: TABLE_HEAD_PLUGIN,

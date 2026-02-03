@@ -6,9 +6,9 @@
  *
  */
 
-import { Form as _Form } from "formik";
 import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
+import { Form as _Form } from "formik";
 
 const formCss = css.raw({
   display: "flex",

@@ -8,6 +8,7 @@
 
 import { Editor, Node, Path } from "slate";
 import { ReactEditor } from "slate-react";
+import WithPlaceHolder from "../../common/WithPlaceHolder";
 import { isTableCaptionElement } from "./queries";
 import SlateTable from "./SlateTable";
 import TableActions from "./TableActions";
@@ -20,7 +21,6 @@ import {
   TABLE_BODY_ELEMENT_TYPE,
   TABLE_CELL_HEADER_ELEMENT_TYPE,
 } from "./types";
-import WithPlaceHolder from "../../common/WithPlaceHolder";
 
 export const tableRenderer = (editor: Editor) => {
   const { renderElement, renderLeaf } = editor;

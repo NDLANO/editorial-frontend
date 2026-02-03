@@ -6,10 +6,6 @@
  *
  */
 
-import { useCallback, useEffect, useId, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { isElementOfType } from "@ndla/editor";
 import { PencilFill, DeleteBinLine, ErrorWarningLine, ExpandUpDownLine } from "@ndla/icons";
@@ -28,8 +24,10 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { IframeEmbedData, IframeMetaData, OembedEmbedData, OembedMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, ExternalEmbed, IframeEmbed } from "@ndla/ui";
-import { ExternalEmbedForm } from "./ExternalEmbedForm";
-import { EXTERNAL_ELEMENT_TYPE, ExternalElement, IFRAME_ELEMENT_TYPE, IframeElement } from "./types";
+import { useCallback, useEffect, useId, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Path, Transforms } from "slate";
+import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { EXTERNAL_WHITELIST_PROVIDERS } from "../../../../constants";
 import { WhitelistProvider } from "../../../../interfaces";
 import { useExternalEmbed } from "../../../../modules/embed/queries";
@@ -37,6 +35,8 @@ import { urlDomain } from "../../../../util/htmlHelpers";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { StyledFigureButtons } from "../embed/FigureButtons";
+import { ExternalEmbedForm } from "./ExternalEmbedForm";
+import { EXTERNAL_ELEMENT_TYPE, ExternalElement, IFRAME_ELEMENT_TYPE, IframeElement } from "./types";
 
 interface Props extends RenderElementProps {
   element: ExternalElement | IframeElement;

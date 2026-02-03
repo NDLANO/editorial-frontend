@@ -6,16 +6,14 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { ErrorWarningFill, CheckLine, CodeView, GlobalLine, InfoI } from "@ndla/icons";
 import { Badge, ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { BadgesContainer } from "@ndla/ui";
-import SearchHighlight from "./SearchHighlight";
-import { SearchListItemImage } from "./SearchListItemImage";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import HeaderFavoriteStatus from "../../../../components/HeaderWithLanguage/HeaderFavoriteStatus";
 import config from "../../../../config";
 import { DRAFT_HTML_SCOPE, PUBLISHED } from "../../../../constants";
@@ -23,6 +21,8 @@ import { useBadges } from "../../../../util/getBadges";
 import { resourceToLinkProps } from "../../../../util/resourceHelpers";
 import { routes } from "../../../../util/routeHelpers";
 import { useSession } from "../../../Session/SessionProvider";
+import SearchHighlight from "./SearchHighlight";
+import { SearchListItemImage } from "./SearchListItemImage";
 
 interface Props {
   content: MultiSearchSummaryDTO;

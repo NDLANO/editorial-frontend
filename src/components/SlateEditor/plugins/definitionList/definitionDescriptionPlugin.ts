@@ -6,8 +6,8 @@
  *
  */
 
-import { jsx as slatejsx } from "slate-hyperscript";
 import { createHtmlTag, createPlugin, createSerializer, defaultNormalizer, NormalizerConfig } from "@ndla/editor";
+import { jsx as slatejsx } from "slate-hyperscript";
 import {
   DEFINITION_DESCRIPTION_ELEMENT_TYPE,
   DEFINITION_DESCRIPTION_PLUGIN,

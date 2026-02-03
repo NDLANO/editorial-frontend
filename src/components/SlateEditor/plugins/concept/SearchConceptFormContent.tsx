@@ -6,13 +6,13 @@
  *
  */
 
-import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { DraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { sortBy } from "@ndla/util";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { CONCEPT_RESPONSIBLE } from "../../../../constants";
 import { CamelToKebab } from "../../../../interfaces";
 import { useAuth0Editors, useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";

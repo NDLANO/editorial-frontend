@@ -9,12 +9,12 @@
 import { useCallback, useMemo } from "react";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import { useArticleLanguage } from "../../ArticleLanguageProvider";
-import { isRephraseElement } from "./queries/rephraseQueries";
-import { RephraseElement } from "./rephraseTypes";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../util/articleContentConverter";
 import { AiPromptDialog } from "../../../AiPromptDialog";
+import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import mergeLastUndos from "../../utils/mergeLastUndos";
+import { isRephraseElement } from "./queries/rephraseQueries";
+import { RephraseElement } from "./rephraseTypes";
 
 interface Props extends RenderElementProps {
   element: RephraseElement;

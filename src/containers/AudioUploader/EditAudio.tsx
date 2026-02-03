@@ -6,17 +6,17 @@
  *
  */
 
-import { useEffect, useState } from "react";
-import { Navigate, useParams } from "react-router";
 import { PageContent } from "@ndla/primitives";
 import { AudioMetaInformationDTO, UpdatedAudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
-import AudioForm from "./components/AudioForm";
+import { useEffect, useState } from "react";
+import { Navigate, useParams } from "react-router";
 import { NynorskTranslateProvider, TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import { PageSpinner } from "../../components/PageSpinner";
 import { fetchAudio, updateAudio } from "../../modules/audio/audioApi";
 import { toEditPodcast } from "../../util/routeHelpers";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import AudioForm from "./components/AudioForm";
 
 const translateFields: TranslateType[] = [
   { field: "manuscript.manuscript", type: "text" },

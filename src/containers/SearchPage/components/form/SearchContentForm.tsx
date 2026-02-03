@@ -6,16 +6,15 @@
  *
  */
 
-import { TFunction } from "i18next";
-import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { FieldLabel, FieldRoot, FieldInput } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
 import { partition, sortBy } from "@ndla/util";
-import CheckboxSelector from "./CheckboxSelector";
+import { TFunction } from "i18next";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
 import SearchHeader from "../../../../components/Form/SearchHeader";
 import SearchTagGroup from "../../../../components/Form/SearchTagGroup";
@@ -43,6 +42,7 @@ import { flattenResourceTypesAndAddContextTypes } from "../../../../util/taxonom
 import InlineDatePicker from "../../../FormikForm/components/InlineDatePicker";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
+import CheckboxSelector from "./CheckboxSelector";
 
 const StyledForm = styled("form", {
   base: {

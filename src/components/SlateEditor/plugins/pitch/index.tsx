@@ -6,7 +6,6 @@
  *
  */
 
-import { jsx as slatejsx } from "slate-hyperscript";
 import {
   createDataAttributes,
   createHtmlTag,
@@ -17,10 +16,11 @@ import {
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
-import { isPitchElement } from "./queries";
-import { PITCH_ELEMENT_TYPE, PITCH_PLUGIN } from "./types";
+import { jsx as slatejsx } from "slate-hyperscript";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
+import { isPitchElement } from "./queries";
+import { PITCH_ELEMENT_TYPE, PITCH_PLUGIN } from "./types";
 
 const normalizerConfig: NormalizerConfig = {
   previous: {

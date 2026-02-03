@@ -6,16 +6,16 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { BroadcastLine, VoiceprintLine } from "@ndla/icons";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
 import { ListItemContent, ListItemHeading, ListItemImage, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { AudioSummaryDTO } from "@ndla/types-backend/audio-api";
 import { LicenseLink } from "@ndla/ui";
-import { SearchContentWrapper } from "./SearchContentWrapper";
+import { useTranslation } from "react-i18next";
 import { useLicenses } from "../../../../modules/draft/draftQueries";
 import { routes } from "../../../../util/routeHelpers";
+import { SearchContentWrapper } from "./SearchContentWrapper";
 
 interface Props {
   audio: AudioSummaryDTO;

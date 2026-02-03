@@ -8,19 +8,19 @@
 
 // This is the entry point of the application.
 
-import fs from "fs/promises";
-import { join } from "path";
+import { getCookie } from "@ndla/util";
 import compression from "compression";
 import express from "express";
+import fs from "fs/promises";
 import helmet from "helmet";
+import { join } from "path";
 import serialize from "serialize-javascript";
 import { ViteDevServer } from "vite";
 import config from "./config";
-import contentSecurityPolicy from "./server/contentSecurityPolicy";
+import { ACCESS_TOKEN_COOKIE, HAS_REFRESH_TOKEN_COOKIE } from "./constants";
 import api from "./server/api";
 import authEndpoints, { refreshAccessToken } from "./server/authEndpoints";
-import { getCookie } from "@ndla/util";
-import { ACCESS_TOKEN_COOKIE, HAS_REFRESH_TOKEN_COOKIE } from "./constants";
+import contentSecurityPolicy from "./server/contentSecurityPolicy";
 import log from "./server/logger";
 
 const isProduction = config.runtimeType === "production";

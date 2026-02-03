@@ -6,11 +6,11 @@
  *
  */
 
-import { getAccessToken, isActiveToken, renewAuth } from "./authHelpers";
-import { resolveJsonOrRejectWithError, throwErrorPayload } from "./resolveJsonOrRejectWithError";
+import createClient, { Middleware } from "openapi-fetch";
 import config from "../config";
 import { BrightcoveAccessToken, OembedResponse } from "../interfaces";
-import createClient, { Middleware } from "openapi-fetch";
+import { getAccessToken, isActiveToken, renewAuth } from "./authHelpers";
+import { resolveJsonOrRejectWithError, throwErrorPayload } from "./resolveJsonOrRejectWithError";
 
 export interface HttpHeadersType {
   "Content-Type": string;

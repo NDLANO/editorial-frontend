@@ -6,14 +6,13 @@
  *
  */
 
-import { memo, useCallback, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import { Badge, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import { BadgesContainer, constants } from "@ndla/ui";
-import HeaderStatusInformation from "./HeaderStatusInformation";
+import { memo, useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 import {
   FormHeaderHeading,
   FormHeaderHeadingContainer,
@@ -26,6 +25,7 @@ import { useBadges } from "../../util/getBadges";
 import handleError from "../../util/handleError";
 import { getContentTypeFromResourceTypes } from "../../util/resourceHelpers";
 import { toEditArticle } from "../../util/routeHelpers";
+import HeaderStatusInformation from "./HeaderStatusInformation";
 
 export const StyledSplitter = styled("div", {
   base: {

@@ -6,12 +6,12 @@
  *
  */
 
-import { useState, MouseEvent, useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { MenuOpenChangeDetails } from "@ark-ui/react";
 import { ArrowDownShortLine, CheckLine } from "@ndla/icons";
 import { Button, IconButton, MenuContent, MenuItem, MenuRoot, MenuTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useState, MouseEvent, useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { SAVE_BUTTON_ID } from "../constants";
 
 const StyledMultiButton = styled("div", {

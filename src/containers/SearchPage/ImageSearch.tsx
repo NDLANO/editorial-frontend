@@ -6,10 +6,14 @@
  *
  */
 
+import { SearchParamsDTO } from "@ndla/types-backend/image-api";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { SearchParamsDTO } from "@ndla/types-backend/image-api";
+import Pagination from "../../components/abstractions/Pagination";
+import config from "../../config";
+import { useUserData } from "../../modules/draft/draftQueries";
 import { useSearchImages } from "../../modules/image/imageQueries";
+import { getAccessToken, isActiveToken } from "../../util/authHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import SearchImageForm from "./components/form/SearchImageForm";
 import { GenericSearchList } from "./components/GenericSearchList";
@@ -18,10 +22,6 @@ import SearchListOptions from "./components/results/SearchListOptions";
 import { SearchPageContainer } from "./components/SearchPageContainer";
 import SearchSort from "./components/sort/SearchSort";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
-import Pagination from "../../components/abstractions/Pagination";
-import config from "../../config";
-import { useUserData } from "../../modules/draft/draftQueries";
-import { getAccessToken, isActiveToken } from "../../util/authHelpers";
 
 export const Component = () => <PrivateRoute component={<ImageSearch />} />;
 

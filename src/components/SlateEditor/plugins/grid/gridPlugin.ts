@@ -6,7 +6,6 @@
  *
  */
 
-import { jsx as slatejsx } from "slate-hyperscript";
 import {
   createDataAttributes,
   createHtmlTag,
@@ -17,11 +16,12 @@ import {
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
-import { GRID_CELL_ELEMENT_TYPE, GRID_ELEMENT_TYPE, GRID_PLUGIN } from "./types";
-import { isGridElement } from "./queries";
 import { Editor, Transforms } from "slate";
-import { defaultGridCellBlock } from "./utils";
+import { jsx as slatejsx } from "slate-hyperscript";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
+import { isGridElement } from "./queries";
+import { GRID_CELL_ELEMENT_TYPE, GRID_ELEMENT_TYPE, GRID_PLUGIN } from "./types";
+import { defaultGridCellBlock } from "./utils";
 
 export const gridSerializer = createSerializer({
   deserialize: (el, children) => {

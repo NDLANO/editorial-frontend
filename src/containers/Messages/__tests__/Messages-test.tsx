@@ -6,10 +6,10 @@
  *
  */
 
-import { createMemoryRouter, RouterProvider } from "react-router";
+import { uuid } from "@ndla/util";
 import { findByTestId, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { uuid } from "@ndla/util";
+import { createMemoryRouter, RouterProvider } from "react-router";
 import IntlWrapper from "../../../util/__tests__/IntlWrapper";
 import Messages from "../Messages";
 import { MessagesProvider } from "../MessagesProvider";

@@ -6,8 +6,6 @@
  *
  */
 
-import { Node, Transforms } from "slate";
-import { jsx as slatejsx } from "slate-hyperscript";
 import {
   createDataAttributes,
   createHtmlTag,
@@ -15,9 +13,11 @@ import {
   createSerializer,
   parseElementAttributes,
 } from "@ndla/editor";
+import { Node, Transforms } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_NDLA_EMBED } from "../../embed/types";
 import { isConceptInlineElement } from "./queries";
 import { CONCEPT_INLINE_ELEMENT_TYPE, CONCEPT_INLINE_PLUGIN } from "./types";
-import { TYPE_NDLA_EMBED } from "../../embed/types";
 
 export const inlineConceptSerializer = createSerializer({
   deserialize(el, children) {

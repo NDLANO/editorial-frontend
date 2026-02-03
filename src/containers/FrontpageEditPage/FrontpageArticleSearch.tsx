@@ -6,9 +6,6 @@
  *
  */
 
-import { useFormikContext } from "formik";
-import { ReactNode, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import {
   ComboboxContent,
@@ -24,12 +21,15 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleSummaryV2DTO } from "@ndla/types-backend/article-api";
 import { useComboboxTranslations } from "@ndla/ui";
-import { extractArticleIds } from "./frontpageHelpers";
-import { MenuWithArticle } from "./types";
+import { useFormikContext } from "formik";
+import { ReactNode, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../components/abstractions/Combobox";
 import Pagination from "../../components/abstractions/Pagination";
 import { useArticleSearch } from "../../modules/article/articleQueries";
 import { usePaginatedQuery } from "../../util/usePaginatedQuery";
+import { extractArticleIds } from "./frontpageHelpers";
+import { MenuWithArticle } from "./types";
 
 interface Props {
   articleId?: number;

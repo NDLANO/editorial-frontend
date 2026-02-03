@@ -6,14 +6,14 @@
  *
  */
 
+import { DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger } from "@ndla/primitives";
 import { ElementType, ReactElement } from "react";
 import { useTranslation } from "react-i18next";
-import { DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger } from "@ndla/primitives";
+import { DialogCloseButton } from "../DialogCloseButton";
 import { ConceptPreviewProps, PreviewConcept } from "./PreviewConcept";
 import { CompareConceptPreviewProps, PreviewConceptCompare } from "./PreviewConceptCompare";
 import { MarkupPreviewProps, PreviewMarkup } from "./PreviewMarkup";
 import { PreviewVersion, VersionPreviewProps } from "./PreviewVersion";
-import { DialogCloseButton } from "../DialogCloseButton";
 
 type PreviewProps = MarkupPreviewProps | VersionPreviewProps | CompareConceptPreviewProps | ConceptPreviewProps;
 

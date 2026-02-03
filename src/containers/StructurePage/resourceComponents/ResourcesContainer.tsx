@@ -6,20 +6,20 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { Heading, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
-import { scrollElementId } from "./isVisibleHook";
-import ResourceItems from "./ResourceItems";
-import TopicResourceBanner from "./TopicResourceBanner";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
 import { useNodes } from "../../../modules/nodes/nodeQueries";
 import { sortResources } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { MultidisciplinaryCases } from "../multidisciplinary/MultidisciplinaryCases";
+import { scrollElementId } from "./isVisibleHook";
+import ResourceItems from "./ResourceItems";
+import TopicResourceBanner from "./TopicResourceBanner";
 
 const ResourceWrapper = styled("div", {
   base: {

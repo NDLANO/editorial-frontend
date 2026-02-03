@@ -7,7 +7,7 @@
  */
 
 import { isElementOfType } from "@ndla/editor";
-import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquoteTypes";
 import { Node } from "slate";
+import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquoteTypes";
 
 export const isBlockQuoteElement = (element: Node | undefined) => isElementOfType(element, BLOCK_QUOTE_ELEMENT_TYPE);

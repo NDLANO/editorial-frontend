@@ -6,12 +6,12 @@
  *
  */
 
-import { memo } from "react";
-import { useTranslation } from "react-i18next";
-import { useQueryClient } from "@tanstack/react-query";
 import { Spinner, Text } from "@ndla/primitives";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { NodeType, ResourceType, TaxonomyContext } from "@ndla/types-taxonomy";
+import { useQueryClient } from "@tanstack/react-query";
+import { memo } from "react";
+import { useTranslation } from "react-i18next";
 import { TaxonomyBlock } from "../../../../components/Taxonomy/TaxonomyBlock";
 import { TaxonomyConnections } from "../../../../components/Taxonomy/TaxonomyConnections";
 import { TaxonomyResourceTypeSelect } from "../../../../components/Taxonomy/TaxonomyResourceTypeSelect";

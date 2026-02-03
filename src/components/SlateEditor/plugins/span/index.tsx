@@ -6,9 +6,6 @@
  *
  */
 
-import { isEmpty } from "lodash-es";
-import { Descendant, Node, Transforms } from "slate";
-import { jsx as slatejsx } from "slate-hyperscript";
 import {
   createHtmlTag,
   createPlugin,
@@ -21,8 +18,9 @@ import {
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
-import { isSpanElement } from "./queries";
-import { SPAN_ELEMENT_TYPE, SPAN_PLUGIN } from "./types";
+import { isEmpty } from "lodash-es";
+import { Descendant, Node, Transforms } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
 import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquote/blockquoteTypes";
 import { CONCEPT_INLINE_ELEMENT_TYPE } from "../concept/inline/types";
 import {
@@ -30,6 +28,8 @@ import {
   DEFINITION_TERM_ELEMENT_TYPE,
 } from "../definitionList/definitionListTypes";
 import { TABLE_CELL_ELEMENT_TYPE } from "../table/types";
+import { isSpanElement } from "./queries";
+import { SPAN_ELEMENT_TYPE, SPAN_PLUGIN } from "./types";
 
 export interface SpanElement {
   type: "span";

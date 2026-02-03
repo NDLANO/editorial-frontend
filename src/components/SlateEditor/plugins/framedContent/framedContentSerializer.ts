@@ -6,8 +6,8 @@
  *
  */
 
-import { jsx as slatejsx } from "slate-hyperscript";
 import { createDataAttributes, createHtmlTag, createSerializer, parseElementAttributes } from "@ndla/editor";
+import { jsx as slatejsx } from "slate-hyperscript";
 import { FRAMED_CONTENT_ELEMENT_TYPE } from "./framedContentTypes";
 import { isFramedContentElement } from "./queries/framedContentQueries";
 

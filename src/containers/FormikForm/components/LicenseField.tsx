@@ -6,9 +6,6 @@
  *
  */
 
-import { useField } from "formik";
-import { useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
 import {
   FieldErrorMessage,
@@ -20,6 +17,9 @@ import {
   SelectValueText,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useField } from "formik";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { useLicenses } from "../../../modules/draft/draftQueries";
 import { getLicensesWithTranslations } from "../../../util/licenseHelpers";

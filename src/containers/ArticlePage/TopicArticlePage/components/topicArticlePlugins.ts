@@ -6,33 +6,33 @@
  *
  */
 
+import { inlineNavigationPlugin } from "@ndla/editor";
 import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import { blockQuotePlugin } from "../../../../components/SlateEditor/plugins/blockquote/blockquotePlugin";
+import { breakPlugin } from "../../../../components/SlateEditor/plugins/break";
 import { commentInlinePlugin } from "../../../../components/SlateEditor/plugins/comment/inline";
 import { inlineConceptPlugin } from "../../../../components/SlateEditor/plugins/concept/inline";
+import { definitionDescriptionPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionDescriptionPlugin";
+import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionListPlugin";
+import { definitionTermPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionTermPlugin";
 import { divPlugin } from "../../../../components/SlateEditor/plugins/div";
 import { dndPlugin } from "../../../../components/SlateEditor/plugins/DND/dndPlugin";
+import { headingPlugin } from "../../../../components/SlateEditor/plugins/heading";
+import { idPlugin } from "../../../../components/SlateEditor/plugins/id/idPlugin";
 import { contentLinkPlugin, linkPlugin } from "../../../../components/SlateEditor/plugins/link";
+import { listPlugin } from "../../../../components/SlateEditor/plugins/list";
+import { markPlugin } from "../../../../components/SlateEditor/plugins/mark";
 import { mathmlPlugin } from "../../../../components/SlateEditor/plugins/mathml/mathPlugin";
+import { paragraphPlugin } from "../../../../components/SlateEditor/plugins/paragraph";
+import { pastePlugin } from "../../../../components/SlateEditor/plugins/paste";
+import { rephrasePlugin } from "../../../../components/SlateEditor/plugins/rephrase/rephrasePlugin";
 import saveHotkeyPlugin from "../../../../components/SlateEditor/plugins/saveHotkey";
 import { sectionPlugin } from "../../../../components/SlateEditor/plugins/section";
 import { spanPlugin } from "../../../../components/SlateEditor/plugins/span";
+import { symbolPlugin } from "../../../../components/SlateEditor/plugins/symbol";
 import { textTransformPlugin } from "../../../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../../../components/SlateEditor/plugins/toolbar";
-import { paragraphPlugin } from "../../../../components/SlateEditor/plugins/paragraph";
-import { headingPlugin } from "../../../../components/SlateEditor/plugins/heading";
-import { listPlugin } from "../../../../components/SlateEditor/plugins/list";
-import { markPlugin } from "../../../../components/SlateEditor/plugins/mark";
-import { breakPlugin } from "../../../../components/SlateEditor/plugins/break";
-import { inlineNavigationPlugin } from "@ndla/editor";
-import { idPlugin } from "../../../../components/SlateEditor/plugins/id/idPlugin";
-import { rephrasePlugin } from "../../../../components/SlateEditor/plugins/rephrase/rephrasePlugin";
-import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionListPlugin";
-import { definitionTermPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionTermPlugin";
-import { definitionDescriptionPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionDescriptionPlugin";
-import { symbolPlugin } from "../../../../components/SlateEditor/plugins/symbol";
 import { unsupportedPlugin } from "../../../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
-import { pastePlugin } from "../../../../components/SlateEditor/plugins/paste";
 
 // Plugins are checked from last to first
 export const topicArticlePlugins: SlatePlugin[] = [

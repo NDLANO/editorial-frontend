@@ -6,10 +6,10 @@
  *
  */
 
+import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { useFormikContext } from "formik";
 import { useState } from "react";
 import ReactCrop, { Crop, PercentCrop } from "react-image-crop";
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import config from "../../../../../config";
 import { ImageEmbedFormValues } from "../types";
 

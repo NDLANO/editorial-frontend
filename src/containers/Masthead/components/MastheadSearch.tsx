@@ -6,9 +6,6 @@
  *
  */
 
-import { useEffect, useId, useMemo, useState, FormEvent } from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router";
 import { createListCollection } from "@ark-ui/react";
 import { SearchLine } from "@ndla/icons";
 import {
@@ -27,6 +24,9 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";
+import { useEffect, useId, useMemo, useState, FormEvent } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate } from "react-router";
 import { GenericComboboxItemIndicator } from "../../../components/abstractions/Combobox";
 import { NDLA_FILM_SUBJECT } from "../../../constants";
 import { isValidLocale } from "../../../i18n";

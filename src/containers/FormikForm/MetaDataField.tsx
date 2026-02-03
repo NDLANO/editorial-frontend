@@ -6,10 +6,6 @@
  *
  */
 
-import { FieldHelperProps, useFormikContext } from "formik";
-import { memo, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Descendant, Node } from "slate";
 import { createListCollection } from "@ark-ui/react";
 import {
   Button,
@@ -26,8 +22,10 @@ import {
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
-import { ArticleFormType } from "./articleFormHooks";
-import MetaImageSearch from "./MetaImageSearch";
+import { FieldHelperProps, useFormikContext } from "formik";
+import { memo, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Descendant, Node } from "slate";
 import { GenericComboboxItemIndicator } from "../../components/abstractions/Combobox";
 import { AiPromptDialog } from "../../components/AiPromptDialog";
 import { FieldWarning } from "../../components/Form/FieldWarning";
@@ -44,6 +42,8 @@ import { useDraftSearchTags } from "../../modules/draft/draftQueries";
 import { inlineContentToEditorValue } from "../../util/articleContentConverter";
 import useDebounce from "../../util/useDebounce";
 import { useSession } from "../Session/SessionProvider";
+import { ArticleFormType } from "./articleFormHooks";
+import MetaImageSearch from "./MetaImageSearch";
 
 const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
   base: {

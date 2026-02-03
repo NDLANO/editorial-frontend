@@ -6,10 +6,6 @@
  *
  */
 
-import { useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Transforms } from "slate";
-import { ReactEditor, useSlateSelector, useSlateStatic } from "slate-react";
 import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
 import {
   FieldRoot,
@@ -21,11 +17,15 @@ import {
   SelectValueText,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Transforms } from "slate";
+import { ReactEditor, useSlateSelector, useSlateStatic } from "slate-react";
+import { GenericSelectItemIndicator, GenericSelectTrigger } from "../../../abstractions/Select";
 import { handleTextChange } from "./handleMenuClicks";
 import { TextType } from "./toolbarState";
 import { getTitle, iconMapping } from "./ToolbarToggle";
 import { ToolbarCategoryProps } from "./types";
-import { GenericSelectItemIndicator, GenericSelectTrigger } from "../../../abstractions/Select";
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   base: {

@@ -6,6 +6,8 @@
  *
  */
 
+import { isElementOfType } from "@ndla/editor";
+import { Node } from "slate";
 import { ElementType } from "./interfaces";
 import { ASIDE_ELEMENT_TYPE } from "./plugins/aside/asideTypes";
 import { AUDIO_ELEMENT_TYPE } from "./plugins/audio/audioTypes";
@@ -24,15 +26,13 @@ import { IMAGE_ELEMENT_TYPE } from "./plugins/image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "./plugins/keyFigure/types";
 import { LINK_ELEMENT_TYPE, CONTENT_LINK_ELEMENT_TYPE } from "./plugins/link/types";
 import { MATH_ELEMENT_TYPE } from "./plugins/mathml/mathTypes";
-import { REPHRASE_ELEMENT_TYPE } from "./plugins/rephrase/rephraseTypes";
 import { PITCH_ELEMENT_TYPE } from "./plugins/pitch/types";
 import { RELATED_ELEMENT_TYPE } from "./plugins/related/types";
+import { REPHRASE_ELEMENT_TYPE } from "./plugins/rephrase/rephraseTypes";
 import { SPAN_ELEMENT_TYPE } from "./plugins/span/types";
+import { SYMBOL_ELEMENT_TYPE } from "./plugins/symbol/types";
 import { TABLE_ELEMENT_TYPE } from "./plugins/table/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "./plugins/video/types";
-import { SYMBOL_ELEMENT_TYPE } from "./plugins/symbol/types";
-import { Node } from "slate";
-import { isElementOfType } from "@ndla/editor";
 
 export const inlines: ElementType[] = [
   CONCEPT_INLINE_ELEMENT_TYPE,

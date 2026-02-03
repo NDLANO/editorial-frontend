@@ -6,14 +6,14 @@
  *
  */
 
+import { Node } from "@ndla/types-taxonomy";
 import { useField } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Node } from "@ndla/types-taxonomy";
-import { NodeList } from "./nodes";
-import { NodeSearchDropdown } from "./nodes/NodeSearchDropdown";
 import { searchNodes } from "../../../modules/nodes/nodeApi";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import { NodeList } from "./nodes";
+import { NodeSearchDropdown } from "./nodes/NodeSearchDropdown";
 
 interface Props {
   subjectIds: string[];

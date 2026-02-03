@@ -6,8 +6,8 @@
  *
  */
 
-import { jsx as slatejsx } from "slate-hyperscript";
 import { createDataAttributes, createHtmlTag, createSerializer, parseElementAttributes } from "@ndla/editor";
+import { jsx as slatejsx } from "slate-hyperscript";
 import { BLOCK_QUOTE_ELEMENT_TYPE } from "./blockquoteTypes";
 import { isBlockQuoteElement } from "./queries/blockquoteQueries";
 

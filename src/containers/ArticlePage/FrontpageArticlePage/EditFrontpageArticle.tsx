@@ -6,11 +6,10 @@
  *
  */
 
+import { PageContent } from "@ndla/primitives";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router";
-import { PageContent } from "@ndla/primitives";
-import FrontpageArticleForm from "./components/FrontpageArticleForm";
 import {
   NynorskTranslateProvider,
   TranslateType,
@@ -24,6 +23,7 @@ import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 import NotFound from "../../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../../PrivateRoute/PrivateRoute";
+import FrontpageArticleForm from "./components/FrontpageArticleForm";
 
 const translateFields: TranslateType[] = [
   {

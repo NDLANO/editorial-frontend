@@ -6,9 +6,9 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { Table } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useTranslation } from "react-i18next";
 
 interface AllowListEntry {
   name: string;

@@ -6,10 +6,6 @@
  *
  */
 
-import { FieldArray, Formik, FormikProps } from "formik";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useQueryClient } from "@tanstack/react-query";
 import { DeleteBinLine } from "@ndla/icons";
 import {
   Text,
@@ -23,7 +19,10 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Translation, Node } from "@ndla/types-taxonomy";
-import AddNodeTranslation from "./AddNodeTranslation";
+import { useQueryClient } from "@tanstack/react-query";
+import { FieldArray, Formik, FormikProps } from "formik";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FormField } from "../../../../components/FormField";
 import { FormActionsContainer } from "../../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../../components/formikValidationSchema";
@@ -39,6 +38,7 @@ import { nodeQueryKeys, useNode } from "../../../../modules/nodes/nodeQueries";
 import { isFormikFormDirty } from "../../../../util/formHelper";
 import handleError from "../../../../util/handleError";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
+import AddNodeTranslation from "./AddNodeTranslation";
 
 const InputWrapper = styled("div", {
   base: {

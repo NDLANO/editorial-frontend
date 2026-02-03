@@ -6,15 +6,13 @@
  *
  */
 
-import { useCallback, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useQueryClient } from "@tanstack/react-query";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild, NodeConnection } from "@ndla/types-taxonomy";
 import { sortBy } from "@ndla/util";
-import ActiveTopicConnection from "./ActiveTopicConnection";
-import { AddConnectionDialog } from "./AddConnectionDialog";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
 import { useUserData } from "../../modules/draft/draftQueries";
 import { fetchChildNodes } from "../../modules/nodes/nodeApi";
@@ -29,6 +27,8 @@ import { nodeQueryKeys, useNodes } from "../../modules/nodes/nodeQueries";
 import handleError from "../../util/handleError";
 import { groupChildNodes } from "../../util/taxonomyHelpers";
 import { MinimalNodeChild } from "../Taxonomy/types";
+import ActiveTopicConnection from "./ActiveTopicConnection";
+import { AddConnectionDialog } from "./AddConnectionDialog";
 
 interface Props {
   taxonomyVersion: string;

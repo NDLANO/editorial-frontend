@@ -6,8 +6,8 @@
  *
  */
 
-import { Editor } from "slate";
 import { DefinitionList } from "@ndla/primitives";
+import { Editor } from "slate";
 import {
   DEFINITION_DESCRIPTION_ELEMENT_TYPE,
   DEFINITION_LIST_ELEMENT_TYPE,

@@ -6,12 +6,12 @@
  *
  */
 
-import { type Ref } from "react";
 import { ark, HTMLArkProps } from "@ark-ui/react";
 import { ArrowRightShortLine } from "@ndla/icons";
 import { Heading, TextProps } from "@ndla/primitives";
 import { cva, sva } from "@ndla/styled-system/css";
 import { createStyleContext, StyledProps } from "@ndla/styled-system/jsx";
+import { type Ref } from "react";
 
 const nodeItemRecipe = sva({
   slots: ["root", "title", "toggleIcon"],

@@ -6,12 +6,12 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { DeleteBinLine, Draggable } from "@ndla/icons";
 import { IconButton, ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
+import { useTranslation } from "react-i18next";
 import DndList from "../../../../components/DndList";
 import { DragHandle } from "../../../../components/DraggableItem";
 import { routes } from "../../../../util/routeHelpers";

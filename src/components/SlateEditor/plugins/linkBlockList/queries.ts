@@ -6,8 +6,8 @@
  *
  */
 
-import { Node } from "slate";
 import { isElementOfType } from "@ndla/editor";
+import { Node } from "slate";
 import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "./types";
 
 export const isLinkBlockListElement = (node: Node | undefined) => isElementOfType(node, LINK_BLOCK_LIST_ELEMENT_TYPE);

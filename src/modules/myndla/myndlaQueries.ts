@@ -6,10 +6,10 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { SingleResourceStatsDTO } from "@ndla/types-backend/myndla-api";
-import { fetchResourceStats } from "./myndlaApi";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { MYNDLA_RESOURCE_STATS } from "../../queryKeys";
+import { fetchResourceStats } from "./myndlaApi";
 
 interface UseResourceStats {
   resourceTypes: string[];

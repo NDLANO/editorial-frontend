@@ -6,14 +6,11 @@
  *
  */
 
+import { PageContent } from "@ndla/primitives";
+import { FilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
 import { Formik, FormikHelpers } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { PageContent } from "@ndla/primitives";
-import { FilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
-import NdlaFilmArticle from "./NdlaFilmArticle";
-import SlideshowEditor from "./SlideshowEditor";
-import ThemeEditor from "./ThemeEditor";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { FormActionsContainer, Form } from "../../../components/FormikForm";
@@ -32,6 +29,9 @@ import usePreventWindowUnload from "../../FormikForm/preventWindowUnloadHook";
 import { useMessages } from "../../Messages/MessagesProvider";
 import { getInitialValues, getNdlaFilmFromSlate } from "../ndlaFilmHelpers";
 import { FilmFormikType } from "../types";
+import NdlaFilmArticle from "./NdlaFilmArticle";
+import SlideshowEditor from "./SlideshowEditor";
+import ThemeEditor from "./ThemeEditor";
 
 interface Props {
   filmFrontpage: FilmFrontPageDTO;

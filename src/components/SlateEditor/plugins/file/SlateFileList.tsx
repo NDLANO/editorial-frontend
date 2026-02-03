@@ -6,11 +6,6 @@
  *
  */
 
-import { TFunction } from "i18next";
-import { ReactNode, useCallback, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { CloseLine, AddLine } from "@ndla/icons";
 import {
@@ -24,14 +19,19 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { FileListWrapper } from "@ndla/ui";
+import { TFunction } from "i18next";
+import { ReactNode, useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
 import { FileElement } from ".";
-import DndFileList from "./DndFileList";
-import { isFileElement } from "./queries";
 import config from "../../../../config";
 import { File, UnsavedFile } from "../../../../interfaces";
 import { headFileAtRemote } from "../../../../modules/draft/draftApi";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import FileUploader from "../../../FileUploader";
+import DndFileList from "./DndFileList";
+import { isFileElement } from "./queries";
 
 const StyledHeaderWrapper = styled("div", {
   base: {

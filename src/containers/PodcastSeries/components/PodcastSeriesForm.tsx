@@ -6,16 +6,13 @@
  *
  */
 
+import { Button, PageContent, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { NewSeriesDTO, SeriesDTO } from "@ndla/types-backend/audio-api";
 import { Formik, FormikProps, FormikHelpers, FormikErrors } from "formik";
 import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
-import { Button, PageContent, Text } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
-import { NewSeriesDTO, SeriesDTO } from "@ndla/types-backend/audio-api";
-import PodcastEpisodes from "./PodcastEpisodes";
-import { PodcastSeriesFormHeader } from "./PodcastSeriesFormHeader";
-import PodcastSeriesMetaData from "./PodcastSeriesMetaData";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { FormActionsContainer } from "../../../components/FormikForm";
@@ -35,6 +32,9 @@ import { isFormikFormDirty } from "../../../util/formHelper";
 import { NewlyCreatedLocationState } from "../../../util/routeHelpers";
 import { AlertDialogWrapper } from "../../FormikForm";
 import { useSession } from "../../Session/SessionProvider";
+import PodcastEpisodes from "./PodcastEpisodes";
+import { PodcastSeriesFormHeader } from "./PodcastSeriesFormHeader";
+import PodcastSeriesMetaData from "./PodcastSeriesMetaData";
 
 const StyledFormActionsContainer = styled(FormActionsContainer, {
   base: {

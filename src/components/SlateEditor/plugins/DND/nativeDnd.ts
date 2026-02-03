@@ -6,11 +6,11 @@
  *
  */
 
+import { SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { DragEvent, DragEventHandler } from "react";
 import { Editor, Node, ElementEntry, Transforms, Path } from "slate";
 import { ReactEditor } from "slate-react";
 import { DND_PLUGIN, DndPluginOptions } from "./dndTypes";
-import { SECTION_ELEMENT_TYPE } from "@ndla/editor";
 
 export const nativeOnDragStart = (editor: Editor, event: DragEvent<HTMLDivElement>) => {
   event.dataTransfer.effectAllowed = "copy";

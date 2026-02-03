@@ -6,20 +6,20 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { Badge } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { constants } from "@ndla/ui";
-import DeleteLanguageVersion from "./DeleteLanguageVersion";
-import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
-import { StyledSplitter } from "./HeaderInformation";
-import HeaderLanguagePicker from "./HeaderLanguagePicker";
-import HeaderSupportedLanguages from "./HeaderSupportedLanguages";
+import { useTranslation } from "react-i18next";
 import {
   FormHeaderHeading,
   FormHeaderHeadingContainer,
   FormHeaderSegment,
 } from "../../containers/FormHeader/FormHeader";
+import DeleteLanguageVersion from "./DeleteLanguageVersion";
+import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
+import { StyledSplitter } from "./HeaderInformation";
+import HeaderLanguagePicker from "./HeaderLanguagePicker";
+import HeaderSupportedLanguages from "./HeaderSupportedLanguages";
 
 const Wrapper = styled("div", {
   base: {

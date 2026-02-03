@@ -6,9 +6,6 @@
  *
  */
 
-import { useFormikContext } from "formik";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
 import {
@@ -26,8 +23,9 @@ import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
-import { contentTypeMapping, ResourcePicker } from "./ResourcePicker";
-import { ResourceData, ResourceFormValues } from "./types";
+import { useFormikContext } from "formik";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FormField } from "../../../components/FormField";
 import { RulesType } from "../../../components/formikValidationSchema";
 import { fetchNode, fetchNodes } from "../../../modules/nodes/nodeApi";
@@ -37,6 +35,8 @@ import { LicenseField } from "../../FormikForm";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { LearningpathTextEditor } from "../components/LearningpathTextEditor";
 import { getFormTypeFromStep, getNodeIdFromEmbedUrl } from "../learningpathUtils";
+import { contentTypeMapping, ResourcePicker } from "./ResourcePicker";
+import { ResourceData, ResourceFormValues } from "./types";
 
 interface Props {
   onlyPublishedResources?: boolean;

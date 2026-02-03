@@ -6,10 +6,10 @@
  *
  */
 
-import { CSSProperties } from "react";
 import { HTMLArkProps } from "@ark-ui/react";
 import { Text, TextProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { CSSProperties } from "react";
 import {
   qualityEvaluationOptionColors,
   QualityEvaluationValue,

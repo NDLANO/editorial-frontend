@@ -6,18 +6,18 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { ErrorWarningFill, FileEditLine } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { NodeChild } from "@ndla/types-taxonomy";
-import { isApproachingRevision } from "./ApproachingRevisionDate";
-import WrongTypeError from "./WrongTypeError";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { StatusTimeFill } from "../../../components/StatusTimeFill";
 import formatDate from "../../../util/formatDate";
 import { getExpirationStatus } from "../../../util/getExpirationStatus";
 import { getExpirationDate } from "../../../util/revisionHelpers";
+import { isApproachingRevision } from "./ApproachingRevisionDate";
+import WrongTypeError from "./WrongTypeError";
 
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
   base: {

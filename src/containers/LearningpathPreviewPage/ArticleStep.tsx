@@ -6,8 +6,6 @@
  *
  */
 
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
 import {
   Spinner,
   SwitchRoot,
@@ -20,7 +18,8 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper } from "@ndla/ui";
-import { EmbedPageContent } from "./EmbedPageContent";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toFormArticle } from "../../components/PreviewDraft/PreviewDraft";
 import { useTransformedArticle } from "../../components/PreviewDraft/useTransformedArticle";
 import { useArticle } from "../../modules/article/articleQueries";
@@ -28,6 +27,7 @@ import { useDraft } from "../../modules/draft/draftQueries";
 import { useNode } from "../../modules/nodes/nodeQueries";
 import { getContentTypeFromResourceTypes } from "../../util/resourceHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
+import { EmbedPageContent } from "./EmbedPageContent";
 
 interface ArticleStepProps {
   step: LearningStepV2DTO;

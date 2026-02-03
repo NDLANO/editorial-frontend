@@ -6,10 +6,6 @@
  *
  */
 
-import { Formik, FormikHelpers, FormikErrors } from "formik";
-import { useState, useRef, useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router";
 import { Button, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import {
@@ -17,9 +13,10 @@ import {
   UpdatedAudioMetaInformationDTO,
   NewAudioMetaInformationDTO,
 } from "@ndla/types-backend/audio-api";
-import { PodcastFormHeader } from "./PodcastFormHeader";
-import PodcastMetaData from "./PodcastMetaData";
-import PodcastSeries from "./PodcastSeries";
+import { Formik, FormikHelpers, FormikErrors } from "formik";
+import { useState, useRef, useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate } from "react-router";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
@@ -40,6 +37,9 @@ import AudioCopyright from "../../AudioUploader/components/AudioCopyright";
 import AudioManuscript from "../../AudioUploader/components/AudioManuscript";
 import AudioMetaData from "../../AudioUploader/components/AudioMetaData";
 import { AlertDialogWrapper } from "../../FormikForm";
+import { PodcastFormHeader } from "./PodcastFormHeader";
+import PodcastMetaData from "./PodcastMetaData";
+import PodcastSeries from "./PodcastSeries";
 
 const StyledFormActionsContainer = styled(FormActionsContainer, {
   base: {

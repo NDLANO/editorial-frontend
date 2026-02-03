@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { constants } from "@ndla/ui";
-import TaxonomyMetadataDropdown from "./TaxonomyMetadataDropdown";
+import { useTranslation } from "react-i18next";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../../../constants";
+import TaxonomyMetadataDropdown from "./TaxonomyMetadataDropdown";
 
 interface Props {
   customFields: Record<string, string>;

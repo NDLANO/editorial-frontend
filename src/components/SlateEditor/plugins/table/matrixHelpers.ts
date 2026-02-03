@@ -8,8 +8,8 @@
 
 import { isEqual } from "lodash-es";
 import { TableCellElement, TableMatrix } from "./interfaces";
-import { TABLE_CELL_HEADER_ELEMENT_TYPE } from "./types";
 import { isTableCellHeaderElement } from "./queries";
+import { TABLE_CELL_HEADER_ELEMENT_TYPE } from "./types";
 
 export const getPrevCell = (matrix: TableMatrix, row: number, column: number) => {
   return matrix[row][column - 1];

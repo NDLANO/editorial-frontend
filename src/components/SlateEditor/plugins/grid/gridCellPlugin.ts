@@ -6,7 +6,6 @@
  *
  */
 
-import { jsx as slatejsx } from "slate-hyperscript";
 import {
   createDataAttributes,
   createHtmlTag,
@@ -19,11 +18,12 @@ import {
   PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
 } from "@ndla/editor";
-import { GRID_CELL_ELEMENT_TYPE, GRID_CELL_PLUGIN } from "./types";
-import { isGridCellElement } from "./queries";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { IMAGE_ELEMENT_TYPE } from "../image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "../keyFigure/types";
 import { PITCH_ELEMENT_TYPE } from "../pitch/types";
-import { IMAGE_ELEMENT_TYPE } from "../image/types";
+import { isGridCellElement } from "./queries";
+import { GRID_CELL_ELEMENT_TYPE, GRID_CELL_PLUGIN } from "./types";
 
 export const gridCellSerializer = createSerializer({
   deserialize: (el, children) => {

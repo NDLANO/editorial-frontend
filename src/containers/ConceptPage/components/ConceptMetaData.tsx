@@ -6,12 +6,12 @@
  *
  */
 
-import { useFormikContext } from "formik";
-import { useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import { ComboboxItem, ComboboxItemText, FieldErrorMessage, FieldRoot, Input } from "@ndla/primitives";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
+import { useFormikContext } from "formik";
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { GenericComboboxItemIndicator } from "../../../components/abstractions/Combobox";
 import { FieldWarning } from "../../../components/Form/FieldWarning";
 import { SearchTagsContent } from "../../../components/Form/SearchTagsContent";

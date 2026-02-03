@@ -6,7 +6,6 @@
  *
  */
 
-import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import {
   AudioMeta,
@@ -18,6 +17,9 @@ import {
   OembedData,
   OembedEmbedData,
 } from "@ndla/types-embed";
+import { UseQueryOptions, useQuery } from "@tanstack/react-query";
+import { AUDIO_EMBED, BRIGHTCOVE_EMBED, IMAGE_EMBED } from "../../queryKeys";
+import { fetchImage } from "../image/imageApi";
 import {
   fetchAudioMeta,
   fetchBrightcoveMeta,
@@ -25,8 +27,6 @@ import {
   fetchExternal,
   fetchH5pMeta,
 } from "./embedApi";
-import { AUDIO_EMBED, BRIGHTCOVE_EMBED, IMAGE_EMBED } from "../../queryKeys";
-import { fetchImage } from "../image/imageApi";
 
 export const useBrightcoveMeta = (
   resourceId: string,

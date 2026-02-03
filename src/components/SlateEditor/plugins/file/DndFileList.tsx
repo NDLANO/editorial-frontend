@@ -6,13 +6,13 @@
  *
  */
 
+import { Draggable } from "@ndla/icons";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Draggable } from "@ndla/icons";
-import { SlateFile } from "./SlateFile";
 import { File as FileType } from "../../../../interfaces";
 import DndList from "../../../DndList";
 import { DragHandle } from "../../../DraggableItem";
+import { SlateFile } from "./SlateFile";
 
 interface Props {
   files: FileType[];

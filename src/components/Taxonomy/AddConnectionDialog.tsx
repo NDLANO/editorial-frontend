@@ -6,8 +6,6 @@
  *
  */
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import {
   Button,
   DialogBody,
@@ -24,10 +22,12 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { NodeWithChildren } from "../../modules/nodes/nodeApiTypes";
 import { DialogCloseButton } from "../DialogCloseButton";
 import TaxonomyBlockNode from "./TaxonomyBlockNode";
 import { MinimalNodeChild } from "./types";
-import { NodeWithChildren } from "../../modules/nodes/nodeApiTypes";
 
 const StyledButton = styled(Button, {
   base: {

@@ -6,6 +6,7 @@
  *
  */
 
+import { Logger } from "@ndla/editor";
 import { Editor, NodeEntry, Path, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 import {
@@ -18,7 +19,6 @@ import {
 import { getTableAsMatrix } from "./matrix";
 import { findCellCoordinate } from "./matrixHelpers";
 import { createIdenticalRow } from "./slateHelpers";
-import { Logger } from "@ndla/editor";
 
 export const moveLeft = (
   editor: Editor,

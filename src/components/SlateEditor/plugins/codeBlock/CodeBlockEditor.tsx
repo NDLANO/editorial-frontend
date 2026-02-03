@@ -6,10 +6,6 @@
  *
  */
 
-import { Formik, useFormikContext } from "formik";
-import { ComponentProps, useCallback, useEffect, useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import Editor from "react-simple-code-editor";
 import { FieldContext, SelectHiddenSelect, createListCollection } from "@ark-ui/react";
 import {
   Button,
@@ -24,6 +20,10 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { codeLanguageOptions } from "@ndla/ui";
+import { Formik, useFormikContext } from "formik";
+import { ComponentProps, useCallback, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import Editor from "react-simple-code-editor";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../abstractions/Select";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";

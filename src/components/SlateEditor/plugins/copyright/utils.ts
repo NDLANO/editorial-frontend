@@ -7,8 +7,8 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { COPYRIGHT_ELEMENT_TYPE } from "./types";
 import { defaultParagraphBlock } from "../paragraph/utils";
+import { COPYRIGHT_ELEMENT_TYPE } from "./types";
 
 export const defaultCopyrightBlock = () => {
   return slatejsx("element", { type: COPYRIGHT_ELEMENT_TYPE, isFirstEdit: true }, defaultParagraphBlock());

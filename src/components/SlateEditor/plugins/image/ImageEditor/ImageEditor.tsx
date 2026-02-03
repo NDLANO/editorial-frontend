@@ -6,17 +6,17 @@
  *
  */
 
-import { useFormikContext } from "formik";
-import { MouseEvent, useCallback, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { PercentCrop } from "react-image-crop";
 import { AlignCenter, AlignLeft, AlignRight, CropLine, FocusMode } from "@ndla/icons";
 import { Button, IconButton, ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import ImageTransformEditor from "./ImageTransformEditor";
+import { useFormikContext } from "formik";
+import { MouseEvent, useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { PercentCrop } from "react-image-crop";
 import { FormField } from "../../../../FormField";
 import { ImageEmbedFormValues } from "../types";
+import ImageTransformEditor from "./ImageTransformEditor";
 
 const StyledImageEditorMenu = styled("div", {
   base: {

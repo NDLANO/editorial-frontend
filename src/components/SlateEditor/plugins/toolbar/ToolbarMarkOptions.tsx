@@ -6,10 +6,10 @@
  *
  */
 
+import { MarkType, toggleMark } from "@ndla/editor";
 import { isEqual } from "lodash-es";
 import { Editor } from "slate";
 import { useSlateSelector, useSlateStatic } from "slate-react";
-import { MarkType, toggleMark } from "@ndla/editor";
 import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
 import { ToolbarCategoryProps } from "./types";
 

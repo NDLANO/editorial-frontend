@@ -6,8 +6,8 @@
  *
  */
 
-import { Descendant } from "slate";
 import { GridType } from "@ndla/ui";
+import { Descendant } from "slate";
 
 export const GRID_ELEMENT_TYPE = "grid";
 export const GRID_PLUGIN = "grid";

@@ -6,14 +6,14 @@
  *
  */
 
-import { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
 import { SectionElement } from "@ndla/editor";
 import { DeleteBinLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
 
 const ButtonWrapper = styled("div", {
   base: {

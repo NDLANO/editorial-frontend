@@ -37,7 +37,7 @@ import { LicenseField } from "../../FormikForm";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { LearningpathTextEditor } from "../components/LearningpathTextEditor";
 import { getFormTypeFromStep, getNodeIdFromEmbedUrl } from "../learningpathUtils";
-import { contentTypeMapping, ResourcePicker } from "./ResourcePicker";
+import { ResourcePicker } from "./ResourcePicker";
 import { ResourceData, ResourceFormValues } from "./types";
 
 interface Props {

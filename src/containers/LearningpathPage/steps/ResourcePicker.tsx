@@ -8,13 +8,11 @@
 
 import { Badge } from "@ndla/primitives";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { constants } from "@ndla/ui";
+import { BadgesContainer } from "@ndla/ui";
 import parse from "html-react-parser";
 import { debounce } from "lodash-es";
 import { useState, useMemo, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { BadgesContainer } from "@ndla/ui";
-import { ResourceData } from "./types";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import {
@@ -27,8 +25,8 @@ import {
   RESOURCE_TYPE_GAME,
 } from "../../../constants";
 import { useSearch } from "../../../modules/search/searchQueries";
-import { ResourceData } from "./types";
 import { getBadges } from "../../../util/getBadges";
+import { ResourceData } from "./types";
 
 const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250);
 
@@ -113,7 +111,13 @@ export const ResourcePicker = ({ setResource, children, onlyPublishedResources }
       closeOnSelect={false}
       selectionBehavior="preserve"
       renderItem={(item) => {
-        const badges = getBadges({ resourceTypes: item.resourceTypes, relevanceId: item.context?.relevanceId }, t);
+        const badges = getBadges(
+          {
+            resourceTypes: item.resourceTypes,
+            relevanceId: item.context?.relevanceId,
+          },
+          t,
+        );
         return (
           <GenericComboboxItemContent
             title={parse(item.title.htmlTitle)}

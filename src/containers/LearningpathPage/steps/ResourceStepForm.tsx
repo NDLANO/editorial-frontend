@@ -23,19 +23,21 @@ import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
+import { BadgesContainer } from "@ndla/ui";
 import { useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FormField } from "../../../components/FormField";
 import { RulesType } from "../../../components/formikValidationSchema";
 import { fetchNode, fetchNodes } from "../../../modules/nodes/nodeApi";
+import { useBadges } from "../../../util/getBadges";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { LicenseField } from "../../FormikForm";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { LearningpathTextEditor } from "../components/LearningpathTextEditor";
 import { getFormTypeFromStep, getNodeIdFromEmbedUrl } from "../learningpathUtils";
-import { contentTypeMapping, ResourcePicker } from "./ResourcePicker";
+import { ResourcePicker } from "./ResourcePicker";
 import { ResourceData, ResourceFormValues } from "./types";
 
 interface Props {
@@ -133,6 +135,7 @@ export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Pro
           articleType: articleType,
           breadcrumbs: node.breadcrumbs,
           resourceTypes: node.resourceTypes,
+          relevanceId: node.relevanceId,
         });
       } else if (values.articleId && !selectedResource) {
         const nodes = await fetchNodes({ contentURI: `urn:article:${values.articleId}`, language, taxonomyVersion });
@@ -145,13 +148,17 @@ export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Pro
             title: node.name,
             breadcrumbs: node.breadcrumbs,
             resourceTypes: node.resourceTypes,
+            relevanceId: node.relevanceId,
           });
         }
       }
     })();
   }, [language, selectedResource, taxonomyVersion, values.articleId, values.embedUrl]);
 
-  const contentType = selectedResource?.resourceTypes?.map((type) => contentTypeMapping[type.id]).filter(Boolean)[0];
+  const badges = useBadges({
+    resourceTypes: selectedResource?.resourceTypes,
+    relevanceId: selectedResource?.relevanceId,
+  });
 
   const onSelectResource = (resource: ResourceData) => {
     setSelectedResource(resource);
@@ -244,7 +251,11 @@ export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Pro
               )}
             </TextWrapper>
             <StyledHStack gap="medium">
-              {!!contentType && <Badge>{t(`contentTypes.${contentType}`)}</Badge>}
+              <BadgesContainer>
+                {badges.map((badge) => (
+                  <Badge key={badge}>{badge}</Badge>
+                ))}
+              </BadgesContainer>
               <StyledIconButton
                 id="remove-resource"
                 aria-label={t("myNdla.learningpath.form.delete")}
@@ -258,7 +269,7 @@ export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Pro
           </ResourceWrapper>
         </ResourceContainer>
       )}
-      {!!step?.license?.license.length && <LicenseField />}
+      {!!step?.copyright?.license?.license.length && <LicenseField />}
     </>
   );
 };

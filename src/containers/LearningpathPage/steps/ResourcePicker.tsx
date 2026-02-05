@@ -8,36 +8,25 @@
 
 import { Badge } from "@ndla/primitives";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { constants } from "@ndla/ui";
+import { BadgesContainer } from "@ndla/ui";
 import parse from "html-react-parser";
-import { t } from "i18next";
 import { debounce } from "lodash-es";
 import { useState, useMemo, ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import {
   PUBLISHED,
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
+  RESOURCE_TYPE_CONCEPT,
   RESOURCE_TYPE_SOURCE_MATERIAL,
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
+  RESOURCE_TYPE_GAME,
 } from "../../../constants";
 import { useSearch } from "../../../modules/search/searchQueries";
+import { getBadges } from "../../../util/getBadges";
 import { ResourceData } from "./types";
-
-const { contentTypes } = constants;
-
-export const contentTypeMapping: Record<string, string> = {
-  [RESOURCE_TYPE_SUBJECT_MATERIAL]: contentTypes.SUBJECT_MATERIAL,
-
-  [RESOURCE_TYPE_TASKS_AND_ACTIVITIES]: contentTypes.TASKS_AND_ACTIVITIES,
-
-  [RESOURCE_TYPE_ASSESSMENT_RESOURCES]: contentTypes.ASSESSMENT_RESOURCES,
-
-  [RESOURCE_TYPE_SOURCE_MATERIAL]: contentTypes.SOURCE_MATERIAL,
-
-  default: contentTypes.SUBJECT_MATERIAL,
-};
 
 const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250);
 
@@ -50,6 +39,7 @@ interface Props {
 const DEFAULT_SEARCH_OBJECT = { page: 1, pageSize: 10, query: "" };
 
 export const ResourcePicker = ({ setResource, children, onlyPublishedResources }: Props) => {
+  const { t } = useTranslation();
   const [searchObject, setSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
   const [delayedSearchObject, setDelayedSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
 
@@ -63,6 +53,8 @@ export const ResourcePicker = ({ setResource, children, onlyPublishedResources }
       RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
       RESOURCE_TYPE_ASSESSMENT_RESOURCES,
       RESOURCE_TYPE_SOURCE_MATERIAL,
+      RESOURCE_TYPE_CONCEPT,
+      RESOURCE_TYPE_GAME,
     ],
   });
 
@@ -70,12 +62,9 @@ export const ResourcePicker = ({ setResource, children, onlyPublishedResources }
     return (
       searchQuery.data?.results.map((result) => {
         const context = result.contexts.find((context) => context.isPrimary) ?? result.contexts[0];
-        const contentType = contentTypeMapping?.[context?.resourceTypes?.[0]?.id ?? "default"];
         return {
           ...result,
           id: result.id.toString(),
-          resourceType: contentType,
-          contentType,
           path: context?.url ?? result.url,
         };
       }) ?? []
@@ -121,13 +110,28 @@ export const ResourcePicker = ({ setResource, children, onlyPublishedResources }
       }}
       closeOnSelect={false}
       selectionBehavior="preserve"
-      renderItem={(item) => (
-        <GenericComboboxItemContent
-          title={parse(item.title.htmlTitle)}
-          description={item.contexts[0]?.breadcrumbs.join(" > ")}
-          child={<Badge>{t(`contentTypes.${item.contentType}`)}</Badge>}
-        />
-      )}
+      renderItem={(item) => {
+        const badges = getBadges(
+          {
+            resourceTypes: item.resourceTypes,
+            relevanceId: item.context?.relevanceId,
+          },
+          t,
+        );
+        return (
+          <GenericComboboxItemContent
+            title={parse(item.title.htmlTitle)}
+            description={item.contexts[0]?.breadcrumbs.join(" > ")}
+            child={
+              <BadgesContainer>
+                {badges.map((badge) => (
+                  <Badge key={badge}>{badge}</Badge>
+                ))}
+              </BadgesContainer>
+            }
+          />
+        );
+      }}
       positioning={{ strategy: "fixed" }}
     >
       {children}

@@ -136,6 +136,7 @@ const fetchTranslation = async <T extends string | string[] | object | object[]>
         "røyndom_verkelegheit.syn": true,
         "samd_einig.syn": true,
         "sitat.lastå": true,
+        "sitat_tomme.teikn": true,
         "stove_stue.vok-u2o": true,
         "symje_svømme.stav": true,
         "tenkje-leggje.kons-kj2k_gj2g": true,

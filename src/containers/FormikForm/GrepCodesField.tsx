@@ -74,6 +74,7 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
   const [field, meta, helpers] = useField<string[]>("grepCodes");
   const [grepCodes, setGrepCodes] = useState<Record<string, GrepObject>>({});
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
+  const nonNullPrefix = prefixFilter.filter(Boolean);
 
   const { query, setQuery, page, setPage } = usePaginatedQuery();
   const grepCodesQuery = useSearchGrepCodes({ prefixFilter: prefixFilter, query: query, page: page });
@@ -92,7 +93,7 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
   ): Promise<{ success: GrepCodeSuccess[]; failed: GrepCodeError[] }> => {
     try {
       const withoutSavedAndInvalid = newGrepCodes.filter(
-        (code) => !grepCodes[code] && isGrepCodeValid(code, prefixFilter),
+        (code) => !grepCodes[code] && isGrepCodeValid(code, nonNullPrefix),
       );
       if (!withoutSavedAndInvalid.length) return { success: [], failed: [] };
       const grepCodesData = await searchGrepCodes({ codes: withoutSavedAndInvalid });
@@ -160,7 +161,7 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
   return (
     <FieldRoot>
       <FieldLabel>{t("form.grepCodes.label")}</FieldLabel>
-      <FieldHelper>{t("form.grepCodes.description", { codes: prefixFilter.join(", ") })}</FieldHelper>
+      <FieldHelper>{t("form.grepCodes.description", { codes: nonNullPrefix.join(", ") })}</FieldHelper>
       <Text color="text.error" aria-live="polite">
         {meta.error}
       </Text>

@@ -10,6 +10,7 @@ import { isGrepCodeValid, getSlugFromTitle } from "../articleUtil";
 
 test("isGrepCodeValid correct behavior", () => {
   const grepCodes = new Map();
+  grepCodes.set("BAT1006", true);
   grepCodes.set("KE1337", true);
   grepCodes.set("KM2255", true);
   grepCodes.set("TT3", true);
@@ -25,7 +26,9 @@ test("isGrepCodeValid correct behavior", () => {
   grepCodes.set("K3K", false);
   grepCodes.set("k123", false);
 
-  grepCodes.forEach((value, key) => expect(isGrepCodeValid(key, ["KE", "KM", "TT"])).toBe(value));
+  grepCodes.forEach((value, key) => {
+    expect(isGrepCodeValid(key, ["KE", "KM", "TT"])).toBe(value);
+  });
 });
 
 test("getSlugFromTitle filters away correct illegal characters", () => {

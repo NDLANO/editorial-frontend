@@ -33,7 +33,7 @@ export const convertUpdateToNewDraft = (article: UpdatedArticleDTO): NewArticleD
 };
 
 export const isGrepCodeValid = (grepCode: string, prefixFilter: string[]) => {
-  const regex = new RegExp(`^(${prefixFilter.join("|")})\\d+|^([A-Z]{3})\\d{4}$`);
+  const regex = new RegExp(`^(${prefixFilter.join("|")})\\d+$|^[A-Z]{3}\\d{4}$`);
   return !!grepCode.match(regex);
 };
 

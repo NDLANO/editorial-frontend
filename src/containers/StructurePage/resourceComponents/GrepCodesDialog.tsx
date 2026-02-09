@@ -22,6 +22,7 @@ import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { GREP_CODE_FORMATS } from "../../../constants";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { useUpdateDraftMutation } from "../../../modules/draft/draftMutations";
 import { draftQueryKeys } from "../../../modules/draft/draftQueries";
@@ -149,7 +150,16 @@ const GrepCodeDialogContent = ({
       </DialogHeader>
       <DialogBody>
         {rootGrepCodesString}
-        <GrepCodesForm codes={codes} onUpdate={onUpdateGrepCodes} close={close} prefixFilter={["KE", "KM", "TT"]} />
+        <GrepCodesForm
+          codes={codes}
+          onUpdate={onUpdateGrepCodes}
+          close={close}
+          prefixFilter={[
+            GREP_CODE_FORMATS.KJERNEELEMENT,
+            GREP_CODE_FORMATS.KOMPETANSEMAL,
+            GREP_CODE_FORMATS.TVERRFAGLIGTEMA,
+          ]}
+        />
       </DialogBody>
     </>
   );

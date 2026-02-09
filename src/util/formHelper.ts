@@ -15,6 +15,7 @@ import { RulesType } from "../components/formikValidationSchema";
 import { isImageElement } from "../components/SlateEditor/plugins/image/queries";
 import { IMAGE_ELEMENT_TYPE } from "../components/SlateEditor/plugins/image/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../components/SlateEditor/plugins/video/types";
+import { GREP_CODE_FORMATS } from "../constants";
 import {
   ArticleFormType,
   LearningResourceFormType,
@@ -166,7 +167,9 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, ArticleDTO> = 
   grepCodes: {
     required: false,
     test: (values) => {
-      const wrongFormat = !!values?.grepCodes?.find((value) => !isGrepCodeValid(value, ["KE", "KM", "TT"]));
+      const wrongFormat = !!values?.grepCodes?.find(
+        (value) => !isGrepCodeValid(value, [GREP_CODE_FORMATS.KM, GREP_CODE_FORMATS.KV, GREP_CODE_FORMATS.TT]),
+      );
       return wrongFormat ? { translationKey: "validation.grepCodes" } : undefined;
     },
   },

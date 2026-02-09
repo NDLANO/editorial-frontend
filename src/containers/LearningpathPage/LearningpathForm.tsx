@@ -17,7 +17,7 @@ import FormAccordions from "../../components/Accordion/FormAccordions";
 import { Form } from "../../components/FormikForm";
 import validateFormik, { getWarnings, RulesType } from "../../components/formikValidationSchema";
 import EditorFooter from "../../components/SlateEditor/EditorFooter";
-import { LAST_UPDATED_SIZE } from "../../constants";
+import { LAST_UPDATED_SIZE, GREP_CODE_FORMATS } from "../../constants";
 import { fetchUserData, updateUserData } from "../../modules/draft/draftApi";
 import {
   usePatchLearningpathMutation,
@@ -76,7 +76,9 @@ const metaDataRules: RulesType<LearningpathFormValues, LearningPathV2DTO> = {
   grepCodes: {
     required: false,
     test: (values) => {
-      const wrongFormat = !!values?.grepCodes?.find((value) => !isGrepCodeValid(value, ["KE", "KM", "TT"]));
+      const wrongFormat = !!values?.grepCodes?.find(
+        (value) => !isGrepCodeValid(value, [GREP_CODE_FORMATS.KOMPETANSEMAL, GREP_CODE_FORMATS.KOMPETANSEMAL, GREP_CODE_FORMATS.TVERRFAGLIGTEMA]),
+      );
       return wrongFormat ? { translationKey: "validation.grepCodes" } : undefined;
     },
   },
@@ -185,7 +187,13 @@ export const LearningpathForm = ({ learningpath, language }: Props) => {
                 <RevisionNotes />
               </FormAccordion>
               <FormAccordion id="grepCodes" title={t("form.name.grepCodes")} hasError={!!errors.grepCodes}>
-                <GrepCodesField prefixFilter={["KE", "KM", "TT"]} />
+                <GrepCodesField
+                  prefixFilter={[
+                    GREP_CODE_FORMATS.KJERNEELEMENT,
+                    GREP_CODE_FORMATS.KOMPETANSEMAL,
+                    GREP_CODE_FORMATS.TVERRFAGLIGTEMA,
+                  ]}
+                />
               </FormAccordion>
             </FormAccordions>
             <EditorFooter

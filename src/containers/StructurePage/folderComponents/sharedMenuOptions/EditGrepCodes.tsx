@@ -7,6 +7,7 @@
  */
 
 import { Node } from "@ndla/types-taxonomy";
+import { GREP_CODE_FORMATS } from "../../../../constants";
 import { useUpdateNodeMetadataMutation } from "../../../../modules/nodes/nodeMutations";
 import { getRootIdForNode, isRootNode } from "../../../../modules/nodes/nodeUtil";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
@@ -31,7 +32,13 @@ const EditGrepCodes = ({ node }: Props) => {
     });
   };
 
-  return <GrepCodesForm codes={metadata?.grepCodes ?? []} onUpdate={updateMetadata} prefixFilter={["KV"]} />;
+  return (
+    <GrepCodesForm
+      codes={metadata?.grepCodes ?? []}
+      onUpdate={updateMetadata}
+      prefixFilter={[GREP_CODE_FORMATS.KOMPETANSEMALSETT, GREP_CODE_FORMATS.FAGKODE]}
+    />
+  );
 };
 
 export default EditGrepCodes;

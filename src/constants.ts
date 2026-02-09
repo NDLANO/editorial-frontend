@@ -7,7 +7,7 @@
  */
 
 import config from "./config";
-import { LocaleType, WhitelistProvider } from "./interfaces";
+import { GrepFormat, LocaleType, WhitelistProvider } from "./interfaces";
 
 export const SUPPORTED_LANGUAGES: LocaleType[] = ["nb", "nn", "en"];
 
@@ -38,6 +38,14 @@ export const FILM_RESOURCE_TYPES = [
 export const MULTIDISCIPLINARY_SUBJECT_ID = "urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7";
 
 export const VALID_CONTEXT_ID_REGEXP = new RegExp(/^[a-f0-9]{10,12}/);
+
+export const GREP_CODE_FORMATS: Record<string, GrepFormat> = {
+  FAGKODE: { prefix: "", regexp: /^[A-Z]{3}\d{4}$/ },
+  KJERNEELEMENT: { prefix: "KE", regexp: /^KE\d+$/ },
+  KOMPETANSEMALSETT: { prefix: "KV", regexp: /^KV\d+$/ },
+  KOMPETANSEMAL: { prefix: "KM", regexp: /^KM\d+$/ },
+  TVERRFAGLIGTEMA: { prefix: "TT", regexp: /^TT\d+$/ },
+};
 
 export const ITUNES_STANDARD_MINIMUM_WIDTH = 1400;
 export const ITUNES_STANDARD_MAXIMUM_WIDTH = 3000;

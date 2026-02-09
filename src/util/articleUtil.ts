@@ -7,6 +7,7 @@
  */
 
 import { NewArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
+import { GrepFormat } from "../interfaces";
 
 export const convertUpdateToNewDraft = (article: UpdatedArticleDTO): NewArticleDTO => {
   if (!article.language || !article.title || !article.articleType) {
@@ -32,9 +33,8 @@ export const convertUpdateToNewDraft = (article: UpdatedArticleDTO): NewArticleD
   };
 };
 
-export const isGrepCodeValid = (grepCode: string, prefixFilter: string[]) => {
-  const regex = new RegExp(`^(${prefixFilter.join("|")})\\d+$`);
-  return !!grepCode.match(regex);
+export const isGrepCodeValid = (grepCode: string, grepFormats: GrepFormat[]) => {
+  return grepFormats.map((gf) => gf.regexp).some((filter) => !!grepCode.match(filter));
 };
 
 export const nullOrUndefined = (metaImageId?: unknown | null | undefined) => {

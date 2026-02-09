@@ -6,12 +6,15 @@
  *
  */
 
+import { GREP_CODE_FORMATS } from "../../constants";
 import { isGrepCodeValid, getSlugFromTitle } from "../articleUtil";
 
 test("isGrepCodeValid correct behavior", () => {
   const grepCodes = new Map();
+  grepCodes.set("BAT1006", true);
   grepCodes.set("KE1337", true);
   grepCodes.set("KM2255", true);
+  grepCodes.set("KV5432", true);
   grepCodes.set("TT3", true);
   grepCodes.set("TT9898", true);
   grepCodes.set("TTR13", false);
@@ -19,13 +22,14 @@ test("isGrepCodeValid correct behavior", () => {
   grepCodes.set("KE1337TT12", false);
   grepCodes.set("K1", false);
   grepCodes.set("K123", false);
-  grepCodes.set("KV5432", false);
   grepCodes.set("KJ12", false);
   grepCodes.set("1K123", false);
   grepCodes.set("K3K", false);
   grepCodes.set("k123", false);
 
-  grepCodes.forEach((value, key) => expect(isGrepCodeValid(key, ["KE", "KM", "TT"])).toBe(value));
+  grepCodes.forEach((value, key) => {
+    expect(isGrepCodeValid(key, Object.values(GREP_CODE_FORMATS))).toBe(value);
+  });
 });
 
 test("getSlugFromTitle filters away correct illegal characters", () => {

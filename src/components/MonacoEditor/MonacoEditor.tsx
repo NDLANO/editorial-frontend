@@ -7,20 +7,20 @@
  */
 
 import { styled } from "@ndla/styled-system/jsx";
-import "monaco-editor/esm/vs/editor/browser/coreCommands";
-import "monaco-editor/esm/vs/editor/contrib/find/browser/findController";
-import "monaco-editor/esm/vs/language/html/monaco.contribution";
-import "monaco-editor/esm/vs/basic-languages/html/html.contribution";
-import "monaco-editor/esm/vs/editor/contrib/bracketMatching/browser/bracketMatching";
-import "monaco-editor/esm/vs/editor/contrib/links/browser/links";
-import "monaco-editor/esm/vs/editor/contrib/suggest/browser/suggestController";
-import "monaco-editor/esm/vs/editor/contrib/wordHighlighter/browser/wordHighlighter";
-import "monaco-editor/esm/vs/editor/standalone/browser/quickAccess/standaloneCommandsQuickAccess";
-import "monaco-editor/esm/vs/editor/contrib/fontZoom/browser/fontZoom";
-import "monaco-editor/esm/vs/editor/contrib/linesOperations/browser/linesOperations";
-import "monaco-editor/esm/vs/editor/contrib/multicursor/browser/multicursor";
-import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
-import htmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
+import "monaco-editor/esm/vs/editor/browser/coreCommands.js";
+import "monaco-editor/esm/vs/editor/contrib/find/browser/findController.js";
+import "monaco-editor/esm/vs/language/html/monaco.contribution.js";
+import "monaco-editor/esm/vs/basic-languages/html/html.contribution.js";
+import "monaco-editor/esm/vs/editor/contrib/bracketMatching/browser/bracketMatching.js";
+import "monaco-editor/esm/vs/editor/contrib/links/browser/links.js";
+import "monaco-editor/esm/vs/editor/contrib/suggest/browser/suggestController.js";
+import "monaco-editor/esm/vs/editor/contrib/wordHighlighter/browser/wordHighlighter.js";
+import "monaco-editor/esm/vs/editor/standalone/browser/quickAccess/standaloneCommandsQuickAccess.js";
+import "monaco-editor/esm/vs/editor/contrib/fontZoom/browser/fontZoom.js";
+import "monaco-editor/esm/vs/editor/contrib/linesOperations/browser/linesOperations.js";
+import "monaco-editor/esm/vs/editor/contrib/multicursor/browser/multicursor.js";
+import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
+import htmlWorker from "monaco-editor/esm/vs/language/html/html.worker.js?worker";
 // Uncomment the following line to test all monaco-editor features
 // import * as monaco from "monaco-editor";
 import { useEffect, useRef, useState } from "react";

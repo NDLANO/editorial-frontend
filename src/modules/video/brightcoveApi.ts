@@ -33,7 +33,7 @@ export const searchBrightcoveVideos = async (query: BrightcoveQueryParams) => {
     searchParams.set("limit", query.limit.toString());
   }
 
-  return fetchWithBrightCoveToken(`${baseBrightCoveUrlV3}/?$\{searchParams.toString()}`).then((r) =>
+  return fetchWithBrightCoveToken(`${baseBrightCoveUrlV3}/?${searchParams.toString()}`).then((r) =>
     resolveJsonOrRejectWithError<BrightcoveApiType[]>(r),
   );
 };

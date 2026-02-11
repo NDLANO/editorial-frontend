@@ -9,7 +9,6 @@
 import { EmbedData } from "@ndla/types-embed";
 import { keyBy } from "@ndla/util";
 import { Cheerio, CheerioAPI, load } from "cheerio";
-import he from "he";
 import { nanoid } from "nanoid";
 import fetch from "node-fetch";
 import { getEnvironmentVariabel } from "../config";
@@ -273,14 +272,14 @@ const doFetch = async (name: string, element: ApiTranslateType): Promise<Respons
         const oldKey = key.replace(`${embed.data.resource}-`, "");
         const newKey = `data-${oldKey}`;
         if (embed.embed.attr(newKey)) {
-          embed.embed.attr(newKey, he.encode(value));
+          embed.embed.attr(newKey, value);
         }
       });
     });
 
     return {
       key: name,
-      value: he.decode(html.html()),
+      value: html.html(),
     };
   }
 };

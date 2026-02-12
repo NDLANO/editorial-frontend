@@ -164,6 +164,12 @@ export function useArticleFormHooks<T extends ArticleFormType>({
           if (lowQualityEvaluation) {
             createMessage({ message: t("form.lowQualityEvaluation"), timeToLive: 0, severity: "warning" });
           }
+          const compDate = new Date(Date.now());
+          compDate.setDate(compDate.getDate() - 30);
+          // do not display this when running with playwright
+          if (values.published && new Date(values.published) < compDate && !navigator.webdriver) {
+            createMessage({ message: t("form.lastPublishedDiscrepancy"), timeToLive: 0, severity: "warning" });
+          }
         }
 
         if (rules) {

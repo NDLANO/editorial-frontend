@@ -384,7 +384,6 @@ const phrases = {
       "revision-date-to": "Revisjonsdato til",
       "exclude-revision-log": "Ekskluder endringslogg",
       "responsible-ids": "Velg ansvarleg",
-      "filter-inactive": "Inkluder utgåtte fag",
       traits: "Velg egenskap",
     },
     tagType: {
@@ -403,7 +402,6 @@ const phrases = {
       "revision-date-to": "Revisjonsdato til: {{value}}",
       "exclude-revision-log": "Endringslogg ekskludert",
       "responsible-ids": "Ansvarleg: {{value}}",
-      "filter-inactive": "Utgåtte fag inkludert",
       inactive: "Viser {{value}} bilder",
       traits: "Egenskap: {{value}}",
     },

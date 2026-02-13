@@ -385,7 +385,6 @@ const phrases = {
       "revision-date-to": "Revisiondate to",
       "exclude-revision-log": "Exclude revision log",
       "responsible-ids": "Select responsible",
-      "filter-inactive": "Include archived subjects",
       traits: "Select trait",
     },
     tagType: {
@@ -404,7 +403,6 @@ const phrases = {
       "revision-date-to": "Revisiondate to: {{value}}",
       "exclude-revision-log": "Revision log excluded",
       "responsible-ids": "Responsible: {{value}}",
-      "filter-inactive": "Archived subjects included",
       inactive: "Showing {{value}} images",
       traits: "Trait: {{value}}",
     },

@@ -64,7 +64,6 @@ export const ContentSearch = () => {
       revisionDateTo: params.get("revision-date-to") ?? undefined,
       excludeRevisionLog: params.get("exclude-revision-log") === "true" ? true : DEFAULT_PARAMS.excludeRevisionLog,
       responsibleIds: params.get("responsible-ids")?.split(",") ?? undefined,
-      filterInactive: params.get("filter-inactive") === "false" ? false : DEFAULT_PARAMS.filterInactive,
       query: params.get("query") ?? undefined,
       language: params.get("language") ?? undefined,
       articleTypes: params.get("article-types")?.split(",") ?? undefined,

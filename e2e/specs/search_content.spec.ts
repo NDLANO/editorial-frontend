@@ -115,17 +115,6 @@ test("Can use content type dropdown", async ({ page }) => {
   await expect(tagButton).not.toBeVisible();
 });
 
-test("Can use inactive checkbox", async ({ page }) => {
-  await page.locator("label", { hasText: "Inkluder utgåtte fag" }).click();
-  await page.waitForURL("**/*filter-inactive=false*");
-  const tagButton = page.getByRole("button", { name: "Utgåtte fag inkludert" });
-  await expect(tagButton).toBeVisible();
-  await expect(page.getByTestId("content-search-result").first()).toBeVisible();
-  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(40000);
-  await page.locator("label", { hasText: "Inkluder utgåtte fag" }).click();
-  await expect(tagButton).not.toBeVisible();
-});
-
 test("Can use exclude checkbox", async ({ page }) => {
   await page.locator("label", { hasText: "Ekskluder endringslogg" }).click();
   await page.waitForURL("**/*exclude-revision-log=true*");

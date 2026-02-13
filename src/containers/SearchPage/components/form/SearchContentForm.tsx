@@ -139,7 +139,6 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
       "revision-date-to": null,
       "exclude-revision-log": null,
       "responsible-ids": null,
-      "filter-inactive": null,
       query: null,
       language: null,
       "article-types": null,
@@ -199,7 +198,6 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
     users: getTagName(params.get("users"), users),
     language: params.get("language"),
     license: getTagName(params.get("license"), licenses),
-    "filter-inactive": params.get("filter-inactive") === "false" ? "false" : undefined,
     "exclude-revision-log": params.get("exclude-revision-log") === "true" ? "true" : undefined,
     "revision-date-from": formatDate(params.get("revision-date-from")) || undefined,
     "revision-date-to": formatDate(params.get("revision-date-to")) || undefined,
@@ -251,11 +249,6 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
             />
           </FieldRoot>
         ))}
-        <CheckboxSelector
-          name="filter-inactive"
-          checked={params.get("filter-inactive") === "false"}
-          onCheckedChange={(value) => setParams({ "filter-inactive": value ? "false" : null })}
-        />
         <CheckboxSelector
           name="exclude-revision-log"
           checked={params.get("exclude-revision-log") === "true"}

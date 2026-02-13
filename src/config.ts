@@ -21,7 +21,7 @@ type RuntimeType = "test" | "development" | "production";
 
 const getNdlaApiUrl = (ndlaEnvironment: string): string => {
   switch (ndlaEnvironment) {
-    case "local":
+    case "dev":
       return "http://api-gateway.ndla-local";
     case "prod":
       return "https://api.ndla.no";

@@ -859,6 +859,8 @@ const phrases = {
     openAll: "Åpne alle",
     hideAll: "Lukk alle",
     unpublishedChanges: "(Endret siden siste publisering)",
+    lastPublishedDiscrepancy:
+      'Du har republisert en ressurs uten å endre "Sist oppdatert"-dato. Vurder om ressursen skal få ny dato (redaksjonell vurdering).',
     unpublishedConcepts: "Artikkelen inneholder upubliserte forklaringer",
     lowQualityEvaluation:
       "Du har republisert en ressurs som har en kvalitetsvurdering mellom 3-5. Vurder om republiseringen medfører en bedre karakter",

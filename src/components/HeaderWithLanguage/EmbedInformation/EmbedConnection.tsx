@@ -58,7 +58,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
     let shouldUpdateState = true;
     if (id) {
       postSearch({
-        embedId: id.toString(),
+        embedId: type === "article" ? `article:${id}` : id.toString(),
         embedResource: convertToSearchEmbedTypes(type),
         pageSize: 50,
         resultTypes: ["draft", "concept", "learningpath"],

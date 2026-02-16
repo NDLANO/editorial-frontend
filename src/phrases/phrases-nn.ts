@@ -860,7 +860,7 @@ const phrases = {
     openAll: "Opne alle",
     hideAll: "Lukk alle",
     lastPublishedDiscrepancy:
-      'Du har republisert ein ressurs uten å endre "Sist fagleg oppdatert"-dato. Vurder om ressursen skal få ny dato (redaksjonell vurdering).',
+      'Du har republisert ein ressurs uten å endre "Sist oppdatert"-dato. Vurder om ressursen skal få ny dato (redaksjonell vurdering).',
     unpublishedChanges: "(Endra sidan siste publisering)",
     unpublishedConcepts: "Artikkelen inneheld upubliserte forklaringar",
     lowQualityEvaluation:

@@ -35,7 +35,7 @@ export const gridCellSerializer = createSerializer({
     if (!isGridCellElement(node)) return;
     const data = createDataAttributes({
       type: GRID_CELL_ELEMENT_TYPE,
-      border: node.data.border ? "true" : undefined,
+      border: node.data?.border ? "true" : undefined,
     });
     return createHtmlTag({ tag: "div", data, children });
   },

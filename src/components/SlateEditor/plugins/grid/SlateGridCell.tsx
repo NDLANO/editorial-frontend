@@ -90,7 +90,7 @@ const GridCell = ({ editor, element, attributes, children }: Props) => {
             </DialogContent>
           </Portal>
         </ButtonContainer>
-        <StyledGridCell data-testid="slate-grid-cell" border={element.data.border === "true"}>
+        <StyledGridCell data-testid="slate-grid-cell" border={element.data?.border === "true"}>
           {children}
         </StyledGridCell>
       </EmbedWrapper>

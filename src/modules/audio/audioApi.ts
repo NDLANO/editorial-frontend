@@ -7,6 +7,7 @@
  */
 
 import {
+  paths,
   AudioMetaInformationDTO,
   AudioSummarySearchResultDTO,
   SeriesSummarySearchResultDTO,
@@ -16,7 +17,6 @@ import {
   SeriesSearchParamsDTO,
   SearchParamsDTO,
   TranscriptionResultDTO,
-  openapi,
   NewAudioMetaInformationDTO,
   UpdatedAudioMetaInformationDTO,
 } from "@ndla/types-backend/audio-api";
@@ -24,7 +24,7 @@ import { createAuthClient } from "../../util/apiHelpers";
 import { createFormData } from "../../util/formDataHelper";
 import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 
-const client = createAuthClient<openapi.paths>();
+const client = createAuthClient<paths>();
 
 export const postAudio = (metadata: NewAudioMetaInformationDTO, file: Blob): Promise<AudioMetaInformationDTO> =>
   client

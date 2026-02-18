@@ -6,11 +6,11 @@
  *
  */
 
-import { ResourceDTO, SingleResourceStatsDTO, openapi, ResourceType } from "@ndla/types-backend/myndla-api";
+import { paths, ResourceDTO, SingleResourceStatsDTO, ResourceType } from "@ndla/types-backend/myndla-api";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 
-const client = createAuthClient<openapi.paths>();
+const client = createAuthClient<paths>();
 
 export const fetchResourceStats = async (
   resourceTypes: string[],

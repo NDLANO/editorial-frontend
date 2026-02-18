@@ -7,19 +7,19 @@
  */
 
 import {
+  paths,
   GrepSearchInputDTO,
   GrepSearchResultsDTO,
   MultiSearchResultDTO,
   SubjectAggregationsDTO,
   SubjectAggsInputDTO,
-  openapi,
 } from "@ndla/types-backend/search-api";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 import { transformSearchBody } from "../../util/searchHelpers";
 import { MultiSummarySearchResults, NoNodeDraftSearchParams, NoNodeSearchParams } from "./searchApiInterfaces";
 
-const client = createAuthClient<openapi.paths>();
+const client = createAuthClient<paths>();
 
 export const postSearch = async (body: NoNodeDraftSearchParams): Promise<MultiSummarySearchResults> => {
   const response = await client

@@ -6,14 +6,14 @@
  *
  */
 
-import { openapi, ResourceType } from "@ndla/types-taxonomy";
+import { paths, ResourceType } from "@ndla/types-taxonomy";
 import { FILM_RESOURCE_TYPES } from "../../../constants";
 import { WithTaxonomyVersion } from "../../../interfaces";
 import { createAuthClient } from "../../../util/apiHelpers";
 import { resolveOATS, resolveJsonOATS, resolveLocation } from "../../../util/resolveJsonOrRejectWithError";
 import { ResourceResourceTypePostBody } from "./resourceTypesApiInterfaces";
 
-const client = createAuthClient<openapi.paths>("/taxonomy");
+const client = createAuthClient<paths>("/taxonomy");
 
 interface ResourceTypesGetParams extends WithTaxonomyVersion {
   language: string;

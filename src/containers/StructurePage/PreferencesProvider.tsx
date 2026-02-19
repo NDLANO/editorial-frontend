@@ -6,11 +6,12 @@
  *
  */
 
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext } from "react";
 import {
   REMEMBER_DA_SUBJECTS,
   REMEMBER_FAVORITE_NODES,
   REMEMBER_LMA_SUBJECTS,
+  REMEMBER_MATOMO,
   REMEMBER_QUALITY,
   REMEMBER_SA_SUBJECTS,
 } from "../../constants";
@@ -43,7 +44,7 @@ export const PreferencesProvider = ({ children }: Props) => {
   const [showDaSubjects, setShowDaSubjects] = useLocalStorageBooleanState(REMEMBER_DA_SUBJECTS);
   const [showSaSubjects, setShowSaSubjects] = useLocalStorageBooleanState(REMEMBER_SA_SUBJECTS);
   const [showQuality, setShowQuality] = useLocalStorageBooleanState(REMEMBER_QUALITY);
-  const [showMatomoStats, setShowMatomoStats] = useState(false);
+  const [showMatomoStats, setShowMatomoStats] = useLocalStorageBooleanState(REMEMBER_MATOMO);
 
   return (
     <PreferencesContext

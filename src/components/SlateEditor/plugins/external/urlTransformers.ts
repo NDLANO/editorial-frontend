@@ -25,8 +25,8 @@ const nrkTransformer: UrlTransformer = {
       return false;
     }
 
-    const oldMediaId = new URLSearchParams(aTag.search).get("mediaId");
-    const newMediaId = Number(aTag.pathname.split("/skole-deling/")[1]);
+    const oldMediaId = new URLSearchParams(urlObj.search).get("mediaId");
+    const newMediaId = Number(urlObj.pathname.split("/skole-deling/")[1]);
     const mediaId = newMediaId ? newMediaId : oldMediaId;
     if (mediaId) {
       return true;
@@ -224,29 +224,6 @@ const norgesfilmTransformer: UrlTransformer = {
   },
 };
 
-const kartiskolenTransformer: UrlTransformer = {
-  domains: ["kartiskolen.no"],
-  shouldTransform: (url, domains) => {
-    const urlObj = urlAsATag(url);
-    if (!config.kartiskolenEnabled) {
-      return false;
-    }
-
-    if (!domains.includes(urlObj.hostname)) {
-      return false;
-    }
-    if (urlObj.pathname.startsWith("/embed.html")) {
-      return false;
-    }
-    return true;
-  },
-  transform: async (url) => {
-    const urlObj = new URL(url);
-    urlObj.pathname = urlObj.pathname.replace(/\/?$/, "/embed.html");
-    return urlObj.href;
-  },
-};
-
 export const urlTransformers: UrlTransformer[] = [
   nrkTransformer,
   codepenTransformer,
@@ -257,5 +234,4 @@ export const urlTransformers: UrlTransformer[] = [
   jeopardyLabTransformer,
   gapminderTransformer,
   norgesfilmTransformer,
-  kartiskolenTransformer,
 ];

@@ -385,6 +385,8 @@ const phrases = {
       "exclude-revision-log": "Ekskluder endringslogg",
       "responsible-ids": "Velg ansvarlig",
       traits: "Velg egenskap",
+      "image-width": "Velg bredde",
+      "image-height": "Velg høyde",
     },
     tagType: {
       query: "Søk:",
@@ -404,6 +406,8 @@ const phrases = {
       "responsible-ids": "Ansvarlig: {{value}}",
       inactive: "Viser {{value}} bilder",
       traits: "Egenskap: {{value}}",
+      "image-width": "Bredde: {{value}}",
+      "image-height": "Høyde: {{value}}",
     },
     btn: "Søk",
     empty: "Tøm",
@@ -478,6 +482,12 @@ const phrases = {
     inactive: {
       false: "Aktive",
       true: "Inaktive",
+    },
+    size: {
+      "too-small": "For liten (< 1000px)",
+      small: "Liten (1000–2000px)",
+      hd: "HD (2000–4000px)",
+      "4k": "4K (> 4000px)",
     },
     placeholder: "Søk i bilder",
     buttonTitle: "Søk",

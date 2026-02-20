@@ -8,12 +8,12 @@
 
 // This is the entry point of the application.
 
+import fs from "fs/promises";
+import { join } from "path";
 import { getCookie } from "@ndla/util";
 import compression from "compression";
 import express from "express";
-import fs from "fs/promises";
 import helmet from "helmet";
-import { join } from "path";
 import serialize from "serialize-javascript";
 import { ViteDevServer } from "vite";
 import config from "./config";

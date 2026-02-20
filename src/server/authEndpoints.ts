@@ -79,18 +79,13 @@ const clearTemporaryCookies = (res: Response) => {
   res.clearCookie(RETURN_TO_COOKIE, returnToOptions);
 };
 
-let storedOidcConfig: Configuration | undefined = undefined;
+// let storedOidcConfig: Configuration | undefined = undefined;
 
 const getConfig = async (): Promise<Configuration> => {
-  if (storedOidcConfig) {
-    return storedOidcConfig;
-  }
-  const oidcConfig = await discovery(
+  return await discovery(
     new URL(`https://${config.auth0BrowserDomain}/.well-known/openid-configuration`),
     config.ndlaPersonalClientId!,
   );
-  storedOidcConfig = oidcConfig;
-  return oidcConfig;
 };
 
 router.get(["/login", "/:lang/login"], async (req, res) => {

@@ -173,7 +173,7 @@ router.get("/login/success", async (req, res) => {
   const url = new URL(`https://${req.get("host")}${req.url}`);
 
   // eslint-disable-next-line no-console
-  console.log(url.host);
+  console.log(url.pathname);
   try {
     const tokens = await authorizationCodeGrant(oidcConfig, url, {
       pkceCodeVerifier: verifier,

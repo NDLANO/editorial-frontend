@@ -202,6 +202,8 @@ router.get("/login/success", async (req, res) => {
     clearTemporaryCookies(res);
     return res.redirect(decodeURIComponent(returnTo));
   } catch (e) {
+    // eslint-disable-next-line no-console
+    console.log(e);
     clearTemporaryCookies(res);
     res.status(INTERNAL_SERVER_ERROR).send({ error: "Login failed" });
   }

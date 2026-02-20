@@ -79,18 +79,13 @@ const clearTemporaryCookies = (res: Response) => {
   res.clearCookie(RETURN_TO_COOKIE, returnToOptions);
 };
 
-let storedOidcConfig: Configuration | undefined = undefined;
+// let storedOidcConfig: Configuration | undefined = undefined;
 
 const getConfig = async (): Promise<Configuration> => {
-  if (storedOidcConfig) {
-    return storedOidcConfig;
-  }
-  const oidcConfig = await discovery(
+  return await discovery(
     new URL(`https://${config.auth0BrowserDomain}/.well-known/openid-configuration`),
     config.ndlaPersonalClientId!,
   );
-  storedOidcConfig = oidcConfig;
-  return oidcConfig;
 };
 
 router.get(["/login", "/:lang/login"], async (req, res) => {
@@ -121,7 +116,7 @@ router.get(["/login", "/:lang/login"], async (req, res) => {
   const code_challenge = await calculatePKCECodeChallenge(codeVerifier);
   const oidcConfig = await getConfig();
 
-  const redirect_uri = `${PROTOCOL}://${req.hostname}${PORT}/login/success`;
+  const redirect_uri = `https://${req.get("host")}/login/success`;
   const state = randomState();
   const nonce = randomNonce();
 
@@ -172,7 +167,9 @@ router.get("/login/success", async (req, res) => {
 
   const oidcConfig = await getConfig();
 
-  const url = new URL(`${PROTOCOL}://${req.hostname}${PORT}${req.url}`);
+  const url = new URL(`https://${req.get("host")}/login/success`);
+  url.search = new URLSearchParams(req.query as Record<string, string>).toString();
+
   try {
     const tokens = await authorizationCodeGrant(oidcConfig, url, {
       pkceCodeVerifier: verifier,

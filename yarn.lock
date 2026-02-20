@@ -6692,7 +6692,7 @@ __metadata:
     eslint: "npm:^9.39.2"
     eslint-config-ndla: "npm:^6.0.13-alpha.0"
     express: "npm:^5.2.1"
-    express-oauth2-jwt-bearer: "npm:^1.7.2"
+    express-oauth2-jwt-bearer: "npm:^1.7.4"
     filter-console: "npm:^1.0.0"
     formik: "npm:^2.4.9"
     graphql: "npm:^16.12.0"
@@ -6711,7 +6711,7 @@ __metadata:
     nock: "npm:^14.0.10"
     open-graph-scraper: "npm:^6.11.0"
     openapi-fetch: "npm:^0.15.0"
-    openid-client: "npm:^6.8.1"
+    openid-client: "npm:^6.8.2"
     oxfmt: "npm:^0.34.0"
     p-limit: "npm:^7.2.0"
     postcss: "npm:^8.5.6"
@@ -7487,12 +7487,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-oauth2-jwt-bearer@npm:^1.7.2":
-  version: 1.7.2
-  resolution: "express-oauth2-jwt-bearer@npm:1.7.2"
+"express-oauth2-jwt-bearer@npm:^1.7.4":
+  version: 1.7.4
+  resolution: "express-oauth2-jwt-bearer@npm:1.7.4"
   dependencies:
     jose: "npm:^4.15.5"
-  checksum: 10c0/f8827b3fbce2811ce6aacfa18a2cc01d64d011635dd371491282a5b9e20b1e211009c250ddbe9e15cca2e3d5467713c8912f40fc17fd31233d572e03b4df2974
+  checksum: 10c0/fd792a7c8df89f4d4c2766ace65e9984f7573ad707db1f1df5b272b1d4b7b20bb70aa6ed5ac31e6db30f168e34672a7896fee50e56a560e9ca531e487e763494
   languageName: node
   linkType: hard
 
@@ -8773,7 +8773,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jose@npm:^6.1.0":
+"jose@npm:^6.1.3":
   version: 6.1.3
   resolution: "jose@npm:6.1.3"
   checksum: 10c0/b9577b4a7a5e84131011c23823db9f5951eae3ba796771a6a2401ae5dd50daf71104febc8ded9c38146aa5ebe94a92ac09c725e699e613ef26949b9f5a8bc30f
@@ -9662,10 +9662,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"oauth4webapi@npm:^3.8.2":
-  version: 3.8.2
-  resolution: "oauth4webapi@npm:3.8.2"
-  checksum: 10c0/a12e9c51b36b3b114dd78a9db4b5f317c9d5629d399e4b6b4366cf5154defc9d980a01a770fd1b63d9371948eed5259967a30c2ca1df8dce40f651c1589de158
+"oauth4webapi@npm:^3.8.4":
+  version: 3.8.5
+  resolution: "oauth4webapi@npm:3.8.5"
+  checksum: 10c0/688142b30f2243813721bfa4ab879aa0056636b19a3d7964d46b11b967199ab8f74f3771225f71ec766821d410add950475cf1afcfe26a9640cd1c0a1de8e423
   languageName: node
   linkType: hard
 
@@ -9827,13 +9827,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"openid-client@npm:^6.8.1":
-  version: 6.8.1
-  resolution: "openid-client@npm:6.8.1"
+"openid-client@npm:^6.8.2":
+  version: 6.8.2
+  resolution: "openid-client@npm:6.8.2"
   dependencies:
-    jose: "npm:^6.1.0"
-    oauth4webapi: "npm:^3.8.2"
-  checksum: 10c0/57a3925478dce27bb81264a3ec93f383893b839fc3c737bfd857edfd653e74caf4f4cbff635ed836e26b06143e24595cf9cf5f0761f95eace4a1b25c1f24eff3
+    jose: "npm:^6.1.3"
+    oauth4webapi: "npm:^3.8.4"
+  checksum: 10c0/98de93a1d1135f7c51b7707258ec0506bc6dc5359acf06f922cd4258635d657d1a80b740ad4a11ae9e79ce6061dd0d19cf5115a9918866f0b46c5486cfbbf22c
   languageName: node
   linkType: hard
 

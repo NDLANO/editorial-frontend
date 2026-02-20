@@ -172,7 +172,7 @@ router.get("/login/success", async (req, res) => {
 
   const oidcConfig = await getConfig();
 
-  const url = new URL(`${PROTOCOL}://${req.hostname}${PORT}${req.url}`);
+  const url = new URL(`${PROTOCOL}://${req.get("host")}${req.url}`);
   try {
     const tokens = await authorizationCodeGrant(oidcConfig, url, {
       pkceCodeVerifier: verifier,

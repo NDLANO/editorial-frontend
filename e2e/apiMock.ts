@@ -6,9 +6,9 @@
  *
  */
 
+import { readFile, writeFile } from "fs/promises";
 import type { TestInfo } from "@playwright/test";
 import { test as Ptest } from "@playwright/test";
-import { readFile, writeFile } from "fs/promises";
 import { brightcoveTokenMock, copyrightMock, getNoteUsersMock, responsiblesMock, userDataMock } from "./mockResponses";
 
 const mockDir = "e2e/apiMocks/";

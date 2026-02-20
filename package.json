@@ -119,7 +119,7 @@
     "open-graph-scraper": "^6.11.0",
     "openapi-fetch": "^0.15.0",
     "openid-client": "^6.8.1",
-    "oxfmt": "^0.28.0",
+    "oxfmt": "^0.34.0",
     "p-limit": "^7.2.0",
     "prettier": "^3.8.1",
     "prismjs": "^1.30.0",

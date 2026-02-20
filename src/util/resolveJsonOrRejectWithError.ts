@@ -6,8 +6,8 @@
  *
  */
 
-import type { MediaType } from "openapi-typescript-helpers";
 import { FetchResponse } from "openapi-fetch";
+import type { MediaType } from "openapi-typescript-helpers";
 
 type NdlaErrorFields = {
   status: number;

@@ -7,6 +7,7 @@
  */
 
 import {
+  paths,
   LearningPathSummaryV2DTO,
   LearningPathTagsSummaryDTO,
   LearningPathV2DTO,
@@ -17,13 +18,12 @@ import {
   SearchResultV2DTO,
   UpdatedLearningPathV2DTO,
   UpdatedLearningStepV2DTO,
-  openapi,
 } from "@ndla/types-backend/learningpath-api";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 import { CopyLearningPathBody, SearchBody } from "./learningpathApiInterfaces";
 
-const client = createAuthClient<openapi.paths>();
+const client = createAuthClient<paths>();
 
 export const fetchLearningpath = (id: number, locale?: string): Promise<LearningPathV2DTO> =>
   client

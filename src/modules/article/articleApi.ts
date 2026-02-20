@@ -6,11 +6,11 @@
  *
  */
 
-import { ArticleV2DTO, SearchResultV2DTO, openapi } from "@ndla/types-backend/article-api";
+import { paths, ArticleV2DTO, SearchResultV2DTO } from "@ndla/types-backend/article-api";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 
-const client = createAuthClient<openapi.paths>();
+const client = createAuthClient<paths>();
 
 export interface ArticleSearchParams {
   query?: string;

@@ -7,19 +7,19 @@
  */
 
 import {
+  paths,
   ImageMetaInformationV3DTO,
   UpdateImageMetaInformationDTO,
   SearchResultV3DTO,
   TagsSearchResultDTO,
   SearchParamsDTO,
   NewImageMetaInformationV2DTO,
-  openapi,
 } from "@ndla/types-backend/image-api";
 import { throwErrorPayload, createAuthClient } from "../../util/apiHelpers";
 import { createFormData } from "../../util/formDataHelper";
 import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 
-const client = createAuthClient<openapi.paths>();
+const client = createAuthClient<paths>();
 
 export const postImage = async (
   metadata: NewImageMetaInformationV2DTO,

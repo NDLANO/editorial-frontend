@@ -7,19 +7,19 @@
  */
 
 import {
+  paths,
   ConceptDTO,
   DraftConceptSearchParamsDTO,
   ConceptSearchResultDTO,
   NewConceptDTO,
   TagsSearchResultDTO,
   UpdatedConceptDTO,
-  openapi,
 } from "@ndla/types-backend/concept-api";
 import { ConceptStatusStateMachineType } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 
-const client = createAuthClient<openapi.paths>();
+const client = createAuthClient<paths>();
 
 export const fetchSearchTags = async (query: string, language: string): Promise<TagsSearchResultDTO> =>
   client

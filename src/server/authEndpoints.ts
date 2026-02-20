@@ -120,9 +120,6 @@ router.get(["/login", "/:lang/login"], async (req, res) => {
   const state = randomState();
   const nonce = randomNonce();
 
-  // eslint-disable-next-line no-console
-  console.log(redirect_uri);
-
   const parameters: Record<string, string> = {
     redirect_uri,
     scope: "openid profile email offline_access",
@@ -170,10 +167,9 @@ router.get("/login/success", async (req, res) => {
 
   const oidcConfig = await getConfig();
 
-  const url = new URL(`https://${req.get("host")}${req.url}`);
+  const url = new URL(`https://${req.get("host")}/login/success`);
+  url.search = new URLSearchParams(req.query as Record<string, string>).toString();
 
-  // eslint-disable-next-line no-console
-  console.log(url.pathname);
   try {
     const tokens = await authorizationCodeGrant(oidcConfig, url, {
       pkceCodeVerifier: verifier,
@@ -203,8 +199,6 @@ router.get("/login/success", async (req, res) => {
     clearTemporaryCookies(res);
     return res.redirect(decodeURIComponent(returnTo));
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.log(e);
     clearTemporaryCookies(res);
     res.status(INTERNAL_SERVER_ERROR).send({ error: "Login failed" });
   }

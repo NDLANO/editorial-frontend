@@ -121,9 +121,12 @@ router.get(["/login", "/:lang/login"], async (req, res) => {
   const code_challenge = await calculatePKCECodeChallenge(codeVerifier);
   const oidcConfig = await getConfig();
 
-  const redirect_uri = `${PROTOCOL}://${req.hostname}${PORT}/login/success`;
+  const redirect_uri = `https://${req.get("host")}/login/success`;
   const state = randomState();
   const nonce = randomNonce();
+
+  // eslint-disable-next-line no-console
+  console.log(redirect_uri);
 
   const parameters: Record<string, string> = {
     redirect_uri,
@@ -172,7 +175,10 @@ router.get("/login/success", async (req, res) => {
 
   const oidcConfig = await getConfig();
 
-  const url = new URL(`${PROTOCOL}://${req.get("host")}${req.url}`);
+  const url = new URL(`https://${req.get("host")}${req.url}`);
+
+  // eslint-disable-next-line no-console
+  console.log(url.host);
   try {
     const tokens = await authorizationCodeGrant(oidcConfig, url, {
       pkceCodeVerifier: verifier,

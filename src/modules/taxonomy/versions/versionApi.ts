@@ -13,7 +13,7 @@ import { GetVersionsParams } from "./versionApiTypes";
 
 const client = createAuthClient<paths>("/taxonomy");
 
-interface VersionGetParams extends GetVersionsParams { }
+interface VersionGetParams extends GetVersionsParams {}
 
 export const fetchVersions = (params: VersionGetParams): Promise<Version[]> =>
   client

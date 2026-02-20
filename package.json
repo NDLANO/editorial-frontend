@@ -33,7 +33,7 @@
   "devDependencies": {
     "@babel/core": "^7.29.0",
     "@ndla/preset-panda": "^0.0.71",
-    "@ndla/types-backend": "^1.0.103",
+    "@ndla/types-backend": "^1.0.104",
     "@ndla/types-embed": "^5.0.21-alpha.0",
     "@ndla/types-taxonomy": "^1.0.49",
     "@pandacss/dev": "^1.7.0",

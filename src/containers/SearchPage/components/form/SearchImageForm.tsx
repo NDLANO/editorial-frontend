@@ -34,7 +34,10 @@ const StyledForm = styled("form", {
   },
 });
 
-type SearchParams = { [k in keyof SearchParamsDTO as CamelToKebab<k>]: SearchParamsDTO[k] };
+type SearchParams = { [k in keyof SearchParamsDTO as CamelToKebab<k>]: SearchParamsDTO[k] } & {
+  width: string;
+  height: string;
+};
 
 interface Props {
   userData: UserDataDTO | undefined;
@@ -57,6 +60,7 @@ export const getImageSizeOptions = (t: TFunction) => [
   { id: "small", name: t("imageSearch.size.small") },
   { id: "hd", name: t("imageSearch.size.hd") },
   { id: "4k", name: t("imageSearch.size.4k") },
+  { id: "custom", name: t("imageSearch.size.custom"), disabled: true },
 ];
 
 export interface ImageSizeRange {
@@ -64,19 +68,33 @@ export interface ImageSizeRange {
   to?: string;
 }
 
-export const imageSizeToRange = (sizeId: string | undefined | null): ImageSizeRange => {
-  switch (sizeId) {
-    case "too-small":
-      return { from: undefined, to: "999" };
-    case "small":
-      return { from: "1000", to: "2000" };
-    case "hd":
-      return { from: "2000", to: "4000" };
-    case "4k":
-      return { from: "4000", to: undefined };
-    default:
-      return {};
-  }
+type ImageSize = "too-small" | "small" | "hd" | "4k";
+
+const imageSizeToRangeMap: Record<ImageSize, ImageSizeRange> = {
+  "too-small": { from: undefined, to: "999" },
+  small: { from: "1000", to: "2000" },
+  hd: { from: "2000", to: "4000" },
+  "4k": { from: "4000", to: undefined },
+};
+
+const rangeToImageSizeMap: Record<string, ImageSize> = {
+  "undefined-999": "too-small",
+  "1000-2000": "small",
+  "2000-4000": "hd",
+  "4000-undefined": "4k",
+};
+
+const getSizeValue = (from: string | undefined, to: string | undefined, t: TFunction) => {
+  const value = [];
+  if (from) value.push(t("imageSearch.imageWidth.from", { value: from }));
+  if (to) value.push(t("imageSearch.imageWidth.to", { value: to }));
+
+  return value.join(" ");
+};
+
+const toSelectorValue = (from: string | null, to: string | null) => {
+  const rangeString = `${from?.toString()}-${to?.toString()}`;
+  return rangeToImageSizeMap[rangeString] ?? "custom";
 };
 
 const SearchImageForm = ({ userData }: Props) => {
@@ -104,6 +122,12 @@ const SearchImageForm = ({ userData }: Props) => {
 
   const removeTagItem = (parameterName: keyof SearchParams) => {
     if (parameterName === "query") setInput("");
+    if (parameterName === "width") {
+      setParams({ "width-from": null, "width-to": null });
+    }
+    if (parameterName === "height") {
+      setParams({ "height-from": null, "height-to": null });
+    }
     setParams({ [parameterName]: null });
   };
 
@@ -135,10 +159,8 @@ const SearchImageForm = ({ userData }: Props) => {
     inactive: getTagName(params.get("inactive"), getInactiveOptions(t)),
     // TODO: This is ugly
     users: getTagName(params.get("users")?.split(",")?.[0], users),
-    "width-from": params.get("width-from"),
-    "width-to": params.get("width-to"),
-    "height-from": params.get("height-from"),
-    "height-to": params.get("height-to"),
+    width: getSizeValue(params.get("width-from") ?? undefined, params.get("width-to") ?? undefined, t),
+    height: getSizeValue(params.get("height-from") ?? undefined, params.get("height-to") ?? undefined, t),
   };
 
   return (
@@ -196,20 +218,20 @@ const SearchImageForm = ({ userData }: Props) => {
         />
         <ObjectSelector
           name="image-width"
-          value={params.get("image-width") ?? ""}
+          value={filters.width.length ? toSelectorValue(params.get("width-from"), params.get("width-to")) : ""}
           options={sizeOptions}
           onChange={(value) => {
-            const { from, to } = imageSizeToRange(value[0]);
+            const { from, to } = imageSizeToRangeMap[value[0] as ImageSize];
             setParams({ "width-from": from, "width-to": to });
           }}
           placeholder={t("searchForm.types.image-width")}
         />
         <ObjectSelector
           name="image-height"
-          value={params.get("image-height") ?? ""}
+          value={filters.height.length ? toSelectorValue(params.get("height-from"), params.get("height-to")) : ""}
           options={sizeOptions}
           onChange={(value) => {
-            const { from, to } = imageSizeToRange(value[0]);
+            const { from, to } = imageSizeToRangeMap[value[0] as ImageSize];
             setParams({ "height-from": from, "height-to": to });
           }}
           placeholder={t("searchForm.types.image-height")}

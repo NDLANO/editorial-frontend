@@ -11,7 +11,6 @@ import { getLicenseByAbbreviation } from "@ndla/licenses";
 import { ListItemContent, ListItemHeading, ListItemImage, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { AudioSummaryDTO } from "@ndla/types-backend/audio-api";
-import { LicenseLink } from "@ndla/ui";
 import { useTranslation } from "react-i18next";
 import { useLicenses } from "../../../../modules/draft/draftQueries";
 import { routes } from "../../../../util/routeHelpers";
@@ -48,7 +47,7 @@ const SearchAudio = ({ audio }: Props) => {
             </SafeLink>
           </ListItemHeading>
         </SearchContentWrapper>
-        {!!license && <LicenseLink license={getLicenseByAbbreviation(license?.license, i18n.language)} />}
+        {!!license && <span>{getLicenseByAbbreviation(license.license, i18n.language).abbreviation}</span>}
       </ListItemContent>
     </ListItemRoot>
   );

@@ -15,7 +15,7 @@ import { useUserData } from "../../modules/draft/draftQueries";
 import { useSearchImages } from "../../modules/image/imageQueries";
 import { getAccessToken, isActiveToken } from "../../util/authHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
-import SearchImageForm, { imageSizeToRange } from "./components/form/SearchImageForm";
+import SearchImageForm from "./components/form/SearchImageForm";
 import { GenericSearchList } from "./components/GenericSearchList";
 import SearchImage from "./components/results/SearchImage";
 import SearchListOptions from "./components/results/SearchListOptions";
@@ -42,8 +42,6 @@ export const ImageSearch = () => {
   });
 
   const parsedParams: SearchParamsDTO = useMemo(() => {
-    const widthRange = imageSizeToRange(params.get("image-width"));
-    const heightRange = imageSizeToRange(params.get("image-height"));
     const parsed: SearchParamsDTO = {
       fallback: DEFAULT_PARAMS.fallback,
       query: params.get("query") ?? undefined,
@@ -55,10 +53,10 @@ export const ImageSearch = () => {
       sort: (params.get("sort") ?? DEFAULT_PARAMS.sort) as SearchParamsDTO["sort"],
       pageSize: Number(params.get("page-size")) || DEFAULT_PARAMS.pageSize,
       users: params.get("users")?.split(",") ?? undefined,
-      widthFrom: widthRange.from,
-      widthTo: widthRange.to,
-      heightFrom: heightRange.from,
-      heightTo: heightRange.to,
+      widthFrom: Number(params.get("width-from")) || undefined,
+      widthTo: Number(params.get("width-to")) || undefined,
+      heightFrom: Number(params.get("height-from")) || undefined,
+      heightTo: Number(params.get("height-to")) || undefined,
     };
     return parsed;
   }, [params]);

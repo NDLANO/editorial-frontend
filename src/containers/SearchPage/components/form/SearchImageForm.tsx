@@ -9,6 +9,7 @@
 import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
+import { SearchParamsDTO } from "@ndla/types-backend/image-api";
 import { TFunction } from "i18next";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -17,6 +18,7 @@ import SearchHeader from "../../../../components/Form/SearchHeader";
 import SearchTagGroup from "../../../../components/Form/SearchTagGroup";
 import { getTagName } from "../../../../components/Form/utils";
 import ObjectSelector from "../../../../components/ObjectSelector";
+import { CamelToKebab } from "../../../../interfaces";
 import { useAuth0Editors } from "../../../../modules/auth0/auth0Queries";
 import { useLicenses } from "../../../../modules/draft/draftQueries";
 import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
@@ -31,6 +33,8 @@ const StyledForm = styled("form", {
     alignItems: "center",
   },
 });
+
+type SearchParams = { [k in keyof SearchParamsDTO as CamelToKebab<k>]: SearchParamsDTO[k] };
 
 interface Props {
   userData: UserDataDTO | undefined;
@@ -56,20 +60,20 @@ export const getImageSizeOptions = (t: TFunction) => [
 ];
 
 export interface ImageSizeRange {
-  from?: number;
-  to?: number;
+  from?: string;
+  to?: string;
 }
 
 export const imageSizeToRange = (sizeId: string | undefined | null): ImageSizeRange => {
   switch (sizeId) {
     case "too-small":
-      return { to: 999 };
+      return { from: undefined, to: "999" };
     case "small":
-      return { from: 1000, to: 2000 };
+      return { from: "1000", to: "2000" };
     case "hd":
-      return { from: 2000, to: 4000 };
+      return { from: "2000", to: "4000" };
     case "4k":
-      return { from: 4000 };
+      return { from: "4000", to: undefined };
     default:
       return {};
   }
@@ -98,7 +102,7 @@ const SearchImageForm = ({ userData }: Props) => {
     setInput(queryInput ?? "");
   }, [queryInput]);
 
-  const removeTagItem = (parameterName: string) => {
+  const removeTagItem = (parameterName: keyof SearchParams) => {
     if (parameterName === "query") setInput("");
     setParams({ [parameterName]: null });
   };
@@ -114,8 +118,10 @@ const SearchImageForm = ({ userData }: Props) => {
       sort: null,
       "page-size": null,
       users: null,
-      "image-width": null,
-      "image-height": null,
+      "width-from": null,
+      "width-to": null,
+      "height-from": null,
+      "height-to": null,
     });
   };
 
@@ -129,8 +135,10 @@ const SearchImageForm = ({ userData }: Props) => {
     inactive: getTagName(params.get("inactive"), getInactiveOptions(t)),
     // TODO: This is ugly
     users: getTagName(params.get("users")?.split(",")?.[0], users),
-    "image-width": getTagName(params.get("image-width"), sizeOptions),
-    "image-height": getTagName(params.get("image-height"), sizeOptions),
+    "width-from": params.get("width-from"),
+    "width-to": params.get("width-to"),
+    "height-from": params.get("height-from"),
+    "height-to": params.get("height-to"),
   };
 
   return (
@@ -190,14 +198,20 @@ const SearchImageForm = ({ userData }: Props) => {
           name="image-width"
           value={params.get("image-width") ?? ""}
           options={sizeOptions}
-          onChange={(value) => setParams({ "image-width": value[0] })}
+          onChange={(value) => {
+            const { from, to } = imageSizeToRange(value[0]);
+            setParams({ "width-from": from, "width-to": to });
+          }}
           placeholder={t("searchForm.types.image-width")}
         />
         <ObjectSelector
           name="image-height"
           value={params.get("image-height") ?? ""}
           options={sizeOptions}
-          onChange={(value) => setParams({ "image-height": value[0] })}
+          onChange={(value) => {
+            const { from, to } = imageSizeToRange(value[0]);
+            setParams({ "height-from": from, "height-to": to });
+          }}
           placeholder={t("searchForm.types.image-height")}
         />
 

@@ -487,7 +487,7 @@ const phrases = {
       "too-small": "For liten (< 1000px)",
       small: "Liten (1000–2000px)",
       hd: "HD (2000–4000px)",
-      "4k": "4K (> 4000px)",
+      "4k": "4K+ (> 4000px)",
     },
     placeholder: "Søk i bilder",
     buttonTitle: "Søk",

@@ -488,7 +488,7 @@ const phrases = {
       "too-small": "Too small (< 1000px)",
       small: "Small (1000–2000px)",
       hd: "HD (2000–4000px)",
-      "4k": "4K (> 4000px)",
+      "4k": "4K+ (> 4000px)",
     },
     placeholder: "Search images",
     buttonTitle: "Search",

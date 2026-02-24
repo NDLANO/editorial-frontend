@@ -26,8 +26,8 @@ export const urlDomain = (url: string) => {
 };
 
 export const urlOrigin = (url: string) => {
-  const urlObj = new URL(url);
-  return urlObj.origin;
+  const a = urlAsATag(url);
+  return a.origin;
 };
 
 export const isValidURL = (string: string) =>

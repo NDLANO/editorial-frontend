@@ -6,12 +6,12 @@
  *
  */
 
-import { openapi, ResolvedUrl } from "@ndla/types-taxonomy";
+import { paths, ResolvedUrl } from "@ndla/types-taxonomy";
 import { WithTaxonomyVersion } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 
-const client = createAuthClient<openapi.paths>("/taxonomy");
+const client = createAuthClient<paths>("/taxonomy");
 
 interface ResolveUrlsParams extends WithTaxonomyVersion {
   path: string;

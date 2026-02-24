@@ -7,7 +7,7 @@
  */
 
 import {
-  openapi,
+  paths,
   Node,
   NodePostPut,
   NodeChild,
@@ -26,7 +26,7 @@ import { createAuthClient } from "../../util/apiHelpers";
 import { resolveLocation, resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 import { GetChildNodesParams, GetNodesParams, GetNodeResourcesParams } from "./nodeApiTypes";
 
-const client = createAuthClient<openapi.paths>("/taxonomy");
+const client = createAuthClient<paths>("/taxonomy");
 
 interface NodeGetParams extends WithTaxonomyVersion {
   id: string;

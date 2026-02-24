@@ -8,6 +8,7 @@
 
 import { ArticleSearchParamsDTO } from "@ndla/types-backend/article-api";
 import {
+  paths,
   LicenseDTO,
   NewArticleDTO,
   UpdatedArticleDTO,
@@ -17,7 +18,6 @@ import {
   ArticleSearchResultDTO,
   UpdatedUserDataDTO,
   UploadedFileDTO,
-  openapi,
   ArticleRevisionHistoryDTO,
 } from "@ndla/types-backend/draft-api";
 import { DraftStatusType, DraftStatusStateMachineType } from "../../interfaces";
@@ -25,7 +25,7 @@ import { createAuthClient } from "../../util/apiHelpers";
 import { createFormData } from "../../util/formDataHelper";
 import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 
-const client = createAuthClient<openapi.paths>();
+const client = createAuthClient<paths>();
 
 export const fetchDraft = async (id: number, language?: string): Promise<ArticleDTO> => {
   return client

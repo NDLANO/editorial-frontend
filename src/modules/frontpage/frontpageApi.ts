@@ -7,19 +7,19 @@
  */
 
 import {
+  paths,
   SubjectPageDTO,
   FilmFrontPageDTO,
   NewSubjectPageDTO,
   UpdatedSubjectPageDTO,
   NewOrUpdatedFilmFrontPageDTO,
   FrontPageDTO,
-  openapi,
 } from "@ndla/types-backend/frontpage-api";
 import { LocaleType } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";
 
-const client = createAuthClient<openapi.paths>();
+const client = createAuthClient<paths>();
 
 export const fetchFrontpage = () => client.GET("/frontpage-api/v1/frontpage").then(resolveJsonOATS);
 

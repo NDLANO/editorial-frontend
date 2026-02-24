@@ -6,12 +6,12 @@
  *
  */
 
-import { openapi, Version, VersionPostPut } from "@ndla/types-taxonomy";
+import { paths, Version, VersionPostPut } from "@ndla/types-taxonomy";
 import { createAuthClient } from "../../../util/apiHelpers";
 import { resolveJsonOATS, resolveLocation, resolveOATS } from "../../../util/resolveJsonOrRejectWithError";
 import { GetVersionsParams } from "./versionApiTypes";
 
-const client = createAuthClient<openapi.paths>("/taxonomy");
+const client = createAuthClient<paths>("/taxonomy");
 
 interface VersionGetParams extends GetVersionsParams {}
 

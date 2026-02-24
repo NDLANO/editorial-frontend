@@ -2565,10 +2565,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/types-backend@npm:^1.0.103":
-  version: 1.0.103
-  resolution: "@ndla/types-backend@npm:1.0.103"
-  checksum: 10c0/ae4e07899f92b4df9d28ac20062450fcc464659443a3dc10fb26f9f6c2ee328e22f19cf297deb88a6a78291138af2804f56d4b98079b260a95d89e305e898279
+"@ndla/types-backend@npm:^1.0.104":
+  version: 1.0.104
+  resolution: "@ndla/types-backend@npm:1.0.104"
+  checksum: 10c0/428aad00464ccbba71aa1c72799431f59be571bab67a0f12f355033ad1c53d3c359daa7b737917a501be5af9ed569477d3007dd9f966a0ccbb5b10d707e1b7f9
   languageName: node
   linkType: hard
 
@@ -2579,10 +2579,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/types-taxonomy@npm:^1.0.49":
-  version: 1.0.49
-  resolution: "@ndla/types-taxonomy@npm:1.0.49"
-  checksum: 10c0/978b47f9d30ea673edab3f20c30dd134240378444a40e1c060627868ac2eb00e882324bdad8468c752a0ea4b7731f5b211e540f97d7839b4736b8d7f55bd3dd8
+"@ndla/types-taxonomy@npm:^1.0.50":
+  version: 1.0.50
+  resolution: "@ndla/types-taxonomy@npm:1.0.50"
+  checksum: 10c0/849d371760d7f0110e49ed2da79ba786162f49b173b8d3bfbf709d8f75c7b99fe513a1d422f2a807542c2c5217ef2ac003203c68a078e7ff608467b0d1e25f08
   languageName: node
   linkType: hard
 
@@ -6658,9 +6658,9 @@ __metadata:
     "@ndla/primitives": "npm:^1.0.122-alpha.0"
     "@ndla/safelink": "npm:^7.0.125-alpha.0"
     "@ndla/styled-system": "npm:^0.0.47"
-    "@ndla/types-backend": "npm:^1.0.103"
+    "@ndla/types-backend": "npm:^1.0.104"
     "@ndla/types-embed": "npm:^5.0.21-alpha.0"
-    "@ndla/types-taxonomy": "npm:^1.0.49"
+    "@ndla/types-taxonomy": "npm:^1.0.50"
     "@ndla/ui": "npm:^56.0.176-alpha.0"
     "@ndla/util": "npm:^5.0.18-alpha.0"
     "@ndla/video-search": "npm:^8.0.143-alpha.0"

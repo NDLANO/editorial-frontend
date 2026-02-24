@@ -389,6 +389,7 @@ const phrases = {
       traits: "Select trait",
       "image-width": "Select width",
       "image-height": "Select height",
+      "content-type": "Select file type",
     },
     tagType: {
       query: "Search:",
@@ -410,6 +411,7 @@ const phrases = {
       traits: "Trait: {{value}}",
       width: "Width: {{value}}",
       height: "Height: {{value}}",
+      "content-type": "Select file type",
     },
     btn: "Search",
     empty: "Empty",
@@ -497,6 +499,12 @@ const phrases = {
       hd: "HD (2000–4000px)",
       "4k": "4K+ (> 4000px)",
       custom: "Custom",
+    },
+    contentType: {
+      svg: "Svg",
+      jpeg: "Jpeg",
+      png: "Png",
+      gif: "Gif",
     },
     placeholder: "Search images",
     buttonTitle: "Search",

@@ -35,7 +35,7 @@
     "@ndla/preset-panda": "^0.0.71",
     "@ndla/types-backend": "^1.0.104",
     "@ndla/types-embed": "^5.0.21-alpha.0",
-    "@ndla/types-taxonomy": "^1.0.49",
+    "@ndla/types-taxonomy": "^1.0.50",
     "@pandacss/dev": "^1.7.0",
     "@playwright/test": "^1.57.0",
     "@tanstack/react-query-devtools": "^5.91.2",

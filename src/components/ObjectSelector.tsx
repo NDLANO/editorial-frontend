@@ -40,6 +40,7 @@ export interface SelectElement<T> {
 export interface SelectOption {
   id: string;
   name: string;
+  disabled?: boolean;
 }
 
 interface Props {
@@ -57,6 +58,7 @@ const ObjectSelector = ({ options, multiple, onChange, value, placeholder, name 
         items: options,
         itemToValue: (item) => item.id,
         itemToString: (item) => item.name,
+        isItemDisabled: (item) => !!item.disabled,
       }),
     [options],
   );

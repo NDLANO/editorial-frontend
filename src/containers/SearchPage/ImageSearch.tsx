@@ -26,7 +26,6 @@ import { useStableSearchPageParams } from "./useStableSearchPageParams";
 export const Component = () => <PrivateRoute component={<ImageSearch />} />;
 
 const DEFAULT_PARAMS: SearchParamsDTO = {
-  includeCopyrighted: true,
   fallback: false,
   license: config.licenseAll,
   page: 1,
@@ -44,7 +43,6 @@ export const ImageSearch = () => {
 
   const parsedParams: SearchParamsDTO = useMemo(() => {
     const parsed: SearchParamsDTO = {
-      includeCopyrighted: DEFAULT_PARAMS.includeCopyrighted,
       fallback: DEFAULT_PARAMS.fallback,
       query: params.get("query") ?? undefined,
       language: params.get("language") ?? undefined,
@@ -55,6 +53,10 @@ export const ImageSearch = () => {
       sort: (params.get("sort") ?? DEFAULT_PARAMS.sort) as SearchParamsDTO["sort"],
       pageSize: Number(params.get("page-size")) || DEFAULT_PARAMS.pageSize,
       users: params.get("users")?.split(",") ?? undefined,
+      widthFrom: Number(params.get("width-from")) || undefined,
+      widthTo: Number(params.get("width-to")) || undefined,
+      heightFrom: Number(params.get("height-from")) || undefined,
+      heightTo: Number(params.get("height-to")) || undefined,
     };
     return parsed;
   }, [params]);

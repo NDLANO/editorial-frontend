@@ -386,6 +386,8 @@ const phrases = {
       "exclude-revision-log": "Exclude revision log",
       "responsible-ids": "Select responsible",
       traits: "Select trait",
+      "image-width": "Select width",
+      "image-height": "Select height",
     },
     tagType: {
       query: "Search:",
@@ -405,6 +407,8 @@ const phrases = {
       "responsible-ids": "Responsible: {{value}}",
       inactive: "Showing {{value}} images",
       traits: "Trait: {{value}}",
+      width: "Width: {{value}}",
+      height: "Height: {{value}}",
     },
     btn: "Search",
     empty: "Empty",
@@ -479,6 +483,17 @@ const phrases = {
     inactive: {
       false: "Active",
       true: "Inactive",
+    },
+    imageWidth: {
+      from: "from {{value}}px",
+      to: "to {{value}}px",
+    },
+    size: {
+      "too-small": "Too small (< 1000px)",
+      small: "Small (1000–2000px)",
+      hd: "HD (2000–4000px)",
+      "4k": "4K+ (> 4000px)",
+      custom: "Custom",
     },
     placeholder: "Search images",
     buttonTitle: "Search",

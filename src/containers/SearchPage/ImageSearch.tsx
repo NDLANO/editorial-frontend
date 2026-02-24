@@ -57,6 +57,7 @@ export const ImageSearch = () => {
       widthTo: Number(params.get("width-to")) || undefined,
       heightFrom: Number(params.get("height-from")) || undefined,
       heightTo: Number(params.get("height-to")) || undefined,
+      contentType: params.get("content-type") ?? undefined,
     };
     return parsed;
   }, [params]);

@@ -33,6 +33,8 @@ const DEFAULT_PARAMS: SearchParamsDTO = {
   sort: "-relevance",
 };
 
+const SORT_TYPES: SortType[] = ["id", "relevance", "title", "lastUpdated", "width"];
+
 export const ImageSearch = () => {
   const { t } = useTranslation();
   const [params, setParams] = useStableSearchPageParams();
@@ -63,8 +65,6 @@ export const ImageSearch = () => {
 
   const searchQuery = useSearchImages(parsedParams);
   useSearchImages({ ...parsedParams, page: parsedParams.page ? parsedParams.page + 1 : 2 }); // preload next page.
-
-  const SORT_TYPES: SortType[] = ["id", "relevance", "title", "lastUpdated", "width"];
 
   return (
     <SearchPageContainer asChild consumeCss>

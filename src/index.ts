@@ -87,9 +87,9 @@ app.use(
     frameguard:
       config.runtimeType === "development"
         ? {
-            action: "allow-from",
-            domain: "*://localhost",
-          }
+          action: "allow-from",
+          domain: "*://localhost",
+        }
         : undefined,
   }),
 );
@@ -120,7 +120,7 @@ app.get("*splat", async (req, res) => {
       try {
         await refreshAccessToken(req, res);
       } catch (e) {
-        log.error("Failed to refresh token on SSR request");
+        log.error("Failed to refresh token on SSR request:", e);
       }
     }
 

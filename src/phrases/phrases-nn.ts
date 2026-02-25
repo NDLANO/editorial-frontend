@@ -439,6 +439,7 @@ const phrases = {
       revisionDate: "Neste revisjon",
       favorited: "Favorittmarkeringar",
       published: "Sist faglig oppdatert",
+      width: "Bredde",
     },
     resultError: "Noko gjekk feil med innlasting av type: {{type}}",
     favourites: "Mine favorittfag",

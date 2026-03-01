@@ -20,7 +20,7 @@ import { GenericSearchList } from "./components/GenericSearchList";
 import SearchImage from "./components/results/SearchImage";
 import SearchListOptions from "./components/results/SearchListOptions";
 import { SearchPageContainer } from "./components/SearchPageContainer";
-import SearchSort from "./components/sort/SearchSort";
+import SearchSort, { SortType } from "./components/sort/SearchSort";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
 export const Component = () => <PrivateRoute component={<ImageSearch />} />;
@@ -32,6 +32,8 @@ const DEFAULT_PARAMS: SearchParamsDTO = {
   pageSize: 10,
   sort: "-relevance",
 };
+
+const SORT_TYPES: SortType[] = ["id", "relevance", "title", "lastUpdated", "width"];
 
 export const ImageSearch = () => {
   const { t } = useTranslation();
@@ -70,6 +72,7 @@ export const ImageSearch = () => {
         <title>{t("htmlTitles.search.image")}</title>
         <SearchImageForm userData={userDataQuery.data} />
         <SearchSort
+          sortTypes={SORT_TYPES}
           value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
           onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
         />

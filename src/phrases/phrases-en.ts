@@ -440,6 +440,7 @@ const phrases = {
       revisionDate: "Next revision",
       favorited: "Favorite marks",
       published: "Last revised",
+      width: "Width",
     },
     resultError: "Something went wrong with type: {{type}}",
     favourites: "My favourite subjects",

@@ -28,7 +28,15 @@ const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   },
 });
 
-export type SortType = "id" | "relevance" | "title" | "lastUpdated" | "revisionDate" | "favorited" | "published";
+export type SortType =
+  | "id"
+  | "relevance"
+  | "title"
+  | "lastUpdated"
+  | "revisionDate"
+  | "favorited"
+  | "published"
+  | "width";
 
 interface Props {
   sortTypes?: SortType[];

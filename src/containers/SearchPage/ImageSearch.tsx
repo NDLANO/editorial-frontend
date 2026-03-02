@@ -33,7 +33,7 @@ const DEFAULT_PARAMS: SearchParamsDTO = {
   sort: "-relevance",
 };
 
-const SORT_TYPES: SortType[] = ["id", "relevance", "title", "lastUpdated", "width"];
+const SORT_TYPES: SortType[] = ["id", "relevance", "title", "lastUpdated", "width", "height"];
 
 export const ImageSearch = () => {
   const { t } = useTranslation();

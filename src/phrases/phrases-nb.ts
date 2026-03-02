@@ -440,6 +440,7 @@ const phrases = {
       favorited: "Favorittmarkeringer",
       published: "Sist faglig oppdatert",
       width: "Bredde",
+      height: "Høyde",
     },
     resultError: "Noe gikk feil med innlasting av type: {{type}}",
     favourites: "Mine favorittfag",

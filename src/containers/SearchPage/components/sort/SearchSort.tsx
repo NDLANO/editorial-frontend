@@ -36,7 +36,8 @@ export type SortType =
   | "revisionDate"
   | "favorited"
   | "published"
-  | "width";
+  | "width"
+  | "height";
 
 interface Props {
   sortTypes?: SortType[];

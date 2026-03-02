@@ -441,6 +441,7 @@ const phrases = {
       favorited: "Favorite marks",
       published: "Last revised",
       width: "Width",
+      height: "Height",
     },
     resultError: "Something went wrong with type: {{type}}",
     favourites: "My favourite subjects",

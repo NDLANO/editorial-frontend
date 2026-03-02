@@ -85,7 +85,7 @@ const VersionHistory = ({ resource, contentMeta, contentType }: Props) => {
   return (
     <DialogRoot position="top">
       <DialogTrigger asChild>
-        <StyledButton variant="secondary" size="small" disabled={contentType === contentTypes.LEARNING_PATH}>
+        <StyledButton variant="tertiary" size="small" disabled={contentType === contentTypes.LEARNING_PATH}>
           {t(`form.status.${contentMeta.status.current.toLowerCase()}`)}
         </StyledButton>
       </DialogTrigger>

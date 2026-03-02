@@ -6,7 +6,7 @@
  *
  */
 
-import { Heading, Spinner } from "@ndla/primitives";
+import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
@@ -14,7 +14,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
 import { useNodes } from "../../../modules/nodes/nodeQueries";
-import { sortResources } from "../../../util/taxonomyHelpers";
+import { partitionResources } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { MultidisciplinaryCases } from "../multidisciplinary/MultidisciplinaryCases";
 import { scrollElementId } from "./isVisibleHook";
@@ -25,19 +25,12 @@ const ResourceWrapper = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "small",
+    gap: "xxlarge",
     overflowY: "auto",
+    padding: "xsmall",
     desktop: {
       maxHeight: "80vh",
     },
-  },
-});
-
-const ListContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
   },
 });
 
@@ -46,7 +39,7 @@ interface Props {
   resourceTypes: ResourceType[];
   currentNode: NodeChild;
   contentMetas: Dictionary<MultiSearchSummaryDTO>;
-  grouped: boolean;
+  isUngrouped: boolean;
   nodeResourcesIsPending: boolean;
   users: Dictionary<Auth0UserData> | undefined;
 }
@@ -56,7 +49,7 @@ const ResourcesContainer = ({
   nodeResources,
   currentNode,
   contentMetas,
-  grouped,
+  isUngrouped,
   nodeResourcesIsPending,
   users,
 }: Props) => {
@@ -72,17 +65,19 @@ const ResourcesContainer = ({
     [resourceTypes],
   );
   const { taxonomyVersion } = useTaxonomyVersion();
-  const currentNodeId = currentNode.id;
 
   const { data } = useNodes(
     { contentURI: currentNode.contentUri, taxonomyVersion, includeContexts: true, filterProgrammes: true },
     { enabled: !!currentNode.contentUri },
   );
 
+  const { coreArticles, supplementaryArticles, learningpaths } = partitionResources(
+    nodeResources ?? [],
+    resourceTypes ?? [],
+    isUngrouped,
+  );
+
   const paths = useMemo(() => data?.map((d) => d.path ?? "").filter((d) => !!d) ?? [], [data]);
-  const sortedResources = useMemo(() => {
-    return sortResources(nodeResources ?? [], resourceTypes ?? [], grouped);
-  }, [nodeResources, resourceTypes, grouped]);
   const currentMeta = currentNode.contentUri ? contentMetas[currentNode.contentUri] : undefined;
 
   return (
@@ -90,7 +85,6 @@ const ResourcesContainer = ({
       <TopicResourceBanner
         resources={nodeResources}
         contentMetas={contentMetas}
-        resourceTypes={resourceTypesWithoutMissing}
         currentContentMeta={currentMeta}
         currentNode={{ ...currentNode, paths, resourceTypes: [] }}
         nodeResourcesIsPending={nodeResourcesIsPending}
@@ -101,19 +95,43 @@ const ResourcesContainer = ({
         {nodeResourcesIsPending ? (
           <Spinner aria-label={t("loading")} />
         ) : (
-          <ListContainer>
-            <Heading asChild consumeCss textStyle="label.medium" fontWeight="bold">
-              <h2>{t("taxonomy.learningResources")}</h2>
-            </Heading>
+          <>
             <ResourceItems
-              type="resource"
-              resources={sortedResources}
-              currentNodeId={currentNodeId}
+              type="core"
+              title={t("taxonomy.core.title")}
+              resources={coreArticles}
+              resourceTypes={resourceTypesWithoutMissing}
+              currentNode={currentNode}
               contentMetas={contentMetas}
               nodeResourcesIsPending={nodeResourcesIsPending}
+              existingResourceIds={nodeResources.map((r) => r.id)}
+              users={users}
+              isUngrouped={isUngrouped}
+            />
+            <ResourceItems
+              type="supplementary"
+              title={t("taxonomy.supplementary.title")}
+              description={t("taxonomy.supplementary.description")}
+              resources={supplementaryArticles}
+              resourceTypes={resourceTypesWithoutMissing}
+              currentNode={currentNode}
+              contentMetas={contentMetas}
+              nodeResourcesIsPending={nodeResourcesIsPending}
+              existingResourceIds={nodeResources.map((r) => r.id)}
               users={users}
             />
-          </ListContainer>
+            <ResourceItems
+              type="learningpath"
+              title={t("taxonomy.learningpath.title")}
+              resources={learningpaths}
+              resourceTypes={resourceTypesWithoutMissing}
+              currentNode={currentNode}
+              contentMetas={contentMetas}
+              nodeResourcesIsPending={nodeResourcesIsPending}
+              existingResourceIds={nodeResources.map((r) => r.id)}
+              users={users}
+            />
+          </>
         )}
         <MultidisciplinaryCases currentNode={currentNode} />
       </ResourceWrapper>

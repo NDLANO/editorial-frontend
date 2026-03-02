@@ -6,8 +6,7 @@
  *
  */
 
-import { Heading, Spinner } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { Spinner } from "@ndla/primitives";
 import { Node } from "@ndla/types-taxonomy";
 import { keyBy } from "@ndla/util";
 import { useMemo } from "react";
@@ -20,14 +19,6 @@ import ResourceItems from "../resourceComponents/ResourceItems";
 interface Props {
   currentNode: Node;
 }
-
-const ListContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
 
 export const MultidisciplinaryCases = ({ currentNode }: Props) => {
   const { t, i18n } = useTranslation();
@@ -59,22 +50,15 @@ export const MultidisciplinaryCases = ({ currentNode }: Props) => {
     return <Spinner />;
   }
 
-  if (!childrenQuery.data?.length) {
-    return null;
-  }
-
   return (
-    <ListContainer>
-      <Heading asChild consumeCss textStyle="label.medium" fontWeight="bold">
-        <h2>{t("taxonomy.multidisciplinary.title")}</h2>
-      </Heading>
-      <ResourceItems
-        type="link"
-        resources={childrenQuery.data}
-        currentNodeId={currentNode.id}
-        contentMetas={keyedMetas}
-        nodeResourcesIsPending={childrenQuery.isPending}
-      />
-    </ListContainer>
+    <ResourceItems
+      title={t("taxonomy.link.title")}
+      type="link"
+      resources={childrenQuery.data ?? []}
+      currentNode={currentNode}
+      contentMetas={keyedMetas}
+      nodeResourcesIsPending={childrenQuery.isPending}
+      existingResourceIds={childrenQuery.data?.map((n) => n.id) ?? []}
+    />
   );
 };

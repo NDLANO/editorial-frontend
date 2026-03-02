@@ -6,82 +6,67 @@
  *
  */
 
-import { Portal } from "@ark-ui/react";
-import { AddLine } from "@ndla/icons";
+import { useDialogContext } from "@ark-ui/react";
 import {
-  Button,
   DialogBody,
-  DialogContent,
   DialogHeader,
-  DialogRoot,
   DialogTitle,
-  DialogTrigger,
   TabsContent,
   TabsIndicator,
   TabsList,
   TabsRoot,
   TabsTrigger,
 } from "@ndla/primitives";
-import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
-import { useState } from "react";
+import { Node, ResourceType } from "@ndla/types-taxonomy";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import AddExistingResource from "../plannedResource/AddExistingResource";
 import PlannedResourceForm from "../plannedResource/PlannedResourceForm";
+import { ResourceGroup } from "../utils";
 
 interface Props {
-  currentNode: NodeChild;
+  currentNode: Node;
   resourceTypes: ResourceType[];
-  resources: NodeChild[];
+  existingResourceIds: string[];
+  supplementary?: boolean;
+  type: Exclude<ResourceGroup, "link">;
 }
 
-const PlannedResourceDialog = ({ currentNode, resourceTypes, resources }: Props) => {
-  const [open, setOpen] = useState(false);
+export const PlannedResourceDialogContent = ({ currentNode, resourceTypes, existingResourceIds, type }: Props) => {
   const { t } = useTranslation();
-
+  const { setOpen } = useDialogContext();
   return (
-    <DialogRoot open={open} position="top" onOpenChange={(details) => setOpen(details.open)}>
-      <DialogTrigger asChild>
-        <Button size="small">
-          <AddLine />
-          {t("taxonomy.newResource")}
-        </Button>
-      </DialogTrigger>
-      <Portal>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t("taxonomy.addResource")}</DialogTitle>
-            <DialogCloseButton />
-          </DialogHeader>
-          <DialogBody>
-            <TabsRoot
-              defaultValue={"create-new-resource"}
-              translations={{
-                listLabel: t("taxonomy.addResource"),
-              }}
-            >
-              <TabsList>
-                <TabsTrigger value="create-new-resource">{t("taxonomy.createResource")}</TabsTrigger>
-                <TabsTrigger value="get-existing-resource">{t("taxonomy.getExisting")}</TabsTrigger>
-                <TabsIndicator />
-              </TabsList>
-              <TabsContent value="create-new-resource">
-                <PlannedResourceForm onClose={() => setOpen(false)} articleType="standard" node={currentNode} />
-              </TabsContent>
-              <TabsContent value="get-existing-resource">
-                <AddExistingResource
-                  resourceTypes={resourceTypes}
-                  nodeId={currentNode.id}
-                  onClose={() => setOpen(false)}
-                  existingResourceIds={resources.map((r) => r.id)}
-                />
-              </TabsContent>
-            </TabsRoot>
-          </DialogBody>
-        </DialogContent>
-      </Portal>
-    </DialogRoot>
+    <>
+      <DialogHeader>
+        <DialogTitle>{t(`taxonomy.${type}.dialogTitle`)}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <DialogBody>
+        <TabsRoot
+          defaultValue={"create-new-resource"}
+          translations={{
+            listLabel: t("taxonomy.addResource"),
+          }}
+        >
+          <TabsList>
+            <TabsTrigger value="create-new-resource">{t("taxonomy.createResource")}</TabsTrigger>
+            <TabsTrigger value="get-existing-resource">{t("taxonomy.getExisting")}</TabsTrigger>
+            <TabsIndicator />
+          </TabsList>
+          <TabsContent value="create-new-resource">
+            <PlannedResourceForm onClose={() => setOpen(false)} type={type} node={currentNode} />
+          </TabsContent>
+          <TabsContent value="get-existing-resource">
+            <AddExistingResource
+              type={type}
+              resourceTypes={resourceTypes}
+              nodeId={currentNode.id}
+              onClose={() => setOpen(false)}
+              existingResourceIds={existingResourceIds}
+            />
+          </TabsContent>
+        </TabsRoot>
+      </DialogBody>
+    </>
   );
 };
-
-export default PlannedResourceDialog;

@@ -68,6 +68,7 @@ import { convertUpdateToNewDraft } from "../../../util/articleUtil";
 import { getCommentInfoText } from "../../ArticlePage/components/InputComment";
 import { useSession } from "../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import { ResourceGroup } from "../utils";
 import PlannedResourceSelect from "./PlannedResourceSelect";
 
 interface PlannedResourceFormikType {
@@ -75,7 +76,6 @@ interface PlannedResourceFormikType {
   comments: string;
   contentType: ResourceType[];
   responsible: string;
-  articleType: string;
   relevance: string;
   priority: Priority;
 }
@@ -116,28 +116,21 @@ const plannedResourceRules: RulesType<PlannedResourceFormikType> = {
     required: true,
   },
   comments: { required: false },
-  contentType: {
-    required: true,
-    onlyValidateIf: (values: PlannedResourceFormikType) => values.articleType !== "topic-article",
-    test: (values) => {
-      if (values.contentType.some((rt) => rt.id === RESOURCE_TYPE_LEARNING_PATH) && values.contentType.length > 1) {
-        return { translationKey: "validation.learningpathMustBeStandalone" };
-      }
-    },
-  },
   responsible: { required: true },
   relevance: { required: true },
   priority: { required: false },
 };
 
-const toInitialValues = (responsible?: string, articleType?: string): PlannedResourceFormikType => {
+const toInitialValues = (
+  responsible: string | undefined,
+  type: Exclude<ResourceGroup, "link"> | "topic",
+): PlannedResourceFormikType => {
   return {
     title: "",
     comments: "",
     contentType: [],
     responsible: responsible ?? "",
-    articleType: articleType ?? "standard",
-    relevance: RESOURCE_FILTER_CORE,
+    relevance: type === "supplementary" ? RESOURCE_FILTER_SUPPLEMENTARY : RESOURCE_FILTER_CORE,
     priority: "unspecified",
   };
 };
@@ -164,12 +157,12 @@ const getSlateComment = (userName: string | undefined, t: TFunction, formikComme
 };
 
 interface Props {
-  articleType: string;
   node: Node | undefined;
   onClose?: () => void;
+  type: Exclude<ResourceGroup, "link"> | "topic";
 }
 
-const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
+const PlannedResourceForm = ({ node, onClose, type }: Props) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const { data: userData } = useUserData();
 
@@ -198,8 +191,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
     useCreateResourceResourceTypeMutation({
       onSuccess: () => qc.invalidateQueries({ queryKey: compKey }),
     });
-  const initialValues = useMemo(() => toInitialValues(ndlaId, articleType), [ndlaId, articleType]);
-  const isTopicArticle = articleType === "topic-article";
+  const initialValues = useMemo(() => toInitialValues(ndlaId, type), [ndlaId, type]);
 
   const { data: users } = useAuth0Responsibles(
     { permission: DRAFT_RESPONSIBLE },
@@ -211,7 +203,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
 
   const resourceTypesQuery = useAllResourceTypes<ResourceType[]>(
     { language: i18n.language, taxonomyVersion },
-    { placeholderData: [], enabled: !isTopicArticle },
+    { placeholderData: [], enabled: type !== "topic" },
   );
 
   const onSubmit = useCallback(
@@ -220,9 +212,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
         setError(undefined);
         const slateComment = getSlateComment(userName, t, values.comments);
         let createdResource: ArticleDTO | LearningPathV2DTO;
-        const isLearningpath =
-          values.contentType.length === 1 && values.contentType[0].id === RESOURCE_TYPE_LEARNING_PATH;
-        if (isLearningpath) {
+        if (type === "learningpath") {
           createdResource = await postLearningpath({
             title: values.title,
             comments: slateComment.length ? [{ content: inlineContentToHTML(slateComment), isOpen: true }] : [],
@@ -235,7 +225,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
             title: values.title,
             comments: slateComment.length ? [{ content: inlineContentToHTML(slateComment), isOpen: true }] : [],
             language: i18n.language,
-            articleType: values.articleType,
+            articleType: type === "topic" ? "topic-article" : "standard",
             responsibleId: values.responsible,
             revision: 0,
             priority: values.priority,
@@ -253,10 +243,11 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
           body: {
             language: i18n.language,
             name: values.title,
-            contentUri: isLearningpath ? `urn:learningpath:${createdResource.id}` : `urn:article:${createdResource.id}`,
-            nodeType: isTopicArticle ? TOPIC_NODE : RESOURCE_NODE,
+            contentUri:
+              type === "learningpath" ? `urn:learningpath:${createdResource.id}` : `urn:article:${createdResource.id}`,
+            nodeType: type === "topic" ? TOPIC_NODE : RESOURCE_NODE,
             root: false,
-            ...(isTopicArticle ? { visible: false } : {}),
+            ...(type === "topic" ? { visible: false } : {}),
           },
           taxonomyVersion,
         });
@@ -272,11 +263,18 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
           taxonomyVersion,
         });
 
-        if (!isTopicArticle) {
-          const promises = values.contentType.map((rt) =>
-            createResourceResourceType({ body: { resourceId, resourceTypeId: rt.id }, taxonomyVersion }),
-          );
-          await Promise.all(promises);
+        if (type !== "topic") {
+          if (type === "learningpath") {
+            await createResourceResourceType({
+              body: { resourceId, resourceTypeId: RESOURCE_TYPE_LEARNING_PATH },
+              taxonomyVersion,
+            });
+          } else {
+            const promises = values.contentType.map((rt) =>
+              createResourceResourceType({ body: { resourceId, resourceTypeId: rt.id }, taxonomyVersion }),
+            );
+            await Promise.all(promises);
+          }
         }
         if (!(addNodeMutationLoading || postResourceLoading || createResourceTypeLoading)) {
           onClose?.();
@@ -288,10 +286,10 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
     [
       userName,
       t,
-      i18n.language,
       userData?.latestEditedArticles,
       addNodeMutation,
-      isTopicArticle,
+      i18n.language,
+      type,
       taxonomyVersion,
       createNodeResource,
       node?.id,
@@ -341,13 +339,13 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
               </FieldRoot>
             )}
           </FormField>
-          {!isTopicArticle && (
+          {type !== "topic" && type !== "learningpath" && (
             <FormField name="contentType">
               {({ field, meta, helpers }) => (
                 <FieldRoot invalid={!!meta.error}>
                   <TaxonomyResourceTypeSelect
                     blacklistedResourceTypes={[]}
-                    resourceTypes={resourceTypesQuery.data ?? []}
+                    resourceTypes={resourceTypesQuery.data?.filter((rt) => rt.id !== RESOURCE_TYPE_LEARNING_PATH) ?? []}
                     value={field.value}
                     onResourceTypeChanged={helpers.setValue}
                   />
@@ -388,25 +386,27 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
               </FieldRoot>
             )}
           </FormField>
-          <FormField name="relevance">
-            {({ field, meta, helpers }) => (
-              <FieldRoot invalid={!!meta.error}>
-                <SwitchRoot
-                  checked={field.value === RESOURCE_FILTER_CORE}
-                  onCheckedChange={(details) => {
-                    helpers.setValue(details.checked ? RESOURCE_FILTER_CORE : RESOURCE_FILTER_SUPPLEMENTARY);
-                  }}
-                >
-                  <SwitchControl>
-                    <SwitchThumb>{field.value === RESOURCE_FILTER_CORE ? "K" : "T"}</SwitchThumb>
-                  </SwitchControl>
-                  <SwitchLabel>{t("taxonomy.resourceType.label")}</SwitchLabel>
-                  <SwitchHiddenInput />
-                </SwitchRoot>
-                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              </FieldRoot>
-            )}
-          </FormField>
+          {type === "topic" && (
+            <FormField name="relevance">
+              {({ field, meta, helpers }) => (
+                <FieldRoot invalid={!!meta.error}>
+                  <SwitchRoot
+                    checked={field.value === RESOURCE_FILTER_CORE}
+                    onCheckedChange={(details) => {
+                      helpers.setValue(details.checked ? RESOURCE_FILTER_CORE : RESOURCE_FILTER_SUPPLEMENTARY);
+                    }}
+                  >
+                    <SwitchControl>
+                      <SwitchThumb>{field.value === RESOURCE_FILTER_CORE ? "K" : "T"}</SwitchThumb>
+                    </SwitchControl>
+                    <SwitchLabel>{t("taxonomy.resourceType.label")}</SwitchLabel>
+                    <SwitchHiddenInput />
+                  </SwitchRoot>
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                </FieldRoot>
+              )}
+            </FormField>
+          )}
           <FormActionsContainer>
             <Button
               disabled={!dirty || !isValid}

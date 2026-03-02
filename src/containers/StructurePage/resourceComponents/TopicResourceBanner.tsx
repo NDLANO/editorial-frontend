@@ -11,7 +11,7 @@ import { Skeleton, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { Node, NodeChild, ResourceType } from "@ndla/types-taxonomy";
+import { Node, NodeChild } from "@ndla/types-taxonomy";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AverageQualityEvaluation from "../../../components/QualityEvaluation/AverageQualityEvaluation";
@@ -24,10 +24,6 @@ import { useMatomoStats } from "../../../modules/matomo/matomoQueries";
 import { stripInlineContentHtmlTags } from "../../../util/formHelper";
 import { routes } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-import { useCurrentNode } from "../CurrentNodeProvider";
-import GroupTopicResources from "../folderComponents/topicMenuOptions/GroupTopicResources";
-import { MultidisciplinaryDialog } from "../multidisciplinary/MultidisciplinaryDialog";
-import PlannedResourceDialog from "../plannedResource/PlannedResourceDialog";
 import { usePreferences } from "../PreferencesProvider";
 import { ResourceStats, transformMatomoData } from "../utils";
 import ApproachingRevisionDate from "./ApproachingRevisionDate";
@@ -138,7 +134,6 @@ interface Props {
   currentNode: NodeChild;
   currentContentMeta: MultiSearchSummaryDTO | undefined;
   resources: NodeChild[];
-  resourceTypes: ResourceType[];
   articleIds?: number[];
   nodeResourcesIsPending: boolean;
   responsible: string | undefined;
@@ -148,7 +143,6 @@ interface Props {
 const TopicResourceBanner = ({
   contentMetas,
   currentNode,
-  resourceTypes,
   resources,
   nodeResourcesIsPending,
   responsible,
@@ -157,7 +151,6 @@ const TopicResourceBanner = ({
   const [resourceStats, setResourceStats] = useState<Record<string, ResourceStats> | undefined>(undefined);
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const { setCurrentNode } = useCurrentNode();
   const { showQuality, showMatomoStats } = usePreferences();
 
   const elementCount = useMemo(() => Object.values(contentMetas).length, [contentMetas]);
@@ -226,8 +219,6 @@ const TopicResourceBanner = ({
         </ContentWrapper>
         <ControlButtonGroup>
           <JumpToStructureButton nodeId={currentNode.id} />
-          <PlannedResourceDialog currentNode={currentNode} resourceTypes={resourceTypes} resources={resources} />
-          <MultidisciplinaryDialog currentNode={currentNode} />
         </ControlButtonGroup>
       </TopRow>
       <StyledResource>
@@ -285,17 +276,6 @@ const TopicResourceBanner = ({
             </Text>
           </TextWrapper>
           <ControlButtonGroup>
-            {!!currentNode?.id && (
-              <GroupTopicResources
-                node={currentNode}
-                onChanged={(partialMeta) => {
-                  setCurrentNode({
-                    ...currentNode,
-                    metadata: { ...currentNode.metadata, ...partialMeta },
-                  });
-                }}
-              />
-            )}
             {!!(
               currentContentMeta?.status?.current === PUBLISHED ||
               currentContentMeta?.status?.other?.includes(PUBLISHED)

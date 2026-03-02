@@ -32,23 +32,24 @@ const getMissingResourceType = (t: TFunction): ResourceType & { disabled?: boole
   subtypes: [],
 });
 
-const missingObject = {
-  id: "missing",
-  name: "",
-  connectionId: "",
-  parentId: "",
-  supportedLanguages: [],
-  translations: [],
-};
-const withMissing = (r: NodeChild): NodeChild => ({
+const withMissing = (r: NodeChild, t: TFunction): NodeChild => ({
   ...r,
-  resourceTypes: [missingObject],
+  resourceTypes: [
+    {
+      id: "missing",
+      name: t("taxonomy.missingResourceType"),
+      connectionId: "",
+      parentId: "",
+      supportedLanguages: [],
+      translations: [],
+    },
+  ],
 });
 
 const StructureResources = ({ currentChildNode, users }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const grouped = currentChildNode?.metadata?.customFields["topic-resources"] ?? "grouped";
+  const isUngrouped = currentChildNode?.metadata?.customFields["topic-resources"] === "ungrouped";
 
   const { data: nodeResources, isPending: nodeResourcesIsPending } = useChildNodes(
     {
@@ -61,7 +62,7 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
       taxonomyVersion,
     },
     {
-      select: (resources) => resources.map((r) => (r.resourceTypes.length > 0 ? r : withMissing(r))),
+      select: (resources) => resources.map((r) => (r.resourceTypes.length > 0 ? r : withMissing(r, t))),
     },
   );
 
@@ -92,12 +93,11 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
 
   return (
     <ResourcesContainer
-      key="ungrouped"
       nodeResources={nodeResources ?? []}
       resourceTypes={resourceTypes ?? []}
       currentNode={currentChildNode}
       contentMetas={keyedMetas}
-      grouped={grouped === "grouped"}
+      isUngrouped={isUngrouped}
       nodeResourcesIsPending={contentMetaIsPending || nodeResourcesIsPending}
       users={users}
     />

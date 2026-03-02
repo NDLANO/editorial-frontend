@@ -259,7 +259,7 @@ export const putNodeConnection = (params: NodeConnectionPutParams): Promise<void
       },
       body: params.body,
     })
-    .then((response) => resolveJsonOATS(response));
+    .then((response) => resolveOATS(response));
 
 interface NodeConnectionPostParams extends WithTaxonomyVersion {
   body: NodeConnectionPOST;

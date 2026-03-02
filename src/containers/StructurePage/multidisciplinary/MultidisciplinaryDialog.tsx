@@ -7,18 +7,14 @@
  */
 
 import { useDialogContext } from "@ark-ui/react";
-import { AddLine } from "@ndla/icons";
 import {
   Button,
   ComboboxLabel,
   DialogBody,
   DialogCloseTrigger,
-  DialogContent,
   DialogFooter,
   DialogHeader,
-  DialogRoot,
   DialogTitle,
-  DialogTrigger,
   FieldErrorMessage,
   FieldInput,
   FieldLabel,
@@ -96,25 +92,7 @@ const getMultidisciplinaryContext = (item: MultiSearchSummaryDTO) => {
   return ctx?.breadcrumbs.length === 3 ? ctx : undefined;
 };
 
-export const MultidisciplinaryDialog = ({ currentNode }: Props) => {
-  const { t } = useTranslation();
-
-  return (
-    <DialogRoot>
-      <DialogTrigger asChild>
-        <Button size="small" variant="secondary">
-          <AddLine />
-          {t("taxonomy.multidisciplinary.dialogTrigger")}
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <MultidisciplinaryDialogContent currentNode={currentNode} />
-      </DialogContent>
-    </DialogRoot>
-  );
-};
-
-const MultidisciplinaryDialogContent = ({ currentNode }: Props) => {
+export const MultidisciplinaryDialogContent = ({ currentNode }: Props) => {
   const { t, i18n } = useTranslation();
   const [pasteUrl, setPasteUrl] = useState("");
   const [page, setPage] = useState(1);

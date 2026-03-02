@@ -62,15 +62,10 @@ const GroupTopicResources = ({ node, onChanged }: Props) => {
     (nodeResources ?? TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE) === TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE;
 
   return (
-    <SwitchRoot
-      checked={isGrouped}
-      onCheckedChange={updateMetadata}
-      title={t("taxonomy.metadata.customFields.RGTooltip")}
-      aria-label={t("taxonomy.metadata.customFields.RGTooltip")}
-    >
-      <SwitchLabel>{t("taxonomy.metadata.customFields.resourceGroupPlaceholder")}</SwitchLabel>
+    <SwitchRoot checked={isGrouped} onCheckedChange={updateMetadata}>
+      <SwitchLabel>{t("taxonomy.metadata.customFields.ungroupedLabel")}</SwitchLabel>
       <SwitchControl>
-        <SwitchThumb>{isGrouped ? "G" : "U"}</SwitchThumb>
+        <SwitchThumb />
       </SwitchControl>
       <SwitchHiddenInput />
     </SwitchRoot>

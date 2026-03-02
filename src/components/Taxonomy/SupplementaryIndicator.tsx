@@ -27,7 +27,7 @@ const StyledWrapper = styled("div", {
 export const SupplementaryIndicator = () => {
   const { t } = useTranslation();
   return (
-    <StyledWrapper aria-label={t("taxonomy.supplementary")} title={t("taxonomy.supplementary")}>
+    <StyledWrapper aria-label={t("taxonomy.supplementary.title")} title={t("taxonomy.supplementary.title")}>
       <Text color="text.subtle" textStyle="label.small" fontWeight="bold">
         T
       </Text>

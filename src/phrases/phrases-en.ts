@@ -45,6 +45,7 @@ const phrases = {
       preview: `Preview learning path ${titleTemplate}`,
       stepSamples: `External learning step samples ${titleTemplate}`,
     },
+    htmlEditorPage: `Edit HTML ${titleTemplate}`,
   },
   meta: {
     description: "Norwegian Digital Learning Arena, Open Educational Resources",

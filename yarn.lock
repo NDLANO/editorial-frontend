@@ -6725,7 +6725,7 @@ __metadata:
     react-image-crop: "npm:^11.0.10"
     react-router: "npm:^7.12.0"
     react-simple-code-editor: "npm:^0.14.1"
-    serialize-javascript: "npm:^7.0.2"
+    serialize-javascript: "npm:^7.0.3"
     sirv: "npm:^3.0.2"
     slate: "npm:^0.123.0"
     slate-dom: "npm:^0.123.0"
@@ -11293,10 +11293,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"serialize-javascript@npm:^7.0.2":
-  version: 7.0.2
-  resolution: "serialize-javascript@npm:7.0.2"
-  checksum: 10c0/3cf752577f4d7509d8683504312dcd2ab5f3686d85fa91d1d210a3309d9be8974c86c4195f6483a94c18545288881cbcd49945d1390fe6cf6c7623014c23db50
+"serialize-javascript@npm:^7.0.3":
+  version: 7.0.4
+  resolution: "serialize-javascript@npm:7.0.4"
+  checksum: 10c0/f3da6f994c41306fbfabb55eefe280a46da05592939a84b0d95c84e296c92ba9e6a3d86cf7bbd71e7a59e1cfcd8481745910af109bedbd3ed853b444d32f9ee9
   languageName: node
   linkType: hard
 

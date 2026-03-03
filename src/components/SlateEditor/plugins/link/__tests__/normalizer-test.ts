@@ -6,7 +6,7 @@
  *
  */
 
-import { createSlate, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
+import { createSlate, HEADING_ELEMENT_TYPE, PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import { Descendant } from "slate";
 import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
@@ -181,6 +181,55 @@ describe("link normalizer tests", () => {
         ],
       },
     ];
+    editor.reinitialize({ value: editorValue, shouldNormalize: true });
+    expect(editor.children).toEqual(expectedValue);
+  });
+  test("Removes links that are not in paragraphs", () => {
+    const editorValue: Descendant[] = [
+      {
+        type: SECTION_ELEMENT_TYPE,
+        children: [
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
+          {
+            type: HEADING_ELEMENT_TYPE,
+            level: 2,
+            children: [
+              { text: "" },
+              {
+                type: CONTENT_LINK_ELEMENT_TYPE,
+                data: {
+                  resource: CONTENT_LINK_ELEMENT_TYPE,
+                  contentId: "123",
+                  contentType: "article",
+                  openIn: "current-context",
+                },
+                children: [{ text: "content" }],
+              },
+              { text: "" },
+            ],
+          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
+        ],
+      },
+    ];
+
+    const expectedValue: Descendant[] = [
+      {
+        type: SECTION_ELEMENT_TYPE,
+        id: anySlateElementId,
+        children: [
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }], id: anySlateElementId },
+          {
+            type: HEADING_ELEMENT_TYPE,
+            level: 2,
+            id: anySlateElementId,
+            children: [{ text: "content" }],
+          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }], id: anySlateElementId },
+        ],
+      },
+    ];
+
     editor.reinitialize({ value: editorValue, shouldNormalize: true });
     expect(editor.children).toEqual(expectedValue);
   });

@@ -11,6 +11,7 @@ import {
   createHtmlTag,
   createPlugin,
   createSerializer,
+  isParagraphElement,
   parseElementAttributes,
   PluginConfiguration,
 } from "@ndla/editor";
@@ -114,6 +115,13 @@ const normalizeNode =
         }
         return true;
       });
+    }
+
+    const parent = Node.parent(editor, path);
+    if (!isParagraphElement(parent)) {
+      logger.log("Link element is not inside a paragraph, unwrapping it");
+      Transforms.unwrapNodes(editor, { at: path });
+      return true;
     }
     return false;
   };

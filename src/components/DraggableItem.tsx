@@ -58,7 +58,7 @@ const DraggableItem = ({ id, index, children, dragHandle, disabled }: Props) => 
     ? cloneElement(dragHandle, {
         ...listeners,
         ref: setActivatorNodeRef,
-        id: id.toString(),
+        id: `${id}-handle`,
         disabled,
       })
     : null;

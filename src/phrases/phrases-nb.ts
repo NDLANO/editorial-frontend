@@ -45,6 +45,7 @@ const phrases = {
       preview: `Forhåndsvis læringssti ${titleTemplate}`,
       stepSamples: `Stikkprøver av eksterne læringssteg ${titleTemplate}`,
     },
+    htmlEditorPage: `Rediger HTML ${titleTemplate}`,
   },
   dropdown: {
     numberHits: `Søket gav {{hits}} treff`,

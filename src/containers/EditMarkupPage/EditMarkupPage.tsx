@@ -203,6 +203,7 @@ const EditMarkupPage = () => {
   const isSubmitting = status === "saving";
   return (
     <StyledPageContainer variant="page" padding="small">
+      <title>{`${draft?.title?.title} - ${t("htmlTitles.htmlEditorPage")}`}</title>
       <HeaderWrapper>
         <hgroup>
           <Heading textStyle="title.medium">{t("editMarkup.title")}</Heading>

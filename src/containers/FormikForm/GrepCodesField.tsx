@@ -15,6 +15,7 @@ import { memo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../components/Form/GenericSearchCombobox";
+import { GrepFormat } from "../../interfaces";
 import { searchGrepCodes } from "../../modules/search/searchApi";
 import { useSearchGrepCodes } from "../../modules/search/searchQueries";
 import { isGrepCodeValid } from "../../util/articleUtil";
@@ -66,7 +67,7 @@ interface GrepObject {
 }
 
 interface Props {
-  prefixFilter: string[];
+  prefixFilter: GrepFormat[];
 }
 
 const GrepCodesField = ({ prefixFilter }: Props) => {
@@ -74,9 +75,14 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
   const [field, meta, helpers] = useField<string[]>("grepCodes");
   const [grepCodes, setGrepCodes] = useState<Record<string, GrepObject>>({});
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
+  const nonNullPrefix = prefixFilter.map((f) => f.prefix).filter(Boolean);
 
   const { query, setQuery, page, setPage } = usePaginatedQuery();
-  const grepCodesQuery = useSearchGrepCodes({ prefixFilter: prefixFilter, query: query, page: page });
+  const grepCodesQuery = useSearchGrepCodes({
+    prefixFilter: prefixFilter.map((f) => f.prefix),
+    query: query,
+    page: page,
+  });
 
   useEffect(() => {
     (async () => {
@@ -160,7 +166,7 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
   return (
     <FieldRoot>
       <FieldLabel>{t("form.grepCodes.label")}</FieldLabel>
-      <FieldHelper>{t("form.grepCodes.description", { codes: prefixFilter.join(", ") })}</FieldHelper>
+      <FieldHelper>{t("form.grepCodes.description", { codes: nonNullPrefix.join(", ") })}</FieldHelper>
       <Text color="text.error" aria-live="polite">
         {meta.error}
       </Text>

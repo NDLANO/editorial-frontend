@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../../components/Accordion/FormAccordions";
 import config from "../../../../config";
-import { STORED_HIDE_COMMENTS, TAXONOMY_WRITE_SCOPE } from "../../../../constants";
+import { GREP_CODE_FORMATS, STORED_HIDE_COMMENTS, TAXONOMY_WRITE_SCOPE } from "../../../../constants";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
 import { TopicArticleFormType } from "../../../FormikForm/articleFormHooks";
 import GrepCodesField from "../../../FormikForm/GrepCodesField";
@@ -148,7 +148,13 @@ const TopicArticleAccordionPanels = ({
             />
           </FormAccordion>
           <FormAccordion id={"topic-article-grepCodes"} title={t("form.name.grepCodes")} hasError={!!errors.grepCodes}>
-            <GrepCodesField prefixFilter={["KE", "KM", "TT"]} />
+            <GrepCodesField
+              prefixFilter={[
+                GREP_CODE_FORMATS.KJERNEELEMENT,
+                GREP_CODE_FORMATS.KOMPETANSEMAL,
+                GREP_CODE_FORMATS.TVERRFAGLIGTEMA,
+              ]}
+            />
           </FormAccordion>
           {config.ndlaEnvironment === "test" && (
             <FormAccordion

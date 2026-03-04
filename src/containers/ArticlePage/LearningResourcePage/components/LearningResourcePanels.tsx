@@ -45,7 +45,7 @@ import {
   DisclaimerField,
 } from "../../../../components/SlateEditor/plugins/uuDisclaimer/DisclaimerField";
 import config from "../../../../config";
-import { STORED_HIDE_COMMENTS, TAXONOMY_WRITE_SCOPE } from "../../../../constants";
+import { GREP_CODE_FORMATS, STORED_HIDE_COMMENTS, TAXONOMY_WRITE_SCOPE } from "../../../../constants";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
 import { ArticleFormType, HandleSubmitFunc, LearningResourceFormType } from "../../../FormikForm/articleFormHooks";
 import GrepCodesField from "../../../FormikForm/GrepCodesField";
@@ -255,7 +255,13 @@ const LearningResourcePanels = ({
             title={t("form.name.grepCodes")}
             hasError={!!errors.grepCodes}
           >
-            <GrepCodesField prefixFilter={["KE", "KM", "TT"]} />
+            <GrepCodesField
+              prefixFilter={[
+                GREP_CODE_FORMATS.KJERNEELEMENT,
+                GREP_CODE_FORMATS.KOMPETANSEMAL,
+                GREP_CODE_FORMATS.TVERRFAGLIGTEMA,
+              ]}
+            />
           </FormAccordion>
           <FormAccordion
             id="learning-resource-disclaimer"

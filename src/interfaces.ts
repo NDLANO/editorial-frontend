@@ -160,6 +160,11 @@ export interface WhitelistProvider {
   height?: string;
 }
 
+export interface GrepFormat {
+  prefix: string;
+  regexp: RegExp;
+}
+
 export type Dictionary<T> = Record<string, T>;
 
 interface HtmlTranslateType {

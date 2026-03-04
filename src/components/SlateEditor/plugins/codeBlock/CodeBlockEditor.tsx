@@ -23,12 +23,16 @@ import { codeLanguageOptions } from "@ndla/ui";
 import { Formik, useFormikContext } from "formik";
 import { ComponentProps, useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import Editor from "react-simple-code-editor";
+import EditorImport from "react-simple-code-editor";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../abstractions/Select";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import { KEY_TAB } from "../../utils/keys";
+
+// This is an awful workaround for cjs/esm interop that reared its head when upgrading to vite 8. TODO: Find a better solution, possibly by switching to a different code editor component that doesn't have this issue. Or hope for a fix in react-simple-code-editor that makes it more esm friendly.
+const Editor = ((EditorImport as unknown as { default?: typeof EditorImport }).default ??
+  EditorImport) as typeof EditorImport;
 
 type Props = {
   onSave: (values: CodeBlockFormValues) => void;

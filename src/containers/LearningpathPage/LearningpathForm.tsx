@@ -77,7 +77,12 @@ const metaDataRules: RulesType<LearningpathFormValues, LearningPathV2DTO> = {
     required: false,
     test: (values) => {
       const wrongFormat = !!values?.grepCodes?.find(
-        (value) => !isGrepCodeValid(value, [GREP_CODE_FORMATS.KOMPETANSEMAL, GREP_CODE_FORMATS.KOMPETANSEMAL, GREP_CODE_FORMATS.TVERRFAGLIGTEMA]),
+        (value) =>
+          !isGrepCodeValid(value, [
+            GREP_CODE_FORMATS.KOMPETANSEMAL,
+            GREP_CODE_FORMATS.KOMPETANSEMAL,
+            GREP_CODE_FORMATS.TVERRFAGLIGTEMA,
+          ]),
       );
       return wrongFormat ? { translationKey: "validation.grepCodes" } : undefined;
     },

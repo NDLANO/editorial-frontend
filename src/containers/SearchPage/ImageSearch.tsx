@@ -6,7 +6,7 @@
  *
  */
 
-import { SearchParamsDTO } from "@ndla/types-backend/image-api";
+import { SearchParamsDTO, ImageContentType } from "@ndla/types-backend/image-api";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../components/abstractions/Pagination";
@@ -59,7 +59,7 @@ export const ImageSearch = () => {
       widthTo: Number(params.get("width-to")) || undefined,
       heightFrom: Number(params.get("height-from")) || undefined,
       heightTo: Number(params.get("height-to")) || undefined,
-      contentType: params.get("content-type") ?? undefined,
+      contentType: (params.get("content-type") as ImageContentType) ?? undefined,
     };
     return parsed;
   }, [params]);

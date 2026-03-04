@@ -6,20 +6,16 @@
  *
  */
 
-import * as esbuild from "esbuild";
+import { build } from "rolldown";
 
-await esbuild.build({
-  entryPoints: ["src/index.ts"],
-  bundle: true,
-  format: "esm",
+await build({
+  input: "src/index.ts",
   platform: "node",
-  target: "esnext",
-  sourcemap: true,
-  sourcesContent: false,
-  external: ["dtrace-provider", "vite"],
-  outfile: "build/server.mjs",
-  // Mixing ESM and CJS is still a struggle. This is a workaround for now.
-  banner: {
-    js: `const require = createRequire(import.meta.url);`,
+  external: ["vite"],
+  output: {
+    file: "build/server.mjs",
+    format: "esm",
+    codeSplitting: false,
+    sourcemap: true,
   },
 });

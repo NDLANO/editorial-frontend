@@ -20,7 +20,7 @@
   ],
   "functions": {
     "api/index.mjs": {
-      "includeFiles": "build/server.mjs"
+      "includeFiles": "build/public/index.html"
     }
   },
   "env": {

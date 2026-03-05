@@ -6,7 +6,7 @@
  *
  */
 
-const titleTemplate = "- Produksjonsystem - NDLA";
+const titleTemplate = "- Produksjonsystem - Verceltest";
 
 const phrases = {
   htmlTitles: {

@@ -227,16 +227,18 @@ const SearchImageForm = ({ userData }: Props) => {
           }}
           placeholder={t("searchForm.types.image-width")}
         />
-        {config.displayImageHeightFilter ? <ObjectSelector
-          name="image-height"
-          value={filters.height.length ? toSelectorValue(params.get("height-from"), params.get("height-to")) : ""}
-          options={sizeOptions}
-          onChange={(value) => {
-            const { from, to } = imageSizeToRangeMap[value[0] as ImageSize];
-            setParams({ "height-from": from, "height-to": to });
-          }}
-          placeholder={t("searchForm.types.image-height")}
-        /> : undefined}
+        {config.displayImageHeightFilter ? (
+          <ObjectSelector
+            name="image-height"
+            value={filters.height.length ? toSelectorValue(params.get("height-from"), params.get("height-to")) : ""}
+            options={sizeOptions}
+            onChange={(value) => {
+              const { from, to } = imageSizeToRangeMap[value[0] as ImageSize];
+              setParams({ "height-from": from, "height-to": to });
+            }}
+            placeholder={t("searchForm.types.image-height")}
+          />
+        ) : undefined}
         <SearchControlButtons reset={emptySearch} />
       </StyledForm>
       <SearchTagGroup onRemoveTag={removeTagItem} tags={filters} />

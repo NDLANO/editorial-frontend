@@ -33,7 +33,7 @@ const AddTopicNode = ({ node }: Props) => {
       <Heading consumeCss asChild textStyle="label.medium" fontWeight="bold">
         <h2>{t("taxonomy.addTopicHeader")}</h2>
       </Heading>
-      <PlannedResourceForm node={node} articleType="topic-article" />
+      <PlannedResourceForm node={node} type="topic" />
     </Wrapper>
   );
 };

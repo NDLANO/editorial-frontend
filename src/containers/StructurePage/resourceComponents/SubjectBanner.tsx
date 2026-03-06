@@ -18,7 +18,6 @@ import config from "../../../config";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { MultidisciplinaryCases } from "../multidisciplinary/MultidisciplinaryCases";
-import { MultidisciplinaryDialog } from "../multidisciplinary/MultidisciplinaryDialog";
 import { usePreferences } from "../PreferencesProvider";
 import JumpToStructureButton from "./JumpToStructureButton";
 import { linkRecipe } from "./Resource";
@@ -100,7 +99,6 @@ const SubjectBanner = ({ subjectNode, users }: Props) => {
               </>
             )}
           </ContentWrapper>
-          <MultidisciplinaryDialog currentNode={subjectNode} />
           <JumpToStructureButton nodeId={subjectNode.id} />
         </TopRow>
         <div>

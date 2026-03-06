@@ -18,6 +18,7 @@ import SearchHeader from "../../../../components/Form/SearchHeader";
 import SearchTagGroup from "../../../../components/Form/SearchTagGroup";
 import { getTagName } from "../../../../components/Form/utils";
 import ObjectSelector from "../../../../components/ObjectSelector";
+import config from "../../../../config";
 import { CamelToKebab } from "../../../../interfaces";
 import { useAuth0Editors } from "../../../../modules/auth0/auth0Queries";
 import { useLicenses } from "../../../../modules/draft/draftQueries";
@@ -226,7 +227,7 @@ const SearchImageForm = ({ userData }: Props) => {
           }}
           placeholder={t("searchForm.types.image-width")}
         />
-        <ObjectSelector
+        {config.displayImageHeightFilter ? <ObjectSelector
           name="image-height"
           value={filters.height.length ? toSelectorValue(params.get("height-from"), params.get("height-to")) : ""}
           options={sizeOptions}
@@ -235,7 +236,7 @@ const SearchImageForm = ({ userData }: Props) => {
             setParams({ "height-from": from, "height-to": to });
           }}
           placeholder={t("searchForm.types.image-height")}
-        />
+        /> : undefined}
         <SearchControlButtons reset={emptySearch} />
       </StyledForm>
       <SearchTagGroup onRemoveTag={removeTagItem} tags={filters} />

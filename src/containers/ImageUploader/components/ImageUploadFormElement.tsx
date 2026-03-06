@@ -67,7 +67,7 @@ export const ImageUploadFormElement = ({ language }: Props) => {
           {({ helpers, meta }) => (
             <FieldRoot required invalid={!!meta.error}>
               <FileUploadRoot
-                accept={["image/gif", "image/png", "image/jpeg", "image/jpg", "image/svg+xml"]}
+                accept={["image/gif", "image/png", "image/jpeg", "image/svg+xml"]}
                 onFileAccept={(details) => {
                   const file = details.files?.[0];
                   if (!file) return;

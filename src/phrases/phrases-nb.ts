@@ -388,6 +388,7 @@ const phrases = {
       traits: "Velg egenskap",
       "image-width": "Velg bredde",
       "image-height": "Velg høyde",
+      "content-type": "Velg filtype",
     },
     tagType: {
       query: "Søk:",
@@ -409,6 +410,7 @@ const phrases = {
       traits: "Egenskap: {{value}}",
       width: "Bredde: {{value}}",
       height: "Høyde: {{value}}",
+      "content-type": "Filtype: {{value}}",
     },
     btn: "Søk",
     empty: "Tøm",
@@ -496,6 +498,12 @@ const phrases = {
       hd: "HD (2000–4000px)",
       "4k": "4K+ (> 4000px)",
       custom: "Egendefinert",
+    },
+    contentType: {
+      svg: "Svg",
+      jpeg: "Jpeg",
+      png: "Png",
+      gif: "Gif",
     },
     placeholder: "Søk i bilder",
     buttonTitle: "Søk",

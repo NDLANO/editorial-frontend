@@ -6,35 +6,6 @@
  *
  */
 
-import he from "he";
-// oxfmt-ignore
-import * as Prism from "prismjs";
-import "prismjs/components/prism-clike";
-import "prismjs/components/prism-markup";
-import "prismjs/components/prism-markup-templating";
-import "prismjs/components/prism-php";
-import "prismjs/components/prism-css";
-import "prismjs/components/prism-javascript";
-import "prismjs/components/prism-jsx";
-import "prismjs/components/prism-c";
-import "prismjs/components/prism-csharp";
-import "prismjs/components/prism-cpp";
-import "prismjs/components/prism-diff";
-import "prismjs/components/prism-ini";
-import "prismjs/components/prism-json";
-import "prismjs/components/prism-java";
-import "prismjs/components/prism-kotlin";
-import "prismjs/components/prism-lua";
-import "prismjs/components/prism-markdown";
-import "prismjs/components/prism-matlab";
-import "prismjs/components/prism-nsis";
-import "prismjs/components/prism-python";
-import "prismjs/components/prism-ruby";
-import "prismjs/components/prism-rust";
-import "prismjs/components/prism-sql";
-import "prismjs/components/prism-powershell";
-import "prismjs/components/prism-vhdl";
-import "prismjs/components/prism-bash";
 import { Portal } from "@ark-ui/react";
 import { DeleteBinLine, PencilFill, CodeView } from "@ndla/icons";
 import {
@@ -51,7 +22,9 @@ import {
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { CodeEmbedData } from "@ndla/types-embed";
 import { CodeBlock as UICodeBlock } from "@ndla/ui";
-import { useCallback, useMemo, useState } from "react";
+import he from "he";
+import * as Prism from "prismjs";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
@@ -73,6 +46,16 @@ const StyledFigure = styled(Figure, {
   },
 });
 
+let languagesPromise: Promise<unknown> | undefined;
+
+const loadLanguages = async () => {
+  // Prism language files are side-effect modules that mutate the shared Prism instance.
+  // We lazy-load one local module with static imports so Vite 7/8 can rewrite specifiers
+  // reliably. Variable specifiers (e.g. import(path)) can leak unresolved bare imports.
+  languagesPromise ??= import("./prismLanguages");
+  await languagesPromise;
+};
+
 const highlightCode = (code: string, language: string): string => {
   const highlighted = Prism.highlight(code, Prism.languages[language], language);
   return highlighted;
@@ -90,16 +73,22 @@ const getInfoFromNode = (data: CodeEmbedData): CodeEmbedData => {
 const CodeBlock = ({ attributes, editor, element, children }: Props) => {
   const embedData = useMemo(() => getInfoFromNode(element.data), [element.data]);
   const [editMode, setEditMode] = useState<boolean>(!embedData.codeContent && !embedData.title);
+  const [languagesLoaded, setLanguagesLoaded] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [shouldShowWarning, setShouldShowWarning] = useState(false);
   const { t } = useTranslation();
 
+  useEffect(() => {
+    loadLanguages().then(() => setLanguagesLoaded(true));
+  }, []);
+
   const highlightedCode = useMemo(() => {
-    if (!embedData.codeFormat?.length || !embedData.codeContent?.length) {
+    if (!embedData.codeFormat?.length || !embedData.codeContent?.length || !languagesLoaded) {
       return embedData.codeContent;
     }
+
     return highlightCode(embedData.codeContent, embedData.codeFormat);
-  }, [embedData.codeContent, embedData.codeFormat]);
+  }, [embedData.codeContent, embedData.codeFormat, languagesLoaded]);
 
   const handleSave = (codeBlock: CodeBlockType) => {
     const newData: CodeEmbedData = {

@@ -46,6 +46,7 @@ import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvid
 
 interface Props {
   currentNode: Node;
+  existingResourceIds: string[];
 }
 
 const InputWrapper = styled("div", {
@@ -92,7 +93,7 @@ const getMultidisciplinaryContext = (item: MultiSearchSummaryDTO) => {
   return ctx?.breadcrumbs.length === 3 ? ctx : undefined;
 };
 
-export const MultidisciplinaryDialogContent = ({ currentNode }: Props) => {
+export const MultidisciplinaryDialogContent = ({ currentNode, existingResourceIds }: Props) => {
   const { t, i18n } = useTranslation();
   const [pasteUrl, setPasteUrl] = useState("");
   const [page, setPage] = useState(1);
@@ -213,7 +214,9 @@ export const MultidisciplinaryDialogContent = ({ currentNode }: Props) => {
             isSuccess={searchQuery.isSuccess}
             paginationData={searchQuery.data}
             onPageChange={(details) => setPage(details.page)}
-            isItemDisabled={(item) => !getMultidisciplinaryContext(item)}
+            isItemDisabled={(item) =>
+              !getMultidisciplinaryContext(item) || existingResourceIds.includes(item.context?.publicId ?? "")
+            }
             renderItem={(item) => (
               <GenericComboboxItemContent
                 title={item.title.title}

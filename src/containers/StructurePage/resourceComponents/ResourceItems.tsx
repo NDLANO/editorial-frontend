@@ -189,7 +189,7 @@ const ResourceItems = ({
             </DialogTrigger>
             <DialogContent>
               {type === "link" ? (
-                <MultidisciplinaryDialogContent currentNode={currentNode} />
+                <MultidisciplinaryDialogContent currentNode={currentNode} existingResourceIds={existingResourceIds} />
               ) : (
                 <PlannedResourceDialogContent
                   currentNode={currentNode}

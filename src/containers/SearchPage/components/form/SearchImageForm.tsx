@@ -98,6 +98,13 @@ const toSelectorValue = (from: string | null, to: string | null) => {
   return rangeToImageSizeMap[rangeString] ?? "custom";
 };
 
+export const getContentTypeOptions = (t: TFunction) => [
+  { id: "image/svg+xml", name: t("imageSearch.contentType.svg") },
+  { id: "image/jpeg", name: t("imageSearch.contentType.jpeg") },
+  { id: "image/png", name: t("imageSearch.contentType.png") },
+  { id: "image/gif", name: t("imageSearch.contentType.gif") },
+];
+
 const SearchImageForm = ({ userData }: Props) => {
   const [params, setParams] = useStableSearchPageParams();
   const { t, i18n } = useTranslation();
@@ -147,6 +154,7 @@ const SearchImageForm = ({ userData }: Props) => {
       "width-to": null,
       "height-from": null,
       "height-to": null,
+      "content-type": null,
     });
   };
 
@@ -162,6 +170,7 @@ const SearchImageForm = ({ userData }: Props) => {
     users: getTagName(params.get("users")?.split(",")?.[0], users),
     width: getSizeValue(params.get("width-from") ?? undefined, params.get("width-to") ?? undefined, t),
     height: getSizeValue(params.get("height-from") ?? undefined, params.get("height-to") ?? undefined, t),
+    "content-type": getTagName(params.get("content-type"), getContentTypeOptions(t)),
   };
 
   return (
@@ -239,6 +248,13 @@ const SearchImageForm = ({ userData }: Props) => {
             placeholder={t("searchForm.types.image-height")}
           />
         ) : undefined}
+        <ObjectSelector
+          name="content-type"
+          value={params.get("content-type") ?? "unspecified"}
+          options={getContentTypeOptions(t)}
+          onChange={(value) => setParams({ "content-type": value[0] })}
+          placeholder={t("searchForm.types.content-type")}
+        />
         <SearchControlButtons reset={emptySearch} />
       </StyledForm>
       <SearchTagGroup onRemoveTag={removeTagItem} tags={filters} />

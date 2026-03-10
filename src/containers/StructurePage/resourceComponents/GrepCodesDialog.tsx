@@ -51,7 +51,7 @@ const GrepCodesDialog = ({ codes, contentUri, revision, currentNodeId }: Props) 
   return (
     <DialogRoot size="large" position="top" open={open} onOpenChange={(details) => setOpen(details.open)}>
       <DialogTrigger asChild>
-        <Button size="small" variant="secondary">{`GREP (${codes.length})`}</Button>
+        <Button size="small" variant="tertiary">{`GREP (${codes.length})`}</Button>
       </DialogTrigger>
       <Portal>
         <DialogContent>

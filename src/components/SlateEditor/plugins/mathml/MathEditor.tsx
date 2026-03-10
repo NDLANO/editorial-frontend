@@ -199,6 +199,7 @@ const MathEditor = ({ element, children, attributes }: Props) => {
             onExitComplete={onExitPopover}
           >
             <PopoverTrigger asChild ref={triggerRef} onMouseDown={(e) => e.preventDefault()} data-trigger="">
+              {/* oxlint-disable-next-line jsx_a11y/prefer-tag-over-role */}
               <StyledSpan role="button" tabIndex={0} selected={selected}>
                 <MathML innerHTML={nodeInfo.model.innerHTML} onDoubleClick={() => setDialogOpen(true)}></MathML>
               </StyledSpan>

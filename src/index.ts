@@ -119,7 +119,7 @@ app.get("*splat", async (req, res) => {
     if (!token && getCookie(HAS_REFRESH_TOKEN_COOKIE, req.headers.cookie ?? "") === "true") {
       try {
         await refreshAccessToken(req, res);
-      } catch (e) {
+      } catch (_) {
         log.error("Failed to refresh token on SSR request");
       }
     }

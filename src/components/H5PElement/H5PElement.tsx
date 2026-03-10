@@ -63,7 +63,7 @@ const H5PElement = ({ h5pUrl, onSelect, onClose, locale, canReturnResources }: P
     window.addEventListener("message", handleH5PClose);
     try {
       fetchAndSetH5PUrl();
-    } catch (e) {
+    } catch (_) {
       setFetchFailed(true);
     }
 

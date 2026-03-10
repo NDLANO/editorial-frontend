@@ -279,7 +279,7 @@ router.get("/opengraph", jwtMiddleware, async (req, res) => {
   let urlObj: URL;
   try {
     urlObj = new URL(url);
-  } catch (e) {
+  } catch (_) {
     res.status(BAD_REQUEST).send({ error: "Invalid 'url' query parameter" });
     return;
   }

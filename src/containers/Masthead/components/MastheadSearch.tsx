@@ -92,7 +92,7 @@ export const MastheadSearch = () => {
     try {
       const newArticle = await fetchNewArticleId(nodeId);
       navigate(routes.editArticle(newArticle.id, "standard"));
-    } catch (error) {
+    } catch (_) {
       navigate(routes.notFound);
     }
   };
@@ -109,7 +109,7 @@ export const MastheadSearch = () => {
           navigate(routes.editArticle(parseInt(id), "standard"));
         }
       }
-    } catch (error) {
+    } catch (_) {
       navigate(routes.notFound);
     }
   };
@@ -118,7 +118,7 @@ export const MastheadSearch = () => {
     try {
       const article = await fetchBySlug(slug);
       navigate(routes.editArticle(article.id, "frontpage-article"));
-    } catch (error) {
+    } catch (_) {
       navigate(routes.notFound);
     }
   };

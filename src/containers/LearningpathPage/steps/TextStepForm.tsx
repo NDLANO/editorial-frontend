@@ -55,7 +55,7 @@ export const TextStepForm = ({ language, step }: Props) => {
           </FieldRoot>
         )}
       </FormField>
-      {!!step?.license?.license.length && <LicenseField />}
+      {!!step?.copyright?.license?.license.length && <LicenseField />}
       <FormField name="description">
         {({ field, meta, helpers }) => (
           <FieldRoot required invalid={!!meta.error}>

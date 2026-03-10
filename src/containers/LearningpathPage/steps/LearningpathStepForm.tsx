@@ -72,7 +72,7 @@ export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
         title: step?.title.title ?? "",
         introduction: step?.introduction?.introduction ?? "",
         description: learningpathBlockContentToEditorValue(step?.description?.description ?? ""),
-        license: step?.license?.license,
+        license: step?.copyright?.license?.license,
       };
     case "external":
       return {
@@ -84,7 +84,7 @@ export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
         description: step?.description?.description
           ? learningpathBlockContentToEditorValue(step?.description?.description ?? "")
           : undefined,
-        license: step?.license?.license,
+        license: step?.copyright?.license?.license,
       };
     case "resource":
       return {
@@ -94,7 +94,7 @@ export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
         description: step?.description?.description
           ? learningpathBlockContentToEditorValue(step.description.description)
           : undefined,
-        license: step?.license?.license,
+        license: step?.copyright?.license?.license,
         articleId: step?.articleId,
       };
     default:

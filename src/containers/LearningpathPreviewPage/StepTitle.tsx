@@ -26,7 +26,7 @@ export const StepTitle = ({ step }: Props) => {
         {!!step.showTitle && (
           <ArticleHeader>
             <Heading>{step.title.title}</Heading>
-            <LicenseLink license={getLicenseByAbbreviation(step.license?.license ?? "", i18n.language)} />
+            <LicenseLink license={getLicenseByAbbreviation(step.copyright?.license?.license ?? "", i18n.language)} />
           </ArticleHeader>
         )}
         <ArticleContent>

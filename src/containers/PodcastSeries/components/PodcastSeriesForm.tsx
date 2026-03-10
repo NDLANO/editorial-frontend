@@ -71,7 +71,7 @@ interface Props {
   language: string;
   inDialog?: boolean;
   formikProps?: FormikProps<PodcastSeriesFormikType>;
-  onUpdate: (newPodcastSeries: NewSeriesDTO) => void;
+  onUpdate: (newPodcastSeries: NewSeriesDTO) => Promise<void>;
   revision?: number;
   isNewLanguage?: boolean;
   translatedFieldsToNN: string[];

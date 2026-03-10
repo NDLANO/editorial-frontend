@@ -22,5 +22,11 @@ export default defineConfig({
         "import-js/no-extraneous-dependencies": "off",
       },
     },
+    {
+      files: ["**/*"],
+      rules: {
+        "typescript/unbound-method": "off",
+      },
+    },
   ],
 });

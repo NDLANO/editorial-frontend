@@ -18,7 +18,7 @@ import {
   IconButton,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { FormEvent, MouseEvent } from "react";
+import { ChangeEvent, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 
 interface Props {
@@ -64,7 +64,7 @@ const AddNotesField = ({ labelWarningNote, onChange, value, showError }: Props) 
     onNotesChange(value.filter((_, index) => index !== noteIndexToRemove));
   };
 
-  const handleNoteChange = (evt: FormEvent<HTMLInputElement>, index: number) => {
+  const handleNoteChange = (evt: ChangeEvent<HTMLInputElement>, index: number) => {
     const newNotes = [...value];
     newNotes[index] = evt.currentTarget.value;
     onNotesChange(newNotes);

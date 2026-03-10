@@ -130,7 +130,7 @@ const NodeItem = ({
     if (isActive) {
       setCurrentNode(item);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line eslint-plugin-react-hooks/exhaustive-deps
   }, [item]);
 
   const newPath = getPath(path, rootPath);

@@ -42,7 +42,7 @@ const VisualElementEditor = ({ value, plugins, onChange, types, language }: Prop
       editor.reinitialize({ value });
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line eslint-plugin-react-hooks/exhaustive-deps
   }, [value]);
 
   return (

@@ -54,7 +54,7 @@ const ConceptsField = ({ field }: Props) => {
       const concepts = await postSearchConcepts({ ids: field.value, language: i18n.language });
       setConcepts(concepts.results);
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line eslint-plugin-react-hooks/exhaustive-deps
   }, []);
 
   const onUpdateElements = (conceptList: ConceptSummaryDTO[]) => {

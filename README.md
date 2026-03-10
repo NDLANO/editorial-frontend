@@ -68,7 +68,7 @@ $ yarn e2e:headless
 
 ### Code style
 
-_tl;dr_: Use oxfmt and eslint!
+_tl;dr_: Use oxfmt and oxlint!
 
 Format code with oxfmt to get uniform codestyle:
 
@@ -76,14 +76,13 @@ Format code with oxfmt to get uniform codestyle:
 $ yarn format
 ```
 
-Lint code with [eslint](http://eslint.org/), including [eslint react plugin](https://github.com/yannickcr/eslint-plugin-react), [eslint-plugin-import](https://github.com/benmosher/eslint-plugin-import), [eslint-plugin-jsx-a11y](https://github.com/evcohen/eslint-plugin-jsx-a11y#readme).
-Beside linting with globally installed eslint, eslint can be invoked with `yarn`:
+Lint code with [oxlint](https://oxc.rs/). Beside linting with globally installed oxlint, oxlint can be invoked with `yarn`:
 
 ```
 $ yarn lint
 ```
 
-Rules are configured in `./.eslintrc.js` and extends [eslint-config-react-app](https://github.com/facebook/create-react-app/tree/master/packages/eslint-config-react-app). If feeling brave, try `eslint --fix`.
+Rules are configured in `./oxlint.config.ts` and extends our [base config]("https://github.com/ndlano/frontend-packages/tree/master/packages/oxlint-config"). If feeling brave, try `oxlint --fix`.
 
 ## Other scripts
 

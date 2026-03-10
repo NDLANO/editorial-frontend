@@ -15,7 +15,7 @@ interface Props {
 
 const AudioPlayer = ({ audio }: Props) => {
   return (
-    // eslint-disable-next-line jsx-a11y/media-has-caption
+    // oxlint-disable-next-line jsx_a11y/media-has-caption
     <audio controls>
       <source src={audio.src} type={audio.mimeType} />
     </audio>

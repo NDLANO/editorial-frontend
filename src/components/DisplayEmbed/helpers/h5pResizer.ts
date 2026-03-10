@@ -16,7 +16,7 @@
    */
   actionHandlers.hello = (iframe, data, respond) => {
     // Make iframe responsive
-    iframe.style.width = "100%"; // eslint-disable-line no-param-reassign
+    iframe.style.width = "100%";
 
     // Tell iframe that it needs to resize when our window resizes
     const resize = () => {
@@ -41,7 +41,7 @@
     // Do not resize unless page and scrolling differs
     if (iframe.clientHeight !== data.scrollHeight || data.scrollHeight !== data.clientHeight) {
       // Reset iframe height, in case content has shrinked.
-      iframe.style.height = `${data.clientHeight}px`; // eslint-disable-line no-param-reassign
+      iframe.style.height = `${data.clientHeight}px`;
       respond("resizePrepared");
     }
   };
@@ -50,7 +50,7 @@
    * Resize parent and iframe to desired height.
    */
   actionHandlers.resize = (iframe, data) => {
-    iframe.style.height = `${data.scrollHeight}px`; // eslint-disable-line no-param-reassign
+    iframe.style.height = `${data.scrollHeight}px`;
   };
 
   // Listen for messages from iframes

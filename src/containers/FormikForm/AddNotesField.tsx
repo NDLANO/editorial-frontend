@@ -79,7 +79,7 @@ const AddNotesField = ({ labelWarningNote, onChange, value, showError }: Props) 
           <NoteWrapper>
             <FieldInput
               type="text"
-              // eslint-disable-next-line jsx-a11y/no-autofocus
+              // oxlint-disable-next-line jsx_a11y/no-autofocus
               autoFocus
               value={note}
               data-testid="notesInput"

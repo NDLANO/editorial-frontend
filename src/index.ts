@@ -138,7 +138,7 @@ app.get("*splat", async (req, res) => {
   } catch (e) {
     const error = e as Error;
     vite?.ssrFixStacktrace(error);
-    // eslint-disable-next-line no-console
+    // oxlint-disable-next-line no-console
     console.log(error.stack);
     res.status(500).end(error.stack);
   }
@@ -147,7 +147,7 @@ app.get("*splat", async (req, res) => {
 if (!config.isVercel) {
   // Start http server
   app.listen(config.port, () => {
-    // eslint-disable-next-line no-console
+    // oxlint-disable-next-line no-console
     console.log(`Server started at http://localhost:${config.port}`);
   });
 }

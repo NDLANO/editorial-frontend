@@ -96,7 +96,7 @@ export const MonacoEditor = ({ value, onChange, onSave, size }: Props) => {
       });
     });
     return () => editor?.dispose();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line eslint-plugin-react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

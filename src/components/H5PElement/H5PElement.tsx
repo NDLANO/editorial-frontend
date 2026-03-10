@@ -71,7 +71,8 @@ const H5PElement = ({ h5pUrl, onSelect, onClose, locale, canReturnResources }: P
       window.removeEventListener("message", handleH5PChange);
       window.removeEventListener("message", handleH5PClose);
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line eslint-plugin-react-hooks/exhaustive-deps
+  }, []);
 
   const fetchAndSetH5PUrl = async () => {
     const data = h5pUrl ? await editH5PiframeUrl(h5pUrl, locale) : await fetchH5PiframeUrl(locale, canReturnResources);

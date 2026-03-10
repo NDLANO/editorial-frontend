@@ -82,7 +82,7 @@ const RevisionNotes = () => {
                       <FieldErrorMessage>{meta.error}</FieldErrorMessage>
                       <FieldInput
                         {...field}
-                        // eslint-disable-next-line jsx-a11y/no-autofocus
+                        // oxlint-disable-next-line jsx_a11y/no-autofocus
                         autoFocus
                         placeholder={t("form.revisions.inputPlaceholder")}
                         data-testid="revisionInput"

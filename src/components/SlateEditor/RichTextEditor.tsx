@@ -108,7 +108,7 @@ const RichTextEditor = ({
       }
     }
     prevSubmitted.current = submitted;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line eslint-plugin-react-hooks/exhaustive-deps
   }, [status, submitted]);
 
   const renderElement = useCallback((renderProps: RenderElementProps) => {
@@ -120,7 +120,7 @@ const RichTextEditor = ({
       }
     }
     return renderInvalidElement?.({ ...renderProps, editor }) ?? <p {...attributes}>{children}</p>;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line eslint-plugin-react-hooks/exhaustive-deps
   }, []);
 
   const renderLeaf = useCallback((renderProps: RenderLeafProps) => {
@@ -132,7 +132,7 @@ const RichTextEditor = ({
       }
     }
     return <span {...attributes}>{children}</span>;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line eslint-plugin-react-hooks/exhaustive-deps
   }, []);
 
   const onDragStart = useCallback((e: DragEvent<HTMLDivElement>) => nativeOnDragStart(editor, e), [editor]);

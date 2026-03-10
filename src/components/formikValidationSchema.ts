@@ -24,7 +24,7 @@ import {
 // Taken directly from https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address
 // We don't really need spec compliance, but why not include it?
 const EMAIL_REGEX =
-  // eslint-disable-next-line no-useless-escape
+  // oxlint-disable-next-line no-useless-escape
   /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 const appendError = (error: string, newError: string): string => (error ? `${error} \n ${newError}` : newError);

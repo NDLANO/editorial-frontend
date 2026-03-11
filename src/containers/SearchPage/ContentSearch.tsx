@@ -67,6 +67,7 @@ export const ContentSearch = () => {
       excludeRevisionLog: params.get("exclude-revision-log") === "true" ? true : DEFAULT_PARAMS.excludeRevisionLog,
       responsibleIds: responsibles === NO_RESPONSIBLES ? [] : responsibles?.split(",") || undefined,
       query: params.get("query") ?? undefined,
+      queryFields: params.get("query-fields")?.split(",") as DraftSearchParamsDTO["queryFields"] | undefined,
       language: params.get("language") ?? undefined,
       articleTypes: params.get("article-types")?.split(",") ?? undefined,
       subjects: params.get("subjects")?.split(",") ?? undefined,

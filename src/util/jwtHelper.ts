@@ -20,7 +20,7 @@ export const decodeToken = (accessToken: string | undefined | null): NDLAToken |
   if (!accessToken) return null;
   try {
     return decode<NDLAToken>(accessToken);
-  } catch (e) {
+  } catch (_) {
     return null;
   }
 };

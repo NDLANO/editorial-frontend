@@ -105,6 +105,7 @@ const SlateCommentInline = ({ attributes, editor, element, children }: Props) =>
     >
       <PopoverTrigger asChild type={undefined}>
         <InlineComment
+          // oxlint-disable-next-line jsx_a11y/prefer-tag-over-role
           role="button"
           tabIndex={0}
           onMouseDown={(e) => preventAutoFocusInEditor(e.nativeEvent)}

@@ -119,7 +119,7 @@ export const SlateFile = ({
                 value={fileName}
                 onKeyDown={onKeyDown}
                 onChange={(e) => setFileName(e.currentTarget.value)}
-                // eslint-disable-next-line jsx-a11y/no-autofocus
+                // oxlint-disable-next-line jsx_a11y/no-autofocus
                 autoFocus
               />
               <IconButton

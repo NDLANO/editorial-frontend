@@ -104,6 +104,7 @@ const ImageFocalPointEdit = ({ language, onFocalPointChange, image }: Props) => 
     <div>
       <StyledFocalPointContainer>
         <StyledFocalPointButton type="button" onClick={onImageClick}>
+          {/* oxlint-disable-next-line jsx-a11y-js/no-noninteractive-element-interactions */}
           <img
             style={{ minWidth: "inherit" }}
             alt={values.alt}

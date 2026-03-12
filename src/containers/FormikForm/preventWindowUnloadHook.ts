@@ -13,6 +13,7 @@ const usePreventWindowUnload = (preventDefault: boolean) => {
     if (preventDefault) {
       const handleBeforeUnload = (event: BeforeUnloadEvent) => {
         event.preventDefault();
+        // oxlint-disable-next-line typescript/no-deprecated
         return (event.returnValue = "");
       };
       window.addEventListener("beforeunload", handleBeforeUnload);

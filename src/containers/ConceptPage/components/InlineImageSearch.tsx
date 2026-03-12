@@ -41,7 +41,7 @@ const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
         setImage(image);
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line eslint-plugin-react-hooks/exhaustive-deps
   }, []);
 
   if (image) {

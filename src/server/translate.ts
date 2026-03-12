@@ -6,7 +6,6 @@
  *
  */
 
-import fetch from "node-fetch";
 import { getEnvironmentVariabel } from "../config";
 import { ApiTranslateType } from "../interfaces";
 import errorLogger from "./logger";

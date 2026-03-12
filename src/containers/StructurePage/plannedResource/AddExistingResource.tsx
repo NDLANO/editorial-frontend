@@ -217,7 +217,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
 
         setArticleInputId(resource[0].contentUri?.split(":").at(-1));
         return;
-      } catch (e) {
+      } catch (_) {
         resetPastedUrlStatesWithError(t("taxonomy.noResources"));
       }
     }
@@ -241,7 +241,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
         });
         setResourceId(resolvedUrl.id);
         setContentUri(resolvedUrl.contentUri);
-      } catch (e) {
+      } catch (_) {
         resetPastedUrlStatesWithError(t("taxonomy.noResources"));
       }
     }

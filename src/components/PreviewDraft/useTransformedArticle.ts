@@ -45,8 +45,6 @@ export const useTransformedArticle = <T extends FormArticle | undefined>({
       articleLanguage: getUpdatedLanguage(draft.language),
     });
 
-    const disclaimer = transform(disclaimerContent?.data ?? "", {});
-
     return {
       title: draft.title ? parse(draft.title) : "",
       introduction: draft.introduction ? parse(draft.introduction) : "",
@@ -54,9 +52,9 @@ export const useTransformedArticle = <T extends FormArticle | undefined>({
       copyright: draft.copyright,
       published: draft.published ? formatDate(draft.published) : "",
       footNotes: [],
-      disclaimer,
+      disclaimer: transform(disclaimerContent?.data ?? "", {}),
     };
-  }, [transformedContent.data, draft, previewAlt]);
+  }, [transformedContent.data, draft, previewAlt, disclaimerContent]);
 
   return { article, draft };
 };

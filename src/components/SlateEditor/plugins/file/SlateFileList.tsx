@@ -71,7 +71,7 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
   useEffect(() => {
     getMissingFiles(files).then(setMissingFilePaths);
     // We only need to check this once, as adding further files guarantees them to "exist"
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line eslint-plugin-react-hooks/exhaustive-deps
   }, []);
 
   const onEditFileList = useCallback(

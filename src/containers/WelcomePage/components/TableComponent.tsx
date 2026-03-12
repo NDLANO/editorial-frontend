@@ -118,6 +118,7 @@ const TableComponent = <T extends string>({
                       <ContentWrapper>
                         <ArrowUpShortLine
                           aria-label={t("welcomePage.workList.sortAsc")}
+                          // oxlint-disable-next-line jsx_a11y/prefer-tag-over-role
                           role="button"
                           onClick={() => setSortOption(tableTitle.sortableField!)}
                           data-hidden={!tableTitle.sortableField || sortOption === tableTitle.sortableField}
@@ -128,6 +129,7 @@ const TableComponent = <T extends string>({
                       <ContentWrapper>
                         <ArrowDownShortLine
                           aria-label={t("welcomePage.workList.sortDesc")}
+                          // oxlint-disable-next-line jsx_a11y/prefer-tag-over-role
                           role="button"
                           onClick={() => setSortOption(`-${tableTitle.sortableField!}`!)}
                           data-hidden={!tableTitle.sortableField || sortOption === `-${tableTitle.sortableField}`}

@@ -59,7 +59,7 @@ const ImageContent = ({ language }: Props) => {
         } else {
           imageBlob = values.imageFile;
         }
-      } catch (e) {
+      } catch (_) {
         altTextHelpers.setError(t("textGeneration.errorImage"));
         return;
       }

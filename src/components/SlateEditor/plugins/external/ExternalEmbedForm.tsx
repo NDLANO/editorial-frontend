@@ -226,7 +226,7 @@ const InnerForm = () => {
       if (rule) {
         try {
           url = await rule.transform(url);
-        } catch (e) {
+        } catch (_) {
           setFieldError("url", t("form.content.link.unSupported"));
           return;
         }
@@ -245,7 +245,7 @@ const InnerForm = () => {
           }),
           true,
         );
-      } catch (e) {
+      } catch (_) {
         const provider = getWhitelistedProvider(url);
         setValues(
           (values) => ({ ...values, height: provider?.height ?? "486px", resource: "iframe", validUrl: url, url }),

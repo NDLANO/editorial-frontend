@@ -83,7 +83,7 @@ const ContentField = ({ field }: Props) => {
       const content = await Promise.all(promises);
       setRelatedContent(content);
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line eslint-plugin-react-hooks/exhaustive-deps
   }, []);
 
   const onAddArticleToList = async (article: ArticleSummaryDTO) => {

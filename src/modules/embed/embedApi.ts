@@ -83,7 +83,7 @@ const fetchVisualAudioMeta = async (embed: AudioEmbedData, language: string): Pr
       embedData: embed,
       data: res,
     };
-  } catch (e) {
+  } catch (_) {
     return {
       resource: "audio",
       status: "error",
@@ -113,7 +113,7 @@ const fetchVisualBrightcoveMeta = async (
       embedData,
       data,
     };
-  } catch (e) {
+  } catch (_) {
     return {
       resource: "brightcove",
       status: "error",
@@ -165,7 +165,7 @@ export const fetchVisualH5pMeta = async (embedData: H5pEmbedData): Promise<H5pMe
       embedData,
       data,
     };
-  } catch (e) {
+  } catch (_) {
     return {
       resource: "h5p",
       status: "error",
@@ -205,7 +205,7 @@ export const fetchConceptVisualElement = async (
         embedData: embed,
         data,
       };
-    } catch (e) {
+    } catch (_) {
       return {
         resource: "external",
         status: "error",

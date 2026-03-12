@@ -67,7 +67,7 @@ const isSafeRedirect = (url: string) => {
   try {
     const decodedUrl = decodeURIComponent(url).trim();
     return decodedUrl.startsWith("/") && !decodedUrl.startsWith("//");
-  } catch (e) {
+  } catch (_) {
     return false;
   }
 };
@@ -201,7 +201,7 @@ router.get("/login/success", async (req, res) => {
 
     clearTemporaryCookies(res);
     return res.redirect(decodeURIComponent(returnTo));
-  } catch (e) {
+  } catch (_) {
     clearTemporaryCookies(res);
     res.status(INTERNAL_SERVER_ERROR).send({ error: "Login failed" });
   }
@@ -247,7 +247,7 @@ router.get("/auth/refresh", async (req, res) => {
   try {
     const accessToken = await refreshAccessToken(req, res);
     res.status(OK).json(accessToken);
-  } catch (e) {
+  } catch (_) {
     res.status(UNAUTHORIZED).send({ error: "Failed to refresh token" });
   }
 });

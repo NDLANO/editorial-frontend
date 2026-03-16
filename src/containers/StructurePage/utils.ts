@@ -12,6 +12,8 @@ export const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase(
 
 type DataKeysType = "nb_visits" | "avg_time_on_page" | "nb_hits";
 
+export type ResourceGroup = "core" | "supplementary" | "learningpath" | "link";
+
 const sumValueEntries = (data: MatomoPageData[], key: DataKeysType): number =>
   data.reduce((acc, cur) => acc + cur[key], 0);
 

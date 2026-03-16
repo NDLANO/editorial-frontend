@@ -7,8 +7,8 @@
  */
 
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
-import { sortBy, uniqBy } from "@ndla/util";
-import { RESOURCE_TYPE_LEARNING_PATH } from "../constants";
+import { partition, sortBy, uniqBy } from "@ndla/util";
+import { RESOURCE_FILTER_SUPPLEMENTARY, RESOURCE_TYPE_LEARNING_PATH } from "../constants";
 import { ContentUriInfo, FlattenedResourceType } from "../interfaces";
 import { NodeChildWithChildren } from "../modules/nodes/nodeApiTypes";
 
@@ -66,6 +66,36 @@ export const sortResources = <T extends ResourceLike>(
     return order;
   }, {});
   return sortBy(uniq, (res) => resourceTypeOrder[res.resourceTypes?.[0]?.id ?? ""] ?? Number.MAX_SAFE_INTEGER);
+};
+
+interface PartitionedResources<T> {
+  learningpaths: T[];
+  supplementaryArticles: T[];
+  coreArticles: T[];
+}
+
+export const partitionResources = (
+  resources: NodeChild[],
+  resourceTypes: ResourceType[],
+  ungrouped: boolean,
+): PartitionedResources<NodeChild> => {
+  const sortedResources = sortResources(resources, resourceTypes ?? [], !ungrouped);
+
+  const [learningpaths, articles] = partition(
+    sortedResources,
+    (res) => !!res.resourceTypes?.some((type) => type.id === RESOURCE_TYPE_LEARNING_PATH),
+  );
+
+  const [supplementaryArticles, coreArticles] = partition(
+    articles,
+    (a) => a.relevanceId === RESOURCE_FILTER_SUPPLEMENTARY,
+  );
+
+  return {
+    learningpaths,
+    supplementaryArticles,
+    coreArticles,
+  };
 };
 
 export const safeConcat = <T>(toAdd: T, existing?: T[]) => (existing ? existing.concat(toAdd) : [toAdd]);

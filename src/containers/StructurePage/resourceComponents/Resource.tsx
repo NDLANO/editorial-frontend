@@ -13,7 +13,6 @@ import {
   ListItemHeading,
   ListItemRoot,
   IconButton,
-  Badge,
   DialogRoot,
   DialogTrigger,
   DialogContent,
@@ -23,7 +22,6 @@ import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { NodeChild } from "@ndla/types-taxonomy";
-import { BadgesContainer } from "@ndla/ui";
 import { useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import config from "../../../config";
@@ -34,7 +32,7 @@ import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
 import { routes } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { usePreferences } from "../PreferencesProvider";
-import { transformMatomoData } from "../utils";
+import { ResourceGroup, transformMatomoData } from "../utils";
 import { DeleteResourceDialogContent } from "./DeleteResourceDialogContent";
 import GrepCodesDialog from "./GrepCodesDialog";
 import { useElementIsVisible } from "./isVisibleHook";
@@ -46,6 +44,7 @@ import VersionHistory from "./VersionHistory";
 const StyledListItemRoot = styled(ListItemRoot, {
   base: {
     width: "100%",
+    borderColor: "transparent",
   },
 });
 
@@ -115,6 +114,41 @@ const StyledListItemHeading = styled(ListItemHeading, {
   },
 });
 
+const IndicatorWrapper = styled("div", {
+  base: {
+    alignSelf: "stretch",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "xxsmall",
+    paddingBlock: "3xsmall",
+  },
+});
+
+const IndicatorTrack = styled("div", {
+  base: {
+    width: "1px",
+    flex: "1",
+    height: "100%",
+    backgroundColor: "stroke.default",
+  },
+});
+
+const Indicator = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "medium",
+    height: "medium",
+    borderRadius: "full",
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderColor: "stroke.default",
+    background: "background.default",
+  },
+});
+
 interface Props {
   currentNodeId: string;
   responsible?: string;
@@ -122,7 +156,9 @@ interface Props {
   contentMeta: MultiSearchSummaryDTO | undefined;
   nodeResourcesIsPending: boolean;
   invalidate: () => void;
-  type: "resource" | "link";
+  type: ResourceGroup;
+  index: number;
+  isUngrouped?: boolean;
 }
 
 const Resource = ({
@@ -133,6 +169,8 @@ const Resource = ({
   invalidate,
   contentMeta,
   type,
+  index,
+  isUngrouped,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -172,6 +210,12 @@ const Resource = ({
 
   return (
     <StyledListItemRoot ref={ref}>
+      {!!isUngrouped && (
+        <IndicatorWrapper>
+          <Indicator>{index + 1}</Indicator>
+          <IndicatorTrack />
+        </IndicatorWrapper>
+      )}
       <StyledListItemContent>
         <ContentRow>
           <TextWrapper>
@@ -226,11 +270,7 @@ const Resource = ({
         </ContentRow>
         <ContentRow>
           <TextWrapper>
-            <BadgesContainer>
-              {badges.map((badge) => (
-                <Badge key={badge}>{badge}</Badge>
-              ))}
-            </BadgesContainer>
+            <Text color="text.subtle">{badges.join(", ")}</Text>
             <Text color="text.subtle" aria-hidden>
               |
             </Text>

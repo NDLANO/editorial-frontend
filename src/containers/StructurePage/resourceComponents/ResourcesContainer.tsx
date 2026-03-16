@@ -109,6 +109,18 @@ const ResourcesContainer = ({
               isUngrouped={isUngrouped}
             />
             <ResourceItems
+              type="learningpath"
+              title={t("taxonomy.learningpath.title")}
+              resources={learningpaths}
+              resourceTypes={resourceTypesWithoutMissing}
+              currentNode={currentNode}
+              contentMetas={contentMetas}
+              nodeResourcesIsPending={nodeResourcesIsPending}
+              existingResourceIds={nodeResources.map((r) => r.id)}
+              users={users}
+            />
+            <MultidisciplinaryCases currentNode={currentNode} />
+            <ResourceItems
               type="supplementary"
               title={t("taxonomy.supplementary.title")}
               description={t("taxonomy.supplementary.description")}
@@ -120,20 +132,8 @@ const ResourcesContainer = ({
               existingResourceIds={nodeResources.map((r) => r.id)}
               users={users}
             />
-            <ResourceItems
-              type="learningpath"
-              title={t("taxonomy.learningpath.title")}
-              resources={learningpaths}
-              resourceTypes={resourceTypesWithoutMissing}
-              currentNode={currentNode}
-              contentMetas={contentMetas}
-              nodeResourcesIsPending={nodeResourcesIsPending}
-              existingResourceIds={nodeResources.map((r) => r.id)}
-              users={users}
-            />
           </>
         )}
-        <MultidisciplinaryCases currentNode={currentNode} />
       </ResourceWrapper>
     </>
   );

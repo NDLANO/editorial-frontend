@@ -80,7 +80,8 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
         taxonomyVersion,
       });
     }
-  }, [customFields]); // eslint-disable-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line eslint-plugin-react-hooks/exhaustive-deps
+  }, [customFields]);
 
   const filteredProgrammeFields = [TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT];
   const filteredSubjectFields = [

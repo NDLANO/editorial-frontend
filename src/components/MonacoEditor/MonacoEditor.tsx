@@ -20,6 +20,7 @@ import "monaco-editor/esm/vs/editor/contrib/fontZoom/browser/fontZoom";
 import "monaco-editor/esm/vs/editor/contrib/linesOperations/browser/linesOperations";
 import "monaco-editor/esm/vs/editor/contrib/multicursor/browser/multicursor";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
+// oxlint-disable-next-line import/default
 import htmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
 // Uncomment the following line to test all monaco-editor features
 // import * as monaco from "monaco-editor";
@@ -96,7 +97,7 @@ export const MonacoEditor = ({ value, onChange, onSave, size }: Props) => {
       });
     });
     return () => editor?.dispose();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line eslint-plugin-react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

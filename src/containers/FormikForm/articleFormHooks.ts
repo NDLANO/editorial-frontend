@@ -213,6 +213,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
       rules,
       t,
       updateArticle,
+      node?.qualityEvaluation?.grade,
     ],
   );
 

@@ -37,7 +37,7 @@ export const isGrepCodeValid = (grepCode: string, grepFormats: GrepFormat[]) => 
   return grepFormats.map((gf) => gf.regexp).some((filter) => !!grepCode.match(filter));
 };
 
-export const nullOrUndefined = (metaImageId?: unknown | null | undefined) => {
+export const nullOrUndefined = (metaImageId?: unknown | null) => {
   return metaImageId === null ? null : undefined;
 };
 

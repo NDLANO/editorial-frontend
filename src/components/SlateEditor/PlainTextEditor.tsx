@@ -93,7 +93,7 @@ const PlainTextEditor = ({
         status: undefined,
       }));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line eslint-plugin-react-hooks/exhaustive-deps
   }, [status]);
 
   return (

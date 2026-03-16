@@ -7,8 +7,7 @@
  */
 
 import { readFile, writeFile } from "fs/promises";
-import type { TestInfo } from "@playwright/test";
-import { test as Ptest } from "@playwright/test";
+import { test as Ptest, type TestInfo } from "@playwright/test";
 import { brightcoveTokenMock, copyrightMock, getNoteUsersMock, responsiblesMock, userDataMock } from "./mockResponses";
 
 const mockDir = "e2e/apiMocks/";
@@ -35,7 +34,7 @@ const mockFile = ({ titlePath, title: test_name }: TestInfo) => {
  */
 export const test = Ptest.extend<ExtendParams>({
   harCheckpoint: [
-    async ({ context, page }, use) => {
+    async ({ context, page }, call) => {
       let checkpointIndex = 0;
 
       // Appending the checkpoint index to the request headers
@@ -59,7 +58,7 @@ export const test = Ptest.extend<ExtendParams>({
       }
 
       // Appending the new checkpoint index to the request headers
-      await use(async () => {
+      await call(async () => {
         checkpointIndex += 1;
         if (process.env.RECORD_FIXTURES !== "true") {
           await page.setExtraHTTPHeaders({
@@ -70,7 +69,7 @@ export const test = Ptest.extend<ExtendParams>({
     },
     { auto: true, scope: "test" },
   ],
-  page: async ({ page }, use, testInfo) => {
+  page: async ({ page }, call, testInfo) => {
     // Creating the API mocking for the wanted API's
     await page.routeFromHAR(mockFile(testInfo), {
       update: process.env.RECORD_FIXTURES === "true",
@@ -79,12 +78,12 @@ export const test = Ptest.extend<ExtendParams>({
       updateContent: "embed",
     });
 
-    await use(page);
+    await call(page);
 
     await page.close();
   },
-  context: async ({ context }, use, testInfo) => {
-    await use(context);
+  context: async ({ context }, call, testInfo) => {
+    await call(context);
     await context.close();
 
     // Removing sensitive data from the HAR file after saving. Har files are saved on close.

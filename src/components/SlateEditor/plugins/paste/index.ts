@@ -14,7 +14,7 @@ import { PASTE_PLUGIN } from "./types";
 export const b64Decode = (data: string | undefined): Descendant[] => {
   try {
     return JSON.parse(decodeURIComponent(atob(data ?? "")));
-  } catch (e) {
+  } catch (_) {
     return [];
   }
 };

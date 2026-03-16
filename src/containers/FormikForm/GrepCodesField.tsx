@@ -90,7 +90,7 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
       const grepCodesObject = await convertGrepCodesToObject(field.value);
       setGrepCodes(grepCodesObject);
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line eslint-plugin-react-hooks/exhaustive-deps
   }, []);
 
   const fetchGrepCodeTitles = async (

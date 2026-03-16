@@ -102,7 +102,7 @@ const AudioForm = ({
   const navigate = useNavigate();
   const location = useLocation();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // oxlint-disable-next-line eslint-plugin-react-hooks/exhaustive-deps
   useEffect(() => {
     if (!prevAudioLanguage.current) {
       prevAudioLanguage.current = audioLanguage;

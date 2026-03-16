@@ -135,7 +135,7 @@ const MultidisciplinaryDialogContent = ({ currentNode }: Props) => {
     setError(undefined);
     try {
       urlObj = new URL(url);
-    } catch (e) {
+    } catch (_) {
       setError(t("taxonomy.multidisciplinary.errors.invalidUrl"));
       return;
     }
@@ -170,7 +170,7 @@ const MultidisciplinaryDialogContent = ({ currentNode }: Props) => {
           setError(t("taxonomy.multidisciplinary.errors.notMultidisciplinary"));
         }
       }
-    } catch (e) {
+    } catch (_) {
       setError(t("taxonomy.multidisciplinary.errors.failedToFetch"));
     }
   };

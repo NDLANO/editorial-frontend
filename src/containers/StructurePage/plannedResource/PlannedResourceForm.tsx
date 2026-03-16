@@ -281,7 +281,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
         if (!(addNodeMutationLoading || postResourceLoading || createResourceTypeLoading)) {
           onClose?.();
         }
-      } catch (e) {
+      } catch (_) {
         setError("taxonomy.errorMessage");
       }
     },

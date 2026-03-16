@@ -25,6 +25,7 @@ const MathML = ({ innerHTML, onDoubleClick, children, ...rest }: Props) => {
     };
   }, [innerHTML]);
 
+  // oxlint-disable-next-line jsx-a11y-js/no-static-element-interactions
   return <span ref={ref} data-testid="math" onDoubleClick={onDoubleClick} {...rest} />;
 };
 

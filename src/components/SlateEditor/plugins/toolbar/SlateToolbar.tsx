@@ -164,7 +164,7 @@ const SlateToolbar = ({ hideToolbar: hideToolbarProp }: Props) => {
   return (
     <PopoverRoot
       open={open}
-      // eslint-disable-next-line jsx-a11y/no-autofocus
+      // oxlint-disable-next-line jsx_a11y/no-autofocus
       autoFocus={false}
       positioning={positioningOptions}
     >

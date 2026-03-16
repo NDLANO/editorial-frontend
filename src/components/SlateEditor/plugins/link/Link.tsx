@@ -153,7 +153,7 @@ const Link = ({ attributes, editor, element, children }: Props) => {
     <DialogRoot open={editMode} onOpenChange={(details) => toggleEditMode(details.open)}>
       <PopoverRoot
         modal={false}
-        // eslint-disable-next-line jsx-a11y/no-autofocus
+        // oxlint-disable-next-line jsx_a11y/no-autofocus
         autoFocus={false}
         onOpenChange={(details) => {
           if (!details.open) {

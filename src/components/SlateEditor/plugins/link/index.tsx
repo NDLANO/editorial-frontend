@@ -39,7 +39,7 @@ export interface ContentLinkElement {
 export const linkSerializer = createSerializer({
   deserialize(el, children) {
     if (el.tagName.toLowerCase() !== "a") return;
-    const a = el as HTMLLinkElement;
+    const a = el as HTMLAnchorElement;
     return slatejsx(
       "element",
       {

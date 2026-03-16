@@ -88,7 +88,7 @@ const SearchSaveButton = ({ filters, searchContentType, userData }: Props) => {
 
   useEffect(() => {
     setError("");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line eslint-plugin-react-hooks/exhaustive-deps
   }, [window.location.search]);
 
   const handleSuccess = () => {

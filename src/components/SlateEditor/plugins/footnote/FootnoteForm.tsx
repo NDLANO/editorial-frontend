@@ -66,7 +66,7 @@ const FootnoteForm = ({ isEdit, footnote, onRemove, onClose, onSave }: Props) =>
   const handleSave = async (values: FootnoteFormikValues, actions: FormikHelpers<FootnoteFormikValues>) => {
     const { setSubmitting } = actions;
     setSubmitting(true);
-    await onSave({ ...values, authors: values.authors });
+    onSave({ ...values, authors: values.authors });
     setSubmitting(false);
   };
 

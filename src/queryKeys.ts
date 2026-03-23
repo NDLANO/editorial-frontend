@@ -48,6 +48,8 @@ export const LICENSES = "licenses";
 export const USER_DATA = "userData";
 export const DRAFT_STATUS_STATE_MACHINE = "draftStatusStateMachine";
 export const DRAFT_SEARCH_TAGS = "draftSearchTags";
+export const DRAFT_EDITORS = "editors";
+export const DRAFT_RESPONSIBLES = "responsibles";
 
 export const RESOURCE_TYPE = "resourceType";
 export const RESOURCE_TYPES = "resourceTypes";

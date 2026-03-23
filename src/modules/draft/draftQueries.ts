@@ -26,6 +26,8 @@ import {
   SEARCH_DRAFTS,
   DRAFT_HISTORY,
   DRAFT_SEARCH_TAGS,
+  DRAFT_EDITORS,
+  DRAFT_RESPONSIBLES,
 } from "../../queryKeys";
 import {
   fetchDraft,
@@ -36,6 +38,8 @@ import {
   fetchSearchTags,
   searchDrafts,
   fetchArticleRevisionHistory,
+  fetchEditors,
+  fetchResponsibles,
 } from "./draftApi";
 
 export interface UseDraft {
@@ -58,6 +62,8 @@ export const draftQueryKeys = {
   userData: [USER_DATA] as const,
   statusStateMachine: (params?: Partial<StatusStateMachineParams>) => [DRAFT_STATUS_STATE_MACHINE, params] as const,
   draftSearchTags: (params?: Partial<UseSearchTags>) => [DRAFT_SEARCH_TAGS, params] as const,
+  draftEditors: [DRAFT_EDITORS] as const,
+  draftResponsibles: [DRAFT_RESPONSIBLES] as const,
 };
 
 export const useDraft = ({ id, language }: UseDraft, options?: Partial<UseQueryOptions<ArticleDTO>>) => {
@@ -133,6 +139,22 @@ export const useUpdateUserDataMutation = () => {
       }
     },
     onSettled: () => queryClient.invalidateQueries({ queryKey: draftQueryKeys.userData }),
+  });
+};
+
+export const useEditors = (options?: Partial<UseQueryOptions<string[]>>) => {
+  return useQuery<string[]>({
+    queryKey: draftQueryKeys.draftEditors,
+    queryFn: () => fetchEditors(),
+    ...options,
+  });
+};
+
+export const useResponsibles = (options?: Partial<UseQueryOptions<string[]>>) => {
+  return useQuery<string[]>({
+    queryKey: draftQueryKeys.draftResponsibles,
+    queryFn: () => fetchResponsibles(),
+    ...options,
   });
 };
 

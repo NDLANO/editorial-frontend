@@ -6,6 +6,7 @@
  *
  */
 
+import { sortBy } from "@ndla/util";
 import { getEnvironmentVariabel, getUniversalConfig } from "../config";
 import { Auth0UserData } from "../interfaces";
 
@@ -71,7 +72,7 @@ export const fetchAuth0UsersById = async (
 
   const results = await Promise.all(requests);
   const merged = results.flat();
-  return merged.sort((a, b) => a.name.localeCompare(b.name));
+  return sortBy(merged, (u) => u.name);
 };
 
 const fetchAuth0Users = async (managementToken: ManagementToken, userIds: string[]): Promise<Auth0UserData[]> => {

@@ -102,7 +102,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
   const { data: users } = useAuth0Users(
     { uniqueUserIds: editorIds?.join(",") ?? "" },
     {
-      enabled: !!editorIds,
+      enabled: !!editorIds?.length,
       select: (users) =>
         users.map((u) => ({
           id: `${u.app_metadata.ndla_id}`,
@@ -114,7 +114,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
   const { data: responsibles } = useAuth0Users(
     { uniqueUserIds: responsibleIds?.join(",") ?? "" },
     {
-      enabled: !!responsibleIds,
+      enabled: !!responsibleIds?.length,
       select: (users) => {
         const options = [{ id: NO_RESPONSIBLES, name: t("searchForm.noResponsibles") }];
         return options.concat(

@@ -53,9 +53,8 @@ export const ContentSearch = () => {
     taxonomyVersion,
   });
 
-  const responsibles = params.get("responsible-ids");
-
   const parsedParams = useMemo(() => {
+    const responsibles = params.get("responsible-ids");
     const parsed: DraftSearchParamsDTO = {
       fallback: DEFAULT_PARAMS.fallback,
       draftStatus: params.get("draft-status")?.split(",") ?? undefined,
@@ -76,7 +75,7 @@ export const ContentSearch = () => {
       traits: (params.get("traits")?.split(",") ?? undefined) as DraftSearchParamsDTO["traits"] | undefined,
     };
     return parsed;
-  }, [params, responsibles]);
+  }, [params]);
 
   const searchQuery = useSearchWithCustomSubjectsFiltering(parsedParams);
   useSearchWithCustomSubjectsFiltering({ ...parsedParams, page: parsedParams.page ? parsedParams.page + 1 : 2 }); // preload next page.

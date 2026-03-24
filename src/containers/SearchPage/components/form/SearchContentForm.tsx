@@ -115,15 +115,18 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
     { uniqueUserIds: responsibleIds?.join(",") ?? "" },
     {
       enabled: !!responsibleIds,
-      select: (users) =>
-        users.map((u) => ({
-          id: `${u.app_metadata.ndla_id}`,
-          name: u.name,
-        })),
+      select: (users) => {
+        const options = [{ id: NO_RESPONSIBLES, name: t("searchForm.noResponsibles") }];
+        return options.concat(
+          users.map((u) => ({
+            id: `${u.app_metadata.ndla_id}`,
+            name: u.name,
+          })),
+        );
+      },
       placeholderData: [],
     },
   );
-  responsibles?.unshift({ id: NO_RESPONSIBLES, name: t("searchForm.noResponsibles") });
 
   const { data: resourceTypes } = useAllResourceTypes(
     { language: i18n.language, taxonomyVersion },

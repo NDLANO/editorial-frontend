@@ -26,6 +26,7 @@ import {
   SA_SUBJECT_ID,
   LMA_SUBJECT_ID,
   NO_SUBJECT_ID,
+  NO_RESPONSIBLES,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_SA,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_DA,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
@@ -120,6 +121,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
       placeholderData: [],
     },
   );
+  responsibles?.unshift({ id: NO_RESPONSIBLES, name: t("searchForm.noResponsibles") });
 
   const { data: resourceTypes } = useAllResourceTypes(
     { language: i18n.language, taxonomyVersion },

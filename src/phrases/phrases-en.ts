@@ -452,6 +452,7 @@ const phrases = {
     SASubjects: "My SA-subjects",
     DASubjects: "My DA-subjects",
     noSubjects: "Without subject",
+    noResponsibles: "Without responsible",
     archivedIncluded: "Archived subjects included",
     error: "Something went wrong with the search",
     conceptSubject: "Concept subject: {{name}}",

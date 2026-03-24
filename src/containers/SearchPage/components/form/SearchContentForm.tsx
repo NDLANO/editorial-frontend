@@ -25,6 +25,7 @@ import {
   FAVOURITES_SUBJECT_ID,
   SA_SUBJECT_ID,
   LMA_SUBJECT_ID,
+  NO_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_SA,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_DA,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
@@ -190,6 +191,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
     if (userHasCustomField(subjects, userData?.userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_DA)) {
       finalSubjects.push({ id: DA_SUBJECT_ID, name: t("searchForm.DASubjects") });
     }
+    finalSubjects.push({ id: NO_SUBJECT_ID, name: t("searchForm.noSubjects") });
     finalSubjects.push(...regularSubjects);
 
     conceptSubjects.forEach((s) => {

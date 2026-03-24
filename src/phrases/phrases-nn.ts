@@ -450,6 +450,7 @@ const phrases = {
     LMASubjects: "Mine LMA-fag",
     SASubjects: "Mine SA-fag",
     DASubjects: "Mine DA-fag",
+    noSubjects: "Uten fag",
     archivedIncluded: "Utgåtte fag inkludert",
     error: "Noko gjekk galt med søket",
     conceptSubject: "Forklaringsfag: {{name}}",

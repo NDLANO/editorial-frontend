@@ -35,10 +35,10 @@ import {
 import { CamelToKebab } from "../../../../interfaces";
 import { useAuth0Users } from "../../../../modules/auth0/auth0Queries";
 import {
-  useEditors,
+  useDraftEditors,
   useDraftStatusStateMachine,
   useLicenses,
-  useResponsibles,
+  useDraftResponsibles,
 } from "../../../../modules/draft/draftQueries";
 import { useAllResourceTypes } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import formatDate from "../../../../util/formatDate";
@@ -96,8 +96,8 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
   const [params, setParams] = useStableSearchPageParams();
   const [queryInput, setQueryInput] = useState(params.get("query") ?? "");
 
-  const { data: editorIds } = useEditors();
-  const { data: responsibleIds } = useResponsibles();
+  const { data: editorIds } = useDraftEditors();
+  const { data: responsibleIds } = useDraftResponsibles();
 
   const { data: users } = useAuth0Users(
     { uniqueUserIds: editorIds?.join(",") ?? "" },

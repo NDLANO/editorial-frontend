@@ -38,8 +38,8 @@ import {
   fetchSearchTags,
   searchDrafts,
   fetchArticleRevisionHistory,
-  fetchEditors,
-  fetchResponsibles,
+  fetchDraftEditors,
+  fetchDraftResponsibles,
 } from "./draftApi";
 
 export interface UseDraft {
@@ -142,18 +142,18 @@ export const useUpdateUserDataMutation = () => {
   });
 };
 
-export const useEditors = (options?: Partial<UseQueryOptions<string[]>>) => {
+export const useDraftEditors = (options?: Partial<UseQueryOptions<string[]>>) => {
   return useQuery<string[]>({
     queryKey: draftQueryKeys.draftEditors,
-    queryFn: () => fetchEditors(),
+    queryFn: () => fetchDraftEditors(),
     ...options,
   });
 };
 
-export const useResponsibles = (options?: Partial<UseQueryOptions<string[]>>) => {
+export const useDraftResponsibles = (options?: Partial<UseQueryOptions<string[]>>) => {
   return useQuery<string[]>({
     queryKey: draftQueryKeys.draftResponsibles,
-    queryFn: () => fetchResponsibles(),
+    queryFn: () => fetchDraftResponsibles(),
     ...options,
   });
 };

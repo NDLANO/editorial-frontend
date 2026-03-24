@@ -159,10 +159,10 @@ export const fetchUserData = async (): Promise<UserDataDTO> =>
 export const updateUserData = async (userData: UpdatedUserDataDTO): Promise<UserDataDTO> =>
   client.PATCH("/draft-api/v1/user-data", { body: userData }).then((r) => resolveJsonOATS(r));
 
-export const fetchEditors = async (): Promise<string[]> =>
+export const fetchDraftEditors = async (): Promise<string[]> =>
   client.GET("/draft-api/v1/user-data/editors").then((r) => resolveJsonOATS(r));
 
-export const fetchResponsibles = async (): Promise<string[]> =>
+export const fetchDraftResponsibles = async (): Promise<string[]> =>
   client.GET("/draft-api/v1/user-data/responsibles").then((r) => resolveJsonOATS(r));
 
 export const fetchStatusStateMachine = async (id?: number): Promise<DraftStatusStateMachineType> =>

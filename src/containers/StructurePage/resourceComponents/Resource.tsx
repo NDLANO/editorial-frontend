@@ -83,6 +83,9 @@ export const linkRecipe = cva({
     _hover: {
       textDecoration: "none",
     },
+    _visited: {
+      color: "text.linkVisited",
+    },
   },
 });
 

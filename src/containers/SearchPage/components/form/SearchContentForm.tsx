@@ -82,24 +82,24 @@ const getArticleTraits = (t: TFunction) => [
 const userHasCustomField = (subjects: Node[], ndlaId: string | undefined, customField: string) =>
   subjects.some((s) => s.metadata.customFields?.[customField] === ndlaId);
 
+const queryFields = [
+  "title",
+  "introduction",
+  "metaDescription",
+  "disclaimer",
+  "content",
+  "tags",
+  "embedAttributes",
+  "creators",
+  "processors",
+  "rightsholders",
+  "revisionMeta",
+  "notes",
+  "previousNotes",
+] satisfies DraftSearchField[];
+
 const getQueryFieldOptions = (t: TFunction): SelectOption[] =>
-  (
-    [
-      "title",
-      "introduction",
-      "metaDescription",
-      "disclaimer",
-      "content",
-      "tags",
-      "embedAttributes",
-      "creators",
-      "processors",
-      "rightsholders",
-      "revisionMeta",
-      "notes",
-      "previousNotes",
-    ] satisfies DraftSearchField[]
-  ).map((field) => ({
+  queryFields.map((field) => ({
     id: field,
     name: t(`searchForm.queryFields.${field}`),
   }));

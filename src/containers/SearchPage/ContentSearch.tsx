@@ -12,6 +12,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../components/abstractions/Pagination";
 import config from "../../config";
+import { NO_RESPONSIBLES } from "../../constants";
 import { useAuth0Users } from "../../modules/auth0/auth0Queries";
 import { useUserData } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
@@ -53,6 +54,7 @@ export const ContentSearch = () => {
   });
 
   const parsedParams = useMemo(() => {
+    const responsibles = params.get("responsible-ids");
     const parsed: DraftSearchParamsDTO = {
       fallback: DEFAULT_PARAMS.fallback,
       draftStatus: params.get("draft-status")?.split(",") ?? undefined,
@@ -63,7 +65,7 @@ export const ContentSearch = () => {
       revisionDateFrom: params.get("revision-date-from") ?? undefined,
       revisionDateTo: params.get("revision-date-to") ?? undefined,
       excludeRevisionLog: params.get("exclude-revision-log") === "true" ? true : DEFAULT_PARAMS.excludeRevisionLog,
-      responsibleIds: params.get("responsible-ids")?.split(",") ?? undefined,
+      responsibleIds: responsibles === NO_RESPONSIBLES ? [] : responsibles?.split(",") || undefined,
       query: params.get("query") ?? undefined,
       language: params.get("language") ?? undefined,
       articleTypes: params.get("article-types")?.split(",") ?? undefined,

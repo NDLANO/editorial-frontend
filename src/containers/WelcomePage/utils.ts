@@ -15,6 +15,7 @@ import {
   LMA_SUBJECT_ID,
   SA_SUBJECT_ID,
   DA_SUBJECT_ID,
+  NO_SUBJECT_ID,
 } from "../../constants";
 
 export interface SubjectData {
@@ -90,6 +91,8 @@ export const getSubjectsIdsQuery = (
     subjects = subjectIdObject[TAXONOMY_CUSTOM_FIELD_SUBJECT_SA].map((s) => s.id);
   } else if (querySubjects.join("") === DA_SUBJECT_ID) {
     subjects = subjectIdObject[TAXONOMY_CUSTOM_FIELD_SUBJECT_DA].map((s) => s.id);
+  } else if (querySubjects.join("") === NO_SUBJECT_ID) {
+    subjects = [] as string[];
   } else {
     subjects = querySubjects;
   }

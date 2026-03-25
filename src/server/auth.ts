@@ -6,6 +6,7 @@
  *
  */
 
+import { sortBy } from "@ndla/util";
 import { getEnvironmentVariabel, getUniversalConfig } from "../config";
 import { Auth0UserData } from "../interfaces";
 
@@ -61,12 +62,22 @@ export const fetchAuth0UsersById = async (
   managementToken: ManagementToken,
   userIds: string,
 ): Promise<Auth0UserData[]> => {
-  const query = userIds
-    .split(",")
-    .map((userId) => `"${userId}"`)
-    .join(" OR ");
+  const ids = userIds.split(",").map((userId) => `"${userId}"`);
+  const chunkSize = 50;
+  const requests: Promise<Auth0UserData[]>[] = [];
+
+  for (let i = 0; i < ids.length; i += chunkSize) {
+    requests.push(fetchAuth0Users(managementToken, ids.slice(i, i + chunkSize)));
+  }
+
+  const results = await Promise.all(requests);
+  const merged = results.flat();
+  return sortBy(merged, (u) => u.name);
+};
+
+const fetchAuth0Users = async (managementToken: ManagementToken, userIds: string[]): Promise<Auth0UserData[]> => {
   const res = await fetch(
-    `https://${getUniversalConfig().auth0Domain}/api/v2/users?q=app_metadata.ndla_id:(${query})`,
+    `https://${getUniversalConfig().auth0Domain}/api/v2/users?q=app_metadata.ndla_id:(${userIds.join(" OR ")})`,
     {
       headers: {
         "Content-Type": "application/json",

@@ -21,8 +21,11 @@ export const auth0QueryKeys = {
   responsibles: (params?: Partial<Auth0Editors>) => [AUTH0_RESPONSIBLES, params] as const,
 };
 
-export const useAuth0Users = (params: Auth0Users, options: Partial<UseQueryOptions<Auth0UserData[]>>) =>
-  useQuery<Auth0UserData[]>({
+export const useAuth0Users = <ReturnType = Auth0UserData[]>(
+  params: Auth0Users,
+  options: Partial<UseQueryOptions<Auth0UserData[], unknown, ReturnType>>,
+) =>
+  useQuery<Auth0UserData[], unknown, ReturnType>({
     queryKey: auth0QueryKeys.users(params),
     queryFn: () => fetchAuth0Users(params.uniqueUserIds),
     ...options,

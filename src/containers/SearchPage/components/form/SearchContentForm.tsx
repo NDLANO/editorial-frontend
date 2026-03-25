@@ -22,18 +22,24 @@ import { getTagName } from "../../../../components/Form/utils";
 import ObjectSelector, { SelectElement, SelectOption } from "../../../../components/ObjectSelector";
 import {
   DA_SUBJECT_ID,
-  DRAFT_RESPONSIBLE,
   FAVOURITES_SUBJECT_ID,
   SA_SUBJECT_ID,
   LMA_SUBJECT_ID,
+  NO_SUBJECT_ID,
+  NO_RESPONSIBLES,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_SA,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_DA,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from "../../../../constants";
 import { CamelToKebab } from "../../../../interfaces";
-import { useAuth0Editors, useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
-import { useDraftStatusStateMachine, useLicenses } from "../../../../modules/draft/draftQueries";
+import { useAuth0Users } from "../../../../modules/auth0/auth0Queries";
+import {
+  useDraftEditors,
+  useDraftStatusStateMachine,
+  useLicenses,
+  useDraftResponsibles,
+} from "../../../../modules/draft/draftQueries";
 import { useAllResourceTypes } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import formatDate from "../../../../util/formatDate";
 import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
@@ -90,19 +96,34 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
   const [params, setParams] = useStableSearchPageParams();
   const [queryInput, setQueryInput] = useState(params.get("query") ?? "");
 
-  const { data: users } = useAuth0Editors({
-    select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
-    placeholderData: [],
-  });
+  const { data: editorIds } = useDraftEditors();
+  const { data: responsibleIds } = useDraftResponsibles();
 
-  const { data: responsibles } = useAuth0Responsibles(
-    { permission: DRAFT_RESPONSIBLE },
+  const { data: users } = useAuth0Users(
+    { uniqueUserIds: editorIds?.join(",") ?? "" },
     {
+      enabled: !!editorIds?.length,
       select: (users) =>
         users.map((u) => ({
           id: `${u.app_metadata.ndla_id}`,
           name: u.name,
         })),
+      placeholderData: [],
+    },
+  );
+  const { data: responsibles } = useAuth0Users(
+    { uniqueUserIds: responsibleIds?.join(",") ?? "" },
+    {
+      enabled: !!responsibleIds?.length,
+      select: (users) => {
+        const options = [{ id: NO_RESPONSIBLES, name: t("searchForm.noResponsibles") }];
+        return options.concat(
+          users.map((u) => ({
+            id: `${u.app_metadata.ndla_id}`,
+            name: u.name,
+          })),
+        );
+      },
       placeholderData: [],
     },
   );
@@ -177,6 +198,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
     if (userHasCustomField(subjects, userData?.userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_DA)) {
       finalSubjects.push({ id: DA_SUBJECT_ID, name: t("searchForm.DASubjects") });
     }
+    finalSubjects.push({ id: NO_SUBJECT_ID, name: t("searchForm.noSubjects") });
     finalSubjects.push(...regularSubjects);
 
     conceptSubjects.forEach((s) => {

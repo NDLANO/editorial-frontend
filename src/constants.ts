@@ -61,6 +61,8 @@ export const FAVOURITES_SUBJECT_ID = "urn:favourites";
 export const LMA_SUBJECT_ID = "urn:lmaSubjects";
 export const SA_SUBJECT_ID = "urn:saSubjects";
 export const DA_SUBJECT_ID = "urn:daSubjects";
+export const NO_SUBJECT_ID = "urn:noSubjects";
+export const NO_RESPONSIBLES = "urn:noResponsibles";
 // Relevances
 export const RESOURCE_FILTER_CORE = "urn:relevance:core";
 export const RESOURCE_FILTER_SUPPLEMENTARY = "urn:relevance:supplementary";

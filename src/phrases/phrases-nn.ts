@@ -796,6 +796,11 @@ const phrases = {
     disabled: "Ressursar utan taksonomi kan ikkje kvalitetsvurderast",
     warning:
       "Revisjonsmerknad blir sett automatisk når ein set kvalitetsvurdering til 5. Artikkelen vil derfor få ulagra endringar.",
+    technicalEvaluation: {
+      title: "Teknisk gjennomgang",
+      requiresEvaluation: "Treng teknisk gjennomgang",
+      comment: "Kommentar for teknisk gjennomgang",
+    },
   },
   editorToolbar: {
     bold: "Feit\n({{ctrl}}+b)",

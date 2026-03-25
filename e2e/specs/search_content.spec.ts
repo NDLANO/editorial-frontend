@@ -115,13 +115,38 @@ test("Can use content type dropdown", async ({ page }) => {
   await expect(tagButton).not.toBeVisible();
 });
 
-test("Can use exclude checkbox", async ({ page }) => {
-  await page.locator("label", { hasText: "Ekskluder endringslogg" }).click();
-  await page.waitForURL("**/*exclude-revision-log=true*");
-  const tagButton = page.getByRole("button", { name: "Endringslogg ekskludert" });
+test("Can use trait dropdown", async ({ page }) => {
+  await page.getByTestId("traits-select").click();
+  await page.getByRole("option", { name: "Video", exact: true }).click();
+  await page.waitForURL("**/*traits=VIDEO*");
+  const tagButton = page.getByRole("button", { name: "Egenskap: Video" });
   await expect(tagButton).toBeVisible();
   await expect(page.getByTestId("content-search-result").first()).toBeVisible();
-  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(searchTotalCount);
-  await page.locator("label", { hasText: "Ekskluder endringslogg" }).click();
+  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(7500);
+  await page.getByTestId("remove-tag-button").click();
   await expect(tagButton).not.toBeVisible();
+});
+
+test("Can use searchfield dropdown", async ({ page }) => {
+  await page.locator('input[name="query"]').fill("Test");
+  await page.getByRole("button", { name: "Søk", exact: true }).click();
+  await page.getByTestId("query-fields-select").click();
+  await page.getByRole("option", { name: "Tittel", exact: true }).click();
+  await page.getByRole("option", { name: "Ingress", exact: true }).click();
+  await page.getByTestId("query-fields-select").click();
+  await page.waitForURL("**/*query-fields=title%2Cintroduction*");
+  const queryButton = page.getByRole("button", { name: "Søk: Test" });
+  const titleButton = page.getByRole("button", { name: "Søkefelt: Tittel" });
+  const introButton = page.getByRole("button", { name: "Søkefelt: Ingress" });
+  await expect(queryButton).toBeVisible();
+  await expect(titleButton).toBeVisible();
+  await expect(introButton).toBeVisible();
+  await expect(page.getByTestId("content-search-result").first()).toBeVisible();
+  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(1400);
+  await queryButton.click();
+  await titleButton.click();
+  await introButton.click();
+  await expect(queryButton).not.toBeVisible();
+  await expect(titleButton).not.toBeVisible();
+  await expect(introButton).not.toBeVisible();
 });

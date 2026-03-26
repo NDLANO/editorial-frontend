@@ -230,7 +230,7 @@ const phrases = {
       flow: "I flyt",
       flowDescription: "Tal på ressursar i flyt",
       old: "Utdaterte",
-      oldDescription: "Tal på ressurser det er meir enn 5 år sidan vart sist fagleg oppdatert",
+      oldDescription: "Tal på ressurser det er meir enn 5 år sidan vart sist oppdatert",
       revision: "Revisjonar",
       revisionDescription: "Tal på ressursar med utgått revisjonsdato",
       published: "Publisert",
@@ -441,7 +441,7 @@ const phrases = {
       lastUpdated: "Sist oppdatert",
       revisionDate: "Neste revisjon",
       favorited: "Favorittmarkeringar",
-      published: "Sist faglig oppdatert",
+      published: "Sist oppdatert",
       width: "Bredde",
       height: "Høgde",
     },
@@ -608,7 +608,7 @@ const phrases = {
     visualElementCopyright: "Opphav",
     removeVisualElement: "Fjern element",
     info: {
-      lastUpdated: "Sist faglig oppdatert",
+      lastUpdated: "Sist oppdatert",
     },
     title: "Emne",
     fields: {

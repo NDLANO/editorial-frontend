@@ -231,7 +231,7 @@ const phrases = {
       flow: "In flow",
       flowDescription: "Number of resources in flow",
       old: "Outdated",
-      oldDescription: "Number of resources that have not been revised in over 5 years",
+      oldDescription: "Number of resources that have not been updated in over 5 years",
       revision: "Revisions",
       revisionDescription: "Number of resources with expired revision date",
       published: "Published",
@@ -442,7 +442,7 @@ const phrases = {
       lastUpdated: "Last updated",
       revisionDate: "Next revision",
       favorited: "Favorite marks",
-      published: "Last revised",
+      published: "Last updated",
       width: "Width",
       height: "Height",
     },
@@ -609,7 +609,7 @@ const phrases = {
     visualElementCopyright: "Origin",
     removeVisualElement: "Remove element",
     info: {
-      lastUpdated: "Last revised",
+      lastUpdated: "Last updated",
     },
     title: "Topic",
     fields: {

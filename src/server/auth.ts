@@ -48,14 +48,6 @@ export const getBrightcoveToken = () => {
   }).then((res) => res.json());
 };
 
-const mapToUserData = (users: Auth0UserProfile[]): Auth0UserData[] =>
-  users.map(({ name, app_metadata: { ndla_id } }) => ({
-    name,
-    app_metadata: {
-      ndla_id,
-    },
-  }));
-
 type ManagementToken = { access_token: string };
 
 export const fetchAuth0UsersById = async (
@@ -77,7 +69,7 @@ export const fetchAuth0UsersById = async (
 
 const fetchAuth0Users = async (managementToken: ManagementToken, userIds: string[]): Promise<Auth0UserData[]> => {
   const res = await fetch(
-    `https://${getUniversalConfig().auth0Domain}/api/v2/users?q=app_metadata.ndla_id:(${userIds.join(" OR ")})`,
+    `https://${getUniversalConfig().auth0Domain}/api/v2/users?fields=name,app_metadata.ndla_id&include_fields=true&q=app_metadata.ndla_id:(${userIds.join(" OR ")})`,
     {
       headers: {
         "Content-Type": "application/json",
@@ -85,28 +77,25 @@ const fetchAuth0Users = async (managementToken: ManagementToken, userIds: string
       },
     },
   );
-  const json = await res.json();
-  return mapToUserData(json);
+  return await res.json();
 };
-
-interface Auth0UserProfile {
-  name: string;
-  app_metadata?: any;
-}
 
 type PaginatedAuth0UserProfiles = {
   length: number;
   total: number;
-  users: Auth0UserProfile[];
+  users: Auth0UserData[];
 };
 
 const fetchAuth0UsersByQuery = (token: string, query: string, page: number): Promise<PaginatedAuth0UserProfiles> =>
-  fetch(`https://${getUniversalConfig().auth0Domain}/api/v2/users?${query}&include_totals=true&page=${page}`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+  fetch(
+    `https://${getUniversalConfig().auth0Domain}/api/v2/users?fields=name,app_metadata.ndla_id&include_fields=true&${query}&include_totals=true&page=${page}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     },
-  }).then((res) => res.json());
+  ).then((res) => res.json());
 
 const getUsersByQuery = async (token: string, query: string): Promise<Auth0UserData[]> => {
   const firstPage = await fetchAuth0UsersByQuery(token, query, 0);
@@ -116,7 +105,7 @@ const getUsersByQuery = async (token: string, query: string): Promise<Auth0UserD
     requests.push(fetchAuth0UsersByQuery(token, query, i));
   }
   const results = await Promise.all(requests);
-  return results.flatMap((res) => mapToUserData(res.users));
+  return results.flatMap((res) => res.users);
 };
 
 export const getEditors = (managementToken: ManagementToken): Promise<Auth0UserData[]> => {

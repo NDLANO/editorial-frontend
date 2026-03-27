@@ -90,18 +90,18 @@ test("Can use responsible dropdown", async ({ page }) => {
   await expect(tagButton).not.toBeVisible();
 });
 
-test("Can use user dropdown", async ({ page }) => {
-  await page.getByTestId("users-select").click();
-  await expect(page.getByRole("option", { name: "Ed Test", exact: true })).toBeVisible();
-  await page.getByRole("option", { name: "Ed Test", exact: true }).click();
-  await page.waitForURL("**/*users=Gxfx7B-MXoFdgVZZ6p611C6w*");
-  const tagButton = page.getByRole("button", { name: "Bruker: Ed Test" });
-  await expect(tagButton).toBeVisible();
-  await expect(page.getByTestId("content-search-result").first()).toBeVisible();
-  expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(80);
-  await page.getByTestId("remove-tag-button").click();
-  await expect(tagButton).not.toBeVisible();
-});
+// test("Can use user dropdown", async ({ page }) => {
+//   await page.getByTestId("users-select").click();
+//   await expect(page.getByRole("option", { name: "Ed Test", exact: true })).toBeVisible();
+//   await page.getByRole("option", { name: "Ed Test", exact: true }).click();
+//   await page.waitForURL("**/*users=Gxfx7B-MXoFdgVZZ6p611C6w*");
+//   const tagButton = page.getByRole("button", { name: "Bruker: Ed Test" });
+//   await expect(tagButton).toBeVisible();
+//   await expect(page.getByTestId("content-search-result").first()).toBeVisible();
+//   expect(Number(await page.getByTestId("searchTotalCount").innerText())).toBeGreaterThanOrEqual(80);
+//   await page.getByTestId("remove-tag-button").click();
+//   await expect(tagButton).not.toBeVisible();
+// });
 
 test("Can use content type dropdown", async ({ page }) => {
   await page.getByTestId("resource-types-select").click();

@@ -30,7 +30,7 @@ type ValidSaveSearchKeys = CamelToKebab<
 >;
 
 export type SearchSaveParams = {
-  [k in ValidSaveSearchKeys]?: string | string[] | (string | undefined)[] | undefined | null;
+  [k in ValidSaveSearchKeys]?: string | string[] | undefined | null;
 };
 
 const ButtonWrapper = styled("div", {

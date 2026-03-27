@@ -18,7 +18,7 @@ export const userDataMock = {
   favoriteSubjects: ["urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357"],
 };
 
-export const userIdsMock = ["Gxfx7B-MXoFdgVZZ6p611C6w"];
+export const userIdsMock = "Gxfx7B-MXoFdgVZZ6p611C6w";
 
 export const copyrightMock = {
   license: {

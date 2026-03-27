@@ -237,7 +237,8 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
     "query-fields": params
       .get("query-fields")
       ?.split(",")
-      .map((f) => getTagName(f, getQueryFieldOptions(t))),
+      .map((f) => getTagName(f, getQueryFieldOptions(t)))
+      .filter((t): t is string => !!t),
     subjects: getTagName(params.get("subjects"), sortedSubjects),
     "resource-types": getTagName(params.get("resource-types"), resourceTypes),
     "responsible-ids": getTagName(params.get("responsible-ids"), responsibles),

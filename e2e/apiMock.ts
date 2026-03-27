@@ -7,8 +7,7 @@
  */
 
 import { readFile, writeFile } from "fs/promises";
-import type { TestInfo } from "@playwright/test";
-import { test as Ptest } from "@playwright/test";
+import { test as Ptest, type TestInfo } from "@playwright/test";
 import {
   brightcoveTokenMock,
   copyrightMock,
@@ -84,6 +83,7 @@ export const test = Ptest.extend<ExtendParams>({
       updateMode: "minimal",
       url: regex,
       updateContent: "embed",
+      notFound: "fallback",
     });
 
     await use(page);

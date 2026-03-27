@@ -7,7 +7,7 @@
  */
 
 import { DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
-import { keyBy } from "@ndla/util";
+import { keyBy, uniq } from "@ndla/util";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../components/abstractions/Pagination";
@@ -93,7 +93,7 @@ export const ContentSearch = () => {
     }, []);
   }, [searchQuery.data?.results]);
 
-  const auth0Responsibles = useAuth0Users({ uniqueUserIds: responsibleIds.join(",") }, {});
+  const auth0Responsibles = useAuth0Users({ uniqueUserIds: uniq(responsibleIds).join(",") }, {});
 
   const keyedResponsibles = useMemo(() => {
     return keyBy(auth0Responsibles.data, (responsible) => responsible.app_metadata.ndla_id);

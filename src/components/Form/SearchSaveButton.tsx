@@ -29,7 +29,9 @@ type ValidSaveSearchKeys = CamelToKebab<
   | keyof ImageSearchparamsDTO
 >;
 
-export type SearchSaveParams = { [k in ValidSaveSearchKeys]?: string | string[] | undefined | null };
+export type SearchSaveParams = {
+  [k in ValidSaveSearchKeys]?: string | string[] | undefined | null;
+};
 
 const ButtonWrapper = styled("div", {
   base: {

@@ -7,7 +7,7 @@
  */
 
 import { DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
-import { keyBy } from "@ndla/util";
+import { keyBy, uniq } from "@ndla/util";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../components/abstractions/Pagination";
@@ -38,7 +38,6 @@ const DEFAULT_PARAMS: DraftSearchParamsDTO = {
   pageSize: 10,
   license: config.licenseAll,
   sort: "-lastUpdated",
-  excludeRevisionLog: false,
   filterInactive: true,
 };
 
@@ -64,9 +63,9 @@ export const ContentSearch = () => {
       sort: (params.get("sort") ?? DEFAULT_PARAMS.sort) as DraftSearchParamsDTO["sort"],
       revisionDateFrom: params.get("revision-date-from") ?? undefined,
       revisionDateTo: params.get("revision-date-to") ?? undefined,
-      excludeRevisionLog: params.get("exclude-revision-log") === "true" ? true : DEFAULT_PARAMS.excludeRevisionLog,
       responsibleIds: responsibles === NO_RESPONSIBLES ? [] : responsibles?.split(",") || undefined,
       query: params.get("query") ?? undefined,
+      queryFields: params.get("query-fields")?.split(",") as DraftSearchParamsDTO["queryFields"] | undefined,
       language: params.get("language") ?? undefined,
       articleTypes: params.get("article-types")?.split(",") ?? undefined,
       subjects: params.get("subjects")?.split(",") ?? undefined,
@@ -94,7 +93,7 @@ export const ContentSearch = () => {
     }, []);
   }, [searchQuery.data?.results]);
 
-  const auth0Responsibles = useAuth0Users({ uniqueUserIds: responsibleIds.join(",") }, {});
+  const auth0Responsibles = useAuth0Users({ uniqueUserIds: uniq(responsibleIds).join(",") }, {});
 
   const keyedResponsibles = useMemo(() => {
     return keyBy(auth0Responsibles.data, (responsible) => responsible.app_metadata.ndla_id);

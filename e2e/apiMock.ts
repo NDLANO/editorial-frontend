@@ -7,9 +7,15 @@
  */
 
 import { readFile, writeFile } from "fs/promises";
-import type { TestInfo } from "@playwright/test";
-import { test as Ptest } from "@playwright/test";
-import { brightcoveTokenMock, copyrightMock, getNoteUsersMock, responsiblesMock, userDataMock } from "./mockResponses";
+import { test as Ptest, type TestInfo } from "@playwright/test";
+import {
+  brightcoveTokenMock,
+  copyrightMock,
+  getNoteUsersMock,
+  responsiblesMock,
+  userDataMock,
+  userIdsMock,
+} from "./mockResponses";
 
 const mockDir = "e2e/apiMocks/";
 
@@ -77,6 +83,7 @@ export const test = Ptest.extend<ExtendParams>({
       updateMode: "minimal",
       url: regex,
       updateContent: "embed",
+      notFound: "fallback",
     });
 
     await use(page);
@@ -100,6 +107,14 @@ const urlsToReplace = [
     value: responsiblesMock,
   },
   {
+    url: "draft-api/v1/user-data/editors",
+    value: userIdsMock,
+  },
+  {
+    url: "draft-api/v1/user-data/responsibles",
+    value: userIdsMock,
+  },
+  {
     url: "draft-api/v1/user-data",
     value: userDataMock,
   },
@@ -113,6 +128,10 @@ const urlsToReplace = [
   },
   {
     url: "get_editors",
+    value: responsiblesMock,
+  },
+  {
+    url: "get_note_users",
     value: responsiblesMock,
   },
 ];

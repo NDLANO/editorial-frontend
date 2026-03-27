@@ -9,7 +9,7 @@
 import { FieldLabel, FieldRoot, FieldInput } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
-import { DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
+import { DraftSearchField, DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
 import { partition, sortBy } from "@ndla/util";
 import { TFunction } from "i18next";
@@ -48,7 +48,6 @@ import { flattenResourceTypesAndAddContextTypes } from "../../../../util/taxonom
 import InlineDatePicker from "../../../FormikForm/components/InlineDatePicker";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
-import CheckboxSelector from "./CheckboxSelector";
 
 const StyledForm = styled("form", {
   base: {
@@ -82,6 +81,28 @@ const getArticleTraits = (t: TFunction) => [
 
 const userHasCustomField = (subjects: Node[], ndlaId: string | undefined, customField: string) =>
   subjects.some((s) => s.metadata.customFields?.[customField] === ndlaId);
+
+const queryFields = [
+  "title",
+  "introduction",
+  "metaDescription",
+  "disclaimer",
+  "content",
+  "tags",
+  "embedAttributes",
+  "creators",
+  "processors",
+  "rightsholders",
+  "revisionMeta",
+  "notes",
+  "previousNotes",
+] satisfies DraftSearchField[];
+
+const getQueryFieldOptions = (t: TFunction): SelectOption[] =>
+  queryFields.map((field) => ({
+    id: field,
+    name: t(`searchForm.queryFields.${field}`),
+  }));
 
 interface Props {
   subjects: Node[];
@@ -158,9 +179,9 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
       sort: null,
       "revision-date-from": null,
       "revision-date-to": null,
-      "exclude-revision-log": null,
       "responsible-ids": null,
       query: null,
+      "query-fields": null,
       language: null,
       "article-types": null,
       subjects: null,
@@ -213,6 +234,11 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
 
   const filters = {
     query: params.get("query"),
+    "query-fields": params
+      .get("query-fields")
+      ?.split(",")
+      .map((f) => getTagName(f, getQueryFieldOptions(t)))
+      .filter((t): t is string => !!t),
     subjects: getTagName(params.get("subjects"), sortedSubjects),
     "resource-types": getTagName(params.get("resource-types"), resourceTypes),
     "responsible-ids": getTagName(params.get("responsible-ids"), responsibles),
@@ -220,7 +246,6 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
     users: getTagName(params.get("users"), users),
     language: params.get("language"),
     license: getTagName(params.get("license"), licenses),
-    "exclude-revision-log": params.get("exclude-revision-log") === "true" ? "true" : undefined,
     "revision-date-from": formatDate(params.get("revision-date-from")) || undefined,
     "revision-date-to": formatDate(params.get("revision-date-to")) || undefined,
     traits:
@@ -231,6 +256,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
   };
 
   const selectElements: SelectElement<DraftSearchParams>[] = [
+    { name: "query-fields", multiple: true, options: getQueryFieldOptions(t) },
     { name: "subjects", options: sortedSubjects },
     { name: "resource-types", options: sortBy(resourceTypes, (rt) => rt.name) },
     { name: "responsible-ids", options: responsibles ?? [] },
@@ -271,11 +297,6 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
             />
           </FieldRoot>
         ))}
-        <CheckboxSelector
-          name="exclude-revision-log"
-          checked={params.get("exclude-revision-log") === "true"}
-          onCheckedChange={(value) => setParams({ "exclude-revision-log": value ? "true" : null })}
-        />
         <InlineDatePicker
           name="revision-date-from"
           onChange={(e) => setParams({ "revision-date-from": e.currentTarget.value })}

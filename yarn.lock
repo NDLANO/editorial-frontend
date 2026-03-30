@@ -2577,10 +2577,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/types-taxonomy@npm:^1.0.51":
-  version: 1.0.51
-  resolution: "@ndla/types-taxonomy@npm:1.0.51"
-  checksum: 10c0/cacff6ba938e842a4ff36225dd00e28ee3f0b2a6e229fd0ff9ce31a261f2fdab8cb97bbb5b434ea74c4e015dfed031e0d4dfa5d471aed2d91d99c370245e9769
+"@ndla/types-taxonomy@npm:^1.0.52":
+  version: 1.0.52
+  resolution: "@ndla/types-taxonomy@npm:1.0.52"
+  checksum: 10c0/cd6cf6ba1e91adf472313e458f281960e5e98ab1803def6ebb56b5f88f005bbc81fb8608da2719c5926843012783bbe853c428f982272a9b1abce30d78194b5d
   languageName: node
   linkType: hard
 
@@ -6858,7 +6858,7 @@ __metadata:
     "@ndla/styled-system": "npm:^0.0.48"
     "@ndla/types-backend": "npm:^1.0.113"
     "@ndla/types-embed": "npm:^5.0.21-alpha.0"
-    "@ndla/types-taxonomy": "npm:^1.0.51"
+    "@ndla/types-taxonomy": "npm:^1.0.52"
     "@ndla/ui": "npm:^56.0.184-alpha.0"
     "@ndla/util": "npm:^5.0.19-alpha.0"
     "@ndla/video-search": "npm:^8.0.151-alpha.0"

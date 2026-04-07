@@ -40,6 +40,7 @@ interface Props {
   currentNode: NodeChild;
   contentMetas: Dictionary<MultiSearchSummaryDTO>;
   isUngrouped: boolean;
+  hasSubTopics: boolean;
   nodeResourcesIsPending: boolean;
   users: Dictionary<Auth0UserData> | undefined;
 }
@@ -50,6 +51,7 @@ const ResourcesContainer = ({
   currentNode,
   contentMetas,
   isUngrouped,
+  hasSubTopics,
   nodeResourcesIsPending,
   users,
 }: Props) => {
@@ -96,42 +98,48 @@ const ResourcesContainer = ({
           <Spinner aria-label={t("loading")} />
         ) : (
           <>
-            <ResourceItems
-              type="core"
-              title={t("taxonomy.core.title")}
-              resources={coreArticles}
-              resourceTypes={resourceTypesWithoutMissing}
-              currentNode={currentNode}
-              contentMetas={contentMetas}
-              nodeResourcesIsPending={nodeResourcesIsPending}
-              existingResourceIds={nodeResources.map((r) => r.id)}
-              users={users}
-              isUngrouped={isUngrouped}
-            />
-            <ResourceItems
-              type="learningpath"
-              title={t("taxonomy.learningpath.title")}
-              resources={learningpaths}
-              resourceTypes={resourceTypesWithoutMissing}
-              currentNode={currentNode}
-              contentMetas={contentMetas}
-              nodeResourcesIsPending={nodeResourcesIsPending}
-              existingResourceIds={nodeResources.map((r) => r.id)}
-              users={users}
-            />
+            {!hasSubTopics && (
+              <ResourceItems
+                type="core"
+                title={t("taxonomy.core.title")}
+                resources={coreArticles}
+                resourceTypes={resourceTypesWithoutMissing}
+                currentNode={currentNode}
+                contentMetas={contentMetas}
+                nodeResourcesIsPending={nodeResourcesIsPending}
+                existingResourceIds={nodeResources.map((r) => r.id)}
+                users={users}
+                isUngrouped={isUngrouped}
+              />
+            )}
+            {!hasSubTopics && (
+              <ResourceItems
+                type="learningpath"
+                title={t("taxonomy.learningpath.title")}
+                resources={learningpaths}
+                resourceTypes={resourceTypesWithoutMissing}
+                currentNode={currentNode}
+                contentMetas={contentMetas}
+                nodeResourcesIsPending={nodeResourcesIsPending}
+                existingResourceIds={nodeResources.map((r) => r.id)}
+                users={users}
+              />
+            )}
             <MultidisciplinaryCases currentNode={currentNode} />
-            <ResourceItems
-              type="supplementary"
-              title={t("taxonomy.supplementary.title")}
-              description={t("taxonomy.supplementary.description")}
-              resources={supplementaryArticles}
-              resourceTypes={resourceTypesWithoutMissing}
-              currentNode={currentNode}
-              contentMetas={contentMetas}
-              nodeResourcesIsPending={nodeResourcesIsPending}
-              existingResourceIds={nodeResources.map((r) => r.id)}
-              users={users}
-            />
+            {!hasSubTopics && (
+              <ResourceItems
+                type="supplementary"
+                title={t("taxonomy.supplementary.title")}
+                description={t("taxonomy.supplementary.description")}
+                resources={supplementaryArticles}
+                resourceTypes={resourceTypesWithoutMissing}
+                currentNode={currentNode}
+                contentMetas={contentMetas}
+                nodeResourcesIsPending={nodeResourcesIsPending}
+                existingResourceIds={nodeResources.map((r) => r.id)}
+                users={users}
+              />
+            )}
           </>
         )}
       </ResourceWrapper>

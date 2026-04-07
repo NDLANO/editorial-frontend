@@ -6,7 +6,6 @@
  *
  */
 
-import { uuid } from "@ndla/util";
 import { findByTestId, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createMemoryRouter, RouterProvider } from "react-router";
@@ -33,7 +32,7 @@ const wrapper = (messages: MessageType[]) => (
 
 describe("Messages", () => {
   test("A single message renders correctly", () => {
-    const messages: MessageType[] = [{ id: uuid(), message: "Testmessage" }];
+    const messages: MessageType[] = [{ id: crypto.randomUUID(), message: "Testmessage" }];
     const { baseElement } = render(wrapper(messages));
 
     expect(baseElement).toMatchSnapshot();
@@ -41,15 +40,15 @@ describe("Messages", () => {
 
   test("Several messages renders correctly", () => {
     const messages: MessageType[] = [
-      { id: uuid(), message: "Testmessage" },
-      { id: uuid(), message: "Testmessage2" },
+      { id: crypto.randomUUID(), message: "Testmessage" },
+      { id: crypto.randomUUID(), message: "Testmessage2" },
     ];
     const { baseElement } = render(wrapper(messages));
     expect(baseElement).toMatchSnapshot();
   });
 
   test("A message is removed if the modal is closed", async () => {
-    const messages: MessageType[] = [{ id: uuid(), message: "Testmessage", timeToLive: 10000 }];
+    const messages: MessageType[] = [{ id: crypto.randomUUID(), message: "Testmessage", timeToLive: 10000 }];
     const { baseElement, queryByRole } = render(wrapper(messages));
     const portal = baseElement.querySelector('div[role="dialog"]') as HTMLElement;
     expect(baseElement).toMatchSnapshot();
@@ -60,7 +59,9 @@ describe("Messages", () => {
   });
 
   it("auth0 messages provides a cancel button", async () => {
-    const messages: MessageType[] = [{ id: uuid(), message: "Testmessage", timeToLive: 10000, type: "auth0" }];
+    const messages: MessageType[] = [
+      { id: crypto.randomUUID(), message: "Testmessage", timeToLive: 10000, type: "auth0" },
+    ];
     const { baseElement, findByText, queryByRole } = render(wrapper(messages));
     expect(baseElement).toMatchSnapshot();
     const cancelButton = await findByText("Avbryt");
@@ -70,7 +71,9 @@ describe("Messages", () => {
   });
 
   it("auth0 messages allows the user to log in again", async () => {
-    const messages: MessageType[] = [{ id: uuid(), message: "Testmessage", timeToLive: 10000, type: "auth0" }];
+    const messages: MessageType[] = [
+      { id: crypto.randomUUID(), message: "Testmessage", timeToLive: 10000, type: "auth0" },
+    ];
 
     const { findByText } = render(wrapper(messages));
     const loginLink = await findByText("Logg inn på nytt");

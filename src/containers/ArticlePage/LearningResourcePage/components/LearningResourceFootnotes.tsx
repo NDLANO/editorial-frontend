@@ -7,7 +7,6 @@
  */
 
 import { styled } from "@ndla/styled-system/jsx";
-import { uuid } from "@ndla/util";
 import { useTranslation } from "react-i18next";
 
 const FootnoteId = styled("sup", {
@@ -67,7 +66,7 @@ const LearningResourceFootnotes = ({ footnotes }: LearningResourceFootnotesProps
     return (
       <FootnotesList>
         {footnotes.map((footnote, i) => (
-          <Footnote key={uuid()} id={`${i + 1}`} footnote={footnote} />
+          <Footnote key={`footnote-${i}`} id={`${i + 1}`} footnote={footnote} />
         ))}
       </FootnotesList>
     );

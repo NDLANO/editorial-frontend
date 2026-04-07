@@ -6,7 +6,6 @@
  *
  */
 
-import { uuid } from "@ndla/util";
 import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MessageType } from "./types";
@@ -42,7 +41,7 @@ export interface NewMessageType extends Omit<MessageType, "id"> {
 const formatNewMessage = (newMessage: NewMessageType): MessageType => {
   return {
     ...newMessage,
-    id: newMessage.id ?? uuid(),
+    id: newMessage.id ?? crypto.randomUUID(),
     timeToLive: typeof newMessage.timeToLive === "undefined" ? 1500 : newMessage.timeToLive,
   };
 };
@@ -108,7 +107,7 @@ export const useMessages = () => {
   const applicationError = useCallback(
     (error: MessageError) => {
       const maybeMessages: MessageType[] | undefined = error.json?.messages?.map((m) => ({
-        id: uuid(),
+        id: crypto.randomUUID(),
         message: `${m.field}: ${m.message}`,
         severity: "danger",
         timeToLive: 0,

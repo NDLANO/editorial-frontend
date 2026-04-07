@@ -7,7 +7,7 @@
  */
 
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
-import { keyBy } from "@ndla/util";
+import { keyBy, partition } from "@ndla/util";
 import { TFunction } from "i18next";
 import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -51,11 +51,11 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const isUngrouped = currentChildNode?.metadata?.customFields["topic-resources"] === "ungrouped";
 
-  const { data: nodeResources, isPending: nodeResourcesIsPending } = useChildNodes(
+  const { data: nodeChildren, isPending: nodeResourcesIsPending } = useChildNodes(
     {
       id: currentChildNode.id,
       language: i18n.language,
-      nodeType: ["RESOURCE"],
+      nodeType: ["RESOURCE", "TOPIC"],
       includeContexts: true,
       filterProgrammes: true,
       isVisible: false,
@@ -65,6 +65,8 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
       select: (resources) => resources.map((r) => (r.resourceTypes.length > 0 ? r : withMissing(r, t))),
     },
   );
+
+  const [nodeResources, nodeTopics] = partition(nodeChildren, (n) => n.nodeType === "RESOURCE");
 
   const { data: nodeResourceMetas, isPending: contentMetaIsPending } = useNodeResourceMetas(
     {
@@ -76,7 +78,7 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
           .filter((uri): uri is string => !!uri) ?? [],
       language: i18n.language,
     },
-    { enabled: !!currentChildNode.contentUri || (!!nodeResources && !!nodeResources?.length) },
+    { enabled: !!currentChildNode.contentUri || (!!nodeChildren && !!nodeChildren?.length) },
   );
 
   const keyedMetas = useMemo(
@@ -91,13 +93,16 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
     },
   );
 
+  const hasSubTopics = nodeTopics?.length > 0 || false;
+
   return (
     <ResourcesContainer
-      nodeResources={nodeResources ?? []}
+      nodeResources={nodeChildren ?? []}
       resourceTypes={resourceTypes ?? []}
       currentNode={currentChildNode}
       contentMetas={keyedMetas}
       isUngrouped={isUngrouped}
+      hasSubTopics={hasSubTopics}
       nodeResourcesIsPending={contentMetaIsPending || nodeResourcesIsPending}
       users={users}
     />

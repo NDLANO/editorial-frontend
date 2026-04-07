@@ -40,6 +40,7 @@ interface Props {
   currentNode: NodeChild;
   contentMetas: Dictionary<MultiSearchSummaryDTO>;
   isUngrouped: boolean;
+  hasSubTopics: boolean;
   nodeResourcesIsPending: boolean;
   users: Dictionary<Auth0UserData> | undefined;
 }
@@ -50,6 +51,7 @@ const ResourcesContainer = ({
   currentNode,
   contentMetas,
   isUngrouped,
+  hasSubTopics,
   nodeResourcesIsPending,
   users,
 }: Props) => {
@@ -107,6 +109,7 @@ const ResourcesContainer = ({
               existingResourceIds={nodeResources.map((r) => r.id)}
               users={users}
               isUngrouped={isUngrouped}
+              hideAddButton={hasSubTopics}
             />
             <ResourceItems
               type="learningpath"
@@ -118,6 +121,7 @@ const ResourcesContainer = ({
               nodeResourcesIsPending={nodeResourcesIsPending}
               existingResourceIds={nodeResources.map((r) => r.id)}
               users={users}
+              hideAddButton={hasSubTopics}
             />
             <MultidisciplinaryCases currentNode={currentNode} />
             <ResourceItems
@@ -131,6 +135,7 @@ const ResourcesContainer = ({
               nodeResourcesIsPending={nodeResourcesIsPending}
               existingResourceIds={nodeResources.map((r) => r.id)}
               users={users}
+              hideAddButton={hasSubTopics}
             />
           </>
         )}

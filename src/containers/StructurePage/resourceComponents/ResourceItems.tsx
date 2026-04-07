@@ -76,6 +76,7 @@ interface Props {
   users?: Dictionary<Auth0UserData>;
   existingResourceIds: string[];
   isUngrouped?: boolean;
+  hideAddButton?: boolean;
 }
 
 const isError = (error: unknown): error is Error => (error as Error).message !== undefined;
@@ -92,6 +93,7 @@ const ResourceItems = ({
   resourceTypes,
   existingResourceIds,
   isUngrouped,
+  hideAddButton,
 }: Props) => {
   const { setCurrentNode } = useCurrentNode();
   const { t, i18n } = useTranslation();
@@ -180,26 +182,28 @@ const ResourceItems = ({
               }}
             />
           )}
-          <DialogRoot>
-            <DialogTrigger asChild>
-              <Button size="small">
-                <AddLine />
-                {t(`taxonomy.${type}.addNew`)}
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              {type === "link" ? (
-                <MultidisciplinaryDialogContent currentNode={currentNode} existingResourceIds={existingResourceIds} />
-              ) : (
-                <PlannedResourceDialogContent
-                  currentNode={currentNode}
-                  resourceTypes={resourceTypes ?? []}
-                  existingResourceIds={existingResourceIds}
-                  type={type}
-                />
-              )}
-            </DialogContent>
-          </DialogRoot>
+          {!hideAddButton && (
+            <DialogRoot>
+              <DialogTrigger asChild>
+                <Button size="small">
+                  <AddLine />
+                  {t(`taxonomy.${type}.addNew`)}
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                {type === "link" ? (
+                  <MultidisciplinaryDialogContent currentNode={currentNode} existingResourceIds={existingResourceIds} />
+                ) : (
+                  <PlannedResourceDialogContent
+                    currentNode={currentNode}
+                    resourceTypes={resourceTypes ?? []}
+                    existingResourceIds={existingResourceIds}
+                    type={type}
+                  />
+                )}
+              </DialogContent>
+            </DialogRoot>
+          )}
         </ActionsWrapper>
       </HeadingWrapper>
       {!!description?.length && <Text>{description}</Text>}

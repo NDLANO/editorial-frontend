@@ -9,7 +9,6 @@
 import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { Button, FieldRoot, FieldTextArea } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { uuid } from "@ndla/util";
 import { FieldArrayRenderProps } from "formik";
 import { TFunction } from "i18next";
 import { useCallback, useState } from "react";
@@ -104,7 +103,7 @@ const InputComment = ({ isSubmitting, arrayHelpers }: Props) => {
 
   const addComment = useCallback(() => {
     // We need a temporary unique id in frontend before id is generated in draft-api when comment is created
-    const uid = uuid();
+    const uid = crypto.randomUUID();
     arrayHelpers.insert(0, { generatedId: uid, content: inputValue, isOpen: true, solved: false });
   }, [arrayHelpers, inputValue]);
 

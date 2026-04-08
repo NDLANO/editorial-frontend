@@ -18,7 +18,7 @@ import {
   IconButton,
   Text,
 } from "@ndla/primitives";
-import { ArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import { FieldHelperProps, FieldInputProps } from "formik";
 import { useCallback, useState } from "react";
@@ -34,17 +34,9 @@ interface Props {
   iconButtonColor?: "light" | "primary";
   revisionMetaField?: FieldInputProps<ArticleFormType["revisionMeta"]>;
   revisionMetaHelpers?: FieldHelperProps<ArticleFormType["revisionMeta"]>;
-  updateNotes?: (art: UpdatedArticleDTO) => Promise<ArticleDTO>;
 }
 
-const QualityEvaluationDialog = ({
-  articleType,
-  article,
-  taxonomy,
-  revisionMetaField,
-  revisionMetaHelpers,
-  updateNotes,
-}: Props) => {
+const QualityEvaluationDialog = ({ articleType, article, taxonomy, revisionMetaField, revisionMetaHelpers }: Props) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
@@ -77,7 +69,6 @@ const QualityEvaluationDialog = ({
                 taxonomy={taxonomy}
                 revisionMetaField={revisionMetaField}
                 revisionMetaHelpers={revisionMetaHelpers}
-                updateNotes={updateNotes}
                 article={article}
               />
             )}

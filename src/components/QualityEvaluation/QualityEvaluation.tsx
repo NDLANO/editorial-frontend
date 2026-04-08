@@ -8,7 +8,7 @@
 
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import { FieldHelperProps, FieldInputProps } from "formik";
 import { useTranslation } from "react-i18next";
@@ -30,17 +30,9 @@ interface Props {
   taxonomy?: Node[];
   revisionMetaField?: FieldInputProps<ArticleFormType["revisionMeta"]>;
   revisionMetaHelpers?: FieldHelperProps<ArticleFormType["revisionMeta"]>;
-  updateNotes?: (art: UpdatedArticleDTO) => Promise<ArticleDTO>;
 }
 
-const QualityEvaluation = ({
-  articleType,
-  article,
-  taxonomy,
-  revisionMetaField,
-  revisionMetaHelpers,
-  updateNotes,
-}: Props) => {
+const QualityEvaluation = ({ articleType, article, taxonomy, revisionMetaField, revisionMetaHelpers }: Props) => {
   const { t } = useTranslation();
   // Since quality evaluation is the same every place the resource is used in taxonomy, we can use the first node
   const qualityEvaluation = taxonomy?.[0]?.qualityEvaluation;
@@ -61,7 +53,6 @@ const QualityEvaluation = ({
         taxonomy={taxonomy}
         revisionMetaField={revisionMetaField}
         revisionMetaHelpers={revisionMetaHelpers}
-        updateNotes={updateNotes}
       />
     </FlexWrapper>
   );

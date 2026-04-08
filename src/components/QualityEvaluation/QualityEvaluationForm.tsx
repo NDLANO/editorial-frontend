@@ -27,14 +27,15 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { Grade, Node } from "@ndla/types-taxonomy";
 import { useQueryClient } from "@tanstack/react-query";
 import { FieldHelperProps, FieldInputProps, Formik } from "formik";
-import { CSSProperties, useMemo, useState } from "react";
+import { CSSProperties, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
+import { useUpdateDraftMutation } from "../../modules/draft/draftMutations";
 import { draftQueryKeys } from "../../modules/draft/draftQueries";
 import { usePutNodeMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
@@ -97,7 +98,6 @@ interface Props {
   taxonomy: Node[];
   revisionMetaField?: FieldInputProps<ArticleFormType["revisionMeta"]>;
   revisionMetaHelpers?: FieldHelperProps<ArticleFormType["revisionMeta"]>;
-  updateNotes?: (art: UpdatedArticleDTO) => Promise<ArticleDTO>;
   article?: ArticleDTO;
 }
 
@@ -126,20 +126,12 @@ const toInitialValues = (node: Node): QualityEvaluationFormValues => {
   };
 };
 
-const QualityEvaluationForm = ({
-  setOpen,
-  taxonomy,
-  revisionMetaField,
-  revisionMetaHelpers,
-  updateNotes,
-  article,
-}: Props) => {
+const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionMetaHelpers, article }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
   const updateTaxMutation = usePutNodeMutation();
-
-  const [loading, setLoading] = useState({ save: false, delete: false });
+  const updateDraftMutation = useUpdateDraftMutation();
 
   // Since quality evaluation is the same every place the resource is used in taxonomy, we can use the first node
   const node = useMemo(() => taxonomy[0], [taxonomy]);
@@ -149,8 +141,6 @@ const QualityEvaluationForm = ({
 
   const onSubmit = async (values: QualityEvaluationFormValues) => {
     try {
-      setLoading({ ...loading, save: true });
-
       const promises = taxonomy.map((n) =>
         updateTaxMutation.mutateAsync({
           id: n.id,
@@ -186,15 +176,13 @@ const QualityEvaluationForm = ({
         );
       }
 
-      if (updateNotes && article) {
-        await updateNotes({
-          revision: article.revision,
-          notes: [`Oppdatert kvalitetsvurdering til ${values.grade}.`],
-          metaImage: undefined,
-          responsibleId: undefined,
+      if (article) {
+        await updateDraftMutation.mutateAsync({
+          id: article.id,
+          body: { revision: article.revision, notes: [`Oppdatert kvalitetsvurdering til ${values.grade}.`] },
         });
         await qc.invalidateQueries({
-          queryKey: draftQueryKeys.draft(article.id),
+          queryKey: draftQueryKeys.articleRevisionHistory(article.id),
         });
       }
 
@@ -208,12 +196,10 @@ const QualityEvaluationForm = ({
     } catch (err) {
       handleError(err);
     }
-    setLoading({ ...loading, save: false });
   };
 
   const onDelete = async () => {
     try {
-      setLoading({ ...loading, delete: true });
       const promises = taxonomy.map((n) =>
         updateTaxMutation.mutateAsync({
           id: n.id,
@@ -237,7 +223,6 @@ const QualityEvaluationForm = ({
     } catch (err) {
       handleError(err);
     }
-    setLoading({ ...loading, delete: false });
   };
 
   return (
@@ -249,9 +234,6 @@ const QualityEvaluationForm = ({
       onReset={onDelete}
     >
       {({ values, dirty, isValid, isSubmitting }) => {
-        const isFormDirty = dirty || node.technicalEvaluation?.requiresEvaluation === undefined;
-        const isFormDisabled = !isFormDirty || !isValid || isSubmitting;
-
         return (
           <FormikForm>
             <FormField name="grade">
@@ -321,14 +303,22 @@ const QualityEvaluationForm = ({
             ) : null}
             <FormActionsContainer>
               {!!node.qualityEvaluation?.grade && (
-                <Button variant="danger" type="reset" loading={loading.delete}>
+                <Button
+                  variant="danger"
+                  type="reset"
+                  loading={isSubmitting || updateTaxMutation.isPending || updateDraftMutation.isPending}
+                >
                   {t("qualityEvaluationForm.delete")}
                 </Button>
               )}
               <Button variant="secondary" onClick={() => setOpen(false)}>
                 {t("form.abort")}
               </Button>
-              <Button disabled={isFormDisabled} loading={loading.save} type="submit">
+              <Button
+                disabled={!(dirty || node.technicalEvaluation?.requiresEvaluation === undefined) || !isValid}
+                loading={isSubmitting || updateTaxMutation.isPending || updateDraftMutation.isPending}
+                type="submit"
+              >
                 {t("form.save")}
               </Button>
             </FormActionsContainer>

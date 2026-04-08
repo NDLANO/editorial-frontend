@@ -11,7 +11,7 @@ import { inlineNavigationPlugin } from "@ndla/editor";
 import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { UpdatedArticleDTO, ArticleDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
+import { ArticleDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
 import { Node, TaxonomyContext } from "@ndla/types-taxonomy";
 import { useField, useFormikContext } from "formik";
 import { memo, useCallback, useMemo } from "react";
@@ -130,7 +130,6 @@ interface Props {
   article?: ArticleDTO;
   articleRevisionHistory: ArticleRevisionHistoryDTO | undefined;
   taxonomy?: Node[];
-  updateNotes: (art: UpdatedArticleDTO) => Promise<ArticleDTO>;
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
   articleLanguage: string;
   contexts?: TaxonomyContext[];
@@ -141,7 +140,6 @@ const LearningResourcePanels = ({
   article,
   articleRevisionHistory,
   taxonomy,
-  updateNotes,
   articleLanguage,
   contexts,
   handleSubmit,
@@ -180,7 +178,6 @@ const LearningResourcePanels = ({
           taxonomy={taxonomy?.filter((n) => n.nodeType !== "TOPIC")}
           revisionMetaField={revisionMetaField}
           revisionMetaHelpers={revisionMetaHelpers}
-          updateNotes={updateNotes}
         />
         {!removeComments && (
           <SwitchRoot checked={!hideComments} onCheckedChange={onCheckedChange}>

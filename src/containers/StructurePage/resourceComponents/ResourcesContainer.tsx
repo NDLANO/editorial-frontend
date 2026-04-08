@@ -123,7 +123,6 @@ const ResourcesContainer = ({
               users={users}
               hideAddButton={hasSubTopics}
             />
-            <MultidisciplinaryCases currentNode={currentNode} />
             <ResourceItems
               type="supplementary"
               title={t("taxonomy.supplementary.title")}
@@ -137,6 +136,7 @@ const ResourcesContainer = ({
               users={users}
               hideAddButton={hasSubTopics}
             />
+            <MultidisciplinaryCases currentNode={currentNode} />
           </>
         )}
       </ResourceWrapper>

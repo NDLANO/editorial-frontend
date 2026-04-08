@@ -103,9 +103,9 @@ interface Props {
 
 interface QualityEvaluationFormValues {
   grade?: number;
-  note?: string;
-  requiresTechnicalEvaluation?: boolean;
-  technicalEvaluationComment?: string;
+  note: string;
+  requiresTechnicalEvaluation: boolean;
+  technicalEvaluationComment: string;
 }
 
 const rules: RulesType<QualityEvaluationFormValues> = {
@@ -117,12 +117,12 @@ const rules: RulesType<QualityEvaluationFormValues> = {
   technicalEvaluationComment: { required: false },
 };
 
-const toInitialValues = (initialData: QualityEvaluationFormValues | undefined | null): QualityEvaluationFormValues => {
+const toInitialValues = (node: Node): QualityEvaluationFormValues => {
   return {
-    grade: initialData?.grade,
-    note: initialData?.note ?? "",
-    requiresTechnicalEvaluation: initialData?.requiresTechnicalEvaluation ?? true,
-    technicalEvaluationComment: initialData?.technicalEvaluationComment ?? "",
+    grade: node.qualityEvaluation?.grade,
+    note: node.qualityEvaluation?.note ?? "",
+    requiresTechnicalEvaluation: node.technicalEvaluation?.requiresEvaluation ?? true,
+    technicalEvaluationComment: node.technicalEvaluation?.comment ?? "",
   };
 };
 
@@ -144,15 +144,7 @@ const QualityEvaluationForm = ({
   // Since quality evaluation is the same every place the resource is used in taxonomy, we can use the first node
   const node = useMemo(() => taxonomy[0], [taxonomy]);
   const isResource = node.nodeType !== "SUBJECT" && node.nodeType !== "TOPIC";
-  const initialValues = useMemo(
-    () =>
-      toInitialValues({
-        ...node.qualityEvaluation,
-        requiresTechnicalEvaluation: node.technicalEvaluation?.requiresEvaluation,
-        technicalEvaluationComment: node.technicalEvaluation?.comment,
-      }),
-    [node.qualityEvaluation, node.technicalEvaluation],
-  );
+  const initialValues = useMemo(() => toInitialValues(node), [node]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
 
   const onSubmit = async (values: QualityEvaluationFormValues) => {
@@ -165,12 +157,10 @@ const QualityEvaluationForm = ({
           body: {
             language: n.language,
             qualityEvaluation: { grade: Number(values.grade) as Grade, note: values.note },
-            technicalEvaluation: values.requiresTechnicalEvaluation
-              ? {
-                  requiresEvaluation: values.requiresTechnicalEvaluation,
-                  comment: values.technicalEvaluationComment,
-                }
-              : undefined,
+            technicalEvaluation: {
+              requiresEvaluation: values.requiresTechnicalEvaluation,
+              comment: values.technicalEvaluationComment,
+            },
           },
           taxonomyVersion,
         }),

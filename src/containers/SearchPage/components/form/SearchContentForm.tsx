@@ -85,9 +85,9 @@ const userHasCustomField = (subjects: Node[], ndlaId: string | undefined, custom
 const queryFields = [
   "title",
   "introduction",
+  "content",
   "metaDescription",
   "disclaimer",
-  "content",
   "tags",
   "embedAttributes",
   "creators",

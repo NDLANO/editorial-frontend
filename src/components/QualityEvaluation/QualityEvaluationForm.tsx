@@ -233,99 +233,97 @@ const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionM
       onSubmit={onSubmit}
       onReset={onDelete}
     >
-      {({ values, dirty, isValid, isSubmitting }) => {
-        return (
-          <FormikForm>
-            <FormField name="grade">
-              {({ field, meta, helpers }) => (
-                <FieldRoot invalid={!!meta.error} required>
-                  <StyledRadioGroupRoot
-                    orientation="horizontal"
-                    value={field.value?.toString()}
-                    onValueChange={(details) => helpers.setValue(Number(details.value))}
-                  >
-                    <RadioGroupLabel>{t("qualityEvaluationForm.title")}</RadioGroupLabel>
-                    <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                    {field.value === 5 && <FieldHelper>{t("qualityEvaluationForm.warning")}</FieldHelper>}
-                    <ItemsWrapper>
-                      {Object.keys(qualityEvaluationOptionColors).map((value) => (
-                        <StyledRadioGroupItem
-                          key={value}
-                          value={value}
-                          variant={value === "1" || value === "5" ? "bordered" : "solid"}
-                          style={
-                            {
-                              "--grade-color": qualityEvaluationOptionColors[value as QualityEvaluationValue],
-                            } as CSSProperties
-                          }
-                        >
-                          <RadioGroupItemControl />
-                          <RadioGroupItemText>{value}</RadioGroupItemText>
-                          <RadioGroupItemHiddenInput />
-                        </StyledRadioGroupItem>
-                      ))}
-                    </ItemsWrapper>
-                  </StyledRadioGroupRoot>
-                </FieldRoot>
-              )}
-            </FormField>
-            <FormField name="note">
+      {({ values, dirty, isValid, isSubmitting }) => (
+        <FormikForm>
+          <FormField name="grade">
+            {({ field, meta, helpers }) => (
+              <FieldRoot invalid={!!meta.error} required>
+                <StyledRadioGroupRoot
+                  orientation="horizontal"
+                  value={field.value?.toString()}
+                  onValueChange={(details) => helpers.setValue(Number(details.value))}
+                >
+                  <RadioGroupLabel>{t("qualityEvaluationForm.title")}</RadioGroupLabel>
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                  {field.value === 5 && <FieldHelper>{t("qualityEvaluationForm.warning")}</FieldHelper>}
+                  <ItemsWrapper>
+                    {Object.keys(qualityEvaluationOptionColors).map((value) => (
+                      <StyledRadioGroupItem
+                        key={value}
+                        value={value}
+                        variant={value === "1" || value === "5" ? "bordered" : "solid"}
+                        style={
+                          {
+                            "--grade-color": qualityEvaluationOptionColors[value as QualityEvaluationValue],
+                          } as CSSProperties
+                        }
+                      >
+                        <RadioGroupItemControl />
+                        <RadioGroupItemText>{value}</RadioGroupItemText>
+                        <RadioGroupItemHiddenInput />
+                      </StyledRadioGroupItem>
+                    ))}
+                  </ItemsWrapper>
+                </StyledRadioGroupRoot>
+              </FieldRoot>
+            )}
+          </FormField>
+          <FormField name="note">
+            {({ field }) => (
+              <FieldRoot>
+                <FieldLabel>{t("qualityEvaluationForm.note")}</FieldLabel>
+                <FieldInput {...field} />
+              </FieldRoot>
+            )}
+          </FormField>
+          <Text textStyle="label.large" fontWeight="bold">
+            {t("qualityEvaluationForm.technicalEvaluation.title")}
+          </Text>
+          <FormField name="requiresTechnicalEvaluation">
+            {({ field, helpers }) => (
+              <SwitchRoot checked={field.value} onCheckedChange={(details) => helpers.setValue(details.checked)}>
+                <SwitchControl>
+                  <SwitchThumb />
+                </SwitchControl>
+                <SwitchLabel>{t("qualityEvaluationForm.technicalEvaluation.requiresEvaluation")}</SwitchLabel>
+                <SwitchHiddenInput />
+              </SwitchRoot>
+            )}
+          </FormField>
+          {values.requiresTechnicalEvaluation ? (
+            <FormField name="technicalEvaluationComment">
               {({ field }) => (
                 <FieldRoot>
-                  <FieldLabel>{t("qualityEvaluationForm.note")}</FieldLabel>
+                  <FieldLabel>{t("qualityEvaluationForm.technicalEvaluation.comment")}</FieldLabel>
                   <FieldInput {...field} />
                 </FieldRoot>
               )}
             </FormField>
-            <Text textStyle="label.large" fontWeight="bold">
-              {t("qualityEvaluationForm.technicalEvaluation.title")}
-            </Text>
-            <FormField name="requiresTechnicalEvaluation">
-              {({ field, helpers }) => (
-                <SwitchRoot checked={field.value} onCheckedChange={(details) => helpers.setValue(details.checked)}>
-                  <SwitchControl>
-                    <SwitchThumb />
-                  </SwitchControl>
-                  <SwitchLabel>{t("qualityEvaluationForm.technicalEvaluation.requiresEvaluation")}</SwitchLabel>
-                  <SwitchHiddenInput />
-                </SwitchRoot>
-              )}
-            </FormField>
-            {values.requiresTechnicalEvaluation ? (
-              <FormField name="technicalEvaluationComment">
-                {({ field }) => (
-                  <FieldRoot>
-                    <FieldLabel>{t("qualityEvaluationForm.technicalEvaluation.comment")}</FieldLabel>
-                    <FieldInput {...field} />
-                  </FieldRoot>
-                )}
-              </FormField>
-            ) : null}
-            <FormActionsContainer>
-              {!!node.qualityEvaluation?.grade && (
-                <Button
-                  variant="danger"
-                  type="reset"
-                  loading={isSubmitting || updateTaxMutation.isPending || updateDraftMutation.isPending}
-                >
-                  {t("qualityEvaluationForm.delete")}
-                </Button>
-              )}
-              <Button variant="secondary" onClick={() => setOpen(false)}>
-                {t("form.abort")}
-              </Button>
+          ) : null}
+          <FormActionsContainer>
+            {!!node.qualityEvaluation?.grade && (
               <Button
-                disabled={!(dirty || node.technicalEvaluation?.requiresEvaluation === undefined) || !isValid}
+                variant="danger"
+                type="reset"
                 loading={isSubmitting || updateTaxMutation.isPending || updateDraftMutation.isPending}
-                type="submit"
               >
-                {t("form.save")}
+                {t("qualityEvaluationForm.delete")}
               </Button>
-            </FormActionsContainer>
-            {!!updateTaxMutation.isError && <Text color="text.error">{t("qualityEvaluationForm.error")}</Text>}
-          </FormikForm>
-        );
-      }}
+            )}
+            <Button variant="secondary" onClick={() => setOpen(false)}>
+              {t("form.abort")}
+            </Button>
+            <Button
+              disabled={!(dirty || node.technicalEvaluation?.requiresEvaluation === undefined) || !isValid}
+              loading={isSubmitting || updateTaxMutation.isPending || updateDraftMutation.isPending}
+              type="submit"
+            >
+              {t("form.save")}
+            </Button>
+          </FormActionsContainer>
+          {!!updateTaxMutation.isError && <Text color="text.error">{t("qualityEvaluationForm.error")}</Text>}
+        </FormikForm>
+      )}
     </Formik>
   );
 };

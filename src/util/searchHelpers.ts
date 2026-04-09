@@ -18,7 +18,11 @@ const getArticleTypesField = (resourceTypes?: string[]) => {
   if (!resourceTypes?.length) {
     return {};
   }
-  if (resourceTypes?.includes("topic-article") || resourceTypes?.includes("frontpage-article"))
+  if (
+    resourceTypes?.includes("topic-article") ||
+    resourceTypes?.includes("frontpage-article") ||
+    resourceTypes?.includes("standard")
+  )
     return { articleTypes: resourceTypes, resourceTypes: [] };
   else return {};
 };

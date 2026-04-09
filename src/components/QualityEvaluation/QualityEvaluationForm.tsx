@@ -141,7 +141,12 @@ const QualityEvaluationForm = ({
   const updateNotesMutation = useMutation({
     mutationFn: updateNotes,
     onSuccess: async () => {
-      if (article) await qc.invalidateQueries({ queryKey: draftQueryKeys.draft(article.id) });
+      if (article) {
+        await Promise.all([
+          qc.invalidateQueries({ queryKey: draftQueryKeys.draft(article.id) }),
+          qc.invalidateQueries({ queryKey: draftQueryKeys.articleRevisionHistory(article.id) }),
+        ]);
+      }
     },
   });
 

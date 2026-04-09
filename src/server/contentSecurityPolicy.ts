@@ -181,6 +181,8 @@ const frameSrc = (() => {
     "video.qbrick.com",
     "www.norskpetroleum.no",
     "pub.dialogapi.no",
+    "www.vitentv.no",
+    "*.*.kaltura.com",
   ];
   if (process.env.NODE_ENV === "development") {
     return [
@@ -238,6 +240,7 @@ const contentSecurityPolicy = {
       "blob:",
       "https://www.wiris.net",
       "https://*.clarity.ms",
+      "*.*.kaltura.com",
     ],
     mediaSrc: [
       "'self'",

@@ -27,15 +27,14 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticleDTO } from "@ndla/types-backend/draft-api";
+import { ArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import { Grade, Node } from "@ndla/types-taxonomy";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FieldHelperProps, FieldInputProps, Formik } from "formik";
 import { CSSProperties, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
-import { useUpdateDraftMutation } from "../../modules/draft/draftMutations";
 import { draftQueryKeys } from "../../modules/draft/draftQueries";
 import { usePutNodeMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
@@ -98,6 +97,7 @@ interface Props {
   taxonomy: Node[];
   revisionMetaField?: FieldInputProps<ArticleFormType["revisionMeta"]>;
   revisionMetaHelpers?: FieldHelperProps<ArticleFormType["revisionMeta"]>;
+  updateNotes?: (art: UpdatedArticleDTO) => Promise<ArticleDTO>;
   article?: ArticleDTO;
 }
 
@@ -126,12 +126,24 @@ const toInitialValues = (node: Node): QualityEvaluationFormValues => {
   };
 };
 
-const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionMetaHelpers, article }: Props) => {
+const QualityEvaluationForm = ({
+  setOpen,
+  taxonomy,
+  revisionMetaField,
+  revisionMetaHelpers,
+  updateNotes,
+  article,
+}: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
   const updateTaxMutation = usePutNodeMutation();
-  const updateDraftMutation = useUpdateDraftMutation();
+  const updateNotesMutation = useMutation({
+    mutationFn: updateNotes,
+    onSuccess: async () => {
+      if (article) await qc.invalidateQueries({ queryKey: draftQueryKeys.draft(article.id) });
+    },
+  });
 
   // Since quality evaluation is the same every place the resource is used in taxonomy, we can use the first node
   const node = useMemo(() => taxonomy[0], [taxonomy]);
@@ -177,12 +189,12 @@ const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionM
       }
 
       if (article) {
-        await updateDraftMutation.mutateAsync({
-          id: article.id,
-          body: { revision: article.revision, notes: [`Oppdatert kvalitetsvurdering til ${values.grade}.`] },
+        await updateNotesMutation.mutateAsync({
+          revision: article.revision,
+          notes: [`Oppdatert kvalitetsvurdering til ${values.grade}.`],
         });
         await qc.invalidateQueries({
-          queryKey: draftQueryKeys.articleRevisionHistory(article.id),
+          queryKey: draftQueryKeys.draft(article.id),
         });
       }
 
@@ -305,7 +317,7 @@ const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionM
               <Button
                 variant="danger"
                 type="reset"
-                loading={isSubmitting || updateTaxMutation.isPending || updateDraftMutation.isPending}
+                loading={isSubmitting || updateTaxMutation.isPending || updateNotesMutation.isPending}
               >
                 {t("qualityEvaluationForm.delete")}
               </Button>
@@ -315,7 +327,7 @@ const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionM
             </Button>
             <Button
               disabled={!(dirty || node.technicalEvaluation?.requiresEvaluation === undefined) || !isValid}
-              loading={isSubmitting || updateTaxMutation.isPending || updateDraftMutation.isPending}
+              loading={isSubmitting || updateTaxMutation.isPending || updateNotesMutation.isPending}
               type="submit"
             >
               {t("form.save")}

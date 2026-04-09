@@ -129,6 +129,7 @@ const LearningResourceForm = ({
             article={article}
             articleRevisionHistory={articleRevisionHistory?.data}
             taxonomy={articleTaxonomy}
+            updateNotes={updateArticle}
             contexts={contexts}
             articleChanged={articleChanged}
           />

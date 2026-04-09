@@ -12,6 +12,7 @@ import { resourceTypesMock, flattenedResourceTypes } from "./taxonomyMocks";
 
 test("taxonomy/flattenResourceTypesAndAddContextTypes flattening", () => {
   const types: Record<string, string> = {
+    "contextTypes.standard": "Artikkel",
     "contextTypes.topic": "Emne",
     "contextTypes.frontpage": "Forsideartikkel",
     "contextTypes.concept": "Forklaring",

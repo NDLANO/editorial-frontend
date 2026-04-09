@@ -2093,6 +2093,7 @@ const phrases = {
     concept: "Forklaring",
     gloss: "Glose",
     learningpath: "Læringssti",
+    standard: "Artikkel",
   },
   ndlaFilm: {
     editor: {

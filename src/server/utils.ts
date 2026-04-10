@@ -6,8 +6,18 @@
  *
  */
 
-import { isPromptType, PromptPayload, PromptVariables } from "../interfaces";
+import { PromptPayload, PromptType, PromptVariables } from "../interfaces";
 import { unreachable } from "../util/guards";
+
+const promptTypes: PromptType[] = [
+  "summary",
+  "altText",
+  "alternativePhrasing",
+  "metaDescription",
+  "reflection",
+] as const;
+
+export const isPromptType = (type: any): type is PromptType => promptTypes.includes(type as PromptType);
 
 export const isValidRequestBody = (
   body: Partial<PromptPayload<PromptVariables>>,

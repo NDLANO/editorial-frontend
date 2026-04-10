@@ -7,10 +7,10 @@
  */
 
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { Node, NodeChild, NodeType, NodeSearchBody } from "@ndla/types-taxonomy";
+import { Node, NodeChild, NodeType, NodeSearchBody, SearchResult } from "@ndla/types-taxonomy";
 import { useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
 import { NodeTree } from "../../containers/NodeDiff/diffUtils";
-import { SearchResultBase, WithTaxonomyVersion } from "../../interfaces";
+import { WithTaxonomyVersion } from "../../interfaces";
 import {
   CHILD_NODES,
   NODE,
@@ -204,8 +204,8 @@ interface UseSearchNodes extends WithTaxonomyVersion {
   query?: string;
 }
 
-export const useSearchNodes = (params: UseSearchNodes, options?: Partial<UseQueryOptions<SearchResultBase<Node>>>) => {
-  return useQuery<SearchResultBase<Node>>({
+export const useSearchNodes = (params: UseSearchNodes, options?: Partial<UseQueryOptions<SearchResult>>) => {
+  return useQuery<SearchResult>({
     queryKey: nodeQueryKeys.search(params),
     queryFn: () => searchNodes(params),
     ...options,
@@ -215,11 +215,8 @@ export const useSearchNodes = (params: UseSearchNodes, options?: Partial<UseQuer
 interface UsePostSearchNodes extends WithTaxonomyVersion {
   body: NodeSearchBody;
 }
-export const usePostSearchNodes = (
-  body: UsePostSearchNodes,
-  options?: Partial<UseQueryOptions<SearchResultBase<Node>>>,
-) => {
-  return useQuery<SearchResultBase<Node>>({
+export const usePostSearchNodes = (body: UsePostSearchNodes, options?: Partial<UseQueryOptions<SearchResult>>) => {
+  return useQuery<SearchResult>({
     queryKey: nodeQueryKeys.postSearch(body),
     queryFn: () => postSearchNodes(body),
     ...options,

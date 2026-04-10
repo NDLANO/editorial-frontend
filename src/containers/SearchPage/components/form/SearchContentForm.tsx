@@ -10,7 +10,7 @@ import { FieldLabel, FieldRoot, FieldInput } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { DraftSearchField, DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
-import { Node } from "@ndla/types-taxonomy";
+import { Node, ResourceType } from "@ndla/types-taxonomy";
 import { partition, sortBy } from "@ndla/util";
 import { TFunction } from "i18next";
 import { useEffect, useMemo, useState } from "react";
@@ -31,6 +31,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_DA,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
+  RESOURCE_TYPE_LEARNING_PATH,
 } from "../../../../constants";
 import { CamelToKebab } from "../../../../interfaces";
 import { useAuth0Users } from "../../../../modules/auth0/auth0Queries";
@@ -44,7 +45,6 @@ import { useAllResourceTypes } from "../../../../modules/taxonomy/resourcetypes/
 import formatDate from "../../../../util/formatDate";
 import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
-import { flattenResourceTypesAndAddContextTypes } from "../../../../util/taxonomyHelpers";
 import InlineDatePicker from "../../../FormikForm/components/InlineDatePicker";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
@@ -71,6 +71,27 @@ const StyledFieldRoot = styled(FieldRoot, {
     },
   },
 });
+
+interface ContextType {
+  name: string;
+  id: string;
+}
+
+const getContextTypes = (resourceTypes: ResourceType[], t: TFunction) => {
+  const contextTypes = resourceTypes.reduce<ContextType[]>((acc, type) => {
+    if (type.id !== RESOURCE_TYPE_LEARNING_PATH) {
+      acc.push({ name: type.name, id: type.id });
+    }
+    return acc;
+  }, []);
+  contextTypes.push({ name: t("contextTypes.learningpath"), id: "learningpath" });
+  contextTypes.push({ name: t("contextTypes.topic"), id: "topic-article" });
+  contextTypes.push({ name: t("contextTypes.frontpage"), id: "frontpage-article" });
+  contextTypes.push({ name: t("contextTypes.standard"), id: "standard" });
+  contextTypes.push({ name: t("contextTypes.concept"), id: "concept" });
+  contextTypes.push({ name: t("contextTypes.gloss"), id: "gloss" });
+  return contextTypes;
+};
 
 const getArticleTraits = (t: TFunction) => [
   { id: "VIDEO", name: t("articleTraits.VIDEO") },
@@ -152,7 +173,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
   const { data: resourceTypes } = useAllResourceTypes(
     { language: i18n.language, taxonomyVersion },
     {
-      select: (resourceTypes) => flattenResourceTypesAndAddContextTypes(resourceTypes, t),
+      select: (resourceTypes) => getContextTypes(resourceTypes, t),
       placeholderData: [],
     },
   );

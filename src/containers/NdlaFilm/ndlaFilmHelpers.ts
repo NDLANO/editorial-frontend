@@ -8,7 +8,6 @@
 
 import { FilmFrontPageDTO, MovieThemeDTO, NewOrUpdatedFilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
 import { isVisualElementSlateElement } from "../../components/SlateEditor/helpers";
-import { LOCALE_VALUES } from "../../constants";
 import { LocaleType } from "../../interfaces";
 import { editorValueToPlainText, plainTextToEditorValue } from "../../util/articleContentConverter";
 import { convertVisualElement, getVisualElementId } from "../../util/convertVisualElement";
@@ -118,11 +117,10 @@ export interface ConvertedThemeName {
 }
 
 export const convertThemeNames = (names: ThemeNames): ConvertedThemeName[] => {
-  return LOCALE_VALUES.map((lang) => {
-    if (!names[lang]) return null;
-    return {
-      language: lang,
-      name: names[lang],
-    };
-  }).filter((val) => !!val?.name?.length) as ConvertedThemeName[];
+  return Object.entries(names).reduce<ConvertedThemeName[]>((acc, [key, value]) => {
+    if (value.length) {
+      acc.push({ name: value, language: key as LocaleType });
+    }
+    return acc;
+  }, []);
 };

@@ -9,7 +9,7 @@
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import { partition, sortBy, uniqBy } from "@ndla/util";
 import { RESOURCE_FILTER_SUPPLEMENTARY, RESOURCE_TYPE_LEARNING_PATH } from "../constants";
-import { ContentUriInfo, FlattenedResourceType } from "../interfaces";
+import { ContentUriInfo } from "../interfaces";
 import { NodeChildWithChildren } from "../modules/nodes/nodeApiTypes";
 
 // Kan hende at id i contentUri fra taxonomy inneholder '#xxx' (revision)
@@ -18,37 +18,6 @@ export const getContentUriInfo = (urn?: string): ContentUriInfo | undefined => {
   const [, type, id] = urn.split(":");
   const idWithoutRevision = parseInt(id.split("#")[0]);
   return { type, id: idWithoutRevision, contentUri: urn };
-};
-
-const flattenResourceTypesAndAddContextTypes = (data: ResourceType[] = [], t: (key: string) => string) => {
-  const resourceTypes: FlattenedResourceType[] = [];
-  data.forEach((type) => {
-    if (type.subtypes) {
-      type.subtypes.forEach((subtype) =>
-        resourceTypes.push({
-          typeName: type.name,
-          typeId: type.id,
-          name: subtype.name,
-          id: subtype.id,
-        }),
-      );
-    } else if (type.id !== RESOURCE_TYPE_LEARNING_PATH) {
-      resourceTypes.push({
-        name: type.name,
-        id: type.id,
-      });
-    }
-  });
-  resourceTypes.push({ name: t("contextTypes.learningpath"), id: "learningpath" });
-  resourceTypes.push({ name: t("contextTypes.topic"), id: "topic-article" });
-  resourceTypes.push({
-    name: t("contextTypes.frontpage"),
-    id: "frontpage-article",
-  });
-  resourceTypes.push({ name: t("contextTypes.standard"), id: "standard" });
-  resourceTypes.push({ name: t("contextTypes.concept"), id: "concept" });
-  resourceTypes.push({ name: t("contextTypes.gloss"), id: "gloss" });
-  return resourceTypes;
 };
 
 type ResourceLike = Pick<NodeChild, "id" | "resourceTypes" | "rank" | "relevanceId">;
@@ -127,4 +96,4 @@ const groupChildNodes = (childNodes: NodeChild[]): NodeChildWithChildren[] =>
 
 export const nodePathToUrnPath = (path?: string) => path?.replace(/\//g, "/urn:")?.substring(1);
 
-export { groupChildNodes, flattenResourceTypesAndAddContextTypes };
+export { groupChildNodes };

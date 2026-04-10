@@ -796,6 +796,11 @@ const phrases = {
     disabled: "Resources without taxonomy cannot be evaluated",
     warning:
       "The revision note is set automatically when the quality rating is set to 5. The article will have unsaved changes.",
+    technicalEvaluation: {
+      title: "Technical evaluation",
+      requiresEvaluation: "Requires technical evaluation",
+      comment: "Comment for technical evaluation",
+    },
   },
   editorToolbar: {
     bold: "Bold\n({{ctrl}}+b)",

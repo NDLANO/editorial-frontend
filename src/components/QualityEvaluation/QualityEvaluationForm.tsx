@@ -19,6 +19,11 @@ import {
   RadioGroupItemText,
   RadioGroupLabel,
   RadioGroupRoot,
+  SwitchControl,
+  SwitchHiddenInput,
+  SwitchLabel,
+  SwitchRoot,
+  SwitchThumb,
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -26,7 +31,7 @@ import { ArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import { Grade, Node } from "@ndla/types-taxonomy";
 import { useQueryClient } from "@tanstack/react-query";
 import { FieldHelperProps, FieldInputProps, Formik } from "formik";
-import { CSSProperties, useMemo, useState } from "react";
+import { CSSProperties, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
@@ -98,7 +103,9 @@ interface Props {
 
 interface QualityEvaluationFormValues {
   grade?: number;
-  note?: string;
+  note: string;
+  requiresTechnicalEvaluation: boolean;
+  technicalEvaluationComment: string;
 }
 
 const rules: RulesType<QualityEvaluationFormValues> = {
@@ -106,12 +113,16 @@ const rules: RulesType<QualityEvaluationFormValues> = {
     required: true,
   },
   note: { required: false },
+  requiresTechnicalEvaluation: { required: false },
+  technicalEvaluationComment: { required: false },
 };
 
-const toInitialValues = (initialData: QualityEvaluationFormValues | undefined | null): QualityEvaluationFormValues => {
+const toInitialValues = (node: Node): QualityEvaluationFormValues => {
   return {
-    grade: initialData?.grade,
-    note: initialData?.note ?? "",
+    grade: node.qualityEvaluation?.grade,
+    note: node.qualityEvaluation?.note ?? "",
+    requiresTechnicalEvaluation: node.technicalEvaluation?.requiresEvaluation ?? true,
+    technicalEvaluationComment: node.technicalEvaluation?.comment ?? "",
   };
 };
 
@@ -128,29 +139,55 @@ const QualityEvaluationForm = ({
   const qc = useQueryClient();
   const updateTaxMutation = usePutNodeMutation();
 
-  const [loading, setLoading] = useState({ save: false, delete: false });
-
   // Since quality evaluation is the same every place the resource is used in taxonomy, we can use the first node
   const node = useMemo(() => taxonomy[0], [taxonomy]);
   const isResource = node.nodeType !== "SUBJECT" && node.nodeType !== "TOPIC";
-  const initialValues = useMemo(() => toInitialValues(node.qualityEvaluation), [node.qualityEvaluation]);
+  const initialValues = useMemo(() => toInitialValues(node), [node]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
 
   const onSubmit = async (values: QualityEvaluationFormValues) => {
     try {
-      setLoading({ ...loading, save: true });
-
-      const promises = taxonomy.map((n) =>
+      const taxPromises = taxonomy.map((n) =>
         updateTaxMutation.mutateAsync({
           id: n.id,
           body: {
             language: n.language,
-            qualityEvaluation: { ...values, grade: Number(values.grade) as Grade },
+            qualityEvaluation: { grade: Number(values.grade) as Grade, note: values.note },
+            technicalEvaluation: {
+              requiresEvaluation: values.requiresTechnicalEvaluation,
+              comment: values.technicalEvaluationComment,
+            },
           },
           taxonomyVersion,
         }),
       );
-      await Promise.all(promises);
+
+      await Promise.all(taxPromises);
+
+      if (article && updateNotes) {
+        await updateNotes({
+          revision: article.revision,
+          notes: [`Oppdatert kvalitetsvurdering til ${values.grade}.`],
+        });
+      }
+
+      const invalidatePromises = [
+        qc.invalidateQueries({
+          queryKey: nodeQueryKeys.nodes({
+            taxonomyVersion,
+          }),
+        }),
+        qc.invalidateQueries({ queryKey: nodeQueryKeys.childNodes({ taxonomyVersion }) }),
+      ];
+
+      if (article && updateNotes) {
+        invalidatePromises.push(
+          qc.invalidateQueries({ queryKey: draftQueryKeys.draft(article.id) }),
+          qc.invalidateQueries({ queryKey: draftQueryKeys.articleRevisionHistory(article.id) }),
+        );
+      }
+
+      await Promise.all(invalidatePromises);
 
       // Automatically add revision when grade is lowest possible value (5)
       if (
@@ -171,40 +208,21 @@ const QualityEvaluationForm = ({
         );
       }
 
-      if (updateNotes && article) {
-        await updateNotes({
-          revision: article.revision,
-          notes: [`Oppdatert kvalitetsvurdering til ${values.grade}.`],
-          metaImage: undefined,
-          responsibleId: undefined,
-        });
-        await qc.invalidateQueries({
-          queryKey: draftQueryKeys.draft(article.id),
-        });
-      }
-
-      await qc.invalidateQueries({
-        queryKey: nodeQueryKeys.nodes({
-          taxonomyVersion,
-        }),
-      });
-      await qc.invalidateQueries({ queryKey: nodeQueryKeys.childNodes({ taxonomyVersion }) });
       setOpen(false);
     } catch (err) {
       handleError(err);
     }
-    setLoading({ ...loading, save: false });
   };
 
   const onDelete = async () => {
     try {
-      setLoading({ ...loading, delete: true });
       const promises = taxonomy.map((n) =>
         updateTaxMutation.mutateAsync({
           id: n.id,
           body: {
             language: n.language,
             qualityEvaluation: null as unknown as undefined, // TODO Change to null later https://github.com/swagger-api/swagger-core/pull/5018,
+            technicalEvaluation: null as unknown as undefined,
           },
           taxonomyVersion,
         }),
@@ -221,7 +239,6 @@ const QualityEvaluationForm = ({
     } catch (err) {
       handleError(err);
     }
-    setLoading({ ...loading, delete: false });
   };
 
   return (
@@ -232,7 +249,7 @@ const QualityEvaluationForm = ({
       onSubmit={onSubmit}
       onReset={onDelete}
     >
-      {({ dirty, isValid, isSubmitting }) => (
+      {({ values, dirty, isValid, isSubmitting }) => (
         <FormikForm>
           <FormField name="grade">
             {({ field, meta, helpers }) => (
@@ -275,16 +292,44 @@ const QualityEvaluationForm = ({
               </FieldRoot>
             )}
           </FormField>
+          <Text textStyle="label.large" fontWeight="bold">
+            {t("qualityEvaluationForm.technicalEvaluation.title")}
+          </Text>
+          <FormField name="requiresTechnicalEvaluation">
+            {({ field, helpers }) => (
+              <SwitchRoot checked={field.value} onCheckedChange={(details) => helpers.setValue(details.checked)}>
+                <SwitchControl>
+                  <SwitchThumb />
+                </SwitchControl>
+                <SwitchLabel>{t("qualityEvaluationForm.technicalEvaluation.requiresEvaluation")}</SwitchLabel>
+                <SwitchHiddenInput />
+              </SwitchRoot>
+            )}
+          </FormField>
+          {values.requiresTechnicalEvaluation ? (
+            <FormField name="technicalEvaluationComment">
+              {({ field }) => (
+                <FieldRoot>
+                  <FieldLabel>{t("qualityEvaluationForm.technicalEvaluation.comment")}</FieldLabel>
+                  <FieldInput {...field} />
+                </FieldRoot>
+              )}
+            </FormField>
+          ) : null}
           <FormActionsContainer>
             {!!node.qualityEvaluation?.grade && (
-              <Button variant="danger" type="reset" loading={loading.delete}>
+              <Button variant="danger" type="reset" loading={isSubmitting || updateTaxMutation.isPending}>
                 {t("qualityEvaluationForm.delete")}
               </Button>
             )}
             <Button variant="secondary" onClick={() => setOpen(false)}>
               {t("form.abort")}
             </Button>
-            <Button disabled={!dirty || !isValid || isSubmitting} loading={loading.save} type="submit">
+            <Button
+              disabled={!(dirty || node.technicalEvaluation?.requiresEvaluation === undefined) || !isValid}
+              loading={isSubmitting || updateTaxMutation.isPending}
+              type="submit"
+            >
               {t("form.save")}
             </Button>
           </FormActionsContainer>

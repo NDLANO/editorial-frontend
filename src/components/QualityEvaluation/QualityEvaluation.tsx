@@ -44,12 +44,17 @@ const QualityEvaluation = ({
   const { t } = useTranslation();
   // Since quality evaluation is the same every place the resource is used in taxonomy, we can use the first node
   const qualityEvaluation = taxonomy?.[0]?.qualityEvaluation;
+  const requiresTechnicalEvaluation = taxonomy?.[0]?.technicalEvaluation?.requiresEvaluation;
 
   return (
     <FlexWrapper>
       <Text textStyle="label.small" fontWeight="semibold">{`${t("qualityEvaluationForm.title")}:`}</Text>
       {qualityEvaluation?.grade ? (
-        <SmallQualityEvaluationGrade grade={qualityEvaluation.grade} tooltip={qualityEvaluation?.note} />
+        <SmallQualityEvaluationGrade
+          grade={qualityEvaluation.grade}
+          requiresTechnicalEvaluation={requiresTechnicalEvaluation}
+          tooltip={qualityEvaluation?.note}
+        />
       ) : (
         <Text textStyle="label.small" color="text.subtle">
           {t("qualityEvaluationForm.unavailable")}

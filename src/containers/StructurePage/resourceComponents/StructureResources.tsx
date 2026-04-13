@@ -97,7 +97,7 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
 
   return (
     <ResourcesContainer
-      nodeResources={nodeChildren ?? []}
+      nodeResources={nodeResources ?? []}
       resourceTypes={resourceTypes ?? []}
       currentNode={currentChildNode}
       contentMetas={keyedMetas}

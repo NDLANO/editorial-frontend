@@ -24,9 +24,12 @@ const GradeItem = styled(Text, {
   },
 });
 
+const RequiresTechnicalEvaluationIcon = styled("span", { base: { fontSize: "xxsmall" } });
+
 interface Props extends HTMLArkProps<"p"> {
   grade: number | undefined;
   averageGrade?: string;
+  requiresTechnicalEvaluation?: boolean;
   tooltip: string | undefined;
 }
 
@@ -36,6 +39,7 @@ const QualityEvaluationGrade = ({
   fontWeight = "bold",
   color = "text.default",
   averageGrade,
+  requiresTechnicalEvaluation,
   tooltip,
   ...rest
 }: Props & TextProps) => {
@@ -58,6 +62,7 @@ const QualityEvaluationGrade = ({
       {...rest}
     >
       {averageGrade ?? grade}
+      {requiresTechnicalEvaluation ? <RequiresTechnicalEvaluationIcon>＊</RequiresTechnicalEvaluationIcon> : null}
     </GradeItem>
   );
 };

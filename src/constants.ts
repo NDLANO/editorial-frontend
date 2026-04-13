@@ -243,6 +243,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "Norsk petroleum", url: ["www.norskpetroleum.no"], height: "486px" },
   { name: "NDLA Nyhetsbrev", url: ["pub.dialogapi.no"], height: "486px" },
   { name: "Nasjonalt senter for flerkulturell opplæring", url: ["nafoki.no"] },
+  { name: "Viten-TV", url: ["www.vitentv.no", "api.frp2.ovp.kaltura.com"] },
 ];
 
 export const SearchTypeValues = [

@@ -10,6 +10,7 @@ import { HTMLArkProps } from "@ark-ui/react";
 import { Text, TextProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { CSSProperties } from "react";
+import { useTranslation } from "react-i18next";
 import {
   qualityEvaluationOptionColors,
   QualityEvaluationValue,
@@ -43,9 +44,12 @@ const QualityEvaluationGrade = ({
   tooltip,
   ...rest
 }: Props & TextProps) => {
+  const { t } = useTranslation();
+
   if (!grade && !averageGrade) return;
 
   const roundedGrade = Math.round(grade ?? Math.round(Number(averageGrade!)));
+  const requiresTechnicalEvaluationLabel = t("qualityEvaluationForm.technicalEvaluation.requiresEvaluation");
 
   return (
     <GradeItem
@@ -62,7 +66,14 @@ const QualityEvaluationGrade = ({
       {...rest}
     >
       {averageGrade ?? grade}
-      {requiresTechnicalEvaluation ? <RequiresTechnicalEvaluationIcon>＊</RequiresTechnicalEvaluationIcon> : null}
+      {requiresTechnicalEvaluation ? (
+        <RequiresTechnicalEvaluationIcon
+          title={requiresTechnicalEvaluationLabel}
+          aria-label={requiresTechnicalEvaluationLabel}
+        >
+          ＊
+        </RequiresTechnicalEvaluationIcon>
+      ) : null}
     </GradeItem>
   );
 };

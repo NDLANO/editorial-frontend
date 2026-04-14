@@ -48,13 +48,13 @@ const toolbarPlugin = createPlugin<any, ToolbarPluginOptions>({
     areaOptions: createToolbarAreaOptions(),
   },
   transform: (editor, _, opts) => {
-    const { onKeyDown: nextOnKeyDown, shouldShowToolbar, apply } = editor;
+    const { onKeyDown: nextOnKeyDown, shouldShowToolbar, onChange } = editor;
 
     editor.selectionElements = getSelectionElements(editor, editor.selection);
 
-    editor.apply = (op) => {
-      apply(op);
+    editor.onChange = (options) => {
       editor.selectionElements = getSelectionElements(editor, editor.selection);
+      onChange?.(options);
     };
 
     editor.toolbarState = ({ options: optionsProp = {}, areaOptions: areaOptionsProp = {} }) => {

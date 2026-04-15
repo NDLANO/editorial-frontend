@@ -50,31 +50,51 @@ interface Props {
   setMathEditor: Dispatch<SetStateAction<MathMLType | undefined>>;
 }
 
+let cachedMathEditor: undefined | any = undefined;
+
+const getMathEditor = (language: string) => {
+  const wirisLanguage = ["nb", "nn"].includes(language) ? "no" : language;
+  if (!cachedMathEditor || cachedMathEditor.language !== wirisLanguage) {
+    cachedMathEditor = window.com?.wiris?.jsEditor?.JsEditor?.newInstance({
+      language: wirisLanguage,
+    });
+  }
+  return cachedMathEditor;
+};
+
 const EditMath = ({ model: { innerHTML }, onRemove, onSave, mathEditor, setMathEditor }: Props) => {
+  const [wirisInitialized, setWirisInitialized] = useState(false);
   const [initialized, setInitialized] = useState(false);
   const [renderedMathML, setRenderedMathML] = useState(innerHTML ?? emptyMathTag);
   const { t, i18n } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (initialized) {
+    if (wirisInitialized) {
+      return;
+    }
+    if (window?.com?.wiris?.jsEditor?.JsEditor) {
+      setWirisInitialized(true);
       return;
     }
     const onScriptLoad = () => {
-      const mathEditor = window.com?.wiris?.jsEditor?.JsEditor?.newInstance({
-        language: ["nb", "nn"].includes(i18n.language) ? "no" : i18n.language,
-      });
-      setMathEditor(mathEditor);
-      mathEditor?.setMathML(renderedMathML ?? emptyMathTag);
-      mathEditor?.insertInto(containerRef.current);
-      mathEditor?.focus();
-      setInitialized(true);
+      setWirisInitialized(true);
     };
     const script = document.createElement("script");
     script.src = "https://www.wiris.net/client/editor/editor";
     script.onload = onScriptLoad;
     document.head.appendChild(script);
-  }, [i18n.language, initialized, renderedMathML, setMathEditor]);
+  }, [wirisInitialized]);
+
+  useEffect(() => {
+    if (!wirisInitialized || initialized) return;
+    const mathEditor = getMathEditor(i18n.language);
+    setMathEditor(mathEditor);
+    mathEditor?.setMathML(renderedMathML ?? emptyMathTag);
+    mathEditor?.insertInto(containerRef.current);
+    mathEditor?.focus();
+    setInitialized(true);
+  }, [i18n.language, initialized, renderedMathML, setMathEditor, wirisInitialized]);
 
   return (
     <>

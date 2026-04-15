@@ -2153,6 +2153,10 @@ const phrases = {
     saveAsNew: "Save as copy",
     prioritized: "Prioritized",
     placeholderPrioritized: "No priority",
+    editorInfoTitle: "Article info",
+    wordCount: "{{count}} words",
+    charactersCount: "{{count}} characters",
+    charactersCountWithoutSpaces: "{{count}} characters (without spaces)",
   },
   taxonomyVersions: {
     title: "Taxonomy Versions",

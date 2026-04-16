@@ -26,6 +26,7 @@ import { NewlyCreatedLocationState, routes, toPreviewDraft } from "../../util/ro
 import { FormField } from "../FormField";
 import { PreviewResourceDialog } from "../PreviewDraft/PreviewResourceDialog";
 import SaveMultiButton from "../SaveMultiButton";
+import { WordCounter } from "./WordCounter";
 
 interface Props {
   type: "article" | "concept" | "learningpath";
@@ -52,6 +53,15 @@ const LinksWrapper = styled("div", {
     flexDirection: "column",
     gap: "5xsmall",
     alignItems: "flex-start",
+  },
+});
+
+const InfoWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+    alignItems: "flex-start",
+    flexWrap: "wrap",
   },
 });
 
@@ -150,28 +160,35 @@ function EditorFooter<T extends FormValues>({
   return (
     <FooterWrapper>
       {!!values.id && (
-        <LinksWrapper>
-          {type === "concept" && (
-            <PreviewResourceDialog
-              type="concept"
-              language={values.language}
-              activateButton={<Button variant="link">{t("form.preview.button")}</Button>}
-            />
-          )}
-          {type === "article" && (
-            <SafeLinkButton variant="link" to={toPreviewDraft(values.id, values.language)} target="_blank">
-              {t("form.preview.button")}
-              <ShareBoxLine size="small" />
-            </SafeLinkButton>
-          )}
-          {type === "learningpath" && (
-            <SafeLinkButton variant="link" to={routes.learningpath.preview(values.id, values.language)} target="_blank">
-              {t("form.preview.button")}
-              <ShareBoxLine size="small" />
-            </SafeLinkButton>
-          )}
-          <LanguageButton language={values.language} supportedLanguages={values.supportedLanguages} />
-        </LinksWrapper>
+        <InfoWrapper>
+          <LinksWrapper>
+            {type === "concept" && (
+              <PreviewResourceDialog
+                type="concept"
+                language={values.language}
+                activateButton={<Button variant="link">{t("form.preview.button")}</Button>}
+              />
+            )}
+            {type === "article" && (
+              <SafeLinkButton variant="link" to={toPreviewDraft(values.id, values.language)} target="_blank">
+                {t("form.preview.button")}
+                <ShareBoxLine size="small" />
+              </SafeLinkButton>
+            )}
+            {type === "learningpath" && (
+              <SafeLinkButton
+                variant="link"
+                to={routes.learningpath.preview(values.id, values.language)}
+                target="_blank"
+              >
+                {t("form.preview.button")}
+                <ShareBoxLine size="small" />
+              </SafeLinkButton>
+            )}
+            <LanguageButton language={values.language} supportedLanguages={values.supportedLanguages} />
+          </LinksWrapper>
+          {type !== "concept" && <WordCounter />}
+        </InfoWrapper>
       )}
       {type !== "concept" && (
         <FormField name="priority">

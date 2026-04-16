@@ -2151,6 +2151,10 @@ const phrases = {
     saveAsNew: "Lagre som kopi",
     prioritized: "Prioritert",
     placeholderPrioritized: "Ingen prioritet",
+    editorInfoTitle: "Artikkelinfo",
+    wordCount: "{{count}} ord",
+    charactersCount: "{{count}} tegn",
+    charactersCountWithoutSpaces: "{{count}} tegn (uten mellomrom)",
   },
   taxonomyVersions: {
     title: "Taksonomiversjoner",

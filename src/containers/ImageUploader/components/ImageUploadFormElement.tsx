@@ -164,6 +164,7 @@ export const ImageUploadFormElement = ({ language }: Props) => {
             contentType={values.contentType ?? ""}
             fileSize={values.fileSize ?? 0}
             imageDimensions={values.imageDimensions}
+            originalDate={values.originalDate}
             locale={language}
           />
         </>

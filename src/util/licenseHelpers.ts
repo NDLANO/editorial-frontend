@@ -6,17 +6,18 @@
  *
  */
 
-import { getLicenseByAbbreviation } from "@ndla/licenses";
+import { getLicenseByAbbreviation, LicenseLocaleType } from "@ndla/licenses";
 import { LicenseDTO } from "@ndla/types-backend/draft-api";
 
 export const getLicensesWithTranslations = (
   licenses: LicenseDTO[],
   language: string,
   enableLicenseNA: boolean = false,
-) =>
-  licenses
-    .filter((license) => license.license !== "N/A" || enableLicenseNA)
-    .map((license) => ({
-      ...license,
-      ...getLicenseByAbbreviation(license.license, language),
-    }));
+) => {
+  return licenses.reduce<(LicenseDTO & LicenseLocaleType)[]>((acc, lic) => {
+    if (lic.license !== "N/A" || enableLicenseNA) {
+      acc.push({ ...lic, ...getLicenseByAbbreviation(lic.license, language) });
+    }
+    return acc;
+  }, []);
+};

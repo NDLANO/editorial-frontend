@@ -18,8 +18,7 @@ import HeaderFavoriteStatus from "../../../../components/HeaderWithLanguage/Head
 import config from "../../../../config";
 import { DRAFT_HTML_SCOPE, PUBLISHED } from "../../../../constants";
 import { useBadges } from "../../../../util/getBadges";
-import { resourceToLinkProps } from "../../../../util/resourceHelpers";
-import { routes } from "../../../../util/routeHelpers";
+import { routes, toEditArticle, toEditConcept, toEditGloss } from "../../../../util/routeHelpers";
 import { useSession } from "../../../Session/SessionProvider";
 import SearchHighlight from "./SearchHighlight";
 import { SearchListItemImage } from "./SearchListItemImage";
@@ -139,6 +138,19 @@ const StyledErrorWarningFill = styled(ErrorWarningFill, {
 
 const conceptTypes = ["concept", "gloss"];
 
+const resourceToLink = (content: MultiSearchSummaryDTO, locale: string) => {
+  const foundSupportedLanguage = content.supportedLanguages?.find((l) => l === locale);
+  const languageOrDefault = foundSupportedLanguage ?? content.supportedLanguages?.[0] ?? "nb";
+
+  if (content.learningResourceType === "concept") {
+    return toEditConcept(content.id, languageOrDefault);
+  } else if (content.learningResourceType === "gloss") {
+    return toEditGloss(content.id, languageOrDefault);
+  } else if (content.resultType === "learningpath") {
+    return routes.learningpath.edit(Number(content.id), languageOrDefault);
+  } else return toEditArticle(content.id, content.learningResourceType ?? "standard", languageOrDefault);
+};
+
 const SearchContent = ({ content, responsibleName }: Props) => {
   const { t, i18n } = useTranslation();
   const { userPermissions } = useSession();
@@ -160,8 +172,6 @@ const SearchContent = ({ content, responsibleName }: Props) => {
     }
   }, [content.learningResourceType, content.metaImage?.url]);
 
-  const linkProps = resourceToLinkProps(content, content.resultType, i18n.language);
-
   const statusType = () => {
     const status = content.status?.current.toLowerCase();
     return t(`form.status.${content.learningResourceType === "learningpath" ? "learningpath_statuses." : ""}${status}`);
@@ -182,7 +192,7 @@ const SearchContent = ({ content, responsibleName }: Props) => {
       <StyledListItemContent>
         <ListItemHeadingContent>
           <ListItemHeading asChild consumeCss>
-            <SafeLink asAnchor={!!linkProps.href} to={linkProps.to ?? linkProps.href} unstyled>
+            <SafeLink to={resourceToLink(content, i18n.language)} unstyled>
               {content.title.title}
             </SafeLink>
           </ListItemHeading>

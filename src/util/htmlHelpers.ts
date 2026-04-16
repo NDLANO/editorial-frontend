@@ -30,15 +30,21 @@ export const urlOrigin = (url: string) => {
   return a.origin;
 };
 
-export const isValidURL = (string: string) =>
-  string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g) ||
-  false;
+const VALID_URL_REGEXP =
+  /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g;
 
-export const isNDLAFrontendUrl = (url: string) =>
-  /^https:\/(.*).ndla.no\/(nb|nn|en|se)?\/?(r|e|f|om|article|node|utdanning|subject:[a-z0-9-]*)\/?/.test(url);
+export const isValidURL = (string: string) => string.match(VALID_URL_REGEXP) || false;
 
-export const isNDLAEdSearchUrl = (url: string) =>
-  /(https?:\/\/)?(www\.)?ed(.*)?\.ndla\.no(\/(en|nb|nn))?\/search\//.test(url);
+const NDLA_FRONTEND_URL_REGEXP =
+  /^https:\/(.*).ndla.no\/(nb|nn|en|se)?\/?(r|e|f|om|article|node|utdanning|subject:[a-z0-9-]*)\/?/;
 
-export const isBrightcoveUrl = (url: string) =>
-  /https:\/\/players\.brightcove\.net\/[A-Za-z0-9]+\/[A-Za-z0-9]+_default\/index\.html\?videoId=[A-Za-z0-9]+/.test(url);
+export const isNDLAFrontendUrl = (url: string) => NDLA_FRONTEND_URL_REGEXP.test(url);
+
+const ED_SEARCH_URL_REGEXP = /(https?:\/\/)?(www\.)?ed(.*)?\.ndla\.no(\/(en|nb|nn))?\/search\//;
+
+export const isNDLAEdSearchUrl = (url: string) => ED_SEARCH_URL_REGEXP.test(url);
+
+const BRIGHTCOVE_URL_REGEXP =
+  /https:\/\/players\.brightcove\.net\/[A-Za-z0-9]+\/[A-Za-z0-9]+_default\/index\.html\?videoId=[A-Za-z0-9]+/;
+
+export const isBrightcoveUrl = (url: string) => BRIGHTCOVE_URL_REGEXP.test(url);

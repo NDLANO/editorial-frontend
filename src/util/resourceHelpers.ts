@@ -9,9 +9,8 @@
 import { NodeType, ResourceType } from "@ndla/types-taxonomy";
 import { constants } from "@ndla/ui";
 import { TFunction } from "i18next";
-import { routes, toEditArticle, toEditAudio, toEditConcept, toEditGloss, toEditPodcastSeries } from "./routeHelpers";
 
-const { contentTypes, contentTypeMapping } = constants;
+const { contentTypeMapping } = constants;
 
 export const getResourceLanguages = (t: TFunction) => [
   { id: "nb", name: t("languages.nb") },
@@ -38,57 +37,4 @@ export const getContentTypeFromResourceTypes = (
     return contentTypeMapping["multidisciplinary"];
   }
   return contentTypeMapping.default;
-};
-
-const isLearningPathResourceType = (contentType?: string) =>
-  contentType === "learningpath" || contentType === contentTypes.LEARNING_PATH;
-const isConceptType = (contentType: string | undefined) => contentType === "concept";
-const isGlossType = (contentType: string | undefined) => contentType === "gloss";
-const isAudioType = (contentType: string | undefined) => contentType === "audio";
-const isSeriesType = (contentType: string | undefined) => contentType === "series";
-
-export interface ResourceToLinkContent {
-  id: number | string;
-  supportedLanguages?: string[];
-  learningResourceType?: string;
-}
-
-export const resourceToLinkProps = (
-  content: ResourceToLinkContent,
-  contentType: string | undefined,
-  locale: string,
-) => {
-  const foundSupportedLanguage = content.supportedLanguages?.find((l) => l === locale);
-  const languageOrDefault = foundSupportedLanguage ?? content.supportedLanguages?.[0] ?? "nb";
-
-  if (isConceptType(content.learningResourceType)) {
-    return {
-      to: toEditConcept(content.id, languageOrDefault),
-    };
-  }
-  if (isGlossType(content.learningResourceType)) {
-    return {
-      to: toEditGloss(content.id, languageOrDefault),
-    };
-  }
-  if (isAudioType(contentType)) {
-    return {
-      to: toEditAudio(content.id, languageOrDefault),
-    };
-  }
-  if (isSeriesType(contentType)) {
-    return {
-      to: toEditPodcastSeries(content.id, languageOrDefault),
-    };
-  }
-  if (isLearningPathResourceType(contentType)) {
-    return {
-      href: routes.learningpath.edit(Number(content.id), locale),
-      target: "_blank",
-      rel: "noopener noreferrer",
-    };
-  }
-  return {
-    to: toEditArticle(content.id, content.learningResourceType ?? "standard", languageOrDefault),
-  };
 };

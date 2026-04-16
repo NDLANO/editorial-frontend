@@ -6,8 +6,6 @@
  *
  */
 
-import { useEffect, useRef } from "react";
-import { useLocation } from "react-router";
 import { NDLA_FILM_SUBJECT } from "../constants";
 
 export interface NewlyCreatedLocationState {
@@ -283,18 +281,11 @@ export const removeLastItemFromUrl = (url: string) =>
     .join("/");
 
 export const getPathsFromUrl = (url: string) => {
-  return url
-    .split("/")
-    .filter((item) => item.includes("urn:"))
-    .reduce((acc: string[], curr) => [...acc, acc.slice(-1).concat(curr).join("/")], []);
-};
-
-export const usePreviousLocation = () => {
-  const location = useLocation();
-  const locationRef = useRef<string | undefined>(undefined);
-
-  useEffect(() => {
-    locationRef.current = location.pathname;
-  }, [location]);
-  return locationRef.current;
+  return url.split("/").reduce<string[]>((acc, curr) => {
+    if (curr.includes("urn:")) {
+      const prev = acc[acc.length - 1];
+      acc.push(prev ? `${prev}/${curr}` : curr);
+    }
+    return acc;
+  }, []);
 };

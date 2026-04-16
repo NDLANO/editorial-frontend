@@ -7,7 +7,7 @@
  */
 
 import config from "./config";
-import { GrepFormat, LocaleType, WhitelistProvider } from "./interfaces";
+import { GrepFormat, LocaleType, RevisionType, WhitelistProvider } from "./interfaces";
 
 export const SUPPORTED_LANGUAGES: LocaleType[] = ["nb", "nn", "en"];
 
@@ -107,8 +107,6 @@ export const TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT = "programfag";
 
 export const MAX_IMAGE_UPLOAD_SIZE = 1024 * 1024 * 40; // 40MB.
 export const LAST_UPDATED_SIZE = 50;
-
-export const LOCALE_VALUES = ["nb", "nn", "en", "se", "sma", "ukr"] as const;
 
 export const ARCHIVED = "ARCHIVED";
 export const END_CONTROL = "END_CONTROL";
@@ -246,17 +244,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "Viten-TV", url: ["www.vitentv.no", "api.frp2.ovp.kaltura.com"] },
 ];
 
-export const SearchTypeValues = [
-  // Available search types, there is a type equivalent in `interfaces.ts`
-  "content",
-  "audio",
-  "image",
-  "concept",
-  "podcast-series",
-] as const;
-
-export type RevisionTypes = "revised" | "needs-revision";
 export const Revision = {
-  revised: "revised" as RevisionTypes,
-  needsRevision: "needs-revision" as RevisionTypes,
+  revised: "revised" as RevisionType,
+  needsRevision: "needs-revision" as RevisionType,
 };

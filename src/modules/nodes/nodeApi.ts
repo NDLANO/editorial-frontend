@@ -20,8 +20,9 @@ import {
   Metadata,
   MetadataPUT,
   NodeSearchBody,
+  SearchResult,
 } from "@ndla/types-taxonomy";
-import { SearchResultBase, WithTaxonomyVersion } from "../../interfaces";
+import { WithTaxonomyVersion } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveLocation, resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 import { GetChildNodesParams, GetNodesParams, GetNodeResourcesParams } from "./nodeApiTypes";
@@ -284,7 +285,7 @@ interface SearchNodes extends WithTaxonomyVersion {
   query?: string;
 }
 
-export const searchNodes = (params: SearchNodes): Promise<SearchResultBase<Node>> =>
+export const searchNodes = (params: SearchNodes): Promise<SearchResult> =>
   client
     .GET("/v1/nodes/search", {
       params: {
@@ -307,7 +308,7 @@ interface PostSearchNodes extends WithTaxonomyVersion {
   body: NodeSearchBody;
 }
 
-export const postSearchNodes = (params: PostSearchNodes): Promise<SearchResultBase<Node>> =>
+export const postSearchNodes = (params: PostSearchNodes): Promise<SearchResult> =>
   client
     .POST("/v1/nodes/search", {
       body: params.body,

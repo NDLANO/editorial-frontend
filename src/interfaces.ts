@@ -6,7 +6,6 @@
  *
  */
 
-import { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import { ArticleDTO, RelatedContentLinkDTO } from "@ndla/types-backend/draft-api";
 import {
   AudioEmbedData,
@@ -16,8 +15,6 @@ import {
   ImageEmbedData,
   OembedEmbedData,
 } from "@ndla/types-embed";
-import { ErrorEmbed } from "./components/SlateEditor/plugins/embed/types";
-import { SearchTypeValues, LOCALE_VALUES } from "./constants";
 
 export interface FormikStatus {
   status?: string;
@@ -38,31 +35,12 @@ export type DraftStatusStateMachineType = Record<DraftStatusType, DraftStatusTyp
 export type ConceptStatusType = string;
 export type ConceptStatusStateMachineType = Record<ConceptStatusType, ConceptStatusType[]>;
 
-export type LocaleType = (typeof LOCALE_VALUES)[number];
-
-export type PartialRecord<K extends keyof any, T> = {
-  [P in K]?: T;
-};
-
-export interface SearchResultBase<T> {
-  totalCount: number;
-  page?: number;
-  pageSize: number;
-  language?: string;
-  results: T[];
-}
+export type LocaleType = "nb" | "nn" | "en" | "se" | "sma" | "ukr";
 
 export interface CodeBlockType {
   code: string;
   title: string;
   format: string;
-}
-
-export interface FlattenedResourceType {
-  id: string;
-  name: string;
-  typeId?: string;
-  typeName?: string;
 }
 
 export interface Auth0UserData {
@@ -72,23 +50,15 @@ export interface Auth0UserData {
   name: string;
 }
 
-export interface ZendeskToken {
-  token: string;
-}
-
-export type TypeOfPreview = "preview" | "previewLanguageArticle" | "previewVersion" | "previewProductionArticle";
-
 export type RelatedContent = RelatedContentLinkDTO | number;
 
 export type ConvertedRelatedContent = RelatedContent | ArticleDTO;
 
 export type MessageSeverity = "danger" | "info" | "success" | "warning";
 
-export interface H5pEmbed {
-  resource: "h5p";
-  path: string;
-  url?: string;
-  title?: string;
+export interface ErrorEmbed {
+  resource: "error";
+  message: string;
 }
 
 export type Embed =
@@ -122,10 +92,6 @@ export interface UnsavedFile {
   type: string;
 }
 
-export interface SlateAudio extends Omit<AudioMetaInformationDTO, "title"> {
-  title: string;
-}
-
 export interface BrightcoveAccessToken {
   access_token: string;
   token_type: string;
@@ -143,12 +109,7 @@ export interface OembedResponse {
   title: string;
 }
 
-export type SearchType = (typeof SearchTypeValues)[number];
-
-export interface ReturnType<TType, TReturnType> {
-  type: TType;
-  value: TReturnType;
-}
+export type SearchType = "content" | "audio" | "image" | "concept" | "podcast-series";
 
 export interface WithTaxonomyVersion {
   taxonomyVersion: string;
@@ -219,16 +180,6 @@ export interface ReflectionVariables {
   content: string;
 }
 
-const promptTypes: PromptType[] = [
-  "summary",
-  "altText",
-  "alternativePhrasing",
-  "metaDescription",
-  "reflection",
-] as const;
-
-export const isPromptType = (type: any): type is PromptType => promptTypes.includes(type as PromptType);
-
 export type PromptPayload<T extends PromptVariables> = T & {
   language: string;
   role?: string;
@@ -257,3 +208,5 @@ export interface ContentUriInfo {
   id: number;
   type: string;
 }
+
+export type RevisionType = "revised" | "needs-revision";

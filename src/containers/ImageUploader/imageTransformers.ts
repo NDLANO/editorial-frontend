@@ -31,6 +31,7 @@ export interface ImageFormikType {
   fileSize?: number;
   imageDimensions?: ImageDimensionsDTO;
   inactive: boolean;
+  originalDate?: string;
 }
 
 export const imageApiTypeToFormType = (
@@ -57,5 +58,6 @@ export const imageApiTypeToFormType = (
     fileSize: image?.image.size,
     imageDimensions: image?.image.dimensions,
     inactive: image?.inactive ?? false,
+    originalDate: image?.image.originalDate,
   };
 };

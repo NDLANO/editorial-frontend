@@ -47,6 +47,7 @@ const SearchImage = ({ image }: Props) => {
             contentType={image.image.contentType}
             fileSize={image.image.size}
             imageDimensions={image.image.dimensions}
+            originalDate={image.image.originalDate}
             locale={i18n.language}
           />
         </SearchContentWrapper>

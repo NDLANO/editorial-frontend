@@ -168,7 +168,12 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, ArticleDTO> = 
     required: false,
     test: (values) => {
       const wrongFormat = !!values?.grepCodes?.find(
-        (value) => !isGrepCodeValid(value, [GREP_CODE_FORMATS.KM, GREP_CODE_FORMATS.KV, GREP_CODE_FORMATS.TT]),
+        (value) =>
+          !isGrepCodeValid(value, [
+            GREP_CODE_FORMATS.KOMPETANSEMAL,
+            GREP_CODE_FORMATS.KOMPETANSEMALSETT,
+            GREP_CODE_FORMATS.TVERRFAGLIGTEMA,
+          ]),
       );
       return wrongFormat ? { translationKey: "validation.grepCodes" } : undefined;
     },

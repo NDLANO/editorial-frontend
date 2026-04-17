@@ -127,8 +127,11 @@ const MathEditor = ({ element, children, attributes }: Props) => {
 
   const handleSave = useCallback(
     (mathML: string) => {
+      const parsedMath = new DOMParser().parseFromString(mathML, "text/html").querySelector("math");
+      if (!parsedMath) return;
+      const innerHtml = parsedMath.innerHTML;
       const properties = {
-        data: { innerHTML: mathML },
+        data: { xmlns: "http://www.w3.org/1998/Math/MathML", innerHTML: innerHtml },
         isFirstEdit: false,
       };
       const path = ReactEditor.findPath(editor, element);
@@ -138,8 +141,7 @@ const MathEditor = ({ element, children, attributes }: Props) => {
       editor.withoutNormalizing(() => {
         Transforms.setNodes(editor, properties, { at: path, voids: true, match: isMathElement });
         if (element.isFirstEdit) {
-          const mathAsString = new DOMParser().parseFromString(mathML, "text/xml").firstChild?.textContent;
-          Transforms.insertText(editor, mathAsString || "", { at: path, voids: true });
+          Transforms.insertText(editor, parsedMath.textContent || "", { at: path, voids: true });
           // Insertion consists of insert an empty mathml and then updating it with content. By merging the events we can consider them as one action and undo both with ctrl+z.
           mergeLastUndos(editor);
         }

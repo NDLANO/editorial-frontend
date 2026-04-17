@@ -44,7 +44,7 @@ const QualityEvaluation = ({
   const { t } = useTranslation();
   // Since quality evaluation is the same every place the resource is used in taxonomy, we can use the first node
   const qualityEvaluation = taxonomy?.[0]?.qualityEvaluation;
-  const requiresTechnicalEvaluation = taxonomy?.[0]?.technicalEvaluation?.requiresEvaluation;
+  const technicalEvaluation = taxonomy?.[0]?.technicalEvaluation;
 
   return (
     <FlexWrapper>
@@ -52,7 +52,8 @@ const QualityEvaluation = ({
       {qualityEvaluation?.grade ? (
         <SmallQualityEvaluationGrade
           grade={qualityEvaluation.grade}
-          requiresTechnicalEvaluation={requiresTechnicalEvaluation}
+          requiresTechnicalEvaluation={technicalEvaluation?.requiresEvaluation}
+          technicalEvaluationComment={technicalEvaluation?.comment}
           tooltip={qualityEvaluation?.note}
         />
       ) : (

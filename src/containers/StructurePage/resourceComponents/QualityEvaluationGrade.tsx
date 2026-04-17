@@ -31,6 +31,7 @@ interface Props extends HTMLArkProps<"p"> {
   grade: number | undefined;
   averageGrade?: string;
   requiresTechnicalEvaluation?: boolean;
+  technicalEvaluationComment?: string;
   tooltip: string | undefined;
 }
 
@@ -41,6 +42,7 @@ const QualityEvaluationGrade = ({
   color = "text.default",
   averageGrade,
   requiresTechnicalEvaluation,
+  technicalEvaluationComment,
   tooltip,
   ...rest
 }: Props & TextProps) => {
@@ -49,7 +51,8 @@ const QualityEvaluationGrade = ({
   if (!grade && !averageGrade) return;
 
   const roundedGrade = Math.round(grade ?? Math.round(Number(averageGrade!)));
-  const requiresTechnicalEvaluationLabel = t("qualityEvaluationForm.technicalEvaluation.requiresEvaluation");
+  const requiresTechnicalEvaluationLabel =
+    technicalEvaluationComment || t("qualityEvaluationForm.technicalEvaluation.requiresEvaluation");
 
   return (
     <GradeItem

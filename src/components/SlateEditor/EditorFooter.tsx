@@ -190,7 +190,7 @@ function EditorFooter<T extends FormValues>({
           {type !== "concept" && <WordCounter />}
         </InfoWrapper>
       )}
-      {type !== "concept" && (
+      {type === "article" && (
         <FormField name="priority">
           {({ field, helpers }) => (
             <FieldRoot>

@@ -27,7 +27,7 @@ import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import { PUBLISHED } from "../../../constants";
 import { useDraft } from "../../../modules/draft/draftQueries";
-import { getFormTypeFromStep, learningStepEditId } from "../learningpathUtils";
+import { learningStepEditId } from "../learningpathUtils";
 import { LearningpathStepForm } from "./LearningpathStepForm";
 
 interface Props {
@@ -66,7 +66,6 @@ export const LearningStepListItem = ({ item, onDeleteStep, language, onlyPublish
   const [open, setOpen] = useState(false);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
   const { t } = useTranslation();
-  const stepType = useMemo(() => getFormTypeFromStep(item), [item]);
 
   useEffect(() => {
     if (focusId && !open) {
@@ -76,21 +75,21 @@ export const LearningStepListItem = ({ item, onDeleteStep, language, onlyPublish
   }, [focusId, open]);
 
   const articleId = useMemo(() => {
-    if (stepType !== "resource") return 0;
+    if (item.type !== "ARTICLE") return 0;
     if (item.articleId) return item.articleId;
     if (item.embedUrl?.url) {
       const articleId = parseInt(item.embedUrl.url.match(ARTICLE_ID_REGEX)?.[0]?.split("/")?.pop() ?? "");
       return articleId ?? 0;
     }
     return 0;
-  }, [item.articleId, item.embedUrl?.url, stepType]);
+  }, [item.articleId, item.embedUrl?.url, item.type]);
 
-  const draftQuery = useDraft({ id: articleId, language }, { enabled: stepType === "resource" && !!articleId });
+  const draftQuery = useDraft({ id: articleId, language }, { enabled: item.type === "ARTICLE" && !!articleId });
 
   const hasPublishedVersion = useMemo(() => {
-    if (stepType !== "resource") return true; // Only check for published if resource
+    if (item.type !== "ARTICLE") return true; // Only check for published if resource
     return draftQuery.data?.status.current === PUBLISHED || draftQuery.data?.status.other.includes(PUBLISHED);
-  }, [draftQuery.data?.status, stepType]);
+  }, [draftQuery.data?.status, item.type]);
 
   return (
     <StyledListItemRoot id={item.id.toString()} key={item.id} nonInteractive>
@@ -99,7 +98,7 @@ export const LearningStepListItem = ({ item, onDeleteStep, language, onlyPublish
           <Text fontWeight="bold" textStyle="label.medium">
             {item.title.title}
           </Text>
-          <Text textStyle="label.small">{t(`learningpathForm.steps.formTypes.${stepType}`)}</Text>
+          <Text textStyle="label.small">{t(`learningpathForm.steps.formTypes.${item.type}`)}</Text>
         </Stack>
         <FormActionsContainer>
           {!hasPublishedVersion && (
@@ -118,7 +117,7 @@ export const LearningStepListItem = ({ item, onDeleteStep, language, onlyPublish
           </IconButton>
           <DialogRoot
             open={open}
-            size={stepType === "text" || item.description?.description.length ? "large" : "medium"}
+            size={item.type === "TEXT" || item.description?.description.length ? "large" : "medium"}
             onOpenChange={(details) => setOpen(details.open)}
             ids={{
               trigger: learningStepEditId(item.id),

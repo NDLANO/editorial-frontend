@@ -10,7 +10,7 @@ import { ResourceType } from "@ndla/types-taxonomy";
 import { Descendant } from "slate";
 
 export interface ExternalFormValues {
-  type: "external";
+  type: "EXTERNAL";
   title: string;
   introduction: string;
   url: string;
@@ -20,7 +20,7 @@ export interface ExternalFormValues {
 }
 
 export interface TextFormValues {
-  type: "text";
+  type: "TEXT";
   title: string;
   introduction: string;
   description?: Descendant[];
@@ -28,7 +28,7 @@ export interface TextFormValues {
 }
 
 export interface ResourceFormValues {
-  type: "resource";
+  type: "ARTICLE";
   embedUrl: string;
   title: string;
   articleId?: number;

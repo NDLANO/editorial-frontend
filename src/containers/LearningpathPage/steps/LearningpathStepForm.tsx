@@ -24,6 +24,7 @@ import {
 import {
   LearningStepV2DTO,
   NewLearningStepV2DTO,
+  StepType,
   UpdatedLearningStepV2DTO,
 } from "@ndla/types-backend/learningpath-api";
 import { Form, Formik } from "formik";
@@ -41,13 +42,12 @@ import { unreachable } from "../../../util/guards";
 import { AlertDialogWrapper } from "../../FormikForm";
 import { PreventWindowUnload } from "../../FormikForm/PreventWindowUnload";
 import PrivateRoute from "../../PrivateRoute/PrivateRoute";
-import { getFormTypeFromStep } from "../learningpathUtils";
 import { ExternalStepForm, externalStepRules } from "./ExternalStepForm";
 import { ResourceStepForm, resourceStepRules } from "./ResourceStepForm";
 import { TextStepForm, textStepRules } from "./TextStepForm";
 import { LearningpathStepFormValues } from "./types";
 
-const RADIO_GROUP_OPTIONS = ["text", "resource", "external"] as const;
+const RADIO_GROUP_OPTIONS = ["TEXT", "ARTICLE", "EXTERNAL"] as const;
 
 const learningpathBlockContentToEditorValue = (html: string) => {
   const res = blockContentToEditorValue(html);
@@ -56,25 +56,22 @@ const learningpathBlockContentToEditorValue = (html: string) => {
 };
 
 const rules = {
-  external: externalStepRules,
-  text: textStepRules,
-  resource: resourceStepRules,
+  EXTERNAL: externalStepRules,
+  TEXT: textStepRules,
+  ARTICLE: resourceStepRules,
 } as const;
 
-export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
-  type: T,
-  step?: LearningStepV2DTO,
-): LearningpathStepFormValues => {
+export const toFormValues = (type: StepType, step?: LearningStepV2DTO): LearningpathStepFormValues => {
   switch (type) {
-    case "text":
+    case "TEXT":
       return {
-        type: "text",
+        type: type,
         title: step?.title.title ?? "",
         introduction: step?.introduction?.introduction ?? "",
         description: learningpathBlockContentToEditorValue(step?.description?.description ?? ""),
         license: step?.license?.license,
       };
-    case "external":
+    case "EXTERNAL":
       return {
         type: type,
         title: step?.title.title ?? "",
@@ -86,7 +83,7 @@ export const toFormValues = <T extends LearningpathStepFormValues["type"]>(
           : undefined,
         license: step?.license?.license,
       };
-    case "resource":
+    case "ARTICLE":
       return {
         type: type,
         title: step?.title.title ?? "",
@@ -113,7 +110,7 @@ const formValuesToStep = (
 ): Omit<NewLearningStepV2DTO | UpdatedLearningStepV2DTO, "language" | "revision"> => {
   const htmlDescription = blockContentToHTML(values.description ?? []);
   const description = htmlDescription === "<section></section>" ? null : htmlDescription;
-  if (values.type === "text") {
+  if (values.type === "TEXT") {
     return {
       type: "TEXT",
       title: values.title,
@@ -125,9 +122,9 @@ const formValuesToStep = (
     };
   }
 
-  if (values.type === "external") {
+  if (values.type === "EXTERNAL") {
     return {
-      type: "TEXT",
+      type: "EXTERNAL",
       title: values.title,
       introduction: values.introduction,
       description: description?.length ? description : null,
@@ -141,7 +138,7 @@ const formValuesToStep = (
   }
 
   return {
-    type: "TEXT",
+    type: "ARTICLE",
     title: values.title.length ? values.title : null,
     license: values.license,
     introduction: null,
@@ -164,7 +161,7 @@ export const LearningpathStepForm = ({ step, onClose, onlyPublishedResources }: 
   const wrapperRef = useRef<HTMLFormElement>(null);
   const { id, language } = useParams<"id" | "language">();
   const { t } = useTranslation();
-  const initialValues = useMemo(() => toFormValues(step ? getFormTypeFromStep(step) : "resource", step), [step]);
+  const initialValues = useMemo(() => toFormValues(step?.type ?? "ARTICLE", step), [step]);
   const postLearningStepMutation = usePostLearningStepMutation(language ?? "");
   const patchLearningStepMutation = usePatchLearningStepMutation(language ?? "");
 
@@ -227,7 +224,7 @@ export const LearningpathStepForm = ({ step, onClose, onlyPublishedResources }: 
         <Form ref={wrapperRef} onSubmit={formikProps.handleSubmit}>
           <PreventWindowUnload preventUnload={formikProps.dirty} />
           <DialogBody>
-            {!!step && getFormTypeFromStep(step) !== "resource" && (
+            {!!step && step.type !== "ARTICLE" && (
               <FormField name="type">
                 {({ field, meta }) => (
                   <FieldRoot required invalid={!!meta.error}>
@@ -246,7 +243,7 @@ export const LearningpathStepForm = ({ step, onClose, onlyPublishedResources }: 
                       orientation="vertical"
                     >
                       {RADIO_GROUP_OPTIONS.map((val) => (
-                        <RadioGroupItem value={val} key={val} disabled={val !== "resource"}>
+                        <RadioGroupItem value={val} key={val} disabled={val !== "ARTICLE"}>
                           <RadioGroupItemControl />
                           <RadioGroupItemText>{t(`learningpathForm.steps.formTypes.${val}`)}</RadioGroupItemText>
                           <RadioGroupItemHiddenInput />
@@ -257,11 +254,11 @@ export const LearningpathStepForm = ({ step, onClose, onlyPublishedResources }: 
                 )}
               </FormField>
             )}
-            {formikProps.values.type === "text" ? (
+            {formikProps.values.type === "TEXT" ? (
               <TextStepForm step={step} language={language} />
-            ) : formikProps.values.type === "resource" ? (
+            ) : formikProps.values.type === "ARTICLE" ? (
               <ResourceStepForm onlyPublishedResources={onlyPublishedResources} step={step} language={language} />
-            ) : formikProps.values.type === "external" ? (
+            ) : formikProps.values.type === "EXTERNAL" ? (
               <ExternalStepForm step={step} language={language} />
             ) : null}
           </DialogBody>

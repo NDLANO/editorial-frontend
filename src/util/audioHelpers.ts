@@ -50,6 +50,7 @@ export const audioApiTypeToPodcastFormType = (
     metaImageAlt: audio?.podcastMeta?.coverPhoto.altText,
     filepath: "",
     series: audio?.series ?? null,
+    released: audio?.released,
   };
 };
 

@@ -47,6 +47,7 @@ export interface PodcastFormValues extends AudioFormikType {
   metaImageUrl?: string;
   series: SeriesDTO | null;
   seriesId?: number;
+  released?: string;
 }
 
 export interface PodcastSeriesFormikType {

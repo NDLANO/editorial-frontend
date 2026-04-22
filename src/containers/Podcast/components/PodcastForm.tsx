@@ -161,6 +161,7 @@ const PodcastForm = ({
       tags: values.tags,
       audioType: "podcast",
       language: values.language,
+      released: values.released,
       copyright: {
         license,
         origin: values.origin,

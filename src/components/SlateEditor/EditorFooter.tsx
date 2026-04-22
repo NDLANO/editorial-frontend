@@ -187,7 +187,7 @@ function EditorFooter<T extends FormValues>({
             )}
             <LanguageButton language={values.language} supportedLanguages={values.supportedLanguages} />
           </LinksWrapper>
-          {type !== "concept" && <WordCounter />}
+          {type === "article" && <WordCounter />}
         </InfoWrapper>
       )}
       {type === "article" && (

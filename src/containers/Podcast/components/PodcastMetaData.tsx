@@ -6,14 +6,27 @@
  *
  */
 
-import { FieldErrorMessage, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { getLocalTimeZone, parseAbsoluteToLocal } from "@internationalized/date";
+import {
+  Button,
+  DatePickerControl,
+  DatePickerLabel,
+  DatePickerRoot,
+  DatePickerTrigger,
+  FieldErrorMessage,
+  FieldLabel,
+  FieldRoot,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useDatePickerTranslations } from "@ndla/ui";
 import { useTranslation } from "react-i18next";
+import { DatePickerContent } from "../../../components/abstractions/DatePicker";
 import { FieldWarning } from "../../../components/Form/FieldWarning";
 import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
 import { FormField } from "../../../components/FormField";
 import PlainTextEditor from "../../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../../components/SlateEditor/plugins/textTransform";
+import formatDate from "../../../util/formatDate";
 import { MetaImageSearch } from "../../FormikForm";
 
 const StyledFormRemainingCharacters = styled(FormRemainingCharacters, {
@@ -31,6 +44,7 @@ const plugins = [textTransformPlugin];
 
 const PodcastMetaData = ({ language, onImageLoad }: Props) => {
   const { t } = useTranslation();
+  const translations = useDatePickerTranslations();
 
   return (
     <>
@@ -65,6 +79,29 @@ const PodcastMetaData = ({ language, onImageLoad }: Props) => {
             />
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
           </FieldRoot>
+        )}
+      </FormField>
+      <FormField name="released">
+        {({ field, helpers }) => (
+          <DatePickerRoot
+            translations={translations}
+            value={field.value ? [parseAbsoluteToLocal(field.value)] : []}
+            onValueChange={(details) => helpers.setValue(details.value[0].toDate(getLocalTimeZone()).toISOString())}
+            locale="nb-NO"
+            fixedWeeks
+            startOfWeek={1}
+            outsideDaySelectable
+            lazyMount
+            unmountOnExit
+          >
+            <DatePickerLabel>{t("podcastForm.fields.releaseDate")}</DatePickerLabel>
+            <DatePickerControl>
+              <DatePickerTrigger asChild>
+                <Button>{field.value ? formatDate(field.value) : t("form.choose")}</Button>
+              </DatePickerTrigger>
+            </DatePickerControl>
+            <DatePickerContent />
+          </DatePickerRoot>
         )}
       </FormField>
     </>

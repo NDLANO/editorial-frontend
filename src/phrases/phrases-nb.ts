@@ -694,6 +694,7 @@ const phrases = {
       coverPhotoAltText: "Alt-text",
       manuscript: "Tekstversjon",
       series: "Serie",
+      releaseDate: "Slippdato",
     },
     information: {
       partOfSeries: "Denne podkasten er en del av serien",

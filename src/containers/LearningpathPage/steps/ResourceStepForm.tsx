@@ -36,7 +36,7 @@ import { toEditArticle } from "../../../util/routeHelpers";
 import { LicenseField } from "../../FormikForm";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { LearningpathTextEditor } from "../components/LearningpathTextEditor";
-import { getFormTypeFromStep, getNodeIdFromEmbedUrl } from "../learningpathUtils";
+import { getNodeIdFromEmbedUrl } from "../learningpathUtils";
 import { ResourcePicker } from "./ResourcePicker";
 import { ResourceData, ResourceFormValues } from "./types";
 
@@ -184,7 +184,7 @@ export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Pro
 
   return (
     <>
-      {!!step?.title.title.length && getFormTypeFromStep(step) === "resource" && (
+      {!!step?.title.title.length && step.type === "ARTICLE" && (
         <FormField name="title">
           {({ field, meta }) => (
             <FieldRoot invalid={!!meta.error}>
@@ -195,7 +195,7 @@ export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Pro
           )}
         </FormField>
       )}
-      {!!step?.description?.description.length && getFormTypeFromStep(step) === "resource" && (
+      {!!step?.description?.description.length && step.type === "ARTICLE" && (
         <FormField name="description">
           {({ field, meta, helpers }) => (
             <FieldRoot invalid={!!meta.error}>

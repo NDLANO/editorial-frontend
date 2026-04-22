@@ -18,7 +18,6 @@ import { isUrl } from "../../../components/validators";
 import { fetchOpenGraphData } from "../../../modules/opengraph/openGraphApi";
 import { LicenseField } from "../../FormikForm";
 import { LearningpathTextEditor } from "../components/LearningpathTextEditor";
-import { getFormTypeFromStep } from "../learningpathUtils";
 import { ExternalFormValues } from "./types";
 
 interface Props {
@@ -91,7 +90,7 @@ export const ExternalStepForm = ({ step, language }: Props) => {
         )}
       </FormField>
       <LicenseField />
-      {!!step?.description?.description.length && getFormTypeFromStep(step) === "external" && (
+      {!!step?.description?.description.length && step.type === "EXTERNAL" && (
         <FormField name="description">
           {({ field, meta, helpers }) => (
             <FieldRoot invalid={!!meta.error}>

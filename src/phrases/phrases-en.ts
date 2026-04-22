@@ -2506,9 +2506,9 @@ const phrases = {
       noSteps: "This learning path doesn't have any steps yet.",
       noPublishedVersion: "This resource does not have a published version.",
       formTypes: {
-        text: "Text written by myself",
-        resource: "Content from NDLA",
-        external: "Content from a external website",
+        TEXT: "Text written by myself",
+        ARTICLE: "Content from NDLA",
+        EXTERNAL: "Content from a external website",
       },
       editStep: "Edit step",
       textForm: {

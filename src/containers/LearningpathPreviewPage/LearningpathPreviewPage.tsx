@@ -16,7 +16,6 @@ import { useLearningpath } from "../../modules/learningpath/learningpathQueries"
 import { isNotFoundError } from "../../util/resolveJsonOrRejectWithError";
 import { routes } from "../../util/routeHelpers";
 import { LearningpathErrorMessage } from "../LearningpathPage/components/LearningpathErrorMessage";
-import { getFormTypeFromStep } from "../LearningpathPage/learningpathUtils";
 import NotFound from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import { ArticleStep } from "./ArticleStep";
@@ -84,25 +83,23 @@ const LearningpathPreviewPage = () => {
     ? learningpath.learningsteps.find((step) => step.id === parseInt(stepId))
     : learningpath.learningsteps[0];
 
-  const stepType = currentStep ? getFormTypeFromStep(currentStep) : null;
-
   return (
     <PageContainer>
       <title>{t("htmlTitles.learningpath.preview")}</title>
       <FormContent>
         <Heading>{t("learningpathForm.preview.heading")}</Heading>
         <StepWrapper>
-          {currentStep && stepType ? (
+          {currentStep?.type ? (
             <>
               <LearningpathMenu learningpath={learningpath} language={language} step={currentStep} />
-              {stepType !== "text" && <StepTitle step={currentStep} />}
-              {stepType === "text" ? (
+              {currentStep.type !== "TEXT" && <StepTitle step={currentStep} />}
+              {currentStep.type === "TEXT" ? (
                 <TextStep step={currentStep} learningpath={learningpath} />
-              ) : stepType === "resource" ? (
+              ) : currentStep.type === "ARTICLE" ? (
                 <ArticleStep step={currentStep} language={language} />
-              ) : stepType === "external" && currentStep.embedUrl?.embedType === "external" ? (
+              ) : currentStep.type === "EXTERNAL" && currentStep.embedUrl?.embedType === "external" ? (
                 <ExternalStep step={currentStep} learningpath={learningpath} />
-              ) : stepType === "external" ? (
+              ) : currentStep.type === "EXTERNAL" ? (
                 <EmbedStep step={currentStep} />
               ) : null}
             </>

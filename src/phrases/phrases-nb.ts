@@ -2504,9 +2504,9 @@ const phrases = {
       noSteps: "Læringsstien har ingen steg ennå.",
       noPublishedVersion: "Denne ressursen har ingen publisert versjon",
       formTypes: {
-        text: "Tekst jeg har skrevet selv",
-        resource: "Innhold fra NDLA",
-        external: "Innhold fra et annet nettsted",
+        TEXT: "Tekst jeg har skrevet selv",
+        ARTICLE: "Innhold fra NDLA",
+        EXTERNAL: "Innhold fra et annet nettsted",
       },
       editStep: "Rediger steg",
       textForm: {

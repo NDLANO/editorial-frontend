@@ -69,7 +69,7 @@ const StyledFieldRoot = styled(FieldRoot, {
   },
 });
 
-const timeFormatter = new Intl.DateTimeFormat("nb-NO", {
+const timeFormatter = new Intl.DateTimeFormat("no", {
   hour: "2-digit",
   minute: "2-digit",
 });

@@ -8,7 +8,7 @@
 
 import { parseAbsoluteToLocal } from "@internationalized/date";
 
-const dateFormatter = new Intl.DateTimeFormat("nb-NO", {
+const dateFormatter = new Intl.DateTimeFormat("no", {
   year: "numeric",
   month: "2-digit",
   day: "2-digit",

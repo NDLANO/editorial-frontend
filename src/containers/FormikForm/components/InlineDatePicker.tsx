@@ -16,7 +16,7 @@ import { useCallback, useMemo } from "react";
 import { DatePickerContent } from "../../../components/abstractions/DatePicker";
 import { formatDateForBackend } from "../../../util/formatDate";
 
-const dateFormatter = new Intl.DateTimeFormat("nb-NO", {
+const dateFormatter = new Intl.DateTimeFormat("no", {
   day: "2-digit",
   month: "2-digit",
   year: "numeric",

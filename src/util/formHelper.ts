@@ -171,7 +171,7 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, ArticleDTO> = 
         (value) =>
           !isGrepCodeValid(value, [
             GREP_CODE_FORMATS.KOMPETANSEMAL,
-            GREP_CODE_FORMATS.KOMPETANSEMALSETT,
+            GREP_CODE_FORMATS.KJERNEELEMENT,
             GREP_CODE_FORMATS.TVERRFAGLIGTEMA,
           ]),
       );

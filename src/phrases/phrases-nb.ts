@@ -441,7 +441,7 @@ const phrases = {
       lastUpdated: "Sist oppdatert",
       revisionDate: "Neste revisjon",
       favorited: "Favorittmarkeringer",
-      published: "Sist oppdatert",
+      published: "Sist publisert",
       width: "Bredde",
       height: "Høyde",
     },

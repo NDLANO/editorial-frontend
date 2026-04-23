@@ -442,7 +442,7 @@ const phrases = {
       lastUpdated: "Last updated",
       revisionDate: "Next revision",
       favorited: "Favorite marks",
-      published: "Last updated",
+      published: "Last published",
       width: "Width",
       height: "Height",
     },

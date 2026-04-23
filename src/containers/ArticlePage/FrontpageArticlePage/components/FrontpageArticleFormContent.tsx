@@ -129,7 +129,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
       <div>
         {editSlug && slug !== undefined ? <SlugField /> : <TitleField />}
         <StyledDiv>
-          <FormField name="published">
+          <FormField name="revised">
             {({ field, helpers }) => (
               <LastUpdatedLine
                 creators={creators}

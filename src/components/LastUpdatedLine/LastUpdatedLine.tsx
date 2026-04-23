@@ -84,7 +84,7 @@ const LastUpdatedLine = ({ creators, published, onChange, allowEdit = false, con
         >
           <DatePickerControl>
             <DatePickerTrigger asChild>
-              <Button variant="tertiary" size="small" data-testid="last-edited">
+              <Button variant="tertiary" size="small" data-testid="last-revised">
                 {formatDate(published)} <PencilFill />
               </Button>
             </DatePickerTrigger>

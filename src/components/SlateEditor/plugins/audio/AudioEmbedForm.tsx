@@ -21,7 +21,7 @@ import {
 } from "@ndla/primitives";
 import { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import { AudioEmbedData } from "@ndla/types-embed";
-import { AudioPlayer } from "@ndla/ui";
+import { AudioPlayer, AudioPlayerVariant } from "@ndla/ui";
 import { Formik, useFormikContext } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -38,12 +38,12 @@ interface Props {
 }
 
 interface FormValues {
-  type: string;
+  type: AudioPlayerVariant;
 }
 
 export const toAudioEmbedFormValues = (embed: AudioEmbedData): FormValues => {
   return {
-    type: embed.type,
+    type: embed.type === "podcast" ? "standard" : (embed.type as AudioPlayerVariant),
   };
 };
 
@@ -107,6 +107,10 @@ const EmbedForm = ({ onCancel, audio }: EmbedFormProps) => {
             value: "minimal",
             label: t("form.audio.speech"),
           },
+          {
+            value: "compact",
+            label: t("form.audio.compact"),
+          },
         ],
       }),
     [t],
@@ -121,6 +125,7 @@ const EmbedForm = ({ onCancel, audio }: EmbedFormProps) => {
               value={[field.value]}
               onValueChange={(details) => helpers.setValue(details.value[0])}
               collection={collection}
+              positioning={{ strategy: "fixed", sameWidth: true }}
             >
               <SelectLabel>{t("form.audio.chooseAudioType")}</SelectLabel>
               <GenericSelectTrigger>
@@ -138,7 +143,7 @@ const EmbedForm = ({ onCancel, audio }: EmbedFormProps) => {
           </FieldRoot>
         )}
       </FormField>
-      <AudioPlayer src={audio.audioFile.url} title={audio.title.title} speech={values.type === "minimal"} />
+      <AudioPlayer src={audio.audioFile.url} title={audio.title.title} variant={values.type} />
       <FormActionsContainer>
         <Button onClick={onCancel}>{t("form.abort")}</Button>
         <Button disabled={!isValid || !dirty} type="submit">

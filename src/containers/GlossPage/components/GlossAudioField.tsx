@@ -78,7 +78,7 @@ export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Pro
   if (!!element && audioQuery.data) {
     return (
       <AudioWrapper>
-        <AudioPlayer speech src={audioQuery.data.audioFile.url} title={audioQuery.data.title.title} />
+        <AudioPlayer variant="minimal" src={audioQuery.data.audioFile.url} title={audioQuery.data.title.title} />
         <IconButton
           variant="danger"
           aria-label={t("remove")}

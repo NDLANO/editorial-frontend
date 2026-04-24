@@ -67,9 +67,9 @@ const GlossDataSection = ({ glossLanguage }: Props) => {
 
   const wordClassCollection = useMemo(() => {
     return createListCollection({
-      items: Object.entries(wordClass).map(([, value]) => value),
-      itemToString: (item) => t(`wordClass.${item}`),
-      itemToValue: (item) => item,
+      items: Object.entries(wordClass).map(([key, value]) => ({ key, value })),
+      itemToString: (item) => t(`wordClass.${item.key}`),
+      itemToValue: (item) => item.value,
     });
   }, [t]);
 
@@ -121,8 +121,8 @@ const GlossDataSection = ({ glossLanguage }: Props) => {
                 </GenericSelectTrigger>
                 <SelectContent>
                   {wordClassCollection.items.map((wordClass) => (
-                    <GenericSelectItem key={wordClass} item={wordClass}>
-                      {t(`wordClass.${wordClass}`)}
+                    <GenericSelectItem key={wordClass.value} item={wordClass}>
+                      {t(`wordClass.${wordClass.key}`)}
                     </GenericSelectItem>
                   ))}
                 </SelectContent>

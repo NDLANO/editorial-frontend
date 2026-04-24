@@ -1576,8 +1576,9 @@ const phrases = {
       edit: "Edit audio",
       remove: "Remove audio",
       chooseAudioType: "Choose audio type",
-      sound: "Audio",
-      speech: "Speech",
+      sound: "Standard",
+      speech: "Icon",
+      compact: "Compact",
       fileUpload: {
         description: "Drag and drop or click to upload audio",
         button: "Add",

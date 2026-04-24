@@ -1576,8 +1576,9 @@ const phrases = {
       edit: "Rediger lyd",
       remove: "Fjern lydfil",
       chooseAudioType: "Velg lydtype",
-      sound: "Lyd",
-      speech: "Tale",
+      sound: "Standard",
+      speech: "Ikon",
+      compact: "Kompakt",
       fileUpload: {
         description: "Dra og slipp eller trykk for å laste opp lydfil",
         button: "Legg til",

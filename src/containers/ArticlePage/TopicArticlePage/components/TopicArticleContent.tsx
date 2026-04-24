@@ -46,7 +46,7 @@ const TopicArticleContent = ({ values, isSubmitting }: Props) => {
     <FormContent>
       <div>
         <TitleField />
-        <FormField name="published">
+        <FormField name="revised">
           {({ field, helpers }) => (
             <LastUpdatedLine
               creators={values.creators}

@@ -30,17 +30,17 @@ import {
   SlateCommentType,
 } from "../FormikForm/articleFormHooks";
 
-const getPublishedDate = (values: ArticleFormType, initialValues: ArticleFormType, preview: boolean = false) => {
-  if (isEmpty(values.published)) {
+const getRevisedDate = (values: ArticleFormType, initialValues: ArticleFormType, preview: boolean = false) => {
+  if (isEmpty(values.revised)) {
     return undefined;
   }
   if (preview) {
-    return values.published;
+    return values.revised;
   }
 
-  const hasPublishedDateChanged = initialValues.published !== values.published;
-  if (hasPublishedDateChanged || values.updatePublished) {
-    return values.published;
+  const hasRevisedDateChanged = initialValues.revised !== values.revised;
+  if (hasRevisedDateChanged || values.updateRevised) {
+    return values.revised;
   }
   return undefined;
 };
@@ -85,14 +85,14 @@ const draftApiTypeToArticleFormType = (
     notes: [],
     processors: article?.copyright?.processors ?? [],
     processed: article?.copyright?.processed ?? false,
-    published: article?.published,
+    revised: article?.revised,
     revision: article?.revision,
     rightsholders: article?.copyright?.rightsholders ?? [],
     status: article?.status,
     supportedLanguages: article?.supportedLanguages ?? [],
     tags: article?.tags?.tags ?? [],
     title: inlineContentToEditorValue(article?.title?.htmlTitle ?? "", true),
-    updatePublished: false,
+    updateRevised: false,
     updated: article?.updated,
     grepCodes: article?.grepCodes ?? [],
     conceptIds: article?.conceptIds ?? [],
@@ -165,7 +165,7 @@ export const learningResourceFormTypeToDraftApiType = (
     metaImage,
     metaDescription: editorValueToPlainText(article.metaDescription),
     notes: article.notes,
-    published: getPublishedDate(article, initialValues, preview) ?? "",
+    revised: getRevisedDate(article, initialValues, preview) ?? "",
     tags: article.tags,
     title: inlineContentToHTML(article.title),
     grepCodes: article.grepCodes,
@@ -207,7 +207,7 @@ export const frontpageArticleFormTypeToDraftApiType = (
     visualElement: editorValueToEmbedTag(article.visualElement),
     metaDescription: editorValueToPlainText(article.metaDescription),
     notes: article.notes,
-    published: getPublishedDate(article, initialValues, preview) ?? "",
+    revised: getRevisedDate(article, initialValues, preview) ?? "",
     tags: article.tags,
     title: inlineContentToHTML(article.title),
     grepCodes: article.grepCodes,
@@ -243,7 +243,7 @@ export const topicArticleFormTypeToDraftApiType = (
     revision: article.revision ?? 0,
     language: article.language,
     title: inlineContentToHTML(article.title),
-    published: getPublishedDate(article, initialValues, preview) ?? "",
+    revised: getRevisedDate(article, initialValues, preview) ?? "",
     content: inlineContentToHTML(article.content),
     tags: article.tags,
     introduction: inlineContentToHTML(article.introduction),

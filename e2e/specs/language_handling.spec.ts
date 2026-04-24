@@ -21,10 +21,10 @@ test("Can change language and fech new article", async ({ page }) => {
 
 test("Can edit published date", async ({ page }) => {
   await expect(page.locator('[id="editor-save-button"]')).toBeDisabled({ timeout: 10000 });
-  const lastUpdatedDate = await page.getByTestId("last-edited").textContent();
-  await page.getByTestId("last-edited").click();
+  const lastUpdatedDate = await page.getByTestId("last-revised").textContent();
+  await page.getByTestId("last-revised").click();
   await page.locator('td[data-scope="date-picker"]').first().click();
-  const currentSelectedDate = await page.getByTestId("last-edited").textContent();
+  const currentSelectedDate = await page.getByTestId("last-revised").textContent();
   expect(lastUpdatedDate === currentSelectedDate).toBeFalsy();
 });
 

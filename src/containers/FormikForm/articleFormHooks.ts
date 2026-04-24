@@ -48,7 +48,7 @@ export interface ArticleFormType {
   metaImageId: string;
   notes: string[];
   processors: AuthorDTO[];
-  published?: string;
+  revised?: string;
   relatedContent: RelatedContent[];
   revision?: number;
   rightsholders: AuthorDTO[];
@@ -56,7 +56,7 @@ export interface ArticleFormType {
   supportedLanguages: string[];
   tags: string[];
   title: Descendant[];
-  updatePublished: boolean;
+  updateRevised: boolean;
   updated?: string;
   revisionMeta: {
     note: string;
@@ -167,7 +167,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
           const compDate = new Date(Date.now());
           compDate.setDate(compDate.getDate() - 30);
           // do not display this when running with playwright
-          if (values.published && new Date(values.published) < compDate && !navigator.webdriver) {
+          if (values.revised && new Date(values.revised) < compDate && !navigator.webdriver) {
             createMessage({ message: t("form.lastPublishedDiscrepancy"), timeToLive: 0, severity: "warning" });
           }
         }

@@ -92,7 +92,7 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
     <FormContent>
       <div>
         <TitleField />
-        <FormField name="published">
+        <FormField name="revised">
           {({ field, helpers }) => (
             <LastUpdatedLine
               creators={creatorsField.value}

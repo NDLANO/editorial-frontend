@@ -26,7 +26,6 @@ import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../../components/abstractions/Pagination";
 import {
-  FAVOURITES_SUBJECT_ID,
   PUBLISHED,
   STORED_SORT_OPTION_REVISION,
   STORED_FILTER_PUBLISHED,
@@ -36,9 +35,6 @@ import {
   STORED_PAGE_SIZE_PUBLISHED_VIEW_SA,
   STORED_PAGE_SIZE_PUBLISHED_VIEW_ALL,
   STORED_PAGE_SIZE_PUBLISHED_VIEW_FAVORITES,
-  LMA_SUBJECT_ID,
-  SA_SUBJECT_ID,
-  DA_SUBJECT_ID,
 } from "../../../constants";
 import { SUBJECT_NODE } from "../../../modules/nodes/nodeApiTypes";
 import { useSearchNodes } from "../../../modules/nodes/nodeQueries";
@@ -55,7 +51,6 @@ import {
 import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
 import { SelectItem } from "../types";
 import { SubjectData, SubjectIdObject } from "../utils";
-import GoToSearch from "./GoToSearch";
 import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
@@ -84,14 +79,6 @@ interface Props {
   isPending: boolean;
 }
 
-const CUSTOM_SUBJECT_IDS = {
-  all: "all",
-  lma: LMA_SUBJECT_ID,
-  sa: SA_SUBJECT_ID,
-  da: DA_SUBJECT_ID,
-  favorites: FAVOURITES_SUBJECT_ID,
-};
-
 type SortOptionPublished = "title" | "published" | "status" | "primaryRoot";
 
 const RecentlyPublishedView = ({ userData, isPending, subjectIdObject }: Props) => {
@@ -106,7 +93,7 @@ const RecentlyPublishedView = ({ userData, isPending, subjectIdObject }: Props) 
         content: (
           <RevisionViewContent
             type="all"
-            subjects={[]}
+            subjects={subjectIdObject["all"]}
             title={t("welcomePage.publishedView.all")}
             tabTitle={t("welcomePage.allSubjects")}
             pageSizeKey={STORED_PAGE_SIZE_PUBLISHED_VIEW_ALL}
@@ -217,7 +204,7 @@ interface BaseProps {
 
 interface FavoriteProps extends BaseProps {
   type: "favorites";
-  subjects: string[];
+  subjects?: string[];
 }
 
 interface SubjectProps extends BaseProps {
@@ -244,7 +231,7 @@ const RevisionViewContent = ({ title, tabTitle, type, subjects, pageSizeKey }: S
       ids: type === "favorites" ? subjects : [],
       taxonomyVersion,
       nodeType: [SUBJECT_NODE],
-      pageSize: subjects.length,
+      pageSize: subjects?.length,
       language: i18n.language,
     },
     {
@@ -253,6 +240,7 @@ const RevisionViewContent = ({ title, tabTitle, type, subjects, pageSizeKey }: S
   );
 
   const subjectIds = useMemo(() => {
+    if (type === "all") return undefined;
     return type === "favorites" ? (favoriteSubjects?.results.map((s) => s.id) ?? []) : subjects.map((s) => s.id);
   }, [favoriteSubjects, type, subjects]);
 
@@ -343,14 +331,15 @@ const RevisionViewContent = ({ title, tabTitle, type, subjects, pageSizeKey }: S
         <ControlWrapperDashboard>
           <TopRowControls>
             <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
-            <SubjectCombobox
-              subjectIds={subjectIds}
-              filterSubject={filterSubject}
-              setFilterSubject={setFilterSubject}
-              placeholder={t("welcomePage.chooseSubject")}
-              removeArchived
-            />
-            <GoToSearch filterSubject={filterSubject?.value ?? CUSTOM_SUBJECT_IDS[type]} searchEnv="content" />
+            {type !== "all" && (
+              <SubjectCombobox
+                subjectIds={subjectIds}
+                filterSubject={filterSubject}
+                setFilterSubject={setFilterSubject}
+                placeholder={t("welcomePage.chooseSubject")}
+                removeArchived
+              />
+            )}
             <SwitchRoot
               checked={alsoShowRepublished}
               title={t("welcomePage.publishedView.showRepublished")}

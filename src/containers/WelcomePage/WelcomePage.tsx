@@ -17,6 +17,7 @@ import { useSession } from "../Session/SessionProvider";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 import ArticleStatuses from "./components/ArticleStatuses";
 import LastUsedItems from "./components/LastUsedItems";
+import RecentlyPublishedView from "./components/RecentlyPublishedView";
 import Revisions from "./components/Revisions";
 import SubjectView from "./components/SubjectView";
 import WelcomeHeader from "./components/WelcomeHeader";
@@ -112,6 +113,11 @@ export const WelcomePage = () => {
             <SubjectView
               userDataPending={isPending}
               favoriteSubjects={data?.favoriteSubjects}
+              subjectIdObject={subjectIdObject}
+              isPending={searchQuery.isPending}
+            />
+            <RecentlyPublishedView
+              userData={data}
               subjectIdObject={subjectIdObject}
               isPending={searchQuery.isPending}
             />

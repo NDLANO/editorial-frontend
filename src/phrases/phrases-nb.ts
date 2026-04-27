@@ -242,6 +242,17 @@ const phrases = {
       da: "Revisjoner i DA-fag",
       favorites: "Revisjoner i favorittfag",
     },
+    publishedView: {
+      lma: "Publiserte ressurser i LMA-fag",
+      da: "Publiserte ressurser i DA-fag",
+      sa: "Publiserte ressurser i SA-fag",
+      favorites: "Publiserte ressurser i favorittfag",
+      description: "Nypubliserte ressurser",
+      showRepublished: "Vis også republiserte ressurser",
+      showRepublishedLabel: "Vis også republiserte ressurser",
+      empty: "Ingen publiserte ressurser",
+      publishedDate: "Publisert dato",
+    },
     welcomeBack: "Velkommen",
     listLabels: {
       worklist: "Ressurstyper",

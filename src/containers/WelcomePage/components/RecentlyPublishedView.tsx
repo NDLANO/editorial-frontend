@@ -33,7 +33,6 @@ import {
   STORED_PAGE_SIZE_PUBLISHED_VIEW_LMA,
   STORED_PAGE_SIZE_PUBLISHED_VIEW_DA,
   STORED_PAGE_SIZE_PUBLISHED_VIEW_SA,
-  STORED_PAGE_SIZE_PUBLISHED_VIEW_ALL,
   STORED_PAGE_SIZE_PUBLISHED_VIEW_FAVORITES,
 } from "../../../constants";
 import { SUBJECT_NODE } from "../../../modules/nodes/nodeApiTypes";
@@ -86,21 +85,7 @@ const RecentlyPublishedView = ({ userData, isPending, subjectIdObject }: Props) 
 
   const tabs = useMemo(() => {
     if (isPending) return [];
-    const tabsList = [
-      {
-        title: t("welcomePage.allSubjects"),
-        id: "all-published-view",
-        content: (
-          <RevisionViewContent
-            type="all"
-            subjects={subjectIdObject["all"]}
-            title={t("welcomePage.publishedView.all")}
-            tabTitle={t("welcomePage.allSubjects")}
-            pageSizeKey={STORED_PAGE_SIZE_PUBLISHED_VIEW_ALL}
-          />
-        ),
-      },
-    ];
+    const tabsList = [];
 
     if (subjectIdObject.subjectLMA.length) {
       tabsList.push({
@@ -208,7 +193,7 @@ interface FavoriteProps extends BaseProps {
 }
 
 interface SubjectProps extends BaseProps {
-  type: "all" | "lma" | "da" | "sa";
+  type: "lma" | "da" | "sa";
   subjects: SubjectData[];
 }
 
@@ -240,7 +225,6 @@ const RevisionViewContent = ({ title, tabTitle, type, subjects, pageSizeKey }: S
   );
 
   const subjectIds = useMemo(() => {
-    if (type === "all") return undefined;
     return type === "favorites" ? (favoriteSubjects?.results.map((s) => s.id) ?? []) : subjects.map((s) => s.id);
   }, [favoriteSubjects, type, subjects]);
 
@@ -331,15 +315,13 @@ const RevisionViewContent = ({ title, tabTitle, type, subjects, pageSizeKey }: S
         <ControlWrapperDashboard>
           <TopRowControls>
             <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
-            {type !== "all" && (
-              <SubjectCombobox
-                subjectIds={subjectIds}
-                filterSubject={filterSubject}
-                setFilterSubject={setFilterSubject}
-                placeholder={t("welcomePage.chooseSubject")}
-                removeArchived
-              />
-            )}
+            <SubjectCombobox
+              subjectIds={subjectIds}
+              filterSubject={filterSubject}
+              setFilterSubject={setFilterSubject}
+              placeholder={t("welcomePage.chooseSubject")}
+              removeArchived
+            />
             <SwitchRoot
               checked={alsoShowRepublished}
               title={t("welcomePage.publishedView.showRepublished")}

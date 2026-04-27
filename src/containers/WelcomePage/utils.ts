@@ -24,14 +24,12 @@ export interface SubjectData {
 }
 
 export type SubjectIdObject = {
-  all: SubjectData[];
   [TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA]: SubjectData[];
   [TAXONOMY_CUSTOM_FIELD_SUBJECT_DA]: SubjectData[];
   [TAXONOMY_CUSTOM_FIELD_SUBJECT_SA]: SubjectData[];
 };
 
 export const defaultSubjectIdObject: SubjectIdObject = {
-  all: [],
   [TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA]: [],
   [TAXONOMY_CUSTOM_FIELD_SUBJECT_DA]: [],
   [TAXONOMY_CUSTOM_FIELD_SUBJECT_SA]: [],
@@ -43,8 +41,6 @@ export const getResultSubjectIdObject = (ndlaId: string | undefined, nodes: Node
     (acc, res) => {
       if (res.metadata && res.metadata.customFields) {
         const customFields = res.metadata.customFields;
-
-        acc.all.push({ id: res.id, name: res.name });
 
         if (customFields.subjectLMA === ndlaId) {
           acc.subjectLMA.push({ id: res.id, name: res.name });
@@ -61,7 +57,6 @@ export const getResultSubjectIdObject = (ndlaId: string | undefined, nodes: Node
       return acc;
     },
     {
-      all: [],
       [TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA]: [],
       [TAXONOMY_CUSTOM_FIELD_SUBJECT_DA]: [],
       [TAXONOMY_CUSTOM_FIELD_SUBJECT_SA]: [],

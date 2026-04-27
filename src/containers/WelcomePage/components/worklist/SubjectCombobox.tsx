@@ -49,7 +49,7 @@ const StyledInputContainer = styled(InputContainer, {
 });
 
 interface Props {
-  subjectIds?: string[];
+  subjectIds: string[];
   filterSubject: SelectItemType | undefined;
   setFilterSubject: (fs: SelectItemType) => void;
   removeArchived?: boolean;
@@ -80,7 +80,7 @@ const SubjectCombobox = ({
       ids: subjectIds,
       taxonomyVersion,
       nodeType: [SUBJECT_NODE],
-      pageSize: subjectIds?.length,
+      pageSize: subjectIds.length,
       language: i18n.language,
     },
     {
@@ -88,7 +88,7 @@ const SubjectCombobox = ({
         ...res,
         results: sortBy(res.results, (r) => r.name),
       }),
-      enabled: enableSearch,
+      enabled: !!subjectIds.length && enableSearch,
     },
   );
   const initialData = useMemo(() => {

@@ -8,7 +8,7 @@
 
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node } from "@ndla/types-taxonomy";
+import { Node } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
 import PlannedResourceForm from "../../plannedResource/PlannedResourceForm";
 

@@ -8,7 +8,7 @@
 
 import { Button, Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Version } from "@ndla/types-taxonomy";
+import { Version } from "@ndla/types-backend/taxonomy-api";
 import { partition, sortBy } from "@ndla/util";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";

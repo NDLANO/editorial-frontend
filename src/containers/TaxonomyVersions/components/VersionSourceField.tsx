@@ -7,7 +7,7 @@
  */
 
 import { FieldErrorMessage, FieldHelper, FieldRoot, SelectLabel } from "@ndla/primitives";
-import { Version } from "@ndla/types-taxonomy";
+import { Version } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
 import { FormField } from "../../../components/FormField";
 import { OptGroupVersionSelector } from "../../../components/Taxonomy/OptGroupVersionSelector";

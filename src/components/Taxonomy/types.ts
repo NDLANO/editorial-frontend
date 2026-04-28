@@ -6,7 +6,7 @@
  *
  */
 
-import { Metadata, NodeChild } from "@ndla/types-taxonomy";
+import { Metadata, NodeChild } from "@ndla/types-backend/taxonomy-api";
 
 export interface MinimalNodeChild extends Pick<
   NodeChild,

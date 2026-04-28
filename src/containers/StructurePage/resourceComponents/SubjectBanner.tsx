@@ -9,7 +9,7 @@
 import { Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node } from "@ndla/types-taxonomy";
+import { Node } from "@ndla/types-backend/taxonomy-api";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import AverageQualityEvaluation from "../../../components/QualityEvaluation/AverageQualityEvaluation";

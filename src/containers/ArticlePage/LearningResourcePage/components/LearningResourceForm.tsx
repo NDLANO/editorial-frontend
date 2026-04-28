@@ -8,7 +8,7 @@
 
 import { Button } from "@ndla/primitives";
 import { ArticleDTO, UpdatedArticleDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-taxonomy";
+import { Node } from "@ndla/types-backend/taxonomy-api";
 import { UseQueryResult } from "@tanstack/react-query";
 import { Formik, useFormikContext } from "formik";
 import { memo, useCallback, useMemo, useState } from "react";

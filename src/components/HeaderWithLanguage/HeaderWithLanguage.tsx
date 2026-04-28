@@ -7,7 +7,7 @@
  */
 
 import { ArticleRevisionHistoryDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-taxonomy";
+import { Node } from "@ndla/types-backend/taxonomy-api";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { getExpirationDate } from "../../util/revisionHelpers";

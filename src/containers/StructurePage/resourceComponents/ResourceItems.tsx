@@ -11,7 +11,7 @@ import { AddLine, Draggable } from "@ndla/icons";
 import { Button, DialogContent, DialogRoot, DialogTrigger, Heading, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { Node, NodeChild, ResourceType } from "@ndla/types-taxonomy";
+import { Node, NodeChild, ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { sortBy } from "@ndla/util";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";

@@ -17,7 +17,7 @@ import {
   TabsRoot,
   TabsTrigger,
 } from "@ndla/primitives";
-import { Node, ResourceType } from "@ndla/types-taxonomy";
+import { Node, ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import AddExistingResource from "../plannedResource/AddExistingResource";

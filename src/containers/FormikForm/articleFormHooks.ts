@@ -16,7 +16,7 @@ import {
   ArticleRevisionHistoryDTO,
   Priority,
 } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-taxonomy";
+import { Node } from "@ndla/types-backend/taxonomy-api";
 import { UseQueryResult } from "@tanstack/react-query";
 import { FormikHelpers } from "formik";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";

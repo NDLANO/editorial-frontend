@@ -11,7 +11,7 @@ import { Draggable, StarLine, StarFill, SubtractLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { NodeChild, Node } from "@ndla/types-taxonomy";
+import { NodeChild, Node } from "@ndla/types-backend/taxonomy-api";
 import { CSSProperties, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import DndList from "../../components/DndList";

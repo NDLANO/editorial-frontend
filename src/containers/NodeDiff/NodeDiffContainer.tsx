@@ -9,7 +9,7 @@
 import { ArrowRightShortLine } from "@ndla/icons";
 import { MessageBox, Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { NodeChild } from "@ndla/types-taxonomy";
+import { NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { isEqual } from "lodash-es";
 import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";

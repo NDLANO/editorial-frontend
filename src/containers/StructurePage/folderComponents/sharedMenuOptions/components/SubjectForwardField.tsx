@@ -10,7 +10,7 @@ import { FieldLabel } from "@ark-ui/react";
 import { DeleteBinLine, CheckLine } from "@ndla/icons";
 import { FieldInput, FieldRoot, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Metadata } from "@ndla/types-taxonomy";
+import { Metadata } from "@ndla/types-backend/taxonomy-api";
 import { useState, KeyboardEvent, Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID } from "../../../../../constants";

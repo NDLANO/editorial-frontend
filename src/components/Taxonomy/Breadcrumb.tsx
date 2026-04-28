@@ -9,7 +9,7 @@
 import { ArrowRightShortLine } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node } from "@ndla/types-taxonomy";
+import { Node } from "@ndla/types-backend/taxonomy-api";
 import { useMemo } from "react";
 import { MinimalNodeChild } from "./types";
 

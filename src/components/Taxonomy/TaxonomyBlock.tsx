@@ -7,7 +7,7 @@
  */
 
 import { Button, SelectLabel, Text } from "@ndla/primitives";
-import { Node, Version } from "@ndla/types-taxonomy";
+import { Node, Version } from "@ndla/types-backend/taxonomy-api";
 import { useQueryClient } from "@tanstack/react-query";
 import { ReactNode, useCallback } from "react";
 import { useTranslation } from "react-i18next";

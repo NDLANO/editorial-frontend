@@ -12,7 +12,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { Node } from "@ndla/types-taxonomy";
+import { Node } from "@ndla/types-backend/taxonomy-api";
 import { partition } from "@ndla/util";
 import { useQueryClient } from "@tanstack/react-query";
 import { Fragment, useState } from "react";

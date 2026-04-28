@@ -6,7 +6,7 @@
  *
  */
 
-import { Node, NodeChild, NodeConnectionType, NodeType } from "@ndla/types-taxonomy";
+import { Node, NodeChild, NodeConnectionType, NodeType } from "@ndla/types-backend/taxonomy-api";
 
 export const PROGRAMME = "PROGRAMME";
 export const SUBJECT_NODE = "SUBJECT";

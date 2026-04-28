@@ -21,7 +21,7 @@ import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { NodeChild } from "@ndla/types-taxonomy";
+import { NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import config from "../../../config";

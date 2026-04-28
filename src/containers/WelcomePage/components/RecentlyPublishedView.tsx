@@ -21,7 +21,6 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
-// import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../../components/abstractions/Pagination";

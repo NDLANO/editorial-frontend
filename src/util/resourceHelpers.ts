@@ -6,7 +6,7 @@
  *
  */
 
-import { NodeType, ResourceType } from "@ndla/types-taxonomy";
+import { NodeType, ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { constants } from "@ndla/ui";
 import { TFunction } from "i18next";
 

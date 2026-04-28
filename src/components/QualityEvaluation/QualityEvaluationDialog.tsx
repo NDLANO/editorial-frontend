@@ -19,7 +19,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { ArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-taxonomy";
+import { Node } from "@ndla/types-backend/taxonomy-api";
 import { FieldHelperProps, FieldInputProps } from "formik";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";

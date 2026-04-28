@@ -30,7 +30,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { ResourceType } from "@ndla/types-taxonomy";
+import { ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { TFunction } from "i18next";
 import { useMemo, useState } from "react";

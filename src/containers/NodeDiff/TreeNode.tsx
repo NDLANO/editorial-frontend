@@ -9,7 +9,7 @@
 import { ArrowDownShortLine, SubtractLine } from "@ndla/icons";
 import { Badge, BadgeVariant } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node } from "@ndla/types-taxonomy";
+import { Node } from "@ndla/types-backend/taxonomy-api";
 import { CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router";

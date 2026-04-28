@@ -9,7 +9,7 @@
 import { CheckLine } from "@ndla/icons";
 import { Text, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node, NodeType } from "@ndla/types-taxonomy";
+import { Node, NodeType } from "@ndla/types-backend/taxonomy-api";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";

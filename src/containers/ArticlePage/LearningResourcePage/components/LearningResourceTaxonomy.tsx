@@ -8,7 +8,7 @@
 
 import { Spinner, Text } from "@ndla/primitives";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
-import { NodeType, ResourceType, TaxonomyContext } from "@ndla/types-taxonomy";
+import { NodeType, ResourceType, TaxonomyContext } from "@ndla/types-backend/taxonomy-api";
 import { useQueryClient } from "@tanstack/react-query";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";

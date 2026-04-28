@@ -9,7 +9,7 @@
 import { CheckLine, SubtractLine } from "@ndla/icons";
 import { Text, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node, NodeChild } from "@ndla/types-taxonomy";
+import { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { CSSProperties, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NodeChildWithChildren, NodeWithChildren } from "../../modules/nodes/nodeApiTypes";

@@ -11,7 +11,7 @@ import { Skeleton, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { Node, NodeChild } from "@ndla/types-taxonomy";
+import { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AverageQualityEvaluation from "../../../components/QualityEvaluation/AverageQualityEvaluation";

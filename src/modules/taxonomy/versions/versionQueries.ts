@@ -6,7 +6,7 @@
  *
  */
 
-import { Version } from "@ndla/types-taxonomy";
+import { Version } from "@ndla/types-backend/taxonomy-api";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { VERSION, VERSIONS } from "../../../queryKeys";
 import { fetchVersion, fetchVersions } from "./versionApi";

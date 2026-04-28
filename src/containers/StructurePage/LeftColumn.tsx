@@ -7,7 +7,7 @@
  */
 
 import { Spinner } from "@ndla/primitives";
-import { Node, NodeType } from "@ndla/types-taxonomy";
+import { Node, NodeType } from "@ndla/types-backend/taxonomy-api";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";

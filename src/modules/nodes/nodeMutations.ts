@@ -13,7 +13,7 @@ import {
   NodePostPut,
   TranslationPUT,
   Metadata,
-} from "@ndla/types-taxonomy";
+} from "@ndla/types-backend/taxonomy-api";
 import { useMutation, UseMutationOptions, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { WithTaxonomyVersion } from "../../interfaces";

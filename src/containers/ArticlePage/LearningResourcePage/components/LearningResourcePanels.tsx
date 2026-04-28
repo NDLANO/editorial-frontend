@@ -12,7 +12,7 @@ import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot,
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { UpdatedArticleDTO, ArticleDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
-import { Node, TaxonomyContext } from "@ndla/types-taxonomy";
+import { Node, TaxonomyContext } from "@ndla/types-backend/taxonomy-api";
 import { useField, useFormikContext } from "formik";
 import { memo, useCallback, useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";

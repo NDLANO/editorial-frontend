@@ -28,7 +28,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
-import { Grade, Node } from "@ndla/types-taxonomy";
+import { Grade, Node } from "@ndla/types-backend/taxonomy-api";
 import { useQueryClient } from "@tanstack/react-query";
 import { FieldHelperProps, FieldInputProps, Formik } from "formik";
 import { CSSProperties, useMemo } from "react";

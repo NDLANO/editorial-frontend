@@ -18,7 +18,7 @@ import {
   Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Translation, Node } from "@ndla/types-taxonomy";
+import { Translation, Node } from "@ndla/types-backend/taxonomy-api";
 import { useQueryClient } from "@tanstack/react-query";
 import { FieldArray, Formik, FormikProps } from "formik";
 import { useState } from "react";

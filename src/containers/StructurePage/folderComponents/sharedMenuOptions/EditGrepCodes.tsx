@@ -6,7 +6,7 @@
  *
  */
 
-import { Node } from "@ndla/types-taxonomy";
+import { Node } from "@ndla/types-backend/taxonomy-api";
 import { GREP_CODE_FORMATS } from "../../../../constants";
 import { useUpdateNodeMetadataMutation } from "../../../../modules/nodes/nodeMutations";
 import { getRootIdForNode, isRootNode } from "../../../../modules/nodes/nodeUtil";

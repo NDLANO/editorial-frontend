@@ -6,7 +6,7 @@
  *
  */
 
-import { Translation } from "@ndla/types-taxonomy";
+import { Translation } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
 import { DiffField, DiffInnerField } from "./DiffField";
 import { diffField, DiffResult } from "./diffUtils";

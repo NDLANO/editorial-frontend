@@ -6,7 +6,7 @@
  *
  */
 
-import { paths, ResourceType } from "@ndla/types-taxonomy";
+import { paths, ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { FILM_RESOURCE_TYPES } from "../../../constants";
 import { WithTaxonomyVersion } from "../../../interfaces";
 import { createAuthClient } from "../../../util/apiHelpers";

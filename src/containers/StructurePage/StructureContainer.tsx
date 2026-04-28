@@ -8,7 +8,7 @@
 
 import { PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { NodeType } from "@ndla/types-taxonomy";
+import { NodeType } from "@ndla/types-backend/taxonomy-api";
 import { keyBy } from "@ndla/util";
 import { useEffect, useRef, useState, ReactNode } from "react";
 import { useLocation } from "react-router";

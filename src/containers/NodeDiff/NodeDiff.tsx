@@ -8,7 +8,7 @@
 
 import { Badge, ExpandableBox, ExpandableBoxSummary } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { NodeChild } from "@ndla/types-taxonomy";
+import { NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router";
 import NodeIconType from "../../components/NodeIconType";

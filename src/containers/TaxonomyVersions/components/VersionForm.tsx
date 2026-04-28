@@ -8,7 +8,7 @@
 
 import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Version } from "@ndla/types-taxonomy";
+import { Version } from "@ndla/types-backend/taxonomy-api";
 import { HeadingLevel } from "@ndla/ui";
 import { useQueryClient } from "@tanstack/react-query";
 import { Formik, FormikHelpers } from "formik";

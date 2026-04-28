@@ -26,7 +26,7 @@ import {
   PopoverContent,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { NodeType } from "@ndla/types-taxonomy";
+import { NodeType } from "@ndla/types-backend/taxonomy-api";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../components/DialogCloseButton";

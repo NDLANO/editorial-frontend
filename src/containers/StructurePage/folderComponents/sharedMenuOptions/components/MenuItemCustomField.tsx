@@ -9,7 +9,7 @@
 import { AddLine } from "@ndla/icons";
 import { Button, Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node, Metadata } from "@ndla/types-taxonomy";
+import { Node, Metadata } from "@ndla/types-backend/taxonomy-api";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {

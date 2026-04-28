@@ -6,7 +6,7 @@
  *
  */
 
-import { ResourceType } from "@ndla/types-taxonomy";
+import { ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { Descendant } from "slate";
 
 export interface ExternalFormValues {

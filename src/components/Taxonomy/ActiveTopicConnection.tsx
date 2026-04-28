@@ -9,7 +9,7 @@
 import { DeleteBinLine } from "@ndla/icons";
 import { Button, IconButton, ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node, NodeConnection } from "@ndla/types-taxonomy";
+import { Node, NodeConnection } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
 import Breadcrumb from "./Breadcrumb";
 import RelevanceOptionSwitch from "./RelevanceOptionSwitch";

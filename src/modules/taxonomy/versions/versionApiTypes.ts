@@ -6,7 +6,7 @@
  *
  */
 
-import { VersionType } from "@ndla/types-taxonomy";
+import { VersionType } from "@ndla/types-backend/taxonomy-api";
 
 export interface GetVersionsParams {
   type?: VersionType;

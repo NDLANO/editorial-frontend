@@ -7,7 +7,7 @@
  */
 
 import { ComboboxLabel } from "@ndla/primitives";
-import { Node, NodeType } from "@ndla/types-taxonomy";
+import { Node, NodeType } from "@ndla/types-backend/taxonomy-api";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../../../components/Form/GenericSearchCombobox";
 import { useSearchNodes } from "../../../../../modules/nodes/nodeQueries";

@@ -202,7 +202,7 @@ export const putNodeTranslation = (params: NodeTranslationPutParams): Promise<vo
       },
       body: params.body,
     })
-    .then((response) => resolveJsonOATS(response));
+    .then((response) => resolveOATS(response));
 
 interface NodeResourcesGetParams extends WithTaxonomyVersion, GetNodeResourcesParams {
   id: string;

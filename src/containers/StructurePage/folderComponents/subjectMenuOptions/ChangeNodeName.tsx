@@ -21,7 +21,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { Translation, Node } from "@ndla/types-taxonomy";
 import { useQueryClient } from "@tanstack/react-query";
 import { FieldArray, Formik, FormikProps } from "formik";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FormField } from "../../../../components/FormField";
 import { FormActionsContainer } from "../../../../components/FormikForm";
@@ -87,11 +87,6 @@ const ChangeNodeName = ({ node }: Props) => {
   const { mutateAsync: deleteNodeTranslation } = useDeleteNodeTranslationMutation();
   const { mutateAsync: updateNodeTranslation } = useUpdateNodeTranslationMutation();
   const putNodeMutation = usePutNodeMutation();
-
-  const clearSubmitStatus = useCallback(() => {
-    setUpdateError("");
-    setSaved(false);
-  }, []);
 
   const toRecord = (translations: Translation[]): Record<string, Translation> =>
     translations.reduce((prev, curr) => ({ ...prev, [curr.language]: curr }), {});
@@ -203,121 +198,89 @@ const ChangeNodeName = ({ node }: Props) => {
         }}
         enableReinitialize={true}
       >
-        {(formik) => (
-          <ChangeNodeNameForm
-            baseName={baseName}
-            formik={formik}
-            initialValues={initialValues}
-            onFormDirty={clearSubmitStatus}
-            onSubmit={onSubmit}
-            saved={saved}
-            updateError={updateError}
-          />
-        )}
-      </Formik>
-    </Wrapper>
-  );
-};
+        {(formik) => {
+          const { values, dirty, isSubmitting, isValid } = formik;
+          const takenLanguages = values.translations.reduce((prev, curr) => ({ ...prev, [curr.language]: "" }), {});
+          const availableLanguages = subjectLanguages.filter(
+            (trans) => !Object.prototype.hasOwnProperty.call(takenLanguages, trans),
+          );
+          const formIsDirty: boolean = isFormikFormDirty({
+            values,
+            initialValues,
+            dirty,
+          });
 
-interface ChangeNodeNameFormProps {
-  baseName: string;
-  formik: FormikProps<FormikTranslationFormValues>;
-  initialValues: FormikTranslationFormValues;
-  onFormDirty: () => void;
-  onSubmit: (formik: FormikProps<FormikTranslationFormValues>) => Promise<void>;
-  saved: boolean;
-  updateError: string;
-}
-
-const ChangeNodeNameForm = ({
-  baseName,
-  formik,
-  initialValues,
-  onFormDirty,
-  onSubmit,
-  saved,
-  updateError,
-}: ChangeNodeNameFormProps) => {
-  const { t } = useTranslation();
-  const { values, dirty, isSubmitting, isValid } = formik;
-  const previousValues = useRef(values);
-  const takenLanguages = values.translations.reduce((prev, curr) => ({ ...prev, [curr.language]: "" }), {});
-  const availableLanguages = subjectLanguages.filter(
-    (trans) => !Object.prototype.hasOwnProperty.call(takenLanguages, trans),
-  );
-  const formIsDirty: boolean = isFormikFormDirty({
-    values,
-    initialValues,
-    dirty,
-  });
-
-  useEffect(() => {
-    if (previousValues.current === values) return;
-    previousValues.current = values;
-    if (formIsDirty) {
-      onFormDirty();
-    }
-  }, [formIsDirty, onFormDirty, values]);
-
-  return (
-    <FormWrapper inDialog data-testid="edit-node-name-form">
-      <FormField name="name">
-        {({ field, meta }) => (
-          <FieldRoot required invalid={!!meta.error}>
-            <FieldLabel>{t("taxonomy.changeName.defaultName")}</FieldLabel>
-            <FieldInput {...field} componentSize="small" />
-            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-          </FieldRoot>
-        )}
-      </FormField>
-      {values.translations.length === 0 && <>{t("taxonomy.changeName.noTranslations")}</>}
-      <FieldArray name="translations">
-        {({ push, remove }) => (
-          <>
-            {values.translations.map((trans, i) => (
-              <FormField name={`translations.${i}.name`} key={i}>
+          if (formIsDirty) {
+            setUpdateError("");
+            setSaved(false);
+          }
+          return (
+            <FormWrapper inDialog data-testid="edit-node-name-form">
+              <FormField name="name">
                 {({ field, meta }) => (
                   <FieldRoot required invalid={!!meta.error}>
-                    <FieldLabel>{t(`languages.${trans.language}`)}</FieldLabel>
-                    <InputWrapper>
-                      <FieldInput {...field} componentSize="small" data-testid={`subjectName_${trans.language}`} />
-                      <IconButton
-                        variant="danger"
-                        aria-label={t("form.remove")}
-                        title={t("form.remove")}
-                        onClick={() => remove(i)}
-                        size="small"
-                        data-testid={`subjectName_${trans.language}_delete`}
-                      >
-                        <DeleteBinLine />
-                      </IconButton>
-                    </InputWrapper>
+                    <FieldLabel>{t("taxonomy.changeName.defaultName")}</FieldLabel>
+                    <FieldInput {...field} componentSize="small" />
                     <FieldErrorMessage>{meta.error}</FieldErrorMessage>
                   </FieldRoot>
                 )}
               </FormField>
-            ))}
-            <AddNodeTranslation
-              defaultName={baseName}
-              onAddTranslation={push}
-              availableLanguages={availableLanguages}
-            />
-          </>
-        )}
-      </FieldArray>
+              {values.translations.length === 0 && <>{t("taxonomy.changeName.noTranslations")}</>}
+              <FieldArray name="translations">
+                {({ push, remove }) => (
+                  <>
+                    {values.translations.map((trans, i) => (
+                      <FormField name={`translations.${i}.name`} key={i}>
+                        {({ field, meta }) => (
+                          <FieldRoot required invalid={!!meta.error}>
+                            <FieldLabel>{t(`languages.${trans.language}`)}</FieldLabel>
+                            <InputWrapper>
+                              <FieldInput
+                                {...field}
+                                componentSize="small"
+                                data-testid={`subjectName_${trans.language}`}
+                              />
+                              <IconButton
+                                variant="danger"
+                                aria-label={t("form.remove")}
+                                title={t("form.remove")}
+                                onClick={() => remove(i)}
+                                size="small"
+                                data-testid={`subjectName_${trans.language}_delete`}
+                              >
+                                <DeleteBinLine />
+                              </IconButton>
+                            </InputWrapper>
+                            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                          </FieldRoot>
+                        )}
+                      </FormField>
+                    ))}
+                    <AddNodeTranslation
+                      defaultName={baseName}
+                      onAddTranslation={push}
+                      availableLanguages={availableLanguages}
+                    />
+                  </>
+                )}
+              </FieldArray>
 
-      <FormActionsContainer>
-        <SaveButton
-          loading={isSubmitting}
-          showSaved={!formIsDirty && saved}
-          formIsDirty={formIsDirty}
-          onClick={() => onSubmit(formik)}
-          disabled={!isValid}
-          size="small"
-        />
-      </FormActionsContainer>
-      {!!updateError && <Text color="text.error">{updateError}</Text>}
-    </FormWrapper>
+              <FormActionsContainer>
+                <SaveButton
+                  loading={isSubmitting}
+                  showSaved={!formIsDirty && saved}
+                  formIsDirty={formIsDirty}
+                  onClick={() => onSubmit(formik)}
+                  disabled={!isValid}
+                  size="small"
+                />
+              </FormActionsContainer>
+              {!!updateError && <Text color="text.error">{updateError}</Text>}
+            </FormWrapper>
+          );
+        }}
+      </Formik>
+    </Wrapper>
   );
 };
 

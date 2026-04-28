@@ -1894,7 +1894,6 @@ const phrases = {
       addNewTranslation: "Legg til ny omsetjing",
       buttonTitle: "Endre namn",
       language: "Språk",
-      languagePlaceholder: "Velg språk",
       name: "Namn",
       namePlaceholder: "Namn",
       delete: "Slett",

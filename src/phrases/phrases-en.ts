@@ -1893,7 +1893,6 @@ const phrases = {
       addNewTranslation: "Add new translation",
       buttonTitle: "Change name",
       language: "Language",
-      languagePlaceholder: "Select language",
       name: "Name",
       namePlaceholder: "Name",
       delete: "Delete",

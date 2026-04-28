@@ -18,7 +18,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Translation } from "@ndla/types-taxonomy";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../../components/abstractions/Select";
 import { FormContent } from "../../../../components/FormikForm";
@@ -62,6 +62,10 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
     });
   }, [availableLanguages, t]);
 
+  useEffect(() => {
+    setSelectedLanguage(availableLanguages[0]);
+  }, [availableLanguages]);
+
   const handleAddTranslation = () => {
     if (!selectedLanguage) return;
     onAddTranslation({ language: selectedLanguage, name: defaultName });
@@ -86,7 +90,7 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
         >
           <SelectLabel>{t("taxonomy.changeName.language")}</SelectLabel>
           <StyledGenericSelectTrigger size="small">
-            <SelectValueText placeholder={t("taxonomy.changeName.languagePlaceholder")} />
+            <SelectValueText />
           </StyledGenericSelectTrigger>
           <SelectContent>
             {availableLanguages.map((lang) => (

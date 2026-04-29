@@ -49,7 +49,7 @@ export const ImageFormHeader = ({ image, language }: Props) => {
         <FormHeaderHeadingContainer>
           <Badge>{t("contentTypes.image")}</Badge>
           <FormHeaderHeading contentType="image">{image?.title.title}</FormHeaderHeading>
-          {!!parsedId && <CloneImageDialog imageId={parsedId} />}
+          {!!parsedId && <CloneImageDialog imageId={parsedId} image={image} />}
         </FormHeaderHeadingContainer>
         {!isNewLanguage && (
           <FormHeaderStatusWrapper>

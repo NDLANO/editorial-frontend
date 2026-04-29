@@ -21,9 +21,10 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { useFormikContext } from "formik";
+import { ImageDimensionsDTO, ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { useField } from "formik";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FormField } from "../../../components/FormField";
 import { MAX_IMAGE_UPLOAD_SIZE } from "../../../constants";
 import { ImageFormikType } from "../imageTransformers";
 
@@ -49,122 +50,132 @@ const ImageContentWrapper = styled("div", {
 
 interface Props {
   language: string;
+  image: ImageMetaInformationV3DTO | undefined;
 }
 
-export const ImageUploadFormElement = ({ language }: Props) => {
-  const { t } = useTranslation();
-  const formikContext = useFormikContext<ImageFormikType>();
-  const { values, setValues, setFieldValue } = formikContext;
+interface ImageMeta {
+  contentType: string;
+  fileSize: number;
+  dimensions?: ImageDimensionsDTO;
+  originalDate?: string;
+  url: string;
+}
 
-  // We use the timestamp to avoid caching of the `imageFile` url in the browser
-  const timestamp = new Date().getTime();
-  const imgSrc = values.filepath || `${values.imageFile}?width=800&ts=${timestamp}`;
+const getImageMeta = async (
+  image: ImageMetaInformationV3DTO | undefined,
+  file: Blob | undefined,
+): Promise<ImageMeta | undefined> => {
+  if (image) {
+    return {
+      contentType: image.image.contentType,
+      fileSize: image.image.size,
+      dimensions: image.image.dimensions,
+      originalDate: image.image.originalDate,
+      // We use the timestamp to avoid caching of the `imageFile` url in the browser
+      url: `${image.image.imageUrl}?width=800&ts=${new Date().getTime()}`,
+    };
+  } else if (file) {
+    const bitmap = await createImageBitmap(file);
+    return {
+      contentType: file.type,
+      fileSize: file.size,
+      dimensions: bitmap,
+      url: URL.createObjectURL(file),
+    };
+  }
+  return undefined;
+};
+
+export const ImageUploadFormElement = ({ language, image }: Props) => {
+  const { t } = useTranslation();
+  const [imageMeta, setImageMeta] = useState<ImageMeta | undefined>(undefined);
+  const [field, meta, helpers] = useField<ImageFormikType["imageFile"]>("imageFile");
+
+  useEffect(() => {
+    getImageMeta(image, typeof field.value === "string" ? undefined : field.value).then((meta) => setImageMeta(meta));
+  }, [image, field.value]);
 
   return (
     <ImageContentWrapper>
-      {!values.imageFile && (
-        <FormField name="imageFile">
-          {({ helpers, meta }) => (
-            <FieldRoot required invalid={!!meta.error}>
-              <FileUploadRoot
-                accept={["image/gif", "image/png", "image/jpeg", "image/svg+xml"]}
-                onFileAccept={(details) => {
-                  const file = details.files?.[0];
-                  if (!file) return;
-                  // TODO: Make consumers handle field values themselves
-                  //       https://github.com/NDLANO/editorial-frontend/pull/2891#discussion_r1991020617
-                  setValues((values) => ({
-                    ...values,
-                    imageFile: file,
-                    contentType: file.type,
-                    fileSize: file.size,
-                    inactive: false,
-                    filepath: URL.createObjectURL(file),
-                  }));
-                  Promise.resolve(
-                    createImageBitmap(file as Blob).then((image) => {
-                      setFieldValue("imageDimensions", image);
-                    }),
-                  );
-                }}
-                maxFileSize={MAX_IMAGE_UPLOAD_SIZE}
-                onFileReject={(details) => {
-                  // Bug in formik's setError function requiring setTimeout to make it work,
-                  // as discussed here: https://github.com/jaredpalmer/formik/discussions/3870
-                  const fileErrors = details.files?.[0]?.errors;
-                  if (!fileErrors) return;
-                  if (fileErrors.includes("FILE_TOO_LARGE")) {
-                    const errorMessage = `${t("form.image.fileUpload.genericError")}: ${t(
-                      "form.image.fileUpload.tooLargeError",
-                    )}`;
-                    setTimeout(() => {
-                      helpers.setError(errorMessage);
-                    }, 0);
-                    return;
-                  }
-                  if (fileErrors.includes("FILE_INVALID_TYPE")) {
-                    const errorMessage = `${t("form.image.fileUpload.genericError")}: ${t(
-                      "form.image.fileUpload.fileTypeInvalidError",
-                    )}`;
-                    setTimeout(() => {
-                      helpers.setError(errorMessage);
-                    }, 0);
-                    return;
-                  }
-                  setTimeout(() => {
-                    helpers.setError(t("form.image.fileUpload.genericError"));
-                  }, 0);
-                }}
-              >
-                <FileUploadDropzone>
-                  <FileUploadLabel>{t("form.image.fileUpload.description")}</FileUploadLabel>
-                  <FileUploadTrigger asChild>
-                    <Button>
-                      <UploadCloudLine />
-                      {t("form.image.fileUpload.button")}
-                    </Button>
-                  </FileUploadTrigger>
-                </FileUploadDropzone>
-                <FileUploadHiddenInput />
-              </FileUploadRoot>
-              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-            </FieldRoot>
-          )}
-        </FormField>
+      {!field.value && (
+        <FieldRoot required invalid={!!meta.error}>
+          <FileUploadRoot
+            accept={["image/gif", "image/png", "image/jpeg", "image/svg+xml"]}
+            onFileAccept={(details) => {
+              const file = details.files?.[0];
+              if (!file) return;
+              // TODO: Make consumers handle field values themselves
+              //       https://github.com/NDLANO/editorial-frontend/pull/2891#discussion_r1991020617
+              helpers.setValue(file);
+            }}
+            maxFileSize={MAX_IMAGE_UPLOAD_SIZE}
+            onFileReject={(details) => {
+              // Bug in formik's setError function requiring setTimeout to make it work,
+              // as discussed here: https://github.com/jaredpalmer/formik/discussions/3870
+              const fileErrors = details.files?.[0]?.errors;
+              if (!fileErrors) return;
+              if (fileErrors.includes("FILE_TOO_LARGE")) {
+                const errorMessage = `${t("form.image.fileUpload.genericError")}: ${t(
+                  "form.image.fileUpload.tooLargeError",
+                )}`;
+                setTimeout(() => {
+                  helpers.setError(errorMessage);
+                }, 0);
+                return;
+              }
+              if (fileErrors.includes("FILE_INVALID_TYPE")) {
+                const errorMessage = `${t("form.image.fileUpload.genericError")}: ${t(
+                  "form.image.fileUpload.fileTypeInvalidError",
+                )}`;
+                setTimeout(() => {
+                  helpers.setError(errorMessage);
+                }, 0);
+                return;
+              }
+              setTimeout(() => {
+                helpers.setError(t("form.image.fileUpload.genericError"));
+              }, 0);
+            }}
+          >
+            <FileUploadDropzone>
+              <FileUploadLabel>{t("form.image.fileUpload.description")}</FileUploadLabel>
+              <FileUploadTrigger asChild>
+                <Button>
+                  <UploadCloudLine />
+                  {t("form.image.fileUpload.button")}
+                </Button>
+              </FileUploadTrigger>
+            </FileUploadDropzone>
+            <FileUploadHiddenInput />
+          </FileUploadRoot>
+          <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+        </FieldRoot>
       )}
-      {!!values.imageFile && (
+      {!!field.value && (
         <StyledIconButton
           aria-label={t("form.image.removeImage")}
           title={t("form.image.removeImage")}
           variant="danger"
-          onClick={() =>
-            setValues((values) => ({
-              ...values,
-              imageFile: undefined,
-              contentType: undefined,
-              fileSize: undefined,
-              filepath: undefined,
-            }))
-          }
+          onClick={() => helpers.setValue(undefined)}
           size="small"
         >
           <DeleteBinLine />
         </StyledIconButton>
       )}
-      {!!values.imageFile && (
+      {!!imageMeta && (
         <>
-          {typeof values.imageFile === "string" ? (
-            <SafeLink target="_blank" to={values.imageFile}>
-              <StyledImg src={imgSrc} alt="" srcSet="" />
+          {image ? (
+            <SafeLink target="_blank" to={image.image.imageUrl}>
+              <StyledImg src={imageMeta.url} alt="" srcSet="" />
             </SafeLink>
           ) : (
-            <StyledImg src={imgSrc} alt="" srcSet="" />
+            <StyledImg src={imageMeta.url} alt="" srcSet="" />
           )}
           <ImageMeta
-            contentType={values.contentType ?? ""}
-            fileSize={values.fileSize ?? 0}
-            imageDimensions={values.imageDimensions}
-            originalDate={values.originalDate}
+            contentType={imageMeta.contentType}
+            fileSize={imageMeta.fileSize}
+            imageDimensions={imageMeta.dimensions}
+            originalDate={imageMeta.originalDate}
             locale={language}
           />
         </>

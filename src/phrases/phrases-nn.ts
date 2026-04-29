@@ -32,6 +32,7 @@ const phrases = {
     editFrontpage: "Rediger forside",
     comparePage: `Samanlikne versjonar ${titleTemplate}`,
     notFoundPage: `Sida finst ikkje ${titleTemplate}`,
+    batchUploadImagePage: `Batch-opplasting av bileta ${titleTemplate}`,
     search: {
       "podcast-series": `Søk podkastserier ${titleTemplate}`,
       audio: `Søk lydfiler ${titleTemplate}`,
@@ -2569,6 +2570,20 @@ const phrases = {
       "Denne sida lister opp fem tilfeldege stiar med eksterne læringssteg som har blitt oppretta i Min NDLA. Kvar gong du lastar sida vil du få eit nytt utvalg.",
     linksTo: "Lenkar til ",
     inPath: 'I læringsstien "{{title}}"',
+  },
+  batchUploadImagePage: {
+    heading: "Batch-opplasting av bileta",
+    description: "Denne sida lar deg spesifisere felles metadata for eit sett med bileta.",
+    commonMetaHeading: "Felles metadata for alle bileta",
+    commonMetaHeadingDescription:
+      "Disse metadataene vil bli brukt for alle biletane du lastar opp. Metadata som ikkje spesifiserast her må spesifiserast for kvart bilete individuelt. Du kan oppdatere metadata her etter å ha lasta opp bileter, men vær varsom! Dersom du har overstyrt metadata for eit spesifikt bilete vil ikkje oppdateringane her gjelde for det biletet.",
+    uploadImages: "Last opp biletar",
+    saveCommon: "Lagre felles metadata",
+    uploadedImages: "Opplasta bileter",
+    specificImageDescription: "Her kan du endre metadata for eit spesifikt bilete.",
+    hasImagesWithErrors:
+      "Eit av biletane du har lasta opp innehald feil. Du må fikse feilane før biletene kan opprettast.",
+    createImages: "Opprett bileter",
   },
 };
 

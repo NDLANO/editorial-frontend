@@ -32,6 +32,7 @@ const phrases = {
     editFrontpage: "Rediger forside",
     comparePage: `Sammenlign versjoner ${titleTemplate}`,
     notFoundPage: `Siden finnes ikke ${titleTemplate}`,
+    batchUploadImagePage: `Batch-opplasting av bilder ${titleTemplate}`,
     search: {
       "podcast-series": `Søk podkastserier ${titleTemplate}`,
       audio: `Søk lydfiler ${titleTemplate}`,
@@ -2566,6 +2567,20 @@ const phrases = {
       "Denne siden lister opp fem tilfeldige læringsstier med eksterne læringssteg som har blitt opprettet i Min NDLA. Hver gang du laster siden vil du få et nytt utvalg.",
     linksTo: "Lenker til ",
     inPath: 'I læringsstien "{{title}}"',
+  },
+  batchUploadImagePage: {
+    heading: "Batch-opplastning av bilder",
+    description: "Denne siden lar deg spesifisere felles metadata for et sett med bilder.",
+    commonMetaHeading: "Felles metadata for alle bilder",
+    commonMetaHeadingDescription:
+      "Disse metadataene vil bli brukt for alle bildene du laster opp. Metadata som ikke spesifiseres her må spesifiseres for hvert bilde individuelt. Du kan oppdatere metadata her etter å ha lastet opp bilder, men vær varsom! Dersom du har overstyrt metadata for et spesifikt bilde vil ikke oppdateringene her gjelde for det bildet.",
+    uploadImages: "Last opp bilder",
+    saveCommon: "Lagre felles metadata",
+    uploadedImages: "Opplastede bilder",
+    specificImageDescription: "Her kan du endre metadata for et spesifikt bilde.",
+    hasImagesWithErrors:
+      "Et av bildene du har lastet opp inneholder feil. Du må fikse feilene før bildene kan opprettes.",
+    createImages: "Opprett bilder",
   },
 };
 

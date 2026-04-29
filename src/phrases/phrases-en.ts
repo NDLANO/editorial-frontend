@@ -32,6 +32,7 @@ const phrases = {
     editFrontpage: "Edit front page",
     comparePage: `Compare versions ${titleTemplate}`,
     notFoundPage: `Not found ${titleTemplate}`,
+    batchUploadImagePage: `Batch upload images ${titleTemplate}`,
     search: {
       "podcast-series": `Search podcast series ${titleTemplate}`,
       audio: `Search audio files ${titleTemplate}`,
@@ -2568,6 +2569,20 @@ const phrases = {
       "This page lists five random learning paths containing external learning steps created in My NDLA. Every time you load the page a new set of samples will appear.",
     linksTo: "Links to ",
     inPath: 'In learning path "{{title}}"',
+  },
+  batchUploadImagePage: {
+    heading: "Batch upload images",
+    description: "This page allows you to upload multiple images at once, and set common metadata for all the images.",
+    commonMetaHeading: "Common metadata for all images",
+    commonMetaHeadingDescription:
+      "The metadata you set here will be applied to all the images you upload. Metadata that is not specified here must be specified for each image individually. You can change the metadata here after having uploaded images, but be careful! If you have overridden the common metadata for a specific image, changing the common metadata will not change the metadata for that specific image.",
+    uploadImages: "Upload images",
+    saveCommon: "Save common metadata",
+    uploadedImages: "Uploaded images",
+    specificImageDescription: "Here you can change metadata for a specific image.",
+    hasImagesWithErrors:
+      "One of the images you have uploaded has errors. You have to fix the errors before the images can be created.",
+    createImages: "Create images",
   },
 };
 

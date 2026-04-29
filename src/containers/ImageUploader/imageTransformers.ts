@@ -6,7 +6,7 @@
  *
  */
 
-import { ImageMetaInformationV3DTO, AuthorDTO, ImageDimensionsDTO } from "@ndla/types-backend/image-api";
+import { ImageMetaInformationV3DTO, AuthorDTO } from "@ndla/types-backend/image-api";
 import { Descendant } from "slate";
 import { plainTextToEditorValue } from "../../util/articleContentConverter";
 
@@ -17,6 +17,7 @@ export interface ImageFormikType {
   title: Descendant[];
   alttext: string;
   caption: string;
+  /** If undefined, we're creating an image. If string, we're editing an existing image. If blob, the currently active image hasn't been uploaded yet. */
   imageFile?: string | Blob;
   tags: string[];
   creators: AuthorDTO[];
@@ -26,12 +27,7 @@ export interface ImageFormikType {
   origin: string;
   license?: string;
   modelReleased: string;
-  filepath?: string;
-  contentType?: string;
-  fileSize?: number;
-  imageDimensions?: ImageDimensionsDTO;
   inactive: boolean;
-  originalDate?: string;
 }
 
 export const imageApiTypeToFormType = (
@@ -54,10 +50,6 @@ export const imageApiTypeToFormType = (
     origin: image?.copyright.origin ?? "",
     license: image?.copyright.license.license !== "unknown" ? image?.copyright.license.license : undefined,
     modelReleased: image?.modelRelease ?? "not-set",
-    contentType: image?.image.contentType,
-    fileSize: image?.image.size,
-    imageDimensions: image?.image.dimensions,
     inactive: image?.inactive ?? false,
-    originalDate: image?.image.originalDate,
   };
 };

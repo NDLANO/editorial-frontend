@@ -217,7 +217,7 @@ const ImageForm = <TImage extends ImageMetaInformationV3DTO | undefined = undefi
                 hasError={hasError(["title", "imageFile", "caption", "alttext"])}
               >
                 <StyledPageContent variant="content">
-                  <ImageContent language={language} />
+                  <ImageContent language={language} image={image} />
                 </StyledPageContent>
               </FormAccordion>
               <FormAccordion

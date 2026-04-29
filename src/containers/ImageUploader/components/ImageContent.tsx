@@ -9,6 +9,7 @@
 import { FileListLine } from "@ndla/icons";
 import { Button, FieldLabel, FieldRoot, FieldErrorMessage, FieldTextArea, DialogTrigger } from "@ndla/primitives";
 import { HStack } from "@ndla/styled-system/jsx";
+import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { useField, useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -36,13 +37,20 @@ const readImageText = (imageBlob: Blob): Promise<string> =>
 
 interface Props {
   language: string;
+  image: ImageMetaInformationV3DTO | undefined;
 }
 
-const ImageContent = ({ language }: Props) => {
+const isValidContentType = (image: ImageMetaInformationV3DTO | undefined, file: Blob | string | undefined) => {
+  const contentType = image?.image.contentType ?? (typeof file === "string" ? undefined : file?.type);
+  if (!contentType) return false;
+  return !!contentType.match(IMAGE_TYPE_REGEX);
+};
+
+const ImageContent = ({ language, image }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { values } = useFormikContext<ImageFormikType>();
-  const [image, setImage] = useState<AltTextVariables["image"] | undefined>(undefined);
+  const [imageInformation, setImageInformation] = useState<AltTextVariables["image"] | undefined>(undefined);
   const [altTextField, altTextMeta, altTextHelpers] = useField("alttext");
 
   useEffect(() => {
@@ -54,7 +62,7 @@ const ImageContent = ({ language }: Props) => {
         if (typeof values.imageFile === "string") {
           // We use the timestamp to avoid caching of the `imageFile` url in the browser
           const timestamp = new Date().getTime();
-          const result = await fetch(values.filepath || `${values.imageFile}?width=1500&ts=${timestamp}`);
+          const result = await fetch(`${values.imageFile}?width=1500&ts=${timestamp}`);
           imageBlob = await result.blob();
         } else {
           imageBlob = values.imageFile;
@@ -68,16 +76,16 @@ const ImageContent = ({ language }: Props) => {
         const imageText = await readImageText(imageBlob);
         // All images from the filereader is appended with a data identifier string. https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL
         const base64 = imageText.replace(IMAGE_IDENTIFIER_REGEX, "");
-        setImage({ base64, fileType: imageBlob.type });
+        setImageInformation({ base64, fileType: imageBlob.type });
       }
     };
     getImagePromptVariables();
-  }, [values.imageFile, values.filepath, altTextHelpers, t]);
+  }, [values.imageFile, altTextHelpers, t]);
 
   return (
     <FormContent>
       <TitleField hideToolbar />
-      <ImageUploadFormElement language={language} />
+      <ImageUploadFormElement language={language} image={image} />
       <FormField name="caption">
         {({ field, meta }) => (
           <FieldRoot invalid={!!meta.error}>
@@ -90,11 +98,13 @@ const ImageContent = ({ language }: Props) => {
       <FieldRoot invalid={!!altTextMeta.error}>
         <HStack justify="space-between">
           <FieldLabel>{t("form.image.alt.label")}</FieldLabel>
-          {userPermissions?.includes(AI_ACCESS_SCOPE) && !!values.contentType?.match(IMAGE_TYPE_REGEX) && !!image ? (
+          {userPermissions?.includes(AI_ACCESS_SCOPE) &&
+          isValidContentType(image, values.imageFile) &&
+          !!imageInformation ? (
             <AiPromptDialog
               promptVariables={{
                 type: "altText",
-                image,
+                image: imageInformation,
               }}
               language={language}
               maxTokens={2000}

@@ -2583,6 +2583,7 @@ const phrases = {
     hasImagesWithErrors:
       "One of the images you have uploaded has errors. You have to fix the errors before the images can be created.",
     createImages: "Create images",
+    rejectedFiles: "Rejected files",
   },
 };
 

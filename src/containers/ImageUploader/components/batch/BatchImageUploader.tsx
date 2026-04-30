@@ -9,27 +9,43 @@
 import { UploadCloudLine } from "@ndla/icons";
 import {
   Button,
+  FileUploadContext,
   FileUploadDropzone,
   FileUploadHiddenInput,
   FileUploadLabel,
   FileUploadRoot,
   FileUploadTrigger,
+  ListItemHeading,
+  ListItemRoot,
+  Text,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { uniq } from "@ndla/util";
 import { useTranslation } from "react-i18next";
 import { MAX_IMAGE_UPLOAD_SIZE } from "../../../../constants";
-
-interface ImageFile {
-  file: string | Blob;
-  contentType: string;
-  fileSize: number;
-  filePath: string;
-  dimensions: ImageBitmap;
-}
+import { translateFileError } from "../imageUtils";
 
 interface Props {
   onFileAccept: (files: File[]) => void;
   acceptedFiles: File[];
 }
+
+const StyledRejectFilesContainer = styled("div", {
+  base: {
+    marginBlockStart: "medium",
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
+
+const StyledList = styled("ul", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
 export const BatchImageUploader = ({ onFileAccept, acceptedFiles }: Props) => {
   const { t } = useTranslation();
@@ -40,9 +56,6 @@ export const BatchImageUploader = ({ onFileAccept, acceptedFiles }: Props) => {
       maxFiles={1000}
       acceptedFiles={acceptedFiles}
       onFileAccept={async (details) => onFileAccept(details.files)}
-      onFileReject={(details) => {
-        console.log(details);
-      }}
     >
       <FileUploadDropzone>
         <FileUploadLabel>{t("form.image.fileUpload.description")}</FileUploadLabel>
@@ -54,6 +67,25 @@ export const BatchImageUploader = ({ onFileAccept, acceptedFiles }: Props) => {
         </FileUploadTrigger>
       </FileUploadDropzone>
       <FileUploadHiddenInput />
+      <FileUploadContext>
+        {({ rejectedFiles }) =>
+          rejectedFiles.length ? (
+            <StyledRejectFilesContainer>
+              <Text textStyle="label.medium">{t("batchImageUploadPage.rejectedFiles")}</Text>
+              <StyledList>
+                {rejectedFiles.map((file) => (
+                  <ListItemRoot key={file.file.name} nonInteractive asChild consumeCss>
+                    <li>
+                      <ListItemHeading>{file.file.name}</ListItemHeading>
+                      <Text>{uniq(file.errors.map((err) => translateFileError(err, t))).join(", ")}</Text>
+                    </li>
+                  </ListItemRoot>
+                ))}
+              </StyledList>
+            </StyledRejectFilesContainer>
+          ) : null
+        }
+      </FileUploadContext>
     </FileUploadRoot>
   );
 };

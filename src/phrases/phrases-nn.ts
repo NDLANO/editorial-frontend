@@ -2572,18 +2572,19 @@ const phrases = {
     inPath: 'I læringsstien "{{title}}"',
   },
   batchUploadImagePage: {
-    heading: "Batch-opplasting av bileta",
-    description: "Denne sida lar deg spesifisere felles metadata for eit sett med bileta.",
-    commonMetaHeading: "Felles metadata for alle bileta",
+    heading: "Batch-opplasting av bilete",
+    description: "Denne sida lar deg spesifisere felles metadata for eit sett med bilete.",
+    commonMetaHeading: "Felles metadata for alle bilete",
     commonMetaHeadingDescription:
-      "Disse metadataene vil bli brukt for alle biletane du lastar opp. Metadata som ikkje spesifiserast her må spesifiserast for kvart bilete individuelt. Du kan oppdatere metadata her etter å ha lasta opp bileter, men vær varsom! Dersom du har overstyrt metadata for eit spesifikt bilete vil ikkje oppdateringane her gjelde for det biletet.",
-    uploadImages: "Last opp biletar",
+      "Disse metadataene vil bli brukt for alle biletene du lastar opp. Metadata som ikkje spesifiserast her må spesifiserast for kvart bilete individuelt. Du kan oppdatere metadata her etter å ha lasta opp bileter, men vær varsom! Dersom du har overstyrt metadata for eit spesifikt bilete vil ikkje oppdateringane her gjelde for det biletet.",
+    uploadImages: "Last opp bilete",
     saveCommon: "Lagre felles metadata",
-    uploadedImages: "Opplasta bileter",
+    uploadedImages: "Opplasta bilete",
     specificImageDescription: "Her kan du endre metadata for eit spesifikt bilete.",
     hasImagesWithErrors:
-      "Eit av biletane du har lasta opp innehald feil. Du må fikse feilane før biletene kan opprettast.",
-    createImages: "Opprett bileter",
+      "Eit av biletene du har lasta opp innehald feil. Du må fikse feilane før biletene kan opprettast.",
+    createImages: "Opprett bilete",
+    rejectedFiles: "Avviste filar",
   },
 };
 

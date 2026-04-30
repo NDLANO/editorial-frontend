@@ -22,11 +22,13 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ImageDimensionsDTO, ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { uniq } from "@ndla/util";
 import { useField } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MAX_IMAGE_UPLOAD_SIZE } from "../../../constants";
 import { ImageFormikType } from "../imageTransformers";
+import { translateFileError } from "./imageUtils";
 
 const StyledImg = styled("img", {
   base: {
@@ -114,26 +116,9 @@ export const ImageUploadFormElement = ({ language, image }: Props) => {
               // as discussed here: https://github.com/jaredpalmer/formik/discussions/3870
               const fileErrors = details.files?.[0]?.errors;
               if (!fileErrors) return;
-              if (fileErrors.includes("FILE_TOO_LARGE")) {
-                const errorMessage = `${t("form.image.fileUpload.genericError")}: ${t(
-                  "form.image.fileUpload.tooLargeError",
-                )}`;
-                setTimeout(() => {
-                  helpers.setError(errorMessage);
-                }, 0);
-                return;
-              }
-              if (fileErrors.includes("FILE_INVALID_TYPE")) {
-                const errorMessage = `${t("form.image.fileUpload.genericError")}: ${t(
-                  "form.image.fileUpload.fileTypeInvalidError",
-                )}`;
-                setTimeout(() => {
-                  helpers.setError(errorMessage);
-                }, 0);
-                return;
-              }
+              const translatedErrors = fileErrors.map((err) => translateFileError(err, t));
               setTimeout(() => {
-                helpers.setError(t("form.image.fileUpload.genericError"));
+                helpers.setError(uniq(translatedErrors).join(", "));
               }, 0);
             }}
           >

@@ -2581,6 +2581,7 @@ const phrases = {
     hasImagesWithErrors:
       "Et av bildene du har lastet opp inneholder feil. Du må fikse feilene før bildene kan opprettes.",
     createImages: "Opprett bilder",
+    rejectedFiles: "Avviste filer",
   },
 };
 

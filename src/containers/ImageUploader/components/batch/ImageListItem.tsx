@@ -10,6 +10,7 @@ import { CloseLine, DeleteBinLine, PencilLine } from "@ndla/icons";
 import { IconButton, ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ImageFormikType } from "../../imageTransformers";
 import { SpecificImageInfoForm } from "./CommonInfoForm";
 
@@ -18,6 +19,7 @@ interface Props {
   initialValues: ImageFormikType | undefined;
   commonData: ImageFormikType;
   handleSubmit: (values: ImageFormikType) => void;
+  onRemoveFile: (file: File) => void;
   invalid: boolean;
 }
 
@@ -54,8 +56,9 @@ const StyledListItemRoot = styled(ListItemRoot, {
   },
 });
 
-export const ImageListItem = ({ file, initialValues, commonData, handleSubmit, invalid }: Props) => {
+export const ImageListItem = ({ file, initialValues, commonData, handleSubmit, invalid, onRemoveFile }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
+  const { t } = useTranslation();
   return (
     <StyledListItemRoot asChild consumeCss nonInteractive invalid={invalid}>
       <li>
@@ -67,10 +70,20 @@ export const ImageListItem = ({ file, initialValues, commonData, handleSubmit, i
             </ListItemHeading>
           </InfoContainer>
           <InfoContainer>
-            <IconButton variant="secondary" onClick={() => setIsEditing((prev) => !prev)}>
+            <IconButton
+              variant="secondary"
+              onClick={() => setIsEditing((prev) => !prev)}
+              aria-label={isEditing ? t("close") : t("form.edit")}
+              title={isEditing ? t("close") : t("form.edit")}
+            >
               {isEditing ? <CloseLine /> : <PencilLine />}
             </IconButton>
-            <IconButton variant="danger">
+            <IconButton
+              variant="danger"
+              aria-label={t("remove")}
+              title={t("remove")}
+              onClick={() => onRemoveFile(file)}
+            >
               <DeleteBinLine />
             </IconButton>
           </InfoContainer>

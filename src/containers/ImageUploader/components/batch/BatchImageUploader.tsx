@@ -39,20 +39,7 @@ export const BatchImageUploader = ({ onFileAccept, acceptedFiles }: Props) => {
       maxFileSize={MAX_IMAGE_UPLOAD_SIZE}
       maxFiles={1000}
       acceptedFiles={acceptedFiles}
-      onFileAccept={async (details) => {
-        onFileAccept(details.files);
-        const transformedFiles: Promise<ImageFile>[] = details.files.map(async (file) => {
-          const dimensions = await createImageBitmap(file);
-          return {
-            file,
-            contentType: file.type,
-            fileSize: file.size,
-            filePath: URL.createObjectURL(file),
-            dimensions,
-          };
-        });
-        await Promise.all(transformedFiles);
-      }}
+      onFileAccept={async (details) => onFileAccept(details.files)}
       onFileReject={(details) => {
         console.log(details);
       }}

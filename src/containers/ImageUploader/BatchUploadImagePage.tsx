@@ -9,6 +9,7 @@
 import { Button, Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { NewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
+import { uniqBy } from "@ndla/util";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import validateFormik from "../../components/formikValidationSchema";
@@ -44,6 +45,14 @@ export const Component = () => {
     placeholderData: [],
     select: (data) => data.map((lic) => ({ ...lic, description: lic.description ?? "" })) ?? [],
   });
+
+  const onAcceptFiles = (files: File[]) => {
+    setAcceptedFiles((prev) => uniqBy([...prev, ...files], (file) => file.name));
+  };
+
+  const onRemoveFile = (file: File) => {
+    setAcceptedFiles((prev) => prev.filter((f) => f.name !== file.name));
+  };
 
   const onSave = async () => {
     if (!commonMetadata) return;
@@ -99,7 +108,7 @@ export const Component = () => {
           <Heading asChild consumeCss textStyle="title.medium">
             <h2>{t("batchUploadImagePage.uploadImages")}</h2>
           </Heading>
-          <BatchImageUploader acceptedFiles={acceptedFiles} onFileAccept={setAcceptedFiles} />
+          <BatchImageUploader acceptedFiles={acceptedFiles} onFileAccept={onAcceptFiles} />
           <Heading asChild consumeCss textStyle="title.medium">
             <h2>{t("batchUploadImagePage.uploadedImages")}</h2>
           </Heading>
@@ -111,6 +120,7 @@ export const Component = () => {
                 file={file}
                 commonData={commonMetadata}
                 initialValues={specifiedMetadata[file.name]}
+                onRemoveFile={onRemoveFile}
                 handleSubmit={(values) => {
                   setInvalidFiles((prev) => {
                     delete prev[file.name];

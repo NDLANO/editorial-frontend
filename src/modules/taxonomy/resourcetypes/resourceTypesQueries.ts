@@ -6,7 +6,7 @@
  *
  */
 
-import { ResourceType } from "@ndla/types-taxonomy";
+import { ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { fetchAllResourceTypes, fetchResourceType } from ".";
 import { WithTaxonomyVersion } from "../../../interfaces";

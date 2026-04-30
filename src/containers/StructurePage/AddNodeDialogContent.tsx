@@ -8,7 +8,7 @@
 
 import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node, NodeType } from "@ndla/types-taxonomy";
+import { Node, NodeType } from "@ndla/types-backend/taxonomy-api";
 import { useQueryClient } from "@tanstack/react-query";
 import { ChangeEvent, useState, SyntheticEvent } from "react";
 import { useTranslation } from "react-i18next";

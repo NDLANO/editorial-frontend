@@ -7,7 +7,7 @@
  */
 
 import { BookOpenLine, FileListLine } from "@ndla/icons";
-import { Node } from "@ndla/types-taxonomy";
+import { Node } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
 import { DiffType } from "../containers/NodeDiff/diffUtils";
 import { SUBJECT_NODE } from "../modules/nodes/nodeApiTypes";

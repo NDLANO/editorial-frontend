@@ -17,6 +17,7 @@ import {
   DialogTrigger,
   Text,
 } from "@ndla/primitives";
+import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { Formik, useFormikContext } from "formik";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -33,6 +34,7 @@ import validateFormik from "../formikValidationSchema";
 
 interface Props {
   imageId: number;
+  image: ImageMetaInformationV3DTO | undefined;
 }
 
 interface FormikValuesType extends Partial<ImageFormikType> {
@@ -44,7 +46,7 @@ const initialValues: FormikValuesType = {
   imageFile: undefined,
 };
 
-export const CloneImageDialog = ({ imageId }: Props) => {
+export const CloneImageDialog = ({ imageId, image }: Props) => {
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
   const { createMessage, applicationError } = useMessages();
@@ -105,7 +107,7 @@ export const CloneImageDialog = ({ imageId }: Props) => {
                 return (
                   <Form>
                     <Text>{t("imageForm.copyDescription")}</Text>
-                    <ImageUploadFormElement language={i18n.language} />
+                    <ImageUploadFormElement language={i18n.language} image={image} />
                     <FormActionsContainer>
                       <Button disabled={!dirty || !isValid} loading={cloneImage.isPending} onClick={submitForm}>
                         {t("save")}

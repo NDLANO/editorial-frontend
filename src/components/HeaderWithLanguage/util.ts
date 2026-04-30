@@ -7,7 +7,7 @@
  */
 
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
-import { Node } from "@ndla/types-taxonomy";
+import { Node } from "@ndla/types-backend/taxonomy-api";
 import { isEqual, get } from "lodash-es";
 import { FlatArticleKeys } from "../../containers/ArticlePage/components/types";
 import { removeCommentTags } from "../../util/compareHTMLHelpers";

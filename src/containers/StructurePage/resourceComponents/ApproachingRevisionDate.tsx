@@ -11,7 +11,7 @@ import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { RevisionMetaDTO } from "@ndla/types-backend/draft-api";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { NodeChild } from "@ndla/types-taxonomy";
+import { NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Dictionary } from "../../../interfaces";

@@ -6,7 +6,7 @@
  *
  */
 
-import { VersionPostPut } from "@ndla/types-taxonomy";
+import { VersionPostPut } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import { deleteVersion, postVersion, publishVersion, putVersion } from "./versionApi";
 

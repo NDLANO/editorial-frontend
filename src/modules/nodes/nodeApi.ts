@@ -21,7 +21,7 @@ import {
   MetadataPUT,
   NodeSearchBody,
   SearchResult,
-} from "@ndla/types-taxonomy";
+} from "@ndla/types-backend/taxonomy-api";
 import { WithTaxonomyVersion } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveLocation, resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
@@ -202,7 +202,7 @@ export const putNodeTranslation = (params: NodeTranslationPutParams): Promise<vo
       },
       body: params.body,
     })
-    .then((response) => resolveJsonOATS(response));
+    .then((response) => resolveOATS(response));
 
 interface NodeResourcesGetParams extends WithTaxonomyVersion, GetNodeResourcesParams {
   id: string;

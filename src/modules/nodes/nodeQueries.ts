@@ -7,7 +7,7 @@
  */
 
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { Node, NodeChild, NodeType, NodeSearchBody, SearchResult } from "@ndla/types-taxonomy";
+import { Node, NodeChild, NodeType, NodeSearchBody, SearchResult } from "@ndla/types-backend/taxonomy-api";
 import { useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
 import { NodeTree } from "../../containers/NodeDiff/diffUtils";
 import { WithTaxonomyVersion } from "../../interfaces";

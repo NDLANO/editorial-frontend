@@ -8,7 +8,7 @@
 
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node, NodeChild, NodeConnection } from "@ndla/types-taxonomy";
+import { Node, NodeChild, NodeConnection } from "@ndla/types-backend/taxonomy-api";
 import { sortBy } from "@ndla/util";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";

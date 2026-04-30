@@ -8,7 +8,7 @@
 
 import { DragEndEvent } from "@dnd-kit/core";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
-import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
+import { NodeChild, Node, NodeType } from "@ndla/types-backend/taxonomy-api";
 import { keyBy, partition, sortBy } from "@ndla/util";
 import { useQueryClient } from "@tanstack/react-query";
 import { isEqual } from "lodash-es";

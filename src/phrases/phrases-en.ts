@@ -243,6 +243,17 @@ const phrases = {
       da: "Revisions in DA subjects",
       favorites: "Revisions in favorite subjects",
     },
+    publishedView: {
+      lma: "Published resources in LMA subjects",
+      da: "Published resources in DA subjects",
+      sa: "Published resources in SA subjects",
+      favorites: "Published resources in favorite subjects",
+      description: "Newly published resources",
+      showRepublished: "Show republished resources",
+      showRepublishedLabel: "Show republished resources",
+      empty: "No published resources",
+      publishedDate: "Published date",
+    },
     welcomeBack: "Welcome",
     listLabels: {
       worklist: "Resource types",

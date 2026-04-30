@@ -6,7 +6,7 @@
  *
  */
 
-import { paths, ResolvedUrl } from "@ndla/types-taxonomy";
+import { paths, ResolvedUrl } from "@ndla/types-backend/taxonomy-api";
 import { WithTaxonomyVersion } from "../../interfaces";
 import { createAuthClient } from "../../util/apiHelpers";
 import { resolveJsonOATS } from "../../util/resolveJsonOrRejectWithError";

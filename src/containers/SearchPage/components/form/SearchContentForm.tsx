@@ -10,7 +10,7 @@ import { FieldLabel, FieldRoot, FieldInput } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { DraftSearchField, DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
-import { Node, ResourceType } from "@ndla/types-taxonomy";
+import { Node, ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { partition, sortBy } from "@ndla/util";
 import { TFunction } from "i18next";
 import { useEffect, useMemo, useState } from "react";

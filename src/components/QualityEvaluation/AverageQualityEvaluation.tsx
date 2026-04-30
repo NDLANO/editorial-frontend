@@ -7,7 +7,7 @@
  */
 
 import { Text } from "@ndla/primitives";
-import { GradeAverage } from "@ndla/types-taxonomy";
+import { GradeAverage } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
 import QualityEvaluationGrade from "../../containers/StructurePage/resourceComponents/QualityEvaluationGrade";
 

@@ -6,7 +6,7 @@
  *
  */
 
-import { Node, NodeType } from "@ndla/types-taxonomy";
+import { Node, NodeType } from "@ndla/types-backend/taxonomy-api";
 import { NODE, PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "./nodeApiTypes";
 
 const validNodeTypes: NodeType[] = [PROGRAMME, SUBJECT_NODE, TOPIC_NODE, NODE];

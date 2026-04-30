@@ -6,7 +6,7 @@
  *
  */
 
-import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
+import { NodeChild, ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { partition, sortBy, uniqBy } from "@ndla/util";
 import { RESOURCE_FILTER_SUPPLEMENTARY, RESOURCE_TYPE_LEARNING_PATH } from "../constants";
 import { ContentUriInfo } from "../interfaces";

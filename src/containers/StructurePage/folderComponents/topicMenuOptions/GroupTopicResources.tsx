@@ -7,7 +7,7 @@
  */
 
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
-import { Node, Metadata } from "@ndla/types-taxonomy";
+import { Node, Metadata } from "@ndla/types-backend/taxonomy-api";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import {

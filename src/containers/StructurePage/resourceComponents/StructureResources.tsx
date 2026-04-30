@@ -6,7 +6,7 @@
  *
  */
 
-import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
+import { NodeChild, ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { keyBy, partition } from "@ndla/util";
 import { TFunction } from "i18next";
 import { memo, useMemo } from "react";

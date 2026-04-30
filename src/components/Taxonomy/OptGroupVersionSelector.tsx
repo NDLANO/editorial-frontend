@@ -8,7 +8,7 @@
 
 import { createListCollection } from "@ark-ui/react";
 import { SelectContent, SelectItemGroup, SelectItemGroupLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
-import { Version, VersionType } from "@ndla/types-taxonomy";
+import { Version, VersionType } from "@ndla/types-backend/taxonomy-api";
 import { TFunction } from "i18next";
 import { ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";

@@ -6,7 +6,7 @@
  *
  */
 
-import { NodeChild, ResourceType } from "@ndla/types-backend/taxonomy-api";
+import { NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { partition, sortBy, uniqBy } from "@ndla/util";
 import { RESOURCE_FILTER_SUPPLEMENTARY, RESOURCE_TYPE_LEARNING_PATH } from "../constants";
 import { ContentUriInfo } from "../interfaces";
@@ -21,21 +21,9 @@ export const getContentUriInfo = (urn?: string): ContentUriInfo | undefined => {
 };
 
 type ResourceLike = Pick<NodeChild, "id" | "resourceTypes" | "rank" | "relevanceId">;
-export const sortResources = <T extends ResourceLike>(
-  resources: T[],
-  resourceTypes: ResourceType[],
-  grouped?: boolean,
-) => {
+const sortResources = <T extends ResourceLike>(resources: T[]) => {
   const uniq = uniqBy(resources, (res) => res.id);
-  const sortedByRank = sortBy(uniq, (res) => res.rank ?? res.id);
-  if (!grouped) {
-    return sortedByRank;
-  }
-  const resourceTypeOrder = resourceTypes.reduce<Record<string, number>>((order, rt, index) => {
-    order[rt.id] = index;
-    return order;
-  }, {});
-  return sortBy(uniq, (res) => resourceTypeOrder[res.resourceTypes?.[0]?.id ?? ""] ?? Number.MAX_SAFE_INTEGER);
+  return sortBy(uniq, (res) => res.rank ?? res.id);
 };
 
 interface PartitionedResources<T> {
@@ -44,12 +32,8 @@ interface PartitionedResources<T> {
   coreArticles: T[];
 }
 
-export const partitionResources = (
-  resources: NodeChild[],
-  resourceTypes: ResourceType[],
-  ungrouped: boolean,
-): PartitionedResources<NodeChild> => {
-  const sortedResources = sortResources(resources, resourceTypes ?? [], !ungrouped);
+export const partitionResources = (resources: NodeChild[]): PartitionedResources<NodeChild> => {
+  const sortedResources = sortResources(resources);
 
   const [learningpaths, articles] = partition(
     sortedResources,

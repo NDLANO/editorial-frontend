@@ -9,7 +9,7 @@
 import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { NodeChild, ResourceType } from "@ndla/types-backend/taxonomy-api";
+import { NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
@@ -36,36 +36,24 @@ const ResourceWrapper = styled("div", {
 
 interface Props {
   nodeResources: NodeChild[];
-  resourceTypes: ResourceType[];
   currentNode: NodeChild;
   contentMetas: Dictionary<MultiSearchSummaryDTO>;
-  isUngrouped: boolean;
+  numbered: boolean;
   hasSubTopics: boolean;
   nodeResourcesIsPending: boolean;
   users: Dictionary<Auth0UserData> | undefined;
 }
 
 const ResourcesContainer = ({
-  resourceTypes,
   nodeResources,
   currentNode,
   contentMetas,
-  isUngrouped,
+  numbered,
   hasSubTopics,
   nodeResourcesIsPending,
   users,
 }: Props) => {
   const { t } = useTranslation();
-  const resourceTypesWithoutMissing = useMemo(
-    () =>
-      resourceTypes
-        .filter((rt) => rt.id !== "missing")
-        .map((rt) => ({
-          ...rt,
-          subtypes: undefined,
-        })),
-    [resourceTypes],
-  );
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const { data } = useNodes(
@@ -73,11 +61,7 @@ const ResourcesContainer = ({
     { enabled: !!currentNode.contentUri },
   );
 
-  const { coreArticles, supplementaryArticles, learningpaths } = partitionResources(
-    nodeResources ?? [],
-    resourceTypes ?? [],
-    isUngrouped,
-  );
+  const { coreArticles, supplementaryArticles, learningpaths } = partitionResources(nodeResources ?? []);
 
   const paths = useMemo(() => data?.map((d) => d.path ?? "").filter((d) => !!d) ?? [], [data]);
   const currentMeta = currentNode.contentUri ? contentMetas[currentNode.contentUri] : undefined;
@@ -102,20 +86,18 @@ const ResourcesContainer = ({
               type="core"
               title={t("taxonomy.core.title")}
               resources={coreArticles}
-              resourceTypes={resourceTypesWithoutMissing}
               currentNode={currentNode}
               contentMetas={contentMetas}
               nodeResourcesIsPending={nodeResourcesIsPending}
               existingResourceIds={nodeResources.map((r) => r.id)}
               users={users}
-              isUngrouped={isUngrouped}
+              numbered={numbered}
               hideAddButton={hasSubTopics}
             />
             <ResourceItems
               type="learningpath"
               title={t("taxonomy.learningpath.title")}
               resources={learningpaths}
-              resourceTypes={resourceTypesWithoutMissing}
               currentNode={currentNode}
               contentMetas={contentMetas}
               nodeResourcesIsPending={nodeResourcesIsPending}
@@ -128,7 +110,6 @@ const ResourcesContainer = ({
               title={t("taxonomy.supplementary.title")}
               description={t("taxonomy.supplementary.description")}
               resources={supplementaryArticles}
-              resourceTypes={resourceTypesWithoutMissing}
               currentNode={currentNode}
               contentMetas={contentMetas}
               nodeResourcesIsPending={nodeResourcesIsPending}

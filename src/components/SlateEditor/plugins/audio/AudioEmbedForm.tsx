@@ -104,12 +104,12 @@ const EmbedForm = ({ onCancel, audio }: EmbedFormProps) => {
             label: t("form.audio.sound"),
           },
           {
-            value: "minimal",
-            label: t("form.audio.speech"),
-          },
-          {
             value: "compact",
             label: t("form.audio.compact"),
+          },
+          {
+            value: "minimal",
+            label: t("form.audio.speech"),
           },
         ],
       }),

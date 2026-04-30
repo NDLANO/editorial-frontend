@@ -14,7 +14,11 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FormActionsContainer } from "../../components/FormikForm";
 import validateFormik from "../../components/formikValidationSchema";
+import { IMAGE_BATCH_SCOPE } from "../../constants";
 import { useLicenses } from "../../modules/draft/draftQueries";
+import NotFound from "../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import { useSession } from "../Session/SessionProvider";
 import { BatchImageUploader } from "./components/batch/BatchImageUploader";
 import { CommonImageInfoForm, toImageFormValues } from "./components/batch/CommonInfoForm";
 import { ImageListItem } from "./components/batch/ImageListItem";
@@ -35,11 +39,17 @@ const StyledPageContainer = styled(PageContainer, {
 });
 
 export const Component = () => {
+  return <PrivateRoute component={<BatchUploadImagePage />} />;
+};
+
+export const BatchUploadImagePage = () => {
   const [acceptedFiles, setAcceptedFiles] = useState<File[]>([]);
   const [commonMetadata, setCommonMetadata] = useState<ImageFormikType | undefined>(undefined);
   const [specifiedMetadata, setSpecifiedMetadata] = useState<Record<string, ImageFormikType>>({});
   const [invalidFiles, setInvalidFiles] = useState<Record<string, string[]>>({});
   const [hasImageWithErrors, setHasImageWithErrors] = useState(false);
+
+  const { userPermissions } = useSession();
 
   const { t } = useTranslation();
 
@@ -97,6 +107,10 @@ export const Component = () => {
     // TODO: Implement
     return transformed;
   };
+
+  if (!userPermissions?.includes(IMAGE_BATCH_SCOPE)) {
+    return <NotFound />;
+  }
 
   return (
     <StyledPageContainer>

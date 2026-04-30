@@ -92,6 +92,8 @@ export const FRONTPAGE_ADMIN_SCOPE = "frontpage:admin";
 
 export const AUDIO_ADMIN_SCOPE = "audio:admin";
 
+export const IMAGE_BATCH_SCOPE = "image:batch";
+
 export const TAXONOMY_CUSTOM_FIELD_LANGUAGE = "language";
 export const TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES = "topic-resources";
 export const TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE = "grouped";

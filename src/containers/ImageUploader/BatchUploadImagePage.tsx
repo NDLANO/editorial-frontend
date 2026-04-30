@@ -38,6 +38,7 @@ export const Component = () => {
   const [commonMetadata, setCommonMetadata] = useState<ImageFormikType | undefined>(undefined);
   const [specifiedMetadata, setSpecifiedMetadata] = useState<Record<string, ImageFormikType>>({});
   const [invalidFiles, setInvalidFiles] = useState<Record<string, string[]>>({});
+  const [hasImageWithErrors, setHasImageWithErrors] = useState(false);
 
   const { t } = useTranslation();
 
@@ -56,6 +57,7 @@ export const Component = () => {
 
   const onSave = async () => {
     if (!commonMetadata) return;
+    setHasImageWithErrors(false);
     const formValues = acceptedFiles.map((f) =>
       toImageFormValues(commonMetadata, specifiedMetadata[f.name], f, commonMetadata.language),
     );
@@ -82,7 +84,7 @@ export const Component = () => {
     }, []);
 
     if (metadatas.length !== formValues.length) {
-      console.log("something returned wrong");
+      setHasImageWithErrors(true);
       return;
     }
 
@@ -90,7 +92,9 @@ export const Component = () => {
       const stitched = { ...commonMetadata, ...(specifiedMetadata[f.name] ?? {}), imageFile: f };
       return imageFormTypeToApiType(stitched, licenses);
     });
-    console.log("posting the following images", transformed);
+
+    // TODO: Implement
+    return transformed;
   };
 
   return (
@@ -132,9 +136,10 @@ export const Component = () => {
               />
             ))}
           </StyledList>
-          {!!Object.keys(invalidFiles).length && (
-            <Text color="text.error">{t("batchUploadImagePage.hasImagesWithErrors")}</Text>
-          )}
+          {hasImageWithErrors ||
+            (!!Object.keys(invalidFiles).length && (
+              <Text color="text.error">{t("batchUploadImagePage.hasImagesWithErrors")}</Text>
+            ))}
           <Button onClick={onSave} disabled={!!Object.keys(invalidFiles).length}>
             {t("batchUploadImagePage.createImages")}
           </Button>

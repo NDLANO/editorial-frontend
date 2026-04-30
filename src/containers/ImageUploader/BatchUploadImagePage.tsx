@@ -12,6 +12,7 @@ import { NewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
 import { uniqBy } from "@ndla/util";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { FormActionsContainer } from "../../components/FormikForm";
 import validateFormik from "../../components/formikValidationSchema";
 import { useLicenses } from "../../modules/draft/draftQueries";
 import { BatchImageUploader } from "./components/batch/BatchImageUploader";
@@ -140,9 +141,11 @@ export const Component = () => {
             (!!Object.keys(invalidFiles).length && (
               <Text color="text.error">{t("batchUploadImagePage.hasImagesWithErrors")}</Text>
             ))}
-          <Button onClick={onSave} disabled={!!Object.keys(invalidFiles).length}>
-            {t("batchUploadImagePage.createImages")}
-          </Button>
+          <FormActionsContainer>
+            <Button onClick={onSave} disabled={!!Object.keys(invalidFiles).length}>
+              {t("batchUploadImagePage.createImages")}
+            </Button>
+          </FormActionsContainer>
         </>
       )}
     </StyledPageContainer>

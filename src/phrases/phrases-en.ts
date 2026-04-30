@@ -351,6 +351,7 @@ const phrases = {
     frontpage: "NDLA frontpage",
     updateCodes: "Update curriculum codes",
     learningStepSamples: "External learning step samples",
+    batchImageUpload: "Batch upload images",
   },
   logo: {
     altText: "The Norwegian Digital Learning Arena",

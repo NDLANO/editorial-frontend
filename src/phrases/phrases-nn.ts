@@ -350,6 +350,7 @@ const phrases = {
     frontpage: "NDLA forside",
     updateCodes: "Oppdater læreplankoder",
     learningStepSamples: "Stikkprøver av eksterne læringssteg",
+    batchImageUpload: "Batch-opplasting av bileter",
   },
   logo: {
     altText: "Nasjonal digital læringsarena",

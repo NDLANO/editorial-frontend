@@ -129,7 +129,6 @@ const CampaignBlockForm = ({ initialData, onSave }: Props) => {
     (values: CampaignBlockFormValues) => {
       onSave({
         resource: CAMPAIGN_BLOCK_ELEMENT_TYPE,
-        // TODO: The headingLevel type should be shared between all components
         headingLevel: values.headingLevel as "h2",
         title: inlineContentToHTML(values.title),
         description: inlineContentToHTML(values.description),

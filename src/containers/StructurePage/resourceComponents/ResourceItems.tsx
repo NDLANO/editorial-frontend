@@ -148,7 +148,6 @@ const ResourceItems = ({
     qc.invalidateQueries({ queryKey: compKey });
   };
 
-  // TODO: Adapt this to list spread. Need to account for sorting within lists etc.
   const onDragEnd = async ({ active, over }: DragEndEvent) => {
     const [source, dest] = [resources[active.data.current?.index], resources[over?.data.current?.index]];
     if (!dest || !source || source.rank === dest.rank) return;

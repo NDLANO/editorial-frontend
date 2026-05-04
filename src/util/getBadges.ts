@@ -20,7 +20,6 @@ interface BadgeParams {
   resourceType?: string;
 }
 
-// TODO: Translations
 export const getBadges = (params: BadgeParams, t: (key: string) => string) => {
   const badges: string[] = [];
 

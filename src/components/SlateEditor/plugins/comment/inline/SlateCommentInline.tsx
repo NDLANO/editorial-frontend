@@ -12,7 +12,6 @@ import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import { useDebouncedCallback } from "../../../../../util/useDebouncedCallback";
 import { InlineBugfix } from "../../../utils/InlineBugFix";
 import CommentPopoverPortal from "../CommentPopoverPortal";
 import { isCommentInlineElement } from "./queries/commentInlineQueries";
@@ -75,9 +74,7 @@ const SlateCommentInline = ({ attributes, editor, element, children }: Props) =>
     Transforms.unwrapNodes(editor, { at: path, match: isCommentInlineElement });
   };
 
-  // TODO: Remove this workaround
-  // This handler is called twice on interaction outside the popover due to a bug, see https://github.com/chakra-ui/ark/issues/3463
-  const onOpenChange = useDebouncedCallback((open: boolean) => {
+  const onOpenChange = (open: boolean) => {
     setOpen(open);
     if (open === false) {
       if (!element.data?.text) {
@@ -86,7 +83,7 @@ const SlateCommentInline = ({ attributes, editor, element, children }: Props) =>
         handleSelectionChange(false);
       }
     }
-  }, 10);
+  };
 
   const preventAutoFocusInEditor = useCallback(
     (e: MouseEvent) => {

@@ -332,18 +332,11 @@ const SlateBlockPicker = ({
       }
       setBlockPickerOpen(details.open);
       if (!details.open && !visualElementPickerOpen) {
-        ReactEditor.focus(editor);
+        setTimeout(() => ReactEditor.focus(editor), 0);
       }
     },
     [actions, actionsToShowInAreas, editor, userPermissions, visualElementPickerOpen],
   );
-
-  const onFocus = useCallback(() => {
-    if (!blockPickerOpen) {
-      // TODO: This should probably be deferred to the next render, but doing it breaks CI.
-      ReactEditor.focus(editor);
-    }
-  }, [blockPickerOpen, editor]);
 
   const positioning = useMemo(
     () =>
@@ -418,7 +411,6 @@ const SlateBlockPicker = ({
               aria-label={blockPickerLabel}
               title={blockPickerLabel}
               data-state={blockPickerOpen ? "open" : "closed"}
-              onFocus={onFocus}
             >
               <AddLine />
             </BlockPickerButton>

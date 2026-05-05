@@ -6,7 +6,7 @@
  *
  */
 
-import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, FieldTextArea } from "@ndla/primitives";
+import { Button, FieldErrorMessage, FieldLabel, FieldRoot, FieldTextArea } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Form, Formik } from "formik";
 import { useTranslation } from "react-i18next";
@@ -15,8 +15,20 @@ import { FormActionsContainer } from "../../../../components/FormikForm";
 import validateFormik from "../../../../components/formikValidationSchema";
 import { plainTextToEditorValue } from "../../../../util/articleContentConverter";
 import { CopyrightFieldGroup } from "../../../FormikForm";
+import Titlefield from "../../../FormikForm/TitleField";
 import { ImageFormikType, imageRules } from "../../imageTransformers";
 import ImageMetaData from "../ImageMetaData";
+const ACCEPTED_EXTENSIONS = new Set([".gif", ".png", ".jpg", ".jpeg", ".svg"]);
+
+const stripFileExtension = (name: string) => {
+  const lastDot = name.lastIndexOf(".");
+  if (lastDot === -1) return name;
+
+  const ext = name.slice(lastDot).toLowerCase();
+  if (!ACCEPTED_EXTENSIONS.has(ext)) return name;
+
+  return name.slice(0, lastDot);
+};
 
 export const toImageFormValues = (
   common: ImageFormikType | undefined,
@@ -27,7 +39,7 @@ export const toImageFormValues = (
   return {
     language: language,
     supportedLanguages: [language],
-    title: specific?.title ?? (file ? plainTextToEditorValue(file.name) : []),
+    title: specific?.title ?? (file ? plainTextToEditorValue(stripFileExtension(file.name)) : []),
     alttext: specific?.alttext ?? common?.alttext ?? "",
     caption: specific?.caption ?? common?.caption ?? "",
     imageFile: file,
@@ -100,17 +112,7 @@ const FormFields = ({ type }: FormFieldsProps) => {
   const { t, i18n } = useTranslation();
   return (
     <StyledForm>
-      {type === "specific" && (
-        <FormField name="title">
-          {({ field, meta }) => (
-            <FieldRoot required invalid={!!meta.error}>
-              <FieldLabel>{t("form.title.label")}</FieldLabel>
-              <FieldInput {...field} placeholder={t("form.title.label")} />
-              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-            </FieldRoot>
-          )}
-        </FormField>
-      )}
+      {type === "specific" && <Titlefield hideToolbar />}
       <FormField name="caption">
         {({ field, meta }) => (
           <FieldRoot invalid={!!meta.error}>

@@ -36,13 +36,9 @@ interface Props extends RenderElementProps {
 }
 
 const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
-  const [isEditing, setIsEditing] = useState<boolean | undefined>(false);
+  const [isEditing, setIsEditing] = useState(!!element.isFirstEdit);
   const [image, setImage] = useState<ImageMetaInformationV3DTO | undefined>(undefined);
   const { t } = useTranslation();
-
-  useEffect(() => {
-    setIsEditing(!!element.isFirstEdit);
-  }, [element.isFirstEdit]);
 
   const { data } = element;
 

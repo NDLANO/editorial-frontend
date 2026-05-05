@@ -37,13 +37,9 @@ interface Props extends RenderElementProps {
 
 const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(!!element.isFirstEdit);
   const campaignBlock = element.data;
   const [image, setImage] = useState<ImageMetaInformationV3DTO | undefined>(undefined);
-
-  useEffect(() => {
-    setIsEditing(!!element.isFirstEdit);
-  }, [element.isFirstEdit]);
 
   const onOpenChange = useCallback(
     (open: boolean) => {

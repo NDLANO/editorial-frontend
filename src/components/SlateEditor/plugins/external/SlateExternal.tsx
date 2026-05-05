@@ -24,7 +24,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { IframeEmbedData, IframeMetaData, OembedEmbedData, OembedMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, ExternalEmbed, IframeEmbed } from "@ndla/ui";
-import { useCallback, useEffect, useId, useMemo, useState } from "react";
+import { useCallback, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
@@ -94,14 +94,10 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
   const { t } = useTranslation();
   const language = useArticleLanguage();
   const wrapperId = useId();
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(!!element.isFirstEdit);
   const metaQuery = useExternalEmbed(element.data!, language, {
     enabled: !!Object.keys(element.data ?? {}).length,
   });
-
-  useEffect(() => {
-    setIsEditing(!!element.isFirstEdit);
-  }, [element.isFirstEdit]);
 
   const selected = useSelected();
 

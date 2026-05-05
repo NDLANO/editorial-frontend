@@ -13,7 +13,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { UuDisclaimerEmbedData, UuDisclaimerMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, UuDisclaimerEmbed } from "@ndla/ui";
 import parse from "html-react-parser";
-import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { ReactNode, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
@@ -54,11 +54,7 @@ const ButtonContainer = styled("div", {
 
 const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
-  const [open, setOpen] = useState<boolean>(false);
-
-  useEffect(() => {
-    setOpen(!!element.isFirstEdit);
-  }, [element.isFirstEdit]);
+  const [open, setOpen] = useState(!!element.isFirstEdit);
 
   const embed: UuDisclaimerMetaData | undefined = useMemo(() => {
     if (!element.data) return undefined;

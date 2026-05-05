@@ -67,16 +67,12 @@ const StyledDialogContent = styled(DialogContent, {
 });
 
 const SlateH5p = ({ element, editor, attributes, children }: Props) => {
-  const [isOpen, setOpen] = useState(false);
+  const [isOpen, setOpen] = useState(!!element.isFirstEdit);
   const [isCopied, setIsCopied] = useState(false);
   const { t } = useTranslation();
   const isSelected = useSelected();
   const language = useArticleLanguage();
   const { createMessage } = useMessages();
-
-  useEffect(() => {
-    setOpen(!!element.isFirstEdit);
-  }, [element.isFirstEdit]);
 
   const h5pMetaQuery = useH5pMeta(element.data?.path ?? "", element.data?.url ?? "", {
     enabled: !!element.data?.path,

@@ -52,7 +52,7 @@ const getTextValue = (editor: Editor): TextType => {
     return acc;
   }, new Set<TextType>());
 
-  if (textTypes.size === 1) {
+  if (textTypes.size === 1 || !editor.selectionElements.multipleBlocksOnSameLevel) {
     return textTypes.values().next().value!;
   }
   return "normal-text";

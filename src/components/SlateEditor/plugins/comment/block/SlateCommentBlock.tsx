@@ -20,7 +20,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
-import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { ReactNode, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
@@ -61,11 +61,7 @@ interface Props {
 const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => {
   const { t } = useTranslation();
   const [popoverOpen, setPopoverOpen] = useState(false);
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    setOpen(!!element.isFirstEdit);
-  }, [element.isFirstEdit]);
+  const [open, setOpen] = useState(!!element.isFirstEdit);
 
   const embed: CommentMetaData | undefined = useMemo(() => {
     if (!element.data) return undefined;

@@ -13,7 +13,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ConceptDTO, ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { ConceptEmbedData, ConceptMetaData } from "@ndla/types-embed";
 import { ConceptEmbed, EmbedWrapper } from "@ndla/ui";
-import { useState, ReactNode, useCallback, useMemo, useEffect, MouseEvent } from "react";
+import { useState, ReactNode, useCallback, useMemo, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms, Path } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
@@ -58,12 +58,8 @@ const StyledEmbedWrapper = styled(EmbedWrapper, {
 const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
   const isSelected = useSelected();
   const locale = useArticleLanguage();
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(!!element.isFirstEdit);
   const { concept, loading, ...conceptHooks } = useFetchConceptData(parseInt(element.data.contentId), locale);
-
-  useEffect(() => {
-    setIsEditing(!!element.isFirstEdit);
-  }, [element.isFirstEdit]);
 
   const visualElementQuery = useConceptVisualElement(
     concept?.id ?? -1,

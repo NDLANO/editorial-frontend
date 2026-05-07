@@ -12,7 +12,7 @@ import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/prim
 import { styled } from "@ndla/styled-system/jsx";
 import { LinkBlockEmbedData } from "@ndla/types-embed";
 import { EmbedWrapper, LinkBlock, LinkBlockSection } from "@ndla/ui";
-import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { ReactNode, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
@@ -39,12 +39,8 @@ const HeaderWrapper = styled("div", {
 });
 
 const SlateLinkBlockList = ({ attributes, editor, element, children }: Props) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(!!element.isFirstEdit);
   const { t } = useTranslation();
-
-  useEffect(() => {
-    setOpen(!!element.isFirstEdit);
-  }, [element.isFirstEdit]);
 
   const onOpenChange = useCallback(
     (open: boolean) => {

@@ -102,6 +102,7 @@ const MathEditor = ({ element, children, attributes }: Props) => {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const selected = useSelected();
 
+  // Setting the dialog open state directly in useState either messis with Chromium-based browsers or playwright tests, depending on the rest of the implementation.
   useEffect(() => {
     setDialogOpen(!!element.isFirstEdit);
   }, [element.isFirstEdit]);
@@ -202,7 +203,7 @@ const MathEditor = ({ element, children, attributes }: Props) => {
           >
             <PopoverTrigger asChild ref={triggerRef} onMouseDown={(e) => e.preventDefault()} data-trigger="">
               <StyledSpan role="button" tabIndex={0} selected={selected}>
-                <MathML innerHTML={nodeInfo.model.innerHTML} onDoubleClick={() => setDialogOpen(true)}></MathML>
+                <MathML innerHTML={nodeInfo.model.innerHTML} onDoubleClick={() => setDialogOpen(true)} />
               </StyledSpan>
             </PopoverTrigger>
             <Portal>

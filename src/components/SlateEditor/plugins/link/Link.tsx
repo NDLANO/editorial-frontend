@@ -66,7 +66,7 @@ export interface Model {
 const Link = ({ attributes, editor, element, children }: Props) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const editorWrapperRef = useRef<HTMLElement>(null);
-  const [editMode, setEditMode] = useState(false);
+  const [editMode, setEditMode] = useState(!!element.isFirstEdit);
   const language = useArticleLanguage();
   const { t } = useTranslation();
 
@@ -75,10 +75,6 @@ const Link = ({ attributes, editor, element, children }: Props) => {
       editorWrapperRef.current = linkRef.current.closest("[data-slate-wrapper]");
     }
   }, []);
-
-  useEffect(() => {
-    setEditMode(!!element.isFirstEdit);
-  }, [element]);
 
   const linkData: LinkData = useMemo(() => {
     const text = Node.string(element);

@@ -19,7 +19,7 @@ import {
 } from "@ndla/primitives";
 import { PitchEmbedData } from "@ndla/types-embed";
 import { Pitch, EmbedWrapper } from "@ndla/ui";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
@@ -38,12 +38,8 @@ const imageUrl = `${config.ndlaApiUrl}/image-api/raw/id/`;
 
 const SlatePitch = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(!!element.isFirstEdit);
   const { data } = element;
-
-  useEffect(() => {
-    setIsEditing(!!element.isFirstEdit);
-  }, [element.isFirstEdit]);
 
   const handleRemove = () => {
     const path = ReactEditor.findPath(editor, element);

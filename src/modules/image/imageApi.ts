@@ -14,6 +14,7 @@ import {
   TagsSearchResultDTO,
   SearchParamsDTO,
   NewImageMetaInformationV2DTO,
+  BulkUploadStartedDTO,
 } from "@ndla/types-backend/image-api";
 import { throwErrorPayload, createAuthClient } from "../../util/apiHelpers";
 import { createFormData } from "../../util/formDataHelper";
@@ -129,3 +130,25 @@ export const cloneImage = async (imageId: number, file: Blob): Promise<ImageMeta
       },
     })
     .then((r) => resolveJsonOATS(r));
+
+export const bulkUploadImages = async (
+  metadatas: NewImageMetaInformationV2DTO[],
+  files: Blob[],
+): Promise<BulkUploadStartedDTO> => {
+  const res = await client.POST("/image-api/v1/bulk", {
+    body: {
+      metadatas: metadatas,
+      files: files,
+    },
+    bodySerializer(body) {
+      const form = new FormData();
+      metadatas.forEach((metadata, idx) => {
+        form.append("metadatas", JSON.stringify(metadata));
+        form.append("files", body.files[idx]);
+      });
+      return form;
+    },
+  });
+
+  return resolveJsonOATS(res);
+};

@@ -47,7 +47,7 @@ const StyledList = styled("ul", {
   },
 });
 
-export const BatchImageUploader = ({ onFileAccept, acceptedFiles }: Props) => {
+export const BulkImageUploader = ({ onFileAccept, acceptedFiles }: Props) => {
   const { t } = useTranslation();
   return (
     <FileUploadRoot
@@ -71,7 +71,7 @@ export const BatchImageUploader = ({ onFileAccept, acceptedFiles }: Props) => {
         {({ rejectedFiles }) =>
           rejectedFiles.length ? (
             <StyledRejectFilesContainer>
-              <Text textStyle="label.medium">{t("batchImageUploadPage.rejectedFiles")}</Text>
+              <Text textStyle="label.medium">{t("bulkImageUploadPage.rejectedFiles")}</Text>
               <StyledList>
                 {rejectedFiles.map((file) => (
                   <ListItemRoot key={file.file.name} nonInteractive asChild consumeCss>

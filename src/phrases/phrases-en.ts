@@ -32,7 +32,7 @@ const phrases = {
     editFrontpage: "Edit front page",
     comparePage: `Compare versions ${titleTemplate}`,
     notFoundPage: `Not found ${titleTemplate}`,
-    batchUploadImagePage: `Batch upload images ${titleTemplate}`,
+    bulkUploadImagePage: `Bulk upload images ${titleTemplate}`,
     search: {
       "podcast-series": `Search podcast series ${titleTemplate}`,
       audio: `Search audio files ${titleTemplate}`,
@@ -351,7 +351,7 @@ const phrases = {
     frontpage: "NDLA frontpage",
     updateCodes: "Update curriculum codes",
     learningStepSamples: "External learning step samples",
-    batchImageUpload: "Batch upload images",
+    bulkImageUpload: "Bulk upload images",
   },
   logo: {
     altText: "The Norwegian Digital Learning Arena",
@@ -2571,8 +2571,8 @@ const phrases = {
     linksTo: "Links to ",
     inPath: 'In learning path "{{title}}"',
   },
-  batchUploadImagePage: {
-    heading: "Batch upload images",
+  bulkUploadImagePage: {
+    heading: "Bulk upload images",
     description: "This page allows you to upload multiple images at once, and set common metadata for all the images.",
     commonMetaHeading: "Common metadata for all images",
     commonMetaHeadingDescription:
@@ -2585,6 +2585,13 @@ const phrases = {
       "One of the images you have uploaded has errors. You have to fix the errors before the images can be created.",
     createImages: "Create images",
     rejectedFiles: "Rejected files",
+    uploadInProgress: "Uploading images...",
+    progressText: "Uploaded {{completed}} of {{total}} images",
+    progressFailed_one: "Error uploading one image",
+    progressFailed_other: "Error uploading {{count}} images",
+    uploadCompletedWithFailed_one: "Image upload completed with one error",
+    uploadCompletedWithFailed_other: "Image upload completed with {{count}} errors",
+    uploadCompletedd: "Image upload completed!",
   },
 };
 

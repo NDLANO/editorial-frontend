@@ -32,7 +32,7 @@ const phrases = {
     editFrontpage: "Rediger forside",
     comparePage: `Sammenlign versjoner ${titleTemplate}`,
     notFoundPage: `Siden finnes ikke ${titleTemplate}`,
-    batchUploadImagePage: `Batch-opplasting av bilder ${titleTemplate}`,
+    bulkUploadImagePage: `Bulk-opplasting av bilder ${titleTemplate}`,
     search: {
       "podcast-series": `Søk podkastserier ${titleTemplate}`,
       audio: `Søk lydfiler ${titleTemplate}`,
@@ -350,7 +350,7 @@ const phrases = {
     frontpage: "NDLA forside",
     updateCodes: "Oppdater læreplankoder",
     learningStepSamples: "Stikkprøver av eksterne læringssteg",
-    batchImageUpload: "Batch-opplasting av bilder",
+    bulkImageUpload: "Bulk-opplasting av bilder",
   },
   logo: {
     altText: "Nasjonal digital læringsarena",
@@ -2569,8 +2569,8 @@ const phrases = {
     linksTo: "Lenker til ",
     inPath: 'I læringsstien "{{title}}"',
   },
-  batchUploadImagePage: {
-    heading: "Batch-opplastning av bilder",
+  bulkUploadImagePage: {
+    heading: "Bulk-opplastning av bilder",
     description: "Denne siden lar deg spesifisere felles metadata for et sett med bilder.",
     commonMetaHeading: "Felles metadata for alle bilder",
     commonMetaHeadingDescription:
@@ -2583,6 +2583,13 @@ const phrases = {
       "Et av bildene du har lastet opp inneholder feil. Du må fikse feilene før bildene kan opprettes.",
     createImages: "Opprett bilder",
     rejectedFiles: "Avviste filer",
+    uploadInProgress: "Laster opp bilder...",
+    progressText: "{{completed}} av {{total}} bilder lastet opp",
+    progressFailed_one: "Feil ved opplastning av ett bilde",
+    progressFailed_other: "Feil ved opplastning av {{count}} bilder",
+    uploadCompletedWithFailed_one: "Opplastning av bilder er fullført med en feil",
+    uploadCompletedWithFailed_other: "Opplastning av bilder er fullført med {{count}} feil",
+    uploadCompletedd: "Opplastning fullført!",
   },
 };
 

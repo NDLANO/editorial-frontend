@@ -6,22 +6,25 @@
  *
  */
 
-import { Button, Heading, PageContainer, Text } from "@ndla/primitives";
+import { Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { NewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
+import { BulkUploadStartedDTO, BulkUploadStateDTO, NewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
 import { uniqBy } from "@ndla/util";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FormActionsContainer } from "../../components/FormikForm";
 import validateFormik from "../../components/formikValidationSchema";
-import { IMAGE_BATCH_SCOPE } from "../../constants";
+import SaveButton from "../../components/SaveButton";
+import { IMAGE_BULK_SCOPE } from "../../constants";
 import { useLicenses } from "../../modules/draft/draftQueries";
+import { bulkUploadImages } from "../../modules/image/imageApi";
+import { apiResourceUrl } from "../../util/apiHelpers";
 import NotFound from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import { useSession } from "../Session/SessionProvider";
-import { BatchImageUploader } from "./components/batch/BatchImageUploader";
-import { CommonImageInfoForm, toImageFormValues } from "./components/batch/CommonInfoForm";
-import { ImageListItem } from "./components/batch/ImageListItem";
+import { BulkImageUploader } from "./components/bulk/BulkImageUploader";
+import { CommonImageInfoForm, toImageFormValues } from "./components/bulk/CommonInfoForm";
+import { ImageListItem } from "./components/bulk/ImageListItem";
 import { ImageFormikType, imageFormTypeToApiType, imageRules } from "./imageTransformers";
 
 const StyledList = styled("ul", {
@@ -39,10 +42,12 @@ const StyledPageContainer = styled(PageContainer, {
 });
 
 export const Component = () => {
-  return <PrivateRoute component={<BatchUploadImagePage />} />;
+  return <PrivateRoute component={<BulkUploadImagePage />} />;
 };
 
-export const BatchUploadImagePage = () => {
+export const BulkUploadImagePage = () => {
+  const [bulkUploadId, setBulkUploadId] = useState<BulkUploadStartedDTO | undefined>(undefined);
+  const [uploadState, setUploadState] = useState<BulkUploadStateDTO | undefined>(undefined);
   const [acceptedFiles, setAcceptedFiles] = useState<File[]>([]);
   const [commonMetadata, setCommonMetadata] = useState<ImageFormikType | undefined>(undefined);
   const [specifiedMetadata, setSpecifiedMetadata] = useState<Record<string, ImageFormikType>>({});
@@ -58,6 +63,20 @@ export const BatchUploadImagePage = () => {
     select: (data) => data.map((lic) => ({ ...lic, description: lic.description ?? "" })) ?? [],
   });
 
+  useEffect(() => {
+    if (!bulkUploadId) return;
+    const es = new EventSource(apiResourceUrl(`/image-api/v1/bulk/status/${bulkUploadId.uploadId}`));
+
+    es.onmessage = (event) => {
+      const data = JSON.parse(event.data) as BulkUploadStateDTO;
+      setUploadState(data);
+    };
+
+    es.onerror = () => es.close();
+
+    return () => es.close();
+  }, [bulkUploadId]);
+
   const onAcceptFiles = (files: File[]) => {
     setAcceptedFiles((prev) => uniqBy([...prev, ...files], (file) => file.name));
   };
@@ -68,6 +87,8 @@ export const BatchUploadImagePage = () => {
 
   const onSave = async () => {
     if (!commonMetadata) return;
+    setBulkUploadId(undefined);
+    setUploadState(undefined);
     setHasImageWithErrors(false);
     const formValues = acceptedFiles.map((f) =>
       toImageFormValues(commonMetadata, specifiedMetadata[f.name], f, commonMetadata.language),
@@ -101,37 +122,40 @@ export const BatchUploadImagePage = () => {
 
     const transformed = acceptedFiles.map((f) => {
       const stitched = { ...commonMetadata, ...(specifiedMetadata[f.name] ?? {}), imageFile: f };
-      return imageFormTypeToApiType(stitched, licenses);
+      return [imageFormTypeToApiType(stitched, licenses), f];
     });
+
+    const res = await bulkUploadImages(metadatas, acceptedFiles);
+    setBulkUploadId(res);
 
     // TODO: Implement
     return transformed;
   };
 
-  if (!userPermissions?.includes(IMAGE_BATCH_SCOPE)) {
+  if (!userPermissions?.includes(IMAGE_BULK_SCOPE)) {
     return <NotFound />;
   }
 
   return (
     <StyledPageContainer>
-      <title>{t("htmlTitles.batchUploadImagePage")}</title>
-      <Heading textStyle="title.large">{t("batchUploadImagePage.heading")}</Heading>
-      <Text>{t("batchUploadImagePage.description")}</Text>
+      <title>{t("htmlTitles.bulkUploadImagePage")}</title>
+      <Heading textStyle="title.large">{t("bulkUploadImagePage.heading")}</Heading>
+      <Text>{t("bulkUploadImagePage.description")}</Text>
       <Heading asChild consumeCss textStyle="title.medium">
-        <h2>{t("batchUploadImagePage.commonMetaHeading")}</h2>
+        <h2>{t("bulkUploadImagePage.commonMetaHeading")}</h2>
       </Heading>
-      <Text>{t("batchUploadImagePage.commonMetaHeadingDescription")}</Text>
+      <Text>{t("bulkUploadImagePage.commonMetaHeadingDescription")}</Text>
       <CommonImageInfoForm handleSubmit={setCommonMetadata} />
       {!!commonMetadata && (
         <>
           <Heading asChild consumeCss textStyle="title.medium">
-            <h2>{t("batchUploadImagePage.uploadImages")}</h2>
+            <h2>{t("bulkUploadImagePage.uploadImages")}</h2>
           </Heading>
-          <BatchImageUploader acceptedFiles={acceptedFiles} onFileAccept={onAcceptFiles} />
+          <BulkImageUploader acceptedFiles={acceptedFiles} onFileAccept={onAcceptFiles} />
           <Heading asChild consumeCss textStyle="title.medium">
-            <h2>{t("batchUploadImagePage.uploadedImages")}</h2>
+            <h2>{t("bulkUploadImagePage.uploadedImages")}</h2>
           </Heading>
-          <Text>{t("batchUploadImagePage.specificImageDescription")}</Text>
+          <Text>{t("bulkUploadImagePage.specificImageDescription")}</Text>
           <StyledList>
             {acceptedFiles.map((file) => (
               <ImageListItem
@@ -153,15 +177,65 @@ export const BatchUploadImagePage = () => {
           </StyledList>
           {hasImageWithErrors ||
             (!!Object.keys(invalidFiles).length && (
-              <Text color="text.error">{t("batchUploadImagePage.hasImagesWithErrors")}</Text>
+              <Text color="text.error">{t("bulkUploadImagePage.hasImagesWithErrors")}</Text>
             ))}
           <FormActionsContainer>
-            <Button onClick={onSave} disabled={!!Object.keys(invalidFiles).length}>
-              {t("batchUploadImagePage.createImages")}
-            </Button>
+            <SaveButton
+              onClick={onSave}
+              showSaved={uploadState?.status === "Complete"}
+              loading={!!uploadState && uploadState.status !== "Complete"}
+              disabled={!!Object.keys(invalidFiles).length}
+            >
+              {t("bulkUploadImagePage.createImages")}
+            </SaveButton>
+            {!!uploadState && <BulkUploadState state={uploadState} />}
           </FormActionsContainer>
         </>
       )}
     </StyledPageContainer>
   );
+};
+
+interface BulkUploadStateProps {
+  state: BulkUploadStateDTO;
+}
+
+const TextContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "4xsmall",
+  },
+});
+
+const BulkUploadState = ({ state }: BulkUploadStateProps) => {
+  const { t } = useTranslation();
+
+  if (state.status === "Pending" || state.status === "Running") {
+    return (
+      <TextContainer>
+        <Text>{t("bulkUploadImagePage.uploadInProgress")}</Text>
+        <Text>{t("bulkUploadImagePage.progressText", { completed: state.completed, total: state.total })}</Text>
+        {!!state.failed && <Text>{t("bulkUploadImagePage.progressFailed", { failed: state.failed })}</Text>}
+      </TextContainer>
+    );
+  }
+
+  if (state.status === "Failed") {
+    return (
+      <TextContainer>
+        <Text color="text.error">
+          {t("bulkUploadImagePage.uploadFailed", {
+            completed: state.completed,
+            total: state.total,
+            failed: state.failed,
+          })}
+        </Text>
+      </TextContainer>
+    );
+  } else if (state.status === "Complete" && state.failed) {
+    return <Text>{t("bulkUploadImagePage.uploadCompletedWithFailed", { failed: state.failed })}</Text>;
+  } else if (state.status === "Complete") {
+    return <Text>{t("bulkUploadImagePage.uploadCompleted", { total: state.completed })}</Text>;
+  }
 };

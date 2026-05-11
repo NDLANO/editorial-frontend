@@ -134,7 +134,7 @@ const FormFields = ({ type }: FormFieldsProps) => {
       <CopyrightFieldGroup />
       <ImageMetaData imageLanguage={i18n.language} />
       <FormActionsContainer>
-        <Button type="submit">{type === "common" ? t("batchUploadImagePage.saveCommon") : t("save")}</Button>
+        <Button type="submit">{type === "common" ? t("bulkUploadImagePage.saveCommon") : t("save")}</Button>
       </FormActionsContainer>
     </StyledForm>
   );

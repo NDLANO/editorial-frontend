@@ -32,7 +32,7 @@ const phrases = {
     editFrontpage: "Rediger forside",
     comparePage: `Samanlikne versjonar ${titleTemplate}`,
     notFoundPage: `Sida finst ikkje ${titleTemplate}`,
-    batchUploadImagePage: `Batch-opplasting av bileta ${titleTemplate}`,
+    bulkUploadImagePage: `Bulk-opplasting av bileta ${titleTemplate}`,
     search: {
       "podcast-series": `Søk podkastserier ${titleTemplate}`,
       audio: `Søk lydfiler ${titleTemplate}`,
@@ -350,7 +350,7 @@ const phrases = {
     frontpage: "NDLA forside",
     updateCodes: "Oppdater læreplankoder",
     learningStepSamples: "Stikkprøver av eksterne læringssteg",
-    batchImageUpload: "Batch-opplasting av bileter",
+    bulkImageUpload: "Bulk-opplasting av bileter",
   },
   logo: {
     altText: "Nasjonal digital læringsarena",
@@ -2572,8 +2572,8 @@ const phrases = {
     linksTo: "Lenkar til ",
     inPath: 'I læringsstien "{{title}}"',
   },
-  batchUploadImagePage: {
-    heading: "Batch-opplasting av bilete",
+  bulkUploadImagePage: {
+    heading: "Bulk-opplasting av bilete",
     description: "Denne sida lar deg spesifisere felles metadata for eit sett med bilete.",
     commonMetaHeading: "Felles metadata for alle bilete",
     commonMetaHeadingDescription:
@@ -2586,6 +2586,13 @@ const phrases = {
       "Eit av biletene du har lasta opp innehald feil. Du må fikse feilane før biletene kan opprettast.",
     createImages: "Opprett bilete",
     rejectedFiles: "Avviste filar",
+    uploadInProgress: "Lastar opp bileter...",
+    progressText: "{{completed}} av {{total}} bileter lasta opp",
+    progressFailed_one: "Feil ved opplasting av eit bilete",
+    progressFailed_other: "Feil ved opplasting av {{count}} bileter",
+    uploadCompletedWithFailed_one: "Opplasting av bileter er fullført med ein feil",
+    uploadCompletedWithFailed_other: "Opplasting av bileter er fullført med {{count}} feil",
+    uploadCompletedd: "Opplasting fullført!",
   },
 };
 

@@ -121,7 +121,7 @@ export const fetchReAuthorized = async (url: string, config: FetchConfigType = {
   fetchWithAuthorization(url, config, true);
 
 export const fetchBrightcoveAccessToken = () =>
-  fetch("/get_brightcove_token").then((r) => resolveJsonOrRejectWithError<BrightcoveAccessToken>(r));
+  fetchAuthorized("/get_brightcove_token").then((r) => resolveJsonOrRejectWithError<BrightcoveAccessToken>(r));
 
 export const setBrightcoveAccessTokenInLocalStorage = (brightcoveAccessToken: BrightcoveAccessToken) => {
   localStorage.setItem("brightcove_access_token", brightcoveAccessToken.access_token);

@@ -62,17 +62,17 @@ router.post("/format-html", async (req, res) => {
   res.status(OK).json({ html });
 });
 
-router.get("/get_brightcove_token", (_, res) => {
+const jwtMiddleware = auth({
+  audience: "ndla_system",
+  issuerBaseURL: `https://${config.auth0BrowserDomain}/`,
+});
+
+router.get("/get_brightcove_token", jwtMiddleware, (_, res) => {
   getBrightcoveToken()
     .then((token) => {
       res.send(token);
     })
     .catch((err) => res.status(INTERNAL_SERVER_ERROR).send(err.message));
-});
-
-const jwtMiddleware = auth({
-  audience: "ndla_system",
-  issuerBaseURL: `https://${config.auth0BrowserDomain}/`,
 });
 
 router.get("/get_note_users", jwtMiddleware, async (req, res) => {

@@ -120,8 +120,19 @@ export const fetchAuthorized = (url: string, config: FetchConfigType = {}) =>
 export const fetchReAuthorized = async (url: string, config: FetchConfigType = {}) =>
   fetchWithAuthorization(url, config, true);
 
-export const fetchBrightcoveAccessToken = () =>
-  fetch("/get_brightcove_token").then((r) => resolveJsonOrRejectWithError<BrightcoveAccessToken>(r));
+let inFlightBrightcoveToken: Promise<BrightcoveAccessToken> | null = null;
+
+export const fetchBrightcoveAccessToken = (): Promise<BrightcoveAccessToken> => {
+  if (inFlightBrightcoveToken) return inFlightBrightcoveToken;
+
+  inFlightBrightcoveToken = fetchAuthorized("/get_brightcove_token")
+    .then((r) => resolveJsonOrRejectWithError<BrightcoveAccessToken>(r))
+    .finally(() => {
+      inFlightBrightcoveToken = null;
+    });
+
+  return inFlightBrightcoveToken;
+};
 
 export const setBrightcoveAccessTokenInLocalStorage = (brightcoveAccessToken: BrightcoveAccessToken) => {
   localStorage.setItem("brightcove_access_token", brightcoveAccessToken.access_token);

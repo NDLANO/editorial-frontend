@@ -32,7 +32,7 @@ const phrases = {
     editFrontpage: "Rediger forside",
     comparePage: `Samanlikne versjonar ${titleTemplate}`,
     notFoundPage: `Sida finst ikkje ${titleTemplate}`,
-    bulkUploadImagePage: `Multi-opplasting av bileta ${titleTemplate}`,
+    bulkUploadImagePage: `Multi-opplasting av bilete ${titleTemplate}`,
     search: {
       "podcast-series": `Søk podkastserier ${titleTemplate}`,
       audio: `Søk lydfiler ${titleTemplate}`,
@@ -350,7 +350,7 @@ const phrases = {
     frontpage: "NDLA forside",
     updateCodes: "Oppdater læreplankoder",
     learningStepSamples: "Stikkprøver av eksterne læringssteg",
-    bulkImageUpload: "Multi-opplasting av bileter",
+    bulkImageUpload: "Multi-opplasting av bilete",
   },
   logo: {
     altText: "Nasjonal digital læringsarena",

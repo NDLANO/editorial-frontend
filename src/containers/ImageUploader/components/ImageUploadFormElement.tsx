@@ -26,7 +26,7 @@ import { uniq } from "@ndla/util";
 import { useField } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { MAX_IMAGE_UPLOAD_SIZE } from "../../../constants";
+import { ALLOWED_IMAGE_FILE_TYPES, MAX_IMAGE_UPLOAD_SIZE } from "../../../constants";
 import { ImageFormikType } from "../imageTransformers";
 import { translateFileError } from "./imageUtils";
 
@@ -102,7 +102,7 @@ export const ImageUploadFormElement = ({ language, image }: Props) => {
       {!field.value && (
         <FieldRoot required invalid={!!meta.error}>
           <FileUploadRoot
-            accept={["image/gif", "image/png", "image/jpeg", "image/svg+xml"]}
+            accept={ALLOWED_IMAGE_FILE_TYPES}
             onFileAccept={(details) => {
               const file = details.files?.[0];
               if (!file) return;

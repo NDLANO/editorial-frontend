@@ -22,7 +22,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { uniq } from "@ndla/util";
 import { useTranslation } from "react-i18next";
-import { MAX_IMAGE_UPLOAD_SIZE } from "../../../../constants";
+import { ALLOWED_IMAGE_FILE_TYPES, MAX_IMAGE_UPLOAD_SIZE } from "../../../../constants";
 import { translateFileError } from "../imageUtils";
 
 interface Props {
@@ -51,7 +51,7 @@ export const BulkImageUploader = ({ onFileAccept, acceptedFiles }: Props) => {
   const { t } = useTranslation();
   return (
     <FileUploadRoot
-      accept={["image/gif", "image/png", "image/jpeg", "image/svg+xml"]}
+      accept={ALLOWED_IMAGE_FILE_TYPES}
       maxFileSize={MAX_IMAGE_UPLOAD_SIZE}
       maxFiles={1000}
       acceptedFiles={acceptedFiles}

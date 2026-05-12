@@ -2577,7 +2577,7 @@ const phrases = {
     description: "Denne sida lar deg spesifisere felles metadata for eit sett med bilete.",
     commonMetaHeading: "Felles metadata for alle bilete",
     commonMetaHeadingDescription:
-      "Disse metadataene vil bli brukt for alle biletene du lastar opp. Metadata som ikkje spesifiserast her må spesifiserast for kvart bilete individuelt. Du kan oppdatere metadata her etter å ha lasta opp bilete, men vær varsam! Dersom du har overstyrt metadata for eit spesifikt bilete vil ikkje oppdateringane her gjelde for det biletet.",
+      "Disse metadataa vil bli brukt for alle bilete du lastar opp. Metadata som ikkje spesifiserast her må spesifiserast for kvart bilete individuelt. Du kan oppdatere metadata her etter å ha lasta opp bilete, men vær varsam! Dersom du har overstyrt metadata for eit spesifikt bilete vil ikkje oppdateringane her gjelde for det biletet.",
     uploadImages: "Last opp bilete",
     saveCommon: "Lagre felles metadata",
     uploadedImages: "Opplasta bilete",

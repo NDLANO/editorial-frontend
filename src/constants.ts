@@ -257,3 +257,5 @@ export const Revision = {
   revised: "revised" as RevisionType,
   needsRevision: "needs-revision" as RevisionType,
 };
+
+export const ALLOWED_IMAGE_FILE_TYPES = ["image/gif", "image/png", "image/jpeg", "image/svg+xml"];

@@ -2591,7 +2591,7 @@ const phrases = {
     progressFailed_other: "Error uploading {{count}} images",
     uploadCompletedWithFailed_one: "Image upload completed with one error",
     uploadCompletedWithFailed_other: "Image upload completed with {{count}} errors",
-    uploadCompletedd: "Image upload completed!",
+    uploadCompleted: "Image upload completed!",
   },
 };
 

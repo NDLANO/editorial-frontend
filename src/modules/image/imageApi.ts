@@ -16,7 +16,7 @@ import {
   NewImageMetaInformationV2DTO,
   BulkUploadStartedDTO,
 } from "@ndla/types-backend/image-api";
-import { throwErrorPayload, createAuthClient } from "../../util/apiHelpers";
+import { throwErrorPayload, createAuthClient, fetchAuthorized, apiResourceUrl } from "../../util/apiHelpers";
 import { createFormData } from "../../util/formDataHelper";
 import { resolveJsonOATS, resolveOATS } from "../../util/resolveJsonOrRejectWithError";
 
@@ -151,4 +151,13 @@ export const bulkUploadImages = async (
   });
 
   return resolveJsonOATS(res);
+};
+
+export const getBulkUploadStatus = async (uploadId: string, signal: AbortSignal) => {
+  return await fetchAuthorized(apiResourceUrl(`/image-api/v1/bulk/status/${uploadId}`), {
+    signal,
+    headers: {
+      "Content-Type": "text/event-stream",
+    },
+  });
 };

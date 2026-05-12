@@ -2589,7 +2589,7 @@ const phrases = {
     progressFailed_other: "Feil ved opplastning av {{count}} bilder",
     uploadCompletedWithFailed_one: "Opplastning av bilder er fullført med en feil",
     uploadCompletedWithFailed_other: "Opplastning av bilder er fullført med {{count}} feil",
-    uploadCompletedd: "Opplastning fullført!",
+    uploadCompleted: "Opplastning fullført!",
   },
 };
 

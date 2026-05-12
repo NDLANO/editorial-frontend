@@ -8,7 +8,7 @@
 
 import { Button, FieldErrorMessage, FieldLabel, FieldRoot, FieldTextArea } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Form, Formik } from "formik";
+import { Form, Formik, useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 import { FormField } from "../../../../components/FormField";
 import { FormActionsContainer } from "../../../../components/FormikForm";
@@ -66,14 +66,20 @@ interface SpecificProps {
   handleSubmit: (values: ImageFormikType) => void;
 }
 
+const FormFieldsContainer = styled("div", {
+  base: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
+
 const StyledForm = styled(
   Form,
   {
     base: {
       width: "100%",
-      display: "flex",
-      flexDirection: "column",
-      gap: "medium",
     },
   },
   { baseComponent: true },
@@ -89,7 +95,9 @@ export const SpecificImageInfoForm = ({ initialValues, commonValues, file, handl
       validate={(values) => validateFormik(values, imageRules, t)}
       validateOnMount
     >
-      <FormFields type="specific" />
+      <StyledForm>
+        <FormFields type="specific" />
+      </StyledForm>
     </Formik>
   );
 };
@@ -110,8 +118,9 @@ interface FormFieldsProps {
 
 const FormFields = ({ type }: FormFieldsProps) => {
   const { t, i18n } = useTranslation();
+  const { handleSubmit, errors } = useFormikContext();
   return (
-    <StyledForm>
+    <FormFieldsContainer>
       {type === "specific" && <Titlefield hideToolbar />}
       <FormField name="caption">
         {({ field, meta }) => (
@@ -134,8 +143,10 @@ const FormFields = ({ type }: FormFieldsProps) => {
       <CopyrightFieldGroup />
       <ImageMetaData imageLanguage={i18n.language} />
       <FormActionsContainer>
-        <Button type="submit">{type === "common" ? t("bulkUploadImagePage.saveCommon") : t("save")}</Button>
+        <Button type="submit" onClick={() => handleSubmit()} disabled={!!Object.keys(errors).length}>
+          {type === "common" ? t("bulkUploadImagePage.saveCommon") : t("save")}
+        </Button>
       </FormActionsContainer>
-    </StyledForm>
+    </FormFieldsContainer>
   );
 };

@@ -32,7 +32,7 @@ const phrases = {
     editFrontpage: "Rediger forside",
     comparePage: `Samanlikne versjonar ${titleTemplate}`,
     notFoundPage: `Sida finst ikkje ${titleTemplate}`,
-    bulkUploadImagePage: `Bulk-opplasting av bileta ${titleTemplate}`,
+    bulkUploadImagePage: `Multi-opplasting av bileta ${titleTemplate}`,
     search: {
       "podcast-series": `Søk podkastserier ${titleTemplate}`,
       audio: `Søk lydfiler ${titleTemplate}`,
@@ -350,7 +350,7 @@ const phrases = {
     frontpage: "NDLA forside",
     updateCodes: "Oppdater læreplankoder",
     learningStepSamples: "Stikkprøver av eksterne læringssteg",
-    bulkImageUpload: "Bulk-opplasting av bileter",
+    bulkImageUpload: "Multi-opplasting av bileter",
   },
   logo: {
     altText: "Nasjonal digital læringsarena",
@@ -2573,7 +2573,7 @@ const phrases = {
     inPath: 'I læringsstien "{{title}}"',
   },
   bulkUploadImagePage: {
-    heading: "Bulk-opplasting av bilete",
+    heading: "Multi-opplasting av bilete",
     description: "Denne sida lar deg spesifisere felles metadata for eit sett med bilete.",
     commonMetaHeading: "Felles metadata for alle bilete",
     commonMetaHeadingDescription:

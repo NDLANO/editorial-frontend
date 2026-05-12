@@ -93,7 +93,10 @@ export const ImageListItem = ({ file, initialValues, commonData, handleSubmit, i
             file={file}
             initialValues={initialValues}
             commonValues={commonData}
-            handleSubmit={handleSubmit}
+            handleSubmit={(values) => {
+              handleSubmit(values);
+              setIsEditing(false);
+            }}
           />
         )}
       </li>

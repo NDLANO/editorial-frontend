@@ -80,7 +80,7 @@ const metaDataRules: RulesType<LearningpathFormValues, LearningPathV2DTO> = {
         (value) =>
           !isGrepCodeValid(value, [
             GREP_CODE_FORMATS.KOMPETANSEMAL,
-            GREP_CODE_FORMATS.KOMPETANSEMAL,
+            GREP_CODE_FORMATS.KJERNEELEMENT,
             GREP_CODE_FORMATS.TVERRFAGLIGTEMA,
           ]),
       );

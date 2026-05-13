@@ -483,6 +483,10 @@ const phrases = {
       revisionMeta: "Revisjoner",
       notes: "Versjonslogg",
       previousNotes: "Tidligere versjonslogg",
+      titles: "Tittel",
+      alttexts: "Alt-tekst",
+      captions: "Billedtekst",
+      editorNotes: "Versjonslogg",
     },
   },
   subjectsPage: {

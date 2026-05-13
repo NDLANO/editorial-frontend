@@ -75,6 +75,7 @@ export const useAddNodeMutation = () => {
         metadata: { visible: true, grepCodes: [], customFields: {} },
         breadcrumbs: [],
         language: "",
+        updatedAt: "",
         qualityEvaluation: newNode.qualityEvaluation ? newNode.qualityEvaluation : undefined,
       };
       queryClient.setQueryData<Node[]>(key, [...previousNodes, optimisticNode]);

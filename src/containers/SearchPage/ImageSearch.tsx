@@ -47,6 +47,7 @@ export const ImageSearch = () => {
     const parsed: SearchParamsDTO = {
       fallback: DEFAULT_PARAMS.fallback,
       query: params.get("query") ?? undefined,
+      queryFields: params.get("query-fields")?.split(",") as SearchParamsDTO["queryFields"] | undefined,
       language: params.get("language") ?? undefined,
       license: params.get("license") ?? DEFAULT_PARAMS.license,
       inactive: params.get("inactive") ? params.get("inactive") === "true" : undefined,

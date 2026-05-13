@@ -92,6 +92,7 @@ const diffAndGroupChildren = <T extends Node = Node>(
       parentId: true,
       breadcrumbs: true,
       language: true,
+      updatedAt: true,
       metadata: {
         customFields: {},
       },
@@ -110,6 +111,7 @@ const diffAndGroupChildren = <T extends Node = Node>(
         parentId: true,
         breadcrumbs: true,
         language: true,
+        updatedAt: true,
       },
       "id",
     );
@@ -197,6 +199,7 @@ const diffChildren = (
           parentId: true,
           breadcrumbs: true,
           language: true,
+          updatedAt: true,
         },
         "id",
       );
@@ -212,6 +215,7 @@ const diffChildren = (
           connectionId: true,
           parentId: true,
           language: true,
+          updatedAt: true,
           metadata: {
             customFields: {},
           },
@@ -253,6 +257,7 @@ export const diffTrees = (
     parentId: true,
     breadcrumbs: true,
     language: true,
+    updatedAt: true,
     metadata: {
       customFields: {},
     },
@@ -271,6 +276,7 @@ export const diffTrees = (
       parentId: true,
       breadcrumbs: true,
       language: true,
+      updatedAt: true,
     },
     "id",
   );

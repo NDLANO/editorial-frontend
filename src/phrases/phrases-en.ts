@@ -484,6 +484,10 @@ const phrases = {
       revisionMeta: "Revisions",
       notes: "Version log",
       previousNotes: "Previous version log",
+      titles: "Title",
+      alttexts: "Alt-text",
+      captions: "Caption",
+      editorNotes: "Version log",
     },
   },
   subjectsPage: {

@@ -33,6 +33,7 @@ export type SortType =
   | "relevance"
   | "title"
   | "lastUpdated"
+  | "firstPublished"
   | "revisionDate"
   | "favorited"
   | "published"

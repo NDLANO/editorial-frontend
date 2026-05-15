@@ -451,6 +451,7 @@ const phrases = {
       relevance: "Relevance",
       title: "Title",
       lastUpdated: "Last updated",
+      firstPublished: "First published",
       revisionDate: "Next revision",
       favorited: "Favorite marks",
       published: "Last published",

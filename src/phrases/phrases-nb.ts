@@ -94,6 +94,7 @@ const phrases = {
       description: "Artikkelen kan være sammensatt av flere tekster som listes opp her.",
       rules: "Regler for bruk av teksten:",
       published: "Publiseringsdato",
+      firstPublished: "Førstegangspublisert",
     },
     audio: {
       heading: "Slik bruker du lydfiler",
@@ -450,6 +451,7 @@ const phrases = {
       relevance: "Relevans",
       title: "Tittel",
       lastUpdated: "Sist oppdatert",
+      firstPublished: "Førstegangspublisert",
       revisionDate: "Neste revisjon",
       favorited: "Favorittmarkeringer",
       published: "Sist publisert",

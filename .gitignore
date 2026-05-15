@@ -19,3 +19,5 @@ scripts/.cache/
 /playwright/.cache/
 /e2e/.auth/
 /.yarn/
+local.config
+docs/structure-node-flow.md

@@ -28,6 +28,7 @@ import {
   AUDIO_ADMIN_SCOPE,
   DRAFT_ADMIN_SCOPE,
   FRONTPAGE_ADMIN_SCOPE,
+  IMAGE_BULK_SCOPE,
   LEARNING_PATH_ADMIN_SCOPE,
   TAXONOMY_ADMIN_SCOPE,
 } from "../../../constants";
@@ -161,6 +162,7 @@ const adminItems: MenuItem[] = [
   { to: routes.podcastSeries.create, text: "subNavigation.podcastSeries", permission: AUDIO_ADMIN_SCOPE },
   { to: routes.updateCodes, text: "subNavigation.updateCodes", permission: DRAFT_ADMIN_SCOPE },
   { to: routes.learningpath.samples, text: "subNavigation.learningStepSamples", permission: LEARNING_PATH_ADMIN_SCOPE },
+  { to: routes.image.bulk, text: "subNavigation.bulkImageUpload", permission: IMAGE_BULK_SCOPE },
 ];
 
 const externalItems: MenuItem[] = [{ to: routes.h5p.edit, text: "subNavigation.h5p", external: true }];

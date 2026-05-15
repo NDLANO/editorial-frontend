@@ -92,6 +92,8 @@ export const FRONTPAGE_ADMIN_SCOPE = "frontpage:admin";
 
 export const AUDIO_ADMIN_SCOPE = "audio:admin";
 
+export const IMAGE_BULK_SCOPE = "images:batch";
+
 export const TAXONOMY_CUSTOM_FIELD_LANGUAGE = "language";
 export const TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES = "topic-resources";
 export const TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE = "grouped";
@@ -255,3 +257,5 @@ export const Revision = {
   revised: "revised" as RevisionType,
   needsRevision: "needs-revision" as RevisionType,
 };
+
+export const ALLOWED_IMAGE_FILE_TYPES = ["image/gif", "image/png", "image/jpeg", "image/svg+xml"];

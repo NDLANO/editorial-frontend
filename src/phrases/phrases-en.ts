@@ -88,6 +88,7 @@ const phrases = {
       description: "The article may be composed of several different texts, which are listed here.",
       rules: "Rules for use of text:",
       published: "Published",
+      firstPublished: "First published",
     },
     audio: {
       heading: "How to use audio files from the article",

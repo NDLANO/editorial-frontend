@@ -2466,7 +2466,7 @@ const phrases = {
     popoverDescription_one: "{{count}} unik sidevisning, klikk for å sjå fleire besøkstal",
     popoverDescription_other: "{{count}} unike sidevisningar, klikk for å sjå fleire besøkstal",
     noData: "Ingen sidevisningar",
-    popoverTitle: "Besøkstal sidan desember 2024.",
+    popoverTitle: "Besøkstal siste 12 md",
   },
   textGeneration: {
     error: "Noko gjekk gale under generering av tekst. Melding frå tenesta: {{message}}",

@@ -144,11 +144,7 @@ const SlateFramedContent = (props: Props) => {
           <BrushLine />
         </IconButton>
         <MoveContentButton onMouseDown={onMoveContent} aria-label={t("form.moveContent")} />
-        <DeleteButton
-          aria-label={t("form.remove")}
-          data-testid="remove-framedContent"
-          onMouseDown={onRemoveClick}
-        />
+        <DeleteButton aria-label={t("form.remove")} data-testid="remove-framedContent" onMouseDown={onRemoveClick} />
       </FigureButtons>
       <FramedContent colorTheme={variant === "colored" ? "brand1" : undefined}>{children}</FramedContent>
     </EmbedWrapper>

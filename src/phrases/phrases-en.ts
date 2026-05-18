@@ -2046,7 +2046,7 @@ const phrases = {
         oldSubjectId: "Old ID for redirecting",
         subjectCategory: "Subject category",
         subjectType: "Subject type",
-        ungroupedLabel: "Show content list without numbers",
+        numberedLabel: "Show content list with numbers",
         subjectLMA: "Responsible for the subject",
         subjectSA: "Language responsible for the subject",
         subjectDA: "Desk responsible for the subject",

@@ -2044,7 +2044,7 @@ const phrases = {
         oldSubjectId: "ID for videresending",
         subjectCategory: "Fagkategori",
         subjectType: "Fagtype",
-        ungroupedLabel: "Vis innholdsliste uten tall",
+        numberedLabel: "Vis innholdsliste med tall",
         subjectLMA: "LMA for faget",
         subjectSA: "SA for faget",
         subjectDA: "DA for faget",

@@ -10,11 +10,6 @@ import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb 
 import { Node, Metadata } from "@ndla/types-backend/taxonomy-api";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import {
-  TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
-  TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
-  TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
-} from "../../../../constants";
 import { useUpdateNodeMetadataMutation } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { getRootIdForNode, isRootNode } from "../../../../modules/nodes/nodeUtil";
@@ -39,9 +34,7 @@ const GroupTopicResources = ({ node, onChanged }: Props) => {
   const updateMetadata = async () => {
     const customFields = {
       ...node.metadata.customFields,
-      [TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES]: isGrouped
-        ? TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE
-        : TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
+      numbered: node.metadata.customFields?.numbered === "true" ? "false" : "true",
     };
     updateNodeMetadata.mutate(
       {
@@ -57,13 +50,11 @@ const GroupTopicResources = ({ node, onChanged }: Props) => {
     );
   };
 
-  const nodeResources = node.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES];
-  const isGrouped =
-    (nodeResources ?? TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE) === TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE;
+  const isNumbered = node.metadata?.customFields.numbered === "true";
 
   return (
-    <SwitchRoot checked={isGrouped} onCheckedChange={updateMetadata}>
-      <SwitchLabel>{t("taxonomy.metadata.customFields.ungroupedLabel")}</SwitchLabel>
+    <SwitchRoot checked={isNumbered} onCheckedChange={updateMetadata}>
+      <SwitchLabel>{t("taxonomy.metadata.customFields.numberedLabel")}</SwitchLabel>
       <SwitchControl>
         <SwitchThumb />
       </SwitchControl>

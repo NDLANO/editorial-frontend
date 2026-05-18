@@ -11,7 +11,7 @@ import { AddLine, Draggable } from "@ndla/icons";
 import { Button, DialogContent, DialogRoot, DialogTrigger, Heading, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { Node, NodeChild, ResourceType } from "@ndla/types-backend/taxonomy-api";
+import { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { sortBy } from "@ndla/util";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
@@ -70,12 +70,11 @@ interface Props {
   description?: string;
   resources: NodeChild[];
   currentNode: Node;
-  resourceTypes?: ResourceType[];
   contentMetas: Dictionary<MultiSearchSummaryDTO>;
   nodeResourcesIsPending: boolean;
   users?: Dictionary<Auth0UserData>;
   existingResourceIds: string[];
-  isUngrouped?: boolean;
+  numbered?: boolean;
   hideAddButton?: boolean;
 }
 
@@ -90,9 +89,8 @@ const ResourceItems = ({
   type,
   title,
   description,
-  resourceTypes,
   existingResourceIds,
-  isUngrouped,
+  numbered,
   hideAddButton,
 }: Props) => {
   const { setCurrentNode } = useCurrentNode();
@@ -195,7 +193,6 @@ const ResourceItems = ({
                 ) : (
                   <PlannedResourceDialogContent
                     currentNode={currentNode}
-                    resourceTypes={resourceTypes ?? []}
                     existingResourceIds={existingResourceIds}
                     type={type}
                   />
@@ -228,7 +225,7 @@ const ResourceItems = ({
                 nodeResourcesIsPending={nodeResourcesIsPending}
                 invalidate={onDeleted}
                 index={idx}
-                isUngrouped={isUngrouped}
+                numbered={numbered}
               />
             )}
           />

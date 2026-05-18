@@ -13,7 +13,6 @@ export const DeleteButton = ({ children, ...rest }: IconButtonProps) => (
   <IconButton
     variant="danger"
     size="small"
-    tabIndex={-1}
     contentEditable={false}
     data-testid="close-related-button"
     title={rest["aria-label"]}

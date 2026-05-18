@@ -13,7 +13,6 @@ export const MoveContentButton = ({ onMouseDown, ...rest }: IconButtonProps) => 
   return (
     <IconButton
       contentEditable={false}
-      tabIndex={-1}
       variant="secondary"
       size="small"
       onMouseDown={onMouseDown}

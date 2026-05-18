@@ -146,7 +146,6 @@ const SlateFramedContent = (props: Props) => {
         <MoveContentButton onMouseDown={onMoveContent} aria-label={t("form.moveContent")} />
         <DeleteButton
           aria-label={t("form.remove")}
-          tabIndex={-1}
           data-testid="remove-framedContent"
           onMouseDown={onRemoveClick}
         />

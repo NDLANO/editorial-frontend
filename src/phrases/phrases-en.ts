@@ -2466,7 +2466,7 @@ const phrases = {
     popoverDescription_one: "{{count}} unique page view, click to see more visitor numbers",
     popoverDescription_other: "{{count}} unique page views, click to see more visitor numbers",
     noData: "No visitors",
-    popoverTitle: "Visitor numbers since december 2024.",
+    popoverTitle: "Visitor numbers the last 12 months",
   },
   textGeneration: {
     error: "Something went wrong when generating text. Message from the service: {{message}}",

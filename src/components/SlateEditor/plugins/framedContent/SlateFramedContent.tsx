@@ -113,7 +113,6 @@ const SlateFramedContent = (props: Props) => {
           >
             <DialogTrigger asChild>
               <IconButton
-                variant={variant === "colored" ? "primary" : "secondary"}
                 size="small"
                 title={t("textGeneration.generateButton", { type: "reflection" })}
                 aria-label={t("textGeneration.generateButton", { type: "reflection" })}

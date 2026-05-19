@@ -76,7 +76,7 @@ const plugins = disclaimerPlugins.concat(renderers);
 
 interface DisclaimerFormProps {
   initialData?: UuDisclaimerEmbedData;
-  onOpenChange: (open: boolean) => void;
+  onCancel: () => void;
   onSave: (values: UuDisclaimerEmbedData) => void;
 }
 
@@ -98,7 +98,7 @@ const toInitialValues = (data?: UuDisclaimerEmbedData): DisclaimerFormValues => 
   };
 };
 
-const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormProps) => {
+const DisclaimerForm = ({ initialData, onCancel, onSave }: DisclaimerFormProps) => {
   const { t } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
@@ -133,7 +133,7 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
             plugins={plugins}
           />
           <FormActionsContainer>
-            <Button onClick={() => onOpenChange(false)} variant="secondary">
+            <Button onClick={onCancel} variant="secondary">
               {t("form.abort")}
             </Button>
             <Button type="submit" data-testid="disclaimer-save">

@@ -7,7 +7,6 @@
  */
 
 import { Portal } from "@ark-ui/react";
-import { isElementOfType } from "@ndla/editor";
 import { PencilFill, DeleteBinLine, ErrorWarningLine, ExpandUpDownLine } from "@ndla/icons";
 import {
   DialogBody,
@@ -22,11 +21,11 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IframeEmbedData, IframeMetaData, OembedEmbedData, OembedMetaData } from "@ndla/types-embed";
+import { IframeMetaData, OembedEmbedData, OembedMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, ExternalEmbed, IframeEmbed } from "@ndla/ui";
-import { useCallback, useId, useMemo, useState } from "react";
+import { useCallback, useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
+import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { EXTERNAL_WHITELIST_PROVIDERS } from "../../../../constants";
 import { WhitelistProvider } from "../../../../interfaces";
@@ -34,9 +33,10 @@ import { useExternalEmbed } from "../../../../modules/embed/queries";
 import { urlDomain } from "../../../../util/htmlHelpers";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
+import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import { ExternalEmbedForm } from "./ExternalEmbedForm";
-import { EXTERNAL_ELEMENT_TYPE, ExternalElement, IFRAME_ELEMENT_TYPE, IframeElement } from "./types";
+import { ExternalElement, IframeElement } from "./types";
 
 interface Props extends RenderElementProps {
   element: ExternalElement | IframeElement;
@@ -94,7 +94,7 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
   const { t } = useTranslation();
   const language = useArticleLanguage();
   const wrapperId = useId();
-  const [isEditing, setIsEditing] = useState(!!element.isFirstEdit);
+  const { handleRemove, handleSave, dialogProps } = useEditableElement(element, editor);
   const metaQuery = useExternalEmbed(element.data!, language, {
     enabled: !!Object.keys(element.data ?? {}).length,
   });
@@ -122,36 +122,6 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
     }
   }, [embed]);
 
-  const onSave = useCallback(
-    (data: OembedEmbedData | IframeEmbedData) => {
-      setIsEditing(false);
-      ReactEditor.focus(editor);
-      const path = ReactEditor.findPath(editor, element);
-      // Slate doesn't like us wanting to update either an oembed node or an iframe node.
-      Transforms.setNodes(editor, { isFirstEdit: false, data: data as OembedEmbedData }, { at: path });
-      if (Editor.hasPath(editor, Path.next(path))) {
-        setTimeout(() => {
-          Transforms.select(editor, Path.next(path));
-        }, 0);
-      }
-    },
-    [editor, element],
-  );
-
-  const handleRemove = useCallback(() => {
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.removeNodes(editor, {
-      at: path,
-      match: (node) => isElementOfType(node, [EXTERNAL_ELEMENT_TYPE, IFRAME_ELEMENT_TYPE]),
-      voids: true,
-    });
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, path);
-      Transforms.collapse(editor);
-    }, 0);
-  }, [editor, element]);
-
   const onMouseDown = useCallback(() => {
     const onMouseMove = (e: MouseEvent) => {
       const iframe = document.getElementById(wrapperId)?.querySelector("iframe");
@@ -178,7 +148,7 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
   const deleteLabel = t("form.external.remove", { type: allowedProvider?.name || t("form.external.title") });
 
   return (
-    <DialogRoot open={isEditing} size="large" onOpenChange={(details) => setIsEditing(details.open)}>
+    <DialogRoot size="large" {...dialogProps}>
       {!!embed && (
         <StyledEmbedWrapper {...attributes} data-selected={selected} id={wrapperId} contentEditable={false}>
           <StyledFigureButtons>
@@ -238,7 +208,11 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
             <DialogCloseButton />
           </DialogHeader>
           <DialogBody>
-            <ExternalEmbedForm initialData={element.data} onSave={onSave} />
+            <ExternalEmbedForm
+              initialData={element.data}
+              // Slate doesn't like us wanting to update either an oembed node or an iframe node.
+              onSave={(data) => handleSave({ data: data as OembedEmbedData })}
+            />
           </DialogBody>
         </DialogContent>
       </Portal>

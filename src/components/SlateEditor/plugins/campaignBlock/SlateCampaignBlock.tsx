@@ -18,14 +18,14 @@ import {
   IconButton,
 } from "@ndla/primitives";
 import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import { CampaignBlockEmbedData } from "@ndla/types-embed";
 import { CampaignBlock, EmbedWrapper } from "@ndla/ui";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
+import { Editor } from "slate";
+import { RenderElementProps } from "slate-react";
 import { fetchImage } from "../../../../modules/image/imageApi";
 import { DialogCloseButton } from "../../../DialogCloseButton";
+import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import CampaignBlockForm from "./CampaignBlockForm";
 import { CampaignBlockElement } from "./types";
@@ -37,51 +37,9 @@ interface Props extends RenderElementProps {
 
 const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
-  const [isEditing, setIsEditing] = useState(!!element.isFirstEdit);
   const campaignBlock = element.data;
   const [image, setImage] = useState<ImageMetaInformationV3DTO | undefined>(undefined);
-
-  const onOpenChange = useCallback(
-    (open: boolean) => {
-      setIsEditing(open);
-      if (open) return;
-      ReactEditor.focus(editor);
-      if (element.isFirstEdit) {
-        Transforms.removeNodes(editor, {
-          at: ReactEditor.findPath(editor, element),
-          voids: true,
-        });
-      }
-      const path = ReactEditor.findPath(editor, element);
-      if (Editor.hasPath(editor, Path.next(path))) {
-        setTimeout(() => {
-          Transforms.select(editor, Path.next(path));
-        }, 0);
-      }
-    },
-    [editor, element],
-  );
-
-  const onSave = useCallback(
-    (data: CampaignBlockEmbedData) => {
-      setIsEditing(false);
-      const properties = {
-        data: data,
-        isFirstEdit: false,
-      };
-
-      ReactEditor.focus(editor);
-      const path = ReactEditor.findPath(editor, element);
-      Transforms.setNodes(editor, properties, { at: path });
-
-      if (Editor.hasPath(editor, Path.next(path))) {
-        setTimeout(() => {
-          Transforms.select(editor, Path.next(path));
-        }, 0);
-      }
-    },
-    [setIsEditing, editor, element],
-  );
+  const { handleRemove, handleSave, dialogProps } = useEditableElement(element, editor);
 
   useEffect(() => {
     if (campaignBlock?.imageId) {
@@ -89,21 +47,8 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
     }
   }, [campaignBlock?.imageId]);
 
-  const handleRemove = useCallback(() => {
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.removeNodes(editor, {
-      at: path,
-      voids: true,
-    });
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, path);
-      Transforms.collapse(editor);
-    }, 0);
-  }, [editor, element]);
-
   return (
-    <DialogRoot size="large" open={isEditing} onOpenChange={(details) => onOpenChange(details.open)}>
+    <DialogRoot size="large" {...dialogProps}>
       <EmbedWrapper {...attributes} data-testid="slate-campaign-block" contentEditable={false}>
         {!!campaignBlock && (
           <>
@@ -114,7 +59,6 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
                   variant="secondary"
                   aria-label={t("campaignBlockForm.title")}
                   title={t("campaignBlockForm.title")}
-                  onClick={() => setIsEditing(true)}
                 >
                   <PencilFill />
                 </IconButton>
@@ -155,7 +99,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
               <DialogCloseButton />
             </DialogHeader>
             <DialogBody>
-              <CampaignBlockForm initialData={campaignBlock} onSave={onSave} />
+              <CampaignBlockForm initialData={campaignBlock} onSave={(data) => handleSave({ data })} />
             </DialogBody>
           </DialogContent>
         </Portal>

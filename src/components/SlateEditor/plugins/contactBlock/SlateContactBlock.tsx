@@ -18,14 +18,14 @@ import {
   IconButton,
 } from "@ndla/primitives";
 import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import { ContactBlockEmbedData } from "@ndla/types-embed";
 import { ContactBlock, ContactBlockBackground, EmbedWrapper } from "@ndla/ui";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
+import { Editor } from "slate";
+import { RenderElementProps } from "slate-react";
 import { fetchImage } from "../../../../modules/image/imageApi";
 import { DialogCloseButton } from "../../../DialogCloseButton";
+import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import ContactBlockForm from "./ContactBlockForm";
 import { ContactBlockElement } from "./types";
@@ -37,49 +37,9 @@ interface Props extends RenderElementProps {
 
 const SlateContactBlock = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
-  const [isEditing, setIsEditing] = useState(!!element.isFirstEdit);
   const contactBlock = element.data;
   const [image, setImage] = useState<ImageMetaInformationV3DTO | undefined>(undefined);
-
-  const onOpenChange = (open: boolean) => {
-    setIsEditing(open);
-    if (open) return;
-    ReactEditor.focus(editor);
-    if (element.isFirstEdit) {
-      Transforms.removeNodes(editor, {
-        at: ReactEditor.findPath(editor, element),
-        voids: true,
-      });
-    }
-    const path = ReactEditor.findPath(editor, element);
-    if (Editor.hasPath(editor, Path.next(path))) {
-      setTimeout(() => {
-        Transforms.select(editor, Path.next(path));
-      }, 0);
-    }
-  };
-
-  const onSave = useCallback(
-    (data: ContactBlockEmbedData) => {
-      setIsEditing(false);
-
-      const properties = {
-        data: data,
-        isFirstEdit: false,
-      };
-
-      ReactEditor.focus(editor);
-      const path = ReactEditor.findPath(editor, element);
-      Transforms.setNodes(editor, properties, { at: path });
-
-      if (Editor.hasPath(editor, Path.next(path))) {
-        setTimeout(() => {
-          Transforms.select(editor, Path.next(path));
-        }, 0);
-      }
-    },
-    [setIsEditing, editor, element],
-  );
+  const { handleRemove, handleSave, dialogProps } = useEditableElement(element, editor);
 
   useEffect(() => {
     if (contactBlock?.imageId) {
@@ -87,21 +47,8 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
     }
   }, [contactBlock?.imageId, setImage]);
 
-  const handleRemove = () => {
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.removeNodes(editor, {
-      at: path,
-      voids: true,
-    });
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, path);
-      Transforms.collapse(editor);
-    }, 0);
-  };
-
   return (
-    <DialogRoot size="large" open={isEditing} onOpenChange={(details) => onOpenChange(details.open)}>
+    <DialogRoot size="large" {...dialogProps}>
       <EmbedWrapper {...attributes} contentEditable={false} data-testid="slate-contact-block">
         {!!contactBlock && !!image && (
           <>
@@ -147,7 +94,7 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
             <DialogCloseButton />
           </DialogHeader>
           <DialogBody>
-            <ContactBlockForm initialData={contactBlock} onSave={onSave} />
+            <ContactBlockForm initialData={contactBlock} onSave={(data) => handleSave({ data })} />
           </DialogBody>
         </DialogContent>
       </Portal>

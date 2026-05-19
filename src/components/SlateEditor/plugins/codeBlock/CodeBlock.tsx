@@ -24,14 +24,15 @@ import { CodeEmbedData } from "@ndla/types-embed";
 import { CodeBlock as UICodeBlock } from "@ndla/ui";
 import he from "he";
 import * as Prism from "prismjs";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
+import { Editor } from "slate";
+import { RenderElementProps } from "slate-react";
 import { CodeBlockType } from "../../../../interfaces";
 import { AlertDialog } from "../../../AlertDialog/AlertDialog";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormActionsContainer } from "../../../FormikForm";
+import { useEditableElement } from "../../utils/useEditableElement";
 import CodeBlockEditor from "./CodeBlockEditor";
 import { CodeBlockElement } from "./types";
 
@@ -72,11 +73,11 @@ const getInfoFromNode = (data: CodeEmbedData): CodeEmbedData => {
 
 const CodeBlock = ({ attributes, editor, element, children }: Props) => {
   const embedData = useMemo(() => getInfoFromNode(element.data), [element.data]);
-  const [editMode, setEditMode] = useState<boolean>(!embedData.codeContent && !embedData.title);
   const [languagesLoaded, setLanguagesLoaded] = useState(false);
-  const [showWarning, setShowWarning] = useState(false);
   const [shouldShowWarning, setShouldShowWarning] = useState(false);
   const { t } = useTranslation();
+  const { handleSave, handleRemove, handleEditingChange, isBlocked, confirmClose, cancelClose, dialogProps } =
+    useEditableElement(element, editor);
 
   useEffect(() => {
     loadLanguages().then(() => setLanguagesLoaded(true));
@@ -90,74 +91,24 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
     return highlightCode(embedData.codeContent, embedData.codeFormat);
   }, [embedData.codeContent, embedData.codeFormat, languagesLoaded]);
 
-  const handleSave = (codeBlock: CodeBlockType) => {
-    const newData: CodeEmbedData = {
-      resource: "code-block",
-      codeFormat: codeBlock.format,
-      title: codeBlock.title,
-      codeContent: he.encode(codeBlock.code),
-    };
-    const properties = {
-      data: newData,
-      isFirstEdit: false,
-    };
-    ReactEditor.focus(editor);
-    setEditMode(false);
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.setNodes(editor, properties, { at: path });
-    if (Editor.hasPath(editor, Path.next(path))) {
-      setTimeout(() => {
-        Transforms.select(editor, Path.next(path));
-      }, 0);
-    }
-  };
-
-  const handleRemove = () => {
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.removeNodes(editor, {
-      at: path,
-      voids: true,
+  const onSave = (codeBlock: CodeBlockType) => {
+    handleSave({
+      data: {
+        resource: "code-block",
+        codeFormat: codeBlock.format,
+        title: codeBlock.title,
+        codeContent: he.encode(codeBlock.code),
+      },
     });
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, path);
-      Transforms.collapse(editor);
-    }, 0);
   };
-
-  const handleClose = useCallback(() => {
-    ReactEditor.focus(editor);
-    setEditMode(false);
-    if (element.isFirstEdit) {
-      Transforms.unwrapNodes(editor, {
-        at: ReactEditor.findPath(editor, element),
-        voids: true,
-      });
-    }
-    const path = ReactEditor.findPath(editor, element);
-    if (Editor.hasPath(editor, Path.next(path))) {
-      setTimeout(() => {
-        Transforms.select(editor, Path.next(path));
-      }, 0);
-    }
-  }, [editor, element]);
-
-  const onOpenChange = useCallback(
-    (open: boolean) => {
-      if (open) {
-        setEditMode(true);
-      } else if (shouldShowWarning) {
-        setShowWarning(true);
-      } else {
-        handleClose();
-      }
-    },
-    [handleClose, shouldShowWarning],
-  );
 
   return (
     <>
-      <DialogRoot open={editMode} onOpenChange={(details) => onOpenChange(details.open)} size="large">
+      <DialogRoot
+        {...dialogProps}
+        onOpenChange={(details) => handleEditingChange(details.open, shouldShowWarning)}
+        size="large"
+      >
         <StyledFigure aria-label={t("codeEditor.subtitle")} contentEditable={false} {...attributes}>
           <HStack justify="space-between">
             {!!embedData.title && <h3>{embedData.title}</h3>}
@@ -201,9 +152,9 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
                   format: embedData.codeFormat,
                   title: embedData.title || "",
                 }}
-                onSave={handleSave}
+                onSave={onSave}
                 highlight={highlightCode}
-                onAbort={() => onOpenChange(false)}
+                onAbort={() => handleEditingChange(false, shouldShowWarning)}
                 setShowWarning={setShouldShowWarning}
               />
             </DialogBody>
@@ -213,21 +164,15 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
       <AlertDialog
         title={t("unsavedChanges")}
         label={t("unsavedChanges")}
-        show={showWarning}
+        show={isBlocked}
         text={t("code.continue")}
-        onCancel={() => setShowWarning(false)}
+        onCancel={cancelClose}
       >
         <FormActionsContainer>
-          <Button variant="secondary" onClick={() => setShowWarning(false)}>
+          <Button variant="secondary" onClick={cancelClose}>
             {t("form.abort")}
           </Button>
-          <Button
-            variant="danger"
-            onClick={() => {
-              setShowWarning(false);
-              handleClose();
-            }}
-          >
+          <Button variant="danger" onClick={confirmClose}>
             {t("alertDialog.continue")}
           </Button>
         </FormActionsContainer>

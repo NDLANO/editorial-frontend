@@ -14,8 +14,8 @@ import { H5pEmbedData, H5pMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, H5pEmbed } from "@ndla/ui";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
+import { Editor } from "slate";
+import { RenderElementProps, useSelected } from "slate-react";
 import config from "../../../../config";
 import { useMessages } from "../../../../containers/Messages/MessagesProvider";
 import { useH5pMeta } from "../../../../modules/embed/queries";
@@ -23,9 +23,9 @@ import { useCopyH5pMutation } from "../../../../modules/h5p/h5pMutations";
 import { getH5pLocale } from "../../../H5PElement/h5pApi";
 import H5PElement, { OnSelectObject } from "../../../H5PElement/H5PElement";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
+import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import EditMetadataDialog from "./EditMetadataDialog";
-import { isH5pElement } from "./queries";
 import { H5pElement } from "./types";
 
 interface Props extends RenderElementProps {
@@ -66,13 +66,14 @@ const StyledDialogContent = styled(DialogContent, {
   },
 });
 
+// TODO: You can probably simplify this further. Also, look at EditMetadataDialog
 const SlateH5p = ({ element, editor, attributes, children }: Props) => {
-  const [isOpen, setOpen] = useState(!!element.isFirstEdit);
   const [isCopied, setIsCopied] = useState(false);
   const { t } = useTranslation();
   const isSelected = useSelected();
   const language = useArticleLanguage();
   const { createMessage } = useMessages();
+  const { handleRemove, handleSave, handleEditingChange, dialogProps } = useEditableElement(element, editor);
 
   const h5pMetaQuery = useH5pMeta(element.data?.path ?? "", element.data?.url ?? "", {
     enabled: !!element.data?.path,
@@ -101,30 +102,16 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
 
   useEffect(() => {
     if (isCopied && embed) {
-      setOpen(true);
+      handleEditingChange(true);
       setIsCopied(false);
     }
-  }, [embed, isCopied]);
-
-  const handleRemove = () => {
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.removeNodes(editor, {
-      at: path,
-      voids: true,
-    });
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, path);
-      Transforms.collapse(editor);
-    }, 0);
-  };
+  }, [embed, isCopied, handleEditingChange]);
 
   const onSave = useCallback(
     (params: OnSelectObject) => {
       if (!params.path) {
         return;
       }
-      setOpen(false);
       const cssUrl = encodeURIComponent(`${config.ndlaFrontendDomain}/static/h5p-custom-css.css`);
       const url = `${config.h5pApiUrl}${params.path}?locale=${getH5pLocale(language)}&cssUrl=${cssUrl}`;
       const embedData: H5pEmbedData = {
@@ -134,42 +121,16 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
         alt: embed?.embedData.alt,
         url,
       };
-      const properties = { data: embedData };
-      ReactEditor.focus(editor);
-      const path = ReactEditor.findPath(editor, element);
-      Transforms.setNodes(editor, properties, { at: path });
-      if (Editor.hasPath(editor, Path.next(path))) {
-        setTimeout(() => {
-          Transforms.select(editor, Path.next(path));
-        }, 0);
-      }
+      handleSave({ data: embedData });
     },
-    [language, embed?.embedData.alt, editor, element],
+    [language, embed?.embedData.alt, handleSave],
   );
-
-  const onClose = () => {
-    setOpen(false);
-    ReactEditor.focus(editor);
-    const path = ReactEditor.findPath(editor, element);
-    if (Editor.hasPath(editor, Path.next(path))) {
-      setTimeout(() => {
-        Transforms.select(editor, Path.next(path));
-      }, 0);
-    }
-    if (!element.data) {
-      Transforms.removeNodes(editor, { at: path, match: isH5pElement });
-    }
-  };
 
   const handleCopy = async () => {
     if (!element.data?.url) return;
-    const newCopy = await h5pCopyMutation.mutateAsync(element.data.url);
-    if (newCopy) {
-      Transforms.setNodes<H5pElement>(
-        editor,
-        { data: { ...element.data, url: newCopy.url, path: newCopy.url.replace(config.h5pApiUrl ?? "", "") } },
-        { at: ReactEditor.findPath(editor, element) },
-      );
+    const copy = await h5pCopyMutation.mutateAsync(element.data.url);
+    if (copy) {
+      handleSave({ data: { ...element.data, url: copy.url, path: copy.url.replace(config.h5pApiUrl ?? "", "") } });
       setIsCopied(true);
     }
   };
@@ -178,7 +139,7 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
     <StyledEmbedWrapper {...attributes} aria-selected={isSelected} contentEditable={false}>
       <FigureButtons>
         {config.h5pMetaEnabled === true && <EditMetadataDialog embed={embed} editor={editor} element={element} />}
-        <DialogRoot size="large" open={isOpen} onOpenChange={(details) => setOpen(details.open)}>
+        <DialogRoot size="large" {...dialogProps}>
           <DialogTrigger asChild>
             <IconButton variant="secondary" size="small" title={t("form.editH5p")} aria-label={t("form.editH5p")}>
               <LinkMedium />
@@ -190,7 +151,7 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
                 <H5PElement
                   canReturnResources
                   h5pUrl={embed?.embedData.url}
-                  onClose={onClose}
+                  onClose={() => handleEditingChange(false)}
                   locale={language}
                   onSelect={onSave}
                 />

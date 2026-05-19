@@ -32,7 +32,7 @@ test("contains text from slate editor", async ({ page }) => {
   const textContent = await mathEditor.locator(".wrs_container").textContent();
   expect(textContent?.slice(1)).toEqual("111+1");
   await page.getByTestId("save-math").click();
-  await expect(page.getByRole("dialog")).not.toBeVisible();
+  await page.locator("[data-trigger][data-state='closed']").waitFor();
 });
 
 test("can change text and save", async ({ page }) => {
@@ -44,7 +44,7 @@ test("can change text and save", async ({ page }) => {
   await expect(mathInput).toBeFocused();
   await page.keyboard.type("=112");
   await page.getByTestId("save-math").click();
-  await expect(page.getByRole("dialog")).not.toBeVisible();
+  await page.locator("[data-trigger][data-state='closed']").waitFor();
   expect(await page.getByTestId("math").textContent()).toEqual("111+1 =112");
 });
 
@@ -61,7 +61,7 @@ test("can change preview when preview button pressed", async ({ page }) => {
   await page.getByTestId("preview-math").click();
   expect(await page.getByTestId("math-preview").textContent()).toEqual("111+1 =112");
   await page.getByTestId("save-math").click();
-  await expect(page.getByRole("dialog")).not.toBeVisible();
+  await page.locator("[data-trigger][data-state='closed']").waitFor();
 });
 
 test("can provide modal when leaving unchecked edits", async ({ page }) => {
@@ -78,5 +78,5 @@ test("can provide modal when leaving unchecked edits", async ({ page }) => {
   await alertDialog.waitFor({ state: "visible" });
   await expect(alertDialog).toBeVisible();
   await alertDialog.getByRole("button", { name: "Fortsett" }).click();
-  await expect(page.getByRole("dialog")).not.toBeVisible();
+  await page.locator("[data-trigger][data-state='closed']").waitFor();
 });

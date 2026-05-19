@@ -12,16 +12,16 @@ import { DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { BrightcoveMetaData } from "@ndla/types-embed";
 import { BrightcoveEmbed } from "@ndla/ui";
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
+import { Editor } from "slate";
+import { RenderElementProps, useSelected } from "slate-react";
 import { useBrightcoveMeta } from "../../../../modules/embed/queries";
 import { inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { addBrightCoveTimeStampVideoid } from "../../../../util/videoUtil";
+import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import EditVideo, { FormValues } from "./EditVideo";
-import { isBrightcoveElement } from "./queries";
 import { BrightcoveEmbedElement } from "./types";
 import { VideoWrapper } from "./VideoWrapper";
 
@@ -32,22 +32,12 @@ interface Props extends RenderElementProps {
 
 const SlateVideo = ({ attributes, element, editor, children }: Props) => {
   const [hasError, setHasError] = useState(false);
-  const [open, setOpen] = useState(false);
+  const { handleEditingChange, handleRemove, handleSave, dialogProps } = useEditableElement(element, editor);
 
   const { t, i18n } = useTranslation();
 
   const isSelected = useSelected();
   const brightcoveQuery = useBrightcoveMeta(element.data?.videoid.split("&t=")[0] ?? "", i18n.language);
-
-  const removeVideo = useCallback(() => {
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.removeNodes(editor, { at: path, match: isBrightcoveElement });
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, path);
-      Transforms.collapse(editor);
-    }, 0);
-  }, [editor, element]);
 
   const embed: BrightcoveMetaData | undefined = useMemo(
     () =>
@@ -62,36 +52,20 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
     [brightcoveQuery.data, brightcoveQuery.error, element.data],
   );
 
-  const onClose = () => {
-    setOpen(false);
-    ReactEditor.focus(editor);
-    const path = ReactEditor.findPath(editor, element);
-    if (Editor.hasPath(editor, Path.next(path))) {
-      setTimeout(() => {
-        Transforms.select(editor, Path.next(path));
-      }, 0);
-    }
-  };
-
   const onSave = (values: FormValues) => {
     if (!embed?.embedData) return;
-    Transforms.setNodes(
-      editor,
-      {
-        data: {
-          ...embed?.embedData,
-          alt: values.alttext,
-          caption: inlineContentToHTML(values.caption),
-          videoid: addBrightCoveTimeStampVideoid(values.videoid, values.startTime),
-        },
+    handleSave({
+      data: {
+        ...embed?.embedData,
+        alt: values.alttext,
+        caption: inlineContentToHTML(values.caption),
+        videoid: addBrightCoveTimeStampVideoid(values.videoid, values.startTime),
       },
-      { match: isBrightcoveElement, at: ReactEditor.findPath(editor, element) },
-    );
-    onClose();
+    });
   };
 
   return (
-    <DialogRoot open={open} onOpenChange={({ open }) => setOpen(open)}>
+    <DialogRoot {...dialogProps}>
       <VideoWrapper {...attributes} aria-selected={isSelected} data-error={hasError} contentEditable={false}>
         {!embed ? (
           <Spinner />
@@ -120,7 +94,7 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
               aria-label={t("form.video.remove")}
               title={t("form.video.remove")}
               variant="danger"
-              onClick={removeVideo}
+              onClick={handleRemove}
               data-testid="remove-video-element"
               size="small"
             >
@@ -131,7 +105,12 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
         <Portal>
           <DialogContent>
             {!!element.data && (
-              <EditVideo onClose={onClose} onSave={onSave} embed={element.data} setHasError={setHasError} />
+              <EditVideo
+                onClose={() => handleEditingChange(false)}
+                onSave={onSave}
+                embed={element.data}
+                setHasError={setHasError}
+              />
             )}
           </DialogContent>
         </Portal>

@@ -17,14 +17,13 @@ import {
   DialogTrigger,
   IconButton,
 } from "@ndla/primitives";
-import { PitchEmbedData } from "@ndla/types-embed";
 import { Pitch, EmbedWrapper } from "@ndla/ui";
-import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
+import { Editor } from "slate";
+import { RenderElementProps } from "slate-react";
 import config from "../../../../config";
 import { DialogCloseButton } from "../../../DialogCloseButton";
+import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import PitchForm from "./PitchForm";
 import { PitchElement } from "./types";
@@ -38,60 +37,11 @@ const imageUrl = `${config.ndlaApiUrl}/image-api/raw/id/`;
 
 const SlatePitch = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
-  const [isEditing, setIsEditing] = useState(!!element.isFirstEdit);
+  const { handleEditingChange, handleRemove, handleSave, dialogProps } = useEditableElement(element, editor);
   const { data } = element;
 
-  const handleRemove = () => {
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.removeNodes(editor, {
-      at: path,
-      voids: true,
-    });
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, path);
-      Transforms.collapse(editor);
-    }, 0);
-  };
-
-  const onClose = () => {
-    setIsEditing(false);
-    ReactEditor.focus(editor);
-    if (element.isFirstEdit) {
-      Transforms.removeNodes(editor, {
-        at: ReactEditor.findPath(editor, element),
-        voids: true,
-      });
-    }
-    const path = ReactEditor.findPath(editor, element);
-    if (Editor.hasPath(editor, Path.next(path))) {
-      setTimeout(() => {
-        Transforms.select(editor, Path.next(path));
-      }, 0);
-    }
-  };
-
-  const onSave = useCallback(
-    (data: PitchEmbedData) => {
-      setIsEditing(false);
-      const properties = {
-        data,
-        isFirstEdit: false,
-      };
-      ReactEditor.focus(editor);
-      const path = ReactEditor.findPath(editor, element);
-      Transforms.setNodes(editor, properties, { at: path });
-      if (Editor.hasPath(editor, Path.next(path))) {
-        setTimeout(() => {
-          Transforms.select(editor, Path.next(path));
-        }, 0);
-      }
-    },
-    [editor, element],
-  );
-
   return (
-    <DialogRoot size="large" open={isEditing} onOpenChange={(details) => setIsEditing(details.open)}>
+    <DialogRoot size="large" {...dialogProps}>
       <EmbedWrapper {...attributes} data-testid="slate-pitch" contentEditable={false}>
         {!!data && (
           <>
@@ -100,7 +50,7 @@ const SlatePitch = ({ element, editor, attributes, children }: Props) => {
                 <IconButton
                   variant="secondary"
                   size="small"
-                  onClick={() => setIsEditing(true)}
+                  onClick={() => handleEditingChange(true)}
                   aria-label={t("pitchForm.title")}
                   title={t("pitchForm.title")}
                 >
@@ -138,7 +88,11 @@ const SlatePitch = ({ element, editor, attributes, children }: Props) => {
             <DialogCloseButton />
           </DialogHeader>
           <DialogBody>
-            <PitchForm onSave={onSave} initialData={data} onCancel={onClose} />
+            <PitchForm
+              onSave={(data) => handleSave({ data })}
+              initialData={data}
+              onCancel={() => handleEditingChange(false)}
+            />
           </DialogBody>
         </DialogContent>
       </Portal>

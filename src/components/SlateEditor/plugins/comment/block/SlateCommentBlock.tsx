@@ -19,15 +19,15 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
-import { ReactNode, useCallback, useMemo, useState } from "react";
+import { CommentMetaData } from "@ndla/types-embed";
+import { ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
+import { Editor } from "slate";
+import { RenderElementProps } from "slate-react";
 import { DialogCloseButton } from "../../../../DialogCloseButton";
+import { useEditableElement } from "../../../utils/useEditableElement";
 import CommentForm from "../CommentForm";
 import CommentPopoverPortal from "../CommentPopoverPortal";
-import { isCommentBlockElement } from "./queries/commentBlockQueries";
 import { CommentBlockElement } from "./types";
 
 const BlockCommentButton = styled("button", {
@@ -60,8 +60,8 @@ interface Props {
 
 const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => {
   const { t } = useTranslation();
-  const [popoverOpen, setPopoverOpen] = useState(false);
-  const [open, setOpen] = useState(!!element.isFirstEdit);
+  const popover = useEditableElement(element, editor);
+  const dialog = useEditableElement(element, editor);
 
   const embed: CommentMetaData | undefined = useMemo(() => {
     if (!element.data) return undefined;
@@ -73,51 +73,8 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
     };
   }, [element]);
 
-  const onUpdateComment = useCallback(
-    (values: CommentEmbedData) => {
-      setOpen(false);
-      const path = ReactEditor.findPath(editor, element);
-      Transforms.setNodes(editor, { data: values, isFirstEdit: false }, { at: path, match: isCommentBlockElement });
-    },
-    [editor, element],
-  );
-
-  const onRemove = useCallback(() => {
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.removeNodes(editor, {
-      at: path,
-      voids: true,
-    });
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, path);
-      Transforms.collapse(editor);
-    }, 0);
-  }, [editor, element]);
-
-  const onOpenChange = useCallback(
-    (open: boolean) => {
-      setOpen(open);
-      if (open) return;
-      ReactEditor.focus(editor);
-      if (element.isFirstEdit) {
-        Transforms.removeNodes(editor, {
-          at: ReactEditor.findPath(editor, element),
-          voids: true,
-        });
-      }
-      const path = ReactEditor.findPath(editor, element);
-      if (Editor.hasPath(editor, Path.next(path))) {
-        setTimeout(() => {
-          Transforms.select(editor, Path.next(path));
-        }, 0);
-      }
-    },
-    [editor, element],
-  );
-
   return (
-    <DialogRoot open={open} size="small" onOpenChange={(details) => onOpenChange(details.open)}>
+    <DialogRoot size="small" {...dialog.dialogProps}>
       <Portal>
         <DialogContent>
           <DialogHeader>
@@ -127,8 +84,8 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
           <DialogBody>
             <CommentForm
               initialData={embed?.embedData}
-              onSave={onUpdateComment}
-              onOpenChange={onOpenChange}
+              onSave={(data) => dialog.handleSave({ data })}
+              onCancel={() => dialog.handleEditingChange(false)}
               labelText={t("form.workflow.addComment.label")}
               commentType="block"
             />
@@ -136,7 +93,7 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
         </DialogContent>
       </Portal>
       {!!embed && (
-        <PopoverRoot open={popoverOpen} onOpenChange={(details) => setPopoverOpen(details.open)}>
+        <PopoverRoot {...popover.popoverProps}>
           <PopoverTrigger asChild consumeCss type={undefined}>
             <BlockCommentButton type="button" contentEditable={false} {...attributes}>
               <MessageLine />
@@ -144,14 +101,10 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
             </BlockCommentButton>
           </PopoverTrigger>
           <CommentPopoverPortal
-            onSave={(data) => {
-              setPopoverOpen(false);
-              onUpdateComment(data);
-            }}
+            onSave={(data) => popover.handleSave({ data })}
             embed={embed}
-            onDelete={onRemove}
-            onClose={() => setPopoverOpen(false)}
-            onOpenChange={setPopoverOpen}
+            onDelete={popover.handleRemove}
+            onClose={() => popover.handleEditingChange(false)}
             variant="block"
           />
         </PopoverRoot>

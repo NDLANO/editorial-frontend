@@ -13,19 +13,19 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ConceptDTO, ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { ConceptEmbedData, ConceptMetaData } from "@ndla/types-embed";
 import { ConceptEmbed, EmbedWrapper } from "@ndla/ui";
-import { useState, ReactNode, useCallback, useMemo, MouseEvent } from "react";
+import { ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Transforms, Path } from "slate";
-import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
+import { Editor } from "slate";
+import { RenderElementProps, useSelected } from "slate-react";
 import { PUBLISHED } from "../../../../../constants";
 import { ConceptType } from "../../../../../containers/ConceptPage/conceptInterfaces";
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { useConceptVisualElement } from "../../../../../modules/embed/queries";
 import { useArticleLanguage } from "../../../ArticleLanguageProvider";
+import { useEditableElement } from "../../../utils/useEditableElement";
 import ConceptDialogContent from "../ConceptDialogContent";
 import EditGlossExamplesDialog from "../EditGlossExamplesDialog";
 import { getGlossDataAttributes } from "../utils";
-import { isConceptBlockElement } from "./queries";
 import { ConceptBlockElement } from "./types";
 
 const getConceptDataAttributes = (concept: ConceptSummaryDTO | ConceptDTO, locale: string): ConceptEmbedData => ({
@@ -58,7 +58,7 @@ const StyledEmbedWrapper = styled(EmbedWrapper, {
 const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
   const isSelected = useSelected();
   const locale = useArticleLanguage();
-  const [isEditing, setIsEditing] = useState(!!element.isFirstEdit);
+  const { handleRemove, handleSave, dialogProps } = useEditableElement(element, editor);
   const { concept, loading, ...conceptHooks } = useFetchConceptData(parseInt(element.data.contentId), locale);
 
   const visualElementQuery = useConceptVisualElement(
@@ -92,59 +92,8 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
     };
   }, [element.data, concept, loading, visualElementQuery.data]);
 
-  const addConcept = useCallback(
-    (addedConcept: ConceptSummaryDTO | ConceptDTO) => {
-      setIsEditing(false);
-      const data = getConceptDataAttributes(addedConcept, locale);
-      const path = ReactEditor.findPath(editor, element);
-      Transforms.setNodes(
-        editor,
-        { data },
-        {
-          at: path,
-          match: isConceptBlockElement,
-        },
-      );
-    },
-    [locale, editor, element],
-  );
-
-  const handleRemove = useCallback(() => {
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.removeNodes(editor, {
-      at: path,
-      voids: true,
-    });
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, path);
-      Transforms.collapse(editor);
-    });
-  }, [editor, element]);
-
-  const onOpenChange = useCallback(
-    (open: boolean) => {
-      setIsEditing(open);
-      if (open) return;
-      ReactEditor.focus(editor);
-      if (element.isFirstEdit) {
-        Transforms.removeNodes(editor, {
-          at: ReactEditor.findPath(editor, element),
-          voids: true,
-        });
-      }
-      const path = ReactEditor.findPath(editor, element);
-      if (Editor.hasPath(editor, Path.next(path))) {
-        setTimeout(() => {
-          Transforms.select(editor, Path.next(path));
-        }, 0);
-      }
-    },
-    [editor, element],
-  );
-
   return (
-    <DialogRoot size="large" open={isEditing} onOpenChange={({ open }) => onOpenChange(open)}>
+    <DialogRoot size="large" {...dialogProps}>
       <StyledEmbedWrapper {...attributes} data-solid-border={isSelected} contentEditable={false}>
         {!!concept && !!embed && (
           <>
@@ -161,7 +110,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
         )}
         <DialogContent>
           <ConceptDialogContent
-            addConcept={addConcept}
+            addConcept={(data) => handleSave({ data: getConceptDataAttributes(data, locale) })}
             locale={locale}
             concept={concept}
             handleRemove={handleRemove}
@@ -177,7 +126,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
 
 interface ButtonContainerProps {
   concept: ConceptDTO | ConceptSummaryDTO;
-  handleRemove: (e: MouseEvent) => void;
+  handleRemove: () => void;
   language: string;
   editor: Editor;
   element: ConceptBlockElement;

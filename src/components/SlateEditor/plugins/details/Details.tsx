@@ -12,11 +12,10 @@ import { styled } from "@ndla/styled-system/jsx";
 import { EmbedWrapper } from "@ndla/ui";
 import { memo, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Transforms } from "slate";
-import { ReactEditor, RenderElementProps, useSlateStatic } from "slate-react";
+import { RenderElementProps, useSlateStatic } from "slate-react";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
-import { isDetailsElement } from "./queries/detailsQueries";
+import { useEditableElement } from "../../utils/useEditableElement";
 
 const ButtonContainer = styled("div", {
   base: {
@@ -78,21 +77,7 @@ const Details = ({ children, element, attributes }: RenderElementProps) => {
     setIsOpen((open) => !open);
   }, []);
 
-  const onRemoveClick = useCallback(() => {
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.select(editor, path);
-    Transforms.collapse(editor);
-    Transforms.removeNodes(editor, { at: path, match: isDetailsElement });
-    setTimeout(() => ReactEditor.focus(editor), 0);
-  }, [editor, element]);
-
-  const onMoveContent = useCallback(() => {
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.select(editor, path);
-    Transforms.collapse(editor, { edge: "start" });
-    Transforms.unwrapNodes(editor, { at: path, match: isDetailsElement, voids: true });
-    setTimeout(() => ReactEditor.focus(editor), 0);
-  }, [editor, element]);
+  const { handleRemove, handleUnwrap } = useEditableElement(element, editor);
 
   const openAttribute = isOpen ? { "data-open": "" } : {};
   const toggleOpenTitle = isOpen ? t("form.close") : t("form.open");
@@ -112,14 +97,14 @@ const Details = ({ children, element, attributes }: RenderElementProps) => {
           <ArrowDownShortLine />
         </StyledIconButton>
         <MoveContentButton
-          onClick={onMoveContent}
+          onClick={handleUnwrap}
           aria-label={t("form.moveContent")}
           onMouseDown={(e) => e.preventDefault()}
         />
         <DeleteButton
           data-testid="remove-details"
           aria-label={t("form.remove")}
-          onClick={onRemoveClick}
+          onClick={handleRemove}
           onMouseDown={(e) => e.preventDefault()}
         />
       </ButtonContainer>

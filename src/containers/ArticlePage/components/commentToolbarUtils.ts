@@ -12,6 +12,7 @@ import { breakPlugin } from "../../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../../components/SlateEditor/plugins/break/render";
 import { divPlugin } from "../../../components/SlateEditor/plugins/div";
 import { divRenderer } from "../../../components/SlateEditor/plugins/div/render";
+import { focusPlugin } from "../../../components/SlateEditor/plugins/focus";
 import { contentLinkPlugin, linkPlugin } from "../../../components/SlateEditor/plugins/link";
 import { linkRenderer } from "../../../components/SlateEditor/plugins/link/render";
 import { listPlugin } from "../../../components/SlateEditor/plugins/list";
@@ -33,6 +34,7 @@ import { unsupportedElementRenderer } from "../../../components/SlateEditor/plug
 import { unsupportedPlugin } from "../../../components/SlateEditor/plugins/unsupported/unsupportedPlugin";
 
 export const plugins: SlatePlugin[] = [
+  focusPlugin,
   inlineNavigationPlugin,
   sectionPlugin,
   spanPlugin,

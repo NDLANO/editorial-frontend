@@ -28,6 +28,7 @@ import { divPlugin } from "../../../../components/SlateEditor/plugins/div";
 import { dndPlugin } from "../../../../components/SlateEditor/plugins/DND/dndPlugin";
 import { externalPlugin, iframePlugin } from "../../../../components/SlateEditor/plugins/external";
 import { filePlugin } from "../../../../components/SlateEditor/plugins/file";
+import { focusPlugin } from "../../../../components/SlateEditor/plugins/focus";
 import { footnotePlugin } from "../../../../components/SlateEditor/plugins/footnote";
 import { framedContentPlugin } from "../../../../components/SlateEditor/plugins/framedContent/framedContentPlugin";
 import { gridCellPlugin } from "../../../../components/SlateEditor/plugins/grid/gridCellPlugin";
@@ -64,6 +65,7 @@ import { disclaimerPlugin } from "../../../../components/SlateEditor/plugins/uuD
 import { videoPlugin } from "../../../../components/SlateEditor/plugins/video";
 
 export const learningResourcePlugins: SlatePlugin[] = [
+  focusPlugin,
   idPlugin,
   inlineNavigationPlugin,
   sectionPlugin,

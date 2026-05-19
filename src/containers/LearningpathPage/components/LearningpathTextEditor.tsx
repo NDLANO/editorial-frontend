@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import { breakPlugin } from "../../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../../components/SlateEditor/plugins/break/render";
+import { focusPlugin } from "../../../components/SlateEditor/plugins/focus";
 import { headingPlugin } from "../../../components/SlateEditor/plugins/heading";
 import { headingRenderer } from "../../../components/SlateEditor/plugins/heading/render";
 import { idPlugin } from "../../../components/SlateEditor/plugins/id/idPlugin";
@@ -80,6 +81,7 @@ const toolbarOptions = createToolbarDefaultValues({
 });
 
 const PLUGINS: SlatePlugin[] = [
+  focusPlugin,
   idPlugin,
   inlineNavigationPlugin,
   sectionPlugin,

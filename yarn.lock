@@ -6624,7 +6624,7 @@ __metadata:
     react-dom: "npm:^19.2.4"
     react-i18next: "npm:^17.0.2"
     react-image-crop: "npm:^11.0.10"
-    react-router: "npm:^7.12.0"
+    react-router: "npm:^7.15.1"
     react-simple-code-editor: "npm:^0.14.1"
     rolldown: "npm:^1.0.1"
     serialize-javascript: "npm:^7.0.5"
@@ -10866,9 +10866,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router@npm:^7.12.0":
-  version: 7.12.0
-  resolution: "react-router@npm:7.12.0"
+"react-router@npm:^7.15.1":
+  version: 7.15.1
+  resolution: "react-router@npm:7.15.1"
   dependencies:
     cookie: "npm:^1.0.1"
     set-cookie-parser: "npm:^2.6.0"
@@ -10878,7 +10878,7 @@ __metadata:
   peerDependenciesMeta:
     react-dom:
       optional: true
-  checksum: 10c0/abde366f716cb3961a5a390c278375c0591bace5773e1b4420001f0a913b4dd53d490e7dea866acebcac2c0fa07378aa83702769d449449027406ed517a8ea00
+  checksum: 10c0/3daff5404c7de1429447e735f1ee7e070d4f11632f589cec70c5171f2357be9cada2162f780bc9061eb153646109ad6e80c2d10a6b27256593f28a66945f4c76
   languageName: node
   linkType: hard
 

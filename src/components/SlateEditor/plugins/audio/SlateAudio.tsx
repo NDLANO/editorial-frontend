@@ -11,14 +11,15 @@ import { PencilFill, DeleteBinLine, LinkMedium } from "@ndla/icons";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { AudioEmbedData, AudioMetaData } from "@ndla/types-embed";
+import { AudioMetaData } from "@ndla/types-embed";
 import { AudioEmbed, EmbedWrapper } from "@ndla/ui";
-import { useCallback, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
+import { Editor } from "slate";
+import { RenderElementProps, useSelected } from "slate-react";
 import { useAudioMeta } from "../../../../modules/embed/queries";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
+import { useEditableElement } from "../../utils/useEditableElement";
 import AudioEmbedForm from "./AudioEmbedForm";
 import { AudioElement } from "./audioTypes";
 
@@ -51,9 +52,9 @@ const ButtonContainer = styled("div", {
 
 const SlateAudio = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
-  const [isEditing, setIsEditing] = useState(false);
   const isSelected = useSelected();
   const language = useArticleLanguage();
+  const { handleRemove, handleEditingChange, handleSave, dialogProps } = useEditableElement(element, editor);
 
   const audioMetaQuery = useAudioMeta(element.data?.resourceId ?? "", language, {
     enabled: !!parseInt(element.data?.resourceId ?? ""),
@@ -79,50 +80,8 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
     [audioMetaQuery.data, audioMetaQuery.error, element.data],
   );
 
-  const handleRemove = () => {
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.removeNodes(editor, {
-      at: path,
-      voids: true,
-    });
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, path);
-      Transforms.collapse(editor);
-    }, 0);
-  };
-
-  const onClose = () => {
-    setIsEditing(false);
-    ReactEditor.focus(editor);
-    const path = ReactEditor.findPath(editor, element);
-    if (Editor.hasPath(editor, Path.next(path))) {
-      setTimeout(() => {
-        Transforms.select(editor, Path.next(path));
-      }, 0);
-    }
-  };
-
-  const onSave = useCallback(
-    (data: AudioEmbedData) => {
-      setIsEditing(false);
-      const properties = {
-        data,
-      };
-      ReactEditor.focus(editor);
-      const path = ReactEditor.findPath(editor, element);
-      Transforms.setNodes(editor, properties, { at: path });
-      if (Editor.hasPath(editor, Path.next(path))) {
-        setTimeout(() => {
-          Transforms.select(editor, Path.next(path));
-        }, 0);
-      }
-    },
-    [editor, element],
-  );
-
   return (
-    <DialogRoot open={isEditing} onOpenChange={({ open }) => setIsEditing(open)}>
+    <DialogRoot {...dialogProps}>
       <StyledEmbedWrapper
         {...attributes}
         contentEditable={false}
@@ -180,7 +139,12 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
       <Portal>
         <DialogContent>
           {!!element.data && !!audioMetaQuery.data && (
-            <AudioEmbedForm audio={audioMetaQuery.data} onSave={onSave} onCancel={onClose} embed={element.data} />
+            <AudioEmbedForm
+              audio={audioMetaQuery.data}
+              onSave={(data) => handleSave({ data })}
+              onCancel={() => handleEditingChange(false)}
+              embed={element.data}
+            />
           )}
         </DialogContent>
       </Portal>

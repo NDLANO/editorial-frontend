@@ -14,8 +14,9 @@ import { LinkBlockEmbedData } from "@ndla/types-embed";
 import { EmbedWrapper, LinkBlock, LinkBlockSection } from "@ndla/ui";
 import { ReactNode, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
+import { Editor } from "slate";
+import { RenderElementProps } from "slate-react";
+import { useEditableElement } from "../../utils/useEditableElement";
 import LinkBlockForm from "./LinkBlockForm";
 import { LinkBlockListElement } from "./types";
 
@@ -39,82 +40,43 @@ const HeaderWrapper = styled("div", {
 });
 
 const SlateLinkBlockList = ({ attributes, editor, element, children }: Props) => {
-  const [open, setOpen] = useState(!!element.isFirstEdit);
   const { t } = useTranslation();
-
-  const onOpenChange = useCallback(
-    (open: boolean) => {
-      setOpen(open);
-      if (!open) {
-        ReactEditor.focus(editor);
-        if (element.isFirstEdit) {
-          Transforms.removeNodes(editor, {
-            at: ReactEditor.findPath(editor, element),
-            voids: true,
-          });
-        }
-        const path = ReactEditor.findPath(editor, element);
-        if (Editor.hasPath(editor, Path.next(path))) {
-          setTimeout(() => {
-            Transforms.select(editor, Path.next(path));
-          }, 0);
-        }
-      }
-    },
-    [editor, element],
+  const { isEditing, handleRemove, handleSave, handleEditingChange, onEditingExit } = useEditableElement(
+    element,
+    editor,
   );
 
   const onSave = useCallback(
     (embed: LinkBlockEmbedData, index?: number) => {
-      const path = ReactEditor.findPath(editor, element);
-      if (index !== undefined && element.data) {
-        const newData = element.data?.map((em, idx) => (index === idx ? embed : em));
-        Transforms.setNodes(editor, { data: newData }, { at: path });
-      } else {
-        const existingData = element.data ?? [];
-        const properties = {
-          data: existingData.concat(embed),
-          isFirstEdit: false,
-        };
-        Transforms.setNodes(editor, properties, { at: path });
-      }
-      ReactEditor.focus(editor);
+      const data =
+        index !== undefined && element.data
+          ? element.data.map((em, idx) => (index === idx ? embed : em))
+          : (element.data ?? []).concat(embed);
+      handleSave({ data });
     },
-    [editor, element],
-  );
-
-  const onSaveNewElement = useCallback(
-    (embed: LinkBlockEmbedData) => {
-      onSave(embed);
-      setOpen(false);
-    },
-    [onSave],
-  );
-
-  const handleRemove = useCallback(
-    () =>
-      Transforms.removeNodes(editor, {
-        at: ReactEditor.findPath(editor, element),
-        voids: true,
-      }),
-    [editor, element],
+    [element.data, handleSave],
   );
 
   const onDelete = useCallback(
     (index: number) => {
       const newData = element.data?.filter((_, idx) => idx !== index);
-      const path = ReactEditor.findPath(editor, element);
       if (!newData?.length) {
-        Transforms.removeNodes(editor, { at: path, voids: true });
+        handleRemove();
       } else {
-        Transforms.setNodes(editor, { data: newData }, { at: path });
+        handleSave({ data: newData });
       }
     },
-    [editor, element],
+    [element.data, handleRemove, handleSave],
   );
 
+  // TODO: Rewrite this to only use one dialog once `onTriggerValueChange` lands in ark.
+
   return (
-    <DialogRoot open={open} onOpenChange={(details) => onOpenChange(details.open)}>
+    <DialogRoot
+      open={isEditing}
+      onOpenChange={(details) => handleEditingChange(details.open)}
+      onExitComplete={onEditingExit}
+    >
       <EmbedWrapper {...attributes} contentEditable={false}>
         {children}
         <HeaderWrapper>
@@ -125,7 +87,7 @@ const SlateLinkBlockList = ({ attributes, editor, element, children }: Props) =>
           </DialogTrigger>
           <Portal>
             <DialogContent>
-              <LinkBlockForm onSave={onSaveNewElement} existingEmbeds={element.data ?? []} />
+              <LinkBlockForm onSave={(data) => onSave(data)} existingEmbeds={element.data ?? []} />
             </DialogContent>
           </Portal>
           <IconButton

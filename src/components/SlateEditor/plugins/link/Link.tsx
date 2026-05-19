@@ -7,7 +7,6 @@
  */
 
 import { Portal } from "@ark-ui/react";
-import { isElementOfType } from "@ndla/editor";
 import {
   Button,
   DialogBody,
@@ -22,9 +21,9 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentLinkEmbedData } from "@ndla/types-embed";
-import { useCallback, useEffect, useMemo, useRef, useState, type JSX } from "react";
+import { useEffect, useMemo, useRef, type JSX } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Node, Transforms, Path } from "slate";
+import { Editor, Node, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { ContentLinkElement, LinkElement } from ".";
 import config from "../../../../config";
@@ -32,6 +31,7 @@ import { routes, toEditGenericArticle } from "../../../../util/routeHelpers";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { InlineBugfix } from "../../utils/InlineBugFix";
+import { useEditableElement } from "../../utils/useEditableElement";
 import LinkForm from "./LinkForm";
 import { LinkData, LinkEmbedData, LINK_ELEMENT_TYPE, CONTENT_LINK_ELEMENT_TYPE } from "./types";
 
@@ -66,8 +66,8 @@ export interface Model {
 const Link = ({ attributes, editor, element, children }: Props) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const editorWrapperRef = useRef<HTMLElement>(null);
-  const [editMode, setEditMode] = useState(!!element.isFirstEdit);
   const language = useArticleLanguage();
+  const { handleUnwrap, handleSave, dialogProps } = useEditableElement(element, editor);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -90,63 +90,20 @@ const Link = ({ attributes, editor, element, children }: Props) => {
     }
   }, [element, language]);
 
-  const handleRemove = useCallback(() => {
+  const onSave = (data: ContentLinkEmbedData | LinkEmbedData, text: string) => {
     const path = ReactEditor.findPath(editor, element);
-    Transforms.unwrapNodes(editor, {
-      match: (node) => isElementOfType(node, [LINK_ELEMENT_TYPE, CONTENT_LINK_ELEMENT_TYPE]),
-      at: path,
+    editor.withoutNormalizing(() => {
+      Transforms.insertText(editor, text, { at: path });
+      handleSave(
+        "href" in data
+          ? { type: LINK_ELEMENT_TYPE, data }
+          : { type: CONTENT_LINK_ELEMENT_TYPE, data: { ...data, resource: "content-link" } },
+      );
     });
-    ReactEditor.focus(editor);
-  }, [editor, element]);
-
-  const toggleEditMode = useCallback(
-    (open: boolean) => {
-      if (!open && element.isFirstEdit) {
-        handleRemove();
-      }
-      setEditMode(open);
-    },
-    [element.isFirstEdit, handleRemove],
-  );
-
-  const handleSave = (data: ContentLinkEmbedData | LinkEmbedData, text: string) => {
-    const path = ReactEditor.findPath(editor, element);
-
-    Transforms.insertText(editor, text, { at: path });
-
-    if ("href" in data) {
-      Transforms.setNodes(
-        editor,
-        { type: LINK_ELEMENT_TYPE, data, isFirstEdit: false },
-        {
-          at: path,
-          match: (node) => isElementOfType(node, [LINK_ELEMENT_TYPE, CONTENT_LINK_ELEMENT_TYPE]),
-        },
-      );
-    } else {
-      Transforms.setNodes(
-        editor,
-        {
-          type: CONTENT_LINK_ELEMENT_TYPE,
-          data: { ...data, resource: "content-link" },
-          isFirstEdit: false,
-        },
-        {
-          at: path,
-          match: (node) => isElementOfType(node, [LINK_ELEMENT_TYPE, CONTENT_LINK_ELEMENT_TYPE]),
-        },
-      );
-    }
-    setEditMode(false);
-    setTimeout(() => {
-      Transforms.select(editor, Path.next(ReactEditor.findPath(editor, element)));
-      Transforms.collapse(editor, { edge: "start" });
-      ReactEditor.focus(editor);
-    }, 0);
   };
 
   return (
-    <DialogRoot open={editMode} onOpenChange={(details) => toggleEditMode(details.open)}>
+    <DialogRoot {...dialogProps}>
       <PopoverRoot
         modal={false}
         // eslint-disable-next-line jsx-a11y/no-autofocus
@@ -182,7 +139,7 @@ const Link = ({ attributes, editor, element, children }: Props) => {
             <DialogCloseButton />
           </DialogHeader>
           <DialogBody>
-            <LinkForm linkData={linkData} onSave={handleSave} onRemove={handleRemove} />
+            <LinkForm linkData={linkData} onSave={onSave} onRemove={handleUnwrap} />
           </DialogBody>
         </DialogContent>
       </Portal>

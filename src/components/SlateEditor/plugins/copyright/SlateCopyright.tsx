@@ -18,18 +18,18 @@ import {
   DialogTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { CopyrightEmbedData, CopyrightMetaData } from "@ndla/types-embed";
+import { CopyrightMetaData } from "@ndla/types-embed";
 import { CopyrightEmbed, EmbedWrapper } from "@ndla/ui";
-import { ReactNode, useCallback, useMemo, useState } from "react";
+import { ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
+import { Editor } from "slate";
+import { RenderElementProps } from "slate-react";
 import DeleteButton from "../../../DeleteButton";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import MoveContentButton from "../../../MoveContentButton";
+import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import { EmbedCopyrightForm } from "./EmbedCopyrightForm";
-import { isCopyrightElement } from "./queries";
 import { CopyrightElement } from "./types";
 
 interface Props {
@@ -58,7 +58,10 @@ const ButtonContainer = styled(StyledFigureButtons, {
 
 const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
-  const [open, setOpen] = useState<boolean>(!!element.isFirstEdit);
+  const { handleRemove, handleUnwrap, handleSave, handleEditingChange, dialogProps } = useEditableElement(
+    element,
+    editor,
+  );
 
   const embed: CopyrightMetaData | undefined = useMemo(
     () =>
@@ -73,67 +76,11 @@ const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
     [element.data],
   );
 
-  const handleDelete = () => {
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.removeNodes(editor, { at: path, match: isCopyrightElement });
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, Path.previous(path));
-      Transforms.collapse(editor);
-    }, 0);
-  };
-
-  const handleRemoveCopyright = () => {
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.unwrapNodes(editor, { at: path, match: isCopyrightElement });
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, path);
-      Transforms.collapse(editor);
-    }, 0);
-  };
-
-  const onClose = useCallback(() => {
-    ReactEditor.focus(editor);
-    setOpen(false);
-    if (element.isFirstEdit) {
-      Transforms.removeNodes(editor, {
-        at: ReactEditor.findPath(editor, element),
-        voids: true,
-      });
-    }
-    const path = ReactEditor.findPath(editor, element);
-    if (Editor.hasPath(editor, Path.next(path))) {
-      setTimeout(() => {
-        Transforms.select(editor, Path.next(path));
-      }, 0);
-    }
-  }, [editor, element]);
-
-  const onSave = useCallback(
-    (data: CopyrightEmbedData) => {
-      setOpen(false);
-      const properties = {
-        data,
-        isFirstEdit: false,
-      };
-      ReactEditor.focus(editor);
-      const path = ReactEditor.findPath(editor, element);
-      Transforms.setNodes(editor, properties, { at: path });
-      if (Editor.hasPath(editor, Path.next(path))) {
-        setTimeout(() => {
-          Transforms.select(editor, Path.next(path));
-        }, 0);
-      }
-    },
-    [editor, element],
-  );
-
   return (
     <StyledEmbedWrapper data-testid="slate-copyright-block" {...attributes}>
       <ButtonContainer contentEditable={false}>
-        <DeleteButton aria-label={t("delete")} data-testid="delete-copyright" onClick={handleDelete} />
-        <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
+        <DeleteButton aria-label={t("delete")} data-testid="delete-copyright" onClick={handleRemove} />
+        <DialogRoot {...dialogProps}>
           <DialogTrigger asChild>
             <IconButton
               variant="tertiary"
@@ -152,16 +99,16 @@ const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
                 <DialogCloseButton />
               </DialogHeader>
               <DialogBody>
-                <EmbedCopyrightForm embedData={element.data} onCancel={onClose} onSave={onSave} />
+                <EmbedCopyrightForm
+                  embedData={element.data}
+                  onCancel={() => handleEditingChange(false)}
+                  onSave={(data) => handleSave({ data })}
+                />
               </DialogBody>
             </DialogContent>
           </Portal>
         </DialogRoot>
-        <MoveContentButton
-          aria-label={t("form.moveContent")}
-          data-testid="move-copyright"
-          onMouseDown={handleRemoveCopyright}
-        />
+        <MoveContentButton aria-label={t("form.moveContent")} data-testid="move-copyright" onClick={handleUnwrap} />
       </ButtonContainer>
       {!!embed && <CopyrightEmbed embed={embed}>{children}</CopyrightEmbed>}
     </StyledEmbedWrapper>

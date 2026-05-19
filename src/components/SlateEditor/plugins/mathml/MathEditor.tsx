@@ -24,18 +24,17 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import he from "he";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Node, Path, Transforms } from "slate";
+import { Node, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected, useSlateStatic } from "slate-react";
 import { AlertDialog } from "../../../AlertDialog/AlertDialog";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormActionsContainer } from "../../../FormikForm";
-import mergeLastUndos from "../../utils/mergeLastUndos";
-import EditMath, { MathMLType } from "./EditMath";
-import MathML from "./MathML";
+import { useEditableElement } from "../../utils/useEditableElement";
+import EditMath from "./EditMath";
+import MathML, { type MathMLHandle } from "./MathML";
 import { MathmlElement } from "./mathTypes";
-import { isMathElement } from "./queries/mathQueries";
 
 const getInfoFromNode = (node: MathmlElement) => {
   const data = node.data ? node.data : {};
@@ -53,6 +52,7 @@ const getInfoFromNode = (node: MathmlElement) => {
 const StyledPopoverContent = styled(PopoverContent, {
   base: {
     gap: "xsmall",
+    zIndex: "dropdown",
   },
 });
 
@@ -95,115 +95,65 @@ const MathEditor = ({ element, children, attributes }: Props) => {
   const { t } = useTranslation();
   const editor = useSlateStatic();
   const nodeInfo = useMemo(() => getInfoFromNode(element), [element]);
-  const [mathEditor, setMathEditor] = useState<MathMLType | undefined>(undefined);
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [shouldShowWarning, setShouldShowWarning] = useState(false);
   const [popoverOpen, setPopoverOpen] = useState(false);
-  const [discardDialogOpen, setDiscardDialogOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const previewMathRef = useRef<MathMLHandle>(null);
   const selected = useSelected();
+  const {
+    handleEditingChange,
+    handleSave,
+    handleRemove,
+    isBlocked,
+    confirmClose,
+    cancelClose,
+    handleUnwrap,
+    dialogProps,
+  } = useEditableElement(element, editor, { unwrapOnAutoRemove: true });
 
-  // Setting the dialog open state directly in useState either messis with Chromium-based browsers or playwright tests, depending on the rest of the implementation.
-  useEffect(() => {
-    setDialogOpen(!!element.isFirstEdit);
-  }, [element.isFirstEdit]);
-
-  const onOpenChange = useCallback(
-    (open: boolean) => {
-      if (open) {
-        setDialogOpen(open);
-        setPopoverOpen(false);
-        return;
-      }
-      if (
-        !element.data.innerHTML ||
-        (mathEditor && he.decode(nodeInfo.model.innerHTML) !== he.decode(mathEditor.getMathML()))
-      ) {
-        setDiscardDialogOpen(true);
-      } else {
-        setDialogOpen(false);
-      }
-    },
-    [element.data.innerHTML, mathEditor, nodeInfo.model.innerHTML],
-  );
-
-  const handleSave = useCallback(
+  const onSave = useCallback(
     (mathML: string) => {
       const parsedMath = new DOMParser().parseFromString(mathML, "text/html").querySelector("math");
       if (!parsedMath) return;
-      const innerHtml = parsedMath.innerHTML;
-      const properties = {
-        data: { xmlns: "http://www.w3.org/1998/Math/MathML", innerHTML: innerHtml },
-        isFirstEdit: false,
-      };
       const path = ReactEditor.findPath(editor, element);
-      const nextPath = Path.next(path);
-
-      setDialogOpen(false);
       editor.withoutNormalizing(() => {
-        Transforms.setNodes(editor, properties, { at: path, voids: true, match: isMathElement });
         if (element.isFirstEdit) {
           Transforms.insertText(editor, parsedMath.textContent || "", { at: path, voids: true });
-          // Insertion consists of insert an empty mathml and then updating it with content. By merging the events we can consider them as one action and undo both with ctrl+z.
-          mergeLastUndos(editor);
         }
-        Transforms.select(editor, { anchor: { path: nextPath, offset: 0 }, focus: { path: nextPath, offset: 0 } });
+        handleSave({ data: { xmlns: "http://www.w3.org/1998/Math/MathML", innerHTML: parsedMath.innerHTML } });
       });
-
-      setTimeout(() => ReactEditor.focus(editor), 0);
     },
-    [editor, element],
+    [editor, element, handleSave],
   );
-
-  const handleRemove = useCallback(() => {
-    const path = ReactEditor.findPath(editor, element);
-    setDialogOpen(false);
-    Transforms.select(editor, editor.start(Path.next(path)));
-    Transforms.unwrapNodes(editor, { at: path, match: isMathElement, voids: true });
-    setTimeout(() => ReactEditor.focus(editor), 0);
-  }, [editor, element]);
-
-  const onExit = useCallback(() => {
-    setDiscardDialogOpen(false);
-    if (element.isFirstEdit) {
-      handleRemove();
-    } else {
-      setDialogOpen(false);
-      setPopoverOpen(false);
-    }
-  }, [element, handleRemove]);
-
-  const onExitDialog = useCallback(() => {
-    Transforms.select(editor, Path.next(ReactEditor.findPath(editor, element)));
-    Transforms.collapse(editor, { edge: "start" });
-    setTimeout(() => ReactEditor.focus(editor), 0);
-  }, [editor, element]);
-
-  const onExitPopover = useCallback(() => {
-    if (dialogOpen) return;
-    if (triggerRef.current === document.activeElement) {
-      Transforms.select(editor, Path.next(ReactEditor.findPath(editor, element)));
-      Transforms.collapse(editor, { edge: "start" });
-      setTimeout(() => ReactEditor.focus(editor), 0);
-    }
-  }, [dialogOpen, editor, element]);
 
   return (
     <>
       <DialogRoot
-        open={dialogOpen}
-        onOpenChange={(details) => onOpenChange(details.open)}
+        {...dialogProps}
+        onOpenChange={(details) => {
+          if (details.open) setPopoverOpen(false);
+          handleEditingChange(details.open, !details.open && shouldShowWarning);
+        }}
+        onRequestDismiss={(e) => {
+          if (previewMathRef.current?.isTypesetting) e.preventDefault();
+        }}
         size="large"
-        onExitComplete={onExitDialog}
       >
         <span {...attributes} contentEditable={false}>
           <PopoverRoot
             open={popoverOpen}
             onOpenChange={(details) => setPopoverOpen(details.open)}
-            onExitComplete={onExitPopover}
+            onExitComplete={dialogProps.onExitComplete}
           >
             <PopoverTrigger asChild ref={triggerRef} onMouseDown={(e) => e.preventDefault()} data-trigger="">
-              <StyledSpan role="button" tabIndex={0} selected={selected}>
-                <MathML innerHTML={nodeInfo.model.innerHTML} onDoubleClick={() => setDialogOpen(true)} />
+              <StyledSpan role="button" tabIndex={0} selected={selected} contentEditable={false}>
+                <MathML
+                  innerHTML={nodeInfo.model.innerHTML}
+                  onDoubleClick={() => {
+                    setPopoverOpen(false);
+                    handleEditingChange(true);
+                  }}
+                />
               </StyledSpan>
             </PopoverTrigger>
             <Portal>
@@ -222,7 +172,7 @@ const MathEditor = ({ element, children, attributes }: Props) => {
                     variant="danger"
                     aria-label={t("form.edit")}
                     title={t("form.edit")}
-                    onClick={handleRemove}
+                    onClick={handleUnwrap}
                   >
                     <DeleteBinLine />
                   </IconButton>
@@ -232,6 +182,7 @@ const MathEditor = ({ element, children, attributes }: Props) => {
           </PopoverRoot>
           {children}
         </span>
+
         <Portal>
           <DialogContent>
             <DialogHeader>
@@ -240,11 +191,11 @@ const MathEditor = ({ element, children, attributes }: Props) => {
             </DialogHeader>
             <DialogBody>
               <EditMath
-                onSave={handleSave}
+                onSave={onSave}
                 onRemove={handleRemove}
                 model={nodeInfo.model}
-                mathEditor={mathEditor}
-                setMathEditor={setMathEditor}
+                previewMathRef={previewMathRef}
+                setShouldShowWarning={setShouldShowWarning}
               />
             </DialogBody>
           </DialogContent>
@@ -253,15 +204,15 @@ const MathEditor = ({ element, children, attributes }: Props) => {
       <AlertDialog
         title={t("unsavedChanges")}
         label={t("unsavedChanges")}
-        show={discardDialogOpen}
+        show={isBlocked}
         text={t("mathEditor.continue")}
-        onCancel={() => setDiscardDialogOpen(false)}
+        onCancel={cancelClose}
       >
         <FormActionsContainer>
-          <Button variant="secondary" onClick={() => setDiscardDialogOpen(false)}>
+          <Button variant="secondary" onClick={cancelClose}>
             {t("form.abort")}
           </Button>
-          <Button variant="danger" onClick={onExit}>
+          <Button variant="danger" onClick={confirmClose}>
             {t("alertDialog.continue")}
           </Button>
         </FormActionsContainer>

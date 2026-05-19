@@ -46,11 +46,10 @@ interface Props {
   embed: CommentMetaData | undefined;
   onDelete: (e: MouseEvent) => void;
   onClose: () => void;
-  onOpenChange: (v: boolean) => void;
   variant: "inline" | "block";
 }
 
-const CommentPopoverPortal = ({ onSave, embed, onDelete, onClose, onOpenChange, variant }: Props) => {
+const CommentPopoverPortal = ({ onSave, embed, onDelete, onClose, variant }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -82,7 +81,7 @@ const CommentPopoverPortal = ({ onSave, embed, onDelete, onClose, onOpenChange, 
         <CommentForm
           initialData={embed?.embedData}
           onSave={onSave}
-          onOpenChange={onOpenChange}
+          onCancel={onClose}
           labelText={t("form.workflow.updateComment")}
           labelVisuallyHidden
           commentType={variant}

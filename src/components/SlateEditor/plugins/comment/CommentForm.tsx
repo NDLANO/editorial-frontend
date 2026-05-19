@@ -26,7 +26,7 @@ const StyledTextArea = styled(FieldTextArea, {
 interface Props {
   initialData: CommentEmbedData | undefined;
   onSave: (data: CommentEmbedData) => void;
-  onOpenChange: (open: boolean) => void;
+  onCancel: () => void;
   labelText: string;
   labelVisuallyHidden?: boolean;
   commentType: "block" | "inline";
@@ -50,14 +50,7 @@ const rules: RulesType<CommentFormValues> = {
   },
 };
 
-const CommentForm = ({
-  initialData,
-  onSave,
-  onOpenChange,
-  labelText,
-  labelVisuallyHidden = false,
-  commentType,
-}: Props) => {
+const CommentForm = ({ initialData, onSave, onCancel, labelText, labelVisuallyHidden = false, commentType }: Props) => {
   const { t } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
@@ -94,7 +87,7 @@ const CommentForm = ({
             )}
           </FormField>
           <FormActionsContainer>
-            <Button onClick={() => onOpenChange(false)} variant="secondary">
+            <Button onClick={onCancel} variant="secondary">
               {t("form.abort")}
             </Button>
             <Button type="submit" data-testid="disclaimer-save" disabled={!isValid || !dirty}>

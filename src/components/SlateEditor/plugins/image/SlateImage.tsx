@@ -11,15 +11,15 @@ import { PencilFill, DeleteBinLine, LinkMedium } from "@ndla/icons";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { ImageEmbedData, ImageMetaData } from "@ndla/types-embed";
+import { ImageMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, ImageEmbed } from "@ndla/ui";
-import { useCallback, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Transforms } from "slate";
-import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
+import { Editor } from "slate";
+import { RenderElementProps, useSelected } from "slate-react";
 import { useImageMeta } from "../../../../modules/embed/queries";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
-import { restoreFocusOnPopperExit } from "../../utils/restoreFocusOnPopperExit";
+import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import ImageEmbedForm from "./ImageEmbedForm";
 import { ImageElement } from "./types";
@@ -84,11 +84,11 @@ const disableImageCache = (embed: ImageMetaData | undefined): ImageMetaData | un
 };
 
 const SlateImage = ({ element, editor, attributes, children, allowDecorative = true }: Props) => {
-  const [isEditing, setIsEditing] = useState(false);
-
   const { t } = useTranslation();
   const language = useArticleLanguage();
   const isSelected = useSelected();
+
+  const { handleRemove, handleEditingChange, handleSave, dialogProps } = useEditableElement(element, editor);
 
   const imageEmbedQuery = useImageMeta(element.data?.resourceId ?? "", language, {
     enabled: !!parseInt(element.data?.resourceId ?? ""),
@@ -106,39 +106,12 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
 
   const embedWithoutCaching = useMemo(() => disableImageCache(embed), [embed]);
 
-  const handleRemove = () => {
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.removeNodes(editor, {
-      at: path,
-      voids: true,
-    });
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-    }, 0);
-  };
-
-  const onSave = useCallback(
-    (data: ImageEmbedData) => {
-      setIsEditing(false);
-      const properties = {
-        data,
-      };
-      const path = ReactEditor.findPath(editor, element);
-      Transforms.setNodes(editor, properties, { at: path });
-    },
-    [editor, element],
-  );
-
   if (imageEmbedQuery.isLoading || !embed || !embedWithoutCaching) {
     return <Spinner />;
   }
 
   return (
-    <DialogRoot
-      open={isEditing}
-      onOpenChange={(details) => setIsEditing(details.open)}
-      onExitComplete={() => restoreFocusOnPopperExit(editor)}
-    >
+    <DialogRoot {...dialogProps}>
       <StyledEmbedWrapper
         {...attributes}
         contentEditable={false}
@@ -191,8 +164,8 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
             <ImageEmbedForm
               embed={embed.embedData}
               image={embed.status === "success" ? embed.data : undefined}
-              onSave={onSave}
-              onClose={() => setIsEditing(false)}
+              onSave={(data) => handleSave({ data })}
+              onClose={() => handleEditingChange(false)}
               language={language}
               allowDecorative={allowDecorative}
             />

@@ -29,7 +29,8 @@ test("can insert symbol from toolbar", async ({ page }) => {
   const symbol = page.getByTestId("button-half");
   await symbol.waitFor({ state: "visible" });
   await symbol.click();
-  await expect(page.getByRole("dialog")).not.toBeVisible();
+  const toolbar = page.locator("[data-toolbar]");
+  await expect(toolbar).toBeHidden();
   await expect(page.getByTestId("slate-editor")).toHaveText(/½.+/);
 });
 

@@ -19,11 +19,11 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { EmbedWrapper, GridItem } from "@ndla/ui";
-import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
+import { Editor } from "slate";
+import { RenderElementProps } from "slate-react";
 import { DialogCloseButton } from "../../../DialogCloseButton";
+import { useEditableElement } from "../../utils/useEditableElement";
 import { GridCellForm } from "./GridCellForm";
 import { GridCellElement } from "./types";
 
@@ -45,32 +45,15 @@ const ButtonContainer = styled("div", {
 
 const GridCell = ({ editor, element, attributes, children }: Props) => {
   const { t } = useTranslation();
-  const [open, setOpen] = useState(false);
-
-  const onClose = () => {
-    setOpen(false);
-    const path = ReactEditor.findPath(editor, element);
-    setTimeout(() => Transforms.select(editor, path.concat([0, 0])), 0);
-  };
-
-  const onSave = useCallback(
-    (data: GridCellElement["data"]) => {
-      setOpen(false);
-      ReactEditor.focus(editor);
-      const path = ReactEditor.findPath(editor, element);
-      Transforms.setNodes(editor, { data }, { at: path });
-    },
-    [editor, element],
-  );
+  const { handleEditingChange, handleSave, dialogProps } = useEditableElement(element, editor);
 
   return (
-    <DialogRoot size="small" open={open} onOpenChange={(details) => setOpen(details.open)}>
+    <DialogRoot size="small" {...dialogProps}>
       <EmbedWrapper {...attributes}>
         <ButtonContainer contentEditable={false}>
           <DialogTrigger asChild>
             <IconButton
               variant="tertiary"
-              onMouseDown={(e) => e.preventDefault()}
               aria-label={t("gridCellForm.edit")}
               size="small"
               data-testid="edit-grid-cell-button"
@@ -85,7 +68,11 @@ const GridCell = ({ editor, element, attributes, children }: Props) => {
                 <DialogCloseButton />
               </DialogHeader>
               <DialogBody>
-                <GridCellForm onCancel={onClose} initialData={element.data} onSave={onSave} />
+                <GridCellForm
+                  onCancel={() => handleEditingChange(false)}
+                  initialData={element.data}
+                  onSave={(data) => handleSave({ data })}
+                />
               </DialogBody>
             </DialogContent>
           </Portal>

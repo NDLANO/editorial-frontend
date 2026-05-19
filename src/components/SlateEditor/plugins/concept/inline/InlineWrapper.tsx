@@ -23,19 +23,19 @@ import { ConceptDTO, ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { ConceptEmbedData, ConceptMetaData } from "@ndla/types-embed";
 import { ConceptEmbed, Concept, Gloss, ConceptInlineTriggerButton } from "@ndla/ui";
 import parse from "html-react-parser";
-import { useState, ReactNode, useMemo } from "react";
+import { ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Node, Transforms, Path } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
+import { Editor, Node } from "slate";
+import { RenderElementProps } from "slate-react";
 import { PUBLISHED } from "../../../../../constants";
 import { ConceptType } from "../../../../../containers/ConceptPage/conceptInterfaces";
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { useConceptVisualElement } from "../../../../../modules/embed/queries";
 import { useArticleLanguage } from "../../../ArticleLanguageProvider";
+import { useEditableElement } from "../../../utils/useEditableElement";
 import ConceptDialogContent from "../ConceptDialogContent";
 import EditGlossExamplesDialog from "../EditGlossExamplesDialog";
 import { getGlossDataAttributes } from "../utils";
-import { isConceptInlineElement } from "./queries";
 import { ConceptInlineElement } from "./types";
 
 const getConceptDataAttributes = (concept: ConceptDTO | ConceptSummaryDTO, locale: string): ConceptEmbedData => ({
@@ -55,18 +55,36 @@ interface Props {
 }
 
 const StyledConceptInlineTriggerButton = styled(ConceptInlineTriggerButton, {
+  base: {
+    position: "relative",
+    _before: {
+      position: "absolute",
+      content: '""',
+      width: "100%",
+      height: "100%",
+      zIndex: "-1",
+    },
+  },
   variants: {
     published: {
       true: {
-        background: "surface.brand.3.subtle",
+        _before: {
+          background: "surface.brand.3.subtle",
+        },
         _hover: {
-          background: "surface.brand.3.moderate",
+          _before: {
+            background: "surface.brand.3.moderate",
+          },
         },
       },
       false: {
-        background: "surface.actionSubtle.hover",
+        _before: {
+          background: "surface.actionSubtle.hover",
+        },
         _hover: {
-          background: "surface.actionSubtle.hover.strong",
+          _before: {
+            background: "surface.actionSubtle.hover.strong",
+          },
         },
       },
     },
@@ -103,12 +121,11 @@ const StyledErrorWarningFill = styled(ErrorWarningFill, {
   },
 });
 
-const InlineWrapper = (props: Props) => {
+const InlineWrapper = ({ children, element, editor, attributes }: Props) => {
   const { t } = useTranslation();
-  const { children, element, editor, attributes } = props;
   const nodeText = Node.string(element).trim();
-  const [isEditing, setIsEditing] = useState(!!element.isFirstEdit);
   const locale = useArticleLanguage();
+  const { handleUnwrap, handleSave, dialogProps } = useEditableElement(element, editor);
   const { concept, loading, createConcept, updateConcept, updateConceptStatus } = useFetchConceptData(
     parseInt(element.data.contentId),
     locale,
@@ -146,46 +163,6 @@ const InlineWrapper = (props: Props) => {
       return parse(embed.data.concept.content.content);
     }
   }, [embed]);
-
-  const handleSelectionChange = (isNewConcept: boolean) => {
-    ReactEditor.focus(editor);
-    if (isNewConcept) {
-      Transforms.select(editor, Path.next(ReactEditor.findPath(editor, element)));
-      Transforms.collapse(editor, { edge: "start" });
-    } else {
-      Transforms.select(editor, ReactEditor.findPath(editor, element));
-    }
-  };
-
-  const addConcept = (addedConcept: ConceptSummaryDTO | ConceptDTO) => {
-    setIsEditing(false);
-    handleSelectionChange(true);
-    const data = getConceptDataAttributes(addedConcept, locale);
-    if (element) {
-      const path = ReactEditor.findPath(editor, element);
-      Transforms.setNodes<ConceptInlineElement>(
-        editor,
-        { data, isFirstEdit: false },
-        { at: path, match: isConceptInlineElement },
-      );
-    }
-  };
-
-  const handleRemove = () => {
-    handleSelectionChange(false);
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.unwrapNodes(editor, { at: path, match: isConceptInlineElement });
-  };
-
-  const onOpenChange = (open: boolean) => {
-    setIsEditing(open);
-    if (open) return;
-    if (!element.data.contentId) {
-      handleRemove();
-    } else {
-      handleSelectionChange(false);
-    }
-  };
 
   const maybeAudio =
     embed?.status === "success" &&
@@ -229,7 +206,7 @@ const InlineWrapper = (props: Props) => {
                 <IconButton
                   variant="danger"
                   size="small"
-                  onClick={handleRemove}
+                  onClick={handleUnwrap}
                   aria-label={t(`form.${concept?.conceptType}.remove`)}
                   title={t(`form.${concept?.conceptType}.remove`)}
                 >
@@ -268,20 +245,14 @@ const InlineWrapper = (props: Props) => {
           </Portal>
         </PopoverRoot>
       )}
-      <DialogRoot
-        open={isEditing}
-        onOpenChange={(details) => onOpenChange(details.open)}
-        onEscapeKeyDown={(e) => e.stopPropagation()}
-        onExitComplete={() => ReactEditor.focus(editor)}
-        size="large"
-      >
+      <DialogRoot {...dialogProps} size="large">
         <Portal>
           <DialogContent>
             <ConceptDialogContent
-              addConcept={addConcept}
+              addConcept={(data) => handleSave({ data: getConceptDataAttributes(data, locale) })}
               locale={locale}
               concept={concept}
-              handleRemove={handleRemove}
+              handleRemove={handleUnwrap}
               selectedText={nodeText}
               createConcept={createConcept}
               updateConcept={updateConcept}

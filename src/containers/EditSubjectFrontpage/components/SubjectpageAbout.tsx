@@ -6,9 +6,8 @@
  *
  */
 
-import { FieldErrorMessage, FieldLabel, FieldRoot, Spinner } from "@ndla/primitives";
+import { FieldErrorMessage, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldWarning } from "../../../components/Form/FieldWarning";
 import { FormRemainingCharacters } from "../../../components/Form/FormRemainingCharacters";
@@ -29,18 +28,8 @@ interface Props {
 
 const SubjectpageAbout = ({ selectedLanguage }: Props) => {
   const { t } = useTranslation();
-  const [showLoading, setShowLoading] = useState(false);
-
-  useEffect(() => {
-    setShowLoading(true);
-    setTimeout(() => setShowLoading(false), 0);
-  }, [selectedLanguage]);
-
-  if (showLoading) {
-    return <Spinner />;
-  }
   return (
-    <FormContent>
+    <FormContent key={selectedLanguage}>
       <TitleField hideToolbar />
       <FormField name="description">
         {({ field, meta }) => (

@@ -17,6 +17,7 @@ import { definitionListPlugin } from "../../../../components/SlateEditor/plugins
 import { definitionTermPlugin } from "../../../../components/SlateEditor/plugins/definitionList/definitionTermPlugin";
 import { divPlugin } from "../../../../components/SlateEditor/plugins/div";
 import { dndPlugin } from "../../../../components/SlateEditor/plugins/DND/dndPlugin";
+import { focusPlugin } from "../../../../components/SlateEditor/plugins/focus";
 import { headingPlugin } from "../../../../components/SlateEditor/plugins/heading";
 import { idPlugin } from "../../../../components/SlateEditor/plugins/id/idPlugin";
 import { contentLinkPlugin, linkPlugin } from "../../../../components/SlateEditor/plugins/link";
@@ -36,6 +37,7 @@ import { unsupportedPlugin } from "../../../../components/SlateEditor/plugins/un
 
 // Plugins are checked from last to first
 export const topicArticlePlugins: SlatePlugin[] = [
+  focusPlugin,
   idPlugin,
   inlineNavigationPlugin,
   sectionPlugin,

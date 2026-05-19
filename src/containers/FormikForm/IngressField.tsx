@@ -19,6 +19,7 @@ import { breakPlugin } from "../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../components/SlateEditor/plugins/break/render";
 import { commentInlinePlugin } from "../../components/SlateEditor/plugins/comment/inline";
 import { commentInlineRenderer } from "../../components/SlateEditor/plugins/comment/inline/render";
+import { focusPlugin } from "../../components/SlateEditor/plugins/focus";
 import { markPlugin } from "../../components/SlateEditor/plugins/mark";
 import { markRenderer } from "../../components/SlateEditor/plugins/mark/render";
 import { noopPlugin } from "../../components/SlateEditor/plugins/noop";
@@ -78,6 +79,7 @@ const MetaWrapper = styled("div", {
 });
 
 const ingressPlugins: SlatePlugin[] = [
+  focusPlugin,
   inlineNavigationPlugin,
   spanPlugin,
   paragraphPlugin,

@@ -51,8 +51,11 @@ const RadioGroupItemWrapper = styled("div", {
   },
 });
 
-const options = ["yes", "not-applicable", "no", "not-set"];
-const defaultValue = "not-set";
+const modelReleasedOptions = ["yes", "not-applicable", "no", "not-set"];
+const defaultModelReleased = "not-set";
+
+const aiGeneratedOptions = ["No", "Yes", "Partial"];
+const defaultAiGenerated = "No";
 
 const ImageMetaData = ({ imageLanguage }: Props) => {
   const { t } = useTranslation();
@@ -117,12 +120,12 @@ const ImageMetaData = ({ imageLanguage }: Props) => {
           return (
             <FieldRoot>
               <RadioGroupRoot
-                value={field.value ?? defaultValue}
+                value={field.value ?? defaultModelReleased}
                 onValueChange={(details) => helpers.setValue(details.value)}
               >
                 <RadioGroupLabel>{t("form.modelReleased.description")}</RadioGroupLabel>
                 <RadioGroupItemWrapper>
-                  {options.map((option) => (
+                  {modelReleasedOptions.map((option) => (
                     <RadioGroupItem key={option} value={option}>
                       <RadioGroupItemControl />
                       <RadioGroupItemText>{t(`form.modelReleased.${option}`)}</RadioGroupItemText>
@@ -152,6 +155,29 @@ const ImageMetaData = ({ imageLanguage }: Props) => {
             </CheckboxRoot>
           </FieldRoot>
         )}
+      </FormField>
+      <FormField name="aiGenerated">
+        {({ field, helpers }) => {
+          return (
+            <FieldRoot>
+              <RadioGroupRoot
+                value={field.value ?? defaultAiGenerated}
+                onValueChange={(details) => helpers.setValue(details.value)}
+              >
+                <RadioGroupLabel>{t("form.aiGenerated.description")}</RadioGroupLabel>
+                <RadioGroupItemWrapper>
+                  {aiGeneratedOptions.map((option) => (
+                    <RadioGroupItem key={option} value={option}>
+                      <RadioGroupItemControl />
+                      <RadioGroupItemText>{t(`form.aiGenerated.${option}`)}</RadioGroupItemText>
+                      <RadioGroupItemHiddenInput />
+                    </RadioGroupItem>
+                  ))}
+                </RadioGroupItemWrapper>
+              </RadioGroupRoot>
+            </FieldRoot>
+          );
+        }}
       </FormField>
     </FormContent>
   );

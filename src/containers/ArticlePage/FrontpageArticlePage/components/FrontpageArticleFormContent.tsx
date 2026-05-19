@@ -54,6 +54,8 @@ import VisualElementField from "../../../FormikForm/components/VisualElementFiel
 import { useSession } from "../../../Session/SessionProvider";
 import { frontpagePlugins } from "./frontpagePlugins";
 import { frontpageRenderers } from "./frontpageRenderers";
+import { FRAMED_CONTENT_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/framedContent/framedContentTypes";
+import { ASIDE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/aside/asideTypes";
 
 const StyledDiv = styled("div", {
   base: {
@@ -83,6 +85,8 @@ const actions = [
   LINK_BLOCK_LIST_ELEMENT_TYPE,
   DISCLAIMER_ELEMENT_TYPE,
   COMMENT_BLOCK_ELEMENT_TYPE,
+  FRAMED_CONTENT_ELEMENT_TYPE,
+  ASIDE_ELEMENT_TYPE,
 ].concat(visualElements);
 
 const actionsToShowInAreas = {

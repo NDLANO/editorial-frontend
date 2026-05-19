@@ -30,7 +30,16 @@ import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
 export const Component = () => <PrivateRoute component={<ContentSearch />} />;
 
-const SORT_TYPES: SortType[] = ["id", "relevance", "title", "lastUpdated", "revisionDate", "favorited", "published"];
+const SORT_TYPES: SortType[] = [
+  "id",
+  "relevance",
+  "title",
+  "lastUpdated",
+  "firstPublished",
+  "revisionDate",
+  "favorited",
+  "published",
+];
 
 const DEFAULT_PARAMS: DraftSearchParamsDTO = {
   fallback: false,

@@ -27,10 +27,11 @@ import he from "he";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Node, Transforms } from "slate";
-import { ReactEditor, RenderElementProps, useSelected, useSlateStatic } from "slate-react";
+import { ReactEditor, RenderElementProps, useSlateStatic } from "slate-react";
 import { AlertDialog } from "../../../AlertDialog/AlertDialog";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormActionsContainer } from "../../../FormikForm";
+import { SelectableSlateElement } from "../../common/SelectableSlateEmbed";
 import { useEditableElement } from "../../utils/useEditableElement";
 import EditMath from "./EditMath";
 import MathML, { type MathMLHandle } from "./MathML";
@@ -62,27 +63,12 @@ const StyledFormActionsContainer = styled(FormActionsContainer, {
   },
 });
 
-const StyledSpan = styled("span", {
+const StyledSelectableSlateElement = styled(SelectableSlateElement, {
   base: {
     display: "inline-block",
+    outlineOffset: "4xsmall",
     "& mjx-container": {
       pointerEvents: "none",
-    },
-    _open: {
-      outline: "1px solid",
-      outlineColor: "stroke.default",
-      outlineOffset: "4xsmall",
-      borderRadius: "xsmall",
-    },
-  },
-  variants: {
-    selected: {
-      true: {
-        outline: "1px solid",
-        outlineColor: "stroke.default",
-        outlineOffset: "4xsmall",
-        borderRadius: "xsmall",
-      },
     },
   },
 });
@@ -99,7 +85,6 @@ const MathEditor = ({ element, children, attributes }: Props) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const previewMathRef = useRef<MathMLHandle>(null);
-  const selected = useSelected();
   const {
     handleEditingChange,
     handleSave,
@@ -146,15 +131,17 @@ const MathEditor = ({ element, children, attributes }: Props) => {
             onExitComplete={dialogProps.onExitComplete}
           >
             <PopoverTrigger asChild ref={triggerRef} onMouseDown={(e) => e.preventDefault()} data-trigger="">
-              <StyledSpan role="button" tabIndex={0} selected={selected} contentEditable={false}>
-                <MathML
-                  innerHTML={nodeInfo.model.innerHTML}
-                  onDoubleClick={() => {
-                    setPopoverOpen(false);
-                    handleEditingChange(true);
-                  }}
-                />
-              </StyledSpan>
+              <StyledSelectableSlateElement role="button" tabIndex={0} contentEditable={false} asChild consumeCss>
+                <span>
+                  <MathML
+                    innerHTML={nodeInfo.model.innerHTML}
+                    onDoubleClick={() => {
+                      setPopoverOpen(false);
+                      handleEditingChange(true);
+                    }}
+                  />
+                </span>
+              </StyledSelectableSlateElement>
             </PopoverTrigger>
             <Portal>
               <StyledPopoverContent>

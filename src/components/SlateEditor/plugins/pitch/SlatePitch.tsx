@@ -17,12 +17,13 @@ import {
   DialogTrigger,
   IconButton,
 } from "@ndla/primitives";
-import { Pitch, EmbedWrapper } from "@ndla/ui";
+import { Pitch } from "@ndla/ui";
 import { useTranslation } from "react-i18next";
 import { Editor } from "slate";
 import { RenderElementProps } from "slate-react";
 import config from "../../../../config";
 import { DialogCloseButton } from "../../../DialogCloseButton";
+import { SelectableEmbedWrapper } from "../../common/SelectableSlateEmbed";
 import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import PitchForm from "./PitchForm";
@@ -42,7 +43,7 @@ const SlatePitch = ({ element, editor, attributes, children }: Props) => {
 
   return (
     <DialogRoot size="large" {...dialogProps}>
-      <EmbedWrapper {...attributes} data-testid="slate-pitch" contentEditable={false}>
+      <SelectableEmbedWrapper {...attributes} data-testid="slate-pitch" contentEditable={false}>
         {!!data && (
           <>
             <StyledFigureButtons>
@@ -80,7 +81,7 @@ const SlatePitch = ({ element, editor, attributes, children }: Props) => {
           </>
         )}
         {children}
-      </EmbedWrapper>
+      </SelectableEmbedWrapper>
       <Portal>
         <DialogContent>
           <DialogHeader>

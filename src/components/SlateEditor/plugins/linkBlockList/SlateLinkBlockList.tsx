@@ -11,11 +11,12 @@ import { PencilFill, AddLine, DeleteBinLine } from "@ndla/icons";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LinkBlockEmbedData } from "@ndla/types-embed";
-import { EmbedWrapper, LinkBlock, LinkBlockSection } from "@ndla/ui";
+import { LinkBlock, LinkBlockSection } from "@ndla/ui";
 import { ReactNode, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor } from "slate";
 import { RenderElementProps } from "slate-react";
+import { SelectableEmbedWrapper } from "../../common/SelectableSlateEmbed";
 import { useEditableElement } from "../../utils/useEditableElement";
 import LinkBlockForm from "./LinkBlockForm";
 import { LinkBlockListElement } from "./types";
@@ -77,7 +78,7 @@ const SlateLinkBlockList = ({ attributes, editor, element, children }: Props) =>
       onOpenChange={(details) => handleEditingChange(details.open)}
       onExitComplete={onEditingExit}
     >
-      <EmbedWrapper {...attributes} contentEditable={false}>
+      <SelectableEmbedWrapper {...attributes} contentEditable={false}>
         {children}
         <HeaderWrapper>
           <DialogTrigger asChild>
@@ -112,7 +113,7 @@ const SlateLinkBlockList = ({ attributes, editor, element, children }: Props) =>
             />
           ))}
         </LinkBlockSection>
-      </EmbedWrapper>
+      </SelectableEmbedWrapper>
     </DialogRoot>
   );
 };
@@ -152,31 +153,29 @@ const SlateLinkBlock = ({ link, onSave, onDelete, allEmbeds, index }: SlateLinkB
 
   return (
     <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
-      <EmbedWrapper>
-        <LinkBlock title={link.title} url={link.url} date={link.date} />
-        <ButtonWrapper>
-          <DialogTrigger asChild>
-            <IconButton aria-label={t("linkBlock.edit")} title={t("linkBlock.edit")} size="small">
-              <PencilFill />
-            </IconButton>
-          </DialogTrigger>
-          <Portal>
-            <DialogContent>
-              <LinkBlockForm embed={link} onSave={onSaveElement} existingEmbeds={otherEmbeds} />
-            </DialogContent>
-          </Portal>
-
-          <IconButton
-            variant="danger"
-            size="small"
-            aria-label={t("linkBlock.delete")}
-            title={t("linkBlock.delete")}
-            onClick={() => onDelete(index)}
-          >
-            <DeleteBinLine />
+      <LinkBlock title={link.title} url={link.url} date={link.date} />
+      <ButtonWrapper>
+        <DialogTrigger asChild>
+          <IconButton aria-label={t("linkBlock.edit")} title={t("linkBlock.edit")} size="small">
+            <PencilFill />
           </IconButton>
-        </ButtonWrapper>
-      </EmbedWrapper>
+        </DialogTrigger>
+        <Portal>
+          <DialogContent>
+            <LinkBlockForm embed={link} onSave={onSaveElement} existingEmbeds={otherEmbeds} />
+          </DialogContent>
+        </Portal>
+
+        <IconButton
+          variant="danger"
+          size="small"
+          aria-label={t("linkBlock.delete")}
+          title={t("linkBlock.delete")}
+          onClick={() => onDelete(index)}
+        >
+          <DeleteBinLine />
+        </IconButton>
+      </ButtonWrapper>
     </DialogRoot>
   );
 };

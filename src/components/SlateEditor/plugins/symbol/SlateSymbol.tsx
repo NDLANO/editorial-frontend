@@ -26,7 +26,8 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor } from "slate";
-import { RenderElementProps, useSelected } from "slate-react";
+import { RenderElementProps } from "slate-react";
+import { SelectableSlateElement } from "../../common/SelectableSlateEmbed";
 import { InlineBugfix } from "../../utils/InlineBugFix";
 import { useEditableElement } from "../../utils/useEditableElement";
 import { symbols } from "./constants";
@@ -38,20 +39,12 @@ interface Props extends RenderElementProps {
   children: ReactNode;
 }
 
-const SymbolWrapper = styled("span", {
+const StyledSelectableSlateElement = styled(SelectableSlateElement, {
   base: {
     backgroundColor: "surface.brand.3.moderate",
     cursor: "pointer",
   },
   variants: {
-    isSelected: {
-      true: {
-        outline: "1px solid",
-        outlineColor: "stroke.default",
-        outlineOffset: "1px",
-        borderRadius: "xsmall",
-      },
-    },
     isUnknown: {
       true: {
         backgroundColor: "surface.error",
@@ -101,7 +94,6 @@ const StyledButton = styled(Button, {
 });
 
 export const SlateSymbol = ({ element, editor, attributes, children }: Props) => {
-  const isSelected = useSelected();
   const { t } = useTranslation();
   const { handleRemove, handleEditingChange, handleSave, popoverProps } = useEditableElement(element, editor);
 
@@ -111,18 +103,17 @@ export const SlateSymbol = ({ element, editor, attributes, children }: Props) =>
   return (
     <PopoverRoot {...popoverProps}>
       <PopoverTrigger asChild type={undefined}>
-        <SymbolWrapper
+        <StyledSelectableSlateElement
           {...attributes}
           contentEditable={false}
           title={symbolTooltip}
-          isSelected={isSelected}
           isUnknown={isUnknownSymbol}
         >
           <InlineBugfix />
           {element.symbol?.icon ?? element.symbol?.text}
           {children}
           <InlineBugfix />
-        </SymbolWrapper>
+        </StyledSelectableSlateElement>
       </PopoverTrigger>
       <Portal>
         <StyledPopoverContent>

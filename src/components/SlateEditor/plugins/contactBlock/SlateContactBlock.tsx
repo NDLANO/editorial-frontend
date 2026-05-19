@@ -18,13 +18,14 @@ import {
   IconButton,
 } from "@ndla/primitives";
 import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import { ContactBlock, ContactBlockBackground, EmbedWrapper } from "@ndla/ui";
+import { ContactBlock, ContactBlockBackground } from "@ndla/ui";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor } from "slate";
 import { RenderElementProps } from "slate-react";
 import { fetchImage } from "../../../../modules/image/imageApi";
 import { DialogCloseButton } from "../../../DialogCloseButton";
+import { SelectableEmbedWrapper } from "../../common/SelectableSlateEmbed";
 import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import ContactBlockForm from "./ContactBlockForm";
@@ -49,7 +50,7 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
 
   return (
     <DialogRoot size="large" {...dialogProps}>
-      <EmbedWrapper {...attributes} contentEditable={false} data-testid="slate-contact-block">
+      <SelectableEmbedWrapper {...attributes} contentEditable={false} data-testid="slate-contact-block">
         {!!contactBlock && !!image && (
           <>
             <StyledFigureButtons>
@@ -86,7 +87,7 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
           </>
         )}
         {children}
-      </EmbedWrapper>
+      </SelectableEmbedWrapper>
       <Portal>
         <DialogContent>
           <DialogHeader>

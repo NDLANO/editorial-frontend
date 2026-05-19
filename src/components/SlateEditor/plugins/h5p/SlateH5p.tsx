@@ -11,11 +11,11 @@ import { DeleteBinLine, FileCopyLine, LinkMedium } from "@ndla/icons";
 import { DialogBody, DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { H5pEmbedData, H5pMetaData } from "@ndla/types-embed";
-import { EmbedWrapper, H5pEmbed } from "@ndla/ui";
+import { H5pEmbed } from "@ndla/ui";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor } from "slate";
-import { RenderElementProps, useSelected } from "slate-react";
+import { RenderElementProps } from "slate-react";
 import config from "../../../../config";
 import { useMessages } from "../../../../containers/Messages/MessagesProvider";
 import { useH5pMeta } from "../../../../modules/embed/queries";
@@ -23,6 +23,7 @@ import { useCopyH5pMutation } from "../../../../modules/h5p/h5pMutations";
 import { getH5pLocale } from "../../../H5PElement/h5pApi";
 import H5PElement, { OnSelectObject } from "../../../H5PElement/H5PElement";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
+import { SelectableEmbedWrapper } from "../../common/SelectableSlateEmbed";
 import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import EditMetadataDialog from "./EditMetadataDialog";
@@ -32,15 +33,6 @@ interface Props extends RenderElementProps {
   element: H5pElement;
   editor: Editor;
 }
-
-const StyledEmbedWrapper = styled(EmbedWrapper, {
-  base: {
-    _selected: {
-      outline: "2px solid",
-      outlineColor: "stroke.default",
-    },
-  },
-});
 
 const FigureButtons = styled(StyledFigureButtons, {
   base: {
@@ -70,7 +62,6 @@ const StyledDialogContent = styled(DialogContent, {
 const SlateH5p = ({ element, editor, attributes, children }: Props) => {
   const [isCopied, setIsCopied] = useState(false);
   const { t } = useTranslation();
-  const isSelected = useSelected();
   const language = useArticleLanguage();
   const { createMessage } = useMessages();
   const { handleRemove, handleSave, handleEditingChange, dialogProps } = useEditableElement(element, editor);
@@ -136,7 +127,7 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
   };
 
   return (
-    <StyledEmbedWrapper {...attributes} aria-selected={isSelected} contentEditable={false}>
+    <SelectableEmbedWrapper {...attributes} contentEditable={false}>
       <FigureButtons>
         {config.h5pMetaEnabled === true && <EditMetadataDialog embed={embed} editor={editor} element={element} />}
         <DialogRoot size="large" {...dialogProps}>
@@ -183,7 +174,7 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
       </FigureButtons>
       {h5pMetaQuery.isLoading || h5pCopyMutation.isPending || !embed ? <Spinner /> : <H5pEmbed embed={embed} />}
       {children}
-    </StyledEmbedWrapper>
+    </SelectableEmbedWrapper>
   );
 };
 

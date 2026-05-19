@@ -249,11 +249,11 @@ function getRelevantAncestor(editor: Editor, rawSelection: Selection): NodeEntry
   if (!rawSelection) return null;
   const selection = Editor.unhangRange(editor, rawSelection);
 
-  // start with the closest relevant ancestor
+  // start with the closest non-inline ancestor
   let [ancestor, path] =
     Editor.above(editor, {
       at: selection,
-      match: (node) => Node.isElement(node),
+      match: (node) => Node.isElement(node) && !editor.isInline(node),
       voids: true,
     }) ?? [];
 

@@ -20,18 +20,18 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { FileListWrapper } from "@ndla/ui";
 import { TFunction } from "i18next";
-import { ReactNode, useCallback, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
+import { Editor } from "slate";
+import { RenderElementProps } from "slate-react";
 import { FileElement } from ".";
 import config from "../../../../config";
 import { File, UnsavedFile } from "../../../../interfaces";
 import { headFileAtRemote } from "../../../../modules/draft/draftApi";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import FileUploader from "../../../FileUploader";
+import { useEditableElement } from "../../utils/useEditableElement";
 import DndFileList from "./DndFileList";
-import { isFileElement } from "./queries";
 
 const StyledHeaderWrapper = styled("div", {
   base: {
@@ -65,8 +65,8 @@ const getMissingFiles = async (files: File[]) => {
 const SlateFileList = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
   const [missingFilePaths, setMissingFilePaths] = useState<string[]>([]);
-  const [showFileUploader, setShowFileUploader] = useState(false);
   const { data: files } = element;
+  const { handleEditingChange, handleRemove, handleSave, dialogProps } = useEditableElement(element, editor);
 
   useEffect(() => {
     getMissingFiles(files).then(setMissingFilePaths);
@@ -74,40 +74,17 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onEditFileList = useCallback(
-    (data: File[]) => {
-      Transforms.setNodes(editor, { data }, { at: ReactEditor.findPath(editor, element) });
-    },
-    [editor, element],
-  );
-
-  const removeFileList = () => {
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.removeNodes(editor, { at: path, match: isFileElement });
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, path);
-      Transforms.collapse(editor);
-    }, 0);
-  };
-
   const onDeleteFile = (indexToDelete: number) => {
     if (files.length === 1) {
-      removeFileList();
-      return;
+      handleRemove();
+    } else {
+      handleSave({ data: files.filter((_, i) => i !== indexToDelete) });
     }
-    const data = files.filter((_, i) => i !== indexToDelete);
-    onEditFileList(data);
   };
 
-  const onAddFileToList = (newFiles: UnsavedFile[]) => {
-    setShowFileUploader(false);
-    const data = files.concat(
-      newFiles.map((file) => {
-        return formatFile({ ...file, url: config.ndlaApiUrl + file.path, resource: "file" }, t);
-      }),
-    );
-    onEditFileList(data);
+  const onAddFileToList = (unsaved: UnsavedFile[]) => {
+    const newFiles = unsaved.map((f) => formatFile({ ...f, url: config.ndlaApiUrl + f.path, resource: "file" }, t));
+    handleSave({ data: files.concat(newFiles) });
   };
 
   if (files.length === 0) {
@@ -117,7 +94,7 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
     <FileListWrapper {...attributes} contentEditable={false} asChild consumeCss>
       <div>
         <StyledHeaderWrapper>
-          <DialogRoot open={showFileUploader} onOpenChange={(details) => setShowFileUploader(details.open)}>
+          <DialogRoot {...dialogProps}>
             <DialogTrigger asChild>
               <IconButton
                 variant="tertiary"
@@ -135,7 +112,7 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
                   <DialogCloseButton />
                 </DialogHeader>
                 <DialogBody>
-                  <FileUploader onFileSave={onAddFileToList} close={() => setShowFileUploader(false)} />
+                  <FileUploader onFileSave={onAddFileToList} close={() => handleEditingChange(false)} />
                 </DialogBody>
               </DialogContent>
             </Portal>
@@ -144,7 +121,7 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
             variant="danger"
             title={t("form.file.removeList")}
             aria-label={t("form.file.removeList")}
-            onClick={removeFileList}
+            onClick={handleRemove}
             size="small"
           >
             <CloseLine />
@@ -153,7 +130,7 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
         <ul>
           <DndFileList
             files={files}
-            onEditFileList={onEditFileList}
+            onEditFileList={(data) => handleSave({ data })}
             onDeleteFile={onDeleteFile}
             missingFilePaths={missingFilePaths}
           />

@@ -16,11 +16,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@ndla/primitives";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
+import { Editor } from "slate";
+import { RenderElementProps } from "slate-react";
 import { DialogCloseButton } from "../../../DialogCloseButton";
+import { useEditableElement } from "../../utils/useEditableElement";
 import FootnoteForm from "./FootnoteForm";
 import { FootnoteElement } from "./types";
 
@@ -31,41 +31,10 @@ interface Props extends RenderElementProps {
 
 const Footnote = ({ attributes, children, editor, element }: Props) => {
   const { t } = useTranslation();
-
-  const [editMode, setEditMode] = useState(!element.data.title);
-
-  const onClose = () => {
-    if (!element.data) {
-      handleRemove();
-    } else {
-      setEditMode(false);
-    }
-  };
-
-  const handleRemove = () => {
-    if (element) {
-      Transforms.removeNodes(editor, {
-        at: ReactEditor.findPath(editor, element),
-      });
-      ReactEditor.focus(editor);
-      setEditMode(false);
-    }
-  };
-
-  const handleSave = (data: FootnoteElement["data"]) => {
-    Transforms.setNodes(
-      editor,
-      { data },
-      {
-        at: ReactEditor.findPath(editor, element),
-      },
-    );
-
-    setEditMode(false);
-  };
+  const { handleEditingChange, handleRemove, handleSave, dialogProps } = useEditableElement(element, editor);
 
   return (
-    <DialogRoot open={editMode} onOpenChange={(details) => setEditMode(details.open)}>
+    <DialogRoot {...dialogProps}>
       <sup>
         <DialogTrigger asChild>
           <Button variant="link" {...attributes}>
@@ -83,10 +52,10 @@ const Footnote = ({ attributes, children, editor, element }: Props) => {
           <DialogBody>
             <FootnoteForm
               footnote={element.data}
-              onClose={onClose}
+              onClose={() => handleEditingChange(false)}
               isEdit={!!element.data.title}
               onRemove={handleRemove}
-              onSave={handleSave}
+              onSave={(data) => handleSave({ data })}
             />
           </DialogBody>
         </DialogContent>

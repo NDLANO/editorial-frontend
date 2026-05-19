@@ -18,13 +18,13 @@ import {
   IconButton,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { EmbedWrapper, Grid, GridType } from "@ndla/ui";
-import { useCallback, useState } from "react";
+import { EmbedWrapper, Grid } from "@ndla/ui";
 import { useTranslation } from "react-i18next";
-import { Editor, Transforms } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
+import { Editor } from "slate";
+import { RenderElementProps } from "slate-react";
 import DeleteButton from "../../../DeleteButton";
 import { DialogCloseButton } from "../../../DialogCloseButton";
+import { useEditableElement } from "../../utils/useEditableElement";
 import { GridProvider } from "./GridContext";
 import GridForm from "./GridForm";
 import { GridElement } from "./types";
@@ -46,39 +46,10 @@ const ButtonContainer = styled("div", {
 
 export const SlateGrid = ({ element, editor, children, attributes }: Props) => {
   const { t } = useTranslation();
-  const [isEditing, setIsEditing] = useState(false);
-
-  const handleRemove = () => {
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.removeNodes(editor, {
-      at: path,
-      voids: true,
-    });
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, path);
-      Transforms.collapse(editor);
-    }, 0);
-  };
-
-  const onClose = () => {
-    setIsEditing(false);
-    const path = ReactEditor.findPath(editor, element);
-    setTimeout(() => Transforms.select(editor, path.concat([0, 0])), 0);
-  };
-
-  const onSave = useCallback(
-    (data: GridType) => {
-      setIsEditing(false);
-      ReactEditor.focus(editor);
-      const path = ReactEditor.findPath(editor, element);
-      Transforms.setNodes(editor, { data }, { at: path });
-    },
-    [editor, element],
-  );
+  const { handleRemove, handleSave, handleEditingChange, dialogProps } = useEditableElement(element, editor);
 
   return (
-    <DialogRoot open={isEditing} size="small" onOpenChange={(details) => setIsEditing(details.open)}>
+    <DialogRoot size="small" {...dialogProps}>
       <EmbedWrapper>
         <ButtonContainer>
           <DeleteButton aria-label={t("delete")} data-testid="remove-grid" onClick={handleRemove} />
@@ -100,7 +71,11 @@ export const SlateGrid = ({ element, editor, children, attributes }: Props) => {
                 <DialogCloseButton />
               </DialogHeader>
               <DialogBody>
-                <GridForm onCancel={onClose} initialData={element.data} onSave={onSave} />
+                <GridForm
+                  onCancel={() => handleEditingChange(false)}
+                  initialData={element.data}
+                  onSave={(data) => handleSave({ data })}
+                />
               </DialogBody>
             </DialogContent>
           </Portal>

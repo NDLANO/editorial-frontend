@@ -23,11 +23,11 @@ import { AiPromptDialog } from "../../../AiPromptDialog";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
+import { useEditableElement } from "../../utils/useEditableElement";
 import { isCopyrightElement } from "../copyright/queries";
 import { defaultCopyrightBlock } from "../copyright/utils";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import { FramedContentElement } from "./framedContentTypes";
-import { isFramedContentElement } from "./queries/framedContentQueries";
 
 const FigureButtons = styled(StyledFigureButtons, {
   base: {
@@ -48,30 +48,11 @@ const SlateFramedContent = (props: Props) => {
   const language = useArticleLanguage();
   const variant = element.data?.variant ?? "neutral";
   const hasAIAccess = userPermissions?.includes(AI_ACCESS_SCOPE);
+  const { handleRemove, handleUnwrap } = useEditableElement(element, editor);
 
   const hasSlateCopyright = useMemo(() => {
     return element.children.some((child) => isCopyrightElement(child));
   }, [element.children]);
-
-  const onRemoveClick = () => {
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.removeNodes(editor, { at: path, match: isFramedContentElement });
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, path);
-      Transforms.collapse(editor);
-    }, 0);
-  };
-
-  const onMoveContent = () => {
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.unwrapNodes(editor, { at: path, match: isFramedContentElement, voids: true });
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, path);
-      Transforms.collapse(editor, { edge: "start" });
-    }, 0);
-  };
 
   const changeVariant = () => {
     const newData = { variant: element.data?.variant === "colored" ? "neutral" : "colored" };
@@ -142,8 +123,13 @@ const SlateFramedContent = (props: Props) => {
         >
           <BrushLine />
         </IconButton>
-        <MoveContentButton onMouseDown={onMoveContent} aria-label={t("form.moveContent")} />
-        <DeleteButton aria-label={t("form.remove")} data-testid="remove-framedContent" onMouseDown={onRemoveClick} />
+        <MoveContentButton onMouseDown={handleUnwrap} aria-label={t("form.moveContent")} />
+        <DeleteButton
+          aria-label={t("form.remove")}
+          tabIndex={-1}
+          data-testid="remove-framedContent"
+          onMouseDown={handleRemove}
+        />
       </FigureButtons>
       <FramedContent colorTheme={variant === "colored" ? "brand1" : undefined}>{children}</FramedContent>
     </EmbedWrapper>

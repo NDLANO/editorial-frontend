@@ -6,26 +6,48 @@
  *
  */
 
-import { useEffect, useRef, ComponentProps } from "react";
+import { useRef, ComponentProps, useLayoutEffect, useImperativeHandle } from "react";
 
-interface Props extends ComponentProps<"span"> {
-  innerHTML: string;
+export interface MathMLHandle {
+  readonly isTypesetting: boolean;
 }
 
-const MathML = ({ innerHTML, onDoubleClick, children, ...rest }: Props) => {
-  const ref = useRef<HTMLElement>(null);
+interface Props extends Omit<ComponentProps<"span">, "ref"> {
+  innerHTML: string;
+  ref?: React.Ref<MathMLHandle>;
+}
 
-  useEffect(() => {
-    if (!window.MathJax || !ref.current) return;
+const MathML = ({ innerHTML, children, ref, ...rest }: Props) => {
+  const spanRef = useRef<HTMLSpanElement>(null);
+  const typesetting = useRef(false);
 
-    ref.current.innerHTML = innerHTML;
-    window.MathJax.typesetPromise([ref.current]);
+  // Expose live typesetting state via ref so MathEditor can suppress onRequestDismiss events
+  // caused by MathJax's async DOM work while this instance is mid-typesetPromise.
+  useImperativeHandle(
+    ref,
+    () => ({
+      get isTypesetting() {
+        return typesetting.current;
+      },
+    }),
+    [],
+  );
+
+  useLayoutEffect(() => {
+    const curr = spanRef.current;
+    if (!window.MathJax || !curr) return;
+    curr.innerHTML = innerHTML;
+    typesetting.current = true;
+    window.MathJax.typesetPromise([curr]).then(() => {
+      typesetting.current = false;
+    });
     return () => {
-      window.MathJax.typesetClear();
+      typesetting.current = false;
+      window.MathJax.typesetClear([curr]);
     };
   }, [innerHTML]);
 
-  return <span ref={ref} data-testid="math" onDoubleClick={onDoubleClick} {...rest} />;
+  return <span ref={spanRef} data-testid="math" {...rest} />;
 };
 
 export default MathML;

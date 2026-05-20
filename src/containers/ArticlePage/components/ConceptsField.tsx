@@ -10,6 +10,7 @@ import { Draggable } from "@ndla/icons";
 import { ComboboxLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import { useQuery } from "@tanstack/react-query";
 import { FieldInputProps } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -20,7 +21,7 @@ import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCom
 import ListResource from "../../../components/Form/ListResource";
 import { FormContent } from "../../../components/FormikForm";
 import { postSearchConcepts } from "../../../modules/concept/conceptApi";
-import { useSearchConcepts } from "../../../modules/concept/conceptQueries";
+import { searchConceptsQueryOptions } from "../../../modules/concept/conceptQueries";
 import { routes } from "../../../util/routeHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 import { ArticleFormType } from "../../FormikForm/articleFormHooks";
@@ -43,10 +44,10 @@ const ConceptsField = ({ field }: Props) => {
   const { t, i18n } = useTranslation();
   const [concepts, setConcepts] = useState<ConceptSummaryDTO[]>([]);
 
-  const searchQuery = useSearchConcepts(
-    { query: delayedQuery, language: i18n.language, page },
-    { placeholderData: (prev) => prev },
-  );
+  const searchQuery = useQuery({
+    ...searchConceptsQueryOptions({ query: delayedQuery, language: i18n.language, page }),
+    placeholderData: (prev) => prev,
+  });
 
   useEffect(() => {
     (async () => {

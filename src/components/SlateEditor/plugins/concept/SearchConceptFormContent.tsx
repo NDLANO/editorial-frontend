@@ -11,12 +11,13 @@ import { styled } from "@ndla/styled-system/jsx";
 import { DraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { sortBy } from "@ndla/util";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CONCEPT_RESPONSIBLE } from "../../../../constants";
 import { CamelToKebab } from "../../../../interfaces";
 import { useAuth0Editors, useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
-import { useConceptStateMachine } from "../../../../modules/concept/conceptQueries";
+import { conceptStateMachineQueryOptions } from "../../../../modules/concept/conceptQueries";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import SearchControlButtons from "../../../Form/SearchControlButtons";
 import SearchHeader from "../../../Form/SearchHeader";
@@ -74,7 +75,7 @@ const SearchConceptFormContent = ({ onUpdateSearchParam, searchObject, userData,
     return sortBy(mapped, (u) => u.name);
   }, [responsiblesQuery.data]);
 
-  const statusQuery = useConceptStateMachine();
+  const statusQuery = useQuery(conceptStateMachineQueryOptions());
 
   const conceptStatuses = useMemo(() => {
     return Object.keys(statusQuery.data ?? []).map((s) => ({ id: s, name: t(`form.status.${s.toLowerCase()}`) }));

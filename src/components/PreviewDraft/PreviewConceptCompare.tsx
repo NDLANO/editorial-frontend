@@ -15,7 +15,7 @@ import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ConceptFormValues } from "../../containers/ConceptPage/conceptInterfaces";
 import { conceptFormTypeToApiType } from "../../containers/ConceptPage/conceptTransformers";
-import { useConcept } from "../../modules/concept/conceptQueries";
+import { conceptQueryOptions } from "../../modules/concept/conceptQueries";
 import { licenseQuery } from "../../modules/draft/draftQueries";
 import PreviewConceptComponent from "./PreviewConceptComponent";
 import { TwoArticleWrapper } from "./styles";
@@ -44,7 +44,7 @@ export const PreviewConceptCompare = ({ concept, language }: CompareConceptPrevi
   const [previewLanguage, setPreviewLanguage] = useState<string>(
     concept.supportedLanguages.find((l) => l !== language) ?? concept.supportedLanguages[0]!,
   );
-  const apiConcept = useConcept({ id: concept.id, language: previewLanguage });
+  const apiConcept = useQuery(conceptQueryOptions({ id: concept.id, language: previewLanguage }));
   const { data: licenses } = useQuery(licenseQuery());
   const { t } = useTranslation();
   const { values } = useFormikContext<ConceptFormValues>();

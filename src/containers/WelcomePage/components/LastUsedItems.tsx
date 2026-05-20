@@ -11,7 +11,7 @@ import { keyBy } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useSearchConcepts } from "../../../modules/concept/conceptQueries";
+import { searchConceptsQueryOptions } from "../../../modules/concept/conceptQueries";
 import { searchDraftQueryOptions } from "../../../modules/draft/draftQueries";
 import { useSearch } from "../../../modules/search/searchQueries";
 import { SortOptionLastUsed } from "../types";
@@ -56,10 +56,15 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [], lastUsed
     return getSortedResults(searchDraftsQuery.data?.results || [], lastUsedResources);
   }, [lastUsedResources, searchDraftsQuery.data?.results]);
 
-  const searchConceptsQuery = useSearchConcepts(
-    { ids: lastUsedConcepts, sort: "-lastUpdated", language: i18n.language, pageSize: lastUsedConcepts.length },
-    { enabled: !!lastUsedConcepts.length },
-  );
+  const searchConceptsQuery = useQuery({
+    ...searchConceptsQueryOptions({
+      ids: lastUsedConcepts,
+      sort: "-lastUpdated",
+      language: i18n.language,
+      pageSize: lastUsedConcepts.length,
+    }),
+    enabled: !!lastUsedConcepts.length,
+  });
 
   const conceptData = useMemo(() => {
     return getSortedResults(searchConceptsQuery.data?.results || [], lastUsedConcepts);

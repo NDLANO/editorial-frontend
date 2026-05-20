@@ -9,6 +9,7 @@
 import { createListCollection } from "@ark-ui/react";
 import { ComboboxItem, ComboboxItemText, FieldErrorMessage, FieldRoot, Input } from "@ndla/primitives";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import { useFormikContext } from "formik";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -18,7 +19,7 @@ import { SearchTagsContent } from "../../../components/Form/SearchTagsContent";
 import { SearchTagsTagSelectorInput } from "../../../components/Form/SearchTagsTagSelectorInput";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
-import { useConceptSearchTags } from "../../../modules/concept/conceptQueries";
+import { conceptSearchTagsQueryOptions } from "../../../modules/concept/conceptQueries";
 import useDebounce from "../../../util/useDebounce";
 import { ConceptFormValues } from "../conceptInterfaces";
 
@@ -29,16 +30,11 @@ const ConceptMetaData = () => {
   const { values } = formikContext;
   const [inputQuery, setInputQuery] = useState<string>("");
   const debouncedQuery = useDebounce(inputQuery, 300);
-  const searchTagsQuery = useConceptSearchTags(
-    {
-      input: debouncedQuery,
-      language: values.language,
-    },
-    {
-      enabled: !!debouncedQuery.length,
-      placeholderData: (prev) => prev,
-    },
-  );
+  const searchTagsQuery = useQuery({
+    ...conceptSearchTagsQueryOptions({ input: debouncedQuery, language: values.language }),
+    enabled: !!debouncedQuery.length,
+    placeholderData: (prev) => prev,
+  });
 
   const collection = useMemo(() => {
     return createListCollection({

@@ -16,7 +16,7 @@ import {
   TagsSearchResultDTO,
   ArticleRevisionHistoryDTO,
 } from "@ndla/types-backend/draft-api";
-import { useMutation, useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
+import { queryOptions, useMutation, useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
 import { DraftStatusStateMachineType } from "../../interfaces";
 import {
   DRAFT,
@@ -64,6 +64,13 @@ export const draftQueryKeys = {
   draftSearchTags: (params?: Partial<UseSearchTags>) => [DRAFT_SEARCH_TAGS, params] as const,
   draftEditors: [DRAFT_EDITORS] as const,
   draftResponsibles: [DRAFT_RESPONSIBLES] as const,
+};
+
+export const draftQueryOptions = ({ id, language }: UseDraft) => {
+  return queryOptions({
+    queryKey: language ? draftQueryKeys.draftWithLanguage(id, language) : draftQueryKeys.draft(id),
+    queryFn: () => fetchDraft(id),
+  });
 };
 
 export const useDraft = ({ id, language }: UseDraft, options?: Partial<UseQueryOptions<ArticleDTO>>) => {

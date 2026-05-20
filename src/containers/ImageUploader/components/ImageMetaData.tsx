@@ -55,8 +55,8 @@ const RadioGroupItemWrapper = styled("div", {
 const modelReleasedOptions = ["yes", "not-applicable", "no", "not-set"];
 const defaultModelReleased = "not-set";
 
-const aiGeneratedOptions = ["No", "Yes", "Partial"] satisfies AiGenerated[];
-const defaultAiGenerated = aiGeneratedOptions[0];
+const aiGeneratedOptions: AiGenerated[] = ["No", "Yes", "Partial"];
+const defaultAiGenerated: AiGenerated = "No";
 
 const ImageMetaData = ({ imageLanguage }: Props) => {
   const { t } = useTranslation();

@@ -24,16 +24,19 @@ import {
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
-import { lazy, Suspense, useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { lazy, Suspense, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useParams } from "react-router";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { FormActionsContainer } from "../../components/FormikForm";
 import HeaderSupportedLanguages from "../../components/HeaderWithLanguage/HeaderSupportedLanguages";
+import { PageSpinner } from "../../components/PageSpinner";
 import { PreviewResourceDialog } from "../../components/PreviewDraft/PreviewResourceDialog";
 import SaveButton from "../../components/SaveButton";
 import { DRAFT_HTML_SCOPE } from "../../constants";
-import { fetchDraft, updateDraft } from "../../modules/draft/draftApi";
+import { useUpdateDraftMutation } from "../../modules/draft/draftMutations";
+import { draftQueryOptions } from "../../modules/draft/draftQueries";
 import { blockContentToEditorValue, blockContentToHTML } from "../../util/articleContentConverter";
 import handleError from "../../util/handleError";
 import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
@@ -56,20 +59,6 @@ function standardizeContent(content: string): string {
     .join(">");
   const converted = blockContentToEditorValue(trimmedContent);
   return blockContentToHTML(converted);
-}
-
-function updateContentInDraft(draft: ArticleDTO | undefined, content: string): ArticleDTO | undefined {
-  if (draft === undefined || draft.content === undefined) {
-    return undefined;
-  }
-
-  return {
-    ...draft,
-    content: {
-      ...draft.content,
-      content,
-    },
-  };
 }
 
 const LanguageWrapper = styled("div", {
@@ -127,80 +116,87 @@ interface LocationState {
   backUrl?: string;
 }
 
-type Status = "initial" | "edit" | "fetch-error" | "access-error" | "saving" | "saved";
-
 export const Component = () => <PrivateRoute component={<EditMarkupPage />} />;
 
 const EditMarkupPage = () => {
-  const { t } = useTranslation();
   const params = useParams<"draftId" | "language">();
   const draftId = Number(params.draftId) || undefined;
   const language = params.language!;
-  const [status, setStatus] = useState<Status>("initial");
-  const [draft, setDraft] = useState<ArticleDTO | undefined>(undefined);
-  const location = useLocation();
-  const locationState = location.state as LocationState | undefined;
-  const { createMessage, formatErrorMessage } = useMessages();
   const { userPermissions } = useSession();
 
-  useEffect(() => {
-    if (!userPermissions?.includes(DRAFT_HTML_SCOPE)) {
-      setStatus("access-error");
-      return;
-    }
-    if (!draftId) {
-      setStatus("fetch-error");
-      return;
-    }
-    (async () => {
-      try {
-        const fetched = await fetchDraft(draftId, language);
-        setDraft(fetched);
-      } catch (e) {
-        handleError(e);
-        setStatus("fetch-error");
-      }
-    })();
-  }, [draftId, language, userPermissions]);
+  const draftQuery = useQuery({
+    ...draftQueryOptions({ id: draftId!, language }),
+    enabled: !!draftId && userPermissions?.includes(DRAFT_HTML_SCOPE),
+  });
 
   if (!draftId) {
     return <NotFoundPage />;
   }
 
-  const saveChanges = async (editorContent: string) => {
-    try {
-      setStatus("saving");
-      const content = standardizeContent(editorContent ?? "");
-      const updatedDraft = await updateDraft(draftId, {
-        content,
-        revision: draft?.revision ?? 1,
-        language,
-        metaImage: undefined,
-        responsibleId: undefined,
-      });
-      setDraft(updatedDraft);
-      setStatus("saved");
-    } catch (e) {
-      const err = e as NdlaErrorPayload;
-      createMessage(formatErrorMessage(err));
-      handleError(e);
-    }
-  };
-
-  const handleChange = (value: string) => {
-    setStatus("edit");
-    setDraft(updateContentInDraft(draft, value));
-  };
-
-  if (status === "access-error") {
+  if (!userPermissions?.includes(DRAFT_HTML_SCOPE)) {
     return <ErrorMessage draftId={draftId} language={language} messageId="forbiddenPage.description" />;
   }
 
-  if (status === "fetch-error") {
+  if (draftQuery.isFetching) {
+    return <PageSpinner />;
+  }
+
+  if (draftQuery.isError || !draftQuery.data) {
     return <ErrorMessage draftId={draftId} language={language} messageId="editMarkup.fetchError" />;
   }
-  const isDirty = status === "edit";
-  const isSubmitting = status === "saving";
+
+  return (
+    <EditMarkup
+      draft={draftQuery.data}
+      language={language}
+      key={`${draftQuery.data.id}-${draftQuery.data.revision}-${draftQuery.data.content?.language}`}
+    />
+  );
+};
+
+interface EditMarkupProps {
+  draft: ArticleDTO;
+  language: string;
+}
+
+const EditMarkup = ({ draft, language }: EditMarkupProps) => {
+  const { t } = useTranslation();
+  const [content, setContent] = useState<string>(draft.content?.content ?? "");
+  const draftMutation = useUpdateDraftMutation();
+  const { createMessage, formatErrorMessage } = useMessages();
+  const location = useLocation();
+  const locationState = location.state as LocationState | undefined;
+
+  const saveChanges = async (editorContent: string) => {
+    const content = standardizeContent(editorContent ?? "");
+    draftMutation.mutate(
+      {
+        id: draft.id,
+        body: {
+          content,
+          revision: draft?.revision ?? 1,
+          language,
+          metaImage: undefined,
+          responsibleId: undefined,
+        },
+      },
+      {
+        onSuccess: (data, _, __, context) => {
+          const options = draftQueryOptions({ id: draft.id, language });
+          context.client.setQueryData(options.queryKey, data);
+          context.client.invalidateQueries({ queryKey: options.queryKey, refetchType: "inactive" });
+        },
+        onError: (e: any) => {
+          const err = e as NdlaErrorPayload;
+          createMessage(formatErrorMessage(err));
+          handleError(e);
+        },
+      },
+    );
+  };
+
+  const dirty = draft.content?.content !== content;
+
   return (
     <StyledPageContainer variant="page" padding="small">
       <title>{`${draft?.title?.title} - ${t("htmlTitles.htmlEditorPage")}`}</title>
@@ -237,47 +233,46 @@ const EditMarkupPage = () => {
           supportedLanguages={draft?.supportedLanguages}
           language={language}
           editUrl={toEditMarkup}
-          id={draftId}
-          isSubmitting={isSubmitting}
+          id={draft.id}
+          isSubmitting={draftMutation.isPending}
           replace={true}
         />
       </LanguageWrapper>
       <Suspense fallback={<Spinner />}>
         <MonacoEditor
-          key={draft && draft.content ? draft.id + draft.revision + "-" + draft.content.language : "draft"}
           value={draft?.content?.content ?? ""}
           size="large"
-          onChange={handleChange}
+          onChange={(value) => setContent(value)}
           onSave={saveChanges}
         />
-        <StyledRow>
-          {!!draft && (
-            <PreviewResourceDialog
-              type="markup"
-              language={language}
-              article={draft}
-              activateButton={<Button variant="link">{t("form.preview.button")}</Button>}
-            />
-          )}
-          <FormActionsContainer>
-            <SafeLinkButton
-              variant="secondary"
-              to={locationState?.backUrl || `/subject-matter/learning-resource/${draftId}/edit/${language}`}
-            >
-              {t("editMarkup.back")}
-            </SafeLinkButton>
-            <SaveButton
-              loading={status === "saving"}
-              formIsDirty={status === "edit"}
-              showSaved={status === "saved"}
-              onClick={() => saveChanges(draft?.content?.content ?? "")}
-            />
-          </FormActionsContainer>
-        </StyledRow>
       </Suspense>
+      <StyledRow>
+        {!!draft && (
+          <PreviewResourceDialog
+            type="markup"
+            language={language}
+            article={draft}
+            activateButton={<Button variant="link">{t("form.preview.button")}</Button>}
+          />
+        )}
+        <FormActionsContainer>
+          <SafeLinkButton
+            variant="secondary"
+            to={locationState?.backUrl || `/subject-matter/learning-resource/${draft.id}/edit/${language}`}
+          >
+            {t("editMarkup.back")}
+          </SafeLinkButton>
+          <SaveButton
+            loading={draftMutation.isPending}
+            formIsDirty={dirty}
+            showSaved={!!draftMutation.isSuccess && !dirty}
+            onClick={() => saveChanges(content)}
+          />
+        </FormActionsContainer>
+      </StyledRow>
       <AlertDialogWrapper
-        isSubmitting={isSubmitting}
-        formIsDirty={isDirty}
+        isSubmitting={draftMutation.isPending}
+        formIsDirty={dirty}
         severity="danger"
         text={t("alertDialog.notSaved")}
       />

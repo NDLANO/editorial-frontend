@@ -69,7 +69,7 @@ export const draftQueryKeys = {
 export const draftQueryOptions = ({ id, language }: UseDraft) => {
   return queryOptions({
     queryKey: language ? draftQueryKeys.draftWithLanguage(id, language) : draftQueryKeys.draft(id),
-    queryFn: () => fetchDraft(id),
+    queryFn: () => fetchDraft(id, language),
   });
 };
 

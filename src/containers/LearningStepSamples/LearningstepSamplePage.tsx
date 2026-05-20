@@ -18,9 +18,10 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import config from "../../config";
-import { useLearningStepSamples } from "../../modules/learningpath/learningpathQueries";
+import { learningStepSamplesQueryOptions } from "../../modules/learningpath/learningpathQueries";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const StyledList = styled("ul", {
@@ -57,7 +58,7 @@ export const Component = () => <PrivateRoute component={<LearningStepSamplePage 
 export const LearningStepSamplePage = () => {
   const { t } = useTranslation();
 
-  const sampleQuery = useLearningStepSamples();
+  const sampleQuery = useQuery(learningStepSamplesQueryOptions());
 
   return (
     <StyledPageContainer>

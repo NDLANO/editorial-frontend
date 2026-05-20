@@ -26,7 +26,7 @@ import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { GREP_CODE_FORMATS } from "../../../constants";
 import { updateDraftMutationOptions } from "../../../modules/draft/draftMutations";
 import { draftQueryKeys } from "../../../modules/draft/draftQueries";
-import { usePatchLearningpathMutation } from "../../../modules/learningpath/learningpathMutations";
+import { patchLearningpathMutationOptions } from "../../../modules/learningpath/learningpathMutations";
 import { learningpathQueryKeys } from "../../../modules/learningpath/learningpathQueries";
 import { nodeQueryKeys, useNode } from "../../../modules/nodes/nodeQueries";
 import { useSearchGrepCodes } from "../../../modules/search/searchQueries";
@@ -87,7 +87,7 @@ const GrepCodeDialogContent = ({
   close,
 }: DialogContentProps) => {
   const updateDraft = useMutation(updateDraftMutationOptions());
-  const updateLearningpath = usePatchLearningpathMutation();
+  const updateLearningpath = useMutation(patchLearningpathMutationOptions());
   const { t, i18n } = useTranslation();
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();

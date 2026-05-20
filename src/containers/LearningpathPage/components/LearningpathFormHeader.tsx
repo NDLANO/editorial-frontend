@@ -10,7 +10,7 @@ import { ErrorWarningFill } from "@ndla/icons";
 import { Badge, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useFormikContext } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -24,7 +24,7 @@ import { ResourcePublishedLink } from "../../../components/HeaderWithLanguage/Re
 import { ResourceStatus } from "../../../components/HeaderWithLanguage/ResourceStatus";
 import { PUBLISHED, UNLISTED } from "../../../constants";
 import { auth0UsersQueryOptions } from "../../../modules/auth0/auth0Queries";
-import { usePostCopyLearningpathMutation } from "../../../modules/learningpath/learningpathMutations";
+import { postCopyLearningpathMutationOptions } from "../../../modules/learningpath/learningpathMutations";
 import { useNodes } from "../../../modules/nodes/nodeQueries";
 import { getExpirationDate } from "../../../util/revisionHelpers";
 import { CreatingLanguageLocationState, routes, toLearningpath } from "../../../util/routeHelpers";
@@ -73,7 +73,7 @@ const StyledGroup = styled("div", {
 export const LearningpathFormHeader = ({ learningpath, language }: Props) => {
   const { t } = useTranslation();
   const isNewLanguage = !!learningpath?.id && !learningpath.supportedLanguages.includes(language);
-  const cloneLearningpathMutation = usePostCopyLearningpathMutation();
+  const cloneLearningpathMutation = useMutation(postCopyLearningpathMutationOptions());
   const { dirty } = useFormikContext();
   const navigate = useNavigate();
   const location = useLocation();

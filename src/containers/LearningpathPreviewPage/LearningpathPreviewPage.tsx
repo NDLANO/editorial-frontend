@@ -8,11 +8,12 @@
 
 import { Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router";
 import { FormContent } from "../../components/FormikForm";
 import { PageSpinner } from "../../components/PageSpinner";
-import { useLearningpath } from "../../modules/learningpath/learningpathQueries";
+import { learningpathQueryOptions } from "../../modules/learningpath/learningpathQueries";
 import { isNotFoundError } from "../../util/resolveJsonOrRejectWithError";
 import { routes } from "../../util/routeHelpers";
 import { LearningpathErrorMessage } from "../LearningpathPage/components/LearningpathErrorMessage";
@@ -42,7 +43,10 @@ const LearningpathPreviewPage = () => {
   const { id, language, stepId } = useParams<"stepId" | "id" | "language">();
 
   const numericId = parseInt(id ?? "");
-  const learningpathQuery = useLearningpath({ id: numericId, language }, { enabled: !!numericId });
+  const learningpathQuery = useQuery({
+    ...learningpathQueryOptions({ id: numericId, language }),
+    enabled: !!numericId,
+  });
 
   if (!numericId || !language) {
     return <NotFound />;

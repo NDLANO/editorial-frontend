@@ -27,6 +27,7 @@ import {
   StepType,
   UpdatedLearningStepV2DTO,
 } from "@ndla/types-backend/learningpath-api";
+import { useMutation } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
@@ -34,8 +35,8 @@ import { useParams } from "react-router";
 import { FormField } from "../../../components/FormField";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
 import {
-  usePatchLearningStepMutation,
-  usePostLearningStepMutation,
+  postLearningStepMutationOptions,
+  patchLearningStepMutationOptions,
 } from "../../../modules/learningpath/learningpathMutations";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../util/articleContentConverter";
 import { unreachable } from "../../../util/guards";
@@ -162,8 +163,8 @@ export const LearningpathStepForm = ({ step, onClose, onlyPublishedResources }: 
   const { id, language } = useParams<"id" | "language">();
   const { t } = useTranslation();
   const initialValues = useMemo(() => toFormValues(step?.type ?? "ARTICLE", step), [step]);
-  const postLearningStepMutation = usePostLearningStepMutation(language ?? "");
-  const patchLearningStepMutation = usePatchLearningStepMutation(language ?? "");
+  const postLearningStepMutation = useMutation(postLearningStepMutationOptions());
+  const patchLearningStepMutation = useMutation(patchLearningStepMutationOptions());
 
   useEffect(() => {
     wrapperRef.current?.parentElement?.scrollIntoView({ behavior: "smooth", block: "end" });

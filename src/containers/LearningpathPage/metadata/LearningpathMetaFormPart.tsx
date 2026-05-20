@@ -20,6 +20,7 @@ import {
   Input,
 } from "@ndla/primitives";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import { useFormikContext } from "formik";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -30,7 +31,7 @@ import { SearchTagsContent } from "../../../components/Form/SearchTagsContent";
 import { SearchTagsTagSelectorInput } from "../../../components/Form/SearchTagsTagSelectorInput";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
-import { useLearningpathTags } from "../../../modules/learningpath/learningpathQueries";
+import { learningpathTagsQueryOptions } from "../../../modules/learningpath/learningpathQueries";
 import useDebounce from "../../../util/useDebounce";
 import { ContributorsField } from "../../FormikForm";
 import { LearningpathTextEditor } from "../components/LearningpathTextEditor";
@@ -47,7 +48,7 @@ export const LearningpathMetaFormPart = ({ language }: Props) => {
   const tagSelectorTranslations = useTagSelectorTranslations();
   const { errors } = useFormikContext<LearningpathFormValues>();
 
-  const tagsQuery = useLearningpathTags();
+  const tagsQuery = useQuery(learningpathTagsQueryOptions());
 
   const collection = useMemo(() => {
     return createListCollection({

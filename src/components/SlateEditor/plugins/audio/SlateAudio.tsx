@@ -12,13 +12,14 @@ import { DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { AudioMetaData } from "@ndla/types-embed";
-import { AudioEmbed, EmbedWrapper } from "@ndla/ui";
+import { AudioEmbed } from "@ndla/ui";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor } from "slate";
-import { RenderElementProps, useSelected } from "slate-react";
+import { RenderElementProps } from "slate-react";
 import { useAudioMeta } from "../../../../modules/embed/queries";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
+import { SelectableEmbedWrapper } from "../../common/SelectableSlateEmbed";
 import { useEditableElement } from "../../utils/useEditableElement";
 import AudioEmbedForm from "./AudioEmbedForm";
 import { AudioElement } from "./audioTypes";
@@ -27,16 +28,6 @@ interface Props extends RenderElementProps {
   element: AudioElement;
   editor: Editor;
 }
-
-const StyledEmbedWrapper = styled(EmbedWrapper, {
-  base: {
-    position: "relative",
-    _selected: {
-      outline: "2px solid",
-      outlineColor: "stroke.default",
-    },
-  },
-});
 
 const ButtonContainer = styled("div", {
   base: {
@@ -52,7 +43,6 @@ const ButtonContainer = styled("div", {
 
 const SlateAudio = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
-  const isSelected = useSelected();
   const language = useArticleLanguage();
   const { handleRemove, handleEditingChange, handleSave, dialogProps } = useEditableElement(element, editor);
 
@@ -82,12 +72,7 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
 
   return (
     <DialogRoot {...dialogProps}>
-      <StyledEmbedWrapper
-        {...attributes}
-        contentEditable={false}
-        aria-selected={isSelected}
-        data-type={embed?.embedData.type}
-      >
+      <SelectableEmbedWrapper {...attributes} contentEditable={false} data-type={embed?.embedData.type}>
         {audioMetaQuery.isLoading ? (
           <Spinner />
         ) : embed ? (
@@ -135,7 +120,7 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
             <AudioEmbed embed={embed} />
           </>
         ) : null}
-      </StyledEmbedWrapper>
+      </SelectableEmbedWrapper>
       <Portal>
         <DialogContent>
           {!!element.data && !!audioMetaQuery.data && (

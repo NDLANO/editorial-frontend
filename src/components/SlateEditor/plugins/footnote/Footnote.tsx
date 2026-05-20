@@ -20,6 +20,7 @@ import { useTranslation } from "react-i18next";
 import { Editor } from "slate";
 import { RenderElementProps } from "slate-react";
 import { DialogCloseButton } from "../../../DialogCloseButton";
+import { SelectableSlateElement } from "../../common/SelectableSlateEmbed";
 import { useEditableElement } from "../../utils/useEditableElement";
 import FootnoteForm from "./FootnoteForm";
 import { FootnoteElement } from "./types";
@@ -37,9 +38,11 @@ const Footnote = ({ attributes, children, editor, element }: Props) => {
     <DialogRoot {...dialogProps}>
       <sup>
         <DialogTrigger asChild>
-          <Button variant="link" {...attributes}>
-            [#]
-          </Button>
+          <SelectableSlateElement asChild>
+            <Button variant="link" {...attributes}>
+              [#]
+            </Button>
+          </SelectableSlateElement>
         </DialogTrigger>
         {children}
       </sup>

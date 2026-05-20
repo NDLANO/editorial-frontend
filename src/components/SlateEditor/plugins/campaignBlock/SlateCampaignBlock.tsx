@@ -18,13 +18,14 @@ import {
   IconButton,
 } from "@ndla/primitives";
 import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import { CampaignBlock, EmbedWrapper } from "@ndla/ui";
+import { CampaignBlock } from "@ndla/ui";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor } from "slate";
 import { RenderElementProps } from "slate-react";
 import { fetchImage } from "../../../../modules/image/imageApi";
 import { DialogCloseButton } from "../../../DialogCloseButton";
+import { SelectableEmbedWrapper } from "../../common/SelectableSlateEmbed";
 import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import CampaignBlockForm from "./CampaignBlockForm";
@@ -49,7 +50,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
 
   return (
     <DialogRoot size="large" {...dialogProps}>
-      <EmbedWrapper {...attributes} data-testid="slate-campaign-block" contentEditable={false}>
+      <SelectableEmbedWrapper {...attributes} data-testid="slate-campaign-block" contentEditable={false}>
         {!!campaignBlock && (
           <>
             <StyledFigureButtons data-white={true}>
@@ -103,7 +104,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
             </DialogBody>
           </DialogContent>
         </Portal>
-      </EmbedWrapper>
+      </SelectableEmbedWrapper>
     </DialogRoot>
   );
 };

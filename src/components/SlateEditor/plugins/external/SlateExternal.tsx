@@ -22,7 +22,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IframeMetaData, OembedEmbedData, OembedMetaData } from "@ndla/types-embed";
-import { EmbedWrapper, ExternalEmbed, IframeEmbed } from "@ndla/ui";
+import { ExternalEmbed, IframeEmbed } from "@ndla/ui";
 import { useCallback, useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
@@ -33,6 +33,7 @@ import { useExternalEmbed } from "../../../../modules/embed/queries";
 import { urlDomain } from "../../../../util/htmlHelpers";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
+import { SelectableEmbedWrapper } from "../../common/SelectableSlateEmbed";
 import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import { ExternalEmbedForm } from "./ExternalEmbedForm";
@@ -44,16 +45,6 @@ interface Props extends RenderElementProps {
 }
 
 const MIN_EMBED_HEIGHT = 100;
-
-const StyledEmbedWrapper = styled(EmbedWrapper, {
-  base: {
-    "&[data-selected='true']": {
-      outline: "2px solid",
-      outlineColor: "stroke.default",
-      outlineOffset: "3xsmall",
-    },
-  },
-});
 
 const ExpandableButton = styled(IconButton, {
   base: {
@@ -150,7 +141,7 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
   return (
     <DialogRoot size="large" {...dialogProps}>
       {!!embed && (
-        <StyledEmbedWrapper {...attributes} data-selected={selected} id={wrapperId} contentEditable={false}>
+        <SelectableEmbedWrapper {...attributes} data-selected={selected} id={wrapperId} contentEditable={false}>
           <StyledFigureButtons>
             <DialogTrigger asChild>
               <IconButton aria-label={editLabel} title={editLabel} variant="secondary" size="small">
@@ -192,7 +183,7 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
             </ExpandableButton>
           )}
           {children}
-        </StyledEmbedWrapper>
+        </SelectableEmbedWrapper>
       )}
       <Portal>
         <DialogContent>

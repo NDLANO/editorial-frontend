@@ -39,6 +39,8 @@ const ButtonWrapper = styled("div", {
   },
 });
 
+// TODO: Figure out selected
+
 const externalEmbedToMeta = async (embedData: RelatedContentEmbedData): Promise<RelatedContentMetaData> => {
   return {
     resource: "related-content",

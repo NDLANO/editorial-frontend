@@ -18,13 +18,14 @@ import {
   IconButton,
 } from "@ndla/primitives";
 import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import { EmbedWrapper, KeyFigure } from "@ndla/ui";
+import { KeyFigure } from "@ndla/ui";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor } from "slate";
 import { RenderElementProps } from "slate-react";
 import { fetchImage } from "../../../../modules/image/imageApi";
 import { DialogCloseButton } from "../../../DialogCloseButton";
+import { SelectableEmbedWrapper } from "../../common/SelectableSlateEmbed";
 import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import KeyFigureForm from "./KeyFigureForm";
@@ -53,7 +54,7 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
 
   return (
     <DialogRoot size="large" {...dialogProps}>
-      <EmbedWrapper {...attributes} contentEditable={false} data-testid="slate-key-figure">
+      <SelectableEmbedWrapper {...attributes} contentEditable={false} data-testid="slate-key-figure">
         {!!data && (
           <>
             <StyledFigureButtons>
@@ -86,7 +87,7 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
           </>
         )}
         {children}
-      </EmbedWrapper>
+      </SelectableEmbedWrapper>
       <Portal>
         <DialogContent>
           <DialogHeader>

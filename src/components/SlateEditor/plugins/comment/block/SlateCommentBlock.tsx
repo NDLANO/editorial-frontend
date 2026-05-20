@@ -25,12 +25,13 @@ import { useTranslation } from "react-i18next";
 import { Editor } from "slate";
 import { RenderElementProps } from "slate-react";
 import { DialogCloseButton } from "../../../../DialogCloseButton";
+import { SelectableSlateElement } from "../../../common/SelectableSlateEmbed";
 import { useEditableElement } from "../../../utils/useEditableElement";
 import CommentForm from "../CommentForm";
 import CommentPopoverPortal from "../CommentPopoverPortal";
 import { CommentBlockElement } from "./types";
 
-const BlockCommentButton = styled("button", {
+const StyledSelectableSlateElement = styled(SelectableSlateElement, {
   base: {
     all: "unset",
     background: "surface.brand.4",
@@ -95,10 +96,12 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
       {!!embed && (
         <PopoverRoot {...popover.popoverProps}>
           <PopoverTrigger asChild consumeCss type={undefined}>
-            <BlockCommentButton type="button" contentEditable={false} {...attributes}>
-              <MessageLine />
-              <CommentText>{embed?.embedData?.text ?? ""}</CommentText>
-            </BlockCommentButton>
+            <StyledSelectableSlateElement asChild consumeCss contentEditable={false} {...attributes}>
+              <button type="button">
+                <MessageLine />
+                <CommentText>{embed?.embedData?.text ?? ""}</CommentText>
+              </button>
+            </StyledSelectableSlateElement>
           </PopoverTrigger>
           <CommentPopoverPortal
             onSave={(data) => popover.handleSave({ data })}

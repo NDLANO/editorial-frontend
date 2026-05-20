@@ -12,13 +12,14 @@ import { DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ImageMetaData } from "@ndla/types-embed";
-import { EmbedWrapper, ImageEmbed } from "@ndla/ui";
+import { ImageEmbed } from "@ndla/ui";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor } from "slate";
-import { RenderElementProps, useSelected } from "slate-react";
+import { RenderElementProps } from "slate-react";
 import { useImageMeta } from "../../../../modules/embed/queries";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
+import { SelectableEmbedWrapper } from "../../common/SelectableSlateEmbed";
 import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import ImageEmbedForm from "./ImageEmbedForm";
@@ -30,25 +31,11 @@ interface Props extends RenderElementProps {
   allowDecorative?: boolean;
 }
 
-const StyledEmbedWrapper = styled(EmbedWrapper, {
+const StyledEmbedWrapper = styled(SelectableEmbedWrapper, {
   base: {
     width: "100%",
   },
   variants: {
-    variant: {
-      invalid: {
-        "& figure": {
-          outline: "2px solid",
-          outlineColor: "stroke.error",
-        },
-      },
-      selected: {
-        "& figure": {
-          outline: "2px solid",
-          outlineColor: "stroke.default",
-        },
-      },
-    },
     fullSize: {
       true: {
         display: "inline-block",
@@ -86,7 +73,6 @@ const disableImageCache = (embed: ImageMetaData | undefined): ImageMetaData | un
 const SlateImage = ({ element, editor, attributes, children, allowDecorative = true }: Props) => {
   const { t } = useTranslation();
   const language = useArticleLanguage();
-  const isSelected = useSelected();
 
   const { handleRemove, handleEditingChange, handleSave, dialogProps } = useEditableElement(element, editor);
 
@@ -116,13 +102,7 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
         {...attributes}
         contentEditable={false}
         noClear
-        variant={
-          embed.embedData.isDecorative === "false" && !embed.embedData.alt
-            ? "invalid"
-            : isSelected
-              ? "selected"
-              : undefined
-        }
+        invalid={embed.embedData.isDecorative === "false" && !embed.embedData.alt}
         fullSize={embed.embedData.size === "full"}
       >
         <ImageEmbed embed={embedWithoutCaching}>

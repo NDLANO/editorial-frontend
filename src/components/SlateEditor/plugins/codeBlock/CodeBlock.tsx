@@ -32,6 +32,7 @@ import { CodeBlockType } from "../../../../interfaces";
 import { AlertDialog } from "../../../AlertDialog/AlertDialog";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormActionsContainer } from "../../../FormikForm";
+import { SelectableEmbedWrapper } from "../../common/SelectableSlateEmbed";
 import { useEditableElement } from "../../utils/useEditableElement";
 import CodeBlockEditor from "./CodeBlockEditor";
 import { CodeBlockElement } from "./types";
@@ -109,34 +110,36 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
         onOpenChange={(details) => handleEditingChange(details.open, shouldShowWarning)}
         size="large"
       >
-        <StyledFigure aria-label={t("codeEditor.subtitle")} contentEditable={false} {...attributes}>
-          <HStack justify="space-between">
-            {!!embedData.title && <h3>{embedData.title}</h3>}
-            <HStack gap="4xsmall">
-              <DialogTrigger asChild>
+        <SelectableEmbedWrapper>
+          <StyledFigure aria-label={t("codeEditor.subtitle")} contentEditable={false} {...attributes}>
+            <HStack justify="space-between">
+              {!!embedData.title && <h3>{embedData.title}</h3>}
+              <HStack gap="4xsmall">
+                <DialogTrigger asChild>
+                  <IconButton
+                    size="small"
+                    variant="secondary"
+                    title={t("codeEditor.edit")}
+                    aria-label={t("codeEditor.edit")}
+                  >
+                    <PencilFill />
+                  </IconButton>
+                </DialogTrigger>
                 <IconButton
+                  variant="danger"
                   size="small"
-                  variant="secondary"
-                  title={t("codeEditor.edit")}
-                  aria-label={t("codeEditor.edit")}
+                  aria-label={t("codeEditor.remove")}
+                  data-testid="remove-code"
+                  onClick={handleRemove}
                 >
-                  <PencilFill />
+                  <DeleteBinLine />
                 </IconButton>
-              </DialogTrigger>
-              <IconButton
-                variant="danger"
-                size="small"
-                aria-label={t("codeEditor.remove")}
-                data-testid="remove-code"
-                onClick={handleRemove}
-              >
-                <DeleteBinLine />
-              </IconButton>
+              </HStack>
             </HStack>
-          </HStack>
-          <UICodeBlock format={embedData.codeFormat} highlightedCode={highlightedCode} />
-          {children}
-        </StyledFigure>
+            <UICodeBlock format={embedData.codeFormat} highlightedCode={highlightedCode} />
+            {children}
+          </StyledFigure>
+        </SelectableEmbedWrapper>
         <Portal>
           <DialogContent>
             <DialogHeader>

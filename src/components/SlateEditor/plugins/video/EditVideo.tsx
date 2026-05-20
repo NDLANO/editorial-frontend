@@ -33,7 +33,6 @@ import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import { RichTextIndicator } from "../../RichTextIndicator";
-import { VideoWrapper } from "./VideoWrapper";
 
 interface Props {
   embed: BrightcoveEmbedData;
@@ -93,9 +92,7 @@ const EditVideo = ({ onSave, setHasError, embed, onClose }: Props) => {
         <DialogCloseButton />
       </DialogHeader>
       <DialogBody>
-        <VideoWrapper>
-          <StyledVideo title={`Video: ${embed?.title}`} src={activeSrc(embed)} allowFullScreen />
-        </VideoWrapper>
+        <StyledVideo title={`Video: ${embed?.title}`} src={activeSrc(embed)} allowFullScreen />
         <Formik
           initialValues={initialValues}
           validate={(values) => validateFormik(values, brightcoveEmbedFormRules, t)}

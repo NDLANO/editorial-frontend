@@ -30,6 +30,7 @@ import { File, UnsavedFile } from "../../../../interfaces";
 import { headFileAtRemote } from "../../../../modules/draft/draftApi";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import FileUploader from "../../../FileUploader";
+import { SelectableSlateElement } from "../../common/SelectableSlateEmbed";
 import { useEditableElement } from "../../utils/useEditableElement";
 import DndFileList from "./DndFileList";
 
@@ -62,6 +63,8 @@ const getMissingFiles = async (files: File[]) => {
   return resolvedFiles.filter((f) => !f.exists).map((f) => f.path);
 };
 
+// TODO: Maybe this freak?
+
 const SlateFileList = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
   const [missingFilePaths, setMissingFilePaths] = useState<string[]>([]);
@@ -91,53 +94,55 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
     return null;
   }
   return (
-    <FileListWrapper {...attributes} contentEditable={false} asChild consumeCss>
-      <div>
-        <StyledHeaderWrapper>
-          <DialogRoot {...dialogProps}>
-            <DialogTrigger asChild>
-              <IconButton
-                variant="tertiary"
-                title={t("form.file.addFile")}
-                aria-label={t("form.file.addFile")}
-                size="small"
-              >
-                <AddLine />
-              </IconButton>
-            </DialogTrigger>
-            <Portal>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>{t("fileUpload.title")}</DialogTitle>
-                  <DialogCloseButton />
-                </DialogHeader>
-                <DialogBody>
-                  <FileUploader onFileSave={onAddFileToList} close={() => handleEditingChange(false)} />
-                </DialogBody>
-              </DialogContent>
-            </Portal>
-          </DialogRoot>
-          <IconButton
-            variant="danger"
-            title={t("form.file.removeList")}
-            aria-label={t("form.file.removeList")}
-            onClick={handleRemove}
-            size="small"
-          >
-            <CloseLine />
-          </IconButton>
-        </StyledHeaderWrapper>
-        <ul>
-          <DndFileList
-            files={files}
-            onEditFileList={(data) => handleSave({ data })}
-            onDeleteFile={onDeleteFile}
-            missingFilePaths={missingFilePaths}
-          />
-        </ul>
-        {children}
-      </div>
-    </FileListWrapper>
+    <SelectableSlateElement asChild>
+      <FileListWrapper {...attributes} contentEditable={false} asChild consumeCss>
+        <div>
+          <StyledHeaderWrapper>
+            <DialogRoot {...dialogProps}>
+              <DialogTrigger asChild>
+                <IconButton
+                  variant="tertiary"
+                  title={t("form.file.addFile")}
+                  aria-label={t("form.file.addFile")}
+                  size="small"
+                >
+                  <AddLine />
+                </IconButton>
+              </DialogTrigger>
+              <Portal>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>{t("fileUpload.title")}</DialogTitle>
+                    <DialogCloseButton />
+                  </DialogHeader>
+                  <DialogBody>
+                    <FileUploader onFileSave={onAddFileToList} close={() => handleEditingChange(false)} />
+                  </DialogBody>
+                </DialogContent>
+              </Portal>
+            </DialogRoot>
+            <IconButton
+              variant="danger"
+              title={t("form.file.removeList")}
+              aria-label={t("form.file.removeList")}
+              onClick={handleRemove}
+              size="small"
+            >
+              <CloseLine />
+            </IconButton>
+          </StyledHeaderWrapper>
+          <ul>
+            <DndFileList
+              files={files}
+              onEditFileList={(data) => handleSave({ data })}
+              onDeleteFile={onDeleteFile}
+              missingFilePaths={missingFilePaths}
+            />
+          </ul>
+          {children}
+        </div>
+      </FileListWrapper>
+    </SelectableSlateElement>
   );
 };
 

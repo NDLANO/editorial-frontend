@@ -15,15 +15,15 @@ import { BrightcoveEmbed } from "@ndla/ui";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor } from "slate";
-import { RenderElementProps, useSelected } from "slate-react";
+import { RenderElementProps } from "slate-react";
 import { useBrightcoveMeta } from "../../../../modules/embed/queries";
 import { inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { addBrightCoveTimeStampVideoid } from "../../../../util/videoUtil";
+import { SelectableEmbedWrapper } from "../../common/SelectableSlateEmbed";
 import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 import EditVideo, { FormValues } from "./EditVideo";
 import { BrightcoveEmbedElement } from "./types";
-import { VideoWrapper } from "./VideoWrapper";
 
 interface Props extends RenderElementProps {
   element: BrightcoveEmbedElement;
@@ -36,7 +36,6 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
 
   const { t, i18n } = useTranslation();
 
-  const isSelected = useSelected();
   const brightcoveQuery = useBrightcoveMeta(element.data?.videoid.split("&t=")[0] ?? "", i18n.language);
 
   const embed: BrightcoveMetaData | undefined = useMemo(
@@ -66,7 +65,7 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
 
   return (
     <DialogRoot {...dialogProps}>
-      <VideoWrapper {...attributes} aria-selected={isSelected} data-error={hasError} contentEditable={false}>
+      <SelectableEmbedWrapper {...attributes} invalid={hasError} contentEditable={false}>
         {!embed ? (
           <Spinner />
         ) : (
@@ -116,7 +115,7 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
         </Portal>
         {!embed || brightcoveQuery.isLoading ? <Spinner /> : <BrightcoveEmbed embed={embed} />}
         {children}
-      </VideoWrapper>
+      </SelectableEmbedWrapper>
     </DialogRoot>
   );
 };

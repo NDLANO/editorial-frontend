@@ -484,6 +484,10 @@ const phrases = {
       revisionMeta: "Revisions",
       notes: "Version log",
       previousNotes: "Previous version log",
+      titles: "Title",
+      alttexts: "Alt-text",
+      captions: "Caption",
+      editorNotes: "Version log",
     },
   },
   subjectsPage: {
@@ -1111,7 +1115,13 @@ const phrases = {
       no: "No",
       "not-applicable": "Not applicable",
       "not-set": "Not set",
-      description: "Whether the image is model released or not:",
+      description: "Is the image model released:",
+    },
+    aiGenerated: {
+      Yes: "Yes",
+      No: "No",
+      Partial: "Partial",
+      description: "Is the image AI-generated:",
     },
     visualElement: {
       title: "Add visual element",

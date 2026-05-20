@@ -9,7 +9,7 @@
 import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
-import { SearchParamsDTO } from "@ndla/types-backend/image-api";
+import { SearchParamsDTO, ImageSearchField } from "@ndla/types-backend/image-api";
 import { TFunction } from "i18next";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -17,7 +17,7 @@ import SearchControlButtons from "../../../../components/Form/SearchControlButto
 import SearchHeader from "../../../../components/Form/SearchHeader";
 import SearchTagGroup from "../../../../components/Form/SearchTagGroup";
 import { getTagName } from "../../../../components/Form/utils";
-import ObjectSelector from "../../../../components/ObjectSelector";
+import ObjectSelector, { SelectOption } from "../../../../components/ObjectSelector";
 import config from "../../../../config";
 import { CamelToKebab } from "../../../../interfaces";
 import { useAuth0Editors } from "../../../../modules/auth0/auth0Queries";
@@ -105,6 +105,23 @@ export const getContentTypeOptions = (t: TFunction) => [
   { id: "image/gif", name: t("imageSearch.contentType.gif") },
 ];
 
+const queryFields = [
+  "titles",
+  "alttexts",
+  "captions",
+  "tags",
+  "creators",
+  "processors",
+  "rightsholders",
+  "editorNotes",
+] satisfies ImageSearchField[];
+
+const getQueryFieldOptions = (t: TFunction): SelectOption[] =>
+  queryFields.map((field) => ({
+    id: field,
+    name: t(`searchForm.queryFields.${field}`),
+  }));
+
 const SearchImageForm = ({ userData }: Props) => {
   const [params, setParams] = useStableSearchPageParams();
   const { t, i18n } = useTranslation();
@@ -142,6 +159,7 @@ const SearchImageForm = ({ userData }: Props) => {
   const emptySearch = () => {
     setParams({
       query: null,
+      "query-fields": null,
       language: null,
       license: null,
       "model-released": null,
@@ -162,6 +180,11 @@ const SearchImageForm = ({ userData }: Props) => {
 
   const filters = {
     query: queryInput,
+    "query-fields": params
+      .get("query-fields")
+      ?.split(",")
+      .map((f) => getTagName(f, getQueryFieldOptions(t)))
+      .filter((t): t is string => !!t),
     license: getTagName(params.get("license"), licenses),
     "model-released": getTagName(params.get("model-released"), getModelReleasedValues(t)),
     language: params.get("language"),
@@ -191,6 +214,14 @@ const SearchImageForm = ({ userData }: Props) => {
             onChange={(e) => setInput(e.currentTarget.value)}
           />
         </FieldRoot>
+        <ObjectSelector
+          name="query-fields"
+          value={params.get("query-fields") ?? ""}
+          options={getQueryFieldOptions(t)}
+          multiple
+          onChange={(value) => setParams({ "query-fields": value.join(",") })}
+          placeholder={t("searchForm.types.query-fields")}
+        />
         <ObjectSelector
           name="license"
           value={params.get("license") ?? ""}

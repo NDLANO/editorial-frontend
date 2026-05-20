@@ -6,7 +6,7 @@
  *
  */
 
-import { ImageMetaInformationV3DTO, AuthorDTO } from "@ndla/types-backend/image-api";
+import { ImageMetaInformationV3DTO, AuthorDTO, AiGenerated } from "@ndla/types-backend/image-api";
 import { Descendant } from "slate";
 import { plainTextToEditorValue } from "../../util/articleContentConverter";
 
@@ -28,6 +28,7 @@ export interface ImageFormikType {
   license?: string;
   modelReleased: string;
   inactive: boolean;
+  aiGenerated: AiGenerated;
 }
 
 export const imageApiTypeToFormType = (
@@ -51,5 +52,6 @@ export const imageApiTypeToFormType = (
     license: image?.copyright.license.license !== "unknown" ? image?.copyright.license.license : undefined,
     modelReleased: image?.modelRelease ?? "not-set",
     inactive: image?.inactive ?? false,
+    aiGenerated: image?.aiGenerated ?? "No",
   };
 };

@@ -84,6 +84,9 @@ const imageRules: RulesType<ImageFormikType, ImageMetaInformationV3DTO> = {
   imageFile: {
     required: true,
   },
+  aiGenerated: {
+    required: true,
+  },
   license: {
     required: true,
     test: (values) => {
@@ -178,6 +181,7 @@ const ImageForm = <TImage extends ImageMetaInformationV3DTO | undefined = undefi
         processed: values.processed,
       },
       modelReleased: values.modelReleased,
+      aiGenerated: values.aiGenerated,
     };
     await onSubmitFunc(imageMetaData, values.imageFile);
     setSavedToServer(true);

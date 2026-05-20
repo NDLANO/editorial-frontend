@@ -483,6 +483,10 @@ const phrases = {
       revisionMeta: "Revisjonar",
       notes: "Versjonslogg",
       previousNotes: "Tidligare versjonslogg",
+      titles: "Tittel",
+      alttexts: "Alt-tekst",
+      captions: "Billedtekst",
+      editorNotes: "Versjonslogg",
     },
   },
   subjectsPage: {
@@ -1111,7 +1115,13 @@ const phrases = {
       no: "Nei",
       "not-applicable": "Ikkje relevant",
       "not-set": "Ikkje valgt",
-      description: "Om biletet er modellklarert eller ikkje:",
+      description: "Er biletet modellklarert:",
+    },
+    aiGenerated: {
+      Yes: "Ja",
+      No: "Nei",
+      Partial: "Delvis",
+      description: "Er biletet AI-generert:",
     },
     visualElement: {
       title: "Legg til visuelt element",

@@ -483,6 +483,10 @@ const phrases = {
       revisionMeta: "Revisjoner",
       notes: "Versjonslogg",
       previousNotes: "Tidligere versjonslogg",
+      titles: "Tittel",
+      alttexts: "Alt-tekst",
+      captions: "Billedtekst",
+      editorNotes: "Versjonslogg",
     },
   },
   subjectsPage: {
@@ -1166,7 +1170,13 @@ const phrases = {
       no: "Nei",
       "not-applicable": "Ikke relevant",
       "not-set": "Ikke valgt",
-      description: "Om bildet er modellklarert eller ikke:",
+      description: "Er bildet modellklarert:",
+    },
+    aiGenerated: {
+      Yes: "Ja",
+      No: "Nei",
+      Partial: "Delvis",
+      description: "Er bildet AI-generert:",
     },
     visualElementPicker: {
       h5p: "H5P",

@@ -29,6 +29,7 @@ import {
   RadioGroupRoot,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { AiGenerated } from "@ndla/types-backend/image-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -51,8 +52,11 @@ const RadioGroupItemWrapper = styled("div", {
   },
 });
 
-const options = ["yes", "not-applicable", "no", "not-set"];
-const defaultValue = "not-set";
+const modelReleasedOptions = ["yes", "not-applicable", "no", "not-set"];
+const defaultModelReleased = "not-set";
+
+const aiGeneratedOptions: AiGenerated[] = ["No", "Yes", "Partial"];
+const defaultAiGenerated: AiGenerated = "No";
 
 const ImageMetaData = ({ imageLanguage }: Props) => {
   const { t } = useTranslation();
@@ -117,12 +121,12 @@ const ImageMetaData = ({ imageLanguage }: Props) => {
           return (
             <FieldRoot>
               <RadioGroupRoot
-                value={field.value ?? defaultValue}
+                value={field.value ?? defaultModelReleased}
                 onValueChange={(details) => helpers.setValue(details.value)}
               >
                 <RadioGroupLabel>{t("form.modelReleased.description")}</RadioGroupLabel>
                 <RadioGroupItemWrapper>
-                  {options.map((option) => (
+                  {modelReleasedOptions.map((option) => (
                     <RadioGroupItem key={option} value={option}>
                       <RadioGroupItemControl />
                       <RadioGroupItemText>{t(`form.modelReleased.${option}`)}</RadioGroupItemText>
@@ -152,6 +156,29 @@ const ImageMetaData = ({ imageLanguage }: Props) => {
             </CheckboxRoot>
           </FieldRoot>
         )}
+      </FormField>
+      <FormField name="aiGenerated">
+        {({ field, helpers }) => {
+          return (
+            <FieldRoot>
+              <RadioGroupRoot
+                value={field.value ?? defaultAiGenerated}
+                onValueChange={(details) => helpers.setValue(details.value)}
+              >
+                <RadioGroupLabel>{t("form.aiGenerated.description")}</RadioGroupLabel>
+                <RadioGroupItemWrapper>
+                  {aiGeneratedOptions.map((option) => (
+                    <RadioGroupItem key={option} value={option}>
+                      <RadioGroupItemControl />
+                      <RadioGroupItemText>{t(`form.aiGenerated.${option}`)}</RadioGroupItemText>
+                      <RadioGroupItemHiddenInput />
+                    </RadioGroupItem>
+                  ))}
+                </RadioGroupItemWrapper>
+              </RadioGroupRoot>
+            </FieldRoot>
+          );
+        }}
       </FormField>
     </FormContent>
   );

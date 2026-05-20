@@ -6,9 +6,10 @@
  *
  */
 
+import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
 import { GenericResourceRedirect } from "../../components/GenericResourceRedirect";
-import { useSeries } from "../../modules/audio/audioQueries";
+import { seriesQueryOptions } from "../../modules/audio/audioQueries";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 export const Component = () => <PrivateRoute component={<PodcastSeriesRedirect />} />;
@@ -16,6 +17,9 @@ export const Component = () => <PrivateRoute component={<PodcastSeriesRedirect /
 export const PodcastSeriesRedirect = () => {
   const { id, selectedLanguage } = useParams<"id" | "selectedLanguage">();
   const parsedId = Number(id);
-  const queryResult = useSeries({ id: parsedId, language: selectedLanguage }, { enabled: !!parsedId });
+  const queryResult = useQuery({
+    ...seriesQueryOptions({ id: parsedId, language: selectedLanguage }),
+    enabled: !!parsedId,
+  });
   return <GenericResourceRedirect queryResult={queryResult} />;
 };

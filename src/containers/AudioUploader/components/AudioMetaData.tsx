@@ -18,13 +18,14 @@ import {
   Input,
 } from "@ndla/primitives";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import { useFormikContext } from "formik";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SearchTagsContent } from "../../../components/Form/SearchTagsContent";
 import { SearchTagsTagSelectorInput } from "../../../components/Form/SearchTagsTagSelectorInput";
 import { FormField } from "../../../components/FormField";
-import { useAudioSearchTags } from "../../../modules/audio/audioQueries";
+import { audioSearchTagsQueryOptions } from "../../../modules/audio/audioQueries";
 import { AudioFormikType } from "../../../modules/audio/audioTypes";
 import useDebounce from "../../../util/useDebounce";
 
@@ -34,16 +35,11 @@ const AudioMetaData = () => {
   const [inputQuery, setInputQuery] = useState<string>("");
   const debouncedQuery = useDebounce(inputQuery, 300);
   const tagSelectorTranslations = useTagSelectorTranslations();
-  const searchTagsQuery = useAudioSearchTags(
-    {
-      input: debouncedQuery,
-      language: values.language,
-    },
-    {
-      enabled: !!debouncedQuery.length,
-      placeholderData: (prev) => prev,
-    },
-  );
+  const searchTagsQuery = useQuery({
+    ...audioSearchTagsQueryOptions({ input: debouncedQuery, language: values.language }),
+    enabled: !!debouncedQuery.length,
+    placeholderData: (prev) => prev,
+  });
 
   const collection = useMemo(() => {
     return createListCollection({

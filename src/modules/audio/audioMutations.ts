@@ -6,15 +6,12 @@
  *
  */
 
-import { DefaultError, UseMutationOptions, useMutation } from "@tanstack/react-query";
+import { mutationOptions } from "@tanstack/react-query";
 import { postAudioTranscription } from "./audioApi";
 import { PostAudioTranscription } from "./audioTypes";
 
-export const usePostAudioTranscriptionMutation = (
-  options?: Partial<UseMutationOptions<string, DefaultError, PostAudioTranscription>>,
-) => {
-  return useMutation<string, DefaultError, PostAudioTranscription>({
-    mutationFn: (params) => postAudioTranscription(params.name, params.id, params.language),
-    ...options,
+export const postAudioTranscriptionMutationOptions = () => {
+  return mutationOptions({
+    mutationFn: (params: PostAudioTranscription) => postAudioTranscription(params.name, params.id, params.language),
   });
 };

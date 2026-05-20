@@ -9,6 +9,7 @@
 import { FileListLine } from "@ndla/icons";
 import { Button, FieldErrorMessage, FieldRoot } from "@ndla/primitives";
 import { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { connect, useField, useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -37,8 +38,8 @@ import { unsupportedPlugin } from "../../../components/SlateEditor/plugins/unsup
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import { AI_ACCESS_SCOPE } from "../../../constants";
 import { useSession } from "../../../containers/Session/SessionProvider";
-import { usePostAudioTranscriptionMutation } from "../../../modules/audio/audioMutations";
-import { useAudioTranscription } from "../../../modules/audio/audioQueries";
+import { postAudioTranscriptionMutationOptions } from "../../../modules/audio/audioMutations";
+import { audioTranscriptionQueryOptions } from "../../../modules/audio/audioQueries";
 import { AudioFormikType } from "../../../modules/audio/audioTypes";
 import { inlineContentToEditorValue } from "../../../util/articleContentConverter";
 import { useMessages } from "../../Messages/MessagesProvider";
@@ -106,29 +107,19 @@ const AudioManuscript = ({ audio, audioLanguage = "no" }: AudioManuscriptProps) 
   const [_field, _meta, helpers] = useField("manuscript");
 
   const language = LANGUAGE_MAP[audioLanguage] ?? LANGUAGE_MAP.nb;
-  const postAudioTranscriptionMutation = usePostAudioTranscriptionMutation();
-  const fetchAudioTranscriptQuery = useAudioTranscription(
-    {
-      audioId: audio?.id ?? -1,
-      language: language,
-    },
-    {
-      // Settings to make this a lazyQuery
-      enabled: false,
-      retry: false,
-    },
-  );
+  const postAudioTranscriptionMutation = useMutation(postAudioTranscriptionMutationOptions());
+  const fetchAudioTranscriptQuery = useQuery({
+    ...audioTranscriptionQueryOptions({ audioId: audio?.id ?? -1, language }),
+    // setting to make this a lazyQuery. TODO: Maybe just use a lazy query?
+    enabled: false,
+    retry: false,
+  });
 
-  const { data: polledData } = useAudioTranscription(
-    {
-      audioId: audio?.id ?? -1,
-      language: language,
-    },
-    {
-      refetchInterval: 1000,
-      enabled: isPolling && !!audio,
-    },
-  );
+  const { data: polledData } = useQuery({
+    ...audioTranscriptionQueryOptions({ audioId: audio?.id ?? -1, language }),
+    refetchInterval: 1000,
+    enabled: isPolling && !!audio,
+  });
 
   const startTranscription = async () => {
     if (audio) {

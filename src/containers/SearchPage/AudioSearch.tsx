@@ -12,7 +12,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../components/abstractions/Pagination";
 import config from "../../config";
-import { useSearchAudio } from "../../modules/audio/audioQueries";
+import { searchAudioQueryOptions } from "../../modules/audio/audioQueries";
 import { userDataQueryOptions } from "../../modules/draft/draftQueries";
 import { getAccessToken, isActiveToken } from "../../util/authHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
@@ -57,8 +57,8 @@ export const AudioSearch = () => {
     return parsed;
   }, [params]);
 
-  const searchQuery = useSearchAudio(parsedParams);
-  useSearchAudio({ ...parsedParams, page: parsedParams.page ? parsedParams.page + 1 : 2 }); // preload next page.
+  const searchQuery = useQuery(searchAudioQueryOptions(parsedParams));
+  useQuery({ ...searchAudioQueryOptions({ ...parsedParams, page: parsedParams.page ? parsedParams.page + 1 : 2 }) }); // preload next page.
 
   return (
     <SearchPageContainer asChild consumeCss>

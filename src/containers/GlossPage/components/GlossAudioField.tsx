@@ -23,11 +23,12 @@ import { styled } from "@ndla/styled-system/jsx";
 import { SearchParamsDTO } from "@ndla/types-backend/audio-api";
 import { AudioEmbedData } from "@ndla/types-embed";
 import { AudioPlayer, useAudioSearchTranslations } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { fetchAudio, postSearchAudio } from "../../../modules/audio/audioApi";
-import { useAudio } from "../../../modules/audio/audioQueries";
+import { audioQueryOptions } from "../../../modules/audio/audioQueries";
 import { onError } from "../../../util/resolveJsonOrRejectWithError";
 
 interface Props {
@@ -62,10 +63,10 @@ const searchAudios = (query: LocalAudioSearchParams) => {
 export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Props) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const audioQuery = useAudio(
-    { id: parseInt(element?.resourceId ?? ""), language: glossLanguage },
-    { enabled: !!parseInt(element?.resourceId ?? "") },
-  );
+  const audioQuery = useQuery({
+    ...audioQueryOptions({ id: parseInt(element?.resourceId ?? ""), language: glossLanguage }),
+    enabled: !!parseInt(element?.resourceId ?? ""),
+  });
   const audioSearchTranslations = useAudioSearchTranslations();
 
   const defaultQueryObject = {

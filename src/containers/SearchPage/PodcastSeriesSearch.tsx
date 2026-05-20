@@ -12,7 +12,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../components/abstractions/Pagination";
 import config from "../../config";
-import { useSearchSeries } from "../../modules/audio/audioQueries";
+import { searchSeriesQueryOptions } from "../../modules/audio/audioQueries";
 import { userDataQueryOptions } from "../../modules/draft/draftQueries";
 import { getAccessToken, isActiveToken } from "../../util/authHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
@@ -56,8 +56,8 @@ export const PodcastSeriesSearch = () => {
     enabled: isActiveToken(getAccessToken()),
   });
 
-  const searchQuery = useSearchSeries(parsedParams);
-  useSearchSeries({ ...parsedParams, page: parsedParams.page ? parsedParams.page + 1 : 2 }); // preload next page.
+  const searchQuery = useQuery(searchSeriesQueryOptions(parsedParams));
+  useQuery({ ...searchSeriesQueryOptions({ ...parsedParams, page: parsedParams.page ? parsedParams.page + 1 : 2 }) }); // preload next page.
 
   return (
     <SearchPageContainer asChild consumeCss>

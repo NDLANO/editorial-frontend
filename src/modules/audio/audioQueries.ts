@@ -6,17 +6,8 @@
  *
  */
 
-import {
-  AudioMetaInformationDTO,
-  AudioSummarySearchResultDTO,
-  SeriesSummarySearchResultDTO,
-  SeriesDTO,
-  SeriesSearchParamsDTO,
-  SearchParamsDTO as AudioSearchParams,
-  TagsSearchResultDTO,
-  TranscriptionResultDTO,
-} from "@ndla/types-backend/audio-api";
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { SeriesSearchParamsDTO, SearchParamsDTO as AudioSearchParams } from "@ndla/types-backend/audio-api";
+import { queryOptions } from "@tanstack/react-query";
 import {
   AUDIO,
   PODCAST_SERIES,
@@ -44,57 +35,44 @@ export const audioQueryKeys = {
   audioTranscription: (params?: Partial<UseTranscription>) => [AUDIO_TRANSCRIPTION, params] as const,
 };
 
-export const useAudio = (params: UseAudio, options?: Partial<UseQueryOptions<AudioMetaInformationDTO>>) =>
-  useQuery<AudioMetaInformationDTO>({
+export const audioQueryOptions = (params: UseAudio) => {
+  return queryOptions({
     queryKey: audioQueryKeys.audio(params),
     queryFn: () => fetchAudio(params.id, params.language),
-    ...options,
   });
+};
 
-export const useSeries = (params: UseSeries, options?: Partial<UseQueryOptions<SeriesDTO>>) =>
-  useQuery<SeriesDTO>({
+export const seriesQueryOptions = (params: UseSeries) => {
+  return queryOptions({
     queryKey: audioQueryKeys.podcastSeries(params),
     queryFn: () => fetchSeries(params.id, params.language),
-    ...options,
-  });
-
-export const useSearchSeries = (
-  query: SeriesSearchParamsDTO,
-  options?: Partial<UseQueryOptions<SeriesSummarySearchResultDTO>>,
-) => {
-  return useQuery<SeriesSummarySearchResultDTO>({
-    queryKey: audioQueryKeys.podcastSeriesSearch(query),
-    queryFn: () => postSearchSeries(query),
-    ...options,
   });
 };
 
-export const useSearchAudio = (
-  query: AudioSearchParams,
-  options?: Partial<UseQueryOptions<AudioSummarySearchResultDTO>>,
-) => {
-  return useQuery<AudioSummarySearchResultDTO>({
-    queryKey: audioQueryKeys.search(query),
-    queryFn: () => postSearchAudio(query),
-    ...options,
+export const searchSeriesQueryOptions = (params: SeriesSearchParamsDTO) => {
+  return queryOptions({
+    queryKey: audioQueryKeys.podcastSeriesSearch(params),
+    queryFn: () => postSearchSeries(params),
   });
 };
 
-export const useAudioSearchTags = (params: UseSearchTags, options?: Partial<UseQueryOptions<TagsSearchResultDTO>>) => {
-  return useQuery<TagsSearchResultDTO>({
+export const searchAudioQueryOptions = (params: AudioSearchParams) => {
+  return queryOptions({
+    queryKey: audioQueryKeys.search(params),
+    queryFn: () => postSearchAudio(params),
+  });
+};
+
+export const audioSearchTagsQueryOptions = (params: UseSearchTags) => {
+  return queryOptions({
     queryKey: audioQueryKeys.audioSearchTags(params),
     queryFn: () => fetchSearchTags(params.input, params.language),
-    ...options,
   });
 };
 
-export const useAudioTranscription = (
-  params: UseTranscription,
-  options?: Partial<UseQueryOptions<TranscriptionResultDTO>>,
-) => {
-  return useQuery<TranscriptionResultDTO>({
+export const audioTranscriptionQueryOptions = (params: UseTranscription) => {
+  return queryOptions({
     queryKey: audioQueryKeys.audioTranscription(params),
     queryFn: () => fetchAudioTranscription(params.audioId, params.language),
-    ...options,
   });
 };

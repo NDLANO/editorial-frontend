@@ -21,12 +21,13 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleSummaryV2DTO } from "@ndla/types-backend/article-api";
 import { useComboboxTranslations } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import { useFormikContext } from "formik";
 import { ReactNode, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../components/abstractions/Combobox";
 import Pagination from "../../components/abstractions/Pagination";
-import { useArticleSearch } from "../../modules/article/articleQueries";
+import { articleSearchQueryOptions } from "../../modules/article/articleQueries";
 import { usePaginatedQuery } from "../../util/usePaginatedQuery";
 import { extractArticleIds } from "./frontpageHelpers";
 import { MenuWithArticle } from "./types";
@@ -52,10 +53,10 @@ const FrontpageArticleSearch = ({ articleId, children, onChange }: Props) => {
   const { query, setQuery, page, setPage, delayedQuery } = usePaginatedQuery();
   const comboboxTranslations = useComboboxTranslations();
 
-  const articleQuery = useArticleSearch(
-    { articleTypes: ["frontpage-article"], license: "all", page, query: delayedQuery },
-    { placeholderData: (prev) => prev },
-  );
+  const articleQuery = useQuery({
+    ...articleSearchQueryOptions({ articleTypes: ["frontpage-article"], license: "all", page, query: delayedQuery }),
+    placeholderData: (prev) => prev,
+  });
 
   const selectedValues = useMemo(() => {
     const articleIds = extractArticleIds(values);

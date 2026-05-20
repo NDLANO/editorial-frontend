@@ -23,7 +23,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toFormArticle } from "../../components/PreviewDraft/PreviewDraft";
 import { useTransformedArticle } from "../../components/PreviewDraft/useTransformedArticle";
-import { useArticle } from "../../modules/article/articleQueries";
+import { articleQueryOptions } from "../../modules/article/articleQueries";
 import { draftQueryOptions } from "../../modules/draft/draftQueries";
 import { useNode } from "../../modules/nodes/nodeQueries";
 import { getContentTypeFromResourceTypes } from "../../util/resourceHelpers";
@@ -59,7 +59,7 @@ export const ArticleStep = ({ step, language }: ArticleStepProps) => {
 
   const nodeQuery = useNode({ id: taxId ?? "", taxonomyVersion, language }, { enabled: !!taxId });
   const draftQuery = useQuery({ ...draftQueryOptions({ id: articleId ?? 0, language }), enabled: !!articleId });
-  const articleQuery = useArticle({ id: articleId ?? 0, language }, { enabled: !!articleId });
+  const articleQuery = useQuery({ ...articleQueryOptions({ id: articleId ?? 0, language }), enabled: !!articleId });
   const { article } = useTransformedArticle({
     language,
     draft:

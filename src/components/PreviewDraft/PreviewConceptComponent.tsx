@@ -10,9 +10,10 @@ import { extractEmbedMeta } from "@ndla/article-converter";
 import { ConceptDTO } from "@ndla/types-backend/concept-api";
 import { ConceptVisualElementMeta } from "@ndla/types-embed";
 import { BlockConcept, Gloss } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import parse from "html-react-parser";
 import { useMemo } from "react";
-import { usePreviewArticle } from "../../modules/article/articleGqlQueries";
+import { transformArticleQueryOptions } from "../../modules/article/articleGqlQueries";
 
 const getAudioData = (visualElement?: ConceptVisualElementMeta): { title: string; src?: string } => {
   const isSuccessAudio = visualElement?.resource === "audio" && visualElement?.status === "success";
@@ -29,13 +30,13 @@ interface Props {
   language: string;
 }
 const PreviewConceptComponent = ({ concept, language }: Props) => {
-  const { data } = usePreviewArticle(
-    concept.visualElement?.visualElement ?? "",
-    concept.visualElement?.language ?? language,
-    undefined,
-    false,
-    { enabled: !!concept.visualElement?.visualElement },
-  );
+  const { data } = useQuery({
+    ...transformArticleQueryOptions({
+      content: concept?.visualElement?.visualElement ?? "",
+      language: concept.visualElement?.language ?? language,
+    }),
+    enabled: !!concept.visualElement?.visualElement,
+  });
 
   const parsedContent = useMemo(() => {
     if (!concept.content) return;

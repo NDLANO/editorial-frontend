@@ -9,8 +9,9 @@
 import { HeartFill } from "@ndla/icons";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { useResourceStats } from "../../modules/myndla/myndlaQueries";
+import { resourceStatsQueryOptions } from "../../modules/myndla/myndlaQueries";
 
 const Wrapper = styled("div", {
   base: {
@@ -42,15 +43,13 @@ const HeaderFavoriteStatus = ({ id, type, favoriteCount }: Props) => {
   const favoriteMakesSense = id !== undefined && type !== undefined;
   const resourceType = getResourceType(type);
   const { t } = useTranslation();
-  const { isLoading, isError, data } = useResourceStats(
-    {
+  const { isLoading, isError, data } = useQuery({
+    ...resourceStatsQueryOptions({
       resourceIds: [id?.toString() ?? ""],
       resourceTypes: resourceType,
-    },
-    {
-      enabled: favoriteMakesSense && favoriteCount === undefined,
-    },
-  );
+    }),
+    enabled: favoriteMakesSense && favoriteCount === undefined,
+  });
 
   if (!favoriteMakesSense || isError || isLoading || (!data?.length && favoriteCount === undefined)) return null;
 

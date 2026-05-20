@@ -18,12 +18,13 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toFormArticle } from "../../components/PreviewDraft/PreviewDraft";
 import { useTransformedArticle } from "../../components/PreviewDraft/useTransformedArticle";
 import { useArticle } from "../../modules/article/articleQueries";
-import { useDraft } from "../../modules/draft/draftQueries";
+import { draftQueryOptions } from "../../modules/draft/draftQueries";
 import { useNode } from "../../modules/nodes/nodeQueries";
 import { getContentTypeFromResourceTypes } from "../../util/resourceHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
@@ -57,7 +58,7 @@ export const ArticleStep = ({ step, language }: ArticleStepProps) => {
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const nodeQuery = useNode({ id: taxId ?? "", taxonomyVersion, language }, { enabled: !!taxId });
-  const draftQuery = useDraft({ id: articleId ?? 0, language }, { enabled: !!articleId });
+  const draftQuery = useQuery({ ...draftQueryOptions({ id: articleId ?? 0, language }), enabled: !!articleId });
   const articleQuery = useArticle({ id: articleId ?? 0, language }, { enabled: !!articleId });
   const { article } = useTransformedArticle({
     language,

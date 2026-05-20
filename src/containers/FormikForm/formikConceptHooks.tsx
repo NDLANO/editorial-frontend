@@ -8,18 +8,19 @@
 
 import { ConceptDTO, NewConceptDTO, UpdatedConceptDTO } from "@ndla/types-backend/concept-api";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { LAST_UPDATED_SIZE } from "../../constants";
 import * as conceptApi from "../../modules/concept/conceptApi";
-import { useUpdateUserDataMutation, useUserData } from "../../modules/draft/draftQueries";
+import { updateUserDataMutationOptions, userDataQueryOptions } from "../../modules/draft/draftQueries";
 import handleError from "../../util/handleError";
 
 export function useFetchConceptData(conceptId: number | undefined, locale: string) {
   const [concept, setConcept] = useState<ConceptDTO>();
   const [conceptChanged, setConceptChanged] = useState(false);
   const [loading, setLoading] = useState(true);
-  const { mutateAsync } = useUpdateUserDataMutation();
-  const { data } = useUserData();
+  const { mutateAsync } = useMutation(updateUserDataMutationOptions());
+  const { data } = useQuery(userDataQueryOptions());
 
   useEffect(() => {
     const fetchConcept = async (): Promise<void> => {

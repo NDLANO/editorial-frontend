@@ -8,11 +8,12 @@
 
 import { Spinner } from "@ndla/primitives";
 import { Node, NodeType } from "@ndla/types-backend/taxonomy-api";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { TAXONOMY_ADMIN_SCOPE, TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
-import { useUserData } from "../../modules/draft/draftQueries";
+import { userDataQueryOptions } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
 import { getPathsFromUrl } from "../../util/routeHelpers";
 import { useSession } from "../Session/SessionProvider";
@@ -56,7 +57,7 @@ const LeftColumn = ({ rootNodeType = "SUBJECT", childNodeTypes = ["TOPIC"], root
   const { userPermissions, ndlaId } = useSession();
   const { showFavorites, showLmaSubjects, showDaSubjects, showSaSubjects } = usePreferences();
 
-  const userDataQuery = useUserData();
+  const userDataQuery = useQuery(userDataQueryOptions());
   const favoriteNodes =
     userDataQuery.data?.favoriteSubjects?.reduce<{ [x: string]: boolean }>((acc, curr) => {
       acc[curr] = true;

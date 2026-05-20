@@ -7,11 +7,12 @@
  */
 
 import { SearchParamsDTO, ImageContentType } from "@ndla/types-backend/image-api";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../components/abstractions/Pagination";
 import config from "../../config";
-import { useUserData } from "../../modules/draft/draftQueries";
+import { userDataQueryOptions } from "../../modules/draft/draftQueries";
 import { useSearchImages } from "../../modules/image/imageQueries";
 import { getAccessToken, isActiveToken } from "../../util/authHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
@@ -39,7 +40,8 @@ export const ImageSearch = () => {
   const { t } = useTranslation();
   const [params, setParams] = useStableSearchPageParams();
 
-  const userDataQuery = useUserData({
+  const userDataQuery = useQuery({
+    ...userDataQueryOptions(),
     enabled: isActiveToken(getAccessToken()),
   });
 

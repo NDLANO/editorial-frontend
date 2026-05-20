@@ -8,6 +8,7 @@
 
 import { PageContent } from "@ndla/primitives";
 import { ConceptDTO, NewConceptDTO, UpdatedConceptDTO, ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
+import { useQuery } from "@tanstack/react-query";
 import { Formik, FormikProps, FormikHelpers } from "formik";
 import { useState, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
@@ -17,7 +18,7 @@ import validateFormik, { getWarnings, RulesType } from "../../../components/form
 import FormWrapper from "../../../components/FormWrapper";
 import { isEmpty } from "../../../components/validators";
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../constants";
-import { useLicenses } from "../../../modules/draft/draftQueries";
+import { licenseQuery } from "../../../modules/draft/draftQueries";
 import CopyrightFieldGroup from "../../FormikForm/CopyrightFieldGroup";
 import SimpleVersionPanel from "../../FormikForm/SimpleVersionPanel";
 import { MessageError, useMessages } from "../../Messages/MessagesProvider";
@@ -109,7 +110,7 @@ const ConceptForm = ({
   const [savedToServer, setSavedToServer] = useState(false);
   const { t } = useTranslation();
   const { applicationError } = useMessages();
-  const { data: licenses = [] } = useLicenses({ placeholderData: [] });
+  const { data: licenses = [] } = useQuery(licenseQuery());
   const { ndlaId } = useSession();
 
   const handleSubmit = async (values: ConceptFormValues, formikHelpers: FormikHelpers<ConceptFormValues>) => {

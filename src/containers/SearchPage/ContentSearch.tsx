@@ -8,13 +8,14 @@
 
 import { DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
 import { keyBy, uniq } from "@ndla/util";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../components/abstractions/Pagination";
 import config from "../../config";
 import { NO_RESPONSIBLES } from "../../constants";
 import { useAuth0Users } from "../../modules/auth0/auth0Queries";
-import { useUserData } from "../../modules/draft/draftQueries";
+import { userDataQueryOptions } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
 import { useSearchWithCustomSubjectsFiltering } from "../../modules/search/searchQueries";
 import { getAccessToken, isActiveToken } from "../../util/authHelpers";
@@ -88,7 +89,8 @@ export const ContentSearch = () => {
   const searchQuery = useSearchWithCustomSubjectsFiltering(parsedParams);
   useSearchWithCustomSubjectsFiltering({ ...parsedParams, page: parsedParams.page ? parsedParams.page + 1 : 2 }); // preload next page.
 
-  const userDataQuery = useUserData({
+  const userDataQuery = useQuery({
+    ...userDataQueryOptions(),
     enabled: isActiveToken(getAccessToken()),
   });
 

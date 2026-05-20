@@ -6,51 +6,36 @@
  *
  */
 
-import { ArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
-import { useMutation, UseMutationOptions, useQueryClient } from "@tanstack/react-query";
+import { UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
+import { mutationOptions } from "@tanstack/react-query";
 import { DraftStatusType } from "../../interfaces";
-import { copyRevisionDates, deleteCurrentRevision, migrateCodes, updateDraft, updateStatusDraft } from "./draftApi";
+import { deleteCurrentRevision, migrateCodes, updateDraft, updateStatusDraft } from "./draftApi";
 import { draftQueryKeys } from "./draftQueries";
 
-export const useUpdateDraftMutation = (
-  options?: Partial<UseMutationOptions<ArticleDTO, unknown, { id: number; body: UpdatedArticleDTO }>>,
-) => {
-  return useMutation<ArticleDTO, undefined, { id: number; body: UpdatedArticleDTO }>({
-    mutationFn: (vars) => updateDraft(vars.id, vars.body),
-    ...options,
+export const updateDraftMutationOptions = () => {
+  return mutationOptions({
+    mutationFn: (vars: { id: number; body: UpdatedArticleDTO }) => updateDraft(vars.id, vars.body),
   });
 };
 
-export const useUpdateDraftStatusMutation = (
-  options?: Partial<UseMutationOptions<ArticleDTO, unknown, { id: number; status: DraftStatusType }>>,
-) => {
-  return useMutation<ArticleDTO, unknown, { id: number; status: DraftStatusType }>({
-    mutationFn: (vars) => updateStatusDraft(vars.id, vars.status),
-    ...options,
+export const updateDraftStatusMutationOptions = () => {
+  return mutationOptions({
+    mutationFn: (vars: { id: number; status: DraftStatusType }) => updateStatusDraft(vars.id, vars.status),
   });
 };
 
-export const useCopyRevisionDates = (options?: UseMutationOptions<void, unknown, { nodeId: string }>) => {
-  return useMutation<void, unknown, { nodeId: string }>({
-    mutationFn: (vars) => copyRevisionDates(vars.nodeId),
-    ...options,
+export const migrateCodesMutationOptions = () => {
+  return mutationOptions({
+    mutationFn: migrateCodes,
   });
 };
 
-export const useMigrateCodes = (options?: UseMutationOptions<void>) => {
-  return useMutation<void>({
-    mutationFn: () => migrateCodes(),
-    ...options,
-  });
-};
-
-export const useDeleteCurrentRevision = () => {
-  const queryClient = useQueryClient();
-  return useMutation<void, unknown, { articleId: number }>({
-    mutationFn: ({ articleId }) => deleteCurrentRevision(articleId),
-    onSuccess: (_, { articleId }) => {
-      queryClient.invalidateQueries({ queryKey: draftQueryKeys.articleRevisionHistory(articleId) });
-      queryClient.invalidateQueries({ queryKey: draftQueryKeys.draft(articleId) });
+export const deleteCurrentRevisionMutationOptions = () => {
+  return mutationOptions({
+    mutationFn: ({ articleId }: { articleId: number }) => deleteCurrentRevision(articleId),
+    onSuccess: (_, vars, __, ctx) => {
+      ctx.client.invalidateQueries({ queryKey: draftQueryKeys.articleRevisionHistory(vars.articleId) });
+      ctx.client.invalidateQueries({ queryKey: draftQueryKeys.draft(vars.articleId) });
     },
   });
 };

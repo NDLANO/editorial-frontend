@@ -11,8 +11,9 @@ import { getLicenseByAbbreviation } from "@ndla/licenses";
 import { ListItemContent, ListItemHeading, ListItemImage, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { AudioSummaryDTO } from "@ndla/types-backend/audio-api";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { useLicenses } from "../../../../modules/draft/draftQueries";
+import { licenseQuery } from "../../../../modules/draft/draftQueries";
 import { routes } from "../../../../util/routeHelpers";
 import { SearchContentWrapper } from "./SearchContentWrapper";
 
@@ -22,7 +23,7 @@ interface Props {
 
 const SearchAudio = ({ audio }: Props) => {
   const { t, i18n } = useTranslation();
-  const { data: licenses } = useLicenses();
+  const { data: licenses } = useQuery(licenseQuery());
   const license = licenses && licenses.find((l) => audio.license === l.license);
 
   return (

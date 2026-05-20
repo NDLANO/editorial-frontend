@@ -22,6 +22,7 @@ import {
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import { FieldHelperProps, useFormikContext } from "formik";
 import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -38,7 +39,7 @@ import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
 import { AI_ACCESS_SCOPE } from "../../constants";
 import { MetaDescriptionVariables, SummaryVariables } from "../../interfaces";
-import { useDraftSearchTags } from "../../modules/draft/draftQueries";
+import { draftSearchTagsQueryOptions } from "../../modules/draft/draftQueries";
 import { inlineContentToEditorValue } from "../../util/articleContentConverter";
 import useDebounce from "../../util/useDebounce";
 import { useSession } from "../Session/SessionProvider";
@@ -69,16 +70,11 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
   const [summary, setSummary] = useState<Descendant[]>([]);
   const debouncedQuery = useDebounce(inputQuery, 300);
   const { setStatus, values } = useFormikContext<ArticleFormType>();
-  const searchTagsQuery = useDraftSearchTags(
-    {
-      input: debouncedQuery,
-      language: articleLanguage,
-    },
-    {
-      enabled: !!debouncedQuery.length,
-      placeholderData: (prev) => prev,
-    },
-  );
+  const searchTagsQuery = useQuery({
+    ...draftSearchTagsQueryOptions({ input: debouncedQuery, language: articleLanguage }),
+    enabled: !!debouncedQuery.length,
+    placeholderData: (prev) => prev,
+  });
 
   const collection = useMemo(() => {
     return createListCollection({

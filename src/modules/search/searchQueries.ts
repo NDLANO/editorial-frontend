@@ -32,7 +32,7 @@ import {
   SEARCH_WITH_CUSTOM_SUBJECTS_FILTERING,
 } from "../../queryKeys";
 import { getAccessToken, isActiveToken } from "../../util/authHelpers";
-import { useUserData } from "../draft/draftQueries";
+import { userDataQueryOptions } from "../draft/draftQueries";
 import { usePostSearchNodes } from "../nodes/nodeQueries";
 import { postSearch, searchGrepCodes, searchResources, searchSubjectStats } from "./searchApi";
 import { MultiSummarySearchResults, NoNodeDraftSearchParams, NoNodeSearchParams } from "./searchApiInterfaces";
@@ -64,7 +64,8 @@ export const useSearchWithCustomSubjectsFiltering = (
 ) => {
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const { data, isLoading } = useUserData({
+  const { data, isLoading } = useQuery({
+    ...userDataQueryOptions(),
     enabled: isActiveToken(getAccessToken()),
   });
 

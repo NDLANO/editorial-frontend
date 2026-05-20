@@ -7,8 +7,9 @@
  */
 
 import { Spinner } from "@ndla/primitives";
+import { useQuery } from "@tanstack/react-query";
 import { Navigate, useParams } from "react-router";
-import { useDraft } from "../../modules/draft/draftQueries";
+import { draftQueryOptions } from "../../modules/draft/draftQueries";
 import { toEditArticle } from "../../util/routeHelpers";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
@@ -18,7 +19,7 @@ export const Component = () => <PrivateRoute component={<GenericArticleRedirect 
 export const GenericArticleRedirect = () => {
   const { id } = useParams<"id">();
   const parsedId = Number(id);
-  const { data: article, error, isLoading } = useDraft({ id: parsedId }, { enabled: !!parsedId });
+  const { data: article, error, isLoading } = useQuery({ ...draftQueryOptions({ id: parsedId }), enabled: !!parsedId });
   if (isLoading) return <Spinner />;
   if (error || !article || !parsedId) return <NotFoundPage />;
 

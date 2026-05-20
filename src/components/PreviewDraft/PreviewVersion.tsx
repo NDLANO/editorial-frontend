@@ -12,6 +12,7 @@ import { MissingRouterContext } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { ArticleWrapper } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import { useFormikContext } from "formik";
 import parse from "html-react-parser";
 import { ReactNode, useMemo, useState } from "react";
@@ -19,7 +20,7 @@ import { renderToString } from "react-dom/server";
 import { useTranslation } from "react-i18next";
 import { learningResourceFormTypeToDraftApiType } from "../../containers/ArticlePage/articleTransformers";
 import { LearningResourceFormType } from "../../containers/FormikForm/articleFormHooks";
-import { useLicenses } from "../../modules/draft/draftQueries";
+import { licenseQuery } from "../../modules/draft/draftQueries";
 import { getDiff } from "../../util/diffHTML";
 import { toFormArticle } from "./PreviewDraft";
 import { TwoArticleWrapper } from "./styles";
@@ -75,7 +76,7 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
   const [diffEnable, setDiffEnable] = useState(false);
   const { t } = useTranslation();
   const { values, initialValues } = useFormikContext<LearningResourceFormType>();
-  const { data: licenses = [] } = useLicenses();
+  const { data: licenses = [] } = useQuery(licenseQuery());
   const apiType = useMemo(
     () => learningResourceFormTypeToDraftApiType(values, initialValues, licenses),
     [initialValues, licenses, values],

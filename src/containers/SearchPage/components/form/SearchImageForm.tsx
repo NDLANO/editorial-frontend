@@ -10,6 +10,7 @@ import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { SearchParamsDTO, ImageSearchField } from "@ndla/types-backend/image-api";
+import { useQuery } from "@tanstack/react-query";
 import { TFunction } from "i18next";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -21,7 +22,7 @@ import ObjectSelector, { SelectOption } from "../../../../components/ObjectSelec
 import config from "../../../../config";
 import { CamelToKebab } from "../../../../interfaces";
 import { useAuth0Editors } from "../../../../modules/auth0/auth0Queries";
-import { useLicenses } from "../../../../modules/draft/draftQueries";
+import { licenseQuery } from "../../../../modules/draft/draftQueries";
 import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
@@ -127,13 +128,13 @@ const SearchImageForm = ({ userData }: Props) => {
   const { t, i18n } = useTranslation();
   const [input, setInput] = useState(params.get("query") ?? "");
   const queryInput = params.get("query");
-  const { data: licenses } = useLicenses({
+  const { data: licenses } = useQuery({
+    ...licenseQuery(),
     select: (licenses) =>
       getLicensesWithTranslations(licenses, i18n.language).map((license) => ({
         id: license.license,
         name: license.title,
       })),
-    placeholderData: [],
   });
 
   const { data: users } = useAuth0Editors({

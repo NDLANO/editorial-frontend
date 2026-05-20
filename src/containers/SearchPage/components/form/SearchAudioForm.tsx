@@ -10,6 +10,7 @@ import { FieldRoot, FieldInput, FieldLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { SearchParamsDTO } from "@ndla/types-backend/audio-api";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
@@ -18,7 +19,7 @@ import SearchTagGroup from "../../../../components/Form/SearchTagGroup";
 import { getTagName } from "../../../../components/Form/utils";
 import ObjectSelector, { SelectElement } from "../../../../components/ObjectSelector";
 import { CamelToKebab } from "../../../../interfaces";
-import { useLicenses } from "../../../../modules/draft/draftQueries";
+import { licenseQuery } from "../../../../modules/draft/draftQueries";
 import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
@@ -43,13 +44,13 @@ const SearchAudioForm = ({ userData }: Props) => {
   const queryParam = useMemo(() => params.get("query") || "", [params]);
   const [input, setInput] = useState(queryParam);
   const { t, i18n } = useTranslation();
-  const { data: licenses } = useLicenses({
+  const { data: licenses } = useQuery({
+    ...licenseQuery(),
     select: (licenses) =>
       getLicensesWithTranslations(licenses, i18n.language).map((license) => ({
         id: license.license,
         name: license.title,
       })),
-    placeholderData: [],
   });
 
   useEffect(() => {

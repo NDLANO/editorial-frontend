@@ -13,12 +13,13 @@ import { DraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { SearchParamsDTO as ImageSearchparamsDTO } from "@ndla/types-backend/image-api";
 import { DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
+import { useMutation } from "@tanstack/react-query";
 import { TFunction } from "i18next";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import SaveButton from "../../components/SaveButton";
 import { CamelToKebab, SearchType } from "../../interfaces";
-import { useUpdateUserDataMutation } from "../../modules/draft/draftQueries";
+import { updateUserDataMutationOptions } from "../../modules/draft/draftQueries";
 
 type Error = "alreadyExist" | "other" | "fetchFailed" | "";
 
@@ -84,7 +85,7 @@ const SearchSaveButton = ({ filters, searchContentType, userData }: Props) => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<Error>("");
 
-  const userDataMutation = useUpdateUserDataMutation();
+  const userDataMutation = useMutation({ ...updateUserDataMutationOptions() });
 
   const savedSearches = userData?.savedSearches ?? [];
 

@@ -9,11 +9,12 @@
 import { Button, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { AuthorDTO } from "@ndla/types-backend/article-api";
 import { CopyrightEmbedData } from "@ndla/types-embed";
+import { useQuery } from "@tanstack/react-query";
 import { Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CopyrightFieldGroup } from "../../../../containers/FormikForm";
-import { useLicenses } from "../../../../modules/draft/draftQueries";
+import { licenseQuery } from "../../../../modules/draft/draftQueries";
 import { DEFAULT_LICENSE } from "../../../../util/formHelper";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
@@ -99,7 +100,7 @@ export const EmbedCopyrightForm = ({ embedData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(embedData), [embedData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
-  const licensesQuery = useLicenses();
+  const licensesQuery = useQuery(licenseQuery());
 
   const onSubmit = useCallback(
     (values: FormValues) => {

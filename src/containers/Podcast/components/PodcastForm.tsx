@@ -13,6 +13,7 @@ import {
   UpdatedAudioMetaInformationDTO,
   NewAudioMetaInformationDTO,
 } from "@ndla/types-backend/audio-api";
+import { useQuery } from "@tanstack/react-query";
 import { Formik, FormikHelpers, FormikErrors } from "formik";
 import { useState, useRef, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -26,7 +27,7 @@ import { PageSpinner } from "../../../components/PageSpinner";
 import SaveButton from "../../../components/SaveButton";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { PodcastFormValues } from "../../../modules/audio/audioTypes";
-import { useLicenses } from "../../../modules/draft/draftQueries";
+import { licenseQuery } from "../../../modules/draft/draftQueries";
 import { editorValueToPlainText, inlineContentToHTML } from "../../../util/articleContentConverter";
 import { audioApiTypeToPodcastFormType } from "../../../util/audioHelpers";
 import { isFormikFormDirty } from "../../../util/formHelper";
@@ -125,7 +126,7 @@ const PodcastForm = ({
   translating,
   translatedFieldsToNN,
 }: Props) => {
-  const { data: licenses } = useLicenses({ placeholderData: [] });
+  const { data: licenses } = useQuery(licenseQuery());
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
   const size = useRef<[number, number] | undefined>(undefined);

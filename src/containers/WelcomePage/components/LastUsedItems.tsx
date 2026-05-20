@@ -8,10 +8,11 @@
 
 import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { keyBy } from "@ndla/util";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchConcepts } from "../../../modules/concept/conceptQueries";
-import { useSearchDrafts } from "../../../modules/draft/draftQueries";
+import { searchDraftQueryOptions } from "../../../modules/draft/draftQueries";
 import { useSearch } from "../../../modules/search/searchQueries";
 import { SortOptionLastUsed } from "../types";
 import LastUsedConcepts from "./LastUsedConcepts";
@@ -40,16 +41,16 @@ const getSortedResults = <T extends { id: number }>(data: T[], ids: number[]) =>
 const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [], lastUsedLearningpaths = [] }: Props) => {
   const { t, i18n } = useTranslation();
 
-  const searchDraftsQuery = useSearchDrafts(
-    {
+  const searchDraftsQuery = useQuery({
+    ...searchDraftQueryOptions({
       ids: lastUsedResources!,
       sort: "-lastUpdated",
       language: i18n.language,
       pageSize: lastUsedResources.length,
       fallback: true,
-    },
-    { enabled: !!lastUsedResources.length },
-  );
+    }),
+    enabled: !!lastUsedResources.length,
+  });
 
   const draftData = useMemo(() => {
     return getSortedResults(searchDraftsQuery.data?.results || [], lastUsedResources);

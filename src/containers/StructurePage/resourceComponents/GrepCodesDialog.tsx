@@ -19,12 +19,12 @@ import {
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { GREP_CODE_FORMATS } from "../../../constants";
-import { useUpdateDraftMutation } from "../../../modules/draft/draftMutations";
+import { updateDraftMutationOptions } from "../../../modules/draft/draftMutations";
 import { draftQueryKeys } from "../../../modules/draft/draftQueries";
 import { usePatchLearningpathMutation } from "../../../modules/learningpath/learningpathMutations";
 import { learningpathQueryKeys } from "../../../modules/learningpath/learningpathQueries";
@@ -86,7 +86,7 @@ const GrepCodeDialogContent = ({
   contentUri,
   close,
 }: DialogContentProps) => {
-  const updateDraft = useUpdateDraftMutation();
+  const updateDraft = useMutation(updateDraftMutationOptions());
   const updateLearningpath = usePatchLearningpathMutation();
   const { t, i18n } = useTranslation();
   const qc = useQueryClient();

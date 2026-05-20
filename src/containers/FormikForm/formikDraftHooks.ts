@@ -7,6 +7,7 @@
  */
 
 import { NewArticleDTO, UpdatedArticleDTO, ArticleDTO } from "@ndla/types-backend/draft-api";
+import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect, useCallback } from "react";
 import { LAST_UPDATED_SIZE } from "../../constants";
 import {
@@ -16,7 +17,7 @@ import {
   fetchUserData,
   updateUserData as apiUpdateUserData,
 } from "../../modules/draft/draftApi";
-import { useArticleRevisionHistory } from "../../modules/draft/draftQueries";
+import { articleRevisionHistoryQueryOptions } from "../../modules/draft/draftQueries";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
 const updateUserData = async (articleId: number) => {
@@ -41,10 +42,10 @@ export function useFetchArticleData(articleId: number | undefined, language: str
   const [articleChanged, setArticleChanged] = useState(false);
   const [loading, setLoading] = useState(true);
   const { taxonomyVersion } = useTaxonomyVersion();
-  const articleRevisionHistory = useArticleRevisionHistory(
-    { id: articleId!, language: language },
-    { enabled: !!articleId },
-  );
+  const articleRevisionHistory = useQuery({
+    ...articleRevisionHistoryQueryOptions({ id: articleId!, language }),
+    enabled: !!articleId,
+  });
 
   useEffect(() => {
     const fetchArticle = async () => {

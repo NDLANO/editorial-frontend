@@ -9,12 +9,13 @@
 import { DeleteBinLine, EyeFill, ResetLeft } from "@ndla/icons";
 import { Button, IconButton, Text } from "@ndla/primitives";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AlertDialog } from "../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../../components/FormikForm";
 import { PreviewResourceDialog } from "../../components/PreviewDraft/PreviewResourceDialog";
-import { useDeleteCurrentRevision } from "../../modules/draft/draftMutations";
+import { deleteCurrentRevisionMutationOptions } from "../../modules/draft/draftMutations";
 
 interface Props {
   showFromArticleApi: boolean;
@@ -41,7 +42,7 @@ const VersionActionButtons = ({
 }: Props) => {
   const { t } = useTranslation();
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
-  const deleteCurrentRevision = useDeleteCurrentRevision();
+  const deleteCurrentRevision = useMutation(deleteCurrentRevisionMutationOptions());
   const [deleteError, setDeleteError] = useState<string>("");
 
   const onDeleteCurrentRevision = () => {

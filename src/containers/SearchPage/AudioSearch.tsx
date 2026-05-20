@@ -7,12 +7,13 @@
  */
 
 import { SearchParamsDTO } from "@ndla/types-backend/audio-api";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../components/abstractions/Pagination";
 import config from "../../config";
 import { useSearchAudio } from "../../modules/audio/audioQueries";
-import { useUserData } from "../../modules/draft/draftQueries";
+import { userDataQueryOptions } from "../../modules/draft/draftQueries";
 import { getAccessToken, isActiveToken } from "../../util/authHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import SearchAudioForm from "./components/form/SearchAudioForm";
@@ -37,7 +38,8 @@ export const AudioSearch = () => {
   const { t } = useTranslation();
   const [params, setParams] = useStableSearchPageParams();
 
-  const userDataQuery = useUserData({
+  const userDataQuery = useQuery({
+    ...userDataQueryOptions(),
     enabled: isActiveToken(getAccessToken()),
   });
 

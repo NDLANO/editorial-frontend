@@ -6,9 +6,10 @@
  *
  */
 
+import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
 import { GenericResourceRedirect } from "../../components/GenericResourceRedirect";
-import { useDraft } from "../../modules/draft/draftQueries";
+import { draftQueryOptions } from "../../modules/draft/draftQueries";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 export const Component = () => <PrivateRoute component={<ArticleRedirect />} />;
@@ -16,6 +17,9 @@ export const Component = () => <PrivateRoute component={<ArticleRedirect />} />;
 export const ArticleRedirect = () => {
   const { id, selectedLanguage } = useParams<"id" | "selectedLanguage">();
   const parsedId = Number(id);
-  const queryResult = useDraft({ id: parsedId, language: selectedLanguage }, { enabled: !!parsedId });
+  const queryResult = useQuery({
+    ...draftQueryOptions({ id: parsedId, language: selectedLanguage }),
+    enabled: !!parsedId,
+  });
   return <GenericResourceRedirect queryResult={queryResult} />;
 };

@@ -12,6 +12,7 @@ import { DialogBody, DialogContent, DialogRoot, DialogTrigger, IconButton, Spinn
 import { styled } from "@ndla/styled-system/jsx";
 import { H5pEmbedData, H5pMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, H5pEmbed } from "@ndla/ui";
+import { useMutation } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor } from "slate";
@@ -19,7 +20,7 @@ import { RenderElementProps, useSelected } from "slate-react";
 import config from "../../../../config";
 import { useMessages } from "../../../../containers/Messages/MessagesProvider";
 import { useH5pMeta } from "../../../../modules/embed/queries";
-import { useCopyH5pMutation } from "../../../../modules/h5p/h5pMutations";
+import { copyH5pMutationOptions } from "../../../../modules/h5p/h5pMutations";
 import { getH5pLocale } from "../../../H5PElement/h5pApi";
 import H5PElement, { OnSelectObject } from "../../../H5PElement/H5PElement";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
@@ -78,7 +79,8 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
   const h5pMetaQuery = useH5pMeta(element.data?.path ?? "", element.data?.url ?? "", {
     enabled: !!element.data?.path,
   });
-  const h5pCopyMutation = useCopyH5pMutation({
+  const h5pCopyMutation = useMutation({
+    ...copyH5pMutationOptions(),
     onError: () => {
       createMessage({
         message: t("form.h5p.copyError"),

@@ -1121,7 +1121,7 @@ const phrases = {
       Yes: "Ja",
       No: "Nei",
       Partial: "Delvis",
-      description: "Er biletet AI-generert:",
+      description: "Er biletet KI-generert:",
     },
     visualElement: {
       title: "Legg til visuelt element",

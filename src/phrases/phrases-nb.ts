@@ -1176,7 +1176,7 @@ const phrases = {
       Yes: "Ja",
       No: "Nei",
       Partial: "Delvis",
-      description: "Er bildet AI-generert:",
+      description: "Er bildet KI-generert:",
     },
     visualElementPicker: {
       h5p: "H5P",

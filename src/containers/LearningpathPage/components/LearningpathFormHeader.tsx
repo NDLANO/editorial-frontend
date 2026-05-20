@@ -10,6 +10,7 @@ import { ErrorWarningFill } from "@ndla/icons";
 import { Badge, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { useQuery } from "@tanstack/react-query";
 import { useFormikContext } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -22,7 +23,7 @@ import HeaderSupportedLanguages from "../../../components/HeaderWithLanguage/Hea
 import { ResourcePublishedLink } from "../../../components/HeaderWithLanguage/ResourcePublishedLink";
 import { ResourceStatus } from "../../../components/HeaderWithLanguage/ResourceStatus";
 import { PUBLISHED, UNLISTED } from "../../../constants";
-import { useAuth0Users } from "../../../modules/auth0/auth0Queries";
+import { auth0UsersQueryOptions } from "../../../modules/auth0/auth0Queries";
 import { usePostCopyLearningpathMutation } from "../../../modules/learningpath/learningpathMutations";
 import { useNodes } from "../../../modules/nodes/nodeQueries";
 import { getExpirationDate } from "../../../util/revisionHelpers";
@@ -78,10 +79,10 @@ export const LearningpathFormHeader = ({ learningpath, language }: Props) => {
   const location = useLocation();
   const { createMessage } = useMessages();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const responsibleQuery = useAuth0Users(
-    { uniqueUserIds: learningpath?.responsible?.responsibleId ?? "" },
-    { enabled: !!learningpath?.responsible?.responsibleId },
-  );
+  const responsibleQuery = useQuery({
+    ...auth0UsersQueryOptions({ uniqueUserIds: learningpath?.responsible?.responsibleId ?? "" }),
+    enabled: !!learningpath?.responsible?.responsibleId,
+  });
   const statusText = learningpath?.status ? t(`form.status.${learningpath.status.toLowerCase()}`) : "";
   const expirationDate = getExpirationDate(learningpath?.revisions);
 

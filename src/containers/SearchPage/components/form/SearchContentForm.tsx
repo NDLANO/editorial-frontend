@@ -35,7 +35,7 @@ import {
   RESOURCE_TYPE_LEARNING_PATH,
 } from "../../../../constants";
 import { CamelToKebab } from "../../../../interfaces";
-import { useAuth0Users } from "../../../../modules/auth0/auth0Queries";
+import { auth0UsersQueryOptions } from "../../../../modules/auth0/auth0Queries";
 import {
   licenseQuery,
   draftStatusStateMachineQueryOptions,
@@ -142,34 +142,22 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
   const { data: editorIds } = useQuery(draftEditorsQueryOptions());
   const { data: responsibleIds } = useQuery(draftResponsiblesQueryOptions());
 
-  const { data: users } = useAuth0Users(
-    { uniqueUserIds: editorIds?.join(",") ?? "" },
-    {
-      enabled: !!editorIds?.length,
-      select: (users) =>
-        users.map((u) => ({
-          id: `${u.app_metadata.ndla_id}`,
-          name: u.name,
-        })),
-      placeholderData: [],
+  const { data: users } = useQuery({
+    ...auth0UsersQueryOptions({ uniqueUserIds: editorIds?.join(",") ?? "" }),
+    enabled: !!editorIds?.length,
+    select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
+    placeholderData: [],
+  });
+
+  const { data: responsibles } = useQuery({
+    ...auth0UsersQueryOptions({ uniqueUserIds: responsibleIds?.join(",") ?? "" }),
+    enabled: !!responsibleIds?.length,
+    select: (users) => {
+      const options = [{ id: NO_RESPONSIBLES, name: t("searchForm.noResponsibles") }];
+      return options.concat(users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })));
     },
-  );
-  const { data: responsibles } = useAuth0Users(
-    { uniqueUserIds: responsibleIds?.join(",") ?? "" },
-    {
-      enabled: !!responsibleIds?.length,
-      select: (users) => {
-        const options = [{ id: NO_RESPONSIBLES, name: t("searchForm.noResponsibles") }];
-        return options.concat(
-          users.map((u) => ({
-            id: `${u.app_metadata.ndla_id}`,
-            name: u.name,
-          })),
-        );
-      },
-      placeholderData: [],
-    },
-  );
+    placeholderData: [],
+  });
 
   const { data: resourceTypes } = useAllResourceTypes(
     { language: i18n.language, taxonomyVersion },

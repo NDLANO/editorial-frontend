@@ -21,7 +21,7 @@ import { getTagName } from "../../../../components/Form/utils";
 import ObjectSelector, { SelectOption } from "../../../../components/ObjectSelector";
 import config from "../../../../config";
 import { CamelToKebab } from "../../../../interfaces";
-import { useAuth0Editors } from "../../../../modules/auth0/auth0Queries";
+import { auth0EditorsQueryOptions } from "../../../../modules/auth0/auth0Queries";
 import { licenseQuery } from "../../../../modules/draft/draftQueries";
 import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
@@ -137,7 +137,8 @@ const SearchImageForm = ({ userData }: Props) => {
       })),
   });
 
-  const { data: users } = useAuth0Editors({
+  const { data: users } = useQuery({
+    ...auth0EditorsQueryOptions(),
     select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
     placeholderData: [],
   });

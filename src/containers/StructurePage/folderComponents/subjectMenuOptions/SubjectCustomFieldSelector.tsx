@@ -6,8 +6,9 @@
  *
  */
 
+import { useQuery } from "@tanstack/react-query";
 import { DRAFT_RESPONSIBLE } from "../../../../constants";
-import { useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
+import { auth0ResponsiblesQueryOptions } from "../../../../modules/auth0/auth0Queries";
 import TaxonomyMetadataDropdown from "./TaxonomyMetadataDropdown";
 
 interface Props {
@@ -18,17 +19,11 @@ interface Props {
 }
 
 const SubjestCustomFieldSelector = ({ customFields, updateCustomFields, field, messages }: Props) => {
-  const { data: responsibles } = useAuth0Responsibles(
-    { permission: DRAFT_RESPONSIBLE },
-    {
-      select: (users) =>
-        users.map((u) => ({
-          id: `${u.app_metadata.ndla_id}`,
-          name: u.name,
-        })),
-      placeholderData: [],
-    },
-  );
+  const { data: responsibles } = useQuery({
+    ...auth0ResponsiblesQueryOptions({ permission: DRAFT_RESPONSIBLE }),
+    select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
+    placeholderData: [],
+  });
   const options =
     responsibles?.map((responsible) => ({
       key: responsible.id,

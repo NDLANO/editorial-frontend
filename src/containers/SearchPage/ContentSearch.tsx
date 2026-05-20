@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import Pagination from "../../components/abstractions/Pagination";
 import config from "../../config";
 import { NO_RESPONSIBLES } from "../../constants";
-import { useAuth0Users } from "../../modules/auth0/auth0Queries";
+import { auth0UsersQueryOptions } from "../../modules/auth0/auth0Queries";
 import { userDataQueryOptions } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
 import { useSearchWithCustomSubjectsFiltering } from "../../modules/search/searchQueries";
@@ -104,7 +104,9 @@ export const ContentSearch = () => {
     }, []);
   }, [searchQuery.data?.results]);
 
-  const auth0Responsibles = useAuth0Users({ uniqueUserIds: uniq(responsibleIds).join(",") }, {});
+  const auth0Responsibles = useQuery({
+    ...auth0UsersQueryOptions({ uniqueUserIds: uniq(responsibleIds).join(",") }),
+  });
 
   const keyedResponsibles = useMemo(() => {
     return keyBy(auth0Responsibles.data, (responsible) => responsible.app_metadata.ndla_id);

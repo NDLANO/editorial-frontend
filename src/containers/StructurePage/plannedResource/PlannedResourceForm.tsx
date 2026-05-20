@@ -50,7 +50,7 @@ import {
   RESOURCE_TYPE_LEARNING_PATH,
 } from "../../../constants";
 import { Auth0UserData } from "../../../interfaces";
-import { useAuth0Responsibles } from "../../../modules/auth0/auth0Queries";
+import { auth0ResponsiblesQueryOptions } from "../../../modules/auth0/auth0Queries";
 import { createDraft, updateUserData } from "../../../modules/draft/draftApi";
 import { userDataQueryOptions } from "../../../modules/draft/draftQueries";
 import { postLearningpath } from "../../../modules/learningpath/learningpathApi";
@@ -193,13 +193,11 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
     });
   const initialValues = useMemo(() => toInitialValues(ndlaId, type), [ndlaId, type]);
 
-  const { data: users } = useAuth0Responsibles(
-    { permission: DRAFT_RESPONSIBLE },
-    {
-      select: (users) => formatUserList(users),
-      placeholderData: [],
-    },
-  );
+  const { data: users } = useQuery({
+    ...auth0ResponsiblesQueryOptions({ permission: DRAFT_RESPONSIBLE }),
+    select: (users) => formatUserList(users),
+    placeholderData: [],
+  });
 
   const resourceTypesQuery = useAllResourceTypes<ResourceType[]>(
     { language: i18n.language, taxonomyVersion },

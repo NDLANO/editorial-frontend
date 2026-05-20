@@ -12,6 +12,7 @@ import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AverageQualityEvaluation from "../../../components/QualityEvaluation/AverageQualityEvaluation";
@@ -20,7 +21,7 @@ import { SupplementaryIndicator } from "../../../components/Taxonomy/Supplementa
 import config from "../../../config";
 import { PUBLISHED, RESOURCE_FILTER_SUPPLEMENTARY } from "../../../constants";
 import { Dictionary } from "../../../interfaces";
-import { useMatomoStats } from "../../../modules/matomo/matomoQueries";
+import { matomoStatusQueryOptions } from "../../../modules/matomo/matomoQueries";
 import { stripInlineContentHtmlTags } from "../../../util/formHelper";
 import { routes } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -161,16 +162,16 @@ const TopicResourceBanner = ({
     data: matomoStatsData,
     isPending: matomoStatsIsPending,
     isError: matomoStatsIsError,
-  } = useMatomoStats(
-    {
+  } = useQuery({
+    ...matomoStatusQueryOptions({
       urls: currentNode
         ? currentNode.contexts
             .filter((context) => context.rootId.startsWith("urn:subject"))
             .map((context) => context.url)
         : [],
-    },
-    { enabled: !!currentNode.url && showMatomoStats },
-  );
+    }),
+    enabled: !!currentNode.url && showMatomoStats,
+  });
 
   useEffect(() => {
     if (!matomoStatsData) return;

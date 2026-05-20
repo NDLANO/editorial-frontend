@@ -6,18 +6,16 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { queryOptions } from "@tanstack/react-query";
 import { fetchOpenGraphData } from "./openGraphApi";
-import { OpenGraphData } from "./opengraphTypes";
 
 export const openGraphQueryKeys = {
   openGraph: (url: string) => ["openGraph", url] as const,
 };
 
-export const useFetchOpenGraph = (url: string, options?: Partial<UseQueryOptions<OpenGraphData>>) => {
-  return useQuery<OpenGraphData>({
+export const openGraphQueryOptions = (url: string) => {
+  return queryOptions({
     queryKey: openGraphQueryKeys.openGraph(url),
     queryFn: () => fetchOpenGraphData(url),
-    ...options,
   });
 };

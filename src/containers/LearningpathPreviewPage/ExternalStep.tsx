@@ -9,9 +9,10 @@
 import { Badge, Spinner } from "@ndla/primitives";
 import { LearningPathV2DTO, LearningStepV2DTO } from "@ndla/types-backend/learningpath-api";
 import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper, ResourceBox } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import { useFetchOpenGraph } from "../../modules/opengraph/opengraphQueries";
+import { openGraphQueryOptions } from "../../modules/opengraph/opengraphQueries";
 import { EmbedPageContent } from "./EmbedPageContent";
 
 interface Props {
@@ -22,7 +23,8 @@ interface Props {
 export const ExternalStep = ({ step, learningpath }: Props) => {
   const { t } = useTranslation();
   const id = useId();
-  const openGraphQuery = useFetchOpenGraph(step.embedUrl?.url ?? "", {
+  const openGraphQuery = useQuery({
+    ...openGraphQueryOptions(step.embedUrl?.url ?? ""),
     enabled: !!step.embedUrl?.url,
   });
 

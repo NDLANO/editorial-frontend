@@ -19,7 +19,7 @@ import {
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
@@ -29,7 +29,7 @@ import { draftQueryKeys } from "../../../modules/draft/draftQueries";
 import { patchLearningpathMutationOptions } from "../../../modules/learningpath/learningpathMutations";
 import { learningpathQueryKeys } from "../../../modules/learningpath/learningpathQueries";
 import { nodeQueryKeys, useNode } from "../../../modules/nodes/nodeQueries";
-import { useSearchGrepCodes } from "../../../modules/search/searchQueries";
+import { searchGrepCodesQueryOptions } from "../../../modules/search/searchQueries";
 import { getContentUriFromSearchSummary } from "../../../util/searchHelpers";
 import { getContentUriInfo } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -100,7 +100,10 @@ const GrepCodeDialogContent = ({
 
   const rootGrepCodes = rootNodeQuery.data?.metadata.grepCodes.filter((code) => code.startsWith("KV"));
 
-  const rootGrepCodesQuery = useSearchGrepCodes({ codes: rootGrepCodes ?? [] }, { enabled: !!rootGrepCodes?.length });
+  const rootGrepCodesQuery = useQuery({
+    ...searchGrepCodesQueryOptions({ codes: rootGrepCodes ?? [] }),
+    enabled: !!rootGrepCodes?.length,
+  });
 
   const rootGrepCodesString = rootGrepCodesQuery.data?.results?.map((c) => `${c.code} - ${c.title.title}`).join(", ");
   const nodeKey = useMemo(

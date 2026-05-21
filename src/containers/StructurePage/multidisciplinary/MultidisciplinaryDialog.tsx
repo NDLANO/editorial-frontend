@@ -28,7 +28,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-backend/taxonomy-api";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
@@ -39,7 +39,7 @@ import { fetchNodes } from "../../../modules/nodes/nodeApi";
 import { usePostNodeConnectionMutation } from "../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import { postSearch } from "../../../modules/search/searchApi";
-import { useSearch } from "../../../modules/search/searchQueries";
+import { searchQueryOptions } from "../../../modules/search/searchQueries";
 import { isNDLAFrontendUrl } from "../../../util/htmlHelpers";
 import useDebounce from "../../../util/useDebounce";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -175,15 +175,17 @@ export const MultidisciplinaryDialogContent = ({ currentNode, existingResourceId
     setOpen(false);
   };
 
-  const searchQuery = useSearch({
-    resultTypes: ["draft"],
-    subjects: [MULTIDISCIPLINARY_SUBJECT_ID],
-    contextTypes: ["topic-article"],
-    filterInactive: true,
-    query: debouncedSearchQuery,
-    page: page,
-    pageSize: 10,
-  });
+  const searchQuery = useQuery(
+    searchQueryOptions({
+      resultTypes: ["draft"],
+      subjects: [MULTIDISCIPLINARY_SUBJECT_ID],
+      contextTypes: ["topic-article"],
+      filterInactive: true,
+      query: debouncedSearchQuery,
+      page: page,
+      pageSize: 10,
+    }),
+  );
   return (
     <>
       <DialogHeader>

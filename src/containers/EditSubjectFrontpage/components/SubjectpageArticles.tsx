@@ -12,6 +12,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { useQuery } from "@tanstack/react-query";
 import { useField, useFormikContext } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -23,7 +24,7 @@ import ListResource from "../../../components/Form/ListResource";
 import { FormContent } from "../../../components/FormikForm";
 import { fetchDraft } from "../../../modules/draft/draftApi";
 import { fetchLearningpath } from "../../../modules/learningpath/learningpathApi";
-import { useSearchResources } from "../../../modules/search/searchQueries";
+import { searchResourcesQueryOptions } from "../../../modules/search/searchQueries";
 import handleError from "../../../util/handleError";
 import { routes } from "../../../util/routeHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
@@ -58,16 +59,17 @@ const SubjectpageArticles = ({ editorsChoices, elementId, fieldName }: Props) =>
   const [fieldInputProps] = useField<(ArticleDTO | LearningPathV2DTO)[]>(fieldName);
   const subjectId = getSubject(elementId);
 
-  const searchQuery = useSearchResources(
-    {
+  const searchQuery = useQuery({
+    ...searchResourcesQueryOptions({
       page,
       subjects: subjectId ? [subjectId] : undefined,
       sort: "-relevance",
       pageSize: 10,
       query: delayedQuery,
-    },
-    { placeholderData: (prev) => prev, enabled: !!subjectId },
-  );
+    }),
+    placeholderData: (prev) => prev,
+    enabled: !!subjectId,
+  });
 
   const onAddResultToList = async (result: MultiSearchSummaryDTO) => {
     try {

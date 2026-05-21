@@ -25,10 +25,11 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { RelatedContentEmbedData, RelatedContentMetaData } from "@ndla/types-embed";
 import { RelatedContentEmbed } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import { MouseEvent, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ContentLink from "../../../../containers/ArticlePage/components/ContentLink";
-import { useSearch } from "../../../../modules/search/searchQueries";
+import { searchQueryOptions } from "../../../../modules/search/searchQueries";
 import { usePaginatedQuery } from "../../../../util/usePaginatedQuery";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../abstractions/Combobox";
 import { DialogCloseButton } from "../../../DialogCloseButton";
@@ -87,13 +88,15 @@ const EditRelated = ({ updateArticles, insertExternal, embeds, onInsertBlock }: 
   const [currentTab, setCurrentTab] = useState<TabType>("internalArticle");
   const [externalToEdit, setExternalToEdit] = useState<ExternalToEdit | undefined>(undefined);
 
-  const searchQuery = useSearch({
-    query: delayedQuery,
-    page,
-    contextTypes: ["standard"],
-    resultTypes: ["draft", "concept", "learningpath"],
-    filterInactive: true,
-  });
+  const searchQuery = useQuery(
+    searchQueryOptions({
+      query: delayedQuery,
+      page,
+      contextTypes: ["standard"],
+      resultTypes: ["draft", "concept", "learningpath"],
+      filterInactive: true,
+    }),
+  );
 
   const blockEmbeds = useMemo(() => {
     return embeds.reduce<string[]>(

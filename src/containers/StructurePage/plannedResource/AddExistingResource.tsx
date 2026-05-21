@@ -31,7 +31,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { ResourceType } from "@ndla/types-backend/taxonomy-api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { TFunction } from "i18next";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -43,7 +43,7 @@ import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY, RESOURCE_TYPE_LEAR
 import { fetchNodes, postNode, postNodeConnection } from "../../../modules/nodes/nodeApi";
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import { postSearch } from "../../../modules/search/searchApi";
-import { useSearch } from "../../../modules/search/searchQueries";
+import { searchQueryOptions } from "../../../modules/search/searchQueries";
 import { createResourceResourceType } from "../../../modules/taxonomy";
 import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
 import handleError from "../../../util/handleError";
@@ -249,15 +249,17 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     });
   }, [resourceTypes]);
 
-  const searchQuery = useSearch({
-    query: delayedQuery,
-    page,
-    language: i18n.language,
-    fallback: true,
-    resourceTypes: type !== "learningpath" && selectedType ? [selectedType] : undefined,
-    contextTypes: type === "learningpath" ? ["learningpath"] : ["standard"],
-    resultTypes: type === "learningpath" ? ["learningpath"] : ["draft", "concept"],
-  });
+  const searchQuery = useQuery(
+    searchQueryOptions({
+      query: delayedQuery,
+      page,
+      language: i18n.language,
+      fallback: true,
+      resourceTypes: type !== "learningpath" && selectedType ? [selectedType] : undefined,
+      contextTypes: type === "learningpath" ? ["learningpath"] : ["standard"],
+      resultTypes: type === "learningpath" ? ["learningpath"] : ["draft", "concept"],
+    }),
+  );
 
   const onSearch = async (input: string) => {
     setPreview(undefined);

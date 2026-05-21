@@ -10,6 +10,7 @@ import { Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { BulkUploadStartedDTO, BulkUploadStateDTO, NewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
 import { uniqBy } from "@ndla/util";
+import { useQuery } from "@tanstack/react-query";
 import { TFunction } from "i18next";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -17,7 +18,7 @@ import { FormActionsContainer } from "../../components/FormikForm";
 import validateFormik from "../../components/formikValidationSchema";
 import SaveButton from "../../components/SaveButton";
 import { IMAGE_BULK_SCOPE } from "../../constants";
-import { useLicenses } from "../../modules/draft/draftQueries";
+import { licenseQuery } from "../../modules/draft/draftQueries";
 import { bulkUploadImages } from "../../modules/image/imageApi";
 import NotFound from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
@@ -79,7 +80,8 @@ export const BulkUploadImagePage = () => {
 
   const { t } = useTranslation();
 
-  const { data: licenses } = useLicenses({
+  const { data: licenses } = useQuery({
+    ...licenseQuery(),
     placeholderData: [],
     select: (data) => data.map((lic) => ({ ...lic, description: lic.description ?? "" })) ?? [],
   });

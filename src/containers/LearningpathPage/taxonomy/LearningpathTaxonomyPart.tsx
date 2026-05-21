@@ -8,10 +8,11 @@
 
 import { Spinner } from "@ndla/primitives";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import { useNodes } from "../../../modules/nodes/nodeQueries";
-import { useVersions } from "../../../modules/taxonomy/versions/versionQueries";
+import { versionsQueryOptions } from "../../../modules/taxonomy/versions/versionQueries";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { LearningpathTaxonomy } from "./LearningpathTaxonomy";
 
@@ -31,7 +32,7 @@ export const LearningpathTaxonomyPart = ({ learningpath, language }: Props) => {
     includeContexts: true,
   });
 
-  const versionsQuery = useVersions();
+  const versionsQuery = useQuery(versionsQueryOptions());
 
   if (nodesQuery.isLoading || versionsQuery.isLoading) {
     return <Spinner />;

@@ -6,14 +6,16 @@
  *
  */
 
-import { paths, Version, VersionPostPut } from "@ndla/types-backend/taxonomy-api";
+import { paths, Version, VersionPostPut, VersionType } from "@ndla/types-backend/taxonomy-api";
 import { createAuthClient } from "../../../util/apiHelpers";
 import { resolveJsonOATS, resolveLocation, resolveOATS } from "../../../util/resolveJsonOrRejectWithError";
-import { GetVersionsParams } from "./versionApiTypes";
 
 const client = createAuthClient<paths>("/taxonomy");
 
-interface VersionGetParams extends GetVersionsParams {}
+export interface VersionGetParams {
+  type?: VersionType;
+  hash?: string;
+}
 
 export const fetchVersions = (params: VersionGetParams): Promise<Version[]> =>
   client
@@ -24,7 +26,7 @@ export const fetchVersions = (params: VersionGetParams): Promise<Version[]> =>
     })
     .then((response) => resolveJsonOATS(response));
 
-interface VersionGetParam {
+export interface VersionGetParam {
   id: string;
 }
 

@@ -8,12 +8,13 @@
 
 import { NodeChild, ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { keyBy, partition } from "@ndla/util";
+import { useQuery } from "@tanstack/react-query";
 import { TFunction } from "i18next";
 import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
 import { useChildNodes, useNodeResourceMetas } from "../../../modules/nodes/nodeQueries";
-import { useAllResourceTypes } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
+import { resourceTypesQueryOptions } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import { getContentUriFromSearchSummary } from "../../../util/searchHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import ResourcesContainer from "./ResourcesContainer";
@@ -86,12 +87,10 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
     [nodeResourceMetas],
   );
 
-  const { data: resourceTypes } = useAllResourceTypes(
-    { language: i18n.language, taxonomyVersion },
-    {
-      select: (resourceTypes) => resourceTypes.concat(getMissingResourceType(t)),
-    },
-  );
+  const { data: resourceTypes } = useQuery({
+    ...resourceTypesQueryOptions({ language: i18n.language, taxonomyVersion }),
+    select: (resourceTypes) => resourceTypes.concat(getMissingResourceType(t)),
+  });
 
   const hasSubTopics = nodeTopics?.length > 0 || false;
 

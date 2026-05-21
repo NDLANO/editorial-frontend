@@ -11,13 +11,14 @@ import { ExpandableBox, ExpandableBoxSummary, MessageBox, Spinner, Text, UnOrder
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { partition, sortBy } from "@ndla/util";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { TaxonomyBlock } from "../../../../components/Taxonomy/TaxonomyBlock";
 import { TaxonomyConnections } from "../../../../components/Taxonomy/TaxonomyConnections";
 import { TAXONOMY_ADMIN_SCOPE } from "../../../../constants";
 import { useNodes } from "../../../../modules/nodes/nodeQueries";
-import { useVersions } from "../../../../modules/taxonomy/versions/versionQueries";
+import { versionsQueryOptions } from "../../../../modules/taxonomy/versions/versionQueries";
 import { useSession } from "../../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 
@@ -36,7 +37,7 @@ const StyledLi = styled("li", {
 const TopicArticleTaxonomy = ({ article, articleLanguage, hasTaxEntries }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion, changeVersion } = useTaxonomyVersion();
-  const versionsQuery = useVersions();
+  const versionsQuery = useQuery(versionsQueryOptions());
   const { userPermissions } = useSession();
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 

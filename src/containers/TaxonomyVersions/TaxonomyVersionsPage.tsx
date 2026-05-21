@@ -10,9 +10,10 @@ import { Button, Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Version } from "@ndla/types-backend/taxonomy-api";
 import { partition, sortBy } from "@ndla/util";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useVersions } from "../../modules/taxonomy/versions/versionQueries";
+import { versionsQueryOptions } from "../../modules/taxonomy/versions/versionQueries";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import UIVersion from "./components/Version";
 import VersionForm from "./components/VersionForm";
@@ -71,7 +72,7 @@ export const Component = () => <PrivateRoute component={<TaxonomyVersionsPage />
 
 const TaxonomyVersionsPage = () => {
   const [showNewForm, setShowNewForm] = useState(false);
-  const { data } = useVersions();
+  const { data } = useQuery(versionsQueryOptions());
 
   const { published, other } = getPublishedAndOther(data ?? []);
 

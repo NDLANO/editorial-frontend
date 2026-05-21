@@ -6,37 +6,17 @@
  *
  */
 
-import { ResourceType } from "@ndla/types-backend/taxonomy-api";
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { fetchAllResourceTypes, fetchResourceType } from ".";
-import { WithTaxonomyVersion } from "../../../interfaces";
-import { RESOURCE_TYPE, RESOURCE_TYPES } from "../../../queryKeys";
+import { queryOptions } from "@tanstack/react-query";
+import { fetchAllResourceTypes, ResourceTypesGetParams } from ".";
+import { RESOURCE_TYPES } from "../../../queryKeys";
 
 export const resourceTypeQueryKeys = {
-  resourceType: (params?: Partial<UseResourceTypeParams>) => [RESOURCE_TYPE, params] as const,
-  resourceTypes: (params?: Partial<UseAllResourceTypesParams>) => [RESOURCE_TYPES, params] as const,
+  resourceTypes: (params?: Partial<ResourceTypesGetParams>) => [RESOURCE_TYPES, params] as const,
 };
 
-interface UseResourceTypeParams extends WithTaxonomyVersion {
-  id: string;
-  language: string;
-}
-export const useResourceType = (params: UseResourceTypeParams, options?: Partial<UseQueryOptions<ResourceType>>) =>
-  useQuery<ResourceType>({
-    queryKey: resourceTypeQueryKeys.resourceType(params),
-    queryFn: () => fetchResourceType(params),
-    ...options,
-  });
-
-interface UseAllResourceTypesParams extends WithTaxonomyVersion {
-  language: string;
-}
-export const useAllResourceTypes = <ReturnType>(
-  params: UseAllResourceTypesParams,
-  options?: Partial<UseQueryOptions<ResourceType[], unknown, ReturnType>>,
-) =>
-  useQuery<ResourceType[], unknown, ReturnType>({
+export const resourceTypesQueryOptions = (params: ResourceTypesGetParams) => {
+  return queryOptions({
     queryKey: resourceTypeQueryKeys.resourceTypes(params),
     queryFn: () => fetchAllResourceTypes(params),
-    ...options,
   });
+};

@@ -6,15 +6,13 @@
  *
  */
 
-import { FrontPageDTO } from "@ndla/types-backend/frontpage-api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { mutationOptions } from "@tanstack/react-query";
 import { postFrontpage } from "./frontpageApi";
 import { frontpageQueryKeys } from "./frontpageQueries";
 
-export const useUpdateFrontpageMutation = () => {
-  const qc = useQueryClient();
-  return useMutation<FrontPageDTO, unknown, FrontPageDTO>({
+export const updateFrontpageMutationOptions = () => {
+  return mutationOptions({
     mutationFn: postFrontpage,
-    onSettled: () => qc.invalidateQueries({ queryKey: frontpageQueryKeys.frontpage }),
+    onSettled: (_, __, ___, ____, ctx) => ctx.client.invalidateQueries({ queryKey: frontpageQueryKeys.frontpage }),
   });
 };

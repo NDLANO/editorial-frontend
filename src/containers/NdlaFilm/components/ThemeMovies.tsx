@@ -11,7 +11,7 @@ import { ComboboxLabel, FieldRoot, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { useQuery } from "@tanstack/react-query";
-import { isEqual } from "lodash-es";
+import { isEqual, sortBy } from "lodash-es";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
@@ -20,10 +20,10 @@ import { DragHandle } from "../../../components/DraggableItem";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import ListResource from "../../../components/Form/ListResource";
 import { NDLA_FILM_SUBJECT } from "../../../constants";
-import { useMoviesQuery } from "../../../modules/frontpage/filmQueries";
 import { searchResourcesQueryOptions } from "../../../modules/search/searchQueries";
 import { routes } from "../../../util/routeHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
+import { sortMoviesByIdList } from "../filmUtil";
 import { getUrnFromId } from "../ndlaFilmHelpers";
 
 const StyledList = styled("ul", {
@@ -42,11 +42,35 @@ interface Props {
   comboboxLabel: string;
 }
 
+const getValidMovieIds = (movies: string[]) => {
+  const valid = movies.reduce<number[]>((acc, curr) => {
+    const id = Number(curr.replace("urn:article:", ""));
+    if (!isNaN(id)) {
+      acc.push(id);
+    }
+    return acc;
+  }, []);
+
+  return sortBy(valid);
+};
+
 export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder, comboboxLabel }: Props) => {
   const { i18n, t } = useTranslation();
   const [localMovies, setLocalMovies] = useState<string[]>([]);
   const [apiMovies, setApiMovies] = useState<MultiSearchSummaryDTO[]>([]);
-  const moviesQuery = useMoviesQuery({ movieUrns: movies }, { enabled: !isEqual(movies, localMovies) });
+  const validMovieIds = getValidMovieIds(movies);
+  const moviesQuery = useQuery({
+    ...searchResourcesQueryOptions({
+      page: 1,
+      contextTypes: ["standard"],
+      sort: "-relevance",
+      pageSize: 10,
+      ids: sortBy(validMovieIds),
+    }),
+    select: (res) => ({ ...res, results: sortMoviesByIdList(validMovieIds, res.results, i18n) }),
+    enabled: !isEqual(movies, localMovies),
+  });
+  // const moviesQuery = useMoviesQuery({ movieUrns: movies }, { enabled: !isEqual(movies, localMovies) });
 
   const { query, page, setPage, delayedQuery, setQuery } = usePaginatedQuery();
 

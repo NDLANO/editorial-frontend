@@ -13,6 +13,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ConceptDTO, ConceptSummaryDTO } from "@ndla/types-backend/concept-api";
 import { ConceptEmbedData, ConceptMetaData } from "@ndla/types-embed";
 import { ConceptEmbed, EmbedWrapper } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import { ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor } from "slate";
@@ -20,7 +21,7 @@ import { RenderElementProps, useSelected } from "slate-react";
 import { PUBLISHED } from "../../../../../constants";
 import { ConceptType } from "../../../../../containers/ConceptPage/conceptInterfaces";
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
-import { useConceptVisualElement } from "../../../../../modules/embed/queries";
+import { conceptVisualElementQueryOptions } from "../../../../../modules/embed/queries";
 import { useArticleLanguage } from "../../../ArticleLanguageProvider";
 import { useEditableElement } from "../../../utils/useEditableElement";
 import ConceptDialogContent from "../ConceptDialogContent";
@@ -61,14 +62,10 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
   const { handleRemove, handleSave, dialogProps } = useEditableElement(element, editor);
   const { concept, loading, ...conceptHooks } = useFetchConceptData(parseInt(element.data.contentId), locale);
 
-  const visualElementQuery = useConceptVisualElement(
-    concept?.id ?? -1,
-    concept?.visualElement?.visualElement ?? "",
-    locale,
-    {
-      enabled: !!concept?.id && !!concept?.visualElement?.visualElement.length,
-    },
-  );
+  const visualElementQuery = useQuery({
+    ...conceptVisualElementQueryOptions(concept?.id ?? -1, concept?.visualElement?.visualElement ?? "", locale),
+    enabled: !!concept?.id && !!concept?.visualElement?.visualElement.length,
+  });
 
   const embed: ConceptMetaData | undefined = useMemo(() => {
     if (!element.data || !concept) return undefined;

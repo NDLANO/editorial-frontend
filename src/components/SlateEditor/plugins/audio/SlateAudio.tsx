@@ -13,11 +13,12 @@ import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { AudioMetaData } from "@ndla/types-embed";
 import { AudioEmbed, EmbedWrapper } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor } from "slate";
 import { RenderElementProps, useSelected } from "slate-react";
-import { useAudioMeta } from "../../../../modules/embed/queries";
+import { audioMetaQueryOptions } from "../../../../modules/embed/queries";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { useEditableElement } from "../../utils/useEditableElement";
 import AudioEmbedForm from "./AudioEmbedForm";
@@ -56,7 +57,8 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
   const language = useArticleLanguage();
   const { handleRemove, handleEditingChange, handleSave, dialogProps } = useEditableElement(element, editor);
 
-  const audioMetaQuery = useAudioMeta(element.data?.resourceId ?? "", language, {
+  const audioMetaQuery = useQuery({
+    ...audioMetaQueryOptions(element.data?.resourceId ?? "", language),
     enabled: !!parseInt(element.data?.resourceId ?? ""),
   });
   const embed: AudioMetaData | undefined = useMemo(

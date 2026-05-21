@@ -12,11 +12,12 @@ import { DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { BrightcoveMetaData } from "@ndla/types-embed";
 import { BrightcoveEmbed } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor } from "slate";
 import { RenderElementProps, useSelected } from "slate-react";
-import { useBrightcoveMeta } from "../../../../modules/embed/queries";
+import { brightcoveMetaQueryOptions } from "../../../../modules/embed/queries";
 import { inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { addBrightCoveTimeStampVideoid } from "../../../../util/videoUtil";
 import { useEditableElement } from "../../utils/useEditableElement";
@@ -37,7 +38,9 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
   const { t, i18n } = useTranslation();
 
   const isSelected = useSelected();
-  const brightcoveQuery = useBrightcoveMeta(element.data?.videoid.split("&t=")[0] ?? "", i18n.language);
+  const brightcoveQuery = useQuery(
+    brightcoveMetaQueryOptions(element.data?.videoid.split("&t=")[0] ?? "", i18n.language),
+  );
 
   const embed: BrightcoveMetaData | undefined = useMemo(
     () =>

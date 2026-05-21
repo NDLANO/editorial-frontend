@@ -11,7 +11,7 @@ import { Heading, IconButton, PageContainer, Spinner, Text } from "@ndla/primiti
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleSummaryV2DTO } from "@ndla/types-backend/article-api";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { FieldArray, Formik, useField, useFormikContext } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -20,8 +20,8 @@ import validateFormik, { RulesType } from "../../components/formikValidationSche
 import SaveButton from "../../components/SaveButton";
 import { FRONTPAGE_ADMIN_SCOPE } from "../../constants";
 import { articleSearchQueryOptions } from "../../modules/article/articleQueries";
-import { useUpdateFrontpageMutation } from "../../modules/frontpage/frontpageMutations";
-import { useFrontpage } from "../../modules/frontpage/frontpageQueries";
+import { updateFrontpageMutationOptions } from "../../modules/frontpage/frontpageMutations";
+import { frontpageQueryOptions } from "../../modules/frontpage/frontpageQueries";
 import { toEditFrontPageArticle } from "../../util/routeHelpers";
 import { AlertDialogWrapper } from "../FormikForm";
 import NotFound from "../NotFoundPage/NotFoundPage";
@@ -70,7 +70,7 @@ export const Component = () => <PrivateRoute component={<FrontpageEditPage />} /
 
 const FrontpageEditPage = () => {
   const { t } = useTranslation();
-  const frontpageQuery = useFrontpage();
+  const frontpageQuery = useQuery(frontpageQueryOptions());
   const { userPermissions } = useSession();
 
   const articleIds = useMemo(
@@ -89,7 +89,7 @@ const FrontpageEditPage = () => {
     }
     return addArticlesToAboutMenu(frontpageQuery.data, articlesQuery.data);
   }, [articlesQuery.data, articlesQuery.isLoading, frontpageQuery.data, frontpageQuery.isLoading]);
-  const postFrontpageMutation = useUpdateFrontpageMutation();
+  const postFrontpageMutation = useMutation(updateFrontpageMutationOptions());
 
   const initialFrontpageArticle = useMemo(() => {
     return articlesQuery.data?.results.find((article) => article.id === frontpageQuery.data?.articleId);

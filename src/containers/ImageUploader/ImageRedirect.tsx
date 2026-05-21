@@ -6,9 +6,10 @@
  *
  */
 
+import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
 import { GenericResourceRedirect } from "../../components/GenericResourceRedirect";
-import { useImage } from "../../modules/image/imageQueries";
+import { imageQueryOptions } from "../../modules/image/imageQueries";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 export const Component = () => <PrivateRoute component={<ImageRedirect />} />;
@@ -16,6 +17,9 @@ export const Component = () => <PrivateRoute component={<ImageRedirect />} />;
 export const ImageRedirect = () => {
   const { id, selectedLanguage } = useParams<"id" | "selectedLanguage">();
   const parsedId = Number(id);
-  const queryResult = useImage({ id: parsedId, language: selectedLanguage }, { enabled: !!parsedId });
+  const queryResult = useQuery({
+    ...imageQueryOptions({ id: parsedId, language: selectedLanguage }),
+    enabled: !!parsedId,
+  });
   return <GenericResourceRedirect queryResult={queryResult} />;
 };

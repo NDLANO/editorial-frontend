@@ -6,14 +6,8 @@
  *
  */
 
-import {
-  SearchResultV3DTO,
-  SearchParamsDTO,
-  ImageMetaInformationV3DTO,
-  SearchParamsDTO as IImageSearchParams,
-  TagsSearchResultDTO,
-} from "@ndla/types-backend/image-api";
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { SearchParamsDTO } from "@ndla/types-backend/image-api";
+import { queryOptions } from "@tanstack/react-query";
 import { IMAGE, IMAGE_SEARCH_TAGS, SEARCH_IMAGES } from "../../queryKeys";
 import { fetchImage, fetchSearchTags, postSearchImages } from "./imageApi";
 
@@ -28,18 +22,17 @@ export const imageQueryKeys = {
   imageSearchTags: (params?: Partial<UseSearchTags>) => [IMAGE_SEARCH_TAGS, params] as const,
 };
 
-export const useImage = (params: UseImage, options?: Partial<UseQueryOptions<ImageMetaInformationV3DTO>>) =>
-  useQuery<ImageMetaInformationV3DTO>({
+export const imageQueryOptions = (params: UseImage) => {
+  return queryOptions({
     queryKey: imageQueryKeys.image(params),
     queryFn: () => fetchImage(params.id, params.language),
-    ...options,
   });
+};
 
-export const useSearchImages = (query: IImageSearchParams, options?: Partial<UseQueryOptions<SearchResultV3DTO>>) => {
-  return useQuery<SearchResultV3DTO>({
+export const searchImagesQueryOptions = (query: SearchParamsDTO) => {
+  return queryOptions({
     queryKey: imageQueryKeys.search(query),
     queryFn: () => postSearchImages(query),
-    ...options,
   });
 };
 
@@ -48,10 +41,9 @@ interface UseSearchTags {
   language: string;
 }
 
-export const useImageSearchTags = (params: UseSearchTags, options?: Partial<UseQueryOptions<TagsSearchResultDTO>>) => {
-  return useQuery<TagsSearchResultDTO>({
+export const imageSearchTagsQueryOptions = (params: UseSearchTags) => {
+  return queryOptions({
     queryKey: imageQueryKeys.imageSearchTags(params),
     queryFn: () => fetchSearchTags(params.input, params.language),
-    ...options,
   });
 };

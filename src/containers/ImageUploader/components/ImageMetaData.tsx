@@ -31,13 +31,14 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { AiGenerated } from "@ndla/types-backend/image-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SearchTagsContent } from "../../../components/Form/SearchTagsContent";
 import { SearchTagsTagSelectorInput } from "../../../components/Form/SearchTagsTagSelectorInput";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
-import { useImageSearchTags } from "../../../modules/image/imageQueries";
+import { imageSearchTagsQueryOptions } from "../../../modules/image/imageQueries";
 import useDebounce from "../../../util/useDebounce";
 
 interface Props {
@@ -64,16 +65,14 @@ const ImageMetaData = ({ imageLanguage }: Props) => {
   const [inputQuery, setInputQuery] = useState<string>("");
   const debouncedQuery = useDebounce(inputQuery, 300);
 
-  const searchTagsQuery = useImageSearchTags(
-    {
+  const searchTagsQuery = useQuery({
+    ...imageSearchTagsQueryOptions({
       input: debouncedQuery,
       language: imageLanguage || "all",
-    },
-    {
-      enabled: !!debouncedQuery.length,
-      placeholderData: (prev) => prev,
-    },
-  );
+    }),
+    enabled: !!debouncedQuery.length,
+    placeholderData: (prev) => prev,
+  });
 
   const collection = useMemo(() => {
     return createListCollection({

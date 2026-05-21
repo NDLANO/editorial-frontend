@@ -32,6 +32,7 @@ const phrases = {
     editFrontpage: "Rediger forside",
     comparePage: `Samanlikne versjonar ${titleTemplate}`,
     notFoundPage: `Sida finst ikkje ${titleTemplate}`,
+    bulkUploadImagePage: `Multi-opplasting av bilete ${titleTemplate}`,
     search: {
       "podcast-series": `Søk podkastserier ${titleTemplate}`,
       audio: `Søk lydfiler ${titleTemplate}`,
@@ -350,6 +351,7 @@ const phrases = {
     frontpage: "NDLA forside",
     updateCodes: "Oppdater læreplankoder",
     learningStepSamples: "Stikkprøver av eksterne læringssteg",
+    bulkImageUpload: "Multi-opplasting av bilete",
   },
   logo: {
     altText: "Nasjonal digital læringsarena",
@@ -2581,6 +2583,27 @@ const phrases = {
       "Denne sida lister opp fem tilfeldege stiar med eksterne læringssteg som har blitt oppretta i Min NDLA. Kvar gong du lastar sida vil du få eit nytt utvalg.",
     linksTo: "Lenkar til ",
     inPath: 'I læringsstien "{{title}}"',
+  },
+  bulkUploadImagePage: {
+    heading: "Multi-opplasting av bilete",
+    description: "Denne sida lar deg spesifisere felles metadata for eit sett med bilete.",
+    commonMetaHeading: "Felles metadata for alle bilete",
+    commonMetaHeadingDescription:
+      "Disse metadataa vil bli brukt for alle bilete du lastar opp. Metadata som ikkje spesifiserast her må spesifiserast for kvart bilete individuelt. Du kan oppdatere metadata her etter å ha lasta opp bilete, men vær varsam! Dersom du har overstyrt metadata for eit spesifikt bilete vil ikkje oppdateringane her gjelde for det biletet.",
+    uploadImages: "Last opp bilete",
+    saveCommon: "Lagre felles metadata",
+    uploadedImages: "Opplasta bilete",
+    specificImageDescription: "Her kan du endre metadata for eit spesifikt bilete.",
+    hasImagesWithErrors: "Eit av bileta du har lasta opp inneheld feil. Du må fikse feila før bileta kan opprettast.",
+    createImages: "Opprett bilete",
+    rejectedFiles: "Avviste filer",
+    uploadInProgress: "Lastar opp bilete",
+    progressText: "{{completed}} av {{total}} bilete lasta opp",
+    progressFailed_one: "Feil ved opplasting av eit bilete",
+    progressFailed_other: "Feil ved opplasting av {{count}} bilete",
+    uploadCompletedWithFailed_one: "Opplasting av bileter er fullført med ein feil",
+    uploadCompletedWithFailed_other: "Opplasting av bileter er fullført med {{count}} feil",
+    uploadCompleted: "Opplasting fullført!",
   },
 };
 

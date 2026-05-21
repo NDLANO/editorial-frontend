@@ -21,17 +21,16 @@ import { useLocation, useNavigate } from "react-router";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import { FormActionsContainer } from "../../../components/FormikForm";
-import validateFormik, { RulesType, getWarnings } from "../../../components/formikValidationSchema";
+import validateFormik, { getWarnings } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
 import SaveButton from "../../../components/SaveButton";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { licenseQuery } from "../../../modules/draft/draftQueries";
-import { editorValueToPlainText } from "../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../util/formHelper";
 import { NewlyCreatedLocationState } from "../../../util/routeHelpers";
 import { AlertDialogWrapper } from "../../FormikForm/AlertDialogWrapper";
 import SimpleVersionPanel from "../../FormikForm/SimpleVersionPanel";
-import { imageApiTypeToFormType, ImageFormikType } from "../imageTransformers";
+import { imageApiTypeToFormType, ImageFormikType, imageFormTypeToApiType, imageRules } from "../imageTransformers";
 import ImageContent from "./ImageContent";
 import ImageCopyright from "./ImageCopyright";
 import { ImageFormHeader } from "./ImageFormHeader";
@@ -48,55 +47,6 @@ const StyledPageContent = styled(PageContent, {
     position: "relative",
   },
 });
-
-const imageRules: RulesType<ImageFormikType, ImageMetaInformationV3DTO> = {
-  title: {
-    required: true,
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  caption: {
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  alttext: {
-    required: true,
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  tags: {
-    minItems: 3,
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  creators: {
-    allObjectFieldsRequired: true,
-  },
-  processors: {
-    allObjectFieldsRequired: true,
-  },
-  rightsholders: {
-    allObjectFieldsRequired: true,
-  },
-  imageFile: {
-    required: true,
-  },
-  aiGenerated: {
-    required: true,
-  },
-  license: {
-    required: true,
-    test: (values) => {
-      const authors = values.creators.concat(values.rightsholders).concat(values.processors);
-      if (!values.license || authors.length > 0) return undefined;
-      return { translationKey: "validation.noLicenseWithoutCopyrightHolder" };
-    },
-  },
-};
 
 interface Props<TImage extends ImageMetaInformationV3DTO | undefined = undefined> {
   image?: TImage;
@@ -144,46 +94,15 @@ const ImageForm = <TImage extends ImageMetaInformationV3DTO | undefined = undefi
   });
 
   const handleSubmit = async (values: ImageFormikType, actions: FormikHelpers<ImageFormikType>) => {
-    const license = licenses?.find((license) => license.license === values.license);
+    const imageMetaData = imageFormTypeToApiType(values, licenses);
 
-    if (
-      license === undefined ||
-      values.title === undefined ||
-      values.alttext === undefined ||
-      values.caption === undefined ||
-      values.language === undefined ||
-      values.tags === undefined ||
-      values.origin === undefined ||
-      values.creators === undefined ||
-      values.processors === undefined ||
-      values.rightsholders === undefined ||
-      values.imageFile === undefined ||
-      values.modelReleased === undefined
-    ) {
+    if (!imageMetaData || !values.imageFile) {
       actions.setSubmitting(false);
       setSavedToServer(false);
       return;
     }
 
     actions.setSubmitting(true);
-    const imageMetaData: NewImageMetaInformationV2DTO & UpdateImageMetaInformationDTO = {
-      title: editorValueToPlainText(values.title),
-      alttext: values.alttext,
-      caption: values.caption,
-      language: values.language,
-      tags: values.tags,
-      inactive: values.inactive,
-      copyright: {
-        license,
-        origin: values.origin,
-        creators: values.creators,
-        processors: values.processors,
-        rightsholders: values.rightsholders,
-        processed: values.processed,
-      },
-      modelReleased: values.modelReleased,
-      aiGenerated: values.aiGenerated,
-    };
     await onSubmitFunc(imageMetaData, values.imageFile);
     setSavedToServer(true);
     actions.resetForm();

@@ -186,6 +186,10 @@ export const routes: RouteObject[] = [
                 lazy: () => import("./containers/ImageUploader/CreateImage"),
               },
               {
+                path: "bulk",
+                lazy: () => import("./containers/ImageUploader/BulkUploadImagePage"),
+              },
+              {
                 path: ":id/edit",
                 lazy: () => import("./containers/ImageUploader/ImageRedirect"),
                 children: [

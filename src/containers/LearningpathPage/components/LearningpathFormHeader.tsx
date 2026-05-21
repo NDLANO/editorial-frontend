@@ -25,7 +25,7 @@ import { ResourceStatus } from "../../../components/HeaderWithLanguage/ResourceS
 import { PUBLISHED, UNLISTED } from "../../../constants";
 import { auth0UsersQueryOptions } from "../../../modules/auth0/auth0Queries";
 import { postCopyLearningpathMutationOptions } from "../../../modules/learningpath/learningpathMutations";
-import { useNodes } from "../../../modules/nodes/nodeQueries";
+import { nodesQueryOptions } from "../../../modules/nodes/nodeQueries";
 import { getExpirationDate } from "../../../util/revisionHelpers";
 import { CreatingLanguageLocationState, routes, toLearningpath } from "../../../util/routeHelpers";
 import {
@@ -86,16 +86,16 @@ export const LearningpathFormHeader = ({ learningpath, language }: Props) => {
   const statusText = learningpath?.status ? t(`form.status.${learningpath.status.toLowerCase()}`) : "";
   const expirationDate = getExpirationDate(learningpath?.revisions);
 
-  const taxonomyQuery = useNodes(
-    {
+  const taxonomyQuery = useQuery({
+    ...nodesQueryOptions({
       contentURI: `urn:learningpath:${learningpath?.id}`,
       taxonomyVersion,
       language,
       includeContexts: true,
       filterProgrammes: true,
-    },
-    { enabled: !!learningpath },
-  );
+    }),
+    enabled: !!learningpath,
+  });
 
   const languages = useMemo(() => {
     return [

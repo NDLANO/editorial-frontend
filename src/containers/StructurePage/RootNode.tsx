@@ -10,13 +10,13 @@ import { DragEndEvent } from "@dnd-kit/core";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { NodeChild, Node, NodeType } from "@ndla/types-backend/taxonomy-api";
 import { keyBy, partition, sortBy } from "@ndla/util";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { isEqual } from "lodash-es";
 import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { draftQueryKeys, updateUserDataMutationOptions } from "../../modules/draft/draftQueries";
-import { useUpdateNodeConnectionMutation } from "../../modules/nodes/nodeMutations";
-import { nodeQueryKeys, useChildNodes, useNodeResourceMetas } from "../../modules/nodes/nodeQueries";
+import { updateNodeConnectionMutationOptions } from "../../modules/nodes/nodeMutations";
+import { childNodesQueryOptions, nodeQueryKeys, nodesResourceMetasQueryOptions } from "../../modules/nodes/nodeQueries";
 import { getContentUriFromSearchSummary } from "../../util/searchHelpers";
 import { groupChildNodes } from "../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
@@ -34,19 +34,19 @@ const RootNode = ({ isFavorite, node, openedPaths, childNodeTypes, rootPath }: P
   const { i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const locale = i18n.language;
-  const childNodesQuery = useChildNodes(
-    {
+  const childNodesQuery = useQuery({
+    ...childNodesQueryOptions({
       id: node.id,
       language: locale,
       nodeType: childNodeTypes,
       recursive: true,
       taxonomyVersion,
-    },
-    { enabled: openedPaths[0] === node.id },
-  );
+    }),
+    enabled: openedPaths[0] === node.id,
+  });
 
-  const resourceMetasQuery = useNodeResourceMetas(
-    {
+  const resourceMetasQuery = useQuery({
+    ...nodesResourceMetasQueryOptions({
       nodeId: node.id,
       contentUris:
         childNodesQuery.data
@@ -54,11 +54,9 @@ const RootNode = ({ isFavorite, node, openedPaths, childNodeTypes, rootPath }: P
           .concat(node.contentUri)
           .filter((contentUri): contentUri is string => !!contentUri) ?? [],
       language: i18n.language,
-    },
-    {
-      enabled: !!node.contentUri || !!childNodesQuery.data?.length,
-    },
-  );
+    }),
+    enabled: !!node.contentUri || !!childNodesQuery.data?.length,
+  });
 
   const keyedMetas = useMemo(
     () => keyBy(resourceMetasQuery.data, (m) => getContentUriFromSearchSummary(m)),
@@ -87,7 +85,8 @@ const RootNode = ({ isFavorite, node, openedPaths, childNodeTypes, rootPath }: P
     return prevData;
   };
 
-  const { mutateAsync: updateNodeConnection } = useUpdateNodeConnectionMutation({
+  const { mutateAsync: updateNodeConnection } = useMutation({
+    ...updateNodeConnectionMutationOptions(),
     onMutate: ({ id, body }) => onUpdateRank(id, body.rank!),
     onSettled: () => qc.invalidateQueries({ queryKey: compKey }),
   });

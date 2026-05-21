@@ -10,10 +10,11 @@ import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { NodeChild, ResourceType } from "@ndla/types-backend/taxonomy-api";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
-import { useNodes } from "../../../modules/nodes/nodeQueries";
+import { nodesQueryOptions } from "../../../modules/nodes/nodeQueries";
 import { partitionResources } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { MultidisciplinaryCases } from "../multidisciplinary/MultidisciplinaryCases";
@@ -68,10 +69,15 @@ const ResourcesContainer = ({
   );
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const { data } = useNodes(
-    { contentURI: currentNode.contentUri, taxonomyVersion, includeContexts: true, filterProgrammes: true },
-    { enabled: !!currentNode.contentUri },
-  );
+  const { data } = useQuery({
+    ...nodesQueryOptions({
+      contentURI: currentNode.contentUri,
+      taxonomyVersion,
+      includeContexts: true,
+      filterProgrammes: true,
+    }),
+    enabled: !!currentNode.contentUri,
+  });
 
   const { coreArticles, supplementaryArticles, learningpaths } = partitionResources(
     nodeResources ?? [],

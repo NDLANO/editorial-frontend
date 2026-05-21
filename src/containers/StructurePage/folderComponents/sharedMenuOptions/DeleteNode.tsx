@@ -10,7 +10,7 @@ import { ErrorWarningLine } from "@ndla/icons";
 import { Text, Button, Heading, MessageBox } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
@@ -19,7 +19,7 @@ import { ARCHIVED } from "../../../../constants";
 import { updateStatusDraft } from "../../../../modules/draft/draftApi";
 import { fetchNodes } from "../../../../modules/nodes/nodeApi";
 import { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../../modules/nodes/nodeApiTypes";
-import { useDeleteNodeConnectionMutation, useDeleteNodeMutation } from "../../../../modules/nodes/nodeMutations";
+import { deleteNodeConnectionMutationOptions, useDeleteNodeMutation } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { capitalizeFirstLetter } from "../../utils";
@@ -58,7 +58,7 @@ const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNo
 
   const disabled = nodeChildren.length !== 0;
 
-  const deleteNodeConnectionMutation = useDeleteNodeConnectionMutation();
+  const deleteNodeConnectionMutation = useMutation(deleteNodeConnectionMutationOptions());
   const deleteNodeMutation = useDeleteNodeMutation();
   const queryClient = useQueryClient();
 

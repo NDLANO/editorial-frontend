@@ -29,14 +29,14 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
 import { Grade, Node } from "@ndla/types-backend/taxonomy-api";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FieldHelperProps, FieldInputProps, Formik } from "formik";
 import { CSSProperties, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import { draftQueryKeys } from "../../modules/draft/draftQueries";
-import { usePutNodeMutation } from "../../modules/nodes/nodeMutations";
+import { putNodeMutationOptions } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
 import { formatDateForBackend } from "../../util/formatDate";
 import handleError from "../../util/handleError";
@@ -137,7 +137,7 @@ const QualityEvaluationForm = ({
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
-  const updateTaxMutation = usePutNodeMutation();
+  const updateTaxMutation = useMutation(putNodeMutationOptions());
 
   // Since quality evaluation is the same every place the resource is used in taxonomy, we can use the first node
   const node = useMemo(() => taxonomy[0], [taxonomy]);

@@ -28,10 +28,11 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";
 import { sortBy } from "@ndla/util";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SUBJECT_NODE } from "../../../../modules/nodes/nodeApiTypes";
-import { useSearchNodes } from "../../../../modules/nodes/nodeQueries";
+import { searchNodesQueryOptions } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { SelectItem as SelectItemType } from "../../types";
 
@@ -75,22 +76,17 @@ const SubjectCombobox = ({
     setInputValue(filterSubject ? filterSubject.label : "");
   }, [filterSubject]);
 
-  const { data: subjects, isLoading } = useSearchNodes(
-    {
+  const { data: subjects, isLoading } = useQuery({
+    ...searchNodesQueryOptions({
       ids: subjectIds,
       taxonomyVersion,
       nodeType: [SUBJECT_NODE],
       pageSize: subjectIds.length,
       language: i18n.language,
-    },
-    {
-      select: (res) => ({
-        ...res,
-        results: sortBy(res.results, (r) => r.name),
-      }),
-      enabled: !!subjectIds.length && enableSearch,
-    },
-  );
+    }),
+    select: (res) => ({ ...res, results: sortBy(res.results, (r) => r.name) }),
+    enabled: !!subjectIds.length && enableSearch,
+  });
   const initialData = useMemo(() => {
     if (subjects?.results.length) {
       let updatedArchived;

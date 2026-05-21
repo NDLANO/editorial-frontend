@@ -6,24 +6,12 @@
  *
  */
 
-import {
-  Node,
-  NodeConnectionPOST,
-  NodeConnectionPUT,
-  NodePostPut,
-  TranslationPUT,
-  Metadata,
-} from "@ndla/types-backend/taxonomy-api";
-import { useMutation, UseMutationOptions, useQueryClient } from "@tanstack/react-query";
+import { Node, NodePostPut, Metadata } from "@ndla/types-backend/taxonomy-api";
+import { mutationOptions, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { WithTaxonomyVersion } from "../../interfaces";
 import handleError from "../../util/handleError";
-import {
-  createResourceResourceType,
-  deleteResourceResourceType,
-  ResourceResourceTypeDeleteParams,
-  ResourceResourceTypePostParams,
-} from "../taxonomy/resourcetypes";
+import { createResourceResourceType, deleteResourceResourceType } from "../taxonomy/resourcetypes";
 import {
   deleteNode,
   deleteNodeConnection,
@@ -33,10 +21,8 @@ import {
   putNode,
   putNodeConnection,
   putNodeMetadata,
-  PutNodeParams,
   putNodeTranslation,
   putResourcesPrimary,
-  PutResourcesPrimaryParams,
 } from "./nodeApi";
 import { nodeQueryKeys } from "./nodeQueries";
 
@@ -44,11 +30,8 @@ interface UseAddNodeMutation extends WithTaxonomyVersion {
   body: NodePostPut;
 }
 
-export const usePostNodeMutation = (options?: Partial<UseMutationOptions<string, undefined, UseAddNodeMutation>>) => {
-  return useMutation<string, undefined, UseAddNodeMutation>({
-    mutationFn: ({ body, taxonomyVersion }) => postNode({ body, taxonomyVersion }),
-    ...options,
-  });
+export const postNodeMutationOptions = () => {
+  return mutationOptions({ mutationFn: postNode });
 };
 
 export const useAddNodeMutation = () => {
@@ -177,101 +160,38 @@ export const useDeleteNodeMutation = () => {
   });
 };
 
-interface UseDeleteNodeTranslationMutation extends WithTaxonomyVersion {
-  id: string;
-  language: string;
-}
-
-export const useDeleteNodeTranslationMutation = () => {
-  return useMutation<void, unknown, UseDeleteNodeTranslationMutation>({
-    mutationFn: ({ id, language, taxonomyVersion }) => deleteNodeTranslation({ id, language, taxonomyVersion }),
-  });
+export const deleteNodeTranslationMutationOptions = () => {
+  return mutationOptions({ mutationFn: deleteNodeTranslation });
 };
 
-interface UseUpdateNodeTranslationMutation extends WithTaxonomyVersion {
-  id: string;
-  language: string;
-  body: TranslationPUT;
-}
-
-export const useUpdateNodeTranslationMutation = () => {
-  return useMutation<void, unknown, UseUpdateNodeTranslationMutation>({
-    mutationFn: ({ taxonomyVersion, id, language, body }) =>
-      putNodeTranslation({ id, language, body, taxonomyVersion }),
-  });
+export const updateNodeTranslationMutationOptions = () => {
+  return mutationOptions({ mutationFn: putNodeTranslation });
 };
 
-interface UseDeleteNodeConnectionMutation extends WithTaxonomyVersion {
-  id: string;
-}
-
-export const useDeleteNodeConnectionMutation = (
-  options?: Partial<UseMutationOptions<void, unknown, UseDeleteNodeConnectionMutation>>,
-) => {
-  return useMutation<void, unknown, UseDeleteNodeConnectionMutation>({
-    mutationFn: ({ id, taxonomyVersion }) => deleteNodeConnection({ id, taxonomyVersion }),
-    ...options,
-  });
+export const deleteNodeConnectionMutationOptions = () => {
+  return mutationOptions({ mutationFn: deleteNodeConnection });
 };
 
-interface UseUpdateNodeConnectionMutation extends WithTaxonomyVersion {
-  id: string;
-  body: NodeConnectionPUT;
-}
-
-export const useUpdateNodeConnectionMutation = (
-  options?: Partial<UseMutationOptions<void, unknown, UseUpdateNodeConnectionMutation>>,
-) => {
-  return useMutation<void, unknown, UseUpdateNodeConnectionMutation>({
-    mutationFn: ({ id, body, taxonomyVersion }) => putNodeConnection({ id, body, taxonomyVersion }),
-    ...options,
-  });
+export const updateNodeConnectionMutationOptions = () => {
+  return mutationOptions({ mutationFn: putNodeConnection });
 };
 
-interface UsePostNodeConnectionMutation extends WithTaxonomyVersion {
-  body: NodeConnectionPOST;
-}
-export const usePostNodeConnectionMutation = (
-  options?: Partial<UseMutationOptions<string, unknown, UsePostNodeConnectionMutation>>,
-) => {
-  return useMutation<string, unknown, UsePostNodeConnectionMutation>({
-    mutationFn: ({ body, taxonomyVersion }) => postNodeConnection({ body, taxonomyVersion }),
-    ...options,
-  });
+export const postNodeConnectionMutationOptions = () => {
+  return mutationOptions({ mutationFn: postNodeConnection });
 };
 
-export const useCreateResourceResourceTypeMutation = (
-  options?: Partial<UseMutationOptions<string, unknown, ResourceResourceTypePostParams>>,
-) => {
-  return useMutation<string, unknown, ResourceResourceTypePostParams>({
-    mutationFn: ({ body, taxonomyVersion }) => createResourceResourceType({ body, taxonomyVersion }),
-    ...options,
-  });
+export const createResourceResourceTypeMutationOptions = () => {
+  return mutationOptions({ mutationFn: createResourceResourceType });
 };
 
-export const useDeleteResourceResourceTypeMutation = (
-  options?: Partial<UseMutationOptions<void, unknown, ResourceResourceTypeDeleteParams>>,
-) => {
-  return useMutation<void, unknown, ResourceResourceTypeDeleteParams>({
-    mutationFn: ({ id, taxonomyVersion }) => deleteResourceResourceType({ id, taxonomyVersion }),
-    ...options,
-  });
+export const deleteResourceResourceTypeMutationOptions = () => {
+  return mutationOptions({ mutationFn: deleteResourceResourceType });
 };
 
-type UsePutNodeMutation = PutNodeParams;
-
-export const usePutNodeMutation = (options?: Partial<UseMutationOptions<void, unknown, UsePutNodeMutation>>) => {
-  return useMutation<void, unknown, UsePutNodeMutation>({
-    mutationFn: (params) => putNode(params),
-    ...options,
-  });
+export const putNodeMutationOptions = () => {
+  return mutationOptions({ mutationFn: putNode });
 };
 
-export const usePutResourcesPrimaryMutation = (
-  options?: Partial<UseMutationOptions<boolean, unknown, PutResourcesPrimaryParams>>,
-) => {
-  return useMutation<boolean, unknown, PutResourcesPrimaryParams>({
-    mutationFn: (params) => putResourcesPrimary(params),
-    ...options,
-  });
+export const putResourcesPrimaryMutationOptions = () => {
+  return mutationOptions({ mutationFn: putResourcesPrimary });
 };

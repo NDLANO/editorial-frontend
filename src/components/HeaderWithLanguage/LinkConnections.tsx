@@ -19,12 +19,12 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-backend/taxonomy-api";
-import { useQueries } from "@tanstack/react-query";
+import { useQueries, useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import { fetchConnectionsForNode } from "../../modules/nodes/nodeApi";
-import { useSearchNodes } from "../../modules/nodes/nodeQueries";
+import { searchNodesQueryOptions } from "../../modules/nodes/nodeQueries";
 import { toStructure } from "../../util/routeHelpers";
 import { DialogCloseButton } from "../DialogCloseButton";
 
@@ -63,7 +63,10 @@ export const LinkConnections = ({ nodes }: Props) => {
     }, []);
   }, [connections]);
 
-  const nodesQuery = useSearchNodes({ ids: uses, taxonomyVersion }, { enabled: !!uses.length });
+  const nodesQuery = useQuery({
+    ...searchNodesQueryOptions({ ids: uses, taxonomyVersion }),
+    enabled: !!uses.length,
+  });
 
   if (!uses.length) {
     return null;

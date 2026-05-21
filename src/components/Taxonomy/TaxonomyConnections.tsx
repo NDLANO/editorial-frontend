@@ -10,7 +10,7 @@ import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild, NodeConnection } from "@ndla/types-backend/taxonomy-api";
 import { sortBy } from "@ndla/util";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
@@ -18,12 +18,12 @@ import { userDataQueryOptions } from "../../modules/draft/draftQueries";
 import { fetchChildNodes } from "../../modules/nodes/nodeApi";
 import { NodeWithChildren } from "../../modules/nodes/nodeApiTypes";
 import {
-  useDeleteNodeConnectionMutation,
-  usePostNodeConnectionMutation,
-  usePostNodeMutation,
-  useUpdateNodeConnectionMutation,
+  deleteNodeConnectionMutationOptions,
+  postNodeConnectionMutationOptions,
+  postNodeMutationOptions,
+  updateNodeConnectionMutationOptions,
 } from "../../modules/nodes/nodeMutations";
-import { nodeQueryKeys, useNodes } from "../../modules/nodes/nodeQueries";
+import { nodeQueryKeys, nodesQueryOptions } from "../../modules/nodes/nodeQueries";
 import handleError from "../../util/handleError";
 import { groupChildNodes } from "../../util/taxonomyHelpers";
 import { MinimalNodeChild } from "../Taxonomy/types";
@@ -79,27 +79,28 @@ export const TaxonomyConnections = ({
     language,
     includeContexts: true,
   });
-  const deleteNodeConnectionMutation = useDeleteNodeConnectionMutation({
+  const deleteNodeConnectionMutation = useMutation({
+    ...deleteNodeConnectionMutationOptions(),
     onSettled: () => qc.invalidateQueries({ queryKey }),
   });
-  const postNodeConnectionMutation = usePostNodeConnectionMutation({
+  const postNodeConnectionMutation = useMutation({
+    ...postNodeConnectionMutationOptions(),
     onSettled: () => qc.invalidateQueries({ queryKey }),
   });
-  const postNodeMutation = usePostNodeMutation();
-  const updateNodeConnectionMutation = useUpdateNodeConnectionMutation({
+  const postNodeMutation = useMutation(postNodeMutationOptions());
+  const updateNodeConnectionMutation = useMutation({
+    ...updateNodeConnectionMutationOptions(),
     onSettled: () => qc.invalidateQueries({ queryKey }),
   });
 
-  const subjectsQuery = useNodes(
-    { language: i18n.language, taxonomyVersion, nodeType: ["SUBJECT"] },
-    {
-      select: (subject) =>
-        sortBy(
-          subject.filter((s) => !!s.name),
-          (s) => s.name,
-        ),
-    },
-  );
+  const subjectsQuery = useQuery({
+    ...nodesQueryOptions({ language: i18n.language, taxonomyVersion, nodeType: ["SUBJECT"] }),
+    select: (subject) =>
+      sortBy(
+        subject.filter((s) => !!s.name),
+        (s) => s.name,
+      ),
+  });
 
   useEffect(() => {
     if (subjectsQuery.data) {

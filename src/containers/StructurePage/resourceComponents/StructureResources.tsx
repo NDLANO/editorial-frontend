@@ -13,7 +13,7 @@ import { TFunction } from "i18next";
 import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
-import { useChildNodes, useNodeResourceMetas } from "../../../modules/nodes/nodeQueries";
+import { childNodesQueryOptions, nodesResourceMetasQueryOptions } from "../../../modules/nodes/nodeQueries";
 import { resourceTypesQueryOptions } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import { getContentUriFromSearchSummary } from "../../../util/searchHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -52,8 +52,8 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const isUngrouped = currentChildNode?.metadata?.customFields["topic-resources"] === "ungrouped";
 
-  const { data: nodeChildren, isPending: nodeResourcesIsPending } = useChildNodes(
-    {
+  const { data: nodeChildren, isPending: nodeResourcesIsPending } = useQuery({
+    ...childNodesQueryOptions({
       id: currentChildNode.id,
       language: i18n.language,
       nodeType: ["RESOURCE", "TOPIC"],
@@ -61,16 +61,14 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
       filterProgrammes: true,
       isVisible: false,
       taxonomyVersion,
-    },
-    {
-      select: (resources) => resources.map((r) => (r.resourceTypes.length > 0 ? r : withMissing(r, t))),
-    },
-  );
+    }),
+    select: (resources) => resources.map((r) => (r.resourceTypes.length > 0 ? r : withMissing(r, t))),
+  });
 
   const [nodeResources, nodeTopics] = partition(nodeChildren, (n) => n.nodeType === "RESOURCE");
 
-  const { data: nodeResourceMetas, isPending: contentMetaIsPending } = useNodeResourceMetas(
-    {
+  const { data: nodeResourceMetas, isPending: contentMetaIsPending } = useQuery({
+    ...nodesResourceMetasQueryOptions({
       nodeId: currentChildNode.id,
       contentUris:
         nodeResources
@@ -78,9 +76,9 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
           .concat(currentChildNode.contentUri)
           .filter((uri): uri is string => !!uri) ?? [],
       language: i18n.language,
-    },
-    { enabled: !!currentChildNode.contentUri || (!!nodeChildren && !!nodeChildren?.length) },
-  );
+    }),
+    enabled: !!currentChildNode.contentUri || (!!nodeChildren && !!nodeChildren?.length),
+  });
 
   const keyedMetas = useMemo(
     () => keyBy(nodeResourceMetas, (m) => getContentUriFromSearchSummary(m)),

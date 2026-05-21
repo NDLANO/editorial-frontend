@@ -36,7 +36,7 @@ import {
   STORED_PAGE_SIZE_PUBLISHED_VIEW_FAVORITES,
 } from "../../../constants";
 import { SUBJECT_NODE } from "../../../modules/nodes/nodeApiTypes";
-import { useSearchNodes } from "../../../modules/nodes/nodeQueries";
+import { searchNodesQueryOptions } from "../../../modules/nodes/nodeQueries";
 import { searchQueryOptions } from "../../../modules/search/searchQueries";
 import formatDate from "../../../util/formatDate";
 import { toEditArticle, toEditLearningpath } from "../../../util/routeHelpers";
@@ -211,18 +211,16 @@ const RevisionViewContent = ({ title, tabTitle, type, subjects, pageSizeKey }: S
 
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const { data: favoriteSubjects } = useSearchNodes(
-    {
+  const { data: favoriteSubjects } = useQuery({
+    ...searchNodesQueryOptions({
       ids: type === "favorites" ? subjects : [],
       taxonomyVersion,
       nodeType: [SUBJECT_NODE],
       pageSize: subjects?.length,
       language: i18n.language,
-    },
-    {
-      enabled: type === "favorites",
-    },
-  );
+    }),
+    enabled: type === "favorites",
+  });
 
   const subjectIds = useMemo(() => {
     return type === "favorites" ? (favoriteSubjects?.results.map((s) => s.id) ?? []) : subjects.map((s) => s.id);

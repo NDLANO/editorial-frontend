@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { TAXONOMY_ADMIN_SCOPE, TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
 import { userDataQueryOptions } from "../../modules/draft/draftQueries";
-import { useNodes } from "../../modules/nodes/nodeQueries";
+import { nodesQueryOptions } from "../../modules/nodes/nodeQueries";
 import { getPathsFromUrl } from "../../util/routeHelpers";
 import { useSession } from "../Session/SessionProvider";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
@@ -66,18 +66,16 @@ const LeftColumn = ({ rootNodeType = "SUBJECT", childNodeTypes = ["TOPIC"], root
   const favoriteNodeIds = Object.keys(favoriteNodes);
   // Need different filtering for programme
   const rootOrContext = rootNodeType === "PROGRAMME" ? { isRoot: true } : { isContext: true };
-  const nodesQuery = useNodes(
-    {
+  const nodesQuery = useQuery({
+    ...nodesQueryOptions({
       language: i18n.language,
       nodeType: [rootNodeType],
       ...rootOrContext,
       taxonomyVersion,
-    },
-    {
-      select: (nodes) => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
-      placeholderData: [],
-    },
-  );
+    }),
+    select: (nodes) => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
+    placeholderData: [],
+  });
 
   const resultSubjectIdObject = useMemo(
     () => getResultSubjectIdObject(ndlaId, nodesQuery.data),

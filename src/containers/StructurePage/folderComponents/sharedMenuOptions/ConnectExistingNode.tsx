@@ -10,9 +10,9 @@ import { CheckLine } from "@ndla/icons";
 import { Text, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeType } from "@ndla/types-backend/taxonomy-api";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { usePostNodeConnectionMutation } from "../../../../modules/nodes/nodeMutations";
+import { postNodeConnectionMutationOptions } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import NodeSearchDropdown from "./components/NodeSearchDropdown";
@@ -47,7 +47,7 @@ const StyledCheckLine = styled(CheckLine, {
 const ConnectExistingNode = ({ currentNode, nodeType }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const { mutateAsync: connectNode, isError, isPending, isSuccess } = usePostNodeConnectionMutation();
+  const { mutateAsync: connectNode, isError, isPending, isSuccess } = useMutation(postNodeConnectionMutationOptions());
   const qc = useQueryClient();
 
   const handleSubmit = async (node: Node) => {

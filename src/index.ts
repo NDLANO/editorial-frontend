@@ -13,6 +13,7 @@ import { join } from "path";
 import { getCookie } from "@ndla/util";
 import compression from "compression";
 import express from "express";
+import promBundle from "express-prom-bundle";
 import helmet from "helmet";
 import serialize from "serialize-javascript";
 import { ViteDevServer } from "vite";
@@ -46,6 +47,14 @@ if (!isProduction) {
   const sirv = (await import("sirv")).default;
   app.use(base, sirv("./build/public", { extensions: [] }));
 }
+
+const metricsMiddleware = promBundle({
+  includeMethod: true,
+  includePath: false,
+  excludeRoutes: ["/health"],
+});
+
+app.use(metricsMiddleware);
 
 const allowedBodyContentTypes = ["application/csp-report", "application/json"];
 

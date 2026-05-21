@@ -91,6 +91,7 @@ export const routes = {
   image: {
     create: "/media/image-upload/new",
     edit: toEditImage,
+    bulk: "/media/image-upload/bulk",
   },
   preview: {
     draft: toPreviewDraft,

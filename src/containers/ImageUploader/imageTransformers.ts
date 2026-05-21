@@ -6,15 +6,72 @@
  *
  */
 
-import { ImageMetaInformationV3DTO, AuthorDTO, AiGenerated } from "@ndla/types-backend/image-api";
+import {
+  ImageMetaInformationV3DTO,
+  AuthorDTO,
+  NewImageMetaInformationV2DTO,
+  UpdateImageMetaInformationDTO,
+  LicenseDTO,
+  AiGenerated,
+} from "@ndla/types-backend/image-api";
 import { Descendant } from "slate";
-import { plainTextToEditorValue } from "../../util/articleContentConverter";
+import { RulesType } from "../../components/formikValidationSchema";
+import { editorValueToPlainText, plainTextToEditorValue } from "../../util/articleContentConverter";
+
+export const imageRules: RulesType<ImageFormikType, ImageMetaInformationV3DTO> = {
+  title: {
+    required: true,
+    warnings: {
+      languageMatch: true,
+    },
+  },
+  caption: {
+    warnings: {
+      languageMatch: true,
+    },
+  },
+  alttext: {
+    required: true,
+    warnings: {
+      languageMatch: true,
+    },
+  },
+  tags: {
+    minItems: 3,
+    warnings: {
+      languageMatch: true,
+    },
+  },
+  creators: {
+    allObjectFieldsRequired: true,
+  },
+  processors: {
+    allObjectFieldsRequired: true,
+  },
+  rightsholders: {
+    allObjectFieldsRequired: true,
+  },
+  imageFile: {
+    required: true,
+  },
+  aiGenerated: {
+    required: true,
+  },
+  license: {
+    required: true,
+    test: (values) => {
+      const authors = values.creators.concat(values.rightsholders).concat(values.processors);
+      if (!values.license || authors.length > 0) return undefined;
+      return { translationKey: "validation.noLicenseWithoutCopyrightHolder" };
+    },
+  },
+};
 
 export interface ImageFormikType {
   id?: number;
-  language: string;
   supportedLanguages: string[];
   title: Descendant[];
+  language: string;
   alttext: string;
   caption: string;
   /** If undefined, we're creating an image. If string, we're editing an existing image. If blob, the currently active image hasn't been uploaded yet. */
@@ -53,5 +110,48 @@ export const imageApiTypeToFormType = (
     modelReleased: image?.modelRelease ?? "not-set",
     inactive: image?.inactive ?? false,
     aiGenerated: image?.aiGenerated ?? "No",
+  };
+};
+
+export const imageFormTypeToApiType = (
+  values: ImageFormikType,
+  licenses: LicenseDTO[] | undefined,
+): (NewImageMetaInformationV2DTO & UpdateImageMetaInformationDTO) | undefined => {
+  const license = licenses?.find((license) => license.license === values.license);
+  if (
+    license === undefined ||
+    values.title === undefined ||
+    values.alttext === undefined ||
+    values.caption === undefined ||
+    values.language === undefined ||
+    values.tags === undefined ||
+    values.origin === undefined ||
+    values.creators === undefined ||
+    values.processors === undefined ||
+    values.rightsholders === undefined ||
+    values.imageFile === undefined ||
+    values.modelReleased === undefined ||
+    values.aiGenerated === undefined
+  ) {
+    return undefined;
+  }
+
+  return {
+    title: editorValueToPlainText(values.title),
+    alttext: values.alttext,
+    caption: values.caption,
+    language: values.language,
+    tags: values.tags,
+    inactive: values.inactive,
+    copyright: {
+      license,
+      origin: values.origin,
+      creators: values.creators,
+      processors: values.processors,
+      rightsholders: values.rightsholders,
+      processed: values.processed,
+    },
+    modelReleased: values.modelReleased,
+    aiGenerated: values.aiGenerated,
   };
 };

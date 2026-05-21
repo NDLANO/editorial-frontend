@@ -23,13 +23,14 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { IframeMetaData, OembedEmbedData, OembedMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, ExternalEmbed, IframeEmbed } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import { useCallback, useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { EXTERNAL_WHITELIST_PROVIDERS } from "../../../../constants";
 import { WhitelistProvider } from "../../../../interfaces";
-import { useExternalEmbed } from "../../../../modules/embed/queries";
+import { externalEmbedQueryOptions } from "../../../../modules/embed/queries";
 import { urlDomain } from "../../../../util/htmlHelpers";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
@@ -95,7 +96,8 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
   const language = useArticleLanguage();
   const wrapperId = useId();
   const { handleRemove, handleSave, dialogProps } = useEditableElement(element, editor);
-  const metaQuery = useExternalEmbed(element.data!, language, {
+  const metaQuery = useQuery({
+    ...externalEmbedQueryOptions(element.data!, language),
     enabled: !!Object.keys(element.data ?? {}).length,
   });
 

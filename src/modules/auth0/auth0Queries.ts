@@ -6,8 +6,7 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { Auth0UserData } from "../../interfaces";
+import { queryOptions } from "@tanstack/react-query";
 import { AUTH0_EDITORS, AUTH0_RESPONSIBLES, AUTH0_USERS } from "../../queryKeys";
 import { fetchAuth0Editors, fetchAuth0Responsibles, fetchAuth0Users } from "./auth0Api";
 
@@ -21,35 +20,28 @@ export const auth0QueryKeys = {
   responsibles: (params?: Partial<Auth0Editors>) => [AUTH0_RESPONSIBLES, params] as const,
 };
 
-export const useAuth0Users = <ReturnType = Auth0UserData[]>(
-  params: Auth0Users,
-  options: Partial<UseQueryOptions<Auth0UserData[], unknown, ReturnType>>,
-) =>
-  useQuery<Auth0UserData[], unknown, ReturnType>({
+export const auth0UsersQueryOptions = (params: Auth0Users) => {
+  return queryOptions({
     queryKey: auth0QueryKeys.users(params),
     queryFn: () => fetchAuth0Users(params.uniqueUserIds),
-    ...options,
   });
+};
 
 export interface Auth0Editors {
   permission: string;
 }
 
-export const useAuth0Editors = <ReturnType = Auth0UserData[]>(
-  options?: Partial<UseQueryOptions<Auth0UserData[], unknown, ReturnType>>,
-) =>
-  useQuery<Auth0UserData[], unknown, ReturnType>({
+export const auth0EditorsQueryOptions = () => {
+  return queryOptions({
     queryKey: auth0QueryKeys.editors,
-    queryFn: () => fetchAuth0Editors(),
-    ...options,
+    queryFn: fetchAuth0Editors,
+    // TODO: Consider adding staleTime?
   });
+};
 
-export const useAuth0Responsibles = <ReturnType = Auth0UserData[]>(
-  params: Auth0Editors,
-  options?: Partial<UseQueryOptions<Auth0UserData[], unknown, ReturnType>>,
-) =>
-  useQuery<Auth0UserData[], unknown, ReturnType>({
+export const auth0ResponsiblesQueryOptions = (params: Auth0Editors) => {
+  return queryOptions({
     queryKey: auth0QueryKeys.responsibles(params),
     queryFn: () => fetchAuth0Responsibles(params.permission),
-    ...options,
   });
+};

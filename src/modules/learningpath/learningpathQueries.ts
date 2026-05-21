@@ -6,27 +6,18 @@
  *
  */
 
-import {
-  LearningPathSummaryV2DTO,
-  LearningPathTagsSummaryDTO,
-  LearningPathV2DTO,
-  SearchParamsDTO,
-  SearchResultV2DTO,
-} from "@ndla/types-backend/learningpath-api";
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { LEARNINGPATH, LEARNINGPATH_SEARCH, LEARNINGPATH_TAGS, LEARNINGPATHS_WITH_ARTICLE } from "../../queryKeys";
+import { queryOptions } from "@tanstack/react-query";
+import { LEARNINGPATH, LEARNINGPATH_TAGS, LEARNINGPATHS_WITH_ARTICLE } from "../../queryKeys";
 import {
   fetchLearningpath,
   fetchLearningpathsWithArticle,
   fetchLearningpathTags,
   fetchLearningStepSamples,
-  learningpathSearch,
 } from "./learningpathApi";
 
 export const learningpathQueryKeys = {
-  learningpath: (params: UseLearningpath) => [LEARNINGPATH, params],
+  learningpath: ({ id, ...params }: UseLearningpath) => [LEARNINGPATH, id, params],
   learningpathTags: (params: UseLearningpathTags) => [LEARNINGPATH_TAGS, params],
-  search: (params: SearchParamsDTO) => [LEARNINGPATH_SEARCH, params],
   containingArticle: (id: number) => [LEARNINGPATHS_WITH_ARTICLE, id],
 };
 
@@ -35,11 +26,10 @@ interface UseLearningpath {
   language?: string;
 }
 
-export const useLearningpath = (params: UseLearningpath, options?: Partial<UseQueryOptions<LearningPathV2DTO>>) => {
-  return useQuery<LearningPathV2DTO>({
+export const learningpathQueryOptions = (params: UseLearningpath) => {
+  return queryOptions({
     queryKey: learningpathQueryKeys.learningpath(params),
     queryFn: () => fetchLearningpath(params.id, params.language),
-    ...options,
   });
 };
 
@@ -48,40 +38,23 @@ interface UseLearningpathTags {
   fallback?: boolean;
 }
 
-export const useLearningpathTags = (params: UseLearningpathTags = {}, options?: Partial<UseQueryOptions<any>>) => {
-  return useQuery<LearningPathTagsSummaryDTO>({
+export const learningpathTagsQueryOptions = (params: UseLearningpathTags = {}) => {
+  return queryOptions({
     queryKey: learningpathQueryKeys.learningpathTags(params),
     queryFn: () => fetchLearningpathTags(params.language, params.fallback),
-    ...options,
   });
 };
 
-export const useSearchLearningpaths = (
-  params: SearchParamsDTO,
-  options?: Partial<UseQueryOptions<SearchResultV2DTO>>,
-) => {
-  return useQuery<SearchResultV2DTO>({
-    queryKey: learningpathQueryKeys.search(params),
-    queryFn: () => learningpathSearch(params),
-    ...options,
-  });
-};
-
-export const useLearningpathsWithArticle = (
-  id: number,
-  options?: Partial<UseQueryOptions<LearningPathSummaryV2DTO[]>>,
-) => {
-  return useQuery<LearningPathSummaryV2DTO[]>({
+export const learningpathsWithArticleQueryOptions = (id: number) => {
+  return queryOptions({
     queryKey: learningpathQueryKeys.containingArticle(id),
     queryFn: () => fetchLearningpathsWithArticle(id),
-    ...options,
   });
 };
 
-export const useLearningStepSamples = (options?: Partial<UseQueryOptions<LearningPathV2DTO[]>>) => {
-  return useQuery<LearningPathV2DTO[]>({
+export const learningStepSamplesQueryOptions = () => {
+  return queryOptions({
     queryKey: ["learningpath-step-samples"],
     queryFn: () => fetchLearningStepSamples(),
-    ...options,
   });
 };

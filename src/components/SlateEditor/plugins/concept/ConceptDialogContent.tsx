@@ -24,13 +24,14 @@ import {
   ConceptSummaryDTO,
   DraftConceptSearchParamsDTO,
 } from "@ndla/types-backend/concept-api";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ConceptForm from "../../../../containers/ConceptPage/ConceptForm/ConceptForm";
 import { ConceptType } from "../../../../containers/ConceptPage/conceptInterfaces";
 import { GlossForm } from "../../../../containers/GlossPage/components/GlossForm";
 import { GenericSearchList } from "../../../../containers/SearchPage/components/GenericSearchList";
-import { useSearchConcepts } from "../../../../modules/concept/conceptQueries";
+import { searchConceptsQueryOptions } from "../../../../modules/concept/conceptQueries";
 import Pagination from "../../../abstractions/Pagination";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import FormWrapper from "../../../FormWrapper";
@@ -87,7 +88,7 @@ const ConceptDialogContent = ({
     };
   }, [searchObject]);
 
-  const conceptsQuery = useSearchConcepts(parsedSearchParams);
+  const conceptsQuery = useQuery(searchConceptsQueryOptions(parsedSearchParams));
 
   const conceptTypeTabs: ConceptType[] = [conceptType];
 

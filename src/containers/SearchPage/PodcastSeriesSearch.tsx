@@ -7,12 +7,13 @@
  */
 
 import { SearchParamsDTO } from "@ndla/types-backend/audio-api";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../components/abstractions/Pagination";
 import config from "../../config";
-import { useSearchSeries } from "../../modules/audio/audioQueries";
-import { useUserData } from "../../modules/draft/draftQueries";
+import { searchSeriesQueryOptions } from "../../modules/audio/audioQueries";
+import { userDataQueryOptions } from "../../modules/draft/draftQueries";
 import { getAccessToken, isActiveToken } from "../../util/authHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import SearchPodcastSeriesForm from "./components/form/SearchPodcastSeriesForm";
@@ -50,12 +51,13 @@ export const PodcastSeriesSearch = () => {
     return parsed;
   }, [params]);
 
-  const userDataQuery = useUserData({
+  const userDataQuery = useQuery({
+    ...userDataQueryOptions(),
     enabled: isActiveToken(getAccessToken()),
   });
 
-  const searchQuery = useSearchSeries(parsedParams);
-  useSearchSeries({ ...parsedParams, page: parsedParams.page ? parsedParams.page + 1 : 2 }); // preload next page.
+  const searchQuery = useQuery(searchSeriesQueryOptions(parsedParams));
+  useQuery({ ...searchSeriesQueryOptions({ ...parsedParams, page: parsedParams.page ? parsedParams.page + 1 : 2 }) }); // preload next page.
 
   return (
     <SearchPageContainer asChild consumeCss>

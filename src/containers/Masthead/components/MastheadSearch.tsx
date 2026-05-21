@@ -24,6 +24,7 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useId, useMemo, useState, FormEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
@@ -31,7 +32,7 @@ import { GenericComboboxItemIndicator } from "../../../components/abstractions/C
 import { NDLA_FILM_SUBJECT } from "../../../constants";
 import { isValidLocale } from "../../../i18n";
 import { fetchBySlug, fetchNewArticleId } from "../../../modules/draft/draftApi";
-import { useUserData } from "../../../modules/draft/draftQueries";
+import { userDataQueryOptions } from "../../../modules/draft/draftQueries";
 import { fetchNode, fetchNodes } from "../../../modules/nodes/nodeApi";
 import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
 import { getAccessToken, isActiveToken } from "../../../util/authHelpers";
@@ -70,7 +71,8 @@ export const MastheadSearch = () => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const navigate = useNavigate();
   const location = useLocation();
-  const userDataQuery = useUserData({
+  const userDataQuery = useQuery({
+    ...userDataQueryOptions(),
     enabled: isActiveToken(getAccessToken()),
   });
 

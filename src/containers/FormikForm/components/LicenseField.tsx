@@ -17,11 +17,12 @@ import {
   SelectValueText,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useQuery } from "@tanstack/react-query";
 import { useField } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
-import { useLicenses } from "../../../modules/draft/draftQueries";
+import { licenseQuery } from "../../../modules/draft/draftQueries";
 import { getLicensesWithTranslations } from "../../../util/licenseHelpers";
 
 interface Props {
@@ -38,7 +39,7 @@ const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
 const positioning = { sameWidth: true };
 
 const LicenseField = ({ name = "license", enableLicenseNA }: Props) => {
-  const { data: licenses } = useLicenses({ placeholderData: [] });
+  const { data: licenses } = useQuery(licenseQuery());
   const { t, i18n } = useTranslation();
   const [field, meta, helpers] = useField<string>(name);
 

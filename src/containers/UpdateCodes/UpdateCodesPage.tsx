@@ -8,9 +8,10 @@
 
 import { Button, Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useMutation } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { DRAFT_ADMIN_SCOPE } from "../../constants";
-import { useMigrateCodes } from "../../modules/draft/draftMutations";
+import { migrateCodesMutationOptions } from "../../modules/draft/draftMutations";
 import NotFound from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import { useSession } from "../Session/SessionProvider";
@@ -35,7 +36,7 @@ export const Component = () => <PrivateRoute component={<UpdateCodesPage />} />;
 const UpdateCodesPage = () => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
-  const { mutateAsync: migrateCode, isError, isPending } = useMigrateCodes();
+  const { mutateAsync: migrateCode, isError, isPending } = useMutation(migrateCodesMutationOptions());
 
   if (!userPermissions?.includes(DRAFT_ADMIN_SCOPE)) {
     return <NotFound />;

@@ -24,7 +24,7 @@ import {
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { lazy, Suspense, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useParams } from "react-router";
@@ -35,7 +35,7 @@ import { PageSpinner } from "../../components/PageSpinner";
 import { PreviewResourceDialog } from "../../components/PreviewDraft/PreviewResourceDialog";
 import SaveButton from "../../components/SaveButton";
 import { DRAFT_HTML_SCOPE } from "../../constants";
-import { useUpdateDraftMutation } from "../../modules/draft/draftMutations";
+import { updateDraftMutationOptions } from "../../modules/draft/draftMutations";
 import { draftQueryOptions } from "../../modules/draft/draftQueries";
 import { blockContentToEditorValue, blockContentToHTML } from "../../util/articleContentConverter";
 import handleError from "../../util/handleError";
@@ -162,7 +162,7 @@ interface EditMarkupProps {
 const EditMarkup = ({ draft, language }: EditMarkupProps) => {
   const { t } = useTranslation();
   const [content, setContent] = useState<string>(draft.content?.content ?? "");
-  const draftMutation = useUpdateDraftMutation();
+  const draftMutation = useMutation(updateDraftMutationOptions());
   const { createMessage, formatErrorMessage } = useMessages();
   const location = useLocation();
   const locationState = location.state as LocationState | undefined;

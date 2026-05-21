@@ -7,12 +7,13 @@
  */
 
 import { ComboboxLabel, Text } from "@ndla/primitives";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import ListResource from "../../../components/Form/ListResource";
 import { FormField } from "../../../components/FormField";
-import { useSearchSeries } from "../../../modules/audio/audioQueries";
+import { searchSeriesQueryOptions } from "../../../modules/audio/audioQueries";
 import { routes } from "../../../util/routeHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 
@@ -20,13 +21,10 @@ const PodcastSeries = () => {
   const { t, i18n } = useTranslation();
   const { query, delayedQuery, page, setPage, setQuery } = usePaginatedQuery();
 
-  const searchQuery = useSearchSeries(
-    {
-      query: delayedQuery,
-      page: page,
-    },
-    { placeholderData: (prev) => prev },
-  );
+  const searchQuery = useQuery({
+    ...searchSeriesQueryOptions({ query: delayedQuery, page }),
+    placeholderData: (prev) => prev,
+  });
 
   return (
     <FormField name="series">

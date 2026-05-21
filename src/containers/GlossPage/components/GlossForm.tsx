@@ -7,6 +7,7 @@
  */
 
 import { ConceptDTO, ConceptSummaryDTO, NewConceptDTO, UpdatedConceptDTO } from "@ndla/types-backend/concept-api";
+import { useQuery } from "@tanstack/react-query";
 import { Formik, FormikHelpers } from "formik";
 import { isEmpty } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
@@ -15,7 +16,7 @@ import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import validateFormik, { RulesType, getWarnings } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
-import { useLicenses } from "../../../modules/draft/draftQueries";
+import { licenseQuery } from "../../../modules/draft/draftQueries";
 import { conceptFormBaseRules } from "../../ConceptPage/ConceptForm/ConceptForm";
 import ConceptFormFooter from "../../ConceptPage/ConceptForm/ConceptFormFooter";
 import { ConceptFormHeader } from "../../ConceptPage/ConceptForm/ConceptFormHeader";
@@ -93,7 +94,7 @@ export const GlossForm = ({
   const [savedToServer, setSavedToServer] = useState(false);
   const { t } = useTranslation();
   const { applicationError } = useMessages();
-  const { data: licenses = [] } = useLicenses({ placeholderData: [] });
+  const { data: licenses = [] } = useQuery(licenseQuery());
   const { ndlaId } = useSession();
 
   const handleSubmit = async (values: ConceptFormValues, formikHelpers: FormikHelpers<ConceptFormValues>) => {

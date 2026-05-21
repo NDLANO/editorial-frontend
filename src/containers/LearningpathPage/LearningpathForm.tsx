@@ -8,6 +8,7 @@
 
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { uniq } from "@ndla/util";
+import { useMutation } from "@tanstack/react-query";
 import { Formik } from "formik";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -20,8 +21,8 @@ import EditorFooter from "../../components/SlateEditor/EditorFooter";
 import { LAST_UPDATED_SIZE, GREP_CODE_FORMATS } from "../../constants";
 import { fetchUserData, updateUserData } from "../../modules/draft/draftApi";
 import {
-  usePatchLearningpathMutation,
-  usePostLearningpathMutation,
+  patchLearningpathMutationOptions,
+  postLearningpathMutationOptions,
 } from "../../modules/learningpath/learningpathMutations";
 import { isGrepCodeValid } from "../../util/articleUtil";
 import { isFormikFormDirty } from "../../util/formHelper";
@@ -129,8 +130,8 @@ export const LearningpathForm = ({ learningpath, language }: Props) => {
     };
   }, [initialValues, t, learningpath]);
   const navigate = useNavigate();
-  const postLearningpathMutation = usePostLearningpathMutation();
-  const patchLearningpathMutation = usePatchLearningpathMutation();
+  const postLearningpathMutation = useMutation(postLearningpathMutationOptions());
+  const patchLearningpathMutation = useMutation(patchLearningpathMutationOptions());
 
   const validate = useCallback((values: LearningpathFormValues) => validateFormik(values, metaDataRules, t), [t]);
 

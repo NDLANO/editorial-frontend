@@ -8,12 +8,13 @@
 
 import { Hero, HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
 import { ArticleWrapper } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import PreviewDraft from "../../components/PreviewDraft/PreviewDraft";
 import { articleIsWide } from "../../components/WideArticleEditorProvider";
-import { useDraft } from "../../modules/draft/draftQueries";
+import { draftQueryOptions } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
 import { getContentTypeFromResourceTypes } from "../../util/resourceHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
@@ -27,7 +28,7 @@ const PreviewDraftPage = () => {
   const language = params.language!;
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const draft = useDraft({ id: draftId, language });
+  const draft = useQuery(draftQueryOptions({ id: draftId, language }));
   const resources = useNodes({
     contentURI: `urn:article:${draftId}`,
     taxonomyVersion,

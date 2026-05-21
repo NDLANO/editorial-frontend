@@ -8,6 +8,7 @@
 
 import { Button, DialogCloseTrigger, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useQuery } from "@tanstack/react-query";
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 import { FormField } from "../../../components/FormField";
@@ -17,7 +18,7 @@ import EditorFooter from "../../../components/SlateEditor/EditorFooter";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import ResponsibleSelect from "../../../containers/FormikForm/components/ResponsibleSelect";
 import StatusSelect from "../../../containers/FormikForm/components/StatusSelect";
-import { useConceptStateMachine } from "../../../modules/concept/conceptQueries";
+import { conceptStateMachineQueryOptions } from "../../../modules/concept/conceptQueries";
 import { isFormikFormDirty } from "../../../util/formHelper";
 import { AlertDialogWrapper } from "../../FormikForm";
 import { ConceptFormValues } from "../conceptInterfaces";
@@ -37,7 +38,7 @@ const StyledFormActionsContainer = styled(FormActionsContainer, {
 const ConceptFormFooter = ({ conceptChanged, inDialog, savedToServer }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
-  const conceptStateMachine = useConceptStateMachine();
+  const conceptStateMachine = useQuery(conceptStateMachineQueryOptions());
   const { values, errors, initialValues, dirty, isSubmitting, submitForm } = formikContext;
   const formIsDirty = isFormikFormDirty({
     values,

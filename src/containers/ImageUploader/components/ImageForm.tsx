@@ -13,6 +13,7 @@ import {
   NewImageMetaInformationV2DTO,
   UpdateImageMetaInformationDTO,
 } from "@ndla/types-backend/image-api";
+import { useQuery } from "@tanstack/react-query";
 import { Formik, FormikHelpers } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -24,7 +25,7 @@ import validateFormik, { RulesType, getWarnings } from "../../../components/form
 import FormWrapper from "../../../components/FormWrapper";
 import SaveButton from "../../../components/SaveButton";
 import { SAVE_BUTTON_ID } from "../../../constants";
-import { useLicenses } from "../../../modules/draft/draftQueries";
+import { licenseQuery } from "../../../modules/draft/draftQueries";
 import { editorValueToPlainText } from "../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../util/formHelper";
 import { NewlyCreatedLocationState } from "../../../util/routeHelpers";
@@ -137,8 +138,8 @@ const ImageForm = <TImage extends ImageMetaInformationV3DTO | undefined = undefi
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { data: licenses } = useLicenses({
-    placeholderData: [],
+  const { data: licenses } = useQuery({
+    ...licenseQuery(),
     select: (data) => data.map((lic) => ({ ...lic, description: lic.description ?? "" })) ?? [],
   });
 

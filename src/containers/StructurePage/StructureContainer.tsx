@@ -10,11 +10,12 @@ import { PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeType } from "@ndla/types-backend/taxonomy-api";
 import { keyBy } from "@ndla/util";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState, ReactNode } from "react";
 import { useLocation } from "react-router";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import { TAXONOMY_ADMIN_SCOPE, DRAFT_RESPONSIBLE } from "../../constants";
-import { useAuth0Responsibles } from "../../modules/auth0/auth0Queries";
+import { auth0ResponsiblesQueryOptions } from "../../modules/auth0/auth0Queries";
 import { useSession } from "../Session/SessionProvider";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 import { useCurrentNode } from "./CurrentNodeProvider";
@@ -80,10 +81,10 @@ const StructureContainer = ({
 
   const firstRender = useRef(true);
 
-  const { data: users } = useAuth0Responsibles(
-    { permission: DRAFT_RESPONSIBLE },
-    { select: (users) => keyBy(users, (u) => u.app_metadata.ndla_id) },
-  );
+  const { data: users } = useQuery({
+    ...auth0ResponsiblesQueryOptions({ permission: DRAFT_RESPONSIBLE }),
+    select: (users) => keyBy(users, (u) => u.app_metadata.ndla_id),
+  });
 
   useEffect(() => {
     if (currentNode && shouldScroll) {

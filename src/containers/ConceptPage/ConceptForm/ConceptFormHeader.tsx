@@ -9,6 +9,7 @@
 import { Badge } from "@ndla/primitives";
 import { ConceptDTO } from "@ndla/types-backend/concept-api";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { useQuery } from "@tanstack/react-query";
 import { useField } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -17,7 +18,7 @@ import HeaderActions from "../../../components/HeaderWithLanguage/HeaderActions"
 import { HeaderCurrentLanguagePill } from "../../../components/HeaderWithLanguage/HeaderCurrentLanguagePill";
 import HeaderFavoriteStatus from "../../../components/HeaderWithLanguage/HeaderFavoriteStatus";
 import { ResourcePublishedLink } from "../../../components/HeaderWithLanguage/ResourcePublishedLink";
-import { useAuth0Users } from "../../../modules/auth0/auth0Queries";
+import { auth0UsersQueryOptions } from "../../../modules/auth0/auth0Queries";
 import { Plain } from "../../../util/slatePlainSerializer";
 import {
   FormHeaderHeading,
@@ -51,10 +52,10 @@ export const ConceptFormHeader = ({ concept, language, initialTitle, type }: Pro
     setHasConnections(!!articles.length);
   }, [articles]);
 
-  const responsibleQuery = useAuth0Users(
-    { uniqueUserIds: concept?.responsible?.responsibleId ?? "" },
-    { enabled: !!concept?.responsible?.responsibleId },
-  );
+  const responsibleQuery = useQuery({
+    ...auth0UsersQueryOptions({ uniqueUserIds: concept?.responsible?.responsibleId ?? "" }),
+    enabled: !!concept?.responsible?.responsibleId,
+  });
 
   return (
     <header>

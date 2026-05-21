@@ -10,12 +10,13 @@ import { ComboboxInputValueChangeDetails, ComboboxValueChangeDetails, createList
 import { ComboboxContent, ComboboxItem, ComboboxItemText, ComboboxLabel, ComboboxRoot, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemIndicator } from "../../../components/abstractions/Combobox";
 import { DRAFT_RESPONSIBLE } from "../../../constants";
 import { Auth0UserData } from "../../../interfaces";
-import { useAuth0Responsibles } from "../../../modules/auth0/auth0Queries";
+import { auth0ResponsiblesQueryOptions } from "../../../modules/auth0/auth0Queries";
 
 interface Props {
   responsible: string | undefined;
@@ -48,10 +49,10 @@ const ResponsibleSelect = ({ responsible, onSave }: Props) => {
   const comboboxTranslations = useComboboxTranslations();
   const [query, setQuery] = useState("");
 
-  const { data: users } = useAuth0Responsibles<Auth0UserData[]>(
-    { permission: DRAFT_RESPONSIBLE },
-    { placeholderData: [] },
-  );
+  const { data: users } = useQuery({
+    ...auth0ResponsiblesQueryOptions({ permission: DRAFT_RESPONSIBLE }),
+    placeholderData: [],
+  });
 
   const collection = useMemo(() => {
     return createListCollection({

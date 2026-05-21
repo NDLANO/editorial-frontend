@@ -30,7 +30,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ArticleDTO, UpdatedArticleDTO, Priority } from "@ndla/types-backend/draft-api";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { Node, ResourceType } from "@ndla/types-backend/taxonomy-api";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Formik } from "formik";
 import { TFunction } from "i18next";
 import { useCallback, useMemo, useState } from "react";
@@ -50,9 +50,9 @@ import {
   RESOURCE_TYPE_LEARNING_PATH,
 } from "../../../constants";
 import { Auth0UserData } from "../../../interfaces";
-import { useAuth0Responsibles } from "../../../modules/auth0/auth0Queries";
+import { auth0ResponsiblesQueryOptions } from "../../../modules/auth0/auth0Queries";
 import { createDraft, updateUserData } from "../../../modules/draft/draftApi";
-import { useUserData } from "../../../modules/draft/draftQueries";
+import { userDataQueryOptions } from "../../../modules/draft/draftQueries";
 import { postLearningpath } from "../../../modules/learningpath/learningpathApi";
 import { RESOURCE_NODE, TOPIC_NODE } from "../../../modules/nodes/nodeApiTypes";
 import {
@@ -164,7 +164,7 @@ interface Props {
 
 const PlannedResourceForm = ({ node, onClose, type }: Props) => {
   const [error, setError] = useState<string | undefined>(undefined);
-  const { data: userData } = useUserData();
+  const { data: userData } = useQuery(userDataQueryOptions());
 
   const { t, i18n } = useTranslation();
   const { ndlaId, userName } = useSession();
@@ -193,13 +193,11 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
     });
   const initialValues = useMemo(() => toInitialValues(ndlaId, type), [ndlaId, type]);
 
-  const { data: users } = useAuth0Responsibles(
-    { permission: DRAFT_RESPONSIBLE },
-    {
-      select: (users) => formatUserList(users),
-      placeholderData: [],
-    },
-  );
+  const { data: users } = useQuery({
+    ...auth0ResponsiblesQueryOptions({ permission: DRAFT_RESPONSIBLE }),
+    select: (users) => formatUserList(users),
+    placeholderData: [],
+  });
 
   const resourceTypesQuery = useAllResourceTypes<ResourceType[]>(
     { language: i18n.language, taxonomyVersion },

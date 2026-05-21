@@ -12,6 +12,7 @@ import { AddLine, Draggable } from "@ndla/icons";
 import { Button, DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { useMutation } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
@@ -20,8 +21,8 @@ import { DragHandle } from "../../../components/DraggableItem";
 import { FormContent } from "../../../components/FormikForm";
 import { PUBLISHED } from "../../../constants";
 import {
-  useDeleteLearningStepMutation,
-  usePutLearningStepOrderMutation,
+  deleteLearningStepMutationOptions,
+  putLearningStepOrderMutationOptions,
 } from "../../../modules/learningpath/learningpathMutations";
 import { learningStepEditId } from "../learningpathUtils";
 import { LearningpathStepForm } from "./LearningpathStepForm";
@@ -44,8 +45,8 @@ export const LearningpathStepsFormPart = ({ learningpath, language }: Props) => 
   const [open, setOpen] = useState(false);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
   const { t } = useTranslation();
-  const deleteStepMutation = useDeleteLearningStepMutation(language);
-  const putLearningStepOrderMutation = usePutLearningStepOrderMutation(language);
+  const deleteStepMutation = useMutation(deleteLearningStepMutationOptions());
+  const putLearningStepOrderMutation = useMutation(putLearningStepOrderMutationOptions());
 
   useEffect(() => {
     if (focusId && !open) {

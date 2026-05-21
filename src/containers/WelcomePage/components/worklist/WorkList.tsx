@@ -8,6 +8,7 @@
 
 import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -20,7 +21,7 @@ import {
   STORED_SORT_OPTION_WORKLIST_CONCEPT,
   STORED_SORT_OPTION_WORKLIST_ON_HOLD,
 } from "../../../../constants";
-import { useSearchConcepts } from "../../../../modules/concept/conceptQueries";
+import { searchConceptsQueryOptions } from "../../../../modules/concept/conceptQueries";
 import { useSearch } from "../../../../modules/search/searchQueries";
 import {
   useLocalStoragePageSizeState,
@@ -91,17 +92,17 @@ const WorkList = ({ ndlaId }: Props) => {
     { enabled: !!ndlaId },
   );
 
-  const searchConceptsQuery = useSearchConcepts(
-    {
+  const searchConceptsQuery = useQuery({
+    ...searchConceptsQueryOptions({
       responsibleIds: [ndlaId],
       sort: sortOptionConcepts,
       page: pageConcept,
       pageSize: Number(pageSizeConcept!.value),
       language: i18n.language,
       fallback: true,
-    },
-    { enabled: !!ndlaId },
-  );
+    }),
+    enabled: !!ndlaId,
+  });
 
   const searchOnHoldQuery = useSearch(
     {

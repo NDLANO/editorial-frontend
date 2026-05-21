@@ -9,6 +9,7 @@
 import { ComboboxLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
+import { useQuery } from "@tanstack/react-query";
 import { useField } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -17,7 +18,7 @@ import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCom
 import ListResource from "../../../components/Form/ListResource";
 import { FormContent } from "../../../components/FormikForm";
 import { fetchAudio } from "../../../modules/audio/audioApi";
-import { useSearchAudio } from "../../../modules/audio/audioQueries";
+import { searchAudioQueryOptions } from "../../../modules/audio/audioQueries";
 import { routes } from "../../../util/routeHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 
@@ -42,12 +43,10 @@ const PodcastEpisodes = ({ language, seriesId, initialEpisodes = [] }: Props) =>
   const [field, , helpers] = useField<number[]>("episodes");
   const [apiEpisodes, setApiEpisodes] = useState<AudioMetaInformationDTO[]>(initialEpisodes);
 
-  const searchQuery = useSearchAudio(
-    { query: delayedQuery, language, page, audioType: "podcast" },
-    {
-      placeholderData: (prev) => prev,
-    },
-  );
+  const searchQuery = useQuery({
+    ...searchAudioQueryOptions({ query: delayedQuery, language, page, audioType: "podcast" }),
+    placeholderData: (prev) => prev,
+  });
 
   const onValueChange = async (newValue: number) => {
     if (field.value.includes(newValue)) {

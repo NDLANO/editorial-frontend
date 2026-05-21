@@ -6,12 +6,11 @@
  *
  */
 
-import { useMutation, UseMutationOptions } from "@tanstack/react-query";
-import { copyH5P, H5pCopyResponse } from "../../components/H5PElement/h5pApi";
+import { mutationOptions } from "@tanstack/react-query";
+import { copyH5P } from "../../components/H5PElement/h5pApi";
 
-export const useCopyH5pMutation = (options?: Partial<UseMutationOptions<H5pCopyResponse, unknown, string>>) => {
-  return useMutation<H5pCopyResponse, undefined, string>({
-    mutationFn: (url) => copyH5P(url),
-    ...options,
+export const copyH5pMutationOptions = () => {
+  return mutationOptions({
+    mutationFn: (url: string) => copyH5P(url),
   });
 };

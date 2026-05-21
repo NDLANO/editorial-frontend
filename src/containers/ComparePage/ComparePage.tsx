@@ -9,11 +9,12 @@
 import { PageContent, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleWrapper } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import PreviewDraft from "../../components/PreviewDraft/PreviewDraft";
-import { useDraft } from "../../modules/draft/draftQueries";
+import { draftQueryOptions } from "../../modules/draft/draftQueries";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const TwoArticleWrapper = styled("div", {
@@ -47,9 +48,12 @@ const ComparePage = () => {
   const params = useParams<"draftId" | "language">();
   const draftId = Number(params.draftId!);
   const language = params.language!;
-  const { data: article, isLoading } = useDraft({ id: draftId, language: language });
+  const { data: article, isLoading } = useQuery(draftQueryOptions({ id: draftId, language }));
   const [previewLanguage, setPreviewLanguage] = useState<string>(article?.supportedLanguages[0] ?? "");
-  const draft = useDraft({ id: article?.id ?? -1, language: previewLanguage }, { enabled: !!article?.id });
+  const draft = useQuery({
+    ...draftQueryOptions({ id: article?.id ?? -1, language: previewLanguage }),
+    enabled: !!article?.id,
+  });
   const formArticle = useMemo(() => {
     if (!article) return undefined;
     return {

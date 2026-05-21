@@ -6,7 +6,7 @@
  *
  */
 
-import { useQuery, UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
+import { queryOptions } from "@tanstack/react-query";
 import { request, gql, Variables } from "graphql-request";
 import config from "../../config";
 import { TRANFSFORM_ARTICLE } from "../../queryKeys";
@@ -28,26 +28,6 @@ interface UseTransformArticle extends Variables {
 
 export const transformArticleQueryKeys = {
   transformArticle: (params?: Partial<UseTransformArticle>) => [TRANFSFORM_ARTICLE, params] as const,
-};
-
-export const usePreviewArticle = (
-  content: string,
-  language: string,
-  visualElement: string | undefined,
-  useDraftConcepts: boolean,
-  options?: Partial<UseQueryOptions<string>>,
-): UseQueryResult<string> => {
-  return useTransformArticle(
-    {
-      content,
-      language,
-      visualElement,
-      previewH5p: true,
-      draftConcept: useDraftConcepts,
-      absoluteUrl: true,
-    },
-    options,
-  );
 };
 
 const transformArticleMutation = gql`
@@ -74,18 +54,23 @@ interface ReturnData {
   transformArticleContent: string;
 }
 
-export const useTransformArticle = (
-  params: UseTransformArticle,
-  options?: Partial<UseQueryOptions<string>>,
-): UseQueryResult<string> => {
-  return useQuery<string>({
-    queryKey: transformArticleQueryKeys.transformArticle(params),
+export const transformArticleQueryOptions = ({
+  previewH5p = true,
+  absoluteUrl = true,
+  ...params
+}: UseTransformArticle) => {
+  return queryOptions({
+    queryKey: transformArticleQueryKeys.transformArticle({ previewH5p, absoluteUrl, ...params }),
     queryFn: async (): Promise<string> => {
-      const res = await request<ReturnData, UseTransformArticle>(gqlEndpoint, transformArticleMutation, params, {
-        "Accept-Language": params.language,
-      });
+      const res = await request<ReturnData, UseTransformArticle>(
+        gqlEndpoint,
+        transformArticleMutation,
+        { previewH5p, absoluteUrl, ...params },
+        {
+          "Accept-Language": params.language,
+        },
+      );
       return res.transformArticleContent;
     },
-    ...options,
   });
 };

@@ -7,11 +7,12 @@
  */
 
 import { styled } from "@ndla/styled-system/jsx";
+import { useQuery } from "@tanstack/react-query";
 import { useFormikContext } from "formik";
 import { useMemo } from "react";
 import { ConceptFormValues } from "../../containers/ConceptPage/conceptInterfaces";
 import { conceptFormTypeToApiType } from "../../containers/ConceptPage/conceptTransformers";
-import { useLicenses } from "../../modules/draft/draftQueries";
+import { licenseQuery } from "../../modules/draft/draftQueries";
 import PreviewConceptComponent from "./PreviewConceptComponent";
 
 const ConceptWrapper = styled("div", {
@@ -28,7 +29,7 @@ export interface ConceptPreviewProps {
 }
 
 export const PreviewConcept = ({ language }: ConceptPreviewProps) => {
-  const { data: licenses } = useLicenses({ placeholderData: [] });
+  const { data: licenses } = useQuery(licenseQuery());
   const { values } = useFormikContext<ConceptFormValues>();
 
   const formConcept = useMemo(

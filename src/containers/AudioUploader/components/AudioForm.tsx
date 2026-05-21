@@ -12,6 +12,7 @@ import {
   NewAudioMetaInformationDTO,
   UpdatedAudioMetaInformationDTO,
 } from "@ndla/types-backend/audio-api";
+import { useQuery } from "@tanstack/react-query";
 import { Formik, FormikHelpers } from "formik";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -23,7 +24,7 @@ import validateFormik, { getWarnings, RulesType } from "../../../components/form
 import SaveButton from "../../../components/SaveButton";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { AudioFormikType } from "../../../modules/audio/audioTypes";
-import { useLicenses } from "../../../modules/draft/draftQueries";
+import { licenseQuery } from "../../../modules/draft/draftQueries";
 import { editorValueToPlainText, inlineContentToHTML } from "../../../util/articleContentConverter";
 import { audioApiTypeToFormType } from "../../../util/audioHelpers";
 import { DEFAULT_LICENSE, isFormikFormDirty } from "../../../util/formHelper";
@@ -98,7 +99,7 @@ const AudioForm = ({
   const [savedToServer, setSavedToServer] = useState(false);
   const prevAudioLanguage = useRef<string | null>(null);
   const { applicationError } = useMessages();
-  const { data: licenses } = useLicenses({ placeholderData: [] });
+  const { data: licenses } = useQuery(licenseQuery());
   const navigate = useNavigate();
   const location = useLocation();
 

@@ -12,8 +12,9 @@ import { getLicenseByAbbreviation } from "@ndla/licenses";
 import { ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { useLicenses } from "../../../../modules/draft/draftQueries";
+import { licenseQuery } from "../../../../modules/draft/draftQueries";
 import { routes } from "../../../../util/routeHelpers";
 import { SearchContentWrapper } from "./SearchContentWrapper";
 import { SearchListItemImage } from "./SearchListItemImage";
@@ -24,7 +25,7 @@ interface Props {
 
 const SearchImage = ({ image }: Props) => {
   const { t, i18n } = useTranslation();
-  const { data: licenses } = useLicenses();
+  const { data: licenses } = useQuery(licenseQuery());
   const license = licenses && licenses.find((l) => image.copyright.license.license === l.license);
 
   return (

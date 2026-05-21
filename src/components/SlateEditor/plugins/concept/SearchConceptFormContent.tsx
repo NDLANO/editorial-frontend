@@ -11,12 +11,13 @@ import { styled } from "@ndla/styled-system/jsx";
 import { DraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { sortBy } from "@ndla/util";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CONCEPT_RESPONSIBLE } from "../../../../constants";
 import { CamelToKebab } from "../../../../interfaces";
-import { useAuth0Editors, useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
-import { useConceptStateMachine } from "../../../../modules/concept/conceptQueries";
+import { auth0EditorsQueryOptions, auth0ResponsiblesQueryOptions } from "../../../../modules/auth0/auth0Queries";
+import { conceptStateMachineQueryOptions } from "../../../../modules/concept/conceptQueries";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import SearchControlButtons from "../../../Form/SearchControlButtons";
 import SearchHeader from "../../../Form/SearchHeader";
@@ -56,7 +57,7 @@ interface Props {
 const SearchConceptFormContent = ({ onUpdateSearchParam, searchObject, userData, onClearSearch }: Props) => {
   const { t } = useTranslation();
   const [queryInput, setQueryInput] = useState(searchObject.query ?? "");
-  const usersQuery = useAuth0Editors();
+  const usersQuery = useQuery(auth0EditorsQueryOptions());
 
   useEffect(() => {
     setQueryInput(searchObject.query ?? "");
@@ -67,14 +68,14 @@ const SearchConceptFormContent = ({ onUpdateSearchParam, searchObject, userData,
     return sortBy(mapped, (u) => u.name);
   }, [usersQuery.data]);
 
-  const responsiblesQuery = useAuth0Responsibles({ permission: CONCEPT_RESPONSIBLE });
+  const responsiblesQuery = useQuery({ ...auth0ResponsiblesQueryOptions({ permission: CONCEPT_RESPONSIBLE }) });
 
   const responsibles = useMemo(() => {
     const mapped = responsiblesQuery.data?.map((u) => ({ id: u.app_metadata.ndla_id, name: u.name })) ?? [];
     return sortBy(mapped, (u) => u.name);
   }, [responsiblesQuery.data]);
 
-  const statusQuery = useConceptStateMachine();
+  const statusQuery = useQuery(conceptStateMachineQueryOptions());
 
   const conceptStatuses = useMemo(() => {
     return Object.keys(statusQuery.data ?? []).map((s) => ({ id: s, name: t(`form.status.${s.toLowerCase()}`) }));

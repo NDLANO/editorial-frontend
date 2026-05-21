@@ -10,12 +10,13 @@ import { useDialogContext } from "@ark-ui/react";
 import { Button, DialogBody, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { NodeChild } from "@ndla/types-backend/taxonomy-api";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../constants";
-import { useUpdateDraftStatusMutation } from "../../../modules/draft/draftMutations";
-import { useLearningpathsWithArticle } from "../../../modules/learningpath/learningpathQueries";
+import { updateDraftStatusMutationOptions } from "../../../modules/draft/draftMutations";
+import { learningpathsWithArticleQueryOptions } from "../../../modules/learningpath/learningpathQueries";
 import { useDeleteNodeConnectionMutation } from "../../../modules/nodes/nodeMutations";
 import { getContentUriInfo } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -30,7 +31,7 @@ export const DeleteResourceDialogContent = ({ resource, contentMeta, invalidate 
   const { t } = useTranslation();
   const { setOpen } = useDialogContext();
   const deleteNodeConnectionMutation = useDeleteNodeConnectionMutation();
-  const updateArticleMutation = useUpdateDraftStatusMutation();
+  const updateArticleMutation = useMutation(updateDraftStatusMutationOptions());
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const articleId = useMemo(() => {
@@ -38,7 +39,8 @@ export const DeleteResourceDialogContent = ({ resource, contentMeta, invalidate 
     return uriInfo?.type === "article" ? uriInfo.id : undefined;
   }, [resource.contentUri]);
 
-  const lpsWithArticleQuery = useLearningpathsWithArticle(articleId!, {
+  const lpsWithArticleQuery = useQuery({
+    ...learningpathsWithArticleQueryOptions(articleId!),
     enabled: !!articleId,
   });
 

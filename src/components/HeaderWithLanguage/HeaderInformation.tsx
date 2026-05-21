@@ -10,6 +10,7 @@ import { Badge, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-backend/taxonomy-api";
 import { BadgesContainer, constants } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
@@ -19,7 +20,7 @@ import {
   FormHeaderSegment,
 } from "../../containers/FormHeader/FormHeader";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
-import { useAuth0Users } from "../../modules/auth0/auth0Queries";
+import { auth0UsersQueryOptions } from "../../modules/auth0/auth0Queries";
 import * as draftApi from "../../modules/draft/draftApi";
 import { useBadges } from "../../util/getBadges";
 import handleError from "../../util/handleError";
@@ -82,7 +83,10 @@ const HeaderInformation = ({
   const [loading, setLoading] = useState(false);
   const { createMessage } = useMessages();
   const navigate = useNavigate();
-  const responsibleQuery = useAuth0Users({ uniqueUserIds: responsibleId ?? "" }, { enabled: !!responsibleId });
+  const responsibleQuery = useQuery({
+    ...auth0UsersQueryOptions({ uniqueUserIds: responsibleId ?? "" }),
+    enabled: !!responsibleId,
+  });
 
   const node = nodes?.[0];
 

@@ -6,9 +6,10 @@
  *
  */
 
+import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
 import { GenericResourceRedirect } from "../../components/GenericResourceRedirect";
-import { useConcept } from "../../modules/concept/conceptQueries";
+import { conceptQueryOptions } from "../../modules/concept/conceptQueries";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 export const Component = () => <PrivateRoute component={<ConceptRedirect />} />;
@@ -16,6 +17,9 @@ export const Component = () => <PrivateRoute component={<ConceptRedirect />} />;
 export const ConceptRedirect = () => {
   const { id, selectedLanguage } = useParams<"id" | "selectedLanguage">();
   const parsedId = Number(id);
-  const queryResult = useConcept({ id: parsedId, language: selectedLanguage }, { enabled: !!parsedId });
+  const queryResult = useQuery({
+    ...conceptQueryOptions({ id: parsedId, language: selectedLanguage }),
+    enabled: !!parsedId,
+  });
   return <GenericResourceRedirect queryResult={queryResult} />;
 };

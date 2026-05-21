@@ -22,11 +22,12 @@ import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { NodeChild } from "@ndla/types-backend/taxonomy-api";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import config from "../../../config";
 import { PUBLISHED } from "../../../constants";
-import { useMatomoStats } from "../../../modules/matomo/matomoQueries";
+import { matomoStatusQueryOptions } from "../../../modules/matomo/matomoQueries";
 import { useBadges } from "../../../util/getBadges";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
 import { routes } from "../../../util/routeHelpers";
@@ -186,14 +187,15 @@ const Resource = ({
     data: matomoStatsData,
     isPending: matomoStatsIsPending,
     isError: matomoStatsIsError,
-  } = useMatomoStats(
-    {
+  } = useQuery({
+    ...matomoStatusQueryOptions({
       urls: resource.contexts
         .filter((context) => context.rootId.startsWith("urn:subject"))
         .map((context) => context.url),
-    },
-    { enabled: isVisible && !!resource.url && showMatomoStats, staleTime: Infinity },
-  );
+    }),
+    enabled: isVisible && !!resource.url && showMatomoStats,
+    staleTime: Infinity,
+  });
 
   const matomoStats = useMemo(() => {
     if (!matomoStatsData || !showMatomoStats || !resource.contextId) return;

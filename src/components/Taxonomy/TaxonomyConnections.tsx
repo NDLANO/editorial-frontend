@@ -10,11 +10,11 @@ import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild, NodeConnection } from "@ndla/types-backend/taxonomy-api";
 import { sortBy } from "@ndla/util";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
-import { useUserData } from "../../modules/draft/draftQueries";
+import { userDataQueryOptions } from "../../modules/draft/draftQueries";
 import { fetchChildNodes } from "../../modules/nodes/nodeApi";
 import { NodeWithChildren } from "../../modules/nodes/nodeApiTypes";
 import {
@@ -71,7 +71,7 @@ export const TaxonomyConnections = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
   const [structure, setStructure] = useState<NodeWithChildren[]>([]);
-  const userDataQuery = useUserData();
+  const userDataQuery = useQuery(userDataQueryOptions());
   const qc = useQueryClient();
   const queryKey = nodeQueryKeys.nodes({
     taxonomyVersion,

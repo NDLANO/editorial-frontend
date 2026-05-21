@@ -19,6 +19,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleDTO, ArticleSummaryDTO, RelatedContentLinkDTO } from "@ndla/types-backend/draft-api";
+import { useQuery } from "@tanstack/react-query";
 import { FieldInputProps } from "formik";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -31,7 +32,7 @@ import ListResource from "../../../components/Form/ListResource";
 import { FormContent } from "../../../components/FormikForm";
 import { ConvertedRelatedContent, RelatedContent } from "../../../interfaces";
 import { fetchDraft } from "../../../modules/draft/draftApi";
-import { useSearchDrafts } from "../../../modules/draft/draftQueries";
+import { searchDraftQueryOptions } from "../../../modules/draft/draftQueries";
 import handleError from "../../../util/handleError";
 import { routes } from "../../../util/routeHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
@@ -68,10 +69,10 @@ const ContentField = ({ field }: Props) => {
 
   const selectedItems = useMemo(() => relatedContent.filter(isDraftApiType), [relatedContent]);
 
-  const searchQuery = useSearchDrafts(
-    { query: delayedQuery, language: i18n.language, page },
-    { placeholderData: (prev) => prev },
-  );
+  const searchQuery = useQuery({
+    ...searchDraftQueryOptions({ query: delayedQuery, language: i18n.language, page }),
+    placeholderData: (prev) => prev,
+  });
 
   useEffect(() => {
     (async () => {

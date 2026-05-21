@@ -7,7 +7,7 @@
  */
 
 import { ArticleDTO, UpdatedArticleDTO, ArticleRevisionHistoryDTO } from "@ndla/types-backend/draft-api";
-import { UseQueryResult } from "@tanstack/react-query";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { Formik, useFormikContext } from "formik";
 import { memo, useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,7 +16,7 @@ import validateFormik, { getWarnings } from "../../../../components/formikValida
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
 import { articleIsWide, useWideArticle } from "../../../../components/WideArticleEditorProvider";
-import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
+import { draftStatusStateMachineQueryOptions } from "../../../../modules/draft/draftQueries";
 import { frontPageArticleRules, isFormikFormDirty } from "../../../../util/formHelper";
 import { AlertDialogWrapper } from "../../../FormikForm";
 import { FrontpageArticleFormType, HandleSubmitFunc, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
@@ -111,9 +111,7 @@ interface FormFooterProps {
 
 const InternalFormFooter = ({ articleChanged, article, savedToServer, handleSubmit }: FormFooterProps) => {
   const { t } = useTranslation();
-  const statusStateMachine = useDraftStatusStateMachine({
-    articleId: article?.id,
-  });
+  const statusStateMachine = useQuery(draftStatusStateMachineQueryOptions({ articleId: article?.id }));
   const formik = useFormikContext<FrontpageArticleFormType>();
   const { values, dirty, isSubmitting, initialValues } = formik;
 

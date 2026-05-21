@@ -12,6 +12,7 @@ import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { DraftSearchField, DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
 import { Node, ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { partition, sortBy } from "@ndla/util";
+import { useQuery } from "@tanstack/react-query";
 import { TFunction } from "i18next";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -34,12 +35,12 @@ import {
   RESOURCE_TYPE_LEARNING_PATH,
 } from "../../../../constants";
 import { CamelToKebab } from "../../../../interfaces";
-import { useAuth0Users } from "../../../../modules/auth0/auth0Queries";
+import { auth0UsersQueryOptions } from "../../../../modules/auth0/auth0Queries";
 import {
-  useDraftEditors,
-  useDraftStatusStateMachine,
-  useLicenses,
-  useDraftResponsibles,
+  licenseQuery,
+  draftStatusStateMachineQueryOptions,
+  draftResponsiblesQueryOptions,
+  draftEditorsQueryOptions,
 } from "../../../../modules/draft/draftQueries";
 import { useAllResourceTypes } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import formatDate from "../../../../util/formatDate";
@@ -138,37 +139,25 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
   const [params, setParams] = useStableSearchPageParams();
   const [queryInput, setQueryInput] = useState(params.get("query") ?? "");
 
-  const { data: editorIds } = useDraftEditors();
-  const { data: responsibleIds } = useDraftResponsibles();
+  const { data: editorIds } = useQuery(draftEditorsQueryOptions());
+  const { data: responsibleIds } = useQuery(draftResponsiblesQueryOptions());
 
-  const { data: users } = useAuth0Users(
-    { uniqueUserIds: editorIds?.join(",") ?? "" },
-    {
-      enabled: !!editorIds?.length,
-      select: (users) =>
-        users.map((u) => ({
-          id: `${u.app_metadata.ndla_id}`,
-          name: u.name,
-        })),
-      placeholderData: [],
+  const { data: users } = useQuery({
+    ...auth0UsersQueryOptions({ uniqueUserIds: editorIds?.join(",") ?? "" }),
+    enabled: !!editorIds?.length,
+    select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
+    placeholderData: [],
+  });
+
+  const { data: responsibles } = useQuery({
+    ...auth0UsersQueryOptions({ uniqueUserIds: responsibleIds?.join(",") ?? "" }),
+    enabled: !!responsibleIds?.length,
+    select: (users) => {
+      const options = [{ id: NO_RESPONSIBLES, name: t("searchForm.noResponsibles") }];
+      return options.concat(users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })));
     },
-  );
-  const { data: responsibles } = useAuth0Users(
-    { uniqueUserIds: responsibleIds?.join(",") ?? "" },
-    {
-      enabled: !!responsibleIds?.length,
-      select: (users) => {
-        const options = [{ id: NO_RESPONSIBLES, name: t("searchForm.noResponsibles") }];
-        return options.concat(
-          users.map((u) => ({
-            id: `${u.app_metadata.ndla_id}`,
-            name: u.name,
-          })),
-        );
-      },
-      placeholderData: [],
-    },
-  );
+    placeholderData: [],
+  });
 
   const { data: resourceTypes } = useAllResourceTypes(
     { language: i18n.language, taxonomyVersion },
@@ -178,13 +167,13 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
     },
   );
 
-  const { data: licenses } = useLicenses({
+  const { data: licenses } = useQuery({
+    ...licenseQuery(),
     select: (licenses) =>
       getLicensesWithTranslations(licenses, i18n.language, true).map((license) => ({
         id: license.license,
         name: license.title,
       })),
-    placeholderData: [],
   });
 
   useEffect(() => {
@@ -212,7 +201,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
     });
   };
 
-  const { data: statuses } = useDraftStatusStateMachine();
+  const { data: statuses } = useQuery(draftStatusStateMachineQueryOptions());
 
   const draftStatuses: SelectOption[] = useMemo(() => {
     const arr = Object.keys(statuses ?? []) ?? [];

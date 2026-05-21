@@ -11,6 +11,7 @@ import { Heading, IconButton, PageContainer, Spinner, Text } from "@ndla/primiti
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleSummaryV2DTO } from "@ndla/types-backend/article-api";
+import { useQuery } from "@tanstack/react-query";
 import { FieldArray, Formik, useField, useFormikContext } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -18,7 +19,7 @@ import { FormActionsContainer } from "../../components/FormikForm";
 import validateFormik, { RulesType } from "../../components/formikValidationSchema";
 import SaveButton from "../../components/SaveButton";
 import { FRONTPAGE_ADMIN_SCOPE } from "../../constants";
-import { useArticleSearch } from "../../modules/article/articleQueries";
+import { articleSearchQueryOptions } from "../../modules/article/articleQueries";
 import { useUpdateFrontpageMutation } from "../../modules/frontpage/frontpageMutations";
 import { useFrontpage } from "../../modules/frontpage/frontpageQueries";
 import { toEditFrontPageArticle } from "../../util/routeHelpers";
@@ -77,7 +78,10 @@ const FrontpageEditPage = () => {
     [frontpageQuery.data],
   );
 
-  const articlesQuery = useArticleSearch({ ids: articleIds, license: "all" }, { enabled: !!articleIds.length });
+  const articlesQuery = useQuery({
+    ...articleSearchQueryOptions({ ids: articleIds, license: "all" }),
+    enabled: !!articleIds.length,
+  });
 
   const transformedMenu: MenuWithArticle | undefined = useMemo(() => {
     if (frontpageQuery.isLoading || articlesQuery.isLoading || !articlesQuery.data) {

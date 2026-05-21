@@ -17,7 +17,7 @@ import {
   Priority,
 } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-backend/taxonomy-api";
-import { UseQueryResult } from "@tanstack/react-query";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { FormikHelpers } from "formik";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -25,7 +25,7 @@ import { Descendant } from "slate";
 import { getWarnings, RulesType } from "../../components/formikValidationSchema";
 import { PUBLISHED } from "../../constants";
 import { RelatedContent } from "../../interfaces";
-import { useLicenses } from "../../modules/draft/draftQueries";
+import { licenseQuery } from "../../modules/draft/draftQueries";
 import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import { useMessages } from "../Messages/MessagesProvider";
 import { useSession } from "../Session/SessionProvider";
@@ -114,7 +114,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
   const { ndlaId } = useSession();
   const { t } = useTranslation();
   const { createMessage, applicationError } = useMessages();
-  const { data: licenses } = useLicenses({ placeholderData: [] });
+  const { data: licenses } = useQuery(licenseQuery());
   const [savedToServer, setSavedToServer] = useState(false);
   const initialValues = useMemo(
     () => getInitialValues(article, articleLanguage, ndlaId),

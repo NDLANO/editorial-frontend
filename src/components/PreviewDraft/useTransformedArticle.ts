@@ -8,10 +8,11 @@
 
 import { transform } from "@ndla/article-converter";
 import { ArticleType } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import parse from "html-react-parser";
 import { useMemo } from "react";
 import config from "../../config";
-import { usePreviewArticle } from "../../modules/article/articleGqlQueries";
+import { transformArticleQueryOptions } from "../../modules/article/articleGqlQueries";
 import formatDate from "../../util/formatDate";
 import { FormArticle } from "./types";
 
@@ -30,10 +31,17 @@ export const useTransformedArticle = <T extends FormArticle | undefined>({
   previewAlt,
   useDraftConcepts,
 }: UseTranslationOptions<T>): { draft: T; article: ArticleType | undefined } => {
-  const transformedContent = usePreviewArticle(draft?.content ?? "", language, draft?.visualElement, useDraftConcepts, {
+  const transformedContent = useQuery({
+    ...transformArticleQueryOptions({
+      content: draft?.content ?? "",
+      language,
+      visualElement: draft?.visualElement,
+      draftConcept: useDraftConcepts,
+    }),
     enabled: !!draft,
   });
-  const disclaimerContent = usePreviewArticle(draft?.disclaimer ?? "", language, undefined, false, {
+  const disclaimerContent = useQuery({
+    ...transformArticleQueryOptions({ content: draft?.disclaimer ?? "", language }),
     enabled: !!draft?.disclaimer,
   });
 

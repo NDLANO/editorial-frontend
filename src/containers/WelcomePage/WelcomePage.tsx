@@ -8,9 +8,10 @@
 
 import { PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useUserData } from "../../modules/draft/draftQueries";
+import { userDataQueryOptions } from "../../modules/draft/draftQueries";
 import { usePostSearchNodes } from "../../modules/nodes/nodeQueries";
 import { getAccessToken, isActiveToken } from "../../util/authHelpers";
 import { useSession } from "../Session/SessionProvider";
@@ -69,7 +70,8 @@ export const WelcomePage = () => {
 
   const { t } = useTranslation();
 
-  const { data, isPending } = useUserData({
+  const { data, isPending } = useQuery({
+    ...userDataQueryOptions(),
     enabled: isActiveToken(getAccessToken()),
   });
 

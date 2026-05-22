@@ -51,6 +51,7 @@ const getMathEditor = (language: string) => {
   if (!cachedMathEditor || cachedMathEditor.language !== wirisLanguage) {
     cachedMathEditor = window.com?.wiris?.jsEditor?.JsEditor?.newInstance({
       language: wirisLanguage,
+      toolbar: '<toolbar ref="general"><tab ref="advanced" before="contextual"/></toolbar>',
     });
   }
   return cachedMathEditor;

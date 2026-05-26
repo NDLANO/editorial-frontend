@@ -19,12 +19,14 @@ import { fetchChildNodes, fetchNode, fetchNodes, postSearchNodes } from "./nodeA
 import { GetChildNodesParams, GetNodesParams, RESOURCE_NODE, TOPIC_NODE } from "./nodeApiTypes";
 
 export const nodeQueryKeys = {
-  nodes: (params?: Partial<UseNodesParams>) => [NODES, params] as const,
+  nodes: ({ contentURI, nodeType, taxonomyVersion, ...params }: Partial<UseNodesParams> = {}) =>
+    [NODES, contentURI, nodeType, taxonomyVersion, params] as const,
   node: (params?: Partial<UseNodeParams>) => [NODE, params] as const,
   search: (params?: Partial<SearchNodesParams>) => [SEARCH_NODES, params] as const,
   tree: (params?: Partial<UseNodeTree>) => [ROOT_NODE_WITH_CHILDREN, params] as const,
-  resourceMetas: (params?: Partial<UseNodeResourceMetas>) => [NODE_RESOURCES, params] as const,
-  childNodes: (params?: Partial<UseChildNodesParams>) => [CHILD_NODES, params] as const,
+  resourceMetas: ({ nodeId, ...params }: Partial<UseNodeResourceMetas> = {}) =>
+    [NODE_RESOURCES, nodeId, params] as const,
+  childNodes: ({ id, ...params }: Partial<UseChildNodesParams> = {}) => [CHILD_NODES, id, params] as const,
 };
 
 interface UseNodesParams extends WithTaxonomyVersion, GetNodesParams {}

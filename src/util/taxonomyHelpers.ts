@@ -6,7 +6,7 @@
  *
  */
 
-import { NodeChild, ResourceType } from "@ndla/types-backend/taxonomy-api";
+import { Node, NodeChild, ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { partition, sortBy, uniqBy } from "@ndla/util";
 import { RESOURCE_FILTER_SUPPLEMENTARY, RESOURCE_TYPE_LEARNING_PATH } from "../constants";
 import { ContentUriInfo } from "../interfaces";
@@ -97,3 +97,12 @@ const groupChildNodes = (childNodes: NodeChild[]): NodeChildWithChildren[] =>
 export const nodePathToUrnPath = (path?: string) => path?.replace(/\//g, "/urn:")?.substring(1);
 
 export { groupChildNodes };
+
+export const getContentUrisFromNodes = (nodes: Node[]): string[] => {
+  return nodes.reduce<string[]>((acc, curr) => {
+    if (curr.contentUri) {
+      acc.push(curr.contentUri);
+    }
+    return acc;
+  }, []);
+};

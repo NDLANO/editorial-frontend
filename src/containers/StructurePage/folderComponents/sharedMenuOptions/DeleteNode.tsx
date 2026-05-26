@@ -10,7 +10,7 @@ import { ErrorWarningLine } from "@ndla/icons";
 import { Text, Button, Heading, MessageBox } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
@@ -19,8 +19,12 @@ import { ARCHIVED } from "../../../../constants";
 import { updateStatusDraft } from "../../../../modules/draft/draftApi";
 import { fetchNodes } from "../../../../modules/nodes/nodeApi";
 import { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../../modules/nodes/nodeApiTypes";
-import { deleteNodeConnectionMutationOptions, useDeleteNodeMutation } from "../../../../modules/nodes/nodeMutations";
+import {
+  deleteNodeConnectionMutationOptions,
+  deleteNodeMutationOptions,
+} from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
+import { getContentUriInfo } from "../../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { capitalizeFirstLetter } from "../../utils";
 
@@ -59,8 +63,23 @@ const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNo
   const disabled = nodeChildren.length !== 0;
 
   const deleteNodeConnectionMutation = useMutation(deleteNodeConnectionMutationOptions());
-  const deleteNodeMutation = useDeleteNodeMutation();
-  const queryClient = useQueryClient();
+  const deleteNodeMutation = useMutation({
+    ...deleteNodeMutationOptions(),
+    onMutate: async (vars, ctx) => {
+      // TODO: Add node deletion here. Singular node that is.
+      const queryKey = rootNodeId
+        ? nodeQueryKeys.childNodes({ id: rootNodeId, taxonomyVersion })
+        : nodeQueryKeys.nodes({ taxonomyVersion });
+
+      await ctx.client.cancelQueries({ queryKey });
+      const previousQueries = ctx.client.getQueriesData<Node[]>({ queryKey }) ?? [];
+      ctx.client.setQueriesData<Node[]>({ queryKey }, (old) => old?.filter((n) => n.id !== vars.id));
+
+      return { previousQueries, queryKey };
+    },
+    onSuccess: (_, __, res, ctx) => ctx.client.invalidateQueries({ queryKey: res.queryKey }),
+    onError: (_, __, res, ctx) => res?.previousQueries.forEach(([key, data]) => ctx.client.setQueryData(key, data)),
+  });
 
   const onDelete = async (): Promise<void> => {
     setLoading(true);
@@ -72,33 +91,21 @@ const DeleteNode = ({ node, nodeType, nodeChildren, onCurrentNodeChanged, rootNo
           taxonomyVersion,
         });
       }
-      const articleId = Number(node.contentUri?.split(":")[2]);
-      if ("parentId" in node && articleId) {
+
+      const uriInfo = getContentUriInfo(node.contentUri);
+      if ("parentId" in node && uriInfo) {
         const topicPlacements = await fetchNodes({
-          contentURI: `urn:article:${articleId}`,
+          contentURI: `urn:article:${uriInfo.id}`,
           nodeType: ["TOPIC"],
           language: i18n.language,
           taxonomyVersion,
         });
         if (topicPlacements.length === 1) {
-          await updateStatusDraft(articleId, ARCHIVED);
+          await updateStatusDraft(uriInfo.id, ARCHIVED);
         }
       }
 
-      await deleteNodeMutation.mutateAsync(
-        {
-          id: node.id,
-          taxonomyVersion,
-          rootId: "parentId" in node ? rootNodeId : undefined,
-        },
-        {
-          onSuccess: () => setLoading(false),
-          onSettled: (_, __, { taxonomyVersion }) =>
-            queryClient.invalidateQueries({
-              queryKey: nodeQueryKeys.nodes({ taxonomyVersion }),
-            }),
-        },
-      );
+      await deleteNodeMutation.mutateAsync({ id: node.id, taxonomyVersion }, { onSuccess: () => setLoading(false) });
       navigate(location.pathname.split(node.id)[0], { replace: true });
       onCurrentNodeChanged(undefined);
     } catch (error) {

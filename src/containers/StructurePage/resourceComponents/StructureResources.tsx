@@ -16,6 +16,7 @@ import { Auth0UserData, Dictionary } from "../../../interfaces";
 import { childNodesQueryOptions, nodesResourceMetasQueryOptions } from "../../../modules/nodes/nodeQueries";
 import { resourceTypesQueryOptions } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import { getContentUriFromSearchSummary } from "../../../util/searchHelpers";
+import { getContentUrisFromNodes } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import ResourcesContainer from "./ResourcesContainer";
 
@@ -52,7 +53,7 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const isUngrouped = currentChildNode?.metadata?.customFields["topic-resources"] === "ungrouped";
 
-  const { data: nodeChildren, isPending: nodeResourcesIsPending } = useQuery({
+  const { data: nodeChildren, isLoading: nodeResourcesIsPending } = useQuery({
     ...childNodesQueryOptions({
       id: currentChildNode.id,
       language: i18n.language,
@@ -67,17 +68,18 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
 
   const [nodeResources, nodeTopics] = partition(nodeChildren, (n) => n.nodeType === "RESOURCE");
 
-  const { data: nodeResourceMetas, isPending: contentMetaIsPending } = useQuery({
+  const contentUris = useMemo(
+    () => getContentUrisFromNodes([...nodeResources, currentChildNode]),
+    [currentChildNode, nodeResources],
+  );
+
+  const { data: nodeResourceMetas, isLoading: contentMetaIsPending } = useQuery({
     ...nodesResourceMetasQueryOptions({
       nodeId: currentChildNode.id,
-      contentUris:
-        nodeResources
-          ?.map((n) => n.contentUri)
-          .concat(currentChildNode.contentUri)
-          .filter((uri): uri is string => !!uri) ?? [],
+      contentUris,
       language: i18n.language,
     }),
-    enabled: !!currentChildNode.contentUri || (!!nodeChildren && !!nodeChildren?.length),
+    enabled: !!nodeChildren?.length && !!contentUris.length && currentChildNode.nodeType !== "PROGRAMME",
   });
 
   const keyedMetas = useMemo(

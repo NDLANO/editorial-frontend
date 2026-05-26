@@ -8,7 +8,7 @@
 
 import "./style/index.css";
 import { ErrorReporter } from "@ndla/error-reporter";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { i18n } from "i18next";
 import { createRoot } from "react-dom/client";
@@ -22,6 +22,7 @@ import { isValidLocale, initializeI18n } from "./i18n";
 import { routes } from "./routes";
 import Formbricks from "./scripts/Formbricks";
 import { getAccessToken } from "./util/authHelpers";
+import handleError from "./util/handleError";
 import { isNdlaApiError } from "./util/resolveJsonOrRejectWithError";
 
 declare global {
@@ -49,6 +50,12 @@ const MAX_RETRIES = 2;
 const HTTP_STATUS_TO_NOT_RETRY = [400, 401, 403, 404];
 
 const queryClient = new QueryClient({
+  queryCache: new QueryCache({
+    onError: handleError,
+  }),
+  mutationCache: new MutationCache({
+    onError: handleError,
+  }),
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,

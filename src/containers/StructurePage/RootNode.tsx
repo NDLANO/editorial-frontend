@@ -18,7 +18,7 @@ import { draftQueryKeys, updateUserDataMutationOptions } from "../../modules/dra
 import { updateNodeConnectionMutationOptions } from "../../modules/nodes/nodeMutations";
 import { childNodesQueryOptions, nodeQueryKeys, nodesResourceMetasQueryOptions } from "../../modules/nodes/nodeQueries";
 import { getContentUriFromSearchSummary } from "../../util/searchHelpers";
-import { groupChildNodes } from "../../util/taxonomyHelpers";
+import { getContentUrisFromNodes, groupChildNodes } from "../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 import NodeItem from "./NodeItem";
 
@@ -45,17 +45,14 @@ const RootNode = ({ isFavorite, node, openedPaths, childNodeTypes, rootPath }: P
     enabled: openedPaths[0] === node.id,
   });
 
+  const contentUris = useMemo(
+    () => getContentUrisFromNodes([...(childNodesQuery.data ?? []), node]),
+    [childNodesQuery.data, node],
+  );
+
   const resourceMetasQuery = useQuery({
-    ...nodesResourceMetasQueryOptions({
-      nodeId: node.id,
-      contentUris:
-        childNodesQuery.data
-          ?.map((n) => n.contentUri)
-          .concat(node.contentUri)
-          .filter((contentUri): contentUri is string => !!contentUri) ?? [],
-      language: i18n.language,
-    }),
-    enabled: !!node.contentUri || !!childNodesQuery.data?.length,
+    ...nodesResourceMetasQueryOptions({ nodeId: node.id, contentUris, language: i18n.language }),
+    enabled: !!childNodesQuery.data?.length && !!contentUris.length && node.nodeType !== "PROGRAMME",
   });
 
   const keyedMetas = useMemo(

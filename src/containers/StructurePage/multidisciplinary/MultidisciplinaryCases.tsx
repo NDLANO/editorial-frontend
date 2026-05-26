@@ -14,6 +14,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { childNodesQueryOptions, nodesResourceMetasQueryOptions } from "../../../modules/nodes/nodeQueries";
 import { getContentUriFromSearchSummary } from "../../../util/searchHelpers";
+import { getContentUrisFromNodes } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import ResourceItems from "../resourceComponents/ResourceItems";
 
@@ -35,13 +36,15 @@ export const MultidisciplinaryCases = ({ currentNode }: Props) => {
     }),
   );
 
+  const contentUris = useMemo(() => getContentUrisFromNodes(childrenQuery.data ?? []), [childrenQuery.data]);
+
   const nodeResourceMetasQuery = useQuery({
     ...nodesResourceMetasQueryOptions({
       nodeId: currentNode.id,
-      contentUris: childrenQuery.data?.map((node) => node.contentUri).filter((uri): uri is string => !!uri) ?? [],
+      contentUris: contentUris,
       language: i18n.language,
     }),
-    enabled: !!childrenQuery.data?.length,
+    enabled: !!childrenQuery.data?.length && !!contentUris.length && currentNode.nodeType !== "PROGRAMME",
   });
 
   const keyedMetas = useMemo(

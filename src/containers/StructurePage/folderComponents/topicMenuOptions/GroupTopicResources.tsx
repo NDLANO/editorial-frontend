@@ -8,15 +8,14 @@
 
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { Node, Metadata } from "@ndla/types-backend/taxonomy-api";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import {
   TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
   TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
 } from "../../../../constants";
-import { useUpdateNodeMetadataMutation } from "../../../../modules/nodes/nodeMutations";
-import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
+import { updateNodeMetadataMutationOptions } from "../../../../modules/nodes/nodeMutations";
 import { getRootIdForNode, isRootNode } from "../../../../modules/nodes/nodeUtil";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 
@@ -26,16 +25,11 @@ interface Props {
 }
 
 const GroupTopicResources = ({ node, onChanged }: Props) => {
-  const { t, i18n } = useTranslation();
-  const updateNodeMetadata = useUpdateNodeMetadataMutation();
-  const qc = useQueryClient();
-  const rootNodeId = getRootIdForNode(node);
+  const { t } = useTranslation();
+  const updateNodeMetadata = useMutation(
+    updateNodeMetadataMutationOptions({ rootId: isRootNode(node) ? undefined : getRootIdForNode(node) }),
+  );
   const { taxonomyVersion } = useTaxonomyVersion();
-  const compKey = nodeQueryKeys.childNodes({
-    taxonomyVersion,
-    id: rootNodeId,
-    language: i18n.language,
-  });
   const updateMetadata = async () => {
     const customFields = {
       ...node.metadata.customFields,
@@ -44,16 +38,8 @@ const GroupTopicResources = ({ node, onChanged }: Props) => {
         : TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
     };
     updateNodeMetadata.mutate(
-      {
-        id: node.id,
-        metadata: { customFields },
-        rootId: isRootNode(node) ? undefined : rootNodeId,
-        taxonomyVersion,
-      },
-      {
-        onSettled: () => qc.invalidateQueries({ queryKey: compKey }),
-        onSuccess: () => onChanged?.({ customFields }),
-      },
+      { id: node.id, meta: { customFields }, taxonomyVersion },
+      { onSuccess: () => onChanged?.({ customFields }) },
     );
   };
 

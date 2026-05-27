@@ -17,7 +17,7 @@ import {
   TabsRoot,
   TabsTrigger,
 } from "@ndla/primitives";
-import { Node, ResourceType } from "@ndla/types-backend/taxonomy-api";
+import { Node } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import AddExistingResource from "../plannedResource/AddExistingResource";
@@ -26,13 +26,12 @@ import { ResourceGroup } from "../utils";
 
 interface Props {
   currentNode: Node;
-  resourceTypes: ResourceType[];
   existingResourceIds: string[];
   supplementary?: boolean;
   type: Exclude<ResourceGroup, "link">;
 }
 
-export const PlannedResourceDialogContent = ({ currentNode, resourceTypes, existingResourceIds, type }: Props) => {
+export const PlannedResourceDialogContent = ({ currentNode, existingResourceIds, type }: Props) => {
   const { t } = useTranslation();
   const { setOpen } = useDialogContext();
   return (
@@ -59,7 +58,6 @@ export const PlannedResourceDialogContent = ({ currentNode, resourceTypes, exist
           <TabsContent value="get-existing-resource">
             <AddExistingResource
               type={type}
-              resourceTypes={resourceTypes}
               nodeId={currentNode.id}
               onClose={() => setOpen(false)}
               existingResourceIds={existingResourceIds}

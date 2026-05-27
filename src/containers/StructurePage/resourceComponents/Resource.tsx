@@ -162,7 +162,7 @@ interface Props {
   invalidate: () => void;
   type: ResourceGroup;
   index: number;
-  isUngrouped?: boolean;
+  numbered?: boolean;
 }
 
 const Resource = ({
@@ -174,7 +174,7 @@ const Resource = ({
   contentMeta,
   type,
   index,
-  isUngrouped,
+  numbered,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -215,7 +215,7 @@ const Resource = ({
 
   return (
     <StyledListItemRoot ref={ref}>
-      {!!isUngrouped && (
+      {!!numbered && (
         <IndicatorWrapper>
           <Indicator>{index + 1}</Indicator>
           <IndicatorTrack />

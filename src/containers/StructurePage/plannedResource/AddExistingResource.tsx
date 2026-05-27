@@ -30,7 +30,6 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { TFunction } from "i18next";
 import { useMemo, useState } from "react";
@@ -45,6 +44,7 @@ import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import { postSearch } from "../../../modules/search/searchApi";
 import { useSearch } from "../../../modules/search/searchQueries";
 import { createResourceResourceType } from "../../../modules/taxonomy";
+import { useAllResourceTypes } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
 import handleError from "../../../util/handleError";
 import { isValidContextId } from "../../../util/urlHelpers";
@@ -88,7 +88,6 @@ const StyledFieldRoot = styled(FieldRoot, {
 
 interface Props {
   onClose: () => void;
-  resourceTypes?: ResourceType[];
   nodeId: string;
   existingResourceIds: string[];
   type: Exclude<ResourceGroup, "link">;
@@ -215,7 +214,7 @@ const doPastedSearch = async ({ input, type, t, taxonomyVersion, language }: Pas
   return res.results[0];
 };
 
-const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, nodeId, type }: Props) => {
+const AddExistingResource = ({ onClose, existingResourceIds, nodeId, type }: Props) => {
   const { t, i18n } = useTranslation();
   const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
   const [error, setError] = useState("");
@@ -226,6 +225,8 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   const { taxonomyVersion } = useTaxonomyVersion();
   const typeTocheckFor = type === "learningpath" ? "learningpath" : "article";
   const compKey = nodeQueryKeys.childNodes({ id: nodeId, language: i18n.language });
+
+  const { data: resourceTypes } = useAllResourceTypes({ language: i18n.language, taxonomyVersion });
 
   const alreadyExists = useMemo(() => {
     if (!preview) return false;

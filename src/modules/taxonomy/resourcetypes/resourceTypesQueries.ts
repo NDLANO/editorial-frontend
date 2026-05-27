@@ -31,7 +31,7 @@ export const useResourceType = (params: UseResourceTypeParams, options?: Partial
 interface UseAllResourceTypesParams extends WithTaxonomyVersion {
   language: string;
 }
-export const useAllResourceTypes = <ReturnType>(
+export const useAllResourceTypes = <ReturnType = ResourceType[]>(
   params: UseAllResourceTypesParams,
   options?: Partial<UseQueryOptions<ResourceType[], unknown, ReturnType>>,
 ) =>

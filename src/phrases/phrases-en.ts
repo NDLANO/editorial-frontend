@@ -515,6 +515,12 @@ const phrases = {
     },
   },
   imageSearch: {
+      aiGenerated: {
+      yes: "AI generated",
+      no: "Not AI generated",
+      partial: "Partially AI generated",
+      "not-set": "Not set",
+    },
     modelReleased: {
       yes: "Model released",
       no: "Not model released",

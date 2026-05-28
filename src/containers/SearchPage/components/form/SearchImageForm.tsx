@@ -45,6 +45,13 @@ interface Props {
   userData: UserDataDTO | undefined;
 }
 
+const getAiGeneratedOptions = (t: TFunction) => [
+  { id: "yes", name: t("imageSearch.aiGenerated.yes") },
+  { id: "no", name: t("imageSearch.aiGenerated.no") },
+  { id: "partial", name: t("imageSearch.aiGenerated.partial") },
+  { id: "not-set", name: t("imageSearch.aiGenerated.not-set") },
+];
+
 const getModelReleasedValues = (t: TFunction) => [
   { id: "yes", name: t("imageSearch.modelReleased.yes") },
   { id: "not-applicable", name: t("imageSearch.modelReleased.not-applicable") },
@@ -189,6 +196,7 @@ const SearchImageForm = ({ userData }: Props) => {
       .filter((t): t is string => !!t),
     license: getTagName(params.get("license"), licenses),
     "model-released": getTagName(params.get("model-released"), getModelReleasedValues(t)),
+    "ai-generated": getTagName(params.get("ai-generated"), getaiGeneratedOptions(t)),
     language: params.get("language"),
     inactive: getTagName(params.get("inactive"), getInactiveOptions(t)),
     // TODO: This is ugly
@@ -237,6 +245,12 @@ const SearchImageForm = ({ userData }: Props) => {
           options={getModelReleasedValues(t)}
           onChange={(value) => setParams({ "model-released": value[0] })}
           placeholder={t("searchForm.types.model-released")}
+        />
+        <ObjectSelector
+          name="ai-generated"
+          value={params.get("ai-generated") ?? ""}
+          options={getAiGeneratedOptions(t)}
+          onChange={(value) => setParams({ "ai-generated": value[0] })}
         />
         <ObjectSelector
           name="language"

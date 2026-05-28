@@ -522,6 +522,12 @@ const phrases = {
     noTitle: "Ingen tittel",
     noResultsText: "Fann ingen bilete på søk. Ønskjer du å laste opp eit nytt bilete?",
     noResultsButtonText: "Last opp bilete",
+    aiGenerated: {  
+      yes: "AI-generert",
+      no: "Ikke AI-generert",
+      partial: "Delvis AI-generert",
+      "not-set": "Ikke valgt",
+    },
     modelReleased: {
       yes: "Modellklarert",
       no: "Ikkje modellklarert",

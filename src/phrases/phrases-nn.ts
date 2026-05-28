@@ -1023,6 +1023,7 @@ const phrases = {
       files: "filopplasting",
       code: "Kode",
       disclaimer: "Tilgjengelighet",
+      aiGenerated: "KI-generert",
     },
     previewProductionArticle: {
       button: "Samanlikn gjeldande versjon med sist publiserte versjon",

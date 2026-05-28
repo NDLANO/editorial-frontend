@@ -1024,6 +1024,7 @@ const phrases = {
       files: "filopplasting",
       code: "Kode",
       disclaimer: "Tilgjengelighet",
+      aiGenerated: "KI-generert",
     },
     previewProductionArticle: {
       button: "Sammenlign gjeldende versjon med sist publiserte versjon",

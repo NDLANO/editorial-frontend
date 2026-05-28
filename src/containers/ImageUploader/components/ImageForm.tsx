@@ -71,6 +71,7 @@ export type ImageFormErrorFields =
   | "processors"
   | "rightsholders"
   | "tags"
+  | "aiGenerated"
   | "title";
 
 const ImageForm = <TImage extends ImageMetaInformationV3DTO | undefined = undefined>({
@@ -151,7 +152,11 @@ const ImageForm = <TImage extends ImageMetaInformationV3DTO | undefined = undefi
               >
                 <ImageCopyright />
               </FormAccordion>
-              <FormAccordion id="metadata" title={t("form.metadataSection")} hasError={hasError(["tags"])}>
+              <FormAccordion
+                id="metadata"
+                title={t("form.metadataSection")}
+                hasError={hasError(["tags", "aiGenerated"])}
+              >
                 <ImageMetaData imageLanguage={language} />
               </FormAccordion>
               <FormAccordion id="image-upload-version-history" title={t("form.workflowSection")} hasError={false}>

@@ -56,6 +56,7 @@ export const imageRules: RulesType<ImageFormikType, ImageMetaInformationV3DTO> =
   },
   aiGenerated: {
     required: true,
+    onlyValidateIf: (values) => values.id !== undefined,
   },
   license: {
     required: true,
@@ -85,7 +86,7 @@ export interface ImageFormikType {
   license?: string;
   modelReleased: string;
   inactive: boolean;
-  aiGenerated: AiGenerated;
+  aiGenerated?: AiGenerated;
 }
 
 export const imageApiTypeToFormType = (
@@ -109,7 +110,7 @@ export const imageApiTypeToFormType = (
     license: image?.copyright.license.license !== "unknown" ? image?.copyright.license.license : undefined,
     modelReleased: image?.modelRelease ?? "not-set",
     inactive: image?.inactive ?? false,
-    aiGenerated: image?.aiGenerated ?? "No",
+    aiGenerated: image?.aiGenerated,
   };
 };
 
@@ -130,8 +131,7 @@ export const imageFormTypeToApiType = (
     values.processors === undefined ||
     values.rightsholders === undefined ||
     values.imageFile === undefined ||
-    values.modelReleased === undefined ||
-    values.aiGenerated === undefined
+    values.modelReleased === undefined
   ) {
     return undefined;
   }

@@ -95,7 +95,6 @@ export const TaxonomyBlock = ({
         contentURI: `urn:${contentType}:${resourceId}`,
         taxonomyVersion,
         language: resourceLanguage,
-        includeContexts: true,
       }),
     });
   }, [i18n.language, nodeType, qc, resourceId, resourceLanguage, resourceTitle, resourceType, taxonomyVersion]);

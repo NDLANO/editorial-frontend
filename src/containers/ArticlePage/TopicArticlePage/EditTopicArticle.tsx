@@ -87,9 +87,7 @@ const EditTopicArticle = () => {
     ...nodesQueryOptions({
       contentURI: `urn:article:${params.id}`,
       taxonomyVersion,
-      filterProgrammes: true,
       language: selectedLanguage,
-      includeContexts: true,
     }),
     enabled: !!params.selectedLanguage && !!params.id,
   });

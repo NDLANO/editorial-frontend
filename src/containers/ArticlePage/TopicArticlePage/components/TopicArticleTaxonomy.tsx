@@ -46,7 +46,6 @@ const TopicArticleTaxonomy = ({ article, articleLanguage, hasTaxEntries }: Props
       language: articleLanguage,
       contentURI: `urn:article:${article.id}`,
       taxonomyVersion,
-      includeContexts: true,
     }),
   );
 

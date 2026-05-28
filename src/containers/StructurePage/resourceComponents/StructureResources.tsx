@@ -47,8 +47,6 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
       id: currentChildNode.id,
       language: i18n.language,
       nodeType: ["RESOURCE", "TOPIC"],
-      includeContexts: true,
-      filterProgrammes: true,
       isVisible: false,
       taxonomyVersion,
     }),

@@ -59,7 +59,6 @@ export const TaxonomyVisibility = ({ node, taxonomyVersion, resourceId, resource
         contentURI: `urn:${resourceType}:${resourceId}`,
         language: resourceLanguage,
         taxonomyVersion,
-        includeContexts: true,
       }),
     });
   };

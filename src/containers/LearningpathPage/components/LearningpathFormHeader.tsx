@@ -91,8 +91,6 @@ export const LearningpathFormHeader = ({ learningpath, language }: Props) => {
       contentURI: `urn:learningpath:${learningpath?.id}`,
       taxonomyVersion,
       language,
-      includeContexts: true,
-      filterProgrammes: true,
     }),
     enabled: !!learningpath,
   });

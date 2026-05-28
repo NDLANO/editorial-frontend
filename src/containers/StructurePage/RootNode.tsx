@@ -39,6 +39,7 @@ const RootNode = ({ isFavorite, node, openedPaths, childNodeTypes, rootPath }: P
       id: node.id,
       language: locale,
       nodeType: childNodeTypes,
+      filterProgrammes: !childNodeTypes.includes("PROGRAMME"),
       recursive: true,
       taxonomyVersion,
     }),

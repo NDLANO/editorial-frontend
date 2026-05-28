@@ -127,7 +127,6 @@ export const MultidisciplinaryDialogContent = ({ currentNode, existingResourceId
           contextId: lastPart,
           taxonomyVersion,
           language: i18n.language,
-          filterProgrammes: true,
         });
         articleId = parseInt(taxNodes[0]?.contentUri?.split(":").at(-1) ?? "");
       }

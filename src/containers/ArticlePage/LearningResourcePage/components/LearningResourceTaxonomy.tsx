@@ -67,7 +67,6 @@ const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: P
       contentURI: `urn:article:${article.id}`,
       taxonomyVersion,
       language: articleLanguage,
-      includeContexts: true,
     }),
   );
 
@@ -115,7 +114,6 @@ const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: P
         contentURI: `urn:article:${article.id}`,
         language: articleLanguage,
         taxonomyVersion,
-        includeContexts: true,
       }),
     });
   };

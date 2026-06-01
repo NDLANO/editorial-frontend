@@ -6,7 +6,7 @@
  *
  */
 
-import { SearchParamsDTO, ImageContentType, AiGenerated } from "@ndla/types-backend/image-api";
+import { SearchParamsDTO, ImageContentType, AiGenerated, ModelReleasedStatus } from "@ndla/types-backend/image-api";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -53,7 +53,7 @@ export const ImageSearch = () => {
       language: params.get("language") ?? undefined,
       license: params.get("license") ?? DEFAULT_PARAMS.license,
       inactive: params.get("inactive") ? params.get("inactive") === "true" : undefined,
-      modelReleased: params.get("model-released")?.split(",") ?? undefined,
+      modelReleased: (params.get("model-released")?.split(",") as ModelReleasedStatus[]) ?? undefined,
       aiGenerated: (params.get("ai-generated")?.split(",") as AiGenerated[]) ?? undefined,
       page: Number(params.get("page")),
       sort: (params.get("sort") ?? DEFAULT_PARAMS.sort) as SearchParamsDTO["sort"],

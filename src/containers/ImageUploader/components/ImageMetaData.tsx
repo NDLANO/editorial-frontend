@@ -29,7 +29,7 @@ import {
   RadioGroupRoot,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { AiGenerated } from "@ndla/types-backend/image-api";
+import { AiGenerated, ModelReleasedStatus } from "@ndla/types-backend/image-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -52,7 +52,7 @@ const RadioGroupItemWrapper = styled("div", {
   },
 });
 
-const modelReleasedOptions = ["yes", "not-applicable", "no", "not-set"];
+const modelReleasedOptions: ModelReleasedStatus[] = ["yes", "not-applicable", "no", "not-set"];
 const defaultModelReleased = "not-set";
 
 const aiGeneratedOptions: AiGenerated[] = ["No", "Yes", "Partial"];

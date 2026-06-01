@@ -13,6 +13,7 @@ import {
   UpdateImageMetaInformationDTO,
   LicenseDTO,
   AiGenerated,
+  ModelReleasedStatus,
 } from "@ndla/types-backend/image-api";
 import { Descendant } from "slate";
 import { RulesType } from "../../components/formikValidationSchema";
@@ -83,7 +84,7 @@ export interface ImageFormikType {
   processed: boolean;
   origin: string;
   license?: string;
-  modelReleased: string;
+  modelReleased: ModelReleasedStatus;
   inactive: boolean;
   aiGenerated?: AiGenerated;
 }

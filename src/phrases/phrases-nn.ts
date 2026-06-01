@@ -524,7 +524,7 @@ const phrases = {
     noTitle: "Ingen tittel",
     noResultsText: "Fann ingen bilete på søk. Ønskjer du å laste opp eit nytt bilete?",
     noResultsButtonText: "Last opp bilete",
-    aiGenerated: {  
+    aiGenerated: {
       yes: "AI-generert",
       no: "Ikke AI-generert",
       partial: "Delvis AI-generert",

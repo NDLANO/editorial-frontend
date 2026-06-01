@@ -516,7 +516,7 @@ const phrases = {
     },
   },
   imageSearch: {
-    aiGenerated: {  
+    aiGenerated: {
       yes: "AI-generert",
       no: "Ikke AI-generert",
       partial: "Delvis AI-generert",

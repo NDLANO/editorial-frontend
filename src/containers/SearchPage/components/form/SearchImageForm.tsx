@@ -30,9 +30,15 @@ import { useStableSearchPageParams } from "../../useStableSearchPageParams";
 const StyledForm = styled("form", {
   base: {
     display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
+    gridTemplateColumns: "repeat(4, 1fr)",
+    desktopDown: {
+      gridTemplateColumns: "repeat(4, 1fr)",
+    },
     gridGap: "3xsmall",
     alignItems: "center",
+    tabletDown: {
+      gridTemplateColumns: "repeat(2, 1fr)",
+    },
   },
 });
 

@@ -2056,8 +2056,8 @@ const phrases = {
         explanationSubject: "Forklaringsfag",
         programmeSubject: "Felles programfag",
         oldSubjectId: "ID for videresending",
-        subjectCategory: "Fagkategori",
-        subjectType: "Fagtype",
+        subjectCategory: "Læreplankategori",
+        subjectType: "Fagstatus",
         numberedLabel: "Vis innholdsliste med tall",
         subjectLMA: "LMA for faget",
         subjectSA: "SA for faget",
@@ -2331,7 +2331,7 @@ const phrases = {
         title: "Visningsspråk",
       },
       subjectCategory: {
-        title: "Fagkategori",
+        title: "Læreplankategori",
       },
       explanationSubject: {
         title: "Forklaringsfag",

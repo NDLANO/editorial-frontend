@@ -521,7 +521,6 @@ const phrases = {
       yes: "Yes",
       no: "No",
       partial: "Partial",
-      "not-set": "Not set",
     },
     modelReleased: {
       yes: "Model released",

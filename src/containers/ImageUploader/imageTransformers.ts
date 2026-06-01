@@ -56,7 +56,6 @@ export const imageRules: RulesType<ImageFormikType, ImageMetaInformationV3DTO> =
   },
   aiGenerated: {
     required: true,
-    onlyValidateIf: (values) => values.id !== undefined,
   },
   license: {
     required: true,

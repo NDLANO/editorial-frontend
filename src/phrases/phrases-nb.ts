@@ -517,10 +517,9 @@ const phrases = {
   },
   imageSearch: {
     aiGenerated: {
-      yes: "AI-generert",
-      no: "Ikke AI-generert",
-      partial: "Delvis AI-generert",
-      "not-set": "Ikke valgt",
+      yes: "Ja",
+      no: "Nei",
+      partial: "Delvis",
     },
     modelReleased: {
       yes: "Modellklarert",

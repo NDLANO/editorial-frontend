@@ -50,10 +50,9 @@ interface Props {
 }
 
 const getAiGeneratedOptions = (t: TFunction) => [
-  { id: "yes", name: t("imageSearch.aiGenerated.yes") },
-  { id: "no", name: t("imageSearch.aiGenerated.no") },
-  { id: "partial", name: t("imageSearch.aiGenerated.partial") },
-  { id: "not-set", name: t("imageSearch.aiGenerated.not-set") },
+  { id: "Yes", name: t("imageSearch.aiGenerated.yes") },
+  { id: "No", name: t("imageSearch.aiGenerated.no") },
+  { id: "Partial", name: t("imageSearch.aiGenerated.partial") },
 ];
 
 const getModelReleasedValues = (t: TFunction) => [

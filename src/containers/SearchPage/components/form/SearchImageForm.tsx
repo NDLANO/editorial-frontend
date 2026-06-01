@@ -39,6 +39,10 @@ const StyledForm = styled("form", {
 type SearchParams = { [k in keyof SearchParamsDTO as CamelToKebab<k>]: SearchParamsDTO[k] } & {
   width: string;
   height: string;
+  "ai-generated"?: string | null;
+  "model-released"?: string | null;
+  "query-fields"?: string | null;
+  "content-type"?: string | null;
 };
 
 interface Props {
@@ -172,6 +176,7 @@ const SearchImageForm = ({ userData }: Props) => {
       language: null,
       license: null,
       "model-released": null,
+      "ai-generated": null,
       inactive: null,
       page: null,
       sort: null,
@@ -196,7 +201,7 @@ const SearchImageForm = ({ userData }: Props) => {
       .filter((t): t is string => !!t),
     license: getTagName(params.get("license"), licenses),
     "model-released": getTagName(params.get("model-released"), getModelReleasedValues(t)),
-    "ai-generated": getTagName(params.get("ai-generated"), getaiGeneratedOptions(t)),
+    "ai-generated": getTagName(params.get("ai-generated"), getAiGeneratedOptions(t)),
     language: params.get("language"),
     inactive: getTagName(params.get("inactive"), getInactiveOptions(t)),
     // TODO: This is ugly
@@ -251,6 +256,7 @@ const SearchImageForm = ({ userData }: Props) => {
           value={params.get("ai-generated") ?? ""}
           options={getAiGeneratedOptions(t)}
           onChange={(value) => setParams({ "ai-generated": value[0] })}
+          placeholder={t("searchForm.types.ai-generated")}
         />
         <ObjectSelector
           name="language"

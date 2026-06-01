@@ -130,7 +130,8 @@ export const imageFormTypeToApiType = (
     values.processors === undefined ||
     values.rightsholders === undefined ||
     values.imageFile === undefined ||
-    values.modelReleased === undefined
+    values.modelReleased === undefined ||
+    values.aiGenerated === undefined
   ) {
     return undefined;
   }

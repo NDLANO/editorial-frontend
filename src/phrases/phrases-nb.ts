@@ -388,6 +388,7 @@ const phrases = {
       language: "Velg språk",
       users: "Velg bruker",
       "model-released": "Velg modellklarering",
+      "ai-generated": "Velg KI-generering",
       subjects: "Velg fag",
       "resource-types": "Velg innholdstype",
       status: "Velg status",
@@ -417,6 +418,7 @@ const phrases = {
       license: "Lisens: {{value}}",
       "query-fields": "Søkefelt: {{value}}",
       "model-released": "Modellklarering: {{value}}",
+      "ai-generated": "KI-generering: {{value}}",
       "revision-date-from": "Revisjonsdato fra: {{value}}",
       "revision-date-to": "Revisjonsdato til: {{value}}",
       "responsible-ids": "Ansvarlig: {{value}}",
@@ -514,6 +516,11 @@ const phrases = {
     },
   },
   imageSearch: {
+    aiGenerated: {
+      yes: "Ja",
+      no: "Nei",
+      partial: "Delvis",
+    },
     modelReleased: {
       yes: "Modellklarert",
       no: "Ikke modellklarert",

@@ -390,6 +390,7 @@ const phrases = {
       users: "Select editor",
       "query-fields": "Select query fields",
       "model-released": "Select model released",
+      "ai-generated": "Select AI generation",
       subjects: "Select subject",
       "resource-types": "Select resource type",
       status: "Select status",
@@ -418,6 +419,7 @@ const phrases = {
       "concept-type": "Concept type: {{value}}",
       license: "License: {{value}}",
       "model-released": "Model released: {{value}}",
+      "ai-generated": "AI generated: {{value}}",
       "revision-date-from": "Revisiondate from: {{value}}",
       "revision-date-to": "Revisiondate to: {{value}}",
       "responsible-ids": "Responsible: {{value}}",
@@ -515,6 +517,11 @@ const phrases = {
     },
   },
   imageSearch: {
+    aiGenerated: {
+      yes: "Yes",
+      no: "No",
+      partial: "Partial",
+    },
     modelReleased: {
       yes: "Model released",
       no: "Not model released",

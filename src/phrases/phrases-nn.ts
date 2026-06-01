@@ -388,6 +388,7 @@ const phrases = {
       language: "Velg språk",
       users: "Velg bruker",
       "model-released": "Velg modellklarering",
+      "ai-generated": "Velg KI-generering",
       subjects: "Velg fag",
       "resource-types": "Velg innhaldstype",
       status: "Velg status",
@@ -416,6 +417,7 @@ const phrases = {
       "concept-type": "Forklaringstype: {{value}}",
       license: "Lisens: {{value}}",
       "model-released": "Modellklarering: {{value}}",
+      "ai-generated": "KI-generering: {{value}}",
       "revision-date-from": "Revisjonsdato fra: {{value}}",
       "revision-date-to": "Revisjonsdato til: {{value}}",
       "responsible-ids": "Ansvarleg: {{value}}",
@@ -522,6 +524,11 @@ const phrases = {
     noTitle: "Ingen tittel",
     noResultsText: "Fann ingen bilete på søk. Ønskjer du å laste opp eit nytt bilete?",
     noResultsButtonText: "Last opp bilete",
+    aiGenerated: {
+      yes: "Ja",
+      no: "Nei",
+      partial: "Delvis",
+    },
     modelReleased: {
       yes: "Modellklarert",
       no: "Ikkje modellklarert",

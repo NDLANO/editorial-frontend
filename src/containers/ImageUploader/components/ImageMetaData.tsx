@@ -56,7 +56,6 @@ const modelReleasedOptions = ["yes", "not-applicable", "no", "not-set"];
 const defaultModelReleased = "not-set";
 
 const aiGeneratedOptions: AiGenerated[] = ["No", "Yes", "Partial"];
-const defaultAiGenerated: AiGenerated = "No";
 
 const ImageMetaData = ({ imageLanguage }: Props) => {
   const { t } = useTranslation();
@@ -158,13 +157,10 @@ const ImageMetaData = ({ imageLanguage }: Props) => {
         )}
       </FormField>
       <FormField name="aiGenerated">
-        {({ field, helpers }) => {
+        {({ field, meta, helpers }) => {
           return (
-            <FieldRoot>
-              <RadioGroupRoot
-                value={field.value ?? defaultAiGenerated}
-                onValueChange={(details) => helpers.setValue(details.value)}
-              >
+            <FieldRoot invalid={!!meta.error}>
+              <RadioGroupRoot value={field.value} onValueChange={(details) => helpers.setValue(details.value)}>
                 <RadioGroupLabel>{t("form.aiGenerated.description")}</RadioGroupLabel>
                 <RadioGroupItemWrapper>
                   {aiGeneratedOptions.map((option) => (
@@ -176,6 +172,7 @@ const ImageMetaData = ({ imageLanguage }: Props) => {
                   ))}
                 </RadioGroupItemWrapper>
               </RadioGroupRoot>
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
             </FieldRoot>
           );
         }}

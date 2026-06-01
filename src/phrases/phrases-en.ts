@@ -1023,6 +1023,7 @@ const phrases = {
       files: "File upload",
       code: "Code",
       disclaimer: "Accessibility",
+      aiGenerated: "AI-generated",
     },
     previewProductionArticle: {
       button: "Compare current version with last published version",

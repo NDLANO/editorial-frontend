@@ -26,6 +26,7 @@ import {
   putLearningStepOrder,
 } from "./learningpathApi";
 import { learningpathQueryKeys, learningpathQueryOptions } from "./learningpathQueries";
+import { searchQueryKeys } from "../search/searchQueries";
 
 export const postLearningpathMutationOptions = () => {
   return mutationOptions({
@@ -41,9 +42,29 @@ interface UsePatchLearningpathMutation {
 export const patchLearningpathMutationOptions = () => {
   return mutationOptions({
     mutationFn: (vars: UsePatchLearningpathMutation) => patchLearningpath(vars.id, vars.learningpath),
+
     // TODO: This can be improved. We can (should?) probably write to the cache
     onMutate: (vars, ctx) =>
+    {
+      const lpsQueryKey = learningpathQueryKeys.learningpath({ id: vars.id });
+      const searchQueryKey = searchQueryKeys.search();
+      ctx.client.cancelQueries({ queryKey: lpsQueryKey });
+      ctx.client.cancelQueries({ queryKey: searchQueryKey });
+      const previousLpsQueries = ctx.client.getQueriesData<LearningPathV2DTO>({ queryKey: lpsQueryKey });
+      const previousSearchQueries = ctx.client.getQueriesData({ queryKey: searchQueryKey });
+
+      ctx.client.setQueriesData({queryKey: lpsQueryKey, type: "active"}, prevData => {
+        if(!prevData) return prevData;
+        return {
+          ...prevData
+        }
+
+      })
+
+      // const prevData = ctx.client.getQueryData<LearningPathV2DTO>({ queryKey: learningpathQueryKeys.learningpath({ id: vars.id }) });
+      // ctx.client.setQuery
       ctx.client.cancelQueries({ queryKey: learningpathQueryKeys.learningpath({ id: vars.id }) }),
+    }
     onSettled: (_, __, vars, ___, ctx) =>
       ctx.client.invalidateQueries({ queryKey: learningpathQueryKeys.learningpath({ id: vars.id }) }),
   });

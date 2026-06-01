@@ -12,7 +12,12 @@ import { keyBy } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { childNodesQueryOptions, nodesResourceMetasQueryOptions } from "../../../modules/nodes/nodeQueries";
+import {
+  childNodesQueryOptions,
+  convertContentUrisToSearchParams,
+  extrapolateNodeResourcesFromSearch,
+} from "../../../modules/nodes/nodeQueries";
+import { searchQueryOptions } from "../../../modules/search/searchQueries";
 import { getContentUriFromSearchSummary } from "../../../util/searchHelpers";
 import { getContentUrisFromNodes } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -39,11 +44,11 @@ export const MultidisciplinaryCases = ({ currentNode }: Props) => {
   const contentUris = useMemo(() => getContentUrisFromNodes(childrenQuery.data ?? []), [childrenQuery.data]);
 
   const nodeResourceMetasQuery = useQuery({
-    ...nodesResourceMetasQueryOptions({
-      nodeId: currentNode.id,
-      contentUris: contentUris,
+    ...searchQueryOptions({
       language: i18n.language,
+      ...convertContentUrisToSearchParams(contentUris),
     }),
+    select: (data) => extrapolateNodeResourcesFromSearch(contentUris, data.results),
     enabled: !!childrenQuery.data?.length && !!contentUris.length && currentNode.nodeType !== "PROGRAMME",
   });
 

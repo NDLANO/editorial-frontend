@@ -16,7 +16,13 @@ import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { draftQueryKeys, updateUserDataMutationOptions } from "../../modules/draft/draftQueries";
 import { updateNodeConnectionMutationOptions } from "../../modules/nodes/nodeMutations";
-import { childNodesQueryOptions, nodeQueryKeys, nodesResourceMetasQueryOptions } from "../../modules/nodes/nodeQueries";
+import {
+  childNodesQueryOptions,
+  convertContentUrisToSearchParams,
+  extrapolateNodeResourcesFromSearch,
+  nodeQueryKeys,
+} from "../../modules/nodes/nodeQueries";
+import { searchQueryOptions } from "../../modules/search/searchQueries";
 import { getContentUriFromSearchSummary } from "../../util/searchHelpers";
 import { getContentUrisFromNodes, groupChildNodes } from "../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
@@ -51,7 +57,8 @@ const RootNode = ({ isFavorite, node, openedPaths, childNodeTypes, rootPath }: P
   );
 
   const resourceMetasQuery = useQuery({
-    ...nodesResourceMetasQueryOptions({ nodeId: node.id, contentUris, language: i18n.language }),
+    ...searchQueryOptions({ language: i18n.language, ...convertContentUrisToSearchParams(contentUris) }),
+    select: (data) => extrapolateNodeResourcesFromSearch(contentUris, data.results),
     enabled: !!childNodesQuery.data?.length && !!contentUris.length && node.nodeType !== "PROGRAMME",
   });
 

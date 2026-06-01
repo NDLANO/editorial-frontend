@@ -8,13 +8,13 @@
 
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { Node, NodeChild, NodeSearchBody } from "@ndla/types-backend/taxonomy-api";
+import { keyBy } from "@ndla/util";
 import { queryOptions, useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
 import { NodeTree } from "../../containers/NodeDiff/diffUtils";
 import { WithTaxonomyVersion } from "../../interfaces";
-import { CHILD_NODES, NODE, NODE_RESOURCES, NODES, ROOT_NODE_WITH_CHILDREN, SEARCH_NODES } from "../../queryKeys";
+import { CHILD_NODES, NODE, NODES, ROOT_NODE_WITH_CHILDREN, SEARCH_NODES } from "../../queryKeys";
 import { getContentUriInfo } from "../../util/taxonomyHelpers";
-import { postSearch } from "../search/searchApi";
-import { NoNodeResultTypes } from "../search/searchApiInterfaces";
+import { NoNodeResultTypes, NoNodeSearchParams } from "../search/searchApiInterfaces";
 import { fetchChildNodes, fetchNode, fetchNodes, postSearchNodes } from "./nodeApi";
 import { GetChildNodesParams, GetNodesParams, RESOURCE_NODE, TOPIC_NODE } from "./nodeApiTypes";
 
@@ -24,8 +24,6 @@ export const nodeQueryKeys = {
   node: (params?: Partial<UseNodeParams>) => [NODE, params] as const,
   search: (params?: Partial<SearchNodesParams>) => [SEARCH_NODES, params] as const,
   tree: (params?: Partial<UseNodeTree>) => [ROOT_NODE_WITH_CHILDREN, params] as const,
-  resourceMetas: ({ nodeId, ...params }: Partial<UseNodeResourceMetas> = {}) =>
-    [NODE_RESOURCES, nodeId, params] as const,
   childNodes: ({ id, ...params }: Partial<UseChildNodesParams> = {}) => [CHILD_NODES, id, params] as const,
 };
 
@@ -61,19 +59,6 @@ export const useNode = (params: UseNodeParams, options?: Partial<UseQueryOptions
   });
 };
 
-interface UseNodeResourceMetas {
-  nodeId: string;
-  contentUris: string[];
-  language?: string;
-}
-
-export const nodesResourceMetasQueryOptions = (params: UseNodeResourceMetas) => {
-  return queryOptions({
-    queryKey: nodeQueryKeys.resourceMetas(params),
-    queryFn: () => fetchNodeResourceMetas(params),
-  });
-};
-
 const getIdsAndResultTypes = (contentUris: string[]) => {
   return contentUris.reduce<{ ids: Set<number>; resultTypes: Set<NoNodeResultTypes> }>(
     (acc, curr) => {
@@ -87,25 +72,23 @@ const getIdsAndResultTypes = (contentUris: string[]) => {
   );
 };
 
-const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<MultiSearchSummaryDTO[]> => {
-  if (!params.contentUris.length) {
-    return [];
-  }
-  const { ids, resultTypes } = getIdsAndResultTypes(params.contentUris);
-
-  const search = await postSearch({
-    resultTypes: Array.from(resultTypes),
+export const convertContentUrisToSearchParams = (contentUris: string[]): NoNodeSearchParams => {
+  const { ids, resultTypes } = getIdsAndResultTypes(contentUris);
+  return {
     ids: Array.from(ids),
+    resultTypes: Array.from(resultTypes),
     pageSize: ids.size * resultTypes.size,
-  });
+  };
+};
 
-  const keyedByContentUri = search.results.reduce<Record<string, MultiSearchSummaryDTO>>((acc, curr) => {
-    acc[`urn:${curr.learningResourceType === "learningpath" ? "learningpath" : "article"}:${curr.id}`] = curr;
-    return acc;
-  }, {});
+export const extrapolateNodeResourcesFromSearch = (contentUris: string[], results: MultiSearchSummaryDTO[]) => {
+  const keyed = keyBy<MultiSearchSummaryDTO, string>(
+    results,
+    (r) => `urn:${r.learningResourceType === "learningpath" ? "learningpath" : "article"}:${r.id}`,
+  );
 
-  return params.contentUris.reduce<MultiSearchSummaryDTO[]>((acc, curr) => {
-    const res = keyedByContentUri[curr];
+  return contentUris.reduce<MultiSearchSummaryDTO[]>((acc, curr) => {
+    const res = keyed[curr];
     if (!res) return acc;
     acc.push(res);
     return acc;

@@ -27,9 +27,9 @@ import { GREP_CODE_FORMATS } from "../../../constants";
 import { updateDraftMutationOptions } from "../../../modules/draft/draftMutations";
 import { draftQueryKeys } from "../../../modules/draft/draftQueries";
 import { patchLearningpathMutationOptions } from "../../../modules/learningpath/learningpathMutations";
-import { learningpathQueryKeys } from "../../../modules/learningpath/learningpathQueries";
+import { learningpathQueryKeys, learningpathQueryOptions } from "../../../modules/learningpath/learningpathQueries";
 import { nodeQueryKeys, useNode } from "../../../modules/nodes/nodeQueries";
-import { searchGrepCodesQueryOptions } from "../../../modules/search/searchQueries";
+import { searchGrepCodesQueryOptions, searchQueryKeys } from "../../../modules/search/searchQueries";
 import { getContentUriFromSearchSummary } from "../../../util/searchHelpers";
 import { getContentUriInfo } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -87,7 +87,50 @@ const GrepCodeDialogContent = ({
   close,
 }: DialogContentProps) => {
   const updateDraft = useMutation(updateDraftMutationOptions());
-  const updateLearningpath = useMutation(patchLearningpathMutationOptions());
+  const updateLearningpath = useMutation({
+    ...patchLearningpathMutationOptions(),
+    onMutate: async (vars, ctx) => {
+      const queryOpts = learningpathQueryOptions({ id: vars.id });
+      await ctx.client.cancelQueries({ queryKey: queryOpts.queryKey });
+      await ctx.client.cancelQueries({ queryKey: searchQueryKeys.search() });
+      const previousData = ctx.client.getQueryData(queryOpts.queryKey);
+      const previousSearches = ctx.client.getQueriesData({ queryKey: searchQueryKeys.search(), type: "active" });
+
+      ctx.client.setQueryData(queryOpts.queryKey, (prev) => {
+        if (!prev) return prev;
+        return { ...prev, grepCodes: vars.learningpath.grepCodes ?? prev.grepCodes };
+      });
+
+      // only update active searches here to avoid cases where the user has a bunch of inactive searches.
+      qc.setQueriesData<MultiSearchSummaryDTO[]>({ queryKey: searchQueryKeys.search(), type: "active" }, (data) =>
+        data?.map((meta) =>
+          getContentUriFromSearchSummary(meta) === contentUri
+            ? { ...meta, grepCodes: vars.learningpath.grepCodes ?? meta.grepCodes }
+            : meta,
+        ),
+      );
+
+      ctx.client.setQueriesData<MultiSearchSummaryDTO[]>({ queryKey: nodeKey }, (data) => {
+        return data?.map((meta) =>
+          getContentUriFromSearchSummary(meta) === contentUri
+            ? { ...meta, grepCodes: vars.learningpath.grepCodes ?? meta.grepCodes }
+            : meta,
+        );
+      });
+
+      return { previousLp: { queryKey: queryOpts.queryKey, data: previousData }, previousSearches };
+    },
+    onSuccess: (_, __, res, ctx) => {
+      ctx.client.invalidateQueries({ queryKey: nodeKey });
+      ctx.client.invalidateQueries({ queryKey: res.previousLp.queryKey });
+    },
+    onError: (_, __, res, ctx) => {
+      if (!res) return;
+      ctx.client.setQueryData(res.previousLp.queryKey, res.previousLp.data);
+      res.previousMetas.forEach(([queryKey, data]) => ctx.client.setQueryData(queryKey, data));
+    },
+  });
+
   const { t, i18n } = useTranslation();
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -106,14 +149,6 @@ const GrepCodeDialogContent = ({
   });
 
   const rootGrepCodesString = rootGrepCodesQuery.data?.results?.map((c) => `${c.code} - ${c.title.title}`).join(", ");
-  const nodeKey = useMemo(
-    () =>
-      nodeQueryKeys.resourceMetas({
-        nodeId: currentNodeId,
-        language: i18n.language,
-      }),
-    [i18n.language, currentNodeId],
-  );
 
   const onUpdateGrepCodes = useCallback(
     async (grepCodes: string[]) => {
@@ -123,10 +158,12 @@ const GrepCodeDialogContent = ({
           id: resourceId,
           learningpath: { revision: updateLearningpath.data?.revision ?? revision, grepCodes, language: i18n.language },
         });
+
         qc.cancelQueries({ queryKey });
         qc.setQueryData<LearningPathV2DTO>(queryKey, data);
         qc.invalidateQueries({ queryKey });
-        qc.setQueriesData<MultiSearchSummaryDTO[]>({ queryKey: nodeKey }, (data) =>
+        // only update active searches here to avoid cases where the user has a bunch of inactive searches.
+        qc.setQueriesData<MultiSearchSummaryDTO[]>({ queryKey: searchQueryKeys.search(), stale: false }, (data) =>
           data?.map((meta) => (getContentUriFromSearchSummary(meta) === contentUri ? { ...meta, grepCodes } : meta)),
         );
       } else {

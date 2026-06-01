@@ -13,7 +13,12 @@ import { TFunction } from "i18next";
 import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
-import { childNodesQueryOptions, nodesResourceMetasQueryOptions } from "../../../modules/nodes/nodeQueries";
+import {
+  childNodesQueryOptions,
+  convertContentUrisToSearchParams,
+  extrapolateNodeResourcesFromSearch,
+} from "../../../modules/nodes/nodeQueries";
+import { searchQueryOptions } from "../../../modules/search/searchQueries";
 import { resourceTypesQueryOptions } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import { getContentUriFromSearchSummary } from "../../../util/searchHelpers";
 import { getContentUrisFromNodes } from "../../../util/taxonomyHelpers";
@@ -74,11 +79,11 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
   );
 
   const { data: nodeResourceMetas, isLoading: contentMetaIsPending } = useQuery({
-    ...nodesResourceMetasQueryOptions({
-      nodeId: currentChildNode.id,
-      contentUris,
+    ...searchQueryOptions({
       language: i18n.language,
+      ...convertContentUrisToSearchParams(contentUris),
     }),
+    select: (data) => extrapolateNodeResourcesFromSearch(contentUris, data.results),
     enabled: !!nodeChildren?.length && !!contentUris.length && currentChildNode.nodeType !== "PROGRAMME",
   });
 

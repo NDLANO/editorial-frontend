@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@ndla/preset-panda": "^0.0.76",
-    "@ndla/types-backend": "^1.0.138",
+    "@ndla/types-backend": "^1.0.147",
     "@ndla/types-embed": "^5.0.22-alpha.0",
     "@pandacss/dev": "^1.10.0",
     "@playwright/test": "^1.57.0",

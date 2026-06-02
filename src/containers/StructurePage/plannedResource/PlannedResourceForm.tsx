@@ -55,11 +55,7 @@ import { createDraft, updateUserData } from "../../../modules/draft/draftApi";
 import { userDataQueryOptions } from "../../../modules/draft/draftQueries";
 import { postLearningpath } from "../../../modules/learningpath/learningpathApi";
 import { RESOURCE_NODE, TOPIC_NODE } from "../../../modules/nodes/nodeApiTypes";
-import {
-  useAddNodeMutation,
-  useCreateResourceResourceTypeMutation,
-  usePostNodeConnectionMutation,
-} from "../../../modules/nodes/nodeMutations";
+import { useAddNodeMutation, usePostNodeConnectionMutation } from "../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import { getRootIdForNode } from "../../../modules/nodes/nodeUtil";
 import { useAllResourceTypes } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
@@ -162,6 +158,12 @@ interface Props {
   type: Exclude<ResourceGroup, "link"> | "topic";
 }
 
+const getResourceTypes = (type: Props["type"], resourceTypes: ResourceType[]): string[] => {
+  if (type === "topic") return [];
+  if (type === "learningpath") return [RESOURCE_TYPE_LEARNING_PATH];
+  return resourceTypes.map((rt) => rt.id);
+};
+
 const PlannedResourceForm = ({ node, onClose, type }: Props) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const { data: userData } = useQuery(userDataQueryOptions());
@@ -187,10 +189,6 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
       qc.invalidateQueries({ queryKey: compKeyChildNodes });
     },
   });
-  const { mutateAsync: createResourceResourceType, isPending: createResourceTypeLoading } =
-    useCreateResourceResourceTypeMutation({
-      onSuccess: () => qc.invalidateQueries({ queryKey: compKey }),
-    });
   const initialValues = useMemo(() => toInitialValues(ndlaId, type), [ndlaId, type]);
 
   const { data: users } = useQuery({
@@ -250,6 +248,7 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
               type === "learningpath" ? `urn:learningpath:${createdResource.id}` : `urn:article:${createdResource.id}`,
             nodeType: type === "topic" ? TOPIC_NODE : RESOURCE_NODE,
             root: false,
+            resourceTypes: getResourceTypes(type, values.contentType),
             ...(type === "topic" ? { visible: false } : {}),
           },
           taxonomyVersion,
@@ -266,20 +265,7 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
           taxonomyVersion,
         });
 
-        if (type !== "topic") {
-          if (type === "learningpath") {
-            await createResourceResourceType({
-              body: { resourceId, resourceTypeId: RESOURCE_TYPE_LEARNING_PATH },
-              taxonomyVersion,
-            });
-          } else {
-            const promises = values.contentType.map((rt) =>
-              createResourceResourceType({ body: { resourceId, resourceTypeId: rt.id }, taxonomyVersion }),
-            );
-            await Promise.all(promises);
-          }
-        }
-        if (!(addNodeMutationLoading || postResourceLoading || createResourceTypeLoading)) {
+        if (!(addNodeMutationLoading || postResourceLoading)) {
           onClose?.();
         }
       } catch (e) {
@@ -299,8 +285,6 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
       node?.id,
       addNodeMutationLoading,
       postResourceLoading,
-      createResourceTypeLoading,
-      createResourceResourceType,
       onClose,
     ],
   );
@@ -412,11 +396,7 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
             </FormField>
           )}
           <FormActionsContainer>
-            <Button
-              disabled={!dirty || !isValid}
-              type="submit"
-              loading={addNodeMutationLoading || postResourceLoading || createResourceTypeLoading}
-            >
+            <Button disabled={!dirty || !isValid} type="submit" loading={addNodeMutationLoading || postResourceLoading}>
               {t("taxonomy.create")}
             </Button>
           </FormActionsContainer>

@@ -7,6 +7,7 @@
  */
 
 import { Button, PopoverContent, PopoverRoot, PopoverTitle, PopoverTrigger, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 import { Descendant, Node } from "slate";
@@ -29,6 +30,34 @@ const calculateCounts = (content: Descendant[]) => {
   return { words, charactersWithSpaces, charactersWithoutSpaces };
 };
 
+const StyledButton = styled(Button, {
+  variants: {
+    status: {
+      neutral: {
+        color: "text.default",
+      },
+      medium: {
+        background: "surface.warning",
+      },
+      high: {
+        color: "text.error",
+      },
+    },
+  },
+});
+
+type WordCountStatus = "neutral" | "medium" | "high";
+
+const getWordCountStatus = (words: number): WordCountStatus => {
+  if (words >= 1500) {
+    return "high";
+  }
+  if (words >= 1000) {
+    return "medium";
+  }
+  return "neutral";
+};
+
 export const WordCounter = () => {
   const { t } = useTranslation();
   const { values } = useFormikContext<LearningResourceFormType>();
@@ -36,9 +65,9 @@ export const WordCounter = () => {
   return (
     <PopoverRoot>
       <PopoverTrigger asChild>
-        <Button variant="tertiary" size="small">
+        <StyledButton variant="tertiary" size="small" status={getWordCountStatus(words)}>
           {t("editorFooter.wordCount", { count: words })}
-        </Button>
+        </StyledButton>
       </PopoverTrigger>
       <PopoverContent>
         <PopoverTitle srOnly>{t("editorFooter.editorInfoTitle")}</PopoverTitle>

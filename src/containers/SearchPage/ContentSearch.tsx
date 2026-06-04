@@ -36,7 +36,7 @@ const SORT_TYPES: SortType[] = [
   "relevance",
   "title",
   "lastUpdated",
-  "firstPublished",
+  //"firstPublished",
   "revisionDate",
   "favorited",
   "published",

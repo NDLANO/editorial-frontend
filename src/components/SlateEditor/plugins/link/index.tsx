@@ -11,7 +11,8 @@ import {
   createHtmlTag,
   createPlugin,
   createSerializer,
-  isParagraphElement,
+  isElementOfType,
+  PARAGRAPH_ELEMENT_TYPE,
   parseElementAttributes,
   PluginConfiguration,
 } from "@ndla/editor";
@@ -19,6 +20,7 @@ import { ContentLinkEmbedData } from "@ndla/types-embed";
 import { Descendant, Node, Transforms, ElementType } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_NDLA_EMBED } from "../embed/types";
+import { TABLE_CELL_ELEMENT_TYPE } from "../table/types";
 import { isContentLinkElement, isLinkElement } from "./queries";
 import { CONTENT_LINK_ELEMENT_TYPE, CONTENT_LINK_PLUGIN, LINK_ELEMENT_TYPE, LINK_PLUGIN, LinkEmbedData } from "./types";
 
@@ -118,8 +120,8 @@ const normalizeNode =
     }
 
     const parent = Node.parent(editor, path);
-    if (!isParagraphElement(parent)) {
-      logger.log("Link element is not inside a paragraph, unwrapping it");
+    if (!isElementOfType(parent, [PARAGRAPH_ELEMENT_TYPE, TABLE_CELL_ELEMENT_TYPE])) {
+      logger.log("Link element is not inside a paragraph or table cell, unwrapping it");
       Transforms.unwrapNodes(editor, { at: path });
       return true;
     }

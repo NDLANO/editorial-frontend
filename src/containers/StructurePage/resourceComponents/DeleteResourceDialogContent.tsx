@@ -25,9 +25,10 @@ interface Props {
   resource: NodeChild;
   contentMeta: MultiSearchSummaryDTO | undefined;
   invalidate: () => void;
+  isMultidisciplinary: boolean;
 }
 
-export const DeleteResourceDialogContent = ({ resource, contentMeta, invalidate }: Props) => {
+export const DeleteResourceDialogContent = ({ resource, contentMeta, invalidate, isMultidisciplinary }: Props) => {
   const { t } = useTranslation();
   const { setOpen } = useDialogContext();
   const deleteNodeConnectionMutation = useDeleteNodeConnectionMutation();
@@ -55,10 +56,12 @@ export const DeleteResourceDialogContent = ({ resource, contentMeta, invalidate 
 
   const onDelete = useCallback(async () => {
     updateArticleMutation.reset();
-    if (deletionType === "unpublish" && articleId) {
-      await updateArticleMutation.mutateAsync({ id: articleId, status: UNPUBLISHED });
-    } else if (deletionType === "delete" && articleId) {
-      await updateArticleMutation.mutateAsync({ id: articleId, status: ARCHIVED });
+    if (!isMultidisciplinary) {
+      if (deletionType === "unpublish" && articleId) {
+        await updateArticleMutation.mutateAsync({ id: articleId, status: UNPUBLISHED });
+      } else if (deletionType === "delete" && articleId) {
+        await updateArticleMutation.mutateAsync({ id: articleId, status: ARCHIVED });
+      }
     }
 
     if (updateArticleMutation.isError) return;
@@ -73,6 +76,7 @@ export const DeleteResourceDialogContent = ({ resource, contentMeta, invalidate 
     deleteNodeConnectionMutation,
     deletionType,
     invalidate,
+    isMultidisciplinary,
     resource.connectionId,
     setOpen,
     taxonomyVersion,

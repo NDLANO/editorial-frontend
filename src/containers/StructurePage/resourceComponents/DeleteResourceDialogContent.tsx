@@ -46,13 +46,14 @@ export const DeleteResourceDialogContent = ({ resource, contentMeta, invalidate,
   });
 
   const deletionType = useMemo(() => {
+    if (isMultidisciplinary) return "deleteConnection";
     if (resource.contexts.length === 1) {
       return contentMeta?.status?.current === PUBLISHED || contentMeta?.status?.other?.includes(PUBLISHED)
         ? "unpublish"
         : "delete";
     }
     return "deleteConnection";
-  }, [contentMeta?.status, resource.contexts.length]);
+  }, [contentMeta?.status, resource.contexts.length, isMultidisciplinary]);
 
   const onDelete = useCallback(async () => {
     updateArticleMutation.reset();

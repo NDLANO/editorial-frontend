@@ -312,7 +312,12 @@ const Resource = ({
                 </IconButton>
               </DialogTrigger>
               <DialogContent>
-                <DeleteResourceDialogContent resource={resource} contentMeta={contentMeta} invalidate={invalidate} />
+                <DeleteResourceDialogContent
+                  resource={resource}
+                  contentMeta={contentMeta}
+                  invalidate={invalidate}
+                  isMultidisciplinary={type === "link"}
+                />
               </DialogContent>
             </DialogRoot>
           </ControlButtonGroup>

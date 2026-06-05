@@ -125,7 +125,7 @@ const InlineWrapper = ({ children, element, editor, attributes }: Props) => {
   const { t } = useTranslation();
   const nodeText = Node.string(element).trim();
   const locale = useArticleLanguage();
-  const { handleUnwrap, handleSave, dialogProps } = useEditableElement(element, editor);
+  const { handleUnwrap, handleSave, dialogProps } = useEditableElement(element, editor, { unwrapOnAutoRemove: true });
   const { concept, loading, createConcept, updateConcept, updateConceptStatus } = useFetchConceptData(
     parseInt(element.data.contentId),
     locale,

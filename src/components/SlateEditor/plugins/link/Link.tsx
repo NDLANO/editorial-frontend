@@ -67,7 +67,7 @@ const Link = ({ attributes, editor, element, children }: Props) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const editorWrapperRef = useRef<HTMLElement>(null);
   const language = useArticleLanguage();
-  const { handleUnwrap, handleSave, dialogProps } = useEditableElement(element, editor);
+  const { handleUnwrap, handleSave, dialogProps } = useEditableElement(element, editor, { unwrapOnAutoRemove: true });
   const { t } = useTranslation();
 
   useEffect(() => {

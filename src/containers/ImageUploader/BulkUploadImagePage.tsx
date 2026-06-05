@@ -10,7 +10,7 @@ import { Heading, PageContainer, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { BulkUploadStartedDTO, BulkUploadStateDTO, NewImageMetaInformationV2DTO } from "@ndla/types-backend/image-api";
 import { uniqBy } from "@ndla/util";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { TFunction } from "i18next";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -75,6 +75,7 @@ export const BulkUploadImagePage = () => {
   const [invalidFiles, setInvalidFiles] = useState<Record<string, string[]>>({});
   const [hasImageWithErrors, setHasImageWithErrors] = useState(false);
   const uploadState = useImageUploadStatus(bulkUploadId?.uploadId);
+  const bulkUploadMutation = useMutation({ mutationFn: bulkUploadImages });
 
   const { userPermissions } = useSession();
 
@@ -102,7 +103,7 @@ export const BulkUploadImagePage = () => {
   };
 
   const onSave = async () => {
-    if (!commonMetadata || uploadState?.status === "Complete") return;
+    if (!commonMetadata || uploadState || bulkUploadMutation.isPending) return;
     setBulkUploadId(undefined);
     setHasImageWithErrors(false);
     const formValues = acceptedFiles.map((f) =>
@@ -134,7 +135,7 @@ export const BulkUploadImagePage = () => {
       return [imageFormTypeToApiType(stitched, licenses), f];
     });
 
-    const res = await bulkUploadImages(metadatas, acceptedFiles);
+    const res = await bulkUploadMutation.mutateAsync({ metadatas, files: acceptedFiles });
     setBulkUploadId(res);
 
     return transformed;

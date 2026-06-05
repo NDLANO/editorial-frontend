@@ -131,10 +131,12 @@ export const cloneImage = async (imageId: number, file: Blob): Promise<ImageMeta
     })
     .then((r) => resolveJsonOATS(r));
 
-export const bulkUploadImages = async (
-  metadatas: NewImageMetaInformationV2DTO[],
-  files: Blob[],
-): Promise<BulkUploadStartedDTO> => {
+interface BulkUploadImages {
+  metadatas: NewImageMetaInformationV2DTO[];
+  files: Blob[];
+}
+
+export const bulkUploadImages = async ({ metadatas, files }: BulkUploadImages): Promise<BulkUploadStartedDTO> => {
   const res = await client.POST("/image-api/v1/bulk", {
     body: {
       metadatas: metadatas,

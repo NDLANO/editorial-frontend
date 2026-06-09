@@ -28,6 +28,7 @@ export const AUTH0_RESPONSIBLES = "auth0Responsibles";
 export const CONCEPT = "concept";
 
 export const IMAGE = "image";
+export const IMAGE_EDITORS = "imageEditors";
 export const IMAGE_SEARCH_TAGS = "imageSearchTags";
 
 export const AUDIO = "audio";

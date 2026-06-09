@@ -85,9 +85,9 @@ export const splitTaxonomyUrl = async (href: string) => {
     path,
     taxonomyVersion: "default",
   });
-  const contentUriSplit = resolvedTaxonomy && resolvedTaxonomy.contentUri.split(":");
-  const resourceId = contentUriSplit.pop();
-  const resourceType = contentUriSplit.pop();
+  const contentUriSplit = resolvedTaxonomy && resolvedTaxonomy.contentUri?.split(":");
+  const resourceId = contentUriSplit?.pop();
+  const resourceType = contentUriSplit?.pop();
   return { resourceId, resourceType };
 };
 

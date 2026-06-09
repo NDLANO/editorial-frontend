@@ -6,7 +6,7 @@
  *
  */
 
-import { Version, VersionPostPut } from "@ndla/types-backend/taxonomy-api";
+import { Version, VersionPost, VersionPut } from "@ndla/types-backend/taxonomy-api";
 
 export interface VersionFormType {
   name: string;
@@ -21,14 +21,14 @@ export const versionTypeToVersionFormType = (version?: Version): VersionFormType
   };
 };
 
-export const versionFormTypeToVersionPutType = (formVersion: VersionFormType): VersionPostPut => {
+export const versionFormTypeToVersionPutType = (formVersion: VersionFormType): VersionPut => {
   return {
     name: formVersion.name,
     locked: formVersion.locked,
   };
 };
 
-export const versionFormTypeToVersionPostType = (formVersion: VersionFormType): VersionPostPut => {
+export const versionFormTypeToVersionPostType = (formVersion: VersionFormType): VersionPost => {
   return {
     name: formVersion.name,
     locked: formVersion.locked,

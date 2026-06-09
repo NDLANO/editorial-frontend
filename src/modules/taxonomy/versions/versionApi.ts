@@ -6,7 +6,7 @@
  *
  */
 
-import { paths, Version, VersionPostPut, VersionType } from "@ndla/types-backend/taxonomy-api";
+import { paths, Version, VersionPost, VersionPut, VersionType } from "@ndla/types-backend/taxonomy-api";
 import { createAuthClient } from "../../../util/apiHelpers";
 import { resolveJsonOATS, resolveLocation, resolveOATS } from "../../../util/resolveJsonOrRejectWithError";
 
@@ -40,7 +40,7 @@ export const fetchVersion = (params: VersionGetParam): Promise<Version> =>
     .then((response) => resolveJsonOATS(response));
 
 interface VersionPostParams {
-  body: VersionPostPut;
+  body: VersionPost;
   sourceId?: string;
 }
 
@@ -56,7 +56,7 @@ export const postVersion = (params: VersionPostParams): Promise<string> =>
 
 interface VersionPutParams {
   id: string;
-  body: VersionPostPut;
+  body: VersionPut;
 }
 
 export const putVersion = (params: VersionPutParams): Promise<void> =>

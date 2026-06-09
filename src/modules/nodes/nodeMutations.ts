@@ -15,13 +15,11 @@ import { createResourceResourceType, deleteResourceResourceType } from "../taxon
 import {
   deleteNode,
   deleteNodeConnection,
-  deleteNodeTranslation,
   postNode,
   postNodeConnection,
   putNode,
   putNodeConnection,
   putNodeMetadata,
-  putNodeTranslation,
   putResourcesPrimary,
 } from "./nodeApi";
 import { nodeQueryKeys } from "./nodeQueries";
@@ -50,7 +48,7 @@ export const useAddNodeMutation = () => {
         nodeType: newNode.nodeType ?? "NODE",
         path: "",
         paths: [],
-        translations: [],
+        translations: newNode.translations ?? [],
         supportedLanguages: [],
         resourceTypes: [],
         contexts: [],
@@ -158,14 +156,6 @@ export const useDeleteNodeMutation = () => {
       qc.invalidateQueries({ queryKey: key });
     },
   });
-};
-
-export const deleteNodeTranslationMutationOptions = () => {
-  return mutationOptions({ mutationFn: deleteNodeTranslation });
-};
-
-export const updateNodeTranslationMutationOptions = () => {
-  return mutationOptions({ mutationFn: putNodeTranslation });
 };
 
 export const deleteNodeConnectionMutationOptions = () => {

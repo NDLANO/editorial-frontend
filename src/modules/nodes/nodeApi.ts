@@ -11,8 +11,6 @@ import {
   Node,
   NodePostPut,
   NodeChild,
-  Translation,
-  TranslationPUT,
   NodeConnectionPUT,
   NodeConnectionPOST,
   NodeType,
@@ -151,58 +149,6 @@ export const fetchChildNodes = (params: ChildNodesGetParams): Promise<NodeChild[
       },
     })
     .then((response) => resolveJsonOATS(response));
-
-interface NodeTranslationsGetParams extends WithTaxonomyVersion {
-  id: string;
-}
-
-export const fetchNodeTranslations = (params: NodeTranslationsGetParams): Promise<Translation[]> =>
-  client
-    .GET("/v1/nodes/{id}/translations", {
-      params: {
-        path: { id: params.id },
-      },
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
-    })
-    .then((response) => resolveJsonOATS(response));
-
-interface NodeTranslationDeleteParams extends WithTaxonomyVersion {
-  id: string;
-  language: string;
-}
-
-export const deleteNodeTranslation = (params: NodeTranslationDeleteParams): Promise<void> =>
-  client
-    .DELETE("/v1/nodes/{id}/translations/{language}", {
-      params: {
-        path: { id: params.id, language: params.language },
-      },
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
-    })
-    .then((response) => resolveOATS(response));
-
-interface NodeTranslationPutParams extends WithTaxonomyVersion {
-  id: string;
-  language: string;
-  body: TranslationPUT;
-}
-
-export const putNodeTranslation = (params: NodeTranslationPutParams): Promise<void> =>
-  client
-    .PUT("/v1/nodes/{id}/translations/{language}", {
-      params: {
-        path: { id: params.id, language: params.language },
-      },
-      headers: {
-        VersionHash: params.taxonomyVersion,
-      },
-      body: params.body,
-    })
-    .then((response) => resolveOATS(response));
 
 interface NodeResourcesGetParams extends WithTaxonomyVersion, GetNodeResourcesParams {
   id: string;

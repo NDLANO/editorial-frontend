@@ -29,11 +29,7 @@ import validateFormik, { RulesType } from "../../../../components/formikValidati
 import FormWrapper from "../../../../components/FormWrapper";
 import SaveButton from "../../../../components/SaveButton";
 import { subjectLanguages } from "../../../../i18n";
-import {
-  deleteNodeTranslationMutationOptions,
-  putNodeMutationOptions,
-  updateNodeTranslationMutationOptions,
-} from "../../../../modules/nodes/nodeMutations";
+import { putNodeMutationOptions } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys, useNode } from "../../../../modules/nodes/nodeQueries";
 import { isFormikFormDirty } from "../../../../util/formHelper";
 import handleError from "../../../../util/handleError";
@@ -84,54 +80,21 @@ const ChangeNodeName = ({ node }: Props) => {
     taxonomyVersion,
   });
 
-  const { mutateAsync: deleteNodeTranslation } = useMutation(deleteNodeTranslationMutationOptions());
-  const { mutateAsync: updateNodeTranslation } = useMutation(updateNodeTranslationMutationOptions());
   const putNodeMutation = useMutation(putNodeMutationOptions());
-
-  const toRecord = (translations: Translation[]): Record<string, Translation> =>
-    translations.reduce((prev, curr) => ({ ...prev, [curr.language]: curr }), {});
 
   const onSubmit = async (formik: FormikProps<FormikTranslationFormValues>) => {
     formik.setSubmitting(true);
-    const initial = toRecord(formik.initialValues.translations);
-    const newValues = toRecord(formik.values.translations);
 
-    const deleted = Object.entries(initial).filter(([key]) => !newValues[key]);
-    const toUpdate = Object.entries(newValues).filter(([key, value]) => value !== initial[key]);
-
-    const promises: (() => Promise<any>)[] = [];
-
-    if (formik.initialValues.name !== formik.values.name) {
-      promises.push(() =>
-        putNodeMutation.mutateAsync({
-          id,
-          body: {
-            language: node.language,
-            name: formik.values.name,
-          },
-          taxonomyVersion,
-        }),
-      );
-    }
-
-    deleted.forEach(([, d]) =>
-      promises.push(() => deleteNodeTranslation({ id, language: d.language, taxonomyVersion })),
-    );
-
-    toUpdate.forEach(([, u]) =>
-      promises.push(() =>
-        updateNodeTranslation({
-          id,
-          language: u.language,
-          body: { name: u.name },
-          taxonomyVersion,
-        }),
-      ),
-    );
     try {
-      for (const promise of promises) {
-        await promise();
-      }
+      await putNodeMutation.mutateAsync({
+        id,
+        body: {
+          language: node.language,
+          name: formik.values.name,
+          translations: formik.values.translations,
+        },
+        taxonomyVersion,
+      });
     } catch (e) {
       handleError(e);
       setUpdateError(t("taxonomy.changeName.updateError"));
@@ -145,16 +108,13 @@ const ChangeNodeName = ({ node }: Props) => {
       formik.setSubmitting(false);
       return;
     }
+    await qc.invalidateQueries({
+      queryKey: nodeQueryKeys.nodes({ nodeType: ["SUBJECT"], taxonomyVersion }),
+    });
 
-    if (promises.length > 0) {
-      await qc.invalidateQueries({
-        queryKey: nodeQueryKeys.nodes({ nodeType: ["SUBJECT"], taxonomyVersion }),
-      });
-
-      await qc.invalidateQueries({
-        queryKey: nodeQueryKeys.node({ id, taxonomyVersion }),
-      });
-    }
+    await qc.invalidateQueries({
+      queryKey: nodeQueryKeys.node({ id, taxonomyVersion }),
+    });
     formik.resetForm({ values: formik.values, isSubmitting: false });
     setSaved(true);
   };

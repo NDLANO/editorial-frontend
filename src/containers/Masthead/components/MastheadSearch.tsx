@@ -196,11 +196,11 @@ export const MastheadSearch = () => {
         path,
         taxonomyVersion: "default",
       });
-      const splittedUri = newArticle.contentUri.split(":");
-      const id = splittedUri[splittedUri.length - 1];
-      if (splittedUri.at(-2) === "learningpath" && Number.isInteger(parseInt(id))) {
+      const splittedUri = newArticle.contentUri?.split(":");
+      const id = splittedUri?.[splittedUri?.length - 1];
+      if (id && splittedUri?.at(-2) === "learningpath" && Number.isInteger(parseInt(id))) {
         window.location.href = routes.learningpath.edit(parseInt(id), i18n.language);
-      } else {
+      } else if (id) {
         navigate(routes.editArticle(parseInt(id), "standard"));
       }
     } catch {

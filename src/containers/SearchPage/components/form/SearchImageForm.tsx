@@ -21,8 +21,9 @@ import { getTagName } from "../../../../components/Form/utils";
 import ObjectSelector, { SelectOption } from "../../../../components/ObjectSelector";
 import config from "../../../../config";
 import { CamelToKebab } from "../../../../interfaces";
-import { auth0EditorsQueryOptions } from "../../../../modules/auth0/auth0Queries";
+import { auth0UsersQueryOptions } from "../../../../modules/auth0/auth0Queries";
 import { licenseQuery } from "../../../../modules/draft/draftQueries";
+import { imageEditorsQueryOptions } from "../../../../modules/image/imageQueries";
 import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
@@ -152,9 +153,11 @@ const SearchImageForm = ({ userData }: Props) => {
         name: license.title,
       })),
   });
+  const { data: editorIds } = useQuery(imageEditorsQueryOptions());
 
   const { data: users } = useQuery({
-    ...auth0EditorsQueryOptions(),
+    ...auth0UsersQueryOptions({ uniqueUserIds: editorIds?.ids?.join(",") ?? "" }),
+    enabled: !!editorIds?.ids?.length,
     select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
     placeholderData: [],
   });

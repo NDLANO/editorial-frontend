@@ -15,6 +15,7 @@ import {
   SearchParamsDTO,
   NewImageMetaInformationV2DTO,
   BulkUploadStartedDTO,
+  ImageEditorsDTO,
 } from "@ndla/types-backend/image-api";
 import { throwErrorPayload, createAuthClient, fetchAuthorized, apiResourceUrl } from "../../util/apiHelpers";
 import { createFormData } from "../../util/formDataHelper";
@@ -163,3 +164,6 @@ export const getBulkUploadStatus = async (uploadId: string, signal: AbortSignal)
     },
   });
 };
+
+export const fetchImageEditors = async (): Promise<ImageEditorsDTO> =>
+  client.GET("/image-api/v3/images/users/editors").then((r) => resolveJsonOATS(r));

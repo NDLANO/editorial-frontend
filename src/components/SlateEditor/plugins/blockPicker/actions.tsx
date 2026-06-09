@@ -122,19 +122,9 @@ export const commonActions: Action[] = [
     bookmark: "#bkmrk-fil",
   },
   {
-    data: { type: RELATED_ELEMENT_TYPE, object: "related" },
-    icon: <OrganizationChart />,
-    bookmark: "#bkmrk-relatert-innhold",
-  },
-  {
     data: { type: CODE_BLOCK_ELEMENT_TYPE, object: "code" },
     icon: <CodeView />,
     bookmark: "#bkmrk-kodevisning",
-  },
-  {
-    data: { type: GLOSS_BLOCK_ELEMENT_TYPE, object: "gloss" },
-    icon: <GlobalLine />,
-    bookmark: "#bkmrk-glose",
   },
   {
     data: { type: DISCLAIMER_ELEMENT_TYPE, object: "disclaimer" },
@@ -176,8 +166,20 @@ export const frontpageActions = commonActions.concat(
   },
 );
 
-export const learningResourceActions = commonActions.concat({
-  data: { type: GRID_ELEMENT_TYPE, object: "grid" },
-  icon: <LayoutColumnLine />,
-  bookmark: "#bkmrk-grid",
-});
+export const learningResourceActions = commonActions.concat(
+  {
+    data: { type: RELATED_ELEMENT_TYPE, object: "related" },
+    icon: <OrganizationChart />,
+    bookmark: "#bkmrk-relatert-innhold",
+  },
+  {
+    data: { type: GLOSS_BLOCK_ELEMENT_TYPE, object: "gloss" },
+    icon: <GlobalLine />,
+    bookmark: "#bkmrk-glose",
+  },
+  {
+    data: { type: GRID_ELEMENT_TYPE, object: "grid" },
+    icon: <LayoutColumnLine />,
+    bookmark: "#bkmrk-grid",
+  },
+);

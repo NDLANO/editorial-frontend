@@ -15,7 +15,7 @@ import { ResourceResourceTypePostBody } from "./resourceTypesApiInterfaces";
 
 const client = createAuthClient<paths>("/taxonomy");
 
-interface ResourceTypesGetParams extends WithTaxonomyVersion {
+export interface ResourceTypesGetParams extends WithTaxonomyVersion {
   language: string;
 }
 

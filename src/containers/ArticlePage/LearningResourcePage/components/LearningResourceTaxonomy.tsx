@@ -9,7 +9,7 @@
 import { Spinner, Text } from "@ndla/primitives";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { NodeType, ResourceType, TaxonomyContext } from "@ndla/types-backend/taxonomy-api";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { TaxonomyBlock } from "../../../../components/Taxonomy/TaxonomyBlock";
@@ -23,8 +23,8 @@ import {
   useDeleteResourceResourceTypeMutation,
 } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys, useNodes } from "../../../../modules/nodes/nodeQueries";
-import { useAllResourceTypes } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
-import { useVersions } from "../../../../modules/taxonomy/versions/versionQueries";
+import { resourceTypesQueryOptions } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
+import { versionsQueryOptions } from "../../../../modules/taxonomy/versions/versionQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
@@ -69,10 +69,10 @@ const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: P
     includeContexts: true,
   });
 
-  const allResourceTypesQuery = useAllResourceTypes(
-    { language: i18n.language, taxonomyVersion },
-    { select: (rts) => rts },
-  );
+  const allResourceTypesQuery = useQuery({
+    ...resourceTypesQueryOptions({ language: i18n.language, taxonomyVersion }),
+    select: (rts) => rts,
+  });
 
   const node = nodesQuery.data?.[0];
 
@@ -118,7 +118,7 @@ const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: P
     });
   };
 
-  const versionsQuery = useVersions();
+  const versionsQuery = useQuery(versionsQueryOptions());
 
   if (nodesQuery.isLoading || allResourceTypesQuery.isLoading || versionsQuery.isLoading) {
     return <Spinner />;

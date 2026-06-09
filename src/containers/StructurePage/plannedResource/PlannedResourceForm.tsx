@@ -58,7 +58,7 @@ import { RESOURCE_NODE, TOPIC_NODE } from "../../../modules/nodes/nodeApiTypes";
 import { useAddNodeMutation, usePostNodeConnectionMutation } from "../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import { getRootIdForNode } from "../../../modules/nodes/nodeUtil";
-import { useAllResourceTypes } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
+import { resourceTypesQueryOptions } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import { inlineContentToHTML } from "../../../util/articleContentConverter";
 import { convertUpdateToNewDraft } from "../../../util/articleUtil";
 import { getCommentInfoText } from "../../ArticlePage/components/InputComment";
@@ -197,10 +197,11 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
     placeholderData: [],
   });
 
-  const resourceTypesQuery = useAllResourceTypes<ResourceType[]>(
-    { language: i18n.language, taxonomyVersion },
-    { placeholderData: [], enabled: type !== "topic" },
-  );
+  const resourceTypesQuery = useQuery({
+    ...resourceTypesQueryOptions({ language: i18n.language, taxonomyVersion }),
+    placeholderData: [],
+    enabled: type !== "topic",
+  });
 
   const onSubmit = useCallback(
     async (values: PlannedResourceFormikType) => {

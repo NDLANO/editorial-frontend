@@ -9,11 +9,11 @@
 import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeType } from "@ndla/types-backend/taxonomy-api";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ChangeEvent, useState, SyntheticEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { Form, FormActionsContainer } from "../../components/FormikForm";
-import { useAddNodeMutation, usePostNodeConnectionMutation } from "../../modules/nodes/nodeMutations";
+import { postNodeConnectionMutationOptions, useAddNodeMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
 import handleError from "../../util/handleError";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
@@ -35,7 +35,8 @@ const AddNodeDialogContent = ({ onClose, nodeType, rootId, parentNode }: Props) 
   const { t, i18n } = useTranslation();
   const addNodeMutation = useAddNodeMutation();
   const compkey = nodeQueryKeys.childNodes({ id: rootId });
-  const addNodeToParentMutation = usePostNodeConnectionMutation({
+  const addNodeToParentMutation = useMutation({
+    ...postNodeConnectionMutationOptions(),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: compkey });
     },

@@ -6,18 +6,8 @@
  *
  */
 
-import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
-import {
-  AudioMeta,
-  BrightcoveData,
-  ConceptVisualElementMeta,
-  H5pData,
-  IframeData,
-  IframeEmbedData,
-  OembedData,
-  OembedEmbedData,
-} from "@ndla/types-embed";
-import { UseQueryOptions, useQuery } from "@tanstack/react-query";
+import { IframeEmbedData, OembedEmbedData } from "@ndla/types-embed";
+import { queryOptions, skipToken } from "@tanstack/react-query";
 import { AUDIO_EMBED, BRIGHTCOVE_EMBED, IMAGE_EMBED } from "../../queryKeys";
 import { fetchImage } from "../image/imageApi";
 import {
@@ -28,70 +18,50 @@ import {
   fetchH5pMeta,
 } from "./embedApi";
 
-export const useBrightcoveMeta = (
-  resourceId: string,
-  language: string,
-  options?: Partial<UseQueryOptions<BrightcoveData>>,
-) => {
-  return useQuery<BrightcoveData>({
+export const brightcoveMetaQueryOptions = (resourceId: string, language: string) => {
+  return queryOptions({
     queryKey: [BRIGHTCOVE_EMBED, resourceId],
     queryFn: () => fetchBrightcoveMeta(resourceId, language),
-    ...options,
   });
 };
 
-export const useAudioMeta = (resourceId: string, language: string, options?: Partial<UseQueryOptions<AudioMeta>>) => {
-  return useQuery<AudioMeta>({
+export const audioMetaQueryOptions = (resourceId: string, language: string) => {
+  return queryOptions({
     queryKey: [AUDIO_EMBED, resourceId, language],
     queryFn: () => fetchAudioMeta(resourceId, language),
-    ...options,
   });
 };
 
-export const useImageMeta = (
-  resourceId: string,
-  language: string,
-  options?: Partial<UseQueryOptions<ImageMetaInformationV3DTO>>,
-) => {
-  return useQuery<ImageMetaInformationV3DTO>({
+export const imageMetaQueryOptions = (resourceId: string, language: string) => {
+  return queryOptions({
     queryKey: [IMAGE_EMBED, resourceId, language],
     queryFn: () => fetchImage(resourceId, language),
-    ...options,
   });
 };
 
-export const useH5pMeta = (path: string, url: string, options?: Partial<UseQueryOptions<H5pData>>) => {
-  return useQuery<H5pData>({
-    retry: false,
+export const h5pMetaQueryOptions = (path: string, url: string) => {
+  return queryOptions({
     queryKey: ["h5pMeta", path, url],
     queryFn: () => fetchH5pMeta(path, url),
-    ...options,
+    retry: false,
   });
 };
 
-export const useConceptVisualElement = (
-  conceptId: number,
-  visualElement: string,
-  language: string,
-  options?: Partial<UseQueryOptions<ConceptVisualElementMeta | undefined>>,
-) => {
-  return useQuery<ConceptVisualElementMeta | undefined>({
-    retry: false,
+export const conceptVisualElementQueryOptions = (conceptId: number, visualElement: string, language: string) => {
+  return queryOptions({
     queryKey: ["conceptVisualElement", conceptId, language],
     queryFn: () => fetchConceptVisualElement(visualElement, language),
-    ...options,
+    retry: false,
   });
 };
 
-export const useExternalEmbed = (
-  embedData: OembedEmbedData | IframeEmbedData,
+export const externalEmbedQueryOptions = (
+  embedData: OembedEmbedData | IframeEmbedData | undefined,
   language: string,
-  options?: Partial<UseQueryOptions<IframeData | OembedData>>,
 ) => {
-  return useQuery<IframeData | OembedData>({
-    retry: false,
+  return queryOptions({
     queryKey: ["externalEmbed", embedData?.url, embedData?.imageid, language],
-    queryFn: () => fetchExternal(embedData, language),
-    ...options,
+    queryFn: embedData ? () => fetchExternal(embedData, language) : skipToken,
+    retry: false,
   });
 };

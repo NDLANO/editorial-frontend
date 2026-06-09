@@ -13,11 +13,12 @@ import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ImageMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, ImageEmbed } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor } from "slate";
 import { RenderElementProps, useSelected } from "slate-react";
-import { useImageMeta } from "../../../../modules/embed/queries";
+import { imageMetaQueryOptions } from "../../../../modules/embed/queries";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { useEditableElement } from "../../utils/useEditableElement";
 import { StyledFigureButtons } from "../embed/FigureButtons";
@@ -90,7 +91,8 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
 
   const { handleRemove, handleEditingChange, handleSave, dialogProps } = useEditableElement(element, editor);
 
-  const imageEmbedQuery = useImageMeta(element.data?.resourceId ?? "", language, {
+  const imageEmbedQuery = useQuery({
+    ...imageMetaQueryOptions(element.data?.resourceId ?? "", language),
     enabled: !!parseInt(element.data?.resourceId ?? ""),
   });
 

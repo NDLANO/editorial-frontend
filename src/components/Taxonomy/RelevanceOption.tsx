@@ -17,12 +17,12 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild, NodeConnectionPUT } from "@ndla/types-backend/taxonomy-api";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY } from "../../constants";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
-import { useUpdateNodeConnectionMutation } from "../../modules/nodes/nodeMutations";
+import { updateNodeConnectionMutationOptions } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
 
 const TitleWrapper = styled("div", {
@@ -60,7 +60,8 @@ const RelevanceOption = ({ node, currentNodeId }: Props) => {
     }
     return resources;
   };
-  const { mutateAsync: updateNodeConnection, isPending } = useUpdateNodeConnectionMutation({
+  const { mutateAsync: updateNodeConnection, isPending } = useMutation({
+    ...updateNodeConnectionMutationOptions(),
     onMutate: async ({ id, body }) => onUpdateConnection(id, body),
     onSettled: () => qc.invalidateQueries({ queryKey: compKey }),
   });

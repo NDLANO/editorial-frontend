@@ -30,7 +30,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { TFunction } from "i18next";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -42,9 +42,9 @@ import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY, RESOURCE_TYPE_LEAR
 import { fetchNodes, postNode, postNodeConnection } from "../../../modules/nodes/nodeApi";
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import { postSearch } from "../../../modules/search/searchApi";
-import { useSearch } from "../../../modules/search/searchQueries";
+import { searchQueryOptions } from "../../../modules/search/searchQueries";
 import { createResourceResourceType } from "../../../modules/taxonomy";
-import { useAllResourceTypes } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
+import { resourceTypesQueryOptions } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
 import handleError from "../../../util/handleError";
 import { isValidContextId } from "../../../util/urlHelpers";
@@ -226,7 +226,7 @@ const AddExistingResource = ({ onClose, existingResourceIds, nodeId, type }: Pro
   const typeTocheckFor = type === "learningpath" ? "learningpath" : "article";
   const compKey = nodeQueryKeys.childNodes({ id: nodeId, language: i18n.language });
 
-  const { data: resourceTypes } = useAllResourceTypes({ language: i18n.language, taxonomyVersion });
+  const { data: resourceTypes } = useQuery(resourceTypesQueryOptions({ language: i18n.language, taxonomyVersion }));
 
   const alreadyExists = useMemo(() => {
     if (!preview) return false;
@@ -250,15 +250,17 @@ const AddExistingResource = ({ onClose, existingResourceIds, nodeId, type }: Pro
     });
   }, [resourceTypes]);
 
-  const searchQuery = useSearch({
-    query: delayedQuery,
-    page,
-    language: i18n.language,
-    fallback: true,
-    resourceTypes: type !== "learningpath" && selectedType ? [selectedType] : undefined,
-    contextTypes: type === "learningpath" ? ["learningpath"] : ["standard"],
-    resultTypes: type === "learningpath" ? ["learningpath"] : ["draft", "concept"],
-  });
+  const searchQuery = useQuery(
+    searchQueryOptions({
+      query: delayedQuery,
+      page,
+      language: i18n.language,
+      fallback: true,
+      resourceTypes: type !== "learningpath" && selectedType ? [selectedType] : undefined,
+      contextTypes: type === "learningpath" ? ["learningpath"] : ["standard"],
+      resultTypes: type === "learningpath" ? ["learningpath"] : ["draft", "concept"],
+    }),
+  );
 
   const onSearch = async (input: string) => {
     setPreview(undefined);

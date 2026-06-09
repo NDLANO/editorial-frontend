@@ -8,6 +8,7 @@
 
 import { PageContent } from "@ndla/primitives";
 import { FilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
+import { useMutation } from "@tanstack/react-query";
 import { Formik, FormikHelpers } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -19,7 +20,7 @@ import SimpleLanguageHeader from "../../../components/HeaderWithLanguage/SimpleL
 import SaveButton from "../../../components/SaveButton";
 import { isVisualElementSlateElement } from "../../../components/SlateEditor/helpers";
 import { SAVE_BUTTON_ID } from "../../../constants";
-import { useUpdateFilmFrontpageMutation } from "../../../modules/frontpage/filmMutations";
+import { updateFilmFriltnpageMutationOptions } from "../../../modules/frontpage/filmMutations";
 import { isFormikFormDirty } from "../../../util/formHelper";
 import { NdlaErrorPayload } from "../../../util/resolveJsonOrRejectWithError";
 import { toEditNdlaFilm } from "../../../util/routeHelpers";
@@ -63,7 +64,7 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
   const [unsaved, setUnsaved] = useState(false);
   usePreventWindowUnload(unsaved);
 
-  const updateFilmFrontpage = useUpdateFilmFrontpageMutation();
+  const updateFilmFrontpage = useMutation(updateFilmFriltnpageMutationOptions());
   const { createMessage, applicationError, formatErrorMessage } = useMessages();
 
   const initialValues = getInitialValues(filmFrontpage, selectedLanguage);

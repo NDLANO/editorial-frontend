@@ -6,33 +6,25 @@
  *
  */
 
-import { Version } from "@ndla/types-backend/taxonomy-api";
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { queryOptions } from "@tanstack/react-query";
 import { VERSION, VERSIONS } from "../../../queryKeys";
-import { fetchVersion, fetchVersions } from "./versionApi";
-import { GetVersionsParams } from "./versionApiTypes";
+import { fetchVersion, fetchVersions, VersionGetParam, VersionGetParams } from "./versionApi";
 
 export const versionQueryKeys = {
-  version: (params?: Partial<UseVersionParams>) => [VERSION, params] as const,
-  versions: (params?: Partial<UseVersionsParams>) => [VERSIONS, params] as const,
+  version: (params?: Partial<VersionGetParam>) => [VERSION, params] as const,
+  versions: (params?: Partial<VersionGetParams>) => [VERSIONS, params] as const,
 };
 
-interface UseVersionsParams extends GetVersionsParams {}
-export const useVersions = (params?: UseVersionsParams, options?: Partial<UseQueryOptions<Version[]>>) => {
-  return useQuery<Version[]>({
+export const versionsQueryOptions = (params: VersionGetParams = {}) => {
+  return queryOptions({
     queryKey: versionQueryKeys.versions(params),
-    queryFn: () => fetchVersions({ ...params }),
-    ...options,
+    queryFn: () => fetchVersions(params),
   });
 };
 
-interface UseVersionParams {
-  id: string;
-}
-export const useVersion = (params: UseVersionParams, options?: Partial<UseQueryOptions<Version>>) => {
-  return useQuery<Version>({
-    queryKey: [versionQueryKeys.version(params)],
+export const versionQueryOptions = (params: VersionGetParam) => {
+  return queryOptions({
+    queryKey: versionQueryKeys.version(params),
     queryFn: () => fetchVersion(params),
-    ...options,
   });
 };

@@ -11,13 +11,13 @@ import { Text, Button, IconButton, Badge, BadgeVariant } from "@ndla/primitives"
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Version as TaxVersion, VersionType } from "@ndla/types-backend/taxonomy-api";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import config from "../../../config";
-import { useDeleteVersionMutation } from "../../../modules/taxonomy/versions/versionMutations";
+import { deleteVersionMutationOptions } from "../../../modules/taxonomy/versions/versionMutations";
 import { versionQueryKeys } from "../../../modules/taxonomy/versions/versionQueries";
 import VersionForm from "./VersionForm";
 
@@ -84,7 +84,8 @@ const Version = ({ version }: Props) => {
   const qc = useQueryClient();
   const key = versionQueryKeys.versions();
 
-  const deleteVersionMutation = useDeleteVersionMutation({
+  const deleteVersionMutation = useMutation({
+    ...deleteVersionMutationOptions(),
     onMutate: async ({ id }) => {
       setError(undefined);
       await qc.cancelQueries({ queryKey: key });

@@ -11,16 +11,16 @@ import { Text, ComboboxLabel, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-backend/taxonomy-api";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../../components/Form/GenericSearchCombobox";
 import { fetchDraft, updateDraft } from "../../../../modules/draft/draftApi";
 import { TOPIC_NODE } from "../../../../modules/nodes/nodeApiTypes";
-import { usePutNodeMutation } from "../../../../modules/nodes/nodeMutations";
+import { putNodeMutationOptions } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
-import { useSearch } from "../../../../modules/search/searchQueries";
+import { searchQueryOptions } from "../../../../modules/search/searchQueries";
 import { usePaginatedQuery } from "../../../../util/usePaginatedQuery";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 
@@ -46,16 +46,22 @@ const StyledCheckLine = styled(CheckLine, {
 
 const SwapTopicArticle = ({ node, rootNodeId }: Props) => {
   const { t, i18n } = useTranslation();
-  const putNodeMutation = usePutNodeMutation();
+  const putNodeMutation = useMutation(putNodeMutationOptions());
   const [error, setError] = useState<string | undefined>(undefined);
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
   const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
 
-  const searchQuery = useSearch(
-    { query: delayedQuery, language: i18n.language, page, resultTypes: ["draft"], articleTypes: ["topic-article"] },
-    { placeholderData: (prev) => prev },
-  );
+  const searchQuery = useQuery({
+    ...searchQueryOptions({
+      query: delayedQuery,
+      language: i18n.language,
+      page,
+      resultTypes: ["draft"],
+      articleTypes: ["topic-article"],
+    }),
+    placeholderData: (prev) => prev,
+  });
 
   const handleSubmit = async (topic: MultiSearchSummaryDTO) => {
     setError(undefined);

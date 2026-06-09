@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import Pagination from "../../components/abstractions/Pagination";
 import config from "../../config";
 import { userDataQueryOptions } from "../../modules/draft/draftQueries";
-import { useSearchImages } from "../../modules/image/imageQueries";
+import { searchImagesQueryOptions } from "../../modules/image/imageQueries";
 import { getAccessToken, isActiveToken } from "../../util/authHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import SearchImageForm from "./components/form/SearchImageForm";
@@ -68,8 +68,8 @@ export const ImageSearch = () => {
     return parsed;
   }, [params]);
 
-  const searchQuery = useSearchImages(parsedParams);
-  useSearchImages({ ...parsedParams, page: parsedParams.page ? parsedParams.page + 1 : 2 }); // preload next page.
+  const searchQuery = useQuery(searchImagesQueryOptions(parsedParams));
+  useQuery(searchImagesQueryOptions({ ...parsedParams, page: parsedParams.page ? parsedParams.page + 1 : 2 })); // preload next page.
 
   return (
     <SearchPageContainer asChild consumeCss>

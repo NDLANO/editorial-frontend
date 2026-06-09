@@ -12,7 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { userDataQueryOptions } from "../../modules/draft/draftQueries";
-import { usePostSearchNodes } from "../../modules/nodes/nodeQueries";
+import { searchNodesQueryOptions } from "../../modules/nodes/nodeQueries";
 import { getAccessToken, isActiveToken } from "../../util/authHelpers";
 import { useSession } from "../Session/SessionProvider";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
@@ -55,13 +55,13 @@ const GridColumn = styled("div", {
 export const WelcomePage = () => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const { ndlaId } = useSession();
-  const searchQuery = usePostSearchNodes(
-    {
-      body: customFieldsBody(ndlaId ?? ""),
+  const searchQuery = useQuery({
+    ...searchNodesQueryOptions({
+      ...customFieldsBody(ndlaId ?? ""),
       taxonomyVersion,
-    },
-    { enabled: !!ndlaId },
-  );
+    }),
+    enabled: !!ndlaId,
+  });
 
   const subjectIdObject = useMemo(() => {
     if (!searchQuery.data) return defaultSubjectIdObject;

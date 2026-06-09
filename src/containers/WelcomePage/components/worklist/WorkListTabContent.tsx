@@ -10,11 +10,12 @@ import { ArrowUpDoubleLine, MessageLine, CalendarLine } from "@ndla/icons";
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../../../components/abstractions/Pagination";
 import { MultiSummarySearchResults } from "../../../../modules/search/searchApiInterfaces";
-import { useSearch } from "../../../../modules/search/searchQueries";
+import { searchQueryOptions } from "../../../../modules/search/searchQueries";
 import formatDate from "../../../../util/formatDate";
 import { stripInlineContentHtmlTags } from "../../../../util/formHelper";
 import { toEditArticle, toEditLearningpath } from "../../../../util/routeHelpers";
@@ -86,17 +87,17 @@ const WorkListTabContent = ({
   const { t, i18n } = useTranslation();
 
   // Separated request to not update subjects when filtered subject changes
-  const searchQuery = useSearch(
-    {
+  const searchQuery = useQuery({
+    ...searchQueryOptions({
       responsibleIds: [ndlaId],
       pageSize: 0,
       fallback: true,
       aggregatePaths: ["contexts.rootId"],
       language: i18n.language,
       resultTypes: ["draft", "concept", "learningpath"],
-    },
-    { enabled: !!ndlaId },
-  );
+    }),
+    enabled: !!ndlaId,
+  });
 
   const tableData: FieldElement[][] = useMemo(
     () =>

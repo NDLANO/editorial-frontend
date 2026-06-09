@@ -7,6 +7,7 @@
  */
 
 import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -23,7 +24,7 @@ import {
   STORED_ON_HOLD_LMA_SUBJECT,
   STORED_ON_HOLD_SA_SUBJECT,
 } from "../../../constants";
-import { usePostSearchNodes } from "../../../modules/nodes/nodeQueries";
+import { searchNodesQueryOptions } from "../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { SubjectIdObject, customFieldsBody } from "../utils";
 import ArticleStatusContent from "./ArticleStatusContent";
@@ -40,7 +41,7 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataPending, subjectIdO
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const searchQuery = usePostSearchNodes({ body: customFieldsBody(ndlaId), taxonomyVersion });
+  const searchQuery = useQuery({ ...searchNodesQueryOptions({ ...customFieldsBody(ndlaId), taxonomyVersion }) });
 
   const tabs = useMemo(() => {
     if (searchQuery.isPending) return [];

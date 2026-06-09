@@ -6,49 +6,13 @@
  *
  */
 
-import { FilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
-import { sortBy } from "@ndla/util";
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
-import { sortMoviesByIdList } from "../../containers/NdlaFilm/filmUtil";
-import { searchResources } from "../search/searchApi";
-import { MultiSummarySearchResults, NoNodeSearchParams } from "../search/searchApiInterfaces";
+import { queryOptions } from "@tanstack/react-query";
 import { filmQueryKeys } from "./filmQueryKeys";
-import { UseMovies } from "./filmTypes";
 import { fetchFilmFrontpage } from "./frontpageApi";
 
-export const useFilmFrontpageQuery = (options?: Partial<UseQueryOptions<FilmFrontPageDTO>>) => {
-  return useQuery<FilmFrontPageDTO>({
+export const filmFrontpageQueryOptions = () => {
+  return queryOptions({
     queryKey: filmQueryKeys.filmFrontpage,
     queryFn: () => fetchFilmFrontpage(),
-    ...options,
-  });
-};
-
-const slideshowArticlesQueryObject: NoNodeSearchParams = {
-  page: 1,
-  contextTypes: ["standard"],
-  sort: "-relevance",
-  pageSize: 10,
-};
-
-export const useMoviesQuery = (
-  params: UseMovies,
-  options: Partial<UseQueryOptions<MultiSummarySearchResults>> = {},
-) => {
-  const { i18n } = useTranslation();
-  const movieIds = params.movieUrns
-    .map((urn) => Number(parseInt(urn.replace("urn:article:", ""))))
-    .filter((id) => !isNaN(id));
-  const ids = sortBy(movieIds, (id) => id);
-
-  return useQuery<MultiSummarySearchResults>({
-    queryKey: filmQueryKeys.movies(params),
-    queryFn: () => searchResources({ ...slideshowArticlesQueryObject, ids: ids }),
-    select: (res) => ({
-      ...res,
-      results: sortMoviesByIdList(movieIds, res.results, i18n),
-    }),
-    ...options,
   });
 };

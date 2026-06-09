@@ -6,60 +6,21 @@
  *
  */
 
-import { VersionPostPut } from "@ndla/types-backend/taxonomy-api";
-import { useMutation, UseMutationOptions } from "@tanstack/react-query";
+import { mutationOptions } from "@tanstack/react-query";
 import { deleteVersion, postVersion, publishVersion, putVersion } from "./versionApi";
 
-interface UsePostVersionMutationParams {
-  body: VersionPostPut;
-  sourceId?: string;
-}
-
-export const usePostVersionMutation = (
-  options?: Partial<UseMutationOptions<string, unknown, UsePostVersionMutationParams>>,
-) => {
-  return useMutation<string, unknown, UsePostVersionMutationParams>({
-    mutationFn: ({ body, sourceId }) => postVersion({ body, sourceId }),
-    ...options,
-  });
+export const postVersionMutationOptions = () => {
+  return mutationOptions({ mutationFn: postVersion });
 };
 
-interface UsePutVersionMutationParams {
-  id: string;
-  body: VersionPostPut;
-}
-
-export const usePutVersionMutation = (
-  options?: Partial<UseMutationOptions<void, unknown, UsePutVersionMutationParams>>,
-) => {
-  return useMutation<void, unknown, UsePutVersionMutationParams>({
-    mutationFn: ({ id, body }) => putVersion({ id, body }),
-    ...options,
-  });
+export const putVersionMutationOptions = () => {
+  return mutationOptions({ mutationFn: putVersion });
 };
 
-interface UseDeleteVersionMutationParams {
-  id: string;
-}
-
-export const useDeleteVersionMutation = (
-  options?: Partial<UseMutationOptions<void, unknown, UseDeleteVersionMutationParams>>,
-) => {
-  return useMutation<void, unknown, UseDeleteVersionMutationParams>({
-    mutationFn: ({ id }) => deleteVersion({ id }),
-    ...options,
-  });
+export const deleteVersionMutationOptions = () => {
+  return mutationOptions({ mutationFn: deleteVersion });
 };
 
-interface UsePublishVersionMutation {
-  id: string;
-}
-
-export const usePublishVersionMutation = (
-  options?: Partial<UseMutationOptions<void, unknown, UsePublishVersionMutation>>,
-) => {
-  return useMutation<void, unknown, UsePublishVersionMutation>({
-    mutationFn: ({ id }) => publishVersion({ id }),
-    ...options,
-  });
+export const publishVersionMutationOptions = () => {
+  return mutationOptions({ mutationFn: publishVersion });
 };

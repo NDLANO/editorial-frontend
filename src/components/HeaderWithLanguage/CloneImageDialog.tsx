@@ -18,6 +18,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
+import { useMutation } from "@tanstack/react-query";
 import { Formik, useFormikContext } from "formik";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -25,7 +26,7 @@ import { useNavigate } from "react-router";
 import { ImageUploadFormElement } from "../../containers/ImageUploader/components/ImageUploadFormElement";
 import { ImageFormikType } from "../../containers/ImageUploader/imageTransformers";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
-import { useCloneImageMutation } from "../../modules/image/imageMutations";
+import { cloneImageMutationOptions } from "../../modules/image/imageMutations";
 import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import { toEditImage } from "../../util/routeHelpers";
 import { DialogCloseButton } from "../DialogCloseButton";
@@ -50,7 +51,7 @@ export const CloneImageDialog = ({ imageId, image }: Props) => {
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
   const { createMessage, applicationError } = useMessages();
-  const cloneImage = useCloneImageMutation();
+  const cloneImage = useMutation(cloneImageMutationOptions());
   const navigate = useNavigate();
   const parentFormikContext = useFormikContext<unknown>();
   const parentFormIsDirty = parentFormikContext.dirty;

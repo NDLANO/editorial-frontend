@@ -21,6 +21,7 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
+import { useQuery } from "@tanstack/react-query";
 import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../../components/abstractions/Pagination";
@@ -35,8 +36,8 @@ import {
   STORED_PAGE_SIZE_PUBLISHED_VIEW_FAVORITES,
 } from "../../../constants";
 import { SUBJECT_NODE } from "../../../modules/nodes/nodeApiTypes";
-import { useSearchNodes } from "../../../modules/nodes/nodeQueries";
-import { useSearch } from "../../../modules/search/searchQueries";
+import { searchNodesQueryOptions } from "../../../modules/nodes/nodeQueries";
+import { searchQueryOptions } from "../../../modules/search/searchQueries";
 import formatDate from "../../../util/formatDate";
 import { toEditArticle, toEditLearningpath } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -210,18 +211,16 @@ const RevisionViewContent = ({ title, tabTitle, type, subjects, pageSizeKey }: S
 
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const { data: favoriteSubjects } = useSearchNodes(
-    {
+  const { data: favoriteSubjects } = useQuery({
+    ...searchNodesQueryOptions({
       ids: type === "favorites" ? subjects : [],
       taxonomyVersion,
       nodeType: [SUBJECT_NODE],
       pageSize: subjects?.length,
       language: i18n.language,
-    },
-    {
-      enabled: type === "favorites",
-    },
-  );
+    }),
+    enabled: type === "favorites",
+  });
 
   const subjectIds = useMemo(() => {
     return type === "favorites" ? (favoriteSubjects?.results.map((s) => s.id) ?? []) : subjects.map((s) => s.id);
@@ -248,18 +247,20 @@ const RevisionViewContent = ({ title, tabTitle, type, subjects, pageSizeKey }: S
     { title: t("welcomePage.publishedView.publishedDate"), sortableField: "published" },
   ];
 
-  const { data, isLoading, isError } = useSearch({
-    subjects: filterSubject ? [filterSubject.value] : subjectIds,
-    sort: sortOption,
-    page: page,
-    pageSize: Number(pageSize!.value),
-    language: i18n.language,
-    fallback: true,
-    draftStatus: [PUBLISHED],
-    includeOtherStatuses: true,
-    isRepublished: alsoShowRepublished ? undefined : false,
-    resultTypes: ["draft"],
-  });
+  const { data, isLoading, isError } = useQuery(
+    searchQueryOptions({
+      subjects: filterSubject ? [filterSubject.value] : subjectIds,
+      sort: sortOption,
+      page: page,
+      pageSize: Number(pageSize!.value),
+      language: i18n.language,
+      fallback: true,
+      draftStatus: [PUBLISHED],
+      includeOtherStatuses: true,
+      isRepublished: alsoShowRepublished ? undefined : false,
+      resultTypes: ["draft"],
+    }),
+  );
 
   const error = useMemo(() => {
     if (isError) {

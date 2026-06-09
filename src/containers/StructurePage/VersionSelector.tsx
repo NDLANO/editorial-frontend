@@ -8,10 +8,10 @@
 
 import { SelectLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { OptGroupVersionSelector } from "../../components/Taxonomy/OptGroupVersionSelector";
-import { useVersions } from "../../modules/taxonomy/versions/versionQueries";
+import { versionsQueryOptions } from "../../modules/taxonomy/versions/versionQueries";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
 const VersionSelectorContainer = styled("div", {
@@ -53,7 +53,7 @@ const StyledSelectLabel = styled(SelectLabel, {
 const VersionSelector = () => {
   const { t } = useTranslation();
   const { taxonomyVersion, changeVersion } = useTaxonomyVersion();
-  const { data } = useVersions();
+  const { data } = useQuery(versionsQueryOptions());
   const qc = useQueryClient();
 
   if (!data) return null;

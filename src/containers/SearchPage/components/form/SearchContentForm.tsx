@@ -42,7 +42,7 @@ import {
   draftResponsiblesQueryOptions,
   draftEditorsQueryOptions,
 } from "../../../../modules/draft/draftQueries";
-import { useAllResourceTypes } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
+import { resourceTypesQueryOptions } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import formatDate from "../../../../util/formatDate";
 import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
@@ -159,13 +159,11 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
     placeholderData: [],
   });
 
-  const { data: resourceTypes } = useAllResourceTypes(
-    { language: i18n.language, taxonomyVersion },
-    {
-      select: (resourceTypes) => getContextTypes(resourceTypes, t),
-      placeholderData: [],
-    },
-  );
+  const { data: resourceTypes } = useQuery({
+    ...resourceTypesQueryOptions({ language: i18n.language, taxonomyVersion }),
+    select: (resourceTypes) => getContextTypes(resourceTypes, t),
+    placeholderData: [],
+  });
 
   const { data: licenses } = useQuery({
     ...licenseQuery(),

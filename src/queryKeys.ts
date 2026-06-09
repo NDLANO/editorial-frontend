@@ -13,7 +13,6 @@ export const SEARCH_IMAGES = "searchImages";
 export const SEARCH = "search";
 export const SEARCH_RESOURCES = "searchResources";
 export const SEARCH_GREP_CODES = "searchGrepCodes";
-export const SEARCH_WITH_CUSTOM_SUBJECTS_FILTERING = "searchWithCustomSubjectsFiltering";
 export const SEARCH_SUBJECT_STATS = "searchSubjectStats";
 export const MYNDLA_RESOURCE_STATS = "myNdlaResourceStats";
 
@@ -71,7 +70,6 @@ export const ARTICLE_SEARCH = "articleSearch";
 export const NODE = "node";
 export const NODES = "nodes";
 export const SEARCH_NODES = "searchNodes";
-export const POST_SEARCH_NODES = "postSearchNodes";
 export const CHILD_NODES = "childNodes";
 export const NODE_TRANSLATIONS = "nodeTranslations";
 export const NODE_CONNECTION = "nodeConnection";

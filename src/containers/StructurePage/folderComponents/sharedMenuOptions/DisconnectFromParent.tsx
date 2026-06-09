@@ -10,11 +10,11 @@ import { ErrorWarningLine } from "@ndla/icons";
 import { Button, Heading, MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
 import { FormActionsContainer } from "../../../../components/FormikForm";
-import { useDeleteNodeConnectionMutation } from "../../../../modules/nodes/nodeMutations";
+import { deleteNodeConnectionMutationOptions } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 
@@ -34,7 +34,7 @@ interface Props {
 const DisconnectFromParent = ({ node, onCurrentNodeChanged }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const { mutateAsync: disconnectNode, isError, isPending } = useDeleteNodeConnectionMutation();
+  const { mutateAsync: disconnectNode, isError, isPending } = useMutation(deleteNodeConnectionMutationOptions());
   const navigate = useNavigate();
   const location = useLocation();
   const qc = useQueryClient();

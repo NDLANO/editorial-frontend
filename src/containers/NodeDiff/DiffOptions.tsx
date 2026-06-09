@@ -9,12 +9,13 @@
 import { createListCollection } from "@ark-ui/react";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText, Skeleton } from "@ndla/primitives";
 import { Stack, styled } from "@ndla/styled-system/jsx";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router";
 import { GenericSelectItem, GenericSelectTrigger } from "../../components/abstractions/Select";
 import { OptGroupVersionSelector } from "../../components/Taxonomy/OptGroupVersionSelector";
-import { useVersions } from "../../modules/taxonomy/versions/versionQueries";
+import { versionsQueryOptions } from "../../modules/taxonomy/versions/versionQueries";
 
 const StyledDiffOptions = styled("div", {
   base: {
@@ -85,7 +86,7 @@ const DiffOption = ({ label, options, name, placeholder, value, onChange }: Diff
 const DiffOptions = ({ originalHash, otherHash }: Props) => {
   const [params, setParams] = useSearchParams();
   const { t } = useTranslation();
-  const taxonomyVersions = useVersions();
+  const taxonomyVersions = useQuery(versionsQueryOptions());
   const originalVersion = originalHash ? taxonomyVersions.data?.find((v) => v.hash === originalHash) : undefined;
   const otherVersion = otherHash ? taxonomyVersions.data?.find((v) => v.hash === otherHash) : undefined;
 

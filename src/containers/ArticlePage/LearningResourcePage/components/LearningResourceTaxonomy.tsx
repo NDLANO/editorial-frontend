@@ -9,7 +9,7 @@
 import { Spinner, Text } from "@ndla/primitives";
 import { ArticleDTO } from "@ndla/types-backend/draft-api";
 import { NodeType, ResourceType, TaxonomyContext } from "@ndla/types-backend/taxonomy-api";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { TaxonomyBlock } from "../../../../components/Taxonomy/TaxonomyBlock";
@@ -19,12 +19,12 @@ import { TaxonomyVisibility } from "../../../../components/Taxonomy/TaxonomyVisi
 import { MinimalNodeChild } from "../../../../components/Taxonomy/types";
 import { RESOURCE_TYPE_LEARNING_PATH } from "../../../../constants";
 import {
-  useCreateResourceResourceTypeMutation,
-  useDeleteResourceResourceTypeMutation,
+  createResourceResourceTypeMutationOptions,
+  deleteResourceResourceTypeMutationOptions,
 } from "../../../../modules/nodes/nodeMutations";
-import { nodeQueryKeys, useNodes } from "../../../../modules/nodes/nodeQueries";
-import { useAllResourceTypes } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
-import { useVersions } from "../../../../modules/taxonomy/versions/versionQueries";
+import { nodeQueryKeys, nodesQueryOptions } from "../../../../modules/nodes/nodeQueries";
+import { resourceTypesQueryOptions } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
+import { versionsQueryOptions } from "../../../../modules/taxonomy/versions/versionQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
@@ -58,21 +58,23 @@ const contextToPlacement = (
 const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const createResourceResourceTypeMutation = useCreateResourceResourceTypeMutation();
-  const deleteResourceResourceTypeMutation = useDeleteResourceResourceTypeMutation();
+  const createResourceResourceTypeMutation = useMutation(createResourceResourceTypeMutationOptions());
+  const deleteResourceResourceTypeMutation = useMutation(deleteResourceResourceTypeMutationOptions());
   const qc = useQueryClient();
 
-  const nodesQuery = useNodes({
-    contentURI: `urn:article:${article.id}`,
-    taxonomyVersion,
-    language: articleLanguage,
-    includeContexts: true,
-  });
-
-  const allResourceTypesQuery = useAllResourceTypes(
-    { language: i18n.language, taxonomyVersion },
-    { select: (rts) => rts },
+  const nodesQuery = useQuery(
+    nodesQueryOptions({
+      contentURI: `urn:article:${article.id}`,
+      taxonomyVersion,
+      language: articleLanguage,
+      includeContexts: true,
+    }),
   );
+
+  const allResourceTypesQuery = useQuery({
+    ...resourceTypesQueryOptions({ language: i18n.language, taxonomyVersion }),
+    select: (rts) => rts,
+  });
 
   const node = nodesQuery.data?.[0];
 
@@ -118,7 +120,7 @@ const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: P
     });
   };
 
-  const versionsQuery = useVersions();
+  const versionsQuery = useQuery(versionsQueryOptions());
 
   if (nodesQuery.isLoading || allResourceTypesQuery.isLoading || versionsQuery.isLoading) {
     return <Spinner />;

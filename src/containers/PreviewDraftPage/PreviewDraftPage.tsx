@@ -15,7 +15,7 @@ import { useParams } from "react-router";
 import PreviewDraft from "../../components/PreviewDraft/PreviewDraft";
 import { articleIsWide } from "../../components/WideArticleEditorProvider";
 import { draftQueryOptions } from "../../modules/draft/draftQueries";
-import { useNodes } from "../../modules/nodes/nodeQueries";
+import { nodesQueryOptions } from "../../modules/nodes/nodeQueries";
 import { getContentTypeFromResourceTypes } from "../../util/resourceHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 import LanguageSelector from "./LanguageSelector";
@@ -29,12 +29,14 @@ const PreviewDraftPage = () => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const draft = useQuery(draftQueryOptions({ id: draftId, language }));
-  const resources = useNodes({
-    contentURI: `urn:article:${draftId}`,
-    taxonomyVersion,
-    language,
-    nodeType: ["RESOURCE"],
-  });
+  const resources = useQuery(
+    nodesQueryOptions({
+      contentURI: `urn:article:${draftId}`,
+      taxonomyVersion,
+      language,
+      nodeType: ["RESOURCE"],
+    }),
+  );
   const isWide = useMemo(() => articleIsWide(draftId), [draftId]);
 
   if (resources.isLoading || draft.isLoading) {

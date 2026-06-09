@@ -6,20 +6,14 @@
  *
  */
 
-import { FilmFrontPageDTO, NewOrUpdatedFilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { NewOrUpdatedFilmFrontPageDTO } from "@ndla/types-backend/frontpage-api";
+import { mutationOptions } from "@tanstack/react-query";
 import { filmQueryKeys } from "./filmQueryKeys";
 import { updateFilmFrontpage } from "./frontpageApi";
 
-export const useUpdateFilmFrontpageMutation = () => {
-  const queryClient = useQueryClient();
-  return useMutation<FilmFrontPageDTO, unknown, NewOrUpdatedFilmFrontPageDTO>({
-    mutationFn: (data) => updateFilmFrontpage(data),
-    onError: (_, __, previousFrontpage) => {
-      if (previousFrontpage) {
-        queryClient.setQueryData(filmQueryKeys.filmFrontpage, previousFrontpage);
-      }
-    },
-    onSettled: () => queryClient.invalidateQueries({ queryKey: filmQueryKeys.filmFrontpage }),
+export const updateFilmFriltnpageMutationOptions = () => {
+  return mutationOptions({
+    mutationFn: (data: NewOrUpdatedFilmFrontPageDTO) => updateFilmFrontpage(data),
+    onSettled: (_, __, ___, ____, ctx) => ctx.client.invalidateQueries({ queryKey: filmQueryKeys.filmFrontpage }),
   });
 };

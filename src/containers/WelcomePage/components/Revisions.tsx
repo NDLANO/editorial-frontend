@@ -23,6 +23,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { useQuery } from "@tanstack/react-query";
 import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../../components/abstractions/Pagination";
@@ -43,8 +44,8 @@ import {
   DA_SUBJECT_ID,
 } from "../../../constants";
 import { SUBJECT_NODE } from "../../../modules/nodes/nodeApiTypes";
-import { useSearchNodes } from "../../../modules/nodes/nodeQueries";
-import { useSearch } from "../../../modules/search/searchQueries";
+import { searchNodesQueryOptions } from "../../../modules/nodes/nodeQueries";
+import { searchQueryOptions } from "../../../modules/search/searchQueries";
 import formatDate, { formatDateForBackend } from "../../../util/formatDate";
 import { getExpirationStatus } from "../../../util/getExpirationStatus";
 import { getExpirationDate } from "../../../util/revisionHelpers";
@@ -249,18 +250,16 @@ const RevisionViewContent = ({ title, tabTitle, type, subjects, pageSizeKey }: S
 
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const { data: favoriteSubjects } = useSearchNodes(
-    {
+  const { data: favoriteSubjects } = useQuery({
+    ...searchNodesQueryOptions({
       ids: type === "favorites" ? subjects : [],
       taxonomyVersion,
       nodeType: [SUBJECT_NODE],
       pageSize: subjects.length,
       language: i18n.language,
-    },
-    {
-      enabled: type === "favorites",
-    },
-  );
+    }),
+    enabled: type === "favorites",
+  });
 
   const subjectIds = useMemo(() => {
     return type === "favorites" ? (favoriteSubjects?.results.map((s) => s.id) ?? []) : subjects.map((s) => s.id);
@@ -290,8 +289,8 @@ const RevisionViewContent = ({ title, tabTitle, type, subjects, pageSizeKey }: S
     { title: t("welcomePage.revisionDate"), sortableField: "revisionDate" },
   ];
 
-  const { data, isLoading, isError } = useSearch(
-    {
+  const { data, isLoading, isError } = useQuery({
+    ...searchQueryOptions({
       subjects: filterSubject ? [filterSubject.value] : subjectIds,
       revisionDateTo: currentDateAddYear(),
       sort: sortOption,
@@ -302,9 +301,9 @@ const RevisionViewContent = ({ title, tabTitle, type, subjects, pageSizeKey }: S
       draftStatus: [PUBLISHED],
       includeOtherStatuses: true,
       resultTypes: ["draft", "concept", "learningpath"],
-    },
-    { enabled: !!subjectIds.length },
-  );
+    }),
+    enabled: !!subjectIds.length,
+  });
 
   const error = useMemo(() => {
     if (isError) {

@@ -13,14 +13,21 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../components/abstractions/Pagination";
 import config from "../../config";
-import { NO_RESPONSIBLES } from "../../constants";
+import { DA_SUBJECT_ID, LMA_SUBJECT_ID, NO_RESPONSIBLES, PUBLISHED, SA_SUBJECT_ID } from "../../constants";
 import { auth0UsersQueryOptions } from "../../modules/auth0/auth0Queries";
 import { userDataQueryOptions } from "../../modules/draft/draftQueries";
-import { useNodes } from "../../modules/nodes/nodeQueries";
-import { useSearchWithCustomSubjectsFiltering } from "../../modules/search/searchQueries";
+import { nodesQueryOptions, searchNodesQueryOptions } from "../../modules/nodes/nodeQueries";
+import { NoNodeDraftSearchParams } from "../../modules/search/searchApiInterfaces";
+import { searchQueryOptions } from "../../modules/search/searchQueries";
 import { getAccessToken, isActiveToken } from "../../util/authHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
+import {
+  customFieldsBody,
+  defaultSubjectIdObject,
+  getResultSubjectIdObject,
+  getSubjectsIdsQuery,
+} from "../WelcomePage/utils";
 import SearchContentForm from "./components/form/SearchContentForm";
 import { GenericSearchList } from "./components/GenericSearchList";
 import SearchContent from "./components/results/SearchContent";
@@ -51,16 +58,20 @@ const DEFAULT_PARAMS: DraftSearchParamsDTO = {
   filterInactive: true,
 };
 
+const RELEVANT_SUBJECT_IDS = [LMA_SUBJECT_ID, DA_SUBJECT_ID, SA_SUBJECT_ID];
+
 export const ContentSearch = () => {
   const { t, i18n } = useTranslation();
   const [params, setParams] = useStableSearchPageParams();
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const subjectsQuery = useNodes({
-    language: i18n.language,
-    nodeType: ["SUBJECT"],
-    taxonomyVersion,
-  });
+  const subjectsQuery = useQuery(
+    nodesQueryOptions({
+      language: i18n.language,
+      nodeType: ["SUBJECT"],
+      taxonomyVersion,
+    }),
+  );
 
   const parsedParams = useMemo(() => {
     const responsibles = params.get("responsible-ids");
@@ -86,13 +97,41 @@ export const ContentSearch = () => {
     return parsed;
   }, [params]);
 
-  const searchQuery = useSearchWithCustomSubjectsFiltering(parsedParams);
-  useSearchWithCustomSubjectsFiltering({ ...parsedParams, page: parsedParams.page ? parsedParams.page + 1 : 2 }); // preload next page.
-
   const userDataQuery = useQuery({
     ...userDataQueryOptions(),
     enabled: isActiveToken(getAccessToken()),
   });
+
+  const searchNodesQuery = useQuery({
+    ...searchNodesQueryOptions({ ...customFieldsBody(userDataQuery.data?.userId ?? ""), taxonomyVersion }),
+    enabled: !!userDataQuery.data?.userId && RELEVANT_SUBJECT_IDS.includes(params.get("subjects") ?? ""),
+  });
+
+  const subjectIdObject = useMemo(() => {
+    if (!userDataQuery.data?.userId || !searchNodesQuery.data) return defaultSubjectIdObject;
+    return getResultSubjectIdObject(userDataQuery.data.userId, searchNodesQuery.data.results);
+  }, [searchNodesQuery.data, userDataQuery.data?.userId]);
+
+  const actualQueryParams: NoNodeDraftSearchParams = useMemo(() => {
+    return {
+      ...parsedParams,
+      resultTypes: ["draft", "concept", "learningpath"],
+      subjects: getSubjectsIdsQuery(parsedParams.subjects, userDataQuery.data?.favoriteSubjects, subjectIdObject),
+      draftStatus: parsedParams.draftStatus?.map((s) => (s === "HAS_PUBLISHED" ? PUBLISHED : s)),
+      includeOtherStatuses: !!(
+        parsedParams.includeOtherStatuses ?? parsedParams.draftStatus?.some((s) => s === "HAS_PUBLISHED")
+      ),
+    };
+  }, [parsedParams, subjectIdObject, userDataQuery.data?.favoriteSubjects]);
+
+  const searchQuery = useQuery({
+    ...searchQueryOptions(actualQueryParams),
+    enabled: !userDataQuery.isLoading && !searchNodesQuery.isLoading,
+  });
+  useQuery({
+    ...searchQueryOptions({ ...actualQueryParams, page: actualQueryParams.page ? actualQueryParams.page + 1 : 2 }),
+    enabled: !userDataQuery.isLoading && !searchNodesQuery.isLoading,
+  }); // preload next page.
 
   const responsibleIds = useMemo(() => {
     if (!searchQuery.data?.results) return [];

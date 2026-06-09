@@ -7,41 +7,32 @@
  */
 
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { Node, NodeChild, NodeType, NodeSearchBody, SearchResult } from "@ndla/types-backend/taxonomy-api";
-import { useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
+import { Node, NodeChild, NodeSearchBody } from "@ndla/types-backend/taxonomy-api";
+import { queryOptions, useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
 import { NodeTree } from "../../containers/NodeDiff/diffUtils";
 import { WithTaxonomyVersion } from "../../interfaces";
-import {
-  CHILD_NODES,
-  NODE,
-  NODE_RESOURCES,
-  NODES,
-  POST_SEARCH_NODES,
-  ROOT_NODE_WITH_CHILDREN,
-  SEARCH_NODES,
-} from "../../queryKeys";
+import { CHILD_NODES, NODE, NODE_RESOURCES, NODES, ROOT_NODE_WITH_CHILDREN, SEARCH_NODES } from "../../queryKeys";
 import { getContentUriInfo } from "../../util/taxonomyHelpers";
 import { postSearch } from "../search/searchApi";
 import { NoNodeResultTypes } from "../search/searchApiInterfaces";
-import { fetchChildNodes, fetchNode, fetchNodes, postSearchNodes, searchNodes } from "./nodeApi";
+import { fetchChildNodes, fetchNode, fetchNodes, postSearchNodes } from "./nodeApi";
 import { GetChildNodesParams, GetNodesParams, RESOURCE_NODE, TOPIC_NODE } from "./nodeApiTypes";
 
 export const nodeQueryKeys = {
   nodes: (params?: Partial<UseNodesParams>) => [NODES, params] as const,
   node: (params?: Partial<UseNodeParams>) => [NODE, params] as const,
-  search: (params?: Partial<UseSearchNodes>) => [SEARCH_NODES, params] as const,
-  postSearch: (params?: Partial<UseSearchNodes>) => [POST_SEARCH_NODES, params] as const,
+  search: (params?: Partial<SearchNodesParams>) => [SEARCH_NODES, params] as const,
   tree: (params?: Partial<UseNodeTree>) => [ROOT_NODE_WITH_CHILDREN, params] as const,
   resourceMetas: (params?: Partial<UseNodeResourceMetas>) => [NODE_RESOURCES, params] as const,
   childNodes: (params?: Partial<UseChildNodesParams>) => [CHILD_NODES, params] as const,
 };
 
 interface UseNodesParams extends WithTaxonomyVersion, GetNodesParams {}
-export const useNodes = (params: UseNodesParams, options?: Partial<UseQueryOptions<Node[]>>) => {
-  return useQuery<Node[]>({
+
+export const nodesQueryOptions = (params: UseNodesParams) => {
+  return queryOptions({
     queryKey: nodeQueryKeys.nodes(params),
     queryFn: () => fetchNodes(params),
-    ...options,
   });
 };
 
@@ -50,6 +41,7 @@ interface UseNodeParams extends WithTaxonomyVersion {
   language?: string;
 }
 
+// TODO: Let this one sit for a bit. I think we can/should remove the placeholder data, but it's a case by case decision.
 export const useNode = (params: UseNodeParams, options?: Partial<UseQueryOptions<Node>>) => {
   const qc = useQueryClient();
   return useQuery<Node>({
@@ -73,14 +65,10 @@ interface UseNodeResourceMetas {
   language?: string;
 }
 
-export const useNodeResourceMetas = (
-  params: UseNodeResourceMetas,
-  options?: Partial<UseQueryOptions<MultiSearchSummaryDTO[]>>,
-) => {
-  return useQuery<MultiSearchSummaryDTO[]>({
+export const nodesResourceMetasQueryOptions = (params: UseNodeResourceMetas) => {
+  return queryOptions({
     queryKey: nodeQueryKeys.resourceMetas(params),
     queryFn: () => fetchNodeResourceMetas(params),
-    ...options,
   });
 };
 
@@ -127,11 +115,10 @@ interface UseNodeTree extends WithTaxonomyVersion {
   language: string;
 }
 
-export const useNodeTree = (params: UseNodeTree, options?: Partial<UseQueryOptions<NodeTree>>) => {
-  return useQuery<NodeTree>({
+export const nodeTreeQueryOptions = (params: UseNodeTree) => {
+  return queryOptions({
     queryKey: nodeQueryKeys.tree(params),
     queryFn: () => fetchNodeTree(params),
-    ...options,
   });
 };
 
@@ -187,38 +174,19 @@ interface UseChildNodesParams extends WithTaxonomyVersion, GetChildNodesParams {
   id: string;
 }
 
-export const useChildNodes = (params: UseChildNodesParams, options?: Partial<UseQueryOptions<NodeChild[]>>) => {
-  return useQuery<NodeChild[]>({
+export const childNodesQueryOptions = (params: UseChildNodesParams) => {
+  return queryOptions({
     queryKey: nodeQueryKeys.childNodes(params),
     queryFn: () => fetchChildNodes(params),
-    ...options,
   });
 };
 
-interface UseSearchNodes extends WithTaxonomyVersion {
-  ids?: string[];
-  language?: string;
-  nodeType?: NodeType[];
-  page?: number;
-  pageSize?: number;
-  query?: string;
-}
+interface SearchNodesParams extends WithTaxonomyVersion, NodeSearchBody {}
 
-export const useSearchNodes = (params: UseSearchNodes, options?: Partial<UseQueryOptions<SearchResult>>) => {
-  return useQuery<SearchResult>({
+export const searchNodesQueryOptions = (params: SearchNodesParams) => {
+  const { taxonomyVersion, ...body } = params;
+  return queryOptions({
     queryKey: nodeQueryKeys.search(params),
-    queryFn: () => searchNodes(params),
-    ...options,
-  });
-};
-
-interface UsePostSearchNodes extends WithTaxonomyVersion {
-  body: NodeSearchBody;
-}
-export const usePostSearchNodes = (body: UsePostSearchNodes, options?: Partial<UseQueryOptions<SearchResult>>) => {
-  return useQuery<SearchResult>({
-    queryKey: nodeQueryKeys.postSearch(body),
-    queryFn: () => postSearchNodes(body),
-    ...options,
+    queryFn: () => postSearchNodes({ body, taxonomyVersion: taxonomyVersion }),
   });
 };

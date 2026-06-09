@@ -10,7 +10,7 @@ import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Version } from "@ndla/types-backend/taxonomy-api";
 import { HeadingLevel } from "@ndla/ui";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Formik, FormikHelpers } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -20,9 +20,9 @@ import validateFormik, { RulesType } from "../../../components/formikValidationS
 import SaveButton from "../../../components/SaveButton";
 import Fade from "../../../components/Taxonomy/Fade";
 import {
-  usePostVersionMutation,
-  usePublishVersionMutation,
-  usePutVersionMutation,
+  postVersionMutationOptions,
+  publishVersionMutationOptions,
+  putVersionMutationOptions,
 } from "../../../modules/taxonomy/versions/versionMutations";
 import { versionQueryKeys } from "../../../modules/taxonomy/versions/versionQueries";
 import {
@@ -70,7 +70,8 @@ const VersionForm = ({ version, existingVersions, onClose, headingLevel: Heading
   const qc = useQueryClient();
   const versionsKey = versionQueryKeys.versions();
 
-  const versionPostMutation = usePostVersionMutation({
+  const versionPostMutation = useMutation({
+    ...postVersionMutationOptions(),
     onMutate: async ({ body }) => {
       setError(undefined);
       await qc.cancelQueries({ queryKey: versionsKey });
@@ -89,7 +90,8 @@ const VersionForm = ({ version, existingVersions, onClose, headingLevel: Heading
     onError: () => setError(t("taxonomyVersions.postError")),
   });
 
-  const versionPutMutation = usePutVersionMutation({
+  const versionPutMutation = useMutation({
+    ...putVersionMutationOptions(),
     onMutate: async ({ id, body }) => {
       setError(undefined);
       await qc.cancelQueries({ queryKey: versionsKey });
@@ -109,7 +111,8 @@ const VersionForm = ({ version, existingVersions, onClose, headingLevel: Heading
     onError: () => setError(t("taxonomyVersions.putError")),
   });
 
-  const publishVersionMutation = usePublishVersionMutation({
+  const publishVersionMutation = useMutation({
+    ...publishVersionMutationOptions(),
     onMutate: async ({ id }) => {
       setError(undefined);
       await qc.cancelQueries({ queryKey: versionsKey });

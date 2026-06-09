@@ -21,28 +21,22 @@ import { SegmentHeader } from "../../../../components/Form/SegmentHeader";
 import { FormField } from "../../../../components/FormField";
 import { FormActionsContainer, FormContent } from "../../../../components/FormikForm";
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
-import { ASIDE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/aside/asideTypes";
 import { AUDIO_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/audio/audioTypes";
 import { frontpageActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
 import { createBlockpickerOptions } from "../../../../components/SlateEditor/plugins/blockPicker/options";
 import SlateBlockPicker from "../../../../components/SlateEditor/plugins/blockPicker/SlateBlockPicker";
-import { CAMPAIGN_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/campaignBlock/types";
 import { CODE_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/codeBlock/types";
 import { COMMENT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/comment/block/types";
-import { CONTACT_BLOCK_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/contactBlock/types";
 import { EXTERNAL_ELEMENT_TYPE, IFRAME_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/external/types";
 import { FILE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/file/types";
-import { FRAMED_CONTENT_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/framedContent/framedContentTypes";
 import { GRID_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/grid/types";
 import { H5P_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/h5p/types";
 import { IMAGE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/image/types";
 import { KEY_FIGURE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/keyFigure/types";
-import { LINK_BLOCK_LIST_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/linkBlockList/types";
 import { PITCH_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/pitch/types";
 import { TABLE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/table/types";
 import { UNSUPPORTED_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/unsupported/types";
 import { UnsupportedElement } from "../../../../components/SlateEditor/plugins/unsupported/UnsupportedElement";
-import { DISCLAIMER_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/uuDisclaimer/types";
 import { BRIGHTCOVE_ELEMENT_TYPE } from "../../../../components/SlateEditor/plugins/video/types";
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
 import { DRAFT_HTML_SCOPE, SAVE_DEBOUNCE_MS } from "../../../../constants";
@@ -78,20 +72,15 @@ const actions = [
   TABLE_ELEMENT_TYPE,
   CODE_BLOCK_ELEMENT_TYPE,
   FILE_ELEMENT_TYPE,
-  CONTACT_BLOCK_ELEMENT_TYPE,
   GRID_ELEMENT_TYPE,
-  KEY_FIGURE_ELEMENT_TYPE,
-  CAMPAIGN_BLOCK_ELEMENT_TYPE,
-  LINK_BLOCK_LIST_ELEMENT_TYPE,
-  DISCLAIMER_ELEMENT_TYPE,
   COMMENT_BLOCK_ELEMENT_TYPE,
-  FRAMED_CONTENT_ELEMENT_TYPE,
-  ASIDE_ELEMENT_TYPE,
 ].concat(visualElements);
 
 const actionsToShowInAreas = {
+  details: actions,
+  aside: actions,
+  framedContent: actions,
   "table-cell": [IMAGE_ELEMENT_TYPE],
-  section: actions,
   "grid-cell": [IMAGE_ELEMENT_TYPE, KEY_FIGURE_ELEMENT_TYPE, PITCH_ELEMENT_TYPE],
 };
 

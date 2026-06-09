@@ -10,11 +10,12 @@ import { ArrowRightShortLine } from "@ndla/icons";
 import { MessageBox, Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild } from "@ndla/types-backend/taxonomy-api";
+import { useQuery } from "@tanstack/react-query";
 import { isEqual } from "lodash-es";
 import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router";
-import { useNodeTree } from "../../modules/nodes/nodeQueries";
+import { nodeTreeQueryOptions } from "../../modules/nodes/nodeQueries";
 import { diffTrees, DiffType, DiffTypeWithChildren, RootDiffType } from "./diffUtils";
 import NodeDiff from "./NodeDiff";
 import { RootNode } from "./TreeNode";
@@ -74,30 +75,26 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     setSelectedNode(undefined);
   }, [originalHash, otherHash]);
 
-  const defaultQuery = useNodeTree(
-    {
+  const defaultQuery = useQuery({
+    ...nodeTreeQueryOptions({
       id: nodeId,
       language: i18n.language,
       taxonomyVersion: originalHash,
-    },
-    {
-      enabled: !!nodeId,
-      //@ts-expect-error - this is a network error
-      retry: (_, err) => err.status !== 404,
-    },
-  );
-  const otherQuery = useNodeTree(
-    {
+    }),
+    enabled: !!nodeId,
+    //@ts-expect-error - this is a network error
+    retry: (_, err) => err.status !== 404,
+  });
+  const otherQuery = useQuery({
+    ...nodeTreeQueryOptions({
       id: nodeId,
       language: i18n.language,
       taxonomyVersion: otherHash,
-    },
-    {
-      enabled: !!nodeId && !!otherHash,
-      //@ts-expect-error - this is a network error
-      retry: (_, err) => err.status !== 404,
-    },
-  );
+    }),
+    enabled: !!nodeId && !!otherHash,
+    //@ts-expect-error - this is a network error
+    retry: (_, err) => err.status !== 404,
+  });
 
   useEffect(() => {
     if (defaultQuery.isLoading || otherQuery.isLoading || (defaultQuery.data && otherQuery.data)) {

@@ -7,6 +7,7 @@
  */
 
 import { PageContent } from "@ndla/primitives";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router";
@@ -18,7 +19,7 @@ import {
 import { PageSpinner } from "../../../components/PageSpinner";
 import { isNewArticleLanguage } from "../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import { LocaleType } from "../../../interfaces";
-import { useNodes } from "../../../modules/nodes/nodeQueries";
+import { nodesQueryOptions } from "../../../modules/nodes/nodeQueries";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 import NotFound from "../../NotFoundPage/NotFoundPage";
@@ -82,18 +83,16 @@ const EditTopicArticle = () => {
 
   const { shouldTranslate, translate, translating, translatedFields } = useTranslateToNN();
 
-  const taxonomyQuery = useNodes(
-    {
+  const taxonomyQuery = useQuery({
+    ...nodesQueryOptions({
       contentURI: `urn:article:${params.id}`,
       taxonomyVersion,
       filterProgrammes: true,
       language: selectedLanguage,
       includeContexts: true,
-    },
-    {
-      enabled: !!params.selectedLanguage && !!params.id,
-    },
-  );
+    }),
+    enabled: !!params.selectedLanguage && !!params.id,
+  });
 
   useEffect(() => {
     (async () => {

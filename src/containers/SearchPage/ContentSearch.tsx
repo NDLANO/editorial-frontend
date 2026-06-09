@@ -16,7 +16,7 @@ import config from "../../config";
 import { DA_SUBJECT_ID, LMA_SUBJECT_ID, NO_RESPONSIBLES, PUBLISHED, SA_SUBJECT_ID } from "../../constants";
 import { auth0UsersQueryOptions } from "../../modules/auth0/auth0Queries";
 import { userDataQueryOptions } from "../../modules/draft/draftQueries";
-import { useNodes, usePostSearchNodes } from "../../modules/nodes/nodeQueries";
+import { nodesQueryOptions, searchNodesQueryOptions } from "../../modules/nodes/nodeQueries";
 import { NoNodeDraftSearchParams } from "../../modules/search/searchApiInterfaces";
 import { searchQueryOptions } from "../../modules/search/searchQueries";
 import { getAccessToken, isActiveToken } from "../../util/authHelpers";
@@ -65,11 +65,13 @@ export const ContentSearch = () => {
   const [params, setParams] = useStableSearchPageParams();
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const subjectsQuery = useNodes({
-    language: i18n.language,
-    nodeType: ["SUBJECT"],
-    taxonomyVersion,
-  });
+  const subjectsQuery = useQuery(
+    nodesQueryOptions({
+      language: i18n.language,
+      nodeType: ["SUBJECT"],
+      taxonomyVersion,
+    }),
+  );
 
   const parsedParams = useMemo(() => {
     const responsibles = params.get("responsible-ids");
@@ -100,10 +102,10 @@ export const ContentSearch = () => {
     enabled: isActiveToken(getAccessToken()),
   });
 
-  const searchNodesQuery = usePostSearchNodes(
-    { body: customFieldsBody(userDataQuery.data?.userId ?? ""), taxonomyVersion },
-    { enabled: !!userDataQuery.data?.userId && RELEVANT_SUBJECT_IDS.includes(params.get("subjects") ?? "") },
-  );
+  const searchNodesQuery = useQuery({
+    ...searchNodesQueryOptions({ ...customFieldsBody(userDataQuery.data?.userId ?? ""), taxonomyVersion }),
+    enabled: !!userDataQuery.data?.userId && RELEVANT_SUBJECT_IDS.includes(params.get("subjects") ?? ""),
+  });
 
   const subjectIdObject = useMemo(() => {
     if (!userDataQuery.data?.userId || !searchNodesQuery.data) return defaultSubjectIdObject;

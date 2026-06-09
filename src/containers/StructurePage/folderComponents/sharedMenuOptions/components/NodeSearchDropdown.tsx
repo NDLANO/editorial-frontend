@@ -8,9 +8,10 @@
 
 import { ComboboxLabel } from "@ndla/primitives";
 import { Node, NodeType } from "@ndla/types-backend/taxonomy-api";
+import { useQuery } from "@tanstack/react-query";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../../../components/Form/GenericSearchCombobox";
-import { useSearchNodes } from "../../../../../modules/nodes/nodeQueries";
+import { searchNodesQueryOptions } from "../../../../../modules/nodes/nodeQueries";
 import { usePaginatedQuery } from "../../../../../util/usePaginatedQuery";
 import { useTaxonomyVersion } from "../../../../StructureVersion/TaxonomyVersionProvider";
 
@@ -26,12 +27,14 @@ const NodeSearchDropdown = ({ placeholder, filter, onChange, searchNodeType = "T
   const { taxonomyVersion } = useTaxonomyVersion();
   const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
 
-  const searchQuery = useSearchNodes({
-    taxonomyVersion,
-    nodeType: [searchNodeType],
-    page,
-    query: delayedQuery,
-  });
+  const searchQuery = useQuery(
+    searchNodesQueryOptions({
+      taxonomyVersion,
+      nodeType: [searchNodeType],
+      page,
+      query: delayedQuery,
+    }),
+  );
 
   return (
     <GenericSearchCombobox

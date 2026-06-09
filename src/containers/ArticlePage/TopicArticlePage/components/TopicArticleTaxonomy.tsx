@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
 import { TaxonomyBlock } from "../../../../components/Taxonomy/TaxonomyBlock";
 import { TaxonomyConnections } from "../../../../components/Taxonomy/TaxonomyConnections";
 import { TAXONOMY_ADMIN_SCOPE } from "../../../../constants";
-import { useNodes } from "../../../../modules/nodes/nodeQueries";
+import { nodesQueryOptions } from "../../../../modules/nodes/nodeQueries";
 import { versionsQueryOptions } from "../../../../modules/taxonomy/versions/versionQueries";
 import { useSession } from "../../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
@@ -41,12 +41,14 @@ const TopicArticleTaxonomy = ({ article, articleLanguage, hasTaxEntries }: Props
   const { userPermissions } = useSession();
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
-  const nodesQuery = useNodes({
-    language: articleLanguage,
-    contentURI: `urn:article:${article.id}`,
-    taxonomyVersion,
-    includeContexts: true,
-  });
+  const nodesQuery = useQuery(
+    nodesQueryOptions({
+      language: articleLanguage,
+      contentURI: `urn:article:${article.id}`,
+      taxonomyVersion,
+      includeContexts: true,
+    }),
+  );
 
   const [validPlacements, invalidPlacements] = useMemo(() => {
     return partition(

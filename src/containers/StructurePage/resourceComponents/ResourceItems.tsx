@@ -13,12 +13,15 @@ import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { sortBy } from "@ndla/util";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
-import { useDeleteNodeConnectionMutation, useUpdateNodeConnectionMutation } from "../../../modules/nodes/nodeMutations";
+import {
+  deleteNodeConnectionMutationOptions,
+  updateNodeConnectionMutationOptions,
+} from "../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import handleError from "../../../util/handleError";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -107,7 +110,8 @@ const ResourceItems = ({
     taxonomyVersion,
   });
 
-  const deleteNodeConnection = useDeleteNodeConnectionMutation({
+  const deleteNodeConnection = useMutation({
+    ...deleteNodeConnectionMutationOptions(),
     onMutate: async ({ id }) => {
       await qc.cancelQueries({ queryKey: compKey });
       const prevData = qc.getQueryData<NodeChild[]>(compKey) ?? [];
@@ -136,7 +140,8 @@ const ResourceItems = ({
     return resources;
   };
 
-  const { mutateAsync: updateNodeConnection } = useUpdateNodeConnectionMutation({
+  const { mutateAsync: updateNodeConnection } = useMutation({
+    ...updateNodeConnectionMutationOptions(),
     onMutate: ({ id, body }) => onUpdateRank(id, body.rank as number),
     onError: (e) => handleError(e),
     onSettled: () => qc.invalidateQueries({ queryKey: compKey }),

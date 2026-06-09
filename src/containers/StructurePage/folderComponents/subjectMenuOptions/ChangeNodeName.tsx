@@ -19,7 +19,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Translation, Node } from "@ndla/types-backend/taxonomy-api";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FieldArray, Formik, FormikProps } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -30,9 +30,9 @@ import FormWrapper from "../../../../components/FormWrapper";
 import SaveButton from "../../../../components/SaveButton";
 import { subjectLanguages } from "../../../../i18n";
 import {
-  useDeleteNodeTranslationMutation,
-  usePutNodeMutation,
-  useUpdateNodeTranslationMutation,
+  deleteNodeTranslationMutationOptions,
+  putNodeMutationOptions,
+  updateNodeTranslationMutationOptions,
 } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys, useNode } from "../../../../modules/nodes/nodeQueries";
 import { isFormikFormDirty } from "../../../../util/formHelper";
@@ -84,9 +84,9 @@ const ChangeNodeName = ({ node }: Props) => {
     taxonomyVersion,
   });
 
-  const { mutateAsync: deleteNodeTranslation } = useDeleteNodeTranslationMutation();
-  const { mutateAsync: updateNodeTranslation } = useUpdateNodeTranslationMutation();
-  const putNodeMutation = usePutNodeMutation();
+  const { mutateAsync: deleteNodeTranslation } = useMutation(deleteNodeTranslationMutationOptions());
+  const { mutateAsync: updateNodeTranslation } = useMutation(updateNodeTranslationMutationOptions());
+  const putNodeMutation = useMutation(putNodeMutationOptions());
 
   const toRecord = (translations: Translation[]): Record<string, Translation> =>
     translations.reduce((prev, curr) => ({ ...prev, [curr.language]: curr }), {});

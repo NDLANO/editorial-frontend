@@ -9,9 +9,10 @@
 import { Spinner } from "@ndla/primitives";
 import { Node } from "@ndla/types-backend/taxonomy-api";
 import { keyBy } from "@ndla/util";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useChildNodes, useNodeResourceMetas } from "../../../modules/nodes/nodeQueries";
+import { childNodesQueryOptions, nodesResourceMetasQueryOptions } from "../../../modules/nodes/nodeQueries";
 import { getContentUriFromSearchSummary } from "../../../util/searchHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import ResourceItems from "../resourceComponents/ResourceItems";
@@ -24,22 +25,24 @@ export const MultidisciplinaryCases = ({ currentNode }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const childrenQuery = useChildNodes({
-    connectionTypes: ["LINK"],
-    id: currentNode.id,
-    language: i18n.language,
-    taxonomyVersion,
-    recursive: false,
-  });
+  const childrenQuery = useQuery(
+    childNodesQueryOptions({
+      connectionTypes: ["LINK"],
+      id: currentNode.id,
+      language: i18n.language,
+      taxonomyVersion,
+      recursive: false,
+    }),
+  );
 
-  const nodeResourceMetasQuery = useNodeResourceMetas(
-    {
+  const nodeResourceMetasQuery = useQuery({
+    ...nodesResourceMetasQueryOptions({
       nodeId: currentNode.id,
       contentUris: childrenQuery.data?.map((node) => node.contentUri).filter((uri): uri is string => !!uri) ?? [],
       language: i18n.language,
-    },
-    { enabled: !!childrenQuery.data?.length },
-  );
+    }),
+    enabled: !!childrenQuery.data?.length,
+  });
 
   const keyedMetas = useMemo(
     () => keyBy(nodeResourceMetasQuery.data, (m) => getContentUriFromSearchSummary(m)),

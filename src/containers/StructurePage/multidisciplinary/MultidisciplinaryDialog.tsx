@@ -28,7 +28,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-backend/taxonomy-api";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
@@ -36,7 +36,7 @@ import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import { MULTIDISCIPLINARY_SUBJECT_ID, VALID_CONTEXT_ID_REGEXP } from "../../../constants";
 import { fetchNodes } from "../../../modules/nodes/nodeApi";
-import { usePostNodeConnectionMutation } from "../../../modules/nodes/nodeMutations";
+import { postNodeConnectionMutationOptions } from "../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import { postSearch } from "../../../modules/search/searchApi";
 import { searchQueryOptions } from "../../../modules/search/searchQueries";
@@ -103,7 +103,7 @@ export const MultidisciplinaryDialogContent = ({ currentNode, existingResourceId
   const [error, setError] = useState<string | undefined>(undefined);
   const [previewNode, setPreviewNode] = useState<MultiSearchSummaryDTO | undefined>(undefined);
   const debouncedSearchQuery = useDebounce(query);
-  const postNodeConnectionMutation = usePostNodeConnectionMutation();
+  const postNodeConnectionMutation = useMutation(postNodeConnectionMutationOptions());
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
 

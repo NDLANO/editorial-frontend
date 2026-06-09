@@ -30,7 +30,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ArticleDTO, UpdatedArticleDTO, Priority } from "@ndla/types-backend/draft-api";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { Node, ResourceType } from "@ndla/types-backend/taxonomy-api";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Formik } from "formik";
 import { TFunction } from "i18next";
 import { useCallback, useMemo, useState } from "react";
@@ -55,7 +55,7 @@ import { createDraft, updateUserData } from "../../../modules/draft/draftApi";
 import { userDataQueryOptions } from "../../../modules/draft/draftQueries";
 import { postLearningpath } from "../../../modules/learningpath/learningpathApi";
 import { RESOURCE_NODE, TOPIC_NODE } from "../../../modules/nodes/nodeApiTypes";
-import { useAddNodeMutation, usePostNodeConnectionMutation } from "../../../modules/nodes/nodeMutations";
+import { postNodeConnectionMutationOptions, useAddNodeMutation } from "../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import { getRootIdForNode } from "../../../modules/nodes/nodeUtil";
 import { resourceTypesQueryOptions } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
@@ -183,7 +183,8 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
     id: nodeId,
     language: i18n.language,
   });
-  const { mutateAsync: createNodeResource, isPending: postResourceLoading } = usePostNodeConnectionMutation({
+  const { mutateAsync: createNodeResource, isPending: postResourceLoading } = useMutation({
+    ...postNodeConnectionMutationOptions(),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: compKey });
       qc.invalidateQueries({ queryKey: compKeyChildNodes });

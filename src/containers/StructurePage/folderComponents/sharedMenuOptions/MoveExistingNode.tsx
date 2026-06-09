@@ -10,13 +10,13 @@ import { CheckLine } from "@ndla/icons";
 import { Text, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeType } from "@ndla/types-backend/taxonomy-api";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { fetchConnectionsForNode } from "../../../../modules/nodes/nodeApi";
 import {
-  useDeleteNodeConnectionMutation,
-  usePostNodeConnectionMutation,
+  deleteNodeConnectionMutationOptions,
+  postNodeConnectionMutationOptions,
 } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
@@ -56,8 +56,8 @@ interface Props {
 const MoveExistingNode = ({ currentNode, nodeType = "TOPIC" }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const deleteNodeConnectionMutation = useDeleteNodeConnectionMutation();
-  const addNodeConnectionMutation = usePostNodeConnectionMutation();
+  const deleteNodeConnectionMutation = useMutation(deleteNodeConnectionMutationOptions());
+  const addNodeConnectionMutation = useMutation(postNodeConnectionMutationOptions());
   const [error, setError] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);

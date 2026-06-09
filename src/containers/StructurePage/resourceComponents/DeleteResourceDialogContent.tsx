@@ -17,7 +17,7 @@ import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../constants";
 import { updateDraftStatusMutationOptions } from "../../../modules/draft/draftMutations";
 import { learningpathsWithArticleQueryOptions } from "../../../modules/learningpath/learningpathQueries";
-import { useDeleteNodeConnectionMutation } from "../../../modules/nodes/nodeMutations";
+import { deleteNodeConnectionMutationOptions } from "../../../modules/nodes/nodeMutations";
 import { getContentUriInfo } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
@@ -31,7 +31,7 @@ interface Props {
 export const DeleteResourceDialogContent = ({ resource, contentMeta, invalidate, isMultidisciplinary }: Props) => {
   const { t } = useTranslation();
   const { setOpen } = useDialogContext();
-  const deleteNodeConnectionMutation = useDeleteNodeConnectionMutation();
+  const deleteNodeConnectionMutation = useMutation(deleteNodeConnectionMutationOptions());
   const updateArticleMutation = useMutation(updateDraftStatusMutationOptions());
   const { taxonomyVersion } = useTaxonomyVersion();
 

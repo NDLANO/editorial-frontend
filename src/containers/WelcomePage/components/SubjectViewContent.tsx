@@ -14,7 +14,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../../components/abstractions/Pagination";
 import { SUBJECT_NODE } from "../../../modules/nodes/nodeApiTypes";
-import { useSearchNodes } from "../../../modules/nodes/nodeQueries";
+import { searchNodesQueryOptions } from "../../../modules/nodes/nodeQueries";
 import { searchSubjectStatsQueryOptions } from "../../../modules/search/searchQueries";
 import { toSearch } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -74,18 +74,16 @@ const SubjectViewContent = ({
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useLocalStoragePageSizeState(localStoragePageSizeKey);
 
-  const { data: favoriteSubjects } = useSearchNodes(
-    {
+  const { data: favoriteSubjects } = useQuery({
+    ...searchNodesQueryOptions({
       ids: isFavoriteTab ? subjects : [],
       taxonomyVersion,
       nodeType: [SUBJECT_NODE],
       pageSize: subjects.length,
       language: i18n.language,
-    },
-    {
-      enabled: isFavoriteTab,
-    },
-  );
+    }),
+    enabled: isFavoriteTab,
+  });
   const subjectIds = useMemo(() => {
     if (isFavoriteTab) {
       if (favoriteSubjects) return favoriteSubjects.results.map((s) => s.id);

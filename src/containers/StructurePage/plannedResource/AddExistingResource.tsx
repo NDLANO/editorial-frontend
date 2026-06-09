@@ -186,11 +186,11 @@ const doPastedSearch = async ({ input, type, t, taxonomyVersion, language }: Pas
       taxonomyVersion,
     });
 
-    if (!resolvedUrl.contentUri.includes(type)) {
+    if (!resolvedUrl.contentUri?.includes(type)) {
       throw new Error(t("taxonomy.conflictError"));
     }
 
-    searchId = Number(resolvedUrl.contentUri.split(":").at(-1) ?? "");
+    searchId = Number(resolvedUrl.contentUri?.split(":").at(-1) ?? "");
   } else {
     throw new Error(t("taxonomy.invalidUrl"));
   }

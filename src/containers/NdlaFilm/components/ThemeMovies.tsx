@@ -10,6 +10,7 @@ import { Draggable } from "@ndla/icons";
 import { ComboboxLabel, FieldRoot, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { useQuery } from "@tanstack/react-query";
 import { isEqual } from "lodash-es";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -20,7 +21,7 @@ import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCom
 import ListResource from "../../../components/Form/ListResource";
 import { NDLA_FILM_SUBJECT } from "../../../constants";
 import { useMoviesQuery } from "../../../modules/frontpage/filmQueries";
-import { useSearchResources } from "../../../modules/search/searchQueries";
+import { searchResourcesQueryOptions } from "../../../modules/search/searchQueries";
 import { routes } from "../../../util/routeHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 import { getUrnFromId } from "../ndlaFilmHelpers";
@@ -49,20 +50,22 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder, comboboxLabe
 
   const { query, page, setPage, delayedQuery, setQuery } = usePaginatedQuery();
 
-  const searchQuery = useSearchResources({
-    page,
-    query: delayedQuery,
-    subjects: [NDLA_FILM_SUBJECT],
-    pageSize: 10,
-    contextTypes: ["standard"],
-    sort: "-relevance",
-    resourceTypes: [
-      "urn:resourcetype:documentary",
-      "urn:resourcetype:featureFilm",
-      "urn:resourcetype:series",
-      "urn:resourcetype:shortFilm",
-    ],
-  });
+  const searchQuery = useQuery(
+    searchResourcesQueryOptions({
+      page,
+      query: delayedQuery,
+      subjects: [NDLA_FILM_SUBJECT],
+      pageSize: 10,
+      contextTypes: ["standard"],
+      sort: "-relevance",
+      resourceTypes: [
+        "urn:resourcetype:documentary",
+        "urn:resourcetype:featureFilm",
+        "urn:resourcetype:series",
+        "urn:resourcetype:shortFilm",
+      ],
+    }),
+  );
 
   useEffect(() => {
     if (moviesQuery.isSuccess && !apiMovies.length) {

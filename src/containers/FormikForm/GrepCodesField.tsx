@@ -10,6 +10,7 @@ import { AlertLine, DeleteBinLine } from "@ndla/icons";
 import { FieldHelper, FieldLabel, FieldRoot, IconButton, ListItemContent, ListItemRoot, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { GrepResultDTO } from "@ndla/types-backend/search-api";
+import { useQuery } from "@tanstack/react-query";
 import { useField } from "formik";
 import { memo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -17,7 +18,7 @@ import { GenericComboboxInput, GenericComboboxItemContent } from "../../componen
 import { GenericSearchCombobox } from "../../components/Form/GenericSearchCombobox";
 import { GrepFormat } from "../../interfaces";
 import { searchGrepCodes } from "../../modules/search/searchApi";
-import { useSearchGrepCodes } from "../../modules/search/searchQueries";
+import { searchGrepCodesQueryOptions } from "../../modules/search/searchQueries";
 import { isGrepCodeValid } from "../../util/articleUtil";
 import handleError from "../../util/handleError";
 import { usePaginatedQuery } from "../../util/usePaginatedQuery";
@@ -78,11 +79,13 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
   const nonNullPrefix = prefixFilter.map((f) => f.prefix).filter(Boolean);
 
   const { query, setQuery, page, setPage } = usePaginatedQuery();
-  const grepCodesQuery = useSearchGrepCodes({
-    prefixFilter: prefixFilter.map((f) => f.prefix),
-    query: query,
-    page: page,
-  });
+  const grepCodesQuery = useQuery(
+    searchGrepCodesQueryOptions({
+      prefixFilter: prefixFilter.map((f) => f.prefix),
+      query: query,
+      page: page,
+    }),
+  );
 
   useEffect(() => {
     (async () => {

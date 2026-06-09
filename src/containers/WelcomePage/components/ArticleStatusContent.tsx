@@ -10,10 +10,11 @@ import { BookOpenLine } from "@ndla/icons";
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { MultiSearchResultDTO } from "@ndla/types-backend/search-api";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ARCHIVED, PUBLISHED, STATUS_ORDER, UNPUBLISHED } from "../../../constants";
-import { useSearch } from "../../../modules/search/searchQueries";
+import { searchQueryOptions } from "../../../modules/search/searchQueries";
 import { toSearch } from "../../../util/routeHelpers";
 import { useLocalStorageSubjectFilterState, useLocalStorageBooleanState } from "../hooks/storedFilterHooks";
 import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
@@ -85,33 +86,29 @@ const ArticleStatusContent = ({
     () => (filterSubject ? [filterSubject.value] : subjectIds),
     [subjectIds, filterSubject],
   );
-  const searchQuery = useSearch(
-    {
+  const searchQuery = useQuery({
+    ...searchQueryOptions({
       pageSize: 0,
       aggregatePaths: ["draftStatus.current"],
       subjects: filteredSubjectIds,
       filterInactive: true,
       resultTypes: ["draft", "concept", "learningpath"],
       ...(hideOnHold ? { priority: ["prioritized", "unspecified"] } : {}),
-    },
-    {
-      enabled: !!subjectIds.length,
-    },
-  );
+    }),
+    enabled: !!subjectIds.length,
+  });
 
-  const searchResponsibleQuery = useSearch(
-    {
+  const searchResponsibleQuery = useQuery({
+    ...searchQueryOptions({
       responsibleIds: [ndlaId],
       pageSize: 0,
       aggregatePaths: ["draftStatus.current"],
       subjects: filteredSubjectIds,
       filterInactive: true,
       resultTypes: ["draft", "concept", "learningpath"],
-    },
-    {
-      enabled: !!subjectIds.length,
-    },
-  );
+    }),
+    enabled: !!subjectIds.length,
+  });
 
   const error = useMemo(() => {
     if (searchQuery.isError || searchResponsibleQuery.error) {

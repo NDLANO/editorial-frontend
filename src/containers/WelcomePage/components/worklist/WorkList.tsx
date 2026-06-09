@@ -22,7 +22,7 @@ import {
   STORED_SORT_OPTION_WORKLIST_ON_HOLD,
 } from "../../../../constants";
 import { searchConceptsQueryOptions } from "../../../../modules/concept/conceptQueries";
-import { useSearch } from "../../../../modules/search/searchQueries";
+import { searchQueryOptions } from "../../../../modules/search/searchQueries";
 import {
   useLocalStoragePageSizeState,
   useLocalStorageSortOptionState,
@@ -77,8 +77,8 @@ const WorkList = ({ ndlaId }: Props) => {
     setPage(1);
   }, [filterSubject, pageSize]);
 
-  const searchQuery = useSearch(
-    {
+  const searchQuery = useQuery({
+    ...searchQueryOptions({
       responsibleIds: [ndlaId],
       sort: sortOption,
       ...(prioritized ? { priority: ["prioritized"] } : { priority: ["prioritized", "unspecified"] }),
@@ -88,9 +88,9 @@ const WorkList = ({ ndlaId }: Props) => {
       language: i18n.language,
       fallback: true,
       resultTypes: ["draft", "concept", "learningpath"],
-    },
-    { enabled: !!ndlaId },
-  );
+    }),
+    enabled: !!ndlaId,
+  });
 
   const searchConceptsQuery = useQuery({
     ...searchConceptsQueryOptions({
@@ -104,8 +104,8 @@ const WorkList = ({ ndlaId }: Props) => {
     enabled: !!ndlaId,
   });
 
-  const searchOnHoldQuery = useSearch(
-    {
+  const searchOnHoldQuery = useQuery({
+    ...searchQueryOptions({
       responsibleIds: [ndlaId],
       sort: sortOptionOnHold,
       priority: ["on-hold"],
@@ -114,9 +114,9 @@ const WorkList = ({ ndlaId }: Props) => {
       language: i18n.language,
       fallback: true,
       resultTypes: ["draft", "concept", "learningpath"],
-    },
-    { enabled: !!ndlaId },
-  );
+    }),
+    enabled: !!ndlaId,
+  });
 
   const searchError = useMemo(() => {
     if (searchQuery.isError) {

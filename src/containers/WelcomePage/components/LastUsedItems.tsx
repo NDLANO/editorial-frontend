@@ -13,7 +13,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { searchConceptsQueryOptions } from "../../../modules/concept/conceptQueries";
 import { searchDraftQueryOptions } from "../../../modules/draft/draftQueries";
-import { useSearch } from "../../../modules/search/searchQueries";
+import { searchQueryOptions } from "../../../modules/search/searchQueries";
 import { SortOptionLastUsed } from "../types";
 import LastUsedConcepts from "./LastUsedConcepts";
 import { LastUsedLearningpaths } from "./LastUsedLearningpaths";
@@ -70,17 +70,17 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [], lastUsed
     return getSortedResults(searchConceptsQuery.data?.results || [], lastUsedConcepts);
   }, [lastUsedConcepts, searchConceptsQuery.data?.results]);
 
-  const searchLearningpathsQuery = useSearch(
-    {
+  const searchLearningpathsQuery = useQuery({
+    ...searchQueryOptions({
       ids: lastUsedLearningpaths,
       resultTypes: ["learningpath"],
       license: "all",
       filterInactive: false,
       language: i18n.language,
       sort: "-lastUpdated",
-    },
-    { enabled: !!lastUsedLearningpaths.length },
-  );
+    }),
+    enabled: !!lastUsedLearningpaths.length,
+  });
 
   const learningpathData = useMemo(() => {
     return getSortedResults(searchLearningpathsQuery.data?.results || [], lastUsedLearningpaths);

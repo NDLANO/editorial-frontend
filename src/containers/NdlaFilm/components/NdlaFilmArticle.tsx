@@ -8,6 +8,7 @@
 
 import { ComboboxLabel, FieldRoot } from "@ndla/primitives";
 import { ArticleV2DTO } from "@ndla/types-backend/article-api";
+import { useQuery } from "@tanstack/react-query";
 import { useField } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -15,7 +16,7 @@ import { GenericComboboxInput, GenericComboboxItemContent } from "../../../compo
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import ListResource from "../../../components/Form/ListResource";
 import { getArticle } from "../../../modules/article/articleApi";
-import { useSearchResources } from "../../../modules/search/searchQueries";
+import { searchResourcesQueryOptions } from "../../../modules/search/searchQueries";
 import { routes } from "../../../util/routeHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 import { getIdFromUrn, getUrnFromId } from "../ndlaFilmHelpers";
@@ -30,10 +31,10 @@ const NdlaFilmArticle = ({ fieldName }: Props) => {
   const [selectedArticle, setSelectedArticle] = useState<undefined | ArticleV2DTO>(undefined);
   const { query, page, setPage, delayedQuery, setQuery } = usePaginatedQuery();
 
-  const searchQuery = useSearchResources(
-    { articleTypes: ["frontpage-article"], page, query: delayedQuery },
-    { placeholderData: (prev) => prev },
-  );
+  const searchQuery = useQuery({
+    ...searchResourcesQueryOptions({ articleTypes: ["frontpage-article"], page, query: delayedQuery }),
+    placeholderData: (prev) => prev,
+  });
 
   useEffect(() => {
     const initSelectedArticle = async () => {

@@ -13,7 +13,6 @@ export const SEARCH_IMAGES = "searchImages";
 export const SEARCH = "search";
 export const SEARCH_RESOURCES = "searchResources";
 export const SEARCH_GREP_CODES = "searchGrepCodes";
-export const SEARCH_WITH_CUSTOM_SUBJECTS_FILTERING = "searchWithCustomSubjectsFiltering";
 export const SEARCH_SUBJECT_STATS = "searchSubjectStats";
 export const MYNDLA_RESOURCE_STATS = "myNdlaResourceStats";
 

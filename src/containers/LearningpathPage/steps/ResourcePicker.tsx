@@ -9,6 +9,7 @@
 import { Badge } from "@ndla/primitives";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { BadgesContainer } from "@ndla/ui";
+import { useQuery } from "@tanstack/react-query";
 import parse from "html-react-parser";
 import { debounce } from "lodash-es";
 import { useState, useMemo, ReactNode } from "react";
@@ -24,7 +25,7 @@ import {
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
   RESOURCE_TYPE_GAME,
 } from "../../../constants";
-import { useSearch } from "../../../modules/search/searchQueries";
+import { searchQueryOptions } from "../../../modules/search/searchQueries";
 import { getBadges } from "../../../util/getBadges";
 import { ResourceData } from "./types";
 
@@ -43,20 +44,22 @@ export const ResourcePicker = ({ setResource, children, onlyPublishedResources }
   const [searchObject, setSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
   const [delayedSearchObject, setDelayedSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
 
-  const searchQuery = useSearch({
-    query: delayedSearchObject.query,
-    page: delayedSearchObject.page,
-    pageSize: delayedSearchObject.pageSize,
-    resultTypes: ["draft", "concept", "learningpath"],
-    resourceTypes: [
-      RESOURCE_TYPE_SUBJECT_MATERIAL,
-      RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
-      RESOURCE_TYPE_ASSESSMENT_RESOURCES,
-      RESOURCE_TYPE_SOURCE_MATERIAL,
-      RESOURCE_TYPE_CONCEPT,
-      RESOURCE_TYPE_GAME,
-    ],
-  });
+  const searchQuery = useQuery(
+    searchQueryOptions({
+      query: delayedSearchObject.query,
+      page: delayedSearchObject.page,
+      pageSize: delayedSearchObject.pageSize,
+      resultTypes: ["draft", "concept", "learningpath"],
+      resourceTypes: [
+        RESOURCE_TYPE_SUBJECT_MATERIAL,
+        RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
+        RESOURCE_TYPE_ASSESSMENT_RESOURCES,
+        RESOURCE_TYPE_SOURCE_MATERIAL,
+        RESOURCE_TYPE_CONCEPT,
+        RESOURCE_TYPE_GAME,
+      ],
+    }),
+  );
 
   const searchHits = useMemo(() => {
     return (

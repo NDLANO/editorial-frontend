@@ -8,6 +8,8 @@
 
 // This is the entry point of the application.
 
+// NOTE: Must be first so OpenTelemetry can instrument `http` and `fetch` before they are loaded/used.
+import "./instrumentation";
 import fs from "fs/promises";
 import { join } from "path";
 import { getCookie } from "@ndla/util";
@@ -22,12 +24,17 @@ import { ACCESS_TOKEN_COOKIE, HAS_REFRESH_TOKEN_COOKIE } from "./constants";
 import api from "./server/api";
 import authEndpoints, { refreshAccessToken } from "./server/authEndpoints";
 import contentSecurityPolicy from "./server/contentSecurityPolicy";
+import { correlationIdMiddleware } from "./server/correlationContext";
+import { installCorrelationIdFetch } from "./server/correlationFetch";
+import { gracefulShutdown } from "./server/gracefulShutdown";
 import log from "./server/logger";
+import { spanNamingMiddleware } from "./server/spanNamingMiddleware";
 
 const isProduction = config.runtimeType === "production";
 const base = "/";
 
 const app = express();
+installCorrelationIdFetch();
 // Cached production assets
 // Vercel is particular about how it reads files. Changing this might break the build.
 const templateHtml = isProduction
@@ -59,6 +66,8 @@ const metricsMiddleware = promBundle({
 });
 
 app.use(metricsMiddleware);
+app.use(correlationIdMiddleware);
+app.use(spanNamingMiddleware);
 
 const allowedBodyContentTypes = ["application/csp-report", "application/json"];
 
@@ -159,10 +168,12 @@ app.get("*splat", async (req, res) => {
 
 if (!config.isVercel) {
   // Start http server
-  app.listen(config.port, () => {
+  const server = app.listen(config.port, () => {
     // eslint-disable-next-line no-console
     console.log(`Server started at http://localhost:${config.port}`);
   });
+
+  process.on("SIGTERM", () => gracefulShutdown(server));
 }
 
 export default app;

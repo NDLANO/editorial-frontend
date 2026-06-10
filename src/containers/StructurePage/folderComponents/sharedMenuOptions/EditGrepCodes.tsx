@@ -7,8 +7,9 @@
  */
 
 import { Node } from "@ndla/types-backend/taxonomy-api";
+import { useMutation } from "@tanstack/react-query";
 import { GREP_CODE_FORMATS } from "../../../../constants";
-import { useUpdateNodeMetadataMutation } from "../../../../modules/nodes/nodeMutations";
+import { updateNodeMetadataMutationOptions } from "../../../../modules/nodes/nodeMutations";
 import { getRootIdForNode, isRootNode } from "../../../../modules/nodes/nodeUtil";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import GrepCodesForm from "../../resourceComponents/GrepCodesForm";
@@ -21,13 +22,14 @@ const EditGrepCodes = ({ node }: Props) => {
   const rootId = getRootIdForNode(node);
   const { id, metadata } = node;
   const { taxonomyVersion } = useTaxonomyVersion();
-  const { mutateAsync: patchMetadata } = useUpdateNodeMetadataMutation();
+  const { mutateAsync: patchMetadata } = useMutation(
+    updateNodeMetadataMutationOptions({ rootId: isRootNode(node) ? undefined : rootId }),
+  );
 
   const updateMetadata = async (codes: string[]) => {
     await patchMetadata({
       id,
-      metadata: { grepCodes: codes, visible: metadata.visible },
-      rootId: isRootNode(node) ? undefined : rootId,
+      meta: { grepCodes: codes, visible: metadata.visible },
       taxonomyVersion,
     });
   };

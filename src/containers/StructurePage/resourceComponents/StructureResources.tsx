@@ -13,9 +13,12 @@ import { TFunction } from "i18next";
 import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
-import { childNodesQueryOptions, nodesResourceMetasQueryOptions } from "../../../modules/nodes/nodeQueries";
+import { childNodesQueryOptions } from "../../../modules/nodes/nodeQueries";
+import { searchQueryOptions } from "../../../modules/search/searchQueries";
 import { getContentUriFromSearchSummary } from "../../../util/searchHelpers";
+import { getContentUrisFromNodes } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import { extrapolateNodeResourcesFromSearch, getSearchParamsFromContentUris } from "../utils";
 import ResourcesContainer from "./ResourcesContainer";
 
 interface Props {
@@ -42,7 +45,7 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const numbered = currentChildNode?.metadata?.customFields["numbered"] === "true";
 
-  const { data: nodeChildren, isPending: nodeResourcesIsPending } = useQuery({
+  const { data: nodeChildren, isLoading: nodeResourcesIsPending } = useQuery({
     ...childNodesQueryOptions({
       id: currentChildNode.id,
       language: i18n.language,
@@ -57,17 +60,18 @@ const StructureResources = ({ currentChildNode, users }: Props) => {
 
   const [nodeResources, nodeTopics] = partition(nodeChildren, (n) => n.nodeType === "RESOURCE");
 
-  const { data: nodeResourceMetas, isPending: contentMetaIsPending } = useQuery({
-    ...nodesResourceMetasQueryOptions({
-      nodeId: currentChildNode.id,
-      contentUris:
-        nodeResources
-          ?.map((n) => n.contentUri)
-          .concat(currentChildNode.contentUri)
-          .filter((uri): uri is string => !!uri) ?? [],
+  const contentUris = useMemo(
+    () => getContentUrisFromNodes([...nodeResources, currentChildNode]),
+    [currentChildNode, nodeResources],
+  );
+
+  const { data: nodeResourceMetas, isLoading: contentMetaIsPending } = useQuery({
+    ...searchQueryOptions({
       language: i18n.language,
+      ...getSearchParamsFromContentUris(contentUris),
     }),
-    enabled: !!currentChildNode.contentUri || (!!nodeChildren && !!nodeChildren?.length),
+    select: (data) => extrapolateNodeResourcesFromSearch(contentUris, data.results),
+    enabled: !!nodeChildren?.length && !!contentUris.length && currentChildNode.nodeType !== "PROGRAMME",
   });
 
   const keyedMetas = useMemo(

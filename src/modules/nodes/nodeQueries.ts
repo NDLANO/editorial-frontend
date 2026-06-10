@@ -6,25 +6,22 @@
  *
  */
 
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { Node, NodeChild, NodeSearchBody } from "@ndla/types-backend/taxonomy-api";
-import { queryOptions, useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
+import { NodeChild, NodeSearchBody } from "@ndla/types-backend/taxonomy-api";
+import { queryOptions } from "@tanstack/react-query";
 import { NodeTree } from "../../containers/NodeDiff/diffUtils";
 import { WithTaxonomyVersion } from "../../interfaces";
-import { CHILD_NODES, NODE, NODE_RESOURCES, NODES, ROOT_NODE_WITH_CHILDREN, SEARCH_NODES } from "../../queryKeys";
-import { getContentUriInfo } from "../../util/taxonomyHelpers";
-import { postSearch } from "../search/searchApi";
-import { NoNodeResultTypes } from "../search/searchApiInterfaces";
+import { CHILD_NODES, NODE, NODES, ROOT_NODE_WITH_CHILDREN, SEARCH_NODES } from "../../queryKeys";
 import { fetchChildNodes, fetchNode, fetchNodes, postSearchNodes } from "./nodeApi";
 import { GetChildNodesParams, GetNodesParams, RESOURCE_NODE, TOPIC_NODE } from "./nodeApiTypes";
 
 export const nodeQueryKeys = {
-  nodes: (params?: Partial<UseNodesParams>) => [NODES, params] as const,
+  all: [NODES] as const,
+  nodes: ({ contentURI, nodeType, taxonomyVersion, ...params }: Partial<UseNodesParams> = {}) =>
+    [NODES, contentURI, nodeType, taxonomyVersion, params] as const,
   node: (params?: Partial<UseNodeParams>) => [NODE, params] as const,
   search: (params?: Partial<SearchNodesParams>) => [SEARCH_NODES, params] as const,
   tree: (params?: Partial<UseNodeTree>) => [ROOT_NODE_WITH_CHILDREN, params] as const,
-  resourceMetas: (params?: Partial<UseNodeResourceMetas>) => [NODE_RESOURCES, params] as const,
-  childNodes: (params?: Partial<UseChildNodesParams>) => [CHILD_NODES, params] as const,
+  childNodes: ({ id, ...params }: Partial<UseChildNodesParams> = {}) => [CHILD_NODES, id, params] as const,
 };
 
 interface UseNodesParams extends WithTaxonomyVersion, GetNodesParams {}
@@ -41,73 +38,11 @@ interface UseNodeParams extends WithTaxonomyVersion {
   language?: string;
 }
 
-// TODO: Let this one sit for a bit. I think we can/should remove the placeholder data, but it's a case by case decision.
-export const useNode = (params: UseNodeParams, options?: Partial<UseQueryOptions<Node>>) => {
-  const qc = useQueryClient();
-  return useQuery<Node>({
+export const nodeQueryOptions = (params: UseNodeParams) => {
+  return queryOptions({
     queryKey: nodeQueryKeys.node(params),
     queryFn: () => fetchNode(params),
-    placeholderData: qc
-      .getQueryData<Node[]>(
-        nodeQueryKeys.nodes({
-          taxonomyVersion: params.taxonomyVersion,
-          language: params.language,
-        }),
-      )
-      ?.find((s) => s.id === params.id),
-    ...options,
   });
-};
-
-interface UseNodeResourceMetas {
-  nodeId: string;
-  contentUris: string[];
-  language?: string;
-}
-
-export const nodesResourceMetasQueryOptions = (params: UseNodeResourceMetas) => {
-  return queryOptions({
-    queryKey: nodeQueryKeys.resourceMetas(params),
-    queryFn: () => fetchNodeResourceMetas(params),
-  });
-};
-
-const getIdsAndResultTypes = (contentUris: string[]) => {
-  return contentUris.reduce<{ ids: Set<number>; resultTypes: Set<NoNodeResultTypes> }>(
-    (acc, curr) => {
-      const info = getContentUriInfo(curr);
-      if (!info) return acc;
-      acc.ids.add(info.id);
-      acc.resultTypes.add(info.type === "learningpath" ? "learningpath" : "draft");
-      return acc;
-    },
-    { ids: new Set<number>(), resultTypes: new Set<NoNodeResultTypes>() },
-  );
-};
-
-const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<MultiSearchSummaryDTO[]> => {
-  if (!params.contentUris.length) {
-    return [];
-  }
-  const { ids, resultTypes } = getIdsAndResultTypes(params.contentUris);
-
-  const search = await postSearch({
-    resultTypes: Array.from(resultTypes),
-    ids: Array.from(ids),
-    pageSize: ids.size * resultTypes.size,
-  });
-
-  const keyedByContentUri = search.results.reduce<Record<string, MultiSearchSummaryDTO>>((acc, curr) => {
-    acc[`urn:${curr.learningResourceType === "learningpath" ? "learningpath" : "article"}:${curr.id}`] = curr;
-    return acc;
-  }, {});
-
-  return params.contentUris.reduce<MultiSearchSummaryDTO[]>((acc, curr) => {
-    const res = keyedByContentUri[curr];
-    if (!res) return acc;
-    acc.push(res);
-    return acc;
-  }, []);
 };
 
 interface UseNodeTree extends WithTaxonomyVersion {

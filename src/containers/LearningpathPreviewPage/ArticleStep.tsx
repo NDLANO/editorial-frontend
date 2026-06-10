@@ -25,7 +25,7 @@ import { toFormArticle } from "../../components/PreviewDraft/PreviewDraft";
 import { useTransformedArticle } from "../../components/PreviewDraft/useTransformedArticle";
 import { articleQueryOptions } from "../../modules/article/articleQueries";
 import { draftQueryOptions } from "../../modules/draft/draftQueries";
-import { useNode } from "../../modules/nodes/nodeQueries";
+import { nodeQueryOptions } from "../../modules/nodes/nodeQueries";
 import { getContentTypeFromResourceTypes } from "../../util/resourceHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 import { EmbedPageContent } from "./EmbedPageContent";
@@ -57,7 +57,7 @@ export const ArticleStep = ({ step, language }: ArticleStepProps) => {
     : extractIdsFromUrl(step.embedUrl?.url ?? "");
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const nodeQuery = useNode({ id: taxId ?? "", taxonomyVersion, language }, { enabled: !!taxId });
+  const nodeQuery = useQuery({ ...nodeQueryOptions({ id: taxId ?? "", taxonomyVersion, language }), enabled: !!taxId });
   const draftQuery = useQuery({ ...draftQueryOptions({ id: articleId ?? 0, language }), enabled: !!articleId });
   const articleQuery = useQuery({ ...articleQueryOptions({ id: articleId ?? 0, language }), enabled: !!articleId });
   const { article } = useTransformedArticle({

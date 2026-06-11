@@ -77,7 +77,6 @@ export const TaxonomyConnections = ({
     taxonomyVersion,
     contentURI: `urn:${resourceType}:${resourceId}`,
     language,
-    includeContexts: true,
   });
   const deleteNodeConnectionMutation = useMutation({
     ...deleteNodeConnectionMutationOptions(),

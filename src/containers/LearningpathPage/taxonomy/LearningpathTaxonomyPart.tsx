@@ -30,7 +30,6 @@ export const LearningpathTaxonomyPart = ({ learningpath, language }: Props) => {
       contentURI: `urn:learningpath:${learningpath.id}`,
       taxonomyVersion,
       language,
-      includeContexts: true,
     }),
   );
 

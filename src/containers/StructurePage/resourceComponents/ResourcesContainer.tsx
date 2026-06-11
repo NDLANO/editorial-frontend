@@ -61,8 +61,6 @@ const ResourcesContainer = ({
     ...nodesQueryOptions({
       contentURI: currentNode.contentUri,
       taxonomyVersion,
-      includeContexts: true,
-      filterProgrammes: true,
     }),
     enabled: !!currentNode.contentUri,
   });

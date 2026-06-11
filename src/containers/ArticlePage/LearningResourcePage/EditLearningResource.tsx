@@ -85,8 +85,6 @@ const EditLearningResource = () => {
       contentURI: `urn:article:${params.id}`,
       taxonomyVersion,
       language: selectedLanguage,
-      includeContexts: true,
-      filterProgrammes: true,
     }),
     enabled: !!params.selectedLanguage && !!params.id,
   });

@@ -7,9 +7,7 @@
  */
 
 import { Server } from "node:http";
-import { sdk } from "../instrumentation";
 
 export const gracefulShutdown = (server: Server): void => {
-  void sdk?.shutdown().catch(() => {});
   server.close(() => process.exit(0));
 };

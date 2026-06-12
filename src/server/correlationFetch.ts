@@ -15,10 +15,10 @@ export const installCorrelationIdFetch = (): void => {
     const correlationID = getCorrelationId();
     if (!correlationID) return originalFetch(input, init);
 
-    const request = new Request(input, init);
-    if (!request.headers.has("x-correlation-id")) {
-      request.headers.set("x-correlation-id", correlationID);
+    const headers = new Headers(init?.headers ?? (input instanceof Request ? input.headers : undefined));
+    if (!headers.has("x-correlation-id")) {
+      headers.set("x-correlation-id", correlationID);
     }
-    return originalFetch(request);
+    return originalFetch(input, { ...init, headers });
   };
 };

@@ -7,7 +7,10 @@
  */
 
 import { Diff, diff_match_patch } from "diff-match-patch";
-import HtmlDiff from "htmldiff-js";
+import HtmlDiffLib from "htmldiff-js";
+
+// Vite 8 (Rolldown) no longer unwraps __esModule CJS default exports
+const HtmlDiff: { execute: (a: string, b: string) => string } = (HtmlDiffLib as any).default ?? HtmlDiffLib;
 
 const differ = new diff_match_patch();
 

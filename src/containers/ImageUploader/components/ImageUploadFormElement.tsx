@@ -77,11 +77,11 @@ const getImageMeta = async (
       url: `${image.image.imageUrl}?width=800&ts=${new Date().getTime()}`,
     };
   } else if (file) {
-    const bitmap = await createImageBitmap(file);
+    const dimensions = file.type === "image/svg+xml" ? undefined : await createImageBitmap(file);
     return {
       contentType: file.type,
       fileSize: file.size,
-      dimensions: bitmap,
+      dimensions,
       url: URL.createObjectURL(file),
     };
   }

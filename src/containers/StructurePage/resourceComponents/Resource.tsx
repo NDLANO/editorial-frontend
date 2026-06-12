@@ -154,7 +154,6 @@ const Indicator = styled("div", {
 });
 
 interface Props {
-  currentNodeId: string;
   responsible?: string;
   resource: NodeChild;
   contentMeta: MultiSearchSummaryDTO | undefined;
@@ -166,7 +165,6 @@ interface Props {
 }
 
 const Resource = ({
-  currentNodeId,
   resource,
   nodeResourcesIsPending,
   responsible,
@@ -302,7 +300,6 @@ const Resource = ({
               codes={contentMeta?.grepCodes ?? []}
               contentUri={resource.contentUri}
               revision={contentMeta?.revision}
-              currentNodeId={currentNodeId}
             />
             <VersionHistory resource={resource} contentMeta={contentMeta} contentType={contentType} />
             <DialogRoot>

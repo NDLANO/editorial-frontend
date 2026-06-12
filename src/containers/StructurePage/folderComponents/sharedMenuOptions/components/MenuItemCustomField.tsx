@@ -10,6 +10,7 @@ import { AddLine } from "@ndla/icons";
 import { Button, Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, Metadata } from "@ndla/types-backend/taxonomy-api";
+import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -25,7 +26,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_DA,
 } from "../../../../../constants";
 import { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../../../modules/nodes/nodeApiTypes";
-import { useUpdateNodeMetadataMutation } from "../../../../../modules/nodes/nodeMutations";
+import { updateNodeMetadataMutationOptions } from "../../../../../modules/nodes/nodeMutations";
 import { getNodeTypeFromNodeId, getRootIdForNode, isRootNode } from "../../../../../modules/nodes/nodeUtil";
 import { useTaxonomyVersion } from "../../../../StructureVersion/TaxonomyVersionProvider";
 import SubjectCategorySelector from "../../subjectMenuOptions/SubjectCategorySelector";
@@ -69,16 +70,13 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const [customFields, setCustomFields] = useState<Metadata["customFields"]>(metadata.customFields);
 
-  const { mutateAsync: updateMetadata } = useUpdateNodeMetadataMutation();
+  const { mutateAsync: updateMetadata } = useMutation(
+    updateNodeMetadataMutationOptions({ rootId: isRootNode(node) ? undefined : getRootIdForNode(node) }),
+  );
 
   useEffect(() => {
     if (customFields !== metadata.customFields) {
-      updateMetadata({
-        id,
-        metadata: { customFields },
-        rootId: isRootNode(node) ? undefined : getRootIdForNode(node),
-        taxonomyVersion,
-      });
+      updateMetadata({ id, meta: { customFields }, taxonomyVersion });
     }
   }, [customFields]); // eslint-disable-line react-hooks/exhaustive-deps
 

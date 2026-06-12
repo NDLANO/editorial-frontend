@@ -41,9 +41,6 @@ interface UsePatchLearningpathMutation {
 export const patchLearningpathMutationOptions = () => {
   return mutationOptions({
     mutationFn: (vars: UsePatchLearningpathMutation) => patchLearningpath(vars.id, vars.learningpath),
-    // TODO: This can be improved. We can (should?) probably write to the cache
-    onMutate: (vars, ctx) =>
-      ctx.client.cancelQueries({ queryKey: learningpathQueryKeys.learningpath({ id: vars.id }) }),
     onSettled: (_, __, vars, ___, ctx) =>
       ctx.client.invalidateQueries({ queryKey: learningpathQueryKeys.learningpath({ id: vars.id }) }),
   });

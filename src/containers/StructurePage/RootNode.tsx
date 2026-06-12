@@ -16,11 +16,13 @@ import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { draftQueryKeys, updateUserDataMutationOptions } from "../../modules/draft/draftQueries";
 import { updateNodeConnectionMutationOptions } from "../../modules/nodes/nodeMutations";
-import { childNodesQueryOptions, nodeQueryKeys, nodesResourceMetasQueryOptions } from "../../modules/nodes/nodeQueries";
+import { childNodesQueryOptions, nodeQueryKeys } from "../../modules/nodes/nodeQueries";
+import { searchQueryOptions } from "../../modules/search/searchQueries";
 import { getContentUriFromSearchSummary } from "../../util/searchHelpers";
-import { groupChildNodes } from "../../util/taxonomyHelpers";
+import { getContentUrisFromNodes, groupChildNodes } from "../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 import NodeItem from "./NodeItem";
+import { extrapolateNodeResourcesFromSearch, getSearchParamsFromContentUris } from "./utils";
 
 interface Props {
   node: Node;
@@ -46,17 +48,15 @@ const RootNode = ({ isFavorite, node, openedPaths, childNodeTypes, rootPath }: P
     enabled: openedPaths[0] === node.id,
   });
 
+  const contentUris = useMemo(
+    () => getContentUrisFromNodes([...(childNodesQuery.data ?? []), node]),
+    [childNodesQuery.data, node],
+  );
+
   const resourceMetasQuery = useQuery({
-    ...nodesResourceMetasQueryOptions({
-      nodeId: node.id,
-      contentUris:
-        childNodesQuery.data
-          ?.map((n) => n.contentUri)
-          .concat(node.contentUri)
-          .filter((contentUri): contentUri is string => !!contentUri) ?? [],
-      language: i18n.language,
-    }),
-    enabled: !!node.contentUri || !!childNodesQuery.data?.length,
+    ...searchQueryOptions({ language: i18n.language, ...getSearchParamsFromContentUris(contentUris) }),
+    select: (data) => extrapolateNodeResourcesFromSearch(contentUris, data.results),
+    enabled: !!childNodesQuery.data?.length && !!contentUris.length && node.nodeType !== "PROGRAMME",
   });
 
   const keyedMetas = useMemo(

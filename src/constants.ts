@@ -251,6 +251,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "NDLA Nyhetsbrev", url: ["pub.dialogapi.no"], height: "486px" },
   { name: "Nasjonalt senter for flerkulturell opplæring", url: ["nafoki.no"] },
   { name: "Viten-TV", url: ["www.vitentv.no", "api.frp2.ovp.kaltura.com"] },
+  { name: "Google Maps", url: ["www.google.com"] },
 ];
 
 export const Revision = {

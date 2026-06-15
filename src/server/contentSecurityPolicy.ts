@@ -183,6 +183,7 @@ const frameSrc = (() => {
     "pub.dialogapi.no",
     "www.vitentv.no",
     "*.kaltura.com",
+    "www.google.com",
   ];
   if (process.env.NODE_ENV === "development") {
     return [

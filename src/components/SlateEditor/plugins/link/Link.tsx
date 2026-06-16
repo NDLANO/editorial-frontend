@@ -18,15 +18,19 @@ import {
   PopoverContent,
   PopoverRoot,
   PopoverTrigger,
+  Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentLinkEmbedData } from "@ndla/types-embed";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, type JSX } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Node, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { ContentLinkElement, LinkElement } from ".";
 import config from "../../../../config";
+import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
+import { draftQueryOptions } from "../../../../modules/draft/draftQueries";
 import { routes, toEditGenericArticle } from "../../../../util/routeHelpers";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
@@ -37,9 +41,14 @@ import { LinkData, LinkEmbedData, LINK_ELEMENT_TYPE, CONTENT_LINK_ELEMENT_TYPE }
 
 const StyledPopoverContent = styled(PopoverContent, {
   base: {
-    flexDirection: "row",
-    gap: "xsmall",
     zIndex: "dropdown",
+  },
+});
+
+const LinksWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
   },
 });
 
@@ -63,6 +72,22 @@ export interface Model {
   checkbox: boolean;
 }
 
+const StyledA = styled("a", {
+  base: {
+    textDecoration: "underline",
+    color: "text.link",
+  },
+  variants: {
+    inacessible: {
+      true: {
+        backgroundColor: "surface.errorSubtle",
+      },
+    },
+  },
+});
+
+const INVALID_STATUSES = [UNPUBLISHED, ARCHIVED];
+
 const Link = ({ attributes, editor, element, children }: Props) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const editorWrapperRef = useRef<HTMLElement>(null);
@@ -70,11 +95,18 @@ const Link = ({ attributes, editor, element, children }: Props) => {
   const { handleUnwrap, handleSave, dialogProps } = useEditableElement(element, editor, { unwrapOnAutoRemove: true });
   const { t } = useTranslation();
 
+  const draftQuery = useQuery({
+    ...draftQueryOptions({ id: element.type === "content-link" ? Number(element.data.contentId) : -1 }),
+    enabled: element.type === "content-link" && element.data.contentType === "article",
+  });
+
   useEffect(() => {
     if (linkRef.current) {
       editorWrapperRef.current = linkRef.current.closest("[data-slate-wrapper]");
     }
   }, []);
+
+  const inaccessible = INVALID_STATUSES.includes(draftQuery.data?.status.current ?? "");
 
   const linkData: LinkData = useMemo(() => {
     const text = Node.string(element);
@@ -115,20 +147,23 @@ const Link = ({ attributes, editor, element, children }: Props) => {
         }}
       >
         <PopoverTrigger asChild consumeCss>
-          <a {...attributes} href={linkData.href} ref={linkRef}>
+          <StyledA {...attributes} href={linkData.href} ref={linkRef} inacessible={inaccessible}>
             <InlineBugfix />
             {children}
             <InlineBugfix />
-          </a>
+          </StyledA>
         </PopoverTrigger>
         <Portal container={{ current: editorWrapperRef.current }}>
           <StyledPopoverContent>
-            <DialogTrigger asChild>
-              <Button variant="link">{t("form.content.link.change")}</Button>
-            </DialogTrigger>
-            <a href={linkData.href} target="_blank" rel="noopener noreferrer">
-              {`${t("form.content.link.goTo")} ${linkData.href}`}
-            </a>
+            {!!inaccessible && <Text color="text.error">{t("form.content.link.inaccessible")}</Text>}
+            <LinksWrapper>
+              <DialogTrigger asChild>
+                <Button variant="link">{t("form.content.link.change")}</Button>
+              </DialogTrigger>
+              <a href={linkData.href} target="_blank" rel="noopener noreferrer">
+                {`${t("form.content.link.goTo")} ${linkData.href}`}
+              </a>
+            </LinksWrapper>
           </StyledPopoverContent>
         </Portal>
       </PopoverRoot>

@@ -1380,6 +1380,7 @@ const phrases = {
         fullscreen: "Åpne i nytt vindu",
         description:
           "Lenker til ndla-ressursar spesialhandterast av systemet og visast korrekt på {{- url}}. Interne ressursar visast med lilla bakgrunn og eksterne lenker med blå.",
+        inaccessible: "Ressursen i lenka er avpublisert eller sletta.",
       },
       footnote: {
         title: "Tittel",

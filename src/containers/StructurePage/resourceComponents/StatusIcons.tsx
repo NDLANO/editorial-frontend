@@ -6,7 +6,7 @@
  *
  */
 
-import { ErrorWarningFill, FileEditLine } from "@ndla/icons";
+import { ErrorWarningFill, FileEditLine, PushpinFill } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { NodeChild } from "@ndla/types-backend/taxonomy-api";
@@ -25,14 +25,21 @@ const StyledErrorWarningFill = styled(ErrorWarningFill, {
   },
 });
 
+const StyledPrimaryFill = styled(PushpinFill, {
+  base: {
+    fill: "green",
+  },
+});
+
 interface Props {
   nodeResourcesIsPending: boolean;
   resource: NodeChild;
   contentMeta: MultiSearchSummaryDTO | undefined;
   multipleTaxonomy: boolean;
+  isPrimary?: boolean;
 }
 
-const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy, contentMeta }: Props) => {
+const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy, contentMeta, isPrimary = false }: Props) => {
   const { t } = useTranslation();
   const approachingRevision = useMemo(() => isApproachingRevision(contentMeta?.revisions), [contentMeta?.revisions]);
   const expirationDate = getExpirationDate(contentMeta?.revisions?.filter((r) => !!r) ?? []);
@@ -63,6 +70,9 @@ const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy, conte
           aria-label={t("form.workflow.multipleTaxonomy")}
           title={t("form.workflow.multipleTaxonomy")}
         />
+      )}
+      {!!isPrimary && (
+        <StyledPrimaryFill aria-label={t("form.topics.primaryTopic")} title={t("form.topics.primaryTopic")} />
       )}
     </>
   );

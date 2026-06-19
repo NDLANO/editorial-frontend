@@ -272,6 +272,7 @@ const Resource = ({
               contentMeta={contentMeta}
               resource={resource}
               multipleTaxonomy={resource.contexts?.length > 1}
+              isPrimary={resource.context?.isPrimary}
             />
           </InfoItems>
         </ContentRow>

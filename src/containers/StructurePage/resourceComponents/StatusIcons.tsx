@@ -36,10 +36,9 @@ interface Props {
   resource: NodeChild;
   contentMeta: MultiSearchSummaryDTO | undefined;
   multipleTaxonomy: boolean;
-  isPrimary?: boolean;
 }
 
-const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy, contentMeta, isPrimary = false }: Props) => {
+const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy, contentMeta }: Props) => {
   const { t } = useTranslation();
   const approachingRevision = useMemo(() => isApproachingRevision(contentMeta?.revisions), [contentMeta?.revisions]);
   const expirationDate = getExpirationDate(contentMeta?.revisions?.filter((r) => !!r) ?? []);
@@ -71,7 +70,7 @@ const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy, conte
           title={t("form.workflow.multipleTaxonomy")}
         />
       )}
-      {!!isPrimary && (
+      {!!resource.context?.isPrimary && (
         <StyledPrimaryFill aria-label={t("form.topics.primaryTopic")} title={t("form.topics.primaryTopic")} />
       )}
     </>

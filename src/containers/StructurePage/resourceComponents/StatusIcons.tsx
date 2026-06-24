@@ -6,7 +6,7 @@
  *
  */
 
-import { ErrorWarningFill, FileEditLine } from "@ndla/icons";
+import { ErrorWarningFill, FileEditLine, PushpinFill } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { NodeChild } from "@ndla/types-backend/taxonomy-api";
@@ -22,6 +22,12 @@ import WrongTypeError from "./WrongTypeError";
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
   base: {
     fill: "icon.subtle",
+  },
+});
+
+const StyledPrimaryFill = styled(PushpinFill, {
+  base: {
+    fill: "green",
   },
 });
 
@@ -63,6 +69,9 @@ const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy, conte
           aria-label={t("form.workflow.multipleTaxonomy")}
           title={t("form.workflow.multipleTaxonomy")}
         />
+      )}
+      {!!resource.context?.isPrimary && (
+        <StyledPrimaryFill aria-label={t("form.topics.primaryTopic")} title={t("form.topics.primaryTopic")} />
       )}
     </>
   );

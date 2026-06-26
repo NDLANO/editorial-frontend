@@ -192,9 +192,7 @@ const SearchContent = ({ content, responsibleName }: Props) => {
       <StyledListItemContent>
         <ListItemHeadingContent>
           <ListItemHeading asChild consumeCss>
-            <SafeLink to={resourceToLink(content, i18n.language)} unstyled>
-              {content.title.title}
-            </SafeLink>
+            <SafeLink to={resourceToLink(content, i18n.language)}>{content.title.title}</SafeLink>
           </ListItemHeading>
           <InfoWrapper>
             {content.contexts.length > 1 && (

@@ -287,7 +287,7 @@ export const MastheadSearch = () => {
           {collection.items.length ? (
             collection.items.map((item) => (
               <ComboboxItem key={item.searchUrl} item={item} asChild>
-                <SafeLink unstyled to={item.searchUrl}>
+                <SafeLink to={item.searchUrl}>
                   <ComboboxItemText>{item.searchPhrase}</ComboboxItemText>
                   <GenericComboboxItemIndicator />
                 </SafeLink>

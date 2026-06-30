@@ -34,7 +34,7 @@ const SearchPodcastSeries = ({ series }: Props) => {
       <ListItemContent>
         <SearchContentWrapper>
           <ListItemHeading asChild consumeCss>
-            <SafeLink to={routes.podcastSeries.edit(series.id, series.title.language)} unstyled>
+            <SafeLink to={routes.podcastSeries.edit(series.id, series.title.language)}>
               {series.title.title || t("podcastSearch.noTitle")}
             </SafeLink>
           </ListItemHeading>

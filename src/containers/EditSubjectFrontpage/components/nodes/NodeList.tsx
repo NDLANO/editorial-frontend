@@ -55,9 +55,7 @@ const NodeList = ({ nodes, onUpdate }: Props) => {
             <StyledListItemRoot data-testid="elementListItem">
               <ListItemContent>
                 <ListItemHeading asChild consumeCss>
-                  <SafeLink to={routes.structure(item.url)} unstyled>
-                    {item.name}
-                  </SafeLink>
+                  <SafeLink to={routes.structure(item.url)}>{item.name}</SafeLink>
                 </ListItemHeading>
                 <IconButton
                   size="small"

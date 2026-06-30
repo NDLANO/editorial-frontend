@@ -40,7 +40,7 @@ const SearchImage = ({ image }: Props) => {
       <ListItemContent>
         <SearchContentWrapper>
           <ListItemHeading asChild consumeCss>
-            <SafeLink to={routes.image.edit(image.id, image.title.language)} unstyled>
+            <SafeLink to={routes.image.edit(image.id, image.title.language)}>
               {image.title.title || t("imageSearch.noTitle")}
             </SafeLink>
           </ListItemHeading>

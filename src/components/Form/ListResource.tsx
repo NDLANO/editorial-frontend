@@ -63,7 +63,7 @@ const ListResource = ({
       />
       <ListItemContent>
         <ListItemHeading asChild consumeCss>
-          <SafeLink to={url} unstyled target={isExternal ? "_blank" : undefined}>
+          <SafeLink to={url} target={isExternal ? "_blank" : undefined}>
             {title}
           </SafeLink>
         </ListItemHeading>

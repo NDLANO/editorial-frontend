@@ -42,7 +42,6 @@ const SearchAudio = ({ audio }: Props) => {
                   ? routes.podcast.edit(audio.id, audio.title.language)
                   : routes.audio.edit(audio.id, audio.title.language)
               }
-              unstyled
             >
               {audio.title.title || t("audioSearch.noTitle")}
             </SafeLink>

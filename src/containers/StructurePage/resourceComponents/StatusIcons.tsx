@@ -70,7 +70,7 @@ const StatusIcons = ({ nodeResourcesIsPending, resource, multipleTaxonomy, conte
           title={t("form.workflow.multipleTaxonomy")}
         />
       )}
-      {!!resource.context?.isPrimary && (
+      {!!resource.context?.isPrimary && resource.nodeType === "RESOURCE" && (
         <StyledPrimaryFill aria-label={t("form.topics.primaryTopic")} title={t("form.topics.primaryTopic")} />
       )}
     </>

@@ -9,9 +9,9 @@
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-backend/taxonomy-api";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { useUpdateNodeMetadataMutation } from "../../modules/nodes/nodeMutations";
+import { updateNodeMetadataMutationOptions } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
 
 const StyledText = styled(Text, {
@@ -49,11 +49,11 @@ interface Props {
 
 export const TaxonomyVisibility = ({ node, taxonomyVersion, resourceId, resourceType, resourceLanguage }: Props) => {
   const { t } = useTranslation();
-  const updateNodeMetadataMutation = useUpdateNodeMetadataMutation();
+  const updateNodeMetadataMutation = useMutation(updateNodeMetadataMutationOptions());
   const qc = useQueryClient();
 
   const updateVisibility = async (visible: boolean) => {
-    await updateNodeMetadataMutation.mutateAsync({ id: node.id, taxonomyVersion, metadata: { visible } });
+    await updateNodeMetadataMutation.mutateAsync({ id: node.id, taxonomyVersion, meta: { visible } });
     await qc.invalidateQueries({
       queryKey: nodeQueryKeys.nodes({
         contentURI: `urn:${resourceType}:${resourceId}`,

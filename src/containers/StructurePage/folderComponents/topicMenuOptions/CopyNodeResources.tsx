@@ -110,11 +110,11 @@ const CopyNodeResources = ({ currentNode, nodeType, type }: Props) => {
     }
   };
 
-  const copy = async ({ isPrimary, id, rank }: NodeChild): Promise<string> =>
+  const copy = async ({ id, rank }: NodeChild): Promise<string> =>
     await postNodeConnection({
       taxonomyVersion,
       body: {
-        primary: isPrimary,
+        primary: false,
         rank,
         childId: id,
         parentId: currentNode.id,

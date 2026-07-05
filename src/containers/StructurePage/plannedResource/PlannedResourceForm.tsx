@@ -30,7 +30,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ArticleDTO, UpdatedArticleDTO, Priority } from "@ndla/types-backend/draft-api";
 import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { Node, ResourceType } from "@ndla/types-backend/taxonomy-api";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Formik } from "formik";
 import { TFunction } from "i18next";
 import { useCallback, useMemo, useState } from "react";
@@ -55,9 +55,8 @@ import { createDraft, updateUserData } from "../../../modules/draft/draftApi";
 import { userDataQueryOptions } from "../../../modules/draft/draftQueries";
 import { postLearningpath } from "../../../modules/learningpath/learningpathApi";
 import { RESOURCE_NODE, TOPIC_NODE } from "../../../modules/nodes/nodeApiTypes";
-import { postNodeConnectionMutationOptions, useAddNodeMutation } from "../../../modules/nodes/nodeMutations";
+import { postNodeConnectionMutationOptions, postNodeMutationOptions } from "../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
-import { getRootIdForNode } from "../../../modules/nodes/nodeUtil";
 import { resourceTypesQueryOptions } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import { inlineContentToHTML } from "../../../util/articleContentConverter";
 import { convertUpdateToNewDraft } from "../../../util/articleUtil";
@@ -153,7 +152,7 @@ const getSlateComment = (userName: string | undefined, t: TFunction, formikComme
 };
 
 interface Props {
-  node: Node | undefined;
+  node: Node;
   onClose?: () => void;
   type: Exclude<ResourceGroup, "link"> | "topic";
 }
@@ -170,25 +169,10 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
 
   const { t, i18n } = useTranslation();
   const { ndlaId, userName } = useSession();
-  const { mutateAsync: addNodeMutation, isPending: addNodeMutationLoading, isSuccess } = useAddNodeMutation();
+  const postNodeMutation = useMutation(postNodeMutationOptions());
   const { taxonomyVersion } = useTaxonomyVersion();
-  const qc = useQueryClient();
-  const nodeId = useMemo(() => node && getRootIdForNode(node), [node]);
-  const compKey = nodeQueryKeys.childNodes({
-    id: node?.id,
-    language: i18n.language,
-  });
-  const compKeyChildNodes = nodeQueryKeys.childNodes({
-    taxonomyVersion,
-    id: nodeId,
-    language: i18n.language,
-  });
   const { mutateAsync: createNodeResource, isPending: postResourceLoading } = useMutation({
     ...postNodeConnectionMutationOptions(),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: compKey });
-      qc.invalidateQueries({ queryKey: compKeyChildNodes });
-    },
   });
   const initialValues = useMemo(() => toInitialValues(ndlaId, type), [ndlaId, type]);
 
@@ -242,7 +226,8 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
         }
 
         // Create node in taxonomy
-        const resourceUrl = await addNodeMutation({
+        // we don't really need to invalidate anything here I think?
+        const resourceUrl = await postNodeMutation.mutateAsync({
           body: {
             language: i18n.language,
             name: values.title,
@@ -256,18 +241,25 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
           taxonomyVersion,
         });
 
-        // Position node in taxonomy
         const resourceId = resourceUrl.replace("/v1/nodes/", "");
-        await createNodeResource({
-          body: {
-            childId: resourceId,
-            parentId: node?.id ?? "",
-            relevanceId: values.relevance,
+        // Position node in taxonomy
+        await createNodeResource(
+          {
+            body: {
+              childId: resourceId,
+              parentId: node.id,
+              relevanceId: values.relevance,
+            },
+            taxonomyVersion,
           },
-          taxonomyVersion,
-        });
+          {
+            onSuccess: (_, vars, __, ctx) => {
+              ctx.client.invalidateQueries({ queryKey: nodeQueryKeys.childNodes({ id: vars.body.parentId }) });
+            },
+          },
+        );
 
-        if (!(addNodeMutationLoading || postResourceLoading)) {
+        if (!(postNodeMutation.isPending || postResourceLoading)) {
           onClose?.();
         }
       } catch (e) {
@@ -277,16 +269,15 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
     [
       userName,
       t,
-      userData?.latestEditedArticles,
-      userData?.latestEditedLearningpaths,
-      addNodeMutation,
-      i18n.language,
       type,
+      postNodeMutation,
+      i18n.language,
       taxonomyVersion,
       createNodeResource,
-      node?.id,
-      addNodeMutationLoading,
+      node.id,
       postResourceLoading,
+      userData?.latestEditedLearningpaths,
+      userData?.latestEditedArticles,
       onClose,
     ],
   );
@@ -398,13 +389,17 @@ const PlannedResourceForm = ({ node, onClose, type }: Props) => {
             </FormField>
           )}
           <FormActionsContainer>
-            <Button disabled={!dirty || !isValid} type="submit" loading={addNodeMutationLoading || postResourceLoading}>
+            <Button
+              disabled={!dirty || !isValid}
+              type="submit"
+              loading={postNodeMutation.isPending || postResourceLoading}
+            >
               {t("taxonomy.create")}
             </Button>
           </FormActionsContainer>
           <StatusMessages>
             {!!error && <Text color="text.error">{t(error)}</Text>}
-            {!onClose && !!isSuccess && (
+            {!onClose && !!postNodeMutation.isSuccess && (
               <StatusIndicatorContent>
                 <StyledCheckLine />
                 <Text>{t("form.status.created")}</Text>

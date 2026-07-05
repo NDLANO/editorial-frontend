@@ -13,8 +13,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ChangeEvent, useState, SyntheticEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { Form, FormActionsContainer } from "../../components/FormikForm";
-import { postNodeConnectionMutationOptions, useAddNodeMutation } from "../../modules/nodes/nodeMutations";
-import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
+import {
+  getOptimisticNode,
+  postNodeConnectionMutationOptions,
+  postNodeMutationOptions,
+} from "../../modules/nodes/nodeMutations";
+import { nodeQueryKeys, nodesQueryOptions } from "../../modules/nodes/nodeQueries";
 import handleError from "../../util/handleError";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
@@ -33,12 +37,31 @@ interface Props {
 
 const AddNodeDialogContent = ({ onClose, nodeType, rootId, parentNode }: Props) => {
   const { t, i18n } = useTranslation();
-  const addNodeMutation = useAddNodeMutation();
-  const compkey = nodeQueryKeys.childNodes({ id: rootId });
+  const addNodeMutation = useMutation({
+    ...postNodeMutationOptions(),
+    onMutate: async (vars, ctx) => {
+      // We're creating a child node, so we'll handle cache stuff when creating the connection.
+      if (parentNode) return;
+
+      const options = nodesQueryOptions({ nodeType: [nodeType], taxonomyVersion });
+      await ctx.client.cancelQueries({ queryKey: options.queryKey });
+      const previousQueries = ctx.client.getQueriesData<Node[]>({ queryKey: options.queryKey }) ?? [];
+      const optimisticNode = getOptimisticNode(vars.body);
+      ctx.client.setQueriesData<Node[]>({ queryKey: options.queryKey }, (old) => [...(old ?? []), optimisticNode]);
+      return { previousQueries };
+    },
+    onSuccess: (_, __, ___, ctx) => {
+      // We're creating a child node, so we'll invalidate once it's connected.
+      if (parentNode) return;
+      ctx.client.invalidateQueries({ queryKey: nodeQueryKeys.nodes({ nodeType: [nodeType], taxonomyVersion }) });
+    },
+    onError: (_, __, res, ctx) => res?.previousQueries.forEach(([key, data]) => ctx.client.setQueryData(key, data)),
+  });
+
   const addNodeToParentMutation = useMutation({
     ...postNodeConnectionMutationOptions(),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: compkey });
+      qc.invalidateQueries({ queryKey: nodeQueryKeys.childNodes({ id: rootId }) });
     },
   });
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -59,16 +82,6 @@ const AddNodeDialogContent = ({ onClose, nodeType, rootId, parentNode }: Props) 
     });
   };
 
-  const connectNode = async (parentId: string, childId: string) => {
-    await addNodeToParentMutation.mutateAsync({
-      body: {
-        parentId,
-        childId,
-      },
-      taxonomyVersion,
-    });
-  };
-
   const handleClick = async (e: SyntheticEvent) => {
     e.preventDefault();
 
@@ -76,7 +89,10 @@ const AddNodeDialogContent = ({ onClose, nodeType, rootId, parentNode }: Props) 
       const nodeUrl = await addNode(inputValue);
       const nodeId = nodeUrl.replace("/v1/nodes/", "");
       if (parentNode) {
-        await connectNode(parentNode.id, nodeId);
+        await addNodeToParentMutation.mutateAsync({
+          body: { parentId: parentNode.id, childId: nodeId },
+          taxonomyVersion,
+        });
       }
       setInputValue("");
       onClose?.();

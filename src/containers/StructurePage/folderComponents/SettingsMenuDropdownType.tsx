@@ -115,7 +115,7 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
             <ConnectExistingNode currentNode={node} nodeType="SUBJECT" />
           </StyledTabsContent>
           <StyledTabsContent value="toggleMetadataVisibility">
-            <ToggleVisibility node={node} rootNodeId={rootNodeId} rootNodeType="PROGRAMME" />
+            <ToggleVisibility node={node} rootNodeId={rootNodeId} />
           </StyledTabsContent>
           <StyledTabsContent value="addProgramme">
             <AddProgramme node={node} rootNodeId={rootNodeId} />

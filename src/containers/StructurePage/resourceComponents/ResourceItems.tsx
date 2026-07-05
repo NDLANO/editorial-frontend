@@ -222,7 +222,6 @@ const ResourceItems = ({
             renderItem={(resource, idx) => (
               <Resource
                 type={type}
-                currentNodeId={currentNode.id}
                 responsible={users?.[contentMetas[resource.contentUri ?? ""]?.responsible?.responsibleId ?? ""]?.name}
                 contentMeta={resource.contentUri ? contentMetas[resource.contentUri] : undefined}
                 resource={resource}

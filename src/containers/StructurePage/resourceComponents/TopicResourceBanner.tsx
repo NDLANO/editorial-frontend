@@ -296,7 +296,6 @@ const TopicResourceBanner = ({
               codes={currentContentMeta?.grepCodes ?? []}
               contentUri={currentNode.contentUri}
               revision={currentContentMeta?.revision}
-              currentNodeId={currentNode.id}
             />
             <VersionHistory resource={currentNode} contentMeta={currentContentMeta} contentType="topic-article" />
           </ControlButtonGroup>

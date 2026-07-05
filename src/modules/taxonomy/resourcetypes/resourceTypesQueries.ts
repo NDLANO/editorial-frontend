@@ -18,5 +18,6 @@ export const resourceTypesQueryOptions = (params: ResourceTypesGetParams) => {
   return queryOptions({
     queryKey: resourceTypeQueryKeys.resourceTypes(params),
     queryFn: () => fetchAllResourceTypes(params),
+    staleTime: Infinity,
   });
 };

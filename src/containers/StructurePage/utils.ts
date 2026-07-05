@@ -6,7 +6,11 @@
  *
  */
 
+import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
+import { keyBy } from "@ndla/util";
 import { MatomoPageData, MatomoResponse } from "../../modules/matomo/matomoApi";
+import { NoNodeResultTypes } from "../../modules/search/searchApiInterfaces";
+import { getContentUriInfo } from "../../util/taxonomyHelpers";
 
 export const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
@@ -50,3 +54,31 @@ export const transformMatomoData = (data: PromiseSettledResult<MatomoResponse>[]
 };
 
 export const RESOURCE_SECTION_ID = "resource-section";
+
+export const extrapolateNodeResourcesFromSearch = (contentUris: string[], results: MultiSearchSummaryDTO[]) => {
+  const keyed = keyBy<MultiSearchSummaryDTO, string>(
+    results,
+    (r) => `urn:${r.learningResourceType === "learningpath" ? "learningpath" : "article"}:${r.id}`,
+  );
+
+  return contentUris.reduce<MultiSearchSummaryDTO[]>((acc, curr) => {
+    const res = keyed[curr];
+    if (!res) return acc;
+    acc.push(res);
+    return acc;
+  }, []);
+};
+
+export const getSearchParamsFromContentUris = (contentUris: string[]) => {
+  const { ids, resultTypes } = contentUris.reduce<{ ids: Set<number>; resultTypes: Set<NoNodeResultTypes> }>(
+    (acc, curr) => {
+      const info = getContentUriInfo(curr);
+      if (!info) return acc;
+      acc.ids.add(info.id);
+      acc.resultTypes.add(info.type === "learningpath" ? "learningpath" : "draft");
+      return acc;
+    },
+    { ids: new Set<number>(), resultTypes: new Set<NoNodeResultTypes>() },
+  );
+  return { ids: Array.from(ids), resultTypes: Array.from(resultTypes), pageSize: ids.size * resultTypes.size };
+};

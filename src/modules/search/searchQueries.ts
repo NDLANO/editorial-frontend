@@ -25,10 +25,10 @@ export const searchQueryKeys = {
   searchGrepCodes: (params: Partial<GrepSearchResultsDTO>) => [SEARCH_GREP_CODES, params] as const,
 };
 
-export const searchQueryOptions = (params: NoNodeDraftSearchParams) => {
+export const searchQueryOptions = (params?: NoNodeDraftSearchParams) => {
   return queryOptions({
     queryKey: searchQueryKeys.search(params),
-    queryFn: () => postSearch(params),
+    queryFn: () => postSearch(params ?? {}),
   });
 };
 

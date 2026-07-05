@@ -16,12 +16,11 @@ import {
   SwitchThumb,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node, NodeType } from "@ndla/types-backend/taxonomy-api";
-import { useQueryClient } from "@tanstack/react-query";
+import { Node } from "@ndla/types-backend/taxonomy-api";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useUpdateNodeMetadataMutation } from "../../../../modules/nodes/nodeMutations";
-import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
+import { updateNodeMetadataMutationOptions } from "../../../../modules/nodes/nodeMutations";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 
 const TitleWrapper = styled("div", {
@@ -33,34 +32,20 @@ const TitleWrapper = styled("div", {
 interface Props {
   node: Node;
   rootNodeId: string;
-  rootNodeType?: NodeType;
 }
 
-const ToggleVisibility = ({ node, rootNodeId, rootNodeType = "SUBJECT" }: Props) => {
-  const { t, i18n } = useTranslation();
+const ToggleVisibility = ({ node, rootNodeId }: Props) => {
+  const { t } = useTranslation();
   const { id, metadata } = node;
   const [visible, setVisible] = useState(metadata?.visible);
 
   const { taxonomyVersion } = useTaxonomyVersion();
-  const { mutateAsync: updateMetadata, isPending } = useUpdateNodeMetadataMutation();
-
-  const qc = useQueryClient();
-  const compKey = nodeQueryKeys.nodes({
-    language: i18n.language,
-    nodeType: [rootNodeType],
-    taxonomyVersion,
-  });
+  const { mutateAsync: updateMetadata, isPending } = useMutation(
+    updateNodeMetadataMutationOptions({ rootId: rootNodeId !== node.id ? rootNodeId : undefined }),
+  );
 
   const toggleVisibility = async () => {
-    await updateMetadata(
-      {
-        id,
-        metadata: { grepCodes: metadata.grepCodes, visible: !visible },
-        rootId: rootNodeId !== node.id ? rootNodeId : undefined,
-        taxonomyVersion,
-      },
-      { onSuccess: () => qc.invalidateQueries({ queryKey: compKey }) },
-    );
+    await updateMetadata({ id, meta: { grepCodes: metadata.grepCodes, visible: !visible }, taxonomyVersion });
     setVisible(!visible);
   };
 

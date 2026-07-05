@@ -16,21 +16,15 @@ import {
   DialogTrigger,
   DialogContent,
 } from "@ndla/primitives";
-import { ArticleDTO } from "@ndla/types-backend/draft-api";
-import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
-import { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useCallback, useMemo, useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { GREP_CODE_FORMATS } from "../../../constants";
 import { updateDraftMutationOptions } from "../../../modules/draft/draftMutations";
-import { draftQueryKeys } from "../../../modules/draft/draftQueries";
 import { patchLearningpathMutationOptions } from "../../../modules/learningpath/learningpathMutations";
-import { learningpathQueryKeys } from "../../../modules/learningpath/learningpathQueries";
-import { nodeQueryKeys, useNode } from "../../../modules/nodes/nodeQueries";
-import { searchGrepCodesQueryOptions } from "../../../modules/search/searchQueries";
-import { getContentUriFromSearchSummary } from "../../../util/searchHelpers";
+import { nodeQueryOptions } from "../../../modules/nodes/nodeQueries";
+import { searchGrepCodesQueryOptions, searchQueryKeys } from "../../../modules/search/searchQueries";
 import { getContentUriInfo } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { useCurrentNode } from "../CurrentNodeProvider";
@@ -40,10 +34,9 @@ interface Props {
   codes: string[];
   contentUri?: string;
   revision?: number;
-  currentNodeId: string;
 }
 
-const GrepCodesDialog = ({ codes, contentUri, revision, currentNodeId }: Props) => {
+const GrepCodesDialog = ({ codes, contentUri, revision }: Props) => {
   const [open, setOpen] = useState(false);
   const uriInfo = getContentUriInfo(contentUri);
   if (!uriInfo || !revision) return null;
@@ -59,7 +52,6 @@ const GrepCodesDialog = ({ codes, contentUri, revision, currentNodeId }: Props) 
             codes={codes}
             revision={revision}
             resourceId={uriInfo.id}
-            currentNodeId={currentNodeId}
             contentUri={contentUri!}
             close={() => setOpen(false)}
           />
@@ -73,30 +65,27 @@ interface DialogContentProps {
   codes: string[];
   resourceId: number;
   revision: number;
-  currentNodeId: string;
   contentUri: string;
   close: () => void;
 }
 
-const GrepCodeDialogContent = ({
-  codes,
-  resourceId,
-  revision,
-  currentNodeId,
-  contentUri,
-  close,
-}: DialogContentProps) => {
-  const updateDraft = useMutation(updateDraftMutationOptions());
-  const updateLearningpath = useMutation(patchLearningpathMutationOptions());
+const GrepCodeDialogContent = ({ codes, resourceId, revision, contentUri, close }: DialogContentProps) => {
+  const updateDraft = useMutation({
+    ...updateDraftMutationOptions(),
+    onSuccess: (_, __, ___, ctx) => ctx.client.invalidateQueries({ queryKey: searchQueryKeys.search() }),
+  });
+  const updateLearningpath = useMutation({
+    ...patchLearningpathMutationOptions(),
+    onSuccess: (_, __, ___, ctx) => ctx.client.invalidateQueries({ queryKey: searchQueryKeys.search() }),
+  });
   const { t, i18n } = useTranslation();
-  const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
   const { currentNode } = useCurrentNode();
 
-  const rootNodeQuery = useNode(
-    { id: currentNode?.context?.rootId ?? "", language: "nb", taxonomyVersion },
-    { enabled: !!currentNode?.context },
-  );
+  const rootNodeQuery = useQuery({
+    ...nodeQueryOptions({ id: currentNode?.context?.rootId ?? "", language: "nb", taxonomyVersion }),
+    enabled: !!currentNode?.context,
+  });
 
   const rootGrepCodes = rootNodeQuery.data?.metadata.grepCodes.filter((code) => code.startsWith("KV"));
 
@@ -106,44 +95,22 @@ const GrepCodeDialogContent = ({
   });
 
   const rootGrepCodesString = rootGrepCodesQuery.data?.results?.map((c) => `${c.code} - ${c.title.title}`).join(", ");
-  const nodeKey = useMemo(
-    () =>
-      nodeQueryKeys.resourceMetas({
-        nodeId: currentNodeId,
-        language: i18n.language,
-      }),
-    [i18n.language, currentNodeId],
-  );
 
   const onUpdateGrepCodes = useCallback(
     async (grepCodes: string[]) => {
       if (contentUri.includes("learningpath")) {
-        const queryKey = learningpathQueryKeys.learningpath({ id: resourceId, language: i18n.language });
-        const data = await updateLearningpath.mutateAsync({
+        await updateLearningpath.mutateAsync({
           id: resourceId,
           learningpath: { revision: updateLearningpath.data?.revision ?? revision, grepCodes, language: i18n.language },
         });
-        qc.cancelQueries({ queryKey });
-        qc.setQueryData<LearningPathV2DTO>(queryKey, data);
-        qc.invalidateQueries({ queryKey });
-        qc.setQueriesData<MultiSearchSummaryDTO[]>({ queryKey: nodeKey }, (data) =>
-          data?.map((meta) => (getContentUriFromSearchSummary(meta) === contentUri ? { ...meta, grepCodes } : meta)),
-        );
       } else {
-        const queryKey = draftQueryKeys.draftWithLanguage(resourceId, i18n.language);
-        const data = await updateDraft.mutateAsync({
+        await updateDraft.mutateAsync({
           id: resourceId,
           body: { grepCodes, revision: updateDraft.data?.revision ?? revision },
         });
-        qc.cancelQueries({ queryKey });
-        qc.setQueryData<ArticleDTO>(queryKey, data);
-        qc.invalidateQueries({ queryKey });
-        qc.setQueriesData<MultiSearchSummaryDTO[]>({ queryKey: nodeKey }, (data) =>
-          data?.map((meta) => (getContentUriFromSearchSummary(meta) === contentUri ? { ...meta, grepCodes } : meta)),
-        );
       }
     },
-    [contentUri, resourceId, i18n.language, updateLearningpath, revision, qc, nodeKey, updateDraft],
+    [contentUri, resourceId, i18n.language, updateLearningpath, revision, updateDraft],
   );
   return (
     <>

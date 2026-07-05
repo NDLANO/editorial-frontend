@@ -7,16 +7,7 @@
  */
 
 import { DeleteBinLine } from "@ndla/icons";
-import {
-  Text,
-  FieldErrorMessage,
-  FieldInput,
-  FieldLabel,
-  FieldRoot,
-  Heading,
-  IconButton,
-  Spinner,
-} from "@ndla/primitives";
+import { Text, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, Heading, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Translation, Node } from "@ndla/types-backend/taxonomy-api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -30,7 +21,7 @@ import FormWrapper from "../../../../components/FormWrapper";
 import SaveButton from "../../../../components/SaveButton";
 import { subjectLanguages } from "../../../../i18n";
 import { putNodeMutationOptions } from "../../../../modules/nodes/nodeMutations";
-import { nodeQueryKeys, useNode } from "../../../../modules/nodes/nodeQueries";
+import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { isFormikFormDirty } from "../../../../util/formHelper";
 import handleError from "../../../../util/handleError";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
@@ -75,11 +66,6 @@ const ChangeNodeName = ({ node }: Props) => {
   const qc = useQueryClient();
   const { id, baseName } = node;
 
-  const nodeWithoutTranslationsQuery = useNode({
-    id: node.id,
-    taxonomyVersion,
-  });
-
   const putNodeMutation = useMutation(putNodeMutationOptions());
 
   const onSubmit = async (formik: FormikProps<FormikTranslationFormValues>) => {
@@ -99,10 +85,6 @@ const ChangeNodeName = ({ node }: Props) => {
       handleError(e);
       setUpdateError(t("taxonomy.changeName.updateError"));
       await qc.invalidateQueries({
-        queryKey: nodeQueryKeys.nodes({ nodeType: ["SUBJECT"], taxonomyVersion }),
-      });
-
-      await qc.invalidateQueries({
         queryKey: nodeQueryKeys.node({ id, taxonomyVersion }),
       });
       formik.setSubmitting(false);
@@ -119,17 +101,9 @@ const ChangeNodeName = ({ node }: Props) => {
     setSaved(true);
   };
 
-  if (nodeWithoutTranslationsQuery.isLoading) {
-    return <Spinner />;
-  }
-
-  if (nodeWithoutTranslationsQuery.isError || !nodeWithoutTranslationsQuery.data) {
-    return <Text color="text.error">{t("taxonomy.changeName.loadError")}</Text>;
-  }
-
   const initialValues = {
-    translations: nodeWithoutTranslationsQuery.data.translations?.slice() ?? [],
-    name: nodeWithoutTranslationsQuery.data.baseName,
+    translations: node.translations.slice(),
+    name: node.baseName,
   };
 
   return (

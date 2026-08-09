@@ -8010,7 +8010,7 @@ __metadata:
     lodash-es: "npm:^4.18.1"
     lru-cache: "npm:^11.3.5"
     monaco-editor: "npm:0.47.0"
-    nanoid: "npm:^5.1.2"
+    nanoid: "npm:^5.1.16"
     nock: "npm:^14.0.16"
     open-graph-scraper: "npm:^6.11.0"
     openapi-fetch: "npm:^0.15.0"
@@ -11066,12 +11066,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:^5.1.2":
-  version: 5.1.3
-  resolution: "nanoid@npm:5.1.3"
+"nanoid@npm:^5.1.16":
+  version: 5.1.16
+  resolution: "nanoid@npm:5.1.16"
   bin:
     nanoid: bin/nanoid.js
-  checksum: 10c0/632ab0e758f8cdd3d14835b2c094e7320cdb92c2404e4bc6cd864765d8fab76647e73ee664a7d11b1a5b5c7e04b8c030d6719d2b61f8b1295a5fb64a9d779a8b
+  checksum: 10c0/04b4f96237f5639716da0e98f453361b313bebaf458bb67dea2d384724fc8b3340a28f032a4373052150bcf3b801d122e291d81ae4fc522969f55c134f4401a3
   languageName: node
   linkType: hard
 

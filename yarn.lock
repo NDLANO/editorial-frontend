@@ -8017,7 +8017,7 @@ __metadata:
     openid-client: "npm:^6.8.2"
     oxfmt: "npm:^0.57.0"
     p-limit: "npm:^7.2.0"
-    postcss: "npm:^8.5.16"
+    postcss: "npm:^8.5.23"
     postcss-preset-env: "npm:^11.3.2"
     prettier: "npm:^3.9.4"
     prismjs: "npm:^1.30.0"
@@ -11066,6 +11066,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nanoid@npm:^3.3.16":
+  version: 3.3.18
+  resolution: "nanoid@npm:3.3.18"
+  bin:
+    nanoid: bin/nanoid.cjs
+  checksum: 10c0/b994b4e396730f8be2520923284e2040d61eaee55cc6d4935ef6d38d34bafdc46133eda4d3faea5073bda545aa6079d82b886caeac5c731cf9ac18bcc1301425
+  languageName: node
+  linkType: hard
+
 "nanoid@npm:^5.1.2":
   version: 5.1.3
   resolution: "nanoid@npm:5.1.3"
@@ -12252,7 +12261,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.5.15, postcss@npm:^8.5.16, postcss@npm:^8.5.6":
+"postcss@npm:^8.5.15, postcss@npm:^8.5.6":
   version: 8.5.16
   resolution: "postcss@npm:8.5.16"
   dependencies:
@@ -12260,6 +12269,17 @@ __metadata:
     picocolors: "npm:^1.1.1"
     source-map-js: "npm:^1.2.1"
   checksum: 10c0/625de7a02f662f3a340964d14b487bd5097adf16f5f171e257d19005ba37aea8768ee446557500e88e91ca46b4d14d6cb4a0bf033c6ec0c8c0b660d85719f1ef
+  languageName: node
+  linkType: hard
+
+"postcss@npm:^8.5.23":
+  version: 8.5.23
+  resolution: "postcss@npm:8.5.23"
+  dependencies:
+    nanoid: "npm:^3.3.16"
+    picocolors: "npm:^1.1.1"
+    source-map-js: "npm:^1.2.1"
+  checksum: 10c0/ed714e635b330bb42666ecdd0c0b4f30224ded15b0b0052d6bc2b92832f2cf17d1c1141359453f96f0a84f8fbf4c405a74df187f559163b8f31131b2535455aa
   languageName: node
   linkType: hard
 
